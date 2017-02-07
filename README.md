@@ -22,7 +22,7 @@ ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出
 
 #环境要求
 
-- 操作系统须 Liunx（开发环境下，windows也可以）
+- 操作系统须 Linux（开发环境下，windows也可以）
 - PHP环境须5.4或更高版本
 - MySQL环境须5.5或更高版本
 
