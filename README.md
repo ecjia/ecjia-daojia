@@ -4,7 +4,7 @@
 
 数据库：MYSQL
 
-开发框架：laravel + symfony
+开发框架：ecjia
 
 模板引擎：smarty
 
