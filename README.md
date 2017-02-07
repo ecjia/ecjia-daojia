@@ -2,7 +2,7 @@
 
 开发语言：PHP
 
-数据库：MYSQL
+数据库：MySQL
 
 开发框架：ecjia
 
