@@ -47,3 +47,4 @@ ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出
 
 演示网站：https://cityo2o.ecjia.com
 
+ECJia到家官方交流QQ群：372623746
