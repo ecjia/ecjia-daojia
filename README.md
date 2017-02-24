@@ -37,7 +37,7 @@ ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出
  - 前台地址：http://www.xxx.com 
  - H5微商城地址：http://www.xx.com/sites/m/
  - 商家登录地址：http://www.xxx.com/sites/merchant/ 
- - 后台登录地址：http://www.xxx.com/index.php?m=admincp
+ - 后台登录地址：http://www.xxx.com/sites/admincp/
 
 #相关网站
 
