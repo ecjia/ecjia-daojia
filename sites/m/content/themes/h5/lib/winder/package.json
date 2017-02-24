@@ -1,0 +1,18 @@
+{
+  "name": "winder",
+  "version": "1.0.1",
+  "private": true,
+  "description": "WinderUI",
+  "homepage": "http://blog.sina.com.cn/winderui",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-concat": "latest",
+    "gulp-less": "latest",
+    "gulp-minify-css": "latest",
+    "gulp-rename": "latest"
+  },
+  "keywords": [],
+  "license": "ISC"
+}

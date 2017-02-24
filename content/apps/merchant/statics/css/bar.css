@@ -1,0 +1,96 @@
+/*bar*/
+.bar{ position: relative; height: 80px;}
+ul li{list-style: none;}
+.step-bar{
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    height: 15px;
+    border:1px solid #ddd;
+    border-top: 2px solid #c2c2c2;
+    background: #eee;
+    border-radius: 30px;
+}
+.step li{
+    position: absolute;
+    left: 16.6667%;
+    text-align: center;
+    transform: translateX(-50%);
+}
+.step li:nth-of-type(2n){
+    left: 50%;
+}
+.step li:nth-of-type(3n){
+    left: 83.3333%;
+}
+.step li span {
+    background: #3498db;
+    border-radius: 100%;
+    position: relative;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+    font-weight: 800;
+    padding: 3px;
+}
+.step li span:after{
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    background: rgba(52, 152, 219, .3);
+    width: 41px;
+    height: 41px;
+    border-radius: 100%;
+}
+.step li p{
+    margin-top: 10px;
+    font-weight: 600;
+}
+.step-bar div{
+    position: absolute;
+    top:-2px;
+    background:rgba(52, 152, 219, .7);
+    height:15px;
+    border-radius: 30px 0 0 30px;
+}
+.step-bar .step_1{
+    animation: mystep1 3s;
+    width: 16.6667%;
+    -moz-animation:mystep1 3s;
+    -webkit-animation:mystep1 3s;
+    -o-animation:mystep1 3s;
+}
+.step-bar .step_2{
+    animation : mystep2 3s;
+    width: 50%;
+    -moz-animation:mystep2 3s;
+    -webkit-animation:mystep2 3s;
+    -o-animation:mystep2 3s;
+}
+.step-bar .step_3{
+    animation:mystep3 3s;
+    width: 83.3333%;
+    -moz-animation:mystep3 3s;
+    -webkit-animation:mystep3 3s;
+    -o-animation:mystep3 3s;
+}
+
+@keyframes mystep1
+{
+from {width: 0}
+to {width: 16.6667%;}
+}
+@keyframes mystep2
+{
+from {width: 16.6667%}
+to {width: 50%;}
+}
+@keyframes mystep3
+{
+from {width: 50%;}
+to {width: 83.3333%;}
+}

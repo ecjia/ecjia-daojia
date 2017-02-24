@@ -1,0 +1,28 @@
+/*
+Template Name: ECJia Demo
+Template URI: http://www.ecjia.com/
+Description: 默认版.
+Version: 1.0.0
+Author: ECJIA Team
+Author URI: http://www.ecjia.com/
+Logo filename: logo.gif
+Template Type: type_0
+*/
+body{
+	background:#fff; 
+	font-size:1em; 
+	font-family:"宋体",Verdana, Arial; 
+	line-height:150%; 
+	margin:20px 0 0 0; 
+	padding:0; 
+	color:#404040;
+}
+h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{
+	border:none; list-style-type:none;
+}
+.article_info h3 {
+	text-align:center;
+}
+.article_info{
+	padding:0 10px;
+}

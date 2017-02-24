@@ -1,0 +1,269 @@
+/*全局css*/
+.ecjia-list li {
+    overflow: hidden;
+}
+.ecjia-list li a {
+    display: block;
+}
+/**
+ * 店铺街
+ */
+.ecjia-shop-list,
+.ecjia-shop-list .shop-list-head {
+	overflow: hidden;
+	position: relative;
+}
+.ecjia-shop-list li {
+    padding: 1em;
+}
+.ecjia-shop-list .shop-img-logo img {
+	width: 4em;
+}
+.ecjia-shop-list .shop-list-head .shop-name {
+	line-height: 2em;
+    width:100%;
+    padding: 0 8em 0 5em;
+    margin: 0 -8em 0 -4em;
+}
+.ecjia-shop-list .shop-list-head .shop-attention {
+	width: 7em;
+}
+.ecjia-shop-list .shop-list-head .shop-attention button {
+	line-height: 1em;
+	width: 5em;
+}
+.ecjia-shop-list .shop-list-head .shop-attention i {
+	margin-right: 0.4em;
+}
+.ecjia-shop-list .shop-goods li {
+	width: 30%;
+}
+.ecjia-shop-list .shop-goods li:last-child {
+	margin:0;
+}
+.ecjia-shop-list .shop-goods li img {
+	width: 100%;
+	max-height: 8em;
+}
+.ecjia-shop-list .shop-goods .shop-goods-img {
+	position: relative;
+}
+.ecjia-shop-list .shop-goods .shop-goods-img span {
+	padding: 0.5em;
+	position: absolute;
+	bottom: 0em;
+	left: 0em;
+	filter:alpha(opacity=60);
+	-moz-opacity:0.6;
+	opacity:0.6;
+}
+/* 店铺首页 */
+.shop-detail .list-page-nav a {
+    width: 25%;
+}
+.shop-detail .list-page-nav a:last-child {
+    border:0;
+}
+.shop-title-bgimg {
+    height: 11em;
+    position: relative;
+    background:url("../images/shop_top.jpg") no-repeat  ;
+}
+.shop-title-bgimg div {
+    position: absolute;
+    bottom: 1em;
+}
+.shop-title-bgimg .shop-logo {
+    left: 2em;
+    display: block;
+}
+.shop-title-bgimg .shop-attention {
+    right: 1em;
+}
+.shop-title-bgimg .shop-seller-name {
+    left: 6.5em;
+    line-height: 1.5em;
+}
+.shop-title-bgimg .shop-seller-name a {
+    color: #fff
+}
+.shop-seller-img {
+    width: 15%;
+    left: 1em;
+}
+.shop-seller-img img {
+    width: 99%;
+}
+.shop-attion,
+.shop-attion:hover,
+.shop-attion:active,
+.shop-attion:visited {
+    line-height: 1em;
+}
+
+/*店铺详情页*/
+.shop-score {
+	padding: 1em 1em 0 1em;
+    border-top: 1px solid #ddd;
+}
+.shop-detail-titel .shop-title .shop-img {
+	width: 15%;
+}
+.shop-detail-titel .ecjia-shop-goods {
+	line-height: 1.5em;
+}
+/**
+ * 商家入驻
+ */
+.ecjia-form.merchant_shop input[type="text"],
+.ecjia-form.merchant_shop input[type="file"] {
+	padding-left: 0;
+    padding: 0.2em 0.5em;
+    border-radius: 6px;
+}
+.ecjia-form.merchant_shop input[type="file"] {
+    position: relative;
+}
+.merchant_shop .cat_content table .removeCategoryBtn {
+    cursor: pointer;
+}
+.ecjia-form.merchant_shop input[type="file"]:after,
+.ecjia-form.merchant_shop input[type="file"]:before {
+    font-family: "iconfont";
+    content: "\e636";
+    font-size: 2em;
+    line-height: 1.3em;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    border-radius: 6px;
+}
+.ecjia-form.merchant_shop textarea {
+    min-height: 5em;
+    padding: 0.2em 0.5em;
+    border-radius: 6px;
+}
+.ecjia-form.merchant_shop div.have-img {
+    width: 100%;
+    height: 25em;
+    line-height: 24em;
+    text-align: center;
+    padding: 0.5em;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1em;
+}
+.ecjia-form.merchant_shop div.have-img img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.ecjia-form.merchant_shop .two-line {
+    display: inline;
+    width: 48%;
+}
+.ecjia-form.merchant_shop .two-line:last-child {
+    float: right;
+}
+/* 选择所在地区 */
+.ecjia-region-sel li {
+	border-bottom: none;
+}
+.ecjia-region-sel .two-line {
+	margin-left: 2.5em;
+}
+.ecjia-region-sel .three-line {
+	margin-left: 4em;
+}
+.ecjia-region-sel li {
+	padding: 0em;
+}
+.ecjia-region-sel .region_address i {
+    font-size: 2em;
+}
+.ecjia-region-sel .search-region {
+    overflow: hidden;
+    position: relative;
+    padding: 1em;
+    line-height: 2em;
+    border-bottom: 1px solid #ddd;
+}
+.search-region input {
+    height: 2em;
+    width: 100%;
+    border-radius: 30px;
+    padding-right: 3em;
+    line-height: 1.5em;
+}
+.search-region i {
+    position: absolute;
+    top: 1em;
+    font-size: 1.4em;
+    right: 1.4em;
+}
+.ecjia-region-sel p {
+    display: none;
+}
+.ecjia-region-sel p.active {
+    display: block;
+	padding: 1em 1.5em;
+    border-bottom: 1px solid #DDDDDD;
+}
+/* 商品详情 */
+
+.address-warehouse {
+    padding:1em;
+}
+.address-warehouse .goods-shop a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.service ul li{
+    overflow: hidden;
+    position: relative;
+}
+.service p:first-child {
+    position: absolute;
+    top:30%;
+}
+.service p:last-child{
+    width: 80%;
+    margin-left: 3em;
+}
+.shop-message {
+    line-height: 2em;
+    padding:1em;
+}
+.shop-message .shop-img {
+    width: 25%;
+}
+.shop-message .shop-img img{
+    width: 99%;
+}
+.shop-message .shop-title {
+    overflow: hidden;
+}
+.shop-message .shop-title .seller_name {
+    width: 35%;
+}
+.shop-title .into-btn {
+    width: 8em;
+}
+.shop-message .shop-into {
+    line-height: 1em;
+}
+/**
+ * 搜索页面
+ */
+.ecjia-search-header .ecjia-form .select select {
+    height: 2.4em;
+}
+.ecjia-search-header .ecjia-form .select i {
+    top: 50%;
+}
+.ecjia-search-header .ecjia-form input {
+    padding-left: 5em;
+}

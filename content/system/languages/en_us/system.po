@@ -1,0 +1,2020 @@
+# Copyright (C) 2013 ECJia
+# This file is distributed under the same license as the ECJia package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ECJia 1.12\n"
+"POT-Creation-Date: 2015-12-12 15:14+0000\n"
+"PO-Revision-Date: 2016-08-17 11:40+0800\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Last-Translator: Royal Wang <hxroyal@gmail.com>\n"
+"Language-Team: ECJia Team <admin@ecjia.com>\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "仪表盘"
+msgstr "Dashboard"
+
+msgid "帮助"
+msgstr "Help"
+
+msgid "概述"
+msgstr "Overview"
+
+msgid "更多信息："
+msgstr "More information:"
+
+msgid "授权提示：您的站点还未经过授权许可！请上传您的证书，前往<a href=\"%s\">授权证书管理</a> 。"
+msgstr "Authorization: Your site has not yet been licensed! Please upload your certificate, go to <a href=\"%s\">Authorization Certificate Management</a>."
+
+msgid "授权证书管理"
+msgstr "Authorization Certificate Management"
+
+msgid "欢迎访问ECJia智能后台仪表盘！在您每次登录站点后，您都会看到本页面。您可以在这里访问ECJia智能后台的各种管理页面。点击任何页面右上角的“帮助”选项卡可阅读相应帮助信息。"
+msgstr "Welcome back ECJia intelligent dashboard! After each site you sign in, you'll see this page. Here you can access a variety of background ECJia intelligent management page. Click on the top right of any page of the \"Help\" tab to read the appropriate help."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank\">关于ECJia智能后台的帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank\">About ECJia intelligence background help documentation</a>"
+
+msgid "<a target=\"_blank\" href=\"%s\">点击查看</a>。"
+msgstr "<a target=\"_blank\" href=\"%s\">Click to view</a>."
+
+msgid "欢迎使用ECJia"
+msgstr "Welcome ECJia"
+
+msgid "是"
+msgstr "Yes"
+
+msgid "否"
+msgstr "No"
+
+msgid "无需设置"
+msgstr "Without setting"
+
+msgid "关于 ECJIA"
+msgstr "About ECJIA"
+
+msgid "更新缓存"
+msgstr "Update Cache"
+
+msgid "授权证书"
+msgstr "Certificate Authorization"
+
+msgid "下载"
+msgstr "download "
+
+msgid "证书内容不全。请先确定证书是否正确然后重新上传！"
+msgstr "Certificate content incomplete. Please determine whether the certificate is correct and re-upload!"
+
+msgid "证书上传成功。"
+msgstr "Certificate uploaded successfully."
+
+msgid "证书已删除。"
+msgstr "Certificate has been removed."
+
+msgid "ECJia证书"
+msgstr "ECJia certificate"
+
+msgid "应用管理"
+msgstr "Application Management"
+
+msgid "应用安装"
+msgstr "Application Install"
+
+msgid "应用详情"
+msgstr "Application Details"
+
+msgid "返回应用列表"
+msgstr "Back apps list"
+
+msgid "%s 应用安装成功"
+msgstr "Successful installation"
+
+msgid "%s 应用卸载成功"
+msgstr "%sUninstall successful application"
+
+msgid "请先选择删除日志的时间！"
+msgstr "Please choose to delete log time!"
+
+msgid "确定删除"
+msgstr "confirm delete "
+
+msgid "的日志吗？"
+msgstr " log it?"
+
+msgid "确定"
+msgstr "OK"
+
+msgid "取消"
+msgstr "Cancel"
+
+msgid "管理员日志"
+msgstr "Administrator Log"
+
+msgid "一周之前"
+msgstr "A week ago"
+
+msgid "一个月前"
+msgstr "A month ago"
+
+msgid "三个月前"
+msgstr "Three months ago"
+
+msgid "半年之前"
+msgstr "Six months ago"
+
+msgid "一年之前"
+msgstr "A year ago"
+
+msgid "删除 %s 的日志。"
+msgstr "Delete %s log."
+
+msgid "%s 的日志成功删除。"
+msgstr "%s log successfully deleted."
+
+msgid "管理员留言"
+msgstr "Message Administrator"
+
+msgid "没有更多消息了"
+msgstr "No more message"
+
+msgid "搜索到了"
+msgstr "Searched"
+
+msgid "发送成功"
+msgstr "Sent successfully"
+
+msgid "发送失败"
+msgstr "Failed to send"
+
+msgid "发送留言"
+msgstr "Send a message"
+
+msgid "插件管理"
+msgstr "Plugin Management"
+
+msgid "%s 插件安装成功！"
+msgstr "%s installed is successfully!"
+
+msgid "%s 插件卸载成功！"
+msgstr "%s uninstalled is successfully!"
+
+msgid "角色管理"
+msgstr "Role Management"
+
+msgid "添加角色"
+msgstr "Add Role"
+
+msgid "角色列表"
+msgstr "Role list"
+
+msgid "管理员角色"
+msgstr "Administrator role"
+
+msgid "添加 %s 操作成功"
+msgstr "Add %s Successful operation"
+
+msgid "编辑 %s 操作成功"
+msgstr "Edit %s Successful operation"
+
+msgid "修改角色"
+msgstr "Modify Role"
+
+msgid "返回角色列表"
+msgstr "Returns roles list"
+
+msgid "此角色有管理员在使用，暂时不能删除！"
+msgstr "This administrator role in the use of temporarily can not be deleted!"
+
+msgid "成功删除管理员角色 %s"
+msgstr "Successfully deleted dministrator role %s"
+
+msgid "外观"
+msgstr "Themes"
+
+msgid "使用这个模板"
+msgstr "Use this template"
+
+msgid "使用这个模板风格"
+msgstr "Use this template style"
+
+msgid "您确定要放弃本次修改吗？"
+msgstr "Are you sure you want to give up this amended?"
+
+msgid "请先输入内容！"
+msgstr "Please enter content!"
+
+msgid "主题管理"
+msgstr "Theme Management"
+
+msgid "布局管理"
+msgstr "Layout Management"
+
+msgid "备份模板设置"
+msgstr "Backup template settings"
+
+msgid "备份模板文件失败，请检查templates/backup 目录是否可以写入。"
+msgstr "Backup template file failed, check templates / backup directory is writable."
+
+msgid "您确定要保存编辑内容吗？"
+msgstr "Are you sure you want to save your edits right?"
+
+msgid "库项目管理"
+msgstr "Library Project Management"
+
+msgid "库项目内容已经更新成功。"
+msgstr "Content library project has been successfully updated."
+
+msgid "编辑库项目内容失败。请检查 %s 目录是否可以写入。"
+msgstr "Edit content library project failed.Please check %s whether the directory can be written."
+
+msgid "备份注释 %s 已经用过，请换个注释名称。"
+msgstr "Note Backup %s has been used, please name another comment."
+
+msgid "备份设置成功"
+msgstr "Backup Settings Success"
+
+msgid "备份删除成功"
+msgstr "Backup successfully deleted"
+
+msgid "恢复备份成功"
+msgstr "Recovery backup success"
+
+msgid "地区列表"
+msgstr "Area List"
+
+msgid "返回上级"
+msgstr "Return to higher levels"
+
+msgid "区域名称不能为空！"
+msgstr "Area name can not be empty!"
+
+msgid "更新地区名称为 %s"
+msgstr "Renewal area name %s"
+
+msgid "成功删除地区 %s"
+msgstr "Successfully deleted region %s"
+
+msgid "添加新地区成功！"
+msgstr "Add a new area success!"
+
+msgid "添加新地区失败！"
+msgstr "Add a new area failed!"
+
+msgid "修改名称成功！"
+msgstr "upadte the name Success"
+
+msgid "地区"
+msgstr "Area"
+
+msgid "输入的信息不正确！"
+msgstr "Information entered is incorrect!"
+
+msgid "重置密码的邮件已经发到您的邮箱："
+msgstr "To reset your password has been sent to your mailbox:"
+
+msgid "重置密码邮件发送失败!请与管理员联系"
+msgstr "Failed to send email to reset your password! Please contact your administrator"
+
+msgid "用户名与Email地址不匹配,请返回！"
+msgstr "Username and Email addresses do not match, please return!"
+
+msgid "返回"
+msgstr "return"
+
+msgid "修改密码"
+msgstr "change Password"
+
+msgid "此链接不合法!"
+msgstr "This link is not legitimate!"
+
+msgid "密码修改成功!"
+msgstr "Password reset complete!"
+
+msgid "密码修改失败!"
+msgstr "Password modification fails!"
+
+msgid "菜单管理"
+msgstr "Menu management"
+
+msgid "没有这个菜单"
+msgstr "Without this menu"
+
+msgid "菜单名不能为空"
+msgstr "Menu name can not be empty"
+
+msgid "重复了"
+msgstr "repeated"
+
+msgid "失败"
+msgstr "failure"
+
+msgid "查看购物车"
+msgstr "check the shopping cart"
+
+msgid "选购中心"
+msgstr "Shopping Center"
+
+msgid "团购商品"
+msgstr "groupbuy"
+
+msgid "夺宝奇兵"
+msgstr "snatch"
+
+msgid "标签云"
+msgstr "Tag Cloud"
+
+msgid "用户中心"
+msgstr "User Center"
+
+msgid "批发"
+msgstr "wholesale"
+
+msgid "优惠活动"
+msgstr "favourable"
+
+msgid "配送方式"
+msgstr "Shipping"
+
+msgid "留言板"
+msgstr "message board"
+
+msgid "报价单"
+msgstr "Quote"
+
+msgid "管理员管理"
+msgstr "Administrator Management"
+
+msgid "添加管理员"
+msgstr "Add Administrator"
+
+msgid "登陆成功"
+msgstr "login successful"
+
+msgid "您输入的帐号信息不正确。"
+msgstr "Account information you entered is incorrect."
+
+msgid "数据不完整"
+msgstr "incomplete data"
+
+msgid "该管理员 %s 已经存在！"
+msgstr "The administrator  %s  already exists!"
+
+msgid "该Email地址 %s 已经存在！"
+msgstr "Email address  %s  already exists!"
+
+msgid "设置管理员权限"
+msgstr "Setting Administrator Permissions"
+
+msgid "继续添加管理员"
+msgstr "Add another administrator"
+
+msgid "返回管理员列表"
+msgstr "Return to the list of administrators"
+
+msgid "您不能对此管理员的权限进行任何操作！"
+msgstr "You can not be this administrator privileges to do anything!"
+
+msgid "编辑管理员"
+msgstr "Edit Administrator"
+
+msgid "管理员列表"
+msgstr "Administrator List"
+
+msgid "管理员账号"
+msgstr "Administrator account"
+
+msgid "超级管理员 %s 不可被修改！"
+msgstr "Super Administrator  %s  can not be changed!"
+
+msgid "返回上一页"
+msgstr "go back to the last page"
+
+msgid "设置模板内容成功。"
+msgstr "Set the template content successfully."
+
+msgid "模板文件 %s 无法修改"
+msgstr "Template file %s can not be modified"
+
+msgid "启用模板成功。"
+msgstr "Templates enable success."
+
+msgid "启用模板时出现异常。"
+msgstr "An exception occurred when enabled template."
+
+msgid "输入的旧密码错误！"
+msgstr "Enter the old password wrong!"
+
+msgid "两次输入的密码不一致！"
+msgstr "The two passwords do not match!"
+
+msgid "您已经成功的修改了个人帐号信息！"
+msgstr "You have successfully modified the personal account information!"
+
+msgid "编辑个人资料"
+msgstr "Edit Profile"
+
+msgid "您已经成功的修改了密码，因此您必须重新登录！"
+msgstr "You have successfully changed the password, you must log in again!"
+
+msgid "修改个人资料成功！"
+msgstr "Edit profile success!"
+
+msgid "分派权限"
+msgstr "assign permissions"
+
+msgid "分派权限 [ %s ] "
+msgstr "assign permissions [ %s ]"
+
+msgid "编辑 %s 操作成功！"
+msgstr "Edit %s successful operation!"
+
+msgid "您不能删除demo这个管理员！"
+msgstr "You can not delete this demo administrator!"
+
+msgid "此管理员您不能进行删除操作！"
+msgstr "This administrator You can not delete!"
+
+msgid "您不能删除自己！"
+msgstr "You can not delete yourself!"
+
+msgid "删除成功！"
+msgstr "successfully deleted!"
+
+msgid "操作失败！"
+msgstr "operation failed!"
+
+msgid "商店设置"
+msgstr "Shop Settings"
+
+msgid "URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite 模块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重命名为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。"
+msgstr "URL Rewrite feature requires that you must install the Web Server IIS, and hired a ISAPI Rewrite module. If you are using the commercial version of ISAPI Rewrite, please confirm that you have httpd.txt rename the file httpd.ini. If you are using a free version of ISAPI Rewrite, please confirm that you have copied the contents of the file within httpd.txt to ISAPI Rewrite installation directory httpd.ini years."
+
+msgid "URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 rewrite 模块。同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。如果服务器上还有其他的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服务器请求的绝对路径。"
+msgstr "URL Rewrite feature requires that your Web Server must be Apache, and hired a rewrite module. Also make sure that you have removed htaccess.txt rename the file to .htaccess. If there are other servers rewrite rules please remove comments, please RewriteBase line uncommented and set the path to an absolute path to the server request."
+
+msgid "邮件服务器设置"
+msgstr "Mail Server Settings"
+
+msgid "邮件服务器设置成功。"
+msgstr "Mail server setup is successful."
+
+msgid "修改邮件服务器设置"
+msgstr "Modify Mail Server Settings"
+
+msgid "保存商店设置成功。"
+msgstr "Save stores successfully set."
+
+msgid "修改商店设置"
+msgstr "Modify shop settings"
+
+msgid "测试邮件"
+msgstr "Test message"
+
+msgid "您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！"
+msgstr "Hello! This is an e-mail server settings detection test message. Received this message means that your mail server settings are correct! You can operate the other mail sent!"
+
+msgid "测试邮件发送失败！%s"
+msgstr "Failed to send a test message! %s"
+
+msgid "恭喜！测试邮件已成功发送到 %s。"
+msgstr "Congratulations! Test message was successfully sent to %s ."
+
+msgid "可用更新"
+msgstr "Upgrade"
+
+msgid "文件权限检测"
+msgstr "File Permissions Detection"
+
+msgid "暂无可用更新！"
+msgstr "No update available!"
+
+msgid "不存在校验文件，无法进行此操作"
+msgstr "Checksum file does not exist, you can not do this"
+
+msgid "<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></i>被修改</span>"
+msgstr "<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></i>modified</span>"
+
+msgid "<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></i>被删除</span>"
+msgstr "<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></i>deleted</span>"
+
+msgid "<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></i>未知</span>"
+msgstr "<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></i>unknown</span>"
+
+msgid "<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>正确</span>"
+msgstr "<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>correct</span>"
+
+msgid "校验结果"
+msgstr "Check result"
+
+msgid "返回重新校验"
+msgstr "Back recalibration"
+
+msgid "文件校验"
+msgstr "File checksum"
+
+msgid "目录"
+msgstr "Directory"
+
+msgid "访问首页"
+msgstr "Home"
+
+msgid "系统设置"
+msgstr "System Settings"
+
+msgid "关于"
+msgstr "About"
+
+msgid "主题选择"
+msgstr "Theme"
+
+msgid "菜单"
+msgstr "Menu"
+
+msgid "模板设置备份"
+msgstr "Template Settings Backup"
+
+msgid "工具"
+msgstr "Tools"
+
+msgid "控制面板"
+msgstr "Control Panel"
+
+msgid "应用"
+msgstr "Applications"
+
+msgid "快捷导航"
+msgstr "Shortcut Menu"
+
+msgid "设置快捷菜单"
+msgstr "Setting Shortcut Menu"
+
+msgid "欢迎访问ECJia智能后台应用管理页面，系统中所有的应用都会显示在此列表中。"
+msgstr "Welcome back ECJia intelligent application management page, the system will display all applications in this list."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target=\"_blank\">关于应用管理帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target=\"_blank\">About Application Management help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台管理员日志页面，可以在此查看管理员操作的一些记录信息。"
+msgstr "Welcome to ECJia intelligent background administrator log page, you can view some records information managers operating in this."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">关于管理员日志帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">About administrator logs help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台管理员留言页面，所有管理员可以在此进行留言交谈方便管理。"
+msgstr "Welcome to ECJia intelligent background administrator message page, administrators can message all the talk in this easy to manage."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:管理员留言\" target=\"_blank\">关于管理员留言帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:管理员留言\" target=\"_blank\">About administrator Message help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台关于页面，可以更加了解ECJia。"
+msgstr "Welcome to ECJia intelligent background on the page, you can learn more about ECJia."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">关于ECJia帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">About ECJia help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。"
+msgstr "Welcome to ECJia intelligent background update cached page, you can clear the system cache operation on this page."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target=\"_blank\">关于清除缓存帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target=\"_blank\">About Clear Cache help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台授权证书管理页面，可以在此对证书进行授权操作。"
+msgstr "Welcome back ECJia intelligent authorization certificate management page, you can here the certificate authorization."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target=\"_blank\">关于授权证书管理帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target=\"_blank\">About authorization certificate management help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台插件管理页面，系统中所有的插件都会显示在此列表中。"
+msgstr "Welcome back ECJia Smart Plug-in Manager page, the system will display all plug-ins in this list."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target=\"_blank\">关于插件管理帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target=\"_blank\">About Plug-In Manager help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台角色管理页面，系统中所有的角色都会显示在此列表中。"
+msgstr "Welcome back ECJia intelligent role management page, the system will display all the characters in this list."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89.B2.E7.AE.A1.E7.90.86\" target=\"_blank\">关于角色管理帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89.B2.E7.AE.A1.E7.90.86\" target=\"_blank\">About roles management help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台地区设置页面，用户可以在此进行设置地区。"
+msgstr "Welcome to the backstage area ECJia Smart settings page, the user can be set in this area."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.9C.B0.E5.8C.BA.E5.88.97.E8.A1.A8\" target=\"_blank\">关于地区设置帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.9C.B0.E5.8C.BA.E5.88.97.E8.A1.A8\" target=\"_blank\">About locale help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台管理员列表页面，系统中所有的管理员都会显示在此列表中。"
+msgstr "Welcome to ECJia intelligent background administrator list page, the system administrator will all appear in this list."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">关于管理员列表帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">Help documentation on administrator list</a>"
+
+msgid "欢迎访问ECJia智能后台编辑个人资料页面，用户可在此编辑个人资料。"
+msgstr "Welcome to ECJia Smart Background Edit profile page, you can edit your profile here."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target=\"_blank\">关于编辑个人资料帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target=\"_blank\">About Edit Profile Help Documentation</a>"
+
+msgid "欢迎访问ECJia智能后台商店设置页面，在此页面可对商店有关信息进行配置，同时可根据右侧栏漂浮的快捷导航，快速的进入相应区域。"
+msgstr "Welcome back ECJia smart store settings page, can be configured to store the information on this page, while according to the right of the navigation bar floating fast, fast into the corresponding area."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE\" target=\"_blank\">关于商店设置帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE\" target=\"_blank\">About shop settings help documentation</a>"
+
+msgid "欢迎访问ECJia智能后台邮件服务器设置页面，可通过以下两种方式进行配置。"
+msgstr "Welcome back ECJia Intelligent Mail Server Settings page, can be configured in two ways."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E9.82.AE.E4.BB.B6.E6.9C.8D.E5.8A.A1.E5.99.A8.E8.AE.BE.E7.BD.AE\" target=\"_blank\">关于邮件服务器设置帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E9.82.AE.E4.BB.B6.E6.9C.8D.E5.8A.A1.E5.99.A8.E8.AE.BE.E7.BD.AE\" target=\"_blank\">Help documentation on the mail server settings</a>"
+
+msgid "欢迎访问ECJia智能后台更新页面，在此可以进行对版本的更新。"
+msgstr "Welcome back ECJia smart update page where you can update to version."
+
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新\" target=\"_blank\">关于可用更新帮助文档</a>"
+msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新\" target=\"_blank\">Help documentation about available updates</a>"
+
+msgid "开始"
+msgstr "Start"
+
+msgid "后退"
+msgstr "Retreat"
+
+msgid "请选择要清除的缓存类型！"
+msgstr "Please select the type of cache to be cleared!"
+
+msgid "清除："
+msgstr "Clear:"
+
+msgid "将证书文件拖动至此处上传"
+msgstr "Drag the certificate file to upload here"
+
+msgid "您确定要删除这个证书吗？"
+msgstr "Are you sure you want to delete this certificate?"
+
+msgid "请输入用户名！"
+msgstr "Please enter user name!"
+
+msgid "正在检查，请耐心等待。"
+msgstr "Being checked, please be patient."
+
+msgid "请输入发送邮件服务器地址(SMTP)！"
+msgstr "Please enter the address of the sending mail server (SMTP)!"
+
+msgid "请输入服务器端口！"
+msgstr "Please enter a server port!"
+
+msgid "请输入邮件帐号！"
+msgstr "Please enter the e-mail account!"
+
+msgid "请输入正确格式的邮件帐号！"
+msgstr "Please enter a properly formatted e-mail account!"
+
+msgid "请输入邮件密码！"
+msgstr "Please enter the e-mail password!"
+
+msgid "请输入回复邮件帐号！"
+msgstr "Please enter a reply e-mail account!"
+
+msgid "请输入正确格式的回复邮件帐号！"
+msgstr "Please enter a properly formatted reply mail account!"
+
+msgid "请输入发送邮件帐号！"
+msgstr "Please enter the e-mail account to send!"
+
+msgid "请输入正确格式的发送邮件帐号！"
+msgstr "Please enter a properly formatted e-mail account to send!"
+
+msgid "此管理员不可以编辑！"
+msgstr "This administrator may not edit!"
+
+msgid "用户名长度不能小于2！"
+msgstr "Username length must not be less than 2!"
+
+msgid "请输入邮箱地址！"
+msgstr "Please input the email address!"
+
+msgid "请输入正确的邮箱格式！"
+msgstr "Please enter a valid email format!"
+
+msgid "请输入密码！"
+msgstr "Please enter your password!"
+
+msgid "密码长度不能小于6！"
+msgstr "Password length can not be less than 6!"
+
+msgid "两次密码不一致！"
+msgstr "The two passwords do not match!"
+
+msgid "参数错误，无法安装！"
+msgstr "Parameter error, can not be installed!"
+
+msgid "参数错误，无法卸载！"
+msgstr "Parameter error, can not be uninstalled!"
+
+msgid "您确定要卸载这个插件吗？"
+msgstr "Do you want to uninstall this plugin?"
+
+msgid "您确定要删除这个插件吗？"
+msgstr "Are you sure you want to delete this plugin do?"
+
+msgid "此插件暂时不能删除。"
+msgstr "This plug-in is temporarily not be removed."
+
+msgid "首页"
+msgstr "Home"
+
+msgid "尾页"
+msgstr "Last Page"
+
+msgid "上一页"
+msgstr "Previous"
+
+msgid "下一页"
+msgstr "Next Page"
+
+msgid "没有找到任何记录"
+msgstr "We did not find any record"
+
+msgid "共_TOTAL_条记录 第_START_ 到 第_END_条"
+msgstr "Total _TOTAL_ strip records, the first paragraph _START_ to _END_ strip"
+
+msgid "共0条记录"
+msgstr "A total of 0 records"
+
+msgid "（从_MAX_条数据中检索）"
+msgstr "(retrieval from _MAX_ data)"
+
+msgid "未找到搜索内容!"
+msgstr "Search content not found!"
+
+msgid "开始安装"
+msgstr "Start Install"
+
+msgid "确定要移除这个菜单项吗？"
+msgstr "Do you want to remove this menu items?"
+
+msgid "您的修改内容还没有保存，您确定离开吗？"
+msgstr "Your edits have not saved, you are sure to leave?"
+
+msgid "连接错误，请重新选择!"
+msgstr "Connection error, please re-select!"
+
+msgid "修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要修改库项目吗？"
+msgstr "Modify the library project is dangerous Advanced Operations, modify the error could cause the front desk not display properly. You still sure you want to modify the library project?"
+
+msgid "安装中..."
+msgstr "Installing..."
+
+msgid "显示侧边栏"
+msgstr "Display Sidebar"
+
+msgid "隐藏侧边栏"
+msgstr "Hide Sidebar"
+
+msgid "请先输入搜索信息"
+msgstr "Please enter search message"
+
+msgid "未搜索到导航信息"
+msgstr "No search navigation message"
+
+msgid "是否确认跳转？"
+msgstr "Are you sure to jump?"
+
+msgid "请求失败，错误编号："
+msgstr "The request failed, Error number:"
+
+msgid "，错误信息："
+msgstr ",Error message:"
+
+msgid "简体中文"
+msgstr "Simplified Chinese"
+
+msgid "个人设置"
+msgstr "Personal Settings"
+
+msgid "退出"
+msgstr "Quit"
+
+msgid "侧边栏开关"
+msgstr "Sidebar switch"
+
+msgid "搜索导航"
+msgstr "Search Guides"
+
+msgid "快速搜索"
+msgstr "Fast Search"
+
+msgid "此功能要求您的php必须支持OpenSSL模块, 如果您要使用此功能，请联系您的空间商确认支持此模块"
+msgstr "This feature requires that your php must support OpenSSL module, if you want to use this feature, please contact your hosting provider to confirm support for this module"
+
+msgid "GZip 功能需要您的服务器支持 zlib 扩展库。如果您发现开启Gzip后页面出现乱码，可能是您的服务器已经开启了Gzip，您不需要在 ECJia 中再次开启。"
+msgstr "GZip features require your server support zlib extension library. If you find after opening Gzip page garbled, it may be that your server has opened Gzip, you do not need to open again in the ECJia."
+
+msgid "如果您不保留商品原图，在“图片批量处理”的时候，\\n将不会重新生成不包含原图的商品图片。请慎重使用该功能！"
+msgstr "If you do not retain the original product, in the \"image batch processing\" when, \\ n will not regenerate the original product images are not included. Please be careful to use this feature!"
+
+msgid "浏览"
+msgstr "Browse"
+
+msgid "修改"
+msgstr "Modify"
+
+msgid "您确定要删除此文件吗？"
+msgstr "Do you want to delete this file?"
+
+msgid "删除"
+msgstr "Delete"
+
+msgid "请选择..."
+msgstr "Please choose..."
+
+msgid "类型"
+msgstr "Types of"
+
+msgid "税率（％）"
+msgstr "tax rate(%)"
+
+msgid "管理员"
+msgstr "administrator"
+
+msgid "在"
+msgstr "in"
+
+msgid "IP下"
+msgstr "IP under"
+
+msgid "暂无操作日志"
+msgstr "No operation log"
+
+msgid "查看更多"
+msgstr "More"
+
+msgid "我要留言"
+msgstr "Make a comment"
+
+msgid "留言内容"
+msgstr "Message content"
+
+msgid "留言者"
+msgstr "Message from"
+
+msgid "发送日期"
+msgstr "Sent date"
+
+msgid "暂无留言信息"
+msgstr "No Message"
+
+msgid "ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带来全新的使用体验！"
+msgstr "ECJia is based on a multi-language mobile vendor management framework PHP + MYSQL development, the introduction of flexible application + plug-in mechanism, the software implementation of high efficiency; simple and stunning UI design, easy to use; convenient multi-language support, background management functions and many other outstanding features. With constant innovation ECJia team spirit and serious working attitude, I believe can bring you a new experience!"
+
+msgid "进入官网 »"
+msgstr "Enter the official website >>"
+
+msgid "关于ECJia"
+msgstr "About ECJia"
+
+msgid "ECJia团队"
+msgstr "ECJia Team"
+
+msgid "系统应用"
+msgstr "System Applications"
+
+msgid "系统核心推出了灵活的应用+插件扩展机制，快速提供接口，多种主题，一指布局，满足众多需求只在一瞬间。 "
+msgstr "Core system introduced flexible application + plug-in extension mechanism to quickly provide an interface, a variety of topics, one refers to the layout, to meet the many needs only in the moment."
+
+msgid "应用扩展"
+msgstr "Application Extension"
+
+msgid "提出全新的应用模式进行扩展，完全满足您的个性化需求，商品、订单、购物车、会员、等众多的应用。 "
+msgstr "Put forward a new application model can be extended to fully meet your individual needs, merchandise, order, shopping cart, members, and many other applications."
+
+msgid "插件扩展"
+msgstr "Plugin Extension"
+
+msgid "ECJia推出多种插件，支付、物流为ECJia中的组件赋予了“生命” 。"
+msgstr "ECJia offer a variety of plug-in, payment, logistics ECJia components gives \"life\"."
+
+msgid "多种语言"
+msgstr "Multilingual"
+
+msgid "多国语言支持，可同时建立多种语言站点，系统默认带有中、英文两种最常用的语言包，最多可扩展至同时开通 255 种语言的网站。"
+msgstr "Multi-language support, which can build multilingual sites, the system default with the two most commonly used English language pack, expandable up to 255 kinds of languages simultaneously launched website."
+
+msgid "主题多样"
+msgstr "Diverse Topic"
+
+msgid "打造了多种风格的主题，在线随意切换您喜欢的主题包。"
+msgstr "To create a variety of styles of the theme, online free to switch your favorite theme package."
+
+msgid "超炫UI设计"
+msgstr "Stunning UI Design"
+
+msgid "友好的后台操作界面，点对点的操作帮助，体验愉快、简单的建站过程，请你轻松上手。"
+msgstr "Background operation and friendly interface, point to point operation help, enjoyable, easy siting process, you easily get started."
+
+msgid "订单管理"
+msgstr "Order Management"
+
+msgid "方便快捷订单管理模块，支持财付通、支付宝等多家平台支付接口，购物车、在线充值等方便快捷功能。"
+msgstr "Convenient and efficient order management module, support TenPay Alipay payment interface and a number of platforms, shopping carts, online recharge, and other convenient features."
+
+msgid "交互协作"
+msgstr "Interactive Collaboration"
+
+msgid "管理员支持分类角色，支持自定义权限分配，支持栏目分配。以及通过管理员、客户留言实行更好的交互。"
+msgstr "Admin support role classification, support for custom permissions assigned, assign support columns. And by the administrator, Feedback implement better interaction."
+
+msgid "邮件SMTP"
+msgstr "SMTP Mail"
+
+msgid "支持邮件发送功能，一般用在会员忘记密码或者红包等提醒部分。"
+msgstr "Support sending e-mail, and other generally used in Forgot your password or red reminder section."
+
+msgid "操作日志"
+msgstr "Operation Log"
+
+msgid "日志管理的推出，对各个管理员所进行的操作一目了然。"
+msgstr "Log management introduced for the operation of each administrator performed a glance."
+
+msgid "多文件上传"
+msgstr "Multi-file Upload"
+
+msgid "采用HTML5方式多文件上传、并支持附件管理。"
+msgstr "HTML5 mode uses multiple file uploads, and supports attachment management."
+
+msgid "数据库多源化"
+msgstr "Multi-source Database"
+
+msgid "同时可以连接多个数据库任意操作的强大功能，解决数据量问题的不二选择。"
+msgstr "And you can connect to multiple databases of any action powerful, the amount of data to solve the problem of choice."
+
+msgid "系统信息"
+msgstr "System Message"
+
+msgid "ECJia 版本:"
+msgstr "ECJia Version:"
+
+msgid "安装日期:"
+msgstr "Installation Date:"
+
+msgid "服务器操作系统:"
+msgstr "Server System:"
+
+msgid "Web 服务器:"
+msgstr "Web Server:"
+
+msgid "PHP 版本:"
+msgstr "PHP Version:"
+
+msgid "MySQL 版本:"
+msgstr "MySQL Version:"
+
+msgid "安全模式:"
+msgstr "Safe Mode:"
+
+msgid "安全模式GID:"
+msgstr "Safe Mode GID:"
+
+msgid "Socket 支持:"
+msgstr "Socket Support:"
+
+msgid "时区设置:"
+msgstr "Time Zone Settings:"
+
+msgid "Zlib 支持:"
+msgstr "Zlib Support:"
+
+msgid "GD 版本:"
+msgstr "GD Version:"
+
+msgid "文件上传的最大大小:"
+msgstr "Maximum Upload"
+
+msgid "ROYALCMS 版本："
+msgstr "ROYALCMS Version:"
+
+msgid "ECJia 开发团队"
+msgstr "ECJia Team"
+
+msgid "版权所有:"
+msgstr "All Rights Reserved:"
+
+msgid "项目策划:"
+msgstr "Project Planning:"
+
+msgid "开发团队:"
+msgstr "Development Team:"
+
+msgid "App团队:"
+msgstr "App Team:"
+
+msgid "界面设计:"
+msgstr "Interface Design:"
+
+msgid "公司网站:"
+msgstr "Company Website:"
+
+msgid "产品官方网站:"
+msgstr "Product Official Site:"
+
+msgid "选择清除"
+msgstr "Select Clear"
+
+msgid "全选"
+msgstr "Select all"
+
+msgid "选择要清除的缓存"
+msgstr "Select the cache to be cleared"
+
+msgid "开始清除"
+msgstr "Clear Start"
+
+msgid "开始清除缓存"
+msgstr "Start clearing your cache"
+
+msgid "选择日期"
+msgstr "Select Dates"
+
+msgid "批量删除"
+msgstr "Batch Deletion"
+
+msgid "全部IP"
+msgstr "All IP"
+
+msgid "全部管理员"
+msgstr "All Administrator"
+
+msgid "筛选"
+msgstr "Filter"
+
+msgid "输入关键字"
+msgstr "Enter keywords"
+
+msgid "搜索"
+msgstr "Search"
+
+msgid "编号"
+msgstr "NO."
+
+msgid "操作者"
+msgstr "Operator"
+
+msgid "操作日期"
+msgstr "Operation Date"
+
+msgid "IP地址"
+msgstr "IP Address"
+
+msgid "操作记录"
+msgstr "Operation Record"
+
+msgid "安装完成"
+msgstr "Finish"
+
+msgid "查看应用的详细信息"
+msgstr "View application details"
+
+msgid "应用名称"
+msgstr "Application Name"
+
+msgid "应用包名："
+msgstr "Applications Package name:"
+
+msgid "应用版本："
+msgstr "Application version:"
+
+msgid "应用目录："
+msgstr "Application Directory:"
+
+msgid "应用作者："
+msgstr "Application Author:"
+
+msgid "版权信息："
+msgstr "Copyright Information:"
+
+msgid "应用描述："
+msgstr "Application Description:"
+
+msgid "安装进度及完成结果"
+msgstr "Installation progress and complete results"
+
+msgid "应用安装成功！"
+msgstr "Application installation was successful!"
+
+msgid "应用已经安装到您的系统中！"
+msgstr "Applications already installed on your system!"
+
+msgid "全部"
+msgstr "Complete"
+
+msgid "已安装"
+msgstr "Installed"
+
+msgid "未安装"
+msgstr "Not Installed"
+
+msgid "名称"
+msgstr "Name"
+
+msgid "描述"
+msgstr "Description"
+
+msgid "卸载"
+msgstr "Uninstall"
+
+msgid "| 作者："
+msgstr "| Author:"
+
+msgid "查看详情"
+msgstr "See Details"
+
+msgid "系统应用管理"
+msgstr "System Management"
+
+msgid "刷新列表"
+msgstr "Refresh"
+
+msgid "配置"
+msgstr "Configuration"
+
+msgid "进入"
+msgstr "Enter"
+
+msgid "编辑"
+msgstr "Edit"
+
+msgid "删除一级地区"
+msgstr "Delete a region"
+
+msgid "编辑地区"
+msgstr "Edit Area"
+
+msgid "原地区名："
+msgstr "Original name Area:"
+
+msgid "新地区名："
+msgstr "New Area name:"
+
+msgid "新增地区名："
+msgstr "New Area name:"
+
+msgid "地区名称不能重复"
+msgstr "Area name can not be repeated."
+
+msgid "文件校验是针对 ECJia 官方发布的文件为基础进行核对，点击下面按钮开始进行校验。"
+msgstr "ECJia file checksum for the official release of documents as the basis for verification, click the button below to begin verification."
+
+msgid "开始校验"
+msgstr "Start Checking"
+
+msgid "被修改"
+msgstr "Modified"
+
+msgid "被删除"
+msgstr "Deleted"
+
+msgid "”、“"
+msgstr "\",\""
+
+msgid "” 中的列出的文件，请即刻通过 FTP 或其他工具检查其文件的正确性，以确保ECJia网店功能的正常使用。"
+msgstr "\"The files listed, please do not hesitate to check the correctness of their files through FTP or other tools to ensure proper use ECJia shop functions."
+
+msgid "未知"
+msgstr "Unknown"
+
+msgid "” 中的列出的文件，请检查网店是否被人非法放入了其他文件。"
+msgstr "\"The files listed, please check whether the network cable has been illegally placed in other documents."
+
+msgid "一周内被修改"
+msgstr "Be modified within a week"
+
+msgid "“"
+msgstr "\""
+
+msgid "” 中列出的文件，请确认最近是否修改过。"
+msgstr "\"Listed in the file, make sure that you recently modified."
+
+msgid "文件名"
+msgstr "File Name"
+
+msgid "文件大小"
+msgstr "File size"
+
+msgid "最后修改时间"
+msgstr "Last Modified"
+
+msgid "状态"
+msgstr "Status"
+
+msgid "被修改："
+msgstr "Modified:"
+
+msgid "被删除："
+msgstr "Deleted:"
+
+msgid "未知："
+msgstr "Unknown:"
+
+msgid "项目"
+msgstr "Project"
+
+msgid "可读权限"
+msgstr "Read permission"
+
+msgid "可写权限"
+msgstr "Writable"
+
+msgid "可修改权限"
+msgstr "Modify permissions"
+
+msgid "[详情]"
+msgstr "[Details]"
+
+msgid "选择要编辑的菜单："
+msgstr "Select edit menu:"
+
+msgid "选择"
+msgstr "Select"
+
+msgid "或"
+msgstr "or"
+
+msgid "创建新菜单"
+msgstr "Creating a new menu"
+
+msgid "页面"
+msgstr "Page"
+
+msgid "添加至菜单"
+msgstr "Add to Menu"
+
+msgid "链接"
+msgstr "Link"
+
+msgid "分类目录"
+msgstr "Categories"
+
+msgid "菜单名称："
+msgstr "Menu Name:"
+
+msgid "保存菜单"
+msgstr "Save menu"
+
+msgid "菜单结构"
+msgstr "Menu Structure"
+
+msgid "拖放各个项目到您喜欢的顺序，点击右侧的箭头可进行更详细的设置。"
+msgstr "Drag and drop the items you like to order, click on the arrow to the right can be more detailed settings."
+
+msgid "URL："
+msgstr "URL:"
+
+msgid "导航标签"
+msgstr "Navigation Tabs"
+
+msgid "是否显示"
+msgstr "Whether"
+
+msgid "是否新窗口"
+msgstr "Whether the new window"
+
+msgid "移除"
+msgstr "Remove"
+
+msgid "菜单设置"
+msgstr "Menu Settings"
+
+msgid "主题位置"
+msgstr "Topic Location"
+
+msgid "首页/列表页菜单"
+msgstr "Home / List menu"
+
+msgid "（当前设置：底部）"
+msgstr "(Current setting: bottom)"
+
+msgid "页脚菜单"
+msgstr "Footer menu"
+
+msgid "播放页菜单"
+msgstr "Playback Menu Page"
+
+msgid "新闻页菜单"
+msgstr "News page menu"
+
+msgid "删除菜单"
+msgstr "Delete menu"
+
+msgid "正在加载中……"
+msgstr "Loading in ......"
+
+msgid "管理员密码找回"
+msgstr "Administrator password recovery"
+
+msgid "管理员用户名"
+msgstr "Administrator username"
+
+msgid "管理员邮箱"
+msgstr "Administrator mailbox"
+
+msgid "返回登陆"
+msgstr "Back Login"
+
+msgid "新密码"
+msgstr "New password"
+
+msgid "新管理员密码"
+msgstr "The new administrator password"
+
+msgid "重复新密码"
+msgstr "Repeat new password"
+
+msgid "重复管理员密码"
+msgstr "Repeat administrator password"
+
+msgid "是您享受ECJia软件服务的唯一标识，它记录了您的网店的授权信息、购买官方服务记录、短信帐户等重要信息。您需要通过“证书下载备份”功能备份证书，并妥善保管。在您遇到商店系统需要重新安装时，可以在新安装的系统中使用“证书上传恢复”功能将之前备份的证书恢复，这样新系统就可以继续使用证书内的重要信息。"
+msgstr "You enjoy ECJia software and services that uniquely identifies that records your online store authorization information, purchase the official service records, and other important information SMS account. You need to \"Download Certificate Backup\" function to back up the certificate and safekeeping. When you come across store systems need to reinstall, you can use the newly installed system \"Certificate Upload Restore\" function of the certificate will be restored before the backup, so the new system can continue to use the important information in the certificate."
+
+msgid "兹授予："
+msgstr "Hereby granted:"
+
+msgid "为上海商创网络科技有限公司企业解决方案与产品商业伙伴"
+msgstr "Suppliers to Shanghai Network Technology Co., Ltd. Enterprise Solutions and Products business partners"
+
+msgid "授权级别："
+msgstr "Authorization levels:"
+
+msgid "授权域名："
+msgstr "Authorization domain:"
+
+msgid "授权时间："
+msgstr "Grant Time:"
+
+msgid "备份证书"
+msgstr "Backup Certificate"
+
+msgid "删除证书"
+msgstr "Delete Certificate"
+
+msgid "管理员登录"
+msgstr "Administrator Login"
+
+msgid "管理员姓名："
+msgstr "Name:"
+
+msgid "管理员密码："
+msgstr "Password:"
+
+msgid "请保存我这次的登录信息。"
+msgstr "Remember my login information."
+
+msgid "进入管理中心"
+msgstr "Control Center"
+
+msgid "返回首页"
+msgstr "Back Home"
+
+msgid "您忘记了密码吗?"
+msgstr "Forgot your password?"
+
+msgid "交谈管理员: "
+msgstr "Administrator conversation:"
+
+msgid "所有管理员"
+msgstr "All Administrators"
+
+msgid "查看更早的留言信息"
+msgstr "See earlier Message"
+
+msgid "发送"
+msgstr "Send"
+
+msgid "刷新"
+msgstr "Refresh"
+
+msgid "全部标为已读"
+msgstr "Mark all as read"
+
+msgid "当前留言标为已读"
+msgstr "The current message as read"
+
+msgid "管理员群聊"
+msgstr "Administrators group chat"
+
+msgid "--选择--"
+msgstr "--select--"
+
+msgid "文字："
+msgstr "Text:"
+
+msgid "返回自定义导航栏"
+msgstr "Returns custom navigation bar"
+
+msgid "创建菜单"
+msgstr "Create menu"
+
+msgid "在上面给菜单命名，然后点击“创建菜单”。创建菜单"
+msgstr "Named to the top menu, then click on the \"Create menu.\" Create a menu"
+
+msgid "保存"
+msgstr "save"
+
+msgid "用户名："
+msgstr "username:"
+
+msgid "用户名"
+msgstr "Name"
+
+msgid "用户ID"
+msgstr "User id"
+
+msgid "Email地址："
+msgstr "Email Address:"
+
+msgid "用户邮箱"
+msgstr "User Email"
+
+msgid "Email地址"
+msgstr "Email address"
+
+msgid "最后登录时间"
+msgstr "Last login time"
+
+msgid "密  码："
+msgstr "Password:"
+
+msgid "加入时间"
+msgstr "Join time"
+
+msgid "确认密码："
+msgstr "Confirm password:"
+
+msgid "旧密码："
+msgstr "Old password:"
+
+msgid "如果要修改密码,请先填写旧密码,如留空,密码保持不变"
+msgstr "If you want to change the password, please fill in the old password, such as blank, passwords remain unchanged"
+
+msgid "新密码："
+msgstr "New password:"
+
+msgid "确认密码"
+msgstr "Confirm password"
+
+msgid "负责的办事处："
+msgstr "The office is responsible for:"
+
+msgid "角色选择："
+msgstr "Role Selection:"
+
+msgid "设置个人导航"
+msgstr "Setting personal navigation"
+
+msgid "点击左侧导航列表选项，添加个人导航。双击右侧个人导航列表，或点击x号，可从个人导航列表中移除。点击保存后保存更改。"
+msgstr "Click on the left navigation list options, add personal navigation. Double-click on the right personal navigation list, or click the x number that can be removed from the personal navigation list. Click Save to save your changes later."
+
+msgid "搜索的导航名称"
+msgstr "Navigation name for the search"
+
+msgid "暂无内容"
+msgstr "No content yet"
+
+msgid "个人自定义导航"
+msgstr "Personal custom navigation"
+
+msgid "重置"
+msgstr "Reset"
+
+msgid "角色名："
+msgstr "Character name:"
+
+msgid "角色名"
+msgstr "Name"
+
+msgid "角色描述："
+msgstr "Role description:"
+
+msgid "角色描述"
+msgstr "Description"
+
+msgid "角色ID"
+msgstr "Role ID"
+
+msgid "提示："
+msgstr "Prompt:"
+
+msgid "如果您的服务器支持 Mail 函数（具体信息请咨询您的空间提供商）。我们建议您使用系统的 Mail 函数。"
+msgstr "If your server supports Mail function (For details, contact your hosting provider). We recommend that you use the Mail system function."
+
+msgid "当您的服务器不支持 Mail 函数的时候您也可以选用 SMTP 作为邮件服务器。"
+msgstr "When your server does not support Mail function when you can also use SMTP as a mail server."
+
+msgid "邮件地址："
+msgstr "E-mail address:"
+
+msgid "发送测试邮件"
+msgstr "Send a test message"
+
+msgid "快速导航"
+msgstr "Quick navigation"
+
+msgid "收起"
+msgstr "Collapse"
+
+msgid "您可以试试下面的链接："
+msgstr "You can try the following links:"
+
+msgid "备份注释："
+msgstr "Backup Note:"
+
+msgid "没有可备份的模板设置"
+msgstr "No backup template settings"
+
+msgid "可使用的模板设置备份"
+msgstr "Templates can be used to set the backup"
+
+msgid "还原"
+msgstr "reduction"
+
+msgid "没有可用模板备份"
+msgstr "No backup available templates"
+
+msgid "请选择一个模板："
+msgstr "Please choose a template:"
+
+msgid "未找到可用模板"
+msgstr "Not available templates found"
+
+msgid "可用库项目"
+msgstr "Available library project"
+
+msgid "停用"
+msgstr "Disable"
+
+msgid "要激活某一小工具，将它拖动到侧栏或点击它。要禁用某一小工具并删除其设置，将它拖回来。"
+msgstr "To activate a gadget, drag it to the sidebar or click on it. To disable a widget and delete its settings, drag it back."
+
+msgid "标题："
+msgstr "title:"
+
+msgid "动态库项目"
+msgstr "Dynamic library project"
+
+msgid "未使用的小工具"
+msgstr "Unused gadgets"
+
+msgid "将小工具拖至这里，将它们从边栏移除，但同时保留设置。"
+msgstr "Drag gadgets here, remove them from the sidebar, but retention settings."
+
+msgid "首页侧边栏"
+msgstr "Home Sidebar"
+
+msgid "暂无可用区域"
+msgstr "No usable area"
+
+msgid "添加小工具"
+msgstr "Add gadgets"
+
+msgid "已阻挡的垃圾评论"
+msgstr "It has blocked spam"
+
+msgid "暂无库项目"
+msgstr "No library project"
+
+msgid "未选择库项目"
+msgstr "Do not select library items"
+
+msgid "库项目"
+msgstr "Library Project"
+
+msgid "筛选搜索到的商品信息"
+msgstr "Filter to product information"
+
+msgid "当前主题"
+msgstr "Current topic"
+
+msgid "模板来源："
+msgstr "Template Source:"
+
+msgid "模板作者："
+msgstr "Template authors:"
+
+msgid "风格选择："
+msgstr "Choice style:"
+
+msgid "主题描述："
+msgstr "Topic Description:"
+
+msgid "未选择任何主题"
+msgstr "Do not select any topic"
+
+msgid "可用主题"
+msgstr "Available Topic"
+
+msgid "暂无可用主题"
+msgstr "No topics available"
+
+msgid "最后检查于: "
+msgstr "Last checked:"
+
+msgid "再次检查"
+msgstr "Check"
+
+msgid "注意：若您未检测到可用更新，您还可以到"
+msgstr "Note: If you do not detect the available updates, you can go to"
+
+msgid "查看。"
+msgstr "View."
+
+msgid "当前版本"
+msgstr "Current Version"
+
+msgid "更新日期"
+msgstr "Update Date"
+
+msgid "可升级版本"
+msgstr "Scalable version"
+
+msgid "抱歉，已经有相同的地区名存在！"
+msgstr "Sorry,The region name already exists!"
+
+msgid "操作"
+msgstr "Operations"
+
+msgid "请输入关键字"
+msgstr "Please enter key words"
+
+msgid "版权所有 © 2013-2016 上海商创网络科技有限公司，并保留所有权利。"
+msgstr "Copyright © 2013-2015 Shanghai ShangChuang Network Technology Co., Ltd. All Rights Reserved."
+
+msgid "上海商创网络科技有限公司"
+msgstr "Shanghai ShangChuang Network Technology Co., Ltd."
+
+msgid "了解更多 »"
+msgstr "More >>"
+
+msgid "ECJIA 管理面板"
+msgstr "ECJIA Management Panel"
+
+msgid "安装"
+msgstr "Install"
+
+msgid "您确定要删除该角色吗？"
+msgstr "DO you want to delete the role?"
+
+msgid "总计 "
+msgstr "Total "
+
+msgid "条记录，分为"
+msgstr "records, divided into "
+
+msgid "页当前第"
+msgstr "pages,  current No."
+
+msgid "页，每页"
+msgstr "page, per page"
+
+msgid " 页"
+msgstr " page"
+
+msgid "您确定要删除用户该用户吗？"
+msgstr "Do you want to delete this user?"
+
+msgid "新注册用户"
+msgstr "New registered users"
+
+msgid "新手机咨询"
+msgstr "New phone advice"
+
+msgid "新订单"
+msgstr "New order"
+
+msgid "。"
+msgstr "."
+
+msgid "广告"
+msgstr "advertising"
+
+msgid "添加"
+msgstr "add"
+
+msgid "设置"
+msgstr "setup"
+
+msgid "回收"
+msgstr "trash"
+
+msgid "合并"
+msgstr "merge"
+
+msgid "批量回收"
+msgstr "batch trash"
+
+msgid "批量还原"
+msgstr "batch restore"
+
+msgid "批量上传"
+msgstr "batch upload"
+
+msgid "批量编辑"
+msgstr "batch edit"
+
+msgid "批量停用"
+msgstr "batch stop"
+
+msgid "权限管理"
+msgstr "privilege"
+
+msgid "会员账号"
+msgstr "user account"
+
+msgid "配送区域中的地区"
+msgstr "area region"
+
+msgid "商品"
+msgstr "goods"
+
+msgid "品牌管理"
+msgstr "brand"
+
+msgid "商品分类"
+msgstr "category"
+
+msgid "商品包装"
+msgstr "pack"
+
+msgid "商品贺卡"
+msgstr "goods card"
+
+msgid "属性"
+msgstr "attribute"
+
+msgid "商品类型"
+msgstr "goods type"
+
+msgid "文章分类"
+msgstr "article category"
+
+msgid "文章"
+msgstr "article"
+
+msgid "网店帮助文章"
+msgstr "shophelp article"
+
+msgid "网店帮助分类"
+msgstr "shophelp category"
+
+msgid "网店信息文章"
+msgstr "shopinfo"
+
+msgid "会员等级"
+msgstr "user rank"
+
+msgid "红包类型"
+msgstr "bonus type"
+
+msgid "用户红包"
+msgstr "user bonus"
+
+msgid "在线调查"
+msgstr "vote"
+
+msgid "友情链接"
+msgstr "friendlink"
+
+msgid "支付方式"
+msgstr "payment"
+
+msgid "订单"
+msgstr "order"
+
+msgid "办事处"
+msgstr "office"
+
+msgid "拍卖活动"
+msgstr "auction"
+
+msgid "批发活动"
+msgstr "wholesale activity"
+
+msgid "留言反馈"
+msgstr "feedback"
+
+msgid "用户评论"
+msgstr "user comment"
+
+msgid "广告位置"
+msgstr "ad placement"
+
+msgid "缺货登记管理"
+msgstr "booking"
+
+msgid "标签管理"
+msgstr "tagcloud"
+
+msgid "前台语言项"
+msgstr "reception language entry"
+
+msgid "会员余额"
+msgstr "member Balance"
+
+msgid "会员留言"
+msgstr "member comments"
+
+msgid "FCK文件"
+msgstr "FCK file"
+
+msgid "数据库备份"
+msgstr "database backup"
+
+msgid "超值礼包"
+msgstr "value packs"
+
+msgid "积分可兑换的商品"
+msgstr "points can be redeemed for product"
+
+msgid "供货商管理"
+msgstr "supplier Management"
+
+msgid "会员注册项"
+msgstr "registration"
+
+msgid "信任机构"
+msgstr "agencies"
+
+msgid "插件"
+msgstr "plugin"
+
+msgid "应用已经安装，请勿重复安装。"
+msgstr "Application has been installed, do not repeat the installation."
+
+msgid "应用未安装！"
+msgstr "Application not installed!"
+
+msgid "您确定要卸载该应用吗？"
+msgstr "Do you want to uninstall this application?"
+
+msgid "您确定要删除该应用吗？"
+msgstr "Do you want to delete this application?"
+
+msgid "数据表结构缓存"
+msgstr "Cache data table structure"
+
+msgid "数据表结构缓存是数据库表结构的缓存文件。若数据库表结构有变动，则需要更新数据库表结构缓存才可以查看最新数据。"
+msgstr "Data cache is a cache file table structure database table structure. If the database table structure changes, you need to update the database schema caching you can view the latest data."
+
+msgid "查询缓存"
+msgstr "Query Cache"
+
+msgid "查询缓存是数据库查询结构的缓存文件。若数据库内容有变动，则需要更新查询缓存才可以看到最新效果。"
+msgstr "The query cache is a cache file database query results. If the database contents are subject to change, we need to update the query cache before they can see the latest results."
+
+msgid "前台模板缓存"
+msgstr "Reception template cache"
+
+msgid "模板缓存是前台模板文件的缓存文件。若前台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。"
+msgstr "Template cache is a cache file foreground template file. If the foreground template file has changed, you need to update the template cache before they can view the latest results."
+
+msgid "后台模板缓存"
+msgstr "Background template cache"
+
+msgid "模板缓存是后台模板文件的缓存文件。若后台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。"
+msgstr "Template cache is a cache file background template file. If the background template file has changed, you need to update the template cache before they can view the latest results."
+
+msgid "应用数据缓存"
+msgstr "Application data cache"
+
+msgid "应用数据缓存是应用处理逻辑后的数据缓存。若要在更新文件及功能后立即看到变化，则需要更新应用数据缓存后才可以查看最新效果。"
+msgstr "Application data cache is a data cache after the application processing logic. To see immediately update files and feature changes, you need to update data in the cache before they can view the latest results."
+
+msgid "用户数据缓存"
+msgstr "User data buffer"
+
+msgid "用户数据缓存是用户登录后的一些相关数据缓存。若要在更新文件及功能后立即看到变化，则需要更新用户数据缓存后才可以查看最新效果。"
+msgstr "Cached user data, some relevant data cache after user login. To see immediately update files and feature changes, you need to update user data in the cache before they can view the latest results."
+
+msgid "系统"
+msgstr "System"
+
+msgid "主题设置备份"
+msgstr "Theme settings backup"
+
+msgid "删除管理员"
+msgstr "Remove administrator"
+
+msgid "管理员添加/编辑"
+msgstr "Administrators add/edit"
+
+msgid "文件权限检验"
+msgstr "File permissions test"
+
+msgid "卸载插件"
+msgstr "Uninstall plug"
+
+msgid "管理日志列表"
+msgstr "Admin log list"
+
+msgid "模板管理"
+msgstr "Template Management"
+
+msgid "地区列表管理"
+msgstr "Area list management"
+
+msgid "安装应用"
+msgstr "Install application"
+
+msgid "卸载应用"
+msgstr "Uninstall applications"
+
+msgid "安装插件"
+msgstr "Install plug"
+
+msgid "删除管理日志"
+msgstr "Remove logs"
+
+msgid "操作成功"
+msgstr "Successful operation"
+
+msgid "操作提示"
+msgstr "Operation tips"
+
+msgid "操作警告"
+msgstr "Warning"
+
+msgid "操作错误"
+msgstr "Operation error"
+
+msgid "添加广告位"
+msgstr "Add advertising"
+
+msgid "广告位"
+msgstr "Advertising"
+
+msgid "添加品牌商品"
+msgstr "Adding branded goods"
+
+msgid "品牌的商品"
+msgstr "Branded goods"
+
+msgid "添加分类文章"
+msgstr "Add categories articles"
+
+msgid "文章列表"
+msgstr "Article list"
+
+msgid "添加分类商品"
+msgstr "Add categories goods"
+
+msgid "分类下的商品"
+msgstr "categories goods"
+
+msgid "添加自定义菜单"
+msgstr "Add a custom menu"
+
+msgid "自定义菜单"
+msgstr "Custom Menu"
+
+msgid "系统提示"
+msgstr "System prompt"
+
+msgid "重新登录"
+msgstr "Again login"
+
+msgid "对不起，您没有执行此项操作的权限！"
+msgstr "Sorry, you do not have permission to perform this operation!"
+
+msgid "本店盘点中，请您稍后再来..."
+msgstr "Our inventory, and please come back later ..."
+
+msgid "请稍候"
+msgstr "Please wait"
+
+msgid "您确定要删除这条记录吗？"
+msgstr "Do you want to delete this record?"
+
+msgid "参数错误，无法删除！"
+msgstr "Parameter error, can not be deleted!"
+
+msgid "您确定要操作所有选中项吗？"
+msgstr "Do you want to operate all of the selected items?"
+
+msgid "请先选中操作项！"
+msgstr "Please select the action items!"
+
+msgid "批量操作缺少参数！"
+msgstr "Operations Missing parameters!"
+
+msgid "参数错误，无法选择！"
+msgstr "Parameter error, can not choose!"
+
+msgid "状态修改成功！"
+msgstr "Status changed successfully!"
+
+msgid "缺少参数"
+msgstr "Missing parameters"
+
+msgid "clone-obj方法未设置data-parent参数。"
+msgstr "clone-obj method of data-parent parameter is not set."

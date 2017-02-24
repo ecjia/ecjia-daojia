@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>myCheck</title>
+
+	<link rel="stylesheet" href="../iconFront/iconfont.css">
+
+	<style type="text/css">
+		body {
+			font-size: 20px;
+			box-sizing: border-box;
+		}
+
+		label {
+			display: inline-block;
+			height: 2em;
+			line-height: 1em;
+			margin-right: 2em;
+		}
+	</style>
+
+	<link rel="stylesheet" type="text/css" href="css/winder.form.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body>
+	<form class="winder-form">
+		<!-- form -->
+		<fieldset data-uk-margin="">
+			<legend>表单</legend>
+			<input type="text" placeholder="Text input" class="uk-margin-small-top">
+			<input type="password" placeholder="Password input" class="uk-margin-small-top">
+			<select class="uk-margin-small-top">
+				<option>Option 01</option>
+				<option>Option 02</option>
+			</select>
+			<button class="uk-button uk-margin-small-top">Button</button>
+			<label class="uk-margin-small-top"><input type="checkbox"> Checkbox</label>
+		</fieldset>
+		<div>
+			<label class="winderInput">
+				<input name="username" placeholder="用户名" />
+				<input name="username" placeholder="用户名" type="password" />
+				<input name="username" placeholder="用户名" />
+				<input name="username" placeholder="用户名" />
+				<input name="username" placeholder="用户名" />
+			</label>
+		</div>
+
+		<!-- 带图标的form -->
+		<div>
+			<label class="input">
+				<input name="username" placeholder="用户名" />
+			</label>
+		</div>
+		<div>
+			<label class="input">
+				<i class="iconfont icon-lock"></i>
+				<input name="password" type="password" placeholder="密码" />
+			</label>
+		</div>
+
+	</form>
+</body>
+
+</html>

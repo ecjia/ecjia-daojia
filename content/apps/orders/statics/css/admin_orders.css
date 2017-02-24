@@ -1,0 +1,221 @@
+#general_loading {
+	width: 100%;
+	height: 600px;
+	line-height: 500px;
+	text-align: center;
+	overflow: hidden;
+	display: none;
+}
+
+#general_data {
+	height: 600px;
+	width: 90%;
+	margin: 0 auto;
+}
+
+#general_datas {
+	height: 600px;
+	width: 90%;
+	margin: 0 auto;
+}
+
+#area_loading {
+	width: 600px;
+	height: 350px;
+	line-height: 300px;
+	text-align: center;
+	overflow: hidden;
+	display: none;
+}
+
+.area_data {
+	width: 780px;
+	height: 350px;
+	margin: 0 auto;
+}
+
+#area_data {
+	float: left;
+	height: 300px;
+	width: 450px;
+	margin-left: 50px;
+}
+
+#area_legend {
+	float: left;
+	width: 200px;
+	height: auto;
+}
+
+#from_loading {
+	width: 600px;
+	height: 350px;
+	line-height: 300px;
+	text-align: center;
+	overflow: hidden;
+	display: none;
+}
+
+.from_data {
+	width: 750px;
+	height: 350px;
+	margin: 0 auto;
+}
+
+#from_data {
+	float: left;
+	height: 300px;
+	width: 450px;
+	margin-left: 50px;
+}
+
+#from_legend {
+	float: left;
+	width: auto;
+	height: auto;
+}
+
+.order_general {
+	width: 100%;
+	height: 500px;
+	margin: 0 auto;
+}
+
+#order_general {
+	height: 500px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.order_status {
+	width: 100%;
+	height: 500px;
+	margin: 0 auto;
+}
+
+#order_status {
+	height: 500px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.ship_status {
+	width: 100%;
+	height: 500px;
+	margin: 0 auto;
+}
+
+#ship_status {
+	height: 500px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.ship_stats {
+	width: 100%;
+	height: 500px;
+	margin: 0 auto;
+}
+
+#ship_stats {
+	height: 500px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.pay_status {
+	width: 100%;
+	height: 500px;
+	margin: 0 auto;
+}
+
+#pay_status {
+	height: 500px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.pay_stats {
+	height: 500px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+#pay_stats {
+	height: 500px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#order_count {
+	height: 580px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#order_amount {
+	height: 580px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#salecount {
+	height: 600px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.order-status-base {
+	text-algin: center;
+}
+
+.order-status-base ul {
+	margin: 0px auto;
+	overflow: hidden;
+	padding: 0;
+}
+
+.order-status-base ul li {
+	list-style: none;
+	margin-left: 0 !important;
+	text-align: center;
+	width: 24.11111%;
+	float: left;
+}
+
+.order-status-base .step-no {
+	margin-top: 10px;
+	color: #fff;
+	font-size: 18px;
+	height: 34px;
+	line-height: 34px;
+	background: url("../images/order-time-base.png") no-repeat scroll 50% -102px;
+}
+
+.order-status-base .step-first .step-done .step-no {
+	background-position: 50% -204px;
+}
+
+.order-status-base .step-first .step-cur .step-no {
+	background-position: 50% -34px;
+}
+
+.order-status-base .step-done .step-no {
+	background-position: 50% -170px;
+}
+
+.order-status-base .step-cur .step-no {
+	background-position: 50% 0;
+}
+
+.order-status-base .step-pay .step-no {
+	background-position: 50% -102px;
+}
+
+.order-status-base .step-last .step-no {
+	background-position: 50% -136px;
+}
+
+.order-status-base .step-last .step-cur .step-no {
+	background-position: 50% -68px;
+}

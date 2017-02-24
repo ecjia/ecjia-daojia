@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+
+.page { 
+	display:inline-block;
+	width:100%;
+	height:46px;
+	line-height:100%;
+	border-shadow:none;
+}
+.page .pull-left {
+	height: 36px;
+    line-height: 36px;
+}
+.pagination {
+	margin:0;
+}
+.pagination li.active a {
+	border-color: #DDD;
+}
+/* page style 6  */
+.page_style_6 {
+	background-color: #F9F9F9; 
+	border-color: #F9F9F9;
+}
+.page_style_6 .pagination li.active a {
+    background-color: #bdc3c7;
+    border-color: #DDD;
+}
+
+.page_style_6 .pagination>li>a, .page_style_6 .pagination>li>span {
+	border-color: #CECECE;
+}
+
+.page .input-append {
+	float:left;
+	margin-right:10px;
+}
+.page .pageinput {
+	display: inline-block;
+	width: 42px;
+    max-width: 70px;}
+.page .input-group-btn {
+	display: inline-block;
+}
+

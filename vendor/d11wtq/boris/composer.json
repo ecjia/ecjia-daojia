@@ -1,0 +1,17 @@
+{
+    "name": "d11wtq/boris",
+    "description": "A tiny, but robust REPL (Read-Evaluate-Print-Loop) for PHP.",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.0",
+        "ext-readline": "*",
+        "ext-pcntl": "*",
+        "ext-posix": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Boris": "lib"
+        }
+    },
+    "bin": ["bin/boris"]
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+    <title>Mobiscroll</title>
+
+    <script type="text/javascript" src="js/datePicker.min.js"></script>
+
+    <link href="css/datePicker.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+    $(function(){
+
+        $('.time').scroller('destroy').scroller(
+            $.extend({
+                preset: 'datetime',
+                minDate: new Date(1950, 0, 1),
+                maxDate: new Date(2100, 0, 1),
+                stepMinute: 5
+            }, {
+                theme: 'android-holo light',
+                mode: 'scroller',
+                lang: 'zh',
+                display: 'bottom',
+                animate: 'datetime'
+            })
+        );
+    })
+    </script>
+</head>
+
+<body>
+
+                <input class="time" />
+</body>
+</html>
+

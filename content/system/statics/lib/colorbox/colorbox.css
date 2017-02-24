@@ -1,0 +1,50 @@
+/*
+    ColorBox Core Style:
+    The following CSS is consistent between example themes and should not be altered.
+*/
+#colorbox, #cboxOverlay, #cboxWrapper{position:absolute; top:0; left:0; z-index:9999; overflow:hidden;}
+#cboxOverlay{position:fixed; width:100%; height:100%;}
+#cboxMiddleLeft, #cboxBottomLeft{clear:left;}
+#cboxContent{position:relative;}
+#cboxLoadedContent{overflow:auto;}
+#cboxTitle{margin:0;}
+#cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%; height:100%;}
+#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
+.cboxPhoto{float:left; margin:auto; border:0; display:block;}
+.cboxIframe{width:100%; height:100%; display:block; border:0;}
+#colorbox, #cboxContent, #cboxLoadedContent{box-sizing:content-box;}
+
+/* 
+    User Style:
+    Change the following styles to modify the appearance of ColorBox.  They are
+    ordered & tabbed in a way that represents the nesting of the generated HTML.
+*/
+#cboxOverlay{background:#777}
+#colorbox{}
+    #cboxContent{margin-top:32px; overflow:visible;}
+        .cboxIframe{background:#fff;}
+        #cboxError{padding:50px; border:1px solid #ccc;}
+        #cboxLoadedContent{border:8px solid rgba(0,0,0,.5);-webkit-border-radius: 6px;-moz-border-radius: 6px;-ms-border-radius: 6px;border-radius: 6px;display:none}
+        #cboxLoadingGraphic{background:url("images/loading.gif") no-repeat center center;}
+        #cboxLoadingOverlay{background: #000;background: rgba(0,0,0,.5);-webkit-border-radius: 6px;-moz-border-radius: 6px;-ms-border-radius: 6px;border-radius: 6px}
+		#cboxTitle{position:absolute; top:-22px; left:0; color:#000;background:#000;background: rgba(0,0,0,.5);-webkit-border-radius: 4px;-moz-border-radius: 4px;-ms-border-radius: 4px;border-radius: 4px;color:#fff;font-size:11px;padding:0 6px}
+        #cboxCurrent{position:absolute; top:-22px; right:205px; text-indent:-9999px;}
+        
+        #cboxPrevious, #cboxNext,#cboxSlideshow, #cboxClose{width:20px;height:20px;top:-22px;text-indent:-9999px; position:absolute; background: #fff url("images/controls.png") no-repeat 0 0; background: rgba(255,255,255,.6) url("images/controls.png") no-repeat 0 0;-webkit-border-radius: 4px;-moz-border-radius: 4px;-ms-border-radius: 4px;border-radius: 4px}
+        #cboxPrevious:hover, #cboxNext:hover,#cboxSlideshow:hover, #cboxClose:hover {background-color: rgba(255,255,255,.8)}
+
+        #cboxPrevious{background-position:0 -1px; right:56px}
+        #cboxPrevious:hover{background-position:0 -26px}
+        #cboxNext{background-position:-25px -1px; right:32px}
+        #cboxNext:hover{background-position:-25px -26px}
+
+        #cboxClose{background-position:-50px -1px;right:0}
+        #cboxClose:hover{background-position:-50px -26px}
+
+        #cboxSlideshow {right:90px}
+        .cboxSlideshow_on #cboxSlideshow{background-position:-75px -1px}
+        .cboxSlideshow_on #cboxSlideshow:hover{background-position:-75px -26px}
+        .cboxSlideshow_off #cboxSlideshow{background-position:-100px -1px}
+        .cboxSlideshow_off #cboxSlideshow:hover{background-position:-100px -26px}
+
+.cbox_content {background:#fff;padding:20px}

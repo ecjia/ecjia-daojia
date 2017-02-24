@@ -1,0 +1,174 @@
+/*
+Template Name: ECJia Demo
+Template URI: http://www.ecjia.com/
+Description: 默认版.
+Version: 1.0.0
+Author: ECJIA Team
+Author URI: http://www.ecjia.com/
+Logo filename: logo.gif
+Template Type: type_0
+*/
+
+body{
+	background:#fff; 
+	font-size:1em; 
+	font-family:"宋体",Verdana, Arial; 
+	line-height:150%; 
+	margin:20px 0 0 0; 
+	padding:0; 
+	color:#404040;
+}
+div{margin:0 auto; padding:0; width:100%;}
+h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{
+	border:none; list-style-type:none;
+}
+.error_msg {
+	position: absolute;
+    top: 50%;
+	height:50px;
+	text-align:center;
+}
+.error_msg span {
+	height:50px;
+	line-height: 50px;
+	padding: 13px;
+	padding-left:20px;
+	background:#000;
+	color:#fff;
+	border-radius: 5px;
+}
+.display-none {
+	display:none;
+}
+.display-block {
+	display:block;
+}
+.forget-password a {
+	text-decoration:none;
+	color:#000;
+}
+.forget-password .title-content {
+	text-align:center;
+}
+.forget-password .content {
+	margin-left:3%;
+	width:97%;
+}
+
+.forget-password ul {
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+	padding-left:0px;
+	width:100%;
+}
+.forget-password ul li {
+	margin-left:3%;
+	height:2.7em;
+	border-bottom:1px solid #ddd;
+}
+.forget-password ul li:last-child {
+	border-bottom:0px;
+}
+.forget-password ul li .text-type {
+	width:85%;
+	border:0px;
+	line-height:1.3em;
+	font-size:0.9em;
+	padding-top:0.7em;
+}
+.forget-password ul li .text-type-code {
+	width:55%;
+	border:0px;
+	line-height:1.3em;
+	font-size:0.9em;
+	padding-top:0.7em
+}
+.forget-password ul li .choose {
+	border:0px;
+	font-size:1em;
+	text-align:left;
+	padding-left:0px;
+	line-height: 2.7em;
+	background:none;
+}
+.forget-password ul li .code-repeat {
+	border-left:1px solid #ccc;
+	padding-left:15px;
+	color:#00f;
+	
+}
+
+.forget-password ul li .code-span {
+	border-left:1px solid #ccc;
+	padding-left:15px;
+	color:#ccc;
+	
+}
+
+.forget-password ul li .captcha-img{
+	width:7em;
+	height:1.6em;
+	margin-bottom: -0.5em;
+	float:right;
+	margin-right:3%;
+	margin-top:0.5em;
+}
+.forget-password .explain-content {
+	margin-left:3%;
+	font-size:0.8em;
+	color:#bbb;
+}
+.forget-password .show-password {
+	margin-left:3%;
+	line-height:100%;
+}
+.forget-password .change_request {
+	text-align:right;
+	margin-right:3%;
+	width:97%;
+}
+.forget-password .change_request a{
+	color:#000;
+}
+.forget-password .cancel-btn{
+    float: right;
+    margin-right: 3%;
+    padding-top: 0.7em;
+}
+.forget-password .show-password span{
+    float: left;
+}
+.forget-password .cancel-btn img,.forget-password .show-password img{
+	width:1.1em;
+}
+.forget-password .success {
+	position: absolute;
+	top:30%;
+}
+.forget-password .success img{
+	width:5em;
+}
+.app-button {
+	width:94%;
+	margin:30px auto;
+}
+.app-button .button {
+	width:100%;
+	margin:0 auto;
+	border:0px;
+	height:3em;
+	background:#f00;
+	color:#fff;
+	border-radius: 5px;
+	font-size:0.9em;
+}
+.app-button .disabled-btn {
+	width:100%;
+	margin:0 auto;
+	border:0px;
+	height:3em;
+	background:#eee;
+	color:#ddd;
+	border-radius: 5px;
+	font-size:0.9em;
+}

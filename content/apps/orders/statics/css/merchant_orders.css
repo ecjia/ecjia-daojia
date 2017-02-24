@@ -1,0 +1,47 @@
+.accordion-group-heading-relative {
+	position: relative;
+}
+
+.accordion-group-heading-absolute {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+}
+
+.order-info-search {
+	position: absolute;
+	left: 40%;
+}
+
+.order-query .form-group, .order-step .form-group {
+	margin: 0px;
+}
+
+.order-query .form-control {
+	width: 165px;
+}
+
+.order-query .w-form-control {
+	width: 156px;
+}
+
+.order-query .w60-form-control {
+	width: 60px;
+}
+
+.order-query-accordion .first-form-group, .order-step-accordion .first-form-group {
+	margin-top: 15px;
+}
+
+.order-step-formgroup .form-inline .form-control {
+	width: 90%;
+}
+
+.form-horizontal .order-goods-select .control-label {
+	padding-top: 7px;
+}
+
+.form-horizontal .order-goods-select .form-group {
+	margin-right: 0;
+	margin-left: 15px;
+}

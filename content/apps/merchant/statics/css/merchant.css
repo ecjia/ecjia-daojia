@@ -1,0 +1,94 @@
+.form-group .merchant-info-img {
+    max-width: 150px;
+}
+#toTop {
+    display: none;
+    text-decoration: none;
+    position: fixed;
+    bottom: 10px;
+    right: 0;
+    overflow: hidden;
+    width: 29px;
+    height: 32px;
+    border: none;
+    text-indent: 100%;
+    border-radius: 3px 0px 0px 3px;
+}
+#toTopHover {
+    background-position: 0 -32px;
+    width: 29px;
+    height: 32px;
+    display: block;
+    overflow: hidden;
+    float: left;
+    opacity: 0;
+    -moz-opacity: 0;
+    filter: alpha(opacity=0);
+}
+.merchant-examine {
+    text-align: center;
+    line-height: 100px;
+}
+.input-must {
+    line-height: 34px;
+    padding-left: 0;
+}
+.chzn-search input{
+    border-radius: 4px;
+}
+.hide{
+    display: none;
+}
+.status {
+    text-align: center;
+    margin-top: 70px;
+    padding-bottom: 20px;
+}
+.status .error{
+    position: relative;
+    width: 90px;
+    height: 90px;
+    transform: translateX(-50%);
+    left: 50%;
+    border:2px solid red;
+    border-radius: 100%;
+}
+.status .error .line{
+    height: 2px;
+    width: 70px;
+    background: red;
+    position: absolute;
+    top: 43px;
+    left: 10px;
+    transform: rotate(45deg);
+}
+.status .error .line::before{
+    content: '';
+    display: inline-block;
+    width: 70px;
+    height: 2px;
+    background: red;
+    position: absolute;
+    top: 1px;
+    left: 0px;
+    transform: rotate(90deg);
+}
+.error-title{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.error-logs{
+    margin:0 auto;
+    color: #999;
+}
+.table{
+    margin-bottom: 0;
+}
+.merchant_tags{
+    padding: 4px 10px;
+    margin-left: 20px;
+    font-size: 12px;
+    background-color: #3498db;
+    border-radius: 7px;
+    color:#fff;
+}

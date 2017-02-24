@@ -1,0 +1,11 @@
+<?php namespace {{namespace}};
+
+use Royalcms\Component\FormBuilder\Form;
+
+class {{class}} extends Form
+{
+    public function buildForm()
+    {
+        {{fields}}
+    }
+}

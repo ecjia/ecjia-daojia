@@ -1,0 +1,86 @@
+.chat_box .chat_sidebar .chat_user_list li a {display: inline-block;padding:5px 0;word-wrap:break-word;word-break:break-all;margin-left: 10px;}
+
+.chat_box .chat_sidebar .chat_user_list li .second_tag {display: inline-block;padding:5px 0;word-wrap:break-word;word-break:break-all;margin-left: 25px;}
+
+.chat_box .chat_sidebar .chat_user_list li span{float:right;margin-right:10px;padding:2px 0;}
+.chat_box .chat_sidebar .chat_user_list li span a {margin-left:-5px;}
+.subscribe_group_table {margin-bottom:0;}
+.chat_box .chat_content {overflow:hidden;}
+.table.table-hide-edit .big .edit-list {width:300px;}
+
+.chat-msg-mine {width:80%;float:right;}
+.chat-msg-you {width:80%;float:left;}
+.chat_box .msg_window {height:390px;}
+.chat_box .chat_sidebar .chat_user_list li p img{margin-top:5px;}
+#chat_editor {overflow:hidden;border-radius: 6px 6px 0px 0px;}
+.chat_editor_box .tip_info{font-size:10px;color:gray;}
+.chat_editor_box .word_info {margin-top:5px;float:right;font-size:10px;color:gray;}
+
+.customer_headimg{
+	text-align:right;
+	padding:5px 0 5px 20px;
+	border-bottom:1px solid #eee;
+}
+
+.user_info {
+	display: inline-block;
+    padding: 4px 12px 4px 0;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+    vertical-align: middle;
+    cursor: pointer;
+	width:80px;
+	height:80px;
+}
+.popover{
+	width:30%;
+}
+.h550{
+	height:550px;
+}
+.m_t14{
+	margin-top:14px;
+}
+.chat_box .msg_windows {height:500px;overflow-y:auto;margin:5px 10px}
+
+.tag_popover {
+    z-index: 999;
+	height:auto;
+}
+.tag_popover .popover_inner {
+    padding: 0 0 40px 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+    background-color: #fff;
+	word-wrap: break-word;
+}
+.tag_popover .popover_content {
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 0px 20px 0px 30px;
+}
+.tag_popover .popover_tag_list {
+    position: relative;
+}
+.tag_popover .popover_bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px 30px;
+    text-align: center;
+	border-top: 1px solid #e7e7eb;
+}
+.tag_popover .frm_checkbox_label {
+    display: inline-block;
+    width: 8em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    vertical-align: top;
+    margin-right: 1em;
+    margin-bottom: 10px;
+}

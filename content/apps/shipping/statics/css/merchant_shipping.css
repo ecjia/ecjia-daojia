@@ -1,0 +1,16 @@
+.ms-container .ms-selectable,.ms-shipping .ms-selectable{
+	width:25%;
+}
+.ms-container .ms-selectable {
+	margin-right : 0px;
+}
+.label-selected-area {
+	padding-top: 2px !important;
+	height:30px;
+}
+.time-picker {
+	margin-bottom:5px;
+}
+.time-picker .form-control {
+	display : unset;
+}

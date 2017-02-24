@@ -1,0 +1,96 @@
+感谢您安装使用ECJia到家。
+
+ECJia到家
+-----------------
+
+EC+（ecjia）到家是由上海商创网路科技有限公司推出的，一款可开展O2O业务的移动电商
+系统。它包含：移动端APP，采用原生模式开发，覆盖使用iOS 及Android系统的移
+动终端；后台系统，针对平台日常运营维护的平台后台，针对入驻店铺管理的商家
+后台，独立并行；移动端H5，能够灵活部署于微信及其他APP、网页等。
+
+ECJia到家是一款符合当下及未来发展的新电商系统，主打三个新：新模式，新框架，
+新技术。
+【新模式】结合线上线下互通，lbs定位，最后一公里配送，完美打造到店+到家+配
+送+商家入驻，一体化的零售与服务平台，满足新零售，商圈业态，同城电商浪潮，
+最终打造成b2b2c+o2o商业生态；
+【新框架】模板堂10年底层框架开发经验，专为电商打造的ec+框架，包含：核心层，
+系统层，应用层，插件层，主题层，五层架构，满足可扩展性与模块化，组件化开发
+模式，未来将与百万开发者合作共赢；
+【新技术】EC+专注移动互联网，通过原生App与微商城双轨驱动，多端同步，数据完
+美对接，通过不断更新迭代的技术来驱动电商行业未来。
+ 
+
+商业授权
+-----------------
+
+当您下载并安装，获取ECJia到家的内容资料、商品信息及其他信息资料后，即产
+生并需要承担一定的法律义务。
+
+未获商业授权之前，禁止将本软件用于商业用途(包括但不限于企业法人经营的移
+动端产品、经营性移动端产品以及以盈利为目的或实现盈利移动端产品)，而且不
+可以在ECJia到家的整体或在任何部分基础上发展任何派生版本、修改版本或第三
+方版本用于重新开发。
+
+获得商业授权之后，您可将本软件应用于商业用途，自授权时刻起，在技术支持期
+限内拥有通过指定的方式获得指定范围内的技术支持服务。
+
+咨询商业授权事宜，请拨打官方客服电话4001-021-758。
+
+
+服务器环境
+-----------------
+
+Windows上可以用phpstudy集成工具来进行部署环境，方便快捷，适合开发或测试环
+境，线上生产环境推荐使用Linux系统来作为web服务器系统。
+
+Windows 平台：IIS/Apache/Nginx + PHP5.4+ MySQL5.5；
+
+Linux/Unix/Mac OS X 平台：CentOS release 6.5或CentOS release 6.8，
+			nginx-1.10，PHP5.4以上，Mysql5.5以上
+
+建议使用平台：Linux Centos 6.8 + nginx1.10 + PHP5.5 + MySQL5.5；
+
+
+产品地址
+---------------
+
+安装产品后可以通过以下地址访问各个页面：
+例如安装地址是：http://demodaojia.ecjia.com，可以更换为自己的访问地址。
+
+ECJia到家首页：http://demodaojia.ecjia.com
+ECJia到家H5端：http://demodaojia.ecjia.com/sites/m/
+ECJia到家平台后台：http://demodaojia.ecjia.com/sites/admincp/
+ECJia到家商家后台：http://demodaojia.ecjia.com/sites/merchant/
+ECJia到家API地址：http://demodaojia.ecjia.com/sites/api/
+ECJia到家公众平台地址：http://demodaojia.ecjia.com/sites/platform/
+
+
+安装文档
+---------------
+
+为帮助您学习了解ECJia到家，方便使用ECJia到家，快速开始ECJia到家研究开发，
+我们提供以下文档资料及技术支持。
+
+ECJia到家帮助文档地址：http://ecjia.com/wiki/帮助:ECJia到家
+ECJia到家环境部署说明： https://ecjia.com/wiki/ECJiaWiki:ECJia到家环境部署说明
+ECJia到家安装流程指导： https://ecjia.com/wiki/ECJiaWiki:ECJia到家安装流程指导
+ECJia到家Linux环境安装流程指导： https://ecjia.com/wiki/ECJiaWiki:ECJia到家Linux环境安装流程指导
+关于MySQL不支持InnoDB的解决方案： https://ecjia.com/wiki/ECJiaWiki:关于MySQL不支持InnoDB的解决方案
+Windows环境下Phpstudy开启OpenSSL扩展： https://ecjia.com/wiki/ECJiaWiki:Windows环境下Phpstudy开启OpenSSL扩展
+
+
+官方技术支持
+-----------------
+
+ECJia到家产品专题：https://ecjia.com/daojia.html
+
+ECJia到家开发文档：http://ecjia.com/wiki/
+
+ECJia到家官方技术交流群：372623746
+
+
+
+
+
+
+

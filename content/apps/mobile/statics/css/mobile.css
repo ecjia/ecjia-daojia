@@ -1,0 +1,146 @@
+/*===========================ECJIAUI今日热点 By:will START===========================*/
+
+.mobile_news_view {
+	width : 320px;
+	min-width : 320px;
+	max-width : 320px;
+	/* float:left; */
+	border : 1px solid #dedede;
+}
+.mobile_news_view .mobile_news_main {
+	height: 160px;
+	background: #dedede;
+	position: relative;
+}
+.mobile_news_view .mobile_news_main .default {
+	position: absolute;
+	top:40%;
+	width:318px;
+	text-align: center;
+	color:#fff;
+	font-size:20px;
+}
+.mobile_news_view .mobile_news_main .news_main_title {
+	color:#fff;
+	bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 304px;
+	padding: 8px;
+	background: #666;
+}
+.mobile_news_view .mobile_news_main .news_main_title a {
+	display: block;
+    color : #fff;
+}
+.mobile_news_view .mobile_news_main .news_main_title a:hover, .mobile_news_auxiliary .edit_mask a:hover{
+	text-decoration: none;
+}
+.mobile_news_main .edit_mask {
+	display:none;
+	opacity: 0.8;
+	background : #ccc;
+	height: 160px;
+	text-align: center;
+	position: absolute;
+	width:100%;
+	top:0px;
+}
+.mobile_news_view .mobile_news_auxiliary {
+	height: 120px;
+	position: relative;
+}
+.mobile_news_auxiliary .edit_mask {
+	display:none;
+	opacity: 0.8;
+	background : #ccc;
+	height: 120px;
+	text-align: center;
+	position: absolute;
+	width:100%;
+	top:0px;
+}
+.mobile_news_main .edit_mask i,.mobile_news_auxiliary .edit_mask i{
+	position: relative;
+    top: 50%;
+}
+.mobile_news_main:hover .edit_mask, .mobile_news_auxiliary:hover .edit_mask{
+	display:block;
+	z-index : 11;
+}
+
+
+.mobile_news_view .mobile_news_auxiliary {
+	height: 120px;
+	border-top:1px solid #dedede;
+}
+.mobile_news_view .mobile_news_auxiliary .news_auxiliary_title {
+	height: 100px;
+    margin: 10px;
+	padding-top: 10px;
+}
+.mobile_news_view .mobile_news_auxiliary .thumb_image {
+	height: 100px;
+	width: 100px;
+	margin : 10px 10px 10px 0;
+	float:left;
+	background: #dedede;
+	position: relative;
+    text-align: center;
+}
+.mobile_news_view .mobile_news_auxiliary .thumb_image div{
+	position: absolute;
+	color:#fff;
+	top: 42%;
+	z-index : 9;
+    width: 100px;
+}
+.mobile_news_view a[class='create_news'] {
+	border: 2px dotted #d9dadc;
+    display: block;
+    line-height: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+	margin: 20px 14px;
+	color : #bbb;
+}
+.mobile_news_view .title_show {
+	word-wrap:break-word;
+	z-index : 10;
+}
+.mobile_news_main .show_image{
+	height:160px;
+	width:320px;
+	position: absolute;
+	top:0;
+	z-index : 9;
+}
+.mobile_news_main .show_image img{
+	height:160px;
+	width:320px;
+}
+
+.mobile_news_edit{
+	width: calc(100% - 350px);
+	float: right;
+}
+.mobile_news_submit{
+	width: calc(100% - 350px);
+	float: right;
+}
+.mobile_news_view .mobile_news_auxiliary .thumb_image .show_image{
+	position: absolute;
+	color:#fff;
+	top : 0;
+	z-index : 10;
+    width: 100px;
+	height : 100px;
+}
+.mobile_news_view .mobile_news_auxiliary .thumb_image .show_image img{
+	width: 101px;
+	height : 101px;
+}
+/*===========================ECJIAUI今日热点 By:will END===========================*/
+
+
+

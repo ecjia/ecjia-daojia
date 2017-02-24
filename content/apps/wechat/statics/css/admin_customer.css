@@ -1,0 +1,7 @@
+.chat-msg-mine {width:80%;float:right;}
+.chat-msg-you {width:80%;float:left;}
+.chat_box .msg_window {height:390px;}
+.chat_box .chat_sidebar .chat_user_list li p img{margin-top:5px;}
+#chat_editor {overflow:hidden;border-radius: 6px 6px 0px 0px;}
+.chat_editor_box .tip_info{font-size:10px;color:gray;}
+.chat_editor_box .word_info {margin-top:5px;float:right;font-size:10px;color:gray;}

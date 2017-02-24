@@ -1,0 +1,233 @@
+/* 
+ * function 
+ * 功能（function）（.ecjiaf-）：为方便一些常用样式的使用，我们将这些使用率较高的样式剥离出来，按需使用，通常这些选择器具有固定样式表现，比如清除浮动等！不可滥用！
+ */
+.ecjiaf-cb:after,.ecjiaf-cbli li:after{display:block;clear:both;visibility:hidden;height:0;overflow:hidden;content:".ecjia";}
+.ecjiaf-cb,.ecjiaf-cbli li{zoom:1;}
+.ecjiaf-ib{display:inline-block;*display:inline;*zoom:1;}
+.ecjiaf-dn{display:none;}
+.ecjiaf-db{display:block;}
+.ecjiaf-fl{float:left;}
+.ecjiaf-fr{float:right !important;}
+.ecjiaf-fn{float:none !important;}
+.ecjiaf-pr{position:relative;}
+.ecjiaf-pa{position:absolute;}
+.ecjiaf-prz{position:relative;zoom:1;}
+.ecjiaf-oh{overflow:hidden;}
+.ecjiaf-oa{overflow:auto;}
+.ecjiaf-ff0{font-family:arial,\5b8b\4f53;}
+.ecjiaf-ff1{font-family:"Microsoft YaHei",\5fae\8f6f\96c5\9ed1,arial,\5b8b\4f53;}
+.ecjiaf-fs1{font-size:12px;}
+.ecjiaf-fs2{font-size:14px;}
+.ecjiaf-fs3{font-size:18px;}
+.ecjiaf-fwn{font-weight:normal;}
+.ecjiaf-fwb{font-weight:bold;}
+.ecjiaf-tal{text-align:left;}
+.ecjiaf-tac{text-align:center;}
+.ecjiaf-tar{text-align:right;}
+.ecjiaf-taj{text-align:justify;text-justify:inter-ideograph;}
+.ecjiaf-vam,.ecjiaf-vama *{vertical-align:middle;}
+.ecjiaf-wsn{word-wrap:normal;white-space:nowrap;}
+.ecjiaf-pre{overflow:hidden;text-align:left;white-space:pre-wrap;word-wrap:break-word;word-break:break-all;}
+.ecjiaf-wwb{white-space:normal;word-wrap:break-word;word-break:break-all;}
+.ecjiaf-ti{overflow:hidden;text-indent:-30000px;}
+.ecjiaf-ti2{text-indent:2em;}
+.ecjiaf-lhn{line-height:normal;}
+.ecjiaf-tdu,.ecjiaf-tdu:hover{text-decoration:underline;}
+.ecjiaf-tdn,.ecjiaf-tdn:hover{text-decoration:none;}
+.ecjiaf-toe{overflow:hidden;word-wrap:normal;white-space:nowrap;text-overflow:ellipsis;}
+.ecjiaf-csp{cursor:pointer;}
+.ecjiaf-csd{cursor:default;}
+.ecjiaf-csh{cursor:help;}
+.ecjiaf-csm{cursor:move;}
+.ecjiaf-usn{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none;} 
+.ecjiaf-border{border:none !important;}
+.ecjiaf-bt{border-top:1px solid #ddd;}
+.ecjiaf-tlf{table-layout:fixed;}
+
+.ecjiaf-opa0{opacity:0;}
+/* 
+ * function color
+ * 功能(function)中的(color)颜色区域
+ */
+.ecjiafc-red, .ecjiafc-red:hover, .ecjiafc-red:after, .fa-times,
+table .fontello-icon-cancel, table .fontello-icon-trash,
+.error_color{color:#c62626;}
+
+.ecjiafc-999, .ecjiafc-999:hover, .ecjiafc-999:after {color:#999;}
+.ecjiafc-blue, .ecjiafc-blue:hover, .ecjiafc-blue:after, .ok_color, .fa-check{color:#08c;}/* #72ACE3 */
+.ecjiafc-white, .ecjiafc-white:hover, .ecjiafc-white:after{color:#fff};
+.dft_color{color:#000;}
+.stop_color{color:#666;}
+
+.fontello-icon-ok{color:#08c;}
+
+.ecjiafc-0000FF{color:#0000FF;}
+.ecjiafc-FF0000{color:#FF0000;}
+.ecjiafc-f00{color:#f00;}
+.ecjiafc-34495e{color:#34495e;}
+.ecjiafc-333{color:#333;}
+
+/* 
+ * function display
+ * 功能(function)中的(display)布局区域
+ */
+ .ecjiafd-none{display:none;}
+ .ecjiafd-block{display:block;}
+ .ecjiafd-inline{display:inline;}
+ .ecjiafd-iblock{display:inline-block;}
+ .ecjiafd-table{display:table;}
+ .ecjiafd-table-cell{display:table-cell;}
+
+
+/* 全局的手形样式  */
+.cursor_pointer{cursor:pointer;}
+
+/*常用公共css*/
+.clear{clear:both;}
+
+.min_h335{min-height:335px;}
+.min_w380{min-width:380px;}
+.max-w300{max-width:300px;}
+
+.t_c{text-align:center;}
+.t_r{text-align:right;}
+.t_l{text-align:left;}
+
+.f_r{float:right;}
+.f_l{float:left;}
+.cl_both{clear:both;zoom:1;}
+
+.f_s12{font-size:12px;}
+.f_s14{font-size:14px;}
+.f_s15{font-size:15px;}
+.f_s25{font-size:25px;}
+.f_s35{font-size:35px;}
+
+.l_h0{line-height:0px;}
+.l_h25{line-height:25px;}
+.l_h30{line-height:30px;}
+.l_h35{line-height:35px;}
+
+
+
+.w30{width:30px;}
+.w35{width:35px;}
+.w50{width:50px;}
+.w60{width:60px;}
+.w70{width:70px;}
+.w80{width:80px;}
+.w100{width:100px;}
+.w110{width:110px;}
+.w115{width:115px;}
+.w120{width:120px;}
+.w130{width:130px;}
+.w150{width:150px;}
+.w180{width:180px;}
+.w200{width:200px;}/* !important*/
+.w250{width:250px;}
+.w260{width:260px;}
+.w280{width:280px;}
+select.w290{width: 292px;}
+.w300{width:300px;}
+select.w300{width:314px;}
+.w330{width:330px;}
+.w166{width:166px;}
+.w350{width:350px;}
+.w400{width:400px;}
+.w435{width:435px;}
+select.w350{width:364px;}
+.w500{width:500px;}
+.w550{width:550px;}
+.w600{width:600px;}
+.w800{width:800px;}
+.w900{width:900px;}
+.wspan12{width:100%;}/* !important*/
+
+.h40{height:40px;}
+.h70{height:70px;}
+.h100{height:100px;}
+.h120{height:120px;}
+.h130{height:130px;}
+.h140{height:140px;}
+.h150{height:150px;}
+.h180{height:180px;}
+.h250{height:250px;}
+.h300{height:300px;}
+.h400{height:400px;}
+.h600{height:600px;}
+
+.mw200{max-width:200px;}
+.mw160{max-width:160px;}
+.mw300{max-width:300px;}
+.mw900{max-width:900px;}
+
+.mh60{height:60px;}
+.mh150{max-height:150px;}
+.mh300{max-height:300px;}
+
+
+.padding5{padding:5px;}
+.padding8{padding:8px;}
+.padding10{padding:10px;}
+.padding20{padding:20px;}
+
+.p_t3{padding-top:3px;}
+.p_t5{padding-top:5px;}
+.p_t20{padding-top:20px;}
+
+.p_l0{padding-left:0}
+.p_l5{padding-left:5px}
+.p_l10{padding-left:10px}
+.p_l15{padding-left:15px}
+.p_l151{padding-left:151px}
+
+.p_r0{padding-right:0}
+.p_r5{padding-right:5px}
+.p_r10{padding-right:10px}
+.p_r15{padding-right:15px}
+
+
+.m_t5{margin-top:5px;}
+.m_t10{margin-top:10px;}
+.m_t15{margin-top:15px;}
+.m_t20{margin-top:20px;}
+.m_t30{margin-top:30px;}
+.m_t50{margin-top:50px;}
+.m_t24{margin-top:-24px;}
+.m_t_10{position:relative;top:-10px;}
+.m_t_30{margin-top:-30px;}
+
+.m_b0{margin-bottom:0px !important;;}
+.m_b5{margin-bottom:5px;}
+.m_b10{margin-bottom:10px;}
+.m_b15{margin-bottom:15px;}
+.m_b20{margin-bottom:20px;}
+.m_b30{margin-bottom:30px;}
+
+.m_r0{margin-right:0px !important;}
+.m_r5{margin-right:5px;}
+.m_r10{margin-right:10px;}
+.m_r15{margin-right:15px;}
+.m_r30{margin-right:30px;}
+.m_r60{margin-right:60px;}
+.m_r120{margin-right:120px;}
+.m_r200{margin-right:200px;}
+
+.m_l0{margin-left:0px !important;}
+.m_l5{margin-left:5px;}
+.m_l10{margin-left:10px;}
+.m_l15{margin-left:15px;}
+.m_l20{margin-left:20px;}
+.m_l30{margin-left:30px;}
+.m_l60{margin-left:60px;}
+.m_l70{margin-left:70px;}
+.m_l90{margin-left:90px;}
+.m_l100{margin-left:100px;}
+.m_l120{margin-left:120px;}
+.m_l130{margin-left:130px;}
+
+.m_l_15{margin-left: -15px;}
+
+.m_0{margin:0 auto;}
+

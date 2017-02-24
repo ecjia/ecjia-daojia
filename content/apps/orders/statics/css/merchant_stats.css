@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+.ajax_loading {
+	height: 300px;
+	line-height: 300px;
+	text-align: center;
+}
+
+.ajax_loading i {
+	margin-right: 5px;
+	font-size: 16px;
+}

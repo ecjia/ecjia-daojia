@@ -1,0 +1,51 @@
+/*===========================ECJIAUI �ƶ����� By:will START===========================*/
+
+
+/*===========================ECJIAUI �ƶ�����  By:will END===========================*/
+.tab_merchants {
+	float: right;
+    width: 78%;
+	overflow:visible;
+}
+.tab_merchants_nav {
+	width: 19%;
+	margin-right:0px;
+}
+.wookmark_list .ui-sortable-placeholder{
+    height: 190px;
+}
+.list-group-info, .list-group-title {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #555;
+}
+.list-group-title {
+    font-weight: 400;
+    font-size: 15px;
+    background: #f9f9f9;
+    border-radius: 4px; 
+}
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 5px 15px;
+    color: #555;
+	border-radius:4px;
+}
+.list-group-item.llv-active, .list-group-item.llv-active:focus, .list-group-item.llv-active:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.list-group a:hover {
+    color: #555;
+    text-decoration: inherit;
+    background-color: #f2f2f2;
+	border-radius: 4px; 
+}
+
+.row-fluid .dropper-input{
+	left:0;
+}

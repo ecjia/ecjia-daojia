@@ -1,0 +1,280 @@
+div.phpdebugbar {
+    font-size: 13px;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+}
+
+div.phpdebugbar-resize-handle {
+    border-bottom-color: #ddd;
+}
+
+div.phpdebugbar-closed,
+div.phpdebugbar-minimized {
+    border-top-color: #ddd;
+}
+
+a.phpdebugbar-restore-btn {
+    border-right-color: #ddd !important;
+}
+
+div.phpdebugbar code, div.phpdebugbar pre {
+    background: none;
+    font-family: monospace;
+    font-size: 1em;
+    border: 0;
+    padding: 0;
+}
+
+div.phpdebugbar-body {
+    border-top: none;
+}
+
+div.phpdebugbar-header {
+    min-height: 30px;
+    line-height: 20px;
+    padding-left: 39px;
+}
+
+div.phpdebugbar-header,
+a.phpdebugbar-restore-btn,
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-header {
+    background: #f5f5f5 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA79JREFUeNrsWk1oE0EUTkIvgmJEFNKDqYI/VKGBoiBCjViDCsVGQQ8WtUUsbRUiqDcxuXhSzCEeFNEqiJ60XkSL0gh6EcQGtGArWi8WLKWFioqX+D19Cy/jbDpLk3Q3ZOBjNrMvu+/b9zub+PP5vK8aRsBXJaNOXZjZG2vAlACiQJOLdM0BWSAdfDw4rp70S9cCiSSmCx4wQApkkloiINGP6aiHvOk2yBwrIKKxxBeA1gYgPLPQGkO/IKZ21imss4x/es8uionPkinFiBsI2BBKK56zmmImwIEtLeFKEjRYrwTraY2ElX6jYjHpVhIKGRnoUYuITLEDHgl0qWfTfwXR7dYopmfVVPYakRqRSjWNNk1kg2EQZudR6CJiadhp4qkzkDkH9BgqNIHpK9Bqogjk+zB1AvVASJyaxrlPmG/hOldL5Vo/HDwYUqYZ+AhFWooQiADvcZhh+ZAisozXM5B7zRabt0XkOE1mtzkXB3YD64DlwH0o0KhahkhgegSs4qVRgEjdodPsxh1AIxPcDAwCW0pJZLhIHGT5yX0AVrIShwHVNW4IEg+BLo0b9iuEN5AbFnOzkmYtVui5WNquWOMsuwyNN5DfbxdLWB9mK80CS4DeSqffQXG8SDl3iOdJ4IzBgzmPaQp4BUyU0rVMRkwc/1RSbL21XXCQqnfo9uhltQiUjXKwW+OFOI6I7PTNgbuOm8g5tQilTe39gCPAJmAtr40pwSlT7FTFK7syrhjK0VM86KoWxeEgAiNAn8YlvruJiFoQT/BWM8RZ5S2lVJvvzjKZxSLoF4yIWhCpCNK7pUtMJo7PzyDTqmsouRejGFrqIIFY/dhvqiVcX0qftXDhft+/d2KTvLQTN79mI25lqzBnOJPRyUV0K7CtrOmXs9NLsXQAirZpRO+xi61gK85ljTaxhRgD7laijnTxzXzcNF5Uu1YmPMofm3H+qV1nyxbL8LVoDBXbGpjEyHrTPgs3p+B/wG041ZSbgBr8x0UzSEWJ2vR3SvdLMmtE7RnB9bsrVtk5ETwRSy1QskPTDO7jDZiPgz/OnfAQbaY4FiwSuWKxUc6msVdxsbTGxYjMRuA6N4S/lGtMU3cMnIRsxGS3aeJap4DLVvo1dLHYXPt8Vq67VHt2ehufFxf3e+WtCcgX6F17r1UjUiPigIjJ+yOXBHpQRyQnPrd7xABSz5xFRLblSbdbhfVLyq2ERSQtFsO6SuwyEmlf4U/Uf/Wvnt/Zq+WfDwFR5mkx5RESKUmiwCLCjNTsefvfQV4efwQYAG+BfzONMrKEAAAAAElFTkSuQmCC) no-repeat 5px 3px;
+}
+
+a.phpdebugbar-close-btn {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuM4zml1AAAADDSURBVDhPxZCxCsIwFEUzuGdwCvQD7BIIcehUXDqVfGM/wsG/iG4ifkzMlRuSPLo4eeFBue8c6Iv6b4wxW557Hs0KnWa3seqDxTiOyVqbhmF4UND4Rofdruyce3rvE6bIRSo9GOI1McbLPM/vVm4l7MAQr0kpHaQsJTDE+6zrepym6SVFdNgR69M+hBTLzWCI10gJvydvBkO8ZlmWayvhJnkzGOI1+fBTCOHWPkT7YNiBId4HizxnCKy+r81uX/otSn0A7dioI/vYX+8AAAAASUVORK5CYII=) no-repeat 9px 9px;
+    color : #555;
+}
+
+a.phpdebugbar-open-btn {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAOCAYAAADJ7fe0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAHdElNRQfdCgYULwwNKp3GAAAAGHRFWHRTb2Z0d2FyZQBwYWludC5uZXQgNC4wLjOM5pdQAAAA1UlEQVQ4T2OgKpCUlOQH4vdA/B8Jv4dKEwYgDdLS0v8NDQ3/GxsbwzGIj2YoGEO1oQJkjcRgqDZUAJKwsrJ6/v//fwdiMFQbKgAZkpGR0QR0ajy60wlgRJhBXSGhpqb2CNnZhHBkZORcqBEMDFBX2BsYGGBVjAv39vZaQ41gYIC6Ygs2hbiwr6/vdqA+DqgR4CiW19bWxqoYF87Ly4uFaocAZWXlydgU4sJ2dna3ga4QgGqHAC0trY/YFOPCKSkpDVCtCAA01QaIsaYJHFgCqpVagIEBACGlF2c3r4ViAAAAAElFTkSuQmCC) no-repeat 8px 9px;
+}
+
+a.phpdebugbar-maximize-btn,
+a.phpdebugbar-minimize-btn {
+    background-position: 6px 9px;
+}
+
+
+div.phpdebugbar-header,
+div.phpdebugbar-openhandler-header {
+    background-size: 21px auto;
+    background-position: 9px center;
+}
+
+a.phpdebugbar-restore-btn {
+    background-size: 20px;
+    width: 16px;
+    border-right-color: #ccc;
+}
+
+div.phpdebugbar-header > div > * {
+    font-size: 13px;
+}
+
+div.phpdebugbar-header .phpdebugbar-tab {
+    padding: 5px 6px;
+}
+
+div.phpdebugbar .phpdebugbar-header select {
+    padding: 1px 0;
+}
+
+dl.phpdebugbar-widgets-kvlist dt {
+    width: 200px;
+    min-height: 20px;
+    padding: 7px 5px;
+    line-height: 20px;
+}
+
+dl.phpdebugbar-widgets-kvlist dd {
+    min-height: 20px;
+    margin-left: 210px;
+    padding: 7px 5px;
+    line-height: 20px;
+}
+
+ul.phpdebugbar-widgets-timeline .phpdebugbar-widgets-measure {
+    height: 25px;
+    line-height: 25px;
+    border: none;
+}
+
+ul.phpdebugbar-widgets-timeline li:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-value {
+    height: 15px;
+    background-color: #f4645f;
+}
+
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-label,
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-collector  {
+    top: 0px;
+}
+
+div.phpdebugbar-widgets-messages div.phpdebugbar-widgets-toolbar a.phpdebugbar-widgets-filter {
+    background-color: #f4645f;
+}
+
+a.phpdebugbar-close-btn, a.phpdebugbar-open-btn, a.phpdebugbar-restore-btn, a.phpdebugbar-minimize-btn, a.phpdebugbar-maximize-btn {
+    height: 20px;
+}
+
+a.phpdebugbar-tab:hover,
+span.phpdebugbar-indicator:hover,
+a.phpdebugbar-indicator:hover,
+a.phpdebugbar-close-btn:hover,
+a.phpdebugbar-open-btn:hover {
+    background-color: #ebebeb;
+    transition: background-color .25s linear 0s, color .25s linear 0s;
+}
+
+a.phpdebugbar-tab.phpdebugbar-active {
+    background: #f4645f;
+    color: #fff;
+}
+
+a.phpdebugbar-tab.phpdebugbar-active span.phpdebugbar-badge {
+    background-color: white;
+    color: #f4645f;
+}
+
+a.phpdebugbar-tab span.phpdebugbar-badge {
+    vertical-align: 0px;
+    padding: 2px 6px;
+    background: #f4645f;
+    font-size: 12px;
+    color: #fff;
+    border-radius: 10px;
+}
+
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-header {
+    background-size: 20px;
+    height: 30px;
+    line-height: 30px;
+}
+
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-header a {
+    padding: 0 8px;
+}
+
+div.phpdebugbar-openhandler a {
+    color: #555;
+}
+
+div.phpdebugbar-openhandler table {
+    table-layout: fixed;
+    width: 98%;
+    margin: 0 auto;
+}
+div.phpdebugbar-openhandler > table thead tr {
+    background: #f5f5f5;
+    height: 30px;
+}
+
+div.phpdebugbar-openhandler table td,
+div.phpdebugbar-openhandler table th {
+    text-align: left;
+}
+
+div.phpdebugbar-openhandler table td a {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-actions {
+    padding: 20px 0;
+}
+
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-actions>a {
+    border-radius: 4px;
+    padding: 4px 10px;
+    background-color: #ddd;
+}
+
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-actions>form{
+    margin: 20px 0;
+}
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-actions>form h3 {
+    background: #f5f5f5;
+    margin-bottom: 10px;
+}
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-actions>form span {
+    line-height: 30px;
+    vertical-align: top;
+    margin-left: 10px;
+}
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-actions>form .btn {
+    vertical-align: top;
+}
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-actions>form input,
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-actions>form select{
+    width: 150px;
+    margin: 0 4px;
+}
+
+.phpdebugbar-indicator span.phpdebugbar-tooltip {
+    top: -36px;
+    border: none;
+    border-radius: 5px;
+    background: #f5f5f5;
+    font-size: 12px;
+}
+
+div.phpdebugbar-widgets-messages div.phpdebugbar-widgets-toolbar a.phpdebugbar-widgets-filter {
+    margin: 0;
+    padding: 5px 8px;
+    border-radius: 0;
+    font-size: 12px;
+    transition: background-color .25s linear 0s, color .25s linear 0s;
+}
+
+div.phpdebugbar-widgets-messages div.phpdebugbar-widgets-toolbar a.phpdebugbar-widgets-filter:hover {
+    background-color: #ad4844;
+    color: #fff;
+}
+
+.phpdebugbar-widgets-toolbar > .fa {
+    width: 25px;
+    font-size: 15px;
+    color: #555;
+    text-align: center;
+}
+
+ul.phpdebugbar-widgets-list li.phpdebugbar-widgets-list-item {
+    padding: 5px 10px;
+    border: none;
+    font-family: inherit;
+    overflow: visible;
+}
+
+ul.phpdebugbar-widgets-list li.phpdebugbar-widgets-list-item:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-value.phpdebugbar-widgets-error:before {
+    font-size: 12px;
+    color: #e74c3c;
+}
+
+div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-value.phpdebugbar-widgets-warning:before {
+    font-size: 12px;
+    color: #f1c40f;
+}
+
+div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-value.phpdebugbar-widgets-error {
+    color: #e74c3c;
+}
+
+.phpdebugbar-widgets-value.phpdebugbar-widgets-warning {
+    color: #f1c40f;
+}
+
+div.phpdebugbar-widgets-sqlqueries .phpdebugbar-widgets-status {
+    background: none !important;
+    font-family: inherit !important;
+    font-weight: 400 !important;
+}

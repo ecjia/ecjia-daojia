@@ -1,0 +1,39 @@
+/*
+Template Name: ECJia Demo
+Template URI: http://www.ecjia.com/
+Description: 榛樿鐗�
+Version: 1.0.0
+Author: ECJIA Team
+Author URI: http://www.ecjia.com/
+Logo filename: logo.gif
+Template Type: type_0
+*/
+
+body {
+	margin : 0;
+}
+.pic {
+	min-height: 250px;
+}
+.btns {
+	position: relative; 
+	display:none;
+}
+.btns a {
+    height: 16.33%;
+    left: 15.625%;
+    position: absolute;
+    width: 68.75%;
+}
+.iphone {
+    top: 42.86%;
+}
+.android {
+	top: 56.37%;
+}
+.loading {
+    top: 18.37%;
+}
+#state1,#state2 {
+	display : none;
+}

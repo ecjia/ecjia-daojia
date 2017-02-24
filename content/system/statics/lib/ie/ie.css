@@ -1,0 +1,11 @@
+/* ---- Gebo Admin ie fixes ---- */
+
+.sidebar {position:fixed;top:40px;left:0;margin-left:0}
+.p_canvas {display:none}
+.modal-header .close {filter: alpha(opacity = 100);}
+.dataTables_filter {overflow:hidden}
+.row-fluid input[class*="span"],.row-fluid textarea[class*="span"],.row-fluid select[class*="span"] {display:inline;min-height:18px}
+.ui-spinner input, .ui-spinner input:focus {min-height:18px;padding-top:5px}
+.js #simple_wizard,.js #validate_wizard {visibility:visible}
+.step {border:none}
+input:focus,textarea:focus {border-color: #75b9f0}

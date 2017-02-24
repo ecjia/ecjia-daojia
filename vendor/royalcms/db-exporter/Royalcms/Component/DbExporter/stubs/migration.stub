@@ -1,0 +1,28 @@
+<?php
+
+use Royalcms\Component\Database\Migrations\Migration;
+use Royalcms\Component\Database\Schema\Blueprint;
+
+class {{name}} extends Migration {
+
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
+         public function up()
+         {
+            {{up}}
+         }
+
+        /**
+         * Reverse the migrations.
+         *
+         * @return void
+         */
+         public function down()
+         {
+            {{down}}
+         }
+
+}

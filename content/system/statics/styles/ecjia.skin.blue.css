@@ -1,0 +1,72 @@
+/* ---- Gebo Admin blue theme ---- */
+
+    .navbar-inner {
+        background: #3993ba;
+        background: -moz-linear-gradient(top, #3993ba 0%, #067ead 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3993ba), color-stop(100%,#067ead));
+        background: -webkit-linear-gradient(top, #3993ba 0%,#067ead 100%);
+        background: -o-linear-gradient(top, #3993ba 0%,#067ead 100%);
+        background: -ms-linear-gradient(top, #3993ba 0%,#067ead 100%);
+        background: linear-gradient(top, #3993ba 0%,#067ead 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3993ba', endColorstr='#067ead',GradientType=0 );
+    }
+    .navbar .nav > li > a {
+        color: #c1dce7;
+    }
+    .navbar .nav > li:hover > a {
+        color:#fff;
+    }
+    .navbar .nav .active > a, .navbar .nav .active > a:hover {
+        background: #206484 !important;
+    }
+    .navbar .divider-vertical {
+        border-left-color:#2078A1;
+        border-right-color:#3497C2;
+    }
+    .dropdown-menu li > a:hover, .dropdown-menu .active > a,
+	.dropdown-menu .active > a:hover,
+    .nav-list > .active > a, .nav-list > .active > a:hover,
+    span.dynatree-active a {
+        background: #48a6d2 !important;
+    }
+	
+	.table thead th {background-color:#ebf2f6}
+	.dataTables_wrapper th.sorting_asc,.dataTables_wrapper th.sorting_desc {background-color:#d4e3eb !important}
+
+
+/*所有的表格图标大小*/
+table [class^="fontello-icon-"]:before, 
+table [class*=" fontello-icon-"]:before,
+.table [class^="fontello-icon-"]:before, 
+.table [class*=" fontello-icon-"]:before{
+    font-size: 16px;
+}
+
+/* 新增小型form提示框左边文字宽度 */
+.form-horizontal .control-group-small{
+    min-width: 300px;
+}
+.form-horizontal .control-group-small .control-label{
+    width: 85px;
+}
+.form-horizontal .control-group-small .controls{
+    margin-left: 85px;
+}
+.left-bar .form-horizontal .control-group-small .controls input[type="text"], 
+.left-bar .form-horizontal .control-group-small .controls input[type="email"], 
+.left-bar .form-horizontal .control-group-small .controls input[type="search"], 
+.left-bar .form-horizontal .control-group-small .controls input[type="password"] {
+    width: 300px;
+}
+.form-horizontal .control-group-small .controls input.span12 {
+    width: 100%;
+}
+.form-horizontal .control-group .controls .controls-split{width:371px;}
+.form-horizontal .control-group .controls .controls-split .wright_wleft{
+	width: 45%;
+}
+.form-horizontal .control-group .controls .controls-split .wmidden{
+	width: 8%;
+	text-align:center;
+}
+/*  */

@@ -1,0 +1,17 @@
+#general_loading {
+	width:100%;
+	height:600px;
+	line-height:500px;
+	text-align:center;
+	overflow: hidden;
+	display:none;
+}
+.general_datas {
+	width:100%;
+	height:550px;
+}
+#general_datas {
+	height:550px;
+	width:950px;
+	margin:0 auto;
+}

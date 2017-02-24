@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>myCheck</title>
+
+	<link rel="stylesheet" href="../ecjiaTouchFront/iconfont.css">
+	<script type="text/javascript" src="../jquery/jquery.min.js" ></script>
+
+	<style type="text/css">
+		body {
+			font-size: 20px;
+			box-sizing: border-box;
+		}
+		label {
+			display: inline-block;
+			height: 2em;
+			line-height: 1em;
+			margin-right: 2em;
+		}
+	</style>
+
+	<link rel="stylesheet" type="text/css" href="css/winderCheck.min.css">
+
+</head>
+<body>
+	<div class="demo">
+		<h2>手机参数</h2>
+		<div class="checkbox">
+			<label>
+				<input data-trigger="checkbox" type="checkbox" checked="checked" />
+				加钢化膜
+			</label>
+			<label>
+				<input data-trigger="checkbox" type="checkbox" />
+				加耳机
+			</label>
+		</div>
+
+		<div class="radio">
+			<label>
+				<input data-trigger="radio" name="sex" type="radio" checked="checked" />
+				黑色
+			</label>
+			<label>
+				<input data-trigger="radio" name="sex" type="radio" />
+				白色
+			</label>
+			<label>
+				<input data-trigger="radio" name="sex" type="radio" />
+				蓝色
+			</label>
+		</div>
+
+		<div class="radio">
+			<label>
+				<input data-trigger="radio" name="age" type="radio" checked="checked" />
+				32G
+			</label>
+			<label>
+				<input data-trigger="radio" name="age" type="radio" />
+				64G
+			</label>
+			<label>
+				<input data-trigger="radio" name="age" type="radio" />
+				128G
+			</label>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/winderCheck.min.js" ></script>
+	<script type="text/javascript">
+	$('body').winderCheck();
+	</script>
+
+</body>
+</html>

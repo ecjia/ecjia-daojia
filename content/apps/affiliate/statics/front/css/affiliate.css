@@ -1,0 +1,63 @@
+body{
+	background:#fff; 
+	font-size:1em; 
+	font-family:"宋体",Verdana, Arial; 
+	line-height:150%; 
+	margin:20px 0 0 0; 
+	padding:0; 
+	color:#404040;
+}
+h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{
+	border:none; list-style-type:none;
+}
+.affiliate-body {
+	margin : 0 20px;
+}
+.affiliate-img {
+	text-align: center;
+	margin-top : 10px;
+}
+.affiliate-note,.affiliate-note2 {
+	text-align: center;
+	margin-top : 10px;
+}
+.affiliate-note {
+	color : #ff4500;
+}
+.affiliate-note2 {
+	font-size : 14px;
+}
+.affiliate-mobile {
+	border : 1px solid #ccc;
+	height : 55px;
+	border-radius: 5px;
+	margin-top : 10px;
+}
+.affiliate-mobile-no {
+	background: #ccc; 
+	width:70px;
+	height:25px;
+	text-align: center; 
+	margin-top:0px;
+	float: left;
+	padding:15px;
+	border-radius: 4px 0px 0px 4px;
+}
+.affiliate-input {
+	height : 45px;
+	border : 0px;
+	width : 50%;
+	font-size: 18px;
+	padding-left:15px;
+	float : left;
+}
+.affilidate-btn {
+	height : 52px;
+	width : 100%;
+	background : #47aa4d;
+	color : #fff;
+	font-size:20px;
+	border : 1px solid #47aa4d;
+	border-radius: 5px;
+	margin-top : 10px;
+}

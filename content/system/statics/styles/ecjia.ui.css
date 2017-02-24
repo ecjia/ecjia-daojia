@@ -1,0 +1,3065 @@
+/*
+ * ui
+ * 模块（module）（.m-）：通常是一个语义化的可以重复使用的较大的整体！比如导航、登录、注册、各种列表、评论、搜索等！
+ * 元件（unit）（.u-）：通常是一个不可再分的较为小巧的个体，通常被重复用于各种模块中！比如按钮、输入框、loading、图标等！
+ * UI库（lib）：lib库中的css也属于此类，但lib中的css要按需加载。
+ * TODO:使用nec规范css样式;
+ */
+
+/*===========================style移植过来的ECJIAUI全局样式 START===========================*/
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url('../fonts/CWlc_g68BGYDSGdpJvpktgLUuEpTyoUstqEm5AMlJo4.woff2') format('woff2'), url('../fonts/7YGmE4Ls5b94ct65u07hVQLUuEpTyoUstqEm5AMlJo4.woff') format('woff');
+}
+/*
+html {overflow-y: scroll}
+*/
+
+body {color: #222;padding: 0}
+html,body {height:100%}
+
+/* fix for inputs inline shadow */
+input[type="text"], input[type="email"], input[type="search"], input[type="password"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* no borders for buttons (ie7) */
+button {*border: none !important;*border-color: transparent !important}
+.chzn-container-single .chzn-single{border-radius: 4px !important;}
+
+a,button,input {outline:none !important}
+
+/* webkit extra margin fix */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    button {margin: 0px}
+}
+
+/* hide all elements & show preloader */
+/*.js, .js body {overflow:hidden}*/
+/*.js body > * {visibility:hidden}*/
+
+/*#loading_layer{display:none}*/
+/*.js #loading_layer {visibility:visible;position:absolute;top:0;left:0;width:100%;height:100%;z-index:10000}*/
+/*.js #loading_layer img {position:absolute;top:250px;left:50%;margin:0 0 0 -32px;max-heigth:60px;max-width:60px;} */
+/*.js .tab-pane {display:block !important}*/
+/*.js .hide {display: inherit}*/
+
+/* external links */
+.external_link {background: url("../images/external_link.png") no-repeat right center;padding-right:12px}
+
+/* main headings*/
+.heading {border-bottom: 1px solid #dcdcdc;margin-bottom: 18px;padding-bottom: 5px}
+.heading h1,.heading h2,.heading h3,h1.heading,h2.heading,h3.heading,.modal-header h3 {font-family: 'PT Sans', sans-serif;font-weight:400}
+.heading .btn {vertical-align:bottom;margin-left:10px}
+.heading .plus_or_reply{margin-top:-3px;float:right;}/*面包导航栏右边返回和增加按钮*/
+.heading .subtitle {font-size: 14px; color: gray;}
+
+/* fix for .label position */
+h1 + .label {margin:13px 10px 0 0}
+h2 + .label {margin:12px 10px 0 0}
+h3 + .label {margin:7px 10px 0 0}
+
+/* element separation */
+.sepH_a {margin-bottom:5px}.sepH_b {margin-bottom:10px}.sepH_c {margin-bottom:20px}
+.sepV_a {margin-right:5px}.sepV_b {margin-right:10px}.sepV_c {margin-right:20px}
+.sepH_a_line {padding-bottom:6px;margin-bottom:18px;border-bottom:1px solid #dcdcdc}
+.sepH_no {margin-bottom:0}
+.sepH_b span {color:#9d9d9d;font-weight:bold;margin-right:10px}
+
+.tac {text-align:center}
+.line_sep {border-bottom: 1px solid #dcdcdc;margin-bottom: 18px;padding-bottom: 5px}
+.sml_t {font-size:11px}
+.sml {font-size:11px;color:#9d9d9d}
+
+/* accordion background animation */
+.accordion-toggle {
+    -webkit-transition:background-color 0.2s ease-in-out;
+    -moz-transition:background-color 0.2s ease-in-out;
+    -o-transition:background-color 0.2s ease-in-out;
+    transition:background-color 0.2s ease-in-out;
+}
+
+/* text-shadow */
+.ov_boxes .ov_text,.dshb_icoNav li a,.table th,.fc thead th{text-shadow: 1px 1px 0 #fff}
+.dataTables_wrapper .sorting_asc,.dataTables_wrapper .sorting_desc {text-shadow: 1px 1px 0 #eee}
+
+/* Bootstrap adjustments */
+
+[class^="icon-"], [class*=" icon-"] {margin-top:0}
+.btn-mini [class^="icon-"], btn-mini [class*=" icon-"] {margin-top:1px}
+
+h1,h2,h3,h4,h5,h6{font-family:"Open Sans",sans-serif;font-weight:700;color:inherit;text-rendering:optimizelegibility;margin:0}
+h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{font-weight:400;color:#999}
+h1{font-size:30px;line-height:36px}
+h2{font-size:24px;line-height:36px}
+h3{font-size:16px;line-height:27px}
+h4,h5,h6{line-height:18px}
+h6{font-size:11px;color:#999;text-transform:uppercase}
+h1 small,h2 small{font-size:18px}
+h3 small,h4{font-size:14px}
+h4 small,h5{font-size:12px}
+
+.row-fluid div[class*="span"] {min-height:1px}
+form, .choose_list .nav-pills, .nav-pills form {margin-bottom: 0px;}
+.nav-pills{margin-bottom: 10px;}
+form .row-fluid + .row-fluid {margin-top:10px !important}
+
+.main_content .row-fluid + .row-fluid {margin-top: 20px}
+
+.main_content_bottom{
+    word-wrap: break-word;
+}
+
+/* 表格中没有数据的样式 */
+table .no-records {
+    text-align: center;
+    height: 100px;
+    line-height: 100px;
+}
+
+/*===========================style移植过来的ECJIAUI全局样式 END===========================*/
+
+/*=========================== 自定义的ECJIAUI全局样式 END===========================*/
+        body{
+            /*font-family: "Open Sans",sans-serif;*/
+        }
+        .hero-unit h1{
+            font-size: 2.8em;
+            font-weight: 400;
+            line-height: 29px;
+            padding: 9px 15px 4px 0;
+        }
+
+        .badge{
+            margin-left: 5px;
+        }
+        a[class*='no-underline']:hover,a[class*='no-underline']:focus{text-decoration:none;}
+
+        /* pjax加载动画 */
+        .pjaxLoadding-busy .pjaxLoadding {
+            background: none repeat scroll 0 0 #37e2bf;
+            height: 2px;
+            left: 0;
+            position: fixed;
+            top: 42px;
+            width: 100%;
+            z-index: 1999;
+            transform: translate3d(-80%, 0px, 0px);
+        }
+        .pjaxLoadding-busy.loadding .pjaxLoadding{
+            transform: translate3d(0%, 0px, 0px);
+        }
+            .pjaxLoadding-busy .pjaxLoadding .peg{
+                box-shadow: 0 0 1px #37e2bf, 0 0 20px #37e2bf;
+                display: block;
+                height: 100%;
+                opacity: 1;
+                position: absolute;
+                right: 0;
+                width: 100%;
+            }
+
+/*=========================== 自定义的ECJIAUI全局样式 END===========================*/
+
+
+/*===========================全局的部分样式 START===========================*/
+/*input 行内输入框*/
+input.edit-inline,
+input.edit-inline:focus {
+    display: inline;
+    height: 20px;
+    line-height: 20px;
+    padding: 0px;
+    margin: 0px;
+    box-shadow: 0 0px 0px inset;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+}
+
+/* ecj-wookmark 封装自适应图片列表 START */
+.ecj-wookmark ul {
+    position: static;
+    bottom: 0;
+    left: 0;
+    outline: 0 none;
+    overflow: auto;
+}
+.ecj-wookmark ul li {
+    width: 20%;
+    margin: 0;
+    margin: 0 4% 2% 0;
+    -moz-user-select: none;
+    box-sizing: border-box;
+    color: #464646;
+    cursor: pointer;
+    float: left;
+    list-style: outside none none;
+    padding: 0px;
+    position: relative;
+    text-align: center;
+}
+.ecj-wookmark ul li.thumbnail{
+    width: 22%;
+    margin-right: 4%
+}
+.ecj-wookmark ul li.thumbnail:nth-child(4n){
+    margin-right: 0px;
+}
+.attachment-preview {
+    content: "";
+    display: block;
+    padding-top: 100%;
+    position: relative;
+}
+.attachment-preview .ecj-thumbnail {
+    bottom: 0;
+    /*box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;*/
+    content: "";
+    display: block;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.attachment-preview .ecj-thumbnail .centered {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+    -moz-transform: translate(50%, 50%);
+    -webkit-transform: translate(50%, 50%);
+    -o-transform: translate(50%, 50%);
+}
+.attachment-preview .ecj-thumbnail .centered img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-height: 100%;
+    max-width: 100%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+/*.ecj-wookmark ul .thumbnail {
+    padding: 0px;
+}*/
+.ecj-wookmark ul li:nth-of-type(4n+1) {
+    clear: both;
+}
+/* ecj-wookmark 封装自适应图片列表 END */
+
+ /*必填的红色星号*/
+ .input-must{
+     display: inline;
+     padding-left: 10px;
+    padding-right: 3px;
+    color: red;
+    line-height: 27px;
+}
+/*下拉框的样式*/
+.down-menu-language{
+    float: left;
+}
+/*给隐藏框的列表添加行高，以对齐*/
+.modal-body .controls{
+    line-height: 30px;
+}
+
+/*临时样式*/
+#admin_cache .choose{
+    width: 100%;
+    text-align: center;
+    padding: 30px 0px 5px 0px;
+}
+#admin_cache .btngroup{
+    width: 100%;
+    text-align: center;
+    padding: 10px 0px;
+}
+#admin_cache .success p{
+    font-size: 20px;
+    color: #0088cc;
+    margin-left:-10px;
+    text-align: center;
+    line-height: 40px;
+}
+#admin_cache .success a{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+#admin_cache .static span{
+    color: #ccc;
+    margin-right: 10px;
+}
+#admin_cache .static span.instatic{
+    color: #48a6d2;
+}
+/*===========================全局的部分样式 END===========================*/
+
+
+/*===========================ECJIAUI样式START===========================*/
+
+/* 登陆窗抽象出 ECjiaUI默认的登陆窗样式*/
+/*.login_page {overflow:auto}*/
+/*.login_page body {height:100%;max-width:inherit;margin:0 20px}*/
+.login_box {
+    position: relative;
+    top: 50%;
+    width: 380px;
+    margin: 0 auto 24px;
+    background: #fff;
+}
+.login_box form{
+    border: 1px solid #ccc;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    -ms-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    box-shadow: 0 0 6px rgba(0,0,0,0.2)
+}
+.login_box .top_b {
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    font: 100 18px/42px 'PT Sans', sans-serif;
+    height: 42px;
+    padding: 0 20px;
+    background: #e0e0e0;
+    border-bottom: 1px solid #ccc;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-radius: 6px 6px 0px 0px;
+    border-radius: 6px 6px 0px 0px;
+    font-size: 15px
+}
+.login_box .cnt_b {
+    padding: 30px 0;
+    width: 66%;
+    margin: 0 auto
+}
+.login_box form {
+    margin-bottom: 0
+}
+.login_box .btm_b {
+    padding: 12px 20px;
+    border-top: 1px solid #e7e7e7;
+    background: #f7f7f7;
+    -moz-border-radius-topleft: 0px;
+    -moz-border-radius-topright: 0px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    -webkit-border-radius: 0px 0px 6px 6px;
+    border-radius: 0px 0px 6px 6px
+}
+.login_box .links_b {
+    width: 100%;
+    font-size: 11px;
+    text-align: center;
+    position: absolute;
+    bottom: -24px
+}
+.login_box .link_reg {
+    font-size: 11px;
+    padding: 5px 0 0;
+    display: block
+}
+.login_box .alert-login {
+    margin: 10px 10px 0
+}
+.login_box .uni-checker {
+    float: left;
+    margin-top: -2px;
+}
+/*添加给默认的*/
+.login_box .popover-content{
+    padding: 0px;
+}
+.login_box .popover-content img{
+    padding: 10px;
+}
+.login_box .popover-content .close{
+    display: block;
+    width: 10px;
+    height: 10px;
+    line-height: 10px;
+    padding: 3px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.login_box .logo {
+    display: block;
+    height: 60px;
+    width: 100%;
+    margin-bottom: 20px;
+    background: url('../images/logo.png') no-repeat center center;
+}
+.login_box .error-msg {
+    width: 100%;
+    margin-bottom: 20px;
+}
+/*.login_box blockquote{
+    margin-bottom: 0px;
+}*/
+
+/*扩展给找回密码的*/
+.login_box_getpwd .cnt_b{
+    width:80%;
+}
+.login_box_getpwd .input-prepend .add-on{
+    width:100px;
+    overflow: hidden;
+}
+.login_box_getpwd input[type="password"]{
+    width: 180px;
+}
+.login_box_getpwd .btn-inverse{
+    margin-right: 10px;
+}
+/* 登陆窗抽象出 ECjiaUI默认的登陆窗样式 END*/
+
+/* editable 列表插件样式 START */
+div.dataTables_length {text-align:left}
+div.dataTables_length select{width:inherit;min-width: 60px;}
+div.dataTables_filter {text-align:right}
+div.dataTables_filter label {float:none}
+/*div.dataTables_info{padding-top:8px}*/
+div.dataTables_paginate{float:right;margin:0}
+.dataTables_wrapper{position:relative;overflow:hidden}
+.dataTables_wrapper table.table {clear:both;margin-bottom:6px!important;max-width:inherit}
+.dataTables_wrapper table.table thead .sorting,table.table thead .sorting_asc,table.table thead .sorting_desc,table.table thead .sorting_asc_disabled,table.table thead .sorting_desc_disabled{cursor:hand;cursor:pointer}
+.dataTables_wrapper table.table thead .sorting{background: #e9f3f8 url("../lib/datatables/images/sort_both.png") no-repeat center right}
+.dataTables_wrapper table.table thead .sorting_asc{background: #e9f3f8 url("../lib/datatables/images/sort_asc.png") no-repeat center right}
+.dataTables_wrapper table.table thead .sorting_desc{background: #e9f3f8 url("../lib/datatables/images/sort_desc.png") no-repeat center right}
+.dataTables_wrapper table.table thead .sorting_asc_disabled{background: #e9f3f8 url("../lib/datatables/images/sort_asc_disabled.png") no-repeat center right}
+.dataTables_wrapper table.table thead .sorting_desc_disabled{background: #e9f3f8 url("../lib/datatables/images/sort_desc_disabled.png") no-repeat center right}
+.dataTables_wrapper table.dataTable th:active{outline:none}
+.dataTables_wrapper .row{margin:0 0 5px}
+.dataTables_wrapper select{min-height:inherit}
+.dataTables_wrapper table + .row{margin-bottom:0;margin-top:10px}
+.dataTables_scrollBody{-webkit-overflow-scrolling:touch}
+.dataTables_wrapper .top,.dataTables_wrapper .bottom{background-color:#f5f5f5;border:1px solid #CCC;padding:15px}
+.top .dataTables_info{float:none}
+.dataTables_empty{font-size:15px;background:#fff;padding:20px 0;}
+.dataTables_scroll{clear:both;margin-bottom:10px}
+.dataTables_scrollHeadInner table.table-bordered{-webkit-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;border-bottom:none}
+.dataTables_scrollHeadInner table.table-bordered,.dataTables_scrollHeadInner table.table-bordered thead{border-bottom:none}
+.dataTables_scrollBody table{border-top:none}
+.dataTables_processing{position:absolute;top:50%;margin-top:-24px;z-index:100;left:50%;width:250px;margin-left:-125px;border:1px solid #ddd;text-align:center;color:#000;background:#fff;font-size:15px!important;-webkit-box-shadow:0 0 4px rgba(0,0,0,0.2);-moz-box-shadow:0 0 4px rgba(0,0,0,0.2);-ms-box-shadow:0 0 4px rgba(0,0,0,0.2);box-shadow:0 0 4px rgba(0,0,0,0.2);padding:10px 0}
+.dataTables_wrapper .center{text-align:center}
+.dataTables_wrapper .details,.dataTables_wrapper .details:hover{background:#ddd!important}
+.dataTables_wrapper .details table td{background:#fff!important}
+.dataTables_scrollHeadInner table.table,.dataTables_wrapper .details table.table{margin:0!important}
+.dataTables_wrapper .dt_actions {float:left;margin-right:20px}
+table tr td.dataTables_empty {cursor:default;height:100px;line-height:100px;background:#f9f9f9;text-align:center;font-size:13px;padding:0px;}
+.dTableR {width:100% !important}
+.col_vis_menu {float:right}
+.dataTables_paginate {height:auto}
+.DTTT_collection_background {display:none}
+/* editable 列表插件样式 END */
+
+
+/*navigator 的list区域抽象出 ECjiaUI默认的选择区域样式*/
+.choose_list{
+    line-height: 28px;
+    /*display: inline-block;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    padding: 10px;*/
+}
+.choose_list .input-append{
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 0px;
+}
+.choose_list .input-append input,
+.choose_list .input-append span{
+    margin-right: 0px;
+}
+.choose_list .separ{
+    padding-left: 20px;
+}
+.choose_list i,
+.choose_list span,
+.choose_list a.btn,
+.choose_list input{
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 0px;
+    display: inline;
+}
+.choose_list .no-results span{
+    float: none;
+}
+.choose_list i:last-child,
+.choose_list span:last-child,
+.choose_list a.btn:last-child,
+.choose_list input:last-child {
+    margin-right: 0px;
+}
+.choose_list .add-on{float:none;}
+.choose_list .btn-group i,
+.choose_list .btn-group span{
+    float:none;
+    font-size:14px;
+    display: inline-block;
+}
+/*select下拉框设置浮动清除，否则谷歌下不显示*/
+.choose_list .chzn-search input[type='text']{
+    float:none;
+}
+/*.choose_list i{
+    font-size: 20px;
+}*/
+.choose_list .input-append .add-on i{margin:2px 0px 0px 0px;}
+.choose_list label{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+}
+.choose_list.not-line-height label{
+    height: 23px;
+    line-height:23px;
+}
+.choose_list .chzn-container{
+    float: left;
+    margin-right: 5px;
+}
+}
+.choose_list form{
+    margin: 0px;
+    display: initial;
+}
+
+/*choose_list扩展*/
+.choose_list .center{
+    margin-left: 20px;
+}
+/*ECjiaUI默认的选择区域样式 END*/
+
+
+/*navigator 的edit区域抽象出 ECjiaUI默认的菜单编辑样式*/
+.nav_edit{
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.nav_edit form{
+    margin-bottom: 0px;
+}
+.nav_edit .nav_edit_hd{
+    border-bottom: 1px solid #ccc;
+    background: #eee;
+    padding: 5px 10px;
+}
+.nav_edit .nav_edit_hd label{
+    float: left;
+    line-height: 30px;
+}
+.nav_edit .nav_edit_bd{
+    padding: 10px;
+}
+.nav_edit .nav_edit_ft{
+    border-top: 1px solid #ccc;
+    background: #eee;
+    padding: 5px 10px;
+    line-height: 30px;
+    overflow: hidden;
+}
+.nav_edit .nav_edit_hd input, .nav_edit .nav_edit_ft input{
+    margin: 0px;
+}
+/*ECjiaUI默认的菜单编辑样式 END*/
+
+
+/* .wookmark动态列表组件 START*/
+.wookmark{
+    position: relative;
+    text-align: center;
+}
+.wookmark .tmpstyle{
+    overflow: hidden;
+}
+.wookmark .tmpinfo{
+    height: 20px;
+    line-height: 20px;
+    overflow: hidden;
+}
+.wookmark .tmpstyle i{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-left: 10px;
+}
+.wookmark p{
+    margin-bottom: 0px;
+}
+/* .wookmark动态选择列表组件 END*/
+
+/*.wookmark 组件扩展START*/
+.wookmark .thumbnail{
+    width: 20%;
+    float: left;
+    margin: 0 4% 4% 0;
+    position: relative;
+    overflow: hidden;
+    padding: 0px;
+    border: 1px solid #dedede;
+    box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+.wookmark .thumbnail.active{
+    border-color: #08c;
+}
+.wookmark ul{
+    margin: 0px;
+}
+#wookmark .thumbnail{
+    width: auto;
+    float: left;
+    margin: 0px;
+}
+.wookmark .act_tools{
+    border-color: #08c;
+}
+.wookmark .hd{
+    height: 30px;
+    line-height: 30px;
+}
+
+.wookmark .bd{
+    height: 90px;
+    line-height: 90px;
+}
+.wookmark .ft{
+    height: 35px;
+    line-height: 35px;
+}
+.wookmark .thumbnail .input{
+    position: absolute;
+    background: #48a6d2;
+    color: #fff;
+    left: 0;
+    bottom: 0;
+    height: 35px;
+    line-height: 35px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    /*opacity: 0.9;*/
+}
+
+.wookmark.warehouse .thumbnail .input{
+    background: none;
+}
+
+/*高分辨率电脑样式*/
+@media (min-width: 768px){
+    .wookmark .thumbnail{
+        width: 22%;
+        margin-right: 4%
+    }
+    .wookmark .thumbnail:nth-child(4n){
+        margin-right: 0px;
+    }
+}
+/*平板和低分辨率电脑样式*/
+@media (max-width: 767px){
+    .wookmark .thumbnail{
+        margin-right: 4%;
+        width: 30.6%;
+    }
+    .wookmark .thumbnail:nth-child(3n){
+        margin-right: 0px;
+    }
+}
+/*手机版样式*/
+@media (max-width: 480px) {
+    .wookmark .thumbnail{
+        width: 100%;
+        margin-right: 0px;
+    }
+    .wookmark .thumbnail:nth-child(2n){
+        margin-right: 0px;
+    }
+}
+/*.wookmark-cycleimage扩展*/
+    .wookmark.media_captcha .thumbnail .input{
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    .wookmark.media_captcha .thumbnail:hover{
+        border-color: #48a6d2;
+    }
+    .wookmark.media_captcha .thumbnail:hover .input{
+        opacity: 1;
+    }
+
+    .wookmark .wookmark-cycleimage .thumbnail{
+        /*border: none;*/
+        border-radius: 0px;
+    }
+    .wookmark .wookmark-cycleimage .bd{
+        content: "";
+        display: block;
+        padding-top: 66.6667%;
+        height: auto;
+        overflow: hidden;
+        position: relative;
+        transition: opacity 0.2s;
+    }
+    .wookmark .wookmark-cycleimage .bd a{
+        height: auto;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border: 0 none;
+        transition: opacity 0.2s;
+    }
+    .wookmark .wookmark-cycleimage .more{
+        content: "";
+        display: block;
+        padding-top: 66.6667%;
+        height: 35px;
+        overflow: hidden;
+        position: relative;
+        transition: opacity 0.2s;
+    }
+    .wookmark .wookmark-cycleimage .input{
+        position: absolute;
+        background: #fff;
+        color: #000;
+        left: 0;
+        bottom: 0;
+        height: 35px;
+        line-height: 35px;
+        width: 100%;
+        font-size: 14px;
+        font-weight: normal;
+        cursor: default;
+        text-align: left;
+    }
+    .wookmark .wookmark-cycleimage .input .left{
+        padding-left: 10px;
+        width: auto;
+    }
+    .wookmark .wookmark-cycleimage .input .right{
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        height: 35px;
+        width: 90px;
+        padding-left: 10px;
+        background: none repeat scroll 0 0 rgba(244, 244, 244, 0.7);
+        border-left: 1px solid rgba(0, 0, 0, 0.05);
+        opacity: 0;
+        transition: opacity 0.1s;
+    }
+
+    /*选中后的样式*/
+    .wookmark .wookmark-cycleimage .choose .input{
+        color: #fff;
+        background: #48a6d2;
+        /*background: #2f2f2f;*/
+    }
+    .wookmark .wookmark-cycleimage .choose .input .right{
+        width: auto;
+        opacity: 1;
+        margin-right: 5px;
+        background: none;
+        border-left: none;
+    }
+    /*.wookmark .thumbnail .input span{
+        background: #005580;
+        width: 100px;
+        height: 30px;
+        top: 0px;
+        right: 0px;
+        color: #c1dce7;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 0px;
+        position: absolute;
+        text-align: center;
+        opacity: 1;
+        cursor: pointer;
+    }*/
+/*.wookmark 组件扩展 END*/
+
+/* .wookmark .more列表扩展，更多内容  START*/
+.wookmark .more{
+    float: left;
+    display: block;
+    width: 100%;
+    height: 155px;
+    color: #999;
+    background: #fff;
+    text-align: center;
+    position: relative;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+.wookmark .more:hover{
+    color: #eee;
+    border-color: #48a6d2;
+    background: #48a6d2;
+}
+.wookmark .more:hover i{
+    color: #48a6d2;
+    background: #eee;
+}
+.wookmark .more span{
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    right: 0;
+}
+.wookmark .more i{
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    background: none repeat scroll 0 0 rgba(153, 153, 153, 0.1);
+    border-radius: 50%;
+    display: inline-block;
+    font: 900 60px/95px dashicons;
+    height: 80px;
+    margin-left: -40px;
+    padding: 0;
+    text-align: center;
+    text-indent: -1px;
+    text-shadow: none;
+    vertical-align: middle;
+    width: 80px;
+    z-index: 4;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+.wookmark.warehouse .more{
+    height: 90px;
+}
+.wookmark.warehouse .more i{
+    top: 5%;
+    font: 900 60px/85px dashicons;
+}
+/* .wookmark .more列表扩展，更多内容 END*/
+
+/*moveaccordion可拖动手风琴 START*/
+.moveaccordion{
+    overflow: auto;
+}
+.moveaccordion .portlet-toggle{
+    float: right;
+    cursor: pointer;
+}
+.moveaccordion .w-box{
+    /* border: 1px solid #ddd; */
+    margin-top: 5px;
+    border-radius: 4px;
+}
+.moveaccordion .w-box .w-box-header{
+    color: #333;
+    font-size: 14px;
+    font-weight: normal;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    /* border-bottom: 1px solid #ddd; */
+    padding-right: 0px;
+}
+.moveaccordion .portlet-toggle{
+    width: 30px;
+    color: #666;
+}
+.moveaccordion .w-box .w-box-content{
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    border-top: none;
+    background: #fff;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.moveaccordion .w-box-header:hover{
+    /*border: 1px solid #666;*/
+    /*border-radius: 4px;*/
+}
+/*moveaccordion可拖动手风琴 END*/
+
+/*template布局管理左侧菜单 START*/
+.template_sidebar{
+    top: 0px;
+}
+.template_sidebar_switch{
+    top: auto;
+    bottom: 10px;
+}
+.template_sidebar .btn_group{
+    padding: 15px 10px;
+}
+/*template布局管理左侧菜单 END*/
+
+/*.page分页样式 START*/
+.page{
+    background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+    box-shadow: none;
+    margin: 10px 0px;
+    min-height: 30px;
+    padding: 5px;
+    height: 24px;
+    line-height: 30px;
+}
+.page ul{margin-right: 10px;}
+.page .external_link{background: #fff;}
+.page .input-append{
+    float: left;
+    margin-right: 10px;
+    box-shadow: none;
+}
+/*
+.pagination ul > li > div > a,.pagination ul > li > div > span {float: left;padding: 0 14px;line-height: 38px;text-decoration: none;background-color: #ffffff;border: 1px solid #dddddd;border-left-width: 0}
+.pagination ul > li > div > a:hover,.pagination ul > .active > div > a,.pagination ul > .active > div > span {background-color: #f5f5f5}
+.pagination ul > .active > div > a,.pagination ul > .active > div > span {color: #999999;cursor: default}
+.pagination ul > .disabled > div > span,.pagination ul > .disabled > div > a,.pagination ul > .disabled > div > a:hover {color: #999999;cursor: default;background-color: transparent}
+.pagination ul > li:first-child > div > a,.pagination ul > li:first-child > div > span {border-left-width: 1px;-webkit-border-radius: 3px 0 0 3px;-moz-border-radius: 3px 0 0 3px;border-radius: 3px 0 0 3px}
+.pagination ul > li:last-child > div > a,.pagination ul > li:last-child > div > span {-webkit-border-radius: 0 3px 3px 0;-moz-border-radius: 0 3px 3px 0;border-radius: 0 3px 3px 0}
+
+.pagination {height:26px}
+.pagination a.active {background-color: #f5f5f5}
+.pagination a.active {color: #999;cursor: default}
+.pagination ul > li > a,.pagination ul > li > span,.pagination ul > li > div > a,.pagination ul > li > div > span {line-height: 24px;padding:0 10px}
+.pagination ul > li > div.page {display:inline}
+*/
+/*.page分页样式 END*/
+
+/* .privilege权限管理的列表样式 START*/
+.priv_list{
+    width: 100%;
+    overflow: hidden;
+}
+.priv_list .check{
+    float: left;
+    overflow: hidden;
+    padding-left: 30px;
+    width: 150px;
+}
+.priv_list .choose{
+    float: left;
+    padding-left: 30px;
+    width: 150px;
+    border-left: 1px solid #eee;
+    overflow: hidden;
+}
+.priv_list .checkall{
+    padding-left: 30px;
+}
+/* .privilege权限管理的列表样式 END*/
+
+
+/* 验证码的css address : m=captcha&c=admin&a=init */
+/*.media_captcha ul li{
+    float:left;
+    list-style:none;
+    margin-left:15px;
+    margin-right:10px;
+    margin-bottom:10px;
+    height:240px;
+}
+.media_captcha img{
+    cursor:pointer;
+}
+.media_captcha li{
+    overfolw: hidden;
+}
+.media_captcha li .btn{
+    display: none;
+}
+.media_captcha a:hover p {
+    border-color: gray !important;
+}
+.style_nam{
+    line-height:29px;
+}
+.style_nam atvice{
+    color:red;
+}
+.style_des{
+    font-weight:normal;
+    float:left;
+    margin-left:3px;
+}*/
+
+/* .error错误提示的UI样式 START*/
+.errorpage{
+    /*padding: 20px;*/
+    text-align: left;
+}
+.errorpage .msg-icon{
+    float: left;
+    width: 180px;
+    padding-top: 20px;
+    padding-right: 20px;
+    font-size: 100px;
+    text-align: center;
+}
+.errorpage .msg-icon p{
+    font-size: 14px;
+}
+.errorpage .msg-info{
+    margin: 30px 0px 20px 200px;
+}
+.errorpage .msg-info .info{
+    margin-bottom: 20px;
+}
+.errorpage li{
+    list-style-type: none;
+}
+/* .error错误提示的UI样式 END*/
+
+/* .mock-table 模拟表格的UI样式 START*/
+.mock-table{
+    list-style-type: none;
+}
+.mock-table ul{
+    margin: 0px;
+}
+.mock-table .hd{
+    background: #ebf2f6;
+    font-weight: bold;
+    border : none;
+}
+.mock-table li{
+    display: block;
+    list-style: none;
+    padding: 5px;
+    border-top: 1px solid #ccc;
+    position: relative;
+    transition: background 0.2s;
+}
+.mock-table li i{
+    font-size: 18px;
+    cursor: pointer;
+}
+.mock-table .left{
+    text-align: left;
+    width: auto;
+    min-width: 100px;
+}
+.mock-table .right{
+    position: absolute;
+    top: 5px;
+    right: 0px;
+    width: 130px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+/* .mock-table 模拟表格的UI样式 END*/
+
+/*上传图片与按钮居中样式*/
+/*.fileupload .thumbnail > img { display:inherit;margin-top:-3px;}
+.fileupload .btn{margin-top:-3px;}*/
+
+/* .goods_img 商品上传的图片预览样式扩展 STTART */
+.goods_img .fileupload-preview {
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+}
+/* .goods_img 商品上传的图片预览样式扩展 END */
+
+
+/*全局 批量操作中的form去除margin*/
+.batch-select form{margin-bottom:0px;}
+
+
+/*全局css 适用编辑页面*/
+.edit-page .chzn-container{
+    float:none;
+}
+.edit-page .no-chzn-container .chzn-container{
+    float:left;
+}
+.edit-page input{
+    margin-bottom:0px;
+}
+.edit-page .choose_list input{
+    margin-right:5px;
+}
+.edit-page .uni-radio,.edit-page .uni-checker{
+    margin-right:0px;
+}
+.edit-page .chk_radio{padding-top:3px;}
+.edit-page .title-lable{ font-weight: bold;}
+.edit-page .content-controls{padding-top:6px;}
+.edit-page .control-group #color{
+    float:left;
+    margin-left:5px;
+}
+.edit-page .control-group #color i{
+    margin-top:2px;
+}
+.edit-page .cat_move>span{
+    margin-top:5px;
+    margin-right:5px;
+    float:left;
+}
+
+/*暂时单独用在会员编辑页面*/
+.edit-page .control-group .users p{
+    margin-top:6px;
+}
+/*select标签的间距*/
+.edit-page .control-group .chzn-container{
+    margin-right:5px;
+}
+/*控制必选*下面的help-block*/
+.form-horizontal span+.help-block{
+    margin-top:10px;
+}
+/*控制checkbox,radio下面的help-block*/
+.form-horizontal div[class!='chzn-container']+span+.help-block{
+    margin-top:5px !important;
+}
+.edit-page .check_radio>ul+.help-block{
+    margin-top:6px;
+}
+/*商品编辑页面*/
+.edit-page .tab-pane {
+    overflow: hidden;
+}
+.edit-page .tab-pane span {
+    margin-top: 0px !important;
+}
+.edit-page .pr_price_chk .uni-checker{
+    float:right;
+    margin-top:-2px;
+}
+.edit-page #tab4 .goods-type{
+    height:330px;
+}
+.edit-page .fileimgadd>span{
+    margin-top:5px !important;
+    float:left;
+}
+.edit-page .fileimgadd input{
+    float:left;
+}
+.edit-page .uni-uploader span{
+    margin-top:0px !important;
+}
+.edit-page .uni-uploader span[class='uni-filename']{
+    margin-top:4px !important;
+}
+.edit-page #tab1 .imgcl_both{
+    clear:both;
+}
+.edit-page .goods-span{
+    padding-top:1px;
+    margin-left: 0;
+}
+/*用户订单模块css*/
+.edit-page .booking_notice>span{margin-top:5px;margin-right:5px;float:left;}
+.edit-page .booking_notice input{margin-right:5px;float:left;}
+.edit-page .booking_notice .uni-checker{margin-top:2px;}
+/*全局css 适用列表页面批量操作 */
+.list-page .batch .chzn-container{
+    margin-right:5px;
+}
+.list-page .batch .input-append{
+    margin-bottom:0px;
+}
+.form-div ul{
+    margin:0px;
+    list-style-type: none;
+}
+
+
+/*table扩展 用户订单模块  START*/
+.table-oddtd tr>td{
+    vertical-align: middle;
+}
+.table-oddtd tr>td:nth-child(odd){
+    background-color: #f5f5f5;
+    border-right:1px solid #e5e5e5;
+    border-left:1px solid #e5e5e5;
+    width:15%;
+}
+.table-oddtd tr>td:nth-child(even){
+    width:35%;
+}
+.table-oddtd .first-td-no-leftbd tr>td:first-child{
+    border-left:0px;
+}
+.table-oddtd .first-td-no-leftbd tr>td:last-child{
+    width:auto;
+}
+table tr th[data-toggle="sortby"]{
+    cursor: pointer;
+    background: url("../lib/datatables/images/sort_both.png") no-repeat scroll right center #e9f3f8;
+}
+table tr th.sorting-asc{
+    background: url("../lib/datatables/images/sort_asc.png") no-repeat scroll right center #d4e3eb;
+}
+table tr th.sorting-desc{
+    background: url("../lib/datatables/images/sort_desc.png") no-repeat scroll right center #d4e3eb;
+}
+/*table扩展 用户订单模块  END*/
+
+
+/* tempplateList 模板列表 库项目管理用到的列表样式 START*/
+.layout-content .template_list {
+    padding: 10px;
+}
+.layout-content .template_list ul.unstyled {
+    height: auto;
+    overflow:auto;
+    margin-bottom: 0;
+}
+.layout-content .template_list li a{
+    display: block;
+    padding: 3px 8px;
+}
+.layout-content .template_list li a.choose{
+    background-color: #e4f2fd;
+}
+.layout-content .template_info,
+.layout-content .chat_sidebar {
+    transition: all 0.5s ease;
+}
+.layout-content .template_info .ace_gutter-cell.ace_error {
+    background: none;
+}
+.layout-content .chat_sidebar .template_list input {
+    height: inherit;
+    margin-top: 0;
+}
+.layout-content .template_info .submit {
+    position: relative;
+}
+.layout-content .template_info .submit button {
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    z-index: 999;
+}
+
+.library-content .template_list {
+    padding: 10px;
+}
+.library-content .template_list ul.unstyled {
+    height: 480px;
+    overflow:auto;
+    margin-bottom: 0;
+}
+.library-content .template_list li a{
+    display: block;
+    padding: 3px 8px;
+}
+.library-content .template_list li a.choose{
+    background-color: #e4f2fd;
+}
+.library-content .template_info,
+.library-content .chat_sidebar {
+    transition: all 0.5s ease;
+}
+.library-content .template_info .ace_gutter-cell.ace_error {
+    background: none;
+}
+.library-content .chat_sidebar .template_list input {
+    height: inherit;
+    margin-top: 0;
+}
+.library-content .template_info .submit {
+    position: relative;
+}
+.library-content .template_info .submit button {
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    z-index: 999;
+}
+
+/*设置一个兼容样式，禁用ace_error*/
+.ace_editor {
+    border: none;
+    margin-bottom:0;
+    height: 542px;
+    margin-top: -2px;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* tempplateList 模板列表 库项目管理用到的列表样式 END*/
+
+/* .float_block 浮动区域样式 TODO：未完全封装 START */
+.float_block{
+    position: absolute;
+    top: 116px;
+    right: 30px;
+    width: 160px;
+    background: -moz-linear-gradient(center top , #ffffff 0%, #f5f5f5 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-gradient(linear,0 0%,100% 100%,from(#ffffff),to(#f5f5f5));/*Old gradient for webkit*/
+    background: -webkit-linear-gradient(top,#ffffff,#f5f5f5);/*new gradient for Webkit*/
+    background: -o-linear-gradient(top,#ffffff,#f5f5f5); /*Opera11*/
+    /*border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;*/
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*border-right: 0px;
+    padding: 10px 0px;*/
+    /*border-bottom: 1px solid #ccc;*/
+    cursor: pointer;
+}
+.float_block li{
+    padding: 0px 5px;
+    height: 30px;
+    line-height: 30px;
+}
+.float_block li:hover{
+    color: #222;
+    background: #eee;
+}
+.float_block li.active{
+    color: #000;
+    background: #ddd;
+}
+.float_block , .float_block li a{
+    color: #999;
+    font-size: 14px;
+}
+.float_block li i{
+    font-size: 18px;
+    width: 30px;
+    margin-right: 5px;
+    height: 0px;
+}
+.float_block h4{
+    height:32px;
+    line-height:32px;
+    padding:0 5px;
+    background: #fbfbfb;
+    border-top-left-radius: 6px;
+    background: -moz-linear-gradient(top,  #fbfbfb 0%, #f1f1f1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbfbfb), color-stop(100%,#f1f1f1));
+    background: -webkit-linear-gradient(top,  #fbfbfb 0%,#f1f1f1 100%);
+    background: -o-linear-gradient(top,  #fbfbfb 0%,#f1f1f1 100%);
+    background: -ms-linear-gradient(top,  #fbfbfb 0%,#f1f1f1 100%);
+    background: linear-gradient(top,  #fbfbfb 0%,#f1f1f1 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfbfb', endColorstr='#f1f1f1',GradientType=0 );
+    color:#666;
+}
+/* .float_block 浮动区域样式 END */
+
+/*.table .install 表格状态的扩展 START*/
+.table tr.left_border{
+    border-left:5px solid #2ea2cc;
+}
+/*.table .install 表格状态的扩展 END*/
+
+/* .clear_cache 更新缓存区域样式扩展 START*/
+.clear_cache .left_box
+{
+    padding-left: 20px;
+}
+.clear_cache .dl-horizontal dt{
+    text-align: left;
+    padding-left: 20px;
+    width: 130px;
+    font-weight: normal;
+}
+.clear_cache .dl-horizontal dd{
+    float: left;
+    margin-left: 0;
+    color: #367ead;
+    cursor: default;
+}
+/* .clear_cache 更新缓存区域样式扩展 END*/
+
+/* input[type="number"] input的number框 START */
+.main_content .ui-spinner{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    font-size: 13px;
+    height: 28px;
+    line-height: 28px;
+    margin-bottom: 0px;
+    overflow: hidden;
+    padding: 0 24px 0 8px;
+    position: relative;
+}
+/* input[type="number"] input的number框 END */
+
+
+/* 手风琴效果扩展 START*/
+.foldable-list .accordion-group{margin-bottom: 10px;}
+.foldable-list .accordion-group .accordion-heading-url{position: relative;}
+.foldable-list .accordion-group .accordion-url{position: absolute;top: 8px;left: 90px;}
+.foldable-list .accordion-group .collapse.in_visable {
+    height: auto;
+    overflow: visible;
+}
+.foldable-list .accordion-group .control-group-small .control-label{width:70px;}
+.accordion-inner .label-title{padding-top:5px; width:80px; text-align:right; float:left;}
+/* 手风琴效果扩展 END*/
+
+/* 手风琴效果扩展2-编辑器 START*/
+/*.accordion-group-editor {
+    border: none;
+    border-bottom: 1px solid #e5e5e5;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.accordion-group-editor .accordion-heading {
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}*/
+.accordion-group-editor .control-group {
+    margin-bottom: 0px;
+}
+.accordion-group-editor .control-group .admin-editor-container {
+    border: none;
+}
+.accordion-group-editor .accordion-inner {
+    padding: 0px;
+}
+/* 手风琴效果扩展2-编辑器 END*/
+
+
+/* .table-hide-edit 编辑区域隐藏的table样式扩展 START*/
+.table.table-hide-edit .center-td{
+    vertical-align: middle;
+}
+.table.table-hide-edit td{
+    vertical-align: top;
+    padding-top: 10px;
+    cursor: default;
+    word-wrap: break-word;
+}
+.table.table-hide-edit img.thumbnail {
+    width: 50px;
+    height: 50px;
+    padding: 0px;
+    overflow: hidden;
+}
+.table.table-hide-edit .hide-edit-area{
+    /*position: relative;*/
+    min-height: 25px;
+    padding-bottom: 30px;
+}
+.table.table-hide-edit .edit-list {
+    position:absolute;
+    opacity: 0;
+    transition: opacity 0.2s ease 0s;
+    /*width: 600px;*/
+    color: #ddd;
+    margin: 3px 0px;
+    padding-top: 3px;
+}
+.table.table-hide-edit span.edit-list {
+    margin: 0px;
+    padding-top: 0px;
+    padding-left: 3px;
+}
+.table.table-hide-edit tr:hover .edit-list{
+    opacity: 1;
+}
+/* .table-hide-edit 编辑区域隐藏的table样式扩展 END*/
+
+/*.table-hide-edit 编辑区域隐藏的table样式扩展项 START*/
+.table.table-hide-edit .big img.thumbnail{
+    width: 80px;
+    height: 80px;
+}
+.table.table-hide-edit .big .edit-list{
+    width: 800px;
+}
+/* .table-hide-edit 编辑区域隐藏的table样式扩展 END*/
+
+/*.table-hide-edit 编辑区域隐藏的table样式扩展项 START*/
+.table.table-hide-edit .small{
+    height: 40px;
+}
+.table.table-hide-edit .small .hide-edit-area{
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.2s ease 0s;
+}
+.table.table-hide-edit .small .edit-list {
+    left: 0px;
+    top: 0px;
+    width: 300px;
+}
+/* .table-hide-edit 编辑区域隐藏的table样式扩展 END*/
+
+/* .table-plugin 插件区域隐藏的table样式扩展 START*/
+.table.table-plugin .hide-edit-area{
+    opacity: 0;
+    transition: opacity 0.2s ease 0s;
+}
+.table.table-plugin tr:hover .hide-edit-area{
+    opacity: 1;
+}
+/* .table-plugin 插件区域隐藏的table样式扩展 END*/
+
+/* .editpage-rightbar 编辑页面布局扩展，右侧固定大小扩展 START*/
+.editpage-rightbar{
+    width:auto;
+    margin-right:370px;
+}
+.editpage-rightbar .right-bar{
+    float:right;
+    width:350px;
+    margin-right:-370px;
+}
+.editpage-rightbar .left-bar{
+    float:left;
+    width:100%;
+}
+/* .editpage-rightbar 编辑页面布局扩展，右侧固定大小扩展 END*/
+
+/* .editpage-rightbar-small 编辑页面布局扩展，右侧固定大小扩展 START*/
+.editpage-rightbar-small{
+    margin-right:250px;
+}
+.editpage-rightbar-small .right-bar{
+    width:230px;
+    margin-right:-250px;
+}
+/* .editpage-rightbar-small 编辑页面布局扩展，右侧固定大小扩展 END*/
+
+/* .editpage-rightbar-big 编辑页面布局扩展，右侧固定大小扩展 START*/
+.editpage-rightbar-big{
+    margin-right:470px;
+}
+.editpage-rightbar-big .right-bar{
+    width:450px;
+    margin-right:-470px;
+}
+/* .editpage-rightbar-big 编辑页面布局扩展，右侧固定大小扩展 END*/
+
+/* .editpage-leftbar编辑页面布局扩展，左侧固定大小扩展 START*/
+.editpage-leftbar{
+    width:auto;
+    margin-left:370px;
+}
+.editpage-leftbar .left-bar{
+    float:left;
+    width:350px;
+    margin-left:-370px;
+}
+.editpage-leftbar .right-bar{
+    float:right;
+    width:100%;
+}
+/* .editpage-leftbar 编辑页面布局扩展，左侧固定大小扩展 END*/
+
+/* .editpage-leftbar-small 编辑页面布局扩展，左侧固定大小扩展 START*/
+.editpage-leftbar-small{
+    margin-left:250px;
+}
+.editpage-leftbar-small .left-bar{
+    width:230px;
+    margin-left:-250px;
+}
+/* .editpage-leftbar-small 编辑页面布局扩展，左侧固定大小扩展 END*/
+
+/* .editpage-leftbar-big 编辑页面布局扩展，左侧固定大小扩展 START*/
+.editpage-leftbar-big{
+    width:auto;
+    margin-left:470px;
+}
+.editpage-leftbar-big .left-bar{
+    width:450px;
+    margin-left:-470px;
+}
+/* .editpage-leftbar-big 编辑页面布局扩展，左侧固定大小扩展 END*/
+
+/* .editpage-leftbar .editpage-rightbar .Solid  立体可拖动样式扩展 START*/
+.editpage-leftbar .left-bar.solid .accordion-heading .accordion-toggle{
+    background: -moz-linear-gradient(center top , #fbfbfb 0%, #f1f1f1 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    moz-border-radius-topright: 4px;
+    moz-border-radius-topleft: 4px;
+    cursor: move;
+}
+.editpage-rightbar .right-bar.solid .accordion-heading .accordion-toggle{
+    background: -moz-linear-gradient(center top , #fbfbfb 0%, #f1f1f1 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    moz-border-radius-topright: 4px;
+    moz-border-radius-topleft: 4px;
+    cursor: move;
+}
+/* .editpage-leftbar .editpage-rightbar 可拖动样式 END*/
+
+/* move-mod 移动模块 START */
+.move-mod .move-mod-group{
+    background: #fff;
+}
+.move-mod .move-mod-group .move-mod-head{
+    cursor: move;
+}
+/* move-mod 移动模块 END */
+
+/* 软件安装协议的正文模块 START */
+.application-installer .muted{
+    font-size: 16px;
+}
+.application-installer .application-sketch li{
+    padding-left: 0px;
+    margin-right: 25px;
+}
+.application-installer .application-sketch li p,
+.application-installer dl.application-detailed dt{
+    color: #3a87ad;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.application-installer .application-sketch li span,
+.application-installer dl.application-detailed dd,
+.application-installer dl.application-detailed dd a{
+    margin-left: 0px;
+    padding-left: 0px;
+    color: #666;
+}
+.application-installer dl.application-detailed dt{
+    margin-top: 10px;
+}
+.application-installer .application-sketch li span{
+    padding-left: 3px;
+}
+.application-installer .successfully-installed{
+    margin: 100px 0px;
+}
+.application-installer .successfully-installed .pull-left{
+    color: #067ead;
+    font-size: 60px;
+    cursor: default;
+    margin-right: 0px;
+}
+.application-installer .successfully-installed .media,
+.application-detailed .media{
+    width: 300px;
+    margin: auto;
+}
+.application-installer .successfully-installed .media-body,
+.application-detailed .media-body{
+    color: #999;
+}
+.application-installer .successfully-installed .media-body .media-heading,
+.application-detailed .media-body .media-heading{
+    color: #067ead;
+    font-size: 25px;
+    line-height: 30px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+.application-installer .successfully-installed .media-body .media-href{
+    margin-top: 10px;
+}
+.application-installer .successfully-installed .media-body .media-href a{
+    margin-right: 10px;
+}
+
+.application-detailed .media i{
+    font-size: 50px;
+    margin-right: 0px;
+}
+.application-detailed .pull-left,
+.application-detailed .media-body,
+.application-detailed .media-body .media-heading{
+    color: #999;
+}
+/* 软件安装协议的正文模块 END */
+
+/* 管理员聊天模块 START */
+.chat_box select {margin:0}
+.chat_box .chat_content {border:1px solid #ddd;-webkit-border-radius:6px;border-radius:6px}
+.chat_box .chat_message {margin-bottom:10px}
+.chat_box .chat_editor_box {margin:10px;border:1px solid #ddd;-webkit-border-radius:6px;border-radius:6px;min-height:40px}
+.chat_box .chat_editor_heading {height:20px;line-height:20px;padding:2px 8px 0}
+.chat_box .chat_editor_box textarea {border:none;margin:0;-webkit-box-shadow:none;box-shadow:none;-webkit-border-radius: 0px 0px 6px 6px;border-radius: 0px 0px 6px 6px}
+.chat_box .chat_editor_box .send_btns {margin:5px}
+.chat_box .chat_heading {-webkit-box-shadow: inset 0px 1px 0px 0px #fefefe;box-shadow: inset 0px 1px 0px 0px #fefefe;font-size:12px;font-weight:700;color:#444;padding:6px 12px;font-size:13px;height:21px;line-height:22px;background:#f4f4f4;border-bottom:1px solid #ddd;-webkit-border-radius: 6px 6px 0px 0px;border-radius: 6px 6px 0px 0px}
+.chat_box .chat_heading .chat_close {opacity:.8;cursor:pointer}
+.chat_box .msg_window {height:300px;overflow-y:auto;margin:5px 10px}
+.chat_box .chat_msg {margin:10px 5px}
+.chat_box .chat_msg .chat_msg_heading {font-size:11px;padding:0 5px}
+.chat_box .chat_msg .chat_msg_body {padding:4px 8px;border:1px solid #ddd;background:#fafafa;-webkit-border-radius: 6px;-moz-border-radius: 6px;-ms-border-radius: 6px;border-radius: 6px;word-wrap: break-word;}
+.chat_box .chat_msg .chat_msg_date {float:right}
+.chat_box .chat_msg .chat_user_name {color:#CC333F;font-weight:700}
+.chat_box .chat_msg p {margin:0}
+.chat_box .chat_sidebar {border:1px solid #ddd;-webkit-border-radius: 6px;-moz-border-radius: 6px;-ms-border-radius: 6px;border-radius: 6px}
+.chat_box .chat_sidebar .chat_user_list {margin:0;height: 480px;overflow: auto;}
+.chat_box .chat_sidebar .chat_user_list li {list-style:none;border-bottom:1px solid #e6e6e6;overflow:hidden}
+.chat_box .chat_sidebar .chat_user_list li:last-child {border:none}
+.chat_box .chat_sidebar .chat_user_list li input {float:left;margin:15px 0 0 6px}
+.chat_box .chat_sidebar .chat_user_list li a {display:block;margin-left:16px;padding:5px 20px 5px 12px;line-height:32px}
+.chat_box .chat_sidebar .chat_user_list li a:hover {text-decoration:none}
+.chat_box .chat_sidebar .chat_user_list li img {vertical-align:top;-webkit-border-radius: 4px;-moz-border-radius: 4px;-ms-border-radius: 4px;border-radius: 4px;margin-right:5px}
+.chat_box .chat_sidebar .chat_user_list li.online a {background: url("../images/bullet_green.png") no-repeat 98% center}
+.chat_box .chat_sidebar .chat_user_list li.offline a {background: url("../images/bullet_red.png") no-repeat 98% center;cursor:default}
+.chat_box .chat_sidebar .chat_user_list li.active {background-color:#ffffef}
+.chat_box .chat_sidebar .chat_user_list li.check {background-color:#f4f4f4}
+.chat_box .chat_sidebar .chat_user_list li a span {color:#888;font-size:11px}
+/* 管理员聊天模块 START */
+
+/* 管理员聊天扩展 START  */
+.chat_box .chat_msg .chat_user{color:#08c;font-weight:700}
+.chat_box .chat-msg-mine .chat_msg_date {float:none;}
+.chat-msg-mine {width:50%;float:right;}
+.chat-msg-other {width:50%;float:left;}
+.chat_box .chat-msg-mine .chat_user_name {float:right;}
+.chat_box .chat_edit_msg {margin-left:10px;}
+.chat_box .chat-msg-mine .chat_edit_msg{margin-right:10px;}
+.chat_box .chat-msg-mine .chat_edit_msg {float:right}
+.chat_box .chat_editor_msgbox {padding:20px;}
+/* 管理员聊天扩展 END */
+
+/* 上传模块样式 START  */
+.dropper {
+    overflow: hidden;
+}
+.dropper,
+.dropper *,
+.dropper *:before,
+.dropper *:after {
+    box-sizing: border-box;
+}
+.dropper-dropzone {
+    background: #ffffff;
+    border: 3px dashed #cccccc;
+    border-radius: 0;
+    color: #666666;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0;
+    padding: 25px;
+    text-align: center;
+}
+.dropper.dropping .dropper-dropzone,
+.no-touch .dropper:hover .dropper-dropzone {
+    background: #eeeeee;
+    border-color: #999999;
+    color: #333333;
+}
+.dropper-input {
+    position: absolute;
+    right: 100%;
+    opacity: 0;
+}
+.no-opacity .dropper-input {
+    left: -999px;
+}
+/* 管理员聊天扩展 END  */
+
+/*简介模块样式 START*/
+.outline {
+    padding: 10px;
+    cursor: default;
+}
+.outline .outline-left {
+    float: left;
+    width: 70px;
+}
+.outline .outline-right {
+    margin-left: 70px;
+}
+.outline:hover {
+    background-color: #efefef;
+    color: #000000;
+    border-radius: 5px;
+}
+/*简介模块样式 END*/
+
+/*欢迎模块样式 START*/
+.hero-unit {
+    font-size: 14px;
+    cursor: default;
+    line-height: 20px;
+}
+.hero-unit .hero-unit-left {
+    width: 180px;
+    float: left;
+}
+.hero-unit .hero-unit-right {
+    margin-left: 240px;
+}
+.hero-unit h1 {
+    line-height: normal;
+}
+/*简介模块样式 END*/
+
+/* 底部footer模块样式 START*/
+.footer{
+    border-top: 1px solid #ccc;
+    color: #666;
+    padding-top: 15px;
+    text-align: center;
+}
+/* 底部footer样式 END*/
+
+/* table仪表盘中的扩展 START*/
+.dash-table-oddtd tr > td:nth-child(2n+1) {
+    background-color: #f5f5f5;
+    border-left: 1px solid #e5e5e5;
+}
+.dash-table-color {
+    color: #f00;
+}
+/* table仪表盘中的扩展 END*/
+
+/* ov_boxes扩展，数排列列表中的情况 START */
+.manage_box {
+    display: block;
+}
+.manage_box .ov_group {
+    background: linear-gradient(to bottom,#f9f9f9,#ededed);
+    background: -moz-linear-gradient(center top , #f9f9f9 0%, #ededed 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 0 #fff inset;
+    display: inline-block;
+    line-height: 18px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.manage_box .p_canvas {
+    padding: 10px;
+    border-right: 1px solid #dcdcdc;
+    box-shadow: 1px 0 0 0 #fff;
+    float: left;
+    margin-right: 10px;
+}
+.manage_box .ov_text strong {
+    color: #000;
+    display: block;
+    font-size: 16px;
+}
+.manage_box .ov_text {
+    font-size: 12px;
+    width: 100%;
+    padding: 9px 0 7px;
+    text-align: left;
+}
+/* ov_boxes扩展，数排列列表中的情况 END */
+
+/* ms-container模块，左右两边的选项框 START */
+.ms-container{
+    background: transparent url('../lib/multi-select/img/switch.gif') no-repeat 50% 50%;
+}
+.ms-container:after{
+    content: "."; display: block; height: 0; line-height: 0; font-size: 0; clear: both; min-height: 0; visibility: hidden;
+}
+.ms-container .ms-selectable, .ms-container .ms-selection {
+    background: #fff;
+    color: #333;
+    float: left;
+    width: 45%;
+}
+.ms-container .ms-list{
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+    transition: border linear 0.2s, box-shadow linear 0.2s;
+    border: 1px solid #ddd;
+}
+.ms-selected{
+    display:none;
+}
+.ms-container .ms-selectable{
+    margin-right: 10%;
+}
+.ms-container .ms-list.ms-focus{
+    border-color: #5ca9e4;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    outline: 0;
+    outline: thin dotted \9;
+}
+.ms-container ul{
+    margin: 0;
+    list-style-type: none;
+}
+.ms-container .ms-optgroup-container{
+    width: 100%;
+}
+.ms-container ul.ms-list{
+    height: 300px;
+    padding: 0px;
+    overflow-y: auto;
+}
+.ms-container ul.ms-list-mobile{
+    height: 150px;
+    padding: 0px;
+    overflow-y: auto;
+}
+.ms-container .ms-optgroup-label{
+    margin: 0;
+    padding: 5px 0px 0px 5px;
+    cursor: pointer;
+    color: #999;
+}
+.ms-container .ms-selectable li.ms-elem-selectable,
+.ms-container .ms-selection li.ms-elem-selection{
+    border-bottom: 1px #f2f2f2 solid;
+    padding: 4px 10px 3px;
+    color: #555;
+    font-size: 12px;
+    line-height: 16px;
+    -webkit-overflow-scrolling: touch;
+}
+.ms-container .ms-selectable li:last-child.ms-elem-selectable,
+.ms-container .ms-selection li:last-child.ms-elem-selection {
+    border: none;
+}
+.ms-container .ms-selectable li.disabled,
+.ms-container .ms-selection li.disabled{
+    background-color: #eee;
+    color: #aaa;
+}
+.ms-container .ms-optgroup-label{
+    padding: 2px 0px 0px 5px;
+    cursor: pointer;
+    color: #666;
+    border-bottom: 1px solid #e2e2e2;
+    background: #f2f2f2;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+.ms-container li.ms-elem-selectable:not(.disabled).ms-hover,
+.ms-container .ms-selection li:not(.disabled).ms-hover{
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #48A6D2;
+    border-color: #48A6D2;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    box-shadow: none;
+}
+.ms-container .custom-header {
+    background: #efefef;
+    color: #555;
+    text-align: center;
+    font-size: 11px;
+    line-height: 26px;
+    -webkit-border-radius: 4px 4px 0px 0px;
+    border-radius: 4px 4px 0px 0px;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-color: #ddd;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.ms-container .search-header,
+.ms-container .search-selected {
+    height: 32px;
+}
+.ms-container .search-header input {
+    margin: 0;
+    padding: 2px 6px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 13px;
+}
+/* ms-container模块，左右两边的选项框 END */
+
+/* ms-container模块，使用到单个的扩展 START */
+.ms-container-nobg{
+    background: none;
+}
+.ms-container .ms-selectable li.selected,
+.ms-container .ms-selection li.selected{
+    background-color: #48A6D2 !important;
+    color: #fff;
+}
+.ms-container .ms-not-selectable, .ms-container .ms-not-selection {
+    width: 48%;
+}
+.ms-container .ms-not-selectable{
+    margin-right: 4%;
+}
+/* ms-container模块，使用到单个的扩展 END */
+
+/* ms-shipping模块，选择地区的扩展 START */
+.ms-shipping{
+    background: none;
+}
+.ms-shipping .ms-selectable{
+    width: 23.0769%;
+    margin-right: 0px;
+}
+.ms-shipping .ms-mobile-selectable{
+    width: 150px;
+    margin-right: 0px;
+}
+/*.ms-elem-selectable*/
+.ms-shipping .ms-elem-selectable .edit-list{
+    float: right;
+    cursor: pointer;
+    opacity: 0;
+}
+.ms-shipping .ms-elem-selectable:hover .edit-list{
+    opacity: 1;
+}
+/* ms-shipping模块，选择地区的扩展 END */
+
+
+/*ms的扩展，拖动ms START*/
+.draggable .ui-sortable-placeholder {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px dashed #aaa;
+    background: #eee;
+    height: 25px !important;
+    margin-bottom: 20px;
+    visibility: visible !important;
+}
+.draggable .ms-container .ms-selectable li.ms-elem-selectable,
+.draggable .ms-container .ms-selection li.ms-elem-selection {
+    background: #fff;
+    cursor: default;
+}
+.draggable .ms-container .ms-selectable li.ms-elem-selectable .edit-list,
+.draggable .ms-container .ms-selection li.ms-elem-selection .edit-list {
+    float: right;
+    opacity: 0;
+    transition: opacity 0.2s ease 0s;
+}
+.draggable .ms-container .ms-selectable li.ms-elem-selectable i,
+.draggable .ms-container .ms-selection li.ms-elem-selection i {
+    cursor: pointer;
+    font-size: 16px;
+}
+.draggable .ms-container .ms-selectable li.ms-elem-selectable i {
+    color: #08c;
+}
+.draggable .ms-container .ms-selection li.ms-elem-selection i {
+    color: #c62626;
+}
+.draggable .ms-container .ms-selectable li:hover.ms-elem-selectable .edit-list,
+.draggable .ms-container .ms-selection li:hover.ms-elem-selection .edit-list {
+    opacity: 1;
+}
+
+.ms-container .custom-header.custom-header-align {
+    height: 32px;
+    line-height: 32px;
+}
+.draggable .ms-container .modif li.ms-elem-selection {
+    cursor: move;
+}
+/* 关联商品价格样式 */
+.draggable li.ms-elem-selection .link_price_input{
+    display: inline;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    box-shadow: none;
+    height: 16px;
+    padding: 0;
+    width: 100px;
+    line-height: 16px;
+    margin: 0;
+}
+/*ms的扩展，拖动ms END*/
+
+/* wookmark_list 拖动模块扩展（修正列表拖拽元素的属性问题） START */
+.wookmark_list {
+    text-align: left;
+    position: inherit;
+}
+.wookmark_list ul.wookmark-goods-photo {
+    position: inherit;
+}
+.wookmark_list .thumbnail {
+    transition-property : none;
+}
+.wookmark_list .ui-sortable-placeholder {
+    border: 1px dashed #aaa;
+    height: 222px;
+    background: #eee;
+}
+/* wookmark_list 拖动模块扩展（修正列表拖拽元素的属性问题） END */
+
+/*.license_list 列表扩展 START*/
+.license_list .thumbnail {
+    padding: 15px;
+}
+.license_list .thumbnail h4 {
+    font-weight: normal;
+    border-bottom: 1px solid #eee;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.license_list .thumbnail .license_bd {
+    height: 120px;
+}
+/*.license_list 列表扩展 END*/
+
+/*.fileupload-btn 上传按钮组件 START */
+.fileupload-btn,
+.fileupload-btn:hover,
+.fileupload-btn:after {
+    float: left;
+    width: 300px;
+    height: 300px;
+    line-height: 314px;
+    padding: 0px;
+    margin-left: 7px;
+    margin-bottom: 10px;
+    border: 1px dashed #ccc;
+    background: #eee;
+    color: #999;
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+}
+.fileupload-btn > input[type="file"] {
+    cursor: pointer;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.fileupload-btn.preview-img {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #ccc;
+}
+.fileupload-btn .fileupload-exists {
+    background: none repeat scroll 0 0 rgba(153, 153, 153, 0.1);
+    border-radius: 50%;
+    display: inline-block;
+    font: 900 60px/95px dashicons;
+    height: 80px;
+    left: 50%;
+    margin-left: -40px;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    text-indent: -1px;
+    text-shadow: none;
+    top: 36%;
+    vertical-align: middle;
+    width: 80px;
+    z-index: 4;
+}
+.fileupload-btn.preview-img .fileupload-exists{
+    display: none;
+    opacity: 0;
+}
+.goods_img,
+.thumb_img {
+    overflow: hidden;
+}
+.thumb_img .fileupload-btn {
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+}
+.thumb_img .fileupload-btn .fileupload-exists {
+    top: 30%;
+}
+/*.preview-img {
+    float: left;
+    margin-right: 10px;
+    width: 216px;
+    height: 216px;
+    line-height: 216px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+    background: #eee;
+}*/
+/*.fileupload-btn 上传按钮组件 END */
+
+
+/*===========================ECJIAUI样式END===========================*/
+
+
+
+/*===========================等待整理===========================*/
+
+/*.goods-cat 添加商品的商品分类样式 START*/
+.goods-cat {
+    height: 160px;
+    max-height: 200px;
+    width: 292px;
+    padding: 0px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    overflow: auto;
+}
+/*.goods-cat 添加商品的商品分类样式 END*/
+
+/*bootscrip的样式继承改写*/
+/*input[type="radio"], input[type="checkbox"] {
+    margin: 0px;
+}*/
+
+.block_fep_l{border-left:1px dashed #dcdcdc;margin-left:60px;}
+.block_fep_r{border-right:1px dashed #dcdcdc; }
+
+.page_box {
+    position: relative;
+    top: 50%;
+    width: 500px;
+    margin: 0 auto 24px;
+    background: #fff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    -ms-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    box-shadow: 0 0 6px rgba(0,0,0,0.2)
+}
+/*全局css 分页的css START*/
+/*
+.page{
+    background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+    box-shadow: none;
+    margin: 10px 0px;
+    min-height: 30px;
+    overflow: hidden;
+    padding: 5px;
+    line-height: 26px;
+}
+.page .external_link{background: #fff;}
+.page select, .page textarea, .page input[type="text"],
+.page input[type="password"], .page input[type="datetime"],
+.page input[type="datetime-local"], .page input[type="date"],
+.page input[type="month"], .page input[type="time"],
+.page input[type="week"], .page input[type="number"],
+.page input[type="email"], .page input[type="url"],
+.page input[type="search"], .page input[type="tel"],
+.page input[type="color"], .page .uneditable-input{
+    width: 30px;
+    margin-bottom: 0px;
+}
+*/
+
+/*全局css 分页的css END*/
+
+/*全局css 弹窗css START*/
+.smoke-base{position:fixed;top:0;left:0;bottom:0;right:0;visibility:hidden;opacity:0;-moz-transition:all .3s;-webkit-transition:opacity .3s;-o-transition:all .3s;transition:all .3s}
+.smoke-base.smoke-visible{opacity:1;visibility:visible}
+.smokebg{position:fixed;top:0;left:0;bottom:0;right:0}
+.smoke-base .dialog{position:absolute}
+.dialog-prompt{margin-top:5px;text-align:center}
+.smoke{font-weight:700;text-align:center;font-size:22px;line-height:130%}
+.smoke-base {background: rgba(0,0,0,.2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#90000000,endColorstr=#900000000);}
+.smoke-base .dialog {top: 25%;left: 25%;width: 50%;}
+.smoke {background-color: rgba(255,255,255,1);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#ffffff);}
+.queue{display:none}
+
+.smoke-base .dialog{top:25%;left:30%;width:40%}
+.smoke-base .dialog-inner{margin:8px;background:#fff;padding-top: 20px;/*padding:10px*/}
+.smoke{text-transform:none;color:#222;font-weight:400;background-color:rgba(0,0,0,.5);border-radius:5px;font-size:20px}
+/*.dialog-head{border-bottom: 1px solid #CCCCCC;margin-bottom: 10px; padding: 5px;text-align: right;}
+.dialog-head .dialog-close{color: #aaa;cursor: pointer;}*/
+.dialog-info{padding: 10px; font-size: 16px;font-weight: normal;}
+.dialog-buttons{padding: 10px 0 20px;}
+.dialog-prompt input{width:300px;text-align:center}
+.smoke button + button {margin-left:10px}
+/*全局css 弹窗css END*/
+
+/* 图片列表模块CSS START */
+.wmk_grid > ul {list-style: none;margin:0;position:relative}
+.wmk_grid > ul > li {background-color: #fff;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;-ms-box-sizing: border-box;box-sizing: border-box}
+.wmk_grid > ul > li>a,.wmk_grid ul > li>a img {display: block}
+.wmk_grid > ul > li>a img {width:100%}
+.wmk_grid > ul > li p {color: #666;font-size: 12px;margin: 8px 4px 2px;overflow:hidden}
+.wmk_grid > ul > li p a {display:inline-block;margin-left:10px;float:right;opacity:.6}
+.wmk_grid > ul > li p a:hover {opacity:1}
+.wmk_grid > ul > li p span {overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:block}
+.wmk_grid .thumbnail:hover {border-color:#0088CC}
+.wmk_grid .thumbnail>a {position:relative}
+.wmk_grid .thumbnail>a .vid_ico {position:absolute;top:10px;right:10px;display:block;width:16px;height:16px}
+.wmk_grid ul .self_vid .vid_ico {background: url("../images/vid_local.png") no-repeat 0 0}
+.wmk_grid .yt_vid .vid_ico {background: url("../images/vid_yt.png") no-repeat 0 0}
+.wmk_grid .vimeo_vid .vid_ico {background: url("../images/vid_vimeo.png") no-repeat 0 0}
+
+/* small gallery grid */
+    #small_grid > ul > li {width:120px}
+    #small_grid > ul > li p {line-height:1.3}
+    #small_grid > ul > li p span {font-size:11px}
+/* large gallery grid */
+    #large_grid > ul > li,#mixed_grid > ul > li {width:220px}
+    #large_grid > ul > li p span {width:70%}
+
+.video-container {position: relative;padding-bottom: 55.75%;height: 0;overflow: hidden;background: rgba(0,0,0,.3)}
+.video-container iframe,.video-container object,.video-container embed {position: absolute;top: 0;left: 0;width: 100%;height: 100%}
+#cboxContent .video-js {width:640px !important;height:360px !important}
+/* 图片列表模块CSS END */
+
+/*wookmark-goods-photo 图片列表扩展 START */
+.wookmark .wookmark-goods-photo > ul > li p span {
+    width:70%
+}
+.wookmark .wookmark-goods-photo .bd{
+    height: 190px;
+    line-height: 190px;
+    text-align: center;
+}
+.wookmark .wookmark-goods-photo li > a.bd img{
+    display: inline;
+    height: auto;
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
+    vertical-align: middle;
+}
+/*wookmark-goods-photo 图片列表扩展 END */
+
+
+/* 空页面 license-info 授权管理页面 START */
+.license-info .certificate {
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    width: 680px;
+    height: 178px;
+    margin: 20px auto;
+    padding: 270px 60px 120px 60px;
+    background: url('../images/license1.png') no-repeat;
+}
+.license-info .certificate p {
+    text-indent: 2em
+}
+.license-info .certificate .company-name {
+    /*display: block;*/
+    /*width: 80%;*/
+    /*min-width: 200px;*/
+    /*margin: 8px auto;*/
+    color: #ed6d00;
+    /*text-indent: 0; */
+    /*white-space: nowrap;*/
+    /*text-align: center;*/
+    /*text-overflow: ellipsis;*/
+    /*font-size: 20px;*/
+    /*font-weight: bold;*/
+    /*border-bottom: 1px solid #000;*/
+}
+.license-info .license-detail {
+    text-align: center;
+    height: 155px;
+}
+.license-info .license-time {
+    color: #999;
+    font-size: 12px;
+    font-weight: normal;
+}
+/* 空页面 license-info 授权管理页面 END */
+
+/*===========================ECJIAUI样式 By:weidong START ===========================*/
+/* 商品分类编辑 行的扩展TODO：待整理 START */
+.goods_type {
+    display: block;
+    margin-bottom: 5px;
+    line-height: 30px;
+}
+.goods_type .chzn-container {
+    margin-right: 5px;
+}
+/* 商品分类编辑 行的扩展TODO：待整理 END */
+
+/* 文章分类模块图标 - 无限分类列表 START */
+.unlimited-category-list .open_state{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+.unlimited-category-list .open_state.is_open{
+    background:url(../images/catchild.png) no-repeat scroll center center;
+}
+.unlimited-category-list .open_state.is_close{
+    background:url(../images/catone.png) no-repeat scroll center center;
+}
+.form-horizontal .controls+.controls {
+    margin-top: 10px;
+}
+
+/* 文章分类模块图标 - 无限分类列表 END */
+
+/* .goods_preview商品预览页面 START */
+/*.goods_preview{
+    background: #f2f2f2;
+}*/
+.goods_preview .showview{
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    background: #fff;
+}
+.goods_preview .price{
+    color: #ef353d;
+    font-size: 28px;
+    font-weight: 500;
+}
+/* .goods_preview商品预览页面 END */
+
+/*===========================ECJIAUI样式 By:weidong END ===========================*/
+
+/*===========================ECJIAUI样式 By:GuanYongRui START ===========================*/
+/*配送区域添加页面css by:guanyongrui START*/
+.ship-controls {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.ship-controls .region_select {
+    float:left;
+/*     display: inline; */
+    position:relative;
+    padding:5px 20px;
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+}
+.ship-controls .region_select table{
+    display: inline;
+}
+.ship-controls .region_select table span{
+    display: block;
+    text-align: center;
+    width: 100%;
+    background: none repeat scroll 0 0 #e0e0e0;
+/*     box-shadow: 0 1px 0 0 #ececec inset; */
+    text-shadow: 1px 1px 0 #efefef;
+    border-color: #ddd;
+    color: #333;
+    font-size:14px;
+    line-hight:16px;
+    border-radius: 3px;
+    margin-bottom:-1px;
+
+}
+.ship-controls .region_select table .span-btn{
+    margin-top:auto;
+    margin-bottom:auto;
+    vertical-align: middle;
+}
+.ship-controls .panel-default {
+    border-color: #ddd;
+}
+.ship-controls .panel {
+    background-color: #fff;
+    border: 1px solid #ddd;
+
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.ship-controls .panel-default > .panel-heading {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    color: #333;
+}
+.ship-controls .panel-heading {
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 10px 15px;
+}
+
+.ship-controls .panel-body {
+    padding: 5px;
+}
+.ship-controls .panel > .list-group, .panel > .panel-collapse > .list-group {
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right:auto;
+    list-style-type:none;
+}
+.ship-controls .list-group {
+    margin-bottom: 20px;
+    padding-left: 0;
+
+}
+.ship-controls .panel > .list-group .list-group-item, .panel > .panel-collapse > .list-group .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0;
+}
+.ship-controls .list-group-item:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.ship-controls .list-group-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: block;
+    margin-bottom: -1px;
+    padding: 10px 15px;
+    position: relative;
+    clear: both;
+    overflow:hidden;
+}
+.ship-controls .add_btn{
+    background-color: #3498db;
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.25s ease 0s;
+    box-sizing: border-box;
+    width: 100%;
+    cursor: pointer;
+    display: inline-block;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) white;
+    border-image: none;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+}
+/*配送区域添加页面css END*/
+
+/*红包类型列表页面针对隐藏菜单显示修正css by:guanyongrui START*/
+.table-hide-edit .hide_edit_area_bottom{
+    padding-bottom: 33px;
+}
+/*配送区域添加页面css END*/
+
+/**======邮件发送遮罩css --by:guanyongrui  --start======**/
+/*全屏/部分 背景遮罩层*/
+.loadingPage_bg1 {
+    background:none repeat scroll 0 0 #000;
+    height:100%;
+    left:0; /*:rgba(0,0,0,0.5);*/
+    opacity:0.3;
+    filter:alpha(opacity=70);
+    width:100%;
+    position:absolute;
+    top:0px;
+    z-index:110;
+}
+/*部分loading范围div*/
+.loadingPage_partDiv{
+    position:relative;
+}
+/*loading图片层*/
+.loadingPageimage {
+    display:block;
+    font-weight:bold;
+    font-size:12px;
+    color:#595959;
+    height:28px;
+    left:50%;
+    line-height:27px;
+    margin-left:-74px;
+    margin-top:-14px;
+    padding:10px 10px 10px 50px;
+    position:absolute;
+    text-align:left;
+    top:50%;
+    width:240px;
+    z-index:111;
+    background:url(../images/loading.gif) no-repeat scroll 12px center #FFFFFF;
+    border:2px solid #86A5AD;
+}
+/**======邮件发送遮罩css --by:guanyongrui  --end======**/
+
+/*===========================ECJIAUI样式 By:GuanYongRui END ===========================*/
+
+
+/* 会员整合样式 扩展 start*/
+.notice-span{
+    position:relative;
+    top:10px;
+    left:-30px;
+}
+/* 会员整合样式扩展 end */
+
+/* 会员管理 新增列表对齐样式  start */
+.top_right input{
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 0px;
+}
+/* 会员管理 新增列表对齐样式  end */
+
+/*===========================ECJIAUI样式 By:yuanhuan START ===========================*/
+/* 添加abstract组件(用于摘要描述等绘制的提示框,可自定义扩展) START */
+.abstract{
+    display: block;
+    position: relative;
+    top: 0;
+    left:0;
+    max-width: 1000px;
+    text-align: left;
+    white-space: normal;
+    background-color: #fff;
+    /*border: 1px solid rgba(0,0,0,0.2);*/
+    border-radius: 6px;
+    background-clip: padding-box;
+    margin-top: 10px;
+    opacity: 1;
+    transition: opacity .15s linear;
+}
+.abstract.bottom{
+    margin-top:10px;
+}
+.abstract .icon{
+    top: -11px;
+    left: 5%;
+    margin-left: -11px;
+    border-bottom-color: #999;
+    border-top-width: 0;
+    border-width: 11px;
+}
+.abstract-title{
+    padding:8px 14px;
+    margin:0;
+    font-size:14px;
+    font-weight:normal;
+    line-height:18px;
+    background-color:#f7f7f7;
+    border-bottom:1px solid #ebebeb;
+    -webkit-border-radius:5px 5px 0 0;
+    -moz-border-radius:5px 5px 0 0;
+    border-radius:5px 5px 0 0
+}
+.abstract-content{
+    padding:9px 14px;
+    background-color: #F3F3F3;
+}
+.abstract .icon,.abstract .icon:after{
+    position:absolute;
+    display:block;
+    width:0;
+    height:0;
+    border-color:transparent;
+    border-style:solid;
+}
+.abstract .icon{
+    border-width:11px;
+}
+.abstract .icon:after{
+    border-width:10px;
+    content:""
+}
+.abstract.bottom .icon{
+    top:-11px;
+    left:3%;
+    margin-left:-11px;
+    /*border-bottom-color:#999;
+    border-bottom-color:rgba(0,0,0,0.25);*/
+    border-top-width:0;
+}
+.abstract.bottom .icon:after{
+    top:1px;
+    margin-left:-10px;
+    border-bottom-color:#F3F3F3;
+    border-top-width:0;
+}
+/* 添加abstract组件(用于摘要描述等绘制的提示框,可自定义扩展) END */
+/*===========================ECJIAUI样式 By:yuanhuan END ===========================*/
+
+
+/*===========================ECJIAUI样式 By:yuanhuan START ===========================*/
+/* 添加列表缩略图--视频样式 START */
+.table.table-hide-edit img.big-thumbnail {
+    width: 140px;
+    height: 80px;
+    padding: 0px;
+    overflow: hidden;
+}
+.table.table-hide-edit .edit-other{
+    margin: 3px 0px;
+    padding-top: 3px;
+}
+.table.table-hide-edit .edit-other span{
+    font-size: 12px;
+    display: block;
+    color: #595959;
+}
+.table.table-hide-edit .edit-other i:before{
+    font-size: 14px;
+}
+/* 添加列表缩略图--视频样式 END */
+/*===========================ECJIAUI样式 By:yuanhuan END ===========================*/
+
+
+/*===========================ECJIAUI样式 By:yuanhuan START===========================*/
+/* 上传样式扩展 START TODO需调整 */
+.fileupload-area{
+    float: left;
+    width: 410px;
+    height: 315px;
+    padding: 0px;
+    margin-left: 7px;
+    margin-bottom: 10px;
+    color: #999;
+    overflow: hidden;
+    position: relative;
+    /*vertical-align: middle;*/
+}
+.fileupload-area .thumbnail{
+
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    transition: all .2s ease-in-out;
+}
+.fileupload-area .fontello-icon-camera{
+    font-size:36px;
+    position:absolute;
+    z-index:187;
+    top:45%;
+    left:45%;
+}
+.fileupload-area .fontello-icon-plus{
+    font-size:36px;
+    position:absolute;
+    z-index:186;
+    top:45%;
+    left:45%;
+}
+.fileupload-area h3{
+    font-size:14px;
+    position:absolute;
+    top:55%;
+    left:42%;
+}
+.fileupload-area:hover .operate{
+    width:70px;
+    height:30px;
+    position:absolute;
+    top:5px;
+    right:5px;
+}
+.fileupload-area:hover .operate .left{
+    display:block;
+    position:absolute;
+    left:0.1%;
+    width:30px;
+    height:30px;
+    background-color:#6C7377;
+    z-index:1025;
+}
+
+.fileupload-area:hover .operate .right{
+    position:absolute;
+    right:0.1%;
+    width:30px;
+    height:30px;
+    background-color:#6C7377;
+    z-index:1025;
+}
+.fileupload-area:hover .operate .fontello-icon-edit{
+    color:#FFF;
+    font-size:20px;
+    position:absolute;
+    top:15%;
+    left:10%;
+}
+.fileupload-area:hover .operate .fontello-icon-trash{
+    color:#FFF;
+    font-size:20px;
+    position:absolute;
+    top:15%;
+    left:5%;
+}
+
+.fileupload-area > input[type="file"]{
+    cursor: pointer;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index:1024;
+}
+
+/*上传框扩展 END TODO需调整 *
+/*===========================ECJIAUI样式 By:yuanhuan END===========================*/
+
+
+/* 反馈留言评论详情页样式start*/
+.comment-content{
+    border-bottom: 1px dashed #dcdcdc;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+}
+.comment-content.first{border-bottom:0px;}
+.comment-content div{ padding-bottom:8px;}
+.comment-content div:last-child{ padding-bottom:0px;}
+.comment-content .reply-content{padding-left:20px;}
+.comment-content .help-block{margin:0px;display: inline;}
+.comment-content .msg-cut-off{padding:0px 10px;color:#ddd;}
+.comment-content .hide-edit-area{font-size:11px; padding-left:10px;}
+.comment-content .reply-order-msg{border-bottom: 1px dashed #dcdcdc;padding-top:10px;}
+.comment-content .reply-order-msg-p0{padding-top:0px;}
+.comment-content .reply-order-msg:last-child{border-bottom:0px;}
+.comment-content .reply-order-msg .reply-area{font-size:11px; padding-left:10px;}
+
+/* 反馈留言评论详情页样式 end*/
+
+/* 添加订单操作轴与选择购买用户类型 start*/
+.order-time-base{text-algin:center;}
+.order-time-base ul{margin:0px auto;overflow: hidden;}
+.order-time-base ul li{list-style:none;margin-left:0 !important;text-align:center;width:16.5%;float:left;}
+.order-time-base .step-no{margin-top: 10px;color:#fff;font-size:18px;height:34px;line-height:34px;background: url("../images/order-time-base.png") no-repeat scroll 50% -102px;}
+.order-time-base .step-first .step-done .step-no{background-position: 50% -204px;}
+.order-time-base .step-first .step-cur .step-no{background-position: 50% -34px;}
+.order-time-base .step-done .step-no{background-position: 50% -170px;}
+.order-time-base .step-cur .step-no{background-position: 50% 0;}
+.order-time-base .step-last .step-no{background-position: 50% -136px;}
+.order-time-base .step-last .step-cur .step-no{background-position: 50% -68px;}
+
+.order-select-user{margin-top:50px;}
+.order-select-user ul{width:670px;margin:0 auto;}
+.order-select-user li{background:#e8e8e8; width:300px;height:200px;border-radius: 10px; text-align:center;list-style:none;float:left;}
+.order-select-user li:hover{background:#0189b9;}
+.order-select-user .user-anonymous{background:url("../images/user_anonymous.png") no-repeat;width:80px;height:80px;margin:35px auto 0;}
+.order-select-user li:hover .user-anonymous{background:url("../images/user_anonymous2.png") no-repeat;}
+.order-select-user .user{background:url("../images/user.png") no-repeat;width:80px;height:80px;margin:35px auto 0;}
+.order-select-user li:hover .user{background:url("../images/user2.png") no-repeat;}
+.order-select-user .user-title{font-size:20px;font-weight:bold;color:#0189b9; margin-top:30px;}
+.order-select-user li:hover .user-title{color:#fff;}
+
+
+.order-goods-select{width:100% !important;}
+.order-goods-select .add-goods{position: relative;}
+.order-goods-select .add-goods .goods_info{position: absolute; right: 10px;top: -25px;}
+.order-goods-select div.ms-list,.order-select-goods,.order-select-users,.order-users-select div.ms-list{height: 380px !important;overflow-y: auto;}
+.order-goods-select dl{margin-top:0px;}
+.order-goods-select dl dd{font-weight:bold;padding:1px 0;}
+.order-goods-select dl dd span{font-weight:normal;}
+.order-goods-select ul.goods_info,.order-users-select ul.users_info{padding:10px 0;}
+.order-goods-select ul li{padding-left:10px; margin-bottom:3px;}
+.order-goods-select ul li .ui-spinner{margin-left:3px;}
+.order-goods-select .ui-spinner .ui-icon{cursor:pointer;}
+.order-goods-select #goods_name{font-size:16px;}
+.order-goods-select ul li.goods_attr{font-size:16px; font-weight:bold; padding:10px; margin-top: 10px;border-top: 1px dashed #ddd;}
+.order-goods-select .control-group{margin-bottom:0px;}
+.order-goods-select .control-group-small .control-label,.order-users-select .control-group .control-label{font-weight:bold;}
+.order-goods-select .control-group-small .controls{margin-left: 80px;}
+.order-goods-select .goods_attr_div{padding-top:4px;}
+.order-goods-select .goods_attr_sel{padding-top:3px;}
+.order-users-select .control-group .controls{padding-top:4px;}
+
+
+.order-goods-select.table .edit_order_list td,.order-table-list .table-list td,.order-table-list .table-list th{text-align:center;}
+.order-goods-select.table .edit_numtd [class^="fontello-icon-"]:before{font-size:13px;}
+.order-goods-select.table th{text-align:center;}
+.order-goods-select.table tr .right-td{text-align:right;vertical-align: middle;}
+.order-goods-select.table tr .left-td{text-align:left;vertical-align: middle;}
+/* 添加订单操作轴与选择购买用户类型 end*/
+
+#range-div {margin-top:15px;margin-left:0px;display:none;}
+#range-div li{list-style:none;}
+
+/*===========================ECJIAUI专题商品预览 By:sq START===========================*/
+
+.bigimg{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.box ul li {
+    width: 10%;
+    height:200px;
+    text-align: center;
+    margin-left: 3%;
+    margin-right: 3%;
+    float: left;
+    list-style: outside none none;
+
+}
+/*===========================ECJIAUI专题商品预览 By:sq END===========================*/
+
+/*===========================ECJIAUI专题商品预览 By:sq START===========================*/
+.push_list{
+    width: 100%;
+}
+.push_list .choose{
+    float: left;
+    width: 100px;
+}
+.push_list .choose label{
+    margin:10px 0;
+    border-left: 1px solid #eee;
+    padding-left:10px;
+}
+.push_list .choose label.nomargin {
+    margin:0px;
+}
+.clear_both {
+    clear:both;
+}
+/*===========================ECJIAUI专题商品预览 By:sq END===========================*/
+
+
+/* 主题选择 样式 START */
+
+/*显示视图showview START*/
+.form-horizontal .showview  .left {
+    position: absolute;
+    width: 400px;
+}
+.form-horizontal .showview  .left .thumbnail {
+    height: 0;
+    padding-bottom: 75%;
+    overflow: hidden;
+}
+.form-horizontal .showview  .left img  {
+    width: 400px;
+}
+.form-horizontal .showview  .right {
+    min-height: 310px;
+    padding-left: 430px;
+}
+.form-horizontal .showview  .right {
+    text-align: left ;
+}
+.form-horizontal .showview  .right h4 {
+    font-size: 20px;
+}
+.form-horizontal .showview .tmpstyle i.active {
+    box-shadow: 1px 1.5px #999;
+}
+/*显示视图showview END*/
+.form-horizontal .control-group .wookmark .thumbnail {
+    width: 19%;
+    margin-right: 1%;
+    padding: 10px;
+}
+.form-horizontal .control-group .wookmark .thumbnail p.ecjiaf-toe {
+    height: 22px;
+}
+.form-horizontal .control-group .wookmark .thumbnail .thumbnail_img {
+    display: block;
+    height: 0;
+    padding-bottom: 77%;
+    overflow: hidden;
+}
+.form-horizontal .control-group .wookmark .thumbnail .thumbnail_img img {
+    width: 100%;
+}
+@media only screen and (min-width:1400px) {
+    .form-horizontal .control-group .wookmark .thumbnail:nth-child(5n) {
+        margin-right: 0;
+    }
+}
+@media only screen and (max-width:1400px) {
+    .form-horizontal .control-group .wookmark .thumbnail {
+        width: 24%;
+    }
+    .form-horizontal .control-group .wookmark .thumbnail:nth-child(4n) {
+        margin-right: 0;
+    }
+}
+@media only screen and (max-width:1240px) {
+    .form-horizontal .control-group .wookmark .thumbnail,
+    .form-horizontal .control-group .wookmark .thumbnail:nth-child(4n) {
+        width: 32%;
+        margin-right: 2%;
+    }
+    .form-horizontal .control-group .wookmark .thumbnail:nth-child(3n) {
+        margin-right: 0;
+    }
+}
+@media screen and (max-width: 640px) {
+    .form-horizontal .showview  .left {
+        position: inherit;
+    }
+    .form-horizontal .showview  .right {
+        min-height: inherit;
+        padding-left: 0;
+    }
+    .form-horizontal .control-group .wookmark .thumbnail {
+        width: 98%;
+    }
+    .form-horizontal .control-group .wookmark .thumbnail:nth-child(2n),
+    .form-horizontal .control-group .wookmark .thumbnail:nth-child(3n) {
+        margin-right: 0;
+    }
+}
+/* 主题选择 样式 END */
+
+/* 设置菜单 样式 START */
+.setting-group-title {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #555;
+	font-weight: 400;
+    font-size: 15px;
+    background: #f9f9f9;
+	border-radius: 4px; 
+}
+.setting-group-item {
+    position: relative;
+    display: block;
+    padding: 5px 15px;
+    color: #555;
+	border-radius:4px;
+}
+.setting-group-item.llv-active, .setting-group-item.llv-active:focus, .setting-group-item.llv-active:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.setting-group a:hover {
+    color: #555;
+    text-decoration: inherit;
+    background-color: #f2f2f2;
+	border-radius: 4px; 
+}
+/* 设置菜单 样式 END */

@@ -1,0 +1,808 @@
+<?php namespace Royalcms\Component\Debugbar;
+
+use Royalcms\Component\Debugbar\DataCollector\EventCollector;
+use Royalcms\Component\Debugbar\DataCollector\FilesCollector;
+use Royalcms\Component\Debugbar\DataCollector\RoyalcmsCollector;
+use Royalcms\Component\Debugbar\DataCollector\LogsCollector;
+// use Royalcms\Component\Debugbar\DataCollector\QueryCollector;
+use Royalcms\Component\Debugbar\DataCollector\SessionCollector;
+use Royalcms\Component\Debugbar\DataCollector\SymfonyRequestCollector;
+// use Royalcms\Component\Debugbar\DataCollector\ViewCollector;
+use Royalcms\Component\Debugbar\Storage\FilesystemStorage;
+use DebugBar\Bridge\MonologCollector;
+// use DebugBar\Bridge\SwiftMailer\SwiftLogCollector;
+// use DebugBar\Bridge\SwiftMailer\SwiftMailCollector;
+use DebugBar\DataCollector\ConfigCollector;
+use DebugBar\DataCollector\ExceptionsCollector;
+use DebugBar\DataCollector\MemoryCollector;
+use DebugBar\DataCollector\MessagesCollector;
+use DebugBar\DataCollector\PhpInfoCollector;
+use DebugBar\DataCollector\RequestDataCollector;
+use DebugBar\DataCollector\TimeDataCollector;
+use DebugBar\DebugBar;
+use DebugBar\Storage\PdoStorage;
+use DebugBar\Storage\RedisStorage;
+use Exception;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * Debug bar subclass which adds all without Request and with RoyalcmsCollector.
+ * Rest is added in Service Provider
+ *
+ * @method void emergency($message)
+ * @method void alert($message)
+ * @method void critical($message)
+ * @method void error($message)
+ * @method void warning($message)
+ * @method void notice($message)
+ * @method void info($message)
+ * @method void debug($message)
+ * @method void log($message)
+ */
+class RoyalcmsDebugbar extends DebugBar
+{
+    /**
+     * The Royalcms application instance.
+     *
+     * @var \Royalcms\Component\Foundation\Royalcms
+     */
+    protected $royalcms;
+
+    /**
+     * Normalized Royalcms Version
+     *
+     * @var string
+     */
+    protected $version;
+
+    /**
+     * True when booted.
+     *
+     * @var bool
+     */
+    protected $booted = false;
+
+    /**
+     * @param \Royalcms\Component\Foundation\Royalcms $royalcms
+     */
+    public function __construct($royalcms = null)
+    {
+        if (!$royalcms) {
+            $royalcms = royalcms();   //Fallback when $app is not given
+        }
+        $this->royalcms = $royalcms;
+        $this->version = $royalcms::VERSION;
+    }
+
+    /**
+     * Enable the Debugbar and boot, if not already booted.
+     */
+    public function enable()
+    {
+        $this->royalcms['config']->set('debugbar.enabled', true);
+        if (!$this->booted) {
+            $this->boot();
+        }
+    }
+
+    /**
+     * Boot the debugbar (add collectors, renderer and listener)
+     */
+    public function boot()
+    {
+        if ($this->booted) {
+            return;
+        }
+
+        if ($this->isDebugbarRequest()) {
+            $this->royalcms['session']->reflash();
+        }
+
+        /** 
+         * @var \Royalcms\Component\Debugbar\RoyalcmsDebugbar $debugbar 
+         */
+        $debugbar = $this;
+        
+        /** 
+         * @var \Royalcms\Component\Foundation\Royalcms $royalcms 
+         */
+        $royalcms = $this->royalcms;
+
+        $this->selectStorage($debugbar);
+
+        if ($this->shouldCollect('phpinfo', true)) {
+            $this->addCollector(new PhpInfoCollector());
+        }
+        if ($this->shouldCollect('messages', true)) {
+            $this->addCollector(new MessagesCollector());
+        }
+        if ($this->shouldCollect('time', true)) {
+            $startTime = defined('ROYALCMS_START') ? ROYALCMS_START : null;
+            $this->addCollector(new TimeDataCollector($startTime));
+
+            $this->royalcms->booted(
+                function () use ($debugbar, $startTime) {
+                    if ($startTime) {
+                        $debugbar['time']->addMeasure('Booting', $startTime, microtime(true));
+                    }
+                }
+            );
+
+            //Check if App::before is already called..
+            if ($this->royalcms->isBooted()) {
+                $debugbar->startMeasure('application', 'Application');
+            } else {
+                $this->royalcms['router']->before(
+                    function () use ($debugbar) {
+                        $debugbar->startMeasure('application', 'Application');
+                    }
+                );
+            }
+
+            $this->royalcms['router']->after(
+                function () use ($debugbar) {
+                    $debugbar->stopMeasure('application');
+                    $debugbar->startMeasure('after', 'After application');
+                }
+            );
+        }
+        if ($this->shouldCollect('memory', true)) {
+            $this->addCollector(new MemoryCollector());
+        }
+        if ($this->shouldCollect('exceptions', true)) {
+            try {
+                $exceptionCollector = new ExceptionsCollector();
+                $exceptionCollector->setChainExceptions(
+                    $this->royalcms['config']->get('debugbar.options.exceptions.chain', true)
+                );
+                $this->addCollector($exceptionCollector);
+                $this->royalcms->error(
+                    function (Exception $exception) use ($exceptionCollector) {
+                        $exceptionCollector->addException($exception);
+                    }
+                );
+            } catch (\Exception $e) {
+            }
+        }
+        if ($this->shouldCollect('royalcms', false)) {
+            $this->addCollector(new RoyalcmsCollector($this->royalcms));
+        }
+        if ($this->shouldCollect('default_request', false)) {
+            $this->addCollector(new RequestDataCollector());
+        }
+
+        if ($this->shouldCollect('events', false) and isset($this->royalcms['events'])) {
+            try {
+                $startTime = defined('ROYALCMS_START') ? ROYALCMS_START : null;
+                $eventCollector = new EventCollector($startTime);
+                $this->addCollector($eventCollector);
+                $this->royalcms['events']->subscribe($eventCollector);
+
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add EventCollector to Royalcms Debugbar: ' . $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    )
+                );
+            }
+        }
+        /*
+        if ($this->shouldCollect('views', true) and isset($this->royalcms['events'])) {
+            try {
+                $collectData = $this->royalcms['config']->get('debugbar.options.views.data', true);
+                $this->addCollector(new ViewCollector($collectData));
+                $this->royalcms['events']->listen(
+                    'composing:*',
+                    function ($view) use ($debugbar) {
+                        $debugbar['views']->addView($view);
+                    }
+                );
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add ViewCollector to Royalcms Debugbar: ' . $e->getMessage(), $e->getCode(), $e
+                    )
+                );
+            }
+        }*/
+
+        if ($this->shouldCollect('route')) {
+            try {
+                $this->addCollector($this->royalcms->make('Royalcms\Component\Debugbar\DataCollector\RouteCollector'));
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add RouteCollector to Royalcms Debugbar: ' . $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    )
+                );
+            }
+        }
+
+        if ($this->shouldCollect('log', true)) {
+            try {
+                if ($this->hasCollector('messages')) {
+                    $logger = new MessagesCollector('log');
+                    $this['messages']->aggregate($logger);
+                    $this->royalcms['log']->listen(
+                        function ($level, $message, $context) use ($logger) {
+                            try {
+                                $logMessage = (string) $message;
+                                if (mb_check_encoding($logMessage, 'UTF-8')) {
+                                    $logMessage .= (!empty($context) ? ' ' . json_encode($context) : '');
+                                } else {
+                                    $logMessage = "[INVALID UTF-8 DATA]";
+                                }
+                            } catch (\Exception $e) {
+                                $logMessage = "[Exception: " . $e->getMessage() . "]";
+                            }
+                            $logger->addMessage(
+                                '[' . date('H:i:s') . '] ' . "LOG.$level: " . $logMessage,
+                                $level,
+                                false
+                            );
+                        }
+                    );
+                } else {
+                    $this->addCollector(new MonologCollector($this->royalcms['log']->getMonolog()));
+                }
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add LogsCollector to Royalcms Debugbar: ' . $e->getMessage(), $e->getCode(), $e
+                    )
+                );
+            }
+        }
+        /*
+        if ($this->shouldCollect('db', true) and isset($this->royalcms['db'])) {
+            $db = $this->royalcms['db'];
+            if ($debugbar->hasCollector('time') && $this->royalcms['config']->get(
+                    'debugbar.options.db.timeline',
+                    false
+                )
+            ) {
+                $timeCollector = $debugbar->getCollector('time');
+            } else {
+                $timeCollector = null;
+            }
+            $queryCollector = new QueryCollector($timeCollector);
+
+            if ($this->royalcms['config']->get('debugbar.options.db.with_params')) {
+                $queryCollector->setRenderSqlWithParams(true);
+            }
+
+            if ($this->royalcms['config']->get('debugbar.options.db.backtrace')) {
+                $queryCollector->setFindSource(true);
+            }
+
+            if ($this->royalcms['config']->get('debugbar.options.db.explain.enabled')) {
+                $types = $this->royalcms['config']->get('debugbar.options.db.explain.types');
+                $queryCollector->setExplainSource(true, $types);
+            }
+
+            if ($this->royalcms['config']->get('debugbar.options.db.hints', true)) {
+                $queryCollector->setShowHints(true);
+            }
+
+            $this->addCollector($queryCollector);
+
+            try {
+                $db->listen(
+                    function ($query, $bindings, $time, $connectionName) use ($db, $queryCollector) {
+                        $connection = $db->connection($connectionName);
+                        $queryCollector->addQuery((string) $query, $bindings, $time, $connection);
+                    }
+                );
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add listen to Queries for Royalcms Debugbar: ' . $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    )
+                );
+            }
+        }*/
+        
+        /*
+        if ($this->shouldCollect('mail', true)) {
+            try {
+                $mailer = $this->royalcms['mailer']->getSwiftMailer();
+                $this->addCollector(new SwiftMailCollector($mailer));
+                if ($this->royalcms['config']->get('debugbar.options.mail.full_log') and $this->hasCollector(
+                        'messages'
+                    )
+                ) {
+                    $this['messages']->aggregate(new SwiftLogCollector($mailer));
+                }
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add MailCollector to Royalcms Debugbar: ' . $e->getMessage(), $e->getCode(), $e
+                    )
+                );
+            }
+        }*/
+
+        if ($this->shouldCollect('logs', false)) {
+            try {
+                $file = $this->royalcms['config']->get('debugbar.options.logs.file');
+                $this->addCollector(new LogsCollector($file));
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add LogsCollector to Royalcms Debugbar: ' . $e->getMessage(), $e->getCode(), $e
+                    )
+                );
+            }
+        }
+        if ($this->shouldCollect('files', false)) {
+            $this->addCollector(new FilesCollector($royalcms));
+        }
+
+        $renderer = $this->getJavascriptRenderer();
+        $renderer->setIncludeVendors($this->royalcms['config']->get('debugbar.include_vendors', true));
+        $renderer->setBindAjaxHandlerToXHR($royalcms['config']->get('debugbar.capture_ajax', true));
+
+        $this->booted = true;
+    }
+
+    public function shouldCollect($name, $default = false)
+    {
+        return $this->royalcms['config']->get('debugbar.collectors.' . $name, $default);
+    }
+
+    /**
+     * Starts a measure
+     *
+     * @param string $name Internal name, used to stop the measure
+     * @param string $label Public name
+     */
+    public function startMeasure($name, $label = null)
+    {
+        if ($this->hasCollector('time')) {
+            /** 
+             * @var \DebugBar\DataCollector\TimeDataCollector $collector 
+             */
+            $collector = $this->getCollector('time');
+            $collector->startMeasure($name, $label);
+        }
+    }
+
+    /**
+     * Stops a measure
+     *
+     * @param string $name
+     */
+    public function stopMeasure($name)
+    {
+        if ($this->hasCollector('time')) {
+            /** 
+             * @var \DebugBar\DataCollector\TimeDataCollector $collector 
+             */
+            $collector = $this->getCollector('time');
+            try {
+                $collector->stopMeasure($name);
+            } catch (\Exception $e) {
+                //  $this->addException($e);
+            }
+        }
+    }
+
+    /**
+     * Adds an exception to be profiled in the debug bar
+     *
+     * @param Exception $e
+     */
+    public function addException(Exception $e)
+    {
+        if ($this->hasCollector('exceptions')) {
+            /** 
+             * @var \DebugBar\DataCollector\ExceptionsCollector $collector 
+             */
+            $collector = $this->getCollector('exceptions');
+            $collector->addException($e);
+        }
+    }
+
+    /**
+     * Returns a JavascriptRenderer for this instance
+     *
+     * @param string $baseUrl
+     * @param string $basePathng
+     * @return JavascriptRenderer
+     */
+    public function getJavascriptRenderer($baseUrl = null, $basePath = null)
+    {
+        if ($this->jsRenderer === null) {
+            $this->jsRenderer = new JavascriptRenderer($this, $baseUrl, $basePath);
+            $this->jsRenderer->setUrlGenerator($this->royalcms['url']);
+        }
+        return $this->jsRenderer;
+    }
+
+    /**
+     * Modify the response and inject the debugbar (or data in headers)
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Symfony\Component\HttpFoundation\Response $response
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function modifyResponse(Request $request, Response $response)
+    {
+        $royalcms = $this->royalcms;
+        if ($royalcms->runningInConsole() or !$this->isEnabled() || $this->isDebugbarRequest()) {
+            return $response;
+        }
+
+        if ($this->shouldCollect('config', false)) {
+            try {
+                $configCollector = new ConfigCollector();
+                $configCollector->setData($royalcms['config']->getItems());
+                $this->addCollector($configCollector);
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add ConfigCollector to Royalcms Debugbar: ' . $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    )
+                );
+            }
+        }
+
+        /** 
+         * @var \Royalcms\Component\Session\SessionManager $sessionManager 
+         */
+        $sessionManager = $royalcms['session'];
+        $httpDriver = new SymfonyHttpDriver($sessionManager, $response);
+        $this->setHttpDriver($httpDriver);
+
+        if ($this->shouldCollect('session')) {
+            try {
+                $this->addCollector(new SessionCollector($sessionManager));
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add SessionCollector to Royalcms Debugbar: ' . $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    )
+                );
+            }
+        }
+
+        if ($this->shouldCollect('symfony_request', true) and !$this->hasCollector('request')) {
+            try {
+                $this->addCollector(new SymfonyRequestCollector($request, $response, $sessionManager));
+            } catch (\Exception $e) {
+                $this->addException(
+                    new Exception(
+                        'Cannot add SymfonyRequestCollector to Royalcms Debugbar: ' . $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    )
+                );
+            }
+        }
+
+        if ($response->isRedirection()) {
+            try {
+                $this->stackData();
+            } catch (\Exception $e) {
+                $royalcms['log']->error('Debugbar exception: ' . $e->getMessage());
+            }
+        } elseif (
+            $this->isJsonRequest($request) and
+            $royalcms['config']->get('debugbar.capture_ajax', true)
+        ) {
+            try {
+                $this->sendDataInHeaders(true);
+            } catch (\Exception $e) {
+                $royalcms['log']->error('Debugbar exception: ' . $e->getMessage());
+            }
+        } elseif (
+            ($response->headers->has('Content-Type') and
+                strpos($response->headers->get('Content-Type'), 'html') === false)
+            || $request->getRequestFormat() !== 'html'
+        ) {
+            try {
+                // Just collect + store data, don't inject it.
+                $this->collect();
+            } catch (\Exception $e) {
+                $royalcms['log']->error('Debugbar exception: ' . $e->getMessage());
+            }
+        } elseif ($royalcms['config']->get('debugbar.inject', true)) {
+            try {
+                $this->injectDebugbar($response);
+            } catch (\Exception $e) {
+                $royalcms['log']->error('Debugbar exception: ' . $e->getMessage());
+            }
+        }
+
+        // Stop further rendering (on subrequests etc)
+        $this->disable();
+
+        return $response;
+    }
+
+    /**
+     * Check if the Debugbar is enabled
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return value($this->royalcms['config']->get('debugbar.enabled'));
+    }
+
+    /**
+     * Check if this is a request to the Debugbar OpenHandler
+     *
+     * @return bool
+     */
+    protected function isDebugbarRequest()
+    {
+        return $this->royalcms['request']->segment(1) == '_debugbar';
+    }
+    
+    /**
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @return bool
+     */
+    protected function isJsonRequest(Request $request)
+    {
+        // If XmlHttpRequest, return true
+        if ($request->isXmlHttpRequest()) {
+            return true;
+        }
+
+        // Check if the request wants Json
+        $acceptable = $request->getAcceptableContentTypes();
+        return (isset($acceptable[0]) && $acceptable[0] == 'application/json');
+    }
+
+    /**
+     * Collects the data from the collectors
+     *
+     * @return array
+     */
+    public function collect()
+    {
+        /** 
+         * @var \Symfony\Component\HttpFoundation\Request $request 
+         */
+        $request = $this->royalcms['request'];
+
+        $this->data = array(
+            '__meta' => array(
+                'id' => $this->getCurrentRequestId(),
+                'datetime' => date('Y-m-d H:i:s'),
+                'utime' => microtime(true),
+                'method' => $request->getMethod(),
+                'uri' => $request->getRequestUri(),
+                'ip' => $request->getClientIp()
+            )
+        );
+
+        foreach ($this->collectors as $name => $collector) {
+            $this->data[$name] = $collector->collect();
+        }
+
+        // Remove all invalid (non UTF-8) characters
+        array_walk_recursive(
+            $this->data,
+            function (&$item) {
+                if (is_string($item) && !mb_check_encoding($item, 'UTF-8')) {
+                    $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+                }
+            }
+        );
+
+        if ($this->storage !== null) {
+            $this->storage->save($this->getCurrentRequestId(), $this->data);
+        }
+
+        return $this->data;
+    }
+
+    /**
+     * Injects the web debug toolbar into the given Response.
+     *
+     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
+     * Based on https://github.com/symfony/WebProfilerBundle/blob/master/EventListener/WebDebugToolbarListener.php
+     */
+    public function injectDebugbar(Response $response)
+    {
+        $content = $response->getContent();
+
+        $renderer = $this->getJavascriptRenderer();
+        if ($this->getStorage()) {
+            $openHandlerUrl = $this->royalcms['url']->route('debugbar.openhandler');
+            $renderer->setOpenHandlerUrl($openHandlerUrl);
+        }
+
+        $renderedContent = $renderer->renderHead() . $renderer->render();
+
+        $pos = strripos($content, '</body>');
+        if (false !== $pos) {
+            $content = substr($content, 0, $pos) . $renderedContent . substr($content, $pos);
+        } else {
+            $content = $content . $renderedContent;
+        }
+
+        $response->setContent($content);
+    }
+
+    /**
+     * Disable the Debugbar
+     */
+    public function disable()
+    {
+        $this->royalcms['config']->set('debugbar.enabled', false);
+    }
+
+    /**
+     * Adds a measure
+     *
+     * @param string $label
+     * @param float $start
+     * @param float $end
+     */
+    public function addMeasure($label, $start, $end)
+    {
+        if ($this->hasCollector('time')) {
+            /** 
+             * @var \DebugBar\DataCollector\TimeDataCollector $collector 
+             */
+            $collector = $this->getCollector('time');
+            $collector->addMeasure($label, $start, $end);
+        }
+    }
+
+    /**
+     * Utility function to measure the execution of a Closure
+     *
+     * @param string $label
+     * @param \Closure $closure
+     */
+    public function measure($label, \Closure $closure)
+    {
+        if ($this->hasCollector('time')) {
+            /** 
+             * @var \DebugBar\DataCollector\TimeDataCollector $collector 
+             */
+            $collector = $this->getCollector('time');
+            $collector->measure($label, $closure);
+        } else {
+            $closure();
+        }
+    }
+
+    /**
+     * Collect data in a CLI request
+     *
+     * @return array
+     */
+    public function collectConsole()
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $this->data = array(
+            '__meta' => array(
+                'id' => $this->getCurrentRequestId(),
+                'datetime' => date('Y-m-d H:i:s'),
+                'utime' => microtime(true),
+                'method' => 'CLI',
+                'uri' => isset($_SERVER['argv']) ? implode(' ', $_SERVER['argv']) : null,
+                'ip' => isset($_SERVER['SSH_CLIENT']) ? $_SERVER['SSH_CLIENT'] : null
+            )
+        );
+
+        foreach ($this->collectors as $name => $collector) {
+            $this->data[$name] = $collector->collect();
+        }
+
+        // Remove all invalid (non UTF-8) characters
+        array_walk_recursive(
+            $this->data,
+            function (&$item) {
+                if (is_string($item) && !mb_check_encoding($item, 'UTF-8')) {
+                    $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+                }
+            }
+        );
+
+        if ($this->storage !== null) {
+            $this->storage->save($this->getCurrentRequestId(), $this->data);
+        }
+
+        return $this->data;
+    }
+
+    /**
+     * Magic calls for adding messages
+     *
+     * @param string $method
+     * @param array $args
+     * @return mixed|void
+     */
+    public function __call($method, $args)
+    {
+        $messageLevels = array('emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug', 'log');
+        if (in_array($method, $messageLevels)) {
+            foreach($args as $arg) {
+                $this->addMessage($arg, $method);
+            }
+        }
+    }
+
+    /**
+     * Adds a message to the MessagesCollector
+     *
+     * A message can be anything from an object to a string
+     *
+     * @param mixed $message
+     * @param string $label
+     */
+    public function addMessage($message, $label = 'info')
+    {
+        if ($this->hasCollector('messages')) {
+            /** 
+             * @var \DebugBar\DataCollector\MessagesCollector $collector 
+             */
+            $collector = $this->getCollector('messages');
+            $collector->addMessage($message, $label);
+        }
+    }
+
+    /**
+     * Check the version of Royalcms
+     *
+     * @param string $version
+     * @param string $operator (default: '>=')
+     * @return boolean
+     */
+    protected function checkVersion($version, $operator = ">=")
+    {
+        return version_compare($this->version, $version, $operator);
+    }
+
+    /**
+     * @param DebugBar $debugbar
+     */
+    protected function selectStorage(DebugBar $debugbar)
+    {
+        $config = $this->royalcms['config'];
+        if ($config->get('debugbar.storage.enabled')) {
+            $driver = $config->get('debugbar.storage.driver', 'file');
+
+            switch ($driver) {
+                case 'pdo':
+                    $connection = $config->get('debugbar.storage.connection');
+                    $table = $this->royalcms['db']->getTablePrefix() . 'phpdebugbar';
+                    $pdo = $this->royalcms['db']->connection($connection)->getPdo();
+                    $storage = new PdoStorage($pdo, $table);
+                    break;
+                case 'redis':
+                    $connection = $config->get('debugbar.storage.connection');
+                    $storage = new RedisStorage($this->royalcms['redis']->connection($connection));
+                    break;
+                case 'file':
+                default:
+                    $path = $config->get('debugbar.storage.path');
+                    $storage = new FilesystemStorage($this->royalcms['files'], $path);
+                    break;
+            }
+
+            $debugbar->setStorage($storage);
+        }
+    }
+}
