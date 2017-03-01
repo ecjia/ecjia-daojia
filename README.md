@@ -593,7 +593,7 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
    <tr>
       <td>自动处理</td>
       <td>1.0.0</td>
-      <td>rron_auto_manage</td>
+      <td>cron_auto_manage</td>
       <td>自动处理商品的上架下架,和文章的发布取消</td>
       <td></td>
    </tr>
