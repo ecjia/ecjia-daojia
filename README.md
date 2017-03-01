@@ -704,23 +704,23 @@ ECJia到家官方交流QQ群：372623746
 #产品截图
 
 #### ECJia到家首页
-![](https://ecjia.com/wiki/文件:ECJia到家_首页.png)
+![](https://ecjia.com/wiki/images/7/76/ECJia到家_首页.png)
 
 #### ECJia到家平台后台
-![](https://ecjia.com/wiki/文件:ECJia到家_平台后台.png)
+![](https://ecjia.com/wiki/images/6/61/ECJia到家_平台后台.png)
 
 #### ECJia到家商家后台
-![](https://ecjia.com/wiki/文件:ECJia到家_商家后台.png)
+![](https://ecjia.com/wiki/images/2/20/ECJia到家_商家后台.png)
 
 #### ECJia到家平台登录
-![](https://ecjia.com/wiki/文件:ECJia到家_平台登录.png)
+![](https://ecjia.com/wiki/images/8/88/ECJia到家_平后登录.png)
 
 #### ECJia到家商家登录
-![](https://ecjia.com/wiki/文件:ECJia到家_商家登录.png)
+![](https://ecjia.com/wiki/images/c/c4/ECJia到家_商家登录.png)
 
 #### ECJia到家商家入驻
-![](https://ecjia.com/wiki/文件:ECJia到家_商家入驻.png)
+![](https://ecjia.com/wiki/images/9/9e/ECJia到家_商家入驻.png)
 
 #### ECJia到家H5首页
-![](https://ecjia.com/wiki/文件:ECJia到家_H5首页.png)
+![](https://ecjia.com/wiki/images/5/5d/ECJia到家_H5首页.png)
 
