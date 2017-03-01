@@ -646,13 +646,13 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 
 1. 创建数据库。如使用MySQL，字符集选择为“utf8”或者“utf8mb4”（支持更多特殊字符，推荐）
 2. 创建一个空数据库
-3. 访问网站地址，如http://www.xxx.com/ 或其它可访问程序的地址
+3. 访问网站地址，如 **[http://localhost](http://localhost)** 或其它可访问程序的地址
 4. 运行安装程序，填写相关配置信息，安装
 5. 安装完成，访问系统。
 
 	
 安装产品后可以通过以下地址访问各个页面：
-例如安装地址是：http://demodaojia.ecjia.com，可以更换为自己的访问地址。
+例如安装地址是：[http://demodaojia.ecjia.com](http://demodaojia.ecjia.com)，可以更换为自己的访问地址。
 
 - ECJia到家首页：http://demodaojia.ecjia.com
 - ECJia到家H5端：http://demodaojia.ecjia.com/sites/m/
