@@ -43,7 +43,10 @@
                         required: true
                     },
                     goods_name: {
-                        required: true
+                    	required: true
+                    },
+                    store_cat: {
+                    	required: true
                     },
                 },
                 messages: {
@@ -58,6 +61,9 @@
                     },
                     goods_name: {
                         required: js_lang.goods_name_required
+                    },
+                    store_cat: {
+                    	required: js_lang.store_cat_required
                     },
                 },
                 submitHandler: function () {

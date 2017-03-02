@@ -59,5 +59,4 @@
     	<!-- {$keywords_data.page} -->
 	</div>
 </div>
-	
 <!-- {/block} -->

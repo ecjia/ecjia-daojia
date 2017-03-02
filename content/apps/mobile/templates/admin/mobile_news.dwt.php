@@ -27,7 +27,6 @@
 				</tr>
 			</thead>
 			<!-- {foreach from=$mobile_news.item item=item key=key name=children} -->
-			
 			<tr>
 				<td>
 					<a href="{$item.image}" title="Image 10" target="_blank">
@@ -51,7 +50,7 @@
 				
 			</tr>
 			<!-- {foreachelse} -->
-			 <tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+			 <tr><td class="no-records" colspan="3">{lang key='system::system.no_records'}</td></tr>
 			<!-- {/foreach} -->
 		</table>
 		<!-- {$mobile_news.page} -->

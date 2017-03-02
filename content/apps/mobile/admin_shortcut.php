@@ -221,7 +221,7 @@ class admin_shortcut extends ecjia_admin {
 			$rt['img_display']   = $rt['display'];
 			$rt['img_src']       = $rt['src'];
 			$rt['img_txt']       = $rt['text'];
-			$rt['img_sort']      = empty($rt['sort']) ? 0 : $rt['sort'];
+			$rt['img_sort']      = empty($rt['sort']) ? 0 : intval($rt['sort']);
 			$rt['id']            = $id;
 
 			ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(RC_Lang::get('mobile::mobile.edit_shortcut')));

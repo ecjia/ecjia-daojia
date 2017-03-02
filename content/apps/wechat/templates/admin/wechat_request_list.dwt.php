@@ -43,14 +43,14 @@
 			</thead>
 			<tbody>
 				<!-- {foreach from=$list.item item=val key=key} -->
-					<tr>
-						<td>{$val.title}</td>
-						<td>{if $val.times}{$val.times}{else}{lang key='wechat::wechat.not_have'}{/if}</td>
-						<td>{if $val.info.times}{$val.info.times}{else}0{/if}</td>
-						<td>{if $val.info.last_time}{$val.info.last_time}{/if}</td>
-					</tr>
-					<!--  {foreachelse} -->
-				<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+				<tr>
+					<td>{$val.title}</td>
+					<td>{if $val.times}{$val.times}{else}{lang key='wechat::wechat.not_have'}{/if}</td>
+					<td>{if $val.info.times}{$val.info.times}{else}0{/if}</td>
+					<td>{if $val.info.last_time}{$val.info.last_time}{/if}</td>
+				</tr>
+				<!--  {foreachelse} -->
+				<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

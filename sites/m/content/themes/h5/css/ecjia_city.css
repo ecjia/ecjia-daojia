@@ -279,6 +279,370 @@ a.ecjia-color-green {
 	color: #ffffff;
 }
 
+/*== 商家入驻开始 ==*/
+.ecjia-address-list .form-group .settled-message {
+    position: absolute;
+    padding: 0!important;
+    right: 4%;
+    margin: 0;
+    top: .5em;
+    height: 2.2em!important;
+    width: 7em!important;
+}
+
+.ecjia-address-list .coordinate {
+    color: #47AA4D;
+    border-bottom: 1px solid #47AA4D;
+    margin-right: 4%;
+    margin-bottom: 1.5em;
+    float: right;
+    position: relative;
+}
+.picker-columns {
+    width: 100%;
+    height: 260px;
+    z-index: 11500;
+}
+.picker-modal {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 260px;
+    z-index: 12500;
+    display: none;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -ms-transition-property: -ms-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+    background: #cfd5da;
+    -webkit-transform: translate3d(0,100%,0);
+    transform: translate3d(0,100%,0);
+}
+.picker-modal .toolbar {
+    position: relative;
+    width: 100%;
+    background: #f7f7f8;	
+}
+.toolbar {
+    left: 0;
+    bottom: 0;
+}
+.navbar, .toolbar {
+    height: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 17px;
+    position: relative;
+    margin: 0;
+    z-index: 500;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.navbar-inner, .toolbar-inner {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.navbar a.link, .subnavbar a.link, .toolbar a.link {
+	color: #007aff;
+    line-height: 44px;
+    height: 44px;
+    text-decoration: none;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+.picker-modal .toolbar+.picker-modal-inner {
+    height: -webkit-calc(100% - 44px);
+    height: -moz-calc(100% - 44px);
+    height: calc(100% - 44px);
+}
+.picker-modal .picker-modal-inner {
+    height: 100%;
+    position: relative;
+}
+.picker-items {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 0;
+    text-align: right;
+    font-size: 24px;
+    -webkit-mask-box-image: -webkit-linear-gradient(bottom,transparent,transparent 5%,#fff 20%,#fff 80%,transparent 95%,transparent);
+    -webkit-mask-box-image: linear-gradient(to top,transparent,transparent 5%,#fff 20%,#fff 80%,transparent 95%,transparent);
+}
+.picker-item {
+    height: 36px;
+    line-height: 36px;
+    padding: 0 10px;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #707274;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+}
+.picker-items-col.picker-items-col-center {
+    text-align: center;
+}
+.picker-items-col {
+    overflow: hidden;
+    position: relative;
+    max-height: 100%;
+}
+.picker-modal .toolbar:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: auto;
+    right: auto;
+    height: 1px;
+    width: 100%;
+    background-color: #929499;
+    display: block;
+    z-index: 15;
+    -webkit-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+}
+.toolbar:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: auto;
+    right: auto;
+    height: 1px;
+    width: 100%;
+    background-color: #c4c4c4;
+    display: block;
+    z-index: 15;
+    -webkit-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+}
+.picker-item.picker-selected {
+    color: #000;
+    -webkit-transform: translate3d(0,0,0) rotateX(0);
+    transform: translate3d(0,0,0) rotateX(0);
+}
+.picker-center-highlight {
+    height: 36px;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 50%;
+    margin-top: -18px;
+    pointer-events: none;
+}
+.picker-center-highlight:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: auto;
+    right: auto;
+    height: 1px;
+    width: 100%;
+    background-color: #a8abb0;
+    display: block;
+    z-index: 15;
+    -webkit-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+}
+.picker-center-highlight:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: auto;
+    top: auto;
+    height: 1px;
+    width: 100%;
+    background-color: #a8abb0;
+    display: block;
+    z-index: 15;
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+}
+
+.ecjia-f-location{
+	text-align:center;
+	margin-top:40px;
+
+}
+
+.ecjia-f-location span{
+    margin-top:5px;
+    float: left;
+}
+
+.ecjia-f-location input{
+    float: left;
+    width: 8em;
+	height:2em;
+}
+
+.ecjia-address-list .franchisee label input {
+    padding-left: 3.5em!important;
+}
+
+.ecjia-address-list .franchisee label i {
+    color : #999!important;
+}
+.ecjia-address-list .franchisee{
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee!important;
+}
+.ecjia-address-list .franchisee label.input:before {
+    border-bottom: 1px solid #eee;
+}
+
+.ecjia-address-list .franchisee .input::before {
+    height: 1px;
+    content: '';
+    width: 90%;
+    border-bottom: 1px solid #eee;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: scaleY(0.5);
+    -webkit-transform: scaleY(0.5);
+    z-index: 10;
+}
+.ecjia-address-list .franchisee-process-hint {
+	position: relative;
+	text-align: center;
+    height: 13em;
+}
+.ecjia-address-list .franchisee-process-hint img {
+	margin: 1em 0;
+}
+.ecjia-address-list .franchisee-process-hint p {
+	font-size: 22px;
+	font-family: '黑体'
+}
+.ecjia-address-list .franchisee-progress {
+	text-align: center;
+	background: #FFF;
+	height: 12em;
+	width: 100%;
+	max-width: 640px;
+}
+.ecjia-address-list .franchisee-progress .pro-b {
+	padding: .5em 0 0 0;
+	color: #45a46c;
+	font-size: 20px;
+	font-family: '黑体';
+}
+.ecjia-address-list .franchisee-progress hr {
+	width: 90%;
+    border-top: 1px solid #eee;
+}
+.ecjia-address-list .franchisee-prompt {
+	padding: 1em;
+	height: 6em;
+}
+.ecjia-address-list .franchisee-prompt .warm-prompt {
+	font-size: 18px;
+    height: 2em;
+    width: 5em;
+    float: left;
+}
+.ecjia-address-list .franchisee-info {
+	background: #FFF;
+}
+.ecjia-address-list .franchisee-info ul p {
+	height: 3em;
+	padding: 1em;
+}
+.ecjia-address-list .franchisee-info .fran-info-color {
+	color: #9F9F9F;
+}
+.ecjia-address-list .franchisee-prompt .prompt-info {
+    display: block;
+    margin-left: 90px;
+}
+.ecjia-address-list .franchisee-progress .progress-img {
+	text-align: center;
+    vertical-align: middle;
+	width: 100%;
+	height: 100%;
+}
+.ecjia-address-list .franchisee-progress img {
+	width: 70%;
+	max-width: 100%;
+}
+.ecjia-address-list .franchisee-progress .progress-img .left10 {
+	margin-left: 10%;
+}
+.ecjia-address-list .franchisee-progress .progress-img .right10 {
+	margin-right: 10%;
+}
+.ecjia-address-list .franchisee-progress .progress-img .gfont {
+	color: #cbcbcb;
+}
+.ecjia-address-list .form-group .input .btn-org {
+    color: #FFF;
+    background-color: #e78e20;
+    border-color: #e78e20;	
+}
+.ecjia-f-location .location-longitude {
+	float: left; 
+	margin-left: 6%;
+}
+.ecjia-f-location .location-latitude {
+	float: right; 
+	margin-right: 6%;
+}
+.franchisee-info ul {overflow:hidden;padding-bottom:20px;}
+.franchisee-info .address-span {width:80%}
+
+/*== 商家入驻结束 ==*/
+
+
 
 /*== 选择定位  ==*/
 .ecjia-zs {
@@ -452,7 +816,7 @@ ul, li, ol, dl, dt, dd {
     bottom: 0;
     top: 0;
     right: 0;
-    background: #fff;
+    background: #f7f7f7;
 }
 .search-no-pro .ecjia-nolist img{
 	width: 10em;
@@ -513,7 +877,7 @@ ul, li, ol, dl, dt, dd {
 	color: #aaa;
     line-height: 26px;
     text-align: center;
-    background: #fff url(../images/no_search_record.png) center 170px no-repeat;
+    background: #f7f7f7 url(../images/no_search_record.png) center 170px no-repeat;
 	margin: 0 auto;
 	max-width: 640px;
 	background-size: 10em;
@@ -2286,6 +2650,7 @@ footer{
 	display: table;
 	font-weight: normal;
 	line-height: normal;
+    position: relative;
 }
 
 .ecjia .ecjia-select .input{

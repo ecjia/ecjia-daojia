@@ -75,10 +75,11 @@ class validate_module extends api_admin implements api_interface {
             $info_store_preaudit	= RC_DB::table('store_preaudit')->where('contact_mobile', $value)->count();
 			$info_store_franchisee	= RC_DB::table('store_franchisee')->where('contact_mobile', $value)->first();
             $info_staff_user		= RC_DB::table('staff_user')->where('mobile', $value)->first();
+			
 			if (!empty($info_store_preaudit)){
-                return new ecjia_error('merchant_checking', '手机号'.$value.'已被申请请确认该账号是否为本人所有');
+                return new ecjia_error('merchant_checking', '手机号'.$value.'已被申请，请确认该账号是否为本人所有');
             }elseif(!empty($info_store_franchisee)){
-                return new ecjia_error('merchant_exist', '手机号'.$value.'已被申请请确认该账号是否为本人所有');
+                return new ecjia_error('merchant_exist', '手机号'.$value.'已被申请，请确认该账号是否为本人所有');
             }
             if(!empty($info_staff_user)){
                 return new ecjia_error('already_signup', '手机号'.$value.'已被注册为店铺员工');
@@ -116,6 +117,7 @@ class validate_module extends api_admin implements api_interface {
 // 					}
 
                 ecjia_api::$controller->assign('code', $code);
+                ecjia_api::$controller->assign('mobile', $value);
                 ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
 
                 $content = ecjia_api::$controller->fetch_string($tpl['template_content']);

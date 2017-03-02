@@ -81,13 +81,13 @@
 							<td>
 								<span>{$val.device_client}</span>
 								<div class="edit-list">
-										<!-- {if $val.in_status neq 1} -->
-										<a class="ajaxpush" data-msg="{lang key='push::push.push_confirm'}" href='{url path="push/admin/push" args="message_id={$val.message_id}"}'>{lang key='push::push.push'}</a>&nbsp;|&nbsp;
-										<!-- {else} -->
-										<a class="ajaxpush" data-msg="{lang key='push::push.resend_confirm'}" href='{url path="push/admin/push" args="message_id={$val.message_id}"}'>{lang key='push::push.resend'}</a>&nbsp;|&nbsp;
-										<!-- {/if} -->
-								      	<a class="data-pjax" href='{RC_Uri::url("push/admin/push_copy", "message_id={$val.message_id}")}'>{lang key='push::push.push_copy'}</a>&nbsp;|&nbsp;
-										<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='push::push.remove_msg_confirm'}" href='{url path="push/admin/remove" args="message_id={$val.message_id}"}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+									<!-- {if $val.in_status neq 1} -->
+									<a class="ajaxpush" data-msg="{lang key='push::push.push_confirm'}" href='{url path="push/admin/push" args="message_id={$val.message_id}"}'>{lang key='push::push.push'}</a>&nbsp;|&nbsp;
+									<!-- {else} -->
+									<a class="ajaxpush" data-msg="{lang key='push::push.resend_confirm'}" href='{url path="push/admin/push" args="message_id={$val.message_id}"}'>{lang key='push::push.resend'}</a>&nbsp;|&nbsp;
+									<!-- {/if} -->
+							      	<a class="data-pjax" href='{RC_Uri::url("push/admin/push_copy", "message_id={$val.message_id}")}'>{lang key='push::push.push_copy'}</a>&nbsp;|&nbsp;
+									<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='push::push.remove_msg_confirm'}" href='{url path="push/admin/remove" args="message_id={$val.message_id}"}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
 								</div>
 							</td>
 							<td class="hide-edit-area">
@@ -105,8 +105,8 @@
 							</td>
 							<td>{$val.add_time}</td>
 						</tr>
-						<!--  {foreachelse} -->
-						<tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+						<!-- {foreachelse} -->
+						<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
 						<!-- {/foreach} -->
 					</tbody>
 				</table>

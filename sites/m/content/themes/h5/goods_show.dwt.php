@@ -143,7 +143,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 										<!--{else}-->
 										<span>{$goods.shop_price}</span>
 										<!--{/if}-->
-										<span class="goods-price-plus" data-toggle="add-to-cart" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}"></span>
+										<span class="goods-price-plus may_like_{$goods.goods_id}" data-toggle="add-to-cart" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}"></span>
 									</div>
 								</li>
 								<!--{/if}-->

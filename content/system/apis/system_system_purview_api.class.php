@@ -54,7 +54,6 @@ class system_system_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-//             array('action_name' => __('商店设置'), 'action_code' => 'shop_config', 'relevance'   => ''),
             array('action_name' => __('授权证书'), 'action_code' => 'shop_authorized', 'relevance'   => ''),
             array('action_name' => __('更新缓存'), 'action_code' => 'admin_cache', 'relevance'   => ''),
         		
@@ -66,7 +65,6 @@ class system_system_purview_api extends Component_Event_Api {
         	array('action_name' => __('卸载插件'), 'action_code' => 'plugin_uninstall', 'relevance'   => ''),
         	array('action_name' => __('安装插件'), 'action_code' => 'plugin_install', 'relevance'   => ''),
         		
-            array('action_name' => __('地区列表管理'), 'action_code' => 'area_manage', 'relevance'   => ''),
             array('action_name' => __('文件校验'), 'action_code' => 'file_check', 'relevance'   => ''),
             array('action_name' => __('文件权限检验'), 'action_code' => 'file_priv', 'relevance'   => ''),
             array('action_name' => __('菜单管理'), 'action_code' => 'navigator', 'relevance'   => ''),

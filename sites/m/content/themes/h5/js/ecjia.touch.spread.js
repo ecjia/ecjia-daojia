@@ -127,6 +127,7 @@
 	
 	function wechat_spread(url, info, title, link, image, desc) {
     	$.post(url, info, function(response){
+    		if (response == '') {return false;}
     		var data = response.data;
     		wx.config({
     			debug: false,

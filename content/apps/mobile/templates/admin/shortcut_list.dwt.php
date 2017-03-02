@@ -48,7 +48,7 @@
 				<td><span class="edit_sort cursor_pointer" data-trigger="editable" data-url='{RC_Uri::url("mobile/admin_shortcut/edit_sort", "id={$key}")}' data-name="sort" data-pk="{$key}"  data-title="{lang key='mobile::mobile.edit_sort'}">{$item.sort}</span></td>
 			</tr>
 			<!-- {foreachelse} -->
-			   <tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+			<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
 			<!-- {/foreach} -->
 		</table>
 	</div>

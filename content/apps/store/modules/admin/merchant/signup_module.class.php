@@ -89,6 +89,10 @@ class signup_module extends api_admin implements api_interface {
 		} elseif ($_SESSION['merchant_validate_mobile'] != $mobile) {
 			return new ecjia_error('validate_mobile_error', '手机号码已经更改请重新获取验证码');
 		}
+		$count = RC_DB::table('store_franchisee')->where(RC_DB::raw('merchants_name'), $seller_name)->count();
+		if ($count > 0) {
+		    return new ecjia_error('seller_name_exist', '店铺名称已存在，请修改');
+		}
 
         if(empty($longitude) || empty($latitude)){
             $location  = getgeohash($city, $address);
@@ -107,7 +111,7 @@ class signup_module extends api_admin implements api_interface {
 			return new ecjia_error('already_signup', '您已申请请勿重复申请！');
 		}
         if(!empty($info_staff_user)){
-            return new ecjia_error('already_signup', '改手机号码已被注册为店铺员工');
+            return new ecjia_error('already_signup', '该手机号码已被注册为店铺员工');
         }
 
 		$merchant_shop_data = array(

@@ -48,8 +48,17 @@ namespace Ecjia\System\Api;
 
 class ResolveBody implements ResolveInterface
 {
-    
+    /**
+     * 返回数据
+     * @var array $data
+     */
     protected $data = array();
+    
+    /**
+     * 分页数据
+     * @var array $paginated
+     */
+    protected $paginated = array();
     
     protected $status;
     
@@ -90,6 +99,7 @@ class ResolveBody implements ResolveInterface
             }
             else {
                 $this->data = array_get($data, 'data');
+                $this->paginated = array_get($data, 'paginated');
             }
         }
         
@@ -99,11 +109,21 @@ class ResolveBody implements ResolveInterface
     /**
      * 获取 data 数组
      * 
-     * @return multitype:
+     * @return array:
      */
     public function getData()
     {
         return $this->data;
+    }
+    
+    /**
+     * 获取 paginated 数组
+     *
+     * @return array:
+     */
+    public function getPaginated()
+    {
+        return $this->paginated;
     }
     
     /**

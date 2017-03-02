@@ -62,7 +62,7 @@
 								<th class="w130">{lang key='goods::attribute.attr_name'}</th>
 								<th class="w130">{lang key='goods::attribute.cat_id'}</th>
 								<th class="w150">{lang key='goods::attribute.attr_input_type'}</th>
-								<th >{lang key='goods::attribute.attr_values'}</th>
+								<th>{lang key='goods::attribute.attr_values'}</th>
 								<th class="w100">{lang key='system::system.sort_order'}</th>
 								<th class="w100">{lang key='system::system.handler'}</th>
 							</tr>
@@ -91,7 +91,7 @@
 							</td>
 						</tr>
 						<!-- {foreachelse} -->
-						<tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
 						<!-- {/foreach} -->
 					</tbody>
 				</table>

@@ -90,10 +90,9 @@
                                 <i class="{if $val.status eq 1}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('wechat/admin_qrcode/toggle_show')}" data-id="{$val.id}" ></i>
 							</td>
 							<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('wechat/admin_qrcode/edit_sort')}" data-name="sort" data-pk="{$val.id}"  data-title="{lang key='wechat::wechat.edit_qrcode_sort'}">{$val.sort}</span></td>
-							
 						</tr>
 						<!--  {foreachelse} -->
-						<tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

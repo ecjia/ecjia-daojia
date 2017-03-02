@@ -59,7 +59,7 @@
 				<td>{$list.date}</td>
 			</tr>
 			<!-- {foreachelse} -->
-	    	<tr><td class="dataTables_empty" colspan="4">{lang key='system::system.no_records'}</td></tr>
+	    	<tr><td class="dataTables_empty" colspan="3">{lang key='system::system.no_records'}</td></tr>
 	  		<!-- {/foreach} -->
 		</tbody>
 	</table>

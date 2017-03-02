@@ -127,6 +127,7 @@ class forget_request_module extends api_admin implements api_interface {
 	            $tpl       = RC_Api::api('sms', 'sms_template', $tpl_name);
 	            if (!empty($tpl)) {
 	                $this->assign('code', $code);
+	                $this->assign('mobile', $mobile);
 	                $this->assign('service_phone', 	ecjia::config('service_phone'));
 	                $content = $this->fetch_string($tpl['template_content']);
 	                $options = array(

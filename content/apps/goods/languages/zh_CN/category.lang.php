@@ -179,7 +179,7 @@ return array(
 	'overview'				=> '概述',
 	'more_info'				=> '更多信息：',
 	
-	'goods_category_help'	=> '欢迎访问ECJia智能后台商品分类列表页面，系统中所有的商品分类都会显示在此列表中。',
+	'goods_category_help'	=> '欢迎访问ECJia智能后台商品分类列表页面，系统中所有的商品分类都会显示在此列表中，列表中切换分类是否显示可切换前台商品分类的显示与隐藏。',
 	'about_goods_category'	=> '关于商品分类列表帮助文档',
 	
 	'add_category_help'		=> '欢迎访问ECJia智能后台添加商品分类页面，可以在此页面添加商品分类信息。',

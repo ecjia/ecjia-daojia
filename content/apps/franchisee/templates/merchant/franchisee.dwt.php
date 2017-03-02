@@ -577,7 +577,7 @@
 		                
 		                <!-- {if $check_log_list} -->
 		                <section>
-		                    <h3 class="">审核日志</h3>
+		                    <h3>审核日志</h3>
 		                    <div class="row">
 		                        <div class="col-md-12">
 		                            <table class="table table-th-block">

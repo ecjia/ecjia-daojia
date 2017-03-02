@@ -49,7 +49,7 @@
 				<!-- <td>{$lang.best_time}：{$val.best_time|escape}<br/>{$lang.sign_building}：{$val.sign_building|escape}<br/>email：{$val.email}</td> -->
 			</tr>
 			<!-- {foreachelse} -->
-			<tr><td class="no-records" colspan="10">{lang key='user::users.no_address'}</td></tr>
+			<tr><td class="no-records" colspan="5">{lang key='user::users.no_address'}</td></tr>
 			<!-- {/foreach} -->
 		</tbody>
 	</table>

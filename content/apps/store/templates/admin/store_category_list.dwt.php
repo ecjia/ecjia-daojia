@@ -53,7 +53,7 @@
 		</tr>
 		<!-- {foreachelse}-->
 			<tr>
-				<td class="no-records" colspan="5">没找到任何记录！</td>
+				<td class="no-records" colspan="5">没找到任何记录</td>
 			</tr>	
 		<!-- {/foreach} -->
 	</table>

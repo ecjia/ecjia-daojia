@@ -122,7 +122,6 @@ return array(
     'express' => 'express',
     
     'installer' => 'installer',
-    
 );
 
 // end

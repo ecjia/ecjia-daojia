@@ -27,7 +27,7 @@ $('.setdefault').click(function(){
 
 <!-- {block name="main-content"} -->
 <div class="ecjia-address-list">
-	<div class="nav-header ecjia-margin-t">
+	<div class="nav-header">
 		<a href="{url path='user/address/add_address' args='clear=1'}">
 			<i class="icon-add-address"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{t}新建收货地址{/t}
 			<span class="ecjiaf-fr"><i class="iconfont icon-jiantou-right"></i></span>
@@ -59,8 +59,11 @@ $('.setdefault').click(function(){
 		</ul>
 	    <!-- {$page} -->
 		<!-- {else} -->
-		<div class="ecjia-nolist">
-			<p>{t}暂无收货地址，请添加{/t}</p>
+		<div class="ecjia-margin-t">
+			<div class="ecjia-nolist">
+				<p><img src="{$theme_url}images/no_address.png"></p>
+				暂无收货地址，请添加
+			</div>
 		</div>
 		<!-- {/if} -->
 	</section>

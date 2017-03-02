@@ -55,8 +55,9 @@ class article_controller {
      */
     public static function init() {
     	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP)->run();
-    	
-    	ecjia_front::$controller->assign('data', $data);
+    	if (!is_ecjia_error($data)) {
+    		ecjia_front::$controller->assign('data', $data);
+    	}
     	ecjia_front::$controller->assign_title('帮助中心');
     	ecjia_front::$controller->assign('title', '帮助中心');
     	ecjia_front::$controller->assign_lang();
@@ -72,7 +73,7 @@ class article_controller {
         ecjia_front::$controller->assign('title', $title);
     	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP_DETAIL)->data(array('article_id' => $article_id))->run();
     	
-    	if (!empty($data)) {
+    	if (!is_ecjia_error($data) && !empty($data)) {
     		$res = array();
     		preg_match('/<body>([\s\S]*?)<\/body>/', $data, $res);
     		$bodystr = trim($res[0]);
@@ -90,10 +91,10 @@ class article_controller {
     public static function shop_detail() {
         $title = trim($_GET['title']);
         $article_id = intval($_GET['article_id']);
-        $shop_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO_DETAIL)->data(array('article_id' => $article_id))->run();
-        $shop = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO)->run();
         
-        if (!empty($shop_detail)) {
+        $shop_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO_DETAIL)->data(array('article_id' => $article_id))->run();
+        
+        if (!is_ecjia_error($data) && !empty($shop_detail)) {
         	$res = array();
         	preg_match('/<body>([\s\S]*?)<\/body>/', $shop_detail, $res);
         	$bodystr = trim($res[0]);

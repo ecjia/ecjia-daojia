@@ -91,9 +91,9 @@
 					<div class="controls">
 						<select class="w350" name="shipping" id="shipping_type">
 				    		<option value=''>{lang key='shopguide::shopguide.pls_select'}</option>
-				            {foreach from=$shipping_list item=module}
+				            <!-- {foreach from=$shipping_list item=module} -->
 				            <option value="{$module.id}">{$module.name}</option>
-				            {/foreach}
+				            <!-- {/foreach} -->
 				        </select>
 					</div>
 				</div>
@@ -148,9 +148,9 @@
 					<div class="controls">
 						<select class="w350" name="payment" id="pay_type" data-url="{url path='shopguide/admin/get_pay'}">
 				    		<option value=''>{lang key='shopguide::shopguide.pls_select'}</option>
-				    		{foreach from=$pay_list item=module}
+				    		<!-- {foreach from=$pay_list item=module} -->
 				            <option value="{$module.code}">{$module.name}</option>
-				            {/foreach}
+				            <!-- {/foreach} -->
 				        </select>
 					</div>
 				</div>
@@ -169,67 +169,15 @@
 						<input class="w350" type="text" name="cat_name" />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
-				</div>	
+				</div>
 				
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='shopguide::shopguide.label_goods_name'}</label>
+				<div class="control-group formSep m_t10">
+					<label class="control-label">{lang key='shopguide::shopguide.label_store_cat'}</label>
 					<div class="controls">
-						<input class="w350" type="text" name="goods_name" />
+						<input class="w350" type="text" name="store_cat" />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
-				</div>
-					
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='shopguide::shopguide.label_goods_num'}</label>
-					<div class="controls">
-						<input class="w350" type="text" name="goods_num" />
-					</div>
-				</div>
-					
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='shopguide::shopguide.label_goods_brand'}</label>
-					<div class="controls">
-						<input class="w350" type="text" name="goods_brand" />
-					</div>
-				</div>	
-				
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='shopguide::shopguide.label_goods_price'}</label>
-					<div class="controls">
-						<input class="w350" type="text" name="goods_price" />
-					</div>
-				</div>
-					
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='shopguide::shopguide.label_add_recommend'}</label>
-					<div class="controls">
-						<input class="w350" type="checkbox" name="is_best" checked />{lang key='shopguide::shopguide.is_best'}
-						<input class="w350" type="checkbox" name="is_new" checked />{lang key='shopguide::shopguide.is_new'}
-						<input class="w350" type="checkbox" name="is_hot" checked />{lang key='shopguide::shopguide.is_hot'}
-					</div>
-				</div>
-				
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='shopguide::shopguide.label_goods_desc'}</label>
-					<div class="controls">
-						<textarea class="w350" name="goods_desc"></textarea>
-					</div>
-				</div>
-				
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='shopguide::shopguide.label_upload_image'}</label>
-					<div class="controls">
-						<div class="fileupload fileupload-new" data-provides="fileupload">
-							<div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px; line-height: 50px;"></div>
-							<span class="btn btn-file">
-								<span class="fileupload-new">{lang key='shopguide::shopguide.browse'}</span>
-								<span class="fileupload-exists">{lang key='shopguide::shopguide.modify'}</span>
-								<input type='file' name='goods_img' size="35" />
-							</span>
-							<a class="btn fileupload-exists" data-dismiss="fileupload" href="#">{lang key='system::system.drop'}</a>
-						</div>
-					</div>
-				</div>
+				</div>		
 				
 			    <input class="btn btn-inverse f_r m_l10" type="submit" value="{lang key='shopguide::shopguide.next_step'}"/>	
 			</fieldset>

@@ -89,6 +89,7 @@ class forget_password_module extends api_front implements api_interface {
         		/* 判断短信模板是否存在*/
         		if (!empty($tpl)) {
         			ecjia_api::$controller->assign('action', __('短信找回密码'));
+        			ecjia_api::$controller->assign('mobile', $value);
         			ecjia_api::$controller->assign('code', $code);
         			ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
         			

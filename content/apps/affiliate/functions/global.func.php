@@ -51,6 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 function assign_adminlog_content() {
 	ecjia_admin_log::instance()->add_object('affiliate', RC_Lang::get('affiliate::affiliate.affiliate'));
+	ecjia_admin_log::instance()->add_object('affiliate_percent', RC_Lang::get('affiliate::affiliate.affiliate_percent'));
 	ecjia_admin_log::instance()->add_object('config', RC_Lang::get('affiliate::affiliate.config'));
 
 	ecjia_admin_log::instance()->add_action('do', RC_Lang::get('affiliate::affiliate.do'));

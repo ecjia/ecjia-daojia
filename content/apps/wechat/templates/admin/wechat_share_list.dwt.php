@@ -49,31 +49,31 @@
 				</thead>
 				<tbody>
 					<!-- {foreach from=$listdb.share_list item=val} -->
-						<tr>
-							<td class="hide-edit-area">
-								{$val.username}
-					    		<div class="edit-list">
-							     	{assign var=view_url value=RC_Uri::url('wechat/admin_qrcode/qrcode_get',"id={$val.id}")}
-						      		<a class="ajaxwechat" href="{$view_url}" title="{lang key='system::system.view'}">{lang key='wechat::wechat.get_qrcode'}</a>&nbsp;|&nbsp;
-						      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.remove_qrcode_confirm'}" href='{RC_Uri::url("wechat/admin_share/remove","id={$val.id}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
-							    </div>
-							</td>
-							<td>
-								0
-							</td>
-							<td>
-								{$val['scan_num']}
-							</td>
-							<td>
-								{$val['expire_seconds']}
-							</td>
-							<td>
-								{$val.function}
-							</td>
-							<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('wechat/admin_share/edit_sort')}" data-name="sort" data-pk="{$val.id}"  data-title="{lang key='wechat::wechat.edit_qrcode_sort'}">{$val.sort}</span></td>
-						</tr>
-						<!--  {foreachelse} -->
-					<tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+					<tr>
+						<td class="hide-edit-area">
+							{$val.username}
+				    		<div class="edit-list">
+						     	{assign var=view_url value=RC_Uri::url('wechat/admin_qrcode/qrcode_get',"id={$val.id}")}
+					      		<a class="ajaxwechat" href="{$view_url}" title="{lang key='system::system.view'}">{lang key='wechat::wechat.get_qrcode'}</a>&nbsp;|&nbsp;
+					      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.remove_qrcode_confirm'}" href='{RC_Uri::url("wechat/admin_share/remove","id={$val.id}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+						    </div>
+						</td>
+						<td>
+							0
+						</td>
+						<td>
+							{$val['scan_num']}
+						</td>
+						<td>
+							{$val['expire_seconds']}
+						</td>
+						<td>
+							{$val.function}
+						</td>
+						<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('wechat/admin_share/edit_sort')}" data-name="sort" data-pk="{$val.id}"  data-title="{lang key='wechat::wechat.edit_qrcode_sort'}">{$val.sort}</span></td>
+					</tr>
+					<!--  {foreachelse} -->
+					<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

@@ -66,25 +66,25 @@
 			</thead>
 			<!-- {foreach from=$favourable_list.item item=favourable} -->
 		    <tr>
-		      <td><span><input type="checkbox" class="checkbox" value="{$favourable.act_id}" name="checkboxes[]" ></span></td>
-		      <td class="hide-edit-area">
-			      <span class="cursor_pointer" data-trigger="editable" data-url='{url path="favourable/admin/edit_act_name" args="store_id={$favourable.store_id}"}' data-name="act_name" data-pk="{$favourable.act_id}" data-title="{lang key='favourable::favourable.edit_act_name'}">{$favourable.act_name}</span>
-		     	  <div class="edit-list">
-					  <a class="data-pjax" href='{url path="favourable/admin/edit" args="act_id={$favourable.act_id}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-			          <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='favourable::favourable.remove_confirm'}" href='{url path="favourable/admin/remove" args="act_id={$favourable.act_id}"}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
-		    	  </div>
-		      </td>
-		      <!-- {if $shop_type neq 'b2c'} -->
-		      <td style="color:red;">{$favourable.merchants_name}</td>
-		      <!-- {/if} -->
-		      <td>{$favourable.start_time}</td>
-		      <td>{$favourable.end_time}</td>
-		      <td>{$favourable.min_amount}</td>
-		      <td>{$favourable.max_amount}</td>
-		      <td><span class="edit_sort_order cursor_pointer" data-placement="left" data-trigger="editable" data-url="{RC_Uri::url('favourable/admin/edit_sort_order')}" data-name="sort_order" data-pk="{$favourable.act_id}"  data-title="{lang key='favourable::favourable.edit_act_sort'}">{$favourable.sort_order}</span></td>
+		    	<td><span><input type="checkbox" class="checkbox" value="{$favourable.act_id}" name="checkboxes[]" ></span></td>
+		      	<td class="hide-edit-area">
+			      	<span class="cursor_pointer" data-trigger="editable" data-url='{url path="favourable/admin/edit_act_name" args="store_id={$favourable.store_id}"}' data-name="act_name" data-pk="{$favourable.act_id}" data-title="{lang key='favourable::favourable.edit_act_name'}">{$favourable.act_name}</span>
+		     	  	<div class="edit-list">
+					  	<a class="data-pjax" href='{url path="favourable/admin/edit" args="act_id={$favourable.act_id}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
+			          	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='favourable::favourable.remove_confirm'}" href='{url path="favourable/admin/remove" args="act_id={$favourable.act_id}"}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+		    	  	</div>
+		      	</td>
+		      	<!-- {if $shop_type neq 'b2c'} -->
+		      	<td style="color:red;">{if $favourable.merchants_name eq '' }全场通用{else}{$favourable.merchants_name}{/if}</td>
+		      	<!-- {/if} -->
+		      	<td>{$favourable.start_time}</td>
+		      	<td>{$favourable.end_time}</td>
+		      	<td>{$favourable.min_amount}</td>
+		      	<td>{$favourable.max_amount}</td>
+		      	<td><span class="edit_sort_order cursor_pointer" data-placement="left" data-trigger="editable" data-url="{RC_Uri::url('favourable/admin/edit_sort_order')}" data-name="sort_order" data-pk="{$favourable.act_id}"  data-title="{lang key='favourable::favourable.edit_act_sort'}">{$favourable.sort_order}</span></td>
 		    </tr>
 		    <!-- {foreachelse} -->
-	        <tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+	        <tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>
 			<!-- {/foreach} -->
             </tbody>
          </table>

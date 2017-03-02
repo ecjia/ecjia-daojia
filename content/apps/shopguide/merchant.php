@@ -67,6 +67,8 @@ class merchant extends ecjia_merchant {
 		
         RC_Loader::load_app_func('global', 'goods');
 		RC_Loader::load_app_func('merchant_shopguide');
+		RC_Loader::load_app_func('global', 'shopguide');
+		assign_adminlog_contents();
 		
 		RC_Script::enqueue_script('ecjia-mh-bootstrap-fileupload-js');
 		RC_Style::enqueue_style('ecjia-mh-bootstrap-fileupload-css');

@@ -100,7 +100,6 @@ class admin_template extends ecjia_admin {
 		$this->assign('action_link', array('href'=>RC_Uri::url('sms/admin_template/add'), 'text' => RC_Lang::get('sms::sms.add_sms_template')));
 
 		$data = $this->db_mail->mail_templates_select(array('template_id', 'template_code', 'template_subject', 'template_content'), array('type' => 'sms'));
-
 		$this->assign('templates', $data);
 
 		$this->display('sms_template_list.dwt');

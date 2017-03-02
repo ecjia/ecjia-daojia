@@ -174,7 +174,7 @@ class admin_mail_settings extends ecjia_admin {
 		$test_mail_address = trim($_POST['test_mail_address']);
 
 		$error = RC_Mail::send_mail('', $test_mail_address, __('测试邮件'), __('您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！'), 0);
-		if ( is_ecjia_error($error) ) {
+		if ( RC_Error::is_error($error) ) {
 			$this->showmessage(sprintf(__('测试邮件发送失败！%s'), $error->get_error_message()) , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			$this->showmessage(sprintf(__('恭喜！测试邮件已成功发送到 %s。'), $test_mail_address), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);

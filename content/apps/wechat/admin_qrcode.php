@@ -61,7 +61,7 @@ class admin_qrcode extends ecjia_admin {
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
 		$wechat_id = $platform_account->getAccountID();
 		
-		if(is_ecjia_error($wechat_id)) {
+		if (is_ecjia_error($wechat_id)) {
 			$this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
 		} else {
 			$this->assign('warn', 'warn');
@@ -103,12 +103,14 @@ class admin_qrcode extends ecjia_admin {
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
 		$wechat_id = $platform_account->getAccountID();
 		
-		if(is_ecjia_error($wechat_id)) {
+		if (is_ecjia_error($wechat_id)) {
 			$this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
 		} else {
 			$this->assign('warn', 'warn');
 			$type = $this->db_platform_account->where(array('id' => $wechat_id))->get_field('type');
 			$this->assign('type', $type);
+			$this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.'.$type)));
+			
 			$this->assign('form_action', RC_Uri::url('wechat/admin_qrcode/insert'));
 		}
 		
@@ -196,7 +198,7 @@ class admin_qrcode extends ecjia_admin {
 		}
 		
 		if (empty($qrcode['qrcode_url'])) {
-			if($qrcode['type'] == 0) {
+			if ($qrcode['type'] == 0) {
 				$data = array(
 					'expire_seconds' => $qrcode['expire_seconds'],
 					'action_name'    => 'QR_SCENE',

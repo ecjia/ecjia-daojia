@@ -92,7 +92,7 @@ class admin extends ecjia_admin {
 		$this->assign('ur_here', RC_Lang::get('affiliate::affiliate.affiliate_percent_list'));
 		
 		$config = unserialize(ecjia::config('affiliate'));
-		
+
 		if (count($config['item']) < 5) {
 			$this->assign('add_percent', array('href' => RC_Uri::url('affiliate/admin/add'), 'text' => RC_Lang::get('affiliate::affiliate.add_affiliate_percent')));
 		}
@@ -180,7 +180,7 @@ class admin extends ecjia_admin {
 			$config['config']['separate_by'] = 0;
 			
 			ecjia_config::instance()->write_config('affiliate', serialize($config));
-			ecjia_admin::admin_log(RC_Lang::get('affiliate::affiliate.level_point_is').$_POST['level_point'].'，'.RC_Lang::get('affiliate::affiliate.level_money_is').$_POST['level_money'], 'add', 'affiliate');
+			ecjia_admin::admin_log(RC_Lang::get('affiliate::affiliate.level_point_is').$_POST['level_point'].'，'.RC_Lang::get('affiliate::affiliate.level_money_is').$_POST['level_money'], 'add', 'affiliate_percent');
 			
 			return $this->showmessage(RC_Lang::get('affiliate::affiliate.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin/init')));
 			
@@ -189,6 +189,9 @@ class admin extends ecjia_admin {
 		}
 	}
 	
+	/**
+	 * 编辑分成比例
+	 */
 	public function edit() {
 		$this->admin_priv('affiliate_percent_manage');
 		
@@ -197,104 +200,82 @@ class admin extends ecjia_admin {
 		$this->assign('ur_here', RC_Lang::get('affiliate::affiliate.update_affiliate_percent'));
 		$this->assign('action_link', array('href' =>RC_Uri::url('affiliate/admin/init'), 'text' => RC_Lang::get('affiliate::affiliate.affiliate_percent_list')));
 		$config = unserialize(ecjia::config('affiliate'));
-		$id = $_GET['id'];
-		
+
+		$id = intval($_GET['id']);
 		$this->assign('level', $id);
+		
 		$config['item'][$id-1]['level_point'] = str_replace('%', '', $config['item'][$id-1]['level_point']);
 		$config['item'][$id-1]['level_money'] = str_replace('%', '', $config['item'][$id-1]['level_money']);
 		$this->assign('affiliate_percent', $config['item'][$id-1]);
 		
-		$this->assign('form_action', RC_Uri::url('affiliate/admin/insert'));
+		$this->assign('form_action', RC_Uri::url('affiliate/admin/update'));
 		$this->display('affiliate_info.dwt');
 	}
 	
 	
 	/**
-	 * 修改配置
+	 * 编辑分成比例处理
 	 */
 	public function update() {
 		$this->admin_priv('affiliate_percent_update', ecjia::MSGTYPE_JSON);
 
-		$config = unserialize(ecjia::config('affiliate'));
-
-		$separate_by = isset($_POST['separate_by']) ? intval($_POST['separate_by']) : $config['config']['separate_by'];
-		$expire_unit = isset($_POST['expire_unit']) ? $_POST['expire_unit'] 		: $config['config']['expire_unit'];
-		$invite_template	= isset($_POST['invite_template']) ? trim($_POST['invite_template']) : '';
-		$invite_explain		= isset($_POST['invite_explain']) ? $_POST['invite_explain'] : '';
-		
-		$_POST['expire'] 			= (float)$_POST['expire'];
-		$_POST['level_point_all'] 	= (float)$_POST['level_point_all'];
-		$_POST['level_money_all'] 	= (float)$_POST['level_money_all'];
-		$_POST['level_money_all'] 	> 100 && $_POST['level_money_all'] = 100;
-		$_POST['level_point_all'] 	> 100 && $_POST['level_point_all'] = 100;
-		
-		if (!empty($_POST['level_point_all']) && strpos($_POST['level_point_all'], '%') === false) {
-			$_POST['level_point_all'] .= '%';
-		}
-		if (!empty($_POST['level_money_all']) && strpos($_POST['level_money_all'], '%') === false) {
-			$_POST['level_money_all'] .= '%';
-		}
-		$_POST['level_register_all']			= intval($_POST['level_register_all']);
-		$_POST['level_register_up']				= intval($_POST['level_register_up']);
-
-		$temp = array();
-		$temp['on'] = (intval($_POST['on']) == 1) ? 1 : 0;
-		
-		if ($temp['on'] == 1) {
-			$temp['config'] = array(
-				'expire'                		=> $_POST['expire'],             //COOKIE过期数字
-				'expire_unit'           		=> $expire_unit,        		 //单位：小时、天、周
-				'separate_by'           		=> $separate_by,                 //分成模式：0、注册 1、订单
-				'level_point_all'       		=> $_POST['level_point_all'],    //积分分成比
-				'level_money_all'       		=> $_POST['level_money_all'],    //金钱分成比
-				'level_register_all'    		=> intval($_POST['level_register_all']), //推荐注册奖励积分
-				'level_register_up'     		=> intval($_POST['level_register_up']),  //推荐注册奖励积分上限
-			);
-			
-			/* 邀请人奖励*/
-			$intive_reward_by	= trim($_POST['intive_reward_by']) == 'orderpay' ? 'orderpay' : 'signup';
-			$intive_reward_type = trim($_POST['intive_reward_type']);
-			if ($intive_reward_type == 'bonus') {
-				$intive_reward_value = intval($_POST['intive_reward_type_bonus']);
-			} elseif ($intive_reward_type == 'integral') {
-				$intive_reward_value = intval($_POST['intive_reward_type_integral']);
-			} else {
-				$intive_reward_value = trim($_POST['intive_reward_type_balance']);
-			}
-			
-			/* 受邀人奖励*/
-			$intivee_reward_by	= trim($_POST['intivee_reward_by']) == 'orderpay' ? 'orderpay' : 'signup';
-			$intivee_reward_type = trim($_POST['intivee_reward_type']);
-			if ($intivee_reward_type == 'bonus') {
-				$intivee_reward_value = intval($_POST['intivee_reward_type_bonus']);
-			} elseif ($intivee_reward_type == 'integral') {
-				$intivee_reward_value = intval($_POST['intivee_reward_type_integral']);
-			} else {
-				$intivee_reward_value = trim($_POST['intivee_reward_type_balance']);
-			}
-			
-			$temp['intvie_reward'] = array(
-				'intive_reward_by'		=> $intive_reward_by,
-				'intive_reward_type'	=> $intive_reward_type,
-				'intive_reward_value'	=> $intive_reward_value
-			);
-			
-			$temp['intviee_reward'] = array(
-				'intivee_reward_by'		=> $intivee_reward_by,
-				'intivee_reward_type'	=> $intivee_reward_type,
-				'intivee_reward_value'	=> $intivee_reward_value
-			);
-			
+		//检查输入值是否正确
+		if (empty($_POST['level_point'])) {
+			return $this->showmessage(RC_Lang::get('affiliate::affiliate.level_point_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$temp['config'] = !empty($config['config']) ? $config['config'] : '';
+			if (substr($_POST['level_point'], -1, 1) == '%') {
+				$intval = substr($_POST['level_point'], 0, strlen($_POST['level_point'])-1);
+				if (!preg_match("/^[0-9]+$/", $intval)) {
+					return $this->showmessage(RC_Lang::get('affiliate::affiliate.level_point_wrong'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+			} elseif (!preg_match("/^[0-9]+$/", $_POST['level_point'])) {
+				return $this->showmessage(RC_Lang::get('affiliate::affiliate.level_point_wrong'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
 		}
 		
-		$temp['item'] = !empty($config['item']) ? $config['item'] : array();
+		if (empty($_POST['level_money'])) {
+			return $this->showmessage(RC_Lang::get('affiliate::affiliate.level_money_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		} else {
+			if (substr($_POST['level_money'], -1, 1) == '%') {
+				$intval = substr($_POST['level_money'], 0, strlen($_POST['level_money'])-1);
+				if (!preg_match("/^[0-9]+$/", $intval)) {
+					return $this->showmessage(RC_Lang::get('affiliate::affiliate.level_money_wrong'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+			} elseif (!preg_match("/^[0-9]+$/", $_POST['level_money'])) {
+				return $this->showmessage(RC_Lang::get('affiliate::affiliate.level_money_wrong'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+		}
 		
-		ecjia_config::instance()->write_config('affiliate', serialize($temp));
-		ecjia_config::instance()->write_config('invite_template', $invite_template);
-		ecjia_config::instance()->write_config('invite_explain', $invite_explain);
-		ecjia_admin::admin_log(RC_Lang::get('system::system.affiliate'), 'edit', 'config');
+		//读取分成配置
+		$config = unserialize(ecjia::config('affiliate'));
+		
+		$key = intval($_POST['id'])-1;
+		$level_point = (float)trim($_POST['level_point']);
+		$level_money = (float)trim($_POST['level_money']);
+		
+		$maxpoint = $maxmoney = 100;
+		foreach ($config['item'] as $k => $v) {
+			if ($k != $key) {
+				$maxpoint -= $v['level_point'];
+				$maxmoney -= $v['level_money'];
+			}
+		}
+
+		$level_point > $maxpoint && $level_point = $maxpoint;
+		$level_money > $maxmoney && $level_money = $maxmoney;
+		
+		if (!empty($level_point) && strpos($level_point,'%') === false) {
+			$level_point .= '%';
+		}
+		if (!empty($level_money) && strpos($level_money,'%') === false) {
+			$level_money .= '%';
+		}
+		
+		$config['item'][$key]['level_point'] = $level_point;
+		$config['item'][$key]['level_money'] = $level_money;
+		
+		ecjia_config::instance()->write_config('affiliate', serialize($config));
+		ecjia_admin::admin_log(RC_Lang::get('affiliate::affiliate.level_point_is').$level_point.'，'.RC_Lang::get('affiliate::affiliate.level_money_is').$level_money, 'edit', 'affiliate_percent');
 		
 		return $this->showmessage(RC_Lang::get('affiliate::affiliate.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin/init')));
 	}
@@ -342,6 +323,8 @@ class admin extends ecjia_admin {
 		$config['on'] = 1;
 		
 		ecjia_config::instance()->write_config('affiliate', serialize($config));
+		
+		ecjia_admin::admin_log(RC_Lang::get('affiliate::affiliate.level_point_is').$val, 'edit', 'affiliate_percent');
 		return $this->showmessage(RC_Lang::get('affiliate::affiliate.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val, 'pjaxurl' => RC_Uri::url('affiliate/admin/init')));
 	}
 	
@@ -386,6 +369,8 @@ class admin extends ecjia_admin {
 		$config['on'] = 1;
 		
 		ecjia_config::instance()->write_config('affiliate', serialize($config));
+		
+		ecjia_admin::admin_log(RC_Lang::get('affiliate::affiliate.level_money_is').$val, 'edit', 'affiliate_percent');
 		return $this->showmessage(RC_Lang::get('affiliate::affiliate.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val, 'pjaxurl' => RC_Uri::url('affiliate/admin/init')));
 	}
 	
@@ -413,7 +398,7 @@ class admin extends ecjia_admin {
 		$config['config']['separate_by'] = 0;
 		
 		ecjia_config::instance()->write_config('affiliate', serialize($config));
-		ecjia_admin::admin_log(RC_Lang::get('affiliate::affiliate.level_point_is').$info['level_point'].'，'.RC_Lang::get('affiliate::affiliate.level_money_is').$info['level_money'], 'remove', 'affiliate');
+		ecjia_admin::admin_log(RC_Lang::get('affiliate::affiliate.level_point_is').$info['level_point'].'，'.RC_Lang::get('affiliate::affiliate.level_money_is').$info['level_money'], 'remove', 'affiliate_percent');
 		
 		return $this->showmessage(RC_Lang::get('affiliate::affiliate.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}	

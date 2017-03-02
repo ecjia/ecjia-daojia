@@ -73,12 +73,11 @@ class admin_area_manage extends ecjia_admin {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('地区列表')));
 		$this->assign('ur_here', __('地区列表'));
 		
-		ecjia_screen::get_current_screen()->add_help_tab( array(
-		'id'        => 'overview',
-		'title'     => __('概述'),
-		'content'   =>
-		'<p>' . __('欢迎访问ECJia智能后台地区设置页面，用户可以在此进行设置地区。') . '</p>'
-		) );
+		ecjia_screen::get_current_screen()->add_help_tab(array(
+			'id'        => 'overview',
+			'title'     => __('概述'),
+			'content'   => '<p>' . __('欢迎访问ECJia智能后台地区设置页面，用户可以在此进行设置地区。') . '</p>'
+		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 		'<p><strong>' . __('更多信息：') . '</strong></p>' .
@@ -99,7 +98,7 @@ class admin_area_manage extends ecjia_admin {
 
 		if (!empty($id)) {
 			$parent_id = $this->db->where(array('region_id'=>$id))->get_field('parent_id');
-			$this->assign('action_link',	array('href'=>RC_Uri::url('setting/admin_area_manage/init', 'id='.$parent_id), 'text' => __('返回上级')));
+			$this->assign('action_link', array('href'=>RC_Uri::url('setting/admin_area_manage/init', 'id='.$parent_id), 'text' => __('返回上级')));
 		}
 
 		$this->display('area_list.dwt');
@@ -146,7 +145,7 @@ class admin_area_manage extends ecjia_admin {
 				ecjia_admin::admin_log($region_name, 'add','area');
 				$this->showmessage(__('添加新地区成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('setting/admin_area_manage/init', 'id='.$parent_id)));
 			} else {
-				$this->showmessage(__('添加新地区失败！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				$this->showmessage(__('添加新地区失败！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	}
@@ -169,7 +168,7 @@ class admin_area_manage extends ecjia_admin {
 		/* 查看区域是否重复 */
 		$is_only = $this->db->where(array('region_name' => $region_name, 'parent_id'=>$parent_id))->count();
 		if ($is_only) {
-			$this->showmessage(__('抱歉，已经有相同的地区名存在！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			$this->showmessage(__('抱歉，已经有相同的地区名存在！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {		
 			if ($this->db->where(array('region_id' => $id))->update(array('region_name' => $region_name))) {
 				ecjia_admin::admin_log(sprintf(__('更新地区名称为 %s'), $region_name), 'edit', 'area');
@@ -191,10 +190,10 @@ class admin_area_manage extends ecjia_admin {
 		$region = $this->db->where('region_id = '.$id.'')->find();
 
 		$region_type_max = $this->db->max('region_type');
-		$region_type     =$region['region_type'];
-		$regionname      =$region['region_name'];
-		$delete_region[] =$id;
-		$new_region_id   =$id;
+		$region_type     = $region['region_type'];
+		$regionname      = $region['region_name'];
+		$delete_region[] = $id;
+		$new_region_id   = $id;
 
 		for ($i=0; $i<=$region_type_max-$region_type; $i++) {
 			$new_region_id = $this->new_region_id($new_region_id);

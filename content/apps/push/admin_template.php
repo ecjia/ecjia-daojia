@@ -86,7 +86,6 @@ class admin_template extends ecjia_admin {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('push::push.msg_template')));
 
         $data = RC_DB::table('mail_templates')->where('type', 'push')->select('template_id', 'template_code', 'template_subject', 'template_content')->get();
-
 		$this->assign('templates', $data);
 
 		$this->display('push_template_list.dwt');

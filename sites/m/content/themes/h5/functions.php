@@ -111,6 +111,24 @@ RC_Hook::add_action('touch/my/init', array('user_controller', 'init'));
 RC_Hook::add_action('user/index/spread', array('user_controller', 'spread'));
 RC_Hook::add_action('user/index/wxconfig', array('user_controller', 'wxconfig'));
 
+//商家入驻申请
+RC_Loader::load_theme('extras/controller/franchisee_controller.php');
+RC_Hook::add_action('franchisee/index/first', array('franchisee_controller', 'first'));//入驻申请加载页面
+RC_Hook::add_action('franchisee/index/first_check', array('franchisee_controller', 'first_check'));//入驻申请第一步验证
+RC_Hook::add_action('franchisee/index/validate', array('franchisee_controller', 'validate'));//入驻验证码
+RC_Hook::add_action('franchisee/index/second', array('franchisee_controller', 'second'));//入驻申请第二步
+RC_Hook::add_action('franchisee/index/finish', array('franchisee_controller', 'finish'));//处理入驻申请
+
+RC_Hook::add_action('franchisee/index/search', array('franchisee_controller', 'search'));//处理入驻申请
+RC_Hook::add_action('franchisee/index/process', array('franchisee_controller', 'process'));//查询进度
+RC_Hook::add_action('franchisee/index/process_search', array('franchisee_controller', 'process_search'));//查询进度处理
+
+RC_Hook::add_action('franchisee/index/location', array('franchisee_controller', 'get_location'));//获取店铺精确位置
+RC_Hook::add_action('franchisee/index/location_finish', array('franchisee_controller', 'location_finish'));//提交店铺精确位置
+RC_Hook::add_action('franchisee/index/get_region', array('franchisee_controller', 'get_region'));//提交店铺精确位置
+
+
+
 //登陆注册
 RC_Loader::load_theme('extras/controller/user_privilege_controller.php');
 RC_Hook::add_action('user/privilege/login', array('user_privilege_controller', 'login'));
@@ -296,11 +314,12 @@ RC_Hook::add_action('connect_callback_user_signin', function($userid) {
 ecjia_open::macro('goods_seller_list', function($querys) {
     return RC_Uri::url('goods/category/store_list', array('cid' => $querys['category_id']));
 });
-
+ecjia_open::macro('goods_list', function($querys) {
+    return RC_Uri::url('goods/category/init', array('cid' => $querys['category_id']));
+});
 ecjia_open::macro('goods_detail', function($querys) {
 	return RC_Uri::url('goods/index/show', array('goods_id' => $querys['goods_id']));
 });
-	
 ecjia_open::macro('seller', function($querys) {
 	return RC_Uri::url('goods/category/seller_list', array('cid' => $querys['category_id']));
 });

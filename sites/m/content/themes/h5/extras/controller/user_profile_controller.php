@@ -58,15 +58,16 @@ class user_profile_controller {
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
         $user_img_login = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
         $user_img_logout = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-out2x.png';
-        if (!empty($user)) {
+        if (!empty($user) && !is_ecjia_error($user)) {
             if (!empty($user['avatar_img'])) {
                 $user_img_login = $user['avatar_img'];
             }
+            ecjia_front::$controller->assign('user', $user);
             ecjia_front::$controller->assign('user_img', $user_img_login);
         } else {
             ecjia_front::$controller->assign('user_img', $user_img_logout);
         }
-        ecjia_front::$controller->assign('user', $user);
+        
         ecjia_front::$controller->assign_lang();
         ecjia_front::$controller->assign_title('个人资料');
         ecjia_front::$controller->display('user_profile.dwt');
@@ -75,6 +76,7 @@ class user_profile_controller {
     /* 用户中心编辑用户名称 */
     public static function modify_username() {
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+        $user = is_ecjia_error($user) ? array() : $user;
         $time = RC_Time::gmtime();
         $last_time = $user['update_username_time'];
         $limit_time = strtotime($last_time) + 2592000;
@@ -97,12 +99,11 @@ class user_profile_controller {
               return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('msg' => '修改失败，请输入4-20个字符'));
         }
         if (!empty($name)) {
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_UPDATE)->data(array('user_name' => $name))->send()->getBody();
-            $data = json_decode($data,true);
-            if ($data['status']['succeed'] == 1) {
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_UPDATE)->data(array('user_name' => $name))->run();
+            if (! is_ecjia_error($data)) {
                 return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('msg' => RC_Uri::url('user/profile/init')));
             } else {
-                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('msg' => $data['status']['error_desc']));
+                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('msg' => $data->get_error_message()));
             }
         }
     }
@@ -118,12 +119,11 @@ class user_profile_controller {
     	if (!empty($old_password)) {
     		if ($new_password == $comfirm_password) {
     			$token = ecjia_touch_user::singleton()->getToken();
-    			$data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_PASSWORD)->data(array('token' => $token, 'password' => $old_password, 'new_password' => $new_password))->send()->getBody();
-    			$data = json_decode($data,true);
-    			if ($data['status']['succeed'] == 1) {
-    				return ecjia_front::$controller->showmessage(__('修改密码成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/privilege/login')));
+    			$data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_PASSWORD)->data(array('token' => $token, 'password' => $old_password, 'new_password' => $new_password))->run();
+    			if (! is_ecjia_error($data)) {
+    				return ecjia_front::$controller->showmessage(__('修改密码成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/my/init')));
     			} else {
-    				return ecjia_front::$controller->showmessage(__($data['status']['error_desc']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/profile/edit_password')));
+    				return ecjia_front::$controller->showmessage(__($data->get_error_message()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/profile/edit_password')));
     			}
     	
     		} else {

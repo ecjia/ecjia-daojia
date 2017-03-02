@@ -31,57 +31,57 @@
 <div class="row-fluid">
 	<div class="span12">
 		<table class="table table-striped dataTable table-hide-edit">
-		<thead>
-		<tr>
-			<th class="w150">
-				{lang key='goods::goods_type.goods_type_name'}
-			</th>
-			<th class="w130">
-				{lang key='goods::goods_type.merchants_name'}
-			</th>
-			<th>
-				{lang key='goods::goods_type.attr_groups'}
-			</th>
-			<th class="w130">
-				{lang key='goods::goods_type.attribute_number'}
-			</th>
-			<th class="w80">
-				{lang key='goods::goods_type.goods_type_status'}
-			</th>
-		</tr>
-		</thead>
-		<tbody>
-		<!-- {foreach from=$goods_type_list.item item=goods_type} -->
-		<tr>
-			<td class="hide-edit-area">
-				<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin_goods_type/edit_type_name')}" data-name="edit_type_name" data-pk="{$goods_type.cat_id}" data-title="{lang key='goods::goods_type.enter_type_name'}"><!-- {$goods_type.cat_name} --></span>
-				<div class="edit-list">
-					<a class="data-pjax" href='{url path="goods/admin_attribute/init" args="cat_id={$goods_type.cat_id}"}' title="{lang key='goods::goods_type.view_type_attr'}">{lang key='goods::goods_type.view_type_attr'}</a>&nbsp;|&nbsp;
-					<a class="data-pjax" href='{url path="goods/admin_goods_type/edit" args="cat_id={$goods_type.cat_id}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-					<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='goods::goods_type.remove_confirm'}" href='{url path="goods/admin_goods_type/remove" args="id={$goods_type.cat_id}"}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
-				</div>
-			</td>
-			<td class="ecjiafc-red">
-				{$goods_type.merchants_name}
-			</td>
-			<td>
-				{$goods_type.attr_group}
-			</td>
-			<td>
-				{$goods_type.attr_count}
-			</td>
-			<td>
-				<i class="{if $goods_type.enabled}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" title="{lang key='goods::goods_type.click_edit_stats'}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin_goods_type/toggle_enabled')}" data-id="{$goods_type.cat_id}"></i>
-			</td>
-		</tr>
-		<!-- {foreachelse} -->
-		<tr>
-			<td class="no-records" colspan="5">
-				{lang key='system::system.no_records'}
-			</td>
-		</tr>
-		<!-- {/foreach} -->
-		</tbody>
+			<thead>
+				<tr>
+					<th class="w150">
+						{lang key='goods::goods_type.goods_type_name'}
+					</th>
+					<th class="w130">
+						{lang key='goods::goods_type.merchants_name'}
+					</th>
+					<th>
+						{lang key='goods::goods_type.attr_groups'}
+					</th>
+					<th class="w130">
+						{lang key='goods::goods_type.attribute_number'}
+					</th>
+					<th class="w80">
+						{lang key='goods::goods_type.goods_type_status'}
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- {foreach from=$goods_type_list.item item=goods_type} -->
+				<tr>
+					<td class="hide-edit-area">
+						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin_goods_type/edit_type_name')}" data-name="edit_type_name" data-pk="{$goods_type.cat_id}" data-title="{lang key='goods::goods_type.enter_type_name'}"><!-- {$goods_type.cat_name} --></span>
+						<div class="edit-list">
+							<a class="data-pjax" href='{url path="goods/admin_attribute/init" args="cat_id={$goods_type.cat_id}"}' title="{lang key='goods::goods_type.view_type_attr'}">{lang key='goods::goods_type.view_type_attr'}</a>&nbsp;|&nbsp;
+							<a class="data-pjax" href='{url path="goods/admin_goods_type/edit" args="cat_id={$goods_type.cat_id}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='goods::goods_type.remove_confirm'}" href='{url path="goods/admin_goods_type/remove" args="id={$goods_type.cat_id}"}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+						</div>
+					</td>
+					<td class="ecjiafc-red">
+						{$goods_type.merchants_name}
+					</td>
+					<td>
+						{$goods_type.attr_group}
+					</td>
+					<td>
+						{$goods_type.attr_count}
+					</td>
+					<td>
+						<i class="{if $goods_type.enabled}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" title="{lang key='goods::goods_type.click_edit_stats'}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin_goods_type/toggle_enabled')}" data-id="{$goods_type.cat_id}"></i>
+					</td>
+				</tr>
+				<!-- {foreachelse} -->
+				<tr>
+					<td class="no-records" colspan="5">
+						{lang key='system::system.no_records'}
+					</td>
+				</tr>
+				<!-- {/foreach} -->
+			</tbody>
 		</table>
 		<!-- {$goods_type_list.page} -->
 	</div>

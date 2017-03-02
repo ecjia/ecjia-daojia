@@ -163,11 +163,4 @@ function get_region_name($id){
     return $db_region->where(array('region_id' => $id))->get_field('region_name');
 }
 
-/*
- * 管理员操作对象和动作
- */
-function assign_adminlog_contents(){
-    ecjia_admin_log::instance()->add_object('merchant', '我的店铺');
-}
-
 // end

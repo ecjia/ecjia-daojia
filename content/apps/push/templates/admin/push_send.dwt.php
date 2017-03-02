@@ -306,7 +306,6 @@
 						</div>
 					</div>
 					
-
 					<h3 class="heading">{lang key='push::push.push_object'}</h3>
 					<div class="control-group" >
 						<label class="control-label">{lang key='push::push.label_push_to'}</label>
@@ -347,7 +346,6 @@
 							<input type="text" id="admin_id" name="admin_id"/>
 						</div>
 					</div>
-					
 					
 					<h3 class="heading">{lang key='push::push.push_time'}</h3>
 					<div class="control-group formSep">

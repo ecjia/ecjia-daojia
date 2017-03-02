@@ -211,7 +211,7 @@ class admin_config extends ecjia_admin {
 		$this->assign('group_code',$group_code);
 		$code = empty($_GET['code']) ? 'basic_info' : trim($_GET['code']);
 		$this->assign('code', $code);
-		$this->assign('mobile_app_name',      	ecjia::config('mobile_app_name'));
+		$this->assign('mobile_app_name', ecjia::config('mobile_app_name'));
 		// 应用截图
 		$mobile_app_preview_temp = ecjia::config('mobile_app_preview');
 		$mobile_app_preview = unserialize($mobile_app_preview_temp);

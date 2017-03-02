@@ -69,9 +69,17 @@ class touch_installer  extends ecjia_installer {
         if (!ecjia::config(touch::STORAGEKEY_map_qq_referer, ecjia::CONFIG_CHECK)) {
         	ecjia_config::instance()->insert_config('wap', touch::STORAGEKEY_map_qq_referer, '', array('type' => 'text', 'sort_order' => 2));
         }
-        
+
         if (!ecjia::config(touch::STORAGEKEY_map_qq_key, ecjia::CONFIG_CHECK)) {
         	ecjia_config::instance()->insert_config('wap', touch::STORAGEKEY_map_qq_key, '', array('type' => 'text', 'sort_order' => 3));
+        }
+        
+        if (!ecjia::config(touch::STORAGEKEY_map_baidu_referer, ecjia::CONFIG_CHECK)) {
+        	ecjia_config::instance()->insert_config('wap', touch::STORAGEKEY_map_baidu_referer, '', array('type' => 'text', 'sort_order' => 4));
+        }
+        
+        if (!ecjia::config(touch::STORAGEKEY_map_baidu_key, ecjia::CONFIG_CHECK)) {
+        	ecjia_config::instance()->insert_config('wap', touch::STORAGEKEY_map_baidu_key, '', array('type' => 'text', 'sort_order' => 5));
         }
        
         return true;
@@ -92,6 +100,14 @@ class touch_installer  extends ecjia_installer {
         
         if (ecjia::config(touch::STORAGEKEY_map_qq_key, ecjia::CONFIG_CHECK)) {
         	ecjia_config::instance()->delete_config(touch::STORAGEKEY_map_qq_key);
+        }
+        
+        if (ecjia::config(touch::STORAGEKEY_map_baidu_referer, ecjia::CONFIG_CHECK)) {
+        	ecjia_config::instance()->delete_config(touch::STORAGEKEY_map_baidu_referer);
+        }
+        
+        if (ecjia::config(touch::STORAGEKEY_map_baidu_key, ecjia::CONFIG_CHECK)) {
+        	ecjia_config::instance()->delete_config(touch::STORAGEKEY_map_baidu_key);
         }
        
         return true;

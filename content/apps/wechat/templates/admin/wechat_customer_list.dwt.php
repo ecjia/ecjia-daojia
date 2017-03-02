@@ -67,66 +67,66 @@
 			</thead>
 			<tbody>
 				<!-- {foreach from=$list.item item=val} -->
-					<tr class="big">
-						<td><img class="thumbnail" src="{$val.kf_headimgurl}"></td>
-						<td class="hide-edit-area">
-							{$val.kf_account}
-							<div class="edit-list">
-								{if $val.invite_status neq 'waiting'}
-								<a class="data-pjax" href='{RC_Uri::url("wechat/admin_customer/edit", "id={$val.id}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-								{/if}
-								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.remove_kf_confirm'}" href='{RC_Uri::url("wechat/admin_customer/remove", "id={$val.id}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
-							</div>
-						</td>
+				<tr class="big">
+					<td><img class="thumbnail" src="{$val.kf_headimgurl}"></td>
+					<td class="hide-edit-area">
+						{$val.kf_account}
+						<div class="edit-list">
+							{if $val.invite_status neq 'waiting'}
+							<a class="data-pjax" href='{RC_Uri::url("wechat/admin_customer/edit", "id={$val.id}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
+							{/if}
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.remove_kf_confirm'}" href='{RC_Uri::url("wechat/admin_customer/remove", "id={$val.id}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+						</div>
+					</td>
 
-						<td>
-							{if $val.status eq 1}
-								{if $val.kf_wx}
-									{$val.kf_wx}
-								{elseif $val.invite_wx}
-									
-									{if $val.invite_status eq 'waiting'}
-										{$val.invite_wx}<br>
-										<span class="ecjiafc-999">
-										<!-- todo -->
-										{lang key='wechat::wechat.invite_waiting'}<a class="hint--bottom hint--rounded" data-hint="绑定邀请已发送至 {$val.invite_wx} 的微信，请去微信客户端确认后即可绑定"><i class="fontello-icon-help-circled"></i></a>
-										</span>
-									{elseif $val.invite_status eq 'rejected'}
-										<a class="bind_wx" data-toggle="modal" href="#bind_wx" title="{lang key='wechat::wechat.bind_wx'}" data-val="{$val.kf_account}">{lang key='wechat::wechat.rebind'}</a><br>
-										<span class="ecjiafc-999">
-										{lang key='wechat::wechat.invite_rejected'}<a class="hint--bottom  hint--rounded" data-hint="{lang key='wechat::wechat.rejected_rebind_notice'}"><i class="fontello-icon-help-circled"></i></a>
-										</span>
-									{elseif $val.invite_status eq 'expired'}
-										<a class="bind_wx" data-toggle="modal" href="#bind_wx" title="{lang key='wechat::wechat.bind_wx'}" data-val="{$val.kf_account}">{lang key='wechat::wechat.rebind'}</a><br>
-										{lang key='wechat::wechat.invite_expired'}<a class="hint--bottom  hint--rounded" data-hint="{lang key='wechat::wechat.expired_rebind_notice'}"><i class="fontello-icon-help-circled"></i></a>
-									{/if}
-								{else}
-									<a class="bind_wx" data-toggle="modal" href="#bind_wx" title="{lang key='wechat::wechat.bind_wx'}" data-val="{$val.kf_account}">{lang key='wechat::wechat.binding_wx'}</a><br>
+					<td>
+						{if $val.status eq 1}
+							{if $val.kf_wx}
+								{$val.kf_wx}
+							{elseif $val.invite_wx}
+								
+								{if $val.invite_status eq 'waiting'}
+									{$val.invite_wx}<br>
 									<span class="ecjiafc-999">
-										{lang key='wechat::wechat.not_bind'}<a class="hint--bottom  hint--rounded" data-hint="{lang key='wechat::wechat.complete_bind_notice'}"><i class="fontello-icon-help-circled"></i></a>
+									<!-- todo -->
+									{lang key='wechat::wechat.invite_waiting'}<a class="hint--bottom hint--rounded" data-hint="绑定邀请已发送至 {$val.invite_wx} 的微信，请去微信客户端确认后即可绑定"><i class="fontello-icon-help-circled"></i></a>
 									</span>
+								{elseif $val.invite_status eq 'rejected'}
+									<a class="bind_wx" data-toggle="modal" href="#bind_wx" title="{lang key='wechat::wechat.bind_wx'}" data-val="{$val.kf_account}">{lang key='wechat::wechat.rebind'}</a><br>
+									<span class="ecjiafc-999">
+									{lang key='wechat::wechat.invite_rejected'}<a class="hint--bottom  hint--rounded" data-hint="{lang key='wechat::wechat.rejected_rebind_notice'}"><i class="fontello-icon-help-circled"></i></a>
+									</span>
+								{elseif $val.invite_status eq 'expired'}
+									<a class="bind_wx" data-toggle="modal" href="#bind_wx" title="{lang key='wechat::wechat.bind_wx'}" data-val="{$val.kf_account}">{lang key='wechat::wechat.rebind'}</a><br>
+									{lang key='wechat::wechat.invite_expired'}<a class="hint--bottom  hint--rounded" data-hint="{lang key='wechat::wechat.expired_rebind_notice'}"><i class="fontello-icon-help-circled"></i></a>
 								{/if}
 							{else}
-								<span class="ecjiafc-999">{lang key='wechat::wechat.kf_account_disabled'}</span>
+								<a class="bind_wx" data-toggle="modal" href="#bind_wx" title="{lang key='wechat::wechat.bind_wx'}" data-val="{$val.kf_account}">{lang key='wechat::wechat.binding_wx'}</a><br>
+								<span class="ecjiafc-999">
+									{lang key='wechat::wechat.not_bind'}<a class="hint--bottom  hint--rounded" data-hint="{lang key='wechat::wechat.complete_bind_notice'}"><i class="fontello-icon-help-circled"></i></a>
+								</span>
 							{/if}
-						</td>
-						<td>
-							<span class="cursor_pointer" data-text="text" data-trigger="editable" data-url='{RC_Uri::url("wechat/admin_customer/edit_nick")}' data-name="{$val.kf_nick}" data-pk="{$val.id}" data-title="{lang key='wechat::wechat.edit_kf_nick'}" >{$val.kf_nick}</span>
-						</td>
-						<td class="{if $val.online_status}ecjiafc-red{/if}">
-							{if $val.online_status eq 1}
-								{lang key='wechat::wechat.web_online'}
-							{elseif $val.online_status eq 0}
-								{lang key='wechat::wechat.not_online'}
-							{/if}
-						</td>
-						<td>
-							<!-- todo -->
+						{else}
+							<span class="ecjiafc-999">{lang key='wechat::wechat.kf_account_disabled'}</span>
+						{/if}
+					</td>
+					<td>
+						<span class="cursor_pointer" data-text="text" data-trigger="editable" data-url='{RC_Uri::url("wechat/admin_customer/edit_nick")}' data-name="{$val.kf_nick}" data-pk="{$val.id}" data-title="{lang key='wechat::wechat.edit_kf_nick'}" >{$val.kf_nick}</span>
+					</td>
+					<td class="{if $val.online_status}ecjiafc-red{/if}">
+						{if $val.online_status eq 1}
+							{lang key='wechat::wechat.web_online'}
+						{elseif $val.online_status eq 0}
+							{lang key='wechat::wechat.not_online'}
+						{/if}
+					</td>
+					<td>
+						<!-- todo -->
                         	<i class="{if $val.status eq 1}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggle_CustomerState" data-url="{RC_Uri::url('wechat/admin_customer/toggle_show')}" data-id="{$val.id}" data-msg="{if $val.status}关闭客服[{$val.kf_account}]将在微信端删除该客服，{else}开启客服[{$val.kf_account}]将在微信端添加该客服，{/if}您确定要这么做吗？"></i>
 						</td>
 					</tr>
-				<!--  {foreachelse} -->
-					<tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+					<!--  {foreachelse} -->
+				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

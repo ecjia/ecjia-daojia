@@ -92,7 +92,8 @@ class mp_userbind_bind_callback implements platform_interface {
     	$_SESSION['last_time'] = RC_Time::gmtime();
     	$user_db->where(array('user_id' => $user_info['user_id']))->update(array('last_login' => RC_Time::gmtime(), 'last_ip'=>RC_Ip::client_ip()));
     	$session_id = RC_Session::session_id();
-    	header("Location: http://test.b2c.ecjia.com/sites/weshop/index.php?m=touch&c=index&a=init&token=".$session_id);
+    	$url = RC_Uri::home_url().'/sites/m'.$session_id;
+    	header("Location: ".$url);
     	exit;
     }
 }

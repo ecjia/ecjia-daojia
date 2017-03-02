@@ -91,8 +91,9 @@ class user_function {
 	 */
 	public static function address_info($token, $address_id) {
 		$address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data(array('token' => $token, 'address_id' => $address_id))->run();
-
-		return $address_info;
+		if (!is_ecjia_error($address_info)) {
+			return $address_info;
+		}
 	}
 }
 

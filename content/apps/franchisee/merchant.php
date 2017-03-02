@@ -220,6 +220,7 @@ class merchant extends ecjia_merchant {
 
 		if (!empty($tpl)) {
 			$this->assign('code', $code);
+			$this->assign('mobile', $mobile);
 			$this->assign('service_phone', 	ecjia::config('service_phone'));
 			$content = $this->fetch_string($tpl['template_content']);
 

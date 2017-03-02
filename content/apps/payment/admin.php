@@ -50,13 +50,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA 支付方式管理
  */
 class admin extends ecjia_admin {
-	
-	private $db;	
 	public function __construct() {
 		parent::__construct();
-		
-		$this->db = RC_Model::model('payment/payment_model');
-		
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -87,9 +82,9 @@ class admin extends ecjia_admin {
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('payment::payment.payment')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
-		'id'		=> 'overview',
-		'title'		=> RC_Lang::get('payment::payment.overview'),
-		'content'	=> '<p>' . RC_Lang::get('payment::payment.payment_list_help') . '</p>'
+			'id'		=> 'overview',
+			'title'		=> RC_Lang::get('payment::payment.overview'),
+			'content'	=> '<p>' . RC_Lang::get('payment::payment.payment_list_help') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
@@ -116,7 +111,6 @@ class admin extends ecjia_admin {
 		        $modules[$_key]['enabled'] 		= $_value['enabled'];
 		    }
 		}
-		
 		$this->assign('modules', $modules);
 		
 		$this->display('payment_list.dwt');

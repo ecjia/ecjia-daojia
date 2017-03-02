@@ -64,7 +64,7 @@ class goods_image {
 	 * 构造函数
 	 * @param array $file 上传后返回的文件信息
 	 */
-	public function __construct($file) {
+	public function __construct($file = array()) {
 	    $this->uploaded_info       = $file;
 	    $this->uploaded_file_path  = RC_Upload::upload_path() . $file['savepath'] . DS . $file['savename'];
 	    $this->uploaded_file_name  = $file['name'];

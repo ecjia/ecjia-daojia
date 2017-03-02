@@ -962,7 +962,7 @@ select, input, textarea {
 	background-size: 85px 323px;
 	bottom: 8em;
 	position: fixed;
-	right: 1em;
+	right: .5em;
 	width: 40px;
 	z-index: 10;
 }

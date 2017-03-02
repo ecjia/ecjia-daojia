@@ -79,7 +79,7 @@
 						
 						<div class="control-group">
         					<div class="controls">
-        						{if $errormsg}
+        						{if $errormsg || ($type_error && $type neq 2)}
 								<input type="submit" name="submit" value="{lang key='wechat::wechat.ok'}" class="btn btn-gebo" disabled="disabled" />	
 								{else}
 								<input type="submit" name="submit" value="{lang key='wechat::wechat.ok'}" class="btn btn-gebo" />	

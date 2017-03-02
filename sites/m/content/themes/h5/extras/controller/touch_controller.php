@@ -81,7 +81,7 @@ class touch_controller {
         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DATA)->data($arr)->run();
 
         //处理ecjiaopen url
-        if (!empty($data)) {
+        if (!is_ecjia_error($data) && !empty($data)) {
         	foreach ($data as $k => $v) {
         		if ($k == 'player' || $k == 'mobile_menu') {
         			foreach ($v as $key => $val) {
@@ -107,20 +107,21 @@ class touch_controller {
         			}
         		}
         	}
+        	//首页菜单
+        	ecjia_front::$controller->assign('navigator', $data['mobile_menu']);
+        	
+        	//首页广告
+        	ecjia_front::$controller->assign('adsense_group', $data['adsense_group']);
+        	
+        	//首页促销商品
+        	ecjia_front::$controller->assign('promotion_goods', $data['promote_goods']);
+        	
+        	//新品推荐
+        	ecjia_front::$controller->assign('new_goods', $data['new_goods']);
+        	
+        	ecjia_front::$controller->assign('cycleimage', $data['player']);
         }
-        //首页菜单
-        ecjia_front::$controller->assign('navigator', $data['mobile_menu']);
-        
-        //首页广告
-        ecjia_front::$controller->assign('adsense_group', $data['adsense_group']);
-        
-        //首页促销商品
-        ecjia_front::$controller->assign('promotion_goods', $data['promote_goods']);
-        
-        //新品推荐
-        ecjia_front::$controller->assign('new_goods', $data['new_goods']);
-        
-        ecjia_front::$controller->assign('cycleimage', $data['player']);
+
         ecjia_front::$controller->assign('page_header', 'index');
         ecjia_front::$controller->assign('searchs', user_function::insert_search());
         ecjia_front::$controller->assign('shop_pc_url', ecjia::config('shop_pc_url'));
@@ -138,9 +139,11 @@ class touch_controller {
         
         //下载推广是否开启
         $config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-        if ($config['wap_app_download_show'] && $config['wap_app_download_img']) {
-            ecjia_front::$controller->assign('download_app_switch', 1);
-            ecjia_front::$controller->assign('app_download_img', $config['wap_app_download_img']);
+        if (!is_ecjia_error($config)) {
+        	if ($config['wap_app_download_show'] && $config['wap_app_download_img']) {
+        		ecjia_front::$controller->assign('download_app_switch', 1);
+        		ecjia_front::$controller->assign('app_download_img', $config['wap_app_download_img']);
+        	}
         }
         
         ecjia_front::$controller->assign_title();
@@ -156,23 +159,24 @@ class touch_controller {
         $type = htmlspecialchars($_GET['type']);
         $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
         $page = intval($_GET['page']) ? intval($_GET['page']) : 1;
-        
+
         $paramater = array(
         	'action_type' 	=> $type,	
  			'pagination' 	=> array('count' => $limit, 'page' => $page),
 			'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude'])
         );
-        
-        $arr = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_SUGGESTLIST)->data($paramater)->send()->getBody();
-        $list = json_decode($arr, true);
 
-        $data = !empty($list['data']) ? $list['data'] : array();
-        ecjia_front::$controller->assign('goods_list', $data);
-        ecjia_front::$controller->assign_lang();
-        $sayList = ecjia_front::$controller->fetch('index.dwt');
-        
-        if ($list['paginated']['more'] == 0) $data['is_last'] = 1;
-        return ecjia_front::$controller->showmessage('success', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('list' => $sayList, 'page', 'is_last' => $data['is_last']));
+        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_SUGGESTLIST)->data($paramater)->hasPage()->run();
+        if (!is_ecjia_error($response)) {
+			list($data, $paginated) = $response;
+			
+        	ecjia_front::$controller->assign('goods_list', $data);
+        	ecjia_front::$controller->assign_lang();
+        	$sayList = ecjia_front::$controller->fetch('index.dwt');
+        	
+        	if ($paginated['more'] == 0) $data['is_last'] = 1;
+        	return ecjia_front::$controller->showmessage('success', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('list' => $sayList, 'is_last' => $data['is_last']));
+        }
     }
 
     /**

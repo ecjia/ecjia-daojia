@@ -95,7 +95,7 @@
 			<!-- {/foreach} -->
 			</ul>
 		{else}
-		<pre class="sepH_c" style=" background-color: #fbfbfb; height:80px;line-height:80px;">暂无数据！</pre>
+		<pre class="sepH_c" style=" background-color: #fbfbfb; height:80px;line-height:80px;">{lang key='system::system.no_records'}</pre>
 		{/if}
 		</div>
 		</form>

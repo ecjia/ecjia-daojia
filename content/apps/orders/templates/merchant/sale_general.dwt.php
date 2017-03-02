@@ -38,77 +38,77 @@
 <div class="row">
 	<div class="col-lg-12">
 		<section class="panel">
-		<header class="panel-heading col-lg-12">
-		<div class="form-group choose_list">
-			<form class="form-inline f_r" action="{$form_action}" method="post" name="searchForm">
-				<span class="f_l">年走势：</span>
-                        {html_select_date prefix="year_begin" class="no_search w110" time=$start_time start_year="2006" end_year="+1" display_days=false display_months=false}
-				<span class="f_l">-</span>
-        				{html_select_date prefix="year_end" class="no_search w110" time=$end_time start_year="2006" end_year="+1" display_days=false display_months=false}
-				<input type="submit" name="query_by_year" value="查询" class="btn btn-primary screen-btn"/>
-			</form>
-		</div>
-		</header>
-		<header class="panel-heading col-lg-12">
-		<div class="form-group choose_list">
-			<form class="form-inline f_r" action="{$form_action}" method="post" name="selectForm">
-				<span class="f_l">月走势：</span>
-            			{html_select_date prefix="month_begin" class="no_search w110" time=$start_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
-				<span class="f_l">-</span>
-        				{html_select_date prefix="month_end" class="no_search w110" time=$end_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
-				<input type="submit" name="query_by_month" value="查询" class="btn btn-primary screen-btn1"/>
-			</form>
-		</div>
-		</header>
-		<div class="panel-body">
-			<section id="unseen">
-			<ul class="nav nav-tabs">
-				<li class="{if $page eq 'init'}active{/if}">
-				<!-- {if $smarty.get.query_by_year} -->
-				<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}{lang key='orders::order.order_status'}{/t}</a>
-				<!-- {else if $smarty.get.query_by_month} -->
-				<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}{lang key='orders::order.order_status'}{/t}</a>
-				<!-- {else} -->
-				<a class="data-pjax" href='{url path="orders/mh_sale_general/init"}'>{t}{lang key='orders::statistic.order_status'}{/t}</a>
-				<!-- {/if} -->
-				<li class="{if $page eq 'sales_trends'}active{/if}">
-				<!-- {if $smarty.get.query_by_year} -->
-				<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
-				<!-- {else if $smarty.get.query_by_month} -->
-				<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
-				<!-- {else} -->
-				<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
-				<!-- {/if} -->
-				</li>
-			</ul>
-			<form class="form-horizontal">
-				<div class="tab-content">
-    						{if $page eq 'init'}
-					<div class="tab-pane active" id="tab1">
-						<div class="m_t10">
-							<div id="order_count" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$start_time}&end_time={$end_time}&start_month_time={$start_month_time}&end_month_time={$end_month_time}&query_type={$query_type}&order_type=1")}'>
-								<div class="ajax_loading">
-									<i class="fa fa-spin fa-spinner"></i>加载中...
-								</div>
-							</div>
-						</div>
-					</div>
-    						{/if}
-    						{if $page eq 'sales_trends'}
-					<div class="tab-pane active" id="tab2">
-						<div class="m_t10">
-							<div id="order_amount" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$start_time}&end_time={$end_time}&start_month_time={$start_month_time}&end_month_time={$end_month_time}&query_type={$query_type}&order_type=0")}'>
-								<div class="ajax_loading">
-									<i class="fa fa-spin fa-spinner"></i>加载中...
-								</div>
-							</div>
-						</div>
-					</div>
-    						{/if}
+			<header class="panel-heading col-lg-12">
+				<div class="form-group choose_list">
+					<form class="form-inline f_r" action="{$form_action}" method="post" name="searchForm">
+						<span class="f_l">年走势：</span>
+		                        {html_select_date prefix="year_begin" class="no_search w110" time=$start_time start_year="2006" end_year="+1" display_days=false display_months=false}
+						<span class="f_l">-</span>
+		        				{html_select_date prefix="year_end" class="no_search w110" time=$end_time start_year="2006" end_year="+1" display_days=false display_months=false}
+						<input type="submit" name="query_by_year" value="查询" class="btn btn-primary screen-btn"/>
+					</form>
 				</div>
-			</form>
-			</section>
-		</div>
+			</header>
+			<header class="panel-heading col-lg-12">
+				<div class="form-group choose_list">
+					<form class="form-inline f_r" action="{$form_action}" method="post" name="selectForm">
+						<span class="f_l">月走势：</span>
+		            			{html_select_date prefix="month_begin" class="no_search w110" time=$start_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
+						<span class="f_l">-</span>
+		        				{html_select_date prefix="month_end" class="no_search w110" time=$end_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
+						<input type="submit" name="query_by_month" value="查询" class="btn btn-primary screen-btn1"/>
+					</form>
+				</div>
+			</header>
+			<div class="panel-body">
+				<section id="unseen">
+					<ul class="nav nav-tabs">
+						<li class="{if $page eq 'init'}active{/if}">
+						<!-- {if $smarty.get.query_by_year} -->
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}{lang key='orders::order.order_status'}{/t}</a>
+						<!-- {else if $smarty.get.query_by_month} -->
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}{lang key='orders::order.order_status'}{/t}</a>
+						<!-- {else} -->
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init"}'>{t}{lang key='orders::statistic.order_status'}{/t}</a>
+						<!-- {/if} -->
+						<li class="{if $page eq 'sales_trends'}active{/if}">
+						<!-- {if $smarty.get.query_by_year} -->
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
+						<!-- {else if $smarty.get.query_by_month} -->
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
+						<!-- {else} -->
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
+						<!-- {/if} -->
+						</li>
+					</ul>
+					<form class="form-horizontal">
+						<div class="tab-content">
+		    				{if $page eq 'init'}
+							<div class="tab-pane active" id="tab1">
+								<div class="m_t10">
+									<div id="order_count" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$start_time}&end_time={$end_time}&start_month_time={$start_month_time}&end_month_time={$end_month_time}&query_type={$query_type}&order_type=1")}'>
+										<div class="ajax_loading">
+											<i class="fa fa-spin fa-spinner"></i>加载中...
+										</div>
+									</div>
+								</div>
+							</div>
+		    				{/if}
+		    				{if $page eq 'sales_trends'}
+							<div class="tab-pane active" id="tab2">
+								<div class="m_t10">
+									<div id="order_amount" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$start_time}&end_time={$end_time}&start_month_time={$start_month_time}&end_month_time={$end_month_time}&query_type={$query_type}&order_type=0")}'>
+										<div class="ajax_loading">
+											<i class="fa fa-spin fa-spinner"></i>加载中...
+										</div>
+									</div>
+								</div>
+							</div>
+		    				{/if}
+						</div>
+					</form>
+				</section>
+			</div>
 		</section>
 	</div>
 </div>	

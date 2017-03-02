@@ -22,7 +22,7 @@
   	<div class="clearfix"></div>
 </div>
 <div class="row">
-       <div class="col-lg-12 col-md-8 col-xs-12">
+	<div class="col-lg-12 col-md-8 col-xs-12">
         <section class="panel">
             <div class="panel-body">
                 <table class="table table-th-block">

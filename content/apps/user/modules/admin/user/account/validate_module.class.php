@@ -72,8 +72,9 @@ class validate_module extends api_admin implements api_interface {
 				/* 判断短信模板是否存在*/
 				if (!empty($tpl)) {
 					ecjia_api::$controller->assign('code', $code);
+					ecjia_api::$controller->assign('mobile', $validate_value);
 					ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
-					 
+
 					$content = ecjia_api::$controller->fetch_string($tpl['template_content']);
 					$options = array(
 							'mobile' 		=> $validate_value,

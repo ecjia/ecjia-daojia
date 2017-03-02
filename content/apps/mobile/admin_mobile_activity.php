@@ -136,11 +136,11 @@ class admin_mobile_activity extends ecjia_admin {
     	$this->admin_priv('mobile_activity_update', ecjia::MSGTYPE_JSON);
     	
 	   	$activity_name 		= empty($_POST['activity_name']) 	? 	'' 	: trim($_POST['activity_name']);
-	   	$activity_group 	= empty($_POST['activity_group']) 	? 	'1' : intval($_POST['activity_group']);
-	   	$activity_object 	= empty($_POST['activity_object']) 	? 	'1' : intval($_POST['activity_object']);
-	   	$enabled 			= empty($_POST['enabled']) 			? 	'' 	: intval($_POST['enabled']);
-	   	$limit_num 			= empty($_POST['limit_num']) 		? 	'0' : intval($_POST['limit_num']);
-	   	$limit_time			= empty($_POST['limit_time']) 		? 	'' 	: intval($_POST['limit_time']);
+	   	$activity_group 	= empty($_POST['activity_group']) 	? 	1 	: intval($_POST['activity_group']);
+	   	$activity_object 	= empty($_POST['activity_object']) 	? 	1 	: intval($_POST['activity_object']);
+	   	$enabled 			= empty($_POST['enabled']) 			? 	0 	: intval($_POST['enabled']);
+	   	$limit_num 			= empty($_POST['limit_num']) 		? 	0	: intval($_POST['limit_num']);
+	   	$limit_time			= empty($_POST['limit_time']) 		? 	0 	: intval($_POST['limit_time']);
 	   	$start_time			= empty($_POST['start_time']) 		? 	'' 	: RC_Time::local_strtotime($_POST['start_time']);
 	   	$end_time			= empty($_POST['end_time']) 		? 	'' 	: RC_Time::local_strtotime($_POST['end_time']);
 	   	$activity_desc		= empty($_POST['activity_desc']) 	? 	'' 	: trim($_POST['activity_desc']);
@@ -180,7 +180,7 @@ class admin_mobile_activity extends ecjia_admin {
 	public function edit() {
 	   	$this->admin_priv('mobile_activity_update');
 	   	
-	   	$activity_id = !empty($_GET['id']) ? intval($_GET['id']) : $_GET['id'];
+	   	$activity_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
 	   
 	   	$activity_info = $this->db_activity->mobile_activity_find($activity_id);
 
@@ -209,15 +209,15 @@ class admin_mobile_activity extends ecjia_admin {
 		$this->admin_priv('mobile_activity_update', ecjia::MSGTYPE_JSON);
 		
 		$activity_name 	= empty($_POST['activity_name']) 	? 	'' 	: trim($_POST['activity_name']);
-		$activity_group = empty($_POST['activity_group']) 	? 	'1' : intval($_POST['activity_group']);
-		$activity_object= empty($_POST['activity_object']) 	? 	'1' : intval($_POST['activity_object']);
-		$enabled 		= empty($_POST['enabled']) 			? 	'' 	: intval($_POST['enabled']);
-		$limit_num 		= empty($_POST['limit_num']) 		? 	'0' : intval($_POST['limit_num']);
-		$limit_time		= empty($_POST['limit_time']) 		? 	'' 	: intval($_POST['limit_time']);
+		$activity_group = empty($_POST['activity_group']) 	? 	1 	: intval($_POST['activity_group']);
+		$activity_object= empty($_POST['activity_object']) 	? 	1 	: intval($_POST['activity_object']);
+		$enabled 		= empty($_POST['enabled']) 			? 	0 	: intval($_POST['enabled']);
+		$limit_num 		= empty($_POST['limit_num']) 		? 	0 	: intval($_POST['limit_num']);
+		$limit_time		= empty($_POST['limit_time']) 		? 	0 	: intval($_POST['limit_time']);
 		$start_time		= empty($_POST['start_time']) 		? 	'' 	: RC_Time::local_strtotime($_POST['start_time']);
 		$end_time		= empty($_POST['end_time']) 		? 	'' 	: RC_Time::local_strtotime($_POST['end_time']);
 		$activity_desc	= empty($_POST['activity_desc']) 	? 	'' 	: trim($_POST['activity_desc']);
-		$id 			= empty($_POST['id']) 				? 	'0' : intval($_POST['id']);
+		$id 			= empty($_POST['id']) 				? 	0 	: intval($_POST['id']);
 		
 		/*判断活动是否重名*/   
 	   	$is_only = $this->db_activity->activity_count(array('activity_name' => $activity_name, 'activity_id' => array('neq' => $id)));

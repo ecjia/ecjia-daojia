@@ -65,10 +65,9 @@ class user_bonus_controller {
         $cur_date = RC_Time::gmtime();
         $status = 'allow_use';
         
-        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $page, 'count' => $limit), 'bonus_type' => $status))->send()->getBody();
-        $bonus = json_decode($bonus,true);
-        $token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-        ecjia_front::$controller->assign('bonus', $bonus['data']);
+        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $page, 'count' => $limit), 'bonus_type' => $status))->run();
+        $bonus = is_ecjia_error($bonus) ? array() : $bonus;
+        ecjia_front::$controller->assign('bonus', $bonus);
         
         $sayList = ecjia_front::$controller->fetch('user_bonus.dwt');
         $more = 0;
@@ -84,10 +83,9 @@ class user_bonus_controller {
         $cur_date = RC_Time::gmtime();
 
         $status = 'is_used';
-        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $page, 'count' => $limit), 'bonus_type' => $status))->send()->getBody();
-        $bonus = json_decode($bonus,true);
-        $token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-        ecjia_front::$controller->assign('bonus', $bonus['data']);
+        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $page, 'count' => $limit), 'bonus_type' => $status))->run();
+        $bonus = is_ecjia_error($bonus) ? array() : $bonus;
+        ecjia_front::$controller->assign('bonus', $bonus);
 
         $sayList = ecjia_front::$controller->fetch('user_bonus.dwt');
         $more = 0;
@@ -103,10 +101,9 @@ class user_bonus_controller {
         $cur_date = RC_Time::gmtime();
 
         $status = 'expired';
-        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $page, 'count' => $limit), 'bonus_type' => $status))->send()->getBody();
-        $bonus = json_decode($bonus,true);
-        $token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-        ecjia_front::$controller->assign('bonus', $bonus['data']);
+        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $page, 'count' => $limit), 'bonus_type' => $status))->run();
+        $bonus = is_ecjia_error($bonus) ? array() : $bonus;
+        ecjia_front::$controller->assign('bonus', $bonus);
         
         $sayList = ecjia_front::$controller->fetch('user_bonus.dwt');
         $more = 0;
@@ -120,9 +117,9 @@ class user_bonus_controller {
      * 我的奖励
      */
     public static function my_reward() {
-		$token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-    	$invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token['access_token']))->run();
-        $intive_total = $invite_reward[invite_total];
+    	$invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => ecjia_touch_user::singleton()->getToken()))->run();
+    	$invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
+        $intive_total = $invite_reward['invite_total'];
         
         ecjia_front::$controller->assign_title('我的奖励');
         ecjia_front::$controller->assign('intive_total', $intive_total);
@@ -135,22 +132,23 @@ class user_bonus_controller {
     public static function reward_detail() {
         $type = !empty($_GET['type']) ? $_GET['type'] : '';
         
-		$token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-    	$invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token['access_token']))->run();
+        $token = ecjia_touch_user::singleton()->getToken();
+    	$invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token))->run();
+    	$invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
     	ecjia_front::$controller->assign('month', $invite_reward['invite_record']);
     	
     	$max_key = array_keys($invite_reward['invite_record'], max($invite_reward['invite_record']));
     	$max_month = $invite_reward['invite_record'][$max_key[0]]['invite_data'];
 
     	$arr = array(
-    	    'token'        => $token['access_token'], 
+    	    'token'        => $token, 
     	    'pagination'   => array('page' => 1, 'count' => 10), 
     	    'date'         => $max_month
     	);
-    	$invite_record = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_RECORD)->data($arr)->send()->getBody();
-    	$data = json_decode($invite_record, true);
+    	$invite_record = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_RECORD)->data($arr)->run();
+    	$data = is_ecjia_error($invite_record) ? array() : $invite_record;
     	
-    	ecjia_front::$controller->assign('data', $data['data']);
+    	ecjia_front::$controller->assign('data', $data);
     	ecjia_front::$controller->assign('is_last', $data['paginated']['more']);
     	ecjia_front::$controller->assign('max_month', $max_month);
     	ecjia_front::$controller->assign_title('奖励明细');
@@ -163,16 +161,15 @@ class user_bonus_controller {
         $page = intval($_GET['page']) ? intval($_GET['page']) : 1;
         $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
         
-        $token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-        $arr = array('token' => $token['access_token']);
+        $arr = array('token' => ecjia_touch_user::singleton()->getToken());
         $arr['date'] = $_GET['date'];
         $arr['pagination'] = array('page' => $page, 'count' => $limit);
         
-        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_RECORD)->data($arr)->send()->getBody();
-        $data = json_decode($data, true);
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_RECORD)->data($arr)->run();
+        $data = is_ecjia_error($data) ? array() : $data;
         
-        if (!empty($data['data'])) {
-            ecjia_front::$controller->assign('data', $data['data']);
+        if (!empty($data)) {
+            ecjia_front::$controller->assign('data', $data);
             $sayList = ecjia_front::$controller->fetch('user_reward_detail.dwt');
         }
         $res = array();

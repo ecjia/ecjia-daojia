@@ -308,6 +308,10 @@ class admin_preaudit extends ecjia_admin {
 				if (empty($store['merchants_name'])) {
 				    return $this->showmessage('店铺名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
+				$count= RC_DB::table('store_franchisee')->where(RC_DB::raw('merchants_name'), $store['merchants_name'])->count();
+				if ($count > 0) {
+				    return $this->showmessage('店铺名称已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
 				$data =array(
 					'cat_id' 					=> $store['cat_id'] ? $store['cat_id'] : 0,
 					'merchants_name'			=> $store['merchants_name'],
@@ -433,6 +437,11 @@ class admin_preaudit extends ecjia_admin {
 				//再次审核资料
 				$store = RC_DB::table('store_preaudit')->where('store_id', $store_id)->first();
 				$franchisee_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
+				
+				$count= RC_DB::table('store_franchisee')->where(RC_DB::raw('merchants_name'), $store['merchants_name'])->where(RC_DB::raw('store_id'), '<>', $store_id)->count();
+				if ($count > 0) {
+				    return $this->showmessage('店铺名称已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
 				$data =array(
 				    'merchants_name'            => $store['merchants_name'],
 					'cat_id' 					=> $store['cat_id'],

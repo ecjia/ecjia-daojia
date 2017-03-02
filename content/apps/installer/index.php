@@ -96,6 +96,7 @@ class index extends SimpleController {
 		
 		$ok = '<i class="fontello-icon-ok"></i>';
 		$cancel = '<i class="fontello-icon-cancel"></i>';
+		$info = '<i class="fontello-icon-info-circled"></i>';
 		
 		//操作系统
 		$os_array = array('Linux', 'FreeBSD', 'WINNT', 'Darwin');
@@ -112,11 +113,10 @@ class index extends SimpleController {
 
 		//WEB服务器
 		if (stristr($sys_info['web_server'], 'nginx') || stristr($sys_info['web_server'], 'apache') || stristr($sys_info['web_server'], 'iis')) {
-			$sys_info['web_server_on'] = '1';
+			$sys_info['web_server_info'] = $ok;
 		} else {
-			$sys_info['web_server_on'] = '0';
+			$sys_info['web_server_info'] = $info;
 		}
-		
 		$domain = $_SERVER['SERVER_NAME'];
 
 		$position = strpos($domain, ':'); //查找域名是否带端口号
@@ -127,7 +127,7 @@ class index extends SimpleController {
 		
 		$sys_info['php_dns'] 			= preg_match("/^[0-9.]{7,15}$/", @gethostbyname($domain)) ? $ok : $cancel;
 		$sys_info['php_ver']            = PHP_VERSION;
-		$sys_info['zlib']               = function_exists('gzclose') ? $ok : $cancel;
+		
 		$sys_info['safe_mode']          = (boolean) ini_get('safe_mode') ? __('是') : __('否');
 		$sys_info['safe_mode_gid']      = (boolean) ini_get('safe_mode_gid') ? $ok : $cancel;
 		$sys_info['timezone']           = function_exists("date_default_timezone_get") ? date_default_timezone_get() : __('无需设置');
@@ -141,13 +141,6 @@ class index extends SimpleController {
 		$php_pdo = '0';
 		if (extension_loaded('PDO') && extension_loaded('pdo_mysql')) $php_pdo = '1';
 		$sys_info['pdo'] = $php_pdo == 1 ? $ok : $cancel;
-		
-		//JSON
-		$php_json = '0';
-		if (extension_loaded('json')) {
-			if (function_exists('json_decode') && function_exists('json_encode')) $php_json = '1';
-		}
-		$sys_info['json'] = $php_json == 1 ? $ok : $cancel;
 		
 		//openssl
 		$php_openssl = '0';
@@ -180,8 +173,18 @@ class index extends SimpleController {
 		if (extension_loaded('curl')) $php_curl = '1';
 		$sys_info['curl'] = $php_curl == 1 ? $ok : $cancel;
 		
+		//fileinfo
+		$php_fileinfo = '0';
+		if (extension_loaded('fileinfo')) $php_fileinfo = '1';
+		$sys_info['fileinfo'] = $php_fileinfo == 1 ? $ok : $cancel;
+		
+		//zlib
+		$php_zlib = '0';
+		if (function_exists('gzclose')) $php_zlib = '1';
+		$sys_info['zlib'] = $php_zlib == 1 ? $ok : $cancel;
+		
 		//检测必须开启项是否开启
-		$sys_info['is_right'] = $php_path && $php_os && $sys_info['web_server_on'] && version_compare(PHP_VERSION, '5.4.0', 'ge') && $php_mysqli && $php_pdo && $php_json && $php_openssl && $php_socket && $php_gd && $php_curl ? 1 : 0;
+		$sys_info['is_right'] = $php_path && $php_os && version_compare(PHP_VERSION, '5.4.0', 'ge') && $php_mysqli && $php_pdo && $php_openssl && $php_socket && $php_gd && $php_curl && $php_fileinfo && $php_zlib ? 1 : 0;
 		
 		//目录检测
 		$Upload_Current_Path		= str_replace(SITE_ROOT, '', RC_Upload::upload_path());

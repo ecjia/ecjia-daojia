@@ -159,11 +159,13 @@ class Mysqli extends Database
         $sets = array();
         foreach ($update_values as $key => $value) {
             if (array_key_exists($key, $field_values) == true) {
-                if (is_int($value) || is_float($value)) {
-                    $sets[] = $key . ' = ' . $key . ' + ' . $value;
-                } else {
-                    $sets[] = $key . " = '" . $value . "'";
-                }
+                //取消判断整型或浮点型增加值
+//                 if (is_int($value) || is_float($value)) {
+//                     $sets[] = $key . ' = ' . $key . ' + ' . $value;
+//                 } else {
+//                     $sets[] = $key . " = '" . $value . "'";
+//                 }
+                $sets[] = $key . " = '" . $value . "'";
             }
         }
     

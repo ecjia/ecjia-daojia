@@ -85,6 +85,7 @@ class admin_share extends ecjia_admin {
 			$type = $this->db_platform_account->where(array('id' => $wechat_id))->get_field('type');
 			$this->assign('type', $type);
 			$this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.'.$type)));
+			
 			$this->assign('form_action', RC_Uri::url('wechat/admin_share/insert'));
 		}
 		

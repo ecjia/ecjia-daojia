@@ -66,9 +66,11 @@ abstract class ApiManager extends Object
      * 错误信息
      * @var $error
      */
-    protected $errors;
+    protected $error;
     
-    protected $cache_time;
+    protected $cacheTime;
+    
+    protected $hasPage = false;
     
     protected $response;
     
@@ -79,7 +81,7 @@ abstract class ApiManager extends Object
      */
     public function __construct()
     {
-        $this->errors = new ecjia_error();
+        $this->error = new ecjia_error();
         $this->request = ApiRequest::create();
         $this->request->setMethod('POST');
     }
@@ -135,7 +137,16 @@ abstract class ApiManager extends Object
      * @return \Ecjia\System\Api\ApiManager
      */
     public function cacheTime($time) {
-        $this->cache_time = $time;
+        $this->cacheTime = $time;
+        return $this;
+    }
+    
+    /**
+     * 设置有Page返回
+     * @return \Ecjia\System\Api\ApiManager
+     */
+    public function hasPage() {
+        $this->hasPage = true;
         return $this;
     }
     
@@ -145,7 +156,7 @@ abstract class ApiManager extends Object
      * @return ecjia_error
      */
     public function getError() {
-        return $this->errors;
+        return $this->error;
     }
     
     /**
@@ -168,33 +179,37 @@ abstract class ApiManager extends Object
     
     /**
      * 请求
-     * @return boolean|Ambigous <multitype:, boolean, mixed>
+     * @return ecjia_error | array
      */
     public function run() {
         $cache_key = 'api_request_'.md5($this->api);
         $data = RC_Cache::app_cache_get($cache_key, 'system');
     
-        if (!$this->cache_time || 'error' == $data['status'] || SYS_TIME - $this->cache_time > $data['timestamp']) {
-            if (! $this->send()) {
-                return false;
+        if (!$this->cacheTime || 'error' == $data['status'] || SYS_TIME - $this->cacheTime > $data['timestamp']) {
+            $response = $this->send();
+            if (is_ecjia_error($response)) {
+                return $this->error;
             }
             
             $body = $this->response->getResolve()->getData();
-            if ($body) {
-                RC_Cache::app_cache_set($cache_key, array('body' => $body, 'status' => $this->response->getResolve()->getStatus(), 'timestamp' => SYS_TIME), 'system');
-                return $body;
-            } else {
-                return false;
-            }
+            $paginated = $this->response->getResolve()->getPaginated();
+
+            RC_Cache::app_cache_set($cache_key, array('body' => $body, 'paginated' => $paginated, 'status' => $this->response->getResolve()->getStatus(), 'timestamp' => SYS_TIME), 'system');
+
+            return $this->hasPage ? array($body, $paginated) : $body;
         } else {
-            return $data['body'];
+            return $this->hasPage ? array($data['body'], $data['paginated']) : $data['body'];
         }
     }
     
+    /**
+     * 
+     * @return ecjia_error|\Ecjia\System\Api\ApiResponse
+     */
     public function send() {
         if ( ! $this->serverHost()) {
-            $this->errors->add('server_host_not_found', __('Const [serverHost] url not defined.'));
-            return false;
+            $this->error->add('server_host_not_found', __('Const [serverHost] url not defined.'));
+            return $this->error;
         }
         
         $serverHost = $this->serverHost();
@@ -204,16 +219,16 @@ abstract class ApiManager extends Object
         $response = $this->request->request($serverHost . $this->api);
         
         if (RC_Error::is_error($response)) {
-            $this->errors->add($response->get_error_code(), $response->get_error_message(), $response->get_error_data());
-            return false;
+            $this->error->add($response->get_error_code(), $response->get_error_message(), $response->get_error_data());
+            return $this->error;
         }
         
         $this->response = ApiResponse::create($response);
         $this->response->setResolve(new ResolveBody());
 
         if ($this->response->getResolve()->getStatus() == 'error') {
-            $this->errors->add($this->response->getResolve()->getErrorCode(), $this->response->getResolve()->getErrorMessage());
-            return false;
+            $this->error->add($this->response->getResolve()->getErrorCode(), $this->response->getResolve()->getErrorMessage());
+            return $this->error;
         }
         
         $this->cacheCookie($this->response->getCookies());

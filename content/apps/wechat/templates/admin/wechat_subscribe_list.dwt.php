@@ -101,7 +101,7 @@
 					<td class="ecjiaf-pre">{if $val['user_name']}{$val['user_name']}{else}{lang key='wechat::wechat.not_bind_yet'}{/if}</td>
 				</tr>
 				<!--  {foreachelse} -->
-				<tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>
@@ -245,9 +245,9 @@
 	</div>
 	<div class="modal-body tag_popover">
 		<!-- {if $errormsg} -->
-		    <div class="alert alert-error">
-	            <strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
-	        </div>
+	    <div class="alert alert-error">
+            <strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+        </div>
 		<!-- {/if} -->
 		
 		<!-- {if $warn} -->

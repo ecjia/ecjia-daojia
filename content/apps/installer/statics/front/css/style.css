@@ -2221,6 +2221,9 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 .fontello-icon-cancel {
     color: #c62626;
 }
+.fontello-icon-info-circled {
+	color: #f1c40f;
+}
 .ecjia-option span.input-must {
 	margin-right: 0;
 }

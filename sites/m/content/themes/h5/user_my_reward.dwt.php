@@ -23,13 +23,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                     	{$intive_total.invite_integral_reward}
 	                   	<div class="reward-hint">
 	                        <a href="#" class="alert-text1">
-	                            <img src="{$theme_url}/images/wallet/60x60_3g.png">
+	                            <img src="{$theme_url}images/wallet/60x60_3g.png">
 	                        </a>
 	                    </div>	
                     </div>
                 </div>
                 <div class="reward-shadow">
-                    <img src="{$theme_url}/images/wallet/220x30.png">
+                    <img src="{$theme_url}images/wallet/220x30.png">
                 </div>
             </li>
             <li>
@@ -39,13 +39,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                     	{$intive_total.invite_bouns_reward}
                     	<div class="reward-hint">
 	                        <a href="#" class="alert-text2">
-	                            <img src="{$theme_url}/images/wallet/60x60_3b.png">
+	                            <img src="{$theme_url}images/wallet/60x60_3b.png">
 	                        </a>
                     	</div>
                     </div>
                 </div>
                 <div class="reward-shadow">
-                    <img src="{$theme_url}/images/wallet/220x30.png">
+                    <img src="{$theme_url}images/wallet/220x30.png">
                 </div>
             </li>
             <li>
@@ -55,13 +55,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                     	{$intive_total.invite_balance_reward}
                     	<div class="reward-hint">
 	                        <a href="#" class="alert-text3">
-	                            <img src="{$theme_url}/images/wallet/60x60_4o.png">
+	                            <img src="{$theme_url}images/wallet/60x60_4o.png">
 	                        </a>
 	                    </div>
                     </div>
                 </div>
                 <div class="reward-shadow">
-                    <img src="{$theme_url}/images/wallet/220x30.png">
+                    <img src="{$theme_url}images/wallet/220x30.png">
                 </div>
             </li>
         </ul>
@@ -74,7 +74,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <li>
                 <a href="{url path='user/bonus/reward_detail'}">
                     <div class="qrcode_image2">
-                        <img src="{$theme_url}/images/wallet/60x60_1.png">
+                        <img src="{$theme_url}images/wallet/60x60_1.png">
                     </div>
                     <span>奖励明细</span>
                 </a>
@@ -82,7 +82,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <li>
       			<a href="{url path='user/bonus/get_integral'}">
                     <div class="qrcode_image3">
-                        <img src="{$theme_url}/images/wallet/60x60_2.png">
+                        <img src="{$theme_url}images/wallet/60x60_2.png">
                     </div>
                     <span>赚积分</span>
                 </a>

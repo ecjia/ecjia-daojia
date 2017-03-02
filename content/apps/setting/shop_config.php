@@ -57,7 +57,6 @@ class shop_config extends ecjia_admin {
 		RC_Package::package('app::setting')->loadClass('ecjia_admin_setting', false);
 		
 		$this->db = RC_Loader::load_model('shop_config_model');
-		
 		RC_Script::enqueue_script('admin_shop_config', RC_App::apps_url('statics/js/admin_shop_config.js', __FILE__), array(), false, true);
 		
 		RC_Script::enqueue_script('jquery-validate');
@@ -86,12 +85,11 @@ class shop_config extends ecjia_admin {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商店设置')));
 		$this->assign('ur_here', __('商店设置'));
 		
-		ecjia_screen::get_current_screen()->add_help_tab( array(
+		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'        => 'overview',
 			'title'     => __('概述'),
-			'content'   =>
-			'<p>' . __('欢迎访问ECJia智能后台商店设置页面，在此页面可对商店有关信息进行配置，同时可根据右侧栏漂浮的快捷导航，快速的进入相应区域。') . '</p>'
-		) );
+			'content'   => '<p>' . __('欢迎访问ECJia智能后台商店设置页面，在此页面可对商店有关信息进行配置，同时可根据右侧栏漂浮的快捷导航，快速的进入相应区域。') . '</p>'
+		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：') . '</strong></p>' .
@@ -102,7 +100,6 @@ class shop_config extends ecjia_admin {
 		
 		switch ($code) {
 			case 'basic':
-
 				if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'iis') !== false) {
 			        $shop_config_jslang = array(
 			            'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite 模块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重命名为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。"),
@@ -225,7 +222,7 @@ class shop_config extends ecjia_admin {
 		
 		$code         = trim($_GET['code']);
 		$current_code = trim($_GET['current_code']);
-		$img_name     = $this->db->where(array('code'=>$code))->get_field('value');
+		$img_name     = $this->db->where(array('code' => $code))->get_field('value');
 
 		$disk         = RC_Filesystem::disk();
 		$disk->delete(RC_Upload::upload_path() . $img_name);

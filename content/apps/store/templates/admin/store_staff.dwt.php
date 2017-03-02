@@ -22,7 +22,6 @@
 <div class="row-fluid">
 	<div class="span12">
 		<div class="tabbable tabs-left">
-
 			<ul class="nav nav-tabs tab_merchants_nav">
                 <!-- {foreach from=$menu item=val} -->
                 <li {if $val.active}class="active"{/if}><a href="{$val.url}" {if $val.active}data-toggle="tab"{/if}>{$val.menu}</a></li>
@@ -62,14 +61,14 @@
                 	<div class="span12">
                 		<table class="table table-striped smpl_tbl table-hide-edit">
                 			<thead>
-                			<tr>
-                				<th class="w80">{lang key='store::store.employee_number'}</th>
-                				<th class="w80">{lang key='store::store.employee_name'}({lang key='store::store.nick_name'})</th>
-                				<th class="w80">{lang key='store::store.lable_contact_lable'}</th>
-                				<th class="w80">{lang key='store::store.email'}</th>
-                				<th class="w80">{lang key='store::store.add_time'}</th>
-                				<th class="w80">{lang key='store::store.introduction'}</th>
-                			</tr>
+	                			<tr>
+	                				<th class="w80">{lang key='store::store.employee_number'}</th>
+	                				<th class="w80">{lang key='store::store.employee_name'}({lang key='store::store.nick_name'})</th>
+	                				<th class="w80">{lang key='store::store.lable_contact_lable'}</th>
+	                				<th class="w80">{lang key='store::store.email'}</th>
+	                				<th class="w80">{lang key='store::store.add_time'}</th>
+	                				<th class="w80">{lang key='store::store.introduction'}</th>
+	                			</tr>
                 			</thead>
                 			<tbody>
                 			{if $staff_list}
@@ -84,7 +83,7 @@
                 			</tr>
                 			<!-- {/foreach} -->
                 			{else}
-                			<td class="no-records" colspan="10">{t}没有找到任何记录{/t}</td>
+                			<td class="no-records" colspan="6">{t}没有找到任何记录{/t}</td>
                 			{/if}
                 			</tbody>
                 		</table>
@@ -96,8 +95,4 @@
 		</div>
 	</div>
 </div>
-
-
-
-
 <!-- {/block} -->

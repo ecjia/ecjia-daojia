@@ -27,6 +27,8 @@
 					<span>{lang key='affiliate::affiliate.on'}</span>
 					<input type="radio" name="on" value="0" {if !$config.on || $config.on eq 0} checked="true" {/if}>
 					<span>{lang key='affiliate::affiliate.off'}</span>
+					<div class="clear"></div>
+					<div class="help-block">{lang key='affiliate::affiliate.help_is_on'}</div>
 				</div>
 			</div>
 			<div class="control-group formSep formSep1">

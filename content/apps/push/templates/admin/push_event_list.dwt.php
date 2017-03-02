@@ -50,13 +50,13 @@
 						</td>
 					</tr>
 					<!-- {foreachelse} -->
-					   <tr><td class="no-records" colspan="7">{t}没有找到任何记录{/t}</td></tr>
+					<tr><td class="no-records" colspan="4">{t}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</table>
+				{$push_event_page}
 			</div>
 			<!-- system end -->
 		</div>
 	</div>
 </div>
-{$mobile_manage_page}
 <!-- {/block} -->

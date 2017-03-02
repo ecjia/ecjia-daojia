@@ -28,7 +28,8 @@
 		<tbody>
 			<!-- {foreach from=$templates item=list} -->
 			<tr>
-				 <td class="hide-edit-area hide_edit_area_bottom"> {$list.template_code}
+				 <td class="hide-edit-area hide_edit_area_bottom"> 
+				 	{$list.template_code}
 					<div class="edit-list">
 					 <a class="data-pjax no-underline" href='{url path="wechat/admin_template/edit" args="id={$list.template_id}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
 	                 <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.delete_confirm'}" href='{RC_Uri::url("wechat/admin_template/remove", "id={$list.template_id}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>

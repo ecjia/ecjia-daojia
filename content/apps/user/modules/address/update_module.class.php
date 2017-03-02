@@ -72,8 +72,8 @@ class update_module extends api_front implements api_interface {
 		$address['consignee']     = isset($address['consignee']) ? trim($address['consignee']) : '';
 // 		$address['country']       = isset($address['country']) ? intval($address['country']) : '';
 // 		$address['province']      = isset($address['province']) ? intval($address['province']) : '';
-		$address['city']      	  = isset($address['city']) ? intval($address['city']) : '';
-		$address['district']      = isset($address['district']) ? intval($address['district']) : '';
+		$address['city']      	  = isset($address['city']) ? intval($address['city']) : '0';
+		$address['district']      = isset($address['district']) ? intval($address['district']) : '0';
 		$address['email']         = !empty($address['email']) ? trim($address['email']) : '';
 		$address['mobile']        = isset($address['mobile']) ? trim($address['mobile']) : '';
 		$address['address']       = isset($address['address']) ? trim($address['address']) : '';

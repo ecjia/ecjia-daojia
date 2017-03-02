@@ -62,7 +62,7 @@
 								<td><i class="fa cursor_pointer {if $goods_type.enabled}fa-check {else}fa-times{/if}" title="{lang key='goods::goods_type.click_edit_stats'}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/mh_type/toggle_enabled')}" data-id="{$goods_type.cat_id}"></i></td>
 							</tr>
 							<!-- {foreachelse} -->
-							<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+							<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
 							<!-- {/foreach} -->
 						</tbody>
 					</table>

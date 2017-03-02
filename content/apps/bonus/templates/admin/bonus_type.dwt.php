@@ -97,7 +97,11 @@
 						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('bonus/admin/edit_type_money')}" data-name="type_money" data-pk="{$type.type_id}" data-title="{lang key='bonus::bonus.edit_bonus_money'}">{$type.type_money}</span>
 					</td>
 					<td>
+						<!-- {if $type.send_type eq 2} -->
 						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('bonus/admin/edit_min_amount')}" data-name="min_amount" data-pk="{$type.type_id}" title="{lang key='bonus::bonus.edit_order_limit'}">{$type.min_amount}</span>
+						<!-- {else} -->
+						0.00
+						<!-- {/if} -->
 					</td>
 					<td>{$type.send_count}</td>
 					<td>{$type.use_count}</td>

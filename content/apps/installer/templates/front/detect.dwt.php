@@ -55,12 +55,12 @@
 											<tr>
 											    <td>WEB服务器</td>
 											    <td>{$sys_info.web_server}</td>
-											    <td>Apache/Nginx/IIS</td>
-											    <td>{if $sys_info.web_server_on}<i class="fontello-icon-ok"></i>{else}<i class="fontello-icon-cancel"></i>{/if}</td>
+											    <td>推荐Apache/Nginx/IIS</td>
+											    <td>{$sys_info.web_server_info}</td>
 											</tr>
 											  
 											<tr>
-											    <td>PHP 版本</td>
+											    <td>PHP版本</td>
 											    <td>{$sys_info.php_ver}</td>
 											    <td>5.4及以上</td>
 											    <td>{if $sys_info.php_ver gte '5.4'}<i class="fontello-icon-ok"></i>{else}<i class="fontello-icon-cancel"></i>{/if}</td>
@@ -78,13 +78,6 @@
 											    <td>{$sys_info.pdo}</td>
 											    <td>必须开启</td>
 											    <td>{$sys_info.pdo}</td>
-											</tr>
-											  
-											<tr>
-											    <td>JSON扩展</td>
-											    <td>{$sys_info.json}</td>
-											    <td>必须开启</td>
-											    <td>{$sys_info.json}</td>
 											</tr>
 											  
 											<tr>
@@ -109,16 +102,23 @@
 											</tr>
 											  
 											<tr>
-											    <td>CURL</td>
+											    <td>CURL扩展</td>
 											    <td>{$sys_info.curl}</td>
 											    <td>必须开启</td>
 											    <td>{$sys_info.curl}</td>
+											</tr>
+											
+											<tr>
+											    <td>Fileinfo扩展</td>
+											    <td>{$sys_info.fileinfo}</td>
+											    <td>必须开启</td>
+											    <td>{$sys_info.fileinfo}</td>
 											</tr>	
 											  
 											<tr>
 											    <td>ZLIB扩展</td>
 											    <td>{$sys_info.zlib}</td>
-											    <td>建议开启</td>
+											    <td>必须开启</td>
 											    <td>{$sys_info.zlib}</td>
 											</tr>
 											  

@@ -45,34 +45,34 @@
                     </tr>
 				</thead>
 				<tbody>
-					 <!-- {foreach from=$express_list.list item=express} -->
-	                    <tr>
-	                        <td class="hide-edit-area">
-	                            {$express.express_sn}
-	                            <br/>
-	                            <div class="edit-list">
-	                                <a class="data-pjax" href='{RC_Uri::url("shipping/admin_express_order/info", "express_id={$express.express_id}")}' title="{lang key='shipping::shipping.admin_view_info'}">{lang key='shipping::shipping.admin_view_info'}</a><!-- &nbsp;|&nbsp;
-	                                <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='bonus::bonus.remove_bonustype_confirm'}" href='{RC_Uri::url("bonus/merchant/remove","id={$type.type_id}")}' title="{lang key='system::system.remove'}">{lang key='system::system.drop'}</a> -->
-	                            </div>
-	                        </td>
-	                        <td>{$express.delivery_sn}</td>
-	                        <td class="ecjiafc-red">
-	                            {$express.merchants_name}
-	                        </td>
-	                        <td>
-	                            {$express.consignee}
-	                        </td>
-	                        <td>
-	                            {$express.mobile}
-	                        </td>
-	                        <td>{$express.address}</td>
-	                        <td>{$express.formatted_add_time}</td>
-	                        <td>{$express.label_from}</td>
-	                        <td>{$express.label_status}</td>
-	                    </tr>
-	                    <!-- {foreachelse} -->
-	                    <tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>
-	                  <!-- {/foreach} -->
+				 <!-- {foreach from=$express_list.list item=express} -->
+                    <tr>
+                        <td class="hide-edit-area">
+                            {$express.express_sn}
+                            <br/>
+                            <div class="edit-list">
+                                <a class="data-pjax" href='{RC_Uri::url("shipping/admin_express_order/info", "express_id={$express.express_id}")}' title="{lang key='shipping::shipping.admin_view_info'}">{lang key='shipping::shipping.admin_view_info'}</a><!-- &nbsp;|&nbsp;
+                                <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='bonus::bonus.remove_bonustype_confirm'}" href='{RC_Uri::url("bonus/merchant/remove","id={$type.type_id}")}' title="{lang key='system::system.remove'}">{lang key='system::system.drop'}</a> -->
+                            </div>
+                        </td>
+                        <td>{$express.delivery_sn}</td>
+                        <td class="ecjiafc-red">
+                            {$express.merchants_name}
+                        </td>
+                        <td>
+                            {$express.consignee}
+                        </td>
+                        <td>
+                            {$express.mobile}
+                        </td>
+                        <td>{$express.address}</td>
+                        <td>{$express.formatted_add_time}</td>
+                        <td>{$express.label_from}</td>
+                        <td>{$express.label_status}</td>
+                    </tr>
+                    <!-- {foreachelse} -->
+                    <tr><td class="no-records" colspan="9">{lang key='system::system.no_records'}</td></tr>
+                  <!-- {/foreach} -->
 				</tbody>
 			</table>
 			<!-- {$express_list.page} -->	

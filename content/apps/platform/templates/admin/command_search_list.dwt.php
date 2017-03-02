@@ -74,7 +74,7 @@
 					
 				</tr>
 				<!-- {foreachelse} -->
-				   <tr><td class="no-records" colspan="10">{lang key='platform::platform.no_find_record'}</td></tr>
+				   <tr><td class="no-records" colspan="6">{lang key='platform::platform.no_find_record'}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>	

@@ -434,37 +434,38 @@
 			  	</tr>
 		  	</thead>
 		  	<tbody>
-		  	{foreach from=$log_list item=list}
+		  		{foreach from=$log_list item=list}
 		  		<tr align="center">
-			    <td style="padding:8px 0; width:5px; overflow:hidden;"><i class=" fontello-icon-right-dir"></i></td>
-			    <td class="center-td" style="border-top:1px solid #e5e5e5; padding-left:0;"><span>{$list.formate_time}，</span><span style="line-height: 170%">{$list.name} {$list.info}</span>
-			    {if $list.log}
-    			    <table class="table">
-                        <thead>
-                            <tr>
-                            <th width="20%">字段</th>
-                            <th width="40%">旧值</th>
-                            <th width="40%">新值</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <!-- {foreach from=$list.log item=log} -->
-                        <tr>
-                            <td>{$log.name}</td>
-                            <td>{if $log.is_img}{$log.original_data}{else}{$log.original_data}{/if}</td>
-                            <td>{if $log.is_img}{$log.new_data}{else}{$log.new_data}{/if}</td>
-                        </tr>
-                        <!-- {/foreach} -->
-                        </tbody>
-                    </table>
-                {/if}
-			    </td>
+				    <td style="padding:8px 0; width:5px; overflow:hidden;"><i class=" fontello-icon-right-dir"></i></td>
+				    <td class="center-td" style="border-top:1px solid #e5e5e5; padding-left:0;">
+				    	<span>{$list.formate_time}，</span><span style="line-height: 170%">{$list.name} {$list.info}</span>
+					    {if $list.log}
+		    			    <table class="table">
+		                        <thead>
+		                            <tr>
+		                            <th width="20%">字段</th>
+		                            <th width="40%">旧值</th>
+		                            <th width="40%">新值</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                        <!-- {foreach from=$list.log item=log} -->
+		                        <tr>
+		                            <td>{$log.name}</td>
+		                            <td>{if $log.is_img}{$log.original_data}{else}{$log.original_data}{/if}</td>
+		                            <td>{if $log.is_img}{$log.new_data}{else}{$log.new_data}{/if}</td>
+		                        </tr>
+		                        <!-- {/foreach} -->
+		                        </tbody>
+		                    </table>
+		                {/if}
+				    </td>
 			    </tr>
 		    {/foreach}
 			</tbody>
 		</table>
-      </div>
-      {/if}
+	</div>
+    {/if}
 	</div>
 </div>
 <!-- {/block} -->

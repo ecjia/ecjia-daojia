@@ -50,12 +50,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA 支付方式管理
  */
 class admin_payment_record extends ecjia_admin {
-	
-	private $db;	
 	public function __construct() {
 		parent::__construct();
-		
-		$this->db = RC_Model::model('payment/payment_model');
 		
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');

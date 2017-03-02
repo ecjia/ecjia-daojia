@@ -114,9 +114,10 @@ class admin_oauth extends ecjia_admin {
 			} else {
 				$this->assign('form_action', RC_Uri::url('wechat/admin_oauth/insert'));
 			}
-			$weshop_url = RC_Uri::site_url().'/index.php?m=platform&c=plugin&a=show&handle=mp_userbind/bind_auth&uuid='.$data['uuid'];
+
+			$weshop_url = RC_Uri::home_url().'/sites/platform/index.php?m=platform&c=plugin&a=show&handle=mp_userbind/bind_auth&uuid='.$data['uuid'];
 			$this->assign('weshop_url', $weshop_url);
-			$oauth_url = RC_Uri::site_url().'/index.php?m=platform&c=plugin&a=show&handle=mp_userbind/bind_callback&uuid='.$data['uuid'];
+			$oauth_url = RC_Uri::home_url().'/sites/platform/index.php?m=platform&c=plugin&a=show&handle=mp_userbind/bind_callback&uuid='.$data['uuid'];
 			$this->assign('oauth_url', $oauth_url);
 		}
 		

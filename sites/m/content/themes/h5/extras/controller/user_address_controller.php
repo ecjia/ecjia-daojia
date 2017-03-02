@@ -58,6 +58,7 @@ class user_address_controller {
     	unset($_SESSION['referer_url']);
     	
     	$address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => ecjia_touch_user::singleton()->getToken()))->run();
+    	$address_list = is_ecjia_error($address_list) ? array() : $address_list;
     	ecjia_front::$controller->assign('address_list', $address_list);
     	ecjia_front::$controller->assign_title('收货地址管理');
         ecjia_front::$controller->assign_lang();
@@ -73,6 +74,7 @@ class user_address_controller {
         $page = intval($_GET['page']) ? intval($_GET['page']) : 1;
     	
         $address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => ecjia_touch_user::singleton()->getToken()))->run();
+        $address_list = is_ecjia_error($address_list) ? array() : $address_list;
 		ecjia_front::$controller->assign('address_list', $address_list);
 
 		$sayList = ecjia_front::$controller->fetch('user_address_list.dwt');
@@ -197,13 +199,11 @@ class user_address_controller {
             )
            
         );
-        $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_ADD)->data($params)->send()->getBody();
-        $rs = json_decode($rs,true);
-
-        if (!$rs['status']['succeed']) {
-            return ecjia_front::$controller->showmessage($rs['status']['error_desc'], ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON,array('pjaxurl' => ''));
+        $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_ADD)->data($params)->run();
+        if (is_ecjia_error($rs)) {
+            return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => ''));
         } else {
-        	$address_id = $rs['data']['address_id'];
+        	$address_id = $rs['address_id'];
         }
         $url_address_list = RC_Uri::url('user/address/address_list');
         user_address_controller::update_temp_data('add', 1);
@@ -215,14 +215,18 @@ class user_address_controller {
         	$params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $address_id);
         	$address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params)->run();
         	
-    		setcookie('location_name', $address_info['address']);
-    		setcookie('location_address', $address_info['address_info']);
-    		setcookie('longitude', $address_info['location']['longitude']);
-    		setcookie('latitude', $address_info['location']['latitude']);
+        	if (! is_ecjia_error($address_info)) {
+        	    setcookie('location_name', $address_info['address']);
+        	    setcookie('location_address', $address_info['address_info']);
+        	    setcookie('longitude', $address_info['location']['longitude']);
+        	    setcookie('latitude', $address_info['location']['latitude']);
+        	}
+    		
         } else {
         	$pjax_url = RC_Uri::url('user/address/address_list');
         }
         unset($_SESSION['referer_url']);
+        unset($_SESSION['address']);
         return ecjia_front::$controller->showmessage('添加地址成功', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('pjaxurl' => $pjax_url));
         
     }
@@ -239,6 +243,7 @@ class user_address_controller {
         $temp_data = user_address_controller::save_temp_data(1, $temp_key, $_GET['clear'], $_GET);
         $params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $id);
         $info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params)->run();
+        $info = is_ecjia_error($info) ? array() : $info;
         
         $location_backurl = urlencode(RC_Uri::url('user/address/edit_address', array('id' => $id)));
         ecjia_front::$controller->assign('location_backurl', $location_backurl);
@@ -288,15 +293,15 @@ class user_address_controller {
             )
              
         );
-        $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_UPDATE)->data($params)->send()->getBody();
-        $rs = json_decode($rs,true);
+        $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_UPDATE)->data($params)->run();
 
-        if (!$rs['status']['succeed']) {
-            return ecjia_front::$controller->showmessage($rs['status']['error_desc'], ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON,array('pjaxurl' => ''));
+        if (is_ecjia_error($rs)) {
+            return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON,array('pjaxurl' => ''));
         }
         $temp_data = user_address_controller::save_temp_data(0, 'edit_'.$_POST['address_id'], 1);
         
         $url_address_list = RC_Uri::url('user/address/address_list');
+        unset($_SESSION['address']);
         return ecjia_front::$controller->showmessage('编辑地址成功', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON,array('pjaxurl' => $url_address_list));
     }
 
@@ -311,17 +316,19 @@ class user_address_controller {
 
         $params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $id);
         $address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params)->run();
+        if (is_ecjia_error($address_info)) {
+            return ecjia_front::$controller->showmessage($address_info->get_error_message(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
+        }
 		
         if ($address_info['default_address'] == 0) {
         	if ($id == $_COOKIE['location_address_id']) {
         		setcookie("location_address_id", 0);
         	}
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_DELETE)->data($params)->send()->getBody();
-            $data = json_decode($data,true);
-            if ($data['status']['succeed']) {
-                 return ecjia_front::$controller->showmessage('删除成功', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_DELETE)->data($params)->run();
+            if (is_ecjia_error($data)) {
+            	return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
             } else {
-                return ecjia_front::$controller->showmessage($data['status']['error_desc'], ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
+                return ecjia_front::$controller->showmessage('删除成功', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
             }
         } else {
             return ecjia_front::$controller->showmessage('该地址为默认的收货地址，不能删除', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
@@ -340,12 +347,11 @@ class user_address_controller {
     
         $params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $id);
     
-        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_SETDEFAULT)->data($params)->send()->getBody();
-        $data = json_decode($data,true);
-        if ($data['status']['succeed']) {
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_SETDEFAULT)->data($params)->run();
+        if (!is_ecjia_error($data)) {
             return ecjia_front::$controller->showmessage('设置成功', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
         } else {
-            return ecjia_front::$controller->showmessage($data['status']['error_desc'], ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
+            return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('address_list')));
         }
     }
 

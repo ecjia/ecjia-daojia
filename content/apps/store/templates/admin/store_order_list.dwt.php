@@ -36,7 +36,7 @@
 			<div class="row-fluid">
 				<table class="table table-striped smpl_tbl dataTable table-hide-edit">
 					<thead>
-						<tr >
+						<tr>
 						    <th class="w100">{t}订单编号{/t}</th>
 						    <th>{t}下单时间{/t}</th>
 						    <th>{t}收货人{/t}</th>
@@ -47,20 +47,19 @@
 						    <th class="w70">{t}结算状态{/t}</th>
 						 </tr>
 					</thead>
-
-   				 <!-- {foreach from=$order_list.item item=order} -->
-						<tr>
-							<td>{$order.order_sn}</td>
-							<td>{$order.buyer|escape}<br/>{$order.short_order_time}</td>
-							<td>{$order.consignee|escape}{if $order.tel} [TEL: {$order.tel|escape}]{/if} <br />{$order.address|escape}</td>
-						    <td>{$order.formated_total_fee}</td>
-						    <td>{$order.formated_order_amount}</td>
-						    <td>{$order.formated_brokerage_amount}</td>
-						    <td>{$lang.os[$order.order_status]},{$lang.ps[$order.pay_status]},{$lang.ss[$order.shipping_status]}</td>
-						    <td><i class="{if $order.is_settlement}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url='{RC_Uri::url("store/admin_commission/toggle_state","id={$order.store_id}&order_sn={$order.order_sn}")}' data-id="{$order.order_id}"></i></td>
-						</tr>
-						<!-- {foreachelse} -->
-					   <tr><td class="no-records" colspan="9">{t}没有找到任何记录{/t}</td></tr>
+   				 	<!-- {foreach from=$order_list.item item=order} -->
+					<tr>
+						<td>{$order.order_sn}</td>
+						<td>{$order.buyer|escape}<br/>{$order.short_order_time}</td>
+						<td>{$order.consignee|escape}{if $order.tel} [TEL: {$order.tel|escape}]{/if} <br />{$order.address|escape}</td>
+					    <td>{$order.formated_total_fee}</td>
+					    <td>{$order.formated_order_amount}</td>
+					    <td>{$order.formated_brokerage_amount}</td>
+					    <td>{$lang.os[$order.order_status]},{$lang.ps[$order.pay_status]},{$lang.ss[$order.shipping_status]}</td>
+					    <td><i class="{if $order.is_settlement}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url='{RC_Uri::url("store/admin_commission/toggle_state","id={$order.store_id}&order_sn={$order.order_sn}")}' data-id="{$order.order_id}"></i></td>
+					</tr>
+					<!-- {foreachelse} -->
+				   <tr><td class="no-records" colspan="8">{t}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</table>
 				<!-- {$order_list.page} -->

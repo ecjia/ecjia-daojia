@@ -54,6 +54,7 @@ return array(
 	'goods_cat_required' 	=> '请输入商品分类',
 	'goods_name_required'   => '请输入商品名称',
 	'area_name_required'	=> '请输入配送区域名称',
+	'store_cat_required'	=> '请输入店铺分类',
 	'pls_select'			=> '请选择...',
 	'next_step'				=> '下一步',
 	'complete'				=> '完成向导',
@@ -62,11 +63,12 @@ return array(
 	'area_name_exist'		=> '该配送区域名称已存在',
 	'brand_name_exist'		=> '该品牌名称已存在',
 	'cat_name_exist'		=> '该商品分类名称已存在',
+	'store_cat_exist'		=> '该店铺分类名称已存在',
 		
 	'base_info'				=> '设置商店的一些基本信息',
 	'base_info_notice'		=> '商店的名字、地址、配送方式、支付方式等',
-	'goods_info'			=> '给商店添加一些商品',
-	'goods_info_notice'		=> '商品的名称、数量、分类、品牌、价格、描述等',
+	'goods_info'			=> '为商店添加一些商品分类',
+	'goods_info_notice'		=> '平台、店铺的商品分类',
 	'result_info'			=> '恭喜您，您的网店可以使用了！',
 	'result_info_notice'	=> '下面是一些常用功能的链接聚合。您关闭本页后，依然可以在左侧菜单相关项目中找到',	
 		
@@ -93,6 +95,7 @@ return array(
 	'label_add_recommend' 	=> '加入推荐：',
 	'label_goods_desc'		=> '简单描述：',
 	'label_upload_image'	=> '上传商品图片：',
+	'label_store_cat'		=> '店铺分类：',
 	
 	'browse'	=> '浏览',
 	'modify'	=> '修改',
