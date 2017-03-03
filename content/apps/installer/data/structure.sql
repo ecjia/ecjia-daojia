@@ -2855,7 +2855,7 @@ CREATE TABLE `ecjia_wechat_menu` (
   `type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '菜单的响应动作类型',
   `key` varchar(255) COLLATE utf8mb4_unicode_ci NULL COMMENT '菜单KEY值，click类型必须',
   `url` varchar(255) COLLATE utf8mb4_unicode_ci NULL COMMENT '网页链接，view类型必须',
-  `sort` int(10) unsigned DEFAULT '0' COMMENT '排序',
+  `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   `status` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2930,7 +2930,7 @@ CREATE TABLE `ecjia_wechat_qrcode` (
   `scan_num` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '扫描量',
   `wechat_id` int(10) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `sort` int(10) DEFAULT '0',
+  `sort` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -2997,8 +2997,8 @@ CREATE TABLE `ecjia_wechat_tag` (
   `wechat_id` int(10) unsigned NOT NULL DEFAULT '0',
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '标签id',
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '标签名字',
-  `count` int(10) unsigned DEFAULT '0' COMMENT '标签内用户数量',
-  `sort` int(10) unsigned DEFAULT '0' COMMENT '排序',
+  `count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '标签内用户数量',
+  `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

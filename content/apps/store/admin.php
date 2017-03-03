@@ -102,17 +102,197 @@ class admin extends ecjia_admin {
 	    $this->assign('cat_list', $cat_list);
 	    $this->assign('store_list', $store_list);
 	    $this->assign('filter', $store_list['filter']);
+	    $this->assign('action_link', array('text' => __('添加自营商家'),'href'=>RC_Uri::url('store/admin/add')));
 
 	    $this->assign('search_action',RC_Uri::url('store/admin/init'));
 
 	    $this->display('store_list.dwt');
 	}
 
+	
+	/**
+	 * 添加入驻商
+	 */
+	public function add() {
+	    $this->admin_priv('store_affiliate_add', ecjia::MSGTYPE_JSON);
+	    
+	    $this->assign('action_link',array('href' => RC_Uri::url('store/admin/init'),'text' => RC_Lang::get('store::store.store_list')));
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加自营商家'));
+	    $this->assign('ur_here', '添加自营商家');
+	    
+	    
+	    $cat_list = $this->get_cat_select_list();
+	    $province   = $this->db_region->get_regions(1, 1);
+	    $city       = $this->db_region->get_regions(2, $store['province']);
+	    $district   = $this->db_region->get_regions(3, $store['city']);
+	    
+	    $this->assign('province', $province);
+	    $this->assign('city', $city);
+	    $this->assign('district', $district);
+	    $this->assign('form_action', RC_Uri::url('store/admin/insert'));
+	    
+	    $this->assign('cat_list', $cat_list);
+	    
+	    $this->display('store_add.dwt');
+	}
+	
+	/**
+	 * 添加入驻商
+	 */
+	public function insert() {
+	    $this->admin_priv('store_affiliate_add', ecjia::MSGTYPE_JSON);
+	    
+	    $store_id = intval($_POST['store_id']);
+
+	    $data = array(
+	        'cat_id'   	   				=> !empty($_POST['store_cat']) 		    ? $_POST['store_cat']          : 0,
+	        'merchants_name'   			=> !empty($_POST['merchants_name'])     ? $_POST['merchants_name']     : '',
+	        'shop_keyword'      		=> !empty($_POST['shop_keyword']) 	    ? $_POST['shop_keyword']       : '',
+	        'email'      				=> !empty($_POST['email']) 				? $_POST['email']              : '',
+	        'contact_mobile'    		=> !empty($_POST['contact_mobile']) 	? $_POST['contact_mobile']     : '',
+	        'address'      				=> !empty($_POST['address']) 			? $_POST['address']            : '',
+	        'province'					=> !empty($_POST['province'])			? $_POST['province']           : 0,
+	        'city'						=> !empty($_POST['city'])				? $_POST['city']               : 0,
+	        'district'					=> !empty($_POST['district'])			? $_POST['district']           : 0,
+	        'longitude'					=> !empty($_POST['longitude'])			? $_POST['longitude']          : '',
+	        'latitude'					=> !empty($_POST['latitude'])			? $_POST['latitude']           : '',
+	        'manage_mode'				=> 'self',
+	        'shop_close'				=> isset($_POST['shop_close'])			? $_POST['shop_close']         : 1,
+	    );
+	    
+	    if (empty($data['merchants_name'])) {
+	        return $this->showmessage('店铺名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    if ( empty($data['cat_id'])) {
+	        return $this->showmessage('请选择商家分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    if (empty($data['contact_mobile'])) {
+	        return $this->showmessage('联系手机不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    $chars = "/(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}/";
+	    if (!preg_match($chars, $data['contact_mobile'])) {
+	        return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+	    }
+	    if ( empty($data['email'])) {
+	        return $this->showmessage('邮箱不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    if ( empty($data['province']) || empty($data['city']) || empty($data['district'])) {
+	        return $this->showmessage('请选择地区', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    if ( empty($data['address'])) {
+	        return $this->showmessage('请填写通讯地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    if ( empty($data['latitude']) || empty($data['longitude']) ) {
+	        return $this->showmessage('请获取坐标', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    
+	    $is_exist = RC_DB::table('store_franchisee')->where('merchants_name', $data['merchants_name'])->get();
+	    if ($is_exist) {
+	        return $this->showmessage('店铺名称已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    $is_exist = RC_DB::table('store_franchisee')->where('contact_mobile', $data['contact_mobile'])->get();
+	    if ($is_exist) {
+	        return $this->showmessage('联系手机已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    $is_exist = RC_DB::table('staff_user')->where('mobile', $data['contact_mobile'])->get();
+	    if ($is_exist) {
+	        return $this->showmessage('联系手机员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    $is_exist = RC_DB::table('store_franchisee')->where('email', $data['email'])->get();
+	    if ($is_exist) {
+	        return $this->showmessage('邮箱已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    $is_exist = RC_DB::table('staff_user')->where('email', $data['email'])->get();
+	    if ($is_exist) {
+	        return $this->showmessage('邮箱员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    $geohash         = RC_Loader::load_app_class('geohash', 'store');
+	    $geohash_code    = $geohash->encode($data['latitude'] , $data['longitude']);
+	    $geohash_code    = substr($geohash_code, 0, 10);
+	    $data['geohash'] = $geohash_code;
+	    
+	    $store_id = RC_DB::table('store_franchisee')->insertGetId($data);
+	    if ($store_id) {
+	        //审核通过产生店铺中的code
+	        $merchant_config = array(
+	            'shop_logo' ,                 // 默认店铺页头部LOGO
+	            'shop_nav_background',        // 店铺导航背景图
+	            'shop_banner_pic' ,           // app banner图
+	            'shop_kf_mobile' ,            // 客服手机号码
+	            'shop_trade_time' ,           // 营业时间
+	            'shop_description' ,          // 店铺描述
+	            'shop_notice'   ,             // 店铺公告
+	            'shop_review_goods',          // 店铺商品审核状态，平台开启审核时店铺优先级高于平台设置
+	            'express_assign_auto',		  // o2o配送自动派单开关
+	        );
+	        $merchants_config = RC_DB::table('merchants_config');
+	        foreach ($merchant_config as $val) {
+	            $count= $merchants_config->where(RC_DB::raw('store_id'), $store_id)->where(RC_DB::raw('code'), $val)->count();
+	            if ($count == 0) {
+	                $merchants_config->insert(array('store_id' => $store_id, 'code' => $val));
+	            }
+	        }
+	        
+	        //审核通过产生一个主员工的资料
+	        $password	= rand(100000,999999);
+	        $salt = rand(1, 9999);
+	        $data_staff = array(
+	            'mobile' 		=> $data['contact_mobile'],
+	            'store_id' 		=> $store_id,
+	            'name' 			=> $data['merchants_name'].'店长',
+	            'nick_name' 	=> '',
+	            'user_ident' 	=> 'SC001',
+	            'email' 		=> $data['email'],
+	            'password' 		=> md5(md5($password) . $salt),
+	            'salt'			=> $salt,
+	            'add_time' 		=> RC_Time::gmtime(),
+	            'last_ip' 		=> '',
+	            'action_list' 	=> 'all',
+	            'todolist' 		=> '',
+	            'parent_id' 	=> 0,
+	            'avatar' 		=> '',
+	            'introduction' 	=> '',
+	        );
+	        $staff = RC_DB::table('staff_user')->insertGetId($data_staff);
+	        if (! $staff) {
+	            return $this->showmessage('店长账号添加失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        }
+	        //短信发送通知
+	        $tpl_name = 'sms_jion_merchant';
+	        $tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
+	        $message = '';
+	        if (!empty($tpl)) {
+	            $this->assign('user_name', $data['responsible_person']);
+	            $this->assign('shop_name', ecjia::config('shop_name'));
+	            $this->assign('service_phone', 	ecjia::config('service_phone'));
+	            $this->assign('mobile', $data['contact_mobile']);
+	            $this->assign('password', $password);
+	            $content = $this->fetch_string($tpl['template_content']);
+	        
+	            $options = array(
+	                'mobile' 		=> $data['contact_mobile'],
+	                'msg'			=> $content,
+	                'template_id' 	=> $tpl['template_id'],
+	            );
+	            $response = RC_Api::api('sms', 'sms_send', $options);
+	            if($response !== true){
+	                $message = '通知短信发送失败，请检查。';
+	                return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	            }
+	        };
+	    } else {
+	        return $this->showmessage('操作失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+		ecjia_admin::admin_log('添加商家：'.$data['merchants_name'], 'add', 'store');
+		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,
+		    array('pjaxurl' => RC_Uri::url('store/admin/edit', array('store_id' => $store_id, 'step' => 'base'))));
+	    
+	}
 	/**
 	 * 编辑入驻商
 	 */
 	public function edit() {
-		$this->admin_priv('store_affiliate_update');
+		$this->admin_priv('store_affiliate_update', ecjia::MSGTYPE_JSON);
 
 		$this->assign('action_link',array('href' => RC_Uri::url('store/admin/init'),'text' => RC_Lang::get('store::store.store_list')));
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑入驻商'));
@@ -213,6 +393,14 @@ class admin extends ecjia_admin {
 		    $is_exist = RC_DB::table('store_franchisee')->where('store_id', '<>', $store_id)->where('email', $data['email'])->get();
 		    if ($is_exist) {
 		        return $this->showmessage('邮箱已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		    }
+		    $is_exist = RC_DB::table('staff_user')->where('mobile', $data['contact_mobile'])->get();
+		    if ($is_exist) {
+		        return $this->showmessage('联系手机员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		    }
+		    $is_exist = RC_DB::table('staff_user')->where('email', $data['email'])->get();
+		    if ($is_exist) {
+		        return $this->showmessage('邮箱员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		    }
             $geohash         = RC_Loader::load_app_class('geohash', 'store');
 			$geohash_code    = $geohash->encode($_POST['latitude'] , $_POST['longitude']);

@@ -80,8 +80,8 @@ class wechat_installer  extends ecjia_installer {
                 "`pid` int(3) unsigned NOT NULL DEFAULT '0' COMMENT '父级ID'",
                 "`name` varchar(255) NOT NULL COMMENT '菜单标题'",
                 "`type` varchar(10) NOT NULL COMMENT '菜单的响应动作类型'",
-                "`key` varchar(255) NOT NULL COMMENT '菜单KEY值，click类型必须'",
-                "`url` varchar(255) NOT NULL COMMENT '网页链接，view类型必须'",
+                "`key` varchar(255) NULL COMMENT '菜单KEY值，click类型必须'",
+                "`url` varchar(255) NULL COMMENT '网页链接，view类型必须'",
                 "`sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序'",
                 "`status` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '状态'",
                 "PRIMARY KEY (`id`)"
@@ -94,7 +94,7 @@ class wechat_installer  extends ecjia_installer {
         	$schemes = array(
                 "`id` int(10) NOT NULL AUTO_INCREMENT",
                 "`wechat_id` int(11) unsigned NOT NULL",
-                "`type` varchar(10) NOT NULL COMMENT '自动回复类型'",
+                "`type` varchar(10) NULL COMMENT '自动回复类型'",
                 "`content` varchar(255) DEFAULT NULL",
                 "`media_id` int(10) DEFAULT NULL",
                 "`rule_name` varchar(180) DEFAULT NULL",
@@ -109,7 +109,7 @@ class wechat_installer  extends ecjia_installer {
         if (!RC_Model::make()->table_exists($table_name)) {
             $schemes = array(
                 "`id` int(11) NOT NULL AUTO_INCREMENT",
-                "`rid` int(11) NOT NULL COMMENT '规则id'",
+                "`rid` int(11) NULL COMMENT '规则id'",
                 "`rule_keywords` varchar(255) DEFAULT NULL",
                 "PRIMARY KEY (`id`)"
             );
@@ -123,20 +123,20 @@ class wechat_installer  extends ecjia_installer {
                 "`wechat_id` int(10) unsigned NOT NULL DEFAULT '0'",
                 "`subscribe` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '用户是否订阅该公众号标识'",
                 "`openid` varchar(255) NOT NULL COMMENT '用户的标识'",
-                "`nickname` varchar(255) NOT NULL COMMENT '用户的昵称'",
+                "`nickname` varchar(255) NULL COMMENT '用户的昵称'",
                 "`sex` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '用户的性别'",
-                "`city` varchar(255) NOT NULL COMMENT '用户所在城市'",
-                "`country` varchar(255) NOT NULL COMMENT '用户所在国家'",
-                "`province` varchar(255) NOT NULL COMMENT '用户所在省份'",
-                "`language` varchar(50) NOT NULL COMMENT '用户的语言'",
-                "`headimgurl` varchar(255) NOT NULL COMMENT '用户头像'",
+                "`city` varchar(255) NULL COMMENT '用户所在城市'",
+                "`country` varchar(255) NULL COMMENT '用户所在国家'",
+                "`province` varchar(255) NULL COMMENT '用户所在省份'",
+                "`language` varchar(50) NULL COMMENT '用户的语言'",
+                "`headimgurl` varchar(255) NULL COMMENT '用户头像'",
                 "`subscribe_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户关注时间'",
                 "`remark` varchar(255) DEFAULT NULL",
                 "`privilege` varchar(255) DEFAULT NULL",
-                "`unionid` varchar(255) NOT NULL",
+                "`unionid` varchar(255) NULL",
                 "`group_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户组id'",
-                "`ect_uid` int(11) unsigned NOT NULL COMMENT 'ecshop会员id'",
-                "`bein_kefu` tinyint(1) unsigned NOT NULL COMMENT '是否处在多客服流程'",
+                "`ect_uid` int(11) unsigned NULL COMMENT 'ecshop会员id'",
+                "`bein_kefu` tinyint(1) unsigned NULL COMMENT '是否处在多客服流程'",
                 "PRIMARY KEY (`uid`)"
             );
             RC_Model::make()->create_table($table_name, $schemes);
@@ -161,10 +161,10 @@ class wechat_installer  extends ecjia_installer {
             $schemes = array(
                 "`id` int(10) NOT NULL AUTO_INCREMENT",
                 "`type` int(1) NOT NULL DEFAULT '0' COMMENT '二维码类型，0临时，1永久'",
-                "`expire_seconds` int(4) DEFAULT NULL COMMENT '二维码有效时间'",
-                "`scene_id` int(10) NOT NULL COMMENT '场景值ID，临时二维码时为32位非0整型，永久二维码时最大值为100000（目前参数只支持1--100000）'",
+                "`expire_seconds` int(4) DEFAULT '0' COMMENT '二维码有效时间'",
+                "`scene_id` int(10) NULL COMMENT '场景值ID，临时二维码时为32位非0整型，永久二维码时最大值为100000（目前参数只支持1--100000）'",
                 "`username` varchar(60) DEFAULT NULL COMMENT '推荐人'",
-                "`function` varchar(255) NOT NULL COMMENT '功能'",
+                "`function` varchar(255) NULL COMMENT '功能'",
                 "`ticket` varchar(255) DEFAULT NULL COMMENT '二维码ticket'",
                 "`qrcode_url` varchar(255) DEFAULT NULL COMMENT '二维码路径'",
                 "`endtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间'",
@@ -189,7 +189,7 @@ class wechat_installer  extends ecjia_installer {
                 "`winner` varchar(255) DEFAULT NULL",
                 "`dateline` int(11) unsigned NOT NULL DEFAULT '0'",
                 "`prize_type` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否中奖，0未中奖，1中奖'",
-                "`activity_type` varchar(20) NOT NULL COMMENT '活动类型'",
+                "`activity_type` varchar(20) NULL COMMENT '活动类型'",
                 "PRIMARY KEY (`id`)"
             );
             RC_Model::make()->create_table($table_name, $schemes);
@@ -200,7 +200,7 @@ class wechat_installer  extends ecjia_installer {
             $schemes = array(
                 "`log_id` mediumint(8) unsigned NOT NULL COMMENT '积分增加记录id'",
                 "`openid` varchar(100) DEFAULT NULL",
-                "`keywords` varchar(100) NOT NULL COMMENT '关键词'",
+                "`keywords` varchar(100) NULL COMMENT '关键词'",
                 "`createtime` int(11) unsigned NOT NULL DEFAULT '0'"
             );
             RC_Model::make()->create_table($table_name, $schemes);
@@ -228,9 +228,9 @@ class wechat_installer  extends ecjia_installer {
                 "`article_id` varchar(100) DEFAULT NULL",
                 "`sort` int(10) unsigned NOT NULL DEFAULT '0'",
             	"`media_id` varchar(255) NOT NULL",
-            	"`is_material` varchar(20) NOT NULL",
-            	"`media_url` varchar(255) NOT NULL",
-            	"`parent_id` int(10) NOT NULL",
+            	"`is_material` varchar(20) NULL",
+            	"`media_url` varchar(255) NULL",
+            	"`parent_id` int(10) NULL",
                 "PRIMARY KEY (`id`)"
             );
             RC_Model::make()->create_table($table_name, $schemes);
@@ -275,16 +275,16 @@ class wechat_installer  extends ecjia_installer {
         		"`wechat_id` int(10) UNSIGNED NOT NULL DEFAULT '0'",
         		"`kf_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '客服工号'",
         		"`kf_account` VARCHAR(100) NOT NULL COMMENT '完整客服账号'",
-        		"`kf_nick` VARCHAR(100) NOT NULL COMMENT '客服昵称'",
-        		"`kf_headimgurl` VARCHAR(255) NOT NULL COMMENT '客服头像'",
+        		"`kf_nick` VARCHAR(100) NULL COMMENT '客服昵称'",
+        		"`kf_headimgurl` VARCHAR(255) NULL COMMENT '客服头像'",
         		"`status` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '客服状态'",
         		"`online_status` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '客服在线状态'",
         		"`accepted_case` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '客服当前正在接待的会话数'",
         		"`kf_wx` VARCHAR(200) NOT NULL",
-        		"`invite_wx` VARCHAR(200) NOT NULL",
+        		"`invite_wx` VARCHAR(200) NULL",
         		"`invite_expire_time` int(10) NOT NULL DEFAULT '0'",
-        		"`invite_status` VARCHAR(100) NOT NULL",
-        		"`file_url` VARCHAR(255) NOT NULL",
+        		"`invite_status` VARCHAR(100) NULL",
+        		"`file_url` VARCHAR(255) NULL",
         		"PRIMARY KEY (`id`)"
         	);
         	RC_Model::make()->create_table($table_name, $schemes);
@@ -312,7 +312,7 @@ class wechat_installer  extends ecjia_installer {
                 "`wechat_id` int(10) unsigned NOT NULL DEFAULT '0'",
                 "`day` date NOT NULL COMMENT '日期'",
                 "`api_name` varchar(60) NOT NULL COMMENT 'Api名称'",
-                "`times` int(10) NOT NULL COMMENT '限制次数'",
+                "`times` int(10) NULL COMMENT '限制次数'",
                 "`last_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后请求时间'",
                 "PRIMARY KEY (`id`)",
                 "UNIQUE KEY `day` (`day`,`api_name`,`wechat_id`)",
@@ -339,8 +339,8 @@ class wechat_installer  extends ecjia_installer {
         	$schemes = array(
         		"`userid` int(10) unsigned NOT NULL DEFAULT '0'",
         		"`tagid` int(10) unsigned NOT NULL DEFAULT '0'",
-        		"INDEX `userid` (`userid`)",
-        		"INDEX `tagid` (`tagid`)"
+        		"KEY `userid` (`userid`)",
+        		"KEY `tagid` (`tagid`)"
         	);
         	RC_Model::make()->create_table($table_name, $schemes);
         }

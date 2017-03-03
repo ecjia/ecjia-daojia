@@ -116,7 +116,7 @@
 						</div>
 						<div class="control-group control-group-small">
 							<div class="controls">
-								<input type="submit" value="{lang key='wechat::wechat.ok'}" class="btn btn-gebo" />
+								<input type="submit" value="{lang key='wechat::wechat.ok'}" {if $errormsg}disabled{/if} class="btn btn-gebo" />
 							</div>
 						</div>
 					</fieldset>

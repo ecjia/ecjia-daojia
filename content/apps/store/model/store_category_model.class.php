@@ -46,10 +46,10 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class seller_category_model extends Component_Model_Model {
+class store_category_model extends Component_Model_Model {
 	public $table_name = '';
 	public function __construct() {
-		$this->table_name = 'seller_category';
+		$this->table_name = 'store_category';
 		parent::__construct();
 	}
 }

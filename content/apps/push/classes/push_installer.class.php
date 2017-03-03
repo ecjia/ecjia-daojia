@@ -64,16 +64,16 @@ class push_installer extends ecjia_installer {
             $schemes = array(
             	"`message_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT",
             	"`app_id` int(10) unsigned NOT NULL",
-                "`device_token` CHAR(64) NOT NULL",
-                "`device_client` CHAR(10) NOT NULL",
+                "`device_token` CHAR(64) NOT NULL DEFAULT ''",
+                "`device_client` CHAR(10) NULL",
                 "`title` VARCHAR(150) NOT NULL",
-                "`content` VARCHAR(255) NOT NULL",
-                "`add_time` INT(10) NOT NULL",
-                "`push_time` INT(10) NOT NULL",
-                "`push_count` TINYINT(1) NOT NULL",
-                "`template_id` MEDIUMINT(8) NOT NULL",
+                "`content` VARCHAR(255) NOT NULL DEFAULT ''",
+                "`add_time` INT(10) NOT NULL DEFAULT '0'",
+                "`push_time` INT(10) NOT NULL DEFAULT '0'",
+                "`push_count` TINYINT(1) NOT NULL DEFAULT '0'",
+                "`template_id` MEDIUMINT(8) NULL",
                 "`in_status` TINYINT(1) NOT NULL DEFAULT '0'",
-                "`extradata` TEXT NOT NULL",
+                "`extradata` TEXT NULL",
                 "PRIMARY KEY (`message_id`)"
             );
             
@@ -84,12 +84,12 @@ class push_installer extends ecjia_installer {
         if (!RC_Model::make()->table_exists($table_name)) {
         	$schemes = array(
         			"`event_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '消息事件id'",
-        			"`event_code` varchar(60) NOT NULL COMMENT '消息事件code'",
-        			"`event_name` varchar(60) NOT NULL COMMENT '消息事件名称'",
-        			"`app_id` int(10) unsigned NOT NULL COMMENT '客户端设备id'",
-        			"`template_id` int(10) unsigned NOT NULL COMMENT '模板id'",
+        			"`event_code` varchar(60) NOT NULL DEFAULT '' COMMENT '消息事件code'",
+        			"`event_name` varchar(60) NOT NULL DEFAULT '' COMMENT '消息事件名称'",
+        			"`app_id` int(10) unsigned NULL COMMENT '客户端设备id'",
+        			"`template_id` int(10) unsigned NULL COMMENT '模板id'",
         			"`is_open` tinyint(3) NOT NULL COMMENT '是否启用'",
-        			"`create_time` int(100) unsigned NOT NULL",
+        			"`create_time` int(100) unsigned NOT NULL DEFAULT '0'",
         			"PRIMARY KEY (`event_id`)"
         	);
         	RC_Model::make()->create_table($table_name, $schemes);

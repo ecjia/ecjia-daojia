@@ -89,7 +89,7 @@
 						<div class="control-group">
 							<div class="controls">
 			                    <input type="hidden" name="content_type" value="text">
-			                    <input type="submit" class="btn btn-gebo" value="{lang key='wechat::wechat.add'}">
+			                    <input type="submit" class="btn btn-gebo" {if $errormsg}disabled{/if} value="{lang key='wechat::wechat.add'}">
 		                    </div>
 	                  	</div>
 					</div>

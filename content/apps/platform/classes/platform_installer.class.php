@@ -63,10 +63,10 @@ class platform_installer  extends ecjia_installer {
             $schemes = array(
                 "`id` int(10) unsigned NOT NULL AUTO_INCREMENT",
                 "`uuid` varchar(60) NOT NULL COMMENT '唯一标识'",
-                "`platform` varchar(30) NOT NULL DEFAULT '' COMMENT '平台'",
-                "`type` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '公众号类型'",
+                "`platform` varchar(30) NULL DEFAULT '' COMMENT '平台'",
+                "`type` int(1) unsigned NULL DEFAULT '0' COMMENT '公众号类型'",
                 "`shop_id` int(10) NOT NULL DEFAULT '0'",
-                "`name` varchar(100) NOT NULL DEFAULT '' COMMENT '公众号名称'",
+                "`name` varchar(100) NOT NULL COMMENT '公众号名称'",
                 "`logo` varchar(100) DEFAULT ''",
                 "`token` varchar(100) NOT NULL DEFAULT '' COMMENT 'Token'",
                 "`aeskey` varchar(100) NOT NULL DEFAULT ''",
@@ -100,9 +100,9 @@ class platform_installer  extends ecjia_installer {
         	$schemes = array(
                 "`ext_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT '扩展id'",
                 "`ext_name` varchar(120) NOT NULL DEFAULT '' COMMENT '扩展名称'",
-                "`ext_desc` text NOT NULL COMMENT '扩展描述'",
+                "`ext_desc` text NULL COMMENT '扩展描述'",
                 "`ext_code` varchar(30) NOT NULL DEFAULT '' COMMENT '扩展关键字'",
-                "`ext_config` text NOT NULL COMMENT '扩展配置'",
+                "`ext_config` text NULL COMMENT '扩展配置'",
                 "`enabled` tinyint(4) UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否安装，1开启，0禁用'",
                 "PRIMARY KEY (`ext_id`)"
         	);
@@ -114,7 +114,7 @@ class platform_installer  extends ecjia_installer {
             $schemes = array(
                 "`account_id` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0'",
                 "`ext_code` VARCHAR(30) NOT NULL DEFAULT '' COMMENT '扩展关键字'",
-                "`ext_config` TEXT NOT NULL COMMENT '扩展配置'",
+                "`ext_config` TEXT NULL COMMENT '扩展配置'",
                 "PRIMARY KEY (`account_id`, `ext_code`)"
             );
             RC_Model::make()->create_table($table_name, $schemes);

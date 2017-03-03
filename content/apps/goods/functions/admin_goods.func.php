@@ -657,11 +657,11 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 		/* 修正优惠券 */
 		$row ['bonus_money'] = ($row ['bonus_money'] == 0) ? 0 : price_format ( $row ['bonus_money'], false );
 
-		RC_Loader::load_app_class('goods_image', 'goods');
+		RC_Loader::load_app_class('goods_imageutils', 'goods', false);
 		/* 修正商品图片 */
-		$row ['goods_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_image::get_absolute_url($row ['goods_img']);
-		$row ['goods_thumb'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_image::get_absolute_url($row ['goods_thumb']);
-		$row ['original_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_image::get_absolute_url($row ['original_img']);
+		$row ['goods_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['goods_img']);
+		$row ['goods_thumb'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['goods_thumb']);
+		$row ['original_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['original_img']);
 
 		return $row;
 	} else {

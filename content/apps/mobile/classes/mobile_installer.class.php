@@ -72,13 +72,13 @@ class mobile_installer extends ecjia_installer {
                 "`device_os` varchar(30) DEFAULT NULL",
             	"`device_type` varchar(30) DEFAULT NULL",
                 "`user_id` int(9) NOT NULL DEFAULT '0'",
-                "`is_admin` tinyint(1) NOT NULL DEFAULT '0'",
+                "`user_type` varchar(10)  NULL COMMENT '用户类型'",
                 "`location_province` varchar(20) DEFAULT NULL",
                 "`location_city` varchar(20) DEFAULT NULL",
-            	"`visit_times` int(10) NOT NULL",
-                "`in_status` tinyint(1) NOT NULL",
-                "`add_time` int(10) NOT NULL",
-            	"`update_time` int(10) NOT NULL",
+            	"`visit_times` int(10) NOT NULL DEFAULT '0'",
+                "`in_status` tinyint(1) NULL",
+                "`add_time` int(10) NOT NULL DEFAULT '0'",
+            	"`update_time` int(10) NOT NULL DEFAULT '0'",
                 "PRIMARY KEY (`id`)",
                 "UNIQUE KEY `device_udid` (`device_udid`,`device_client`,`device_code`)"
             );
@@ -89,14 +89,14 @@ class mobile_installer extends ecjia_installer {
         if (!RC_Model::make()->table_exists($table_name)) {
         	$schemes = array(
         			"`id` int(11) unsigned NOT NULL AUTO_INCREMENT",
-        			"`group_id` int(11) NOT NULL",
+        			"`group_id` int(11) NULL",
         			"`title` varchar(100) DEFAULT NULL",
         			"`description` varchar(255) DEFAULT NULL",
         			"`image` varchar(100) DEFAULT NULL",
         			"`content_url` varchar(100) DEFAULT NULL",
         			"`type` char(10) NOT NULL DEFAULT ''",
         			"`status` tinyint(3) NOT NULL DEFAULT '0'",
-        			"`create_time` int(10) NOT NULL",
+        			"`create_time` int(10) NOT NULL DEFAULT '0'",
         			"PRIMARY KEY (`id`)"
         	);
         	RC_Model::make()->create_table($table_name, $schemes);
@@ -108,17 +108,19 @@ class mobile_installer extends ecjia_installer {
         	$schemes = array(
         			"`message_id` int(11) unsigned NOT NULL AUTO_INCREMENT",
         			"`sender_id` int(11) NOT NULL DEFAULT '0'",
-        			"`sender_admin` tinyint(1) NOT NULL",
+        			"`sender_admin` tinyint(1) NOT NULL DEFAULT '0'",
         			"`receiver_id` int(11) NOT NULL DEFAULT '0'",
-        			"`receiver_admin` tinyint(1) NOT NULL",
+        			"`receiver_admin` tinyint(1) NOT NULL DEFAULT '0'",
         			"`send_time` int(11) unsigned NOT NULL DEFAULT '0'",
         			"`read_time` int(11) unsigned NOT NULL DEFAULT '0'",
         			"`readed` tinyint(1) unsigned NOT NULL DEFAULT '0'",
         			"`deleted` tinyint(1) unsigned NOT NULL DEFAULT '0'",
         			"`title` varchar(150) NOT NULL DEFAULT ''",
-        			"`message` text NOT NULL",
-        			"`message_type` varchar(25) NOT NULL",
-        			"PRIMARY KEY (`message_id`)"
+        			"`message` text NULL",
+        			"`message_type` varchar(25) NOT NULL DEFAULT ''",
+        			"PRIMARY KEY (`message_id`)",
+            	    "KEY `sender_id` (`sender_id`,`receiver_id`)",
+            	    "KEY `receiver_id` (`receiver_id`)"
         	);
         	RC_Model::make()->create_table($table_name, $schemes);
         }
@@ -128,11 +130,11 @@ class mobile_installer extends ecjia_installer {
         if (!RC_Model::make()->table_exists($table_name)) {
             $schemes = array(
                 "`app_id` int(10) unsigned NOT NULL AUTO_INCREMENT",
-                "`app_name` varchar(100) NOT NULL DEFAULT '' COMMENT '应用名称'",
+                "`app_name` varchar(100) NOT NULL COMMENT '应用名称'",
                 "`bundle_id` varchar(100) NOT NULL DEFAULT '' COMMENT 'app包名'",
                 "`app_key` varchar(100) NOT NULL DEFAULT '' COMMENT 'appkey'",
                 "`app_secret` varchar(100) NOT NULL DEFAULT '' COMMENT 'AppSecret'",
-                "`device_code` char(4) NOT NULL",
+                "`device_code` char(4) NOT NULL DEFAULT ''",
                 "`device_client` char(10) NOT NULL DEFAULT ''",
                 "`platform` varchar(50) NOT NULL DEFAULT '' COMMENT '服务平台名称'",
                 "`add_time` int(10) unsigned NOT NULL DEFAULT '0'",
@@ -148,7 +150,7 @@ class mobile_installer extends ecjia_installer {
     	if (!RC_Model::make()->table_exists($table_name)) {
             $schemes = array(
                 "`id` int(11) unsigned NOT NULL AUTO_INCREMENT",
-                "`title` varchar(100) DEFAULT NULL",
+                "`title` varchar(100) NOT NULL",
                 "`tag` varchar(20) DEFAULT NULL",
                 "`description` varchar(255) DEFAULT NULL",
                 "`image` varchar(100) DEFAULT NULL",
@@ -166,11 +168,11 @@ class mobile_installer extends ecjia_installer {
         $table_name = 'qrcode_validate';
         if (!RC_Model::make()->table_exists($table_name)) {
         	$schemes = array(
-        			"`user_id` int(40) NOT NULL COMMENT 'user_id'",
+        			"`user_id` int(40) NOT NULL DEFAULT '0' COMMENT 'user_id'",
         			"`is_admin` bit(1) NOT NULL COMMENT '是否是管理员'",
-        			"`uuid` varchar(20) NOT NULL COMMENT 'code'",
-        			"`status` tinyint(4) NOT NULL COMMENT '状态'",
-        			"`expires_in` int(11) NOT NULL COMMENT '有效期'",
+        			"`uuid` varchar(20) NOT NULL DEFAULT '' COMMENT 'code'",
+        			"`status` tinyint(4) NULL COMMENT '状态'",
+        			"`expires_in` int(11) NULL COMMENT '有效期'",
         			"`device_udid` char(40) DEFAULT NULL",
         			"`device_client` char(10) DEFAULT NULL",
         			"`device_code` char(4) DEFAULT NULL",
@@ -202,9 +204,12 @@ class mobile_installer extends ecjia_installer {
 					 "`order_id` int(11) NOT NULL",
 					 "`message` varchar(255) DEFAULT NULL",
 					 "`status` varchar(100) DEFAULT NULL",
-					 "`create_time` int(10) NOT NULL",
-					 "`confirm_time` int(10) NOT NULL",
-					 "PRIMARY KEY (`id`)"
+					 "`create_time` int(10) NOT NULL DEFAULT '0'",
+					 "`confirm_time` int(10) NULL",
+        	         " `store_id` int(10) unsigned NOT NULL DEFAULT '0'",
+					 "PRIMARY KEY (`id`)",
+        	    "KEY `store_id` (`store_id`)",
+        	    "KEY `store_order` (`order_id`,`store_id`)",
         	);
         	RC_Model::make()->create_table($table_name, $schemes);
         }
@@ -214,16 +219,16 @@ class mobile_installer extends ecjia_installer {
         if (!RC_Model::make()->table_exists($table_name)) {
         	$schemes = array(
         			"`activity_id` int(10)  NOT NULL AUTO_INCREMENT",
-        			"`activity_name` varchar(20) NOT NULL DEFAULT '' COMMENT '活动名称'",
+        			"`activity_name` varchar(20) NOT NULL COMMENT '活动名称'",
         			"`activity_group` tinyint(4) NOT NULL DEFAULT '0' COMMENT '活动组（1、摇一摇）'",
         			"`activity_desc` text NOT NULL COMMENT '活动规则描述'",
         			"`activity_object` int(10) unsigned NOT NULL COMMENT '活动对象（app，pc，touch等）'",
         			"`limit_num` tinyint(4) NOT NULL DEFAULT '0' COMMENT '活动限制次数（0为不限制）'",
         			"`limit_time` int(10) NOT NULL DEFAULT '0' COMMENT '多少时间内活动限制（0为在活动时间内，否则多少时间内限制，单位：分钟）'",
-        			"`start_time` int(10) unsigned DEFAULT NULL COMMENT '活动开始时间'",
-        			"`end_time` int(10) unsigned DEFAULT NULL COMMENT '活动结束时间'",
-        			"`add_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间'",
-        			"`enabled` tinyint(4) DEFAULT NULL COMMENT '是否使用，1开启，0禁用'",
+        			"`start_time` int(10) unsigned DEFAULT '0' COMMENT '活动开始时间'",
+        			"`end_time` int(10) unsigned DEFAULT '0' COMMENT '活动结束时间'",
+        			"`add_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间'",
+        			"`enabled` tinyint(4) DEFAULT '1' COMMENT '是否使用，1开启，0禁用'",
         			"PRIMARY KEY (`activity_id`)",
         			"KEY `activity_group` (`activity_group`)"
         	);
@@ -243,7 +248,7 @@ class mobile_installer extends ecjia_installer {
 				  "`issue_status` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '发放状态，0未发放，1发放'",
 				  "`issue_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '（奖品）发放时间'",
 				  "`issue_extend` text COMMENT '需线下延期发放的扩展信息（序列化）'",
-				  "`add_time` int(10) unsigned DEFAULT NULL COMMENT '抽奖时间'",
+				  "`add_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '抽奖时间'",
 				  "`source` varchar(20) DEFAULT NULL COMMENT '来源（app，touch，pc等）'",
 				  "PRIMARY KEY (`id`)",
 				  "KEY `activity_id` (`activity_id`)",

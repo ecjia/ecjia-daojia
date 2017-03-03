@@ -209,36 +209,41 @@
 		//店铺入驻选择分类、入驻类型、店铺所在地
 		choices : function() {
 			//更新店铺名
+			var myApp = new Framework7();
 			$('input[name="seller_name"]').blur(function() {
 				$.cookie('seller_name', $('input[name="seller_name"]').val());
 			});
 			
 			var category_list = [];
 			var category = eval('(' + $("input[name='category']").val() + ')')['data'];
+			if(category == null){
+				$("input[name='seller_category']").val('暂无店铺分类，未能入驻');
+				$.cookie('seller_category_id', '');
+			}else{
+				for (i=0;i < category.length; i++){
+					category_list.push(category[i]['name']);
+				};
+				var pickerDevice = myApp.picker({
+				    input: '.ecjia-franchisee-category',
+				    toolbarCloseText: '完成',
+				    cols: [
+				        {
+				        	onChange: function (p, value) {
+				        		$.cookie('seller', value); 
+				        		for (i = 0; i < category.length; i++) {
+				        			if (category[i]['name'] == value) {
+				        				$.cookie('seller_category_id', category[i]['id']);
+				        				$("input[name='seller_category_id']").val(category[i]['id']);
+				        			}
+				        		}
+				        	},
+				        	textAlign: 'center',
+				            values: category_list
+				        }
+				    ]
+				});
+			}
 			
-			for (i=0;i < category.length; i++){
-				category_list.push(category[i]['name']);
-			};
-			var myApp = new Framework7();
-			var pickerDevice = myApp.picker({
-			    input: '.ecjia-franchisee-category',
-			    toolbarCloseText: '完成',
-			    cols: [
-			        {
-			        	onChange: function (p, value) {
-			        		$.cookie('seller', value); 
-			        		for (i = 0; i < category.length; i++) {
-			        			if (category[i]['name'] == value) {
-			        				$.cookie('seller_category_id', category[i]['id']);
-			        				$("input[name='seller_category_id']").val(category[i]['id']);
-			        			}
-			        		}
-			        	},
-			        	textAlign: 'center',
-			            values: category_list
-			        }
-			    ]
-			});
 			
 			var category_test = $(".picker-selected").attr("data-picker-value");
 			var pickerDevice = myApp.picker({

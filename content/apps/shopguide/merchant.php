@@ -80,7 +80,6 @@ class merchant extends ecjia_merchant {
 		RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/mh-js/migrate.js', __FILE__) , array() , false, true);
 		
 		RC_Loader::load_app_class('goods', 'goods', false);
-		RC_Loader::load_app_class('goods_image', 'goods', false);
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
 		RC_Loader::load_app_class('goods_imageutils', 'goods', false);
 	}

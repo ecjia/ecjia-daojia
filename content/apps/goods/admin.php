@@ -113,7 +113,6 @@ class admin extends ecjia_admin {
 		RC_Style::enqueue_style('goods', RC_App::apps_url('statics/styles/goods.css', __FILE__), array());
 		
 		RC_Loader::load_app_class('goods', 'goods', false);
-		RC_Loader::load_app_class('goods_image', 'goods', false);
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
 		RC_Loader::load_app_class('goods_imageutils', 'goods', false);
 
@@ -421,9 +420,9 @@ class admin extends ecjia_admin {
 
 		/* 商品图片路径 */
 		if (!empty($goods['goods_img'])) {
-				$goods['goods_img'] = goods_image::get_absolute_url($goods['goods_img']);
-				$goods['goods_thumb'] = goods_image::get_absolute_url($goods['goods_thumb']);
-				$goods['original_img'] = goods_image::get_absolute_url($goods['original_img']);
+			$goods['goods_img'] = goods_imageutils::getAbsoluteUrl($goods['goods_img']);
+			$goods['goods_thumb'] = goods_imageutils::getAbsoluteUrl($goods['goods_thumb']);
+			$goods['original_img'] = goods_imageutils::getAbsoluteUrl($goods['original_img']);
 		}
 
 		/* 拆分商品名称样式 */

@@ -58,6 +58,7 @@ class store_admin_purview_api extends Component_Event_Api {
             array('action_name' => RC_Lang::get('store::store.store_affiliate'), 'action_code' => 'store_affiliate_manage', 	'relevance' => ''),
         	array('action_name' => RC_Lang::get('store::store.store_update'), 'action_code' => 'store_affiliate_update', 	'relevance' => ''),
         	array('action_name' => RC_Lang::get('store::store.store_lock'), 'action_code' => 'store_affiliate_lock', 	'relevance' => ''),
+            array('action_name' => '添加商家', 'action_code' => 'store_affiliate_add', 	'relevance' => ''),
 
         	array('action_name' => '店铺设置', 		'action_code' => 'store_set_manage', 		'relevance' => ''),
             array('action_name' => '修改店铺设置', 	'action_code' => 'store_set_update', 		'relevance' => ''),

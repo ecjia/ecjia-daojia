@@ -94,7 +94,7 @@ class article_controller {
         
         $shop_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO_DETAIL)->data(array('article_id' => $article_id))->run();
         
-        if (!is_ecjia_error($data) && !empty($shop_detail)) {
+        if (!is_ecjia_error($shop_detail) && !empty($shop_detail)) {
         	$res = array();
         	preg_match('/<body>([\s\S]*?)<\/body>/', $shop_detail, $res);
         	$bodystr = trim($res[0]);

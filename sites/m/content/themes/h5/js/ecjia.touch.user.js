@@ -219,6 +219,11 @@
 					verification = $("input[name='verification']").val().trim(),
 					code = $("input[name='code']").val().trim();
 				if (code == '') {
+					alert('请输入验证码');
+					return false;
+				}
+				if (mobile == '') {
+					alert('请输入手机号');
 					return false;
 				}
 				var info = {

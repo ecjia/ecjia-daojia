@@ -443,6 +443,12 @@ class admin_response extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('wechat/admin_response/reply_keywords_insert'));
 		$this->assign('add_material_action', RC_Uri::url('wechat/admin_response/add_material'));
 		
+		$platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
+		$wechat_id = $platform_account->getAccountID();
+		if (is_ecjia_error($wechat_id)) {
+			$this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
+		}
+		
 		$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 		if (!empty($id)) {
 			$this->assign('ur_here', RC_Lang::get('wechat::wechat.edit_rule'));

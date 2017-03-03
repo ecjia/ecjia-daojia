@@ -80,7 +80,6 @@ class admin_gallery extends ecjia_admin {
 		RC_Script::enqueue_script('ecjia-region',RC_Uri::admin_url('statics/ecjia.js/ecjia.region.js'), array('jquery'), false, true);
 
         RC_Loader::load_app_class('goods', 'goods');
-        RC_Loader::load_app_class('goods_image', 'goods', false);
         
         RC_Loader::load_app_func('admin_category');
         RC_Loader::load_app_func('global');

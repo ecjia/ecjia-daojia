@@ -28,6 +28,9 @@
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
+		<!-- {if $action_link} -->
+    	<a class="btn plus_or_reply data-pjax" id="sticky_a" href="{$action_link.href}"><i class="fontello-icon-plus"></i>{$action_link.text}</a>
+    	<!-- {/if} -->
 	</h3>
 </div>
 	

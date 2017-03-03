@@ -77,7 +77,6 @@ class mh_gallery extends ecjia_merchant {
         RC_Script::localize_script('goods_list', 'js_lang', RC_Lang::get('goods::goods.js_lang'));
         
         RC_Loader::load_app_class('goods', 'goods');
-        RC_Loader::load_app_class('goods_image', 'goods', false);
         
         RC_Loader::load_app_func('admin_category');
         RC_Loader::load_app_func('global');

@@ -66,10 +66,10 @@ class sms_installer extends ecjia_installer {
             	"`id` MEDIUMINT(8) NOT NULL AUTO_INCREMENT",
                 "`mobile` VARCHAR(100) NOT NULL",
                 "`template_id` MEDIUMINT(8) NOT NULL",
-                "`sms_content` TEXT NOT NULL",
+                "`sms_content` TEXT NULL",
                 "`error` TINYINT(1) NOT NULL DEFAULT '0'",
-                "`pri` TINYINT(10) NOT NULL",
-                "`last_send` INT(10) NOT NULL",
+                "`pri` TINYINT(10) NULL",
+                "`last_send` INT(10) NULL",
                 "PRIMARY KEY (`id`)"
             );
             

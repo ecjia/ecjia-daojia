@@ -139,23 +139,25 @@ class user_privilege_controller {
      * 验证注册
      */
     public static function signup() {
-        $chars = "/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|17[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/";
+        $chars = "/(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}/";
         $mobile = !empty($_GET['mobile']) ? htmlspecialchars($_GET['mobile']) : '';
-        if (preg_match($chars, $mobile)) {
-            $_SESSION['mobile'] = $mobile;
-            $token = ecjia_touch_user::singleton()->getToken();
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_USERBIND)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile))->run();
-            if (is_ecjia_error($data)) {
-                return ecjia_front::$controller->showmessage('短信发送失败，请联系客服', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            }
-            if ($data['registered'] == 1) {
-                return ecjia_front::$controller->showmessage(__('该手机号已被注册，请更换其他手机号'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            } else {
-                return ecjia_front::$controller->showmessage(__('短信已发送到手机'.$mobile.'，请注意查看'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-            }
-        } else {
-            return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        
+        if (!preg_match($chars, $mobile)) {
+        	return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        
+		$token = ecjia_touch_user::singleton()->getToken();
+		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_USERBIND)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile))->run();
+		if (is_ecjia_error($data)) {
+			return ecjia_front::$controller->showmessage('短信发送失败，请联系客服', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if ($data['registered'] == 1) {
+			return ecjia_front::$controller->showmessage(__('该手机号已被注册，请更换其他手机号'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		} else {
+			$_SESSION['mobile'] = $mobile;
+			return ecjia_front::$controller->showmessage(__('短信已发送到手机'.$mobile.'，请注意查看'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		}            
     }
     
     /*注册用户验证码接受*/
@@ -181,15 +183,18 @@ class user_privilege_controller {
         if ($_SESSION['register_status'] != 'succeed') {
             ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/register'));
         }
-        $verification = !empty($_SESSION['verification']) ? $_SESSION['verification'] : ''; 
-        $mobile = !empty($_SESSION['mobile']) ? $_SESSION['mobile'] : '';
-        $username = !empty($_POST['username']) ? trim($_POST['username']) : '';
-        $password = !empty($_POST['password']) ? trim($_POST['password']) : '';
+        
+        $verification 	= !empty($_SESSION['verification']) ? $_SESSION['verification'] : ''; 
+        $mobile 		= !empty($_SESSION['mobile']) 		? $_SESSION['mobile'] 		: '';
+        $username 		= !empty($_POST['username']) 		? trim($_POST['username']) 	: '';
+        $password 		= !empty($_POST['password']) 		? trim($_POST['password']) 	: '';
+        
         if (!empty($username) && !empty($password)) {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNUP)->data(array('name' => $username, 'mobile' => $mobile, 'password' => $password, 'invite_code' => $verification))->run();
             if (!is_ecjia_error($data)) {
                 unset($_SESSION['verification']);
                 ecjia_touch_user::singleton()->signin($username, $password);
+                
                 unset($_SESSION['register_status']);
                 return ecjia_front::$controller->showmessage(__('恭喜您，注册成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/my/init')));
             } else {

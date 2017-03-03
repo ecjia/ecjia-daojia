@@ -58,20 +58,9 @@ class category_module extends api_front implements api_interface {
 		RC_Loader::load_app_class('store_category', 'store');
 		//$db_shop = RC_Loader::load_app_model('seller_shopinfo_model', 'seller');
 		$scs_view = RC_Model::model('store/store_franchisee_viewmodel');
-		/* 根据经纬度查询附近店铺*/
-// 		if (is_array($location) && isset($location['latitude']) && isset($location['longitude'])) {
-// 			$request = array('location' => $location);
-// 			$geohash = RC_Loader::load_app_class('geohash', 'shipping');
-// 			$where_geohash = $geohash->encode($location['latitude'] , $location['longitude']);
-// 			$where_geohash = substr($where_geohash, 0, 5);
+		$db_category = RC_Model::model('store/store_category_model');
 
-// 			$where['geohash'] = array('like' => "%$where_geohash%");
-// 		}
-
-		$shop_cat           = $scs_view->join('store_category')
-                                		->field('ssi.cat_id')
-                                		->where(array('ssi.cat_id' => array('gt' => 0), 'status' => 1))
-                                		->group('ssi.cat_id')
+		$shop_cat           = $db_category->where(array('parent_id' => 0, 'is_show' => 1))
                                 		->select();
 		
 		$shop_cat           = array_column($shop_cat, 'cat_id');

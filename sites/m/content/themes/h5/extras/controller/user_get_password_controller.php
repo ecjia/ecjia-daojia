@@ -75,18 +75,18 @@ class user_get_password_controller {
 
     public static function mobile_register_account() {
         $mobile = !empty($_GET['mobile']) ? trim($_GET['mobile']) : '';
-        $chars = "/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/";
+        $chars = "/(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}/";
         
-        if (preg_match($chars, $mobile)) {
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_FORGET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile))->run();
+        if (!preg_match($chars, $mobile)) {
+        	return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        $token = ecjia_touch_user::singleton()->getToken();
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_FORGET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile))->run();
             
-            if (! is_ecjia_error($data)) {
-                return ecjia_front::$controller->showmessage(__("短信已发送到手机".$mobile."，请注意查看"), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-            } else {
-                return ecjia_front::$controller->showmessage(__($data->get_error_message()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            }
+        if (!is_ecjia_error($data)) {
+        	return ecjia_front::$controller->showmessage(__("短信已发送到手机".$mobile."，请注意查看"), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         } else {
-            return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
     
@@ -106,8 +106,7 @@ class user_get_password_controller {
         $token = ecjia_touch_user::singleton()->getToken();
         if ($passwordf) {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_RESET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'password' => $passwordf))->run();
-            
-            if (! is_ecjia_error($data)) {
+            if (!is_ecjia_error($data)) {
                 unset($_SESSION['mobile']);
                 unset($_SESSION['code_status']);
                 return ecjia_front::$controller->showmessage(__('您已成功找回密码'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/privilege/login')));
