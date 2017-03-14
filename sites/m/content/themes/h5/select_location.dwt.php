@@ -14,7 +14,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 <div class="ecjia-zs">
-	<a href="{url path='location/index/search_location' args="city={$smarty.get.city}"}" >
+	<a href="{url path='location/index/search_location'}" >
 		<div class="ecjia-zt a1">
 			<input class="ecjia-zv defaultWidth" type="text" placeholder="小区， 写字楼， 学校" maxlength="50">
 		</div>

@@ -111,7 +111,9 @@ class resignup_module extends api_admin implements api_interface {
             'address'            => $address,
             'longitude'          => $longitude,
             'latitude'           => $latitude,
-            'geohash'            => $geohash_code
+            'geohash'            => $geohash_code,
+            'check_status'       => 1,
+            'apply_time'         => RC_Time::gmtime()
         );
 
         RC_DB::table('store_preaudit')->where('contact_mobile', '=', $mobile)->update($data);

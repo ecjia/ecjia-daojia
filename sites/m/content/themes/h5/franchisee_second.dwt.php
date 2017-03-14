@@ -71,6 +71,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	
 	<input name="longitude" type="hidden" value="{$longitude}" />
 	<input name="latitude" type="hidden" value="{$latitude}" />
+	<input type="hidden" name="mobile" value={$mobile} />
+	<input type="hidden" name="code" value={$code} />
 	
 	<div class="ecjia-margin-t ecjia-margin-b">
 		<input class="btn btn-info nopjax" name="franchisee_submit" type="submit" value="{t}提交{/t}"/>

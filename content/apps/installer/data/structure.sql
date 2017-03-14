@@ -154,49 +154,6 @@ CREATE TABLE `ecjia_adsense` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ecjia_adviser`
---
-
-DROP TABLE IF EXISTS `ecjia_adviser`;
-CREATE TABLE `ecjia_adviser` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `group` varchar(20) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '导购员：guider;收银员：casher',
-  `username` varchar(20) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `qq` varchar(20) CHARACTER SET utf8mb4,
-  `tel` varchar(13) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `email` varchar(30) CHARACTER SET utf8mb4,
-  `identifier` varchar(30) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `admin_id` mediumint(8) NOT NULL DEFAULT '0' COMMENT '是导购员，目前默认0;是收银员，去选管理员',
-  `seller_id` mediumint(8) NOT NULL DEFAULT '0' COMMENT '入驻商家id',
-  `add_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
-  PRIMARY KEY (`id`),
-  KEY `admin_id` (`admin_id`),
-  KEY `seller_id` (`seller_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ecjia_adviser_log`
---
-
-DROP TABLE IF EXISTS `ecjia_adviser_log`;
-CREATE TABLE `ecjia_adviser_log` (
-  `log_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `adviser_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `order_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `device_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `type` smallint(3) NOT NULL COMMENT '1、开单，2、收款，3、验单',
-  `add_time` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`log_id`),
-  KEY `adviser_id` (`adviser_id`),
-  KEY `order_id` (`order_id`),
-  KEY `device_id` (`device_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `ecjia_affiliate_log`
 --
 
@@ -837,7 +794,7 @@ CREATE TABLE `ecjia_express_order` (
 
 DROP TABLE IF EXISTS `ecjia_express_user`;
 CREATE TABLE `ecjia_express_user` (
-  `user_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` mediumint(8) unsigned NOT NULL,
   `store_id` int(10) unsigned NOT NULL DEFAULT '0',
   `longitude` varchar(20) COLLATE utf8mb4_unicode_ci COMMENT '经度',
   `latitude` varchar(20) COLLATE utf8mb4_unicode_ci COMMENT '纬度',
@@ -879,31 +836,6 @@ CREATE TABLE `ecjia_favourable_activity` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ecjia_feedback`
---
-
-DROP TABLE IF EXISTS `ecjia_feedback`;
-CREATE TABLE `ecjia_feedback` (
-  `msg_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `user_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `user_name` varchar(60) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `user_email` varchar(60) CHARACTER SET utf8mb4,
-  `msg_title` varchar(200) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `msg_type` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `msg_status` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `msg_content` text CHARACTER SET utf8mb4 NULL,
-  `msg_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `message_img` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `order_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `msg_area` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`msg_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `ecjia_goods`
 --
 
@@ -921,7 +853,7 @@ CREATE TABLE `ecjia_goods` (
   `provider_name` varchar(100) CHARACTER SET utf8mb4,
   `goods_number` smallint(5) unsigned NOT NULL DEFAULT '0',
   `goods_weight` decimal(10,3) unsigned NOT NULL DEFAULT '0.000',
-  `default_shipping` int(11) unsigned NOT NULL,
+  `default_shipping` int(11) unsigned NOT NULL DEFAULT '0',
   `market_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
   `shop_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
   `promote_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
@@ -1338,31 +1270,6 @@ CREATE TABLE `ecjia_mobile_manage` (
   `status` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态',
   `sort` smallint(4) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`app_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ecjia_mobile_message`
---
-
-DROP TABLE IF EXISTS `ecjia_mobile_message`;
-CREATE TABLE `ecjia_mobile_message` (
-  `message_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `sender_id` int(3) NOT NULL DEFAULT '0',
-  `sender_admin` tinyint(1) NOT NULL DEFAULT '0',
-  `receiver_id` int(3) NOT NULL DEFAULT '0',
-  `receiver_admin` tinyint(1) NOT NULL DEFAULT '0',
-  `send_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `read_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `readed` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `title` varchar(150) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `message` text CHARACTER SET utf8mb4 NULL,
-  `message_type` varchar(25) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  PRIMARY KEY (`message_id`),
-  KEY `sender_id` (`sender_id`,`receiver_id`),
-  KEY `receiver_id` (`receiver_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1837,24 +1744,6 @@ CREATE TABLE `ecjia_push_message` (
   `in_status` tinyint(1) NOT NULL DEFAULT '0',
   `extradata` text CHARACTER SET utf8mb4 NULL,
   PRIMARY KEY (`message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ecjia_qrcode_validate`
---
-
-DROP TABLE IF EXISTS `ecjia_qrcode_validate`;
-CREATE TABLE `ecjia_qrcode_validate` (
-  `user_id` int(40) NOT NULL DEFAULT '0' COMMENT 'user_id',
-  `is_admin` bit(1) NOT NULL COMMENT '是否是管理员',
-  `uuid` varchar(20) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'code',
-  `status` tinyint(4) NULL COMMENT '状态',
-  `expires_in` int(11) NULL COMMENT '有效期',
-  `device_udid` char(40) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `device_client` char(10) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `device_code` char(4) CHARACTER SET utf8mb4 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

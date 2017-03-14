@@ -73,6 +73,8 @@ geocoder.getLocation(address);
     		<input name="latitude"  type="text"  readonly="readonly" />
 		</div>
 	</div>
+	<input type="hidden" name="mobile" value={$mobile} />
+	<input type="hidden" name="code" value={$code} />
 	
  	<div class="ecjia-margin-t ecjia-margin-b">
 		<input class="btn btn-info nopjax" style="margin-top: 2em;" name="button" id="button" type="button" data-url="{url path='franchisee/index/second'}" value="{t}返回{/t}"/>

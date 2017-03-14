@@ -159,17 +159,22 @@ class goods_list {
 		/* 店铺条件*/
 		if (isset($filter['store_id']) && !empty($filter['store_id'])) {
 			$where['g.store_id'] = $filter['store_id'];
-			$cache_key .= '-store-' . $filter['store_id'];
 			/* 缓存对象*/
-			
+			if (is_array($filter['store_id'])) {
+				foreach ($filter['store_id'] as $v) {
+					$cache_key .= '-store-' . $v;
+				}
+			} else {
+				$cache_key .= '-store-' . $filter['store_id'];
+			}
 		}
 		 
 		/* 地理位置获取店铺*/
 		if (isset($filter['geohash']) && !empty($filter['geohash'])) {
 	        $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $filter['geohash']));
-	        if (empty($store_id_group)) {
-	            $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => substr($filter['geohash'], 0, 4)));
-	        }
+// 	        if (empty($store_id_group)) {
+// 	            $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => substr($filter['geohash'], 0, 4)));
+// 	        }
 	        $where['g.store_id'] = !empty($store_id_group) ? $store_id_group : 0;
 	        $cache_key .= '-geohash-' . $filter['geohash'];
 		}

@@ -136,7 +136,6 @@ INSERT INTO `ecjia_mail_templates` VALUES ('15', 'sale_notice', '1', '降价通�
 INSERT INTO `ecjia_mail_templates` VALUES ('16', 'sms_register_validate', '0', '手机短信注册', '您手机注册的验证码为：{$code}！如有问题请拨打客服电话：{$service_phone}。', '1440387770', '0', 'sms');
 INSERT INTO `ecjia_mail_templates` VALUES ('17', 'sms_verifying_authentication', '0', '验证用户发送短信验证码', '您正在{$action}，验证码为：{$code}，如有问题请拨打客服电话：{$service_phone}。', '1467741513', '0', 'sms');
 INSERT INTO `ecjia_mail_templates` VALUES ('18', 'sms_receipt_verification', '0', '订单收货验证码', '尊敬的{$user_name} ，您在我们网站已成功下单。订单号：{$order_sn}，收货验证码为：{$code}。请保管好您的验证码，以便收货验证。', '1471728837', '0', 'sms');
-INSERT INTO `ecjia_mail_templates` VALUES ('19', 'remind_of_new_orders', '0', '客户下单通知', '测试', '1442441238', '0', 'sms');
 INSERT INTO `ecjia_mail_templates` VALUES ('24', 'sms_jion_merchant', '0', '审核通过', '尊敬的{$user_name}，恭喜您通过【{$shop_name}】平台商家入驻审核。账号：{$mobile}， 密码：{$password}，请不要把密码泄露给其他人。如有问题请拨打客服电话：{$service_phone}。', '1476930217', '0', 'sms');
 INSERT INTO `ecjia_mail_templates` VALUES ('25', 'sms_get_validate', '0', '获取验证码', '您的校验码是：{$code}，请在页面中输入以完成验证。如非本人操作，请忽略本短信。如有问题请拨打客服电话：{$service_phone}。', '1478138868', '0', 'sms');
 INSERT INTO `ecjia_mail_templates` VALUES ('26', 'send_validate', '1', '发送验证码', '<p>{$user_name}您好！<br/> <br/> 您的验证码为：{$code}，请在页面中输入以完成验证。如非本人操作，请忽略本短信。如有问题请拨打客服电话：{$service_phone}。<br/> <br/> {$shop_name}<br/> {$send_date}</p>', '1443408734', '0', 'template');
@@ -147,6 +146,9 @@ INSERT INTO `ecjia_mail_templates` VALUES ('30', '配送成功', '0', '配送成
 INSERT INTO `ecjia_mail_templates` VALUES ('31', '客户下单', '0', '客户下单', '客户已下单，订单号为：{$order.order_sn}，订单金额为：{$order.order_amount}。', '1483050309', '0', 'push');
 INSERT INTO `ecjia_mail_templates` VALUES ('32', '客户付款', '0', '客户付款', '订单号：{$order.order_sn}，客户已付款。', '1483050347', '0', 'push');
 INSERT INTO `ecjia_mail_templates` VALUES ('33', '发货通知', '0', '商家发货', '订单号为：{$order.order_sn}，商家已发货，请注意查收！', '1483050408', '0', 'push');
+INSERT INTO `ecjia_mail_templates` VALUES ('34', 'order_placed_sms', '0', '下单通知', '有客户下单啦！快去看看吧！订单编号：{$order.order_sn}，收货人：{$order.consignee}，联系电话：{$order.mobile}，订单金额：{$order.order_amount}。', '1489037297', '0', 'sms');
+INSERT INTO `ecjia_mail_templates` VALUES ('35', 'order_payed_sms', '0', '付款通知', '订单编号：{$order.order_sn} 已付款。 收货人：{$order.consignee}，联系电话：{$order.mobile}，订单金额：{$order.order_amount}。', '1489037327', '0', 'sms');
+INSERT INTO `ecjia_mail_templates` VALUES ('36', 'order_shipped_sms', '0', '发货短信通知 (商家发货时给客户发短信)', '您的订单：{$order.order_sn} ，已于{$delivery_time} 通过{$order.shipping_name}进行发货。发货单号为：{$order.invoice_no}，请注意查收。', '1489037347', '0', 'sms');
 
 -- --------------------------------------------------------
 
@@ -560,11 +562,10 @@ INSERT INTO `ecjia_shop_config` VALUES ('1047', '6', 'mobile_feedback_autoreply'
 INSERT INTO `ecjia_shop_config` VALUES ('1048', '6', 'addon_connect_plugins', 'hidden', '', '', 'a:1:{s:6:"sns_qq";s:17:"sns_qq/sns_qq.php";}', '1');
 INSERT INTO `ecjia_shop_config` VALUES ('1049', '10', 'mobile_touch_qrcode', 'file', '', 'data/assets/', 'data/assets/mobile_touch_qrcode.png', '1');
 INSERT INTO `ecjia_shop_config` VALUES ('1051', '9', 'map_qq_key', 'text', '', '', 'HVNBZ-HHR3P-HVBDP-LID55-D2YM3-2AF2W', '2');
-INSERT INTO `ecjia_shop_config` VALUES ('1053', '9', 'map_qq_referer', 'text', '', '', 'ecjiaapp', '3');
-INSERT INTO `ecjia_shop_config` VALUES ('1067', '9', 'map_baidu_key', 'text', '', '', 'cZV7jwY5aiZcCqKqRMB6ASWRa2x4ptBV', '4');
-INSERT INTO `ecjia_shop_config` VALUES ('1068', '9', 'map_baidu_referer', 'text', '', '', 'ecjiaapp', '5');
+INSERT INTO `ecjia_shop_config` VALUES ('1053', '9', 'map_qq_referer', 'text', '', '', 'ecjiaapp', '2');
 INSERT INTO `ecjia_shop_config` (`parent_id`, `code`, `type`, `store_range`, `value`, `sort_order`) VALUES ('9', 'wap_app_download_show', 'select', '1,0', '1', '3');
 INSERT INTO `ecjia_shop_config` (`parent_id`, `code`, `type`, `store_dir`, `value`, `sort_order`) VALUES ('9', 'wap_app_download_img', 'file', 'data/assets/', 'data/assets/ecjia-intro/wap_app_download_img.png', '4');
+INSERT INTO `ecjia_shop_config` (`parent_id`, `code`, `type`, `store_dir`, `value`, `sort_order`) VALUES ('10', 'mobile_location_range', 'select', '', '0', '1');
 
 -- --------------------------------------------------------
 

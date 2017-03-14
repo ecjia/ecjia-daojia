@@ -44,6 +44,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<script type="text/javascript" src="{$theme_url}lib/bootstrap3/js/bootstrap.min.js" ></script>
 	<script type="text/javascript" src="{$theme_url}lib/ecjiaUI/ecjia.js" ></script>
 	<script type="text/javascript" src="{$theme_url}lib/jquery-form/jquery.form.min.js" ></script>	
+	<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
 
 	<!-- {block name="meta"} --><!-- {/block} -->
 
@@ -74,6 +75,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </head>
 <body>
 	<div class="ecjia" id="get_location" data-url="{url path='location/index/get_location_msg'}">
+		<input type="hidden" name="key" value="{$key}"/>
+		<input type="hidden" name="referer" value="{$referer}"/>
 		<!-- {block name="main-content"} --><!-- {/block} -->
 		<!-- #BeginLibraryItem "/library/page_menu.lbi" --><!-- #EndLibraryItem -->
 	</div>

@@ -577,13 +577,17 @@ a.ecjia-color-green {
 	font-size: 20px;
 	font-family: '黑体';
 }
+.ecjia-address-list .franchisee-prompt .check-stat {
+	color: #45a46c;
+	font-family: '黑体';
+}
 .ecjia-address-list .franchisee-progress hr {
 	width: 90%;
     border-top: 1px solid #eee;
 }
 .ecjia-address-list .franchisee-prompt {
 	padding: 1em;
-	height: 6em;
+	height: auto;
 }
 .ecjia-address-list .franchisee-prompt .warm-prompt {
 	font-size: 18px;
@@ -598,7 +602,7 @@ a.ecjia-color-green {
 	height: 3em;
 	padding: 1em;
 }
-.ecjia-address-list .franchisee-info .fran-info-color {
+.ecjia-address-list .fran-info-color {
 	color: #9F9F9F;
 }
 .ecjia-address-list .franchisee-prompt .prompt-info {
@@ -638,7 +642,25 @@ a.ecjia-color-green {
 	margin-right: 6%;
 }
 .franchisee-info ul {overflow:hidden;padding-bottom:20px;}
-.franchisee-info .address-span {width:80%}
+.franchisee-info .address-span {width:80%;text-align: right;}
+.ecjia-address-list .franchisee-prompt .hand-objection {
+    text-align: center;
+    width: 100%;
+    max-width: 640px;
+	margin-top: 1em;
+}
+.ecjia-address-list .franchisee-prompt .hand-objection .btn {
+    width: 36%;
+    margin-right: .5em;
+    margin-left: .5em;
+    line-height: 1.5em;
+    background-color: #47AA4D;
+    color: #FFF;
+    font-size: 1em;
+	overflow: hidden;
+	font-family: '黑体';
+}
+
 
 /*== 商家入驻结束 ==*/
 

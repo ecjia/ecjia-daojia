@@ -567,18 +567,20 @@ class mh_delivery extends ecjia_merchant {
 					$tpl_name = 'order_shipped_sms';
 					$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
 
-					$this->assign('order_sn', $order['order_sn']);
-					$this->assign('shipped_time', RC_Time::local_date(RC_Lang::get('orders::order.sms_time_format')));
-					$this->assign('mobile', $order['mobile']);
-
-					$content = $this->fetch_string($tpl['template_content']);
-
-					$options = array(
-						'mobile' 		=> $order['mobile'],
-						'msg'			=> $content,
-						'template_id' 	=> $tpl['template_id'],
-					);
-					$response = RC_Api::api('sms', 'sms_send', $options);
+					if (!empty($tpl)) {
+						$this->assign('order_sn', $order['order_sn']);
+						$this->assign('shipped_time', RC_Time::local_date(RC_Lang::get('orders::order.sms_time_format')));
+						$this->assign('mobile', $order['mobile']);
+						
+						$content = $this->fetch_string($tpl['template_content']);
+						
+						$options = array(
+								'mobile' 		=> $order['mobile'],
+								'msg'			=> $content,
+								'template_id' 	=> $tpl['template_id'],
+						);
+						$response = RC_Api::api('sms', 'sms_send', $options);
+					}
 				}
 			}
 		}

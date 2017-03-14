@@ -60,15 +60,23 @@ class list_module extends api_front implements api_interface {
     	}
     	RC_Loader::load_app_func('cart', 'cart');
     	//recalculate_price(); //后续方法重新计算
-		$location  = $this->requestData('location', array());
+		$location	= $this->requestData('location', array());
+		$seller_id	= $this->requestData('seller_id', 0);
+		$city_id	= $this->requestData('city_id', 0);
 
-		$seller_id = $this->requestData('seller_id', 0);
-
-		if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
+		$mobile_location_range = ecjia::config('mobile_location_range');
+		if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude']) && $mobile_location_range > 0) {
 			$geohash         = RC_Loader::load_app_class('geohash', 'store');
 			$geohash_code    = $geohash->encode($location['latitude'] , $location['longitude']);
-			$geohash_code    = substr($geohash_code, 0, 5);
+// 			$geohash_code    = substr($geohash_code, 0, 5);
 			$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
+			if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
+				return new ecjia_error('location_beyond', '店铺距离过远！');
+			} elseif (!empty($seller_id)) {
+				$store_id_group = array($seller_id);
+			}
+		} elseif ($city_id > 0) {
+			$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
 			if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
 				return new ecjia_error('location_beyond', '店铺距离过远！');
 			} elseif (!empty($seller_id)) {

@@ -80,6 +80,7 @@ class admin_config extends ecjia_admin {
     	
     	$this->assign('config_logoimg', RC_Upload::upload_url(ecjia::config('merchant_admin_login_logo')));
     	$this->assign('config_logo', ecjia::config('merchant_admin_login_logo'));
+    	$this->assign('mobile_location_range', ecjia::config('mobile_location_range'));
     	$this->assign('current_code', 'store');
 		$this->assign('form_action', RC_Uri::url('store/admin_config/update'));
 		$this->display('store_config_info.dwt');
@@ -92,8 +93,13 @@ class admin_config extends ecjia_admin {
 		$this->admin_priv('store_config_manage', ecjia::MSGTYPE_JSON);
 		
 		$merchant_admin_cpname 	= !empty($_POST['merchant_admin_cpname']) 	? trim($_POST['merchant_admin_cpname']) : '';
+		
+		$mobile_location_range  = isset($_POST['mobile_location_range']) ? intval($_POST['mobile_location_range']) : 0;
+		
 		//后台名称
 		ecjia_config::instance()->write_config('merchant_admin_cpname', $merchant_admin_cpname);
+		//搜索范围
+		ecjia_config::instance()->write_config('mobile_location_range', $mobile_location_range);
 		
 		$upload = RC_Upload::uploader('image', array('save_path' => 'data/assets', 'save_name' => 'merchant_admin_logo', 'replace' => true, 'auto_sub_dirs' => false));
 		

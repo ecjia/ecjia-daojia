@@ -395,6 +395,11 @@ class mobile_installer extends ecjia_installer {
         	ecjia_config::instance()->insert_config('mobile', 'mobile_share_link', '', array('type' => 'text'));
         }
         
+        /* 定位范围设置*/
+        if (!ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK)) {
+        	ecjia_config::instance()->insert_config('mobile', 'mobile_location_range', 0, array('type' => 'text'));
+        }
+        
         return true;
     }
     
@@ -498,6 +503,11 @@ class mobile_installer extends ecjia_installer {
         /*分享链接*/
         if (ecjia::config('mobile_share_link', ecjia::CONFIG_CHECK)) {
         	ecjia_config::instance()->delete_config('mobile_share_link');
+        }
+        
+        /*定位范围*/
+        if (ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK)) {
+        	ecjia_config::instance()->delete_config('mobile_location_range');
         }
         return true;
     }

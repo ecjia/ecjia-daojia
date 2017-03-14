@@ -55,22 +55,29 @@ class data_module extends api_front implements api_interface {
     	
 		$device		= $this->device;
 
-		$location	= $this->requestData('location',array());
+		$location	= $this->requestData('location', array());
+		$city_id	= $this->requestData('city_id', 0);
 
 		$request = null;
-		if (is_array($location) && isset($location['latitude']) && isset($location['longitude'])) {
+		$mobile_location_range = ecjia::config('mobile_location_range');
+		if (is_array($location) && isset($location['latitude']) && isset($location['longitude']) && $mobile_location_range > 0) {
 			$request                     = array('location' => $location);
 			$geohash                     = RC_Loader::load_app_class('geohash', 'store');
 			$geohash_code                = $geohash->encode($location['latitude'] , $location['longitude']);
-			$geohash_code                = substr($geohash_code, 0, 5);
+// 			$geohash_code                = substr($geohash_code, 0, 5);
 			$request['geohash_code']     = $geohash_code;
 			$request['store_id_group']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
 
 			if (empty($request['store_id_group'])) {
 				$request['store_id_group'] = array(0);
 			}
+		} elseif ($city_id > 0) {
+			$request['store_id_group']   = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
+			if (empty($request['store_id_group'])) {
+				$request['store_id_group'] = array(0);
+			}
 		}
-
+		
 		$device['code'] = isset($device['code']) ? $device['code'] : '';
 			//流程逻辑开始
 			// runloop 流
@@ -137,7 +144,8 @@ function promote_goods_data($response, $request) {
 			'sort'	  => $order_sort,
 			'page'	  => 1,
 			'size'	  => 6,
-			'geohash' => $request['geohash_code'],
+			'store_id' => $request['store_id_group'],
+// 			'geohash' => $request['geohash_code'],
 	);
 
 	$result = RC_Api::api('goods', 'goods_list', $filter);
@@ -176,7 +184,8 @@ function new_goods_data($response, $request) {
 			'sort'	=> $order_sort,
 			'page'	=> 1,
 			'size'	=> 6,
-			'geohash' => $request['geohash_code'],
+			'store_id' => $request['store_id_group'],
+// 			'geohash' => $request['geohash_code'],
 	);
 	
 	$result = RC_Api::api('goods', 'goods_list', $filter);

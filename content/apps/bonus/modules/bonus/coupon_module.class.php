@@ -55,9 +55,10 @@ class coupon_module extends api_front implements api_interface {
 	public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		
 		$this->authSession();
-		$location = $this->requestData('location', array());
+		$location	= $this->requestData('location', array());
+		$city_id	= $this->requestData('city_id', 0);
 		/*经纬度为空判断*/
-		if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
+		if (!is_array($location) || ((empty($location['longitude']) || empty($location['latitude'])) && $city_id <= 0)) {
 			return new ecjia_error('invalid_parameter', '参数无效');
 		}
 		
@@ -68,15 +69,17 @@ class coupon_module extends api_front implements api_interface {
 		$where['bt.send_type'] = SEND_COUPON;
 		$where['bt.store_id'] = array('gt' => '0');
 		/*根据经纬度查询附近店铺*/
-		if (is_array($location) && !empty($location['latitude']) && !empty($location['longitude'])) {
+		$mobile_location_range = ecjia::config('mobile_location_range');
+		if (is_array($location) && !empty($location['latitude']) && !empty($location['longitude']) && $mobile_location_range > 0) {
 			$geohash = RC_Loader::load_app_class('geohash', 'store');
 			$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
-			$geohash_code = substr($geohash_code, 0, 5);
+			
 			$where['bt.store_id'] = array_merge(array(0), RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code)));
+			
+		} else {
+			$where['bt.store_id'] = array_merge(array(0), RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id)));
 		}
-// 		if (!empty($_SESSION['user_id'])) {
-// 			$where['ub.user_id'] =  $_SESSION['user_id'];
-// 		}
+
 		
 		$options = array('location' => $location, 'page' => $page, 'size' => $size, 'where' => $where);
 		

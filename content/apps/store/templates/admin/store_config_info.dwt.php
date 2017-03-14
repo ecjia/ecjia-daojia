@@ -16,16 +16,14 @@
 
 <!-- {block name="admin_config_form"} -->
 <div class="row-fluid edit-page">
-	<h3 class="heading">
-		{if $ur_here}{$ur_here}{/if}
-		{if $action_link}
-		<a href="{$action_link.href}" class="btn data-pjax"  style="float:right;margin-top:-3px;"><i class="fontello-icon-reply"></i>{$action_link.text}</a>
-		{/if}
-	</h3>
-    <div class="span9">
-    <form class="form-horizontal"  name="theForm" action="{$form_action}" method="post"  enctype="multipart/form-data" >
-    	<fieldset>
-    
+	<form class="form-horizontal"  name="theForm" action="{$form_action}" method="post"  enctype="multipart/form-data" >
+		<div class="span12">
+			<h3 class="heading">
+				{if $ur_here}{$ur_here}{/if}
+				{if $action_link}
+				<a href="{$action_link.href}" class="btn data-pjax"  style="float:right;margin-top:-3px;"><i class="fontello-icon-reply"></i>{$action_link.text}</a>
+				{/if}
+			</h3>
     		<div class="control-group formSep">
     			<label class="control-label">{t}登录Logo：{/t}</label>
     			<div class="controls">
@@ -46,15 +44,28 @@
     				</div>
     			</div>
     		</div>
-    		
-    		<div class="control-group">
+		    <h3 class="heading">
+				定位设置
+			</h3>
+	    	<div class="control-group formSep">
+    			<label class="control-label">{t}定位范围：{/t}</label>
     			<div class="controls">
-    				<input type="submit" value="确定" class="btn btn-gebo" />
+    				<select name="mobile_location_range">
+    					<option value='0' {if $mobile_location_range eq '0'}selected="true"{/if}>全城</option>
+    					<option value='3' {if $mobile_location_range eq '3'}selected="true"{/if}>约周边120公里</option>
+    					<option value='4' {if $mobile_location_range eq '4'}selected="true"{/if}>约周边30公里</option>
+    					<option value='5' {if $mobile_location_range eq '5'}selected="true"{/if}>约周边4公里</option>
+    					<option value='6' {if $mobile_location_range eq '6'}selected="true"{/if}>约周边1公里</option>
+    					<option value='7' {if $mobile_location_range eq '7'}selected="true"{/if}>约周边200米</option>
+    				</select>
     			</div>
-    		</div>	 
-    
-    	</fieldset>
-    </form>
-    </div>
+    		</div>
+    		<div class="control-group">
+				<div class="controls">
+					<input type="submit" value="{lang key='system::system.button_submit'}" class="btn btn-gebo" />
+				</div>
+			</div>
+		</div>
+	</form>
 </div>
 <!-- {/block} -->

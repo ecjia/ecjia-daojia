@@ -56,20 +56,8 @@ class list_module extends api_front implements api_interface {
 		
 		$keywords	 = $this->requestData('keywords');
 		$location	 = $this->requestData('location', array());
-		/*经纬度为空判断*/
-		if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
-			$seller_list = array();
-			$page = array(
-				'total'	=> '0',
-				'count'	=> '0',
-				'more'	=> '0',
-			);
-			return array('data' => $seller_list, 'pager' => $page);
-		} else {
-            $geohash      = RC_Loader::load_app_class('geohash', 'store');
-            $geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
-            $geohash_code = substr($geohash_code, 0, 7);
-        }
+		$city_id	 = $this->requestData('city_id', 0);
+		
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
@@ -79,10 +67,33 @@ class list_module extends api_front implements api_interface {
 				'keywords'		    => $keywords,
 				'size'			    => $size,
 				'page'			    => $page,
-				'geohash'		    => $geohash_code,
+// 				'geohash'		    => $geohash_code,
 				'sort'			    => array('sort_order' => 'asc'),
 				'limit'			    => 'all'
 		);
+		
+		/*经纬度为空判断*/
+		$mobile_location_range = ecjia::config('mobile_location_range');
+		if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude'])) && $mobile_location_range > 0) {
+			$geohash      = RC_Loader::load_app_class('geohash', 'store');
+			$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
+			// 			$geohash_code = substr($geohash_code, 0, 7);
+			$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
+		} elseif ($city_id > 0) {
+			$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
+		} else {
+			$seller_list = array();
+			$page = array(
+					'total'	=> '0',
+					'count'	=> '0',
+					'more'	=> '0',
+			);
+			return array('data' => $seller_list, 'pager' => $page);
+		}
+		
+		if (empty($options['store_id'])) {
+			$options['store_id'] = array(0);
+		}
 		
 // 		$cache_id = sprintf('%X', crc32($seller_categroy .'-' . $_SESSION['user_rank']. '-' .
 // 				$keywords . '-'. $geohash_code));

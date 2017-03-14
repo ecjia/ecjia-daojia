@@ -4,14 +4,15 @@
 ;(function(ecjia, $) {
 	ecjia.touch = {
 		init : function() {
-			var what = $.cookie('what');
-			if (what === undefined) {
-				if (navigator.geolocation) {
-			  	    navigator.geolocation.getCurrentPosition(showPosition);
-			  	}
-			  	function showPosition(position) {
-			  		var lat = position.coords.latitude; 
-				  	var lng = position.coords.longitude;
+
+			if($.cookie('index') === undefined){
+				var key= $("input[name='key']").val();
+				var referer = $("input[name='referer']").val();
+				var geolocation = new qq.maps.Geolocation(key, referer);
+				geolocation.getLocation(showPosition, showErr);
+				function showPosition(result) {    
+			  		var lat = result.lat; 
+				  	var lng = result.lng;
 			    	var url = $("#get_location").attr('data-url');
 				  	url += '&lat=' + lat + '&lng=' + lng;
 		  	     	$.ajax({
@@ -22,11 +23,13 @@
 			  		    	 ecjia.pjax(data.url);
 			      	    },
 		  	     	});
-			  	}
-				$.cookie('what', 'first');
-			} else if ($.cookie('location_name') === undefined) {
-				$.cookie('what', '', { expires: -1 });
+				};
+				function showErr(err) {    
+				    console.log(err)
+				};
+				$.cookie('index', 'first');
 			}
+
 			ecjia.touch.setpjax();
 			ecjia.touch.asynclist();
 			ecjia.touch.ecjia_menu();

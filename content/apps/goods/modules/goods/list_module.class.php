@@ -54,8 +54,8 @@ class list_module extends api_front implements api_interface {
 
      public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
         $this->authSession();
-        $location = $this->requestData('location', array()) ;
-
+        $location	= $this->requestData('location', array()) ;
+		$city_id	= $this->requestData('city_id', 0) ;
         /* 筛选条件*/
         $filter = $this->requestData('filter', array());
         $keyword = isset($filter['keywords']) ? RC_String::unicode2string($filter['keywords']): '';
@@ -90,42 +90,54 @@ class list_module extends api_front implements api_interface {
 
 
         /*经纬度为空判断*/
-        if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
-            $data = array();
-            $data['list'] = array();
-            $data['pager'] = array(
-                "total" => '0',
-                "count" => '0',
-                "more"    => '0'
-            );
-            return array('data' => $data['list'], 'pager' => $data['pager']);
-        }else{
-            $geohash = RC_Loader::load_app_class('geohash', 'store');
-            $geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
-            $geohash_code = substr($geohash_code, 0, 5);
+        $mobile_location_range = ecjia::config('mobile_location_range');
+        if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude'])) && $mobile_location_range > 0) {
+        	$geohash = RC_Loader::load_app_class('geohash', 'store');
+        	$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
+			$geohash_code = substr($geohash_code, 0, 8);
+        } elseif ($city_id > 0){
+        	
+        } else {
+        	$data = array();
+        	$data['list'] = array();
+        	$data['pager'] = array(
+        			"total" => '0',
+        			"count" => '0',
+        			"more"    => '0'
+        	);
+        	return array('data' => $data['list'], 'pager' => $data['pager']);
         }
 
         $options = array(
-            'cat_id'    => $category,
-            'brand'        => $brand,
-            'keywords'    => $keyword,
-            'min'        => $min_price,
-            'max'        => $max_price,
-            'sort'        => $order_sort,
-            'page'        => $page,
-            'size'        => $size,
-            'filter_attr' => $filter_attr,
+            'cat_id'		=> $category,
+            'brand'			=> $brand,
+            'keywords'		=> $keyword,
+            'min'			=> $min_price,
+            'max'			=> $max_price,
+            'sort'			=> $order_sort,
+            'page'			=> $page,
+            'size'			=> $size,
+            'filter_attr'	=> $filter_attr,
         );
 
         $filter = empty($filter['filter_attr']) ? '' : $filter['filter_attr'];
         $cache_id = sprintf('%X', crc32($category . '-' . $sort_by  .'-' . $page . '-' . $size . '-' . $_SESSION['user_rank']. '-' .
-                   ecjia::config('lang') .'-'. $brand. '-'. $keyword. '-' . $max_price . '-' .$min_price . '-' . $filter . '-' . $geohash_code ));
+                   ecjia::config('lang') .'-'. $brand. '-'. $keyword. '-' . $max_price . '-' .$min_price . '-' . $filter . '-' . $geohash_code . '-' . $city_id ));
 
         $cache_key = 'goods_list_'.$cache_id;
         $data = RC_Cache::app_cache_get($cache_key, 'goods');
 
         if (empty($data)) {
-            $options['store_id'] = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
+        	if ($mobile_location_range > 0) {
+        		$options['store_id'] = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
+        	} elseif ($city_id > 0) {
+        		$options['store_id'] = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
+        	}
+        	
+        	if (empty($options['store_id'])) {
+        		$options['store_id'] = array(0);
+        	}
+            
             $result = RC_Api::api('goods', 'goods_list', $options);
             $data = array();
             $data['pager'] = array(

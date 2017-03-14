@@ -69,8 +69,7 @@ class sms_sms_template_api extends Component_Event_Api {
 	        return false;
 	    }
 		
-		$db = RC_Model::model('sms/mail_templates_model');
-		return $db->field('template_id, template_subject, is_html, template_content')->find(array('template_code' => $tpl_name));
+		return RC_DB::table('mail_templates')->where('template_code', $tpl_name)->first();
 	}
 }
 

@@ -58,10 +58,14 @@ class connect_update_user_avatar_api extends Component_Event_Api {
         }
         
 	    $avatar_url    = trim($options['avatar_url']);
+	    $user_id       = trim($options['user_id']);
+	    if (empty($user_id)) {
+	        $user_id = $_SESSION['user_id'];
+	    }
 		$get_file      = @file_get_contents($avatar_url);
 		if ($get_file) {
 			
-			$filename        = md5($_SESSION['user_id']);
+			$filename        = md5($user_id);
 			$path            = RC_Upload::upload_path() . 'data/avatar';
 			$avatar_path     = $path.'/'.$filename.'.jpg';
 			
@@ -72,7 +76,7 @@ class connect_update_user_avatar_api extends Component_Event_Api {
 			$fp = @fopen($avatar_path,"w");
 			@fwrite($fp, $get_file);
 			@fclose($fp);
-			$rs = RC_DB::TABLE('users')->where('user_id', $_SESSION['user_id'])->update(array('avatar_img' => 'data/avatar'.'/'.$filename.'.jpg'));
+			$rs = RC_DB::TABLE('users')->where('user_id', $user_id)->update(array('avatar_img' => 'data/avatar'.'/'.$filename.'.jpg'));
 		}
         return true;
     }

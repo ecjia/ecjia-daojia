@@ -74,7 +74,7 @@ class store_store_list_api extends Component_Event_Api {
 	{
 		$where = array();
 		$where['ssi.status'] = 1;
-		$where['ssi.store_id'] = array();
+		$where['ssi.store_id'] = array(0);
 		
 		/* 商家列表缓存key*/
 		$cache_key = 'store-list';
@@ -107,7 +107,7 @@ class store_store_list_api extends Component_Event_Api {
 			if (!empty($seller_group)) {
 				$where['ssi.store_id'] = $seller_group = array_unique($seller_group);
 			} else {
-				$where['ssi.store_id'] = 0;
+				$where['ssi.store_id'] = array(0);
 			}
 			
 			$cache_key .= '-goods_category-' . $filter['goods_category'];
@@ -135,6 +135,17 @@ class store_store_list_api extends Component_Event_Api {
 			$store_geohash               = array_merge(array($geohash_code), $geohash_group);
 			$where['left(geohash, 5)']   = $store_geohash;
 			$cache_key                   .= '-geohash-' . $filter['geohash'];
+		}
+		
+		/* 店铺条件*/
+		if (isset($filter['store_id']) && !empty($filter['store_id'])) {
+			$where['ssi.store_id'] = $filter['store_id'];
+			/* 缓存对象*/
+			if (is_array($filter['store_id'])) {
+				foreach ($filter['store_id'] as $v) {
+					$cache_key .= '-store-' . $v;
+				}
+			}
 		}
 
 		$where['shop_close'] = '0';

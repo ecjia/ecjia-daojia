@@ -299,7 +299,7 @@ class admin_preaudit extends ecjia_admin {
 		$remark 	=!empty($_POST['remark']) ? $_POST['remark'] : null;
 		//通过
 		if($_POST['check_status'] == 2) {
-			if($store_id == 0) {//首次审核
+			if(empty($store_id)) {//首次审核
 				$store        = RC_DB::table('store_preaudit')->where('id', $id)->first();
 				$geohash      = RC_Loader::load_app_class('geohash', 'store');
 				$geohash_code = $geohash->encode($store['latitude'] , $store['longitude']);
@@ -345,6 +345,24 @@ class admin_preaudit extends ecjia_admin {
 				    'geohash'                   =>$geohash_code,
 					'sort_order' 				=> 50,
 				);
+				
+				$is_exist = RC_DB::table('store_franchisee')->where('contact_mobile', $data['contact_mobile'])->get();
+				if ($is_exist) {
+				    return $this->showmessage('联系手机已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				$is_exist = RC_DB::table('staff_user')->where('mobile', $data['contact_mobile'])->get();
+				if ($is_exist) {
+				    return $this->showmessage('联系手机员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				$is_exist = RC_DB::table('store_franchisee')->where('email', $data['email'])->get();
+				if ($is_exist) {
+				    return $this->showmessage('邮箱已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				$is_exist = RC_DB::table('staff_user')->where('email', $data['email'])->get();
+				if ($is_exist) {
+				    return $this->showmessage('邮箱员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				
 				RC_Logger::getlogger('new_store')->info($data);
 				$store_id = RC_DB::table('store_franchisee')->insertGetId($data);
 				RC_DB::table('store_preaudit')->where('id', $id)->delete();
@@ -468,6 +486,22 @@ class admin_preaudit extends ecjia_admin {
 				    'latitude'					=> $store['latitude'],
 				    'geohash'                   => $store['geohash'],
 				);
+				$is_exist = RC_DB::table('store_franchisee')->where('store_id', '<>', $store_id)->where('contact_mobile', $data['contact_mobile'])->get();
+				if ($is_exist) {
+				    return $this->showmessage('联系手机已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				$is_exist = RC_DB::table('staff_user')->where('store_id', '<>', $store_id)->where('mobile', $data['contact_mobile'])->get();
+				if ($is_exist) {
+				    return $this->showmessage('联系手机员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				$is_exist = RC_DB::table('store_franchisee')->where('store_id', '<>', $store_id)->where('email', $data['email'])->get();
+				if ($is_exist) {
+				    return $this->showmessage('邮箱已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				$is_exist = RC_DB::table('staff_user')->where('store_id', '<>', $store_id)->where('email', $data['email'])->get();
+				if ($is_exist) {
+				    return $this->showmessage('邮箱员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
 				//判断图片是否更新，删除老图
 				/* $disk = RC_Filesystem::disk();
 				if ($store['identity_pic_front'] && $store['identity_pic_front'] != $franchisee_info['identity_pic_front']) {

@@ -55,6 +55,7 @@ class suggestlist_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$location	 = $this->requestData('location', array());
+		$city_id	 = $this->requestData('city_id', 0);
 		$action_type = $this->requestData('action_type', '');
     	$sort_type	 = $this->requestData('sort_by', '');
     	$size = $this->requestData('pagination.count', 15);
@@ -63,25 +64,6 @@ class suggestlist_module extends api_front implements api_interface {
     	
     	if (!in_array($action_type, $type)) {
     		return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-    	}
-    	/*经纬度为空判断*/
-    	if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
-    		$data = array();
-    		$data['list'] = array();
-    		$data['pager'] = array(
-    			"total" => '0',
-    			"count" => '0',
-    			"more"	=> '0'
-    		);
-    		return array('data' => $data['list'], 'pager' => $data['pager']);
-    	} else {
-	        $geohash = RC_Loader::load_app_class('geohash', 'store');
-	        $geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
-	        $geohash_code = substr($geohash_code, 0, 5);
-// 	        $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
-// 	        if (empty($options['store_id_group'])) {
-// 	            $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => substr($geohash_code, 0, 4)));
-// 	        }
     	}
     	
 		switch ($sort_type) {
@@ -107,9 +89,33 @@ class suggestlist_module extends api_front implements api_interface {
 			'sort'		=> $order_by,
 			'page'		=> $page,
 			'size'		=> $size,
-			'geohash'	=> $geohash_code,
+// 			'geohash'	=> $geohash_code,
 // 			'store_id'  => $store_id_group,
 		);
+		
+		/*经纬度为空判断*/
+		$mobile_location_range = ecjia::config('mobile_location_range');
+		if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude'])) && $mobile_location_range > 0) {
+			$geohash = RC_Loader::load_app_class('geohash', 'store');
+			$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
+			$options['store_id'] = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
+		} elseif ($city_id > 0){
+			$options['store_id'] = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
+		} else {
+			$data = array();
+			$data['list'] = array();
+			$data['pager'] = array(
+					"total" => '0',
+					"count" => '0',
+					"more"	=> '0'
+			);
+			return array('data' => $data['list'], 'pager' => $data['pager']);
+		}
+		
+		if (empty($options['store_id'])) {
+			$options['store_id'] = array(0);
+		}
+		
 		$result = RC_Api::api('goods', 'goods_list', $options);
 		$data['pager'] = array(
 			"total"	=> $result['page']->total_records,
