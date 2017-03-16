@@ -87,14 +87,6 @@
 			</div>
 			
 			<div class="control-group formSep formSep1">
-				<label class="control-label">{lang key='affiliate::affiliate.level_register_up'}</label>
-				<div class="controls">
-					<input type="text" name="level_register_up" maxlength="150" size="10" value="{$config.config.level_register_up}" {if $config.on eq 0}readonly{/if}/>
-					<div class="help-block">{lang key='affiliate::affiliate.help_lru'}</div>
-				</div>
-			</div>
-			
-			<div class="control-group formSep formSep1">
 				<label class="control-label">推荐邀请分享内容：</label>
 				<div class="controls">
 					<textarea name='invite_template' class="span7">{$invite_template}</textarea>

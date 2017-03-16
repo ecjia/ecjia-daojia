@@ -117,6 +117,7 @@ return array(
     'shop/config'           => 'setting::shop/config',
     'shop/server'           => 'setting::shop/server',
     'shop/region'           => 'setting::shop/region',
+	'shop/region/detail'	=> 'setting::shop/region/detail',
     'shop/payment'          => 'payment::shop/payment',
     'shop/help'             => 'article::shop/help',
     'shop/help/detail'      => 'article::shop/help/detail',

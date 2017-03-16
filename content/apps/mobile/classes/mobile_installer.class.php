@@ -397,7 +397,7 @@ class mobile_installer extends ecjia_installer {
         
         /* 定位范围设置*/
         if (!ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK)) {
-        	ecjia_config::instance()->insert_config('mobile', 'mobile_location_range', 0, array('type' => 'text'));
+        	ecjia_config::instance()->insert_config('mobile', 'mobile_location_range', 3, array('type' => 'text'));
         }
         
         return true;

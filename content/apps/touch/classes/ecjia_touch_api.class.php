@@ -61,6 +61,7 @@ class ecjia_touch_api
 	const SHOP_HELP_DETAIL = 'shop/help/detail';//商店帮助内容
 	const SHOP_INFO_DETAIL = 'shop/info/detail';//网店信息内容
 	const SHOP_SERVER      = 'shop/server';//服务器环境信息
+	const SHOP_REGION_DETAIL = 'shop/region/detail';//根据城市名称查找城市id
     
     //==============================================
     // 首页

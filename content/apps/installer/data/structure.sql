@@ -2923,23 +2923,6 @@ CREATE TABLE `ecjia_wechat_user` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ecjia_wechat_user_group`
---
-
-DROP TABLE IF EXISTS `ecjia_wechat_user_group`;
-CREATE TABLE `ecjia_wechat_user_group` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `wechat_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分组id',
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '分组名字，UTF8编码',
-  `count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分组内用户数量',
-  `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `ecjia_wechat_user_tag`
 --
 

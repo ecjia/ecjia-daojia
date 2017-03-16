@@ -45,14 +45,26 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+/**
+ * 地区信息
+ * @author royalwang
+ *
+ */
+class detail_module extends api_front implements api_interface
+{
 
-class wechat_user_group_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'wechat_user_group';
-		parent::__construct();
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+    	$city = $this->requestData('city');
+    	$city = str_replace('市', '', $city);
+		
+    	$city_detail = RC_DB::table('region')->where('region_name', 'like', '%'.mysql_like_quote($city).'%')->where('region_type', 2)->first();
+    	return array(
+				'region_id'		=> $city_detail['region_id'],
+				'region_name'	=> $city_detail['region_name'],
+		);
 	}
-
 }
+
 
 // end

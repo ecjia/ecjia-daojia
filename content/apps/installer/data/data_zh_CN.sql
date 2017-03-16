@@ -565,7 +565,7 @@ INSERT INTO `ecjia_shop_config` VALUES ('1051', '9', 'map_qq_key', 'text', '', '
 INSERT INTO `ecjia_shop_config` VALUES ('1053', '9', 'map_qq_referer', 'text', '', '', 'ecjiaapp', '2');
 INSERT INTO `ecjia_shop_config` (`parent_id`, `code`, `type`, `store_range`, `value`, `sort_order`) VALUES ('9', 'wap_app_download_show', 'select', '1,0', '1', '3');
 INSERT INTO `ecjia_shop_config` (`parent_id`, `code`, `type`, `store_dir`, `value`, `sort_order`) VALUES ('9', 'wap_app_download_img', 'file', 'data/assets/', 'data/assets/ecjia-intro/wap_app_download_img.png', '4');
-INSERT INTO `ecjia_shop_config` (`parent_id`, `code`, `type`, `store_dir`, `value`, `sort_order`) VALUES ('10', 'mobile_location_range', 'select', '', '0', '1');
+INSERT INTO `ecjia_shop_config` (`parent_id`, `code`, `type`, `store_dir`, `value`, `sort_order`) VALUES ('10', 'mobile_location_range', 'select', '', '3', '1');
 
 -- --------------------------------------------------------
 

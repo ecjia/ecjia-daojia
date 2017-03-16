@@ -72,7 +72,9 @@ class cart_controller {
     	$token = ecjia_touch_user::singleton()->getToken();
     	$arr = array(
     		'token' 	=> $token,
-    		'location' 	=> array('longitude' => $longitude, 'latitude' => $latitude)
+    		'location' 	=> array('longitude' => $longitude, 'latitude' => $latitude),
+            'city_id'   => $_COOKIE['city_id']
+
     	);
     	//店铺购物车商品
     	$cart_list = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_LIST)->data($arr)->run();
@@ -139,6 +141,7 @@ class cart_controller {
     	$arr = array(
     		'token' 	=> $token,
     		'location' 	=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+            'city_id'   => $_COOKIE['city_id']
     	);
     	if (!empty($store_id)) {
     		$arr['seller_id'] = $store_id;
@@ -192,7 +195,8 @@ class cart_controller {
     	$paramater = array(
     		'token' 	=> $token,
     		'seller_id' => $store_id,
-    		'location' 	=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude'])
+    		'location' 	=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+            'city_id'   => $_COOKIE['city_id']
     	);
     	 
     	$cart_goods_list = array();
@@ -264,6 +268,7 @@ class cart_controller {
                 'longitude' => $_COOKIE['longitude'],
                 'latitude' 	=> $_COOKIE['latitude']
             ),
+            'city_id'   => $_COOKIE['city_id']
         );
         
         $url = RC_Uri::url('cart/index/init');
@@ -461,6 +466,7 @@ class cart_controller {
                 'longitude' => $_COOKIE['longitude'],
                 'latitude' 	=> $_COOKIE['latitude']
             ),
+            'city_id'   => $_COOKIE['city_id']
         );
         
         $total_goods_number = 0;
@@ -531,6 +537,7 @@ class cart_controller {
    				'longitude'	=> $_COOKIE['longitude'],
    				'latitude'  => $_COOKIE['latitude']
    			),
+            'city_id'   => $_COOKIE['city_id']
    		);
    		$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::FLOW_DONE)->data($params)->run();
    		if (is_ecjia_error($rs)) {

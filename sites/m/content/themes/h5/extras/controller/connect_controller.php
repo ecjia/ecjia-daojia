@@ -73,6 +73,20 @@ class connect_controller {
         if (empty($data['connect_code']) || empty($data['open_id'])) {
             return ecjia_front::$controller->showmessage('授权信息异常，请重新授权', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        
+        //关联查询wechat_user
+        $wechat_user = RC_DB::table('wechat_user')->where('unionid', $data['open_id'])->first();
+        if ($wechat_user['ect_uid']) {
+            connect_controller::sync_wechat_user($wechat_user);
+            return RC_Hook::do_action('connect_callback_user_signin', $wechat_user['ect_uid']);
+        } else {
+            $wechat_user = RC_DB::table('wechat_user')->where('openid', $data['open_id'])->first();
+            if ($wechat_user['ect_uid']) {
+                connect_controller::sync_wechat_user($wechat_user);
+                return RC_Hook::do_action('connect_callback_user_signin', $wechat_user['ect_uid']);
+            }
+        }
+        
         RC_Loader::load_app_class('connect_user', 'connect', false);
         $connect_user = new connect_user($data['connect_code'], $data['open_id']);
         $user_info = $connect_user->get_openid();
@@ -262,6 +276,43 @@ class connect_controller {
                 return ecjia_front::$controller->showmessage('授权用户信息关联失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
     
+        }
+    }
+    
+    private static function sync_wechat_user ($user_info) {
+        
+        if ($user_info['ect_uid']) {
+            $count = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('user_id', $user_info['ect_uid'])->count();
+            if ($count) {
+                return false;
+            } 
+        }
+        
+        $wechat_info = array(
+            'openid' => $user_info['openid'],
+            'nickname' => $user_info['nickname'],
+            'sex' => $user_info['sex'],
+            'language' => $user_info['language'],
+            'city' => $user_info['city'],
+            'province' => $user_info['province'],
+            'country' => $user_info['country'],
+            'headimgurl' => $user_info['headimgurl'],
+            'privilege' => array(),
+            'unionid' => $user_info['unionid'],
+        );
+        
+        $new_user = array(
+            'connect_code' => 'sns_wechat',
+            'user_id' => $user_info['ect_uid'],
+            'is_admin' => 0,
+            'open_id' => empty($user_info['unionid']) ? $user_info['open_id'] : $user_info['unionid'],
+            'profile' => serialize($wechat_info),
+            'create_at' => RC_Time::gmtime()
+        );
+        
+        RC_DB::table('connect_user')->insert($new_user);
+        if ($wechat_info['ect_uid']) {
+            RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $wechat_info['headimgurl'], 'user_id' => $wechat_info['ect_uid']));
         }
     }
     

@@ -140,12 +140,27 @@ class location_controller {
     	$longitude 			= $latng['lng'];
     	$latitude  			= $latng['lat'];
 
+    	$ad_info 			= $location_content['ad_info'];
+    	$city_name			= $ad_info['city'];
+    	
+    	$params = array(
+    		'token' => ecjia_touch_user::singleton()->getToken(),
+    		'city' 	=> $city_name,
+    	);
+    	$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+    	if (is_ecjia_error($rs)) {
+    		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+    	} else {
+    		$city_id = $rs['region_id'];
+    	}
+    	
     	//写入cookie
     	setcookie("location_address", $location_address);
     	setcookie("location_name", $location_name);
     	setcookie("longitude", $longitude);
     	setcookie("latitude", $latitude);
     	setcookie("location_address_id", 0);
+    	setcookie("city_id", $city_id);
     	
     	return ecjia_front::$controller->showmessage('', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('url' => $href_url));
     } 

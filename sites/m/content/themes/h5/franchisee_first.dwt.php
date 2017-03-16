@@ -40,7 +40,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<label class="input">
 			<span class="ecjiaf-fl"><img src="{$theme_url}/images/user_center/f_code.png" width="30" height="30"></span>
 			<input style="padding-left: 3.5em;" name="f_code" placeholder="{t}请输入验证码{/t}" type="tel" value=""   />
-			<input type="button" class="btn btn-small btn-info settled-message" value="{$lang.return_verification}" data-url="{url path='franchisee/index/validate'}" id="get_code" />
+			<input type="button" class="btn btn-small btn-info settled-message" name="message" value="{$lang.return_verification}" data-url="{url path='franchisee/index/validate'}" id="get_code" />
 		</label>
 	</div>
 	

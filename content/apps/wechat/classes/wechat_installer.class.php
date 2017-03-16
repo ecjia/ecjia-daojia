@@ -141,21 +141,7 @@ class wechat_installer  extends ecjia_installer {
             );
             RC_Model::make()->create_table($table_name, $schemes);
         }
-        
-        $table_name = 'wechat_user_group';
-        if (!RC_Model::make()->table_exists($table_name)) {
-            $schemes = array(
-                "`id` int(10) unsigned NOT NULL AUTO_INCREMENT",
-                "`wechat_id` int(10) unsigned NOT NULL DEFAULT '0'",
-                "`group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分组id'",
-                "`name` varchar(255) NOT NULL COMMENT '分组名字，UTF8编码'",
-                "`count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分组内用户数量'",
-                "`sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序'",
-                "PRIMARY KEY (`id`)"
-            );
-            RC_Model::make()->create_table($table_name, $schemes);
-        }
-        
+                
         $table_name = 'wechat_qrcode';
         if (!RC_Model::make()->table_exists($table_name)) {
             $schemes = array(
@@ -371,11 +357,6 @@ class wechat_installer  extends ecjia_installer {
         }
         
         $table_name = 'wechat_user';
-        if (RC_Model::make()->table_exists($table_name)) {
-            RC_Model::make()->drop_table($table_name);
-        }
-        
-        $table_name = 'wechat_user_group';
         if (RC_Model::make()->table_exists($table_name)) {
             RC_Model::make()->drop_table($table_name);
         }

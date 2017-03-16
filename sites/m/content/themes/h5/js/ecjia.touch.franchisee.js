@@ -37,30 +37,6 @@
 				});
 			});
 		},
-
-		//发送验证码报错
-		error_validate :function(){
-			$('input[name="cancel"]').on('click', function(e){
-        		e.preventDefault();
-        		var url = $(this).attr('data-url');
-        		options = {
-					'status' : 'cancel',
-				}
-        		var myApp = new Framework7({
-					modalButtonCancel : '取消',
-					modalButtonOk : '确定',
-					modalTitle : '提示'
-			    });
-				myApp.confirm('您确定要撤销申请吗？', function () {
-					$.post(url, options,function(data){
-						if (data.log != '') {
-							ecjia.pjax(data.cancel_url);
-						}
-					});
-			    });
-				
-        	});
-		},
 		
 		//商家入驻流程获取验证码
 		validate_code : function () {
@@ -79,6 +55,32 @@
 				}
 				
 				$.get(url, function(data){
+					if (data.state == 'error') {
+        				var myApp = new Framework7();
+                		myApp.modal({
+                			title: '提示',
+                			text: data.message,
+                			buttons: [
+        			          {
+        			            text: '取消',
+        			            onClick: function() {
+        			            	return false;
+        			            }
+        			          },
+        			          {
+        			            text: '查看申请进度',
+        			            onClick: function() {
+        			            	$('.modal').remove();
+        			            	$('.modal-overlay').remove();
+        			            	$(".ecjia-store-goods .a1n .a1x").css({overflow:"auto"});	//启用滚动条
+        			            	$('body').css('overflow-y', 'auto').off("touchmove");		//启用滚动条
+        			            	location.href = data.search_url;
+        	            			return false;
+        			            }
+        			          },
+        			        ]
+                		});
+        			}
 				    if (data.state == 'success') {
 					  　    curCount = count;
 					     $("#mobile").attr("readonly", "true");

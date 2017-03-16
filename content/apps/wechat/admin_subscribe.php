@@ -9,7 +9,6 @@ class admin_subscribe extends ecjia_admin {
 	private $wechat_user_db;
 	private $wechat_user_tag;
 	private $wechat_tag;
-	private $wechat_user_group;
 	private $custom_message_viewdb;
 	private $db_platform_account;
 	
@@ -23,7 +22,6 @@ class admin_subscribe extends ecjia_admin {
 		$this->wechat_user_db = RC_Loader::load_app_model('wechat_user_model');
 		$this->wechat_user_tag = RC_Loader::load_app_model('wechat_user_tag_model');
 		$this->wechat_tag = RC_Loader::load_app_model('wechat_tag_model');
-		$this->wechat_user_group = RC_Loader::load_app_model('wechat_user_group_model');
 		$this->custom_message_viewdb = RC_Loader::load_app_model('wechat_custom_message_viewmodel');
 		$this->db_platform_account = RC_Loader::load_app_model('platform_account_model', 'platform');
 		

@@ -130,6 +130,7 @@ class user_order_controller {
                         'longitude' => $_COOKIE['longitude'],
                         'latitude' => $_COOKIE['latitude']
                     ),
+                    'city_id' => $_COOKIE['city_id']
                 );
                 $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_CREATE)->data($params_cart)->run();
                 if (is_ecjia_error($rs)) {

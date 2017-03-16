@@ -69,7 +69,9 @@ class sms_sms_template_api extends Component_Event_Api {
 	        return false;
 	    }
 		
-		return RC_DB::table('mail_templates')->where('template_code', $tpl_name)->first();
+	    $tpl = RC_DB::table('mail_templates')->where('template_code', $tpl_name)->first();
+	    $tpl['template_content'] = '{nocache}' . $tpl['template_content'] . '{/nocache}';
+		return $tpl;
 	}
 }
 

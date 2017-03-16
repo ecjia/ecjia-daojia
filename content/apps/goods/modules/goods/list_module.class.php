@@ -90,13 +90,10 @@ class list_module extends api_front implements api_interface {
 
 
         /*经纬度为空判断*/
-        $mobile_location_range = ecjia::config('mobile_location_range');
-        if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude'])) && $mobile_location_range > 0) {
+        if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
         	$geohash = RC_Loader::load_app_class('geohash', 'store');
         	$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
 			$geohash_code = substr($geohash_code, 0, 8);
-        } elseif ($city_id > 0){
-        	
         } else {
         	$data = array();
         	$data['list'] = array();
@@ -128,12 +125,7 @@ class list_module extends api_front implements api_interface {
         $data = RC_Cache::app_cache_get($cache_key, 'goods');
 
         if (empty($data)) {
-        	if ($mobile_location_range > 0) {
-        		$options['store_id'] = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
-        	} elseif ($city_id > 0) {
-        		$options['store_id'] = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
-        	}
-        	
+        	$options['store_id'] = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
         	if (empty($options['store_id'])) {
         		$options['store_id'] = array(0);
         	}

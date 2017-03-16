@@ -76,6 +76,10 @@ class admin_config extends ecjia_admin {
 		$this->assign('ur_here', '后台配置');
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('后台配置')));
 
+		/* 判断定位范围设置code是否存在，如果不存在则插入*/
+		if (!ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK)) {
+        	ecjia_config::instance()->insert_config('mobile', 'mobile_location_range', 3, array('type' => 'text'));
+        }
 //     	$this->assign('config_cpname', ecjia::config('merchant_admin_cpname')); //需删除
     	
     	$this->assign('config_logoimg', RC_Upload::upload_url(ecjia::config('merchant_admin_login_logo')));
@@ -98,6 +102,7 @@ class admin_config extends ecjia_admin {
 		
 		//后台名称
 		ecjia_config::instance()->write_config('merchant_admin_cpname', $merchant_admin_cpname);
+		
 		//搜索范围
 		ecjia_config::instance()->write_config('mobile_location_range', $mobile_location_range);
 		

@@ -69,7 +69,9 @@ class mail_mail_template_api extends Component_Event_Api {
 	    }
 		
 		$db = RC_Model::model('mail/mail_templates_model');
-		return $db->field('template_subject, is_html, template_content')->find(array('template_code' => $tpl_name));
+		$tpl = $db->field('template_subject, is_html, template_content')->find(array('template_code' => $tpl_name));
+		$tpl['template_content'] = '{nocache}' . $tpl['template_content'] . '{/nocache}';
+		return $tpl;
 	}
 }
 

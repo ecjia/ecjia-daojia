@@ -7,7 +7,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class admin_record extends ecjia_admin {
 	private $wu_viewdb;
 	private $wechat_user_db;
-	private $wechat_user_group;
 	private $wechat_tag;
 	private $customer_session_viewdb;
 	private $db_platform_account;
@@ -24,7 +23,6 @@ class admin_record extends ecjia_admin {
 		
 		$this->wu_viewdb = RC_Loader::load_app_model('wechat_user_viewmodel');
 		$this->wechat_user_db = RC_Loader::load_app_model('wechat_user_model');
-		$this->wechat_user_group = RC_Loader::load_app_model('wechat_user_group_model');
 		$this->wechat_tag = RC_Loader::load_app_model('wechat_tag_model');
 		$this->wechat_customer = RC_Loader::load_app_model('wechat_customer_model');
 		$this->wechat_user_tag = RC_Loader::load_app_model('wechat_user_tag_model');
@@ -123,7 +121,6 @@ class admin_record extends ecjia_admin {
 			$info['subscribe_time'] = RC_Time::local_date(ecjia::config('time_format'), $info['subscribe_time'] - 8*3600);
 		}
 		$info['platform_name'] 	= $this->db_platform_account->where(array('id' => $wechat_id))->get_field('name');
-		$info['name'] = $this->wechat_user_group->where(array('wechat_id' => $wechat_id, 'group_id' => $info['group_id']))->get_field('name');
 	
 		$this->assign('info', $info);
 		$message = $this->get_message_list();

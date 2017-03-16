@@ -139,10 +139,15 @@ class store_store_list_api extends Component_Event_Api {
 		
 		/* 店铺条件*/
 		if (isset($filter['store_id']) && !empty($filter['store_id'])) {
-			$where['ssi.store_id'] = $filter['store_id'];
+			if (!empty($where['ssi.store_id'])) {
+				$where['ssi.store_id'] = array_intersect($where['ssi.store_id'], $filter['store_id']);
+			} else {
+				$where['ssi.store_id'] = $filter['store_id'];
+			}
+			
 			/* 缓存对象*/
-			if (is_array($filter['store_id'])) {
-				foreach ($filter['store_id'] as $v) {
+			if (is_array($where['ssi.store_id'])) {
+				foreach ($where['ssi.store_id'] as $v) {
 					$cache_key .= '-store-' . $v;
 				}
 			}

@@ -100,15 +100,14 @@ class franchisee_controller {
 	            'code'   => $code,
 	            'access_time' => RC_Time::gmtime()
 	        );
-	        
 	        return ecjia_front::$controller->showmessage( '', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/second')));
 	    }
 	}
 
 	//入驻发送验证码
 	public static function validate() {
-	    $mobile = !empty($_GET['mobile']) ? $_GET['mobile'] : '';
-	    $type = !empty($_GET['type']) ? $_GET['type'] : 'signup';
+	    $mobile    = !empty($_GET['mobile']) ? $_GET['mobile'] : '';
+	    $type      = !empty($_GET['type']) ? $_GET['type'] : 'signup';
 	    if (!empty($mobile)) {
 			$params = array(
 				'token' => ecjia_touch_user::singleton()->getToken(),
@@ -117,18 +116,19 @@ class franchisee_controller {
 			    'validate_type' => $type//process,signup
 			);
 			$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_MERCHANT_VALIDATE)->data($params)->run();
+			
 			if (is_ecjia_error($rs)) {
-				return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => ''));
+				return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('search_url' => RC_Uri::url('franchisee/index/search')));
 			} else {
 				return ecjia_front::$controller->showmessage("短信已发送到手机".$mobile."，请注意查看", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 			}
 	    } else {
 	    	if (empty($mobile)) {
-	    		return ecjia_front::$controller->showmessage('请输入手机号码', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+	    		return ecjia_front::$controller->showmessage('请输入手机号码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    	}
 	    	$chars = "/(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}/";
 	    	if (!preg_match($chars, $mobile)) {
-	    		return ecjia_front::$controller->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+	    		return ecjia_front::$controller->showmessage('手机号码格式错误', ecjia::MSGSTAT_JSON | ecjia::MSGTYPE_ERROR);
 	    	}
 	    }
 	}
@@ -157,8 +157,8 @@ class franchisee_controller {
 	    $province_list  = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('token' => $token, 'type' => 1))->run();
 	    $city_list      = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('token' => $token, 'type' => 2))->run();
 	    $district_list  = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('token' => $token, 'type' => 3))->run();
-    
-	    if (is_ecjia_error($reaudit)) {
+
+	    if (is_ecjia_error($mobile)) {
 	        return ecjia_front::$controller->showmessage('请先填写基本信息', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
 	    } else {
             foreach ($category_list as $k => $v) {
@@ -194,28 +194,27 @@ class franchisee_controller {
                 }
             }
         }
-        
-        if (empty($_SESSION['franchisee_add']) || empty($_COOKIE['franchisee_add'])) {
+        if (empty($_SESSION['franchisee_add'])) {
             $_SESSION['franchisee_add'] = array(
                 'name'         => $reaudit['responsible_person'],
                 'email'        => $reaudit['email'],
                 'mobile'       => $reaudit['mobile'],
-//                 'code'         => $code,
                 'access_time'  => RC_Time::gmtime()
             );
-            $_COOKIE  = array(
-                'seller_name'   => $reaudit['seller_name'],
-                'seller'        => $category_show,
+            $second_show = array (
+                'seller_name' =>  $reaudit['seller_name'],
+                'seller'     => $category_show,
                 'validate_type' => $validate_type,
                 'province_name' => $province_show,
                 'city_name'     => $city_show,
                 'district_name' => $district_show,
-                'address'       => $reaudit['address'],
-                'seller_category_id'    => $reaudit['seller_category'],
-                'province_id'           => $reaudit['province'],
-                'city_id'               => $reaudit['city'],
-                'district_id'           => $reaudit['district'],
+                'address'       => $reaudit['address']
             );
+           
+            $_COOKIE['seller_category_id']    = $reaudit['seller_category'];
+            $_COOKIE['province_id']           = $reaudit['province'];
+            $_COOKIE['city_id']               = $reaudit['city'];
+            $_COOKIE['district_id']           = $reaudit['district'];
         }
 	    //验证第一步是否通过
 	    if (empty($_SESSION['franchisee_add']) || $_SESSION['franchisee_add']['access_time'] + 1800 < RC_Time::gmtime()) {
@@ -225,18 +224,10 @@ class franchisee_controller {
 	    $longitude = !empty($_GET['longitude']) ? $_GET['longitude'] : $reaudit['location']['longitude'];
 	    $latitude = !empty($_GET['latitude']) ? $_GET['latitude'] : $reaudit['location']['latitude'];
 
-// 	    if (!empty($_COOKIE['validate_type'])) {
-// 	        ecjia_front::$controller->assign('validate_type', $_COOKIE['validate_type']);
-// 	    }
-// 	    if (!empty($_COOKIE['seller'])) {
-// 	        ecjia_front::$controller->assign('seller', $_COOKIE['seller']);
-// 	    }
-// 	    if (!empty($_COOKIE['seller_name'])) {
-// 	        ecjia_front::$controller->assign('seller_name', $_COOKIE['seller_name']);
-// 	    }
 
 	    ecjia_front::$controller->assign('form_action', RC_Uri::url('franchisee/index/finish'));
 	    
+	    ecjia_front::$controller->assign('second_show', $second_show);
 	    ecjia_front::$controller->assign('mobile', $mobile);
 	    ecjia_front::$controller->assign('code', $code);
 	    ecjia_front::$controller->assign('longitude', $longitude);
@@ -267,8 +258,6 @@ class franchisee_controller {
 	    
 	    $responsible_person = !empty($_SESSION['franchisee_add']['name']) ? $_SESSION['franchisee_add']['name'] : '';
 	    $email 				= !empty($_SESSION['franchisee_add']['email']) ? $_SESSION['franchisee_add']['email'] : '';
-// 	    $mobile 			= !empty($_SESSION['franchisee_add']['mobile']) ? $_SESSION['franchisee_add']['mobile'] : '';
-// 	    $validate_code 		= $_SESSION['franchisee_add']['code'];
         //修改入驻信息POST传，正常入驻存session
 	    if (!empty($_SESSION['franchisee_add']['mobile'])) {
 	        $mobile = $_SESSION['franchisee_add']['mobile'];
@@ -348,12 +337,9 @@ class franchisee_controller {
 	            'latitude'       => $latitude,
 	        ),
 	    	'validate_code'  	 => $validate_code,
-	  
+	  		'city_id'   		 => $_COOKIE['city_id']
 	    );
 	    
-// 	    _dump($parameter,1);
-// 	    RC_Logger::getlogger('info')->info('h5 入驻');
-//         RC_Logger::getlogger('info')->info($parameter);
 
 	    if (empty($_SESSION['franchisee_add']['code']) || empty($_SESSION['franchisee_add']['code'])) {
 	        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_MERCHANT_RESIGNUP)->data($parameter)->run();
@@ -465,17 +451,6 @@ class franchisee_controller {
 		$district = !empty($_GET['district']) ? $_GET['district'] 	: '';
 		$address  = !empty($_GET['address'])  ? $_GET['address'] 	: '';
 		$shop_address = $province.$city.$district.$address;
-
-
-// 		$shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address='".$shop_address."&output=json&ak=E70324b6f5f4222eb1798c8db58a017b");
-// 		$shop_point = (array)json_decode($shop_point);
-// 		$shop_point['result'] = (array)$shop_point['result'];
-// 		$location = (array)$shop_point['result']['location'];
-
-// 		$longitude = $location['lng'];
-// 		$latitude = $location['lat'];
-// 		ecjia_front::$controller->assign('longitude', $longitude);
-// 		ecjia_front::$controller->assign('latitude', $latitude);
 
 		ecjia_front::$controller->assign('shop_address', $shop_address);
 		ecjia_front::$controller->assign('mobile', $mobile);
