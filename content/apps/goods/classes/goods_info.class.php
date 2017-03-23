@@ -238,9 +238,9 @@ class goods_info {
 		$attr   = '';
 		if (!empty($arr)) {
 		    if ($type == 'no') {
-		        $fmt = "%s:%s \n";
+		        $fmt = "%s:%s ";
 		    } else {
-		        $fmt = "%s:%s[%s] \n";
+		        $fmt = "%s:%s[%s] ";
 		    }
 			
 			$dbview = RC_DB::table('goods_attr as ga')

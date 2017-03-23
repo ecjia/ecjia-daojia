@@ -692,8 +692,10 @@ function EM_user_info($user_id) {
 
 	if (!empty($row)) {
 		$user_info['user_rank_name'] = $row['rank_name'];
+		$user_info['user_rank_id'] = $row['rank_id'];
 	} else {
 		$user_info['user_rank_name'] = '非特殊等级';
+		$user_info['user_rank_id'] = $row['rank_id'];
 	}
 	$row = $db_user_rank->find(array('special_rank' => 0 , 'min_points' => 0));
 
@@ -721,6 +723,7 @@ function EM_user_info($user_id) {
 	return array(
 		'id'				=> $user_info['user_id'],
 		'name'				=> $user_info['user_name'],
+	    'rank_id'			=> $user_info['user_rank_id'],
 		'rank_name'			=> $user_info['user_rank_name'],
 		'rank_level' 		=> $level,
 		'collection_num' 	=> $collection_num,

@@ -163,87 +163,40 @@ class admin extends ecjia_admin {
 	public function reply() {		
 		$this->admin_priv('comment_update');
 		
-		$admin_ip     	= RC_Ip::client_ip();
-		$comment_info 	= array();
-		$reply_info   	= array();
-		$id_value     	= array();
-		$where 			= array();
-		
-		$where['comment_id'] = !empty($_GET['comment_id']) ? $_GET['comment_id'] : 0;
-		$comment_info = RC_DB::TABLE('comment')->where('comment_id', $where['comment_id'])->first();
+		$comment_id = !empty($_GET['comment_id']) ? $_GET['comment_id'] : 0;
+		$comment_info = RC_DB::TABLE('comment')->where('comment_id', $comment_id)->first();
 
 		if (empty($comment_info)) {
 			return $this->showmessage(RC_Lang::get('comment::comment_manage.no_comment_info'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR );
-		}
-		/* 获取评论详细信息并进行字符处理 */
-		$comment_info['content']  = str_replace('\r\n', '<br />', htmlspecialchars($comment_info['content']));
-		$comment_info['content']  = nl2br(str_replace('\n', '<br />', $comment_info['content']));
-		$comment_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $comment_info['add_time']);
-
-		/* 获得评论回复内容 */
-		$reply_info = RC_DB::TABLE('comment_reply')->where('comment_id', $where['comment_id'])
-            		->select('content', 'add_time', 'user_id')
-            		->get();
-
-		if (!empty($reply_info)) {
-			$reply_info['content']  = nl2br(htmlspecialchars($reply_info['content']));
-			$reply_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $reply_info['add_time']);
-		}
-		/* 取得评论的对象(文章或者商品) */
-		if ($comment_info['comment_type'] == '0') {
-			ecjia_screen::get_current_screen()->add_help_tab(array(
-				'id'		=> 'overview',
-				'title'		=> RC_Lang::get('comment::comment_manage.overview'),
-				'content'	=> '<p>' . RC_Lang::get('comment::comment_manage.goods_comment_detail_help') . '</p>'
-			));
-			ecjia_screen::get_current_screen()->set_help_sidebar(
-				'<p><strong>' . RC_Lang::get('comment::comment_manage.more_info') . '</strong></p>' .
-				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论#.E6.9F.A5.E7.9C.8B.E5.8F.8A.E5.9B.9E.E5.A4.8D" target="_blank">'.RC_Lang::get('comment::comment_manage.about_goods_comment_detail').'</a>') . '</p>'
-			);
-			//TODO
-			$id_value = $this->db_goods->goods_field(array('goods_id' => $comment_info['id_value']), 'goods_name');
-			$comment_info['url'] = RC_Uri::url('goods/admin/preview', array('id' => $comment_info['id_value']));
-				
-			$here = RC_Lang::get('comment::comment_manage.comment_list');
-			$url = RC_Uri::url('comment/admin/init', array('type' => 1));
-			$comment_info['type'] = '1';
-			$this->assign('id_value', $id_value); 		//评论的对象
-		} else {
-			ecjia_screen::get_current_screen()->add_help_tab(array(
-				'id'		=> 'overview',
-				'title'		=> RC_Lang::get('comment::comment_manage.overview'),
-				'content'	=> '<p>' . RC_Lang::get('comment::comment_manage.article_comment_detail_help') . '</p>'
-			));
-			ecjia_screen::get_current_screen()->set_help_sidebar(
-				'<p><strong>' . RC_Lang::get('comment::comment_manage.more_info') . '</strong></p>' .
-				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:文章评论#.E6.9F.A5.E7.9C.8B.E5.8F.8A.E5.9B.9E.E5.A4.8D" target="_blank">'.RC_Lang::get('comment::comment_manage.about_article_comment_detail').'</a>') . '</p>'
-			);
-			$id_value = RC_Api::api('article', 'article_info', array('id' => $comment_info['id_value']));
-			$comment_info['url'] = RC_Uri::url('article/admin/preview', array('id' => $comment_info['id_value']));
-				
-			$here = RC_Lang::get('comment::comment_manage.article_comment');
-			$url = RC_Uri::url('comment/admin/init', array('type' => 2));
-			$comment_info['type'] = '2';
-// 			$this->assign('id_value', $id_value['title']); //评论的对象
 		}
 
 		/*获取用户头像*/
 		$avatar_img = RC_Upload::upload_url().'/'.RC_DB::TABLE('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
 
-		/* 管理员回复内容*/
-		$replay_admin_list = RC_DB::TABLE('comment_reply')
-                		->where('comment_id', $comment_info['comment_id'])
-                		->select('content', 'add_time', 'user_id')
-                		->get();
-		foreach ($replay_admin_list as $key => $val) {
-		    $replay_admin_list[$key]['add_time_new'] = RC_Time::local_date(ecjia::config('time_format'), $val['add_time']);   
-		    $staff_info = RC_DB::TABLE('admin_user')->where('user_id', $val['user_id'])->first(); //管理员信息
-		    $replay_admin_list[$key]['user_name'] = $staff_info['user_name'];       
-		    $replay_admin_list[$key]['staff_img']  =  RC_App::apps_url('statics/images/admin_pic.jpg', __FILE__);
-		};
+		/* 获得评论回复条数 */
+		$reply_info = RC_DB::TABLE('comment_reply')->where('comment_id', $comment_id)->get();
+		
+		if (!empty($reply_info)) {
+			foreach ($reply_info as $key => $val) {
+				if (($val['user_type'] === 'merchant') && ($val['user_id'] > 0)) {
+					$staff_info = RC_DB::table('staff_user')->where('user_id', $val['user_id'])->selectRaw('name,avatar')->first();
+					$reply_info[$key]['staff_img'] = RC_Upload::upload_url().'/'.$staff_info['avatar'];
+					$reply_info[$key]['staff_name'] = $staff_info['name'];
+				}
+				if (($val['user_type'] === 'admin') && ($val['user_id'] > 0)) {
+					$reply_info[$key]['admin_name'] = RC_DB::table('admin_user')->where('user_id', $val['user_id'])->pluck('user_name');
+					$reply_info[$key]['admin_img']  = RC_App::apps_url('statics/images/admin_pic.jpg', __FILE__);
+				}
+				$reply_info[$key]['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['add_time']);
+			}
+			$reply_info[$key]['content']  = nl2br(htmlspecialchars($reply_info[$key]['content']));
+		}
+		
 		//获取评论图片
 		$comment_pic_list = RC_DB::TABLE('term_attachment')
                 		->where('object_id', $comment_info['comment_id'])
+                		->where('object_group', 'comment')
+                		->where('object_app', 'ecjia.comment')
                 		->select('file_path')
                 		->get();
 
@@ -299,14 +252,14 @@ class admin extends ecjia_admin {
 		} else {
 		    $shop_info['composite'] = 3;
 		}
-
+		
+		$here = RC_Lang::get('comment::comment_manage.comment_list');
+		$url = RC_Uri::url('comment/admin/init', array('list' => 1));
 		/* 模板赋值 */
 		$this->assign('comment_info', $comment_info); 		//评论信息
-		$this->assign('replay_admin_list', $replay_admin_list); 		//管理员回复信息
+		$this->assign('replay_admin_list', $reply_info); 		//管理员回复信息
 		$this->assign('avatar_img', $avatar_img);     //用户头像
 		$this->assign('admin_info', $staff_info);   //管理员信息
-		$this->assign('reply_info', $reply_info);   //回复的内容
-		$this->assign('admin_ip', $admin_ip);		//当前管理员IP获取
 		$this->assign('comment_pic_list', $comment_pic_list);     //评论图片
 		$this->assign('shop_info', $shop_info);     //店铺信息
 		$this->assign('nochecked', $nochecked);     
@@ -382,39 +335,34 @@ class admin extends ecjia_admin {
 	public function check() {
 		$this->admin_priv('comment_update', ecjia::MSGTYPE_JSON);
 		
-		$list		= !empty($_GET['list']) ? $_GET['list'] : 3;
+		$list		= !empty($_GET['list']) ? $_GET['list'] : '';
 		$id		 	= !empty($_GET['comment_id']) 		? intval($_GET['comment_id'])		: 0;
 		$page		= !empty($_GET['page']) 		? intval($_GET['page'])		: 1;
 		$allow 		= !empty($_POST['check']) 	? $_POST['check']			: '';
 		$status		= $_POST['status'];
-		$last       = !empty($_GET['last']) ? $_GET['last'] : '';
-		
 		$appeal_id = $_GET['id'];
-
+		$store_id = $_GET['store_id'];
+		
 		if ($status === '') {
 			if ($list == 3) {
-			 if ($last == 'reply') {
-			        $pjaxurl = RC_Uri::url('comment/admin/reply', array('comment_id' => $id));
-			    } else {
-			        $pjaxurl = RC_Uri::url('comment/admin/init', array('list' => 1));
-			    }			
+				$pjaxurl = RC_Uri::url('comment/admin/store_goods_comment_list', array('page' => $page, 'store_id' => $store_id));
 			} elseif ($list == 4) {
 				$pjaxurl = RC_Uri::url('comment/appeal/detail', array('id' => $appeal_id, 'comment_id' => $id));
-			}else{
+			}elseif ($list == 1) {
 				$pjaxurl = RC_Uri::url('comment/admin/init', array('page' => $page, 'list' => 1));
+			}elseif ($list == 5) {
+				$pjaxurl = RC_Uri::url('comment/admin/reply', array('comment_id' => $id));
 			}
 		} else {
 			if ($list == 3) {
-			    if ($last == 'reply') {
-			        $pjaxurl = RC_Uri::url('comment/admin/reply', array('comment_id' => $id));
-			    } else {
-			        $pjaxurl = RC_Uri::url('comment/admin/init', array('list' => 1));
-			    }
-			} elseif ($list == 4) {
+			    $pjaxurl = RC_Uri::url('comment/admin/store_goods_comment_list', array('page' => $page, 'status' => $status, 'store_id' => $store_id));
+			}elseif ($list == 4) {
 				$pjaxurl = RC_Uri::url('comment/admin/init', array('id' => $appeal_id, 'comment_id' => $id));
-			}else {
+			}elseif ($list == 1) {
 			    $pjaxurl = RC_Uri::url('comment/admin/init', array('status' => $status, 'page' => $page, 'list' => 1));
-			} 
+			} elseif ($list == 5) {
+				$pjaxurl = RC_Uri::url('comment/admin/reply', array('comment_id' => $id));
+			}
 		} 
 		
 		$db_comment = RC_DB::table('comment');
@@ -425,6 +373,14 @@ class admin extends ecjia_admin {
 				'status'     => '1'
 			);
 			$db_comment->where('comment_id', $id)->update($data);
+			/*审核通过后更新商品等级*/
+			if (!empty($id)) {
+				$goods_id = RC_DB::table('comment')->where('comment_id', $id)->pluck('id_value');
+			}
+			RC_Api::api('comment', 'update_goods_comment', array('goods_id' => $goods_id));
+			/*审核通过后送积分*/
+			RC_Api::api('comment', 'comment_award', array('comment_id' => $id));
+			
 			$message = RC_Lang::get('comment::comment_manage.show_success');
 		} elseif ($allow == 'forbid') {
 			/*禁止评论显示 */
@@ -469,7 +425,9 @@ class admin extends ecjia_admin {
 	public function batch() {
 		$this->admin_priv('comment_delete', ecjia::MSGTYPE_JSON);
 		$action = isset($_GET['sel_action']) ? trim($_GET['sel_action']) : 'deny';
-		
+		if (!empty($_GET['store_id'])) {
+			$store_id = $_GET['store_id'];
+		}
 		$list = !empty($_GET['list']) ? $_GET['list'] : 1;
 		$comment_ids = explode(',', $_POST['checkboxes']);
 		$db_comment = RC_DB::table('comment'); 
@@ -480,6 +438,25 @@ class admin extends ecjia_admin {
 					$data = array(
 						'status' => '1'
 					);
+					$db_comment->whereIn('comment_id', $comment_ids)->update($data);
+					/*审核通过后更新商品等级*/
+					if (!empty($comment_ids)) {
+						$goods_ids = RC_DB::table('comment')->whereIn('comment_id', $comment_ids)->select('id_value')->get();
+						if (!empty($goods_ids)) {
+							foreach ($goods_ids as $key => $val) {
+								if (!empty($val['id_value'])) {
+									RC_Api::api('comment', 'update_goods_comment', array('goods_id' => $val['id_value']));
+								}
+							}
+						}
+					}
+					/*审核通过后送积分*/
+					if (!empty($comment_ids)) {
+						foreach ($comment_ids as $v) {
+							RC_Api::api('comment', 'comment_award', array('comment_id' => $v));
+						}
+					}
+					
 				break;
 
 				case 'deny' :
@@ -508,13 +485,13 @@ class admin extends ecjia_admin {
 			
 			if ($status === 'null') {
 				if ($list == 3) {
-					$pjaxurl = RC_Uri::url('comment/admin/store_goods_comment_list', array('page' => $page));
+					$pjaxurl = RC_Uri::url('comment/admin/store_goods_comment_list', array('page' => $page, 'store_id' => $store_id));
 				} else {
 					$pjaxurl = RC_Uri::url('comment/admin/init', array('page' => $page, 'list' => 1));
 				}
 			} else {
 				if ($list == 3) {
-					$pjaxurl = RC_Uri::url('comment/admin/store_goods_comment_list', array('status' => $status, 'page' => $page));
+					$pjaxurl = RC_Uri::url('comment/admin/store_goods_comment_list', array('status' => $status, 'page' => $page, 'store_id' => $store_id));
 				} else {
 					$pjaxurl = RC_Uri::url('comment/admin/init', array('status' => $status, 'page' => $page, 'list' => 1));
 				}
@@ -620,7 +597,7 @@ class admin extends ecjia_admin {
 		$this->assign('select_img', $_GET['select_img']);
 		$this->assign('store_id', $store_id);
 	
-		$this->assign('form_action', RC_Uri::url('comment/admin/batch', array('list' => 3)));
+		$this->assign('form_action', RC_Uri::url('comment/admin/batch', array('list' => 3, 'store_id' => $store_id)));
 		$this->assign('form_search', RC_Uri::url('comment/admin/store_goods_comment_list', array('list' => 3)));
 		//$this->assign('dropback_comment', $this->admin_priv('dropback_comment', '', false));
 		$this->display('store_goods_comment_list.dwt');

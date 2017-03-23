@@ -70,6 +70,9 @@ class Version_10400 extends Version
             // 移除旧的comment表
             RC_Schema::dropIfExists('comment');
             
+            // 移除废弃的template表
+            RC_Schema::dropIfExists('template');
+            
             // 更新1.4中新增的迁移项
             $migrate->fire();
             

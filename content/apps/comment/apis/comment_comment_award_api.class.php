@@ -44,35 +44,49 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\Database\Schema\Blueprint;
-use Royalcms\Component\Database\Migrations\Migration;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-class AddGoodsRankToGoodsTable extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		RC_Schema::table('goods', function(Blueprint $table)
-		{
-			$table->smallInteger('goods_rank')->unigned()->default('10000')->after('goods_product_tag')->comment('好评率，10000=100.00%');
-		});
-	}
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		RC_Schema::table('goods', function(Blueprint $table)
-		{
-			$table->dropColumn('goods_rank');
-		});
+//评论送积分
+class comment_comment_award_api extends Component_Event_Api {
+    /**
+     * @param
+     *
+     * @return array
+     */
+	public function call(&$options) {
+// 	    $options['comment_id'] 
+		
+	    if (empty($options['comment_id'])) {
+	        return new ecjia_error('invalid_parameter', '参数无效');
+	    }
+	    $comment_id = $options['comment_id'];
+	    if (!ecjia::config('comment_award_open')) {
+	        return new ecjia_error('comment_award_close', '评论送积分未开启');
+	    }
+	    
+	    $comment = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
+	    if (empty($comment)) {
+	        return new ecjia_error('comment_no_exist', '评论信息不存在');
+	    }
+	    if ($comment['status'] != 1) {
+	        return new ecjia_error('status_error', '状态错误');
+	    }
+	    
+	    $user_id = $comment['user_id'];
+	    RC_Loader::load_app_func('admin_user', 'user');
+	    $user_info = EM_user_info($user_id);
+	    
+	    $user_rank = $user_info['rank_id'];
+	    
+        $comment_award_rules = ecjia::config('comment_award_rules');
+        $comment_award_rules = unserialize($comment_award_rules);
+        $comment_award = isset($comment_award_rules[$user_rank]) ? $comment_award_rules[$user_rank] : ecjia::config('comment_award');
+         
+        RC_Api::api('user', 'account_change_log', array('user_id' => $user_id, 'pay_points' => $comment_award, 'change_desc' => '评论送积分'));
+	    
+	    return true;
 	}
 
 }
+
+// end

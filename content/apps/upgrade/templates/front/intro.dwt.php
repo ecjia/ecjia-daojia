@@ -38,27 +38,18 @@
 								    <h5>{$ver}</h5><span></span><i class="fontello-icon-angle-double-down" data-ver="{$ver}"></i>
 								</div>
 							    <!-- {/foreach} -->
-								<!-- <div>
-								   <h5>1.3.3</h5><span></span><i class="fontello-icon-angle-double-down" data-var="1.3.3"></i>
+							    <p>注：M表示修改，A表示新增，D表示删除（文件需手动删除）</p>
 								</div>
-								<ul class="">
-							        <li>文件变动</li>
-							        <li><pre>{$files_changes}</pre></li>
-							    </ul> -->
-							    <p>注：M表示修改，A表示新增（文件需手动增加），D表示删除</p>
-								</div>
-								<!-- <a href="https://ecjia.com/daojia.html" target="_blank">查看历史版本更新内容</a> -->
 								
-						    </div> 
-								<input type="hidden" name="version_current" value="{$version_current}"/>
-							    <input type="hidden" name="version_last" value="{$version_last}"/>
-							    <input type="hidden" name="version_count" value="{$version_count}"/>
-							    <input type="hidden" class="ajax_upgrade_url" value="{$ajax_upgrade_url}"/>
-							    <input type="hidden" name="correct_img" value="{$correct_img}" />
-    		                    <input type="hidden" name="error_img" value="{$error_img}" />
-    		                    <input type="hidden" name="done" value="{RC_Uri::url('upgrade/index/finish')}" />
-								<input type="button" class="btn primary configuration_system_btn" value="下一步：开始升级&raquo;" onclick="return ecjia.front.upgrade.start();" />
-							</p>
+						    </div>
+							<input type="hidden" name="version_current" value="{$version_current}"/>
+						    <input type="hidden" name="version_last" value="{$version_last}"/>
+						    <input type="hidden" name="version_count" value="{$version_count}"/>
+						    <input type="hidden" class="ajax_upgrade_url" value="{$ajax_upgrade_url}"/>
+						    <input type="hidden" name="correct_img" value="{$correct_img}" />
+		                    <input type="hidden" name="error_img" value="{$error_img}" />
+		                    <input type="hidden" name="done" value="{RC_Uri::url('upgrade/index/finish')}" />
+							<input type="button" class="btn primary configuration_system_btn" value="下一步：开始升级&raquo;" onclick="return ecjia.front.upgrade.start();" />
 						</form>
 						
 						<div class="ecjia-install-body">
@@ -75,7 +66,7 @@
 							    <div id="js-monitor-notice" name="js-monitor-notice">
 							        <div id="js-notice"></div>
 							    </div>
-							    <input id="js-install-return-once" type="button" class="btn primary" value="返回配置系统" onclick="ecjia.front.install.return_setting();" style="display: none;"/>
+							    <input id="js-install-return-once" type="button" class="btn primary" value="返回升级说明" onclick="location.href='{$init_url}'" style="display: none;"/>
 							</div>
 				    	</div>
 				    	

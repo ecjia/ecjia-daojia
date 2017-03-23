@@ -189,3 +189,21 @@
 	border-top: 1px solid #ddd;
     margin-bottom: 1em;
 }
+.label-warning-admin {
+    background-color: #3498db;
+}
+.label-warning {
+    background-color: #f0ad4e;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+}

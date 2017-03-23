@@ -78,7 +78,7 @@
 		$('#js_ecjia_intro').css('display', 'none');
 		$('.path').children('li').removeClass('current').eq(1).addClass('current');
 
-		progress(0);
+		progress(10);
 		upgrade();
 		return false;
 	}

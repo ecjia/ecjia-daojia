@@ -88,6 +88,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</div>        
 		<div class="assess-bottom">            
 			<p class="assess-content">{$list.content}</p>
+			<p class="goods-attr">{$list.goods_attr}</p>
 			<!-- {if $list.picture} -->
 			<div class="img-list img-pwsp-list" data-pswp-uid="{$key}">
 				<!-- {foreach from=$list.picture item=img} -->
@@ -95,7 +96,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<!-- {/foreach} -->
 			</div>
 			<!-- {/if} -->
-			<p class="goods-attr">{$list.goods_attr}</p>
 			{if $list.reply_content}
 			<div class="store-reply">商家回复：{$list.reply_content}</div>
 			{/if}

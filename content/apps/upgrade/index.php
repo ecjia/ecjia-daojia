@@ -92,6 +92,7 @@ class index extends SimpleController {
         $this->assign('version_current', $version_current);
         $this->assign('version_last', $version_last);
         $this->assign('action_url', RC_Uri::url("upgrade/index/finish"));
+        $this->assign('init_url', RC_Uri::url("upgrade/index/init"));
         $this->assign('ajax_change_files', RC_Uri::url('upgrade/index/ajax_change_files'));
         $this->assign('ajax_upgrade_url', RC_Uri::url('upgrade/index/ajax_upgrade'));
         $this->assign('correct_img', RC_App::apps_url('statics/front/images/correct.png', __FILE__));
@@ -149,7 +150,14 @@ class index extends SimpleController {
     
     public function finish() 
     {
+        // 获取当前版本
         $version_current = Ecjia\System\Version\VersionUtility::getCurrentVersion();
+        // 获取最新版本
+        $version_last = Ecjia\System\Version\VersionUtility::getLatestVersion();
+        
+        if ($version_current != $version_last) {
+            return $this->redirect(RC_Uri::url('upgrade/index/init'));
+        }
         $finish_message = RC_Lang::get('upgrade::upgrade.finish_success');
         $this->assign('finish_message', $finish_message . '当前版本已是最新版本。');
         

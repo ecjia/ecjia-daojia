@@ -17,7 +17,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <!-- #EndLibraryItem -->
 
-<form action="{url path='user/order/make_comment'}" enctype="multipart/form-data" method="post">
+<form name='theForm' action="{url path='user/order/make_comment'}" enctype="multipart/form-data" method="post">
 <div class="ecjia-met-goods-info">
     <li class="ecjia-order-item ecjia-checkout">
     	<div class="flow-goods-list">

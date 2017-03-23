@@ -1364,7 +1364,9 @@
  					if (store_id == undefined) store_id = choose_attr.attr('data-store');
  					if (url == undefined) url = choose_attr.attr('data-url');
  					if (spec == undefined) spec = choose_attr.attr('data-spec');
-
+ 					if (spec != undefined && spec.length != 0) {
+ 	 					var spec_arr = spec.split(',');
+ 	 				}
  					var modal = '.ecjia-attr-static';
  					for (var i in releated_goods) {
  						var r = releated_goods[i];

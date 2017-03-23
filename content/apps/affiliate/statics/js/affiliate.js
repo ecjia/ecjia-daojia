@@ -41,14 +41,11 @@
 							alert(data.message);
 							location.href = data.url;
 						} else {
-//							location.href = data.app;
 							location.href = data.url;
 						}
 					}
         		});
         	});
 		},
-		
-		
 	};
-})(ecjia.front, jQuery);
+})(ecjia.admin, jQuery);

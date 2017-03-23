@@ -88,7 +88,7 @@
 	</div>
 	<div class="choose_list f_r" >
 		<form class="f_r form-inline" action="{RC_Uri::url('comment/admin/init')}{if $comment_list.filter.status neq null}&status={$comment_list.filter.status}{/if}{if $comment_list.filter.has_img neq null}&has_img={$comment_list.filter.has_img}{/if}{if $smarty.get.rank}&rank={$smarty.get.rank}{/if}{if $select_status}&select_status={$select_status}{/if}{if $select_rank}&select_rank={$select_rank}{/if}{if $select_img}&select_img={$select_img}{/if}"  method="post" name="searchForm">
-			<input type="text" name="keyword" value="{$smarty.get.keywords}" placeholder="{lang key='comment::comment_manage.search_comment'}" size="15" />
+			<input type="text" name="keyword" value="{$smarty.get.keywords}" placeholder="输入评价关键词进行搜索" size="15" />
 			<button class="btn search_comment" type="button">{lang key='system::system.button_search'}</button>
 		</form>
 	</div>
@@ -129,7 +129,7 @@
 						{if $comment.has_image eq 1}
 							{if $comment.imgs}
 								<!-- {foreach from=$comment.imgs item=img_list} -->
-										<img class="" width="78" height="78" style="margin-right:8px;margin-top:10px;" alt="" src="{$img_list.file_path}">
+										<img style="margin-right:8px;margin-top:10px;width:75px;height:75px;" alt="" src="{$img_list.file_path}">
 								<!-- {/foreach} -->
 							{/if}
 						{/if}
@@ -158,7 +158,7 @@
 					<td colspan="5" style="border-top:none;">
 						<div style="border-top: 2px dashed #ddd;">
 							<input class="form-control small span12" style="width:93%;margin-bottom:3px;margin-top:12px;" value="" name="reply_content" type="text" placeholder="感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。（可在此输入回复内容，也可选择系统自动回复）">
-							<input class="btn btn-primary quick_reply" style="height:36px;margin-top:9px;" type="button" data-url="{url path='comment/admin/quick_reply'}" data-id={$comment.comment_id} data-status={$comment.status} value="回复" />
+							<input class="btn btn-gebo quick_reply" style="height:36px;margin-top:9px;" type="button" data-url="{url path='comment/admin/quick_reply'}" data-id={$comment.comment_id} data-status={$comment.status} value="回复" />
 						</div>
 					</td>
 				</tr>

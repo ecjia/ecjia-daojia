@@ -28,7 +28,7 @@
 	                    		<span class="badge badge-danger">{$item.count}</span>
 	                 			{$item.type_title}
 	            			</header>
-	                    	<a class="pull-right toggle_view" href="{RC_Uri::url('notification/mh_notification/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}" data-type="{$item.type}" title="标记为已读">标记 {$item.type} 的当前通知为已读</a>
+	                    	<a class="pull-right toggle_view" href="{RC_Uri::url('notification/mh_notification/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}" data-type="{$item.type}" title="标记为已读">标记 {$item.notice_type} 的当前通知为已读</a>
 	                        <div class="clear"></div>
 	               		</div>
            				<!-- {foreach from=$item.list item=val} -->

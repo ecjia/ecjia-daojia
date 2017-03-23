@@ -161,7 +161,7 @@ class cart_cart_list_api extends Component_Event_Api {
 
 				/* 查询规格 */
 				if (trim($row['goods_attr']) != '') {
-					$row['goods_attr'] = addslashes($row['goods_attr']);
+					$row['goods_attr'] = addslashes(str_replace('\n', '', $row['goods_attr']));
 					if (!is_array($row['goods_attr_id'])) {
 					    $where_attr['goods_attr_id'] = explode(',', $row['goods_attr_id']);
 					}

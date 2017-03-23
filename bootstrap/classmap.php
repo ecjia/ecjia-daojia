@@ -177,10 +177,10 @@ return array(
     'CreateWechatUserTagTable' => $contentDir . '/database/migrations/2017_03_15_173743_create_wechat_user_tag_table.php',
     'InsertConfigStructureToShopConfigTable' => $contentDir . '/database/migrations/2017_03_21_121822_insert_config_structure_to_shop_config_table.php',
     'CreateTermAttachmentTable' => $contentDir . '/database/migrations/2017_03_22_133140_create_term_attachment_table.php',
-    'AddGoodsRankToGoodsTable' => $contentDir . '/database/migrations/2017_03_22_164152_add_goods_rank_to_goods_table.php',
     'CreateCommentTable' => $contentDir . '/database/migrations/2017_03_22_170346_create_comment_table.php',
     'CreateCommentAppealTable' => $contentDir . '/database/migrations/2017_03_22_170435_create_comment_appeal_table.php',
     'CreateCommentReplyTable' => $contentDir . '/database/migrations/2017_03_22_170459_create_comment_reply_table.php',
+    'CreateGoodsDataTable' => $contentDir . '/database/migrations/2017_03_23_161538_create_goods_data_table.php',
      
     
     // seeder

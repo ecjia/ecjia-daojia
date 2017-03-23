@@ -45,15 +45,15 @@
     					{if $comment_info.status neq 3}
     					<div class="edit-list">
     					   {if $comment_info.status eq 0}
-    							<a class="approve" href='{url path="comment/admin/check" args="last={"reply"}&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要更改此评论的状态吗？{/t}" data-status="{$smarty.get.status}" data-val="allow" >
+    							<a class="approve" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要更改此评论的状态吗？{/t}" data-status="{$smarty.get.status}" data-val="allow" >
     								{t}批准{/t}
     							</a>&nbsp;|&nbsp;
     						{elseif $comment_info.status eq 1}
-    							<a class="approve ecjiafc-red" href='{url path="comment/admin/check" args="last={"reply"}&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要更改此评论的状态吗？{/t}" data-status="{$smarty.get.status}" data-val="forbid" >
+    							<a class="approve ecjiafc-red" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要更改此评论的状态吗？{/t}" data-status="{$smarty.get.status}" data-val="forbid" >
     								{t}驳回{/t}
     							</a>&nbsp;|&nbsp;
     						{/if}
-							<a class="ecjiafc-red toggle_view" href='{url path="comment/admin/check" args="comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要将该用户[{$comment_info.user_name|default:{lang key='comment::comment_manage.anonymous'}}]的评论移至回收站吗？{/t}" data-status="{$smarty.get.status}" data-val="trashed_comment" >{t}移至回收站{/t}</a>
+							<a class="ecjiafc-red toggle_view" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要将该用户[{$comment_info.user_name|default:{lang key='comment::comment_manage.anonymous'}}]的评论移至回收站吗？{/t}" data-status="{$smarty.get.status}" data-val="trashed_comment" >{t}移至回收站{/t}</a>
 						</div>
 						{/if}
     	            </div>    
@@ -72,14 +72,25 @@
 						<div class="accordion-inner">
 						      <div class="panel-body">
 						          <!-- {foreach from=$replay_admin_list item=list} -->
+						           <div class="comment-all-right-thumb" style="margin-left: 10px;">
+	                                	{if $list.user_type eq 'merchant'}
+					                		<img src="{$list.staff_img}" >
+					                	{elseif $list.user_type eq 'admin'}
+					                		<img src="{$list.admin_img}">
+					                	{/if}
+									 </div>
                                     <div class="text-right admin-reply">
-                                        <div class="comment-all-right-thumb">
-									       <img src="{$list.staff_img}" >
-								        </div>
-        					  			 <div class="comment-thumb-details">
-        									<h1>{$list.user_name}</h1>
-        									<p>{$list.add_time_new}</p><br>
-        								 </div>
+        								 {if $list.user_type eq 'merchant'}
+	        								 <div class="comment-thumb-details">
+	        									<h1><span><small class="label label-warning-admin">商家管理员</small></span>&nbsp;&nbsp;{$list.staff_name}</h1>
+	        									<p>{$list.add_time}</p><br>
+	        								 </div>
+        								 {elseif $list.user_type eq 'admin'}
+	        								 <div class="comment-thumb-details">
+	        									<h1><span><small class="label label-warning-admin">平台管理员</small></span>&nbsp;&nbsp;{$list.admin_name}</h1>
+	        									<p>{$list.add_time}</p><br>
+	        								 </div>
+        								 {/if}
         								 <p>{$list.content}</p>
                                     </div>
                                   <!-- {foreachelse} -->
@@ -142,7 +153,7 @@
         					   </div>
         					</div>
         					{if $comment_info.store_id neq 0}
-						          <a href="{$store_url}" class="btn btn-gebo" type="submit">{'进入店铺评价'}</a>
+						          <a class="data-pjax btn btn-gebo" href="{$store_url}" class="btn btn-gebo" type="submit">{'进入店铺评价'}</a>
 						    {/if}
 						</div>
 					</div>

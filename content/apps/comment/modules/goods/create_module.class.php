@@ -126,7 +126,8 @@ class create_module extends api_front implements api_interface {
 		    //评价送积分
 		    $message = '';
 		    $comment_award = 0;
-		    if (ecjia::config('comment_award_open')) {
+		    
+		    if (ecjia::config('comment_award_open') && ecjia::config('comment_check') == 0) {
 		        $comment_award_rules = ecjia::config('comment_award_rules');
 		        $comment_award_rules = unserialize($comment_award_rules);
 		        $comment_award = isset($comment_award_rules[$_SESSION['user_rank']]) ? $comment_award_rules[$_SESSION['user_rank']] : ecjia::config('comment_award');
@@ -135,7 +136,11 @@ class create_module extends api_front implements api_interface {
 		        $message = '评论成功！并获得'.$comment_award.ecjia::config('integral_name').'！';
 		    }
 		    
-		    return array('data' => array('comment_award' => $comment_award, 'label_comment_award' => $message, 'label_award' => ecjia::config('integral_name')));
+		    //更新商品评分,商品审核开启时
+		    if (ecjia::config('comment_check') == 1) {
+		        RC_Api::api('comment', 'update_goods_comment', array('goods_id' => $order_info['goods_id']));
+		    }
+		    
 		}
 
 		//补充图片 或 第一次评价
@@ -200,6 +205,9 @@ class create_module extends api_front implements api_interface {
 		            }
 		        }
 		    }
+		}
+		if (!empty($content) && !empty($rank) && empty($comment_info) && ecjia::config('comment_award_open')) {
+		    return array('data' => array('comment_award' => $comment_award, 'label_comment_award' => $message, 'label_award' => ecjia::config('integral_name')));
 		}
 		
 		return array();

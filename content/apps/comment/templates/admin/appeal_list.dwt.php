@@ -50,13 +50,11 @@
 					<td class="hide-edit-area">
 						<div>{$appeal.appeal_content|truncate:100|escape:html}</div>
 						<div>{t}申诉于{/t}&nbsp;&nbsp;{$appeal.appeal_time}</div>
-						{if $appeal.has_image eq 1}
 							{if $appeal.imgs}
 								<!-- {foreach from=$appeal.imgs item=img_list} -->
-										<img width="78" height="78" style="margin-right:8px;margin-top:10px;" alt="" src="{$img_list.file_path}">
+										<img style="margin-right:8px;margin-top:10px;width:75px;height:75px;" alt="" src="{$img_list.file_path}">
 								<!-- {/foreach} -->
 							{/if}
-						{/if}
 						<div class="edit-list">
 							<a class="data-pjax" href='{url path="comment/appeal/detail" args="id={$appeal.id}&comment_id={$appeal.comment_id}"}'>{t}查看详情{/t}</a>
 						</div>

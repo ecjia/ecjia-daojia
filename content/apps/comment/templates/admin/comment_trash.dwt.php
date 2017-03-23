@@ -57,7 +57,7 @@
 						<div>{$comment.content|truncate:100|escape:html}</div>
 						{if $comment.imgs}
 						    <!-- {foreach from=$comment.imgs item=img_list} -->
-							     <img width="78" height="78" style="margin-right:8px;margin-top:10px;margin-bottom:8px;" src="{$img_list.file_path}">
+							     <img style="margin-right:8px;margin-top:10px;margin-bottom:8px;height:75px;width:75px;" src="{$img_list.file_path}">
 						    <!-- {/foreach} -->
 						{/if}
 						<div class="edit-list">

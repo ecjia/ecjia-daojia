@@ -204,7 +204,7 @@ class appeal extends ecjia_admin {
 		$filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
 		
 		$start_date = empty($_GET['start_date']) ? '' : RC_Time::local_strtotime($_GET['start_date']);
-		$end_date   = empty($_GET['end_date']) ? '' : RC_Time::local_strtotime($_GET['end_date']);
+		$end_date   = empty($_GET['end_date']) ? '' : RC_Time::local_strtotime($_GET['end_date']) + 86399;
 		
 		if ($filter['keywords']) {
 			$db_comment_appeal->where(RC_DB::Raw('ca.appeal_sn'), 'like', '%' . mysql_like_quote($filter['keywords']) . '%')

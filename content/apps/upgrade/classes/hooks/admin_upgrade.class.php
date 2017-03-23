@@ -63,6 +63,11 @@ class admin_upgrade_hooks {
     
     public static function upgrade_database()
     {
+        // 后台超级管理员登录的情况下方可升级
+        if (!(array_get($_SESSION, 'admin_id') && array_get($_SESSION, 'action_list') == 'all')) {
+            return false;
+        }
+        
         $old_version = ecjia::config('ecjia_version');
         $new_version = RC_Config::get('release.version');
         

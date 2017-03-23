@@ -9,6 +9,7 @@
 			ecjia.touch.comment.photo();
 			ecjia.touch.comment.remove_goods_img();
 			ecjia.touch.comment.back();
+			ecjia.touch.comment.submitForm();
 		},
 		goods_info : function () {
 			var comment_goods = $("input[name='comment_goods']").val();
@@ -178,7 +179,35 @@
 				});
 				window.history.pushState('forward', null, "#");
 			}
-		}
+		},
+		
+		submitForm : function () {
+			$('input[name="push-comment-btn"]').on('click', function (e) {
+            	e.preventDefault();
+				var url = $("form[name='theForm']").attr('action');
+            	$("form[name='theForm']").ajaxSubmit({
+            		type: 'post',
+            		url: url,
+	 				dataType:"json",
+	 				success:function(data) {
+	 					var myApp = new Framework7();
+		    			myApp.modal({
+		        			title: data.message,
+		        			buttons: [
+					          {
+					            text: '确定',
+					            onClick: function() {
+					            	if (data.pjaxurl != '') {
+										ecjia.pjax(data.pjaxurl);
+									}
+					            }	
+					          },
+					        ]
+		        		});
+	 				}
+	 			});
+            });
+	 	},
 	};
 	
 })(ecjia, jQuery);

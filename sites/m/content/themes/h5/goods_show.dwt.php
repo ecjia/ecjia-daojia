@@ -171,6 +171,7 @@ var releated_goods = {$releated_goods};
 						</div>        
 						<div class="assess-bottom">            
 							<p class="assess-content">{$comment.content}</p>
+							<p class="goods-attr">{$comment.goods_attr}</p>
 							<!-- {if $comment.picture} -->
 							<div class="img-list img-pwsp-list" data-pswp-uid="{$key}">
 								<!-- {foreach from=$comment.picture item=img} -->
@@ -178,7 +179,6 @@ var releated_goods = {$releated_goods};
 								<!-- {/foreach} -->
 							</div>
 							<!-- {/if} -->
-							<p class="goods-attr">{$comment.goods_attr}</p>
 							{if $comment.reply_content}
 							<div class="store-reply">商家回复：{$comment.reply_content}</div>
 							{/if}

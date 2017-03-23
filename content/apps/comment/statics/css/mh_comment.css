@@ -130,7 +130,7 @@ i.fa-star {
     color: #000000;
 }
 .goods-all-reply span{
-   margin-left:230px;
+   float:right;
 }
 .goods-img{
 	text-align:center;

@@ -153,6 +153,8 @@ class merchant_controller {
 			'city_id' 	=> $_COOKIE['city_id']
 		);
 		 
+		RC_Cache::app_cache_delete('cart_goods'.$token.$store_id.$_COOKIE['longitude'].$_COOKIE['latitude'].$_COOKIE['city_id'], 'cart');
+		
 		//店铺购物车商品
 		$cart_list = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_LIST)->data($arr)->run();
 

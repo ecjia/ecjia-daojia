@@ -38,26 +38,22 @@ class comments_module extends api_front implements api_interface
  * @return  array
  */
 function EM_assign_comment($id, $type, $page = 1, $page_size = 15) {
-	$list['comment_number'] = RC_DB::table('comment')
-		->select(RC_DB::raw('count(*) as "all"'),
-			RC_DB::raw('SUM(IF(comment_rank > 3, 1, 0)) as "good"'),
-			RC_DB::raw('SUM(IF(comment_rank > 1 && comment_rank < 4, 1, 0)) as "general"'),
-			RC_DB::raw('SUM(IF(comment_rank = 1, 1, 0)) as "low"'),
-			RC_DB::raw('SUM(IF(has_image = 1, 1, 0)) as "picture"'))
-		->where('status', 1)
-		->where('parent_id', 0)
-		->where('comment_type', 0)
-		->where('id_value', $id)
-		->first();
-	$list['comment_number']['good'] = empty($list['comment_number']['good']) ? 0 : intval($list['comment_number']['good']);
-	$list['comment_number']['general'] = empty($list['comment_number']['good']) ? 0 : intval($list['comment_number']['general']);
-	$list['comment_number']['low'] = empty($list['comment_number']['good']) ? 0 : intval($list['comment_number']['low']);
-	$list['comment_number']['picture'] = empty($list['comment_number']['good']) ? 0 : intval($list['comment_number']['picture']);
-	
-	if ($list['comment_number']['all'] != 0) {
-		$list['comment_percent'] = round(($list['comment_number']['good'] / $list['comment_number']['all']) * 100) .'%';
+    
+	$comment_number = RC_DB::table('goods_data')->where('goods_id', $id)->first();
+	if (empty($comment_number)) {
+	    $list['comment_number']['all'] = 0;
+	    $list['comment_number']['good'] = 0;
+	    $list['comment_number']['general'] = 0;
+	    $list['comment_number']['low'] = 0;
+	    $list['comment_number']['picture'] = 0;
+	    $list['comment_percent'] = '100%';
 	} else {
-		$list['comment_percent'] = '100%';
+	    $list['comment_number']['all'] = $comment_number['comment_good'] + $comment_number['comment_general'] + $comment_number['comment_low'];
+	    $list['comment_number']['good'] = $comment_number['comment_good'];
+	    $list['comment_number']['general'] = $comment_number['comment_general'];
+	    $list['comment_number']['low'] = $comment_number['comment_low'];
+	    $list['comment_number']['picture'] = $comment_number['comment_picture'];
+	    $list['comment_percent'] = round($comment_number['goods_rank']/100).'%';
 	}
 
 	$db_comment = RC_DB::table('comment as c')
@@ -122,9 +118,10 @@ function EM_assign_comment($id, $type, $page = 1, $page_size = 15) {
 			$arr['content']  	= str_replace('\r\n', '<br />', htmlspecialchars($row['content']));
 			$arr['content']  	= nl2br(str_replace('\n', '<br />', $arr['content']));
 			$arr['rank']     	= $row['comment_rank'];
-			$arr['goods_attr']	= $row['goods_attr'];
+			$arr['goods_attr']	= str_replace('\n', '', $row['goods_attr']);
 			$arr['add_time'] 	= RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
-	
+			$arr['picture']     = array();
+			
 			if ($row['has_image'] == 1) {
 				$picture_list = RC_DB::table('term_attachment')
 					->where('object_group', 'comment')
