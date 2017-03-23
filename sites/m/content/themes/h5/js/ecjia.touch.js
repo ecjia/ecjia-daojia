@@ -216,11 +216,14 @@
 				offset		: 100,						//offset		滑动预留
 				trigger		: '.load-list',				//trigger		点击的触发器
 				lock		: false,					//lock			锁
-				type		: '',						//type			商品类型
+				type		: '',						//type			类型
 			},
 			options = $.extend({}, defaults, options),
 			scroll_list = function(){
 				if (!options.lock && ($(window).scrollTop() > $(document).height() - $(window).height() - options.offset)) {
+					if ($('.'+options.areaClass).parent().find('.is-last').length != 0) {
+						return false;
+					}
 					options.lock = true;
 					ecjia.touch.load_list(options);
 					options.page++;
@@ -232,6 +235,9 @@
 					scroll_list();
 				};
 				$('.wd').scroll(function(){
+					scroll_list();
+				});
+				$('.store-container').scroll(function(){
 					scroll_list();
 				});
 			} else {
@@ -259,19 +265,32 @@
 				size : options.size,
 				action_type : options.type
 			}, function(data){
-				if ($(options.areaSelect).hasClass(options.areaClass)) $(options.areaSelect).append(data.list);
+//				if ($(options.areaSelect).hasClass(options.areaClass)) $(options.areaSelect).append(data.list);
+                if ($(options.areaSelect).hasClass(options.areaClass)) {
+                	options.areaClass = options.areaClass.replace(new RegExp(' ','gm'), '.');//替换空格为点，多个class
+                    $('.'+options.areaClass).append(data.list);
+                }
 				options.lock = data.is_last;
 				$(options.trigger).hide();
 				if (data.is_last == 1) {
 					$(options.trigger).addClass('is-last');
 					$("#load_more_btn").remove();
 				}
+    			if (data.spec_goods) {
+    				if (window.releated_goods != undefined) {
+    					$.extend(window.releated_goods, data.spec_goods);
+    				} else {
+    					window.releated_goods = data.spec_goods;
+    				}
+    			}
 				ecjia.touch.more_callback();
 				var list_length = $.trim(data.list).length;
                 ecjia.touch.update_hot_time(list_length);
                 ecjia.touch.category.add_tocart();
 				ecjia.touch.category.remove_tocart();
+				ecjia.touch.category.store_toggle();
 				ecjia.touch.record_time();
+				ecjia.touch.category.image_preview();
 			});
 		},
 		
@@ -414,12 +433,12 @@
 		            bottom_start = $("#ecjia-menu").css("bottom");
 		            top_start = $("#ecjia-menu").offset().top - $("body").scrollTop();
 		            //阻止浏览器下拉事件
-			        $('body').on('touchmove', function (event) {event.preventDefault();});
+			        $('body').css('overflow-y', 'hidden').on('touchmove', function(event){event.preventDefault;}, false);
 		        });
 		        document.getElementById("ecjia-menu").addEventListener('touchmove', function(e) {
 		            _x_move=e.touches[0].pageX;
 		            _y_move=e.touches[0].pageY;
-		            $("#ecjia-menu").css("left", parseFloat(_x_move)-parseFloat(_x_start)+parseFloat(left_start)+"px");
+//		            $("#ecjia-menu").css("left", parseFloat(_x_move)-parseFloat(_x_start)+parseFloat(left_start)+"px");
 		            var bottom = parseFloat(_y_start)-parseFloat(_y_move)+parseFloat(bottom_start);
 		            var top = parseFloat(_y_move)-parseFloat(_y_start)+parseFloat(top_start);
 		            if (bottom < 100 || top < 250) {return false;}
@@ -428,7 +447,7 @@
 		        document.getElementById("ecjia-menu").addEventListener('touchend', function(e) {
 		            var _x_end=e.changedTouches[0].pageX;
 		            var _y_end=e.changedTouches[0].pageY;
-		            $('body').off('touchmove');
+		            $('body').css('overflow-y', 'auto').off('touchmove');
 		        });
 		        $(".ecjia-menu .icon-top").click(function(){
 	                $('body,html').animate({scrollTop:0},300);
@@ -596,6 +615,10 @@
 		//增加动画
 		$('body').removeClass('blurry');
 		ecjia.touch.pjaxloadding();
+		
+		if (window.releated_goods != undefined && window.releated_goods.length != 0) {
+			window.releated = $.extend({}, window.releated_goods);
+		}
 	});
 
 	//PJAX前进、返回执行
@@ -604,6 +627,12 @@
 	
 	//PJAX历史和跳转都会执行的方法
 	$(document).on('pjax:end', function() {
+		if (typeof(releated_goods) != "undefined") {
+			if (releated_goods.length != 0) {
+				window.releated_goods = $.extend({}, releated_goods, window.releated);
+			}
+		}
+		
 		if ($.find('.is-last').length == 0) {
 			ecjia.touch.asynclist();
 		}

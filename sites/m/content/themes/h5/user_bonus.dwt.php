@@ -21,19 +21,22 @@ var bonus_sn_empty = '{$lang.bonus_sn_empty}';
 	<li {if $smarty.get.status eq 'is_used'} class="red-bottom"{else}class=""{/if}><a {if $smarty.get.status eq 'is_used'} class="red-font"{else}class=""{/if} href="{url path='user/bonus/init' args='status=is_used'}">{t}已使用{/t}</a></li>
 	<li {if $smarty.get.status eq 'expired'} class="red-bottom"{else}class=""{/if}><a {if $smarty.get.status eq 'expired'} class="red-font right-border"{else}class="right-border"{/if} href="{url path='user/bonus/init' args='status=expired'}">{t}已过期{/t}</a></li>
 </ul>
+<div class="ecjia-bonus bonus_explain">
+    <a href="{$bonus_readme_url}">使用说明</a> 
+</div>
 {if $smarty.get.status eq 'allow_use'}
-<div><ul class="ecjia-bonus-top-list ecjia-margin-t ecjia-bonus ecjia-list-two" id="J_ItemList"  data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='user/bonus/async_allow_use'}" data-size="10"></ul></div>
+<div><ul class="ecjia-bonus-top-list ecjia-bonus-top-im ecjia-margin-t ecjia-bonus ecjia-list-two" id="J_ItemList"  data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='user/bonus/async_allow_use'}" data-size="10"></ul></div>
 {elseif $smarty.get.status eq 'is_used'}
-<div><ul class="ecjia-bonus-top-list ecjia-margin-t ecjia-bonus ecjia-list-two" id="J_ItemList"  data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='user/bonus/async_is_used'}" data-size="10"></ul></div>
+<div><ul class="ecjia-bonus-top-list ecjia-bonus-top-im ecjia-margin-t ecjia-bonus ecjia-list-two" id="J_ItemList"  data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='user/bonus/async_is_used'}" data-size="10"></ul></div>
 {elseif $smarty.get.status eq 'expired'}
-<div><ul class="ecjia-bonus-top-list ecjia-margin-t ecjia-bonus ecjia-list-two" id="J_ItemList"  data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='user/bonus/async_expired'}" data-size="10"></ul></div>
+<div><ul class="ecjia-bonus-top-list ecjia-bonus-top-im ecjia-margin-t ecjia-bonus ecjia-list-two" id="J_ItemList"  data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='user/bonus/async_expired'}" data-size="10"></ul></div>
 {elseif $smarty.get.status eq ''}
-<div><ul class="ecjia-bonus-top-list ecjia-margin-t ecjia-bonus ecjia-list-two" id="J_ItemList"  data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='user/bonus/async_allow_use'}" data-size="10"></ul></div>
+<div><ul class="ecjia-bonus-top-list ecjia-bonus-top-im ecjia-margin-t ecjia-bonus ecjia-list-two" id="J_ItemList"  data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='user/bonus/async_allow_use'}" data-size="10"></ul></div>
 {/if}
 <!-- {/block} -->
 
 <!-- {block name="ajaxinfo"} -->
-	<!--{foreach from=$bonus item=item}-->
+    <!--{foreach from=$bonus item=item}-->
 	<li class="ecjia-margin-b list-l-size">
 		<div class="user-bonus-info {if $item.label_status eq '未使用'}user-bonus-head{else}user-bonus-head-expired{/if}">
 			<div {if $item.status eq 'allow_use'} class="type-l"{else}class="type-l color-3a"{/if}">

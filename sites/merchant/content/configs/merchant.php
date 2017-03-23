@@ -31,6 +31,9 @@ return array(
     	'shipping' => 'shipping',
     	/*店铺向导  */
     	'shopguide' => 'shopguide',
+    	/*配送信息  */
     	'express'	=> 'express',
+    	/*评论管理  */
+    	'comment'	=> 'comment',
     ),
 );

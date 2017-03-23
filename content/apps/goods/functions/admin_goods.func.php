@@ -726,12 +726,12 @@ function get_goods_properties($goods_id, $warehouse_id = 0, $area_id = 0) {
 
 				$arr ['spe'] [$row ['attr_id']] ['attr_type'] = $row ['attr_type'];
 				$arr ['spe'] [$row ['attr_id']] ['name'] = $row ['attr_name'];
-				$arr ['spe'] [$row ['attr_id']] ['values'] [] = array (
+				$arr ['spe'] [$row ['attr_id']] ['value'] [] = array (
 					'label' => $row ['attr_value'],
 					'price' => $row ['attr_price'],
 					'format_price' => price_format ( abs ( $row ['attr_price'] ), false ),
 					'id' => $row ['goods_attr_id']
-					);
+				);
 			}
 
 			if ($row ['is_linked'] == 1) {

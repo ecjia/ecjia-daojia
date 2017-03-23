@@ -6,9 +6,9 @@ Description: 这是首页的新品推荐模块
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 {if $new_goods}
-<div class="ecjia-mod ecjia-promotion-model ecjia-margin-t">
-	<div class="hd ecjia-sales-hd ecjia-new-goods">
-		<h2><i class="icon-goods-new"></i>新品推荐<a href="{$more_news}" class="more_info">更多</a></h2>
+<div class="ecjia-mod ecjia-new-model ecjia-margin-t">
+	<div class="head-title ecjia-new-goods">
+		<h2><i class="icon-new"></i>新品推荐<a href="{$more_news}" class="more_info">更多</a></h2>
 	</div>
 	<div class="swiper-container swiper-promotion">
 		<div class="swiper-wrapper">

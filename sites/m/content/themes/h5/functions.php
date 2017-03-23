@@ -51,6 +51,7 @@ RC_Loader::load_app_class('touch', 'touch', false);
 RC_Loader::load_theme('extras/controller/touch_controller.php');
 RC_Hook::add_action('touch/index/init', array('touch_controller', 'init'));
 RC_Hook::add_action('touch/index/ajax_goods', array('touch_controller', 'ajax_goods'));
+RC_Hook::add_action('touch/index/ajax_suggest_store', array('touch_controller', 'ajax_suggest_store'));
 RC_Hook::add_action('touch/index/search', array('touch_controller', 'search'));
 RC_Hook::add_action('touch/index/del_search', array('touch_controller', 'del_search'));
 
@@ -71,6 +72,7 @@ RC_Hook::add_action('goods/index/show', array('goods_controller', 'show'));//商
 RC_Hook::add_action('goods/index/promotion', array('goods_controller', 'promotion'));
 RC_Hook::add_action('goods/index/ajax_goods', array('goods_controller', 'ajax_goods'));
 RC_Hook::add_action('goods/index/new', array('goods_controller', 'goods_new'));
+RC_Hook::add_action('goods/index/ajax_goods_comment', array('goods_controller', 'ajax_goods_comment'));//获取商品评论
 
 //店铺
 RC_Loader::load_theme('extras/controller/merchant_controller.php');
@@ -78,6 +80,7 @@ RC_Hook::add_action('merchant/index/init', array('merchant_controller', 'init'))
 RC_Hook::add_action('merchant/index/ajax_goods', array('merchant_controller', 'ajax_goods'));//获取店铺商品
 RC_Hook::add_action('merchant/index/detail', array('merchant_controller', 'detail'));//店铺详情
 RC_Hook::add_action('merchant/index/position', array('merchant_controller', 'position'));//店铺位置
+RC_Hook::add_action('merchant/index/ajax_store_comment', array('merchant_controller', 'ajax_store_comment'));//获取店铺评论
 
 //文章
 RC_Loader::load_theme('extras/controller/article_controller.php');
@@ -89,6 +92,7 @@ RC_Hook::add_action('article/shop/detail', array('article_controller', 'shop_det
 RC_Loader::load_theme('extras/controller/cart_controller.php');
 RC_Hook::add_action('cart/index/init', array('cart_controller', 'init'));
 RC_Hook::add_action('cart/index/update_cart', array('cart_controller', 'update_cart'));//更新购物车中商品
+RC_Hook::add_action('cart/index/check_spec', array('cart_controller', 'check_spec'));//检查购物车中商品规格
 RC_Hook::add_action('cart/flow/checkout', array('cart_controller', 'checkout'));
 RC_Hook::add_action('cart/flow/pay', array('cart_controller', 'pay'));
 RC_Hook::add_action('cart/flow/shipping', array('cart_controller', 'shipping'));
@@ -191,6 +195,9 @@ RC_Hook::add_action('user/order/order_cancel', array('user_order_controller', 'o
 RC_Hook::add_action('user/order/async_order_list', array('user_order_controller', 'async_order_list'));
 RC_Hook::add_action('user/order/order_detail', array('user_order_controller', 'order_detail'));
 RC_Hook::add_action('user/order/affirm_received', array('user_order_controller', 'affirm_received'));
+RC_Hook::add_action('user/order/comment_list', array('user_order_controller', 'comment_list'));
+RC_Hook::add_action('user/order/goods_comment', array('user_order_controller', 'goods_comment'));
+RC_Hook::add_action('user/order/make_comment', array('user_order_controller', 'make_comment'));
 RC_Hook::add_action('user/order/buy_again', array('user_order_controller', 'buy_again'));
 
 //用户资料
@@ -298,6 +305,7 @@ RC_Hook::add_action('connect_callback_user_signin', function($userid) {
     ecjia_touch_user::singleton()->setUserinfo($res);
      
     update_user_info(); // 更新用户信息
+    user_controller::sync_avatar($userid);/* 获取远程用户头像信息*/
     RC_Loader::load_app_func('cart','cart');
     recalculate_price(); // 重新计算购物车中的商品价格
     
@@ -307,7 +315,7 @@ RC_Hook::add_action('connect_callback_user_signin', function($userid) {
     } else {
         $back_url = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';
     }
-    $back_url = empty($back_url) ? RC_Uri::url('touch/my/init') : $back_url;
+    $back_url = empty($back_url) ? RC_Uri::url('touch/index/init') : $back_url;
     $back_url = str_replace('/notify/', '/', $back_url);
 
     return ecjia_front::$controller->redirect($back_url);
@@ -327,6 +335,9 @@ ecjia_open::macro('goods_detail', function($querys) {
 });
 ecjia_open::macro('seller', function($querys) {
 	return RC_Uri::url('goods/category/seller_list', array('cid' => $querys['category_id']));
+});
+ecjia_open::macro('user_bonus', function($querys) {
+    return RC_Uri::url('user/bonus/init', array('type' => $querys['type']));
 });
 
 /**

@@ -11,7 +11,7 @@ class MySqlGrammar extends Grammar {
 	 *
 	 * @var array
 	 */
-	protected $modifiers = array('Unsigned', 'Nullable', 'Default', 'Increment', 'After');
+	protected $modifiers = array('Unsigned', 'Nullable', 'Default', 'Increment', 'Comment', 'After');
 
 	/**
 	 * The possible column serials
@@ -462,6 +462,17 @@ class MySqlGrammar extends Grammar {
 	{
 		return 'datetime';
 	}
+	
+	/**
+	 * Create the column definition for a date-time type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeDateTimeTz(Fluent $column)
+	{
+	    return 'datetime';
+	}
 
 	/**
 	 * Create the column definition for a time type.
@@ -473,6 +484,17 @@ class MySqlGrammar extends Grammar {
 	{
 		return 'time';
 	}
+	
+	/**
+	 * Create the column definition for a time type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeTimeTz(Fluent $column)
+	{
+	    return 'time';
+	}
 
 	/**
 	 * Create the column definition for a timestamp type.
@@ -482,9 +504,24 @@ class MySqlGrammar extends Grammar {
 	 */
 	protected function typeTimestamp(Fluent $column)
 	{
-		if ( ! $column->nullable) return 'timestamp default 0';
+		if ( ! $column->nullable) return 'timestamp default CURRENT_TIMESTAMP';
 
 		return 'timestamp';
+	}
+	
+	/**
+	 * Create the column definition for a timestamp type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeTimestampTz(Fluent $column)
+	{
+	    if ($column->useCurrent) {
+	        return 'timestamp default CURRENT_TIMESTAMP';
+	    }
+	
+	    return 'timestamp';
 	}
 
 	/**
@@ -496,6 +533,39 @@ class MySqlGrammar extends Grammar {
 	protected function typeBinary(Fluent $column)
 	{
 		return 'blob';
+	}
+	
+	/**
+	 * Create the column definition for a uuid type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeUuid(Fluent $column)
+	{
+	    return 'char(36)';
+	}
+	
+	/**
+	 * Create the column definition for an IP address type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeIpAddress(Fluent $column)
+	{
+	    return 'varchar(45)';
+	}
+	
+	/**
+	 * Create the column definition for a MAC address type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeMacAddress(Fluent $column)
+	{
+	    return 'varchar(17)';
 	}
 
 	/**
@@ -566,6 +636,20 @@ class MySqlGrammar extends Grammar {
 			return ' after '.$this->wrap($column->after);
 		}
 	}
+
+	/**
+     * Get the SQL for a "comment" column modifier.
+     *
+     * @param  \Royalcms\Component\Database\Schema\Blueprint  $blueprint
+     * @param  \Royalcms\Component\Support\Fluent  $column
+     * @return string|null
+     */
+    protected function modifyComment(Blueprint $blueprint, Fluent $column)
+    {
+        if (! is_null($column->comment)) {
+            return " comment '".$column->comment."'";
+        }
+    }
 
 	/**
 	 * Wrap a single string in keyword identifiers.

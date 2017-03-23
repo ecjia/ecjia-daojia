@@ -28,6 +28,7 @@
 			<input type="hidden" name="invite_code" value="{$invite_code}" />
 		</form>
 	</div>
+	<div class="wx-affiliate hide"><img src="{RC_App::apps_url('affiliate/statics/front/images/wx_affiliate.png')}"></div>
 </body>
 </html>
 <!-- {* 包含脚本文件 *} -->
@@ -37,6 +38,6 @@
 <script src="{$front_url}/js/affiliate.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-	ecjia.front.affiliate.init();
+ecjia.front.affiliate.init();
 </script>
 <!-- {/nocache} -->

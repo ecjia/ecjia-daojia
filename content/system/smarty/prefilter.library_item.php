@@ -72,29 +72,31 @@ function smarty_prefilter_library_item($source, $smarty) {
 		
 		if (!defined('IN_ADMIN') || !defined('IN_MERCHANT')) {
 			/* 检查有无动态库文件，如果有为其赋值 */
-			$dyna_libs = ecjia_theme::instance()->get_dyna_libs($smarty->_current_file);
-			if ($dyna_libs) {
-				foreach ($dyna_libs AS $region => $libs) {
-					$pattern = '/<!--\\s*TemplateBeginEditable\\sname="'. $region .'"\\s*-->(.*?)<!--\\s*TemplateEndEditable\\s*-->/s';
-		
-					if (preg_match($pattern, $source, $reg_match)) {
-						$reg_content = $reg_match[1];
-						/* 生成匹配字串 */
-						$keys = array_keys($libs);
-						$lib_pattern = '';
-						foreach ($keys AS $lib) {
-							$lib_pattern .= '|' . str_replace('/', '\/', substr($lib, 1));
-						}
-						$lib_pattern = '/{include\sfile=\"(' . substr($lib_pattern, 1) . ').php\"}/';
-						/* 修改$reg_content中的内容 */
-						$GLOBALS['libs'] = $libs;
-						$reg_content = preg_replace_callback($lib_pattern, 'dyna_libs_replace', $reg_content);
-		
-						/* 用修改过的内容替换原来当前区域中内容 */
-						$source = preg_replace($pattern, $reg_content, $source);
-					}
-				}
-			}
+	        $dyna_libs = get_template_dynamic_libraries($smarty->_current_file);
+	        
+	        if ($dyna_libs) {
+	            foreach ($dyna_libs AS $region => $libs) {
+	                $pattern = '/<!--\\s*TemplateBeginEditable\\sname="'. $region .'"\\s*-->(.*?)<!--\\s*TemplateEndEditable\\s*-->/s';
+	        
+	                if (preg_match($pattern, $source, $reg_match)) {
+	                    $reg_content = $reg_match[1];
+	                    /* 生成匹配字串 */
+	                    $keys = array_keys($libs);
+	                    $lib_pattern = '';
+	                    foreach ($keys AS $lib) {
+	                        $lib_pattern .= '|' . str_replace('/', '\/', substr($lib, 1));
+	                    }
+	                    $lib_pattern = '/{include\sfile=\"(' . substr($lib_pattern, 1) . ').php\"}/';
+	                    /* 修改$reg_content中的内容 */
+	                    $GLOBALS['libs'] = $libs;
+	                    $reg_content = preg_replace_callback($lib_pattern, 'dyna_libs_replace', $reg_content);
+	        
+	                    /* 用修改过的内容替换原来当前区域中内容 */
+	                    $source = preg_replace($pattern, $reg_content, $source);
+	                }
+	            }
+	        }
+
 		}
 		
 		/* 在头部加入版本信息 */
@@ -148,6 +150,24 @@ function smarty_prefilter_library_item($source, $smarty) {
 	return $source;
 }
 
+/**
+ * 创建模板实例
+ * 
+ * @param string $template_file
+ * @return \Ecjia\System\Theme\ThemeTemplate
+ */
+function get_template_dynamic_libraries($template_file) {
+    $theme = Ecjia_ThemeManager::driver();
+    if (is_a($theme, 'Ecjia\System\Theme\Theme')) {
+        $template = new \Ecjia\System\Theme\ThemeTemplate($theme, $template_file.'.dwt.php');
+        
+        $dyna_libs = $template->getDynamicLibraries();
+        
+        return $dyna_libs;
+    }
+    
+    return false;
+}
 
 /**
  * 替换动态模块

@@ -21,7 +21,7 @@ class SeedServiceProvider extends ServiceProvider {
 	{
 		$this->registerSeedCommand();
 
-		$this->royalcms->bindShared('seeder', function($app)
+		$this->royalcms->bindShared('seeder', function($royalcms)
 		{
 			return new Seeder;
 		});

@@ -54,6 +54,8 @@ class ThemeManager extends Manager
 {
     
     private $availableThemes = array();
+
+    private $defaultThemeName = 'default';
     
     /**
      * Create a new manager instance.
@@ -81,7 +83,14 @@ class ThemeManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->getTemplateName();
+        if (in_array($this->getTemplateName(), $this->availableThemes)) 
+        {
+            return $this->getTemplateName();
+        }
+        else
+        {
+            return $this->defaultThemeName;
+        }       
     }
     
     public function getAvailableThemes()
@@ -94,6 +103,19 @@ class ThemeManager extends Manager
         }
         
         return $availableThemes;
+    }
+
+    /**
+     * Create a default driver instance.
+     *
+     * @param  string  $driver
+     * @return mixed
+     *
+     * @throws \Ecjia\System\Theme\Theme;
+     */
+    public function createDefaultDriver()
+    {
+        return new Theme($this->defaultThemeName);
     }
     
     protected function loadAvailableThemes()

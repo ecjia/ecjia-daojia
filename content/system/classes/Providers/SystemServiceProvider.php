@@ -52,6 +52,7 @@ use Ecjia\System\Console\TestLogCommand;
 use Ecjia\System\Plugin\PluginManager;
 use Ecjia\System\Theme\ThemeManager;
 use Ecjia\System\Site\SiteManager;
+use Ecjia\System\Version\VersionManager;
 
 class SystemServiceProvider extends ServiceProvider {
     /**
@@ -79,6 +80,8 @@ class SystemServiceProvider extends ServiceProvider {
 	    $this->registerThemeManager();
 	    
 	    $this->registerSiteManager();
+	    
+	    $this->registerVersionManager();
 	    
 	    $this->loadAlias();
 	}
@@ -116,6 +119,17 @@ class SystemServiceProvider extends ServiceProvider {
 	    });
 	}
 	
+	/**
+	 * Register the Site manager
+	 * @return \Ecjia\System\Version\VersionManager
+	 */
+	public function registerVersionManager()
+	{
+	    $this->royalcms->bindShared('ecjia.version.manager', function($royalcms){
+	        return new VersionManager($royalcms);
+	    });
+	}
+	
 	
 	public function registerTestLogCommand() 
 	{
@@ -137,6 +151,7 @@ class SystemServiceProvider extends ServiceProvider {
 	        $loader->alias('Ecjia_PluginManager', 'Ecjia\System\Facades\PluginManager');
 	        $loader->alias('Ecjia_ThemeManager', 'Ecjia\System\Facades\ThemeManager');
 	        $loader->alias('Ecjia_SiteManager', 'Ecjia\System\Facades\SiteManager');
+	        $loader->alias('Ecjia_VersionManager', 'Ecjia\System\Facades\VersionManager');
 	    });
 	}
 	

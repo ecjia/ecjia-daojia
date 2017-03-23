@@ -71,8 +71,6 @@ class MigrateMakeCommand extends BaseCommand {
 		// the migration out, we will dump-autoload for the entire framework to
 		// make sure that the migrations are registered by the class loaders.
 		$this->writeMigration($name, $table, $create);
-
-		$this->call('dump-autoload');
 	}
 
 	/**

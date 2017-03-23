@@ -75,7 +75,7 @@ return array(
 	'view'			=>	'查看详情',
 	'lock'			=>	'锁定',
 	'unlock'		=> '解锁',
-	'pls_name'		=>	'请输入店铺名称',
+	'pls_name'		=>	'请输入店铺名称或手机号',
 	'serach'		=>	'搜索',
 
 
@@ -150,7 +150,7 @@ return array(
 	'view_staff'		=>	'查看员工',
 	'user_ident'		=>	'编号：',
 	'employee_number'	=>	'员工编号',
-	'main_name'			=>	'名称：',
+	'main_name'			=>	'姓名：',
 	'employee_name'		=>	'员工姓名',
 	'nick_name'			=>	'昵称',
 	'main_email'		=>	'邮箱：',

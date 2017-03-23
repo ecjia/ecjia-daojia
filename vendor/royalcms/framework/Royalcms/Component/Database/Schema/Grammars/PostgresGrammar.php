@@ -410,6 +410,17 @@ class PostgresGrammar extends Grammar {
 	{
 		return 'timestamp';
 	}
+	
+	/**
+	 * Create the column definition for a date-time type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeDateTimeTz(Fluent $column)
+	{
+	    return 'timestamp(0) with time zone';
+	}
 
 	/**
 	 * Create the column definition for a time type.
@@ -421,6 +432,17 @@ class PostgresGrammar extends Grammar {
 	{
 		return 'time';
 	}
+	
+	/**
+	 * Create the column definition for a time type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeTimeTz(Fluent $column)
+	{
+	    return 'time(0) with time zone';
+	}
 
 	/**
 	 * Create the column definition for a timestamp type.
@@ -430,7 +452,26 @@ class PostgresGrammar extends Grammar {
 	 */
 	protected function typeTimestamp(Fluent $column)
 	{
+	    if ($column->useCurrent) {
+	        return 'timestamp default CURRENT_TIMESTAMP';
+	    }
+	    
 		return 'timestamp';
+	}
+	
+	/**
+	 * Create the column definition for a timestamp type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeTimestampTz(Fluent $column)
+	{
+	    if ($column->useCurrent) {
+	        return 'timestamp(0) with time zone default CURRENT_TIMESTAMP(0)';
+	    }
+	
+	    return 'timestamp(0) with time zone';
 	}
 
 	/**
@@ -442,6 +483,39 @@ class PostgresGrammar extends Grammar {
 	protected function typeBinary(Fluent $column)
 	{
 		return 'bytea';
+	}
+	
+	/**
+	 * Create the column definition for a uuid type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeUuid(Fluent $column)
+	{
+	    return 'uuid';
+	}
+	
+	/**
+	 * Create the column definition for an IP address type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeIpAddress(Fluent $column)
+	{
+	    return 'inet';
+	}
+	
+	/**
+	 * Create the column definition for a MAC address type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeMacAddress(Fluent $column)
+	{
+	    return 'macaddr';
 	}
 
 	/**

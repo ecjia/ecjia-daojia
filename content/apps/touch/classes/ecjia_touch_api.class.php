@@ -198,6 +198,15 @@ class ecjia_touch_api
  	const ADMIN_MERCHANT_PREAUDIT 	= 'admin/merchant/preaudit';//获取入驻基本信息
  	const ADMIN_MERCHANT_RESIGNUP 	= 'admin/merchant/resignup';//入驻申请信息修改
  	
+ 	//==============================================
+ 	// 评论
+ 	//==============================================
+ 	const COMMENT_CREATE            = 'comment/create';//发布商品评论
+ 	const ORDERS_COMMENT            = 'orders/comment';//获取用户邀请信息
+ 	const ORDERS_COMMENT_DETAIL     = 'orders/comment/detail';//获取单个订单的评论详情
+ 	
+ 	const STORE_COMMENTS			= 'store/comments';
+ 	
 }
 
 // end

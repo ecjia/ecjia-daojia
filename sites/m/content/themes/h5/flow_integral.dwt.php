@@ -8,11 +8,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
-<!-- {block name="footer"} -->
-<script type="text/javascript">
-</script>
-<!-- {/block} -->
-
 <!-- {block name="main-content"} -->
 <!-- #EndLibraryItem -->
 <form class="ecjia-form" id="theForm" name="theForm" action='{url path="cart/flow/checkout" args="address_id={$address_id}&rec_id={$rec_id}"}' method="post">

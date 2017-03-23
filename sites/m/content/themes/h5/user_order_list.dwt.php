@@ -42,7 +42,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
 	<div class="flow-goods-list">
 		<a class="ecjiaf-db" href='{url path="user/order/order_detail" args="order_id={$list.order_id}&type=detail"}'>
-			<ul class="{if count($list.goods_list) > 1}goods-list{else}goods-item{/if}"><!-- goods-list 多个商品隐藏商品名称,goods-item -->
+			<ul class="{if count($list.goods_list) > 1}goods-list{else}goods-item{/if} goods_attr_ul"><!-- goods-list 多个商品隐藏商品名称,goods-item -->
 				<!-- {foreach from=$list.goods_list item=goods name=goods} -->
 				<!-- {if $smarty.foreach.goods.iteration gt 3} -->
 				<!-- 判断不能大于4个 -->
@@ -52,23 +52,35 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				</li>
 				<!-- {break} -->
 				<!-- {/if} -->
-				<li class="goods-img ecjiaf-fl ecjia-margin-r ecjia-icon">
+				<li class="goods-img ecjiaf-fl ecjia-margin-r ecjia-icon {if $list.goods_list|@count gt 1}goods_attr{/if}">
 					<img class="ecjiaf-fl" src="{$goods.img.thumb}" alt="{$goods.name}" title="{$goods.name}" />
 					{if $goods.goods_number gt 1}<span class="ecjia-icon-num top">{$goods.goods_number}</span>{/if}
-					<span class="ecjiaf-fl goods-name ecjia-truncate2">{$goods.name}</span>
+					{if $list.goods_list|@count eq 1}
+					<div class="goods_attr_list">
+						<p class="ecjiaf-fl goods-name">{$goods.name}</p>
+						{if $goods.goods_attr}
+    					<div class="order_list_attr">
+    						<!-- {foreach from=$goods.goods_attr item=attr} -->
+    					   	{if $attr.name}{$attr.name}:{$attr.value}{/if}
+    						<!-- {/foreach} -->
+    					</div>
+    					{/if}
+    				</div>
+					{/if}
 				</li>
 				<!-- {/foreach} -->
 			</ul>
 		</a>
 	</div>
 	<div class="order-ft">
-		<span><a href='{url path="user/order/order_detail" args="order_id={$list.order_id}&type=detail"}'>订单金额：<span>{$list.formated_total_fee}</span></a></span>
+		<span><a href='{url path="user/order/order_detail" args="order_id={$list.order_id}&type=detail"}'>订单金额：<span class="ecjia-color-red">{$list.formated_total_fee}</span></a></span>
 		<span class="two-btn ecjiaf-fr">
 		{if $list.order_status_code eq 'await_pay'} <a class="btn btn-hollow" href='{url path="pay/index/init" args="order_id={$list.order_id}&from=list"}'>去支付</a>
 		<!-- if $list.order_status_code eq 'finished' || $list.order_status_code eq 'canceled' -->
 		{else} <a class="btn btn-hollow" href='{url path="user/order/buy_again" args="order_id={$list.order_id}&from=list"}'>再次购买</a>
 		{/if}
 		{if $list.shipping_status eq '1'} <a class="btn btn-hollow" href='{url path="user/order/affirm_received" args="order_id={$list.order_id}&from=list"}'>确认收货</a>{/if}
+		{if $list.shipping_status eq '2'} <a class="btn btn-hollow" href='{url path="user/order/comment_list" args="order_id={$list.order_id}&from=list"}'>评价晒单</a>{/if}
 		</span>
 	</div>
 </li>

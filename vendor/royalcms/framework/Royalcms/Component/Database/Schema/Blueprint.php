@@ -590,6 +590,17 @@ class Blueprint {
 	{
 		return $this->addColumn('dateTime', $column);
 	}
+	
+	/**
+	 * Create a new date-time column (with time zone) on the table.
+	 *
+	 * @param  string  $column
+	 * @return \Royalcms\Component\Support\Fluent
+	 */
+	public function dateTimeTz($column)
+	{
+	    return $this->addColumn('dateTimeTz', $column);
+	}
 
 	/**
 	 * Create a new time column on the table.
@@ -600,6 +611,17 @@ class Blueprint {
 	public function time($column)
 	{
 		return $this->addColumn('time', $column);
+	}
+	
+	/**
+	 * Create a new time column (with time zone) on the table.
+	 *
+	 * @param  string  $column
+	 * @return \Royalcms\Component\Support\Fluent
+	 */
+	public function timeTz($column)
+	{
+	    return $this->addColumn('timeTz', $column);
 	}
 
 	/**
@@ -612,17 +634,28 @@ class Blueprint {
 	{
 		return $this->addColumn('timestamp', $column);
 	}
+	
+	/**
+	 * Create a new timestamp (with time zone) column on the table.
+	 *
+	 * @param  string  $column
+	 * @return \Royalcms\Component\Support\Fluent
+	 */
+	public function timestampTz($column)
+	{
+	    return $this->addColumn('timestampTz', $column);
+	}
 
 	/**
 	 * Add nullable creation and update timestamps to the table.
+	 * 
+	 * Alias for self::timestamps().
 	 *
 	 * @return void
 	 */
 	public function nullableTimestamps()
 	{
-		$this->timestamp('created_at')->nullable();
-
-		$this->timestamp('updated_at')->nullable();
+		$this->timestamps();
 	}
 
 	/**
@@ -632,9 +665,21 @@ class Blueprint {
 	 */
 	public function timestamps()
 	{
-		$this->timestamp('created_at');
+		$this->timestamp('created_at')->nullable();
 
-		$this->timestamp('updated_at');
+		$this->timestamp('updated_at')->nullable();
+	}
+	
+	/**
+	 * Add creation and update timestampTz columns to the table.
+	 *
+	 * @return void
+	 */
+	public function timestampsTz()
+	{
+	    $this->timestampTz('created_at')->nullable();
+	
+	    $this->timestampTz('updated_at')->nullable();
 	}
 
 	/**
@@ -656,6 +701,39 @@ class Blueprint {
 	public function binary($column)
 	{
 		return $this->addColumn('binary', $column);
+	}
+	
+	/**
+	 * Create a new uuid column on the table.
+	 *
+	 * @param  string  $column
+	 * @return \Royalcms\Component\Support\Fluent
+	 */
+	public function uuid($column)
+	{
+	    return $this->addColumn('uuid', $column);
+	}
+	
+	/**
+	 * Create a new IP address column on the table.
+	 *
+	 * @param  string  $column
+	 * @return \Royalcms\Component\Support\Fluent
+	 */
+	public function ipAddress($column)
+	{
+	    return $this->addColumn('ipAddress', $column);
+	}
+	
+	/**
+	 * Create a new MAC address column on the table.
+	 *
+	 * @param  string  $column
+	 * @return \Royalcms\Component\Support\Fluent
+	 */
+	public function macAddress($column)
+	{
+	    return $this->addColumn('macAddress', $column);
 	}
 
 	/**

@@ -70,9 +70,6 @@ return array(
     'flow/checkOrder'       => 'cart::flow/checkOrder',
     'flow/done'             => 'cart::flow/done',
 
-    //comments
-	'comment/create'        => 'comment::goods/create',
-
     //feedback
     'feedback/list'         => 'feedback::feedback/list',
     'feedback/create'       => 'feedback::feedback/create',
@@ -81,8 +78,6 @@ return array(
     'goods/category'        => 'goods::goods/category',
 	'goods/list'        	=> 'goods::goods/list',
 	'goods/suggestlist'     => 'goods::goods/suggestlist',
-	'goods/groupbuygoods'   => 'groupbuy::groupbuygoods',
-    'goods/comments'        => 'comment::goods/comments',
     'goods/detail'          => 'goods::goods/detail',
     'goods/desc'            => 'goods::goods/desc',
     'goods/brand'           => 'goods::goods/brand',
@@ -256,8 +251,6 @@ return array(
 
 	'goods/filter'          => 'goods::goods/filter',
 
-	'order/comment'			=> 'comment::goods/detail',
-
 	/* 入驻申请*/
 
 	'admin/merchant/signup'			=> 'store::admin/merchant/signup',
@@ -337,6 +330,17 @@ return array(
 	'express/user/checkin'		=> 'express::express/user/checkin',
 	'admin/merchant/notification'	=> 'notification::admin/merchant/notification',
 	'admin/merchant/notification/read'	=> 'notification::admin/merchant/read',
+    
+    /* 1.4 */
+    //comments
+    'comment/create'        => 'comment::goods/create',
+    'orders/comment'		=> 'orders::order/comment',
+
+    'goods/comments'        => 'comment::goods/comments',
+    'store/comments'        => 'comment::store/comments',
+    
+    'orders/comment/detail' => 'orders::order/comment/detail',
+    
 );
 
 // end

@@ -1,0 +1,199 @@
+/*�����б�*/
+i.fa-star {
+	color: #FF9933;
+}
+.row .filter {
+	margin: 1em 0 1em 0;
+	float: left;
+}
+.row .filter .filter-box {
+	height: 1.6em;
+	width: 4.2em;
+	border: 1px solid #999;
+	display: block;
+	overflow: hidden;
+	border-radius: 3px;
+	margin: 0 .2em 0 .2em;
+}
+.row .filter .fl-l {
+	float: left;
+}
+.active{
+	text-align:right;
+}
+.table-th-block{
+	border:1px solid #ddd;
+}
+
+
+/*���۲鿴������Ϣ*/
+.comment_top{
+	border: 1px solid #CACACA;
+	border-radius:5px;
+}
+.comment-thumb {
+    width: 90px;
+    float: left;
+}
+.comment-thumb img {
+	border: 3px solid #bdc3c7;
+	width: 80px;
+	height: 80px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+       -moz-border-radius: 100%;
+        -ms-border-radius: 100%;
+         -o-border-radius: 100%;
+}
+.comment-thumb-details {
+    display: inline-block;
+    margin: 20px 10px 0 10px;
+}
+.comment-thumb-details h1{
+    color: #000000;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+}
+.comment-thumb-details p{
+    padding-top: 5px;
+    color: #000000;
+}
+.comment-thumb-details span{
+   margin-left: 50px;
+}
+
+.comment-goods img {
+	width: 50px;
+	height: 50px;
+}
+.comment-all-left-thumb {
+    width: 90px;
+    float: left;
+}
+.comment-all-right-thumb {
+    width: 90px;
+    float: right;
+}
+.comment-all-left-thumb img,.comment-all-right-thumb img{
+	border: 3px solid #bdc3c7;
+	width: 80px;
+	height: 80px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+       -moz-border-radius: 100%;
+        -ms-border-radius: 100%;
+         -o-border-radius: 100%;
+}
+.comment-reply{
+	border: 1px solid #CACACA;
+	border-radius:5px;
+}
+.reply-content{
+	margin-left: -15px;
+    margin-right: -15px;
+	margin-top: 25px;
+}
+.reply-title{
+	float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+}
+.reply-btn{
+	margin-left: 13.667%;
+}
+.reply-content-textarea{
+	width: 85.3%;
+	float: left;
+    padding-right: 15px;
+}
+.reply-email{
+    float: right;
+    position: relative;
+	width: 45%;
+	margin-top: 15px;
+}
+
+.comment-goods-detail img{
+	width: 200px;
+	height: 200px;
+	margin-top:10px;
+}
+.comment-goods-detail p{
+	padding-top: 10px;
+}
+.goods-all-reply p{
+    padding-top: 5px;
+    color: #000000;
+}
+.goods-all-reply span{
+   margin-left:230px;
+}
+.goods-img{
+	text-align:center;
+}
+.label-warning-admin {
+    background-color: #3498db;
+}
+.label-warning {
+    background-color: #f0ad4e;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+.goods-img-comment{
+	width: 10%;
+	float: left;
+    padding-left: 15px;
+	
+}
+.goods-info-comment{
+    float: left;
+    padding-left: 20px;
+	padding-top: 10px;
+}
+.mh-comment-list .nav-status {
+	float: left;
+	list-style: outside none none;
+	padding: 0;
+}
+.mh-comment-list .nav-status li {
+	float: left;
+    height: 45px;
+    line-height: 45px;
+    margin-left: 9px;
+    font-size: 17px;
+    color: #666;
+}
+
+.mh-comment-list .status-distance {
+    float: left;
+	width: 100px;
+	text-align: center;
+}
+.mh-comment-list .nav-heading {
+    height: 3em;
+    position: relative;
+    margin-bottom: 8px;
+}
+.mh-comment-list .nav-status a {
+    color: #08c;
+}
+.mh-comment-list .nav-status .btn-primary {
+    border-color: #FFF;
+    background-color: #FFF;
+    border: 1px solid #999;
+}
+

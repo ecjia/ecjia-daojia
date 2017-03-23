@@ -122,7 +122,7 @@ class goods_list {
 				'alias' => 'sf',
 				'on' 	=> "g.store_id = sf.store_id"
 			),
-				'member_price' => array(
+			'member_price' => array(
 				'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
 				'alias' => 'mp',
 				'on' 	=> "mp.goods_id = g.goods_id and mp.user_rank = '".$_SESSION['user_rank']."'"
@@ -317,7 +317,7 @@ class goods_list {
 		$fomated_cache_key = $goods_db->create_cache_key_array($cache_key, 2880);
 		
 		$goods_result = $goods_db->get_cache_item($fomated_cache_key);
-		if (empty($goods_result)) {
+		if (empty($goods_result['list'])) {
 			/* 返回商品总数 */
 			$count = $dbview->join(array('store_franchisee'))->where($where)->count();
 			

@@ -48,6 +48,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
 	
+    'Royalcms\Component\Agent\AgentServiceProvider',
     'Royalcms\Component\Excel\ExcelServiceProvider',
     'Royalcms\Component\Memcache\MemcacheServiceProvider',
     'Royalcms\Component\XmlResponse\XmlResponseServiceProvider',

@@ -12,7 +12,7 @@ class {{class}} extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('{{table}}', function(Blueprint $table)
+		RC_Schema::table('{{table}}', function(Blueprint $table)
 		{
 			//
 		});
@@ -25,7 +25,7 @@ class {{class}} extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('{{table}}', function(Blueprint $table)
+		RC_Schema::table('{{table}}', function(Blueprint $table)
 		{
 			//
 		});

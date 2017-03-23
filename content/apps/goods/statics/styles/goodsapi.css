@@ -22,6 +22,7 @@ h1,h2,h3,h4,h5,h6 {
 p {
 	margin: 0px;
 }
+body {width:100%;max-width:640px;overflow:hidden;}
 
 .goods_area_model,
 .goods_warehouse_model,

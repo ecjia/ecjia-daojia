@@ -71,6 +71,8 @@ class connect_controller {
 //         $login = array( 'url' => $data['login_url'], 'info' => '直接登录');
         
         if (empty($data['connect_code']) || empty($data['open_id'])) {
+            RC_Logger::getlogger('error')->info('connect_controller-授权信息异常，请重新授权');
+            RC_Logger::getlogger('error')->info($data);
             return ecjia_front::$controller->showmessage('授权信息异常，请重新授权', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
@@ -105,7 +107,6 @@ class connect_controller {
         ecjia_front::$controller->assign('hideinfo', '1');
         ecjia_front::$controller->assign('user_name', $user_name);
         
-        //$data['open_id']
         //快速注册修改
 //         $url['bind_signup'] = str_replace('/notify/', '/', RC_Uri::url('user/privilege/bind_signup', array('connect_code' => $data['connect_code'], 'open_id' => $data['open_id'])));
         $url['bind_signup'] = str_replace('/notify/', '/', $data['login_url']);
@@ -266,7 +267,7 @@ class connect_controller {
             if ($user['id']) {
                 $result = $connect_user->bind_user($user['id'], 0);
             } else {
-                RC_Logger::getlogger('error')->info('关联账号错误');
+                RC_Logger::getlogger('error')->info('connect_controller-关联账号错误');
                 RC_Logger::getlogger('error')->info($user);
                 return ecjia_front::$controller->showmessage('用户验证成功，获取用户信息失败，请重试！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }

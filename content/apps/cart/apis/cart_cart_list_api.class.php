@@ -163,12 +163,12 @@ class cart_cart_list_api extends Component_Event_Api {
 				if (trim($row['goods_attr']) != '') {
 					$row['goods_attr'] = addslashes($row['goods_attr']);
 					if (!is_array($row['goods_attr_id'])) {
-					    $row['goods_attr_id'] = explode(',', $row['goods_attr_id']);
+					    $where_attr['goods_attr_id'] = explode(',', $row['goods_attr_id']);
 					}
-					$attr_list = $db_goods_attr->select('attr_value')->whereIn('goods_attr_id', $row['goods_attr_id'])->get();
-					foreach ($attr_list AS $attr) {
-						$row['goods_name'] .= ' [' . $attr['attr_value'] . '] ';
-					}
+// 					$attr_list = $db_goods_attr->select('attr_value')->whereIn('goods_attr_id', $where_attr['goods_attr_id'])->get();
+// 					foreach ($attr_list AS $attr) {
+// 						$row['goods_name'] .= ' [' . $attr['attr_value'] . '] ';
+// 					}
 				}
 
 // 				if ($row['extension_code'] == 'package_buy') {

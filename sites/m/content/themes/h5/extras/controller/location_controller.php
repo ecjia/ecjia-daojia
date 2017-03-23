@@ -53,7 +53,7 @@ class location_controller {
 	//首页定位触发进入页面
 	//1、获取当前位置2、搜索位置  最终返回首页顶部定位更换信息
     public static function select_location() {
-    	ecjia_front::$controller->assign('hideinfo', '1');
+//     	ecjia_front::$controller->assign('hideinfo', '1');
     	ecjia_front::$controller->assign('title', '上海');
         ecjia_front::$controller->assign_title('定位');
         
@@ -103,14 +103,14 @@ class location_controller {
     	$url       = "https://apis.map.qq.com/ws/place/v1/suggestion/?region=".$region."&keyword=".$keywords."&key=".$key;
     	$response = RC_Http::remote_get($url);
     	$content  = json_decode($response['body']);
-    	return ecjia_front::$controller->showmessage('', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('content' => $content));
+    	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $content));
     }
     
     //选择城市
     public static function select_city() {
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-        if (is_ecjia_error($response)) {
-        	return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_ALERT, array('pjaxurl' => ''));
+        if (is_ecjia_error($rs)) {
+        	return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
         }
         ecjia_front::$controller->assign('citylist', $rs['recommend_city']);
 
@@ -162,7 +162,7 @@ class location_controller {
     	setcookie("location_address_id", 0);
     	setcookie("city_id", $city_id);
     	
-    	return ecjia_front::$controller->showmessage('', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('url' => $href_url));
+    	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $href_url));
     } 
     
     public static function get_location_info() {

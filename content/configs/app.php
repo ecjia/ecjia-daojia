@@ -122,6 +122,9 @@ return array(
     'express' => 'express',
     
     'installer' => 'installer',
+    'upgrade' => 'upgrade',
+    
+    'comment' => 'comment',
 );
 
 // end

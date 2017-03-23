@@ -18,43 +18,45 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <ul class="single_store">
         <li class="store-info">
             <a href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
-            <div class="basic-info">
-                <div class="store-left">
-                    <img src="{$val.seller_logo}">
-                </div>
-                <div class="store-right">
-                    <div class="store-name">{$val.seller_name}{if $val.manage_mode eq 'self'}<span>自营</span>{/if}</div>
-                    <div class="store-range">
-                        <i class="iconfont icon-remind"></i>{$val.label_trade_time}
-                        {if $val.distance}
-                        <span class="store-distance">{$val.distance}</span>
-                        {/if}
-                    </div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            {if $val.favourable_list}
-            <ul class="store-promotion">
-                <!-- {foreach from=$val.favourable_list item=list} -->
-                <li class="promotion">
-                    <span class="promotion-label">{$list.type_label}</span>
-                    <span class="promotion-name">{$list.name}</span>
-                </li>
-                <!-- {/foreach} -->
-            </ul>
-            {/if}
+	            <div class="basic-info">
+	                <div class="store-left">
+	                    <img src="{$val.seller_logo}">
+	                </div>
+	                <div class="store-right">
+	                    <div class="store-title">
+	                    <span class="store-name">{$val.seller_name}</span>
+	                    {if $val.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}</div>
+	                    <div class="store-range">
+	                        <i class="icon-shop-time"></i>{$val.label_trade_time}
+	                        {if $val.distance}
+	                        <span class="store-distance">{$val.distance}</span>
+	                        {/if}
+	                    </div>
+	                </div>
+	                <div class="clear"></div>
+	            </div>
+	            {if $val.favourable_list}
+	            <ul class="store-promotion">
+	                <!-- {foreach from=$val.favourable_list item=list} -->
+	                <li class="promotion">
+	                    <span class="promotion-label">{$list.type_label}</span>
+	                    <span class="promotion-name">{$list.name}</span>
+	                </li>
+	                <!-- {/foreach} -->
+	            </ul>
+	            {/if}
             </a>
             {if $val.seller_goods}
             <ul class="store-goods">
                 <!-- {foreach from=$val.seller_goods key=key item=goods} -->
                     <a href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.goods_id}">
-                    <li class="goods-info {if $key gt 2}goods-hide-list{/if}">
-                        <span class="goods-image"><img src="{$goods.img.thumb}"></span>
-                        <p>
-                            {$goods.name}
-                            <label class="price">{$goods.shop_price}</label>
-                        </p>
-                    </li>
+	                    <li class="goods-info {if $key gt 2}goods-hide-list{/if}">
+	                        <span class="goods-image"><img src="{$goods.img.thumb}"></span>
+	                        <p>
+	                            {$goods.name}
+	                            <label class="price">{$goods.shop_price}</label>
+	                        </p>
+	                    </li>
                     </a>
                 <!-- {/foreach} -->
             </ul>

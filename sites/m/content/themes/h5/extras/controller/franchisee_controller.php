@@ -199,6 +199,7 @@ class franchisee_controller {
                 'name'         => $reaudit['responsible_person'],
                 'email'        => $reaudit['email'],
                 'mobile'       => $reaudit['mobile'],
+//                 'code'         => $code,
                 'access_time'  => RC_Time::gmtime()
             );
             $second_show = array (
@@ -224,6 +225,15 @@ class franchisee_controller {
 	    $longitude = !empty($_GET['longitude']) ? $_GET['longitude'] : $reaudit['location']['longitude'];
 	    $latitude = !empty($_GET['latitude']) ? $_GET['latitude'] : $reaudit['location']['latitude'];
 
+// 	    if (!empty($_COOKIE['validate_type'])) {
+// 	        ecjia_front::$controller->assign('validate_type', $_COOKIE['validate_type']);
+// 	    }
+// 	    if (!empty($_COOKIE['seller'])) {
+// 	        ecjia_front::$controller->assign('seller', $_COOKIE['seller']);
+// 	    }
+// 	    if (!empty($_COOKIE['seller_name'])) {
+// 	        ecjia_front::$controller->assign('seller_name', $_COOKIE['seller_name']);
+// 	    }
 
 	    ecjia_front::$controller->assign('form_action', RC_Uri::url('franchisee/index/finish'));
 	    
@@ -258,6 +268,8 @@ class franchisee_controller {
 	    
 	    $responsible_person = !empty($_SESSION['franchisee_add']['name']) ? $_SESSION['franchisee_add']['name'] : '';
 	    $email 				= !empty($_SESSION['franchisee_add']['email']) ? $_SESSION['franchisee_add']['email'] : '';
+// 	    $mobile 			= !empty($_SESSION['franchisee_add']['mobile']) ? $_SESSION['franchisee_add']['mobile'] : '';
+// 	    $validate_code 		= $_SESSION['franchisee_add']['code'];
         //修改入驻信息POST传，正常入驻存session
 	    if (!empty($_SESSION['franchisee_add']['mobile'])) {
 	        $mobile = $_SESSION['franchisee_add']['mobile'];
@@ -337,9 +349,12 @@ class franchisee_controller {
 	            'latitude'       => $latitude,
 	        ),
 	    	'validate_code'  	 => $validate_code,
-	  		'city_id'   		 => $_COOKIE['city_id']
+	    	'city_id'   => $_COOKIE['city_id']
 	    );
 	    
+// 	    _dump($parameter,1);
+// 	    RC_Logger::getlogger('info')->info('h5 入驻');
+//         RC_Logger::getlogger('info')->info($parameter);
 
 	    if (empty($_SESSION['franchisee_add']['code']) || empty($_SESSION['franchisee_add']['code'])) {
 	        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_MERCHANT_RESIGNUP)->data($parameter)->run();
@@ -451,6 +466,17 @@ class franchisee_controller {
 		$district = !empty($_GET['district']) ? $_GET['district'] 	: '';
 		$address  = !empty($_GET['address'])  ? $_GET['address'] 	: '';
 		$shop_address = $province.$city.$district.$address;
+
+
+// 		$shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address='".$shop_address."&output=json&ak=E70324b6f5f4222eb1798c8db58a017b");
+// 		$shop_point = (array)json_decode($shop_point);
+// 		$shop_point['result'] = (array)$shop_point['result'];
+// 		$location = (array)$shop_point['result']['location'];
+
+// 		$longitude = $location['lng'];
+// 		$latitude = $location['lat'];
+// 		ecjia_front::$controller->assign('longitude', $longitude);
+// 		ecjia_front::$controller->assign('latitude', $latitude);
 
 		ecjia_front::$controller->assign('shop_address', $shop_address);
 		ecjia_front::$controller->assign('mobile', $mobile);

@@ -76,6 +76,9 @@ class merchant_staff_hooks {
 			->where(RC_DB::raw('o.add_time'), '>=', $start_month)
 			->where(RC_DB::raw('o.add_time'), '<=', $now)
 			->where(RC_DB::raw('o.is_delete'), 0)
+			->whereIn(RC_DB::raw('o.order_status'), array(OS_CONFIRMED, OS_SPLITED))
+			->whereIn(RC_DB::raw('o.shipping_status'), array(SS_RECEIVED))
+			->whereIn(RC_DB::raw('o.pay_status'), array(PS_PAYED))
 			->groupBy(RC_DB::raw('o.order_id'))
 			->get();
 

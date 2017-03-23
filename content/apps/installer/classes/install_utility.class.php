@@ -46,7 +46,9 @@
 //
 use Royalcms\Component\Database\Connection;
 use Royalcms\Component\Database\QueryException;
-use Royalcms\Component\Support\Facades\File as RC_File;
+use Royalcms\Component\Exception\RecoverableErrorException;
+use Ecjia\System\Database\Seeder;
+use Ecjia\System\Database\Migrate;
 
 defined('IN_ECJIA') or exit('No permission resources.');
 class install_utility 
@@ -215,6 +217,8 @@ class install_utility
                 'nav_list'      => $nav_list
             );
             
+            //清空数据表
+            RC_DB::table('admin_user')->truncate();
             return RC_DB::table('admin_user')->insert($data);
             
         } catch (QueryException $e) {
@@ -294,13 +298,80 @@ class install_utility
     }
     
     /**
+     * 安装数据库结构
+     * 
+     * @return  boolean    成功返回true，失败返回ecjia_error
+     */
+    public static function installStructure()
+    {
+        try {
+            $migrate = new Migrate();
+            
+            return $migrate->fire();
+        } 
+        catch (QueryException $e) {
+            
+            return new ecjia_error($e->getCode(), $e->getMessage());
+        }
+    }
+    
+    /**
+     * 填充数据表基础数据
+     *
+     * @return  boolean    成功返回true，失败返回ecjia_error
+     */
+    public static function installBaseData()
+    {
+        try {
+            $seeder = new Seeder('DatabaseSeeder');
+            
+            $seeder->fire();
+            
+            return true;
+        }
+        catch (QueryException $e) {
+            
+            return new ecjia_error($e->getCode(), $e->getMessage());
+        }
+        catch (RecoverableErrorException $e) {
+            
+            return new ecjia_error('recoverable_error_exception', $e->getMessage());
+        }
+    }
+    
+    /**
+     * 填充数据表演示数据
+     *
+     * @return  boolean    成功返回true，失败返回ecjia_error
+     */
+    public static function installDemoData()
+    {
+        try {
+            $seeder = new Seeder('DemoDatabaseSeeder');
+        
+            $seeder->fire();
+        
+            return true;
+        }
+        catch (QueryException $e) {
+        
+            return new ecjia_error($e->getCode(), $e->getMessage());
+        }
+        catch (RecoverableErrorException $e) {
+        
+            return new ecjia_error('recoverable_error_exception', $e->getMessage());
+        }
+    }
+    
+    
+    /**
      * 更新 ECJIA 安装日期
      * @return ecjia_error
      */
     public static function updateInstallDate()
     {
         try {
-            return RC_DB::table('shop_config')->where('code', 'install_date')->update(array('value'=>RC_Time::gmtime()));
+            return RC_DB::table('shop_config')->where('code', 'install_date')->update(array('value' => RC_Time::gmtime()));
         } catch (QueryException $e) {
             return new ecjia_error($e->getCode(), $e->getMessage());
         }
@@ -313,7 +384,8 @@ class install_utility
     public static function updateEcjiaVersion()
     {
         try {
-            return RC_DB::table('shop_config')->where('code', 'ecjia_version')->update(array('value'=>VERSION));
+            $version = RC_Config::get('release.version', '1.3.0');
+            return RC_DB::table('shop_config')->where('code', 'ecjia_version')->update(array('value' => $version));
         } catch (QueryException $e) {
             return new ecjia_error($e->getCode(), $e->getMessage());
         }
@@ -347,7 +419,7 @@ class install_utility
         ecjia_cloud::instance()->api('product/analysis/install')->data($data)->run();
         
         try {
-            return RC_DB::table('shop_config')->where('code', 'hash_code')->update(array('value'=>$hash_code));
+            return RC_DB::table('shop_config')->where('code', 'hash_code')->update(array('value' => $hash_code));
         } catch (QueryException $e) {
             return new ecjia_error($e->getCode(), $e->getMessage());
         }
@@ -361,7 +433,7 @@ class install_utility
         try {
             $url = RC_Uri::home_url() . '/sites/m/';
             
-            return RC_DB::table('shop_config')->where('code', 'mobile_touch_url')->update(array('value'=>$url));
+            return RC_DB::table('shop_config')->where('code', 'mobile_touch_url')->update(array('value' => $url));
         } catch (QueryException $e) {
             return new ecjia_error($e->getCode(), $e->getMessage());
         }

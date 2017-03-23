@@ -138,7 +138,7 @@ class goods_info {
 				}
 			}
 		}
-		$field = "g.promote_price, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . intval($_SESSION['discount']) . "') AS shop_price";
+		$field = "g.promote_price, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
 		// 取得商品促销价格列表
 		$goods = $db_goodsview->join(array('member_price'))->field($field)->where(array('g.goods_id' => $goods_id, 'g.is_delete' => 0))->find();
 
@@ -237,7 +237,12 @@ class goods_info {
 	public static function get_goods_attr_info($arr, $type = 'pice') {
 		$attr   = '';
 		if (!empty($arr)) {
-			$fmt = "%s:%s[%s] \n";
+		    if ($type == 'no') {
+		        $fmt = "%s:%s \n";
+		    } else {
+		        $fmt = "%s:%s[%s] \n";
+		    }
+			
 			$dbview = RC_DB::table('goods_attr as ga')
 					->leftjoin('attribute as a', RC_DB::raw('a.attr_id'), '=', RC_DB::raw('ga.attr_id'));
 
@@ -245,7 +250,12 @@ class goods_info {
 			if(!empty($data)) {
 				foreach ($data as $row) {
 					$attr_price = round(floatval($row['attr_price']), 2);
-					$attr .= sprintf($fmt, $row['attr_name'], $row['attr_value'], $attr_price);
+					if ($type == 'no') {
+					    $attr .= sprintf($fmt, $row['attr_name'], $row['attr_value']);
+					} else {
+					    $attr .= sprintf($fmt, $row['attr_name'], $row['attr_value'], $attr_price);
+					}
+					
 				}
 			}
 			$attr = str_replace('[0]', '', $attr);
@@ -329,7 +339,7 @@ class goods_info {
 	 *
 	 * @return string
 	 */
-	private function sort_goods_attr_id_array($goods_attr_id_array, $sort = 'asc') {
+	private static function sort_goods_attr_id_array($goods_attr_id_array, $sort = 'asc') {
 		$dbview = RC_DB::table('attribute as a')
 		->leftJoin('goods_attr as v', RC_DB::raw('v.attr_id'), '=', RC_DB::raw('a.attr_id'));
 		$dbview->where(RC_DB::raw('a.attr_type'), '=', 1);

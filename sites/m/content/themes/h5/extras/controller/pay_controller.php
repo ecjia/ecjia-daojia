@@ -58,7 +58,7 @@ class pay_controller {
         $tips_show = !empty($_GET['tips_show']) ? trim($_GET['tips_show']) : 0;
         
         if (empty($order_id)) {
-			return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR );
+			return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
         
         if ($pay_id && $pay_code) {

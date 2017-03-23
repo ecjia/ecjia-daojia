@@ -20,6 +20,21 @@ class AgentServiceProvider extends ServiceProvider {
         {
             return new Agent($royalcms['request']->server->all());
         });
+        
+        // Load the alias
+        $this->loadAlias();
     }
 
+    /**
+     * Load the alias = One less install step for the user
+     */
+    protected function loadAlias()
+    {
+        $this->royalcms->booting(function()
+        {
+            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+            $loader->alias('RC_Agent', 'Royalcms\Component\Agent\Facades\Agent');
+        });
+    }
+    
 }

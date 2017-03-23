@@ -74,6 +74,13 @@ class ecjia_config {
 	}
 	
 	/**
+	 * 强制重新加载config
+	 */
+	public function reload_config() {
+	    $this->config = $this->_load_config(true);
+	}
+	
+	/**
 	 * 载入全部配置信息
 	 *
 	 * @access  public

@@ -24,5 +24,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             </div>
     	</a>
 	</div>
+    <div class="ecjia-margin-b">
+    	<a href="{url path='user/order/order_list'}">
+            <div class="qrcode_image">
+                <img src="{$theme_url}images/wallet/540x200_5.png">
+            </div>
+    	</a>
+	</div>
 </div>
 <!-- {/block} -->

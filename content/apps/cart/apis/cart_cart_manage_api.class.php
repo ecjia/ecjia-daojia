@@ -82,7 +82,10 @@ class cart_cart_manage_api extends Component_Event_Api {
      */
     private function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $store_group = array()) {
         $_parent_id     = $parent;
-
+        if (is_array($spec)) {
+            sort($spec);
+        }
+        
         $dbview = RC_DB::table('goods as g')->leftJoin('member_price as mp', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('mp.goods_id'));
         $db_cart = RC_DB::table('cart');
 
@@ -165,13 +168,15 @@ class cart_cart_manage_api extends Component_Event_Api {
             }
         }
         /* 计算商品的促销价格 */
+        $goods_attr_id = 0;
         if (!empty($spec)) {
             $spec_price             = goods_info::spec_price($spec);
             $goods_price            = goods_info::get_final_price($goods_id, $num, true, $spec);
             $goods['market_price'] += $spec_price;
-            $goods_attr             = goods_info::get_goods_attr_info($spec);
+            $goods_attr             = goods_info::get_goods_attr_info($spec, 'no');
             $goods_attr_id          = join(',', $spec);
         }
+        $goods_attr_id = empty($goods_attr_id) ? 0 : $goods_attr_id;
 
         /* 初始化要插入购物车的基本件数据 */
         $parent = array(
@@ -182,7 +187,7 @@ class cart_cart_manage_api extends Component_Event_Api {
 	        'goods_name'    => addslashes($goods['goods_name']),
 	        'market_price'  => $goods['market_price'],
 	        'goods_attr'    => addslashes($goods_attr),
-	        'goods_attr_id' => empty($goods_attr_id) ? 0 : $goods_attr_id,
+	        'goods_attr_id' => $goods_attr_id,
 	        'is_real'       => $goods['is_real'],
 	        'extension_code'=> $goods['extension_code'],
 	        'is_gift'       => 0,
@@ -321,15 +326,16 @@ class cart_cart_manage_api extends Component_Event_Api {
             // 终止各种参数携带
             $db_cart->get();
             RC_DB::table('cart')->get();
-            // 重新复制查询
+            // 重新赋值查询
             $db_cart_model = RC_DB::table('cart');
             $row = $db_cart_model
                 ->selectRaw('rec_id, goods_number')
                 ->where('user_id', $_SESSION['user_id'])
                 ->where('goods_id', $goods_id)
-                ->where('parent_id', 0)
+                ->where('parent_id', $parent_id)
                 ->where('extension_code', '!=', 'package_buy')
                 ->where('rec_type', '=', $rec_type)
+                ->where('goods_attr_id', $goods_attr_id)
                 ->first();
 
             if($row) {
@@ -355,6 +361,7 @@ class cart_cart_manage_api extends Component_Event_Api {
                             'neq' => 'package_buy'
                         ),
                         'rec_type' => $rec_type,
+                        'goods_attr_id' => $goods_attr_id,
                     );
                     $db_cart_model = RC_Model::model('cart/cart_model');
                     $db_cart_model->where($db_where)->update($data);

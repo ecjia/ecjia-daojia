@@ -93,6 +93,25 @@
 							<input type='text' name='mobile_share_link' value='{$mobile_share_link}'>
 						</div>
 					</div>
+					
+					<div class="control-group formSep">
+						<label class="control-label">新人有礼红包：</label>
+						<div class="controls">
+							<select name="mobile_signup_reward">
+								<option value="0">{lang key='mobile::mobile.pls_select'}</option>
+								<!-- {foreach from=$bonus_type_list item=list} -->
+									<option value="{$list.type_id}" {if $mobile_signup_reward eq $list.type_id}selected="true"{/if}>{$list.type_name}</option>	
+								<!-- {/foreach} -->
+							</select>
+						</div>
+					</div>
+					<div class="control-group formSep">
+						<label class="control-label">新人有礼说明：</label>
+						<div class="controls">
+							<textarea name="mobile_signup_reward_notice" class="span7">{$mobile_signup_reward_notice}</textarea>
+						</div>
+					</div>
+					
 				<!-- 登录色值start -->
 					<h3 class="heading">{lang key='mobile::mobile.mobile_login_set'}</h3>
 					<div class="control-group formSep">

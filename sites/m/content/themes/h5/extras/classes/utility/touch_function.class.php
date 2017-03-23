@@ -69,6 +69,37 @@ class touch_function {
         }
         return $new_array;
     }
+    public static function upload_file($url, $params){
+//         $data = array(
+//             'pic'=>'@'.realpath($path).";type=".$type.";filename=".$filename
+//         'pic[0]'=>'@'.realpath($path).";type=".$type.";filename=".$filename//多图
+//         );
+        $ch = curl_init();
+        //设置帐号和帐号名
+        
+//         curl_setopt($ch, CURLOPT_USERPWD, 'joe:secret' );
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_getinfo($ch);
+        $return_data = curl_exec($ch);
+        curl_close($ch);
+        
+        return $return_data;
+    }
+    
+    public static function format_curl_response($data) {
+//         {"status":{"succeed":0,"error_code":"comment_exist","error_desc":"\u8bc4\u4ef7\u5df2\u5b8c\u6210\uff0c\u8bf7\u52ff\u91cd\u590d\u8bc4\u4ef7"}}
+        $data = json_decode($data, true);
+        if($data['status']['succeed']) {
+            return $data['status']['data'];
+        } else {
+            return new ecjia_error($data['status']['error_code'], $data['status']['error_desc']);
+        }
+    }
 }
 
 //end

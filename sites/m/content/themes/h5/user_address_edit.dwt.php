@@ -18,7 +18,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<a id="district" href='{url path="location/index/select_city" args="{if $info.id}type=editcity&address_id={$info.id}{else}type=addcity{/if}{if $temp.tem_city}&city_id={$temp.tem_city}{else}{if $info.city}&city_id={$info.city}{/if}{/if}{if $referer_url}&referer_url={$referer_url|escape:"url"}{/if}"}'>
 		<label class="input">
 			<span>所在地区： </span>
-			<input name="city_name" placeholder="{t}请选择城市{/t}" type="text" ignore="ignore" datatype="*" value="{if $temp.tem_city_name}{$temp.tem_city_name}{else}{$info.city_name}{/if}" nullmsg="请选择城市" readonly="readonly" />
+			<input name="city_name" placeholder="{t}请选择城市{/t}" type="text" ignore="ignore" datatype="*" value="{if $temp.tem_city_name && $temp.tem_city gt 0}{$temp.tem_city_name}{else}{$info.city_name}{/if}" nullmsg="请选择城市" readonly="readonly" />
 			<input name="city_id" type="hidden" datatype="*" nullmsg="请选择城市" value="{if $temp.tem_city}{$temp.tem_city}{else}{$info.city}{/if}" />
 			<i class="iconfont icon-jiantou-right"></i>
 		</label>

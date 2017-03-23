@@ -241,6 +241,16 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	}
 
 	/**
+	 * Get the keys of the collection items.
+	 *
+	 * @return static
+	 */
+	public function keys()
+	{
+	    return new static(array_keys($this->items));
+	}
+	
+	/**
 	* Get the last item from the collection.
 	*
 	* @return mixed|null
@@ -263,15 +273,43 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	}
 
 	/**
-	 * Run a map over each of the items.
-	 *
-	 * @param  Closure  $callback
-	 * @return \Royalcms\Component\Support\Collection
-	 */
-	public function map(Closure $callback)
-	{
-		return new static(array_map($callback, $this->items, array_keys($this->items)));
-	}
+     * Run a map over each of the items.
+     *
+     * @param  callable  $callback
+     * @return static
+     */
+    public function map(callable $callback)
+    {
+        $keys = array_keys($this->items);
+
+        $items = array_map($callback, $this->items, $keys);
+
+        return new static(array_combine($keys, $items));
+    }
+    
+    /**
+     * Run an associative map over each of the items.
+     *
+     * The callback should return an associative array with a single key/value pair.
+     *
+     * @param  callable  $callback
+     * @return static
+     */
+    public function mapWithKeys(callable $callback)
+    {
+        return $this->flatMap($callback);
+    }
+    
+    /**
+     * Map a collection and flatten the result by a single level.
+     *
+     * @param  callable  $callback
+     * @return static
+     */
+    public function flatMap(callable $callback)
+    {
+        return $this->map($callback)->collapse();
+    }
 
 	/**
 	 * Merge the collection with the given items.

@@ -305,6 +305,17 @@ class detail_module extends api_front implements api_interface {
 				 /* 计算节约价格*/
 				$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
 
+				
+				/*增加商品的规格和属性缓存*/
+				$cache_goods_properties_key = 'goods_properties_'.$val['goods_id'];
+				$cache_goods_properties_id = sprintf('%X', crc32($cache_goods_properties_key));
+				$goods_type_db = RC_Model::model('goods/orm_goods_type_model');
+				$properties = $goods_type_db->get_cache_item($cache_goods_properties_id);
+				if (empty($properties)) {
+				    $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
+				    $goods_type_db->set_cache_item($cache_goods_properties_id);
+				}
+				
 				$data['related_goods'][] = array(
 					'goods_id'		=> $val['goods_id'],
 					'name'			=> $val['name'],
@@ -314,8 +325,9 @@ class detail_module extends api_front implements api_interface {
 					'img' => array(
 						'thumb'	=> $val['goods_img'],
 						'url'	=> $val['original_img'],
-						'small'	=> $val['goods_thumb']
+						'small'	=> $val['goods_thumb'],
 					),
+				    'specification'     => array_values($properties['spe']),
 					'activity_type' 	=> $activity_type,
 					'object_id'			=> 0,
 					'saving_price'		=>	$saving_price,

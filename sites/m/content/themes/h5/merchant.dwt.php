@@ -15,64 +15,20 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<div class="ecjia-mod page_hearer_hide ecjia-fixed">
+<div class="ecjia-mod page_hearder_hide ecjia-fixed">
 <!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
 </div>
 
-<div class="ecjia-mod ecjia-header ecjia-store-banner">
-	<div class="ecjia-header-left">
-		<img src="{if $store_info.seller_banner}{$store_info.seller_banner}{else}{$theme_url}images/default_store_banner.png{/if}">
-	</div>
-	<div class="ecjia-header-right">
-		<a href="{$header_right.href}" class="nopjax external">
-			<!-- {if $header_right.icon neq ''} -->
-			<i class="{$header_left.icon}"></i>
-			<!-- {elseif $header_right.info neq ''} -->
-			<span>{$header_right.info}</span>
-			<!-- {/if} -->
-		</a>
-	</div>
+<!-- #BeginLibraryItem "/library/merchant_head.lbi" --><!-- #EndLibraryItem -->
+<div class="ecjia-mod ecjia-store-ul">
+	<ul>
+		<li class="ecjia-store-li"><span class="active">购物</span></li>
+		<li class="ecjia-store-li" data-url="{$url}&status=comment"><span>评价</span></li>
+		<li class="ecjia-store-li"><span class="{if $status eq 'store'}active{/if}">商家</span></li>
+	</ul>
 </div>
-<div class="ecjia-mod ecjia-store-brief">
-	<li class="store-info">
-		<a href="{RC_Uri::url('merchant/index/detail')}&store_id={$store_info.id}">
-			<div class="basic-info">
-				<div class="store-left">
-					<img src="{if $store_info.seller_logo}{$store_info.seller_logo}{else}{$theme_url}images/store_default.png{/if}">
-				</div>
-				<div class="store-right">
-					<div class="store-name">
-						{$store_info.seller_name}
-						{if $store_info.distance} {$store_info.distance}{/if}
-						{if $store_info.manage_mode eq 'self'}<span>自营</span>{/if}
-						<label class="store-distance"><i class="iconfont icon-jiantou-right"></i></label>
-					</div>
-					<div class="store-range">
-						<i class="iconfont icon-remind"></i>{$store_info.label_trade_time}
-					</div>
-				</div>
-				<div class="clear"></div>
-			</div>
-		</a>
-		{if $store_info.favourable_list}
-		<ul class="store-promotion" id="store-promotion">
-			<!-- {foreach from=$store_info.favourable_list item=list} -->
-			<li class="promotion">
-				<span class="promotion-label">{$list.type_label}</span>
-				<span class="promotion-name">{$list.name}</span>
-			</li>
-			<!-- {/foreach} -->
-		</ul>
-		{/if}
-	</li>
-</div>
-<div class="ecjia-mod ecjia-store-goods">
+<div class="ecjia-mod ecjia-store-goods ecjia-store-toggle">
 	<div class="a1n a2g">
-		<div class="wg">
-			<div class="wh search-goods" data-url="{RC_Uri::url('touch/index/search')}&store_id={$store_id}" {if $keywords}style="text-align: left;" data-val="{$keywords}"{/if}>
-				<span class="wp"><i class="iconfont icon-search"></i>搜索店内商品</span>
-			</div>
-		</div>
 		<div class="a21 clearfix">
 			<ul class="a1o">
 				<!-- {if $store_info.goods_count.best_goods gt 0} -->
@@ -129,6 +85,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</div>
 	</div>
 </div>
+<!-- #BeginLibraryItem "/library/merchant_detail.lbi" --><!-- #EndLibraryItem -->
 
 <div class="ecjia-mod store-add-cart a4w">
 	<div class="a52"></div>
@@ -190,7 +147,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 										{/if}
 									</td>
 									<td>
-										<div class="a7j">{$cart.goods_name}</div> 
+										<div class="a7j">{$cart.goods_name}</div>
+										{if $cart.attr}<div class="a7s">{$cart.attr}</div>{/if}
 										<span class="a7c">
 										{if $cart.goods_price eq 0}免费{else}{$cart.formated_goods_price}{/if}
 										</span>
@@ -199,7 +157,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							</tbody>
 						</table>
 						<div class="box" id="goods_cart_{$cart.goods_id}">
-							<span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}"></span>
+							<span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
 							<lable class="a5x">{$cart.goods_number}</lable>
 							<span class="a5v {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="add-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
 						</div>
@@ -215,7 +173,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </div>
 <!-- 遮罩层 -->
 <div class="a53" style="display: none;"></div>
-<!-- #BeginLibraryItem "/library/choose_address_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/address_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/store_notice_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/goods_attr_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/goods_attr_static_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- {/block} -->
 
 <!-- {block name="ajaxinfo"} -->
@@ -228,13 +189,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<tr>
 					<td style="width:75px; height:75px">
 						<img class="a7g" src="{$val.img.small}">
-						
 						<div class="product_empty">
 						{if $val.is_disabled eq 1}库存不足{/if}
 						</div>
 					</td>
 					<td>
 						<div class="a7j">{$val.goods_name}</div> 
+						{if $val.attr}<div class="a7s">{$val.attr}</div>{/if}
 						<span class="a7c">
 						{if $val.goods_price eq 0}免费{else}{$val.formated_goods_price}{/if}
 						</span>
@@ -243,9 +204,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</tbody>
 		</table>
 		<div class="box" id="goods_cart_{$val.goods_id}">
-			<span class="a5u reduce {if $val.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}"></span>
+			<span class="a5u reduce {if $val.is_disabled eq 1}disabled{/if} {if $val.attr}attr_spec{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.goods_id}"></span>
 			<lable class="a5x">{$val.goods_number}</lable>
-			<span class="a5v {if $val.is_disabled eq 1}disabled{/if}" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.goods_id}"></span>
+			<span class="a5v {if $val.is_disabled eq 1}disabled{/if} {if $val.attr}attr_spec{/if}" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.goods_id}"></span>
 		</div>
 	</li>
 	<input type="hidden" name="rec_id" value="{$val.rec_id}" />

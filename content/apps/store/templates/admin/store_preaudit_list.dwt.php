@@ -46,6 +46,7 @@
 				    <th class="w100">{lang key='store::store.store_cat'}</th>
 				    <th class="w100">{lang key='store::store.person'}</th>
 				    <th class="w200">{lang key='store::store.companyname'}</th>
+				    <th class="w150">手机号</th>
 				    <th class="w150">{lang key='store::store.apply_time'}</th>
 			  	</tr>
 			</thead>
@@ -63,10 +64,11 @@
 					<td>{$list.cat_name}</td>
 					<td>{$list.responsible_person}</td>
 					<td>{$list.company_name}</td>
+					<td>{$list.contact_mobile}</td>
 					<td>{$list.apply_time}</td>
 				</tr>
 				<!-- {foreachelse} -->
-				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
 				<!-- {/foreach} -->
             </tbody>
          </table>

@@ -162,6 +162,22 @@ class touch_controller {
         
         ecjia_front::$controller->assign_title();
         ecjia_front::$controller->assign_lang();
+        
+        $paramater = array(
+        	'pagination' 	=> array('count' => 6, 'page' => 1),
+        	'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+        	'city_id'       => $_COOKIE['city_id']
+        );
+        
+        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
+        if (!is_ecjia_error($response)) {
+        	list($data, $paginated) = $response;
+        	$data = merchant_function::format_distance($data);
+        
+        	if ($paginated['more'] == 0) $is_last = 1;
+        	ecjia_front::$controller->assign('data', $data);
+        	ecjia_front::$controller->assign('is_last', $is_last);
+        }
 
         ecjia_front::$controller->display('index.dwt');
     }
@@ -190,10 +206,40 @@ class touch_controller {
         	$sayList = ecjia_front::$controller->fetch('index.dwt');
         	
         	if ($paginated['more'] == 0) $data['is_last'] = 1;
-        	return ecjia_front::$controller->showmessage('success', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('list' => $sayList, 'is_last' => $data['is_last']));
+        	return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));
         }
     }
 
+    /**
+     * ajax获取推荐店铺
+     */
+    public static function ajax_suggest_store() {
+    	$limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+    	$page = intval($_GET['page']) ? intval($_GET['page']) : 1;
+    	
+    	$paramater = array(
+    		'pagination' 	=> array('count' => $limit, 'page' => $page),
+    		'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+            'city_id'       => $_COOKIE['city_id']
+    	);
+
+    	$response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
+    	if (!is_ecjia_error($response)) {
+    		list($data, $paginated) = $response;
+    		$data = merchant_function::format_distance($data);
+    		
+    		ecjia_front::$controller->assign('data', $data);
+    		ecjia_front::$controller->assign_lang();
+    		
+    		$sayList = '';
+    		if (!empty($data)) {
+    			$sayList = ecjia_front::$controller->fetch('library/suggest_store.lbi');
+    		}
+    		if ($paginated['more'] == 0) $data['is_last'] = 1;
+    		return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));
+    	}
+    }
+    
     /**
      * 搜索
      */
@@ -229,7 +275,7 @@ class touch_controller {
         if ($store_id <= 0) {
         	$pjaxurl = RC_Uri::url('touch/index/search');
         }
-        return ecjia_front::$controller->showmessage('', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('pjaxurl' => $pjaxurl));
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
     }
 }
 

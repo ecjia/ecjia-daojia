@@ -1,3 +1,4 @@
+
 body{
 	background:#fff; 
 	font-size:1em; 
@@ -7,12 +8,20 @@ body{
 	padding:0; 
 	color:#404040;
 }
+
 h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{
 	border:none; list-style-type:none;
 }
+
+.hide {
+	display:none;
+}
+
 .affiliate-body {
 	margin : 0 20px;
 }
+
+
 .affiliate-img {
 	text-align: center;
 	margin-top : 10px;
@@ -43,6 +52,7 @@ h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{
 	padding:15px;
 	border-radius: 4px 0px 0px 4px;
 }
+
 .affiliate-input {
 	height : 45px;
 	border : 0px;
@@ -51,13 +61,33 @@ h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{
 	padding-left:15px;
 	float : left;
 }
+
 .affilidate-btn {
 	height : 52px;
 	width : 100%;
-	background : #47aa4d;
+	background:#e03264;
 	color : #fff;
 	font-size:20px;
-	border : 1px solid #47aa4d;
+	border : 1px solid #ff4500;
 	border-radius: 5px;
 	margin-top : 10px;
 }
+
+.wx-affiliate {
+	background: rgba(0, 0, 0, 0.6) none repeat scroll 0 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.wx-affiliate img {
+    left: 0;
+    position: relative;
+    top: 5px;
+    width: 100%;
+    z-index: 998;
+}
+

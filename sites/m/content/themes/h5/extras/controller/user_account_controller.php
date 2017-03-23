@@ -287,7 +287,7 @@ class user_account_controller {
     	if ($data['paginated']['more'] == 0) {
     	    $more = 1;
     	}
-    	return ecjia_front::$controller->showmessage('success', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('list' => $sayList, 'page', 'is_last' => $more));
+    	return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'page', 'is_last' => $more));
     }
 
     /*提现列表*/
@@ -333,7 +333,7 @@ class user_account_controller {
         if ($data['paginated']['more'] == 0) {
             $more = 1;
         }
-        return ecjia_front::$controller->showmessage('success', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('list' => $sayList, 'page', 'is_last' => $more));
+        return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'page', 'is_last' => $more));
     }
     
     /*充值列表*/
@@ -379,7 +379,7 @@ class user_account_controller {
         if ($data['paginated']['more'] == 0) {
             $more = 1;
         }
-        return ecjia_front::$controller->showmessage('success', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('list' => $sayList, 'page', 'is_last' => $more));
+        return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'page', 'is_last' => $more));
     }
     /**
      * 充值提现详情

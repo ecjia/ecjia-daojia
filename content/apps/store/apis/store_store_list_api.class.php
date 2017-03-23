@@ -74,7 +74,7 @@ class store_store_list_api extends Component_Event_Api {
 	{
 		$where = array();
 		$where['ssi.status'] = 1;
-		$where['ssi.store_id'] = array(0);
+		//$where['ssi.store_id'] = array(0);
 		
 		/* 商家列表缓存key*/
 		$cache_key = 'store-list';
@@ -105,6 +105,7 @@ class store_store_list_api extends Component_Event_Api {
 									->get_field('store_id', true);
 
 			if (!empty($seller_group)) {
+				$seller_group = array_merge(array(0), $seller_group);
 				$where['ssi.store_id'] = $seller_group = array_unique($seller_group);
 			} else {
 				$where['ssi.store_id'] = array(0);
@@ -139,6 +140,7 @@ class store_store_list_api extends Component_Event_Api {
 		
 		/* 店铺条件*/
 		if (isset($filter['store_id']) && !empty($filter['store_id'])) {
+			$filter['store_id'] = array_merge(array(0), $filter['store_id']);
 			if (!empty($where['ssi.store_id'])) {
 				$where['ssi.store_id'] = array_intersect($where['ssi.store_id'], $filter['store_id']);
 			} else {
@@ -157,6 +159,8 @@ class store_store_list_api extends Component_Event_Api {
 
 		if (isset($filter['limit']) && $filter['limit'] == 'all') {
 			$cache_key .= '-limit-all';
+		} else {
+		    $cache_key .= '-size-' . $filter['size'] . '-page-' . $filter['page'];
 		}
 		
 		$store_franchisee_db = RC_Model::model('store/orm_store_franchisee_model');
@@ -205,7 +209,7 @@ class store_store_list_api extends Component_Event_Api {
 							'id'				 => $result[$k]['store_id'],
 							'seller_name'		 => $result[$k]['merchants_name'],
 							'seller_category'	 => $result[$k]['cat_name'],//后期删除
-							'manage_mode'		 => $result[$k]['manage_mode'],
+							'manage_mode'		 => empty($result[$k]['manage_mode']) ? 'join' : $result[$k]['manage_mode'],
 							'shop_logo'		     => empty($result[$k]['shop_logo']) ?  '' : RC_Upload::upload_url($result[$k]['shop_logo']),//后期增加
 							'seller_logo'		 => empty($result[$k]['shop_logo']) ?  '' : RC_Upload::upload_url($result[$k]['shop_logo']),//后期删除
 							'follower'			 => $result[$k]['follower'],
@@ -215,6 +219,7 @@ class store_store_list_api extends Component_Event_Api {
 									'longitude' => $result[$k]['longitude'],
 							),
 							'label_trade_time'	 => $result[$k]['trade_time']['start'] . ' - '. $result[$k]['trade_time']['end'],
+					        'seller_notice'      => $result[$k]['shop_notice'],
 					);
 				}
 			}

@@ -61,11 +61,13 @@ class user_controller {
         $shop = is_ecjia_error($shop) ? array() : $shop;
         $shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
         $shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
-        
         $token = ecjia_touch_user::singleton()->getToken();
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        $signup_reward_url =  RC_Uri::url('user/mobile_reward/init', array('token' => $token));
+   
         $user = is_ecjia_error($user) ? array() : $user;
         $signin = ecjia_touch_user::singleton()->isSignin();
+
         if ($signin) {
             if ($user) {
                 ecjia_front::$controller->assign('user', $user);
@@ -79,34 +81,13 @@ class user_controller {
         
         //判断是否第三方登录，同步头像
         /* 获取远程用户头像信息*/
-        if ($user['id'] && empty($user['avatar_img'])) {
-            
-            $connect_user = RC_Api::api('connect', 'connect_user_info', array('user_id' => $user['id']));
-        
-            RC_Logger::getlogger('info')->info('user_controller-connect');
-            if (is_ecjia_error($connect_user)) {
-                $connect_user = $connect_user->get_error_message();
-            }
-            RC_Logger::getlogger('info')->info($connect_user);
-            if($connect_user) {
-                if ($connect_user['connect_code'] == 'sns_qq') {
-                    $head_img = $connect_user['profile']['figureurl_qq_2'];
-                } else if ($connect_user['connect_code'] == 'sns_wechat') {
-                    $head_img = $connect_user['profile']['headimgurl'];
-                }
-                RC_Logger::getlogger('info')->info('user_controller-headimg' . $head_img);
-                if ($head_img) {
-                    RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $head_img, 'user_id' => $user['id']));
-                    $user_img = $head_img;
-                }
-            }
-        }
+        user_controller::sync_avatar($user['id']);
         
         if (ecjia_touch_user::singleton()->isSignin()) {
         	ecjia_front::$controller->assign('user', $user);
         }
-        
         ecjia_front::$controller->assign('user_img', $user_img);
+        ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
         ecjia_front::$controller->assign('shop', $shop);
         ecjia_front::$controller->assign('shop_config', $shop_config);
         ecjia_front::$controller->assign('active', 'mine');
@@ -159,6 +140,38 @@ class user_controller {
 			$config = $wechat->wxconfig($url);
 			return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $config));
 		}
+    }
+    
+    public static function sync_avatar($user_id) {
+        if (empty($user_id)) {
+            return false;
+        }
+        $token = ecjia_touch_user::singleton()->getToken();
+        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+         
+        $user = is_ecjia_error($user) ? array() : $user;
+        if (!empty($user['avatar_img'])) {
+            return false;
+        }
+        $connect_user = RC_Api::api('connect', 'connect_user_info', array('user_id' => $user_id));
+        
+        RC_Logger::getlogger('info')->info('user_controller-connect');
+        if (is_ecjia_error($connect_user)) {
+            $connect_user = $connect_user->get_error_message();
+        }
+        RC_Logger::getlogger('info')->info($connect_user);
+        if($connect_user) {
+            if ($connect_user['connect_code'] == 'sns_qq') {
+                $head_img = $connect_user['profile']['figureurl_qq_2'];
+            } else if ($connect_user['connect_code'] == 'sns_wechat') {
+                $head_img = $connect_user['profile']['headimgurl'];
+            }
+            RC_Logger::getlogger('info')->info('user_controller-headimg' . $head_img);
+            if ($head_img) {
+                RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $head_img, 'user_id' => $user_id));
+                $user_img = $head_img;
+            }
+        }
     }
 }
 

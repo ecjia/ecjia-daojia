@@ -49,6 +49,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class index extends ecjia_front {
 
     public function init() {
+        
+        //判断是否手机访问，如果手机访问，自动跳到H5页面
+        if (RC_Agent::isPhone()) {
+            $this->redirect(RC_Uri::home_url() . '/sites/m/');
+        }
 
 		$merchant_url     = RC_Uri::url('franchisee/merchant/init');
 		$merchant_url     = str_replace('index.php', 'sites/merchant/index.php', $merchant_url);

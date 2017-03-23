@@ -37,7 +37,7 @@
 				                <h4>许可及协议</h4>
 				                <p>请您在安装前仔细阅读本协议内容。<br>
 									感谢您选择上海商创网络科技有限公司（模板堂）独立研发ECJia到家O2O商城系统，即ECJia到家。在我们的不断努力中，为用户提供全新，功能强大，使用便捷的O2O产品。<br>
-									模板堂是ECJia到家O2O商城系统的开发商，ECJia官方网站为 <a href="https://ecjia.com/">https://ecjia.com/</a>。<br>
+									模板堂是ECJia到家O2O商城系统的开发商，ECJia官方网站为 <a href="https://ecjia.com/" target="_blank">https://ecjia.com/</a>。<br>
 									本授权协议适用且仅适用于ECJia到家V 1.3版本以及后续的升级版本，模板堂拥有对本授权协议的最终解释权。
 				                </p>
 				                <p>
@@ -60,7 +60,7 @@
 								<p>有关本产品最终用户授权协议、商业授权与技术服务的详细内容，均由上海商创网络科技有限公司独家提供。上海商创网络科技有限公司拥有在不事先通知的情况下，修改授权协议的权力，修改后的协议对改变之日起的新授权用户生效。电子文本形式的授权协议如同双方书面签署的协议一样，具有完全的和等同的法律效力。您一旦开始修改、安装或使用本产品，即被视为完全理解并接受本协议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。协议许可范围以外的行为，将直接违反本授权协议并构成侵权，我们有权随时终止授权，责令停止损害，并保留追究相关责任的权力。</p>
 				                <p>ECJIA到家软件由上海商创网络科技有限公司提供支持，核心开发团队负责维护程序日常开发工作以及新特性的制定。如果您遇到使用上的问题，程序中的 BUG，以及期许的新功能，欢迎您在社区中交流或者直接向我们贡献代码。对于贡献突出者，他的名字将出现在贡献者名单中。</p>
 			                </div>
-			                <p class="description"><input type="checkbox" class="p" name="agree" id="agree">我已仔细阅读，并同意上述条款中的所有内容</p>
+			                <p class="description"><label><input type="checkbox" class="p" name="agree" id="agree">我已仔细阅读，并同意上述条款中的所有内容</label></p>
 			                <p class="submit">
 			                    <button type="submit" class="btn primary" id="ecjia_install" disabled="disabled">我准备好了，开始下一步 &raquo;</button>
 			                </p>

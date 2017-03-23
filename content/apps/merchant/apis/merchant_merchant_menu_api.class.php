@@ -55,7 +55,7 @@ class merchant_merchant_menu_api extends Component_Event_Api {
     public function call(&$options) {
         $menus = ecjia_merchant::make_admin_menu('staff', '仪表盘', RC_Uri::url('merchant/dashboard/init'), 0)->add_icon('fa-dashboard')->add_base('dashboard');
 
-        $mymenus = ecjia_merchant::make_admin_menu('14_merchant', __('我的店铺'), '', 10)->add_icon('fa-home')->add_base('store')->add_purview(array('merchant_manage', 'franchisee_manage', 'bank_manage', 'shopguide_manage'));
+        $mymenus = ecjia_merchant::make_admin_menu('14_merchant', __('我的店铺'), '', 9)->add_icon('fa-home')->add_base('store')->add_purview(array('merchant_manage', 'franchisee_manage', 'bank_manage', 'shopguide_manage'));
         $submenus = array(
             ecjia_merchant::make_admin_menu('01_merchant_setinfo', __('店铺设置'), RC_Uri::url('merchant/merchant/init'), 1)->add_purview('merchant_manage')->add_icon('fa-gears'), //'merchant_info'
             ecjia_merchant::make_admin_menu('02_merchant_showcase', __('入驻信息'), RC_Uri::url('merchant/mh_franchisee/init'), 2)->add_purview('franchisee_manage')->add_icon('fa-info-circle'), //'enter_info'

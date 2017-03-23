@@ -10,8 +10,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-    ecjia.touch.goods_detail.init();
-    ecjia.touch.category.init();
+ecjia.touch.goods_detail.init();
+ecjia.touch.category.init();
+{if $releated_goods}
+var releated_goods = {$releated_goods};
+{/if}
 </script>
 <!-- {/block} -->
 
@@ -20,6 +23,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<ul>
 		<li><a class="goods-tab tab1" href="javascript:;" data-type="1">商品</a></li>
 		<li><a class="goods-tab tab2" href="javascript:;" data-type="2">详情</a></li>
+		<li><a class="goods-tab tab3" href="javascript:;" data-type="3">评价</a></li>
 	</ul>
 </div>
 {if $no_goods_info eq 1}
@@ -27,7 +31,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 {/if}
 <!-- 切换商品页面start -->
 {if $no_goods_info neq 1}
-<div class="ecjia-goods-basic-info"  id="goods-info-one">
+<div class="ecjia-goods-basic-info" id="goods-info-one">
 <!--商品图片相册start-->
 	<div class="focus" id="focus">
 		<div class="hd">
@@ -63,7 +67,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	            <div class="goods-style-name goods-style-name-new">
 	                <div class=" ecjiaf-fl goods-name-new">{if $goods_info.merchant_info.manage_mode eq 'self'}<span>自营</span>{/if}{$goods_info.goods_name}</div>
 	            </div>
-	            <div class="goods-price goods-price-new">
+	            <div class="goods-price goods-price-new" goods_id="{$goods_info.id}">
 	                <!-- $goods.is_promote and $goods.gmt_end_time -->
 	                <!--{if ($goods_info.promote_price gt 0) AND ($goods_info.promote_start_date lt $goods_info.promote_end_date) AND ($goods_info.formated_promote_price lt $goods_info.shop_price)} 促销-->
 		                <div class="ecjia-price-time">
@@ -75,24 +79,36 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 									<span class="goods-detail-promote" data-type="1" value="{$goods_info.promote_end_time}"></span>
 			                	</div>
 			                </div>
-			                <div class="cart-plus-right">
+			                <div class="cart-plus-right goods_spec_{$goods_info.id}" goods_id="{$goods_info.id}">
+			                	{if $goods_info.specification}
+			                	<span class="goods-add-cart choose_attr {if $goods_info.in_related_goods eq 1}spec_goods{/if}" goods_id="{$goods_info.id}">选规格</span>
+			                	{if $goods_attr_num}<i class="attr-number">{$goods_attr_num}</i>{/if}
+			                	{else}
 			                	<span class="goods-add-cart add-cart-a {if $rec_id}hide{/if}" data-toggle="add-to-cart" goods_id="{$goods_info.id}">加入购物车</span>
                                 <div class="ecjia-goods-plus-box {if !$rec_id}hide{/if} box" id="goods_{$goods_info.id}">
                                     <span class="reduce" data-toggle="remove-to-cart" rec_id="{$rec_id}">减</span>
-                                    <label>{if !$rec_id}0{else}{$num}{/if}</label>
-                                    <span class="add storeSearchCart" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加</span>
+                                    <label>{if !$rec_id}1{else}{$num}{/if}</label>
+                                    <span class="add" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加</span>
                                 </div>
+                                {/if}
 		                    </div>
 		                 </div>
 	                <!--{else}-->
 	                {$goods_info.shop_price}
 	                <del>市场价：{$goods_info.market_price}</del>	
+                	{if $goods_info.specification}
+                	<span class="goods_spec_{$goods_info.id}">
+		            <span class="goods-add-cart choose_attr {if $goods_info.in_related_goods eq 1}spec_goods{/if}" goods_id="{$goods_info.id}">选规格</span>
+		            {if $goods_attr_num}<i class="attr-number">{$goods_attr_num}</i>{/if}
+		            </span>
+		            {else}
                 	<span class="goods-add-cart market-goods-add-cart add-cart-a {if $rec_id}hide{/if}" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加入购物车</span>
               		<div class="ecjia-goods-plus-box ecjia-market-plus-box {if !$rec_id}hide{/if} box" id="goods_{$goods_info.id}">
-              			<span class="reduce show" data-toggle="remove-to-cart" rec_id="{$rec_id}">减</span>
-                     	<label>{if !$rec_id}0{else}{$num}{/if}</label>
-              			<span class="add storeSearchCart" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加</span>
+              			<span class="reduce" data-toggle="remove-to-cart" rec_id="{$rec_id}">减</span>
+                     	<label>{if !$rec_id}1{else}{$num}{/if}</label>
+              			<span class="add" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加</span>
                     </div>
+                    {/if}
 	                <!-- {/if} -->
 	            </div>
 	            <!-- {if $goods_info.favourable_list} -->
@@ -122,36 +138,95 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		            </div>
 		        </div>
 		    </a>
-	        <!-- {if $goods_info.related_goods} -->
-		        <div class="address-warehouse ecjia-margin-t address-warehouse-new">
-		            <div class="ecjia-form">
-		               <div class="may-like-literal"><span class="may-like">也许你还喜欢</span></div>
-		            </div>
-		            <div class="ecjia-margin-b form-group ecjia-form">
-		                <div class="bd">
-							<ul class="ecjia-list ecjia-like-goods-list">
-								<!--{foreach from=$goods_info.related_goods item=goods name=goods}-->
-								<!-- {if $smarty.foreach.goods.index < 6 } -->
-								<li>
-									<a href='{url path="goods/index/show" args="goods_id={$goods.goods_id}"}'>
-										<img src="{$goods.img.url}" alt="{$goods.name}" title="{$goods.name}"/>
-									</a>
-									<p class="link-goods-name ecjia-goods-name-new">{$goods.name}</p>
-									<div class="link-goods-price">
-										<!--{if $goods.promote_price}-->
-										<span>{$goods.promote_price}</span>
-										<!--{else}-->
-										<span>{$goods.shop_price}</span>
-										<!--{/if}-->
-										<span class="goods-price-plus may_like_{$goods.goods_id}" data-toggle="add-to-cart" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}"></span>
-									</div>
-								</li>
-								<!--{/if}-->
-								<!--{/foreach}-->
-							</ul>
-						</div>
+		    
+		    <a class="goods-tab tab3" href="javascript:;" data-type="3">
+		    	<div class="bd goods-type ecjia-margin-t">
+		            <div class="goods-option-con goods-num goods-option-con-new">
+		                <div class="ecjia-merchants-name">
+		                	{if $comment_list.list}
+		                	<span class="shop-title-name">商品评价({$comment_number.all}人评价)</span>
+		                	<i class="iconfont icon-jiantou-right"></i>
+		                	<span class="comment_score">{$comment_list.comment_percent}好评</span>
+		                	{else}
+		                	<span class="shop-title-name">商品评价</span>
+		                	<i class="iconfont icon-jiantou-right"></i>
+		                	{/if}
+		                </div>
 		            </div>
 		        </div>
+	       	</a>
+	       	{if $comment_list.list}
+	       	<div class="ecjia-goods-comment ecjia-seller-comment border_t_e">
+	       		<!-- {foreach from=$comment_list.list item=comment key=key} -->
+	       		{if $key lt 5}
+				<div class="assess-flat">
+					<div class="assess-wrapper">        
+						<div class="assess-top">            
+							<span class="user-portrait"><img src="{if $comment.avatar_img}{$comment.avatar_img}{else}{$theme_url}images/default_user.png{/if}"></span>
+							<div class="user-right">
+								<span class="user-name">{$comment.author}</span>     
+								<span class="assess-date">{$comment.add_time}</span>
+							</div>
+							<p class="comment-item-star score-goods" data-val="{$comment.rank}"></p> 
+						</div>        
+						<div class="assess-bottom">            
+							<p class="assess-content">{$comment.content}</p>
+							<!-- {if $comment.picture} -->
+							<div class="img-list img-pwsp-list" data-pswp-uid="{$key}">
+								<!-- {foreach from=$comment.picture item=img} -->
+								<figure><span><a class="nopjax external" href="{$img}"><img src="{$img}" /></a></span></figure>
+								<!-- {/foreach} -->
+							</div>
+							<!-- {/if} -->
+							<p class="goods-attr">{$comment.goods_attr}</p>
+							{if $comment.reply_content}
+							<div class="store-reply">商家回复：{$comment.reply_content}</div>
+							{/if}
+						</div>    
+					</div>    
+				</div>
+				{/if}
+				<!-- {/foreach} -->
+	       	</div>
+	       	{/if}
+	       	
+	        <!-- {if $goods_info.related_goods} -->
+	        <div class="address-warehouse ecjia-margin-t address-warehouse-new">
+	            <div class="ecjia-form">
+	               <div class="may-like-literal"><span class="may-like">也许你还喜欢</span></div>
+	            </div>
+	            <div class="ecjia-margin-b form-group ecjia-form">
+	                <div class="bd">
+						<ul class="ecjia-list ecjia-like-goods-list">
+							<!--{foreach from=$goods_info.related_goods item=goods name=goods}-->
+							<!-- {if $smarty.foreach.goods.index < 6 } -->
+							<li>
+								<a href='{url path="goods/index/show" args="goods_id={$goods.goods_id}"}'>
+									<img src="{$goods.img.url}" alt="{$goods.name}" title="{$goods.name}"/>
+								</a>
+								<p class="link-goods-name ecjia-goods-name-new">{$goods.name}</p>
+								<div class="link-goods-price">
+									<!--{if $goods.promote_price}-->
+									<span class="goods-price">{$goods.promote_price}</span>
+									<!--{else}-->
+									<span class="goods-price">{$goods.shop_price}</span>
+									<!--{/if}-->
+									{if $goods.specification}
+										<div class="goods_attr goods_spec_{$goods.goods_id}" goods_id="{$goods_info.id}">
+											<span class="choose_attr spec_goods" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}" data-spec="{$goods.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}" data-store="{$store_id}">选规格</span>
+											{if $goods.num}<i class="attr-number">{$goods.num}</i>{/if}
+										</div>
+									{else}
+										<span class="goods-price-plus may_like_{$goods.goods_id}" data-toggle="add-to-cart" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}"></span>
+									{/if}
+								</div>
+							</li>
+							<!--{/if}-->
+							<!--{/foreach}-->
+						</ul>
+					</div>
+	            </div>
+	        </div>
 		     <!-- {/if} -->
 	    </div>
 	</form>
@@ -202,6 +277,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </div>
 {/if}
 <!-- 切换详情页面end -->
+
+<div class="goods-desc-info active ecjia-seller-comment" id="goods-info-three" style="margin-top:7.5em;">
+<!-- #BeginLibraryItem "/library/goods_comment.lbi" --><!-- #EndLibraryItem -->
+</div>
+
 <div class="store-add-cart a4w">
     <div class="a52"></div>
     <a href="javascript:void 0;" class="a4x {if $real_count.goods_number}light{else}disabled{/if} outcartcontent show show_cart" show="false">
@@ -263,6 +343,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                                     </td>
                                     <td>
                                         <div class="a7j">{$cart.goods_name}</div> 
+                                        {if $cart.attr}<div class="a7s">{$cart.attr}</div>{/if}
                                         <span class="a7c">
                                         {if $cart.goods_price eq 0}免费{else}{$cart.formated_goods_price}{/if}
                                         </span>
@@ -271,9 +352,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                             </tbody>
                         </table>
                         <div class="box" id="goods_cart_{$cart.goods_id}">
-                            <span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}"></span>
+                            <span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if} {if $cart.attr}attr_spec{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}" ></span>
                             <lable class="a5x">{$cart.goods_number}</lable>
-                            <span class="a5v {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="add-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
+                            <span class="a5v {if $cart.is_disabled eq 1}disabled{/if} {if $cart.attr}attr_spec{/if}" data-toggle="add-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
                         </div>
                     </li>
                     <input type="hidden" name="rec_id" value="{$cart.rec_id}" />
@@ -287,5 +368,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </div>
 <!-- 遮罩层 -->
 <div class="a53" style="display: none;"></div>
-<!-- #BeginLibraryItem "/library/choose_address_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/address_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/goods_attr_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/goods_attr_static_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/preview_image.lbi" --><!-- #EndLibraryItem -->
 <!-- {/block} -->

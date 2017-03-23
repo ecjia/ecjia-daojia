@@ -101,6 +101,7 @@ class list_module extends api_front implements api_interface {
 		
 		$result = RC_Api::api('goods', 'goods_list', $options);
 		if ($result) {
+		    RC_Loader::load_app_func('admin_goods', 'goods');
 		    foreach ($result['list'] as $val) {
 		        /* 判断是否有促销价格*/
 		        $price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
@@ -108,6 +109,7 @@ class list_module extends api_front implements api_interface {
 		        /* 计算节约价格*/
 		        $saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
 		        
+		        $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
 		        $data['list'][] = array(
                     'id' => $val['goods_id'],
                     'name' => $val['name'],
@@ -122,6 +124,8 @@ class list_module extends api_front implements api_interface {
                         'url' => $val['original_img'],
                         'small' => $val['goods_img']
                     ),
+		            'properties' => $properties['pro'],
+		            'specification' => array_values($properties['spe']),
                     'activity_type' => $activity_type,
                     'object_id' => 0,
                     'saving_price' => $saving_price,

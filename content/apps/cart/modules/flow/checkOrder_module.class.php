@@ -104,14 +104,11 @@ class checkOrder_module extends api_front implements api_interface {
 
 		$store_id_group = array();
 		/* 根据经纬度查询附近店铺id*/
-		$mobile_location_range = ecjia::config('mobile_location_range');
-		if (!empty($consignee['latitude']) && !empty($consignee['longitude']) && $mobile_location_range > 0) {
+		if (!empty($consignee['latitude']) && !empty($consignee['longitude'])) {
 			$geohash         = RC_Loader::load_app_class('geohash', 'store');
 			$geohash_code    = $geohash->encode($consignee['latitude'] , $consignee['longitude']);
 // 			$geohash_code    = substr($geohash_code, 0, 5);
-			$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
-		} else {
-			$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $consignee['city']));
+			$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $consignee['city']));
 		}
 		
 		if (empty($store_id_group)) {

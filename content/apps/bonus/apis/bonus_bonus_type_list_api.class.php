@@ -75,6 +75,15 @@ class bonus_bonus_type_list_api extends Component_Event_Api {
 			$where['send_start_date']	= array('elt' => $time);
 			$where['send_end_date']	= array('egt' => $time);
 		}
+		//红包发放类型，0按用户发放，1按商品，2按订单金额，3线下
+		if ($options['send_type'] == 'user') {
+			$where['send_type']	= 0;
+		}
+		//店铺id
+		if (isset($options['store_id'])) {
+		    $where['store_id']	= intval($options['store_id']);
+		}
+		
 		$limit = null;
 		if (isset($options['limit'])) {
 			

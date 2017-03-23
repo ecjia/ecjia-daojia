@@ -10,7 +10,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.touch.category.init();
+ecjia.touch.category.init();
+{if $releated_goods}
+var releated_goods = {$releated_goods};
+{/if}
 </script>
 <!-- {/block} -->
 
@@ -30,12 +33,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<img src="{if $val.seller_logo}{$val.seller_logo}{else}{$theme_url}images/store_default.png{/if}">
 						</div>
 						<div class="store-right">
-							<div class="store-name">{$val.seller_name}{if $val.manage_mode eq 'self'}<span>自营</span>{/if}</div>
+							<div class="store-title">
+								<span class="store-name">{$val.seller_name}</span>
+								{if $val.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}
+								{if $val.distance}<span class="store-distance">{$val.distance}</span>{/if}
+							</div>
 							<div class="store-range">
-								<i class="iconfont icon-remind"></i>{$val.label_trade_time}
-								{if $val.distance}
-								<span class="store-distance">{$val.distance}</span>
-								{/if}
+								<i class="icon-shop-time"></i>{$val.label_trade_time}
+							</div>
+							<div class="store-notice">
+								<i class="icon-shop-notice"></i>{$val.seller_notice}
 							</div>
 						</div>
 						<div class="clear"></div>
@@ -89,9 +96,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				</dl>
 			</a>
 			<div class="box" id="goods_{$val.id}">
+				<!-- {if $val.specification} -->
+				<div class="goods_attr goods_spec_{$val.id}">
+					<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">选规格</span>
+					{if $val.num}<i class="attr-number">{$val.num}</i>{/if}
+				</div>
+				<!-- {else} -->
 				<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">减</span>
 				<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
 				<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加</span>
+				<!-- {/if} -->
 			</div>
 		</li>
 		<!-- {/if} -->
@@ -101,6 +115,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="ecjia-h48"></div>
 	{/if}
 </div>
+<!-- #BeginLibraryItem "/library/goods_attr_static_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- {else} -->
 <div class="ecjia-mod search-no-pro ecjia-margin-t ecjia-margin-b">
 	<div class="ecjia-nolist">
@@ -179,6 +194,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 									</td>
 									<td>
 										<div class="a7j">{$cart.goods_name}</div> 
+										{if $cart.attr}<div class="a7s">{$cart.attr}</div>{/if}
 										<span class="a7c">
 										{if $cart.goods_price eq 0}免费{else}{$cart.formated_goods_price}{/if}
 										</span>
@@ -187,7 +203,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							</tbody>
 						</table>
 						<div class="box" id="goods_cart_{$cart.goods_id}">
-							<span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}"></span>
+							<span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
 							<lable class="a5x">{$cart.goods_number}</lable>
 							<span class="a5v {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="add-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
 						</div>
@@ -206,25 +222,32 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <input type="hidden" value="{RC_Uri::url('cart/index/update_cart')}" name="update_cart_url" />
 <input type="hidden" value="{$store_id}" name="store_id" />
 <!-- {/if} -->
-<!-- #BeginLibraryItem "/library/choose_address_modal.lbi" --><!-- #EndLibraryItem -->	
+<!-- #BeginLibraryItem "/library/address_modal.lbi" --><!-- #EndLibraryItem -->	
 <!-- {/block} -->
 
 <!-- {block name="ajaxinfo"} -->
 	<!-- {foreach from=$goods_list item=val} -->
-		<li class="search-goods-list">
-			<a class="linksGoods w" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}">
-				<img class="pic" src="{$val.img.small}">
-				<dl>
-					<dt>{$val.name}</dt>
-					<dd></dd>
-					<dd><label>{$val.shop_price}</label></dd>
-				</dl>
-			</a>
-			<div class="box" id="goods_{$val.id}">
-				<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">减</span>
-				<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
-				<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加</span>
+	<li class="search-goods-list">
+		<a class="linksGoods w" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}">
+			<img class="pic" src="{$val.img.small}">
+			<dl>
+				<dt>{$val.name}</dt>
+				<dd></dd>
+				<dd><label>{$val.shop_price}</label></dd>
+			</dl>
+		</a>
+		<div class="box" id="goods_{$val.id}">
+			<!-- {if $val.specification} -->
+			<div class="goods_attr goods_spec_{$val.id}">
+				<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">选规格</span>
+				{if $val.num}<i class="attr-number">{$val.num}</i>{/if}
 			</div>
-		</li>
+			<!-- {else} -->
+			<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">减11</span>
+			<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
+			<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加11</span>
+			<!-- {/if} -->
+		</div>
+	</li>
 	<!-- {/foreach} -->
 <!-- {/block} -->

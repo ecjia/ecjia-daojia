@@ -26,6 +26,7 @@ return array(
     'Royalcms\\Component\\IpAddress\\' => array($vendorDir . '/royalcms/ip-address'),
     'Royalcms\\Component\\Uuid\\' => array($vendorDir . '/royalcms/uuid'),
     'Royalcms\\Component\\Html\\' => array($vendorDir . '/royalcms/html'),
+    'Royalcms\\Component\\Agent\\' => array($vendorDir . '/royalcms/agent'),
     'Royalcms\\Component\\WeChat\\Menu\\' => array($vendorDir . '/royalcms/wechat-menu'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'DebugBar' => array($vendorDir . '/maximebf/debugbar/src'),

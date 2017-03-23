@@ -1,0 +1,86 @@
+.shop-rating {
+padding-bottom: 12px;
+height: 25px;
+overflow: hidden;
+zoom: 1;
+position: relative;
+z-index: 999;
+}
+.shop-rating span {
+height: 23px;
+display: block;
+line-height: 23px;
+float: left;
+}
+.shop-rating span.title {
+width: 125px;
+text-align: right;
+margin-right: 5px;
+}
+.shop-rating ul {
+float: left;
+margin:0;padding:0
+}
+.shop-rating .result {
+margin-left: 20px;
+padding-top: 2px;
+}
+.shop-rating .result span {
+color: #ff6d02;
+}
+.shop-rating .result em {
+color: #f60;
+font-family: arial;
+font-weight: bold;
+}
+.shop-rating .result strong {
+color: #666666;
+font-weight: normal;
+}
+.rating-level,
+.rating-level a {
+background: url('../images/star_v2.png') no-repeat scroll 1000px 1000px;
+}
+.rating-level {
+background-position: 0px 0px;
+width: 120px;
+height: 23px;
+position: relative;
+z-index: 1000;
+}
+.rating-level li {
+display: inline;
+}
+.rating-level a {
+line-height: 23px;
+height: 23px;
+position: absolute;
+top: 0px;
+left: 0px;
+text-indent: -999em;
+*zoom: 1;
+outline: none;
+}
+.rating-level a.one-star {
+width: 20%;
+z-index: 6;
+}
+.rating-level a.two-stars {
+width: 40%;
+z-index: 5;
+}
+.rating-level a.three-stars {
+width: 60%;
+z-index: 4;
+}
+.rating-level a.four-stars {
+width: 80%;
+z-index: 3;
+}
+.rating-level a.five-stars {
+width: 100%;
+z-index: 2;
+}
+.rating-level .current-rating,.rating-level a:hover{background-position:0 -28px;}
+.rating-level a.one-star:hover,.rating-level a.two-stars:hover,.rating-level a.one-star.current-rating,.rating-level a.two-stars.current-rating{background-position:0 -116px;}
+.rating-level .three-stars .current-rating,.rating-level .four-stars .current-rating,.rating-level .five-stars .current-rating{background-position:0 -28px;}

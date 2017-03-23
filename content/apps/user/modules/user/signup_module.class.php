@@ -145,7 +145,7 @@ class signup_module extends api_front implements api_interface
  			}
  			
  			/*注册送红包*/
-//  			RC_Api::api('bonus', 'send_bonus', array('type' => SEND_BY_REGISTER));
+ 			//RC_Api::api('bonus', 'send_bonus', array('type' => SEND_BY_REGISTER));
  			
  			$result = ecjia_app::validate_application('affiliate');
  			$is_active = ecjia_app::is_active('ecjia.affiliate');

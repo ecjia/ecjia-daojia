@@ -3543,4 +3543,18 @@ if (! function_exists('curl_reset')) {
     }
 }
 
+if (! function_exists('curl_file_create')) {
+    /**
+     * curl_file_create — 创建一个 CURLFile 对象
+     * 兼容php5.5以下没有这个函数的使用
+     *
+     * @param  resource  $value 
+     */
+    function curl_file_create($filename, $mimetype = '', $postname = '') {
+        return "@$filename;filename="
+        . ($postname ?: basename($filename))
+        . ($mimetype ? ";type=$mimetype" : '');
+    }
+}
+
 // end

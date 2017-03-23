@@ -17,6 +17,23 @@ if (file_exists($compiled = SITE_ROOT.'bootstrap/compiled.php'))
 
 /*
 |--------------------------------------------------------------------------
+| Register The Royalcms Auto Loader ClassMap
+|--------------------------------------------------------------------------
+|
+| We register an auto-loader "behind" the Composer loader that can load
+| model classes on the fly, even if the autoload files have not been
+| regenerated for the application. We'll add it to the stack here.
+|
+*/
+
+if (file_exists($classmap_file = SITE_ROOT.'bootstrap/classmap.php'))
+{
+    $classmap = include $classmap_file;
+    if (is_array($classmap)) ComposerAutoloaderInit::getLoader()->addClassMap($classmap);
+}
+
+/*
+|--------------------------------------------------------------------------
 | Setup Patchwork UTF-8 Handling
 |--------------------------------------------------------------------------
 |

@@ -8,9 +8,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
-<!-- {block name="footer"} -->
-<!-- {/block} -->
-
 <!-- {block name="main-content"} -->
 <!-- #EndLibraryItem -->
 <div class="ecjia-order-detail">
@@ -44,7 +41,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					</div>
 					<div class="ecjiaf-fl goods-info">
 						<p class="ecjia-truncate2">{$goods.name}</p>
-						<p class="ecjia-color-red ">{$goods.formated_shop_price}</p>
+						<p class="ecjia-goods-attr goods-attr">
+						<!-- {foreach from=$goods.goods_attr item=attr} -->
+						{if $attr.name}{$attr.name}:{$attr.value}{/if}
+						<!-- {/foreach} -->
+						</p>
+						<p class="ecjia-color-red goods-attr-price">{$goods.formated_shop_price}</p>
 					</div>
 					<span class="ecjiaf-fr goods-price"> x {$goods.goods_number}</span>
 					</a>
@@ -82,6 +84,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				{if $order.pay_status eq 0 && $order.order_status lt 2}<a class="btn btn-small btn-hollow" href='{url path="user/order/order_cancel" args="order_id={$order.order_id}"}'>取消订单</a> <a class="btn btn-small btn-hollow" href='{url path="pay/index/init" args="order_id={$order.order_id}"}'>去支付</a>{/if}
 				{if $order.shipping_status eq '1'} <a class="btn btn-small btn-hollow" href='{url path="user/order/affirm_received" args="order_id={$order.order_id}"}'>确认收货</a>{/if}
 				{if $order.order_status gt 1 || ($order.shipping_status eq 0 && $order.pay_status neq 0)} <a class="btn btn-small btn-hollow" href='{url path="user/order/buy_again" args="order_id={$order.order_id}"}'>再次购买</a>{/if}
+				{if $order.shipping_status eq '2'} <a class="btn btn-small btn-hollow" href='{url path="user/order/comment_list" args="order_id={$order.order_id}"}'>评价晒单</a>{/if}
 			</div>
 		</div>
 	</div>

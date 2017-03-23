@@ -189,13 +189,14 @@ class list_module extends api_front implements api_interface {
 					'seller_category'	=> $row['seller_category'],
 					'manage_mode'		=> $row['manage_mode'],
 					'seller_logo'		=> $row['shop_logo'],
-					'seller_goods'		=> $goods_store_data['goods_list'],
+				    'seller_notice'     => $row['seller_notice'],
 					'follower'			=> $row['follower'],
 					'is_follower'		=> in_array($row['id'], $collect_store_id) ? 1 : 0,
 					'goods_count'       => $goods_store_data['count'],
 					'favourable_list'	=> $favourable_list,
 					'distance'			=> $distance,
 					'label_trade_time'	=> $row['label_trade_time'],
+				    'seller_goods'		=> $goods_store_data['goods_list'],
 				);
 			}
 		}

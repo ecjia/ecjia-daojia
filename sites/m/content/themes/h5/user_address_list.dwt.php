@@ -9,9 +9,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
-<script type="text/javascript">ecjia.touch.more();</script>
 <script type="text/javascript">ecjia.touch.delete_list_click();</script>
-<script type="text/javascript">ecjia.touch.asynclist();</script>
 <script type="text/javascript">
 $('.setdefault').click(function(){
 	var data_id = $(this).attr('data-id');

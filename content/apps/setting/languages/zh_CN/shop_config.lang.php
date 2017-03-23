@@ -230,6 +230,8 @@ return array(
 	    'mobile_android_download'	=> 'Android下载地址',
 	    'shop_app_icon'   			=> 'APP图标',
 	    'mobile_app_description'	=> '移动应用简介',
+	    
+	    'comment' 				=> '评论设置',
 	),
 	
 	'test_mail_title' => '测试邮件',

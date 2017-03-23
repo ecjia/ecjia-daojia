@@ -8,12 +8,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
-<!-- {block name="footer"} -->
-<!-- {/block} -->
-
 <!-- {block name="main-content"} -->
-<!-- #EndLibraryItem -->
-
 <div class="ecjia-login">
     <div class="user-img"><img src="{$user_img}"></div>
     <div class="ecjia-margin-l">

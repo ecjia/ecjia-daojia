@@ -45,7 +45,6 @@
                 				{/if}
                 			</div>
                 			<div class="span8">
-                				<h2 class="m_b10">{lang key='store::store.introduction'}</h2>
                 				<p>{lang key='store::store.user_ident'}{$main_staff.user_ident}</p>
                 				<p>{lang key='store::store.main_name'}{$main_staff.name}</p>
                 				<p>{lang key='store::store.main_email'}{$main_staff.email}</p>

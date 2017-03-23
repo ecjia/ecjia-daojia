@@ -155,6 +155,18 @@ class admin_config extends ecjia_admin {
 		$this->assign('order_reminder_value', ecjia::config('order_reminder_value'));
 		
 		$this->assign('shop_touch_url', ecjia::config('mobile_touch_url'));	
+		
+		$this->assign('mobile_signup_reward', ecjia::config('mobile_signup_reward'));
+		//新人有礼红包，有效期内+按用户发放类型+平台红包
+		$bonus_type_list = RC_Api::api('bonus', 'bonus_type_list', array('store_id' => 0, 'type' => 'allow_send', 'send_type' => 'user'));
+	    if (empty($bonus_type_list)) {
+		    $bonus_type_list = array( array('type_name' => '暂无有效红包'));
+		}
+		
+		$this->assign('bonus_type_list', $bonus_type_list);
+		$this->assign('mobile_signup_reward_notice', ecjia::config('mobile_signup_reward_notice'));
+		
+		
 		$this->assign('form_action', RC_Uri::url('mobile/admin_config/update_basic_info'));
 		$this->assign('current_code', trim($_GET['code']));
 		$this->display('mobile_config.dwt');
@@ -368,6 +380,9 @@ class admin_config extends ecjia_admin {
 		$shop_pc_url 					= !empty($_POST['shop_pc_url']) 			? trim($_POST['shop_pc_url']) 			: '';
 		$mobile_touch_url 				= !empty($_POST['mobile_touch_url']) 		? trim($_POST['mobile_touch_url']) 		: '';
 		$mobile_share_link				= trim($_POST['mobile_share_link']);
+		$mobile_signup_reward			= isset($_POST['mobile_signup_reward']) ? intval($_POST['mobile_signup_reward']) : 0;
+		$mobile_signup_reward_notice	= isset($_POST['mobile_signup_reward_notice']) ? trim($_POST['mobile_signup_reward_notice']) : '';
+		
 		/* 上传app logo图标*/
 		if (isset($_FILES['mobile_app_icon'])) {
 			$upload = RC_Upload::uploader('image', array('save_path' => 'data/assets', 'replace' => true, 'auto_sub_dirs' => false));
@@ -429,6 +444,9 @@ class admin_config extends ecjia_admin {
 		} else {
 			$order_reminder_value = '';
 		}
+		ecjia_config::instance()->write_config('mobile_signup_reward', $mobile_signup_reward);
+		ecjia_config::instance()->write_config('mobile_signup_reward_notice', $mobile_signup_reward_notice);
+		
 		ecjia_config::instance()->write_config('order_reminder_value', $order_reminder_value);
 		ecjia_admin::admin_log(RC_Lang::get('mobile::mobile.mobile_config_set'), 'setup', 'mobile_config');
 		return $this->showmessage(RC_Lang::get('mobile::mobile.update_config_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mobile/admin_config/basic_info_init',array('code'=>$code))));

@@ -58,7 +58,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 								{/if}
 							</a>
 							<div class="cart-product-info">
-								<div class="cart-product-name {if $v.is_disabled}disabled{/if}"><a href="{RC_Uri::url('goods/index/show')}&goods_id={$v.goods_id}">{$v.goods_name}</a></div>
+								<a href="{RC_Uri::url('goods/index/show')}&goods_id={$v.goods_id}"><div class="cart-product-name {if $v.is_disabled}disabled{/if}">{$v.goods_name}</div></a>
+								<div class="cart-product-attr">{if $v.attr}{$v.attr}{/if}</div>
 								<div class="cart-product-price {if $v.is_disabled}disabled{/if}">{if $v.goods_price eq 0}免费{else}{$v.formated_goods_price}{/if}</div>
 								<div class="ecjia-input-number input_number_{$val.seller_id} {if $v.is_disabled}disabled{/if}" data-store="{$val.seller_id}">
 			                        <span class="ecjia-number-group-addon" data-toggle="remove-to-cart" rec_id="{$v.rec_id}" goods_id="{$v.goods_id}">－</span>
@@ -97,6 +98,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		{/if}
 	</div>
 </div>
-<!-- #BeginLibraryItem "/library/choose_address_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/address_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- #BeginLibraryItem "/library/model_bar.lbi" --><!-- #EndLibraryItem -->
 <!-- {/block} -->

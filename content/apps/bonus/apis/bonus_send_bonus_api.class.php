@@ -61,21 +61,34 @@ class bonus_send_bonus_api extends Component_Event_Api {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('bonus::bonus.invalid_parameter'));
 		}
 		
-		return $this->send_coupon($options);
+		if ($options['type'] == SEND_COUPON) {
+			return $this->send_coupon($options['bonus_type_id']);
+		}
 	}
 	
 	/* 发放优惠券*/
-	private function send_coupon($options) {
-		$db_user_bonus = RC_DB::table('user_bonus');
-		$result = $db_user_bonus->where('bonus_type_id', '=', $options['bonus_type_id'])->where('user_id', '=', $_SESSION['user_id'])->first();
+	private function send_coupon($bonus_type_id) {
+		$dbview_bonus_type = RC_Loader::load_app_model('bonus_type_viewmodel', 'bonus');
+		$time = RC_Time::gmtime();
+		$where = array(
+				'send_type'			=> SEND_COUPON,
+				'ub.user_id'		=> $_SESSION['user_id'],
+				'bt.type_id'		=> $bonus_type_id,
+				'send_start_date' 	=> array('elt' => $time),
+				'send_end_date'		=> array('egt' => $time),
+		);
+		$result = $dbview_bonus_type->join(array('user_bonus'))->field('bt.type_id, bt.type_name, bt.type_money, ub.bonus_id')->where($where)->find();
 		if (empty($result)) {
+			$db_user_bonus = RC_Loader::load_app_model('user_bonus_model', 'bonus');
 			$data = array(
-				'bonus_type_id' => $options['bonus_type_id'],
-				'user_id'	   	=> $_SESSION['user_id'],
+					'bonus_type_id' => $bonus_type_id,
+					'user_id'	   	=> $_SESSION['user_id']
 			);
-			$db_user_bonus->insertGetId($data);
+			$db_user_bonus->insert($data);
 			return true;
-		} 
+		} else {
+			return new ecjia_error('send_coupon_repeat', RC_Lang::get('bonus::bonus.send_coupon_repeat'));
+		}
 	}
 }
 

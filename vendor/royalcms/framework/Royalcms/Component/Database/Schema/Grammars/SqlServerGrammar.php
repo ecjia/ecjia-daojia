@@ -407,6 +407,17 @@ class SqlServerGrammar extends Grammar {
 	{
 		return 'datetime';
 	}
+	
+	/**
+	 * Create the column definition for a date-time type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeDateTimeTz(Fluent $column)
+	{
+	    return 'datetimeoffset(0)';
+	}
 
 	/**
 	 * Create the column definition for a time type.
@@ -418,6 +429,17 @@ class SqlServerGrammar extends Grammar {
 	{
 		return 'time';
 	}
+	
+	/**
+	 * Create the column definition for a time type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeTimeTz(Fluent $column)
+	{
+	    return 'time';
+	}
 
 	/**
 	 * Create the column definition for a timestamp type.
@@ -427,7 +449,28 @@ class SqlServerGrammar extends Grammar {
 	 */
 	protected function typeTimestamp(Fluent $column)
 	{
+	    if ($column->useCurrent) {
+	        return 'datetime default CURRENT_TIMESTAMP';
+	    }
+	    
 		return 'datetime';
+	}
+	
+	/**
+	 * Create the column definition for a timestamp type.
+	 *
+	 * @link https://msdn.microsoft.com/en-us/library/bb630289(v=sql.120).aspx
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeTimestampTz(Fluent $column)
+	{
+	    if ($column->useCurrent) {
+	        return 'datetimeoffset(0) default CURRENT_TIMESTAMP';
+	    }
+	
+	    return 'datetimeoffset(0)';
 	}
 
 	/**
@@ -439,6 +482,39 @@ class SqlServerGrammar extends Grammar {
 	protected function typeBinary(Fluent $column)
 	{
 		return 'varbinary(max)';
+	}
+	
+	/**
+	 * Create the column definition for a uuid type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeUuid(Fluent $column)
+	{
+	    return 'uniqueidentifier';
+	}
+	
+	/**
+	 * Create the column definition for an IP address type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeIpAddress(Fluent $column)
+	{
+	    return 'nvarchar(45)';
+	}
+	
+	/**
+	 * Create the column definition for a MAC address type.
+	 *
+	 * @param  \Royalcms\Component\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeMacAddress(Fluent $column)
+	{
+	    return 'nvarchar(17)';
 	}
 
 	/**

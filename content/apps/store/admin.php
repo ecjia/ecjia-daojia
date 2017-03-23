@@ -394,11 +394,11 @@ class admin extends ecjia_admin {
 		    if ($is_exist) {
 		        return $this->showmessage('邮箱已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		    }
-		    $is_exist = RC_DB::table('staff_user')->where('mobile', $data['contact_mobile'])->get();
+		    $is_exist = RC_DB::table('staff_user')->where('store_id', '<>', $store_id)->where('mobile', $data['contact_mobile'])->get();
 		    if ($is_exist) {
 		        return $this->showmessage('联系手机员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		    }
-		    $is_exist = RC_DB::table('staff_user')->where('email', $data['email'])->get();
+		    $is_exist = RC_DB::table('staff_user')->where('store_id', '<>', $store_id)->where('email', $data['email'])->get();
 		    if ($is_exist) {
 		        return $this->showmessage('邮箱员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		    }

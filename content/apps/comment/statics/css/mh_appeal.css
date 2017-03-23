@@ -1,0 +1,124 @@
+.appeal-time-base {
+	text-algin: center;
+}
+.appeal-time-base ul {
+	margin: 0px auto;
+	overflow: hidden;
+	padding: 0;
+}
+.appeal-time-base ul li {
+	list-style: none;
+	margin-left: 0 !important;
+	text-align: center;
+	width: 32.11111%;
+	float: left;
+}
+.appeal-time-base .step-no {
+	margin-top: 10px;
+	color: #fff;
+	font-size: 18px;
+	height: 34px;
+	line-height: 34px;
+	background: url("../images/order-time-base-admin.png") no-repeat scroll 50% -102px;
+}
+.appeal-time-base .step-first .step-done .step-no {
+	background-position: 50% -204px;
+}
+.appeal-time-base .step-first .step-cur .step-no {
+	background-position: 50% -34px;
+}
+.appeal-time-base .step-done .step-no {
+	background-position: 50% -170px;
+}
+.appeal-time-base .step-cur .step-no {
+	background-position: 50% 0;
+}
+.appeal-time-base .step-last .step-no {
+	background-position: 50% -136px;
+}
+.appeal-time-base .step-last .step-cur .step-no {
+	background-position: 50% -68px;
+}
+
+
+.appeal-time-base .step-failed {
+    margin-top: 10px;
+    color: #fff;
+    font-size: 18px;
+    height: 34px;
+    line-height: 34px;
+    background: url("../images/order-time-base-red-admin.png") no-repeat scroll 50% -102px;
+}
+.appeal-time-base .step-first .step-done .step-failed {
+    background-position: 50% -204px;
+}
+.appeal-time-base .step-first .step-cur .step-failed {
+    background-position: 50% -34px;
+}
+.appeal-time-base .step-done .step-failed {
+    background-position: 50% -170px;
+}
+.appeal-time-base .step-cur .step-failed {
+    background-position: 50% 0;
+}
+.appeal-time-base .step-last .step-failed {
+    background-position: 50% -136px;
+}
+.appeal-time-base .step-last .step-cur .step-failed {
+    background-position: 50% -68px;
+}
+
+
+
+.appeal_top{
+	border: 1px solid #CACACA;
+	border-radius:5px;
+}
+.appeal-thumb {
+    width: 90px;
+    float: left;
+}
+.appeal-thumb img {
+	border: 3px solid #bdc3c7;
+	width: 80px;
+	height: 80px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+       -moz-border-radius: 100%;
+        -ms-border-radius: 100%;
+         -o-border-radius: 100%;
+}
+.appeal-thumb-details {
+    display: inline-block;
+    margin: 20px 0 0 10px;
+}
+.appeal-thumb-details h1{
+    color: #000000;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+}
+.appeal-thumb-details p{
+    padding-top: 5px;
+    color: #000000;
+}
+.appeal-thumb-details span{
+   margin-left: 50px;
+}
+.appeal-goods img {
+	width: 50px;
+	height: 50px;
+}
+.appeal_bottom h4{
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+.appeal-content img {
+	width: 50px;
+	height: 50px;
+	margin-bottom: 10px;
+}
+
+
+

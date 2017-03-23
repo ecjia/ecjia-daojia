@@ -59,7 +59,7 @@ class SeedCommand extends Command {
 	 */
 	protected function getSeeder()
 	{
-		$class = $this->resolver->make($this->input->getOption('class'));
+		$class = $this->royalcms->make($this->input->getOption('class'));
 
 		return $class->setContainer($this->royalcms)->setCommand($this);
 	}
@@ -73,7 +73,7 @@ class SeedCommand extends Command {
 	{
 		$database = $this->input->getOption('database');
 
-		return $database ?: $this->resolver['config']['database.defaultconnection'];
+		return $database ?: $this->royalcms['config']['database.defaultconnection'];
 	}
 
 	/**

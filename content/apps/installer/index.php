@@ -432,12 +432,13 @@ class index extends SimpleController {
 	 * 安装数据库结构
 	 */
 	public function install_structure() {
-	    $sql_files = array(
-	        DATA_PATH . 'structure.sql'
-	    );
+// 	    $sql_files = array(
+// 	        DATA_PATH . 'structure.sql'
+// 	    );
 	    	
-	    $result = install_utility::installData($sql_files);
-	    	
+// 	    $result = install_utility::installData($sql_files);
+	    $result = install_utility::installStructure();
+// 	    _dump($result,1);
 	    if (is_ecjia_error($result)) {
 	        return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    } else {
@@ -449,18 +450,19 @@ class index extends SimpleController {
 	 * 安装基本数据
 	 */
 	public function install_base_data() {
-		$locale = RC_Config::get('system.locale');
+// 		$locale = RC_Config::get('system.locale');
 			
-		if (file_exists(DATA_PATH . 'data_' . $locale . '.sql')) {
-			$data_path = DATA_PATH . 'data_' . $locale . '.sql';
-		} else {
-			$data_path = DATA_PATH . 'data_zh_CN.sql';
-		}
-		$sql_files = array(
-			$data_path
-		);
+// 		if (file_exists(DATA_PATH . 'data_' . $locale . '.sql')) {
+// 			$data_path = DATA_PATH . 'data_' . $locale . '.sql';
+// 		} else {
+// 			$data_path = DATA_PATH . 'data_zh_CN.sql';
+// 		}
+// 		$sql_files = array(
+// 			$data_path
+// 		);
 		
-		$result = install_utility::installData($sql_files);
+		$result = install_utility::installBaseData();
+// 		_dump($result,1);
 		if (is_ecjia_error($result)) {
 			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
@@ -472,13 +474,14 @@ class index extends SimpleController {
 	 * 安装演示数据
 	 */
 	public function install_demo_data() {
-		$data_path = DATA_PATH . 'data_demo_zh_CN.sql';
+// 		$data_path = DATA_PATH . 'data_demo_zh_CN.sql';
 		
-		$sql_files = array(
-			$data_path
-		);
+// 		$sql_files = array(
+// 			$data_path
+// 		);
 			
-		$result = install_utility::installData($sql_files);
+		$result = install_utility::installDemoData();
+// 		_dump($result,1);
 		if (is_ecjia_error($result)) {
 			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
