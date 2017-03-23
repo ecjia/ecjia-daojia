@@ -86,12 +86,12 @@ class mh_comment extends ecjia_merchant {
 	    $this->assign('data', $data);
 	    
 	    if(!empty($goods_id)){
+	    	$goods_info = RC_DB::TABLE('goods')->where('goods_id', $goods_id)->select('goods_name', 'shop_price', 'goods_thumb')->first();
 	    	$goods_rank = RC_DB::TABLE('goods_data')->where('goods_id', $goods_id)->pluck('goods_rank');
 	    	if(empty($goods_rank)){
 	    		$goods_rank === 10000;
 	    	}
 	    	$goods_info['goods_rank'] = $goods_rank / 100;
-	    	
 	    	$this->assign('goods_info', $goods_info);
 	    	$this->assign('goods_id',  $goods_id);
 	    }

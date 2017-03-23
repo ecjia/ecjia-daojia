@@ -118,8 +118,11 @@
 }
 .comment_info .comment-all-right-thumb {
 	margin-top: 5px;
-	width: 90px;
-	float: right;
+    width: 80px;
+    position: absolute;
+    right: 0;
+    top: 0;
+	
 }
 .comment_info .comment-thumb-details h1 {
     color: #000000;
@@ -149,9 +152,6 @@
 	height: 78px;
 	margin-right: 8px;
 }
-.comment_info .foldable-list .panel-body {
-	padding: 15px 0 15px 0;
-}
 .comment_info .form-control {
     width: 100%;
     padding: 10px 20px;
@@ -178,16 +178,20 @@
 }
 .comment_info .comment-thumb-details {
 	padding-top: 12px;
+	margin-right: 95px;
 }
 .comment_info .edit-list {
 	margin-top: 1em;
 }
-.comment_info .admin-reply:first-child {
-	border-top: 1px solid #FFF;
-}
 .comment_info .admin-reply {
 	border-top: 1px solid #ddd;
     margin-bottom: 1em;
+	position: relative;
+}
+.comment_info .admin-reply:first-child {
+	border-top: none;
+}
+.comment_info .admin-reply p {
 }
 .label-warning-admin {
     background-color: #3498db;
@@ -206,4 +210,7 @@
     text-align: center;
     vertical-align: baseline;
     white-space: nowrap;
+}
+#goods_info_sort_seo .accordion-inner {
+	padding: 10px 15px 0 15px;
 }

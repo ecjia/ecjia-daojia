@@ -147,7 +147,7 @@
 						<div class="edit-list">
 						    {if $comment.status lt 2}
 								<a class="toggle_view" href='{url path="comment/admin/check" args="list=3&comment_id={$comment.comment_id}&status={$comment.status}{if $smarty.get.page}&page={$smarty.get.page}{/if}{if $store_id}&store_id={$store_id}{/if}"}' data-msg="您确定要更改此评论的状态吗？" data-val="{if $comment.status eq 0}allow{else}forbid{/if}" data-status="{$smarty.get.status}" >
-									{if $comment.status eq 0} {t}批准{/t} {elseif $comment.status eq 1} <span class="ecjiafc-red">{t}驳回{/t}</span> {/if}
+									{if $comment.status eq '0'} {t}批准{/t} {elseif $comment.status eq '1'} <span class="ecjiafc-red">{t}驳回{/t}</span> {/if}
 								</a>&nbsp;|&nbsp;
 								<a class="data-pjax" href='{url path="comment/admin/reply" args="list=3&comment_id={$comment.comment_id}"}'>
 									{t}查看及回复{/t}

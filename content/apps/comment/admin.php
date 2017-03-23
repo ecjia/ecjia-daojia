@@ -204,7 +204,8 @@ class admin extends ecjia_admin {
                 		->where('store_id', $comment_info['store_id'])
                 		->where('code', 'shop_logo')
                 		->pluck('value');
-
+        $shop_info['no_logo'] = RC_Uri::admin_url('statics/images/nopic.png');
+        
 		$shop_info['name'] = RC_DB::TABLE('store_franchisee')
                 		->where('store_id', $comment_info['store_id'])
                 		->pluck('merchants_name');

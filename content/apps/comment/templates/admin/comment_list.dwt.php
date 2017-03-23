@@ -135,13 +135,13 @@
 						{/if}
 						<div class="edit-list">
 						    {if $comment.status lt 2}
-								<a class="toggle_view" href='{url path="comment/admin/check" args="comment_id={$comment.comment_id}&status={$comment.status}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="您确定要更改此评论的状态吗？" data-val="{if $comment.status eq 0}allow{else}forbid{/if}" data-status="{$smarty.get.status}" >
-									{if $comment.status eq 0} {t}批准{/t} {elseif $comment.status eq 1} <span class="ecjiafc-red">{t}驳回{/t}</span> {/if}
+								<a class="toggle_view" href='{url path="comment/admin/check" args="list=1&comment_id={$comment.comment_id}&status={$comment.status}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="您确定要更改此评论的状态吗？" data-val="{if $comment.status eq 0}allow{else}forbid{/if}" data-status="{$smarty.get.status}" >
+									{if $comment.status eq '0'} {t}批准{/t} {elseif $comment.status eq '1'} <span class="ecjiafc-red">{t}驳回{/t}</span> {/if}
 								</a>&nbsp;|&nbsp;
 								<a class="data-pjax" href='{url path="comment/admin/reply" args="comment_id={$comment.comment_id}"}'>
 									{t}查看及回复{/t}
 								</a>&nbsp;|&nbsp;
-								<a class="ecjiafc-red toggle_view" href='{url path="comment/admin/check" args="comment_id={$comment.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要将该用户[{$comment.user_name|default:{lang key='comment::comment_manage.anonymous'}}]的评论移至回收站吗？{/t}" data-status="{$smarty.get.status}" data-val="trashed_comment" >{t}移至回收站{/t}</a>
+								<a class="ecjiafc-red toggle_view" href='{url path="comment/admin/check" args="list=1&comment_id={$comment.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要将该用户[{$comment.user_name|default:{lang key='comment::comment_manage.anonymous'}}]的评论移至回收站吗？{/t}" data-status="{$smarty.get.status}" data-val="trashed_comment" >{t}移至回收站{/t}</a>
 						    {/if}
 						</div>
 					</td>
