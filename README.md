@@ -8,6 +8,18 @@
 
 模板引擎：smarty
 
+#官方网站
+
+官方网站：https://ecjia.com
+
+专题介绍：https://ecjia.com/daojia.html
+
+帮助文档：https://ecjia.com/wiki/
+
+演示网站：https://cityo2o.ecjia.com
+
+ECJia到家官方交流QQ群：***372623746***
+
 
 #简介
 
@@ -687,18 +699,6 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 - ECJia到家数据库表结构说明：[https://ecjia.com/wiki/ECJiaWiki:ECJia到家数据库表结构说明](https://ecjia.com/wiki/ECJiaWiki:ECJia到家数据库表结构说明)
 - ECJia到家后台配置文件解析：[https://ecjia.com/wiki/ECJiaWiki:ECJia到家后台配置文件解析](https://ecjia.com/wiki/ECJiaWiki:ECJia到家后台配置文件解析)
 - ECJia到家数据库之查询构建器：[https://ecjia.com/wiki/ECJiaWiki:ECJia到家RC_DB-数据库之查询构建器](https://ecjia.com/wiki/ECJiaWiki:ECJia到家RC_DB-数据库之查询构建器)
-
-
-
-#相关网站
-
-官方网站：https://ecjia.com
-
-帮助文档：https://ecjia.com/wiki/
-
-演示网站：https://cityo2o.ecjia.com
-
-ECJia到家官方交流QQ群：372623746
 
 
 #产品截图
