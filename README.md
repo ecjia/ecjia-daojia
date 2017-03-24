@@ -8,6 +8,8 @@
 
 模板引擎：smarty
 
+Github: https://github.com/ecjia/ecjia-daojia
+
 #官方网站
 
 官方网站：https://ecjia.com
