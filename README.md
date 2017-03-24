@@ -1,4 +1,4 @@
-#ECJia到家
+##ECJia到家
 
 开发语言：PHP
 
@@ -10,7 +10,7 @@
 
 Github: https://github.com/ecjia/ecjia-daojia
 
-#官方网站
+##官方网站
 
 官方网站：https://ecjia.com
 
@@ -23,7 +23,7 @@ Github: https://github.com/ecjia/ecjia-daojia
 ECJia到家官方交流QQ群：***372623746***
 
 
-#简介
+##简介
 
 EC+（ecjia）到家是由上海商创网路科技有限公司推出的，一款可开展O2O业务的移动电商
 系统。它包含：移动端APP，采用原生模式开发，覆盖使用iOS及Android系统的移
@@ -42,14 +42,14 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 * **【新技术】**EC+专注移动互联网，通过原生App与微商城双轨驱动，多端同步，数据完
 美对接，通过不断更新迭代的技术来驱动电商行业未来。
 
-#五层架构
+##五层架构
 * **【核心层】**核心层是EC+的核心驱动，集成基础PHP函数、Composer组件的封装，支持缓存机制、多驱动机制、多数据源连接、多国语言方案、Hook机制、OSS云存储、Memcache、Redis。
 * **【系统层】**系统层是EC+的模块化扩展机制的核心，驱动着EC+所有应用和插件的调度与扩展。
 * **【应用层】**应用层是EC+的业务的分离后的模块，每个应用对应一个业务模块，可以根据需求无限的扩展应用，后台可轻易安装、卸载、移除应用。
 * **【插件层】**插件层是EC+的业务的扩展，根据业务的不同场景下的需求不同，可以轻松通过插件对应用的扩展进行业务逻辑补充。后台可轻易安装、卸载、移除插件。
 * **【主题层】**主题层是EC+的对外前端界面，通过**“主题框架”**展示多样的前面功能，推出了颠覆性的模块制作方式，秉承**“界面决定业务功能”**架构方式，可以满足你任何一款模板的制作，没有任何限制。后台可轻易安装、卸载、移除主题。
 
-#框架特性
+##框架特性
 
 - 灵活和完善的角色权限控制体系，权限粒度支持到方法的权限设置。
 - 支持RBAC（基于角色的权限设计）和UBAC（基于用户的权限设计）
@@ -60,7 +60,7 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 - 强大的Hook机制，轻松植入，轻松调用
 - 支持Gettext国际化的多语言方案
 
-#应用列表
+##应用列表
 
 <table style="width:100%;text-align:center;border-radius:10px;">
    <tr>
@@ -649,14 +649,14 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 </table>
 
 
-#环境要求
+##环境要求
 
 - 操作系统须 Linux（开发环境下，Windows也可以）
 - PHP环境须5.4或更高版本
 - MySQL环境须5.5或更高版本
 
 
-#搭建步骤
+##搭建步骤
 
 1. 创建数据库。如使用MySQL，字符集选择为“utf8”或者“utf8mb4”（支持更多特殊字符，推荐）
 2. 创建一个空数据库
@@ -675,7 +675,7 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 - ECJia到家API地址：http://demodaojia.ecjia.com/sites/api/
 - ECJia到家公众平台地址：http://demodaojia.ecjia.com/sites/platform/
 
-#安装文档
+##安装文档
 
 为帮助您学习了解ECJia到家，方便使用ECJia到家，快速开始ECJia到家研究开发， 我们提供以下文档资料及技术支持。
 
@@ -686,7 +686,7 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 - Windows环境下Phpstudy开启OpenSSL扩展： [https://ecjia.com/wiki/ECJiaWiki:Windows环境下Phpstudy开启OpenSSL扩展](https://ecjia.com/wiki/ECJiaWiki:Windows环境下Phpstudy开启OpenSSL扩展)
 
 
-#使用配置
+##使用配置
 
 - ECJia到家帮助文档地址：[http://ecjia.com/wiki/帮助:ECJia到家](http://ecjia.com/wiki/帮助:ECJia到家)
 - 如何为H5及APP配置支付宝支付：[https://ecjia.com/wiki/常见问题:如何为H5及APP配置支付宝支付](https://ecjia.com/wiki/常见问题:如何为H5及APP配置支付宝支付)
@@ -694,7 +694,7 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 - ECJia到家商家入驻申请流程：[https://ecjia.com/wiki/ECJiaWiki:ECJia到家商家入驻申请流程](https://ecjia.com/wiki/ECJiaWiki:ECJia到家商家入驻申请流程)
 
 
-#开发文档
+##开发文档
 
 - ECJia到家H5路由清单：[https://ecjia.com/wiki/ECJiaWiki:ECJia到家H5路由清单](https://ecjia.com/wiki/ECJiaWiki:ECJia到家H5路由清单)
 - ECJia到家API接口列表：[https://ecjia.com/wiki/ECJiaWiki:ECJia到家API接口列表](https://ecjia.com/wiki/ECJiaWiki:ECJia到家API接口列表)
@@ -703,7 +703,7 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 - ECJia到家数据库之查询构建器：[https://ecjia.com/wiki/ECJiaWiki:ECJia到家RC_DB-数据库之查询构建器](https://ecjia.com/wiki/ECJiaWiki:ECJia到家RC_DB-数据库之查询构建器)
 
 
-#产品截图
+##产品截图
 
 #### ECJia到家首页
 ![](http://file.ecjia.com/images/daojia/ECJia到家_首页.png)
