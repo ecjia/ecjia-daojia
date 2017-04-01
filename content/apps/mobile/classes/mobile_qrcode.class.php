@@ -19,6 +19,7 @@ class mobile_qrcode
     {
         RC_Package::package('app::touch')->loadClass('ecjia_touch_manager', false);
         $url = with(new ecjia_touch_manager())->serverHost();
+        $url = str_replace('?url=', '', $url);
         return $url;
     }
     

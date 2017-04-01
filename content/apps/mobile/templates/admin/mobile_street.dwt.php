@@ -89,8 +89,8 @@
 					<img src="{$dianpujie}">
 				</div>
 				<div class="download">
-					<a class="btn-apple" style="background-color:#009FE8;" href="javascript:;"><span class="apple-icon"></span><span style="color:#fff;">iPone端下载</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a class="btn-android" style="background-color:#53B958;" href="javascript:;"><span class="android-icon"></span><span style="color:#fff;">Android端下载</span></a>
+					<a class="btn-apple" target="_blank" style="background-color:#009FE8;" href="https://itunes.apple.com/us/app/ec-%E5%BA%97%E9%93%BA%E8%A1%97/id990510286?mt=8"><span class="apple-icon"></span><span style="color:#fff;">iPone端下载</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a class="btn-android" target="_blank" style="background-color:#53B958;" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ecjia.street"><span class="android-icon"></span><span style="color:#fff;">Android端下载</span></a>
 				</div>
 			</div>
 		</div>
