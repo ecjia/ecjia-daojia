@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\QrCode;
 /**
  * Simple QrCode Generator
- * A simple wrapper for the popular BaconQrCode made for Laravel.
+ * A simple wrapper for the popular BaconQrCode made for Royalcms.
  *
  */
 
@@ -75,7 +75,7 @@ class BaconQrCodeGenerator implements QrCodeInterface {
 
         if ($this->imageMerge !== null)
         {
-            $merger = new ImageMerge(new Image($qrCode), new Image($this->imageMerge));
+            $merger = new ImageMerge(new Image($qrCode), new CornerImage($this->imageMerge));
             $qrCode = $merger->merge($this->imagePercentage);
         }
 

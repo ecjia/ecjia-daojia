@@ -68,11 +68,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <span class="warm-prompt">温馨提示：</span>
             <span class="prompt-info">
                 {if $check_status eq '0'}
-                                                        您的申请已提交成功，我们将尽快为您处理，感谢您对我们的支持！
+				您的申请已提交成功，我们将尽快为您处理，感谢您对我们的支持！
                 {elseif $check_status eq '1'}
-                                                        您的申请已提交成功，我们将尽快为您处理，感谢您对我们的支持！
+         	 	您的申请已提交成功，我们将尽快为您处理，感谢您对我们的支持！
                 {elseif $check_status eq '2'}
-                                                        您的申请已审核通过，现在您可以登录自己的商家平台管理店铺，赶快去登录吧！
+         		您的申请已审核通过，现在您可以登录自己的商家平台管理店铺，赶快去登录吧！
                 {/if}
             </span>
         {/if}

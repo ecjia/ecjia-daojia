@@ -55,41 +55,57 @@ class user_profile_controller {
      * 会员中心：编辑个人资料
      */
     public static function init() {
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
-        $user_img_login = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
-        $user_img_logout = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-out2x.png';
-        if (!empty($user) && !is_ecjia_error($user)) {
-            if (!empty($user['avatar_img'])) {
-                $user_img_login = $user['avatar_img'];
-            }
-            ecjia_front::$controller->assign('user', $user);
-            ecjia_front::$controller->assign('user_img', $user_img_login);
-        } else {
-            ecjia_front::$controller->assign('user_img', $user_img_logout);
-        }
-        
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('个人资料');
-        ecjia_front::$controller->display('user_profile.dwt');
+    	$token = ecjia_touch_user::singleton()->getToken();			//token参数
+    	$user_info = ecjia_touch_user::singleton()->getUserinfo();	//id,name
+    	$cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+    	$cache_id = sprintf('%X', crc32($cache_id));
+    	
+    	if (!ecjia_front::$controller->is_cached('user_profile.dwt', $cache_id)) {
+    		$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+    		$user_img_login = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
+    		$user_img_logout = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-out2x.png';
+    		if (!empty($user) && !is_ecjia_error($user)) {
+    			if (!empty($user['avatar_img'])) {
+    				$user_img_login = $user['avatar_img'];
+    			}
+    			ecjia_front::$controller->assign('user', $user);
+    			ecjia_front::$controller->assign('user_img', $user_img_login);
+    		} else {
+    			ecjia_front::$controller->assign('user_img', $user_img_logout);
+    		}
+    		
+    		ecjia_front::$controller->assign_lang();
+    		ecjia_front::$controller->assign_title('个人资料');
+    	}
+
+        ecjia_front::$controller->display('user_profile.dwt', $cache_id);
     }
     
     /* 用户中心编辑用户名称 */
     public static function modify_username() {
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
-        $user = is_ecjia_error($user) ? array() : $user;
-        $time = RC_Time::gmtime();
-        $last_time = $user['update_username_time'];
-        $limit_time = strtotime($last_time) + 2592000;
-        if ($limit_time  > $time) {
-            ecjia_front::$controller->assign('limit_time', $limit_time);
-        }
-    
-        $update_username_time = substr($user['update_username_time'],0,10);
-        ecjia_front::$controller->assign('update_username_time', $update_username_time);
-        ecjia_front::$controller->assign('user', $user);
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('修改用户名');
-        ecjia_front::$controller->display('user_modify_username.dwt');
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$user_info = ecjia_touch_user::singleton()->getUserinfo();	//id,name
+    	
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name']));
+    	
+    	if (!ecjia_front::$controller->is_cached('user_modify_username.dwt', $cache_id)) {
+    		$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+    		$user = is_ecjia_error($user) ? array() : $user;
+    		$time = RC_Time::gmtime();
+    		$last_time = $user['update_username_time'];
+    		$limit_time = strtotime($last_time) + 2592000;
+    		if ($limit_time  > $time) {
+    			ecjia_front::$controller->assign('limit_time', $limit_time);
+    		}
+    		
+    		$update_username_time = substr($user['update_username_time'],0,10);
+    		ecjia_front::$controller->assign('update_username_time', $update_username_time);
+    		ecjia_front::$controller->assign('user', $user);
+    		ecjia_front::$controller->assign_lang();
+    		ecjia_front::$controller->assign_title('修改用户名');
+    	}
+      
+        ecjia_front::$controller->display('user_modify_username.dwt', $cache_id);
     }
 
     /* 处理用户中心编辑用户名称 */
@@ -116,23 +132,29 @@ class user_profile_controller {
     	$new_password = !empty($_POST['new_password']) ? trim($_POST['new_password']) : '';
     	$comfirm_password = !empty($_POST['comfirm_password']) ? trim($_POST['comfirm_password']) : '';
     	
+    	$token = ecjia_touch_user::singleton()->getToken();
     	if (!empty($old_password)) {
     		if ($new_password == $comfirm_password) {
-    			$token = ecjia_touch_user::singleton()->getToken();
     			$data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_PASSWORD)->data(array('token' => $token, 'password' => $old_password, 'new_password' => $new_password))->run();
     			if (! is_ecjia_error($data)) {
     				return ecjia_front::$controller->showmessage(__('修改密码成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/my/init')));
     			} else {
     				return ecjia_front::$controller->showmessage(__($data->get_error_message()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/profile/edit_password')));
     			}
-    	
+    				
     		} else {
     			return ecjia_front::$controller->showmessage(__('两次输入的密码不同，请重新输入'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/profile/edit_password')));
     		}
     	}
-    	ecjia_front::$controller->assign_title('修改密码');
-    	ecjia_front::$controller->assign_lang();
-    	ecjia_front::$controller->display('user_edit_password.dwt');            
+    	
+    	$user_info = ecjia_touch_user::singleton()->getUserinfo();
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name']));
+    	
+    	if (!ecjia_front::$controller->is_cached('user_edit_password.dwt', $cache_id)) {
+    		ecjia_front::$controller->assign_title('修改密码');
+    		ecjia_front::$controller->assign_lang();
+    	}   	
+    	ecjia_front::$controller->display('user_edit_password.dwt', $cache_id);            
     }
 }
 

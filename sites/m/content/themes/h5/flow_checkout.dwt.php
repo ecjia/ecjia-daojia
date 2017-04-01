@@ -6,6 +6,7 @@ Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+{nocache}
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
@@ -85,14 +86,14 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</section>
 		{if $selected_shipping.shipping_date_enable}
 		<section class="checklist">
-		{if $selected_shipping.shipping_date}
-			<a href='{url path="cart/flow/shipping_date" args="address_id={$address_id}&rec_id={$rec_id}&shipping_id={$selected_shipping.shipping_id}"}'>
-		{/if}
-				<span>送达时间</span>
-				{if $selected_shipping.shipping_date}<i class="iconfont icon-jiantou-right"></i>{/if}
-				<span class="ecjiaf-fr select_nav ecjia-truncate">{if !$selected_shipping.shipping_date}<span class="ecjia-color-999">暂无可选时间</span>{else}{$temp.shipping_date} {$temp.shipping_time}{/if}</span>
-				<input type="hidden" name="shipping_date" value="{$temp.shipping_date}" />
-				<input type="hidden" name="shipping_time" value="{$temp.shipping_time}" />
+			{if $selected_shipping.shipping_date}
+				<a href='{url path="cart/flow/shipping_date" args="address_id={$address_id}&rec_id={$rec_id}&shipping_id={$selected_shipping.shipping_id}"}'>
+			{/if}
+			<span>送达时间</span>
+			{if $selected_shipping.shipping_date}<i class="iconfont icon-jiantou-right"></i>{/if}
+			<span class="ecjiaf-fr select_nav ecjia-truncate">{if !$selected_shipping.shipping_date}<span class="ecjia-color-999">暂无可选时间</span>{else}{$temp.shipping_date} {$temp.shipping_time}{/if}</span>
+			<input type="hidden" name="shipping_date" value="{$temp.shipping_date}" />
+			<input type="hidden" name="shipping_time" value="{$temp.shipping_time}" />
 			{if $selected_shipping.shipping_date}
 			</a>
 			{/if}
@@ -176,3 +177,4 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</form>
 </div>
 <!-- {/block} -->
+{/nocache}

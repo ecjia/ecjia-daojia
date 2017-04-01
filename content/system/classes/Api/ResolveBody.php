@@ -85,6 +85,8 @@ class ResolveBody implements ResolveInterface
             return $this;
         }
         
+        // 去除BOM头检测
+        $body = trim($body, chr(239).chr(187).chr(191));
         $data = json_decode($body, true);
         
         $status = array_get($data, 'status', false);

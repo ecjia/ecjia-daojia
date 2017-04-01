@@ -11,6 +11,7 @@
 		},
 		spread: function() {
 			$('.would-spread').off('click').on('click', function() {
+				
 				var ua = navigator.userAgent.toLowerCase();
 				if (ua.match(/MicroMessenger/i) == "micromessenger") {
 	        		$('.ecjia-spread-share').removeClass('hide').css('top', $('body').scrollTop() + 'px');
@@ -95,11 +96,13 @@
         	var date = div.eq(index).children('div').attr('data-date');
         	var url = $('input[name="reward_url"]').val();
         	var info = {'date' : date};
+        	$(".detail-list").html('');
+        	$(window).scrollTop(0);
         	
 			$.get(url, info, function(data){
 				$(".detail-list").attr('data-url', data.data.url);
 				$(".detail-list").attr('data-toggle', data.data.data_toggle);
-				$(".detail-list").html('').html(data.list);
+				$(".detail-list").html(data.list);
 				$('.load-list').remove();
 				
 				if (data.list == null && parseInt($('.detail-list').children('li').length) == 0) {

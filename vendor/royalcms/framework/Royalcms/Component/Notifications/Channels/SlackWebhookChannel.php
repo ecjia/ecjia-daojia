@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Notifications\Channels;
 
-use Guzzle\Http\Client as HttpClient;
+use GuzzleHttp\Client as HttpClient;
 use Royalcms\Component\Notifications\Notification;
 use Royalcms\Component\Notifications\Messages\SlackMessage;
 use Royalcms\Component\Notifications\Messages\SlackAttachment;

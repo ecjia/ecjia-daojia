@@ -55,20 +55,24 @@ class goods_controller {
      * 获取分类信息
      */
     public static function init() {
-    	$cat_id = isset($_GET['cid']) && intval($_GET['cid']) > 0 ? intval($_GET['cid']) : 0;
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
     	
-    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_CATEGORY)->run();
-    	if (!is_ecjia_error($data)) {
-    		if (empty($cat_id)) {
-    			$cat_id = $data[0]['id'];
+    	if (!ecjia_front::$controller->is_cached('category_list.dwt', $cache_id)) {
+    		$cat_id = isset($_GET['cid']) && intval($_GET['cid']) > 0 ? intval($_GET['cid']) : 0;
+    		 
+    		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_CATEGORY)->run();
+    		if (!is_ecjia_error($data)) {
+    			if (empty($cat_id)) {
+    				$cat_id = $data[0]['id'];
+    			}
+    			ecjia_front::$controller->assign('cat_id', $cat_id);
+    			ecjia_front::$controller->assign('data', $data);
     		}
-    		ecjia_front::$controller->assign('cat_id', $cat_id);
-    		ecjia_front::$controller->assign('data', $data);
+    		ecjia_front::$controller->assign_title('所有分类');
+    		ecjia_front::$controller->assign('active', 'category');
+    		ecjia_front::$controller->assign_lang();
     	}
-        ecjia_front::$controller->assign_title('所有分类');
-        ecjia_front::$controller->assign('active', 'category');
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('category_list.dwt');
+        ecjia_front::$controller->display('category_list.dwt', $cache_id);
     }
 
     /**
@@ -83,8 +87,6 @@ class goods_controller {
 	    	'goods_id' => $goods_id,
 	    	'rec_type' => $rec_type,
 	    	'object_id'=> $object_id,
-// 	    	'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-// 	    	'city_id'  => $_COOKIE['city_id']
 	    );
 	    /*商品基本信息*/
 	    $goods_info = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_DETAIL)->data($par)->run();
@@ -317,6 +319,12 @@ class goods_controller {
             'city_id'       => $_COOKIE['city_id']
         );
         
+        if ($type == 'promotion') {
+        	$dwt = 'goods_promotion.dwt';
+        } elseif ($type == 'new') {
+        	$dwt = 'goods_new.dwt';
+        }
+        
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_SUGGESTLIST)->data($paramater)->hasPage()->run();
         if (!is_ecjia_error($response)) {
         	list($goods_list, $page) = $response;
@@ -328,13 +336,11 @@ class goods_controller {
         	}
         	ecjia_front::$controller->assign('goods_list', $goods_list);
         	ecjia_front::$controller->assign_lang();
-        	if ($type == 'promotion') {
-        		$sayList = ecjia_front::$controller->fetch('goods_promotion.dwt');
-        	} elseif ($type == 'new') {
-        		$sayList = ecjia_front::$controller->fetch('goods_new.dwt');
-        	}
+        	
+        	$sayList = ecjia_front::$controller->fetch($dwt);
+        	
         	if ($page['more'] == 0) $goods_list['is_last'] = 1;
-        	return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $goods_list['is_last']));
+        	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $goods_list['is_last']));
         }
     }
 
@@ -546,9 +552,8 @@ class goods_controller {
     		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($arr)->hasPage()->run();
     		if (!is_ecjia_error($response)) {
 				list($data, $page) = $response;
-
 				$arr_list = merchant_function::format_distance($data);
-    			
+				
     			ecjia_front::$controller->assign('data', $arr_list);
     			$say_list = ecjia_front::$controller->fetch('seller_list.dwt');
     			

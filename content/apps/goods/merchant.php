@@ -796,6 +796,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('gd', 				RC_ENV::gd_version());
 		$this->assign('thumb_width', 		ecjia::config('thumb_width'));
 		$this->assign('thumb_height', 		ecjia::config('thumb_height'));
+		$this->assign('select_cat', 		RC_Uri::url('goods/merchant/select_cat'));
 
 		$volume_price_list = '';
 		if (isset($_REQUEST['goods_id'])) {
@@ -1050,6 +1051,65 @@ class merchant extends ecjia_merchant {
 		} else {
 			return $this->showmessage(__('请进入入驻商后台进行操作'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+	}
+	
+	//修改商品所属平台分类
+	public function select_cat() {
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.goods_list'), RC_Uri::url('goods/merchant/init')));
+		
+		$goods_id = !empty($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
+		if (empty($goods_id)) {
+			return $this->showmessage(RC_Lang::get('goods::goods.no_goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('goods::goods.back_goods_list'), 'href' => RC_Uri::url('goods/merchant/init')))));
+		}
+		
+		/* 商品信息 */
+		$goods = RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->first();
+		if (empty($goods)) {
+			return $this->showmessage(RC_Lang::get('goods::goods.no_goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('goods::goods.back_goods_list'), 'href' => RC_Uri::url('goods/merchant/init')))));
+		}
+		
+		$ur_here = RC_Lang::get('goods::goods.select_platform_cat');
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.edit_goods'), RC_Uri::url('goods/merchant/edit', array('goods_id' => $goods_id))));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
+		
+		$this->assign('action_link', array('href' => RC_Uri::url('goods/merchant/edit', array('goods_id' => $goods_id)), 'text' => RC_Lang::get('goods::goods.edit_goods')));
+		
+		$cat_list = cat_list(0, 0, false, 1);	//平台分类
+		$this->assign('cat_list', $cat_list);
+		
+		$cat_str = get_cat_str($goods['cat_id']);
+		$cat_html = get_cat_html($cat_str);
+		
+		$this->assign('cat_html', '（'.$cat_html.'）');
+		$this->assign('ur_here', $ur_here);
+		$this->assign('goods_id', $goods_id);
+		$this->assign('form_url', RC_Uri::url('goods/merchant/update_cat', array('goods_id' => $goods_id)));
+		
+		$this->display('goods_cat_select.dwt');
+	}
+	
+	//更新商品平台分类
+	public function update_cat() {
+		$cat_id	= !empty($_POST['cat_id'])	? intval($_POST['cat_id'])	: 0;
+		$goods_id = !empty($_POST['goods_id']) ? intval($_POST['goods_id']) : 0;
+		
+		if (empty($goods_id)) {
+			return $this->showmessage(RC_Lang::get('goods::goods.no_goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('goods::goods.back_goods_list'), 'href' => RC_Uri::url('goods/merchant/init')))));
+		}
+		
+		/* 商品信息 */
+		$goods = RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->first();
+		if (empty($goods)) {
+			return $this->showmessage(RC_Lang::get('goods::goods.no_goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('goods::goods.back_goods_list'), 'href' => RC_Uri::url('goods/merchant/init')))));
+		}
+		
+		if (empty($cat_id)) {
+			return $this->showmessage(RC_Lang::get('goods::goods.pls_select_platform_cat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update(array('cat_id' => $cat_id));
+		
+		return $this->showmessage(RC_Lang::get('goods::goods.edit_goods_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/merchant/select_cat', array('goods_id' => $goods_id))));
 	}
 
 	/**

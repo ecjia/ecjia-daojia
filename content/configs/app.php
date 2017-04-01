@@ -116,15 +116,33 @@ return array(
     
     /* 通知  */
     'notification' => 'notification',
-    
+    //商家入驻
     'franchisee' => 'franchisee',
-    
+    //配送中心
     'express' => 'express',
-    
+    //安装器
     'installer' => 'installer',
+    //升级器
     'upgrade' => 'upgrade',
-    
+    //评论
     'comment' => 'comment',
+    //推荐分成
+    'affiliate' => 'affiliate',
+    //帐号连接
+    'connect' => 'connect',
+    //移动应用
+    'mobile' => 'mobile',
+    //公众平台
+    'platform' => 'platform',
+    //消息推送
+    'push' => 'push',
+    //短信
+    'sms' => 'sms',
+    //微商城
+    'touch' => 'touch',
+    //微信公众平台
+    'wechat' => 'wechat',
+    
 );
 
 // end

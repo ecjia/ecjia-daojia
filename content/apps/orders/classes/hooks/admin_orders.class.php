@@ -118,7 +118,9 @@ class orders_admin_plugin {
 			foreach($order_money as $val){
 				$num += $val['order_amount'];
 			}
+			$num = floor($num * 100) / 100;
 		}
+		
 		$order_unconfirmed = $db->field('oi.order_id')->where(array('oi.order_status' => 0, 'oi.add_time' => array('gt'=> $start_time, 'lt' => $now)))->group('oi.order_id')->select();
 		$order_unconfirmed = count($order_unconfirmed);
 	

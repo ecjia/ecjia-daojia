@@ -14,7 +14,7 @@
 
 <div class="page-header">
 	<div class="pull-left">
-		<h2><!-- {if $ur_here}{$ur_here}{/if} --></h2>
+		<h2><!-- {if $ur_here}{$ur_here}{/if} --><span class="f_s15 m_l5">{if $cat_html}{$cat_html}{/if}</span></h2>
 	</div>
   	<div class="pull-right">
 		<!-- {if $action_link} -->
@@ -36,7 +36,7 @@
 						<!-- {/foreach} -->
 					</ul>
 					{/if}
-					<form class="form-horizontal" action='{url path="goods/merchant/add_link_goods" args="goods_id={$smarty.get.goods_id}{if $code}&extension_code={$code}{/if}"}' method="post" name="theForm">
+					<form class="form-horizontal" action='{$form_url}' method="post" name="theForm">
 						<div class="form-group">
 							<div class="tab-content">
 								<fieldset>

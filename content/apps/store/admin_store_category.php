@@ -77,7 +77,7 @@ class admin_store_category extends ecjia_admin {
 		RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
 		
 		RC_Script::enqueue_script('store_category', RC_App::apps_url('statics/js/store_category.js', __FILE__), array(), false, true);
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家分类'), RC_Uri::url('seller/admin_store_category/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家分类'), RC_Uri::url('store/admin_store_category/init')));
 	}
 	
 	/**

@@ -265,10 +265,11 @@
 				size : options.size,
 				action_type : options.type
 			}, function(data){
-//				if ($(options.areaSelect).hasClass(options.areaClass)) $(options.areaSelect).append(data.list);
                 if ($(options.areaSelect).hasClass(options.areaClass)) {
+                	var area_class = options.areaClass;
                 	options.areaClass = options.areaClass.replace(new RegExp(' ','gm'), '.');//替换空格为点，多个class
                     $('.'+options.areaClass).append(data.list);
+                    options.areaClass = area_class;
                 }
 				options.lock = data.is_last;
 				$(options.trigger).hide();

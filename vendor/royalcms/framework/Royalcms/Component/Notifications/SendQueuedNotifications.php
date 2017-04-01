@@ -2,10 +2,11 @@
 
 use Royalcms\Component\Bus\Queueable;
 use Royalcms\Component\Queue\Contracts\ShouldQueue;
+use Royalcms\Component\Queue\SerializesModels;
 
 class SendQueuedNotifications extends Queueable implements ShouldQueue
 {
-//     use Queueable, SerializesModels;
+    use Queueable, SerializesModels;
 
     /**
      * The notifiable entities that should receive the notification.

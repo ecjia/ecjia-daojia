@@ -55,7 +55,6 @@ class touch_controller {
      * 首页信息
      */
     public static function init() {
-    	
         ecjia_front::$controller->assign('more_sales', RC_Uri::url('goods/index/promotion'));
         ecjia_front::$controller->assign('more_news', RC_Uri::url('goods/index/new'));
         ecjia_front::$controller->assign('theme_url', RC_Theme::get_template_directory_uri() . '/');
@@ -78,7 +77,7 @@ class touch_controller {
         	$city_id = $rs['region_id'];
         }
 
-        if(!empty($addr)){
+        if (!empty($addr)) {
         	setcookie("location_address", $addr);
         	setcookie("location_name", $name);
         	setcookie("longitude", $longitude);
@@ -88,98 +87,100 @@ class touch_controller {
         	return ecjia_front::$controller->redirect(RC_Uri::url('touch/index/init'));
         }
         
-        $arr = array(
-        	'location' => array('longitude' => $longitude, 'latitude' => $latitude),
-            'city_id' => $_COOKIE['city_id']
-        );
-        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DATA)->data($arr)->run();
-
-        //处理ecjiaopen url
-        if (!is_ecjia_error($data) && !empty($data)) {
-        	foreach ($data as $k => $v) {
-        		if ($k == 'player' || $k == 'mobile_menu') {
-        			foreach ($v as $key => $val) {
-        				if (strpos($val['url'], 'ecjiaopen://') === 0) {
-        					$data[$k][$key]['url'] = with(new ecjia_open($val['url']))->toHttpUrl();
-        				}
-        			}
-        		} elseif ($k == 'adsense_group' || $k == 'promote_goods') {
-        			foreach ($v as $key => $val) {
-        				if (isset($val['adsense'])) {
-        					foreach ($val['adsense'] as $k_k => $v_v) {
-        						if (strpos($v_v['url'], 'ecjiaopen://') === 0) {
-        							$data[$k][$key]['adsense'][$k_k]['url'] = with(new ecjia_open($v_v['url']))->toHttpUrl();
-        						}
-        					}
-        				}
-        				if ($k == 'adsense_group') {
-        					$data['adsense_group'][$key]['count'] = count($val['adsense']);
-        				}
-        				if ($k == 'promote_goods') {
-        					$data['promote_goods'][$key]['promote_end_date'] = RC_Time::local_strtotime($val['promote_end_date']);
-        				}
-        			}
-        		}
-        	}
-        	//首页菜单
-        	ecjia_front::$controller->assign('navigator', $data['mobile_menu']);
-        	
-        	//首页广告
-        	ecjia_front::$controller->assign('adsense_group', $data['adsense_group']);
-        	
-        	//首页促销商品
-        	ecjia_front::$controller->assign('promotion_goods', $data['promote_goods']);
-        	
-        	//新品推荐
-        	ecjia_front::$controller->assign('new_goods', $data['new_goods']);
-        	
-        	ecjia_front::$controller->assign('cycleimage', $data['player']);
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['longitude'].'-'.$_COOKIE['latitude'].'-'.$_COOKIE['close_download']));
+        if (!ecjia_front::$controller->is_cached('index.dwt', $cache_id)) {
+	        $arr = array(
+	        	'location' => array('longitude' => $longitude, 'latitude' => $latitude),
+	            'city_id' => $_COOKIE['city_id']
+	        );
+	        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DATA)->data($arr)->run();
+	
+	        //处理ecjiaopen url
+	        if (!is_ecjia_error($data) && !empty($data)) {
+	        	foreach ($data as $k => $v) {
+	        		if ($k == 'player' || $k == 'mobile_menu') {
+	        			foreach ($v as $key => $val) {
+	        				if (strpos($val['url'], 'ecjiaopen://') === 0) {
+	        					$data[$k][$key]['url'] = with(new ecjia_open($val['url']))->toHttpUrl();
+	        				}
+	        			}
+	        		} elseif ($k == 'adsense_group' || $k == 'promote_goods') {
+	        			foreach ($v as $key => $val) {
+	        				if (isset($val['adsense'])) {
+	        					foreach ($val['adsense'] as $k_k => $v_v) {
+	        						if (strpos($v_v['url'], 'ecjiaopen://') === 0) {
+	        							$data[$k][$key]['adsense'][$k_k]['url'] = with(new ecjia_open($v_v['url']))->toHttpUrl();
+	        						}
+	        					}
+	        				}
+	        				if ($k == 'adsense_group') {
+	        					$data['adsense_group'][$key]['count'] = count($val['adsense']);
+	        				}
+	        				if ($k == 'promote_goods') {
+	        					$data['promote_goods'][$key]['promote_end_date'] = RC_Time::local_strtotime($val['promote_end_date']);
+	        				}
+	        			}
+	        		}
+	        	}
+	        	//首页菜单
+	        	ecjia_front::$controller->assign('navigator', $data['mobile_menu']);
+	        	
+	        	//首页广告
+	        	ecjia_front::$controller->assign('adsense_group', $data['adsense_group']);
+	        	
+	        	//首页促销商品
+	        	ecjia_front::$controller->assign('promotion_goods', $data['promote_goods']);
+	        	
+	        	//新品推荐
+	        	ecjia_front::$controller->assign('new_goods', $data['new_goods']);
+	        	
+	        	ecjia_front::$controller->assign('cycleimage', $data['player']);
+	        }
+	
+	        ecjia_front::$controller->assign('page_header', 'index');
+	        ecjia_front::$controller->assign('searchs', user_function::insert_search());
+	        ecjia_front::$controller->assign('shop_pc_url', ecjia::config('shop_pc_url'));
+	        ecjia_front::$controller->assign('copyright', ecjia::config('wap_copyright'));
+	        ecjia_front::$controller->assign('active', 'index');
+	        ecjia_front::$controller->assign('address', 'address');
+	        
+	        ecjia_front::$controller->assign('searchs', user_function::get_search($store_id));
+	        ecjia_front::$controller->assign('searchs_count', count(user_function::get_search($store_id)));
+	        
+	        ecjia_front::$controller->assign('down_url', RC_Uri::url('mobile/mobile/download'));
+	        if (isset($_COOKIE['close_download'])) {
+	        	ecjia_front::$controller->assign('close_download', $_COOKIE['close_download']);
+	        }
+	        
+	        //下载推广是否开启
+	        $config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+	        if (!is_ecjia_error($config)) {
+	        	if ($config['wap_app_download_show'] && $config['wap_app_download_img']) {
+	        		ecjia_front::$controller->assign('download_app_switch', 1);
+	        		ecjia_front::$controller->assign('app_download_img', $config['wap_app_download_img']);
+	        	}
+	        }
+	        
+	        ecjia_front::$controller->assign_title();
+	        ecjia_front::$controller->assign_lang();
+	        
+	        $paramater = array(
+	        	'pagination' 	=> array('count' => 6, 'page' => 1),
+	        	'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+	        	'city_id'       => $_COOKIE['city_id']
+	        );
+	        
+	        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
+	        if (!is_ecjia_error($response)) {
+	        	list($data, $paginated) = $response;
+	        	$data = merchant_function::format_distance($data);
+	        
+	        	if ($paginated['more'] == 0) $is_last = 1;
+	        	ecjia_front::$controller->assign('data', $data);
+	        	ecjia_front::$controller->assign('is_last', $is_last);
+	        }
         }
-
-        ecjia_front::$controller->assign('page_header', 'index');
-        ecjia_front::$controller->assign('searchs', user_function::insert_search());
-        ecjia_front::$controller->assign('shop_pc_url', ecjia::config('shop_pc_url'));
-        ecjia_front::$controller->assign('copyright', ecjia::config('wap_copyright'));
-        ecjia_front::$controller->assign('active', 'index');
-        ecjia_front::$controller->assign('address', 'address');
-        
-        ecjia_front::$controller->assign('searchs', user_function::get_search($store_id));
-        ecjia_front::$controller->assign('searchs_count', count(user_function::get_search($store_id)));
-        
-        ecjia_front::$controller->assign('down_url', RC_Uri::url('mobile/mobile/download'));
-        if (isset($_COOKIE['close_download'])) {
-        	ecjia_front::$controller->assign('close_download', $_COOKIE['close_download']);
-        }
-        
-        //下载推广是否开启
-        $config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-        if (!is_ecjia_error($config)) {
-        	if ($config['wap_app_download_show'] && $config['wap_app_download_img']) {
-        		ecjia_front::$controller->assign('download_app_switch', 1);
-        		ecjia_front::$controller->assign('app_download_img', $config['wap_app_download_img']);
-        	}
-        }
-        
-        ecjia_front::$controller->assign_title();
-        ecjia_front::$controller->assign_lang();
-        
-        $paramater = array(
-        	'pagination' 	=> array('count' => 6, 'page' => 1),
-        	'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-        	'city_id'       => $_COOKIE['city_id']
-        );
-        
-        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
-        if (!is_ecjia_error($response)) {
-        	list($data, $paginated) = $response;
-        	$data = merchant_function::format_distance($data);
-        
-        	if ($paginated['more'] == 0) $is_last = 1;
-        	ecjia_front::$controller->assign('data', $data);
-        	ecjia_front::$controller->assign('is_last', $is_last);
-        }
-
-        ecjia_front::$controller->display('index.dwt');
+        ecjia_front::$controller->display('index.dwt', $cache_id);
     }
    
     /**
@@ -214,7 +215,7 @@ class touch_controller {
      * ajax获取推荐店铺
      */
     public static function ajax_suggest_store() {
-    	$limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+    	$limit = 6;
     	$page = intval($_GET['page']) ? intval($_GET['page']) : 1;
     	
     	$paramater = array(
@@ -244,18 +245,20 @@ class touch_controller {
      * 搜索
      */
     public static function search() {
-        $keywords = isset($_GET['keywords']) ? $_GET['keywords'] : '';
-        ecjia_front::$controller->assign('keywords', $keywords);
-        
-        $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
-        ecjia_front::$controller->assign('store_id', $store_id);
-
-        ecjia_front::$controller->assign('searchs', user_function::get_search($store_id));
-        ecjia_front::$controller->assign('searchs_count', count(user_function::get_search($store_id)));
-
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('搜索');
-        ecjia_front::$controller->display('search.dwt');
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE ['ECJia'] ['search']));
+    	
+    	if (!ecjia_front::$controller->is_cached('search.dwt', $cache_id)) {
+    		$keywords = isset($_GET['keywords']) ? $_GET['keywords'] : '';
+    		ecjia_front::$controller->assign('keywords', $keywords);
+    		
+    		$store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
+    		ecjia_front::$controller->assign('store_id', $store_id);
+    		
+    		ecjia_front::$controller->assign('searchs', user_function::get_search($store_id));
+    		ecjia_front::$controller->assign('searchs_count', count(user_function::get_search($store_id)));
+    		ecjia_front::$controller->assign_title('搜索');
+    	}
+        ecjia_front::$controller->display('search.dwt', $cache_id);
     }
 
     /**

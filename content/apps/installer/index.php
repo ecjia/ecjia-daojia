@@ -500,8 +500,29 @@ class index extends SimpleController {
 		
 		RC_Cache::app_cache_set('admin_name', $admin_name, 'install');
 		RC_Cache::app_cache_set('admin_password', $admin_password, 'install');
+		
+		if (! $admin_name) {
+		    return $this->showmessage(RC_Lang::get('installer::installer.username_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if (! $admin_password) {
+		    return $this->showmessage(RC_Lang::get('installer::installer.password_empty_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if (!(strlen($admin_password) >= 8 && preg_match("/\d+/",$admin_password) && preg_match("/[a-zA-Z]+/",$admin_password))) {
+		    return $this->showmessage(RC_Lang::get('installer::installer.password_invaild'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if (!(strlen($admin_password2) >= 8 && preg_match("/\d+/",$admin_password2) && preg_match("/[a-zA-Z]+/",$admin_password2))) {
+		    return $this->showmessage(RC_Lang::get('installer::installer.password_invaild'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if ($admin_password != $admin_password2) {
+		    return $this->showmessage(RC_Lang::get('installer::installer.password_not_eq'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
 	
-		$result = install_utility::createAdminPassport($admin_name, $admin_password, $admin_password2, $admin_email);
+		$result = install_utility::createAdminPassport($admin_name, $admin_password, $admin_email);
+		
 		if (is_ecjia_error($result)) {
 			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {

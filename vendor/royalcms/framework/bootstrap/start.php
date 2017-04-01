@@ -71,6 +71,7 @@ Royalcms\Component\ClassLoader\ClassManager::auto_loader_class();
 |--------------------------------------------------------------------------
 */
 require_once ROYALCMS_PATH . 'bootstrap/helpers.php';
+require_once ROYALCMS_PATH . 'bootstrap/compatible.php';
 
 /*
 |--------------------------------------------------------------------------

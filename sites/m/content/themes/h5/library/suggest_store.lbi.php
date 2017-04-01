@@ -38,7 +38,7 @@
 					<!-- {foreach from=$val.seller_goods item=goods key=key} -->
 					<!-- {if $key < 4} -->
 					<a href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
-						<img src="{$goods.img.thumb}">
+						<img src="{$goods.img.small}">
 						<span class="goods_price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span>
 					</a>
 					<!-- {/if} -->

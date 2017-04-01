@@ -54,7 +54,9 @@ class user_order_controller {
      * 获取全部订单
      */
     public static function order_list() {
-        $params_order = array('token' => ecjia_touch_user::singleton()->getToken(), 'pagination' => array('count' => 10, 'page' => 1), 'type' => '');
+        $token = ecjia_touch_user::singleton()->getToken();
+        
+        $params_order = array('token' => $token, 'pagination' => array('count' => 10, 'page' => 1), 'type' => '');
         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_LIST)->data($params_order)->run();
         $data = is_ecjia_error($data) ? array() : $data;
         
@@ -62,7 +64,7 @@ class user_order_controller {
         ecjia_front::$controller->assign_title('全部订单');
         ecjia_front::$controller->assign('title', '全部订单');
         ecjia_front::$controller->assign('active', 'orderList');
-    	
+         
         ecjia_front::$controller->assign_lang();
         ecjia_front::$controller->display('user_order_list.dwt');
     }
@@ -71,20 +73,28 @@ class user_order_controller {
      * 订单详情
      */
     public static function order_detail() {
-        $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-        if (empty($order_id)) {
-            return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        $token = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
+        
+        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+        
+        if (!ecjia_front::$controller->is_cached('user_order_detail.dwt', $cache_id)) {
+            $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+            if (empty($order_id)) {
+                return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            
+            $params_order = array('token' => $token, 'order_id' => $order_id);
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_DETAIL)->data($params_order)->run();
+            $data = is_ecjia_error($data) ? array() : $data;
+            
+            ecjia_front::$controller->assign('order', $data);
+            ecjia_front::$controller->assign('title', '订单详情');
+            ecjia_front::$controller->assign_title('订单详情');
+            ecjia_front::$controller->assign_lang();
         }
-    
-        $params_order = array('token' => ecjia_touch_user::singleton()->getToken(), 'order_id' => $order_id);
-        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_DETAIL)->data($params_order)->run();
-        $data = is_ecjia_error($data) ? array() : $data;
-
-        ecjia_front::$controller->assign('order', $data);
-        ecjia_front::$controller->assign('title', '订单详情');
-        ecjia_front::$controller->assign_title('订单详情');
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('user_order_detail.dwt');
+        ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
     }
 
     /**
@@ -197,64 +207,77 @@ class user_order_controller {
      * 评价晒单商品列表
      */
     public static function comment_list() {
-        $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+        $token = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
         
-        //获取订单内商品列表
-        $goods_data = array('token' => ecjia_touch_user::singleton()->getToken(), 'order_id' => $order_id);
-        $goods = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDERS_COMMENT)->data($goods_data)->run();
-        $goods_list = is_ecjia_error($goods) ? array() : $goods;
-
-        ecjia_front::$controller->assign('order_id', $order_id);
-        ecjia_front::$controller->assign('goods_list', $goods_list['comment_order_list']);
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('user_comment_list.dwt');
+        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+        
+        if (!ecjia_front::$controller->is_cached('user_comment_list.dwt', $cache_id)) {
+            $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+            //获取订单内商品列表
+            $goods_data = array('token' => $token, 'order_id' => $order_id);
+            $goods = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDERS_COMMENT)->data($goods_data)->run();
+            $goods_list = is_ecjia_error($goods) ? array() : $goods;
+            
+            ecjia_front::$controller->assign('order_id', $order_id);
+            ecjia_front::$controller->assign('goods_list', $goods_list['comment_order_list']);
+            ecjia_front::$controller->assign_lang();
+        }
+        ecjia_front::$controller->display('user_comment_list.dwt', $cache_id);
     }
     
     /**
      * 商品评价
      */
     public static function goods_comment() {
-        $goods_id = isset($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
-        $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-
-        //获取商品信息
-        $goods_data = array('token' => ecjia_touch_user::singleton()->getToken(), 'order_id' => $order_id);
-        $goods = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDERS_COMMENT)->data($goods_data)->run();
-        $goods_list = is_ecjia_error($goods) ? array() : $goods;
-        $goods_info['rec_id'] = isset($_GET['rec_id']) ? intval($_GET['rec_id']) : 0;
-        $goods_info['is_commented'] = isset($_GET['is_commented']) ? intval($_GET['is_commented']) : 0;
-        $goods_info['is_showorder'] = isset($_GET['is_showorder']) ? intval($_GET['is_showorder']) : 0;
-        foreach ($goods_list['comment_order_list'] as $key => $val){
-            if (is_array($val)) {
-                foreach ($val as $k => $v) {
-                    if ($k == 'rec_id' && $v == $goods_info['rec_id']) {
-                        $goods_info = $val;
+        $token      = ecjia_touch_user::singleton()->getToken();
+        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+        
+        if (!ecjia_front::$controller->is_cached('user_goods_comment.dwt', $cache_id)) {
+            $goods_id = isset($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
+            $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+            
+            //获取商品信息
+            $goods_data = array('token' => $token, 'order_id' => $order_id);
+            $goods = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDERS_COMMENT)->data($goods_data)->run();
+            $goods_list = is_ecjia_error($goods) ? array() : $goods;
+            $goods_info['rec_id'] = isset($_GET['rec_id']) ? intval($_GET['rec_id']) : 0;
+            $goods_info['is_commented'] = isset($_GET['is_commented']) ? intval($_GET['is_commented']) : 0;
+            $goods_info['is_showorder'] = isset($_GET['is_showorder']) ? intval($_GET['is_showorder']) : 0;
+            foreach ($goods_list['comment_order_list'] as $key => $val){
+                if (is_array($val)) {
+                    foreach ($val as $k => $v) {
+                        if ($k == 'rec_id' && $v == $goods_info['rec_id']) {
+                            $goods_info = $val;
+                        }
                     }
                 }
             }
+            //rec_id返回的信息
+            if ($goods_info['is_commented'] == 1) {
+                $rec_data = array('token' => $token, 'rec_id' => $goods_info['rec_id']);
+                $rec_id = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDERS_COMMENT_DETAIL)->data($rec_data)->run();
+                $rec_info = is_ecjia_error($rec_id) ? array() : $rec_id;
+                ecjia_front::$controller->assign('rec_info', $rec_info);
+            }
+            
+            ecjia_front::$controller->assign('order_id', $order_id);
+            ecjia_front::$controller->assign('goods', $goods_info);
+            ecjia_front::$controller->assign_lang();
         }
-        //rec_id返回的信息
-        if ($goods_info['is_commented'] == 1) {
-            $rec_data = array('token' => ecjia_touch_user::singleton()->getToken(), 'rec_id' => $goods_info['rec_id']);
-            $rec_id = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDERS_COMMENT_DETAIL)->data($rec_data)->run();
-            $rec_info = is_ecjia_error($rec_id) ? array() : $rec_id;
-            ecjia_front::$controller->assign('rec_info', $rec_info);
-        }
-    
-        ecjia_front::$controller->assign('order_id', $order_id);
-        ecjia_front::$controller->assign('goods', $goods_info);
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('user_goods_comment.dwt');
+        ecjia_front::$controller->display('user_goods_comment.dwt', $cache_id);
     }
     
     public static function make_comment() {
-        
         $token = ecjia_touch_user::singleton()->getToken();
-        $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
-        $rec_id = isset($_POST['rec_id']) ? intval($_POST['rec_id']) : '';
-        $content = !empty($_POST['note']) ? $_POST['note'] : '商品质量俱佳，强烈推荐！';
-        $rank = isset($_POST['score']) ? intval($_POST['score']) : 0;
-        $is_anonymous = isset($_POST['anonymity_status']) ? intval($_POST['anonymity_status']) : '';
+        
+        $order_id 		= isset($_POST['order_id']) 		? intval($_POST['order_id']) 			: 0;
+        $rec_id 		= isset($_POST['rec_id']) 			? intval($_POST['rec_id']) 				: '';
+        $content 		= !empty($_POST['note']) 			? $_POST['note'] 						: '商品质量俱佳，强烈推荐！';
+        $rank 			= isset($_POST['score']) 			? intval($_POST['score']) 				: 0;
+        $is_anonymous 	= isset($_POST['anonymity_status']) ? intval($_POST['anonymity_status']) 	: '';
        
         $picture = array();
         $_FILES = $_FILES['picture'];

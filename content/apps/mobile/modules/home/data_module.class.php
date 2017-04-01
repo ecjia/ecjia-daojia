@@ -217,8 +217,9 @@ function mobile_home_adsense_group($response, $request) {
 		if (!empty($adsense_group)) {
 			foreach ($adsense_group as $key => $val) {
 				$mobile_adsense_group = RC_Api::api('adsense', 'adsense_list', array('position_id' => $val));
-					
-				$mobile_home_adsense_group[] = $mobile_adsense_group;
+				if (!empty($mobile_adsense_group)) {
+				    $mobile_home_adsense_group[] = $mobile_adsense_group;
+				}
 			}
 		}
 

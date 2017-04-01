@@ -175,7 +175,6 @@ return array(
     'CreateWechatTagTable' => $contentDir . '/database/migrations/2017_03_15_171111_create_wechat_tag_table.php',
     'CreateWechatUserTable' => $contentDir . '/database/migrations/2017_03_15_173235_create_wechat_user_table.php',
     'CreateWechatUserTagTable' => $contentDir . '/database/migrations/2017_03_15_173743_create_wechat_user_tag_table.php',
-    'InsertConfigStructureToShopConfigTable' => $contentDir . '/database/migrations/2017_03_21_121822_insert_config_structure_to_shop_config_table.php',
     'CreateTermAttachmentTable' => $contentDir . '/database/migrations/2017_03_22_133140_create_term_attachment_table.php',
     'CreateCommentTable' => $contentDir . '/database/migrations/2017_03_22_170346_create_comment_table.php',
     'CreateCommentAppealTable' => $contentDir . '/database/migrations/2017_03_22_170435_create_comment_appeal_table.php',
@@ -207,7 +206,8 @@ return array(
     'InitUserRankTableSeeder' => $contentDir . '/database/seeds/InitUserRankTableSeeder.php',
     'InitWechatMediaTableSeeder' => $contentDir . '/database/seeds/InitWechatMediaTableSeeder.php',
     'InitWechatReplyTableSeeder' => $contentDir . '/database/seeds/InitWechatReplyTableSeeder.php',
-    'InitShopConfigTableSeeder2' => $contentDir . '/database/seeds/InitShopConfigTableSeeder2.php',
+    
+    'FixShopConfigTableSeeder' => $contentDir . '/database/seeds/FixShopConfigTableSeeder.php',
     
     'DemoStoreFranchiseeTableSeeder' => $contentDir . '/database/seeds/DemoStoreFranchiseeTableSeeder.php',
     'DemoMerchantsConfigTableSeeder' => $contentDir . '/database/seeds/DemoMerchantsConfigTableSeeder.php',

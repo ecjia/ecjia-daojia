@@ -107,7 +107,7 @@ abstract class ServiceProvider {
 	{
 		$path = with(new ReflectionClass($this))->getFileName();
 
-		return realpath(dirname($path).'/../../');
+		return realpath(dirname($path).'/../../../');
 	}
 
 	/**

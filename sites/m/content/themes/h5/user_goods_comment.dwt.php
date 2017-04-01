@@ -99,7 +99,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <label class="select-item">
         <li>
             <span class="ecjiaf-fr">
-                <div class="ecjia-anonymity-check" id="option_box"><input type="radio" name="anonymity" value="0" /><p>匿名评价</p></div>
+                <div {if $rec_info.is_anonymous == 0}class="ecjia-anonymity-check"{else if $rec_info.is_anonymous == 1}class="ecjia-anonymity-check  anonymity-check-checked"{/if} id="option_box"><input type="radio" name="anonymity" value="0" /><p>匿名评价</p></div>
                 <input type="hidden" name="anonymity_status" value="0" />
                 <input type="hidden" value="{$goods.is_commented}" name=is_commented />
             </span>

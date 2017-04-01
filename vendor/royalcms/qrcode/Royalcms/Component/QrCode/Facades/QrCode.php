@@ -2,7 +2,7 @@
 
 /**
  * Simple QrCode Generator
- * A simple wrapper for the popular BaconQrCode made for Laravel.
+ * A simple wrapper for the popular BaconQrCode made for Royalcms.
  *
  */
 

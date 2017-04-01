@@ -55,44 +55,56 @@ class user_privilege_controller {
      * 登录
      */
     public static function login() {
-        $token = ecjia_touch_user::singleton()->getToken();
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+    	
         $signin = ecjia_touch_user::singleton()->isSignin();
         if ($signin) {
-            if (!is_ecjia_error($data)) {
-               ecjia_front::$controller->redirect(RC_Uri::url('touch/index/init'));
-            } else {
-                ecjia_touch_user::singleton()->signout();
-            }
+        	$token = ecjia_touch_user::singleton()->getToken();
+	        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+	        $cache_id = sprintf('%X', crc32($cache_id));
+        	
+        	if (!ecjia_front::$controller->is_cached('user_login.dwt', $cache_id)) {
+        		$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        		if (!is_ecjia_error($user)) {
+        			ecjia_front::$controller->redirect(RC_Uri::url('touch/index/init'));
+        		} else {
+        			ecjia_touch_user::singleton()->signout();
+        		}
+        	}
         }
-        $captcha = intval(ecjia::config('captcha'));
-        if (($captcha & CAPTCHA_LOGIN) && (!($captcha & CAPTCHA_LOGIN_FAIL) || (($captcha & CAPTCHA_LOGIN_FAIL) && $_SESSION['login_fail'] > 2))) {
-            ecjia_front::$controller->assign('enabled_captcha', 1);
-            ecjia_front::$controller->assign('rand', mt_rand());
+
+        if (!ecjia_front::$controller->is_cached('user_login.dwt', $cache_id)) {
+        	$captcha = intval(ecjia::config('captcha'));
+        	if (($captcha & CAPTCHA_LOGIN) && (!($captcha & CAPTCHA_LOGIN_FAIL) || (($captcha & CAPTCHA_LOGIN_FAIL) && $_SESSION['login_fail'] > 2))) {
+        		ecjia_front::$controller->assign('enabled_captcha', 1);
+        		ecjia_front::$controller->assign('rand', mt_rand());
+        	}
+        	$user_img = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
+        	
+        	ecjia_front::$controller->assign('user_img', $user_img);
+        	ecjia_front::$controller->assign('step', isset($_GET['step']) ? htmlspecialchars($_GET['step']) : '');
+        	ecjia_front::$controller->assign('anonymous_buy', ecjia::config('anonymous_buy'));
+        	ecjia_front::$controller->assign('header_right', array('info' => '注册', 'href' => RC_Uri::url('user/privilege/register')));
+        	ecjia_front::$controller->assign('title', '登录');
+        	ecjia_front::$controller->assign_title('登录');
+        	ecjia_front::$controller->assign_lang();
         }
-        $user_img = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
-        
-        ecjia_front::$controller->assign('user_img', $user_img);
-        ecjia_front::$controller->assign('step', isset($_GET['step']) ? htmlspecialchars($_GET['step']) : '');
-        ecjia_front::$controller->assign('anonymous_buy', ecjia::config('anonymous_buy'));
-        ecjia_front::$controller->assign('header_right', array('info' => '注册', 'href' => RC_Uri::url('user/privilege/register')));
-        
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign('title', '登录');
-        ecjia_front::$controller->assign_title('登录');
-        
-        ecjia_front::$controller->display('user_login.dwt');
+        ecjia_front::$controller->display('user_login.dwt', $cache_id);
     }
     
     /**
      * 退出
      */
     public static function logout() {
+    	
         $status = !empty($_POST['status']) ? $_POST['status'] : '';
         if ($status == 'logout') {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNOUT)->run();
             $back_act = RC_Uri::url('user/privilege/login');
+            
             ecjia_touch_user::singleton()->signout();
+            RC_Cookie::delete(RC_Config::get('session.session_name'));
+            
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('logout_url' => $back_act));
         }
     }
@@ -104,7 +116,7 @@ class user_privilege_controller {
         $username = $_POST['username'] ? trim($_POST['username']) : '';
         $password = $_POST['password'] ? trim($_POST['password']) : '';
         $data = ecjia_touch_user::singleton()->signin($username, $password);
-//         $user = ecjia_touch_user::singleton()->getUserinfo();
+
         if (is_ecjia_error($data)) {
             $message = $data->get_error_message();
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('info' => $message));
@@ -129,10 +141,13 @@ class user_privilege_controller {
             $verification = $data['invite_code'];
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('verification' => $verification));
         }
-        ecjia_front::$controller->assign('title', '手机快速注册');
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('注册');
-        ecjia_front::$controller->display('user_register.dwt');
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+        if (!ecjia_front::$controller->is_cached('user_register.dwt', $cache_id)) {
+        	ecjia_front::$controller->assign('title', '手机快速注册');
+        	ecjia_front::$controller->assign_lang();
+        	ecjia_front::$controller->assign_title('注册');
+        }
+        ecjia_front::$controller->display('user_register.dwt', $cache_id);
     }
     
     /**
@@ -201,9 +216,12 @@ class user_privilege_controller {
                 return ecjia_front::$controller->showmessage(__($data->get_error_message()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         } else {
-            ecjia_front::$controller->assign('title', '设置密码');
-            ecjia_front::$controller->assign_lang();
-            ecjia_front::$controller->display('user_set_password.dwt');
+            $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+            if (!ecjia_front::$controller->is_cached('user_set_password.dwt', $cache_id)) {
+                ecjia_front::$controller->assign('title', '设置密码');
+                ecjia_front::$controller->assign_lang();
+            }
+            ecjia_front::$controller->display('user_set_password.dwt', $cache_id);
         }
     }
 }

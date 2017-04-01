@@ -1,7 +1,6 @@
 <?php
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
-{nocache}
 <!-- {if not is_pjax()} -->
 <!-- {if is_ajax()} -->
 <!-- {block name="ajaxinfo"} --><!-- {/block} -->
@@ -37,6 +36,15 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     
 	<!-- skin -->
 	<link rel="stylesheet" href="{$theme_url}{$curr_style}">
+</head>
+<body>
+	<div class="ecjia" id="get_location" data-url="{url path='location/index/get_location_msg'}">
+		<input type="hidden" name="key" value="{$key}"/>
+		<input type="hidden" name="referer" value="{$referer}"/>
+		<!-- {block name="main-content"} --><!-- {/block} -->
+		<!-- #BeginLibraryItem "/library/page_menu.lbi" --><!-- #EndLibraryItem -->
+	</div>
+	<!-- {block name="ready_footer"} --><!-- {/block} -->
 	<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
 	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.min.js" ></script>
 	<script type="text/javascript" src="{$theme_url}lib/multi-select/js/jquery.quicksearch.js" ></script>
@@ -48,7 +56,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<script type="text/javascript" src="{$theme_url}lib/jquery-form/jquery.form.min.js" ></script>	
 	<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
 	<!-- 图片预览 -->
-	<script type="text/javascript" src="{$theme_url}lib/photoswipe/js/photoswipe.js"></script>
+	<script type="text/javascript" src="{$theme_url}lib/photoswipe/js/photoswipe.min.js"></script>
 	<script type="text/javascript" src="{$theme_url}lib/photoswipe/js/photoswipe-ui-default.min.js"></script>
 
 	<!-- {block name="meta"} --><!-- {/block} -->
@@ -68,7 +76,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.franchisee.js" ></script>
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.comment.js" ></script>
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.raty.js" ></script>
-    
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.fly.js" ></script>
     <!-- 弹窗 -->
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.intro.js" ></script>
@@ -78,16 +85,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <script type="text/javascript" src="{$theme_url}lib/datePicker/js/datePicker.min.js"></script>
     <script type="text/javascript" src="{$theme_url}lib/winderCheck/js/winderCheck.min.js"></script>
     <script type="text/javascript" src="{$theme_url}js/greenCheck.js"></script>
-</head>
-<body>
-	<div class="ecjia" id="get_location" data-url="{url path='location/index/get_location_msg'}">
-		<input type="hidden" name="key" value="{$key}"/>
-		<input type="hidden" name="referer" value="{$referer}"/>
-		<!-- {block name="main-content"} --><!-- {/block} -->
-		<!-- #BeginLibraryItem "/library/page_menu.lbi" --><!-- #EndLibraryItem -->
-	</div>
-	<!-- {block name="ready_footer"} --><!-- {/block} -->
-	
 	<!-- {block name="footer"} --><!-- {/block} -->
 	<script type="text/javascript">
     	window.onunload = unload;
@@ -116,4 +113,3 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- #BeginLibraryItem "/library/page_menu.lbi" --><!-- #EndLibraryItem -->
 <!-- {block name="footer"} --><!-- {/block} -->
 <!-- {/if} -->
-{/nocache}

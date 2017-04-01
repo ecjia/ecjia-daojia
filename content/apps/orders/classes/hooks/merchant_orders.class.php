@@ -274,10 +274,10 @@ class orders_merchant_plugin {
 		$order['shipped_part']	= $db->field('oi.order_id')->where(array('oi.shipping_status'=> SS_SHIPPED_PART, 'oi.store_id' => $_SESSION['store_id']))->count('oi.order_id');
 		$status['shipped_part'] = OS_SHIPPED_PART;
 		
-		ecjia_admin::$controller->assign('title'			, $title);
-		ecjia_admin::$controller->assign('order'			, $order);
-		ecjia_admin::$controller->assign('count'			, $order['count']);
-		ecjia_admin::$controller->assign('status'			, $status);
+		ecjia_admin::$controller->assign('title', $title);
+		ecjia_admin::$controller->assign('order', $order);
+		ecjia_admin::$controller->assign('count', $order['count']);
+		ecjia_admin::$controller->assign('status', $status);
 		 
 		ecjia_admin::$controller->assign_lang();
 		ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_ordersstat.lbi', 'orders'));

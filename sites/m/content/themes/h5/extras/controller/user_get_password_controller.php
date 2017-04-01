@@ -58,7 +58,6 @@ class user_get_password_controller {
         
         if (!empty($code)) {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_FORGET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'code' => $code))->run();
-            
             if (! is_ecjia_error($data)) {
                 $_SESSION['mobile'] = $mobile;
                 $_SESSION['code_status'] = 'succeed';
@@ -67,10 +66,14 @@ class user_get_password_controller {
                 return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
-        ecjia_front::$controller->assign('title', '找回密码');
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('找回密码');
-        ecjia_front::$controller->display('user_mobile_register.dwt');
+        
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+        if (!ecjia_front::$controller->is_cached('user_mobile_register.dwt', $cache_id)) {
+        	ecjia_front::$controller->assign_lang();
+        	ecjia_front::$controller->assign('title', '找回密码');
+        	ecjia_front::$controller->assign_title('找回密码');
+        }
+        ecjia_front::$controller->display('user_mobile_register.dwt', $cache_id);
     }
 
     public static function mobile_register_account() {
@@ -82,7 +85,7 @@ class user_get_password_controller {
         }
         $token = ecjia_touch_user::singleton()->getToken();
         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_FORGET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile))->run();
-            
+
         if (!is_ecjia_error($data)) {
         	return ecjia_front::$controller->showmessage(__("短信已发送到手机".$mobile."，请注意查看"), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         } else {
@@ -114,10 +117,14 @@ class user_get_password_controller {
                 return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
-        ecjia_front::$controller->assign('title', '设置新密码');
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('设置新密码');
-        ecjia_front::$controller->display('user_reset_password.dwt');
+        
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+        if (!ecjia_front::$controller->is_cached('user_reset_password.dwt', $cache_id)) {
+        	ecjia_front::$controller->assign_lang();
+        	ecjia_front::$controller->assign('title', '设置新密码');
+        	ecjia_front::$controller->assign_title('设置新密码');
+        }
+        ecjia_front::$controller->display('user_reset_password.dwt', $cache_id);
     }
 }
 

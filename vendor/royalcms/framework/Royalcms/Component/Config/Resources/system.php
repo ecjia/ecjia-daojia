@@ -177,11 +177,9 @@ return array(
         'RC_Upload'            => 'Royalcms\Component\Upload\Upload',
         'RC_Time'              => 'Royalcms\Component\DateTime\Time',
         'RC_Format'            => 'Royalcms\Component\Support\Format',
-//         'RC_Rewrite'           => 'Royalcms\Component\Support\Facades\Rewrite',
         'RC_Package'           => 'Royalcms\Component\Support\Facades\Package',
         'RC_Error'             => 'Royalcms\Component\Error\Error',
         'RC_ENV'               => 'Royalcms\Component\Support\Facades\Environment',
-//         'RC_Excel'             => 'Royalcms\Component\Excel\Facades\Excel',
         'RC_Hash'              => 'Royalcms\Component\Support\Facades\Hash',
         'RC_Password'          => 'Royalcms\Component\Support\Facades\Password',
         'RC_Redis'             => 'Royalcms\Component\Support\Facades\Redis',
@@ -206,7 +204,6 @@ return array(
         
         
         'RC_Array'          => 'Royalcms\Component\Foundation\ArrayHelper',
-        'RC_Image'          => 'Royalcms\Component\Foundation\Image',
         'RC_Kses'           => 'Royalcms\Component\Foundation\Kses',
         'RC_Loader'         => 'Royalcms\Component\Foundation\Loader',
         'RC_Locale'         => 'Royalcms\Component\Foundation\Locale',

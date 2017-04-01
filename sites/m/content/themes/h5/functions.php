@@ -78,7 +78,6 @@ RC_Hook::add_action('goods/index/ajax_goods_comment', array('goods_controller', 
 RC_Loader::load_theme('extras/controller/merchant_controller.php');
 RC_Hook::add_action('merchant/index/init', array('merchant_controller', 'init'));//店铺首页
 RC_Hook::add_action('merchant/index/ajax_goods', array('merchant_controller', 'ajax_goods'));//获取店铺商品
-RC_Hook::add_action('merchant/index/detail', array('merchant_controller', 'detail'));//店铺详情
 RC_Hook::add_action('merchant/index/position', array('merchant_controller', 'position'));//店铺位置
 RC_Hook::add_action('merchant/index/ajax_store_comment', array('merchant_controller', 'ajax_store_comment'));//获取店铺评论
 

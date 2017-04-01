@@ -77,8 +77,10 @@ class Version_10400 extends Version
             $migrate->fire();
             
             // 更新shop_config数据填充
-            $seeder = new Seeder('InitShopConfigTableSeeder2');
+            $seeder = new Seeder('InitShopConfigTableSeeder');
             $seeder->fire();
+            
+            $this->update_config();
             
             return true;
         }
@@ -222,6 +224,18 @@ class Version_10400 extends Version
         
         RC_DB::table('migrations')->truncate();
         RC_DB::table('migrations')->insert($data);
+    }
+    
+    protected function update_config()
+    {
+        $data = [
+            ['group' => 'basic', 'code' => 'close_comment', 'value' => null, 'options' => ['type' => 'hidden']],
+            ['group' => 'basic', 'code' => 'comment_factor', 'value' => null, 'options' => ['type' => 'hidden']],
+            ];
+    
+        collect($data)->each(function($item) {
+            ecjia_config::change($item['group'], $item['code'], $item['value'], $item['options']);
+        });
     }
     
     /**

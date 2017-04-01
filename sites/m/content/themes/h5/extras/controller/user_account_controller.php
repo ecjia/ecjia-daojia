@@ -56,72 +56,98 @@ class user_account_controller {
     * 资金管理
     */
     public static function init() {
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
-        $user = is_ecjia_error($user) ? array() : $user;
+        $token = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
         
-        ecjia_front::$controller->assign('user', $user);
-        ecjia_front::$controller->assign_title('我的钱包');
-        ecjia_front::$controller->display('user_account_detail.dwt');
+        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+        
+        if (!ecjia_front::$controller->is_cached('user_account_detail.dwt', $cache_id)) {
+            $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+            $user = is_ecjia_error($user) ? array() : $user;
+            
+            ecjia_front::$controller->assign('user', $user);
+            ecjia_front::$controller->assign_title('我的钱包');
+        }
+        ecjia_front::$controller->display('user_account_detail.dwt', $cache_id);
     }
     /**
      * 余额
      */
     public static function balance(){
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
-        $user = is_ecjia_error($user) ? array() : $user;
+        $token = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
         
-        ecjia_front::$controller->assign_title('我的余额');
-        ecjia_front::$controller->assign('user', $user);
-        ecjia_front::$controller->display('user_account_balance.dwt');
+        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+        
+        if (!ecjia_front::$controller->is_cached('user_account_balance.dwt', $cache_id)) {
+            $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+            $user = is_ecjia_error($user) ? array() : $user;
+            
+            ecjia_front::$controller->assign_title('我的余额');
+            ecjia_front::$controller->assign('user', $user);
+        }
+       
+        ecjia_front::$controller->display('user_account_balance.dwt', $cache_id);
     }
     /**
     * 充值
     */
     public static function recharge() {
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
-        $user = is_ecjia_error($user) ? array() : $user;
-        $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_PAYMENT)->run();
-        $pay = is_ecjia_error($pay) ? array() : $pay;
-        if (!empty($pay['payment'])) {
-        	foreach ($pay['payment'] as $key => $val) {
-        		if ($val['is_online'] == '0' || $val['pay_code'] == 'pay_balance') {
-        			unset($pay['payment'][$key]);
-        		}
-        		
-        	}
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$user_info = ecjia_touch_user::singleton()->getUserinfo();
+    	
+    	$cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+    	$cache_id = sprintf('%X', crc32($cache_id));
+    	
+    	if (!ecjia_front::$controller->is_cached('user_account_recharge.dwt', $cache_id)) {
+	        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+	        $user = is_ecjia_error($user) ? array() : $user;
+	        $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_PAYMENT)->run();
+	        $pay = is_ecjia_error($pay) ? array() : $pay;
+	        
+	        if (!empty($pay['payment'])) {
+	            foreach ($pay['payment'] as $key => $val) {
+	                if ($val['is_online'] == '0' || $val['pay_code'] == 'pay_balance') {
+	                    unset($pay['payment'][$key]);
+	                }
+	            }
+	        }
+	        
+	        /*根据浏览器过滤支付方式，微信自带浏览器过滤掉支付宝支付，其他浏览器过滤掉微信支付*/
+	        if (!empty($pay['payment'])) {
+	            if (cart_function::is_weixin() == true) {
+	                foreach ($pay['payment'] as $key => $val) {
+	                    if ($val['pay_code'] == 'pay_alipay') {
+	                        unset($pay['payment'][$key]);
+	                    }
+	                    if ($val['pay_code'] == 'pay_wxpay') {
+	                        $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+	                        $payment_info = $payment_method->payment_info_by_id($val['pay_id']);
+	                        // 取得支付信息，生成支付代码
+	                        $payment_config = $payment_method->unserialize_config($val['pay_config']);
+	        
+	                        $handler = $payment_method->get_payment_instance($val['pay_code'], $payment_config);
+	                        $open_id = $handler->get_open_id();
+	                        $_SESSION['wxpay_open_id'] = $open_id;
+	                    }
+	                }
+	                ecjia_front::$controller->assign('brownser', 1);
+	            } else {
+	                foreach ($pay['payment'] as $key => $val) {
+	                    if ($val['pay_code'] == 'pay_wxpay') {
+	                        unset($pay['payment'][$key]);
+	                    }
+	                }
+	            }
+	        }
+
+            ecjia_front::$controller->assign('payment_list', $pay['payment']);
+            ecjia_front::$controller->assign('user', $user);
+            ecjia_front::$controller->assign_title('充值');
         }
-        
-        /*根据浏览器过滤支付方式，微信自带浏览器过滤掉支付宝支付，其他浏览器过滤掉微信支付*/
-        if (!empty($pay['payment'])) {
-        	if (cart_function::is_weixin() == true) {
-        		foreach ($pay['payment'] as $key => $val) {
-        			if ($val['pay_code'] == 'pay_alipay') {
-        				unset($pay['payment'][$key]);
-        			}
-        			if ($val['pay_code'] == 'pay_wxpay') {
-        				$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-        				$payment_info = $payment_method->payment_info_by_id($val['pay_id']);
-        				// 取得支付信息，生成支付代码
-        				$payment_config = $payment_method->unserialize_config($val['pay_config']);
-        				
-        				$handler = $payment_method->get_payment_instance($val['pay_code'], $payment_config);
-        				$open_id = $handler->get_open_id();
-        				$_SESSION['wxpay_open_id'] = $open_id;
-        			}
-        		}
-        		ecjia_front::$controller->assign('brownser', 1);
-        	} else {
-        		foreach ($pay['payment'] as $key => $val) {
-        			if ($val['pay_code'] == 'pay_wxpay') {
-        				unset($pay['payment'][$key]);
-        			}
-        		}
-        	}
-        }
-        ecjia_front::$controller->assign('payment_list', $pay['payment']);
-        ecjia_front::$controller->assign('user', $user);
-        ecjia_front::$controller->assign_title('充值');
-        ecjia_front::$controller->display('user_account_recharge.dwt');
+        ecjia_front::$controller->display('user_account_recharge.dwt', $cache_id);
     }
 
 
@@ -192,7 +218,6 @@ class user_account_controller {
     		        }
     		    }
     		}
-    		
     	} else {
     		return ecjia_front::$controller->showmessage(__('金额不能为空'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
@@ -203,12 +228,20 @@ class user_account_controller {
     * 提现
     */
     public static function withdraw() {
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
-        $user = is_ecjia_error($user) ? array() : $user;
-        ecjia_front::$controller->assign('user', $user);
+        $token = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
         
-        ecjia_front::$controller->assign_title('提现');
-        ecjia_front::$controller->display('user_account_withdraw.dwt');
+        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+        
+        if (!ecjia_front::$controller->is_cached('user_account_withdraw.dwt', $cache_id)) {
+            $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+            $user = is_ecjia_error($user) ? array() : $user;
+            ecjia_front::$controller->assign('user', $user);
+            
+            ecjia_front::$controller->assign_title('提现');
+        }
+        ecjia_front::$controller->display('user_account_withdraw.dwt', $cache_id);
     }
 
     /**
@@ -385,50 +418,60 @@ class user_account_controller {
      * 充值提现详情
      */
     public static function record_info() {
-        $data['account_id'] = !empty($_GET['account_id']) ? $_GET['account_id'] : '';
-        $data['amount'] = !empty($_GET['amount']) ? $_GET['amount'] : '';
-        $data['format_amount'] = !empty($_GET['format_amount']) ? $_GET['format_amount'] : '';
-        $data['pay_status'] = !empty($_GET['pay_status']) ? $_GET['pay_status'] : '';
-        $data['type'] = !empty($_GET['type']) ? $_GET['type'] : '';
-        $data['type_lable'] = !empty($_GET['type_lable']) ? $_GET['type_lable'] : '';
-        $data['add_time'] = !empty($_GET['add_time']) ? $_GET['add_time'] : '';
-        $data['payment_id'] = !empty($_GET['payment_id']) ? $_GET['payment_id'] : '';
-        $data['payment_name'] = !empty($_GET['payment_id']) ? trim($_GET['payment_name']) : '';
-        
-        /*微信充值相关处理*/
-        $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-        $payment_info = $payment_method->payment_info_by_id($data['payment_id']);
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$user_info = ecjia_touch_user::singleton()->getUserinfo();
+    	
+    	$cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+    	$cache_id = sprintf('%X', crc32($cache_id));
+    	
+    	if (!ecjia_front::$controller->is_cached('user_record_info.dwt', $cache_id)) {
+	        $data['account_id'] = !empty($_GET['account_id']) ? $_GET['account_id'] : '';
+	        $data['amount'] = !empty($_GET['amount']) ? $_GET['amount'] : '';
+	        $data['format_amount'] = !empty($_GET['format_amount']) ? $_GET['format_amount'] : '';
+	        $data['pay_status'] = !empty($_GET['pay_status']) ? $_GET['pay_status'] : '';
+	        $data['type'] = !empty($_GET['type']) ? $_GET['type'] : '';
+	        $data['type_lable'] = !empty($_GET['type_lable']) ? $_GET['type_lable'] : '';
+	        $data['add_time'] = !empty($_GET['add_time']) ? $_GET['add_time'] : '';
+	        $data['payment_id'] = !empty($_GET['payment_id']) ? $_GET['payment_id'] : '';
+	        $data['payment_name'] = !empty($_GET['payment_id']) ? trim($_GET['payment_name']) : '';
+	        
+	        /*微信充值相关处理*/
+	        $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+	        $payment_info = $payment_method->payment_info_by_id($data['payment_id']);
+	        
+	        /*依据当前浏览器和所选支付方式给出支付提示*/
+	        if (cart_function::is_weixin() == true && $payment_info['pay_code'] == 'pay_alipay') {
+	            ecjia_front::$controller->assign('brownser_wx', 1);
+	        } elseif (cart_function::is_weixin() == false && $payment_info['pay_code' == 'pay_wxpay']) {
+	            ecjia_front::$controller->assign('brownser_other', 1);
+	        }
+	        
+	        if ($payment_info['pay_code'] == 'pay_wxpay') {
+	            // 取得支付信息，生成支付代码
+	            $payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
+	            $handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
+	            $open_id = $handler->get_open_id();
+	            $_SESSION['wxpay_open_id'] = $open_id;
+	        }
 
-        /*依据当前浏览器和所选支付方式给出支付提示*/
-        if (cart_function::is_weixin() == true && $payment_info['pay_code'] == 'pay_alipay') {
-        	ecjia_front::$controller->assign('brownser_wx', 1);
-        } elseif (cart_function::is_weixin() == false && $payment_info['pay_code' == 'pay_wxpay']) {
-        	ecjia_front::$controller->assign('brownser_other', 1);
+            $user_img = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
+            ecjia_front::$controller->assign('user_img', $user_img);
+            
+            $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+            $user = is_ecjia_error($user) ? array() : $user;
+            $user_img = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
+            
+            if (!empty($user['avatar_img'])) {
+                $user_img = $user['avatar_img'];
+            }
+            
+            ecjia_front::$controller->assign('user_img', $user_img);
+            ecjia_front::$controller->assign('user', $user);
+            ecjia_front::$controller->assign_title('交易明细');
+            ecjia_front::$controller->assign('sur_amount', $data);
+            $_SESSION['status'] = !empty($_GET['status']) ? $_GET['status'] : '';
         }
-        
-        if ($payment_info['pay_code'] == 'pay_wxpay') {
-        	// 取得支付信息，生成支付代码
-        	$payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
-        	$handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
-        	$open_id = $handler->get_open_id();
-        	$_SESSION['wxpay_open_id'] = $open_id;
-        }
-        
-        $user_img = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
-        ecjia_front::$controller->assign('user_img', $user_img);
-
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
-        $user = is_ecjia_error($user) ? array() : $user;
-        $user_img = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
-        if (!empty($user['avatar_img'])) {
-            $user_img = $user['avatar_img'];
-        }
-        ecjia_front::$controller->assign('user_img', $user_img);
-        ecjia_front::$controller->assign('user', $user);
-        ecjia_front::$controller->assign_title('交易明细');
-        ecjia_front::$controller->assign('sur_amount', $data);
-        $_SESSION['status'] = !empty($_GET['status']) ? $_GET['status'] : '';
-        ecjia_front::$controller->display('user_record_info.dwt');
+        ecjia_front::$controller->display('user_record_info.dwt', $cache_id);
     }
     
     /**

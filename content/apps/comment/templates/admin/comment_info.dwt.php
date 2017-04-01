@@ -27,12 +27,10 @@
     					<div class="comment-thumb">
     						{if $avatar_img}
     		                	<img src="{$avatar_img}" >
-    		                {else}
-    		                	<img src="{$ecjia_main_static_url}img/ecjia_avatar.jpg">
     		                {/if}
     					</div>
     					<div class="comment-thumb-details">
-    						<h1>{if $comment_info.is_anonymous eq 0 }{'匿名发表'}{else}{$comment_info.user_name}{/if}</h1>
+    						<h1>{if $comment_info.is_anonymous eq 1 }{'匿名发表'}{else}{$comment_info.user_name}{/if}</h1>
     						<p>{$comment_info.add_time}<span>IP: {$comment_info.ip_address}</span></p><br>
     					</div>
     					<div class="comment-goods">
@@ -172,7 +170,7 @@
 							</strong>
 						</a>
 					</div>
-					<div class="accordion-body in collapse" id="goods_info_area_tvimg">
+					<div class="accordion-body in collapse reply_admin_list" id="goods_info_area_tvimg">
 						<div class="accordion-inner">
 						      <!-- {foreach from=$other_comment item=list} -->
     						          <div class="formSep">

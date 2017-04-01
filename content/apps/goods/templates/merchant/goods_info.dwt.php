@@ -237,7 +237,10 @@
 					                <div id="collapseFour" class="panel-collapse collapse in">
 					                	<div class="panel-body">
 					                		<div class="form-group p_l15 m_b10">
-		                                     	<label>所属平台商品分类：</label>{$cat_html}
+		                                     	<label>所属平台商品分类：</label>{$cat_html}<br/>
+		                                     	{if $goods.goods_id}
+		                                     	<a class="data-pjax" href="{$select_cat}&goods_id={$goods.goods_id}">重新选择平台分类</a>
+		                                     	{/if}
 						                	</div>
 						                	
 						                	<div class="form-group p_l15 p_r15 m_b0">

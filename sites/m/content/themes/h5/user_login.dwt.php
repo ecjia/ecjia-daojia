@@ -31,7 +31,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</label>
 	</div>
 	<div class="ecjia-login-login-foot ecjia-margin-b">
-		<a class="ecjiaf-fr ecjia-margin-t" href="{url path='user/get_password/mobile_register'}">{$lang.forgot_password}?</a>
+		<a class="ecjiaf-fr ecjia-margin-t" href="{url path='user/get_password/mobile_register'}">{$lang.forgot_password}？</a>
 	</div>
     <div class="around">
         <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />

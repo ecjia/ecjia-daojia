@@ -60,6 +60,8 @@ class connect_controller {
     public static function callback_template($data) {
         if (is_ecjia_error($data)) {
             //错误
+            RC_Logger::getlogger('error')->error('connect-controller,callback_template');
+            RC_Logger::getlogger('error')->error($data->get_error_message());
             $msg = '登录授权失败，请使用其他方式登录';
             return ecjia_front::$controller->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }

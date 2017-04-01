@@ -53,6 +53,8 @@ class signout_module extends api_front implements api_interface {
 		$user = integrate::init_users();
 		$user->logout();
 		
+		RC_Session::destroy();
+		
 		return array();
 	}
 }

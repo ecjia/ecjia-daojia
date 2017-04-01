@@ -1,6 +1,8 @@
-<?php namespace Royalcms\Component\Bus;
+<?php
 
-abstract class Queueable
+namespace Royalcms\Component\Bus;
+
+trait Queueable
 {
     /**
      * The name of the connection the job should be sent to.

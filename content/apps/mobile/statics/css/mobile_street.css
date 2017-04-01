@@ -1,0 +1,180 @@
+.section-one{
+	position:relative;
+}
+.mobile-img-div{
+	width:25%;
+	float:left;
+}
+.mobile-img-div .mobile-img {
+	height: 400px;
+	width: 230px;
+}
+.street-info{
+	width:70%;
+	background-color: #f5f5f5;
+	padding:10px;
+	float:right;
+	height:420px;
+}
+.street-info .ec-icon-info{
+	border-bottom: 1.8px dashed #ddd;
+    height: 52px;
+}
+.street-info .ec-icon-info .ec-icon-img{
+	height:45px;
+	width:45px;
+	float:left;
+}
+.street-info .ec-icon-info .literal{
+	float:left;
+	font-size:15px;
+	font-weight:bold;
+	height: 45px;
+    line-height: 45px;
+    margin-left: 15px;
+}
+.street-info .street-decription{
+	padding-top:10px;
+	padding-bottom:10px;
+	line-height:22px;
+}
+.street-info .qrcode-apiaddress-info{
+	background-color:#fff;
+	margin-top:20px;
+}
+.qrcode-apiaddress-info .street-qrcode-info{
+	float:left;
+	background-color:#fff !important;
+	width:258px;
+}
+.qrcode-apiaddress-info .street-qrcode-info img{
+	width:258px;
+	height:258px;
+}
+.qrcode-apiaddress-info .street-qrcode-info .scanning{
+	padding-bottom:10px;
+	text-align:center;
+	background-color: #f5f5f5 !important;
+	padding-top:7px;
+}
+.qrcode-apiaddress-info .api-address-info{
+	float:left;
+	width:56%;
+	margin-left:20px;
+}
+.qrcode-apiaddress-info .api-address-info .apiaddress{
+	height:25px;
+	line-height:25px;
+}
+.qrcode-apiaddress-info .api-address-info .api-url{
+	height:40px;
+	line-height:40px;
+	border:1px solid #ddd;
+	border-radius:4px;
+	padding-left:5px;
+	background-color:#e0e0e0 !important;
+	margin-top:15px;
+	margin-bottom:15px;
+	font-weight:bold;
+}
+.qrcode-size-download{
+	margin-top:25px;
+	margin-bottom:10px;
+}
+.daojia-info{
+	width:100%;
+}
+.daojia-info .daojia{
+	width:60%;
+	margin-left:20%;
+	margin-right:20%;
+}
+.daojia-info .daojia .daojia-literal{
+	font-size: 16px;
+    font-weight: bold;
+    margin-top: 35px;
+    text-align: center;
+}
+.daojia-info .daojia .daojia-qrcode{
+	text-align:center;
+}
+.daojia-info .daojia .daojia-qrcode{
+	text-align:center;
+}
+.daojia-info .daojia .daojia-qrcode img{
+	margin-top:15px;
+	width:344px;
+	height:344px;
+}
+.daojia-info .daojia .download{
+	text-align:center;
+	margin-top:25px;
+}
+.apple-icon{
+	background: url("../images/apple_icon.png") no-repeat;
+	position: absolute;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin-left:-46px;
+}
+.android-icon{
+	background: url("../images/android_icon.png") no-repeat;
+	position: absolute;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin-left:-46px;
+}
+.apple-icon{
+	display:inline-block;
+	width:35px;
+	height:35px;
+	padding-top:4px;
+	
+}
+.android-icon{
+	display:inline-block;
+	width:35px;
+	height:35px;
+	padding-top:4px;
+}
+.btn-apple{
+	background-color:#009FE8;
+	width:200px;
+	display:inline-block;
+	height:45px;
+	line-height:45px;
+}
+.btn-android{
+	display: inline-block;
+    height: 45px;
+    line-height: 45px;
+    width: 200px;
+}
+.icon-download{
+	background: url("../images/download.png") no-repeat;
+	position: absolute;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	width:25px;
+	height:25px;
+}
+.warning{
+	background: url("../images/warning.png") no-repeat;
+	position: absolute;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	width:20px;
+	height:20px;
+	display:inline-block;
+}
+.download a{
+	text-decoration:none;
+	border-radius:4px;
+}
+.download a:hover, a:focus {
+	text-decoration:none;
+}

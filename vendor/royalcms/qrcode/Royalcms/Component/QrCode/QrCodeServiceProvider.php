@@ -2,7 +2,7 @@
 
 /**
  * Simple QrCode Generator
- * A simple wrapper for the popular BaconQrCode made for Laravel.
+ * A simple wrapper for the popular BaconQrCode made for Royalcms.
  *
  */
 
@@ -28,6 +28,21 @@ class QrCodeServiceProvider extends ServiceProvider {
         {
             return new BaconQrCodeGenerator();
         });
+        
+        // Load the alias
+        $this->loadAlias();
+	}
+	
+	/**
+	 * Load the alias = One less install step for the user
+	 */
+	protected function loadAlias()
+	{
+	    $this->royalcms->booting(function()
+	    {
+	        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+	        $loader->alias('RC_QrCode', 'Royalcms\Component\QrCode\Facades\QrCode');
+	    });
 	}
 
 	/**

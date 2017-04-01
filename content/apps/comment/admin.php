@@ -171,7 +171,12 @@ class admin extends ecjia_admin {
 		}
 
 		/*获取用户头像*/
-		$avatar_img = RC_Upload::upload_url().'/'.RC_DB::TABLE('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
+		$img_url = RC_DB::TABLE('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
+		if ($img_url) {
+		    $avatar_img = RC_Upload::upload_url().'/'.$img_url;
+		} else {
+		    $avatar_img = RC_App::apps_url('statics/images/admin_pic.jpg', __FILE__);;
+		}
 
 		/* 获得评论回复条数 */
 		$reply_info = RC_DB::TABLE('comment_reply')->where('comment_id', $comment_id)->get();
@@ -191,6 +196,9 @@ class admin extends ecjia_admin {
 			}
 			$reply_info[$key]['content']  = nl2br(htmlspecialchars($reply_info[$key]['content']));
 		}
+		
+		//转换时间
+		$comment_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $comment_info['add_time']);
 		
 		//获取评论图片
 		$comment_pic_list = RC_DB::TABLE('term_attachment')
@@ -253,7 +261,6 @@ class admin extends ecjia_admin {
 		} else {
 		    $shop_info['composite'] = 3;
 		}
-		
 		$here = RC_Lang::get('comment::comment_manage.comment_list');
 		$url = RC_Uri::url('comment/admin/init', array('list' => 1));
 		/* 模板赋值 */
@@ -389,6 +396,10 @@ class admin extends ecjia_admin {
 				'status'     => '0'
 			);
 			$db_comment->where('comment_id', $id)->update($data);
+			if (!empty($id)) {
+				$goods_id = RC_DB::table('comment')->where('comment_id', $id)->pluck('id_value');
+			}
+			RC_Api::api('comment', 'update_goods_comment', array('goods_id' => $goods_id));
 		}
 		 elseif ($allow == "trashed_comment") {
 			/* 移到回收站 */
@@ -464,6 +475,18 @@ class admin extends ecjia_admin {
 					$data = array(
 						'status' => '0'
 					);
+					$db_comment->whereIn('comment_id', $comment_ids)->update($data);
+					/*驳回后更新商品等级*/
+					if (!empty($comment_ids)) {
+						$goods_ids = RC_DB::table('comment')->whereIn('comment_id', $comment_ids)->select('id_value')->get();
+						if (!empty($goods_ids)) {
+							foreach ($goods_ids as $key => $val) {
+								if (!empty($val['id_value'])) {
+									RC_Api::api('comment', 'update_goods_comment', array('goods_id' => $val['id_value']));
+								}
+							}
+						}
+					}
 				break;
 				
 				case 'trashed_comment' :

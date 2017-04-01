@@ -31,7 +31,7 @@
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="goods_info_area_seo">
-						<div class="accordion-inner" style="padding-top:0px;padding-bottom:0px;">
+						<div class="accordion-inner" style="padding-top:1em;padding-bottom:1em;">
 						      <div class="panel-body">
                                     <div class="text-right-commentinfo">
                                         <div class="comment-users-img">

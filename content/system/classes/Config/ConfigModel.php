@@ -47,11 +47,243 @@
 namespace Ecjia\System\Config;
 
 use Royalcms\Component\Database\Eloquent\Model;
+use RC_Cache;
+use RC_Hook;
 
 class ConfigModel extends Model
 {
+
+    const CACHE_KEY = 'shop_config';
     
     protected $table = 'shop_config';
     
+    public $timestamps = false;
+    
+    public function load($group)
+    {
+        if ($group == 'shop') 
+        {
+            return $this->loadItems();
+        }
+        else if ($group == 'group')
+        {
+            return $this->loadGroups();
+        }
+        else 
+        {
+            return null;
+        }
+    }
+    
+    /**
+     * 写入数据库数据
+     * @param string $key
+     * @param string $value
+     */
+    public function writeItem($key, $value)
+    {
+        $this->where('code', $key)->update(['value' => $value]);
+        
+        $this->clearCache();
+    }
+    
+    /**
+     * 修改Item类型及值
+     * @param string $group_id
+     * @param string $key
+     * @param string $value
+     * @param string $options
+     */
+    public function changeItem($group_id, $key, $value = null, $options = [])
+    {
+        $data = [
+        	'parent_id'     => $group_id,
+            
+            'type'          => array_get($options, 'type', 'text'),
+            'store_range'   => array_get($options, 'store_range', ''),
+            'store_dir'     => array_get($options, 'store_dir', ''),
+            'sort_order'    => array_get($options, 'sort_order', 0),
+        ];
+        
+        if (! is_null($value)) {
+            $data['value'] = $value;
+        }
+        
+        $result = $this->where('code', $key)->update($data);
+        
+        $this->clearCache();
+        
+        return $result;
+    }
+    
+    /**
+     * 添加配置项
+     * 
+     * @param integer $group_id
+     * @param string $key
+     * @param string $value
+     * @param array $options
+     * @return bool
+     */
+    public function addItem($group_id, $key, $value, $options = [])
+    {
+        $data = [
+            'id'            => $this->getNextItemIdByGroupId($group_id),
+        	'parent_id'     => $group_id,
+            'code'          => $key,
+            'value'         => $value,
+            
+            'type'          => array_get($options, 'type', 'text'),
+            'store_range'   => array_get($options, 'store_range', ''),
+            'store_dir'     => array_get($options, 'store_dir', ''),
+            'sort_order'    => array_get($options, 'sort_order', 0),
+        ];
+
+        $result = $this->insert($data);
+        
+        $this->clearCache();
+        
+        return $result;
+    }
+    
+    /**
+     * 删除某个配置项
+     * @param string $key
+     */
+    public function deleteItem($key)
+    {
+        $result = $this->where('parent_id', '>', 0)->where('code', $key)->delete();
+        $this->clearCache();
+        return $result;
+    }
+    
+    
+    /**
+     * 获取所有配置项
+     */
+    public function loadItems()
+    {
+        $items = $this->getCache();
+        
+        if (empty($items))
+        {
+            $data = $this->select('code', 'value')->where('parent_id', '>', 0)->get();
+            $items = $data->mapWithKeys(function($item) {
+                return [$item['code'] => $item['value']];
+            });
+        
+            $this->setCache($items);
+        }
+        return RC_Hook::apply_filters('ecjia_config_item_filter', $items);
+    }
+    
+    /**
+     * 获取所有的配置组
+     * @return array
+     */
+    public function loadGroups()
+    {
+        $data = $this->select('code', 'id')->where('parent_id', 0)->where('type', 'group')->get();
+        $groups = $data->mapWithKeys(function($group) {
+        	return [$group['code'] => $group['id']];
+        });
+
+        return RC_Hook::apply_filters('ecjia_config_group_filter', $groups);
+    }    
+    
+    /**
+     * 添加用户组项
+     * @param unknown $group
+     * @param string $id
+     */
+    public function addGroup($group, $id = null)
+    {
+        $data = [
+        	'parent_id' => 0,
+            'code'      => $group,
+            'type'      => 'group'
+        ];
+        
+        if ($id)
+        {
+            $data['id'] = intval($id);
+        }
+        else 
+        {
+            $data['id'] = $this->getNextGroupId();
+        }
+
+        return $this->insertGetId($data);
+    }
+    
+    /**
+     * 删除某个配置组
+     * @param unknown $group
+     */
+    public function deleteGroup($group)
+    {
+        return $this->where('parent_id', 0)->where('code', $group)->delete();
+    }
+    
+    /**
+     * Get the next group id number.
+     *
+     * @return int
+     */
+    public function getNextGroupId()
+    {
+        return $this->getLastGroupId() + 1;
+    }
+    
+    /**
+	 * Get the last group id number.
+	 *
+	 * @return int
+	 */
+    protected function getLastGroupId()
+    {
+        $groups = $this->loadGroups();
+        $max = $groups->values()->max();
+        return $max;
+    }
+    
+    
+    protected function getLastItemIdByGroupId($group_id)
+    {
+        $id = $this->where('parent_id', $group_id)->max('id');
+        $id = $id ?: '00';
+        return substr($id, -2);
+    }
+    
+    public function getNextItemIdByGroupId($group_id)
+    {
+        return intval($group_id . $this->getLastItemIdByGroupId($group_id) + 1);
+    }
+    
+    
+    /**
+     * 添加数据缓存
+     * @param array $items
+     */
+    protected function setCache($items)
+    {
+        return RC_Cache::app_cache_set(self::CACHE_KEY, $items, 'system');
+    }
+    
+    /**
+     * 获取数据缓存
+     */
+    protected function getCache()
+    {
+        return RC_Cache::app_cache_get(self::CACHE_KEY, 'system');
+    }
+    
+    /**
+     * 清除数据缓存
+     */
+    public function clearCache()
+    {
+        return RC_Cache::app_cache_delete(self::CACHE_KEY, 'system');
+    }
     
 }

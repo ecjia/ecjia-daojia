@@ -46,6 +46,7 @@
 //
 namespace Ecjia\System\Notifications;
 
+use Royalcms\Component\Bus\Queueable;
 use Royalcms\Component\Notifications\Notification;
 // use Royalcms\Component\Notifications\Messages\MailMessage;
 
@@ -54,6 +55,7 @@ use Royalcms\Component\Notifications\Notification;
  */
 class ExpressGrab extends Notification
 {
+    use Queueable;
     
 	private $notifiable_data;
     /**

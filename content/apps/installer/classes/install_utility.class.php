@@ -185,20 +185,8 @@ class install_utility
      * @param   string      $admin_email
      * @return  boolean     成功返回true，失败返回false
      */
-    public static function createAdminPassport($admin_name, $admin_password, $admin_password2, $admin_email) 
+    public static function createAdminPassport($admin_name, $admin_password, $admin_email) 
     {
-        if ($admin_name === '') {
-            return new ecjia_error('username_error', RC_Lang::get('installer::installer.username_error'));
-        }
-        
-        if ($admin_password === '') {
-            return new ecjia_error('password_empty_error', RC_Lang::get('installer::installer.password_empty_error'));
-        }
-        
-        if (!(strlen($admin_password) >= 8 && preg_match("/\d+/",$admin_password) && preg_match("/[a-zA-Z]+/",$admin_password))) {
-            return new ecjia_error('js_languages_password_invaild', RC_Lang::get('installer::installer.js_languages.password_invaild'));
-        }
-
         $nav_list = join(',', RC_Lang::get('installer::installer.admin_user'));
 
         try {

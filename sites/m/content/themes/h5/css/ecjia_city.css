@@ -2941,10 +2941,12 @@ footer {
 }
 
 .ecjia-flow-cart .shop-title-name {
-	max-width: 300px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
+	max-width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    float: left;
 }
 
 .ecjia-flow-cart .shop-title-name i {
@@ -2973,7 +2975,7 @@ footer {
 	line-height: 30px;
 	font-size: 1.1em;
 	border-left: 1px solid #eee;
-	padding-left: 20px;
+	padding-left: 15px;
 }
 
 .ecjia-flow-cart .item-goods {
@@ -3533,6 +3535,7 @@ footer {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
+	max-width: 640px;
 }
 
 .ecjia-shipping-date .data-shipping {

@@ -27,6 +27,8 @@ return array(
     'Royalcms\\Component\\Uuid\\' => array($vendorDir . '/royalcms/uuid'),
     'Royalcms\\Component\\Html\\' => array($vendorDir . '/royalcms/html'),
     'Royalcms\\Component\\Agent\\' => array($vendorDir . '/royalcms/agent'),
+    'Royalcms\\Component\\QrCode\\' => array($vendorDir . '/royalcms/qrcode'),
+    'Royalcms\\Component\\Image\\' => array($vendorDir . '/royalcms/image'),
     'Royalcms\\Component\\WeChat\\Menu\\' => array($vendorDir . '/royalcms/wechat-menu'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'DebugBar' => array($vendorDir . '/maximebf/debugbar/src'),

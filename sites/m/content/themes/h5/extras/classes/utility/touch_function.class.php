@@ -62,7 +62,7 @@ class touch_function {
     
     public static function change_array_key($array, $new_key) {
         $new_array = array();
-        if($array) {
+        if ($array) {
             foreach ($array as $val) {
                 $new_array[$val[$new_key]] = $val;
             }
@@ -94,7 +94,7 @@ class touch_function {
     public static function format_curl_response($data) {
 //         {"status":{"succeed":0,"error_code":"comment_exist","error_desc":"\u8bc4\u4ef7\u5df2\u5b8c\u6210\uff0c\u8bf7\u52ff\u91cd\u590d\u8bc4\u4ef7"}}
         $data = json_decode($data, true);
-        if($data['status']['succeed']) {
+        if ($data['status']['succeed']) {
             return $data['status']['data'];
         } else {
             return new ecjia_error($data['status']['error_code'], $data['status']['error_desc']);

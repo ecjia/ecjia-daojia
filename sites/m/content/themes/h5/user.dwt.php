@@ -17,7 +17,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <div class="ecjia-user-info user-new-info ecjia-user">
     {if $user}
-    	<a href="{url path='user/profile/init'}"><div class="user-img ecjiaf-fl"><img src="{$user_img}" alt=""></a></div>
+    	<a href="{url path='user/profile/init'}"><div class="user-img ecjiaf-fl"><img src="{$user_img}" alt=""></div></a>
     	<div class="ecjiaf-fl ecjia-margin-l user-rank-name">
     		<span>{$user.name}</span>
     		<span class="ecjia-user-buttom">{$user.rank_name}</span>

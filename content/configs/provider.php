@@ -53,6 +53,7 @@ return array(
     'Royalcms\Component\Memcache\MemcacheServiceProvider',
     'Royalcms\Component\XmlResponse\XmlResponseServiceProvider',
     'Royalcms\Component\UEditor\UEditorServiceProvider',
+    'Royalcms\Component\QrCode\QrCodeServiceProvider',
     
     'Ecjia\System\Providers\SystemServiceProvider',
     

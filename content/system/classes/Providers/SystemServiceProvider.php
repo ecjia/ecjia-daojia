@@ -53,6 +53,9 @@ use Ecjia\System\Plugin\PluginManager;
 use Ecjia\System\Theme\ThemeManager;
 use Ecjia\System\Site\SiteManager;
 use Ecjia\System\Version\VersionManager;
+use Ecjia\System\Config\Config;
+use Ecjia\System\Config\ConfigModel;
+use Ecjia\System\Config\DatabaseConfigRepository;
 
 class SystemServiceProvider extends ServiceProvider {
     /**
@@ -82,6 +85,10 @@ class SystemServiceProvider extends ServiceProvider {
 	    $this->registerSiteManager();
 	    
 	    $this->registerVersionManager();
+	    
+	    $this->registerConfigRepository();
+	    
+	    $this->registerConfig();
 	    
 	    $this->loadAlias();
 	}
@@ -131,6 +138,34 @@ class SystemServiceProvider extends ServiceProvider {
 	}
 	
 	
+	/**
+	 * Register the Config service
+	 * @return \Ecjia\System\Config\Config
+	 */
+	public function registerConfig()
+	{
+	    $this->royalcms->bindShared('ecjia.config', function($royalcms)
+	    {
+	        $repository = $royalcms['ecjia.config.repository'];
+	        
+	        return new Config($repository);
+	    });
+	}
+	
+	/**
+	 * Register the Config repository service.
+	 *
+	 * @return void
+	 */
+	protected function registerConfigRepository()
+	{
+	    $this->royalcms->bindShared('ecjia.config.repository', function($royalcms)
+	    {
+	        return new DatabaseConfigRepository(new ConfigModel());
+	    });
+	}
+	
+	
 	public function registerTestLogCommand() 
 	{
 	    $this->royalcms->bindShared('command.test.log', function($royalcms)
@@ -152,6 +187,7 @@ class SystemServiceProvider extends ServiceProvider {
 	        $loader->alias('Ecjia_ThemeManager', 'Ecjia\System\Facades\ThemeManager');
 	        $loader->alias('Ecjia_SiteManager', 'Ecjia\System\Facades\SiteManager');
 	        $loader->alias('Ecjia_VersionManager', 'Ecjia\System\Facades\VersionManager');
+	        $loader->alias('ecjia_config', 'Ecjia\System\Facades\Config');
 	    });
 	}
 	
@@ -163,6 +199,7 @@ class SystemServiceProvider extends ServiceProvider {
 	public function provides()
 	{
 	    return array(
+	        'ecjia.config',
 	        'command.test.log',
 	    );
 	}

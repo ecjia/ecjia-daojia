@@ -86,6 +86,12 @@ class ecjia_admin_menu extends Object {
     const kSETTING  = 'setting';
     
     /**
+     * 服务
+     * @var string
+     */
+    const KSERVICE = 'service';
+    
+    /**
      * 快捷菜单
      * @var string
      */
@@ -223,6 +229,7 @@ class ecjia_admin_menu extends Object {
         $menus[self::kAPPS]      = $this->_request_admin_menu($apps, 'admin_menu');
         $menus[self::kTOOLS]     = $this->_request_admin_menu($apps, 'tool_menu');
         $menus[self::kSETTING]   = $this->_request_admin_menu($apps, 'setting_menu');
+        $menus[self::KSERVICE]   = $this->_request_admin_menu($apps, 'service_menu');
     
         //判断是否启用主题目录，启用才开放此功能
         if (file_exists(SITE_THEME_PATH) || file_exists(RC_THEME_PATH)) {
@@ -242,34 +249,12 @@ class ecjia_admin_menu extends Object {
             self::kTOOLS     => __('工具'),
             self::kSKIN      => __('外观'),
             self::kSETTING   => __('设置'),
+            self::KSERVICE   => __('服务'),
             self::kSHORTCUT  => __('快捷导航')
         );
         
         return $menus_label;
     }
-    
-    
-    /**
-     * 加载后台菜单
-     * @param array $apps
-     * @param string $menu_name
-     */
-//     private function _request_admin_menu($apps, $menu_name) {
-//         if (is_array($apps)) {
-//             $menu = RC_Api::apis($apps, $menu_name);
-//             if (is_array($menu)) {
-//                 usort($menu, array('ecjia_utility', 'admin_menu_by_sort'));
-//             }
-//         } else {
-//             $menu = RC_Api::api($apps, $menu_name);
-//             if (is_array($menu)) {
-//                 usort($menu, array('ecjia_utility', 'admin_menu_by_sort'));
-//             }
-//         }
-    
-//         return $menu;
-//     }
-
     
     /**
      * 加载后台菜单

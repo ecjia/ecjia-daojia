@@ -80,33 +80,33 @@ class Collection extends BaseCollection {
 		return new static(array_fetch($this->toArray(), $key));
 	}
 
-	/**
-	 * Get the max value of a given key.
-	 *
-	 * @param  string  $key
-	 * @return mixed
-	 */
-	public function max($key)
-	{
-		return $this->reduce(function($result, $item) use ($key)
-		{
-			return (is_null($result) || $item->{$key} > $result) ? $item->{$key} : $result;
-		});
-	}
+// 	/**
+// 	 * Get the max value of a given key.
+// 	 *
+// 	 * @param  string  $key
+// 	 * @return mixed
+// 	 */
+// 	public function max($key)
+// 	{
+// 		return $this->reduce(function($result, $item) use ($key)
+// 		{
+// 			return (is_null($result) || $item->{$key} > $result) ? $item->{$key} : $result;
+// 		});
+// 	}
 
-	/**
-	 * Get the min value of a given key.
-	 *
-	 * @param  string  $key
-	 * @return mixed
-	 */
-	public function min($key)
-	{
-		return $this->reduce(function($result, $item) use ($key)
-		{
-			return (is_null($result) || $item->{$key} < $result) ? $item->{$key} : $result;
-		});
-	}
+// 	/**
+// 	 * Get the min value of a given key.
+// 	 *
+// 	 * @param  string  $key
+// 	 * @return mixed
+// 	 */
+// 	public function min($key)
+// 	{
+// 		return $this->reduce(function($result, $item) use ($key)
+// 		{
+// 			return (is_null($result) || $item->{$key} < $result) ? $item->{$key} : $result;
+// 		});
+// 	}
 
 	/**
 	 * Get the array of primary keys

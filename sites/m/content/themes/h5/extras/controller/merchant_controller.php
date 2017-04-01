@@ -205,7 +205,6 @@ class merchant_controller {
 			ecjia_front::$controller->assign('real_count', $cart_list['total']);
 		}
 		ecjia_front::$controller->assign('goods_list', $goods_list);
-		 
 		ecjia_front::$controller->assign('type_name', $type_name);
 		ecjia_front::$controller->assign('goods_num', $goods_num);
 		 
@@ -272,30 +271,6 @@ class merchant_controller {
     	} else {
     		return ecjia_front::$controller->showmessage($comments->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
-	}
-	
-	/**
-	 * 店铺详情
-	 */
-	public static function detail() {
-		$store_id = intval($_GET['store_id']);
-		$arr = array(
-			'seller_id' => $store_id,
-			'location' => array(
-				'longitude' => $_COOKIE['longitude'], 
-				'latitude' => $_COOKIE['latitude']
-			),
-			'city_id' => $_COOKIE['city_id']
-		);
-		//店铺信息
-		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_HOME_DATA)->data($arr)->run();
-		if (!is_ecjia_error($store_info)) {
-			$store_info = merchant_function::format_info_distance($store_info);
-			ecjia_front::$controller->assign('data', $store_info);
-		}
-
-		ecjia_front::$controller->assign_title('店铺详情');
-		ecjia_front::$controller->display('merchant_detail.dwt');
 	}
 	
 	/**
@@ -414,13 +389,6 @@ class merchant_controller {
 			foreach ($goods_list as $k => $v) {
 				if (!empty($v['specification'])) {
 					$spec_goods[$v['id']]['goods_price'] = ltrim((!empty($v['promote_price']) ? $v['promote_price'] : ($v['shop_price'] == '免费' ? '0' : $v['shop_price'])), '￥');
-// 					foreach ($v['specification'] as $key => $val) {
-// 						if ($key == 0) {
-// 							$goods_list[$k]['default_spec'] = $val['value'][0]['id'];
-// 						} else {
-// 							$goods_list[$k]['default_spec'] .= ','.$val['value'][0]['id'];
-// 						}
-// 					}
 					$spec_goods[$v['id']]['goods_info'] = $v;
 					$spec_goods[$v['id']]['goods_info']['goods_id'] = $v['id'];
 				}
@@ -470,13 +438,16 @@ class merchant_controller {
 	 * 店铺位置
 	 */
 	public static function position() {
-		$shop_address = $_GET['shop_address'];
-		ecjia_front::$controller->assign('shop_address', $shop_address);
-		ecjia_front::$controller->assign_title('店铺位置');
+		$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+		
+		if (!ecjia_front::$controller->is_cached('merchant_position.dwt', $cache_id)) {
+			$shop_address = $_GET['shop_address'];
+			ecjia_front::$controller->assign('shop_address', $shop_address);
+			ecjia_front::$controller->assign_title('店铺位置');
+		}
 		 
-		ecjia_front::$controller->display('merchant_position.dwt');
+		ecjia_front::$controller->display('merchant_position.dwt', $cache_id);
 	}
-	
 }
 
 // end

@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\QrCode;
 /**
  * Simple QrCode Generator
- * A simple wrapper for the popular BaconQrCode made for Laravel.
+ * A simple wrapper for the popular BaconQrCode made for Royalcms.
  *
  */
 
@@ -99,6 +99,12 @@ class ImageMerge implements ImageMergeInterface {
     {
         $this->setProperties($percentage);
 
+        $this->createConrnerQr();
+        
+        $this->createLogoQr();
+
+        /**
+         * @todo 不能生成圆角Logo
         imagecopyresized(
             $this->sourceImage->getImageResource(),
             $this->mergeImage->getImageResource(),
@@ -111,8 +117,51 @@ class ImageMerge implements ImageMergeInterface {
             $this->mergeImageWidth,
             $this->mergeImageHeight
         );
+        */
 
         return $this->createImage();
+    }
+    
+    
+    public function createLogoQr()
+    {
+        //计算logo图片的宽高及相对于二维码的摆放位置,将logo拷贝到二维码中央
+        $logo_qr_height = $logo_qr_width = $this->sourceImageWidth/5 - 8;
+        $from_width = ($this->sourceImageWidth - $logo_qr_width)/2;
+        imagecopyresampled(
+        $this->sourceImage->getImageResource(),
+        $this->mergeImage->getImageResource(),
+        $from_width,
+        $from_width,
+        0,
+        0,
+        $logo_qr_width,
+        $logo_qr_height,
+        $this->mergeImageWidth,
+        $this->mergeImageHeight
+        );
+    }
+    
+    
+    public function createConrnerQr()
+    {
+        //计算圆角图片的宽高及相对于二维码的摆放位置,将圆角图片拷贝到二维码中央
+        $corner_qr_height = $corner_qr_width = $this->sourceImageWidth/5;
+        $from_width = ($this->sourceImageWidth - $corner_qr_width)/2;
+        
+        imagecopyresampled(
+            $this->sourceImage->getImageResource(), 
+            $this->mergeImage->getCornerImageResource(), 
+            $from_width, 
+            $from_width, 
+            0, 
+            0, 
+            $corner_qr_width, 
+            $corner_qr_height, 
+            $this->mergeImage->getCornerWidth(), 
+            $this->mergeImage->getCornerHeight()
+        );
+        
     }
 
     /**

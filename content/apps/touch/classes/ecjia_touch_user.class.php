@@ -121,6 +121,7 @@ class ecjia_touch_user extends RC_Object {
         if (is_ecjia_error($res)) {
             return $api->getError();
         }
+        RC_Cookie::delete(self::API_USER_COOKIE);
         
         $this->removeCacheUserinfo();
     }

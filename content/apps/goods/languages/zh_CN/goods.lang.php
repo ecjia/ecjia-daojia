@@ -585,6 +585,8 @@ return array(
 	'select_please'		=> '请选择...',
 	'all_category'		=> '所有分类',
 	'self'				=> '自营',
+	'select_platform_cat' 		=> '选择平台分类',
+	'pls_select_platform_cat'	=> '请选择平台分类',
 	
 );
 

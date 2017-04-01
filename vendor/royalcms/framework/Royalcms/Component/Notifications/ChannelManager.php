@@ -7,7 +7,7 @@ use Royalcms\Component\Support\Manager;
 use Royalcms\Component\Support\Collection;
 use Guzzle\Http\Client as HttpClient;
 use Royalcms\Component\Database\Eloquent\Model;
-// use Royalcms\Component\Contracts\Queue\ShouldQueue;
+// use Royalcms\Component\Queue\Contracts\ShouldQueue;
 // use Royalcms\Component\Contracts\Bus\Dispatcher as Bus;
 // use Nexmo\Client\Credentials\Basic as NexmoCredentials;
 use Royalcms\Component\Database\Eloquent\Collection as ModelCollection;

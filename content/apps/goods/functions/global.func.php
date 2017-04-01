@@ -798,7 +798,7 @@ function get_cat_html($str) {
 		if ($k == 0) {
 			$html .= $v;
 		} else {
-			$html .= '>>'.$v;
+			$html .= '>'.$v;
 		}
 	}
 	return $html;

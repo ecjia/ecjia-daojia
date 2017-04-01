@@ -310,8 +310,9 @@ class goods_list {
 			foreach ($filter['sort'] as $key => $val) {
 				$cache_key .= '-' . $key . '-' . $val;
 			}
+		} else {
+			$filter['sort'] = array('g.store_sort_order' => 'ASC');
 		}
-		
 		$goods_db = RC_Model::model('goods/orm_goods_model');
 		/* 储存商品列表缓存key*/
 		$fomated_cache_key = $goods_db->create_cache_key_array($cache_key, 2880);

@@ -54,10 +54,9 @@ class user_bonus_controller {
      * 我的红包
      */
     public static function init() {
-        $shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-        
-        ecjia_front::$controller->assign('bonus_readme_url', $shop_config['bonus_readme_url']);
-        ecjia_front::$controller->assign_title('我的红包');
+		$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+		ecjia_front::$controller->assign('bonus_readme_url', $shop_config['bonus_readme_url']);
+		ecjia_front::$controller->assign_title('我的红包');
         ecjia_front::$controller->display('user_bonus.dwt');
     }
 
@@ -120,41 +119,50 @@ class user_bonus_controller {
      * 我的奖励
      */
     public static function my_reward() {
-    	$invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => ecjia_touch_user::singleton()->getToken()))->run();
-    	$invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
-        $intive_total = $invite_reward['invite_total'];
-        
-        ecjia_front::$controller->assign_title('我的奖励');
-        ecjia_front::$controller->assign('intive_total', $intive_total);
-        ecjia_front::$controller->display('user_my_reward.dwt');
+    	$token = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
+
+        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+    	
+    	if (!ecjia_front::$controller->is_cached('user_my_reward.dwt', $cache_id)) {
+    		$invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token))->run();
+    		$invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
+    		$intive_total = $invite_reward['invite_total'];
+    		
+    		ecjia_front::$controller->assign_title('我的奖励');
+    		ecjia_front::$controller->assign('intive_total', $intive_total);
+    	}
+        ecjia_front::$controller->display('user_my_reward.dwt', $cache_id);
     }
     
     /**
      * 奖励明细
      */
     public static function reward_detail() {
-        $type = !empty($_GET['type']) ? $_GET['type'] : '';
-        
-        $token = ecjia_touch_user::singleton()->getToken();
-    	$invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token))->run();
-    	$invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
-    	ecjia_front::$controller->assign('month', $invite_reward['invite_record']);
-    	
-    	$max_key = array_keys($invite_reward['invite_record'], max($invite_reward['invite_record']));
-    	$max_month = $invite_reward['invite_record'][$max_key[0]]['invite_data'];
+    	$token = ecjia_touch_user::singleton()->getToken();
 
-    	$arr = array(
-    	    'token'        => $token, 
-    	    'pagination'   => array('page' => 1, 'count' => 10), 
-    	    'date'         => $max_month
-    	);
-    	$invite_record = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_RECORD)->data($arr)->run();
-    	$data = is_ecjia_error($invite_record) ? array() : $invite_record;
-    	
-    	ecjia_front::$controller->assign('data', $data);
-    	ecjia_front::$controller->assign('is_last', $data['paginated']['more']);
-    	ecjia_front::$controller->assign('max_month', $max_month);
-    	ecjia_front::$controller->assign_title('奖励明细');
+        $type = !empty($_GET['type']) ? $_GET['type'] : '';
+        $invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token))->run();
+        $invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
+        ecjia_front::$controller->assign('month', $invite_reward['invite_record']);
+         
+        $max_key = array_keys($invite_reward['invite_record'], max($invite_reward['invite_record']));
+        $max_month = $invite_reward['invite_record'][$max_key[0]]['invite_data'];
+        
+        $arr = array(
+            'token'        => $token,
+            'pagination'   => array('page' => 1, 'count' => 10),
+            'date'         => $max_month
+        );
+        $invite_record = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_RECORD)->data($arr)->run();
+        $data = is_ecjia_error($invite_record) ? array() : $invite_record;
+
+        ecjia_front::$controller->assign('data', $data);
+        ecjia_front::$controller->assign('is_last', $data['paginated']['more']);
+        ecjia_front::$controller->assign('max_month', $max_month);
+        ecjia_front::$controller->assign_title('奖励明细');
+        
         ecjia_front::$controller->display('user_reward_detail.dwt');
     }
     /**
@@ -188,8 +196,12 @@ class user_bonus_controller {
      * 赚积分
      */
     public static function get_integral() {
-        ecjia_front::$controller->assign_title('赚积分');
-        ecjia_front::$controller->display('user_get_integral.dwt');
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+        
+        if (!ecjia_front::$controller->is_cached('user_get_integral.dwt', $cache_id)) {
+            ecjia_front::$controller->assign_title('赚积分');
+        }
+        ecjia_front::$controller->display('user_get_integral.dwt', $cache_id);
     }
 }
 

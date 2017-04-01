@@ -54,59 +54,67 @@ class article_controller {
      *  帮助中心页
      */
     public static function init() {
-    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP)->run();
-    	if (!is_ecjia_error($data)) {
-    		ecjia_front::$controller->assign('data', $data);
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+    	
+    	if (!ecjia_front::$controller->is_cached('article_init.dwt', $cache_id)) {
+    		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP)->run();
+    		if (!is_ecjia_error($data)) {
+    			ecjia_front::$controller->assign('data', $data);
+    		}
+    		ecjia_front::$controller->assign_title('帮助中心');
+    		ecjia_front::$controller->assign('title', '帮助中心');
     	}
-    	ecjia_front::$controller->assign_title('帮助中心');
-    	ecjia_front::$controller->assign('title', '帮助中心');
-    	ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('article_init.dwt');
+        ecjia_front::$controller->display('article_init.dwt', $cache_id);
     }
+    
     /**
      * 文章详情
      */
     public static function detail() {
         $title = trim($_GET['title']);
         $article_id = intval($_GET['aid']);
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
         
-        ecjia_front::$controller->assign('title', $title);
-    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP_DETAIL)->data(array('article_id' => $article_id))->run();
-    	
-    	if (!is_ecjia_error($data) && !empty($data)) {
-    		$res = array();
-    		preg_match('/<body>([\s\S]*?)<\/body>/', $data, $res);
-    		$bodystr = trim($res[0]);
-    		if ($bodystr != '<body></body>') {
-    			ecjia_front::$controller->assign('data', $bodystr);
-    		}
-    	}
-    	
-    	ecjia_front::$controller->assign_title($title);
-        ecjia_front::$controller->display('article_detail.dwt');
+        if (!ecjia_front::$controller->is_cached('article_detail.dwt', $cache_id)) {
+        	ecjia_front::$controller->assign('title', $title);
+        	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP_DETAIL)->data(array('article_id' => $article_id))->run();
+        	
+        	if (!is_ecjia_error($data) && !empty($data)) {
+        		$res = array();
+        		preg_match('/<body>([\s\S]*?)<\/body>/', $data, $res);
+        		$bodystr = trim($res[0]);
+        		if ($bodystr != '<body></body>') {
+        			ecjia_front::$controller->assign('data', $bodystr);
+        		}
+        	}
+        	ecjia_front::$controller->assign_title($title);
+        }
+        ecjia_front::$controller->display('article_detail.dwt', $cache_id);
     }
+    
     /**
      * 网店信息内容
      */
     public static function shop_detail() {
         $title = trim($_GET['title']);
         $article_id = intval($_GET['article_id']);
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
         
-        $shop_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO_DETAIL)->data(array('article_id' => $article_id))->run();
-        
-        if (!is_ecjia_error($shop_detail) && !empty($shop_detail)) {
-        	$res = array();
-        	preg_match('/<body>([\s\S]*?)<\/body>/', $shop_detail, $res);
-        	$bodystr = trim($res[0]);
-        	if ($bodystr != '<body></body>') {
-        		ecjia_front::$controller->assign('data', $bodystr);
+        if (!ecjia_front::$controller->is_cached('article_shop_detail.dwt', $cache_id)) {
+        	$shop_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO_DETAIL)->data(array('article_id' => $article_id))->run();
+        	if (!is_ecjia_error($shop_detail) && !empty($shop_detail)) {
+        		$res = array();
+        		preg_match('/<body>([\s\S]*?)<\/body>/', $shop_detail, $res);
+        		$bodystr = trim($res[0]);
+        		if ($bodystr != '<body></body>') {
+        			ecjia_front::$controller->assign('data', $bodystr);
+        		}
         	}
+        	ecjia_front::$controller->assign('title', $title);
+        	ecjia_front::$controller->assign_title($title);
         }
 
-        ecjia_front::$controller->assign('title', $title);
-        ecjia_front::$controller->assign_title($title);
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('article_shop_detail.dwt');
+        ecjia_front::$controller->display('article_shop_detail.dwt', $cache_id);
     }
 }
 

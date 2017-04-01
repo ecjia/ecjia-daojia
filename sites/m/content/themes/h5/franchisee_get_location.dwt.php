@@ -7,6 +7,7 @@ Libraries: page_menu,page_header
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 <!-- {extends file="ecjia-touch.dwt.php"} -->
+
 <!-- {block name="footer"} -->
 <script type="text/javascript">ecjia.touch.franchisee.location();</script>
 <style type="text/css">
@@ -20,6 +21,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 }
 </style>
 <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp"></script>
+
 <script type="text/javascript">
 var address = '{$shop_address}';
 $.cookie('address', address);

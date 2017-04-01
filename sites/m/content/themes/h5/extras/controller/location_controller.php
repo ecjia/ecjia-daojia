@@ -53,31 +53,42 @@ class location_controller {
 	//首页定位触发进入页面
 	//1、获取当前位置2、搜索位置  最终返回首页顶部定位更换信息
     public static function select_location() {
-//     	ecjia_front::$controller->assign('hideinfo', '1');
     	ecjia_front::$controller->assign('title', '上海');
-        ecjia_front::$controller->assign_title('定位');
-        
-        if (ecjia_touch_user::singleton()->isSignin()) {
-        	ecjia_front::$controller->assign('login', 1);
-        }
-        $address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => ecjia_touch_user::singleton()->getToken()))->run();
-        if (!is_ecjia_error($address_list)) {
-        	ecjia_front::$controller->assign('address_list', $address_list);
-        }
-        $referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
-        if (!empty($referer_url)) {
-        	ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
-        	$backurl = urlencode($referer_url);
-        } else{
-        	$backurl = urlencode(RC_Uri::url('touch/index/init'));
-        }
-        $key       = ecjia::config('map_qq_key');
-        $referer   = ecjia::config('map_qq_referer');
-        $my_location = "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=".$backurl."&key=".$key."&referer=".$referer;
-        ecjia_front::$controller->assign('my_location', $my_location);
-        
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('select_location.dwt');
+    	ecjia_front::$controller->assign_title('定位');
+    	
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+    	
+    	if (ecjia_touch_user::singleton()->isSignin()) {
+    		ecjia_front::$controller->assign('login', 1);
+    		$token = ecjia_touch_user::singleton()->getToken();
+        	$user_info = ecjia_touch_user::singleton()->getUserinfo();
+        	
+	    	$cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+	    	$cache_id = sprintf('%X', crc32($cache_id));
+    		
+    		if (!ecjia_front::$controller->is_cached('select_location.dwt', $cache_id)) {
+    			$address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => $token))->run();
+    			if (!is_ecjia_error($address_list)) {
+    				ecjia_front::$controller->assign('address_list', $address_list);
+    			}
+    		}
+    	}
+    	
+    	if (!ecjia_front::$controller->is_cached('select_location.dwt', $cache_id)) {
+    		$referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
+    		if (!empty($referer_url)) {
+    			ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
+    			$backurl = urlencode($referer_url);
+    		} else{
+    			$backurl = urlencode(RC_Uri::url('touch/index/init'));
+    		}
+    		$key       = ecjia::config('map_qq_key');
+    		$referer   = ecjia::config('map_qq_referer');
+    		$my_location = "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=".$backurl."&key=".$key."&referer=".$referer;
+    		ecjia_front::$controller->assign('my_location', $my_location);
+    	}
+    	
+        ecjia_front::$controller->display('select_location.dwt', $cache_id);
     }
     
     //根据关键词搜索周边位置定位
@@ -85,14 +96,19 @@ class location_controller {
     	ecjia_front::$controller->assign('title', '上海');
     	ecjia_front::$controller->assign_title('定位');
     
-    	$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->data(array('token' => ecjia_touch_user::singleton()->getToken()))->run();
-    	$recommend_city_name = $shop_config['recommend_city'][0]['name'];
-    	$recommend_city_id   = $shop_config['recommend_city'][0]['id'];
-    	ecjia_front::$controller->assign('recommend_city_name', $recommend_city_name);
-    	ecjia_front::$controller->assign('recommend_city_id', $recommend_city_id);
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$token));
     	
-    	ecjia_front::$controller->assign_lang();
-    	ecjia_front::$controller->display('search_location.dwt');
+    	if (!ecjia_front::$controller->is_cached('search_location.dwt', $cache_id)) {
+    		$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->data(array('token' => $token))->run();
+    		$recommend_city_name = $shop_config['recommend_city'][0]['name'];
+    		$recommend_city_id   = $shop_config['recommend_city'][0]['id'];
+    		ecjia_front::$controller->assign('recommend_city_name', $recommend_city_name);
+    		ecjia_front::$controller->assign('recommend_city_id', $recommend_city_id);
+    		ecjia_front::$controller->assign_lang();
+    	}
+    	
+    	ecjia_front::$controller->display('search_location.dwt', $cache_id);
     }
     
     //请求接口返回数据
@@ -108,20 +124,24 @@ class location_controller {
     
     //选择城市
     public static function select_city() {
-        $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-        if (is_ecjia_error($rs)) {
-        	return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
-        }
-        ecjia_front::$controller->assign('citylist', $rs['recommend_city']);
-
-        $referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
-        if (!empty($referer_url)) {
-        	ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
-        }
-        
-    	ecjia_front::$controller->assign_title('选择城市');
-    	ecjia_front::$controller->assign_lang();
-    	ecjia_front::$controller->display('select_location_city.dwt');
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+    	
+    	if (!ecjia_front::$controller->is_cached('select_location_city.dwt', $cache_id)) {
+    		$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+    		if (is_ecjia_error($rs)) {
+    			return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+    		}
+    		ecjia_front::$controller->assign('citylist', $rs['recommend_city']);
+    		
+    		$referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
+    		if (!empty($referer_url)) {
+    			ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
+    		}
+    		
+    		ecjia_front::$controller->assign_title('选择城市');
+    		ecjia_front::$controller->assign_lang();
+    	}
+    	ecjia_front::$controller->display('select_location_city.dwt', $cache_id);
     }
     
 

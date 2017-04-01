@@ -1,9 +1,12 @@
-<?php namespace Royalcms\Component\Notifications;
+<?php
 
+namespace Royalcms\Component\Notifications;
 
-class Notification extends Queueable
+use Royalcms\Component\Queue\SerializesModels;
+
+class Notification
 {
-//     use SerializesModels;
+    use SerializesModels;
 
     /**
      * The unique identifier for the notification.
@@ -19,6 +22,6 @@ class Notification extends Queueable
      */
     public function broadcastOn()
     {
-        return array();
+        return [];
     }
 }

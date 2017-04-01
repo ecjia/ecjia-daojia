@@ -173,6 +173,23 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 
 		return value($default);
 	}
+	
+	/**
+	 * Set an item from the collection by key.
+	 *
+	 * @param  mixed  $key
+	 * @param  mixed  $default
+	 * @return mixed
+	 */
+	public function set($key, $value)
+	{
+	    if (array_key_exists($key, $this->items))
+	    {
+	        $this->items[$key] = $value;
+	    }
+	
+	    return $this;
+	}
 
 	/**
 	 * Group an associative array by a field or Closure value.
@@ -238,6 +255,17 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	public function isEmpty()
 	{
 		return empty($this->items);
+	}
+	
+	/**
+	 * Determine if the given value is callable, but not a string.
+	 *
+	 * @param  mixed  $value
+	 * @return bool
+	 */
+	protected function useAsCallable($value)
+	{
+	    return ! is_string($value) && is_callable($value);
 	}
 
 	/**
@@ -310,6 +338,23 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
     {
         return $this->map($callback)->collapse();
     }
+    
+    /**
+     * Get the max value of a given key.
+     *
+     * @param  callable|string|null  $callback
+     * @return mixed
+     */
+    public function max($callback = null)
+    {
+        $callback = $this->valueRetriever($callback);
+    
+        return $this->reduce(function ($result, $item) use ($callback) {
+            $value = $callback($item);
+    
+            return is_null($result) || $value > $result ? $value : $result;
+        });
+    }
 
 	/**
 	 * Merge the collection with the given items.
@@ -320,6 +365,45 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	public function merge($items)
 	{
 		return new static(array_merge($this->items, $this->getArrayableItems($items)));
+	}
+	
+	/**
+	 * Create a collection by using this collection for keys and another for its values.
+	 *
+	 * @param  mixed  $values
+	 * @return static
+	 */
+	public function combine($values)
+	{
+	    return new static(array_combine($this->all(), $this->getArrayableItems($values)));
+	}
+	
+	/**
+	 * Union the collection with the given items.
+	 *
+	 * @param  mixed  $items
+	 * @return static
+	 */
+	public function union($items)
+	{
+	    return new static($this->items + $this->getArrayableItems($items));
+	}
+	
+	/**
+	 * Get the min value of a given key.
+	 *
+	 * @param  callable|string|null  $callback
+	 * @return mixed
+	 */
+	public function min($callback = null)
+	{
+	    $callback = $this->valueRetriever($callback);
+	
+	    return $this->reduce(function ($result, $item) use ($callback) {
+	        $value = $callback($item);
+	
+	        return is_null($result) || $value < $result ? $value : $result;
+	    });
 	}
 
 	/**
@@ -375,7 +459,9 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	 */
 	public function put($key, $value)
 	{
-		$this->items[$key] = $value;
+		$this->offsetSet($key, $value);
+		
+		return $this;
 	}
 
 	/**
@@ -609,6 +695,10 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	 */
 	protected function valueRetriever($value)
 	{
+	    if ($this->useAsCallable($value)) {
+	        return $value;
+	    }
+	    
 		return function($item) use ($value)
 		{
 			return data_get($item, $value);
