@@ -26,6 +26,7 @@ class mobile_qrcode
     
     public static function makeStreetEcjiaOpenUrl($url)
     {
+        $url = trim($url);
         $url = base64url_encode($url);
         return 'ecjiaopen://app?open_type=street&key='.$url;
     }
