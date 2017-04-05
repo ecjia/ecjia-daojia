@@ -46,6 +46,8 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+use Royalcms\Component\Foundation\Image;
+
 /**
  * 图片处理类
  * @author royalwang
@@ -112,7 +114,7 @@ class goods_imageutils {
         $file_name = '/' . basename($img) . '_thumb';
         $dir_name = dirname($img);
         $thumbname = $dir_name . $file_name;
-    	$thumbname = RC_Image::thumb($img, $thumbname, $img_ext, $thumb_width, $thumb_height);
+    	$thumbname = Image::thumb($img, $thumbname, $img_ext, $thumb_width, $thumb_height);
     	
     	return self::copyImage($thumbname, $thumb_img);
     }

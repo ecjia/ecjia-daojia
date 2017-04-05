@@ -267,6 +267,8 @@ class ConfigModel extends Model
      */
     protected function setCache($items)
     {
+        $items = $items->toArray();
+        
         return RC_Cache::app_cache_set(self::CACHE_KEY, $items, 'system');
     }
     
@@ -275,7 +277,14 @@ class ConfigModel extends Model
      */
     protected function getCache()
     {
-        return RC_Cache::app_cache_get(self::CACHE_KEY, 'system');
+        $items = RC_Cache::app_cache_get(self::CACHE_KEY, 'system');
+        
+        if (!empty($items))
+        {
+            return collect($items);
+        }
+        
+        return null;
     }
     
     /**

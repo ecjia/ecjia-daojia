@@ -385,6 +385,7 @@ class index extends SimpleController {
 	 */
 	public function create_config_file() {
 		$db_host    = isset($_POST['db_host'])		?   trim($_POST['db_host']) 	: '';
+		$db_port    = isset($_POST['db_port'])      ?   trim($_POST['db_port'])     : '';
 		$db_name    = isset($_POST['db_name'])      ?   trim($_POST['db_name']) 	: '';
 		$db_user    = isset($_POST['db_user'])      ?   trim($_POST['db_user']) 	: '';
 		$db_pass    = isset($_POST['db_pass'])      ?   trim($_POST['db_pass']) 	: '';
@@ -393,6 +394,7 @@ class index extends SimpleController {
 		
 		$data = array(
 			'DB_HOST' 		=> $db_host,
+		    'DB_PORT'       => $db_port,
 			'DB_DATABASE' 	=> $db_name,
 			'DB_USERNAME' 	=> $db_user,
 			'DB_PASSWORD' 	=> $db_pass,

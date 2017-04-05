@@ -50,8 +50,8 @@ use Royalcms\Component\Database\QueryException;
 
 class Version_10401 extends Version
 {
-    
-    
+
+
     /**
      * 升级触发
      */
@@ -60,27 +60,27 @@ class Version_10401 extends Version
         try {
 
             // 移除1.4.0版本中insert的数据库脚本
-            $this->insertMigrationsData();
-            
+            $this->updateMigrationsData();
+
             // 更新shop_config数据填充
             $this->update_config();
-            
+
             // 修复插件配置的group_id
             $this->fix_addon_group_id();
-            
+
             // 更新shop_config数据表主键ID顺序
             $seeder = new Seeder('FixShopConfigTableSeeder');
             $seeder->fire();
-            
+
             return true;
         }
         catch (QueryException $e) {
-        
+
             return new ecjia_error($e->getCode(), $e->getMessage());
         }
-        
+
     }
-    
+
     /**
      * 移除1.4.0版本中insert的数据库脚本
      */
@@ -89,18 +89,18 @@ class Version_10401 extends Version
         RC_DB::table('migrations')->where('migration', '2017_03_21_121822_insert_config_structure_to_shop_config_table')->delete();
         RC_DB::table('migrations')->where('migration', '2017_03_22_162623_insert_config_structure_to_shop_config_table_2')->delete();
     }
-    
+
     protected function update_config()
     {
         $data = [
             ['group' => 'addon', 'code' => 'addon_active_applications', 'value' => '', 'options' => []],
             ];
-    
+
         collect($data)->each(function($item) {
             ecjia_config::change($item['group'], $item['code'], $item['value'], $item['options']);
         });
     }
-    
+
     /**
      * 修复插件配置的group_id
      */
@@ -125,12 +125,12 @@ class Version_10401 extends Version
             'addon_cron_plugins',
             'addon_connect_plugins',
         ];
-        
+
         collect($codes)->map(function ($item) {
             ecjia_config::change('addon', $item);
         });
     }
-    
+
     /**
      * 获取更新日志文件路径
      */
@@ -138,7 +138,7 @@ class Version_10401 extends Version
     {
         return __DIR__ . '/ecjia-daojia-patch-v1.4.1.log';
     }
-    
+
     /**
      * 获取更新说明文件路径
      */
