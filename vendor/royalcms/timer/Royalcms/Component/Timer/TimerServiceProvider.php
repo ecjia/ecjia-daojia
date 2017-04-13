@@ -25,5 +25,21 @@ class TimerServiceProvider extends ServiceProvider
 			
 			return new Timer($startTime);
 		});
+		
+		// Load the alias
+		$this->loadAlias();
 	}
+	
+	/**
+	 * Load the alias = One less install step for the user
+	 */
+	protected function loadAlias()
+	{
+	    $this->royalcms->booting(function()
+	    {
+	        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+	        $loader->alias('RC_Timer', 'Royalcms\Component\Timer\Facades\Timer');
+	    });
+	}
+	
 }
