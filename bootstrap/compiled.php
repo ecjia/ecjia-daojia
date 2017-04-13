@@ -2924,7 +2924,7 @@ abstract class ServiceProvider
     public function guessPackagePath()
     {
         $path = with(new ReflectionClass($this))->getFileName();
-        return realpath(dirname($path) . '/../../');
+        return realpath(dirname($path) . '/../../../');
     }
     protected function getPackageNamespace($package, $namespace)
     {
@@ -4228,11 +4228,16 @@ use Royalcms\Component\Support\ServiceProvider;
 use Royalcms\Component\Foundation\Phpinfo;
 class PhpinfoServiceProvider extends ServiceProvider
 {
+    protected $defer = true;
     public function register()
     {
         $this->royalcms->bindShared('phpinfo', function ($royalcms) {
             return new Phpinfo();
         });
+    }
+    public function provides()
+    {
+        return array('phpinfo');
     }
 }
 namespace Royalcms\Component\Cookie;
@@ -4516,6 +4521,14 @@ class TimerServiceProvider extends ServiceProvider
         $this->royalcms->singleton('timer', function () {
             $startTime = defined('ROYALCMS_START') ? ROYALCMS_START : null;
             return new Timer($startTime);
+        });
+        $this->loadAlias();
+    }
+    protected function loadAlias()
+    {
+        $this->royalcms->booting(function () {
+            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+            $loader->alias('RC_Timer', 'Royalcms\\Component\\Timer\\Facades\\Timer');
         });
     }
 }
