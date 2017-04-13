@@ -12,6 +12,13 @@ use Royalcms\Component\SmartyView\Engines\SmartyEngine;
 class SmartyServiceProvider extends ServiceProvider
 {
     /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+    
+    /**
      * boot
      */
     public function boot()
@@ -118,5 +125,15 @@ class SmartyServiceProvider extends ServiceProvider
 
             return $factory;
         });
+    }
+    
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array('smarty', 'view', 'view.finder');
     }
 }
