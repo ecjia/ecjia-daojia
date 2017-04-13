@@ -279,7 +279,7 @@ class ConfigModel extends Model
     {
         $items = RC_Cache::app_cache_get(self::CACHE_KEY, 'system');
         
-        if (!empty($items))
+        if (!empty($items) && is_array($items))
         {
             return collect($items);
         }

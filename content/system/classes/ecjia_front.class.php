@@ -138,7 +138,7 @@ abstract class ecjia_front extends ecjia_base implements ecjia_template_fileload
 
 	    try 
 	    {
-	        $css_path = Ecjia_ThemeManager::driver(ecjia::config(Ecjia_ThemeManager::getTemplateName()))->loadSpecifyStyle(Ecjia_ThemeManager::getStyleName())->getStyle();
+	        $css_path = Ecjia_ThemeManager::driver(Ecjia_ThemeManager::getTemplateName())->loadSpecifyStyle(Ecjia_ThemeManager::getStyleName())->getStyle();
 	        $view->assign('theme_css_path', $css_path);
 	    } 
 	    catch (InvalidArgumentException $e)

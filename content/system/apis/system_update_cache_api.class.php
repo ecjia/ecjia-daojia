@@ -52,6 +52,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class system_update_cache_api extends Component_Event_Api {
     
+    private $files;
+    
+    public function __construct()
+    {
+        $this->files = royalcms('files');
+    }
+    
     public function call(&$options) {
         
         in_array('system_tablestruct_cache', $options) and $this->clean_system_tablestruct_cache();
@@ -70,29 +77,39 @@ class system_update_cache_api extends Component_Event_Api {
     
     
     protected function clean_system_tablestruct_cache() {
-        royalcms('files')->deleteDirectory(SITE_CACHE_PATH . 'temp' . DS . 'table_caches');
+        if ($this->files->isDirectory(SITE_CACHE_PATH . 'temp' . DS . 'table_caches'))
+            $this->files->deleteDirectory(SITE_CACHE_PATH . 'temp' . DS . 'table_caches');
     }
     
     protected function clean_system_query_cache() {
-        royalcms('files')->deleteDirectory(SITE_CACHE_PATH . 'temp' . DS . 'query_caches');
+        if ($this->files->isDirectory(SITE_CACHE_PATH . 'temp' . DS . 'query_caches'))
+            $this->files->deleteDirectory(SITE_CACHE_PATH . 'temp' . DS . 'query_caches');
     }
     
     protected function clean_system_userdata_cache() {
-        royalcms('files')->deleteDirectory(SITE_CACHE_PATH . 'userdata');
+        if ($this->files->isDirectory(SITE_CACHE_PATH . 'userdata'))
+            $this->files->deleteDirectory(SITE_CACHE_PATH . 'userdata');
     }
     
     protected function clean_system_app_cache() {
-        royalcms('files')->deleteDirectory(SITE_CACHE_PATH . 'cache');
+        if ($this->files->isDirectory(SITE_CACHE_PATH . 'cache'))
+            $this->files->deleteDirectory(SITE_CACHE_PATH . 'cache');
     }
     
     protected function clean_front_template_cache() {
-        royalcms('files')->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'front');
-        royalcms('files')->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches');
+        if ($this->files->isDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'front'))
+            $this->files->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'front');
+        
+        if ($this->files->isDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches'))
+            $this->files->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches');
     }
     
     protected function clean_admin_template_cache() {
-        royalcms('files')->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'admin');
-        royalcms('files')->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches');
+        if ($this->files->isDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'admin'))
+            $this->files->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'admin');
+        
+        if ($this->files->isDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches'))
+            $this->files->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches');
     }
     
 }

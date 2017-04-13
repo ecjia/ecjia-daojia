@@ -345,4 +345,30 @@ function set_ecjia_config_filter($arr) {
 }
 RC_Hook::add_filter('set_ecjia_config_filter', 'set_ecjia_config_filter');    
 
+//移除$_ENV中的敏感信息
+function remove_env_pretty_page_table_data($tables) {
+    $env = collect($tables['Environment Variables']);
+    $server = collect($tables['Server/Request Data']);
+    
+    $col = collect([
+        'DB_HOST', 
+        'DB_PORT', 
+        'DB_DATABASE', 
+        'DB_USERNAME', 
+        'DB_PASSWORD', 
+        'DB_PREFIX'
+    ]);
+    $col->map(function ($item) use ($env, $server) {
+        $env->pull($item);
+        $server->pull($item);
+    });
+    
+    $tables['Environment Variables'] = $env->all();
+    $tables['Server/Request Data'] = $server->all();
+    return $tables;
+}
+RC_Hook::add_filter('pretty_page_table_data', 'remove_env_pretty_page_table_data');
+
+
+
 // end

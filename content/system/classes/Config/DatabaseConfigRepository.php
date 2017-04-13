@@ -106,7 +106,9 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface, ArrayAccess
 	 */
 	public function allKeys()
 	{
-	    return $this->tableModel->lists('code');
+	    $itemKeys = array_keys($this->all());
+	    $groupKeys = array_keys($this->getGroups());
+	    return array_merge($groupKeys, $itemKeys);
 	}
 	
 	/**
@@ -116,7 +118,11 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface, ArrayAccess
 	 */
 	public function all()
 	{
-	    return $this->tableModel->load('shop');
+	    $this->load('shop');
+	     
+	    $collection = array_get($this->items, 'shop');
+	    
+	    return $collection->toArray();
 	}
 
 	/**
@@ -290,8 +296,10 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface, ArrayAccess
 	public function getGroups()
 	{
 	    $this->load('group');
-	    
-	    return array_get($this->items, 'group');
+
+	    $collection = array_get($this->items, 'group');
+	     
+	    return $collection->toArray();
 	}
 	
 	/**
@@ -302,7 +310,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface, ArrayAccess
 	 */
 	public function hasGroup($group)
 	{	    
-	    $groups = $this->getGroups()->toArray();
+	    $groups = $this->getGroups();
 
 	    if (empty($groups)) return false;
 	    
@@ -320,7 +328,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface, ArrayAccess
 	 */
 	public function getGroup($group, $default = null)
 	{
-	    $groups = $this->getGroups()->toArray();
+	    $groups = $this->getGroups();
 
 	    if (empty($groups)) return 0;
 	    

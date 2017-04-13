@@ -35,8 +35,7 @@ trait CompatibleTrait
 	 */
 	public function load_config() 
 	{
-	    $all = $this->all();
-	    return $all ? $all->toArray() : $all;
+	    return $this->all();
 	}
 	
 	
