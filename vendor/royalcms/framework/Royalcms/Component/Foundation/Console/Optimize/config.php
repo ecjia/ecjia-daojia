@@ -61,7 +61,7 @@ return array_map('realpath', array(
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/FilesystemKernel/FilesystemServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Hook/HookServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Error/ErrorServiceProvider.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Timer/TimerServiceProvider.php',
+    $basePath.'/vendor/royalcms/timer/Royalcms/Component/Timer/TimerServiceProvider.php',
     
     
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Routing/RouteFiltererInterface.php',
@@ -109,8 +109,8 @@ return array_map('realpath', array(
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Log/LogServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Log/Writer.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Log/FileStore.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Timer/Timer.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Timer/Facades/Timer.php',
+    $basePath.'/vendor/royalcms/timer/Royalcms/Component/Timer/Timer.php',
+    $basePath.'/vendor/royalcms/timer/Royalcms/Component/Timer/Facades/Timer.php',
     
 
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Run.php',

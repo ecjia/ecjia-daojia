@@ -155,6 +155,7 @@ return array(
         'RC_Crypt'             => 'Royalcms\Component\Support\Facades\Crypt',
         'RC_Log'               => 'Royalcms\Component\Support\Facades\Log',
         'RC_Logger'            => 'Royalcms\Component\Support\Facades\Logger',
+        'RC_LogViewer'         => 'Royalcms\Component\LogViewer\Facades\LogViewer',
         'RC_Config'            => 'Royalcms\Component\Support\Facades\Config',
         'RC_Cache'             => 'Royalcms\Component\Foundation\Cache',
         'RC_Session'           => 'Royalcms\Component\Support\Facades\Session',
@@ -166,8 +167,6 @@ return array(
         'RC_Paginator'         => 'Royalcms\Component\Support\Facades\Paginator',
         'RC_Mail'              => 'Royalcms\Component\Support\Facades\Mail',
         'RC_Event'             => 'Royalcms\Component\Support\Facades\Event',
-        'RC_Timer'             => 'Royalcms\Component\Timer\Facades\Timer',
-        'RC_LogViewer'         => 'Royalcms\Component\LogViewer\LogViewer',
         'RC_Variable'          => 'Royalcms\Component\Support\Facades\Variable',
         'RC_Storage'           => 'Royalcms\Component\Support\Facades\Storage',
         'RC_Filesystem'        => 'Royalcms\Component\Support\Facades\Filesystem',
@@ -176,6 +175,7 @@ return array(
         'RC_Ip'                => 'Royalcms\Component\IpAddress\Ip',
         'RC_Upload'            => 'Royalcms\Component\Upload\Upload',
         'RC_Time'              => 'Royalcms\Component\DateTime\Time',
+        'RC_Timer'             => 'Royalcms\Component\Timer\Facades\Timer',
         'RC_Format'            => 'Royalcms\Component\Support\Format',
         'RC_Package'           => 'Royalcms\Component\Support\Facades\Package',
         'RC_Error'             => 'Royalcms\Component\Error\Error',
@@ -184,6 +184,7 @@ return array(
         'RC_Password'          => 'Royalcms\Component\Support\Facades\Password',
         'RC_Redis'             => 'Royalcms\Component\Support\Facades\Redis',
         'RC_Notification'      => 'Royalcms\Component\Support\Facades\Notification',
+
         
         
         'RC_Object'            => 'Royalcms\Component\Foundation\Object',
@@ -241,6 +242,7 @@ return array(
         'Royalcms\Component\Session\SessionServiceProvider',
         'Royalcms\Component\Routing\RoutingServiceProvider',
         'Royalcms\Component\Hook\HookServiceProvider',
+        'Royalcms\Component\Timer\TimerServiceProvider',
         'Royalcms\Component\Script\ScriptServiceProvider',
         'Royalcms\Component\Foundation\Providers\PhpinfoServiceProvider',
         'Royalcms\Component\Translation\TranslationServiceProvider',
@@ -252,13 +254,14 @@ return array(
         'Royalcms\Component\Mail\MailServiceProvider',
         'Royalcms\Component\Queue\QueueServiceProvider',
         'Royalcms\Component\Variable\VariableServiceProvider',
-        'Royalcms\Component\Timer\TimerServiceProvider',
         'Royalcms\Component\Pagination\PaginationServiceProvider',
         'Royalcms\Component\Validation\ValidationServiceProvider',
         'Royalcms\Component\Notifications\NotificationServiceProvider',
         'Royalcms\Component\SmartyView\SmartyServiceProvider',
         'Royalcms\Component\Sentry\SentryServiceProvider',
         'Royalcms\Component\Rewrite\RewriteServiceProvider',
+        'Royalcms\Component\Purifier\PurifierServiceProvider',
+        'Royalcms\Component\LogViewer\LogViewerServiceProvider',
         
 
     

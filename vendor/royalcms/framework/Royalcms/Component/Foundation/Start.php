@@ -193,7 +193,8 @@ if (! interface_exists('SessionHandlerInterface', false)) {
     $aliases['SessionHandlerInterface'] = 'Royalcms\Component\Session\SessionCustomHandlerInterface';
 }
 
-AliasLoader::getInstance($aliases)->register();
+AliasLoader::getInstance($aliases);
+AliasLoader::getInstance($royalcms['config']->get('facade', array()))->register();
 
 /*
 |--------------------------------------------------------------------------
