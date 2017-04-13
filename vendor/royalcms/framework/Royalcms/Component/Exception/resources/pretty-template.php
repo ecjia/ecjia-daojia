@@ -7,6 +7,7 @@
 * @var callable $e
 * @var callable $slug
 */
+$v->tables = RC_Hook::apply_filters('pretty_page_table_data', $v->tables);
 ?>
 <!DOCTYPE html>
 <html>
