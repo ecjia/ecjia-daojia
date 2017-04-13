@@ -12,4 +12,5 @@ return array(
     $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
     $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     $vendorDir . '/guzzlehttp/promises/src/functions_include.php',
+    $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
 );

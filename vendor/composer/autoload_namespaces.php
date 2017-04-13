@@ -29,6 +29,8 @@ return array(
     'Royalcms\\Component\\Agent\\' => array($vendorDir . '/royalcms/agent'),
     'Royalcms\\Component\\QrCode\\' => array($vendorDir . '/royalcms/qrcode'),
     'Royalcms\\Component\\Image\\' => array($vendorDir . '/royalcms/image'),
+    'Royalcms\\Component\\Purifier\\' => array($vendorDir . '/royalcms/purifier'),
+    'Royalcms\\Component\\Timer\\' => array($vendorDir . '/royalcms/timer'),
     'Royalcms\\Component\\WeChat\\Menu\\' => array($vendorDir . '/royalcms/wechat-menu'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'DebugBar' => array($vendorDir . '/maximebf/debugbar/src'),
@@ -74,4 +76,5 @@ return array(
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'Cron' => array($vendorDir . '/mtdowling/cron-expression/src'),
     'Raven_' => array($vendorDir . '/sentry/sentry/lib'),
+    'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );
