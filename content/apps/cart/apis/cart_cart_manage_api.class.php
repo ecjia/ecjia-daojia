@@ -91,7 +91,7 @@ class cart_cart_manage_api extends Component_Event_Api {
 
         RC_Loader::load_app_class('goods_info', 'goods', false);
 
-        $field = 'g.goods_name, g.goods_sn, g.is_on_sale, g.is_real,g.market_price, g.shop_price AS org_price, g.promote_price, g.promote_start_date,g.promote_end_date, g.goods_weight, g.integral, g.extension_code,g.goods_number, g.is_alone_sale, g.is_shipping,IFNULL(mp.user_price, g.shop_price * '.$_SESSION['discount'].') AS shop_price, g.store_id';
+        $field = 'g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.market_price, g.shop_price AS org_price, g.promote_price, g.promote_start_date,g.promote_end_date, g.goods_weight, g.integral, g.extension_code,g.goods_number, g.is_alone_sale, g.is_shipping,IFNULL(mp.user_price, g.shop_price * '.$_SESSION['discount'].') AS shop_price, g.store_id';
         //$goods = $dbview->field($field)->join(array('member_price'))->find(array('g.goods_id' => $goods_id , 'g.is_delete' => 0));
         $goods = $dbview->selectRaw($field)
         ->where(RC_DB::raw('g.goods_id'), $goods_id)

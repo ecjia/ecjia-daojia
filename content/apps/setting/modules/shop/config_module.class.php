@@ -68,9 +68,9 @@ class config_module extends api_front implements api_interface
     	
         $data = array(
             'service_phone'     => ecjia::config('service_phone'),
-            'service_qq'        => ecjia::config('qq', ecjia::CONFIG_EXISTS) ? explode(',', ecjia::config('qq')) : array(),
-			'site_url'          => ecjia::config('mobile_pc_url', ecjia::CONFIG_EXISTS) ? ecjia::config('mobile_pc_url') : RC_Config::load_config('site', 'CUSTOM_SITE_URL'),
-            'goods_url'         => ecjia::config('mobile_touch_url', ecjia::CONFIG_EXISTS) ? ecjia::config('mobile_touch_url').'?m=goods&c=index&a=init&id=' : (ecjia::config('mobile_pc_url', ecjia::CONFIG_EXISTS) ? ecjia::config('mobile_pc_url') : RC_Config::system('CUSTOM_WEB_SITE_URL') . '/goods.php?id='),
+            'service_qq'        => ecjia_config::has('qq') ? explode(',', ecjia::config('qq')) : array(),
+			'site_url'          => ecjia_config::has('mobile_pc_url') ? ecjia::config('mobile_pc_url') : RC_Config::load_config('site', 'CUSTOM_SITE_URL'),
+            'goods_url'         => ecjia_config::has('mobile_touch_url') ? ecjia::config('mobile_touch_url').'?m=goods&c=index&a=init&id=' : (ecjia_config::has('mobile_pc_url') ? ecjia::config('mobile_pc_url') : RC_Config::system('CUSTOM_WEB_SITE_URL') . '/goods.php?id='),
             'shop_closed'       => ecjia::config('shop_closed'),
         	'close_comment'     => ecjia::config('close_comment'),
             'shop_reg_closed'   => ecjia::config('shop_reg_closed'),
@@ -96,14 +96,14 @@ class config_module extends api_front implements api_interface
         	$data = array_merge($data, array(
         			'mobile_phone_login_fgcolor' => ecjia::config('mobile_phone_login_fgcolor'),		//前景颜色
         			'mobile_phone_login_bgcolor' => ecjia::config('mobile_phone_login_bgcolor'),		//背景颜色
-        			'mobile_phone_login_bgimage' => ecjia::config('mobile_phone_login_bgimage', ecjia::CONFIG_EXISTS) ?	RC_Upload::upload_url().'/'.ecjia::config('mobile_phone_login_bgimage') : '',		//背景图片
+        			'mobile_phone_login_bgimage' => ecjia_config::has('mobile_phone_login_bgimage') ?	RC_Upload::upload_url().'/'.ecjia::config('mobile_phone_login_bgimage') : '',		//背景图片
         	));
         }
         if (isset($device['client']) && $device['client'] == 'ipad') {
         	$data = array_merge($data, array(
         			'mobile_pad_login_fgcolor' => ecjia::config('mobile_pad_login_fgcolor'),			//前景颜色
         			'mobile_pad_login_bgcolor' => ecjia::config('mobile_pad_login_bgcolor'),			//背景颜色
-        			'mobile_pad_login_bgimage' => ecjia::config('mobile_pad_login_bgimage', ecjia::CONFIG_EXISTS) ?	RC_Upload::upload_url().'/'.ecjia::config('mobile_pad_login_bgimage') : '',		//背景图片
+        			'mobile_pad_login_bgimage' => ecjia_config::has('mobile_pad_login_bgimage') ?	RC_Upload::upload_url().'/'.ecjia::config('mobile_pad_login_bgimage') : '',		//背景图片
         	));
         }
         if (isset($device['client']) && $device['client'] == 'iphone') {
@@ -117,11 +117,11 @@ class config_module extends api_front implements api_interface
         	$data['mobile_qr_code']	= !empty($mobile_ipad_qr_code) ? RC_Upload::upload_url().'/'.$mobile_ipad_qr_code : '';
         }
         
-        $data['mobile_app_icon'] = ecjia::config('mobile_app_icon', ecjia::CONFIG_EXISTS) ? RC_Upload::upload_url() . '/' . ecjia::config('mobile_app_icon') : '';
+        $data['mobile_app_icon'] = ecjia_config::has('mobile_app_icon') ? RC_Upload::upload_url() . '/' . ecjia::config('mobile_app_icon') : '';
        	$shop_type = RC_Config::load_config('site', 'SHOP_TYPE');
         $data['shop_type'] = !empty($shop_type) ? $shop_type : 'b2c';
         $data['wap_app_download_show'] = ecjia::config('wap_app_download_show');
-        $data['wap_app_download_img'] = ecjia::config('wap_app_download_img', ecjia::CONFIG_EXISTS) ? RC_Upload::upload_url() . '/' . ecjia::config('wap_app_download_img') : '';
+        $data['wap_app_download_img'] = ecjia_config::has('wap_app_download_img') ? RC_Upload::upload_url() . '/' . ecjia::config('wap_app_download_img') : '';
         
         return $data;
     }

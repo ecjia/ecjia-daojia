@@ -61,6 +61,7 @@ class resignup_module extends api_admin implements api_interface {
         $validate_type      = $this->requestData('validate_type');
         $province           = $this->requestData('province');
         $city               = $this->requestData('city');
+        $district           = $this->requestData('district');
         $address            = $this->requestData('address');
         $longitude          = $this->requestData('longitude');
         $latitude           = $this->requestData('latitude');
@@ -108,6 +109,7 @@ class resignup_module extends api_admin implements api_interface {
             'validate_type'      => $validate_type,
             'province'           => $province,
             'city'               => $city,
+            'district'			 => $district,
             'address'            => $address,
             'longitude'          => $longitude,
             'latitude'           => $latitude,
@@ -119,6 +121,7 @@ class resignup_module extends api_admin implements api_interface {
         RC_DB::table('store_preaudit')->where('contact_mobile', '=', $mobile)->update($data);
         //审核日志
         RC_Loader::load_app_func('merchant_franchisee', 'franchisee');
+        $data['contact_mobile'] = $mobile;
         add_check_log($data, $info_store_preaudit);
         
         return array();

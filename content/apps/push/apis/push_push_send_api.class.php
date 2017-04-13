@@ -84,7 +84,7 @@ class push_push_send_api extends Component_Event_Api {
 
 	    RC_Loader::load_app_class('push_send', 'push', false);
 	    
-	    if (ecjia::config('push_order_placed_apps', ecjia::CONFIG_EXISTS)) {
+	    if (ecjia_config::has('push_order_placed_apps')) {
 	        $push_order_placed_apps = ecjia::config('push_order_placed_apps');
 	        $apps = explode(',', $push_order_placed_apps);
 	        foreach ($apps as $appid) {

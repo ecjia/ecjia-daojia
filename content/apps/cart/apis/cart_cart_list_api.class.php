@@ -106,9 +106,6 @@ class cart_cart_list_api extends Component_Event_Api {
 		$data = $dbview_cart
 			->selectRaw("c.*,IF(c.parent_id, c.parent_id, c.goods_id) AS pid, goods_thumb, goods_img, original_img, g.goods_number as g_goods_number, g.is_on_sale, s.merchants_name as store_name, manage_mode")
 			->orderBy('add_time', 'desc')
-			/*->orderBy('store_id', 'asc')
-			 ->orderBy('pid', 'asc')
-			->orderBy('parent_id', 'asc') */
 			->get();
 		/* 用于统计购物车中实体商品和虚拟商品的个数 */
 		$virtual_goods_count = 0;
@@ -133,7 +130,7 @@ class cart_cart_list_api extends Component_Event_Api {
 			        $row['is_checked'] == 0;
 			        
 			        RC_Loader::load_app_class('cart', 'cart', false);
-			        cart::flow_check_cart_goods(array('id' => $row['goods_id'], 'is_checked' => 0));
+			        cart::flow_check_cart_goods(array('id' => $row['rec_id'], 'is_checked' => 0));
 			    }
 			    
 			    //增加购物车选中状态判断  by hyy

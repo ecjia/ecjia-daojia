@@ -88,7 +88,7 @@ class cycleimage_method  {
 	 */
 	public function player_data($format = false) {
 		$playerdb = array();
-	 	if (ecjia::config(self::STORAGEKEY_cycleimage_data, ecjia::CONFIG_EXISTS)) {
+	 	if (ecjia_config::has(self::STORAGEKEY_cycleimage_data)) {
 	 		$data = ecjia::config(self::STORAGEKEY_cycleimage_data);
 	 		if (!empty($data)) {
 		 		$data = unserialize($data);

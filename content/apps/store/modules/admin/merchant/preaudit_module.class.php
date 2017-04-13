@@ -75,20 +75,25 @@ class preaudit_module extends api_admin implements api_interface {
                     ->where('contact_mobile', '=', $value)
                     ->first();
             
-            $data['seller_name'] = $data['merchants_name'];
-            $data['location']    = array(
-                        'longitude' => $data['longitude'],
-                        'latitude'  => $data['latitude'],
-            );
-            $data['mobile']          = $data['contact_mobile'];
-            $data['seller_category'] = $data['cat_id'];
-            unset($data['merchants_name']);
-            unset($data['cat_id']);
-            unset($data['longitude']);
-            unset($data['latitude']);
-            unset($data['contact_mobile']);
+            if ($data) {
+                $data['seller_name'] = $data['merchants_name'];
+                $data['location']    = array(
+                    'longitude' => $data['longitude'],
+                    'latitude'  => $data['latitude'],
+                );
+                $data['mobile']          = $data['contact_mobile'];
+                $data['seller_category'] = $data['cat_id'];
+                unset($data['merchants_name']);
+                unset($data['cat_id']);
+                unset($data['longitude']);
+                unset($data['latitude']);
+                unset($data['contact_mobile']);
+                return $data;
+            } else {
+                return array();
+            }
 
-            return $data;
+            
 		}
     }
 

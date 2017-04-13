@@ -98,7 +98,7 @@ class admin_config extends ecjia_admin {
 		$code = empty($_GET['code']) ? 'basic_info' : trim($_GET['code']);
 		$this->assign('code', $code);
 		
-		$mobile_app_icon = ecjia::config('mobile_app_icon', ecjia::CONFIG_EXISTS) ? RC_Upload::upload_url() . '/' . ecjia::config('mobile_app_icon') : '';
+		$mobile_app_icon = ecjia_config::has('mobile_app_icon') ? RC_Upload::upload_url() . '/' . ecjia::config('mobile_app_icon') : '';
 		$this->assign('mobile_app_icon', $mobile_app_icon);
 		$this->assign('mobile_app_name',      	ecjia::config('mobile_app_name'));
 		$this->assign('mobile_app_version',   	ecjia::config('mobile_app_version'));
@@ -268,7 +268,7 @@ class admin_config extends ecjia_admin {
 		$this->assign('ad_position_list', $ad_position_list['arr']);
 		
 		$mobile_home_adsense_group = $adsense_group = array();
-		if (ecjia::config('mobile_home_adsense_group', ecjia::CONFIG_EXISTS)) {
+		if (ecjia_config::has('mobile_home_adsense_group')) {
 			$adsense_group = explode(',', ecjia::config('mobile_home_adsense_group'));
 		}
 	

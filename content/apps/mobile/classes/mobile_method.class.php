@@ -69,7 +69,7 @@ class mobile_method  {
 	 */
 	public function shortcut_data($format = false) {
 		$playerdb = array();
-	 	if (ecjia::config(self::STORAGEKEY_shortcut_data, ecjia::CONFIG_EXISTS)) {
+	 	if (ecjia_config::has(self::STORAGEKEY_shortcut_data)) {
 	 		$data = ecjia::config(self::STORAGEKEY_shortcut_data);
 	 		if (!empty($data)) {
 		 		$data = unserialize($data);
@@ -94,7 +94,7 @@ class mobile_method  {
 	 */
 	public function discover_data($format = false) {
 		$playerdb = array();
-		if (ecjia::config(self::STORAGEKEY_discover_data, ecjia::CONFIG_EXISTS)) {
+		if (ecjia_config::has(self::STORAGEKEY_discover_data)) {
 			$data = ecjia::config(self::STORAGEKEY_discover_data);
 			if (!empty($data)) {
 				$data = unserialize($data);
@@ -119,7 +119,7 @@ class mobile_method  {
 	 */
 	public function cycleimage_data($format = false) {
 		$playerdb = array();
-		if (ecjia::config(self::STORAGEKEY_cycleimage_data, ecjia::CONFIG_EXISTS)) {
+		if (ecjia_config::has(self::STORAGEKEY_cycleimage_data)) {
 			$data = ecjia::config(self::STORAGEKEY_cycleimage_data);
 			if (!empty($data)) {
 				$data = unserialize($data);
@@ -144,7 +144,7 @@ class mobile_method  {
 	 */
 	public function cycleimage_phone_data($format = false) {
 		$playerdb = array();
-		if (ecjia::config(self::STORAGEKEY_cycleimage_phone_data, ecjia::CONFIG_EXISTS)) {
+		if (ecjia_config::has(self::STORAGEKEY_cycleimage_phone_data)) {
 			$data = ecjia::config(self::STORAGEKEY_cycleimage_phone_data);
 			if (!empty($data)) {
 				$data = unserialize($data);

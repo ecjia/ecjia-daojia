@@ -10,6 +10,7 @@
 			app.goods_category_info.submit_info();
 			app.goods_category_info.choose_goods_type();
 			app.goods_category_info.toggleSpec();
+			app.goods_category_info.search_ad();
 		},
 
 		toggleSpec: function() {
@@ -86,7 +87,38 @@
 			}
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
-		}
+		},
+		search_ad: function () {
+            $('.ad_search').on('click', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('data-url');
+                var keywords = $(this).siblings('.keywords').val();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                    	keywords: keywords
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                    	app.goods_category_info.ad_list(data);
+                    }
+                });
+            });
+        },
+
+        ad_list: function (data) {
+            $('.ad_list').html('');
+            if (data.content.length > 0) {
+                for (var i = 0; i < data.content.length; i++) {
+                    var opt = '<option value="' + data.content[i].id + '">' + data.content[i].name + '</option>'
+                    $('.ad_list').append(opt);
+                };
+            } else {
+                $('.ad_list').append('<option value="-1">' + no_select_goods + '</option>');
+            }
+            $('.ad_list').trigger("liszt:updated").trigger("change");
+        },
 	};
 
 	app.goods_category_move = {

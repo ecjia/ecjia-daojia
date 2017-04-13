@@ -349,7 +349,7 @@ class mh_area extends ecjia_merchant {
 			$field = array (
 				'name' 	=> 'item_fee',
 				'value' => '0',
-				'label' => ecjia::config(RC_Lang::get('shipping::shipping_area.item_fee'), ecjia::CONFIG_EXISTS ) ? '' : RC_Lang::get('shipping::shipping_area.item_fee') 
+				'label' => ecjia_config::has(RC_Lang::get('shipping::shipping_area.item_fee')) ? '' : RC_Lang::get('shipping::shipping_area.item_fee') 
 			);
 			array_unshift($fields, $field );
 		}

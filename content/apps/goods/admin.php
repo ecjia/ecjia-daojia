@@ -563,8 +563,8 @@ class admin extends ecjia_admin {
 		$goods_name 		= htmlspecialchars($_POST['goods_name']);
 		$goods_name_style 	= htmlspecialchars($_POST['goods_name_color']);
 		
-		$catgory_id = empty($_POST['cat_id']) 	? '' : intval($_POST['cat_id']);
-		$brand_id 	= empty($_POST['brand_id']) ? '' : intval($_POST['brand_id']);
+		$catgory_id = empty($_POST['cat_id']) 	? 0 : intval($_POST['cat_id']);
+		$brand_id 	= empty($_POST['brand_id']) ? 0 : intval($_POST['brand_id']);
 		
 		$store_category = !empty($_POST['store_category']) ? intval($_POST['store_category']) : 0;
 		if ($store_category > 0){

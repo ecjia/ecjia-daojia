@@ -51,7 +51,7 @@ class admin_cron_hooks {
     public static function cron_run() {
 
         /* 加入触发cron代码 */
-        if (!ecjia::config('cron_method', ecjia::CONFIG_EXISTS)) {
+        if (!ecjia_config::has('cron_method')) {
             $timestamp = RC_Time::gmtime();
             $cron_api_url = RC_Uri::url('cron/api/init', array('t' => $timestamp));
             

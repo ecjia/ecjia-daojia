@@ -111,7 +111,7 @@ class signup_module extends api_front implements api_interface {
 			$user->set_session($username);
 			$user->set_cookie($username);
 			/* 注册送积分 */
-			if (ecjia::config('register_points' , ecjia::CONFIG_EXISTS)) {
+			if (ecjia_config::has('register_points')) {
 				$options = array(
 					'user_id'		=> $_SESSION['user_id'],
 					'rank_points'	=> ecjia::config('register_points'),

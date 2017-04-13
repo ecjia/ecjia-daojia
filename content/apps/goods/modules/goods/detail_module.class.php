@@ -274,7 +274,7 @@ class detail_module extends api_front implements api_interface {
         $data['rec_type'] = empty($rec_type) ? $activity_type : 'GROUPBUY_GOODS';
         $data['object_id'] = $object_id;
 
-        if (ecjia::config('mobile_touch_url', ecjia::CONFIG_EXISTS)) {
+        if (ecjia_config::has('mobile_touch_url')) {
         	$data['goods_url'] = ecjia::config('mobile_touch_url').'?goods&c=index&a=show&id='.$goods_id.'&hidenav=1&hidetab=1';
         } else {
         	$data['goods_url'] = null;
@@ -398,7 +398,7 @@ class detail_module extends api_front implements api_interface {
 
         /* 分享链接*/
         $data['share_link'] = '';
-        if (ecjia::config('mobile_share_link', ecjia::CONFIG_EXISTS)) {
+        if (ecjia_config::has('mobile_share_link')) {
         	ecjia_api::$controller->assign('goods_id', $goods['goods_id']);
         	if ($_SESSION['user_id'] > 0) {
         		$user_invite_code = RC_Api::api('affiliate', 'user_invite_code');

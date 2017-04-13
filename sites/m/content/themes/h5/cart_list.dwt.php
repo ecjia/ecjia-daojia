@@ -54,8 +54,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<div class="cart-product">
 							<a class="cart-product-photo" href="{RC_Uri::url('goods/index/show')}&goods_id={$v.goods_id}">
 								<img src="{$v.img.thumb}">
-								{if $v.is_disabled}
-								<div class="product_empty">库存不足</div>
+								{if $v.is_disabled eq 1}
+								<div class="product_empty">{$v.disabled_label}</div>
 								{/if}
 							</a>
 							<div class="cart-product-info">

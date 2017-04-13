@@ -215,7 +215,7 @@ class integrate  {
         $db_user = RC_Model::model('user/users_model');
         
         /* 检查注册是否关闭 */
-        if (ecjia::config('shop_reg_closed', ecjia::CONFIG_EXISTS)) {
+        if (ecjia_config::has('shop_reg_closed')) {
             return new ecjia_error('99999', '该网店暂停注册');
         }
         /* 检查username */
@@ -264,7 +264,7 @@ class integrate  {
             $user->set_session($username);
             $user->set_cookie($username);
             /* 注册送积分 */
-            if (ecjia::config('register_points', ecjia::CONFIG_EXISTS)) {
+            if (ecjia_config::has('register_points')) {
                 $options = array(
                      'user_id'		=> $_SESSION['user_id'],
                      'rank_points'	=> ecjia::config('register_points'),

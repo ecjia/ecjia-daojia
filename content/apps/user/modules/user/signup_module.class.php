@@ -226,7 +226,7 @@ function register($username, $password, $email, $other = array())
     $db_user = RC_Loader::load_app_model('users_model', 'user');
 
     /* 检查注册是否关闭 */
-    if (ecjia::config('shop_reg_closed', ecjia::CONFIG_EXISTS)) {
+    if (ecjia::config('shop_reg_closed')) {
     	return new ecjia_error('shop_reg_closed', '会员注册关闭');
     }
     /* 检查username */
@@ -257,7 +257,7 @@ function register($username, $password, $email, $other = array())
         $user->set_session($username);
         $user->set_cookie($username);  
         /* 注册送积分 */
-        if (ecjia::config('register_points' , ecjia::CONFIG_EXISTS)) {
+        if (ecjia_config::has('register_points')) {
         	$options = array(
     			'user_id'		=> $_SESSION['user_id'],
     			'rank_points'	=> ecjia::config('register_points'),

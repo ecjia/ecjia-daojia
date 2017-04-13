@@ -66,12 +66,15 @@ class category_module extends api_front implements api_interface {
 					$categoryGoods[$key]['id'] = $val['id'];
 					$categoryGoods[$key]['name'] = $val['name'];
 					$categoryGoods[$key]['image'] = $val['img'];
+					$ad = RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $val['id']));
+					$categoryGoods[$key]['ad'] = $ad;
 					if (!empty($val['cat_id'])) {
 						foreach($val['cat_id'] as $k => $v ) {
 							$categoryGoods[$key]['children'][$k] = array(
 									'id'     => $v['id'],
 									'name'   => $v['name'],
 									'image'	 => $v['img'],
+							        'ad'     => RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $v['id'])),
 							);
 								
 							if( !empty($v['cat_id']) ) {
@@ -80,6 +83,7 @@ class category_module extends api_front implements api_interface {
 											'id'     => $v1['id'],
 											'name'   => $v1['name'],
 											'image'	 => $v1['img'],
+									        'ad'     => RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $v1['id'])),
 									);
 								}
 							} else {

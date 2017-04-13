@@ -83,7 +83,7 @@ class detail_module extends api_admin implements api_interface {
 			$brand_name = $row['brand_id'] > 0 ? $brand_db->where(array('brand_id' => $row['brand_id']))->get_field('brand_name') : '';
 			$category_name = $category_db->where(array('cat_id' => $row['cat_id']))->get_field('cat_name');
 
-			if (ecjia::config('mobile_touch_url', ecjia::CONFIG_EXISTS)) {
+			if (ecjia_config::has('mobile_touch_url')) {
 				$goods_desc_url = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=init&id='.$id.'&hidenav=1&hidetab=1';
 			} else {
 				$goods_desc_url = null;

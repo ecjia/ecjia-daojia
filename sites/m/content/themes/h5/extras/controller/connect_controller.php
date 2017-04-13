@@ -55,7 +55,7 @@ class connect_controller {
     
     /**
      * 回调显示
-     * @param unknown $data
+     * @param array $data
      */
     public static function callback_template($data) {
         if (is_ecjia_error($data)) {
@@ -69,9 +69,6 @@ class connect_controller {
         ecjia_front::$controller->assign('authorize_login', true);
         
         //成功
-//         $msg = '授权登录成功！';
-//         $login = array( 'url' => $data['login_url'], 'info' => '直接登录');
-        
         if (empty($data['connect_code']) || empty($data['open_id'])) {
             RC_Logger::getlogger('error')->info('connect_controller-授权信息异常，请重新授权');
             RC_Logger::getlogger('error')->info($data);
@@ -110,13 +107,9 @@ class connect_controller {
         ecjia_front::$controller->assign('user_name', $user_name);
         
         //快速注册修改
-//         $url['bind_signup'] = str_replace('/notify/', '/', RC_Uri::url('user/privilege/bind_signup', array('connect_code' => $data['connect_code'], 'open_id' => $data['open_id'])));
         $url['bind_signup'] = str_replace('/notify/', '/', $data['login_url']);
         $url['bind_signin'] = str_replace('/notify/', '/', RC_Uri::url('connect/index/bind_signin', array('connect_code' => $data['connect_code'], 'open_id' => $data['open_id'])));
         ecjia_front::$controller->assign('url', $url);
-        //         ecjia_front::$controller->assign('login',$login);
-        //         show_message($msg, array('绑定已有账号'), array($data['bind_url']), 'info', false);
-        //         return file_get_contents (RC_Theme::get_template_directory().'/user_bind_signin.dwt.php');
         return ecjia_front::$controller->fetch ('user_bind_login.dwt.php');
     }
     
@@ -181,7 +174,7 @@ class connect_controller {
         if (is_ecjia_error($response)) {
         	return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        if ($data['registered'] == 1) {
+        if ($response['registered'] == 1) {
         	return ecjia_front::$controller->showmessage(__('该手机号已被注册，请更换其他手机号'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
@@ -192,26 +185,17 @@ class connect_controller {
 		}
         
         //绑定第三方
-        $user_id = $data['user']['id'];
+        $user_id = $response['user']['id'];
     
         RC_Loader::load_app_class('connect_user', 'connect', false);
         $connect_user = new connect_user($connect_code, $open_id);
+        $result = false;
         if ($user_id) {
             $result = $connect_user->bind_user($user_id, 0);
         }
         if ($result) {
             //登录
             ecjia_touch_user::singleton()->signin($username, $password);
-            /* 获取远程用户头像信息*/
-            $user_info = $connect_user->get_openid();
-            if ($connect_code == 'sns_qq') {
-                $head_img = $user_info['profile']['figureurl_qq_2'];
-            } else if ($connect_code == 'sns_wechat') {
-                $head_img = $user_info['profile']['headimgurl'];
-            }
-            if ($head_img) {
-//                 RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $head_img));
-            }
             return ecjia_front::$controller->showmessage('恭喜您，注册成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/my/init')));
         } else {
             return ecjia_front::$controller->showmessage('授权用户信息关联失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -234,6 +218,7 @@ class connect_controller {
         ecjia_front::$controller->assign_lang();
         ecjia_front::$controller->display('user_bind_signin.dwt');
     }
+    
     public static function bind_signin_do() {
         $username = htmlspecialchars($_POST['username']);
         $password = htmlspecialchars($_POST['password']);
@@ -256,21 +241,15 @@ class connect_controller {
             $message = $data->get_error_message();
             return ecjia_front::$controller->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('info' => $message));
         } else {
-            //             $url = RC_Uri::url('touch/my/init');
             $referer_url = !empty($_POST['referer']) ? urlencode($_POST['referer']) : RC_Uri::url('touch/my/init');
-            //             if (!empty($referer_url)) {
-            //                 $url = $referer_url;
-            //             }
-            //             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
-            $user = ecjia_touch_user::singleton()->getUserinfo();
     
             RC_Loader::load_app_class('connect_user', 'connect', false);
             $connect_user = new connect_user($connect_code, $open_id);
-            if ($user['id']) {
-                $result = $connect_user->bind_user($user['id'], 0);
+            if ($data['id']) {
+                $result = $connect_user->bind_user($data['id'], 0);
             } else {
                 RC_Logger::getlogger('error')->info('connect_controller-关联账号错误');
-                RC_Logger::getlogger('error')->info($user);
+                RC_Logger::getlogger('error')->info($data);
                 return ecjia_front::$controller->showmessage('用户验证成功，获取用户信息失败，请重试！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             if ($result) {

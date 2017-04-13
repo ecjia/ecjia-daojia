@@ -61,6 +61,10 @@ class index extends ecjia_front {
             $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
             return $this->showmessage(RC_Lang::get('connect::connect.not_found'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
+        if ($connect_code == 'sns_wechat' && !ecjia_plugin::is_active('sns_wechat/sns_wechat.php')) {
+            echo '请先购买并安装微信登录插件<br><a href="https://ecjia.com/daojia_authorize.html" target="_blank">购买链接</a>';
+            exit();
+        }
         $connect_account    = RC_Loader::load_app_class('connect_method', 'connect');
         $connect_handle     = $connect_account->get_connect_instance($connect_code);
         if ($login_type) {

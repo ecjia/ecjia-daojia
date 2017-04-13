@@ -99,7 +99,7 @@ class info_module extends api_admin implements api_interface {
 			$seller_info = array(
 					'id'					=> 0,
 	    	  		'seller_name'			=> ecjia::config('shop_name'),
-	    	  		'seller_logo'			=> ecjia::config('shop_logo', ecjia::CONFIG_EXISTS) ? RC_Upload::upload_url().'/'.ecjia::config('shop_logo') : '',
+	    	  		'seller_logo'			=> ecjia_config::has('shop_logo') ? RC_Upload::upload_url().'/'.ecjia::config('shop_logo') : '',
 	    	  		'seller_category'		=> null,
  	    	  		'seller_telephone'		=> ecjia::config('service_phone'),
  	    	  		'seller_province'		=> $region->where(array('region_id'=>ecjia::config('shop_province')))->get_field('region_name'),

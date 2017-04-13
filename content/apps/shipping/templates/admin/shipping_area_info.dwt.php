@@ -11,6 +11,9 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+<div class="alert alert-info" style=" line-height: 150%">	
+	首重单位为1公斤/千克，续重计算单位为 每公斤/千克
+</div>
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->

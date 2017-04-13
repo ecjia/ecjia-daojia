@@ -190,7 +190,7 @@ var releated_goods = {$releated_goods};
 									<td style="width:75px; height:75px">
 										<img class="a7g" src="{$cart.img.small}">
 										{if $cart.is_disabled eq 1}
-										<div class="product_empty">库存不足</div>
+										<div class="product_empty">{$cart.disabled_label}</div>
 										{/if}
 									</td>
 									<td>

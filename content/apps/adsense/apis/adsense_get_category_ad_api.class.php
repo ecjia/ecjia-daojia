@@ -45,30 +45,57 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
- * 店铺信息
- * @author luchongchong
- *
+ * 分类广告
  */
-class info_module extends api_admin implements api_interface
-{
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
-    {
-		$this->authadminSession();
-    	
-		$region = RC_Loader::load_app_model('region_model', 'shipping');
-		$seller_info = array(
-					'id'					=> 0,
-					'seller_name'			=> ecjia::config('shop_name'),
-					'seller_logo'			=> ecjia_config::has('shop_logo') ? RC_Upload::upload_url().'/'.ecjia::config('shop_logo') : '',
-					'seller_category'		=> null,
-					'seller_telephone'		=> ecjia::config('service_phone'),
-					'seller_province'		=> $region->where(array('region_id'=>ecjia::config('shop_province')))->get_field('region_name'),
-					'seller_city'			=> $region->where(array('region_id'=>ecjia::config('shop_city')))->get_field('region_name'),
-					'seller_address'		=> ecjia::config('shop_address'),
-					'seller_description'	=> strip_tags(ecjia::config('shop_notice'))
-		);
-		return $seller_info;
-    }	
-    
+class adsense_get_category_ad_api extends Component_Event_Api {
+	/**
+	 *
+	 * @param array $options        	
+	 * @return array
+	 */
+	public function call(&$options) {
+		$ads = $this->get_category_ad($options['cat_id']);
+		if ($ads) {
+		    return $ads;
+		}
+		return array();
+	}
+	
+	private function get_category_ad($category_id) {
+	    if (empty($category_id)) {
+	        return false;
+	    }
+	    $ad_position_id = RC_DB::table('term_meta')->where('object_type', 'ecjia.goods')->where('object_group', 'category')->where('object_id', $category_id)->where('meta_key', 'category_ad')->pluck('meta_value');
+	    if ($ad_position_id) {
+	        $ad_info = RC_DB::table('ad_position')->where('position_id', $ad_position_id)->first();
+	        if ($ad_info) {
+	            $time = RC_Time::gmtime();
+	            $ads = RC_DB::table('ad')->where('position_id', $ad_info['position_id'])->where('start_time', '<=', $time)->where('end_time', '>=', $time)->where('enabled', 1)->orderBy('ad_id', 'asc')->take(4)->get();
+	            $ad_group = array();
+	            if ($ads) {
+    	            foreach ( $ads as $v ) {
+    	                if ($v) {
+    	                    if (substr($v['ad_code'], 0, 4) != 'http') {
+    	                        $v['ad_code'] = RC_Upload::upload_url($v['ad_code']);
+    	                    }
+    	                    $ad_group[] = array(
+    	                        'image' => $v['ad_code'],
+    	                        'text' => $v['ad_name'],
+    	                        'url' => $v['ad_link']
+    	                    );
+    	                }
+    	            }
+	            }
+	            
+	            return $ad_group;
+	        }
+	        
+	    } else {
+	        return false;
+	    }
+	}
 }
+
+// end

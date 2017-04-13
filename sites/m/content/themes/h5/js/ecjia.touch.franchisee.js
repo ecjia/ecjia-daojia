@@ -32,7 +32,9 @@
 					if (data.state == 'error') {
 						alert(data.message);
 					} else {
-						location.href = data.pjaxurl;
+						if (typeof(data.pjaxurl) != 'undefined') {
+							location.href = data.pjaxurl;
+						}
 					}
 				});
 			});
@@ -74,7 +76,9 @@
         			            	$('.modal-overlay').remove();
         			            	$(".ecjia-store-goods .a1n .a1x").css({overflow:"auto"});	//启用滚动条
         			            	$('body').css('overflow-y', 'auto').off("touchmove");		//启用滚动条
-        			            	location.href = data.search_url;
+        			            	if (typeof(data.search_url) != 'undefined') {
+        								location.href = data.search_url;
+        							}
         	            			return false;
         			            }
         			          },
@@ -162,8 +166,9 @@
 					if (data.state == 'error') {
 						alert(data.message);
 					} else {
-//						ecjia.pjax(data.url);
-						location.href = data.url;
+						if (typeof(data.url) != 'undefined') {
+							location.href = data.url;
+						}
 					}
 				});
 			});
@@ -230,8 +235,9 @@
 					if (data.state == 'error') {
 						alert(data.message);
 					} else {
-//						alert('ok');
-						location.href = data.url;
+						if (typeof(data.url) != 'undefined') {
+							location.href = data.url;
+						}
 					}
 				});
 			});

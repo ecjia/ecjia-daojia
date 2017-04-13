@@ -571,6 +571,8 @@ class mh_delivery extends ecjia_merchant {
 						$this->assign('order_sn', $order['order_sn']);
 						$this->assign('shipped_time', RC_Time::local_date(RC_Lang::get('orders::order.sms_time_format')));
 						$this->assign('mobile', $order['mobile']);
+						$this->assign('order', $order);
+						$this->assign('delivery_time', 	RC_Time::local_date(RC_Lang::get('orders::order.sms_time_format')));
 						
 						$content = $this->fetch_string($tpl['template_content']);
 						

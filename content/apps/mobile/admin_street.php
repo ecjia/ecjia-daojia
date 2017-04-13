@@ -17,7 +17,7 @@ class admin_street extends ecjia_admin
     
     public function init()
     {
-    	//$this->admin_priv('mobile_street');
+    	$this->admin_priv('mobile_street');
     	$this->assign('ur_here', '店铺街介绍');
         ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('店铺街APP')));
         $mobile_img = RC_App::apps_url('statics/images/mobile_img.png', __FILE__);
@@ -30,7 +30,6 @@ class admin_street extends ecjia_admin
         $this->assign('api_url', $api_url);
         $this->assign('mobile_img', $mobile_img);
         $this->assign('ec_icon', $ec_icon);
-        $this->assign('street_qrcode', $street_qrcode);
         $this->assign('small_qrcode', $small_qrcode);
         $this->assign('dianpujie', $dianpujie);
         

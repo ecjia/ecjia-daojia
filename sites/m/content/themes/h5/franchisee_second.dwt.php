@@ -30,7 +30,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<i class="iconfont  icon-jiantou-right"></i>
 			<input class="ecjia-franchisee-category" style="padding-left: 3.5em;" name="seller_category" placeholder="{t}请选择店铺分类{/t}" type="text"  {if $smarty.cookies.seller neq ''} value="{$smarty.cookies.seller}" {else} value="{$second_show.seller}" {/if}/>
 		    <input name="category" type="hidden" value={$category} />
-		    <input name="seller_category_id" type="hidden" value="{$smarty.cookies.seller_category_id}" />
+		    <input name="seller_category_id" type="hidden" value="{if $smarty.cookies.seller_category_id}{$smarty.cookies.seller_category_id}{else}{$category_arr.data.0.id}{/if}" />
 		</label>
 		<label class="input">
 			<span class="ecjiaf-fl"><img src="{$theme_url}/images/user_center/f_type.png" width="30" height="30"></span>
@@ -38,7 +38,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<input class="ecjia-franchisee-type" style="padding-left: 3.5em;" name="validate_type" placeholder="{t}请选择入驻类型 {/t}" type="text" {if $smarty.cookies.validate_type neq ''} value="{$smarty.cookies.validate_type}" {else} value="{$second_show.validate_type}" {/if} />
 		</label>
 	</div>
-	
 	<div class="form-group form-group-text franchisee" id="get_location_region" data-url="{url path='franchisee/index/get_region'}">
 		<label class="input">
     		<span class="ecjiaf-fl"><img src="{$theme_url}/images/user_center/f_location.png" width="30" height="30"></span>

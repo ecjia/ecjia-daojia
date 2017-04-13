@@ -217,7 +217,7 @@ class cron_run {
     protected function check_method() {
         $if_cron = PHP_SAPI == 'cli' ? true : false;
         
-        if (ecjia::config('cron_method', ecjia::CONFIG_EXISTS)) {
+        if (ecjia_config::has('cron_method')) {
             if (!$if_cron)
             {
                 die('Hacking attempt');

@@ -93,26 +93,25 @@ class create_module extends api_front implements api_interface {
     	$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group));
 
 	    // 更新：添加到购物车
-	    if (!is_ecjia_error($result)){
-	        if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
-	            $geohash        = RC_Loader::load_app_class('geohash', 'store');
-	            $geohash_code   = $geohash->encode($location['latitude'] , $location['longitude']);
-	            $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
-	            if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
-	                return new ecjia_error('location_beyond', '店铺距离过远！');
-	            } elseif (!empty($seller_id)) {
-	                $store_id_group = array($seller_id);
-	            }
-	        } else {
-	        	return new ecjia_error('location_error', '请定位您当前所在地址！');
+	    if (is_ecjia_error($result)){
+	        return $result;
+	    } 
+	    if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
+	        $geohash        = RC_Loader::load_app_class('geohash', 'store');
+	        $geohash_code   = $geohash->encode($location['latitude'] , $location['longitude']);
+	        $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+	        if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
+	            return new ecjia_error('location_beyond', '店铺距离过远！');
+	        } elseif (!empty($seller_id)) {
+	            $store_id_group = array($seller_id);
 	        }
-	        
-	        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_GENERAL_GOODS));
-	        
-	        return formated_cart_list($cart_result);
 	    } else {
-	    	return $result;
+	        return new ecjia_error('location_error', '请定位您当前所在地址！');
 	    }
+	     
+	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_GENERAL_GOODS));
+	     
+	    return formated_cart_list($cart_result);
 	}
 }
 

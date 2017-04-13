@@ -341,7 +341,7 @@ class checkOrder_module extends api_front implements api_interface {
 		$out['payment_list']	= $payment_list;
 
 		/* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
-		if ((ecjia::config('use_integral', ecjia::CONFIG_EXISTS) || ecjia::config('use_integral') == '1')
+		if ((ecjia_config::has('use_integral') || ecjia::config('use_integral') == '1')
 				&& $_SESSION['user_id'] > 0
 				&& $user_info['pay_points'] > 0
 				&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
@@ -356,7 +356,7 @@ class checkOrder_module extends api_front implements api_interface {
 		$out['allow_use_integral'] = $allow_use_integral;//积分 是否使用积分
 		$out['order_max_integral'] = $order_max_integral;//订单最大可使用积分
 			/* 如果使用红包，取得用户可以使用的红包及用户选择的红包 */
-		if ((ecjia::config('use_bonus', ecjia::CONFIG_EXISTS) || ecjia::config('use_bonus') == '1')
+		if ((ecjia_config::has('use_bonus') || ecjia::config('use_bonus') == '1')
 				&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
 		{
 			// 取得用户可用红包
@@ -423,8 +423,8 @@ class checkOrder_module extends api_front implements api_interface {
 		$out['bonus']				= $bonus_list;//红包
 		$out['allow_can_invoice']	= ecjia::config('can_invoice');//能否开发票
 		/* 如果能开发票，取得发票内容列表 */
-		if ((ecjia::config('can_invoice', ecjia::CONFIG_EXISTS) || ecjia::config('can_invoice') == '1')
-				&& ecjia::config('invoice_content',ecjia::CONFIG_EXISTS)
+		if ((ecjia_config::has('can_invoice') || ecjia::config('can_invoice') == '1')
+				&& ecjia_config::has('invoice_content')
 				 && $flow_type != CART_EXCHANGE_GOODS)
 		{
 			$inv_content_list = explode("\n", str_replace("\r", '', ecjia::config('invoice_content')));
