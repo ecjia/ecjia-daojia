@@ -441,6 +441,8 @@ class order_operate {
 		    /* 记录log */
 		    $this->order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], $note['action_note']);
 		    RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 1, 'order_id' => $order['order_id'], 'order_amount' => $order['order_amount']));
+		    RC_Api::api('goods', 'update_goods_sales', array('order_id' => $order['order_id']));
+		    
 		    return true;
 		} else {
 		    return false;

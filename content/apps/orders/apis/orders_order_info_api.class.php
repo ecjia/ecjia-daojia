@@ -105,6 +105,8 @@ class orders_order_info_api extends Component_Event_Api {
 	        $order['formated_surplus']			= price_format($order['surplus'], false);
 	        $order['formated_order_amount']		= price_format(abs($order['order_amount']), false);
 	        $order['formated_add_time']			= RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
+	        $order['formated_pay_time']			= !empty($order['pay_time']) ? RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']) : '';
+	        $order['formated_shipping_time']	= !empty($order['shipping_time']) ? RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']) : '';
 	        
 	        // 检查订单是否属于该用户
 	        if ($user_id > 0 && $user_id != $order['user_id']) {
@@ -121,30 +123,30 @@ class orders_order_info_api extends Component_Event_Api {
 	        in_array($order['pay_status'], array(PS_PAYED, PS_PAYING)))
 	        {
 	        	$order['label_order_status'] = '已完成';
-	        	$order['status_code'] = 'finished';
+	        	$order['order_status_code'] = 'finished';
 	        }
 	        elseif (in_array($order['shipping_status'], array(SS_SHIPPED)))
 	        {
 	        	$order['label_order_status'] = '待收货';
-	        	$order['status_code'] = 'shipped';
+	        	$order['order_status_code'] = 'shipped';
 	        }
 	        elseif (in_array($order['order_status'], array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) &&
 	        		in_array($order['pay_status'], array(PS_UNPAYED)) &&
 	        		(in_array($order['shipping_status'], array(SS_SHIPPED, SS_RECEIVED)) || !$payment['is_cod']))
 	        {
 	        	$order['label_order_status'] = '待付款';
-	        	$order['status_code'] = 'await_pay';
+	        	$order['order_status_code'] = 'await_pay';
 	        }
 	        elseif (in_array($order['order_status'], array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) &&
 	        		in_array($order['shipping_status'], array(SS_UNSHIPPED, SS_PREPARING, SS_SHIPPED_ING)) &&
 	        		(in_array($order['pay_status'], array(PS_PAYED, PS_PAYING)) || $payment['is_cod']))
 	        {
 	        	$order['label_order_status'] = '待发货';
-	        	$order['status_code'] = 'await_ship';
+	        	$order['order_status_code'] = 'await_ship';
 	        }
 	        elseif (in_array($order['order_status'], array(OS_CANCELED))) {
 	        	$order['label_order_status'] = '已取消';
-	        	$order['status_code'] = 'canceled';
+	        	$order['order_status_code'] = 'canceled';
 	        }
 	        
 	        /* 对发货号处理 */

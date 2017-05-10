@@ -74,7 +74,7 @@ class orders_order_delivery_ship_api extends Component_Event_Api {
 		$order_id				= intval(trim($_POST['order_id']));			// 订单id
 		$delivery_id			= intval(trim($_POST['delivery_id']));		// 发货单id
 		$delivery['invoice_no']	= isset($_POST['invoice_no']) ? trim($_POST['invoice_no']) : '';
-		$action_note			= isset($_POST['action_note']) ? trim($_POST['action_note']) : '';
+		$action_note			= !empty($_POST['action_note']) ? trim($_POST['action_note']) : '';
 		
 		/* 根据发货单id查询发货单信息 */
 		if (!empty($delivery_id)) {

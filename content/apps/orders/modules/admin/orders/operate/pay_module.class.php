@@ -45,79 +45,74 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * 订单详情
+ * 设定订单支付
  * @author will
+ *
  */
-class delivery_module extends api_admin implements api_interface {
+class pay_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-
 		$this->authadminSession();
+
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
-        }
+			return new ecjia_error(100, 'Invalid session');
+		}
 		
-		$order_id = $this->requestData('order_id', 0);
-
- 		if (empty($order_id)) {
- 			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+		$result_view = $this->admin_priv('order_view');
+		$result_edit = $this->admin_priv('order_ps_edit');
+		if (is_ecjia_error($result_view)) {
+			return $result_view;
+		} elseif (is_ecjia_error($result_edit)) {
+			return $result_edit;
 		}
-		$db_table = RC_DB::table('delivery_order');
-		if ($_SESSION['store_id']) {
-		    $db_table->where('store_id', $_SESSION['store_id']);
-		}
-		$delivery_result = $db_table->where('order_id', $order_id)->get();
+		$order_id		= $this->requestData('order_id', 0);
+		$action_note	= $this->requestData('action_note', '');
 		
-		$delivery_list = array();
-		if (!empty($delivery_result)) {
-			foreach ($delivery_result as $val) {
-				$delivery_list[] = array(
-					'delivery_id'	=> $val['delivery_id'],
-					'delivery_sn'	=> $val['delivery_sn'],
-					'pickup_qrcode_sn'	=> 'ecjiaopen://app?open_type=express_pickup&delivery_sn='. $val['delivery_sn'],
-					'order_sn'		=> $val['order_sn'],
-					'shipping_name'	=> $val['shipping_name'],
-					'consignee'		=> $val['consignee'],
-					'address'		=> $val['address'],
-					'mobile'		=> $val['mobile'],
-					'status'		=> $val['status'] == 0 ? 'shipped' : 'shipping',
-					'label_status'	=> $val['status'] == 0 ? '已发货' : '发货中', 
-				    'goods_items'   => get_delivery_goods_list($val['delivery_id']),
-				    'send_time'     => RC_Time::local_date(ecjia::config('date_format'), $val['update_time']),
-				);
-			}
+		if (empty($order_id) || empty($action_note)) {
+			return new ecjia_error(101, '参数错误');
 		}
-		return $delivery_list;
-	}
+		/*验证订单是否属于此入驻商*/
+        if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
+		    $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
+		    if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
+		        return new ecjia_error('no_authority', '对不起，您没权限对此订单进行操作！');
+		    }
+		}
+		
+		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+		if (empty($order_info)) {
+			return new ecjia_error('not_exitst', '订单信息不存在');
+		}
+		
+		RC_Loader::load_app_func('admin_order', 'orders');
+		/* 标记订单为已确认、已付款，更新付款时间和已支付金额，如果是货到付款，同时修改订单为“收货确认” */
+		if ($order_info['order_status'] != OS_CONFIRMED) {
+			$arr['order_status']	= OS_CONFIRMED;
+			$arr['confirm_time']	= RC_Time::gmtime();
+		}
+		$arr['pay_status']		= PS_PAYED;
+		$arr['pay_time']		= RC_Time::gmtime();
+		$arr['money_paid']		= $order_info['money_paid'] + $order_info['order_amount'];
+		$arr['order_amount']	= 0;
+		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+		$payment = $payment_method->payment_info($order_info['pay_id']);
+		if ($payment['is_cod']) {
+			$arr['shipping_status']		= SS_RECEIVED;
+			$order_info['shipping_status']	= SS_RECEIVED;
+		}
+		update_order($order_id, $arr);
+		/* 记录日志 */
+		if ($_SESSION['store_id'] > 0) {
+		    RC_Api::api('merchant', 'admin_log', array('text' => '已付款，订单号是 '.$order_info['order_sn'].'【来源掌柜】', 'action' => 'edit', 'object' => 'order_status'));
+		} else {
+		    ecjia_admin::admin_log('已付款，订单号是 '.$order_info['order_sn'].'【来源掌柜】', 'edit', 'order_status'); // 记录日志
+		}
+		/* 记录log */
+		order_action($order_info['order_sn'], OS_CONFIRMED, $order_info['shipping_status'], PS_PAYED, $action_note);
+		
+		return array();
+	} 
 }
 
-function get_delivery_goods_list($delivery_id) {
-    $goods_list = RC_DB::table('delivery_goods as dg')
-    ->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
-    ->selectRaw('dg.goods_id, dg.goods_name, dg.send_number, dg.goods_attr, g.goods_thumb, g.shop_price, g.goods_img, g.original_img')
-    ->where(RC_DB::raw('dg.delivery_id'), $delivery_id)->get();
-    
-    $goods_items = array();
-    if ($goods_list) {
-        foreach ($goods_list as $goods) {
-            $goods_items[] = array(
-                'goods_id' => $goods['goods_id'],
-                'goods_name' => $goods['goods_name'],
-                'shop_price' => $goods['shop_price'],
-                'formated_shop_price' => price_format($goods['shop_price'], false),
-                'send_number' => $goods['send_number'],
-                'goods_attr' => $goods['goods_attr'],
-                'img' => array(
-                    'thumb'	=> (isset($goods['goods_img']) && !empty($goods['goods_img']))		 ? RC_Upload::upload_url($goods['goods_img'])		: '',
-                    'url'	=> (isset($goods['original_img']) && !empty($goods['original_img'])) ? RC_Upload::upload_url($goods['original_img'])  : '',
-                    'small'	=> (isset($goods['goods_thumb']) && !empty($goods['goods_thumb']))   ? RC_Upload::upload_url($goods['goods_thumb'])   : ''
-                )
-            );
-        }
-    }
-    
-    return $goods_items;
-}
 
 // end

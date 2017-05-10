@@ -72,6 +72,13 @@ class detail_module extends api_admin implements api_interface {
 		/* 订单详情 */
 		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => $order_sn, 'store_id' => $_SESSION['store_id']));
 
+		$order['label_order_source'] = '';
+		/*订单来源返回处理*/
+		if (!empty($order['referer'])) {
+		    $order['label_order_source'] = $order['referer'];
+		    unset($order['referer']);
+		}
+		
 		if ($order === false) {
 			return new ecjia_error(8, 'fail');
 		}
@@ -86,17 +93,17 @@ class detail_module extends api_admin implements api_interface {
 		//收货人地址
 		$db_region = RC_Model::model('shipping/region_model');
 		$region_name = $db_region->where(array('region_id' => array('in'=>$order['country'], $order['province'], $order['city'], $order['district'])))->order('region_type')->select();
-		$order['country']	= $region_name[0]['region_name'];
-		$order['province']	= $region_name[1]['region_name'];
-		$order['city']		= $region_name[2]['region_name'];
-		$order['district']	= $region_name[3]['region_name'];
+		$order['country_id']  = $order['country'];
+		$order['country']     = $region_name[0]['region_name'];
+		$order['province_id'] = $order['province'];
+		$order['province']    = $region_name[1]['region_name'];
+		$order['city_id']     = $order['city'];
+		$order['city']        = $region_name[2]['region_name'];
+		$order['district_id'] = $order['district'];
+		$order['district']    = isset($region_name[3]) ? $region_name[3]['region_name'] : '';
 
-		RC_Lang::load('orders/order');
-		$order_status = ($order['order_status'] != '2' || $order['order_status'] != '3') ? RC_Lang::get('orders::order.os.'.$order['order_status']) : '';
-		$order_status = $order['order_status'] == '2' ? __('已取消') : $order_status;
-		$order_status = $order['order_status'] == '3' ? __('无效') : $order_status;
-
-		$order['status'] =strip_tags($order_status.','.RC_Lang::get('orders::order.ps.'.$order['pay_status']).','.RC_Lang::get('orders::order.ss.'.$order['shipping_status']));
+		$order['invoice_no']            = !empty($order['invoice_no']) ? explode('<br>', $order['invoice_no']) : array();
+		
 		$order['sub_orders'] = array();
 		$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
 		$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
@@ -160,7 +167,7 @@ class detail_module extends api_admin implements api_interface {
 				$goods_list[$k] = array(
 					'id'					=> $v['goods_id'],
 					'name'					=> $v['goods_name'],
-					'goods_number'			> $v['goods_number'],
+					'goods_number'			=> $v['goods_number'],
 					'subtotal'				=> price_format($v['subtotal'], false),
 					'goods_attr'			=> trim($v['goods_attr']),
 					'formated_shop_price' 	=> price_format($v['goods_price'], false),

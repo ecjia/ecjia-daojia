@@ -96,7 +96,6 @@ class cancel_module extends api_admin implements api_interface {
 		order_action($order['order_sn'], OS_CANCELED, $order['shipping_status'], PS_UNPAYED, $action_note);
 		
 		if ($_SESSION['store_id'] > 0) {
-// 		    ecjia_merchant::admin_log('取消订单，订单号：'.$order['order_sn'].'【来源掌柜】', 'edit', 'order'); // 记录日志
 		    RC_Api::api('merchant', 'admin_log', array('text'=>'取消订单，订单号：'.$order['order_sn'].'【来源掌柜】', 'action'=>'edit', 'object'=>'order'));
 		} else {
 		    ecjia_admin::admin_log('取消订单，订单号：'.$order['order_sn'].'【来源掌柜】', 'edit', 'order'); // 记录日志

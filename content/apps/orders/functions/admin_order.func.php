@@ -247,6 +247,7 @@ function order_amount($order_id, $include_gift = true) {
 * @return  array   ('weight' => **, 'amount' => **, 'formated_weight' => **)
 */
 function order_weight_price($order_id) {
+    RC_Loader::load_app_func('global', 'goods');
     $row = $db = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('o.goods_id'))->selectRaw('SUM(g.goods_weight * o.goods_number) as weight, SUM(o.goods_price * o.goods_number) as amount, SUM(o.goods_number) as number')->where(RC_DB::raw('o.order_id'), $order_id)->first();
     $row['weight'] = floatval($row['weight']);
     $row['amount'] = floatval($row['amount']);
