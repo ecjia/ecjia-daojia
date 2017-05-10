@@ -9319,10 +9319,10 @@ class FileStore
     }
     protected function createCacheDirectory($path)
     {
-        try {
-            $this->files->makeDirectory($path, 493, true, true);
-        } catch (\Exception $e) {
-            
+        $bool = $this->files->makeDirectory($path, 493, true, true);
+        if ($bool === false) {
+            $path = str_replace(SITE_ROOT, '/', storage_path());
+            rc_die(sprintf(__('目录%s没有读写权限，请设置权限为777。'), $path));
         }
     }
     private $loggers = array();
@@ -11490,9 +11490,9 @@ class Handler
     {
         if ($this->debug) {
             $location = $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
-            return 'Error in exception handler: ' . $location;
+            return rc_die('Error in exception handler: ' . $location);
         }
-        return 'Error in exception handler.';
+        return rc_die('Error in exception handler.');
     }
     public function error(Closure $callback)
     {
