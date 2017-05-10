@@ -61,12 +61,18 @@ class admin_request extends ecjia_admin {
 			$type = !empty($_GET['type']) ? intval($_GET['type']) : 1; //1今天 2昨天
 			
 			$list = $this->get_list();
-			if (!empty($list)) {
+			if (!empty($limits['item'])) {
 				foreach ($limits['item'] as $k => $v) {
-					foreach ($list as $key => $val) {
-						if ($k == $val['api_name']) {
-							$limits['item'][$k]['info'] = $val;
-						}
+					if (!empty($list)) {
+						foreach ($list as $key => $val) {
+							if ($k == $val['api_name']) {
+								$limits['item'][$k]['info'] = $val;
+							}
+						}	
+					}
+					//次数无限制的不显示
+					if ($v['times'] == '') {
+						unset($limits['item'][$k]);
 					}
 				}
 			}

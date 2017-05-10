@@ -329,36 +329,39 @@ class admin_menus extends ecjia_admin {
 			$menu = array();
 			foreach ($data as $key => $val) {
 				if (empty($val['sub_button'])) {
-					$menu['button'][$key]['type'] = $val['type'];
-					$menu['button'][$key]['name'] = $val['name'];
+					$menu[$key]['type'] = $val['type'];
+					$menu[$key]['name'] = $val['name'];
 					if ('click' == $val['type']) {
-						$menu['button'][$key]['key'] = $val['key'];
+						$menu[$key]['key'] = $val['key'];
 					} else {
-						$menu['button'][$key]['url'] = $this->html_out($val['url']);
+						$menu[$key]['url'] = $this->html_out($val['url']);
 					}
 				} else {
-					$menu['button'][$key]['name'] = $val['name'];
+					$menu[$key]['name'] = $val['name'];
 					foreach ($val['sub_button'] as $k => $v) {
-						$menu['button'][$key]['sub_button'][$k]['type'] = $v['type'];
-						$menu['button'][$key]['sub_button'][$k]['name'] = $v['name'];
+						$menu[$key]['sub_button'][$k]['type'] = $v['type'];
+						$menu[$key]['sub_button'][$k]['name'] = $v['name'];
 						if ('click' == $v['type']) {
-							$menu['button'][$key]['sub_button'][$k]['key'] = $v['key'];
+							$menu[$key]['sub_button'][$k]['key'] = $v['key'];
 						} else {
-							$menu['button'][$key]['sub_button'][$k]['url'] = $this->html_out($v['url']);
+							$menu[$key]['sub_button'][$k]['url'] = $this->html_out($v['url']);
 						}
 					}
 				}
 			}
-			
+
 			$uuid = platform_account::getCurrentUUID('wechat');
-			$wechat = wechat_method::wechat_instance($uuid);
-			$rs = $wechat->setMenu($menu);
 			
-			if (RC_Error::is_error($rs)) {
-				return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			} else {
-				ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.make_menu'), 'setup', 'menu');
-				return $this->showmessage(RC_Lang::get('wechat::wechat.make_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+			try {
+                $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+                $rs = $wechat->menu->add($menu);
+                
+                ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.make_menu'), 'setup', 'menu');
+                return $this->showmessage(RC_Lang::get('wechat::wechat.make_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                
+			} catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
+			    
+			    return $this->showmessage(Ecjia\App\Wechat\ErrorCodes::getError($e->getCode()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	}
@@ -375,48 +378,54 @@ class admin_menus extends ecjia_admin {
 		if (is_ecjia_error($wechat_id)) {
 			return $this->showmessage(RC_Lang::get('wechat::wechat.add_platform_first'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$wechat = wechat_method::wechat_instance($uuid);
-			$list = $wechat->getMenu();
-			if (RC_Error::is_error($list)) {
-				return $this->showmessage(wechat_method::wechat_error($list->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			} else {
-				$info = $this->db_menu->select();
-				if ($info) {
-					$this->db_menu->where(array('wechat_id' => $wechat_id))->delete();
-				}
-					
-				foreach ($list['menu']['button'] as $key => $value) {
-					$value['type'] = isset($value['type']) ? $value['type'] : '';
-					$value['url'] = isset($value['url']) ? $value['url'] : '';
-					$value['key'] = isset($value['key']) ? $value['key'] : '';
 
-					if ($value['type'] == 'view') {
-						$array = array('name' => $value['name'], 'status' => 1, 'type' => 'view', 'url' => $value['url'], 'wechat_id' => $wechat_id);
-					} else {
-						$array = array('name' => $value['name'], 'status' => 1, 'type' => 'click', 'key' => $value['key'], 'wechat_id'=> $wechat_id);
-					}
-					$id = $this->db_menu->insert($array);
-					if ($value['sub_button']) {
-						$data = array();
-						foreach ($value['sub_button'] as $k => $v) {
-							$v['name']   = isset($v['name']) ? $v['name'] : '';
-							$v['type']   = isset($v['type']) ? $v['type'] : '';
-							$v['url']    = isset($v['url'])  ? $v['url']  : '';
-							$v['key']    = isset($v['key'])  ? $v['key']  : '';
-							
-							$data['wechat_id']   = $wechat_id;
-							$data['name']        = $v['name'];
-							$data['type']        = $v['type'];
-							$data['url']         = $v['url'];
-							$data['key']         = $v['key'];
-							$data['status']      = 1;
-							$data['pid']         = $id;
-							$this->db_menu->insert($data);
-						}
-					}
-				}
-				ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.get_menu'), 'setup', 'menu');
-				return $this->showmessage(RC_Lang::get('wechat::wechat.get_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/admin_menus/init')));
+			
+
+			try {
+			    $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+			    $list = $wechat->menu->all()->toArray();
+			    
+			    $info = $this->db_menu->select();
+			    if ($info) {
+			        $this->db_menu->where(array('wechat_id' => $wechat_id))->delete();
+			    }
+			    	
+			    foreach ($list['menu']['button'] as $key => $value) {
+			        $value['type'] = isset($value['type']) ? $value['type'] : '';
+			        $value['url'] = isset($value['url']) ? $value['url'] : '';
+			        $value['key'] = isset($value['key']) ? $value['key'] : '';
+			    
+			        if ($value['type'] == 'view') {
+			            $array = array('name' => $value['name'], 'status' => 1, 'type' => 'view', 'url' => $value['url'], 'wechat_id' => $wechat_id);
+			        } else {
+			            $array = array('name' => $value['name'], 'status' => 1, 'type' => 'click', 'key' => $value['key'], 'wechat_id'=> $wechat_id);
+			        }
+			        $id = $this->db_menu->insert($array);
+			        if ($value['sub_button']) {
+			            $data = array();
+			            foreach ($value['sub_button'] as $k => $v) {
+			                $v['name']   = isset($v['name']) ? $v['name'] : '';
+			                $v['type']   = isset($v['type']) ? $v['type'] : '';
+			                $v['url']    = isset($v['url'])  ? $v['url']  : '';
+			                $v['key']    = isset($v['key'])  ? $v['key']  : '';
+			                	
+			                $data['wechat_id']   = $wechat_id;
+			                $data['name']        = $v['name'];
+			                $data['type']        = $v['type'];
+			                $data['url']         = $v['url'];
+			                $data['key']         = $v['key'];
+			                $data['status']      = 1;
+			                $data['pid']         = $id;
+			                $this->db_menu->insert($data);
+			            }
+			        }
+			    }
+			    
+			    ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.get_menu'), 'setup', 'menu');
+			    return $this->showmessage(RC_Lang::get('wechat::wechat.get_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/admin_menus/init')));
+			} catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
+			    
+			    return $this->showmessage(Ecjia\App\Wechat\ErrorCodes::getError($e->getCode()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	}
@@ -434,16 +443,18 @@ class admin_menus extends ecjia_admin {
 		if (is_ecjia_error($wechat_id)) {
 			return $this->showmessage(RC_Lang::get('wechat::wechat.add_platform_first'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else { 
-			$wechat = wechat_method::wechat_instance($uuid);
-			$rs = $wechat->deleteMenu();
-			
-			if (RC_Error::is_error($rs)) {
-				return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			} else {
-				ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.clear_menu'), 'setup', 'menu');
-				$this->db_menu->where(array('id' => array('gt' => 0), 'wechat_id'=>$wechat_id))->update(array('status' => 0));
-				return $this->showmessage(RC_Lang::get('wechat::wechat.clear_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/admin_menus/init')));
-			}
+            
+		    try {
+		        $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+		        $rs = $wechat->menu->destroy();
+		        
+		        ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.clear_menu'), 'setup', 'menu');
+		        $this->db_menu->where(array('id' => array('gt' => 0), 'wechat_id'=>$wechat_id))->update(array('status' => 0));
+		        return $this->showmessage(RC_Lang::get('wechat::wechat.clear_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/admin_menus/init')));
+	        } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
+	             
+	            return $this->showmessage(Ecjia\App\Wechat\ErrorCodes::getError($e->getCode()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        }
 		}
 	}
 	

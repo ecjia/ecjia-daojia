@@ -46,15 +46,15 @@
 <div class="row-fluid list-page">
 	<div class="span12">	
 		<div class="row-fluid">	
-			<table class="table table-striped smpl_tbl table-hide-edit">
+			<table class="table table-striped smpl_tbl table-hide-edit" style="table-layout:fixed;">
 				<thead>
 					<tr>
-						<th class="w200">{lang key='wechat::wechat.menu_name'}</th>
-						<th class="w200">{lang key='wechat::wechat.menu_keywords'}</th>
-						<th class="w250">{lang key='wechat::wechat.menu_url'}</th>
-						<th class="w250">{lang key='wechat::wechat.status'}</th>
-						<th class="w100">{lang key='wechat::wechat.sort'}</th>
-						<th class="w200">{lang key='wechat::wechat.operate'}</th>
+						<th class="w180">{lang key='wechat::wechat.menu_name'}</th>
+						<th class="w110">{lang key='wechat::wechat.menu_keywords'}</th>
+						<th class="w200">{lang key='wechat::wechat.menu_url'}</th>
+						<th class="w80">{lang key='wechat::wechat.status'}</th>
+						<th class="w80">{lang key='wechat::wechat.sort'}</th>
+						<th class="w80">{lang key='wechat::wechat.operate'}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -77,7 +77,7 @@
 						<tr>
 							<td>&nbsp;|---&nbsp;&nbsp;{$v.name}</td>
 							<td>{$v.key}</td>
-							<td>{$v.url}</td>
+							<td class="ecjiaf-pre ecjiaf-wsn">{$v.url}</td>
 							<td><i class="{if $v.status eq '1'}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('wechat/admin_menus/toggle_show')}" data-id="{$v.id}" ></i></td>
 							<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('wechat/admin_menus/edit_sort')}" data-name="sort" data-pk="{$v.id}"  data-title="{lang key='wechat::wechat.edit_sort'}">{$v.sort}</span></td>
 							<td>
