@@ -29,7 +29,7 @@ $(function(){
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<form id="theForm" name="theForm" action='{url path="cart/flow/checkout" args="address_id={$address_id}&rec_id={$rec_id}"}' method="post">
+<form id="theForm" name="theForm" action='{url path="cart/flow/checkout" args="{if $smarty.session.order_address_temp.store_id}store_id={$smarty.session.order_address_temp.store_id}&{/if}address_id={$address_id}&rec_id={$rec_id}"}' method="post">
     <div class="ecjia-select ecjia-shipping-date">
         <p class="select-title ecjia-margin-l">选择日期</p>
         <ul class="ecjia-list">

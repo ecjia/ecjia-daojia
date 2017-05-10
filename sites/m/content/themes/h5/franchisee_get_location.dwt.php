@@ -24,7 +24,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <script type="text/javascript">
 var address = '{$shop_address}';
-$.cookie('address', address);
+$.cookie('address', address, {expires: 7});
 var geocoder,map,marker = null;
 map = new qq.maps.Map(document.getElementById('allmap'),{
     zoom: 18

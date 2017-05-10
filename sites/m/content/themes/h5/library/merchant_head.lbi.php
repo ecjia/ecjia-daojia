@@ -6,10 +6,7 @@ Libraries: merchant_goods
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
-<div class="ecjia-mod ecjia-header ecjia-store-banner">
-	<div class="ecjia-header-left">
-		<img src="{if $store_info.seller_banner}{$store_info.seller_banner}{else}{$theme_url}images/default_store_banner.png{/if}">
-	</div>
+<div class="ecjia-mod ecjia-header ecjia-store-banner" style="background: url('{if $store_info.seller_banner}{$store_info.seller_banner}{else}{$theme_url}images/default_store_banner.png{/if}') center center no-repeat;background-size: 144% 100%;">
 	<div class="ecjia-store-brief">
 		<li class="store-info {if $store_info.favourable_count}boder-eee{/if}">
 			<div class="basic-info">
@@ -56,3 +53,4 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<!-- {/if} -->
 	</div>
 </div>
+<input type="hidden" name="from" value="{$smarty.get.from}" class="ecjia-from-page {if $smarty.get.out eq 1}out-range{/if}" />

@@ -154,7 +154,7 @@ class user_privilege_controller {
      * 验证注册
      */
     public static function signup() {
-        $chars = "/(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}/";
+        $chars = "/^1(3|4|5|7|8)\d{9}$/";
         $mobile = !empty($_GET['mobile']) ? htmlspecialchars($_GET['mobile']) : '';
         
         if (!preg_match($chars, $mobile)) {

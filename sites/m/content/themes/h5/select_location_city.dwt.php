@@ -30,21 +30,29 @@ $(document).ready(function() {
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
+<div class="location-city">
+	<h2 class="location-city-title"><span>定位城市</span></h2>
+	<ul class="location-city-content citylist">
+		<li data-id="{$recommend_city_id}" {if $smarty.cookies.city_id eq $recommend_city_id && $smarty.cookies.city_id}class="active"{/if}>{$recommend_city_name}</li>
+	</ul>
+</div>
 {if $smarty.get.type eq 'addcity'}
 <div class="cityall" id="cityall" data-url='{url path="user/address/add_address" args="{if $referer_url}&referer_url={$referer_url|escape:"url"}{/if}"}'>
 {else if $smarty.get.type eq 'editcity'}
 <div class="cityall" id="cityall" data-url="{url path='user/address/edit_address'}">
 {else if $smarty.get.type eq 'search'}
 <div class="cityall" id="cityall" data-url="{url path='location/index/search_location'}">
+{else}
+<div class="cityall" id="cityall" data-url="{url path='location/index/search_location'}">
 {/if}
 	<input type="hidden" name="address_id" value="{$smarty.get.address_id}">
-	<h2 class="select-city"><span>选择城市</span></h2>
-	<ul class="city citylist" >
-	<!-- {foreach from=$citylist item=list} -->
-		<li data-id="{$list.id}"{if $list.id eq $smarty.get.city_id} class="active"{/if}>{$list.name}</li>
-	<!-- {foreachelse} -->
+	<h2 class="select-city"><span>已开通服务的城市</span></h2>
+	<ul class="city citylist">
+		<!-- {foreach from=$citylist item=list} -->
+		<li data-id="{$list.id}" {if $list.id eq $smarty.cookies.city_id}class="active"{/if}>{$list.name}</li>
+		<!-- {foreachelse} -->
 		<li>暂无</li>
-	<!-- {/foreach} -->
+		<!-- {/foreach} -->
 	</ul>
 </div>
 <!-- {/block} -->

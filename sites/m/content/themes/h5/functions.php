@@ -205,6 +205,10 @@ RC_Hook::add_action('user/profile/init', array('user_profile_controller', 'init'
 RC_Hook::add_action('user/profile/modify_username', array('user_profile_controller', 'modify_username'));
 RC_Hook::add_action('user/profile/modify_username_account', array('user_profile_controller', 'modify_username_account'));
 RC_Hook::add_action('user/profile/edit_password', array('user_profile_controller', 'edit_password'));
+RC_Hook::add_action('user/profile/account_bind', array('user_profile_controller', 'account_bind'));
+RC_Hook::add_action('user/profile/get_code', array('user_profile_controller', 'get_code'));
+RC_Hook::add_action('user/profile/check_code', array('user_profile_controller', 'check_code'));
+RC_Hook::add_action('user/profile/bind_info', array('user_profile_controller', 'bind_info'));
 
 //授权登录
 RC_Loader::load_theme('extras/controller/connect_controller.php');
@@ -288,6 +292,9 @@ RC_Hook::add_filter('connect_callback_bind_signup', function($userid, $username,
 RC_Hook::add_action('connect_callback_user_signin', function($userid) {
     RC_Loader::load_app_func('admin_user', 'user');
     $user_info = EM_user_info($userid);
+    if (empty($user_info)) {
+        return ecjia_front::$controller->showmessage('关联用户不存在，请联系管理员', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
+    }
     
     RC_Loader::load_app_class('integrate', 'user', false);
     $user = integrate::init_users();
@@ -355,3 +362,10 @@ function custom_site_api_url($url) {
     return RC_Config::get('site.site_api', $url);
 }
 RC_Hook::add_filter('custom_site_api_url', 'custom_site_api_url');
+
+/**
+ * 修改Http请求超时时间
+ */
+RC_Hook::add_filter('http_request_timeout', function($time) {
+	return 20;
+});

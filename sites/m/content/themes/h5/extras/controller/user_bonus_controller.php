@@ -55,6 +55,7 @@ class user_bonus_controller {
      */
     public static function init() {
 		$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+		$shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
 		ecjia_front::$controller->assign('bonus_readme_url', $shop_config['bonus_readme_url']);
 		ecjia_front::$controller->assign_title('我的红包');
         ecjia_front::$controller->display('user_bonus.dwt');

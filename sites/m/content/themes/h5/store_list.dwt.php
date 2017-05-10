@@ -140,7 +140,7 @@ var releated_goods = {$releated_goods};
 	<a href="javascript:void 0;" class="a4x {if $real_count.goods_number}light{else}disabled{/if} outcartcontent show show_cart" show="false">
 		{if $real_count.goods_number}
 		<i class="a4y">
-		{$real_count.goods_number}
+		{if $real_count.goods_number gt 99}99+{else}{$real_count.goods_number}{/if}
 		</i>
 		{/if}
 	</a>
@@ -158,7 +158,7 @@ var releated_goods = {$releated_goods};
 		<a href="javascript:void 0;" class="a4x {if $count.goods_number}light{else}disabled{/if} incartcontent show_cart" show="false">
 			{if $real_count.goods_number}
 			<i class="a4y">
-			{$real_count.goods_number}
+			{if $real_count.goods_number gt 99}99+{else}{$real_count.goods_number}{/if}
 			</i>
 			{/if}
 		</a>

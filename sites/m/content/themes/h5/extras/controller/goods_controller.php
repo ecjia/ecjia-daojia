@@ -59,11 +59,59 @@ class goods_controller {
     	
     	if (!ecjia_front::$controller->is_cached('category_list.dwt', $cache_id)) {
     		$cat_id = isset($_GET['cid']) && intval($_GET['cid']) > 0 ? intval($_GET['cid']) : 0;
-    		 
+
     		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_CATEGORY)->run();
-    		if (!is_ecjia_error($data)) {
+    		if (!is_ecjia_error($data) && !empty($data)) {
     			if (empty($cat_id)) {
     				$cat_id = $data[0]['id'];
+    			}
+    			foreach ($data as $key => $val) {
+    				if (!empty($val['ad'])) {
+    					foreach ($val['ad'] as $k => $v) {
+    						if ($k == 0) {
+    							$data[$key]['image'] = !empty($v['image']) ? $v['image'] : $val['image'];
+    							$data[$key]['text'] = $v['text'];
+    							if (!empty($v['url']) && strpos($v['url'], 'ecjiaopen://app?open_type=goods_seller_list') === 0) {
+    								$data[$key]['url'] = with(new ecjia_open($v['url']))->toHttpUrl();
+    							}
+    						}
+    					}
+    				}
+    				unset($data[$key]['ad']);
+    				
+    				if (!empty($val['children'])) {
+    					foreach ($val['children'] as $k => $j) {
+    						if (!empty($j['ad'])) {
+    							foreach ($j['ad'] as $m => $n) {
+    								if ($m == 0) {
+    									$data[$key]['children'][$k]['image'] = !empty($n['image']) ? $n['image'] : $j['image'];
+    									$data[$key]['children'][$k]['text'] = $n['text'];
+    									if (!empty($n['url']) && strpos($n['url'], 'ecjiaopen://app?open_type=goods_seller_list') === 0) {
+    										$data[$key]['children'][$k]['url'] = with(new ecjia_open($n['url']))->toHttpUrl();
+    									}
+    								}
+    							}
+    						}
+    						unset($data[$key]['children'][$k]['ad']);
+    						
+    						if (!empty($j['children'])) {
+    							foreach ($j['children'] as $q => $w) {
+    								if (!empty($w['ad'])) {
+    									foreach ($w['ad'] as $o => $p) {
+    										if ($o == 0) {
+    											$data[$key]['children'][$k]['children'][$q]['image'] = !empty($p['image']) ? $p['image'] : $w['image'];
+    											$data[$key]['children'][$k]['children'][$q]['text'] = $p['text'];
+    											if (!empty($p['url']) && strpos($p['url'], 'ecjiaopen://app?open_type=goods_seller_list') === 0) {
+    												$data[$key]['children'][$k]['children'][$q]['url'] = with(new ecjia_open($p['url']))->toHttpUrl();
+    											}
+    										}
+    									}
+    								}
+    								unset($data[$key]['children'][$k]['children'][$q]['ad']);
+    							}
+    						}
+    					}
+    				}
     			}
     			ecjia_front::$controller->assign('cat_id', $cat_id);
     			ecjia_front::$controller->assign('data', $data);
@@ -80,6 +128,10 @@ class goods_controller {
      */
     public static function show() {
     	$goods_id 	= isset($_GET['goods_id']) 	? $_GET['goods_id'] 	: 0;
+    	
+    	$url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
+    	touch_function::redirect_referer_url($url);
+    	
 	    $rec_type 	= isset($_GET['rec_type']) 	? $_GET['rec_type'] 	: 0;
 	    $object_id	= isset($_GET['object_id']) ? $_GET['object_id'] 	: 0;
 		
@@ -374,6 +426,9 @@ class goods_controller {
     	$arr_list = array();
     	if ($keywords !== '') {
     		if (!empty($store_id)) {
+    			$url = RC_Uri::url('goods/category/store_list', array('store_id' => $store_id, 'keywords' => $keywords));
+    			touch_function::redirect_referer_url($url);
+    			
     			$arr['filter']['keywords'] = $keywords;
     			$arr['seller_id'] = $store_id;
     			

@@ -57,7 +57,10 @@ class merchant_controller {
 	public static function init() {
 		$store_id 		= intval($_GET['store_id']);
 		$category_id 	= intval($_GET['category_id']);
-		 
+		
+		$url = RC_Uri::url('merchant/index/init', array('store_id' => $store_id));
+		touch_function::redirect_referer_url($url);
+		
 		$limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
 		$pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
 		 
@@ -65,7 +68,12 @@ class merchant_controller {
 		$action_type = !empty($_GET['type']) ? trim($_GET['type']) : '';
 		
 		//店铺信息
-		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_HOME_DATA)->data(array('seller_id' => $store_id, 'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']), 'city_id' => $_COOKIE['city_id']))->run();
+		$parameter_list = array(
+			'seller_id' => $store_id, 
+// 			'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']), 
+			'city_id' => $_COOKIE['city_id']
+		);
+		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_HOME_DATA)->data($parameter_list)->run();
 		if (!is_ecjia_error($store_info)) {
 			$store_info = merchant_function::format_info_distance($store_info);
 			$store_info['comment']['comment_goods_val'] = (float)$store_info['comment']['comment_goods']/100;
@@ -445,7 +453,6 @@ class merchant_controller {
 			ecjia_front::$controller->assign('shop_address', $shop_address);
 			ecjia_front::$controller->assign_title('店铺位置');
 		}
-		 
 		ecjia_front::$controller->display('merchant_position.dwt', $cache_id);
 	}
 }

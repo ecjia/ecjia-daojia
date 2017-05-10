@@ -17,7 +17,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 <div id="ecjia-zs" data-type="address" data-url="{$action_url}{if $referer_url}&referer_url={$referer_url|escape:"url"}{/if}">
-<div class="ecjia-zu" style="display:none">{$temp.tem_city_name}</div>
+<div class="ecjia-zu" style="display:none"><span>{if $temp.tem_city_name}{$temp.tem_city_name}{else}{$smarty.cookies.city_name}{/if}</span></div>
     <div class="ecjia-zs">
       <div class="ecjia-zt al">
            <input class="ecjia-zv" type="text" id="search_location_list"

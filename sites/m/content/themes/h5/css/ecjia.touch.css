@@ -16,7 +16,7 @@ Template Type: type_0
 html,
 body {font-family: Helvetica, '宋体', Arial, sans-serif; background: #efeff4; color: #555;height:100%;}
 body,
-ul,\
+ul,
 ol,
 li,
 p,
@@ -1022,13 +1022,18 @@ select, input, textarea {
 
 /*==================== 轮播模块CSS ====================*/
 .swiper-container .swiper-slide {
-	/*min-height: 12em;*/
-	text-align: center;
+	position: relative;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
 }
-.swiper-container .swiper-slide img {
-    width:100%;
+.swiper-container .swiper-slide a, .swiper-container .swiper-slide img {
+   	width: 100%;
+	display: block;
 }
-
+.ecjia-mod .swiper-container-horizontal>.swiper-pagination {
+	bottom: 0;
+}
 .goods-img .swiper-container .swiper-slide {
 	height: 0;
 	min-height: auto;

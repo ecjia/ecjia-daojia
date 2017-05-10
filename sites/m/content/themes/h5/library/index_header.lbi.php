@@ -10,10 +10,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-mod ecjia-header ecjia-header-index" style="height:5.5em" id="location">
 	<div class="ecjia-web">
 		<div class="ecjia-address">
-			<a href="{url path='location/index/select_location'}" >
-			    <span><img src="{$theme_url}images/address_list/50x50_2l.png"></span>
-				<span class="address-text">{$smarty.cookies.location_name}</span>
-				<span><img src="{$theme_url}images/address_list/down.png"></span>
+			<a href="{url path='location/index/select_location'}">
+				<p class="address-text">{$smarty.cookies.location_name}</p>
+				<i class="bottom-jiantou"></i>
 			</a>
 		</div>
 	</div>

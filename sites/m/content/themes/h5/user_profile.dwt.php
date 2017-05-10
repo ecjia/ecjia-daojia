@@ -34,17 +34,31 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             </li>
         </ul>
     </div>
-    <div class="ecjia-list list-short height-3">
+    <div class="ecjia-list list-short">
+        <li>
+            <a href="{url path="user/profile/{if $user.mobile_phone}bind_info{else}account_bind{/if}" args='type=mobile'}">
+        		<span class="icon-name margin-no-l">绑定手机</span>
+        		<span class="icon-price">{if $user.mobile_phone}{$user.mobile_phone}{else}未绑定{/if}</span>
+        		<i class="iconfont  icon-jiantou-right  margin-r-icon"></i>
+    		</a>
+       </li>
+       <li>
+            <a href="{url path="user/profile/{if $user.email}bind_info{else}account_bind{/if}" args='type=email'}">
+        		<span class="icon-name margin-no-l">绑定邮箱</span>
+        		<span class="icon-price">{if $user.email}{$user.email}{else}未绑定{/if}</span>
+        		<i class="iconfont  icon-jiantou-right  margin-r-icon"></i>
+    		</a>
+       </li>
        <li>
             <a href="{url path='user/profile/edit_password'}">
-    		<span class="icon-name margin-no-l">修改密码</span>
-    		<span class="icon-price"></span>
-    		<i class="iconfont  icon-jiantou-right  margin-r-icon"></i>
+        		<span class="icon-name margin-no-l">修改密码</span>
+        		<span class="icon-price"></span>
+        		<i class="iconfont  icon-jiantou-right  margin-r-icon"></i>
     		</a>
        </li>
    </div>
 </div>
-<div class="ecjia-bonus-top-list">
+<div class="ecjia-button-top-list">
 	<input class="btn btn-info nopjax" name="logout" type="submit" data-url="{url path='user/privilege/logout'}" value="退出登录">
 </div>
 <!-- {/block} -->

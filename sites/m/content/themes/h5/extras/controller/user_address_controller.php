@@ -59,13 +59,55 @@ class user_address_controller {
     	
     	$token = ecjia_touch_user::singleton()->getToken();
     	
-    	$address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => $token))->run();
-    	$address_list = is_ecjia_error($address_list) ? array() : $address_list;
-    	ecjia_front::$controller->assign('address_list', $address_list);
-    	ecjia_front::$controller->assign_title('收货地址管理');
-    	ecjia_front::$controller->assign_lang();
-    	    		
-        ecjia_front::$controller->display('user_address_list.dwt');
+    	$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
+    	if ($type == 'choose') {
+    		$rec_id = empty($_REQUEST['rec_id']) ? 0 : trim($_REQUEST['rec_id']);
+    		$store_id = empty($_REQUEST['store_id']) ? 0 : intval($_REQUEST['store_id']);
+    		ecjia_front::$controller->assign('rec_id', $rec_id);
+    		ecjia_front::$controller->assign('store_id', $store_id);
+    		
+    		$_SESSION['order_address_temp']['rec_id'] = $rec_id;
+    		$_SESSION['order_address_temp']['store_id'] = $store_id;
+    		$_SESSION['order_address_temp']['type'] = $type;
+    		
+    		$referer_url = RC_Uri::url('cart/flow/checkout', array('store_id' => $store_id, 'rec_id' => $rec_id));
+    		ecjia_front::$controller->assign('referer_url', $referer_url);
+    		ecjia_front::$controller->assign_title('选择收货地址');
+    		
+    		$address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => $token, 'seller_id' => $store_id))->run();
+    		$address_list = is_ecjia_error($address_list) ? array() : $address_list;
+    		
+    		if (!empty($address_list)) {
+    			foreach ($address_list as $k => $v) {
+    				if ($v['local'] == 1) {
+    					$address_list['local'][] = $v;
+    				} else {
+    					$address_list['other'][] = $v;
+    				}
+    				unset($address_list[$k]);
+    			}
+    		}
+    		ecjia_front::$controller->assign('address_list', $address_list);
+    		
+    		ecjia_front::$controller->assign('type', $type);
+    		ecjia_front::$controller->assign_lang();
+    		 
+    		ecjia_front::$controller->display('choose_address_list.dwt');
+    	} else {
+    		unset($_SESSION['order_address_temp']);
+    		
+    		$address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => $token))->run();
+    		$address_list = is_ecjia_error($address_list) ? array() : $address_list;
+    		
+    		
+    		ecjia_front::$controller->assign('address_list', $address_list);
+    		ecjia_front::$controller->assign_title('收货地址管理');
+    		
+    		ecjia_front::$controller->assign('type', $type);
+    		ecjia_front::$controller->assign_lang();
+    		 
+    		ecjia_front::$controller->display('user_address_list.dwt');
+    	}
     }
 
     /**
@@ -180,7 +222,10 @@ class user_address_controller {
     	ecjia_front::$controller->assign('temp_key', 'add');
     	ecjia_front::$controller->assign_title('添加收货地址');
     	ecjia_front::$controller->assign_lang();
-    		
+    	
+    	$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
+    	ecjia_front::$controller->assign('type', $type);
+    	
         ecjia_front::$controller->display('user_address_edit.dwt');
     }
 
@@ -201,8 +246,13 @@ class user_address_controller {
                 'consignee' 	=> htmlspecialchars($_POST['consignee']),
                 'mobile'    	=> htmlspecialchars($_POST['mobile']),
             )
-           
         );
+        $chars = "/^1(3|4|5|7|8)\d{9}$/";
+        $mobile = $params['address']['mobile'];
+        
+        if (!preg_match($chars, $mobile)) {
+            return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_ADD)->data($params)->run();
         if (is_ecjia_error($rs)) {
             return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
@@ -215,18 +265,43 @@ class user_address_controller {
         if (!empty($_SESSION['referer_url'])) {
         	$pjax_url = urldecode($_SESSION['referer_url']);
         	
-        	setcookie('location_address_id', $address_id);
+        	setcookie('location_address_id', $address_id, RC_Time::gmtime() + 3600 * 24 * 7);
         	$params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $address_id);
         	$address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params)->run();
         	
-        	if (! is_ecjia_error($address_info)) {
-        	    setcookie('location_name', $address_info['address']);
-        	    setcookie('location_address', $address_info['address_info']);
-        	    setcookie('longitude', $address_info['location']['longitude']);
-        	    setcookie('latitude', $address_info['location']['latitude']);
+        	if (!is_ecjia_error($address_info)) {
+        	    setcookie('location_name', $address_info['address'], RC_Time::gmtime() + 3600 * 24 * 7);
+        	    setcookie('location_address', $address_info['address_info'], RC_Time::gmtime() + 3600 * 24 * 7);
+        	    setcookie('longitude', $address_info['location']['longitude'], RC_Time::gmtime() + 3600 * 24 * 7);
+        	    setcookie('latitude', $address_info['location']['latitude'], RC_Time::gmtime() + 3600 * 24 * 7);
+        	    
+        	    setcookie("city_id", $address_info['city'], RC_Time::gmtime() + 3600 * 24 * 7);
+        	    setcookie("city_name", $address_info['city_name'], RC_Time::gmtime() + 3600 * 24 * 7);
         	}
         } else {
         	$pjax_url = RC_Uri::url('user/address/address_list');
+        	if (!empty($_SESSION['order_address_temp'])) {
+        		$array = array(
+        			'store_id' 	=> $_SESSION['order_address_temp']['store_id'],
+        			'rec_id' 	=> $_SESSION['order_address_temp']['rec_id'],
+        			'type' 		=> 'choose'
+        		);
+        		$pjax_url = RC_Uri::url('user/address/address_list', $array);
+        	}
+        	
+        	$type = !empty($_SESSION['order_address_temp']['type']) ? trim($_SESSION['order_address_temp']['type']) : '';
+        	if ($type == 'choose') {
+        		$params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $address_id, 'seller_id' => $_SESSION['order_address_temp']['store_id']);
+        		$address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params)->run();
+	        	if (!is_ecjia_error($address_info) && $address_info['local'] == 1) {
+	        		$array = array(
+	        			'store_id' 	=> $_SESSION['order_address_temp']['store_id'],
+	        			'rec_id' 	=> $_SESSION['order_address_temp']['rec_id'],
+	        			'address_id' => $address_id
+	        		);
+	        		$pjax_url = RC_Uri::url('cart/flow/checkout', $array);
+	        	}
+        	}
         }
         unset($_SESSION['referer_url']);
         unset($_SESSION['address']);
@@ -298,6 +373,12 @@ class user_address_controller {
             )
              
         );
+        $chars = "/^1(3|4|5|7|8)\d{9}$/";
+        $mobile = $params['address']['mobile'];
+        
+        if (!preg_match($chars, $mobile)) {
+            return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_UPDATE)->data($params)->run();
 
         if (is_ecjia_error($rs)) {
@@ -305,9 +386,18 @@ class user_address_controller {
         }
         $temp_data = user_address_controller::save_temp_data(0, 'edit_'.$_POST['address_id'], 1);
         
-        $url_address_list = RC_Uri::url('user/address/address_list');
+        $pjaxurl = RC_Uri::url('user/address/address_list');
+        if (!empty($_SESSION['order_address_temp'])) {
+        	$array = array(
+        		'store_id' 	=> $_SESSION['order_address_temp']['store_id'],
+        		'rec_id' 	=> $_SESSION['order_address_temp']['rec_id'],
+        		'type' 		=> 'choose'
+        	);
+        	$pjaxurl = RC_Uri::url('user/address/address_list', $array);
+        }
+        
         unset($_SESSION['address']);
-        return ecjia_front::$controller->showmessage('编辑地址成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => $url_address_list));
+        return ecjia_front::$controller->showmessage('编辑地址成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => $pjaxurl));
     }
 
     /**
@@ -315,8 +405,18 @@ class user_address_controller {
      */
     public static function del_address() {
         $id = empty($_GET['id']) ? 0 : intval($_GET['id']);
+        
+        $pjax_url = RC_Uri::url('address_list');
+        if (!empty($_SESSION['order_address_temp'])) {
+        	$array = array(
+        		'store_id' 	=> $_SESSION['order_address_temp']['store_id'],
+        		'rec_id' 	=> $_SESSION['order_address_temp']['rec_id'],
+        		'type' 		=> 'choose'
+        	);
+        	$pjax_url = RC_Uri::url('user/address/address_list', $array);
+        }
         if (!$id) {
-            return ecjia_front::$controller->showmessage('参数错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('address_list')));
+            return ecjia_front::$controller->showmessage('参数错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
         }
 
         $params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $id);
@@ -324,19 +424,18 @@ class user_address_controller {
         if (is_ecjia_error($address_info)) {
             return ecjia_front::$controller->showmessage($address_info->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('address_list')));
         }
-		
         if ($address_info['default_address'] == 0) {
         	if ($id == $_COOKIE['location_address_id']) {
-        		setcookie("location_address_id", 0);
+        		setcookie("location_address_id", 0, 1);
         	}
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_DELETE)->data($params)->run();
             if (is_ecjia_error($data)) {
-            	return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('address_list')));
+            	return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
             } else {
-                return ecjia_front::$controller->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('address_list')));
+                return ecjia_front::$controller->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjax_url));
             }
         } else {
-            return ecjia_front::$controller->showmessage('该地址为默认的收货地址，不能删除', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('address_list')));
+            return ecjia_front::$controller->showmessage('该地址为默认的收货地址，不能删除', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
         }
     }
     
@@ -346,20 +445,29 @@ class user_address_controller {
      */
     public static function set_default() {
         $id = empty($_GET['id']) ? 0 : intval($_GET['id']);
+        
+        $pjax_url = RC_Uri::url('address_list');
+        if (!empty($_SESSION['order_address_temp'])) {
+        	$array = array(
+        		'store_id' 	=> $_SESSION['order_address_temp']['store_id'],
+        		'rec_id' 	=> $_SESSION['order_address_temp']['rec_id'],
+        		'type' 		=> 'choose'
+        	);
+        	$pjax_url = RC_Uri::url('user/address/address_list', $array);
+        }
         if (!$id) {
-            return ecjia_front::$controller->showmessage('参数错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('address_list')));
+            return ecjia_front::$controller->showmessage('参数错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
         }
     
         $params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $id);
     
         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_SETDEFAULT)->data($params)->run();
         if (!is_ecjia_error($data)) {
-            return ecjia_front::$controller->showmessage('设置成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('address_list')));
+            return ecjia_front::$controller->showmessage('设置成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjax_url));
         } else {
-            return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('address_list')));
+            return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
         }
     }
-
 
     /**
      * 定位当前位置
@@ -376,7 +484,7 @@ class user_address_controller {
         } else {
             ecjia_front::$controller->assign('action_url', RC_Uri::url('user/address/add_address'));
             $temp_data = user_address_controller::save_temp_data(1, 'add', $_GET['clear'], $_GET);
-            if (empty($temp_data['tem_city'])) {
+            if (empty($temp_data['tem_city']) && empty($_COOKIE['city_name'])) {
                 return ecjia_front::$controller->showmessage('请先选择城市', ecjia::MSGTYPE_ALERT| ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => ''));
             }
         }
@@ -421,7 +529,9 @@ class user_address_controller {
         $city_name = RC_DB::table('region')->where('region_id', $shop_city)->pluck('region_name');
         $city_district = RC_DB::table('region')->where('region_id', $shop_district)->pluck('region_name');
         $address = $city_name.'市'.$shop_address;
-        $shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address='".$address."&output=json&ak=E70324b6f5f4222eb1798c8db58a017b");
+        $key = ecjia::config('map_baidu_key');
+        
+        $shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address=".$address."&output=json&ak=".$key);
         $shop_point = (array)json_decode($shop_point);
         $shop_point['result'] = (array)$shop_point['result'];
         $location = (array)$shop_point['result']['location'];
@@ -431,14 +541,19 @@ class user_address_controller {
     public static function choose_address() {
     	$referer_url = !empty($_GET['referer_url']) ? urldecode($_GET['referer_url']) : RC_Uri::url('touch/index/init');
     	$address_id = !empty($_GET['address_id']) ? intval($_GET['address_id']) : 0;
-    	if (!empty($address_id)) {
+    	$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
+    	
+    	if (!empty($address_id) && $type != 'choose') {
     		$address_info = user_function::address_info(ecjia_touch_user::singleton()->getToken(), $address_id);
 
-    		setcookie('location_address_id', $address_id);
-    		setcookie('location_name', $address_info['address']);
-    		setcookie('location_address', $address_info['address_info']);
-    		setcookie('longitude', $address_info['location']['longitude']);
-    		setcookie('latitude', $address_info['location']['latitude']);
+    		setcookie('location_address_id', $address_id, RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie('location_name', $address_info['address'], RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie('location_address', $address_info['address_info'], RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie('longitude', $address_info['location']['longitude'], RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie('latitude', $address_info['location']['latitude'], RC_Time::gmtime() + 3600 * 24 * 7);
+    		
+    		setcookie("city_id", $address_info['city'], RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie("city_name", $address_info['city_name'], RC_Time::gmtime() + 3600 * 24 * 7);
     	}
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $referer_url));
     }

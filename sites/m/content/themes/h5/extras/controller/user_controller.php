@@ -47,7 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 会员登录模块控制器代码
+ * 会员中心模块控制器代码
  */
 RC_Loader::load_app_class('integrate', 'user', false);
 class user_controller {
@@ -57,14 +57,13 @@ class user_controller {
     public static function init() {
     	$user_img = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
     	$signin = ecjia_touch_user::singleton()->isSignin();
-    	$signup_reward_url = '';
     	
     	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$signup_reward_url =  RC_Uri::url('user/mobile_reward/init', array('token' => $token));
     	
     	if ($signin) {
-    		$token = ecjia_touch_user::singleton()->getToken();
     		$user_info = ecjia_touch_user::singleton()->getUserinfo();
-    	
 	    	$cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
 	    	$cache_id = sprintf('%X', crc32($cache_id));
     	
@@ -72,7 +71,6 @@ class user_controller {
     			$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
     			$user = is_ecjia_error($user) ? array() : $user;
     			 
-    			$signup_reward_url =  RC_Uri::url('user/mobile_reward/init', array('token' => $token));
     			if ($user) {
     				//判断是否第三方登录，同步头像
     				/* 获取远程用户头像信息*/
@@ -87,7 +85,6 @@ class user_controller {
     			}
     		}
     	}
-    	
     	if (!ecjia_front::$controller->is_cached('user.dwt', $cache_id)) {
     		ecjia_front::$controller->assign('user_img', $user_img);
     		ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);

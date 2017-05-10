@@ -47,7 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 会员登录模块控制器代码
+ * 找回密码模块控制器代码
  */
 class user_get_password_controller {
     public static function mobile_register() {
@@ -78,7 +78,7 @@ class user_get_password_controller {
 
     public static function mobile_register_account() {
         $mobile = !empty($_GET['mobile']) ? trim($_GET['mobile']) : '';
-        $chars = "/(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}/";
+        $chars = "/^1(3|4|5|7|8)\d{9}$/";
         
         if (!preg_match($chars, $mobile)) {
         	return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

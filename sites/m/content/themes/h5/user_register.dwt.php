@@ -44,7 +44,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     			</div>
     			<div class="small-submit">
                         <input type="hidden" name="referer" value="{$smarty.get.referer}" />
-                        <input type="button" class="btn btn-info login-btn" value="{$lang.return_verification}" data-url="{url path='user/privilege/signup'}" id="get_code" />
+                        <input type="button" name="get_code" class="btn btn-info login-btn" value="{$lang.return_verification}" data-url="{url path='user/privilege/signup'}" id="get_code" />
             	</div>
         		<li class="remark-size">{$lang.invitation_code}</li>
     			<div class="form-group bf margin-right-left">

@@ -5,7 +5,7 @@ Description: 这是首页和用户中心页面的快速导航模块
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
-<div class="ecjia-store-seller ecjia-store-toggle hide" id="store-seller">
+<div class="ecjia-store-detail ecjia-store-toggle hide" id="store-seller">
 	<div class="store-hr"></div>
 	<ul class="store-goods">
 		<li class="goods-info">

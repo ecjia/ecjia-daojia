@@ -100,6 +100,40 @@ class touch_function {
             return new ecjia_error($data['status']['error_code'], $data['status']['error_desc']);
         }
     }
+    
+    public static function redirect_referer_url($referer_url) {
+    	//手动选择定位信息返回处理
+    	$addr 		= isset($_GET['addr']) 	? $_GET['addr'] 				: '';
+    	$name 		= isset($_GET['name']) 	? $_GET['name'] 				: '';
+    	$city_name 	= isset($_GET['city']) 	? $_GET['city'] 				: '';
+    	$latng 		= isset($_GET['latng']) ? explode(",", $_GET['latng']) 	: '';
+    	$longitude 	= !empty($latng[1]) 	? $latng[1] 					: $_COOKIE['longitude'];
+    	$latitude  	= !empty($latng[0]) 	? $latng[0] 					: $_COOKIE['latitude'];
+    	
+    	$params = array(
+    		'token' => ecjia_touch_user::singleton()->getToken(),
+    		'city' 	=> $city_name,
+    	);
+    	$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+    	if (is_ecjia_error($rs)) {
+    		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+    	} else {
+    		$city_id = $rs['region_id'];
+    	}
+    	 
+    	if (!empty($addr)) {
+    		setcookie("location_address", $addr, RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie("location_name", $name, RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie("longitude", $longitude, RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie("latitude", $latitude, RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie("location_address_id", 0, RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie("city_id", $city_id, RC_Time::gmtime() + 3600 * 24 * 7);
+    		setcookie("city_name", $rs['region_name'], RC_Time::gmtime() + 3600 * 24 * 7);
+    		 
+    		ecjia_front::$controller->redirect($referer_url);
+    		die();
+    	}
+    }
 }
 
 //end

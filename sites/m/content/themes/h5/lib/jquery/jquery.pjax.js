@@ -467,22 +467,23 @@ function onPjaxPopstate(event) {
         scrollTo: false
       }
 
-      if (contents) {
-        container.trigger('pjax:start', [null, options])
-
-        pjax.state = state
-        if (state.title) document.title = state.title
-        var beforeReplaceEvent = $.Event('pjax:beforeReplace', {
-          state: state,
-          previousState: previousState
-        })
-        container.trigger(beforeReplaceEvent, [contents, options])
-        container.html(contents)
-
-        container.trigger('pjax:end', [null, options])
-      } else {
+      //by wu 20170508 浏览器后退强制pjax跳转
+//      if (contents) {
+//        container.trigger('pjax:start', [null, options])
+//
+//        pjax.state = state
+//        if (state.title) document.title = state.title
+//        var beforeReplaceEvent = $.Event('pjax:beforeReplace', {
+//          state: state,
+//          previousState: previousState
+//        })
+//        container.trigger(beforeReplaceEvent, [contents, options])
+//        container.html(contents)
+//
+//        container.trigger('pjax:end', [null, options])
+//      } else {
         pjax(options)
-      }
+//      }
 
       // Force reflow/relayout before the browser tries to restore the
       // scroll position.

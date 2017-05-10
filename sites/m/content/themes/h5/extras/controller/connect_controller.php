@@ -138,6 +138,7 @@ class connect_controller {
             ecjia_front::$controller->assign_lang();
             ecjia_front::$controller->display('user_bind_signup.dwt');
         } else {
+            $params['name'] = preg_replace('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', '', $params['name']);
             $response = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNUP)->data(array('name' => $params['name'], 'password' => $params['password'], 'email' => $params['email']))->run();
             if (is_ecjia_error($response)) {
             	return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);

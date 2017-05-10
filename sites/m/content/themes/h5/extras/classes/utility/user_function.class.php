@@ -67,9 +67,9 @@ class user_function {
 				while (count($history) > ecjia::config('history_number')) {
 					array_pop($history);
 				}
-				return setcookie($ecjia_search, implode(',', $history), RC_Time::gmtime() + 3600 * 24 * 30);
+				return setcookie($ecjia_search, implode(',', $history), RC_Time::gmtime() + 3600 * 24 * 7);
 			} else {
-				return setcookie($ecjia_search, $keywords, RC_Time::gmtime() + 3600 * 24 * 30);
+				return setcookie($ecjia_search, $keywords, RC_Time::gmtime() + 3600 * 24 * 7);
 			}
 		}
 	}

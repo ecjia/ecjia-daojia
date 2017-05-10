@@ -14,7 +14,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<form id="theForm" name="theForm" action='{url path="cart/flow/checkout" args="address_id={$address_id}&rec_id={$rec_id}"}' method="post">
+<form id="theForm" name="theForm" action='{url path="cart/flow/checkout" args="{if $smarty.session.order_address_temp.store_id}store_id={$smarty.session.order_address_temp.store_id}&{/if}address_id={$address_id}&rec_id={$rec_id}"}' method="post">
     <div class="ecjia-select ecjia-flow-invoice">
         <p class="select-title ecjia-margin-l">发票抬头</p>
         <div class="input input100">
@@ -36,6 +36,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <li>暂无</li>
             <!-- {/foreach} -->
         </ul>
+        
+        <!-- {if $inv_type_list} -->
         <p class="select-title ecjia-margin-l">发票类型</p>
         <ul class="ecjia-list ecjia-border-t">
             <!-- {foreach from=$inv_type_list item=list key=index} -->
@@ -52,6 +54,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <li>暂无</li>
             <!-- {/foreach} -->
         </ul>
+        <!-- {/if} -->
+        
         <div class="ecjia-margin-t2 ecjia-margin-b">
             <input type="hidden" name="address_id" value="{$address_id}">
             <input type="hidden" name="rec_id" value="{$rec_id}" />
