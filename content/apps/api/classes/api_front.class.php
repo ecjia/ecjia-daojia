@@ -63,17 +63,16 @@ abstract class api_front extends ecjia_api {
         parent::__construct();
         
         $request = royalcms('request');
-        
-        $json = str_replace('\\', '', $request->input('json'));
-        $this->requestData = json_decode($json, true);
-        
-        $this->token = $this->requestData('token') ? $this->requestData('token') : $this->requestData('session.sid');
-        
-        $this->device = $this->requestData('device', array());
-        $this->device['client'] = empty($this->device['client']) ? $request->header('device_client') : $this->device['client'];
-        $this->device['code']	= empty($this->device['code'])	? $request->header('device_code') : $this->device['code'];
-        $this->device['udid']	= empty($this->device['udid']) ? $request->header('device_udid') : $this->device['udid'];
-        $this->api_version		= $request->header('api_version');
+		
+		$json = str_replace('\\', '', $request->input('json'));
+		$this->requestData = json_decode($json, true);
+		
+		$this->token = $this->requestData('token') ? $this->requestData('token') : $this->requestData('session.sid');
+		
+		$this->device['client'] = $request->header('device-client');
+		$this->device['code']	= $request->header('device-code');
+		$this->device['udid']	= $request->header('device-udid');
+		$this->api_version		= $request->header('api-version');
         
         $this->authSession();
         

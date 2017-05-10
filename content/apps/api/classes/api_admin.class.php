@@ -54,21 +54,22 @@ abstract class api_admin extends ecjia_api {
 	protected $requestData = array();
 	protected $token = null;
 	protected $device = array();
+	protected $api_version = null;
 	
 	public function __construct() {
 		parent::__construct();
 		
 		$request = royalcms('request');
 		
-		$this->requestData = json_decode($request->input('json'), true);
+		$json = str_replace('\\', '', $request->input('json'));
+		$this->requestData = json_decode($json, true);
 		
 		$this->token = $this->requestData('token') ? $this->requestData('token') : $this->requestData('session.sid');
 		
-		$this->device = $this->requestData('device', array());
-		$this->device['client'] = empty($this->device['client']) ? $request->header('device_client') : $this->device['client'];
-		$this->device['code']	= empty($this->device['code'])	? $request->header('device_code') : $this->device['code'];
-		$this->device['udid']	= empty($this->device['udid']) ? $request->header('device_udid') : $this->device['udid'];
-		$this->api_version		= $request->header('api_version');
+		$this->device['client'] = $request->header('device-client');
+		$this->device['code']	= $request->header('device-code');
+		$this->device['udid']	= $request->header('device-udid');
+		$this->api_version		= $request->header('api-version');
 	}
 	
 	protected function session_start() {
