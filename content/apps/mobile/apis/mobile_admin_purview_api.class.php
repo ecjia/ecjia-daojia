@@ -54,13 +54,13 @@ class mobile_admin_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(        		
-        	array('action_name' => RC_Lang::get('mobile::mobile.shortcut_manage'), 	'action_code' => 'shortcut_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('mobile::mobile.shortcut_update'), 	'action_code' => 'shortcut_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('mobile::mobile.shortcut_delete'), 	'action_code' => 'shortcut_delete', 'relevance' => ''),
+//         	array('action_name' => RC_Lang::get('mobile::mobile.shortcut_manage'), 	'action_code' => 'shortcut_manage', 'relevance' => ''),
+//         	array('action_name' => RC_Lang::get('mobile::mobile.shortcut_update'), 	'action_code' => 'shortcut_update', 'relevance' => ''),
+//         	array('action_name' => RC_Lang::get('mobile::mobile.shortcut_delete'), 	'action_code' => 'shortcut_delete', 'relevance' => ''),
         		
-        	array('action_name' => RC_Lang::get('mobile::mobile.discover_manage'), 	'action_code' => 'discover_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('mobile::mobile.discover_update'), 	'action_code' => 'discover_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('mobile::mobile.discover_delete'), 	'action_code' => 'discover_delete', 'relevance' => ''),
+//         	array('action_name' => RC_Lang::get('mobile::mobile.discover_manage'), 	'action_code' => 'discover_manage', 'relevance' => ''),
+//         	array('action_name' => RC_Lang::get('mobile::mobile.discover_update'), 	'action_code' => 'discover_update', 'relevance' => ''),
+//         	array('action_name' => RC_Lang::get('mobile::mobile.discover_delete'), 	'action_code' => 'discover_delete', 'relevance' => ''),
         		
         	array('action_name' => RC_Lang::get('mobile::mobile.mobile_device_manage'), 'action_code' => 'device_manage', 'relevance' => ''),
         	array('action_name' => RC_Lang::get('mobile::mobile.view_device_info'), 	'action_code' => 'device_detail', 'relevance' => ''),

@@ -74,35 +74,59 @@ class data_module extends api_front implements api_interface {
 		} 
 		
 		$device['code'] = isset($device['code']) ? $device['code'] : '';
-			//流程逻辑开始
-			// runloop 流
-			$response = array();
-			$response = RC_Hook::apply_filters('api_home_data_runloop', $response, $request);//mobile_home_adsense1
+		//流程逻辑开始
+		// runloop 流
+		$response = array();
+		$response = RC_Hook::apply_filters('api_home_data_runloop', $response, $request);//mobile_home_adsense1
 		return $response;
 
 	}
 }
 
+function filter_adsense_group_data($data) {
+    return collect($data)->map(function($item, $key) {
+    	return [
+    		'image' => $item['ad_img'],
+    		'text' => $item['ad_name'],
+    		'url' => $item['ad_link'],
+    	];
+    })->toArray();
+}
+RC_Hook::add_filter('filter_adsense_group_data', 'filter_adsense_group_data');
+
 function cycleimage_data($response, $request) 
 {
-	$mobile_cycleimage = RC_Loader::load_app_class('cycleimage_method', 'cycleimage');
-	$cycleimageDatas   = $mobile_cycleimage->player_data(true);
+    $request = royalcms('request');
+    
+    $city_id	= $request->input('city_id', 0);
+    
+    $device_client = $request->header('device-client', 'iphone');
+    
+    if ($device_client == 'android') {
+        $client = Ecjia\App\Adsense\Client::ANDROID;
+    } elseif ($device_client == 'h5') {
+        $client = Ecjia\App\Adsense\Client::H5;
+    } else {
+        $client = Ecjia\App\Adsense\Client::IPHONE;
+    }
+    
+	$cycleimageDatas = RC_Api::api('adsense',  'cycleimage', [
+	    'code'     => 'home_cycleimage', 
+	    'client'   => $client, 
+	    'city'     => $city_id
+	]);
+
 	$player_data = array();
 	foreach ($cycleimageDatas as $val) {
 		$player_data[] = array(
-				'photo'      => array(
-						'small'      => $val['src'],
-						'thumb'      => $val['src'],
-						'url'        => $val['src'],
-				),
-				'url'        => $val['url'],
-				'description'=> $val['text'],
+			'photo' => array(
+					'small'      => $val['image'],
+					'thumb'      => $val['image'],
+					'url'        => $val['image'],
+			),
+			'url'        => $val['url'],
+			'description'=> $val['text'],
 		);
-	}
-
-	/* 限制轮播图片显示最多5张 */
-	if (count($player_data) > 5) {
-		$player_data = array_slice($player_data, 0, 5);
 	}
 
 	$response['player'] = $player_data;
@@ -111,22 +135,27 @@ function cycleimage_data($response, $request)
 }
 
 function mobile_menu_data($response, $request) {
-	$mobile            = RC_Loader::load_app_class('mobile_method','mobile');
-	$mobile_menu       = array_merge($mobile->shortcut_data(true));
-	$mobile_menu_data  = array();
-	if (!empty($mobile_menu)) {
-		foreach ($mobile_menu as $key => $val) {
-			if ($val['display'] == '1') {
-				$mobile_menu_data[] = array(
-						'image'	=> $val['src'],
-						'text'	=> $val['text'],
-						'url'	=> $val['url']
-				);
-			}
-		}
+	$request = royalcms('request');
+	
+	$city_id	= $request->input('city_id', 0);
+	
+	$device_client = $request->header('device-client', 'iphone');
+	
+	if ($device_client == 'android') {
+	    $client = Ecjia\App\Adsense\Client::ANDROID;
+	} elseif ($device_client == 'h5') {
+	    $client = Ecjia\App\Adsense\Client::H5;
+	} else {
+	    $client = Ecjia\App\Adsense\Client::IPHONE;
 	}
+	
+	$shortcutDatas = RC_Api::api('adsense',  'shortcut', [
+	    'code'     => 'home_shortcut',
+	    'client'   => $client,
+	    'city'     => $city_id
+	    ]);
 
-	$response['mobile_menu'] = $mobile_menu_data;
+	$response['mobile_menu'] = $shortcutDatas;
 	return $response;
 }
 
@@ -209,22 +238,27 @@ function new_goods_data($response, $request) {
 
 
 function mobile_home_adsense_group($response, $request) {
-	if (ecjia::config('mobile_home_adsense_group') == '' || ecjia::config('mobile_home_adsense_group') == 0) {
-		$response['adsense_group'] = array();
-	} else {
-		$adsense_group = explode(',', ecjia::config('mobile_home_adsense_group'));
-		$mobile_home_adsense_group = array();
-		if (!empty($adsense_group)) {
-			foreach ($adsense_group as $key => $val) {
-				$mobile_adsense_group = RC_Api::api('adsense', 'adsense_list', array('position_id' => $val));
-				if (!empty($mobile_adsense_group)) {
-				    $mobile_home_adsense_group[] = $mobile_adsense_group;
-				}
-			}
-		}
-
-		$response['adsense_group'] = $mobile_home_adsense_group;
-	}
+    $request = royalcms('request');
+    
+    $city_id	= $request->input('city_id', 0);
+    
+    $device_client = $request->header('device-client', 'iphone');
+    
+    if ($device_client == 'android') {
+        $client = Ecjia\App\Adsense\Client::ANDROID;
+    } elseif ($device_client == 'h5') {
+        $client = Ecjia\App\Adsense\Client::H5;
+    } else {
+        $client = Ecjia\App\Adsense\Client::IPHONE;
+    }
+    
+    $mobile_home_adsense_group = RC_Api::api('adsense',  'adsense_group', [
+        'code'     => 'home_complex_adsense',
+        'client'   => $client,
+        'city'     => $city_id
+    ]);
+    	
+	$response['adsense_group'] = $mobile_home_adsense_group;
 
 	return $response;
 }

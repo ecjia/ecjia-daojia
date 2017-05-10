@@ -52,26 +52,29 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class discover_module extends api_front implements api_interface {
 
-	    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	$this->authSession();
-		//检测是否有用户登陆状态
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+	
+		$request = royalcms('request');
 		
-		$mobile = RC_Loader::load_app_class('mobile_method','mobile');
-		$discover_data = array();
-		$mobile_menu   = array_merge($mobile->discover_data(true));
-		if (!empty($mobile_menu)) {
-			foreach ($mobile_menu as $val) {
-				if ($val['display'] == '1') {
-					$discover_data[] = array(
-						'image'	=> $val['src'],
-						'text'	=> $val['text'],
-						'url'	=> $val['url']
-					);
-				}
-			}
+		$city_id	= $request->input('city_id', 0);
+		
+		$device_client = $request->header('device-client', 'iphone');
+		
+		if ($device_client == 'android') {
+		    $client = Ecjia\App\Adsense\Client::ANDROID;
+		} elseif ($device_client == 'h5') {
+		    $client = Ecjia\App\Adsense\Client::H5;
+		} else {
+		    $client = Ecjia\App\Adsense\Client::IPHONE;
 		}
 		
-		return $discover_data;		
+		$discoverDatas = RC_Api::api('adsense',  'shortcut', [
+		    'code'     => 'discover',
+		    'client'   => $client,
+		    'city'     => $city_id
+		    ]);
+		
+		return $discoverDatas;		
 	}
 }
 

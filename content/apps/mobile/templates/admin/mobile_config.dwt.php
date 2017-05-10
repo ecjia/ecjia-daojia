@@ -230,7 +230,7 @@
 				<!-- 短信提醒end -->
 				<!-- {/if} -->
 				<!-- {if $code eq 'app_download_url'} -->
-					<h3 class="heading">app下载地址</h3>
+					<h3 class="heading">APP下载地址</h3>
 					<div class="control-group formSep">
 						<label class="control-label">{lang key='mobile::mobile.iphone_qr_code'}</label>
 						<div class="controls">
