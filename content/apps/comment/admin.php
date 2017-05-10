@@ -175,7 +175,7 @@ class admin extends ecjia_admin {
 		if ($img_url) {
 		    $avatar_img = RC_Upload::upload_url().'/'.$img_url;
 		} else {
-		    $avatar_img = RC_App::apps_url('statics/images/admin_pic.jpg', __FILE__);;
+		    $avatar_img = RC_App::apps_url('statics/images/admin_pic.jpg', __FILE__);
 		}
 
 		/* 获得评论回复条数 */
