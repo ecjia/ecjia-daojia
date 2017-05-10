@@ -180,10 +180,14 @@ return array(
     'CreateCommentAppealTable' => $contentDir . '/database/migrations/2017_03_22_170435_create_comment_appeal_table.php',
     'CreateCommentReplyTable' => $contentDir . '/database/migrations/2017_03_22_170459_create_comment_reply_table.php',
     'CreateGoodsDataTable' => $contentDir . '/database/migrations/2017_03_23_161538_create_goods_data_table.php',
+    'AlertStaffUserByGroupIdTable' => $contentDir . '/database/migrations/2017_04_20_095558_alert_staff_user_by_group_id_table.php',
+    'AddCityCodeToAdPositionTable' => $contentDir . '/database/migrations/2017_05_05_101947_add_city_code_to_ad_position_table.php',
+    'AddShowClientToAdTable' => $contentDir . '/database/migrations/2017_05_05_104042_add_show_client_to_ad_table.php',
      
     
     // seeder
     'DatabaseSeeder' => $contentDir . '/database/seeds/DatabaseSeeder.php',
+    'InitDatabaseSeeder' => $contentDir . '/database/seeds/InitDatabaseSeeder.php',
     'DemoDatabaseSeeder' => $contentDir . '/database/seeds/DemoDatabaseSeeder.php',
     'InitAdPositionTableSeeder' => $contentDir . '/database/seeds/InitAdPositionTableSeeder.php',
     'InitAdTableSeeder' => $contentDir . '/database/seeds/InitAdTableSeeder.php',
@@ -206,6 +210,7 @@ return array(
     'InitUserRankTableSeeder' => $contentDir . '/database/seeds/InitUserRankTableSeeder.php',
     'InitWechatMediaTableSeeder' => $contentDir . '/database/seeds/InitWechatMediaTableSeeder.php',
     'InitWechatReplyTableSeeder' => $contentDir . '/database/seeds/InitWechatReplyTableSeeder.php',
+    'InitTermMetaTableSeeder' => $contentDir . '/database/seeds/InitTermMetaTableSeeder.php',
     
     'FixShopConfigTableSeeder' => $contentDir . '/database/seeds/FixShopConfigTableSeeder.php',
     
