@@ -57,12 +57,29 @@ class notification_module extends api_admin implements api_interface {
     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
-        
     	$size = $this->requestData('pagination.count', 15);
     	$page = $this->requestData('pagination.page', 2);
     	
-    	$type          = array('Ecjia\System\Notifications\ExpressAssign', 'Ecjia\System\Notifications\ExpressGrab', 'Ecjia\System\Notifications\ExpressPickup', 'Ecjia\System\Notifications\ExpressFinished');
-    	$type_label    = array('Ecjia\System\Notifications\ExpressAssign' => 'express_assign', 'Ecjia\System\Notifications\ExpressGrab' => 'express_grab', 'Ecjia\System\Notifications\ExpressPickup' => 'express_pickup', 'Ecjia\System\Notifications\ExpressFinished' => 'express_finished');
+    	$type          = array(
+    	    'Ecjia\System\Notifications\ExpressAssign', 
+    	    'Ecjia\System\Notifications\ExpressGrab', 
+    	    'Ecjia\System\Notifications\ExpressPickup', 
+    	    'Ecjia\System\Notifications\ExpressFinished',
+    	    'Ecjia\System\Notifications\NewOrdersRemind',
+    	    'Ecjia\System\Notifications\OrderPay',
+    	    'Ecjia\System\Notifications\OrderPlaced',
+    	    'Ecjia\System\Notifications\OrderShipped',
+    	);
+    	$type_label    = array(
+    	    'Ecjia\System\Notifications\ExpressAssign' => 'express_assign', 
+    	    'Ecjia\System\Notifications\ExpressGrab' => 'express_grab', 
+    	    'Ecjia\System\Notifications\ExpressPickup' => 'express_pickup', 
+    	    'Ecjia\System\Notifications\ExpressFinished' => 'express_finished',
+    	    'Ecjia\System\Notifications\NewOrdersRemind' => 'order_new',
+    	    'Ecjia\System\Notifications\OrderPay' => 'order_pay',
+    	    'Ecjia\System\Notifications\OrderPlaced' => 'order_placed',
+    	    'Ecjia\System\Notifications\OrderShipped' => 'order_shipped',
+    	);
     	$record_count  = RC_DB::table('notifications')
                     	->whereIn('type', $type)
                     	->where('notifiable_type', 'orm_staff_user_model')

@@ -89,6 +89,7 @@ class admin extends ecjia_admin {
 					foreach ($list as $key => $val) {
 						$arr = json_decode($val['data'], true);
 						$list[$key]['content'] = $arr['body'];
+						$type_list[$k]['type_title'] = $arr['title'];
 						
 						$created_time = $this->format_date($val['created_at']);
 						$list[$key]['created_time'] = $created_time;
@@ -96,8 +97,8 @@ class admin extends ecjia_admin {
 				}
 				$type_list[$k]['list']  = $list;
 				$type_list[$k]['count'] = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['admin_id'])->where('type', $v['type'])->whereNull('read_at')->count();
-				$type_list[$k]['type_title'] = $v['type'];
-				$type_list[$k]['type'] = mix_substr($v['type'], 15);
+// 				$type_list[$k]['type_title'] = $v['type'];
+				$type_list[$k]['type'] = mix_substr($type_list[$k]['type_title'], 15);
 			}
 		}
 		$count = RC_DB::table('notifications')
