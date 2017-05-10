@@ -86,4 +86,7 @@
         </section>
     </div>
 </div>
+{if ecjia::config('stats_code')}
+	{stripslashes(ecjia::config('stats_code'))}
+{/if}
 <!-- {/block} -->
