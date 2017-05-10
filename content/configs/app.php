@@ -75,9 +75,7 @@ return array(
     /* 支付方式 */
 	'payment' => 'payment',	
     /* 配送方式 */
-	'shipping' => 'shipping',		   
-    /* 轮播图 */
- 	'cycleimage' => 'cycleimage',	     
+	'shipping' => 'shipping',		        
     /* 验证码 */
 	'captcha' => 'captcha',	
     /* 邮件管理 */
@@ -142,6 +140,8 @@ return array(
     'touch' => 'touch',
     //微信公众平台
     'wechat' => 'wechat',
+    //APP介绍
+    'intro' => 'intro',
     
 );
 
