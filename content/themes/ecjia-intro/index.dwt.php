@@ -12,13 +12,15 @@
     <body>
         <div class="ecjia-header fixed">
             <div class="ecjia-content">
-                <div class="ecjia-fl ecjia-logo wt-10"><img src="{if $shop_logo}{$shop_logo}{else}{$theme_url}images/logo.png{/if}"></div>
+                <div class="ecjia-fl ecjia-logo wt-10">
+                	<a class="nopjax" href="{$main_url}"><img src="{if $shop_logo}{$shop_logo}{else}{$theme_url}images/logo.png{/if}"></a>
+                </div>
                 <div class="ecjia-fr">
-                    <ul class="nav">
-                        <li><a href="#">首页</a></li>
-                        <li><a href="{$merchant_url}" target="_blank">商家入驻</a></li>
-                        <li><a href="{$merchant_login}" target="_blank">商家登录</a></li>
-                        <li><a href="https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia%E5%88%B0%E5%AE%B6" target="_blank">帮助手册</a></li>
+                    <ul class="nav hover-font">
+                        <li class="active"><a class="nopjax" href="{$main_url}">首页</a></li>
+                        <li><a href="https://ecjia.com/wiki/" target="_blank">帮助手册</a></li>
+						<li><a class="nopjax" href="{$merchant_url}" target="_blank">商家入驻</a></li>
+						<li><a class="nopjax ecjia-back-green" href="{$merchant_login}" target="_blank">商家登录</a></li>
                     </ul>
                 </div>
             </div>
@@ -69,9 +71,9 @@
                         <span class="ecjia-edition">{if $mobile_app_version}{$mobile_app_version}{else}1.0.0{/if}</span>
                         <h2 class="fsize-48 ecjia-truncate"><!-- #BeginLibraryItem "/library/shop_subtitle.lbi" --><!-- #EndLibraryItem --></h2>
                         <p class="fsize-24 ecjia-truncate"><!-- #BeginLibraryItem "/library/brief_intro.lbi" --><!-- #EndLibraryItem --></p>
-                        <div class="two-btn wt-30 hover-font">
-                            {if $mobile_iphone_download}<a class="ecjia-btn icon-btn" href="{$mobile_iphone_download}" target="_blank"><i class="iphone icon"></i>iPhone端下载</a>{/if}
-                            {if $mobile_android_download}<a class="ecjia-btn icon-btn" href="{$mobile_android_download}" target="_blank"><i class="android icon"></i>Android端下载</a>{/if}
+                        <div class="two-btn wt-30">
+                            {if $mobile_iphone_download}<a class="ecjia-btn icon-btn" href="{$mobile_iphone_download}" target="_blank"><i class="iphone icon"></i><span>iPhone端下载</span></a>{/if}
+                            {if $mobile_android_download}<a class="ecjia-btn icon-btn" href="{$mobile_android_download}" target="_blank"><i class="android icon"></i><span>Android端下载</span></a>{/if}
                         </div>
                         <div class="ecjia-code wt-50">
                             {if $mobile_iphone_qrcode}
@@ -130,6 +132,14 @@
                                 prevButton: '.swiper-button-prev',
                                 loop: true
                             });
+
+                    		$(window).scroll(function(){
+                    			if ($(window).scrollTop() > 0) {
+                    				$('.ecjia-header').addClass('navbar-transparent');
+                    			} else {
+                    				$('.ecjia-header').removeClass('navbar-transparent');
+                    			}
+                    		});
                         </script>
                     </div>
                     {/if}
