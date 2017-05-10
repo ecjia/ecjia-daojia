@@ -341,6 +341,60 @@ return array(
     
     'orders/comment/detail' => 'orders::order/comment/detail',
     
+    //1.5
+    'admin/order/payConfirm'	=> 'orders::admin/orders/payConfirm',	//收银台支付验证
+    'admin/order/quickpay'		=> 'orders::admin/orders/quickpay',
+    'admin/order/express'		=> 'orders::admin/orders/express',
+    
+    'admin/order/consignee/list' => 'orders::admin/orders/consignee/list',
+    
+    'admin/order/operate/consignee' => 'orders::admin/orders/operate/consignee',
+    'admin/order/operate/money' => 'orders::admin/orders/operate/money',
+    'admin/order/operate/shipping'	=> 'orders::admin/orders/operate/shipping',
+    'admin/order/operate/shipping/detail' => 'orders::admin/orders/operate/shipping_detail',
+    'admin/order/operate/pay' 	=> 'orders::admin/orders/operate/pay',
+    'admin/order/operate/cancel'	=> 'orders::admin/orders/operate/cancel',
+    'admin/order/operate/delivery'	=> 'orders::admin/orders/operate/delivery',
+    'admin/order/operate/setgrab'	=> 'orders::admin/orders/operate/setgrab',
+    'admin/order/operate/cancelgrab'	=> 'orders::admin/orders/operate/cancelgrab',
+    
+    'admin/order/shipping/list'	=> 'orders::admin/orders/shipping/list',
+    
+    'admin/user/info'			=> 'user::admin/user/info',
+
+    'admin/goods/add'			=> 'goods::admin/goods/add',
+    'admin/goods/restore'		=> 'goods::admin/goods/restore',
+    'admin/goods/update'		=> 'goods::admin/goods/update',
+    'admin/goods/update/desc'	=> 'goods::admin/goods/updatedesc',
+    'admin/goods/trash/list'				=> 'goods::admin/goods/trash/list',
+    
+    'admin/goods/promote/add'				=> 'goods::admin/goods/promote/add',
+    'admin/goods/promote/update'			=> 'goods::admin/goods/promote/update',
+    'admin/goods/promote/delete'			=> 'goods::admin/goods/promote/delete',
+    
+    'admin/goods/toggle/free_shipping'		=> 'goods::admin/goods/toggle/free_shipping',
+    'admin/goods/toggle/suggest'			=> 'goods::admin/goods/toggle/suggest',
+    'admin/goods/toggle/sale'				=> 'goods::admin/goods/toggle/sale',
+    'admin/goods/toggle/gifts'				=> 'goods::admin/goods/toggle/gifts',
+    
+    'admin/goods/gallery/add'				=> 'goods::admin/goods/gallery/add',
+    'admin/goods/gallery/delete'			=> 'goods::admin/goods/gallery/delete',
+    'admin/goods/move/category'				=> 'goods::admin/goods/move/category',
+    
+    'admin/goods/merchant/category/list'	=> 'goods::admin/goods/merchant/category/list',
+    'admin/goods/merchant/category/add'		=> 'goods::admin/goods/merchant/category/add',
+    'admin/goods/merchant/category/detail'	=> 'goods::admin/goods/merchant/category/detail',
+    'admin/goods/merchant/category/update'	=> 'goods::admin/goods/merchant/category/update',
+    'admin/goods/merchant/category/show'	=> 'goods::admin/goods/merchant/category/show',
+    'admin/goods/merchant/category/delete'	=> 'goods::admin/goods/merchant/category/delete',
+    
+    'admin/shop/attach/add'	=> 'mobile::admin/shop/attach/add',
+    
+    'validate/get'        => 'user::validate/get',
+    'user/bind'           => 'user::user/bind',
+    
+    'admin/user/bind'           => 'user::admin/user/bind',
+    
 );
 
 // end
