@@ -138,17 +138,15 @@ class privilege extends ecjia_merchant {
 					RC_Cookie::set('ECJAP.staff_id', $row['user_id'], array('expire' => $time));
 					RC_Cookie::set('ECJAP.staff_pass', md5($row['password'] . ecjia::config('hash_code')), array('expire' => $time));
 				}
+				
 				RC_Hook::do_action('ecjia_merchant_login_after', $row);
-				if(array_get($_SESSION, 'shop_guide')) {
+				
+				if (array_get($_SESSION, 'shop_guide')) {
 					$back_url = RC_Uri::url('shopguide/merchant/init');
-				}else{
-					if (RC_Cookie::has('admin_login_referer')) {
-						$back_url = RC_Cookie::get('admin_login_referer');
-						RC_Cookie::delete('admin_login_referer');
-					} else {
-						$back_url = RC_Uri::url('merchant/dashboard/init');
-					}
+				} else {
+				    $back_url = RC_Uri::url('merchant/dashboard/init');
 				}
+				
 				return $this->showmessage(__('登录成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
 			} else {
 				return $this->showmessage(__('该店铺已被锁定，暂无法登录'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

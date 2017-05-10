@@ -59,5 +59,8 @@
 		})
 		{/literal}
 	</script>
+	{if ecjia::config('stats_code')}
+		{stripslashes(ecjia::config('stats_code'))}
+	{/if}
 </body>
 </html>	
