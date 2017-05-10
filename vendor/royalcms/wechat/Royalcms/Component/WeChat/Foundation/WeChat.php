@@ -25,7 +25,7 @@ class WeChat extends Container
 
         Http::setDefaultOptions($this['config']->get('guzzle', array('timeout' => 5.0)));
 
-        foreach (array('app_id', 'secret') as $key) {
+        foreach (array('app_id', 'app_secret') as $key) {
             !isset($config[$key]) || $config[$key] = '***'.substr($config[$key], -5);
         }
 
@@ -70,7 +70,7 @@ class WeChat extends Container
         $this['access_token'] = function () {
             return new AccessToken(
                 $this['config']['app_id'],
-                $this['config']['secret'],
+                $this['config']['app_secret'],
                 $this['cache']
             );
         };

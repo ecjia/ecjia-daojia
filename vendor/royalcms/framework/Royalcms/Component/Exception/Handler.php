@@ -355,10 +355,10 @@ class Handler {
 		{
 			$location = $e->getMessage().' in '.$e->getFile().':'.$e->getLine();
 
-			return 'Error in exception handler: '.$location;
+			return rc_die('Error in exception handler: '.$location);
 		}
 
-		return 'Error in exception handler.';
+		return rc_die('Error in exception handler.');
 	}
 
 	/**

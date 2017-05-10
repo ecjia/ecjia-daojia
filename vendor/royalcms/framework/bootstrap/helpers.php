@@ -2383,6 +2383,30 @@ if ( ! function_exists('csrf_token'))
     }
 }
 
+if (! function_exists('config')) {
+    /**
+     * Get / set the specified configuration value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @param  array|string  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    function config($key = null, $default = null)
+    {
+        if (is_null($key)) {
+            return royalcms('config');
+        }
+
+        if (is_array($key)) {
+            return royalcms('config')->set($key);
+        }
+
+        return royalcms('config')->get($key, $default);
+    }
+}
+
 if ( ! function_exists('data_get'))
 {
     /**

@@ -13,6 +13,10 @@ class Cookie extends Facade {
 	 */
 	public static function has($key)
 	{
+	    $prefix = Config::get('cookie.prefix');
+	     
+	    $key = $prefix . $key;
+	    
 		return ! is_null(static::$royalcms['request']->cookie($key, null));
 	}
 
@@ -49,7 +53,6 @@ class Cookie extends Facade {
 	    $config = array_merge($config, $option);
 	    $expire = intval($config['expire']);
 	    
-	    $name      = $config['prefix'] . $name;
 	    $minutes   = $expire;
 	    $path      = $config['path'];
 	    $domain    = $config['domain'];
@@ -66,7 +69,6 @@ class Cookie extends Facade {
 	 */
 	public static function delete($name)
 	{
-	    $name = Config::get('cookie.prefix') . $name;
 	    $cookie = static::$royalcms['cookie']->forget($name, Config::get('cookie.path'), Config::get('cookie.domain'));
 	    Response::withCookie($cookie);
 	    return $cookie;

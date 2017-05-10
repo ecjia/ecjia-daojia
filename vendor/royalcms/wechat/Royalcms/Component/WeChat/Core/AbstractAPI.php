@@ -16,14 +16,14 @@ abstract class AbstractAPI
     /**
      * Http instance.
      *
-     * @var \EasyWeChat\Core\Http
+     * @var \Royalcms\Component\WeChat\Core\Http
      */
     protected $http;
 
     /**
      * The request token.
      * 
-     * @var \EasyWeChat\Core\AccessToken
+     * @var \Royalcms\Component\WeChat\Core\AccessToken
      */
     protected $accessToken;
 
@@ -34,7 +34,7 @@ abstract class AbstractAPI
     /**
      * Constructor.
      *
-     * @param \EasyWeChat\Core\AccessToken $accessToken
+     * @param \Royalcms\Component\WeChat\Core\AccessToken $accessToken
      */
     public function __construct(AccessToken $accessToken)
     {
@@ -44,7 +44,7 @@ abstract class AbstractAPI
     /**
      * Return the http instance.
      *
-     * @return \EasyWeChat\Core\Http
+     * @return \Royalcms\Component\WeChat\Core\Http
      */
     public function getHttp()
     {
@@ -62,7 +62,7 @@ abstract class AbstractAPI
     /**
      * Set the http instance.
      *
-     * @param \EasyWeChat\Core\Http $http
+     * @param \Royalcms\Component\WeChat\Core\Http $http
      *
      * @return $this
      */
@@ -76,7 +76,7 @@ abstract class AbstractAPI
     /**
      * Return the current accessToken.
      *
-     * @return \EasyWeChat\Core\AccessToken
+     * @return \Royalcms\Component\WeChat\Core\AccessToken
      */
     public function getAccessToken()
     {
@@ -86,7 +86,7 @@ abstract class AbstractAPI
     /**
      * Set the request token.
      *
-     * @param \EasyWeChat\Core\AccessToken $accessToken
+     * @param \Royalcms\Component\WeChat\Core\AccessToken $accessToken
      *
      * @return $this
      */
@@ -103,7 +103,7 @@ abstract class AbstractAPI
      * @param string $method
      * @param array  $args
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Royalcms\Component\WeChat\Support\Collection
      */
     public function parseJSON($method, array $args)
     {
@@ -202,7 +202,7 @@ abstract class AbstractAPI
      *
      * @param array $contents
      *
-     * @throws \EasyWeChat\Core\Exceptions\HttpException
+     * @throws \Royalcms\Component\WeChat\Core\Exceptions\HttpException
      */
     protected function checkAndThrow(array $contents)
     {

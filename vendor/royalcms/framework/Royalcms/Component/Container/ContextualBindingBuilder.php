@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Container;
 
-use Royalcms\Component\Contracts\Container\ContextualBindingBuilder as ContextualBindingBuilderContract;
+use Royalcms\Component\Container\Contracts\ContextualBindingBuilder as ContextualBindingBuilderContract;
 
 class ContextualBindingBuilder implements ContextualBindingBuilderContract {
 

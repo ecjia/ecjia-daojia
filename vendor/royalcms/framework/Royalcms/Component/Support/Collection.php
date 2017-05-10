@@ -611,7 +611,7 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	 * @param  int    $offset
 	 * @param  int    $length
 	 * @param  mixed  $replacement
-	 * @return \Illuminate\Support\Collection
+	 * @return \Royalcms\Component\Support\Collection
 	 */
 	public function splice($offset, $length = 0, $replacement = array())
 	{
@@ -625,9 +625,14 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	 * @param  string  $callback
 	 * @return mixed
 	 */
-	public function sum($callback)
+	public function sum($callback = null)
 	{
-		if (is_string($callback))
+	    if (is_null($callback))
+	    {
+	        return array_sum($this->items);
+	    }
+	    
+		if (! $this->useAsCallable($callback))
 		{
 			$callback = $this->valueRetriever($callback);
 		}

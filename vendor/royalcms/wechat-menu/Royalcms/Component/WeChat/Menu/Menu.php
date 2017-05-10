@@ -18,7 +18,7 @@ class Menu extends AbstractAPI
     /**
      * Get all menus.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Royalcms\Component\Support\Collection
      */
     public function all()
     {
@@ -28,7 +28,7 @@ class Menu extends AbstractAPI
     /**
      * Get current menus.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Royalcms\Component\Support\Collection
      */
     public function current()
     {

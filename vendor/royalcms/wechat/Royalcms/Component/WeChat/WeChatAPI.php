@@ -752,6 +752,7 @@ class WeChatAPI {
     /**
      * 获取多个用户信息 最多100个
      *
+     * @deprecated 4.0.0 已废弃
      * @param {
           user_list : [
             { openid =>, lang => zh_CN }
@@ -807,7 +808,8 @@ class WeChatAPI {
     
     /**
      * 获取用户列表
-     *
+     * 
+     * @deprecated 4.0.0 已废弃
      * @return boolean | array(
             total
             count
@@ -922,6 +924,7 @@ class WeChatAPI {
     /**
      * 获取所有标签
      *
+     * @deprecated 4.0.0 已废弃
      * @return boolean | array(
      tags : [
      {
@@ -1206,7 +1209,8 @@ class WeChatAPI {
 
     /**
      * 创建自定义菜单
-     *
+     * 
+     * @deprecated 4.0.0 已废弃
      * @param {
           button : [
               {
@@ -1243,6 +1247,7 @@ class WeChatAPI {
     /**
      * 查询自定义菜单
      *
+     * @deprecated 4.0.0 已废弃
      * @retrun boolean | array(
             menu : {
                 button : ...
@@ -1264,7 +1269,8 @@ class WeChatAPI {
 
     /**
      * 删除自定义菜单
-     *
+     * 
+     * @deprecated 4.0.0 已废弃
      * @return boolean | Object Error
      */
     public function deleteMenu() {

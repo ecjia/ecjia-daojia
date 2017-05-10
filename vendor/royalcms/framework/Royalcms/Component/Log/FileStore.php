@@ -45,13 +45,12 @@ class FileStore
      */
     protected function createCacheDirectory($path)
     {
-        try
+        $bool = $this->files->makeDirectory($path, 0755, true, true);
+        if ($bool === false)
         {
-            $this->files->makeDirectory($path, 0755, true, true);
-        }
-        catch (\Exception $e)
-        {
-            //
+            //目录没有读写权限
+            $path = str_replace(SITE_ROOT, '/', storage_path());
+            rc_die(sprintf(__("目录%s没有读写权限，请设置权限为777。"), $path));
         }
     }
 
