@@ -47,76 +47,56 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 管理员信息
- * @author will
+ * 配送范围 收货地址接口
+ * @author
  */
-class userinfo_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-		$this->authadminSession();
+class user_neighbors_address_api extends Component_Event_Api {
+	/**
+	 *
+	 * @param array $options
+	 * @return  array
+	 */
+	public function call (&$options) {
+		if (!is_array($options) || ((!isset($options['geohash']) || empty($options['geohash'])) && (!isset($options['city_id']) || !$options['city_id']))) {
+			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+		}
+		return $this->neighbors_address($options['geohash'], $options['geohash_store'], $options['city_id']);
+	}
+
+	/**
+	 * 判断经纬度是否在该地址配送范围内
+	 *
+	 * @access  private
+	 * @param 	string 		geohash_code        地区code
+	 * @param 	string 		geohash_code        店铺code
+	 * @param 	int 		city_id        		城市id
+	 * @param   float       longitude			经度
+	 * @param   float       latitude			纬度
+	 * @return  bool		是否在该地址配送范围内
+	 */
+	private function neighbors_address($geohash_code, $geohash_store_code, $city_id)
+	{
+		/* 判断是否有定位范围，如没有设置默认值*/
+		$mobile_location_range = ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK) ? ecjia::config('mobile_location_range') : 3;
 		
-        if ($_SESSION['admin_id' ] <= 0 && $_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
-        }
-        if ($_SESSION['staff_id']) {
-            //商家
-            return get_user_info_merchant();
-        } else {
-            //平台
-            return get_user_info_admin();
-        }
+		if ($city_id && $mobile_location_range == 0) {
+// 			$store_info = RC_DB::table('store_franchisee')->where('city', $city_id)->where('shop_close', '0')->first();
+
+		    return true;
+		} else {
+			$geohash_code = substr($geohash_code, 0, $mobile_location_range);
+			
+			$geohash_store = substr($geohash_store_code, 0, $mobile_location_range);
+				
+// 			$store_info = RC_DB::table('store_franchisee')->where('geohash', 'like', $geohash_code.'%')->where('geohash', 'like', $geohash_store.'%')->where('shop_close', '0')->first();
+            if ($geohash_code == $geohash_store) {
+                return true;
+            } else {
+                return false;
+            }
+		}
 		
 	}
-}
-
-function get_user_info_merchant() {
-    $result = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->first();
-    
-    if ($result) {
-        $userinfo = array(
-            'id' 		    => $result['user_id'],
-            'username'	    => $result['name'],
-            'nickname'	    => $result['nick_name'],
-            'mobile'	    => $result['mobile'],
-            'email'		    => $result['email'],
-            'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-            'last_ip'		=> RC_Ip::area($result['last_ip']),
-            'role_name'		=> $result['parent_id'] == 0 ? '店长' : ($result['group_id'] ? RC_DB::table('staff_group')->where('group_id', $result['group_id'])->pluck('group_name') : ''),
-            'avator_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
-            'avatar_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
-            'action_list'	=> $result['action_list'],
-        );
-    } else {
-        return new ecjia_error('error', '用户信息不存在，你是火星来的吧');
-    }
-    
-    return $userinfo;
-}
-
-function get_user_info_admin() {
-    $db = RC_Model::model('user/admin_user_model');
-    $db_role = RC_Loader::load_model('role_model');
-    
-    $result = $db->find(array('user_id' => $_SESSION['admin_id']));
-    
-    if (isset($_SESSION['adviser_id']) && !empty($_SESSION['adviser_id'])) {
-        $adviser_info = RC_Model::model('achievement/adviser_model')->find(array('id' => $_SESSION['adviser_id']));
-        $result['user_name'] = $adviser_info['username'];
-        $result['email']	 = $adviser_info['email'];
-    }
-    
-    $userinfo = array(
-        'id' 		    => $result['user_id'],
-        'username'	    => $result['user_name'],
-        'email'		    => $result['email'],
-        'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-        'last_ip'		=> RC_Ip::area($result['last_ip']),
-        'role_name'		=> $db_role->where(array('role_id' => $result['role_id']))->get_field('role_name'),
-        'avator_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
-        'avatar_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
-    );
-    
-    return $userinfo;
 }
 
 // end

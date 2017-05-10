@@ -671,7 +671,7 @@ class admin extends ecjia_admin {
 	 * 删除会员帐号
 	 */
 	public function remove() {
-		$this->admin_priv('users_drop', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
 		
 		$user_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
 		$username = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');

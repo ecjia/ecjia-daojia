@@ -64,7 +64,9 @@ class update_module extends api_admin implements api_interface {
 		if ($_SESSION['staff_id']) {
 			/* 修改头像*/
 			if (isset($_FILES['avatar_img'])) {
-				$save_path = 'data/staff/avatar_img';
+			    
+			    $store_id = $_SESSION['store_id'];
+				$save_path = 'merchant/'.$store_id.'/data/avatar';
 				$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
 					
 				$image_info	= $upload->upload($_FILES['avatar_img']);

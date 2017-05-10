@@ -47,76 +47,46 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 管理员信息
- * @author will
+ * 判断收货地址和商店地址接口
+ * @author
  */
-class userinfo_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-		$this->authadminSession();
+class user_neighbors_address_store_api extends Component_Event_Api {
+	/**
+	 *
+	 * @param array $options
+	 * @return  array
+	 */
+	public function call (&$options) {
+		if (!is_array($options) || !isset($options['address']) || empty($options['store_id']) ) {
+			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+		}
 		
-        if ($_SESSION['admin_id' ] <= 0 && $_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
-        }
-        if ($_SESSION['staff_id']) {
-            //商家
-            return get_user_info_merchant();
-        } else {
-            //平台
-            return get_user_info_admin();
-        }
+		$store_info = RC_DB::table('store_franchisee')->where('store_id', $options['store_id'])->where('shop_close', '0')->first();
+		
+		/* 判断是否有定位范围，如没有设置默认值*/
+		$mobile_location_range = ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK) ? ecjia::config('mobile_location_range') : 3;
+		
+		if ($mobile_location_range == 0) {
+		    if ($store_info['city'] == $options['address']['city']) {
+		        return true;
+		    }
+		} else {
+		    $geohash = RC_Loader::load_app_class('geohash', 'store');
+		    $geohash_code = $geohash->encode($options['address']['latitude'], $options['address']['longitude']);
+		    $geohash_store_code = $store_info['geohash'];
+		    
+		    $geohash_code = substr($geohash_code, 0, $mobile_location_range);
+		    	
+		    $geohash_store = substr($geohash_store_code, 0, $mobile_location_range);
+		    
+		    if ($geohash_code == $geohash_store) {
+		        return true;
+		    }
+		}
+		return false;
 		
 	}
-}
 
-function get_user_info_merchant() {
-    $result = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->first();
-    
-    if ($result) {
-        $userinfo = array(
-            'id' 		    => $result['user_id'],
-            'username'	    => $result['name'],
-            'nickname'	    => $result['nick_name'],
-            'mobile'	    => $result['mobile'],
-            'email'		    => $result['email'],
-            'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-            'last_ip'		=> RC_Ip::area($result['last_ip']),
-            'role_name'		=> $result['parent_id'] == 0 ? '店长' : ($result['group_id'] ? RC_DB::table('staff_group')->where('group_id', $result['group_id'])->pluck('group_name') : ''),
-            'avator_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
-            'avatar_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
-            'action_list'	=> $result['action_list'],
-        );
-    } else {
-        return new ecjia_error('error', '用户信息不存在，你是火星来的吧');
-    }
-    
-    return $userinfo;
-}
-
-function get_user_info_admin() {
-    $db = RC_Model::model('user/admin_user_model');
-    $db_role = RC_Loader::load_model('role_model');
-    
-    $result = $db->find(array('user_id' => $_SESSION['admin_id']));
-    
-    if (isset($_SESSION['adviser_id']) && !empty($_SESSION['adviser_id'])) {
-        $adviser_info = RC_Model::model('achievement/adviser_model')->find(array('id' => $_SESSION['adviser_id']));
-        $result['user_name'] = $adviser_info['username'];
-        $result['email']	 = $adviser_info['email'];
-    }
-    
-    $userinfo = array(
-        'id' 		    => $result['user_id'],
-        'username'	    => $result['user_name'],
-        'email'		    => $result['email'],
-        'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-        'last_ip'		=> RC_Ip::area($result['last_ip']),
-        'role_name'		=> $db_role->where(array('role_id' => $result['role_id']))->get_field('role_name'),
-        'avator_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
-        'avatar_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
-    );
-    
-    return $userinfo;
 }
 
 // end

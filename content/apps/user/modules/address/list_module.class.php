@@ -64,6 +64,7 @@ class list_module extends api_front implements api_interface {
 		$dbview_user_address = RC_Model::model('user/user_address_user_viewmodel');
 		$db_region = RC_Model::model('shipping/region_model');
 		
+		$seller_id = $this->requestData('seller_id', 0);
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
 		$record_count = $db_user_address->where(array('user_id' => $user_id))->count();
@@ -76,12 +77,14 @@ class list_module extends api_front implements api_interface {
 	
 		$result = array();
 		if (!empty($consignee_list)) {
+			$geohash = RC_Loader::load_app_class('geohash', 'store');
+			
 			foreach ($consignee_list as $key => $value) {
 			
 				$result[$key]['id'] = $value['address_id'];
 				$result[$key]['consignee'] = $value['consignee'];
-				$result[$key]['address'] = $value['address'];
-				$result[$key]['address_info'] = $value['address_info'];
+				$result[$key]['address'] = empty($value['address']) ? '' : $value['address'];
+				$result[$key]['address_info'] = empty($value['address_info']) ? '' : $value['address_info'];
 			
 				$country = $value['country'];
 				$province = $value['province'];
@@ -94,18 +97,30 @@ class list_module extends api_front implements api_interface {
 				$result[$key]['province_name']   = $region_name[1]['region_name'];
 				$result[$key]['city_name']       = $region_name[2]['region_name'];
 				$result[$key]['district_name']   = isset($region_name[3]['region_name']) ? $region_name[3]['region_name'] : '';
-				$result[$key]['tel']   			 = $value['tel'];
+				$result[$key]['tel']   			 = empty($value['tel']) ? '' : $value['tel'];
 				$result[$key]['mobile']   		 = $value['mobile'];
 				$result[$key]['location']		 = array(
-														'longitude' => $value['longitude'],
-														'latitude'	=> $value['latitude'],
-												   );
+					'longitude' => $value['longitude'],
+					'latitude'	=> $value['latitude'],
+			   	);
 				
 				if ($value['is_default_address'] > 0 ) {
 					$result[$key]['default_address'] = 1;
 				} else {
 					$result[$key]['default_address'] = 0;
 				}
+				
+				$local = true;
+				if ($seller_id) {
+				    $local = RC_Api::api('user', 'neighbors_address_store', array('address' => $value, 'store_id' => $seller_id));
+				}
+				
+				if ($local) {
+					$result[$key]['local'] = 1;
+				} else {
+					$result[$key]['local'] = 0;
+				}
+				
 			}
 		}
 		

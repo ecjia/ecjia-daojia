@@ -72,7 +72,9 @@ class signin_module extends api_admin implements api_interface {
 		    return signin_merchant($username, $password, $device);
 		} else {
 		    //平台
-		    return signin_admin($username, $password, $device);
+		    $result = new ecjia_error('login_error', __('此账号不是商家账号'));
+		    return $result;
+// 		    return signin_admin($username, $password, $device);
 		}
 	}
 }
@@ -207,6 +209,7 @@ function signin_merchant($username, $password, $device) {
             'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $row['last_login']),
             'last_ip'		=> RC_Ip::area($row['last_ip']),
             'role_name'		=> $role_name,
+            'role_type'		=> $row['group_id'] == -1 ? 'express_user' : '',
         	'group'			=> $group,
             'avator_img'	=> !empty($row['avatar']) ? RC_Upload::upload_url($row['avatar']) : null,
         );
@@ -272,11 +275,9 @@ function signin_admin($username, $password, $device) {
     
     /* 检查密码是否正确 */
     if (!empty($ec_salt)) {
-        $row = $db_user->field('user_id, user_name, email, password, last_login, action_list, last_login, suppliers_id, ec_salt, seller_id, role_id, ru_id')
-        ->find(array('user_name' => $username, 'password' => md5(md5($password).$ec_salt)));
+        $row = $db_user->find(array('user_name' => $username, 'password' => md5(md5($password).$ec_salt)));
     } else {
-        $row = $db_user->field('user_id, user_name, email, password, last_login, action_list, last_login, suppliers_id, ec_salt, seller_id, role_id, ru_id')
-        ->find(array('user_name' => $username, 'password' => md5($password)));
+        $row = $db_user->find(array('user_name' => $username, 'password' => md5($password)));
     }
     
     if ($row) {
@@ -343,6 +344,7 @@ function signin_admin($username, $password, $device) {
             'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $row['last_login']),
             'last_ip'		=> RC_Ip::area($row['last_ip']),
             'role_name'		=> !empty($role_name) ? $role_name : '',
+            'role_type'		=> $row['group_id'] == -1 ? 'express_user' : '',
             'avator_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
         );
         	

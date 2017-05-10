@@ -47,76 +47,70 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 管理员信息
- * @author will
+ * 手机/邮箱绑定解绑
  */
-class userinfo_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-		$this->authadminSession();
+class bind_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	
+        $user_id = $_SESSION['user_id']/*  = 1024 */;
+    	if ($user_id <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	
+		$type = $this->requestData('type');
+		$value = $this->requestData('value');
+		$code  = $this->requestData('code');
 		
-        if ($_SESSION['admin_id' ] <= 0 && $_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
-        }
-        if ($_SESSION['staff_id']) {
-            //商家
-            return get_user_info_merchant();
-        } else {
-            //平台
-            return get_user_info_admin();
-        }
+		$type_array = array('mobile', 'email');
+		//判断值是否为空，且type是否是在此类型中
+		if ( empty($type) || empty($value) || !in_array($type, $type_array)) {
+			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+		}
+		if (empty($code)) {
+		    return new ecjia_error( 'invalid_parameter', '请填写验证码');
+		}
 		
+		$db_user = RC_Model::model('user/users_model');
+		
+		if ($type == 'mobile') {
+		    
+		    $mobile_phone = $db_user->find(array('mobile_phone' => $value, 'user_id' => array('neq' => $user_id)));
+		    if (!empty($mobile_phone)) {
+		        return new ecjia_error('registered', '该手机号已被注册');
+		    }
+		    if (RC_Time::gmtime() > $_SESSION['validate_code']['sms']['lifetime']) {
+		        return new ecjia_error('code pasted', '验证码已过期');
+		    }
+		    if ($code != $_SESSION['validate_code']['sms']['code']) {
+		        return new ecjia_error('code error', '验证码错误');
+		    }
+		    if ($value != $_SESSION['validate_code']['sms']['value']) {
+		        return new ecjia_error('mobile error', '接收和验证的手机号不同');
+		    }
+		    //替换手机号
+		    $db_user->where(array('user_id' => $user_id))->update(array('mobile_phone' => $value));
+		    $_SESSION['validate_code']['sms'] = array();
+		} else if ($type == 'email') {
+		    $email = $db_user->find(array('email' => $value, 'user_id' => array('neq' => $user_id)));
+		    if (!empty($email)) {
+		        return new ecjia_error('registered', '该邮箱已被注册');
+		    }
+		    if (RC_Time::gmtime() > $_SESSION['validate_code']['email']['lifetime']) {
+		        return new ecjia_error('code pasted', '验证码已过期');
+		    }
+		    if ($code != $_SESSION['validate_code']['email']['code']) {
+		        return new ecjia_error('code error', '验证码错误');
+		    }
+		    if ($value != $_SESSION['validate_code']['email']['value']) {
+		        return new ecjia_error('email error', '接收和验证的邮箱不同');
+		    }
+		    //替换邮箱
+		    $db_user->where(array('user_id' => $user_id))->update(array('email' => $value));
+		    $_SESSION['validate_code']['email'] = array();
+		}
+		
+		return array();
 	}
-}
-
-function get_user_info_merchant() {
-    $result = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->first();
-    
-    if ($result) {
-        $userinfo = array(
-            'id' 		    => $result['user_id'],
-            'username'	    => $result['name'],
-            'nickname'	    => $result['nick_name'],
-            'mobile'	    => $result['mobile'],
-            'email'		    => $result['email'],
-            'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-            'last_ip'		=> RC_Ip::area($result['last_ip']),
-            'role_name'		=> $result['parent_id'] == 0 ? '店长' : ($result['group_id'] ? RC_DB::table('staff_group')->where('group_id', $result['group_id'])->pluck('group_name') : ''),
-            'avator_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
-            'avatar_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
-            'action_list'	=> $result['action_list'],
-        );
-    } else {
-        return new ecjia_error('error', '用户信息不存在，你是火星来的吧');
-    }
-    
-    return $userinfo;
-}
-
-function get_user_info_admin() {
-    $db = RC_Model::model('user/admin_user_model');
-    $db_role = RC_Loader::load_model('role_model');
-    
-    $result = $db->find(array('user_id' => $_SESSION['admin_id']));
-    
-    if (isset($_SESSION['adviser_id']) && !empty($_SESSION['adviser_id'])) {
-        $adviser_info = RC_Model::model('achievement/adviser_model')->find(array('id' => $_SESSION['adviser_id']));
-        $result['user_name'] = $adviser_info['username'];
-        $result['email']	 = $adviser_info['email'];
-    }
-    
-    $userinfo = array(
-        'id' 		    => $result['user_id'],
-        'username'	    => $result['user_name'],
-        'email'		    => $result['email'],
-        'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-        'last_ip'		=> RC_Ip::area($result['last_ip']),
-        'role_name'		=> $db_role->where(array('role_id' => $result['role_id']))->get_field('role_name'),
-        'avator_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
-        'avatar_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
-    );
-    
-    return $userinfo;
 }
 
 // end

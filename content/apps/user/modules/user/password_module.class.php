@@ -69,8 +69,10 @@ class password_module extends api_front implements api_interface {
 		$user_id	  = $this->requestData('uid', $_SESSION['user_id']);
 	    
 		if (strlen($new_password) < 6) {
-	    	$result = new ecjia_error('password_shorter', __('- 登录密码不能少于 6 个字符。'));
-	    	return $result;
+	    	return new ecjia_error('password_shorter', __('- 登录密码不能少于 6 个字符。'));
+	    }
+	    if ($old_password == $new_password) {
+	        return new ecjia_error('password_shorter', '新密码不能与旧密码相同！');
 	    }
 	
 	    $user_info = $user->get_profile_by_id($user_id); //论坛记录
@@ -84,10 +86,10 @@ class password_module extends api_front implements api_interface {
 	        	$user->logout();
 	            return array();
 	        } else {
-	        	$result = new ecjia_error('edit_password_failure', __('您输入的原密码不正确！'));
+	        	$result = new ecjia_error('edit_password_failure', __('您输入的旧密码不正确！'));
 	        }
 	    } else {
-	    	$result = new ecjia_error('edit_password_failure', __('您输入的原密码不正确！'));
+	    	$result = new ecjia_error('edit_password_failure', __('您输入的旧密码不正确！'));
 	    }
 	    
 		if (is_ecjia_error($result)) {
