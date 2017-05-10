@@ -240,10 +240,33 @@ abstract class ecjia_front extends ecjia_base implements ecjia_template_fileload
 	    $purge = royalcms('request')->query('purge', 0);
 	    $purge = intval($purge);
 	    if ($is_cached && $purge === 1) {
-	        parent::clear_cache($tpl_file, $cache_id, $options);
+	        $this->clear_cache($tpl_file, $cache_id, $options);
 	        return false;
 	    }
 	    return $is_cached;
+	}
+	
+	/**
+	 * 清除单个模板缓存
+	 * 
+	 * @access  public
+	 * @param   string     $tpl_file
+	 * @param   sting      $cache_id
+	 *
+	 * @return  bool
+	 */
+	public function clear_cache($tpl_file, $cache_id = null, $options = array())
+	{
+	    if (strpos($tpl_file, 'string:') !== 0) {
+	        if (RC_File::file_suffix($tpl_file) !== 'php') {
+	            $tpl_file = $tpl_file . '.php';
+	        }
+	        if (RC_Config::get('system.tpl_usedfront')) {
+	            $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+	        }
+	    }
+
+	    return parent::clear_cache($tpl_file, $cache_id, $options);
 	}
 	
 	/**
@@ -260,13 +283,13 @@ abstract class ecjia_front extends ecjia_base implements ecjia_template_fileload
 	 */
 	protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
 	{
-	    $url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
+	    $revise_url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
 	    $front_tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . RC_Config::get('system.tpl_message');
 	
 	    if ($tpl) {
 	        $this->assign(array(
 	            'msg' => $msg,
-	            'url' => $url,
+	            'url' => $revise_url,
 	            'time' => $time
 	        ));
 	        $tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . $tpl;
@@ -274,7 +297,7 @@ abstract class ecjia_front extends ecjia_base implements ecjia_template_fileload
 	    } elseif (file_exists($front_tpl)) {
 	        $this->assign(array(
 	            'msg' => $msg,
-	            'url' => $url,
+	            'url' => $revise_url,
 	            'time' => $time
 	        ));
 	        $this->display($front_tpl);

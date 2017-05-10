@@ -111,7 +111,7 @@ class ecjia_view {
     public function display($resource_name, $cache_id = null, $show = true, $options = array())
     {
         if (strpos($resource_name, 'string:') !== 0) {
-            $this->fileloader->get_template_file($resource_name);
+            $resource_name = $this->fileloader->get_template_file($resource_name);
         }
         
         $content_type = isset($options['content_type']) ? $options['content_type'] : 'text/html';
@@ -180,7 +180,7 @@ class ecjia_view {
     public function is_cached($resource_name, $cache_id = null, $options = array())
     {
         if (strpos($resource_name, 'string:') !== 0) {
-            $this->fileloader->get_template_file($resource_name);
+            $resource_name = $this->fileloader->get_template_file($resource_name);
         }
     
         $compile_id = isset($options['compile_id']) ? $options['compile_id'] : null;
@@ -196,7 +196,7 @@ class ecjia_view {
     public function clear_cache($resource_name, $cache_id = null, $options = array())
     {
         if (strpos($resource_name, 'string:') !== 0) {
-            $this->fileloader->get_template_file($resource_name);
+            $resource_name = $this->fileloader->get_template_file($resource_name);
         }
     
         $cache_time = isset($options['cache_time']) ? $options['cache_time'] : null;

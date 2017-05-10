@@ -299,7 +299,7 @@ class ecjia_utility {
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>ROYALCMS - 操作提示</title>
+	<title>ECJIA - 操作提示</title>
 	<style type="text/css">
 		* {
 			margin: 0px;

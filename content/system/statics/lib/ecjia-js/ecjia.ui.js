@@ -262,9 +262,13 @@
 				type: option.type,
 				dataType: "json",
 				success: function(data){
-					data.content ? option.obj.removeClass('fontello-icon-cancel').addClass('fontello-icon-ok') : option.obj.removeClass('fontello-icon-ok').addClass('fontello-icon-cancel');
-//					data.pjaxurl ? ecjia.admin.showmessage(data) : ecjia.admin.showmessage('状态修改成功！');
-					data.pjaxurl ? ecjia.admin.showmessage(data) : ecjia.admin.showmessage(admin_lang.status_success);
+					if(data.state == 'error'){
+						ecjia.admin.showmessage(data);
+					}else{
+						data.content ? option.obj.removeClass('fontello-icon-cancel').addClass('fontello-icon-ok') : option.obj.removeClass('fontello-icon-ok').addClass('fontello-icon-cancel');
+//						data.pjaxurl ? ecjia.admin.showmessage(data) : ecjia.admin.showmessage('状态修改成功！');
+						data.pjaxurl ? ecjia.admin.showmessage(data) : ecjia.admin.showmessage(admin_lang.status_success);
+					}
 				}
 			});
 		}

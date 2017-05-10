@@ -135,22 +135,14 @@ class admin_template extends ecjia_admin {
 		$tpl_fg   = trim($_GET['tpl_fg']) ?: ''; 
 		
 		if ($tpl_name != Ecjia_ThemeManager::getTemplateName()) {
-		    $step_template = ecjia_config::instance()->write_config(Ecjia_ThemeManager::getTemplateCode(), $tpl_name);
-		} else {
-		    $step_template = true;
+		    ecjia_config::write(Ecjia_ThemeManager::getTemplateCode(), $tpl_name);
 		}
 		
         if ($tpl_fg != Ecjia_ThemeManager::getStyleName()) {
-            $step_stylename = ecjia_config::instance()->write_config(Ecjia_ThemeManager::getStyleCode(), $tpl_fg);
-        } else {
-            $step_stylename = true;
+            ecjia_config::write(Ecjia_ThemeManager::getStyleCode(), $tpl_fg);
         }
 
-		if ($step_template && $step_stylename) {
-			return $this->showmessage(__('启用模板成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('@admin_template/init')));
-		} else {
-			return $this->showmessage(__('启用模板时出现异常。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
+		return $this->showmessage(__('启用模板成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('@admin_template/init')));
 	}
 
 }

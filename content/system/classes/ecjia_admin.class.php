@@ -315,13 +315,13 @@ abstract class ecjia_admin extends ecjia_base implements ecjia_template_fileload
 	 */
 	protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
 	{
-	    $url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
+	    $revise_url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
 	    $system_tpl = SITE_SYSTEM_PATH . 'templates' . DIRECTORY_SEPARATOR . RC_Config::get('system.tpl_message');
 	
 	    if ($tpl) {
 	        $this->assign(array(
 	            'msg' => $msg,
-	            'url' => $url,
+	            'url' => $revise_url,
 	            'time' => $time
 	        ));
 	        $tpl = SITE_SYSTEM_PATH . 'templates' . DIRECTORY_SEPARATOR . $tpl;
@@ -329,7 +329,7 @@ abstract class ecjia_admin extends ecjia_base implements ecjia_template_fileload
 	    } elseif (file_exists($system_tpl)) {
 	        $this->assign(array(
 	            'msg' => $msg,
-	            'url' => $url,
+	            'url' => $revise_url,
 	            'time' => $time
 	        ));
 	        $this->display($system_tpl);

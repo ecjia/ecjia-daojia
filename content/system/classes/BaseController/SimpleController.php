@@ -232,13 +232,13 @@ class SimpleController extends EcjiaController implements ecjia_template_fileloa
          */
         protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
         {
-            $url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
+            $revise_url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
             $front_tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . RC_Config::get('system.tpl_message');
     
             if ($tpl) {
                 $this->assign(array(
                     'msg' => $msg,
-                    'url' => $url,
+                    'url' => $revise_url,
                     'time' => $time
                 ));
                 $tpl = SITE_THEME_PATH . RC_Config::get('system.tpl_style') . DIRECTORY_SEPARATOR . $tpl;
@@ -246,7 +246,7 @@ class SimpleController extends EcjiaController implements ecjia_template_fileloa
             } elseif (file_exists($front_tpl)) {
                 $this->assign(array(
                     'msg' => $msg,
-                    'url' => $url,
+                    'url' => $revise_url,
                     'time' => $time
                 ));
                 $this->display($front_tpl);

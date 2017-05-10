@@ -49,6 +49,7 @@ namespace Ecjia\System\Version;
 use RC_Config;
 use ecjia;
 use Ecjia_VersionManager;
+use ecjia_config;
 
 class VersionUtility
 {
@@ -90,14 +91,7 @@ class VersionUtility
      */
     public static function getCurrentVersion()
     {
-        if (ecjia::config('ecjia_version', ecjia::CONFIG_EXISTS))
-        {
-            return ecjia::config('ecjia_version');
-        }
-        else
-        {
-            return '1.3.0';
-        }
+        return ecjia_config::get('ecjia_version', '1.3.0');
     }
     
     /**
