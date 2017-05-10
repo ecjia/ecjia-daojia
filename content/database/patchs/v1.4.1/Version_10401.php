@@ -63,10 +63,13 @@ class Version_10401 extends Version
             $this->updateMigrationsData();
 
             // 更新shop_config数据填充
-            $this->update_config();
+            $this->updateConfig();
 
             // 修复插件配置的group_id
-            $this->fix_addon_group_id();
+            $this->fixAddonGroupId();
+            
+            // 修改shop_config表中的id类型
+            $this->alertTableByShopConfigIdType();
 
             // 更新shop_config数据表主键ID顺序
             $seeder = new Seeder('FixShopConfigTableSeeder');
@@ -90,7 +93,10 @@ class Version_10401 extends Version
         RC_DB::table('migrations')->where('migration', '2017_03_22_162623_insert_config_structure_to_shop_config_table_2')->delete();
     }
 
-    protected function update_config()
+    /**
+     * 清空addon_active_applications中的值
+     */
+    protected function updateConfig()
     {
         $data = [
             ['group' => 'addon', 'code' => 'addon_active_applications', 'value' => '', 'options' => []],
@@ -104,7 +110,7 @@ class Version_10401 extends Version
     /**
      * 修复插件配置的group_id
      */
-    protected function fix_addon_group_id()
+    protected function fixAddonGroupId()
     {
         $codes = [
         	'addon_active_applications',
@@ -128,6 +134,17 @@ class Version_10401 extends Version
 
         collect($codes)->map(function ($item) {
             ecjia_config::change('addon', $item);
+        });
+    }
+    
+    /**
+     * 修改shop_config表中的id类型
+     */
+    protected function alertTableByShopConfigIdType()
+    {
+        RC_Schema::table('shop_config', function($table)
+        {
+            $table->increments('id')->change();
         });
     }
 
