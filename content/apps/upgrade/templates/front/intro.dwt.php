@@ -49,7 +49,7 @@
 						    <input type="hidden" name="correct_img" value="{$correct_img}" />
 		                    <input type="hidden" name="error_img" value="{$error_img}" />
 		                    <input type="hidden" name="done" value="{RC_Uri::url('upgrade/index/finish')}" />
-							<input type="button" class="btn primary configuration_system_btn" value="下一步：开始升级&raquo;" onclick="return ecjia.front.upgrade.start();" />
+							<input type="button" class="btn primary configuration_system_btn" {if $disable} disabled="disabled" {/if}value="下一步：开始升级&raquo;" onclick="return ecjia.front.upgrade.start();" />
 						</form>
 						
 						<div class="ecjia-install-body">
@@ -77,7 +77,7 @@
 		
 		{include file="./library/footer.lbi.php"}
 		<script type="text/javascript">
-		   var ver_list = {$version_list};
+		   var ver_list = {json_encode($version_list)};
 		</script>
 		
 		<script src="{$system_statics_url}/js/jquery.min.js" type="text/javascript"></script>

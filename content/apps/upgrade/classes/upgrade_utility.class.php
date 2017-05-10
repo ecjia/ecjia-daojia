@@ -63,6 +63,25 @@ class upgrade_utility
         }
     }
     
+    
+    /**
+     * 写入升级锁定文件
+     */
+    public static function saveUpgradeLock()
+    {
+        $path = storage_path() . '/data/upgrade.lock';
+        return RC_File::put($path, 'ECJIA UPGRADED');
+    }
+    
+    /**
+     * 判断升级锁文件是否存在
+     */
+    public static function checkUpgradeLock()
+    {
+        $path = storage_path() . '/data/upgrade.lock';
+        return RC_File::exists($path);
+    }
+    
 }
 
 // end

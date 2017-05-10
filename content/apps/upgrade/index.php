@@ -71,21 +71,31 @@ class index extends SimpleController {
     
     public function init()
     {
+        if (upgrade_utility::checkUpgradeLock()) {
+            return $this->redirect(RC_Uri::url('upgrade/index/upgraded'));
+        }
+        
         // 获取当前版本
         $version_current = Ecjia\System\Version\VersionUtility::getCurrentVersion();
         // 获取最新版本
         $version_last = Ecjia\System\Version\VersionUtility::getLatestVersion();
         
         if ($version_current == $version_last) {
-            return $this->redirect(RC_Uri::url('upgrade/index/finish'));
+            return $this->redirect(RC_Uri::url('upgrade/index/upgraded'));
         }
-        
+
         // 获取两个版本之前的可用升级版本
         $version_list = Ecjia\System\Version\VersionUtility::getUpgradeVersionList($version_current, $version_last);
-        $version_list = $version_list->keys();
+        $version_list = $version_list->keys()->toArray();
 
-        $v = Ecjia_VersionManager::version('v'.$version_last);
-        $readme = $v->getReadme();
+        if (in_array('v'.$version_last, $version_list)) {
+            $v = Ecjia_VersionManager::version('v'.$version_last);
+            $readme = $v->getReadme();
+        } else {
+            $readme = '没有找到可用的升级程序。';
+            $this->assign('disable', 1);
+        }
+
         $this->assign('readme', $readme);
         $this->assign('version_list', $version_list);
         $this->assign('version_count', count($version_list));
@@ -150,16 +160,55 @@ class index extends SimpleController {
     
     public function finish() 
     {
-        // 获取当前版本
-        $version_current = Ecjia\System\Version\VersionUtility::getCurrentVersion();
-        // 获取最新版本
-        $version_last = Ecjia\System\Version\VersionUtility::getLatestVersion();
+        if (! upgrade_utility::checkUpgradeLock()) {
+            // 获取当前版本
+            $version_current = Ecjia\System\Version\VersionUtility::getCurrentVersion();
+            // 获取最新版本
+            $version_last = Ecjia\System\Version\VersionUtility::getLatestVersion();
+            
+            if ($version_current != $version_last) {
+                return $this->redirect(RC_Uri::url('upgrade/index/init'));
+            }
+            
+            //写入升级锁定
+            upgrade_utility::saveUpgradeLock();
+            
+            $finish_message = RC_Lang::get('upgrade::upgrade.finish_success');
+            $this->assign('finish_message', $finish_message . '当前版本已是最新版本。');
+            
+            $index_url 		= RC_Uri::home_url();
+            $h5_url 		= RC_Uri::home_url().'/sites/m/';
+            $admin_url      = RC_Uri::home_url().'/sites/admincp/';
+            $merchant_url   = RC_Uri::home_url().'/sites/merchant/';
+            
+            $this->assign('index_url', $index_url);
+            $this->assign('h5_url', $h5_url);
+            $this->assign('admin_url', $admin_url);
+            $this->assign('merchant_url', $merchant_url);
+            
+            $this->assign('step', 3);
+            $this->display(
+                RC_Package::package('app::upgrade')->loadTemplate('front/finish.dwt', true)
+            );
+        }
+        else 
+        {
+            return $this->redirect(RC_Uri::url('upgrade/index/upgraded'));
+        }
         
-        if ($version_current != $version_last) {
+        
+    }
+    
+    /**
+     * 已经升级过的提示页
+     */
+    public function upgraded() {
+
+        if (! upgrade_utility::checkUpgradeLock()) {
             return $this->redirect(RC_Uri::url('upgrade/index/init'));
         }
-        $finish_message = RC_Lang::get('upgrade::upgrade.finish_success');
-        $this->assign('finish_message', $finish_message . '当前版本已是最新版本。');
+        
+        $this->assign('finish_message', '请先删除升级锁定文件 /content/storages/data/upgrade.lock，方可继续升级。');
         
         $index_url 		= RC_Uri::home_url();
         $h5_url 		= RC_Uri::home_url().'/sites/m/';

@@ -68,10 +68,13 @@ class admin_upgrade_hooks {
             return false;
         }
         
+        RC_Package::package('app::upgrade')->loadClass('upgrade_utility', false);
+        
         $old_version = ecjia::config('ecjia_version');
         $new_version = RC_Config::get('release.version');
         
-        if (ROUTE_M != 'upgrade' && version_compare($old_version, $new_version, '<')) {
+        if (! upgrade_utility::checkUpgradeLock() && ROUTE_M != 'upgrade' 
+            && version_compare($old_version, $new_version, '<')) {
             ecjia_front::$controller->redirect(RC_Uri::url('upgrade/index/init'));
         }
     }
