@@ -73,14 +73,24 @@ class Version_10400 extends Version
             // 移除废弃的template表
             RC_Schema::dropIfExists('template');
             
+            // 移除升级失败创建的表
+            $this->dropUpgradeFailedTables();
+            
             // 更新1.4中新增的迁移项
             $migrate->fire();
+            
+            // 修改shop_config表中的id类型
+            $this->alertTableByShopConfigIdType();
+            
+            // 更新shop_config数据表主键ID顺序
+            $seeder = new Seeder('FixShopConfigTableSeeder');
+            $seeder->fire();
             
             // 更新shop_config数据填充
             $seeder = new Seeder('InitShopConfigTableSeeder');
             $seeder->fire();
             
-            $this->update_config();
+            $this->updateConfig();
             
             return true;
         }
@@ -89,6 +99,29 @@ class Version_10400 extends Version
             return new ecjia_error($e->getCode(), $e->getMessage());
         }
         
+    }
+    
+    /**
+     * 修改shop_config表中的id类型
+     */
+    protected function alertTableByShopConfigIdType()
+    {
+        RC_Schema::table('shop_config', function($table)
+        {
+            $table->increments('id')->change();
+        });
+    }
+    
+    /**
+     * 移除升级失败安装的数据表，便于重装
+     */
+    protected function dropUpgradeFailedTables()
+    {
+        RC_Schema::dropIfExists('term_attachment');
+        RC_Schema::dropIfExists('comment');
+        RC_Schema::dropIfExists('comment_appeal');
+        RC_Schema::dropIfExists('comment_reply');
+        RC_Schema::dropIfExists('goods_data');
     }
     
     protected function insertMigrationsData()
@@ -219,14 +252,13 @@ class Version_10400 extends Version
         	array('migration' => '2017_03_15_171111_create_wechat_tag_table', 'batch' => '1'),
         	array('migration' => '2017_03_15_173235_create_wechat_user_table', 'batch' => '1'),
         	array('migration' => '2017_03_15_173743_create_wechat_user_tag_table', 'batch' => '1'),
-        	array('migration' => '2017_03_21_121822_insert_config_structure_to_shop_config_table', 'batch' => '1'),
         );
         
         RC_DB::table('migrations')->truncate();
         RC_DB::table('migrations')->insert($data);
     }
     
-    protected function update_config()
+    protected function updateConfig()
     {
         $data = [
             ['group' => 'basic', 'code' => 'close_comment', 'value' => null, 'options' => ['type' => 'hidden']],
@@ -237,6 +269,14 @@ class Version_10400 extends Version
             ecjia_config::change($item['group'], $item['code'], $item['value'], $item['options']);
         });
     }
+    
+    /**
+     * shop_config 表中废弃的code值记录
+     * 
+     * close_comment    关闭评论，不支持了
+     * comment_factor   评论的用户权限：游客、是否购买、购买后评论
+     */
+    public function shop_config_remarks() {}
     
     /**
      * 获取更新日志文件路径
