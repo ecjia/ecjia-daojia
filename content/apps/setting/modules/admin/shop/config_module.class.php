@@ -75,6 +75,7 @@ class config_module extends api_admin implements api_interface
         	'currency_format'   => ecjia::config('currency_format'),
             'time_format'       => ecjia::config('time_format'),
         	'site_url'			=> RC_Config::system('CUSTOM_WEB_SITE_URL'),
+            'shop_url'          => str_replace('sites/api/', 'sites/m/', RC_Uri::url('merchant/index/init', ['store_id' => $_SESSION['store_id']])),
         	'goods_url'         => ecjia_config::has('mobile_touch_url') ? ecjia::config('mobile_touch_url').'?m=goods&c=index&a=init&id=' : (ecjia_config::has('mobile_pc_url') ? ecjia::config('mobile_pc_url') : RC_Config::system('CUSTOM_WEB_SITE_URL') . '/goods.php?id='),
         );
         
