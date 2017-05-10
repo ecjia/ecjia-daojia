@@ -311,7 +311,7 @@ class install_utility
     public static function installBaseData()
     {
         try {
-            $seeder = new Seeder('DatabaseSeeder');
+            $seeder = new Seeder('InitDatabaseSeeder');
             
             $seeder->fire();
             
@@ -373,6 +373,7 @@ class install_utility
     {
         try {
             $version = RC_Config::get('release.version', '1.3.0');
+            RC_DB::table('shop_config')->where('code', 'mobile_app_version')->update(array('value' => $version));
             return RC_DB::table('shop_config')->where('code', 'ecjia_version')->update(array('value' => $version));
         } catch (QueryException $e) {
             return new ecjia_error($e->getCode(), $e->getMessage());
@@ -448,6 +449,15 @@ class install_utility
     {        
         $path = storage_path() . '/data/install.lock';
         return RC_File::put($path, 'ECJIA INSTALLED');
+    }
+    
+    /**
+     * 判断安装锁文件是否存在
+     */
+    public static function checkInstallLock()
+    {
+        $path = storage_path() . '/data/install.lock';
+        return RC_File::exists($path);
     }
     
     /**
