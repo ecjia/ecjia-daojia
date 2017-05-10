@@ -72,7 +72,7 @@ class CreateCartTable extends Migration {
             $table->smallInteger('goods_number')->unsigned()->default('1');
             $table->text('goods_attr')->nullable();
             $table->tinyInteger('is_real')->unsigned()->default('0');
-            $table->string('extension_code', 30)->nullable();
+            $table->string('extension_code', 30)->nullable()->default('');
             $table->mediumInteger('parent_id')->unsigned()->default('0');
             $table->tinyInteger('rec_type')->unsigned()->default('0');
             $table->tinyInteger('is_gift')->unsigned()->default('0');
