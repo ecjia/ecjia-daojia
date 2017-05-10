@@ -45,7 +45,6 @@
 //  ---------------------------------------------------------------------------------
 //
 use Ecjia\System\Version\Version;
-use Royalcms\Component\Database\QueryException;
 
 class Version_10402 extends Version
 {
