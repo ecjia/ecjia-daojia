@@ -59,15 +59,24 @@ class category_module extends api_admin implements api_interface {
 		}
         $keywords = $this->requestData('keywords');
     	$store_id = empty($_SESSION['store_id']) ? 0 : $_SESSION['store_id'];
-    	$data = RC_Api::api('goods', 'seller_goods_category', array('type' => 'seller_goods_cat_list_api', 'store_id' => $store_id, 'keywords' => $keywords));
+//     	$data = RC_Api::api('goods', 'get_goods_category');
+    	if (empty($keywords)) {
+    	    RC_Loader::load_app_class('goods_category', 'goods', false);
+    	    $data = goods_category::cat_list(0, 0, false);
+    	} else {
+    	    $db_category = RC_Loader::load_app_model('category_model', 'goods');
+    	    $data = $db_category->field(array('cat_id', 'cat_name', 'parent_id'))->where(array('cat_name' => array('like' => "%".$keywords."%")))->select();
+    	}
+    	
+    	
     	$outdata = array();
     	if (!empty($data)) {
     		foreach ($data as $key=>$value) {
     			$outdata[]=array(
-    				'cat_id' 	=>$value['cat_id'],
-    				'cat_name'	=>$value['cat_name'],
-    				'parent_id'	=>$value['parent_id'],
-    				'level'		=>$value['level']
+    				'cat_id' 	=> $value['cat_id'],
+    				'cat_name'	=> $value['cat_name'],
+    				'parent_id'	=> $value['parent_id'],
+    				'level'		=> empty($value['level']) ? 0 : $value['level']		
     			);
     		}
     	}

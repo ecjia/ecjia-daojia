@@ -139,7 +139,6 @@ class admin extends ecjia_admin {
 	* 商品列表
 	*/
 	public function init() {
-		
 	    $this->admin_priv('goods_manage');
 	    
 		$cat_id = empty($_GET['cat_id']) ? 0 : intval($_GET['cat_id']);
@@ -649,6 +648,13 @@ class admin extends ecjia_admin {
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
+				
+				//删除生成的商品二维码
+				$goods_qrcode = 'data/qrcodes/goods/goods_'.$goods_id.'.png';
+				if (file_exists(RC_Upload::upload_path($goods_qrcode))) {
+					$disk = RC_Filesystem::disk();
+					$disk->delete(RC_Upload::upload_path().$goods_qrcode);
+				}
 			}
 		}
 
@@ -659,6 +665,12 @@ class admin extends ecjia_admin {
 				$result = $thumb_image->update_thumb();
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				//删除生成的商品二维码
+				$goods_qrcode = 'data/qrcodes/goods/goods_'.$goods_id.'.png';
+				if (file_exists(RC_Upload::upload_path($goods_qrcode))) {
+					$disk = RC_Filesystem::disk();
+					$disk->delete(RC_Upload::upload_path().$goods_qrcode);
 				}
 			}
 		}
@@ -1219,9 +1231,9 @@ class admin extends ecjia_admin {
         
         $db_goods = RC_DB::table('goods')->where('goods_id', $goods_id);
 		// 过滤商品id
-        if (isset($_SESSION['ru_id'])) {
-        	$where['user_id'] = $_SESSION['ru_id'];
-        	$db_goods->where('user_id', $_SESSION['ru_id']);
+        if (isset($_SESSION['store_id'])) {
+        	$where['store_id'] = $_SESSION['store_id'];
+        	$db_goods->where('store_id', $_SESSION['store_id']);
         }
 		//获取商品的信息
 		$goods = $this->db_goods->field('goods_sn, goods_name, goods_type, shop_price')->find(array('goods_id' => $goods_id));

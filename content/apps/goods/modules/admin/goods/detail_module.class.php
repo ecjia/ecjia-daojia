@@ -67,7 +67,7 @@ class detail_module extends api_admin implements api_interface {
 		}else {
 			$where['goods_id'] = $id;
 		}
-		$where['is_delete'] = 0;
+// 		$where['is_delete'] = 0;
 		$db_goods = RC_Model::model('goods/goods_model');
 
 		if ($_SESSION['store_id'] > 0) {
@@ -77,17 +77,22 @@ class detail_module extends api_admin implements api_interface {
 		if (empty($row)) {
 			return new ecjia_error('not_exists_info', '不存在的信息');
 		} else {
+		    RC_Loader::load_app_func('admin_category', 'goods');
 			$brand_db		= RC_Model::model('goods/brand_model');
 			$category_db	= RC_Model::model('goods/category_model');
 
 			$brand_name = $row['brand_id'] > 0 ? $brand_db->where(array('brand_id' => $row['brand_id']))->get_field('brand_name') : '';
 			$category_name = $category_db->where(array('cat_id' => $row['cat_id']))->get_field('cat_name');
-
-			if (ecjia_config::has('mobile_touch_url')) {
-				$goods_desc_url = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=init&id='.$id.'&hidenav=1&hidetab=1';
-			} else {
-				$goods_desc_url = null;
+			$merchant_category = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $row['merchant_cat_id']))->get_field('cat_name');
+			$goods_desc_url = null;
+			if ($row['goods_desc']) {
+			    if (ecjia_config::has('mobile_touch_url')) {
+			        $goods_desc_url = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=init&id='.$id.'&hidenav=1&hidetab=1';
+			    } else {
+			        $goods_desc_url = null;
+			    }
 			}
+			
 			if ($row['promote_price'] > 0) {
 				$promote_price = bargain_price($row['promote_price'], $row['promote_start_date'], $row['promote_end_date']);
 			} else {
@@ -98,7 +103,12 @@ class detail_module extends api_admin implements api_interface {
 				'name'					=> $row['goods_name'],
 				'goods_sn'				=> $row['goods_sn'],
 				'brand_name' 			=> $brand_name,
+			    'category_id'	        => $row['cat_id'],
 				'category_name' 		=> $category_name,
+			    'category'              => get_parent_cats($row['cat_id']),
+			    'merchant_category_id'	=> empty($row['merchant_cat_id']) ? 0 : $row['merchant_cat_id'],
+			    'merchant_category_name'=> empty($merchant_category) ? '' : $merchant_category,
+			    'merchant_category'     => get_parent_cats($row['merchant_cat_id'], 1, $_SESSION['store_id']),
 				'market_price'			=> price_format($row['market_price'] , false),
 				'shop_price'			=> price_format($row['shop_price'] , false),
 				'promote_price'			=> $promote_price > 0 ? price_format($promote_price , false) : $promote_price,
@@ -106,7 +116,8 @@ class detail_module extends api_admin implements api_interface {
 				'promote_end_date'		=> RC_Time::local_date('Y-m-d H:i:s', $row['promote_end_date']),
 				'clicks'				=> intval($row['click_count']),
 				'stock'					=> (ecjia::config('use_storage') == 1) ? $row['goods_number'] : '',
-				'goods_weight'			=> $row['goods_weight']  = (intval($row['goods_weight']) > 0) ? $row['goods_weight'] . __('千克') : ($row['goods_weight'] * 1000) . __('克'),
+				'sales_volume'          => $row['sales_volume'],
+			    'goods_weight'			=> $row['goods_weight']  = (intval($row['goods_weight']) > 0) ? $row['goods_weight'] . __('千克') : ($row['goods_weight'] * 1000) . __('克'),
 				'is_promote'			=> $row['is_promote'] == 1 ? true : false,
 				'is_best'				=> $row['is_best'] == 1 ? true : false,
 				'is_new'				=> $row['is_new'] == 1 ? true : false,
@@ -159,9 +170,45 @@ class detail_module extends api_admin implements api_interface {
 		    		);
 		    	}
 		    }
+		    $pictures = get_goods_gallery($id);
+		    $pictures_array = array();
+		    if (!empty($pictures)) {
+		        foreach ($pictures as $val) {
+		            $pictures_array[] = array(
+		                'img_id'	=> $val['img_id'],
+		                'thumb'		=> $val['thumb'],
+		                'url'		=> $val['url'],
+		                'small'		=> $val['small'],
+		            );
+		        }
+		    }
+		    $goods_detail['pictures'] = $pictures_array;
 			return $goods_detail;
 		}
 	}
+}
+
+function get_goods_gallery($goods_id) {
+    $db_goods_gallery = RC_Loader::load_app_model('goods_gallery_model', 'goods');
+    $row = $db_goods_gallery->field('img_id, img_url, thumb_url, img_desc, img_original')->where(array('goods_id' => $goods_id))->select();
+    $img_list_sort = $img_list_id = array();
+    $img = array();
+    /* 格式化相册图片路径 */
+    if (!empty($row)) {
+        foreach ($row as $key => $gallery_img) {
+            $desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
+            !empty($desc_index) && $row[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
+            $row[$key]['small']	= substr($gallery_img['img_original'], 0, 4) == 'http' ? $gallery_img['img_original'] : RC_Upload::upload_url($gallery_img['img_original']);
+            $row[$key]['url']		= substr($gallery_img['img_url'], 0, 4) == 'http' ? $gallery_img['img_url'] : RC_Upload::upload_url($gallery_img['img_url']);
+            $row[$key]['thumb']		= substr($gallery_img['thumb_url'], 0, 4) == 'http' ? $gallery_img['thumb_url'] : RC_Upload::upload_url($gallery_img['thumb_url']);
+
+            $img_list_sort[$key] = $row[$key]['desc'];
+            $img_list_id[$key] = $gallery_img['img_id'];
+        }
+        //先使用sort排序，再使用id排序。
+        array_multisort($img_list_sort, $img_list_id, $row);
+    }
+    return $row;
 }
 
 /**

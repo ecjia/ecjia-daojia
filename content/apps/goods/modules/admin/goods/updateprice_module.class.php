@@ -61,7 +61,7 @@ class updateprice_module extends api_admin implements api_interface {
 		//请求参数：
        	$goods_id				= $this->requestData('goods_id', 0);
     	if (empty($goods_id)) {
-    		return new ecjia_error('has_exist_error', '用户名或email已使用');
+    		return new ecjia_error('invalid_parameter', '参数错误');
     	}
     	//市场价格
     	$shop_price				= $this->requestData('shop_price', 0);
@@ -73,18 +73,18 @@ class updateprice_module extends api_admin implements api_interface {
     	$integral				= $this->requestData('integral', 0);
 
     	//促销信息
-    	$promote_price			= $this->requestData('promote_price');
-    	$is_promote 			= empty($promote_price) ? 0 : 1;
-    	$promote_price      	= !empty($promote_price) ?  $promote_price : 0;
-    	$promote_start_date		= $this->requestData('promote_start_date');
+//     	$promote_price			= $this->requestData('promote_price');
+//     	$is_promote 			= empty($promote_price) ? 0 : 1;
+//     	$promote_price      	= !empty($promote_price) ?  $promote_price : 0;
+//     	$promote_start_date		= $this->requestData('promote_start_date');
 
-    	$promote_end_date  		= $this->requestData('promote_end_date');
-    	if (($promote_start_date == $promote_end_date) && !empty($promote_start_date) && !empty($promote_end_date)) {
-    		$promote_start_date .= ' 00:00:00';
-    		$promote_end_date 	.= ' 23:59:59';
-    	}
-    	$promote_start_date     = ($is_promote && !empty($promote_start_date)) ? RC_Time::local_strtotime($promote_start_date) : '';
-    	$promote_end_date      	= ($is_promote && !empty($promote_end_date)) ? RC_Time::local_strtotime($promote_end_date) : '';
+//     	$promote_end_date  		= $this->requestData('promote_end_date');
+//     	if (($promote_start_date == $promote_end_date) && !empty($promote_start_date) && !empty($promote_end_date)) {
+//     		$promote_start_date .= ' 00:00:00';
+//     		$promote_end_date 	.= ' 23:59:59';
+//     	}
+//     	$promote_start_date     = ($is_promote && !empty($promote_start_date)) ? RC_Time::local_strtotime($promote_start_date) : '';
+//     	$promote_end_date      	= ($is_promote && !empty($promote_end_date)) ? RC_Time::local_strtotime($promote_end_date) : '';
 
 	 	//优惠价格、等级价格
     	$volume_number_list 	= $this->requestData('volume_number');
@@ -119,13 +119,13 @@ class updateprice_module extends api_admin implements api_interface {
     	$data = array(
     		'shop_price'			=> $shop_price,
     		'market_price'			=> $market_price,
-    		'promote_price'			=> $promote_price,
-    		'promote_start_date' 	=> $promote_start_date,
-    		'promote_end_date'		=> $promote_end_date,
+//     		'promote_price'			=> $promote_price,
+//     		'promote_start_date' 	=> $promote_start_date,
+//     		'promote_end_date'		=> $promote_end_date,
     		'give_integral'			=> $give_integral,
     		'rank_integral'			=> $rank_integral,
     		'integral'				=> $integral,
-    		'is_promote'			=> $is_promote,
+//     		'is_promote'			=> $is_promote,
     		'last_update'			=> RC_Time::gmtime()
     	);
     	$count = $db_goods->where(array('goods_id' => $goods_id))->update($data);

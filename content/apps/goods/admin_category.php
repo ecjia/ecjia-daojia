@@ -694,16 +694,23 @@ class admin_category extends ecjia_admin {
 	}
 	
 	public function search_ad() {
-	    $result = RC_DB::table('ad_position')->where('position_name', 'like', '%'.$_POST['keywords'].'%')->get();
+
+	    $filter = [
+	    	'keywords' => $_POST['keywords'],
+	    ];
+	    $result = RC_Api::api('adsense', 'adsense_position_list', $filter);
+	    
 	    $list = array();
 	    if (!empty($result)) {
 	        foreach ($result as $val) {
 	            $list[] = array(
 	                'id' 	=> $val['position_id'],
+	                'code' 	=> $val['position_code'],
 	                'name' 	=> $val['position_name']
 	            );
 	        }
 	    }
+	    
 	    return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $list));
 	}
 	

@@ -108,12 +108,13 @@ class list_module extends api_admin implements api_interface {
 			$where['goods_number'] = 0;
 		}
 		if (!empty($category_id)) {
-			RC_Loader::load_app_func('admin_category', 'goods');
-			RC_Loader::load_app_func('admin_goods', 'goods');
-			RC_Loader::load_app_func('global', 'goods');
-			$children = get_children($category_id);
-            $merchant_cat_id = 'merchant_cat_id ' . db_create_in (array_unique(array_merge(array($category_id), array_keys(cat_list($category_id, 0, false )))));
-			$where[] = "(".$children ." OR ".get_extension_goods($children) ." OR ". $merchant_cat_id .")";
+// 			RC_Loader::load_app_func('admin_category', 'goods');
+// 			RC_Loader::load_app_func('admin_goods', 'goods');
+// 			RC_Loader::load_app_func('global', 'goods');
+// 			$children = get_children($category_id);
+//             $merchant_cat_id = 'merchant_cat_id ' . db_create_in (array_unique(array_merge(array($category_id), array_keys(cat_list($category_id, 0, false )))));
+// 			$where[] = "(".$children ." OR ".get_extension_goods($children) ." OR ". $merchant_cat_id .")";
+		    $where['merchant_cat_id'] = $category_id;
 		}
 		if ( !empty($keywords)) {
 			$where[] = "( goods_name like '%".$keywords."%' or goods_sn like '%".$keywords."%' )";
@@ -126,7 +127,9 @@ class list_module extends api_admin implements api_interface {
 		//实例化分页
 		$page_row = new ecjia_page($record_count, $size, 6, '', $page);
 
-		$field = "goods_id, goods_sn, goods_name, goods_number, shop_price, market_price, promote_price, promote_start_date, promote_end_date, click_count, goods_thumb, is_best, is_new, is_hot, is_shipping, goods_img, original_img, last_update";
+		$today = RC_Time::gmtime();
+		$field = "goods_id, goods_sn, goods_name, goods_number, shop_price, sales_volume, market_price, promote_price, promote_start_date, promote_end_date, click_count, goods_thumb, is_best, is_new, is_hot, is_shipping, goods_img, original_img, last_update, 
+		    (promote_price > 0 AND promote_start_date <= ' . $today . ' AND promote_end_date >= ' . $today . ')|is_promote";
 		$data = $db->join(null)->field($field)->where($where)->order($sort_by)->limit($page_row->limit())->select();
 
 		$goods_list = array();
@@ -145,8 +148,13 @@ class list_module extends api_admin implements api_interface {
 					'goods_sn'			=> $val['goods_sn'],
 					'market_price'		=> price_format($val['market_price'] , false),
 					'shop_price'		=> price_format($val['shop_price'] , false),
-					'promote_price'		=> $promote_price > 0 ? price_format($promote_price , false) : $promote_price,
-					'clicks'			=> intval($val['click_count']),
+				    'is_promote'	=> $val['is_promote'],
+				    'promote_price'	=> price_format($val['promote_price'] , false),
+				    'promote_start_date'	=> intval($val['promote_start_date']),
+				    'promote_end_date'		=> intval($val['promote_end_date']),
+				    'formatted_promote_start_date'	=> !empty($val['promote_start_date']) ? RC_Time::local_date('Y-m-d H:i:s', $val['promote_start_date']) : '',
+				    'formatted_promote_end_date'	=> !empty($val['promote_end_date']) ? RC_Time::local_date('Y-m-d H:i:s', $val['promote_end_date']) : '',
+				    'clicks'		=> intval($val['click_count']),
 					'stock'				=> (ecjia::config('use_storage') == 1) ? $val['goods_number'] : '',
 					'goods_weight'		=> $val['goods_weight']  = (intval($val['goods_weight']) > 0) ? $val['goods_weight'] . __('千克') : ($val['goods_weight'] * 1000) . __('克'),
 					'is_best'			=> $val['is_best'] == 1 ? true : false,
@@ -154,7 +162,8 @@ class list_module extends api_admin implements api_interface {
 					'is_hot'			=> $val['is_hot'] == 1 ? true : false,
 					'is_shipping'		=> $val['is_shipping'] == 1 ? true : false,
 					'last_updatetime' 	=> RC_Time::local_date(ecjia::config('time_format'), $val['last_update']),
-					'img' => array(
+				    'sales_volume'	=> $val['sales_volume'],
+				    'img' => array(
 						'thumb'	=> !empty($val['goods_img']) ? RC_Upload::upload_url($val['goods_img']) : '',
 						'url'	=> !empty($val['original_img']) ? RC_Upload::upload_url($val['original_img']) : '',
 						'small'	=> !empty($val['goods_thumb']) ? RC_Upload::upload_url($val['goods_thumb']) : '',

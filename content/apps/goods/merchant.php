@@ -571,7 +571,7 @@ class merchant extends ecjia_merchant {
 			'goods_type'            => $goods_type,
 			'rank_integral'         => $rank_integral,
 			'suppliers_id'          => $suppliers_id,
-		    'review_status'         => get_review_status(),
+		    'review_status'         => get_merchant_review_status(),
 			'store_id'				=> $_SESSION['store_id'],
 		);
 		$goods_id = $this->db_goods->insert($data);
@@ -988,6 +988,12 @@ class merchant extends ecjia_merchant {
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
+				//删除生成的商品二维码
+				$goods_qrcode = 'data/qrcodes/goods/goods_'.$goods_id.'.png';
+				if (file_exists(RC_Upload::upload_path($goods_qrcode))) {
+					$disk = RC_Filesystem::disk();
+					$disk->delete(RC_Upload::upload_path().$goods_qrcode);
+				}
 			}
 		}
 
@@ -998,6 +1004,12 @@ class merchant extends ecjia_merchant {
 				$result = $thumb_image->update_thumb();
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				//删除生成的商品二维码
+				$goods_qrcode = 'data/qrcodes/goods/goods_'.$goods_id.'.png';
+				if (file_exists(RC_Upload::upload_path($goods_qrcode))) {
+					$disk = RC_Filesystem::disk();
+					$disk->delete(RC_Upload::upload_path().$goods_qrcode);
 				}
 			}
 		}
@@ -1042,7 +1054,7 @@ class merchant extends ecjia_merchant {
 		} else {
 			$this->admin_priv('goods_manage', ecjia::MSGTYPE_JSON);
 		}
-		if (empty($_SESSION['ru_id'])) {
+		if (empty($_SESSION['store_id'])) {
 			$arr['review_status'] = $_POST['value'];
 			$id = intval($_POST['pk']);
 			RC_DB::table('goods')->where('goods_id', $id)->update($arr);

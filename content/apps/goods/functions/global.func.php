@@ -1908,4 +1908,45 @@ function get_package_goods($package_id) {
 	return $row;
 }
 
+/**
+ * 获取审核状态
+ */
+function get_review_status($store_id) {
+    $review_status = 1;
+    if (ecjia::config('review_goods') == 0) {
+        $review_status = 5;
+    } else {
+        if (isset($store_id) && $store_id > 0) {
+            $shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->pluck('value');
+            if ($shop_review_goods == 0) {
+                $review_status = 5;
+            } else {
+                $review_status = 0;
+            }
+        } else {
+            $review_status = 5;
+        }
+    }
+    return $review_status;
+}
+
+/**
+ * 获得指定商品的相册
+ *
+ * @access public
+ * @param integer $goods_id
+ * @return array
+ */
+function get_goods_gallery_gol($goods_id) {
+    $db = RC_Model::model('goods/goods_gallery_model');
+    $row = $db->field('img_id, img_url, thumb_url, img_desc')->where(array('goods_id' => $goods_id))/* ->limit(ecjia::config ('goods_gallery_number')) */->select();
+    /* 格式化相册图片路径 */
+    RC_Loader::load_app_func('global', 'goods');
+    foreach ( $row as $key => $gallery_img ) {
+        $row [$key] ['img_url'] = get_image_path ( $goods_id, $gallery_img ['img_url'], false, 'gallery' );
+        $row [$key] ['thumb_url'] = get_image_path ( $goods_id, $gallery_img ['thumb_url'], true, 'gallery' );
+    }
+    return $row;
+}
+
 // end

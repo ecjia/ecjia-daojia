@@ -96,7 +96,7 @@ class goods_info {
 				$spec = addslashes ( $spec );
 			}
 			$db = RC_DB::table('goods_attr');
-			$rs = $db->whereIn('goods_attr_id', $spec)->select(RC_DB::raw('sum(attr_price) as attr_price'))->get();
+			$rs = $db->whereIn('goods_attr_id', $spec)->select(RC_DB::raw('sum(attr_price) as attr_price'))->first();
 			$price = $rs['attr_price'];
 		} else {
 			$price = 0;

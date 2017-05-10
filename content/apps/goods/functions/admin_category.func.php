@@ -401,4 +401,72 @@ function insert_cat_recommend($recommend_type, $cat_id) {
 	}
 }
 
+function get_parent_cats($cat_id, $is_merchant_category = 0, $store_id = 0)
+{
+    if ($cat_id == 0) {
+        return array(
+            'cat_id'   => 0,
+            'cat_name' => '',
+            'parent_id' => 0,
+            'level' => 0
+        );
+    }
+
+    $where = array();
+    if ($is_merchant_category) {
+        $db_category = RC_Loader::load_app_model ( 'merchants_category_model', 'goods');
+        $where = array('store_id', $store_id);
+    } else {
+        $db_category = RC_Loader::load_app_model ( 'category_model', 'goods');
+    }
+
+    $arr = $db_category ->where($where)-> field('cat_id, cat_name, parent_id') -> select();
+    if (empty($arr)) {
+        return array(
+            'cat_id'   => 0,
+            'cat_name' => '',
+            'parent_id' => 0,
+            'level' => 0
+        );
+    }
+
+    $index = 0;
+    $cats  = array();
+    while (1) {
+        foreach ($arr as $row) {
+            if ($cat_id == $row['cat_id']) {
+                $cat_id = $row['parent_id'];
+
+                $cats[$index]['cat_id']   = $row['cat_id'];
+                $cats[$index]['cat_name'] = $row['cat_name'];
+                $cats[$index]['parent_id'] = $row['parent_id'];
+                $cats[$index]['level'] = 0;
+
+                $index++;
+                break;
+            }
+        }
+        if ($index == 0 || $cat_id == 0) {
+            break;
+        }
+    }
+
+    return change_cats_level($cats);
+}
+
+function change_cats_level($cats) {
+    if (empty($cats)) return $cats;
+    $levels = count($cats);
+    $new_cats = array();
+
+    krsort($cats);
+    foreach ($cats as $key => $val) {
+        $val['level'] = $levels - $key - 1;
+        $new_cats[] = $val;
+    }
+
+    return $new_cats;
+
+}
+
 // end

@@ -55,6 +55,7 @@ class goods_seller_goods_category_api extends Component_Event_Api {
      * @param  $options['keyword'] 关键字
      *         $options['cat_id'] 分类id
      *         $options['brand_id'] 品牌id
+     *         $options['type']
      * @return array
      */
 	public function call(&$options) {

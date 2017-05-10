@@ -45,68 +45,77 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * 获取所有商品分类
- * @author royalwang
+ * 添加商品分类
+ * @author chenzhejun@ecmoban.com
+ *
  */
-class category_module extends api_front implements api_interface {
-	public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-	    $api_old = false;
-	    if (version_compare($request->header('api-version'), '1.5', '<')) {
-	        $api_old = true;
-	    }
-// 		$cache_key = 'api_goods_category';
-// 		$categoryGoods = RC_Cache::app_cache_get($cache_key, 'goods');
-	
-// 		if (empty($categoryGoods)) {
-			$categoryGoods = array();
-			RC_Loader::load_app_class('goods_category', 'goods', false);
-			$category = goods_category::get_categories_tree();
-			$category = array_merge($category);
-			
-			if (!empty($category)) {
-				foreach($category as $key => $val) {
-					$categoryGoods[$key]['id'] = $val['id'];
-					$categoryGoods[$key]['name'] = $val['name'];
-					$ad = RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $val['id']));
-					$categoryGoods[$key]['image'] = $api_old ? $ad[0]['image'] : $val['img'];
-					$categoryGoods[$key]['ad'] = $ad;
-					if (!empty($val['cat_id'])) {
-						foreach($val['cat_id'] as $k => $v ) {
-						    $ad = RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $v['id']));
-							$categoryGoods[$key]['children'][$k] = array(
-									'id'     => $v['id'],
-									'name'   => $v['name'],
-									'image'	 => $api_old ? $ad[0]['image'] : $v['img'],
-							        'ad'     => $ad,
-							);
-								
-							if( !empty($v['cat_id']) ) {
-								foreach($v['cat_id'] as $k1 => $v1) {
-								    $ad =  RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $v1['id']));
-									$categoryGoods[$key]['children'][$k]['children'][] = array(
-											'id'     => $v1['id'],
-											'name'   => $v1['name'],
-											'image'	 => $v1['img'],
-									        'ad'     => $ad,
-									);
-								}
-							} else {
-								$categoryGoods[$key]['children'][$k]['children'] = array();
-							}
-								
-							$categoryGoods[$key]['children'] = array_merge($categoryGoods[$key]['children']);
-						}
-					} else {
-						$categoryGoods[$key]['children'] = array();
-					}
-				}
-			}
-// 			RC_Cache::app_cache_set($cache_key, $categoryGoods, 'goods', 60);
-// 		}
-		return $categoryGoods;
-	}
-}
+class add_module extends api_admin implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
-// end
+		$this->authadminSession();
+		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+			return new ecjia_error(100, 'Invalid session');
+		}
+    	$result = $this->admin_priv('cat_manage');
+        if (is_ecjia_error($result)) {
+			return $result;
+		}
+    	
+    	if (empty($_SESSION['store_id'])) {
+    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    	}
+    	$parent_id		= $this->requestData('parent_id', 0);
+    	$category_name	= $this->requestData('category_name');
+    	$is_show		= $this->requestData('is_show', 1);
+    	
+    	$cat = array(
+			'cat_name'	=> $category_name,
+			'parent_id'	=> $parent_id,
+    	    'store_id'	=> $_SESSION['store_id'],
+			'is_show'	=> $is_show,
+    	);
+    	$count = RC_Model::model('goods/merchants_category_model')->where(array('cat_name' => $category_name, 'store_id' => $_SESSION['store_id']))->count();
+    	if ($count) {
+    	    return new ecjia_error('already exists', '此分类名称已存在，请修改！');
+    	}
+    	/* 上传分类图片 */
+    	$upload = RC_Upload::uploader('image', array('save_path' => 'data/category', 'auto_sub_dirs' => true));
+    	if (isset($_FILES['category_image']) && $upload->check_upload_file($_FILES['category_image'])) {
+    		$image_info = $upload->upload($_FILES['category_image']);
+    		if (!empty($image_info)) {
+    			$cat['style'] = $upload->get_position($image_info);
+    		}
+    	}
+    	
+    	$cat_id = RC_Model::model('goods/merchants_category_model')->insert($cat);
+    	
+    	if ($_SESSION['store_id'] > 0) {
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.'【来源掌柜】', 'action' => 'add', 'object' => 'category'));
+    	} else {
+    	    ecjia_admin::admin_log($category_name.'【来源掌柜】', 'add', 'category'); // 记录日志
+    	}
+    	
+    	RC_Cache::app_cache_delete('cat_list', 'goods');
+    	
+    	$category_info = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->find();
+    	
+    	if (empty($category_info)) {
+    		return new ecjia_error('category_empty', '未找到对应分类！');
+    	}
+    	
+    	RC_Loader::load_app_func('admin_category', 'goods');
+    	$category_detail = array(
+			'category_id'	=> $category_info['cat_id'],
+			'category_name'	=> $category_info['cat_name'],
+			'category_image'	=> !empty($category_info['style']) ? RC_Upload::upload_url($category_info['style']) : '',
+    	    'category' => get_parent_cats($category_info['cat_id'], 1, $_SESSION['store_id']),
+			'is_show'		=> $category_info['is_show'],
+			'goods_count'	=> 0,
+    	);
+    	return $category_detail;
+    	
+    }
+    	 
+    
+}

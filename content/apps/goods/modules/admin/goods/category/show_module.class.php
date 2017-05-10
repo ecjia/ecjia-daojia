@@ -45,68 +45,44 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * 获取所有商品分类
- * @author royalwang
+ * 切换商品分类是否显示
+ * @author chenzhejun@ecmoban.com
+ *
  */
-class category_module extends api_front implements api_interface {
-	public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-	    $api_old = false;
-	    if (version_compare($request->header('api-version'), '1.5', '<')) {
-	        $api_old = true;
-	    }
-// 		$cache_key = 'api_goods_category';
-// 		$categoryGoods = RC_Cache::app_cache_get($cache_key, 'goods');
-	
-// 		if (empty($categoryGoods)) {
-			$categoryGoods = array();
-			RC_Loader::load_app_class('goods_category', 'goods', false);
-			$category = goods_category::get_categories_tree();
-			$category = array_merge($category);
-			
-			if (!empty($category)) {
-				foreach($category as $key => $val) {
-					$categoryGoods[$key]['id'] = $val['id'];
-					$categoryGoods[$key]['name'] = $val['name'];
-					$ad = RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $val['id']));
-					$categoryGoods[$key]['image'] = $api_old ? $ad[0]['image'] : $val['img'];
-					$categoryGoods[$key]['ad'] = $ad;
-					if (!empty($val['cat_id'])) {
-						foreach($val['cat_id'] as $k => $v ) {
-						    $ad = RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $v['id']));
-							$categoryGoods[$key]['children'][$k] = array(
-									'id'     => $v['id'],
-									'name'   => $v['name'],
-									'image'	 => $api_old ? $ad[0]['image'] : $v['img'],
-							        'ad'     => $ad,
-							);
-								
-							if( !empty($v['cat_id']) ) {
-								foreach($v['cat_id'] as $k1 => $v1) {
-								    $ad =  RC_Api::api('adsense', 'get_category_ad', array('cat_id' => $v1['id']));
-									$categoryGoods[$key]['children'][$k]['children'][] = array(
-											'id'     => $v1['id'],
-											'name'   => $v1['name'],
-											'image'	 => $v1['img'],
-									        'ad'     => $ad,
-									);
-								}
-							} else {
-								$categoryGoods[$key]['children'][$k]['children'] = array();
-							}
-								
-							$categoryGoods[$key]['children'] = array_merge($categoryGoods[$key]['children']);
-						}
-					} else {
-						$categoryGoods[$key]['children'] = array();
-					}
-				}
-			}
-// 			RC_Cache::app_cache_set($cache_key, $categoryGoods, 'goods', 60);
-// 		}
-		return $categoryGoods;
-	}
-}
+class show_module extends api_admin implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
-// end
+		$this->authadminSession();
+		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+			return new ecjia_error(100, 'Invalid session');
+		}
+    	$result = $this->admin_priv('cat_manage');
+        if (is_ecjia_error($result)) {
+			return $result;
+		}
+    	
+    	if (!empty($_SESSION['staff_id'])) {
+    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    	}
+    	
+    	$category_id = $this->requestData('category_id');
+    	$is_show	 = $this->requestData('is_show', 1);
+    	if (empty($category_id)) {
+    		return new ecjia_error('invalid_parameter', '参数错误');
+    	}
+    	
+    	$name = RC_Model::model('goods/category_model')->where(array('cat_id' => $category_id))->get_field('cat_name');
+    	RC_Model::model('goods/category_model')->where(array('cat_id' => $category_id))->update(array('is_show' => $is_show));
+    	if ($_SESSION['store_id'] > 0) {
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $name."切换显示状态".'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));
+    	} else {
+    	    ecjia_admin::admin_log($name."切换显示状态".'【来源掌柜】', 'edit', 'category'); // 记录日志
+    	}
+    	RC_Cache::app_cache_delete('cat_list', 'goods');
+
+    	return array();
+    	
+    }
+    
+}

@@ -802,7 +802,7 @@ function get_same_attribute_goods($attr) {
  */
 function get_goods_gallery($goods_id) {
 	$db = RC_Model::model('goods/goods_gallery_model');
-	$row = $db->field('img_id, img_url, thumb_url, img_desc')->where(array('goods_id' => $goods_id))->limit(ecjia::config ('goods_gallery_number'))->select();
+	$row = $db->field('img_id, img_url, thumb_url, img_desc')->where(array('goods_id' => $goods_id))/* ->limit(ecjia::config ('goods_gallery_number')) */->select();
 	/* 格式化相册图片路径 */
 	RC_Loader::load_app_func('global', 'goods');
 	foreach ( $row as $key => $gallery_img ) {
