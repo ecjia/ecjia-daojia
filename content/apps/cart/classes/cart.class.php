@@ -881,7 +881,7 @@ class cart {
 						'goods' => array(
 							'type'  => Component_Model_View::TYPE_LEFT_JOIN,
 							'alias' => 'g',
-							'field' => 'SUM(g.goods_weight * pg.goods_number)|weight,SUM(pg.goods_number)|number',
+							'field' => 'SUM(g.goods_weight * pg.goods_number) as weight,SUM(pg.goods_number) as number',
 							'on'    => 'g.goods_id = pg.goods_id',
 						)
 					);
@@ -902,7 +902,7 @@ class cart {
 			'goods' => array(
 				'type'  => Component_Model_View::TYPE_LEFT_JOIN,
 				'alias' => 'g',
-				'field' => 'SUM(g.goods_weight * c.goods_number)|weight,SUM(c.goods_price * c.goods_number)|amount,SUM(c.goods_number)|number',
+				'field' => 'SUM(g.goods_weight * c.goods_number) as weight, SUM(c.goods_price * c.goods_number) as amount, SUM(c.goods_number) as number',
 				'on'    => 'g.goods_id = c.goods_id'
 			)
 		);
@@ -910,8 +910,8 @@ class cart {
 			'c.user_id'		=> $_SESSION['user_id'] ,
 			'rec_type'		=> $type ,
 			'g.is_shipping' => 0 ,
-			'c.extension_code' => array('neq' => 'package_buy')
 		);
+		$where[] =  " (c.extension_code IS NULL or c.extension_code != 'package_buy') ";
 		if (!empty($cart_id)) {
 			$where['rec_id'] = $cart_id;
 		}
@@ -1025,6 +1025,7 @@ class cart {
 					$id_list = array();
 					$raw_id_list = explode(',', $favourable['act_range_ext']);
 					foreach ($raw_id_list as $id) {
+						RC_Loader::load_app_class('goods_category', 'goods', false);
 						$id_list = array_merge($id_list, array_keys(goods_category::cat_list($id, 0, false)));
 					}
 					$ids = join(',', array_unique($id_list));
@@ -1283,7 +1284,8 @@ class cart {
 				$id_list = array();
 				$raw_id_list = explode(',', $favourable['act_range_ext']);
 				foreach ($raw_id_list as $id) {
-					$id_list = array_merge($id_list, array_keys(cat_list($id, 0, false)));
+					RC_Loader::load_app_class('goods_category', 'goods', false);
+					$id_list = array_merge($id_list, array_keys(goods_category::cat_list($id, 0, false)));
 				}
 				$ids = join(',', array_unique($id_list));
 

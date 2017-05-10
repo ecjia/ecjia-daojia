@@ -133,7 +133,7 @@ class cart_cart_manage_api extends Component_Event_Api {
         }
 
         if (!in_array($goods['store_id'], $store_group)) {
-        	return new ecjia_error('goods_delivery_beyond_error', '您所添加的商品超出了配送区域！');
+        	// return new ecjia_error('goods_delivery_beyond_error', '您所添加的商品超出了配送区域！');
         }
 
         /* 如果商品有规格则取规格商品信息 配件除外 */

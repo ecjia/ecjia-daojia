@@ -1525,7 +1525,7 @@ function addto_cart_groupbuy($act_id, $number = 1, $spec = array(), $parent = 0,
 }
 
 //购物车格式 api返回
-function formated_cart_list($cart_result) {
+function formated_cart_list($cart_result, $store_id_group = array()) {
     if (is_ecjia_error($cart_result)) {
         return $cart_result;
     }
@@ -1537,6 +1537,7 @@ function formated_cart_list($cart_result) {
         foreach ($cart_result['goods_list'] as $row) {
             if (!isset($cart_goods['cart_list'][$row['store_id']])) {
                 $cart_goods['cart_list'][$row['store_id']] = array(
+                    'local'         => in_array($row['store_id'], $store_id_group) ? 1 : 0,
                     'seller_id'		=> intval($row['store_id']),
                     'seller_name'	=> $row['store_name'],
                     'manage_mode'   => $row['manage_mode'],

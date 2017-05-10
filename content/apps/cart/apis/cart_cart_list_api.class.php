@@ -88,8 +88,6 @@ class cart_cart_list_api extends Component_Event_Api {
 		/* 符合店铺条件*/
 		if (!empty($store_group)) {
 			$dbview_cart->whereIn(RC_DB::raw('c.store_id'), $store_group);
-		} else {
-			$dbview_cart->where(RC_DB::raw('c.store_id'), 0);
 		}
 
 		/* 选择购买 */
