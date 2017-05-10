@@ -126,6 +126,13 @@ class merchant extends ecjia_merchant {
         // 默认店铺页头部LOGO
         if(!empty($_FILES['shop_logo']) && empty($_FILES['error']) && !empty($_FILES['shop_logo']['name'])){
             $merchants_config['shop_logo'] = file_upload_info('shop_logo', '', $shop_logo);
+            
+            //删除生成的店铺二维码
+            $store_qrcode = 'data/qrcodes/merchants/merchant_'.$store_id.'.png';
+            if (file_exists(RC_Upload::upload_path($store_qrcode))) {
+            	$disk = RC_Filesystem::disk();
+            	$disk->delete(RC_Upload::upload_path().$store_qrcode);
+            }
         }
 
         // APPbanner图
@@ -210,6 +217,7 @@ class merchant extends ecjia_merchant {
     	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('网店信息')));
 
     	$this->assign('ur_here', '网店信息');
+    	$this->assign('shop_title', '网店信息');
 
     	$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
     	$shop_info = RC_DB::table('article')->where('cat_id', 0)->where('article_id', $id)->first();
@@ -233,6 +241,7 @@ class merchant extends ecjia_merchant {
 				}
 			}
 		}
+		$shop_info['content'] = stripslashes($shop_info['content']);
 		$this->assign('id', $id);
     	$this->assign('shop_info', $shop_info);
     	$this->assign('info_list', $shopinfo_list);

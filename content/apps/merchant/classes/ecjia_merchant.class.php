@@ -121,7 +121,6 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		    } elseif (is_ajax()) {
 		        return $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		    } else {
-		        RC_Cookie::set('admin_login_referer', RC_Uri::current_url());
 		        return $this->redirect(RC_Uri::url('staff/privilege/login'));
 		    }
 		}
@@ -140,7 +139,7 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		$this->load_cachekey();
 
 		$this->load_default_script_style();
-		$staff_avatar = RC_DB::TABLE('staff_user')->where('user_id', RC_Session::get('staff_id'))->pluck('avatar');
+		$staff_avatar = RC_DB::table('staff_user')->where('user_id', RC_Session::get('staff_id'))->pluck('avatar');
 		
 		$this->assign('ecjia_staff_logo', $staff_avatar);
 		$this->assign('ecjia_merchant_cptitle', RC_Session::get('store_name'));
