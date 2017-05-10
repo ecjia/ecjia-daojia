@@ -44,12 +44,9 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-/**
- * 插入数据 `ecjia_merchants_config` 
- */
 use Royalcms\Component\Database\Seeder;
 
-class DemoMerchantsConfigTableSeeder extends Seeder
+class InitDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -58,76 +55,27 @@ class DemoMerchantsConfigTableSeeder extends Seeder
      */
     public function run()
     {
-        $data = array(
-            array(
-                'id'        => '1', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_logo', 
-                'type'      => 'file', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => 'merchant/62/data/shop_logo/1477683254803646447.jpg', 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '2', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_description', 
-                'type'      => 'text', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => '水果生鲜', 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '3', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_trade_time', 
-                'type'      => 'serialize', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => "a:2:{s:5:\"start\";s:4:\"8:00\";s:3:\"end\";s:5:\"21:00\";}", 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '4', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_notice', 
-                'type'      => 'text', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => '超过当天营业时间第二天发货。', 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '5', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_banner_pic', 
-                'type'      => 'text', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => 'merchant/62/data/shop_banner/1478546980051717064.png', 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '6', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_kf_mobile', 
-                'type'      => 'text', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => '021-62601332', 
-                'sort_order' => '1'
-            ),
-        );
-
-        RC_DB::table('merchants_config')->truncate();
-        RC_DB::table('merchants_config')->insert($data);
+        $this->call('InitAdPositionTableSeeder');
+        $this->call('InitAdTableSeeder');
+        $this->call('InitArticleCatTableSeeder');
+        $this->call('InitArticleTableSeeder');
+        $this->call('InitConnectTableSeeder');
+        $this->call('InitMailTemplatesTableSeeder');
+        $this->call('InitMobileScreenshotsTableSeeder');
+        $this->call('InitPaymentTableSeeder');
+        $this->call('InitPlatformCommandTableSeeder');
+        $this->call('InitPlatformConfigTableSeeder');
+        $this->call('InitPlatformExtendTableSeeder');
+        $this->call('InitPushEventTableSeeder');
+        $this->call('InitRegFieldsTableSeeder');
+        $this->call('InitRegionTableSeeder');
+        $this->call('InitShippingTableSeeder');
+        $this->call('InitShopConfigTableSeeder');
+        $this->call('InitStoreCategoryTableSeeder');
+        $this->call('InitStorePercentTableSeeder');
+        $this->call('InitUserRankTableSeeder');
+        $this->call('InitWechatMediaTableSeeder');
+        $this->call('InitWechatReplyTableSeeder');
+        $this->call('InitTermMetaTableSeeder');
     }
 }

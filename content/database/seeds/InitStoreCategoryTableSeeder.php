@@ -67,7 +67,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125187874490674.png'
             ),
             array(
                 'cat_id'        => '4',
@@ -75,9 +75,9 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'keywords'      => '水果,蔬菜',
                 'cat_desc'      => '',
                 'parent_id'     => '0',
-                'sort_order'    => '50',
+                'sort_order'    => '1',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125035871675478.png'
             ),
             array(
                 'cat_id'        => '5',
@@ -87,7 +87,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125129755365685.png'
             ),
             array(
                 'cat_id'        => '6',
@@ -97,7 +97,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125066281066326.png'
             ),
             array(
                 'cat_id'        => '7',
@@ -107,7 +107,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125141810181044.png'
             ),
             array(
                 'cat_id'        => '8',
@@ -117,7 +117,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125055252298317.png'
             ),
             array(
                 'cat_id'        => '9',
@@ -127,7 +127,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125103050371872.png'
             ),
             array(
                 'cat_id'        => '10',
@@ -137,27 +137,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
-            ),
-            array(
-                'cat_id'        => '11',
-                'cat_name'      => '茶具',
-                'keywords'      => '',
-                'cat_desc'      => '',
-                'parent_id'     => '0',
-                'sort_order'    => '50',
-                'is_show'       => '0',
-                'cat_image'     => ''
-            ),
-            array(
-                'cat_id'        => '12',
-                'cat_name'      => '水果',
-                'keywords'      => '',
-                'cat_desc'      => '',
-                'parent_id'     => '4',
-                'sort_order'    => '50',
-                'is_show'       => '0',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125077631268427.png'
             ),
             array(
                 'cat_id'        => '13',
@@ -167,7 +147,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125114152464142.png'
             ),
             array(
                 'cat_id'        => '14',
@@ -177,7 +157,7 @@ class InitStoreCategoryTableSeeder extends Seeder
                 'parent_id'     => '0',
                 'sort_order'    => '50',
                 'is_show'       => '1',
-                'cat_image'     => ''
+                'cat_image'     => 'data/category/1492125087226450167.png'
             )
         );
 

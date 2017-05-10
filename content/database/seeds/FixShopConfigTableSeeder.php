@@ -59,14 +59,14 @@ class FixShopConfigTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
         $model = new ConfigModel();
         
         $data = $model->where('id', '>', 100)->get();
         
         $data->map(function ($item) use ($model) {
         
-            $id = '9' . $item['id'];
+            $id = $item['id'] + 30000;
             $model->where('code', $item['code'])->update(['id' => $id]);
         });
         
@@ -77,7 +77,6 @@ class FixShopConfigTableSeeder extends Seeder
         });
         
     }
-    
     
     public function update_group_id($group_id)
     {

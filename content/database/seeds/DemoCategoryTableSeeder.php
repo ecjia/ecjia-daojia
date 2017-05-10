@@ -126,7 +126,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1032',
                 'cat_name'          => '水果蔬菜',
-                'category_img'      => 'data/category/1459454069433195862.png',
+                'category_img'      => 'data/category/1492544130404920454.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -350,7 +350,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1047',
                 'cat_name'          => '肉禽蛋奶',
-                'category_img'      => 'data/category/1459458216777256123.png',
+                'category_img'      => 'data/category/1492544292666510685.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -622,7 +622,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1064',
                 'cat_name'          => '冷热速食',
-                'category_img'      => 'data/category/1459465496683224975.png',
+                'category_img'      => 'data/category/1492544304078010576.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -846,7 +846,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1078',
                 'cat_name'          => '休闲食品',
-                'category_img'      => 'data/category/1459461890866804359.png',
+                'category_img'      => 'data/category/1492544324860507201.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -1070,7 +1070,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1092',
                 'cat_name'          => '酒水饮料',
-                'category_img'      => 'data/category/1459460778180533114.png',
+                'category_img'      => 'data/category/1492544336420812446.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -1422,7 +1422,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1114',
                 'cat_name'          => '粮油调味',
-                'category_img'      => 'data/category/1459460131280159213.png',
+                'category_img'      => 'data/category/1492544349452153817.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -1758,7 +1758,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1135',
                 'cat_name'          => '清洁日化',
-                'category_img'      => 'data/category/1459461396005330093.png',
+                'category_img'      => 'data/category/1492544362636255524.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -2270,7 +2270,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1167',
                 'cat_name'          => '家居用品',
-                'category_img'      => 'data/category/1459462285259394728.png',
+                'category_img'      => 'data/category/1492544372710848948.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -2574,7 +2574,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1186',
                 'cat_name'          => '鲜花蛋糕',
-                'category_img'      => 'data/category/1459462895864322155.png',
+                'category_img'      => 'data/category/1492544383324835917.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',
@@ -2862,7 +2862,7 @@ class DemoCategoryTableSeeder extends Seeder
             array(
                 'cat_id'            => '1240',
                 'cat_name'          => '上门服务',
-                'category_img'      => 'data/category/1459464791734452461.jpg',
+                'category_img'      => 'data/category/1492544395052605614.png',
                 'keywords'          => '',
                 'cat_desc'          => '',
                 'parent_id'         => '0',

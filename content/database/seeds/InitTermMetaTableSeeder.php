@@ -45,11 +45,11 @@
 //  ---------------------------------------------------------------------------------
 //
 /**
- * 插入数据 `ecjia_merchants_config` 
+ * 插入数据 `ecjia_term_meta` meta关联表
  */
 use Royalcms\Component\Database\Seeder;
 
-class DemoMerchantsConfigTableSeeder extends Seeder
+class InitTermMetaTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -59,75 +59,91 @@ class DemoMerchantsConfigTableSeeder extends Seeder
     public function run()
     {
         $data = array(
-            array(
-                'id'        => '1', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_logo', 
-                'type'      => 'file', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => 'merchant/62/data/shop_logo/1477683254803646447.jpg', 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '2', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_description', 
-                'type'      => 'text', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => '水果生鲜', 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '3', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_trade_time', 
-                'type'      => 'serialize', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => "a:2:{s:5:\"start\";s:4:\"8:00\";s:3:\"end\";s:5:\"21:00\";}", 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '4', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_notice', 
-                'type'      => 'text', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => '超过当天营业时间第二天发货。', 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '5', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_banner_pic', 
-                'type'      => 'text', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => 'merchant/62/data/shop_banner/1478546980051717064.png', 
-                'sort_order' => '1'
-            ),
-            array(
-                'id'        => '6', 
-                'store_id'  => '62', 
-                'group'     => '0', 
-                'code'      => 'shop_kf_mobile', 
-                'type'      => 'text', 
-                'store_range' => '', 
-                'store_dir' => '', 
-                'value'     => '021-62601332', 
-                'sort_order' => '1'
-            ),
+        	array(
+        		'meta_id'         => '1',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1032',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '106',
+        	),
+        	array(
+        		'meta_id'         => '2',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1047',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '107',
+        	),
+        	array(
+        		'meta_id'         => '3',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1064',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '108',
+        	),
+        	array(
+        		'meta_id'         => '4',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1078',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '109',
+        	),
+        	array(
+        		'meta_id'         => '5',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1092',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '110',
+        	),
+        	array(
+        		'meta_id'         => '6',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1114',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '111',
+        	),
+        	array(
+        		'meta_id'         => '7',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1135',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '112',
+        	),
+        	array(
+        		'meta_id'         => '8',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1167',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '113',
+        	),
+        	array(
+        		'meta_id'         => '9',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1186',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '114',
+        	),
+        	array(
+        		'meta_id'         => '10',
+        		'object_type'     => 'ecjia.goods',
+        		'object_group'    => 'category',
+        		'object_id'       => '1240',
+        		'meta_key'        => 'category_ad',
+        		'meta_value'      => '115',
+        	)
+           
         );
-
-        RC_DB::table('merchants_config')->truncate();
-        RC_DB::table('merchants_config')->insert($data);
+        
+        RC_DB::table('term_meta')->truncate();
+        RC_DB::table('term_meta')->insert($data);
     }
+    
 }

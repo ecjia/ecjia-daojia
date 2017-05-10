@@ -55,26 +55,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('InitAdPositionTableSeeder');
-        $this->call('InitAdTableSeeder');
-        $this->call('InitArticleCatTableSeeder');
-        $this->call('InitArticleTableSeeder');
-        $this->call('InitConnectTableSeeder');
-        $this->call('InitMailTemplatesTableSeeder');
-        $this->call('InitMobileScreenshotsTableSeeder');
-        $this->call('InitPaymentTableSeeder');
-        $this->call('InitPlatformCommandTableSeeder');
-        $this->call('InitPlatformConfigTableSeeder');
-        $this->call('InitPlatformExtendTableSeeder');
-        $this->call('InitPushEventTableSeeder');
-        $this->call('InitRegFieldsTableSeeder');
-        $this->call('InitRegionTableSeeder');
-        $this->call('InitShippingTableSeeder');
+
+        $this->call('FixShopConfigTableSeeder');
         $this->call('InitShopConfigTableSeeder');
-        $this->call('InitStoreCategoryTableSeeder');
-        $this->call('InitStorePercentTableSeeder');
-        $this->call('InitUserRankTableSeeder');
-        $this->call('InitWechatMediaTableSeeder');
-        $this->call('InitWechatReplyTableSeeder');
+        
     }
 }
