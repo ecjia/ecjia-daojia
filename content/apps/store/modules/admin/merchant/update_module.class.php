@@ -57,6 +57,11 @@ class update_module extends api_admin implements api_interface {
     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
     		return new ecjia_error(100, 'Invalid session');
     	}
+    	
+    	$result = $this->admin_priv('merchant_manage');
+    	if (is_ecjia_error($result)) {
+    	    return $result;
+    	}
     	//$ssi_db				= RC_Loader::load_app_model('seller_shopinfo_model', 'seller');
     	//$msi_category_db 	= RC_Loader::load_app_model('merchants_shop_information_model', 'seller');
 		
@@ -98,12 +103,30 @@ class update_module extends api_admin implements api_interface {
 				RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_trade_time')->update(array('value' => $seller_trade_time));
 			}
 			
+			/* 上传分类图片 */
+			$upload = RC_Upload::uploader('image', array('save_path' => '/merchant/'.$_SESSION['store_id'].'/data/shop_logo', 'auto_sub_dirs' => true));
+			if (isset($_FILES['seller_logo']) && $upload->check_upload_file($_FILES['seller_logo'])) {
+			    $image_info = $upload->upload($_FILES['seller_logo']);
+			    if (!empty($image_info)) {
+			        $file_name = RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_logo')->pluck('value');
+			        $upload->remove($file_name);
+			        $new_logo = $upload->get_position($image_info);
+			        RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_logo')->update(array('value' => $new_logo));
+			    }
+			}
+			
 			//$count_category = $msi_category_db->where($where1)->update($data_category);
 			//$count_shopinfo = $ssi_db->where($where2)->update($data_shopinfo);
 // 			RC_DB::table('store_franchisee')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->update($data_franchisee);
-			RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_kf_mobile')->update(array('value' => $seller_telephone));
-			RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_description')->update(array('value' => $seller_description));
-			RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_notice')->update(array('value' => $seller_notice));
+			if (!empty($seller_telephone)) {
+			    RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_kf_mobile')->update(array('value' => $seller_telephone));
+			}
+			if (!empty($seller_description)) {
+			    RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_description')->update(array('value' => $seller_description));
+			}
+			if (!empty($seller_notice)) {
+			    RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_notice')->update(array('value' => $seller_notice));
+			}
 			
 // 			ecjia_merchant::admin_log('店铺设置>基本信息设置【来源掌柜】', 'edit', 'config');
 			RC_Api::api('merchant', 'admin_log', array('text'=>'店铺设置>基本信息设置【来源掌柜】', 'action'=>'edit', 'object'=>'config'));

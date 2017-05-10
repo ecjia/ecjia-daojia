@@ -71,19 +71,22 @@ class info_module extends api_admin implements api_interface {
 			$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->pluck('value');
 			$shop_trade_time = !empty($shop_trade_time) ? unserialize($shop_trade_time) : array('start' => '8:00', 'end' => '21:00');
 			$seller_info = array(
-	    	  		'id'					=> $info['store_id'],
-	    	  		'seller_name'			=> $info['merchants_name'],
-	    	  		'seller_logo'			=> RC_Upload::upload_url(RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_logo')->pluck('value')),
-	    	  		'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info['cat_id'])->pluck('cat_name'),
-	    	  		'seller_telephone'		=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value'),
-	    	  		'seller_province'		=> $region->where(array('region_id' => $info['province']))->get_field('region_name'),
-	    	  		'seller_city'			=> $region->where(array('region_id' => $info['city']))->get_field('region_name'),
-			        'seller_district'		=> $region->where(array('region_id' => $info['district']))->get_field('region_name'),
-	    	  		'seller_address'		=> $info['address'],
-					'validated_status'		=> $info['identity_status'],
-	    	  		'seller_description'	=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_description')->pluck('value'),
-					'seller_notice'			=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_notice')->pluck('value'),
-					'trade_time'			=> $shop_trade_time
+    	  		'id'					=> $info['store_id'],
+    	  		'seller_name'			=> $info['merchants_name'],
+    	  		'seller_logo'			=> RC_Upload::upload_url(RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_logo')->pluck('value')),
+    	  		'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info['cat_id'])->pluck('cat_name'),
+    	  		'seller_telephone'		=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value'),
+    	  		'seller_province'		=> $region->where(array('region_id' => $info['province']))->get_field('region_name'),
+    	  		'seller_city'			=> $region->where(array('region_id' => $info['city']))->get_field('region_name'),
+		        'seller_district'		=> $region->where(array('region_id' => $info['district']))->get_field('region_name'),
+    	  		'seller_address'		=> $info['address'],
+				'validated_status'		=> $info['identity_status'],
+    	  		'seller_description'	=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_description')->pluck('value'),
+				'seller_notice'			=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_notice')->pluck('value'),
+			    'seller_keyword'        => $info['shop_keyword'],
+				'trade_time'			=> $shop_trade_time,
+			    'manage_mode'           => $info['manage_mode'],//是否自营
+			    'open_time'             => RC_Time::local_date('Y-m-d', $info['confirm_time']),//入驻时间
 			);
 			$result = $this->admin_priv('franchisee_manage');
 			if (is_ecjia_error($result)) {
@@ -115,6 +118,8 @@ class info_module extends api_admin implements api_interface {
 				$privilege = 3;
 			}
 		}
+		$seller_info['seller_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($seller_info['id'], $seller_info['seller_logo']))->getQrcodeUrl();
+		
 		return array('data' => $seller_info, 'privilege' => $privilege);
     }
 }

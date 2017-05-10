@@ -166,6 +166,7 @@ class data_module extends api_front implements api_interface {
 				'seller_name'		=> $info['merchants_name'],
 				'seller_logo'		=> empty($info['shop_logo']) ?  '' : RC_Upload::upload_url($info['shop_logo']),
 		        'seller_banner'		=> empty($info['shop_banner_pic']) ?  '' : RC_Upload::upload_url($info['shop_banner_pic']),
+		        'seller_qrcode'		=> with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($info['store_id'], empty($info['shop_logo']) ?  '' : RC_Upload::upload_url($info['shop_logo'])))->getQrcodeUrl(),
 				'seller_category'	=> $info['cat_name'],
 				'shop_name'			=> $info['company_name'],
 				'shop_address'		=> $province_name.' '.$city_name.' '.$info['address'],

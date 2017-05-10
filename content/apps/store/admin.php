@@ -609,7 +609,7 @@ class admin extends ecjia_admin {
 	public function store_set_update() {
 	    $this->admin_priv('store_set_update', ecjia::MSGTYPE_JSON);
 
-        $store_id               = intval($_POST['store_id']);
+        $store_id = intval($_POST['store_id']);
         if(empty($store_id)){
             return $this->showmessage('参数错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -628,6 +628,13 @@ class admin extends ecjia_admin {
         // 默认店铺页头部LOGO
         if(!empty($_FILES['shop_logo']) && empty($_FILES['error']) && !empty($_FILES['shop_logo']['name'])){
             $merchants_config['shop_logo'] = file_upload_info('shop_logo', '', $shop_logo, $store_id);
+            
+            //删除生成的店铺二维码
+            $store_qrcode = 'data/qrcodes/merchants/merchant_'.$store_id.'.png';
+            if (file_exists(RC_Upload::upload_path($store_qrcode))) {
+            	$disk = RC_Filesystem::disk();
+            	$disk->delete(RC_Upload::upload_path().$store_qrcode);
+            }
         }
 
         // APPbanner图
