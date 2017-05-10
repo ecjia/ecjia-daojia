@@ -415,8 +415,9 @@ class admin_area extends ecjia_admin {
 		$shipping_area_name = trim($_POST['shipping_area_name']);
 		$shipping_area_id 	= !empty($_POST['id']) 	? intval($_POST['id']) 	: 0;
 		$code 				= !empty($_GET['code']) ? trim($_GET['code']) 	: '';
+		$store_id          	= !empty($_POST['store_id']) 	? intval($_POST['store_id']) 	: 0;
 		
-		$ship_area_count = $this->db_shipping_area->is_only(array('shipping_id' => $shipping_id, 'shipping_area_name' => $shipping_area_name, 'shipping_area_id' => array('neq' => $shipping_area_id)));
+		$ship_area_count = $this->db_shipping_area->is_only(array('shipping_id' => $shipping_id, 'store_id' => $store_id, 'shipping_area_name' => $shipping_area_name, 'shipping_area_id' => array('neq' => $shipping_area_id)));
 
 		if ($ship_area_count > 0) {
 			return $this->showmessage(RC_Lang::get('shipping::shipping_area.repeat_area_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

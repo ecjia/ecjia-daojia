@@ -18,7 +18,6 @@
 			<i class="fa fa-reply"></i> {$action_link.text}
 		</a>
 		{/if}
-		
   	</div>
   	<div class="clearfix"></div>
 </div>
@@ -27,6 +26,10 @@
 	<div class="col-lg-12">
 		<section class="panel">
 			<div class="panel-body">
+			<div class="alert alert-info">	
+            	<strong>首重单位为1公斤/千克，续重计算单位为 每公斤/千克。</strong>
+        		<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
+        	</div>
 				<div class="form">
 					<input type="hidden" id="region_warn" value="{lang key='shipping::shipping_area.js_languages.region_exists'}" />
 					<input type="hidden" id="region_get_url" date-toggle="{$region_get_url}" />

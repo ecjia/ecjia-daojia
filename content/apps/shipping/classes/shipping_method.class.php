@@ -74,19 +74,19 @@ class shipping_method  {
 			->get();	
 		$plugins = $this->available_shipping_plugins();
 
-		$pay_list = array();
+		$shipping_list = array();
         if (!empty($data)) {
         	foreach ($data as $row) {
         		if (isset($plugins[$row['shipping_code']])) {
-        			$pay_list[] = $row;
+        			$shipping_list[] = $row;
         		}
         	}
         }
-        return $pay_list;
+        return $shipping_list;
     }
 	
     /**
-     * 激活的支付插件列表
+     * 激活的配送方式插件列表
      */
     public function available_shipping_plugins() {
     	return ecjia_config::instance()->get_addon_config('shipping_plugins', true);
@@ -98,16 +98,19 @@ class shipping_method  {
      * @param   array   $region_id_list     收货人地区id数组
      * @return  array   配送区域信息（config 对应着反序列化的 configure）
      */
-    public function shipping_area_info($shipping_id, $region_id_list, $store_id) {
+    public function shipping_area_info($shipping_id, $region_id_list, $store_id = 0) {
     	$db = RC_DB::table('shipping');
-        $row = $db->leftJoin('shipping_area', 'shipping_area.shipping_id', '=', 'shipping.shipping_id')
+        $db->leftJoin('shipping_area', 'shipping_area.shipping_id', '=', 'shipping.shipping_id')
         	->leftJoin('area_region', 'area_region.shipping_area_id', '=', 'shipping_area.shipping_area_id')
         	->select('shipping.shipping_code', 'shipping.shipping_name', 'shipping.shipping_desc', 'shipping.insure', 'shipping.support_cod', 'shipping_area.configure')
         	->where('shipping.shipping_id', $shipping_id)
         	->where('shipping.enabled', 1)
-        	->whereIn('area_region.region_id', $region_id_list)
-        	->where('shipping_area.store_id', $store_id)
-        	->first();
+        	->whereIn('area_region.region_id', $region_id_list);
+        if ($store_id) {
+            $db->where('shipping_area.store_id', $store_id);
+        }
+        	
+    	$row = $db->first();
         
         if (!empty($row)) {
             $shipping_config = $this->unserialize_config($row['configure']);
@@ -174,7 +177,6 @@ class shipping_method  {
     	RC_Loader::load_app_class('shipping_factory', 'shipping', false);
     	$handler = new shipping_factory($shipping_code, $shipping_config);
     	$shipping_fee = $handler->calculate($goods_weight, $goods_amount, $goods_number);
-
     	if (empty($shipping_fee)) {
     		return 0;
     	} else {

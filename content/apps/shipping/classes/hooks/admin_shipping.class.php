@@ -46,29 +46,19 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台权限API
- * @author royalwang
- */
-class shipping_admin_purview_api extends Component_Event_Api {
+class shipping_admin_hooks {
+	
+   public static function append_admin_setting_group($menus) {
+       $setting = ecjia_admin_setting::singleton();
+       
+       $menus[] = ecjia_admin::make_admin_menu('nav-header', '配送方式', '', 10)->add_purview(array('shop_config'));
+       $menus[] = ecjia_admin::make_admin_menu('shipping', '物流跟踪设置', RC_Uri::url('shipping/admin_config/init'), 6)->add_purview('shop_config')->add_icon('fontello-icon-chat-empty');
+       
+       return $menus;
+   }
     
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('shipping::shipping.shipping_manage'), 	'action_code' => 'ship_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('shipping::shipping.edit_shipping'), 	'action_code' => 'ship_update', 'relevance' => ''),
-        		
-            array('action_name' => RC_Lang::get('shipping::shipping_area.shiparea_manage'), 'action_code' => 'shiparea_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('shipping::shipping_area.new_area'), 		'action_code' => 'shiparea_add', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('shipping::shipping_area.edit_area'), 		'action_code' => 'shiparea_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('shipping::shipping_area.shiparea_delete'), 'action_code' => 'shiparea_delete', 'relevance' => ''),
-        		
-        	//配送列表
-        	array('action_name' => RC_Lang::get('shipping::shipping.express_order_list'), 'action_code' => 'admin_express_order_manage', 'relevance' => ''),
-            array('action_name' => '物流跟踪配置', 'action_code' => 'shipping_config_update', 'relevance' => ''),
-        );
-        
-        return $purviews;
-    }
 }
+
+RC_Hook::add_action( 'append_admin_setting_group', array('shipping_admin_hooks', 'append_admin_setting_group') );
 
 // end
