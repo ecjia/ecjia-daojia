@@ -47,14 +47,19 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
-	
-    'Royalcms\Component\Agent\AgentServiceProvider',
+
+	'Royalcms\Component\Agent\AgentServiceProvider',
     'Royalcms\Component\Excel\ExcelServiceProvider',
     'Royalcms\Component\Memcache\MemcacheServiceProvider',
     'Royalcms\Component\XmlResponse\XmlResponseServiceProvider',
     'Royalcms\Component\UEditor\UEditorServiceProvider',
     'Royalcms\Component\QrCode\QrCodeServiceProvider',
+    'Royalcms\Component\Repository\RepositoryServiceProvider',
+    'Royalcms\Component\WeChat\WeChatServiceProvider',
+    'Royalcms\Component\WeChat\Menu\MenuServiceProvider',
+    'Royalcms\Component\WeChat\User\UserServiceProvider',
     
     'Ecjia\System\Providers\SystemServiceProvider',
-    
 );
+
+//end
