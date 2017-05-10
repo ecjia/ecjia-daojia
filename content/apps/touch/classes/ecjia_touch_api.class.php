@@ -207,6 +207,12 @@ class ecjia_touch_api
  	
  	const STORE_COMMENTS			= 'store/comments';
  	
+ 	//==============================================
+ 	// 绑定手机号或邮箱
+ 	//==============================================
+ 	const VALIDATA_GET   = 'validate/get';//发送验证码
+ 	const USER_BIND      = 'user/bind';//发送验证码
+ 	
 }
 
 // end
