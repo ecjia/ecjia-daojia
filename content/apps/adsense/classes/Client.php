@@ -44,55 +44,51 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Adsense;
 
 /**
- * 手机启动页广告
- * @author will.chen
+ * 广告展示在多个客户端的处理
+ * 
+ * @author royalwang
+ *
  */
-class adsense_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	
-		$data = RC_Cache::app_cache_get('app_home_adsense', 'adsense');
-		if (empty($data)) {
-			//流程逻辑开始
-			// runloop 流
-			$response = array();
-			$response = RC_Hook::apply_filters('api_home_adsense_runloop', $response, $request);
-			RC_Cache::app_cache_set('app_home_adsense', $response, 'adsense');
-			//流程逻辑结束
-		} else {
-			$response = $data;
-		}
-		return $response;
-	}
-}
-
-function adsense_data($response, $request) {
+class Client
+{
     
-    $city_id	= $request->input('city_id', 0);
-    $device_client = $request->header('device-client', 'iphone');
     
-    if ($device_client == 'android') {
-        $client = Ecjia\App\Adsense\Client::ANDROID;
-    } elseif ($device_client == 'h5') {
-        $client = Ecjia\App\Adsense\Client::H5;
-    } else {
-        $client = Ecjia\App\Adsense\Client::IPHONE;
+    const IPHONE = 0x00000001;
+    
+    const ANDROID = 0x00000010;
+    
+    const H5 = 0x00000100;
+    
+    const PC = 0x00001000;
+    
+    /**
+     * 计算客户端选中的总数
+     * @param array $clients
+     * @return integer
+     */
+    public static function clientSelected(array $clients) {
+        
+        return collect($clients)->sum();
     }
     
-    $adsense_list = RC_Api::api('adsense', 'adsense', [
-        'code'     => 'app_start_adsense',
-        'client'   => $client,
-        'city'     => $city_id
-    ]);
+
+    /**
+     * 返回选中的客户端
+     * @param integer $selected
+     */
+    public static function clients($selected) {
+        
+        $clients = [];
+        
+        if (self::IPHONE & $selected) $clients[] = self::IPHONE;
+        if (self::ANDROID & $selected) $clients[] = self::ANDROID;
+        if (self::H5 & $selected) $clients[] = self::H5;
+        if (self::PC & $selected) $clients[] = self::PC;
+        
+        return $clients;
+    }
     
-	
-	$response = $adsense_list;
-	
-	return $response;
 }
-
-RC_Hook::add_filter('api_home_adsense_runloop', 'adsense_data', 10, 2);
-
-// end

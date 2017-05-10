@@ -44,55 +44,11 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Adsense;
 
-/**
- * 手机启动页广告
- * @author will.chen
- */
-class adsense_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	
-		$data = RC_Cache::app_cache_get('app_home_adsense', 'adsense');
-		if (empty($data)) {
-			//流程逻辑开始
-			// runloop 流
-			$response = array();
-			$response = RC_Hook::apply_filters('api_home_adsense_runloop', $response, $request);
-			RC_Cache::app_cache_set('app_home_adsense', $response, 'adsense');
-			//流程逻辑结束
-		} else {
-			$response = $data;
-		}
-		return $response;
-	}
+class Utility
+{
+    
+    
+    
 }
-
-function adsense_data($response, $request) {
-    
-    $city_id	= $request->input('city_id', 0);
-    $device_client = $request->header('device-client', 'iphone');
-    
-    if ($device_client == 'android') {
-        $client = Ecjia\App\Adsense\Client::ANDROID;
-    } elseif ($device_client == 'h5') {
-        $client = Ecjia\App\Adsense\Client::H5;
-    } else {
-        $client = Ecjia\App\Adsense\Client::IPHONE;
-    }
-    
-    $adsense_list = RC_Api::api('adsense', 'adsense', [
-        'code'     => 'app_start_adsense',
-        'client'   => $client,
-        'city'     => $city_id
-    ]);
-    
-	
-	$response = $adsense_list;
-	
-	return $response;
-}
-
-RC_Hook::add_filter('api_home_adsense_runloop', 'adsense_data', 10, 2);
-
-// end

@@ -47,52 +47,27 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 手机启动页广告
- * @author will.chen
+ * 后台工具菜单API
+ * @author songqian
  */
-class adsense_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	
-		$data = RC_Cache::app_cache_get('app_home_adsense', 'adsense');
-		if (empty($data)) {
-			//流程逻辑开始
-			// runloop 流
-			$response = array();
-			$response = RC_Hook::apply_filters('api_home_adsense_runloop', $response, $request);
-			RC_Cache::app_cache_set('app_home_adsense', $response, 'adsense');
-			//流程逻辑结束
-		} else {
-			$response = $data;
-		}
-		return $response;
+class adsense_tool_menu_api extends Component_Event_Api {
+	
+	public function call(&$options) {	
+		
+		$cycleimage_menu = ecjia_admin::make_admin_menu('cycleimage_manage', '轮播图', RC_Uri::url('adsense/admin_cycleimage/init'), 4)->add_purview('cycleimage_manage');
+		
+		$shortcut_menu = ecjia_admin::make_admin_menu('shortcut_manage', '快捷菜单', RC_Uri::url('adsense/admin_shortcut/init'), 5)->add_purview('shortcut_manage');
+		
+		$adsense_menu = ecjia_admin::make_admin_menu('08_content', RC_Lang::get('adsense::adsense.ads_manage'), '', 8);
+		$submenus = array(
+		    ecjia_admin::make_admin_menu('01_adsense_position', '广告位管理', RC_Uri::url('adsense/admin_position/init'), 1)->add_purview('ad_position_manage'),
+		    ecjia_admin::make_admin_menu('02_adsense_group', '广告组编排', RC_Uri::url('adsense/admin_group/init'), 2)->add_purview('ad_group_manage'),
+		);
+		$adsense_menu->add_submenu($submenus);
+		
+		return array($cycleimage_menu, $shortcut_menu, $adsense_menu);
+		
 	}
 }
-
-function adsense_data($response, $request) {
-    
-    $city_id	= $request->input('city_id', 0);
-    $device_client = $request->header('device-client', 'iphone');
-    
-    if ($device_client == 'android') {
-        $client = Ecjia\App\Adsense\Client::ANDROID;
-    } elseif ($device_client == 'h5') {
-        $client = Ecjia\App\Adsense\Client::H5;
-    } else {
-        $client = Ecjia\App\Adsense\Client::IPHONE;
-    }
-    
-    $adsense_list = RC_Api::api('adsense', 'adsense', [
-        'code'     => 'app_start_adsense',
-        'client'   => $client,
-        'city'     => $city_id
-    ]);
-    
-	
-	$response = $adsense_list;
-	
-	return $response;
-}
-
-RC_Hook::add_filter('api_home_adsense_runloop', 'adsense_data', 10, 2);
 
 // end

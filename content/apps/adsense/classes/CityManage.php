@@ -44,55 +44,72 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Adsense;
 
-/**
- * 手机启动页广告
- * @author will.chen
- */
-class adsense_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	
-		$data = RC_Cache::app_cache_get('app_home_adsense', 'adsense');
-		if (empty($data)) {
-			//流程逻辑开始
-			// runloop 流
-			$response = array();
-			$response = RC_Hook::apply_filters('api_home_adsense_runloop', $response, $request);
-			RC_Cache::app_cache_set('app_home_adsense', $response, 'adsense');
-			//流程逻辑结束
-		} else {
-			$response = $data;
-		}
-		return $response;
-	}
-}
+use Ecjia\App\Adsense\Repositories\CycleImageRepository;
+use Ecjia\App\Adsense\Repositories\AdPositionRepository;
+use Ecjia\App\Adsense\Repositories\AdGroupRepository;
+use Ecjia\App\Adsense\Repositories\ShortcutMenuRepository;
 
-function adsense_data($response, $request) {
+class CityManage
+{
     
-    $city_id	= $request->input('city_id', 0);
-    $device_client = $request->header('device-client', 'iphone');
+    protected $type;
     
-    if ($device_client == 'android') {
-        $client = Ecjia\App\Adsense\Client::ANDROID;
-    } elseif ($device_client == 'h5') {
-        $client = Ecjia\App\Adsense\Client::H5;
-    } else {
-        $client = Ecjia\App\Adsense\Client::IPHONE;
+    public function __construct($type)
+    {
+        $this->type = $type;
     }
     
-    $adsense_list = RC_Api::api('adsense', 'adsense', [
-        'code'     => 'app_start_adsense',
-        'client'   => $client,
-        'city'     => $city_id
-    ]);
+
+    public function getAllCitys()
+    {
+        
+        if ($this->type == 'cycleimage') {
+            $repository = new CycleImageRepository();
+            return $repository->getAllCitys();
+        } elseif($this->type == 'adsense') {
+        	$repository = new AdPositionRepository();
+        	return $repository->getAllCitys();
+        }elseif($this->type == 'group') {
+        	$repository = new AdGroupRepository();
+        	return $repository->getAllCitys();
+        }elseif($this->type == 'shortcut') {
+        	$repository = new ShortcutMenuRepository();
+        	return $repository->getAllCitys();
+        }
+ 
+    }
     
-	
-	$response = $adsense_list;
-	
-	return $response;
+    /**
+     * 获取当前城市ID
+     * @param integer $city_id
+     * @return integer
+     */
+    public function getCurrentCity($city_id)
+    {
+
+        if (empty($city_id)) 
+        {
+            
+            $city_list = $this->getAllCitys();
+            if (!empty($city_list)) 
+            {
+                $city_id = head($city_list)['city_id'];
+            } 
+            else 
+            {
+                $city_id = 0;
+            }
+        }
+        
+        return $city_id;
+    }
+    
+    
+    
+    
+
 }
 
-RC_Hook::add_filter('api_home_adsense_runloop', 'adsense_data', 10, 2);
 
-// end

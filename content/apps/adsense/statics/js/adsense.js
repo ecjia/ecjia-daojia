@@ -17,9 +17,7 @@
             $('.screen-btn').on('click', function (e) {
                 e.preventDefault();
                 var url = $("form[name='searchForm']").attr('action')
-                if ($("#media_type option:selected").val() != '') {
-                    url += '&media_type=' + $("#media_type option:selected").val();
-                }
+                    url += '&media_type=' + $("#media_type option:selected").val() + '&position_id=' + $("input[name='position_id']").val()+ '&show_client=' + $("input[name='show_client']").val();
                 ecjia.pjax(url);
             });
             

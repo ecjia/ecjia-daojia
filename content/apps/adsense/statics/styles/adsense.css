@@ -1,0 +1,26 @@
+.position_detail h4 {
+    color: #000000;
+	margin-bottom:20px;
+	margin-top:10px;
+}
+.position_detail{
+    background-color: #f9fafa;
+    border: 1px solid #f9fafa;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.position_detail ul li{
+	margin-top:10px;
+    color:#d6d6d6;
+}
+.position_detail .detail{
+	 color:#000;
+}
+.detail strong{
+	 margin-left:10px;
+}
+.detail span{
+	 margin-left:15px;
+}

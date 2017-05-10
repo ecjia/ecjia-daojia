@@ -61,23 +61,27 @@ class admin_position extends ecjia_admin {
 		RC_Style::enqueue_style('uniform-aristo');
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');
+		RC_Loader::load_app_func('global');
+		assign_adminlog_contents();
+		
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'), array(), false, false);
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'), array(), false, false);
 		
-		//时间控件
-		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
-		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
-		
 		RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
-		RC_Script::enqueue_script('adsense', RC_App::apps_url('statics/js/adsense.js', __FILE__));
+		
+		RC_Script::enqueue_script('group', RC_App::apps_url('statics/js/group.js', __FILE__));
 		RC_Script::enqueue_script('ad_position', RC_App::apps_url('statics/js/ad_position.js', __FILE__));
+		RC_Script::enqueue_script('adsense', RC_App::apps_url('statics/js/adsense.js', __FILE__));
+		RC_Style::enqueue_style('adsense', RC_App::apps_url('statics/styles/adsense.css', __FILE__), array());
+		
+		RC_Style::enqueue_style('adsense', RC_App::apps_url('statics/styles/adsense.css', __FILE__), array());
 		$js_lang = array(
 			'position_name_required' => RC_Lang::get('adsense::adsense.position_name_required'),
 			'ad_width_required' => RC_Lang::get('adsense::adsense.ad_width_required'),
 			'ad_height_required' => RC_Lang::get('adsense::adsense.ad_height_required') 
 		);
 		RC_Script::localize_script('ad_position', 'js_lang', $js_lang);
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('adsense::adsense.ads_position'), RC_Uri::url('adsense/admin_position/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('广告位管理', RC_Uri::url('adsense/admin_position/init')));
 	}
 	
 	/**
@@ -85,9 +89,9 @@ class admin_position extends ecjia_admin {
 	 */
 	public function init() {
 		$this->admin_priv('ad_position_manage');
-		
+			
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('adsense::adsense.ads_position')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('广告位管理'));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id' => 'overview',
 			'title' => RC_Lang::get('adsense::adsense.overview'),
@@ -97,10 +101,32 @@ class admin_position extends ecjia_admin {
 		
 		$this->assign('ur_here', RC_Lang::get('adsense::adsense.position_list'));
 		$this->assign('action_link', array('text' => RC_Lang::get('adsense::adsense.position_add'), 'href' => RC_Uri::url('adsense/admin_position/add')));
+		
+		//获取城市
+		$citymanage = new Ecjia\App\Adsense\CityManage('adsense');
+		$city_list = $citymanage->getAllCitys();
+		$this->assign('city_list', $city_list);
+		
+		//获取当前城市ID
+		$city_id = $citymanage->getCurrentCity(intval($_GET['city_id']));
+		$this->assign('city_id', $city_id);
+		
+		$sort_by   = trim($_GET['sort_by']);
+		$sort_order= trim($_GET['sort_order']);
+		if(!empty($sort_by)){
+			$orderBy = array($sort_by => $sort_order);
+		}else{
+			$orderBy = array();
+		}
+		
+		//获取广告位列表
+		$position = new Ecjia\App\Adsense\PositionManage('adsense', $city_id);
+		$data = $position->getAllPositions($orderBy);
+		$this->assign('data', $data);
+
 		$this->assign('search_action', RC_Uri::url('adsense/admin_position/init'));
 		
-		$position_list = $this->get_ad_position_list();
-		$this->assign('position_list', $position_list);
+		
 		$this->display('adsense_position_list.dwt');
 	}
 	
@@ -119,10 +145,14 @@ class admin_position extends ecjia_admin {
 		ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . RC_Lang::get('adsense::adsense.more_info') . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:广告位置#.E6.B7.BB.E5.8A.A0.E5.B9.BF.E5.91.8A.E4.BD.8D.E7.BD.AE" target="_blank">' . RC_Lang::get('adsense::adsense.about_add_position') . '</a>') . '</p>');
 		
 		$this->assign('ur_here', RC_Lang::get('adsense::adsense.position_add'));
-		$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_position/init'), 'text' => RC_Lang::get('adsense::adsense.position_list')));
-		$this->assign('posit_arr', array('position_style' => '<table cellpadding="0" cellspacing="0">' . "\n" . '{foreach from=$ads item=ad}' . "\n" . '<tr><td>{$ad}</td></tr>' . "\n" . '{/foreach}' . "\n" . '</table>'));
+		$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_position/init'), 'text' => '广告位列表'));
+		
+		$city_list = $this->get_select_city();
+		$this->assign('city_list', $city_list);
+		
 		$this->assign('action', 'insert');
 		$this->assign('form_action', RC_Uri::url('adsense/admin_position/insert'));
+		
 		$this->display('adsense_position_info.dwt');
 	}
 	
@@ -130,32 +160,42 @@ class admin_position extends ecjia_admin {
 	 * 添加广告位页面
 	 */
 	public function insert() {
-		$this->admin_priv('ad_position_update', ecjia::MSGTYPE_JSON);
-		
-		$position_name = !empty($_POST['position_name']) ? trim($_POST['position_name']) : '';
-		$position_desc = !empty($_POST['position_desc']) ? nl2br(htmlspecialchars($_POST['position_desc'])) : '';
-		$ad_width = !empty($_POST['ad_width']) ? intval($_POST['ad_width']) : 0;
-		$ad_height = !empty($_POST['ad_height']) ? intval($_POST['ad_height']) : 0;
-		$position_style = !empty($_POST['position_style']) ? $_POST['position_style'] : '';
-		
-		/* 查看广告位是否有重复 */
-		if (RC_DB::table('ad_position')->where('position_name', $position_name)->count() == 0) {
-			$data = array(
-				'position_name' => $position_name,
-				'ad_width' => $ad_width,
-				'ad_height' => $ad_height,
-				'position_desc' => $position_desc,
-				'position_style' => $position_style 
-			);
-			$position_id = RC_DB::table('ad_position')->insertGetId($data);
-			ecjia_admin::admin_log($position_name, 'add', 'ads_position');
-			$links[] = array('text' => RC_Lang::get('adsense::adsense.back_position_list'), 'href' => RC_Uri::url('adsense/admin_position/init'));
-			$links[] = array('text' => RC_Lang::get('adsense::adsense.continue_add_position'), 'href' => RC_Uri::url('adsense/admin_position/add'));
-			return $this->showmessage(RC_Lang::get('adsense::adsense.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('adsense/admin_position/edit', array('id' => $position_id))));
-		} else {
-			return $this->showmessage(RC_Lang::get('adsense::adsense.posit_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
+    	$this->admin_priv('ad_position_update');
+    	
+    	$position_name = !empty($_POST['position_name']) ? trim($_POST['position_name']) : '';
+    	$position_code = !empty($_POST['position_code_ifnull']) ? trim($_POST['position_code_ifnull']) : '';
+    	$position_desc = !empty($_POST['position_desc']) ? nl2br(htmlspecialchars($_POST['position_desc'])) : '';
+    	$ad_width      = !empty($_POST['ad_width']) ? intval($_POST['ad_width']) : 0;
+    	$ad_height     = !empty($_POST['ad_height']) ? intval($_POST['ad_height']) : 0;
+    	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
+    	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
+    	
+    	$city_id       = !empty($_POST['city_id']) ? intval($_POST['city_id']) : 0;
+    	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+    	if(!$city_name){
+    		$city_name = '默认';
+    	}
+    	$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('city_id', $city_id)->where('type', 'adsense')->count();
+    	if ($query > 0) {
+    		return $this->showmessage('该广告位代号在当前城市中已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	
+    	$data = array(
+    		'position_name' => $position_name,
+    		'position_code' => $position_code,
+    		'ad_width'      => $ad_width,
+    		'ad_height'     => $ad_height,
+    		'max_number'    => $max_number,
+    		'position_desc' => $position_desc,
+    		'city_id' 		=> $city_id,
+    		'city_name' 	=> $city_name,
+    		'type' 			=> 'adsense',
+    		'sort_order' 	=> $sort_order,
+    	);
+    	$position_id = RC_DB::table('ad_position')->insertGetId($data);
+    	ecjia_admin::admin_log($position_name, 'add', 'ads_position');
+    	return $this->showmessage('添加广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_position/edit', array('position_id' => $position_id))));
+    }
 	
 	/**
 	 * 广告位编辑页面
@@ -175,11 +215,17 @@ class admin_position extends ecjia_admin {
 			'href' => RC_Uri::url('adsense/admin_position/init'),
 			'text' => RC_Lang::get('adsense::adsense.position_list') 
 		));
-		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$posit_arr = RC_DB::table('ad_position')->where('position_id', $id)->first();
-		$this->assign('posit_arr', $posit_arr);
-		$this->assign('action', 'update');
+		$position_id = intval($_GET['position_id']);
+		$data = RC_DB::table('ad_position')->where('position_id', $position_id)->first();
+		$this->assign('data', $data);
+		
+		$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_position/init', array('city_id' => $data['city_id'])), 'text' => '广告位列表'));
+		 
+		$city_list = $this->get_select_city();
+		$this->assign('city_list', $city_list);
+		
 		$this->assign('form_action', RC_Uri::url('adsense/admin_position/update'));
+		
 		$this->display('adsense_position_info.dwt');
 	}
 	
@@ -187,114 +233,58 @@ class admin_position extends ecjia_admin {
 	 * 广告位编辑处理
 	 */
 	public function update() {
-		$this->admin_priv('ad_position_update', ecjia::MSGTYPE_JSON);
-		
-		$position_name 	= !empty($_POST['position_name']) 	? trim($_POST['position_name']) 					: '';
-		$position_desc 	= !empty($_POST['position_desc']) 	? nl2br(htmlspecialchars($_POST['position_desc'])) 	: '';
-		$ad_width 		= !empty($_POST['ad_width']) 		? intval($_POST['ad_width']) 						: 0;
-		$ad_height 		= !empty($_POST['ad_height']) 		? intval($_POST['ad_height']) 						: 0;
-		$position_style = !empty($_POST['position_style']) 	? $_POST['position_style'] 							: '';
-		$position_id 	= !empty($_POST['id']) 				? intval($_POST['id']) 								: 0;
-		
-		$count = RC_DB::table('ad_position')->where('position_name', $position_name)->where('position_id', '!=', $position_id)->count();
-		if ($count == 0) {
-			$data = array(
-				'position_name' 	=> $position_name,
-				'ad_width' 			=> $ad_width,
-				'ad_height' 		=> $ad_height,
-				'position_desc' 	=> $position_desc,
-				'position_style' 	=> $position_style 
-			);
-			RC_DB::table('ad_position')->where('position_id', $position_id)->update($data);
-			ecjia_admin::admin_log($position_name, 'edit', 'ads_position');
-			return $this->showmessage(RC_Lang::get('adsense::adsense.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-		} else {
-			return $this->showmessage(RC_Lang::get('adsense::adsense.posit_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
-	
-	/**
-	 * 编辑广告位置名称
-	 */
-	public function edit_position_name() {
-		$this->admin_priv('ad_position_update', ecjia::MSGTYPE_JSON);
-		
-		$id = intval($_POST['pk']);
-		$position_name = trim($_POST['value']);
-		if (!empty($position_name)) {
-			if (RC_DB::table('ad_position')->where('position_name', $position_name)->count() != 0) {
-				return $this->showmessage(sprintf(RC_Lang::get('adsense::adsense.posit_name_exist'), $position_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			} else {
-				$data = array(
-					'position_name' => $position_name 
-				);
-				RC_DB::table('ad_position')->where('position_id', $id)->update($data);
-				ecjia_admin::admin_log($position_name, 'edit', 'ads_position');
-				return $this->showmessage(RC_Lang::get('adsense::adsense.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($position_name)));
-			}
-		} else {
-			return $this->showmessage(RC_Lang::get('adsense::adsense.ad_name_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
-	
-	/**
-	 * 编辑广告位宽
-	 */
-	public function edit_ad_width() {
-		$this->admin_priv('ad_position_update', ecjia::MSGTYPE_JSON);
-		
-		$id = intval($_POST['pk']);
-		$ad_width = trim($_POST['value']);
-		if (!empty($ad_width)) {
-			if (!preg_match('/^[\\.0-9]+$/', $ad_width)) {
-				return $this->showmessage(RC_Lang::get('adsense::adsense.width_number'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if ($ad_width > 1024 || $ad_width < 1) {
-				return $this->showmessage(RC_Lang::get('adsense::adsense.width_value'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			$data = array(
-				'ad_width' => $ad_width 
-			);
-			RC_DB::table('ad_position')->where('position_id', $id)->update($data);
-			ecjia_admin::admin_log($ad_width, 'edit', 'ads_position');
-			return $this->showmessage(RC_Lang::get('adsense::adsense.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($ad_width)));
-		} else {
-			return $this->showmessage(RC_Lang::get('adsense::adsense.ad_width_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
-	
-	/**
-	 * 编辑广告位宽
-	 */
-	public function edit_ad_height() {
-		$this->admin_priv('ad_position_update', ecjia::MSGTYPE_JSON);
-		
-		$id = intval($_POST['pk']);
-		$ad_height = trim($_POST['value']);
-		if (!empty($ad_height)) {
-			if (!preg_match('/^[\\.0-9]+$/', $ad_height)) {
-				return $this->showmessage(RC_Lang::get('adsense::adsense.height_number'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if ($ad_height > 1024 || $ad_height < 1) {
-				return $this->showmessage(RC_Lang::get('adsense::adsense.height_value'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			$data = array(
-				'ad_height' => $ad_height 
-			);
-			RC_DB::table('ad_position')->where('position_id', $id)->update($data);
-			ecjia_admin::admin_log($ad_height, 'edit', 'ads_position');
-			return $this->showmessage(RC_Lang::get('adsense::adsense.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($ad_height)));
-		} else {
-			return $this->showmessage(RC_Lang::get('adsense::adsense.ad_height_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
-	
+    	$this->admin_priv('ad_position_update');
+    	 
+    	$position_name = !empty($_POST['position_name']) ? trim($_POST['position_name']) : '';
+    	$position_code_value = !empty($_POST['position_code_value']) ? trim($_POST['position_code_value']) : '';
+    	$position_code_ifnull = !empty($_POST['position_code_ifnull']) ? trim($_POST['position_code_ifnull']) : '';
+    	
+    	if(!empty($position_code_ifnull)){
+    		$position_code = $position_code_ifnull;
+    	}else{
+    		$position_code = $position_code_value;
+    	}
+    	
+    	$position_desc = !empty($_POST['position_desc']) ? nl2br(htmlspecialchars($_POST['position_desc'])) : '';
+    	$ad_width      = !empty($_POST['ad_width']) ? intval($_POST['ad_width']) : 0;
+    	$ad_height     = !empty($_POST['ad_height']) ? intval($_POST['ad_height']) : 0;
+    	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
+    	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
+    	
+    	$city_id       = intval($_POST['city_id']);
+    	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+    	if(!$city_name){
+    		$city_name = '默认';
+    	}
+    	$position_id = intval($_POST['position_id']);
+    	$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('type', 'adsense')->where('city_id', $city_id)->where('position_id', '!=', $position_id)->count();
+    	if ($query > 0) {
+    		return $this->showmessage('该广告位代号在当前城市中已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	
+    	$data = array(
+    		'position_name' => $position_name,
+    		'position_code' => $position_code,
+    		'ad_width'      => $ad_width,
+    		'ad_height'     => $ad_height,
+    		'max_number'    => $max_number,
+    		'position_desc' => $position_desc,
+    		'city_id' 		=> $city_id,
+    		'city_name' 	=> $city_name,
+    		'sort_order' 	=> $sort_order,
+    	);
+    	
+    	RC_DB::table('ad_position')->where('position_id', $position_id)->update($data);
+    	ecjia_admin::admin_log($position_name, 'edit', 'ads_position');
+    	return $this->showmessage('编辑广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_position/edit', array('position_id' => $position_id, 'city_id' => $city_id))));
+    }
+
 	/**
 	 * 删除广告位置
 	 */
 	public function remove() {
-		$this->admin_priv('ad_position_delete', ecjia::MSGTYPE_JSON);
-		
+		$this->admin_priv('ad_position_delete');
+	
 		$id = intval($_GET['id']);
 		if (RC_DB::table('ad')->where('position_id', $id)->count() != 0) {
 			return $this->showmessage(RC_Lang::get('adsense::adsense.not_del_adposit'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -302,10 +292,97 @@ class admin_position extends ecjia_admin {
 			$position_name = RC_DB::table('ad_position')->where('position_id', $id)->pluck('position_name');
 			ecjia_admin::admin_log($position_name, 'remove', 'ads_position');
 			RC_DB::table('ad_position')->where('position_id', $id)->delete();
+			return $this->showmessage(RC_Lang::get('adsense::adsense.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_position/init')));
 		}
-		return $this->showmessage(RC_Lang::get('adsense::adsense.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
+	public function copy() {
+		$this->admin_priv('ad_position_update');
+		
+		$position_id = intval($_GET['position_id']);
+		$position_code = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->pluck('position_code');
+		 
+		$position_name = trim($_GET['position_name']);
+		$position_desc = $_GET['position_desc'];
+		$ad_width      = intval($_GET['ad_width']);
+		$ad_height     = intval($_GET['ad_height']);
+		$max_number    = intval($_GET['max_number']);
+		$sort_order    = intval($_GET['sort_order']);
+		
+		$city_id = intval($_GET['city_id']);
+		$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+		if(!$city_name){
+			$city_name = '默认';
+		}
+		 
+		$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('city_id', $city_id)->where('type', 'adsense')->count();
+		if ($query > 0) {
+			return $this->showmessage('请重新选择城市，该广告位代号在当前城市中已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+	
+		$data = array(
+    		'position_name' => $position_name,
+    		'position_code' => $position_code,
+    		'position_desc' => $position_desc,
+    		'ad_width'      => $ad_width,
+    		'ad_height'     => $ad_height,
+    		'max_number'    => $max_number,
+    		'city_id' 		=> $city_id,
+    		'city_name' 	=> $city_name,
+    		'type' 			=> 'adsense',
+    		'sort_order' 	=> $sort_order,
+    	);
+	
+		$position_id = RC_DB::table('ad_position')->insertGetId($data);
+		ecjia_admin::admin_log($position_name, 'copy', 'ads_position');
+		return $this->showmessage('复制成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_position/edit', array('position_id' => $position_id,'city_id' => $city_id))));
+	}
+	
+	/**
+	 * 编辑广告位置名称
+	 */
+	public function edit_position_name() {
+		$this->admin_priv('ad_position_update');
+	
+		$id = intval($_POST['pk']);
+		$position_name = trim($_POST['value']);
+		if (!empty($position_name)) {
+			if (RC_DB::table('ad_position')->where('position_name', $position_name)->count() != 0) {
+				return $this->showmessage(sprintf(RC_Lang::get('adsense::adsense.posit_name_exist'), $position_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			} else {
+				$data = array(
+						'position_name' => $position_name
+				);
+				RC_DB::table('ad_position')->where('position_id', $id)->update($data);
+				ecjia_admin::admin_log($position_name, 'edit', 'ads_position');
+				return $this->showmessage(RC_Lang::get('adsense::adsense.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_position/init')));
+			}
+		} else {
+			return $this->showmessage(RC_Lang::get('adsense::adsense.ad_name_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+	}
+	
+	/**
+	 * 编辑排序
+	 */
+	public function edit_sort() {
+		$this->admin_priv('ad_position_update');
+	
+		$id    = intval($_POST['pk']);
+		$sort_order   = intval($_POST['value']);
+		$city_id      = intval($_GET['city_id']);
+		$show_client  = intval($_GET['show_client']);
+		 
+		RC_DB::table('ad_position')->where('position_id', $id)->update(array('sort_order'=> $sort_order));
+		$group_position_id  = intval($_GET['group_position_id']);
+		if($group_position_id){
+			return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_group/group_position_list', array('position_id' => $group_position_id, 'city_id' => $city_id))));
+		}else{
+			return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_position/init', array('position_id' => $id, 'city_id' => $city_id, 'show_client' => $show_client))));
+		}
+		
+	}
+
 	/**
 	 * 获取广告位置列表
 	 */
@@ -317,10 +394,16 @@ class admin_position extends ecjia_admin {
 		if ($filter['keywords']) {
 			$db_ad_position->where('position_name', 'like', '%' . mysql_like_quote($filter['keywords']) . '%');
 		}
+		
+		$db_ad_position->where(RC_DB::raw('type'), 'adsense');
+		
 		$count = $db_ad_position->count();
 		$page = new ecjia_page($count, 10, 5);
-		$db_ad_position->orderby('position_id', 'desc')->take(10)->skip($page->start_id - 1);
-		$data = $db_ad_position->get();
+		$data = $db_ad_position
+				->orderby('position_id', 'desc')
+				->take(10)
+				->skip($page->start_id - 1)
+				->get();
 		
 		$arr = array();
 		if (!empty($data)) {
@@ -331,6 +414,30 @@ class admin_position extends ecjia_admin {
 			}
 		}
 		return array('item' => $arr, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
+	}
+	
+	/**
+	 * 获取热门城市
+	 */
+	private function get_select_city() {
+		$data = explode(',', ecjia::config('mobile_recommend_city'));
+		$data = RC_DB::table('region')->whereIn('region_id', $data)->get();
+		$regions = array ();
+		if (!empty($data)) {
+			foreach ($data as $row) {
+				$regions[$row['region_id']] = addslashes($row['region_name']);
+			}
+		}
+		return $regions;
+	}
+	
+	private function get_city_list() {
+		$city_list = RC_DB::TABLE('ad_position')->where('type', 'adsense')->selectRaw('distinct city_id,city_name')->orderBy('city_id', 'asc')->get();
+		foreach ($city_list as $key => $val) {
+			$count = RC_DB::TABLE('ad_position')->where('type', 'adsense')->where('city_id', $val['city_id'])->count();
+			$city_list[$key]['count']=$count;
+		}
+		return $city_list;
 	}
 }
 

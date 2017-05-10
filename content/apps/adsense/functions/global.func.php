@@ -47,52 +47,22 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 手机启动页广告
- * @author will.chen
+ * 添加管理员记录日志操作对象
  */
-class adsense_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	
-		$data = RC_Cache::app_cache_get('app_home_adsense', 'adsense');
-		if (empty($data)) {
-			//流程逻辑开始
-			// runloop 流
-			$response = array();
-			$response = RC_Hook::apply_filters('api_home_adsense_runloop', $response, $request);
-			RC_Cache::app_cache_set('app_home_adsense', $response, 'adsense');
-			//流程逻辑结束
-		} else {
-			$response = $data;
-		}
-		return $response;
-	}
+function assign_adminlog_contents() {
+	ecjia_admin_log::instance()->add_action('copy', '复制');
+	ecjia_admin_log::instance()->add_action('constitute', '编排');
+	
+	ecjia_admin_log::instance()->add_object('group_cycleimage', '轮播组');
+	ecjia_admin_log::instance()->add_object('cycleimage', '轮播图');
+	
+	ecjia_admin_log::instance()->add_object('group_shortcut', '菜单组');
+	ecjia_admin_log::instance()->add_object('shortcut', '快捷菜单');
+	
+	ecjia_admin_log::instance()->add_object('group_position', '广告组');
+	
+	
+	
 }
 
-function adsense_data($response, $request) {
-    
-    $city_id	= $request->input('city_id', 0);
-    $device_client = $request->header('device-client', 'iphone');
-    
-    if ($device_client == 'android') {
-        $client = Ecjia\App\Adsense\Client::ANDROID;
-    } elseif ($device_client == 'h5') {
-        $client = Ecjia\App\Adsense\Client::H5;
-    } else {
-        $client = Ecjia\App\Adsense\Client::IPHONE;
-    }
-    
-    $adsense_list = RC_Api::api('adsense', 'adsense', [
-        'code'     => 'app_start_adsense',
-        'client'   => $client,
-        'city'     => $city_id
-    ]);
-    
-	
-	$response = $adsense_list;
-	
-	return $response;
-}
-
-RC_Hook::add_filter('api_home_adsense_runloop', 'adsense_data', 10, 2);
-
-// end
+//end

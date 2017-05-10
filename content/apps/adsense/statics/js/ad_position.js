@@ -18,6 +18,30 @@
     /* **编辑** */
     app.ad_position_edit = {
         init: function () {
+        	
+        	$('.copy').on('click', function() {
+				var $this = $(this),
+					message = $this.attr('data-msg'),
+					url = $this.attr('data-href');
+					var city_id = $("#city_id option:selected").val();
+					var position_name = $("input[name='position_name']").val();
+					var position_desc = $("#position_desc").val()
+					var max_number = $("input[name='max_number']").val();
+					var sort_order = $("input[name='sort_order']").val();
+					var ad_width = $("input[name='ad_width']").val();
+					var ad_height = $("input[name='ad_height']").val();
+	                url += '&city_id=' + city_id+'&position_name=' + position_name+'&position_desc=' + position_desc+'&max_number=' + max_number+'&sort_order=' + sort_order+'&ad_width=' + ad_width+'&ad_height=' + ad_height;
+				if (message != undefined) {
+					smoke.confirm(message, function(e) {
+						if (e) {
+							$.get(url, function(data){
+								ecjia.admin.showmessage(data);
+							})
+						}
+					}, {ok:"确定", cancel:"取消"});
+				} 
+			});
+			
             app.ad_position_edit.submit_form();
         },
         submit_form: function (formobj) {
@@ -27,23 +51,17 @@
                     position_name: {
                         required: true
                     },
-                    ad_width: {
+                    position_code: {
                         required: true
-                    },
-                    ad_height: {
-                        required: true
-                    },
+                    }
                 },
                 messages: {
                     position_name: {
-                        required: js_lang.position_name_required
+                        required: "请输入广告位名称"
                     },
-                    ad_width: {
-                        required: js_lang.ad_width_required
-                    },
-                    ad_height: {
-                        required: js_lang.ad_height_required
-                    },
+                    position_code: {
+                        required: "请输入广告位代号"
+                    }
                 },
                 submitHandler: function () {
                     $form.ajaxSubmit({

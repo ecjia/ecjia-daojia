@@ -3,7 +3,7 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-ecjia.admin.ad_position_edit.init();
+ecjia.admin.cycleimage.cycleimage_group_info();
 </script>
 <!-- {/block} -->
 
@@ -23,15 +23,15 @@ ecjia.admin.ad_position_edit.init();
 			<div class="row-fluid edit-page editpage-rightbar">
 				<div class="left-bar move-mod">
 			        <div class="control-group formSep">
-			        	<label class="control-label">广告位名称：</label>
+			        	<label class="control-label">菜单组名称：</label>
 			          	<div class="controls">
 			            	<input class="w350" type="text" name="position_name" value="{$data.position_name}" />
 			            	<span class="input-must">{lang key='system::system.require_field'}</span>
 			            </div>
 			        </div>
 			        
-			         <div class="control-group formSep">
-			        	<label class="control-label">广告位代号：</label>
+			        <div class="control-group formSep">
+			        	<label class="control-label">菜单组代号：</label>
 				        <div class="controls">
 							{if $data.position_code}
 								<input class="w350" type="text" disabled="disabled" value="{$data.position_code}" />
@@ -40,14 +40,14 @@ ecjia.admin.ad_position_edit.init();
 								<input class="w350" type="text" name="position_code_ifnull" />
 							{/if}
 							<span class="input-must">{lang key='system::system.require_field'}</span>
-							<span class="help-block">广告位调用标识，且在同一地区下该标识不可重复。</span>
+							<span class="help-block">菜单组调用标识，且在同一地区下该标识不可重复。</span>
 						</div>
 			        </div>
 			      
 			        <div class="control-group formSep">
-			        	<label class="control-label">广告位描述：</label>
+			        	<label class="control-label">菜单组描述：</label>
 			          	<div class="controls">
-			            	<textarea id="position_desc" name="position_desc" class="w350"  cols="60" rows="5">{$data.position_desc}</textarea>
+			            	<textarea name="position_desc" class="w350"  cols="60" rows="5" id="position_desc">{$data.position_desc}</textarea>
 			            </div>
 			        </div>	
 			        
@@ -55,7 +55,7 @@ ecjia.admin.ad_position_edit.init();
 			        	<label class="control-label">可展示数量最大值：</label>
 			          	<div class="controls">
 			            	<input class="w350" type="text" name="max_number" value="{$data.max_number}" />
-			            	<span class="help-block">在此可设置前台调用该广告位置的轮播图显示数量。</span>
+			            	<span class="help-block">在此可设置前台调用该菜单组的快捷菜单显示数量。</span>
 			            </div>
 			        </div>	
 			        
@@ -71,7 +71,7 @@ ecjia.admin.ad_position_edit.init();
 			        		{if $data.position_id}
 			        			<input type="hidden" name="position_id" value="{$data.position_id}" />
 			        			<input type="submit" value="更新" class="btn btn-gebo" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			        			<a class="copy ecjiafc-red" style="cursor: pointer;" data-msg="您确定要进行复制该广告位信息吗？" data-href='{url path="adsense/admin_position/copy" args="position_id={$data.position_id}"}' title="复制"><button class="btn" type="button">复制</button></a>
+			        			<a class="copy ecjiafc-red" style="cursor: pointer;" data-msg="您确定要进行复制该菜单组信息吗？" data-href='{url path="adsense/admin_shortcut/copy" args="position_id={$position_id}"}' title="复制"><button class="btn" type="button">复制</button></a>
 			        		{else}
 			        			<input type="submit" value="确定" class="btn btn-gebo" />
 			        		{/if}
@@ -103,7 +103,7 @@ ecjia.admin.ad_position_edit.init();
 							        	<label class="control-label">宽度：</label>
 							        	<div class="controls">
 								        	<input type="text" name="ad_width" value="{$data.ad_width}"  class="" placeholder="像素" />
-											<span class="help-block">建议广告位宽度单位为Px</span>
+											<span class="help-block">建议菜单组宽度单位为Px</span>
 										</div>
 							        </div>
 							        
@@ -111,7 +111,7 @@ ecjia.admin.ad_position_edit.init();
 							        	<label class="control-label">高度：</label>
 							        	<div class="controls">
 						            		<input type="text" name="ad_height" value="{$data.ad_height}" class="" placeholder="像素" />
-						            		<span class="help-block">建议广告位高度单位为Px</span>
+						            		<span class="help-block">建议菜单组高度单位为Px</span>
 						            	</div>
 							        </div>
 								</div>

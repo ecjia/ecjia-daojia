@@ -47,52 +47,70 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 手机启动页广告
- * @author will.chen
+ * 获取广告位的广告列表
+ * 
+ * @author royalwang
  */
-class adsense_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	
-		$data = RC_Cache::app_cache_get('app_home_adsense', 'adsense');
-		if (empty($data)) {
-			//流程逻辑开始
-			// runloop 流
-			$response = array();
-			$response = RC_Hook::apply_filters('api_home_adsense_runloop', $response, $request);
-			RC_Cache::app_cache_set('app_home_adsense', $response, 'adsense');
-			//流程逻辑结束
-		} else {
-			$response = $data;
-		}
-		return $response;
-	}
-}
-
-function adsense_data($response, $request) {
+class adsense_adsense_api extends Component_Event_Api {
     
-    $city_id	= $request->input('city_id', 0);
-    $device_client = $request->header('device-client', 'iphone');
-    
-    if ($device_client == 'android') {
-        $client = Ecjia\App\Adsense\Client::ANDROID;
-    } elseif ($device_client == 'h5') {
-        $client = Ecjia\App\Adsense\Client::H5;
-    } else {
-        $client = Ecjia\App\Adsense\Client::IPHONE;
+    /**
+     *
+     * @param city 当前城市ID
+     * @param code string 广告位置代号
+     * 
+     * @return array
+     */
+    public function call(&$options) {
+        $city = array_get($options, 'city', 0);
+        $code = array_get($options, 'code');
+        $client = array_get($options, 'client');
+        
+        if (!$client) {
+            return array();
+        }
+        
+        
+        $position = new Ecjia\App\Adsense\PositionManage('adsense', $city);
+        $data = $position->findAdByCode($code, $client);
+   
+        //如果指定的城市中找不到轮播图，就获取默认城市轮播图
+        if (empty($data) && $city > 0) {
+            //获取默认地区的轮播图
+            $data = $this->getDefaultCityAds($code, $client);
+        }
+        
+        if (empty($data)) {
+            return [];
+        }
+        
+        $data = collect($data)->map(function ($item, $key) {
+        	return [
+        	    'ad_id'		 => $item['ad_id'],
+        	    'ad_name'    => $item['ad_name'],
+        	    'ad_link'	 => $item['ad_link'],
+        	    'ad_img'	 => empty($item['ad_code']) ? '' : RC_Upload::upload_url($item['ad_code']),
+        	    'start_time' => RC_Time::local_date(ecjia::config('date_format'), $item['start_time']),
+        	    'end_time'	 => RC_Time::local_date(ecjia::config('date_format'), $item['end_time']),
+        	];
+        })->toArray();
+        
+        return $data;
     }
     
-    $adsense_list = RC_Api::api('adsense', 'adsense', [
-        'code'     => 'app_start_adsense',
-        'client'   => $client,
-        'city'     => $city_id
-    ]);
+    /**
+     * 获取默认地区轮播图位置
+     * @param string $code
+     * @return array
+     */
+    public function getDefaultCityAds($code, $client)
+    {
+        $city = 0;
+        $position = new Ecjia\App\Adsense\PositionManage('adsense', $city);
+        $data = $position->findAdByCode($code, $client);
+        
+        return $data;
+    }
     
-	
-	$response = $adsense_list;
-	
-	return $response;
 }
-
-RC_Hook::add_filter('api_home_adsense_runloop', 'adsense_data', 10, 2);
 
 // end
