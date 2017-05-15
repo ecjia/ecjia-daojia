@@ -51,7 +51,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 return array(
 	'installer' 		=> '升级器',
-	'installer_desc'	=> '用来升级ECJIA项目的升级器'
+	'installer_desc'	=> '用来升级ECJIA项目的升级器',
+    'upgrade'           => '升级器',
+    'upgrade_desc'      => '用来升级ECJIA项目的升级器'
 );
 
 // end
