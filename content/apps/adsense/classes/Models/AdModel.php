@@ -56,6 +56,28 @@ class AdModel extends Model
 	
 	protected $primaryKey = 'ad_id';
 	
+	/**
+	 * 可以被批量赋值的属性。
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+	    'position_id',
+	    'media_type',
+	    'ad_link',
+	    'ad_name',
+	    'ad_code',
+	    'sort_order',
+	    'show_client',
+	    ];
+	
+	/**
+	 * 该模型是否被自动维护时间戳
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
+	
 	public function ad_position() 
 	{
 		return $this->belongsTo('Ecjia\App\Adsense\Models\AdPositionModel', 'position_id', 'position_id');

@@ -327,6 +327,19 @@ class admin_group extends ecjia_admin {
 		return $this->showmessage('编排广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_group/constitute', array('position_id' => $group_position_id,'city_id' => $city_id))));
 	}
 	
+	
+	public function update_sort() {
+		$this->admin_priv('ad_group_update');
+		
+		$position_array = $_GET['position_array'];
+		if (!empty($position_array)) {
+			foreach ($position_array as $row) {
+				$data= array('sort_order' => $row['position_sort']);
+				RC_DB::table('ad_position')->where('position_id', $row['position_id'])->update($data);
+			}
+		}		
+	}
+	
 	public function group_position_list() {
 	
 		$this->admin_priv('ad_group_manage');

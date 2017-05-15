@@ -4,7 +4,7 @@
 <!-- {block name="footer"} -->
 <script type="text/javascript">
 $(document).ready(function(){
-	  var fixHelperModified = function(e, tr) {
+	  	var fixHelperModified = function(e, tr) {
 	     var $originals = tr.children();
 	     var $helper = tr.clone();
 	     $helper.children().each(function(index) {
@@ -12,15 +12,33 @@ $(document).ready(function(){
 	     });
 	     return $helper;
 	    },
+	    
 	    updateIndex = function(e, ui) {
-	     $('td.index', ui.item.parent()).each(function (i) {
-	      $(this).html(i + 1);
-	     });
+		     $('td.index', ui.item.parent()).each(function (i) {
+		      	$(this).html(i + 1);
+		     });
+
+		      	var url = $('.position_detail').attr('data-url');
+				var info = {literal}{'position_array' : []}{/literal};
+		
+				$('tbody tr').each(function (index){
+					var position_id = $('tbody tr').eq(index).find('.position_id').text();
+					var position_sort = $('tbody tr').eq(index).find('.position_sort').text();
+					info.position_array.push({
+						'position_id': position_id,
+						'position_sort': position_sort
+					});
+				});
+				
+				$.get(url, info, function(data) {
+					ecjia.admin.showmessage(data);
+				});
 	    };
-	  $("#sort tbody").sortable({
-		   helper: fixHelperModified,
-		   stop: updateIndex
-	  }).disableSelection();
+	    
+		  $("#sort tbody").sortable({
+			   helper: fixHelperModified,
+			   stop: updateIndex
+		  }).disableSelection();
 });
 </script>
 <style>
@@ -34,7 +52,7 @@ tr{
 <!-- {block name="main_content"} -->
 <div class="row-fluid">
      <div class="span12">
-         <div class="position_detail">
+         <div class="position_detail" data-url='{RC_Uri::url("adsense/admin_group/update_sort")}'>
             <h3>广告组信息</h3>
             <ul>
                 <li><div class="detail"><strong>广告组名称：</strong><span>{$position_data.position_name}{if $position_data.position_code}（{$position_data.position_code}）{else}（无）{/if}</span></div></li>
@@ -81,11 +99,11 @@ tr{
 			<tbody>
             	<!-- {foreach from=$data item=val} -->
 				<tr>
-					<td><span>{$val.position_id}</span></td>
+					<td class="position_id"><span>{$val.position_id}</span></td>
 				    <td><span>{$val.position_name}</span></td>
 				    <td><span>{if $val.position_code}{$val.position_code}{else}<i><无></i>{/if}</span></td>
 				    <td><span>{$val.position_desc}</span></td>
-				    <td class="index"><span class="edit_sort cursor_pointer" data-trigger="editable" data-url='{RC_Uri::url("adsense/admin_position/edit_sort", "city_id={$city_id}&group_position_id={$position_id}")}' data-name="sort_order" data-pk="{$val.position_id}" data-title="排序">{$val.sort_order}</span></td>
+				    <td class="position_sort index"><span class="edit_sort cursor_pointer" data-trigger="editable" data-url='{RC_Uri::url("adsense/admin_position/edit_sort", "city_id={$city_id}&group_position_id={$position_id}")}' data-name="sort_order" data-pk="{$val.position_id}" data-title="排序">{$val.sort_order}</span></td>
 				    <td>
 					   	<a class="data-pjax" href='{RC_Uri::url("adsense/admin/init", "position_id={$val.position_id}&city_id={$city_id}")}' title="查看广告"><button class="btn">查看广告</button></a>
 				    </td>
