@@ -45,9 +45,13 @@
 //  ---------------------------------------------------------------------------------
 //
 use Ecjia\System\Version\Version;
-use Royalcms\Component\Database\QueryException;
 use Ecjia\System\Database\Migrate;
 use Ecjia\System\Database\Seeder;
+use Ecjia\App\Adsense\Repositories\CycleImageRepository;
+use Ecjia\App\Adsense\Repositories\ShortcutMenuRepository;
+use Ecjia\App\Adsense\Repositories\AdGroupRepository;
+use Ecjia\App\Adsense\Repositories\AdPositionRepository;
+use Ecjia\App\Adsense\Repositories\AdRepository;
 
 class Version_10500 extends Version
 {
@@ -59,7 +63,7 @@ class Version_10500 extends Version
     public function fire()
     {
         $migrate = new Migrate();
-        
+            
         // 更新1.5中新增的迁移项
         $migrate->fire();
         
@@ -74,6 +78,19 @@ class Version_10500 extends Version
         $seeder = new Seeder('InitShopConfigTableSeeder');
         $seeder->fire();
         
+        // 迁移旧数据到新表中
+        $this->migrateCycleimageData();
+        $this->migratePCMerchantCycleimageData();
+        $this->migrateDiscoverData();
+        $this->migrateHomeAdsenseGroupData();
+        $this->migrateShortcutMenuData();
+        $this->migrateStartAdsenseData();
+        
+        // 清除缓存
+        ecjia_update_cache::make()->clean('system_userdata_cache');
+        ecjia_update_cache::make()->clean('system_app_cache');
+        ecjia_update_cache::make()->clean('front_template_cache');
+        
         return true;
     }
     
@@ -84,6 +101,303 @@ class Version_10500 extends Version
     {
         RC_DB::table('shop_config')->where('code', 'hidden')->update(['type' => 'group']);
     }
+    
+    /**
+     * 迁移原轮播图数据
+     */
+    public function migrateCycleimageData()
+    {
+        
+        $cycleimageData = ecjia_config::get('cycleimage_data');
+        $cycleimageData and $cycleimageData = unserialize($cycleimageData);
+        
+        if (! $cycleimageData) {
+            return false;
+        }
+        
+        $cycleImageRepository = new CycleImageRepository();
+        $attributes = [
+        	'position_name' => '首页轮播图',
+            'position_code' => 'home_cycleimage',
+            'ad_width'      => '1000',
+            'ad_height'     => '400',
+            'max_number'    => '5',
+            'city_id'       => '0',
+            'city_name'     => '默认',
+            'type'          => 'cycleimage',
+        ];
+        $model = $cycleImageRepository->create($attributes);
+        
+        $position_id = $model->position_id;
+        
+        $adRepository = new AdRepository('cycleimage');
+        
+        collect($cycleimageData)->each(function($item) use ($position_id, $adRepository) {
+            $attributes = [
+            	'position_id'  => $position_id,
+            	'media_type'   => '0',
+            	'ad_link'      => $item['url'],
+            	'ad_name'      => $item['text'],
+            	'ad_code'      => $item['src'],
+            	'sort_order'   => $item['sort'],
+            	'show_client'  => '273',
+            ];
+            $adRepository->create($attributes);   
+        });
+        
+        $home_url = RC_Uri::home_url();
+            
+        $pcCycleimageData = [
+        	[
+        	    'url'  => $home_url . '/index.php?m=merchant&c=store&a=category&cat_id=4',
+        	    'text' => '',
+        	    'src'  => 'data/cycleimage/1492650806593974463.png',
+        	    'sort' => '1'
+    	    ],
+            [
+                'url'  => $home_url . '/index.php?m=merchant&c=goods&a=init&store_id=111',
+                'text' => '',
+                'src'  => 'data/cycleimage/1492651290525993731.png',
+                'sort' => '2'
+            ],
+            [
+                'url'  => $home_url . '/index.php?m=merchant&c=goods&a=init&store_id=60',
+                'text' => '',
+                'src'  => 'data/cycleimage/1492651307128656813.png',
+                'sort' => '3'
+            ],
+            [
+                'url'  => $home_url . '/index.php?m=merchant&c=goods&a=init&store_id=109',
+                'text' => '',
+                'src'  => 'data/cycleimage/1492651334051472978.png',
+                'sort' => '4'
+            ],
+            [
+                'url'  => $home_url . '/index.php?m=goods&c=index&a=init&cat_id=1033',
+                'text' => '',
+                'src'  => 'data/cycleimage/1492651353919196607.png',
+                'sort' => '5'
+            ],
+        ];
+        
+        collect($pcCycleimageData)->each(function($item) use ($position_id, $adRepository) {
+            $attributes = [
+                'position_id'  => $position_id,
+                'media_type'   => '0',
+                'ad_link'      => $item['url'],
+                'ad_name'      => $item['text'],
+                'ad_code'      => $item['src'],
+                'sort_order'   => $item['sort'],
+                'show_client'  => '4096',
+                ];
+            $adRepository->create($attributes);
+        });
+        
+        
+    }
+    
+    /**
+     * 迁移PC商家列表下的轮播图
+     */
+    public function migratePCMerchantCycleimageData()
+    {
+        $cycleImageRepository = new CycleImageRepository();
+        $attributes = [
+            'position_name' => '商家轮播图',
+            'position_code' => 'merchant_cycleimage',
+            'ad_width'      => '1920',
+            'ad_height'     => '420',
+            'max_number'    => '1',
+            'city_id'       => '0',
+            'city_name'     => '默认',
+            'type'          => 'cycleimage',
+            ];
+        $model = $cycleImageRepository->create($attributes);
+        
+        $position_id = $model->position_id;
+        
+        $adRepository = new AdRepository('cycleimage');
+        
+        $home_url = RC_Uri::home_url();
+        
+        $attributes = [
+            'position_id'  => $position_id,
+            'media_type'   => '0',
+            'ad_link'      => $home_url . '/index.php?m=merchant&c=store&a=category&cat_id=9',
+            'ad_name'      => '',
+            'ad_code'      => 'data/cycleimage/1492650692097234468.png',
+            'sort_order'   => '50',
+            'show_client'  => '4096',
+            ];
+        $adRepository->create($attributes);
+    }
+    
+    /**
+     * 迁移原快捷菜单数据
+     */
+    public function migrateShortcutMenuData()
+    {
+        
+        $shortcutData = ecjia_config::get('mobile_shortcut_data');
+        $shortcutData and $shortcutData = unserialize($shortcutData);
+        
+        if (! $shortcutData) {
+            return false;
+        }
+        
+        $shortcutMenuRepository = new ShortcutMenuRepository();
+        $attributes = [
+            'position_name' => '首页快捷菜单',
+            'position_code' => 'home_shortcut',
+            'ad_width'      => '200',
+            'ad_height'     => '200',
+            'max_number'    => '10',
+            'city_id'       => '0',
+            'city_name'     => '默认',
+            'type'          => 'shortcut',
+            ];
+        $model = $shortcutMenuRepository->create($attributes);
+        
+        $position_id = $model->position_id;
+        
+        $adRepository = new AdRepository('shortcut');
+        
+        collect($shortcutData)->each(function($item) use ($position_id, $adRepository) {
+            $attributes = [
+                'position_id'  => $position_id,
+                'media_type'   => '0',
+                'ad_link'      => $item['url'],
+                'ad_name'      => $item['text'],
+                'ad_code'      => $item['src'],
+                'sort_order'   => $item['sort'],
+                'show_client'  => '273',
+                ];
+            $adRepository->create($attributes);
+        });
+        
+    }
+    
+    /**
+     * 迁移原快捷菜单数据
+     */
+    public function migrateDiscoverData()
+    {
+        $shortcutData = ecjia_config::get('mobile_discover_data');
+        $shortcutData and $shortcutData = unserialize($shortcutData);
+        
+        if (! $shortcutData) {
+            return false;
+        }
+        
+        $shortcutMenuRepository = new ShortcutMenuRepository();
+        $attributes = [
+            'position_name' => '百宝箱',
+            'position_code' => 'discover',
+            'ad_width'      => '200',
+            'ad_height'     => '200',
+            'max_number'    => '10',
+            'city_id'       => '0',
+            'city_name'     => '默认',
+            'type'          => 'shortcut',
+            ];
+        $model = $shortcutMenuRepository->create($attributes);
+        
+        $position_id = $model->position_id;
+        
+        $adRepository = new AdRepository('shortcut');
+        
+        collect($shortcutData)->each(function($item) use ($position_id, $adRepository) {
+            $attributes = [
+                'position_id'  => $position_id,
+                'media_type'   => '0',
+                'ad_link'      => $item['url'],
+                'ad_name'      => $item['text'],
+                'ad_code'      => $item['src'],
+                'sort_order'   => $item['sort'],
+                'show_client'  => '273',
+                ];
+            $adRepository->create($attributes);
+        });
+    }
+    
+    
+    /**
+     * 迁移原首页广告组数据
+     */
+    public function migrateHomeAdsenseGroupData()
+    {
+        $adsenseGroupData = ecjia_config::get('mobile_home_adsense_group');
+        $adsenseGroupData and $adsenseGroupData = explode(',', $adsenseGroupData);
+        
+        if (! $adsenseGroupData) {
+            return false;
+        }
+        
+        $adGroupRepository = new AdGroupRepository();
+        $attributes = [
+            'position_name' => '首页多组广告位',
+            'position_code' => 'home_complex_adsense',
+            'position_desc' => 'App、H5首页上使用的多广告位合成效果。',
+            'city_id'       => '0',
+            'city_name'     => '默认',
+            'type'          => 'group',
+            ];
+        $model = $adGroupRepository->create($attributes);
+        
+        $position_id = $model->position_id;
+        
+        $adPositionRepository = new AdPositionRepository();
+        
+        collect($adsenseGroupData)->each(function($item, $key) use ($position_id, $adPositionRepository) {
+            $model = $adPositionRepository->find($item);
+            
+            if ($model) {
+                $attributes = [
+                    'position_code' => 'position_'.$item,
+                    'group_id'      => $position_id,
+                    'sort_order'    => $key,
+                    'city_id'       => '0',
+                    'city_name'     => '默认',
+                    ];
+                $adPositionRepository->update($model, $attributes);
+                
+                $adsModel = $model->ads();
+                $adsModel->get()->each(function($item) {
+                    $item->update(['show_client' => '273']);
+                });
+            }
+        });
+    }
+    
+    /**
+     * 迁移启动广告数组
+     */
+    public function migrateStartAdsenseData()
+    {
+        $startAdsenseData = ecjia_config::get('mobile_launch_adsense');
+        if (! $startAdsenseData) {
+            return false;
+        }
+        
+        $adPositionRepository = new AdPositionRepository();
+        $model = $adPositionRepository->find($startAdsenseData);
+        
+        if ($model) {
+            $attributes = [
+                'position_name' => '应用启动广告位',
+                'position_code' => 'app_start_adsense',
+                'ad_width'      => '750',
+                'ad_height'     => '1334',
+                'max_number'    => '1',
+                'city_id'       => '0',
+                'city_name'     => '默认',
+                'type'          => 'adsense',
+                ];
+            $adPositionRepository->update($model, $attributes);
+        }
+
+    }
+    
     
     /**
      * shop_config 表中废弃的code值记录
