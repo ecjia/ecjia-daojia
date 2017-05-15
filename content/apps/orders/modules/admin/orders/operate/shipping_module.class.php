@@ -96,7 +96,7 @@ class shipping_module extends api_admin implements api_interface {
 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 		$shipping		= $shipping_method->shipping_area_info($shipping_id, $region_id_list, $order_info['store_id']);
 		if (empty($shipping)) {
-		    return ecjia_error('shipping_fail', '配送方式获取失败');
+		    return new ecjia_error('shipping_fail', '配送方式获取失败');
 		}
 		if (strpos($shipping['shipping_code'], 'ship') === false) {
 			$shipping['shipping_code'] = 'ship_'.$shipping['shipping_code'];

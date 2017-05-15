@@ -58,8 +58,8 @@ class delivery_module extends api_admin implements api_interface {
 			return new ecjia_error(100, 'Invalid session');
 		}
 		
-		$result_view = $this->requestData('order_view'); 
-		$result_edit = $this->requestData('order_ss_edit');
+		$result_view = $this->admin_priv('order_view'); 
+		$result_edit = $this->admin_priv('order_ss_edit');
 		if (is_ecjia_error($result_view)) {
 			return $result_view;
 		} elseif (is_ecjia_error($result_edit)) {
@@ -69,11 +69,11 @@ class delivery_module extends api_admin implements api_interface {
 		$order_id		= $this->requestData('order_id', 0);
 		$invoice_no		= $this->requestData('invoice_no');
 		/* 发货数量*/
-		$send_number	= $this->requestData('send_number');//array('123' => 1);
+		$send_number	= $this->requestData('send_number');//array('123' => 1);rec_id,num
 
 		$action_note	= $this->requestData('action_note', '');
 		if (empty($order_id)) {
-			return new ecjia_error(100, 'Invalid session');
+			return new ecjia_error('invalid_parameter', '参数错误');
 		}
 		/*验证订单是否属于此入驻商*/
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
@@ -85,7 +85,7 @@ class delivery_module extends api_admin implements api_interface {
 		
 		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
 		if (empty($order_info)) {
-			return new ecjia_error(100, 'Invalid session');
+			return new ecjia_error('invalid_parameter', '参数错误');
 		}
 		
 		/* 订单是否已全部分单检查 */
@@ -98,7 +98,6 @@ class delivery_module extends api_admin implements api_interface {
 		/* 取得订单商品 */
 		$_goods = get_order_goods(array('order_id' => $order_id));
 		$goods_list = $_goods['goods_list'];
-		
 		
 		/* 检查此单发货数量填写是否正确 合并计算相同商品和货品 */
 		if (!empty($send_number) && !empty($goods_list)) {
@@ -118,7 +117,11 @@ class delivery_module extends api_admin implements api_interface {
 		
 					//去除
 					if ($send_number[$value['rec_id']] <= 0) {
-						unset($send_number[$value['rec_id']], $goods_list[$key]);
+					    if ($send_number[$value['rec_id']]) {
+					        unset($send_number[$value['rec_id']], $goods_list[$key]);
+					    } else {
+					        unset($goods_list[$key]);
+					    }
 						continue;
 					}
 				} else {
@@ -229,8 +232,8 @@ class delivery_module extends api_admin implements api_interface {
 		
 		/* 过滤字段项 */
 		$filter_fileds = array(
-				'order_sn', 'add_time', 'store_id', 'how_oos', 'shipping_id', 'shipping_name', 'shipping_fee',
-				'consignee', 'address', 'country', 'province', 'city', 'district', 'sign_building',
+				'order_sn', 'add_time', 'store_id', 'user_id', 'how_oos', 'shipping_id', 'shipping_name', 'shipping_fee',
+				'consignee', 'address', 'country', 'province', 'city', 'district', 'sign_building', 'longitude', 'latitude',
 				'email', 'zipcode', 'tel', 'mobile', 'best_time', 'postscript', 'insure_fee',
 				'agency_id', 'delivery_sn', 'action_user', 'update_time',
 				'suppliers_id', 'status', 'order_id', 'shipping_name'
@@ -320,9 +323,9 @@ class delivery_module extends api_admin implements api_interface {
 		}
 		unset($filter_fileds, $delivery, $_delivery, $order_finish);
 		
-		/* 定单信息更新处理 */
+		/* 订单信息更新处理 */
 		if (true) {
-			/* 定单信息 */
+			/* 订单信息 */
 			$_sended = & $send_number;
 			foreach ($_goods['goods_list'] as $key => $value) {
 				if ($value['extension_code'] != 'package_buy') {
@@ -362,6 +365,9 @@ class delivery_module extends api_admin implements api_interface {
 		
 		$order_info['invoice_no'] = $invoice_no;
 		$delivery_result = delivery_order($delivery_id, $order_info);
+		if (!is_ecjia_error($delivery_result)) {
+		    create_express_order($delivery_id);
+		}
 		
 		return $delivery_result;
 	} 
@@ -510,14 +516,14 @@ function delivery_order($delivery_id, $order) {
 			$tpl_name = 'deliver_notice';
 			$tpl   = RC_Api::api('mail', 'mail_template', $tpl_name);
 			if (empty($tpl)) {
-				ecjia::$controller->assign('order'			, $order);
-				ecjia::$controller->assign('send_time'		, RC_Time::local_date(ecjia::config('time_format')));
-				ecjia::$controller->assign('shop_name'		, ecjia::config('shop_name'));
-				ecjia::$controller->assign('send_date'		, RC_Time::local_date(ecjia::config('date_format')));
-				ecjia::$controller->assign('confirm_url'	, SITE_URL . 'receive.php?id=' . $order['order_id'] . '&con=' . rawurlencode($order['consignee']));
-				ecjia::$controller->assign('send_msg_url'	, SITE_URL . RC_Uri::url('user/admin/message_list','order_id=' . $order['order_id']));
+				ecjia_api::$controller->assign('order'			, $order);
+				ecjia_api::$controller->assign('send_time'		, RC_Time::local_date(ecjia::config('time_format')));
+				ecjia_api::$controller->assign('shop_name'		, ecjia::config('shop_name'));
+				ecjia_api::$controller->assign('send_date'		, RC_Time::local_date(ecjia::config('date_format')));
+				ecjia_api::$controller->assign('confirm_url'	, SITE_URL . 'receive.php?id=' . $order['order_id'] . '&con=' . rawurlencode($order['consignee']));
+				ecjia_api::$controller->assign('send_msg_url'	, SITE_URL . RC_Uri::url('user/admin/message_list','order_id=' . $order['order_id']));
 				
-				$content = ecjia::$controller->fetch_string($tpl['template_content']);
+				$content = ecjia_api::$controller->fetch_string($tpl['template_content']);
 				
 				RC_Mail::send_mail($order['consignee'], $order['email'] , $tpl['template_subject'], $content, $tpl['is_html']);
 			}
@@ -531,12 +537,12 @@ function delivery_order($delivery_id, $order) {
 				$tpl_name = 'order_shipped_sms';
 				$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
 				if (!empty($tpl)) {
-					ecjia::$controller->assign('order_sn', $order['order_sn']);
-					ecjia::$controller->assign('shipped_time', RC_Time::local_date(ecjia::config('time_format'), $arr['shipping_time']));
-					ecjia::$controller->assign('mobile', $order['mobile']);
-					ecjia::$controller->assign('order', $order);
+					ecjia_api::$controller->assign('order_sn', $order['order_sn']);
+					ecjia_api::$controller->assign('shipped_time', RC_Time::local_date(ecjia::config('time_format'), $arr['shipping_time']));
+					ecjia_api::$controller->assign('mobile', $order['mobile']);
+					ecjia_api::$controller->assign('order', $order);
 	
-					$content = ecjia::$controller->fetch_string($tpl['template_content']);
+					$content = ecjia_api::$controller->fetch_string($tpl['template_content']);
 	
 					$options = array(
 							'mobile' 		=> $order['mobile'],
@@ -552,4 +558,69 @@ function delivery_order($delivery_id, $order) {
 }
 
 
+function create_express_order($delivery_id) {
+    $delivery_order = delivery_order_info($delivery_id);
+    /* 判断发货单，生成配送单*/
+    $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+    $shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
+    if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+//         $staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
+//         $express_from = !empty($staff_id) ? 'assign' : 'grab';
+        $staff_id = 0;
+        $express_from = 'grab';
+        $express_data = array(
+            'express_sn' 	=> date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT),
+            'order_sn'		=> $delivery_order['order_sn'],
+            'order_id'		=> $delivery_order['order_id'],
+            'delivery_id'	=> $delivery_order['delivery_id'],
+            'delivery_sn'	=> $delivery_order['delivery_sn'],
+            'store_id'		=> $delivery_order['store_id'],
+            'user_id'		=> $delivery_order['user_id'],
+            'consignee'		=> $delivery_order['consignee'],
+            'address'		=> $delivery_order['address'],
+            'country'		=> $delivery_order['country'],
+            'province'		=> $delivery_order['province'],
+            'city'			=> $delivery_order['city'],
+            'district'		=> $delivery_order['district'],
+            'email'			=> $delivery_order['email'],
+            'mobile'		=> $delivery_order['mobile'],
+            'best_time'		=> $delivery_order['best_time'],
+            'remark'		=> '',
+            'shipping_fee'	=> '5.00',
+            'commision'		=> '',
+            'add_time'		=> RC_Time::gmtime(),
+            'longitude'		=> $delivery_order['longitude'],
+            'latitude'		=> $delivery_order['latitude'],
+            'from'			=> $express_from,
+            'status'		=> $express_from == 'grab' ? 0 : 1,
+            'staff_id'		=> $staff_id,
+        );
+    
+        if ($staff_id > 0) {
+            $express_data['receive_time'] = RC_Time::gmtime();
+            $staff_info = RC_DB::table('staff_user')->where('user_id', $staff_id)->first();
+            $express_data['express_user']	= $staff_info['name'];
+            $express_data['express_mobile']	= $staff_info['mobile'];
+        }
+    
+        $store_info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
+    
+        if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
+            $url = "https://api.map.baidu.com/routematrix/v2/riding?output=json&output=json&origins=".$store_info['latitude'].",".$store_info['longitude']."&destinations=".$delivery_order['latitude'].",".$delivery_order['longitude']."&ak=Cgk4EqiiIG4ylFFto9XotosT2ZHF1daZ";
+            $distance_json = file_get_contents($url);
+            $distance_info = json_decode($distance_json, true);
+            $express_data['distance'] = isset($distance_info['result'][0]['distance']['value']) ? $distance_info['result'][0]['distance']['value'] : 0;
+        }
+    
+        $exists_express_order = RC_DB::table('express_order')->where('delivery_sn', $delivery_order['delivery_sn'])->where('store_id', $_SESSION['store_id'])->first();
+        if ($exists_express_order) {
+            unset($express_data['add_time']);
+            $express_data['update_time'] = RC_Time::gmtime();
+            RC_DB::table('express_order')->where('express_id', $exists_express_order['express_id'])->update($express_data);
+            $express_id = $exists_express_order['express_id'];
+        } else {
+            $express_id = RC_DB::table('express_order')->insert($express_data);
+        }
+    }
+}
 // end

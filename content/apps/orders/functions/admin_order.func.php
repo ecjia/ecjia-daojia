@@ -905,12 +905,22 @@ function get_delivery_sn() {
  *        	用户名，用户自己的操作则为 buyer
  * @return void
  */
-function order_action($order_sn, $order_status, $shipping_status, $pay_status, $note = '', $username = null, $place = 0) {
+function order_action($order_sn, $order_status, $shipping_status, $pay_status, $note = '', $username = '', $place = 0) {
     if (empty($username)) {
         $username = empty($_SESSION['admin_name']) ? $_SESSION['staff_name'] : $_SESSION['admin_name'];
+        $username = empty($username) ? '' : $username;
     }
     $row = RC_DB::table('order_info')->where('order_sn', $order_sn)->first();
-    $data = array('order_id' => $row['order_id'], 'action_user' => $username, 'order_status' => $order_status, 'shipping_status' => $shipping_status, 'pay_status' => $pay_status, 'action_place' => $place, 'action_note' => $note, 'log_time' => RC_Time::gmtime());
+    $data = array(
+        'order_id' => $row['order_id'],
+        'action_user' => $username,
+        'order_status' => $order_status,
+        'shipping_status' => $shipping_status,
+        'pay_status' => $pay_status,
+        'action_place' => $place,
+        'action_note' => $note,
+        'log_time' => RC_Time::gmtime()
+    );
     RC_DB::table('order_action')->insert($data);
 }
 /**

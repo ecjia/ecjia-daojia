@@ -179,24 +179,24 @@ class orders_order_info_api extends Component_Event_Api {
 	        $order['how_surplus_name'] = $order['how_surplus'];
 	        
 	        /* 确认时间 支付时间 发货时间 */
-	        if ($order['confirm_time'] > 0 && ($order['order_status'] == OS_CONFIRMED || $order['order_status'] == OS_SPLITED || $order['order_status'] == OS_SPLITING_PART)) {
-	        	$order['confirm_time'] =  RC_Time::local_date(ecjia::config('time_format'), $order['confirm_time']);
-	        } else {
-	        	$order['confirm_time'] = '';
-	        }
-	        if ($order['pay_time'] > 0 && $order['pay_status'] != PS_UNPAYED) {
-	        	$order['pay_time'] =  RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']);
-	        } else {
-	        	$order['pay_time'] = '';
-	        }
-	        if ($order['shipping_time'] > 0 && in_array($order['shipping_status'], array(
-	        		SS_SHIPPED,
-	        		SS_RECEIVED
-	        ))) {
-	        	$order['shipping_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']);
-	        } else {
-	        	$order['shipping_time'] = '';
-	        }
+// 	        if ($order['confirm_time'] > 0 && ($order['order_status'] == OS_CONFIRMED || $order['order_status'] == OS_SPLITED || $order['order_status'] == OS_SPLITING_PART)) {
+// 	        	$order['confirm_time'] =  RC_Time::local_date(ecjia::config('time_format'), $order['confirm_time']);
+// 	        } else {
+// 	        	$order['confirm_time'] = '';
+// 	        }
+// 	        if ($order['pay_time'] > 0 && $order['pay_status'] != PS_UNPAYED) {
+// 	        	$order['pay_time'] =  RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']);
+// 	        } else {
+// 	        	$order['pay_time'] = '';
+// 	        }
+// 	        if ($order['shipping_time'] > 0 && in_array($order['shipping_status'], array(
+// 	        		SS_SHIPPED,
+// 	        		SS_RECEIVED
+// 	        ))) {
+// 	        	$order['shipping_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']);
+// 	        } else {
+// 	        	$order['shipping_time'] = '';
+// 	        }
 	    }
 	    
 	    return $order;

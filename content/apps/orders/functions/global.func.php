@@ -491,7 +491,11 @@ function update_pay_log($order_id) {
 function get_order_goods($order) {
     $goods_list = array();
     $goods_attr = array();
-    $data = RC_DB::table('order_goods as o')->leftJoin('products as p', RC_DB::raw('p.product_id'), '=', RC_DB::raw('o.product_id'))->leftJoin('goods as g', RC_DB::raw('o.goods_id'), '=', RC_DB::raw('g.goods_id'))->leftJoin('brand as b', RC_DB::raw('g.brand_id'), '=', RC_DB::raw('b.brand_id'))->selectRaw("o.*, g.suppliers_id AS suppliers_id, IF(o.product_id > 0, p.product_number, g.goods_number) AS storage, o.goods_attr, IFNULL(b.brand_name, '') AS brand_name, p.product_sn")->where(RC_DB::raw('o.order_id'), $order['order_id'])->get();
+    $data = RC_DB::table('order_goods as o')->leftJoin('products as p', RC_DB::raw('p.product_id'), '=', RC_DB::raw('o.product_id'))
+    ->leftJoin('goods as g', RC_DB::raw('o.goods_id'), '=', RC_DB::raw('g.goods_id'))
+    ->leftJoin('brand as b', RC_DB::raw('g.brand_id'), '=', RC_DB::raw('b.brand_id'))
+    ->selectRaw("o.*, g.suppliers_id AS suppliers_id, IF(o.product_id > 0, p.product_number, g.goods_number) AS storage, o.goods_attr, IFNULL(b.brand_name, '') AS brand_name, p.product_sn")
+    ->where(RC_DB::raw('o.order_id'), $order['order_id'])->get();
     $goods_list = array();
     if (!empty($data)) {
         foreach ($data as $key => $row) {
