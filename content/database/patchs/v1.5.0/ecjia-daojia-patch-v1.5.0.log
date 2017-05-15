@@ -16,10 +16,9 @@ A	content/apps/adsense/apis/adsense_tool_menu_api.class.php
 A	content/apps/adsense/classes/CityManage.php
 D	content/apps/cycleimage/apis/cycleimage_admin_purview_api.class.php
 A	content/apps/adsense/classes/Client.php
-A	content/apps/adsense/classes/Models/AdGroupModel.php
-D	content/apps/cycleimage/apis/cycleimage_plugin_install_api.class.php
-A	content/apps/adsense/classes/Models/AdModel.php
 D	content/apps/cycleimage/functions/global.func.php
+A	content/apps/adsense/classes/Models/AdGroupModel.php
+A	content/apps/adsense/classes/Models/AdModel.php
 A	content/apps/adsense/classes/Models/AdPositionModel.php
 A	content/apps/adsense/classes/PositionGroup.php
 A	content/apps/adsense/classes/PositionManage.php
@@ -130,12 +129,12 @@ A	content/apps/goods/modules/admin/goods/update_module.class.php
 A	content/apps/goods/modules/admin/goods/updatedesc_module.class.php
 M	content/apps/goods/modules/admin/goods/updateprice_module.class.php
 M	content/apps/goods/modules/goods/category_module.class.php
+M	content/apps/goods/modules/goods/detail_module.class.php
 M	content/apps/installer/classes/install_utility.class.php
 M	content/apps/installer/index.php
-D	content/apps/cycleimage/configs/package.cfg.php
 A	content/apps/intro/configs/package.cfg.php
 A	content/apps/intro/functions/functions.func.php
-D	content/apps/cycleimage/apis/cycleimage_tool_menu_api.class.php
+D	content/apps/cycleimage/configs/package.cfg.php
 A	content/apps/intro/languages/zh_CN/package.lang.php
 M	content/apps/main/classes/hooks/admin_main.class.php
 D	content/apps/main/index.php
@@ -166,7 +165,9 @@ M	content/apps/orders/admin.php
 M	content/apps/orders/apis/orders_order_delivery_ship_api.class.php
 M	content/apps/orders/apis/orders_order_info_api.class.php
 M	content/apps/orders/classes/order_operate.class.php
+M	content/apps/orders/classes/order_query.class.php
 M	content/apps/orders/functions/admin_order.func.php
+M	content/apps/orders/functions/global.func.php
 M	content/apps/orders/mh_delivery.php
 A	content/apps/orders/model/delivery_order_viewmodel.class.php
 M	content/apps/orders/modules/admin/orders/cancel_module.class.php
@@ -186,7 +187,7 @@ A	content/apps/orders/modules/admin/orders/operate/shipping_module.class.php
 A	content/apps/orders/modules/admin/orders/operate/unused-setgrab_module.class.php
 A	content/apps/orders/modules/admin/orders/payConfirm_module.class.php
 A	content/apps/orders/modules/admin/orders/quickpay_module.class.php
-D	content/apps/cycleimage/apis/cycleimage_plugin_uninstall_api.class.php
+D	content/apps/cycleimage/apis/cycleimage_plugin_install_api.class.php
 A	content/apps/orders/modules/admin/orders/receive_module.class.php
 A	content/apps/orders/modules/admin/orders/refundConfirm_module.class.php
 A	content/apps/orders/modules/admin/orders/shipping/list_module.class.php
@@ -208,17 +209,21 @@ M	content/apps/staff/privilege.php
 M	content/apps/staff/templates/merchant/login.dwt.php
 M	content/apps/store/admin.php
 M	content/apps/store/modules/admin/merchant/info_module.class.php
+M	content/apps/store/modules/admin/merchant/signup_module.class.php
 M	content/apps/store/modules/admin/merchant/update_module.class.php
+M	content/apps/store/modules/admin/merchant/validate_module.class.php
 M	content/apps/store/modules/merchant/home/data_module.class.php
 M	content/apps/touch/classes/ecjia_touch_api.class.php
 M	content/apps/touch/classes/ecjia_touch_manager.class.php
 M	content/apps/upgrade/classes/hooks/admin_upgrade.class.php
 M	content/apps/upgrade/classes/upgrade_utility.class.php
 M	content/apps/upgrade/index.php
+M	content/apps/upgrade/languages/zh_CN/package.lang.php
 M	content/apps/upgrade/templates/front/intro.dwt.php
 M	content/apps/user/admin.php
 M	content/apps/user/apis/user_admin_purview_api.class.php
 A	content/apps/user/apis/user_neighbors_address_api.class.php
+D	content/apps/cycleimage/apis/cycleimage_plugin_uninstall_api.class.php
 A	content/apps/user/apis/user_neighbors_address_store_api.class.php
 M	content/apps/user/functions/admin_user.func.php
 M	content/apps/user/modules/address/info_module.class.php
@@ -241,6 +246,7 @@ A	content/apps/wechat/classes/WechatUUID.php
 M	content/apps/wechat/templates/admin/wechat_menus_list.dwt.php
 M	content/configs/api.php
 M	content/configs/app.php
+D	content/apps/cycleimage/apis/cycleimage_tool_menu_api.class.php
 A	content/configs/namespaces.php
 M	content/configs/provider.php
 M	content/configs/release.php
@@ -264,7 +270,6 @@ A	content/database/seeds/InitDatabaseSeeder.php
 M	content/database/seeds/InitShopConfigTableSeeder.php
 M	content/database/seeds/InitStoreCategoryTableSeeder.php
 A	content/database/seeds/InitTermMetaTableSeeder.php
-M	content/plugins/ship_yto/ship_yto.class.php
 M	content/system/admin_template.php
 M	content/system/classes/BaseController/SimpleController.php
 M	content/system/classes/Theme/ThemeManager.php
@@ -382,6 +387,7 @@ A	content/themes/ecjia-pc/library/page_header.lbi.php
 A	content/themes/ecjia-pc/merchant_comment.dwt.php
 A	content/themes/ecjia-pc/merchant_detail.dwt.php
 A	content/themes/ecjia-pc/merchant_goods.dwt.php
+A	content/themes/ecjia-pc/style.css
 A	content/uploads/data/category/1492125035871675478.png
 A	content/uploads/data/category/1492125055252298317.png
 A	content/uploads/data/category/1492125066281066326.png
@@ -402,6 +408,7 @@ A	content/uploads/data/category/1492544362636255524.png
 A	content/uploads/data/category/1492544372710848948.png
 A	content/uploads/data/category/1492544383324835917.png
 A	content/uploads/data/category/1492544395052605614.png
+A	content/uploads/data/cycleimage/1492650692097234468.png
 A	content/uploads/data/cycleimage/1492650806593974463.png
 A	content/uploads/data/cycleimage/1492651290525993731.png
 A	content/uploads/data/cycleimage/1492651307128656813.png
@@ -532,6 +539,7 @@ A	vendor/royalcms/framework/Royalcms/Component/Container/Contracts/ContextualBin
 M	vendor/royalcms/framework/Royalcms/Component/Database/Schema/Blueprint.php
 M	vendor/royalcms/framework/Royalcms/Component/Database/Schema/Grammars/Grammar.php
 M	vendor/royalcms/framework/Royalcms/Component/Exception/Handler.php
+M	vendor/royalcms/framework/Royalcms/Component/Foundation/Royalcms.php
 M	vendor/royalcms/framework/Royalcms/Component/Log/FileStore.php
 A	vendor/royalcms/framework/Royalcms/Component/Support/Arr.php
 M	vendor/royalcms/framework/Royalcms/Component/Support/Collection.php
@@ -556,4 +564,6 @@ A	vendor/royalcms/wechat-user/Royalcms/Component/WeChat/User/UserServiceProvider
 M	vendor/royalcms/wechat/Royalcms/Component/WeChat/Config/config.php
 M	vendor/royalcms/wechat/Royalcms/Component/WeChat/Core/AbstractAPI.php
 M	vendor/royalcms/wechat/Royalcms/Component/WeChat/Foundation/WeChat.php
+M	vendor/royalcms/wechat/Royalcms/Component/WeChat/Utility.php
 M	vendor/royalcms/wechat/Royalcms/Component/WeChat/WeChatAPI.php
+A	vendor/royalcms/wechat/certificates/cacert.pem
