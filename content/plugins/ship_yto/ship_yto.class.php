@@ -77,8 +77,6 @@ class ship_yto extends shipping_abstract
      */
     public function calculate($goods_weight, $goods_amount, $goods_number)
     {
-        RC_Logger::getlogger('info')->info('configure');
-        RC_Logger::getlogger('info')->info($this->configure);
         if ($this->configure['free_money'] > 0 && $goods_amount >= $this->configure['free_money'])
         {
             return 0;
