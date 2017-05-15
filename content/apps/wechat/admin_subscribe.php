@@ -290,6 +290,7 @@ class admin_subscribe extends ecjia_admin {
 		$uuid = platform_account::getCurrentUUID('wechat');
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
 		$wechat_id = $platform_account->getAccountID();
+
 // 		$wechat = wechat_method::wechat_instance($uuid);
 		$wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
@@ -320,7 +321,7 @@ class admin_subscribe extends ecjia_admin {
 		        } else {
 		            $num = ceil($wechat_user['total'] / 10000);
 		            for ($i = 1; $i < $num; $i ++) {
-		                $wechat_user1 = $wechat->user->lists($wechat_user['next_openid']);
+		                $wechat_user1 = $wechat->user->lists($wechat_user['next_openid'])->toArray();
 		                $wechat_user_list = array_merge($wechat_user['data']['openid'], $wechat_user1['data']['openid']);
 		            }
 		        }
@@ -386,8 +387,7 @@ class admin_subscribe extends ecjia_admin {
 		if (!empty($arr1)) {
 		    
 		    try {
-		        $info2 = $wechat->user->batchGet($arr1);
-		        
+		        $info2 = $wechat->user->batchGet($arr1)->toArray();
 		        foreach ($info2['user_info_list'] as $key => $v) {
 		            $info2['user_info_list'][$key]['wechat_id'] = $wechat_id;
 		            $uid = $this->wechat_user_db->insert($info2['user_info_list'][$key]);
@@ -410,8 +410,7 @@ class admin_subscribe extends ecjia_admin {
 		if (!empty($arr2)) {
 		    
 		    try {
-		        $info3 = $wechat->user->batchGet($arr2);
-		        
+		        $info3 = $wechat->user->batchGet($arr2)->toArray();
 		        foreach ($info3['user_info_list'] as $key => $v) {
 		            $info3['user_info_list'][$key]['subscribe'] = 1;
 		            $where['wechat_id'] = $wechat_id;
