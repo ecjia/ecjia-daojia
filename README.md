@@ -720,6 +720,8 @@ ECJia到家是一款符合当下及未来发展的新电商系统，主打三个
 ===
 
 #### ECJia到家首页
+![](http://file.ecjia.com/images/daojia/ECJia到家_PC首页.png)
+
 ![](http://file.ecjia.com/images/daojia/ECJia到家_首页.png)
 
 #### ECJia到家平台后台
