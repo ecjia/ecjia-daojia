@@ -312,6 +312,7 @@ return array(
 	'admin/merchant/preaudit'	=> 'store::admin/merchant/preaudit', //入驻修改获取信息
 	
 	/* o2o1.3*/
+    //配送员
 	'express/grab_list'			=> 'express::express/grab_list',
 	'express/list'				=> 'express::express/list',
 	'express/detail'			=> 'express::express/detail',
