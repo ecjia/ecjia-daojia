@@ -661,12 +661,14 @@ class cart {
 				if (!empty($cart_id)) {
 					$shipping_count_where = array('rec_id' => $cart_id);
 				}
+				$shipping_count_where[] = " (`extension_code` IS NULL or `extension_code` != 'package_buy') ";
 				// 查看购物车中是否全为免运费商品，若是则把运费赋为零
 				if ($_SESSION['user_id']) {
-					$shipping_count = $db->where(array_merge($shipping_count_where, array('user_id' => $_SESSION['user_id'] , 'extension_code' => array('neq' => 'package_buy') , 'is_shipping' => 0)))->count();
+				    $shipping_count_where['user_id'] = $_SESSION['user_id'];
 				} else {
-					$shipping_count = $db->where(array_merge($shipping_count_where, array('session_id' => SESS_ID , 'extension_code' => array('neq' => 'package_buy') , 'is_shipping' => 0)))->count();
+				    $shipping_count_where['session_id'] = SESS_ID;
 				}
+				$shipping_count       = $db->where($shipping_count_where)->count();
 
 				$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 :  $shipping_method->shipping_fee($shipping_info['shipping_code'], $shipping_info['configure'], $weight_price['weight'], $total['goods_price'], $weight_price['number']);
 

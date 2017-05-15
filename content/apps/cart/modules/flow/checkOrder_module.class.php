@@ -234,7 +234,7 @@ class checkOrder_module extends api_front implements api_interface {
 		    if ($_SESSION['user_id']) {
 		        $shipping_count_where['user_id'] = $_SESSION['user_id'];
 		    } else {
-		        $shipping_count_where['user_id'] = SESS_ID;
+		        $shipping_count_where['session_id'] = SESS_ID;
 		    }
 		    $shipping_count       = $db_cart->where($shipping_count_where)->count();
 		    
