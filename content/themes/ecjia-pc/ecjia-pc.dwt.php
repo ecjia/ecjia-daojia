@@ -17,9 +17,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<link href="{if ecjia_config::has('shop_logo')}{RC_Upload::upload_url(ecjia::config('shop_logo'))}{else}favicon.ico{/if}" rel="shortcut icon bookmark">
 	<!-- {block name="ready_meta"} --><!-- {/block} -->
 	<link rel="stylesheet" href="{$theme_url}lib/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="{$theme_url}css/goods.css">
-	<link rel="stylesheet" href="{$theme_url}css/category.css">
-	<link rel="stylesheet" href="{$theme_url}css/comment.css">
 	<link rel="stylesheet" href="{$theme_url}fonts/iconfont.min.css">
 	<link rel="stylesheet" href="{$theme_url}css/style.css">
 	<link rel="stylesheet" href="{$theme_url}lib/swiper/css/swiper.min.css">

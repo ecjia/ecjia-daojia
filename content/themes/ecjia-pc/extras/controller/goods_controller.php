@@ -59,7 +59,7 @@ class goods_controller {
             $general_info = pc_function::get_general_info();
             ecjia_front::$controller->assign('info', $general_info);
             
-            $store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->get();
+            $store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->where('status', 1)->get();
             $has_store = !empty($store) ? true : false;
             ecjia_front::$controller->assign('has_store', $has_store);
 
@@ -138,7 +138,7 @@ class goods_controller {
 	                    $store_list[$k]['comment_rank'] = $v['goods_rank'] / 100 / 20;
 	                    $config = RC_DB::table('merchants_config')->where('store_id', $v['store_id'])->select('code', 'value')->get();
 	                    
-	                    $db_store = RC_DB::table('store_franchisee');
+	                    $db_store = RC_DB::table('store_franchisee')->where('status', 1);
 	                    if (!empty($_COOKIE['city_id'])) {
 	                        $db_store->where('city', $_COOKIE['city_id']);
 	                    } else {

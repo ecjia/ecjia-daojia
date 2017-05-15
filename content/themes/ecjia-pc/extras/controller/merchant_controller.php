@@ -124,6 +124,7 @@ class merchant_controller {
 					$cat_list = RC_DB::table('merchants_category as m')
 						->leftJoin('store_franchisee as s', RC_DB::raw('m.store_id'), '=', RC_DB::raw('s.store_id'))
 						->where(RC_DB::raw('s.city'), $_COOKIE['city_id'])
+						->where(RC_DB::raw('s.status'), 1)
 						->selectRaw('m.cat_id, m.cat_name, m.parent_id')
 						->where(RC_DB::raw('m.parent_id'), 0)
 						->where(RC_DB::raw('m.store_id'), $store_id)
@@ -329,7 +330,7 @@ class merchant_controller {
         	$general_info = pc_function::get_general_info();
         	ecjia_front::$controller->assign('info', $general_info);
         	
-        	$store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->get();
+        	$store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->where('status', 1)->get();
             $has_store = !empty($store) ? true : false;
             ecjia_front::$controller->assign('has_store', $has_store);
         	
@@ -398,7 +399,7 @@ class merchant_controller {
      */
     private static function store_lists($cat_id = 0) {
         $keywords = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
-        $db_store_franchisee = RC_DB::table('store_franchisee as sf');
+        $db_store_franchisee = RC_DB::table('store_franchisee as sf')->where(RC_DB::raw('sf.status'), 1);
         if (!empty($cat_id)) {
         	$db_store_franchisee->whereRaw('sf.cat_id='.$cat_id);
         }

@@ -55,6 +55,7 @@ class merchant_function {
         	->leftJoin('merchants_config as mc', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('mc.store_id'))
         	->where(RC_DB::raw('mc.code'), 'shop_notice')
         	->where(RC_DB::raw('sf.store_id'), $store_id)
+        	->where(RC_DB::raw('sf.status'), 1)
         	->selectRaw('sf.manage_mode, sf.address, sf.merchants_name, sf.store_id, sf.shop_close, mc.value, sf.province, sf.city, sf.shop_keyword')
         	->where(RC_DB::raw('sf.city'), $_COOKIE['city_id'])
         	->first();

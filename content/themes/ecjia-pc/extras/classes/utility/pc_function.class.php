@@ -294,7 +294,8 @@ class pc_function {
     	}
     
     	$db_goods = RC_DB::table('goods as g')
-    		->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'));
+    		->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
+    		->where(RC_DB::raw('s.status'), 1);
 
     	$where .= " AND (is_on_sale='" . 1 . "')";
     	$where .= " AND (is_alone_sale='" . 1 . "')";
@@ -307,7 +308,8 @@ class pc_function {
     	$where .= $conditions;
     
     	$db_goods = RC_DB::table('goods as g')
-    		->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'));
+    		->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
+    		->where(RC_DB::raw('s.status'), 1);
     	/* 记录总数 */
     	$count['goods_count'] = $db_goods->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
 		$count['store_count'] = RC_DB::table('store_franchisee')
