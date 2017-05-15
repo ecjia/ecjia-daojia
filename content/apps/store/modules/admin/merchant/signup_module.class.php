@@ -79,8 +79,6 @@ class signup_module extends api_admin implements api_interface {
             return new ecjia_error('validate_email_error', '邮箱地址已经被使用，请填写其他邮箱地址');
         }
 
-        // RC_Logger::getLogger('error')->error($_SESSION['merchant_validate_code'].'signup_module: 37 line');
-        // RC_Logger::getLogger('error')->error($validate_code.'signup_module: 38 line');
 		/* 判断校验码*/
 		if ($_SESSION['merchant_validate_code'] != $validate_code) {
 			return new ecjia_error('validate_code_error', '校验码错误！');
