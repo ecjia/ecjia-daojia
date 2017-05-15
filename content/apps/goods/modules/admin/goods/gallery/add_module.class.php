@@ -84,12 +84,12 @@ class add_module extends api_admin implements api_interface {
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
 		
 		$goods_gallery_number = ecjia::config('goods_gallery_number');
-		$count = count($_FILES['image']['name']);
+		$count_new = count($_FILES['image']['name']);
 		if (!empty($goods_gallery_number)) {
 		    $db_goods_gallery = RC_Loader::load_app_model('goods_gallery_model', 'goods');
 		    $count = $db_goods_gallery->where(array('goods_id' => $goods_id))->count();
 		    
-		    if ($count > $goods_gallery_number - $count) {
+		    if ($count_new > $goods_gallery_number - $count) {
 		        return new ecjia_error('upload_counts_error', '商品相册图片不能超过'.$goods_gallery_number.'张');
 		    }
 		}
@@ -98,7 +98,7 @@ class add_module extends api_admin implements api_interface {
 		    return true;
 		});
 		
-		for ($i = 0; $i < $count; $i++) {
+		for ($i = 0; $i < $count_new; $i++) {
 		    $picture = array(
 		        'name' 		=> 	$_FILES['image']['name'][$i],
 		        'type' 		=> 	$_FILES['image']['type'][$i],

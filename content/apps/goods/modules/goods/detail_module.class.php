@@ -57,6 +57,7 @@ class detail_module extends api_front implements api_interface {
         //如果用户登录获取其session
 		
         $goods_id = $this->requestData('goods_id', 0);
+        $goods_id = intval($goods_id);
         
         if ($goods_id <= 0) {
         	return new ecjia_error('does not exist', '不存在的信息');
@@ -121,7 +122,7 @@ class detail_module extends api_front implements api_interface {
 
         /* 更新点击次数 */
         $db_goods = RC_Model::model('goods/goods_model');
-        $db_goods->inc('click_count','goods_id='.$goods_id,1);
+        $db_goods->inc('click_count', 'goods_id='.$goods_id, 1);
 
         $data = $goods;
          

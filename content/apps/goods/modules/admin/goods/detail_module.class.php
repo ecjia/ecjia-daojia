@@ -94,7 +94,7 @@ class detail_module extends api_admin implements api_interface {
 			}
 			
 			if ($row['promote_price'] > 0) {
-				$promote_price = bargain_price($row['promote_price'], $row['promote_start_date'], $row['promote_end_date']);
+				$promote_price = $row['promote_price'];//bargain_price($row['promote_price'], $row['promote_start_date'], $row['promote_end_date']);
 			} else {
 				$promote_price = 0;
 			}
@@ -118,16 +118,15 @@ class detail_module extends api_admin implements api_interface {
 				'stock'					=> (ecjia::config('use_storage') == 1) ? $row['goods_number'] : '',
 				'sales_volume'          => $row['sales_volume'],
 			    'goods_weight'			=> $row['goods_weight']  = (intval($row['goods_weight']) > 0) ? $row['goods_weight'] . __('千克') : ($row['goods_weight'] * 1000) . __('克'),
-				'is_promote'			=> $row['is_promote'] == 1 ? true : false,
-				'is_best'				=> $row['is_best'] == 1 ? true : false,
-				'is_new'				=> $row['is_new'] == 1 ? true : false,
-				'is_hot'				=> $row['is_hot'] == 1 ? true : false,
-				'is_shipping'			=> $row['is_shipping'] == 1 ? true : false,
-				'is_on_sale'			=> $row['is_on_sale'] == 1 ? true : false,
-				'is_alone_sale'	 		=> $row['is_alone_sale'] == 1 ? true : false,
+				'is_promote'			=> $row['is_promote'] == 1 ? 1 : 0,
+				'is_best'				=> $row['is_best'] == 1 ? 1 : 0,
+				'is_new'				=> $row['is_new'] == 1 ? 1 : 0,
+				'is_hot'				=> $row['is_hot'] == 1 ? 1 : 0,
+				'is_shipping'			=> $row['is_shipping'] == 1 ? 1 : 0,
+				'is_on_sale'			=> $row['is_on_sale'] == 1 ? 1 : 0,
+				'is_alone_sale'	 		=> $row['is_alone_sale'] == 1 ? 1 : 0,
 				'last_updatetime' 		=> RC_Time::local_date(ecjia::config('time_format'), $row['last_update']),
 				'goods_desc' 			=> $goods_desc_url,
-				
 				'img' => array(
 					'thumb'	=> !empty($row['goods_img']) ? RC_Upload::upload_url($row['goods_img']) : '',
 					'url'	=> !empty($row['original_img']) ? RC_Upload::upload_url($row['original_img']) : '',

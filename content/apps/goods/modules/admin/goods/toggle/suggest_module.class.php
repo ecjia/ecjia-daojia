@@ -107,7 +107,7 @@ class suggest_module extends api_admin implements api_interface {
 		    ecjia_admin::admin_log($action.'【来源掌柜】', 'setup', 'goods'); // 记录日志
 		}
 		
-		return array();
+		return array('data' => array('type' => $type, 'is_suggest' => $is_suggest));
 	}
 	
 	
