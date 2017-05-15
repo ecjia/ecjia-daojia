@@ -23,6 +23,8 @@ class Utility {
      */
     public static function http($url, $params = array(), $cert = array()) {
         $ch = curl_init();
+        
+        /* @todo 批量设置属性，在部分环境下CRUL不能正常请求
         $option = array(
             CURLOPT_URL             => $url,
             CURLOPT_HTTPHEADER      => array(),
@@ -32,20 +34,33 @@ class Utility {
             CURLOPT_CONNECTTIMEOUT  => 10,
             CURLOPT_TIMEOUT         => 60,
         );
+        */
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array());
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        
         if (count($params)) {
-            $option[CURLOPT_POST] = true;
-            $option[CURLOPT_POSTFIELDS] = $params;
+            //$option[CURLOPT_POST] = true;
+            //$option[CURLOPT_POSTFIELDS] = $params;
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         }
         if (stripos($url, 'https://') === 0) {
-            $option[CURLOPT_SSL_VERIFYPEER] = false;
-            $option[CURLOPT_SSL_VERIFYHOST] = false;
+            //$option[CURLOPT_SSL_VERIFYPEER] = false;
+            //$option[CURLOPT_SSL_VERIFYHOST] = false;
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         }
         if (class_exists('\CURLFile')) {
             curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
         } elseif (defined('CURLOPT_SAFE_UPLOAD')) {
             curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
         }
-        curl_setopt_array($ch, $option);
+        //curl_setopt_array($ch, $option);
         if ($cert) {
             curl_setopt_array($ch, $cert);
         }

@@ -22,9 +22,12 @@ class WeChat extends Container
         }
 
         $this->registerAccessToken();
+        
+        $options = $this['config']->get('guzzle', array('timeout' => 5.0));
+        $options['verify'] = realpath(__DIR__ . '/../../../../certificates/cacert.pem');
 
-        Http::setDefaultOptions($this['config']->get('guzzle', array('timeout' => 5.0)));
-
+        Http::setDefaultOptions($options);
+        
         foreach (array('app_id', 'app_secret') as $key) {
             !isset($config[$key]) || $config[$key] = '***'.substr($config[$key], -5);
         }
