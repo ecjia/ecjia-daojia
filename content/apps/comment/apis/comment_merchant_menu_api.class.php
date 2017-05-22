@@ -52,7 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class comment_merchant_menu_api extends Component_Event_Api {
 	public function call(&$options) {
-		$menus = ecjia_merchant::make_admin_menu('15_comment_manage', __('评论管理'), '', 3)->add_icon('fa-comments')->add_purview(array('mh_comment_manage','mh_appeal_manage'))->add_base('comment');
+		$menus = ecjia_merchant::make_admin_menu('15_comment_manage', __('评论'), '', 3)->add_icon('fa-comments')->add_purview(array('mh_comment_manage','mh_appeal_manage'))->add_base('comment');
 		$submenus = array(
 			ecjia_merchant::make_admin_menu('01_comment_list', __('评论列表'), RC_Uri::url('comment/mh_comment/init'), 1)->add_purview('mh_comment_manage')->add_icon('fa-comment'), 
 			ecjia_merchant::make_admin_menu('02_appeal_list', __('申诉列表'), RC_Uri::url('comment/mh_appeal/init'), 2)->add_purview('mh_appeal_manage')->add_icon('fa-exclamation-circle')
