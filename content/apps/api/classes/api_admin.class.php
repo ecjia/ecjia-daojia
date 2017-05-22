@@ -123,7 +123,8 @@ abstract class api_admin extends ecjia_api {
 		}
 	
 		if (strpos(',' . $_SESSION['action_list'] . ',', ',' . $priv_str . ',') === false) {
-			return false;
+// 			return false;
+			return new ecjia_error('priv_error', '您无权对此分类进行操作！');
 		} else {
 			return true;
 		}
