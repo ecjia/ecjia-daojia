@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class promotion_merchant_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_merchant::make_admin_menu('03_promotion', __('促销管理'), '', 4)->add_icon('fa-heart')->add_purview(array('promotion_manage','bonus_type_manage','favourable_manage'))->add_base('promotion');
+		$menus = ecjia_merchant::make_admin_menu('03_promotion', __('促销'), '', 4)->add_icon('fa-heart')->add_purview(array('promotion_manage','bonus_type_manage','favourable_manage'))->add_base('promotion');
 		$submenus = array(
 			ecjia_merchant::make_admin_menu('01_promotion_manage', __('促销商品'), RC_Uri::url('promotion/merchant/init'), 1)->add_purview('promotion_manage')->add_icon('fa-table'), //'promotion_manage'
 		);
