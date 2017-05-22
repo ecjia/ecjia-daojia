@@ -53,6 +53,7 @@ return array(
 	'Ecjia\App\Adsense' => $contentDir . '/apps/adsense/classes',
 	'Ecjia\App\Mobile' => $contentDir . '/apps/mobile/classes',
 	'Ecjia\App\Wechat' => $contentDir . '/apps/wechat/classes',
+	'Ecjia\App\Article' => $contentDir . '/apps/article/classes',
 );
 
 //end
