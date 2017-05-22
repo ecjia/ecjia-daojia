@@ -223,6 +223,7 @@ return array(
     'DemoGoodsGalleryTableSeeder' => $contentDir . '/database/seeds/DemoGoodsGalleryTableSeeder.php',
     'DemoGoodsAttrTableSeeder' => $contentDir . '/database/seeds/DemoGoodsAttrTableSeeder.php',
     'DemoGoodsCatTableSeeder' => $contentDir . '/database/seeds/DemoGoodsCatTableSeeder.php',
+    'DemoAttributeTableSeeder' => $contentDir . '/database/seeds/DemoAttributeTableSeeder.php',
 );
 
 // end
