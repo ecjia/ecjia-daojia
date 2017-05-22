@@ -54,12 +54,12 @@ class merchant_controller {
 	 * 商家商品列表
 	 */
 	public static function init() {
+		$general_info = pc_function::get_general_info();
+		ecjia_front::$controller->assign('info', $general_info);
+		
 		$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['city_name']));
-		 
+		
 		if (!ecjia_front::$controller->is_cached('merchant_goods.dwt', $cache_id)) {
-			$general_info = pc_function::get_general_info();
-			ecjia_front::$controller->assign('info', $general_info);
-			
 			$store_id = !empty($_GET['store_id'])	? intval($_GET['store_id']) : 0;
 			$shop_info = merchant_function::get_merchant_info($store_id);
 
@@ -160,12 +160,12 @@ class merchant_controller {
      * 店铺评论
      */
 	public static function comment() {
+		$general_info = pc_function::get_general_info();
+		ecjia_front::$controller->assign('info', $general_info);
+		
 	    $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['city_name']));
 	    
 	    if (!ecjia_front::$controller->is_cached('merchant_comment.dwt', $cache_id)) {
-            $general_info = pc_function::get_general_info();
-            ecjia_front::$controller->assign('info', $general_info);
-            
             $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
             $shop_info = merchant_function::get_merchant_info($store_id);
             
@@ -288,12 +288,12 @@ class merchant_controller {
     }
     
     public static function detail() {
+    	$general_info = pc_function::get_general_info();
+    	ecjia_front::$controller->assign('info', $general_info);
+    	
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['city_name']));
         	
         if (!ecjia_front::$controller->is_cached('merchant_detail.dwt', $cache_id)) {
-            $general_info = pc_function::get_general_info();
-            ecjia_front::$controller->assign('info', $general_info);
-            
             $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
             $shop_info = merchant_function::get_merchant_info($store_id);
             
@@ -324,12 +324,12 @@ class merchant_controller {
     }
     
     public static function category() {
+    	$general_info = pc_function::get_general_info();
+    	ecjia_front::$controller->assign('info', $general_info);
+    	
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['city_name']));
         
         if (!ecjia_front::$controller->is_cached('category_list.dwt', $cache_id)) {
-        	$general_info = pc_function::get_general_info();
-        	ecjia_front::$controller->assign('info', $general_info);
-        	
         	$store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->where('status', 1)->get();
             $has_store = !empty($store) ? true : false;
             ecjia_front::$controller->assign('has_store', $has_store);

@@ -55,10 +55,10 @@ class goods_controller {
     public static function init() {
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $_COOKIE['city_id'] . '-' . $_COOKIE['city_name']));
         
+        $general_info = pc_function::get_general_info();
+        ecjia_front::$controller->assign('info', $general_info);
+        
         if (!ecjia_front::$controller->is_cached('goods_list.dwt', $cache_id)) {
-            $general_info = pc_function::get_general_info();
-            ecjia_front::$controller->assign('info', $general_info);
-            
             $store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->where('status', 1)->get();
             $has_store = !empty($store) ? true : false;
             ecjia_front::$controller->assign('has_store', $has_store);
@@ -172,10 +172,10 @@ class goods_controller {
     public static function show() {
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $_COOKIE['city_id'] . '-' . $_COOKIE['city_name']));
         
+        $general_info = pc_function::get_general_info();
+        ecjia_front::$controller->assign('info', $general_info);
+        
         if (!ecjia_front::$controller->is_cached('goods_show.dwt', $cache_id)) {
-            $general_info = pc_function::get_general_info();
-            ecjia_front::$controller->assign('info', $general_info);
-            
             $goods_id = !empty($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
             $goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_id', 'store_id', 'goods_name', 'market_price', 'shop_price', 'promote_price', 'goods_thumb', 'goods_desc', 'cat_id', 'keywords', 'goods_brief')->first();
             

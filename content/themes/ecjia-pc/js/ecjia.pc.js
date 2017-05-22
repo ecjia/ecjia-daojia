@@ -215,7 +215,7 @@
 					hideDiv();
 					return false;
 				}
-				$(this).parents('.content-right').find('.position-li').removeClass('active');
+				$(this).parents('.content').find('.position-li').removeClass('active');
 				$(this).addClass('active');
 
 				var city_id = $(this).attr('data-id');
@@ -228,6 +228,15 @@
 					expires: 7
 				});
 				$.cookie('close_choose_city', 1, {
+					expires: 7
+				});
+				
+				var location_id = $('.location-position').attr('data-id');
+				var location_name = $('.location-position').text();
+				$.cookie('location_id', location_id, {
+					expires: 7
+				});
+				$.cookie('location_name', location_name, {
 					expires: 7
 				});
 

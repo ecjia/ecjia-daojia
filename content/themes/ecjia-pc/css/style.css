@@ -299,12 +299,14 @@ a:active,a:hover{text-decoration:none;color:#47aa4d}
 .choose-city-div .city-content{padding:10px 20px;font-size:16px}
 .choose-city-div .header{border-bottom:1px solid #aaa;padding:10px 0}
 .choose-city-div .close_div{position:absolute;right:20px;top:18px;font-size:18px;cursor:pointer}
-.choose-city-div .guess-position{padding:22px 0}
-.content-left{width:18%;float:left;color:#333}
-.choose-city-div .content-right{width:82%;float:left;height:auto;max-height:255px;overflow:auto}
-.choose-city-div .content-right .position{overflow:hidden;padding:20px 0;height:24px}
-.choose-city-div .content-right .position-li{display:inline-block;float:left;margin:0 10px 10px 0;padding:5px 15px;cursor:pointer}
-.choose-city-div .content-right .position-li.active{background-color:#47aa4d;color:#fff;border-radius:40px;cursor:pointer}
+.choose-city-div .guess-position{padding:20px 0;float:left;width:20%;}
+.choose-city-div .content-bottom .position-li, .choose-city-div .content-position .position .position-li{display:inline-block;float:left;margin:0 10px 10px 0;padding:5px 15px;cursor:pointer}
+.choose-city-div .content-bottom .position-li.active{background-color:#47aa4d;color:#fff;border-radius:40px;cursor:pointer}
+.choose-city-div .content-position {overflow:hidden;}
+.choose-city-div .content-position .position{float:left;width:65%;padding: 20px 0 0;cursor:pointer}
+.choose-city-div .content-position .position .position-li.active{background-color:#47aa4d;color:#fff;border-radius:40px;cursor:pointer}
+.choose-city-div .content-bottom .title{width:20%;float:left;padding-top: 3px;}
+.choose-city-div .content-bottom .position-list{width:80%;float:left;max-height: 200px;overflow: auto;}
 
 .suspension{position:fixed;z-index:55;right:10px;bottom:80px;width:80px;height:204px}
 .suspension-box{position:relative;float:right}
