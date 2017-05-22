@@ -62,13 +62,19 @@ class article_cat {
 	 *        	返回的类型: 值为真时返回下拉列表,否则返回数组
 	 * @param int $level
 	 *        	限定返回的级数。为0时返回所有级数
+	 * @param int $cat_type
+	 *        	文章分类类型。1普通分类，2系统保留分类，3网店信息分类，4网店帮助分类，5网店帮助下的分类，6商家公告
 	 * @return mix
 	 */
-	public static function article_cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0) {
-
-		$res = $db_article = RC_DB::table('article_cat as c')
+	public static function article_cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $cat_type = 0) {
+		$db_article = RC_DB::table('article_cat as c')
 			->leftJoin('article_cat as s', RC_DB::raw('s.parent_id'), '=', RC_DB::raw('c.cat_id'))
-			->leftJoin('article as a', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('c.cat_id'))
+			->leftJoin('article as a', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('c.cat_id'));
+		if (!empty($cat_type)) {
+			$db_article->where(RC_DB::raw('c.cat_type'), $cat_type);
+		}
+		
+		$res = $db_article
 			->select(RC_DB::raw('c.*'), RC_DB::raw('COUNT(s.cat_id) as has_children'), RC_DB::raw('COUNT(a.article_id) as article_num'))
 			->whereNotIn(RC_DB::raw('c.parent_id'), array(1,2,3))
 			->where(RC_DB::raw('c.cat_id'), '!=', 1)

@@ -104,7 +104,7 @@ class admin_articlecat extends ecjia_admin {
 		$this->assign('ur_here', RC_Lang::get('system::system.02_articlecat_list'));
 		$this->assign('action_link', array('text' => RC_Lang::get('system::system.articlecat_add'), 'href' => RC_Uri::url('article/admin_articlecat/add')));
 		
-		$articlecat = article_cat::article_cat_list(0, 0, false);
+		$articlecat = article_cat::article_cat_list(0, 0, false, 0, 1);
 		if (!empty($articlecat)) {
 			foreach ($articlecat as $key => $cat) {
 				$articlecat[$key]['type_name'] = RC_Lang::get('article::article.type_name.'.$cat['cat_type']);
@@ -136,7 +136,7 @@ class admin_articlecat extends ecjia_admin {
 		$this->assign('ur_here', RC_Lang::get('system::system.articlecat_add'));
 		$this->assign('action_link', array('text' => RC_Lang::get('system::system.02_articlecat_list'), 'href' => RC_Uri::url('article/admin_articlecat/init')));
 		
-		$this->assign('cat_select', article_cat::article_cat_list(0));
+		$this->assign('cat_select', article_cat::article_cat_list(0, 0, true, 0, 1));
 		$this->assign('form_action', RC_Uri::url('article/admin_articlecat/insert'));
 		
 		$this->display('articlecat_info.dwt');
@@ -278,7 +278,7 @@ class admin_articlecat extends ecjia_admin {
 		}
 		
 		/* 检查设定的分类的父分类是否合法 */
-		$child_cat = article_cat::article_cat_list($id, 0 ,false);
+		$child_cat = article_cat::article_cat_list($id, 0, false, 0, 1);
 		if (!empty($child_cat)) {
 			foreach ($child_cat as $child_data) {
 				$catid_array[] = $child_data['cat_id'];
