@@ -64,5 +64,6 @@ class DemoDatabaseSeeder extends Seeder
         $this->call('DemoGoodsGalleryTableSeeder');
         $this->call('DemoGoodsAttrTableSeeder');
         $this->call('DemoGoodsCatTableSeeder');
+        $this->call('DemoAttributeTableSeeder');
     }
 }
