@@ -80,13 +80,13 @@ class bind_module extends api_admin implements api_interface {
 		    if (!empty($mobile)) {
 		        return new ecjia_error('registered', '该手机号已被注册');
 		    }
-		    if (RC_Time::gmtime() > $_SESSION['validate_code']['sms']['lifetime']) {
+		    if (RC_Time::gmtime() > $_SESSION['captcha']['sms']['staff_modify_mobile']['lifetime']) {
 		        return new ecjia_error('code pasted', '验证码已过期');
 		    }
-		    if ($code != $_SESSION['validate_code']['sms']['code']) {
+		    if ($code != $_SESSION['captcha']['sms']['staff_modify_mobile']['code']) {
 		        return new ecjia_error('code error', '验证码错误');
 		    }
-		    if ($value != $_SESSION['validate_code']['sms']['value']) {
+		    if ($value != $_SESSION['captcha']['sms']['staff_modify_mobile']['value']) {
 		        return new ecjia_error('mobile error', '接收和验证的手机号不同');
 		    }
 		    //替换手机号
@@ -94,19 +94,19 @@ class bind_module extends api_admin implements api_interface {
 		    if (!$rs) {
 		        return new ecjia_error('update error', '更新失败');
 		    }
-		    $_SESSION['validate_code']['sms'] = array();
+		    $_SESSION['captcha']['sms']['staff_modify_mobile'] = array();
 		} else if ($type == 'email') {
 		    $email = RC_DB::table('staff_user')->where('email', $value)->where('user_id', '<>', $staff_id)->first();
 		    if (!empty($email)) {
 		        return new ecjia_error('registered', '该邮箱已被注册');
 		    }
-		    if (RC_Time::gmtime() > $_SESSION['validate_code']['email']['lifetime']) {
+		    if (RC_Time::gmtime() > $_SESSION['captcha']['mail']['staff_modify_mail']['lifetime']) {
 		        return new ecjia_error('code pasted', '验证码已过期');
 		    }
-		    if ($code != $_SESSION['validate_code']['email']['code']) {
+		    if ($code != $_SESSION['captcha']['mail']['staff_modify_mail']['code']) {
 		        return new ecjia_error('code error', '验证码错误');
 		    }
-		    if ($value != $_SESSION['validate_code']['email']['value']) {
+		    if ($value != $_SESSION['captcha']['mail']['staff_modify_mail']['value']) {
 		        return new ecjia_error('email error', '接收和验证的邮箱不同');
 		    }
 		    //替换邮箱
@@ -114,7 +114,7 @@ class bind_module extends api_admin implements api_interface {
 		    if (!$rs) {
 		        return new ecjia_error('update error', '更新失败');
 		    }
-		    $_SESSION['validate_code']['email'] = array();
+		    $_SESSION['captcha']['mail']['staff_modify_mail'] = array();
 		}
 		
 		return array();

@@ -78,35 +78,35 @@ class bind_module extends api_front implements api_interface {
 		    if (!empty($mobile_phone)) {
 		        return new ecjia_error('registered', '该手机号已被注册');
 		    }
-		    if (RC_Time::gmtime() > $_SESSION['validate_code']['sms']['lifetime']) {
+		    if (RC_Time::gmtime() > $_SESSION['captcha']['sms']['user_modify_mobile']['lifetime']) {
 		        return new ecjia_error('code pasted', '验证码已过期');
 		    }
-		    if ($code != $_SESSION['validate_code']['sms']['code']) {
+		    if ($code != $_SESSION['captcha']['sms']['user_modify_mobile']['code']) {
 		        return new ecjia_error('code error', '验证码错误');
 		    }
-		    if ($value != $_SESSION['validate_code']['sms']['value']) {
+		    if ($value != $_SESSION['captcha']['sms']['user_modify_mobile']['value']) {
 		        return new ecjia_error('mobile error', '接收和验证的手机号不同');
 		    }
 		    //替换手机号
 		    $db_user->where(array('user_id' => $user_id))->update(array('mobile_phone' => $value));
-		    $_SESSION['validate_code']['sms'] = array();
+		    $_SESSION['captcha']['sms']['user_modify_mobile'] = array();
 		} else if ($type == 'email') {
 		    $email = $db_user->find(array('email' => $value, 'user_id' => array('neq' => $user_id)));
 		    if (!empty($email)) {
 		        return new ecjia_error('registered', '该邮箱已被注册');
 		    }
-		    if (RC_Time::gmtime() > $_SESSION['validate_code']['email']['lifetime']) {
+		    if (RC_Time::gmtime() > $_SESSION['captcha']['mail']['user_modify_mail']['lifetime']) {
 		        return new ecjia_error('code pasted', '验证码已过期');
 		    }
-		    if ($code != $_SESSION['validate_code']['email']['code']) {
+		    if ($code != $_SESSION['captcha']['mail']['user_modify_mail']['code']) {
 		        return new ecjia_error('code error', '验证码错误');
 		    }
-		    if ($value != $_SESSION['validate_code']['email']['value']) {
+		    if ($value != $_SESSION['captcha']['mail']['user_modify_mail']['value']) {
 		        return new ecjia_error('email error', '接收和验证的邮箱不同');
 		    }
 		    //替换邮箱
 		    $db_user->where(array('user_id' => $user_id))->update(array('email' => $value));
-		    $_SESSION['validate_code']['email'] = array();
+		    $_SESSION['captcha']['mail']['user_modify_mail'] = array();
 		}
 		
 		return array();

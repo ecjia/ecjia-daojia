@@ -58,6 +58,7 @@ class update_module extends api_admin implements api_interface {
         }
 		
 		$user_name = $this->requestData('username');
+		$nickname = $this->requestData('nickname');
 		$old_password = $this->requestData('old_password');
 		$new_password = $this->requestData('new_password');
 		
@@ -86,6 +87,15 @@ class update_module extends api_admin implements api_interface {
 			if (!empty($user_name)) {
 				RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update(array('name' => $user_name));
 				$_SESSION['staff_name']		= $user_name;
+			}
+			
+			/* 修改用户名*/
+			if (!empty($nickname)) {
+			    if (RC_DB::table('staff_user')->where('user_id', '<>', $_SESSION['staff_id'])->where('nick_name', $nickname)->count()) {
+			        return new ecjia_error('nickname_exists', '昵称已被占用，请修改！');
+			    }
+			    RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update(array('nick_name' => $nickname));
+			    $_SESSION['nick_name']		= $nickname;
 			}
 			
 			/* 修改登录密码*/
