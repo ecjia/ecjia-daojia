@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class shipping_merchant_menu_api extends Component_Event_Api {
 
     public function call(&$options) {
-        $menus = ecjia_merchant::make_admin_menu('shipping', '配送管理', '', 8)->add_purview('ship_merchant_manage')->add_icon('fa-truck')->add_base('shipping');
+        $menus = ecjia_merchant::make_admin_menu('shipping', '配送', '', 8)->add_purview('ship_merchant_manage')->add_icon('fa-truck')->add_base('shipping');
 
         
         $submenus = array(
