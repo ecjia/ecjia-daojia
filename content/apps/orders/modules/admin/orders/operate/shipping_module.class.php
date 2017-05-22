@@ -86,6 +86,19 @@ class shipping_module extends api_admin implements api_interface {
 		if (empty($order_info)) {
 			return new ecjia_error(101, '参数错误');
 		}
+		//无需物流方式
+		if ($shipping_id == 0) {
+		    $noexpress_data = RC_DB::table('shipping')
+		    ->where('shipping_code', 'ship_no_express')
+		    ->first();
+		    if (empty($noexpress_data['enabled'])) {
+		        return new ecjia_error('no_express', '该插件未安装');
+		    }
+		    if ($noexpress_data['enabled'] != 1) {
+		        return new ecjia_error('no_express', '该插件未启用');
+		    }
+		    $shipping_id = $noexpress_data['shipping_id'];
+		}
 		
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('global', 'orders');

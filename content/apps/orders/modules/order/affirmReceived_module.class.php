@@ -130,9 +130,13 @@ function affirm_received($order_id, $user_id = 0) {
             );
             $db_order_status_log->insert($order_status_data);
             
+            /* 记录日志 */
+            RC_Loader::load_app_func('admin_order', 'orders');
+            order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], '', '买家');
+            
             /* 判断是否是配送员送货*/
             $express_info = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->first();
-            if (!empty($express_info) && $express_info['status'] != 5) {
+            if (!empty($express_info) && !empty($express_info['staff_id']) && $express_info['status'] != 5) {
             	$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
             	$user = $orm_staff_user_db->find($express_info['staff_id']);
             	
@@ -203,9 +207,6 @@ function affirm_received($order_id, $user_id = 0) {
             	}
             }
             
-            /* 记录日志 */
-        	RC_Loader::load_app_func('admin_order', 'orders');
-            order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], '', '买家');
             return true;
         } else {
             return new ecjia_error('database_query_error', $db->error());

@@ -2730,6 +2730,16 @@ class merchant extends ecjia_merchant {
 			$delivery_id = $this->db_delivery_order->insert($_delivery);
 
 			if ($delivery_id) {
+				$data = array(
+					'order_status' 	=> RC_Lang::get('orders::order.ss.'.SS_PREPARING),
+					'order_id'   	=> $order_id,
+					'message'		=> sprintf(RC_Lang::get('orders::order.order_prepare_message'), $order['order_sn']),
+					'add_time'     	=> RC_Time::gmtime()
+				);
+				RC_DB::table('order_status_log')->insert($data);
+			}
+			
+			if ($delivery_id) {
 				$delivery_goods = array();
 				if (!empty($goods_list)) {
 					foreach ($goods_list as $value) {
@@ -2882,9 +2892,20 @@ class merchant extends ecjia_merchant {
 				$arr['pay_status']		= PS_PAYED;
 				$order['pay_status']	= PS_PAYED;
 			}
-			update_order($order_id, $arr);
-			//update commission_bill
-			RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 1, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+			$update = update_order($order_id, $arr);
+			if ($update) {
+				$data = array(
+					'order_status' => RC_Lang::get('orders::order.ss.'.SS_RECEIVED),
+					'order_id'     => $order_id,
+					'message'      => RC_Lang::get('orders::order.order_goods_served'),
+					'add_time'     => RC_Time::gmtime()
+				);
+				RC_DB::table('order_status_log')->insert($data);
+				//update commission_bill
+				RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 1, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+				RC_Api::api('goods', 'update_goods_sales', array('order_id' => $order_id));
+			}
+			
 			/* 记录log */
 			order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], $action_note);
 		} elseif ('cancel' == $operation) {
@@ -2910,8 +2931,16 @@ class merchant extends ecjia_merchant {
 				'money_paid'	=> 0,
 				'order_amount'	=> $order['money_paid']
 			);
-			update_order($order_id, $arr);
-		
+			$confirm_receive = update_order($order_id, $arr);
+			if ($confirm_receive) {
+				$data = array(
+					'order_status' 	=> RC_Lang::get('orders::order.cs.'.CS_FINISHED),
+					'order_id'		=> $order_id,
+					'add_time'   	=> RC_Time::gmtime(),
+				);
+				RC_DB::table('order_status_log')->insert($data);
+			}
+			
 
 			/* 记录日志 */
 			ecjia_merchant::admin_log('设为取消,订单号是'.$order['order_sn'], 'setup', 'order');

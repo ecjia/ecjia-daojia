@@ -68,6 +68,8 @@ class payConfirm_module extends api_admin implements api_interface {
 			return new ecjia_error(101, '参数错误');
 		}
 		
+		return new ecjia_error('error', '商家不支持付款操作');
+		
 		/* 查询订单信息 */
 		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
 		if (empty($order)) {

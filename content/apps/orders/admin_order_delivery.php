@@ -350,6 +350,8 @@ class admin_order_delivery extends ecjia_admin {
 				'add_time'    	=> RC_Time::gmtime(),
 			);
 			RC_DB::table('order_status_log')->insert($data);
+			$this->create_express_order($delivery_id);
+			
 		} else {
 		    $links[] = array('text' => RC_Lang::get('orders::order.delivery_sn') . RC_Lang::get('orders::order.detail'), 'href' => RC_Uri::url('orders/admin_order_delivery/delivery_info', array('delivery_id' => $delivery_id)));
 		    return $this->showmessage(RC_Lang::get('orders::order.act_false'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $links));
@@ -641,6 +643,75 @@ class admin_order_delivery extends ecjia_admin {
 		}
 		die(json_encode($row));
 	}
+	
+	private function create_express_order($delivery_id) {
+	    RC_Loader::load_app_func('global', 'orders');
+        $delivery_order = delivery_order_info($delivery_id);
+        /* 判断发货单，生成配送单*/
+        $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+        $shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
+        if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+    //         $staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
+    //         $express_from = !empty($staff_id) ? 'assign' : 'grab';
+            $staff_id = 0;
+            $express_from = 'grab';
+            $express_data = array(
+                'express_sn' 	=> date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT),
+                'order_sn'		=> $delivery_order['order_sn'],
+                'order_id'		=> $delivery_order['order_id'],
+                'delivery_id'	=> $delivery_order['delivery_id'],
+                'delivery_sn'	=> $delivery_order['delivery_sn'],
+                'store_id'		=> $delivery_order['store_id'],
+                'user_id'		=> $delivery_order['user_id'],
+                'consignee'		=> $delivery_order['consignee'],
+                'address'		=> $delivery_order['address'],
+                'country'		=> $delivery_order['country'],
+                'province'		=> $delivery_order['province'],
+                'city'			=> $delivery_order['city'],
+                'district'		=> $delivery_order['district'],
+                'email'			=> $delivery_order['email'],
+                'mobile'		=> $delivery_order['mobile'],
+                'best_time'		=> $delivery_order['best_time'],
+                'remark'		=> '',
+                'shipping_fee'	=> '5.00',
+                'commision'		=> '',
+                'add_time'		=> RC_Time::gmtime(),
+                'longitude'		=> $delivery_order['longitude'],
+                'latitude'		=> $delivery_order['latitude'],
+                'from'			=> $express_from,
+                'status'		=> $express_from == 'grab' ? 0 : 1,
+                'staff_id'		=> $staff_id,
+            );
+        
+            if ($staff_id > 0) {
+                $express_data['receive_time'] = RC_Time::gmtime();
+                $staff_info = RC_DB::table('staff_user')->where('user_id', $staff_id)->first();
+                $express_data['express_user']	= $staff_info['name'];
+                $express_data['express_mobile']	= $staff_info['mobile'];
+            }
+        
+            $store_info = RC_DB::table('store_franchisee')->where('store_id', $delivery_order['store_id'])->first();
+        
+            if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
+                $url = "https://api.map.baidu.com/routematrix/v2/riding?output=json&output=json&origins=".$store_info['latitude'].",".$store_info['longitude']."&destinations=".$delivery_order['latitude'].",".$delivery_order['longitude']."&ak=Cgk4EqiiIG4ylFFto9XotosT2ZHF1daZ";
+                $distance_json = file_get_contents($url);
+                $distance_info = json_decode($distance_json, true);
+                $express_data['distance'] = isset($distance_info['result'][0]['distance']['value']) ? $distance_info['result'][0]['distance']['value'] : 0;
+            }
+        
+            $exists_express_order = RC_DB::table('express_order')->where('delivery_sn', $delivery_order['delivery_sn'])->where('store_id', $delivery_order['store_id'])->first();
+            if ($exists_express_order) {
+                unset($express_data['add_time']);
+                $express_data['update_time'] = RC_Time::gmtime();
+                RC_DB::table('express_order')->where('express_id', $exists_express_order['express_id'])->update($express_data);
+                $express_id = $exists_express_order['express_id'];
+            } else {
+                $express_id = RC_DB::table('express_order')->insert($express_data);
+            }
+            return true;
+        }
+        
+    }
 }
 
 // end

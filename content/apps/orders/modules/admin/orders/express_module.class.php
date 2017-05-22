@@ -72,6 +72,10 @@ class express_module extends api_admin implements api_interface {
 				    }
 				}
 				
+				$shipping_code = RC_DB::table('shipping')
+                    		    ->where('shipping_id', $val['shipping_id'])
+                    		    ->pluck('shipping_code');
+				
 // 				0：在途，即货物处于运输过程中；
 // 				1：揽件，货物已由快递公司揽收并且产生了第一条跟踪信息；
 // 				2：疑难，货物寄送过程出了问题；
@@ -130,9 +134,10 @@ class express_module extends api_admin implements api_interface {
 				
 				$delivery_list[] = array(
 					'shipping_name'		=> $val['shipping_name'],
+				    'shipping_code'     => $shipping_code,
 					'shipping_number'	=> $val['invoice_no'],
 				    'shipping_status' => !empty($data['shipping_status']) ? $data['shipping_status'] : '',
-					'label_shipping_status' => !empty($data['state_label']) ? $data['state_label'] : '',
+					'label_shipping_status' => $shipping_code == 'ship_no_express' ? '您当前选择的物流为【无需物流】，因此该订单暂无运单编号和物流状态' : (!empty($data['state_label']) ? $data['state_label'] : ''),
 				    'sign_time_formated' => !empty($data['sign_time_formated']) ? $data['sign_time_formated'] : '',
 					'content'			=> !empty($data['content']) ? $data['content'] : array('time' => 'error', 'context' => '暂无物流信息'),
 					'goods_items'		=> $goods_lists,
@@ -292,6 +297,23 @@ function getComType($typeCom)
 		$typeCom = '';
 	}
 	return $typeCom;
+}
+
+function getExpressComCode($shipping_code)
+{
+    $express_code = array(
+        'ship_yto' => 'yuantong',
+        'ship_sto_express' => 'shentong',
+        'ship_zto' => 'zhongtong',
+        'ship_ems' => 'ems',
+        'ship_sf_express' => 'shunfeng',
+    );
+    
+    if (isset($express_code[$shipping_code])) {
+        return $express_code[$shipping_code];
+    } else {
+        return false;
+    }
 }
 
 function curl($url, $post) {

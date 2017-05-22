@@ -375,7 +375,13 @@ class mh_delivery extends ecjia_merchant {
 
 		/*操作成功*/
 		if ($result) {
-
+			$data = array(
+				'order_status'	=> RC_Lang::get('orders::order.ss.'.SS_SHIPPED),
+				'message'       => sprintf(RC_Lang::get('orders::order.order_send_message'), $order['order_sn']),
+				'order_id'    	=> $order_id,
+				'add_time'    	=> RC_Time::gmtime(),
+			);
+			RC_DB::table('order_status_log')->insert($data);
 		} else {
 		    $links[] = array('text' => RC_Lang::get('orders::order.delivery_sn') . RC_Lang::get('orders::order.detail'), 'href' => RC_Uri::url('orders/mh_delivery/delivery_info', array('delivery_id' => $delivery_id)));
 		    return $this->showmessage(RC_Lang::get('orders::order.act_false'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $links));
