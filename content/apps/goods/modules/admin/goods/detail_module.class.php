@@ -111,7 +111,7 @@ class detail_module extends api_admin implements api_interface {
 			    'merchant_category'     => get_parent_cats($row['merchant_cat_id'], 1, $_SESSION['store_id']),
 				'market_price'			=> price_format($row['market_price'] , false),
 				'shop_price'			=> price_format($row['shop_price'] , false),
-				'promote_price'			=> $promote_price > 0 ? price_format($promote_price , false) : $promote_price,
+				'promote_price'			=> price_format($promote_price , false),
 				'promote_start_date'	=> RC_Time::local_date('Y-m-d H:i:s', $row['promote_start_date']),
 				'promote_end_date'		=> RC_Time::local_date('Y-m-d H:i:s', $row['promote_end_date']),
 				'clicks'				=> intval($row['click_count']),

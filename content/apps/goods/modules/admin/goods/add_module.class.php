@@ -71,6 +71,13 @@ class add_module extends api_admin implements api_interface {
     	$goods_price	= $this->requestData('goods_price', 0.00);
     	$stock			= $this->requestData('stock', 0);
     	
+    	if (empty($category_id)) {
+    	    return new ecjia_error('category_id_empty', '请选择商品分类');
+    	}
+    	if (empty($merchant_category_id)) {
+    	    return new ecjia_error('merchant_category_id_empty', '请选择店铺分类');
+    	}
+    	
     	RC_Loader::load_app_func('global', 'goods');
     	/* 如果没有输入商品货号则自动生成一个商品货号 */
     	

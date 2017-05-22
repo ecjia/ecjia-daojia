@@ -584,7 +584,7 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 		)
 	);
 
-	$where = array('g.goods_id' => $goods_id, 'g.is_delete' => 0);
+	$where = array('g.goods_id' => $goods_id/* , 'g.is_delete' => 0 */);
 	
 	if (!empty($_SESSION['store_id'])) {
 		if (ecjia::config('review_goods')) {

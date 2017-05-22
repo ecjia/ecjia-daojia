@@ -62,17 +62,17 @@ class show_module extends api_admin implements api_interface {
 			return $result;
 		}
     	
-    	if (!empty($_SESSION['store_id'])) {
-    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
-    	}
-    	
     	$category_id = $this->requestData('category_id');
     	$is_show	 = $this->requestData('is_show', 1);
     	if (empty($category_id)) {
     		return new ecjia_error('invalid_parameter', '参数错误');
     	}
+    	$category	= RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $category_id, 'store_id' => $_SESSION['store_id']))->find();
+    	if (empty($category)) {
+    	    return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    	}
     	
-    	$name = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $category_id))->get_field('cat_name');
+    	$name = $category['cat_name'];
     	RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $category_id))->update(array('is_show' => $is_show));
     	$action = $name."切换商家分类显示状态";
     	if ($_SESSION['store_id'] > 0) {

@@ -46,11 +46,11 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
- * 添加商品相册图片
+ * 删除商品相册图片-批量
  * @author chenzhejun@ecmoban.com
- * 添加和编辑商品相册图片，此接口只追加图片，删除图片用delete接口
+ *
  */
-class add_module extends api_admin implements api_interface {
+class delete_batch_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -63,74 +63,48 @@ class add_module extends api_admin implements api_interface {
 		}
     	
     	$goods_id		= $this->requestData('goods_id');
-    	if (empty($goods_id)) {
+    	$img_ids		= $this->requestData('img_id', array());
+    	if (empty($goods_id) || empty($img_ids)) {
     		return new ecjia_error('invalid_parameter', '参数错误');
     	}
+    	
+    	RC_Logger::getLogger('info')->info('delete_batch');
+    	RC_Logger::getLogger('info')->info(array('goods_id', $goods_id));
+    	RC_Logger::getLogger('info')->info(array('img_ids', $img_ids));
     	
     	$where = array('goods_id' => $goods_id);
 		if ($_SESSION['store_id'] > 0) {
 			$where = array_merge($where, array('store_id' => $_SESSION['store_id']));
 		}
 		
-		$goods_info = RC_Model::model('goods/goods_model')->where($where)->find();
-		
+		$goods_info = RC_Model::model('goods/goods_model')->where($where)->select();
+		RC_Logger::getLogger('info')->info(array('goods_info', $goods_info));
 		if (empty($goods_info)) {
 			return new ecjia_error('goods_empty', '未找到对应商品');
 		}
-		if (empty($_FILES)) {
-		    return new ecjia_error('upload_empty', '请选择您要上传的图片');
+		
+		foreach ($img_ids as $img_id) {
+    		/* 删除图片文件 */
+    		$row = RC_Model::model('goods/goods_gallery_model')->field('img_url, thumb_url, img_original')->find(array('img_id' => $img_id, 'goods_id' => $goods_id));
+//     		strrpos($row['img_original'], '?') && $row['img_original'] = substr($row['img_original'], 0, strrpos($row['img_original'], '?'));
+    		RC_Logger::getLogger('info')->info(array('row', $row));
+    		$disk = RC_Filesystem::disk();
+    		if ($row['img_url'] != '' && is_file(RC_Upload::upload_path() . '/' . $row['img_url'])) {
+    			$disk->delete(RC_Upload::upload_path() . $row['img_url']);
+    		}
+    		if ($row['thumb_url'] != '' && is_file(RC_Upload::upload_path() . '/' . $row['thumb_url'])) {
+    			$disk->delete(RC_Upload::upload_path() . $row['thumb_url']);
+    		}
+    		if ($row['img_original'] != '' && is_file(RC_Upload::upload_path() . '/' . $row['img_original'])) {
+    			$disk->delete(RC_Upload::upload_path() . $row['img_original']);
+    		}
+    		
+    		/* 删除数据 */
+    		RC_Model::model('goods/goods_gallery_model')->where(array('img_id' => $img_id, 'goods_id' => $goods_id))->delete();
 		}
 		
-		RC_Loader::load_app_class('goods_image_data', 'goods', false);
-		
-		$goods_gallery_number = ecjia::config('goods_gallery_number');
-		$count_new = count($_FILES['image']['name']);
-		if (!empty($goods_gallery_number)) {
-		    $db_goods_gallery = RC_Loader::load_app_model('goods_gallery_model', 'goods');
-		    $count = $db_goods_gallery->where(array('goods_id' => $goods_id))->count();
-		    
-		    if ($count_new > $goods_gallery_number - $count) {
-		        return new ecjia_error('upload_counts_error', '商品相册图片不能超过'.$goods_gallery_number.'张');
-		    }
-		}
-		$upload = RC_Upload::uploader('image', array('save_path' => 'images', 'auto_sub_dirs' => true));
-		$upload->add_saving_callback(function ($file, $filename) {
-		    return true;
-		});
-		
-		for ($i = 0; $i < $count_new; $i++) {
-		    $picture = array(
-		        'name' 		=> 	$_FILES['image']['name'][$i],
-		        'type' 		=> 	$_FILES['image']['type'][$i],
-		        'tmp_name' 	=> 	$_FILES['image']['tmp_name'][$i],
-		        'error'		=> 	$_FILES['image']['error'][$i],
-		        'size'		=> 	$_FILES['image']['size'][$i],
-		    );
-		    if (!empty($picture['name'])) {
-		        if (!$upload->check_upload_file($picture)) {
-		            return new ecjia_error('upload_error'. __LINE__, $upload->error());
-		        }
-		    }
-		}
-		
-		$image_info = $upload->batch_upload($_FILES);
-		if (empty($image_info)) {
-			return new ecjia_error('upload_error'. __LINE__, $upload->error());
-		}
-		
-		foreach ($image_info as $image) {
-		    $goods_image = new goods_image_data($image['name'], $image['tmpname'], $image['ext'], $goods_id);
-		    $goods_image->update_gallery();
-		}
-		
-		/* 记录日志 */
-		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $goods_info['goods_name'].'-添加商品相册图片【来源掌柜】', 'action' => 'edit', 'object' => 'goods'));
-		} else {
-		    //ecjia_admin::admin_log($goods_name.'【来源掌柜】', 'add', 'goods');
-		}
 		
     	return array();
     }
-    	 
+    
 }

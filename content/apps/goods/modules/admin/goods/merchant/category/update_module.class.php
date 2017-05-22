@@ -61,11 +61,7 @@ class update_module extends api_admin implements api_interface {
         if (is_ecjia_error($result)) {
 			return $result;
 		}
-    	
-    	if (!empty($_SESSION['store_id'])) {
-    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
-    	}
-    	
+		
     	$cat_id			= $this->requestData('category_id');
     	$parent_id		= $this->requestData('parent_id', 0);
     	$category_name	= $this->requestData('category_name');
@@ -73,6 +69,11 @@ class update_module extends api_admin implements api_interface {
     	
     	if (empty($cat_id)) {
     		return new ecjia_error('invalid_parameter', '参数错误');
+    	}
+    	
+    	$category	= RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id, 'store_id' => $_SESSION['store_id']))->find();
+    	if (empty($category)) {
+    	    return new ecjia_error('priv_error', '您无权对此分类进行操作！');
     	}
     	
     	$cat = array(
@@ -84,6 +85,20 @@ class update_module extends api_admin implements api_interface {
     	if ($count) {
     	    return new ecjia_error('already exists', '此分类名称已存在，请修改！');
     	}
+    	//判断上级分类是否正确
+    	if ($parent_id) {
+    	    if ($parent_id == $cat_id) {
+    	        return new ecjia_error('category_error', '上级分类不能为自己');
+    	    }
+    	    $data = RC_Api::api('goods', 'seller_goods_category', array('cat_id' => $cat_id, 'type' => 'seller_goods_cat', 'store_id' => $_SESSION['store_id']));
+    	    if ($data) {
+    	        $children = array_keys($data);
+    	        if (in_array($parent_id, $children)) {
+    	            return new ecjia_error('category_error', '上级分类不能为自己的子类');
+    	        }
+    	    }
+    	}
+    	
     	/* 上传分类图片 */
     	$upload = RC_Upload::uploader('image', array('save_path' => 'data/category', 'auto_sub_dirs' => true));
     	if (isset($_FILES['category_image']) && $upload->check_upload_file($_FILES['category_image'])) {
@@ -95,7 +110,9 @@ class update_module extends api_admin implements api_interface {
     		}
     	}
     	 
-    	$cat_id = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->update($cat);
+    	if (!RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->update($cat)) {
+    	    return new ecjia_error('category_error', '更新失败！');
+    	}
     	 
     	if ($_SESSION['store_id'] > 0) {
     	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));

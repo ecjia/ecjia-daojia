@@ -138,7 +138,7 @@ class list_module extends api_admin implements api_interface {
 			RC_Loader::load_sys_func('global');
 			foreach ($data as $key => $val) {
 				if ($val['promote_price'] > 0) {
-					$promote_price = bargain_price($val['promote_price'], $val['promote_start_date'], $val['promote_end_date']);
+					$promote_price = $val['promote_price'];//bargain_price($val['promote_price'], $val['promote_start_date'], $val['promote_end_date']);
 				} else {
 					$promote_price = 0;
 				}
@@ -149,7 +149,7 @@ class list_module extends api_admin implements api_interface {
 					'market_price'		=> price_format($val['market_price'] , false),
 					'shop_price'		=> price_format($val['shop_price'] , false),
 				    'is_promote'	=> $val['is_promote'],
-				    'promote_price'	=> price_format($val['promote_price'] , false),
+				    'promote_price'	=> price_format($promote_price , false),
 				    'promote_start_date'	=> intval($val['promote_start_date']),
 				    'promote_end_date'		=> intval($val['promote_end_date']),
 				    'formatted_promote_start_date'	=> !empty($val['promote_start_date']) ? RC_Time::local_date('Y-m-d H:i:s', $val['promote_start_date']) : '',
@@ -157,10 +157,10 @@ class list_module extends api_admin implements api_interface {
 				    'clicks'		=> intval($val['click_count']),
 					'stock'				=> (ecjia::config('use_storage') == 1) ? $val['goods_number'] : '',
 					'goods_weight'		=> $val['goods_weight']  = (intval($val['goods_weight']) > 0) ? $val['goods_weight'] . __('千克') : ($val['goods_weight'] * 1000) . __('克'),
-					'is_best'			=> $val['is_best'] == 1 ? true : false,
-					'is_new'			=> $val['is_new'] == 1 ? true : false,
-					'is_hot'			=> $val['is_hot'] == 1 ? true : false,
-					'is_shipping'		=> $val['is_shipping'] == 1 ? true : false,
+					'is_best'			=> $val['is_best'] == 1 ? 1 : 0,
+					'is_new'			=> $val['is_new'] == 1 ? 1 : 0,
+					'is_hot'			=> $val['is_hot'] == 1 ? 1 : 0,
+					'is_shipping'		=> $val['is_shipping'] == 1 ? 1 : 0,
 					'last_updatetime' 	=> RC_Time::local_date(ecjia::config('time_format'), $val['last_update']),
 				    'sales_volume'	=> $val['sales_volume'],
 				    'img' => array(
