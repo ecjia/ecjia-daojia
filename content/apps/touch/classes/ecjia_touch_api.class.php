@@ -213,6 +213,8 @@ class ecjia_touch_api
  	const VALIDATA_GET   = 'validate/get';//发送验证码
  	const USER_BIND      = 'user/bind';//发送验证码
  	
+ 	const SHOP_CAPTCHA_SMS	= 'shop/captcha/sms';//修改绑定手机
+ 	const SHOP_CAPTCHA_MAIL	= 'shop/captcha/mail';//修改绑定邮箱
 }
 
 // end
