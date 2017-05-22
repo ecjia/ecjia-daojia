@@ -2,7 +2,7 @@
 
 use Royalcms\Component\WeChat\Core\AbstractAPI;
 use Royalcms\Component\WeChat\Core\Exceptions\InvalidArgumentException;
-use Royalcms\Component\WeChat\Support\File;
+use Royalcms\Component\Support\Facades\File as RC_File;
 
 /**
  * Class Temporary.
@@ -40,7 +40,7 @@ class Temporary extends AbstractAPI
 
         $stream = $this->getStream($mediaId);
 
-        $filename .= File::getStreamExt($stream);
+        $filename .= RC_File::getStreamExt($stream);
 
         file_put_contents($directory.'/'.$filename, $stream);
 
