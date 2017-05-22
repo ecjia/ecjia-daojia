@@ -58,9 +58,8 @@ return array(
     //article
     'article/category'      => 'api::article/category',//2.4+api(测试)
     'article/detail'        => 'article::article/detail',
-	//article 1.0
-    'article'				=> 'article::article/detail',
-
+	
+    
     //cart
     'cart/create'           => 'cart::cart/create',
     //'cart/gift/create'      => 'cart::cart/gift/create',//2.4+api(测试) //hyy 9.12
@@ -70,10 +69,6 @@ return array(
     'flow/checkOrder'       => 'cart::flow/checkOrder',
     'flow/done'             => 'cart::flow/done',
 
-    //feedback
-    'feedback/list'         => 'feedback::feedback/list',
-    'feedback/create'       => 'feedback::feedback/create',
-
     //goods
     'goods/category'        => 'goods::goods/category',
 	'goods/list'        	=> 'goods::goods/list',
@@ -82,22 +77,17 @@ return array(
     'goods/desc'            => 'goods::goods/desc',
     'goods/brand'           => 'goods::goods/brand',
     'goods/price_range'     => 'goods::goods/price_range',
-	/*商品店铺搜索*/
-	'goods/search'		    	=> 'goods::goods/search',
-    //goods 1.0
-    'brand'					=> 'goods::goods/brand',
-	'category'              => 'goods::goods/category',
-	'comments'				=> 'comment::goods/comments',
-	'goods'					=> 'goods::goods/detail',
-	'price_range'			=> 'goods::goods/price_range',
-
+	'goods/search'		    => 'goods::goods/search', //商品店铺搜索
+    'goods/filter'          => 'goods::goods/filter',
+    
+    'goods/seller/list'	    => 'goods::seller/list',
+    
     //home
     'home/category'         => 'goods::home/category',
     'home/data'             => 'mobile::home/data',
 	'home/adsense'          => 'adsense::home/adsense',
 	'home/discover'         => 'mobile::home/discover',
 	'home/news'         	=> 'mobile::home/news',
-	//home
 
     //order
     'order/affirmReceived'  => 'orders::order/affirmReceived',
@@ -116,12 +106,11 @@ return array(
     'shop/payment'          => 'payment::shop/payment',
     'shop/help'             => 'article::shop/help',
     'shop/help/detail'      => 'article::shop/help/detail',
-
+    'shop/info'             	=> 'article::shop/info',
+    'shop/info/detail'			=> 'article::shop/info/detail',
+    'shop/token'           	=> 'setting::shop/token',
 
     //user
-    'user/collect/create'   => 'user::user/collect/create',
-    'user/collect/delete'   => 'user::user/collect/delete',
-    'user/collect/list'     => 'user::user/collect/list',
     'user/info'             => 'user::user/info',
     'user/signin'           => 'user::user/signin',
 	'user/signout'          => 'user::user/signout',
@@ -129,23 +118,29 @@ return array(
 	'user/update'           => 'user::user/update',
     'user/password'         => 'user::user/password',
     'user/signupFields'     => 'user::user/signupFields',
+    'user/forget_password'  => 'user::user/forget_password',
+    'user/reset_password'   => 'user::user/reset_password',
     'user/account/record'   => 'user::user/account/record',
     'user/account/log'      => 'user::user/account/log',
     'user/account/deposit'  => 'user::user/account/deposit',
     'user/account/pay'      => 'user::user/account/pay',
     'user/account/raply'    => 'user::user/account/raply',
     'user/account/cancel'   => 'user::user/account/cancel',
-    'validate/bonus'        => 'user::validate/bonus',
-    'validate/integral'     => 'user::validate/integral',
-
 	'user/connect/signin'	=> 'user::user/connect/signin',
 	'user/connect/signup'	=> 'user::user/connect/signup',
+    'user/collect/create'   => 'user::user/collect/create',
+    'user/collect/delete'   => 'user::user/collect/delete',
+    'user/collect/list'     => 'user::user/collect/list',
+    
+    'validate/bonus'        => 'user::validate/bonus',
+    'validate/integral'     => 'user::validate/integral',
+    'validate/forget_password'  => 'user::validate/forget_password',
 
     //coupon
     'bonus/coupon'          => 'bonus::bonus/coupon',
     'receive/coupon'        => 'bonus::bonus/receive_coupon',
 
-	//多商铺
+	//商家
 	'seller/category'              => 'store::seller/category',
 	'seller/list'                  => 'store::seller/list',
 	'seller/search'                => 'store::seller/search',
@@ -158,43 +153,163 @@ return array(
 	'merchant/goods/list'          => 'store::merchant/goods/list',
 	'merchant/goods/suggestlist'   => 'store::merchant/goods/suggestlist',
 
-	//手机注册
-	'user/userbind'     	=> 'user::user/userbind',
-	'validate/bind'         => 'user::validate/bind',
-	//第三方登录
-	'user/snsbind'           => 'user::user/snsbind',
+    
 
-	//ecjia
+    'seller/home/data'			   => 'seller::home/data',
+    
+    
+    //扫码登录
+    'mobile/qrcode/create'		=> 'mobile::qrcode/create',
+    'mobile/qrcode/bind'		=> 'mobile::qrcode/bind',
+    'mobile/qrcode/validate'	=> 'mobile::qrcode/validate',
+    
+    //mobile device
+    'device/setDeviceinfo' 	    => 'mobile::device/setDeviceinfo',
+    'device/setDeviceToken'     => 'mobile::device/setDeviceToken',
+    
+
+    
+    /* 邀请推广 */
+    'invite/user'				=> 'affiliate::invite/user',
+    'invite/reward'				=> 'affiliate::invite/reward',
+    'invite/record'				=> 'affiliate::invite/record',
+    'invite/validate'			=> 'affiliate::invite/validate',
+    
+    /* 第三方登录 */
+    'connect/signin'			=> 'connect::connect/signin',
+    'connect/signup'			=> 'connect::connect/signup',
+    'connect/bind'				=> 'connect::connect/bind',
+
+	
+	
+	'validate/bind'         => 'user::validate/bind',
+    'user/userbind'     	=> 'user::user/userbind', //手机注册
+	'user/snsbind'          => 'user::user/snsbind', //第三方绑定
+    'user/bonus'            => 'user::user/bonus',
+    'user/bind'             => 'user::user/bind',//1.5新增
+    
+    //comments
+    'comment/create'        => 'comment::goods/create', //1.4新增
+    'orders/comment'		=> 'orders::order/comment',   //1.4新增
+    
+    'goods/comments'        => 'comment::goods/comments',   //1.4新增
+    'store/comments'        => 'comment::store/comments',//1.4新增
+    
+    'orders/comment/detail' => 'orders::order/comment/detail',//1.4新增
+
+    
+    'cart/checked'              => 'cart::cart/checked', //购物车选中状态切换
+    
+    //1.5
+    'shop/captcha/sms'        => 'captcha::captcha/sms', //1.5新增
+    'shop/captcha/mail'        => 'captcha::captcha/mail', //1.5新增
+    
+    
+    /******************************************************************
+     * 商家后台接口
+     ******************************************************************/
+
+	//商家后台订单
 	'admin/orders/list'			=> 'orders::admin/orders/list',
 	'admin/orders/detail'		=> 'orders::admin/orders/detail',
 	'admin/orders/cancel'		=> 'orders::admin/orders/cancel',
+    'admin/order/split'			=> 'orders::admin/orders/split',
+    'admin/order/receive'		=> 'orders::admin/orders/receive',
+    'admin/order/update'		=> 'orders::admin/orders/update',
+    'admin/order/express'		=> 'orders::admin/orders/express',               //1.5新增
+    'admin/order/consignee/list' => 'orders::admin/orders/consignee/list',          //1.5新增
+    'admin/order/operate/consignee' => 'orders::admin/orders/operate/consignee',//1.5新增
+    'admin/order/operate/money' => 'orders::admin/orders/operate/money',//1.5新增
+    'admin/order/operate/shipping'	=> 'orders::admin/orders/operate/shipping',//1.5新增
+    'admin/order/operate/shipping/detail' => 'orders::admin/orders/operate/shipping_detail',//1.5新增
+    'admin/order/operate/pay' 	=> 'orders::admin/orders/operate/pay',//1.5新增
+    'admin/order/operate/cancel'	=> 'orders::admin/orders/operate/cancel',//1.5新增
+    'admin/order/operate/delivery'	=> 'orders::admin/orders/operate/delivery',//1.5新增
+    'admin/order/operate/setgrab'	=> 'orders::admin/orders/operate/setgrab',//1.5新增
+    'admin/order/operate/cancelgrab'	=> 'orders::admin/orders/operate/cancelgrab',//1.5新增
+    'admin/order/shipping/list'	=> 'orders::admin/orders/shipping/list',//1.5新增
+    'admin/orders/delivery'		    => 'orders::admin/orders/delivery',
+    
+    //商家收银台相关
+    'admin/order/payConfirm'	=> 'orders::admin/orders/payConfirm',	//收银台支付验证
+    'admin/order/refundConfirm'	=> 'orders::admin/orders/refundConfirm',	//收银台退款验证
+    'admin/order/check'			=> 'orders::admin/orders/check',	//收银台验单
+    'admin/order/quickpay'		=> 'orders::admin/orders/quickpay', //收银台快速收款
 
-
+    //商家后台商品
 	'admin/goods/list'			=> 'goods::admin/goods/list',
 	'admin/goods/detail'		=> 'goods::admin/goods/detail',
 	'admin/goods/togglesale'	=> 'goods::admin/goods/togglesale',
 	'admin/goods/trash'			=> 'goods::admin/goods/trash',
 	'admin/goods/desc'			=> 'goods::admin/goods/desc',
 	'admin/goods/product_search' => 'goods::admin/goods/product_search',
+    'admin/goods/brand'			=> 'goods::admin/goods/brand',
+    'admin/goods/category'		=> 'goods::admin/goods/category',
+    'admin/goods/updatePrice'	=> 'goods::admin/goods/updateprice',
+    'admin/goods/add'			=> 'goods::admin/goods/add',//1.5新增
+    'admin/goods/restore'		=> 'goods::admin/goods/restore',//1.5新增
+    'admin/goods/update'		=> 'goods::admin/goods/update',//1.5新增
+    'admin/goods/update/desc'	=> 'goods::admin/goods/updatedesc',//1.5新增
+    'admin/goods/trash/list'				=> 'goods::admin/goods/trash/list',//1.5新增
+    
+    'admin/goods/promote/add'				=> 'goods::admin/goods/promote/add',//1.5新增
+    'admin/goods/promote/update'			=> 'goods::admin/goods/promote/update',//1.5新增
+    'admin/goods/promote/delete'			=> 'goods::admin/goods/promote/delete',//1.5新增
+    
+    'admin/goods/toggle/free_shipping'		=> 'goods::admin/goods/toggle/free_shipping',//1.5新增
+    'admin/goods/toggle/suggest'			=> 'goods::admin/goods/toggle/suggest',//1.5新增
+    'admin/goods/toggle/sale'				=> 'goods::admin/goods/toggle/sale',//1.5新增
+    'admin/goods/toggle/gifts'				=> 'goods::admin/goods/toggle/gifts',//1.5新增
+    
+    'admin/goods/gallery/add'				=> 'goods::admin/goods/gallery/add',//1.5新增
+    'admin/goods/gallery/sort'				=> 'goods::admin/goods/gallery/sort',//1.5新增
+    'admin/goods/gallery/delete'			=> 'goods::admin/goods/gallery/delete',//1.5新增
+    'admin/goods/gallery/delete/batch'      => 'goods::admin/goods/gallery/delete_batch',//1.5新增
+    'admin/goods/move/category'				=> 'goods::admin/goods/move/category',//1.5新增
+    
+    'admin/goods/merchant/category/list'	=> 'goods::admin/goods/merchant/category/list',//1.5新增，1.5废弃
+    'admin/goods/merchant/category/add'		=> 'goods::admin/goods/merchant/category/add',//1.5新增，1.5废弃
+    'admin/goods/merchant/category/detail'	=> 'goods::admin/goods/merchant/category/detail',//1.5新增，1.5废弃
+    'admin/goods/merchant/category/update'	=> 'goods::admin/goods/merchant/category/update',//1.5新增，1.5废弃
+    'admin/goods/merchant/category/show'	=> 'goods::admin/goods/merchant/category/show',//1.5新增，1.5废弃
+    'admin/goods/merchant/category/delete'	=> 'goods::admin/goods/merchant/category/delete',//1.5新增，1.5废弃
+    
+    'admin/merchant/goods/category/list'	=> 'goods::admin/goods/merchant/category/list',//1.5新增
+    'admin/merchant/goods/category/add'		=> 'goods::admin/goods/merchant/category/add',//1.5新增
+    'admin/merchant/goods/category/detail'	=> 'goods::admin/goods/merchant/category/detail',//1.5新增
+    'admin/merchant/goods/category/update'	=> 'goods::admin/goods/merchant/category/update',//1.5新增
+    'admin/merchant/goods/category/show'	=> 'goods::admin/goods/merchant/category/show',//1.5新增
+    'admin/merchant/goods/category/delete'	=> 'goods::admin/goods/merchant/category/delete',//1.5新增
 
-
+    //商家后台用户
 	'admin/user/signin'			=> 'user::v2/admin/user/signin',
     'admin/user/signout'		=> 'user::admin/user/signout',
     'admin/user/search' 		=> 'user::admin/user/search',
+    'admin/user/rank'           => 'user::admin/user/rank',
 	'admin/user/userinfo'		=> 'user::v2/admin/user/userinfo',
+    'admin/user/info'			=> 'user::admin/user/info',//1.5新增
 	'admin/user/forget_request'	=> 'user::v2/admin/user/forget_request',
 	'admin/user/forget_validate' => 'user::v2/admin/user/forget_validate',
 	'admin/user/password' 		=> 'user::admin/user/password',
+    'admin/user/bind'           => 'user::admin/user/bind', //1.5新增
+    'admin/user/update'			=> 'user::v2/admin/user/update',
+    
+    'admin/user/account/validate'	=> 'user::admin/user/account/validate', //1.5废弃，换用admin/shop/captcha/sms/
+    'admin/user/account/update'	    => 'user::admin/user/account/update', //1.5废弃，换用admin/user/update
+    
+    //后台验证码
+    'admin/shop/captcha/sms'        => 'captcha::captcha/admin/sms',   //1.5新增
+    'admin/shop/captcha/mail'       => 'captcha::captcha/admin/mail',  //1.5新增
+    
 
 	'admin/home/data'			=> 'mobile::admin/home/data',
+    
 	'admin/shop/config'			=> 'setting::admin/shop/config',
-
-	'admin/goods/category'		=> 'goods::admin/goods/category',
-	'admin/goods/updatePrice'	=> 'goods::admin/goods/updateprice',
+    'admin/shop/attach/add'	    => 'mobile::admin/shop/attach/add',//1.5新增
+	
 	'admin/merchant/info'		=> 'store::admin/merchant/info',
 	'admin/merchant/update'		=> 'store::admin/merchant/update',
-	//mobile
-	'device/setDeviceToken' => 'mobile::device/setDeviceToken',
+	
 
 
 	'admin/connect/validate'	=> 'connect::admin/connect/validate',
@@ -202,199 +317,83 @@ return array(
 
 	'admin/flow/checkOrder'		=> 'cart::admin/flow/checkOrder',
 	'admin/flow/done'			=> 'cart::admin/flow/done',
-	'admin/goods/product_search' => 'goods::admin/goods/product_search',
+	
+    /* 消息*/
+    'admin/message'				=> 'mobile::admin/message',
 
+    //商家订单统计
 	'admin/stats/orders'		=> 'orders::admin/stats/orders',
 	'admin/stats/sales'			=> 'orders::admin/stats/sales',
 	'admin/stats/sales_details'	=> 'orders::admin/stats/salesdetails',
 	'admin/stats/visitor'		=> 'user::admin/stats/visitor',
 	'admin/stats/order_sales'	=> 'orders::admin/stats/order_sales',
 
-
-	'admin/order/split'			=> 'orders::admin/orders/split',
-	'admin/order/receive'		=> 'orders::admin/orders/receive',
-	'admin/order/update'		=> 'orders::admin/orders/update',
-
-
-
-	'admin/order/payConfirm'	=> 'orders::admin/orders/payConfirm',	//收银台支付验证
-	'admin/order/refundConfirm'	=> 'orders::admin/orders/refundConfirm',	//收银台退款验证
-	'admin/order/check'			=> 'orders::admin/orders/check',	//收银台验单
-
-
-	/* 消息*/
-	'admin/message'				=> 'mobile::admin/message',
-
-	'shop/token'           		=> 'setting::shop/token',
-
-	'user/forget_password'      => 'user::user/forget_password',
-	'validate/forget_password'  => 'user::validate/forget_password',
-	'user/reset_password'       => 'user::user/reset_password',
-
-	'goods/mobilebuygoods'		=> 'goods::goods/mobilebuygoods',
-
-	'seller/home/data'			=> 'seller::home/data',
-
-
-	//专题功能
-	'topic/list'				=> 'topic::topic/list',
-	'topic/info'				=> 'topic::topic/info',
-	//扫码登录
-	'mobile/qrcode/create'				=> 'mobile::qrcode/create',
-	'mobile/qrcode/bind'				=> 'mobile::qrcode/bind',
-	'mobile/qrcode/validate'			=> 'mobile::qrcode/validate',
-
-	//后台咨询功能
-	'admin/feedback/list'				=> 'feedback::admin/feedback/list',
-	'admin/feedback/messages'			=> 'feedback::admin/feedback/messages',
-	'admin/feedback/reply'				=> 'feedback::admin/feedback/reply',
-
-	'goods/filter'          => 'goods::goods/filter',
-
 	/* 入驻申请*/
-
 	'admin/merchant/signup'			=> 'store::admin/merchant/signup',
 	'admin/merchant/process'		=> 'store::admin/merchant/process',
 	'admin/merchant/account/info' 	=> 'store::admin/account/info',
 	'admin/merchant/account/validate'=>'store::admin/account/validate',
 	'admin/merchant/validate'		=> 'store::admin/merchant/validate',
+    'admin/merchant/cancel'     => 'store::admin/merchant/cancel', //入驻撤销
+    'admin/merchant/resignup'   => 'store::admin/merchant/resignup', //入驻修改信息提交
+    'admin/merchant/preaudit'	=> 'store::admin/merchant/preaudit', //入驻修改获取信息
+    
+    /*商家通知*/
+    'admin/merchant/notification'	=> 'notification::admin/merchant/notification',
+    'admin/merchant/notification/read'	=> 'notification::admin/merchant/read',
+    'admin/merchant/notification/unread_count'	=> 'notification::admin/merchant/unread_count',
 
-
-	/*掌柜1.1*/
-	'admin/user/rank'           => 'user::admin/user/rank',
+	/*商家满折满减满送活动*/
 	'admin/favourable/list'		=> 'favourable::admin/favourable/list',
 	'admin/favourable/add'		=> 'favourable::admin/favourable/manage',
 	'admin/favourable/update'	=> 'favourable::admin/favourable/manage',
 	'admin/favourable/info'		=> 'favourable::admin/favourable/info',
 	'admin/favourable/delete'	=> 'favourable::admin/favourable/delete',
-	'admin/goods/brand'			=> 'goods::admin/goods/brand',
-
+	
+    /*商家促销活动*/
 	'admin/promotion/list'		=> 'promotion::admin/promotion/list',
 	'admin/promotion/detail'	=> 'promotion::admin/promotion/detail',
 	'admin/promotion/delete'	=> 'promotion::admin/promotion/delete',
 	'admin/promotion/add'	    => 'promotion::admin/promotion/manage',
 	'admin/promotion/update'	=> 'promotion::admin/promotion/manage',
 
-
-	'mobile/checkin'			=> 'mobile::checkin/integral',
-	'mobile/checkin/record'		=> 'mobile::checkin/record',
-
-    'mobile/toutiao'		    => 'mobile::mobile/toutiao',
-
-	/* o2o1.2*/
-	'invite/user'				=> 'affiliate::invite/user',
-	'invite/reward'				=> 'affiliate::invite/reward',
-	'invite/record'				=> 'affiliate::invite/record',
-	'invite/validate'			=> 'affiliate::invite/validate',
-
-	'connect/signin'			=> 'connect::connect/signin',
-	'connect/signup'			=> 'connect::connect/signup',
-	'connect/bind'				=> 'connect::connect/bind',
-
-	'shop/info'             	=> 'article::shop/info',
-	'shop/info/detail'			=> 'article::shop/info/detail',
-
-	'user/bonus'             	=> 'user::user/bonus',
-
-	'device/setDeviceinfo' 	    => 'mobile::device/setDeviceinfo',
-
-	//新增
-	'merchant/goods/category'	=> 'store::merchant/goods/category',
-
-	'goods/seller/list'			=> 'goods::seller/list',
-
-    'cart/checked'              => 'cart::cart/checked', //购物车选中状态切换
-
-    'admin/merchant/cancel'     => 'store::admin/merchant/cancel', //入驻撤销
-
-    'admin/merchant/resignup'   => 'store::admin/merchant/resignup', //入驻修改信息提交
-
-	'admin/merchant/preaudit'	=> 'store::admin/merchant/preaudit', //入驻修改获取信息
-	
-	/* o2o1.3*/
     //配送员
-	'express/grab_list'			=> 'express::express/grab_list',
-	'express/list'				=> 'express::express/list',
-	'express/detail'			=> 'express::express/detail',
-	'express/user/location'		=> 'express::express/user/location',
-	'express/user/info'			=> 'express::express/user/info',
-	'express/pickup'			=> 'express::express/pickup',
-	'express/grab'				=> 'express::express/grab',
-		
-	'express/basicinfo'			=> 'express::express/basicinfo',
-	'admin/user/update'			=> 'user::v2/admin/user/update',
-	
-	'admin/orders/delivery'		=> 'orders::admin/orders/delivery',
-	'admin/user/account/validate'	=> 'user::admin/user/account/validate',
-	'admin/user/account/update'	=> 'user::admin/user/account/update',
+	'express/grab_list'			=> 'express::express/grab_list',     //1.5废弃
+	'express/list'				=> 'express::express/list',          //1.5废弃
+	'express/detail'			=> 'express::express/detail',        //1.5废弃
+	'express/user/location'		=> 'express::express/user/location', //1.5废弃
+	'express/user/info'			=> 'express::express/user/info',     //1.5废弃
+	'express/user/checkin'      => 'express::express/user/checkin',  //1.5废弃
+	'express/pickup'			=> 'express::express/pickup',        //1.5废弃
+	'express/grab'				=> 'express::express/grab',	         //1.5废弃
+	'express/basicinfo'			=> 'express::express/basicinfo',     //1.5废弃
+    
+    'admin/express/grab_list'		=> 'express::express/grab_list',         //1.5新增
+    'admin/express/list'			=> 'express::express/list',              //1.5新增
+    'admin/express/detail'			=> 'express::express/detail',            //1.5新增
+    'admin/express/pickup'			=> 'express::express/pickup',            //1.5新增
+    'admin/express/grab'			=> 'express::express/grab',              //1.5新增
+    'admin/express/basicinfo'	    => 'express::express/basicinfo',         //1.5新增
+    'admin/express/user/location'	=> 'express::express/user/location',     //1.5新增
+    'admin/express/user/info'		=> 'express::express/user/info',         //1.5新增
+    'admin/express/user/checkin'    => 'express::express/user/checkin',      //1.5新增
+    
+    
+    
+    /** 1.0 已经废弃
+     * article 
+     * 'article'				=> 'article::article/detail',
+     * 
+     * goods
+     * 'brand'					=> 'goods::goods/brand',
+     * 'category'               => 'goods::goods/category',
+     * 'comments'				=> 'comment::goods/comments',
+     * 'goods'					=> 'goods::goods/detail',
+     * 'price_range'			=> 'goods::goods/price_range',
+     */
 
-	'express/user/checkin'		=> 'express::express/user/checkin',
-	'admin/merchant/notification'	=> 'notification::admin/merchant/notification',
-	'admin/merchant/notification/read'	=> 'notification::admin/merchant/read',
     
-    /* 1.4 */
-    //comments
-    'comment/create'        => 'comment::goods/create',
-    'orders/comment'		=> 'orders::order/comment',
-
-    'goods/comments'        => 'comment::goods/comments',
-    'store/comments'        => 'comment::store/comments',
     
-    'orders/comment/detail' => 'orders::order/comment/detail',
-    
-    //1.5
-    'admin/order/payConfirm'	=> 'orders::admin/orders/payConfirm',	//收银台支付验证
-    'admin/order/quickpay'		=> 'orders::admin/orders/quickpay',
-    'admin/order/express'		=> 'orders::admin/orders/express',
-    
-    'admin/order/consignee/list' => 'orders::admin/orders/consignee/list',
-    
-    'admin/order/operate/consignee' => 'orders::admin/orders/operate/consignee',
-    'admin/order/operate/money' => 'orders::admin/orders/operate/money',
-    'admin/order/operate/shipping'	=> 'orders::admin/orders/operate/shipping',
-    'admin/order/operate/shipping/detail' => 'orders::admin/orders/operate/shipping_detail',
-    'admin/order/operate/pay' 	=> 'orders::admin/orders/operate/pay',
-    'admin/order/operate/cancel'	=> 'orders::admin/orders/operate/cancel',
-    'admin/order/operate/delivery'	=> 'orders::admin/orders/operate/delivery',
-    'admin/order/operate/setgrab'	=> 'orders::admin/orders/operate/setgrab',
-    'admin/order/operate/cancelgrab'	=> 'orders::admin/orders/operate/cancelgrab',
-    
-    'admin/order/shipping/list'	=> 'orders::admin/orders/shipping/list',
-    
-    'admin/user/info'			=> 'user::admin/user/info',
-
-    'admin/goods/add'			=> 'goods::admin/goods/add',
-    'admin/goods/restore'		=> 'goods::admin/goods/restore',
-    'admin/goods/update'		=> 'goods::admin/goods/update',
-    'admin/goods/update/desc'	=> 'goods::admin/goods/updatedesc',
-    'admin/goods/trash/list'				=> 'goods::admin/goods/trash/list',
-    
-    'admin/goods/promote/add'				=> 'goods::admin/goods/promote/add',
-    'admin/goods/promote/update'			=> 'goods::admin/goods/promote/update',
-    'admin/goods/promote/delete'			=> 'goods::admin/goods/promote/delete',
-    
-    'admin/goods/toggle/free_shipping'		=> 'goods::admin/goods/toggle/free_shipping',
-    'admin/goods/toggle/suggest'			=> 'goods::admin/goods/toggle/suggest',
-    'admin/goods/toggle/sale'				=> 'goods::admin/goods/toggle/sale',
-    'admin/goods/toggle/gifts'				=> 'goods::admin/goods/toggle/gifts',
-    
-    'admin/goods/gallery/add'				=> 'goods::admin/goods/gallery/add',
-    'admin/goods/gallery/delete'			=> 'goods::admin/goods/gallery/delete',
-    'admin/goods/move/category'				=> 'goods::admin/goods/move/category',
-    
-    'admin/goods/merchant/category/list'	=> 'goods::admin/goods/merchant/category/list',
-    'admin/goods/merchant/category/add'		=> 'goods::admin/goods/merchant/category/add',
-    'admin/goods/merchant/category/detail'	=> 'goods::admin/goods/merchant/category/detail',
-    'admin/goods/merchant/category/update'	=> 'goods::admin/goods/merchant/category/update',
-    'admin/goods/merchant/category/show'	=> 'goods::admin/goods/merchant/category/show',
-    'admin/goods/merchant/category/delete'	=> 'goods::admin/goods/merchant/category/delete',
-    
-    'admin/shop/attach/add'	=> 'mobile::admin/shop/attach/add',
-    
-    'validate/get'        => 'user::validate/get',
-    'user/bind'           => 'user::user/bind',
-    
-    'admin/user/bind'           => 'user::admin/user/bind',
     
 );
 
