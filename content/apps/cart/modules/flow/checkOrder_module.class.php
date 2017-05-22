@@ -219,7 +219,7 @@ class checkOrder_module extends api_front implements api_interface {
 		    $region            = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district']);
 		    
 		    $shipping_method   = RC_Loader::load_app_class('shipping_method', 'shipping');
-		    $shipping_list     = $shipping_method->available_shipping_list($region, $order['store_id']);
+		    $shipping_list     = $shipping_method->available_shipping_list_front($region, $order['store_id']);
 		    $cart_weight_price = cart::cart_weight_price($flow_type, $cart_id);
 		    $insure_disabled   = true;
 		    $cod_disabled      = true;
@@ -236,6 +236,7 @@ class checkOrder_module extends api_front implements api_interface {
 		    } else {
 		        $shipping_count_where['session_id'] = SESS_ID;
 		    }
+		    $shipping_count_where['is_shipping'] = array('neq' => 1);
 		    $shipping_count       = $db_cart->where($shipping_count_where)->count();
 		    
 		    $ck = array();
@@ -248,13 +249,11 @@ class checkOrder_module extends api_front implements api_interface {
 		    
 		        $shipping_cfg = $shipping_method->unserialize_config($val['configure']);
 		    
-		        $shipping_list[$key]['free_money']          = price_format($shipping_cfg['free_money'], false);
 		        $shipping_fee = ($shipping_count == 0 AND $cart_weight_price['free_shipping'] == 1) ? 0 : $shipping_method->shipping_fee($val['shipping_code'], unserialize($val['configure']),
 		            $cart_weight_price['weight'], $cart_weight_price['amount'], $cart_weight_price['number']);
 		    
-		    
-		        $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee, false);
 		        $shipping_list[$key]['shipping_fee']        = $shipping_fee;
+		        $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee, false);
 		        $shipping_list[$key]['free_money']          = price_format($shipping_cfg['free_money'], false);
 		        $shipping_list[$key]['insure_formated']     = strpos($val['insure'], '%') === false ? price_format($val['insure'], false) : $val['insure'];
 		    

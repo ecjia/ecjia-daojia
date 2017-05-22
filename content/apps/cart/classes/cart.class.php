@@ -668,6 +668,7 @@ class cart {
 				} else {
 				    $shipping_count_where['session_id'] = SESS_ID;
 				}
+				$shipping_count_where['is_shipping'] = array('neq' => 1);
 				$shipping_count       = $db->where($shipping_count_where)->count();
 
 				$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 :  $shipping_method->shipping_fee($shipping_info['shipping_code'], $shipping_info['configure'], $weight_price['weight'], $total['goods_price'], $weight_price['number']);

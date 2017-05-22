@@ -488,6 +488,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		$order['log_id'] = $payment_method->insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
 
 		$payment_info = $payment_method->payment_info_by_id($order['pay_id']);
+// 		RC_Logger::getLogger('info')->info(array('cart_flow_done_api-payment',$payment_info));
 
 		if (! empty($order['shipping_name'])) {
 			$order['shipping_name'] = trim(stripcslashes($order['shipping_name']));
@@ -527,14 +528,14 @@ class cart_flow_done_api extends Component_Event_Api {
 			));
 		}
 		
-		if ($payment_info['is_cod']) {
-			RC_DB::table('order_status_log')->insert(array(
-				'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
-				'order_id'		=> $order['order_id'],
-				'message'		=> '订单已通知商家，等待商家处理',
-				'add_time'		=> RC_Time::gmtime(),
-			));
-		}
+// 		if ($payment_info['is_cod']) {
+// 			RC_DB::table('order_status_log')->insert(array(
+// 				'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
+// 				'order_id'		=> $order['order_id'],
+// 				'message'		=> '订单已通知商家，等待商家处理',
+// 				'add_time'		=> RC_Time::gmtime(),
+// 			));
+// 		}
 		
 		/* 客户下单通知（默认通知店长）*/
 		/* 获取店长的记录*/
