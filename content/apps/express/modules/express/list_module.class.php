@@ -57,14 +57,15 @@ class list_module extends api_admin implements api_interface {
             return new ecjia_error(100, 'Invalid session');
         }
 		
-		$type     = $this->requestData('express_type');
+		$express_type = $this->requestData('express_type');
+		$type = $this->requestData('type');
 		$order_sn = $this->requestData('order_sn');
 		$size     = $this->requestData('pagination.count', 15);
 		$page     = $this->requestData('pagination.page', 1);
 		
 		$where    = array('staff_id' => $_SESSION['staff_id']);
 		
-		switch ($type) {
+		switch ($express_type) {
 			case 'wait_pickup' :
 				$where['eo.status'] = 1;
 				break;
@@ -80,6 +81,9 @@ class list_module extends api_admin implements api_interface {
 				} else {
 					return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 				}
+		}
+		if (!empty($type) && in_array($type, array('assign', 'grab'))) {
+		    $where['eo.from'] = $type;
 		}
 		
 		$express_order_db = RC_Model::model('express/express_order_viewmodel');

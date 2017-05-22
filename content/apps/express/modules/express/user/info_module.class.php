@@ -67,6 +67,7 @@ class info_module extends api_admin implements api_interface {
 			'user_id'		       	=> $_SESSION['staff_id'],
         	'avatar_img'	        => !empty($staff_user['avatar']) ? RC_Upload::upload_url($staff_user['avatar']) : '',
         	'staff_name'	        => $staff_user['name'],
+            'nickname'	            => $staff_user['nick_name'],
         	'mobile'		        => $staff_user['mobile'],
         	'email'			        => $staff_user['email'],
         	'delivery_count'		=> !empty($express_count_stats) ? $express_count_stats['delivery_count'] : 0,
@@ -78,6 +79,7 @@ class info_module extends api_admin implements api_interface {
         	),
         	'role_name'				=> '配送员',
         	'last_login' 			=> RC_Time::local_date(ecjia::config('time_format'), $staff_user['last_login']),
+            'online_status'         => $staff_user['online_status'] == 1 ? 'online' : 'offline',
         );
 		return $express_user_info;
 	 }	
