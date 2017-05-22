@@ -1,3 +1,4 @@
+M	bootstrap/classmap.php
 M	content/apps/adsense/admin.php
 M	content/apps/adsense/statics/js/ad_position.js
 M	content/apps/adsense/statics/js/cycleimage.js
@@ -60,6 +61,8 @@ D	content/apps/touch/configs/constant.cfg.php
 A	content/database/patchs/v1.5.1/Version_10501.php
 A	content/database/patchs/v1.5.1/ecjia-daojia-patch-v1.5.1.log
 A	content/database/patchs/v1.5.1/readme.txt
+A	content/database/seeds/DemoAttributeTableSeeder.php
+M	content/database/seeds/DemoDatabaseSeeder.php
 A	content/plugins/ship_no_express/config.php
 A	content/plugins/ship_no_express/languages/zh-cn/plugin.lang.php
 A	content/plugins/ship_no_express/ship_no_express.class.php
