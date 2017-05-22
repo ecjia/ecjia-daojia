@@ -75,28 +75,30 @@
 					
 							<!-- 图片 0-->
 							{if $ads.media_type eq 0 OR $action eq "insert"}
-							<div class="control-group formSep">
-								<label class="control-label">广告链接：</label>
-								<div class="controls">
-									<input type="text" name="ad_link"  value="{$ads.ad_link}" size="35"/>
+							<div id="media_type_0">
+								<div class="control-group formSep">
+									<label class="control-label">广告链接：</label>
+									<div class="controls">
+										<input type="text" name="ad_link"  value="{$ads.ad_link}" size="35"/>
+									</div>
 								</div>
-							</div>
-							
-							<div class="control-group formSep">
-								<label class="control-label">上传图片：</label>
-								<div class="controls">
-									<div class="fileupload {if $ads.url}fileupload-exists{else}fileupload-new{/if}" data-provides="fileupload">
-										<div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px; line-height: 50px;">
-											{if $ads.url}
-											<img src="{$ads.url}"/>
-											{/if}
+								
+								<div class="control-group formSep">
+									<label class="control-label">上传图片：</label>
+									<div class="controls">
+										<div class="fileupload {if $ads.url}fileupload-exists{else}fileupload-new{/if}" data-provides="fileupload">
+											<div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px; line-height: 50px;">
+												{if $ads.url}
+												<img src="{$ads.url}"/>
+												{/if}
+											</div>
+											<span class="btn btn-file">
+											<span class="fileupload-new">{lang key='goods::brand.browse'}</span>
+											<span class="fileupload-exists">{lang key='goods::brand.modify'}</span>
+											<input type='file' name='ad_img' size="35"/>
+											</span>
+											<a class="btn fileupload-exists" {if !$ads.url}data-dismiss="fileupload" href="javascript:;"{else}data-toggle="ajaxremove" data-msg="你确认要删除该广告图片吗？" href='{url path="adsense/admin/delfile" args="ad_id={$ads.ad_id}&position_id={$ads.position_id}&show_client={$show_client}"}' title="删除"{/if}>删除</a>
 										</div>
-										<span class="btn btn-file">
-										<span class="fileupload-new">{lang key='goods::brand.browse'}</span>
-										<span class="fileupload-exists">{lang key='goods::brand.modify'}</span>
-										<input type='file' name='ad_img' size="35"/>
-										</span>
-										<a class="btn fileupload-exists" {if !$ads.url}data-dismiss="fileupload" href="javascript:;"{else}data-toggle="ajaxremove" data-msg="你确认要删除该广告图片吗？" href='{url path="adsense/admin/delfile" args="ad_id={$ads.ad_id}&position_id={$ads.position_id}&show_client={$show_client}"}' title="删除"{/if}>删除</a>
 									</div>
 								</div>
 							</div>

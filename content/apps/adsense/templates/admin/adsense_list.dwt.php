@@ -79,14 +79,14 @@
                     </td>
                     <td class="hide-edit-area hide_edit_area_bottom">
 					    <span class="cursor_pointer" data-text="text"data-trigger="editable" data-url="{RC_Uri::url('adsense/admin/edit_ad_name')}" data-name="ad_name" data-pk="{$list.ad_id}" data-title="{lang key='adsense::adsense.edit_ad_name'}">
-					    {$list.ad_name}
+					    	{$list.ad_name}
 					    </span>
 					    
-					     <span>
-					    {if $list.ad_code}
-						    <a tabindex="0" role="button" href="javascript:;" class="no-underline cursor_pointor" data-id="{$list.ad_id}" data-trigger="focus" data-toggle="popover" data-placement="top" title="{$list.ad_name}">（预览）</a>
-						    <div class="hide" id="content_{$list.ad_id}"><img class="mh150" src="{RC_Upload::upload_url()}/{$list.ad_code}"></div> 
-					    {/if}
+					    <span>
+						    {if $list.ad_code and $list.media_type eq 0}
+							    <a tabindex="0" role="button" href="javascript:;" class="no-underline cursor_pointor" data-id="{$list.ad_id}" data-trigger="focus" data-toggle="popover" data-placement="top" title="{$list.ad_name}">（预览）</a>
+							    <div class="hide" id="content_{$list.ad_id}"><img class="mh150" src="{RC_Upload::upload_url()}/{$list.ad_code}"></div> 
+						    {/if}
 					    </span>
 					    
 				    	<div class="edit-list">
@@ -94,9 +94,7 @@
 				      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='adsense::adsense.confirm_remove'}" href='{RC_Uri::url("adsense/admin/remove","ad_id={$list.ad_id}")}' title="{lang key='adsense::adsense.remove'}">{lang key='adsense::adsense.remove'}</a>
 						</div>
 				    </td>
-				    <td>
-				    {if $list.media_type eq 0}图片{elseif $list.media_type eq 2}代码{else}文字{/if}
-				    </td>
+				    <td>{if $list.media_type eq 0}图片{elseif $list.media_type eq 2}代码{else}文字{/if}</td>
 				    <td>{$list.start_time}</td>
 				    <td>{$list.end_time}</td>
 				    <td>

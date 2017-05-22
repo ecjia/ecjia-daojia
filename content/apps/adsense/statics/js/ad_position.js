@@ -51,7 +51,7 @@
                     position_name: {
                         required: true
                     },
-                    position_code: {
+                    position_code_ifnull: {
                         required: true
                     }
                 },
@@ -59,7 +59,7 @@
                     position_name: {
                         required: "请输入广告位名称"
                     },
-                    position_code: {
+                    position_code_ifnull: {
                         required: "请输入广告位代号"
                     }
                 },

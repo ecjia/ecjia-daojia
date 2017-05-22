@@ -501,7 +501,7 @@ class admin extends ecjia_admin {
 		$position_id = intval($_GET['position_id']);
 		$show_client = intval($_GET['show_client']);
 		
-		$old_url = RC_DB::table('ad')->where('ad_id', $id)->pluck('ad_code');
+		$old_url = RC_DB::table('ad')->where('ad_id', $ad_id)->pluck('ad_code');
 		$disk = RC_Filesystem::disk();
 		$disk->delete(RC_Upload::upload_path() . $old_url);
 		$data = array(
