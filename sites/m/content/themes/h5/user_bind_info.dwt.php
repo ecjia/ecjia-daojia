@@ -19,7 +19,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <p>已绑：{$user.mobile_phone}</p>
     </div>
     <div>
-    	<a class="btn btn-info nopjax" href="{RC_uri::url('user/profile/account_bind')}&type=mobile&status=change">更换手机号</a>
+    	<a class="btn btn-info nopjax external" href="{RC_uri::url('user/profile/account_bind')}&type=mobile&status=change">更换手机号</a>
     </div>
 </div>
 {elseif $type eq 'email'}
@@ -29,7 +29,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     </div>
 
     <div>
-    	<a class="btn btn-info nopjax" href="{RC_uri::url('user/profile/account_bind')}&type=email&status=change">更换邮箱号</a>
+    	<a class="btn btn-info nopjax external" href="{RC_uri::url('user/profile/account_bind')}&type=email&status=change">更换邮箱号</a>
     </div>
 </div>
 {/if}

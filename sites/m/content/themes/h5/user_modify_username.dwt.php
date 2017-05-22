@@ -26,7 +26,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     	<div class="ecjia-login-b ecjia-button-top-list">
     	    <div class="p-top3">
                 <input type="hidden" name="referer" value="{$smarty.get.referer}" />
-                <input name="modify_username" {if $limit_time}type="reset"{else}type="submit"{/if} class="btn btn-info nopjax {if $limit_time}not_submit{/if}" data-url="{url path='user/profile/modify_username_account'}" value="确定" />
+                <input name="modify_username" {if $limit_time}type="reset"{else}type="submit"{/if} class="btn btn-info nopjax {if $limit_time}not_submit{/if} external" data-url="{url path='user/profile/modify_username_account'}" value="确定" />
     	    </div>	
     	</div>
 	</div>

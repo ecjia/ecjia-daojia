@@ -138,10 +138,12 @@
 				});
 			} else if (type == 'address') {
 				$('.ecjia-location-list-wrap li').bind('click', function() {
+					var lng = $(this).attr("data-lng");
+					var lat = $(this).attr("data-lat");
 					var title = $(this).find(".ecjia-location-list-title").text();
 					var address = $(this).find(".ecjia-location-list-address").text();
 					var url = $("#ecjia-zs").attr('data-url');
-					url += '&addr=' + address + '&name=' + title;
+					url += '&addr=' + address + '&name=' + title + '&latng=' + lat + ',' + lng;
 					ecjia.pjax(url);
 				});
 			}

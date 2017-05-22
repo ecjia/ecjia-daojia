@@ -213,16 +213,16 @@ class user_profile_controller {
             if ($user['mobile_phone'] == $mobile) {
                 return ecjia_front::$controller->showmessage('该手机号与当前绑定的手机号相同', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATA_GET)->data(array('type' => 'mobile', 'value' => $mobile))->run();
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CAPTCHA_SMS)->data(array('type' => 'user_modify_mobile', 'mobile' => $mobile))->run();
         } else if (!empty($email)) {
             if ($user['email'] == $email) {
                 return ecjia_front::$controller->showmessage('该邮箱地址与当前绑定的邮箱地址相同', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATA_GET)->data(array('type' => 'email', 'value' => $email))->run();
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CAPTCHA_MAIL)->data(array('type' => 'user_modify_mail', 'mail' => $email))->run();
         } else {
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        
+
         if (is_ecjia_error($data)) {
             return ecjia_front::$controller->showmessage(__($data->get_error_message()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {

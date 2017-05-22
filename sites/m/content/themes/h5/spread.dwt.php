@@ -39,7 +39,7 @@ ecjia.touch.spread.init();
 	</div>
 	
 	<div class="ecjia-my-reward">
-		<a class="nopjax" href="{url path='user/bonus/my_reward'}"><div class="my_reward">查看我的奖励</div></a>
+		<a class="nopjax external" href="{url path='user/bonus/my_reward'}"><div class="my_reward">查看我的奖励</div></a>
 	</div>
 	<input type="hidden" name="spread_url" value="{$url}" />
 	

@@ -40,7 +40,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<!-- {/foreach} -->
 	</ul>
 	<div class="ecjia-margin-t ecjia-margin-b">
-		<a class="btn btn-info btn-loginout clear_history nopjax" href="{url path='user/index/clear_history'}">{t}清空浏览历史{/t}</a>
+		<a class="btn btn-info btn-loginout clear_history nopjax external" href="{url path='user/index/clear_history'}">{t}清空浏览历史{/t}</a>
 	</div>
 </div>
 <!-- {else} -->

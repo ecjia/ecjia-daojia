@@ -44,7 +44,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
 	
 	<div class="ecjia-margin-t2 ecjia-margin-b">
-		<input class="btn btn-info nopjax" name="next_button" type="submit" value="{t}下一步{/t}" />
+		<input class="btn btn-info nopjax external" name="next_button" type="submit" value="{t}下一步{/t}" />
 	</div>
 	
 </form>

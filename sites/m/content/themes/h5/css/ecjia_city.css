@@ -9165,3 +9165,23 @@ footer {
 	padding-top: 0;
 }
 
+.showTit {
+    padding: 10px 0 10px 30px;
+    color: #ee7a12;
+    background-color: #fbf9e3;
+    position: relative;
+    font-size: 12px;
+    border-top: 1px solid #e2d1ad;
+    border-bottom: 1px solid #e2d1ad;
+}
+
+.showTit:before {
+    content: '';
+    width: 15px;
+    height: 17px;
+    background: url(../images/icon/icon_new_mark.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    left: 10px;
+    top: 12px;
+}

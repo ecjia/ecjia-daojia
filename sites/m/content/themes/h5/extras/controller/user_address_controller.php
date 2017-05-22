@@ -137,7 +137,7 @@ class user_address_controller {
             $options['tem_address'] = $_GET['address'];
         }
         if (isset($_GET['name'])) {
-            $options['tem_address'] = $_GET['name'];
+            $options['tem_name'] = $_GET['name'];
         }
         if (isset($_GET['addr'])) {
             $options['tem_address_detail'] = $_GET['addr'];
@@ -151,7 +151,6 @@ class user_address_controller {
         if (isset($_GET['mobile'])) {
             $options['tem_mobile'] = $_GET['mobile'];
         }
-        
         $temp_data = user_address_controller::update_temp_data('add', $_GET['clear'], $options);
         if ($is_return) {
             return $temp_data;
@@ -178,7 +177,8 @@ class user_address_controller {
                 'tem_address_info',
                 'tem_address_detail',
                 'tem_mobile',
-                'tem_consignee'
+                'tem_consignee',
+            	'tem_name',
             );
             
             foreach ($keys_array as $key) {
@@ -225,6 +225,26 @@ class user_address_controller {
     	
     	$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
     	ecjia_front::$controller->assign('type', $type);
+    	
+    	$local = 1;
+    	if (!empty($_SESSION['order_address_temp']['store_id'])) {
+    		$store_id = $_SESSION['order_address_temp']['store_id'];
+    		$addr = !empty($_GET['addr']) ? $_COOKIE['city_name'].trim($_GET['addr']) : $_COOKIE['location_address'];
+    		
+    		$key = ecjia_config::has('map_baidu_key') ? ecjia::config('map_baidu_key') : '';
+    		if (!empty($key)) {
+		    	$shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address=$addr&output=json&ak=$key");
+	    		$shop_point = json_decode($shop_point, true);
+	    		
+	    		$address['longitude']	= $shop_point['result']['location']['lng'];
+	    		$address['latitude']	= $shop_point['result']['location']['lat'];
+	    		
+	    		$param = array('address' => array('latitude' => $address['latitude'], 'longitude' => $address['longitude']), 'store_id' => $store_id);
+	    		$local = RC_Api::api('user', 'neighbors_address_store', $param);
+				$local = $local ? 1 : 0;
+    		}
+    	}
+    	ecjia_front::$controller->assign('local', $local);
     	
         ecjia_front::$controller->display('user_address_edit.dwt');
     }
@@ -346,6 +366,26 @@ class user_address_controller {
         ecjia_front::$controller->assign('location_backurl', urlencode(RC_Uri::url('user/address/edit_address', array('id' => $id))));
         ecjia_front::$controller->assign_title('编辑收货地址');
         ecjia_front::$controller->assign_lang();
+        
+        $local = 1;
+        if (!empty($_SESSION['order_address_temp']['store_id'])) {
+        	$store_id = $_SESSION['order_address_temp']['store_id'];
+        	$addr = !empty($_GET['addr']) ? $_COOKIE['city_name'].trim($_GET['addr']) : $_COOKIE['location_address'];
+        
+        	$key = ecjia_config::has('map_baidu_key') ? ecjia::config('map_baidu_key') : '';
+        	if (!empty($key)) {
+        		$shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address=$addr&output=json&ak=$key");
+        		$shop_point = json_decode($shop_point, true);
+        		 
+        		$address['longitude']	= $shop_point['result']['location']['lng'];
+        		$address['latitude']	= $shop_point['result']['location']['lat'];
+        		 
+        		$param = array('address' => array('latitude' => $address['latitude'], 'longitude' => $address['longitude']), 'store_id' => $store_id);
+        		$local = RC_Api::api('user', 'neighbors_address_store', $param);
+        		$local = $local ? 1 : 0;
+        	}
+        }
+        ecjia_front::$controller->assign('local', $local);
         
         ecjia_front::$controller->display('user_address_edit.dwt');
     }
