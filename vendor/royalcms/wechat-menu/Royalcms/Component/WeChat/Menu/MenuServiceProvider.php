@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Menu;
+<?php 
+
+namespace Royalcms\Component\WeChat\Menu;
 
 use Royalcms\Component\Support\ServiceProvider;
 
