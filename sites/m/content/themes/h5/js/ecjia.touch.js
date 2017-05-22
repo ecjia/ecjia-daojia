@@ -679,15 +679,15 @@
 	};
 	
 	//微信浏览器后退pjax刷新
-	var ua = navigator.userAgent.toLowerCase();
-	if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/ECJiaBrowse/i) == "ecjiabrowse") {
-		window.addEventListener("popstate", function(e) { 
-			if (e.state.url != undefined) {
-				ecjia.pjax(e.state.url);
-				return false;
-			}
-		}, false); 
-	}
+//	var ua = navigator.userAgent.toLowerCase();
+//	if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/ECJiaBrowse/i) == "ecjiabrowse") {
+//		window.addEventListener("popstate", function(e) { 
+//			if (e.state.url != undefined) {
+//				ecjia.pjax(e.state.url);
+//				return false;
+//			}
+//		}, false); 
+//	}
 
 	//PJAX跳转执行
 	$(document).on('pjax:complete', function() {
