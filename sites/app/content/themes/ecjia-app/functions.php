@@ -48,7 +48,7 @@ RC_Hook::add_action('intro/index/init', function () {
 	
     //判断是否手机访问，如果手机访问，自动跳到H5页面
     if (RC_Agent::isPhone()) {
-        $this->redirect(RC_Uri::home_url() . '/sites/m/');
+        ecjia_front::$controller->redirect(RC_Uri::home_url() . '/sites/m/');
     }
     
     $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
