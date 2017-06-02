@@ -66,24 +66,40 @@ class mp_zjd extends platform_abstract
 	
     public function event_reply() {
     	$wechat_point_db = RC_Loader::load_app_model('wechat_point_model','wechat');
-    	$wechatuser_db = RC_Loader::load_app_model('wechat_user_model', 'wechat');
     	$platform_config = RC_Loader::load_app_model('platform_config_model','platform');
     	$users_db = RC_Loader::load_app_model('users_model','user');
     	$media_db = RC_Loader::load_app_model('wechat_media_model', 'wechat');
-    	
+    	$connect_db = RC_Loader::load_app_model('connect_user_model', 'connect');
     	RC_Loader::load_app_class('platform_account', 'platform', false);
+    	RC_Loader::load_app_class('wechat_user', 'wechat', false);
     	RC_Loader::load_app_func('global','wechat');
     	
+    	$time = RC_Time::gmtime();
+    	$openid = $this->from_username;
     	$uuid = trim($_GET['uuid']);
     	$account = platform_account::make($uuid);
     	$wechat_id = $account->getAccountID();
+    	$wechat_user = new wechat_user($wechat_id, $openid);
     
-    	$info = $platform_config->find(array('account_id' => $wechat_id,'ext_code'=>'mp_zjd'));
-    	$openid = $this->from_username;
-    	$ect_uid = $wechatuser_db->where(array('openid'=>$openid))->get_field('ect_uid');
+    	$ect_uid = $wechat_user->getUserId();
+    	$unionid = $wechat_user->getUnionid();
+    	$user_id = $connect_db->where(array('open_id' => $unionid, 'connect_code'=>'sns_wechat'))->get_field('user_id');
     	$nobd = "还未绑定，需<a href = '".RC_Uri::url('platform/plugin/show', array('handle' => 'mp_userbind/bind_init', 'openid' => $openid, 'uuid' => $_GET['uuid']))."'>点击此处</a>进行绑定";
     	
 		if (empty($ect_uid)) {
+			if(!empty($ect_uid)){
+				$query = $connect_db->where(array('open_id'=>$unionid, 'connect_code'=>'sns_wechat'))->count();
+				if($query > 0){
+					$connect_db->where(array('open_id' => $unionid, 'connect_code'=>'sns_wechat'))->update(array('user_id' => $ect_uid));
+				}else{
+					$data['connect_code'] = 'sns_wechat';
+					$data['user_id'] = $ect_uid;
+					$data['is_admin'] = 0;
+					$data['open_id'] = $unionid;
+					$data['create_at'] = $time;
+					$connect_db->insert($data);
+				}
+			}
 			$content = array(
 				'ToUserName' => $this->from_username,
 				'FromUserName' => $this->to_username,
