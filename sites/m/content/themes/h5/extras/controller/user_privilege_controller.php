@@ -115,19 +115,28 @@ class user_privilege_controller {
     public static function signin() {
         $username = $_POST['username'] ? trim($_POST['username']) : '';
         $password = $_POST['password'] ? trim($_POST['password']) : '';
-        $data = ecjia_touch_user::singleton()->signin($username, $password);
-
-        if (is_ecjia_error($data)) {
-            $message = $data->get_error_message();
-            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('info' => $message));
-        } else {
-        	$url = RC_Uri::url('touch/my/init');
-        	$referer_url = !empty($_POST['referer_url']) ? urldecode($_POST['referer_url']) : '';
-        	if (!empty($referer_url)) {
-        		$url = $referer_url;
-        	}
-            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
+        
+        $message = '';
+        if (empty($username)) {
+        	$message = '请输入用户名或手机号';
+        } elseif (empty($password)) {
+        	$message = '请输入密码';
         }
+        
+        if (empty($message)) {
+        	$data = ecjia_touch_user::singleton()->signin($username, $password);
+        	if (is_ecjia_error($data)) {
+        		$message = $data->get_error_message();
+        	} else {
+        		$url = RC_Uri::url('touch/my/init');
+        		$referer_url = !empty($_POST['referer_url']) ? urldecode($_POST['referer_url']) : '';
+        		if (!empty($referer_url)) {
+        			$url = $referer_url;
+        		}
+        		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
+        	}
+        }
+        return ecjia_front::$controller->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     }
     
     /**

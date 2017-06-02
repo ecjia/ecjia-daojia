@@ -88,8 +88,8 @@
 							modalButtonOk: '确定',
 							modalTitle: ''
 						});
-						myApp.alert(data.info);
-					} else {
+						myApp.alert(data.message);
+					} else if (data.state == 'success'){
 						location.href = data.url;
 					}
 				});
