@@ -332,7 +332,7 @@ class order_operate {
 		$delivery_id = RC_DB::table('delivery_order')->insertGetId($_delivery);
 		
 		/* 记录日志 */
-		ecjia_admin::admin_log($order_id, 'produce', 'delivery_order');
+		ecjia_admin::admin_log('已发货，订单号是 '.$order['order_sn'], 'edit', 'order_status');
 		if ($delivery_id) {
 			$delivery_goods = array();
 			//发货单商品入库
