@@ -74,7 +74,7 @@ class detail_module extends api_front implements api_interface {
 function get_article_info($article_id) {
 	/* 获得文章的信息 */
 	$db = RC_Loader::load_app_model('article_model', 'article');
-    $row = $db->field('article_id as id, title, content')->find(array('is_open' => 1, 'article_id' => $article_id));
+    $row = $db->field('article_id as id, title, content')->find(array(/* 'is_open' => 1, */ 'article_id' => $article_id));
     return $row;
 }
 

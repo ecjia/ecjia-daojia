@@ -62,7 +62,7 @@ function get_article_info($article_id) {
 		'on'       => 'r.id_value = a.article_id AND comment_type = 1',
 		),
 	);
-	$row = $db->group('a.article_id')->find(array('a.is_open' => 1, 'a.article_id' => $article_id));
+	$row = $db->group('a.article_id')->find(array(/* 'a.is_open' => 1, */ 'a.article_id' => $article_id));
 	if ($row !== false) {
 		/* 用户评论级别取整  */
 		$row['comment_rank'] = ceil($row['comment_rank']);

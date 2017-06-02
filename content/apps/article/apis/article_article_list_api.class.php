@@ -91,7 +91,7 @@ class article_article_list_api extends Component_Event_Api {
 			$dbview->whereIn(RC_DB::raw('a.cat_id'),article_cat::get_children_list($filter['cat_id']));
 		}
 		/* 是否显示 will.chen*/
-		$dbview->where(RC_DB::raw('a.is_open'), '=', $filter['is_open']);
+// 		$dbview->where(RC_DB::raw('a.is_open'), '=', $filter['is_open']);
 		
 		/* 文章总数 */
 		$filter['record_count'] = '';

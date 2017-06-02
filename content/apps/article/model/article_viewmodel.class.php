@@ -79,7 +79,7 @@ class article_viewmodel extends Component_Model_View {
 	public function get_shop_help() {
 	    $res = RC_DB::table('article')
     	    ->leftJoin('article_cat', 'article.cat_id', '=', 'article_cat.cat_id')
-    	    ->where('cat_type', 5)->where('parent_id', 3)->where('is_open', 1)->where('open_type', 0)->whereNotNull('cat_name')
+    	    ->where('cat_type', 5)->where('parent_id', 3)/* ->where('is_open', 1)->where('open_type', 0) */->whereNotNull('cat_name')
     	    ->orderBy('sort_order', 'ASC')->orderBy('article_id', 'ASC')
     	    ->get();
 	    

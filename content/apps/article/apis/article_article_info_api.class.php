@@ -72,12 +72,12 @@ class article_article_info_api extends Component_Event_Api {
 	
 	private function article_info($options) {
 		$article_id = intval($options['id']);
-		$is_open = empty($options['is_open']) ? 1 : intval($options['is_open']);
+		$article_approved = empty($options['article_approved']) ? 1 : trim($options['article_approved']);
 		
 		$db = RC_DB::table('article');
 		
 		$db->where('article_id', '=', $article_id);
-		$db->where('is_open', '=', $is_open);
+// 		$db->where('article_approved', '=', $article_approved);
 		$info = $db->first();
 		return $info;
 	}
