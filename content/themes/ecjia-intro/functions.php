@@ -89,7 +89,7 @@ RC_Hook::add_action('main/index/init', function () {
         if (!empty($shop_info)) {
             foreach($shop_info as $key => $val){
                 $url                    = RC_Uri::url('merchant/merchant/shopinfo', array('id' => $val['article_id']));
-                $shop_info[$key]['url'] = str_replace('sites/app/index.php', 'sites/merchant/index.php', $url);
+                $shop_info[$key]['url'] = str_replace('index.php', 'sites/merchant/index.php', $url);
             }
         }
     
