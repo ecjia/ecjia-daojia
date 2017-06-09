@@ -6,6 +6,7 @@ Libraries: suggest_store
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+<!-- {if $data} -->
 <div class="ecjia-mod ecjia-store-model ecjia-margin-t">
 	<div class="head-title">
 		<h2><i class="icon-store"></i>推荐店铺</h2>
@@ -62,3 +63,4 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<!-- {/foreach} -->
 	</ul>
 </div>
+<!-- {/if} -->

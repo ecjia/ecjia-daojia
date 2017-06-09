@@ -52,7 +52,7 @@
 		//搜索关键词定位开始
 		address_list: function() {
 			$('#search_location_list').koala({
-				delay: 200,
+				delay: 300,
 				keyup: function(event) {
 					var url = $(this).attr('data-url');
 					var region = $(".ecjia-zu").children().html();
@@ -63,12 +63,24 @@
 					if (keywords != 'undefined') {
 						url += '&keywords=' + keywords;
 					}
+					if (keywords == '') {
+						$('.ecjia-zw').show();
+						$('.ecjia-list.ecjia-address-list.ecjia-select-address').show();
+						$('.ecjia-location-list-wrap.near-location-list').show();
+						$('.ecjia-location-list-wrap.location-search-result').html('');
+						$('.ecjia-near-address').show();
+					} else {
+						$('.ecjia-zw').hide();
+						$('.ecjia-list.ecjia-address-list.ecjia-select-address').hide();
+						$('.ecjia-location-list-wrap.near-location-list').hide();
+						$('.ecjia-location-list-wrap.location-search-result').html('');
+						$('.ecjia-near-address').hide();
+					}
 					$.ajax({
 						url: url,
 						type: "GET",
 						dataType: "json",
 						success: function(data) {
-							$('.ecjia-near-address').remove();
 							ecjia.touch.address_value(data.content.data);
 						},
 					});
@@ -78,12 +90,11 @@
 		},
 
 		address_value: function(data) {
-			$('.ecjia-location-list-wrap').html('');
 			if (data) {
 				if (data.length > 0) {
 					for (var i = 0; i < data.length; i++) {
 						var opt = '<li data-lng="' + data[i].location.lng + '" data-lat="' + data[i].location.lat + '"><p class="list_wrapper a1"><span class="ecjia-list_title ecjia-location-list-title">' + data[i].title + '</span><span class="ecjia-list_title ecjia-location-list-address">' + data[i].address + '</span></p></li>'
-						$('.ecjia-location-list-wrap').append(opt);
+						$('.ecjia-location-list-wrap.location-search-result').append(opt);
 					};
 				}
 			}

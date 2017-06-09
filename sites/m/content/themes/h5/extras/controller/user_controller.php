@@ -70,14 +70,14 @@ class user_controller {
     		if (!ecjia_front::$controller->is_cached('user.dwt', $cache_id)) {
     			$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
     			$user = is_ecjia_error($user) ? array() : $user;
-    			 
+    			RC_Logger::getlogger('info')->info($user);
     			if ($user) {
-    				//判断是否第三方登录，同步头像
-    				/* 获取远程用户头像信息*/
-    				user_controller::sync_avatar($user['id']);
-    				 
     				if (!empty($user['avatar_img'])) {
-    					$user_img = $user['avatar_img'];
+    				    $user_img = $user['avatar_img'];
+    				} else {
+    				    //判断是否第三方登录，同步头像
+    				    /* 获取远程用户头像信息*/
+    				    $user_img = user_controller::sync_avatar($user['id']);
     				}
     				ecjia_front::$controller->assign('user', $user);
     			} else {

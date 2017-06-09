@@ -18,7 +18,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 {if $user}
 <a href="{url path='user/profile/init'}">
     <div class="ecjia-user-info user-new-info ecjia-user">
-    	<div class="user-img ecjiaf-fl"><img src="{$user_img}" alt=""></div>
+    	<div class="user-img ecjiaf-fl"><img src="{if $user_img}{$user_img}{else}{$theme_url}images/default_user.png{/if}"></div>
     	<i class="iconfont  icon-jiantou-right user_info_title"></i>
     	<div class="ecjiaf-fl ecjia-margin-l user-rank-name">
     		<p><span>{$user.name}</span></p>
@@ -123,7 +123,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         	</a>
         </li>
          <li>
-        	<a class="external" href="{$signup_reward_url}">
+    	    <a class="external" href="{$signup_reward_url}">
         		<div class="icon-expand"><img src="{$theme_url}images/user_center/newbie_gift75_1.png"></div>
         		<span class="icon-name">新人有礼</span>
         		<i class="iconfont  icon-jiantou-right"></i>

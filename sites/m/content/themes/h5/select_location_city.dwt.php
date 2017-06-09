@@ -17,7 +17,14 @@ $(document).ready(function() {
 		var city_name = $(this).text();
 		var url = $("#cityall").attr('data-url');
 		url += '&city=' + city_name;
+
 		if (city_id) {
+			$.cookie('city_id', city_id, {
+				expires: 7
+			});
+			$.cookie('city_name', city_name, {
+				expires: 7
+			});
 			url += '&city_id=' + city_id;
 		}
 		if (address_id) {
@@ -30,20 +37,22 @@ $(document).ready(function() {
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
+{if $smarty.cookies.position_city_name}
 <div class="location-city">
 	<h2 class="location-city-title"><span>定位城市</span></h2>
 	<ul class="location-city-content citylist">
-		<li data-id="{$recommend_city_id}" {if $smarty.cookies.city_id eq $recommend_city_id && $smarty.cookies.city_id}class="active"{/if}>{$recommend_city_name}</li>
+		<li data-id="{$smarty.cookies.position_city_id}" class="{if $smarty.cookies.position_city_id eq $smarty.cookies.city_id}active{/if}">{$smarty.cookies.position_city_name}</li>
 	</ul>
 </div>
+{/if}
 {if $smarty.get.type eq 'addcity'}
 <div class="cityall" id="cityall" data-url='{url path="user/address/add_address" args="{if $referer_url}&referer_url={$referer_url|escape:"url"}{/if}"}'>
 {else if $smarty.get.type eq 'editcity'}
 <div class="cityall" id="cityall" data-url="{url path='user/address/edit_address'}">
 {else if $smarty.get.type eq 'search'}
-<div class="cityall" id="cityall" data-url="{url path='location/index/search_location'}">
+<div class="cityall" id="cityall" data-url="{url path='location/index/select_location'}">
 {else}
-<div class="cityall" id="cityall" data-url="{url path='location/index/search_location'}">
+<div class="cityall" id="cityall" data-url="{url path='location/index/select_location'}">
 {/if}
 	<input type="hidden" name="address_id" value="{$smarty.get.address_id}">
 	<h2 class="select-city"><span>已开通服务的城市</span></h2>

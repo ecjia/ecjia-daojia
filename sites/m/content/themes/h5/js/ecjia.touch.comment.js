@@ -33,7 +33,7 @@
 					size: 24,
 					starOff: 'star-off-big.png',
 					starOn: 'star-on-big.png',
-					score: 5
+					score: 0
 				});
 			}
 		},
@@ -182,6 +182,15 @@
 		submitForm: function() {
 			$('input[name="push-comment-btn"]').on('click', function(e) {
 				e.preventDefault();
+				
+				var comment_goods = $("input[name='comment_goods']").val();
+				if (comment_goods == '') {
+					if (!$(".star").attr("data-number")) {
+						alert("请选择星级!");
+						return false;
+					}
+				}
+				
 				var url = $("form[name='theForm']").attr('action');
 				$("form[name='theForm']").ajaxSubmit({
 					type: 'post',

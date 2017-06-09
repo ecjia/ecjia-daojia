@@ -68,10 +68,12 @@ class location_controller {
     		
     		if (!ecjia_front::$controller->is_cached('select_location.dwt', $cache_id)) {
     			$address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => $token))->run();
-    			if (!is_ecjia_error($address_list)) {
+    			if (!is_ecjia_error($address_list) && !empty($address_list)) {
     				ecjia_front::$controller->assign('address_list', $address_list);
     			}
     		}
+    		$location_url = RC_Uri::url('location/index/select_location');
+    		ecjia_front::$controller->assign('location_url', urlencode($location_url));
     	}
     	
     	if (!ecjia_front::$controller->is_cached('select_location.dwt', $cache_id)) {
@@ -87,86 +89,22 @@ class location_controller {
     		$my_location = "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=".$backurl."&key=".$key."&referer=".$referer;
     		ecjia_front::$controller->assign('my_location', $my_location);
     		
-    		$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->data(array('token' => $token))->run();
+    		$key = ecjia::config('map_qq_key');
+    		$lat = $_COOKIE['position_latitude'];
+    		$lng = $_COOKIE['position_longitude'];
+    		$url = "http://apis.map.qq.com/ws/place/v1/search?boundary=nearby(".$lat.",".$lng.",1000)&page_size=20&page_index=1&keyword=".$_COOKIE['position_city_name']."&orderby=_distance&key=".$key;
     		
-    		$recommend_city_name = '';
-    		if (!is_ecjia_error($shop_config)) {
-    			foreach ($shop_config['recommend_city'] as $k => $v) {
-    				if ($v['id'] == $_COOKIE['city_id']) {
-    					$recommend_city_id = $v['id'];
-    					$recommend_city_name = $v['name'];
-    				}
-    			}
-    			if (empty($recommend_city_name)) {
-    				$recommend_city_id   = !empty($_COOKIE['city_id']) ? $_COOKIE['city_id'] : $shop_config['recommend_city'][0]['id'];
-    				$recommend_city_name = !empty($_COOKIE['city_name']) ? $_COOKIE['city_name'] : $shop_config['recommend_city'][0]['name'];
-    			}
-    			ecjia_front::$controller->assign('recommend_city_name', $recommend_city_name);
-    			ecjia_front::$controller->assign('recommend_city_id', $recommend_city_id);
-    		}
-    		$region   = !empty($_GET['city']) ? urlencode($_GET['city']) : urlencode($recommend_city_name);
-    		$keywords = !empty($_GET['city']) ? urlencode($_GET['city']) : urlencode($recommend_city_name);
-    		$key      = ecjia::config('map_qq_key');
-    		$url      = "https://apis.map.qq.com/ws/place/v1/suggestion/?region=".$region."&keyword=".$keywords."&key=".$key;
-    		
-    		if ($_COOKIE['city_id'] == $_COOKIE['position_city_id']) {
-    			$lat = $_COOKIE['position_latitude'];
-    			$lng = $_COOKIE['position_longitude'];
-    			$url = "http://apis.map.qq.com/ws/place/v1/search?boundary=nearby(".$lat.",".$lng.",1000)&page_size=20&page_index=1&keyword=".$keywords."&orderby=_distance&key=".$key;
-    		}
     		$response = RC_Http::remote_get($url);
     		$content  = json_decode($response['body'], true);
+    		if (empty($content['data'])) {
+    			$url = "http://apis.map.qq.com/ws/place/v1/search?boundary=region(".$_COOKIE['position_city_name'].",0)&page_size=20&page_index=1&keyword=".$_COOKIE['position_name']."&orderby=_distance&key=".$key;
+    			$response = RC_Http::remote_get($url);
+    			$content  = json_decode($response['body'], true);
+    		}
     		ecjia_front::$controller->assign('content', $content['data']);
     	}
     	
         ecjia_front::$controller->display('select_location.dwt', $cache_id);
-    }
-    
-    //根据关键词搜索周边位置定位
-    public static function search_location() {
-    	ecjia_front::$controller->assign('title', '上海');
-    	ecjia_front::$controller->assign_title('定位');
-    
-    	$token = ecjia_touch_user::singleton()->getToken();
-    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$token));
-    	
-    	if (!ecjia_front::$controller->is_cached('search_location.dwt', $cache_id)) {
-    		$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->data(array('token' => $token))->run();
-    		
-    		$recommend_city_name = '';
-    		if (!is_ecjia_error($shop_config)) {
-    			foreach ($shop_config['recommend_city'] as $k => $v) {
-    				if ($v['id'] == $_COOKIE['city_id']) {
-    					$recommend_city_id = $v['id'];
-    					$recommend_city_name = $v['name'];
-    				}
-    			}
-    			if (empty($recommend_city_name)) {
-    				$recommend_city_id   = !empty($_COOKIE['city_id']) ? $_COOKIE['city_id'] : $shop_config['recommend_city'][0]['id'];
-    				$recommend_city_name = !empty($_COOKIE['city_name']) ? $_COOKIE['city_name'] : $shop_config['recommend_city'][0]['name'];
-    			}
-    			ecjia_front::$controller->assign('recommend_city_id', $recommend_city_id);
-    			ecjia_front::$controller->assign('recommend_city_name', $recommend_city_name);
-    		}
-    		$region   = !empty($_GET['city']) ? urlencode($_GET['city']) : urlencode($recommend_city_name);
-    		$keywords = !empty($_GET['city']) ? urlencode($_GET['city']) : urlencode($recommend_city_name);
-    		$key      = ecjia::config('map_qq_key');
-    		$url      = "https://apis.map.qq.com/ws/place/v1/suggestion/?region=".$region."&keyword=".$keywords."&key=".$key;
-    		
-    		if ($_GET['city_id'] == $_COOKIE['position_city_id']) {
-    			$lat = $_COOKIE['position_latitude'];
-    			$lng = $_COOKIE['position_longitude'];
-    			$url = "http://apis.map.qq.com/ws/place/v1/search?boundary=nearby(".$lat.",".$lng.",1000)&page_size=20&page_index=1&keyword=".$keywords."&orderby=_distance&key=".$key;
-    		}
-    		$response = RC_Http::remote_get($url);
-    		$content  = json_decode($response['body'], true);
-    		ecjia_front::$controller->assign('content', $content['data']);
-    		
-    		$city_info['city_id'] = !empty($_GET['city_id']) ? intval($_GET['city_id']) : intval($_COOKIE['city_id']);
-    		$city_info['city_name'] = !empty($_GET['city_id']) ? trim($_GET['city']) : trim($_COOKIE['city_name']);
-    		ecjia_front::$controller->assign('city_info', $city_info);
-    	}
-    	ecjia_front::$controller->display('search_location.dwt', $cache_id);
     }
     
     //请求接口返回数据
@@ -175,7 +113,7 @@ class location_controller {
     	$keywords = urlencode($_GET['keywords']);
 
     	$key		= ecjia::config('map_qq_key');
-    	$url       	= "http://apis.map.qq.com/ws/place/v1/suggestion/?region=".$region."&keyword=".$keywords."&key=".$key."";
+    	$url       	= "http://apis.map.qq.com/ws/place/v1/suggestion/?&region_fix=1&region=".$region."&keyword=".$keywords."&key=".$key."";
 
     	$response 	= RC_Http::remote_get($url);
     	$content  	= json_decode($response['body'], true);
@@ -198,21 +136,7 @@ class location_controller {
     		if (!empty($referer_url)) {
     			ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
     		}
-    		$recommend_city_name = '';
-    		if (!is_ecjia_error($rs)) {
-    			foreach ($rs['recommend_city'] as $k => $v) {
-    				if ($v['id'] == $_COOKIE['position_city_id']) {
-    					$recommend_city_id = $v['id'];
-    					$recommend_city_name = $v['name'];
-    				}
-    			}
-    			if (empty($recommend_city_name)) {
-    				$recommend_city_id   = !empty($_COOKIE['position_city_id']) ? $_COOKIE['position_city_id'] : $rs['recommend_city'][0]['id'];
-    				$recommend_city_name = !empty($_COOKIE['position_city_name']) ? $_COOKIE['position_city_name'] : $rs['recommend_city'][0]['name'];
-    			}
-    			ecjia_front::$controller->assign('recommend_city_id', $recommend_city_id);
-    			ecjia_front::$controller->assign('recommend_city_name', $recommend_city_name);
-    		}
+    		
     		$city_id = !empty($_GET['city_id']) ? intval($_GET['city_id']) : 0;
     		ecjia_front::$controller->assign('city_id', $city_id);
     		
@@ -225,8 +149,7 @@ class location_controller {
 
     //请求接口返回数据
     public static function get_location_msg() {
-    	$locations = $_GET['lat'].','.$_GET['lng'];
-//     	$href_url  = $_GET['href_url'];
+    	$locations 			= $_GET['lat'].','.$_GET['lng'];
     	$key 				= ecjia::config('map_qq_key');
     	$url       			= "https://apis.map.qq.com/ws/geocoder/v1/?location=".$locations."&key=".$key."&get_poi=1";
     	$response_address	= RC_Http::remote_get($url);
@@ -249,17 +172,17 @@ class location_controller {
     	if (is_ecjia_error($rs)) {
     		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
     	} else {
-    		$city_id = $rs['region_id'];
+    		$city_id = !empty($rs['region_id']) ? $rs['region_id'] : 0;
     	}
-    	$href_url = RC_Uri::url('location/index/select_city', array('type' => 'search', 'city_id' => $city_id));
-    	$referer_url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
-    	
-    	$str1 = 'm=location&c=index&a=search_location';
-    	$str2 = 'm=location&c=index&a=select_location';
-    	if (strpos($referer_url, $str1) || strpos($referer_url, $str2)) {
-    		$referer_url = RC_Uri::url('touch/index/init');
-    	}
+    	$referer_url = RC_Uri::url('touch/index/init');
     	setcookie("referer_url", $referer_url, RC_Time::gmtime() + 3600 * 24 * 7);
+    	
+    	$href_url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+    	 
+    	$str1 = 'm=location&c=index&a=select_location';
+    	if (strpos($href_url, $str1)) {
+    		$href_url = RC_Uri::url('touch/index/init');
+    	}
     	
     	//写入cookie
     	setcookie("location_address", $location_address, RC_Time::gmtime() + 3600 * 24 * 7);
@@ -273,6 +196,7 @@ class location_controller {
     	//自动定位的城市id name 经纬度
     	setcookie("position_city_id", $city_id, RC_Time::gmtime() + 3600 * 24 * 7);
     	setcookie("position_city_name", $rs['region_name'], RC_Time::gmtime() + 3600 * 24 * 7);
+    	setcookie("position_name", $location_name, RC_Time::gmtime() + 3600 * 24 * 7);
     	setcookie("position_longitude", $longitude, RC_Time::gmtime() + 3600 * 24 * 7);
     	setcookie("position_latitude", $latitude, RC_Time::gmtime() + 3600 * 24 * 7);
     	

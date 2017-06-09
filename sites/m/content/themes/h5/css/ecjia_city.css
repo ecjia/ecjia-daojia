@@ -68,6 +68,11 @@ a.ecjia-color-green {
 	margin-top: 2em;
 }
 
+.ecjia-mod.ecjia-mod-pb35 {
+	padding-bottom: 3.5em;
+	background-color: #f7f7f7;
+}
+
 .ecjia-h48 {
 	height: 48px;
 }
@@ -1001,7 +1006,7 @@ a.ecjia-color-green {
 }
 
 .ecjia-zu span.city-name {
-	max-width: 45px;
+	max-width: 50px;
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
@@ -1053,6 +1058,8 @@ a.ecjia-color-green {
 	display: block;
 	font-size: 14px;
 	line-height: 20px;
+	text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .ecjia-list_title i {
@@ -1229,6 +1236,7 @@ ul, li, ol, dl, dt, dd {
 .ecjia-mod .ecjia-adsense-model {
 	height: auto;
 	padding-top: 1em;
+	background-color: #fff;
 }
 
 .ecjia-mod .ecjia-adsense-model .adsense-item {
@@ -1341,6 +1349,7 @@ ul, li, ol, dl, dt, dd {
 
 .swiper-promotion {
 	overflow: hidden;
+	background: #fff;
 }
 
 .swiper-promotion .swiper-slide {
@@ -3606,12 +3615,26 @@ footer {
 	padding: .5em 0 .3em 1em;
 }
 
+.ecjia-address-list.ecjia-select-address li.no-address {
+	padding: 1em .5em;
+    padding-left: 15px;
+    color: #aaa;
+}
+
+.ecjia-list.ecjia-address-list.ecjia-select-address {
+	padding-top: 0;
+}
+
 .ecjia-address-list.ecjia-select-address .address-backgroundw {
-	border-bottom: 1px solid #eee;
+	line-height: 40px;
+    font-size: 14px;
+    margin-left: 15px;
+	background: #f7f7f7;
+	padding-left: 0;
 }
 
 .ecjia-address-list.ecjia-select-address .address-backgroundw span {
-	color: #c1c1c1;
+	color: #666666;
 }
 
 .ecjia-address-list.ecjia-select-address li a {
