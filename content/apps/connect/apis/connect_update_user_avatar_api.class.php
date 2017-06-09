@@ -62,7 +62,16 @@ class connect_update_user_avatar_api extends Component_Event_Api {
 	    if (empty($user_id)) {
 	        $user_id = $_SESSION['user_id'];
 	    }
-		$get_file      = @file_get_contents($avatar_url);
+// 		$get_file      = @file_get_contents($avatar_url);
+		
+		$ch=curl_init();
+		$timeout=30;
+		curl_setopt($ch,CURLOPT_URL,$avatar_url);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+		$get_file=curl_exec($ch);
+		curl_close($ch);
+		
 		if ($get_file) {
 			
 			$filename        = md5($user_id);
