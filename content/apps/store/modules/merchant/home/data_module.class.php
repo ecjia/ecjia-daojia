@@ -87,7 +87,6 @@ class data_module extends api_front implements api_interface {
 //             'shop_kf_type'              => '', // 客服样式
             'shop_logo'                 => '', // 默认店铺页头部LOGO
             'shop_banner_pic'           => '', // banner图
-            'shop_trade_time'           => '', // 营业时间
             'shop_description'          => '', // 店铺描述
             'shop_notice'               => '', // 店铺公告
         );
@@ -159,8 +158,9 @@ class data_module extends api_front implements api_interface {
 				}
 			}
 		}
+		RC_Loader::load_app_func('merchant', 'merchant');
 		
-		$info['trade_time'] = !empty($info['shop_trade_time']) ? unserialize($info['shop_trade_time']) : array('start' => '8:00', 'end' => '21:00');
+		$info['trade_time'] = get_store_trade_time($info['store_id']);
 		$seller_info = array(
 				'id'				=> $info['store_id'],
 				'seller_name'		=> $info['merchants_name'],
@@ -201,7 +201,7 @@ class data_module extends api_front implements api_interface {
 // 				'hot_goods'			=> $hotgoods_list,
 // 				'best_goods'		=> $bestgoods_list,
 				'favourable_list'	=> $favourable_list,
-				'label_trade_time'	=> $info['trade_time']['start'] . ' - '. $info['trade_time']['end'],
+				'label_trade_time'	=> $info['trade_time'],
 		);
 
 		return $seller_info;

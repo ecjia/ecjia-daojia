@@ -184,13 +184,13 @@ class store_store_list_api extends Component_Event_Api {
 			$field = 'ssi.*, sc.cat_name, count(cs.store_id) as follower';
 			$result = $db_store_franchisee->join(array('collect_store', 'store_category', 'goods'))->field($field)->where($where)->limit($limit)->group('ssi.store_id')->order(array())->select();
 			
+			RC_Loader::load_app_func('merchant', 'merchant');
 			if (!empty($result)) {
 				foreach($result as $k => $val){
 					$store_config = array(
 							'shop_kf_mobile'            => '', // 客服手机号码
 							'shop_logo'                 => '', // 默认店铺页头部LOGO
 							'shop_banner_pic'           => '', // banner图
-							'shop_trade_time'           => '', // 营业时间
 							'shop_description'          => '', // 店铺描述
 							'shop_notice'               => '', // 店铺公告
 			
@@ -204,7 +204,6 @@ class store_store_list_api extends Component_Event_Api {
 					if(substr($result[$k]['shop_logo'], 0, 1) == '.') {
 						$result[$k]['shop_logo'] = str_replace('../', '/', $val['shop_logo']);
 					}
-					$result[$k]['trade_time'] = !empty($result[$k]['shop_trade_time']) ? unserialize($result[$k]['shop_trade_time']) : array('start' => '8:00', 'end' => '21:00');
 					$seller_list[] = array(
 							'id'				 => $result[$k]['store_id'],
 							'seller_name'		 => $result[$k]['merchants_name'],
@@ -218,7 +217,7 @@ class store_store_list_api extends Component_Event_Api {
 									'latitude'  => $result[$k]['latitude'],
 									'longitude' => $result[$k]['longitude'],
 							),
-							'label_trade_time'	 => $result[$k]['trade_time']['start'] . ' - '. $result[$k]['trade_time']['end'],
+							'label_trade_time'	 => get_store_trade_time($result[$k]['store_id']),
 					        'seller_notice'      => $result[$k]['shop_notice'],
 					);
 				}

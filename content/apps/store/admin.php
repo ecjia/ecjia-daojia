@@ -651,7 +651,17 @@ class admin extends ecjia_admin {
         $merchants_config['shop_description'] = $shop_description;// 店铺描述
         $time = array();
         if(!empty($shop_trade_time)){
-            $shop_time      = explode(',',$shop_trade_time);
+            $shop_time      = explode(',', $shop_trade_time);
+            //营业时间验证
+            if($shop_time[0] >= 1440) {
+                return $this->showmessage('营业开始时间不能为次日', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if($shop_time[1] - $shop_time[0] > 1440) {
+                return $this->showmessage('营业时间最多为24小时', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if(($shop_time[1] - $shop_time[0] == 1440) && ($shop_time[0] != 0)) {
+                return $this->showmessage('24小时营业请选择0-24', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
             $s_h = ($shop_time[0] / 60);
             $s_i = ($shop_time[0] % 60);
             $e_h = ($shop_time[1] / 60);
@@ -660,7 +670,7 @@ class admin extends ecjia_admin {
             $start_i        = empty($s_i)? '00' : intval($s_i);
             $end_h          = empty($e_h)? '00' : intval($e_h);
             $end_i          = empty($e_i)? '00' : intval($e_i);
-            $start_time     = $start_h.":".$start_i;
+            $start_time     = $shop_time[0] == 0 ? '00:00' : $start_h.":".$start_i;
             $end_time       = $end_h.":".$end_i;
             $time['start']  = $start_time;
             $time['end']    = $end_time;

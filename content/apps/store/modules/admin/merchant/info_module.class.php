@@ -68,8 +68,9 @@ class info_module extends api_admin implements api_interface {
 			
 			$info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
 			
-			$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->pluck('value');
-			$shop_trade_time = !empty($shop_trade_time) ? unserialize($shop_trade_time) : array('start' => '8:00', 'end' => '21:00');
+			RC_Loader::load_app_func('merchant', 'merchant');
+			
+			$shop_trade_time = get_store_trade_time($info['store_id']);
 			$seller_info = array(
     	  		'id'					=> $info['store_id'],
     	  		'seller_name'			=> $info['merchants_name'],
