@@ -54,12 +54,28 @@
             $form.validate(options);
         },
         
+        formatTimeLabelFunc:function(value, type) {
+        	var hours = String(value).substr(0,2);
+        	var mins = String(value).substr(3,2);
+
+        	if (hours > 24) {
+        		hours = hours - 24;
+        		hours = (hours < 10 ? "0"+hours : hours);
+        		value = hours+':'+mins;
+        		var text = String('次日%s').replace('%s', value);
+        		return text;
+        	}
+        	else {
+        		return value;
+        	}
+        },
+
         range : function(){
             $('.range-slider').jRange({
-                from: 0, to: 1440, step:30,
-                scale: ['00:00','03:00','06:00', '09:00','12:00' ,'15:00','18:00','21:00','24:00'],
-                format: '%s',
-                width: 500,
+                from: 0, to: 2880, step:30,
+                scale: ['00:00','04:00','08:00','12:00','16:00','20:00','次日00:00','04:00','08:00','12:00','16:00','20:00','24:00'],
+                format: app.shopguide.formatTimeLabelFunc,
+                width: 700,
                 showLabels: true,
                 isRange : true
             });
