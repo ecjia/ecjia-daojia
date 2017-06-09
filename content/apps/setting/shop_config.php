@@ -123,7 +123,10 @@ class shop_config extends ecjia_admin {
 		$this->assign('cfg_range_lang', RC_Lang::get('setting::shop_config.cfg_range'));
 		
 		$item_list = ecjia_admin_setting::singleton()->load_items($code);
-
+		$ecjia_config = ecjia::config();
+		$invoice_type = ecjia::config('invoice_type');
+		$ecjia_config['invoice_type'] = unserialize($invoice_type);
+		$this->assign('ecjia_config', $ecjia_config);
 		$this->assign('item_list', $item_list);
 		$this->assign('current_code', $code);
 		$this->assign('group', array('code' => $code, 'name' => ecjia_admin_setting::singleton()->cfg_name_langs($code)));
