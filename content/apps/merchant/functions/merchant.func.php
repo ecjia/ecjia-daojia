@@ -49,9 +49,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 获取店铺基本信息
  */
-function get_merchant_info()
+function get_merchant_info($store_id)
 {
-    if (empty($_SESSION['store_id'])) {
+    if (empty($store_id)) {
+        $store_id = $_SESSION['store_id'];
+    }
+    if (empty($store_id)) {
         return array();
     }
     $data = array('shop_kf_mobile' => '', 'shop_nav_background' => '', 'shop_logo' => '', 'shop_banner_pic' => '', 'shop_trade_time' => '', 'shop_description' => '', 'shop_notice' => '', 'express_assign_auto' => '');
@@ -68,22 +71,54 @@ function get_merchant_info()
         $s_time = 480;
         $e_time = 1260;
     }
-    $data['shop_trade_time'] = implode('--', $shop_time);
+    $data['shop_trade_time'] = get_store_trade_time($store_id);
     $data['shop_nav_background'] = !empty($data['shop_nav_background']) ? RC_Upload::upload_url($data['shop_nav_background']) : '';
     $data['shop_logo'] = !empty($data['shop_logo']) ? RC_Upload::upload_url($data['shop_logo']) : '';
     $data['shop_banner_pic'] = !empty($data['shop_banner_pic']) ? RC_Upload::upload_url($data['shop_banner_pic']) : '';
     $data['shop_time_value'] = $s_time . "," . $e_time;
     return $data;
 }
+
+function get_store_trade_time($store_id) {
+    if (empty($store_id)) {
+        $store_id = $_SESSION['store_id'];
+    }
+    if (empty($store_id)) {
+        return false;
+    }
+    
+    $trade_time = get_merchant_config('shop_trade_time', '', $store_id);
+    if (empty($trade_time)) {
+        return '暂未设置';
+    }
+    $trade_time = unserialize($trade_time);
+    if (empty($trade_time)) {
+        return '暂未设置';
+    }
+    $sart_time = $trade_time['start'];
+    $end_time = explode(':', $trade_time['end']);
+    if ($end_time[0] > 24) {
+        $end_time[0] = '次日'. ($end_time[0] - 24);
+    }
+    
+    return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
+    
+    }
 /*
  * 获取店铺配置信息
  */
-function get_merchant_config($code, $arr)
+function get_merchant_config($code, $arr, $store_id)
 {
+    if (empty($store_id)) {
+        $store_id = $_SESSION['store_id'];
+    }
+    if (empty($store_id)) {
+        return array();
+    }
     $merchants_config = RC_Model::model('merchant/merchants_config_model');
     if (empty($code)) {
         if (is_array($arr)) {
-            $config = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->select('code', 'value')->get();
+            $config = RC_DB::table('merchants_config')->where('store_id', $store_id)->select('code', 'value')->get();
             foreach ($config as $key => $value) {
                 $arr[$value['code']] = $value['value'];
             }
@@ -92,7 +127,7 @@ function get_merchant_config($code, $arr)
             return;
         }
     } else {
-        $config = $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $code))->get_field('value');
+        $config = $merchants_config->where(array('store_id' => $store_id, 'code' => $code))->get_field('value');
         return $config;
     }
 }
