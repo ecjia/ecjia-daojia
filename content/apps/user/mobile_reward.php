@@ -104,12 +104,12 @@ class mobile_reward extends ecjia_front {
 		    }
 		    
 		    if (!empty($is_received)) { 
-		        ecjia_front::$controller->showmessage('你已领取过！', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('url' => RC_Uri::url('touch/my/init')));
+		        ecjia_front::$controller->showmessage('你已领取过！', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('url' => RC_Uri::url('touch/index/init')));
 		    }
 		    
 		    $this->send_bonus($_SESSION['user_id'], $bonus_id);
 		    
-		    ecjia_front::$controller->showmessage('发放成功！', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('url' => RC_Uri::url('user/bonus/init'), 'close_url' => RC_Uri::url('touch/my/init')));
+		    ecjia_front::$controller->showmessage('发放成功！', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('url' => RC_Uri::url('user/bonus/init'), 'close_url' => RC_Uri::url('touch/index/init')));
 		    
 		} else {
 		    if ($need_login) {
