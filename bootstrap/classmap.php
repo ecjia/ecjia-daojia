@@ -183,16 +183,23 @@ return array(
     'AlertStaffUserByGroupIdTable' => $contentDir . '/database/migrations/2017_04_20_095558_alert_staff_user_by_group_id_table.php',
     'AddCityCodeToAdPositionTable' => $contentDir . '/database/migrations/2017_05_05_101947_add_city_code_to_ad_position_table.php',
     'AddShowClientToAdTable' => $contentDir . '/database/migrations/2017_05_05_104042_add_show_client_to_ad_table.php',
+    'CreateMerchantsAdTable' => $contentDir . '/database/migrations/2017_06_14_112611_create_merchants_ad_table.php',
+    'CreateMerchantsAdPositionTable' => $contentDir . '/database/migrations/2017_06_14_113657_create_merchants_ad_position_table.php',
+    'CreateNotificationChannelsTable' => $contentDir . '/database/migrations/2017_06_14_114511_create_notification_channels_table.php',
+    'CreateNotificationTemplatesTable' => $contentDir . '/database/migrations/2017_06_14_115023_create_notification_templates_table.php',
+    'CreateNotificationEventsTable' => $contentDir . '/database/migrations/2017_06_14_132723_create_notification_events_table.php',
+    'CreateDiscussCommentsTable' => $contentDir . '/database/migrations/2017_06_14_133830_create_discuss_comments_table.php',
+    'CreateDiscussLikesTable' => $contentDir . '/database/migrations/2017_06_14_134453_create_discuss_likes_table.php',
+    'AddCatImageToMerchantsCategoryTable' => $contentDir . '/database/migrations/2017_06_14_140837_add_cat_image_to_merchants_category_table.php',
+    'AlterArticleTable' => $contentDir . '/database/migrations/2017_06_14_141241_alter_article_table.php',
+    'AlterSmsSendlistTable' => $contentDir . '/database/migrations/2017_06_14_143031_alter_sms_sendlist_table.php',
      
     
     // seeder
     'DatabaseSeeder' => $contentDir . '/database/seeds/DatabaseSeeder.php',
     'InitDatabaseSeeder' => $contentDir . '/database/seeds/InitDatabaseSeeder.php',
-    'DemoDatabaseSeeder' => $contentDir . '/database/seeds/DemoDatabaseSeeder.php',
     'InitAdPositionTableSeeder' => $contentDir . '/database/seeds/InitAdPositionTableSeeder.php',
     'InitAdTableSeeder' => $contentDir . '/database/seeds/InitAdTableSeeder.php',
-    'InitArticleCatTableSeeder' => $contentDir . '/database/seeds/InitArticleCatTableSeeder.php',
-    'InitArticleTableSeeder' => $contentDir . '/database/seeds/InitArticleTableSeeder.php',
     'InitConnectTableSeeder' => $contentDir . '/database/seeds/InitConnectTableSeeder.php',
     'InitMailTemplatesTableSeeder' => $contentDir . '/database/seeds/InitMailTemplatesTableSeeder.php',
     'InitMobileScreenshotsTableSeeder' => $contentDir . '/database/seeds/InitMobileScreenshotsTableSeeder.php',
@@ -210,10 +217,11 @@ return array(
     'InitUserRankTableSeeder' => $contentDir . '/database/seeds/InitUserRankTableSeeder.php',
     'InitWechatMediaTableSeeder' => $contentDir . '/database/seeds/InitWechatMediaTableSeeder.php',
     'InitWechatReplyTableSeeder' => $contentDir . '/database/seeds/InitWechatReplyTableSeeder.php',
-    'InitTermMetaTableSeeder' => $contentDir . '/database/seeds/InitTermMetaTableSeeder.php',
+    
     
     'FixShopConfigTableSeeder' => $contentDir . '/database/seeds/FixShopConfigTableSeeder.php',
     
+    'DemoDatabaseSeeder' => $contentDir . '/database/seeds/DemoDatabaseSeeder.php',
     'DemoStoreFranchiseeTableSeeder' => $contentDir . '/database/seeds/DemoStoreFranchiseeTableSeeder.php',
     'DemoMerchantsConfigTableSeeder' => $contentDir . '/database/seeds/DemoMerchantsConfigTableSeeder.php',
     'DemoStaffUserTableSeeder' => $contentDir . '/database/seeds/DemoStaffUserTableSeeder.php',
@@ -224,6 +232,12 @@ return array(
     'DemoGoodsAttrTableSeeder' => $contentDir . '/database/seeds/DemoGoodsAttrTableSeeder.php',
     'DemoGoodsCatTableSeeder' => $contentDir . '/database/seeds/DemoGoodsCatTableSeeder.php',
     'DemoAttributeTableSeeder' => $contentDir . '/database/seeds/DemoAttributeTableSeeder.php',
+    'DemoTermMetaTableSeeder' => $contentDir . '/database/seeds/DemoTermMetaTableSeeder.php',
+    'DemoArticleCatTableSeeder' => $contentDir . '/database/seeds/DemoArticleCatTableSeeder.php',
+    'DemoArticleTableSeeder' => $contentDir . '/database/seeds/DemoArticleTableSeeder.php',
+    'DemoArticleTableSeeder' => $contentDir . '/database/seeds/DemoArticleTableSeeder.php',
+    'DemoGoodsArticleTableSeeder' => $contentDir . '/database/seeds/DemoGoodsArticleTableSeeder.php',
+    
 );
 
 // end
