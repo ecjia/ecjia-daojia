@@ -165,6 +165,7 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		$shopinfo_list = RC_DB::table('article')
 			->select('article_id', 'title')
 	    	->where('cat_id', 0)
+	    	->where('article_type', 'shop_info')
 	    	->orderby('article_id', 'asc')
 	    	->get();
 		$this->assign('ecjia_merchant_shopinfo_list', $shopinfo_list);
