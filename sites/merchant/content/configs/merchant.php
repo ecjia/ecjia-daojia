@@ -35,5 +35,11 @@ return array(
     	'express'	=> 'express',
     	/*评论管理  */
     	'comment'	=> 'comment',
+        /*文章管理  */
+        'article'   => 'article',
+        /*广告管理  */
+        'adsense'   => 'adsense',
+        /*微商城  */
+        'touch'   => 'touch',
     ),
 );
