@@ -47,7 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 通知
+ * 通知列表
  * by wutifang
  */
 class admin extends ecjia_admin {
@@ -62,12 +62,12 @@ class admin extends ecjia_admin {
 	}
 
 	/**
-	 * 通知逻辑处理
+	 * 通知列表
 	 */
 	public function init() {
 	    $this->admin_priv('notification_manage');
 	    
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('通知'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('通知列表'));
 
 		$status = !empty($_GET['status']) ? $_GET['status'] : 'all';
 	
@@ -108,7 +108,7 @@ class admin extends ecjia_admin {
 
 		$this->assign('count', $count);
 		$this->assign('list', $type_list);
-		$this->assign('ur_here', '通知');
+		$this->assign('ur_here', '通知列表');
 		
 		$this->display('notification_list.dwt');
 	}
@@ -168,6 +168,7 @@ class admin extends ecjia_admin {
 		}
 	}
 	
+	//格式化时间
 	private function format_date($time){
 		$time = RC_Time::local_strtotime($time);
 		$t = RC_Time::gmtime()-$time;

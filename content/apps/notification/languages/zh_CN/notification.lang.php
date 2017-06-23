@@ -47,50 +47,44 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 添加管理员记录日志操作对象
+ * ECJIA  通知语言包
  */
-function assign_adminlog_content() {
-	ecjia_admin_log::instance()->add_action('batch_mark', '批量标记');
-	ecjia_admin_log::instance()->add_action('mark', '标记');
-	
-	ecjia_admin_log::instance()->add_object('notice', '通知');
-	ecjia_admin_log::instance()->add_object('notification_channel', '通知渠道');
-	ecjia_admin_log::instance()->add_object('notification_channel_sort', '通知渠道排序');
-}
+return array(
+	'notification' 			=> '通知',
+	'notification_channel'	=> '通知渠道',
+	'notification_list'		=> '通知列表',
+			
+	'enable' 		=> '启用',
+	'disable' 		=> '禁用',
+	'plugin'		=> '插件',
+	'disabled'		=> '已停用',
+	'enabled'		=> '已启用',
+		
+	'js_lang' => array(
+		'channel_name_required'		=> '请输入通知渠道名称',
+		'channel_desc_required'		=> '请输入描述',
+		'channel_desc_minlength'	=> '描述长度不能小于6',
+	),
+		
+	'edit_ok' 					=> '编辑成功',
+	'install_ok' 				=> '安装成功',
+	'name_is_null' 				=> '请输入通知渠道名称',
+	'name_exists' 				=> '该通知渠道名称已存在',
+	'edit_channel_name'			=> '编辑名称',
+	'edit_channel_sort'			=> '编辑排序',
+		
+	'edit_notification_channel'	=> '编辑通知渠道',
+	'label_name'				=> '名称：',
+	'label_desc'				=> '描述：',	
+	'channel_name_required'		=> '请输入通知渠道名称',
+	'notification_channel_group'=> '通知渠道组',
+	'sms'						=> '短信',
+	'mail'						=> '邮件',
+	'name'						=> '名称',
+	'desc'						=> '描述',
+	'sort_order'				=> '排序',
+	'is_enabled'				=> '是否开启',
+	'number_required'			=> '请输入数字类型的排序值',
+);
 
-// 截取字符串
-function mix_substr($str, $len = 12, $dot = true) {
-	$i = 0;
-	$l = 0;
-	$c = 0;
-	$a = array();
-	while ($l < $len) {
-		$t = substr($str, $i, 1);
-		if (ord($t) >= 224) {
-			$c = 3;
-			$t = substr($str, $i, $c);
-			$l += 2;
-		} elseif (ord($t) >= 192) {
-			$c = 2;
-			$t = substr($str, $i, $c);
-			$l += 2;
-		} else {
-			$c = 1;
-			$l++;
-		}
-		// $t = substr($str, $i, $c);
-		$i += $c;
-		if ($l > $len) break;
-		$a[] = $t;
-	}
-	$re = implode('', $a);
-	if (substr($str, $i, 1) !== false) {
-		array_pop($a);
-		($c == 1) and array_pop($a);
-		$re = implode('', $a);
-		$dot and $re .= '...';
-	}
-	return $re;
-}
-
-//end
+// end

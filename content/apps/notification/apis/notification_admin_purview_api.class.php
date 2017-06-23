@@ -56,6 +56,8 @@ class notification_admin_purview_api extends Component_Event_Api {
         $purviews = array(
             array('action_name' => '通知管理', 'action_code' => 'notification_manage', 'relevance' => ''),
             array('action_name' => '通知更新', 'action_code' => 'notification_update', 'relevance' => ''),
+        	array('action_name' => '通知渠道管理', 'action_code' => 'notification_channel_manage', 'relevance' => ''),
+        	array('action_name' => '通知渠道更新', 'action_code' => 'notification_channel_update', 'relevance' => ''),
         );
         return $purviews;
     }
