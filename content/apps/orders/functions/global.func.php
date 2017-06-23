@@ -526,6 +526,35 @@ function get_order_goods($order) {
     }
     return array('goods_list' => $goods_list, 'attr' => $attr);
 }
+
+/**
+ * 取得订单商品
+ * @param   array     $order_id  订单id
+ * @return array
+ */
+function get_order_goods_base($order_id) {
+    $goods_list = array();
+    $field = 'og.*, og.goods_price * og.goods_number AS subtotal, g.goods_thumb, g.original_img, g.goods_img, g.store_id, c.comment_id, c.comment_rank, c.content as comment_content, c.has_image';
+    
+    $db_view = RC_DB::table('order_goods as og')
+        ->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
+        ->leftJoin('comment as c', RC_DB::raw('og.rec_id'), '=', RC_DB::raw('c.rec_id'));
+    $res = $db_view->selectRaw($field)->where(RC_DB::raw('og.order_id'), $order_id)
+        ->groupBy(RC_DB::raw('og.rec_id'))
+		->get();
+
+    if (!empty($res)) {
+        foreach ($res as $row) {
+            if ($row['extension_code'] == 'package_buy') {
+                $row['package_goods_list'] = get_package_goods($row['goods_id']);
+            }
+            $row['is_commented'] = empty($row['comment_id']) ? 0 : 1;
+            $row['has_image'] = empty($row['has_image']) ? 0 : 1;
+            $goods_list[] = $row;
+        }
+    }
+    return $goods_list;
+}
 /**
  * 取得礼包列表
  * @param   integer     $package_id  订单商品表礼包类商品id

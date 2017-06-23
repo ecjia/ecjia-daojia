@@ -53,18 +53,23 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class list_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
+//         $_SESSION['user_id'] = 1295;
     	if ($_SESSION['user_id'] < 1 ) {
     	    return new ecjia_error(100, 'Invalid session');
     	}
 		
 		$type = $this->requestData('type');
-		if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed'))) {
+		if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed', 'whole', 'allow_comment'))) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 		}
+		//type whole全部，await_pay待付款，await_ship待发货，shipped待收货，allow_comment待评价
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
+		$keywords = $this->requestData('keywords');
+		$keywords = trim($keywords);
 		
-		$options = array('type' => $type, 'page' => $page, 'size' => $size);
+		$type = $type == 'whole' ? '' : $type;
+		$options = array('type' => $type, 'page' => $page, 'size' => $size, 'keywords'=> $keywords);
 		$result = RC_Api::api('orders', 'order_list', $options);
 		if (is_ecjia_error($result)) {
 			return $result;

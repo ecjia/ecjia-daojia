@@ -161,30 +161,48 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			/* 客户付款短信提醒 */
 			$staff_user = RC_DB::table('staff_user')->where('store_id', $order_info['store_id'])->where('parent_id', 0)->first();
 			if (ecjia::config('sms_order_payed') == '1' && !empty($staff_user['mobile'])) {
+				
+				
 				//发送短信
-				$tpl_name = 'order_payed_sms';
-				$tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
-				if (!empty($tpl)) {
-					ecjia_front::$controller->assign('order_sn',	$order_info['order_sn']);
-					ecjia_front::$controller->assign('consignee',	$order_info['consignee']);
-					ecjia_front::$controller->assign('mobile',		$order_info['mobile']);
-					ecjia_front::$controller->assign('order_amount', $order_info['order_amount']);
-					ecjia_front::$controller->assign('order',		$order_info);
-					$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
+// 				$tpl_name = 'order_payed_sms';
+// 				$tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
+// 				if (!empty($tpl)) {
+// 					ecjia_front::$controller->assign('order_sn',	$order_info['order_sn']);
+// 					ecjia_front::$controller->assign('consignee',	$order_info['consignee']);
+// 					ecjia_front::$controller->assign('mobile',		$order_info['mobile']);
+// 					ecjia_front::$controller->assign('order_amount', $order_info['order_amount']);
+// 					ecjia_front::$controller->assign('order',		$order_info);
+// 					$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
 			
-					$options = array(
-							'mobile' 		=> $staff_user['mobile'],
-							'msg'			=> $content,
-							'template_id' 	=> $tpl['template_id'],
-					);
-					$response = RC_Api::api('sms', 'sms_send', $options);
+// 					$options = array(
+// 							'mobile' 		=> $staff_user['mobile'],
+// 							'msg'			=> $content,
+// 							'template_id' 	=> $tpl['template_id'],
+// 					);
+// 					$response = RC_Api::api('sms', 'sms_send', $options);
 // 					$options = array(
 // 						'mobile' 		=> ecjia::config('sms_shop_mobile'),
 // 						'msg'			=> $content,
 // 						'template_id' 	=> $tpl['template_id'],
 // 					);
 // 					$response = RC_Api::api('sms', 'sms_send', $options);
-				}
+// 				}
+
+				$options = array(
+					'mobile' => $staff_user['mobile'],
+					'event'	 => 'sms_order_payed',
+					'value'  =>array(
+						'order_sn'		=> $order_info['order_sn'],
+						'consignee' 	=> $order_info['consignee'],
+						'telephone'  	=> $order_info['mobile'],
+						'order_amount'	=> $order_info['order_amount'],
+						'service_phone' => ecjia::config('service_phone'),
+					),
+				);
+				$response = RC_Api::api('sms', 'send_event_sms', $options);
+				
+				
+				
 			}
 		}
 		

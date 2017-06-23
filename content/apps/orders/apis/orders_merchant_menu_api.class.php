@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class orders_merchant_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_merchant::make_admin_menu('04_order', __('订单管理'), '', 2)->add_icon('fa-list')->add_purview(array('order_view','order_os_edit','delivery_view','back_view','remind_order_view'))->add_base('order');
+		$menus = ecjia_merchant::make_admin_menu('04_order', __('订单'), '', 2)->add_icon('fa-list')->add_purview(array('order_view','order_os_edit','delivery_view','back_view','remind_order_view'))->add_base('order');
 		$submenus = array(
 			ecjia_merchant::make_admin_menu('02_order_list', __('订单列表'), RC_Uri::url('orders/merchant/init'), 1)->add_purview('order_view')->add_icon('fa-list-alt'),
 			ecjia_merchant::make_admin_menu('03_order_query', __('订单查询'), RC_Uri::url('orders/merchant/order_query'), 2)->add_purview('order_view')->add_icon('fa-list-ul'),

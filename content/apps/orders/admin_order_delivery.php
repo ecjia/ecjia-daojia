@@ -415,25 +415,40 @@ class admin_order_delivery extends ecjia_admin {
 			if (!is_ecjia_error($result)) {
 				/* 如果需要，发短信 */
 				if (ecjia::config('sms_order_shipped') == '1' && $order['mobile'] != '') {
+					
+					
 					//发送短信
-					$tpl_name = 'order_shipped_sms';
-					$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
-					if (!empty($tpl)) {
-						$this->assign('order_sn', $order['order_sn']);
-						$this->assign('shipped_time', RC_Time::local_date(RC_Lang::get('orders::order.sms_time_format')));
-						$this->assign('mobile', $order['mobile']);
-						$this->assign('order', $order);
-						$this->assign('delivery_time', 	RC_Time::local_date(RC_Lang::get('orders::order.sms_time_format')));
+// 					$tpl_name = 'order_shipped_sms';
+// 					$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
+// 					if (!empty($tpl)) {
+// 						$this->assign('order_sn', $order['order_sn']);
+// 						$this->assign('shipped_time', RC_Time::local_date(RC_Lang::get('orders::order.sms_time_format')));
+// 						$this->assign('mobile', $order['mobile']);
+// 						$this->assign('order', $order);
+// 						$this->assign('delivery_time', 	RC_Time::local_date(RC_Lang::get('orders::order.sms_time_format')));
 
-						$content = $this->fetch_string($tpl['template_content']);
+// 						$content = $this->fetch_string($tpl['template_content']);
 
-						$options = array(
-							'mobile' 		=> $order['mobile'],
-							'msg'			=> $content,
-							'template_id' 	=> $tpl['template_id'],
-						);
-						$response = RC_Api::api('sms', 'sms_send', $options);
-					}
+// 						$options = array(
+// 							'mobile' 		=> $order['mobile'],
+// 							'msg'			=> $content,
+// 							'template_id' 	=> $tpl['template_id'],
+// 						);
+// 						$response = RC_Api::api('sms', 'sms_send', $options);
+// 					}
+					$user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+					$options = array(
+							'mobile' => $order['mobile'],
+							'event'	 => 'sms_order_shipped',
+							'value'  =>array(
+								'user_name'    => $user_name,
+								'order_sn'     => $order['order_sn'],
+								'consignee'    => $order['consignee'],
+								'service_phone'=> ecjia::config('service_phone'),
+							),
+					);
+					$response = RC_Api::api('sms', 'send_event_sms', $options);
+					
 				}
 			}
 		}
