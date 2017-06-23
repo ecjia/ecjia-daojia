@@ -49,7 +49,7 @@
  */
 use Royalcms\Component\Database\Seeder;
 
-class InitArticleCatTableSeeder extends Seeder
+class DemoArticleCatTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -60,146 +60,77 @@ class InitArticleCatTableSeeder extends Seeder
     {
         $data = array(
             array(
-            	'cat_id'       => '1',
-            	'cat_name'     => '系统分类',
-            	'cat_type'     => '2',
-            	'keywords'     => '',
-            	'cat_desc'     => '系统保留分类',
-            	'sort_order'   => '50',
-            	'show_in_nav'  => '0',
-            	'parent_id'    => '0',
-            ),
-            array(
-                'cat_id'       => '2',
-                'cat_name'     => '网店信息',
-                'cat_type'     => '3',
-                'keywords'     => '',
-                'cat_desc'     => '网店信息分类',
-                'sort_order'   => '50',
-                'show_in_nav'  => '0',
-                'parent_id'    => '1',
-            ),
-            array(
-                'cat_id'       => '3',
-                'cat_name'     => '网店帮助分类',
-                'cat_type'     => '4',
-                'keywords'     => '',
-                'cat_desc'     => '网店帮助分类',
-                'sort_order'   => '50',
-                'show_in_nav'  => '0',
-                'parent_id'    => '1',
-            ),
-            array(
-                'cat_id'       => '13',
-                'cat_name'     => '商城公告',
-                'cat_type'     => '1',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '50',
-                'show_in_nav'  => '0',
-                'parent_id'    => '0',
-            ),
-            array(
-                'cat_id'       => '14',
-                'cat_name'     => '商家入驻流程说明',
-                'cat_type'     => '1',
-                'keywords'     => '',
-                'cat_desc'     => '商家入驻说明专用',
-                'sort_order'   => '50',
-                'show_in_nav'  => '0',
-                'parent_id'    => '0',
-            ),
-            array(
-                'cat_id'       => '15',
-                'cat_name'     => '商家入驻商家说明',
-                'cat_type'     => '1',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '50',
-                'show_in_nav'  => '0',
-                'parent_id'    => '0',
-            ),
-            array(
                 'cat_id'       => '27',
                 'cat_name'     => '购物指南',
-                'cat_type'     => '5',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '1',
-                'show_in_nav'  => '0',
-                'parent_id'    => '3',
+                'cat_type'     => 'shop_help',
+                'sort_order'   => '1'
             ),
             array(
                 'cat_id'       => '28',
                 'cat_name'     => '配送方式',
-                'cat_type'     => '5',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '3',
-                'show_in_nav'  => '0',
-                'parent_id'    => '3',
+                'cat_type'     => 'shop_help',
+                'sort_order'   => '3'
             ),
             array(
                 'cat_id'       => '29',
                 'cat_name'     => '支付方式',
-                'cat_type'     => '5',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '4',
-                'show_in_nav'  => '0',
-                'parent_id'    => '3',
+                'cat_type'     => 'shop_help',
+                'sort_order'   => '4'
             ),
             array(
                 'cat_id'       => '30',
                 'cat_name'     => '售后服务',
-                'cat_type'     => '5',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '5',
-                'show_in_nav'  => '0',
-                'parent_id'    => '3',
+                'cat_type'     => 'shop_help',
+                'sort_order'   => '5'
             ),
             array(
                 'cat_id'       => '31',
                 'cat_name'     => '订单百事通',
-                'cat_type'     => '5',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '6',
-                'show_in_nav'  => '0',
-                'parent_id'    => '3',
+                'cat_type'     => 'shop_help',
+                'sort_order'   => '6'
             ),
             array(
                 'cat_id'       => '33',
                 'cat_name'     => '关于我们',
-                'cat_type'     => '5',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '2',
-                'show_in_nav'  => '0',
-                'parent_id'    => '3',
+                'cat_type'     => 'shop_help',
+                'sort_order'   => '2'
             ),
             array(
-                'cat_id'       => '34',
-                'cat_name'     => '商家公告',
-                'cat_type'     => '6',
-                'keywords'     => '',
-                'cat_desc'     => '商家公告分类',
-                'sort_order'   => '50',
-                'show_in_nav'  => '0',
-                'parent_id'    => '0',
+                'cat_id'       => '39',
+                'cat_name'     => '好货值得买',
+                'cat_type'     => 'article',
+                'sort_order'   => '2'
             ),
             array(
-                'cat_id'       => '38',
-                'cat_name'     => '红包使用说明',
-                'cat_type'     => '1',
-                'keywords'     => '',
-                'cat_desc'     => '',
-                'sort_order'   => '50',
-                'show_in_nav'  => '0',
-                'parent_id'    => '0',
+                'cat_id'       => '40',
+                'cat_name'     => '爱美食',
+                'cat_type'     => 'article',
+                'sort_order'   => '3'
             ),
-            
+            array(
+                'cat_id'       => '41',
+                'cat_name'     => '厨卫清洁',
+                'cat_type'     => 'article',
+                'sort_order'   => '4'
+            ),
+            array(
+                'cat_id'       => '42',
+                'cat_name'     => '品味生活',
+                'cat_type'     => 'article',
+                'sort_order'   => '5'
+            ),
+            array(
+                'cat_id'       => '43',
+                'cat_name'     => '新房装修',
+                'cat_type'     => 'article',
+                'sort_order'   => '6'
+            ),
+            array(
+                'cat_id'       => '44',
+                'cat_name'     => '新鲜土货',
+                'cat_type'     => 'article',
+                'sort_order'   => '1'
+            )
         );
 
         RC_DB::table('article_cat')->truncate();

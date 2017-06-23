@@ -310,7 +310,21 @@ class InitAdPositionTableSeeder extends Seeder
         	    'type'            => 'shortcut',
         	    'group_id'        => '0',
         	    'sort_order'      => '50',
-        	)
+        	),
+            array(
+                'position_id'     => '124',
+                'position_name'   => '发现轮播图',
+                'position_code'   => 'article_cycleimage',
+                'ad_width'        => '1000',
+                'ad_height'       => '200',
+                'position_desc'   => '发现页面的轮播图',
+                'max_number'      => '5',
+                'city_id'         => '0',
+                'city_name'       => '默认',
+                'type'            => 'cycleimage',
+                'group_id'        => '0',
+                'sort_order'      => '50',
+            )
         );
         
         RC_DB::table('ad_position')->truncate();

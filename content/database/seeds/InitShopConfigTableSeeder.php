@@ -293,8 +293,8 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'install_date', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'ecjia_version', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'ecjia_db_version', 'value' => '5', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_user_name', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_password', 'value' => '', 'options' => ['type' => 'hidden']],
+//             ['code' => 'sms_user_name', 'value' => '', 'options' => ['type' => 'hidden']],
+//             ['code' => 'sms_password', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'sms_auth_str', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'sms_domain', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'sms_count', 'value' => '', 'options' => ['type' => 'hidden']],
@@ -316,7 +316,7 @@ class InitShopConfigTableSeeder extends Seeder
 //             ['code' => 'cycleimage_style', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'captcha_style', 'value' => 'captcha_royalcms', 'options' => ['type' => 'hidden']],
             ['code' => 'navigator_data', 'value' => 'a:4:{i:0;a:2:{s:4:"type";s:3:"top";s:4:"name";s:6:"顶部";}i:1;a:2:{s:4:"type";s:6:"middle";s:4:"name";s:6:"中间";}i:2;a:2:{s:4:"type";s:6:"bottom";s:4:"name";s:6:"底部";}i:3;a:2:{s:4:"type";s:5:"touch";s:4:"name";s:10:"ECJiaTouch";}}', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_receipt_verification', 'value' => '1', 'options' => ['type' => 'hidden']],
+//             ['code' => 'sms_receipt_verification', 'value' => '1', 'options' => ['type' => 'hidden']],
             ['code' => 'last_check_upgrade_time', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'app_key_android', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'app_secret_android', 'value' => '', 'options' => ['type' => 'hidden']],
@@ -374,12 +374,12 @@ class InitShopConfigTableSeeder extends Seeder
         
         $data = [
             ['code' => 'sms_shop_mobile', 'value' => '', 'options' => ['type' => 'text']],
-            ['code' => 'sms_order_placed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'sms_order_payed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'sms_order_shipped', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'sms_order_placed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'sms_order_payed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'sms_order_shipped', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
             ['code' => 'sms_signin', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
             ['code' => 'sms_send', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'sms_user_signin', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'sms_user_signin', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
         ];
         
         $this->add_config($group, $data);
@@ -469,7 +469,7 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'addon_user_integrate_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_mobile_payment_plugins', 'value' => 'a:4:{s:11:"pay_balance";s:27:"pay_balance/pay_balance.php";s:10:"pay_alipay";s:25:"pay_alipay/pay_alipay.php";s:7:"pay_cod";s:19:"pay_cod/pay_cod.php";s:8:"pay_cash";s:21:"pay_cash/pay_cash.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_shipping_plugins', 'value' => 'a:9:{s:8:"ship_ems";s:21:"ship_ems/ship_ems.php";s:8:"ship_yto";s:21:"ship_yto/ship_yto.php";s:8:"ship_cac";s:21:"ship_cac/ship_cac.php";s:9:"ship_flat";s:23:"ship_flat/ship_flat.php";s:8:"ship_zto";s:21:"ship_zto/ship_zto.php";s:8:"ship_fpd";s:21:"ship_fpd/ship_fpd.php";s:16:"ship_o2o_express";s:37:"ship_o2o_express/ship_o2o_express.php";s:15:"ship_sf_express";s:35:"ship_sf_express/ship_sf_express.php";s:16:"ship_sto_express";s:37:"ship_sto_express/ship_sto_express.php";}', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_cycleimage_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
+//             ['code' => 'addon_cycleimage_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_captcha_plugins', 'value' => 'a:1:{s:16:"captcha_royalcms";s:37:"captcha_royalcms/captcha_royalcms.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_platform_plugins', 'value' => 'a:9:{s:7:"mp_jfcx";s:19:"mp_jfcx/mp_jfcx.php";s:9:"mp_orders";s:23:"mp_orders/mp_orders.php";s:6:"mp_ggk";s:17:"mp_ggk/mp_ggk.php";s:10:"mp_checkin";s:25:"mp_checkin/mp_checkin.php";s:6:"mp_dzp";s:17:"mp_dzp/mp_dzp.php";s:6:"mp_zjd";s:17:"mp_zjd/mp_zjd.php";s:7:"mp_kefu";s:19:"mp_kefu/mp_kefu.php";s:11:"mp_userbind";s:27:"mp_userbind/mp_userbind.php";s:8:"mp_goods";s:21:"mp_goods/mp_goods.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_merchant_plugins', 'value' => '', 'options' => ['type' => 'hidden']],

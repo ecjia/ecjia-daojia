@@ -44,9 +44,12 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+/**
+ * 插入数据 `ecjia_article` 文章
+*/
 use Royalcms\Component\Database\Seeder;
 
-class InitDatabaseSeeder extends Seeder
+class DemoGoodsArticleTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -55,24 +58,50 @@ class InitDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('InitAdPositionTableSeeder');
-        $this->call('InitAdTableSeeder');
-        $this->call('InitConnectTableSeeder');
-        $this->call('InitMailTemplatesTableSeeder');
-        $this->call('InitMobileScreenshotsTableSeeder');
-        $this->call('InitPaymentTableSeeder');
-        $this->call('InitPlatformCommandTableSeeder');
-        $this->call('InitPlatformConfigTableSeeder');
-        $this->call('InitPlatformExtendTableSeeder');
-        $this->call('InitPushEventTableSeeder');
-        $this->call('InitRegFieldsTableSeeder');
-        $this->call('InitRegionTableSeeder');
-        $this->call('InitShippingTableSeeder');
-        $this->call('InitShopConfigTableSeeder');
-        $this->call('InitStoreCategoryTableSeeder');
-        $this->call('InitStorePercentTableSeeder');
-        $this->call('InitUserRankTableSeeder');
-        $this->call('InitWechatMediaTableSeeder');
-        $this->call('InitWechatReplyTableSeeder');
+        $data = array(
+            array(
+                'goods_id'      => '460',
+                'article_id'    => '142',
+                'admin_id'      => '0',
+            ),
+            array(
+                'goods_id'      => '433',
+                'article_id'    => '143',
+                'admin_id'      => '0',
+            ),
+            array(
+                'goods_id'      => '1046',
+                'article_id'    => '143',
+                'admin_id'      => '0',
+            ),
+            array(
+                'goods_id'      => '1103',
+                'article_id'    => '143',
+                'admin_id'      => '0',
+            ),
+            array(
+                'goods_id'      => '461',
+                'article_id'    => '144',
+                'admin_id'      => '0',
+            ),
+            array(
+                'goods_id'      => '466',
+                'article_id'    => '144',
+                'admin_id'      => '0',
+            ),
+            array(
+                'goods_id'      => '468',
+                'article_id'    => '144',
+                'admin_id'      => '0',
+            ),
+            array(
+                'goods_id'      => '1103',
+                'article_id'    => '144',
+                'admin_id'      => '0',
+            ),
+        );
+
+        RC_DB::table('goods_article')->truncate();
+        RC_DB::table('goods_article')->insert($data);
     }
 }

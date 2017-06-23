@@ -49,7 +49,7 @@
  */
 use Royalcms\Component\Database\Seeder;
 
-class InitTermMetaTableSeeder extends Seeder
+class DemoTermMetaTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -77,7 +77,7 @@ class InitMailTemplatesTableSeeder extends Seeder
                 'template_content'  => "亲爱的{\$order.consignee}，你好！ \n\n我们已经收到您于 {\$order.formated_add_time} 提交的订单，该订单编号为：{\$order.order_sn} 请记住这个编号以便日后的查询。\n\n{\$shop_name}\n{\$sent_date}\n\n\n",
                 'last_modify'       => '1158226370',
                 'last_send'         => '0',
-                'type'              => '0'
+                'type'              => 'template'
             ),
             array(
                 'template_id'       => '3',
@@ -200,56 +200,6 @@ class InitMailTemplatesTableSeeder extends Seeder
                 'type'              => 'template'
             ),
             array(
-                'template_id'       => '16',
-                'template_code'     => 'sms_register_validate',
-                'is_html'           => '0',
-                'template_subject'  => '手机短信注册',
-                'template_content'  => '您手机注册的验证码为：{$code}！如有问题请拨打客服电话：{$service_phone}。',
-                'last_modify'       => '1440387770',
-                'last_send'         => '0',
-                'type'              => 'sms'
-            ),
-            array(
-                'template_id'       => '17',
-                'template_code'     => 'sms_verifying_authentication',
-                'is_html'           => '0',
-                'template_subject'  => '验证用户发送短信验证码',
-                'template_content'  => '您正在{$action}，验证码为：{$code}，如有问题请拨打客服电话：{$service_phone}。',
-                'last_modify'       => '1467741513',
-                'last_send'         => '0',
-                'type'              => 'sms'
-            ),
-            array(
-                'template_id'       => '18',
-                'template_code'     => 'sms_receipt_verification',
-                'is_html'           => '0',
-                'template_subject'  => '订单收货验证码',
-                'template_content'  => '尊敬的{$user_name} ，您在我们网站已成功下单。订单号：{$order_sn}，收货验证码为：{$code}。请保管好您的验证码，以便收货验证。',
-                'last_modify'       => '1471728837',
-                'last_send'         => '0',
-                'type'              => 'sms'
-            ),
-            array(
-                'template_id'       => '24',
-                'template_code'     => 'sms_jion_merchant',
-                'is_html'           => '0',
-                'template_subject'  => '审核通过',
-                'template_content'  => '尊敬的{$user_name}，恭喜您通过【{$shop_name}】平台商家入驻审核。账号：{$mobile}， 密码：{$password}，请不要把密码泄露给其他人。如有问题请拨打客服电话：{$service_phone}。',
-                'last_modify'       => '1476930217',
-                'last_send'         => '0',
-                'type'              => 'sms'
-            ),
-            array(
-                'template_id'       => '25',
-                'template_code'     => 'sms_get_validate',
-                'is_html'           => '0',
-                'template_subject'  => '获取验证码',
-                'template_content'  => '您的校验码是：{$code}，请在页面中输入以完成验证。如非本人操作，请忽略本短信。如有问题请拨打客服电话：{$service_phone}。',
-                'last_modify'       => '1478138868',
-                'last_send'         => '0',
-                'type'              => 'sms'
-            ),
-            array(
                 'template_id'       => '26',
                 'template_code'     => 'send_validate',
                 'is_html'           => '1',
@@ -329,36 +279,6 @@ class InitMailTemplatesTableSeeder extends Seeder
                 'last_send'         => '0',
                 'type'              => 'push'
             ),
-            array(
-                'template_id'       => '34',
-                'template_code'     => 'order_placed_sms',
-                'is_html'           => '0',
-                'template_subject'  => '下单通知',
-                'template_content'  => '有客户下单啦！快去看看吧！订单编号：{$order.order_sn}，收货人：{$order.consignee}，联系电话：{$order.mobile}，订单金额：{$order.order_amount}。',
-                'last_modify'       => '1489037297',
-                'last_send'         => '0',
-                'type'              => 'sms'
-            ),
-            array(
-                'template_id'       => '35',
-                'template_code'     => 'order_payed_sms',
-                'is_html'           => '0',
-                'template_subject'  => '付款通知',
-                'template_content'  => '订单编号：{$order.order_sn} 已付款。 收货人：{$order.consignee}，联系电话：{$order.mobile}，订单金额：{$order.order_amount}。',
-                'last_modify'       => '1489037327',
-                'last_send'         => '0',
-                'type'              => 'sms'
-            ),
-            array(
-                'template_id'       => '36',
-                'template_code'     => 'order_shipped_sms',
-                'is_html'           => '0',
-                'template_subject'  => '发货短信通知 (商家发货时给客户发短信)',
-                'template_content'  => '您的订单：{$order.order_sn} ，已于{$delivery_time} 通过{$order.shipping_name}进行发货。发货单号为：{$order.invoice_no}，请注意查收。',
-                'last_modify'       => '1489037347',
-                'last_send'         => '0',
-                'type'              => 'sms'
-            )
         );
 
         RC_DB::table('mail_templates')->truncate();
