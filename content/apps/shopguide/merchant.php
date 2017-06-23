@@ -119,16 +119,16 @@ class merchant extends ecjia_merchant {
     		
     		// 店铺导航背景图
     		if (!empty($_FILES['shop_nav_background']) && empty($_FILES['error']) && !empty($_FILES['shop_nav_background']['name'])) {
-    			$merchants_config['shop_nav_background'] = file_upload_info('shop_nav_background', '', $shop_nav_background);
+    			$merchants_config['shop_nav_background'] = shopguide_file_upload_info('shop_nav_background', '', $shop_nav_background);
     		}
     		// 默认店铺页头部LOGO
     		if (!empty($_FILES['shop_logo']) && empty($_FILES['error']) && !empty($_FILES['shop_logo']['name'])) {
-    			$merchants_config['shop_logo'] = file_upload_info('shop_logo', '', $shop_logo);
+    			$merchants_config['shop_logo'] = shopguide_file_upload_info('shop_logo', '', $shop_logo);
     		}
     		
     		// APPbanner图
     		if (!empty($_FILES['shop_banner_pic']) && empty($_FILES['error']) && !empty($_FILES['shop_banner_pic']['name'])) {
-    			$merchants_config['shop_banner_pic'] = file_upload_info('shop_banner', 'shop_banner_pic', $shop_banner_pic);
+    			$merchants_config['shop_banner_pic'] = shopguide_file_upload_info('shop_banner', 'shop_banner_pic', $shop_banner_pic);
     		}
     		// 如果没有上传店铺LOGO 提示上传店铺LOGO
     		$shop_logo = get_merchant_config('shop_logo');
