@@ -91,7 +91,7 @@ RC_Hook::add_action('intro/index/init', function () {
         $mobile_touch_qrcode    	= ecjia::config('mobile_touch_qrcode');
         $mobile_touch_qrcode        = !empty($mobile_touch_qrcode)? RC_Upload::upload_url($mobile_touch_qrcode) : '';
     
-        $shop_info = RC_DB::table('article')->select('article_id', 'title')->where('cat_id', 0)->orderby('article_id', 'asc')->get();
+        $shop_info = RC_DB::table('article')->select('article_id', 'title')->where('cat_id', 0)->where('article_type', 'shop_info')->orderby('article_id', 'asc')->get();
         if (!empty($shop_info)) {
             foreach($shop_info as $key => $val){
                 $url                    = RC_Uri::url('merchant/merchant/shopinfo', array('id' => $val['article_id']));
