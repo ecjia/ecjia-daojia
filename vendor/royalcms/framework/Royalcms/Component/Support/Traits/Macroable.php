@@ -51,9 +51,9 @@ trait Macroable
         if (! static::hasMacro($method)) {
             throw new BadMethodCallException("Method {$method} does not exist.");
         }
-
+        
         if (static::$macros[$method] instanceof Closure) {
-            return call_user_func_array(Closure::bind(static::$macros[$method], null, static::class), $parameters);
+            return call_user_func_array(Closure::bind(static::$macros[$method], null, __CLASS__), $parameters);
         }
 
         return call_user_func_array(static::$macros[$method], $parameters);
@@ -73,9 +73,9 @@ trait Macroable
         if (! static::hasMacro($method)) {
             throw new BadMethodCallException("Method {$method} does not exist.");
         }
-
+        
         if (static::$macros[$method] instanceof Closure) {
-            return call_user_func_array(static::$macros[$method]->bindTo($this, static::class), $parameters);
+            return call_user_func_array(static::$macros[$method]->bindTo($this, __CLASS__), $parameters);
         }
 
         return call_user_func_array(static::$macros[$method], $parameters);

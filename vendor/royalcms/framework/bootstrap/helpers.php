@@ -753,6 +753,24 @@ if ( ! function_exists('is_rtl'))
     }
 }
 
+if ( ! function_exists('rc_server_protocol'))
+{
+    /**
+     * Return the HTTP protocol sent by the server.
+     *
+     * @since 4.4.0
+     *
+     * @return string The HTTP protocol. Default: HTTP/1.0.
+     */
+    function rc_server_protocol() {
+        $protocol = $_SERVER['SERVER_PROTOCOL'];
+        if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ) ) ) {
+            $protocol = 'HTTP/1.0';
+        }
+        return $protocol;
+    }
+}
+
 if ( ! function_exists('rc_allowed_protocols'))
 {
     /**
@@ -3479,6 +3497,79 @@ if (!function_exists('measure')) {
     function measure($label, \Closure $closure)
     {
         royalcms('debugbar')->measure($label, $closure);
+    }
+}
+
+if (! function_exists('class_basename')) {
+    /**
+     * Get the class "basename" of the given object / class.
+     *
+     * @param  string|object  $class
+     * @return string
+     */
+    function class_basename($class)
+    {
+        $class = is_object($class) ? get_class($class) : $class;
+
+        return basename(str_replace('\\', '/', $class));
+    }
+}
+
+if (! function_exists('class_uses_recursive')) {
+    /**
+     * Returns all traits used by a class, its subclasses and trait of their traits.
+     *
+     * @param  object|string  $class
+     * @return array
+     */
+    function class_uses_recursive($class)
+    {
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
+
+        $results = [];
+
+        foreach (array_merge([$class => $class], class_parents($class)) as $class) {
+            $results += trait_uses_recursive($class);
+        }
+
+        return array_unique($results);
+    }
+}
+
+if (! function_exists('trait_uses_recursive')) {
+    /**
+     * Returns all traits used by a trait and its traits.
+     *
+     * @param  string  $trait
+     * @return array
+     */
+    function trait_uses_recursive($trait)
+    {
+        $traits = class_uses($trait);
+
+        foreach ($traits as $trait) {
+            $traits += trait_uses_recursive($trait);
+        }
+
+        return $traits;
+    }
+}
+
+if (! function_exists('tap')) {
+    /**
+     * Call the given Closure with the given value then return the value.
+     *
+     * @param  mixed  $value
+     * @param  callable  $callback
+     * @return mixed
+     */
+    function tap($value, $callback)
+    {
+        $callback($value);
+
+        return $value;
     }
 }
 
