@@ -62,20 +62,41 @@ class admin_street extends ecjia_admin
     public function init()
     {
     	$this->admin_priv('mobile_street');
-    	$this->assign('ur_here', '店铺街介绍');
-        ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('店铺街APP')));
-        $mobile_img = RC_App::apps_url('statics/images/mobile_img.png', __FILE__);
-        $ec_icon    = RC_App::apps_url('statics/images/ec_icon.png', __FILE__);
-        $dianpujie = RC_App::apps_url('statics/images/dianpujie.png', __FILE__);
+    	$this->assign('ur_here', '云店铺');
+        ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('云店铺')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+        	'id'		=> 'dianpujie',
+        	'title'		=> '店铺街',
+        	'content'	=>
+        	'<p>' . RC_Lang::get('mobile::mobile.dianpujie_pub_list') . '</p>'
+        ));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+        'id'		=> 'zhangggui',
+        'title'		=> '掌柜',
+        'content'	=>
+        '<p>' . RC_Lang::get('mobile::mobile.zhanggui_pub_list') . '</p>'
+        ));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+        'id'		=> 'peisongyuan',
+        'title'		=> '配送员',
+        'content'	=>
+        '<p>' . RC_Lang::get('mobile::mobile.peisong_pub_list') . '</p>'
+        ));
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+        	'<p><strong>' . RC_Lang::get('platform::platform.more_info') . '</strong></p>' .
+        	'<p>' . __('<a href="https://ecjia.com/wiki/常见问题:ECJia到家:ECJia店铺街APP免费下载使用" target="_blank">'.RC_Lang::get('mobile::mobile.help_about_dianpujie').'</a>') . '</p>'.
+        	'<p>' . __('<a href="https://ecjia.com/wiki/常见问题:ECJia到家:ECJia掌柜APP免费下载使用" target="_blank">'.RC_Lang::get('mobile::mobile.help_about_zhanggui').'</a>') . '</p>'.
+        	'<p>' . __('<a href="https://ecjia.com/wiki/常见问题:ECJia到家:ECJia配送员APP免费下载使用" target="_blank">'.RC_Lang::get('mobile::mobile.help_about_peisong').'</a>') . '</p>'
+        );
+        
+        $app_url =  RC_App::apps_url('statics/images', __FILE__);
         
         $api_url = mobile_qrcode::getApiUrl();
         $small_qrcode = mobile_qrcode::getDefaultQrcodeUrl();
         
         $this->assign('api_url', $api_url);
-        $this->assign('mobile_img', $mobile_img);
-        $this->assign('ec_icon', $ec_icon);
         $this->assign('small_qrcode', $small_qrcode);
-        $this->assign('dianpujie', $dianpujie);
+        $this->assign('app_url', $app_url);
         
         $this->display('mobile_street.dwt');
     }

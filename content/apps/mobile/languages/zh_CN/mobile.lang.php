@@ -531,6 +531,14 @@ return array(
 	'mobile_app_preview2'		=> '应用预览图2：',
 	'mobile_app_screenshots'	=> '应用截图：',
     'drop_screenshots_confirm'  => '您确定要删除这张应用截图吗？',
+    
+    //店铺街
+	'help_about_dianpujie'		=> '关于店铺街帮助文档',
+	'help_about_zhanggui'		=> '关于掌柜帮助文档',
+	'help_about_peisong'		=> '关于配送员帮助文档',
+	'dianpujie_pub_list'		=> 'ECJia店铺街到家是一款免费的到家APP，拿起APP直接扫码便可体验原生到家手机APP，1分钟简单操作就能开启属于你的电商之旅，还提供了各种尺寸的店铺二维码图片，让宣传更加方便。',
+	'zhanggui_pub_list'			=> 'ECJia掌柜 可以让您随时随地使用手机管理自己的商城，查看交易变化、修改商品信息、发起促销活动，及时获得各项运营信息，掌握商城动态。让你不论身处何时何地，都能手握手机轻松管理商城。 ',
+	'peisong_pub_list'			=> 'EC+配送员具有系统派单，抢单，取货，配送，及配送记录的APP，支持消息推送，路线导航等一系列使用功能，是一款专为配送人员打造，服务于广大配送员的管理工具。'
 );
 
 // end

@@ -84,6 +84,13 @@
 .daojia-info{
 	width:100%;
 }
+.border{
+	border-bottom:1px solid #ccc;
+	padding-bottom:40px;
+}
+.border-last{
+	padding-bottom:15px;
+}
 .daojia-info .daojia{
 	width:60%;
 	margin-left:20%;

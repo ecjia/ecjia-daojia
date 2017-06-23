@@ -18,11 +18,11 @@
 	<div class="span12 ">
 		<div class="section-one">
 			<div class="mobile-img-div">
-				<img class="mobile-img" src="{$mobile_img}" />
+				<img class="mobile-img" src="{$app_url}/mobile_img.png" />
 			</div>
 			<div class="street-info">
 				<div class="ec-icon-info">
-					<img class="ec-icon-img" src="{$ec_icon}">
+					<img class="ec-icon-img" src="{$app_url}/ec_icon.png">
 					<div class="literal">ECJia店铺街</div>
 				</div>
 				<div class="street-decription">
@@ -43,7 +43,7 @@
 		</div>
 		
 	</div>
-	<div class="span12">
+	<div class="span12" style="margin-left:0;">
 		<div class="qrcode-size-download">二维码更多尺寸下载：</div>
 		<table class="table table-striped smpl_tbl table-hide-edit">
 			<thead>
@@ -82,15 +82,39 @@
 			</tbody>
 		</table>
 		<div><span class="warning"></span><span style="display:inline-block;margin-left:22px;">二维码尺寸请按照4.3像素的整数倍数缩放，以保持最佳效果</span></div>
-		<div class="daojia-info">
+		<div class="daojia-info border">
 			<div class="daojia">
 				<div class="daojia-literal">ECJia店铺街APP下载</div>
 				<div class="daojia-qrcode">
-					<img src="{$dianpujie}">
+					<img src="{$app_url}/dianpujie.png">
 				</div>
 				<div class="download">
 					<a class="btn-apple" target="_blank" style="background-color:#009FE8;" href="https://itunes.apple.com/us/app/ec-%E5%BA%97%E9%93%BA%E8%A1%97/id990510286?mt=8"><span class="apple-icon"></span><span style="color:#fff;">iPhone端下载</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a class="btn-android" target="_blank" style="background-color:#53B958;" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ecjia.street"><span class="android-icon"></span><span style="color:#fff;">Android端下载</span></a>
+				</div>
+			</div>
+		</div>
+		<div class="daojia-info border">
+			<div class="daojia">
+				<div class="daojia-literal">ECJia掌柜APP下载</div>
+				<div class="daojia-qrcode">
+					<img src="{$app_url}/zhanggui.png">
+				</div>
+				<div class="download">
+					<a class="btn-apple" target="_blank" style="background-color:#009FE8;" href="https://itunes.apple.com/cn/app/ec-%E6%8E%8C%E6%9F%9C/id1015857619?mt=8"><span class="apple-icon"></span><span style="color:#fff;">iPhone端下载</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a class="btn-android" target="_blank" style="background-color:#53B958;" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ecjia.shopkeeper"><span class="android-icon"></span><span style="color:#fff;">Android端下载</span></a>
+				</div>
+			</div>
+		</div>
+		<div class="daojia-info border-last">
+			<div class="daojia">
+				<div class="daojia-literal">ECJia配送员APP下载</div>
+				<div class="daojia-qrcode">
+					<img src="{$app_url}/peisong.png">
+				</div>
+				<div class="download">
+					<a class="btn-apple" target="_blank" style="background-color:#009FE8;" href="https://itunes.apple.com/cn/app/ec-%E9%85%8D%E9%80%81%E5%91%98/id1198119772?mt=8"><span class="apple-icon"></span><span style="color:#fff;">iPhone端下载</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a class="btn-android" target="_blank" style="background-color:#53B958;" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ecjia.express"><span class="android-icon"></span><span style="color:#fff;">Android端下载</span></a>
 				</div>
 			</div>
 		</div>
