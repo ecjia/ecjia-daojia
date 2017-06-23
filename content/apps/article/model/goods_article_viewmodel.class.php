@@ -57,7 +57,7 @@ class goods_article_viewmodel extends Component_Model_View {
 			'article' => array(
 				'type' 	=>	Component_Model_View::TYPE_LEFT_JOIN,
 				'alias' => 	'a',
-				'field' => 	'a.article_id, a.title, a.file_url, a.open_type, a.add_time',
+				'field' => 	'a.article_id, a.title, a.file_url, a.article_type, a.add_time',
 				'on' 	=> 	'ga.article_id = a.article_id '
 			),
 		);

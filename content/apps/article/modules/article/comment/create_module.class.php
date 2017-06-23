@@ -47,36 +47,53 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 商店信息列表
- * @author royalwang
+ * 评价文章
+ * @author zrl
+ *
  */
-class info_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	$article_db = RC_DB::table('article');
-    	$article_db->where('content' , '<>', '');
-    	$article_db->where('title' , '<>', '');
-    	$article_db->where('article_type' , 'shop_info');
-    	
-    	$cat_id = 0;
-    	$cache_article_key = 'article_list_'.$cat_id;
-    	$cache_id = sprintf('%X', crc32($cache_article_key));
-    	$orm_article_db = RC_Model::model('article/orm_article_model');
-    	$list = $orm_article_db->get_cache_item($cache_id);
-    	if (empty($list)) {
-    		$res = $article_db->get();
-    		if (!empty($res)) {
-    			$list = array();
-    			foreach ($res as $row) {
-    				$list[] =  array(
-    					'id'	=> $row['article_id'],
-    					'image' => !empty($row['file_url']) ? RC_Upload::upload_url($row['file_url']) : '',
-    					'title'	=> $row['title'],
-    				);
-    			}
-    		}
-    		$orm_article_db->set_cache_item($cache_id, $list);
-    	}
-    	return $list;
+class create_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    	//如果用户登录获取其session
+    	$this->authSession();
+		$user_id = $_SESSION['user_id'];
+		if ($user_id < 1) {
+			return new ecjia_error(100, 'Invalid session');
+		}
+		
+		$user_name 		= $_SESSION['user_name'];
+		$article_id		= $this->requestData('article_id', 0);//30
+		$content 		= $this->requestData('content');
+		if ( $article_id <= 0 || empty($content)) {
+			return new ecjia_error('invalid_parameter', '参数错误！');
+		}
+		$email = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->pluck('email');
+		$store_id = RC_DB::table('article')->where('article_id', $article_id)->pluck('store_id');
+
+		if (!empty($content) && !empty($article_id) ) {
+		    $data = array(
+		        'id_value'				=> $article_id,
+		    	'comment_type'			=> 'article',
+		    	'user_id'				=> $_SESSION['user_id'],
+		        'user_name'				=> $user_name,
+		        'email'  				=> $email,
+		        'content'				=> trim($content),
+		        'user_type'	    		=> $_SESSION['user_id'] > 0 ? '商城会员' : '游客',
+		        'add_time'				=> RC_Time::gmtime(),
+		        'ip_address'			=> RC_Ip::client_ip(),
+		        'parent_id'				=> 0,
+		        'store_id'				=> $store_id,
+		        'comment_approved'   	=> 1,
+		    );
+		    $comment_id = RC_DB::table('discuss_comments')->insertGetId($data);
+		}
+		/*更新文章评论数*/
+		RC_DB::table('article')->where('article_id', $article_id)->increment('comment_count');
+		/*释放文章详情的缓存*/
+		$orm_article_db = RC_Model::model('article/orm_article_model');
+		$cache_article_info_key = 'article_info_'.$article_id;
+		$cache_id_info = sprintf('%X', crc32($cache_article_info_key));
+		$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
+		return array();
 	}
 }
 

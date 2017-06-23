@@ -77,7 +77,7 @@ class article_article_info_api extends Component_Event_Api {
 		$db = RC_DB::table('article');
 		
 		$db->where('article_id', '=', $article_id);
-// 		$db->where('article_approved', '=', $article_approved);
+		$db->where('article_approved', '=', $article_approved);
 		$info = $db->first();
 		return $info;
 	}

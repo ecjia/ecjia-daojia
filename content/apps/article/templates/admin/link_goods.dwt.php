@@ -20,12 +20,12 @@
 	<div class="span12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
-				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}"}#tab1'>{lang key='article::article.tab_general'}</a></li>
+				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}{if $publishby}&publishby={$publishby}{/if}"}#tab1'>{lang key='article::article.tab_general'}</a></li>
 <!-- 				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}"}#tab2'>{lang key='article::article.tab_content'}</a></li> -->
 				<li class="active"><a href="javascript:;">{lang key='article::article.tab_goods'}</a></li>
 			</ul>
 			
-			<form class="form-horizontal" action='{url path="article/admin/insert_link_goods" args="id={$smarty.get.id}"}' method="post" name="theForm">
+			<form class="form-horizontal" action='{url path="article/admin/insert_link_goods" args="id={$smarty.get.id}{if $publishby}&publishby={$publishby}{/if}"}' method="post" name="theForm">
 				<div class="tab-content">
 					<fieldset>
 						<div class="control-group choose_list span12" data-url="{url path='article/admin/get_goods_list'}">

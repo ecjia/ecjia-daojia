@@ -164,13 +164,15 @@ class admin_shopinfo extends ecjia_admin {
 		}
 		
 		$data = array(
-			'title' 	   	=> $title,
-			'cat_id'   		=> 0,
-			'content'  		=> $content,
-			'keywords'  	=> $keywords,
-			'file_url'		=> $file_name,
-			'description'  	=> $desc,
-			'add_time' 		=> RC_Time::gmtime(),
+			'title' 	   		=> $title,
+			'cat_id'   			=> 0,
+			'content'  			=> $content,
+			'keywords'  		=> $keywords,
+			'file_url'			=> $file_name,
+			'description'  		=> $desc,
+			'add_time' 			=> RC_Time::gmtime(),
+			'article_approved' 	=> 1,
+			'article_type' 		=> 'shop_info',
 		);
 		$id = $this->db_article->article_manage($data);
 		//释放article_list缓存
@@ -265,7 +267,9 @@ class admin_shopinfo extends ecjia_admin {
 			'keywords'    	=> $keywords,
 			'file_url'		=> $file_name,
 			'description' 	=> $desc,
-			'add_time'    	=> RC_Time::gmtime()
+			'add_time'    	=> RC_Time::gmtime(),
+			'article_approved' 	=> 1,
+			'article_type' 		=> 'shop_info',
 		);
 
 		$this->db_article->article_manage($data);
@@ -337,10 +341,10 @@ class admin_shopinfo extends ecjia_admin {
 	/**
 	 * 获取网店信息文章
 	 */
-	private function get_shopinfo_article($cat_id = 0) {
+	private function get_shopinfo_article() {
 	    $data = RC_DB::table('article')
 	    	->select('article_id', 'title', 'add_time')
-	    	->where('cat_id', $cat_id)
+	    	->where('article_type', 'shop_info')
 	    	->orderby('article_id', 'asc')
 	    	->get();
 	    

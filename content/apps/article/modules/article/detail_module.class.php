@@ -46,9 +46,13 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+/**
+ * 文章详情
+ * @author zrl
+ *
+ */
 class detail_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
     	$id = $this->requestData('article_id', 0);
     	if ($id <= 0) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
@@ -56,25 +60,114 @@ class detail_module extends api_front implements api_interface {
 		
 		$cache_article_key = 'article_info_'.$id;
 		$cache_id = sprintf('%X', crc32($cache_article_key));
-		
 		$article_db = RC_Model::model('article/orm_article_model');
-    	$html = $article_db->get_cache_item($cache_id);
-		if (empty($html)) {
+    	$article_detail = $article_db->get_cache_item($cache_id);
+    	
+		if (empty($article_detail)) {
 			$article_info = get_article_info($id);
 			if (empty($article_info)) {
 				return new ecjia_error('does not exist', '不存在的信息');
-			} 
+			}
+			if ($article_info['store_id'] > 0) {
+				$store_name = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->pluck('merchants_name');
+				$store_logo = RC_DB::table('merchants_config')->where('store_id', $article_info['store_id'])->where('code', 'shop_logo')->pluck('value');
+				$store_total_articles = RC_DB::table('article')->where('store_id', $article_info['store_id'])->count('article_id');
+			}
+			/*平台自营文章总数*/
+			$total_articles = RC_DB::table('article')->where('store_id', 0)->count('article_id');
+			/*当前用户是否点赞过此文章*/
+			$discuss_likes_info = '';
+			if ($_SESSION['user_id'] > 0) {
+				$discuss_likes_info =  RC_DB::table('discuss_likes')->where('id_value', $id)->where('like_type', 'article')->where('user_id', $_SESSION['user_id'])->first();
+			}
+			
+			/*关联商品*/
+			$article_related_goods_ids = RC_DB::table('goods_article')->where('article_id', $id)->lists('goods_id');
+			$article_related_goods = array();
+			if (!empty($article_related_goods_ids)) {
+				$article_related_goods = RC_DB::table('goods')->whereIn('goods_id', $article_related_goods_ids)->selectRaw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img')->get();
+			}
+			$list = array();
+			if (!empty($article_related_goods)) {
+				foreach ($article_related_goods as $row) {
+					$list[] = array(
+							'goods_id' 		=> intval($row['goods_id']),
+							'name'	   		=> empty($row['goods_name']) ? '' : trim($row['goods_name']),
+							'market_price'	=> $row['market_price'] > 0 ? price_format($row['market_price']) : '0.00￥',
+							'shop_price'	=> $row['shop_price'] > 0 	? price_format($row['shop_price']) : '0.00￥',
+							'img'			=> array(
+													'thumb' => empty($row['goods_thumb']) ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($row['goods_thumb']),
+													'url'	=> empty($row['original_img'])? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($row['original_img']),
+													'small'	=> empty($row['goods_img'])	  ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($row['goods_img'])
+												)
+					);
+				}
+			}
+			/*推荐商品*/
+			$recommend_goods = array();
+			$goods_list = array();
+			$recommend_goods = $db = RC_DB::table('goods')
+								->where('store_id', $article_info['store_id'])
+								->where('is_on_sale', 1)
+								->where('is_alone_sale', 1)
+								->where('is_delete', 0)
+								->whereIn('review_status', array(4,5))
+								->whereRaw('(is_best=1 or is_hot=1 or is_new=1)')
+								->selectRaw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img')->limit(6)->orderBy('add_time', 'DESC')->get();
+			/*店铺是否关闭*/
+			if ($article_info['store_id'] > 0) {
+				$shop_close = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->pluck('shop_close');
+				if ($shop_close == 1) {
+					$recommend_goods = array();
+				}
+			}
+			$platform = RC_Uri::admin_url('statics/images/platform_logo.png');//平台默认logo
+			if (!empty($recommend_goods)) {
+				foreach ($recommend_goods as $val) {
+					$goods_list[] = array(
+							'goods_id' 	=> intval($val['goods_id']),
+							'name'		=> empty($val['goods_name']) ? '' : trim($val['goods_name']),
+							'market_price'	=> $val['market_price'] > 0 ? price_format($val['market_price']) : '0.00￥',
+							'shop_price'	=> $val['shop_price'] > 0 	? price_format($val['shop_price']) : '0.00￥',
+							'img'			=> array(
+									'thumb' => empty($val['goods_thumb']) ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($val['goods_thumb']),
+									'url'	=> empty($val['original_img'])? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($val['original_img']),
+									'small'	=> empty($val['goods_img'])	  ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($val['goods_img'])
+							)
+					);
+				}
+			}
+			/*文章内容*/
 			$base = sprintf('<base href="%s/" />', dirname(SITE_URL));
-			$html['data'] = '<!DOCTYPE html><html><head><title>'.$article_info['title'].'</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="initial-scale=1.0"><meta name="viewport" content="initial-scale = 1.0 , minimum-scale = 1.0 , maximum-scale = 1.0" /><style>img {width: auto\9;height: auto;vertical-align: middle;border: 0;-ms-interpolation-mode: bicubic;max-width: 100%; }html { font-size:100%; }p{word-wrap : break-word ;word-break:break-all;} </style>'.$base.'</head><body>'.$article_info['content'].'</body></html>';
-			$article_db->set_cache_item($cache_id, $html);
+			$article_info['content'] = preg_replace('/\\\"/', '"', $article_info['content']);
+			$content = '<!DOCTYPE html><html><head><title>'.$article_info['title'].'</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="initial-scale=1.0"><meta name="viewport" content="initial-scale = 1.0 , minimum-scale = 1.0 , maximum-scale = 1.0" /><style>img {width: auto\9;height: auto;vertical-align: middle;border: 0;-ms-interpolation-mode: bicubic;max-width: 100%; }html { font-size:100%; }p{word-wrap : break-word ;word-break:break-all;} </style>'.$base.'</head><body>'.$article_info['content'].'</body></html>';
+			
+			$article_detail[] = array(
+					'article_id'			=> intval($article_info['article_id']),
+					'title'					=> trim($article_info['title']),
+					'add_time'				=> !empty($article_info['add_time']) ? RC_Time::local_date(ecjia::config('time_format'), $article_info['add_time']) : '',
+					'store_id'				=> $article_info['store_id'],
+					'store_name'			=> $article_info['store_id'] > 0 ? $store_name : '小编推荐',
+					'store_logo'			=> $article_info['store_id'] > 0 ? RC_Upload::upload_url($store_logo) : $platform,
+					'total_articles'		=> $article_info['store_id'] > 0 ? $store_total_articles : $total_articles,
+					'like_count'			=> $article_info['like_count'],
+					'comment_count'			=> $article_info['comment_count'],
+					'is_like'				=> !empty($discuss_likes_info) ? 1 : 0,
+					'article_related_goods' => $list,
+					'recommend_goods'		=> $goods_list,
+					'content'				=> $content
+			);
+			$article_db->set_cache_item($cache_id, $article_detail);
 		}
-		return $html;
+		/*更新文章浏览量*/
+		RC_DB::table('article')->where('article_id', $id)->increment('click_count');
+		return $article_detail;
 	}
 }
 
 function get_article_info($article_id) {
 	/* 获得文章的信息 */
-    $row = RC_Model::model('article/article_model')->field('article_id as id, title, content')->find(array(/* 'is_open' => 1, */ 'article_id' => $article_id));
+    $row = RC_DB::table('article')->where('article_approved', 1)->where( 'article_id', $article_id)->first();
     return $row;
 }
 

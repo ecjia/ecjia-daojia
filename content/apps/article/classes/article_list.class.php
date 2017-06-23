@@ -47,37 +47,94 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 商店信息列表
- * @author royalwang
+ * 文章列表类
  */
-class info_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	$article_db = RC_DB::table('article');
-    	$article_db->where('content' , '<>', '');
-    	$article_db->where('title' , '<>', '');
-    	$article_db->where('article_type' , 'shop_info');
-    	
-    	$cat_id = 0;
-    	$cache_article_key = 'article_list_'.$cat_id;
-    	$cache_id = sprintf('%X', crc32($cache_article_key));
-    	$orm_article_db = RC_Model::model('article/orm_article_model');
-    	$list = $orm_article_db->get_cache_item($cache_id);
-    	if (empty($list)) {
-    		$res = $article_db->get();
-    		if (!empty($res)) {
-    			$list = array();
-    			foreach ($res as $row) {
-    				$list[] =  array(
-    					'id'	=> $row['article_id'],
-    					'image' => !empty($row['file_url']) ? RC_Upload::upload_url($row['file_url']) : '',
-    					'title'	=> $row['title'],
-    				);
-    			}
-    		}
-    		$orm_article_db->set_cache_item($cache_id, $list);
-    	}
-    	return $list;
+class article_list {
+	/**
+	 * 取得文章信息
+	 * @param   array $options	条件参数
+	 * @return  array   文章列表
+	 */
+	
+	public static function article_lists($options) {
+	
+		$dbview = RC_DB::table('article as a')
+		->leftJoin('article_cat as ac', RC_DB::raw('ac.cat_id'), '=', RC_DB::raw('a.cat_id'));
+	
+		$filter = array();
+		$filter['cat_id']     = empty($options['cat_id']) 		? 0 : intval($options['cat_id']);
+		$filter['sort_by']    = empty($options['sort_by']) 		? 'a.add_time' : trim($options['sort_by']);
+		$filter['sort_order'] = empty($options['sort_order']) 	? 'DESC' : trim($options['sort_order']);
+		$filter['size']  	  = empty($options['size']) 		? 15 : intval($options['size']);
+		$filter['page'] 	  = empty($options['page']) 		? 1 : intval($options['page']);
+		
+		if (!empty($options['suggest_type'])) {
+			$dbview->where(RC_DB::raw('a.suggest_type'), $options['suggest_type']);
+		}
+		
+		if ($filter['cat_id'] && ($filter['cat_id'] > 0)) {
+			//含分类自己
+			$parent_ids = self::GetIds($filter['cat_id']);
+			if (!empty($parent_ids) && is_array($parent_ids)) {
+				$datas = array_merge(array($filter['cat_id']), $parent_ids);
+			}
+			$dbview->whereIn(RC_DB::raw('a.cat_id'), $datas);
+		}
+		/*显示审核通过的*/
+		if ($options['article_approved'] && $options['article_approved'] == 1) {
+			$dbview->where(RC_DB::raw('a.article_approved'), '=', 1);
+		}
+		
+		/* 文章总数 */
+		$filter['record_count'] = '';
+		$count = $dbview->select('article_id')->count();
+		$page_row = new ecjia_page($count, $filter['size'], 6, '', $filter['page']);
+	
+		$result = $dbview->selectRaw('a.*, ac.cat_name, ac.cat_type, ac.sort_order')
+		->orderby(RC_DB::raw($filter['sort_by']), $filter['sort_order'])->take($filter['size'])->skip($page_row->start_id - 1)->get();
+		$pager = array(
+				'total' => $page_row->total_records,
+				'count' => $page_row->total_records,
+				'more'	=> $page_row->total_pages <= $filter['page'] ? 0 : 1,
+		);
+		return array('list' => $result, 'page' => $pager);
 	}
-}
+	
+	
+	/**
+	 * 子分类ids
+	 * @return string
+	 */
+	public static function GetIds($parent_id){
+		if($parent_id){
+			if(is_array($parent_id)){
+				$parent_id = join(',', $parent_id);
+				$data = RC_Model::model('article/article_cat_model')->in(array('parent_id'=>$parent_id))->get_field('cat_id',true);
+			}else{
+				$data = RC_Model::model('article/article_cat_model')->where(array('parent_id'=>$parent_id))->get_field('cat_id',true);
+			}
+			if(!empty($data)){
+				$datas = self::GetIds($data) ? array_merge($data,self::GetIds($data)) : $data;
+			}else{
+				$datas = array('0' =>$parent_id);
+			}
+		}
+		return $datas;
+	}
+	
+	/**
+	 * 更新文章评论数
+	 * @return bool
+	 */
+	public static function update_comment_count($article_id){
+		$count = RC_DB::table('discuss_comments')
+				->where('id_value', $article_id)
+				->whereIn('comment_approved', array(1))
+				->where('comment_type', 'article')->count('id');
+		$res = RC_DB::table('article')->where('article_id', $article_id)->update(array('comment_count' => $count));
+		return true;
+	}
+}	
+
 
 // end

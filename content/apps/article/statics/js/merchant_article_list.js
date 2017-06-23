@@ -23,9 +23,9 @@
                 ecjia.pjax(url);
             });
             
-            app.article_list.toggle_view();//状态审核
-            app.article_list.batch_move_cat();//批量转移
-            
+            //批量转移
+            app.article_list.batch_move_cat();
+            app.article_list.toggle_view();
         },
         toggle_view: function (option) {
             $('.toggle_view').on('click', function (e) {
@@ -33,18 +33,19 @@
                 var $this = $(this);
                 var url = $this.attr('href');
                 var val = $this.attr('data-val') || 'allow';
-                var status = $this.attr('data-status') || '';
+                var status = $this.attr('data-status');
+                var article_id = $this.attr('data-id');
                 var data = {
                     check: val,
-                    status: status
+                    status: status,
+                    article_id: article_id
                 }
                 var msg = $this.attr("data-msg");
                 if (msg) {
                     smoke.confirm(msg, function (e) {
                         if (e) {
                             $.post(url, data, function (data) {
-                            	console.log(data);
-                            	ecjia.admin.showmessage(data);
+                            	ecjia.merchant.showmessage(data);
                             }, 'json');
                         }
                     }, {
@@ -53,8 +54,7 @@
                     });
                 } else {
                     $.post(url, data, function (data) {
-                    	console.log(data);
-                    	ecjia.admin.showmessage(data);
+                    	ecjia.merchant.showmessage(data);
                     }, 'json');
                 }
             });
@@ -92,7 +92,7 @@
             $('.move-mod-head').attr('data-sortname', 'article_info');
             
             //执行排序
-            ecjia.admin.set_sortIndex('article_info');
+            ecjia.merchant.set_sortIndex('article_info');
  
             app.article_info.submit_form();
             app.article_info.term_meta();
@@ -106,7 +106,7 @@
                     title: {
                         required: true
                     },
-                    article_cat: {
+                    cat_id: {
                         required: true,
                         min: 1
                     },
@@ -115,7 +115,7 @@
                     title: {
                         required: js_lang.article_title_required
                     },
-                    article_cat: {
+                    cat_id: {
                         min: js_lang.no_select_cat
                     },
                 },
@@ -127,12 +127,12 @@
                         .ajaxSubmit({
                         dataType: "json",
                         success: function (data) {
-                            ecjia.admin.showmessage(data);
+                            ecjia.merchant.showmessage(data);
                         }
                     });
                 }
             }
-            var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+            var options = $.extend(ecjia.merchant.defaultOptions.validate, option);
             $form.validate(options);
  
             // 注册百度编辑器快捷提交事件
@@ -151,7 +151,7 @@
                     extension_code = $add.attr('data-extension-code'),
                     active = $add.attr('data-active');
                 $.post(active, 'article_id=' + id + '&extension_code=' + extension_code + '&key=' + key + '&value=' + value, function (data) {
-                    ecjia.admin.showmessage(data);
+                    ecjia.merchant.showmessage(data);
                 }, 'JSON')
  
             });
@@ -167,7 +167,7 @@
                     extension_code = $edit.attr('data-extension-code'),
                     active = $edit.attr('data-active');
                 $.post(active, 'article_id=' + id + '&meta_id=' + meta_id + '&key=' + key + '&value=' + value, function (data) {
-                    ecjia.admin.showmessage(data);
+                    ecjia.merchant.showmessage(data);
                 }, 'JSON')
  
             });
@@ -218,7 +218,7 @@
         search_link_goods: function () {
             /* 查找商品 */
             $('[data-toggle="searchGoods"]').on('click', function () {
-                var $choose_list = $('.choose_list'),
+                var $choose_list = $('.goods_list'),
                     searchURL = $choose_list.attr('data-url');
                 var filters = {
                     'JSON': {
@@ -319,12 +319,12 @@
                     });
                 });
                 $.get(url, info, function (data) {
-                    ecjia.admin.showmessage(data);
+                    ecjia.merchant.showmessage(data);
                 });
             })
         }
     }
  
-})(ecjia.admin, jQuery);
+})(ecjia.merchant, jQuery);
  
 // end

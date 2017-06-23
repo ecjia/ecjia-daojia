@@ -47,37 +47,60 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 商店信息列表
- * @author royalwang
+ * 精选文章列表
+ * @author zrl
  */
-class info_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	$article_db = RC_DB::table('article');
-    	$article_db->where('content' , '<>', '');
-    	$article_db->where('title' , '<>', '');
-    	$article_db->where('article_type' , 'shop_info');
+class suggestlist_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
-    	$cat_id = 0;
-    	$cache_article_key = 'article_list_'.$cat_id;
-    	$cache_id = sprintf('%X', crc32($cache_article_key));
-    	$orm_article_db = RC_Model::model('article/orm_article_model');
-    	$list = $orm_article_db->get_cache_item($cache_id);
-    	if (empty($list)) {
-    		$res = $article_db->get();
-    		if (!empty($res)) {
-    			$list = array();
-    			foreach ($res as $row) {
-    				$list[] =  array(
-    					'id'	=> $row['article_id'],
-    					'image' => !empty($row['file_url']) ? RC_Upload::upload_url($row['file_url']) : '',
-    					'title'	=> $row['title'],
-    				);
-    			}
-    		}
-    		$orm_article_db->set_cache_item($cache_id, $list);
-    	}
-    	return $list;
+    	RC_Loader::load_app_class('article_list', 'article', false);
+		$type	 = $this->requestData('type', 'stickie');//置顶的
+		$types   = array('stickie');
+		if (!in_array($type, $types)) {
+			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+		}
+		/* 获取数量 */
+		$size = $this->requestData('pagination.count', 15);
+		$page = $this->requestData('pagination.page', 1);
+		
+		$options = array(
+				'size'			=> $size,
+				'page'			=> $page,
+				'suggest_type'  => $type,
+				'sort_by'		=> 'a.add_time',
+				'sort_order'	=> 'DESC',
+				'article_approved'		=> 1
+		);
+		
+		$article_data =article_list::article_lists($options);
+		$platform = RC_Uri::admin_url('statics/images/platform_logo.png');//平台默认logo
+		
+		$arr = array();
+		if(!empty($article_data['list'])) {
+			foreach ($article_data['list'] as $rows) {
+				if ($rows['store_id'] > 0) {
+					$store_logo =  RC_DB::table('merchants_config')->where('store_id', $rows['store_id'])->where('code', 'shop_logo')->pluck('value');
+					$store_name = RC_DB::table('store_franchisee')->where('store_id', $rows['store_id'])->pluck('merchants_name');
+				}
+				$arr[] = array(
+						'article_id' 		=> intval($rows['article_id']),
+						'article_type' 		=> $rows['article_type'],
+						'add_time'			=> RC_Time::local_date(ecjia::config('date_format'), $rows['add_time']),
+						'title'				=> $rows['title'],
+						'description'		=> !empty($rows['description']) ? $rows['description'] : '',
+						'click_count'		=> $rows['click_count'],
+						'cover_image'		=> !empty($rows['cover_image']) ? RC_Upload::upload_url($rows['cover_image']) : '',
+						'file_url'			=> !empty($rows['file_url']) ? RC_Upload::upload_url($rows['file_url']) : '',
+						'link_url'			=> !empty($rows['link_url']) ? $rows['link_url'] : '',
+						'store_info'		=> array(
+													'store_id' 		=> $rows['store_id'] > 0 ? $rows['store_id'] : 0,
+													'store_name' 	=> $rows['store_id'] > 0 ? $store_name : '小编推荐',
+													'store_logo'	=> $rows['store_id'] > 0 ? RC_Upload::upload_url($store_logo) : $platform
+												)
+				);
+			}
+		}
+		return array('data' => $arr, 'pager' => $article_data['page']);
 	}
 }
-
 // end

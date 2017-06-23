@@ -20,12 +20,12 @@
 				<div class="tab-pane active" id="tab1">
 					<h3 class="text-center">{$article.title}</h3>
 					<p  class="text-center">{lang key='article::article.author'}：{$article.author}&nbsp;&nbsp;{lang key='article::article.add_time'}：{$article.add_time}</p>
-					{if $article.open_type == 2}
+					{if $article.article_type == 'related'}
 						<p>
 						{$article.content}
 						<a href="{RC_Upload::upload_url()}/{$article.file_url}">{lang key='article::article.related_download'}</a>
 						</p>
-					{elseif $article.open_type == 1}
+					{elseif $article.article_type == 'download'}
 						<a href="{RC_Upload::upload_url()}/{$article.file_url}">{lang key='article::article.related_download'}</a>
 					{else}
 						{if $article.file_url != ''}

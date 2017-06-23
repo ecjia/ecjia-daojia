@@ -56,6 +56,11 @@ function assign_adminlog_contents() {
 	ecjia_admin_log::instance()->add_action('batch_start', RC_Lang::get('article::article.button_start'));
 	ecjia_admin_log::instance()->add_action('batch_end', RC_Lang::get('article::article.button_end'));
 	ecjia_admin_log::instance()->add_action('cancel', RC_Lang::get('article::article.delete'));
+	ecjia_admin_log::instance()->add_action('comment_status', '更新文章评论状态');
+	ecjia_admin_log::instance()->add_object('article_comment', '文章评论');
+	
+	ecjia_admin_log::instance()->add_object('merchant_notice', '商家公告');
+	ecjia_admin_log::instance()->add_object('system_info', '系统信息');
 }
 
 //end
