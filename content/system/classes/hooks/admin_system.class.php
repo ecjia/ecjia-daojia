@@ -46,7 +46,9 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class system_hooks {
+use Ecjia\System\Admins\Plugin\ConfigMenu;
+
+class admin_system_hooks {
 		
 	static public function admin_dashboard_header_links() {
 		echo <<<EOF
@@ -267,17 +269,53 @@ EOF;
 	}
 	
 	
+	public static function display_admin_plugin_menus() {
+	    
+	    $menus = ConfigMenu::singleton()->authMenus();
+	    $screen = ecjia_screen::get_current_screen();
+
+	    echo '<div class="setting-group">'.PHP_EOL;
+	    echo '<span class="setting-group-title"><i class="fontello-icon-cog"></i>插件配置</span>'.PHP_EOL;
+	    echo '<ul class="nav nav-list m_t10">'.PHP_EOL; //
+	    
+	    foreach ($menus as $key => $menu) 
+	    {
+	        if ($menu->action == 'divider') 
+	        {
+	            echo '<li class="divider"></li>';
+	        } 
+	        elseif ($menu->action == 'nav-header') 
+	        {
+	            echo '<li class="nav-header">' . $menu->name . '</li>';
+	        } 
+	        else 
+	        {
+	            echo '<li><a class="setting-group-item'; //data-pjax
+	
+	            if ($menu->base && $screen->parent_base && $menu->base == $screen->parent_base) 
+	            {
+	                echo ' llv-active';
+	            }
+	    
+	            echo '" href="' . $menu->link . '">' . $menu->name . '</a></li>'.PHP_EOL;
+	        }
+	    }
+	    
+	    echo '</ul>'.PHP_EOL;
+	    echo '</div>'.PHP_EOL;
+	}
+	
 }
 
+RC_Hook::add_action( 'display_admin_plugin_menus', array('admin_system_hooks', 'display_admin_plugin_menus') );
+RC_Hook::add_action( 'admin_sidebar_info', array('admin_system_hooks', 'admin_sidebar_info'));
+RC_Hook::add_action( 'admin_dashboard_left', array('admin_system_hooks', 'admin_dashboard_left_1') );
+RC_Hook::add_action( 'admin_dashboard_right', array('admin_system_hooks', 'admin_dashboard_right_1') );
+RC_Hook::add_action( 'admin_dashboard_right', array('admin_system_hooks', 'admin_dashboard_right_2') );
 
-RC_Hook::add_action('admin_sidebar_info', array('system_hooks', 'admin_sidebar_info'));
-RC_Hook::add_action( 'admin_dashboard_left', array('system_hooks', 'admin_dashboard_left_1') );
-RC_Hook::add_action( 'admin_dashboard_right', array('system_hooks', 'admin_dashboard_right_1') );
-RC_Hook::add_action( 'admin_dashboard_right', array('system_hooks', 'admin_dashboard_right_2') );
+// RC_Hook::add_action( 'admin_dashboard_header_links', array('admin_system_hooks', 'admin_dashboard_header_links') );
 
-// RC_Hook::add_action( 'admin_dashboard_header_links', array('system_hooks', 'admin_dashboard_header_links') );
-
-// RC_Hook::add_action( 'admin_dashboard_header_codes', array('system_hooks', 'admin_dashboard_header_codes') );
+// RC_Hook::add_action( 'admin_dashboard_header_codes', array('admin_system_hooks', 'admin_dashboard_header_codes') );
 
 
 // end

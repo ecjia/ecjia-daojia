@@ -52,11 +52,11 @@ use Royalcms\Component\Support\Manager;
 
 class ThemeManager extends Manager
 {
-
+    
     private $availableThemes = array();
 
     private $defaultThemeName = 'default';
-
+    
     /**
      * Create a new manager instance.
      *
@@ -66,16 +66,16 @@ class ThemeManager extends Manager
     public function __construct($royalcms)
     {
         parent::__construct($royalcms);
-
+        
         $this->loadAvailableThemes();
     }
-
-
+    
+    
     public function hasDriver($driver)
     {
         return isset($this->drivers[$driver]) ? true : false;
     }
-
+    
     /**
      * Get the default driver name.
      *
@@ -83,21 +83,21 @@ class ThemeManager extends Manager
      */
     public function getDefaultDriver()
     {
-        if (in_array($this->getTemplateName(), $this->availableThemes))
+        if (in_array($this->getTemplateName(), $this->availableThemes)) 
         {
             return $this->getTemplateName();
         }
         else
         {
             return $this->defaultThemeName;
-        }
+        }       
     }
-
+    
     public function getAvailableThemes()
     {
         $availableThemes = array();
-
-        foreach ($this->availableThemes as $theme)
+        
+        foreach ($this->availableThemes as $theme) 
         {
             $availableThemes[$theme] = new Theme($theme);
         }
@@ -117,12 +117,12 @@ class ThemeManager extends Manager
     {
         return new Theme($this->defaultThemeName);
     }
-
+    
     protected function loadAvailableThemes()
     {
         if (is_dir(SITE_THEME_PATH)) {
             $theme_dir = opendir(SITE_THEME_PATH);
-
+    
             while (false != ($file = readdir($theme_dir))) {
                 if ($file != '.' &&
                     $file != '..' &&
@@ -132,35 +132,35 @@ class ThemeManager extends Manager
                     $file != 'index.html' &&
                     is_dir(SITE_THEME_PATH . $file)) {
                         $this->availableThemes[] = $file;
-
+                        
                         $this->extend($file, function ($royalcms) use ($file) {
                         	return new Theme($file);
                         });
                     }
             }
-
+    
             closedir($theme_dir);
         }
     }
-
+    
     public function getTemplateCode()
     {
         return RC_Hook::apply_filters('ecjia_theme_template_code', 'template');
     }
-
+    
     public function getTemplateName()
     {
         return ecjia::config($this->getTemplateCode());
     }
-
+    
     public function getStyleCode()
     {
         return RC_Hook::apply_filters('ecjia_theme_stylename_code', 'stylename');
     }
-
+    
     public function getStyleName()
     {
         return ecjia::config($this->getStyleCode());
     }
-
+    
 }

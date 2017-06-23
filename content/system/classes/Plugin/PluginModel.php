@@ -111,7 +111,7 @@ abstract class PluginModel extends Model
     }
     
     /**
-     * 获取指定计划任务的实例
+     * 获取指定插件的实例
      * @param string $code
      * @param array $config
      * @return \Ecjia\System\Plugin\AbstractPlugin
@@ -123,9 +123,12 @@ abstract class PluginModel extends Model
             $config = $this->configData($code);
         }
         
+        $plugins = $this->getInstalledPlugins();
+        PluginManager::addPlugins($plugins);
+        
         $handler = PluginManager::driver($code);
         $handler->setConfig($config);
-        
+
         return $handler;
     }
     

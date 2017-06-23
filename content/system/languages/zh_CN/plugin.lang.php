@@ -56,6 +56,8 @@ return array(
 	'plugin_desc'	=> '描述',
 	'plugin_version'=> '版本',
 	'plugin_author'	=> '作者',
+	'plugin_sort'	=> '排序',
+	'plugin_enable'	=> '是否开启',
 	
 	'upgrade'			=> '升级',
 	'upgrade_success'	=> '升级成功',

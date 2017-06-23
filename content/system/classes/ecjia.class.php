@@ -208,7 +208,7 @@ class ecjia {
      */
 	public static function init_load() {
 		/* 初始化设置 */
-		ini_set('memory_limit',          '64M');
+		ini_set('memory_limit',          '128M');
 		ini_set('display_errors',        1);
 
 		RC_Response::header('X-Powered-By', APPNAME.'/'.VERSION);

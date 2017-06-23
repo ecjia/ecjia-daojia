@@ -49,6 +49,8 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
+use Ecjia\System\Admins\Plugin\ConfigMenu;
+
 class admin_plugin extends ecjia_admin {
 	private $addon_model;	
 	
@@ -197,6 +199,27 @@ class admin_plugin extends ecjia_admin {
 		
 		ecjia_admin::admin_log($data['Name'], 'uninstall', 'plugin');
 		return $this->showmessage(sprintf(__('%s 插件卸载成功！'), $data['Name']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl'=>RC_Uri::url('@admin_plugin/init')));
+	}
+	
+	/**
+	 * 插件配置
+	 */
+	public function config() {
+		 
+		$this->assign('ur_here', '插件配置');
+		ecjia_screen::get_current_screen()->remove_last_nav_here();
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('插件配置'));
+		
+		$menus = ConfigMenu::singleton()->authMenus();
+
+		if (!empty($menus)) {
+		    $menu = array_shift($menus);
+		    if ($menu->action != 'divider' && $menu->action != 'nav-header') {
+		        $this->redirect($menu->link);
+		    }
+		}
+
+		$this->display('plugin_config.dwt');
 	}
 	
 }

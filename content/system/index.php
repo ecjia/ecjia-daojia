@@ -76,6 +76,12 @@ class index extends ecjia_admin {
             ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning));
         }
 
+        if (version_compare(ecjia::config('ecjia_version'), RC_Config::get('release.version'), '<')) {
+            $upgrade_url = RC_Uri::url('upgrade/index/init');
+            $warning = sprintf(__('您当前已经覆盖了最新版的v%s程序，建议您立即升级数据库结构，升级前做好备份，前往<a href="%s">升级中心</a>。'), RC_Config::get('release.version'), $upgrade_url);
+            ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning));
+        }
+
         ecjia_screen::get_current_screen()->add_help_tab( array(
         'id'        => 'overview',
         'title'     => __('概述'),

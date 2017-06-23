@@ -47,9 +47,13 @@
 namespace Ecjia\System\Plugin;
 
 use Royalcms\Component\Support\Manager;
+use Royalcms\Component\Support\Arr;
 
 class PluginManager extends Manager
 {
+    
+    protected $plugins = array();
+    
     /**
      * Get a driver instance.
      *
@@ -74,20 +78,36 @@ class PluginManager extends Manager
         return isset($this->drivers[$driver]) ? true : false;
     }
     
+    public function addPlugins(array $plugins) 
+    {
+        $this->plugins = array_merge($this->plugins, $plugins);
+    }
+    
+    /**
+     * Get all of the added "plugins".
+     *
+     * @return array
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
+    }
+    
     /**
      * Load Plugin file.
-     * 
+     *
      * @param string $driver
      */
     protected function loadPluginFile($driver) {
-        $code = strtolower($driver);
-        $cron_plugins = \ecjia_config::instance()->get_addon_config('cron_plugins', true);
-        if (isset($cron_plugins[$code])) {
-            return \RC_Plugin::load_files($cron_plugins[$code]);
+        $driver = strtolower($driver);
+    
+        if (isset($this->plugins[$driver])) {
+            return \RC_Plugin::load_files($this->plugins[$driver]);
         }
-        
+    
         throw new \InvalidArgumentException("Driver [$driver] not found class file.");
     }
+    
     
     /**
      * Call a custom driver creator.

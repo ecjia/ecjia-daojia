@@ -69,6 +69,7 @@ class system_system_menu_api extends Component_Event_Api {
             ecjia_admin::make_admin_menu('divider', '', '', 11)->add_purview(array('application_manage', 'plugin_manage')),
 		    ecjia_admin::make_admin_menu('application_manage', __('应用管理'), RC_Uri::url('@admin_application/init'), 12)->add_purview('application_manage'),
 		    ecjia_admin::make_admin_menu('plugin_manage', __('插件管理'), RC_Uri::url('@admin_plugin/init'), 13)->add_purview('plugin_manage'),
+		    ecjia_admin::make_admin_menu('plugin_config', __('插件配置'), RC_Uri::url('@admin_plugin/config'), 15)->add_purview('plugin_config'),
 		    ecjia_admin::make_admin_menu('divider', '', '', 21)->add_purview(array('admin_upgrade')),
 // 		    ecjia_admin::make_admin_menu('appstore', __('应用市场'), RC_Uri::url('@appstore/init'), 22),
 		    ecjia_admin::make_admin_menu('upgrade', __('可用更新'), RC_Uri::url('@upgrade/init'), 23)->add_purview(array('admin_upgrade', 'file_priv', 'file_check')),
