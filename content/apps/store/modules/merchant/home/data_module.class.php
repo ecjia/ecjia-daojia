@@ -55,158 +55,180 @@ class data_module extends api_front implements api_interface {
 
     	$this->authSession();
 		$seller_id = $this->requestData('seller_id');
+		$city_id = $this->requestData('city_id');
 		$location = $this->requestData('location', array());
 	
 		if (empty($seller_id)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
-
-		$where = array();
-
-
 		$user_id = $_SESSION['user_id'];
-
-// 		$field ='ssi.*, ssi.id as seller_id, ssi.shop_name as seller_name, tr.item_value1, tr.item_value2,  sc.cat_name, count(cs.seller_id) as follower, SUM(IF(cs.user_id = '.$user_id.',1,0)) as is_follower';
-// // 		$info = $msi_dbview->join(array('category', 'seller_shopinfo', 'collect_store', 'term_relationship'))
-// 		$info = $ssi_dbview->join(array('seller_category', 'collect_store', 'term_relationship'))
-// 							->field($field)
-// 							->where($where)
-// 							->find();
-        $info = RC_DB::table('store_franchisee as sf')
-        ->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'))
-        ->leftJoin('collect_store as cs', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('cs.store_id'))
-        ->selectRaw('sf.*, sc.cat_name, count(cs.store_id) as follower, SUM(IF(cs.user_id = '.$user_id.',1,0)) as is_follower')
-        ->where(RC_DB::raw('sf.status'), 1)->where(RC_DB::raw('sf.store_id'), $seller_id)
-        ->first();
-        $store_config = array(
-            'shop_title'                => '', // 店铺标题
-            'shop_kf_mobile'            => '', // 客服手机号码
-            'shop_kf_email'             => '', // 客服邮件地址
-//             'shop_kf_qq'                => '', // 客服QQ号码
-//             'shop_kf_ww'                => '', // 客服淘宝旺旺
-//             'shop_kf_type'              => '', // 客服样式
-            'shop_logo'                 => '', // 默认店铺页头部LOGO
-            'shop_banner_pic'           => '', // banner图
-            'shop_description'          => '', // 店铺描述
-            'shop_notice'               => '', // 店铺公告
-        );
-        $config = RC_DB::table('merchants_config')->where('store_id', $seller_id)->select('code', 'value')->get();
-        foreach ($config as $key => $value) {
-            $store_config[$value['code']] = $value['value'];
-        }
-        $info = array_merge($info, $store_config);
-
-		if(substr($info['shop_logo'], 0, 1) == '.') {
-			$info['shop_logo'] = str_replace('../', '/', $info['shop_logo']);
+		$api_version = $request->header('api-version');
+		$api_version = empty($api_version) ? $this->requestData('api_version') : $api_version;
+		
+		$api_old = false;
+		if (version_compare($api_version, '1.6', '<')) {
+		    $api_old = true;
 		}
-
-		$goods_db = RC_Model::model('goods/goods_model');
-		$gfield = 'count(*) as count, SUM(IF(store_new=1, 1, 0)) as new_goods, SUM(IF(store_best=1, 1, 0)) as best_goods, SUM(IF(store_hot=1, 1, 0)) as hot_goods';
-		$count_where = array('store_id' => $seller_id, 'is_on_sale' => 1, 'is_alone_sale' => 1, 'is_delete' => 0);
 		
-		$count_where['review_status'] = array('gt' => 2);
-		
-		$goods_count = $goods_db->field($gfield)->where($count_where)->find();
-
-		$distance = (!empty($location['latitude']) && !empty($location['longitude']) && !empty($info)) ? getDistance($info['latitude'], $info['longitude'], $location['latitude'], $location['longitude']) : null;
-
-		$db_region = RC_Model::model('shipping/region_model');
-		$province_name = $db_region->where(array('region_id' => $info['province']))->get_field('region_name');
-		$city_name = $db_region->where(array('region_id' => $info['city']))->get_field('region_name');
-
-		//TODO ::增加优惠活动缓存
-		$store_options = array(
-				'store_id' => $info['store_id']
-		);
-		$favourable_result = RC_Api::api('favourable', 'store_favourable_list', $store_options);
-		if (!empty($favourable_result)) {
-			$favourable_list = array();
-			foreach ($favourable_result as $val) {
-				if ($val['act_range'] == '0') {
-					$favourable_list[] = array(
-							'name' => $val['act_name'],
-							'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-							'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
-					);
-				} else {
-					$act_range_ext = explode(',', $val['act_range_ext']);
-					switch ($val['act_range']) {
-						case 1 :
-							$favourable_list[] = array(
-							'name' => $val['act_name'],
-							'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-							'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
-							);
-							break;
-						case 2 :
-							$favourable_list[] = array(
-							'name' => $val['act_name'],
-							'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-							'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
-							);
-							break;
-						case 3 :
-							$favourable_list[] = array(
-							'name' => $val['act_name'],
-							'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-							'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
-							);
-							break;
-						default:
-							break;
-					}
-				}
-			}
-		}
-		RC_Loader::load_app_func('merchant', 'merchant');
-		
-		$info['trade_time'] = get_store_trade_time($info['store_id']);
-		$seller_info = array(
-				'id'				=> $info['store_id'],
-				'seller_name'		=> $info['merchants_name'],
-				'seller_logo'		=> empty($info['shop_logo']) ?  '' : RC_Upload::upload_url($info['shop_logo']),
+// 		if ($api_old) {
+	    if (!$api_old) {
+		    $request_param['seller_id'] = $seller_id;
+		    
+		    //流程逻辑开始
+		    // runloop 流
+		    $response = array();
+		    $response = RC_Hook::apply_filters('api_merchant_home_data_runloop', $response, $request_param);//mobile_home_adsense1
+		    return $response;
+		} else {
+		    $where = array();
+		    
+		    $info = RC_DB::table('store_franchisee as sf')
+		    ->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'))
+		    ->leftJoin('collect_store as cs', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('cs.store_id'))
+		    ->selectRaw('sf.*, sc.cat_name, count(cs.store_id) as follower, SUM(IF(cs.user_id = '.$user_id.',1,0)) as is_follower')
+		    ->where(RC_DB::raw('sf.status'), 1)->where(RC_DB::raw('sf.store_id'), $seller_id)
+		    ->first();
+		    $store_config = array(
+		        'shop_title'                => '', // 店铺标题
+		        'shop_kf_mobile'            => '', // 客服手机号码
+		        'shop_kf_email'             => '', // 客服邮件地址
+		        'shop_logo'                 => '', // 默认店铺页头部LOGO
+		        'shop_banner_pic'           => '', // banner图
+		        'shop_trade_time'           => '', // 营业时间
+		        'shop_description'          => '', // 店铺描述
+		        'shop_notice'               => '', // 店铺公告
+		    );
+		    $config = RC_DB::table('merchants_config')->where('store_id', $seller_id)->select('code', 'value')->get();
+		    foreach ($config as $key => $value) {
+		        $store_config[$value['code']] = $value['value'];
+		    }
+		    $info = array_merge($info, $store_config);
+		    
+		    if(substr($info['shop_logo'], 0, 1) == '.') {
+		        $info['shop_logo'] = str_replace('../', '/', $info['shop_logo']);
+		    }
+		    
+		    $goods_db = RC_Model::model('goods/goods_model');
+		    $gfield = 'count(*) as count, SUM(IF(store_new=1, 1, 0)) as new_goods, SUM(IF(store_best=1, 1, 0)) as best_goods, SUM(IF(store_hot=1, 1, 0)) as hot_goods';
+		    $count_where = array('store_id' => $seller_id, 'is_on_sale' => 1, 'is_alone_sale' => 1, 'is_delete' => 0);
+		    
+		    $count_where['review_status'] = array('gt' => 2);
+		    
+		    $goods_count = $goods_db->field($gfield)->where($count_where)->find();
+		    
+		    $distance = (!empty($location['latitude']) && !empty($location['longitude']) && !empty($info)) ? getDistance($info['latitude'], $info['longitude'], $location['latitude'], $location['longitude']) : null;
+		    
+		    $db_region = RC_Model::model('shipping/region_model');
+		    $province_name = $db_region->where(array('region_id' => $info['province']))->get_field('region_name');
+		    $city_name = $db_region->where(array('region_id' => $info['city']))->get_field('region_name');
+		    
+		    //TODO ::增加优惠活动缓存
+		    $store_options = array(
+		        'store_id' => $info['store_id']
+		    );
+		    $favourable_result = RC_Api::api('favourable', 'store_favourable_list', $store_options);
+		    if (!empty($favourable_result)) {
+		        $favourable_list = array();
+		        foreach ($favourable_result as $val) {
+		            if ($val['act_range'] == '0') {
+		                $favourable_list[] = array(
+		                    'name' => $val['act_name'],
+		                    'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+		                    'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+		                );
+		            } else {
+		                $act_range_ext = explode(',', $val['act_range_ext']);
+		                switch ($val['act_range']) {
+		                    case 1 :
+		                        $favourable_list[] = array(
+		                        'name' => $val['act_name'],
+		                        'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+		                        'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+		                        );
+		                        break;
+		                    case 2 :
+		                        $favourable_list[] = array(
+		                        'name' => $val['act_name'],
+		                        'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+		                        'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+		                        );
+		                        break;
+		                    case 3 :
+		                        $favourable_list[] = array(
+		                        'name' => $val['act_name'],
+		                        'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+		                        'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+		                        );
+		                        break;
+		                    default:
+		                        break;
+		                }
+		            }
+		        }
+		    }
+		    
+		    if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
+    			$geohash         = RC_Loader::load_app_class('geohash', 'store');
+    			$geohash_code    = $geohash->encode($location['latitude'] , $location['longitude']);
+    			$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+    		}
+    		
+    		RC_Loader::load_app_func('merchant', 'merchant');
+    		$info['trade_time'] = get_store_trade_time($info['store_id']);
+		    $seller_info = array(
+		        'id'				=> $info['store_id'],
+		        'seller_name'		=> $info['merchants_name'],
+		        'seller_logo'		=> empty($info['shop_logo']) ?  '' : RC_Upload::upload_url($info['shop_logo']),
 		        'seller_banner'		=> empty($info['shop_banner_pic']) ?  '' : RC_Upload::upload_url($info['shop_banner_pic']),
 		        'seller_qrcode'		=> with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($info['store_id'], empty($info['shop_logo']) ?  '' : RC_Upload::upload_url($info['shop_logo'])))->getQrcodeUrl(),
-				'seller_category'	=> $info['cat_name'],
-				'shop_name'			=> $info['company_name'],
-				'shop_address'		=> $province_name.' '.$city_name.' '.$info['address'],
-				'telephone'			=> $info['shop_kf_mobile'],
-				'seller_qq'			=> $info['shop_kf_qq'],
-				'seller_description'	=> $info['shop_description'],
-				'seller_notice'		=> $info['shop_notice'],
+		        'seller_category'	=> $info['cat_name'],
+		        'shop_name'			=> $info['company_name'],
+		        'shop_address'		=> $province_name.' '.$city_name.' '.$info['address'],
+		        'telephone'			=> $info['shop_kf_mobile'],
+		        'seller_qq'			=> $info['shop_kf_qq'],
+		        'seller_description'	=> $info['shop_description'],
+		        'seller_notice'		=> $info['shop_notice'],
 		        'manage_mode'       => $info['manage_mode'],
-				'follower'			=> $info['follower'],
-				'is_follower'		=> $info['is_follower'],
-				'location'			=> array(
-						'longitude' => $info['longitude'],
-						'latitude'	=> $info['latitude'],
-						'distance'	=> $distance,
-				),
-				'distance'	=> $distance,
-				'goods_count'		=> array(
-						'count'			=> $goods_count['count'],
-						'new_goods'		=> $goods_count['new_goods'],
-						'best_goods'	=> $goods_count['best_goods'],
-						'hot_goods'		=> $goods_count['hot_goods'],
-				),
-				'comment' 	=> array(
-				    'comment_goods'			=> '100%',
-				    'comment_server'		=> '100%',
-				    'comment_delivery'		=> '100%',
-// 						'comment_goods'			=> $comment['count'] > 0 ? round($comment['comment_rank']/($comment['count']*5)*100).'%' : '100%',
-// 						'comment_server'		=> $comment['count'] > 0 ? round($comment['comment_server']/($comment['count']*5)*100).'%' : '100%',
-// 						'comment_delivery'		=> $comment['count'] > 0 ? round($comment['comment_delivery']/($comment['count']*5)*100).'%' : '100%',
-				),
-// 				'new_goods'			=> $newgoods_list,
-// 				'hot_goods'			=> $hotgoods_list,
-// 				'best_goods'		=> $bestgoods_list,
-				'favourable_list'	=> $favourable_list,
-				'label_trade_time'	=> $info['trade_time'],
-		);
-
-		return $seller_info;
+		        'follower'			=> $info['follower'],
+		        'is_follower'		=> $info['is_follower'],
+		        'location'			=> array(
+		            'longitude' => $info['longitude'],
+		            'latitude'	=> $info['latitude'],
+		            'distance'	=> $distance,
+		        ),
+		        'distance'	=> $distance,
+		        'goods_count'		=> array(
+		            'count'			=> $goods_count['count'],
+		            'new_goods'		=> $goods_count['new_goods'],
+		            'best_goods'	=> $goods_count['best_goods'],
+		            'hot_goods'		=> $goods_count['hot_goods'],
+		        ),
+		        'comment' 	=> array(
+		            'comment_goods'			=> '100%',
+		            'comment_server'		=> '100%',
+		            'comment_delivery'		=> '100%',
+		        ),
+		        'favourable_list'	=> $favourable_list,
+		        'label_trade_time'	=> $info['trade_time'],
+		        'delivery_range'    => in_array($info['store_id'], $store_id_group) ? 'in' : 'out',
+		    );
+		    
+		    return $seller_info;
+		}
+		
 	}
 }
+
+function filter_merchant_adsense_group_data($data) {
+    return collect($data)->map(function($item, $key) {
+        return [
+            'image' => $item['ad_img'],
+            'text' => $item['ad_name'],
+            'url' => $item['ad_link'],
+        ];
+    })->toArray();
+}
+RC_Hook::add_filter('filter_merchant_adsense_group_data', 'filter_merchant_adsense_group_data');
 
 
 /**
@@ -232,5 +254,178 @@ function getDistance($lat1, $lng1, $lat2, $lng2, $len_type = 1, $decimal = 1) {
 
 	return round($s, $decimal);
 }
+
+function cycleimage_data($response, $request_params)
+{
+    $request = royalcms('request');
+
+    $device_client = $request->header('device-client', 'iphone');
+
+    if ($device_client == 'android') {
+        $client = Ecjia\App\Adsense\Client::ANDROID;
+    } elseif ($device_client == 'h5') {
+        $client = Ecjia\App\Adsense\Client::H5;
+    } else {
+        $client = Ecjia\App\Adsense\Client::IPHONE;
+    }
+
+    $cycleimageDatas = RC_Api::api('adsense',  'cycleimage_merchant', [
+        'code'     => 'home_cycleimage',
+        'client'   => $client,
+        'store_id' => $request_params['seller_id']
+    ]);
+
+    $player_data = array();
+    foreach ($cycleimageDatas as $val) {
+        $player_data[] = array(
+            'photo' => array(
+                'small'      => $val['image'],
+                'thumb'      => $val['image'],
+                'url'        => $val['image'],
+            ),
+            'url'        => $val['url'],
+            'description'=> $val['text'],
+        );
+    }
+
+    $response['player'] = $player_data;
+    
+    return $response;
+}
+
+function mobile_menu_data($response, $request_params) {
+    $request = royalcms('request');
+
+    $city_id	= $request->input('city_id', 0);
+
+    $device_client = $request->header('device-client', 'iphone');
+
+    if ($device_client == 'android') {
+        $client = Ecjia\App\Adsense\Client::ANDROID;
+    } elseif ($device_client == 'h5') {
+        $client = Ecjia\App\Adsense\Client::H5;
+    } else {
+        $client = Ecjia\App\Adsense\Client::IPHONE;
+    }
+
+    $shortcutDatas = RC_Api::api('adsense',  'shortcut_merchant', [
+        'code'     => 'home_shortcut',
+        'client'   => $client,
+        'store_id' => $request_params['seller_id']
+    ]);
+
+    $response['mobile_menu'] = $shortcutDatas;
+    return $response;
+}
+
+function promote_goods_data($response, $request) {
+
+    $promote_goods_data = array();
+    $order_sort         = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
+    $filter = array(
+        'intro'	  => 'promotion',
+        'sort'	  => $order_sort,
+        'page'	  => 1,
+        'size'	  => 6,
+        'store_id' => $request['seller_id'],
+    );
+
+    $result = RC_Api::api('goods', 'goods_list', $filter);
+    if ( !empty($result['list']) ) {
+        foreach ( $result['list'] as $key => $val ) {
+            $promote_goods_data[] = array(
+                'id'		                => intval($val['goods_id']),
+                'goods_id'	                => intval($val['goods_id']),         
+                'name'		                => $val['goods_name'],
+                'market_price'	            => $val['market_price'],
+                'shop_price'	            => $val['shop_price'],
+                'promote_price'	            => $val['promote_price'],
+                'manage_mode'               => $val['manage_mode'],
+                'unformatted_promote_price' => $val['unformatted_promote_price'],
+                'promote_start_date'        => $val['promote_start_date'],
+                'promote_end_date'          => $val['promote_end_date'],
+                'img'                       => array(
+                    'small' => $val['goods_thumb'],
+                    'thumb' => $val['goods_img'],
+                    'url'	=> $val['original_img'],
+                )
+            );
+        }
+    }
+
+    $response['promote_goods'] = $promote_goods_data;
+    return $response;
+}
+
+function new_goods_data($response, $request) {
+    $new_goods_data = array();
+
+    $order_sort = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
+    $filter     = array(
+        'intro'	=> 'new',
+        'sort'	=> $order_sort,
+        'page'	=> 1,
+        'size'	=> 6,
+        'store_id' => $request['seller_id'],
+    );
+
+    $result = RC_Api::api('goods', 'goods_list', $filter);
+    if ( !empty($result['list']) ) {
+        foreach ( $result['list'] as $key => $val ) {
+            $new_goods_data[] = array(
+                'id'            => intval($val['goods_id']),
+                'goods_id'      => intval($val['goods_id']),           //多商铺中不用，后期删除
+                'name'          => $val['goods_name'],
+                'manage_mode'   => $val['manage_mode'],
+                'market_price'	=> $val['market_price'],
+                'shop_price'	=> $val['shop_price'],
+                'promote_price'	=> $val['promote_price'],
+                'img'           => array(
+                    'small' => $val['goods_thumb'],
+                    'thumb' => $val['goods_img'],
+                    'url'	=> $val['original_img'],
+                )
+            );
+        }
+    }
+
+    $response['new_goods'] = $new_goods_data;
+    return $response;
+}
+
+
+function mobile_home_adsense_group($response, $request_params) {
+    $request = royalcms('request');
+
+    $device_client = $request->header('device-client', 'iphone');
+
+    if ($device_client == 'android') {
+        $client = Ecjia\App\Adsense\Client::ANDROID;
+    } elseif ($device_client == 'h5') {
+        $client = Ecjia\App\Adsense\Client::H5;
+    } else {
+        $client = Ecjia\App\Adsense\Client::IPHONE;
+    }
+
+    $mobile_home_adsense_group = RC_Api::api('adsense',  'adsense_group_merchant', [
+        'code'     => 'home_group',
+        'client'   => $client,
+        'store_id' => $request_params['seller_id']
+    ]);
+     
+    $response['adsense_group'] = $mobile_home_adsense_group;
+
+    return $response;
+}
+
+
+RC_Hook::add_filter('api_merchant_home_data_runloop', 'cycleimage_data', 10, 2);
+RC_Hook::add_filter('api_merchant_home_data_runloop', 'mobile_menu_data', 10, 2);
+RC_Hook::add_filter('api_merchant_home_data_runloop', 'promote_goods_data', 10, 2);
+RC_Hook::add_filter('api_merchant_home_data_runloop', 'new_goods_data', 10, 2);
+RC_Hook::add_filter('api_merchant_home_data_runloop', 'mobile_home_adsense_group', 10, 2);
+// RC_Hook::add_filter('api_merchant_home_data_runloop', 'group_goods_data', 10, 2);
+// RC_Hook::add_filter('api_merchant_home_data_runloop', 'mobilebuy_goods_data', 10, 2);
+// RC_Hook::add_filter('api_merchant_home_data_runloop', 'topic_data', 10, 2);
 
 // end

@@ -106,40 +106,60 @@ class validate_module extends api_admin implements api_interface {
         if (!is_ecjia_error($result)) {
             //发送短信
             $code     = rand(100000, 999999);
-            $tpl_name = 'sms_get_validate';
-            $tpl      = RC_Api::api('sms', 'sms_template', $tpl_name);
+//             $tpl_name = 'sms_get_validate';
+//             $tpl      = RC_Api::api('sms', 'sms_template', $tpl_name);
             /* 判断短信模板是否存在*/
-            if (!empty($tpl)) {
+//             if (!empty($tpl)) {
 // 					if ($validate_type == 'signup') {
 // 						ecjia_api::$controller->assign('action', '申请入驻认证');
 // 					} else {
 // 						ecjia_api::$controller->assign('action', '查询入驻审核进度');
 // 					}
 
-                ecjia_api::$controller->assign('code', $code);
-                ecjia_api::$controller->assign('mobile', $value);
-                ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
+//                 ecjia_api::$controller->assign('code', $code);
+//                 ecjia_api::$controller->assign('mobile', $value);
+//                 ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
 
-                $content = ecjia_api::$controller->fetch_string($tpl['template_content']);
-                $options = array(
-                        'mobile' 		=> $value,
-                        'msg'			=> $content,
-                        'template_id' 	=> $tpl['template_id'],
-                );
-                $time     = RC_Time::gmtime();
-                $response = RC_Api::api('sms', 'sms_send', $options);
-            }
+//                 $content = ecjia_api::$controller->fetch_string($tpl['template_content']);
+//                 $options = array(
+//                         'mobile' 		=> $value,
+//                         'msg'			=> $content,
+//                         'template_id' 	=> $tpl['template_id'],
+//                 );
+//                 $time     = RC_Time::gmtime();
+//                 $response = RC_Api::api('sms', 'sms_send', $options);
+//             }
+            
+            $options = array(
+            	'mobile' => $value,
+            	'event'	 => 'sms_get_validate',
+            	'value'  =>array(
+            		'code' 			=> $code,
+            		'service_phone' => ecjia::config('service_phone'),
+            	),
+            );
+            $response = RC_Api::api('sms', 'send_event_sms', $options);
         }
 
         /* 判断是否发送成功*/
-        if (isset($response) && $response === true) {
-            $time = RC_Time::gmtime();
-            $_SESSION['merchant_validate_code'] = $code;
-            $_SESSION['merchant_validate_mobile'] = $value;
-            $_SESSION['merchant_validate_expiry'] = $time + 1800;//设置有效期30分钟
-            return array('message' => '验证码发送成功！');
-        } else {
-            return new ecjia_error('send_code_error', __('验证码发送失败！'));
+//         if (isset($response) && $response === true) {
+//             $time = RC_Time::gmtime();
+//             $_SESSION['merchant_validate_code'] = $code;
+//             $_SESSION['merchant_validate_mobile'] = $value;
+//             $_SESSION['merchant_validate_expiry'] = $time + 1800;//设置有效期30分钟
+//             return array('message' => '验证码发送成功！');
+//         } else {
+//             return new ecjia_error('send_code_error', __('验证码发送失败！'));
+//         }
+        
+        if (is_ecjia_error($response)) {
+        	return new ecjia_error('send_code_error', __('验证码发送失败！'));
+        }else{
+        	$time = RC_Time::gmtime();
+        	$_SESSION['merchant_validate_code'] = $code;
+        	$_SESSION['merchant_validate_mobile'] = $value;
+        	$_SESSION['merchant_validate_expiry'] = $time + 1800;//设置有效期30分钟
+        	return array('message' => '验证码发送成功！');
         }
     }
 

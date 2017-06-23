@@ -58,7 +58,7 @@ class category_module extends api_front implements api_interface {
 		if (empty($seller_id)) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
-        $cat_list = RC_DB::table('merchants_category')->selectRaw('cat_id, cat_name, parent_id')
+        $cat_list = RC_DB::table('merchants_category')->selectRaw('cat_id, cat_name, parent_id,cat_image')
         												->where('parent_id', 0)
         												->where('store_id', $seller_id)
         												->where('is_show', 1)
@@ -71,6 +71,7 @@ class category_module extends api_front implements api_interface {
         		$cat_arr[] = array(
         				'id'	=> $val['cat_id'],
         				'name'	=> $val['cat_name'],
+        		        'image' => $val['cat_image'] ? RC_Upload::upload_url($val['cat_image']) : '',
         				'children' => get_child_tree($val['cat_id']),
         		);
         	}
@@ -84,7 +85,7 @@ class category_module extends api_front implements api_interface {
 
 
 function get_child_tree($cat_id) {
-    $cat_list = RC_DB::table('merchants_category')->selectRaw('cat_id, cat_name, parent_id')
+    $cat_list = RC_DB::table('merchants_category')->selectRaw('cat_id, cat_name, parent_id, cat_image')
         												->where('parent_id', $cat_id)
         												->where('is_show', 1)
         												->orderBy('sort_order', 'asc')
@@ -95,6 +96,7 @@ function get_child_tree($cat_id) {
 			$cat_arr[] = array(
 					'id'	=> $val['cat_id'],
 					'name'	=> $val['cat_name'],
+			        'image' => $val['cat_image'] ? RC_Upload::upload_url($val['cat_image']) : '',
 				);
         	}
 	}												

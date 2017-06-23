@@ -47,55 +47,110 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 店铺街首页数据
- * @author will.chen
+ * 附近店铺列表
+ * @author hyy
  */
-class data_module extends api_front implements api_interface {
+class nearby_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-    	$this->authSession();
-		RC_Loader::load_app_func('global', 'api');
-		//流程逻辑开始
-		// runloop 流
-		$request = null;
-		$response = array();
-			
-		$response = RC_Hook::apply_filters('api_seller_home_data_runloop', $response, $request);
-	
-		//流程逻辑结束
-		return $response;
-	}
-}
 
+		$keywords = $this->requestData('keywords');
+		$location = $this->requestData('location', array());
+		$city_id	 = $this->requestData('city_id', 0);
 
-function adsense_data($response, $request) {
-	$ad_view = RC_Model::model('adsense/ad_model');
-	
-	$adsense = array(
-		'position_id'	=> ecjia::config('mobile_seller_home_adsense'),
-		'start_time'	=> array('elt' => RC_Time::gmtime()),
-		'end_time'		=> array('egt' => RC_Time::gmtime()),
-	);
-	$adsense_result = $ad_view->where($adsense)->order('ad_id')->limit(4)->select();
+		/* 获取数量 */
+		$size = $this->requestData('pagination.count', 15);
+		$page = $this->requestData('pagination.page', 1);
+		
+		$options = array(
+				'keywords'		=> $keywords,
+				'size'			=> $size,
+				'page'			=> $page,
+// 				'geohash'		=> $geohash_code,
+				'sort'			=> array('sort_order' => 'asc'),
+				'limit'			=> 'all'
+		);
 
-	$adsense_data = array();
-	if (!empty($adsense_result)) {
-		foreach ($adsense_result as $val) {
-			if (substr($val['ad_code'], 0, 4) != 'http') {
-				$val['ad_code'] = RC_Upload::upload_url($val['ad_code']);
-			}
-			$adsense_data[] = array(
-				'image'	=> $val['ad_code'],
-				'text'	=> $val['ad_name'],
-				'url'	=> $val['ad_link'],
+		/*经纬度为空判断*/
+		if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
+			$geohash      = RC_Loader::load_app_class('geohash', 'store');
+			$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
+			$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+		} else {
+			$seller_list = array();
+			$page = array(
+					'total'	=> '0',
+					'count'	=> '0',
+					'more'	=> '0',
 			);
+			return array('data' => $seller_list, 'pager' => $page);
 		}
-	}
+		
+		if (empty($options['store_id'])) {
+			$options['store_id'] = array(0);
+		}
+		
+		$store_data = RC_Api::api('store', 'store_list', $options);
+		$seller_list = array();
+		if (!empty($store_data['seller_list'])) {
+			$collect_store_id = RC_DB::table('collect_store')->where('user_id', $_SESSION['user_id'])->lists('store_id');
 
-	$response['adsense'] = $adsense_data;
-	return $response;
+			foreach ($store_data['seller_list'] as $key => $row) {
+				
+				$distance = getDistance($location['latitude'], $location['longitude'], $row['location']['latitude'], $row['location']['longitude']);
+	
+				$distance_list[]	= $distance;
+				$sort_order[]	 	= $row['sort_order'];
+	
+				$seller_list[] = array(
+					'id'				=> $row['id'],
+					'seller_name'		=> $row['seller_name'],
+					'seller_category'	=> $row['seller_category'],
+					'manage_mode'		=> $row['manage_mode'],
+					'seller_logo'		=> $row['shop_logo'],
+				    'seller_notice'     => $row['seller_notice'],
+					'seller_province'   => $row['province'],
+				    'seller_city'       => $row['city'],
+				    'seller_district'   => $row['district'],
+				    'seller_address'    => $row['address'],
+					'distance'			=> $distance,
+					'label_trade_time'	=> $row['label_trade_time'],
+				);
+			}
+		}
+		array_multisort($distance_list, SORT_ASC, $sort_order, SORT_ASC, $seller_list);
+
+		$seller_list = array_slice($seller_list, ($page-1) * $size, $size);
+		
+		$page = array(
+			'total'	=> $store_data['page']->total_records,
+			'count'	=> $store_data['page']->total_records,
+			'more'	=> $store_data['page']->total_records - $page * $size >= 0 ? 1 : 0,
+		);
+
+		return array('data' => $seller_list, 'pager' => $page);
+	}
 }
 
-RC_Hook::add_filter('api_seller_home_data_runloop', 'adsense_data', 10, 2);
+/**
+ * 计算两组经纬度坐标 之间的距离
+ * @param params ：lat1 纬度1； lng1 经度1； lat2 纬度2； lng2 经度2； len_type （1:m or 2:km);
+ * @return return m or km
+ */
+function getDistance($lat1, $lng1, $lat2, $lng2, $len_type = 1, $decimal = 1) {
+	$EARTH_RADIUS = 6378.137;
+	$PI = 3.1415926;
+	$radLat1 = $lat1 * $PI / 180.0;
+	$radLat2 = $lat2 * $PI / 180.0;
+	$a = $radLat1 - $radLat2;
+	$b = ($lng1 * $PI / 180.0) - ($lng2 * $PI / 180.0);
+	$s = 2 * asin(sqrt(pow(sin($a/2),2) + cos($radLat1) * cos($radLat2) * pow(sin($b/2),2)));
+	$s = $s * $EARTH_RADIUS;
+	$s = round($s * 1000);
+	if ($len_type > 1) {
+		$s /= 1000;
+	}
+
+	return round($s, $decimal);
+}
 
 // end

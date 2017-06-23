@@ -521,7 +521,7 @@ function get_array_fields($date, $newDate, $table, $type, $dateType, $length) {
 
 //查找商家入驻文章列表
 function get_merchants_article_menu($cat_id) {
-	$sql = "select article_id, title, file_url, open_type, article_type from " .$GLOBALS['ecs']->table('article'). " where cat_id = '$cat_id' order by article_id desc";
+	$sql = "select article_id, title, file_url, article_type, article_type from " .$GLOBALS['ecs']->table('article'). " where cat_id = '$cat_id' order by article_id desc";
 	$res = $GLOBALS['db']->getAll($sql);
 	
 	$arr = array();
@@ -529,7 +529,7 @@ function get_merchants_article_menu($cat_id) {
 		$arr[$key]['article_id'] = $row['article_id'];
 		$arr[$key]['article_type'] = $row['article_type'];
 		$arr[$key]['title'] = $row['title'];
-		if ($row['open_type'] != 1) {
+		if ($row['open_type'] == 'article') {
 			$arr[$key]['url'] = build_uri('merchants', array('mid'=>$row['article_id']), $row['title']);
 		} else {
 			$arr[$key]['url'] = $row['file_url'];

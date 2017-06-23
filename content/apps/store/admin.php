@@ -258,34 +258,25 @@ class admin extends ecjia_admin {
 	            return $this->showmessage('店长账号添加失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	        }
 	        //短信发送通知
-	        $tpl_name = 'sms_jion_merchant';
-	        $tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
-	        $message = '';
-	        if (!empty($tpl)) {
-	            $this->assign('user_name', $data['responsible_person']);
-	            $this->assign('shop_name', ecjia::config('shop_name'));
-	            $this->assign('service_phone', 	ecjia::config('service_phone'));
-	            $this->assign('mobile', $data['contact_mobile']);
-	            $this->assign('password', $password);
-	            $content = $this->fetch_string($tpl['template_content']);
-	        
-	            $options = array(
-	                'mobile' 		=> $data['contact_mobile'],
-	                'msg'			=> $content,
-	                'template_id' 	=> $tpl['template_id'],
-	            );
-	            $response = RC_Api::api('sms', 'sms_send', $options);
-	            if($response !== true){
-	                $message = '通知短信发送失败，请检查。';
-	                return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-	            }
-	        };
+	        $options = array(
+        		'mobile' => $data['contact_mobile'],
+        		'event'	 => 'sms_self_merchant',
+        		'value'  =>array(
+        			'shop_name' => ecjia::config('shop_name'),
+        			'account'	=> $data['contact_mobile'],
+        			'password'	=> $password,
+        			'service_phone'=> ecjia::config('service_phone'),
+        		),
+	        );
+	        $response = RC_Api::api('sms', 'send_event_sms', $options);
+	        if (is_ecjia_error($response)) {
+	        	return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        }
 	    } else {
 	        return $this->showmessage('操作失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
 		ecjia_admin::admin_log('添加商家：'.$data['merchants_name'], 'add', 'store');
-		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,
-		    array('pjaxurl' => RC_Uri::url('store/admin/edit', array('store_id' => $store_id, 'step' => 'base'))));
+		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin/edit', array('store_id' => $store_id, 'step' => 'base'))));
 	    
 	}
 	/**
@@ -873,7 +864,10 @@ class admin extends ecjia_admin {
 		$filter['cat'] = empty($_GET['cat']) ? null : trim($_GET['cat']);
 
 		if ($filter['keywords']) {
-		    $db_store_franchisee->where('merchants_name', 'like', '%'.mysql_like_quote($filter['keywords']).'%');
+		    $db_store_franchisee->where(function ($query) use ( $filter) {
+		        $query->where('merchants_name', 'like', '%'.mysql_like_quote($filter['keywords']).'%')
+		        ->orWhere('contact_mobile', 'like', '%'.mysql_like_quote($filter['keywords']).'%');
+		    });
 		}
 		if ($filter['cat']) {
 		    if ($filter['cat'] == -1) {

@@ -47,55 +47,73 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 店铺街首页数据
- * @author will.chen
+ * 首页商品分类
+ * @author 
  */
-class data_module extends api_front implements api_interface {
+class category_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-    	$this->authSession();
-		RC_Loader::load_app_func('global', 'api');
-		//流程逻辑开始
-		// runloop 流
-		$request = null;
-		$response = array();
-			
-		$response = RC_Hook::apply_filters('api_seller_home_data_runloop', $response, $request);
+    	
+		$device	= $this->device;
+
+        $this->authSession();
+		$store_id = $this->requestData('store_id');
+		$location = $this->requestData('location', array());
 	
-		//流程逻辑结束
-		return $response;
-	}
-}
-
-
-function adsense_data($response, $request) {
-	$ad_view = RC_Model::model('adsense/ad_model');
-	
-	$adsense = array(
-		'position_id'	=> ecjia::config('mobile_seller_home_adsense'),
-		'start_time'	=> array('elt' => RC_Time::gmtime()),
-		'end_time'		=> array('egt' => RC_Time::gmtime()),
-	);
-	$adsense_result = $ad_view->where($adsense)->order('ad_id')->limit(4)->select();
-
-	$adsense_data = array();
-	if (!empty($adsense_result)) {
-		foreach ($adsense_result as $val) {
-			if (substr($val['ad_code'], 0, 4) != 'http') {
-				$val['ad_code'] = RC_Upload::upload_url($val['ad_code']);
-			}
-			$adsense_data[] = array(
-				'image'	=> $val['ad_code'],
-				'text'	=> $val['ad_name'],
-				'url'	=> $val['ad_link'],
-			);
+		if (empty($store_id)) {
+			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
-	}
 
-	$response['adsense'] = $adsense_data;
-	return $response;
+		$options = array('type' => 'seller_goods_cat', 'cat_id' => 0, 'store_id' => $store_id, 'level' => 1);
+		$cat_list = RC_Api::api('goods', 'seller_goods_category', $options);
+		
+		$out = array();
+		foreach ($cat_list as $cat) {
+		    $options_goods = array(
+		        'store_id' => $store_id,
+		        'merchant_cat_id' => $cat['cat_id'],
+		        'store_intro' => 'hot',
+		        'size' => 3,
+		        'page' => 1,
+		    );
+		    $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+		    //热销没有商品使用默认商品
+		    if (empty($goods['list'])) {
+		        $options_goods = array(
+		            'store_id' => $store_id,
+		            'merchant_cat_id' => $cat['cat_id'],
+		            'size' => 3,
+		            'page' => 1,
+		        );
+		        $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+		    }
+		    
+		    $formate_goods = array();
+		    foreach ($goods['list'] as $val) {
+		        $formate_goods[] = array(
+		            'id'                  => $val['goods_id'],
+		            'name'                      => $val['name'],
+		            'market_price'              => $val['market_price'],
+		            'shop_price'                => $val['shop_price'],
+		            'promote_price'             => $val['promote_price'],
+		            'img' => array(
+		                'thumb'   => $val['goods_img'],
+		                'url'     => $val['original_img'],
+		                'small'   => $val['goods_thumb']
+		            ),
+		        );
+	        }
+		    $out[] = array(
+		        'id' => $cat['cat_id'],
+		        'name' => $cat['cat_name'],
+		        'image' => !empty($cat['cat_image']) ? RC_Upload::upload_url($cat['cat_image']) : '',
+		        'goods' => $formate_goods,
+		    );
+		}
+// 		_dump($out,1);
+
+		return $out;
+	}
 }
 
-RC_Hook::add_filter('api_seller_home_data_runloop', 'adsense_data', 10, 2);
 
 // end

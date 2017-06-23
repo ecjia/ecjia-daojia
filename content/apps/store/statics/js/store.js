@@ -89,7 +89,7 @@
                 }else{
                     $('.form-address').addClass('error');
                 }
-                ecjia.merchant.showmessage(location);
+                ecjia.admin.showmessage(location);
             }else{
                 $('.localtion-address').removeClass('hide');
                 var map = new BMap.Map("allmap");

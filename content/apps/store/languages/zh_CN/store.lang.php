@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 
 	//主菜单
-	'store_manage'	=> '入驻商管理',
+	'store_manage'	=> '商家管理',
 
 	//子菜单
 	'store_affiliate'=> '入驻商家',

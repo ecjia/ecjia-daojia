@@ -434,30 +434,26 @@ class admin_preaudit extends ecjia_admin {
 					'introduction' 	=> '',
 				);
 				RC_DB::table('staff_user')->insertGetId($data_staff);
-
+				
 				//短信发送通知
-				$tpl_name = 'sms_jion_merchant';
-				$tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
-				$message = '';
-				if (!empty($tpl)) {
-					$this->assign('user_name', $store['responsible_person']);
-					$this->assign('shop_name', ecjia::config('shop_name'));
-					$this->assign('service_phone', 	ecjia::config('service_phone'));
-					$this->assign('mobile', $store['contact_mobile']);
-					$this->assign('password', $password);
-					$content = $this->fetch_string($tpl['template_content']);
-
-					$options = array(
-						'mobile' 		=> $store['contact_mobile'],
-						'msg'			=> $content,
-						'template_id' 	=> $tpl['template_id'],
-					);
-					$response = RC_Api::api('sms', 'sms_send', $options);
-					if($response !== true){
-					    $message = '通知短信发送失败，请检查。';
-					}
-				};
-
+				$options = array(
+					'mobile' => $store['contact_mobile'],
+					'event'	 => 'sms_jion_merchant',
+					'value'  =>array(
+						'user_name' =>$store['responsible_person'],
+						'shop_name' => ecjia::config('shop_name'),
+						'account'	=> $store['contact_mobile'],
+						'password'	=> $password,
+						'service_phone'=> ecjia::config('service_phone'),
+					),
+				);
+				$response = RC_Api::api('sms', 'send_event_sms', $options);
+				if (is_ecjia_error($response)) {
+					return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}
+				
+				
+				
 				//审核通过，修改所有日志storeid type
 				RC_DB::table('store_check_log')->where('store_id', $id)->where('type', 1)->update(array('store_id' => $store_id, 'type' => 2));
 				$log = array(
