@@ -69,7 +69,7 @@ class cron_method extends PluginModel
      */
     public function getInstalledPlugins()
     {
-        return ecjia_config::instance()->get_addon_config('cron_plugins', true, true);
+        return ecjia_config::getAddonConfig('cron_plugins', true);
     }
     
     /**
