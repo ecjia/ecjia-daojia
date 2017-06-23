@@ -73,7 +73,6 @@ class admin_commission extends ecjia_admin {
 		RC_Script::enqueue_script('store', RC_App::apps_url('statics/js/store.js', __FILE__));
 		RC_Script::enqueue_script('commission_info', RC_App::apps_url('statics/js/commission.js' , __FILE__));
 		
-		RC_Loader::load_app_func('admin_ecmoban', 'store');
 		RC_Loader::load_app_func('admin_order', 'store');
 
 // 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('佣金结算'),RC_Uri::url('store/admin_commission/init')));
