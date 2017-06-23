@@ -73,7 +73,7 @@ class AlterSmsSendlistTable extends Migration {
 		    $table->string('sign_name', 20)->nullable()->comment('短信签名')->after('template_id');
 		    $table->string('msgid', 30)->nullable()->comment('短信厂商的消息ID')->after('last_send');
 		    $table->string('channel_code', 60)->nullable()->comment('短信渠道代码')->after('msgid');
-		    $table->string('last_error_message', 255)->comment('最后一次错误消息')->after('priority');
+		    $table->string('last_error_message', 255)->nullable()->comment('最后一次错误消息')->after('priority');
 		    
 		    $table->index('channel_code', 'channel_code');
 		    $table->index('priority', 'priority');
