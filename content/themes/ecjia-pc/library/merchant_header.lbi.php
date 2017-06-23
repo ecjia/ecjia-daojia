@@ -23,7 +23,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                     </div>
                     <div class="score-val" data-val="{$shop_info.comment_rank}"></div>
                     <div class="store-info">
-                       <span>营业时间： {$shop_info.trade_time.start} - {$shop_info.trade_time.end}</span>
+                       <span>营业时间： {$shop_info.trade_time}</span>
                         {if $shop_info.business_status eq 1}
                              <div class="business-status">营业中</div>
                          {else if $shop_info.business_status eq 0}

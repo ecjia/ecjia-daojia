@@ -450,7 +450,14 @@ class merchant_controller {
             			if ($vals['code'] == 'shop_trade_time') {
             				if (!empty($vals['value'])) {
             					$shop_time = unserialize($vals['value']);
-            					$store_list[$key]['shop_trade_time'] = implode('--', $shop_time);
+            					
+            					//处理营业时间格式例：7:00--次日5:30
+            					$start = $shop_time['start'];
+            					$end = explode(':', $shop_time['end']);
+            					if ($end[0] > 24) {
+            						$end[0] = '次日'. ($end[0] - 24);
+            					}
+            					$store_list[$key]['shop_trade_time'] = $start . '--' . $end[0] . ':' . $end[1];
             				}
             			}
             		}

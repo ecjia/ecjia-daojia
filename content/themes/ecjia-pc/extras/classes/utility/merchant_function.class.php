@@ -116,19 +116,23 @@ class merchant_function {
                 $shop_hours = unserialize($outward['trade_time']);
                 $now_time = time();
                 if (!empty($shop_hours)) {
-                    foreach ($shop_hours as $key => $val) {
-                        if ($key == 'start') {
-                            $start_time = strtotime($val);
-                        } else if ($key == 'end') {
-                            $end_time = strtotime($val);
-                        }
-                    }
+                    $start_time = strtotime($shop_hours['start']);
+                    $end_time = strtotime($shop_hours['end']);
                     //0为不营业，1为营业
                     if ($start_time < $now_time && $now_time < $end_time) {
                         $business_status = 1;
                     } else {
                         $business_status = 0;
                     }
+                    //处理营业时间格式例：7:00--次日5:30
+                    $start = $shop_hours['start'];
+                    $end = explode(':', $shop_hours['end']);
+                    if ($end[0] > 24) {
+                    	$end[0] = '次日'. ($end[0] - 24);
+                    }
+                    $shop_hours = $start . '--' . $end[0] . ':' . $end[1];
+                } else {
+                	$shop_hours = '暂未设置';
                 }
             }
             if ($val['code'] == 'shop_kf_mobile') {
