@@ -75,6 +75,12 @@ class bonus_bonus_type_list_api extends Component_Event_Api {
 			$where['send_start_date']	= array('elt' => $time);
 			$where['send_end_date']	= array('egt' => $time);
 		}
+		/* 在使用时间范围内*/
+		if ($options['type'] == 'allow_use') {
+			$time	= RC_Time::gmtime();
+			$where['use_start_date']	= array('elt' => $time);
+			$where['use_end_date']	= array('egt' => $time);
+		}
 		//红包发放类型，0按用户发放，1按商品，2按订单金额，3线下
 		if ($options['send_type'] == 'user') {
 			$where['send_type']	= 0;

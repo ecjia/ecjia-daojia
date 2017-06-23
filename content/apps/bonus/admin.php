@@ -187,9 +187,9 @@ class admin extends ecjia_admin {
 			return $this->showmessage(RC_Lang::get('bonus::bonus.type_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$send_startdate = !empty($_POST['send_start_date']) ? RC_Time::local_strtotime($_POST['send_start_date']) 	: '';
-		$send_enddate   = !empty($_POST['send_end_date']) 	? RC_Time::local_strtotime($_POST['send_end_date']) 	: '';
+		$send_enddate   = !empty($_POST['send_end_date']) 	? RC_Time::local_strtotime($_POST['send_end_date']) + 86399 : '';
 		$use_startdate  = !empty($_POST['use_start_date']) 	? RC_Time::local_strtotime($_POST['use_start_date']) 	: '';
-		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date']) 		: '';
+		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date']) + 86399	: '';
 		
 		if ($send_type != 0 && $send_type != 3) {
 			if (empty($send_startdate)) {
@@ -287,10 +287,10 @@ class admin extends ecjia_admin {
 		}
 	
 		$send_startdate = !empty($_POST['send_start_date']) ? RC_Time::local_strtotime($_POST['send_start_date'])	: 0;
-		$send_enddate   = !empty($_POST['send_end_date']) 	? RC_Time::local_strtotime($_POST['send_end_date'])		: 0;
+		$send_enddate   = !empty($_POST['send_end_date']) 	? RC_Time::local_strtotime($_POST['send_end_date']) + 86399	: 0;
 		$use_startdate  = !empty($_POST['use_start_date']) 	? RC_Time::local_strtotime($_POST['use_start_date'])	: 0;
-		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date'])		: 0;
-
+		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date']) + 86399	: 0;
+		
 		$type_id     = !empty($_POST['type_id'])    ? intval($_POST['type_id'])    : 0;
 		$min_amount  = !empty($_POST['min_amount']) ? intval($_POST['min_amount']) : 0;
 		
