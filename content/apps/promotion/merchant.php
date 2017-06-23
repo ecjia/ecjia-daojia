@@ -299,7 +299,7 @@ class merchant extends ecjia_merchant {
 	 * @return void
 	 */
 	private function promotion_list($type = '') {
-		$filter['keywords'] 			= empty($_GET['keywords']) 	? '' : stripslashes(trim($_GET['keywords']));
+		$filter['keywords'] = empty($_GET['keywords']) 	? '' : stripslashes(trim($_GET['keywords']));
 		
 		$db_goods = RC_DB::table('goods as g');
 		
