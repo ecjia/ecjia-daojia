@@ -126,9 +126,9 @@ class cron_auto_manage extends cron_abstract
                 }
             } else {
                 if ($up) {
-                    RC_DB::table('article')->whereRaw($where)->update(array('is_open' => 1));
+                    RC_DB::table('article')->whereRaw($where)->update(array('article_approved' => 1));
                 } else {
-                    RC_DB::table('article')->whereRaw($where)->update(array('is_open' => 0));
+                    RC_DB::table('article')->whereRaw($where)->update(array('article_approved' => 0));
                 }
             }
             if ($del) {
