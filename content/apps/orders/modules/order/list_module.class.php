@@ -59,6 +59,7 @@ class list_module extends api_front implements api_interface {
     	}
 		
 		$type = $this->requestData('type');
+		$store_id = $this->requestData('store_id', 0);
 		if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed', 'whole', 'allow_comment'))) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 		}
@@ -69,7 +70,7 @@ class list_module extends api_front implements api_interface {
 		$keywords = trim($keywords);
 		
 		$type = $type == 'whole' ? '' : $type;
-		$options = array('type' => $type, 'page' => $page, 'size' => $size, 'keywords'=> $keywords);
+		$options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords'=> $keywords);
 		$result = RC_Api::api('orders', 'order_list', $options);
 		if (is_ecjia_error($result)) {
 			return $result;

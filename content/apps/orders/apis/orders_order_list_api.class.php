@@ -67,8 +67,9 @@ class orders_order_list_api extends Component_Event_Api {
         $size = $options['size'];
         $page = $options['page'];
         $keywords = $options['keywords'];
-
-        $orders = $this->user_orders_list($user_id, $type, $page, $size, $keywords);
+        $store_id = $options['store_id'];
+        
+        $orders = $this->user_orders_list($user_id, $type, $page, $size, $keywords, $store_id);
 
         return $orders;
     }
@@ -82,7 +83,7 @@ class orders_order_list_api extends Component_Event_Api {
      * @param   int         $start          列表起始位置
      * @return  array       $order_list     订单列表
      */
-    private function user_orders_list($user_id, $type = '', $page = 1, $size = 15, $keywords = '') {
+    private function user_orders_list($user_id, $type = '', $page = 1, $size = 15, $keywords = '', $store_id) {
         /**
          * await_pay 待付款
          * await_ship 待发货
@@ -114,7 +115,13 @@ class orders_order_list_api extends Component_Event_Api {
         );
 
         RC_Loader::load_app_class('order_list', 'orders', false);
-        $where = array('oi.user_id' => $user_id, 'oi.is_delete' => 0);
+        $where = array();
+        $where['oi.user_id'] = $user_id;
+        $where['oi.is_delete'] = 0;
+        if ($store_id > 0) {
+        	$where['oi.store_id'] = $store_id;
+        }
+               
         if (!empty($keywords)) {
             $where[] = "((og.goods_name LIKE '%" . $keywords ."%') or (oi.order_sn LIKE '%" . $keywords ."%'))";
         }
