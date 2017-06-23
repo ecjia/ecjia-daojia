@@ -54,6 +54,7 @@ return array(
 	'Ecjia\App\Mobile' => $contentDir . '/apps/mobile/classes',
 	'Ecjia\App\Wechat' => $contentDir . '/apps/wechat/classes',
 	'Ecjia\App\Article' => $contentDir . '/apps/article/classes',
+	'Ecjia\App\Sms' => $contentDir . '/apps/sms/classes',
 );
 
 //end

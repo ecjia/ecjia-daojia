@@ -148,7 +148,9 @@ return array(
 	'seller/collect/create'        => 'store::seller/collect/create',
 	'seller/collect/delete'	       => 'store::seller/collect/delete',
 	'merchant/config'              => 'store::merchant/config',
-	'merchant/home/data'           => 'store::merchant/home/data',
+	'merchant/home/data'           => 'store::merchant/home/data',//1.6内容修改，1.5内容转移到merchant/config
+    'merchant/home/category'       => 'store::merchant/home/category',//1.6新增
+    'merchant/nearby'              => 'store::merchant/nearby',//1.6新增
 	'merchant/goods/category'      => 'store::merchant/goods/category',
 	'merchant/goods/list'          => 'store::merchant/goods/list',
 	'merchant/goods/suggestlist'   => 'store::merchant/goods/suggestlist',
@@ -378,7 +380,16 @@ return array(
     'admin/express/user/info'		=> 'express::express/user/info',         //1.5新增
     'admin/express/user/checkin'    => 'express::express/user/checkin',      //1.5新增
     
-    
+	'article/category'				=> 'article::article/category',			 //1.6
+	'article/list'					=> 'article::article/list',				 //1.6
+	'article/suggestlist'			=> 'article::article/suggestlist',		 //1.6
+	'article/comment/create'		=> 'article::article/comment/create',	 //1.6
+	'article/comments'				=> 'article::article/comment/comments',	 //1.6
+	'article/like/add'				=> 'article::article/like/like_manage',  //1.6
+	'article/like/cancel'			=> 'article::article/like/like_manage',  //1.6
+	'article/detail'				=> 'article::article/detail',  			 //1.6
+	'article/home/cycleimage'		=> 'article::article/home/cycleimage',   //1.6
+	
     
     /** 1.0 已经废弃
      * article 
@@ -393,6 +404,9 @@ return array(
      */
 
     
+		
+		
+		
     
     
 );

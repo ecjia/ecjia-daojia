@@ -55,6 +55,8 @@ return array(
     'Royalcms\Component\UEditor\UEditorServiceProvider',
     'Royalcms\Component\QrCode\QrCodeServiceProvider',
     'Royalcms\Component\Repository\RepositoryServiceProvider',
+    'Royalcms\Component\Sms\SmsServiceProvider',
+    'Royalcms\Component\Alidayu\AlidayuServiceProvider',
     'Royalcms\Component\WeChat\WeChatServiceProvider',
     'Royalcms\Component\WeChat\Menu\MenuServiceProvider',
     'Royalcms\Component\WeChat\User\UserServiceProvider',
