@@ -81,7 +81,11 @@ class update_module extends api_front implements api_interface {
 		$address['best_time']     = isset($address['best_time']) ? trim($address['best_time']) : '';
 		$address['default']       = (isset($address['set_default']) && $address['set_default'] == 'true') ? 1 : 0;
 		$address['sign_building'] = isset($address['sign_building']) ? trim($address['sign_building']) : '';
-		$address['tel'] 		  = isset($address['tel']) ? trim($address['tel']) : '';
+		$address['tel'] 		  = isset($address['tel']) ? trim($address['tel']) : '';		
+		//兼容小程序传参
+		if (!empty($address['wx_address'])) {
+			$address['address'] = trim($address['wx_address']);
+		}
 		
 		$address['province']	  = RC_Model::model('user/region_model')->where(array('region_id' => $address['city']))->get_field('parent_id');
 		$address['country']		  = RC_Model::model('user/region_model')->where(array('region_id' => $address['province']))->get_field('parent_id');

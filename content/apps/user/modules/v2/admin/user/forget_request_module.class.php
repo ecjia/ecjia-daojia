@@ -123,36 +123,64 @@ class forget_request_module extends api_admin implements api_interface {
 	
 	        if (!empty($user_id)) {
 	            $code      = rand(111111, 999999);
-	            $tpl_name  = 'sms_get_password';
-	            $tpl       = RC_Api::api('sms', 'sms_template', $tpl_name);
-	            if (!empty($tpl)) {
-	                $this->assign('code', $code);
-	                $this->assign('mobile', $mobile);
-	                $this->assign('service_phone', 	ecjia::config('service_phone'));
-	                $content = $this->fetch_string($tpl['template_content']);
-	                $options = array(
-	                    'mobile' 		=> $mobile,
-	                    'msg'			=> $content,
-	                    'template_id' 	=> $tpl['template_id'],
-	                );
-	                $response = RC_Api::api('sms', 'sms_send', $options);
+// 	            $tpl_name  = 'sms_get_password';
+// 	            $tpl       = RC_Api::api('sms', 'sms_template', $tpl_name);
+// 	            if (!empty($tpl)) {
+// 	                $this->assign('code', $code);
+// 	                $this->assign('mobile', $mobile);
+// 	                $this->assign('service_phone', 	ecjia::config('service_phone'));
+// 	                $content = $this->fetch_string($tpl['template_content']);
+// 	                $options = array(
+// 	                    'mobile' 		=> $mobile,
+// 	                    'msg'			=> $content,
+// 	                    'template_id' 	=> $tpl['template_id'],
+// 	                );
+// 	                $response = RC_Api::api('sms', 'sms_send', $options);
 	                 
-	                if($response === true) {
-	                    $_SESSION['user_id'] 	    = $user_id;
-	                    $_SESSION['temp_code'] 	    = $code;
-	                    $_SESSION['temp_code_time'] = RC_Time::gmtime();
-	                    $data = array(
-	                        'uid' => $user_id,
-	                        'sid' => RC_Session::session_id(),
-	                    );
+// 	                if($response === true) {
+// 	                    $_SESSION['user_id'] 	    = $user_id;
+// 	                    $_SESSION['temp_code'] 	    = $code;
+// 	                    $_SESSION['temp_code_time'] = RC_Time::gmtime();
+// 	                    $data = array(
+// 	                        'uid' => $user_id,
+// 	                        'sid' => RC_Session::session_id(),
+// 	                    );
 	                     
-	                    return $data;
-	                } else {
-	                    return $response;
-	                }
-	            } else {
-	                return new ecjia_error('sms_tpl_error', __('短信模板错误'));
+// 	                    return $data;
+// 	                } else {
+// 	                    return $response;
+// 	                }
+// 	            } else {
+// 	                return new ecjia_error('sms_tpl_error', __('短信模板错误'));
+// 	            }
+
+	            
+	            
+	            $options = array(
+            		'mobile' => $mobile,
+            		'event'	 => 'sms_get_validate',
+            		'value'  =>array(
+            				'code' 			=> $code,
+            				'service_phone' => ecjia::config('service_phone'),
+            		),
+	            );
+	            $response = RC_Api::api('sms', 'send_event_sms', $options);
+	            if (is_ecjia_error($response)) {
+	            	return $response;
+	            }else{
+            		$_SESSION['user_id'] 	    = $user_id;
+                    $_SESSION['temp_code'] 	    = $code;
+                    $_SESSION['temp_code_time'] = RC_Time::gmtime();
+                    $data = array(
+                        'uid' => $user_id,
+                        'sid' => RC_Session::session_id(),
+                    );
+                     
+                    return $data;
 	            }
+	            
+	            
+	            
 	        } else {
 	            /* 提示信息 */
 	            return new ecjia_error('userinfo_error', __('用户不存在！'));

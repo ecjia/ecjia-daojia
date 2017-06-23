@@ -158,33 +158,55 @@ class get_password extends ecjia_front {
 		} elseif ($type == 'mobile') {
 			$result = ecjia_app::validate_application('sms');
 			if (!is_ecjia_error($result)) {
+				
+				
 				//发送短信
-				$tpl_name = 'sms_get_validate';
-				$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
+// 				$tpl_name = 'sms_get_validate';
+// 				$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
 				$code = rand(111111, 999999);
 				
-				ecjia_front::$controller->assign('mobile', $username);
-				ecjia_front::$controller->assign('service_phone', ecjia::config('service_phone'));
-				ecjia_front::$controller->assign('code', $code);
-				ecjia_front::$controller->assign('action', '短信找回密码');
+// 				ecjia_front::$controller->assign('mobile', $username);
+// 				ecjia_front::$controller->assign('service_phone', ecjia::config('service_phone'));
+// 				ecjia_front::$controller->assign('code', $code);
+// 				ecjia_front::$controller->assign('action', '短信找回密码');
 				
-				$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
+// 				$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
 				
+// 				$options = array(
+// 					'mobile' 		=> $username,
+// 					'msg'			=> $content,
+// 					'template_id' 	=> $tpl['template_id'],
+// 				);
+// 				$response = RC_Api::api('sms', 'sms_send', $options);
+// 				if (!is_ecjia_error($result)) {
+// 					$_SESSION['temp_code'] = $code;
+// 					$_SESSION['temp_code_time'] = RC_Time::gmtime();
+// 					$user_email = '请输入<font style="color:#f00;">'.$username.'</font>收到的手机校验码。';
+// 					$this->assign('email_msg', $user_email);
+// 					$this->assign('type', $type);
+// 					$this->assign('action', 'reset_pwd_mail');
+// 					$this->display('forget_password.dwt');
+// 				} else {
+// 					if ($captcha->check_activation_captcha()) {
+// 						$captcha_url =  $captcha->current_captcha_url();
+// 						$this->assign('captcha_url', $captcha_url);
+// 					}
+// 					$this->assign('error_msg', __("短信发送失败！"));
+// 					$this->assign('type', $type);
+// 					$this->assign('action', 'forget_pwd');
+// 					$this->display('forget_password.dwt');
+// 				}
+
 				$options = array(
-					'mobile' 		=> $username,
-					'msg'			=> $content,
-					'template_id' 	=> $tpl['template_id'],
+					'mobile' => $username,
+					'event'	 => 'sms_get_validate',
+					'value'  =>array(
+						'code' 			=> $code,
+						'service_phone' => ecjia::config('service_phone'),
+					),
 				);
-				$response = RC_Api::api('sms', 'sms_send', $options);
-				if (!is_ecjia_error($result)) {
-					$_SESSION['temp_code'] = $code;
-					$_SESSION['temp_code_time'] = RC_Time::gmtime();
-					$user_email = '请输入<font style="color:#f00;">'.$username.'</font>收到的手机校验码。';
-					$this->assign('email_msg', $user_email);
-					$this->assign('type', $type);
-					$this->assign('action', 'reset_pwd_mail');
-					$this->display('forget_password.dwt');
-				} else {
+				$response = RC_Api::api('sms', 'send_event_sms', $options);
+				if (is_ecjia_error($response)) {
 					if ($captcha->check_activation_captcha()) {
 						$captcha_url =  $captcha->current_captcha_url();
 						$this->assign('captcha_url', $captcha_url);
@@ -193,7 +215,19 @@ class get_password extends ecjia_front {
 					$this->assign('type', $type);
 					$this->assign('action', 'forget_pwd');
 					$this->display('forget_password.dwt');
+				}else{
+					$_SESSION['temp_code'] = $code;
+					$_SESSION['temp_code_time'] = RC_Time::gmtime();
+					$user_email = '请输入<font style="color:#f00;">'.$username.'</font>收到的手机校验码。';
+					$this->assign('email_msg', $user_email);
+					$this->assign('type', $type);
+					$this->assign('action', 'reset_pwd_mail');
+					$this->display('forget_password.dwt');
 				}
+				
+				
+				
+				
 			}
 		}
 	}
@@ -276,28 +310,48 @@ class get_password extends ecjia_front {
 		} else {
 			$result = ecjia_app::validate_application('sms');
 			if (!is_ecjia_error($result)) {
+				
+				
 				//发送短信
-				$tpl_name = 'sms_get_validate';
-				$tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
+// 				$tpl_name = 'sms_get_validate';
+// 				$tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
 				$code = rand(111111, 999999);
 			
-				ecjia_front::$controller->assign('mobile', $user_name);
-				ecjia_front::$controller->assign('service_phone', ecjia::config('service_phone'));
-				ecjia_front::$controller->assign('code', $code);
-				ecjia_front::$controller->assign('action', '短信找回密码');
+// 				ecjia_front::$controller->assign('mobile', $user_name);
+// 				ecjia_front::$controller->assign('service_phone', ecjia::config('service_phone'));
+// 				ecjia_front::$controller->assign('code', $code);
+// 				ecjia_front::$controller->assign('action', '短信找回密码');
 			
-				$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
+// 				$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
 					
-				$options = array(
-					'mobile' 		=> $user_name,
-					'msg'			=> $content,
-					'template_id' 	=> $tpl['template_id'],
-				);
-				$response = RC_Api::api('sms', 'sms_send', $options);
+// 				$options = array(
+// 					'mobile' 		=> $user_name,
+// 					'msg'			=> $content,
+// 					'template_id' 	=> $tpl['template_id'],
+// 				);
+// 				$response = RC_Api::api('sms', 'sms_send', $options);
 				if (!is_ecjia_error($result)) {
 					$_SESSION['temp_code'] = $code;
 					$_SESSION['temp_code_time'] = RC_Time::gmtime();
 				} 
+				
+				$options = array(
+					'mobile' => $user_name,
+					'event'	 => 'sms_get_validate',
+					'value'  =>array(
+						'code' 			=> $code,
+						'service_phone' => ecjia::config('service_phone'),
+					),
+				);
+				$response = RC_Api::api('sms', 'send_event_sms', $options);
+				if (is_ecjia_error($response)) {
+					return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				}else{
+					$_SESSION['temp_code'] = $code;
+					$_SESSION['temp_code_time'] = RC_Time::gmtime();
+				}
+				
+				
 			}
 		}
 	}

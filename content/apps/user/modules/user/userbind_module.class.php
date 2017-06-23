@@ -77,28 +77,47 @@ class userbind_module extends api_front implements api_interface {
 		}
 		
 		if ($type == 'mobile') {
+			
+			
+			
 			//发送短信
-			$tpl_name = 'sms_get_validate';
-			$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
-			/* 判断短信模板是否存在*/
-			if (empty($tpl)) {
-			    return new ecjia_error('sms_tpl_error', '短信模板错误');
-			}
-			ecjia_api::$controller->assign('code', $code);
-			ecjia_api::$controller->assign('mobile', $value);
-			ecjia_api::$controller->assign('shopname', ecjia::config('shop_name'));
-			ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
-			$time = RC_Time::gmtime();
-			ecjia_api::$controller->assign('time', RC_Time::local_date(ecjia::config('date_format'), $time));
+// 			$tpl_name = 'sms_get_validate';
+// 			$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
+// 			/* 判断短信模板是否存在*/
+// 			if (empty($tpl)) {
+// 			    return new ecjia_error('sms_tpl_error', '短信模板错误');
+// 			}
+// 			ecjia_api::$controller->assign('code', $code);
+// 			ecjia_api::$controller->assign('mobile', $value);
+// 			ecjia_api::$controller->assign('shopname', ecjia::config('shop_name'));
+// 			ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
+// 			$time = RC_Time::gmtime();
+// 			ecjia_api::$controller->assign('time', RC_Time::local_date(ecjia::config('date_format'), $time));
 			
-			$content = ecjia_api::$controller->fetch_string($tpl['template_content']);
+// 			$content = ecjia_api::$controller->fetch_string($tpl['template_content']);
+// 			$options = array(
+// 				'mobile' 		=> $value,
+// 				'msg'			=> $content,
+// 				'template_id' 	=> $tpl['template_id'],
+// 			);
+			
+// 			$response = RC_Api::api('sms', 'sms_send', $options);
+			
+			
+			
+			
 			$options = array(
-				'mobile' 		=> $value,
-				'msg'			=> $content,
-				'template_id' 	=> $tpl['template_id'],
+					'mobile' => $value,
+					'event'	 => 'sms_get_validate',
+					'value'  =>array(
+							'code' 			=> $code,
+							'service_phone' => ecjia::config('service_phone'),
+					),
 			);
+			$response = RC_Api::api('sms', 'send_event_sms', $options);
 			
-			$response = RC_Api::api('sms', 'sms_send', $options);
+			
+			
 			
 			if ($response === true) {
 				$_SESSION['bind_code']         = $code;

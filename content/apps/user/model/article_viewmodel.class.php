@@ -57,7 +57,7 @@ class article_viewmodel extends Component_Model_View {
 			'article_cat' => array(
 				'type'  =>	Component_Model_View::TYPE_LEFT_JOIN,
 				'alias' => 	'ac',
-				'field' => 	'a.article_id, a.title, ac.cat_name, a.add_time, a.file_url, a.open_type, ac.cat_id, ac.cat_name',
+				'field' => 	'a.article_id, a.title, ac.cat_name, a.add_time, a.file_url, a.article_type, ac.cat_id, ac.cat_name',
 				'on'    => 	'ac.cat_id  = a.cat_id',
 			),
 			'comment' => array(

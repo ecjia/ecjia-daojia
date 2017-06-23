@@ -673,6 +673,28 @@ function EM_user_info($user_id) {
 	$db_collect_goods  = RC_Model::model('goods/collect_goods_model');
 	$db_user_rank      = RC_Model::model('user/user_rank_model');
 	$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
+	$db_orderinfo_view->view = array(
+	    'order_goods' => array(
+	        'type'      =>    Component_Model_View::TYPE_LEFT_JOIN,
+	        'alias'     =>    'og',
+	        'on'        =>    'oi.order_id = og.order_id ',
+	    ),
+	    'goods' => array(
+	        'type'      => Component_Model_View::TYPE_LEFT_JOIN,
+	        'alias'     => 'g',
+	        'on'        => 'og.goods_id = g.goods_id'
+	    ),
+	    'store_franchisee' => array(
+	        'type'      => Component_Model_View::TYPE_LEFT_JOIN,
+	        'alias'     => 'ssi',
+	        'on'        => 'oi.store_id = ssi.store_id'
+	    ),
+	    'comment' => array(
+	        'type'      => Component_Model_View::TYPE_LEFT_JOIN,
+	        'alias'     => 'c',
+	        'on'        => 'c.id_value = og.goods_id and c.rec_id = og.rec_id and c.order_id = oi.order_id and c.comment_type = 0 and c.parent_id = 0'
+	    ),
+	);
 	
 	RC_Loader::load_app_func('admin_order', 'orders');
 	$user_info      = user_info($user_id);
@@ -681,6 +703,7 @@ function EM_user_info($user_id) {
 	$await_ship     = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('await_ship', 'oi.')))->count('*');
 	$shipped        = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('shipped', 'oi.')))->count('*');
 	$finished       = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('finished', 'oi.')))->count('*');
+	$allow_comment_count = $db_orderinfo_view->join(array('order_goods', 'goods', 'comment'))->where(array('oi.user_id' => $user_id, 'oi.shipping_status' => SS_RECEIVED, 'oi.order_status' => array(OS_CONFIRMED, OS_SPLITED), 'oi.pay_status' => array(PS_PAYED, PS_PAYING), 'c.comment_id is null'))->count('DISTINCT oi.order_id');
 	/* 取得用户等级 */
 	if ($user_info['user_rank'] == 0) {
 		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
@@ -734,7 +757,8 @@ function EM_user_info($user_id) {
 			'await_pay' 	=> $await_pay,
 			'await_ship' 	=> $await_ship,
 			'shipped' 		=> $shipped,
-			'finished' 		=> $finished
+			'finished' 		=> $finished,
+		    'allow_comment'	=> $allow_comment_count,
 		),
 		'formated_user_money' 	=> price_format($user_info['user_money'], false),
 		'user_points' 			=> $user_info['pay_points'],
