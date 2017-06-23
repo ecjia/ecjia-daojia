@@ -97,9 +97,9 @@ class cart_controller {
     }
     
     public static function update_cart() {
+    	$url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+    	$referer_url = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url)));
     	if (!ecjia_touch_user::singleton()->isSignin()) {
-    		$url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
-    		$referer_url = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url)));
     		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
     	}
     	 
@@ -132,6 +132,9 @@ class cart_controller {
     		$arr['is_checked'] = $checked;
     		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_CHECKED)->data($arr)->run();
     		if (is_ecjia_error($data)) {
+    			if ($data->get_error_message() == 'Invalid session') {
+    				return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+    			}
     			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
     	} else {
@@ -166,6 +169,9 @@ class cart_controller {
     				}
     			}
     			if (is_ecjia_error($data)) {
+    				if ($data->get_error_message() == 'Invalid session') {
+    					return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+    				}
     				return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     			}
     		}

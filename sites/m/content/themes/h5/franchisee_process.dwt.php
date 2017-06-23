@@ -17,9 +17,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-address-list">
     <div class="franchisee-process-hint"> 
         {if $check_status eq '3'}
-            <img src="{$theme_url}/images/user_center/f_failed.png" width="100" height="100">
+            <img src="{$theme_url}images/user_center/f_failed.png" width="100" height="100">
         {else}
-            <img src="{$theme_url}/images/user_center/f_process.png" width="100" height="100">
+            <img src="{$theme_url}images/user_center/f_process.png" width="100" height="100">
         {/if}
         <p>
         {if $check_status eq '0'}
@@ -38,16 +38,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <hr /><br />
         <div class="progress-img">
         {if $check_status eq '0'}
-            <img src="{$theme_url}/images/user_center/f_progress0.png"> 
+            <img src="{$theme_url}images/user_center/f_progress0.png"> 
             <p><span class="ecjiaf-fl left10">审核已提交</span><span class="gfont">审核中</span><span class="ecjiaf-fr right10 gfont">审核完成</span></p>
         {elseif $check_status eq '1'}
-            <img src="{$theme_url}/images/user_center/f_progress1.png">
+            <img src="{$theme_url}images/user_center/f_progress1.png">
             <p><span class="ecjiaf-fl left10">审核已提交</span><span>审核中</span><span class="ecjiaf-fr right10 gfont">审核完成</span></p>
         {elseif $check_status eq '2'}
-            <img src="{$theme_url}/images/user_center/f_progress2.png">
+            <img src="{$theme_url}images/user_center/f_progress2.png">
             <p><span class="ecjiaf-fl left10">审核已提交</span><span>审核中</span><span class="ecjiaf-fr right10">审核完成</span></p>
         {elseif $check_status eq '3'}
-            <img src="{$theme_url}/images/user_center/f_progress2.png">
+            <img src="{$theme_url}images/user_center/f_progress2.png">
             <p><span class="ecjiaf-fl left10">审核已提交</span><span>审核中</span><span class="ecjiaf-fr right10">审核完成</span></p>
         {/if}
             

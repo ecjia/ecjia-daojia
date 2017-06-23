@@ -27,11 +27,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<div class="a4t">
 					<div class="a4u a4u-green">
 						<div class="a4v">
-							{if $address_id gt 0}
-								{$address_info.address}
-							{else}
-								{$smarty.cookies.location_name}
-							{/if}
+							<div class="a4v-address">
+								{if $address_id gt 0}
+									{$address_info.address}
+								{else}
+									{$smarty.cookies.location_name}
+								{/if}
+							</div>
 							<i>(当前位置)</i>
 						</div>
 					</div>

@@ -241,7 +241,7 @@ class merchant_controller {
 
 			if (!is_ecjia_error($comments)) {
 				list($data, $page) = $comments;
-				if ($page['more'] == 0) $is_last = 1;
+				if (isset($page['more']) && $page['more'] == 0) $is_last = 1;
 			
 				ecjia_front::$controller->assign('comment_list', $data);
 				ecjia_front::$controller->assign('comment_number', $data['comment_number']);
@@ -271,7 +271,7 @@ class merchant_controller {
     	
     	if (!is_ecjia_error($comments)) {
     		list($data, $page) = $comments;
-    		if ($page['more'] == 0) $is_last = 1;
+    		if (isset($page['more']) && $page['more'] == 0) $is_last = 1;
     	
     		ecjia_front::$controller->assign('comment', $data['list']);
     		$say_list = ecjia_front::$controller->fetch('merchant_comment.dwt');
@@ -428,7 +428,7 @@ class merchant_controller {
 
 		ecjia_front::$controller->assign('goods_list', $goods_list);
 		$say_list = ecjia_front::$controller->fetch('library/merchant_goods.lbi');
-		if ($page['more'] == 0) $data['is_last'] = 1;
+		if (isset($page['more']) && $page['more'] == 0) $data['is_last'] = 1;
 		
 		$response = array(
 			'list' 			=> $say_list, 

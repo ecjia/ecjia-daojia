@@ -364,7 +364,6 @@ var releated_goods = {$releated_goods};
                 <div class="a5m single"></div>
             </div>
         </div>
-        <div style="height:50px;"></div>
     </div>
 </div>
 <!-- 遮罩层 -->

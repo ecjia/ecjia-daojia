@@ -150,7 +150,7 @@ class touch_controller {
 	        	list($data, $paginated) = $response;
 	        	$data = merchant_function::format_distance($data);
 	        
-	        	if ($paginated['more'] == 0) $is_last = 1;
+	        	if (isset($paginated['more']) && $paginated['more'] == 0) $is_last = 1;
 	        	ecjia_front::$controller->assign('data', $data);
 	        	ecjia_front::$controller->assign('is_last', $is_last);
 	        }
@@ -181,8 +181,8 @@ class touch_controller {
         	ecjia_front::$controller->assign_lang();
         	$sayList = ecjia_front::$controller->fetch('index.dwt');
         	
-        	if ($paginated['more'] == 0) $data['is_last'] = 1;
-        	return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));
+        	if (isset($paginated['more']) && $paginated['more'] == 0) $data['is_last'] = 1;
+        	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));
         }
     }
 
@@ -211,8 +211,8 @@ class touch_controller {
     		if (!empty($data)) {
     			$sayList = ecjia_front::$controller->fetch('library/suggest_store.lbi');
     		}
-    		if ($paginated['more'] == 0) $data['is_last'] = 1;
-    		return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));
+    		if (isset($paginated['more']) && $paginated['more'] == 0) $data['is_last'] = 1;
+    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));
     	}
     }
     

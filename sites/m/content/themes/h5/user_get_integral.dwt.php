@@ -25,7 +25,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     	</a>
 	</div>
     <div class="ecjia-margin-b">
-    	<a href="{url path='user/order/order_list'}">
+    	<a href="{url path='user/order/order_list' args='type=allow_comment'}">
             <div class="qrcode_image">
                 <img src="{$theme_url}images/wallet/540x200_5.png">
             </div>

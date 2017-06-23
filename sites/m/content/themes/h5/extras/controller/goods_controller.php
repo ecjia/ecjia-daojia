@@ -305,7 +305,7 @@ class goods_controller {
 		
 	   	if (!is_ecjia_error($comments)) {
 	   		list($data, $page) = $comments;
-	   		if ($page['more'] == 0) $is_last = 1;
+	   		if (isset($page['more']) && $page['more'] == 0) $is_last = 1;
 
 	   		ecjia_front::$controller->assign('comment_list', $data);
 	   		ecjia_front::$controller->assign('is_last', $is_last);
@@ -335,8 +335,8 @@ class goods_controller {
     	
     	if (!is_ecjia_error($comments)) {
     		list($data, $page) = $comments;
-    		if ($page['more'] == 0) $is_last = 1;
-    	
+    		if (isset($page['more']) && $page['more'] == 0) $is_last = 1;
+
     		$say_list = '';
     		if (!empty($data['list'])){
     			ecjia_front::$controller->assign('comment', $data['list']);
@@ -391,7 +391,7 @@ class goods_controller {
         	
         	$sayList = ecjia_front::$controller->fetch($dwt);
         	
-        	if ($page['more'] == 0) $goods_list['is_last'] = 1;
+        	if (isset($page['more']) && $page['more'] == 0) $goods_list['is_last'] = 1;
         	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $goods_list['is_last']));
         }
     }
@@ -567,7 +567,7 @@ class goods_controller {
     		}
     	}
 
-    	if ($page['more'] == 0) $data['is_last'] = 1;
+    	if (isset($page['more']) && $page['more'] == 0) $data['is_last'] = 1;
     	ecjia_front::$controller->assign('is_last', $data['is_last']);
     	
     	if (isset($page['total']) && $page['total'] == 0) {
@@ -612,7 +612,7 @@ class goods_controller {
     			ecjia_front::$controller->assign('data', $arr_list);
     			$say_list = ecjia_front::$controller->fetch('seller_list.dwt');
     			
-    			if ($page['more'] == 0) $data['is_last'] = 1;
+    			if (isset($page['more']) && $page['more'] == 0) $data['is_last'] = 1;
     			return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $data['is_last']));
     		}
     	}

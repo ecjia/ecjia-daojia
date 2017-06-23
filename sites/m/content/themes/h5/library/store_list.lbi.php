@@ -54,7 +54,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	                        <span class="goods-image"><img src="{$goods.img.small}"></span>
 	                        <p>
 	                            {$goods.name}
-	                            <label class="price">{$goods.shop_price}</label>
+	                            <label class="price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</label>
 	                        </p>
 	                    </li>
                     </a>

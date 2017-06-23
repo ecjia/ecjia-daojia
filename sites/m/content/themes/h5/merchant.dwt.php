@@ -169,7 +169,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<div class="a5m single"></div>
 			</div>
 		</div>
-		<div style="height:50px;"></div>
 	</div>
 </div>
 <!-- 遮罩层 -->

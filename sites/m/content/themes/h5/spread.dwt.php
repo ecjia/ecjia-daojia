@@ -35,7 +35,7 @@ ecjia.touch.spread.init();
 		<textarea class="invite-template-style" name="invite_template">{$invite_user.invite_template}</textarea>
 	</div>
 	<div class="go-to-spread">
-		<a class="show_spread_share"><div class="would-spread">我要推广</div></a>
+		<a class="show_spread_share nopjax external" href="javascript:;"><div class="would-spread">我要推广</div></a>
 	</div>
 	
 	<div class="ecjia-my-reward">

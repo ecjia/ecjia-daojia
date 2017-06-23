@@ -1,4 +1,3 @@
-{nocache}
 <!-- {block name="ajaxinfo"} -->
 	<!-- 异步推荐店铺列表 start-->
 	<!-- {foreach from=$data item=val} -->
@@ -52,4 +51,3 @@
 	<!-- {/foreach} -->
 	<!-- 异步推荐店铺列表end -->
 <!-- {/block} -->
-{/nocache}

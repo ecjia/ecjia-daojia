@@ -14,7 +14,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<img class="pic" src="{$goods.img.small}">
 		<dl>
 			<dt>{$goods.name}</dt>
-			<dd><label>{$goods.shop_price}</label></dd>
+			<dd><label>{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</label></dd>
 		</dl>
 	</a>
 	{if $goods.specification}

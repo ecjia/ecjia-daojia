@@ -243,9 +243,10 @@
 						size: $this.attr('data-size'),
 						page: $this.attr('data-page'),
 						type: $this.attr('data-type'),
+						color: $this.attr('data-color')
 					};
 				ecjia.touch.more(options);
-				$loader = $('<a class="load-list" href="javascript:;"><div class="loaders"><div class="loader"><div class="loader-inner ball-pulse"><div></div><div></div><div></div></div></div></div></a>');
+				$loader = $('<a class="load-list" style="background-color:'+options.color+'" href="javascript:;"><div class="loaders"><div class="loader"><div class="loader-inner ball-pulse"><div></div><div></div><div></div></div></div></div></a>');
 				if ($this.parent().find('.load-list').length == 0) {
 					$this.after($loader);
 				}
@@ -273,9 +274,13 @@
 				options = $.extend({}, defaults, options),
 				scroll_list = function() {
 					if (!options.lock && ($(window).scrollTop() > $(document).height() - $(window).height() - options.offset)) {
+						var area_class = options.areaClass;
+						options.areaClass = options.areaClass.replace(new RegExp(' ', 'gm'), '.'); //替换空格为点，多个class
 						if ($('.' + options.areaClass).parent().find('.is-last').length != 0) {
 							return false;
 						}
+						options.areaClass = area_class;
+						
 						options.lock = true;
 						ecjia.touch.load_list(options);
 						options.page++;
@@ -612,12 +617,24 @@
 				var val = $('input[name="keywords"]').val().trim(),
 					url = $('.ecjia-form').attr('action'),
 					form = $('.ecjia-form');
-				if (!val) {
-					$("#keywordBox").blur();
-					return false;
+				
+				var is_order_list = $('input[name="keywords"]').attr("data-type");
+				if (is_order_list) {
+					if (!val) {
+//						ecjia.pjax(url);
+						return false;
+					} else {
+						ecjia.pjax(url + '&keywords=' + val);
+						return false;
+					}
 				} else {
-					ecjia.pjax(url + '&keywords=' + val);
-					return false;
+					if (!val) {
+						$("#keywordBox").blur();
+						return false;
+					} else {
+						ecjia.pjax(url + '&keywords=' + val);
+						return false;
+					}
 				}
 			});
 			$('.search-goods').off('click').on('click', function() {
@@ -690,15 +707,15 @@
 	};
 	
 	//微信浏览器后退pjax刷新
-//	var ua = navigator.userAgent.toLowerCase();
-//	if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/ECJiaBrowse/i) == "ecjiabrowse") {
-//		window.addEventListener("popstate", function(e) { 
-//			if (e.state.url != undefined) {
-//				ecjia.pjax(e.state.url);
-//				return false;
-//			}
-//		}, false); 
-//	}
+	var ua = navigator.userAgent.toLowerCase();
+	if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/ECJiaBrowse/i) == "ecjiabrowse") {
+		window.addEventListener("popstate", function(e) { 
+			if (e.state.url != undefined) {
+				ecjia.pjax(e.state.url);
+				return false;
+			}
+		}, false); 
+	}
 
 	//PJAX跳转执行
 	$(document).on('pjax:complete', function() {
@@ -712,8 +729,7 @@
 
 	//PJAX开始
 	$(document).on('pjax:start', function() {
-		sessionStorage.removeItem('swiper');
-		
+		ecjia.touch.index.removeItem();
 		ecjia.touch.pjaxloadding();
 		if (window.releated_goods != undefined && window.releated_goods.length != 0) {
 			window.releated = $.extend({}, window.releated_goods);

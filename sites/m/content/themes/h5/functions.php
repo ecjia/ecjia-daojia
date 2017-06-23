@@ -86,6 +86,13 @@ RC_Hook::add_action('article/help/init', array('article_controller', 'init'));
 RC_Hook::add_action('article/help/detail', array('article_controller', 'detail'));
 RC_Hook::add_action('article/shop/detail', array('article_controller', 'shop_detail'));
 
+RC_Hook::add_action('article/index/init', array('article_controller', 'article_index'));	//发现首页
+RC_Hook::add_action('article/index/detail', array('article_controller', 'article_detail'));	//发现文章详情
+RC_Hook::add_action('article/index/ajax_article_list', array('article_controller', 'ajax_article_list'));//获取分类下的文章
+RC_Hook::add_action('article/index/add_comment', array('article_controller', 'add_comment'));//获取分类下的文章
+RC_Hook::add_action('article/index/ajax_comment_list', array('article_controller', 'ajax_comment_list'));//获取文章评论列表
+RC_Hook::add_action('article/index/like_article', array('article_controller', 'like_article'));//文章点赞/取消点赞
+
 //购物车
 RC_Loader::load_theme('extras/controller/cart_controller.php');
 RC_Hook::add_action('cart/index/init', array('cart_controller', 'init'));
@@ -129,8 +136,6 @@ RC_Hook::add_action('franchisee/index/location', array('franchisee_controller', 
 RC_Hook::add_action('franchisee/index/location_finish', array('franchisee_controller', 'location_finish'));//提交店铺精确位置
 RC_Hook::add_action('franchisee/index/get_region', array('franchisee_controller', 'get_region'));//提交店铺精确位置
 
-
-
 //登陆注册
 RC_Loader::load_theme('extras/controller/user_privilege_controller.php');
 RC_Hook::add_action('user/privilege/login', array('user_privilege_controller', 'login'));
@@ -164,7 +169,6 @@ RC_Hook::add_action('user/account/record_cancel', array('user_account_controller
 //用户收货地址
 RC_Loader::load_theme('extras/controller/user_address_controller.php');
 RC_Hook::add_action('user/address/address_list', array('user_address_controller', 'address_list'));
-RC_Hook::add_action('user/address/async_address_list', array('user_address_controller', 'async_address_list'));
 RC_Hook::add_action('user/address/add_address', array('user_address_controller', 'add_address'));
 RC_Hook::add_action('user/address/insert_address', array('user_address_controller', 'insert_address'));
 RC_Hook::add_action('user/address/edit_address', array('user_address_controller', 'edit_address'));
@@ -218,7 +222,8 @@ RC_Hook::add_action('connect/index/bind_signin', array('connect_controller', 'bi
 RC_Hook::add_action('connect/index/bind_signin_do', array('connect_controller', 'bind_signin_do'));
 RC_Hook::add_action('connect/index/bind_login', array('connect_controller', 'bind_login'));
 
-
+RC_Loader::load_theme('extras/controller/mobile_controller.php');
+RC_Hook::add_action('mobile/discover/init', array('mobile_controller', 'init'));//百宝箱
 
 /**
  * step：3
@@ -343,6 +348,12 @@ ecjia_open::macro('seller', function($querys) {
 });
 ecjia_open::macro('user_bonus', function($querys) {
     return RC_Uri::url('user/bonus/init', array('type' => $querys['type']));
+});
+ecjia_open::macro('user_address', function() {
+	return RC_Uri::url('user/address/address_list');
+});
+ecjia_open::macro('help', function() {
+	return RC_Uri::url('article/help/init');
 });
 
 /**

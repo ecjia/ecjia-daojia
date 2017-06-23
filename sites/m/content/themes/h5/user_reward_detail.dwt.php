@@ -54,6 +54,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<span class="icon-price-red ecjiaf-fr">{$record.give_reward}</span>
         <span class="record-time">{$record.reward_time}</span>
     </li>
-	<!-- {/foreach} -->
+   	<!-- {foreachelse} -->
+	<div class="ecjia-nolist">
+		<div class="img-noreward">暂无奖励</div>
+	</div>
+    <!-- {/foreach} -->
 <!-- {/block} -->
 {/nocache}

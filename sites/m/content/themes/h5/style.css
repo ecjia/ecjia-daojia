@@ -330,9 +330,9 @@ a.load-list{
 	border-left-color: #fafafa;
 }
 /*加载动画*/
-.la-ball-atom{color:#47AA4D;}
+.la-ball-atom{color:#47aa4d;}
 .la-ball-atom.la-dark{color:#333}
-.la-ball-atom>div:nth-child(1){background:#47AA4D;}
+.la-ball-atom>div:nth-child(1){background:#47aa4d;}
 @-webkit-keyframes ball-atom-color{50%{color:#d29cdb}}
 @-moz-keyframes ball-atom-color{50%{color:#d29cdb}}
 @-o-keyframes ball-atom-color{50%{color:#d29cdb}}

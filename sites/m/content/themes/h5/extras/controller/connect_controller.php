@@ -287,13 +287,18 @@ class connect_controller {
         $new_user = array(
             'connect_code' => 'sns_wechat',
             'user_id' => $user_info['ect_uid'],
-            'is_admin' => 0,
             'open_id' => empty($user_info['unionid']) ? $user_info['openid'] : $user_info['unionid'],
             'profile' => serialize($wechat_info),
-            'create_at' => RC_Time::gmtime()
         );
         
-        RC_DB::table('connect_user')->insert($new_user);
+        if (RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('open_id', $new_user['open_id'])->count()) {
+            RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('open_id', $new_user['open_id'])->update($new_user);
+        } else {
+            $new_user['is_admin'] = 0;
+            $new_user['create_at'] = RC_Time::gmtime();
+            RC_DB::table('connect_user')->insert($new_user);
+        }
+        
         if ($wechat_info['ect_uid']) {
             RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $wechat_info['headimgurl'], 'user_id' => $wechat_info['ect_uid']));
         }

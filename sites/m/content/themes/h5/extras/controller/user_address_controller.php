@@ -110,22 +110,6 @@ class user_address_controller {
     	}
     }
 
-    /**
-     * 异步地址列表
-     */
-    public static function async_address_list() {
-        $user_id = $_SESSION['user_id'];
-        $size = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
-        $page = intval($_GET['page']) ? intval($_GET['page']) : 1;
-    	
-        $address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => ecjia_touch_user::singleton()->getToken()))->run();
-        $address_list = is_ecjia_error($address_list) ? array() : $address_list;
-		ecjia_front::$controller->assign('address_list', $address_list);
-
-		$sayList = ecjia_front::$controller->fetch('user_address_list.dwt');
-        return ecjia_front::$controller->showmessage('success', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList,'page' , 'is_last' => $consignee_list['is_last']));
-    }
-    
     public static function save_temp_data ($is_return = 0, $data_key, $is_clear, $options = array()) {
         if (isset($_GET['city'])) {
             $options['tem_city_name'] = $_GET['city'];

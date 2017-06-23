@@ -16,28 +16,28 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <form class="ecjia-address-list" name="theForm" action="{$form_action}" method="post">
 	<div class="form-group form-group-text">
 		<label class="input">
-			<span class="ecjiaf-fl"><img src="{$theme_url}/images/user_center/f_name.png" width="30" height="30"></span>
+			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_name.png" width="30" height="30"></span>
 			<input style="padding-left: 3.5em;" name="f_name" placeholder="{t}请输入真实姓名{/t}" type="text"  value=""  />
 		</label>
 	</div>
 	
 	<div class="form-group form-group-text">
 		<label class="input">
-			<span class="ecjiaf-fl"><img src="{$theme_url}/images/user_center/f_email.png" width="30" height="30"></span>
+			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_email.png" width="30" height="30"></span>
 			<input style="padding-left: 3.5em;" name="f_email" placeholder="{t}请输入电子邮箱 {/t}" type="email"  value=""  />
 		</label>
 	</div>
 	
 	<div class="form-group form-group-text">
 		<label class="input">
-			<span class="ecjiaf-fl"><img src="{$theme_url}/images/user_center/f_mobile.png" width="30" height="30"></span>
+			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_mobile.png" width="30" height="30"></span>
 			<input style="padding-left: 3.5em;" name="f_mobile" placeholder="{t}请输入手机号码 {/t}" type="tel" value=""  />
 		</label>
 	</div>
 	
 	<div class="form-group form-group-text">
 		<label class="input">
-			<span class="ecjiaf-fl"><img src="{$theme_url}/images/user_center/f_code.png" width="30" height="30"></span>
+			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_code.png" width="30" height="30"></span>
 			<input style="padding-left: 3.5em;" name="f_code" placeholder="{t}请输入验证码{/t}" type="tel" value=""   />
 			<input type="button" class="btn btn-small btn-info settled-message" name="message" value="{$lang.return_verification}" data-url="{url path='franchisee/index/validate'}" id="get_code" />
 		</label>

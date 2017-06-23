@@ -67,7 +67,7 @@ var releated_goods = {$releated_goods};
 								<span class="goods-image"><img src="{$goods.img.small}"></span>
 								<p>
 									{$goods.name}
-									<label class="price">{$goods.shop_price}</label>
+									<label class="price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</label>
 								</p>
 							</li>
 							</a>
@@ -93,7 +93,7 @@ var releated_goods = {$releated_goods};
 				<img class="pic" src="{$val.img.small}">
 				<dl>
 					<dt>{$val.name}</dt>
-					<dd><label>{$val.shop_price}</label></dd>
+					<dd><label>{if $val.promote_price}{$val.promote_price}{else}{$val.shop_price}{/if}</label></dd>
 				</dl>
 			</a>
 			<div class="box" id="goods_{$val.id}">
@@ -215,7 +215,6 @@ var releated_goods = {$releated_goods};
 				<div class="a5m single"></div>
 			</div>
 		</div>
-		<div style="height:50px;"></div>
 	</div>
 </div>
 <!-- 遮罩层 -->
@@ -234,7 +233,7 @@ var releated_goods = {$releated_goods};
 			<dl>
 				<dt>{$val.name}</dt>
 				<dd></dd>
-				<dd><label>{$val.shop_price}</label></dd>
+				<dd><label>{if $val.promote_price}{$val.promote_price}{else}{$val.shop_price}{/if}</label></dd>
 			</dl>
 		</a>
 		<div class="box" id="goods_{$val.id}">
