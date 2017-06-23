@@ -47,7 +47,7 @@
 							<div class="ms-container" id="ms-custom-navigation">
 								<div class="ms-selectable">
 									<div class="search-header">
-										<input class="span12" id="ms-search" type="text" placeholder="筛选搜索到的广告位信息" autocomplete="off">
+										<input class="span12" id="ms-search" type="text" placeholder="筛选搜索到的广告位信息" autocomplete="off" />
 									</div>
 									<ul class="ms-list nav-list-ready">
 										<!-- {foreach from=$opt item=link_position} -->

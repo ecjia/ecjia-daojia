@@ -1,0 +1,117 @@
+.setting-group-title {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #555;
+	font-weight: 400;
+    font-size: 15px;
+    background: #e7e7e7;
+	border-radius: 4px; 
+}
+.setting-group-item {
+    position: relative;
+    display: block;
+    padding: 5px 15px;
+    color: #555;
+	border-radius:4px;
+}
+.setting-group-item.llv-active, .setting-group-item.llv-active:focus, .setting-group-item.llv-active:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.setting-group a:hover {
+    color: #555;
+    text-decoration: inherit;
+    background-color: #f2f2f2;
+	border-radius: 4px; 
+}
+.change > li > a {
+    display: block;
+    padding: 5px 15px;
+    position: relative;
+}
+.nav > li > a:hover {
+   background-color: #e7e7e7;
+}
+
+
+
+.wookmark .bd {
+    height: 200px;
+    line-height: 50px;
+}
+.wookmark .thumbnail {
+    width: 30%;
+	margin-right: 3%;
+}
+.group_info{
+ 	border-bottom: 1px solid #d9d9d9;
+    height: 52px;
+    line-height: 20px;
+    margin-top: 2px;
+    padding: 5px;
+    text-align: left;
+}
+.group_middle{
+	height:98px;
+	text-align: left;  
+	line-height:20px;  
+	padding:5px; 
+}
+.group_checkin{
+	background: #f6f7fb;
+	height:50px;
+	border-top:1px solid #d9d9d9;
+}
+.add_content{
+	padding-top:39px;
+}
+.add_content img{
+	margin-top:5px;
+}
+.label-info{
+ 	cursor: default;
+    float: right;
+    font-size: 11px;
+    margin-right: 8px;
+    margin-top: 9px;
+    padding: 4px 8px;
+}
+
+.ecjiafc-gray, .ecjiafc-gray:hover, .ecjiafc-gray:after, 
+table .fontello-icon-cancel, table .fontello-icon-trash,
+.error_color{
+	color:#000000;
+}
+
+/*
+
+*/
+.position_detail h4 {
+    color: #000000;
+	margin-bottom:20px;
+	margin-top:10px;
+}
+.position_detail{
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.position_detail ul li{
+	margin-top:10px;
+    color:#d6d6d6;
+}
+.position_detail .detail{
+	 color:#000;
+}
+.detail strong{
+	 margin-left:10px;
+}
+.detail span{
+	 margin-left:15px;
+}

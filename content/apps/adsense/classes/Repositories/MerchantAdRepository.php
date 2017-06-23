@@ -50,9 +50,9 @@ namespace Ecjia\App\Adsense\Repositories;
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
 use Ecjia\App\Adsense\Client;
 
-class AdRepository extends AbstractRepository
+class MerchantAdRepository extends AbstractRepository
 {
-    protected $model = 'Ecjia\App\Adsense\Models\AdModel';
+    protected $model = 'Ecjia\App\Adsense\Models\MerchantAdModel';
     
     protected $orderBy = ['sort_order' => 'asc'];
     

@@ -431,6 +431,7 @@ class admin extends ecjia_admin {
 			$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
 		}
 		$position_id = intval($_POST['position_id']);
+		
 		$show_client_value = intval($_POST['show_client_value']);
 	
 		$old_enabled = RC_DB::TABLE('ad')->where('ad_id', $id)->pluck('enabled');

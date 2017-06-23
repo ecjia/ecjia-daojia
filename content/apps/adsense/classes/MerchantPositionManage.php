@@ -46,25 +46,19 @@
 //
 namespace Ecjia\App\Adsense;
 
-use Ecjia\App\Adsense\Repositories\CycleImageRepository;
-use Ecjia\App\Adsense\Repositories\AdPositionRepository;
-use Ecjia\App\Adsense\Repositories\AdGroupRepository;
-use Ecjia\App\Adsense\Repositories\ShortcutMenuRepository;
+use Ecjia\App\Adsense\Repositories\MerchantCycleImageRepository;
+use Ecjia\App\Adsense\Repositories\MerchantAdPositionRepository;
+use Ecjia\App\Adsense\Repositories\MerchantAdGroupRepository;
+use Ecjia\App\Adsense\Repositories\MerchantShortcutMenuRepository;
 
-class PositionManage
+class MerchantPositionManage
 {
     
     protected $type;
     
-    protected $city;
-        
-    
-    
-    
-    public function __construct($type, $city)
+    public function __construct($type)
     {
         $this->type = $type;
-        $this->city = $city;
     }
     
     
@@ -73,20 +67,20 @@ class PositionManage
     
         if ($this->type == 'cycleimage') {
             
-            $repository = new CycleImageRepository();
-            return $repository->getAllGroups($this->city);
+            $repository = new MerchantCycleImageRepository();
+            return $repository->getAllGroups();
             
         } elseif($this->type == 'adsense'){
-        	$repository = new AdPositionRepository();
-        	return $repository->getAllGroups($this->city, $orderBy);
+        	$repository = new MerchantAdPositionRepository();
+        	return $repository->getAllGroups($orderBy);
         	
         } elseif($this->type == 'group'){
-        	$repository = new AdGroupRepository();
-        	return $repository->getAllGroups($this->city);
+        	$repository = new MerchantAdGroupRepository();
+        	return $repository->getAllGroups();
         	
         }elseif($this->type == 'shortcut'){
-        	$repository = new ShortcutMenuRepository();
-        	return $repository->getAllGroups($this->city);
+        	$repository = new MerchantShortcutMenuRepository();
+        	return $repository->getAllGroups();
         	
         }
         
@@ -99,19 +93,19 @@ class PositionManage
      * @param integer $client
      * @return array
      */
-    public function findAdByCode($code, $client)
+    public function findAdByCode($code, $client, $store_id)
     {
         if ($this->type == 'cycleimage') {
             
-            $repository = new CycleImageRepository();
+            $repository = new MerchantCycleImageRepository();
             $where = [
                 'position_code' => $code,
-                'city_id'   => $this->city,
                 'type'  => $this->type,
+                'store_id' => $store_id,
             ];
             
             $model = $repository->findWhereByFirst($where, ['position_id', 'max_number']);
-           
+            
             if (is_null($model)) {
                 return [];
             }
@@ -130,11 +124,11 @@ class PositionManage
         }
         if ($this->type == 'shortcut') {
         
-            $repository = new ShortcutMenuRepository();
+            $repository = new MerchantShortcutMenuRepository();
             $where = [
                 'position_code' => $code,
-                'city_id'   => $this->city,
                 'type'  => $this->type,
+                'store_id' => $store_id,
                 ];
         
             $model = $repository->findWhereByFirst($where, ['position_id', 'max_number']);
@@ -146,7 +140,6 @@ class PositionManage
             $adsModel = $model->ads();
             $adsModel->where('show_client', '&', $client);
             $adsModel->where('enabled', 1);
-            $adsModel->orderBy('sort_order', 'asc');
         
             if ($model->max_number) {
                 $adsModel->take($model->max_number);
@@ -157,11 +150,11 @@ class PositionManage
             return $result->toArray();
         }
         elseif ($this->type == 'adsense') {
-            $repository = new AdPositionRepository();
+            $repository = new MerchantAdPositionRepository();
             $where = [
                 'position_code' => $code,
-                'city_id'   => $this->city,
                 'type'  => $this->type,
+                'store_id' => $store_id,
             ];
             
             $model = $repository->findWhereByFirst($where, ['position_id', 'max_number']);
@@ -186,15 +179,15 @@ class PositionManage
             return $result->toArray();
         }
         elseif ($this->type == 'group') {
-            $repository = new AdGroupRepository();
+            $repository = new MerchantAdGroupRepository();
             $where = [
                 'position_code' => $code,
-                'city_id'   => $this->city,
                 'type'  => $this->type,
+                'store_id' => $store_id,
             ];
             
             $model = $repository->findWhereByFirst($where, ['position_id', 'position_code', 'position_name']);
-             
+            
             if (is_null($model)) {
                 return [];
             }
@@ -218,7 +211,7 @@ class PositionManage
                 
                 $result = $adsModel->get(['ad_id', 'ad_name', 'ad_code', 'ad_link', 'start_time', 'end_time', 'sort_order']);
                 
-                $result = \RC_Hook::apply_filters('filter_adsense_group_data', $result->toArray());
+                $result = \RC_Hook::apply_filters('filter_merchant_adsense_group_data', $result->toArray());
                 
                 return ['title' => $item->position_desc, 'adsense' => $result];
             });

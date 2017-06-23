@@ -74,7 +74,6 @@ class admin_position extends ecjia_admin {
 		RC_Script::enqueue_script('adsense', RC_App::apps_url('statics/js/adsense.js', __FILE__));
 		RC_Style::enqueue_style('adsense', RC_App::apps_url('statics/styles/adsense.css', __FILE__), array());
 		
-		RC_Style::enqueue_style('adsense', RC_App::apps_url('statics/styles/adsense.css', __FILE__), array());
 		$js_lang = array(
 			'position_name_required' => RC_Lang::get('adsense::adsense.position_name_required'),
 			'ad_width_required' => RC_Lang::get('adsense::adsense.ad_width_required'),
@@ -358,7 +357,7 @@ class admin_position extends ecjia_admin {
 				return $this->showmessage(RC_Lang::get('adsense::adsense.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_position/init')));
 			}
 		} else {
-			return $this->showmessage(RC_Lang::get('adsense::adsense.ad_name_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage('请输入广告位名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -371,16 +370,13 @@ class admin_position extends ecjia_admin {
 		$id    = intval($_POST['pk']);
 		$sort_order   = intval($_POST['value']);
 		$city_id      = intval($_GET['city_id']);
-		$show_client  = intval($_GET['show_client']);
-		 
 		RC_DB::table('ad_position')->where('position_id', $id)->update(array('sort_order'=> $sort_order));
 		$group_position_id  = intval($_GET['group_position_id']);
 		if($group_position_id){
 			return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_group/group_position_list', array('position_id' => $group_position_id, 'city_id' => $city_id))));
 		}else{
-			return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_position/init', array('position_id' => $id, 'city_id' => $city_id, 'show_client' => $show_client))));
+			return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_position/init', array('position_id' => $id, 'city_id' => $city_id))));
 		}
-		
 	}
 
 	/**

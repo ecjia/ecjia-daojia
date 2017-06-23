@@ -9,7 +9,7 @@
 					url = $this.attr('data-href');
 					var city_id = $("#city_id option:selected").val();
 					var position_name = $("input[name='position_name']").val();
-					var position_desc = $("#position_desc").val()
+					var position_desc = $("#position_desc").val();
 					var max_number = $("input[name='max_number']").val();
 					var sort_order = $("input[name='sort_order']").val();
 					var ad_width = $("input[name='ad_width']").val();
