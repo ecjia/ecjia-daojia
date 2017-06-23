@@ -566,11 +566,11 @@ class admin_customer extends ecjia_admin {
 		
 		if (!empty($list)) {
 			foreach ($list as $k => $v) {
-				if ($v['kf_headimgurl']) {
+				if (!empty($v['kf_headimgurl'])) {
 					if ((strpos($v['kf_headimgurl'], 'http://') === false) && (strpos($v['kf_headimgurl'], 'https://') === false)) {
 						$list[$k]['kf_headimgurl'] = RC_Upload::upload_url().'/'.$v['kf_headimgurl'];
 					} else {
-						$list[$k]['kf_headimgurl'] = $v['kf_headimgurl'];
+						$list[$k]['kf_headimgurl'] = is_ssl() ? str_replace('http://', 'https://', $v['kf_headimgurl']) : $v['kf_headimgurl'];
 					}
 				} else {
 					$list[$k]['kf_headimgurl'] = RC_Uri::admin_url('statics/images/nopic.png');
@@ -634,7 +634,7 @@ class admin_customer extends ecjia_admin {
 					$data['invite_wx']			= !empty($v['invite_wx']) 			? $v['invite_wx'] 			: '';
 					$data['invite_expire_time']	= !empty($v['invite_expire_time']) 	? $v['invite_expire_time'] 	: 0;
 					$data['invite_status']		= !empty($v['invite_status']) 		? $v['invite_status'] 		: '';
-					$data['kf_headimgurl'] 		= $v['kf_headimgurl'];
+					$data['kf_headimgurl'] 		= is_ssl() && !empty($v['kf_headimgurl']) ? str_replace('http://', 'https://', $v['kf_headimgurl']) : $v['kf_headimgurl'];
 					
 					//微信端存在头像 删除本地头像
 					if (!empty($data['kf_headimgurl'])) {
@@ -652,13 +652,14 @@ class admin_customer extends ecjia_admin {
 					$data['kf_account'] 	= $v['kf_account'];
 					$data['kf_nick'] 		= $v['kf_nick'];
 					$data['kf_wx']			= !empty($v['kf_wx']) ? $v['kf_wx'] : '';
-					$data['kf_headimgurl'] 	= $v['kf_headimgurl'];
+					$data['kf_headimgurl'] 	= is_ssl() && !empty($v['kf_headimgurl']) ? str_replace('http://', 'https://', $v['kf_headimgurl']) : $v['kf_headimgurl'];
 					$data['wechat_id'] 		= $wechat_id;
 					$data['status'] 		= 1;
 						
 					$data['invite_wx']			= !empty($v['invite_wx']) 			? $v['invite_wx'] 			: '';
 					$data['invite_expire_time']	= !empty($v['invite_expire_time']) 	? $v['invite_expire_time'] 	: 0;
 					$data['invite_status']		= !empty($v['invite_status']) 		? $v['invite_status'] 		: '';
+
 					$this->db_customer->insert($data);
 				}
 			}
