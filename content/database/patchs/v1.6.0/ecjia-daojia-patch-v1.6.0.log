@@ -232,11 +232,12 @@ M	content/apps/staff/mh_log.php
 M	content/apps/staff/mh_profile.php
 M	content/apps/stats/apis/stats_merchant_menu_api.class.php
 M	content/apps/store/admin.php
+M	content/apps/store/admin_commission.php
 M	content/apps/store/admin_preaudit.php
 M	content/apps/store/apis/store_admin_menu_api.class.php
 M	content/apps/store/apis/store_store_list_api.class.php
 M	content/apps/store/classes/hooks/admin_store.class.php
-M	content/apps/store/functions/admin_ecmoban.func.php
+D	content/apps/store/functions/admin_ecmoban.func.php
 M	content/apps/store/languages/zh_CN/store.lang.php
 M	content/apps/store/modules/admin/merchant/validate_module.class.php
 M	content/apps/store/modules/home/data_module.class.php
