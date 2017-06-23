@@ -187,7 +187,7 @@
 										<a class="data-pjax" href='{url path="goods/mh_gallery/init" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.tab_gallery'}</a>&nbsp;|&nbsp;
 										<a class="data-pjax" href='{url path="goods/merchant/edit_link_goods" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.tab_linkgoods'}</a>&nbsp;|&nbsp;
 <!-- 										<a class="data-pjax" href='{url path="goods/merchant/edit_link_parts" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.tab_groupgoods'}</a>&nbsp;|&nbsp; -->
-<!-- 										<a class="data-pjax" href='{url path="goods/merchant/edit_link_article" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.tab_article'}</a>&nbsp;|&nbsp; -->
+										<a class="data-pjax" href='{url path="goods/merchant/edit_link_article" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.tab_article'}</a>&nbsp;|&nbsp;
 										<a target="_blank" href='{url path="goods/merchant/preview" args="id={$goods.goods_id}"}'>{lang key='goods::goods.preview'}</a>&nbsp;|&nbsp;
 										{if $specifications[$goods.goods_type] neq ''}<a target="_blank" href='{url path="goods/merchant/product_list" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.product_list'}</a>&nbsp;|&nbsp;{/if}
 										<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.trash_goods_confirm'}" href='{url path="goods/merchant/remove" args="id={$goods.goods_id}"}'>{lang key='system::system.drop'}</a>

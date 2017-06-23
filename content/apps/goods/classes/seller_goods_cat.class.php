@@ -57,7 +57,7 @@ class seller_goods_cat {
      */
     function get_children($options) {
     	$cat_list =  RC_Api::api('goods', 'seller_goods_category', $options);
-        return 'g.seller_cat_id ' .self::db_create_in (array_unique(array_merge(array($options['cat_id']), array_keys($cat_list))));
+        return 'g.merchant_cat_id ' .self::db_create_in (array_unique(array_merge(array($options['cat_id']), array_keys($cat_list))));
     }
     
     /**

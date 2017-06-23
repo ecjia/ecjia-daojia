@@ -74,6 +74,7 @@ class admin extends ecjia_admin {
 		$this->db_goods 			= RC_Model::model('goods/goods_model');
 		$this->db_group_goods 		= RC_Model::model('goods/group_goods_model');
 		$this->db_goods_article 	= RC_Model::model('goods/goods_article_model');
+		$this->db_goods_goods_article 	= RC_Model::model('goods/goods_goods_article_model');
 		$this->db_goods_attr 		= RC_Model::model('goods/goods_attr_model');
 		$this->db_goods_attr_view 	= RC_Model::model('goods/goods_attr_viewmodel');
 		$this->db_goods_cat 		= RC_Model::model('goods/goods_cat_model');
@@ -1864,33 +1865,33 @@ class admin extends ecjia_admin {
 	/**
 	* 关联文章
 	*/
-// 	public function edit_link_article() {
-// 		$this->admin_priv('goods_update', ecjia::MSGTYPE_JSON);
+	public function edit_link_article() {
+		$this->admin_priv('goods_update', ecjia::MSGTYPE_JSON);
 		
-// 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.goods_list'), RC_Uri::url('goods/admin/init')));
-// 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.edit_link_article')));
-// 		ecjia_screen::get_current_screen()->add_help_tab(array(
-// 			'id'		=> 'overview',
-// 			'title'		=> RC_Lang::get('goods::goods.overview'),
-// 			'content'	=> '<p>' . RC_Lang::get('goods::goods.edit_link_article_help') . '</p>'
-// 		));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.goods_list'), RC_Uri::url('goods/admin/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.edit_link_article')));
+		ecjia_screen::get_current_screen()->add_help_tab(array(
+			'id'		=> 'overview',
+			'title'		=> RC_Lang::get('goods::goods.overview'),
+			'content'	=> '<p>' . RC_Lang::get('goods::goods.edit_link_article_help') . '</p>'
+		));
 		
-// 		ecjia_screen::get_current_screen()->set_help_sidebar(
-// 			'<p><strong>' . RC_Lang::get('goods::goods.more_info') . '</strong></p>' .
-// 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.85.B3.E8.81.94.E6.96.87.E7.AB.A0" target="_blank">'. RC_Lang::get('goods::goods.about_edit_link_article') .'</a>') . '</p>'
-// 		);
-// 		$this->assign('ur_here', RC_Lang::get('goods::goods.edit_link_article'));
+		ecjia_screen::get_current_screen()->set_help_sidebar(
+			'<p><strong>' . RC_Lang::get('goods::goods.more_info') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.85.B3.E8.81.94.E6.96.87.E7.AB.A0" target="_blank">'. RC_Lang::get('goods::goods.about_edit_link_article') .'</a>') . '</p>'
+		);
+		$this->assign('ur_here', RC_Lang::get('goods::goods.edit_link_article'));
 		
-// 		$goods_id = intval($_GET['goods_id']);
-// 		$goods_article_list = get_goods_articles($goods_id);
+		$goods_id = intval($_GET['goods_id']);
+		$goods_article_list = get_goods_articles($goods_id);
 		
-// 		//设置选中状态,并分配标签导航
-// 		$this->assign('tags', $this->tags);
-// 		$this->assign('goods_article_list',	$goods_article_list);
-// 		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin/init'), 'text' => RC_Lang::get('system::system.01_goods_list')));
+		//设置选中状态,并分配标签导航
+		$this->assign('tags', $this->tags);
+		$this->assign('goods_article_list',	$goods_article_list);
+		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin/init'), 'text' => RC_Lang::get('system::system.01_goods_list')));
 		
-// 		$this->display('link_article.dwt');
-// 	}
+		$this->display('link_article.dwt');
+	}
 
 	/**
 	 * 搜索商品，仅返回名称及ID
@@ -1957,14 +1958,14 @@ class admin extends ecjia_admin {
 						'goods_id'		=> $val['id'],
 						'link_goods_id'	=> $goods_id,
 						'is_double'		=> $is_double,
-						'admin_id'		=> $_SESSION['admin_id'],
+						'admin_id'		=> 0,
 					);
 				}
 				$data[] = array(
 					'goods_id'		=> $goods_id,
 					'link_goods_id'	=> $val['id'],
 					'is_double'		=> $is_double,
-					'admin_id'		=> $_SESSION['admin_id'],
+					'admin_id'		=> 0,
 				);
 			}
 		}
@@ -2037,29 +2038,32 @@ class admin extends ecjia_admin {
 	/**
 	* 添加关联文章
 	*/
-// 	public function add_link_article() {
-// 		$this->admin_priv('goods_update', ecjia::MSGTYPE_JSON);
+	public function add_link_article() {
+		$this->admin_priv('goods_update', ecjia::MSGTYPE_JSON);
 		
-// 		$goods_id = isset($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
-// 		$linked_array = !empty($_GET['linked_array']) ? $_GET['linked_array'] : '';
-// 		$this->db_goods_article->where(array('goods_id' => $goods_id))->delete();
-
-// 		$data = array();
-// 		if (!empty($linked_array)) {
-// 			foreach ($linked_array AS $val) {
-// 				$data[] = array(
-// 					'goods_id' => $goods_id,
-// 					'article_id' => $val['article_id'],
-// 					'admin_id' => $_SESSION['admin_id'],
-// 				);
-// 			}
-// 		}
-// 		if (!empty($data)) {
-// 			$this->db_goods_article->batch_insert($data);
-// 		}
-// 		$pjaxurl = RC_Uri::url('goods/admin/edit_link_article', array('goods_id' => $goods_id));
-// 		return $this->showmessage(RC_Lang::get('goods::goods.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
-// 	}
+		$goods_id = isset($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
+		$linked_array = !empty($_GET['linked_array']) ? $_GET['linked_array'] : '';
+		
+		$link_goods = $this->db_goods_goods_article->goods_article_select(array('goods_id' => $goods_id));
+		if (!empty($link_goods)) {
+			$this->db_goods_goods_article->goods_article_delete(array('goods_id' => $goods_id));
+		}
+		$data = array();
+		if (!empty($linked_array)) {
+			foreach ($linked_array AS $val) {
+				$data[] = array(
+					'goods_id' => $goods_id,
+					'article_id' => $val['article_id'],
+					'admin_id'	=> 0
+				);
+			}
+		}
+		if (!empty($data)) {
+			$this->db_goods_goods_article->batch_insert($data);
+		}
+		$pjaxurl = RC_Uri::url('goods/admin/edit_link_article', array('goods_id' => $goods_id));
+		return $this->showmessage(RC_Lang::get('goods::goods.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
+	}
 	
 	/**
 	 * 商品添加/编辑页 添加商品品牌

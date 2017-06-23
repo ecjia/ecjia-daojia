@@ -46,7 +46,7 @@
 								<div class="pull-left">
 									<div class="form-group">
 										<input class="form-control" id="article_title" name="article_title" type="text" placeholder="{lang key='goods::goods.article_title'}" />
-										<a class="btn btn-primary" href="javascript:;" data-toggle="searchArticle" ><i class="fa fa-search"></i> <!-- {lang key='system::system.button_search'} --></a>
+										<button type="button" class="btn btn-primary" data-toggle="searchArticle"><i class="fa fa-search"></i> <!-- {lang key='system::system.button_search'} --></button>
 									</div>
 									<span class="help-block">{lang key='goods::goods.link_article_notice'}</span>
 								</div>

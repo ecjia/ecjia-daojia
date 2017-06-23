@@ -60,7 +60,7 @@ class detail_module extends api_front implements api_interface {
         $goods_id = intval($goods_id);
         
         if ($goods_id <= 0) {
-        	return new ecjia_error('does not exist', '不存在的信息');
+        	return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
         }
 
         $rec_type = $this->requestData('rec_type');

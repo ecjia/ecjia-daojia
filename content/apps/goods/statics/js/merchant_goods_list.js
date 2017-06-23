@@ -910,7 +910,7 @@
 			$('button[type="submit"]').on('click', function(e) {
 				e.preventDefault();
 				var url = $('form[name="theForm"]').attr('action');
-				var step = $('input[name="step"]').val();
+				var step = $('input[name="step"]').val() == undefined ? 0 : $('input[name="step"]').val();
 				var complete = $(this).hasClass('complete');
 				var complete_url = $(this).attr('data-url');
 
@@ -1095,7 +1095,7 @@
 			$('button[type="submit"]').on('click', function(e) {
 				e.preventDefault();
 				var url = $('form[name="theForm"]').attr('action');
-				var step = $('input[name="step"]').val();
+				var step = $('input[name="step"]').val() == undefined ? 0 : $('input[name="step"]').val();
 				var complete = $(this).hasClass('complete');
 				var complete_url = $(this).attr('data-url');
 
@@ -1225,7 +1225,7 @@
 			$('button[type="submit"]').on('click', function(e) {
 				e.preventDefault();
 				var url = $('form[name="theForm"]').attr('action');
-				var step = $('input[name="step"]').val();
+				var step = $('input[name="step"]').val() == undefined ? 0 : $('input[name="step"]').val();
 				var complete = $(this).hasClass('complete');
 				var complete_url = $(this).attr('data-url');
 

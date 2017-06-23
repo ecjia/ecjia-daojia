@@ -64,6 +64,10 @@ class mh_category extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 		RC_Script::enqueue_script('bootstrap-placeholder');
 		RC_Style::enqueue_style('uniform-aristo');
+		// input file 长传
+		RC_Style::enqueue_style('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', __FILE__), array());
+		RC_Script::enqueue_script('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', __FILE__), array(), false, true);
+		
 		
 		RC_Script::enqueue_script('goods_category', RC_App::apps_url('statics/js/merchant_goods_category.js',__FILE__), array());
 		RC_Script::localize_script('goods_category_list', 'js_lang', RC_Lang::get('goods::goods.js_lang'));
@@ -147,7 +151,11 @@ class mh_category extends ecjia_merchant {
 		if ($cat['grade'] > 10 || $cat['grade'] < 0) {
 			return $this->showmessage(RC_Lang::get('goods::category.grade_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-
+		
+		if(!empty($_FILES['cat_image']) && empty($_FILES['cat_image']['error']) && !empty($_FILES['cat_image']['name'])){
+		    $cat['cat_image'] = file_upload_info('category', 'cat_image', '');
+		}
+		
 		/* 入库的操作 */
 		$cat_id = RC_DB::table('merchants_category')->insertGetId($cat);
 
@@ -219,7 +227,7 @@ class mh_category extends ecjia_merchant {
 		$cat['cat_desc'] 	= !empty($_POST['cat_desc'])     ? $_POST['cat_desc']           : '';
 		$cat['cat_name']  	= !empty($_POST['cat_name'])     ? trim($_POST['cat_name'])     : '';
 		$cat['is_show'] 	= !empty($_POST['is_show'])      ? intval($_POST['is_show'])    : 0;
-		$cat['store_id']	= !empty($_SESSION['store_id'])  ? $_SESSION['store_id']		 : 0;
+		$cat['store_id']	= !empty($_SESSION['store_id'])  ? $_SESSION['store_id']		: 0;
 		
 		/* 判断分类名是否重复 */
 		if (merchant_cat_exists($cat['cat_name'], $cat['parent_id'], $cat_id)) {
@@ -234,12 +242,32 @@ class mh_category extends ecjia_merchant {
 			$link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
 			return $this->showmessage(RC_Lang::get('goods::category.is_leaf_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
 		}
+		if(!empty($_FILES['cat_image']) && empty($_FILES['cat_image']['error']) && !empty($_FILES['cat_image']['name'])){
+		    $cat_info = get_merchant_cat_info($cat_id);
+		    $cat['cat_image'] = file_upload_info('category', 'cat_image', $cat_info['cat_image_base']);
+		}
 
 		RC_DB::table('merchants_category')->where('cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->update($cat);
 
 		ecjia_merchant::admin_log($cat['cat_name'], 'edit', 'category');
 		
 		return $this->showmessage(RC_Lang::get('goods::category.catedit_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/mh_category/edit', array('cat_id' => $cat_id))));
+	}
+	
+	public function drop_cat_image(){
+	    $this->admin_priv('merchant_category_update');
+	    
+	    $cat_id = !empty($_REQUEST['cat_id']) ? intval($_REQUEST['cat_id']) : 0;
+	    if (empty($cat_id)) {
+	        return $this->showmessage('参数错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    $cat_info = get_merchant_cat_info($cat_id);
+	    $file = !empty($cat_info['cat_image_base'])? RC_Upload::upload_path($cat_info['cat_image_base']) : '';
+	    $disk = RC_Filesystem::disk();
+	    $disk->delete($file);
+	    RC_DB::table('merchants_category')->where('cat_id', $cat_id)->where('store_id', $_SESSION['store_id'])->update(array('cat_image' => ''));
+	    
+	    return $this->showmessage('成功删除', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/mh_category/edit', array('cat_id' => $cat_id))));
 	}
 
 	/**

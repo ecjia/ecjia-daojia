@@ -2346,6 +2346,8 @@ class merchant extends ecjia_merchant {
 		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
 			$filter['store_id'] = $_SESSION['store_id'];
 		}
+		$filter['is_on_sale'] = 1;
+		$filter['is_delete'] = 0;
 		$arr = get_merchant_goods_list($filter);
 		$opt = array();
 		if (!empty($arr)) {
@@ -2375,14 +2377,13 @@ class merchant extends ecjia_merchant {
 	*/
 	public function get_article_list() {
 		$this->admin_priv('goods_update', ecjia::MSGTYPE_JSON);
-		
 		$title = !empty($_POST['article_title']) ? $_POST['article_title'] : '';
 		
-		$where = "cat_id > 0 ";
+		$where = "cat_id > 0 AND article_type = 'article'";
 		if (!empty($title)) {
-			$where .= " AND title LIKE '%" . mysql_like_quote(title) . "%' ";
+			$where .= " AND title LIKE '%" . mysql_like_quote($title) . "%' ";
 		}
-
+		
 		$db_article = RC_Model::model('article/article_model');
 		$data = $db_article->field('article_id, title')->where($where)->order('article_id DESC')->limit(50)->select();
 		$arr = array();
@@ -2399,7 +2400,7 @@ class merchant extends ecjia_merchant {
 	 */
 	public function add_link_goods() {
 		$this->admin_priv('goods_update', ecjia::MSGTYPE_JSON);
-		
+
 		$goods_id		= !empty($_GET['goods_id']) 		? intval($_GET['goods_id']) : 0;
 		$linked_array 	= !empty($_POST['linked_array']) 	? $_POST['linked_array'] 	: '';
 		$step 			= !empty($_POST['step'])	 		? trim($_POST['step']) 		: '';
@@ -2531,7 +2532,7 @@ class merchant extends ecjia_merchant {
 				$data[] = array(
 					'goods_id' 		=> $goods_id,
 					'article_id' 	=> $val['article_id'],
-					'admin_id' 		=> $_SESSION['admin_id'],
+					'admin_id'		=> 0
 				);
 			}
 		}

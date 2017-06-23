@@ -10,6 +10,7 @@
 			app.goods_category_info.submit_info();
 			app.goods_category_info.choose_goods_type();
 			app.goods_category_info.toggleSpec();
+			app.goods_category_info.ajaxremove();
 		},
 
 		toggleSpec: function() {
@@ -86,7 +87,26 @@
 			}
 			var options = $.extend(ecjia.merchant.defaultOptions.validate, option);
 			$this.validate(options);
-		}
+		},
+		ajaxremove : function(){
+            $('[data-toggle="ajaxremove"]').on('click',function(e){
+                e.preventDefault();
+                var $this = $(this),
+                url = $this.attr('data-href') || $this.attr('href'),
+                msg = $this.attr('data-msg') || '您确定进行该操作吗？';
+                if(!url){
+                    smoke.alert('参数错误！');
+                    return false;
+                }
+                smoke.confirm(msg,function(e){
+                    if (e){
+                        $.get(url, function(data){
+                            ecjia.merchant.showmessage(data);
+                        });
+                    }
+                }, {ok:"确定", cancel:"取消"});
+            });
+        },
 	};
 
 	app.goods_category_move = {

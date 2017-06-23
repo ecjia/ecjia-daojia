@@ -56,6 +56,36 @@ function assign_adminlog_content() {
     ecjia_admin_log::instance()->add_action('batch_end',	    '批量下架');
 }
 
+/*
+ * 上传图片
+ *  @param string $path 上传路径
+ *  @param string $code 接收图片参数
+ *  @param string $old_images 旧图片
+ */
+function file_upload_info($path, $code, $old_images)
+{
+    $code = empty($code) ? $path : $code;
+    $upload = RC_Upload::uploader('image', array('save_path' => 'merchant/' . $_SESSION['store_id'] . '/data/' . $path, 'auto_sub_dirs' => true));
+    $file = $_FILES[$code];
+    if (!empty($file) && (isset($file['error']) && $file['error'] == 0 || !isset($file['error']) && $file['tmp_name'] != 'none')) {
+        // 检测图片类型是否符合
+        if (!$upload->check_upload_file($file)) {
+            ecjia_admin::$controller->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        } else {
+            $image_info = $upload->upload($file);
+            if (empty($image_info)) {
+                ecjia_admin::$controller->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            // 删除旧的图片
+            if (!empty($old_images)) {
+                $upload->remove($old_images);
+            }
+            $img_path = $upload->get_position($image_info);
+        }
+        return $img_path;
+    }
+}
+
 /**
  * 获取分类属性列表
  *
@@ -173,12 +203,12 @@ function get_parent_grade($cat_id) {
  */
 function get_linked_articles($goods_id) {
     $dbview = RC_Model::model('article/goods_article_viewmodel');
-    $data = $dbview->join('article')->where(array('ga.goods_id' => "$goods_id" ,'a.is_open' => '1'))->order(array('a.add_time' =>'DESC'))->select();
+    $data = $dbview->join('article')->where(array('ga.goods_id' => "$goods_id" ,'a.article_approved' => '1'))->order(array('a.add_time' =>'DESC'))->select();
 
     $arr = array();
 
     foreach ($data as $row) {
-        $row['url']         = $row['open_type'] != 1 ?
+        $row['url']         = $row['article_type'] == 'article' ?
         build_uri('article', array('aid'=>$row['article_id']), $row['title']) : trim($row['file_url']);
         $row['add_time']    = RC_Time::local_date(ecjia::config('date_format'), $row['add_time']);
         $row['short_title'] = ecjia::config('article_title_length') > 0 ?
@@ -830,7 +860,7 @@ function get_goods_info_nav($goods_id=0, $extension_code='') {
 		'edit_goods_photo'      => array('name' => RC_Lang::get('goods::goods.tab_gallery'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin_gallery/init', "goods_id=$goods_id".$extension_code)),
 		'edit_link_goods'       => array('name' => RC_Lang::get('goods::goods.tab_linkgoods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_goods', "goods_id=$goods_id".$extension_code)),
 // 		'edit_link_parts'       => array('name' => RC_Lang::get('goods::goods.tab_groupgoods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_parts', "goods_id=$goods_id".$extension_code)),
-// 		'edit_link_article'     => array('name' => RC_Lang::get('goods::goods.tab_article'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_article', "goods_id=$goods_id".$extension_code)),
+		'edit_link_article'     => array('name' => RC_Lang::get('goods::goods.tab_article'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_article', "goods_id=$goods_id".$extension_code)),
 		'product_list'          => array('name' => RC_Lang::get('goods::goods.tab_product'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/product_list', "goods_id=$goods_id".$extension_code)),
 	);
 }
@@ -844,7 +874,7 @@ function get_merchant_goods_info_nav($goods_id=0, $extension_code='') {
 		'edit_goods_photo'      => array('name' => RC_Lang::get('goods::goods.tab_gallery'), 'pjax' => 1, 'href' => RC_Uri::url('goods/mh_gallery/init', "goods_id=$goods_id".$extension_code)),
 		'edit_link_goods'       => array('name' => RC_Lang::get('goods::goods.tab_linkgoods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_goods', "goods_id=$goods_id".$extension_code)),
 // 		'edit_link_parts'       => array('name' => RC_Lang::get('goods::goods.tab_groupgoods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_parts', "goods_id=$goods_id".$extension_code)),
-// 		'edit_link_article'     => array('name' => RC_Lang::get('goods::goods.tab_article'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_article', "goods_id=$goods_id".$extension_code)),
+		'edit_link_article'     => array('name' => RC_Lang::get('goods::goods.tab_article'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_article', "goods_id=$goods_id".$extension_code)),
 		'product_list'          => array('name' => RC_Lang::get('goods::goods.tab_product'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/product_list', "goods_id=$goods_id".$extension_code)),
 	);
 }
@@ -1299,7 +1329,8 @@ function get_goods_articles($goods_id) {
 		)
 	);
 	if ($goods_id == 0) {
-		$row = $dbview->where(array('ga.goods_id' => $goods_id, 'ga.admin_id' => $_SESSION ['admin_id']))->select();
+// 		$row = $dbview->where(array('ga.goods_id' => $goods_id, 'ga.admin_id' => $_SESSION ['admin_id']))->select();
+		$row = $dbview->where(array('ga.goods_id' => $goods_id))->select();
 	}
 	return $dbview->where(array('ga.goods_id' => $goods_id))->select();
 }

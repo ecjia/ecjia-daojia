@@ -30,6 +30,27 @@
 							</div>
 							<span class="input-must">{lang key='system::system.require_field'}</span>
 						</div>
+						<div class="form-group">
+							<label class="control-label col-lg-2">分类图片：</label>
+							<div class="controls col-lg-6">
+								<div class="fileupload fileupload-{if $cat_info.cat_image}exists{else}new{/if}" data-provides="fileupload">
+                                    {if $cat_info.cat_image}
+                                    <div class="fileupload-{if $cat_info.cat_image}exists{else}new{/if} thumbnail" style="max-width: 300px;">
+                                        <img src="{$cat_info.cat_image}" alt="分类图片" style="max-width: 300px;"/>
+                                    </div>
+                                    {/if}
+                                    <div class="fileupload-preview fileupload-{if $cat_info.cat_image}new{else}exists{/if} thumbnail" style="max-width: 300px;max-height: 60px;line-height: 10px;"></div>
+                                    <span class="btn btn-primary btn-file btn-sm">
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 浏览</span>
+                                        <span class="fileupload-exists"> 修改</span>
+                                        <input type="file" class="default" name="cat_image" />
+                                    </span>
+                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $cat_info.cat_image}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} href="{url path='goods/mh_category/drop_cat_image' args="cat_id={$cat_info.cat_id}"}" >删除</a>
+                                </div>
+                                <span class="help-block">推荐图片的尺寸为：顶级分类为3:1（900x300px），子集分类为1:1（200x200px）</span>
+							</div>
+							<span class="input-must">{lang key='system::system.require_field'}</span>
+						</div>
 			
 						<div class="form-group">
 							<label class="control-label col-lg-2">{lang key='goods::category.label_parent_cat'}</label>
