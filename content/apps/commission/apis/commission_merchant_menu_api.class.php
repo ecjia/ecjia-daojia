@@ -54,7 +54,7 @@ class commission_merchant_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {
 	
-		$menus = ecjia_merchant::make_admin_menu('07_commission', __('商家结算'), '', 7)->add_icon('fa-money')->add_purview(array('commission_manage','commission_order','commission_count'))->add_base('commission');
+		$menus = ecjia_merchant::make_admin_menu('07_commission', __('结算'), '', 7)->add_icon('fa-money')->add_purview(array('commission_manage','commission_order','commission_count'))->add_base('commission');
 		
 		$submenus = array(
 			ecjia_merchant::make_admin_menu('01_commission_list', __('结算账单'), RC_Uri::url('commission/merchant/init'), 1)->add_purview()->add_icon('fa-money'), //order_view
