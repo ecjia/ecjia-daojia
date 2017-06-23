@@ -233,10 +233,9 @@ class merchant_staff_hooks {
 	//商家公告
 	public static function merchant_dashboard_right_4_2() {
 		$list = RC_DB::table('article as a')
- 			->leftJoin('article_cat as ac', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('ac.cat_id'))
  			->orderBy(RC_DB::raw('a.add_time'), 'desc')
  			->take(5)
- 			->where(RC_DB::raw('ac.cat_type'), 6)
+ 			->where(RC_DB::raw('a.article_type'), 'merchant_notice')
  			->get();
 		if (!empty($list)) {
 			foreach ($list as $k => $v) {

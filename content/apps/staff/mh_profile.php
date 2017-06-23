@@ -218,31 +218,24 @@ class mh_profile extends ecjia_merchant {
 		}
 
 		$code = rand(100000, 999999);
-		$tpl_name = 'sms_get_validate';
-		$tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
-		if (!empty($tpl)) {
-			$this->assign('code', $code);
-			$this->assign('mobile', $newmobile);
-			$this->assign('service_phone', 	ecjia::config('service_phone'));
-			$content = $this->fetch_string($tpl['template_content']);
-			$options = array(
-				'mobile' 		=> $newmobile,
-				'msg'			=> $content,
-				'template_id' 	=> $tpl['template_id'],
-			);
-			$response = RC_Api::api('sms', 'sms_send', $options);
-			if($response === true){
-				$_SESSION['temp_code'] 	= $code;
-				$_SESSION['temp_code_time'] = RC_Time::gmtime();
-				return $this->showmessage('手机验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-			}else{
-				return $this->showmessage('手机验证码发送失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-		};
-		
+		$options = array(
+			'mobile' => $newmobile,
+			'event'	 => 'sms_get_validate',
+			'value'  =>array(
+				'code' 			=> $code,
+				'service_phone' => ecjia::config('service_phone'),
+			),
+		);
+		$response = RC_Api::api('sms', 'send_event_sms', $options);
+		if (is_ecjia_error($response)) {
+			return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}else{
+			$_SESSION['temp_code'] 	= $code;
+			$_SESSION['temp_code_time'] = RC_Time::gmtime();
+			return $this->showmessage('手机验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		}		
 	}
 
-	
 	//更换手机账号
 	public function update_mobile(){
 		

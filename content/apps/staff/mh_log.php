@@ -148,7 +148,7 @@ class mh_log extends ecjia_merchant {
 		$data = $db_staff_log
     		->selectRaw('sl.log_id,sl.log_time,sl.log_info,sl.ip_address,sl.ip_location,su.name')
     		->orderby($filter['sort_by'], $filter['sort_order'])
-    		->take(10)
+    		->take(20)
     		->skip($page->start_id-1)
     		->get();
 		/* 获取管理员日志记录 */
