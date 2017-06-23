@@ -63,15 +63,10 @@
         list: function () {
             /* 配送方式关闭与启用 */
             $('.switch').on('click', function (e) {
-                $.ajax({
-                    type: "POST",
-                    url: $(this).attr('data-url'),
-                    data: '',
-                    dataType: "json",
-                    success: function (data) {
-                    	ecjia.admin.showmessage(data);
-                    }
-                });
+                var url = $(this).attr('data-url');
+            	$.get(url, function(data) {
+            		ecjia.admin.showmessage(data);
+            	});
             });
         },
     };
