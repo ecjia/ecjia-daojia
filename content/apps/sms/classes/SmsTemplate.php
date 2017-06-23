@@ -44,33 +44,27 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+
+namespace Ecjia\App\Sms;
 
 /**
- * 后台权限API
- * @author songqian
+ * 短信模板
+ * 
+ * @author royalwang
+ *
  */
-class sms_admin_purview_api extends Component_Event_Api {
+class SmsTemplate
+{
     
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
+    protected $code;
+    
+    protected $vars;
+    
+    protected $content;
+    
+    public function __construct($code)
+    {
+        $this->code = $code;
     }
+    
 }
-
-// end

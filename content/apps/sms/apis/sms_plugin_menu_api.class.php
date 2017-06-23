@@ -47,30 +47,16 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author songqian
+ * 后台菜单API
+ * @author royalwang
  */
-class sms_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
-    }
+class sms_plugin_menu_api extends Component_Event_Api {
+	
+	public function call(&$options) {	
+		$menus = ecjia_admin::make_admin_menu('sms_list', RC_Lang::get('sms::sms.sms_channel'), RC_Uri::url('sms/admin_plugin/init'), 1)->add_purview('notification_manage')->add_base('sms');
+
+		return $menus;
+	}
 }
 
 // end

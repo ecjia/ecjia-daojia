@@ -47,53 +47,119 @@
         },
  
     };
+    
+    
+    app.sms_template_test = {
+        init: function () {
+        	 app.sms_template_test.submit_info();
+        },
+        
+        submit_info: function () {
+        	 var option = {
+                 rules: {
+                     mobile: {
+                         required: true
+                     },
+                     sign_name: {
+                         required: true
+                     }
+                 },
+                 messages: {
+                 	mobile: {
+                         required: "请输入手机号"
+                     },
+                     sign_name: {
+                         required: "请输入签名"
+                     }
+                 },
+                 submitHandler: function () {
+                     $("form[name='theForm']").ajaxSubmit({
+                         dataType: "json",
+                         success: function (data) {
+                             ecjia.admin.showmessage(data);
+                         }
+                     });
+                 }
+             }
+             var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+             $("form[name='theForm']").validate(options);
+        },
+    };  
+    
     app.sms_template_info = {
         init: function () {
-            app.sms_template_info.change_editor();
+        	app.sms_template_info.ajax_event();
             app.sms_template_info.submit_info();
-            app.sms_template_info.validate_mail();
         },
  
-        change_editor: function () {
-            $('[data-toggle="change_editor"]').on('click', function () {
-                url = $(this).attr('data-url');
-                ecjia.pjax(url);
-            });
+        ajax_event :function(){
+        	$("#template_code").change(function () {
+    		    var subject_text = $("#template_code option:selected").text();
+       		    var subject_val = $("#template_code option:selected").val();
+       		    subject = subject_text.replace('['+ subject_val + ']',"");
+       		    
+        		if(subject_val != 0){
+	           		 $('#subject').val(subject);
+	   	           	 var url = $("#data-href").val();
+	   	             var filters = {
+	   	                 'JSON': {
+	   	                     'code': subject_val,
+	   	                     'channel_code': $("#channel_code").val(),
+	   	                 }
+	   	             };
+	   	             $.post(url, filters, function (data) {
+	   	                 app.sms_template_info.ajax_event_data(data);
+	   	             }, "JSON");
+        		} else{
+        			 $('#subject').val('');
+        			 $('#content').val('');
+        			 $('.help-block').text('')
+        		}
+        	})
         },
+                
+        ajax_event_data :function(data){
+        	$('#content').val(data.template);
+        	$('.help-block').html('');
+            if (data.content.length > 0) {
+            	var opt = '<span class="help-block">';
+                for (var i = 0; i < data.content.length; i++) {
+                    opt +=data.content[i] + '<br>';
+                };
+                opt += '</span>';
+                $('.help-block').append(opt);
+            } 
+            
+        },       
  
         submit_info: function () {
-            $('[name="theForm"]').on('submit', function (e) {
-                e.preventDefault();
-                var type = $('input[name="mail_type"]:checked').val();
-                if (type == 1) {
-//					var textinfo = tinyMCE.get('content').getContent();
-//					$('#content').css({'display' : 'block', 'height' : '0px', 'padding' : '0px', 'opacity' : 0}).val(textinfo);
-                }
-            })
-        },
- 
-        validate_mail: function () {
             var option = {
                 rules: {
-                    template_code: {
-                        required: true
-                    },
                     subject: {
                         required: true
                     },
                     content: {
                         required: true
+                    },
+                    template_id: {
+                        required: true
+                    },
+                    sign_name: {
+                        required: true
                     }
                 },
                 messages: {
-                    template_code: {
-                        required: js_lang.template_code_required
-                    },
                     subject: {
                         required: js_lang.subject_required
                     },
                     content: {
                         required: js_lang.content_required
+                    },
+                    template_id: {
+                        required: "请输入短信模板ID"
+                    },
+                    sign_name: {
+                        required: "请输入签名"
                     }
                 },
                 submitHandler: function () {

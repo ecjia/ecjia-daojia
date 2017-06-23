@@ -44,33 +44,53 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Sms;
+
+use Ecjia\System\Plugin\AbstractPlugin;
 
 /**
- * 后台权限API
- * @author songqian
+ * 短信插件抽象类
+ * @author royalwang
  */
-class sms_admin_purview_api extends Component_Event_Api {
+abstract class SmsAbstract extends AbstractPlugin {
+	
+    protected $agent;
     
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
+    public function getSmsAgent()
+    {
+        return $this->agent;
     }
+    
+    /**
+     * 获取模板ID字段是否必填
+     */
+    public function requiredTemplateId()
+    {
+        return $this->loadConfig('required_templateid', false);
+    }
+    
+    /**
+     * 获取签名字段是否必填
+     */
+    public function requiredSignName()
+    {
+        return $this->loadConfig('required_signname', false);
+    }
+    
+    /**
+     * 检测是否支持余额查询
+     */
+    public function checkBalance()
+    {
+        return $this->loadConfig('check_balance', false);
+    }
+    
+    
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array(array($this->agent, $method), $parameters);
+    }
+   
 }
 
 // end

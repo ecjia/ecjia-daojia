@@ -47,30 +47,81 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author songqian
+ * 短信安装
  */
-class sms_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
-    }
+class sms_plugin_install_api extends Component_Event_Api {
+	
+	public function call(&$options) {
+		
+		if (isset($options['file'])) {
+			$plugin_file = $options['file'];
+			$plugin_data = RC_Plugin::get_plugin_data($plugin_file);
+			 
+			$plugin_file = RC_Plugin::plugin_basename($plugin_file);
+			$plugin_dir = dirname($plugin_file);
+			 
+			$plugins = ecjia_config::instance()->get_addon_config('sms_plugins', true);
+			$plugins[$plugin_dir] = $plugin_file;
+			 
+			ecjia_config::instance()->set_addon_config('sms_plugins', $plugins, true);
+		}
+
+		if (isset($options['config']) && !empty($plugin_data['Name'])) {
+			$format_name = $plugin_data['Name'];
+			$format_description = $plugin_data['Description'];
+			 
+			/* 检查输入 */
+			if (empty($format_name) || empty($options['config']['sms_code'])) {
+				return ecjia_plugin::add_error('plugin_install_error', RC_Lang::get('sms::sms.plugin_name_empty'));
+			}
+			 
+			/* 检测名称重复 */
+			$name_count = RC_DB::table('notification_channels')->where('channel_name', $format_name)->where('channel_code', $options['config']['sms_code'])->count();
+			if ($name_count > 0) {
+				return ecjia_plugin::add_error('plugin_install_error', RC_Lang::get('sms::sms.plugin_exist'));
+			}
+			
+			/* 取得配置信息 */
+			$config = serialize($options['config']['forms']);
+			$config_file = $options['config'];
+		
+			//组织默认数据，将该短信的信息添加到数据库
+			RC_Loader::load_app_func('global', 'sms');
+			assign_adminlog_content();
+			
+			/* 安装，检查该短信插件是否曾经安装过 */
+			$count = RC_DB::table('notification_channels')->where('channel_code', $options['config']['sms_code'])->count();
+		
+			if ($count > 0) {
+				/* 该短信插件已经安装过, 将该短信插件的状态设置为 enable */
+				$data = array(
+					'channel_type' 	=> 'sms',
+					'channel_code'  => $options['config']['sms_code'],
+					'channel_name'	=> $format_name,
+					'channel_desc'	=> $format_description,
+					'channel_config'=> $config,
+					'enabled'		=> 1,
+				);
+		
+				RC_DB::table('notification_channels')->where('channel_code', $options['config']['sms_code'])->update($data);
+			} else {
+				/* 该短信插件没有安装过, 将该短信插件的信息添加到数据库 */
+				$data = array(
+					'channel_type' 	=> 'sms',
+					'channel_code'  => $options['config']['sms_code'],
+					'channel_name'	=> $format_name,
+					'channel_desc'	=> $format_description,
+					'channel_config'=> $config,
+					'enabled'		=> 1,
+				);
+				RC_DB::table('notification_channels')->insert($data);
+			}
+			 
+			/* 记录日志 */
+			ecjia_admin::admin_log($format_name, 'install', 'sms');
+			return true;
+		}
+	}
 }
 
 // end

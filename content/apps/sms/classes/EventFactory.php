@@ -44,33 +44,78 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台权限API
- * @author songqian
- */
-class sms_admin_purview_api extends Component_Event_Api {
+namespace Ecjia\App\Sms;
+
+use RC_Hook;
+use RC_Cache;
+use InvalidArgumentException;
+
+class EventFactory
+{
+
+    protected static $factories;
     
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
+    public function __construct()
+    {
+        self::$factories = $this->getFactories();
     }
-}
 
-// end
+    public function getFactories()
+    {
+        $cache_key = 'sms_event_factories';
+        
+        $factories = RC_Cache::app_cache_get($cache_key, 'sms');
+        
+        if (empty($factories)) {
+            
+            $dir = __DIR__ . '/Events';
+            
+            $events = royalcms('files')->files($dir);
+        
+            $factories = [];
+            
+            foreach ($events as $key => $value) {
+                $value = str_replace($dir . '/', '', $value);
+                $value = str_replace('.php', '', $value);
+                $className = __NAMESPACE__ . '\Events\\' . $value;
+                $key = with(new $className)->getCode();
+                $factories[$key] = $className;
+            }
+
+            RC_Cache::app_cache_set($cache_key, $factories, 'sms', 10080);
+        }
+
+        return RC_Hook::apply_filters('ecjia_sms_event_filter', $factories);
+    }
+    
+    
+    public function getEvents()
+    {
+        $events = [];
+        
+        foreach (self::$factories as $value) {
+            $event = new $value;
+            $key = $event->getCode();
+            $events[$key] = $event;
+        }
+
+        return $events;
+    }
+    
+    
+    public function event($name)
+    {
+        if (!array_key_exists($name, self::$factories)) {
+            throw new InvalidArgumentException("Event '$name' is not supported.");
+        }
+    
+        $className = self::$factories[$name];
+    
+        return new $className();
+    }
+    
+    
+    
+    
+}

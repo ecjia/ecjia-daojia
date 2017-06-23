@@ -44,33 +44,59 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author songqian
+ * template_code 模板code
  */
-class sms_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
-    }
-}
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+return array(
+	array(
+		'code' 	=> 'sms_receipt_verification',
+		'name'  => '订单收货验证码',
+		'description'=> '用户付款后是否给客户发收货验证码'
+    ),
+	array(
+		'code' 	=> 'sms_jion_merchant',
+		'name'  => '审核通过',
+		'description'=> '商家入驻，审核通过是否给商家发送短信告知'
+	),
+	array(
+		'code' 	=> 'sms_register_validate',
+		'name'  => '手机短信注册',
+		'description'=> '用户手机注册时是否给客户发短信'
+	),
+	array(
+		'code' 	=> 'sms_verifying_authentication',
+		'name'  => '验证用户发送短信验证码',
+		'description'=> '是否验证用户发送短信验证码'
+	),
+	array(
+		'code' 	=> 'sms_get_validate',
+		'name'  => '获取验证码',
+		'description'=> '是否让用户获取验证码'
+			
+	),
+	array(
+		'code' 	=> 'sms_remind_of_new_orders',
+		'name'  => '客户下单通知',
+		'description'=> '客户下订单时给商家发短信'
+	),
+	array(
+		'code' 	=> 'sms_payment',
+		'name'  => '客户付款',
+		'description'=> '客户付款时给商家发短信'
+	),
+	array(
+		'code' 	=> 'sms_Shipping',
+		'name'  => '商家发货',
+		'description'=> '商家发货时是否给客户发短信'
+	),
+	array(
+		'code' 	=> 'sms_user_registration',
+		'name'  => '用户注册',
+		'description'=> '用户注册时是否给客户发短信'
+	),
+		
+);
+//end

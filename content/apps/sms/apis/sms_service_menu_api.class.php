@@ -56,9 +56,10 @@ class sms_service_menu_api extends Component_Event_Api {
         $menus = ecjia_admin::make_admin_menu('10_content', RC_Lang::get('sms::sms.sms_manage'), '', 10);
         
         $submenus = array(
-        	ecjia_admin::make_admin_menu('01_sms', RC_Lang::get('sms::sms.sms_record_list'), RC_Uri::url('sms/admin/init'), 1)->add_purview('sms_history_manage'),
-        	ecjia_admin::make_admin_menu('divider', '', '', 2)->add_purview(array('sms_template_manage', 'sms_config_manage'), 2),
-        	ecjia_admin::make_admin_menu('03_sms', RC_Lang::get('sms::sms.sms_template'), RC_Uri::url('sms/admin_template/init'), 3)->add_purview('sms_history_manage'),
+        	ecjia_admin::make_admin_menu('01_sms', RC_Lang::get('sms::sms.sms_record'), RC_Uri::url('sms/admin/init'), 1)->add_purview('sms_history_manage'),
+        	ecjia_admin::make_admin_menu('03_sms', RC_Lang::get('sms::sms.sms_template'), RC_Uri::url('sms/admin_template/init'), 2)->add_purview('sms_history_manage'),
+        	ecjia_admin::make_admin_menu('04_sms', '短信事件', RC_Uri::url('sms/admin_events/init'), 3)->add_purview('sms_events_manage'),
+            ecjia_admin::make_admin_menu('sms_list', RC_Lang::get('sms::sms.sms_channel'), RC_Uri::url('sms/admin_plugin/init'), 4)->add_purview('sms_channel_manage')->add_base('sms'),
         );
         
         $menus->add_submenu($submenus);

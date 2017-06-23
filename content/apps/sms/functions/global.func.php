@@ -50,7 +50,12 @@ function assign_adminlog_content() {
 	ecjia_admin_log::instance()->add_object('sms_template', RC_Lang::get('sms::sms.sms_template'));
 	ecjia_admin_log::instance()->add_object('sms_config', RC_Lang::get('sms::sms.sms_config'));
 	ecjia_admin_log::instance()->add_object('sms_record', RC_Lang::get('sms::sms.sms_record'));
-
+	ecjia_admin_log::instance()->add_object('sms_channel', RC_Lang::get('sms::sms.sms_channel'));
+	ecjia_admin_log::instance()->add_object('sms_channel_sort', RC_Lang::get('sms::sms.sms_channel_sort'));
+	ecjia_admin_log::instance()->add_object('sms', RC_Lang::get('sms::sms.sms'));
+	ecjia_admin_log::instance()->add_object('sms_events', '短信事件');
+	
 	ecjia_admin_log::instance()->add_action('batch_setup', RC_Lang::get('sms::sms.batch_setup'));
+	ecjia_admin_log::instance()->add_action('close', '关闭');
 }
 //end

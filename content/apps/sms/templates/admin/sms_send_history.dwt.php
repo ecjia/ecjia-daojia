@@ -58,10 +58,11 @@
 			<thead>
 				<tr>
 					<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-					<th class="w110">{lang key='sms::sms.sms_number'}</th>
+					<th class="w110">短信渠道</th>
+					<th class="w100">{lang key='sms::sms.sms_number'}</th>
 					<th>{lang key='sms::sms.sms_content'}</th>
 					<th class="w150">{lang key='sms::sms.send_time'}</th>
-					<th class="w110">{lang key='sms::sms.send_status'}</th>
+					<th class="w100">{lang key='sms::sms.send_status'}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -76,25 +77,25 @@
 					<span><input type="checkbox" disabled="true" name="checkboxes[]" class="checkbox1" value="{$val.id}"/></span>
 				</td>
 				<!-- {/if} -->
-					
+					<td>{$val.channel_name}</td>
 					<td>{$val.mobile}</td>
 					<td>{$val.sms_content}</td>
 					<td>{$val.last_send}</td>
 					<td>
 						<!-- {if $val.error eq 0 } -->
-						{lang key='sms::sms.send_success'}
+							{lang key='sms::sms.send_success'}
 						<!-- {elseif $val.error eq -1} -->
-						{lang key='sms::sms.wait_send'}
+							{lang key='sms::sms.wait_send'}
 						<!-- {else} -->
-                                <span class="ecjiafc-red">{$val.error} {lang key='sms::sms.error_times'}<br></span>
-								<!-- {if $val.error gt 0}  -->
-							<a class="ajaxsms" href='{RC_Uri::url("sms/admin/resend", "id={$val.id}")}'>{lang key='sms::sms.send_again'}</a>
+                            <a class="hint--left  hint--error" style="text-decoration:none;"  {if $val.last_error_message}data-hint="{$val.last_error_message}{/if}"><span class="ecjiafc-red">{if $val.last_error_message}<u>{$val.error} {lang key='sms::sms.error_times'}</u>{else}{$val.error} {lang key='sms::sms.error_times'}{/if}</span></a><br>
+							<!-- {if $val.error gt 0}  -->
+								<a class="ajaxsms" href='{RC_Uri::url("sms/admin/resend", "id={$val.id}")}'>{lang key='sms::sms.send_again'}</a>
 							<!-- {/if} -->
 						<!-- {/if} -->
 					</td>					
 				</tr>
 				<!--  {foreachelse} -->
-				<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

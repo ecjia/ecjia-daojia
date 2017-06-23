@@ -77,6 +77,8 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('sms', RC_App::apps_url('statics/js/sms.js', __FILE__), array(), false, true);
 		RC_Script::localize_script('sms', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
 		
+		RC_Style::enqueue_style('hint.min', RC_Uri::admin_url('statics/lib/hint_css/hint.min.css'));
+		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_record_list'), RC_Uri::url('sms/admin/init')));
 	}
 					
@@ -162,8 +164,8 @@ class admin extends ecjia_admin {
 		$this->assign('ur_here', RC_Lang::get('sms::sms.sms_record_list'));
 		
 		$listdb = $this->db_sms_sendlist->get_sendlist();
-
 		$this->assign('listdb', $listdb);
+
 		$this->assign('search_action', RC_Uri::url('sms/admin/init'));
 	
 		$this->display('sms_send_history.dwt');
@@ -173,40 +175,34 @@ class admin extends ecjia_admin {
 	 * 再次发送短信
 	 */
 	public function resend() {
-		$this->admin_priv('sms_history_manage', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('sms_history_manage');
 		
-		$resendclass  = RC_Loader::load_app_class('sms_send', 'sms');
 		$smsid        = intval($_GET['id']);
-		$result       = $resendclass->resend($smsid);
-
-		$info         = $this->db_sms_sendlist->sms_sendlist_find($smsid);
-
-		ecjia_admin::admin_log(sprintf(RC_Lang::get('sms::sms.receive_number_is'), $info['mobile']), 'setup', 'sms_record');
+		$result       = $result = \Ecjia\App\Sms\SmsManager::make()->resend($smsid);
 		if (is_ecjia_error($result)) {
 			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
+		}else{
+			return $this->showmessage(RC_Lang::get('sms::sms.send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
 		}
-		
-		return $this->showmessage(RC_Lang::get('sms::sms.send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
 	}
 	
 	/**
 	 * 批量再次发送短信记录
 	 */
 	public function batch_resend() {
-		$this->admin_priv('sms_history_manage', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('sms_history_manage');
 		
-		$batchresendclass = RC_Loader::load_app_class('sms_send', 'sms');
-		$smsids           = explode(",", $_POST['sms_id']);
-
-		$info             = $this->db_sms_sendlist->sms_sendlist_select(array('id' => $smsids), true);
-
-		if (!empty($info)) {
-			foreach ($info as $v) {
-				ecjia_admin::admin_log(sprintf(RC_Lang::get('sms::sms.receive_number_is'), $v['mobile']), 'batch_setup', 'sms_record');
-			}	
+		$smsids = explode(",", $_POST['sms_id']);
+		
+		foreach ($smsids as $value) {
+			$result = \Ecjia\App\Sms\SmsManager::make()->resend($value);
 		}
-		$batchresendclass->batch_resend($smsids);
-		return $this->showmessage(RC_Lang::get('sms::sms.batch_send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
+		
+		if (is_ecjia_error($result)) {
+			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
+		} else {
+			return $this->showmessage(RC_Lang::get('sms::sms.batch_send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
+		}
 	}
 }
 

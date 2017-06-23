@@ -122,6 +122,7 @@ class sms_sendlist_model extends Component_Model_Model {
 	    if (!empty($row)) {
 	        foreach ($row AS $key => $val) {
 	            $row[$key]['last_send'] = RC_Time::local_date(ecjia::config('time_format'), $val['last_send']);
+	            $row[$key]['channel_name'] = RC_DB::TABLE('notification_channels')->where('channel_code', $val['channel_code'])->pluck('channel_name');
 	        }
 	    }
 

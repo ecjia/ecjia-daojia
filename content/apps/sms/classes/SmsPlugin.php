@@ -44,33 +44,123 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台权限API
- * @author songqian
- */
-class sms_admin_purview_api extends Component_Event_Api {
+namespace Ecjia\App\Sms;
+
+use Ecjia\System\Plugin\PluginModel;
+use ecjia_config;
+use ecjia_error;
+
+class SmsPlugin extends PluginModel
+{
+    protected $table = 'notification_channels';
     
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
+    /**
+     * 当前插件种类的唯一标识字段名
+     */
+    public function codeFieldName()
+    {
+        return 'channel_code';
     }
+    
+    /**
+     * 激活的支付插件列表
+     */
+    public function getInstalledPlugins()
+    {
+        return ecjia_config::getAddonConfig('sms_plugins', true);
+    }
+    
+    /**
+     * 获取数据库中启用的插件列表
+     */
+    public function getEnableList()
+    {
+        $data = $this->enabled()->orderBy('channel_code', 'asc')->get()->toArray();
+        return $data;
+    }
+    
+    /**
+     * 获取数据库中插件数据
+     */
+    public function getPluginDataById($id)
+    {
+        return $this->where('channel_id', $id)->where('enabled', 1)->first();
+    }
+    
+    public function getPluginDataByCode($code)
+    {
+        return $this->where('channel_code', $code)->where('enabled', 1)->first();
+    }
+    
+    public function getPluginDataByName($name)
+    {
+        return $this->where('channel_name', $name)->where('enabled', 1)->first();
+    }
+    
+    /**
+     * 获取数据中的Config配置数据，并处理
+     */
+    public function configData($code)
+    {
+        $pluginData = $this->getPluginDataByCode($code);
+    
+        $config = $this->unserializeConfig($pluginData['channel_config']);
+    
+        $config['channel_code'] = $code;
+        $config['channel_name'] = $pluginData['channel_name'];
+    
+        return $config;
+    }
+    
+    /**
+     * 限制查询只包括启动的短信渠道。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
+     */
+    public function scopeEnabled($query)
+    {
+        return $query->where('channel_type', 'sms')->where('enabled', 1);
+    }
+    
+    /**
+     * 获取默认插件实例
+     */
+    public function defaultChannel()
+    {
+        $data = $this->enabled()->orderBy('sort_order', 'asc')->first();
+        
+        $config = $this->unserializeConfig($data->channel_config);
+     
+        $handler = $this->pluginInstance($data->channel_code, $config);
+        
+        if (!$handler) {
+            return new ecjia_error('code_not_found', $data['channel_code'] . ' plugin not found!');
+        }
+        
+        return $handler;
+    }
+    
+    public function channel($code = null)
+    {
+        if ($code === null) {
+            return $this->defaultChannel();
+        }
+        
+        $data = $this->getPluginDataByCode($code);
+        
+        $config = $this->unserializeConfig($data->channel_config);
+         
+        $handler = $this->pluginInstance($data->channel_code, $config);
+        
+        if (!$handler) {
+            return new ecjia_error('code_not_found', $data['channel_code'] . ' plugin not found!');
+        }
+        
+        return $handler;
+        
+    }
+    
 }
 
 // end

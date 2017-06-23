@@ -44,33 +44,29 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台权限API
- * @author songqian
- */
-class sms_admin_purview_api extends Component_Event_Api {
+namespace Ecjia\App\Sms\Events;
+
+use Ecjia\App\Sms\EventAbstract;
+
+class SmsOrderPickup extends EventAbstract
+{
+
+    protected $code = 'sms_order_pickup';
+
+    protected $name = '订单收货验证码';
+
+    protected $description = '订单收货验证码是否发送短信';
     
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
-    }
-}
+    protected $template = '尊敬的${user_name}，您在我们网站已成功下单。订单号：${order_sn}，收货验证码为：${code}。请保管好您的验证码，以便收货验证。
+    ';
 
-// end
+    protected $available_values = [
+    	'user_name' 	=> '会员名称',
+    	'order_sn'		=> '订单号',
+    	'code' 			=> '提货码',
+    	'service_phone' => '客服电话',
+    ];
+    
+    
+}

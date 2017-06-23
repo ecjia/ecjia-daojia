@@ -47,30 +47,41 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author songqian
+ * 发送短信的接口
+ * @author royalwang
  */
-class sms_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
-    }
+class sms_send_event_sms_api extends Component_Event_Api {
+	
+    /**
+     * @param $mobile   integer 手机号
+     * @param $event    string  发送事件
+     * @param $value    array   模板变量值
+     * @return boolean | ecjia_error
+     */
+	public function call(&$options) {	
+	    
+	    // $mobile, $event, $value
+	    
+	    if (!array_key_exists('mobile', $options) || !array_key_exists('event', $options) || !array_key_exists('value', $options)) {
+	        return new ecjia_error('invalid_argument', __('无效参数'));
+	    }
+	    
+	    $mobile = $options['mobile'];
+	    $event = $options['event'];
+	    $value = $options['value'];
+	    
+	    $eventHandler = with(new Ecjia\App\Sms\EventFactory())->event($event);
+	    if (!$eventHandler->hasEnabled()) {
+	        return new ecjia_error('event_not_open', "请先开启短信".$eventHandler->getName()."事件");
+	    }
+	    
+	    $result = \Ecjia\App\Sms\SmsManager::make()
+        	    ->setTemplateModel(new \Ecjia\App\Sms\Models\SmsTemplateModel())
+        	    ->setEvent($eventHandler)
+        	    ->send($mobile, $value);
+	    
+	    return $result;
+	}
 }
 
 // end

@@ -217,7 +217,7 @@ return array(
 	'label_sms_account'	=> '短信平台帐号：',
 	'label_sms_password'=> '短信平台密码：',
 	'search_balance'	=> '查询账户余额',
-	'label_shop_mobile'	=> '商家电话：',
+	'label_shop_mobile'	=> '平台通知电话：',
 	
 	'label_config_order'		=> '客户下单：',
 	'label_config_money'		=> '客户付款：',
@@ -341,12 +341,49 @@ return array(
 		'start_lt_end_time'			=> '开始时间不得大于结束时间！',
 		'send_num_required'			=> '请填写接收手机号码！',
 		'msg_required'				=> '请填写消息内容！',
+		
+		'channel_name_required'		=> '请输入短信渠道名称',
+		'channel_desc_required'		=> '请输入描述',
+		'channel_desc_minlength'	=> '描述长度不能小于6',
 	),
 	
 	//追加
 	'sms_template_update'	=> '短信模板更新',
 	'sms_template_delete'	=> '短信模板删除',
-	'sms_config_update' 	=> '更新短信配置'
+	'sms_config_update' 	=> '更新短信配置',
+	'sms_channel'			=> '短信渠道',
+	'sms_channel_sort'		=> '短信渠道排序',
+	
+	'enable' 		=> '启用',
+	'disable' 		=> '禁用',
+	'plugin'		=> '插件',
+	'disabled'		=> '已停用',
+	'enabled'		=> '已启用',
+	
+	'edit_ok' 					=> '编辑成功',
+	'install_ok' 				=> '安装成功',
+	'name_is_null' 				=> '请输入短信渠道名称',
+	'name_exists' 				=> '该短信渠道名称已存在',
+	'edit_channel_name'			=> '编辑名称',
+	'edit_channel_sort'			=> '编辑排序',
+	
+	'edit_sms_channel'			=> '编辑短信渠道',
+	'label_name'				=> '名称：',
+	'label_desc'				=> '描述：',
+	'channel_name_required'		=> '请输入短信渠道名称',
+	'sms'						=> '短信',
+	'mail'						=> '邮件',
+	'name'						=> '名称',
+	'desc'						=> '描述',
+	'sort_order'				=> '排序',
+	'is_enabled'				=> '是否开启',
+	'number_required'			=> '请输入数字类型的排序值',
+	
+	'plugin_name_empty'			=> '短信插件名称不能为空',
+	'plugin_exist'				=> '安装的插件已存在',
+	
+	'sms_channel_manage'		=> '短信渠道管理',
+	'sms_channel_update'		=> '短信渠道更新',
 );
 
 //end

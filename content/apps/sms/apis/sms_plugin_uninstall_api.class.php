@@ -47,30 +47,45 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author songqian
+ * 短信卸载
  */
-class sms_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
-    }
+class sms_plugin_uninstall_api extends Component_Event_Api {
+	
+	public function call(&$options) {
+
+		$plugin_data = array();
+		if (isset($options['file'])) {
+			$plugin_file = $options['file'];
+			$plugin_data = RC_Plugin::get_plugin_data($plugin_file);
+			 
+			$plugin_file = RC_Plugin::plugin_basename( $plugin_file );
+			$plugin_dir = dirname($plugin_file);
+			 
+			$plugins = ecjia_config::instance()->get_addon_config('sms_plugins', true, true);
+			unset($plugins[$plugin_dir]);
+			 
+			ecjia_config::instance()->set_addon_config('sms_plugins', $plugins, true, true);
+		}
+		 
+		if (isset($options['config']) && !empty($plugin_data['Name'])) {
+			$format_name = $plugin_data['Name'];
+			 
+			/* 检查输入 */
+			if (empty($format_name) || empty($options['config']['sms_code'])) {
+				return ecjia_plugin::add_error('plugin_uninstall_error', RC_Lang::get('sms::sms.plugin_name_empty'));
+			}
+			 
+			/* 从数据库中删除短信插件 */
+			RC_DB::table('notification_channels')->where('channel_code', $options['config']['sms_code'])->delete();
+			
+			RC_Loader::load_app_func('global', 'sms');
+			assign_adminlog_content();
+			/* 记录日志 */
+			ecjia_admin::admin_log($format_name, 'uninstall', 'sms');
+			 
+			return true;
+		}
+	}
 }
 
 // end

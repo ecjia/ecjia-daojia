@@ -44,33 +44,59 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台权限API
- * @author songqian
- */
-class sms_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => RC_Lang::get('sms::sms.sms_send_manage'), 	'action_code' => 'sms_send_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_history_manage'), 'action_code' => 'sms_history_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_manage'),'action_code' => 'sms_template_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_update'),'action_code' => 'sms_template_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_template_delete'),'action_code' => 'sms_template_delete', 'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_manage'), 	'action_code' => 'sms_config_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_config_update'), 	'action_code' => 'sms_config_update', 	'relevance' => ''),
-        		
-        	array('action_name' => '短信事件管理', 	'action_code' => 'sms_events_manage', 	'relevance' => ''),
-        		
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_manage'), 	'action_code' => 'sms_channel_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('sms::sms.sms_channel_update'), 	'action_code' => 'sms_channel_update', 	'relevance' => ''),
-        		
-        );
-        return $purviews;
+namespace Ecjia\App\Sms;
+
+abstract class EventAbstract
+{
+    public function getCode()
+    {
+        return $this->code;
     }
+    
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+    
+    public function getAvailableValues()
+    {
+        return $this->available_values;
+    }
+    
+    public function getValueHit()
+    {
+        $str = '';
+        foreach ($this->available_values as $key => $value) {
+            $str .= $key . '(' . $value . '), ';
+        }
+        
+        return rtrim($str, ', ');
+    }
+    
+    public function hasEnabled()
+    {
+        $model = new \Ecjia\App\Sms\Models\SmsEventModel();
+        
+        $event = $model->getEventByCode($this->code);
+        if ($event->status == 'open') 
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+    
 }
-
-// end
