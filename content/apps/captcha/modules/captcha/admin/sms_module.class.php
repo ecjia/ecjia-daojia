@@ -29,19 +29,43 @@ class sms_module extends api_admin implements api_interface {
 	    }
 		
 	    //发送短信
-	    $tpl_name = 'sms_get_validate ';
-	    $tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
-	    ecjia_api::$view_object->assign('code', $code);
-	    ecjia_api::$view_object->assign('service_phone', ecjia::config('service_phone'));
-	    $content = ecjia_api::$controller->fetch_string($tpl['template_content']);
+// 	    $tpl_name = 'sms_get_validate ';
+// 	    $tpl = RC_Api::api('sms', 'sms_template', $tpl_name);
+// 	    ecjia_api::$view_object->assign('code', $code);
+// 	    ecjia_api::$view_object->assign('service_phone', ecjia::config('service_phone'));
+// 	    $content = ecjia_api::$controller->fetch_string($tpl['template_content']);
+// 	    $options = array(
+// 	        'mobile' 		=> $value,
+// 	        'msg'			=> $content,
+// 	        'template_id' 	=> $tpl['template_id'],
+// 	    );
+// 		$response = RC_Api::api('sms', 'sms_send', $options);
+// 		if ($response === true) {
+// 		    $_SESSION['captcha']['sms'][$type] = array(
+// 		        'value' => $value,
+// 		        'code' => $code,
+// 		        'lifetime' => RC_Time::gmtime() + 1800,
+// 		        'sendtime' => RC_Time::gmtime(),
+// 		    );
+// 		    $_SESSION['captcha']['sms']['sendtime'] = RC_Time::gmtime();
+// 			return array();
+// 		} else {
+// 			return new ecjia_error('sms_error', '短信发送失败！');//$response['description']
+// 		}
+
 	    $options = array(
-	        'mobile' 		=> $value,
-	        'msg'			=> $content,
-	        'template_id' 	=> $tpl['template_id'],
+    		'mobile' => $value,
+    		'event'	 => 'sms_get_validate',
+    		'value'  =>array(
+    			'code' 			=> $code,
+    			'service_phone' => ecjia::config('service_phone'),
+    		),
 	    );
-		$response = RC_Api::api('sms', 'sms_send', $options);
-		if ($response === true) {
-		    $_SESSION['captcha']['sms'][$type] = array(
+	    $response = RC_Api::api('sms', 'send_event_sms', $options);
+	    if (is_ecjia_error($response)) {
+	    	return new ecjia_error('sms_error', '短信发送失败！');//$response['description']
+	    }else{
+	    	 $_SESSION['captcha']['sms'][$type] = array(
 		        'value' => $value,
 		        'code' => $code,
 		        'lifetime' => RC_Time::gmtime() + 1800,
@@ -49,9 +73,7 @@ class sms_module extends api_admin implements api_interface {
 		    );
 		    $_SESSION['captcha']['sms']['sendtime'] = RC_Time::gmtime();
 			return array();
-		} else {
-			return new ecjia_error('sms_error', '短信发送失败！');//$response['description']
-		}
+	    }
 	}
 }
 
