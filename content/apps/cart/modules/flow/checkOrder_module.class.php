@@ -445,8 +445,10 @@ class checkOrder_module extends api_front implements api_interface {
 				 && $flow_type != CART_EXCHANGE_GOODS)
 		{
 			$inv_content_list = explode("\n", str_replace("\r", '', ecjia::config('invoice_content')));
+			
 			$inv_type_list = array();
 			$invoice_type  = ecjia::config('invoice_type');
+			$invoice_type = unserialize($invoice_type);
 			foreach ($invoice_type['type'] as $key => $type) {
 				if (!empty($type)) {
 					$inv_type_list[$type] = array(

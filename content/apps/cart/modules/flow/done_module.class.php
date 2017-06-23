@@ -70,7 +70,9 @@ class done_module extends api_front implements api_interface {
     	if (!empty($rec_id)) {
     		$cart_id = explode(',', $rec_id);
     	}
-    	
+    	if (empty($cart_id)) {
+    		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+    	}
     	$location		= $this->requestData('location',array());
     	//TODO:目前强制坐标
 //     	$location = array(
@@ -113,7 +115,7 @@ class done_module extends api_front implements api_interface {
     		'agency_id'		=> 0,
     		'expect_shipping_time' =>  $this->requestData('expect_shipping_time', ''),
     	);
-    	
+    	 
     	$result = RC_Api::api('cart', 'flow_done', array('cart_id' => $cart_id, 'order' => $order, 'address_id' => $address_id, 'flow_type' => $flow_type, 'bonus_sn' => $this->requestData('bonus_sn'), 'location' => $location, 'device' => $this->device));
     	
     	return $result;

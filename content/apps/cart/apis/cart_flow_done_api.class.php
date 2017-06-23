@@ -64,6 +64,9 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		$order = $options['order'];
 
+		$cart_id_array = $options['cart_id'];
+		$flow_type = $options['flow_type'];
+		
 		/* 获取用户收货地址*/
 		if ($options['address_id'] == 0) {
 			$consignee = cart::get_consignee($_SESSION['user_id']);
@@ -393,23 +396,37 @@ class cart_flow_done_api extends Component_Event_Api {
 			$staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
 			if (ecjia::config('sms_order_placed')== '1' && !empty($staff_user['mobile'])) {
 				//发送短信
-				$tpl_name = 'order_placed_sms';
-				$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
-				if (!empty($tpl)) {
-					ecjia_front::$controller->assign('order',	$order);
-					ecjia_front::$controller->assign('consignee', $order['consignee']);
-					ecjia_front::$controller->assign('mobile',	$order['mobile']);
+// 				$tpl_name = 'order_placed_sms';
+// 				$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
+// 				if (!empty($tpl)) {
+// 					ecjia_front::$controller->assign('order',	$order);
+// 					ecjia_front::$controller->assign('consignee', $order['consignee']);
+// 					ecjia_front::$controller->assign('mobile',	$order['mobile']);
 					
-					$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
-					$msg = $order['pay_status'] == PS_UNPAYED ? $content : $content.__('已付款');
+// 					$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
+// 					$msg = $order['pay_status'] == PS_UNPAYED ? $content : $content.__('已付款');
 					
-					$params = array(
-							'mobile' 		=> $staff_user['mobile'],
-							'msg'			=> $msg,
-							'template_id' 	=> $tpl['template_id'],
-					);
-					$response = RC_Api::api('sms', 'sms_send', $params);
-				}
+// 					$params = array(
+// 							'mobile' 		=> $staff_user['mobile'],
+// 							'msg'			=> $msg,
+// 							'template_id' 	=> $tpl['template_id'],
+// 					);
+// 					$response = RC_Api::api('sms', 'sms_send', $params);
+// 				}
+// 			'有客户下单啦！快去看看吧！订单编号：${order_sn}，收货人：${consignee}，联系电话：${mobile}，订单金额：${order_amount}。
+				
+				$options = array(
+					'mobile' => $staff_user['mobile'],
+					'event'	 => 'sms_order_placed',
+					'value'  =>array(
+						'order_sn'		=> $order['order_sn'],
+						'consignee' 	=> $order['consignee'],
+						'telephone'  	=> $order['mobile'],
+						'order_amount'  => $order['order_amount'],
+						'service_phone' => ecjia::config('service_phone'),
+					),
+				);
+				$response = RC_Api::api('sms', 'send_event_sms', $options);
 			}
 		}
 		/* 如果订单金额为0 处理虚拟卡 */
@@ -482,7 +499,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 
 		/* 清空购物车 */
-		cart::clear_cart($options['flow_type'], $options['cart_id']);
+		cart::clear_cart($flow_type, $cart_id_array);
 
 		/* 插入支付日志 */
 		$order['log_id'] = $payment_method->insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
