@@ -12,10 +12,13 @@ class AddCityCodeToAdPositionTable extends Migration {
 	 */
 	public function up()
 	{
+	    RC_Schema::table('ad_position', function(Blueprint $table)
+	    {
+	        $table->dropColumn('position_style');
+	    });
+	    
 		RC_Schema::table('ad_position', function(Blueprint $table)
 		{
-			$table->dropColumn('position_style');
-			
 			$table->string('position_code', 60)->after('position_name');
 			$table->smallInteger('max_number')->unsigned()->default('5')->after('position_desc');
 			$table->integer('city_id')->unsigned()->nullable()->after('max_number');
@@ -46,7 +49,10 @@ class AddCityCodeToAdPositionTable extends Migration {
 		    $table->dropColumn('type');
 		    $table->dropColumn('group_id');
 		    $table->dropColumn('sort_order');
-		    
+		});
+		
+		RC_Schema::table('ad_position', function(Blueprint $table)
+		{
 		    $table->text('position_style')->nullable();
 		});
 	}
