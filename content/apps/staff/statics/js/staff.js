@@ -64,7 +64,7 @@
                 e.preventDefault();
                 var url = $(this).attr('data-url')+'&mobile=' + $("input[name='mobile']").val();
                 $.get(url, function (data) {
-                	if(data.state == 'success'){
+                	if (data.state == 'success') {
 	        		  　    curCount = count;
 	        		     $("#mobile").attr("disabled", "true");
 	        		     $("#get_code").attr("disabled", "true");

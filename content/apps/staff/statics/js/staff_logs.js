@@ -12,8 +12,8 @@
 				var userid = $("select[name='userid']").val();
 				var url = $("form[name='siftForm']").attr('action');
 
-				if(ip == 'undefind')ip='';
-				if(userid == 'undefind')userid='';
+				if (ip == 'undefind')ip='';
+				if (userid == 'undefind')userid='';
 				ecjia.pjax(url + '&ip=' + ip + '&user_id=' + userid);
 			});
 		},
@@ -25,8 +25,8 @@
 				var keyword = $("input[name='keyword']").val();
 				var url = $("form[name='searchForm']").attr('action');
 
-				if(ip == 'undefind')ip='';
-				if(userid == 'undefind')userid='';
+				if (ip == 'undefind')ip='';
+				if (userid == 'undefind')userid='';
 				ecjia.pjax(url + '&ip=' + ip + '&user_id=' + userid + '&keyword=' + keyword);
 			});
 		}

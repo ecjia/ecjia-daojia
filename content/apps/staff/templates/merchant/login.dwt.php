@@ -48,9 +48,9 @@
 				dataType:"json",
 				success:function(data){
 					$('.popover').remove();
-					if(data.state == 'success'){
+					if (data.state == 'success') {
 						window.location.href = data.url;
-					}else{
+					} else {
 						var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						$info.appendTo('.error-msg').delay(5000).hide(0);
 					}

@@ -42,14 +42,14 @@
                 e.preventDefault();
                 var url = $(this).attr('data-url')+'&newmobile=' + $("input[name='newmobile']").val();
                 $.get(url, function (data) {
-                	if(data.state == 'success'){
+                	if (data.state == 'success'){
 	        		  　    curCount = count;
 	        		     $("#get_mobile_code").attr("disabled", "true");
 	        		     $("#get_mobile_code").val("重新发送" + curCount + "(s)");
 	        		     InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
 	        		     var $info = $('<div class="staticalert alert alert-success ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						 $info.appendTo('.success-msg').delay(5000).hide(0);
-					}else{
+					} else {
 						 var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						 $info.appendTo('.error-msg').delay(5000).hide(0);
 					}
@@ -81,10 +81,10 @@
 						$form.ajaxSubmit({
 							dataType : "json",
 							success : function(data) {
-								if(data.state == 'success'){
+								if (data.state == 'success') {
 									$('#mobilemodal').modal('hide');
 									ecjia.merchant.showmessage(data);
-								}else{
+								} else {
 									var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 									$info.appendTo('.error-msg').delay(5000).hide(0);
 								}
@@ -105,14 +105,14 @@
                 e.preventDefault();
                 var url = $(this).attr('data-url')+'&newemail=' + $("input[name='newemail']").val();
                 $.get(url, function (data) {
-                	if(data.state == 'success'){
+                	if (data.state == 'success') {
 	        		  　    curCount = count;
 	        		     $("#get_email_code").attr("disabled", "true");
 	        		     $("#get_email_code").val("重新发送" + curCount + "(s)");
 	        		     InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
 	        		     var $info = $('<div class="staticalert alert alert-success ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						 $info.appendTo('.success-msg').delay(5000).hide(0);
-					}else{
+					} else {
 						var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						$info.appendTo('.error-msg').delay(5000).hide(0);
 					}
@@ -148,10 +148,10 @@
 						$form.ajaxSubmit({
 							dataType : "json",
 							success : function(data) {
-								if(data.state == 'success'){
+								if (data.state == 'success') {
 									$('#emailmodal').modal('hide');
 									ecjia.merchant.showmessage(data);
-								}else{
+								} else {
 									var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 									$info.appendTo('.error-msg').delay(5000).hide(0);
 								}

@@ -130,7 +130,7 @@ class mh_log extends ecjia_merchant {
 			$db_staff_log->where(RC_DB::raw('sl.ip_address'), $ip);
 		}
 
-		if(!empty($keyword)) {
+		if (!empty($keyword)) {
 			$db_staff_log->where(RC_DB::raw('sl.log_info'), 'like', '%'.$keyword.'%');
 		}
 

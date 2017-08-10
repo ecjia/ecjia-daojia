@@ -209,7 +209,7 @@ class mh_profile extends ecjia_merchant {
 	//获取短信验证码
 	public function get_mobile_code(){
 		$newmobile = $_GET['newmobile'];
-		if(empty($newmobile)){
+		if (empty($newmobile)) {
 			return $this->showmessage('请输入新的手机账号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
@@ -229,7 +229,7 @@ class mh_profile extends ecjia_merchant {
 		$response = RC_Api::api('sms', 'send_event_sms', $options);
 		if (is_ecjia_error($response)) {
 			return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			$_SESSION['temp_code'] 	= $code;
 			$_SESSION['temp_code_time'] = RC_Time::gmtime();
 			return $this->showmessage('手机验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -252,7 +252,7 @@ class mh_profile extends ecjia_merchant {
 			RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
 			ecjia_merchant::admin_log('', 'edit', 'account_set');
 			return $this->showmessage('更改手机账号成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/setting')));
-		}else{
+		} else {
 			return $this->showmessage('请输入正确的手机校验码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
@@ -262,7 +262,7 @@ class mh_profile extends ecjia_merchant {
 	public function get_email_code(){
 		$newemail = $_GET['newemail'];
 		
-		if(empty($newemail)){
+		if (empty($newemail)) {
 			return $this->showmessage('请输入新的邮件账号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		

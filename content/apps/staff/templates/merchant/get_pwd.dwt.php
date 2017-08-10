@@ -143,9 +143,9 @@
 			$this.ajaxSubmit({
 				dataType:"json",
 				success:function(data){
-					if(data.state == 'success'){
+					if (data.state == 'success'){
 						window.location.href = data.url;
-					}else{
+					} else {
 						var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						$info.appendTo('.error-msg').delay(5000).hide(0);
 					}
@@ -160,12 +160,12 @@
              e.preventDefault();
              var url = $(this).attr('data-url');
              $.get(url, function (data) {
-              	if(data.state == 'success'){
+              	if (data.state == 'success') {
                 	curCount = count;
             		$("#get_code_value").attr("disabled", "true");
             		$("#get_code_value").val("重新发送" + curCount + "(s)");
             		InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
-				}else{
+				} else {
 					var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 					$info.appendTo('.error-msg').delay(5000).hide(0);
 				}
@@ -178,8 +178,7 @@
                 window.clearInterval(InterValObj);
                 $("#get_code_value").removeAttr("disabled");
                 $("#get_code_value").val("重新发送验证码");
-            }
-            else {
+            } else {
                 curCount--;
                 $("#get_code_value").val("重新发送" + curCount + "(s)");
             }
@@ -193,9 +192,9 @@
 			$this.ajaxSubmit({
 				dataType:"json",
 				success:function(data){
-					if(data.state == 'success'){
+					if (data.state == 'success') {
 						window.location.href = data.url;
-					}else{
+					} else {
 						var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						$info.appendTo('.error-msg').delay(5000).hide(0);
 					}
@@ -210,9 +209,9 @@
 			$this.ajaxSubmit({
 				dataType:"json",
 				success:function(data){
-					if(data.state == 'success'){
+					if (data.state == 'success') {
 						window.location.href = data.url;
-					}else{
+					} else {
 						var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						$info.appendTo('.error-msg').delay(5000).hide(0);
 					}
