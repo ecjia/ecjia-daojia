@@ -26,6 +26,14 @@ return array(
         'file'  => env('WECHAT_LOG_FILE', storage_path('logs/wechat.log')),
     ),
     /*
+     * 小程序配置
+     */
+    'mini_app' => array(
+        'app_id'      => env('WEAPP_APPID', 'your-app-id'),         // AppID
+        'app_secret'  => env('WEAPP_SECRET', 'your-app-secret'),    // AppSecret
+        'grant_type'  => env('WEAPP_GRANT_TYPE', 'authorization_code'),
+    ),
+    /*
      * OAuth 配置
      *
      * only_wechat_browser: 只在微信浏览器跳转

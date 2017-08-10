@@ -29,7 +29,7 @@ class WeChatServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-	    $this->royalcms['config']->package('royalcms/wechat', __DIR__ . '/Config');
+	    $this->package('royalcms/wechat');
 	    
 		$this->registerWeChat();
 		
