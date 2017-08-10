@@ -3432,6 +3432,29 @@ if ( ! function_exists('array_sort'))
     }
 }
 
+if (! function_exists('array_has')) {
+    function array_has($array, $key)
+    {
+        if (empty($array) || is_null($key)) {
+            return false;
+        }
+
+        if (array_key_exists($key, $array)) {
+            return true;
+        }
+
+        foreach (explode('.', $key) as $segment) {
+            if (! is_array($array) || ! array_key_exists($segment, $array)) {
+                return false;
+            }
+
+            $array = $array[$segment];
+        }
+
+        return true;
+    }
+}
+
 if (!function_exists('debug')) {
     /**
      * Adds one or more messages to the MessagesCollector
