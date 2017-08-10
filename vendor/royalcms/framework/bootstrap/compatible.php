@@ -219,7 +219,14 @@ if ( !class_exists('\CURLFile'))
 }
 
 
-if ( ! function_exists( 'random_int' ) ) {
+if ( !function_exists( 'random_int' ) ) {
     // random_int was introduced in PHP 7.0
     require VENDOR_PATH . 'paragonie/random_compat/lib/random.php';
+}
+
+// PHP 5 >= 5.5.0, PHP 7
+if ( !function_exists('boolval')) {
+    function boolval($val) {
+        return (bool) $val;
+    }
 }
