@@ -56,7 +56,6 @@ return array(
 		1 => '订单列表|index.php?m=orders&c=admin&a=init',
 		2 => '会员列表|index.php?m=user&c=admin&a=init',
 		3 => '入驻商家|index.php?m=store&c=admin&a=init',
-		4 => '广告列表|index.php?m=adsense&c=admin&a=init',
 	),
 	'password_invaild'			=> '密码必须同时包含字母及数字',
 	'password_short'			=> '密码长度不能小于8',
