@@ -93,7 +93,7 @@ return array(
     'order/affirmReceived'  => 'orders::order/affirmReceived',
     'order/cancel'          => 'orders::order/cancel',
     'order/list'            => 'orders::order/list',
-    'order/pay'             => 'orders::order/pay',
+    'order/pay'             => 'payment::order/pay',
     'order/detail'          => 'orders::order/detail',
     'order/update'          => 'orders::order/update',
     'order/express'         => 'orders::order/express',
@@ -390,7 +390,13 @@ return array(
 	'article/detail'				=> 'article::article/detail',  			 //1.6
 	'article/home/cycleimage'		=> 'article::article/home/cycleimage',   //1.6
 	
+	'weapp/wxlogin'					=> 'weapp::weapp/wxlogin',	//小程序登录
+	'weapp/wxbind'					=> 'weapp::weapp/wxbind',	//小程序绑定用户
+	'weapp/wxpay'					=> 'weapp::weapp/wxpay',	//小程序微信支付
+	
+	'admin/merchant/refreshQrcode'	=> 'store::admin/merchant/refreshQrcode',	//1.7 掌柜店铺刷新二维码
     
+	
     /** 1.0 已经废弃
      * article 
      * 'article'				=> 'article::article/detail',
