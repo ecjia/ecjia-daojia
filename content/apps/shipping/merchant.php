@@ -165,11 +165,11 @@ class merchant extends ecjia_merchant {
 		foreach ($disabled_data as $_key => $_value) {
 			if (isset($plugins[$_value['shipping_code']])) {
 				$disabled_modules[$_key]['id']      			= $_value['shipping_id'];
-				$disabled_modules[$_key]['code']      		= $_value['shipping_code'];
+				$disabled_modules[$_key]['code']      			= $_value['shipping_code'];
 				$disabled_modules[$_key]['name']    			= $_value['shipping_name'];
 				$disabled_modules[$_key]['desc']    			= $_value['shipping_desc'];
 				$disabled_modules[$_key]['cod']     			= $_value['support_cod'];
-				$disabled_modules[$_key]['shipping_order'] 	= $_value['shipping_order'];
+				$disabled_modules[$_key]['shipping_order'] 		= $_value['shipping_order'];
 				$disabled_modules[$_key]['insure_fee']  		= $_value['insure'];
 				$disabled_modules[$_key]['enabled'] 			= $_value['enabled'];
 					
