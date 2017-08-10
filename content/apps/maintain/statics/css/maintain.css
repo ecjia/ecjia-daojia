@@ -1,0 +1,23 @@
+.outline{
+    background-color: #efefef;
+    border-radius: 5px;
+    color: #000000;
+	width:30%;
+	margin-bottom: 10px;
+	display: inline-block;
+	vertical-align: top;
+}
+.outline-right{
+    margin-top: 6px;
+}
+
+.outline a{
+	color:#000000;
+	text-decoration:none;
+}
+.outline a:hover {
+    color:#08c;
+	text-decoration:none;
+}
+
+
