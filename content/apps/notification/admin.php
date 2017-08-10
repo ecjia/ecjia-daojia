@@ -170,7 +170,8 @@ class admin extends ecjia_admin {
 	
 	//格式化时间
 	private function format_date($time){
-		$time = RC_Time::local_strtotime($time);
+		$timezone = RC_Time::server_timezone();
+		$time = RC_Time::local_strtotime($time)+($timezone * 3600);
 		$t = RC_Time::gmtime()-$time;
 		$f = array(
 			'31536000'	=>'年',
