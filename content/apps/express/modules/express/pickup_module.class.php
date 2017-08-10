@@ -80,39 +80,41 @@ class pickup_module extends api_admin implements api_interface {
     	$where = array('staff_id' => $_SESSION['staff_id'], 'delivery_sn' => $delivery_sn);
     	RC_Model::model('express/express_order_model')->where($where)->update(array('status' => 2, 'express_time' => RC_Time::gmtime()));
     	
-    	$express_order = array(
-    		'express_id'	        => $express_order_info['express_id'],
-    		'express_sn'	        => $express_order_info['express_sn'],
-    		'express_type'	        => $express_order_info['from'],
-    		'label_express_type'	=> $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
-    		'order_sn'		        => $express_order_info['order_sn'],
-    		'payment_name'	        => $express_order_info['pay_name'],
-    		'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $express_order_info['merchant_address'],
-    		'express_from_location'	=> array(
-    			'longitude' => $express_order_info['merchant_longitude'],
-    			'latitude'	=> $express_order_info['merchant_latitude'],
-    		),
-    		'express_to_address'	=> $express_order_info['address'],
-    		'express_to_location'	=> array(
-    			'longitude' => $express_order_info['longitude'],
-    			'latitude'	=> $express_order_info['latitude'],
-    		),
-    		'distance'		=> $express_order_info['distance'],
-    		'consignee'		=> $express_order_info['consignee'],
-    		'mobile'		=> $express_order_info['mobile'],
-    		'receive_time'	=> $express_order_info['receive_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['receive_time']) : '',
-    		'order_time'	=> $express_order_info['order_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['order_time']) : '',
-    		'pay_time'		=> empty($express_order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['pay_time']),
-    		'best_time'		=> $express_order_info['best_time'],
-    		'shipping_fee'	=> $express_order_info['shipping_fee'],
-    		'order_amount'	=> $express_order_info['order_amount'],
-    	);
     	
-    	$express_data = array(
-    		'title' => '取货成功',
-    		'body'	=> '您已成功取得配送单号为：'.$express_order_info['express_sn'].'的配送货物',
-    		'data'	=> $express_order
-    	);
+    	//推送消息
+//     	$express_order = array(
+//     		'express_id'	        => $express_order_info['express_id'],
+//     		'express_sn'	        => $express_order_info['express_sn'],
+//     		'express_type'	        => $express_order_info['from'],
+//     		'label_express_type'	=> $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
+//     		'order_sn'		        => $express_order_info['order_sn'],
+//     		'payment_name'	        => $express_order_info['pay_name'],
+//     		'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $express_order_info['merchant_address'],
+//     		'express_from_location'	=> array(
+//     			'longitude' => $express_order_info['merchant_longitude'],
+//     			'latitude'	=> $express_order_info['merchant_latitude'],
+//     		),
+//     		'express_to_address'	=> $express_order_info['address'],
+//     		'express_to_location'	=> array(
+//     			'longitude' => $express_order_info['longitude'],
+//     			'latitude'	=> $express_order_info['latitude'],
+//     		),
+//     		'distance'		=> $express_order_info['distance'],
+//     		'consignee'		=> $express_order_info['consignee'],
+//     		'mobile'		=> $express_order_info['mobile'],
+//     		'receive_time'	=> $express_order_info['receive_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['receive_time']) : '',
+//     		'order_time'	=> $express_order_info['order_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['order_time']) : '',
+//     		'pay_time'		=> empty($express_order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['pay_time']),
+//     		'best_time'		=> $express_order_info['best_time'],
+//     		'shipping_fee'	=> $express_order_info['shipping_fee'],
+//     		'order_amount'	=> $express_order_info['order_amount'],
+//     	);
+    	
+//     	$express_data = array(
+//     		'title' => '取货成功',
+//     		'body'	=> '您已成功取得配送单号为：'.$express_order_info['express_sn'].'的配送货物',
+//     		'data'	=> $express_order
+//     	);
     	
     	$goods_items = RC_DB::table('delivery_goods as dg')
     		->leftjoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
@@ -144,28 +146,43 @@ class pickup_module extends api_admin implements api_interface {
     	));
     	
     	/* 新增通知*/
-    	$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
-    	$user              = $orm_staff_user_db->find($_SESSION['staff_id']);
-    	$express_pickup    = new ExpressPickup($express_data);
+//     	$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
+//     	$user              = $orm_staff_user_db->find($_SESSION['staff_id']);
+//     	$express_pickup    = new ExpressPickup($express_data);
     	
-    	RC_Notification::send($user, $express_pickup);
+//     	RC_Notification::send($user, $express_pickup);
     	
     	/*推送消息*/
-    	$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $_SESSION['staff_id']));
-    	if (!is_ecjia_error($devic_info) && !empty($devic_info)) {
-    		$push_event = RC_Model::model('push/push_event_viewmodel')->where(array('event_code' => 'express_pickup', 'is_open' => 1, 'status' => 1, 'mm.app_id is not null', 'mt.template_id is not null', 'device_code' => $devic_info['device_code'], 'device_client' => $devic_info['device_client']))->find();
-    		if (!empty($push_event)) {
-    			RC_Loader::load_app_class('push_send', 'push', false);
-    			ecjia_admin::$controller->assign('express_info', $express_order_info);
-    			$content = ecjia_admin::$controller->fetch_string($push_event['template_content']);
+//     	$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $_SESSION['staff_id']));
+//     	if (!is_ecjia_error($devic_info) && !empty($devic_info)) {
+//     		$push_event = RC_Model::model('push/push_event_viewmodel')->where(array('event_code' => 'express_pickup', 'is_open' => 1, 'status' => 1, 'mm.app_id is not null', 'mt.template_id is not null', 'device_code' => $devic_info['device_code'], 'device_client' => $devic_info['device_client']))->find();
+//     		if (!empty($push_event)) {
+//     			RC_Loader::load_app_class('push_send', 'push', false);
+//     			ecjia_admin::$controller->assign('express_info', $express_order_info);
+//     			$content = ecjia_admin::$controller->fetch_string($push_event['template_content']);
     	
-    			if ($devic_info['device_client'] == 'android') {
-    				$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_ANDROID)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-    			} elseif ($devic_info['device_client'] == 'iphone') {
-    				$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_IPHONE)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-    			}
-    		}
-    	}
+//     			if ($devic_info['device_client'] == 'android') {
+//     				$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_ANDROID)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
+//     			} elseif ($devic_info['device_client'] == 'iphone') {
+//     				$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_IPHONE)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
+//     			}
+//     		}
+//     	}
+
+    	//新的推送消息方法
+    	$options = array(
+    		'user_id'   => $_SESSION['staff_id'],
+    		'user_type' => 'merchant',
+    		'event'     => 'express_pickup',
+    		'value' => array(
+    			'express_sn'=> $express_order_info['express_sn'],
+    		),
+    		'field' => array(
+    			'open_type' => 'admin_message',
+    		),
+    	);
+    	RC_Api::api('push', 'push_event_send', $options);
+    	
 		return $express_order;
 	 }	
 }
