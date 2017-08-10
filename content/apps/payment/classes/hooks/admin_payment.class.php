@@ -46,52 +46,15 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 获取支付方式下拉列表
- * @author wutifang
- */
-class payment_pay_list_api extends Component_Event_Api {
+class payment_admin_plugin {
 	
-	public function __construct() {
-		parent::__construct();
-		
-	}
-	
-    /**
-     * @return array
-     */
-	public function call(&$options) {	
-	   	return $this->get_pay_list();
-	}
-	
-	/**
-	 * 获取支付方式列表
-	 */
-	private function get_pay_list() {
-// 		$db_payment = RC_Loader::load_app_model('payment_model', 'payment');
-		
-		$plugins = ecjia_config::instance()->get_addon_config('payment_plugins', true, true);
-
-// 		$data = $db_payment->payment_select('pay_order');
-		$data = RC_DB::table('payment')->orderby('pay_order')->get();
-		$data or $data = array();
-		$modules = array();
-		if (!empty($data)) {
-			foreach ($data as $_key => $_value) {
-				if (isset($plugins[$_value['pay_code']])) {
-					$modules[$_key]['id'] 		= $_value['pay_id'];
-					$modules[$_key]['code'] 	= $_value['pay_code'];
-					$modules[$_key]['name'] 	= $_value['pay_name'];
-					$modules[$_key]['pay_fee'] 	= $_value['pay_fee'];
-					$modules[$_key]['is_cod'] 	= $_value['is_cod'];
-					$modules[$_key]['desc'] 	= $_value['pay_desc'];
-					$modules[$_key]['pay_order']= $_value['pay_order'];
-					$modules[$_key]['enabled'] 	= $_value['enabled'];
-				}
-			}
-		}
-		return $modules;
+	static public function payment_admin_menu_api($menus) {
+	    $menu = ecjia_admin::make_admin_menu('payment_record', RC_Lang::get('payment::payment.transaction_flow_record'), RC_Uri::url('payment/admin_payment_record/init'), 11)->add_purview('payment_manage');
+	    $menus->add_submenu($menu);
+	    return $menus;
 	}
 }
+
+RC_Hook::add_filter( 'finance_admin_menu_api', array('payment_admin_plugin', 'payment_admin_menu_api') );
 
 // end

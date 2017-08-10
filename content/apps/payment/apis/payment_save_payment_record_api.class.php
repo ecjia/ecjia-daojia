@@ -47,51 +47,58 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 获取支付方式下拉列表
+ * 获取支付方式信息
  * @author wutifang
  */
-class payment_pay_list_api extends Component_Event_Api {
-	
-	public function __construct() {
-		parent::__construct();
-		
-	}
+class payment_save_payment_record_api extends Component_Event_Api {
 	
     /**
+     * order_sn 订单编号（必填）
+     * total_fee 订单金额
+     * pay_code 支付代号
+     * pay_name 支付名称
+     * trade_type   交易类型： buy 购买， deposit 充值， withdraw 提现
      * @return array
      */
 	public function call(&$options) {	
-	   	return $this->get_pay_list();
+		if (!array_get($options, 'order_sn') || !array_has($options, 'total_fee')) {
+			return new ecjia_error('invalid_parameter', __('缺少必要参数'));
+		}
+		
+		$trade_type = array_get($options, 'trade_type', 'buy');
+		
+		/* 插入支付流水记录 */
+		$db = RC_DB::table('payment_record');
+		$payment_record = $db->where('order_sn', $options['order_sn'])->where('trade_type', $trade_type)->first();
+		$payment_data = array(
+		    'order_sn'		=> $options['order_sn'],
+		    'total_fee'     => $options['total_fee'],
+		    'trade_type'	=> $trade_type,
+		    'pay_status'	=> 0,
+		);
+		
+		$pay_code = array_get($options, 'pay_code', '');
+		
+		if (array_has($options, 'pay_code') && array_has($options, 'pay_name')) {
+		    $payment_data['pay_code'] = $pay_code;
+		    $payment_data['pay_name'] = array_get($options, 'pay_name');
+		}
+		
+		if (empty($payment_record)) 
+		{
+		    $payment_data['create_time'] = RC_Time::gmtime();
+		    $db->insert($payment_data);
+		} 
+		else if ($payment_record['pay_status'] == 0 && 
+            $payment_record['pay_code'] != $pay_code && 
+		    $options['total_fee'] != $payment_record['total_fee']) {
+		    $payment_data['update_time'] = RC_Time::gmtime();
+		    $db->where('order_sn', $options['order_sn'])->update($payment_data);
+		}
+		
+		return true;
 	}
 	
-	/**
-	 * 获取支付方式列表
-	 */
-	private function get_pay_list() {
-// 		$db_payment = RC_Loader::load_app_model('payment_model', 'payment');
-		
-		$plugins = ecjia_config::instance()->get_addon_config('payment_plugins', true, true);
-
-// 		$data = $db_payment->payment_select('pay_order');
-		$data = RC_DB::table('payment')->orderby('pay_order')->get();
-		$data or $data = array();
-		$modules = array();
-		if (!empty($data)) {
-			foreach ($data as $_key => $_value) {
-				if (isset($plugins[$_value['pay_code']])) {
-					$modules[$_key]['id'] 		= $_value['pay_id'];
-					$modules[$_key]['code'] 	= $_value['pay_code'];
-					$modules[$_key]['name'] 	= $_value['pay_name'];
-					$modules[$_key]['pay_fee'] 	= $_value['pay_fee'];
-					$modules[$_key]['is_cod'] 	= $_value['is_cod'];
-					$modules[$_key]['desc'] 	= $_value['pay_desc'];
-					$modules[$_key]['pay_order']= $_value['pay_order'];
-					$modules[$_key]['enabled'] 	= $_value['enabled'];
-				}
-			}
-		}
-		return $modules;
-	}
 }
 
 // end

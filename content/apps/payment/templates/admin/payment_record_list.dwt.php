@@ -45,7 +45,7 @@
 					<th>{lang key='payment::payment.trade_no'}</th>
 					<th class="w110">{lang key='payment::payment.pay_name'}</th>
 					<th class="w110">{lang key='payment::payment.total_fee'}</th>
-					<th class="w130">{lang key='payment::payment.create_time'}</th>
+					<th class="w130">{lang key='payment::payment.create_time'} / {lang key='payment::payment.pay_times'}</th>
 					<th class="w100">{lang key='payment::payment.pay_status'}</th>
 				</tr>
 			</thead>
@@ -61,7 +61,7 @@
 				<td>{$list.trade_no}</td>
 				<td>{$list.pay_name}</td>
 				<td>{$list.total_fee}</td>
-				<td>{$list.create_time}</td>
+				<td>{$list.create_time}<br>{$list.pay_time}</td>
 				<td>{$list.pay_status}</td>
 			</tr>
 			<!-- {foreachelse} -->

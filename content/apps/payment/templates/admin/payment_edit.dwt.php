@@ -8,6 +8,12 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+{if $pay.enabled neq 1}
+<div class="alert alert-error">
+	<strong>温馨提示：</strong>该支付方式已经禁用，如果您需要使用，请点击<a class="switch" href="javascript:;" data-url='{RC_Uri::url("payment/admin/enable", "code={$pay.pay_code}&from=edit")}' title="{lang key='payment::payment.enable'}">启用</a>。
+</div>
+{/if}
+
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
@@ -23,56 +29,58 @@
 				<div class="control-group formSep">
 					<label class="control-label">{lang key='payment::payment.label_payment_name'}</label>
 					<div class="controls">
-						<input class="w350" name="pay_name" type="text" id="pay_name" value="{$pay.pay_name|escape}" size="40" />
+						<input class="w350" name="pay_name" type="text" id="pay_name" value="{$pay.pay_name|escape}" size="40" {if $pay.enabled neq 1}disabled{/if}/>
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
 					<label class="control-label">{lang key='payment::payment.label_payment_desc'}</label>
 					<div class="controls">
-						<textarea class="w350" id="pay_desc" name="pay_desc"  cols="10" rows="6">{$pay.pay_desc|escape}</textarea>
+						<textarea class="w350" id="pay_desc" name="pay_desc" cols="10" rows="6" {if $pay.enabled neq 1}disabled{/if}>{$pay.pay_desc|escape}</textarea>
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
 				</div>
-				<!-- {foreach from=$pay.pay_config item=config key=key} -->
-				<div class="control-group formSep">
-					<label class="control-label">{$config.label}</label>
-					<div class="controls">
-						<!-- {if $config.type == "text"} -->
-						<input class="w350" id="cfg_value[]" name="cfg_value[]" type="{$config.type}" value="{$config.value}" size="40" />
-						<!-- {elseif $config.type == "textarea"} -->
-						<textarea class="w350" id="cfg_value[]" name="cfg_value[]" cols="80" rows="5">{$config.value}</textarea>
-						<!-- {elseif $config.type == "select"} -->
-						<select class="w350" id="cfg_value[]" name="cfg_value[]"  >
-							<!-- {html_options options=$config.range selected=$config.value} -->
-						</select>
-						<!-- {/if} -->
-						<input name="cfg_name[]" type="hidden" value="{$config.name}" />
-						<input name="cfg_type[]" type="hidden" value="{$config.type}" />
-						<input name="cfg_lang[]" type="hidden" value="{$config.lang}" />
-						{if $config.desc}
-						<br />
-						<span class="notice-span type-msg"{if $help_open}style="display:block" {else} style="display:none" {/if} id="notice{$config.name}">{$config.desc}</span>
-						{/if}
-						<!--the tenpay code -->
-						{if $key eq "0"}
-						{if $smarty.get.code eq "tenpay"}<input type="button" value="{lang key='payment::payment.ctenpay'}" onclick="javascript:window.open('{lang key='payment::payment.ctenpay_url'}')"/>
-						{elseif $smarty.get.code eq "tenpayc2c"} <input type="button" value="{lang key='payment::payment.ctenpay'}" onclick="javascript:window.open('{lang key='payment::payment.ctenpayc2c_url'}')"/>
-						{/if}
-						{/if}
-						<!--the tenpay code -->
+				<!-- {if $pay.enabled eq 1} -->
+					<!-- {foreach from=$pay.pay_config item=config key=key} -->
+					<div class="control-group formSep">
+						<label class="control-label">{$config.label}</label>
+						<div class="controls">
+							<!-- {if $config.type == "text"} -->
+							<input class="w350" id="cfg_value[]" name="cfg_value[]" type="{$config.type}" value="{$config.value}" size="40" />
+							<!-- {elseif $config.type == "textarea"} -->
+							<textarea class="w350" id="cfg_value[]" name="cfg_value[]" cols="80" rows="5">{$config.value}</textarea>
+							<!-- {elseif $config.type == "select"} -->
+							<select class="w350" id="cfg_value[]" name="cfg_value[]"  >
+								<!-- {html_options options=$config.range selected=$config.value} -->
+							</select>
+							<!-- {/if} -->
+							<input name="cfg_name[]" type="hidden" value="{$config.name}" />
+							<input name="cfg_type[]" type="hidden" value="{$config.type}" />
+							<input name="cfg_lang[]" type="hidden" value="{$config.lang}" />
+							{if $config.desc}
+							<br />
+							<span class="notice-span type-msg"{if $help_open}style="display:block" {else} style="display:none" {/if} id="notice{$config.name}">{$config.desc}</span>
+							{/if}
+							<!--the tenpay code -->
+							{if $key eq "0"}
+							{if $smarty.get.code eq "tenpay"}<input type="button" value="{lang key='payment::payment.ctenpay'}" onclick="javascript:window.open('{lang key='payment::payment.ctenpay_url'}')"/>
+							{elseif $smarty.get.code eq "tenpayc2c"} <input type="button" value="{lang key='payment::payment.ctenpay'}" onclick="javascript:window.open('{lang key='payment::payment.ctenpayc2c_url'}')"/>
+							{/if}
+							{/if}
+							<!--the tenpay code -->
+						</div>
 					</div>
-				</div>
-				<!-- {/foreach} -->
+					<!-- {/foreach} -->
+				<!-- {/if} -->
 				<!-- 支付手续费 -->
 				<div class="control-group formSep">
 					<label class="control-label">{lang key='payment::payment.label_pay_fee'}</label>
 					<div class="controls">
 						{if $pay.is_cod }
 						<label class="p_t5">{lang key='payment::payment.decide_by_ship'}</label>
-						<input class="w350" name="pay_fee" type="hidden" value="{$pay.pay_fee|default:0}" />
+						<input class="w350" name="pay_fee" type="hidden" value="{$pay.pay_fee|default:0}" {if $pay.enabled neq 1}disabled{/if}/>
 						{else}
-						<input class="w350" name="pay_fee" type="text" value="{$pay.pay_fee|default:0}" />
+						<input class="w350" name="pay_fee" type="text" value="{$pay.pay_fee|default:0}" {if $pay.enabled neq 1}disabled{/if}/>
 						{/if}
 					</div>
 				</div>
@@ -92,7 +100,7 @@
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+						<button class="btn btn-gebo" type="submit" {if $pay.enabled neq 1}disabled{/if}>{lang key='system::system.button_submit'}</button>
 						<input type="hidden" name="pay_id" value="{$pay.pay_id}" />
 						<input type="hidden" name="pay_code" value="{$pay.pay_code}" />
 						<input type="hidden" name="is_cod" value="{$pay.is_cod}" />

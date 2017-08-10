@@ -69,7 +69,6 @@ class admin_payment_record extends ecjia_admin {
 		RC_Style::enqueue_style('chosen');
 		RC_Script::enqueue_script('jquery-chosen');
 
-		RC_Loader::load_app_class('payment_factory', null, false);
 	}
 
 	/**
@@ -106,8 +105,13 @@ class admin_payment_record extends ecjia_admin {
 		RC_Loader::load_app_func('global');
 		$id = $_REQUEST['id'];
 		$order_sn = RC_DB::table('payment_record')->select('order_sn')->where('id', $id)->pluck();
-		$order = order_info($order_sn);
-
+		
+		//获取订单信息
+		$order = RC_Api::api('orders', 'order_sn_info', array('order_sn' => $order_sn));
+		
+		if (is_ecjia_error($order)) {
+			$order = array();
+		}
 		$db_payment_record = RC_DB::table('payment_record')->where('order_sn', $order_sn)->first();
 
 		if ($db_payment_record['trade_type'] == 'buy') {

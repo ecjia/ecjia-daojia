@@ -3,6 +3,13 @@
     app.payment_list = {
         /* 支付方式编辑form提交 */
         submit: function () {
+            $('.switch').on('click', function (e) {
+                var url = $(this).attr('data-url');
+            	$.get(url, function(data) {
+            		ecjia.admin.showmessage(data);
+            	});
+            });
+            
             var $form = $('form[name="editForm"]');
             /* 给表单加入submit事件 */
             var option = {

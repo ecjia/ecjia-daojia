@@ -47,50 +47,98 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 获取支付方式下拉列表
- * @author wutifang
+ * 订单支付
+ * @author royalwang
+ * 16-12-09 增加支付状态
  */
-class payment_pay_list_api extends Component_Event_Api {
-	
-	public function __construct() {
-		parent::__construct();
+class pay_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	
+    	$user_id = $_SESSION['user_id'];
+    	if ($user_id < 1 ) {
+    	    return new ecjia_error(100, 'Invalid session');
+    	}
+    	
+		$order_id	= $this->requestData('order_id', 0);
+		$is_mobile	= $this->requestData('is_mobile', true);
 		
-	}
-	
-    /**
-     * @return array
-     */
-	public function call(&$options) {	
-	   	return $this->get_pay_list();
-	}
-	
-	/**
-	 * 获取支付方式列表
-	 */
-	private function get_pay_list() {
-// 		$db_payment = RC_Loader::load_app_model('payment_model', 'payment');
-		
-		$plugins = ecjia_config::instance()->get_addon_config('payment_plugins', true, true);
-
-// 		$data = $db_payment->payment_select('pay_order');
-		$data = RC_DB::table('payment')->orderby('pay_order')->get();
-		$data or $data = array();
-		$modules = array();
-		if (!empty($data)) {
-			foreach ($data as $_key => $_value) {
-				if (isset($plugins[$_value['pay_code']])) {
-					$modules[$_key]['id'] 		= $_value['pay_id'];
-					$modules[$_key]['code'] 	= $_value['pay_code'];
-					$modules[$_key]['name'] 	= $_value['pay_name'];
-					$modules[$_key]['pay_fee'] 	= $_value['pay_fee'];
-					$modules[$_key]['is_cod'] 	= $_value['is_cod'];
-					$modules[$_key]['desc'] 	= $_value['pay_desc'];
-					$modules[$_key]['pay_order']= $_value['pay_order'];
-					$modules[$_key]['enabled'] 	= $_value['enabled'];
-				}
-			}
+		if (!$order_id) {
+			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 		}
-		return $modules;
+		
+		/* 订单详情 */
+		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+		if (is_ecjia_error($order)) {
+			return $order;
+		}
+		
+		if ($_SESSION['user_id'] != $order['user_id']) {
+			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
+		}
+		
+		//判断是否是管理员登录
+		if ($_SESSION['admin_id'] > 0) {
+			$_SESSION['user_id'] = $order['user_id'];
+		}
+		
+		//支付方式信息
+		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
+		if (is_ecjia_error($handler)) {
+		    return $handler;
+		}
+		
+		/* 插入支付流水记录*/
+		RC_Api::api('payment', 'save_payment_record', [
+    		'order_sn' 		 => $order['order_sn'],
+    		'total_fee'      => $order['order_amount'],
+    		'pay_code'       => $handler->getCode(),
+    		'pay_name'		 => $handler->getName(),
+    		'trade_type'	 => 'buy',
+		]);
+		
+		$handler->set_orderinfo($order);
+		$handler->set_mobile($is_mobile);
+		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
+		
+		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
+        if (is_ecjia_error($result)) {
+            return $result;
+        } else {
+            $order['payment'] = $result;
+        }
+
+        //增加支付状态
+        $order['payment']['order_pay_status'] = $order['pay_status'];//0 未付款，1付款中，2已付款
+        
+        $cod_fee = 0;
+        if (intval($order['shipping_id']) > 0) {
+            $shipping = RC_Api::api('shipping', 'shipping_area_info', array(
+            	'shipping_id' => $order['shipping_id'],
+            	'store_id'     => $order['store_id'],
+            	'country'      => $order['country'],
+            	'province'     => $order['province'],
+            	'city'         => $order['city'],
+            	'district'     => $order['district'],
+            ));
+            
+            if (! is_ecjia_error($shipping)) {
+                if (array_get($shipping, 'shipping.support_cod')) {
+                    $cod_fee = array_get($shipping, 'area.pay_fee');
+                }
+            }
+        }
+        
+        $payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $order['store_id'], 'cod_fee' => $cod_fee));
+
+        $other = collect($payment_list)->mapWithKeys(function ($item) use ($order) {
+            if ($item['pay_id'] == $order['pay_id']) {
+                return array();
+            }
+            
+            return array($item);
+        })->all();
+
+        return array('payment' => $order['payment'], 'others' => $other);
 	}
 }
 

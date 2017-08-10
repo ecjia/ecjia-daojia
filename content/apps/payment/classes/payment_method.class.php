@@ -125,7 +125,8 @@ class payment_method {
 	    }
 	    $config['pay_code'] = $pay_code;
 	    $config['pay_name'] = $payment_info['pay_name'];
-	    $handler = new payment_factory($pay_code, $config);
+// 	    $handler = new payment_factory($pay_code, $config);
+	    $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($pay_code);
 	    return $handler;
 	}
 	

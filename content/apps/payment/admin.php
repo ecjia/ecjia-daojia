@@ -143,18 +143,20 @@ class admin extends ecjia_admin {
 		$this->admin_priv('payment_update', ecjia::MSGTYPE_JSON);
 		
 		$code = trim($_GET['code']);
+		$from = trim($_GET['from']);
 		$data = array(
 			'enabled' => 1
 		);
 		
 		RC_DB::table('payment')->where('pay_code', $code)->update($data);
-		
-		
 		$pay_name = RC_DB::table('payment')->where('pay_code', $code)->pluck('pay_name');
 		
 		ecjia_admin::admin_log($pay_name, 'use', 'payment');
-		
+
 		$refresh_url = RC_Uri::url('payment/admin/init');
+		if ($from == 'edit') {
+			$refresh_url = RC_Uri::url('payment/admin/edit', array('code' => $code));
+		}
 		return $this->showmessage(RC_Lang::get('payment::payment.plugin')."<strong> ".RC_Lang::get('payment::payment.enabled')." </strong>", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 	}
 	
@@ -174,14 +176,14 @@ class admin extends ecjia_admin {
 		    return $this->showmessage(__('invalid parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 查询该支付方式内容 */
-		$pay = RC_DB::table('payment')->where('pay_code', $pay_code)->where('enabled', 1)->first();
+		$pay = RC_DB::table('payment')->where('pay_code', $pay_code)->first();
 		
 		if (empty($pay)) {
 		    return $this->showmessage(RC_Lang::get('payment::payment.payment_not_available'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		/* 取得配置信息 */
-		if (is_string($pay['pay_config'])) {
+		if ($pay['enabled'] == 1 && is_string($pay['pay_config'])) {
 		    $pay_config = unserialize($pay['pay_config']);
 		    /* 取出已经设置属性的code */
 		    $code_list = array();
@@ -190,8 +192,10 @@ class admin extends ecjia_admin {
 		            $code_list[$value['name']] = $value['value'];
 		        }
 		    }
-		    $payment_handle = new payment_factory($pay_code);
-		    $pay['pay_config'] = $payment_handle->configure_forms($code_list, true);
+// 		    $payment_handle = new payment_factory($pay_code);
+// 		    $pay['pay_config'] = $payment_handle->configure_forms($code_list, true);
+		    $payment_handle = with(new Ecjia\App\Payment\PaymentPlugin)->channel($pay_code);
+		    $pay['pay_config'] = $payment_handle->makeFormData($code_list);
 
 		}
 		

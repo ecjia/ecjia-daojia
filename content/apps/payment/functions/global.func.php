@@ -172,38 +172,6 @@ function get_payment_record_list($args = array()) {
     return array('item' => $db_payment_record, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'filter' => $filter);
 }
 
-function order_info($order_sn)
-{
-    RC_Loader::load_app_func('global', 'goods');
-    $db = RC_Loader::load_app_model('order_info_model', 'orders');
-    /* 计算订单各种费用之和的语句 */
-    $total_fee = " (goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee ";
-
-    if ($order_sn > 0) {
-        $order = $db->field('*,' . $total_fee)->find(array('order_sn' => $order_sn, 'extension_code' => '', 'extension_id' => 0, 'is_delete' => 0));
-    } else {
-        $order = $db->field('*,' . $total_fee)->find(array('order_sn' => $order_sn, 'extension_code' => '', 'extension_id' => 0, 'is_delete' => 0));
-    }
-    /* 格式化金额字段 */
-    if ($order) {
-        $order['formated_goods_amount']   = price_format($order['goods_amount'], false);
-        $order['formated_discount']       = price_format($order['discount'], false);
-        $order['formated_tax']            = price_format($order['tax'], false);
-        $order['formated_shipping_fee']   = price_format($order['shipping_fee'], false);
-        $order['formated_insure_fee']     = price_format($order['insure_fee'], false);
-        $order['formated_pay_fee']        = price_format($order['pay_fee'], false);
-        $order['formated_pack_fee']       = price_format($order['pack_fee'], false);
-        $order['formated_card_fee']       = price_format($order['card_fee'], false);
-        $order['formated_total_fee']      = price_format($order['total_fee'], false);
-        $order['formated_money_paid']     = price_format($order['money_paid'], false);
-        $order['formated_bonus']          = price_format($order['bonus'], false);
-        $order['formated_integral_money'] = price_format($order['integral_money'], false);
-        $order['formated_surplus']        = price_format($order['surplus'], false);
-        $order['formated_order_amount']   = price_format(abs($order['order_amount']), false);
-        $order['formated_add_time']       = RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
-    }
-    return $order;
-}
 /**
  * 检查支付的金额是否与订单相符
  *

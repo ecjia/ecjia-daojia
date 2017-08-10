@@ -47,10 +47,10 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 获取支付方式下拉列表
- * @author wutifang
+ * 获取支付方式信息
+ * @author songqianqian
  */
-class payment_pay_list_api extends Component_Event_Api {
+class payment_batch_payment_info_api extends Component_Event_Api {
 	
 	public function __construct() {
 		parent::__construct();
@@ -61,36 +61,33 @@ class payment_pay_list_api extends Component_Event_Api {
      * @return array
      */
 	public function call(&$options) {	
-	   	return $this->get_pay_list();
+		if (!isset($options['code'])) {
+			return new ecjia_error('invalid_parameter', __('缺少必要参数'));
+		}
+	   	return $this->get_pay_info($options['code']);
 	}
 	
 	/**
-	 * 获取支付方式列表
+	 * 获取支付方式信息
 	 */
-	private function get_pay_list() {
-// 		$db_payment = RC_Loader::load_app_model('payment_model', 'payment');
+	private function get_pay_info($code_list) {
 		
-		$plugins = ecjia_config::instance()->get_addon_config('payment_plugins', true, true);
-
-// 		$data = $db_payment->payment_select('pay_order');
-		$data = RC_DB::table('payment')->orderby('pay_order')->get();
-		$data or $data = array();
-		$modules = array();
-		if (!empty($data)) {
-			foreach ($data as $_key => $_value) {
-				if (isset($plugins[$_value['pay_code']])) {
-					$modules[$_key]['id'] 		= $_value['pay_id'];
-					$modules[$_key]['code'] 	= $_value['pay_code'];
-					$modules[$_key]['name'] 	= $_value['pay_name'];
-					$modules[$_key]['pay_fee'] 	= $_value['pay_fee'];
-					$modules[$_key]['is_cod'] 	= $_value['is_cod'];
-					$modules[$_key]['desc'] 	= $_value['pay_desc'];
-					$modules[$_key]['pay_order']= $_value['pay_order'];
-					$modules[$_key]['enabled'] 	= $_value['enabled'];
-				}
+		/* 查询该支付方式内容 */
+		$pay_list = array ();
+		foreach ($code_list as $row) {
+			$pay_info = RC_DB::TABLE('payment')->where('pay_code', $row)->select('pay_name', 'pay_code', 'pay_desc', 'enabled')->first();
+			if(!empty($pay_info)){
+				$pay_list[$row] = $pay_info;
 			}
 		}
-		return $modules;
+		
+		
+		$sort_pay_list = array ();
+		foreach($pay_list as $v){
+			$sort_pay_list[] = $v['enabled'];
+		}
+		array_multisort($sort_pay_list, SORT_DESC, $pay_list);
+		return $pay_list;
 	}
 }
 
