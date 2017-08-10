@@ -213,7 +213,8 @@ class admin_shopinfo extends ecjia_admin {
 			$article['content'] = stripslashes($article['content']);
 		}
 
-		if (!empty($article['file_url']) && file_exists(RC_Upload::upload_path($article['file_url']))) {
+		$disk = RC_Filesystem::disk();
+		if (!empty($article['file_url']) && $disk->exists(RC_Upload::upload_path($article['file_url']))) {
 			$article['image_url'] = RC_Upload::upload_url($article['file_url']);
 		} else {
 			$article['image_url'] = RC_Uri::admin_url('statics/images/nopic.png');
@@ -294,9 +295,9 @@ class admin_shopinfo extends ecjia_admin {
 		$id = intval($_GET['id']);
 		$shop_info = $this->db_article->article_find($id);
 		
+		$disk = RC_Filesystem::disk();
 		if ($this->db_article->article_delete($id)) {
-			if (!empty($shop_info['file_url']) && file_exists(RC_Upload::upload_path() . $shop_info['file_url'])) {
-				$disk = RC_Filesystem::disk();
+			if (!empty($shop_info['file_url']) && $disk->exists(RC_Upload::upload_path() . $shop_info['file_url'])) {
 				$disk->delete(RC_Upload::upload_path() . $shop_info['file_url']);
 			}
 			//释放article_list缓存
