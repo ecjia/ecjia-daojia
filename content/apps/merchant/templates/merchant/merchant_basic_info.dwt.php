@@ -56,7 +56,7 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                         <span class="fileupload-exists"> 修改</span>
                                         <input type="file" class="default" name="shop_nav_background" />
                                     </span>
-                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_nav_background}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=shop_nav_background"}" >删除</a>
+                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_nav_background}data-toggle="ajax_remove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=shop_nav_background"}" >删除</a>
                                 </div>
                                 <span class="help-block">推荐图片的尺寸为：2000x1500px，大小不超过2M</span>
                             </div>
@@ -77,10 +77,10 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                         <span class="fileupload-exists"> 修改</span>
                                         <input type="file" class="default" name="shop_logo" />
                                     </span>
-                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_logo}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=shop_logo"}" >删除</a>
+                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_logo}data-toggle="ajax_remove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=shop_logo"}" >删除</a>
                                 	<span class="input-must">{lang key='system::system.require_field'}</span>
                                 </div>
-                                <span class="help-block">推荐图片的尺寸为：512x512px.</span>
+                                <span class="help-block">推荐图片的尺寸为：512x512px</span>
                             </div>
                         </div>
 
@@ -99,9 +99,26 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                         <span class="fileupload-exists"> 修改</span>
                                         <input type="file" class="default" name="shop_banner_pic" />
                                     </span>
-                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_banner_pic}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=shop_banner_pic"}" >删除</a>
+                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_banner_pic}data-toggle="ajax_remove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=shop_banner_pic"}" >删除</a>
                                 </div>
                                 <span class="help-block">推荐图片的尺寸为：3:1（600x200px）</span>
+                            </div>
+                        </div>
+                        
+                      	<div class="form-group">
+                            <label class="control-label col-lg-2">{t}店铺二维码：{/t}</label>
+                            <div class="col-lg-10">
+                            	{if $data.store_qrcode}
+                                <div class="fileupload fileupload-{if $data.store_qrcode}exists{else}new{/if}" data-provides="fileupload">
+                                    <div class="fileupload-{if $data.store_qrcode}exists{else}new{/if} thumbnail fileupload-store-qrcode">
+                                        <img src="{$data.store_qrcode}" alt="店铺二维码" style="width:150px; height:150px;"/>
+                                    </div>
+                                    <a class="btn btn-primary btn-sm fileupload-exists" {if $data.store_qrcode}data-toggle="ajax_remove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/refresh_qrcode'}" style="margin-top: 120px;">刷新</a>
+                                </div>
+                                {else}
+                                <a class="btn btn-primary btn-sm fileupload-exists" data-toggle="ajax_remove" href="{url path='merchant/merchant/refresh_qrcode'}">刷新</a>
+                                {/if}
+                                <span class="help-block">上传店铺logo后，点击刷新按钮可生成店铺二维码。删除店铺logo后，需手动刷新才可删除店铺二维码。</span>
                             </div>
                         </div>
 

@@ -42,7 +42,7 @@
                                             <input class="form-control required" type="text" name="bank_name" value="{$data.bank_name}">
                                         </div>
                                         <span class="input-must">
-                                            <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                            <span class="input-must">*</span>
                                         </span>
                                     </div>
                                 </td>
@@ -55,7 +55,7 @@
                                             <input class="form-control required" type="text" name="bank_account_number" value="{$data.bank_account_number}">
                                         </div>
                                         <span class="input-must">
-                                            <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                            <span class="input-must">*</span>
                                         </span>
                                     </div>
                                 </td>
@@ -68,7 +68,7 @@
                                             <input class="form-control required" type="text" name="bank_account_name" value="{$data.bank_account_name}">
                                         </div>
                                         <span class="input-must">
-                                            <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                            <span class="input-must">*</span>
                                         </span>
                                     </div>
                                 </td>
@@ -81,7 +81,7 @@
                                             <input class="form-control required" type="text" name="bank_branch_name" value="{$data.bank_branch_name}">
                                         </div>
                                         <span class="input-must">
-                                            <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                            <span class="input-must">*</span>
                                         </span>
                                     </div>
                                 </td>
@@ -94,7 +94,7 @@
                                             <input class="form-control required" type="text" name="bank_address" value="{$data.bank_address}">
                                         </div>
                                         <span class="input-must">
-                                            <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                            <span class="input-must">*</span>
                                         </span>
                                     </div>
                                 </td>

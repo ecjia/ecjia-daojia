@@ -5,30 +5,42 @@
 <script type="text/javascript">
     ecjia.merchant.merchant_info.init();
 </script>
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=P4C6rokKFWHjXELjOnogw3zbxC0VYubo"></script>
 <script type="text/javascript">
-
-    // 百度地图API功能
-    var step='{$step}';
-    var lng='{$data.longitude}';
-    var lat='{$data.latitude}';
-    if(lng && lat){
-        var map = new BMap.Map("allmap");
-        var point = new BMap.Point(lng, lat);  // 创建点坐标
-        map.centerAndZoom(point,15);
-        var marker = new BMap.Marker(point);  // 创建标注
-    	map.addOverlay(marker);               // 将标注添加到地图中
-        if(step == 1){
-            map.addEventListener("click",function(e){
-                map.removeOverlay(marker);
-                $('input[name="longitude"]').val(e.point.lng)
-                $('input[name="latitude"]').val(e.point.lat)
-                point = new BMap.Point(e.point.lng, e.point.lat);
-                marker = new BMap.Marker(point)
-                map.addOverlay(marker);
-            });
-        }
-    }
+	//腾讯地图
+	var map, markersArray = [];
+	var step='{$step}';
+    var lat = '{$data.latitude}';
+    var lng = '{$data.longitude}';
+	var latLng = new qq.maps.LatLng(lat, lng);
+	var map = new qq.maps.Map(document.getElementById("allmap"),{
+	    center: latLng,
+	    zoom: 16
+	});
+	setTimeout(function(){
+	    var marker = new qq.maps.Marker({
+	        position: latLng, 
+	        map: map
+	      });
+	    markersArray.push(marker);
+	}, 500);
+	if (step == 1) {
+		//添加监听事件 获取鼠标单击事件
+		qq.maps.event.addListener(map, 'click', function(event) {
+		    if (markersArray) {
+		        for (i in markersArray) {
+		            markersArray[i].setMap(null);
+		        }
+		        markersArray.length = 0;
+		    }
+		    $('input[name="longitude"]').val(event.latLng.lng)
+		    $('input[name="latitude"]').val(event.latLng.lat)
+		       var marker = new qq.maps.Marker({
+		        position: event.latLng, 
+		        map: map
+		      });
+		    markersArray.push(marker);    
+		});
+	}
 </script>
 <!-- {/block} -->
 
@@ -91,7 +103,7 @@
                                 <input class="form-control required" name="merchants_name" type="text" value="{$data.merchants_name}" />
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -106,7 +118,7 @@
                                 </select>
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -117,7 +129,7 @@
                                 <div class="help-block">精确填写店铺关键字有利于店铺搜索</div>
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -150,7 +162,7 @@
                                 </select>
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -161,14 +173,14 @@
                                 <div class="help-block">点击获取精确位置显示地图坐标</div>
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                             <div class="input-must">
                                 <button class="btn btn-info small-btn" data-toggle="get-gohash" data-url="{url path='merchant/mh_franchisee/getgeohash'}">获取精准坐标</button>
                             </div>
                         </div>
 
-                        <div class="form-group localtion-address {if !$data.longitude || !$data.latitude}hide{/if}">
+                        <div class="form-group location-address {if !$data.longitude || !$data.latitude}hide{/if}">
                             <label class="control-label col-lg-2">{lang key='merchant::merchant.merchant_addres'}：</label>
                             <div class="col-lg-6">
                                 <div id="allmap" style="height:320px;"></div>
@@ -188,7 +200,7 @@
                                 <div class="help-block">必须和证件上名称保持一致</div>
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -198,7 +210,7 @@
                                 <input class="form-control required email" name="email" type="text" value="{$data.email}"/>
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -208,7 +220,7 @@
                                 <input class="form-control required" name="contact_mobile" type="text" value="{$data.contact_mobile}"/>
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -222,7 +234,7 @@
                                 </select>
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -232,7 +244,7 @@
                                 <input class="form-control required" type="type" name="identity_number" value="{$data.identity_number}">
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -303,7 +315,7 @@
                                 <input class="form-control required" name="company_name" type="text" value="{$data.company_name}" />
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -313,7 +325,7 @@
                                 <input class="form-control required" type="text" name="business_licence" value="{$data.business_licence}">
                             </div>
                             <span class="input-must">
-                                <span id="email-error" class="require-field error" style="color:#FF0000,">*</span>
+                                <span class="input-must">*</span>
                             </span>
                         </div>
 
@@ -341,7 +353,7 @@
                         <div class="form-group ">
                             <div class="col-lg-6 col-md-offset-2">
                                 <!-- {if $step eq 1} --><input class="btn btn-info" type="submit" name="name" value="提交修改"> <!-- {/if} -->
-                                <!-- {if $step eq 2} --><a class="btn btn-primary nodisabled data-pjax ajaxremove" disabled="false" data-toggle="ajaxremove" href="{url path='merchant/mh_franchisee/delete'}">撤销修改申请</a> <!-- {/if} -->
+                                <!-- {if $step eq 2} --><a class="btn btn-primary nodisabled" disabled="false" data-toggle="ajax_remove" href="{url path='merchant/mh_franchisee/delete'}">撤销修改申请</a> <!-- {/if} -->
                             </div>
                         </div>
                     </form>

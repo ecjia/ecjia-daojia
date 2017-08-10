@@ -159,7 +159,13 @@ border-bottom: 15px solid #f2f2f2;"
             
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
+                	<!-- {if $current_order} -->
+                	<ul class="nav navbar-nav current-order-navbar">
+	                	<div class="current-order-header">订单快速处理</div>
+                	</ul>
+                	<!-- {else} -->
                     <!-- {ecjia:hook id=merchant_print_header_nav} -->
+                    <!-- {/if} -->
                 </div><!-- /.navbar-collapse -->
             </div>
         </nav>

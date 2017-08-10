@@ -79,9 +79,10 @@ class mh_franchisee extends ecjia_merchant {
         // select 选择框
         RC_Style::enqueue_style('chosen_style', RC_App::apps_url('statics/assets/chosen/chosen.css', __FILE__), array());
         RC_Script::enqueue_script('chosen', RC_App::apps_url('statics/assets/chosen/chosen.jquery.min.js', __FILE__), array(), false, true);
-
+        RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
+        
         RC_Loader::load_app_func('merchant');
-        assign_adminlog_content();
+        merchant_assign_adminlog_content();
 
         $this->store_preaudit = RC_Model::model('merchant/store_preaudit_model');
         $this->store_franchisee = RC_Model::model('merchant/store_franchisee_model');
@@ -134,7 +135,7 @@ class mh_franchisee extends ecjia_merchant {
     /**
      * 编辑收款之类的信息
      */
-    public function receipt_edit(){
+    public function receipt_edit() {
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑收款账号', RC_Uri::url('merchant/mh_franchisee/init')));
 
         $this->assign('ur_here', '编辑收款账号');
@@ -293,6 +294,10 @@ class mh_franchisee extends ecjia_merchant {
             return $this->showmessage('该手机号已经使用，请填写其他联系方式', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
+        if (empty($longitude) || empty($latitude)) {
+            return $this->showmessage('请点击获取精准坐标获取店铺经纬度', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
         $geohash = RC_Loader::load_app_class('geohash', 'store');
         $geohash_code = $geohash->encode($latitude , $longitude);
         $geohash_code = substr($geohash_code, 0, 10);
@@ -334,25 +339,25 @@ class mh_franchisee extends ecjia_merchant {
         }
 
         if (!empty($_FILES['identity_pic_front']) && empty($_FILES['error']) && !empty($_FILES['identity_pic_front']['name'])) {
-            $data['identity_pic_front'] = file_upload_info('identity_pic','identity_pic_front');
+            $data['identity_pic_front'] = merchant_file_upload_info('identity_pic', 'identity_pic_front');
         } else {
             $data['identity_pic_front'] = $store_info['identity_pic_front'];
         }
 
         if (!empty($_FILES['identity_pic_back']) && empty($_FILES['error']) && !empty($_FILES['identity_pic_back']['name'])) {
-            $data['identity_pic_back'] = file_upload_info('identity_pic','identity_pic_back');
+            $data['identity_pic_back'] = merchant_file_upload_info('identity_pic', 'identity_pic_back');
         } else {
             $data['identity_pic_back'] = $store_info['identity_pic_back'];
         }
 
         if (!empty($_FILES['personhand_identity_pic']) && empty($_FILES['error']) && !empty($_FILES['personhand_identity_pic']['name'])) {
-            $data['personhand_identity_pic'] = file_upload_info('identity_pic','personhand_identity_pic');
+            $data['personhand_identity_pic'] = merchant_file_upload_info('identity_pic', 'personhand_identity_pic');
         } else {
             $data['personhand_identity_pic'] = $store_info['personhand_identity_pic'];
         }
 
         if (!empty($_FILES['business_licence_pic']) && empty($_FILES['error']) && !empty($_FILES['business_licence_pic']['name'])) {
-            $data['business_licence_pic'] = file_upload_info('business_licence','business_licence_pic');
+            $data['business_licence_pic'] = merchant_file_upload_info('business_licence', 'business_licence_pic');
         } else {
             $data['business_licence_pic'] = $store_info['business_licence_pic'];
         }
@@ -462,14 +467,22 @@ class mh_franchisee extends ecjia_merchant {
         if(empty($shop_address)){
             return $this->showmessage('请填写详细地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('element' => 'address'));
         }
-        $city_name = RC_DB::table('region')->where('region_id', $shop_city)->pluck('region_name');
-        $city_district = RC_DB::table('region')->where('region_id', $shop_district)->pluck('region_name');
-        $address = $city_name.'市'.$shop_address;
-        $shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address='".$address."&output=json&ak=E70324b6f5f4222eb1798c8db58a017b");
-        $shop_point = (array)json_decode($shop_point);
-        $shop_point['result'] = (array)$shop_point['result'];
-        $location = (array)$shop_point['result']['location'];
-        echo json_encode($location);
+        
+        $key = ecjia::config('map_qq_key');
+        if (empty($key)) {
+        	return $this->showmessage('腾讯地图key不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        $city_name    	= RC_DB::table('region')->where('region_id', $shop_city)->pluck('region_name');
+        $city_district 	= RC_DB::table('region')->where('region_id', $shop_district)->pluck('region_name');
+        $address      	= $city_name.'市'.$city_district.$shop_address;
+        $address		= urlencode($address);
+        $shop_point   	= RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$address."&key=".$key);
+        $shop_point  	= json_decode($shop_point['body'], true);
+
+		if ($shop_point['status'] != 0) {
+			return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, $shop_point);
+		}
+        return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $shop_point);
     }
 }
 

@@ -137,7 +137,7 @@ function get_merchant_config($code, $arr, $store_id)
  *  @param string $code 接收图片参数
  *  @param string $old_images 旧图片
  */
-function file_upload_info($path, $code, $old_images)
+function merchant_file_upload_info($path, $code, $old_images = '')
 {
     $code = empty($code) ? $path : $code;
     $upload = RC_Upload::uploader('image', array('save_path' => 'merchant/' . $_SESSION['store_id'] . '/data/' . $path, 'auto_sub_dirs' => true));
@@ -212,7 +212,7 @@ function get_region_name($id)
 /*
 * 管理员操作对象和动作
 */
-function assign_adminlog_content()
+function merchant_assign_adminlog_content()
 {
     ecjia_admin_log::instance()->add_object('merchant', '我的店铺');
 }

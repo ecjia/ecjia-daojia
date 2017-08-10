@@ -172,7 +172,8 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		
 		//店铺导航背景图
 		$background_url = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_nav_background')->pluck('value');
-		if (!empty($background_url) && file_exists(RC_Upload::upload_path($background_url))) {
+		$disk = RC_Filesystem::disk();
+		if (!empty($background_url) && $disk->exists(RC_Upload::upload_path($background_url))) {
 			$background_url = RC_Upload::upload_url($background_url);
 		}
 		$this->assign('background_url', $background_url);
@@ -409,10 +410,8 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 // 	    		break;
 // 	    	default:
 	    		$this->assign('page_state', array('icon' => 'glyphicon glyphicon-remove-circle', 'msg' => __('操作错误'), 'class' => 'ecjiafc-red'));
-// 	    }
-	    
+// 	    }   
 
-	        
         if (file_exists($system_tpl)) {
 	        $this->assign(array(
 	            'msg' => $msg,

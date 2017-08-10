@@ -2,21 +2,24 @@
 <!-- {extends file="ecjia-merchant.dwt.php"} -->
 
 <!-- {block name="footer"} -->
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=P4C6rokKFWHjXELjOnogw3zbxC0VYubo"></script>
 <script type="text/javascript">
-    // 百度地图API功能
-    var step='{$step}';
-    var lng='{$data.longitude}';
-    var lat='{$data.latitude}';
-    if(lng && lat){
-        var map = new BMap.Map("allmap");
-        var point = new BMap.Point(lng, lat); // 创建点坐标
-        map.centerAndZoom(point,15);
-
-        var marker = new BMap.Marker(point);  // 创建标注
-        map.addOverlay(marker);               // 将标注添加到地图中
-
-    }
+	//腾讯地图
+	var step='{$step}';
+	var map, markersArray = [];
+    var lat = '{$data.latitude}';
+    var lng = '{$data.longitude}';
+	var latLng = new qq.maps.LatLng(lat, lng);
+	var map = new qq.maps.Map(document.getElementById("allmap"),{
+	    center: latLng,
+	    zoom: 16
+	});
+	setTimeout(function(){
+	    var marker = new qq.maps.Marker({
+	        position: latLng, 
+	        map: map
+	   	});
+	    markersArray.push(marker);
+	}, 500);
 </script>
 <!-- {/block} -->
 
@@ -85,7 +88,7 @@
                                     <td class="active w350" align="right">{lang key='merchant::merchant.merchant_addres'}：</td>
                                     <td>
                                         <div id="allmap" style="height:320px;"></div>
-                                        <div class="help-block">双击放大地图,拖动查看地图其他区域</div>
+                                        <div class="help-block">双击放大地图，拖动查看地图其他区域</div>
                                         <div class="help-block">当前经纬度：{$data.longitude},{$data.latitude}</div>
                                     </td>
                                 </tr>
