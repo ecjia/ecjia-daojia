@@ -271,10 +271,10 @@ a:active,a:hover{text-decoration:none;color:#47aa4d}
 .ecjia-page-footer .outlink .blog-ico:hover{background:url(../images/blog_hover.png)}
 .ecjia-page-footer .outlink .wechat{background:url(../images/wechat.png)}
 .ecjia-page-footer .outlink-qrcode{position:relative;display:inline-block}
-.ecjia-page-footer .outlink-qrcode .wechar-code{position:absolute;width:130px;top:-197px;padding:10px 5px;background:#f8f8f8;z-index:99;border-radius:5px 5px 0 0;display:none}
-.ecjia-page-footer .outlink-qrcode .wechar-code img{width:130px;height:130px}
+.ecjia-page-footer .outlink-qrcode .wechat-code{position:absolute;width:130px;top:-197px;padding:10px 5px;background:#f8f8f8;z-index:99;border-radius:5px 5px 0 0;display:none}
+.ecjia-page-footer .outlink-qrcode .wechat-code img{width:130px;height:130px}
 .ecjia-page-footer .outlink .wechat:hover{background:url(../images/wechat_hover.png)}
-.ecjia-page-footer .outlink .outlink-qrcode:hover .wechar-code{display:block}
+.ecjia-page-footer .outlink .outlink-qrcode:hover .wechat-code{display:block}
 .ecjia-page-footer .footer-links p{text-align:center}
 .ecjia-page-footer .footer-links p a{margin-right:20px}
 
@@ -287,10 +287,10 @@ a:active,a:hover{text-decoration:none;color:#47aa4d}
 .page-footer .outlink .blog-ico:hover{background:url(../images/blog_hover.png)}
 .page-footer .outlink .wechat{background:url(../images/wechat.png)}
 .page-footer .outlink-qrcode{position:relative;display:inline-block}
-.page-footer .outlink-qrcode .wechar-code{position:absolute;width:130px;top:-197px;padding:10px 5px;background:#f8f8f8;z-index:99;border-radius:5px 5px 0 0;display:none}
-.page-footer .outlink-qrcode .wechar-code img{width:130px;height:130px}
+.page-footer .outlink-qrcode .wechat-code{position:absolute;width:130px;top:-197px;padding:10px 5px;background:#f8f8f8;z-index:99;border-radius:5px 5px 0 0;display:none}
+.page-footer .outlink-qrcode .wechat-code img{width:130px;height:130px}
 .page-footer .outlink .wechat:hover{background:url(../images/wechat_hover.png)}
-.page-footer .outlink .outlink-qrcode:hover .wechar-code{display:block}
+.page-footer .outlink .outlink-qrcode:hover .wechat-code{display:block}
 .page-footer .footer-links p{text-align:center}
 .page-footer .footer-links p a{margin-right:20px}
 
@@ -394,9 +394,9 @@ a:active,a:hover{text-decoration:none;color:#47aa4d}
 
 .category_list{height:50px;background-color:#f6f6f6;margin-bottom:10px;width:1200px;margin:10px auto}
 .ecjia-category-swiper{padding:0 20px;position:relative}
-.category_list .category_name{height:50px;width:100px}
+.category_list .category_name{height:50px;width:145px}
 .category_list .category_name .text{padding:0 21px;border-left:1px solid #E5E5E5;margin-left:-1px;display:block;height:21px;margin-top:14px;line-height:20px;text-align:center}
-.category_list .category_name .text a{color:#000}
+.category_list .category_name .text a{color:#000;width:64px;height:21px;display:inline-block;}
 .category_list .category_name .text.green a{color:#47aa4d}
 .category_list .category_name .img{position:absolute;width:100%;text-align:center;margin-top:20px}
 .category_list .category_name .img img{height:35px;width:35px;min-height:35px}

@@ -438,7 +438,7 @@
 				index = sessionStorage.getItem("index");
 			}
 			var swiper = new Swiper('#category-swiper-web', {
-				slidesPerView: 9,
+				slidesPerView: 8,
 				paginationClickable: true,
 				initialSlide: index,
 				spaceBetween: 0,

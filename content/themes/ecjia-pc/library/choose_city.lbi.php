@@ -1,7 +1,10 @@
-<!-- /* -->
-<!--  Name: 城市选择 -->
-<!--  Description: 这是城市选择模块 -->
-<!--  */ -->
+<?php
+/*
+Name: PC端选择城市弹窗
+Description: 这是PC端的选择城市弹窗
+*/
+defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
+?>
 {nocache}
 <div class="choose-city-div">
 	<div class="city-content">

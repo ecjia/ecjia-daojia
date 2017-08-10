@@ -50,7 +50,9 @@ class pc_function {
     public static function get_general_info() {
         $shop_logo_url = '';
         $shop_logo = ecjia::config('shop_logo');
-        if (!empty($shop_logo) && file_exists(RC_Upload::upload_path($shop_logo))) {
+
+        $disk = RC_Filesystem::disk();
+        if (!empty($shop_logo) && $disk->exists(RC_Upload::upload_path($shop_logo))) {
             $shop_logo_url = RC_Upload::upload_url($shop_logo);
         }
         $merchant_url = RC_Uri::url('franchisee/merchant/init');

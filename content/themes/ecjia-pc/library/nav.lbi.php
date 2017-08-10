@@ -1,7 +1,10 @@
-<!-- /* -->
-<!--  Name: 右侧联系栏 -->
-<!--  Description: 这是右侧联系栏模块 -->
-<!--  */ -->
+<?php
+/*
+Name: PC端首页右下角悬浮导航
+Description: 这是PC端的首页右下角悬浮导航
+*/
+defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
+?>
 <div class="suspension">
 	<div class="suspension-box">
 		{if $info.kf_qq neq ''}

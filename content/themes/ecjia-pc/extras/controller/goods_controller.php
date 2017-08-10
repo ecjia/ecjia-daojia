@@ -126,6 +126,7 @@ class goods_controller {
 	                $seller_group = array_unique($seller_group);
 	                $db_goods_data->whereIn('store_id', $seller_group);
 	            }
+	            $disk = RC_Filesystem::disk();
 	            $store_list = $db_goods_data->select('store_id', RC_DB::raw('AVG(goods_rank) as "goods_rank"'))->groupBy('store_id')->orderBy('goods_rank', 'desc')->take(3)->get();
 	            if (!empty($store_list)) {
 	                foreach ($store_list as $k => $v) {
@@ -153,7 +154,7 @@ class goods_controller {
 	                    
 	                    if (!empty($info)) {
 	                        $info = array_merge($info, $store_config);
-	                        $info['seller_logo'] = empty($info['shop_logo']) || !file_exists($info['shop_logo']) ? '' : RC_Upload::upload_url($info['shop_logo']);
+	                        $info['seller_logo'] = empty($info['shop_logo']) || !$disk->exists($info['shop_logo']) ? '' : RC_Upload::upload_url($info['shop_logo']);
 	                        $store_list[$k]['order_amount'] = RC_DB::table('order_info')->where('store_id', $v['store_id'])->where('order_status', 5)->where('shipping_status', 2)->where('pay_status', 2)->count();
 	                        $store_list[$k]['store_info'] = $info;
 	                    } else {
@@ -241,8 +242,9 @@ class goods_controller {
 	                $goods_info['favourable_list'] = $favourable_list;
 	            }
 	            
+	            $disk = RC_Filesystem::disk();
 	            $default_image = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
-	            $goods_logo = !empty($goods_info['goods_thumb']) && file_exists(RC_Upload::upload_path($goods_info['goods_thumb'])) ? RC_Upload::upload_path($goods_info['goods_thumb']) : $default_image;
+	            $goods_logo = !empty($goods_info['goods_thumb']) && $disk->exists(RC_Upload::upload_path($goods_info['goods_thumb'])) ? RC_Upload::upload_path($goods_info['goods_thumb']) : $default_image;
 	            $goods_info['url'] = with(new Ecjia\App\Mobile\Qrcode\GenerateGoods($goods_id,  $goods_logo))->getQrcodeUrl();
 	            
 	            $shop_info = merchant_function::get_merchant_info($store_id);

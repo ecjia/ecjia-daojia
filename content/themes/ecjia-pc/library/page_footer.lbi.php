@@ -72,7 +72,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
         {/if}
         {if $info.shop_wechat_qrcode}
 		<span class="outlink-qrcode">
-            <div class="wechar-code">
+            <div class="wechat-code">
 				<img src="{$info.shop_wechat_qrcode}">
 				<span>打开微信扫一扫关注</span>
 			</div>

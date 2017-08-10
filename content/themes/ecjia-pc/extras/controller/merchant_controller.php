@@ -67,7 +67,9 @@ class merchant_controller {
 				//店铺二维码
 				$default_image = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
 				$default_shop_logo = RC_Theme::get_template_directory_uri() . '/images/default_store.png';
-				if (!empty($shop_info['shop_logo']) && file_exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
+
+				$disk = RC_Filesystem::disk();
+				if (!empty($shop_info['shop_logo']) && $disk->exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
 					$store_logo = RC_Upload::upload_path($shop_info['shop_logo']);
 					$shop_info['shop_logo'] = RC_Upload::upload_url($shop_info['shop_logo']);
 				} else {
@@ -165,6 +167,7 @@ class merchant_controller {
 		
 	    $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['city_name']));
 	    
+	    $disk = RC_Filesystem::disk();
 	    if (!ecjia_front::$controller->is_cached('merchant_comment.dwt', $cache_id)) {
             $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
             $shop_info = merchant_function::get_merchant_info($store_id);
@@ -173,7 +176,8 @@ class merchant_controller {
 				//店铺二维码
 				$default_image = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
 				$default_shop_logo = RC_Theme::get_template_directory_uri() . '/images/default_store.png';
-				if (!empty($shop_info['shop_logo']) && file_exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
+				
+				if (!empty($shop_info['shop_logo']) && $disk->exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
 					$store_logo = RC_Upload::upload_path($shop_info['shop_logo']);
 					$shop_info['shop_logo'] = RC_Upload::upload_url($shop_info['shop_logo']);
 				} else {
@@ -239,7 +243,7 @@ class merchant_controller {
 	                        
 	                        if (!empty($picture_list)) {
 	                            foreach ($picture_list as $k => $v) {
-	                                if (!empty($v) && file_exists(RC_Upload::upload_path($v))) {
+	                                if (!empty($v) && $disk->exists(RC_Upload::upload_path($v))) {
 	                                    $row['picture'][] = RC_Upload::upload_url($v);
 	                                }
 	                            }
@@ -297,11 +301,12 @@ class merchant_controller {
             $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
             $shop_info = merchant_function::get_merchant_info($store_id);
             
+            $disk = RC_Filesystem::disk();
         	if (!empty($shop_info)) {
 				//店铺二维码
 				$default_image = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
 				$default_shop_logo = RC_Theme::get_template_directory_uri() . '/images/default_store.png';
-				if (!empty($shop_info['shop_logo']) && file_exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
+				if (!empty($shop_info['shop_logo']) && $disk->exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
 					$store_logo = RC_Upload::upload_path($shop_info['shop_logo']);
 					$shop_info['shop_logo'] = RC_Upload::upload_url($shop_info['shop_logo']);
 				} else {

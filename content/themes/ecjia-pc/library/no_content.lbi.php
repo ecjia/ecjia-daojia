@@ -1,7 +1,10 @@
-<!-- /* -->
-<!--  Name: 判断城市是否有商铺 -->
-<!--  Description: 当城市没有商铺的时候默认显示的页面 -->
-<!--  */ -->
+<?php
+/*
+Name: PC端没有内容提示模块
+Description: 这是PC端的没有内容提示模块
+*/
+defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
+?>
 <div class="ecjia-no-content">
 	<div class="content">
 		<div class="content-container">

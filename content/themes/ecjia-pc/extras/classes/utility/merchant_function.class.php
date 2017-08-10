@@ -114,10 +114,10 @@ class merchant_function {
                 //判断营业时间
                 $outward['trade_time'] = $val['value'];
                 $shop_hours = unserialize($outward['trade_time']);
-                $now_time = time();
+                $now_time = RC_Time::gmtime();
                 if (!empty($shop_hours)) {
-                    $start_time = strtotime($shop_hours['start']);
-                    $end_time = strtotime($shop_hours['end']);
+                    $start_time = RC_Time::local_strtotime($shop_hours['start']);
+                    $end_time = RC_Time::local_strtotime($shop_hours['end']);
                     //0为不营业，1为营业
                     if ($start_time < $now_time && $now_time < $end_time) {
                         $business_status = 1;
