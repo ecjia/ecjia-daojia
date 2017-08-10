@@ -52,18 +52,25 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @return session_id
  */
 function set_api_session_id($session_id) {
-    if (isset($_POST['json']) && $_POST['json']) {
-        $post = json_decode(rc_stripslashes($_POST['json']), true);
-    } else {
-    	$post = $_POST;
-    }
-    if (isset($post['session']) && isset($post['session']['sid']) && $post['session']['sid']) {
-        return $post['session']['sid'];
-    }
-    if (isset($post['token'])) {
-        return $post['token'];
-    }
-    return ;
+	$request = royalcms('request');
+	
+	$post = $request->input();
+	
+	$json = $request->input('json'); 
+	if ($json) {
+		$jsonarr = json_decode(rc_stripslashes($json), true);
+		$post = array_merge($post, $jsonarr);
+	}
+	
+	if (array_get($post, 'session.sid')) {
+		return array_get($post, 'session.sid');
+	}
+	
+	if (array_get($post, 'token')) {
+		return array_get($post, 'token');
+	}
+	
+	return ;
 }
 
 RC_Hook::add_filter('ecjia_api_session_id', 'set_api_session_id');

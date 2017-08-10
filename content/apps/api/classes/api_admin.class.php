@@ -104,7 +104,7 @@ abstract class api_admin extends ecjia_api {
 			$input = explode('.', $key);
 			$request = royalcms('request');
 			$input_val = $request->input($input[0]);
-			if(isset($input_val)) {
+			if (isset($input_val)) {
 			    $this->requestData[$input[0]] = $request->input($input[0]);
 			}
 			return array_get($this->requestData, $key, $default);

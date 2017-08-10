@@ -194,7 +194,7 @@ abstract class EM_Api {
     					'device_code'	=> $device['code']
     			);
     			$row = $db_mobile_device->find($device_data);
-    			if(empty($row)) {
+    			if (empty($row)) {
     				$device_data['add_time'] = RC_Time::gmtime();
     				$db_mobile_device->insert($device_data);
     			}

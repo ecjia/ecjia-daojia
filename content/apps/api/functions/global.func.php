@@ -235,7 +235,7 @@ function API_DATA($type, $readData) {
 				"goods_name" => $readData['goods_name'],
 				// "goods_desc"=>$readData['goods_desc'],
                 "collected" => $readData['collected'],
-				"market_price" => $readData['market_price'],
+				"market_price" => $readData['market_price'] > 0 ? price_format($readData['market_price']) :price_format($readData['shop_price']),
 				"shop_price" => $readData['shop_price'] > 0 ? price_format($readData['shop_price']) : __('免费'),
 				"integral" => $readData['integral'],
 				"click_count" => $readData['click_count'],
