@@ -55,6 +55,11 @@ return array(
 	'Ecjia\App\Wechat' => $contentDir . '/apps/wechat/classes',
 	'Ecjia\App\Article' => $contentDir . '/apps/article/classes',
 	'Ecjia\App\Sms' => $contentDir . '/apps/sms/classes',
+	'Ecjia\App\Weapp' => $contentDir . '/apps/weapp/classes',
+	'Ecjia\App\Mobile' => $contentDir . '/apps/mobile/classes',
+	'Ecjia\App\Payment' => $contentDir . '/apps/payment/classes',
+	'Ecjia\App\Maintain' => $contentDir . '/apps/maintain/classes',
+	'Ecjia\App\Push' => $contentDir . '/apps/push/classes',
 );
 
 //end
