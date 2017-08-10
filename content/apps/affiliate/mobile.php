@@ -60,11 +60,24 @@ class mobile extends ecjia_front {
 		
 		$invite_code = isset($_GET['invite_code']) ? trim($_GET['invite_code']) : '';
 		$urlscheme = ecjia::config('mobile_shop_urlscheme');
-		if(preg_match('/ECJiaBrowse/', $_SERVER['HTTP_USER_AGENT'])) {
+		if (preg_match('/ECJiaBrowse/', $_SERVER['HTTP_USER_AGENT'])) {
 			header("location: ".$urlscheme."app?open_type=signup&invite_code=".$invite_code);
 			exit();
 		}
 		$affiliate_note = "请输入您的电话并下载移动商城应用程序";
+		
+		
+		/*是否有设置下载地址*/
+		if (stripos($_SERVER['HTTP_USER_AGENT'], "iPhone")) {
+			$url = ecjia::config('mobile_iphone_download');
+		} elseif (stripos($_SERVER['HTTP_USER_AGENT'], "Android")) {
+			$url = ecjia::config('mobile_android_download');
+		}
+		
+		if (empty($url)) {
+			$this->assign('is_h5', 1);
+			$affiliate_note = "请输入您的电话并立即注册";
+		}
 		
 		/* 推荐处理 */
 		$affiliate = unserialize(ecjia::config('affiliate'));
@@ -127,11 +140,11 @@ class mobile extends ecjia_front {
 				
 				if (!empty($invite_id)) {
 					if (!empty($affiliate['config']['expire'])) {
-						if($affiliate['config']['expire_unit'] == 'hour') {
+						if ($affiliate['config']['expire_unit'] == 'hour') {
 							$c = $affiliate['config']['expire'] * 1;
-						} elseif($affiliate['config']['expire_unit'] == 'day') {
+						} elseif ($affiliate['config']['expire_unit'] == 'day') {
 							$c = $affiliate['config']['expire'] * 24;
-						} elseif($affiliate['config']['expire_unit'] == 'week') {
+						} elseif ($affiliate['config']['expire_unit'] == 'week') {
 							$c = $affiliate['config']['expire'] * 24 * 7;
 						} else {
 							$c = 1;
@@ -158,7 +171,6 @@ class mobile extends ecjia_front {
 								'add_time'		=> RC_Time::gmtime()
 						));
 					}
-					
 				}
 			}
 		}
@@ -171,7 +183,11 @@ class mobile extends ecjia_front {
 		
 		$urlscheme = ecjia::config('mobile_shop_urlscheme');
 		$app_url = $urlscheme."app?open_type=signup&invite_code=".$invite_code;
-			
+		
+		if (empty($url)) {
+			$url = RC_Uri::url('user/privilege/register');
+		}
+		
 		if ( $count > 0) {
 			return ecjia_front::$controller->showmessage('该手机号已注册！', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('url' => $url, 'app' => $app_url));
 		}

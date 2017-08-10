@@ -23,7 +23,7 @@
         		
         		
         		var phoneReg = /^1[34578]\d{9}$/; 
-        		if(phoneReg.test(mobile_phone) == false){
+        		if (phoneReg.test(mobile_phone) == false) {
         			alert('填写的手机号码格式不正确');
         			return false;
         		} 
