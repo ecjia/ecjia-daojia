@@ -49,20 +49,41 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('payment_abstract', 'payment', false);
+use Ecjia\App\Payment\PaymentAbstract;
 
-class pay_balance extends payment_abstract
+class pay_balance extends PaymentAbstract
 {
 
     /**
-     * 获取插件配置信息
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
      */
-    public function configure_config() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-        if (is_array($config)) {
-            return $config;
-        }
-        return array();
+    public function getCode()
+    {
+        return $this->loadConfig('pay_code');
+    }
+    
+    /**
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
+     */
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
+    }
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+    
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
     }
     
     public function get_prepare_data() {
@@ -79,8 +100,8 @@ class pay_balance extends payment_abstract
     				'order_id'      => $this->order_info['order_id'],
     				'order_surplus' => price_format($this->order_info['surplus'], false),
     				'order_amount'  => price_format($this->order_info['order_amount'], false),
-    				'pay_code'      => $this->configure['pay_code'],
-    				'pay_name'      => $this->configure['pay_name'],
+    				'pay_code'      => $this->getCode(),
+    				'pay_name'      => $this->getDisplayName(),
     				'pay_status'    => 'error',
     				'pay_online'    => '',
     		);
@@ -88,20 +109,44 @@ class pay_balance extends payment_abstract
 			return $error_predata;
 			
 		} else {
+		    /* 更新支付流水记录*/
+		    RC_Api::api('payment', 'update_payment_record', [
+    		    'order_sn' 		=> $this->order_info['order_sn'],
+    		    'trade_no'      => ''
+		    ]);
+		    
 			/* 支付成功返回信息*/
 			$predata = array(
 	            'order_id'      => $this->order_info['order_id'],
 	            'order_surplus' => price_format($this->order_info['order_amount'], false),
 	            'order_amount'  => price_format(0, false),
 	            'user_money'    => price_format($user_info['user_money'] - $this->order_info['order_amount'], false),
-	            'pay_code'      => $this->configure['pay_code'],
-	            'pay_name'      => $this->configure['pay_name'],
+	            'pay_code'      => $this->getCode(),
+	            'pay_name'      => $this->getDisplayName(),
 	            'pay_status'    => 'success',
 	            'pay_online'    => '',
 	        );
 			return $predata;
 		}
         
+    }
+    
+    /**
+     * 支付服务器异步回调通知地址
+     * @see \Ecjia\App\Payment\PaymentAbstract::notifyUrl()
+     */
+    public function notifyUrl()
+    {
+        return ;
+    }
+    
+    /**
+     * 支付服务器同步回调响应地址
+     * @see \Ecjia\App\Payment\PaymentAbstract::callbackUrl()
+     */
+    public function callbackUrl()
+    {
+        return ;
     }
     
     public function notify() { 

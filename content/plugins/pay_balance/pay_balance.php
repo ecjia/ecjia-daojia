@@ -69,15 +69,14 @@ class plugin_pay_balance {
         return RC_Api::api('payment', 'plugin_uninstall', $param);
     }
 
-
-    public static function adapter_instance($instance, $config) {
-        require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_balance.class.php';
-        return new pay_balance($config);
-    }
 }
+
+Ecjia_PluginManager::extend('pay_balance', function() {
+    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_balance.class.php';
+    return new pay_balance();
+});
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_pay_balance', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_pay_balance', 'uninstall'));
-RC_Hook::add_filter('payment_factory_adapter_instance', array( 'plugin_pay_balance', 'adapter_instance' ), 10, 2);
 
 // end
