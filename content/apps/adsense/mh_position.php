@@ -79,9 +79,9 @@ class mh_position extends ecjia_merchant {
     	
     	$sort_by   = trim($_GET['sort_by']);
     	$sort_order= trim($_GET['sort_order']);
-    	if(!empty($sort_by)){
+    	if (!empty($sort_by)) {
     		$orderBy = array($sort_by => $sort_order);
-    	}else{
+    	} else {
     		$orderBy = array();
     	}
     	 
@@ -225,9 +225,9 @@ class mh_position extends ecjia_merchant {
     	RC_DB::table('merchants_ad_position')->where('position_id', $id)->update(array('sort_order'=> $sort_order));
     	
     	$group_position_id  = intval($_GET['group_position_id']);
-    	if($group_position_id){
+    	if ($group_position_id) {
     		return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_group/init', array('position_id' => $group_position_id))));
-    	}else{
+    	} else {
     		return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_position/init', array('position_id' => $id))));
     	}
     

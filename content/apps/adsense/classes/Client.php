@@ -56,13 +56,13 @@ class Client
 {
     
     
-    const IPHONE = 0x00000001;
+    const IPHONE = 0b00000001;
     
-    const ANDROID = 0x00000010;
+    const ANDROID = 0b00000010;
     
-    const H5 = 0x00000100;
+    const H5 = 0b00000100;
     
-    const PC = 0x00001000;
+    const PC = 0b00001000;
     
     /**
      * 计算客户端选中的总数

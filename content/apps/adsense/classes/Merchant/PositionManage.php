@@ -75,15 +75,15 @@ class PositionManage
             $repository = new MerchantCycleImageRepository();
             return $repository->getAllGroups($this->store);
             
-        } elseif($this->type == 'adsense'){
+        } elseif ($this->type == 'adsense') {
         	$repository = new MerchantAdPositionRepository();
         	return $repository->getAllGroups($this->store, $orderBy);
         	
-        } elseif($this->type == 'group'){
+        } elseif ($this->type == 'group') {
         	$repository = new MerchantAdGroupRepository();
         	return $repository->getAllGroups($this->store);
         	
-        }elseif($this->type == 'shortcut'){
+        }elseif ($this->type == 'shortcut') {
         	$repository = new MerchantShortcutMenuRepository();
         	return $repository->getAllGroups($this->store);
         	

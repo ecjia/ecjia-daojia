@@ -79,7 +79,7 @@ class mh_group extends ecjia_merchant {
 		$position = new Ecjia\App\Adsense\Merchant\PositionManage('group', $_SESSION['store_id']);
 		$data = $position->getAllPositions();
 
-		if(empty($data)){
+		if (empty($data)){
 			$data = RC_Loader::load_app_config('merchant_adgroup');
 			$this->assign('cycimage_config', 'cycimage_config');
 		}

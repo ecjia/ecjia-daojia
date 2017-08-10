@@ -112,9 +112,9 @@ class admin_position extends ecjia_admin {
 		
 		$sort_by   = trim($_GET['sort_by']);
 		$sort_order= trim($_GET['sort_order']);
-		if(!empty($sort_by)){
+		if (!empty($sort_by)) {
 			$orderBy = array($sort_by => $sort_order);
-		}else{
+		} else {
 			$orderBy = array();
 		}
 		
@@ -171,7 +171,7 @@ class admin_position extends ecjia_admin {
     	
     	$city_id       = !empty($_POST['city_id']) ? intval($_POST['city_id']) : 0;
     	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
-    	if(!$city_name){
+    	if (!$city_name) {
     		$city_name = '默认';
     	}
     	$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('city_id', $city_id)->where('type', 'adsense')->count();
@@ -238,9 +238,9 @@ class admin_position extends ecjia_admin {
     	$position_code_value = !empty($_POST['position_code_value']) ? trim($_POST['position_code_value']) : '';
     	$position_code_ifnull = !empty($_POST['position_code_ifnull']) ? trim($_POST['position_code_ifnull']) : '';
     	
-    	if(!empty($position_code_ifnull)){
+    	if (!empty($position_code_ifnull)) {
     		$position_code = $position_code_ifnull;
-    	}else{
+    	} else {
     		$position_code = $position_code_value;
     	}
     	
@@ -252,7 +252,7 @@ class admin_position extends ecjia_admin {
     	
     	$city_id       = intval($_POST['city_id']);
     	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
-    	if(!$city_name){
+    	if (!$city_name) {
     		$city_name = '默认';
     	}
     	$position_id = intval($_POST['position_id']);
@@ -310,7 +310,7 @@ class admin_position extends ecjia_admin {
 		
 		$city_id = intval($_GET['city_id']);
 		$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
-		if(!$city_name){
+		if (!$city_name) {
 			$city_name = '默认';
 		}
 		 
@@ -372,7 +372,7 @@ class admin_position extends ecjia_admin {
 		$city_id      = intval($_GET['city_id']);
 		RC_DB::table('ad_position')->where('position_id', $id)->update(array('sort_order'=> $sort_order));
 		$group_position_id  = intval($_GET['group_position_id']);
-		if($group_position_id){
+		if ($group_position_id) {
 			return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_group/group_position_list', array('position_id' => $group_position_id, 'city_id' => $city_id))));
 		}else{
 			return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_position/init', array('position_id' => $id, 'city_id' => $city_id))));

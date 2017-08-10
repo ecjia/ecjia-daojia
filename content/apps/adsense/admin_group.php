@@ -128,7 +128,7 @@ class admin_group extends ecjia_admin {
 		$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
 		$city_id       = !empty($_POST['city_id']) ? intval($_POST['city_id']) : 0;
 		$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
-		if(!$city_name){
+		if (!$city_name) {
 			$city_name = '默认';
 		}
 		$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('city_id', $city_id)->where('type', 'group')->count();
@@ -184,7 +184,7 @@ class admin_group extends ecjia_admin {
 		
 		$city_id       = intval($_POST['city_id']);
 		$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
-		if(!$city_name){
+		if (!$city_name) {
 			$city_name = '默认';
 		}
 		$position_id   = intval($_POST['position_id']);
@@ -217,7 +217,7 @@ class admin_group extends ecjia_admin {
 		
 		$city_id = intval($_GET['city_id']);
 		$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
-		if(!$city_name){
+		if (!$city_name) {
 			$city_name = '默认';
 		}
 		$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('city_id', $city_id)->where('type', 'group')->count();
@@ -249,9 +249,9 @@ class admin_group extends ecjia_admin {
 		$city_id = intval($_GET['city_id']);
 
 		if (RC_DB::table('ad_position')->where('group_id', $group_position_id)->count() > 0) {
-			if($_GET['key']) {
+			if ($_GET['key']) {
 				return $this->showmessage('该广告组已进行广告位编排，不能删除！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,array('pjaxurl' => RC_Uri::url('adsense/admin_group/constitute',array('city_id' => $city_id, 'position_id' => $group_position_id))));
-			}else{
+			} else {
 				return $this->showmessage('该广告组已进行广告位编排，不能删除！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,array('pjaxurl' => RC_Uri::url('adsense/admin_group/group_position_list',array('city_id' => $city_id, 'position_id' => $group_position_id))));
 			}
 		} else {

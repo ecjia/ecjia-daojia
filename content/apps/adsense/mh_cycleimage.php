@@ -78,7 +78,7 @@ class mh_cycleimage extends ecjia_merchant {
     	$position = new Ecjia\App\Adsense\Merchant\PositionManage('cycleimage', $_SESSION['store_id']);
     	$data = $position->getAllPositions();
     	
-    	if(empty($data)){
+    	if (empty($data)) {
     		$data = RC_Loader::load_app_config('merchant_cycleimage');
     		$this->assign('cycimage_config', 'cycimage_config');
     	}
@@ -275,9 +275,9 @@ class mh_cycleimage extends ecjia_merchant {
     		return $this->showmessage('请上传轮播图片', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	 
-    	if(empty($_POST['show_client'])){
+    	if (empty($_POST['show_client'])) {
     		return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    	}else{
+    	} else {
     		$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
     	}
     	$data = array(
@@ -346,9 +346,9 @@ class mh_cycleimage extends ecjia_merchant {
     		$ad_code = $old_pic;
     	}
     	 
-    	if(empty($_POST['show_client'])){
+    	if (empty($_POST['show_client'])) {
     		return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    	}else{
+    	} else {
     		$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
     	}
     	 

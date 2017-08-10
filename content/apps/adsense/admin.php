@@ -259,9 +259,9 @@ class admin extends ecjia_admin {
 		}
 		$ad_code = isset($ad_code) ? $ad_code : '';
 		$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
-		if(empty($_POST['show_client'])){
+		if (empty($_POST['show_client'])) {
 			return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
 		}
 		$position = intval($_POST['position_id']);
@@ -425,9 +425,9 @@ class admin extends ecjia_admin {
 		}
 		$ad_code = isset($ad_code) ? $ad_code : '';
 		$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
-		if(empty($_POST['show_client'])){
+		if (empty($_POST['show_client'])) {
 			return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
 		}
 		$position_id = intval($_POST['position_id']);
@@ -438,9 +438,9 @@ class admin extends ecjia_admin {
 		$now_end_time = $_POST['end_time'];
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 	
-		if($now > $now_end_time && $old_enabled != $enabled){
+		if ($now > $now_end_time && $old_enabled != $enabled) {
 			return $this->showmessage('该广告已过期暂无法进行开启/关闭操作', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			$data = array(
 				'position_id' 	=> $position_id,
 				'ad_name' 		=> $ad_name,
@@ -551,9 +551,9 @@ class admin extends ecjia_admin {
 		
 		$end_time = RC_Time::local_date('Y-m-d', RC_DB::TABLE('ad')->where('ad_id', $id)->pluck('end_time'));
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
-		if($now > $end_time){
+		if ($now > $end_time) {
 			return $this->showmessage('该广告已过期暂无法进行开启/关闭操作', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			RC_DB::table('ad')->where('ad_id', $id)->update(array('enabled'=> $val));
 			return $this->showmessage('切换成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin/init', array('position_id' => $position_id, 'show_client' => $show_client))));
 		}
@@ -573,55 +573,7 @@ class admin extends ecjia_admin {
 		RC_DB::table('ad')->where('ad_id', $id)->update(array('sort_order'=> $sort_order));
 		return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin/init', array('position_id' => $position_id, 'show_client' => $show_client))));
 	}
-	
-	/**
-	 * 获取广告列表
-	 */
-	private function get_ad_list() {
-		$filter = $where = array();
-		$filter['sort_by'] = empty($_GET['sort_by']) ? 'ad.ad_id' : trim($_GET['sort_by']);
-		$filter['sort_order'] = empty($_GET['sort_order']) ? 'DESC' : trim($_GET['sort_order']);
-		$filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
-		$pid = empty($_GET['pid']) ? 0 : intval($_GET['pid']);
-		
-		$ad_db = RC_DB::table('ad');
-		$ad_db->leftJoin('ad_position', 'ad_position.position_id', '=', 'ad.position_id');
-		if ($filter['keywords']) {
-			$ad_db->where('ad_name', 'like', '%' . mysql_like_quote($filter['keywords']) . '%');
-		}
-		if (isset($_GET['media_type'])) {
-			$filter['media_type'] = intval($_GET['media_type']);
-			$ad_db->where('media_type', '=', intval($_GET['media_type']));
-		} else {
-			$filter['media_type'] = '';
-		}
-		if ($pid > 0) {
-			$ad_db->where('ad.position_id', '=', $pid);
-		}
-		
-		$count = $ad_db->count();
-		$page = new ecjia_page($count, 10, 5);
-		$ad_db->select('ad.*', 'ad_position.position_name')->groupby('ad.ad_id')->orderby($filter['sort_by'], $filter['sort_order'])->take(10)->skip($page->start_id - 1);
-		$data = $ad_db->get();
-		
-		$arr = array();
-		if (isset($data)) {
-			foreach ($data as $rows) {
-				/* 广告类型的名称 */
-				$rows['type'] = $rows['media_type'] == 0 ? RC_Lang::get('adsense::adsense.ad_img') : '';
-				$rows['type'] .= $rows['media_type'] == 1 ? RC_Lang::get('adsense::adsense.ad_flash') : '';
-				$rows['type'] .= $rows['media_type'] == 2 ? RC_Lang::get('adsense::adsense.ad_html') : '';
-				$rows['type'] .= $rows['media_type'] == 3 ? RC_Lang::get('adsense::adsense.ad_text') : '';
-				$rows['start_date'] = RC_Time::local_date(ecjia::config('date_format'), $rows['start_time']);
-				$rows['end_date'] = RC_Time::local_date(ecjia::config('date_format'), $rows['end_time']);
-				if ($rows['media_type'] == 0 && file_exists(RC_Upload::upload_path($rows['ad_code']))) {
-					$rows['image'] = !empty($rows['ad_code']) ? RC_Upload::upload_url($rows['ad_code']) : '';
-				}
-				$arr[] = $rows;
-			}
-		}
-		return array('item' => $arr, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
-	}
+
 	
 	/**
 	 * 获取广告位置下拉列表

@@ -72,19 +72,18 @@ class PositionManage
     {
     
         if ($this->type == 'cycleimage') {
-            
             $repository = new CycleImageRepository();
             return $repository->getAllGroups($this->city);
             
-        } elseif($this->type == 'adsense'){
+        } elseif ($this->type == 'adsense') {
         	$repository = new AdPositionRepository();
         	return $repository->getAllGroups($this->city, $orderBy);
         	
-        } elseif($this->type == 'group'){
+        } elseif ($this->type == 'group') {
         	$repository = new AdGroupRepository();
         	return $repository->getAllGroups($this->city);
         	
-        }elseif($this->type == 'shortcut'){
+        }elseif ($this->type == 'shortcut') {
         	$repository = new ShortcutMenuRepository();
         	return $repository->getAllGroups($this->city);
         	

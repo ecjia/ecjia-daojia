@@ -227,9 +227,9 @@ class mh_ad extends ecjia_merchant {
 			}
 		}
 	
-		if(empty($_POST['show_client'])){
+		if (empty($_POST['show_client'])) {
 			return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
 		}
 		
@@ -379,9 +379,9 @@ class mh_ad extends ecjia_merchant {
 			}
 		}
 		
-		if(empty($_POST['show_client'])){
+		if (empty($_POST['show_client'])) {
 			return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
 		}
 		$position_id = intval($_POST['position_id']);
@@ -392,9 +392,9 @@ class mh_ad extends ecjia_merchant {
 		$now_end_time = $_POST['end_time'];
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 	
-		if($now > $now_end_time && $old_enabled != $enabled){
+		if ($now > $now_end_time && $old_enabled != $enabled) {
 			return $this->showmessage('该广告已过期暂无法进行开启/关闭操作', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			$data = array(
 				'position_id' 	=> $position_id,
 				'ad_name' 		=> $ad_name,
@@ -500,9 +500,9 @@ class mh_ad extends ecjia_merchant {
 	
 		$end_time = RC_Time::local_date('Y-m-d', RC_DB::TABLE('ad')->where('ad_id', $id)->pluck('end_time'));
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
-		if($now > $end_time){
+		if ($now > $end_time) {
 			return $this->showmessage('该广告已过期暂无法进行开启/关闭操作', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			RC_DB::table('merchants_ad')->where('ad_id', $id)->update(array('enabled'=> $val));
 			return $this->showmessage('切换成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_ad/init', array('position_id' => $position_id, 'show_client' => $show_client))));
 		}

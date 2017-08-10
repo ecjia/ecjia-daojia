@@ -65,7 +65,7 @@ class MerchantAdPositionRepository extends AbstractRepository
 	
 	public function getAllGroups($store, array $orderBy)
 	{
-		if(!empty($orderBy)) {
+		if (!empty($orderBy)) {
 			$this->orderBy = $orderBy;
 		}
 		
