@@ -128,7 +128,8 @@ class user_account_controller {
 	                        // 取得支付信息，生成支付代码
 	                        $payment_config = $payment_method->unserialize_config($val['pay_config']);
 	        
-	                        $handler = $payment_method->get_payment_instance($val['pay_code'], $payment_config);
+// 	                        $handler = $payment_method->get_payment_instance($val['pay_code'], $payment_config);
+	                        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
 	                        $open_id = $handler->get_open_id();
 	                        $_SESSION['wxpay_open_id'] = $open_id;
 	                    }
@@ -202,7 +203,8 @@ class user_account_controller {
         				$order['log_id'] = $payment_method->insert_pay_log($data_account_id, $order['order_amount'], PAY_SURPLUS, 0);
     		        }
     		        $order['order_type'] = 'user_account';
-    		        $handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
+//     		        $handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
+    		        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($payment_info['pay_code']);
     		        $handler->set_orderinfo($order);
     		        $handler->set_mobile(false);
     		        $rs_pay = $handler->get_code(payment_abstract::PAYCODE_PARAM);
@@ -450,7 +452,8 @@ class user_account_controller {
 	        if ($payment_info['pay_code'] == 'pay_wxpay') {
 	            // 取得支付信息，生成支付代码
 	            $payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
-	            $handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
+// 	            $handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
+	            $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($payment_info['pay_code']);
 	            $open_id = $handler->get_open_id();
 	            $_SESSION['wxpay_open_id'] = $open_id;
 	        }

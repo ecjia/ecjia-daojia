@@ -59,7 +59,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <!-- {/foreach} -->
     {else}
     <div class="ecjia-nolist">
-        <img src="{$theme_url}images/no_comment.png">
+        <img src="{$theme_url}images/wallet/null280.png">
         <p class="tags_list_font">暂无商品评论</p>
     </div>
     {/if}

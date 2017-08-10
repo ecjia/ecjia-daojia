@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * ecjia 前端页面控制器父类
  */
-class wechart {
+class wechat {
 
     /**
      * 构造函数
@@ -60,7 +60,7 @@ class wechart {
     /**
      * 判断是否是微信浏览器
      */
-    public static function isWechart(){
+    public static function isWechat(){
         if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
             return true;
         }
@@ -73,7 +73,7 @@ class wechart {
      */
     public function setOpenid($code) {
         // 如果不是微信浏览器，或者微信支付不存在，则直接跳出。
-        if (!$this->isWechart() || !RC_Loader::load_plugin_class('WxPayPubHelper', 'pay_wxpay_wap', false)) return false;
+        if (!$this->isWechat() || !RC_Loader::load_plugin_class('WxPayPubHelper', 'pay_wxpay_wap', false)) return false;
 
         // 如果加载不到微信支付，则直接跳出
         RC_Loader::load_app_class('payment_abstract', 'payment', false);
@@ -102,7 +102,7 @@ class wechart {
      * @return [type] 用户信息或false
      */
     public function getUserinfo() {
-        if (!$this->isWechart() || empty($_SESSION['openid'])) return false;
+        if (!$this->isWechat() || empty($_SESSION['openid'])) return false;
 
         $openid = $_SESSION['openid'];
         // 查询公众平台账号信息

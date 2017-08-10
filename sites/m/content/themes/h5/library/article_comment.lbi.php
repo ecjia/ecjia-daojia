@@ -11,7 +11,7 @@
 		</div>
 	</li>
 	<!-- {foreachelse} -->
-	<div class="ecjia-nolist"><img src="{$theme_url}images/no_comment.png"><p class="tags_list_font">暂无评论</p></div>
+	<div class="ecjia-nolist"><img src="{$theme_url}images/wallet/null280.png"><p class="tags_list_font">暂无评论</p></div>
 	<!-- {/foreach} -->
 <!-- {/block} -->
 {/nocache}

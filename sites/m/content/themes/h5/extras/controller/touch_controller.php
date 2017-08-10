@@ -155,6 +155,7 @@ class touch_controller {
 	        	ecjia_front::$controller->assign('is_last', $is_last);
 	        }
         }
+        setcookie("index_url", RC_Uri::url('touch/index/init'));
         ecjia_front::$controller->display('index.dwt', $cache_id);
     }
    
@@ -198,7 +199,8 @@ class touch_controller {
     		'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
             'city_id'       => $_COOKIE['city_id']
     	);
-
+    		
+    	$cache_id = sprintf('%X', crc32($limit.'-'.$page.'-'.$_COOKIE['longitude'].'-'.$_COOKIE['latitude'].'-'.$_COOKIE['city_id']));
     	$response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
     	if (!is_ecjia_error($response)) {
     		list($data, $paginated) = $response;
@@ -209,7 +211,7 @@ class touch_controller {
     		
     		$sayList = '';
     		if (!empty($data)) {
-    			$sayList = ecjia_front::$controller->fetch('library/suggest_store.lbi');
+    			$sayList = ecjia_front::$controller->fetch('library/suggest_store.lbi', $cache_id);
     		}
     		if (isset($paginated['more']) && $paginated['more'] == 0) $data['is_last'] = 1;
     		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));

@@ -117,7 +117,7 @@ $.localStorage('address_url', "{RC_Uri::url('touch/my/init')}");
 		<!-- {else} -->
 		<div class="ecjia-margin-t">
 			<div class="ecjia-nolist">
-				<p><img src="{$theme_url}images/no_address.png"></p>
+				<p><img src="{$theme_url}images/wallet/null280.png"></p>
 				暂无收货地址，请添加
 			</div>
 		</div>

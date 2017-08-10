@@ -1,7 +1,7 @@
 <?php
 /*
-Name: 选择支付方式
-Description: 选择支付方式模板
+Name: 使用积分
+Description: 使用积分模板
 Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');

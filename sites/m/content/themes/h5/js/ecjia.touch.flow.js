@@ -18,6 +18,8 @@
 			ecjia.touch.flow.fold_area();
 			ecjia.touch.flow.check_goods();
 			ecjia.touch.flow.form_submit();
+			ecjia.touch.flow.select_inv_type();
+			ecjia.touch.flow.inv_img();
 			$('[data-toggle="selectShipping"]:checked').trigger('click');
 			$('[data-toggle="selectPayment"]:checked').trigger('click');
 			$('[data-toggle="change_bonus"]:checked').trigger('click');
@@ -30,6 +32,58 @@
 			}
 
 			$(document).winderCheck();
+		},
+		
+		inv_img :function(){
+			$('.inv_img').on('click', function () {
+				alert('<div style="height: 100%;">' +
+						'<div style="position:fixed;background: #FFF;width: 100%;height: 3em;border-bottom: 1px solid #eee;z-index: 100;">' +
+						'<h2 style="line-height: 2em;position: absolute;right: 0;left: 0;height: 2em;">发票税号说明</h2>' +
+						'</div>' +
+						'<div style="padding:15px;overflow-y: scroll;padding-top: 3em;text-align: left;width: 100%;height: 100%;">' +
+						'<p><b>1、什么是纳税人识别号／统一社会信用代码？</b></p>' +
+						'<p style="color:#838383">纳税人识别号，通常简称为“税号”，就是税务登记证上的号，每个企业的识别号都是唯一的，相当于税务局颁发给企业的“身份证”号。统一社会信用代码，是一组长度为18位的用于法人和其他组织身份识别的代码。统一社会信用代码由国家标准委发布。2015年10月1日起，国家启动将企业依次申请的工商营业执照，组织机构代码和税务登记证三证合为一证，并将三证号码合并为统一社会信用代码，目前大部分企业均已完成合并，另外有少部分企业其纳税人识别号仍然有效。</p>' +
+						'<p><b>2、如何获取／知晓纳税人识别号／统一社会信用代码？</b></p>' +
+						'<p style="color:#838383">您可向贵单位的财务部门索取；另外也可以根据单位名称在国家企业信用信息公示系统（https://www.gsxt.gov.cn/index.html）查询统一社会信用代码。</p>' +
+						'<p><b>3、为什么要填写纳税人识别号／统一社会信用代码？</b></p>' +
+						'<p style="color:#838383">根据国家税务总局2017年16号公告，从7月1日起企业（包括公司、非公司制企业法人、企业分支机构、个人独资企业、合伙企业和其他企业）索取票面带有“购买方纳税人识别号”栏目的发票时，应向销售方提供纳税人识别号或统一社会信用代码。因此，当您选择开具单位抬头增值税普通发票时，请根据提示准确填写贵单位号码，以免影响您的发票报销。请注意此公告并不适用于政府机构及事业单位中的非企业单位，因此，如贵单位属于这种类型，可无需填写纳税人识别号／统一社会信用代码，谨慎起见，请您与贵单位财务部门联系确认。</p>' + 
+						'</div>' +
+						'</div>')
+			    $(".modal-overlay").css('transition-duration', "0ms");
+			    $(".modal-in").css("position", "fixed");
+			    $(".modal-in").css("top", "30%");
+			    $(".modal-in").css("height", "70%");
+			    $(".modal-inner").css("background-color", "#FFF");
+			    $(".modal-inner").css("width", "100%");
+			    $(".modal-inner").css("padding", "0");
+			    $(".modal-inner").css("height", "85%");
+			    $(".modal-button-bold").css("background-color", "#FFF");
+			    $(".modal-button-bold").css("border-top", "1px solid #eee");
+			    $(".modal-inner").append("<style>.modal-inner::after{ width:0 }</style>");
+			    $(".modal-text").css("height","100%");
+			});
+		},
+		
+		select_inv_type: function() {
+			$('.personal').on('click', function(e){
+				e.preventDefault();
+				$(this).addClass('action');
+				$('.enterprise').removeClass('action');
+				$('.inv_input').addClass('inv_none');
+				$('.inv_type_input').val("");
+				$('input[name="inv_type_name"]').val("personal")
+				$('.ecjia-bill-img').hide();
+				$(this).children('.ecjia-bill-img').show();
+			});
+			$('.enterprise').on('click', function(e){
+				e.preventDefault();
+				$(this).addClass('action');
+				$('.personal').removeClass('action');
+				$('.inv_input').removeClass('inv_none');
+				$('input[name="inv_type_name"]').val("enterprise")
+				$('.ecjia-bill-img').hide();
+				$(this).children('.ecjia-bill-img').show();
+			});
 		},
 
 		form_submit: function() {
@@ -285,7 +339,7 @@
 				});
 			});
 		},
-
+		
 		select_inv: function() {
 			$('[data-flag="need_inv_i"]').on('click', function() {
 				if ($(this).hasClass("fl")) {

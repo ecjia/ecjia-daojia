@@ -32,7 +32,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </li>
 <!-- {foreachelse} -->	
 <div class="ecjia-merchant-goods ecjia-nolist">
-	<p><img src="{$theme_url}images/no_goods.png"></p>
+	<p><img src="{$theme_url}images/wallet/null280.png"></p>
 	暂无相关商品数据
 </div>
 <!-- {/foreach} -->	

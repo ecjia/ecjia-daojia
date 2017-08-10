@@ -1,7 +1,7 @@
 <?php 
 /*
-Name: 红包模板
-Description: 红包页
+Name: 交易记录模板
+Description: 交易记录页
 Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');

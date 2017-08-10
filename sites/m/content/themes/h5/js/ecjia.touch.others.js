@@ -432,7 +432,7 @@
 						$('.ecjia-discover-article .swiper-slide').removeClass('disabled'); //允许切换
 
 						if (data.list.length == 0) {
-							$('#discover-article-' + type).append('<div class="ecjia-nolist"><img src="' + theme_url + 'images/no_comment.png"><p class="tags_list_font">暂无文章</p></div>');
+							$('#discover-article-' + type).append('<div class="ecjia-nolist"><img src="' + theme_url + 'images/wallet/null280.png"><p class="tags_list_font">暂无文章</p></div>');
 						} else {
 							$('#discover-article-' + type).append(data.list);
 						}

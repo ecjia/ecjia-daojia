@@ -5,7 +5,7 @@
 (function(ecjia, $) {
 	ecjia.touch = {
 		init: function() {
-			if ($.cookie('index') === undefined) {
+			if ($.cookie('h5_index') === undefined) {
 				var key = $("input[name='key']").val();
 				var referer = $("input[name='referer']").val();
 				var geolocation = new qq.maps.Geolocation(key, referer);
@@ -25,13 +25,12 @@
 						},
 					});
 				};
-
 				function showErr(err) {
 					console.log(err);
 				};
-				$.cookie('index', 'first', {
-					expires: 7
-				});
+				var date = new Date();
+				date.setTime(date.getTime() + (30 * 60 * 1000));
+				$.cookie('h5_index', 'first', {expires: date});
 			}
 
 			ecjia.touch.setpjax();
@@ -116,27 +115,30 @@
 					var city_id = $('input[name="city_id"]').val();
 					var city_name = $('input[name="city_name"]').val();
 
+					var date = new Date();
+					date.setTime(date.getTime() + (30 * 60 * 1000));
+
 					$.cookie('location_address', address, {
-						expires: 7
+						expires: date
 					});
 					$.cookie('location_name', title, {
-						expires: 7
+						expires: date
 					});
 					$.cookie('longitude', lng, {
-						expires: 7
+						expires: date
 					});
 					$.cookie('latitude', lat, {
-						expires: 7
+						expires: date
 					});
 					$.cookie('location_address_id', 0, {
-						expires: 7
+						expires: date
 					});
 
 					$.cookie('city_id', city_id, {
-						expires: 7
+						expires: date
 					});
 					$.cookie('city_name', city_name, {
-						expires: 7
+						expires: date
 					});
 
 					var referer_url = $.cookie('referer_url');
@@ -571,7 +573,7 @@
 				obj_abter.append(obj_this);
 			});
 		},
-
+		
 		valid: function() {
 			var $ecjiaform = $(".ecjia-form");
 			$ecjiaform.length && $ecjiaform.each(function(index) {
@@ -706,17 +708,6 @@
 		return i;
 	};
 	
-	//微信浏览器后退pjax刷新
-	var ua = navigator.userAgent.toLowerCase();
-	if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/ECJiaBrowse/i) == "ecjiabrowse") {
-		window.addEventListener("popstate", function(e) { 
-			if (e.state.url != undefined) {
-				ecjia.pjax(e.state.url);
-				return false;
-			}
-		}, false); 
-	}
-
 	//PJAX跳转执行
 	$(document).on('pjax:complete', function() {
 		window.onscroll = null;
@@ -737,7 +728,7 @@
 	});
 
 	//PJAX前进、返回执行
-	$(document).on('pjax:popstate', function() {});
+//	$(document).on('pjax:popstate', function() {});
 
 	//PJAX历史和跳转都会执行的方法
 	$(document).on('pjax:end', function() {

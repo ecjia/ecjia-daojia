@@ -93,7 +93,7 @@ class user_profile_controller {
     		$user = is_ecjia_error($user) ? array() : $user;
     		$time = RC_Time::gmtime();
     		$last_time = $user['update_username_time'];
-    		$limit_time = strtotime($last_time) + 2592000;
+    		$limit_time = RC_Time::local_strtotime($last_time) + 2592000;
     		if ($limit_time  > $time) {
     			ecjia_front::$controller->assign('limit_time', $limit_time);
     		}

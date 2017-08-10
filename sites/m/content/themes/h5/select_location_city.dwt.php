@@ -18,12 +18,14 @@ $(document).ready(function() {
 		var url = $("#cityall").attr('data-url');
 		url += '&city=' + city_name;
 
+		var date = new Date();
+		date.setTime(date.getTime() + (30 * 60 * 1000));
 		if (city_id) {
 			$.cookie('city_id', city_id, {
-				expires: 7
+				expires: date
 			});
 			$.cookie('city_name', city_name, {
-				expires: 7
+				expires: date
 			});
 			url += '&city_id=' + city_id;
 		}

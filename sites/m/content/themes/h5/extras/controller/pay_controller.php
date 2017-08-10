@@ -114,10 +114,11 @@ class pay_controller {
 	        		// 取得支付信息，生成支付代码
 	        		$payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
 	        		 
-	        		$handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
+// 	        		$handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
+	        		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($payment_info['pay_code']);
 	        		$handler->set_orderinfo($detail);
 	        		$handler->set_mobile(false);
-	        		$rs_pay = $handler->get_code(payment_abstract::PAYCODE_PARAM);
+	        		$rs_pay = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
 	        		if (is_ecjia_error($rs_pay)) {
 	        		    return ecjia_front::$controller->showmessage($rs_pay->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
 	        		}

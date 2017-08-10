@@ -36,7 +36,7 @@ var branch      = 'dev',
         'lib/winderCheck/js/winderCheck.js',
         /*TouchUI系列JS*/
         'js/ecjia.touch.js',
-        'js/ecjia.touch.history.js',
+        // 'js/ecjia.touch.history.js',
         'js/ecjia.touch.others.js',
         'js/ecjia.touch.goods.js',
         'js/ecjia.touch.user.js',

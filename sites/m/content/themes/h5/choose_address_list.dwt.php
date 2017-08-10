@@ -68,7 +68,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<!-- {else} -->
 		<div class="ecjia-margin-t">
 			<div class="ecjia-nolist">
-				<p><img src="{$theme_url}images/no_address.png"></p>
+				<p><img src="{$theme_url}images/wallet/null280.png"></p>
 				暂无收货地址，请添加
 			</div>
 		</div>

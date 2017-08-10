@@ -1,7 +1,7 @@
 <?php
 /*
-Name: 获取全部订单模板
-Description: 获取全部订单页
+Name: 用户评论模板
+Description: 用户评论
 Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');

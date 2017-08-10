@@ -121,9 +121,9 @@ var releated_goods = {$releated_goods};
 <div class="ecjia-mod search-no-pro ecjia-margin-t ecjia-margin-b">
 	<div class="ecjia-nolist">
 		{if !$store_id}
-		<p><img src="{$theme_url}images/no_store.png"></p>
+		<p><img src="{$theme_url}images/wallet/null280.png"></p>
 		{else}
-		<p><img src="{$theme_url}images/no_goods.png"></p>
+		<p><img src="{$theme_url}images/wallet/null280.png"></p>
 		{/if}
 		{if $keywords}
 		暂无搜索结果
@@ -243,9 +243,9 @@ var releated_goods = {$releated_goods};
 				{if $val.num}<i class="attr-number">{$val.num}</i>{/if}
 			</div>
 			<!-- {else} -->
-			<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">减11</span>
+			<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">减</span>
 			<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
-			<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加11</span>
+			<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加</span>
 			<!-- {/if} -->
 		</div>
 	</li>

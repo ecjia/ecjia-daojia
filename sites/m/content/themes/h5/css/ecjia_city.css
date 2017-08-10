@@ -3040,7 +3040,7 @@ footer {
 	color: #aaa;
 	line-height: 26px;
 	text-align: center;
-	background: url(../images/cart.png) center 0 no-repeat;
+	background: url(../images/wallet/null280.png) center 0 no-repeat;
 	margin: 0 auto;
 	background-size: 10em;
 }
@@ -6087,7 +6087,7 @@ footer {
 	color: #aaa;
 	line-height: 26px;
 	text-align: center;
-	background: url(../images/no_order.png) center 0 no-repeat;
+	background: url(../images/wallet/null280.png) center 0 no-repeat;
 	margin: 0 auto;
 	background-size: 10em;
 }
@@ -6867,6 +6867,59 @@ footer {
 
 
 /*========================  红包 ===========================*/
+/*========================  发票页  ===========================*/
+.ecjia-flow-invoice .select-type {
+	background: #FFF;
+    height: auto;
+    padding: .5em 1em;
+    float: left;
+    width: 100%;
+}
+
+.ecjia-flow-invoice .select-type .inv_type {
+	float: left;
+    width: 7em;
+    text-align: center;
+    margin-right: 1.5em;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    height: 3em;
+    line-height: 3em;
+    position: relative;
+}
+
+.ecjia-flow-invoice .select-type .inv_type img{
+    position: absolute;
+    right: 0;
+    border: none;
+    top: 0px;
+    z-index: 100;
+    width: 1.5em;
+    border-top-right-radius: 3px;
+}
+
+.ecjia-flow-invoice .select-type .action{
+	border:1px solid #47aa4d!important; 
+}
+
+.ecjia-flow-invoice .select-type .inv_none {
+    display: none;
+}
+
+.ecjia-flow-invoice .select-type .inv_input .img_flat{
+	position: relative;
+}
+
+.ecjia-flow-invoice .select-type .inv_input input{
+	margin-top: .5em;
+}
+
+.ecjia-flow-invoice .select-type .inv_input img{
+    width: 1.7em;
+    position: absolute;
+    top: 1.3em;
+    right: 1em;
+}
 
 /*========================  分类店铺 ===========================*/
 .ecjia-store-goods-list {
@@ -7799,7 +7852,7 @@ footer {
 	color: #aaa;
 	line-height: 26px;
 	text-align: center;
-	background: url(../images/wallet/noreward_180.png) center 170px no-repeat;
+	background: url(../images/wallet/null280.png) center 170px no-repeat;
 	margin: 0 auto;
 	max-width: 640px;
 	background-size: 10em;
@@ -7821,7 +7874,7 @@ footer {
 	color: #aaa;
 	line-height: 26px;
 	text-align: center;
-	background: url(../images/wallet/nobonus_180.png) center 0 no-repeat;
+	background: url(../images/wallet/null280.png) center 0 no-repeat;
 	margin: 0 auto;
 	max-width: 640px;
 	background-size: 10em;
@@ -7838,7 +7891,7 @@ footer {
 	color: #aaa;
 	line-height: 26px;
 	text-align: center;
-	background: url(../images/wallet/norecord_180.png) center 170px no-repeat;
+	background: url(../images/wallet/null280.png) center 170px no-repeat;
 	margin: 0 auto;
 	max-width: 640px;
 	background-size: 10em;

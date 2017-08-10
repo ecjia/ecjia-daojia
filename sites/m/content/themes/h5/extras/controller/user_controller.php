@@ -103,6 +103,7 @@ class user_controller {
     		ecjia_front::$controller->assign('active', 'mine');
     		ecjia_front::$controller->assign_title('个人中心');
     	}
+    	setcookie("index_url", RC_Uri::url('touch/index/init'));
     	ecjia_front::$controller->display('user.dwt', $cache_id);
     }
     

@@ -1,7 +1,7 @@
 <?php
 /*
-Name:  会员中心：编辑个人资料模板
-Description:  会员中心：编辑个人资料首页
+Name:  会员中心：编辑用户名模板
+Description:  会员中心：编辑用户名首页
 Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');

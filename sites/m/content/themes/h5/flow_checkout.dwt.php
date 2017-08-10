@@ -117,8 +117,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<a class="check_address" href='{url path="cart/flow/invoice" args="address_id={$address_id}&rec_id={$rec_id}"}'>
 				<span>发票信息<!-- invoice --></span>
 				<i class="iconfont icon-jiantou-right"></i>
-				<span class="ecjiaf-fr select_nav ecjia-truncate">{$temp.inv_payee}</span>
+				<span class="ecjiaf-fr select_nav ecjia-truncate">{if $temp.inv_type_name == 'personal'}个人{else if}{$temp.inv_payee}{/if}</span>
+				<input type="hidden" name="inv_title_type" value="{$temp.inv_type_name}" />
 				<input type="hidden" name="inv_payee" value="{$temp.inv_payee}" />
+				<input type="hidden" name="inv_tax_no" value="{$temp.inv_bill_code}" />
 				<input type="hidden" name="inv_content" value="{$temp.inv_content}" />
 				<input type="hidden" name="inv_type" value="{$temp.inv_type}" />
 			</a>
