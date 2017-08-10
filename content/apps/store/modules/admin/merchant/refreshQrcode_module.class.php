@@ -47,84 +47,34 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 入驻申请等信息获取验证码
+ * 店铺刷新二维码
  * @author
  */
-class validate_module extends api_admin implements api_interface {
+class refreshQrcode_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$type		    = $this->requestData('type');
-		$value		    = $this->requestData('value');
-		$validate_type	= $this->requestData('validate_type');
-		$validate_code	= $this->requestData('validate_code');
-		$time           = RC_Time::gmtime();
 
-		if (empty($type) || empty($value)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+        $this->authadminSession();
+    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+
+		$store_id = $_SESSION['store_id'];
+		//删除原来的店铺二维码
+		$disk = RC_Filesystem::disk();
+		$store_qrcode = 'data/qrcodes/merchants/merchant_'.$store_id.'.png';
+		if ($disk->exists(RC_Upload::upload_path($store_qrcode))) {
+			$disk->delete(RC_Upload::upload_path().$store_qrcode);
 		}
-
-		/* 如果进度查询，查询入驻信息是否存在*/
-		if ($validate_type == 'process') {
-			$info_store_preaudit	= RC_DB::table('store_preaudit')->where('contact_mobile', $value)->first();
-			$info_store_franchisee	= RC_DB::table('store_franchisee')->where('contact_mobile', $value)->first();
-			if (empty($info_store_preaudit) && empty($info_store_franchisee)) {
-				return new ecjia_error('store_error', '您还未申请入驻！');
-			}
+		ecjia_admin::admin_log('刷新店铺二维码', 'edit', 'merchant');
+		 
+		$shop_logo = RC_DB::table('merchants_config')->where('code', 'shop_logo')->where('store_id', $_SESSION['store_id'])->pluck('value');
+		$shop_logo = RC_Upload::upload_url($shop_logo);
+		
+		if (!empty($shop_logo)) {
+			$store_qrcode = with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($store_id,  $shop_logo))->getQrcodeUrl();
 		}
-
-		if ($type == 'mobile' && $validate_type == 'signup') {
-            $info_store_preaudit	= RC_DB::table('store_preaudit')->where('contact_mobile', $value)->count();
-			$info_store_franchisee	= RC_DB::table('store_franchisee')->where('contact_mobile', $value)->first();
-            $info_staff_user		= RC_DB::table('staff_user')->where('mobile', $value)->first();
-			
-			if (!empty($info_store_preaudit)){
-                return new ecjia_error('merchant_checking', '手机号'.$value.'已被申请，请确认该账号是否为本人所有');
-            }elseif(!empty($info_store_franchisee)){
-                return new ecjia_error('merchant_exist', '手机号'.$value.'已被申请，请确认该账号是否为本人所有');
-            }
-            if(!empty($info_staff_user)){
-                return new ecjia_error('already_signup', '手机号'.$value.'已被注册为店铺员工');
-            }
-		}
-
-        if (!empty($validate_code)) {
-			/* 判断校验码*/
-			if ($_SESSION['merchant_validate_code'] != $validate_code) {
-				return new ecjia_error('validate_code_error', '校验码错误！');
-			} elseif ($_SESSION['merchant_validate_expiry'] < RC_Time::gmtime()) {
-				return new ecjia_error('validate_code_time_out', '校验码已过期！');
-			}
-			return array('message' => '校验成功！');
-		}
-
-		if (($_SESSION['merchant_validate_expiry'] - 1740) > $time && empty($validate_code)) {
-		    return new ecjia_error('restrict_times', '您发送验证码的频率过高，请稍等一分钟！');
-		}
-
-        // 发送验证码
-        // 发送短信
-        $code     = rand(100000, 999999);
-        $options = array(
-        	'mobile' => $value,
-        	'event'	 => 'sms_get_validate',
-        	'value'  =>array(
-        		'code' 			=> $code,
-        		'service_phone' => ecjia::config('service_phone'),
-        	),
-        );
-        $response = RC_Api::api('sms', 'send_event_sms', $options);
-
-        /* 判断是否发送成功*/
-        if (is_ecjia_error($response)) {
-        	return new ecjia_error('send_code_error', '验证码发送失败！');
-        } else {
-        	$time = RC_Time::gmtime();
-        	$_SESSION['merchant_validate_code'] = $code;
-        	$_SESSION['merchant_validate_mobile'] = $value;
-        	$_SESSION['merchant_validate_expiry'] = $time + 1800;//设置有效期30分钟
-        	return array('message' => '验证码发送成功！');
-        }
+		return array();
     }
-
 }
 
 //end

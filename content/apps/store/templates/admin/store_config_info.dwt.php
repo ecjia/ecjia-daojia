@@ -60,6 +60,72 @@
     				</select>
     			</div>
     		</div>
+    		
+    		<h3 class="heading">
+				门店模式设置
+			</h3>
+	    	<div class="control-group formSep">
+    			<label class="control-label">{t}门店切换模式：{/t}</label>
+    			<div class="controls l_h30">
+    				<input type="radio" name="store_model" value="0" {if $model eq 0 || !$model}checked="true"{/if} />附近门店&nbsp;&nbsp;&nbsp;
+    				<input type="radio" name="store_model" value="1" {if $model eq 1}checked="true"{/if} />单门店&nbsp;&nbsp;&nbsp;
+    				<input type="radio" name="store_model" value="2" {if $model eq 2}checked="true"{/if} />多门店
+    				<span class="help-block">设置门店的切换模式，如选择“单门店”则可设置单独的一家门店，如选择“多门店”则可设置多家门店</span>
+    			</div>
+    			<div class="controls search" data-url="{url path='store/admin_config/search_store'}">
+    				<div class="search_content {if $model neq 1 && $model neq 2}hide{/if}">
+	    				<div class="f_l">
+		    				<select name="cat_id">
+		    					<option value="0">请选择店铺分类</option>
+		    					<!-- {$cat_list} -->
+		    				</select>
+	    				</div>
+	    				<input type="text" name="keywords" value="" placehholder="请输入店铺名称关键字"/>
+	    				<a href="javascript:;" class="btn search-store">搜索</a>
+	    				<div class="clear m_t10">
+	    					<span class="help-block">请选择店铺分类或输入店铺名称关键词进行搜索</span>
+	    				</div>
+    				</div>
+    			</div> 
+    			
+    			<div class="controls mode mode_1 {if $model neq 1}hide{/if}">
+    				<select name="store" class="store_list" style="width:445px;">
+						{if $store_list.store_id && $model eq 1}
+							<option value="{$store_list.store_id}">{$store_list.merchants_name}</option>
+						{else}
+							<option value='0'>请选择...</option>
+						{/if}
+					</select>
+    			</div>
+    			
+				<div class="controls draggable mode mode_2 {if $model neq 2}hide{/if}">
+					<div class="ms-container" id="ms-custom-navigation">
+						<div class="ms-selectable">
+							<div class="search-header">
+								<div class="custom-header custom-header-align">可选门店</div>
+							</div>
+							<ul class="ms-list nav-list-ready">
+								<li class="ms-elem-selectable disabled"><span>暂无内容</span></li>
+							</ul>
+						</div>
+						<div class="ms-selection">
+							<div class="custom-header custom-header-align">已选门店</div>
+							<ul class="ms-list nav-list-content">
+								<!-- {if $model eq 2} -->
+									<!-- {foreach from=$store_list item=store key=key} -->
+									<li class="ms-elem-selection">
+										<input type="hidden" value="{$store.store_id}" name="store_id[]" />
+										<!-- {$store.merchants_name} -->
+										<span class="edit-list"><i class="fontello-icon-minus-circled ecjiafc-red del"></i></span>
+									</li>
+									<!-- {/foreach} -->
+								<!-- {/if} -->
+							</ul>
+						</div>
+					</div>
+				</div>
+    		</div>
+    		
     		<div class="control-group">
 				<div class="controls">
 					<input type="submit" value="{lang key='system::system.button_submit'}" class="btn btn-gebo" />

@@ -159,8 +159,10 @@ class config_module extends api_front implements api_interface {
 				}
 			}
 		}
-		
-		$info['trade_time'] = !empty($info['shop_trade_time']) ? unserialize($info['shop_trade_time']) : array('start' => '8:00', 'end' => '21:00');
+		/*营业时间处理*/
+		RC_Loader::load_app_func('merchant', 'merchant');
+		$info['trade_time']    = get_store_trade_time($seller_id);
+		//$info['trade_time'] = !empty($info['shop_trade_time']) ? unserialize($info['shop_trade_time']) : array('start' => '8:00', 'end' => '21:00');
 		$seller_info = array(
 				'id'				=> $info['store_id'],
 				'seller_name'		=> $info['merchants_name'],
@@ -201,7 +203,7 @@ class config_module extends api_front implements api_interface {
 // 				'hot_goods'			=> $hotgoods_list,
 // 				'best_goods'		=> $bestgoods_list,
 				'favourable_list'	=> $favourable_list,
-				'label_trade_time'	=> $info['trade_time']['start'] . ' - '. $info['trade_time']['end'],
+				'label_trade_time'	=> $info['trade_time'],
 		);
 
 		return $seller_info;

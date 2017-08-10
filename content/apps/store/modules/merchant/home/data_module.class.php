@@ -74,6 +74,11 @@ class data_module extends api_front implements api_interface {
 	    if (!$api_old) {
 		    $request_param['seller_id'] = $seller_id;
 		    
+		    $info = RC_DB::table('store_franchisee')->where('store_id', $seller_id)->first();
+		    if ($info['status'] == 2 || $info['shop_close'] == 1) {
+		        return array('shop_close' => 1);
+		    }
+		    
 		    //流程逻辑开始
 		    // runloop 流
 		    $response = array();
@@ -332,7 +337,9 @@ function promote_goods_data($response, $request) {
 
     $result = RC_Api::api('goods', 'goods_list', $filter);
     if ( !empty($result['list']) ) {
+        RC_Loader::load_app_func('admin_goods', 'goods');
         foreach ( $result['list'] as $key => $val ) {
+            $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
             $promote_goods_data[] = array(
                 'id'		                => intval($val['goods_id']),
                 'goods_id'	                => intval($val['goods_id']),         
@@ -341,6 +348,7 @@ function promote_goods_data($response, $request) {
                 'shop_price'	            => $val['shop_price'],
                 'promote_price'	            => $val['promote_price'],
                 'manage_mode'               => $val['manage_mode'],
+                'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
                 'unformatted_promote_price' => $val['unformatted_promote_price'],
                 'promote_start_date'        => $val['promote_start_date'],
                 'promote_end_date'          => $val['promote_end_date'],
@@ -348,7 +356,9 @@ function promote_goods_data($response, $request) {
                     'small' => $val['goods_thumb'],
                     'thumb' => $val['goods_img'],
                     'url'	=> $val['original_img'],
-                )
+                ),
+                'properties'      => $properties['pro'],
+                'specification'   => $properties['spe'],
             );
         }
     }
@@ -362,21 +372,26 @@ function new_goods_data($response, $request) {
 
     $order_sort = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
     $filter     = array(
-        'intro'	=> 'new',
+        'store_intro'	=> 'new',
+        'store_id' => $request['seller_id'],
         'sort'	=> $order_sort,
         'page'	=> 1,
         'size'	=> 6,
-        'store_id' => $request['seller_id'],
+        
     );
 
     $result = RC_Api::api('goods', 'goods_list', $filter);
     if ( !empty($result['list']) ) {
+        RC_Loader::load_app_func('admin_goods', 'goods');
         foreach ( $result['list'] as $key => $val ) {
+            $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
             $new_goods_data[] = array(
                 'id'            => intval($val['goods_id']),
                 'goods_id'      => intval($val['goods_id']),           //多商铺中不用，后期删除
                 'name'          => $val['goods_name'],
                 'manage_mode'   => $val['manage_mode'],
+            	'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
+            	'unformatted_promote_price' => $val['unformatted_promote_price'],
                 'market_price'	=> $val['market_price'],
                 'shop_price'	=> $val['shop_price'],
                 'promote_price'	=> $val['promote_price'],
@@ -384,7 +399,9 @@ function new_goods_data($response, $request) {
                     'small' => $val['goods_thumb'],
                     'thumb' => $val['goods_img'],
                     'url'	=> $val['original_img'],
-                )
+                ),
+                'properties'      => $properties['pro'],
+                'specification'   => $properties['spe'],
             );
         }
     }

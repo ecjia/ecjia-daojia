@@ -6,24 +6,38 @@
 	ecjia.admin.store_edit.init();
 </script>
 <script type="text/javascript">
-    // 百度地图API功能
-    var map = new BMap.Map("allmap");
-    var lat = '31.235278361951';
-    var lng = '121.41618102314';
-    if(lng && lat){
-        var point = new BMap.Point(lng, lat);  // 创建点坐标
-        map.centerAndZoom(point,15);
-        var marker = new BMap.Marker(point);  // 创建标注
-    	map.addOverlay(marker);               // 将标注添加到地图中
-        map.addEventListener("click",function(e){
-            map.removeOverlay(marker);
-            $('input[name="longitude"]').val(e.point.lng)
-            $('input[name="latitude"]').val(e.point.lat)
-            point = new BMap.Point(e.point.lng, e.point.lat);
-            marker = new BMap.Marker(point)
-            map.addOverlay(marker);
-        });
-    }
+	//腾讯地图
+	var map, markersArray = [];
+	var latLng = new qq.maps.LatLng(31.22926, 121.40934);
+	var map = new qq.maps.Map(document.getElementById("allmap"),{
+	    center: latLng,
+	    zoom: 16
+	});
+	$('input[name="longitude"]').val(121.40934);
+    $('input[name="latitude"]').val(31.22926);
+	setTimeout(function(){
+	    var marker = new qq.maps.Marker({
+	        position: latLng, 
+	        map: map
+	      });
+	    markersArray.push(marker);
+	}, 500);
+	//添加监听事件 获取鼠标单击事件
+	qq.maps.event.addListener(map, 'click', function(event) {
+	    if (markersArray) {
+	        for (i in markersArray) {
+	            markersArray[i].setMap(null);
+	        }
+	        markersArray.length = 0;
+	    }
+	    $('input[name="longitude"]').val(event.latLng.lng)
+	    $('input[name="latitude"]').val(event.latLng.lat)
+	       var marker = new qq.maps.Marker({
+	        position: event.latLng, 
+	        map: map
+	      });
+	    markersArray.push(marker);    
+	});
 </script>
 <!-- {/block} -->
 
@@ -55,6 +69,7 @@
         					<label class="control-label">{lang key='store::store.store_title_lable'}</label>
         					<div class="controls">
         						<input class="span6" name="merchants_name" type="text" value="{$store.merchants_name}" />
+        						<span class="input-must">{lang key='system::system.require_field'}</span>
         					</div>
         				</div>
         			    <div class="control-group formSep" >
@@ -64,6 +79,7 @@
         							<option value="0">{lang key='store::store.select_plz'}</option>
         							<!-- {html_options options=$cat_list selected=$store.cat_id} -->
         						</select>
+        						<span class="input-must">{lang key='system::system.require_field'}</span>
         					</div>
         				</div>
         				<div class="control-group formSep">
@@ -77,6 +93,7 @@
         					<label class="control-label">联系手机：</label>
         					<div class="controls">
         						<input class="span6" name="contact_mobile" type="text" value="{$store.contact_mobile}" />
+        						<span class="input-must">{lang key='system::system.require_field'}</span>
         					</div>
         					<div class="m_t30 controls help-block">请正确填写手机号用于接收商家登录的账号和密码</div>
         				</div>
@@ -84,6 +101,7 @@
         					<label class="control-label">{lang key='store::store.email_lable'}</label>
         					<div class="controls">
         						<input class="span6" name="email" type="text" value="{$store.email}" />
+        						<span class="input-must">{lang key='system::system.require_field'}</span>
         					</div>
         				</div>
         				<!-- 地区 -->
@@ -108,12 +126,14 @@
         							<option value="{$region.region_id}" {if $region.region_id eq $store.district}selected{/if}>{$region.region_name}</option>
         							<!-- {/foreach} -->
         						</select>
+        						<span class="input-must">{lang key='system::system.require_field'}</span>
         					</div>
         				</div>
         				<div class="control-group formSep">
         					<label class="control-label">{lang key='store::store.address_lable'}</label>
         					<div class="controls">
         						<input class="span6" name="address" type="text" value="{$store.address}" />
+        						<span class="input-must">{lang key='system::system.require_field'}</span>
                                 <div class="input-must">
                                     <button class="btn btn-info small-btn" data-toggle="get-gohash" data-url="{url path='store/admin/getgeohash'}">获取精准坐标</button>
                                 </div>
@@ -125,7 +145,7 @@
         					<div class="controls" style="overflow:hidden;">
         						<div class="span6" id="allmap" style="height:320px;"></div>
         					</div>
-                            <div class="m_t30 controls help-block">点击选择店铺精确位置，双击放大地图，拖动查看地图其他区域</div>
+                            <div class="m_t30 controls help-block">点击选择店铺精确位置，拖动查看地图其他区域</div>
         				</div>
 
 
@@ -134,6 +154,7 @@
                             <div class="controls">
                                 <div class="l_h30 long f_l"> <input type="text" name="longitude" readonly="true" value="{$store.longitude}"></div>
             					<div class="l_h30 latd f_l m_l10"><input type="text" name="latitude" readonly="true" value="{$store.latitude}"></div>
+            					<span class="input-must">{lang key='system::system.require_field'}</span>
                             </div>
         				</div>
 

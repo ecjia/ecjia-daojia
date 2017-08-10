@@ -102,11 +102,11 @@
 						<td>
 						{if $log_last.longitude || $log_last.latitude}
     						<div class="high_light h_info">{$log_last.longitude.original_data}&nbsp;{$log_last.latitude.original_data}</div>
-    						{if $log_last.longitude.original_data && $log_last.latitude.original_data}&nbsp;&nbsp;<a href="https://api.map.baidu.com/marker?location={$log_last.latitude.original_data},{$log_last.longitude.original_data}&title=我的位置&content={$store.merchants_name}&output=html&src=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}<br>
+    						{if $log_last.longitude.original_data && $log_last.latitude.original_data}&nbsp;&nbsp;<a href="https://apis.map.qq.com/uri/v1/marker?marker=coord:{$log_last.latitude.original_data},{$log_last.longitude.original_data};title:我的位置;addr:{$store.merchants_name}&referer=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}<br>
     						<div class="high_light h_success">{$log_last.longitude.new_data}&nbsp;{$log_last.latitude.new_data}</div>
-    						{if $log_last.longitude.new_data && $log_last.latitude.new_data}&nbsp;&nbsp;<a href="https://api.map.baidu.com/marker?location={$log_last.latitude.new_data},{$log_last.longitude.new_data}&title=我的位置&content={$store.merchants_name}&output=html&src=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}
+    						{if $log_last.longitude.new_data && $log_last.latitude.new_data}&nbsp;&nbsp;<a href="https://apis.map.qq.com/uri/v1/marker?marker=coord:{$log_last.latitude.new_data},{$log_last.longitude.new_data};title:我的位置;addr:{$store.merchants_name}&referer=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}
 						{else}
-    						{$store.longitude}&nbsp;&nbsp;{$store.latitude}{if $store.longitude && $store.latitude}&nbsp;&nbsp;<a href="https://api.map.baidu.com/marker?location={$store.latitude},{$store.longitude}&title=我的位置&content={$store.merchants_name}&output=html&src=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}
+    						{$store.longitude}&nbsp;&nbsp;{$store.latitude}{if $store.longitude && $store.latitude}&nbsp;&nbsp;<a href="https://apis.map.qq.com/uri/v1/marker?marker=coord:{$store.latitude},{$store.longitude};title:我的位置;addr:{$store.merchants_name}&referer=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}
 						{/if}
 						</td>
 					</tr>
@@ -120,7 +120,6 @@
     						{$store.address}
 						{/if}
 						</td>
-<!-- 						http://map.baidu.com/?newmap=1&s=con%26wd%3D%E4%B8%AD%E5%B1%B1%E5%8C%97%E8%B7%AF3553%E5%8F%B7%26c%3D289&from=alamap&tpl=mapsite -->
 					</tr>
 					</tbody>
 				</table>

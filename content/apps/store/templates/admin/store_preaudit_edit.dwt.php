@@ -6,24 +6,38 @@
 	ecjia.admin.store_edit.init();
 </script>
 <script type="text/javascript">
-    // 百度地图API功能
-    var map = new BMap.Map("allmap");
+ 	//腾讯地图
+	var map, markersArray = [];
     var lat = '{$store.latitude}';
     var lng = '{$store.longitude}';
-    if(lng && lat){
-        var point = new BMap.Point(lng, lat);  // 创建点坐标
-        map.centerAndZoom(point,15);
-        var marker = new BMap.Marker(point);  // 创建标注
-    	map.addOverlay(marker);               // 将标注添加到地图中
-        map.addEventListener("click",function(e){
-            map.removeOverlay(marker);
-            $('input[name="longitude"]').val(e.point.lng)
-            $('input[name="latitude"]').val(e.point.lat)
-            point = new BMap.Point(e.point.lng, e.point.lat);
-            marker = new BMap.Marker(point)
-            map.addOverlay(marker);
-        });
-    }
+	var latLng = new qq.maps.LatLng(lat, lng);
+	var map = new qq.maps.Map(document.getElementById("allmap"),{
+	    center: latLng,
+	    zoom: 16
+	});
+	setTimeout(function(){
+	    var marker = new qq.maps.Marker({
+	        position: latLng, 
+	        map: map
+	      });
+	    markersArray.push(marker);
+	}, 500);
+	//添加监听事件 获取鼠标单击事件
+	qq.maps.event.addListener(map, 'click', function(event) {
+	    if (markersArray) {
+	        for (i in markersArray) {
+	            markersArray[i].setMap(null);
+	        }
+	        markersArray.length = 0;
+	    }
+	    $('input[name="longitude"]').val(event.latLng.lng)
+	    $('input[name="latitude"]').val(event.latLng.lat)
+	       var marker = new qq.maps.Marker({
+	        position: event.latLng, 
+	        map: map
+	      });
+	    markersArray.push(marker);    
+	});
 </script>
 <!-- {/block} -->
 
@@ -357,7 +371,7 @@
 					</div>
 				</div>
 
-				<div class="control-group formSep {if !$store.latitude || !$store.longitude}hide{/if}">
+				<div class="control-group formSep location-address {if !$store.latitude || !$store.longitude}hide{/if}">
 					<label class="control-label">店铺精确位置：</label>
 					<div class="controls" style="overflow:hidden;">
 						<div class="span6" id="allmap" style="height:320px;"></div>

@@ -75,12 +75,15 @@ class admin extends ecjia_admin {
 
         RC_Script::enqueue_script('jquery-range', RC_App::apps_url('statics/js/jquery.range.js', __FILE__));
         RC_Style::enqueue_style('range', RC_App::apps_url('statics/css/range.css', __FILE__), array());
+        //时间控件
+        RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
+        RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
         RC_Script::enqueue_script('store', RC_App::apps_url('statics/js/store.js', __FILE__));
 		RC_Script::enqueue_script('store_log', RC_App::apps_url('statics/js/store_log.js', __FILE__));
 		RC_Script::enqueue_script('commission_info',RC_App::apps_url('statics/js/commission.js' , __FILE__));
 		RC_Script::enqueue_script('region',RC_Uri::admin_url('statics/lib/ecjia-js/ecjia.region.js'));
-		RC_Script::enqueue_script('map', 'https://api.map.baidu.com/api?v=2.0&ak=P4C6rokKFWHjXELjOnogw3zbxC0VYubo');
+		RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
 
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('store::store.store'), RC_Uri::url('store/admin/init')));
 	}
@@ -119,7 +122,6 @@ class admin extends ecjia_admin {
 	    $this->assign('action_link',array('href' => RC_Uri::url('store/admin/init'),'text' => RC_Lang::get('store::store.store_list')));
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加自营商家'));
 	    $this->assign('ur_here', '添加自营商家');
-	    
 	    
 	    $cat_list = $this->get_cat_select_list();
 	    $province   = $this->db_region->get_regions(1, 1);
@@ -293,6 +295,7 @@ class admin extends ecjia_admin {
 		$store    = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
 		$store['apply_time']	= RC_Time::local_date(ecjia::config('time_format'), $store['apply_time']);
 		$store['confirm_time']	= RC_Time::local_date(ecjia::config('time_format'), $store['confirm_time']);
+		$store['expired_time']	= RC_Time::local_date('Y-m-d', $store['expired_time']);
 		$cat_list = $this->get_cat_select_list();
 		$certificates_list = array(
 				'1' => RC_Lang::get('store::store.people_id'),
@@ -355,6 +358,7 @@ class admin extends ecjia_admin {
 		        'latitude'					=> !empty($_POST['latitude'])			? $_POST['latitude']           : '',
 		        'manage_mode'				=> !empty($_POST['manage_mode'])		? $_POST['manage_mode']        : 'join',
 		        'shop_close'				=> isset($_POST['shop_close'])			? $_POST['shop_close']         : 1,
+		        'expired_time'              => !empty($_POST['expired_time'])		? RC_Time::local_strtotime($_POST['expired_time']) : 0,
 		    );
 
 			if($_POST['shop_close'] == '1'){
@@ -539,6 +543,7 @@ class admin extends ecjia_admin {
 		$store                  = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
 		$store['apply_time']	= RC_Time::local_date(ecjia::config('time_format'), $store['apply_time']);
 		$store['confirm_time']	= RC_Time::local_date(ecjia::config('time_format'), $store['confirm_time']);
+		$store['expired_time']	= RC_Time::local_date('Y-m-d', $store['expired_time']);
 
 		$store['province']      = RC_DB::table('region')->where('region_id', $store['province'])->pluck('region_name');
 		$store['city']          = RC_DB::table('region')->where('region_id', $store['city'])->pluck('region_name');
@@ -614,23 +619,23 @@ class admin extends ecjia_admin {
 
         // 店铺导航背景图
         if(!empty($_FILES['shop_nav_background']) && empty($_FILES['error']) && !empty($_FILES['shop_nav_background']['name'])){
-        	$merchants_config['shop_nav_background'] = file_upload_info('shop_nav_background', '', $shop_nav_background, $store_id);
+        	$merchants_config['shop_nav_background'] = store_file_upload_info('shop_nav_background', '', $shop_nav_background, $store_id);
         }
         // 默认店铺页头部LOGO
         if(!empty($_FILES['shop_logo']) && empty($_FILES['error']) && !empty($_FILES['shop_logo']['name'])){
-            $merchants_config['shop_logo'] = file_upload_info('shop_logo', '', $shop_logo, $store_id);
+            $merchants_config['shop_logo'] = store_file_upload_info('shop_logo', '', $shop_logo, $store_id);
             
             //删除生成的店铺二维码
+            $disk = RC_Filesystem::disk();
             $store_qrcode = 'data/qrcodes/merchants/merchant_'.$store_id.'.png';
-            if (file_exists(RC_Upload::upload_path($store_qrcode))) {
-            	$disk = RC_Filesystem::disk();
+            if ($disk->exists(RC_Upload::upload_path($store_qrcode))) {
             	$disk->delete(RC_Upload::upload_path().$store_qrcode);
             }
         }
 
         // APPbanner图
         if(!empty($_FILES['shop_banner_pic']) && empty($_FILES['error']) && !empty($_FILES['shop_banner_pic']['name'])){
-            $merchants_config['shop_banner_pic'] = file_upload_info('shop_banner', 'shop_banner_pic', $shop_banner_pic, $store_id);
+            $merchants_config['shop_banner_pic'] = store_file_upload_info('shop_banner', 'shop_banner_pic', $shop_banner_pic, $store_id);
         }
         // 如果没有上传店铺LOGO 提示上传店铺LOGO
         $shop_logo = get_merchant_config($store_id, 'shop_logo');
@@ -837,14 +842,18 @@ class admin extends ecjia_admin {
 	 * 获取商家店铺经纬度
 	 */
 	public function get_longitude() {
-		$detail_address = $_POST['detail_address'];
-		$store_id       = $_GET['store_id'];
-		$store_point    = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address='".$detail_address."'&output=json&ak=E70324b6f5f4222eb1798c8db58a017b");
-		$store_point    = (array)json_decode($store_point);
-		$store_point['result'] = (array)$store_point['result'];
-		$location = (array)$store_point['result']['location'];
-		$longitude = $location['lng'];
-		$latitude = $location['lat'];
+		$detail_address = !empty($_POST['detail_address']) ? urlencode($_POST['detail_address']) : '';
+		$store_id       = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
+		if (empty($detail_address)) {
+			return $this->showmessage('详细地址不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+
+		$key 		= ecjia::config('map_qq_key');
+		$location 	= RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$detail_address."&key=".$key);
+        $location  	= json_decode($location['body'], true);
+		$location 	= $location['result']['location'];
+		$longitude 	= $location['lng'];
+		$latitude 	= $location['lat'];
 		//获取geohash值
 		$geohash = RC_Loader::load_app_class('geohash', 'store');
 		$geohash_code = $geohash->encode($location['lat'] , $location['lng']);
@@ -1223,27 +1232,36 @@ class admin extends ecjia_admin {
         $shop_province      = !empty($_REQUEST['province'])    ? intval($_REQUEST['province'])           : 0;
         $shop_city          = !empty($_REQUEST['city'])        ? intval($_REQUEST['city'])               : 0;
         $shop_district      = !empty($_REQUEST['district'])    ? intval($_REQUEST['district'])           : 0;
-        $shop_address       = !empty($_REQUEST['address'])     ? htmlspecialchars($_REQUEST['address'])  : 0;
-        if(empty($shop_province)){
+        $shop_address       = !empty($_REQUEST['address'])     ? urlencode($_REQUEST['address'])  		 : '';
+
+        if (empty($shop_province)) {
             return $this->showmessage('请选择省份', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('element' => 'province'));
         }
-        if(empty($shop_city)){
+        if (empty($shop_city)) {
             return $this->showmessage('请选择城市', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('element' => 'city'));
         }
-        if(empty($shop_district)){
+        if (empty($shop_district)) {
             return $this->showmessage('请选择地区', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('element' => 'district'));
         }
-        if(empty($shop_address)){
+        if (empty($shop_address)) {
             return $this->showmessage('请填写详细地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('element' => 'address'));
         }
-        $city_name              = RC_DB::table('region')->where('region_id', $shop_city)->pluck('region_name');
-        $city_district          = RC_DB::table('region')->where('region_id', $shop_district)->pluck('region_name');
-        $address                = $city_name.'市'.$shop_address;
-        $shop_point             = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address='".$address."&output=json&ak=E70324b6f5f4222eb1798c8db58a017b");
-        $shop_point             = (array)json_decode($shop_point);
-        $shop_point['result']   = (array)$shop_point['result'];
-        $location               = (array)$shop_point['result']['location'];
-        echo json_encode($location);
+		
+        $key = ecjia::config('map_qq_key');
+        if (empty($key)) {
+        	return $this->showmessage('腾讯地图key不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        $city_name    	= RC_DB::table('region')->where('region_id', $shop_city)->pluck('region_name');
+        $city_district 	= RC_DB::table('region')->where('region_id', $shop_district)->pluck('region_name');
+        $address      	= $city_name.'市'.$city_district.$shop_address;
+        $address		= urlencode($address);
+        $shop_point   	= RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$address."&key=".$key);
+        $shop_point  	= json_decode($shop_point['body'], true);
+
+		if ($shop_point['status'] != 0) {
+			return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, $shop_point);
+		}
+        return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $shop_point);
     }
 
 }

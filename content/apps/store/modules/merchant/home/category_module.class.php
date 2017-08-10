@@ -54,6 +54,7 @@ class category_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
 		$device	= $this->device;
+		$device_client = $request->header('device-client');
 
         $this->authSession();
 		$store_id = $this->requestData('store_id');
@@ -67,39 +68,56 @@ class category_module extends api_front implements api_interface {
 		$cat_list = RC_Api::api('goods', 'seller_goods_category', $options);
 		
 		$out = array();
+		RC_Loader::load_app_func('admin_goods', 'goods');
 		foreach ($cat_list as $cat) {
-		    $options_goods = array(
-		        'store_id' => $store_id,
-		        'merchant_cat_id' => $cat['cat_id'],
-		        'store_intro' => 'hot',
-		        'size' => 3,
-		        'page' => 1,
-		    );
-		    $goods = RC_Api::api('goods', 'goods_list', $options_goods);
-		    //热销没有商品使用默认商品
-		    if (empty($goods['list'])) {
+		    //微信小程序首页6个商品，默认普通商品顺序
+		    if ($device_client == 'weapp') {
+	            $options_goods = array(
+	                'store_id' => $store_id,
+	                'merchant_cat_id' => $cat['cat_id'],
+	                'size' => 6,
+	                'page' => 1,
+	            );
+	            $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+		    } else {
 		        $options_goods = array(
 		            'store_id' => $store_id,
 		            'merchant_cat_id' => $cat['cat_id'],
+		            'store_intro' => 'hot',
 		            'size' => 3,
 		            'page' => 1,
 		        );
 		        $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+		        //热销没有商品使用默认商品
+		        if (empty($goods['list'])) {
+		            $options_goods = array(
+		                'store_id' => $store_id,
+		                'merchant_cat_id' => $cat['cat_id'],
+		                'size' => 3,
+		                'page' => 1,
+		            );
+		            $goods = RC_Api::api('goods', 'goods_list', $options_goods);
+		        }
 		    }
 		    
 		    $formate_goods = array();
 		    foreach ($goods['list'] as $val) {
+		        $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
 		        $formate_goods[] = array(
 		            'id'                  => $val['goods_id'],
 		            'name'                      => $val['name'],
 		            'market_price'              => $val['market_price'],
 		            'shop_price'                => $val['shop_price'],
 		            'promote_price'             => $val['promote_price'],
+	        		'unformatted_shop_price' 	=> $val['unformatted_shop_price'],
+	        		'unformatted_promote_price' => $val['unformatted_promote_price'],
 		            'img' => array(
 		                'thumb'   => $val['goods_img'],
 		                'url'     => $val['original_img'],
 		                'small'   => $val['goods_thumb']
 		            ),
+		            'properties'      => $properties['pro'],
+		            'specification'   => $properties['spe'],
 		        );
 	        }
 		    $out[] = array(

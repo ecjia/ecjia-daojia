@@ -119,7 +119,8 @@ class info_module extends api_admin implements api_interface {
 				$privilege = 3;
 			}
 		}
-		$seller_info['seller_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($seller_info['id'], $seller_info['seller_logo']))->getQrcodeUrl();
+		$seller_qrcode = with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($seller_info['id'], $seller_info['seller_logo']))->getQrcodeUrl();
+		$seller_info['seller_qrcode'] = $seller_qrcode. '?'.SYS_TIME;
 		
 		return array('data' => $seller_info, 'privilege' => $privilege);
     }

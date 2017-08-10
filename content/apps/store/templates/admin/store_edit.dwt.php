@@ -6,24 +6,38 @@
 	ecjia.admin.store_edit.init();
 </script>
 <script type="text/javascript">
-    // 百度地图API功能
-    var map = new BMap.Map("allmap");
+	//腾讯地图
+	var map, markersArray = [];
     var lat = '{$store.latitude}';
     var lng = '{$store.longitude}';
-    if(lng && lat){
-        var point = new BMap.Point(lng, lat);  // 创建点坐标
-        map.centerAndZoom(point,15);
-        var marker = new BMap.Marker(point);  // 创建标注
-    	map.addOverlay(marker);               // 将标注添加到地图中
-        map.addEventListener("click",function(e){
-            map.removeOverlay(marker);
-            $('input[name="longitude"]').val(e.point.lng)
-            $('input[name="latitude"]').val(e.point.lat)
-            point = new BMap.Point(e.point.lng, e.point.lat);
-            marker = new BMap.Marker(point)
-            map.addOverlay(marker);
-        });
-    }
+	var latLng = new qq.maps.LatLng(lat, lng);
+	var map = new qq.maps.Map(document.getElementById("allmap"),{
+	    center: latLng,
+	    zoom: 16
+	});
+	setTimeout(function(){
+	    var marker = new qq.maps.Marker({
+	        position: latLng, 
+	        map: map
+	      });
+	    markersArray.push(marker);
+	}, 500);
+	//添加监听事件 获取鼠标单击事件
+	qq.maps.event.addListener(map, 'click', function(event) {
+	    if (markersArray) {
+	        for (i in markersArray) {
+	            markersArray[i].setMap(null);
+	        }
+	        markersArray.length = 0;
+	    }
+	    $('input[name="longitude"]').val(event.latLng.lng)
+	    $('input[name="latitude"]').val(event.latLng.lat)
+	       var marker = new qq.maps.Marker({
+	        position: event.latLng, 
+	        map: map
+	      });
+	    markersArray.push(marker);    
+	});
 </script>
 <!-- {/block} -->
 
@@ -120,8 +134,11 @@
         					</div>
         				</div>
 
-        				<div class="control-group formSep {if !$store.latitude || !$store.longitude}hide{/if}">
+        				<div class="control-group formSep ">
         					<label class="control-label">店铺精确位置：</label>
+        					{if !$store.latitude || !$store.longitude}
+        					<div class="controls">请先输入地址，然后点击“获取精准坐标”按钮</div>
+        					{/if}
         					<div class="controls" style="overflow:hidden;">
         						<div class="span6" id="allmap" style="height:320px;"></div>
         					</div>
@@ -129,7 +146,7 @@
         				</div>
 
 
-        				<div class="control-group formSep {if !$store.latitude || !$store.longitude}hide{/if}">
+        				<div class="control-group formSep">
         					<label class="control-label">经纬度：</label>
                             <div class="controls">
                                 <div class="l_h30 long f_l"> <input type="text" name="longitude" readonly="true" value="{$store.longitude}"></div>
@@ -158,6 +175,12 @@
 								<label class="ecjiafd-iblock"><div class="uni-radio"><input name="shop_close" type="radio" value="1" {if  $store.shop_close eq 1}checked="checked" {/if}/></div><span>关</span></label>
         					</div>
         					<div class="controls help-block">当商店设置中开启“商家强制认证”后，未认证通过的商家不能开店和显示</div>
+        				</div>
+        				<div class="control-group formSep">
+        					<label class="control-label">到期时间：</label>
+        					<div class="controls chk_radio">
+        					    <input class="date" name="expired_time" type="text" placeholder="" value="{$store.expired_time}">
+        					</div>
         				</div>
 
         				{else if $step eq 'identity'}

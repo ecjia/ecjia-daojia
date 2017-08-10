@@ -61,9 +61,13 @@
             						</tr>
             						<tr>
             							<td><div align="right"><strong>分成比例：</strong></div></td>
-            							<td>{if $store.percent_value}{$store.percent_value}%{else}未设置，默认100%{/if}&nbsp;&nbsp;<a href='{RC_Uri::url("store/admin_commission/edit","store_id={$smarty.get.store_id}")}' title="编辑">编辑</a></td>
+            							<td colspan="3">{if $store.percent_value}{$store.percent_value}%{else}未设置，默认100%{/if}&nbsp;&nbsp;<a href='{RC_Uri::url("store/admin_commission/edit","store_id={$smarty.get.store_id}")}' title="编辑">编辑</a></td>
+            						</tr>
+            						<tr>
             							<td><div align="right"><strong>开店时间：</strong></div></td>
             							<td>{$store.confirm_time}</td>
+            							<td><div align="right"><strong>到期时间：</strong></div></td>
+            							<td>{$store.expired_time}</td>
             						</tr>
             						<tr>
             							<td><div align="right"><strong>店铺模式：</strong></div></td>
@@ -81,7 +85,7 @@
             							<td><div align="right"><strong>所在地区：</strong></div></td>
             							<td>{$store.province}&nbsp;{$store.city}&nbsp;{$store.district}</td>
             							<td><div align="right"><strong>经纬度：</strong></div></td>
-            							<td>{$store.longitude}&nbsp;&nbsp;{$store.latitude}{if $store.longitude && $store.latitude}&nbsp;&nbsp;<a href="https://api.map.baidu.com/marker?location={$store.latitude},{$store.longitude}&title=我的位置&content={$store.merchants_name}&output=html" title="查看地图" target="_blank">[查看地图]</a>{/if}</td>
+            							<td>{$store.longitude}&nbsp;&nbsp;{$store.latitude}{if $store.longitude && $store.latitude}&nbsp;&nbsp;<a href="https://apis.map.qq.com/uri/v1/marker?marker=coord:{$store.latitude},{$store.longitude};title:我的位置;addr:{$store.merchants_name}&referer=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}</td>
             						</tr>
             						<tr>
             							<td><div align="right"><strong>{lang key='store::store.address_lable'}</strong></div></td>

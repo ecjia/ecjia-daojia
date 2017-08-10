@@ -53,9 +53,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class nearby_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
-		$keywords = $this->requestData('keywords');
-		$location = $this->requestData('location', array());
-		$city_id	 = $this->requestData('city_id', 0);
+		$keywords 		= $this->requestData('keywords');
+		$location 		= $this->requestData('location', array());
+		$city_id	 	= $this->requestData('city_id', 0);
 
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);
@@ -69,20 +69,28 @@ class nearby_module extends api_front implements api_interface {
 				'sort'			=> array('sort_order' => 'asc'),
 				'limit'			=> 'all'
 		);
-
-		/*经纬度为空判断*/
-		if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
-			$geohash      = RC_Loader::load_app_class('geohash', 'store');
-			$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
-			$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
-		} else {
-			$seller_list = array();
-			$page = array(
-					'total'	=> '0',
-					'count'	=> '0',
-					'more'	=> '0',
-			);
-			return array('data' => $seller_list, 'pager' => $page);
+		
+		/*判断当前门店模式*/
+		$store_model = trim(ecjia::config('store_model'));
+		if ($store_model == 'nearby' || empty($store_model)) {
+			/*经纬度为空判断*/
+			if ((is_array($location) && !empty($location['longitude']) && !empty($location['latitude']))) {
+				$geohash      = RC_Loader::load_app_class('geohash', 'store');
+				$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
+				$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+			} else {	
+				$seller_list = array();
+				$page = array(
+						'total'	=> '0',
+						'count'	=> '0',
+						'more'	=> '0',
+				);
+				return array('data' => $seller_list, 'pager' => $page);
+			}
+		} elseif (!empty($store_model) && $store_model !='nearby') {
+			$store_id = $store_model;
+			$store_id_new = explode(',', $store_model);
+			$options['store_id'] = $store_id_new;
 		}
 		
 		if (empty($options['store_id'])) {
