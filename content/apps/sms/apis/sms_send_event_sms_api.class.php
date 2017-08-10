@@ -56,6 +56,7 @@ class sms_send_event_sms_api extends Component_Event_Api {
      * @param $mobile   integer 手机号
      * @param $event    string  发送事件
      * @param $value    array   模板变量值
+     * @param $channel  string  短信渠道code，选填
      * @return boolean | ecjia_error
      */
 	public function call(&$options) {	
@@ -69,6 +70,7 @@ class sms_send_event_sms_api extends Component_Event_Api {
 	    $mobile = $options['mobile'];
 	    $event = $options['event'];
 	    $value = $options['value'];
+	    $channel = array_get($options, 'channel', null);
 	    
 	    $eventHandler = with(new Ecjia\App\Sms\EventFactory())->event($event);
 	    if (!$eventHandler->hasEnabled()) {
@@ -78,6 +80,7 @@ class sms_send_event_sms_api extends Component_Event_Api {
 	    $result = \Ecjia\App\Sms\SmsManager::make()
         	    ->setTemplateModel(new \Ecjia\App\Sms\Models\SmsTemplateModel())
         	    ->setEvent($eventHandler)
+        	    ->setChannel($channel)
         	    ->send($mobile, $value);
 	    
 	    return $result;

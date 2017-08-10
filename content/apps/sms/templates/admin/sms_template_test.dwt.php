@@ -34,16 +34,6 @@
 					</div>
 				</div>
 				
-				{if $signname}
-					<div class="control-group formSep">
-						<label class="control-label">签名：</label>
-						<div class="controls">
-							<input type="text" name="sign_name" id="sign_name" value="" class="span6"/>
-							<span class="input-must">{lang key='system::system.require_field'}</span>
-						</div>
-					</div>
-				{/if}
-				
 				<div class="control-group formSep">
 					<label class="control-label">短信模板内容：</label>
 					<div class="controls l_h30">{$data.template_content}</div>
@@ -61,6 +51,7 @@
 				
 				<div class="control-group">
 					<div class="controls">
+					    <input type="hidden" value="{$channel_code}" name="channel_code"/>
 						<input type="hidden" value="{$data.template_code}" name="template_code"/>
 						<button class="btn btn-gebo" type="submit">提交测试</button>
 					</div>

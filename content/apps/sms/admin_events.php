@@ -111,14 +111,14 @@ class admin_events extends ecjia_admin {
 	
 	public function open() {
 		$this->admin_priv('sms_events_manage');
-		if(empty($_GET['id'])){
+		if (empty($_GET['id'])) {
 			$data = array(
 				'event_code'  => $_GET['code'],
 				'status'	  => 'open',
 				'channel_type'=> 'sms',
 			);
 			RC_DB::table('notification_events')->insertGetId($data);
-		}else{
+		} else {
 			RC_DB::table('notification_events')->where('id', $_GET['id'])->update(array('status'=> 'open'));
 		}
 		ecjia_admin::admin_log($_GET['code'], 'add', 'sms_events');

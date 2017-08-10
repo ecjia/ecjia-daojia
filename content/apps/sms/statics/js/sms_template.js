@@ -98,7 +98,7 @@
        		    var subject_val = $("#template_code option:selected").val();
        		    subject = subject_text.replace('['+ subject_val + ']',"");
        		    
-        		if(subject_val != 0){
+        		if (subject_val != 0){
 	           		 $('#subject').val(subject);
 	   	           	 var url = $("#data-href").val();
 	   	             var filters = {
@@ -110,7 +110,7 @@
 	   	             $.post(url, filters, function (data) {
 	   	                 app.sms_template_info.ajax_event_data(data);
 	   	             }, "JSON");
-        		} else{
+        		} else {
         			 $('#subject').val('');
         			 $('#content').val('');
         			 $('.help-block').text('')

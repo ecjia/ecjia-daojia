@@ -177,8 +177,9 @@ class admin extends ecjia_admin {
 	public function resend() {
 		$this->admin_priv('sms_history_manage');
 		
-		$smsid        = intval($_GET['id']);
-		$result       = $result = \Ecjia\App\Sms\SmsManager::make()->resend($smsid);
+		$smsid  = intval($_GET['id']);
+		$result = \Ecjia\App\Sms\SmsManager::make()->resend($smsid);
+		ecjia_admin::admin_log(sprintf(RC_Lang::get('sms::sms.receive_number_is'), $smsid), 'setup', 'sms_record');
 		if (is_ecjia_error($result)) {
 			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
 		}else{

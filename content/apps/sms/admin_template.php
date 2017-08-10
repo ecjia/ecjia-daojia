@@ -140,7 +140,7 @@ class admin_template extends ecjia_admin {
 		
 		$template_code_list = $this->template_code_list();
 		$existed = RC_DB::TABLE('notification_templates')->where('channel_code', $_GET['channel_code'])->select('template_code','template_subject')->get();
-		if(!empty($existed)) {
+		if (!empty($existed)) {
 			foreach ($existed as $value) {
 				$existed_list[$value['template_code']] = $value['template_subject']. ' [' .  $value['template_code'] . ']';;
 			}
@@ -154,10 +154,10 @@ class admin_template extends ecjia_admin {
 		$this->assign('channel_code', $channel_code);
 		
 		$handle = with(new Ecjia\App\Sms\SmsPlugin)->channel($channel_code);
-		if($handle->requiredTemplateId()){
+		if ($handle->requiredTemplateId()) {
 			$this->assign('templateid', 'templateid');
 		}
-		if($handle->requiredSignName()){
+		if ($handle->requiredSignName()) {
 			$this->assign('signname', 'signname');
 		}
 		
@@ -177,7 +177,7 @@ class admin_template extends ecjia_admin {
 
 	    $desc = [];
 	    $getValueHit = $event->getValueHit();
-	    if(!empty($getValueHit)){
+	    if (!empty($getValueHit)) {
 	    	$desc[] = '可用变量：'.$getValueHit;
 	    }
 	    $desc[] = '变量使用说明：变量不限位置摆放，可自由摆放，但变量不可自定义名称，需保持与以上名称一致。';
@@ -250,12 +250,10 @@ class admin_template extends ecjia_admin {
 		
 		$this->assign('ur_here', RC_Lang::get('sms::sms.edit_sms_template'));
 		$this->assign('action_link', array('href' => RC_Uri::url('sms/admin_template/init',array('channel_code'=>$_GET['channel_code'])), 'text' => RC_Lang::get('sms::sms.sms_template_list')));
-		
 
-		
 		$template_code_list = $this->template_code_list();
 		$existed = RC_DB::TABLE('notification_templates')->where('channel_code', $_GET['channel_code'])->where('template_code', '!=', $_GET['event_code'])->select('template_code','template_subject')->get();
-		if(!empty($existed)){
+		if (!empty($existed)) {
 			foreach ($existed as $value) {
 				$existed_list[$value['template_code']] = $value['template_subject']. ' [' .  $value['template_code'] . ']';;
 			}
@@ -273,10 +271,10 @@ class admin_template extends ecjia_admin {
 		$this->assign('channel_code', $channel_code);
 		
 		$handle = with(new Ecjia\App\Sms\SmsPlugin)->channel($channel_code);
-		if($handle->requiredTemplateId()){
+		if ($handle->requiredTemplateId()) {
 			$this->assign('templateid', 'templateid');
 		}
-		if($handle->requiredSignName()){
+		if ($handle->requiredSignName()) {
 			$this->assign('signname', 'signname');
 		}
 		
@@ -285,7 +283,7 @@ class admin_template extends ecjia_admin {
 		
 		$desc = [];
 		$getValueHit = $event->getValueHit();
-		if(!empty($getValueHit)){
+		if (!empty($getValueHit)) {
 			$desc[] = '可用变量：'.$getValueHit;
 		}
 		$desc[] = '变量使用说明：变量不限位置摆放，可自由摆放，但变量不可自定义名称，需保持与以上名称一致。';
@@ -347,17 +345,13 @@ class admin_template extends ecjia_admin {
 		//判断渠道
 		$channel_code = trim($_GET['channel_code']);
 		$this->assign('channel_code', $channel_code);
-		$handle = with(new Ecjia\App\Sms\SmsPlugin)->channel($channel_code);
-		if($handle->requiredSignName()){
-			$this->assign('signname', 'signname');
-		}
 		
 		$id = intval($_GET['id']);
 		$data = RC_DB::table('notification_templates')->where('id', $id)->first();
 		
 		$template_content = $data['template_content'];
 		preg_match_all ("|{(.*)}|U", $template_content, $ok);
-		$variable =$ok[1];
+		$variable = $ok[1];
 		$this->assign('variable', $variable);
 		$this->assign('data', $data);
 
@@ -370,25 +364,24 @@ class admin_template extends ecjia_admin {
 	public function test_request() {
 		$this->admin_priv('sms_template_update');
 		$data = $_POST['data'];
-		foreach($data as $row){
-			if(empty($row)){
+		foreach ($data as $row) {
+			if (empty($row)) {
 				return $this->showmessage('模板变量不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		$options = array(
+			'channel'=> $_POST['channel_code'],
 			'mobile' => $_POST['mobile'],
 			'event'	 => $_POST['template_code'],
 			'value'  => $data,
 		);
-	
 		$response = RC_Api::api('sms', 'send_event_sms', $options);
 		if (is_ecjia_error($response)) {
 			return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}else{
+		} else {
 			return $this->showmessage('短信模板测试成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		}
-		
 	}
 	
 	

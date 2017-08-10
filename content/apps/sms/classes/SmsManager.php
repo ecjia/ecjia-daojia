@@ -60,6 +60,7 @@ class SmsManager extends Object
         
     protected $model;
     protected $event;
+    protected $channel;
     
     public function setTemplateModel(SmsTemplateModel $model)
     {
@@ -81,6 +82,18 @@ class SmsManager extends Object
     public function getEvent()
     {
         return $this->event;
+    }
+    
+    public function setChannel($channel)
+    {
+        $this->channel = $channel;
+        
+        return $this;
+    }
+    
+    public function getChannel()
+    {
+        return $this->channel;
     }
     
     public function beforeSend($mobile, array $template_var)
@@ -120,7 +133,12 @@ class SmsManager extends Object
         else 
         {
             $sms = new SmsPlugin();
-            $handler = $sms->defaultChannel();
+            if (is_null($this->channel)) {
+                $handler = $sms->defaultChannel();
+            } else {
+                $handler = $sms->channel($this->channel);
+            }
+
             $plugin = $handler->getCode();
             //发送
             $template = $this->model->getTemplateByCode($this->event->getCode(), $plugin);
@@ -203,7 +221,7 @@ class SmsManager extends Object
     	if (is_ecjia_error($result)) 
     	{
     	    $error_data = $result->get_error_data();
-    	    $msgid = $result->$error_data['data']['msgid'];
+    	    $msgid = $error_data['data']['msgid'];
     	} 
     	else 
     	{

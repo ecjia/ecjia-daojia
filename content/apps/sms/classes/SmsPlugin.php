@@ -135,7 +135,7 @@ class SmsPlugin extends PluginModel
         $handler = $this->pluginInstance($data->channel_code, $config);
         
         if (!$handler) {
-            return new ecjia_error('code_not_found', $data['channel_code'] . ' plugin not found!');
+            return new ecjia_error('code_not_found', $data->channel_code . ' plugin not found!');
         }
         
         return $handler;
@@ -154,7 +154,7 @@ class SmsPlugin extends PluginModel
         $handler = $this->pluginInstance($data->channel_code, $config);
         
         if (!$handler) {
-            return new ecjia_error('code_not_found', $data['channel_code'] . ' plugin not found!');
+            return new ecjia_error('code_not_found', $data->channel_code . ' plugin not found!');
         }
         
         return $handler;

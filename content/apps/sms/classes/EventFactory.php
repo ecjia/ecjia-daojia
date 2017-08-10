@@ -79,6 +79,7 @@ class EventFactory
                 $value = str_replace($dir . '/', '', $value);
                 $value = str_replace('.php', '', $value);
                 $className = __NAMESPACE__ . '\Events\\' . $value;
+                
                 $key = with(new $className)->getCode();
                 $factories[$key] = $className;
             }
@@ -94,23 +95,21 @@ class EventFactory
     {
         $events = [];
         
-        foreach (self::$factories as $value) {
-            $event = new $value;
-            $key = $event->getCode();
-            $events[$key] = $event;
+        foreach (self::$factories as $key => $value) {
+            $events[$key] = new $value;
         }
 
         return $events;
     }
     
     
-    public function event($name)
+    public function event($code)
     {
-        if (!array_key_exists($name, self::$factories)) {
-            throw new InvalidArgumentException("Event '$name' is not supported.");
+        if (!array_key_exists($code, self::$factories)) {
+            throw new InvalidArgumentException("Event '$code' is not supported.");
         }
     
-        $className = self::$factories[$name];
+        $className = self::$factories[$code];
     
         return new $className();
     }

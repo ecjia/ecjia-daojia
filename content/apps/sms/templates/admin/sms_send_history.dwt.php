@@ -14,16 +14,12 @@
 	</h3>
 </div>
 
-<!-- <div class="row-fluid"> -->
-<!-- <div class="choose_list span12">  -->
 <ul class="nav nav-pills">
 	<li class="{if $listdb.filter.errorval eq '0'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=0{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{lang key='sms::sms.all'}<span class="badge badge-info">{$listdb.msg_count.count}</span></a></li>
 	<li class="{if $listdb.filter.errorval eq '1'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=1{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{lang key='sms::sms.wait_send'}<span class="badge badge-info">{$listdb.msg_count.wait}</span></a></li>
 	<li class="{if $listdb.filter.errorval eq '2'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=2{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{lang key='sms::sms.send_success'}<span class="badge badge-info">{$listdb.msg_count.success}</span></a></li>
 	<li class="{if $listdb.filter.errorval eq '3'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=3{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{lang key='sms::sms.send_faild'}<span class="badge badge-info">{$listdb.msg_count.faild}</span></a></li>
 </ul>
-<!-- </div> -->
-<!-- </div> -->
 
 <!-- 批量操作、筛选、搜索 -->
 <div class="row-fluid batch" >
@@ -87,7 +83,7 @@
 						<!-- {elseif $val.error eq -1} -->
 							{lang key='sms::sms.wait_send'}
 						<!-- {else} -->
-                            <a class="hint--left  hint--error" style="text-decoration:none;"  {if $val.last_error_message}data-hint="{$val.last_error_message}{/if}"><span class="ecjiafc-red">{if $val.last_error_message}<u>{$val.error} {lang key='sms::sms.error_times'}</u>{else}{$val.error} {lang key='sms::sms.error_times'}{/if}</span></a><br>
+                            <a class="hint--left  hint--error" style="text-decoration:none;"  {if $val.last_error_message}data-hint="{$val.last_error_message|escape}"{/if}><span class="ecjiafc-red">{if $val.last_error_message}<u>{$val.error} {lang key='sms::sms.error_times'}</u>{else}{$val.error} {lang key='sms::sms.error_times'}{/if}</span></a><br>
 							<!-- {if $val.error gt 0}  -->
 								<a class="ajaxsms" href='{RC_Uri::url("sms/admin/resend", "id={$val.id}")}'>{lang key='sms::sms.send_again'}</a>
 							<!-- {/if} -->
