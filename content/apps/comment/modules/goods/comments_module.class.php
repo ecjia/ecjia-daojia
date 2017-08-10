@@ -131,9 +131,10 @@ function EM_assign_comment($id, $type, $page = 1, $page_size = 15) {
 					->where('object_app', 'ecjia.comment')
 					->where('object_group', 'comment')
 					->lists('file_path');
+				$disk = RC_Filesystem::disk();
 				if (!empty($picture_list)) {
 					foreach ($picture_list as $k => $v) {
-						if (!empty($v) && file_exists(RC_Upload::upload_path($v))) {
+						if (!empty($v) && $disk->exists(RC_Upload::upload_path($v))) {
 							$arr['picture'][] = RC_Upload::upload_url($v);
 						}
 					}
