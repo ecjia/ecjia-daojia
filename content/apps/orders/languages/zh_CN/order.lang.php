@@ -204,6 +204,7 @@ return array(
 	'label_sign_building' 	=> '标志性建筑：',
 	'label_best_time' 		=> '最佳送货时间：',
 	'label_inv_type' 		=> '发票类型：',
+	'label_inv_tax_no' 		=> '发票识别码：',
 	'label_inv_payee' 		=> '发票抬头：',
 	'label_inv_content' 	=> '发票内容：',
 	'label_postscript' 		=> '客户给商家的留言：',

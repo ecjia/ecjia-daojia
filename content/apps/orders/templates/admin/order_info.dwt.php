@@ -206,11 +206,13 @@
 							<tbody class="first-td-no-leftbd">
 								<tr>
 									<td><div align="right"><strong>{lang key='orders::order.label_inv_type'}</strong></div></td>
-									<td colspan="3">{$order.inv_type}</td>
+									<td>{$order.inv_type}</td>
+									<td><div align="right"><strong>{lang key='orders::order.label_inv_tax_no'}</strong></div></td>
+									<td>{$inv_tax_no}</td>
 								</tr>
 								<tr>
 									<td><div align="right"><strong>{lang key='orders::order.label_inv_payee'}</strong></div></td>
-									<td>{$order.inv_payee}</td>
+									<td>{$inv_payee}</td>
 									<td><div align="right"><strong>{lang key='orders::order.label_inv_content'}</strong></div></td>
 									<td>{$order.inv_content}</td>
 								</tr>

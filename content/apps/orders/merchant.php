@@ -136,7 +136,11 @@ class merchant extends ecjia_merchant {
 	public function init() {
 		/* 检查权限 */
 		$this->admin_priv('order_view');
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单列表')));
+		
+		$date = !empty($_GET['date']) ? trim($_GET['date']) : '';
+		$nav_here = $date == 'today' ? '当天订单' : '订单列表';
+		
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here));
 		RC_Script::enqueue_script('order_query', RC_App::apps_url('statics/js/merchant_order_query.js', __FILE__));
 		
 		RC_Loader::load_app_class('merchant_order_list', 'orders', false);
@@ -144,13 +148,59 @@ class merchant extends ecjia_merchant {
 		$order_list = $order->get_order_list();
 		
 		/* 模板赋值 */
-		$this->assign('ur_here'			, RC_Lang::get('orders::order.order_list'));
-		$this->assign('action_link'		, array('href' => RC_Uri::url('orders/merchant/order_query'), 'text' => RC_Lang::get('orders::order.order_query')));
+		$this->assign('ur_here', $nav_here);
 		
-		$this->assign('order_list'		, $order_list);
-		$this->assign('form_action'		, RC_Uri::url('orders/merchant/operate', 'batch=1'));
-		$this->assign('search_action'	, RC_Uri::url('orders/merchant/init'));
-		$this->assign('status_list'		, RC_Lang::get('orders::order.cs'));
+		$action_link = array('href' => RC_Uri::url('orders/merchant/order_query'), 'text' => RC_Lang::get('orders::order.order_query'));
+		$this->assign('action_link', $action_link);
+		
+		if ($date == 'today') {
+			$composite_status = isset($_GET['composite_status']) ? $_GET['composite_status'] : '';
+			if ($composite_status === '') {
+				$composite_status = '';
+			} elseif ($composite_status == 0) {
+				$composite_status = 'await_confirm';
+			} elseif ($composite_status == 100) {
+				$composite_status = 'await_pay';
+			} elseif ($composite_status == 101) {
+				$composite_status = 'await_ship';
+			} elseif ($composite_status == 104) {
+				$composite_status = 'order_shipped';
+			} elseif ($composite_status == 102) {
+				$composite_status = 'order_finished';
+			}
+			$this->assign('composite_status', $composite_status);
+			
+			$this->assign('date', $date);
+			$this->assign('current_order', 1);
+			$this->assign('back_order_list', array('href' => RC_Uri::url('orders/merchant/init'), 'text' => RC_Lang::get('orders::order.order_list')));
+			$count = get_merchant_order_count();
+			$cache_key = 'count_pay';
+			
+			$count_payed = RC_Cache::app_cache_get($cache_key, 'orders');
+			//有已付款新订单
+			if (!empty($count_payed) && $count['payed'] > $count_payed) {
+				$this->assign('new_order', 1);
+			}
+			RC_Cache::app_cache_set($cache_key, $count['payed'], 'orders', 10080);
+			
+			$this->assign('count', $count);
+			$this->assign('music_url', RC_App::apps_url('statics/music/', __FILE__));
+			
+			$on_off = RC_Cache::app_cache_get('switch_on_off', 'orders');
+			if (empty($on_off)) {
+				$this->assign('on_off', 'on');
+				RC_Cache::app_cache_set('switch_on_off', 'on', 'orders', 10080);
+			} else {
+				$this->assign('on_off', $on_off);
+				RC_Cache::app_cache_set('switch_on_off', $on_off, 'orders', 10080);
+			}
+			$this->assign('payed', PS_PAYED);
+		}
+		
+		$this->assign('order_list', $order_list);
+		$this->assign('form_action', RC_Uri::url('orders/merchant/operate', 'batch=1'));
+		$this->assign('search_action', RC_Uri::url('orders/merchant/init'));
+		$this->assign('status_list', RC_Lang::get('orders::order.cs'));
 		
 		$this->assign('os', RC_Lang::get('orders::order.os'));
 		$this->assign('ps', RC_Lang::get('orders::order.ps'));
@@ -169,6 +219,17 @@ class merchant extends ecjia_merchant {
 
 		if (empty($order) || is_ecjia_error($order) || $order['store_id'] != $_SESSION['store_id']) {
 			return $this->showmessage(__('无法找到对应的订单！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+		}
+		
+		/*发票抬头和发票识别码处理*/
+		if (!empty($order['inv_payee'])) {
+			if (strpos($order['inv_payee'],",") > 0) {
+				$inv = explode(',', $order['inv_payee']);
+				$this->assign('inv_payee', $inv['0']);
+				$this->assign('inv_tax_no', $inv['1']);
+			}
+		} else {
+			$this->assign('inv_payee', $order['inv_payee']);
 		}
 		
 		$order_id = $order['order_id'];
@@ -2698,17 +2759,16 @@ class merchant extends ecjia_merchant {
 				$province_name	= $region_name[0]['region_name'];
 				$city_name		= $region_name[1]['region_name'];
 				$consignee_address = $province_name.'省'.$city_name.'市'.$delivery['address'];
-				
-				$shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address='".$consignee_address."'&output=json&ak=E70324b6f5f4222eb1798c8db58a017b");
-				
-				$shop_point = json_decode($shop_point);
-				if (!empty($shop_point->result)) {
-					$shop_point_result = $shop_point->result;
-					$location = $shop_point_result->location;
-				
-					$delivery['longitude']	= $location->lng;
-					$delivery['latitude']	= $location->lat;
-				}
+				$consignee_address = urlencode($consignee_address);
+
+				//腾讯地图api 地址解析（地址转坐标）
+				$key = ecjia::config('map_qq_key');
+				$shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$consignee_address."&key=".$key);
+        		$shop_point = json_decode($shop_point['body'], true);
+        		if (isset($shop_point['result']) && !empty($shop_point['result']['location'])) {
+        			$delivery['longitude']	= $shop_point['result']['location']['lng'];
+					$delivery['latitude']	= $shop_point['result']['location']['lat'];
+        		}
 			}
 			
 			/* 过滤字段项 */
@@ -3374,6 +3434,11 @@ class merchant extends ecjia_merchant {
 		} else {
 			return $this->showmessage(__('未找到相关会员信息'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+	}
+	
+	public function switch_on_off() {
+		$val = !empty($_POST['val']) ? trim($_POST['val']) : 'off';
+		RC_Cache::app_cache_set('switch_on_off', $val, 'orders', 10080);
 	}
 }
 

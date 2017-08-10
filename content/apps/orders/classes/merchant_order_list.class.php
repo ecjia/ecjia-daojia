@@ -200,6 +200,15 @@ class merchant_order_list {
 			$end_time = RC_Time::local_strtotime($filter['end_time']);
 			$this->db_order_info->where(RC_DB::raw('o.add_time'), '<=', $end_time);
 		}
+		
+		if ($filter['date'] == 'today') {
+			$filter['start_time'] = RC_Time::local_date("Y", $t).'-'.RC_Time::local_date("m", $t).'-'.RC_Time::local_date("d", $t);
+			$filter['end_time'] = RC_Time::local_date("Y", $t).'-'.RC_Time::local_date("m", $t).'-'.(RC_Time::local_date("d", $t)+1);
+			$start_time = RC_Time::local_strtotime($filter['start_time']);
+			$end_time = RC_Time::local_strtotime($filter['end_time']);
+			$this->db_order_info->where(RC_DB::raw('o.add_time'), '>=', $start_time)->where(RC_DB::raw('o.add_time'), '<=', $end_time);
+		}
+		
 		$filter['sort_by'] 				= empty($filter['sort_by'])		? 'add_time'	: trim($filter['sort_by']);
 		$filter['sort_order'] 			= empty($filter['sort_order'])	? 'DESC'		: trim($filter['sort_order']);
 		$this->db_order_info->orderBy(RC_DB::raw('o.'.$filter['sort_by']), $filter['sort_order']);

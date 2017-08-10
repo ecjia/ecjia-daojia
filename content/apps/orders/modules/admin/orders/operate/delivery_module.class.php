@@ -478,7 +478,11 @@ function delivery_order($delivery_id, $order) {
 	$shipping_status			= ($order_finish == 1) ? SS_SHIPPED : SS_SHIPPED_PART;
 	$arr['shipping_status']		= $shipping_status;
 	$arr['shipping_time']		= RC_Time::gmtime(); // 发货时间
-	$arr['invoice_no']			= trim($order['invoice_no'] . '<br>' . $invoice_no, '<br>');
+	if ($order['invoice_no'] != $invoice_no) {
+	    $arr['invoice_no']			= trim($order['invoice_no'] . '<br>' . $invoice_no, '<br>');
+	} else {
+	    $arr['invoice_no']			= trim($order['invoice_no'], '<br>');
+	}
 	update_order($order['order_id'], $arr);
 	
 	/* 发货单发货记录log */
@@ -528,46 +532,23 @@ function delivery_order($delivery_id, $order) {
 				RC_Mail::send_mail($order['consignee'], $order['email'] , $tpl['template_subject'], $content, $tpl['is_html']);
 			}
 		}
-		$result = ecjia_app::validate_application('sms');
-		if (!is_ecjia_error($result)) {
-			/* 如果需要，发短信 */
-			if (ecjia::config('sms_order_shipped') == '1' && $order['mobile'] != '') {
-				$order['invoice_no'] = $invoice_no;
-				
-				
-				//发送短信
-// 				$tpl_name = 'order_shipped_sms';
-// 				$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
-// 				if (!empty($tpl)) {
-// 					ecjia_api::$controller->assign('order_sn', $order['order_sn']);
-// 					ecjia_api::$controller->assign('shipped_time', RC_Time::local_date(ecjia::config('time_format'), $arr['shipping_time']));
-// 					ecjia_api::$controller->assign('mobile', $order['mobile']);
-// 					ecjia_api::$controller->assign('order', $order);
-	
-// 					$content = ecjia_api::$controller->fetch_string($tpl['template_content']);
-	
-// 					$options = array(
-// 							'mobile' 		=> $order['mobile'],
-// 							'msg'			=> $content,
-// 							'template_id' 	=> $tpl['template_id'],
-// 					);
-// 					$response = RC_Api::api('sms', 'sms_send', $options);
-// 				}
-				
-				$user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
-				$options = array(
-					'mobile' => $order['mobile'],
-					'event'	 => 'sms_order_shipped',
-					'value'  =>array(
-						'user_name'    => $user_name,
-						'order_sn'     => $order['order_sn'],
-						'consignee'    => $order['consignee'],
-						'service_phone'=> ecjia::config('service_phone'),
-					),
-				);
-				$response = RC_Api::api('sms', 'send_event_sms', $options);
-				
-			}
+		
+		/* 如果需要，发短信 */
+		if (!empty($order['mobile'])) {
+		    $order['invoice_no'] = $invoice_no;
+		    //发送短信
+		    $user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+		    $options = array(
+		        'mobile' => $order['mobile'],
+		        'event'	 => 'sms_order_shipped',
+		        'value'  =>array(
+		            'user_name'    => $user_name,
+		            'order_sn'     => $order['order_sn'],
+		            'consignee'    => $order['consignee'],
+		            'service_phone'=> ecjia::config('service_phone'),
+		        ),
+		    );
+		    RC_Api::api('sms', 'send_event_sms', $options);
 		}
 	}
 	return array();
@@ -622,10 +603,12 @@ function create_express_order($delivery_id) {
         $store_info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
     
         if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
-            $url = "https://api.map.baidu.com/routematrix/v2/riding?output=json&output=json&origins=".$store_info['latitude'].",".$store_info['longitude']."&destinations=".$delivery_order['latitude'].",".$delivery_order['longitude']."&ak=Cgk4EqiiIG4ylFFto9XotosT2ZHF1daZ";
-            $distance_json = file_get_contents($url);
-            $distance_info = json_decode($distance_json, true);
-            $express_data['distance'] = isset($distance_info['result'][0]['distance']['value']) ? $distance_info['result'][0]['distance']['value'] : 0;
+        	//腾讯地图api距离计算
+          	$key = ecjia::config('map_qq_key');
+	        $url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$delivery_order['latitude'].",".$delivery_order['longitude']."&key=".$key;
+	        $distance_json = file_get_contents($url);
+	     	$distance_info = json_decode($distance_json, true);
+	     	$express_data['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
         }
     
         $exists_express_order = RC_DB::table('express_order')->where('delivery_sn', $delivery_order['delivery_sn'])->where('store_id', $_SESSION['store_id'])->first();

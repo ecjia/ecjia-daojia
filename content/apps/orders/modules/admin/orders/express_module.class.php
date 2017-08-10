@@ -51,8 +51,6 @@ class express_module extends api_admin implements api_interface {
 				    $cloud_express_key = ecjia::config('cloud_express_key');
 				    $cloud_express_secret = ecjia::config('cloud_express_secret');
 				    if (!empty($cloud_express_key) && !empty($cloud_express_secret)) {
-				        $url = 'https://cloud.ecjia.com/sites/api/?url=express/track';
-//     				    $url = 'http://cloud.ecjia.dev/sites/api/?url=express/track';
 				        $params = array(
     				        'app_key' => $cloud_express_key,
     				        'app_secret' => $cloud_express_secret,
@@ -60,13 +58,11 @@ class express_module extends api_admin implements api_interface {
     				        'number' => $val['invoice_no'],
     				        'order' => 'desc',
 				        );
-				        $data = curl($url, $params, 'POST');
+				        $data = ecjia_cloud::instance()->api('express/track')->data($params)->run();
 				        
-				        if ($data['status']['succeed'] != 1) {
-				            $data = array('content' => array('time' => 'error', 'context' => $data['status']['error_desc']));
-				        } else {
-				            $data = $data['data'];
-				        }
+				        if (is_ecjia_error($data)) {
+				            $data = array('content' => array('time' => 'error', 'context' => $data->get_error_message()));
+				        } 
 				    } else {
 				        $data = array('content' => array('time' => 'error', 'context' => '物流跟踪未配置'));
 				    }
@@ -314,33 +310,6 @@ function getExpressComCode($shipping_code)
     } else {
         return false;
     }
-}
-
-function curl($url, $post) {
-    $postBody = http_build_query($post);
-    
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postBody);
-    $result = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlErrNo = curl_errno($ch);
-    $curlErr = curl_error($ch);
-    curl_close($ch);
-    
-    if ($httpCode == "0") //time out
-        throw new Exception("Curl error number:" . $curlErrNo . " , Curl error details:" . $curlErr . "\r\n");
-    else if ($httpCode != "200") //we did send the notifition out and got a non-200 response
-        throw new Exception("http code:" . $httpCode . " details:" . $result . "\r\n");
-    $returnData = json_decode($result, TRUE);
-    if ($returnData["ret"] == "FAIL")
-        throw new Exception("Failed to upload file, details:" . $result . "\r\n");
-    
-    return $returnData;
 }
 
 

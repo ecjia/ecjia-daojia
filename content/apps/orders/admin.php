@@ -152,6 +152,17 @@ class admin extends ecjia_admin {
 			return $this->showmessage(RC_Lang::get('orders::order.not_exist_order'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('orders::order.return_list'), 'href' => RC_Uri::url('orders/admin/init')))));
 		}
 		
+		/*发票抬头和发票识别码处理*/
+		if (!empty($order['inv_payee'])) {
+			if (strpos($order['inv_payee'],",") > 0) {
+				$inv = explode(',', $order['inv_payee']);
+				$this->assign('inv_payee', $inv['0']);
+				$this->assign('inv_tax_no', $inv['1']);
+			}
+		} else {
+			$this->assign('inv_payee', $order['inv_payee']);
+		}
+		
 		/* 根据订单是否完成检查权限 */
 		if (order_finished($order)) {
 			$this->admin_priv('order_view_finished', ecjia::MSGTYPE_JSON);

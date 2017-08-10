@@ -78,13 +78,14 @@ class payConfirm_module extends api_admin implements api_interface {
 		
 		$payment_method	= RC_Loader::load_app_class('payment_method', 'payment');
 		$pay_info = $payment_method->payment_info_by_id($order['pay_id']);
-		$payment = $payment_method->get_payment_instance($pay_info['pay_code']);
+// 		$payment_handler = $payment_method->get_payment_instance($pay_info['pay_code']);
+		$payment_handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($pay_info['pay_code']);
 		
 		/* 判断是否有支付方式以及是否为现金支付和酷银*/
-		if (!$payment) {
+		if (!$payment_handler) {
 			return new ecjia_error(8, '处理失败');
 		}
-		$payment->set_orderinfo($order);
+		$payment_handler->set_orderinfo($order);
 		
 		if ($pay_info['pay_code'] == 'pay_cash') {
 			/* 进行确认*/

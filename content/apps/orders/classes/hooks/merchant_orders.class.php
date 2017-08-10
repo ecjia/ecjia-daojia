@@ -66,16 +66,16 @@ class orders_merchant_plugin {
 		$db_order_viewmodel = RC_Loader::load_app_model('order_pay_viewmodel', 'orders');
 		//TODO: 入驻商订单筛选条件
 		$month_order = $db->where(array('oi.store_id' => $_SESSION['store_id'], 'oi.add_time' => array('gt' => RC_Time::gmtime() - 2592000)))->count('distinct oi.order_id');
-        $new =RC_Time::gmtime();
+        $now = RC_Time::gmtime();
         
-		$order_money = $db_order_viewmodel->field('pl.order_amount')->where(array('oi.store_id' => $_SESSION['store_id'], 'oi.add_time' =>array('gt' => $new-3600*24*30,'lt' => $new), 'pl.is_paid' => 1))->group(array('oi.order_id'))->select();
+		$order_money = $db_order_viewmodel->field('pl.order_amount')->where(array('oi.store_id' => $_SESSION['store_id'], 'oi.add_time' =>array('gt' => $now-3600*24*30, 'lt' => $now), 'pl.is_paid' => 1))->group(array('oi.order_id'))->select();
 		foreach($order_money as $val){
 		    $num+=intval($val['order_amount']);
 		}
-        $order_unconfirmed = $db->field('oi.order_id')->where(array('oi.order_status' => 0, 'oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $new-3600*60*24, 'lt' => $new)))->group('oi.order_id')->select();
+        $order_unconfirmed = $db->field('oi.order_id')->where(array('oi.order_status' => 0, 'oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $now-3600*60*24, 'lt' => $now)))->group('oi.order_id')->select();
         $order_unconfirmed = count($order_unconfirmed);
         
-        $order_await_ship = $db->field('oi.order_id')->where(array_merge($order_query->order_await_ship('oi.'), array('oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $new-3600*60*24, 'lt' => $new))))->group('oi.order_id')->select();;
+        $order_await_ship = $db->field('oi.order_id')->where(array_merge($order_query->order_await_ship('oi.'), array('oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $now-3600*60*24, 'lt' => $now))))->group('oi.order_id')->select();;
         $order_await_ship = count($order_await_ship);
         
         ecjia_admin::$controller->assign('month_order', $month_order);
@@ -100,7 +100,7 @@ class orders_merchant_plugin {
 
         for($i = 30; $i>=0; $i--) {
             $tmp_time = $now_time - $i * 86400;
-            $tmp_day = date('m-d',$tmp_time);
+            $tmp_day = RC_Time::local_date('m-d', $tmp_time);
             $sale_arr[$tmp_day] = '0.00';
         }
 

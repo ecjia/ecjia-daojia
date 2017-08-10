@@ -400,4 +400,73 @@ function get_merchant_delivery_list() {
 	return array('delivery' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'type_count' => $type_count);
 }
 
+/**
+ * 获取当天订单不同状态数量
+ * @return array
+ */
+function get_merchant_order_count() {
+	$keywords = trim($_GET['keywords']);
+	$db	= RC_Loader::load_app_model('order_info_viewmodel', 'orders');
+	$db->view = array(
+		'order_goods' => array(
+			'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
+			'alias' => 'g',
+			'on' 	=> 'oi.order_id = g.order_id'
+		)
+	);
+	
+	$t = RC_Time::gmtime();
+	$start_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t));  //当天开始时间
+	$end_time = RC_Time::local_mktime(23, 59, 59, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t)); //当天结束时间
+
+	$array = array('oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $start_time, 'lt' => $t), 'oi.is_delete' => 0);
+	if (!empty($keywords)) {
+		$array[] = "(oi.order_sn like '%".mysql_like_quote($keywords)."%' or oi.consignee like '%".mysql_like_quote($keywords)."%')"; 
+	}
+	$order_all = $db->field('oi.order_id')
+		->where($array)
+		->group('oi.order_id')
+		->select();
+	$today['all'] = count($order_all);
+	
+	$order_query = RC_Loader::load_app_class('merchant_order_query', 'orders');
+	$await_pay = $db->field('oi.order_id')
+		->where(array_merge($order_query->order_await_pay('oi.'), $array))
+		->group('oi.order_id')
+		->select();
+	$today['await_pay'] = count($await_pay);
+	
+	$await_confirm = $db->field('oi.order_id')
+		->where(array_merge($order_query->order_unconfirmed('oi.'), $array))
+		->group('oi.order_id')
+		->select();
+	$today['await_confirm'] = count($await_confirm);
+	
+	$payed = $db->field('oi.order_id')
+		->where(array_merge($order_query->order_payed('oi.'), $array))
+		->group('oi.order_id')
+		->select();
+	$today['payed'] = count($payed);
+	
+	$await_ship = $db->field('oi.order_id')
+		->where(array_merge($order_query->order_await_ship('oi.'), $array))
+		->group('oi.order_id')
+		->select();
+	$today['await_ship'] = count($await_ship);
+	
+// 	$order_shipped = $db->field('oi.order_id')
+// 		->where(array_merge($order_query->order_shipped('oi.'), $array))
+// 		->group('oi.order_id')
+// 		->select();
+// 	$today['order_shipped'] = count($order_shipped);
+	
+	$order_finished = $db->field('oi.order_id')
+		->where(array_merge($order_query->order_finished('oi.'), $array))
+		->group('oi.order_id')
+		->select();
+	$today['order_finished'] = count($order_finished);
+	
+	return $today;
+}
+
 //end
