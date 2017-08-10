@@ -60,6 +60,9 @@ class callback extends ecjia_front {
      * username     昵称
      */
     public function init() {
+    	if (isset($_COOKIE['h5_index'])) {
+    		header("location: ".RC_Uri::url('touch/index/init'));exit();
+    	}
         $connect_code = $_GET['connect_code'];
         unset($_GET['connect_code']);
         if (empty($connect_code)) {
@@ -119,7 +122,8 @@ class callback extends ecjia_front {
             $user_id = RC_Hook::apply_filters('connect_callback_bind_signup', 0, $username, $password, $email);
             $result  = $connect_user->bind_user($user_id, 0);
             if ($result) {
-              return $this->redirect(RC_Uri::url('touch/my/init'));
+//               return $this->redirect(RC_Uri::url('touch/my/init'));
+              header("location: ".RC_Uri::url('touch/my/init'));exit();
             } else {
                 $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
                 return $this->showmessage(RC_Lang::get('connect::connect.regist_fail'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));

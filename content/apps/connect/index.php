@@ -71,7 +71,7 @@ class index extends ecjia_front {
             $connect_handle->set_login_type($login_type);
         }
         $code_url           = $connect_handle->authorize_url();
-        header("Location:$code_url");
+        return ecjia_front::$controller->redirect($code_url);
     }
 }
 

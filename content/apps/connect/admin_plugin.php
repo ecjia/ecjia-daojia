@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 帐号 Connect 后台管理
  */
-class admin extends ecjia_admin {
+class admin_plugin extends ecjia_admin {
 
 	private $db_user;	
 	private $connect_account;
@@ -75,13 +75,14 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Loader::load_app_class('connect_factory', null, false);
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.connect'), RC_Uri::url('connect/admin/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.connect'), RC_Uri::url('connect/admin_plugin/init')));
 		
 		$js_lang = array(
 			'name_required'	=> RC_Lang::get('connect::connect.pls_name'),
 			'desc_required'	=> RC_Lang::get('connect::connect.pls_desc'),
 		);
 		RC_Script::localize_script('connect', 'js_lang', $js_lang);
+		ecjia_screen::get_current_screen()->set_parentage('connect', 'connect/admin_plugin.php');
 	}
 	
 	/**
@@ -137,8 +138,8 @@ class admin extends ecjia_admin {
 	
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.edit')));
 		$this->assign('ur_here', RC_Lang::get('connect::connect.edit'));
-		$this->assign('action_link', array('text' => RC_Lang::get('connect::connect.connect_list'), 'href' => RC_Uri::url('connect/admin/init')));
-		$this->assign('form_action', RC_Uri::url('connect/admin/update'));
+		$this->assign('action_link', array('text' => RC_Lang::get('connect::connect.connect_list'), 'href' => RC_Uri::url('connect/admin_plugin/init')));
+		$this->assign('form_action', RC_Uri::url('connect/admin_plugin/update'));
 	
 		$this->assign_lang();
 		$this->display('connect_edit.dwt');
@@ -214,8 +215,8 @@ class admin extends ecjia_admin {
 		    }
 		}
 	
-		$links[] = array('text' =>RC_Lang::get('system::system.go_back'), 'href'=>RC_Uri::url('connect/admin/init'));
-		return $this->showmessage(RC_Lang::get('connect::connect.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('connect/admin/edit', array('id' => $_POST['id']))));
+		$links[] = array('text' =>RC_Lang::get('system::system.go_back'), 'href'=>RC_Uri::url('connect/admin_plugin/init'));
+		return $this->showmessage(RC_Lang::get('connect::connect.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('connect/admin_plugin/edit', array('id' => $_POST['id']))));
 	}
 	
 	/**
@@ -253,7 +254,7 @@ class admin extends ecjia_admin {
 			$connect_order = intval($_POST['value']);
 	
 			$this->db_connect->where(array('connect_id' => $connect_id))->update(array('connect_order' => $connect_order));
-			return $this->showmessage(RC_Lang::get('connect::connect.sort_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin/init')));
+			return $this->showmessage(RC_Lang::get('connect::connect.sort_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 		}
 	}
 	
@@ -270,7 +271,7 @@ class admin extends ecjia_admin {
 		$this->db_connect->where(array('connect_id' => $id))->update($data);
 	
 // 		ecjia_admin::admin_log($id, 'disable', 'payment');
-		return $this->showmessage(RC_Lang::get('connect::connect.disable_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin/init')));
+		return $this->showmessage(RC_Lang::get('connect::connect.disable_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 	}
 	
 	/**
@@ -286,7 +287,7 @@ class admin extends ecjia_admin {
 		$this->db_connect->where(array('connect_id' => $id))->update($data);
 
 // 		ecjia_admin::admin_log($id, 'enable', 'payment');
-		return $this->showmessage(RC_Lang::get('connect::connect.enable_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin/init')));
+		return $this->showmessage(RC_Lang::get('connect::connect.enable_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 	}
 	
 	private function connect_list() {
