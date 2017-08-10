@@ -147,13 +147,16 @@ class index extends SimpleController {
             upgrade_utility::updateEcjiaVersion($version);
         });
         
-        
-        // 升级执行
-        $rs = Ecjia_VersionManager::version($version)->upgrade();
-        if (is_ecjia_error($rs)) {
-            return $this->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        } else {
-            return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        try {
+            // 升级执行
+            $rs = Ecjia_VersionManager::version($version)->upgrade();
+            if (is_ecjia_error($rs)) {
+                return $this->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            } else {
+                return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            }
+        } catch (PDOException $e) {
+            return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
     
