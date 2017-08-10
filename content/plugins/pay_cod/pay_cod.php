@@ -69,15 +69,14 @@ class plugin_pay_cod {
         return RC_Api::api('payment', 'plugin_uninstall', $param);
     }
 
-    public static function adapter_instance($instance, $config) {
-        require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_cod.class.php';
-        return new pay_cod($config);
-    }
-
 }
+
+Ecjia_PluginManager::extend('pay_cod', function() {
+    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_cod.class.php';
+    return new pay_cod();
+});
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_pay_cod', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_pay_cod', 'uninstall'));
-RC_Hook::add_filter('payment_factory_adapter_instance', array( 'plugin_pay_cod', 'adapter_instance' ), 10, 2);
 
 // end
