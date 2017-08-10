@@ -479,7 +479,7 @@ class Direct extends FilesystemBase
      * @param array $files
      * @return array
      */
-    public function _getfiles($path, $allowFiles, &$files = array())
+    protected function _getfiles($path, $allowFiles, &$files = array())
     {
         if (!is_dir($path)) return null;
     

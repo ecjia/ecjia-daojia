@@ -2,7 +2,7 @@
 
 use Royalcms\Component\Support\ServiceProvider;
 
-class FilesystemServiceProvider extends ServiceProvider {
+class StorageServiceProvider extends ServiceProvider {
 
 	/**
 	 * Register the service provider.
