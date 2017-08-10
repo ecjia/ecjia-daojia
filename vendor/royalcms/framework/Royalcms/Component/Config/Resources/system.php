@@ -168,7 +168,7 @@ return array(
         'RC_Mail'              => 'Royalcms\Component\Support\Facades\Mail',
         'RC_Event'             => 'Royalcms\Component\Support\Facades\Event',
         'RC_Variable'          => 'Royalcms\Component\Support\Facades\Variable',
-        'RC_Storage'           => 'Royalcms\Component\Support\Facades\Storage',
+        'RC_Storage'           => 'Royalcms\Component\Storage\Facades\Storage',
         'RC_Filesystem'        => 'Royalcms\Component\Support\Facades\Filesystem',
         'RC_Json'              => 'Royalcms\Component\Support\Json',
         'RC_Hook'              => 'Royalcms\Component\Support\Facades\Hook',
@@ -262,6 +262,7 @@ return array(
         'Royalcms\Component\Rewrite\RewriteServiceProvider',
         'Royalcms\Component\Purifier\PurifierServiceProvider',
         'Royalcms\Component\LogViewer\LogViewerServiceProvider',
+        'Royalcms\Component\Storage\StorageServiceProvider',
         
 
     
