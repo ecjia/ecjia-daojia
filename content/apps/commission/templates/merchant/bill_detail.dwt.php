@@ -37,7 +37,7 @@ ecjia.merchant.bill.init()
 							<tr>
 								<td align="right">入账订单数：</td>
 								<td>{$bill_info.order_count}</td>
-								<td align="right">订单总金额：</td>
+								<td align="right">入账总金额：</td>
 								<td>￥{$bill_info.order_amount}</td>
 							</tr>
 							<tr>
@@ -70,50 +70,85 @@ ecjia.merchant.bill.init()
 
 <div class="row">
 	<div class="col-lg-12">
-      	<section class="panel">
-          	<header class="panel-heading">账单明细</header>
-          
-          	<div class="panel-body">
-              	<section id="unseen">
-	                <table class="table table-striped table-advance table-hover">
-	        			<thead>
-	        				<tr>
-	        					<th class="w80">{t}类型{/t}</th>
-	        					<th class="w120">{t}订单编号{/t}</th>
-	        					<th class="w120">{t}下单时间{/t}</th>
-	        					<th class="w120">{t}金额{/t}</th>
-	        					<th class="w150">{t}订单状态{/t}</th>
-	        					<th class="w80">{t}佣金比例{/t}</th>
-	        					<th class="w110">{t}佣金金额{/t}</th>
-	        					<th class="w120">{t}入账时间{/t}</th>
-	        				</tr>
-	        			</thead>
-	        			<tbody>
-	        			<!-- {foreach from=$record_list.item key=key item=list} -->
-	        				<tr>
-	            				<td>
-	        						{if $list.order_type eq 1}收入{/if}{if $list.order_type eq 2}支出{/if}
-	        					</td>
-	        					<td>
-	        						{assign var=order_url value=RC_Uri::url('orders/merchant/info',"order_id={$list.order_id}")}
-	    					       <a href="{$order_url}" target="_blank">{$list.order_sn}</a>
-	        					</td>
-	        					<td>{$list.order_add_time_formate}</td>
-	        					<td>￥{$list.total_fee}</td>
-	        					<td>{$lang_os[$list.order_status]},{$lang_ps[$list.pay_status]},{$lang_ss[$list.shipping_status]}</td>
-	        					<td>{$list.percent_value}%</td>
-	        					<td>￥{$list.brokerage_amount}</td>
-	        					<td>{$list.add_time_formate}</td>
-	        				</tr>
-	        			<!-- {foreachelse} -->
-	        		    	<tr><td class="dataTables_empty" colspan="8">没有找到任何记录</td></tr>
-	        		  	<!-- {/foreach} -->
-	        			</tbody>
-	        		</table>
-	        		<!-- {$record_list.page} -->
-              	</section>
-          	</div>
-      	</section>
+	<section class="panel panel-body">
+    	<ul id="myTab" class="nav nav-tabs">
+            <li class="{if !$smarty.get.page }active{/if}"><a href="collapse.html#day" data-toggle="tab">每日账单</a></li>
+            <li class="{if $smarty.get.page }active{/if}"><a href="collapse.html#detail" data-toggle="tab">账单明细</a></li>
+        </ul>
+        
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade {if !$smarty.get.page } active in{/if}" id="day">
+                <table class="table table-striped table-advance table-hover">
+        			<thead>
+        				<tr>
+        					<th>{t}账单日期{/t}</th>
+						    <th>{t}入账金额{/t}</th>
+						    <th>{t}退款金额{/t}</th>
+						    <th>{t}佣金比例{/t}</th>
+						    <th>{t}商家有效佣金{/t}</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        			<!-- {foreach from=$bill_list.item item=commission} -->
+    						<tr>
+    							<td>
+    							{$commission.day}
+    							</td>
+    						    <td class="ecjiaf-tar">￥{$commission.order_amount}</td>
+    						    <td class="ecjiafc-red">￥{$commission.refund_amount}</td>
+    						    <!-- {if $commission.percent_value} -->
+    						    <td>{$commission.percent_value}%</td>
+    						    <!-- {else} -->
+    						    <td>{t}100%{/t}</td>
+    						    <!-- {/if} -->
+    						    <td>￥{$commission.brokerage_amount}</td>
+    						</tr>
+    						<!-- {foreachelse} -->
+    					   <tr><td class="no-records" colspan="7">{t}没有找到任何记录{/t}</td></tr>
+    					<!-- {/foreach} -->
+        			</tbody>
+        		</table>
+            </div>
+            <div class="tab-pane fade {if $smarty.get.page } active in{/if}" id="detail">
+                <table class="table table-striped table-advance table-hover">
+        			<thead>
+        				<tr>
+        					<th class="w80">{t}类型{/t}</th>
+        					<th class="w120">{t}订单编号{/t}</th>
+        					<th class="w120">{t}下单时间{/t}</th>
+        					<th class="w120">{t}金额{/t}</th>
+        					<th class="w150">{t}订单状态{/t}</th>
+        					<th class="w80">{t}佣金比例{/t}</th>
+        					<th class="w110">{t}佣金金额{/t}</th>
+        					<th class="w120">{t}入账时间{/t}</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        			<!-- {foreach from=$record_list.item key=key item=list} -->
+        				<tr>
+            				<td>
+        						{if $list.order_type eq 1}收入{/if}{if $list.order_type eq 2}支出{/if}
+        					</td>
+        					<td>
+        						{assign var=order_url value=RC_Uri::url('orders/merchant/info',"order_id={$list.order_id}")}
+    					       <a href="{$order_url}" target="_blank">{$list.order_sn}</a>
+        					</td>
+        					<td>{$list.order_add_time_formate}</td>
+        					<td>￥{$list.total_fee}</td>
+        					<td>{$lang_os[$list.order_status]},{$lang_ps[$list.pay_status]},{$lang_ss[$list.shipping_status]}</td>
+        					<td>{$list.percent_value}%</td>
+        					<td>￥{$list.brokerage_amount}</td>
+        					<td>{$list.add_time_formate}</td>
+        				</tr>
+        			<!-- {foreachelse} -->
+        		    	<tr><td class="dataTables_empty" colspan="8">没有找到任何记录</td></tr>
+        		  	<!-- {/foreach} -->
+        			</tbody>
+        		</table>
+        		<!-- {$record_list.page} -->
+            </div>
+        </div>
+        </section>
   	</div>
 </div>
 <!-- {/block} -->

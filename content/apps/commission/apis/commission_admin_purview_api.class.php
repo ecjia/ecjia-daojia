@@ -57,10 +57,16 @@ class commission_admin_purview_api extends Component_Event_Api {
             
             //结算权限
             array('action_name' => __('结算账单'), 'action_code' => 'commission_manage', 'relevance'   => ''),
+            array('action_name' => __('结算账单生成'), 'action_code' => 'commission_update', 'relevance'   => ''),
+            array('action_name' => __('结算账单重新生成'), 'action_code' => 'commission_refresh', 'relevance'   => ''),
             array('action_name' => __('账单详情'), 'action_code' => 'commission_detail', 'relevance'   => ''),
             array('action_name' => __('打款'), 'action_code' => 'commission_pay', 'relevance'   => ''),
             array('action_name' => __('打款流水'), 'action_code' => 'commission_paylog', 'relevance'   => ''),
             array('action_name' => __('订单分成'), 'action_code' => 'commission_order', 'relevance'   => ''),
+            array('action_name' => __('每日账单'), 'action_code' => 'commission_day_manage', 'relevance'   => ''),
+            array('action_name' => __('每日账单生成'), 'action_code' => 'commission_day_update', 'relevance'   => ''),
+            
+            
         );
         return $purviews;
     }

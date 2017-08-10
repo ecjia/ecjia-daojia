@@ -7,7 +7,6 @@ ecjia.merchant.bill.init()
 <!-- {/block} -->
 
 <!-- {block name="home-content"} -->
-<!--销售明细-->
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
 	<strong>温馨提示：</strong>{t}当月账单未出请查看结算记录{/t}
@@ -46,11 +45,10 @@ ecjia.merchant.bill.init()
 	        				<tr>
 	        					<th>{t}账单周期{/t}</th>
 	        					<th class="w200">{t}订单数量{/t}</th>
-	        					<th class="w120">{t}订单总金额{/t}</th>
+	        					<th class="w120">{t}入账金额{/t}</th>
 	        					<th class="w120">{t}退款金额{/t}</th>
-	        					<th class="w110">{t}有效分成金额{/t}</th>
 	        					<th class="w120">{t}佣金比例{/t}</th>
-	        					<th class="w110">{t}佣金金额{/t}</th>
+	        					<th class="w110">{t}账单金额{/t}</th>
 	        					<th class="w110">{t}打款状态{/t}</th>
 	        				</tr>
 	        			</thead>
@@ -64,7 +62,6 @@ ecjia.merchant.bill.init()
 	        					<td>订单({$list.order_count}) 退货({$list.refund_count})</td>
 	        					<td>￥{$list.order_amount}</td>
 	        					<td>￥{$list.refund_amount}</td>
-	        					<td>￥{$list.available_amount}</td>
 	        					<td>{$list.percent_value}%</td>
 	        					<td>￥{$list.bill_amount}</td>
 	        					<td>

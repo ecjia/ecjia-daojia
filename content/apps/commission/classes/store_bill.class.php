@@ -71,7 +71,18 @@ class store_bill {
             RC_Logger::getLogger('bill_day')->error('统计数据异常或者为空');
             return false;
         }
-        return RC_DB::table('store_bill_day')->insert($data);
+        
+        //过滤重复
+        $exist_stores = RC_DB::table('store_bill_day')->where('day', $options['day'])->lists('store_id');
+        foreach ($data as $key => $val) {
+            if(in_array($val['store_id'], $exist_stores)) {
+                unset($data[$key]);
+            }
+        }
+        if ($data) {
+            return RC_DB::table('store_bill_day')->insert($data);
+        }
+        return true;
     }
     
     /**
@@ -82,11 +93,59 @@ class store_bill {
      */
     public function bill_month($options) {
         if (!isset($options['month'])) {
-            $options['month'] = RC_Time::local_date('Y-m', RC_Time::gmtime() - 86400) ;
+            $month =  RC_Time::local_date('m')-1;
+            if ($month < 10) {
+                $month = '0'.$month;
+            }
+            $month = RC_Time::local_date('Y') . '-' . $month;
+            $options['month'] = $month;
         }
         
         RC_Logger::getLogger('bill_month')->info($options);
         
+        //已有账单数据
+        $data = RC_Model::model('commission/store_bill_day_model')->count_bill_month($options);
+        
+        //         TODO:异常重新发起
+        if (! $data) {
+            RC_Logger::getLogger('bill_month')->error('统计数据异常或者为空');
+            return false;
+        }
+        
+        //过滤重复
+        $db_bill = RC_DB::table('store_bill');
+        if (isset($options['month'])) {
+            $db_bill->where('bill_month', $options['month']);
+        }
+        if (isset($options['store_id'])) {
+            $db_bill->where('store_id', $options['store_id']);
+        }
+        $exist_stores = $db_bill->lists('store_id');
+        
+        foreach ($data as $key => $val) {
+            if(in_array($val['store_id'], $exist_stores)) {
+                unset($data[$key]);
+            }
+        }
+        if ($data) {
+            //201603 000015 236
+            foreach ($data as &$bill) {
+                $bill['bill_sn'] = str_replace('-', '', $options['month']).sprintf("%06d",$bill['store_id']).mt_rand(111, 999);
+                $bill['add_time'] = RC_Time::gmtime();
+            }
+            return RC_DB::table('store_bill')->insert($data);
+        }
+        
+        return true;
+    }
+    
+    public function bill_month_refresh($options) {
+        if (!isset($options['month'])) {
+            $options['month'] = RC_Time::local_date('Y-m', RC_Time::gmtime() - 86400) ;
+        }
+    
+        RC_Logger::getLogger('bill_month')->info($options);
+    
         //已有账单数据
         $data = RC_Model::model('commission/store_bill_day_model')->count_bill_month($options);
         //         TODO:异常重新发起
@@ -94,12 +153,27 @@ class store_bill {
             RC_Logger::getLogger('bill_month')->error('统计数据异常或者为空');
             return false;
         }
-        //201603 000015 236
-        foreach ($data as &$bill) {
-            $bill['bill_sn'] = str_replace('-', '', $options['month']).sprintf("%06d",$bill['store_id']).mt_rand(111, 999);
-            $bill['add_time'] = RC_Time::gmtime();
+    
+        //过滤重复
+        $db_bill = RC_DB::table('store_bill');
+        if (isset($options['month'])) {
+            $db_bill->where('bill_month', $options['month']);
         }
-        return RC_DB::table('store_bill')->insert($data);
+        if (isset($options['store_id'])) {
+            $db_bill->where('store_id', $options['store_id']);
+        }
+        
+        if ($data) {
+            //201603 000015 236
+            foreach ($data as &$bill) {
+                //$bill['bill_sn'] = str_replace('-', '', $options['month']).sprintf("%06d",$bill['store_id']).mt_rand(111, 999);
+                $bill['add_time'] = RC_Time::gmtime();
+                RC_DB::table('store_bill')->where('store_id', $bill['store_id'])->where('bill_month', $bill['bill_month'])->update($bill);
+            }
+            
+        }
+    
+        return true;
     }
 }
 

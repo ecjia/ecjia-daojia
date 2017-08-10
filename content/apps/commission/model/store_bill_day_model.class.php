@@ -70,10 +70,10 @@ class store_bill_day_model extends Component_Model_Model {
 	}
 	
 	public function get_billday_list($store_id, $page = 1, $page_size = 15, $filter) {
-	    $db_bill_day = RC_DB::table('store_bill_day');
+	    $db_bill_day = RC_DB::table('store_bill_day as b')->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('b.store_id'));
 	    
 	    if ($store_id) {
-	        $db_bill_day->whereRaw('store_id ='.$store_id);
+	        $db_bill_day->whereRaw('b.store_id ='.$store_id);
 	    }
 	    
 	    if (!empty($filter['start_date']) && !empty($filter['end_date'])) {
@@ -86,8 +86,12 @@ class store_bill_day_model extends Component_Model_Model {
 	            $db_bill_day->whereRaw("day <= '".$filter['end_date']."'");
 	        }
 	    }
+	    if (!empty($filter['merchant_keywords'])) {
+	        $db_bill_day->whereRaw("s.merchants_name LIKE '%". $filter['merchant_keywords']."%'");
+	    }
+	    
 	    $count = $db_bill_day->count();
-	    if (ROUTE_M == 'admin') {
+	    if (ROUTE_C == 'admin') {
 	        $page = new ecjia_page($count, $page_size, 6);
 	    } else {
 	        $page = new ecjia_merchant_page($count, $page_size, 6);
@@ -98,6 +102,7 @@ class store_bill_day_model extends Component_Model_Model {
 	    }
 	     
 	    $row = $db_bill_day
+	    ->select(RC_DB::raw('b.*, s.merchants_name '))
 	    ->orderBy('day', 'desc')
 	    ->get();
 	     
@@ -120,7 +125,7 @@ class store_bill_day_model extends Component_Model_Model {
 	    $db_bill_day = RC_DB::table('store_bill_day')->groupBy('store_id');
 	     
 	    if (isset($options['store_id'])) {
-	        $db_bill_day->having('store_id', $options['store_id']);
+	        $db_bill_day->having('store_id', '=', $options['store_id']);
 	    }
 	     
 	    if (!empty($filter['start_date']) && !empty($filter['end_date'])) {

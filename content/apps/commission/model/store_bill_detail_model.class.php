@@ -114,13 +114,13 @@ class store_bill_detail_model extends Component_Model_Model {
 	//计算日账单,分批处理数据
 	public function count_bill_day($options) {
 	    
-	    $table = RC_DB::table('store_bill_detail')->groupBy('store_id');
-	    if (isset($options['store_id'])) {
-	        $table->having('store_id', $options['store_id']);
-	    }
+// 	    $table = RC_DB::table('store_bill_detail')->groupBy('store_id');
+// 	    if (isset($options['store_id'])) {
+// 	        $table->having('store_id', $options['store_id']);
+// 	    }
         $day_time = RC_Time::local_strtotime($options['day']);
         
-	    $table->whereBetween('add_time', array($options['day'], $options['day'] + 86399));
+// 	    $table->whereBetween('add_time', array($day_time, $day_time + 86399));
 
 	    $rs_order = RC_DB::table('store_bill_detail')->groupBy('store_id')->select("store_id", RC_DB::raw("'".$options['day']."' as day"), RC_DB::raw('COUNT(store_id) as order_count'), RC_DB::raw('SUM(brokerage_amount) as order_amount'),
 	        RC_DB::raw('0 as refund_count'), RC_DB::raw('0.00 as refund_amount'), 'percent_value')

@@ -8,10 +8,17 @@ ecjia.admin.bill_list.init();
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+<div class="alert alert-info">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
+	<strong>温馨提示：</strong>{t}每月1日生成上月账单，当月账单未出请查看每日账单和订单分成{/t}
+</div>
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
 		<!-- {if $smarty.get.store_id && $smarty.get.refer neq 'store'} --><a class="btn plus_or_reply" href='{RC_Uri::url("commission/admin/init", "{$url_args}")}'><i class="fontello-icon-reply"></i>{t}返回全部{/t}</a><!-- {/if} -->
+		<!-- {if $action_link} -->
+		<a class="btn plus_or_reply data-pjax" href="{$action_link.href}" ><i class="fontello-icon-plus"></i>{$action_link.text}</a>
+		<!-- {/if} -->
 	</h3>
 </div>
 {if $smarty.get.refer neq 'store'}
@@ -88,8 +95,8 @@ ecjia.admin.bill_list.init();
     							<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
     						    <th>{t}账单编号{/t}</th>
     						    {if $smarty.get.refer neq 'store'}<th>{t}商家名称{/t}</th>{/if}
-    						    <th>{t}订单有效总金额{/t}</th>
-    						    <th>{t}订单退款总金额{/t}</th>
+    						    <th>{t}入账金额{/t}</th>
+    						    <th>{t}退款金额{/t}</th>
     						    <th>{t}佣金比例{/t}</th>
     						    <th>{t}商家有效佣金{/t}</th>
     						 </tr>
@@ -97,7 +104,7 @@ ecjia.admin.bill_list.init();
     
        				 <!-- {foreach from=$bill_list.item item=commission} -->
     						<tr>
-    							<td><span><input type="checkbox" name="checkboxes[]" class="checkbox" value="{$commission.id}"/></span></td>
+    							<td><span><input type="checkbox" name="checkboxes[]" class="checkbox" value="{$commission.bill_id}"/></span></td>
     							<td>
     							<a {if $smarty.get.refer eq 'store'} target="_blank"{else}class="data-pjax"{/if} href='{RC_Uri::url("commission/admin/detail","id={$commission.bill_id}{if $smarty.get.store_id}&store_id={$smarty.get.store_id}{/if}")}' title="账单详情">
     								{$commission.bill_sn}
@@ -124,7 +131,7 @@ ecjia.admin.bill_list.init();
     						    <td>￥{$commission.bill_amount}</td>
     						</tr>
     						<!-- {foreachelse} -->
-    					   <tr><td class="no-records" colspan="7">{t}没有找到任何记录{/t}</td></tr>
+    					   <tr><td class="no-records" colspan="8">{t}没有找到任何记录{/t}</td></tr>
     					<!-- {/foreach} -->
     				</table>
     				<!-- {$bill_list.page} -->
