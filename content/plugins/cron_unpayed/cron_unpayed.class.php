@@ -61,6 +61,8 @@ class cron_unpayed extends cron_abstract
     public function run() {
         $limit_time = !empty($this->config['unpayed_hours']) ? $this->config['unpayed_hours'] : 24;
         $limit_time = $limit_time * 3600;
+        $limit_rows = !empty($this->config['unpayed_count']) ? $this->config['unpayed_count'] : 100;
+        
         RC_Loader::load_app_class('order_operate', 'orders', false);
         $order_operate = new order_operate();
         $time = RC_Time::gmtime();
@@ -71,6 +73,7 @@ class cron_unpayed extends cron_abstract
         ->whereNotIn('order_status', array(OS_CANCELED,OS_INVALID))
         ->where('pay_status', PS_UNPAYED)
         ->where(RC_DB::raw('add_time + '.$limit_time), '<=', $time)
+        ->take($limit_rows)
         ->get();
         
         foreach ($rows as $order) {
