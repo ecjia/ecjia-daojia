@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Database\Connectors;
+<?php 
+
+namespace Royalcms\Component\Database\Connectors;
 
 interface ConnectorInterface {
 

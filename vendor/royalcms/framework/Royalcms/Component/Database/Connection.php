@@ -978,6 +978,16 @@ class Connection implements ConnectionInterface {
 	{
 		$this->database = $database;
 	}
+	
+	/**
+	 * Get the table with prefix full table name for the connection.
+	 *
+	 * @return string
+	 */
+	public function getTableFullName($table)
+	{
+	    return $this->tablePrefix . $table;
+	}
 
 	/**
 	 * Get the table prefix for the connection.

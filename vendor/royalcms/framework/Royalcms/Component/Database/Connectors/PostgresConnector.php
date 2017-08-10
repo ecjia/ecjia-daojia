@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Database\Connectors;
+<?php 
+
+namespace Royalcms\Component\Database\Connectors;
 
 use PDO;
 
@@ -37,6 +39,15 @@ class PostgresConnector extends Connector implements ConnectorInterface {
 		$charset = $config['charset'];
 
 		$connection->prepare("set names '$charset'")->execute();
+		
+		// Next, we will check to see if a timezone has been specified in this config
+		// and if it has we will issue a statement to modify the timezone with the
+		// database. Setting this DB timezone is an optional configuration item.
+		if (isset($config['timezone'])) {
+		    $timezone = $config['timezone'];
+		
+		    $connection->prepare("set time zone '$timezone'")->execute();
+		}
 
 		// Unlike MySQL, Postgres allows the concept of "schema" and a default schema
 		// may have been specified on the connections. If that is the case we will
@@ -46,6 +57,15 @@ class PostgresConnector extends Connector implements ConnectorInterface {
 			$schema = $config['schema'];
 
 			$connection->prepare("set search_path to {$schema}")->execute();
+		}
+		
+		// Postgres allows an application_name to be set by the user and this name is
+		// used to when monitoring the application with pg_stat_activity. So we'll
+		// determine if the option has been specified and run a statement if so.
+		if (isset($config['application_name'])) {
+		    $applicationName = $config['application_name'];
+		
+		    $connection->prepare("set application_name to '$applicationName'")->execute();
 		}
 
 		return $connection;
@@ -62,9 +82,9 @@ class PostgresConnector extends Connector implements ConnectorInterface {
 		// First we will create the basic DSN setup as well as the port if it is in
 		// in the configuration options. This will give us the basic DSN we will
 		// need to establish the PDO connections and return them back for use.
-	    $host = $database = $port = null;
+	    $host = $database = $port = $sslmode = $sslcert = $sslkey = $sslrootcert = null;
 	    
-		extract($config);
+		extract($config, EXTR_IF_EXISTS);
 
 		$host = isset($host) ? "host={$host};" : '';
 
@@ -77,8 +97,39 @@ class PostgresConnector extends Connector implements ConnectorInterface {
 		{
 			$dsn .= ";port={$port}";
 		}
+		
+		if (isset($config['sslmode'])) {
+		    $dsn .= ";sslmode={$sslmode}";
+		}
+		
+		if (isset($config['sslcert'])) {
+		    $dsn .= ";sslcert={$sslcert}";
+		}
+		
+		if (isset($config['sslkey'])) {
+		    $dsn .= ";sslkey={$sslkey}";
+		}
+		
+		if (isset($config['sslrootcert'])) {
+		    $dsn .= ";sslrootcert={$sslrootcert}";
+		}
 
 		return $dsn;
+	}
+	
+	/**
+	 * Format the schema for the DSN.
+	 *
+	 * @param  array|string  $schema
+	 * @return string
+	 */
+	protected function formatSchema($schema)
+	{
+	    if (is_array($schema)) {
+	        return '"'.implode('", "', $schema).'"';
+	    } else {
+	        return '"'.$schema.'"';
+	    }
 	}
 
 }
