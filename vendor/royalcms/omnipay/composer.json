@@ -1,0 +1,21 @@
+{
+    "name": "royalcms/omnipay",
+    "description": "Integerates Omnipay with Royalcms and provides an easy configuration.",
+    "keywords": ["omnipay", "payments", "royalcms"],
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "royalcms/support": "~4",
+        "omnipay/common": "2.5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Royalcms\\Component\\Omnipay": ""
+        }
+    }
+}
