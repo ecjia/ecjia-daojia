@@ -501,7 +501,7 @@ class admin_material extends ecjia_admin {
 						if (!empty($v['media_id'])) {
 							//删除原素材
 							$rs2 = $wechat->deleteMaterial($v['media_id']);
-							if (RC_Error::is_error($rs2)) {
+							if (RC_Error::is_error($rs2) && $rs2->get_error_code() != 'wechat_error_40007') {
 								return $this->showmessage(wechat_method::wechat_error($rs2->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 							}
 						}
@@ -557,7 +557,7 @@ class admin_material extends ecjia_admin {
 		if ($info['media_id'] && $info['is_material'] == 'material') {
 			//删除永久素材
 			$rs = $wechat->deleteMaterial($info['thumb']);
-			if (RC_Error::is_error($rs)) {
+			if (RC_Error::is_error($rs) && $rs->get_error_code() != 'wechat_error_40007') {
 				return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
@@ -601,7 +601,7 @@ class admin_material extends ecjia_admin {
 				if (!empty($v['media_id']) && $v['is_material'] == 'material') {
 					//删除永久素材
 					$rs = $wechat->deleteMaterial($v['media_id']);
-					if (RC_Error::is_error($rs)) {
+					if (RC_Error::is_error($rs) && $rs->get_error_code() != 'wechat_error_40007') {
 						return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 					}
 					$this->wm_db->where(array('id' => $id))->update(array('media_id' => ''));
@@ -711,7 +711,7 @@ class admin_material extends ecjia_admin {
 		if (!empty($info['thumb']) && $info['is_material'] == 'material') {
 			//删除微信端图片素材
 			$rs = $wechat->deleteMaterial($info['thumb']);
-			if (RC_Error::is_error($rs)) {
+			if (RC_Error::is_error($rs) && $rs->get_error_code() != 'wechat_error_40007') {
 				return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
@@ -719,8 +719,8 @@ class admin_material extends ecjia_admin {
 		//图片素材
 		if ($info['type'] == 'image') {
 			//删除图片
-			if (!empty($info['file']) && file_exists(RC_Upload::upload_path($info['file']))) {
-				$disk = RC_Filesystem::disk();
+			$disk = RC_Filesystem::disk();
+			if (!empty($info['file']) && $disk->exists(RC_Upload::upload_path($info['file']))) {
 				$disk->delete(RC_Upload::upload_path($info['file']));
 			}
 			
@@ -835,14 +835,14 @@ class admin_material extends ecjia_admin {
 		if (!empty($info['media_id']) && $info['is_material'] == 'material') {
 			//删除永久素材
 			$rs = $wechat->deleteMaterial($info['media_id']);
-			if (RC_Error::is_error($rs)) {
+			if (RC_Error::is_error($rs) && $rs->get_error_code() != 'wechat_error_40007') {
 				return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		//删除语音
-		if (!empty($info['file']) && file_exists(RC_Upload::upload_path($info['file']))) {
-			$disk = RC_Filesystem::disk();
+		$disk = RC_Filesystem::disk();
+		if (!empty($info['file']) && $disk->exists(RC_Upload::upload_path($info['file']))) {
 			$disk->delete(RC_Upload::upload_path($info['file']));
 		}
 		$this->wm_db->where(array('id' => $id))->delete();
@@ -1135,14 +1135,14 @@ class admin_material extends ecjia_admin {
 		if (!empty($info['media_id']) && $info['is_material'] == 'material') {
 			//删除永久素材
 			$rs = $wechat->deleteMaterial($info['media_id']);
-			if (RC_Error::is_error($rs)) {
+			if (RC_Error::is_error($rs) && $rs->get_error_code() != 'wechat_error_40007') {
 				return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		//删除视频
-		if (!empty($info['file']) && file_exists(RC_Upload::upload_path($info['file']))) {
-			$disk = RC_Filesystem::disk();
+		$disk = RC_Filesystem::disk();
+		if (!empty($info['file']) && $disk->exists(RC_Upload::upload_path($info['file']))) {
 			$disk->delete(RC_Upload::upload_path($info['file']));
 		}
 	

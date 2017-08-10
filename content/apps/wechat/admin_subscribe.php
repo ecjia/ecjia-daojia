@@ -887,7 +887,6 @@ class admin_subscribe extends ecjia_admin {
 		try {
     		$wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
     		$list = $wechat->user_tag->lists()->toArray();
-    		
     		if (!empty($list['tags'])) {
     			$where['wechat_id'] = $wechat_id;
     			$this->wechat_tag->where($where)->delete();
