@@ -193,6 +193,15 @@ return array(
     'AddCatImageToMerchantsCategoryTable' => $contentDir . '/database/migrations/2017_06_14_140837_add_cat_image_to_merchants_category_table.php',
     'AlterArticleTable' => $contentDir . '/database/migrations/2017_06_14_141241_alter_article_table.php',
     'AlterSmsSendlistTable' => $contentDir . '/database/migrations/2017_06_14_143031_alter_sms_sendlist_table.php',
+    'CreateFinanceInvoiceTable' => $contentDir . '/database/migrations/2017_08_03_115205_create_finance_invoice_table.php',
+    'CreateMobileOptionsTable' => $contentDir . '/database/migrations/2017_08_03_115232_create_mobile_options_table.php',
+    'CreateRegionCnTable' => $contentDir . '/database/migrations/2017_08_03_115254_create_region_cn_table.php',
+    'AddUserTypeToConnectUserTable' => $contentDir . '/database/migrations/2017_08_03_132510_add_user_type_to_connect_user_table.php',
+    'AddExpiredTimeToStoreFranchiseeTable' => $contentDir . '/database/migrations/2017_08_03_132605_add_expired_time_to_store_franchisee_table.php',
+    'AddOrderTradeNoToPaymentRecordTable' => $contentDir . '/database/migrations/2017_08_03_132748_add_order_trade_no_to_payment_record_table.php',
+    'AlterMsgidToSmsSendlistTable' => $contentDir . '/database/migrations/2017_08_03_184001_alter_msgid_to_sms_sendlist_table.php',
+    'RecreatePushMessageTable' => $contentDir . '/database/migrations/2017_08_03_184333_recreate_push_message_table.php',
+    'DropPushEventTable' => $contentDir . '/database/migrations/2017_08_03_190511_drop_push_event_table.php',
      
     
     // seeder
@@ -207,7 +216,6 @@ return array(
     'InitPlatformCommandTableSeeder' => $contentDir . '/database/seeds/InitPlatformCommandTableSeeder.php',
     'InitPlatformConfigTableSeeder' => $contentDir . '/database/seeds/InitPlatformConfigTableSeeder.php',
     'InitPlatformExtendTableSeeder' => $contentDir . '/database/seeds/InitPlatformExtendTableSeeder.php',
-    'InitPushEventTableSeeder' => $contentDir . '/database/seeds/InitPushEventTableSeeder.php',
     'InitRegFieldsTableSeeder' => $contentDir . '/database/seeds/InitRegFieldsTableSeeder.php',
     'InitRegionTableSeeder' => $contentDir . '/database/seeds/InitRegionTableSeeder.php',
     'InitShippingTableSeeder' => $contentDir . '/database/seeds/InitShippingTableSeeder.php',
