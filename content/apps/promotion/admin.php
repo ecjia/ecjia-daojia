@@ -331,10 +331,11 @@ class admin extends ecjia_admin {
 			->select('goods_id', 'goods_name', 'promote_price', 'promote_start_date', 'promote_end_date', 'goods_thumb', RC_DB::raw('s.merchants_name'))->take(10)->skip($page->start_id-1)->get();
 		
 		if (!empty($result)) {
+			$disk = RC_Filesystem::disk();
 			foreach ($result as $key => $val) {
 				$result[$key]['start_time'] = RC_Time::local_date('Y-m-d H:i:s', $val['promote_start_date']);
 				$result[$key]['end_time']   = RC_Time::local_date('Y-m-d H:i:s', $val['promote_end_date']);
-				if (!file_exists(RC_Upload::upload_path() . $val['goods_thumb']) || empty($val['goods_thumb'])) {
+				if (!$disk->exists(RC_Upload::upload_path() . $val['goods_thumb']) || empty($val['goods_thumb'])) {
 					$result[$key]['goods_thumb'] = RC_Uri::admin_url('statics/images/nopic.png');
 				} else {
 					$result[$key]['goods_thumb'] = RC_Upload::upload_url() . '/' . $val['goods_thumb'];
