@@ -91,6 +91,21 @@ class config_module extends api_front implements api_interface
         	$data['get_password_url'] = RC_Uri::url('user/get_password/forget_pwd', 'type=email');
         }
         
+        $store_model = trim(ecjia::config('store_model'));
+        
+        if ($store_model == 'nearby' || empty($store_model)) {
+        	$data['store_model'] = 'nearby';
+        } else if (!empty($store_model)) {
+        	$store_id = $store_model;
+        	$store_model = explode(',', $store_model);
+        	if (count($store_model) == 1) {
+        		$data['store_model'] = 'single';
+        		$data['store_id'] = $store_id;
+        	} else {
+        		$data['store_model'] = 'recommend';
+        	}
+        }
+        
         $device	= $this->device;
         if (isset($device['client']) && ($device['client'] == 'iphone' || $device['client'] == 'android')) {
         	$data = array_merge($data, array(

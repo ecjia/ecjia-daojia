@@ -218,8 +218,6 @@ return array(
 		'wap_config' 		=> '是否使用H5应用功能',
 		'map_qq_referer'    => '腾讯地图应用名称',
 		'map_qq_key'        => '腾讯地图KEY',
-		'map_baidu_referer' => '百度地图应用名称',
-		'map_baidu_key'     => '百度地图KEY',
 		'wap_logo' 			=> 'H5 LOGO上传',
 	    'mobile_touch_qrcode' => 'H5 访问二维码',
 	    'mobile_touch_url'    => 'H5 商城URL',
@@ -281,7 +279,6 @@ return array(
 		//与底部语言合并
 		'wap_config'     	=> '此功能不仅可以在APP中内嵌使用，还可以在微信公众号中作为微信商城使用。',
 		'map_qq_key'     	=> '使用QQ账号，进行<a target="_blank" href="http://lbs.qq.com/key.html">开发密钥申请</a>，填写应用名及应用描述即可申请。一个账号可以申请多个key。',
-		'map_baidu_key'     => '使用百度账号，进行<a target="_blank" href="http://lbsyun.baidu.com/apiconsole/key?application=key">开发密钥申请</a>，填写应用名及相应的配置项即可申请。',
 		'recommend_order'	=> '推荐排序适合少量推荐，随机显示大量推荐',
 		'wap_logo'			=> '适用于收藏夹图标，为了更好地兼容各种手机类型，LOGO 最好为png图片',//追加
 		'mail_service'		=> '如果您选择了采用服务器内置的 Mail 服务，您不需要填写下面的内容。',

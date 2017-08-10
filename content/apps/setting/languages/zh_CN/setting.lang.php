@@ -47,19 +47,21 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author songqian
+ * ECJIA 应用语言包
  */
-class setting_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => __('商店设置'), 	'action_code' => 'shop_config', 	'relevance' => ''),
-        	array('action_name' => __('地区设置'), 	'action_code' => 'area_manage', 	'relevance' => ''),
-        	array('action_name' => __('地区管理'), 'action_code' => 'region_manage', 	'relevance' => ''),
-        );
-        return $purviews;
-    }
-}
+return array(
+
+	'get_region_already'			=> '已经获取 %s 条地区数据，因数量较多，请耐心等待...',
+	'get_regioninfo_success'		=> '获取地区信息成功',
+	
+	
+	//js
+	'js_lang'	=> array(
+		'ok'					=> '确定',
+		'cancel'				=> '取消',
+		'getting'				=> '正在获取中...',
+		'get_region_info'		=> '获取地区表信息',
+	)
+);		
 
 // end

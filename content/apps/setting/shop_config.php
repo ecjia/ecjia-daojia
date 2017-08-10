@@ -144,13 +144,16 @@ class shop_config extends ecjia_admin {
 
 		$arr  = array();
 		$data = $this->db->field('id, value')->select();
+		$stats_code_info = RC_DB::table('shop_config')->where('code', 'stats_code')->first();
+		
 		foreach ($data as $row) {
 			$arr[$row['id']] = $row['value'];
 		}
 	  	foreach ($_POST['value'] AS $key => $val) {
-			if($arr[$key] != $val){
+			if ($arr[$key] != $val) {
+				$val = $key == $stats_code_info['id'] ? stripcslashes(trim($val)) : trim($val);
 				$data = array(
-					'value' => trim($val),
+					'value' => $val,
 				);
 				$this->db->where(array('id' => $key))->update($data);
 			}
@@ -231,7 +234,7 @@ class shop_config extends ecjia_admin {
 		$disk->delete(RC_Upload::upload_path() . $img_name);
 
 		ecjia_config::instance()->write_config($code, '');
-		ecjia_admin::admin_log('', 'edit', 'shop_config');
+		ecjia_admin::admin_log('删除上传文件', 'edit', 'shop_config');
 
 		return $this->showmessage(__('保存商店设置成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}

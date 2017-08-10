@@ -154,8 +154,8 @@ class ecjia_admin_setting extends RC_Object {
     public function replace_file($code, $value) {
         //删除原有文件
         if ($this->is_replace_file($code)) {
-            if (file_exists(RC_Upload::upload_path() . $value)) {
-                $disk = RC_Filesystem::disk();
+        	$disk = RC_Filesystem::disk();
+            if ($disk->exists(RC_Upload::upload_path() . $value)) {
                 $disk->delete(RC_Upload::upload_path() . $value);
             }
         }
