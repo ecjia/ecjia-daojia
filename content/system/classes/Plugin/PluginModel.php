@@ -143,14 +143,19 @@ abstract class PluginModel extends Model
      */
     public function unserializeConfig($cfg)
     {
-        if (is_string($cfg) && ($arr = unserialize($cfg)) !== false) {
-            $config = array();
-            foreach ($arr AS $key => $val) {
+        $config = array();
+        
+        if (is_string($cfg) && ($arr = unserialize($cfg)) !== false) 
+        {
+            foreach ($arr AS $key => $val) 
+            {
                 $config[$val['name']] = $val['value'];
             }
             return $config;
-        } else {
-            return false;
+        } 
+        else 
+        {
+            return $config;
         }
     }
 }

@@ -136,10 +136,8 @@ class ecjia_loader {
 		$scripts->add( 'ecjia-admin_cache',           '/ecjia/ecjia-admin_cache.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_logs',            '/ecjia/ecjia-admin_logs.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_message_list',    '/ecjia/ecjia-admin_message_list.js', array('ecjia-admin'), false, 1 );
-		$scripts->add( 'ecjia-admin_nav',             '/ecjia/ecjia-admin_nav.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_region',          '/ecjia/ecjia-admin_region.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_role',            '/ecjia/ecjia-admin_role.js', array('ecjia-admin'), false, 1 );
-		$scripts->add( 'ecjia-admin_template',        '/ecjia/ecjia-admin_template.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_upgrade',         '/ecjia/ecjia-admin_upgrade.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_application',     '/ecjia/ecjia-application.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_dashboard',       '/ecjia/ecjia-dashboard.js', array('ecjia-admin'), false, 1 );
@@ -147,7 +145,6 @@ class ecjia_loader {
 		$scripts->add( 'ecjia-admin_plugin',          '/ecjia/ecjia-plugin_list.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_privilege',       '/ecjia/ecjia-privilege.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_shop_config',     '/ecjia/ecjia-shop_config.js', array('ecjia-admin'), false, 1 );
-		$scripts->add( 'ecjia-admin_template_setup',  '/ecjia/ecjia-template_setup.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_license',         '/ecjia/ecjia-admin_license.js', array('ecjia-admin'), false, 1 );
 
 

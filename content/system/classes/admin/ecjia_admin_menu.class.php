@@ -230,10 +230,9 @@ class ecjia_admin_menu extends Object {
         $menus[self::kTOOLS]     = $this->_request_admin_menu($apps, 'tool_menu');
         $menus[self::kSETTING]   = $this->_request_admin_menu($apps, 'setting_menu');
         $menus[self::KSERVICE]   = $this->_request_admin_menu($apps, 'service_menu');
-    
         //判断是否启用主题目录，启用才开放此功能
         if (file_exists(SITE_THEME_PATH) || file_exists(RC_THEME_PATH)) {
-            $menus[self::kSKIN]  = $this->_request_admin_menu(array('system'), 'skin_menu');
+            $menus[self::kSKIN]  = $this->_request_admin_menu(array('theme'), 'skin_menu');
         }
     
         RC_Cache::app_cache_set($this->cache_key, $menus, 'system');

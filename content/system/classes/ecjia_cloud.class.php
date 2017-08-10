@@ -49,7 +49,8 @@
  * @author royalwang
  *
  */
-class ecjia_cloud {
+class ecjia_cloud
+{
     
     /**
      * 服务器地址
@@ -78,6 +79,8 @@ class ecjia_cloud {
     private $cache_time;
     
     private $status = false;
+    
+    private $paginated;
     
     
     /**
@@ -174,6 +177,13 @@ class ecjia_cloud {
     public function getStatus() {
         return $this->status;
     }
+    
+    /**
+     * 获取分页数据
+     */
+    public function getPaginated() {
+        return $this->paginated;
+    }
 
     /**
      * 解析服务器返回的数据
@@ -184,18 +194,23 @@ class ecjia_cloud {
         if (empty($data)) {
             return array();
         }
+        
         $data = json_decode($data, true);
-        if (!is_array($data) || !isset($data['status'])) {
+        if (!is_array($data) || !array_has($data, 'status') ) {
             $this->status = 'error';
-            $this->errors->add('', __('服务器返回信息错误！'));
+            $this->errors->add('unknown_error', __('服务器返回信息错误！'));
             return false;
         }
-        if (!$data['status']['succeed']) {
+        
+        if (!array_get($data, 'status.succeed')) {
             $this->status = 'error';
-            $this->errors->add('', $data['error_desc']);
+            $this->errors->add(array_get($data, 'status.error_code'), array_get($data, 'status.error_desc'));
             return false;
         }
+        
+        $this->paginated = array_get($data, 'paginated', null);
         $this->status = 'success';
+        
         return $data['data'];
     }
     
