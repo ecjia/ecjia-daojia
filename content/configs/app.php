@@ -88,7 +88,9 @@ return array(
     /* 红包 */
     'bonus' => 'bonus',	
     /* 优惠活动 */
-	'favourable' => 'favourable',	
+	'favourable' => 'favourable',
+	/* 闪惠活动 */
+	'quickpay' => 'quickpay',
 
 	/* 超值礼包活动 */
 	'package' => 'package',
@@ -140,8 +142,17 @@ return array(
     'touch' => 'touch',
     //微信公众平台
     'wechat' => 'wechat',
+    //小程序
+    'weapp' => 'weapp',
     //APP介绍
     'intro' => 'intro',
+    //财务
+    'finance' => 'finance',
+    
+    //主题管理
+    'theme' => 'theme',
+    //工具管理
+    'maintain' => 'maintain',
     
 );
 
