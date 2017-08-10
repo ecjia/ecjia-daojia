@@ -98,7 +98,7 @@ class update_module extends api_front implements api_interface {
         		$store_id_group = array($seller_id);
         	}
         } else {
-        	return new ecjia_error('location_error', '请定位您当前所在地址！');
+        	return new ecjia_error('location_error', '当前的定位地址超出店铺配送范围，请重新定位');
         }
         
         $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));

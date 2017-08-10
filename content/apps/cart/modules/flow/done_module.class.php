@@ -59,6 +59,8 @@ class done_module extends api_front implements api_interface {
          * inv_type 4 //发票类型
          * inv_payee 发票抬头
          * inv_content 发票内容
+         * inv_tax_no 发票纳税人识别码
+         * inv_title_type 发票抬头类型
          */
     	
     	$this->authSession();
@@ -85,6 +87,23 @@ class done_module extends api_front implements api_interface {
     	/* 获取收货信息*/
     	$address_id = $this->requestData('address_id', 0);
     	
+    	//发票抬头处理
+    	$inv_title_type = trim($this->requestData('inv_title_type', ''));
+    	if (!empty($inv_title_type)) {
+    		if ($inv_title_type == 'personal') {
+    			$inv_payee_last = trim($this->requestData('inv_payee', '个人'));
+    		} elseif($inv_title_type == 'enterprise') {
+    			//发票纳税人识别码
+    			$inv_tax_no = trim($this->requestData('inv_tax_no', ''));
+    			$inv_payee = trim($this->requestData('inv_payee', ''));
+    			if (empty($inv_tax_no) || empty($inv_payee)) {
+    				return new ecjia_error('invoice_error', '发票抬头和识别码都不能为空！');
+    			}
+    			//如果有传发票识别码，发票识别码存储在inv_payee（发票抬头）字段中；格式为发票抬头 + ,发票纳税人识别码；如：（企业,789654321456987124）。
+		    	$inv_payee_last = $inv_payee.','.$inv_tax_no;
+    		}
+    	}
+    	
     	$order = array(
     		'shipping_id'   => $this->requestData('shipping_id' ,0),
     		'pay_id'        => $this->requestData('pay_id' ,0),
@@ -96,13 +115,14 @@ class done_module extends api_front implements api_interface {
     		'bonus_id'     	=> $this->requestData('bonus', 0),
     		'need_inv'     	=> $this->requestData('need_inv', 0),
     		'inv_type'     	=> $this->requestData('inv_type', ''),
-    		'inv_payee'    	=> $this->requestData('inv_payee', ''),
+    		'inv_payee'    	=> $inv_payee_last,
     		'inv_content'   => $this->requestData('inv_content', ''),
     		'postscript'    => $this->requestData('postscript', ''),
     		'need_insure'   => $this->requestData('need_insure', 0),
     		'user_id'      	=> $_SESSION['user_id'],
     		'add_time'     	=> RC_Time::gmtime(),
-    			
+    		'inv_tax_no'	=> $this->requestData('inv_tax_no', ''),
+    		'inv_title_type'=> $inv_title_type, 	
     		'order_status'  	=> OS_UNCONFIRMED,
     		'shipping_status' 	=> SS_UNSHIPPED,
     		'pay_status'    	=> PS_UNPAYED,	
@@ -115,7 +135,7 @@ class done_module extends api_front implements api_interface {
     		'agency_id'		=> 0,
     		'expect_shipping_time' =>  $this->requestData('expect_shipping_time', ''),
     	);
-    	 
+    	
     	$result = RC_Api::api('cart', 'flow_done', array('cart_id' => $cart_id, 'order' => $order, 'address_id' => $address_id, 'flow_type' => $flow_type, 'bonus_sn' => $this->requestData('bonus_sn'), 'location' => $location, 'device' => $this->device));
     	
     	return $result;

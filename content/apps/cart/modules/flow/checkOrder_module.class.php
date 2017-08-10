@@ -213,6 +213,7 @@ class checkOrder_module extends api_front implements api_interface {
 			$favour_name = empty($discount['name']) ? '' : join(',', $discount['name']);
 		} */
 		/* 计算订单的费用 */
+		$cod_fee    = 0;
 		$total = cart::order_fee($order, $cart_goods, $consignee, $cart_id);
 		if (!empty($consignee)) {
 		    /* 取得配送列表 */
@@ -299,7 +300,7 @@ class checkOrder_module extends api_front implements api_interface {
 		    }
 		    $shipping_list = array_values($shipping_list);
 		    
-		    $cod_fee    = 0;
+		    
 		    if ($order['shipping_id'] == 0) {
 		        $cod        = true;
 		        $cod_fee    = 0;
@@ -336,17 +337,18 @@ class checkOrder_module extends api_front implements api_interface {
 		}
 		
 		/* 取得支付列表 */
-		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+// 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
 
-		// 给货到付款的手续费加<span id>，以便改变配送的时候动态显示
-		$store_info = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->first();
-		if ($store_info['manage_mode'] == 'self') {
-			$payment_list = $payment_method->available_payment_list(1, $cod_fee);
-		} else {
-			$payment_list = $payment_method->available_payment_list(false, $cod_fee);
-		}
+// 		// 给货到付款的手续费加<span id>，以便改变配送的时候动态显示
+// 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->first();
+// 		if ($store_info['manage_mode'] == 'self') {
+// 			$payment_list = $payment_method->available_payment_list(1, $cod_fee);
+// 		} else {
+// 			$payment_list = $payment_method->available_payment_list(false, $cod_fee);
+// 		}
 
-
+		$payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $order['store_id'], 'cod_fee' => $cod_fee));
+		
 		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $_SESSION['user_id']));
 		/* 保存 session */
 		$_SESSION['flow_order'] = $order;
@@ -355,7 +357,7 @@ class checkOrder_module extends api_front implements api_interface {
 		$out['goods_list']		= $cart_goods;//商品
 		$out['consignee']		= $consignee;//收货地址
 		$out['shipping_list']	= $shipping_list;//快递信息
-		$out['payment_list']	= $payment_list;
+		$out['payment_list']	= $payment_list;//支付信息
 
 		/* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
 		if ((ecjia_config::has('use_integral') || ecjia::config('use_integral') == '1')
@@ -517,26 +519,26 @@ class checkOrder_module extends api_front implements api_interface {
 			}
 		}
 		
-		$device		 = $this->device;
-		$device_code = $device['code'];
-		if (!empty($out['payment_list'])) {
-			foreach ($out['payment_list'] as $key => $value) {
-				if ($device_code != '8001') {
-					if ($value['pay_code'] == 'pay_koolyun' || $value['pay_code'] == 'pay_cash') {
-						unset($out['payment_list'][$key]);
-						continue;
-					}
-				}
-				unset($out['payment_list'][$key]['pay_config']);
-				unset($out['payment_list'][$key]['pay_desc']);
-				$out['payment_list'][$key]['pay_name'] = strip_tags($value['pay_name']);
-				// cod 货到付款，alipay支付宝，bank银行转账
-				if (in_array($value['pay_code'], array('post', 'balance'))) {
-					unset($out['payment_list'][$key]);
-				}
-			}
-			$out['payment_list'] = array_values($out['payment_list']);
-		}
+// 		$device		 = $this->device;
+// 		$device_code = $device['code'];
+// 		if (!empty($out['payment_list'])) {
+// 			foreach ($out['payment_list'] as $key => $value) {
+// 				if ($device_code != '8001') {
+// 					if ($value['pay_code'] == 'pay_koolyun' || $value['pay_code'] == 'pay_cash') {
+// 						unset($out['payment_list'][$key]);
+// 						continue;
+// 					}
+// 				}
+// 				unset($out['payment_list'][$key]['pay_config']);
+// 				unset($out['payment_list'][$key]['pay_desc']);
+// 				$out['payment_list'][$key]['pay_name'] = strip_tags($value['pay_name']);
+// 				// cod 货到付款，alipay支付宝，bank银行转账
+// 				if (in_array($value['pay_code'], array('post', 'balance'))) {
+// 					unset($out['payment_list'][$key]);
+// 				}
+// 			}
+// 			$out['payment_list'] = array_values($out['payment_list']);
+// 		}
 		return $out;
 	}
 }

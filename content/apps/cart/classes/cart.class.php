@@ -68,6 +68,7 @@ class cart {
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('global', 'goods');
 		/* 处理 */
+		
 		foreach ($arr AS $key => $val) {
 			$val = intval(make_semiangle($val));
 			if ($val <= 0 || !is_numeric($key)) {
@@ -80,7 +81,6 @@ class cart {
 // 				$cart_w['session_id'] = SESS_ID;
 // 			}
 			$goods = $db_cart->field(array('goods_id', 'goods_attr_id', 'product_id', 'extension_code'))->find($cart_w);
-
 
 			$row   = $dbview->join('cart')->find(array('c.rec_id' => $key));
 			//查询：系统启用了库存，检查输入的商品数量是否有效
@@ -139,7 +139,10 @@ class cart {
 				}  else {
 					/* 处理普通商品或非优惠的配件 */
 					$attr_id    = empty($goods['goods_attr_id']) ? array() : explode(',', $goods['goods_attr_id']);
-					$goods_price = self::get_final_price($goods['goods_id'], $val, true, $attr_id);
+					
+					//$goods_price = self::get_final_price($goods['goods_id'], $val, true, $attr_id);
+					RC_Loader::load_app_class('goods_info', 'goods', false);
+					$goods_price = goods_info::get_final_price($goods['goods_id'], $val, true, $attr_id);
 
 					$db_cart->where(array('rec_id' => $key , 'user_id' => $_SESSION['user_id'] ))->update(array('goods_number' => $val , 'goods_price' => $goods_price));
 
@@ -464,9 +467,17 @@ class cart {
 // 		$data = $db_view->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
 
 		$data = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
-
-		$val = intval($data);
-
+		
+		$total_goods_price = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('c.goods_price');
+		
+		$val_min = min($data, $total_goods_price);
+		
+		if ($val_min < 1 && $val_min > 0) {
+			$val = $val_min;
+		} else {
+			$val = intval($val_min);
+		}
+		
 		return self::integral_of_value($val);
 	}
 
@@ -597,6 +608,9 @@ class cart {
 			/* 查税率 */
 			$rate = 0;
 			$invoice_type = ecjia::config('invoice_type');
+			if ($invoice_type) {
+			    $invoice_type = unserialize($invoice_type);
+			}
 			foreach ($invoice_type['type'] as $key => $type) {
 				if ($type == $order['inv_type']) {
 					$rate_str = $invoice_type['rate'];
@@ -733,6 +747,12 @@ class cart {
 		$order['integral'] = $order['integral'] > 0 ? $order['integral'] : 0;
 		if ($total['amount'] > 0 && $max_amount > 0 && $order['integral'] > 0) {
 			$integral_money = self::value_of_integral($order['integral']);
+			/*amount小于积分价值时*/
+			$scale = floatval(ecjia::config('integral_scale'));
+			if ($integral_money > $total['amount']) {
+				$integral_money = $total['amount']*100*$scale;
+			}
+			
 			// 使用积分支付
 			$use_integral            = min($total['amount'], $max_amount, $integral_money); // 实际使用积分支付的金额
 			$total['amount']        -= $use_integral;
