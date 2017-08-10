@@ -232,7 +232,7 @@ class add_module extends api_admin implements api_interface {
     	$goods_detail['user_rank'] = array();
     		
     	$discount_price = get_member_price_list($goods_id);
-    	$user_rank = get_user_rank_list();
+    	/* $user_rank = get_user_rank_list();
     	if(!empty($user_rank)){
     		foreach ($user_rank as $key => $value){
     			$goods_detail['user_rank'][] = array(
@@ -242,7 +242,7 @@ class add_module extends api_admin implements api_interface {
     					'price'		 => !empty($discount_price[$value['rank_id']]) ? $discount_price[$value['rank_id']] : '-1',
     			);
     		}
-    	}
+    	} */
     	$goods_detail['volume_number'] = array();
     	$volume_number = '';
     	$volume_number = get_volume_price_list($goods_id);

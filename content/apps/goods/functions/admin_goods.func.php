@@ -605,7 +605,7 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 		/* 用户评论级别取整 */
 		$row ['comment_rank'] = ceil ( $row ['comment_rank'] ) == 0 ? 5 : ceil ( $row ['comment_rank'] );
 		/* 获得商品的销售价格 */
-		$row ['market_price'] = price_format($row ['market_price']);
+		$row ['market_price'] = $row ['market_price'];
 		$row ['shop_price_formated'] = price_format ($row ['shop_price'] );
 
 		/* 修正促销价格 */

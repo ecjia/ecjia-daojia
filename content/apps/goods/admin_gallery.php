@@ -119,13 +119,21 @@ class admin_gallery extends ecjia_admin {
 
          /* 格式化相册图片路径 */
         if (!empty($img_list)) {
+        	$disk = RC_Filesystem::disk();
         	foreach ($img_list as $key => $gallery_img) {
         		$desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
         		!empty($desc_index) && $img_list[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
         		
-        		$img_list[$key]['img_url'] 		= empty($gallery_img['img_url']) 		|| !file_exists(RC_Upload::upload_path($gallery_img['img_url'])) 		?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['img_url'];
-        		$img_list[$key]['thumb_url'] 	= empty($gallery_img['thumb_url']) 		|| !file_exists(RC_Upload::upload_path($gallery_img['thumb_url'])) 		?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['thumb_url'];
-        		$img_list[$key]['img_original'] = empty($gallery_img['img_original']) 	|| !file_exists(RC_Upload::upload_path($gallery_img['img_original'])) 	?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['img_original'];
+        		//判断img_original值是否有？出现，过滤以便检测
+        		if (strrpos($gallery_img['img_original'], '?') > 0) {
+        			$img_original = substr($gallery_img['img_original'], 0, strrpos($gallery_img['img_original'], '?'));
+        		} else {
+        			$img_original = $gallery_img['img_original'];
+        		}
+        		
+        		$img_list[$key]['img_url'] 		= empty($gallery_img['img_url']) 		|| !$disk->exists(RC_Upload::upload_path($gallery_img['img_url'])) 		?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['img_url'];
+        		$img_list[$key]['thumb_url'] 	= empty($gallery_img['thumb_url']) 		|| !$disk->exists(RC_Upload::upload_path($gallery_img['thumb_url'])) 		?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['thumb_url'];
+        		$img_list[$key]['img_original'] = empty($gallery_img['img_original']) 	|| !$disk->exists(RC_Upload::upload_path($img_original)) 	?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['img_original'];
         	
         		$img_list_sort[$key] = $img_list[$key]['desc'];
         		$img_list_id[$key] = $gallery_img['img_id'];
@@ -138,7 +146,7 @@ class admin_gallery extends ecjia_admin {
         //设置选中状态,并分配标签导航
         $this->assign('tags', $this->tags);
         $this->assign('action_link', array('href' => RC_Uri::url('goods/admin/init'), 'text' => RC_Lang::get('goods::goods.goods_list')));
-        
+       
         $this->assign('goods_id', $goods_id);
         $this->assign('img_list', $img_list);
         $this->assign('form_action', RC_Uri::url('goods/admin_gallery/insert', "goods_id=$goods_id"));

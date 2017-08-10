@@ -425,9 +425,10 @@ class admin_brand extends ecjia_admin {
 				if (empty($rows['brand_logo'])) {
 					$rows['brand_logo_html'] = "<img src='" . RC_Uri::admin_url('statics/images/nopic.png') . "' style='width:100px;height:100px;' />";
 				} else {
+					$disk = RC_Filesystem::disk();
 					if ((strpos($rows['brand_logo'], 'http://') === false) && (strpos($rows['brand_logo'], 'https://') === false)) {
 						$logo_url = RC_Upload::upload_url($rows['brand_logo']);
-						$logo_url = file_exists(RC_Upload::upload_path($rows['brand_logo'])) ? $logo_url : RC_Uri::admin_url('statics/images/nopic.png');
+						$logo_url = $disk->exists(RC_Upload::upload_path($rows['brand_logo'])) ? $logo_url : RC_Uri::admin_url('statics/images/nopic.png');
 							
 						$rows['brand_logo_html'] = "<img src='" . $logo_url . "' style='width:100px;height:100px;' />";
 					} else {

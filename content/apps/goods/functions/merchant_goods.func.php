@@ -326,7 +326,8 @@ function get_merchants_brandlist() {
 				$logo_url = RC_Uri::admin_url('statics/images/nopic.png');
 				$data[$key]['brandLogo'] = "<img src='" . $logo_url . "' style='width:100px;height:100px;' />";
 			} else {
-				$logo_url = file_exists(RC_Upload::upload_path($val['brandLogo'])) ? $logo_url : RC_Uri::admin_url('statics/images/nopic.png');
+				$disk = RC_Filesystem::disk();
+				$logo_url = $disk->exists(RC_Upload::upload_path($val['brandLogo'])) ? $logo_url : RC_Uri::admin_url('statics/images/nopic.png');
 				$data[$key]['brandLogo'] = "<img src='" . $logo_url . "' style='width:100px;height:100px;' />";
 			}
 		}

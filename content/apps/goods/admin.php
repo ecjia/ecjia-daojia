@@ -261,14 +261,15 @@ class admin extends ecjia_admin {
 		//商品相册
 		$goods_photo_list = RC_DB::table('goods_gallery')->where('goods_id', $goods['goods_id'])->get();
 		if (!empty($goods_photo_list)) {
+			$disk = RC_Filesystem::disk();
 			foreach ($goods_photo_list as $k => $v) {
-				if (!file_exists(RC_Upload::upload_path($v['img_url'])) || empty($v['img_url'])) {
+				if (!$disk->exists(RC_Upload::upload_path($v['img_url'])) || empty($v['img_url'])) {
 					$goods_photo_list[$k]['img_url'] = RC_Uri::admin_url('statics/images/nopic.png');
 				} else {
 					$goods_photo_list[$k]['img_url'] = RC_Upload::upload_url($v['img_url']);
 				}
 				
-				if (!file_exists(RC_Upload::upload_path($v['thumb_url'])) || empty($v['thumb_url'])) {
+				if (!$disk->exists(RC_Upload::upload_path($v['thumb_url'])) || empty($v['thumb_url'])) {
 					$goods_photo_list[$k]['thumb_url'] = RC_Uri::admin_url('statics/images/nopic.png');
 				} else {
 					$goods_photo_list[$k]['thumb_url'] = RC_Upload::upload_url($v['thumb_url']);
@@ -651,9 +652,9 @@ class admin extends ecjia_admin {
 				}
 				
 				//删除生成的商品二维码
+				$disk = RC_Filesystem::disk();
 				$goods_qrcode = 'data/qrcodes/goods/goods_'.$goods_id.'.png';
-				if (file_exists(RC_Upload::upload_path($goods_qrcode))) {
-					$disk = RC_Filesystem::disk();
+				if ($disk->exists(RC_Upload::upload_path($goods_qrcode))) {
 					$disk->delete(RC_Upload::upload_path().$goods_qrcode);
 				}
 			}
@@ -667,10 +668,10 @@ class admin extends ecjia_admin {
 				if (is_ecjia_error($result)) {
 					return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
+				$disk = RC_Filesystem::disk();
 				//删除生成的商品二维码
 				$goods_qrcode = 'data/qrcodes/goods/goods_'.$goods_id.'.png';
-				if (file_exists(RC_Upload::upload_path($goods_qrcode))) {
-					$disk = RC_Filesystem::disk();
+				if ($disk->exists(RC_Upload::upload_path($goods_qrcode))) {
 					$disk->delete(RC_Upload::upload_path().$goods_qrcode);
 				}
 			}

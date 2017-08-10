@@ -151,7 +151,17 @@ class detail_module extends api_front implements api_interface {
         $data['properties']      = $properties['pro'];
         $data['specification']   = $properties['spe'];
         $data['collected']       = 0;
-
+		
+        /*如果用户登录，获取该会员的等级对应的商品的shop_price*/
+        if ($_SESSION['user_id'] > 0 && !empty($data['rank_prices'])) {
+        	$user_rank = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->pluck('user_rank');
+        	foreach ($data['rank_prices'] as $key => $val) {
+        		if ($key == $user_rank) {
+        			$data['shop_price'] = $val['unformatted_price'];
+        		}
+        	}
+        }
+        
         $db_favourable = RC_Model::model('favourable/favourable_activity_model');
        	/*增加优惠活动缓存*/
 		$store_options = array(
@@ -215,7 +225,7 @@ class detail_module extends api_front implements api_interface {
                 $data['collected'] = 1;
             }
         }
-
+		
         $data = API_DATA('GOODS', $data);
         $data['unformatted_shop_price'] = $goods['shop_price'];
         if ($rec_type == 'GROUPBUY_GOODS') {

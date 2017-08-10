@@ -223,10 +223,10 @@ class goods {
         	
         $filter ['keyword'] = stripslashes($filter ['keyword']);
         $filter ['count'] 	= $count;
-    
+        $disk = RC_Filesystem::disk();
         if (!empty($sql)) {
         	foreach ($sql as $k => $v) {
-        		if (!empty($v['goods_thumb']) && file_exists(RC_Upload::upload_path($v['goods_thumb']))) {
+        		if (!empty($v['goods_thumb']) && $disk->exists(RC_Upload::upload_path($v['goods_thumb']))) {
         			$sql[$k]['goods_thumb'] = RC_Upload::upload_url($v['goods_thumb']);
         		} else {
         			$sql[$k]['goods_thumb'] = RC_Uri::admin_url('statics/images/nopic.png');
@@ -382,10 +382,10 @@ class goods {
     
     	$filter ['keyword'] = stripslashes($filter ['keyword']);
     	$filter ['count'] 	= $count;
-    
+    	$disk = RC_Filesystem::disk();
     	if (!empty($sql)) {
     		foreach ($sql as $k => $v) {
-    			if (!empty($v['goods_thumb']) && file_exists(RC_Upload::upload_path($v['goods_thumb']))) {
+    			if (!empty($v['goods_thumb']) && $disk->exists(RC_Upload::upload_path($v['goods_thumb']))) {
     				$sql[$k]['goods_thumb'] = RC_Upload::upload_url($v['goods_thumb']);
     			} else {
     				$sql[$k]['goods_thumb'] = RC_Uri::admin_url('statics/images/nopic.png');

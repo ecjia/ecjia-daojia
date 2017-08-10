@@ -90,7 +90,8 @@ class goods_goods_brand_list_api extends Component_Event_Api {
 					} else {
 						if ((strpos($rows['brand_logo'], 'http://') === false) && (strpos($rows['brand_logo'], 'https://') === false)) {
 							$logo_url = RC_Upload::upload_url($rows['brand_logo']);
-							$logo_url = file_exists(RC_Upload::upload_path($rows['brand_logo'])) ? $logo_url : RC_Uri::admin_url('statics/images/nopic.png');
+							$disk = RC_Filesystem::disk();
+							$logo_url = $disk->exists(RC_Upload::upload_path($rows['brand_logo'])) ? $logo_url : RC_Uri::admin_url('statics/images/nopic.png');
 							$rows['brand_logo_html'] = "<img src='" . $logo_url . "' style='width:100px;height:100px;' />";
 						} else {
 							$rows['brand_logo_html'] = "<img src='" . $rows['brand_logo'] . "' style='width:100px;height:100px;' />";
@@ -130,7 +131,8 @@ class goods_goods_brand_list_api extends Component_Event_Api {
 					} else {
 						if ((strpos($rows['brand_Logo'], 'http://') === false) && (strpos($rows['brandLogo'], 'https://') === false)) {
 							$logo_url = RC_Upload::upload_url($rows['brandLogo']);
-							$logo_url = file_exists(RC_Upload::upload_path($rows['brandLogo'])) ? $logo_url : RC_Uri::admin_url('statics/images/nopic.png');
+							$disk = RC_Filesystem::disk();
+							$logo_url = $disk->exists(RC_Upload::upload_path($rows['brandLogo'])) ? $logo_url : RC_Uri::admin_url('statics/images/nopic.png');
 						}
 					}
 					$rows['brand_id'] = $rows['brand_id'];
