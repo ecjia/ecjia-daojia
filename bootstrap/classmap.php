@@ -202,6 +202,7 @@ return array(
     'AlterMsgidToSmsSendlistTable' => $contentDir . '/database/migrations/2017_08_03_184001_alter_msgid_to_sms_sendlist_table.php',
     'RecreatePushMessageTable' => $contentDir . '/database/migrations/2017_08_03_184333_recreate_push_message_table.php',
     'DropPushEventTable' => $contentDir . '/database/migrations/2017_08_03_190511_drop_push_event_table.php',
+    'AlterCoverImageToArticleTable' => $contentDir . '/database/migrations/2017_08_10_140237_alter_cover_image_to_article_table.php',
      
     
     // seeder
