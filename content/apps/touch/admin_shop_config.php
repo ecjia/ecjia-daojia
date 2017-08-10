@@ -151,6 +151,7 @@ class admin_shop_config extends ecjia_admin {
 		foreach ($data as $row) {
 			$file_var_list[$row['code']] = $row;
 		}
+		$disk = RC_Filesystem::disk();
 		foreach ($_FILES AS $code => $file) {
 			/* 判断用户是否选择了文件 */
 			if ((isset($file['error']) && $file['error'] == 0) || (!isset($file['error']) && $file['tmp_name'] != 'none')) {
@@ -159,9 +160,7 @@ class admin_shop_config extends ecjia_admin {
 
 				//删除原有文件
 				if ($replacefile) {
-					if (RC_Upload::upload_path().file_exists($file_var_list[$code]['value'])) {
-// 						@unlink(RC_Upload::upload_path().$file_var_list[$code]['value']);
-						$disk = RC_Filesystem::disk();
+					if ($disk->exists(RC_Upload::upload_path($file_var_list[$code]['value']))) {
 						$disk->delete(RC_Upload::upload_path() . $file_var_list[$code]['value']);
 					}
 				}

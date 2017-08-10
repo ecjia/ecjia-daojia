@@ -56,9 +56,6 @@ class touch {
 
     const STORAGEKEY_map_qq_referer   	= 'map_qq_referer';
     const STORAGEKEY_map_qq_key   		= 'map_qq_key';
-    
-    const STORAGEKEY_map_baidu_referer  = 'map_baidu_referer';
-    const STORAGEKEY_map_baidu_key   	= 'map_baidu_key';
 }
 
 // end
