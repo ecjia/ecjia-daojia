@@ -46,31 +46,63 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/*
+/**
  * 获取店铺基本信息
  */
-function get_merchant_info(){
-    if(empty($_SESSION['store_id'])){
+function get_merchant_info($store_id)
+{
+    if (empty($store_id)) {
+        $store_id = $_SESSION['store_id'];
+    }
+    if (empty($store_id)) {
         return array();
     }
-
-    $data = array(
-        'shop_nav_background'		=> '', //店铺导航背景图
-        'shop_logo'                 => '', // 默认店铺页头部LOGO
-        'shop_banner_pic'           => '', // banner图
-        'shop_trade_time'           => '', // 营业时间
-        'shop_description'          => '', // 店铺描述
-        'shop_notice'               => '', // 店铺公告
-    );
-
-    $data       = get_merchant_config('', $data);
-    $shop_time  = unserialize($data['shop_trade_time']);
-    unset($data['shop_trade_time']);
-    $data['shop_trade_time']    = implode(',', $shop_time);
-    $data['shop_nav_background']= !empty($data['shop_nav_background'])  ? RC_Upload::upload_url($data['shop_nav_background'])   : '';
-    $data['shop_logo']          = !empty($data['shop_logo'])            ? RC_Upload::upload_url($data['shop_logo'])             : '';
-    $data['shop_banner_pic']    = !empty($data['shop_banner_pic'])      ? RC_Upload::upload_url($data['shop_banner_pic'])       : '';
+    $data = array('shop_kf_mobile' => '', 'shop_nav_background' => '', 'shop_logo' => '', 'shop_banner_pic' => '', 'shop_trade_time' => '', 'shop_description' => '', 'shop_notice' => '', 'express_assign_auto' => '');
+    $data = get_merchant_config('', $data);
+    if (!empty($data['shop_trade_time'])) {
+        $shop_time = unserialize($data['shop_trade_time']);
+        unset($data['shop_trade_time']);
+        $sart_time = explode(':', $shop_time['start']);
+        $end_time = explode(':', $shop_time['end']);
+        $s_time = $sart_time[0] * 60 + $sart_time[1];
+        $e_time = $end_time[0] * 60 + $end_time[1];
+    } else {
+        // 默认时间点 8:00-21:00
+        $s_time = 480;
+        $e_time = 1260;
+    }
+    $data['shop_trade_time'] = get_store_trade_time($store_id);
+    $data['shop_nav_background'] = !empty($data['shop_nav_background']) ? RC_Upload::upload_url($data['shop_nav_background']) : '';
+    $data['shop_logo'] = !empty($data['shop_logo']) ? RC_Upload::upload_url($data['shop_logo']) : '';
+    $data['shop_banner_pic'] = !empty($data['shop_banner_pic']) ? RC_Upload::upload_url($data['shop_banner_pic']) : '';
+    $data['shop_time_value'] = $s_time . "," . $e_time;
     return $data;
+}
+
+function get_store_trade_time($store_id) {
+	if (empty($store_id)) {
+		$store_id = $_SESSION['store_id'];
+	}
+	if (empty($store_id)) {
+		return false;
+	}
+
+	$trade_time = get_merchant_config('shop_trade_time', '', $store_id);
+	if (empty($trade_time)) {
+		return '暂未设置';
+	}
+	$trade_time = unserialize($trade_time);
+	if (empty($trade_time)) {
+		return '暂未设置';
+	}
+	$sart_time = $trade_time['start'];
+	$end_time = explode(':', $trade_time['end']);
+	if ($end_time[0] > 24) {
+		$end_time[0] = '次日'. ($end_time[0] - 24);
+	}
+
+	return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
+
 }
 
 /*

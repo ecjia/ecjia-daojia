@@ -4,6 +4,7 @@
         init: function () {
             app.shopguide.submit();
             app.shopguide.choose_area();
+            app.shopguide.fileupload();
  
             $('select[name="shipping"]').on('change', function () {
                 if ($(this).val() != '') {
@@ -28,6 +29,13 @@
                 }
             });
         },
+        
+		fileupload: function() {
+			$(".shop-logo").on('click', function(e) {
+				e.preventDefault();
+				$(this).parent().find("input").trigger('click');
+			})
+		},
  
         submit: function () {
             var $form = $("form[name='theForm']");

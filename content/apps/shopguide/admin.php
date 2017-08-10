@@ -94,8 +94,11 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-dataTables-bootstrap');
 		RC_Script::enqueue_script('jquery-dataTables-sorting');
 		RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
+		RC_Script::enqueue_script('jquery-dropper', RC_Uri::admin_url('/statics/lib/dropper-upload/jquery.fs.dropper.js'), array(), false, true);
 		
 		RC_Script::enqueue_script('shopguide', RC_App::apps_url('statics/js/shopguide.js', __FILE__), array(), false, false);
+		RC_Style::enqueue_style('shopguide', RC_App::apps_url('statics/css/shopguide.css', __FILE__), array());
+		
 		$shopguide_lang = array(
 			'next_step'				=> RC_Lang::get('shopguide::shopguide.next_step'),
 			'shop_name_required'	=> RC_Lang::get('shopguide::shopguide.shop_name_required'),
@@ -110,30 +113,70 @@ class admin extends ecjia_admin {
 	
     public function init() {
     	$this->admin_priv('shopguide_setup');
+    	$step = isset($_GET['step']) ? $_GET['step'] : 1;
+    	$type = isset($_GET['type']) ? $_GET['type'] : '';
     	
-		if (isset($_GET['step']) && $_GET['step'] > 1) {
+		if ($step > 1) {
 			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shopguide::shopguide.shopguide'), RC_Uri::url('shopguide/admin/init')));
 		} else {
 			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shopguide::shopguide.shopguide')));
 		}
-    	
+		$data['shop_name']		= ecjia::config('shop_name');
+		$data['shop_title'] 	= ecjia::config('shop_title');
+		
+		$data['shop_country'] 	= ecjia::config('shop_country');
+		$data['shop_province'] 	= ecjia::config('shop_province');
+		$data['shop_city'] 		= ecjia::config('shop_city');
+		$data['shop_address'] 	= ecjia::config('shop_address');
+		
+		$data['company_name'] 	= ecjia::config('company_name');
+		$data['service_phone'] 	= ecjia::config('service_phone');
+		
+		$data['qq'] 			= ecjia::config('qq');
+		$data['ym'] 			= ecjia::config('ym');
+		$data['msn'] 			= ecjia::config('msn');
+		$data['service_email'] 	= ecjia::config('service_email');
+		$data['shop_logo']		= ecjia::config('shop_logo');
+		if (!empty($data['shop_logo'])) {
+			$data['shop_logo'] = RC_Upload::upload_url().'/'.$data['shop_logo'];
+		}
+		
     	$this->assign('countries', $this->db_region->get_regions());
-		if (ecjia::config('shop_country') > 0) {
-			$this->assign('provinces', $this->db_region->get_regions(1, ecjia::config('shop_country')));
-			if (ecjia::config('shop_province')) {
-				$this->assign('cities', $this->db_region->get_regions(2, ecjia::config('shop_province')));
+		if ($data['shop_country'] > 0) {
+			$this->assign('provinces', $this->db_region->get_regions(1, $data['shop_country']));
+			if ($data['shop_province']) {
+				$this->assign('cities', $this->db_region->get_regions(2, $data['shop_province']));
 			}
 		}
 		
-		$data['shop_name'] 		= ecjia::config('shop_name');
-		$data['shop_title'] 	= ecjia::config('shop_title');
+		$cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
+		$store_cat_id = isset($_GET['store_cat_id']) ? intval($_GET['store_cat_id']) : 0;
+		
+		$this->assign('cat_id', $cat_id);
+		$this->assign('store_cat_id', $store_cat_id);
+		
+		if ($step == 2 && $type == 'prev') {
+			$data['cat_name'] = RC_DB::table('category')->where('cat_id', $cat_id)->pluck('cat_name');
+			$data['store_cat_name'] = RC_DB::table('store_category')->where('cat_id', $store_cat_id)->pluck('cat_name');
+		}
+		
+		if ($step == 3) {
+			$shipping_list = RC_DB::table('shipping')
+				->select('shipping_id', 'shipping_name', 'shipping_code', 'enabled')
+				->get();
+			if (!empty($shipping_list)) {
+				$this->assign('shipping_list', $shipping_list);
+			}
+			
+			$payment_list = RC_DB::table('payment')->get();
+			if (!empty($payment_list)) {
+				$this->assign('payment_list', $payment_list);
+			}
+		}
+
 		$this->assign('data', $data);
-		
-		$shipping_list = RC_Api::api('shipping', 'shipping_list');
-		$this->assign('shipping_list', $shipping_list);
-		
-		$pay_list = RC_Api::api('payment', 'pay_list');
-		$this->assign('pay_list', $pay_list);
+		$this->assign('step', $step);
+		$this->assign('app_url', RC_App::apps_url('statics/images', __FILE__));
 		
 		$this->assign('ur_here', RC_Lang::get('shopguide::shopguide.shopguide'));
 		$this->display('shop_guide.dwt');
@@ -144,16 +187,29 @@ class admin extends ecjia_admin {
     	
     	$step = !empty($_GET['step']) ? intval($_GET['step']) : 1;
     	if ($step == 1) {
-    		$shop_name 		= empty($_POST['shop_name']) 		? '' : $_POST['shop_name'] ;
-    		$shop_title 	= empty($_POST['shop_title']) 		? '' : $_POST['shop_title'] ;
+    		$shop_name 		= empty($_POST['shop_name']) 		? '' : $_POST['shop_name'];
+    		$shop_title 	= empty($_POST['shop_title']) 		? '' : $_POST['shop_title'];
     		$shop_country 	= empty($_POST['shop_country']) 	? '' : intval($_POST['shop_country']);
     		$shop_province 	= empty($_POST['shop_province']) 	? '' : intval($_POST['shop_province']);
     		$shop_city 		= empty($_POST['shop_city']) 		? '' : intval($_POST['shop_city']);
-    		$shop_address 	= empty($_POST['shop_address']) 	? '' : $_POST['shop_address'] ;
-    		$shipping 		= empty($_POST['shipping']) 		? '' : $_POST['shipping'];
-    		$payment 		= empty($_POST['payment']) 			? '' : $_POST['payment'];
-
-    		$shipping_area_name = !empty($_POST['shipping_area_name']) ? trim($_POST['shipping_area_name']) : '';
+    		$shop_address 	= empty($_POST['shop_address']) 	? '' : $_POST['shop_address'];
+    		$company_name	= empty($_POST['company_name']) 	? '' : $_POST['company_name'];
+    		$service_phone  = empty($_POST['service_phone'])	? '' : $_POST['service_phone'];
+    		$qq  			= empty($_POST['qq'])				? '' : $_POST['qq'];				//qq号码
+    		$ym  			= empty($_POST['ym'])				? '' : $_POST['ym'];				//微信号码
+    		$msn  			= empty($_POST['msn'])				? '' : $_POST['msn'];				//微博号码
+    		$service_email	= empty($_POST['service_email'])	? '' : $_POST['service_email'];		//电子邮件
+    		
+    		if (isset($_FILES['shop_logo'])) {
+    			$upload = RC_Upload::uploader('image', array('save_path' => 'data/assets/'.ecjia::config('template'), 'auto_sub_dirs' => true));
+    			$image_info = $upload->upload($_FILES['shop_logo']);
+    			if (empty($image_info)) {
+    				return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    			} else {
+    				$file_name = $upload->get_position($image_info);
+    				ecjia_config::instance()->write_config('shop_logo', $file_name);
+    			}
+    		}
     		
     		if (!empty($shop_name)) {
     			ecjia_config::instance()->write_config('shop_name', $shop_name);
@@ -163,10 +219,6 @@ class admin extends ecjia_admin {
     		 
     		if (!empty($shop_title)) {
     			ecjia_config::instance()->write_config('shop_title', $shop_title);
-    		}
-    		 
-    		if (!empty($shop_address)) {
-    			ecjia_config::instance()->write_config('shop_address', $shop_address);
     		}
     		 
     		if (!empty($shop_country)) {
@@ -180,86 +232,33 @@ class admin extends ecjia_admin {
     		if (!empty($shop_city)) {
     			ecjia_config::instance()->write_config('shop_city', $shop_city);
     		}
-
-    		//添加配送区域
-    		if ($shipping) {
-    			if (empty($shipping_area_name)) {
-    				return $this->showmessage(RC_Lang::get('shopguide::shopguide.area_name_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    			} 
-    			
-	    		/* 检查同类型的配送方式下有没有重名的配送区域 */
-	    		$area_count = $this->db_shipping_area->is_only(array('shipping_id' => $shipping, 'shipping_area_name' => $shipping_area_name));
-	    		if ($area_count > 0) {
-	    			return $this->showmessage(RC_Lang::get('shopguide::shopguide.area_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-	    		} else {
-	    			$shipping_data = $this->db_shipping->shipping_find(array('shipping_id' => $shipping), array('shipping_code', 'support_cod', 'shipping_name'));
-	    			
-	    			$config = array();
-	    			$shipping_handle = new shipping_factory($shipping_data['shipping_code']);
-	    			$config = $shipping_handle->form_format($config, true);
-	    			if (!empty($config)) {
-	    				foreach ($config AS $key => $val) {
-	    					$config[$key]['name']   = $val['name'];
-	    					$config[$key]['value']  = $_POST[$val['name']];
-	    				}
-	    			}
-	    			 
-	    			$count = count($config);
-	    			$config[$count]['name']     = 'free_money';
-	    			$config[$count]['value']    = empty($_POST['free_money']) ? '0' : trim($_POST['free_money']);
-	    			$count++;
-	    			$config[$count]['name']     = 'fee_compute_mode';
-	    			$config[$count]['value']    = empty($_POST['fee_compute_mode']) ? '' : trim($_POST['fee_compute_mode']);
-	    			 
-	    			/* 如果支持货到付款，则允许设置货到付款支付费用 */
-	    			if ($shipping_data['support_cod']) {
-	    				$count++;
-	    				$config[$count]['name']     = 'pay_fee';
-	    				$config[$count]['value']    =  make_semiangle(empty($_POST['pay_fee']) ? '0' : trim($_POST['pay_fee']));
-	    			}
-	    			
-	    			$data = array(
-	    				'shipping_area_name'	=> $shipping_area_name,
-	    				'shipping_id'           => $shipping,
-	    				'configure'             => serialize($config)
-	    			);
-	    			$area_id = $this->db_shipping_area->shipping_area_manage($data);
-
-	    			if (isset($_POST['shipping_district'])) {
-	    				$region_id = intval($_POST['shipping_district']);
-	    			} elseif ($_POST['shipping_city']) {
-	    				$region_id = intval($_POST['shipping_city']);
-	    			} elseif ($_POST['shipping_province']) {
-	    				$region_id = intval($_POST['shipping_province']);
-	    			} elseif ($_POST['shipping_country']) {
-	    				$region_id = intval($_POST['shipping_country']);
-	    			}
-	    			
-	    			/* 添加选定的城市和地区 */
-					$arr = array(
-						'shipping_area_id' 	=> $area_id,
-					    'region_id' 		=> $region_id
-					);
-					$this->db_shipping_area_region->shipping_area_region_insert($arr);
-	    		}
+    		
+    		if (!empty($shop_address)) {
+    			ecjia_config::instance()->write_config('shop_address', $shop_address);
     		}
     		
-    		//支付方式
-    		if ($payment) {
-    			/* 取得配置信息 */
-    			$pay_config = array();
-    			if (isset($_POST['cfg_value']) && is_array($_POST['cfg_value'])) {
-    				for ($i = 0; $i < count($_POST['cfg_value']); $i++) {
-    					$pay_config[] = array(
-    						'name'  => trim($_POST['cfg_name'][$i]),
-    						'type'  => trim($_POST['cfg_type'][$i]),
-    						'value' => trim($_POST['cfg_value'][$i])
-    					);
-    				}
-    			}
-    			$pay_config  = serialize($pay_config);
-    			$array       = array('pay_config' => $pay_config);	
-    			$this->db_payment->where(array('pay_code' => $payment))->update($array);
+    		if (!empty($company_name)) {
+    			ecjia_config::instance()->write_config('company_name', $company_name);
+    		}
+    		
+    		if (!empty($service_phone)) {
+    			ecjia_config::instance()->write_config('service_phone', $service_phone);
+    		}
+    		
+    		if (!empty($qq)) {
+    			ecjia_config::instance()->write_config('qq', $qq);
+    		}
+    		
+    		if (!empty($ym)) {
+    			ecjia_config::instance()->write_config('ym', $ym);
+    		}
+    		
+    		if (!empty($msn)) {
+    			ecjia_config::instance()->write_config('msn', $msn);
+    		}
+    		
+    		if (!empty($service_email)) {
+    			ecjia_config::instance()->write_config('service_email', $service_email);
     		}
     		
     		ecjia_config::instance()->clear_cache();
@@ -269,6 +268,9 @@ class admin extends ecjia_admin {
     		$cat_name = empty($_POST['cat_name']) ? '' : trim($_POST['cat_name']);
     		$store_cat = empty($_POST['store_cat']) ? '' : trim($_POST['store_cat']);
     		
+    		$cat_id = empty($_POST['cat_id']) ? 0 : intval($_POST['cat_id']);
+    		$store_cat_id = empty($_POST['store_cat_id']) ? 0 : intval($_POST['store_cat_id']);
+    		
     		if (empty($cat_name)) {
     			return $this->showmessage(RC_Lang::get('shopguide::shopguide.goods_cat_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
@@ -276,36 +278,58 @@ class admin extends ecjia_admin {
     		if (empty($store_cat)) {
     			return $this->showmessage(RC_Lang::get('shopguide::shopguide.store_cat_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
-    		
-    		$count = $this->db_category->where(array('cat_name' => $cat_name, 'parent_id' => 0))->count();
+
+    		$count = RC_DB::table('category')->where('cat_name', $cat_name)->where('parent_id', 0)->where('cat_id', '!=', $cat_id)->count();
     		if ($count > 0) {
     			return $this->showmessage(RC_Lang::get('shopguide::shopguide.cat_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
-    		$store_count = RC_DB::table('store_category')->where('cat_name', $cat_name)->where('parent_id', 0)->count();
-    		if ($count > 0) {
-    			return $this->showmessage(RC_Lang::get('shopguide::shopguide.store_count_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		$store_count = RC_DB::table('store_category')->where('cat_name', $store_cat)->where('parent_id', 0)->where('cat_id', '!=', $store_cat_id)->count();
+    		if ($store_count > 0) {
+    			return $this->showmessage(RC_Lang::get('shopguide::shopguide.store_cat_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
-    		//添加平台商品分类
-    		$this->db_category->category_manage(array('cat_name' => $cat_name, 'parent_id' => 0, 'is_show' => 1));
     		
-    		//添加店铺分类
-    		$data = array('cat_name' => $store_cat, 'parent_id' => 0, 'is_show' => 1);
-    		RC_DB::table('store_category')->insert($data);
+    		if (!empty($cat_id)) {
+    			//更新平台分类
+    			RC_DB::table('category')->where('cat_id', $cat_id)->update(array('cat_name' => $cat_name));
+    		} else {
+    			//添加平台商品分类
+    			$cat_id = RC_DB::table('category')->insertGetId(array('cat_name' => $cat_name, 'parent_id' => 0, 'is_show' => 1));
+    		}
+    		
+    		if (!empty($store_cat_id)) {
+    			//更新店铺分类
+    			RC_DB::table('store_category')->where('cat_id', $store_cat_id)->update(array('cat_name' => $store_cat));
+    		} else {
+    			//添加店铺分类
+    			$data = array('cat_name' => $store_cat, 'parent_id' => 0, 'is_show' => 1);
+    			$store_cat_id = RC_DB::table('store_category')->insertGetId($data);
+    		}
     		
     		//添加操作日志
     		ecjia_admin::admin_log($cat_name, 'add', 'category');
     		ecjia_admin::admin_log($store_cat, 'add', 'store_category');
     		
-    		return $this->showmessage(RC_Lang::get('shopguide::shopguide.complete'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shopguide/admin/init', array('step' => 3))));
+    		$arr['step'] = 3;
+    		if (!empty($cat_id)) {
+    			$arr['cat_id'] = $cat_id;
+    		}
+    		if (!empty($store_cat_id)) {
+    			$arr['store_cat_id'] = $store_cat_id;
+    		}
+    		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('shopguide/admin/init', $arr)));
+    	} elseif ($step == 3) {
+    		return $this->showmessage(RC_Lang::get('shopguide::shopguide.complete'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shopguide/admin/init', array('step' => 4))));
     	}
     }
     
-    //获取支付方式信息
-    public function get_pay() {
-    	$code = !empty($_POST['code']) ? trim($_POST['code']) : '';
-    	$pay  = RC_Api::api('payment', 'pay_info', array('code' => $code));
+    public function drop_logo () {
+    	$this->admin_priv('shopguide_setup', ecjia::MSGTYPE_JSON);
+    	$shop_logo = ecjia::config('shop_logo');
+    	$disk = RC_Filesystem::disk();
+    	$disk->delete(RC_Upload::upload_path() . $shop_logo);
     	
-    	return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $pay));
+    	ecjia_config::instance()->write_config('shop_logo', '');
+    	return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 }
 

@@ -1,0 +1,159 @@
+.w160 {
+	width: 160px;
+}
+
+.m_l17 {
+	margin-left: 17px;
+}
+
+.color_838383 {
+	color: #838383;
+	font-size: 13px;
+	font-weight: normal;
+}
+
+.stepy-titles li {
+	cursor: auto;
+}
+
+.form-horizontal .controls {
+	margin-left: 0;
+}
+
+.form-horizontal .control-group {
+	margin-top: 20px;
+}
+
+.step {
+	background-color: #fff;
+	border: none;
+	position: relative;
+}
+
+.step .step-ul {
+	margin-top: 20px;
+	margin-bottom: 0;
+	margin-left: 0;
+}
+
+.step .step-li {
+	list-style: none;
+    width: 100px;
+    display: inline-block;
+    border-radius: 4px;
+    text-align: center;
+    padding: 10px;
+    background-color: #067EAD;
+    color: #fff;
+	margin: 0 20px 20px 0;
+    text-decoration: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+	position: relative;
+}
+
+.step .step-li.m_0 {
+	margin: 0;
+}
+
+.step .step-li.color_fff {
+	color: #333;
+	background-color: #fff;
+	border: 1px solid #aaa;
+}
+
+.step .step-li.color_fff.pd_0 {
+	padding: 0;
+	width: 120px;
+    height: 42px;
+}
+
+.step .step-li.color_fff .check {
+	position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 25px;
+    height: 25px;
+}
+
+.step .step-ul a {
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+}
+
+.complete-notice {
+	margin: 20px 0;
+    font-size: 20px;
+	color: #838383;
+}
+
+.complete-title {
+	margin: 20px 0;
+    font-size: 16px;
+	color: #838383;
+}
+
+.complete-bottom {
+	margin-left: 0;
+    margin-bottom: 0;
+}
+
+a.complete-li {
+    list-style: none;
+    width: 31.3333%;
+    display: inline-block;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #F0F0EF;
+    margin: 0 2% 20px 0;
+    text-decoration: none;
+    color: #333;
+    line-height: 45px;
+}
+
+.complete-li img {
+	width: 25px;
+    height: 25px;
+    padding-right: 10px;
+}
+
+.complete-li:nth-child(3n) {
+	margin-right: 0;
+}
+
+.image-content {
+ 	position: absolute;
+   	width: 240px;
+   	height: 400px;
+   	left: 610px;
+   	top: 25px;
+	text-align: center;
+}
+
+.image-content .text {
+	color: #838383;
+	line-height: 50px;
+}
+
+.image-content .shop-logo {
+	background-image: url("../images/shop-logo.png");
+	background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+	width: 240px;
+    height: 205px;
+	display: block;
+	padding: 0;
+	cursor: pointer;
+}
+
+.image-content .shop-logo img {
+	background-color: #eee;
+}
+
+.shopguide-complete {
+	width: 60%;
+	margin: 0 auto;
+}

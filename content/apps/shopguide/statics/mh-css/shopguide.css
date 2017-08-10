@@ -1,0 +1,222 @@
+.w160 {
+	width: 160px;
+}
+
+.m_l17 {
+	margin-left: 17px;
+}
+
+.form-horizontal .form-group {
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.form-horizontal .control-label {
+	text-align: left;
+    padding-left: 70px;
+	padding-top: 0;
+	width: 100%;
+}
+
+.form-horizontal .col-lg-12 {
+	padding-left: 70px;
+    padding-top: 10px;
+}
+
+.form-horizontal .col-lg-6, .form-horizontal .col-lg-10{
+	padding-left: 70px;
+    padding-top: 10px;
+}
+
+.form-horizontal .input-must {
+	line-height: 50px;
+}
+
+.help-block {
+    display: inline-block;
+}
+
+.form-horizontal .form-group:last-child .col-lg-6 {
+	padding-top: 0;
+}
+
+.form-horizontal .checkbox {
+	padding-top: 0;
+}
+
+.color_838383 {
+	color: #838383;
+	font-size: 13px;
+	font-weight: normal;
+	margin-bottom: 20px;
+}
+
+.stepy-titles {
+	width: 90%;
+	margin: 30px auto;
+	margin-bottom: 0;
+}
+
+.stepy-titles .current-step {
+	color: #1ABC9C;
+}
+
+.stepy-titles .current-step .stepNb {
+	background: #1ABC9C;
+}
+
+.stepy-titles li {
+	cursor: auto;
+}
+
+.form-horizontal .controls {
+	margin-left: 0;
+}
+
+.step {
+	background-color: #fff;
+	border: none;
+	position: relative;
+	padding: 0;
+}
+
+.m_l54 {
+	margin-left: 54px;
+}
+
+.step .step-ul {
+	margin-top: 20px;
+	margin-bottom: 0;
+	margin-left: 14px;
+}
+
+.step .step-li {
+	list-style: none;
+    width: 120px;
+    display: inline-block;
+    border-radius: 4px;
+    text-align: center;
+    padding: 10px;
+    background-color: #1ABC9C;
+    color: #fff;
+	margin: 0 20px 20px 0;
+    text-decoration: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+	position: relative;
+}
+
+.step .step-li.m_0 {
+	margin: 0;
+}
+
+.step .step-li.color_fff {
+	color: #333;
+	background-color: #fff;
+	border: 1px solid #aaa;
+}
+
+.step .step-li.color_fff.pd_0 {
+	padding: 0;
+	width: 120px;
+    height: 42px;
+}
+
+.step .step-li.color_fff .check {
+	position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 25px;
+    height: 25px;
+}
+
+.step .step-ul a {
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+}
+
+.complete-notice {
+	margin: 20px 0;
+    font-size: 20px;
+	color: #838383;
+}
+
+.complete-title {
+	margin: 20px 0;
+    font-size: 16px;
+	color: #838383;
+}
+
+.complete-bottom {
+	margin-left: 0;
+    margin-bottom: 0;
+}
+
+.complete-li {
+    list-style: none;
+    width: 31.3333%;
+    display: inline-block;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #F0F0EF;
+    margin: 0 2% 20px 0;
+    text-decoration: none;
+    color: #333;
+    line-height: 45px;
+}
+
+.complete-li img {
+    width: 35px;
+    height: 25px;
+    padding-right: 10px;
+}
+
+.complete-li:hover, .complete-li:link, .complete-li:active, .complete-li:visited {
+	text-decoration: none;
+	color: #333;
+}
+
+.complete-li:nth-child(3n) {
+	margin-right: 0;
+}
+
+.goods-cat-container {
+	width: 93%;
+	margin: 0 auto;
+	background: transparent url('../images/switch.gif') no-repeat 66.6% 50%;
+}
+
+.goods_cat_container {
+	background: transparent url('../images/switch.gif') no-repeat 33.3% 50%;
+}
+
+.goods_cat_container .ms-selectable {
+	margin-left: 3%;
+	width: 28%;
+	margin-right: 2%;
+}
+
+.wookmark-goods-photo .glyphicon {
+	line-height: 2;
+}
+
+.wookmark-goods-photo li {
+	line-height: 22px;
+}
+
+.goods_cat_container .ms-selectable li.ms-elem-selectable {
+	font-size: 14px
+}
+
+.goods_cat_container .ms-selectable li.selected {
+	background-color: #3498db !important;
+	color: #fff;
+	border-color: #3498db;
+}
+
+.shopguide-complete {
+	width: 60%; 
+	margin: 0 auto;
+}
