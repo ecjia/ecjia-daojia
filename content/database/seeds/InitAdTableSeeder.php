@@ -71,7 +71,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '137',
@@ -85,7 +85,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '138',
@@ -99,7 +99,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '139',
@@ -113,7 +113,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '140',
@@ -127,7 +127,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '150',
@@ -141,7 +141,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '153',
@@ -155,7 +155,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '154',
@@ -169,7 +169,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '155',
@@ -183,7 +183,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '156',
@@ -197,7 +197,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '157',
@@ -211,7 +211,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '158',
@@ -225,7 +225,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '159',
@@ -239,7 +239,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '160',
@@ -253,7 +253,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '161',
@@ -267,7 +267,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '162',
@@ -281,7 +281,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '163',
@@ -295,7 +295,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '4096',
+        	    'show_client'  => '8',
         	),
         	array(
         		'ad_id'        => '164',
@@ -309,7 +309,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '4096',
+        	    'show_client'  => '8',
         	),
         	array(
         		'ad_id'        => '165',
@@ -323,7 +323,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '4096',
+        	    'show_client'  => '8',
         	),
         	array(
         		'ad_id'        => '166',
@@ -337,7 +337,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '4096',
+        	    'show_client'  => '8',
         	),
         	array(
         		'ad_id'        => '167',
@@ -351,7 +351,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '4096',
+        	    'show_client'  => '8',
         	),
         	array(
         		'ad_id'        => '168',
@@ -365,7 +365,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '1',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '169',
@@ -379,7 +379,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '170',
@@ -393,7 +393,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '171',
@@ -407,7 +407,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '172',
@@ -421,7 +421,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
             array(
                 'ad_id'        => '173',
@@ -435,7 +435,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '50',
-                'show_client'  => '4096',
+                'show_client'  => '8',
             ),
         	array(
         		'ad_id'        => '183',
@@ -449,7 +449,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '0',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '184',
@@ -463,7 +463,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '1',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '185',
@@ -477,7 +477,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '2',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '186',
@@ -491,7 +491,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '3',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '187',
@@ -505,7 +505,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '4',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '188',
@@ -519,7 +519,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '5',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '189',
@@ -533,7 +533,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '6',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '190',
@@ -547,7 +547,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '7',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '191',
@@ -561,7 +561,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '8',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '192',
@@ -575,7 +575,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '50',
-        	    'show_client'  => '273',
+        	    'show_client'  => '7',
         	),
         	array(
         		'ad_id'        => '196',
@@ -589,7 +589,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '15',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '197',
@@ -603,7 +603,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '17',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '198',
@@ -617,7 +617,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '18',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '199',
@@ -631,7 +631,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '19',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '200',
@@ -645,7 +645,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '20',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '201',
@@ -659,7 +659,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '21',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '202',
@@ -673,7 +673,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '21',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '203',
@@ -687,7 +687,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '23',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '204',
@@ -701,7 +701,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '0',
         	    'sort_order'   => '24',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '206',
@@ -715,7 +715,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '26',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '207',
@@ -729,7 +729,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '27',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '208',
@@ -743,7 +743,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '28',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '209',
@@ -757,7 +757,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '29',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '211',
@@ -771,7 +771,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '32',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '212',
@@ -785,7 +785,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '33',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '213',
@@ -799,7 +799,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '33',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '214',
@@ -813,7 +813,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '34',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '215',
@@ -827,7 +827,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '34',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '216',
@@ -841,7 +841,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '35',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '217',
@@ -855,7 +855,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '39',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '218',
@@ -869,7 +869,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '40',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '219',
@@ -883,7 +883,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '0',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '220',
@@ -897,7 +897,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '0',
         	    'sort_order'   => '1',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '221',
@@ -911,7 +911,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '2',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '222',
@@ -925,7 +925,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '0',
         	    'sort_order'   => '3',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '223',
@@ -939,7 +939,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '4',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '224',
@@ -953,7 +953,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '0',
         	    'sort_order'   => '4',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '225',
@@ -967,7 +967,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '0',
         	    'sort_order'   => '4',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '226',
@@ -981,7 +981,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '1',
         	    'sort_order'   => '5',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
         	array(
         		'ad_id'        => '227',
@@ -995,7 +995,7 @@ class InitAdTableSeeder extends Seeder
         	    'click_count'  => '0',
         	    'enabled'      => '0',
         	    'sort_order'   => '9',
-        	    'show_client'  => '17',
+        	    'show_client'  => '3',
         	),
             array(
                 'ad_id'        => '228',
@@ -1009,7 +1009,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '0',
                 'sort_order'   => '11',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '229',
@@ -1023,7 +1023,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '11',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '230',
@@ -1037,7 +1037,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '0',
                 'sort_order'   => '12',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '231',
@@ -1051,7 +1051,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '13',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '232',
@@ -1065,7 +1065,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '38',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '233',
@@ -1079,7 +1079,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '42',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '234',
@@ -1093,7 +1093,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '43',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '235',
@@ -1107,7 +1107,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '37',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '236',
@@ -1121,7 +1121,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '38',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             array(
                 'ad_id'        => '237',
@@ -1135,7 +1135,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '0',
                 'sort_order'   => '35',
-                'show_client'  => '17',
+                'show_client'  => '3',
             ),
             
             array(
@@ -1150,7 +1150,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '50',
-                'show_client'  => '273',
+                'show_client'  => '7',
             ),
             array(
                 'ad_id'        => '239',
@@ -1164,7 +1164,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '50',
-                'show_client'  => '273',
+                'show_client'  => '7',
             ),
             array(
                 'ad_id'        => '240',
@@ -1178,7 +1178,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '50',
-                'show_client'  => '273',
+                'show_client'  => '7',
             ),
             array(
                 'ad_id'        => '241',
@@ -1192,7 +1192,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '50',
-                'show_client'  => '273',
+                'show_client'  => '7',
             ),
             array(
                 'ad_id'        => '242',
@@ -1206,7 +1206,7 @@ class InitAdTableSeeder extends Seeder
                 'click_count'  => '0',
                 'enabled'      => '1',
                 'sort_order'   => '50',
-                'show_client'  => '273',
+                'show_client'  => '7',
             ),
         );
         

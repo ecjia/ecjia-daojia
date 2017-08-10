@@ -64,7 +64,6 @@ class InitDatabaseSeeder extends Seeder
         $this->call('InitPlatformCommandTableSeeder');
         $this->call('InitPlatformConfigTableSeeder');
         $this->call('InitPlatformExtendTableSeeder');
-        $this->call('InitPushEventTableSeeder');
         $this->call('InitRegFieldsTableSeeder');
         $this->call('InitRegionTableSeeder');
         $this->call('InitShippingTableSeeder');

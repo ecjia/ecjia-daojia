@@ -74,6 +74,7 @@ class DemoStoreFranchiseeTableSeeder extends Seeder
                 'contact_mobile'            => '15012345678',
                 'apply_time'                => 1478741085,
                 'confirm_time'              => 1478741104,
+                'expired_time'              => 1510277104,
                 'address'                   => '普陀区中山北路3553号',
                 'identity_type'             => '1',
                 'identity_number'           => 'xxxxxxxxxxxxxxxxxxxxx',

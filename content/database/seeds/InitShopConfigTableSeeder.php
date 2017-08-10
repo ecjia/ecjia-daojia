@@ -330,14 +330,14 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'merchant_admin_login_logo', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'mobile_seller_home_adsense', 'value' => '94', 'options' => ['type' => 'hidden']],
             ['code' => 'app_name', 'value' => 'EC+到家', 'options' => ['type' => 'hidden']],
-            ['code' => 'app_push_development', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'push_order_placed_apps', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'push_user_signin', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'push_order_shipped', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'push_order_payed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'push_order_placed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'push_order_payed_apps', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'push_order_shipped_apps', 'value' => '', 'options' => ['type' => 'hidden']],
+//             ['code' => 'app_push_development', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'push_order_placed_apps', 'value' => '', 'options' => ['type' => 'hidden']],
+//             ['code' => 'push_user_signin', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'push_order_shipped', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'push_order_payed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'push_order_placed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+//             ['code' => 'push_order_payed_apps', 'value' => '', 'options' => ['type' => 'hidden']],
+//             ['code' => 'push_order_shipped_apps', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'invite_template', 'value' => '你的好友（{$user_name}）向您推荐了一款购物应用【{$shop_name}】，优惠活动多多，新人注册还有红包奖励，赶紧下载体验吧！', 'options' => ['type' => 'hidden']],
             ['code' => 'invite_explain', 'value' => "1、通过推广页面把属于自己的二维码通过第三方平台分享给新人好友；\r\n2、新人好友通过您的邀请，打开链接，在活动页输入自己的手机号，并通过指定渠道下载客户端完成注册，即可获得奖励；\r\n3、每邀请一位新人好友并完成注册都可获得相应奖励；\r\n4、奖励一经领取后，不可删除，不可提现，不可转赠；\r\n5、新用户领取的奖励查看方式：【App-我的－我的钱包】查看，也可通过【我的推广—奖励明细】查看；\r\n6、如有任何的疑问请咨询官网客服人员；", 'options' => ['type' => 'hidden']],
             //v1.5.0新增
@@ -345,6 +345,10 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'app_stylename', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'cloud_express_key', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'cloud_express_secret', 'value' => '', 'options' => ['type' => 'hidden']],
+            //v1.7.0新增
+            ['code' => 'store_model', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'region_cn_version', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'region_last_checktime', 'value' => '', 'options' => ['type' => 'hidden']],
         ];
         
         $this->add_config($group, $data);
@@ -394,8 +398,8 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'wap_logo', 'value' => 'data/assets/ecjia-intro/wap_logo.png', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
             ['code' => 'map_qq_key', 'value' => 'HVNBZ-HHR3P-HVBDP-LID55-D2YM3-2AF2W', 'options' => ['type' => 'text', 'sort_order' => '2']],
             ['code' => 'map_qq_referer', 'value' => 'ecjiaapp', 'options' => ['type' => 'text', 'sort_order' => '3']],
-            ['code' => 'map_baidu_key', 'value' => 'cZV7jwY5aiZcCqKqRMB6ASWRa2x4ptBV', 'options' => ['type' => 'text', 'sort_order' => '4']],
-            ['code' => 'map_baidu_referer', 'value' => 'ecjiaapp', 'options' => ['type' => 'text', 'sort_order' => '5']],
+//             ['code' => 'map_baidu_key', 'value' => 'cZV7jwY5aiZcCqKqRMB6ASWRa2x4ptBV', 'options' => ['type' => 'text', 'sort_order' => '4']],
+//             ['code' => 'map_baidu_referer', 'value' => 'ecjiaapp', 'options' => ['type' => 'text', 'sort_order' => '5']],
             ['code' => 'wap_app_download_show', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0', 'sort_order' => '11']],
             ['code' => 'wap_app_download_img', 'value' => 'data/assets/ecjia-intro/wap_app_download_img.png', 'options' => ['type' => 'file', 'store_range' => 'data/assets/', 'sort_order' => '12']],
         ];
