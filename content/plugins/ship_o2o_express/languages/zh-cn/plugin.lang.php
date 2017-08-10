@@ -49,8 +49,8 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-$LANG['ecjia_express']          	= 'o2o立即送';
-$LANG['ecjia_express_desc']     	= 'o2o立即送';
+$LANG['ecjia_express']          	= 'O2O速递';
+$LANG['ecjia_express_desc']     	= 'O2O速递';
 $LANG['item_fee'] 		= '单件商品费用：';
 $LANG['base_fee'] 		= '首重费用';
 $LANG['step_fee'] 		= '续重费用';

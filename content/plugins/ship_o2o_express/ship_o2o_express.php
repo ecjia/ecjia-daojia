@@ -45,9 +45,9 @@
 //  ---------------------------------------------------------------------------------
 //
 /*
-Plugin Name: o2o速递
+Plugin Name: O2O速递
 Plugin URI: http://www.ecjia.com/plugins/ecjia.o2o_express/
-Description: o2o速递
+Description: O2O速递
 Author: ECJIA TEAM
 Version: 1.0.0
 Author URI: http://www.ecjia.com/
