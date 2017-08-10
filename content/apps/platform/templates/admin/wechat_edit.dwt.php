@@ -4,6 +4,7 @@
 <!-- {block name="footer"} -->
 <script type="text/javascript">
 	ecjia.admin.platform.init();
+	ecjia.admin.generate_token.init();
 </script>
 <!-- {/block} -->
 
@@ -95,9 +96,10 @@
 							<div class="control-group formSep" >
 								<label class="control-label">{t}Token：{/t}</label>
 								<div class="controls">
-									<input type="text" name="token" id="token" value="{$wechat.token}" />
+									<input class="generate_token" type="text" name="token" id="token" value="{$wechat.token}" />&nbsp;&nbsp;
+									<a class="toggle_view btn filter-btn" href='{url path="platform/admin/generate_token"}'  data-val="allow" >生成Token</a>
 									<span class="input-must">{lang key='system::system.require_field'}</span>
-									<span class="help-block">{lang key='platform::platform.custom_token'}</span>
+									<span class="help-block">自定义的Token值，或者点击生成Token创建一个，复制到微信公众平台配置中</span>
 								</div>
 							</div>
 							

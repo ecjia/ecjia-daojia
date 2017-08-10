@@ -246,6 +246,7 @@ class platform_account {
     public static function getAccountSwtichDisplay($platform, $shopid = 0) {
         $account_list = platform_account::getAccountList($platform, $shopid);
         $current_uuid = platform_account::getCurrentUUID($platform, $shopid);
+        $platform = trim($platform);
         
         echo <<<EOF
         <div>
@@ -253,7 +254,12 @@ class platform_account {
 EOF;
         
         if (empty($account_list)) {
-            echo '<button data-toggle="dropdown" class="btn dropdown-toggle">请先添加公众号 <span class="caret"></span></button>';
+        	if ($platform == 'weapp') {
+        		echo '<button data-toggle="dropdown" class="btn dropdown-toggle">请先添加小程序 <span class="caret"></span></button>';
+        	} else {
+        		echo '<button data-toggle="dropdown" class="btn dropdown-toggle">请先添加公众号 <span class="caret"></span></button>';
+        	}
+            
         } else {
         	$new_account_list = array();
             foreach ($account_list as $item => $val) {
@@ -263,20 +269,30 @@ EOF;
             if (in_array($current_uuid, $uuids)) {
             	echo '<button data-toggle="dropdown" class="btn dropdown-toggle">' . $new_account_list[$current_uuid]['name'] . ' <span class="caret"></span></button>';
             } else {
-            	echo '<button data-toggle="dropdown" class="btn dropdown-toggle">请先选择公众号 <span class="caret"></span></button>';
+            	if ($platform == 'weapp') {
+            		echo '<button data-toggle="dropdown" class="btn dropdown-toggle">请先选择小程序 <span class="caret"></span></button>';
+            	} else {
+            		echo '<button data-toggle="dropdown" class="btn dropdown-toggle">请先选择公众号 <span class="caret"></span></button>';
+            	}
             }
         }
 
 		echo <<<EOF
 			<ul class="dropdown-menu">
 EOF;
-        
+    	
         foreach ($account_list as $item => $val) {
+			if ($platform == 'weapp') {
+				$url_first_pra = 'weapp/admin_switch/init';
+			} else {
+				$url_first_pra = 'platform/admin_switch/init';
+			}
+			
             if ($val['uuid'] == $current_uuid) {
-                $url = RC_Uri::url('platform/admin_switch/init', array('platform' => $platform, 'uuid' => $val['uuid']));
+                $url = RC_Uri::url($url_first_pra, array('platform' => $platform, 'uuid' => $val['uuid']));
                 echo '<li><a>' . $val['name'] . ' <i class=" fontello-icon-ok"></i></a></li>';
             } else {
-                $url = RC_Uri::url('platform/admin_switch/init', array('platform' => $platform, 'uuid' => $val['uuid']));
+                $url = RC_Uri::url($url_first_pra, array('platform' => $platform, 'uuid' => $val['uuid']));
                 echo '<li><a class="ajaxswitch" href="' . $url . '">' . $val['name'] . '</a></li>';
             }
         }
@@ -285,18 +301,29 @@ EOF;
             echo '<li class="divider"></li>';
         }
 
-        $list_url = RC_Uri::url('platform/admin/init');
-        $add_url = RC_Uri::url('platform/admin/add');
-        
-		echo <<<EOF
-				<li><a href="{$list_url}" target="_blank">公众号管理</a></li>
-				<li><a href="{$add_url}" target="_blank">添加公众号</a></li>
+        if (trim($platform) == 'weapp') {
+        	$list_url = RC_Uri::url('weapp/admin/init');
+        	$add_url = RC_Uri::url('weapp/admin/add');
+        	echo <<<EOF
+				<li><a href="{$list_url}" target="_blank">小程序管理</a></li>
+				<li><a href="{$add_url}" target="_blank">添加小程序</a></li>
 			</ul>
-		</div>	
+		</div>
     </div>
 	<br>
 EOF;
-
+        } else {
+        	$list_url = RC_Uri::url('platform/admin/init');
+        	$add_url = RC_Uri::url('platform/admin/add');
+        	echo <<<EOF
+				<li><a href="{$list_url}" target="_blank">公众号管理</a></li>
+				<li><a href="{$add_url}" target="_blank">添加公众号</a></li>
+			</ul>
+		</div>
+    </div>
+	<br>
+EOF;
+	   } 
     }
 }
 
