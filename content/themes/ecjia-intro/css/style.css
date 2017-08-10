@@ -90,11 +90,11 @@ a{color:#666;text-decoration:none}
 .page-footer .outlink a{display:inline-block;width:132px;height:30px;cursor:pointer}
 .page-footer .outlink .blog-ico{margin-right:35px;background:url(../images/blog.png)}
 .page-footer .outlink .blog-ico:hover{background:url(../images/blog_hover.png)}
-.page-footer .outlink .wechart{background:url(../images/wechart.png)}
+.page-footer .outlink .wechat{background:url(../images/wechat.png)}
 .outlink-qrcode{position:relative;display:inline-block}
-.outlink-qrcode .wechar-code{position:absolute;top:-197px;z-index:99;display:none;padding:10px 5px;width:130px;border-radius:5px 5px 0 0;background:#f8f8f8}
-.outlink-qrcode .wechar-code img{width:130px;height:130px}
-.page-footer .outlink .wechart:hover{background:url(../images/wechart_hover.png)}
-.outlink .outlink-qrcode:hover .wechar-code{display:block}
+.outlink-qrcode .wechat-code{position:absolute;top:-197px;z-index:99;display:none;padding:10px 5px;width:130px;border-radius:5px 5px 0 0;background:#f8f8f8}
+.outlink-qrcode .wechat-code img{width:130px;height:130px}
+.page-footer .outlink .wechat:hover{background:url(../images/wechat_hover.png)}
+.outlink .outlink-qrcode:hover .wechat-code{display:block}
 .footer-links p{text-align:center}
 .footer-links p a{margin-right:20px}
