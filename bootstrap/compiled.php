@@ -422,8 +422,8 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.0.0';
-    const RELEASE = '2017-02-16';
+    const VERSION = '4.2.0';
+    const RELEASE = '2017-07-01';
     const PHP_REQUIRED = '5.4.0';
     protected $booted = false;
     protected $bootingCallbacks = array();
@@ -7831,6 +7831,10 @@ class Connection implements ConnectionInterface
     {
         $this->database = $database;
     }
+    public function getTableFullName($table)
+    {
+        return $this->tablePrefix . $table;
+    }
     public function getTablePrefix()
     {
         return $this->tablePrefix;
@@ -8036,6 +8040,7 @@ class Connector
 }
 namespace Royalcms\Component\Database\Connectors;
 
+use PDO;
 class MySqlConnector extends Connector implements ConnectorInterface
 {
     public function connect(array $config)
@@ -8043,27 +8048,51 @@ class MySqlConnector extends Connector implements ConnectorInterface
         $dsn = $this->getDsn($config);
         $options = $this->getOptions($config);
         $connection = $this->createConnection($dsn, $config, $options);
-        $collation = $config['collation'];
-        $charset = $config['charset'];
-        $names = "set names '{$charset}'" . (!is_null($collation) ? " collate '{$collation}'" : '');
-        $connection->prepare($names)->execute();
-        if (isset($config['strict']) && $config['strict']) {
-            $connection->prepare('set session sql_mode=\'STRICT_ALL_TABLES\'')->execute();
+        if (!empty($config['database'])) {
+            $connection->exec("use `{$config['database']}`;");
         }
+        $collation = $config['collation'];
+        if (isset($config['charset'])) {
+            $charset = $config['charset'];
+            $names = "set names '{$charset}'" . (!is_null($collation) ? " collate '{$collation}'" : '');
+            $connection->prepare($names)->execute();
+        }
+        if (isset($config['timezone'])) {
+            $connection->prepare('set time_zone="' . $config['timezone'] . '"')->execute();
+        }
+        $this->setModes($connection, $config);
         return $connection;
     }
     protected function getDsn(array $config)
     {
+        return $this->configHasSocket($config) ? $this->getSocketDsn($config) : $this->getHostDsn($config);
+    }
+    protected function configHasSocket(array $config)
+    {
+        return isset($config['unix_socket']) && !empty($config['unix_socket']);
+    }
+    protected function getSocketDsn(array $config)
+    {
+        return "mysql:unix_socket={$config['unix_socket']};dbname={$config['database']}";
+    }
+    protected function getHostDsn(array $config)
+    {
         $host = $database = $port = null;
-        extract($config);
-        $dsn = "mysql:host={$host};dbname={$database}";
-        if (isset($config['port'])) {
-            $dsn .= ";port={$port}";
+        extract($config, EXTR_IF_EXISTS);
+        return isset($port) ? "mysql:host={$host};port={$port};dbname={$database}" : "mysql:host={$host};dbname={$database}";
+    }
+    protected function setModes(PDO $connection, array $config)
+    {
+        if (isset($config['modes'])) {
+            $modes = implode(',', $config['modes']);
+            $connection->prepare("set session sql_mode='{$modes}'")->execute();
+        } elseif (isset($config['strict'])) {
+            if ($config['strict']) {
+                $connection->prepare('set session sql_mode=\'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\'')->execute();
+            } else {
+                $connection->prepare('set session sql_mode=\'NO_ENGINE_SUBSTITUTION\'')->execute();
+            }
         }
-        if (isset($config['unix_socket'])) {
-            $dsn .= ";unix_socket={$config['unix_socket']}";
-        }
-        return $dsn;
     }
 }
 namespace Royalcms\Component\Database\Query\Processors;
