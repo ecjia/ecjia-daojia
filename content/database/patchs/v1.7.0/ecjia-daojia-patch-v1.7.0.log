@@ -219,6 +219,7 @@ M	content/apps/orders/functions/merchant_order.func.php
 M	content/apps/orders/languages/zh_CN/order.lang.php
 M	content/apps/orders/merchant.php
 M	content/apps/orders/mh_delivery.php
+M	content/apps/orders/mh_sale_general.php
 M	content/apps/orders/modules/admin/orders/express_module.class.php
 M	content/apps/orders/modules/admin/orders/operate/delivery_module.class.php
 M	content/apps/orders/modules/admin/orders/payConfirm_module.class.php
@@ -228,10 +229,12 @@ M	content/apps/orders/modules/order/detail_module.class.php
 M	content/apps/orders/modules/order/pay_module.class.php
 M	content/apps/orders/statics/css/merchant_orders.css
 M	content/apps/orders/statics/js/merchant_orders.js
+M	content/apps/orders/statics/js/merchant_sale_general_chart.js
 A	content/apps/orders/statics/music/new_order.mp3
 M	content/apps/orders/templates/admin/order_info.dwt.php
 M	content/apps/orders/templates/merchant/order_info.dwt.php
 M	content/apps/orders/templates/merchant/order_list.dwt.php
+M	content/apps/orders/templates/merchant/sale_general.dwt.php
 M	content/apps/payment/admin.php
 M	content/apps/payment/admin_payment_record.php
 M	content/apps/payment/admin_plugin.php
@@ -465,6 +468,7 @@ A	content/database/migrations/2017_08_03_132748_add_order_trade_no_to_payment_re
 A	content/database/migrations/2017_08_03_184001_alter_msgid_to_sms_sendlist_table.php
 A	content/database/migrations/2017_08_03_184333_recreate_push_message_table.php
 A	content/database/migrations/2017_08_03_190511_drop_push_event_table.php
+A	content/database/migrations/2017_08_10_140237_alter_cover_image_to_article_table.php
 A	content/database/patchs/v1.7.0/Version_10700.php
 A	content/database/patchs/v1.7.0/ecjia-daojia-patch-v1.7.0.log
 A	content/database/patchs/v1.7.0/ecjia-daojia-sql-v1.7.0.sql
@@ -501,6 +505,7 @@ M	content/plugins/ship_o2o_express/ship_o2o_express.php
 M	content/system/classes/Plugin/PluginManager.php
 M	content/system/classes/Plugin/PluginModel.php
 M	content/system/classes/admin/ecjia_admin_menu.class.php
+M	content/system/classes/ecjia.class.php
 M	content/system/classes/ecjia_cloud.class.php
 M	content/system/classes/ecjia_loader.class.php
 M	content/system/templates/about_team.dwt.php
