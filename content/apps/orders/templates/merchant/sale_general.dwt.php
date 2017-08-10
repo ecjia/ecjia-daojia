@@ -2,12 +2,13 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
+var templateCounts = '{$data}';
 	ecjia.merchant.sale_general.init();
-	{if $page eq 'init'}
-		ecjia.merchant.chart.order_count();
-	{else if $page eq 'sales_trends'}
-		ecjia.merchant.chart.order_amount();
-	{/if}
+{if $page eq 'init'}
+	ecjia.merchant.chart.order_count();
+{else if $page eq 'sales_trends'}
+	ecjia.merchant.chart.order_amount();
+{/if}
 </script>
 <!-- {/block} -->
 
@@ -27,7 +28,7 @@
 		<!-- {else if $smarty.get.query_by_month} -->
 		<a class="btn btn-primary" id="sticky_a" href="{$action_link.href}&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}">
 		<!-- {else} -->
-		<a class="btn btn-primary" id="sticky_a" href="{$action_link.href}&start_time={$start_time}&end_time={$end_time}&query_type={$query_type}">
+		<a class="btn btn-primary" id="sticky_a" href="{$action_link.href}&start_time={$filter.start_time}&end_time={$filter.end_time}&query_type={$filter.query_type}">
 		<!-- {/if} -->
 		<i class="glyphicon glyphicon-download-alt"></i> {t}{$action_link.text}{/t}</a>
 	</div>
@@ -42,9 +43,9 @@
 				<div class="form-group choose_list">
 					<form class="form-inline f_r" action="{$form_action}" method="post" name="searchForm">
 						<span class="f_l">年走势：</span>
-		                        {html_select_date prefix="year_begin" class="no_search w110" time=$start_time start_year="2006" end_year="+1" display_days=false display_months=false}
+		                	{html_select_date prefix="year_begin" class="no_search w110" time=$filter.start_time start_year="2006" end_year="+1" display_days=false display_months=false}
 						<span class="f_l">-</span>
-		        				{html_select_date prefix="year_end" class="no_search w110" time=$end_time start_year="2006" end_year="+1" display_days=false display_months=false}
+		        			{html_select_date prefix="year_end" class="no_search w110" time=$filter.end_time start_year="2006" end_year="+1" display_days=false display_months=false}
 						<input type="submit" name="query_by_year" value="查询" class="btn btn-primary screen-btn"/>
 					</form>
 				</div>
@@ -53,9 +54,9 @@
 				<div class="form-group choose_list">
 					<form class="form-inline f_r" action="{$form_action}" method="post" name="selectForm">
 						<span class="f_l">月走势：</span>
-		            			{html_select_date prefix="month_begin" class="no_search w110" time=$start_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
+		            		{html_select_date prefix="month_begin" class="no_search w110" time=$filter.start_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
 						<span class="f_l">-</span>
-		        				{html_select_date prefix="month_end" class="no_search w110" time=$end_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
+		        			{html_select_date prefix="month_end" class="no_search w110" time=$filter.end_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
 						<input type="submit" name="query_by_month" value="查询" class="btn btn-primary screen-btn1"/>
 					</form>
 				</div>
@@ -86,7 +87,7 @@
 		    				{if $page eq 'init'}
 							<div class="tab-pane active" id="tab1">
 								<div class="m_t10">
-									<div id="order_count" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$start_time}&end_time={$end_time}&start_month_time={$start_month_time}&end_month_time={$end_month_time}&query_type={$query_type}&order_type=1")}'>
+									<div id="order_count" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$filter.start_time}&end_time={$filter.end_time}&start_month_time={$filter.start_month_time}&end_month_time={$filter.end_month_time}&query_type={$filter.query_type}&order_type=1")}'>
 										<div class="ajax_loading">
 											<i class="fa fa-spin fa-spinner"></i>加载中...
 										</div>
@@ -97,7 +98,7 @@
 		    				{if $page eq 'sales_trends'}
 							<div class="tab-pane active" id="tab2">
 								<div class="m_t10">
-									<div id="order_amount" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$start_time}&end_time={$end_time}&start_month_time={$start_month_time}&end_month_time={$end_month_time}&query_type={$query_type}&order_type=0")}'>
+									<div id="order_amount" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$filter.start_time}&end_time={$filter.end_time}&start_month_time={$filter.start_month_time}&end_month_time={$filter.end_month_time}&query_type={$filter.query_type}&order_type=0")}'>
 										<div class="ajax_loading">
 											<i class="fa fa-spin fa-spinner"></i>加载中...
 										</div>

@@ -73,7 +73,6 @@ class mh_sale_general extends ecjia_merchant {
         RC_Script::enqueue_script('sale_general', RC_App::apps_url('statics/js/merchant_sale_general.js', __FILE__), array('ecjia-merchant'), false, 1);
         RC_Script::enqueue_script('sale_general_chart', RC_App::apps_url('statics/js/merchant_sale_general_chart.js', __FILE__), array('ecjia-merchant'), false, 1);
         
-        RC_Style::enqueue_style('orders-css', RC_App::apps_url('statics/css/merchant_orders.css', __FILE__));
         RC_Style::enqueue_style('stats-css', RC_App::apps_url('statics/css/merchant_stats.css', __FILE__));
         
         ecjia_merchant_screen::get_current_screen()->set_parentage('stats');
@@ -91,38 +90,17 @@ class mh_sale_general extends ecjia_merchant {
 		
 		$this->assign('ur_here', RC_Lang::get('orders::statistic.report_sell'));
 		$this->assign('action_link', array('text' => RC_Lang::get('orders::statistic.down_sales_stats'), 'href' => RC_Uri::url('orders/mh_sale_general/download')));
-		
-		if (empty($_GET['query_type'])) {
-			$query_type = 'month';
-			$start_time 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
-			$end_time   		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
-			$start_month_time 	= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
-			$end_month_time   	= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
-		}
-		if ($_GET['query_by_year']) {
-			$query_type = 'year';
-			$start_time 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
-			$end_time   		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
-			$start_month_time 	= RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
-			$end_month_time   	= RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
-		} elseif ($_GET['query_by_month']) {
-			$start_time 		= RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
-			$end_time   		= RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
-			$start_month_time 	= RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
-			$end_month_time   	= RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
-		}
-		
-		$this->assign('query_type', $query_type);
         
-        $this->assign('start_time', RC_Time::local_date('Y-m-d', $start_time));
-        $this->assign('end_time', RC_Time::local_date('Y-m-d', $end_time));
-        
-        $this->assign('form_action', RC_Uri::url('orders/mh_sale_general/init'));
-        $this->assign('start_month_time', RC_Time::local_date('Y-m-d', $start_month_time));
-        $this->assign('end_month_time', RC_Time::local_date('Y-m-d', $end_month_time));
         $this->assign('page', 'init');
+        $this->assign('form_action', RC_Uri::url('orders/mh_sale_general/init'));
 		
-		$this->assign_lang();
+        $order_type = !empty($_GET['order_type']) ? intval($_GET['order_type']) : 1;
+        $data = $this->get_order_status($order_type);
+
+        $this->assign('data', $data['item']);
+        $this->assign('filter', $data['filter']);
+        
+        $this->assign_lang();
 		$this->display('sale_general.dwt');
 	}
 	
@@ -137,36 +115,15 @@ class mh_sale_general extends ecjia_merchant {
 	
 		$this->assign('ur_here', RC_Lang::get('orders::statistic.report_sell'));
 		$this->assign('action_link',array('text' => RC_Lang::get('orders::statistic.down_sales_stats'),'href' => RC_Uri::url('orders/mh_sale_general/download')));
-	
-		if (empty($_GET['query_type'])) {
-			$query_type = 'month';
-			$start_time 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
-			$end_time   		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
-			$start_month_time 	= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
-			$end_month_time   	= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
-		}
-		if ($_GET['query_by_year']) {
-			$query_type = 'year';
-			$start_time 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
-			$end_time   		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
-			$start_month_time 	= RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
-			$end_month_time   	= RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
-		} elseif ($_GET['query_by_month']) {
-			$start_time 		= RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
-			$end_time   		= RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
-			$start_month_time 	= RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
-			$end_month_time   	= RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
-		}
-	
-		$this->assign('query_type', $query_type);
-	
-		$this->assign('start_time', RC_Time::local_date('Y-m-d', $start_time));
-		$this->assign('end_time', RC_Time::local_date('Y-m-d', $end_time));
-	
-		$this->assign('form_action', RC_Uri::url('orders/mh_sale_general/sales_trends'));
-		$this->assign('start_month_time', RC_Time::local_date('Y-m-d', $start_month_time));
-		$this->assign('end_month_time', RC_Time::local_date('Y-m-d', $end_month_time));
+		
 		$this->assign('page', 'sales_trends');
+		$this->assign('form_action', RC_Uri::url('orders/mh_sale_general/sales_trends'));
+		
+		$order_type = !empty($_GET['order_type']) ? intval($_GET['order_type']) : 0;
+		$data = $this->get_order_status($order_type);
+		
+        $this->assign('data', $data['item']);
+        $this->assign('filter', $data['filter']);
 		
 		$this->assign_lang();
 		$this->display('sale_general.dwt');
@@ -175,25 +132,49 @@ class mh_sale_general extends ecjia_merchant {
 	/**
 	 * 获取销售概况图表数据
 	 */
-	public function get_order_status () {
-	    /* 权限判断 */
-	    $this->admin_priv('sale_general_stats', ecjia::MSGTYPE_JSON);
-		$query_type = $_GET['query_type'] == 'year' ? 'year' : 'month';
-		if ($query_type =='year') {
+	private function get_order_status ($order_type) {
+		/* 权限判断 */
+		$this->admin_priv('sale_general_stats', ecjia::MSGTYPE_JSON);
+		
+		if (empty($_GET['query_type'])) {
+			$query_type = 'month';
+			$filter['start_time'] 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
+			$filter['end_time']  		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
+			$filter['start_month_time']	= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
+			$filter['end_month_time']	= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
+		}
+		if ($_GET['query_by_year']) {
+			$query_type = 'year';
+			$filter['start_time'] 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
+			$filter['end_time']   		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
+			$filter['start_month_time'] = RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
+			$filter['end_month_time']   = RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
+		} elseif ($_GET['query_by_month']) {
+			$filter['start_time'] 		= RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
+			$filter['end_time']   		= RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
+			$filter['start_month_time'] = RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
+			$filter['end_month_time']   = RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
+		}
+		
+		if ($query_type == 'year') {
 			/*时间参数*/
-			$start_time = RC_Time::local_strtotime($_GET['start_time']);
-			$end_time   = RC_Time::local_strtotime($_GET['end_time']);
+			$start_time = $filter['start_time'];
+			$end_time   = $filter['end_time'];
 		} else {
-			$start_time = RC_Time::local_strtotime($_GET['start_month_time']);
-			$end_time   = RC_Time::local_strtotime($_GET['end_month_time']);
+			$start_time = $filter['start_month_time'];
+			$end_time   = $filter['end_month_time'];
 		}
 		$format = ($query_type == 'year') ? '%Y' : '%Y-%m';
 		$where = "oi.store_id = ". $_SESSION['store_id'] ." AND (order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) AND (shipping_time >= ' ". $start_time ."' AND shipping_time <= '" .$end_time. "'  )";
 		$where .= " AND oi.is_delete = 0";
 		
-		$templateCount = $this->db_orderinfo_view->field("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '". $format ."') AS period, COUNT(DISTINCT order_sn) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount")
-		                                         ->where($where)->group('period')->select();
-		if ($_GET['order_type'] == 1) {
+		$templateCount = $this->db_orderinfo_view
+			->field("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '". $format ."') AS period, COUNT(DISTINCT order_sn) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount")
+			->where($where)
+			->group('period')
+			->select();
+		
+		if ($order_type == 1) {
 		    if ($templateCount) {
 		        foreach ($templateCount as $k => $v) {
 		            unset($templateCount[$k]['order_amount']);
@@ -211,7 +192,13 @@ class mh_sale_general extends ecjia_merchant {
 				$templateCount = null;
 			}
 		}
-		echo json_encode($templateCount);
+		$filter['start_time'] = RC_Time::local_date('Y-m-d', $filter['start_time']);
+		$filter['end_time'] = RC_Time::local_date('Y-m-d', $filter['end_time']);
+		$filter['start_month_time'] = RC_Time::local_date('Y-m-d', $filter['start_month_time']);
+		$filter['end_month_time'] = RC_Time::local_date('Y-m-d', $filter['end_month_time']);
+		$filter['query_type'] = $query_type;
+		
+		return array('item' => json_encode($templateCount), 'filter' => $filter);
 	}
 
 	/**
