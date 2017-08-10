@@ -69,15 +69,14 @@ class plugin_pay_bank {
         return RC_Api::api('payment', 'plugin_uninstall', $param);
     }
 
-    public static function adapter_instance($instance, $config) {
-        require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_bank.class.php';
-        return new pay_bank($config);
-    }
-
 }
+
+Ecjia_PluginManager::extend('pay_bank', function() {
+    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_bank.class.php';
+    return new pay_bank();
+});
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_pay_bank', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_pay_bank', 'uninstall'));
-RC_Hook::add_filter('payment_factory_adapter_instance', array( 'plugin_pay_bank', 'adapter_instance' ), 10, 2);
 
 // end
