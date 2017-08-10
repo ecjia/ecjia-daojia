@@ -3,6 +3,7 @@
 namespace Royalcms\Component\WeChat\User;
 
 use Royalcms\Component\WeChat\Core\AbstractAPI;
+use Royalcms\Component\WeChat\Foundation\Config;
 
 /**
  * Class MiniAppUser.
@@ -12,16 +13,29 @@ class MiniAppUser extends AbstractAPI
     private $appId;
     private $secret;
     private $grantType = 'authorization_code';
+    
+    /**
+     * config配置
+     * @var \Royalcms\Component\WeChat\Foundation\Config
+     */
     private $config;
 
     const API_JSCODE_SESSION = 'https://api.weixin.qq.com/sns/jscode2session';
 
-    public function __construct($config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
-        $this->appId = $this->config['app_id'];
-        $this->secret = $this->config['app_secret'];
-        !empty($this->config['grant_type']) ? $this->grantType = $this->config['grant_type'] : '';
+        $this->registerProperty();
+    }
+    
+    public function registerProperty()
+    {
+        $config = $this->config->get('mini_app');
+ 
+        $this->appId = $config['app_id'];
+        $this->secret = $config['app_secret'];
+        
+        !empty($config['grant_type']) ? $this->grantType = $config['grant_type'] : '';
     }
 
     /**
