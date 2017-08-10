@@ -1,0 +1,144 @@
+.outline{
+    background-color: #efefef;
+    border-radius: 5px;
+    color: #000000;
+	width:30%;
+	margin-bottom: 10px;
+	display: inline-block;
+	vertical-align: top;
+}
+.outline-right{
+    margin-top: 6px;
+}
+
+
+.container_list ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.container_list ul:after {
+	content: '';
+	clear: both;
+	display: block;
+	/*width: 100%;*/
+}
+
+.container_list ul li {
+	margin-bottom: 35px;
+	float: left;
+	transition: all .2s;
+	/*transition-delay: 1s*/
+	width: 25%;
+	height: 360px;
+	border-right: 1px solid #ccc;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.container_list ul li h2 {
+	font-size: 20px;
+	text-align: center;
+}
+
+.container_list ul li h3 {
+	font-size: 18px;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+}
+
+.container_list ul li a {
+	display: inline-block;
+	width: 30%;
+	text-align: center;
+	background: #DA6D0E;
+	border-radius: 10px;
+	transition: all .5s;
+	position: relative;
+	padding: 6px 0;
+	text-decoration: none;
+	color: #fff;
+}
+
+.container_list ul li a span {
+	display: block;
+}
+
+.container_list ul li a:hover {
+	box-shadow: 0px 1px 10px rgba(0,0,0,.8);
+}
+
+.container_list ul li p {
+	text-align: center;
+	color: #111;
+}
+
+.container_list ul li:nth-child(4) {
+	border-right: none;
+}
+
+.container_list ul li:hover{
+	/*background: #efefef;*/
+	box-shadow: 0px 4px 20px rgba(0,0,0,.3);
+	border-radius: 10px;
+	transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	border: none;
+	/*border: 1px solid #ccc;*/
+	background: #fff;
+}
+
+.wookmark .thumbnail {
+	background-color: #F9F9F9;
+	margin-right: 1%;
+    width: 24%;
+}
+
+.wookmark .bd {
+    height: 120px;
+    overflow: hidden;
+	line-height: 150%;
+	
+}
+
+.wookmark .bd.pay_open {
+	background: url("../images/open.png") no-repeat right top;
+}
+.wookmark .bd.pay_close {
+	 background: url("../images/close.png") no-repeat right top;
+}
+
+
+.merchants_name {
+    font-size:16px;
+    margin-top: 32px;
+}
+.merchants_name .title{
+    font-size:12px;
+	color: #111;
+}
+
+
+
+.app_copy {
+	width: 50%;
+	background: #629fe5;
+	border-radius: 5px;
+	font-color: #ffffff;
+}
+
+.app_copy span { 
+	color:white;
+	margin-left:5px;
+	font-size: 14px;
+}
+.copy{
+	float:right;
+	margin-right:10px;
+}
+
+
+
+

@@ -44,125 +44,94 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Mobile\Qrcode;
 
-use RC_File;
-use RC_QrCode;
-use RC_Upload;
-use RC_Storage;
-use Royalcms\Component\Foundation\Object;
+namespace Ecjia\App\Mobile\Platform;
 
-abstract class AbstractQrcode extends Object
+use Ecjia\App\Mobile\ApplicationPlatform;
+use Ecjia\App\Mobile\MobileAction;
+
+class EcjiaShop extends ApplicationPlatform
 {
     
+    
     /**
-     * 二维码中间logo图片
-     * 
+     * 代号标识
      * @var string
      */
-    protected $logo;
+    protected $code = 'ecjia-shop';
     
     /**
-     * ID
-     *
-     * @var integer
+     * 名称
+     * @var string
      */
-    protected $id;
-    
-    public function __construct($id, $logo = null)
-    {
-        $this->id = $id;
-        $this->logo = $logo;
-    
-        if (! RC_Storage::disk()->is_dir($this->storeDir())) {
-            RC_Storage::disk()->mkdir($this->storeDir(), 0777);
-        }
-    
-        if (! RC_Storage::disk()->exists($this->getQrcodePath())) {
-            $this->createQrcode();
-        }
-    }
+    protected $name = 'ECJia到家门店';
     
     /**
-     * 二维码内容
+     * 描述
+     * @var string
      */
-    abstract public function content();
+    protected $description = 'ECJia到家门店App是一款以附近门店为中心的消费者购物客户端。';
     
     /**
-     * 二维码存储目录
+     * 图标
+     * @var string
      */
-    abstract public function storeDir();
+    protected $icon = '/statics/images/store.png';
     
     /**
-     * 二维码生成文件名
-     * @param 生成的二维码大小，默认430px
+     * 支持的客户端类型
+     * @var array
      */
-    abstract public function fileName($size = 430);
-    
-    /**
-     * 移除二维码
-     */
-    public function removeQrcode($size = 430)
-    {
-        if (RC_Storage::disk()->exists($this->getQrcodePath($size)))
-            return RC_Storage::disk()->delete($this->getQrcodePath($size));
-    }
-    
-    /**
-     * 创建二维码
-     * @param number $size
-     */
-    public function createQrcode($size = 430)
-    {
-        $tempPath = $this->getTempPath();
-
-        RC_QrCode::format('png')->size($size)->margin(1)
-                    ->merge($this->logo, 0.2, true)
-                    ->errorCorrection('H')
-                    ->generate($this->content(), $tempPath);
-                    
-        //上传临时文件到指定目录            
-        RC_Storage::disk()->move($tempPath, $this->getQrcodePath($size), true);
-
-        //删除临时文件
-        RC_File::delete($tempPath);
+    protected $clients = [
+        [
+        	'device_client' => 'iphone',
+            'device_name' => 'iPhone',
+            'device_code' => '6012',
+        ],
+        [
+            'device_client' => 'android',
+            'device_name' => 'Android',
+            'device_code' => '6011',
+        ]
+    ];
         
-        return $this;
-    }
+    /**
+     * 支持的支付方式
+     * @var array
+     */
+    protected $payments = [
+        'pay_balance',
+        'pay_cod',
+        'pay_alipay',
+        'pay_wxpay_shop',
+        'pay_unionpay',
+    ];
+    
     
     /**
-     * 获取二维码Url
-     * @return string
+     * 支持的opentype类型
+     * @var array
      */
-    public function getQrcodeUrl($size = 430)
-    {
-         return RC_Upload::upload_url() . str_replace(RC_Upload::upload_path(), '/', $this->storeDir()) . $this->fileName($size);
-    }
+    protected $opentypes = [
+        MobileAction::MAIN,
+        MobileAction::HISTORY,
+        MobileAction::WEBVIEW,
+        MobileAction::HELP,
+        MobileAction::GOODS_COMMENT,
+        MobileAction::GOODS_DETAIL,
+        MobileAction::ORDERS_DETAIL,
+        MobileAction::USER_CENTER,
+        MobileAction::USER_ADDRESS,
+        MobileAction::USER_WALLET,
+    ];
     
-    /**
-     * 获取二维码文件路径
-     * @return string
-     */
-    public function getQrcodePath($size = 430)
+    public function __construct()
     {
-        return $this->storeDir() . $this->fileName($size);
-    }
-    
-    /**
-     * 生成临时文件路径
-     * @return string
-     */
-    public function getTempPath()
-    {
-        $tempDir = storage_path() . '/temp/qrcodes/';
-        if (!RC_File::exists($tempDir)) {
-            RC_File::makeDirectory($tempDir, 0777, true);
-        }
         
-        $tmpfname = tempnam($tempDir, 'qrcode_');
-        return $tmpfname;
     }
+    
+    
+    
+    
     
 }
-
-// end

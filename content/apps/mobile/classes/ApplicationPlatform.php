@@ -44,125 +44,158 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Mobile\Qrcode;
+namespace Ecjia\App\Mobile;
 
-use RC_File;
-use RC_QrCode;
-use RC_Upload;
-use RC_Storage;
-use Royalcms\Component\Foundation\Object;
+use Ecjia\App\Mobile\Models\MobileOptionModel;
+use Royalcms\Component\Database\Eloquent\Collection;
 
-abstract class AbstractQrcode extends Object
+class ApplicationPlatform
 {
-    
     /**
-     * 二维码中间logo图片
-     * 
+     * 代号标识
      * @var string
      */
-    protected $logo;
+    protected $code;
     
     /**
-     * ID
+     * 名称
+     * @var string
+     */
+    protected $name;
+    
+    /**
+     * 描述
+     * @var string
+     */
+    protected $description;
+    
+    /**
+     * 图标
+     * @var string
+     */
+    protected $icon;
+    
+    /**
+     * 支持的客户端类型
+     * @var array
+     */
+    protected $clients = [];
+
+    /**
+     * 支持的支付方式
+     * @var array
+     */
+    protected $payments = [];
+    
+    /**
+     * 支持的opentype类型
+     * @var array
+     */
+    protected $opentypes = [];
+    
+    
+    public function getCode()
+    {
+        return $this->code;
+    }
+    
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    public function getIcon()
+    {
+        if ($this->icon) 
+        {
+            $this->icon = \RC_App::apps_url('', __DIR__) . $this->icon;
+        }
+        return $this->icon;
+    }
+    
+    /**
      *
-     * @var integer
+     * @return array
      */
-    protected $id;
-    
-    public function __construct($id, $logo = null)
+    public function getClients()
     {
-        $this->id = $id;
-        $this->logo = $logo;
-    
-        if (! RC_Storage::disk()->is_dir($this->storeDir())) {
-            RC_Storage::disk()->mkdir($this->storeDir(), 0777);
-        }
-    
-        if (! RC_Storage::disk()->exists($this->getQrcodePath())) {
-            $this->createQrcode();
-        }
+        return $this->clients;
     }
     
     /**
-     * 二维码内容
+     *
+     * @return array
      */
-    abstract public function content();
-    
-    /**
-     * 二维码存储目录
-     */
-    abstract public function storeDir();
-    
-    /**
-     * 二维码生成文件名
-     * @param 生成的二维码大小，默认430px
-     */
-    abstract public function fileName($size = 430);
-    
-    /**
-     * 移除二维码
-     */
-    public function removeQrcode($size = 430)
+    public function getPayments()
     {
-        if (RC_Storage::disk()->exists($this->getQrcodePath($size)))
-            return RC_Storage::disk()->delete($this->getQrcodePath($size));
+        return $this->payments;
     }
     
     /**
-     * 创建二维码
-     * @param number $size
+     * 
+     * @return array
      */
-    public function createQrcode($size = 430)
+    public function getOptions()
     {
-        $tempPath = $this->getTempPath();
-
-        RC_QrCode::format('png')->size($size)->margin(1)
-                    ->merge($this->logo, 0.2, true)
-                    ->errorCorrection('H')
-                    ->generate($this->content(), $tempPath);
-                    
-        //上传临时文件到指定目录            
-        RC_Storage::disk()->move($tempPath, $this->getQrcodePath($size), true);
-
-        //删除临时文件
-        RC_File::delete($tempPath);
+        $model = new MobileOptionModel();
         
-        return $this;
+        $data = $model->platform($this->code)->appid(0)->get();
+
+        if ($data) {
+            $data = $this->processOptionValue($data);
+        }
+
+        return $data;
     }
     
     /**
-     * 获取二维码Url
-     * @return string
+     *
+     * @return array
      */
-    public function getQrcodeUrl($size = 430)
+    public function processOptionValue(Collection $data)
     {
-         return RC_Upload::upload_url() . str_replace(RC_Upload::upload_path(), '/', $this->storeDir()) . $this->fileName($size);
+        $result = $data->mapWithKeys(function ($item) {
+             
+            if ($item->option_type == 'serialize') {
+                $values = unserialize($item->option_value);
+            } else {
+                $values = $item->option_value;
+            }
+        
+            return array($item->option_name => $values);
+        })->all();
+        
+        return $result;
     }
     
     /**
-     * 获取二维码文件路径
-     * @return string
+     * 
+     * @return array
      */
-    public function getQrcodePath($size = 430)
+    public function getOpenTypes($name = null)
     {
-        return $this->storeDir() . $this->fileName($size);
-    }
-    
-    /**
-     * 生成临时文件路径
-     * @return string
-     */
-    public function getTempPath()
-    {
-        $tempDir = storage_path() . '/temp/qrcodes/';
-        if (!RC_File::exists($tempDir)) {
-            RC_File::makeDirectory($tempDir, 0777, true);
+        static $data = array();
+        $result = array_get($data, $this->code);
+        if (empty($result)) {
+            $result = collect($this->opentypes)->mapWithKeys(function ($item) {
+            	 $opentype = MobileAction::singleton()->opentype($item);
+            	 return [$item => $opentype];
+            });
+            $data = array_add($data, $this->code, $result);
         }
         
-        $tmpfname = tempnam($tempDir, 'qrcode_');
-        return $tmpfname;
+        if (is_null($name))
+        {
+            return $result->all();
+        }
+
+        return $result->get($name);
     }
+    
     
 }
-
-// end

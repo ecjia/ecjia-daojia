@@ -44,125 +44,123 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Mobile\Qrcode;
+namespace Ecjia\App\Mobile;
 
-use RC_File;
-use RC_QrCode;
-use RC_Upload;
-use RC_Storage;
-use Royalcms\Component\Foundation\Object;
+use RC_Hook;
+use RC_Cache;
+use InvalidArgumentException;
 
-abstract class AbstractQrcode extends Object
+class ApplicationFactory
 {
     
-    /**
-     * 二维码中间logo图片
-     * 
-     * @var string
-     */
-    protected $logo;
+    protected static $factories;
     
-    /**
-     * ID
-     *
-     * @var integer
-     */
-    protected $id;
-    
-    public function __construct($id, $logo = null)
+    public function __construct()
     {
-        $this->id = $id;
-        $this->logo = $logo;
+        self::$factories = $this->getFactories();
+    }
     
-        if (! RC_Storage::disk()->is_dir($this->storeDir())) {
-            RC_Storage::disk()->mkdir($this->storeDir(), 0777);
+    public function getFactories()
+    {
+        $cache_key = 'mobile_application_factories';
+    
+        $factories = RC_Cache::app_cache_get($cache_key, 'mobile');
+
+        if (empty($factories)) {
+    
+            $dir = __DIR__ . '/Platform';
+    
+            $platforms = royalcms('files')->files($dir);
+
+            $factories = [];
+    
+            foreach ($platforms as $key => $value) {
+                $value = str_replace($dir . '/', '', $value);
+                $value = str_replace('.php', '', $value);
+                $className = __NAMESPACE__ . '\Platform\\' . $value;
+                
+                $key = with(new $className)->getCode();
+                $factories[$key] = $className;
+            }
+    
+            RC_Cache::app_cache_set($cache_key, $factories, 'mobile', 10080);
         }
     
-        if (! RC_Storage::disk()->exists($this->getQrcodePath())) {
-            $this->createQrcode();
-        }
+        return RC_Hook::apply_filters('ecjia_mobile_platform_filter', $factories);
     }
     
     /**
-     * 二维码内容
+     * 获取所有支持平台
+     * @return array
      */
-    abstract public function content();
-    
-    /**
-     * 二维码存储目录
-     */
-    abstract public function storeDir();
-    
-    /**
-     * 二维码生成文件名
-     * @param 生成的二维码大小，默认430px
-     */
-    abstract public function fileName($size = 430);
-    
-    /**
-     * 移除二维码
-     */
-    public function removeQrcode($size = 430)
+    public function getPlatforms()
     {
-        if (RC_Storage::disk()->exists($this->getQrcodePath($size)))
-            return RC_Storage::disk()->delete($this->getQrcodePath($size));
+        $platforms = [];
+    
+        foreach (self::$factories as $key => $value) {
+            $platforms[$key] = new $value;
+        }
+    
+        return $platforms;
     }
     
     /**
-     * 创建二维码
-     * @param number $size
+     * 获取某个平台操作对象
+     * @param string $code  平台代号
+     * @throws InvalidArgumentException
+     * @return \Ecjia\App\Mobile\ApplicationPlatform
      */
-    public function createQrcode($size = 430)
+    public function platform($code)
     {
-        $tempPath = $this->getTempPath();
-
-        RC_QrCode::format('png')->size($size)->margin(1)
-                    ->merge($this->logo, 0.2, true)
-                    ->errorCorrection('H')
-                    ->generate($this->content(), $tempPath);
-                    
-        //上传临时文件到指定目录            
-        RC_Storage::disk()->move($tempPath, $this->getQrcodePath($size), true);
-
-        //删除临时文件
-        RC_File::delete($tempPath);
+        if (!array_key_exists($code, self::$factories)) {
+            throw new InvalidArgumentException("Application platform '$code' is not supported.");
+        }
+    
+        $className = self::$factories[$code];
+    
+        return new $className();
+    }
+    
+    /**
+     * 获取所有平台的客户端
+     * @return array
+     */
+    public function getAllClients()
+    {
+        $allClients = [];
         
-        return $this;
-    }
-    
-    /**
-     * 获取二维码Url
-     * @return string
-     */
-    public function getQrcodeUrl($size = 430)
-    {
-         return RC_Upload::upload_url() . str_replace(RC_Upload::upload_path(), '/', $this->storeDir()) . $this->fileName($size);
-    }
-    
-    /**
-     * 获取二维码文件路径
-     * @return string
-     */
-    public function getQrcodePath($size = 430)
-    {
-        return $this->storeDir() . $this->fileName($size);
-    }
-    
-    /**
-     * 生成临时文件路径
-     * @return string
-     */
-    public function getTempPath()
-    {
-        $tempDir = storage_path() . '/temp/qrcodes/';
-        if (!RC_File::exists($tempDir)) {
-            RC_File::makeDirectory($tempDir, 0777, true);
+        foreach (self::$factories as $key => $value) {
+            $platform = new $value;
+            $clients = $platform->getClients();
+            
+            foreach ($clients as $client) {
+                $allClients[$client['device_code']] = with(new ApplicationClient())->setDeviceClient($client['device_client'])
+                                                                                   ->setDeviceName($client['device_name'])
+                                                                                   ->setDeviceCode($client['device_code'])
+                                                                                   ->setPlatformCode($platform->getCode())
+                                                                                   ->setPlatform($platform);
+            }
         }
         
-        $tmpfname = tempnam($tempDir, 'qrcode_');
-        return $tmpfname;
+        return $allClients;
+    }
+    
+    /**
+     * 获取某个客户端操作对象
+     * @param string $code
+     * @throws InvalidArgumentException
+     * @return \Ecjia\App\Mobile\ApplicationClient
+     */
+    public function client($code) {
+        $allClients = $this->getAllClients();
+        
+        if (!array_key_exists($code, $allClients)) {
+            throw new InvalidArgumentException("Application client '$code' is not supported.");
+        }
+        
+        $class = $allClients[$code];
+        
+        return $class;
     }
     
 }
-
-// end

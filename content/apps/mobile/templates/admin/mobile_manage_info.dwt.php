@@ -15,97 +15,116 @@
 		<!-- {/if} -->
 	</h3>
 </div>
+
+
 <div class="row-fluid">
 	<div class="span12">
 		<form class="form-horizontal" id="form-privilege" name="theForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
 			<fieldset>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.label_app_name'}</label>
-					<div class="controls">
-						<input class="span4" name="name" type="text" value="{$mobile_manage.app_name}" />
-						<span class="input-must">{lang key='system::system.require_field'}</span> 
+				{if $action eq 'edit'}
+					<div class="control-group formSep">
+						<label class="control-label">应用名称：</label>
+						<div class="controls l_h30">
+						<span class="cursor_pointer ecjiaf-pre ecjiaf-wsn" data-trigger="editable" data-url='{url path="mobile/admin_mobile_manage/edit_app_name" args="code={$manage_data.platform}"}' data-name="app_name" data-pk="{$manage_data.app_id}" data-title="应用名称">{$manage_data.app_name}</span>
+						</div>
 					</div>
-				</div>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.label_package_name'}</label>
-					<div class="controls">
-						<input class="span4" name="bundleid" type="text" value="{$mobile_manage.bundle_id}" />
-						<span class="input-must">{lang key='system::system.require_field'}</span> 
+					
+					<div class="control-group formSep">
+						<label class="control-label">应用包名：</label>
+						<div class="controls l_h30">
+						<span class="cursor_pointer ecjiaf-pre ecjiaf-wsn" data-trigger="editable" data-url='{url path="mobile/admin_mobile_manage/edit_bag_name" args="code={$manage_data.platform}"}' data-name="bag_name" data-pk="{$manage_data.app_id}" data-title="应用包名">{$manage_data.bundle_id}</span>
+						</div>
 					</div>
-				</div>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.label_client'}</label>
-					<div class="controls">
-						<select name='client' class="span4">
-							<option value=''>{lang key='mobile::mobile.label_select'}</option>
-							<!-- {foreach from=$mobile_client item=item key=key} -->
-							<option value='{$key}' {if $mobile_manage.device_client eq $key}selected='selected'{/if}>{$item}</option>
-							<!-- {/foreach} -->
-						</select>
-						<span class="input-must">{lang key='system::system.require_field'}</span> 
+					
+					<div class="control-group formSep">
+						<label class="control-label">Code：</label>
+						<div class="controls l_h30">
+							{$manage_data.platform}
+						</div>
 					</div>
-				</div>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.code'}</label>
-					<div class="controls">
-						<!-- {if $mobile_manage.device_code} -->
-							<div class="p_t5">
-							{$mobile_manage.device_code}
+					
+					<div class="control-group formSep">
+						<label class="control-label">Client：</label>
+						<div class="controls l_h30">
+							{$manage_data.device_client}
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">Device Code：</label>
+						<div class="controls l_h30">
+							{$manage_data.device_code}
+						</div>
+					</div>
+
+					<h3 class="heading">安全信息</h3>
+					<div class="control-group formSep">
+						<label class="control-label">AppKey：</label>
+						<div class="controls l_h30">
+							<div id="app_key" class="app_copy" data-clipboard-text="{$manage_data.app_key}">
+								<span>{$manage_data.app_key}</span>
+								<span class="cursor_pointer copy"><strong>复制</strong></span>
 							</div>
-						<!-- {else} -->
-							<input class="span4" name="code" type="text" value="" />
+						</div>
+					</div>
+					
+					<div class="control-group formSep">
+						<label class="control-label">AppSecret：</label>
+						<div class="controls l_h30">
+							<div id="app_secret"class="app_copy" data-clipboard-text="{$manage_data.app_secret}">
+								<span>{$manage_data.app_secret}</span>
+								<span class="cursor_pointer copy">复制</span>
+							</div>
+						</div>
+					</div>
+				{else}
+					<div class="control-group formSep">
+						<label class="control-label">应用名称：</label>
+						<div class="controls">
+							<input class="span4" name="name" type="text" value="" />
 							<span class="input-must">{lang key='system::system.require_field'}</span> 
-						<!-- {/if} -->
+						</div>
 					</div>
-				</div>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.appkey'}</label>
-					<div class="controls">
-						<input class="span4" name="appkey" type="text" value="{$mobile_manage.app_key}" />
-						<span class="input-must">{lang key='system::system.require_field'}</span> 
+					<div class="control-group formSep">
+						<label class="control-label">应用包名：</label>
+						<div class="controls">
+							<input class="span4" name="bundleid" type="text" value="" />
+							<span class="input-must">{lang key='system::system.require_field'}</span> 
+						</div>
 					</div>
-				</div>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.appsecret'}</label>
-					<div class="controls">
-						<input class="span4" name="appsecret" type="text" value="{$mobile_manage.app_secret}" />
-						<span class="input-must">{lang key='system::system.require_field'}</span> 
+				{/if}
+									
+				{if $action eq 'edit'}
+					<input type="hidden" name="code_vale" value="{$manage_data.platform}" />
+					<input type="hidden" name="id" value="{$manage_data.app_id}" />
+					<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red"  data-msg="你确定要删除该客户端端吗？"  href='{RC_Uri::url("mobile/admin_mobile_manage/remove","id={$manage_data.app_id}&code={$manage_data.platform}")}' title="删除">删除客户端</a>
+					<div class="pull-right">
+						<a class="change_status" style="cursor: pointer;"  
+						 data-msg="{if $manage_data.status eq 1}您确定要关闭该客户端吗？{else}您确定要开启该客户端吗？{/if}" 
+						 data-href='
+						 {if $manage_data.status eq 1}
+						 	{url path="mobile/admin_mobile_manage/close_status" args="code={$manage_data.platform}&id={$manage_data.app_id}"}
+						 {else}
+						 	{url path="mobile/admin_mobile_manage/open_status" args="code={$manage_data.platform}&id={$manage_data.app_id}"}
+						 {/if}' >
+				       	 {if $manage_data.status eq 1}
+				         	<button class="btn" type="button" >点击关闭客户端</button>  
+				         {else}
+				         	<button class="btn btn-gebo" type="button" >点击开启客户端</button> 
+				         {/if}
+				        </a>  
+				     </div>
+				{else}
+					<div class="control-group">
+						<div class="controls">
+							<input type="hidden" name="device_code" value="{$device_code} "/>
+							<input type="hidden" name="device_client" value="{$device_client}" />
+							<input type="hidden" name="code" value="{$code}" />
+							<button class="btn btn-gebo" type="submit">激活</button>
+						</div>
 					</div>
-				</div>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.label_platform'}</label>
-					<div class="controls">
-						<select name='platform' class="span4">
-							<option value=''>{lang key='mobile::mobile.label_select'}</option>
-							<option value="umeng-push" {if $mobile_manage.platform eq 'umeng-push'}selected='selected'{/if}>{lang key='mobile::mobile.umeng_push'}</option>
-						</select>
-						<span class="input-must">{lang key='system::system.require_field'}</span> 
-					</div>
-				</div>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.is_enable'}</label>
-					<div class="controls">
-			            <div id="info-toggle-button">
-			                <input class="nouniform" name="status" type="checkbox"  {if $mobile_manage.status eq 1}checked="checked"{/if}  value="1"/>
-			            </div>
-					</div>
-				</div>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='mobile::mobile.label_sort'}</label>
-					<div class="controls">
-						<input name="sort" type="text" value="{if $mobile_manage.sort}{$mobile_manage.sort}{else}0{/if}" />
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="controls">
-						<input type="hidden" name="id" value="{$mobile_manage.app_id}" />
-						{if $rt.id eq ''}
-						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
-						{else}
-						<button class="btn btn-gebo" type="submit">{lang key='mobile::mobile.update'}</button>
-						{/if}
-					</div>
-				</div>
+				{/if}
+					
 			</fieldset>
 		</form>
 	</div>

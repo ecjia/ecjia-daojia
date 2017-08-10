@@ -54,8 +54,8 @@ class admin_street extends ecjia_admin
     {
         parent::__construct();
         
-        RC_Loader::load_app_class('mobile_qrcode', 'mobile', false);
         RC_Style::enqueue_style('mobile_street', RC_App::apps_url('statics/css/mobile_street.css', __FILE__));
+        RC_Script::enqueue_script('mobile_street', RC_App::apps_url('statics/js/mobile_street.js', __FILE__), array(), false, true);
     }
     
     
@@ -91,27 +91,48 @@ class admin_street extends ecjia_admin
         
         $app_url =  RC_App::apps_url('statics/images', __FILE__);
         
-        $api_url = mobile_qrcode::getApiUrl();
-        $small_qrcode = mobile_qrcode::getDefaultQrcodeUrl();
+        $api_url = Ecjia\App\Mobile\Qrcode\GenerateStreet::getApiUrl();
+        $small_qrcode = Ecjia\App\Mobile\Qrcode\GenerateStreet::singleton()->getQrcodeUrl();
         
         $this->assign('api_url', $api_url);
         $this->assign('small_qrcode', $small_qrcode);
         $this->assign('app_url', $app_url);
+        $this->assign('refresh_action', RC_Uri::url('mobile/admin_street/refresh'));
         
         $this->display('mobile_street.dwt');
     }
     
-    public function download() {
+    
+    public function refresh() {
+    	$allow 		= !empty($_POST['check']) 	? $_POST['check']			: '';
+	    if ($allow == 'allow') {
+			$sizes = Ecjia\App\Mobile\Qrcode\GenerateStreet::QrSizeCmToPx();
+	        
+	        collect(array_values($sizes))->each(function ($item) {
+	            Ecjia\App\Mobile\Qrcode\GenerateStreet::singleton()->removeQrcode($item);
+	        });
         
-        $get_size = empty($_GET['size']) ? '12cm' : $_GET['size'];
-       
-        $size = mobile_qrcode::QrSizeCmToPx($get_size);
-        $file_url = mobile_qrcode::getStreetQrcodeUrl($size);
+		}
+        //提示操作成功
+        return $this->showmessage('刷新成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mobile/admin_street/init')));
+    }
+    
+    
+    public function download() {
+
+        $sizeCM = royalcms('request')->input('size', '12cm');
+        
+        $sizes = Ecjia\App\Mobile\Qrcode\GenerateStreet::QrSizeCmToPx();
+        
+        $sizePX = array_get($sizes, $sizeCM);
+        
+        $file = Ecjia\App\Mobile\Qrcode\GenerateStreet::singleton()->createQrcode($sizePX)->getQrcodePath($sizePX);
+        
         //文件的类型
-        header('Content-type: application/image/pjpeg');
+        header('Content-type: application/octet-stream');
         //下载显示的名字
-        header('Content-Disposition: attachment; filename="ecjia_street_qrcode_'.$get_size.'.png"');
-        readfile($file_url);
+        header('Content-Disposition: attachment; filename="ecjia_street_qrcode_'.$sizeCM.'.png"');
+        readfile($file);
         exit();
     }
 }

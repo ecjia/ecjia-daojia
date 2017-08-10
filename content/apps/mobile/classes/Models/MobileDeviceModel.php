@@ -44,125 +44,68 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Mobile\Qrcode;
 
-use RC_File;
-use RC_QrCode;
-use RC_Upload;
-use RC_Storage;
-use Royalcms\Component\Foundation\Object;
+namespace Ecjia\App\Mobile\Models;
 
-abstract class AbstractQrcode extends Object
+use Royalcms\Component\Database\Eloquent\Model;
+
+class MobileDeviceModel extends Model
 {
+    protected $table = 'mobile_device';
+    
+    protected $primaryKey = 'id';
+    
     
     /**
-     * 二维码中间logo图片
-     * 
-     * @var string
-     */
-    protected $logo;
-    
-    /**
-     * ID
+     * 限制查询只包括客户端。
      *
-     * @var integer
+     * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    protected $id;
-    
-    public function __construct($id, $logo = null)
+    public function scopeClient($query, $code)
     {
-        $this->id = $id;
-        $this->logo = $logo;
-    
-        if (! RC_Storage::disk()->is_dir($this->storeDir())) {
-            RC_Storage::disk()->mkdir($this->storeDir(), 0777);
-        }
-    
-        if (! RC_Storage::disk()->exists($this->getQrcodePath())) {
-            $this->createQrcode();
-        }
+        return $query->where('device_client', $code);
     }
     
     /**
-     * 二维码内容
+     * 限制查询只包括指定产品。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    abstract public function content();
-    
-    /**
-     * 二维码存储目录
-     */
-    abstract public function storeDir();
-    
-    /**
-     * 二维码生成文件名
-     * @param 生成的二维码大小，默认430px
-     */
-    abstract public function fileName($size = 430);
-    
-    /**
-     * 移除二维码
-     */
-    public function removeQrcode($size = 430)
+    public function scopeCode($query, $code)
     {
-        if (RC_Storage::disk()->exists($this->getQrcodePath($size)))
-            return RC_Storage::disk()->delete($this->getQrcodePath($size));
+        return $query->where('device_code', $code);
     }
     
     /**
-     * 创建二维码
-     * @param number $size
+     * 限制查询只包括指定用户。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    public function createQrcode($size = 430)
+    public function scopeUser($query, $code)
     {
-        $tempPath = $this->getTempPath();
-
-        RC_QrCode::format('png')->size($size)->margin(1)
-                    ->merge($this->logo, 0.2, true)
-                    ->errorCorrection('H')
-                    ->generate($this->content(), $tempPath);
-                    
-        //上传临时文件到指定目录            
-        RC_Storage::disk()->move($tempPath, $this->getQrcodePath($size), true);
-
-        //删除临时文件
-        RC_File::delete($tempPath);
-        
-        return $this;
+        return $query->where('user_type', 'user')->where('user_id', $code);
     }
     
     /**
-     * 获取二维码Url
-     * @return string
+     * 限制查询只包括指定管理员。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    public function getQrcodeUrl($size = 430)
+    public function scopeAdmin($query, $code)
     {
-         return RC_Upload::upload_url() . str_replace(RC_Upload::upload_path(), '/', $this->storeDir()) . $this->fileName($size);
+        return $query->where('user_type', 'admin')->where('user_id', $code);
     }
     
     /**
-     * 获取二维码文件路径
-     * @return string
+     * 限制查询只包括指定商家。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    public function getQrcodePath($size = 430)
+    public function scopeMerchant($query, $code)
     {
-        return $this->storeDir() . $this->fileName($size);
+        return $query->where('user_type', 'merchant')->where('user_id', $code);
     }
+     
     
-    /**
-     * 生成临时文件路径
-     * @return string
-     */
-    public function getTempPath()
-    {
-        $tempDir = storage_path() . '/temp/qrcodes/';
-        if (!RC_File::exists($tempDir)) {
-            RC_File::makeDirectory($tempDir, 0777, true);
-        }
-        
-        $tmpfname = tempnam($tempDir, 'qrcode_');
-        return $tmpfname;
-    }
     
 }
-
-// end

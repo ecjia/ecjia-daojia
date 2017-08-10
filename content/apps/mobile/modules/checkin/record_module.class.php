@@ -99,8 +99,8 @@ class record_module extends api_front implements api_interface {
 				
 				$filename    = md5($user_info['user_name']);
 				$avatar_path = RC_Upload::upload_path().'/data/avatar/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2)."_".$filename.'.jpg';
-				
-				if(!file_exists($avatar_path)) {
+				$disk = RC_Filesystem::disk();
+				if(!$disk->exists($avatar_path)) {
 					$avatar_img = '';
 				} else {
 					$avatar_img = RC_Upload::upload_url().'/data/avatar/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2)."_".$filename.'.jpg';
@@ -171,7 +171,8 @@ class record_module extends api_front implements api_interface {
 					$filename    = md5($val['user_name']);
 					$avatar_path = RC_Upload::upload_path().'/data/avatar/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2)."_".$filename.'.jpg';
 					
-					if(!file_exists($avatar_path)) {
+					$disk = RC_Filesystem::disk();
+					if(!$disk->exists($avatar_path)) {
 						$avatar_img = '';
 					} else {
 						$avatar_img = RC_Upload::upload_url().'/data/avatar/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2)."_".$filename.'.jpg';

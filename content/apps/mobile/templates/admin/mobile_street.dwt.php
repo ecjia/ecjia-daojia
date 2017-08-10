@@ -1,6 +1,12 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 <!-- {extends file="ecjia.dwt.php"} -->
 
+<!-- {block name="footer"} -->
+<script type="text/javascript">
+	ecjia.admin.mobile_street.init();
+</script>
+<!-- {/block} -->
+
 <!-- {block name="main_content"} -->
 <div>
 	<h3 class="heading">
@@ -36,7 +42,8 @@
 					<div class="api-address-info">
 						<div class="apiaddress">API地址：</div>
 						<div class="api-url">{$api_url}</div>
-						<div>您选择可以扫一扫添加店铺，也可以选择手动输入API地址进行添加</div>
+						<div style="padding-bottom:5px;">您选择可以扫一扫添加店铺，也可以选择手动输入API地址进行添加</div>
+						<a class="toggle_view btn filter-btn" href='{url path="mobile/admin_street/refresh"}'  data-val="allow" >刷新二维码</a>
 					</div>	
 				</div>
 			</div>

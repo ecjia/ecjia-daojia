@@ -98,7 +98,7 @@ class admin_config extends ecjia_admin {
 		$code = empty($_GET['code']) ? 'basic_info' : trim($_GET['code']);
 		$this->assign('code', $code);
 		
-		$mobile_app_icon = ecjia_config::has('mobile_app_icon') ? RC_Upload::upload_url() . '/' . ecjia::config('mobile_app_icon') : '';
+		$mobile_app_icon = ecjia_config::has('mobile_app_icon') ? RC_Upload::upload_url() . '/' . ecjia::config('mobile_app_icon').'?t='.SYS_TIME : '';
 		$this->assign('mobile_app_icon', $mobile_app_icon);
 		$this->assign('mobile_app_name',      	ecjia::config('mobile_app_name'));
 		$this->assign('mobile_app_version',   	ecjia::config('mobile_app_version'));
@@ -647,7 +647,7 @@ class admin_config extends ecjia_admin {
 	}
 
 	public function search_article() {
-		$result = RC_Api::api('article', 'article_list', array('keywords' => $_POST['artile'], 'article_type' => 'article', 'article_approved' => 1));
+		$result = RC_Api::api('article', 'article_list', array('keywords' => $_POST['artile'], 'article_type' => 'system', 'article_approved' => 1));
 		$list = array();
 		if (!empty($result['arr'])) {
 			foreach ($result['arr'] as $val) {

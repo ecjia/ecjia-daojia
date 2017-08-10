@@ -44,125 +44,69 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Mobile\Qrcode;
+namespace Ecjia\App\Mobile\Platform;
 
-use RC_File;
-use RC_QrCode;
-use RC_Upload;
-use RC_Storage;
-use Royalcms\Component\Foundation\Object;
+use Ecjia\App\Mobile\ApplicationPlatform;
 
-abstract class AbstractQrcode extends Object
+class EcjiaCityo2oH5 extends ApplicationPlatform
 {
     
+    
     /**
-     * 二维码中间logo图片
-     * 
+     * 代号标识
      * @var string
      */
-    protected $logo;
+    protected $code = 'ecjia-cityo2o-h5';
     
     /**
-     * ID
-     *
-     * @var integer
+     * 名称
+     * @var string
      */
-    protected $id;
-    
-    public function __construct($id, $logo = null)
-    {
-        $this->id = $id;
-        $this->logo = $logo;
-    
-        if (! RC_Storage::disk()->is_dir($this->storeDir())) {
-            RC_Storage::disk()->mkdir($this->storeDir(), 0777);
-        }
-    
-        if (! RC_Storage::disk()->exists($this->getQrcodePath())) {
-            $this->createQrcode();
-        }
-    }
+    protected $name = 'ECJia到家H5';
     
     /**
-     * 二维码内容
+     * 描述
+     * @var string
      */
-    abstract public function content();
+    protected $description = 'ECJia到家H5是一款用于微信公众号上使用的微商城。';
     
     /**
-     * 二维码存储目录
+     * 图标
+     * @var string
      */
-    abstract public function storeDir();
+    protected $icon = '/statics/images/H5.png';
     
     /**
-     * 二维码生成文件名
-     * @param 生成的二维码大小，默认430px
+     * 支持的客户端类型
+     * @var array
      */
-    abstract public function fileName($size = 430);
-    
-    /**
-     * 移除二维码
-     */
-    public function removeQrcode($size = 430)
-    {
-        if (RC_Storage::disk()->exists($this->getQrcodePath($size)))
-            return RC_Storage::disk()->delete($this->getQrcodePath($size));
-    }
-    
-    /**
-     * 创建二维码
-     * @param number $size
-     */
-    public function createQrcode($size = 430)
-    {
-        $tempPath = $this->getTempPath();
-
-        RC_QrCode::format('png')->size($size)->margin(1)
-                    ->merge($this->logo, 0.2, true)
-                    ->errorCorrection('H')
-                    ->generate($this->content(), $tempPath);
-                    
-        //上传临时文件到指定目录            
-        RC_Storage::disk()->move($tempPath, $this->getQrcodePath($size), true);
-
-        //删除临时文件
-        RC_File::delete($tempPath);
+    protected $clients = [
+        [
+        	'device_client' => 'h5',
+            'device_name' => 'H5',
+            'device_code' => '6004',
+        ],
+    ];
         
-        return $this;
-    }
-    
     /**
-     * 获取二维码Url
-     * @return string
+     * 支持的支付方式
+     * @var array
      */
-    public function getQrcodeUrl($size = 430)
-    {
-         return RC_Upload::upload_url() . str_replace(RC_Upload::upload_path(), '/', $this->storeDir()) . $this->fileName($size);
-    }
+    protected $payments = [
+        'pay_balance',
+        'pay_cod',
+        'pay_alipay',
+        'pay_wxpay',
+    ];
     
-    /**
-     * 获取二维码文件路径
-     * @return string
-     */
-    public function getQrcodePath($size = 430)
-    {
-        return $this->storeDir() . $this->fileName($size);
-    }
     
-    /**
-     * 生成临时文件路径
-     * @return string
-     */
-    public function getTempPath()
+    public function __construct()
     {
-        $tempDir = storage_path() . '/temp/qrcodes/';
-        if (!RC_File::exists($tempDir)) {
-            RC_File::makeDirectory($tempDir, 0777, true);
-        }
         
-        $tmpfname = tempnam($tempDir, 'qrcode_');
-        return $tmpfname;
     }
+    
+    
+    
+    
     
 }
-
-// end

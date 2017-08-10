@@ -44,125 +44,82 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Mobile\Qrcode;
 
-use RC_File;
-use RC_QrCode;
-use RC_Upload;
-use RC_Storage;
-use Royalcms\Component\Foundation\Object;
+namespace Ecjia\App\Mobile\Models;
 
-abstract class AbstractQrcode extends Object
+use Royalcms\Component\Database\Eloquent\Model;
+
+class MobileManageModel extends Model
 {
+    protected $table = 'mobile_manage';
+    
+    protected $primaryKey = 'app_id';
     
     /**
-     * 二维码中间logo图片
-     * 
-     * @var string
-     */
-    protected $logo;
-    
-    /**
-     * ID
+     * 限制查询只包括指定平台。
      *
-     * @var integer
+     * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    protected $id;
-    
-    public function __construct($id, $logo = null)
+    public function scopePlatform($query, $code)
     {
-        $this->id = $id;
-        $this->logo = $logo;
-    
-        if (! RC_Storage::disk()->is_dir($this->storeDir())) {
-            RC_Storage::disk()->mkdir($this->storeDir(), 0777);
-        }
-    
-        if (! RC_Storage::disk()->exists($this->getQrcodePath())) {
-            $this->createQrcode();
-        }
+        return $query->where('platform', $code);
     }
     
     /**
-     * 二维码内容
+     * 限制查询只包括指定应用。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    abstract public function content();
-    
-    /**
-     * 二维码存储目录
-     */
-    abstract public function storeDir();
-    
-    /**
-     * 二维码生成文件名
-     * @param 生成的二维码大小，默认430px
-     */
-    abstract public function fileName($size = 430);
-    
-    /**
-     * 移除二维码
-     */
-    public function removeQrcode($size = 430)
+    public function scopeApp($query, $device_code)
     {
-        if (RC_Storage::disk()->exists($this->getQrcodePath($size)))
-            return RC_Storage::disk()->delete($this->getQrcodePath($size));
+        return $query->where('device_code', $device_code);
     }
     
     /**
-     * 创建二维码
-     * @param number $size
+     * 限制查询只包括激活的应用。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    public function createQrcode($size = 430)
+    public function scopeEnabled($query)
     {
-        $tempPath = $this->getTempPath();
-
-        RC_QrCode::format('png')->size($size)->margin(1)
-                    ->merge($this->logo, 0.2, true)
-                    ->errorCorrection('H')
-                    ->generate($this->content(), $tempPath);
-                    
-        //上传临时文件到指定目录            
-        RC_Storage::disk()->move($tempPath, $this->getQrcodePath($size), true);
-
-        //删除临时文件
-        RC_File::delete($tempPath);
+        return $query->where('status', 1);
+    }
+    
+    
+    /**
+     * 获取所有选项
+     * @return \Royalcms\Component\Database\Eloquent\Relations\HasMany
+     */
+    public function options()
+    {
+        return $this->hasMany('Ecjia\App\Mobile\Models\MobileOptionModel', 'app_id');
+    }
+    
+    /**
+     * 获取所有的设备信息，device_code作索引
+     * @return array | null
+     */
+    public function getAllDeviceCode()
+    {
+        $data = $this->groupBy('device_code')->get();
         
-        return $this;
-    }
-    
-    /**
-     * 获取二维码Url
-     * @return string
-     */
-    public function getQrcodeUrl($size = 430)
-    {
-         return RC_Upload::upload_url() . str_replace(RC_Upload::upload_path(), '/', $this->storeDir()) . $this->fileName($size);
-    }
-    
-    /**
-     * 获取二维码文件路径
-     * @return string
-     */
-    public function getQrcodePath($size = 430)
-    {
-        return $this->storeDir() . $this->fileName($size);
-    }
-    
-    /**
-     * 生成临时文件路径
-     * @return string
-     */
-    public function getTempPath()
-    {
-        $tempDir = storage_path() . '/temp/qrcodes/';
-        if (!RC_File::exists($tempDir)) {
-            RC_File::makeDirectory($tempDir, 0777, true);
+        $result = [];
+        if ($data) {
+            $data->map(function($item) use (& $result) {
+            	$data = array(
+            		'app_id'          => $item->app_id,
+            		'app_name'        => $item->app_name,
+            		'bundle_id'       => $item->bundle_id,
+            		'device_code'     => $item->device_code,
+            		'device_client'   => $item->device_client,
+            		'platform'        => $item->platform
+            	);
+
+                $result[$item->device_code] = $data;
+            });
         }
-        
-        $tmpfname = tempnam($tempDir, 'qrcode_');
-        return $tmpfname;
+        return $result;
     }
+    
     
 }
-
-// end

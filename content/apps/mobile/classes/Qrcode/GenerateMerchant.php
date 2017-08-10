@@ -64,12 +64,11 @@ class GenerateMerchant extends AbstractQrcode {
     public function storeDir() 
     {
         $dir = RC_Upload::upload_path().'data/qrcodes/merchants/';
-
         return $dir;
     }
     
     
-    public function fileName()
+    public function fileName($size = 430)
     {
         return 'merchant_' . $this->id . '.png';
     }
