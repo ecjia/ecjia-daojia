@@ -71,17 +71,17 @@ class plugin_pay_alipay {
         $param = array('file' => __FILE__, 'config' => $config);
         RC_Api::api('payment', 'plugin_uninstall', $param);
     }
-    
-    public static function adapter_instance($instance, $config) {
-        include_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_alipay.class.php';
-        return new pay_alipay($config);
-    }
-    
+        
 }
+
+Ecjia_PluginManager::extend('pay_alipay', function() {
+    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_alipay.class.php';
+    return new pay_alipay();
+});
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_pay_alipay', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_pay_alipay', 'uninstall'));
-RC_Hook::add_filter('payment_factory_adapter_instance', array( 'plugin_pay_alipay', 'adapter_instance' ), 10, 2);
+
 RC_Hook::add_action('class_alipay_core', function () {RC_Loader::load_plugin_class('alipay_core', 'pay_alipay', false);});
 RC_Hook::add_action('class_alipay_notify', function () {RC_Loader::load_plugin_class('alipay_notify', 'pay_alipay', false);});
 RC_Hook::add_action('class_alipay_notify_web', function () {RC_Loader::load_plugin_class('alipay_notify_web', 'pay_alipay', false);});

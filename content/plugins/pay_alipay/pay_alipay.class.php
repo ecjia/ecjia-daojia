@@ -49,42 +49,64 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('payment_abstract', 'payment', false);
+use Ecjia\App\Payment\PaymentAbstract;
 
-class pay_alipay extends payment_abstract
+class pay_alipay extends PaymentAbstract
 {
+        
     /**
-     * 获取插件配置信息
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
      */
-    public function configure_config() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-        if (is_array($config)) {
-            return $config;
-        }
-        return array();
+    public function getCode()
+    {
+        return $this->loadConfig('pay_code');
+    }
+    
+    /**
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
+     */
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
+    }
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+    
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
     }
     
     
     public function get_prepare_data() {
         
         $charset = RC_CHARSET;
-        $alipay_config = $this->configure;
+        $alipay_config = $this->config;
         
         if ($this->is_mobile) {
             $req_id = date('Ymdhis');
             
             $pay_parameter['subject']       = ecjia::config('shop_name') . '的订单：' . $this->order_info['order_sn'];
-            $pay_parameter['partner']       = $this->configure['alipay_partner'];
+            $pay_parameter['partner']       = $this->config['alipay_partner'];
             $pay_parameter['order_sn']      = $this->order_info['order_sn'];
             $pay_parameter['order_logid']   = $this->order_info['log_id'];
             $pay_parameter['order_amount']  = $this->order_info['order_amount'];
-            $pay_parameter['seller_id']     = $this->configure['alipay_account'];
+            $pay_parameter['seller_id']     = $this->config['alipay_account'];
             $pay_parameter['notify_url']    = $this->return_url('/notify/pay_alipay.php');
             $pay_parameter['callback_url']  = $this->return_url('/notify/pay_alipay.php');
             $pay_parameter['pay_order_sn']  = $this->get_out_trade_no();
-            $pay_parameter['pay_code']      = $this->configure['pay_code'];
-            $pay_parameter['pay_name']      = $this->configure['pay_name'];
-            $pay_parameter['private_key']   = $this->configure['private_key_pkcs8'];
+            $pay_parameter['pay_code']      = $this->getCode();
+            $pay_parameter['pay_name']      = $this->getDisplayName();
+            $pay_parameter['private_key']   = $this->config['private_key_pkcs8'];
             
             $req_data  = '<direct_trade_create_req>';
             $req_data .= '<subject>' . $pay_parameter['subject'] . '</subject>';
@@ -101,7 +123,7 @@ class pay_alipay extends payment_abstract
                 'req_data' 			=> $req_data,
                 'service' 			=> 'alipay.wap.trade.create.direct',
                 'sec_id' 			=> 'MD5',
-                'partner' 			=> $this->configure['alipay_partner'],
+                'partner' 			=> $this->config['alipay_partner'],
                 'req_id' 			=> $req_id,
                 'format' 			=>'xml',
                 'v' 				=>'2.0',
@@ -126,7 +148,7 @@ class pay_alipay extends payment_abstract
             
             $parameter = array (
                 'service'           => 'alipay.wap.auth.authAndExecute',
-                'partner'           => $this->configure['alipay_partner'],
+                'partner'           => $this->config['alipay_partner'],
                 'sec_id'            => 'MD5',
                 'format'            => 'xml',
                 'v'                 => '2.0',
@@ -139,7 +161,7 @@ class pay_alipay extends payment_abstract
             
             return $pay_parameter;
         } else {
-            $real_method = $this->configure['alipay_pay_method'];
+            $real_method = $this->config['alipay_pay_method'];
             
             switch ($real_method){
             	case '0':
@@ -160,10 +182,10 @@ class pay_alipay extends payment_abstract
             $parameter = array(
                 'extend_param'      => $extend_param,
                 'service'           => $service,
-                'partner'           => $this->configure['alipay_partner'],
+                'partner'           => $this->config['alipay_partner'],
                 '_input_charset'    => $charset,
-                'notify_url'        => $this->return_url('/notify/pay_alipay.php'),
-                'return_url'        => $this->return_url('/notify/pay_alipay.php'),
+                'notify_url'        => $this->notifyUrl(),
+                'return_url'        => $this->callbackUrl(),
             
                 /* 业务参数 */
                 'subject'           => $this->order_info['order_sn'],
@@ -178,7 +200,7 @@ class pay_alipay extends payment_abstract
                 'logistics_payment' => 'BUYER_PAY_AFTER_RECEIVE',
             
                 /* 买卖双方信息 */
-                'seller_email'      => $this->configure['alipay_account']
+                'seller_email'      => $this->config['alipay_account']
             );
 
             $alipay_config['sign_type'] = 'MD5';
@@ -191,11 +213,28 @@ class pay_alipay extends payment_abstract
         }
     }
     
+    /**
+     * 支付服务器异步回调通知地址
+     * @see \Ecjia\App\Payment\PaymentAbstract::notifyUrl()
+     */
+    public function notifyUrl()
+    {
+        return $this->return_url('/notify/pay_alipay.php');
+    }
+    
+    /**
+     * 支付服务器同步回调响应地址
+     * @see \Ecjia\App\Payment\PaymentAbstract::callbackUrl()
+     */
+    public function callbackUrl()
+    {
+        return $this->return_url('/notify/pay_alipay.php');
+    }
     
     public function notify() {
         $alipay_config = array(
-            'alipay_partner'    => $this->configure['alipay_partner'],
-            'alipay_key'        => $this->configure['alipay_key'],
+            'alipay_partner'    => $this->config['alipay_partner'],
+            'alipay_key'        => $this->config['alipay_key'],
             'input_charset'     => 'utf-8',
             'transport'         => 'http',
         );
@@ -207,7 +246,7 @@ class pay_alipay extends payment_abstract
             //计算得出通知验证结果 //web mobile 区分
             if ($_POST['sign_type'] == 'RSA') {
                 $alipay_config['sign_type'] = 'RSA';
-                $alipay_config['private_key'] = $this->configure['private_key'];
+                $alipay_config['private_key'] = $this->config['private_key'];
                 $alipay_notify = new alipay_notify_mobile($alipay_config);
             } else {
                 $alipay_config['sign_type'] = 'MD5';
@@ -226,12 +265,20 @@ class pay_alipay extends payment_abstract
                     $order_sn = $item['order_sn'];
                     $log_id = $item['log_id'];
                 
-                    $db = RC_DB::table('payment_record');
-                    $db->where('order_sn', $order_sn)->where('trade_type', 'buy')->update(array('trade_no' => $notify_data['trade_no']));
+                    
+                    
+//                     $db = RC_DB::table('payment_record');
+//                     $db->where('order_sn', $order_sn)->where('trade_type', 'buy')->update(array('trade_no' => $notify_data['trade_no']));
                     
                     $pay_status = PS_UNPAYED;
                     if ($notify_data['trade_status'] == 'TRADE_FINISHED' || $notify_data['trade_status'] == 'TRADE_SUCCESS') {
                         $pay_status = PS_PAYED;
+                        
+                        /* 更新支付流水记录*/
+                        RC_Api::api('payment', 'update_payment_record', [
+                            'order_sn' 		=> $order_sn,
+                            'trade_no'      => $notify_data['trade_no']
+                        ]);
                     }
                 
                     $result = RC_Api::api('orders', 'order_paid', array('log_id' => $log_id, 'money' => $notify_data['total_fee'], 'pay_status' => $pay_status));
@@ -248,12 +295,20 @@ class pay_alipay extends payment_abstract
                 $order_sn = $item['order_sn'];
                 $log_id = $item['log_id'];
                 
-                $db = RC_DB::table('payment_record');
-                $db->where('order_sn', $order_sn)->where('trade_type', 'buy')->update(array('trade_no' => $_POST['trade_no']));
+//                 $db = RC_DB::table('payment_record');
+//                 $db->where('order_sn', $order_sn)->where('trade_type', 'buy')->update(array('trade_no' => $_POST['trade_no']));
+                
+                
                 
                 $pay_status = PS_UNPAYED;
                 if ($_POST['trade_status'] == 'TRADE_FINISHED' || $_POST['trade_status'] == 'TRADE_SUCCESS') {
                     $pay_status = PS_PAYED;
+                    
+                    /* 更新支付流水记录*/
+                    RC_Api::api('payment', 'update_payment_record', [
+                        'order_sn' 		=> $order_sn,
+                        'trade_no'      => $_POST['trade_no']
+                    ]);
                 }
                 
                 $result = RC_Api::api('orders', 'order_paid', array('log_id' => $log_id, 'money' => $_POST['total_fee'], 'pay_status' => $pay_status));
@@ -270,8 +325,8 @@ class pay_alipay extends payment_abstract
     
     public function response() {
         $alipay_config = array(
-            'alipay_partner'    => $this->configure['alipay_partner'],
-            'alipay_key'        => $this->configure['alipay_key'],
+            'alipay_partner'    => $this->config['alipay_partner'],
+            'alipay_key'        => $this->config['alipay_key'],
             'sign_type'         => 'MD5',
             'input_charset'     => 'utf-8',
             'transport'         => 'http',

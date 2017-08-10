@@ -51,12 +51,13 @@ return array(
     'is_online' 	=> '1',							/* 是否支持在线支付 */
     
     'forms' => array(
+        array('name' => 'display_name',             'type' => 'text',       'value' => '支付宝'),
         array('name' => 'alipay_account',           'type' => 'text',       'value' => ''),
         array('name' => 'alipay_key',               'type' => 'text',       'value' => ''),
         array('name' => 'alipay_partner',           'type' => 'text',       'value' => ''),
         array('name' => 'alipay_pay_method',        'type' => 'select',     'value' => ''),
-        array('name' => 'private_key',		        	'type' => 'textarea',   'value' => ''),
-        array('name' => 'private_key_pkcs8',		    'type' => 'textarea',   'value' => ''),
+        array('name' => 'private_key',		        'type' => 'textarea',   'value' => ''),
+        array('name' => 'private_key_pkcs8',		'type' => 'textarea',   'value' => ''),
     ),
 );
 
