@@ -47,8 +47,8 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
-    'dsn' => 'https://b2c10a92d0c14f6f96c493d756da054e:5d6b5db85c794cd185671fa8a4c5c807@sentry.io/107014',
-
+    'dsn' => 'https://fc7073447dd44ca2992d59ff400976d3:6b37c9ef5688473a9d02cd02ff91a6f8@exception.ecjia.com/2',
+    
     // capture release as git sha
     // 'release' => trim(exec('git log --pretty="%h" -n1 HEAD')),
 
