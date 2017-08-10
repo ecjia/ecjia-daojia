@@ -161,11 +161,11 @@
                     {/if}
                     {if $shop_wechat_qrcode}
 					<span class="outlink-qrcode">
-                        <div class="wechar-code">
+                        <div class="wechat-code">
 							<img src="{$shop_wechat_qrcode}">
 							<span>打开微信扫一扫关注</span>
 						</div>
-						<a class="wechart" href="javascript:void(0)"></a>
+						<a class="wechat" href="javascript:void(0)"></a>
 					</span>
                     {/if}
 				</div>
