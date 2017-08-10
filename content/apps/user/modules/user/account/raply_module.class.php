@@ -94,21 +94,27 @@ class raply_module extends api_front implements api_interface {
  		if ($surplus['account_id'] > 0) {
  			
  			/* 插入支付流水记录*/
- 			$db = RC_DB::table('payment_record');
- 			$payment_record = $db->where('order_sn', $surplus['order_sn'])->first();
- 			$payment_data = array(
-				'order_sn'		=> $surplus['order_sn'],
-				'trade_type'	=> 'withdraw',
-				'total_fee'		=> $amount,
-				'pay_status'	=> 0,
- 			);
- 			if (empty($payment_record)) {
- 				$payment_data['create_time']	= RC_Time::gmtime();
- 				$db->insertGetId($payment_data);
- 			} elseif($payment_record['pay_status'] == 0 && $amount != $payment_record['total_fee']) {
- 				$payment_data['update_time']	= RC_Time::gmtime();
- 				$db->where('order_sn', $surplus['order_sn'])->update($payment_data);
- 			}
+ 		    RC_Api::api('payment', 'save_payment_record', [
+     		    'order_sn' 		 => $surplus['order_sn'],
+     		    'total_fee'      => $amount,
+     		    'trade_type'	 => 'withdraw',
+ 		    ]);
+ 		    
+//  			$db = RC_DB::table('payment_record');
+//  			$payment_record = $db->where('order_sn', $surplus['order_sn'])->first();
+//  			$payment_data = array(
+// 				'order_sn'		=> $surplus['order_sn'],
+// 				'trade_type'	=> 'withdraw',
+// 				'total_fee'		=> $amount,
+// 				'pay_status'	=> 0,
+//  			);
+//  			if (empty($payment_record)) {
+//  				$payment_data['create_time']	= RC_Time::gmtime();
+//  				$db->insertGetId($payment_data);
+//  			} elseif($payment_record['pay_status'] == 0 && $amount != $payment_record['total_fee']) {
+//  				$payment_data['update_time']	= RC_Time::gmtime();
+//  				$db->where('order_sn', $surplus['order_sn'])->update($payment_data);
+//  			}
  			
  			return array('data' => "您的提现申请已成功提交，请等待管理员的审核！");
  		} else {

@@ -107,8 +107,8 @@ class search_module extends api_admin implements api_interface {
 				
 				$filename    = md5($v['user_name']);
 				$avatar_path = RC_Upload::upload_path().'/data/avatar/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2)."_".$filename.'.jpg';
-				
-				if(!file_exists($avatar_path)) {
+				$disk = RC_Filesystem::disk();
+				if(!$disk->exists($avatar_path)) {
 					$avatar_img = '';
 				} else {
 					$avatar_img = RC_Upload::upload_url().'/data/avatar/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2)."_".$filename.'.jpg';

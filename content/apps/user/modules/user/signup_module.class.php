@@ -148,8 +148,7 @@ class signup_module extends api_front implements api_interface
  			//RC_Api::api('bonus', 'send_bonus', array('type' => SEND_BY_REGISTER));
  			
  			$result = ecjia_app::validate_application('affiliate');
- 			$is_active = ecjia_app::is_active('ecjia.affiliate');
- 			if (!is_ecjia_error($result) && $is_active && !empty($invite_code)) {
+ 			if (!is_ecjia_error($result) && !empty($invite_code)) {
  				RC_Api::api('affiliate', 'invite_bind', array('invite_code' => $invite_code, 'mobile' => $mobile));
  			}
  			

@@ -601,7 +601,7 @@ function update_user_info() {
 				$row['user_rank'] = 0;
 			}
 		}
-
+	
 		/* 取得用户等级和折扣 */
 		if ($row['user_rank'] == 0) {
 			// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
@@ -623,6 +623,9 @@ function update_user_info() {
 				$_SESSION['user_rank'] = 0;
 				$_SESSION['discount']  = 1;
 			}
+		}
+		if (empty($_SESSION['user_rank'])) {
+			$_SESSION['user_rank'] = 0;
 		}
 	}
 

@@ -87,17 +87,15 @@ class user_address_manage_api extends Component_Event_Api {
         	}
         	$consignee_address .= $address['address'];
 
-        	$shop_point = file_get_contents("https://api.map.baidu.com/geocoder/v2/?address='".$consignee_address."'&output=json&ak=E70324b6f5f4222eb1798c8db58a017b");
-
-        	$shop_point = json_decode($shop_point);
-        	if (!empty($shop_point->result)) {
-        		$shop_point_result = $shop_point->result;
-        		$location = $shop_point_result->location;
-        
-        		$address['longitude']	= $location->lng;
-        		$address['latitude']	= $location->lat;
-        		unset($address['location']);
-        	}
+            //腾讯地图api 地址解析（地址转坐标）
+            $consignee_address = urlencode($consignee_address);
+            $key = ecjia::config('map_qq_key');
+            $shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$consignee_address."&key=".$key);
+            $shop_point = json_decode($shop_point['body'], true);
+            $location   = (array)$shop_point['result']['location'];
+            $address['longitude']   = $location['lng'];
+            $address['latitude']    = $location['lat'];
+            unset($address['location']);
         } else {
         	$address['longitude']	= $address['location']['longitude'];
         	$address['latitude']	= $address['location']['latitude'];

@@ -543,6 +543,9 @@ class admin extends ecjia_admin {
 		if (empty($row)) {
 			return $this->showmessage(RC_Lang::get('user::users.user_info_confirm'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR );
 		}
+		if (!empty($row['parent_id'])) {
+		    $row['parent_username'] = RC_DB::table('users')->where('user_id', $row['parent_id'])->pluck('user_name');
+		}
 		
 		/* 获得用户等级名 */
 		$user['user_rank'] = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->pluck('rank_name');

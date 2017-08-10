@@ -80,44 +80,16 @@ class forget_password_module extends api_front implements api_interface {
         $code = rand(100000, 999999);
         /* 短信找回密码*/
         if ($type == 'mobile') {
-        	$result = ecjia_app::validate_application('sms');
-        	/* 判断是否有短信app*/
-        	if (!is_ecjia_error($result)) {
-        		
-        		
-        		
-        		//发送短信
-//         		$tpl_name = 'sms_get_validate';
-//         		$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
-//         		/* 判断短信模板是否存在*/
-//         		if (!empty($tpl)) {
-//         			ecjia_api::$controller->assign('action', __('短信找回密码'));
-//         			ecjia_api::$controller->assign('mobile', $value);
-//         			ecjia_api::$controller->assign('code', $code);
-//         			ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
-        			
-//         			$content = ecjia_api::$controller->fetch_string($tpl['template_content']);
-//         			$options = array(
-//         					'mobile' 		=> $value,
-//         					'msg'			=> $content,
-//         					'template_id' 	=> $tpl['template_id'],
-//         			);
-        				
-//         			$response = RC_Api::api('sms', 'sms_send', $options);
-//         		}
-        		
-        		
-        		$options = array(
-        				'mobile' => $value,
-        				'event'	 => 'sms_get_validate',
-        				'value'  =>array(
-        						'code' 			=> $code,
-        						'service_phone' => ecjia::config('service_phone'),
-        				),
-        		);
-        		$response = RC_Api::api('sms', 'send_event_sms', $options);
-        		
-        	}
+            //发送短信
+            $options = array(
+                'mobile' => $value,
+                'event'	 => 'sms_get_validate',
+                'value'  =>array(
+                    'code' 			=> $code,
+                    'service_phone' => ecjia::config('service_phone'),
+                ),
+            );
+            $response = RC_Api::api('sms', 'send_event_sms', $options);
         }
         /* 邮箱找回密码*/
         if ($type == 'email') {

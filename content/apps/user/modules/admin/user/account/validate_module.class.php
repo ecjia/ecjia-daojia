@@ -63,40 +63,16 @@ class validate_module extends api_admin implements api_interface {
 		$code = rand(100000, 999999);
 		$response = '';
 		if ($validate_type == 'mobile') {
-			$result = ecjia_app::validate_application('sms');
-			/* 判断是否有短信app*/
-			if (!is_ecjia_error($result)) {
-				
-				
-				//发送短信
-// 				$tpl_name = 'sms_get_validate';
-// 				$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
-				/* 判断短信模板是否存在*/
-// 				if (!empty($tpl)) {
-// 					ecjia_api::$controller->assign('code', $code);
-// 					ecjia_api::$controller->assign('mobile', $validate_value);
-// 					ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
-
-// 					$content = ecjia_api::$controller->fetch_string($tpl['template_content']);
-// 					$options = array(
-// 							'mobile' 		=> $validate_value,
-// 							'msg'			=> $content,
-// 							'template_id' 	=> $tpl['template_id'],
-// 					);
-		
-// 					$response = RC_Api::api('sms', 'sms_send', $options);
-// 				}
-				
-				$options = array(
-					'mobile' => $validate_value,
-					'event'	 => 'sms_get_validate',
-					'value'  =>array(
-						'code' 			=> $code,
-						'service_phone' => ecjia::config('service_phone'),
-					),
-				);
-				$response = RC_Api::api('sms', 'send_event_sms', $options);
-			}
+		    //发送短信
+		    $options = array(
+		        'mobile' => $validate_value,
+		        'event'	 => 'sms_get_validate',
+		        'value'  =>array(
+		            'code' 			=> $code,
+		            'service_phone' => ecjia::config('service_phone'),
+		        ),
+		    );
+		    RC_Api::api('sms', 'send_event_sms', $options);
 		}
 		
 		
