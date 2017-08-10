@@ -12,6 +12,7 @@
             var $form = $("form[name='theForm']");
             var option = {
                 submitHandler: function () {
+                	$(".remove_select").removeAttr("disabled");
                     $form.ajaxSubmit({
                         dataType: "json",
                         success: function (data) {

@@ -65,7 +65,7 @@
 					<label class="control-label">{lang key='cron::cron.label_cron_time'}</label>
 					<div class="controls">
 						<div class="f_l">
-							<select name="ttype" class="w110" {if $cron_config_file.lock_time}disabled="true"{/if}>
+							<select name="ttype" class="w110 remove_select" {if $cron_config_file.lock_time}disabled="true"{/if}>
 								<option value="day" {if $cron.cronday gt 0}selected{/if}>{lang key='cron::cron.cron_month'}</option>
 								<option value="week" {if $cron.cronweek gt 0}selected{/if}>{lang key='cron::cron.cron_week'}</option>
 								<option value="unlimit" {if $cron.cronweek eq 0 && $cron.cronday eq 0}selected{/if}>{lang key='cron::cron.cron_unlimit'}</option>
@@ -73,15 +73,15 @@
 						</div>
 							
 						<div class="ttype_day f_l m_l5 {if $cron.cronday gt 0}ecjiaf-db{else}ecjiaf-dn{/if}">
-							<select class="w100" name="cron_day" id="cron_day" {if $cron_config_file.lock_time}disabled="true"{/if}> <!-- {html_options options=$days selected=$cron.cronday} --></select>
+							<select class="w100 remove_select" name="cron_day" id="cron_day" {if $cron_config_file.lock_time}disabled="true"{/if}> <!-- {html_options options=$days selected=$cron.cronday} --></select>
      		 			</div>
      		 				
      		 			<div class="ttype_week f_l m_l5 {if $cron.cronweek gt 0}ecjiaf-db{else}ecjiaf-dn{/if}">
-     		 				<select class="w100" name="cron_week" id="cron_week" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$week selected=$cron.cronweek} --></select>
+     		 				<select class="w100 remove_select" name="cron_week" id="cron_week" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$week selected=$cron.cronweek} --></select>
      		 			</div>
      		 				
      		 			<div class="f_l m_l5">
-     		 				<select class="w100" name="cron_hour" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$hours selected=$cron.cronhour} --></select>
+     		 				<select class="w100 remove_select" name="cron_hour" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$hours selected=$cron.cronhour} --></select>
      		 			</div>
 					</div>
 				</div>
@@ -90,9 +90,9 @@
 					<label class="control-label">{lang key='cron::cron.label_cron_minute'}</label>
 					<div class="controls">
 						<div class="f_l">
-     		 				<select class="w100" name="select_cron_minute" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$minute selected=$cron.cronminute} --></select>
+     		 				<select class="w100 remove_select" name="select_cron_minute" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$minute selected=$cron.cronminute} --></select>
      		 			</div>
-						<input name="cron_minute" id="cron_minute" type="text" value="{$cron.cronminute}" size="40"  {if $cron_config_file.lock_time}disabled="true"{/if}/>
+						<input class="remove_select" name="cron_minute" id="cron_minute" type="text" value="{$cron.cronminute}" size="40"  {if $cron_config_file.lock_time}disabled="true"{/if}/>
 					    <div class="help-block">{lang key='cron::cron.notice_minute'}</div>
 					</div>
 				</div>

@@ -168,9 +168,8 @@ class admin extends ecjia_admin {
 		$this->assign('ur_here', RC_Lang::get('cron::cron.edit_cron'));
 		$this->assign('action_link', array('text' => RC_Lang::get('cron::cron.cron'), 'href' => RC_Uri::url('cron/admin/init')));
 		
+		$this->admin_priv('cron_update');
 		if (empty($_POST['step'])) {
-		    $this->admin_priv('cron_update');
-		    
 			$code = trim($_GET['code']);
 			$cron = $this->db_crons->crons_find(array('cron_code' => $code));
 			
@@ -213,86 +212,75 @@ class admin extends ecjia_admin {
 			$this->assign('cron_config_file', $cron_config_file);
 			$this->display('cron_edit.dwt');
 		} elseif ($_POST['step'] == 2) {
-		    $this->admin_priv('cron_update', ecjia::MSGTYPE_JSON);
-		    
-			$code = trim($_GET['code']);
 			
+			$code = trim($_GET['code']);
+				
 			$links[] = array('text' => RC_Lang::get('cron::cron.back_list'), 'href' => RC_Uri::url('cron/admin/init'));
-
+			
 			$cron_config = array();
 			if (isset($_POST['cfg_value']) && is_array($_POST['cfg_value'])) {
 				$temp = count($_POST['cfg_value']);
 				for ($i = 0; $i < $temp; $i++) {
 					$cron_config[] = array(
-						'name'  => trim($_POST['cfg_name'][$i]),
-						'type'  => trim($_POST['cfg_type'][$i]),
-						'value' => trim($_POST['cfg_value'][$i])
+							'name'  => trim($_POST['cfg_name'][$i]),
+							'type'  => trim($_POST['cfg_type'][$i]),
+							'value' => trim($_POST['cfg_value'][$i])
 					);
 				}
 			}
 			$cron_config = serialize($cron_config);
+			$cron_minute = cron_helper::get_minute($_POST['cron_minute']);
+				
+			if ($_POST['ttype'] == 'day') {
+				$cron_day = $_POST['cron_day'];
+				$cron_week = '';
+			} elseif ($_POST['ttype'] == 'week') {
+				$cron_day = 0;
+				$cron_week = $_POST['cron_week'];
 			
-			//锁定时间
-			$data_time = array();
-			$cron_handle = $this->cron_method->pluginInstance($code);
-			$cron_config_file = $cron_handle->loadConfig();
-			if (!array_get($cron_config_file, 'lock_time', false)) {
-			    
-			    $cron_minute = cron_helper::get_minute($_POST['cron_minute']);
-			    	
-			    if ($_POST['ttype'] == 'day') {
-			        $cron_day = $_POST['cron_day'];
-			        $cron_week = '';
-			    } elseif ($_POST['ttype'] == 'week') {
-			        $cron_day = 0;
-			        $cron_week = $_POST['cron_week'];
-			    
-			        if ($cron_week == 7) {
-			            $cron_week = 0;
-			        }
-			    
-			    } else {
-			        $cron_day = 0;
-			        $cron_week = '';
-			    }
-			    
-			    $cron_hour = $_POST['cron_hour'];
-			    $cron = array('day' =>  $cron_day, 'week' => $cron_week, 'hour' => $cron_hour, 'm' => $cron_minute);
-			    	
-			    RC_Package::package('app::cron')->loadClass('cron_nexttime', false);
-			    $next = cron_nexttime::make($cron)->getNextTime();
-			    $data_time = array(
-    				'nextime' 		=> $next,
-    				'day' 			=> $cron_day,
-    				'week' 			=> $cron_week,
-    				'hour' 			=> $cron_hour,
-    				'minute' 		=> $cron_minute,
-			    );
+				if ($cron_week == 7) {
+					$cron_week = 0;
+				}
+			
+			} else {
+				$cron_day = 0;
+				$cron_week = '';
 			}
-	
+			
 			$cron_name = !empty($_POST['cron_name']) ? $_POST['cron_name'] : '';
 			$cron_desc = !empty($_POST['cron_desc']) ? $_POST['cron_desc'] : '';
 			$cron_run_once = !empty($_POST['cron_run_once']) ? $_POST['cron_run_once'] : 0;
 			$allow_ip = !empty($_POST['allow_ip']) ? $_POST['allow_ip'] : '';
 			$alow_files = isset($_POST['alow_files']) ? implode(',', $_POST['alow_files']) : "";
+				
+			$cron_hour = $_POST['cron_hour'];
+			$cron = array('day' =>  $cron_day, 'week' => $cron_week, 'hour' => $cron_hour, 'm' => $cron_minute);
+			
+			RC_Package::package('app::cron')->loadClass('cron_nexttime', false);
+			$next = cron_nexttime::make($cron)->getNextTime();
 			
 			$data = array(
 				'cron_name'		=> $cron_name,
 				'cron_desc'		=> $cron_desc,
 				'cron_config'	=> $cron_config,
+				'nextime' 		=> $next,
+				'day' 			=> $cron_day,
+				'week' 			=> $cron_week,
+				'hour' 			=> $cron_hour,
+				'minute' 		=> $cron_minute,
 				'run_once' 		=> $cron_run_once,
 				'allow_ip' 		=> $allow_ip,
 				'alow_files' 	=> $alow_files
 			);
-			$data = array_merge($data, $data_time);
-		 	$cron_update = $this->db_crons->crons_update(array('cron_id' => $_POST['cron_id']), $data);
-		 	
-		 	ecjia_admin::admin_log($cron_name, 'edit', 'cron');
-		 	if ($cron_update) {
-		 		return $this->showmessage(RC_Lang::get('cron::cron.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin/edit', array('code' => $code))));
-		 	} else {
-		 		return $this->showmessage(RC_Lang::get('cron::cron.edit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		 	}
+			$cron_update = $this->db_crons->crons_update(array('cron_id' => $_POST['cron_id']), $data);
+			
+			ecjia_admin::admin_log($cron_name, 'edit', 'cron');
+			if ($cron_update) {
+				$this->showmessage(RC_Lang::get('cron::cron.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin/edit', array('code' => $code))));
+			} else {
+				$this->showmessage(RC_Lang::get('cron::cron.edit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+			
 		}
 	}
 	
@@ -301,7 +289,10 @@ class admin extends ecjia_admin {
 	 */
 	public function run() {
 		$this->admin_priv('cron_run', ecjia::MSGTYPE_JSON);
-
+		
+		ini_set('memory_limit', -1);
+		set_time_limit(0);
+		
 		$cron = $this->db_crons->crons_find(array('cron_code' => $_GET['code']));
 		if (empty($cron)) {
 		    return $this->showmessage('Cron script not found.', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
