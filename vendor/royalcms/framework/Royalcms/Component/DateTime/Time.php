@@ -17,6 +17,20 @@ class Time
     {
         return (SYS_TIME - date('Z'));
     }
+    
+    /**
+     * 获得当前格林威治时间的自定义格式时间
+     *
+     * @param string $format
+     *  
+     * @return string
+     */
+    public static function gmdate($format)
+    {
+        $time = self::gmtime();
+        
+        return date($format, $time);
+    }
 
     /**
      * 获得服务器的时区
