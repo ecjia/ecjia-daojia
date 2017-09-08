@@ -41,8 +41,8 @@
 			<thead>
 				<tr>
 					<th class="w130">{lang key='payment::payment.order_sn'}</th>
-					<th class="w110">{lang key='payment::payment.trade_type'}</th>
-					<th>支付订单号 / 流水号</th>
+					<th class="w100">{lang key='payment::payment.trade_type'}</th>
+					<th class="w200">支付订单号 / 流水号</th>
 					<th class="w110">{lang key='payment::payment.pay_name'}</th>
 					<th class="w110">{lang key='payment::payment.total_fee'}</th>
 					<th class="w130">{lang key='payment::payment.create_time'} / {lang key='payment::payment.pay_times'}</th>

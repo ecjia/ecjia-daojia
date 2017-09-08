@@ -104,8 +104,8 @@ class admin_payment_record extends ecjia_admin {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here((RC_Lang::get('payment::payment.transaction_flow_record')), RC_Uri::url('payment/admin_payment_record/init')));
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('payment::payment.view_flow_record')));
 		RC_Loader::load_app_func('global');
-		$id = $_REQUEST['id'];
-		$order_sn = RC_DB::table('payment_record')->select('order_sn')->where('id', $id)->pluck();
+		$id = $_GET['id'];
+		$order_sn = RC_DB::table('payment_record')->where('id', $id)->pluck('order_sn');
 		
 		//获取订单信息
 		$order = RC_Api::api('orders', 'order_sn_info', array('order_sn' => $order_sn));
@@ -117,7 +117,7 @@ class admin_payment_record extends ecjia_admin {
 		if (is_ecjia_error($order)) {
 			$order = array();
 		}
-		$db_payment_record = RC_DB::table('payment_record')->where('order_sn', $order_sn)->first();
+		$db_payment_record = RC_DB::table('payment_record')->where('id', $id)->first();
 		
 		if ($db_payment_record['trade_type'] == 'buy') {
 			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.buy');
