@@ -386,12 +386,13 @@ class merchant extends ecjia_merchant {
         );
         $response = RC_Api::api('sms', 'send_event_sms', $options);
         
+        $_SESSION['temp_mobile']	= $mobile;
+        $_SESSION['temp_code'] 		= $code;
+        $_SESSION['temp_code_time'] = RC_Time::gmtime();
+        
         if (is_ecjia_error($response)) {
         	return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
-        	$_SESSION['temp_mobile']	= $mobile;
-           	$_SESSION['temp_code'] 		= $code;
-            $_SESSION['temp_code_time'] = RC_Time::gmtime();
             return $this->showmessage('手机验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         }
     }

@@ -5,7 +5,7 @@
         <div class="container">
             <!-- start:navbar-header -->
             <div class="navbar-header">
-                <a class="navbar-brand" href="{RC_Uri::url('franchisee/merchant/init')}"><i class="fa fa-cubes"></i> <strong>{ecjia::config('shop_name')} - {if $shop_title}{$shop_title}{else}商家入驻{/if}</strong></a>
+                <a class="navbar-brand" href="{if $shop_title_link}{$shop_title_link}{else}{RC_Uri::url('franchisee/merchant/init')}{/if}"><i class="fa fa-cubes"></i> <strong>{ecjia::config('shop_name')} - {if $shop_title}{$shop_title}{else}商家入驻{/if}</strong></a>
             </div>
             <!-- end:navbar-header -->
             <ul class="nav navbar-nav navbar-left top-menu">

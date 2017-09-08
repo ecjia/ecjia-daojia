@@ -87,6 +87,7 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		$this->public_route = array(
 		    'staff/privilege/login',
 		    'staff/privilege/signin',
+			'staff/privilege/autologin',
 		    'staff/get_password/forget_pwd',
 		    'staff/get_password/reset_pwd_mail',
 		    'staff/get_password/reset_pwd_form',
@@ -98,7 +99,6 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 			'staff/get_password/get_code_form',
 			'staff/get_password/mobile_reset',
 			'staff/get_password/mobile_reset_pwd',
-		    'franchisee/merchant/init',
 		    'franchisee/merchant/init',
 		    'franchisee/merchant/get_code_value',
 		    'franchisee/merchant/insert',
