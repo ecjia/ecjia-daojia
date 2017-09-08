@@ -11,17 +11,9 @@
 		<link rel="stylesheet" type="text/css" href="{$front_url}/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="{$system_statics_url}/lib/bootstrap/css/bootstrap-responsive.min.css" />
 	</head>
-	<body>
-		<div class="ecjia-install-patch">
-		    <h2><img src="{$logo_pic}"/>ECJIA到家</h2>
-		  	<ol class="path">
-		        <li><span>1</span>欢迎使用</li>
-		        <li><span>2</span>检查环境</li>
-		        <li><span>3</span>初始化配置</li>
-		        <li><span>4</span>开始安装</li>
-		        <li class="current"><span>5</span>安装成功</li>
-		    </ol>
-		</div>
+	
+	<body id="maincontainer" style="height:auto;">
+		{include file="./library/header.lbi.php"}
 		<div class="container">
 		    <div class="row">
 		        <div class="col-mb-12 col-tb-8 col-tb-offset-2">
@@ -59,15 +51,8 @@
 			</div>
 		</div>	
 		
-		<div class="ecjia-install-foot">
-			<div class="container">
-				<div class="row">
-					<div class="col-mb-12 col-tb-8 col-tb-offset-2 ecjiaf-pr">
-						<p>版权所有 © 2013-2017 上海商创网络科技有限公司，并保留所有权利。<span>v{$version}<br>{$build}</span></p>
-					</div>
-				</div>
-			</div>
-		</div>
+		{include file="./library/footer.lbi.php"}
+		
 	</body>
 </html>
 {/nocache}

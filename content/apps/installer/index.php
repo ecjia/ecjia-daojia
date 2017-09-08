@@ -73,6 +73,7 @@ class index extends SimpleController {
 		$this->unset_cookie();
 		setcookie('install_step1', 1);
 		
+		$this->assign('ecjia_step', 1);
 		$this->display(
 			RC_Package::package('app::installer')->loadTemplate('front/welcome.dwt', true)
 		);
@@ -227,6 +228,7 @@ class index extends SimpleController {
 		$this->assign('ecjia_release', RELEASE);
 		$this->assign('sys_info', $sys_info);
 		
+		$this->assign('ecjia_step', 2);
 		$this->display(
 			RC_Package::package('app::installer')->loadTemplate('front/detect.dwt', true)
 		);
@@ -251,6 +253,7 @@ class index extends SimpleController {
 		$this->assign('correct_img', RC_App::apps_url('statics/front/images/correct.png', __FILE__));
 		$this->assign('error_img', RC_App::apps_url('statics/front/images/error.png', __FILE__));
 		
+		$this->assign('ecjia_step', 3);
 		$this->display(
 			RC_Package::package('app::installer')->loadTemplate('front/deploy.dwt', true)
 		);
@@ -289,6 +292,7 @@ class index extends SimpleController {
 			$finish_message = RC_Lang::get('installer::installer.finish_success');
 			$this->assign('finish_message', $finish_message);
 			
+			$this->assign('ecjia_step', 5);
 			$this->display(
 				RC_Package::package('app::installer')->loadTemplate('front/finish.dwt', true)
 			);
@@ -320,6 +324,7 @@ class index extends SimpleController {
 			return $this->redirect(RC_Uri::url('installer/index/init'));
 		}
 		
+		$this->assign('ecjia_step', 5);
 		$this->display(
 			RC_Package::package('app::installer')->loadTemplate('front/finish.dwt', true)
 		);
