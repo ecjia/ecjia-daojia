@@ -109,7 +109,7 @@ function get_account_list($args = array()) {
 	
 	$filter['user_id']		= empty($args['user_id'])			? 0                             : intval($args['user_id']);
 	$filter['keywords']		= empty($args['keywords'])			? ''                            : trim($args['keywords']);
-	$filter['process_type']	= isset($args['process_type'])		? intval($args['process_type']) : -1;
+	//$filter['process_type']	= isset($args['process_type'])		? intval($args['process_type']) : -1;
 	$filter['payment']		= empty($args['payment'])			? ''                            : trim($args['payment']);
 	$filter['is_paid']		= isset($args['is_paid'])			? intval($args['is_paid'])      : -1;
 	$filter['start_date']	= empty($args['start_date'])		? ''                            : $args['start_date'];
@@ -117,14 +117,23 @@ function get_account_list($args = array()) {
 
 	$filter['sort_by']		= empty($_REQUEST['sort_by'])		? 'add_time'                    : trim($_REQUEST['sort_by']);
 	$filter['sort_order']	= empty($_REQUEST['sort_order'])	? 'DESC'                        : trim($_REQUEST['sort_order']);
+	
+	$filter['type']			= empty($args['type'])				? ''                            : $args['type'];
+	
 	$db_user_account = RC_DB::table('user_account as ua')->leftJoin('users as u', RC_DB::raw('ua.user_id'), '=', RC_DB::raw('u.user_id'));
 	
 	if ($filter['user_id'] > 0) {
 		$db_user_account->where(RC_DB::raw('ua.user_id'), $filter['user_id']);
 	}
-	if ($filter['process_type'] != -1) {
-		$db_user_account->where(RC_DB::raw('process_type'), $filter['process_type']);
-	} 
+	//if ($filter['process_type'] != -1) {
+	//	$db_user_account->where(RC_DB::raw('process_type'), $filter['process_type']);
+	//} 
+
+	if ($filter['type'] == 'recharge') {
+		$db_user_account->where(RC_DB::raw('process_type'), 0);
+	} elseif ($filter['type'] == 'withdraw') {
+		$db_user_account->where(RC_DB::raw('process_type'), 1);
+	}
 	if ($filter['payment']) {
 		$payment = $payment_method->payment_info_by_name($filter['payment']);
 
@@ -140,7 +149,8 @@ function get_account_list($args = array()) {
 	}
 
 	if ($filter['keywords']) {
-		$db_user_account->where(RC_DB::raw('u.user_name'), 'like', '%'.mysql_like_quote($filter['keywords']).'%');
+		//$db_user_account->where(RC_DB::raw('u.user_name'), 'like', '%'.mysql_like_quote($filter['keywords']).'%');
+		$db_user_account ->whereRaw('(u.user_name like  "%' . mysql_like_quote($filter['keywords']) . '%" or u.mobile_phone like "%'.mysql_like_quote($filter['keywords']).'%" )');
 	}
 	
 	/*　时间过滤　*/
@@ -545,7 +555,25 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 	RC_DB::table('users')
 			->where('user_id', $user_id)
 			->increment('user_money', $step);
-
+			
+			
+	$user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'user_money', 'mobile_phone')->first();
+	
+	/* 短信告知用户账户变动 */
+	if (!empty($user_info['mobile_phone'])) { 
+		$options = array(
+			'mobile' => $user_info['mobile_phone'],
+			'event'	 => 'sms_user_account_change',
+			'value'  =>array(
+					'user_name' 	=> $user_info['user_name'],
+					'amount' 		=> $user_money,
+					'user_money' 	=> $user_info['user_money'],
+					'service_phone' => ecjia::config('service_phone'),
+			),
+		);
+		
+		RC_Api::api('sms', 'send_event_sms', $options);
+	}
 }
 
 // TODO:以下从api移入

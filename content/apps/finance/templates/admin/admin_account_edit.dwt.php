@@ -21,10 +21,15 @@
 		<form class="form-horizontal" id="form-privilege" name="theForm" action="{$form_action}" method="post" >
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::user_account.label_user_id'}</label>
+					<label class="control-label">{lang key='user::user_account.user_mobile'}：</label>
 					<div class="controls">
-						<input class="w350" name="username" type="text" value="{if $user_name}{$user_name}{else if $smarty.get.id}匿名会员{else}{/if}" {if $user_surplus.is_paid} readonly="true" {/if} />
+						<input class="w350 user-mobile" name="user_mobile" action='{url path="finance/admin_account/validate_acount"}' type="text" value="{if $user_mobile}{$user_mobile}{else if $smarty.get.id}匿名会员{else}{/if}" {if $user_surplus.is_paid} readonly="true" {/if} />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
+					</div>
+				</div>
+				<div class="control-group formSep username user">
+					<label class="control-label">会员名称：</label>
+					<div class="controls userinfo">
 					</div>
 				</div>
 				<div class="control-group formSep">
@@ -32,6 +37,7 @@
 					<div class="controls">
 						<input class="w350" type="text" name="amount" value="{$user_surplus.amount}" {if $user_surplus.is_paid} readonly="true" {/if} />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="help-block">{lang key='user::user_account.min_amount_error'}</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
@@ -78,6 +84,7 @@
 				<div class="control-group">
 					<div class="controls">
 						<input type="hidden" name="id" value="{$user_surplus.id}" />
+						<input type="hidden" name="type" value="{$type}" />
 						<!-- {if $user_surplus.process_type eq 0 || $user_surplus.process_type eq 1} -->
 						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
 						<!-- {/if} -->

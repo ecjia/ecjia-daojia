@@ -62,9 +62,9 @@ class admin_account_log extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-form');
 		RC_Script::enqueue_script('jquery-chosen');
 		RC_Style::enqueue_style('chosen');
-		RC_Script::enqueue_script('user_info', RC_App::apps_url('statics/js/account_log.js', __FILE__));
 		RC_Script::enqueue_script('jquery-peity');
 		
+		RC_Script::enqueue_script('account_log', RC_App::apps_url('statics/js/account_log.js', __FILE__));
 		$account_log_jslang = array(
 			'change_desc_required' => RC_Lang::get('user::account_log.js_languages.no_change_desc')
 		);

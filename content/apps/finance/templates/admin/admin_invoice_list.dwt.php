@@ -58,7 +58,7 @@
 					</td>
 				</tr>
 				<!-- {foreachelse}-->
-				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

@@ -113,7 +113,7 @@
 								{else}
 									<input class="btn btn-gebo" type="submit" value="{lang key='system::system.button_submit'}" />
 								{/if}
-								
+									<input type="hidden" name="type" value="{$type}" />
 								</td>
 							</tr>
 						</tbody>
