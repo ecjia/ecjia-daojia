@@ -51,6 +51,16 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 RC_Loader::load_app_class('integrate', 'user', false);
 class user_controller {
+    
+    private static function avatar_img($user_id) {
+        $default_headerimg = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
+        
+        
+        
+        
+        
+    }
+    
     /**
      * 会员中心欢迎页
      */
@@ -75,7 +85,8 @@ class user_controller {
     			if ($user) {
     				//判断是否第三方登录，同步头像
     				/* 获取远程用户头像信息*/
-    				user_controller::sync_avatar($user['id']);
+    			    //@todo 没有获取到头像，再次获取头像
+//     				user_controller::sync_avatar($user['id']);
     				 
     				if (!empty($user['avatar_img'])) {
     					$user_img = $user['avatar_img'];
@@ -103,7 +114,6 @@ class user_controller {
     		ecjia_front::$controller->assign('active', 'mine');
     		ecjia_front::$controller->assign_title('个人中心');
     	}
-    	setcookie("index_url", RC_Uri::url('touch/index/init'));
     	ecjia_front::$controller->display('user.dwt', $cache_id);
     }
     
@@ -158,36 +168,43 @@ class user_controller {
 		}
     }
     
-    public static function sync_avatar($user_id) {
+    public static function sync_avatar($connect_user) {
+        $user_id = $connect_user->getUserId();
         if (empty($user_id)) {
             return false;
         }
+        
         $token = ecjia_touch_user::singleton()->getToken();
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
          
         $user = is_ecjia_error($user) ? array() : $user;
-        if (!empty($user['avatar_img'])) {
+        if (array_get($user, 'avatar_img')) {
             return false;
         }
-        $connect_user = RC_Api::api('connect', 'connect_user_info', array('user_id' => $user_id));
+//         $connect_user = RC_Api::api('connect', 'connect_user_info', array('user_id' => $user_id));
         
 //         RC_Logger::getlogger('info')->info('user_controller-connect');
-        if (is_ecjia_error($connect_user)) {
-            $connect_user = $connect_user->get_error_message();
-        }
+//         if (is_ecjia_error($connect_user)) {
+//             $connect_user = $connect_user->get_error_message();
+//         }
 //         RC_Logger::getlogger('info')->info($connect_user);
-        if ($connect_user) {
-            if ($connect_user['connect_code'] == 'sns_qq') {
-                $head_img = $connect_user['profile']['figureurl_qq_2'];
-            } else if ($connect_user['connect_code'] == 'sns_wechat') {
-                $head_img = $connect_user['profile']['headimgurl'];
-            }
-//             RC_Logger::getlogger('info')->info('user_controller-headimg' . $head_img);
-            if ($head_img) {
-                RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $head_img, 'user_id' => $user_id));
-                $user_img = $head_img;
-            }
+
+        $head_img = $connect_user->getUserHeaderImg();
+        if ($head_img) {
+            RC_Api::api('user', 'update_user_avatar', array('avatar_url' => $head_img, 'user_id' => $user_id));
         }
+        
+        //  $user_img = $head_img;
+        
+//         if ($connect_user) {
+//             if ($connect_user['connect_code'] == 'sns_qq') {
+//                 $head_img = $connect_user['profile']['figureurl_qq_2'];
+//             } else if ($connect_user['connect_code'] == 'sns_wechat') {
+//                 $head_img = $connect_user['profile']['headimgurl'];
+//             }
+//             RC_Logger::getlogger('info')->info('user_controller-headimg' . $head_img);
+            
+//         }
     }
     
 }

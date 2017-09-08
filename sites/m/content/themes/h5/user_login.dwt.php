@@ -40,7 +40,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <p class="ecjiaf-tac">其他帐号登录</p>
 	<ul class="thirdparty-wrap">
     	<a href="{url path='connect/index/init' args='connect_code=sns_qq'}"><li class="thirdparty-qq"></li></a>
-    	<a href="{url path='connect/index/init' args='connect_code=sns_wechat&login_type=platform_userinfo'}"><li class="thirdparty-weixin"></li></a>
+    	<a href="{url path='connect/index/init' args='connect_code=sns_wechat&login_type=snsapi_userinfo'}"><li class="thirdparty-weixin"></li></a>
 	</ul>
 </div>
 <!-- {/block} -->

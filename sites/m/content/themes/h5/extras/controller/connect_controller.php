@@ -58,73 +58,38 @@ class connect_controller {
      * @param array $data
      */
     public static function callback_template($data) {
-        if (is_ecjia_error($data)) {
+        $connect_user = $data['connect_user'];
+        if (is_ecjia_error($connect_user)) {
             //错误
-            RC_Logger::getlogger('error')->error('connect-controller,callback_template');
-            RC_Logger::getlogger('error')->error($data->get_error_message());
+            RC_Logger::getlogger('wechat')->info('connect-controller,callback_template');
+            RC_Logger::getlogger('wechat')->error($connect_user->get_error_message());
             $msg = '登录授权失败，请使用其他方式登录';
             return ecjia_front::$controller->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+
+        $profile = $connect_user->getProfile();
         
-        ecjia_front::$controller->assign('authorize_login', true);
-        
-        //成功
-        if (empty($data['connect_code']) || empty($data['open_id'])) {
-            RC_Logger::getlogger('error')->info('connect_controller-授权信息异常，请重新授权');
-            RC_Logger::getlogger('error')->info($data);
-            return ecjia_front::$controller->showmessage('授权信息异常，请重新授权', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }
-        
-        //关联查询wechat_user
-//         $wechat_user = RC_DB::table('wechat_user')->where('unionid', $data['open_id'])->first();
-//         if ($wechat_user['ect_uid']) {
-//             connect_controller::sync_wechat_user($wechat_user);
-//             return RC_Hook::do_action('connect_callback_user_signin', $wechat_user['ect_uid']);
-//         } else {
-//             $wechat_user = RC_DB::table('wechat_user')->where('openid', $data['open_id'])->first();
-//             if ($wechat_user['ect_uid']) {
-//                 connect_controller::sync_wechat_user($wechat_user);
-//                 return RC_Hook::do_action('connect_callback_user_signin', $wechat_user['ect_uid']);
-//             }
-//         }
-        
-        RC_Loader::load_app_class('connect_user', 'connect', false);
-        $connect_user = new connect_user($data['connect_code'], $data['open_id']);
-        $user_info = $connect_user->get_openid();
-        
-        if ($data['connect_code'] && $data['connect_code'] == 'sns_qq') {
-            $user_img = $user_info['profile']['figureurl_qq_2'];
-            $user_name = $user_info['profile']['nickname'];
-        } else if ($data['connect_code'] && $data['connect_code'] == 'sns_wechat') {
-            $user_img = $user_info['profile']['headimgurl'];
-            $user_name = $user_info['profile']['nickname'];
-        }
+        $user_name = $connect_user->getUserName();
+        $user_img = $connect_user->getUserHeaderImg();
         
         ecjia_front::$controller->assign('connect_code',$data['connect_code']);
-        ecjia_front::$controller->assign('user_info', $user_info);
         ecjia_front::$controller->assign('user_img', $user_img);
-        ecjia_front::$controller->assign('hideinfo', '1');
         ecjia_front::$controller->assign('user_name', $user_name);
+        //隐藏公共头部信息
+        ecjia_front::$controller->assign('hideinfo', '1');
         
+        $data['bind_url'] = RC_Uri::url('connect/index/bind_signin', array('connect_code' => $connect_user->getConnectCode(), 'open_id' => $connect_user->getOpenId()));
         //快速注册修改
-        $url['bind_signup'] = str_replace('/notify/', '/', $data['login_url']);
-        $url['bind_signin'] = str_replace('/notify/', '/', RC_Uri::url('connect/index/bind_signin', array('connect_code' => $data['connect_code'], 'open_id' => $data['open_id'])));
-        ecjia_front::$controller->assign('url', $url);
-        return ecjia_front::$controller->fetch ('user_bind_login.dwt.php');
+        ecjia_front::$controller->assign('data', $data);
+
+        return ecjia_front::$controller->fetch('user_bind_login.dwt');
     }
     
     
-    /* 第三方登陆 */
-    public static function bind_login() {
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('user_bind_login.dwt');
-    }
-    
-    /* 第三方登陆快速注册 */
+    /* 第三方登录快速注册 */
     public static function bind_signup($params) {
-    
-        $connect_code = !empty($_GET['connect_code']) ? trim($_GET['connect_code']) : '';
-        $open_id = !empty($_GET['open_id']) ? trim($_GET['open_id']) : '';
+        $connect_code = royalcms('request')->query('connect_code'); 
+        $open_id = royalcms('request')->query('open_id');
     
         if (!$params) {
             if (empty($connect_code) || empty($open_id)) {
@@ -188,11 +153,10 @@ class connect_controller {
         //绑定第三方
         $user_id = $response['user']['id'];
     
-        RC_Loader::load_app_class('connect_user', 'connect', false);
-        $connect_user = new connect_user($connect_code, $open_id);
+        $connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id);
         $result = false;
         if ($user_id) {
-            $result = $connect_user->bind_user($user_id, 0);
+            $result = $connect_user->bindUser($user_id);
         }
         if ($result) {
             //登录
@@ -203,7 +167,7 @@ class connect_controller {
         }
     }
     
-    /* 第三方登陆绑定关联 */
+    /* 第三方登录绑定关联 */
     public static function bind_signin() {
         $connect_code = !empty($_GET['connect_code']) ? trim($_GET['connect_code']) : '';
         $open_id = !empty($_GET['open_id']) ? trim($_GET['open_id']) : '';

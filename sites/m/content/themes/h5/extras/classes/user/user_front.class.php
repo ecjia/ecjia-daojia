@@ -63,7 +63,7 @@ class user_front {
             	$url = $_GET['referer_url'];
             	return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url))));
             }
-            return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login', array('referer' => urlencode($url))));
+            return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url))));
 		}
 	}
 	

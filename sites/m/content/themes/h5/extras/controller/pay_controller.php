@@ -112,18 +112,19 @@ class pay_controller {
 	        	/* 调起微信支付*/
 	        	else if ( $pay_code == 'pay_wxpay' || $payment_info['pay_code'] == 'pay_wxpay') {
 	        		// 取得支付信息，生成支付代码
-	        		$payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
+// 	        		$payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
 	        		 
 // 	        		$handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
 	        		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($payment_info['pay_code']);
 	        		$handler->set_orderinfo($detail);
 	        		$handler->set_mobile(false);
+	        		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
 	        		$rs_pay = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
 	        		if (is_ecjia_error($rs_pay)) {
 	        		    return ecjia_front::$controller->showmessage($rs_pay->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
 	        		}
 	        		$order = $rs_pay;
-	        		ecjia_front::$controller->assign('pay_button', $rs_pay['pay_online']);
+	        		ecjia_front::$controller->assign('pay_button', $rs_pay['private_data']['pay_online']);
 	        		unset($order['pay_online']);
 	        		$need_other_payment = 1;
 	        	} else {
@@ -134,6 +135,7 @@ class pay_controller {
 	        		} else {
 	        			$need_other_payment = 1;
 	        		}
+	        		$order['pay_online'] = array_get($order, 'pay_online', array_get($order, 'private_data.pay_online'));
 	        	}
 	        	 
 	        	if ($need_other_payment && $order['order_pay_status'] == 0) {
@@ -196,15 +198,19 @@ class pay_controller {
     }
     
     public static function notify() {
-    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
-    	if (!ecjia_front::$controller->is_cached('pay_notify.dwt', $cache_id)) {
-    		$msg = '支付成功';
-    		ecjia_front::$controller->assign('msg', $msg);
-    		$order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : '';
-    		
-    		ecjia_front::$controller->assign('order_type', $order_type);
-    	}
-        ecjia_front::$controller->display('pay_notify.dwt', $cache_id);
+		$msg = '支付成功';
+		ecjia_front::$controller->assign('msg', $msg);
+		$order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : '';
+		$url['index'] = RC_Cookie::get('pay_response_index');
+		$url['order'] = RC_Cookie::get('pay_response_order');
+		
+		$url = array(
+		    'index' => RC_Cookie::get('pay_response_index') ? RC_Cookie::get('pay_response_index') : str_replace('notify/', '', RC_Uri::url('touch/index/init')),
+		    'order' => RC_Cookie::get('pay_response_order') ? RC_Cookie::get('pay_response_order') : str_replace('notify/', '', RC_Uri::url('touch/user/order_list')),
+		);
+		ecjia_front::$controller->assign('url', $url);
+		ecjia_front::$controller->assign('order_type', $order_type);
+        ecjia_front::$controller->display('pay_notify.dwt');
     }
 }
 

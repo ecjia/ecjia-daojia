@@ -136,7 +136,7 @@ RC_Hook::add_action('franchisee/index/location', array('franchisee_controller', 
 RC_Hook::add_action('franchisee/index/location_finish', array('franchisee_controller', 'location_finish'));//提交店铺精确位置
 RC_Hook::add_action('franchisee/index/get_region', array('franchisee_controller', 'get_region'));//提交店铺精确位置
 
-//登陆注册
+//登录注册
 RC_Loader::load_theme('extras/controller/user_privilege_controller.php');
 RC_Hook::add_action('user/privilege/login', array('user_privilege_controller', 'login'));
 RC_Hook::add_action('user/privilege/signin', array('user_privilege_controller', 'signin'));
@@ -220,7 +220,6 @@ RC_Hook::add_action('connect/index/bind_signup', array('connect_controller', 'bi
 RC_Hook::add_action('connect/index/bind_signup_do', array('connect_controller', 'bind_signup_do'));
 RC_Hook::add_action('connect/index/bind_signin', array('connect_controller', 'bind_signin'));
 RC_Hook::add_action('connect/index/bind_signin_do', array('connect_controller', 'bind_signin_do'));
-RC_Hook::add_action('connect/index/bind_login', array('connect_controller', 'bind_login'));
 
 RC_Loader::load_theme('extras/controller/mobile_controller.php');
 RC_Hook::add_action('mobile/discover/init', array('mobile_controller', 'init'));//百宝箱
@@ -258,8 +257,8 @@ RC_Hook::add_action('ecjia_front_finish_launching', function ($arg) {
                 if ($_REQUEST['referer_url']) {
                     RC_Cookie::set('referer', $_REQUEST['referer_url']);
                 }
-                $url = RC_Uri::url('connect/index/init', array('connect_code' => 'sns_wechat', 'login_type' => 'platform_userinfo'));
-                header("location: ".$url);exit();
+                $url = RC_Uri::url('connect/index/init', array('connect_code' => 'sns_wechat', 'login_type' => 'snsapi_userinfo'));
+                ecjia_front::$controller->redirect($url);
             }
         }
     }
@@ -275,18 +274,18 @@ RC_Hook::add_action('ecjia_front_finish_launching', function ($arg) {
 /**
  * 第三方登录回调提示模板
  */
-RC_Hook::add_filter('connect_callback_template', function($data) {
+RC_Hook::add_filter('connect_callback_user_template', function($templateStr, $data) {
     RC_Loader::load_theme('extras/controller/connect_controller.php');
     return connect_controller::callback_template($data);
-}, 10, 1);
+}, 10, 2);
     
 /**
  * 第三方登录用户注册
  */
-RC_Hook::add_filter('connect_callback_bind_signup', function($userid, $username, $password, $email) {
+RC_Hook::add_filter('connect_callback_user_bind_signup', function($userid, $username, $password, $email) {
     $result = connect_controller::bind_signup(array('name' => $username, 'password' => $password, 'email' => $email));
     if (is_ecjia_error($result)) {
-        RC_Logger::getlogger('error')->info('connect_callback_bind_signup-error');
+        RC_Logger::getlogger('wechat')->info('connect_callback_bind_signup-error');
         return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
     } else {
         return $result;
@@ -296,8 +295,9 @@ RC_Hook::add_filter('connect_callback_bind_signup', function($userid, $username,
 /**
  * 第三方登录用户登录
  */
-RC_Hook::add_action('connect_callback_user_signin', function($userid) {
+RC_Hook::add_action('connect_callback_user_signin', function($connect_user) {
     RC_Loader::load_app_func('admin_user', 'user');
+    $userid = $connect_user->getUserId();
     $user_info = EM_user_info($userid);
     if (empty($user_info)) {
         return ecjia_front::$controller->showmessage('关联用户不存在，请联系管理员', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
@@ -318,21 +318,64 @@ RC_Hook::add_action('connect_callback_user_signin', function($userid) {
     ecjia_touch_user::singleton()->setUserinfo($res);
      
     update_user_info(); // 更新用户信息
-    user_controller::sync_avatar($userid);/* 获取远程用户头像信息*/
+    
+    /*获取远程用户头像信息*/
+    user_controller::sync_avatar($connect_user);
+    
+    // 重新计算购物车中的商品价格
     RC_Loader::load_app_func('cart','cart');
-    recalculate_price(); // 重新计算购物车中的商品价格
+    recalculate_price(); 
     
     //结合cookie判断返回来源url
-    if(RC_Cookie::get('referer')) {
-        $back_url = RC_Cookie::get('referer');
-    } else {
-        $back_url = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';
-    }
-    $back_url = empty($back_url) ? RC_Uri::url('touch/index/init') : $back_url;
-    $back_url = str_replace('/notify/', '/', $back_url);
+    $back_url = RC_Cookie::get('referer', RC_Uri::url('touch/index/init'));
 
+    RC_Logger::getlogger('wechat')->info('connect_callback_user_signin-info');
+    RC_Logger::getlogger('wechat')->info($back_url);
+    
     return ecjia_front::$controller->redirect($back_url);
 });
+
+/**
+ * 用户绑定完成后的结果判断处理，用于界面显示
+ * @param $result boolean 判断对错
+ */
+RC_Hook::add_action('connect_callback_user_bind_complete', function($result) {
+    if (is_ajax() && !is_pjax()) {
+        if ($result) {
+            $link[] = array(RC_Lang::get('connect::connect.back_member'), 'href' => RC_Uri::url('touch/my/init'));
+            return ecjia_front::$controller->showmessage(RC_Lang::get('connect::connect.bind_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $link));
+        } else {
+            $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
+            return ecjia_front::$controller->showmessage(RC_Lang::get('connect::connect.bind_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
+        }
+    } else {
+        if ($result) {
+            return ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
+        } else {
+            $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
+            return ecjia_front::$controller->showmessage(RC_Lang::get('connect::connect.bind_fail'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+        }
+    }
+});
+
+/**
+ * 判断是否安装微信登录
+ */
+RC_Hook::add_action('connect_code_before_launching', function($connect_code) {
+    if ($connect_code == 'sns_wechat' && !ecjia_plugin::is_active('sns_wechat/sns_wechat.php')) {
+        echo '请先购买并安装微信登录插件<br><a href="https://ecjia.com/daojia_authorize.html" target="_blank">购买链接</a>';
+        exit();
+    }
+});
+
+RC_Hook::add_action('connect_sns_wechat_handle', function($connect_handle) {
+    $login_type = royalcms('request')->query('login_type');
+    
+    if ($login_type) {
+        $connect_handle->set_login_type($login_type);
+    }
+});
+
 
 /**
  * ecjiaopen协议 
@@ -362,7 +405,7 @@ ecjia_open::macro('help', function() {
 /**
  * 支付响应提示模板
  */
-RC_Hook::apply_filters('payment_respond_template', function($respond, $msg){
+RC_Hook::add_filter('payment_respond_template', function($respond, $msg){
     return pay_controller::notify($msg);
 }, 10, 2);
 

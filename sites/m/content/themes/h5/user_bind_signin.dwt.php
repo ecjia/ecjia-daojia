@@ -1,7 +1,7 @@
 <?php
 /*
 Name: 第三方登录绑定
-Description: 这是登陆绑定页
+Description: 这是登录绑定页
 Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');

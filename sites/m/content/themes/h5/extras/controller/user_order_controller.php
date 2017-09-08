@@ -82,21 +82,26 @@ class user_order_controller {
      * 订单详情
      */
     public static function order_detail() {
+        
+        $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+        if (empty($order_id)) {
+            return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/order/order_list')));
+        }
+        
         $token = ecjia_touch_user::singleton()->getToken();
         $user_info = ecjia_touch_user::singleton()->getUserinfo();
+        $params_order = array('token' => $token, 'order_id' => $order_id);
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_DETAIL)->data($params_order)->run();
+        $data = is_ecjia_error($data) ? array() : $data;
+        if (empty($data)) {
+            return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/order/order_list')));
+        }
         
-        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name']
+            .'-'.$data['order_status'].'-'.$data['shipping_status'].'-'.$data['pay_status'];
         $cache_id = sprintf('%X', crc32($cache_id));
         
         if (!ecjia_front::$controller->is_cached('user_order_detail.dwt', $cache_id)) {
-            $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-            if (empty($order_id)) {
-                return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            }
-            
-            $params_order = array('token' => $token, 'order_id' => $order_id);
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_DETAIL)->data($params_order)->run();
-            $data = is_ecjia_error($data) ? array() : $data;
             
             ecjia_front::$controller->assign('order', $data);
             ecjia_front::$controller->assign('title', '订单详情');

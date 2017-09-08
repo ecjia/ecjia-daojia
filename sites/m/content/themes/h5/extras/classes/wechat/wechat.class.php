@@ -76,7 +76,6 @@ class wechat {
         if (!$this->isWechat() || !RC_Loader::load_plugin_class('WxPayPubHelper', 'pay_wxpay_wap', false)) return false;
 
         // 如果加载不到微信支付，则直接跳出
-        RC_Loader::load_app_class('payment_abstract', 'payment', false);
         $payment_method = RC_Loader::load_app_class('payment_method','payment');
         $payment_info = $payment_method->payment_info_by_code('pay_wxpay_wap');
         if (empty($payment_info)) return false;

@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 use Guzzle\Http\Message\Header;
+use Royalcms\Component\Image\Size;
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
@@ -123,10 +124,10 @@ class user_account_controller {
 	                        unset($pay['payment'][$key]);
 	                    }
 	                    if ($val['pay_code'] == 'pay_wxpay') {
-	                        $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-	                        $payment_info = $payment_method->payment_info_by_id($val['pay_id']);
+// 	                        $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+// 	                        $payment_info = $payment_method->payment_info_by_id($val['pay_id']);
 	                        // 取得支付信息，生成支付代码
-	                        $payment_config = $payment_method->unserialize_config($val['pay_config']);
+// 	                        $payment_config = $payment_method->unserialize_config($val['pay_config']);
 	        
 // 	                        $handler = $payment_method->get_payment_instance($val['pay_code'], $payment_config);
 	                        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
@@ -143,10 +144,14 @@ class user_account_controller {
 	                }
 	            }
 	        }
-
+	        
+	        $pay['payment'][array_keys($pay['payment'])[0]]['checked'] = true;
             ecjia_front::$controller->assign('payment_list', $pay['payment']);
             ecjia_front::$controller->assign('user', $user);
             ecjia_front::$controller->assign_title('充值');
+            
+            //生成返回url cookie
+            RC_Cookie::set('pay_response_index', RC_Uri::url('touch/index/init'));
         }
         ecjia_front::$controller->display('user_account_recharge.dwt', $cache_id);
     }
@@ -161,7 +166,7 @@ class user_account_controller {
     	$account_id = !empty($_POST['account_id']) ? intval($_POST['account_id']) : '';
     	$brownser_wx = $_POST['brownser_wx'];
     	$brownser_other = $_POST['brownser_other'];
-    	
+
     	if ($brownser_wx == 1) {
     		return ecjia_front::$controller->showmessage(__('请使用其他浏览器打开进行支付'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/account/record')));
     	} elseif ($brownser_other == 1) {
@@ -173,52 +178,24 @@ class user_account_controller {
     		if (! is_ecjia_error($data)) {
     		    $data_payment_id = $data['payment']['payment_id'];
     		    $data_account_id = $data['payment']['account_id'];
-    		    
-    		    $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-    		    $payment_info = $payment_method->payment_info_by_id($data_payment_id);
-    		    if ($payment_info['pay_code'] == 'pay_wxpay') {
-    		        // 取得支付信息，生成支付代码
-    		        $payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
-    		         
-    		        RC_Loader::load_app_func('admin_order', 'orders');
-    		        //获取需要支付的log_id
-    		        $order['order_sn']	 = get_order_sn();
-    		        $order['log_id']	 = $payment_method->get_paylog_id($data_account_id, $pay_type = PAY_SURPLUS);
-    		         
-    		        $order['surplus_amount'] = $amount;
-    		        $order['open_id']	 = $_SESSION['wxpay_open_id'];
-    		        //计算支付手续费用
-    		        $payment_info['pay_fee'] = pay_fee($payment_id, $order['surplus_amount'], 0);
-    		        //计算此次预付款需要支付的总金额
-    		        $order['order_amount']   = $order['surplus_amount'] + $payment_info['pay_fee'];
-    		         
-    		        if (!empty($order['log_id'])) {
-        				//如果支付费用改变了，也要相应的更改pay_log表的order_amount
-        				$pay_db = RC_Model::model('orders/pay_log_model');
-        				$order_amount = $pay_db-> where(array('log_id' => $order['log_id']))->get_field('order_amount');
-        				if ($order_amount <> $order['order_amount']) {
-        				    $pay_db->where(array('log_id' => $order['log_id']))->update(array('order_amount' => $order['order_amount']));
-        				}
-    		        } else {
-        				$order['log_id'] = $payment_method->insert_pay_log($data_account_id, $order['order_amount'], PAY_SURPLUS, 0);
-    		        }
-    		        $order['order_type'] = 'user_account';
-//     		        $handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
-    		        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($payment_info['pay_code']);
-    		        $handler->set_orderinfo($order);
-    		        $handler->set_mobile(false);
-    		        $rs_pay = $handler->get_code(payment_abstract::PAYCODE_PARAM);
-    		         
-    		        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('weixin_data' => $rs_pay['pay_online']));
-    		    } else {
-    		        $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_PAY)->data(array('account_id' => $data_account_id, 'payment_id' => $data_payment_id))->run();
-    		        if (! is_ecjia_error($pay)) {
-    		            $pay_online = $pay['payment']['pay_online'];
-    		            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pay_online));
-    		        } else {
-    		            return ecjia_front::$controller->showmessage($pay->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		        }
-    		    }
+
+		        $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_PAY)->data(array('account_id' => $data_account_id, 'payment_id' => $data_payment_id, 'wxpay_open_id' => $_SESSION['wxpay_open_id']))->run();
+		        if (! is_ecjia_error($pay)) {
+		            //生成返回url cookie
+		            RC_Cookie::set('pay_response_index', RC_Uri::url('touch/index/init'));
+		            RC_Cookie::set('pay_response_order', RC_Uri::url('user/account/record', array('status' => 'deposit')));
+
+		            $pay_online = array_get($pay, 'payment.private_data.pay_online', array_get($pay, 'payment.pay_online'));
+		            if (array_get($pay, 'payment.pay_code') == 'pay_alipay') {
+		                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('redirect_url' => $pay_online, 'pay_name' => 'ali'));
+		            } else if (array_get($pay, 'payment.pay_code') == 'pay_wxpay'){
+		                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('weixin_data' => $pay_online, 'pay_name' => 'weixin'));
+		            } else {
+		                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('redirect_url' => $pay_online, 'pay_name' => 'redirect'));
+		            }
+		        } else {
+		            return ecjia_front::$controller->showmessage($pay->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		        }
     		}
     	} else {
     		return ecjia_front::$controller->showmessage(__('金额不能为空'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -437,6 +414,7 @@ class user_account_controller {
 	        $data['add_time'] = !empty($_GET['add_time']) ? $_GET['add_time'] : '';
 	        $data['payment_id'] = !empty($_GET['payment_id']) ? $_GET['payment_id'] : '';
 	        $data['payment_name'] = !empty($_GET['payment_id']) ? trim($_GET['payment_name']) : '';
+	        $data['order_sn'] = !empty($_GET['order_sn']) ? trim($_GET['order_sn']) : '';
 	        
 	        /*微信充值相关处理*/
 	        $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
@@ -451,7 +429,7 @@ class user_account_controller {
 	        
 	        if ($payment_info['pay_code'] == 'pay_wxpay') {
 	            // 取得支付信息，生成支付代码
-	            $payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
+// 	            $payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
 // 	            $handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
 	            $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($payment_info['pay_code']);
 	            $open_id = $handler->get_open_id();

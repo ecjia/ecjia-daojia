@@ -77,7 +77,9 @@ class user_profile_controller {
     		ecjia_front::$controller->assign_lang();
     		ecjia_front::$controller->assign_title('个人资料');
     	}
-
+    	if (user_function::is_weixin()) {
+    		ecjia_front::$controller->assign('is_weixin', true);
+    	}
         ecjia_front::$controller->display('user_profile.dwt', $cache_id);
     }
     

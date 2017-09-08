@@ -104,7 +104,6 @@ class user_privilege_controller {
             
             ecjia_touch_user::singleton()->signout();
             RC_Cookie::delete(RC_Config::get('session.session_name'));
-            
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('logout_url' => $back_act));
         }
     }

@@ -26,7 +26,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <p class="text-st">请输入收到的短信验证码</p>
     	<div class="form-group small-text">
     		<label class="input-1">
-    			<input name="code" type="code" id="code" placeholder="{$lang.input_verification}" />
+    			<input name="code" type="text" id="code" placeholder="{$lang.input_verification}" />
     		</label>
     	</div>
     	<div class="small-submit">

@@ -95,6 +95,16 @@ class user_function {
 			return $address_info;
 		}
 	}
+	
+	/**
+	 * 判断是否是微信浏览器
+	 * @return boolean
+	 */
+	public static function is_weixin() {
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+			return true;
+		} return false;
+	}
 }
 
 //end
