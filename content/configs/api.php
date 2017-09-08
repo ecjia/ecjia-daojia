@@ -395,6 +395,9 @@ return array(
 	'weapp/wxpay'					=> 'weapp::weapp/wxpay',	//小程序微信支付
 	
 	'admin/merchant/refreshQrcode'	=> 'store::admin/merchant/refreshQrcode',	//1.7 掌柜店铺刷新二维码
+	
+	'market/shake'				=> 'market::activity/shake',   		//1.6增加 摇一摇
+	'admin/orders/today'		=> 'orders::admin/orders/today',	//1.6增加 商家今日订单
     
 	
     /** 1.0 已经废弃
