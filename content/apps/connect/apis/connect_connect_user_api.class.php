@@ -52,17 +52,25 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class connect_connect_user_api extends Component_Event_Api {
     
+    /**
+     * 参数列表
+     * @param connect_code  插件代号
+     * @param open_id       第三方帐号绑定唯一值
+     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
+     * @see Component_Event_Api::call()
+     * @return \Ecjia\App\Connect\ConnectUser | ecjia_error
+     */
     public function call(&$options) {
-        if (!is_array($options) || !isset($options['connect_code']) || !isset($options['open_id'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+        if (!array_get($options, 'connect_code') || !array_get($options, 'open_id')) {
+            return new ecjia_error('invalid_parameter', '调用connect_user，参数无效');
         }
         
-        RC_Loader::load_app_class('connect_user', 'connect', false);
+        $user_type = array_get($options, 'user_type', 'user');
         
         $connect_code   = $options['connect_code'];
         $open_id        = $options['open_id'];
-        $connect        = new connect_user($connect_code, $open_id);
-        return $connect->get_openid();
+        $connect_user   = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);
+        return $connect_user;
     }
 }
 

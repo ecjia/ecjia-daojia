@@ -52,14 +52,22 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class connect_connect_user_remove_api extends Component_Event_Api {
     
+    /**
+     * 参数说明
+     * @param user_id       用户ID
+     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
+     * @see Component_Event_Api::call()
+     * @return boolean | ecjia_error
+     */
     public function call(&$options) {
-        if (!is_array($options) || !isset($options['user_id']) || empty($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+        if (!array_get($options, 'user_id')) {
+            return new ecjia_error('invalid_parameter', '调用connect_user_remove，参数无效');
         }
         
-        RC_Model::model('connect/connect_user_model')->in(array('user_id' => $options['user_id']))->where(array('is_admin' => $options['is_admin']))->delete();
+        $user_ids = is_array($options['user_id']) ? $options['user_id'] : array($options['user_id']);
+        $user_type = array_get($options, 'user_type', 'user');
         
-        return true;
+        return RC_DB::table('connect_user')->whereIn('user_id', $user_ids)->where('user_type', $user_type)->delete();
     }
 }
 

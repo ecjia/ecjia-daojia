@@ -73,7 +73,6 @@ class admin_plugin extends ecjia_admin {
 		RC_Script::enqueue_script('connect', RC_App::apps_url('statics/js/connect.js', __FILE__), array(), false, true);
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
-		RC_Loader::load_app_class('connect_factory', null, false);
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.connect'), RC_Uri::url('connect/admin_plugin/init')));
 		
@@ -106,6 +105,10 @@ class admin_plugin extends ecjia_admin {
 	 */
 	public function edit() {
 		$this->admin_priv('connect_users_update');
+
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.edit')));
+		$this->assign('ur_here', RC_Lang::get('connect::connect.edit'));
+		$this->assign('action_link', array('text' => RC_Lang::get('connect::connect.connect_list'), 'href' => RC_Uri::url('connect/admin_plugin/init')));
 		
 		if (isset($_GET['code'])) {
 		    $connect_code = trim($_GET['code']);
@@ -129,16 +132,13 @@ class admin_plugin extends ecjia_admin {
 		            $code_list[$value['name']] = $value['value'];
 		        }
 		    }
-		    $connect_handle            = new connect_factory($connect_code);
-		    $connect['connect_config'] = $connect_handle->configure_forms($code_list, true);
-		
+
+		    $payment_handle = with(new Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
+		    $connect['connect_config'] = $payment_handle->makeFormData($code_list);
 		}
 
 		$this->assign('connect', $connect);
-	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.edit')));
-		$this->assign('ur_here', RC_Lang::get('connect::connect.edit'));
-		$this->assign('action_link', array('text' => RC_Lang::get('connect::connect.connect_list'), 'href' => RC_Uri::url('connect/admin_plugin/init')));
+
 		$this->assign('form_action', RC_Uri::url('connect/admin_plugin/update'));
 	
 		$this->assign_lang();

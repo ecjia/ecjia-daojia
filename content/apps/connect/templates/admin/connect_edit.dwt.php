@@ -53,8 +53,7 @@
     						<input name="cfg_type[]" type="hidden" value="{$config.type}" />
     						<input name="cfg_lang[]" type="hidden" value="{$config.lang}" />
     						{if $config.desc}
-    						<br />
-    						<span class="notice-span type-msg"{if $help_open}style="display:block" {else} style="display:none" {/if} id="notice{$config.name}">{$config.desc}</span>
+    						<br><span class="help-block">{$config.desc}</span>
     						{/if}
     					</div>
     				</div>

@@ -59,9 +59,9 @@ class signup_module extends api_front implements api_interface {
 		$code		  = $this->requestData('validate_code');
 		$profile	  = $this->requestData('profile');
 
-		RC_Loader::load_app_class('connect_user', 'connect', false);
-		$connect_user = new connect_user($connect_code, $open_id);
-		if ($connect_user->check_openid_exist()) {
+// 		RC_Loader::load_app_class('connect_user', 'connect', false);
+		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
+		if ($connect_user->checkUser()) {
 			return new ecjia_error('connect_userbind', '您已绑定过会员用户！');
 		}
 
@@ -128,8 +128,8 @@ class signup_module extends api_front implements api_interface {
 			
 			$curr_time = RC_Time::gmtime();
 			$data = array(
-				'connect_code'	=> $connect_user->connect_code,
-				'open_id'		=> $connect_user->open_id,
+				'connect_code'	=> $connect_user->getConnectCode(),
+				'open_id'		=> $connect_user->getOpenId(),
 				'create_at'     => $curr_time,
 				'user_id'		=> $_SESSION['user_id'],
 				'profile'		=> serialize($profile)

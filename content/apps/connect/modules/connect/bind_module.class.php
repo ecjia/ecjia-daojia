@@ -60,9 +60,8 @@ class bind_module extends api_front implements api_interface {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
 		}
 		
-		RC_Loader::load_app_class('connect_user', 'connect', false);
-		$connect_user = new connect_user($connect_code, $open_id);
-		if ($connect_user->check_openid_exist()) {
+		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
+		if ($connect_user->checkUser()) {
 			return new ecjia_error('connect_userbind', '您已绑定过会员用户！');
 		}
 		/**
@@ -105,7 +104,7 @@ class bind_module extends api_front implements api_interface {
 		}
 		
 		/* 用户帐号是否已被关联使用过*/
-		$connect_user_exit = RC_Model::model('connect/connect_user_model')->where(array('connect_code' => $connect_code, 'user_id' => $_SESSION['user_id']))->find();
+		$connect_user_exit = RC_Model::model('connect/connect_user_model')->where(array('connect_code' => $connect_code, 'user_type' => 'user', 'user_id' => $_SESSION['user_id']))->find();
 		if (!empty($connect_user_exit)) {
 			return new ecjia_error('connect_userbind', '您已绑定过会员用户！');
 		}

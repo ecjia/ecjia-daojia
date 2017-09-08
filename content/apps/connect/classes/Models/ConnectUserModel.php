@@ -44,19 +44,44 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\App\Connect\Models;
+
+use Royalcms\Component\Database\Eloquent\Model;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 支付宝登录配置文件
- */
-return array(
-	"partner"		=> "2088011125312949",
-// 	"key"			=> "m2rgo80qokhtn14vjp2b9zjjbjfqiyce",
-	"key"			=> "t81jxyepjml863mgbywpwob3sne9xg8m",
-	"callback"		=> RC_Config::system('CUSTOM_WEB_SITE_URL')."/callback_alipay.php",
-	"sign_type"		=> strtoupper('MD5'),
-	"input_charset"	=> strtolower('utf-8'),
-	"transport"		=> "http",
-);
+class ConnectUserModel extends Model 
+{
+	protected $table = 'connect_user';
+	
+	protected $primaryKey = 'id';
+	
+	/**
+	 * 可以被批量赋值的属性。
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+	    'connect_code',
+	    'user_id',
+	    'user_type',
+	    'open_id',
+	    'refresh_token',
+	    'access_token',
+	    'profile',
+	    'create_at',
+	    'expires_in',
+	    'expires_at',
+    ];
+	
+	/**
+	 * 该模型是否被自动维护时间戳
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
+	
+	
+}
 
-//end
+// end

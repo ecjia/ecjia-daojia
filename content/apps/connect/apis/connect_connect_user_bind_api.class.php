@@ -52,33 +52,38 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class connect_connect_user_bind_api extends Component_Event_Api {
     
+    /**
+     * 参数说明
+     * @param connect_code  插件代号
+     * @param open_id        第三方帐号绑定唯一值
+     * @param profile       个人信息
+     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
+     * @see Component_Event_Api::call()
+     */
     public function call(&$options) {
-        if (!is_array($options) || empty($options['connect_code']) || empty($options['openid']) || empty($options['profile'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+        if (!array_get($options, 'connect_code') || !array_get($options, 'open_id') || !array_get($options, 'profile')) {
+            return new ecjia_error('invalid_parameter', '调用connect_user_bind，参数无效');
         }
+        
+        $user_type = array_get($options, 'user_type', 'user');
         $profile = $options['profile'];
         $connect_code = $options['connect_code'];
-        $open_id = $options['openid'];
+        $open_id = $options['open_id'];
         
-        RC_Loader::load_app_class('connect_user', 'connect', false);
-        $connect_user  = new connect_user($connect_code, $open_id);  
+        $connect_user  = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);  
 
         //判断openid是否存在
-        if ($connect_user->check_openid_exist()) {
-        	$row = $connect_user->get_openid();
-        	if ($row['user_id'] > 0 && intval($row['is_admin']) === 0) {
-        		return $row;
-        	} 
+        if ($connect_user->checkUser()) {
+            return $connect_user;
         }
         
         /*保存profile*/
-        $connect_user->save_openid('', serialize($profile), 0);
-        $connect_user->get_openid();
+        $connect_user->saveOpenId('', '', serialize($profile), 7200);
         
         /*创建用户*/
-        $username = $connect_user->get_username();
-        $password = md5(rc_random(9, 'abcdefghijklmnopqrstuvwxyz0123456789'));
-        $email    = $connect_user->get_email();
+        $username = $connect_user->getGenerateUserName();
+        $password = $connect_user->getGeneratePassword();
+        $email    = $connect_user->getGenerateEmail();
 
         $userinfo = RC_Api::api('user', 'add_user', array('username' => $username, 'password' => $password, 'email' => $email));
         if (is_ecjia_error($userinfo)) {
@@ -86,14 +91,12 @@ class connect_connect_user_bind_api extends Component_Event_Api {
         }
 
         /*绑定*/
-        $result  = $connect_user->bind_user($userinfo['user_id'], 0);
+        $result  = $connect_user->bindUser($userinfo['user_id']);
         if ($result) {
-        	$row = $connect_user->get_openid();
+        	return $connect_user;
         } else {
         	return new ecjia_error('bind_user_error', '绑定用户失败');
         }
-
-        return $row;
     }
 }
 

@@ -70,12 +70,12 @@ class signin_module extends api_front implements api_interface {
 		 * login_taobao
 		 **/
 		
-		RC_Loader::load_app_class('connect_user', 'connect', false);
-		$connect_user = new connect_user($connect_code, $open_id);
+// 		RC_Loader::load_app_class('connect_user', 'connect', false);
+		$connect_user = new Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
 		//判断已绑定授权登录用户 直接登录
-		if ($connect_user->check_openid_exist()) {
-			$connect_user_id = $connect_user->get_openid();
-			$user_info = RC_Api::api('user', 'user_info', array('user_id' => $connect_user_id['user_id']));
+		if ($connect_user->checkUser()) {
+			$connect_user_id = $connect_user->getUserId();
+			$user_info = RC_Api::api('user', 'user_info', array('user_id' => $connect_user_id));
 			RC_Loader::load_app_class('integrate', 'user', false);
 			$user = integrate::init_users();
 			$user->set_session($user_info['user_name']);
@@ -84,7 +84,7 @@ class signin_module extends api_front implements api_interface {
 			$data = array(
 				'profile' => serialize($profile)
 			);
-			RC_Model::model('connect/connect_user_model')->where(array('connect_code' => $connect_user->connect_code, 'open_id' => $connect_user->open_id, 'user_id' => $_SESSION['user_id']))->update($data);
+			RC_Model::model('connect/connect_user_model')->where(array('connect_code' => $connect_user->connect_code, 'user_type' => 'user', 'open_id' => $connect_user->open_id, 'user_id' => $_SESSION['user_id']))->update($data);
 			
 			/* 获取远程用户头像信息*/
 			RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));

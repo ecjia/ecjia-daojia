@@ -60,41 +60,39 @@ class callback extends ecjia_front {
      * username     昵称
      */
     public function init() {
-    	if (isset($_COOKIE['h5_index'])) {
-    		header("location: ".RC_Uri::url('touch/index/init'));exit();
-    	}
-        $connect_code = $_GET['connect_code'];
-        unset($_GET['connect_code']);
+        $connect_code = $this->request->query('connect_code');
         if (empty($connect_code)) {
             $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
             return $this->showmessage(RC_Lang::get('connect::connect.not_found'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
-        $connect_method = RC_Loader::load_app_class('connect_method', 'connect');
-        $connect_handle = $connect_method->get_connect_instance($connect_code);
-        $result         = $connect_handle->callback();
         
-        if (!is_ecjia_error($result)) {
-            RC_Loader::load_app_class('connect_user', 'connect', false);
-            $connect_user = new connect_user($result['connect_code'], $result['open_id']);
-            if ($connect_user->check_openid_exist() && $connect_user->user_id) {
-                if ($connect_user->is_admin == 1) {
-                    RC_Hook::do_action('connect_callback_admin_signin', $connect_user->user_id);
-                } else {
-                    //普通用户登录
-                    RC_Hook::do_action('connect_callback_user_signin', $connect_user->user_id);
-                }
+        $user_type = $this->request->query('user_type', 'user');
+        
+        $connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
+        
+        $connect_user = $connect_handle->callback($user_type);
+        
+        if (is_ecjia_error($connect_user)) {
+            $result['connect_user'] = $connect_user;
+            $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $user_type), $templateStr, $result);
+            //echo 内容
+            return $this->displayContent($this->fetch_string($templateStr));
+        } else { 
+            RC_Logger::getlogger('wechat')->info('callback connect_user user_id:'.$connect_user->getUserId());
+            if ($connect_user->checkUser()) {
+                $this->userBindedProcessHandle($user_type, $connect_user);
             } else {
                 //绑定账号
-                $result['bind_url']  = RC_Uri::url('connect/callback/bind_login', array('connect_code' => $connect_code, 'open_id' => $result['open_id']));
+                $result['bind_url']  = RC_Uri::url('connect/callback/bind_login', array('connect_code' => $connect_code, 'open_id' => $connect_user->getOpenId()));
                 //注册登录
-                $result['login_url'] = RC_Uri::url('connect/callback/bind_signup', array('connect_code' => $connect_code, 'open_id' => $result['open_id']));
+                $result['login_url'] = RC_Uri::url('connect/callback/bind_signup', array('connect_code' => $connect_code, 'open_id' => $connect_user->getOpenId()));
                 
-                $string = RC_Hook::apply_filters('connect_callback_template', $result);
-                echo $this->fetch_string($string);
+                $result['connect_user'] = $connect_user;
+                
+                $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $connect_user->getUserType()), $templateStr, $result);
+                //echo 内容
+                return $this->displayContent($this->fetch_string($templateStr));
             } 
-        } else {
-            $string = RC_Hook::apply_filters('connect_callback_template', $result);
-            echo $this->fetch_string($string);
         }
     }
     
@@ -102,32 +100,28 @@ class callback extends ecjia_front {
      * 绑定注册
      */
     public function bind_signup() {
-        $connect_code   = $_GET['connect_code'];
-        $open_id        = $_GET['open_id'];
-        RC_Loader::load_app_class('connect_user', 'connect', false);
-        $connect_user = new connect_user($connect_code, $open_id);
+        $user_type = $this->request->query('user_type', 'user');
+        $connect_code   = $this->request->query('connect_code');
+        $open_id        = $this->request->query('open_id');
+        
+        $connect_user = new Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);
         //判断已绑定授权登录用户 直接登录
-        if ($connect_user->check_openid_exist() && $connect_user->user_id) {
-            if ($connect_user->is_admin == 1) {
-                RC_Hook::do_action('connect_callback_admin_signin', $connect_user->user_id);
-            } else {
-                //普通用户登录
-                RC_Hook::do_action('connect_callback_user_signin', $connect_user->user_id);
-            }
+        if ($connect_user->checkUser()) {
+            $this->userBindedProcessHandle($user_type, $connect_user);
         } else {
             //新用户注册并登录
-            $username = $connect_user->get_username();
-            $password = md5(rc_random(9, 'abcdefghijklmnopqrstuvwxyz0123456789'));
-            $email    = $connect_user->get_email();
-            $user_id = RC_Hook::apply_filters('connect_callback_bind_signup', 0, $username, $password, $email);
-            $result  = $connect_user->bind_user($user_id, 0);
-            if ($result) {
-//               return $this->redirect(RC_Uri::url('touch/my/init'));
-              header("location: ".RC_Uri::url('touch/my/init'));exit();
-            } else {
-                $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-                return $this->showmessage(RC_Lang::get('connect::connect.regist_fail'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
-            }
+            $username = $connect_user->getGenerateUserName();
+            $password = $connect_user->getGeneratePassword();
+            $email    = $connect_user->getGenerateEmail();
+            
+            $user_id = RC_Hook::apply_filters(sprintf("connect_callback_%s_bind_signup", $connect_user->getUserType()), 0, $username, $password, $email);
+            $result  = $connect_user->bindUser($user_id);
+            
+            /**
+             * 用户绑定完成后的结果判断处理，用于界面显示 
+             * @param $result boolean 判断执行成功与否
+             */
+            RC_Hook::do_action(sprintf("connect_callback_%s_bind_complete", $connect_user->getUserType()), $result);
         }
     }
     
@@ -135,60 +129,62 @@ class callback extends ecjia_front {
      * 绑定登录界面
      */
     public function bind_login() {
+        $user_type = $this->request->query('user_type', 'user');
+        
         $action_link = RC_Uri::url('connect/callback/bind_signin', array('connect_code' => $_GET['connect_code'], 'open_id' => $_GET['open_id']));
         $this->assign('action_link', $action_link);
-        $this->assign('action_link_ajax', $action_link . '&return=ajax');
-        $string = RC_Hook::apply_filters('connect_callback_signin_template', $_GET);
-        echo $this->fetch_string($string);
+        
+        $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_signin_template", $user_type), $templateStr);
+        //echo 内容
+        return $this->displayContent($this->fetch_string($templateStr));
     }
     
     /**
      * 绑定登录
      */
     public function bind_signin() {
-        $return         = $_GET['return'];
-        $connect_code   = $_GET['connect_code'];
-        $open_id        = $_GET['open_id'];
+        $user_type      = $this->request->query('user_type', 'user');
+        $return         = $this->request->query('return');
+        $connect_code   = $this->request->query('connect_code');
+        $open_id        = $this->request->query('open_id');
         
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username       = $this->request->input('username');
+        $password       = $this->request->input('password');
         
-        RC_Loader::load_app_class('connect_user', 'connect', false);
-        $connect_user = new connect_user($connect_code, $open_id);
+        $connect_user = new Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);
 
         //判断已绑定授权登录用户 直接登录
-        if ($connect_user->check_openid_exist() && $connect_user->user_id) {
-            if ($connect_user->is_admin == 1) {
-                RC_Hook::do_action('connect_callback_admin_signin', $connect_user->user_id);
-            } else {
-                //普通用户登录
-                RC_Hook::do_action('connect_callback_user_signin', $connect_user->user_id);
-            }
+        if ($connect_user->checkUser()) {
+            $this->userBindedProcessHandle($user_type, $connect_user);
         } else {
-            $user_id = RC_Hook::apply_filters('connect_callback_bind_signin', 0, $username, $password);
+            /**
+             * 登录用户绑定
+             */
+            $user_id = RC_Hook::apply_filters(sprintf("connect_callback_%s_bind_signin", $user_type), 0, $username, $password);
             if ($user_id) {
-                $result = $connect_user->bind_user($user_id, 0);
+                $result = $connect_user->bindUser($user_id);
             } else {
                 $result = false;
             }
 
-            if ($return == 'ajax') {
-                if ($result) {
-                    $link[] = array(RC_Lang::get('connect::connect.back_member'), 'href' => RC_Uri::url('touch/my/init'));
-                    return $this->showmessage(RC_Lang::get('connect::connect.bind_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $link));
-                } else {
-                    $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-                    return $this->showmessage(RC_Lang::get('connect::connect.bind_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
-                }
-            } else {
-                if ($result) {
-                   return $this->redirect(RC_Uri::url('touch/my/init'));
-                } else {
-                    $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-                    return $this->showmessage(RC_Lang::get('connect::connect.bind_fail'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
-                }
-            }
+            /**
+             * 用户绑定完成后的结果判断处理，用于界面显示
+             * @param $result boolean 判断执行成功与否
+             */
+            RC_Hook::do_action(sprintf("connect_callback_%s_bind_complete", $connect_user->getUserType()), $result);
         }
+    }
+    
+    /**
+     * 判断已绑定授权登录用户 直接登录
+     */
+    protected function userBindedProcessHandle($user_type, $user_id, $connect_user)
+    {
+        /**
+         * 用户登录
+         * hook名称有三个：connect_callback_user_signin、connect_callback_merchant_signin、connect_callback_admin_signin
+         */
+        RC_Hook::do_action(sprintf("connect_callback_%s_signin", $user_type), $user_id, $connect_user);
     }
 }
 

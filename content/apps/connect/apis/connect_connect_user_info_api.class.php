@@ -52,10 +52,19 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class connect_connect_user_info_api extends Component_Event_Api {
     
+    /**
+     * 参数说明
+     * @param user_id       用户ID
+     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
+     * @see Component_Event_Api::call()
+     * @return array | ecjia_error
+     */
     public function call(&$options) {
-        if (!is_array($options) || !isset($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+        if (!array_get($options, 'user_id')) {
+            return new ecjia_error('invalid_parameter', '调用connect_user_info，参数无效');
         }
+        
+        $user_type = array_get($options, 'user_type', 'user');
         
         $user_id = $options['user_id'];
         $user = RC_DB::table('connect_user')->where('user_id', $user_id)->orderBy('id', 'desc')->first();

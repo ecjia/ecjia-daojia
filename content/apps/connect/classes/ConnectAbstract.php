@@ -44,62 +44,148 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Connect;
+
+use Ecjia\System\Plugin\AbstractPlugin;
 
 /**
- * 插件调用工厂
+ * 短信插件抽象类
  * @author royalwang
  */
-class connect_factory  {
-	private $adapter_instance 	= null;
+abstract class ConnectAbstract extends AbstractPlugin {
+    
+    protected $profile = [];
+    
+    protected $open_id;
+    protected $access_token;
+    protected $refresh_token;
+    protected $expires_in;
 	
-	public function __construct($adapter_name = '', $adapter_config = array()) {
-		$this->set_adapter($adapter_name, $adapter_config);
-	}
-	
-	/**
-	 * 构造适配器
-	 * @param  $adapter_name 适配器code
-	 * @param  $adapter_config 适配器配置
-	 */
-	public function set_adapter($adapter_name, $adapter_config = array()) {
-		if (!is_string($adapter_name)) 
-			return false;
-		else {
-			$code = strtolower($adapter_name);
-			$integrate_plugins = ecjia_config::instance()->get_addon_config('connect_plugins', true);
-		    if (isset($integrate_plugins[$code])) {
-		        RC_Plugin::load_files($integrate_plugins[$code]);
-		    }
-			$this->adapter_instance =  RC_Hook::apply_filters('connect_factory_adapter_instance', null, $adapter_config);
-			if (!($this->adapter_instance instanceof payment_abstract))
-			    return false;
-		}
-		return $this->adapter_instance;
-	}
-	
-	/**
-	 * 检查适配器实例是否生成
-	 */
-	public function has_adapter() {
-	    if (is_object($this->adapter_instance) && $this->adapter_instance instanceof connect_abstract) {
-	        return true;
-	    }
-	
-	    return false;
-	}
-	
-	public function __call($method_name, $method_args) {
-		if (method_exists($this, $method_name)) {
-		    return call_user_func_array(array(&$this, $method_name), $method_args);
-		} elseif (
-			!empty($this->adapter_instance)
-			&& ($this->adapter_instance instanceof connect_abstract)
-			&& method_exists($this->adapter_instance, $method_name)
-		) {
-		    return call_user_func_array(array(& $this->adapter_instance, $method_name), $method_args);
-		}	
-	}	
+    /**
+     * 生成默认用户名
+     * @return string
+     */
+    public function default_generate_username() {
+        /* 不是用户注册，则创建随机用户名*/
+        return 'a' . rc_random(10, 'abcdefghijklmnopqrstuvwxyz0123456789');;
+    }
+    
+    /**
+     * 生成默认邮箱
+     * @return string
+     */
+    public function default_generate_email() {
+        /* 不是用户注册，则创建随机用户名*/
+        $string = 'a' . rc_random(10, 'abcdefghijklmnopqrstuvwxyz0123456789');
+        $email = $string.'@163.com';
+        return $email;
+    }
+    
+    /**
+     * 生成默认密码
+     * @return string
+     */
+    public function default_generate_password() {
+        $password = md5(rc_random(9, 'abcdefghijklmnopqrstuvwxyz0123456789'));
+        return $password;
+    }
+    
+    /**
+     * 设置用户信息
+     * @param array $profile
+     * @return \Ecjia\App\Connect\ConnectAbstract
+     */
+    public function setProfile(array $profile)
+    {
+        $this->profile = $profile;
+        
+        return $this;
+    }
+    
+    /**
+     * 获取用户信息
+     * @return array
+     */
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+    
+    /**
+     * 获取access token
+     */
+    public function access_token($callback_url, $code) {
+    
+    }
+    
+    /**
+     * 使用refresh token 获取新的access token
+     * @param unknown $refresh_token
+     */
+    public function access_token_refresh($refresh_token) {
+    
+    }
+    
+    /**
+     * 获取登录用户信息
+     */
+    public function me() {
+    
+    }
+    
+    /**
+     * 调用接口
+     * 示例：获取登录用户信息
+     * $result = $obj->api('users/me', array(), 'GET');
+     */
+    public function api($url, $params = array(), $method = 'GET') {
+    
+    }
+    
+    /**
+     * 生成授权网址
+     */
+    abstract function authorize_url();
+    
+    /**
+     * 登录成功后回调处理
+     * @param $user_type 用户类型
+     *          ConnectUser::USER,
+     *          ConnectUser::MERCHANT,
+     *          ConnectUser::ADMIN
+     * @see \Ecjia\App\Connect\ConnectAbstract::callback()
+     * @return \Ecjia\App\Connect\ConnectUser
+     */
+    abstract public function callback($user_type = 'user');
+    
+    /**
+     * 获取用户名
+     */
+    public function get_username() {
+        return $this->default_generate_username();
+    }
+    
+    /**
+     * 获取用户头像
+     */
+    public function get_headerimg() {
+        
+    }
+    
+    /**
+     * 获取email
+     */
+    public function get_email() {
+        return $this->default_generate_email();
+    }
+    
+    /**
+     * 获取password
+     */
+    public function get_password() {
+        return $this->default_generate_password();
+    }
+   
 }
 
 // end

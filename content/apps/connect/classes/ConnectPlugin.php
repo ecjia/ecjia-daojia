@@ -44,18 +44,124 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * QQ登录配置文件
- */
-return array(
-	"appid" 		=> "101036658",
-	"appkey"		=> "bd0015ffb2a10cb6f14de85124a8a73f",
-	"callback"		=> RC_Config::system('CUSTOM_WEB_SITE_URL')."/callback_qq.php",
-	"scope"			=> "get_user_info",
-	"errorReport"	=> true,
-	"storageType"	=> "file",
-);
+namespace Ecjia\App\Connect;
 
-//end
+use Ecjia\System\Plugin\PluginModel;
+use ecjia_config;
+use ecjia_error;
+
+class ConnectPlugin extends PluginModel
+{
+    protected $table = 'connect';
+    
+    /**
+     * 当前插件种类的唯一标识字段名
+     */
+    public function codeFieldName()
+    {
+        return 'connect_code';
+    }
+    
+    /**
+     * 激活的支付插件列表
+     */
+    public function getInstalledPlugins()
+    {
+        return ecjia_config::getAddonConfig('connect_plugins', true);
+    }
+    
+    /**
+     * 获取数据库中启用的插件列表
+     */
+    public function getEnableList()
+    {
+        $data = $this->enabled()->orderBy('connect_code', 'asc')->get()->toArray();
+        return $data;
+    }
+    
+    /**
+     * 获取数据库中插件数据
+     */
+    public function getPluginDataById($id)
+    {
+        return $this->where('connect_id', $id)->where('enabled', 1)->first();
+    }
+    
+    public function getPluginDataByCode($code)
+    {
+        return $this->where('connect_code', $code)->where('enabled', 1)->first();
+    }
+    
+    public function getPluginDataByName($name)
+    {
+        return $this->where('connect_name', $name)->where('enabled', 1)->first();
+    }
+    
+    /**
+     * 获取数据中的Config配置数据，并处理
+     */
+    public function configData($code)
+    {
+        $pluginData = $this->getPluginDataByCode($code);
+    
+        $config = $this->unserializeConfig($pluginData['connect_config']);
+    
+        $config['connect_code'] = $code;
+        $config['connect_name'] = $pluginData['connect_name'];
+    
+        return $config;
+    }
+    
+    /**
+     * 限制查询只包括启动的短信渠道。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
+     */
+    public function scopeEnabled($query)
+    {
+        return $query->where('enabled', 1);
+    }
+    
+    /**
+     * 获取默认插件实例
+     */
+    public function defaultChannel()
+    {
+        $data = $this->enabled()->orderBy('connect_order', 'asc')->first();
+        
+        $config = $this->unserializeConfig($data->connect_config);
+        
+     
+        $handler = $this->pluginInstance($data->connect_code, $config);
+        
+        if (!$handler) {
+            return new ecjia_error('code_not_found', $data->connect_code . ' plugin not found!');
+        }
+        
+        return $handler;
+    }
+    
+    public function channel($code = null)
+    {
+        if ($code === null) {
+            return $this->defaultChannel();
+        }
+        
+        $data = $this->getPluginDataByCode($code);
+        
+        $config = $this->unserializeConfig($data->connect_config);
+         
+        $handler = $this->pluginInstance($data->connect_code, $config);
+        
+        if (!$handler) {
+            return new ecjia_error('code_not_found', $data->connect_code . ' plugin not found!');
+        }
+        
+        return $handler;
+        
+    }
+    
+}
+
+// end

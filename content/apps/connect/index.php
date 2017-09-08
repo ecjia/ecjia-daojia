@@ -48,29 +48,37 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 class index extends ecjia_front {
     /**
-     * 析构函数
+     * 构造函数
      */
     public function __construct() {
         parent::__construct();
     }
     
     public function init() {
-        $connect_code = $_GET['connect_code'];
-        $login_type = $_GET['login_type'];
+        $connect_code = $this->request->query('connect_code');
         if (empty($connect_code)) {
-            $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
+            $link[] = array(
+                'text' => RC_Lang::get('system::system.go_back'), 
+                'href' => 'javascript:history.back(-1)'
+            );
             return $this->showmessage(RC_Lang::get('connect::connect.not_found'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
-        if ($connect_code == 'sns_wechat' && !ecjia_plugin::is_active('sns_wechat/sns_wechat.php')) {
-            echo '请先购买并安装微信登录插件<br><a href="https://ecjia.com/daojia_authorize.html" target="_blank">购买链接</a>';
-            exit();
-        }
-        $connect_account    = RC_Loader::load_app_class('connect_method', 'connect');
-        $connect_handle     = $connect_account->get_connect_instance($connect_code);
-        if ($login_type) {
-            $connect_handle->set_login_type($login_type);
-        }
-        $code_url           = $connect_handle->authorize_url();
+        
+        /**
+         * 第三方登录运行前处理
+         * @param $connect_code 插件代号
+         */
+        RC_Hook::do_action('connect_code_before_launching', $connect_code);
+        
+        $connect_handle     = with(new Ecjia\App\Connect\ConnectPlugin())->channel($connect_code);
+        
+        /**
+         * 针对指定的插件的对象做特殊处理
+         * @param $connect_handle 插件对象
+         */
+        RC_Hook::do_action('connect_'.$connect_code.'_handle', $connect_handle);
+        
+        $code_url = $connect_handle->authorize_url();
         return ecjia_front::$controller->redirect($code_url);
     }
 }
