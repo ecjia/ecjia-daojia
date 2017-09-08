@@ -351,6 +351,7 @@ function remove_env_pretty_page_table_data($tables) {
     $server = collect($tables['Server/Request Data']);
     
     $col = collect([
+        'AUTH_KEY',
         'DB_HOST', 
         'DB_PORT', 
         'DB_DATABASE', 
