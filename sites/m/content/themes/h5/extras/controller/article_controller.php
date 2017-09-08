@@ -148,7 +148,8 @@ class article_controller {
     	ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
     	
     	//菜单选中
-    	ecjia_front::$controller->assign('active', 'discover');    		
+    	ecjia_front::$controller->assign('active', 'discover');
+    	ecjia_front::$controller->assign_title('发现');
     		
     	ecjia_front::$controller->display('discover_init.dwt');
     }

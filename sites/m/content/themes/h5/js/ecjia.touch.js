@@ -44,6 +44,7 @@
 			ecjia.touch.close_app_download();
 			ecjia.touch.search_header();
 			ecjia.touch.del_history();
+			ecjia.touch.share_spread();
 
 			$("body").greenCheck();
 		},
@@ -162,7 +163,97 @@
 			}
 		},
 		//搜索关键词定位结束
+		
+		share_spread : function() {
+			var info = {
+    			'url' : window.location.href
+    		};
+			var url = $('input[name="spread_url"]').val();
+        	if (url != undefined) {
+        		return false;
+        	}
+			var wxconfig_url = $('input[name="wxconfig_url"]').val();
+        	if (wxconfig_url == undefined) {
+        		return false;
+        	}
+        	var desc = $('textarea[name="invite_template"]').val();
 
+        	$.post(wxconfig_url, info, function(response){
+        		if (response == '') {return false;}
+        		var data = response.data;
+        		if (data.appId != '') {
+	        		wx.config({
+	        			debug: false,
+	        			appId: data.appId,
+	        			timestamp: data.timestamp,
+	        			nonceStr: data.nonceStr,
+	        			signature: data.signature,
+	        			jsApiList: [
+	        				'checkJsApi',
+	        				'onMenuShareTimeline',
+	        				'onMenuShareAppMessage',
+	        				'onMenuShareQQ',
+	        				'hideOptionMenu',
+	        			]
+	        		});
+	        		wx.error(function(res){
+	        			console.log(res);
+	        		    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+	        		});
+	        		var title = document.title;
+	        		var link = window.history.state != null ? window.history.state.url : window.location.href;
+	        		var image = '';
+	        		var desc = link;
+	        		wx.ready(function () {
+	        			//分享到朋友圈
+	        			wx.onMenuShareTimeline({
+	        		        title: title, 					// 分享标题【必填】
+	        		        link: link, 					// 分享链接【必填】
+	        		        imgUrl: image, 					// 分享图标【必填】
+	        		        success: function () { 
+	        		            // 用户确认分享后执行的回调函数
+	        		        },
+	        		        cancel: function () { 
+	        		            // 用户取消分享后执行的回调函数
+	        		        }
+	        		    });
+	
+	        			//分享给朋友
+	        		    wx.onMenuShareAppMessage({
+	        		        title: title, 					// 分享标题【必填】
+	        		        desc: desc,	 					// 分享描述【必填】
+	        		        link: link, 					// 分享链接【必填】
+	        		        imgUrl: image, 					// 分享图标【必填】
+	        		        type: 'link', 					// 分享类型,music、video或link，不填默认为link【必填】
+	        		        dataUrl: '', 					// 如果type是music或video，则要提供数据链接，默认为空
+	        		        success: function () { 
+	        		            // 用户确认分享后执行的回调函数
+	        		        	alert(1);
+	        		        },
+	        		        cancel: function () { 
+	        		            // 用户取消分享后执行的回调函数
+	        		        }
+	        		    });
+	
+	        		    //分享到QQ
+	        		    wx.onMenuShareQQ({
+	        		        title: title, 					// 分享标题
+	        		        desc: desc, 					// 分享描述
+	        		        link: link, 					// 分享链接
+	        		        imgUrl: image, 					// 分享图标
+	        		        success: function () { 
+	        		           // 用户确认分享后执行的回调函数
+	        		        },
+	        		        cancel: function () { 
+	        		           // 用户取消分享后执行的回调函数
+	        		        }
+	        		    });
+	        		});	
+        		}
+        	});
+		},
+		
+		
 		/**
 		 * 设置PJAX
 		 */
@@ -753,6 +844,7 @@
 		ecjia.touch.region_change();
 		ecjia.touch.goods_detail.change();
 		ecjia.touch.index.init_swiper();
+		ecjia.touch.share_spread();
 
 		var ua = navigator.userAgent.toLowerCase();
 		if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/ECJiaBrowse/i) == "ecjiabrowse") {

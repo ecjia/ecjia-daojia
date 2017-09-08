@@ -9,7 +9,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
-<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
 <script type="text/javascript">
 var title = '{$share_title}',
 	link = '{$invite_user.invite_url}',

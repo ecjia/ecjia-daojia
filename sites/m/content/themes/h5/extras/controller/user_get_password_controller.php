@@ -50,6 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 找回密码模块控制器代码
  */
 class user_get_password_controller {
+	
     public static function mobile_register() {
         /*验证码相关设置*/
         $mobile = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
@@ -85,7 +86,7 @@ class user_get_password_controller {
         }
         $token = ecjia_touch_user::singleton()->getToken();
         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_FORGET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile))->run();
-
+        
         if (!is_ecjia_error($data)) {
         	return ecjia_front::$controller->showmessage(__("短信已发送到手机".$mobile."，请注意查看"), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         } else {

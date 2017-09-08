@@ -151,7 +151,7 @@
     				'checkJsApi',
     				'onMenuShareTimeline',
     				'onMenuShareAppMessage',
-    				'onMenuShareAppMessage',
+    				'onMenuShareQQ',
     				'hideOptionMenu',
     			]
     		});
