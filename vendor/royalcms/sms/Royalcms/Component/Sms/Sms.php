@@ -117,7 +117,7 @@ class Sms
         return $this->signName;
     }
     
-    protected function sendWithRetry($url, array $data)
+    protected function sendWithRetry($url, array $data, $retry_count = 3)
     {
         $retry = 0;
     
@@ -127,7 +127,7 @@ class Sms
     
             $retry++;
     
-        } while (RC_Error::is_error($response) && $retry < 3);
+        } while (RC_Error::is_error($response) && $retry < $retry_count);
     
         return $response;
     }

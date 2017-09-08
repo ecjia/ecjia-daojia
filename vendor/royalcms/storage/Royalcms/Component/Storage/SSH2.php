@@ -283,7 +283,7 @@ class Ssh2 extends FilesystemBase
         return $this->put_contents($destination, $content, $mode);
     }
 
-    public function move($source, $destination, $overwrite = false)
+    public function move($source, $destination, $overwrite = false, $mode = false)
     {
         return @ssh2_sftp_rename($this->link, $source, $destination);
     }

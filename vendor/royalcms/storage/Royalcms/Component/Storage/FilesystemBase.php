@@ -639,9 +639,12 @@ abstract class FilesystemBase
      * @param bool $overwrite
      *            Optional. Whether to overwrite the destination file if it exists.
      *            Default false.
+     * @param int $mode
+     *            Optional. The permissions as octal number, usually 0644 for files, 0755 for dirs.
+     *            Default false.
      * @return bool True if file copied successfully, False otherwise.
      */
-    abstract public function move($source, $destination, $overwrite = false);
+    abstract public function move($source, $destination, $overwrite = false, $mode = false);
  
 
     /**

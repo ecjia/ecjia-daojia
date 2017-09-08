@@ -246,7 +246,7 @@ class Ftpext extends FilesystemBase
         return $this->put_contents($destination, $content, $mode);
     }
 
-    public function move($source, $destination, $overwrite = false)
+    public function move($source, $destination, $overwrite = false, $mode = false)
     {
         return ftp_rename($this->link, $source, $destination);
     }

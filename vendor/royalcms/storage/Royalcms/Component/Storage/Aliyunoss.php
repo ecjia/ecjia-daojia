@@ -300,13 +300,12 @@ class Aliyunoss extends FilesystemBase
             }
             return $rtval;
         } catch (OSSException $e) {
-            _dump($e,1);
             $this->errors->add($e->getCode(), $e->getMessage());
             return false;
         }
     }
 
-    public function move($source, $destination, $overwrite = false)
+    public function move($source, $destination, $overwrite = false, $mode = false)
     {
         if (! $overwrite && $this->exists($destination))
             return false;

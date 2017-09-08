@@ -38,6 +38,7 @@ return array(
     'Royalcms\\Component\\Pinyin\\' => array($vendorDir . '/royalcms/pinyin'),
     'Royalcms\\Component\\Omnipay\\' => array($vendorDir . '/royalcms/omnipay'),
     'Royalcms\\Component\\Hashids\\' => array($vendorDir . '/royalcms/hashids'),
+    'Royalcms\\Component\\Curl\\' => array($vendorDir . '/royalcms/curl'),
     'Royalcms\\Component\\WeChat\\' => array($vendorDir . '/royalcms/wechat'),
     'Royalcms\\Component\\WeChat\\Menu\\' => array($vendorDir . '/royalcms/wechat-menu'),
     'Royalcms\\Component\\WeChat\\User\\' => array($vendorDir . '/royalcms/wechat-user'),

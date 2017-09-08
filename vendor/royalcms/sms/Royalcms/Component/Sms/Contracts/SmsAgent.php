@@ -2,6 +2,8 @@
 
 namespace Royalcms\Component\Sms\Contracts;
 
+use Royalcms\Component\Sms\SendResponse;
+
 interface SmsAgent
 {
     /**
@@ -14,7 +16,7 @@ interface SmsAgent
      * 发送信息
      * 
      * @param string $mobile
-     * @return mixed
+     * @return SendResponse | \ecjia_error
      */
     public function send($mobile);
     
@@ -24,16 +26,5 @@ interface SmsAgent
      */
     public function balance();
     
-
-    /**
-     * 转换返回的信息处理
-     * @param array $response
-     * @return array $result
-     * @return int $result[].code 返回0则成功，返回其它则错误
-     * @return string $result[].msg 返回消息
-     * @return string $result[].raw 接口返回的原生信息
-     * @return array $result[].data 数据信息
-     */
-    public function transformerResponse($reponse);
 
 }

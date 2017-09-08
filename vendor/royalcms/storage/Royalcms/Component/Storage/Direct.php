@@ -274,16 +274,18 @@ class Direct extends FilesystemBase
         return $rtval;
     }
 
-    public function move($source, $destination, $overwrite = false)
+    public function move($source, $destination, $overwrite = false, $mode = false)
     {
         if (! $overwrite && $this->exists($destination))
             return false;
             
             // try using rename first. if that fails (for example, source is read only) try copy
-        if (@rename($source, $destination))
+        if (@rename($source, $destination)) {
+            if ($mode) $this->chmod($destination, $mode);
             return true;
+        }
         
-        if ($this->copy($source, $destination, $overwrite) && $this->exists($destination)) {
+        if ($this->copy($source, $destination, $overwrite, $mode) && $this->exists($destination)) {
             $this->delete($source);
             return true;
         } else {
