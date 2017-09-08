@@ -1962,6 +1962,10 @@ footer {
     background-image: url(../images/icon/business_hours.png);
 }
 
+.ecjia-store-detail i.icon-shop-description {
+    background-image: url(../images/icon/icon_description.png);
+}
+
 .ecjia-store-detail i.icon-call-phone {
 	background-image: url(../images/icon/icon_phone_green.png);
 	background-size: 1.8em;
