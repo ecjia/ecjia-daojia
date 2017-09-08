@@ -396,6 +396,7 @@ class index extends SimpleController {
 		$db_pass    = isset($_POST['db_pass'])      ?   trim($_POST['db_pass']) 	: '';
 		$prefix     = isset($_POST['db_prefix'])    ?   trim($_POST['db_prefix']) 	: '';
 		$timezone   = isset($_POST['timezone'])     ?   trim($_POST['timezone']) 	: 'Asia/Shanghai';
+		$auth_key   = install_utility::getAuthKey();
 		
 		$data = array(
 			'DB_HOST' 		=> $db_host,
@@ -404,7 +405,8 @@ class index extends SimpleController {
 			'DB_USERNAME' 	=> $db_user,
 			'DB_PASSWORD' 	=> $db_pass,
 			'DB_PREFIX' 	=> $prefix,
-			'TIMEZONE' 		=> $timezone
+			'TIMEZONE' 		=> $timezone,
+		    'AUTH_KEY'      => $auth_key,
 		);
 		
 		install_utility::createEnv();

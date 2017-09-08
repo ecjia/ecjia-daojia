@@ -215,6 +215,14 @@ class install_utility
     }
     
     /**
+     * 获取一个新的auth_key
+     * @return string
+     */
+    public static function getAuthKey() {
+        return rc_random(32, 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789');
+    }
+    
+    /**
      * 修改.env文件
      * @param array $data
      * @return string|unknown|ecjia_error
