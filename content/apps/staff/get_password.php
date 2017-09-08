@@ -266,13 +266,15 @@ class get_password extends ecjia_merchant {
 				'service_phone' => ecjia::config('service_phone'),
 			),
 		);
+		
+		$_SESSION['user_id'] 	= $user_id;
+		$_SESSION['temp_code'] 	= $code;
+		$_SESSION['temp_code_time'] = RC_Time::gmtime();
+		
 		$response = RC_Api::api('sms', 'send_event_sms', $options);
 		if (is_ecjia_error($response)) {
 			return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$_SESSION['user_id'] 	= $user_id;
-			$_SESSION['temp_code'] 	= $code;
-			$_SESSION['temp_code_time'] = RC_Time::gmtime();
 			return $this->showmessage('手机验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		}
 	}

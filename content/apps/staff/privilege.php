@@ -82,7 +82,7 @@ class privilege extends ecjia_merchant {
 	}
 	
 	/**
-	 * 验证登陆信息
+	 * 验证登录信息
 	 */
 	public function signin() {
 		$validate_error = RC_Hook::apply_filters('merchant_login_validate', $_POST);
@@ -166,6 +166,60 @@ class privilege extends ecjia_merchant {
 		
 		RC_Session::destroy();
 		return $this->redirect(RC_Uri::url('staff/privilege/login'));
+	}
+	
+	
+	/**
+	 *  自营商家快速登录
+	 */
+	public function autologin() {
+		$authcode = trim($_GET['authcode']);
+		if ($authcode) {
+			$authcode_decrypt= RC_Crypt::decrypt($authcode);
+			$authcode_array = array();
+			parse_str($authcode_decrypt, $authcode_array);
+
+			if(array_key_exists("time", $authcode_array) && array_key_exists("store_id", $authcode_array) && array_key_exists("admin_token", $authcode_array)){
+				$start_time  = $authcode_array['time'];
+				$store_id    = $authcode_array['store_id'];
+				$session_id  = $authcode_array['admin_token'];
+					
+				$time = RC_Time::gmtime();
+				$time_gap = $time - $start_time;
+					
+				if (intval($time_gap) < 30) {
+					$cookie_name = RC_Config::get('session.session_admin_name');
+					$ecjia_admin_token = $_COOKIE[$cookie_name];
+					if ($session_id == $ecjia_admin_token) {
+						$session_data = RC_Session::session()->get_session_data($session_id);
+						if ($session_data['action_list'] == 'all') {
+							$staff_info = RC_DB::TABLE('staff_user')->where('store_id', $store_id)->where('parent_id', 0)->where('action_list', 'all')->first();
+							if (!empty($staff_info)) {
+								$merchants_name = RC_DB::TABLE('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+								$_SESSION = array();
+								$this->admin_session($store_id, $merchants_name, $staff_info['user_id'], $staff_info['mobile'], $staff_info['name'], $staff_info['action_list'], $staff_info['last_login']);
+								return $this->redirect(RC_Uri::url('merchant/dashboard/init'));
+							} else {
+								$this->assign('error_message', '获取店长信息失败。');
+							}
+						} else {
+							$this->assign('error_message', '抱歉！只允许超级管理员进行登录。');
+						}
+					}
+				} else {
+					$this->assign('error_message', '抱歉！请求超时。');
+				}
+			} else {
+				$this->assign('error_message', '传参出错。');
+			}
+		} else {
+			$this->assign('error_message', '抱歉！数据丢失，登录失败。');
+		}
+		$this->assign('shop_title','商家登录');
+		$this->assign('shop_title_link',RC_Uri::url('staff/privilege/login'));
+		
+		RC_Session::destroy();
+		$this->display('staff_auto_login_error.dwt');
 	}
 }
 
