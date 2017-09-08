@@ -65,7 +65,8 @@
 		<div class="goods-list-left">
 			<div class="f-line">
 				<div class="f-sort">
-               		<a href="{$goods_url}{if $keywords}&keywords={$keywords}{else}&cat_id={$cat_id}{if $select_id}&select_id={$select_id}{/if}{/if}&type=hot" class="{if $type eq 'hot' || (!$type && !$sort_by)}curr{/if}">热门推荐</a>
+					<a href="{$goods_url}{if $keywords}&keywords={$keywords}{else}&cat_id={$cat_id}{if $select_id}&select_id={$select_id}{/if}{/if}&type=all" class="{if $type eq 'all' || (!$type && !$sort_by)}curr{/if}">全部商品</a>
+               		<a href="{$goods_url}{if $keywords}&keywords={$keywords}{else}&cat_id={$cat_id}{if $select_id}&select_id={$select_id}{/if}{/if}&type=hot" class="{if $type eq 'hot'}curr{/if}">热门推荐</a>
                 	<a class="{if !$type && $sort_by eq 'sales_volume'}curr{/if}" href="{$goods_url}{if $keywords}&keywords={$keywords}{else}&cat_id={$cat_id}{if $select_id}&select_id={$select_id}{/if}{/if}&sort_by=sales_volume&sort_order=desc">
            				销量<i class="iconfont icon-jiantou-bottom"></i>
 					</a>

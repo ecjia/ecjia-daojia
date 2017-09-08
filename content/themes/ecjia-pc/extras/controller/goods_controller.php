@@ -86,7 +86,7 @@ class goods_controller {
 	            }
 	            
 	            $page = !empty($_GET['page']) ? intval($_GET['page']) : 1;
-	            $type = !empty($_GET['type']) ? trim($_GET['type']) : 'hot';
+	            $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
 	            
 	            $goods_options['page'] = $page;
 	            $goods_options['size'] = 9;
@@ -97,7 +97,10 @@ class goods_controller {
 	                $goods_options['sort'] = array($sort_by => $sort_order);
 	                ecjia_front::$controller->assign('sort_by', $sort_by);
 	                ecjia_front::$controller->assign('sort_order', $sort_order);
+	            } else {
+	            	$goods_options['sort'] = array('g.sort_order' => 'asc');
 	            }
+
 	            if ($type == 'hot') {
 	                $goods_options['intro'] = 'hot';
 	            }
@@ -109,6 +112,7 @@ class goods_controller {
 	            $goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
 	            $pages = $goods_result['page']->show(2);
 	            
+	            ecjia_front::$controller->assign('type', $type);
 	            ecjia_front::$controller->assign('keywords', $keywords);
 	            ecjia_front::$controller->assign('page', $pages);
 	            ecjia_front::$controller->assign('goods_list', $goods_result['list']);

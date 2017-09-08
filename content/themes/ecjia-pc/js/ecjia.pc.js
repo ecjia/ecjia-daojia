@@ -257,11 +257,11 @@
 				}
 			});
 
-			$('input[name="keywords"]').on('blur', function() {
+			$('input[name="keywords"]').off('blur').on('blur', function() {
 				$('.shelper').fadeOut('fast');
 			});
 
-			$('input[name="keywords"]').on('focus', function() {
+			$('input[name="keywords"]').off('focus').on('focus', function() {
 				var $this = $(this),
 					url = $this.parent('.search').attr('data-url'),
 					goods_url = $('.search-button').attr('data-url'),

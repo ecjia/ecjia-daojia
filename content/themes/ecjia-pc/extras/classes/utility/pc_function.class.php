@@ -300,7 +300,7 @@ class pc_function {
 
     	$where .= " AND (is_on_sale='" . 1 . "')";
     	$where .= " AND (is_alone_sale='" . 1 . "')";
-    	$where .= " AND (g.is_hot='" . 1 . "')";
+//     	$where .= " AND (g.is_hot='" . 1 . "')";
     	$where .= " AND (s.city = '".$_COOKIE['city_id']."')";
     	$where .= " AND (s.shop_close = '". 0 ."')";
     	$where .= " AND (g.is_delete = '". 0 ."')";
