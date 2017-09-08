@@ -68,7 +68,14 @@ class admin_template extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-form');
 		RC_Script::enqueue_script('smoke');
 		
+		RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
+		RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
+		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
+		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
+		RC_Script::enqueue_script('bootstrap-placeholder');
 		RC_Script::enqueue_script('jquery-dataTables-bootstrap');
+		
+		RC_Script::enqueue_script('sms_events', RC_App::apps_url('statics/js/sms_events.js', __FILE__), array(), false, false);
 		RC_Script::enqueue_script('sms_template', RC_App::apps_url('statics/js/sms_template.js', __FILE__), array(), false, false);
 		RC_Script::localize_script('sms_template', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
 		
@@ -80,22 +87,11 @@ class admin_template extends ecjia_admin {
 	 */
 	public function init () {
 		$this->admin_priv('sms_template_manage');
-		
+
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_template')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('sms::sms.overview'),
-			'content'	=> '<p>' . RC_Lang::get('sms::sms.sms_template_help') . '</p>'
-		));
-		
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('sms::sms.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:短信模板" target="_blank">'. RC_Lang::get('sms::sms.about_sms_template') .'</a>') . '</p>'
-		);
 		$this->assign('ur_here', RC_Lang::get('sms::sms.sms_template_list'));
 		
-
 		$data = RC_DB::table('notification_channels')->where('channel_type', 'sms')->orderby('sort_order', 'asc')->get();
 		$this->assign('data', $data);
 		
@@ -112,10 +108,12 @@ class admin_template extends ecjia_admin {
 		->where('channel_code', $channel_code)
 		->orderby('id', 'desc')
 		->get();
+		
+		$this->assign('action_link', array('href'=>RC_Uri::url('sms/admin_template/add',array('channel_code' => $channel_code)), 'text' => RC_Lang::get('sms::sms.add_sms_template')));
+		$this->assign('action_link_event', array('href'=>RC_Uri::url('sms/admin_events/init'), 'text' => '短信事件列表'));
+		
 		$this->assign('template', $template);
 
-		$this->assign('action_link', array('href'=>RC_Uri::url('sms/admin_template/add',array('channel_code' => $channel_code)), 'text' => RC_Lang::get('sms::sms.add_sms_template')));
-		
 		$this->display('sms_template_list.dwt');
 	}
 

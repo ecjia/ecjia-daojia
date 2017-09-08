@@ -49,22 +49,21 @@ namespace Ecjia\App\Sms\Events;
 
 use Ecjia\App\Sms\EventAbstract;
 
-class SmsJionMerchant extends EventAbstract
+class SmsUserAccountChange extends EventAbstract
 {
     
-    protected $code = 'sms_jion_merchant';
+    protected $code = 'sms_user_account_change';
     
-    protected $name = '商家入驻审核';
+    protected $name = '用户充值到账通知';
     
-    protected $description = '商家入驻，审核通过是否给商家发送短信告知';
+    protected $description = '通知用户的账户充值信息';
     
-    protected $template = '尊敬的${user_name}，恭喜您通过${shop_name}平台商家入驻审核。账号：${account}， 密码：${password}，请不要把密码泄露给其他人。如有问题请拨打客服电话：${service_phone}。';
+    protected $template = '尊敬的${user_name}，充值业务已受理成功，充值金额${amount}元资金已到账，目前可用资金${user_money}元。如有问题请拨打客服电话：${service_phone}。';
 
     protected $available_values = [
-    	'user_name' => '商家名称',
-    	'shop_name' => '平台名称',
-    	'account'	=>'商家账号',
-    	'password'	=>'商家密码',
-    	'service_phone'=>'客服电话',
+    	'user_name' 	=> '用户名称',
+    	'amount'    	=> '充值金额',
+    	'user_money'	=> '可用资金',
+    	'service_phone'	=> '客服电话'
     ];  
 }

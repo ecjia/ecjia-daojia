@@ -35,6 +35,9 @@
 			{if $action_link}
 				<a class="btn plus_or_reply data-pjax" href="{$action_link.href}" id="sticky_a"><i class="fontello-icon-plus"></i>{$action_link.text}</a>
 			{/if}
+			{if $action_link_event} 
+				<a class="btn plus_or_reply data-pjax" href="{$action_link_event.href}" id="sticky_a"><i class="fontello-icon-reply"></i>{$action_link_event.text}</a>
+			{/if}
 			{if $channel_code}（{$channel_code}）{/if}
 		</h3>
 	

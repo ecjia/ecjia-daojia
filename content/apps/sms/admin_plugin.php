@@ -107,7 +107,7 @@ class admin_plugin extends ecjia_admin {
 			if (is_ecjia_error($result)) {
 				return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {
-				$balance_label = sprintf(RC_Lang::get('sms::sms.surplus'), "<strong>{$result['data']['num']}</strong>");
+				$balance_label = sprintf(RC_Lang::get('sms::sms.surplus'), "<strong>{$result->getBalance()}</strong>");
 				return $this->showmessage('查询成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $balance_label));
 			}
 		} else {

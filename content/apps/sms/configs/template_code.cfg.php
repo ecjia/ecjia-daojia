@@ -57,7 +57,7 @@ return array(
 		'description'=> '用户付款后是否给客户发收货验证码'
     ),
 	array(
-		'code' 	=> 'sms_jion_merchant',
+		'code' 	=> 'sms_join_merchant',
 		'name'  => '审核通过',
 		'description'=> '商家入驻，审核通过是否给商家发送短信告知'
 	),
