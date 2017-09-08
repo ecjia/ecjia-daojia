@@ -50,7 +50,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 $LANG['no_express']            = '无需物流';
-$LANG['no_express_desc']       = '不需要物流时选择此插件';
+$LANG['no_express_desc']       = '不需要物流时选择此插件（本插件只限后台发货时使用）';
 $LANG['item_fee']              	= '单件商品费用：';
 $LANG['base_fee']              	= '1000克以内费用';
 $LANG['step_fee']               = '续重每1000克或其零数的费用';

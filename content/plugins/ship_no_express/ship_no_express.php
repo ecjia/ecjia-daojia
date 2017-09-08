@@ -47,7 +47,7 @@
 /*
 Plugin Name: 无需物流
 Plugin URI: http://www.ecjia.com/plugins/ecjia.no_express/
-Description: 不需要物流时选择此插件
+Description: 不需要物流时选择此插件（本插件只限后台发货时使用）
 Author: ECJIA TEAM
 Version: 1.0.0
 Author URI: http://www.ecjia.com/
