@@ -58,7 +58,7 @@ $LANG['flow_login_register']['password_not_same'] = '您输入的密码和确认
 $LANG['flow_login_register']['password_lt_six'] = '密码不能小于6个字符。';
 
 $LANG['regist_success'] = "恭喜您，%s 账号注册成功!";
-$LANG['login_success'] = '恭喜！您已经成功登陆本站！';
+$LANG['login_success'] = '恭喜！您已经成功登录本站！';
 
 /* 购物车 */
 $LANG['update_cart'] = '更新购物车';
@@ -94,7 +94,7 @@ $LANG['shopping_money'] = '购物金额小计 %s';
 $LANG['than_market_price'] = '比市场价 %s 节省了 %s (%s)';
 $LANG['your_discount'] = '根据优惠活动<a href="activity.php"><font color=red>%s</font></a>，您可以享受折扣 %s';
 $LANG['no'] = '无';
-$LANG['not_support_virtual_goods'] = '购物车中存在非实体商品,不支持匿名购买,请登陆后在购买';
+$LANG['not_support_virtual_goods'] = '购物车中存在非实体商品,不支持匿名购买,请登录后在购买';
 $LANG['not_support_insure'] = '不支持保价';
 $LANG['clear_cart'] = '清空购物车';
 $LANG['drop_to_collect'] = '放入收藏夹';
