@@ -102,6 +102,7 @@ geocoder.getLocation(address);
                     <p class="range18">商家公告：{$shop_info.value}</p>
                     <p class="range18">商家电话：{$shop_info.kf_mobile}</p>
                     <p class="range18">商家地址：{$shop_info.address}</p>
+                    <p class="range18">商家简介：{$shop_info.shop_description}</p>
     		    </div>
                 <div class="store-map">
 					<div id="allmap"></div>
