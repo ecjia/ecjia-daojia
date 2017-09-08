@@ -3,7 +3,7 @@
 namespace Ecjia\App\Maintain\Commands;
 
 use Ecjia\App\Maintain\AbstractCommand;
-use Ecjia\System\Database\Seeder;
+use Ecjia\System\Config\ConfigModel;
 
 class SettingShopConfigSequence extends AbstractCommand
 {
@@ -25,7 +25,7 @@ class SettingShopConfigSequence extends AbstractCommand
      * 描述
      * @var string
      */
-    protected $description = '自动更新商品配置表的主键ID';
+    protected $description = '自动更新商店配置表的主键ID';
     
     /**
      * 图标
@@ -33,13 +33,40 @@ class SettingShopConfigSequence extends AbstractCommand
      */
     protected $icon = '/statics/images/setting_shop.png';
     
-    
+    // 更新shop_config数据表主键ID顺序
     public function run() {
-        // 更新shop_config数据表主键ID顺序
-        $seeder = new Seeder('FixShopConfigTableSeeder');
-        $seeder->fire();
+        
+        $model = new ConfigModel();
+        
+        $data = $model->where('id', '>', 100)->get();
+        
+        $data->map(function ($item) use ($model) {
+        
+            $id = $item['id'] + 30000;
+            $model->where('code', $item['code'])->update(['id' => $id]);
+        });
+        
+        $data = $model->where('parent_id', 0)->get();
+    
+        $data->map(function ($item) {
+            $this->update_group_id($item['id']);
+        });
         
         return true;
+    }
+    
+    protected function update_group_id($group_id)
+    {
+        $model = new ConfigModel();
+        $data = $model->where('id', '>', 100)->where('parent_id', $group_id)->get();
+        $data->map(function ($item, $key) use ($model) {
+    
+            $id = $key + 1;
+    
+            $id = $item['parent_id'] * 100 + $id;
+    
+            $model->where('code', $item['code'])->update(['id' => $id]);
+        });
     }
     
 }
