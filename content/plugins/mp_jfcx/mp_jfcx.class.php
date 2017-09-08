@@ -65,9 +65,7 @@ class mp_jfcx extends platform_abstract
 	}
 	
     public function event_reply() {
-
     	$user_db = RC_Loader::load_app_model('users_model', 'user');
-    	$db_user_rank = RC_Loader::load_app_model('user_rank_model','user');
     	$connect_db = RC_Loader::load_app_model('connect_user_model', 'connect');
     	RC_Loader::load_app_class('platform_account', 'platform', false);
     	RC_Loader::load_app_class('wechat_user', 'wechat', false);
@@ -81,9 +79,11 @@ class mp_jfcx extends platform_abstract
     
     	$ect_uid = $wechat_user->getUserId();
     	$unionid = $wechat_user->getUnionid();
-    	$user_id = $connect_db->where(array('open_id' => $unionid, 'connect_code'=>'sns_wechat'))->get_field('user_id');
-    	$nobd = "还未绑定，需<a href = '".RC_Uri::url('platform/plugin/show', array('handle' => 'mp_userbind/bind_init', 'openid' => $openid, 'uuid' => $_GET['uuid']))."'>点击此处</a>进行绑定";
-    	if(empty($user_id)) {
+    	$connect_user = new \Ecjia\App\Connect\ConnectUser('sns_wechat', $unionid, 'user');
+    	$getUserId = $connect_user->getUserId();
+    	
+    	if (!$connect_user->checkUser()) {
+    		//合并ect_uid旧的数据处理
     		if(!empty($ect_uid)){
     			$query = $connect_db->where(array('open_id'=>$unionid, 'connect_code'=>'sns_wechat'))->count();
     			if($query > 0){
@@ -97,16 +97,24 @@ class mp_jfcx extends platform_abstract
     				$connect_db->insert($data);
     			}
     		}
+			//组合类似模板信息
+    		$articles = array();
+    		$articles[0]['Title'] = '未绑定';
+    		$articles[0]['PicUrl'] = '';
+    		$articles[0]['Description'] = '抱歉，目前您还未进行账号绑定，需点击该链接进行绑定操作';
+    		$articles[0]['Url'] = RC_Uri::url('wechat/mobile_userbind/init',array('openid' => $openid, 'uuid' => $uuid));
+    		$count = count($articles);
     		$content = array(
-				'ToUserName' => $this->from_username,
-				'FromUserName' => $this->to_username,
-				'CreateTime' => SYS_TIME,
-				'MsgType' => 'text',
-				'Content' => $nobd
-			);
+    			'ToUserName'    => $this->from_username,
+    			'FromUserName'  => $this->to_username,
+    			'CreateTime'    => SYS_TIME,
+    			'MsgType'       => 'news',
+    			'ArticleCount'	=> $count,
+    			'Articles'		=> $articles
+    		);
     	} else {
     		$field = 'rank_points, pay_points, user_money, user_rank';
-    		$data = $user_db->field($field)->find(array('user_id' => $uid));
+    		$data = $user_db->field($field)->find(array('user_id' => $getUserId));
     		if (!empty($data)) {
     			$msg = "您的余额：".price_format($data['user_money'], false). "\n".
     					"等级积分：".$data['rank_points']."\n".
