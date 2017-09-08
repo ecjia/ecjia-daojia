@@ -1127,7 +1127,7 @@ class InitAdTableSeeder extends Seeder
                 'ad_id'        => '237',
                 'position_id'  => '123',
                 'media_type'   => '0',
-                'ad_name'      => '登陆',
+                'ad_name'      => '登录',
                 'ad_link'      => 'ecjiaopen://app?open_type=sign_in',
                 'ad_code'      => 'data/shortcut/1493940105685464475.png',
                 'start_time'   => '0',
