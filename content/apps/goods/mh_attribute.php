@@ -68,7 +68,7 @@ class mh_attribute extends ecjia_merchant {
 		RC_Script::localize_script('goods_attribute', 'js_lang', RC_Lang::get('goods::goods.js_lang'));
 		
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('商品管理', RC_Uri::url('goods/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_type.goods_type_list'), RC_Uri::url('goods/mh_type/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_spec.goods_spec_list'), RC_Uri::url('goods/mh_spec/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('goods', 'goods/mh_attribute.php');
 	}
 
@@ -102,7 +102,7 @@ class mh_attribute extends ecjia_merchant {
 		
 		$this->assign('ur_here', RC_Lang::get('goods::attribute.goods_attribute'));
 		$this->assign('action_link', array('href' => RC_Uri::url('goods/mh_attribute/add', array('cat_id' => $goods_type)), 'text' => RC_Lang::get('system::system.10_attribute_add')));
-		$this->assign('action_link2', array('text' => RC_Lang::get('goods::goods_type.goods_type_list'), 'href' => RC_Uri::url('goods/mh_type/init')));
+		$this->assign('action_link2', array('text' => RC_Lang::get('goods::goods_spec.goods_spec_list'), 'href' => RC_Uri::url('goods/mh_spec/init')));
 		
 		$this->assign('goods_type_list', goods_enable_type_list($goods_type));
 		$this->assign('attr_list', $attr_list);

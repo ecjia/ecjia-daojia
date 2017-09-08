@@ -142,7 +142,7 @@ class goods_imageutils {
      */
     public static function copyImage($source_path, $dest_path) {
         if (is_file($source_path) && RC_Filesystem::disk()->is_writable(dirname($dest_path))) {
-            return RC_Filesystem::disk()->copy($source_path, $dest_path);
+            return RC_Filesystem::disk()->copy($source_path, $dest_path, true, FS_CHMOD_FILE);
         }
         return false;
     }

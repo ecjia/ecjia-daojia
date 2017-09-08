@@ -19,24 +19,24 @@
 		<form class="form-horizontal" action="{$form_action}" method="post" name="theForm">
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='goods::goods_type.label_goods_type_name'}</label>
+					<label class="control-label">{lang key='goods::goods_spec.label_goods_type_name'}</label>
 					<div class="controls">
 						<input class="w355" type="text" name="cat_name" value="{$goods_type.cat_name|escape}"/>
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='goods::goods_type.label_goods_type_status'}</label>
+					<label class="control-label">{lang key='goods::goods_spec.label_goods_type_status'}</label>
 					<div class="controls chk_radio">
-						<input class="uni_style" type="radio" name="enabled" value="0" {if $goods_type.enabled eq 0} checked="checked" {/if}/><span>{lang key='goods::goods_type.arr_goods_status.0'}</span>
-						<input class="uni_style" type="radio" name="enabled" value="1" {if $goods_type.enabled eq 1} checked="checked" {/if}/><span>{lang key='goods::goods_type.arr_goods_status.1'}</span>
+						<input class="uni_style" type="radio" name="enabled" value="0" {if $goods_type.enabled eq 0} checked="checked" {/if}/><span>{lang key='goods::goods_spec.arr_goods_status.0'}</span>
+						<input class="uni_style" type="radio" name="enabled" value="1" {if $goods_type.enabled eq 1} checked="checked" {/if}/><span>{lang key='goods::goods_spec.arr_goods_status.1'}</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='goods::goods_type.label_attr_groups'}</label>
+					<label class="control-label">{lang key='goods::goods_spec.label_attr_groups'}</label>
 					<div class="controls">
 						<textarea class="span9" name="attr_group" rows="8" cols="40">{$goods_type.attr_group|escape}</textarea>
-						<span class="help-block">{lang key='goods::goods_type.notice_attr_groups'}</span>
+						<span class="help-block">{lang key='goods::goods_spec.notice_attr_groups'}</span>
 					</div>
 				</div>
 				<div class="control-group">

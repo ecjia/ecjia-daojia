@@ -541,7 +541,7 @@ class merchant extends ecjia_merchant {
 
 		/* 入库 */
 		$data = array(
-			'goods_name'            => $goods_name,
+			'goods_name'            => rc_stripslashes($goods_name),
 			'goods_name_style'      => $goods_name_style,
 			'goods_sn'              => $goods_sn,
 			'cat_id'                => $cat_id,				//平台分类id
@@ -918,7 +918,7 @@ class merchant extends ecjia_merchant {
 		}
 
 		$data = array(
-		  	'goods_name'				=> $goods_name,
+		  	'goods_name'				=> rc_stripslashes($goods_name),
 		  	'goods_name_style'	  		=> $goods_name_style,
 		  	'goods_sn'			  		=> $goods_sn,
 			'merchant_cat_id'			=> $merchant_cat_id,	//店铺分类id
@@ -2079,7 +2079,7 @@ class merchant extends ecjia_merchant {
 			$href = RC_Uri::url('goods/merchant/init', array('extension_code' => $code));
 		}
 		$this->assign('action_link', array('href' => $href, 'text' => RC_Lang::get('system::system.01_goods_list')));
-		$this->assign('goods_type_list', goods_enable_type_list($goods['goods_type']), true);
+		$this->assign('goods_type_list', goods_enable_type_list($goods['goods_type'], true, true));
 		$this->assign('goods_attr_html', build_merchant_attr_html($goods['goods_type'], $goods_id));
 		
 		$this->assign('ur_here', RC_Lang::get('goods::goods.edit_goods_attr'));

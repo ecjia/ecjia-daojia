@@ -576,7 +576,7 @@ class admin extends ecjia_admin {
 		}
 
 		$data = array(
-		  	'goods_name'				=> $goods_name,
+		  	'goods_name'				=> rc_stripslashes($goods_name),
 		  	'goods_name_style'	  		=> $goods_name_style,
 		  	'goods_sn'			  		=> $goods_sn,
 		  	'cat_id'					=> $catgory_id,

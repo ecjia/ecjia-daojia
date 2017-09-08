@@ -1768,13 +1768,20 @@ function get_where_sql($filter) {
  *
  * @access  public
  * @param   integer     $selected   选定的类型编号
+ * @param   integer     $store_id	店铺id
+ * @param   boolean		是否显示平台规格
  * @return  string
  */
-function goods_type_list($selected, $store_id = 0) {
+function goods_type_list($selected, $store_id = 0, $show_all = false) {
 	$db_goods_type = RC_DB::table('goods_type')->select('cat_id', 'cat_name')->where('enabled', 1);
 
-	if (!empty($store_id)) {
-		$db_goods_type->where('store_id', $store_id);
+	$db_goods_type->where('store_id', $store_id);
+	if ($show_all) {
+		//自营商家可以使用平台后台添加的商品规格
+		$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
+		if ($store_info['manage_mode'] == 'self') {
+			$db_goods_type->orWhere('store_id', 0);
+		}
 	}
 	$data = $db_goods_type->get();
 

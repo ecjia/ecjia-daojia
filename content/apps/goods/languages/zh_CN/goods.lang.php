@@ -300,6 +300,7 @@ return array(
 		'brand_name_empty'		=> '品牌名称不能为空',
 		'cat_name_empty'		=> '分类名称不能为空',
 		'add_goods_ok' 			=> '添加商品成功',
+		'spec_name_required'	=> '请输入规格名称'
 	),
 		
 	/* 虚拟卡 */
@@ -587,7 +588,10 @@ return array(
 	'self'				=> '自营',
 	'select_platform_cat' 		=> '选择平台分类',
 	'pls_select_platform_cat'	=> '请选择平台分类',
-	
+	'goods_spec'				=> '商品规格',
+	'label_goods_spec'			=> '商品规格：',
+	'sel_goods_spec'			=> '请选择商品规格',
+	'notice_goods_spec'			=> '请选择商品的所属规格，进而完善此商品的属性'
 );
 
 // end

@@ -69,7 +69,7 @@ class admin_attribute extends ecjia_admin {
 		RC_Script::enqueue_script('goods_attribute', RC_App::apps_url('statics/js/goods_attribute.js', __FILE__), array(), false, true);
 		RC_Script::localize_script('goods_attribute', 'js_lang', RC_Lang::get('goods::goods.js_lang'));
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_type.goods_type_list'), RC_Uri::url('goods/admin_goods_type/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_spec.goods_spec_list'), RC_Uri::url('goods/admin_goods_spec/init')));
 	}
 
 	/**
@@ -91,18 +91,20 @@ class admin_attribute extends ecjia_admin {
 		);
 		
 		$goods_type	= isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
+		$info = RC_DB::table('goods_type')->where('cat_id', $goods_type)->first();
+		
 		$attr_list	= get_attr_list();
 		
 		$this->assign('ur_here', RC_Lang::get('goods::attribute.goods_attribute'));
 		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin_attribute/add', array('cat_id' => $goods_type)), 'text' => RC_Lang::get('system::system.10_attribute_add')));
-		$this->assign('action_link2', array('text' => RC_Lang::get('goods::goods_type.goods_type_list'), 'href' => RC_Uri::url('goods/admin_goods_type/init')));
+		$this->assign('action_link2', array('text' => RC_Lang::get('goods::goods_spec.goods_spec_list'), 'href' => RC_Uri::url('goods/admin_goods_spec/init')));
 		
-		$this->assign('goods_type_list', goods_type_list($goods_type));
+		$this->assign('goods_type_list', goods_type_list($goods_type, $info['store_id'], false));
 		$this->assign('attr_list', $attr_list);
 		$this->assign('cat_id', $goods_type);
 		$this->assign('form_action', RC_Uri::url('goods/admin_attribute/batch'));
 		
-		$this->display('attribute_list.dwt');		
+		$this->display('attribute_list.dwt');
 	}
 	
 	/**
@@ -126,9 +128,10 @@ class admin_attribute extends ecjia_admin {
 			'<p><strong>' . RC_Lang::get('goods::attribute.more_info') . '</strong></p>' .
 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A.A0.E5.B1.9E.E6.80.A7" target="_blank">'. RC_Lang::get('goods::attribute.about_add_attribute') .'</a>') . '</p>'
 		);
+		$info = RC_DB::table('goods_type')->where('cat_id', $cat_id)->first();
 		
 		/* 取得商品分类列表 */
-		$this->assign('goods_type_list', goods_type_list($cat_id));
+		$this->assign('goods_type_list', goods_type_list($cat_id, $info['store_id'], false));
 		$this->assign('attr_groups', get_attr_groups($cat_id));
 		
 		$this->assign('ur_here', RC_Lang::get('goods::attribute.add_attribute'));
@@ -187,6 +190,7 @@ class admin_attribute extends ecjia_admin {
 		
 		$is_add = !empty($_GET['act']) ? 'add' : '';
 		$this->assign('form_act', $is_add ? 'insert' : 'update');
+		
 		/* 取得属性信息 */
 		if ($is_add) {
 			$goods_type = isset($_GET['goods_type']) ? intval($_GET['goods_type']) : 0;
@@ -202,11 +206,15 @@ class admin_attribute extends ecjia_admin {
 			);
 		} else {
 			$attr = RC_DB::table('attribute')->where('attr_id', $_GET['attr_id'])->first();
+			$goods_type = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
 		}
 		$this->assign('attr', $attr);
 		$this->assign('attr_groups', get_attr_groups($attr['cat_id']));
+		
+		$info = RC_DB::table('goods_type')->where('cat_id', $goods_type)->first();
+		
 		/* 取得商品分类列表 */
-		$this->assign('goods_type_list', goods_type_list($attr['cat_id']));
+		$this->assign('goods_type_list', goods_type_list($attr['cat_id'], $info['store_id'], false));
 	
 		/* 模板赋值 */
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__($is_add ? RC_Lang::get('system::system.10_attribute_add') : RC_Lang::get('system::system.52_attribute_add'))));

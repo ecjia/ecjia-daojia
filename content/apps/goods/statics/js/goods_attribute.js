@@ -35,7 +35,7 @@
 				},
 				messages: {
 					cat_name: {
-						required: js_lang.cat_name_required
+						required: js_lang.spec_name_required
 					},
 				},
 				submitHandler: function() {

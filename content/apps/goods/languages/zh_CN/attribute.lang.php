@@ -51,10 +51,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 return array(
 	/* 列表 */
-	'by_goods_type' 	=> '按商品类型显示：',
-	'all_goods_type' 	=> '所有商品类型',
+	'by_goods_type' 	=> '按商品规格显示：',
+	'all_goods_type' 	=> '所有商品规格',
 	'attr_id'		 	=> '编号',
-	'cat_id' 			=> '商品类型',
+	'cat_id' 			=> '商品规格',
 	'attr_name' 		=> '属性名称',
 	'attr_input_type' 	=> '属性值的录入方式',
 	'attr_values' 		=> '可选值列表',
@@ -71,7 +71,7 @@ return array(
 		
 	/* 添加/编辑 */
 	'label_attr_name' 	=> '属性名称：',
-	'label_cat_id' 		=> '所属商品类型：',
+	'label_cat_id' 		=> '所属商品规格：',
 	'label_attr_index' 	=> '能否进行检索：',
 	'label_is_linked' 	=> '相同属性商品是否关联：',
 	'no_index' 			=> '不需要检索',

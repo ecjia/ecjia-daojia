@@ -30,7 +30,7 @@
             	<div class="form edit-page">
               		<form class="form-horizontal tasi-form" method="post" action="{$form_action}" name="theForm">
               			<div class="form-group">
-              				<label class="control-label col-lg-2">{lang key='goods::goods_type.label_goods_type_name'}</label>
+              				<label class="control-label col-lg-2">{lang key='goods::goods_spec.label_goods_type_name'}</label>
               				<div class="controls col-lg-6">
                             	<input class="form-control" name="cat_name" type="text" value="{$goods_type.cat_name|escape}" />
                           	</div>
@@ -38,18 +38,18 @@
               			</div>
                                     
               			<div class="form-group">
-              				<label class="control-label col-lg-2">{lang key='goods::goods_type.label_goods_type_status'}</label>
+              				<label class="control-label col-lg-2">{lang key='goods::goods_spec.label_goods_type_status'}</label>
                      		<div class="col-lg-6">
                      			<input type="radio" id="enabled_2" name="enabled" value="1" {if $goods_type.enabled eq 1} checked {/if}>
-                      			<label for="enabled_2">{lang key='goods::goods_type.arr_goods_status.1'}</label>
+                      			<label for="enabled_2">{lang key='goods::goods_spec.arr_goods_status.1'}</label>
                       			
                   				<input type="radio" id="enabled_1" name="enabled" value="0" {if $goods_type.enabled eq 0} checked {/if}>
-                      			<label for="enabled_1">{lang key='goods::goods_type.arr_goods_status.0'}</label>
+                      			<label for="enabled_1">{lang key='goods::goods_spec.arr_goods_status.0'}</label>
         					</div> 
               			</div>
               			
               			<div class="form-group">
-              				<label class="control-label col-lg-2">{lang key='goods::goods_type.label_attr_groups'}</label>
+              				<label class="control-label col-lg-2">{lang key='goods::goods_spec.label_attr_groups'}</label>
               				<div class="col-lg-6">
                             	<textarea class="form-control" name="attr_group" rows="5">{$goods_type.attr_group|escape}</textarea>
                           	</div>

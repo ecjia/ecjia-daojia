@@ -29,15 +29,15 @@
 			<form class="form-horizontal" action="{$form_action}" method="post" name="theForm">
 				<fieldset>
 					<div class="control-group formSep">
-						<label class="control-label">{lang key='goods::goods.lab_goods_type'}</label>
+						<label class="control-label">{lang key='goods::goods.label_goods_spec'}</label>
 						<div class="controls">
 							<select name="goods_type" autocomplete="off" data-toggle="get_attr_list" data-url='{url path="goods/admin/get_attr" args="goods_id={$goods_id}"}'>
-								<option value="0">{lang key='goods::goods.sel_goods_type'}</option>
+								<option value="0">{lang key='goods::goods.sel_goods_spec'}</option>
 								<!-- {$goods_type_list} -->
 							</select>
 							<br/>
 							<br/>
-							<span class="help-block">{lang key='goods::goods.notice_goods_type'}</span>
+							<span class="help-block">{lang key='goods::goods.notice_goods_spec'}</span>
 						</div>
 					</div>
 					<div id="tbody-goodsAttr">

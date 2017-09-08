@@ -47,21 +47,74 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJia商家后台商品菜单API
+ * ECJIA 商品类型管理程序语言项
  */
-class goods_merchant_menu_api extends Component_Event_Api {
-	public function call(&$options) {
-		$menus = ecjia_merchant::make_admin_menu('03_cat_and_goods', __('商品'), '', 1)->add_icon('fa-gift')->add_purview(array('goods_manage','goods_update','goods_type','merchant_category_manage','goods_manage'))->add_base('goods');
-		$submenus = array(
-			ecjia_merchant::make_admin_menu('01_goods_list', __('商品列表'), RC_Uri::url('goods/merchant/init'), 1)->add_purview('goods_manage')->add_icon('fa-list-alt'), //array('goods_manage')
-			ecjia_merchant::make_admin_menu('02_goods_add', __('添加新商品'), RC_Uri::url('goods/merchant/add'), 2)->add_purview('goods_update')->add_icon('fa-plus-square-o'), //array('goods_manage')
-			ecjia_merchant::make_admin_menu('03_goods_type', __('商品规格'), RC_Uri::url('goods/mh_spec/init'), 3)->add_purview('goods_type')->add_icon('fa-navicon'), //'attr_manage'
-			ecjia_merchant::make_admin_menu('04_category_list', __('商品分类'), RC_Uri::url('goods/mh_category/init'), 4)->add_purview('merchant_category_manage')->add_icon('fa-th-list'), //array('cat_manage')
-			ecjia_merchant::make_admin_menu('05_goods_trash', __('商品回收站'), RC_Uri::url('goods/merchant/trash'), 5)->add_purview('goods_manage')->add_icon('fa-recycle'), //array('goods_manage')
-		);
-        $menus->add_submenu($submenus);
-        return $menus;
-    }
-}
+return array(
+	'goods_spec_list' 	=> '商品规格列表',
+	'edit_goods_spec' 	=> '编辑商品规格',
+	'attr_groups' 		=> '属性分组',
+	'new_goods_spec' 	=> '新建商品规格',
+	'goods_type_status' => '状态',
+	'goods_type_name' 	=> '商品规格名称',
+	'attribute_number' 	=> '属性数',
+	'attribute' 		=> '属性列表',
+	'arr_goods_status' 	=> array(
+		0 => '禁用',
+		1 => '启用',
+	),
+	
+	'back_list' 			=> '返回商品规格列表',
+	'notice_attr_groups' 	=> '每行一个商品属性。排序也将按照自然顺序排序。',
+	'add_goodstype_success' => '添加商品规格成功。',
+	'add_goodstype_failed' 	=> '添加商品规格失败。',
+	'edit_goodstype_success'=> '编辑商品规格成功。',
+	'edit_goodstype_failed' => '编辑商品规格失败。',
+	'remove_failed' 		=> '移除商品规格失败。',
+	'remove_confirm' 		=> "删除商品规格将会清除该规格下的所有属性。\n您确定要删除选定的商品规格吗？",
+	'repeat_type_name' 		=> '已经存在一个同名的商品规格。',
+	'cannot_found_goodstype'=> '没有找到指定的商品规格。',
+		
+	'js_languages' => array(
+		'lang_enabled' 		=> '启用',
+		'lang_remove' 		=> '移除',
+		'attribute' 		=> '属性',
+		'remove_confirm' 	=> "删除商品类型将会清除该规格下的所有属性。\n您确定要删除选定的商品规格吗？",
+		'type_name_empty'	=> '商品规格名称不能为空！',
+	),
+	
+	//追加
+	'add_goods_spec'	=> '添加商品规格',
+	'continue_add'		=> '继续添加商品规格',
+	'remove_success'	=> '删除成功',
+	'edit_success'		=> '编辑成功',
+	'type_name_empty'	=> '商品规格名称不能为空！',
+	'view_type_attr'	=> '查看规格属性',
+	'enter_type_name'	=> '请输入规格名称',
+	'click_edit_stats'	=> '点击修改状态',
+	
+	'label_goods_type_name' 	=> '规格名称：',
+	'label_goods_type_status' 	=> '状态：',
+	'label_attr_groups' 		=> '属性分组：',
+	
+	'overview'			=> '概述',
+	'more_info'			=> '更多信息：',
+	
+	'goods_type_help'	=> '欢迎访问ECJia智能后台商品规格列表页面，系统中所有的商品规格都会显示在此列表中。',
+	'about_goods_type'	=> '关于商品规格列表帮助文档',
+	
+	'add_type_help'		=> '欢迎访问ECJia智能后台添加商品规格页面，可以在此页面添加商品规格信息。',
+	'about_add_type'	=> '关于添加商品规格帮助文档',
+	
+	'edit_type_help'	=> '欢迎访问ECJia智能后台编辑商品规格页面，可以在此页面编辑商品规格信息。',
+	'about_edit_type'	=> '关于编辑商品规格帮助文档',
+	
+	'merchants_name'		=> '商家名称',
+	'merchants'				=> '商家',
+	'all'					=> '全部',
+	'merchant_keywords'		=> '请输入商家名称关键字',
+	'goods_type_keywords' 	=> '请输入商品规格关键字',
+	'search'				=> '搜索',
+	'self'					=> '自营',
+);
 
 // end

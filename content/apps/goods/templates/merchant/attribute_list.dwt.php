@@ -41,7 +41,7 @@
 					<span class="l_h30">{lang key='goods::attribute.by_goods_type'}</span>
 					<div class="pull-right">
 						<select class="w130" name="goods_type" data-url="{url path='goods/mh_attribute/init' args='cat_id='}">
-							<option value="0">请选择商品类型</option>
+							<option value="0">所有商品规格</option>
 							<!-- {$goods_type_list} -->
 						</select>
 					</div>
