@@ -203,6 +203,12 @@ return array(
     'RecreatePushMessageTable' => $contentDir . '/database/migrations/2017_08_03_184333_recreate_push_message_table.php',
     'DropPushEventTable' => $contentDir . '/database/migrations/2017_08_03_190511_drop_push_event_table.php',
     'AlterCoverImageToArticleTable' => $contentDir . '/database/migrations/2017_08_10_140237_alter_cover_image_to_article_table.php',
+    'CreateMarketActivityTable' => $contentDir . '/database/migrations/2017_09_01_135217_create_market_activity_table.php',
+    'CreateMarketActivityLogTable' => $contentDir . '/database/migrations/2017_09_01_135233_create_market_activity_log_table.php',
+    'CreateMarketActivityPrizeTable' => $contentDir . '/database/migrations/2017_09_01_135256_create_market_activity_prize_table.php',
+    'CreateExpressTrackRecordTable' => $contentDir . '/database/migrations/2017_09_01_135329_create_express_track_record_table.php',
+    'AlterAccessTokenSizeForConnectUserTable' => $contentDir . '/database/migrations/2017_09_01_145518_alter_access_token_size_for_connect_user_table.php',
+    'AlterTypeSizeForWechatMenuTable' => $contentDir . '/database/migrations/2017_09_04_175915_alter_type_size_for_wechat_menu_table.php',
      
     
     // seeder
