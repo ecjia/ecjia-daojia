@@ -37,18 +37,20 @@ class sms_module extends api_front implements api_interface {
     			'service_phone' => ecjia::config('service_phone'),
     		),
 	    );
+	    
+	    $time = RC_Time::gmtime();
+	    $_SESSION['captcha']['sms'][$type] = array(
+	    		'value' => $value,
+	    		'code' => $code,
+	    		'lifetime' => $time + 1800,
+	    		'sendtime' => $time,
+	    );
+	    $_SESSION['captcha']['sms']['sendtime'] = $time;
+	    
 	    $response = RC_Api::api('sms', 'send_event_sms', $options);
 	    if (is_ecjia_error($response)) {
 	    	return new ecjia_error('sms_error', '短信发送失败！');//$response['description']
 	    } else {
-	    	$time = RC_Time::gmtime();
-		    $_SESSION['captcha']['sms'][$type] = array(
-		        'value' => $value,
-		        'code' => $code,
-		        'lifetime' => $time + 1800,
-		        'sendtime' => $time,
-		    );
-		    $_SESSION['captcha']['sms']['sendtime'] = $time;
 			return array();
 	    }
 	}
