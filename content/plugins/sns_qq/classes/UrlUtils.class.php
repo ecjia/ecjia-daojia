@@ -51,13 +51,6 @@
 class UrlUtils
 {
 
-    private $error;
-
-    public function __construct(array $inc)
-    {
-        $this->error = new ErrorCase($inc);
-    }
-
     /**
      * combineURL
      * 拼接url
@@ -106,7 +99,7 @@ class UrlUtils
         
         // -------请求为空
         if (empty($response)) {
-            $this->error->showError("50001");
+            return new ecjia_error('50001', ErrorCase::showError('50001'));
         }
         
         return $response;
@@ -132,12 +125,9 @@ class UrlUtils
      * post
      * post方式请求资源
      * 
-     * @param string $url
-     *            基于的baseUrl
-     * @param array $keysArr
-     *            请求的参数列表
-     * @param int $flag
-     *            标志位
+     * @param string $url 基于的baseUrl
+     * @param array $keysArr 请求的参数列表
+     * @param int $flag 标志位
      * @return string 返回的资源内容
      */
     public function post($url, $keysArr, $flag = 0)
@@ -145,6 +135,7 @@ class UrlUtils
         $ch = curl_init();
         if (! $flag)
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $keysArr);

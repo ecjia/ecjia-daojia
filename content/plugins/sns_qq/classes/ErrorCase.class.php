@@ -45,58 +45,82 @@
 //  ---------------------------------------------------------------------------------
 //
 /**
- * @brief ErrorCase类，封闭异常
+ * ErrorCase类，封闭异常
  **/
-class ErrorCase {
-    private $errorMsg;
-
-    public function __construct(array $inc){
-        $this->errorMsg = array(
-            "20001" => "<h2>配置文件损坏或无法读取，请重新执行intall</h2>",
-            "30001" => "<h2>The state does not match. You may be a victim of CSRF.</h2>",
-            "50001" => "<h2>可能是服务器无法请求https协议</h2>可能未开启curl支持,请尝试开启curl支持，重启web服务器，如果问题仍未解决，请联系我们"
-            );
-        $this->inc = $inc;
-    }
+class ErrorCase 
+{
+    protected static $errorMsg = array(
+        '100000' => '缺少参数response_type或response_type非法。',
+        '100001' => '缺少参数client_id。',
+        '100002' => '缺少参数client_secret。',
+        '100003' => 'http head中缺少Authorization。',
+        '100004' => '缺少参数grant_type或grant_type非法。',
+        '100005' => '缺少参数code。',
+        '100006' => '缺少refresh token。',
+        '100007' => '缺少access token。',
+        '100008' => '该appid不存在。',
+        '100009' => 'client_secret（即appkey）非法。',
+        '100010' => '回调地址不合法。',
+        '100011' => 'APP不处于上线状态。',
+        '100012' => 'HTTP请求非post方式。',
+        '100013' => 'access token非法。',
+        '100014' => 'access token过期。 token过期时间为3个月。',
+        '100015' => 'access token废除。 token被回收，或者被用户删除。',
+        '100016' => 'access token验证失败。',
+        '100017' => '获取appid失败。',
+        '100018' => '获取code值失败。',
+        '100019' => 'access token非法。',
+        '100015' => '用code换取access token值失败。',
+        '100020' => 'code被重复使用。',
+        '100021' => '获取access token值失败。',
+        '100022' => '获取refresh token值失败。',
+        '100023' => '获取app具有的权限列表失败。',
+        '100024' => '获取某OpenID对某appid的权限列表失败。',
+        '100025' => '获取全量api信息、全量分组信息。',
+        '100026' => '设置用户对某app授权api列表失败。',
+        '100027' => '设置用户对某app授权时间失败。',
+        '100028' => '缺少参数which。',
+        '100029' => '错误的http请求。',
+        '100030' => '用户没有对该api进行授权，或用户在腾讯侧删除了该api的权限。请用户重新走登录、授权流程，对该api进行授权。',
+        '100031' => '第三方应用没有对该api操作的权限。',
+        '100032' => '过载，一开始未细分时可以用。',
+        '100033' => '缺少UIN参数。',
+        '100034' => '100034',
+        '100035' => '用户未登录。',
+        '100036' => 'RefreshToken失效。',
+        '100037' => 'RefreshToken已过期',
+        '100038' => 'RefreshToken已废除',
+        '100038' => '获取refresh token值失败。',
+        '100039' => 'RefreshToken到达调用上限。',
+        '100040' => 'RefreshToken的AppKey非法。',
+        '100041' => 'RefreshToken,AppID非法。',
+        '100042' => 'RefreshToken非法。',
+        '100043' => 'APP处于暂停状态。',
+        '100044' => 'Md5校验失败。',
+        '100045' => '用户改密token失效。',
+        '100046' => 'g_tk校验失败。',
+        '100048' => '没有设置companyID。',
+        '100049' => 'APPID没有权限(get_unionid)',
+        '100050' => 'OPENID解密失败，一般是openid和appid不匹配。',
+        '100051' => '调试模式无权限。',
+        
+        "20001" => "配置文件损坏或无法读取，请重新执行intall",
+        "30001" => "The state does not match. You may be a victim of CSRF.",
+        "50001" => "可能是服务器无法请求https协议</h2>可能未开启curl支持,请尝试开启curl支持，重启web服务器，如果问题仍未解决，请联系我们"
+        
+    );
 
     /**
      * showError
      * 显示错误信息
-     * @param int $code    错误代码
-     * @param string $description 描述信息（可选）
+     * @param int $code 错误代码
+     * @return string 描述信息
      */
-    public function showError($code, $description = '$'){
-//         $inc = array (
-//           'appid' => 'sdf',
-//           'appkey' => 'sdf',
-//           'callback' => 'sdfsdf',
-//           'scope' => 'get_user_info',
-//           'errorReport' => '1',
-//           'storageType' => 'file',
-//           'host' => 'localhost',
-//           'user' => 'root',
-//           'password' => 'root',
-//           'database' => 'test',
-//         );
-        $recorder = new Recorder($this->inc);
-        
-        if(! $recorder->readInc("errorReport")){
-            die();//die quietly
-        }
-
-
-        echo "<meta charset=\"UTF-8\">";
-        if($description == "$"){
-            die($this->errorMsg[$code]);
-        }else{
-            echo "<h3>error:</h3>$code";
-            echo "<h3>msg  :</h3>$description";
-            exit(); 
-        }
+    public static function showError($code)
+    {
+        return array_get(self::$errorMsg, $code);
     }
-    
-    public function showTips($code, $description = '$'){
-    }
+
 }
 
 // end

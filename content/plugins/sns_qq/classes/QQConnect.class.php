@@ -72,12 +72,11 @@ class QQConnect
      *            openid value
      * @return Object QC
      */
-    public function __construct(Recorder $recorder, UrlUtils $urlUtils, ErrorCase $error, $access_token = "", $openid = "")
+    public function __construct(Recorder $recorder, UrlUtils $urlUtils, $access_token = "", $openid = "")
     {
         // parent::__construct();
         $this->recorder = $recorder;
         $this->urlUtils = $urlUtils;
-        $this->error = $error;
         
         // 如果access_token和openid为空，则从session里去取，适用于demo展示情形
         if ($access_token === "" || $openid === "") {
@@ -329,8 +328,8 @@ class QQConnect
                 if (strpos($val, $pre) === 0) {
                     $tmpVal = $pre;
                     $tmpKey = substr($tmpKey, 1);
-                    if (preg_match("/-(\d$)/", $tmpKey, $res)) {
-                        $tmpKey = str_replace($res[0], "", $tmpKey);
+                    if (preg_match('/-(\d$)/', $tmpKey, $res)) {
+                        $tmpKey = str_replace($res[0], '', $tmpKey);
                         $optionArgList[$res[1]][] = $tmpKey;
                     }
                 } else {
@@ -347,15 +346,14 @@ class QQConnect
                     if ($tmpVal) {
                         $arr[$tmpKey] = $tmpVal;
                     } else {
-                        if ($v = $_FILES[$tmpKey]) {
-                            
+                        if (value($v = $_FILES[$tmpKey])) {
                             $filename = dirname($v['tmp_name']) . "/" . $v['name'];
                             move_uploaded_file($v['tmp_name'], $filename);
                             $arr[$tmpKey] = "@$filename";
                         } else {
-                            $this->error->showError("api调用参数错误", "未传入参数$tmpKey");
+                            return new ecjia_error('api_call_parameter_incorrect', "未传入参数$tmpKey");
                         }
-                    }
+                    } 
             }
             
             $keysArr[$tmpKey] = $arr[$tmpKey];
@@ -371,7 +369,7 @@ class QQConnect
             
             if (! $n) {
                 $str = implode(",", $val);
-                $this->error->showError("api调用参数错误", $str . "必填一个");
+                return new ecjia_error('api_call_parameter_incorrect', $str . "必填一个");
             }
         }
         
@@ -403,7 +401,7 @@ class QQConnect
     {
         // 如果APIMap不存在相应的api
         if (empty($this->APIMap[$name])) {
-            $this->error->showError("api调用名称错误", "不存在的API: <span style='color:red;'>$name</span>");
+            return new ecjia_error('api_call_name_incorrect', "不存在的API: $name");
         }
         
         // 从APIMap获取api相应参数
@@ -427,7 +425,7 @@ class QQConnect
         if ($responseArr['ret'] == 0) {
             return $responseArr;
         } else {
-            $this->error->showError($response->ret, $response->msg);
+            return new ecjia_error($response->ret, ErrorCase::showError($response->ret));
         }
     }
     

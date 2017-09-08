@@ -49,9 +49,10 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('connect_abstract', 'connect', false);
-RC_Loader::load_app_class('connect_user', 'connect', false);
-class sns_qq extends connect_abstract
+use Ecjia\App\Connect\ConnectAbstract;
+use Ecjia\App\Connect\ConnectUser;
+
+class sns_qq extends ConnectAbstract
 {
     protected $oauth;
     
@@ -61,32 +62,52 @@ class sns_qq extends connect_abstract
     
     protected $recorder;
     public $urlUtils;
-    protected $error;
     
-    public function __construct($client_id, $client_secret, $configure = array()) {
-        parent::__construct($client_id, $client_secret, $configure);
-        
-        $inc = array(
-        	'appid' => $this->configure['sns_qq_appid'],
-            'appkey' => $this->configure['sns_qq_appkey'],
-            'callback' => $this->configure['sns_qq_callback'],
-            'scope' => 'get_user_info',
-            'errorReport' => true
-        );
-        $this->recorder = new Recorder($inc);
-        $this->urlUtils = new UrlUtils($inc);
-        $this->error = new ErrorCase($inc);
+    /**
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
+     */
+    public function getCode()
+    {
+        return $this->loadConfig('connect_code');
     }
     
     /**
-     * 获取插件配置信息
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
      */
-    public function configure_config() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-        if (is_array($config)) {
-            return $config;
-        }
-        return array();
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
+    }
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+    
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
+    }
+    
+    public function setConfig(array $config) 
+    {
+        parent::setConfig($config);
+        
+        $inc = array(
+        	'appid'        => $this->config['sns_qq_appid'],
+            'appkey'       => $this->config['sns_qq_appkey'],
+            'callback'     => $this->callback_url(),
+            'scope'        => 'get_user_info',
+            'errorReport'  => true
+        );
+        $this->recorder = new Recorder($inc);
+        $this->urlUtils = new UrlUtils();
     }
     
     /**
@@ -107,7 +128,7 @@ class sns_qq extends connect_abstract
             "client_id"         => $appid,
             "redirect_uri"      => $callback,
             "state"             => $state,
-            "scope"             => $scope
+            "scope"             => $scope,
         );
         
         $login_url = $this->urlUtils->combineURL(self::GET_AUTH_CODE_URL, $keysArr);
@@ -115,24 +136,43 @@ class sns_qq extends connect_abstract
         return $login_url;
     }
     
-    public function callback() {
+    public function callback_url()
+    {
+        $redirect_uri = urlencode(RC_Uri::url('connect/callback/init', array('connect_code' => 'sns_qq')));
+        return $redirect_uri;
+    }
+    
+    /**
+     * 登录成功后回调处理
+     * @param $user_type 用户类型
+     *          ConnectUser::USER,
+     *          ConnectUser::MERCHANT,
+     *          ConnectUser::ADMIN
+     * @see \Ecjia\App\Connect\ConnectAbstract::callback()
+     * @return \Ecjia\App\Connect\ConnectUser
+     */
+    public function callback($user_type = 'user') {
         $state = $this->recorder->read("state");
         $callback = $this->recorder->readInc("callback");
-        
+
         //--------验证state防止CSRF攻击
         if($_GET['state'] != $state){
-            $this->error->showError("30001");
+            return new ecjia_error('30001', ErrorCase::showError('30001'));
         }
 
         $token = $this->access_token($callback, $_GET['code']);
        
         $userinfo = $this->me();
+        if (is_ecjia_error($userinfo)) {
+            return $userinfo;
+        }
         
-        $connect_user = new connect_user($this->configure['connect_code'], $this->open_id);
-        $connect_user->save_openid($this->access_token, serialize($userinfo), $token['expires_in']);
+        $connect_user = new ConnectUser($this->getCode(), $this->open_id, $user_type);
+        $connect_user->saveOpenId($this->access_token, $this->refresh_token, serialize($userinfo), $this->expires_in);
+        $connect_user->setUserName($userinfo['nickname']);
         
-        if ($userinfo['ret'] == 0) {
-            return array('connect_code' => $this->configure['connect_code'], 'open_id' => $this->open_id, 'username' => $userinfo['nickname']);
+        if (intval($userinfo['ret']) === 0) {
+            return $connect_user;
         } else {
             return new ecjia_error('sns_qq_authorize_failure', '登录授权失败，请换其他方式登录');
         }        
@@ -146,13 +186,16 @@ class sns_qq extends connect_abstract
         $keysArr = array(
             "grant_type"    => "authorization_code",
             "client_id"     => $this->recorder->readInc("appid"),
-            "redirect_uri"  => urlencode($this->recorder->readInc("callback")),
+            "redirect_uri"  => $this->recorder->readInc("callback"),
             "client_secret" => $this->recorder->readInc("appkey"),
-            "code"          => $_GET['code']
+            "code"          => $code,
         );
         //------构造请求access_token的url
         $token_url = $this->urlUtils->combineURL(self::GET_ACCESS_TOKEN_URL, $keysArr);
         $response = $this->urlUtils->get_contents($token_url);
+        if (is_ecjia_error($response)) {
+            return $response;
+        }
         
         if (strpos($response, "callback") !== false) {
             $lpos       = strpos($response, "(");
@@ -161,7 +204,7 @@ class sns_qq extends connect_abstract
             $msg        = json_decode($response);
         
             if (isset($msg->error)) {
-                $this->error->showError($msg->error, $msg->error_description);
+                return new ecjia_error($msg->error, $msg->error_description);
             }
         }
         
@@ -171,6 +214,8 @@ class sns_qq extends connect_abstract
         $this->recorder->write("access_token", $params["access_token"]);
         
         $this->access_token = $params["access_token"];
+        $this->refresh_token = $params["refresh_token"];
+        $this->expires_in = $params["expires_in"];
 
         return $params;
     }
@@ -193,7 +238,7 @@ class sns_qq extends connect_abstract
     
         $user = json_decode($response);
         if (isset($user->error)) {
-            $this->error->showError($user->error, $user->error_description);
+            return new ecjia_error($user->error, $user->error_description);
         }
     
         //------记录openid
@@ -216,17 +261,20 @@ class sns_qq extends connect_abstract
      */
     public function me() {
         $open_id =  $this->get_openid();
-        $this->oauth = new QQConnect($this->recorder, $this->urlUtils, $this->error, $this->access_token, $open_id);
+        $this->oauth = new QQConnect($this->recorder, $this->urlUtils, $this->access_token, $open_id);
         $userinfo = $this->oauth->get_user_info();
         return $userinfo;
     }
     
-    public function get_username(array $profile) {
-        return $profile['nickname'];
+    /**
+     * 获取用户头像
+     */
+    public function get_headerimg() {
+        return $this->profile['figureurl_qq_2'];
     }
     
-    public function get_email(array $profile) {
-        return $this->generate_email();
+    public function get_username() {
+        return $this->profile['nickname'];
     }
     
 }

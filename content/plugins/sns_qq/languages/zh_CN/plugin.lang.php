@@ -49,11 +49,13 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-$LANG['sns_qq'] 				= 'QQ帐号登录';
-$LANG['sns_qq_desc'] 			= '腾讯QQ（QQ）第三方帐号登录。<br/>登录接口：在线即可开通，<font color="red"><b>免费。</b></font><br/><a href="http://connect.qq.com/intro/login/" target="_blank"><font color="red">立即在线申请</font></a>';
-$LANG['sns_qq_appid'] 			= 'AppID';
-$LANG['sns_qq_appkey'] 		    = 'AppKey';
-$LANG['sns_qq_callback'] 		= '回调地址';
-//scope 授权列表
+return array(
+    'sns_qq' 				=> 'QQ帐号登录',
+    'sns_qq_desc' 			=> '腾讯QQ（QQ）第三方帐号登录。<br/>登录接口：在线即可开通，<font color="red"><b>免费。</b></font><br/><a href="http://connect.qq.com/intro/login/" target="_blank"><font color="red">立即在线申请</font></a>',
+    'sns_qq_appid' 			=> 'AppID',
+    'sns_qq_appkey' 		=> 'AppKey',
+    'sns_qq_callback' 		=> '回调地址',
+    'sns_qq_callback_desc'  => '(请勿修改，仅供参考)此回调地址的格式，用于填写申请QQ互联的网页应用回调域提示。',
+);
 
 // end
