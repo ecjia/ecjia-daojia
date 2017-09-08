@@ -75,6 +75,7 @@ class merchant extends ecjia_merchant {
 	}
 
 	public function init() {
+		$this->unset_login_info();
 		$step 	= isset($_GET['step']) 		? $_GET['step'] 		: 1;
 		$type	= !empty($_GET['type']) 	? trim($_GET['type']) 	: '';
 		$mobile = !empty($_GET['mobile']) 	? trim($_GET['mobile']) : '';
@@ -206,6 +207,10 @@ class merchant extends ecjia_merchant {
 		$arr['mobile'] = $mobile;
 		$this->assign('form_action', RC_Uri::url('franchisee/merchant/insert', $arr));
 		
+		if (is_ie()) {
+			$browser_warning = '您当前的浏览器版本过低，建议升级您的浏览器或使用chrome内核浏览器！如：360极速浏览器、360安全浏览器（极速模式）、火狐浏览器、谷歌浏览器。';
+			$this->assign('browser_warning', $browser_warning);
+		}
 		$this->display('franchisee.dwt');
 	}
 	
@@ -225,12 +230,13 @@ class merchant extends ecjia_merchant {
 		);
 		$response = RC_Api::api('sms', 'send_event_sms', $options);
 		
+		$_SESSION['temp_mobile']	= $mobile;
+		$_SESSION['temp_code'] 		= $code;
+		$_SESSION['temp_code_time'] = RC_Time::gmtime();
+		
 		if (is_ecjia_error($response)) {
 			return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$_SESSION['temp_mobile']	= $mobile;
-			$_SESSION['temp_code'] 		= $code;
-			$_SESSION['temp_code_time'] = RC_Time::gmtime();
 			return $this->showmessage('手机验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		}
 	}
@@ -538,6 +544,7 @@ class merchant extends ecjia_merchant {
 	}
 	
 	public function view() {
+		$this->unset_login_info();
 		$this->assign('ur_here', '查询审核进度');
 		$this->assign('action_link', array('href' => RC_Uri::url('franchisee/merchant/init'), 'text' => '申请入驻'));
 		
@@ -737,6 +744,23 @@ class merchant extends ecjia_merchant {
 		return $this->db_region->where(array('region_id' => $id))->get_field('region_name');
 	}
 	
+	/**
+	 * 清除登录信息
+	 */
+	private function unset_login_info() {
+		if (isset($_SESSION['staff_id']) && intval($_SESSION['staff_id']) > 0) {
+			RC_Session::destroy();
+		}
+		$staff_id = RC_Cookie::get('ECJAP[staff_id]');
+		$staff_pass = RC_Cookie::get('ECJAP[staff_pass]');
+		if (!empty($staff_id) && !empty($staff_pass)) {
+			RC_Cookie::delete('ECJAP.staff_id');
+			RC_Cookie::delete('ECJAP.staff_pass');
+		}
+		unset($staff_id);
+		unset($staff_pass);
+		return;
+	}
 }
 
 // end
