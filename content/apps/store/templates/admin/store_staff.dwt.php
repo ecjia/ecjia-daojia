@@ -46,12 +46,18 @@
                 			</div>
                 			<div class="span8">
                 				<p>{lang key='store::store.user_ident'}{$main_staff.user_ident}</p>
-                				<p>{lang key='store::store.main_name'}{$main_staff.name}</p>
+                				<p>{lang key='store::store.main_name'}{$main_staff.name}{if $main_staff.nick_name}（{$main_staff.nick_name}）{/if}</p>
                 				<p>{lang key='store::store.main_email'}{$main_staff.email}</p>
                 				<p>{lang key='store::store.mobile'}{$main_staff.mobile}</p>
                 				<p>{lang key='store::store.main_add_time'}{$main_staff.add_time}</p>
                 				<p>{lang key='store::store.main_introduction'}{$main_staff.introduction}</p>
                 			</div>
+                			{if $store.manage_mode eq 'self'}
+                			<div class="span2 left">
+                			     <p><a class="data-pjax btn" href='{RC_Uri::url("store/admin/edit_staff", "store_id={$store.store_id}&main_staff=1")}'>编辑店长</a></p>
+                			     <p><a class="toggle_view btn" href='{RC_Uri::url("store/admin/reset_staff", "store_id={$store.store_id}&main_staff=1")}' data-msg="重置店长登录密码将发送新密码到店长手机短信，<br>您确定要重置吗？" data-pjax-url="{$current_url}">重置密码</a></p>
+                			</div>
+                			{/if}
                 		</div>
                 	</div>
                 </div>

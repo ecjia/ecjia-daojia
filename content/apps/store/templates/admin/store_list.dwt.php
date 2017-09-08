@@ -36,19 +36,27 @@
 	
 <div class="nav nav-pills">
 	<li class="{if !$smarty.get.type}active{/if}">
-		<a class="data-pjax" href="{RC_Uri::url('store/admin/init')}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}">{lang key='store::store.preaudit_list'} 
+		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init')}{else}{RC_Uri::url('store/admin/join')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}">{lang key='store::store.preaudit_list'} 
 			<span class="badge badge-info">{$filter.count_all}</span>
 		</a>
 	</li>
 	
 	<li class="{if $smarty.get.type eq 1}active{/if}">
-		<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "type=1{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>正常
+		{if $manage_mode eq 'self'}
+			<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "type=1{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>正常
+		{else}
+			<a class="data-pjax" href='{RC_Uri::url("store/admin/join", "type=1{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>正常
+		{/if}
 			<span class="badge badge-info use-plugins-num">{$filter.count_unlock}</span>
 		</a>
 	</li>
 	
 	<li class="{if $smarty.get.type eq 2}active{/if}">	
-		<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "type=2{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{lang key='store::store.lock'}
+		{if $manage_mode eq 'self'}
+			<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "type=2{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{lang key='store::store.lock'}
+		{else}
+			<a class="data-pjax" href='{RC_Uri::url("store/admin/join", "type=2{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{lang key='store::store.lock'}
+		{/if}
 			<span class="badge badge-info unuse-plugins-num">{$filter.count_locking}</span>
 		</a>
 	</li>
@@ -61,19 +69,24 @@
 <div class="nav nav-pills">
 
 	<li class="{if !$smarty.get.cat}active{/if}">
-		<a class="data-pjax" href="{RC_Uri::url('store/admin/init')}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}">全部分类
+		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init')}{else}{RC_Uri::url('store/admin/join')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}">全部分类
 			<span class="badge badge-info"></span>
 		</a>
 	</li>
 	<li class="{if $smarty.get.cat eq -1}active{/if}">
-		<a class="data-pjax" href="{RC_Uri::url('store/admin/init','cat=-1')}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}">未分类
+		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init','cat=-1')}{else}{RC_Uri::url('store/admin/join','cat=-1')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}">未分类
 			<span class="badge badge-info"></span>
 		</a>
 	</li>
 	<!-- {foreach from=$cat_list key=k item=list} -->
 	<li class="{if $smarty.get.cat eq $k}active{/if}">
+		{if $manage_mode eq "self"}
 		<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "cat={$k}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}")}'>{$list}
 		</a>
+		{else}
+		<a class="data-pjax" href='{RC_Uri::url("store/admin/join", "cat={$k}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}")}'>{$list}
+		</a>
+		{/if}
 	</li>
 	<!-- {/foreach} -->
 </div>

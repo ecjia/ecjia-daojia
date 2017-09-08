@@ -18,6 +18,9 @@
 		<!-- {/if} -->
 		{if $store.status eq 1}<a class="data-pjax btn f_r" href='{RC_Uri::url("store/admin/status","&status=1&store_id={$smarty.get.store_id}")}'><i class="fontello-icon-lock"></i>锁定</a>{/if}
 		{if $store.status eq 2}<a class="data-pjax btn f_r" href='{RC_Uri::url("store/admin/status","&status=2&store_id={$smarty.get.store_id}")}'><i class="fontello-icon-lock-open"></i>解锁</a>{/if}
+		<!-- {if $action_link_self} -->
+		<a class="btn plus_or_reply" target="_blank" id="sticky_a" href="{$action_link_self.href}"><i class="fontello-icon-login"></i>{$action_link_self.text}</a>
+		<!-- {/if} -->
 	</h3>
 </div>
 <div class="row-fluid">

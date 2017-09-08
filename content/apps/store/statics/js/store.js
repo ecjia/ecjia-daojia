@@ -8,7 +8,39 @@
 				var url = $("form[name='searchForm']").attr('action') + '&keywords=' + $("input[name='keywords']").val();
 				ecjia.pjax(url);
 			});
-		}
+			app.store_list.toggle_view();
+		},
+		toggle_view : function (option) {
+			$('.toggle_view').on('click', function (e) {
+				e.preventDefault();
+				var $this = $(this);
+				var href = $this.attr('href');
+				var val = $this.attr('data-val') || 'allow';
+				var option = {href : href, val : val};
+				var url = option.href;
+				var val = {check:option.val}
+				var msg = $this.attr("data-msg");
+				if (msg) {
+					smoke.confirm( msg , function(e){
+						if (e) {
+							$.get(url, val, function(data){
+								var url = $this.attr("data-pjax-url");
+								ecjia.pjax(url , function(){
+									ecjia.admin.showmessage(data);
+								});
+							},'json');
+						}
+					}, {ok:'确定', cancel:'取消'});
+				} else {
+					$.get(url, val, function(data){
+						var url = $this.attr("data-pjax-url");
+						ecjia.pjax(url , function(){
+							ecjia.admin.showmessage(data);
+						});
+					},'json');
+				}
+			});
+		},
 	};
 
 	app.store_edit = {

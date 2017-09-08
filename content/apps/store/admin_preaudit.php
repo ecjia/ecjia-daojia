@@ -331,6 +331,7 @@ class admin_preaudit extends ecjia_admin {
 				}
 				$data = array(
 					'cat_id' 					=> $store['cat_id'] ? $store['cat_id'] : 0,
+				    'validate_type' 			=> $store['validate_type'],
 					'merchants_name'			=> $store['merchants_name'],
 					'shop_keyword'				=> $store['shop_keyword'],
 					'status'					=> 1,
@@ -381,37 +382,12 @@ class admin_preaudit extends ecjia_admin {
 				    return $this->showmessage('邮箱员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 				
-				$password = rand(100000,999999);
-				//短信发送通知
-				$options = array(
-					'mobile' => $store['contact_mobile'],
-					'event'	 => 'sms_jion_merchant',
-					'value'  =>array(
-						'user_name' => $store['responsible_person'],
-						'shop_name' => ecjia::config('shop_name'),
-						'account'	=> $store['contact_mobile'],
-						'password'	=> $password,
-						'service_phone' => ecjia::config('service_phone'),
-					),
-				);
-				$response = RC_Api::api('sms', 'send_event_sms', $options);
-				if (is_ecjia_error($response)) {
-					return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-				}
 				RC_Logger::getlogger('new_store')->info($data);
 				$store_id = RC_DB::table('store_franchisee')->insertGetId($data);
 				RC_DB::table('store_preaudit')->where('id', $id)->delete();
 				
 				//审核通过产生店铺中的code
 				$merchant_config = array(
-// 					'shop_title' ,                // 店铺标题
-// 					'shop_kf_email' ,             // 客服邮件地址
-// 					'shop_kf_type' ,              // 客服样式
-// 					'shop_kf_qq'  ,               // 客服QQ号码
-// 					'shop_kf_ww' ,                // 客服淘宝旺旺
-// 					'shop_front_logo',            // 店铺封面图
-// 					'shop_thumb_logo' ,           // Logo缩略图
-// 					'shop_qrcode_logo' ,          // 二维码中间Logo
 					'shop_logo' ,                 // 默认店铺页头部LOGO
 					'shop_nav_background',        // 店铺导航背景图
 					'shop_banner_pic' ,           // app banner图
@@ -433,6 +409,7 @@ class admin_preaudit extends ecjia_admin {
 				}
 				
 				//审核通过产生一个主员工的资料
+				$password = rand(100000,999999);
 				$salt = rand(1, 9999);
 				$data_staff = array(
 					'mobile' 		=> $store['contact_mobile'],
@@ -463,7 +440,24 @@ class admin_preaudit extends ecjia_admin {
 				);
 				RC_Api::api('store', 'add_check_log', $log);
 				ecjia_admin::admin_log($data['merchants_name'].' 通过', 'check', 'merchants_preaudit');
-				return $this->showmessage(RC_Lang::get('store::store.check_success').$message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_preaudit/init')));
+				
+				//短信发送通知
+				$options = array(
+					'mobile' => $store['contact_mobile'],
+					'event'	 => 'sms_join_merchant',
+					'value'  =>array(
+						'user_name' => $store['responsible_person'],
+						'shop_name' => ecjia::config('shop_name'),
+						'account'	=> $store['contact_mobile'],
+						'password'	=> $password,
+						'service_phone' => ecjia::config('service_phone'),
+					),
+				);
+				$response = RC_Api::api('sms', 'send_event_sms', $options);
+				if (is_ecjia_error($response)) {
+					RC_Logger::get_logger('error')->info('短信发送失败');
+				}
+				return $this->showmessage(RC_Lang::get('store::store.check_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_preaudit/init')));
 			} else {
 				//再次审核资料
 				$store = RC_DB::table('store_preaudit')->where('store_id', $store_id)->first();
@@ -515,20 +509,7 @@ class admin_preaudit extends ecjia_admin {
 				if ($is_exist) {
 				    return $this->showmessage('邮箱员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
-				//判断图片是否更新，删除老图
-				/* $disk = RC_Filesystem::disk();
-				if ($store['identity_pic_front'] && $store['identity_pic_front'] != $franchisee_info['identity_pic_front']) {
-				    $disk->delete(RC_Upload::upload_path($franchisee_info['identity_pic_front']));
-				}
-				if ($store['identity_pic_back'] && $store['identity_pic_back'] != $franchisee_info['identity_pic_back']) {
-				    $disk->delete(RC_Upload::upload_path($franchisee_info['identity_pic_back']));
-				}
-				if ($store['personhand_identity_pic'] && $store['personhand_identity_pic'] != $franchisee_info['personhand_identity_pic']) {
-				    $disk->delete(RC_Upload::upload_path($franchisee_info['personhand_identity_pic']));
-				}
-				if ($store['business_licence_pic'] && $store['business_licence_pic'] != $franchisee_info['business_licence_pic']) {
-				    $disk->delete(RC_Upload::upload_path($franchisee_info['business_licence_pic']));
-				} */
+
 				//判断是否修改认证相关字段
 				if (
 				    ($store['identity_pic_front'] && $store['identity_pic_front'] != $franchisee_info['identity_pic_front']) ||
