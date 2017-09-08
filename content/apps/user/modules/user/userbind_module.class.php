@@ -79,21 +79,23 @@ class userbind_module extends api_front implements api_interface {
 		if ($type == 'mobile') {
 			//发送短信
 			$options = array(
-					'mobile' => $value,
-					'event'	 => 'sms_get_validate',
-					'value'  =>array(
-							'code' 			=> $code,
-							'service_phone' => ecjia::config('service_phone'),
-					),
+				'mobile' => $value,
+				'event'	 => 'sms_get_validate',
+				'value'  =>array(
+						'code' 			=> $code,
+						'service_phone' => ecjia::config('service_phone'),
+				),
 			);
-			$response = RC_Api::api('sms', 'send_event_sms', $options);			
+			$response = RC_Api::api('sms', 'send_event_sms', $options);	
+			
+			$_SESSION['bind_code']         = $code;
+			$_SESSION['bindcode_lifetime'] = RC_Time::gmtime();
+			$_SESSION['bind_value']        = $value;
+			$_SESSION['bind_type']         = $type;
+			
 			if (is_ecjia_error($response)) {
 				return new ecjia_error('sms_error', '短信发送失败！');
 			} else {
-				$_SESSION['bind_code']         = $code;
-				$_SESSION['bindcode_lifetime'] = RC_Time::gmtime();
-				$_SESSION['bind_value']        = $value;
-				$_SESSION['bind_type']         = $type;
 				return array('registered' => 0);
 			}
 		}

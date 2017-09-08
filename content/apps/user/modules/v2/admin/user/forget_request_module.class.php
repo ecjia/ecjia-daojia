@@ -132,17 +132,18 @@ class forget_request_module extends api_admin implements api_interface {
             		),
 	            );
 	            $response = RC_Api::api('sms', 'send_event_sms', $options);
+	            
+	            $_SESSION['user_id'] 	    = $user_id;
+	            $_SESSION['temp_code'] 	    = $code;
+	            $_SESSION['temp_code_time'] = RC_Time::gmtime();
+	            
 	            if (is_ecjia_error($response)) {
 	            	return $response;
 	            } else {
-            		$_SESSION['user_id'] 	    = $user_id;
-                    $_SESSION['temp_code'] 	    = $code;
-                    $_SESSION['temp_code_time'] = RC_Time::gmtime();
                     $data = array(
                         'uid' => $user_id,
                         'sid' => RC_Session::session_id(),
                     );
-                     
                     return $data;
 	            }
 	        } else {

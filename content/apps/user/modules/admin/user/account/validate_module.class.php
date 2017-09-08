@@ -75,15 +75,15 @@ class validate_module extends api_admin implements api_interface {
 		    RC_Api::api('sms', 'send_event_sms', $options);
 		}
 		
+		$time = RC_Time::gmtime();
+		$_SESSION['adminuser_validate_value']	= $validate_value;
+		$_SESSION['adminuser_validate_code']	= $code;
+		$_SESSION['adminuser_validate_expiry']	= $time + 600;//设置有效期10分钟
 		
 		/* 判断是否发送成功*/
 		if (is_ecjia_error($response)) {
 			return new ecjia_error('send_code_error', __('验证码发送失败！'));
 		} else {
-			$time = RC_Time::gmtime();
-			$_SESSION['adminuser_validate_value']	= $validate_value;
-			$_SESSION['adminuser_validate_code']	= $code;
-			$_SESSION['adminuser_validate_expiry']	= $time + 600;//设置有效期10分钟
 			return array('data' => '验证码发送成功！');
 		}
 		

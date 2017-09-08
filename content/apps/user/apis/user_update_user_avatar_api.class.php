@@ -47,97 +47,48 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 用户充值申请
- * @author royalwang
+ * 更新头像信息
+ * @author will.chen
  */
-class deposit_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
- 		$amount		= $this->requestData('amount');
- 		$user_note	= $this->requestData('note', '');
- 		$account_id = $this->requestData('account_id', 0);
- 		$payment_id = $this->requestData('payment_id', 0);
- 		$user_id    = $_SESSION['user_id'];
- 		
- 		$amount = floatval($amount);
- 		if ($amount <= 0) {
- 			$result = new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！'));
- 			return $result;
- 		}
- 		if (!$user_id) {
- 		    return new ecjia_error(100, 'Invalid session' );
- 		}
- 		
- 		RC_Loader::load_app_func('admin_order', 'orders');
- 		
- 		if ($account_id > 0) {
-            $res = RC_DB::table('user_account')->where('id', $account_id)->first();
-            $order_sn = $res['order_sn'];
- 		} else {
- 		    $order_sn = get_order_sn();
- 		}
- 		
- 		/* 变量初始化 */
- 		$surplus = array(
-			'user_id'      => $user_id,
-			'order_sn'	   => $order_sn,
-			'account_id'   => intval($account_id),
-			'process_type' => 0,
-			'payment_id'   => intval($payment_id),
-			'user_note'    => $user_note,
-			'amount'       => $amount,
- 		);
- 		
- 		if ($surplus['payment_id'] <= 0) {
- 			$result = new ecjia_error('select_payment_pls', __('请选择支付方式！'));
- 			return $result;
- 		}
- 		
- 		//获取支付方式名称
- 		$payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($surplus['payment_id']);
-        if (empty($payment_info)) {
-            $result = new ecjia_error('select_payment_pls_again', __('支付方式无效，请重新选择支付方式！'));
+class user_update_user_avatar_api extends Component_Event_Api {
+    
+    public function call(&$options) {
+        if (!is_array($options) || !isset($options['avatar_url'])) {
+            return new ecjia_error('invalid_parameter', '调用update_user_avatar，参数无效');
         }
- 		$surplus['payment'] = $payment_info['pay_code'];
- 		
- 		if ($surplus['account_id'] > 0) {
- 			//更新会员账目明细
- 			$surplus['account_id'] = em_update_user_account($surplus);
- 		} else {
- 			RC_Loader::load_app_func('admin_user', 'user');
- 			//插入会员账目明细
- 			$surplus['account_id'] = insert_user_account($surplus, $amount);
- 		}
- 		
- 		$order['payment']['payment_id'] = $surplus['payment_id'];
- 		$order['payment']['account_id'] = $surplus['account_id'];
-
- 		
- 		return array('payment' => $order['payment'], 'order_sn' => $surplus['order_sn']);
-	}
-}
-
-/**
- * 更新会员账目明细
- *
- * @access  public
- * @param   array     $surplus  会员余额信息
- *
- * @return  int
- */
-function em_update_user_account($surplus) {
-	$db = RC_Model::model('user/user_account_model');
-	$data = array(
-		'amount'	=> $surplus['amount'],
-		'user_note'	=> $surplus['user_note'],
-		'payment'	=> $surplus['payment'],
-	);
-	$db->where(array('id' => $surplus['account_id']))->update($data);
-
-	return $surplus['account_id'];
+        
+	    $avatar_url    = trim($options['avatar_url']);
+	    $user_id       = trim($options['user_id']);
+	    if (empty($user_id)) {
+	        $user_id = $_SESSION['user_id'];
+	    }
+// 		$get_file      = @file_get_contents($avatar_url);
+		
+		$ch=curl_init();
+		$timeout=30;
+		curl_setopt($ch,CURLOPT_URL,$avatar_url);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+		$get_file=curl_exec($ch);
+		curl_close($ch);
+		
+		if ($get_file) {
+			
+			$filename        = md5($user_id);
+			$path            = RC_Upload::upload_path() . 'data/avatar';
+			$avatar_path     = $path.'/'.$filename.'.jpg';
+			
+			//创建目录
+			$result = royalcms('files')->makeDirectory($path, 0777, true, true);
+			//删除原有图片
+			royalcms('files')->delete($avatar_path);
+			$fp = @fopen($avatar_path,"w");
+			@fwrite($fp, $get_file);
+			@fclose($fp);
+			$rs = RC_DB::TABLE('users')->where('user_id', $user_id)->update(array('avatar_img' => 'data/avatar'.'/'.$filename.'.jpg'));
+		}
+        return true;
+    }
 }
 
 // end

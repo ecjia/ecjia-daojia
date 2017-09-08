@@ -56,9 +56,6 @@ class user_admin_purview_api extends Component_Event_Api {
         $purviews = array(
         	array('action_name' => RC_Lang::get('user::users.user_manage'), 		'action_code' => 'user_manage', 	'relevance' => ''),
         		
-			array('action_name' => RC_Lang::get('user::users.account_manage'), 		'action_code' => 'account_manage', 	'relevance' => ''),
-			array('action_name' => RC_Lang::get('user::users.surplus_manage'), 		'action_code' => 'surplus_manage', 	'relevance' => 'account_manage'),
-			
         	array('action_name' => RC_Lang::get('user::users.user_update'), 		'action_code' => 'user_update', 	'relevance' => ''),
         	array('action_name' => RC_Lang::get('user::users.user_delete'), 		'action_code' => 'user_delete', 	'relevance' => ''),
         		

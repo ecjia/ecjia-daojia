@@ -104,11 +104,13 @@ class forget_password_module extends api_front implements api_interface {
         		$response = RC_Mail::send_mail(ecjia::config('shop_name'), $value, $tpl['template_subject'], $content, $tpl['is_html']);
         	}
         }
+        
+        $time = RC_Time::gmtime();
+        $_SESSION['forget_code']   = $code;
+        $_SESSION['forget_expiry'] = $time + 600;//设置有效期10分钟
+        
         /* 判断是否发送成功*/
         if ($response === true) {
-        	$time = RC_Time::gmtime();
-        	$_SESSION['forget_code']   = $code;
-        	$_SESSION['forget_expiry'] = $time + 600;//设置有效期10分钟
         	return array('data' => '验证码发送成功！');
         } else {
         	return new ecjia_error('send_code_error', __('验证码发送失败！'));

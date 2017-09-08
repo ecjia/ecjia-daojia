@@ -167,6 +167,10 @@ class get_password extends ecjia_front {
 		        ),
 		    );
 		    $response = RC_Api::api('sms', 'send_event_sms', $options);
+		    
+		    $_SESSION['temp_code'] = $code;
+		    $_SESSION['temp_code_time'] = RC_Time::gmtime();
+		    
 		    if (is_ecjia_error($response)) {
 		        if ($captcha->check_activation_captcha()) {
 		            $captcha_url =  $captcha->current_captcha_url();
@@ -177,8 +181,6 @@ class get_password extends ecjia_front {
 		        $this->assign('action', 'forget_pwd');
 		        $this->display('forget_password.dwt');
 		    } else {
-		        $_SESSION['temp_code'] = $code;
-		        $_SESSION['temp_code_time'] = RC_Time::gmtime();
 		        $user_email = '请输入<font style="color:#f00;">'.$username.'</font>收到的手机校验码。';
 		        $this->assign('email_msg', $user_email);
 		        $this->assign('type', $type);
@@ -300,12 +302,13 @@ class get_password extends ecjia_front {
 					),
 				);
 				$response = RC_Api::api('sms', 'send_event_sms', $options);
+				
+				$_SESSION['temp_code'] = $code;
+				$_SESSION['temp_code_time'] = RC_Time::gmtime();
+				
 				if (is_ecjia_error($response)) {
 					return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-				} else {
-					$_SESSION['temp_code'] = $code;
-					$_SESSION['temp_code_time'] = RC_Time::gmtime();
-				}
+				} 
 			}
 		}
 	}

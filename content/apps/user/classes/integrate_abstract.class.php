@@ -366,7 +366,7 @@ abstract class integrate_abstract
                 //删除用户日志
                 $db_account_log->in(array('user_id' => $col))->delete();
                 
-                RC_Api::api('connect', 'connect_user_remove', array('user_id' => $col, 'is_admin' => 0));
+                RC_Api::api('connect', 'connect_user_remove', array('user_id' => $col));
             }
         }
         

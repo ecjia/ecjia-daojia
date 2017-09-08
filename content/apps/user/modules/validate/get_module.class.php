@@ -77,15 +77,17 @@ class get_module extends api_front implements api_interface {
 	    		),
 		    );
 		    $response = RC_Api::api('sms', 'send_event_sms', $options);
+		    
+		    $_SESSION['validate_code']['sms'] = array(
+		    		'value' => $value,
+		    		'code' => $code,
+		    		'lifetime' => RC_Time::gmtime() + 1800,
+		    		'sendtime' => RC_Time::gmtime(),
+		    );
+		    
 		    if (is_ecjia_error($response)) {
 		    	return new ecjia_error('sms_error', '短信发送失败！');//$response['description']
 		    }else{
-				$_SESSION['validate_code']['sms'] = array(
-			        'value' => $value,
-			        'code' => $code,
-			        'lifetime' => RC_Time::gmtime() + 1800,
-			        'sendtime' => RC_Time::gmtime(),
-			    );
 				return array();
 		    }
 		    

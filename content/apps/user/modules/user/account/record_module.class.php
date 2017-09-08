@@ -95,6 +95,7 @@ class record_module extends api_front implements api_interface {
  			$account_list = array();
  			foreach ($account_log as $key => $value) {
 				$account_list[$key]['account_id']	 = $value['id'];
+				$account_list[$key]['order_sn']	 	 = $value['order_sn'];
 				$account_list[$key]['user_id']		 = $value['user_id'];
 				$account_list[$key]['admin_user']	 = $value['admin_user'];
 				$account_list[$key]['amount']		 = $value['amount'];
