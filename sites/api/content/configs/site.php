@@ -44,17 +44,11 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-$_GET['m'] = 'payment';
-$_GET['c'] = 'respond';
+defined('IN_ECJIA') or exit('No permission resources.');
 
-if (!empty($_POST)) {
-    $_GET['a'] = 'notify';
-} elseif (!empty($_GET)) {
-    $_GET['a'] = 'response';
-}
-
-$_GET['code'] = 'pay_upmp';
-
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . '../index.php';
+return array(
+    // 站点目录
+	'web_path' => '/sites/api/',
+);
 
 // end

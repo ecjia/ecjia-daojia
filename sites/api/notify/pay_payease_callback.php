@@ -46,14 +46,9 @@
 //
 $_GET['m'] = 'payment';
 $_GET['c'] = 'respond';
+$_GET['a'] = 'response';
 
-if (!empty($_POST)) {
-    $_GET['a'] = 'notify';
-} elseif (!empty($_GET)) {
-    $_GET['a'] = 'response';
-}
-
-$_GET['code'] = 'pay_upmp';
+$_GET['code'] = 'pay_payease';
 
 include dirname(__FILE__) . DIRECTORY_SEPARATOR . '../index.php';
 
