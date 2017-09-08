@@ -81,14 +81,16 @@ class mp_ggk extends platform_abstract
     	$account = platform_account::make($uuid);
     	$wechat_id = $account->getAccountID();
     	$wechat_user = new wechat_user($wechat_id, $openid);
-    	$info = $platform_config->find(array('account_id' => $wechat_id,'ext_code'=>'mp_dzp'));
+    	$info = $platform_config->find(array('account_id' => $wechat_id, 'ext_code'=>'mp_ggk'));
     	
     	$ect_uid = $wechat_user->getUserId();
     	$unionid = $wechat_user->getUnionid();
-    	$user_id = $connect_db->where(array('open_id' => $unionid, 'connect_code'=>'sns_wechat'))->get_field('user_id');
-    	$nobd = "还未绑定，需<a href = '".RC_Uri::url('platform/plugin/show', array('handle' => 'mp_userbind/bind_init', 'openid' => $openid, 'uuid' => $_GET['uuid']))."'>点击此处</a>进行绑定";
+    
+    	$connect_user = new \Ecjia\App\Connect\ConnectUser('sns_wechat', $unionid, 'user');
+    	$getUserId = $connect_user->getUserId();
     	
-		if (empty($user_id)) {
+    	if (!$connect_user->checkUser()) {
+    		//合并ect_uid旧的数据处理
 			if(!empty($ect_uid)){
 				$query = $connect_db->where(array('open_id'=>$unionid, 'connect_code'=>'sns_wechat'))->count();
 				if($query > 0){
@@ -102,15 +104,23 @@ class mp_ggk extends platform_abstract
 					$connect_db->insert($data);
 				}
 			}
-			$content = array(
-				'ToUserName' => $this->from_username,
-				'FromUserName' => $this->to_username,
-				'CreateTime' => SYS_TIME,
-				'MsgType' => 'text',
-				'Content' => $nobd
-			);
+    		//组合类似模板信息
+    		$articles = array();
+    		$articles[0]['Title'] = '未绑定';
+    		$articles[0]['PicUrl'] = '';
+    		$articles[0]['Description'] = '抱歉，目前您还未进行账号绑定，需点击该链接进行绑定操作';
+    		$articles[0]['Url'] = RC_Uri::url('wechat/mobile_userbind/init',array('openid' => $openid, 'uuid' => $uuid));
+    		$count = count($articles);
+    		$content = array(
+    			'ToUserName'    => $this->from_username,
+    			'FromUserName'  => $this->to_username,
+    			'CreateTime'    => SYS_TIME,
+    			'MsgType'       => 'news',
+    			'ArticleCount'	=> $count,
+    			'Articles'		=> $articles
+    		);
 		} else {
-			$ext_config  = $platform_config->where(array('account_id' => $wechat_id,'ext_code'=>$info['ext_code']))->get_field('ext_config');
+			$ext_config  = $platform_config->where(array('account_id' => $wechat_id, 'ext_code' => $info['ext_code']))->get_field('ext_config');
 	    	$config = array();
 	    	$config = unserialize($ext_config);
 	    	foreach ($config as $k => $v) {
@@ -122,7 +132,7 @@ class mp_ggk extends platform_abstract
 			if (isset($media_id) && ! empty($media_id)) {
 				$field='id, title, content, digest, file, type, file_name, link';
 				$mediaInfo = $media_db->field($field)->find(array('id' => $media_id));
-				$articles = array();
+				$articles  = array();
 	            if (!empty($mediaInfo['digest'])){
 	            	$desc = $mediaInfo['digest'];
 	            } else {
@@ -131,19 +141,18 @@ class mp_ggk extends platform_abstract
 	            $articles[0]['Title'] = $mediaInfo['title'];
 	            $articles[0]['Description'] = $desc;
 	            $articles[0]['PicUrl'] = RC_Upload::upload_url($mediaInfo['file']);
-// 	            $articles[0]['Url'] = $mediaInfo['link'];
 	            $articles[0]['Url'] = RC_Uri::url('platform/plugin/show', array('handle' => 'mp_ggk/init', 'openid' => $openid, 'uuid' => $_GET['uuid']));
 	            $count = count($articles);
 	            $content = array(
-                     'ToUserName' => $this->from_username,
+                     'ToUserName'   => $this->from_username,
                      'FromUserName' => $this->to_username,
-                     'CreateTime' => SYS_TIME,
-                     'MsgType' => 'news',
-                     'ArticleCount'=>$count,
-                     'Articles'=>$articles
+                     'CreateTime'   => SYS_TIME,
+                     'MsgType'      => 'news',
+                     'ArticleCount' => $count,
+                     'Articles'     => $articles
                 );
 	            // 积分赠送
-	            $this->give_point($openid, $info);
+	            $this->give_point($openid, $info, $getUserId);
 			} 
 		}
 		return $content;
@@ -152,13 +161,12 @@ class mp_ggk extends platform_abstract
     /**
      * 积分赠送
      */
-    public function give_point($openid, $info) {
+    public function give_point($openid, $info, $getUserId) {
     	$wechat_point_db = RC_Loader::load_app_model('wechat_point_model','wechat');
     	if (!empty($info)) {
     		// 配置信息
     		$config = array();
     		$config = unserialize($info['ext_config']);
-    		
     		foreach ($config as $k => $v) {
     			if ($v['name'] == 'point_status') {
     				$point_status = $v['value'];
@@ -178,7 +186,7 @@ class mp_ggk extends platform_abstract
     			$where = 'openid = "' . $openid . '" and createtime > (UNIX_TIMESTAMP(NOW())- ' .$point_interval . ') and keywords = "'.$info['ext_code'].'" ';
 	            $num = $wechat_point_db->where($where)->count('*');
     			if ($num < $point_num) {
-    				$this->do_point($openid, $info, $point_value);
+    				$this->do_point($openid, $info, $point_value, $getUserId);
     			}
     		}
     	}
@@ -187,24 +195,22 @@ class mp_ggk extends platform_abstract
     /**
      * 执行赠送积分
      */
-    public function do_point($openid, $info, $point_value) {
-    	$wechatuser_db		= RC_Loader::load_app_model('wechat_user_model','wechat');
+    public function do_point($openid, $info, $point_value, $getUserId) {
     	$users_db 			= RC_Loader::load_app_model('users_model','user');
     	$account_log_db 	= RC_Loader::load_app_model('account_log_model','user');
     	$wechat_point_db	= RC_Loader::load_app_model('wechat_point_model','wechat');
     	
     	$time = RC_Time::gmtime();
-    	$ect_uid = $wechatuser_db->where(array('openid'=>$openid))->get_field('ect_uid');
-    	$rank_points = $users_db->where(array('user_id' => $ect_uid))->get_field('rank_points');
+    	$rank_points = $users_db->where(array('user_id' => $getUserId))->get_field('rank_points');
     	
     	$point = array(
     		'rank_points' => intval($rank_points) + intval($point_value)
     	);
     	
-    	$users_db->where(array('user_id' => $ect_uid))->update($point);
+    	$users_db->where(array('user_id' => $getUserId))->update($point);
         	
     	// 积分记录
-    	$data['user_id'] = $ect_uid;
+    	$data['user_id'] = $getUserId;
     	$data['user_money'] = 0;
     	$data['frozen_money'] = 0;
     	$data['rank_points'] = $point_value;
