@@ -133,7 +133,12 @@ class ApplicationPlatform
      */
     public function getPayments()
     {
-        return $this->payments;
+        $payments = royalcms('config')->get('payment.'.$this->getCode());
+        if (empty($payments)) {
+            $payments = $this->payments;
+        }
+        
+        return $payments;
     }
     
     /**

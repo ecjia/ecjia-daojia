@@ -47,5 +47,6 @@
 }
 
 .row-fluid .dropper-input{
-	left:0;
+	left: 350px;
+    margin-top: -50px;
 }
