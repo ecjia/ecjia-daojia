@@ -25,7 +25,7 @@
 	
 <div class="row-fluid edit-page">
 	<div class="span12">
-		<form class="form-horizontal" name="theForm" data-edit-url="{RC_Uri::url('cron/admin/edit')}" method="post" enctype="multipart/form-data">
+		<form class="form-horizontal" name="theForm" data-edit-url="{RC_Uri::url('cron/admin_plugin/edit')}" method="post" enctype="multipart/form-data">
 			<fieldset>
 				<div class="control-group formSep">
 					<label for="cron_name" class="control-label">{lang key='cron::cron.label_cron_name'}</label>
