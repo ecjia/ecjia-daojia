@@ -65,10 +65,9 @@ class mp_orders extends platform_abstract
 	}
 	
     public function event_reply() {
-
     	$orders_db = RC_Loader::load_app_model('order_info_model','orders');
-    	RC_Loader::load_app_func('admin_order','orders');
     	$connect_db = RC_Loader::load_app_model('connect_user_model', 'connect');
+    	RC_Loader::load_app_func('admin_order','orders');
     	RC_Loader::load_app_class('platform_account', 'platform', false);
     	RC_Loader::load_app_class('wechat_user', 'wechat', false);
     	
@@ -81,9 +80,12 @@ class mp_orders extends platform_abstract
     
     	$ect_uid = $wechat_user->getUserId();
     	$unionid = $wechat_user->getUnionid();
-    	$user_id = $connect_db->where(array('open_id' => $unionid, 'connect_code'=>'sns_wechat'))->get_field('user_id');
-    	$nobd = "还未绑定，需<a href = '".RC_Uri::url('platform/plugin/show', array('handle' => 'mp_userbind/bind_init', 'openid' => $openid, 'uuid' => $_GET['uuid']))."'>点击此处</a>进行绑定";
-    	if(empty($user_id)) {
+    	
+    	$connect_user = new \Ecjia\App\Connect\ConnectUser('sns_wechat', $unionid, 'user');
+    	$getUserId = $connect_user->getUserId();
+    	
+    	if (!$connect_user->checkUser()) {
+    		//合并ect_uid旧的数据处理
     		if(!empty($ect_uid)){
     			$query = $connect_db->where(array('open_id'=>$unionid, 'connect_code'=>'sns_wechat'))->count();
     			if($query > 0){
@@ -97,15 +99,23 @@ class mp_orders extends platform_abstract
     				$connect_db->insert($data);
     			}
     		}
+    		//组合类似模板信息
+    		$articles = array();
+    		$articles[0]['Title'] = '未绑定';
+    		$articles[0]['PicUrl'] = '';
+    		$articles[0]['Description'] = '抱歉，目前您还未进行账号绑定，需点击该链接进行绑定操作';
+    		$articles[0]['Url'] = RC_Uri::url('wechat/mobile_userbind/init',array('openid' => $openid, 'uuid' => $uuid));
+    		$count = count($articles);
     		$content = array(
-				'ToUserName' => $this->from_username,
-				'FromUserName' => $this->to_username,
-				'CreateTime' => SYS_TIME,
-				'MsgType' => 'text',
-				'Content' => $nobd
-			);
+    			'ToUserName'    => $this->from_username,
+    			'FromUserName'  => $this->to_username,
+    			'CreateTime'    => SYS_TIME,
+    			'MsgType'       => 'news',
+    			'ArticleCount'	=> $count,
+    			'Articles'		=> $articles
+    		);
     	} else {
-    		$order_id  = $orders_db->where(array('user_id' => $uid))->order('add_time desc')->get_field('order_id');//获取会员当前订单
+    		$order_id  = $orders_db->where(array('user_id' => $getUserId))->order('add_time desc')->get_field('order_id');//获取会员当前订单
     		
     		if (!empty($order_id)) {
     			$order	= order_info($order_id);//取得订单信息
@@ -164,12 +174,12 @@ class mp_orders extends platform_abstract
 
     			$count = count($articles);
     			$content = array(
-    					'ToUserName'    => $this->from_username,
-    					'FromUserName'  => $this->to_username,
-    					'CreateTime'    => SYS_TIME,
-    					'MsgType'       => 'news',
-    					'ArticleCount'	=> $count,
-    					'Articles'		=> $articles
+    				'ToUserName'    => $this->from_username,
+    				'FromUserName'  => $this->to_username,
+    				'CreateTime'    => SYS_TIME,
+    				'MsgType'       => 'news',
+    				'ArticleCount'	=> $count,
+    				'Articles'		=> $articles
     			);
     		} else {
     			$content = array(
