@@ -60,6 +60,7 @@ return array(
 	'Ecjia\App\Payment' => $contentDir . '/apps/payment/classes',
 	'Ecjia\App\Maintain' => $contentDir . '/apps/maintain/classes',
 	'Ecjia\App\Push' => $contentDir . '/apps/push/classes',
+	'Ecjia\App\Connect' => $contentDir . '/apps/connect/classes',
 );
 
 //end
