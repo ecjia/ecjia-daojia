@@ -343,18 +343,14 @@ class admin_region extends ecjia_admin {
 		);
 		
 		//获取ecjia_cloud对象
-		$cloud = ecjia_cloud::instance();
-		//获取每页可更新数		
-		$data = $cloud->api('region/synchrony')->data($params)->run();
-		
+		$cloud = ecjia_cloud::instance()->api('region/synchrony')->data($params)->run();
 		//判断是否有错误返回
-		$status = trim($cloud->getStatus());
-		$error = $cloud->getError();
-		
-		
-		if ($status == 'error') {
-			$this->showmessage($error->get_error_message(),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
+		if (is_ecjia_error($cloud->getError())) {
+		    $this->showmessage($cloud->getError()->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
 		}
+
+		//获取每页可更新数		
+		$data = $cloud->getReturnData();
 
 		//获取分页信息
 		$pageinfo = $cloud->getPaginated();

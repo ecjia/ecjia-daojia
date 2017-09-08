@@ -176,7 +176,7 @@ return array(
 		'show_goods_in_cart' 	=> '购物车里显示商品方式',
 		'show_attr_in_cart' 	=> '购物车里是否显示商品属性',
 		'email_content'  		=> '您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！',
-		'sms' 					=> '短信设置',
+		'sms' 					=> '短信通知',
 		'sms_shop_mobile' 		=> '商家的手机号码',
 		'sms_order_placed' 		=> '客户下订单时是否给商家发短信',
 		'sms_order_payed' 		=> '客户付款时是否给商家发短信',
