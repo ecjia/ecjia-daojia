@@ -3,6 +3,8 @@
 use Royalcms\Component\Support\Arr;
 use Royalcms\Component\Sms\Sms;
 use Royalcms\Component\Sms\Contracts\SmsAgent;
+use Royalcms\Component\Sms\SendResponse;
+use Royalcms\Component\Sms\BalanceResponse;
 
 class IHuYiAgent extends Sms implements SmsAgent
 {
@@ -40,6 +42,8 @@ class IHuYiAgent extends Sms implements SmsAgent
      * 发送信息
      * 
      * @see \Royalcms\Component\Sms\Contracts\SmsAgent::send()
+     * 
+     * @return SendResponse | BalanceResponse
      */
     public function send($mobile)
     {
@@ -52,11 +56,13 @@ class IHuYiAgent extends Sms implements SmsAgent
 
         $requestParams = array_merge($this->authParams(), $requestParams);
  
-        return $this->httpRequest($url, $requestParams);
+        return $this->httpRequest(self::SEND, $url, $requestParams);
     }
     
     /**
      * 查询账户余额
+     * 
+     * @return SendResponse | BalanceResponse
      */
     public function balance()
     {
@@ -64,27 +70,24 @@ class IHuYiAgent extends Sms implements SmsAgent
         
         $requestParams = $this->authParams();
         
-        return $this->httpRequest($url, $requestParams);
+        return $this->httpRequest(self::BALANCE, $url, $requestParams);
     }
     
     /**
+     * @param $type
      * @param $url
      * @param array $body
-     * @return array $result
-     * @return int $result[].code 返回0则成功，返回其它则错误
-     * @return string $result[].msg 返回消息
-     * @return string $result[].raw 接口返回的原生信息
-     * @return array $result[].data 数据信息
+     * @return SendResponse | BalanceResponse
      */
-    public function httpRequest($url, array $body)
+    public function httpRequest($type, $url, array $body)
     {
         $data = [
         	'body' => $body
         ];
         
-        $response = $this->sendWithRetry($url, $data);
+        $response = $this->sendWithRetry($url, $data, 1);
 
-        $result = $this->transformerResponse($response);
+        $result = $this->transformerResponse($type, $response);
     
         return $result;
     }
@@ -92,40 +95,41 @@ class IHuYiAgent extends Sms implements SmsAgent
     /**
      * 转换返回的信息处理
      * @param array $response
-     * @return array $result
-     * @return int $result[].code 返回0则成功，返回其它则错误
-     * @return string $result[].msg 返回消息
-     * @return string $result[].raw 接口返回的原生信息
-     * @return array $result[].data 数据信息
+     * @return SendResponse | BalanceResponse
      */
-    public function transformerResponse($response)
+    public function transformerResponse($type, $data)
     {
-        $body = $response['body'];
-        $result_arr = RC_Xml::to_array($body);
+        if (RC_Error::is_error($data)) {
+            return new ecjia_error($data->get_error_code(), $data->get_error_message(), $data->get_error_data());
+        }
+        
+        $body = $data['body'];
+        $result = RC_Xml::to_array($body);
 
-        $data = array();
-        
-        if (isset($result_arr['smsid'])) {
-            $data['smsid'] = $result_arr['smsid'][0];
-            $data['msgid'] = $result_arr['smsid'][0];
+        if ($type == self::SEND) {
+            $response = new SendResponse();
+            if (isset($result['smsid'])) {
+                $response->setMsgid($result['smsid'][0]);
+            }
+            $response->setCode(SendResponse::SUCCESS);
+            $response->setDescription(SendResponse::DESCRIPTION);
+        }
+        else {
+            $response = new BalanceResponse();
+            if (isset($result['num'])) {
+                $response->setBalance($result['num'][0]);
+            }
+            $response->setCode(BalanceResponse::SUCCESS);
+            $response->setDescription(BalanceResponse::DESCRIPTION);
+        }
+
+        if (intval($result['code'][0]) !== 2) {
+            $response->setCode($result['code'][0]);
+            $response->setDescription($result['msg'][0]);
+            return new ecjia_error('ihuyi_sms_send_error', $response->getDescription(), $response);
         }
         
-        if (isset($result_arr['num'])) {
-            $data['num']   = $result_arr['num'][0];
-        }
-         
-        $result = [
-        	'raw' => $body,
-            'data' => $data,
-            'code' => $result_arr['code'][0],
-            'description' => $result_arr['msg'][0],
-        ];
-        
-        if ($result['code'] != '2') {
-            return new ecjia_error('ihuyi_error_'.$result['code'], $result['description'], $result);
-        }
-        
-        return $result;
+        return $response;
     }
     
 }
