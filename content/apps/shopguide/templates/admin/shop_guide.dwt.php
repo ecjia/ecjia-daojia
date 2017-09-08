@@ -182,7 +182,7 @@
 					
 						<a class="complete-li" href="{RC_Uri::url('goods/admin_category/init')}"><img src="{$app_url}/goods-category.png">商品分类</a>
 						<a class="complete-li" href="{RC_Uri::url('goods/admin/init')}"><img src="{$app_url}/goods-list.png">{lang key='shopguide::shopguide.goods_list'}</a>
-						<a class="complete-li" href="{RC_Uri::url('goods/admin_goods_type/init')}"><img src="{$app_url}/goods-type.png">{lang key='shopguide::shopguide.goods_type'}</a>
+						<a class="complete-li" href="{RC_Uri::url('goods/admin_goods_spec/init')}"><img src="{$app_url}/goods-type.png">{lang key='shopguide::shopguide.goods_type'}</a>
 					
 						<a class="complete-li" href="{RC_Uri::url('admincp/privilege/add')}"><img src="{$app_url}/add-admin.png">添加管理员</a>
 						<a class="complete-li" href="{RC_Uri::url('user/admin/add')}"><img src="{$app_url}/add-user.png">{lang key='shopguide::shopguide.add_user'}</a>

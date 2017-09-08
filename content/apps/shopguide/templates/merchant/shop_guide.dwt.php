@@ -314,7 +314,7 @@
 						<ul class="complete-bottom">
 							<a class="complete-li" href="{RC_Uri::url('goods/mh_category/init')}"><img src="{$app_url}/goods-category.png">商品分类</a>
 							<a class="complete-li" href="{RC_Uri::url('goods/merchant/init')}"><img src="{$app_url}/goods-list.png">{lang key='shopguide::shopguide.goods_list'}</a>
-							<a class="complete-li" href="{RC_Uri::url('goods/mh_type/init')}"><img src="{$app_url}/goods-type.png">{lang key='shopguide::shopguide.goods_type'}</a>
+							<a class="complete-li" href="{RC_Uri::url('goods/mh_spec/init')}"><img src="{$app_url}/goods-type.png">{lang key='shopguide::shopguide.goods_type'}</a>
 							<a class="complete-li" href="{RC_Uri::url('staff/mh_group/add')}"><img src="{$app_url}/store.png">添加员工组</a>
 							<a class="complete-li" href="{RC_Uri::url('staff/merchant/add')}&step=1"><img src="{$app_url}/add-user.png">添加员工</a>
 							<a class="complete-li" href="{RC_Uri::url('favourable/merchant/add')}"><img src="{$app_url}/add-favourable.png">{lang key='shopguide::shopguide.add_favourable'}</a>
