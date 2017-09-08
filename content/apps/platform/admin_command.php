@@ -296,7 +296,7 @@ class admin_command extends ecjia_admin {
 	public function extend_command() {
 		$this->admin_priv('platform_command_manage');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('platform::platform.function_extend'), RC_Uri::url('platform/admin_extend/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('platform::platform.function_extend'), RC_Uri::url('platform/admin_plugin/init')));
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('platform::platform.command_list')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
@@ -313,7 +313,7 @@ class admin_command extends ecjia_admin {
 		$code 	= !empty($_GET['code']) ? trim($_GET['code']) 	: '';
 	
 		$this->assign('ur_here', RC_Lang::get('platform::platform.command_list'));
-		$this->assign('back_link', array('text' =>RC_Lang::get('platform::platform.function_extend'), 'href' => RC_Uri::url('platform/admin_extend/init')));
+		$this->assign('back_link', array('text' =>RC_Lang::get('platform::platform.function_extend'), 'href' => RC_Uri::url('platform/admin_plugin/init')));
 		$this->assign('search_action', RC_Uri::url('platform/admin_command/extend_command', array('code' => $code)));
 	
 		$ext_name = $this->db_extend->where(array('ext_code' => $code))->get_field('ext_name');

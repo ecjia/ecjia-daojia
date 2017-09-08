@@ -257,16 +257,12 @@
 		},
 		
 		extend : function () {
-            $('.switch').on('click', function(e){
-                $.ajax({
-                    type: "POST",
-                    url: $(this).attr('data-url'),
-                    data: '',
-                    dataType: "json",
-                    success: function(data){
-                    	ecjia.admin.showmessage(data); 
-                    }
-                });
+            $(".ajaxall").on('click', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function (data) {
+                    ecjia.admin.showmessage(data);
+                }, 'json');
             });
 		},
 	};
