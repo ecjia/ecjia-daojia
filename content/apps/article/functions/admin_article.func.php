@@ -87,7 +87,6 @@ function get_cat_type_info ($article_type = 'merchant_notice', $article_id = 0) 
 	$info['cat_type'] = 0;
 	if (!empty($article_id)) {
 		$info = RC_DB::table('article as a')
-		->leftJoin('article_cat as ac', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('ac.cat_id'))
 		->where(RC_DB::raw('a.article_id'), $article_id)
 		->selectRaw('a.*')
 		->first();

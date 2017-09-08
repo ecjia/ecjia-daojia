@@ -126,7 +126,6 @@ class admin_notice extends ecjia_admin {
 		$article_type = !empty($_GET['article_type']) ? trim($_GET['article_type'])	: 'merchant_notice';
 		
  		$is_only = RC_DB::table('article as a')
-     			->leftJoin('article_cat as ac', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('ac.cat_id'))
      			->where('title', $title)
      			->where(RC_DB::raw('a.article_type'), $article_type)
      			->count();
@@ -149,11 +148,10 @@ class admin_notice extends ecjia_admin {
 				return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
-		$cat_id = RC_DB::table('article_cat')->where('cat_type', $article_type)->pluck('cat_id');
-		
+
 		$data = array(
 			'title' 	   	=> $title,
-			'cat_id'   		=> $cat_id,
+			'cat_id'   		=> 0,
 			'content'  		=> $content,
 			'keywords'  	=> $keywords,
 			'file_url'		=> $file_name,
@@ -182,9 +180,8 @@ class admin_notice extends ecjia_admin {
 	
 		$id = intval($_GET['id']);
 		$info = RC_DB::table('article as a')
-			->leftJoin('article_cat as ac', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('ac.cat_id'))
 			->where(RC_DB::raw('a.article_id'), $id)
-			->selectRaw('a.*, ac.cat_type')
+			->selectRaw('a.*')
 			->first();
 		
 		$article_type = !empty($_GET['article_type']) ? trim($_GET['article_type']) : $info['article_type'];
@@ -222,9 +219,8 @@ class admin_notice extends ecjia_admin {
 		$article_type = !empty($_GET['article_type']) ? trim($_GET['article_type']) : 'merchant_notice';
 		
 		$is_only = RC_DB::table('article as a')
-			->leftJoin('article_cat as ac', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('ac.cat_id'))
 			->where('title', $title)
-			->where(RC_DB::raw('ac.cat_type'), $article_type)
+			->where(RC_DB::raw('a.article_type'), $article_type)
 			->where(RC_DB::raw('a.article_id'), '!=', $id)
 			->count();
 		
@@ -331,7 +327,7 @@ class admin_notice extends ecjia_admin {
 		}
 		
 	    $data = $db_article
-     			->leftJoin('article_cat as ac', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('ac.cat_id'))
+     			->orderBy(RC_DB::raw('a.add_time'), 'desc')
      			->get();
 	    
 	    $list = array();
