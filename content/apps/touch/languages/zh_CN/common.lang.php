@@ -344,7 +344,7 @@ return array(
 
 	'no_user_name'   => '该用户名不存在',
 	'undifine_rank'  => '没有定义会员等级',
-	'not_login'      => '您还没有登陆',
+	'not_login'      => '您还没有登录',
 	'half_info'      => '信息不全，请填写所有信息',
 	'no_id'          => '没有商品ID',
 	'save_success'   => '修改成功',
@@ -610,8 +610,8 @@ return array(
 	'logout'             => '退出',
 	'user_logout'        => '退出',
 	'welcome'            => '欢迎光临本店',
-	'user_login'         => '会员登陆',
-	'login_now'          => '立即登陆',
+	'user_login'         => '会员登录',
+	'login_now'          => '立即登录',
 	'login'              => '登录',
 	'bind_signin'        => '第三方登录',
 	'input_name'         => '请输入用户名',
@@ -937,7 +937,7 @@ return array(
 		'password_lt_six'     => '密码不能小于6个字符。',
 	),
 	'regist_success' => "恭喜您，%s 账号注册成功!",
-	'login_success'  => '恭喜！您已经成功登陆本站！',
+	'login_success'  => '恭喜！您已经成功登录本站！',
 	'order_list'     => '订单列表',
 
 	/* 购物车 */
@@ -975,7 +975,7 @@ return array(
 	'than_market_price'              => '比市场价 %s 节省了 %s (%s)',
 	'your_discount'                  => '根据优惠活动<span color=>red>%s</span>，您可以享受折扣 %s',
 	'no'                             => '无',
-	'not_support_virtual_goods'      => '购物车中存在非实体商品,不支持匿名购买,请登陆后在购买',
+	'not_support_virtual_goods'      => '购物车中存在非实体商品,不支持匿名购买,请登录后在购买',
 	'not_support_insure'             => '不支持保价',
 	'clear_cart'                     => '清空购物车',
 	'drop_to_collect'                => '放入收藏夹',
