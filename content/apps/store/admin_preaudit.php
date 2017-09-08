@@ -454,9 +454,6 @@ class admin_preaudit extends ecjia_admin {
 					),
 				);
 				$response = RC_Api::api('sms', 'send_event_sms', $options);
-				if (is_ecjia_error($response)) {
-					RC_Logger::get_logger('error')->info('短信发送失败');
-				}
 				return $this->showmessage(RC_Lang::get('store::store.check_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_preaudit/init')));
 			} else {
 				//再次审核资料
