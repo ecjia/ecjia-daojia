@@ -153,7 +153,8 @@ return array(
     'theme' => 'theme',
     //工具管理
     'maintain' => 'maintain',
-    
+    //营销活动
+    'market' => 'market'
 );
 
 // end
