@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 return array(
     // 站点主应用
     'main_app' => 'intro',
