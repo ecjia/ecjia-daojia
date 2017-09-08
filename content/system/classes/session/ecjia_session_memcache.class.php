@@ -261,6 +261,21 @@ class ecjia_session_memcache extends ecjia_session_base {
     public function get_users_count() {
         return $this->memcached->get("{$this->memcache_prefix}sessioncount/users");
     }
+    
+    /**
+     * 获取指定session_id的数据
+     * @param string $session_id
+     */
+    public function get_session_data($session_id) {
+        $session_key = substr($session_id, 0, 32);
+        $memcache_key = "{$this->memcache_prefix}sessions/{$session_key}";
+        $session = json_decode($this->memcached->get($memcache_key), true);
+        if (empty($session)) {
+            $session = array();
+        }
+        
+        return $session;
+    }
 }
 
 // end

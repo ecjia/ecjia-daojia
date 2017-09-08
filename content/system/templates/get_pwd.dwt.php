@@ -32,7 +32,7 @@
 			</div>
 			<div class="btm_b clearfix">
 				<input class="btn btn-inverse pull-right" type="submit" value="{t}确定{/t}" />
-				<span class="link_reg"><a href="{url path='@privilege/login'}">{t}返回登陆{/t}</a></span>
+				<span class="link_reg"><a href="{url path='@privilege/login'}">{t}返回登录{/t}</a></span>
 			</div>  
 		</form>
 	</div>
@@ -63,7 +63,7 @@
 				<input type="hidden" name="adminid" value="{$adminid}" />
 				<input type="hidden" name="code" value="{$code}" />
 				<input class="btn btn-inverse pull-right" type="submit" value="{t}确定{/t}" />
-				<span class="link_reg"><a href="{url path='@privilege/login'}">{t}返回登陆{/t}</a></span>
+				<span class="link_reg"><a href="{url path='@privilege/login'}">{t}返回登录{/t}</a></span>
 			</div>  
 		</form>
 	</div>

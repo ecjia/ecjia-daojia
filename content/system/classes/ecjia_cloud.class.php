@@ -49,7 +49,7 @@
  * @author royalwang
  *
  */
-class ecjia_cloud
+class ecjia_cloud extends RC_Object
 {
     
     /**
@@ -58,7 +58,8 @@ class ecjia_cloud
      */
     const serverHost = 'https://cloud.ecjia.com/sites/api/?url=';
     
-    private static $instance = null;
+    const STATUS_ERROR = 'error';
+    const STATUS_SUCCESS = 'success';
     
     /**
      * 需要发送的数据
@@ -70,38 +71,46 @@ class ecjia_cloud
      * @var $api
      */
     private $api;
+    
+    private $cache_time;
+    
+    // 返回信息
+    protected $status = self::STATUS_ERROR;
+    
+    protected $paginated;
+    
+    protected $return_data = array();
+    
+    protected $response;
+    
+    protected $is_cached = false;
+    
     /**
      * 错误信息
      * @var $error
      */
-    private $errors;
-    
-    private $cache_time;
-    
-    private $status = false;
-    
-    private $paginated;
+    private $error;
     
     
     /**
      * 返回当前终级类对象的实例
      *
      * @param $cache_config 缓存配置
-     * @return object
+     * @return ecjia_cloud
      */
     public static function instance() {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-        return self::$instance;
+        return static::make();
     }
     
-    /**
-     * constructor
-     */
-    public function __construct()
+    public function addError($code = '', $message = '', $data = '')
     {
-        $this->errors = new ecjia_error();
+        if (!is_ecjia_error($this->error)) {
+            $this->error = new ecjia_error($code, $message, $data);
+        } else {
+            return $this->error->add($code, $message, $data);
+        }
+        
+        return $this;
     }
     
     
@@ -112,6 +121,7 @@ class ecjia_cloud
      */
     public function data($data) {
         $this->data = $data;
+        
         return $this;
     }
     
@@ -123,22 +133,25 @@ class ecjia_cloud
      */
     public function api($api) {
         $this->api = $api;
+        
         return $this;
     }
     
     /**
      * 设置缓存的时间
-     * @param unknown $time
+     * @param integer $time
+     * @return ecjia_cloud
      */
     public function cacheTime($time) {
         $this->cache_time = $time;
+        
         return $this;
     }
     
     
     /**
      * 请求
-     * @return boolean|Ambigous <multitype:, boolean, mixed>
+     * @return ecjia_cloud
      */
     public function run() {        
         $cache_key = 'api_request_'.md5($this->api);
@@ -148,18 +161,22 @@ class ecjia_cloud
             $fields['body'] = array(
                 'json' => json_encode($this->data),
             );
+            
             $response = RC_Http::remote_post(self::serverHost . $this->api, $fields);
             if (RC_Error::is_error($response)) {
-                $this->errors->add($response->get_error_code(), $response->get_error_message(), $response->get_error_data());
-                return false;
+                $this->addError($response->get_error_code(), $response->get_error_message(), $response->get_error_data());
+                $this->status = self::STATUS_ERROR;
+                return $this;
             }
-            $body = $this->returnResolve($response['body']);
-            RC_Cache::app_cache_set($cache_key, array('body' => $body, 'status' => $this->status, 'timestamp' => SYS_TIME), 'system');
-            
-            return $body;
+            $this->response = $response;
+            RC_Cache::app_cache_set($cache_key, array('body' => $this->response, 'status' => $this->status, 'timestamp' => SYS_TIME), 'system');
+            $this->returnResolve($this->response['body']);
         } else {
-            return $data['body'];
+            $this->is_cached = true;
+            $this->returnResolve($data['body']);
         }
+
+        return $this;
     }
     
     /**
@@ -167,12 +184,12 @@ class ecjia_cloud
      * @return ecjia_error
      */
     public function getError() {
-        return $this->errors;
+        return $this->error;
     }
     
     /**
      * 获取请求状态
-     * @return string
+     * @return string | ecjia_cloud::STATUS_ERROR | ecjia_cloud::STATUS_SUCCESS
      */
     public function getStatus() {
         return $this->status;
@@ -180,38 +197,60 @@ class ecjia_cloud
     
     /**
      * 获取分页数据
+     * @return array
      */
     public function getPaginated() {
         return $this->paginated;
+    }
+    
+    /**
+     * 获取正常数据Data
+     * @return array
+     */
+    public function getReturnData() {
+        return $this->return_data;
+    }
+    
+    /**
+     * 获取整个请求返回内容
+     */
+    public function getResponse() {
+        return $this->response;
+    }
+    
+    /**
+     * 获取内容是否缓存
+     * @return boolean
+     */
+    public function isCached()
+    {
+        return $this->is_cached;
     }
 
     /**
      * 解析服务器返回的数据
      * @param string $data
-     * @return array
+     * @return ecjia_cloud
      */
-    private function returnResolve($data) {
-        if (empty($data)) {
-            return array();
-        }
-        
+    protected function returnResolve($data) {        
         $data = json_decode($data, true);
         if (!is_array($data) || !array_has($data, 'status') ) {
-            $this->status = 'error';
-            $this->errors->add('unknown_error', __('服务器返回信息错误！'));
-            return false;
+            $this->status = self::STATUS_ERROR;
+            $this->addError('unknown_error', __('服务器返回信息错误！'));
+            return $this;
         }
         
         if (!array_get($data, 'status.succeed')) {
-            $this->status = 'error';
-            $this->errors->add(array_get($data, 'status.error_code'), array_get($data, 'status.error_desc'));
-            return false;
+            $this->status = self::STATUS_ERROR;
+            $this->addError(array_get($data, 'status.error_code'), array_get($data, 'status.error_desc'));
+            return $this;
         }
         
         $this->paginated = array_get($data, 'paginated', null);
-        $this->status = 'success';
+        $this->status = self::STATUS_SUCCESS;
+        $this->return_data = $data['data'];
         
-        return $data['data'];
+        return $this;
     }
     
 }

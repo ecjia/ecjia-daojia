@@ -351,7 +351,7 @@ msgstr "Administrator Management"
 msgid "添加管理员"
 msgstr "Add Administrator"
 
-msgid "登陆成功"
+msgid "登录成功"
 msgstr "login successful"
 
 msgid "您输入的帐号信息不正确。"
@@ -1320,7 +1320,7 @@ msgstr "Administrator username"
 msgid "管理员邮箱"
 msgstr "Administrator mailbox"
 
-msgid "返回登陆"
+msgid "返回登录"
 msgstr "Back Login"
 
 msgid "新密码"

@@ -148,7 +148,7 @@ class privilege extends ecjia_admin {
 	}
 	
 	/**
-	 * 登陆界面
+	 * 登录界面
 	 */
 	public function login() {
 // 		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -273,7 +273,7 @@ class privilege extends ecjia_admin {
 	}
 	
 	/**
-	 * 验证登陆信息
+	 * 验证登录信息
 	 */
 	public function signin() {
 		// 登录时验证
@@ -354,7 +354,7 @@ class privilege extends ecjia_admin {
 					$back_url = RC_Uri::url('@index/init');
 				}
 			}
-			return $this->showmessage(__('登陆成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
+			return $this->showmessage(__('登录成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
 		} else {
 			return $this->showmessage(__('您输入的帐号信息不正确。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}

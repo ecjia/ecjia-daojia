@@ -248,15 +248,23 @@ class ecjia_utility {
     
     public static function site_admin_notice() {
         // 21600
-        $data = ecjia_cloud::instance()->api('product/update/notice')->data(self::build_notice_data())->cacheTime(21600)->run();
-
+        $cloud = ecjia_cloud::instance()->api('product/update/notice')->data(self::build_notice_data())->cacheTime(21600)->run();
+        if ($cloud->getStatus() == ecjia_cloud::STATUS_ERROR) {
+            $data = array();
+        } else {
+            $data = $cloud->getReturnData();
+        }
         return $data;
     }
     
     public static function site_admin_news() {
         // 21600
-        $data = ecjia_cloud::instance()->api('product/update/news')->data(self::build_notice_data())->cacheTime(21600)->run();
-    
+        $cloud = ecjia_cloud::instance()->api('product/update/news')->data(self::build_notice_data())->cacheTime(21600)->run();
+        if ($cloud->getStatus() == ecjia_cloud::STATUS_ERROR) {
+            $data = array();
+        } else {
+            $data = $cloud->getReturnData();
+        }
         return $data;
     }
     

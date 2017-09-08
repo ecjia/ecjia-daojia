@@ -63,6 +63,12 @@ interface ecjia_session_interface {
      * @return number
      */
     public function get_users_count();
+    
+    /**
+     * 获取指定session_id的数据
+     * @param string $session_id
+     */
+    public function get_session_data($session_id);
 }
 
 // end

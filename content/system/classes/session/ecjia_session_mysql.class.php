@@ -258,6 +258,45 @@ class ecjia_session_mysql extends ecjia_session_base {
     public function get_users_count() {
         return $this->session_db->count();
     }
+    
+    /**
+     * 获取指定session_id的数据
+     * @param string $session_id
+     */
+    public function get_session_data($session_id) {
+        $session_key = substr($session_id, 0, 32);
+        $session = $this->session_db->where("sesskey = '" . $session_key . "'")->field('userid, adminid, ip, user_name, user_rank, discount, email, data, expiry')->find();
+         
+        $data = array();
+        
+        if (!empty($session)) {
+            if (!empty($session['data']) && $this->_time <= $session['expiry']) {
+                $data  					= unserialize($session['data']);
+                $data['user_id'] 		= $session['userid'];
+                $data['admin_id'] 		= $session['adminid'];
+                $data['user_name'] 		= $session['user_name'];
+                $data['user_rank'] 		= $session['user_rank'];
+                $data['discount'] 		= $session['discount'];
+                $data['email'] 			= $session['email'];
+                $data['ip'] 			= $session['ip'];
+            } else {
+                $session_data = $this->session_data_db->where("sesskey = '" . $session_key . "'")->field('data, expiry')->find();
+                 
+                if (!empty($session_data['data']) && $this->_time <= $session_data['expiry']) {
+                    $data 					= unserialize($session_data['data']);
+                    $data['user_id'] 		= $session['userid'];
+                    $data['admin_id'] 		= $session['adminid'];
+                    $data['user_name'] 		= $session['user_name'];
+                    $data['user_rank'] 		= $session['user_rank'];
+                    $data['discount'] 		= $session['discount'];
+                    $data['email'] 			= $session['email'];
+                    $data['ip'] 			= $session['ip'];
+                }
+            }
+        }
+        
+        return $data;
+    }
 }
 
 // end

@@ -226,6 +226,18 @@ abstract class ecjia_base extends Royalcms\Component\Routing\Controller {
     }
     
     /**
+     * 输出内容
+     *
+     * @param string $msg 显示内容
+     */
+    protected function displayContent($content)
+    {
+        $response = royalcms('response');
+        $response->setContent($content);
+        return $response->send();
+    }
+    
+    /**
      * 载入项目常量
      */
     public function load_constants() {}
