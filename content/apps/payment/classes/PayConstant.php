@@ -61,13 +61,20 @@ class PayConstant
      * 会员预付款
      * @var string
      */
-    const PAY_SURPLUS = 'deposit';
-    const PAY_DEPOSIT = 'deposit';
+    const PAY_SURPLUS = 'surplus';
     
     /**
-     * 会员提现
+     * 闪付订单
      * @var string
      */
+    const PAY_QUICKYPAY = 'quickpay';
+    
+    
+    /**
+     * 会员充值提现
+     * @var string
+     */
+    const PAY_DEPOSIT = 'deposit';
     const PAY_WITHDRAW = 'withdraw';
     
     /**

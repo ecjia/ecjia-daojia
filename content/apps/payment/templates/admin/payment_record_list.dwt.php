@@ -22,7 +22,7 @@
 	<form method="post" action='{url path="payment/admin_payment_record/init"}' name="searchForm">
 		<div class="top_right f_r" >
 			<input class="w130" type="text" name="order_sn" value="{$smarty.get.order_sn}" placeholder="{lang key='payment::payment.find_order_sn'}"/>
-			<input class="w200" type="text" name="trade_no" value="{$smarty.get.trade_no}" placeholder="{lang key='payment::payment.find_trade_no'}"/>
+			<input class="w200" type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入支付订单号或流水号"/>
 			<button class="btn m_l5" type="submit">{lang key='user::users.serach'}</button>
 		</div>
 		<div class="f_r m_r5">
@@ -42,7 +42,7 @@
 				<tr>
 					<th class="w130">{lang key='payment::payment.order_sn'}</th>
 					<th class="w110">{lang key='payment::payment.trade_type'}</th>
-					<th>{lang key='payment::payment.trade_no'}</th>
+					<th>支付订单号 / 流水号</th>
 					<th class="w110">{lang key='payment::payment.pay_name'}</th>
 					<th class="w110">{lang key='payment::payment.total_fee'}</th>
 					<th class="w130">{lang key='payment::payment.create_time'} / {lang key='payment::payment.pay_times'}</th>
@@ -54,11 +54,11 @@
 			<tr>
 				<td class="hide-edit-area">{$list.order_sn}
 					<div class="edit-list">
-						<a href='{url path="payment/admin_payment_record/info" args="id={$list.id}"}' class="data-pjax" title="{lang key='orders::order.detail'}">{lang key='orders::order.detail'}</a>
+						<a href='{url path="payment/admin_payment_record/info" args="id={$list.id}"}' class="data-pjax" title="{lang key='orders::order.detail'}">查看</a>
 					</div>
 				</td>
 				<td>{$list.trade_type}</td>
-				<td>{$list.trade_no}</td>
+				<td>{$list.order_trade_no}<br>{$list.trade_no}</td>
 				<td>{$list.pay_name}</td>
 				<td>{$list.total_fee}</td>
 				<td>{$list.create_time}<br>{$list.pay_time}</td>

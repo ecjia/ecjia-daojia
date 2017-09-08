@@ -52,11 +52,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class payment_pay_info_api extends Component_Event_Api {
 	
-	public function __construct() {
-		parent::__construct();
-		RC_Loader::load_app_class('payment_factory', 'payment', false);
-	}
-	
     /**
      * @return array
      */

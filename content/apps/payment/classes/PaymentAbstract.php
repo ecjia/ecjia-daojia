@@ -76,6 +76,26 @@ abstract class PaymentAbstract extends AbstractPlugin
     protected $paymentRecord;
     
     /**
+     * 订单类型，标识订单号来源于哪张表的
+     * PAY_ORDER = buy 消费订单
+     * PAY_SURPLUS = surplus 会员预付费订单
+     * @var string
+     */
+    protected $orderType = PayConstant::PAY_ORDER;
+    
+    public function setOrderType($orderType)
+    {
+        $this->orderType = $orderType;
+        
+        return $this;
+    }
+    
+    public function getOrderType()
+    {
+        return $this->orderType;
+    }
+    
+    /**
      * 设置配置方式
      * @param \Ecjia\App\Payment\PaymentPlugin $payment
      */
@@ -121,8 +141,18 @@ abstract class PaymentAbstract extends AbstractPlugin
         $order_sn = $this->order_info['order_sn'];
         $amount = $this->order_info['order_amount'];
         
-        $id = $this->paymentRecord->addPaymentRecord($order_sn, $amount);
+        $id = $this->paymentRecord->addOrUpdatePaymentRecord($order_sn, $amount, $this->orderType, array($this, 'customizeOrderTradeNoRule'));
         
+        return $id;
+    }
+    
+    public function getPaymentNewRecordId()
+    {
+        $order_sn = $this->order_info['order_sn'];
+        $amount = $this->order_info['order_amount'];
+    
+        $id = $this->paymentRecord->addPaymentRecord($order_sn, $amount, $this->orderType, array($this, 'customizeOrderTradeNoRule'));
+    
         return $id;
     }
     
@@ -142,6 +172,29 @@ abstract class PaymentAbstract extends AbstractPlugin
     }
     
     /**
+     * 更新外部支付使用的订单交易号
+     */
+    public function updateOrderTradeNo($recordId = null)
+    {
+        if (is_null($recordId)) {
+            $recordId = $this->getPaymentRecordId();
+        }
+        $model = $this->paymentRecord->find($recordId);
+        $model->order_trade_no = $this->customizeOrderTradeNoRule($model);
+        return $model->save();
+    }
+    
+    /**
+     * 自定义生成外部订单号规则
+     * @param \Ecjia\App\Payment\Models\PaymentRecordModel $model
+     * @return string
+     */
+    public function customizeOrderTradeNoRule($model)
+    {
+        return $model->order_sn . $model->id;
+    }
+    
+    /**
      * 解析支付使用的外部订单号
      */
     public function parseOrderTradeNo($orderTradeNo)
@@ -149,7 +202,13 @@ abstract class PaymentAbstract extends AbstractPlugin
         $item = $this->paymentRecord->getPaymentRecord($orderTradeNo);
 
         if ($item) {
-            return array('order_sn' => $item['order_sn'], 'record_id' => $item['id']);
+            $this->setOrderType($item['trade_type']);
+            
+            return array(
+                'order_sn' => $item['order_sn'], 
+                'record_id' => $item['id'], 
+                'order_type' => $item['trade_type']
+            );
         }
         
         return false;
@@ -176,9 +235,14 @@ abstract class PaymentAbstract extends AbstractPlugin
             return new ecjia_error('parse_order_trade_no_error', __('解析订单号时失败'));
         }
  
-        $result = RC_Api::api('orders', 'buy_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
+        if ($this->orderType == PayConstant::PAY_ORDER) {
+            $result = RC_Api::api('orders', 'buy_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
+        } elseif ($this->orderType == PayConstant::PAY_SURPLUS) {
+            $result = RC_Api::api('finance', 'surplus_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
+        }
+        
         if (! is_ecjia_error($result)) {
-            RC_Hook::do_action('order_payed_do_something', $orderTradeNo); 
+            RC_Hook::do_action('order_payed_do_something', $item['order_sn']); 
         }
         
         return $result;

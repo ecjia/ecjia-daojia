@@ -56,11 +56,10 @@
 							<!-- {/if} -->
 							<input name="cfg_name[]" type="hidden" value="{$config.name}" />
 							<input name="cfg_type[]" type="hidden" value="{$config.type}" />
-							<input name="cfg_lang[]" type="hidden" value="{$config.lang}" />
+							<input name="cfg_lang[]" type="hidden" value="{$config.lang}" /><br>
 							{if $config.desc}
-							<br />
-							<span class="notice-span type-msg"{if $help_open}style="display:block" {else} style="display:none" {/if} id="notice{$config.name}">{$config.desc}</span>
-							{/if}
+    						<br><span class="help-block">{$config.desc}</span>
+    						{/if}
 							<!--the tenpay code -->
 							{if $key eq "0"}
 							{if $smarty.get.code eq "tenpay"}<input type="button" value="{lang key='payment::payment.ctenpay'}" onclick="javascript:window.open('{lang key='payment::payment.ctenpay_url'}')"/>

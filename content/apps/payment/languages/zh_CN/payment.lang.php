@@ -116,6 +116,7 @@ return array(
 	'refund'		=>	'退款',
 	'deposit'		=>	'充值',
 	'withdraw'		=>	'提现',
+	'surplus'		=>	'会员充值',
 
 	'ctenpay' 		=> '立即注册财付通商户号',
 	'ctenpay_url' 	=> 'http://union.tenpay.com/mch/mch_register_b2c.shtml?sp_suggestuser=542554970',
@@ -159,6 +160,7 @@ return array(
 	
 	'payment_list_help'		=> '欢迎访问ECJia智能后台支付方式页面，系统中所有的支付方式都会显示在此列表中。',
 	'about_payment_list'	=> '关于支付方式帮助文档',
+	'change_status_ok'		=> '修复订单状态成功！'
 
 );
 
