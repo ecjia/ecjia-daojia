@@ -1,0 +1,22 @@
+.outline{
+    background-color: #efefef;
+    border-radius: 5px;
+    color: #000000;
+	width:22%;
+	margin-bottom: 10px;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 6px;
+}
+.outline-right{
+    margin-top: 6px;
+	margin-left: 75px;
+}
+
+.outline-left{
+	margin-left: 12px;
+}
+.push_radio{
+	position:absolute;
+	margin: -11px 0 0 -11px;
+}
