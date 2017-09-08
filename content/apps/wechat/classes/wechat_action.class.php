@@ -467,7 +467,7 @@ class wechat_action {
     	    //查看有没有在手机或网站上使用微信登录
     	    $connect_user = RC_Api::api('connect', 'connect_user', array('connect_code' => 'sns_wechat', 'open_id' => $info['unionid']));
     	    if ($connect_user) {
-    	        $ect_uid = $connect_user['user_id'];
+    	        $ect_uid = $connect_user->getUserId();
     	    } else {
     	        //查看公众号unionid是否绑定
     	        $ect_uid = $wechatuser_db->where(array('unionid' => $info['unionid']))->get_field('ect_uid');

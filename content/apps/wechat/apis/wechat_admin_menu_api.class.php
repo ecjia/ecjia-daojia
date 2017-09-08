@@ -75,7 +75,6 @@ class wechat_admin_menu_api extends Component_Event_Api
         	ecjia_admin::make_admin_menu('divider', '', '', 13)->add_purview(array('wechat_qrcode_manage', 'wechat_share_manage', 'wechat_oauth_manage', 'wechat_prize_manage', 'wechat_request_manage')),
         	ecjia_admin::make_admin_menu('14_wechat', RC_Lang::get('wechat::wechat.channel_code'), RC_Uri::url('wechat/admin_qrcode/init'), 14)->add_purview('wechat_qrcode_manage'),
         	ecjia_admin::make_admin_menu('15_wechat', RC_Lang::get('wechat::wechat.sweep_recommend'), RC_Uri::url('wechat/admin_share/init'), 15)->add_purview('wechat_share_manage'),
-        	ecjia_admin::make_admin_menu('16_wechat', RC_Lang::get('wechat::wechat.accredit_login'), RC_Uri::url('wechat/admin_oauth/info'), 16)->add_purview('wechat_oauth_manage'),
         	ecjia_admin::make_admin_menu('17_wechat', RC_Lang::get('wechat::wechat.draw_record'), RC_Uri::url('wechat/admin_prize/init'), 17)->add_purview('wechat_prize_manage'),
         	ecjia_admin::make_admin_menu('18_wechat', RC_Lang::get('wechat::wechat.api_request'), RC_Uri::url('wechat/admin_request/init'), 18)->add_purview('wechat_request_manage'),
         );

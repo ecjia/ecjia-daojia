@@ -60,8 +60,9 @@
 						<div class="control-group formSep" >
 							<label class="control-label">{lang key='wechat::wechat.label_menu_type'}</label>
 							<div class="controls">
-								<input type="radio" name="type" value="click" {if $wechatmenus.type eq 'click'}checked{/if}><span>click</span>
-								<input type="radio" name="type" value="view"  {if $wechatmenus.type eq 'view'}checked{/if}><span>view</span>
+								<input type="radio" name="type" value="click" {if $wechatmenus.type eq 'click'}checked{/if}><span>发送消息</span>
+								<input type="radio" name="type" value="view"  {if $wechatmenus.type eq 'view'}checked{/if}><span>跳转网页</span>
+								<input type="radio" name="type" value="miniprogram"  {if $wechatmenus.type eq 'miniprogram'}checked{/if}><span>跳转小程序</span>
 							</div>
 						</div>
 						
@@ -75,7 +76,19 @@
 						<div id="urldiv" class="control-group formSep">
 							<label class="control-label">{lang key='wechat::wechat.label_menu_url'}</label>
 							<div class="controls">
-								<input type="text" name="url" id="url" value="{if $wechatmenus.url}{$wechatmenus.url}{else}http://{/if}" />
+								<input type="text" name="url" id="url" value="{$wechatmenus.url}" />
+							</div>
+						</div>
+						
+						<div id="weappdiv" class="control-group formSep" >
+							<label class="control-label">选择小程序：</label>
+							<div class="controls">
+								<select class="form-control"  id="weapp_appid" name="weapp_appid">
+			                        <option value='0'>请选择</option>
+			                      	<!-- {foreach from=$weapplist key=key item=val} -->
+									<option value="{$key}" {if $key eq $wechatmenus.app_id}selected{/if}>{$val}</option>
+									<!-- {/foreach} -->
+								</select>
 							</div>
 						</div>
 						

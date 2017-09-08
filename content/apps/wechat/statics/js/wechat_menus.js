@@ -14,40 +14,32 @@
 					if ($("input[name='type']:checked").val() == 'click') {
 						$('#keydiv').show();
 						$('#urldiv').hide();
+						$('#weappdiv').hide();
+						$("input[name='url']").val("");
 					} else if ($("input[name='type']:checked").val() == 'view') {
 						$('#keydiv').hide();
 						$('#urldiv').show();
+						$('#weappdiv').hide();
+						$("input[name='key']").val("");
+					} else {
+						$('#keydiv').hide();
+						$('#urldiv').hide();
+						$('#weappdiv').show();
+						$("input[name='url']").val("");
+						$("input[name='key']").val("");
 					}
 				});
 				$('input[name="type"]:checked').trigger('click');
 				
-				app.wechat_menus_edit.submit_form();
-			},
-			submit_form : function(formobj) {
-				var $form = $("form[name='theForm']");
-				var option = {
-					rules:{
-						name : { required : true },
-	                    url : {required:true,url:true}
-
-					},
-					messages:{
-						name : { required : js_lang.menu_name_required },
-						url : {required : js_lang.menu_url_required, url : js_lang.menu_url_url}
-					},
-					
-					submitHandler : function() {
-						$form.ajaxSubmit({
-							dataType : "json",
-							success : function(data) {
-								ecjia.admin.showmessage(data);
-							}
-						});
-						
-					}
-				}
-				var options = $.extend(ecjia.admin.defaultOptions.validate, option);
-				$form.validate(options);
+				$('form').on('submit', function(e) {
+					e.preventDefault();
+					$(this).ajaxSubmit({
+						dataType : "json",
+						success : function(data) {
+							ecjia.admin.showmessage(data);
+						}
+					});
+				});
 			}
 		};
 	

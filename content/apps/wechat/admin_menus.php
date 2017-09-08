@@ -162,6 +162,10 @@ class admin_menus extends ecjia_admin {
 			$wechatmenus['type'] 	= 'click';
 			$wechatmenus['status'] 	= 0;
 			$this->assign('wechatmenus', $wechatmenus);
+			
+			$weapplist = $this->get_weapplist();
+			$this->assign('weapplist', $weapplist);
+			
 			$this->assign('form_action', RC_Uri::url('wechat/admin_menus/insert'));
 		}
 		
@@ -173,18 +177,50 @@ class admin_menus extends ecjia_admin {
 	 * 添加菜单处理
 	 */
 	public function insert() {
-		$this->admin_priv('wechat_menus_add', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('wechat_menus_add');
 		
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
 		$wechat_id = $platform_account->getAccountID();
 		
 		$pid	= !empty($_POST['pid'])		? intval($_POST['pid']) : 0	;
 		$name 	= !empty($_POST['name']) 	? trim($_POST['name']) 	: '';
+		
 		$type 	= !empty($_POST['type']) 	? $_POST['type'] 		: '';
 		$key	= !empty($_POST['key']) 	? $_POST['key'] 		: '';
-		$url 	= !empty($_POST['url']) 	? $_POST['url'] 		: '';
+		$web_url= !empty($_POST['url']) 	? $_POST['url'] 		: '';
+				
 		$status = !empty($_POST['status']) 	? intval($_POST['status']) 	: 0;
 		$sort 	= !empty($_POST['sort']) 	? intval($_POST['sort']) 	: 0;
+
+		if (empty($name)) {
+			return $this->showmessage('菜单名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if ($type == 'click') {
+			if (empty($key)) {
+				return $this->showmessage('当菜单类型为click时，菜单关键词不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+		} elseif ($type == 'view') {
+			if (empty($web_url)) {
+				return $this->showmessage('当菜单类型为view 时，外链url不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			} else {
+				$url = $web_url;
+			}
+		} else {
+			//小程序配置信息
+			$h5_url = RC_Uri::home_url().'/sites/m/';
+			$weapp_appid = $_POST['weapp_appid'];
+			if(empty($weapp_appid)) {
+				return $this->showmessage('请选择小程序', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			} else {
+				$miniprogram_config = array(
+					'url'      => $h5_url,
+					'appid'    => $weapp_appid,
+					'pagepath' => 'pages/ecjia-store/ecjia'
+				);
+				$url = serialize($miniprogram_config);
+			}
+		}
 		
 		$data = array(
 			'wechat_id'	=> $wechat_id,
@@ -194,15 +230,8 @@ class admin_menus extends ecjia_admin {
 			'key'		=>	$key,
 			'url'		=>	$url,
 			'status'	=>	$status,
-			'sort'		=>	$sort
+			'sort'		=>	$sort,
 		);
-		
-		if($type == 'click'){
-			$data['url']='';
-		}elseif ($type == 'view') {
-			$data['key']='';
-		}
-		
 		$id = $this->db_menu->insert($data);
 		ecjia_admin::admin_log($_POST['name'], 'add', 'menu');
 		
@@ -239,15 +268,26 @@ class admin_menus extends ecjia_admin {
 
 	    $id = intval($_GET['id']);
 	  	$wechatmenus = $this->db_menu->find(array('id' => $id));
+	  	if ($wechatmenus['type'] == 'miniprogram') {
+	  		$config_url = unserialize($wechatmenus['url']);
+	  		$wechatmenus['app_id'] = $config_url['appid'];
+	  	}
 		$this->assign('wechatmenus', $wechatmenus);
+	
+		
 		$where['pid'] = 0;
 		$where[] = "id <> $id";
 		$where['wechat_id'] = $wechat_id;
-		$pmenu = $this->db_menu->where($where)->select();
 		
+		$pmenu = $this->db_menu->where($where)->select();
 		$this->assign('pmenu', $pmenu);
+		
 		$child = $this->db_menu->where(array('id' => $id))->get_field('pid');
 		$this->assign('child', $child);
+		
+		$weapplist = $this->get_weapplist();
+		$this->assign('weapplist', $weapplist);
+		
 		$this->assign('form_action', RC_Uri::url('wechat/admin_menus/update'));
 	
 		$this->assign_lang();
@@ -263,15 +303,48 @@ class admin_menus extends ecjia_admin {
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
 		$wechat_id = $platform_account->getAccountID();
 		
-		$pid	= !empty($_POST['pid'])		? intval($_POST['pid']) : 0;
+		$menu_id = !empty($_POST['menu_id']) ? intval($_POST['menu_id']) 	: 0;
+
+		$pid	= !empty($_POST['pid'])		? intval($_POST['pid']) : 0	;
 		$name 	= !empty($_POST['name']) 	? trim($_POST['name']) 	: '';
+		
 		$type 	= !empty($_POST['type']) 	? $_POST['type'] 		: '';
 		$key	= !empty($_POST['key']) 	? $_POST['key'] 		: '';
-		$url 	= !empty($_POST['url']) 	? $_POST['url'] 		: '';
-		$status = !empty($_POST['status']) 	? intval($_POST['status']) 		: 0;
-		$sort 	= !empty($_POST['sort']) 	? intval($_POST['sort']) 		: 0;
-		$menu_id = !empty($_POST['menu_id']) ? intval($_POST['menu_id']) 	: 0;
+		$web_url= !empty($_POST['url']) 	? $_POST['url'] 		: '';
 		
+		$status = !empty($_POST['status']) 	? intval($_POST['status']) 	: 0;
+		$sort 	= !empty($_POST['sort']) 	? intval($_POST['sort']) 	: 0;
+		
+		
+		if (empty($name)) {
+			return $this->showmessage('菜单名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if ($type == 'click') {
+			if (empty($key)) {
+				return $this->showmessage('当菜单类型为click时，菜单关键词不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+		} elseif ($type == 'view') {
+			if (empty($web_url)) {
+				return $this->showmessage('当菜单类型为view 时，外链url不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			} else {
+				$url = $web_url;
+			}
+		} else {
+			//小程序配置信息
+			$h5_url = RC_Uri::home_url().'/sites/m/';
+			$weapp_appid = $_POST['weapp_appid'];
+			if(empty($weapp_appid)) {
+				return $this->showmessage('请选择小程序', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			} else {
+				$miniprogram_config = array(
+					'url'      => $h5_url,
+					'appid'    => $weapp_appid,
+					'pagepath' => 'pages/ecjia-store/ecjia'
+				);
+				$url = serialize($miniprogram_config);
+			}
+		}
 		$data = array(
 			'pid'		=>	$pid,
 			'name'		=>	$name,
@@ -281,11 +354,6 @@ class admin_menus extends ecjia_admin {
 			'status'	=>	$status,
 			'sort'		=>	$sort
 		);
-		if ($type == 'click'){
-			$data['url']='';
-		} elseif ($type == 'view') {
-			$data['key']='';
-		}
 		
 		$this->db_menu->where(array('id' => $menu_id))->update($data);
 		
@@ -331,27 +399,36 @@ class admin_menus extends ecjia_admin {
 				if (empty($val['sub_button'])) {
 					$menu[$key]['type'] = $val['type'];
 					$menu[$key]['name'] = $val['name'];
-					if ('click' == $val['type']) {
+					if ($val['type'] == 'click') {
 						$menu[$key]['key'] = $val['key'];
-					} else {
+					} elseif ($val['type'] == 'view') {
 						$menu[$key]['url'] = $this->html_out($val['url']);
+					} else {
+						$url_config = unserialize($val['url']);
+						$menu[$key]['url'] 		= $this->html_out($url_config['url']);
+						$menu[$key]['appid'] 	= $url_config['appid'];
+						$menu[$key]['pagepath'] = $url_config['pagepath'];
 					}
 				} else {
 					$menu[$key]['name'] = $val['name'];
 					foreach ($val['sub_button'] as $k => $v) {
 						$menu[$key]['sub_button'][$k]['type'] = $v['type'];
 						$menu[$key]['sub_button'][$k]['name'] = $v['name'];
-						if ('click' == $v['type']) {
+						if ($v['type'] == 'click') {
 							$menu[$key]['sub_button'][$k]['key'] = $v['key'];
-						} else {
+						} elseif ($v['type'] == 'view') {
 							$menu[$key]['sub_button'][$k]['url'] = $this->html_out($v['url']);
+						} else {
+							$child_url = unserialize($v['url']);
+							$menu[$key]['sub_button'][$k]['url']     = $this->html_out($child_url['url']);
+							$menu[$key]['sub_button'][$k]['appid']   = $child_url['appid'];
+							$menu[$key]['sub_button'][$k]['pagepath']= $child_url['pagepath'];
 						}
 					}
 				}
 			}
-
-			$uuid = platform_account::getCurrentUUID('wechat');
 			
+			$uuid = platform_account::getCurrentUUID('wechat');
 			try {
                 $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
                 $rs = $wechat->menu->add($menu);
@@ -379,40 +456,60 @@ class admin_menus extends ecjia_admin {
 			return $this->showmessage(RC_Lang::get('wechat::wechat.add_platform_first'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 
-			
-
 			try {
 			    $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 			    $list = $wechat->menu->all()->toArray();
-			    
 			    $info = $this->db_menu->select();
 			    if ($info) {
 			        $this->db_menu->where(array('wechat_id' => $wechat_id))->delete();
 			    }
-			    	
+			    
+			    //一级菜单处理
 			    foreach ($list['menu']['button'] as $key => $value) {
 			        $value['type'] = isset($value['type']) ? $value['type'] : '';
-			        $value['url'] = isset($value['url']) ? $value['url'] : '';
-			        $value['key'] = isset($value['key']) ? $value['key'] : '';
-			    
+			        $value['url']  = isset($value['url'])  ? $value['url'] : '';
+			        $value['key']  = isset($value['key'])  ? $value['key'] : '';
+			        
 			        if ($value['type'] == 'view') {
 			            $array = array('name' => $value['name'], 'status' => 1, 'type' => 'view', 'url' => $value['url'], 'wechat_id' => $wechat_id);
-			        } else {
+			        } elseif ($value['type'] == 'click') {
 			            $array = array('name' => $value['name'], 'status' => 1, 'type' => 'click', 'key' => $value['key'], 'wechat_id'=> $wechat_id);
+			        } elseif ($value['type'] == 'miniprogram')  {
+			        	$config_url =array(
+			        		'url'      => $value['url'],
+			        		'appid'    => $value['appid'],
+			        		'pagepath' => $value['pagepath']
+			        	);
+			        	$array = array('name' => $value['name'], 'status' => 1, 'type' => 'miniprogram', 'url' => serialize($config_url), 'wechat_id'=> $wechat_id);
+			        } else {
+			        	$array = array('name' => $value['name'], 'status' => 1, 'type' => $value['type'], 'url' => $value['url'], 'key' => $value['key'], 'wechat_id'=> $wechat_id);
 			        }
+			        
 			        $id = $this->db_menu->insert($array);
+			        
+			        
+			        //子集菜单处理
 			        if ($value['sub_button']) {
-			            $data = array();
+			        	$data = array();
 			            foreach ($value['sub_button'] as $k => $v) {
 			                $v['name']   = isset($v['name']) ? $v['name'] : '';
 			                $v['type']   = isset($v['type']) ? $v['type'] : '';
 			                $v['url']    = isset($v['url'])  ? $v['url']  : '';
 			                $v['key']    = isset($v['key'])  ? $v['key']  : '';
-			                	
+			                
+			                if($v['type'] == 'miniprogram'){
+			                	$child_url =array(
+		                			'url'      => $v['url'],
+		                			'appid'    => $v['appid'],
+		                			'pagepath' => $v['pagepath']
+			                	);
+			                	$data['url'] = serialize($child_url);
+			                } else {
+			                	$data['url']  = $v['url'];
+			                }	
 			                $data['wechat_id']   = $wechat_id;
 			                $data['name']        = $v['name'];
 			                $data['type']        = $v['type'];
-			                $data['url']         = $v['url'];
 			                $data['key']         = $v['key'];
 			                $data['status']      = 1;
 			                $data['pid']         = $id;
@@ -529,12 +626,19 @@ class admin_menus extends ecjia_admin {
 		
 		if (!empty($list)) {
 			foreach ($list as $vo) {
+				if ($vo['type'] == 'miniprogram') {
+					$config_url = unserialize($vo['url']);
+					$vo['url'] = $config_url['pagepath'];
+				}
 				if ($vo['pid'] == 0) {
-					$vo['val'] = ($vo['type'] == 'click') ? $vo['key'] : $vo['url'];
 					$sub_button = array();
 					foreach ($list as $val) {
-						$val['val'] = ($val['type'] == 'click') ? $val['key'] : $val['url'];
-						if ($val['pid'] == $vo['id']) {
+						
+						if ($vo['id'] == $val['pid']) {
+							if ($val['type'] == 'miniprogram') {
+								$child_url = unserialize($val['url']);
+								$val['url'] = $child_url['pagepath'];
+							}
 							$sub_button[] = $val;
 						}
 					}
@@ -543,7 +647,23 @@ class admin_menus extends ecjia_admin {
 				}
 			}
 		}
+		
 		return array ('menu_list' => $result);
+	}
+	
+	
+	/**
+	 * 取得小程序
+	 */
+	private function get_weapplist() {
+		$data = RC_DB::table('platform_account')->where('platform','weapp')->select('appid','name')->get();
+		$list = array();
+		if (!empty($data)) {
+			foreach ($data as $row) {
+				$list[$row['appid']] = $row['name'];
+			}
+		}
+		return $list;
 	}
 	
 	/**

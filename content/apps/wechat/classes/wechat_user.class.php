@@ -77,7 +77,10 @@ class wechat_user {
         return $this->user['unionid'];
     }
     
-    
+    public function getImage() {
+    	return $this->user['headimgurl'];
+    }
+
     public function getNickname() {
         return $this->user['nickname'];
     }

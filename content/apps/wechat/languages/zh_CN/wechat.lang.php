@@ -734,10 +734,10 @@ return array(
 	
 	//授权登录
 	'configure_oauth'			=> '配置授权登录',
-	'configure_oauth_content'	=> '欢迎访问ECJia智能后台配置授权登陆页面，在此页面可以进行配置授权登陆操作。',
-	'configure_oauth_help'		=> '关于配置授权登陆帮助文档',
+	'configure_oauth_content'	=> '欢迎访问ECJia智能后台配置授权登录页面，在此页面可以进行配置授权登录操作。',
+	'configure_oauth_help'		=> '关于配置授权登录帮助文档',
 	'oauth_login'				=> '授权登录',
-	'oauth_login_succcess'		=> '配置授权登陆成功',
+	'oauth_login_succcess'		=> '配置授权登录成功',
 	'label_is_open'				=> '是否开启：',
 	'label_weshop_url'			=> '微店请求地址：',
 	'label_oauth_redirecturi'	=> '微信OAuth回调地址：',
