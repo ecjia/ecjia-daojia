@@ -91,7 +91,7 @@ class admin_main_hooks {
 	        $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
 	        $ecjia_about_url = RC_Uri::url('@index/about_us');
 	        $welcomeecjia 	= __('欢迎使用ECJia到家');
-	        $description 	= __("EC+（ecjia）到家是由上海商创网路科技有限公司推出的，一款可开展O2O业务的移动电商系统。
+	        $description 	= __("EC+（ecjia）到家是由上海商创网络科技有限公司推出的，一款可开展O2O业务的移动电商系统。
 	            它包含：移动端APP，采用原生模式开发，覆盖使用iOS 及Android系统的移动终端；后台系统，针对平台日常运营维护
 	            的平台后台，针对入驻店铺管理的商家后台，独立并行；移动端H5，能够灵活部署于微信及其他APP、网页等。
 	            ECJia到家是一款符合当下及未来发展的新电商系统，主打三个新：新模式，新框架，新技术。");
