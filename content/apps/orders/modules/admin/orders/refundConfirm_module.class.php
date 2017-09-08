@@ -74,10 +74,10 @@ class refundConfirm_module extends api_admin implements api_interface {
 			return new ecjia_error(13, '不存在的信息');
 		}
 		
-		$payment_method	= RC_Loader::load_app_class('payment_method', 'payment');
-		$pay_info = $payment_method->payment_info_by_id($order['pay_id']);
+		$payment_method	= new Ecjia\App\Payment\PaymentPlugin();
+		$pay_info = $payment_method->getPluginDataById($order['pay_id']);
 // 		$payment_handler = $payment_method->get_payment_instance($pay_info['pay_code']);
-		$payment_handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($pay_info['pay_code']);
+		$payment_handler = $payment_method->channel($pay_info['pay_code']);
 		
 		/* 判断是否有支付方式以及是否为现金支付和酷银*/
 		if (!$payment_handler) {

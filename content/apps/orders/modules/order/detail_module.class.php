@@ -120,7 +120,8 @@ class detail_module extends api_front implements api_interface {
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 			$express_info = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
 			$order['express_user'] = $express_info['express_user'];
-			$order['express_mobile'] = $express_info['express_mobile'];
+			//$order['express_mobile'] = $express_info['express_mobile'];
+			$order['express_mobile'] = $express_info['staff_id'] > 0 ? RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->pluck('express_mobile') : '';
 		}
 		
 		//收货人地址

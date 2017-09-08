@@ -374,24 +374,26 @@ class admin extends ecjia_admin {
 		$this->assign_lang();
 		/* 是否打印订单，分别赋值 */
 		if (isset($_GET['print'])) {
-			/* 此订单的发货备注(此订单的最后一条操作记录) 打印订单中用到*/
-			$order['invoice_note'] = RC_DB::table('order_action')
-				->where('order_id', $order['order_id'])
-				->where('shipping_status', 1)
-				->orderby('log_time', 'desc')
-				->pluck('action_note');
+			return false;
+// 			/* 此订单的发货备注(此订单的最后一条操作记录) 打印订单中用到*/
+// 			$order['invoice_note'] = RC_DB::table('order_action')
+// 				->where('order_id', $order['order_id'])
+// 				->where('shipping_status', 1)
+// 				->orderby('log_time', 'desc')
+// 				->pluck('action_note');
 			
-			$this->assign('shop_name', 		ecjia::config('shop_name'));
-			$this->assign('shop_url', 		RC_Config::system('CUSTOM_WEB_SITE_URL'));
-			$this->assign('shop_address', 	ecjia::config('shop_address'));
-			$this->assign('service_phone', 	ecjia::config('service_phone'));
-			$this->assign('print_time', 	RC_Time::local_date(ecjia::config('time_format')));
-			$this->assign('action_user', 	$_SESSION['admin_name']);
-			/* 参数赋值：订单 */
-			$this->assign('order', $order);
+// 			$this->assign('shop_name', 		ecjia::config('shop_name'));
+// 			$this->assign('shop_url', 		RC_Config::system('CUSTOM_WEB_SITE_URL'));
+// 			$this->assign('shop_address', 	ecjia::config('shop_address'));
+// 			$this->assign('service_phone', 	ecjia::config('service_phone'));
+// 			$this->assign('print_time', 	RC_Time::local_date(ecjia::config('time_format')));
+// 			$this->assign('action_user', 	$_SESSION['admin_name']);
+// 			/* 参数赋值：订单 */
+// 			$this->assign('order', $order);
 		
-			$this->display('order_print.dwt');
+// 			$this->display('order_print.dwt');
 		} elseif (isset($_GET['shipping_print'])) {
+			return false;
 			/* 打印快递单 */
 			$this->assign('print_time', RC_Time::local_date(ecjia::config('time_format')));
 			//发货地址所在地

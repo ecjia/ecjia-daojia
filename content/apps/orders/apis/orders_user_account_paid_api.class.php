@@ -128,8 +128,8 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			);
 			RC_Api::api('user', 'account_change_log', $options);
 			/* 插入支付日志 */
-			$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-			$payment_method->insert_pay_log($order_info['order_id'], $order_info['order_amount'], PAY_SURPLUS);
+// 			$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+// 			$payment_method->insert_pay_log($order_info['order_id'], $order_info['order_amount'], PAY_SURPLUS);
 		}
 		
 		order_action($order_info['order_sn'], OS_CONFIRMED, SS_UNSHIPPED, PS_PAYED, '', RC_Lang::get('orders::order.buyers'));
@@ -203,26 +203,26 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			 
 // 			if (!empty($push_event)) {
 // 				/* 通知记录*/
-// 				$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
-// 				$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
+				$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
+				$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
 				
-// 				$order_data = array(
-// 					'title'	=> '客户付款',
-// 					'body'	=> '您有一笔新订单，订单号为：'.$order_info['order_sn'],
-// 					'data'	=> array(
-// 						'order_id'		=> $order_info['order_id'],
-// 						'order_sn'		=> $order_info['order_sn'],
-// 						'order_amount'	=> $order_info['order_amount'],
-// 						'formatted_order_amount' => price_format($order_info['order_amount']),
-// 						'consignee'		=> $order_info['consignee'],
-// 						'mobile'		=> $order_info['mobile'],
-// 						'address'		=> $order_info['address'],
-// 						'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order_info['add_time']),
-// 					),
-// 				);
+				$order_data = array(
+					'title'	=> '客户付款',
+					'body'	=> '您有一笔新订单，订单号为：'.$order_info['order_sn'],
+					'data'	=> array(
+						'order_id'		=> $order_info['order_id'],
+						'order_sn'		=> $order_info['order_sn'],
+						'order_amount'	=> $order_info['order_amount'],
+						'formatted_order_amount' => price_format($order_info['order_amount']),
+						'consignee'		=> $order_info['consignee'],
+						'mobile'		=> $order_info['mobile'],
+						'address'		=> $order_info['address'],
+						'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order_info['add_time']),
+					),
+				);
 				 
-// 				$push_order_pay = new OrderPay($order_data);
-// 				RC_Notification::send($staff_user_ob, $push_order_pay);
+				$push_order_pay = new OrderPay($order_data);
+				RC_Notification::send($staff_user_ob, $push_order_pay);
 
 // 				RC_Loader::load_app_class('push_send', 'push', false);
 // 				ecjia_admin::$controller->assign('order', $order_info);

@@ -94,8 +94,8 @@ class pay_module extends api_admin implements api_interface {
 		$arr['pay_time']		= RC_Time::gmtime();
 		$arr['money_paid']		= $order_info['money_paid'] + $order_info['order_amount'];
 		$arr['order_amount']	= 0;
-		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-		$payment = $payment_method->payment_info($order_info['pay_id']);
+// 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+		$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order_info['pay_id']);
 		if ($payment['is_cod']) {
 			$arr['shipping_status']		= SS_RECEIVED;
 			$order_info['shipping_status']	= SS_RECEIVED;

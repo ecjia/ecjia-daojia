@@ -3,12 +3,13 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
+var templateCounts = '{$data}';
 	ecjia.admin.sale_general.init();
-	{if $page eq 'init'}
-		ecjia.admin.chart.order_count();
-	{else if $page eq 'sales_trends'}
-		ecjia.admin.chart.order_amount();
-	{/if}
+{if $page eq 'init'}
+	ecjia.admin.chart.order_count();
+{else if $page eq 'sales_trends'}
+	ecjia.admin.chart.order_amount();
+{/if}
 </script>
 <!-- {/block} -->
 
@@ -21,7 +22,7 @@
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
 		<!-- {if $action_link} -->
-		<a class="btn plus_or_reply" id="sticky_a" href='{$action_link.href}&start_time={$start_month_time}&end_time={$end_month_time}&query_type={$query_type}'><i class="fontello-icon-download"></i>{$action_link.text}</a>
+		<a class="btn plus_or_reply" id="sticky_a" href='{$action_link.href}&start_time={$filter.start_month_time}&end_time={$filter.end_month_time}&query_type={$filter.query_type}'><i class="fontello-icon-download"></i>{$action_link.text}</a>
 	    <!-- {/if} -->
 	</h3>
 </div>
@@ -30,9 +31,9 @@
 	<div class="row-fluid">
 		<div class="choose_list f_r">
 			<strong class="f_l">{lang key='orders::statistic.year_status_lable'}</strong>
-			{html_select_date prefix="year_begin" class="w80" time=$start_time start_year="2006" end_year="+1" display_days=false display_months=false}
+			{html_select_date prefix="year_begin" class="w80" time=$filter.start_time start_year="2006" end_year="+1" display_days=false display_months=false}
 			<span class="f_l">-</span>
-			{html_select_date prefix="year_end" class="w80" time=$end_time start_year="2006" end_year="+1" display_days=false display_months=false}
+			{html_select_date prefix="year_end" class="w80" time=$filter.end_time start_year="2006" end_year="+1" display_days=false display_months=false}
 			<input type="submit" name="query_by_year" value="{lang key='orders::statistic.query'}" class="btn screen-btn" />
 		</div>
 	</div>
@@ -40,9 +41,9 @@
 	<div class="row-fluid">
 		<div class="choose_list f_r">
 			<strong class="f_l">{lang key='orders::statistic.month_status_lable'}</strong>
-			{html_select_date prefix="month_begin" class="w80" time=$start_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
+			{html_select_date prefix="month_begin" class="w80" time=$filter.start_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
 			<span class="f_l">-</span>
-			{html_select_date prefix="month_end" class="w80" time=$end_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
+			{html_select_date prefix="month_end" class="w80" time=$filter.end_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
 			<input type="submit" name="query_by_month" value="{lang key='orders::statistic.query'}" class="btn screen-btn1" />
 		</div>
 	</div>
@@ -60,7 +61,7 @@
 					{if $page eq 'init'}
 					<div class="tab-pane active" id="tab1">
 						<div class="m_t10">
-							<div id="order_count" data-url='{RC_Uri::url("orders/admin_sale_general/get_order_status","start_time={$start_time}&end_time={$end_time}&start_month_time={$start_month_time}&end_month_time={$end_month_time}&query_type={$query_type}&order_type=1")}'>
+							<div id="order_count" data-url='{RC_Uri::url("orders/admin_sale_general/get_order_status","start_time={$filter.start_time}&end_time={$filter.end_time}&start_month_time={$filter.start_month_time}&end_month_time={$filter.end_month_time}&query_type={$filter.query_type}&order_type=1")}'>
 							</div>
 						</div>
 					</div>
@@ -68,7 +69,7 @@
 					{if $page eq 'sales_trends'}
 					<div class="tab-pane active" id="tab2">
 						<div class="m_t10">
-							<div id="order_amount" data-url='{RC_Uri::url("orders/admin_sale_general/get_order_status","start_time={$start_time}&end_time={$end_time}&start_month_time={$start_month_time}&end_month_time={$end_month_time}&query_type={$query_type}&order_type=0")}'>
+							<div id="order_amount" data-url='{RC_Uri::url("orders/admin_sale_general/get_order_status","start_time={$filter.start_time}&end_time={$filter.end_time}&start_month_time={$filter.start_month_time}&filter.end_month_time={$filter.end_month_time}&query_type={$filter.query_type}&order_type=0")}'>
 							</div>
 						</div>
 					</div>

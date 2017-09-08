@@ -188,7 +188,19 @@ class admin_order_delivery extends ecjia_admin {
 				$act_list[]				= $row;
 			}
 		}
-
+		
+		//获取shopping_code
+		if(empty($delivery_order['invoice_no'])) {
+		    $shipping_id = $delivery_order['shipping_id'];
+		    $shipping_info = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->first();
+		    if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+		        $rand1 = mt_rand(100000,999999);
+		        $rand2 = mt_rand(1000000,9999999);
+		        $invoice_no = $rand1.$rand2;
+		        $delivery_order['invoice_no'] = $invoice_no;
+		    }
+		}
+	    
 		/* 模板赋值 */
 		$this->assign('action_list', 		$act_list);
 		$this->assign('delivery_order', 	$delivery_order);
@@ -216,6 +228,7 @@ class admin_order_delivery extends ecjia_admin {
 		/* 取得参数 */
 		$delivery				= array();
 		$order_id				= intval(trim($_POST['order_id']));			// 订单id
+	    $shipping_id			= intval(trim($_POST['shipping_id']));		// shipping_id
 		$delivery_id			= intval(trim($_POST['delivery_id']));		// 发货单id
 		$delivery['invoice_no']	= isset($_POST['invoice_no']) ? trim($_POST['invoice_no']) : '';
 		$action_note			= isset($_POST['action_note']) ? trim($_POST['action_note']) : '';
@@ -331,7 +344,7 @@ class admin_order_delivery extends ecjia_admin {
 				}
 			}
 		}
-
+		
 		/* 修改发货单信息 */
 		$invoice_no = str_replace(',', '<br>', $delivery['invoice_no']);
 		$invoice_no = trim($invoice_no, '<br>');
@@ -367,6 +380,18 @@ class admin_order_delivery extends ecjia_admin {
 		$arr['invoice_no']			= trim($order['invoice_no'] . '<br>' . $invoice_no, '<br>');
 		update_order($order_id, $arr);
 
+		/* 如果是o2o速递则在 ecjia_express_track_record表内更新一条记录*/
+		$shipping_info = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->first();
+		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+		    $express_track_record_data = array(
+		        "express_code"    =>  $shipping_info['shipping_code'],
+		        "track_number"    =>  $delivery['invoice_no'],
+		        "time"            =>  RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime()),
+		        "context"         =>  "您的订单已配备好，等待配送员取货",
+		    );
+		    RC_DB::table('express_track_record')->insert($express_track_record_data);
+		}
+		
 		/* 发货单发货记录log */
 		order_action($order['order_sn'], OS_CONFIRMED, $shipping_status, $order['pay_status'], $action_note, null, 1);
 		ecjia_admin::admin_log(RC_Lang::get('orders::order.op_ship').'-'.RC_Lang::get('orders::order.order_is').$order['order_sn'], 'setup', 'order');
@@ -446,6 +471,7 @@ class admin_order_delivery extends ecjia_admin {
 		$delivery				= '';
 		$order_id				= intval(trim($_POST['order_id']));			// 订单id
 		$delivery_id			= intval(trim($_POST['delivery_id']));		// 发货单id
+		$shipping_id			= intval(trim($_POST['shipping_id']));		// shipping_id
 		$delivery['invoice_no']	= isset($_POST['invoice_no'])	? trim($_POST['invoice_no']) : '';
 		$action_note			= isset($_POST['action_note'])	? trim($_POST['action_note']) : '';
 
@@ -500,6 +526,12 @@ class admin_order_delivery extends ecjia_admin {
 		}
 		$arr['invoice_no']			= $_order['invoice_no'];
 		update_order($order_id, $arr);
+		
+		/* 如果是o2o速递，退货的时候删除ecjia_express_track_record相对应的记录 */
+		$shipping_info = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->first();
+		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+		    RC_DB::table('express_track_record')->where('track_number', $delivery['invoice_no'])->delete();
+		}
 
 		/* 发货单取消发货记录log */
 		order_action($order['order_sn'], $order['order_status'], $shipping_status, $order['pay_status'], $action_note, null, 1);
@@ -563,7 +595,7 @@ class admin_order_delivery extends ecjia_admin {
 
 		$delivery_id	= !empty($_GET['delivery_id']) 	? $_GET['delivery_id'] 	: $_POST['delivery_id'];
 		$type 			= isset($_GET['type']) 			? trim($_GET['type'])	: '';
-
+        
 		if (!is_array($delivery_id)) {
 			if (strpos($delivery_id , ',') === false) {
 				$delivery_id = array($delivery_id);
@@ -571,12 +603,18 @@ class admin_order_delivery extends ecjia_admin {
 				$delivery_id = explode(',', $delivery_id);
 			}
 		}
-
+        
 		foreach ($delivery_id as $value_is) {
 			$value_is = intval(trim($value_is));
 			/* 查询：发货单信息 */
 			$delivery_order = delivery_order_info($value_is);
-
+            
+			/* 如果是o2o速递，删除发货单的时候删除ecjia_express_track_record相对应的记录 */
+			$shipping_info = RC_DB::table('shipping')->where('shipping_id', $delivery_order['shipping_id'])->first();
+			if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+			    RC_DB::table('express_track_record')->where('track_number', $delivery_order['invoice_no'])->delete();
+			}
+			
 			if (!empty($delivery_order)) {
 				/* 如果status不是退货 */
 				if ($delivery_order['status'] != 1) {

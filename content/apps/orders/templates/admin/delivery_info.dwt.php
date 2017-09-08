@@ -72,6 +72,7 @@
 										{else}
 										{$delivery_order.invoice_no}
 										{/if}
+										<input name="shipping_id" type="hidden" value="{$delivery_order.shipping_id}">
 									</td>
 								</tr>
 							</tbody>

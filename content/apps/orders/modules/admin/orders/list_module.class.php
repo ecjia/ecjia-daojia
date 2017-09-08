@@ -220,9 +220,9 @@ class list_module extends api_admin implements api_interface {
 					$order_status = $val['order_status'] == '2' ? __('已取消') : $order_status;
 					$order_status = $val['order_status'] == '3' ? __('无效') : $order_status;
 
-					$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+// 					$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
 					if ($val['pay_id'] > 0) {
-						$payment = $payment_method->payment_info_by_id($val['pay_id']);
+						$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($val['pay_id']);
 					}
 					$goods_lists = array();
 					$goods_lists[] = array(

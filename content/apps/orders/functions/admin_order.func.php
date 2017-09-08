@@ -138,9 +138,9 @@ function shipping_insure_fee($shipping_code, $goods_amount, $insure) {
 * @return  float
 */
 function pay_fee($payment_id, $order_amount, $cod_fee = null) {
-    $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+//     $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
     $pay_fee = 0;
-    $payment = $payment_method->payment_info($payment_id);
+    $payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($payment_id);
     $rate = $payment['is_cod'] && !is_null($cod_fee) ? $cod_fee : $payment['pay_fee'];
     if (strpos($rate, '%') !== false) {
         /* 支付费用是一个比例 */
@@ -1289,11 +1289,12 @@ function operable_list($order) {
 		$priv_list = array('os' => strpos($actions, ',order_os_edit,') !== false, 'ss' => strpos($actions, ',order_ss_edit,') !== false, 'ps' => strpos($actions, ',order_ps_edit,') !== false, 'edit' => strpos($actions, ',order_edit,') !== false);
 	}
 	/* 取得订单支付方式是否货到付款 */
-	$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-	$payment = array();
-	if (!empty($payment_method)) {
-		$payment = $payment_method->payment_info($order['pay_id']);
-	}
+// 	$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+// 	$payment = array();
+// 	if (!empty($payment_method)) {
+		
+// 	}
+	$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order['pay_id']);
 	$is_cod = $payment['is_cod'] == 1;
 	/* 根据状态返回可执行操作 */
 	$list = array();

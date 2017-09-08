@@ -3,6 +3,7 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
+	var data = '{$data}';
 	ecjia.admin.order_stats.init();
 	{if $page eq 'init'}
 		{if $is_multi eq ''}

@@ -86,6 +86,19 @@ class detail_module extends api_admin implements api_interface {
  			return $order;
 		}
 		
+		/*发票抬头和发票识别码处理*/
+		if (!empty($order['inv_payee'])) {
+			if (strpos($order['inv_payee'],",") > 0) {
+				$inv = explode(',', $order['inv_payee']);
+				$order['inv_payee'] = $inv['0'];
+				$order['inv_tax_no'] = $inv['1'];
+				$order['inv_title_type'] = 'enterprise';
+			} else {
+				$order['inv_tax_no'] = '';
+				$order['inv_title_type'] = 'personal';
+			}
+		}
+		
 		$db_user = RC_Model::model('user/users_model');
 		$user_name = $db_user->where(array('user_id' => $order['user_id']))->get_field('user_name');
 
@@ -104,9 +117,9 @@ class detail_module extends api_admin implements api_interface {
 
 		$order['invoice_no']            = !empty($order['invoice_no']) ? explode('<br>', $order['invoice_no']) : array();
 		
-		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+// 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
 		if ($order['pay_id'] > 0) {
-		    $payment = $payment_method->payment_info_by_id($order['pay_id']);
+		    $payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order['pay_id']);
 		}
 		if (in_array($order['order_status'], array(OS_CONFIRMED, OS_SPLITED)) &&
 		    in_array($order['shipping_status'], array(SS_RECEIVED)) &&

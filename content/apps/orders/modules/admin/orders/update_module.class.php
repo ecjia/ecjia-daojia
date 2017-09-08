@@ -63,8 +63,8 @@ class update_module extends api_admin implements api_interface {
 		if (!$order_id || !$pay_id) {
 			return new ecjia_error(101, '参数错误');
 		}
-		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-		$payment_info = $payment_method->payment_info($pay_id);
+// 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+		$payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($pay_id);
 		
 		if (empty($payment_info)) {
 			return new ecjia_error(8, '处理失败');

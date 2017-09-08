@@ -142,6 +142,13 @@ class admin_order_stats extends ecjia_admin {
 		$this->assign('is_multi', $is_multi);
 		$this->assign('year_month', $year_month);
 
+		if (!$is_multi) {
+			$data = $this->get_order_general();
+		} else {
+			$data = $this->get_order_status();
+		}
+		$this->assign('data', $data);
+		
 		$this->display('order_stats.dwt');
 	}
 
@@ -212,6 +219,13 @@ class admin_order_stats extends ecjia_admin {
 		$this->assign('page', 'shipping_status');
 		$this->assign('form_action', RC_Uri::url('orders/admin_order_stats/shipping_status'));
 
+		if (!$is_multi) {
+			$data = $this->get_ship_status();
+		} else {
+			$data = $this->get_ship_stats();
+		}
+		$this->assign('data', $data);
+		
 		$this->display('order_stats.dwt');
 	}
 
@@ -282,13 +296,20 @@ class admin_order_stats extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('orders/admin_order_stats/pay_status'));
 		$this->assign_lang();
 
+		if (!$is_multi) {
+			$data = $this->get_pay_status();
+		} else {
+			$data = $this->get_pay_stats();
+		}
+		$this->assign('data', $data);
+		
 		$this->display('order_stats.dwt');
 	}
 
 	/**
 	 * 获取订单走势数据
 	 */
-	public function get_order_general() {
+	private function get_order_general() {
 		$is_multi = empty($_GET['is_multi']) ? false : true;
 		if (!$is_multi) {
 			/*时间参数*/
@@ -330,14 +351,14 @@ class admin_order_stats extends ecjia_admin {
 			}
 
 			$order_infos = json_encode($order_info);
-			echo $order_infos;
+			return $order_infos;
 		}
 	}
 
 	/**
 	 * 按年月获取订单走势数据
 	 */
-	public function get_order_status() {
+	private function get_order_status() {
 
 		if (!empty($_GET['year_month'])) {
 			$filter	= explode('.', $_GET['year_month']);
@@ -383,14 +404,14 @@ class admin_order_stats extends ecjia_admin {
 			}
 			arsort($arr1);
 			$templateCounts = json_encode($arr1);
-			echo $templateCounts;
+			return $templateCounts;
 		}
 	}
 
 	/**
 	 * 获取配送方式数据
 	 */
-	public function get_ship_status() {
+	private function get_ship_status() {
 		$is_multi = empty($_GET['is_multi']) ? false : true;
 		if (!$is_multi) {
 			/*时间参数*/
@@ -412,14 +433,14 @@ class admin_order_stats extends ecjia_admin {
 				$ship_info = null;
 			}
 			$ship_infos = json_encode($ship_info);
-			echo $ship_infos;
+			return $ship_infos;
 		}
 	}
 
 	/**
 	 * 按月查询获取配送方式数据
 	 */
-	public function get_ship_stats() {
+	private function get_ship_stats() {
 		if (!empty($_GET['year_month'])) {
 			$filter	= explode('.', $_GET['year_month']);
 			$arr 	= array_filter($filter);
@@ -475,14 +496,14 @@ class admin_order_stats extends ecjia_admin {
 				$arr1 = null;
 			}
 			$ship_infos = json_encode($arr1);
-			echo $ship_infos;
+			return $ship_infos;
 		}
 	}
 
 	/**
 	 * 获取支付方式数据
 	 */
-	public function get_pay_status() {
+	private function get_pay_status() {
 		$is_multi = empty($_GET['is_multi']) ? false : true;
 		if (!$is_multi) {
 			/*时间参数*/
@@ -508,14 +529,14 @@ class admin_order_stats extends ecjia_admin {
 				$pay_info = null;
 			}
 			$pay_infos = json_encode($pay_info);
-			echo $pay_infos;
+			return $pay_infos;
 		}
 	}
 
 	/**
 	 * 按月查询获取支付方式数据
 	 */
-	public function get_pay_stats() {
+	private function get_pay_stats() {
 		if (!empty($_GET['year_month'])) {
 			$filter	= explode('.', $_GET['year_month']);
 			$arr 	= array_filter($filter);
@@ -557,7 +578,7 @@ class admin_order_stats extends ecjia_admin {
 				$arr1 = null;
 			}
 			$pay_stat = json_encode($arr1);
-			echo $pay_stat;
+			return $pay_stat;
 		}
 	}
 

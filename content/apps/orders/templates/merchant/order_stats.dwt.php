@@ -2,6 +2,7 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
+	var data = '{$data}';
 	ecjia.merchant.order_stats.init();
 	{if $smarty.get.type neq 'shipping'}
     	{if $is_multi eq ''}

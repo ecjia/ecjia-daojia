@@ -94,8 +94,8 @@ class orders_order_operable_list_api extends Component_Event_Api {
 		}
 	
 		/* 取得订单支付方式是否货到付款 */
-		$payment_method = RC_Loader::load_app_class('payment_method','payment');
-		$payment = $payment_method->payment_info($order['pay_id']);
+// 		$payment_method = RC_Loader::load_app_class('payment_method','payment');
+		$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order['pay_id']);
 	
 		$is_cod  = $payment['is_cod'] == 1;
 	

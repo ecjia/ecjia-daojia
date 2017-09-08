@@ -86,6 +86,14 @@
 							</tr>
 							<!-- {else} -->
 							<tr>
+							    <td><div align="right"><strong>{lang key='orders::order.label_invoice_no'}</strong></div></td>
+							    <td colspan="1">
+									{if $delivery_order.status neq 1}
+									<input name="invoice_no" type="text" class="w250 form-control" value="{$delivery_order.invoice_no}" {if $delivery_order.status eq 0} readonly="readonly" {/if} />
+									{else}
+									{$delivery_order.invoice_no}
+									{/if}
+								</td>
 								<td><div align="right"><strong>配送人员：</strong></div></td>
 								<td colspan="3" class="delivery-info">
 									<!-- {if $delivery_order.status neq 1} -->
@@ -101,6 +109,7 @@
 								</td>
 							</tr>
 							<!-- {/if} -->
+							<input name="shipping_id" type="hidden" value="{$delivery_order.shipping_id}">
 						</tbody>
 					</table>
 				</div>

@@ -19,7 +19,8 @@ class express_module extends api_admin implements api_interface {
 		
 		$order_id = $this->requestData('order_id');
 		if (empty($order_id)) {
-			EM_Api::outPut(101);
+			//EM_Api::outPut(101);
+			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		
 		if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
@@ -30,6 +31,8 @@ class express_module extends api_admin implements api_interface {
 		}
 		
 		$delivery_result = RC_Model::model('orders/delivery_order_model')->where(array('order_id' => $order_id))->select();
+		RC_Logger::getlogger('info')->info($order_id);
+		RC_Logger::getlogger('info')->info($delivery_result);
 		
 		$delivery_list = array();
 		if (!empty($delivery_result)) {
@@ -42,36 +45,115 @@ class express_module extends api_admin implements api_interface {
 					),
 			);
 			foreach ($delivery_result as $val) {
-				$data = array();
-				$typeCom = getComType($val['shipping_name']);//快递公司类型
-// 				$typeCom = getComType('天天');//快递公司类型
-				if (!empty($typeCom) && !empty($val['invoice_no'])) {
-// 					$val['invoice_no'] = '667296821017';
-
-				    $cloud_express_key = ecjia::config('cloud_express_key');
-				    $cloud_express_secret = ecjia::config('cloud_express_secret');
-				    if (!empty($cloud_express_key) && !empty($cloud_express_secret)) {
-				        $params = array(
-    				        'app_key' => $cloud_express_key,
-    				        'app_secret' => $cloud_express_secret,
-    				        'company' => $typeCom,
-    				        'number' => $val['invoice_no'],
-    				        'order' => 'desc',
-				        );
-				        $data = ecjia_cloud::instance()->api('express/track')->data($params)->run();
-				        
-				        if (is_ecjia_error($data)) {
-				            $data = array('content' => array('time' => 'error', 'context' => $data->get_error_message()));
-				        } 
-				    } else {
-				        $data = array('content' => array('time' => 'error', 'context' => '物流跟踪未配置'));
-				    }
+				$shipping_info = RC_DB::table('shipping')
+				->where('shipping_id', $val['shipping_id'])
+				->first();
+				if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+					$delivery_list1 = array();
+					if (!empty($val['invoice_no'])){
+						$delivery_list1 = RC_DB::table('express_track_record as etr')
+							->leftJoin('shipping as s', RC_DB::raw('s.shipping_code'), '=', RC_DB::raw('etr.express_code'))
+							->where(RC_DB::raw('express_code'), $shipping_info['shipping_code'])
+							->where(RC_DB::raw('track_number'), $val['invoice_no'])
+							->selectRaw('etr.track_number, etr.time, etr.context, s.shipping_code, s.shipping_name')->get();
+						/*商品*/
+						$delivery_goods = $delivery_goods_db->where(array('delivery_id' => $val['delivery_id']))->select();
+							
+						$goods_lists = array();
+						foreach ($delivery_goods as $v) {
+							$goods_lists[] = array(
+									'id'	=> $v['goods_id'],
+									'name'	=> $v['goods_name'],
+									'goods_sn'	 => $v['goods_sn'],
+									'number'	 => $v['send_number'],
+									'img'	=> array(
+											'thumb'	=> (isset($v['goods_img']) && !empty($v['goods_img']))		 ? RC_Upload::upload_url($v['goods_img'])	  : RC_Uri::admin_url('statics/images/nopic.png'),
+											'url'	=> (isset($v['original_img']) && !empty($v['original_img'])) ? RC_Upload::upload_url($v['original_img'])  : RC_Uri::admin_url('statics/images/nopic.png'),
+											'small'	=> (isset($v['goods_thumb']) && !empty($v['goods_thumb']))   ? RC_Upload::upload_url($v['goods_thumb'])   : RC_Uri::admin_url('statics/images/nopic.png')
+									),
+							);
+						}
+						
+						foreach ($delivery_list1 as $k1 => $v1) {
+							$delivery_list[] = array(
+									'shipping_name' 		=> $v1['shipping_name'],
+									'shipping_code' 		=> $v1['shipping_code'],
+									'shipping_number' 		=> $v1['track_number'],
+									'shipping_status'		=> '',
+									'label_shipping_status'	=> '',
+									'sign_time_formated' 	=> $v1['time'],
+									'content'				=> array('time' => $v1['time'], 'context' => $v1['context']),
+									'goods_items'			=> $goods_lists
+							);
+						}
+					}
+				} else {
+					$data = array();
+					$typeCom = getComType($val['shipping_name']);//快递公司类型
+					// 				$typeCom = getComType('天天');//快递公司类型
+					if (!empty($typeCom) && !empty($val['invoice_no'])) {
+						// 					$val['invoice_no'] = '667296821017';
+					
+						$cloud_express_key = ecjia::config('cloud_express_key');
+						$cloud_express_secret = ecjia::config('cloud_express_secret');
+						if (!empty($cloud_express_key) && !empty($cloud_express_secret)) {
+							$params = array(
+									'app_key' => $cloud_express_key,
+									'app_secret' => $cloud_express_secret,
+									'company' => $typeCom,
+									'number' => $val['invoice_no'],
+									'order' => 'desc',
+							);
+							$cloud = ecjia_cloud::instance()->api('express/track')->data($params)->run();
+					
+							if (is_ecjia_error($cloud->getError())) {
+								$data = array('content' => array('time' => 'error', 'context' => $cloud->getError()->get_error_message()));
+							} else {
+								$data = $cloud->getReturnData();
+							}
+						} else {
+							$data = array('content' => array('time' => 'error', 'context' => '物流跟踪未配置'));
+						}
+					}
+					
+					$delivery_goods = $delivery_goods_db->where(array('delivery_id' => $val['delivery_id']))->select();
+					
+					$goods_lists = array();
+					foreach ($delivery_goods as $v) {
+						$goods_lists[] = array(
+								'id'	=> $v['goods_id'],
+								'name'	=> $v['goods_name'],
+								'goods_sn'	 => $v['goods_sn'],
+								'number'	 => $v['send_number'],
+								'img'	=> array(
+										'thumb'	=> (isset($v['goods_img']) && !empty($v['goods_img']))		 ? RC_Upload::upload_url($v['goods_img'])	  : RC_Uri::admin_url('statics/images/nopic.png'),
+										'url'	=> (isset($v['original_img']) && !empty($v['original_img'])) ? RC_Upload::upload_url($v['original_img'])  : RC_Uri::admin_url('statics/images/nopic.png'),
+										'small'	=> (isset($v['goods_thumb']) && !empty($v['goods_thumb']))   ? RC_Upload::upload_url($v['goods_thumb'])   : RC_Uri::admin_url('statics/images/nopic.png')
+								),
+						);
+					}
+					
+					$delivery_list[] = array(
+							'shipping_name'		=> $val['shipping_name'],
+							'shipping_code'     => $shipping_info['shipping_code'],
+							'shipping_number'	=> $val['invoice_no'],
+							'shipping_status' => !empty($data['shipping_status']) ? $data['shipping_status'] : '',
+							'label_shipping_status' => $shipping_info['shipping_code'] == 'ship_no_express' ? '您当前选择的物流为【无需物流】，因此该订单暂无运单编号和物流状态' : (!empty($data['state_label']) ? $data['state_label'] : ''),
+							'sign_time_formated' => !empty($data['sign_time_formated']) ? $data['sign_time_formated'] : '',
+							'content'			=> !empty($data['content']) ? $data['content'] : array('time' => 'error', 'context' => '暂无物流信息'),
+							'goods_items'		=> $goods_lists,
+					);
 				}
+			
 				
-				$shipping_code = RC_DB::table('shipping')
-                    		    ->where('shipping_id', $val['shipping_id'])
-                    		    ->pluck('shipping_code');
-				
+			}
+		}
+		return $delivery_list;
+	}
+	
+	
+}
+
 // 				0：在途，即货物处于运输过程中；
 // 				1：揽件，货物已由快递公司揽收并且产生了第一条跟踪信息；
 // 				2：疑难，货物寄送过程出了问题；
@@ -79,74 +161,37 @@ class express_module extends api_admin implements api_interface {
 // 				4：退签，即货物由于用户拒签、超区等原因退回，而且发件人已经签收；
 // 				5：派件，即快递正在进行同城派件；
 // 				6：退回，货物正处于退回发件人的途中；
-				
-				/* if (isset($data['state'])) {
-					switch ($data['state']) {
-						case 0 :
-							$label_shipping_status = '即货物处于运输过程中';
-							break;
-						case 1 :
-							$label_shipping_status = '货物已由快递公司揽收并且产生了第一条跟踪信息';
-							break;
-						case 2 :
-							$label_shipping_status = '货物寄送过程出了问题';
-							break;
-						case 3 :
-							$label_shipping_status = '收件人已签收';
-							break;
-						case 4 :
-							$label_shipping_status = '即货物由于用户拒签、超区等原因退回，而且发件人已经签收';
-							break;
-						case 5 :
-							$label_shipping_status = '即快递正在进行同城派件';
-							break;
-						case 6 :
-							$label_shipping_status = '货物正处于退回发件人的途中';
-							break;
-						default:
-							$label_shipping_status = '暂无配送信息';
-							break;
-					}
-				} else {
-					$label_shipping_status = '暂无配送信息';
-				} */
-				
-				$delivery_goods = $delivery_goods_db->where(array('delivery_id' => $val['delivery_id']))->select();
-				
-				$goods_lists = array();
-				foreach ($delivery_goods as $v) {
-					$goods_lists[] = array(
-							'id'	=> $v['goods_id'],
-							'name'	=> $v['goods_name'],
-							'goods_sn'	 => $v['goods_sn'],
-							'number'	 => $v['send_number'],
-							'img'	=> array(
-									'thumb'	=> (isset($v['goods_img']) && !empty($v['goods_img']))		 ? RC_Upload::upload_url($v['goods_img'])	  : RC_Uri::admin_url('statics/images/nopic.png'),
-									'url'	=> (isset($v['original_img']) && !empty($v['original_img'])) ? RC_Upload::upload_url($v['original_img'])  : RC_Uri::admin_url('statics/images/nopic.png'),
-									'small'	=> (isset($v['goods_thumb']) && !empty($v['goods_thumb']))   ? RC_Upload::upload_url($v['goods_thumb'])   : RC_Uri::admin_url('statics/images/nopic.png')
-							),
-					);
-				}
-				
-				$delivery_list[] = array(
-					'shipping_name'		=> $val['shipping_name'],
-				    'shipping_code'     => $shipping_code,
-					'shipping_number'	=> $val['invoice_no'],
-				    'shipping_status' => !empty($data['shipping_status']) ? $data['shipping_status'] : '',
-					'label_shipping_status' => $shipping_code == 'ship_no_express' ? '您当前选择的物流为【无需物流】，因此该订单暂无运单编号和物流状态' : (!empty($data['state_label']) ? $data['state_label'] : ''),
-				    'sign_time_formated' => !empty($data['sign_time_formated']) ? $data['sign_time_formated'] : '',
-					'content'			=> !empty($data['content']) ? $data['content'] : array('time' => 'error', 'context' => '暂无物流信息'),
-					'goods_items'		=> $goods_lists,
-				);
-				
-			}
-		}
-		
-		return $delivery_list;
-	}
 	
-	
-}
+/* if (isset($data['state'])) {
+ switch ($data['state']) {
+ case 0 :
+ $label_shipping_status = '即货物处于运输过程中';
+ break;
+ case 1 :
+ $label_shipping_status = '货物已由快递公司揽收并且产生了第一条跟踪信息';
+ break;
+ case 2 :
+ $label_shipping_status = '货物寄送过程出了问题';
+ break;
+ case 3 :
+ $label_shipping_status = '收件人已签收';
+ break;
+ case 4 :
+ $label_shipping_status = '即货物由于用户拒签、超区等原因退回，而且发件人已经签收';
+ break;
+ case 5 :
+ $label_shipping_status = '即快递正在进行同城派件';
+ break;
+ case 6 :
+ $label_shipping_status = '货物正处于退回发件人的途中';
+ break;
+ default:
+ $label_shipping_status = '暂无配送信息';
+ break;
+ }
+ } else {
+ $label_shipping_status = '暂无配送信息';
+ } */
 
 
 function getComType($typeCom)

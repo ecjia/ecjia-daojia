@@ -101,7 +101,6 @@
 				{if $prev_id}
 				</a>
 				{/if}
-				<button class="btn btn-small" type="button" onclick="window.open('{url path="orders/admin/info" args="order_id={$order.order_id}&print=1"}')">{lang key='orders::order.print_order'}</button>
 			</div>
 		</div>
 	</form>
@@ -165,7 +164,6 @@
 										{if !$invalid_order}
 										<a class="data-pjax" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
 										{/if}
-										<input type="button" class="btn" onclick="window.open('{url path="orders/admin/info" args="order_id={$order.order_id}&shipping_print=1"}')" value="{lang key='orders::order.print_shipping'}">
 										{if $order.insure_fee gt 0}{lang key='orders::order.label_insure_fee'}{$order.formated_insure_fee}{/if}
 										{/if}
 									</td>

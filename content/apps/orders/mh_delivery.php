@@ -217,6 +217,18 @@ class mh_delivery extends ecjia_merchant {
 			$this->assign('express_order', $express_order);
 		}
 		
+		//获取shopping_code
+		if(empty($delivery_order['invoice_no'])) {
+		    $shipping_id = $delivery_order['shipping_id'];
+		    $shipping_info = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->first();
+		    if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+		        $rand1 = mt_rand(100000,999999);
+		        $rand2 = mt_rand(1000000,9999999);
+		        $invoice_no = $rand1.$rand2;
+		        $delivery_order['invoice_no'] = $invoice_no;
+		    }
+		}
+		
 		/* 模板赋值 */
 		$this->assign('action_list'			, $act_list);
 		$this->assign('delivery_order'		, $delivery_order);
@@ -403,6 +415,7 @@ class mh_delivery extends ecjia_merchant {
 		/* 判断发货单，生成配送单*/
 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 		$shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
+
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 			$staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
 			$express_from = !empty($staff_id) ? 'assign' : 'grab';
@@ -473,12 +486,23 @@ class mh_delivery extends ecjia_merchant {
 			    $field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
 			    $express_order_info = $express_order_viewdb->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
 			    
-			    
-			    /*推送消息*/
+			    /* 派单发短信 */
+			    if (!empty($express_order_info['express_mobile'])) {
+			    	$options = array(
+		    			'mobile' => $express_order_info['express_mobile'],
+		    			'event'	 => 'sms_express_system_assign',
+		    			'value'  =>array(
+		    				'express_sn'=> $express_order_info['express_sn'],
+		    			),
+			    	);
+			    	RC_Api::api('sms', 'send_event_sms', $options);
+			    }
+
+			    /*派单推送消息*/
 			    $options = array(
 		    		'user_id'   => $staff_id,
 		    		'user_type' => 'merchant',
-		    		'event'     => 'system_express_assign',
+		    		'event'     => 'express_system_assign',
 		    		'value' => array(
 	    				'express_sn'=> $express_order_info['express_sn'],
 		    		),
@@ -487,40 +511,42 @@ class mh_delivery extends ecjia_merchant {
 		    		),
 			    );
 			    RC_Api::api('push', 'push_event_send', $options);
-			    
-// 			    $notification_express_data = array(
-// 			        'title'	=> '系统派单',
-// 			        'body'	=> '有单啦！系统已分配配送单到您账户，赶快行动起来吧！',
-// 			        'data'	=> array(
-// 			            'express_id'			=> $express_order_info['express_id'],
-// 			            'express_sn'			=> $express_order_info['express_sn'],
-// 			            'express_type'			=> $express_order_info['from'],
-// 			            'label_express_type'	=> $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
-// 			            'order_sn'				=> $express_order_info['order_sn'],
-// 			            'payment_name'			=> $express_order_info['pay_name'],
-// 			            'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $express_order_info['merchant_address'],
-// 			            'express_from_location'	=> array(
-// 			                'longitude' => $express_order_info['merchant_longitude'],
-// 			                'latitude'	=> $express_order_info['merchant_latitude'],
-// 			            ),
-// 			            'express_to_address'	=> $express_order_info['address'],
-// 			            'express_to_location'	=> array(
-// 			                'longitude' => $express_order_info['longitude'],
-// 			                'latitude'	=> $express_order_info['latitude'],
-// 			            ),
-// 			            'distance'		=> $express_order_info['distance'],
-// 			            'consignee'		=> $express_order_info['consignee'],
-// 			            'mobile'		=> $express_order_info['mobile'],
-// 			            'receive_time'	=> RC_Time::local_date(ecjia::config('time_format'), $express_order_info['receive_time']),
-// 			            'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $express_order_info['order_time']),
-// 			            'pay_time'		=> empty($express_order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['pay_time']),
-// 			            'best_time'		=> $express_order_info['best_time'],
-// 			            'shipping_fee'	=> $express_order_info['shipping_fee'],
-// 			            'order_amount'	=> $express_order_info['order_amount'],
-// 			        ),
-// 			    );
-// 			    $express_assign = new ExpressAssign($notification_express_data);
-// 			    RC_Notification::send($user, $express_assign);
+
+
+			    //消息通知
+			    $notification_express_data = array(
+			        'title'	=> '系统派单',
+			        'body'	=> '有单啦！系统已分配配送单到您账户，赶快行动起来吧！',
+			        'data'	=> array(
+			            'express_id'			=> $express_order_info['express_id'],
+			            'express_sn'			=> $express_order_info['express_sn'],
+			            'express_type'			=> $express_order_info['from'],
+			            'label_express_type'	=> $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
+			            'order_sn'				=> $express_order_info['order_sn'],
+			            'payment_name'			=> $express_order_info['pay_name'],
+			            'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $express_order_info['merchant_address'],
+			            'express_from_location'	=> array(
+			                'longitude' => $express_order_info['merchant_longitude'],
+			                'latitude'	=> $express_order_info['merchant_latitude'],
+			            ),
+			            'express_to_address'	=> $express_order_info['address'],
+			            'express_to_location'	=> array(
+			                'longitude' => $express_order_info['longitude'],
+			                'latitude'	=> $express_order_info['latitude'],
+			            ),
+			            'distance'		=> $express_order_info['distance'],
+			            'consignee'		=> $express_order_info['consignee'],
+			            'mobile'		=> $express_order_info['mobile'],
+			            'receive_time'	=> RC_Time::local_date(ecjia::config('time_format'), $express_order_info['receive_time']),
+			            'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $express_order_info['order_time']),
+			            'pay_time'		=> empty($express_order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['pay_time']),
+			            'best_time'		=> $express_order_info['best_time'],
+			            'shipping_fee'	=> $express_order_info['shipping_fee'],
+			            'order_amount'	=> $express_order_info['order_amount'],
+			        ),
+			    );
+			    $express_assign = new ExpressAssign($notification_express_data);
+			    RC_Notification::send($user, $express_assign);
 			    
 				
 // 				$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $staff_id));
@@ -539,6 +565,15 @@ class mh_delivery extends ecjia_merchant {
 // 					}
 // 				}
 			}
+
+			/* 如果是o2o速递则在 ecjia_express_track_record表内更新一条记录*/
+			$express_track_record_data = array(
+			    "express_code"    =>  $shipping_info['shipping_code'],
+			    "track_number"    =>  $delivery['invoice_no'],
+			    "time"            =>  RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime()),
+			    "context"         =>  "您的订单已配备好，等待配送员取货",
+			);
+			RC_DB::table('express_track_record')->insert($express_track_record_data);
 		}
 		
 		/* 如果当前订单已经全部发货 */
@@ -601,6 +636,7 @@ class mh_delivery extends ecjia_merchant {
 		}
 		
 		$user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+		
 		/*商家发货 推送消息*/
 		$options = array(
 			'user_id'   => $order['user_id'],
@@ -610,7 +646,7 @@ class mh_delivery extends ecjia_merchant {
 				'user_name'=> $user_name,
 				'order_sn' => $order['order_sn'],
 				'consignee'=> $order['consignee'],
-				'service_phone'=> $express_order_info['express_sn'],
+				'service_phone'=> ecjia::config('service_phone'),
 			),
 			'field' => array(
 				'open_type' => 'admin_message',
@@ -618,28 +654,30 @@ class mh_delivery extends ecjia_merchant {
 		);
 		RC_Api::api('push', 'push_event_send', $options);
 		
-// 		$orm_user_db = RC_Model::model('orders/orm_users_model');
-// 		$user_ob = $orm_user_db->find($order['user_id']);
 		
-// 		$order_data = array(
-// 		    'title'	=> '客户下单',
-// 		    'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
-// 		    'data'	=> array(
-// 		        'order_id'		=> $order['order_id'],
-// 		        'order_sn'		=> $order['order_sn'],
-// 		        'order_amount'	=> $order['order_amount'],
-// 		        'formatted_order_amount' => price_format($order['order_amount']),
-// 		        'consignee'		=> $order['consignee'],
-// 		        'mobile'		=> $order['mobile'],
-// 		        'address'		=> $order['address'],
-// 		        'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
-// 		        'shipping_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']),
-// 		        'invoice_no'	=> $invoice_no,
-// 		    ),
-// 		);
+		//消息通知
+		$orm_user_db = RC_Model::model('orders/orm_users_model');
+		$user_ob = $orm_user_db->find($order['user_id']);
 		
-// 		$push_order_shipped = new OrderShipped($order_data);
-// 		RC_Notification::send($user_ob, $push_order_shipped);
+		$order_data = array(
+		    'title'	=> '客户下单',
+		    'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
+		    'data'	=> array(
+		        'order_id'		=> $order['order_id'],
+		        'order_sn'		=> $order['order_sn'],
+		        'order_amount'	=> $order['order_amount'],
+		        'formatted_order_amount' => price_format($order['order_amount']),
+		        'consignee'		=> $order['consignee'],
+		        'mobile'		=> $order['mobile'],
+		        'address'		=> $order['address'],
+		        'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
+		        'shipping_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']),
+		        'invoice_no'	=> $invoice_no,
+		    ),
+		);
+		
+		$push_order_shipped = new OrderShipped($order_data);
+		RC_Notification::send($user_ob, $push_order_shipped);
 		/* 发货通知*/
 // 		$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'user', 'user_id' => $order['user_id']));
 // 		if (!is_ecjia_error($devic_info) && !empty($devic_info)) {
@@ -782,6 +820,8 @@ class mh_delivery extends ecjia_merchant {
 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 		$shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+		    /* 如果是o2o速递，退货的时候删除ecjia_express_track_record相对应的记录 */
+		    RC_DB::table('express_track_record')->where('track_number', $delivery['invoice_no'])->delete();
 		}
 		/* 操作成功 */
 		$links[] = array('text' => RC_Lang::get('orders::order.delivery_sn') . RC_Lang::get('orders::order.detail'), 'href' => RC_Uri::url('orders/mh_delivery/delivery_info', 'delivery_id=' . $delivery_id));
@@ -819,7 +859,13 @@ class mh_delivery extends ecjia_merchant {
 					/* 更新：删除订单中的发货单号 */
 					del_order_invoice_no($delivery_order['order_id'], $delivery_order['invoice_no']);
 				}
-
+				
+				/* 如果是o2o速递，退货的时候删除ecjia_express_track_record相对应的记录 */
+				$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+				$shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
+				if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+				    RC_DB::table('express_track_record')->where('track_number', $delivery_order['invoice_no'])->delete();
+				}
 				/* 记录日志 */
 				ecjia_admin_log::instance()->add_object('delivery_order', '发货单');
 				if ($type == 'batch') {

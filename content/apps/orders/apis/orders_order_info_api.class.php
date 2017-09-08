@@ -113,9 +113,9 @@ class orders_order_info_api extends Component_Event_Api {
 	        	return new ecjia_error('orders_error', '未找到相应订单！');
 	        }
 	        
-	        $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+// 	        $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
 	        if ($order['pay_id'] > 0) {
-	        	$payment = $payment_method->payment_info_by_id($order['pay_id']);
+	        	$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order['pay_id']);
 	        }
 	        
 	        if (in_array($order['order_status'], array(OS_CONFIRMED, OS_SPLITED)) &&
@@ -165,9 +165,9 @@ class orders_order_info_api extends Component_Event_Api {
 	        /* 获取订单中实体商品数量 */
 	        $order['exist_real_goods'] = RC_DB::table('order_goods')->where('order_id', $order_id)->where('is_real', 1)->count();
 	        
-	        $pay_method = RC_Loader::load_app_class('payment_method', 'payment');
-	        // 获取需要支付的log_id
-	        $order['log_id'] = $pay_method->get_paylog_id($order['order_id'], $pay_type = PAY_ORDER);
+// 	        $pay_method = RC_Loader::load_app_class('payment_method', 'payment');
+// 	        // 获取需要支付的log_id
+// 	        $order['log_id'] = $pay_method->get_paylog_id($order['order_id'], $pay_type = PAY_ORDER);
 	        
 	        $order['user_name'] = $_SESSION['user_name'];
 	        

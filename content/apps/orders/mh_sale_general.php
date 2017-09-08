@@ -136,34 +136,37 @@ class mh_sale_general extends ecjia_merchant {
 		/* 权限判断 */
 		$this->admin_priv('sale_general_stats', ecjia::MSGTYPE_JSON);
 		
-		if (empty($_GET['query_type'])) {
-			$query_type = 'month';
-			$filter['start_time'] 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
-			$filter['end_time']  		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
-			$filter['start_month_time']	= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
-			$filter['end_month_time']	= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
-		}
-		if ($_GET['query_by_year']) {
-			$query_type = 'year';
-			$filter['start_time'] 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
-			$filter['end_time']   		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
-			$filter['start_month_time'] = RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
-			$filter['end_month_time']   = RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
-		} elseif ($_GET['query_by_month']) {
-			$filter['start_time'] 		= RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
-			$filter['end_time']   		= RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
-			$filter['start_month_time'] = RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
-			$filter['end_month_time']   = RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
-		}
-		
-		if ($query_type == 'year') {
-			/*时间参数*/
-			$start_time = $filter['start_time'];
-			$end_time   = $filter['end_time'];
-		} else {
-			$start_time = $filter['start_month_time'];
-			$end_time   = $filter['end_month_time'];
-		}
+	    if (empty($_GET['query_type'])) {
+    		$query_type = 'month';
+    		$start_year = RC_Time::local_date('Y')-3;
+    		$end_year = RC_Time::local_date('Y');
+    		$start_month = '';
+    		$end_month = '';
+    	}
+    	if ($_GET['query_by_year']) {
+    		$query_type = 'year';
+    		$start_year = intval($_GET['year_beginYear']);
+    		$end_year = intval($_GET['year_endYear']);
+    		$start_month = '';
+    		$end_month = '';
+    	} elseif ($_GET['query_by_month']) {
+    		$start_year = intval($_GET['month_beginYear']);
+    		$end_year = intval($_GET['month_endYear']);
+    		$start_month = intval($_GET['month_beginMonth']);
+    		$end_month = intval($_GET['month_endMonth']);
+    	}
+    	$filter['start_time'] = $filter['start_month_time'] = getTimestamp($start_year, $start_month)['start'];
+    	$filter['end_time'] = $filter['end_month_time'] = getTimestamp($end_year, $end_month)['end'];
+    	
+        if ($query_type == 'year') {
+            /*时间参数*/
+            $start_time = $filter['start_time'];
+            $end_time = $filter['end_time'];
+        } else {
+            $start_time = $filter['start_month_time'];
+            $end_time = $filter['end_month_time'];
+        }
+        
 		$format = ($query_type == 'year') ? '%Y' : '%Y-%m';
 		$where = "oi.store_id = ". $_SESSION['store_id'] ." AND (order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) AND (shipping_time >= ' ". $start_time ."' AND shipping_time <= '" .$end_time. "'  )";
 		$where .= " AND oi.is_delete = 0";
@@ -208,41 +211,40 @@ class mh_sale_general extends ecjia_merchant {
 		/* 权限判断 */ 
 		$this->admin_priv('sale_general_stats', ecjia::MSGTYPE_JSON);
 		
-		$start_time = RC_Time::local_strtotime($_GET['start_time']);
-		$end_time   = RC_Time::local_strtotime($_GET['end_time']);
-		
-		if (empty($_GET['query_type'])) {
-		    $query_type = 'month';
-		    $start_time 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
-		    $end_time   		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
-		    $start_month_time 	= RC_Time::local_mktime(0, 0, 0, 1, 1, intval(date('Y')-3));
-		    $end_month_time   	= RC_Time::local_mktime(23, 59, 59, 12, 31, intval(date('Y')));
-		}
+		//默认查询时间
+		$query_type = 'month';
+		$start_year = RC_Time::local_date('Y')-3;
+		$end_year = RC_Time::local_date('Y');
+		$start_month = '';
+		$end_month = '';
+		//按年查询
 		if ($_GET['query_by_year']) {
-		    $query_type = 'year';
-		    $start_time 		= RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
-		    $end_time   		= RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
-		    $start_month_time 	= RC_Time::local_mktime(0, 0, 0, 1, 1, intval($_GET['year_beginYear']));
-		    $end_month_time   	= RC_Time::local_mktime(23, 59, 59, 12, 31, intval($_GET['year_endYear']));
+			$query_type = 'year';
+			$start_year = intval($_GET['year_beginYear']);
+			$end_year = intval($_GET['year_endYear']);
+			$start_month = '';
+			$end_month = '';
+		//按月查询
 		} elseif ($_GET['query_by_month']) {
-		    $start_time 		= RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
-		    $end_time   		= RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
-		    $start_month_time 	= RC_Time::local_mktime(0, 0, 0, intval($_GET['month_beginMonth']), 1, intval($_GET['month_beginYear']));
-		    $end_month_time   	= RC_Time::local_mktime(23, 59, 59, intval($_GET['month_endMonth']), 31, intval($_GET['month_endYear']));
+			$start_year = intval($_GET['month_beginYear']);
+			$end_year = intval($_GET['month_endYear']);
+			$start_month = intval($_GET['month_beginMonth']);
+			$end_month = intval($_GET['month_endMonth']);
 		}
+		$start_time = getTimestamp($start_year, $start_month)['start'];
+		$end_time = getTimestamp($end_year, $end_month)['end'];
 		
-		$query_type = $_GET['query_type'];
-		/* 分组统计订单数和销售额：已发货时间为准 */	
 		$format = ($query_type == 'year') ? '%Y' : '%Y-%m';
-		if ($start_time < 0 || $end_time < 0) {
-		    return $this->showmessage('参数错误', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
-		}
 		$where =  " (order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) AND (shipping_time >= '". $start_time ."' AND shipping_time <= '" .$end_time. "'  )";
-		$where .= " AND store_id = ". $_SESSION['store_id'];
-		$where .= " AND is_delete = 0";
+		$where .= " AND oi.store_id = ". $_SESSION['store_id'];
+		$where .= " AND oi.is_delete = 0";
 		
-		$data_list = $this->db_order_info->field("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '". $format ."') AS period, COUNT(DISTINCT order_sn) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount")
-		                                 ->where($where)->group('period')->select();
+		$data_list = $this->db_orderinfo_view
+			->field("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '". $format ."') AS period, COUNT(DISTINCT order_sn) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount")
+		    ->where($where)
+			->group('period')
+			->select();
+		
 		/* 文件名 */
 		$filename = RC_Lang::get('orders::statistic.sale_general_statement');
 		

@@ -150,10 +150,10 @@ class quickpay_module extends api_admin implements api_interface {
 			$order[$key] = addslashes($value);
 		}
 
-		$payment_method = RC_Loader::load_app_class('payment_method','payment');
+// 		$payment_method = RC_Loader::load_app_class('payment_method','payment');
 		/* 支付方式 */
 		if ($pay_id > 0) {
-			$payment = $payment_method->payment_info_by_id($order['pay_id']);
+			$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order['pay_id']);
 			$order['pay_name'] = addslashes($payment['pay_name']);
 		}
 		
@@ -206,9 +206,9 @@ class quickpay_module extends api_admin implements api_interface {
 			$adviser_log_id = RC_Model::model('achievement/adviser_log_model')->insert($adviser_log);
 		}
 		
-		/* 插入支付日志 */
-		$order['log_id'] = $payment_method->insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
-		$payment_info = $payment_method->payment_info_by_id($pay_id);
+// 		/* 插入支付日志 */
+// 		$order['log_id'] = $payment_method->insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
+// 		$payment_info = $payment_method->payment_info_by_id($pay_id);
 
 		$subject = '收银台快捷收款￥'.floatval($amount).'';
 		$out = array(

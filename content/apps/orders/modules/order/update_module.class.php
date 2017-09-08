@@ -63,8 +63,8 @@ class update_module extends api_front implements api_interface {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 		}
 		
-		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-		$payment_info = $payment_method->payment_info($pay_id);
+// 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+		$payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($pay_id);
 		
 		RC_Loader::load_app_func('admin_order', 'orders');
 		

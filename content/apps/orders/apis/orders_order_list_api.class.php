@@ -164,7 +164,7 @@ class orders_order_list_api extends Component_Event_Api {
         $orders = array();
         if (!empty($res)) {
             $order_id = $goods_number = $goods_type_number = 0;
-            $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
+//             $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
             RC_Loader::load_app_func('global', 'orders');
             foreach ($res as $row) {
                 $attr = array();
@@ -181,7 +181,7 @@ class orders_order_list_api extends Component_Event_Api {
                 if ($order_id == 0 || $row['order_id'] != $order_id ) {
                     $goods_number = $goods_type_number = 0;
                     if ($row['pay_id'] > 0) {
-                        $payment = $payment_method->payment_info_by_id($row['pay_id']);
+                        $payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($row['pay_id']);
                     }
                     $goods_type_number ++;
                     $subject = $row['goods_name'].RC_Lang::get('orders::order.etc').$goods_type_number.RC_Lang::get('orders::order.kind_of_goods');
