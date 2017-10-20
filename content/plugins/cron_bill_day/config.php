@@ -52,7 +52,7 @@ return array(
 		array('name' => 'bill_day_count', 'type' => 'select', 'value' => '5'),
 	),
     'lock_time' => true,//锁定任务时间，不可修改
-    'default_time' => array('day' => '0', 'week' => '', 'hour' => '3', 'minute' => ''),
+    'default_time' => array('cron_expression' => '0 3 * * * *', 'expression_alias' => 'cron'), //每日3时
     
 );
 
