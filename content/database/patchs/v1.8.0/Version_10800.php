@@ -58,7 +58,7 @@ class Version_10800 extends Version
     {
         $migrate = new Migrate();
         
-        // 更新1.7中新增的迁移项
+        // 更新1.8中新增的迁移项
         $migrate->fire();
 
 
