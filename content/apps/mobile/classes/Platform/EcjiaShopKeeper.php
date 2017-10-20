@@ -50,7 +50,7 @@ namespace Ecjia\App\Mobile\Platform;
 use Ecjia\App\Mobile\ApplicationPlatform;
 use Ecjia\App\Mobile\MobileAction;
 
-class EcjiaShop extends ApplicationPlatform
+class EcjiaShopKeeper extends ApplicationPlatform
 {
     
     
@@ -58,25 +58,25 @@ class EcjiaShop extends ApplicationPlatform
      * 代号标识
      * @var string
      */
-    protected $code = 'ecjia-shop';
+    protected $code = 'ecjia-shopkeeper';
     
     /**
      * 名称
      * @var string
      */
-    protected $name = 'ECJia到家门店';
+    protected $name = 'ECJia掌柜';
     
     /**
      * 描述
      * @var string
      */
-    protected $description = 'ECJia到家门店App是一款以附近门店为中心的消费者购物客户端。';
+    protected $description = 'ECJia掌柜App是一款多站点通用的商家管理客户端。';
     
     /**
      * 图标
      * @var string
      */
-    protected $icon = '/statics/images/store.png';
+    protected $icon = '/statics/images/shopkeeper.png';
     
     /**
      * 支持的客户端类型
@@ -86,12 +86,12 @@ class EcjiaShop extends ApplicationPlatform
         [
         	'device_client' => 'iphone',
             'device_name' => 'iPhone',
-            'device_code' => '6012',
+            'device_code' => '2002',
         ],
         [
             'device_client' => 'android',
             'device_name' => 'Android',
-            'device_code' => '6011',
+            'device_code' => '2001',
         ]
     ];
         
@@ -99,13 +99,7 @@ class EcjiaShop extends ApplicationPlatform
      * 支持的支付方式
      * @var array
      */
-    protected $payments = [
-        'pay_balance',
-        'pay_cod',
-        'pay_alipay',
-        'pay_wxpay_shop',
-        'pay_unionpay',
-    ];
+    protected $payments = [];
     
     
     /**
@@ -114,18 +108,8 @@ class EcjiaShop extends ApplicationPlatform
      */
     protected $opentypes = [
         MobileAction::MAIN,
-        MobileAction::HISTORY,
         MobileAction::WEBVIEW,
-        MobileAction::HELP,
-        MobileAction::GOODS_COMMENT,
-        MobileAction::GOODS_DETAIL,
-        MobileAction::ORDERS_DETAIL,
-        MobileAction::USER_CENTER,
-        MobileAction::USER_ADDRESS,
-        MobileAction::USER_WALLET,
     ];
-    
-    
     
     
 }

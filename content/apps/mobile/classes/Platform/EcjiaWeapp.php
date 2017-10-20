@@ -98,13 +98,6 @@ class EcjiaWeapp extends ApplicationPlatform
     ];
        
     
-    public function __construct()
-    {
-        
-    }
-    
-    
-    
     
     
 }

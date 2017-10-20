@@ -50,7 +50,7 @@ namespace Ecjia\App\Mobile\Platform;
 use Ecjia\App\Mobile\ApplicationPlatform;
 use Ecjia\App\Mobile\MobileAction;
 
-class EcjiaShop extends ApplicationPlatform
+class EcjiaCashDesk extends ApplicationPlatform
 {
     
     
@@ -58,25 +58,25 @@ class EcjiaShop extends ApplicationPlatform
      * 代号标识
      * @var string
      */
-    protected $code = 'ecjia-shop';
+    protected $code = 'ecjia-cashdesk';
     
     /**
      * 名称
      * @var string
      */
-    protected $name = 'ECJia到家门店';
+    protected $name = 'ECJia收银台';
     
     /**
      * 描述
      * @var string
      */
-    protected $description = 'ECJia到家门店App是一款以附近门店为中心的消费者购物客户端。';
+    protected $description = 'ECJia收银台App是一款多站点通用的商家桌面收银客户端。';
     
     /**
      * 图标
      * @var string
      */
-    protected $icon = '/statics/images/store.png';
+    protected $icon = '/statics/images/cashdesk.png';
     
     /**
      * 支持的客户端类型
@@ -84,14 +84,9 @@ class EcjiaShop extends ApplicationPlatform
      */
     protected $clients = [
         [
-        	'device_client' => 'iphone',
-            'device_name' => 'iPhone',
-            'device_code' => '6012',
-        ],
-        [
             'device_client' => 'android',
             'device_name' => 'Android',
-            'device_code' => '6011',
+            'device_code' => '8001',
         ]
     ];
         
@@ -100,11 +95,11 @@ class EcjiaShop extends ApplicationPlatform
      * @var array
      */
     protected $payments = [
-        'pay_balance',
-        'pay_cod',
-        'pay_alipay',
-        'pay_wxpay_shop',
-        'pay_unionpay',
+    	'pay_cash',
+    	'pay_balance',
+    	'pay_koolyun_alipay',
+    	'pay_koolyun_unionpay',
+    	'pay_koolyun_wxpay',
     ];
     
     
@@ -114,18 +109,8 @@ class EcjiaShop extends ApplicationPlatform
      */
     protected $opentypes = [
         MobileAction::MAIN,
-        MobileAction::HISTORY,
         MobileAction::WEBVIEW,
-        MobileAction::HELP,
-        MobileAction::GOODS_COMMENT,
-        MobileAction::GOODS_DETAIL,
-        MobileAction::ORDERS_DETAIL,
-        MobileAction::USER_CENTER,
-        MobileAction::USER_ADDRESS,
-        MobileAction::USER_WALLET,
     ];
-    
-    
     
     
 }

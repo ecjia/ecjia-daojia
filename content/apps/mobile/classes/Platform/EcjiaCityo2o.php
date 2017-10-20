@@ -144,13 +144,6 @@ class EcjiaCityo2o extends ApplicationPlatform
     ];
     
     
-    public function __construct()
-    {
-        
-    }
-    
-    
-    
     
     
 }

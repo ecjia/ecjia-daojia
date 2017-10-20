@@ -50,7 +50,7 @@ namespace Ecjia\App\Mobile\Platform;
 use Ecjia\App\Mobile\ApplicationPlatform;
 use Ecjia\App\Mobile\MobileAction;
 
-class EcjiaShop extends ApplicationPlatform
+class EcjiaStreet extends ApplicationPlatform
 {
     
     
@@ -58,25 +58,25 @@ class EcjiaShop extends ApplicationPlatform
      * 代号标识
      * @var string
      */
-    protected $code = 'ecjia-shop';
+    protected $code = 'ecjia-street';
     
     /**
      * 名称
      * @var string
      */
-    protected $name = 'ECJia到家门店';
+    protected $name = 'ECJia店铺街';
     
     /**
      * 描述
      * @var string
      */
-    protected $description = 'ECJia到家门店App是一款以附近门店为中心的消费者购物客户端。';
+    protected $description = 'ECJia店铺街App是一款多站点通用的消费者购物客户端。';
     
     /**
      * 图标
      * @var string
      */
-    protected $icon = '/statics/images/store.png';
+     protected $icon = '/statics/images/street.png';
     
     /**
      * 支持的客户端类型
@@ -86,46 +86,61 @@ class EcjiaShop extends ApplicationPlatform
         [
         	'device_client' => 'iphone',
             'device_name' => 'iPhone',
-            'device_code' => '6012',
+            'device_code' => '3002',
         ],
         [
             'device_client' => 'android',
             'device_name' => 'Android',
-            'device_code' => '6011',
+            'device_code' => '3001',
         ]
     ];
-        
+    
     /**
      * 支持的支付方式
      * @var array
-     */
+     */    
     protected $payments = [
-        'pay_balance',
-        'pay_cod',
-        'pay_alipay',
-        'pay_wxpay_shop',
-        'pay_unionpay',
+    	'pay_balance',
+    	'pay_cod',
+    	'pay_alipay',
     ];
-    
     
     /**
      * 支持的opentype类型
      * @var array
      */
     protected $opentypes = [
-        MobileAction::MAIN,
-        MobileAction::HISTORY,
-        MobileAction::WEBVIEW,
-        MobileAction::HELP,
-        MobileAction::GOODS_COMMENT,
-        MobileAction::GOODS_DETAIL,
-        MobileAction::ORDERS_DETAIL,
-        MobileAction::USER_CENTER,
-        MobileAction::USER_ADDRESS,
-        MobileAction::USER_WALLET,
+    	MobileAction::MAIN,
+    	MobileAction::SINGIN,
+    	MobileAction::SIGNUP,
+    	MobileAction::FORGET_PASSWORD,
+    	MobileAction::DISCOVER,
+    	MobileAction::QRCODE,
+    	MobileAction::QRSHARE,
+    	MobileAction::HISTORY,
+    	MobileAction::MAP,
+    	MobileAction::MESSAGE,
+    	MobileAction::WEBVIEW,
+    	MobileAction::SETTING,
+    	MobileAction::LANGUAGE,
+    	MobileAction::CART,
+    	MobileAction::SEARCH,
+    	MobileAction::HELP,
+    	MobileAction::GOODS_LIST,
+    	MobileAction::GOODS_COMMENT,
+    	MobileAction::GOODS_DETAIL,
+    	MobileAction::ORDERS_LIST,
+    	MobileAction::ORDERS_DETAIL,
+    	MobileAction::USER_CENTER,
+    	MobileAction::USER_ADDRESS,
+    	MobileAction::USER_ACCOUNT,
+    	MobileAction::USER_COLLECT,
+    	MobileAction::USER_PASSWORD,
+    	MobileAction::MERCHANT,
+    	MobileAction::MERCHANT_GOODS_LIST,
+    	MobileAction::MERCHANT_SUGGEST_LIST,
+    	MobileAction::MERCHANT_DETAIL,
     ];
-    
-    
     
     
 }

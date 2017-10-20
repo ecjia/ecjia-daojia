@@ -100,13 +100,5 @@ class EcjiaCityo2oH5 extends ApplicationPlatform
     ];
     
     
-    public function __construct()
-    {
-        
-    }
-    
-    
-    
-    
     
 }
