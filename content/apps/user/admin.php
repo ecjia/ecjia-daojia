@@ -603,6 +603,28 @@ class admin extends ecjia_admin {
 		$this->assign('user',			$user);
 		$this->assign('order_list',		$order);
 		$this->assign('address_list',	$address_list);
+		
+		/* 取出注册扩展字段 */
+		$extend_info_list = RC_DB::table('reg_fields')
+			->where('type', '<', 2)
+			->where('display', 1)
+			->where('id', '!=', 6)
+			->orderBy('dis_order', 'asc')
+			->orderBy('id', 'asc')
+			->get();
+		if (!empty($extend_info_list)) {
+			foreach ($extend_info_list AS $key => $val) {
+				switch ($val['id']) {
+					case 1:	 $extend_info_list[$key]['content'] = $user['msn']; break;
+					case 2:	 $extend_info_list[$key]['content'] = $user['qq']; break;
+					case 3:	 $extend_info_list[$key]['content'] = $user['office_phone']; break;
+					case 4:	 $extend_info_list[$key]['content'] = $user['home_phone']; break;
+					case 5:	 $extend_info_list[$key]['content'] = $user['mobile_phone']; break;
+					default: $extend_info_list[$key]['content'] = empty($temp_arr[$val['id']]) ? '' : $temp_arr[$val['id']] ;
+				}
+			}
+		}
+		$this->assign('extend_info_list', $extend_info_list);
 
 		$this->display('user_info.dwt');
 	}

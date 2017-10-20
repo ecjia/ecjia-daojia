@@ -60,13 +60,13 @@ class info_module extends api_admin implements api_interface {
 		}
 		
 		$user_id = $this->requestData('user_id', 0);
-		$mobile	 = $this->requestData('mobile');
+		$mobile	 = $this->requestData('mobile', '');
 		if (empty($user_id) && empty($mobile)) {
-			return new ecjia_error(101, '错误的参数提交');
+			return new ecjia_error('invalid_parameter', '错误的参数提交');
 		}
 		
 		RC_Loader::load_app_func('admin_user', 'user');
-		$user_info = EM_user_info($user_id);
+		$user_info = EM_user_info($user_id, $mobile);
 		
 		return $user_info;
 	}

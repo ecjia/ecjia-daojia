@@ -672,7 +672,7 @@ function update_address($address) {
 	return true;
 }
 
-function EM_user_info($user_id) {
+function EM_user_info($user_id, $mobile) {
 	$db_collect_goods  = RC_Model::model('goods/collect_goods_model');
 	$db_user_rank      = RC_Model::model('user/user_rank_model');
 	$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
@@ -700,7 +700,7 @@ function EM_user_info($user_id) {
 	);
 	
 	RC_Loader::load_app_func('admin_order', 'orders');
-	$user_info      = user_info($user_id);
+	$user_info      = user_info($user_id, $mobile);
 	$collection_num = $db_collect_goods->where(array('user_id' => $user_id))->order(array('add_time' => 'desc'))->count();
 	$await_pay      = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('await_pay', 'oi.')))->count('*');
 	$await_ship     = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('await_ship', 'oi.')))->count('*');
@@ -746,6 +746,10 @@ function EM_user_info($user_id) {
 	
 	/* 判断会员名更改时间*/
 	$username_update_time = RC_Model::model('term_meta_model')->find($data);
+	
+	$address = $user_info['address_id'] > 0 ? RC_DB::table('user_address')->where('address_id', $user_info['address_id'])->first() : '';
+	$user_info['address'] = $user_info['address_id'] > 0 ? RC_DB::table('region')->where('region_id', $address['city'])->pluck('region_name').RC_DB::table('region')->where('region_id', $address['district'])->pluck('region_name').$address['address'] : '';
+	
 	return array(
 		'id'				=> $user_info['user_id'],
 		'name'				=> $user_info['user_name'],
@@ -755,6 +759,7 @@ function EM_user_info($user_id) {
 		'collection_num' 	=> $collection_num,
 		'email'				=> $user_info['email'],
 		'mobile_phone'		=> $user_info['mobile_phone'],
+		'address'			=> $user_info['address'],
 		'avatar_img'		=> $avatar_img,
 		'order_num' => array(
 			'await_pay' 	=> $await_pay,
@@ -763,9 +768,11 @@ function EM_user_info($user_id) {
 			'finished' 		=> $finished,
 		    'allow_comment'	=> $allow_comment_count,
 		),
+		'user_money'		=> $user_info['user_money'],
 		'formated_user_money' 	=> price_format($user_info['user_money'], false),
 		'user_points' 			=> $user_info['pay_points'],
 		'user_bonus_count' 		=> $bonus_count,
+		'reg_time'				=> empty($user_info['reg_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $user_info['reg_time']),
 		'update_username_time'	=> empty($username_update_time) ? '' : RC_Time::local_date(ecjia::config('time_format'), $username_update_time['meta_value'])
 	);
 }

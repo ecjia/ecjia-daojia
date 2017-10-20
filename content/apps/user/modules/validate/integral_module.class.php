@@ -64,10 +64,10 @@ class integral_module extends api_front implements api_interface {
     	
 		RC_Loader::load_app_func('admin_order', 'orders');
 		
-		$integral_to_p =  value_of_integral($integral);
+		$integral_to_money =  value_of_integral($integral);
 		return array(
-			"bonus"          => $integral_to_p,
-			"bonus_formated" => price_format($integral_to_p, false)
+			"bonus"          => $integral_to_money,
+			"bonus_formated" => price_format($integral_to_money, false)
 		);
 	}
 }

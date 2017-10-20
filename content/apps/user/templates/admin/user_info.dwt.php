@@ -65,24 +65,29 @@
 									<td><div align="right"><strong>{lang key='user::users.parent_user_lable'}</strong></div></td>
 									<td>{$user.parent_username}</td>
 								</tr>
-								<tr>
-									<td><div align="right"><strong>{lang key='user::users.qq_lable'}</strong></div></td>
-									<td>{$user.qq}</td>
-									<td><div align="right"><strong>{lang key='user::users.msn_lable'}</strong></div></td>
-									<td>{$user.msn}</td>
-								</tr>
-								<tr>
-									<td><div align="right"><strong>{lang key='user::users.mobile_phone_lable'}</strong></div></td>
-									<td>{$user.mobile_phone}</td>
-									<td><div align="right"><strong>{lang key='user::users.home_phone_lable'}</strong></div></td>
-									<td>{$user.home_phone}</td>
-								</tr>
-								<tr>
-									<td><div align="right"><strong>{lang key='user::users.office_phone_lable'}</strong></div></td>
-									<td>{$user.office_phone}</td>
+								
+								<!-- {if $extend_info_list} -->
+									<!-- {foreach from=$extend_info_list item=field key=key} -->
+									{if $key eq 0 || $key eq 2 || $key eq 4}
+									<tr>
+									<td><div align="right"><strong>{$field.reg_field_name}</strong></div></td>
+									<td>{$field.content}</td>
+									{/if}
+								
+									{if $key eq 1 || $key eq 3}
+									<td><div align="right"><strong>{$field.reg_field_name}</strong></div></td>
+									<td>{$field.content}</td>
+									</tr>
+									{/if}
+									<!-- {/foreach} -->
 									<td><div align="right"><strong>{lang key='user::users.email_verification_lable'}</strong></div></td>
 									<td class="ecjiafc-f00">{$user.is_validated}</td>
+								<!-- {else} -->
+								<tr>
+									<td><div align="right"><strong>{lang key='user::users.email_verification_lable'}</strong></div></td>
+									<td colspan="3" class="ecjiafc-f00">{$user.is_validated}</td>
 								</tr>
+								<!-- {/if} -->
 								<tr>
 									<td><div align="right"><strong>{lang key='user::users.last_login_time_lable'}</strong></div></td>
 									<td>{$user.last_time}</td>
@@ -97,7 +102,7 @@
 					<div class="accordion-heading">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic2">
 							<strong>{lang key='user::users.users_money'}</strong>
-							<a target="_blank" href='{url path="user/admin_account_log/init" args="user_id={$user.user_id}"}'>{lang key='user::users.edit'}</a>
+							<a target="_blank" href='{url path="finance/admin_account_log/init" args="user_id={$user.user_id}"}'>{lang key='user::users.edit'}</a>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="telescopic2">

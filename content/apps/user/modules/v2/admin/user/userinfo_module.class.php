@@ -72,6 +72,17 @@ class userinfo_module extends api_admin implements api_interface {
 function get_user_info_merchant() {
     $result = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->first();
     
+    $role_name = '';
+	if (($result['parent_id'] == 0) && (empty($result['group_id']))) {
+		$role_name = '店长';
+	} elseif (($result['parent_id'] > 0) && ($result['group_id'] == '-1')) {
+		$role_name = '配送员';
+	} elseif (($result['parent_id'] > 0) && ($result['group_id'] == '-2')) {
+		$role_name = '收银员';
+	} else {
+		$role_name = RC_DB::table('staff_group')->where('group_id', $result['group_id'])->pluck('group_name');
+	}
+    
     if ($result) {
         $userinfo = array(
             'id' 		    => $result['user_id'],
@@ -81,9 +92,8 @@ function get_user_info_merchant() {
             'email'		    => $result['email'],
             'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
             'last_ip'		=> RC_Ip::area($result['last_ip']),
-            'role_name'		=> $result['parent_id'] == 0 ? '店长' : ($result['group_id'] ? RC_DB::table('staff_group')->where('group_id', $result['group_id'])->pluck('group_name') : ''),
+            'role_name'		=> $role_name,
             'avator_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
-            'avatar_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
             'action_list'	=> $result['action_list'],
         );
     } else {
