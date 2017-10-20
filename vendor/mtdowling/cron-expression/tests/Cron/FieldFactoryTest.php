@@ -3,14 +3,15 @@
 namespace Cron\Tests;
 
 use Cron\FieldFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Michael Dowling <mtdowling@gmail.com>
  */
-class FieldFactoryTest extends \PHPUnit_Framework_TestCase
+class FieldFactoryTest extends TestCase
 {
     /**
-     * @covers Cron\FieldFactory::getField
+     * @covers \Cron\FieldFactory::getField
      */
     public function testRetrievesFieldInstances()
     {
@@ -20,18 +21,17 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase
             2 => 'Cron\DayOfMonthField',
             3 => 'Cron\MonthField',
             4 => 'Cron\DayOfWeekField',
-            5 => 'Cron\YearField'
         );
 
         $f = new FieldFactory();
 
         foreach ($mappings as $position => $class) {
-            $this->assertEquals($class, get_class($f->getField($position)));
+            $this->assertSame($class, get_class($f->getField($position)));
         }
     }
 
     /**
-     * @covers Cron\FieldFactory::getField
+     * @covers \Cron\FieldFactory::getField
      * @expectedException InvalidArgumentException
      */
     public function testValidatesFieldPosition()

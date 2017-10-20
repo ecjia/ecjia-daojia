@@ -8,6 +8,36 @@ namespace Cron;
 abstract class AbstractField implements FieldInterface
 {
     /**
+     * Full range of values that are allowed for this field type
+     * @var array
+     */
+    protected $fullRange = [];
+
+    /**
+     * Literal values we need to convert to integers
+     * @var array
+     */
+    protected $literals = [];
+
+    /**
+     * Start value of the full range
+     * @var integer
+     */
+    protected $rangeStart;
+
+    /**
+     * End value of the full range
+     * @var integer
+     */
+    protected $rangeEnd;
+
+
+    public function __construct()
+    {
+        $this->fullRange = range($this->rangeStart, $this->rangeEnd);
+    }
+
+    /**
      * Check to see if a field is satisfied by a value
      *
      * @param string $dateValue Date value to check
@@ -75,31 +105,40 @@ abstract class AbstractField implements FieldInterface
      */
     public function isInIncrementsOfRanges($dateValue, $value)
     {
-        $parts = array_map('trim', explode('/', $value, 2));
-        $stepSize = isset($parts[1]) ? $parts[1] : 0;
-        if (($parts[0] == '*' || $parts[0] === '0') && 0 !== $stepSize) {
-            return (int) $dateValue % $stepSize == 0;
-        }
+        $chunks = array_map('trim', explode('/', $value, 2));
+        $range = $chunks[0];
+        $step = isset($chunks[1]) ? $chunks[1] : 0;
 
-        $range = explode('-', $parts[0], 2);
-        $offset = $range[0];
-        $to = isset($range[1]) ? $range[1] : $dateValue;
-        // Ensure that the date value is within the range
-        if ($dateValue < $offset || $dateValue > $to) {
+        // No step or 0 steps aren't cool
+        if (is_null($step) || '0' === $step || 0 === $step) {
             return false;
         }
 
-        if ($dateValue > $offset && 0 === $stepSize) {
-          return false;
+        // Expand the * to a full range
+        if ('*' == $range) {
+            $range = $this->rangeStart . '-' . $this->rangeEnd;
         }
 
-        for ($i = $offset; $i <= $to; $i+= $stepSize) {
-            if ($i == $dateValue) {
-                return true;
-            }
+        // Generate the requested small range
+        $rangeChunks = explode('-', $range, 2);
+        $rangeStart = $rangeChunks[0];
+        $rangeEnd = isset($rangeChunks[1]) ? $rangeChunks[1] : $rangeStart;
+
+        if ($rangeStart < $this->rangeStart || $rangeStart > $this->rangeEnd || $rangeStart > $rangeEnd) {
+            throw new \OutOfRangeException('Invalid range start requested');
         }
 
-        return false;
+        if ($rangeEnd < $this->rangeStart || $rangeEnd > $this->rangeEnd || $rangeEnd < $rangeStart) {
+            throw new \OutOfRangeException('Invalid range end requested');
+        }
+
+        if ($step > ($rangeEnd - $rangeStart) + 1) {
+            throw new \OutOfRangeException('Step cannot be greater than total range');
+        }
+
+        $thisRange = range($rangeStart, $rangeEnd, $step);
+
+        return in_array($dateValue, $thisRange);
     }
 
     /**
@@ -140,4 +179,74 @@ abstract class AbstractField implements FieldInterface
         return $values;
     }
 
+    protected function convertLiterals($value)
+    {
+        if (count($this->literals)) {
+            $key = array_search($value, $this->literals);
+            if ($key !== false) {
+                return $key;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Checks to see if a value is valid for the field
+     *
+     * @param string $value
+     * @return bool
+     */
+    public function validate($value)
+    {
+        $value = $this->convertLiterals($value);
+
+        // All fields allow * as a valid value
+        if ('*' === $value) {
+            return true;
+        }
+
+        // You cannot have a range and a list at the same time
+        if (strpos($value, ',') !== false && strpos($value, '-') !== false) {
+            return false;
+        }
+
+        if (strpos($value, '/') !== false) {
+            list($range, $step) = explode('/', $value);
+            return $this->validate($range) && filter_var($step, FILTER_VALIDATE_INT);
+        }
+
+        if (strpos($value, '-') !== false) {
+            if (substr_count($value, '-') > 1) {
+                return false;
+            }
+
+            $chunks = explode('-', $value);
+            $chunks[0] = $this->convertLiterals($chunks[0]);
+            $chunks[1] = $this->convertLiterals($chunks[1]);
+
+            if ('*' == $chunks[0] || '*' == $chunks[1]) {
+                return false;
+            }
+
+            return $this->validate($chunks[0]) && $this->validate($chunks[1]);
+        }
+
+        // Validate each chunk of a list individually
+        if (strpos($value, ',') !== false) {
+            foreach (explode(',', $value) as $listItem) {
+                if (!$this->validate($listItem)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // We should have a numeric by now, so coerce this into an integer
+        if (filter_var($value, FILTER_VALIDATE_INT) !== false) {
+            $value = (int) $value;
+        }
+
+        return in_array($value, $this->fullRange, true);
+    }
 }

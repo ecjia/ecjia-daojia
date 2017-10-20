@@ -53,10 +53,10 @@ CRON Expressions
 
 A CRON expression is a string representing the schedule for a particular command to execute.  The parts of a CRON schedule are as follows:
 
-    *    *    *    *    *    *
-    -    -    -    -    -    -
-    |    |    |    |    |    |
-    |    |    |    |    |    + year [optional]
+    *    *    *    *    *
+    -    -    -    -    -
+    |    |    |    |    |
+    |    |    |    |    |
     |    |    |    |    +----- day of week (0 - 7) (Sunday=0 or 7)
     |    |    |    +---------- month (1 - 12)
     |    |    +--------------- day of month (1 - 31)
@@ -66,6 +66,6 @@ A CRON expression is a string representing the schedule for a particular command
 Requirements
 ============
 
-- PHP 5.3+
+- PHP 7.0+
 - PHPUnit is required to run the unit tests
 - Composer is required to run the unit tests
