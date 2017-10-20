@@ -62,6 +62,8 @@ return array(
     'Royalcms\Component\WeChat\Menu\MenuServiceProvider',
     'Royalcms\Component\WeChat\User\UserServiceProvider',
     'Royalcms\Component\WeChat\User\MiniAppUserServiceProvider',
+    'Royalcms\Component\Cron\CronServiceProvider',
+    'Royalcms\Component\Shoppingcart\ShoppingcartServiceProvider',
     
     'Ecjia\System\Providers\SystemServiceProvider',
 );
