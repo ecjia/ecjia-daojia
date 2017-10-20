@@ -206,33 +206,56 @@ class store_bill_detail_model extends Component_Model_Model {
 	            $db_bill_detail->whereRaw('bd.add_time <='.$filter['end_date']);
 	        }
 	    }
-	    $db_bill_detail->leftJoin('order_info as oi', RC_DB::raw('bd.order_id'), '=', RC_DB::raw('oi.order_id'));
+  
 	    $count = $db_bill_detail->count('detail_id');
 	    if($is_admin) {
 	        $page = new ecjia_page($count, $page_size, 3);
 	    } else {
 	        $page = new ecjia_merchant_page($count, $page_size, 3);
 	    }
-	    
-	    $fields = " oi.store_id, oi.order_id, oi.order_sn, oi.add_time as order_add_time, oi.order_status, oi.shipping_status, oi.order_amount, oi.money_paid, oi.is_delete,";
-	    
-	    $fields .= " (money_paid + surplus + integral_money) AS total_fee, ";
-	    $fields .= " oi.shipping_time, oi.auto_delivery_time, oi.pay_status,";
-	    $fields .= " bd.*,s.merchants_name,";
-	    $fields .= " IFNULL(u.user_name, '" . RC_Lang::get('store::store.anonymous'). "') AS buyer ";
-
+	    $fields .= " bd.*,s.merchants_name";
 	    $row = $db_bill_detail
-		    ->leftJoin('users as u', RC_DB::raw('u.user_id'), '=', RC_DB::raw('oi.user_id'))
 		    ->select(RC_DB::raw($fields))
 		    ->take($page_size)
 		    ->orderBy(RC_DB::raw('bd.add_time'), 'desc')
 		    ->skip($page->start_id-1)
 		    ->get();
-
+	    
 	    if ($row) {
-	        foreach ($row as $key => &$val) {
-	            $val['order_add_time_formate'] = $val['order_add_time'] ? RC_Time::local_date('Y-m-d H:i', $val['order_add_time']) : '';
-	            $val['add_time_formate'] = $val['order_add_time'] ? RC_Time::local_date('Y-m-d H:i', $val['add_time']) : '';
+	        foreach ($row as $key => $val) {
+	        	if($val['order_type'] == 11) {
+	        	    //闪惠订单
+	        	    $order_info = RC_DB::table('quickpay_orders')->where('order_id', $val['order_id'])->
+	        	    select('user_id','order_sn','order_amount as total_fee','add_time as order_add_time', 'order_status','pay_status','verification_status')->first();
+	        	    $order_info['buyer'] = RC_DB::TABLE('users')->where('user_id', $order_info['user_id'])->pluck('user_name as buyer');
+	        	    $row[$key] = array_merge($row[$key], $order_info);
+	        	} elseif ($val['order_type'] == 1 || $val['order_type'] == 2) {
+	        	    //普通订单（含退款）
+	        		$db_order_info = RC_DB::table('order_info as oi');
+	        		$db_order_info->leftJoin('users as u', RC_DB::raw('u.user_id'), '=', RC_DB::raw('oi.user_id'));
+        			$fields = " oi.store_id, oi.order_id, oi.order_sn, oi.add_time as order_add_time, oi.order_status, oi.shipping_status, oi.order_amount, oi.money_paid, oi.is_delete,";
+        			$fields .= " (money_paid + surplus + integral_money) AS total_fee, ";
+        			$fields .= " oi.shipping_time, oi.auto_delivery_time, oi.pay_status,";
+        			$fields .= " IFNULL(u.user_name, '" . RC_Lang::get('store::store.anonymous'). "') AS buyer ";
+        			$order_info = $db_order_info->where('order_id', $val['order_id'])->select(RC_DB::raw($fields))->first();
+        			$row[$key] = array_merge($row[$key], $order_info);
+	        	} else {
+	        	    RC_Logger::getLogger('info')->info('store_bill_error:');
+	        	    RC_Logger::getLogger('info')->info($val);
+	        	    continue;
+	        	}
+	        	$row[$key]['order_add_time'] = RC_Time::local_date('Y-m-d H:i', $row[$key]['order_add_time']);
+	        	$row[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i', $row[$key]['add_time']);
+
+	        	if($val['order_type'] == Ecjia\App\Commission\Constant::ORDER_BUY) {
+	        		$row[$key]['order_type_name'] = '购物订单';
+	        	} elseif ($val['order_type'] == Ecjia\App\Commission\Constant::ORDER_REFUNDS) {
+	        		$row[$key]['order_type_name'] = '退款';
+	        	} elseif ($val['order_type'] == Ecjia\App\Commission\Constant::ORDER_QUICKYPAY){
+	        		$row[$key]['order_type_name'] = '闪惠订单';
+	        	} else {
+	        	    $row[$key]['order_type_name'] = '未知';
+	        	}
 	        }
 	    }
 	    return array('item' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());

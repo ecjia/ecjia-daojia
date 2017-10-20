@@ -95,7 +95,7 @@ class admin extends ecjia_admin {
 		$this->assign('ur_here', '账单列表');
 		$this->assign('action_link',	array('text' => '账单生成', 'href' => RC_Uri::url('commission/admin/bill_update')));
 		
-// 		/* 时间参数 */
+ 		/* 时间参数 */
 		$filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime($_GET['start_date']));
 		$filter['end_date']   = empty($_GET['end_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime($_GET['end_date']));
 		$filter['type']       = $_GET['type'];
@@ -317,6 +317,11 @@ class admin extends ecjia_admin {
 	    $this->assign('lang_os', RC_Lang::get('orders::order.os'));
 	    $this->assign('lang_ps', RC_Lang::get('orders::order.ps'));
 	    $this->assign('lang_ss', RC_Lang::get('orders::order.ss'));
+	    
+   		$this->assign('lang_os_quickpay', RC_Lang::get('quickpay::order.os'));
+	    $this->assign('lang_ps_quickpay', RC_Lang::get('quickpay::order.ps'));
+	    $this->assign('lang_vs_quickpay', RC_Lang::get('quickpay::order.vs'));
+	    
 	    $this->assign('record_list', $record_list);
 	    $this->display('bill_detail.dwt');
 	}
