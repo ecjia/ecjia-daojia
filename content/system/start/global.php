@@ -89,6 +89,10 @@ Royalcms::error(function(Exception $exception)
 
     RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
 });
+Royalcms::error(function(Symfony\Component\HttpKernel\Exception\HttpException $exception)
+{
+    return RC_Response::make($exception->getMessage(), 400);
+});
 Royalcms::error(function(ErrorException $exception)
 {
     $err = array(
@@ -134,7 +138,6 @@ Royalcms::missing(function($exception)
 {
     return RC_Response::make('404 Not Found', 404);
 });
-
 
 RC_Event::listen('royalcms.query', function($query) {
     if (royalcms('config')->get('system.debug')) {

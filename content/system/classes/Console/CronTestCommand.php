@@ -1,5 +1,5 @@
-<?php
-//
+<?php 
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,20 +44,39 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Console;
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Royalcms the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
+use Royalcms\Component\Console\Command;
+use Royalcms\Component\Support\Facades\File;
 
-collect(RC_Config::get('app', []))->map(function ($app) {
-    RC_Loader::load_app_class('hooks.route_' . $app, $app, false);
-});
+class CronTestCommand extends Command
+{
+    // 命令名稱
+    protected $name = 'cron:test';
 
-// end
+    // 說明文字
+    protected $description = 'Cron Test Log record.';
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    // Console 執行的程式
+    public function fire()
+    {
+        // 檔案紀錄在 storage/test.log
+        $log_file_path = storage_path('logs/test.log');
+
+        // 記錄當時的時間
+        $log_info = array(
+            'date' => date('Y-m-d H:i:s')
+        );
+
+        // 記錄 JSON 字串
+        $log_info_json = json_encode($log_info) . "\r\n";
+
+        // 記錄 Log
+        File::append($log_file_path, $log_info_json);
+    }
+}

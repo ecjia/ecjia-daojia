@@ -60,7 +60,7 @@ class ApiRequest {
     
     protected $method = 'GET';
     
-    protected $timeout = 5;
+    protected $timeout = 15;
     
     protected $httpVersion = '1.1';
     
@@ -71,6 +71,8 @@ class ApiRequest {
     protected $body;
     
     protected $cookies = array();
+    
+    protected $files = array();
 
     /**
      * 构造函数
@@ -132,6 +134,44 @@ class ApiRequest {
     
     public function getMethod() {
         return $this->method;
+    }
+    
+    /**
+     * 设置POST FILE上传信息，数组格式
+     *
+     * @param array $files
+     * @return \Ecjia\System\Api\ApiRequest
+     */
+    public function setFiles(array $files) {
+        if (! array_has($this->headers, 'Content-Type')) {
+            $this->headers['Content-Type'] = 'multipart/form-data';
+        }
+        
+        $this->files = $files + $this->files;
+        
+        return $this;
+    }
+    
+    
+    public function getFiles()
+    {
+        return $this->files;
+    }
+    
+    /**
+     * 添加POST FILE上传文件，数组格式
+     *
+     * @param array $files
+     * @return \Ecjia\System\Api\ApiRequest
+     */
+    public function addFile($name, $curl_file) {
+        if (! array_has($this->headers, 'Content-Type')) {
+            $this->headers['Content-Type'] = 'multipart/form-data';
+        }
+        
+        $this->files[$name] = $curl_file;
+        
+        return $this;
     }
     
     /**
@@ -245,6 +285,8 @@ class ApiRequest {
      * @api
      */
     public function process() {
+        $this->body = $this->body + $this->files;
+        
         return array(
             'method'    => $this->method,
             'timeout'   => $this->timeout,

@@ -144,26 +144,17 @@ class ParseThemeStyle
         
         if (file_exists($this->style_path))
         {
-            $arr = array_slice(file($this->style_path), 0, 10);
-            $template_name      = explode(': ', $arr[1]);
-            $template_uri       = explode(': ', $arr[2]);
-            $template_desc      = explode(': ', $arr[3]);
-            $template_version   = explode(': ', $arr[4]);
-            $template_author    = explode(': ', $arr[5]);
-            $author_uri         = explode(': ', $arr[6]);
-            $logo_filename      = explode(': ', $arr[7]);
-            $template_type      = explode(': ', $arr[8]);
-            $template_color     = explode(': ', $arr[9]);
+            $theme_data = \RC_Theme::get_theme_data($this->style_path, false, false);
             
-            $this->template_name = isset($template_name[1]) ? trim($template_name[1]) : '';
-            $this->template_uri = isset($template_uri[1]) ? trim($template_uri[1]) : '';
-            $this->template_desc = isset($template_desc[1]) ? trim($template_desc[1]) : '';
-            $this->template_version = isset($template_version[1]) ? trim($template_version[1]) : '';
-            $this->template_author = isset($template_author[1]) ? trim($template_author[1]) : '';
-            $this->author_uri = isset($author_uri[1]) ? trim($author_uri[1]) : '';
-            $this->logo_filename = isset($logo_filename[1]) ? trim($logo_filename[1]) : '';
-            $this->template_type = isset($template_type[1]) ? trim($template_type[1]) : '';
-            $this->template_color = isset($template_color[1]) ? trim($template_color[1]) : ''; 
+            $this->template_name    = $theme_data['Name'];
+            $this->template_uri     = $theme_data['TemplateURI'];
+            $this->template_desc    = $theme_data['Description'];
+            $this->template_version = $theme_data['Version'];
+            $this->template_author  = $theme_data['Author'];
+            $this->author_uri       = $theme_data['AuthorURI'];
+            $this->logo_filename    = $theme_data['Logo'];
+            $this->template_type    = $theme_data['TemplateType'];
+            $this->template_color   = $theme_data['Color']; 
         }
     }
     

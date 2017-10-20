@@ -84,7 +84,8 @@ define('CART_GROUP_BUY_GOODS',      1); // 团购商品
 define('CART_AUCTION_GOODS',        2); // 拍卖商品
 define('CART_SNATCH_GOODS',         3); // 夺宝奇兵
 define('CART_EXCHANGE_GOODS',       4); // 积分商城
-define('CART_MOBILE_BUY_GOODS',        100);     //移动专享
+define('CART_MOBILE_BUY_GOODS',     100);     //移动专享
+define('CART_CASHDESK_GOODS',       11);     //收银台
 
 
 /* 订单状态 */

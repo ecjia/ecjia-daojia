@@ -56,3 +56,11 @@
 |
 */
 
+Royalcmd::add(new \Ecjia\System\Console\CronTestCommand);
+
+$apps = ecjia_app::installed_app_floders();
+if (is_array($apps)) {
+    foreach ($apps as $app) {
+        RC_Loader::load_app_class('hooks.console_' . $app, $app, false);
+    }
+}

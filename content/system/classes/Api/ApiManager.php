@@ -108,14 +108,24 @@ abstract class ApiManager extends Object
      * @param array $data
      * @return \Ecjia\System\Api\ApiManager
      */
-    public function header($header) {
+    public function header(array $header) {
         $this->request->setHeader($header);
         
         return $this;
     }
     
+    /**
+     * 设置POST FILE上传信息，数组格式
+     * @param array $data
+     * @return \Ecjia\System\Api\ApiManager
+     */
+    public function file(array $file) {
+        $this->request->setFiles($file);
+        
+        return $this;
+    }
     
-    public function cookie($cookie) {
+    public function cookie(array $cookie) {
         $this->request->setCookie($cookie);
         
         return $this;
