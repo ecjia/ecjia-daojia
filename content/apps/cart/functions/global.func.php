@@ -184,6 +184,7 @@ function act_range_desc($favourable)
     	return '';
     } else {
         return '';
+    }
 }
 
 /**

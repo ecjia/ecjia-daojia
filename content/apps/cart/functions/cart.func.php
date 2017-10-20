@@ -380,7 +380,7 @@ function flow_clear_cart_alone() {
  * @param   integer $parent     基本件
  * @return  boolean
  */
-function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehouse_id = 0, $area_id = 0) {
+function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse_id = 0, $area_id = 0, $price = 0, $weight = 0, $device) {
 	$dbview 		= RC_Loader::load_app_model('sys_goods_member_viewmodel', 'goods');
 	$db_cart 		= RC_Loader::load_app_model('cart_model', 'cart');
 	$db_products 	= RC_Loader::load_app_model('products_model', 'goods');
@@ -390,25 +390,26 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
 	RC_Loader::load_app_func('admin_goods', 'goods');
 	RC_Loader::load_app_func('global', 'goods');
 	
-	$field = "g.goods_id, wg.w_id, g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.user_id as ru_id, g.model_inventory, g.model_attr, ".
+	$field = "g.goods_id,  g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.store_id as store_id, g.model_inventory, g.model_attr, ".
 			"g.is_xiangou, g.xiangou_start_date, g.xiangou_end_date, g.xiangou_num, ".
-			"wg.warehouse_price, wg.warehouse_promote_price, wg.region_number as wg_number, wag.region_price, wag.region_promote_price, wag.region_number as wag_number, g.model_price, g.model_attr, ".
-			"g.market_price, IF(g.model_price < 1, g.shop_price, IF(g.model_price < 2, wg.warehouse_price, wag.region_price)) AS org_price, ".
-			"IF(g.model_price < 1, g.promote_price, IF(g.model_price < 2, wg.warehouse_promote_price, wag.region_promote_price)) as promote_price, ".
+// 			"wg.w_id, wg.warehouse_price, wg.warehouse_promote_price, wg.region_number as wg_number, wag.region_price, wag.region_promote_price, wag.region_number as wag_number, ".
+// 			"IF(g.model_price < 1, g.shop_price, IF(g.model_price < 2, wg.warehouse_price, wag.region_price)) AS org_price,  ".
+			"g.model_price, g.model_attr,g.market_price, ".
+			"g.promote_price as promote_price, ".
 			" g.promote_start_date, g.promote_end_date, g.goods_weight, g.integral, g.extension_code, g.goods_number, g.is_alone_sale, g.is_shipping, ".
-			"IFNULL(mp.user_price, IF(g.model_price < 1, g.shop_price, IF(g.model_price < 2, wg.warehouse_price, wag.region_price)) * '$_SESSION[discount]') AS shop_price ";
+			"IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price ";
     /* 取得商品信息 */
    	$dbview->view = array(
-   		'warehouse_goods' => array(
-   			'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-   			'alias' => 'wg',
-   			'on'   	=> "g.goods_id = wg.goods_id and wg.region_id = '$warehouse_id'"
-   		),
-   		'warehouse_area_goods' => array(
-   			'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-   			'alias' => 'wag',
-   			'on'   	=> "g.goods_id = wag.goods_id and wag.region_id = '$area_id'"
-   		),
+//    		'warehouse_goods' => array(
+//    			'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+//    			'alias' => 'wg',
+//    			'on'   	=> "g.goods_id = wg.goods_id and wg.region_id = '$warehouse_id'"
+//    		),
+//    		'warehouse_area_goods' => array(
+//    			'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+//    			'alias' => 'wag',
+//    			'on'   	=> "g.goods_id = wag.goods_id and wag.region_id = '$area_id'"
+//    		),
    		'member_price' => array(
    			'type'     => Component_Model_View::TYPE_LEFT_JOIN,
    			'alias'    => 'mp',
@@ -423,7 +424,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
    	if (ecjia::config('review_goods') == 1) {
    		$where['g.review_status'] = array('gt' => 2);
    	}
-    $goods = $dbview->field($field)->join(array('warehouse_goods', 'warehouse_area_goods', 'member_price'))->find($where);
+    $goods = $dbview->field($field)->join(array(/* 'warehouse_goods', 'warehouse_area_goods', */ 'member_price'))->find($where);
     
     
     if (empty($goods)) {
@@ -451,34 +452,20 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
 		return new ecjia_error('addcart_error', __('购买失败'));
     }
     /* 如果商品有规格则取规格商品信息 配件除外 */
-    if ($goods['model_attr'] == 1) {
-    	$db = RC_Loader::load_app_model('products_warehouse_model', 'warehouse');
-    	$prod = $db->where(array('goods_id' => $goods_id, 'warehouse_id' => $warehouse_id))->find();
-//     	$table_products = "products_warehouse";
-//     	$type_files = " and warehouse_id = '$warehouse_id'";
-    } elseif($goods['model_attr'] == 2) {
-    	$db = RC_Loader::load_app_model('products_area_model', 'warehouse');
-    	$prod = $db->where(array('goods_id' => $goods_id, 'area_id' => $area_id))->find();
-//     	$table_products = "products_area";
-//     	$type_files = " and area_id = '$area_id'";
-    } else {
-//     	$table_products = "products";
-//     	$type_files = "";
-    	$prod = $db_products->find(array('goods_id' => $goods_id));
-    }
+    $prod = $db_products->find(array('goods_id' => $goods_id));
     
     if (is_spec($spec) && !empty($prod)) {
-        $product_info = get_products_info($goods_id, $spec, $warehouse_id, $area_id);
+        $product_info = get_products_info($goods_id, $spec);
     }
     if (empty($product_info)) {
         $product_info = array('product_number' => '', 'product_id' => 0 , 'goods_attr'=>'');
     }
 
-    if ($goods['model_inventory'] == 1) {
-    	$goods['goods_number'] = $goods['wg_number'];
-    } elseif($goods['model_inventory'] == 2) {
-    	$goods['goods_number'] = $goods['wag_number'];
-    }
+//     if ($goods['model_inventory'] == 1) {
+//     	$goods['goods_number'] = $goods['wg_number'];
+//     } elseif($goods['model_inventory'] == 2) {
+//     	$goods['goods_number'] = $goods['wag_number'];
+//     }
     
     /* 检查：库存 */
     if (ecjia::config('use_storage') == 1) {
@@ -498,13 +485,13 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     }
   
     /* 计算商品的促销价格 */
-    $warehouse_area['warehouse_id'] = $warehouse_id;
-    $warehouse_area['area_id']      = $area_id;
+//     $warehouse_area['warehouse_id'] = $warehouse_id;
+//     $warehouse_area['area_id']      = $area_id;
     
-    $spec_price             = spec_price($spec, $goods_id, $warehouse_area);
-    $goods_price            = get_final_price($goods_id, $num, true, $spec, $warehouse_id, $area_id);
-    $goods['market_price'] += $spec_price;
-    $goods_attr             = get_goods_attr_info($spec, 'pice', $warehouse_id, $area_id);
+    $spec_price             = spec_price($spec, $goods_id);
+    $goods_price            = get_final_price($goods_id, $num, true, $spec);
+//     $goods['market_price'] += $spec_price;
+    $goods_attr             = get_goods_attr_info($spec, 'pice');
     $goods_attr_id          = join(',', $spec);
 	
     /* 初始化要插入购物车的基本件数据 */
@@ -523,12 +510,16 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
         'is_gift'       => 0,
         'is_shipping'   => $goods['is_shipping'],
         'rec_type'      => CART_GENERAL_GOODS,
-    	'ru_id'			=> $goods['user_id'],
+    	'store_id'		=> $goods['store_id'],
     	'model_attr'  	=> $goods['model_attr'], 	//属性方式
-        'warehouse_id'  => $warehouse_id,  			//仓库
+//         'warehouse_id'  => $warehouse_id,  			//仓库
         'area_id'  		=> $area_id, 				// 仓库地区
-        'ru_id'			=> $goods['ru_id'],
     );
+    
+    /*收银台商品购物车类型*/
+    if (!empty($device) && $device['code'] == '8001') {
+    	$parent['rec_type'] = CART_CASHDESK_GOODS;
+    }
 
     /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
     /* 则按照该配件的优惠价格卖，但是每一个基本件只能购买一个优惠价格的“该配件”，多买的“该配件”不享受此优惠 */
@@ -638,7 +629,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
                 $goods_storage=$goods['goods_number'];
             }
             if (ecjia::config('use_storage') == 0 || $num <= $goods_storage) {
-                $goods_price = get_final_price($goods_id, $num, true, $spec, $warehouse_id, $area_id);
+                $goods_price = get_final_price($goods_id, $num, true, $spec);
                 $data =  array(
                 		'goods_number' => $num,
                 		'goods_price'  => $goods_price,
@@ -656,7 +647,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
             $cart_id = $row['rec_id'];
         } else {
         	//购物车没有此物品，则插入
-            $goods_price = get_final_price($goods_id, $num, true, $spec ,$warehouse_id, $area_id);
+            $goods_price = get_final_price($goods_id, $num, true, $spec );
             $parent['goods_price']  = max($goods_price, 0);
             $parent['goods_number'] = $num;
             $parent['parent_id']    = 0;
@@ -898,6 +889,9 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 	$cart_where = array('rec_type' => $type);
 	if (!empty($cart_id)) {
 		$cart_where = array_merge($cart_where,  array('rec_id' => $cart_id));
+	}
+	if (!empty($_SESSION['store_id'])) {
+		$cart_where = array_merge($cart_where, array('c.store_id' => $_SESSION['store_id']));
 	}
 	$field = 'goods_img, original_img, goods_thumb, c.rec_id, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, c.goods_price * c.goods_number|subtotal, goods_weight as goodsWeight, c.goods_attr_id';
 	if ($_SESSION['user_id']) {
@@ -1225,14 +1219,14 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 		if ($favourable['act_range'] == FAR_ALL) {
 			foreach ($goods_list as $goods) {
 				if ($use_type == 1) {
-					if($favourable['user_id'] == $goods['ru_id']){
+					if($favourable['store_id'] == $goods['store_id']){
 						$total_amount += $goods['subtotal'];
 					}
 				} else {
 					if (isset($favourable['userFav_type']) && $favourable['userFav_type'] == 1) {
 						$total_amount += $goods['subtotal'];
 					} else {
-						if($favourable['user_id'] == $goods['ru_id']){
+						if($favourable['store_id'] == $goods['store_id']){
 							$total_amount += $goods['subtotal'];
 						}
 					}
@@ -1250,14 +1244,14 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $ids . ',', ',' . $goods['cat_id'] . ',') !== false) {
 					if ($use_type == 1) {
-						if ($favourable['user_id'] == $goods['ru_id'] && $favourable['userFav_type'] == 0) {
+						if ($favourable['store_id'] == $goods['store_id'] && $favourable['userFav_type'] == 0) {
 							$total_amount += $goods['subtotal'];
 						}
 					} else {
 						if (isset($favourable['userFav_type']) && $favourable['userFav_type'] == 1) {
 							$total_amount += $goods['subtotal'];
 						} else {
-							if ($favourable['user_id'] == $goods['ru_id']) {
+							if ($favourable['store_id'] == $goods['store_id']) {
 								$total_amount += $goods['subtotal'];
 							}
 						}
@@ -1268,14 +1262,14 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $favourable['act_range_ext'] . ',', ',' . $goods['brand_id'] . ',') !== false) {
 					if ($use_type == 1) {
-						if ($favourable['user_id'] == $goods['ru_id']) {
+						if ($favourable['store_id'] == $goods['store_id']) {
 							$total_amount += $goods['subtotal'];
 						}
 					} else {
 						if (isset($favourable['userFav_type']) && $favourable['userFav_type'] == 1) {
 							$total_amount += $goods['subtotal'];
 						} else {
-							if ($favourable['user_id'] == $goods['ru_id']) {
+							if ($favourable['store_id'] == $goods['store_id']) {
 								$total_amount += $goods['subtotal'];
 							}
 						}
@@ -1287,14 +1281,14 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $favourable['act_range_ext'] . ',', ',' . $goods['goods_id'] . ',') !== false) {
 					if ($use_type == 1) {
-						if ($favourable['user_id'] == $goods['ru_id']) {
+						if ($favourable['store_id'] == $goods['store_id']) {
 							$total_amount += $goods['subtotal'];
 						}
 					} else {
 						if (isset($favourable['userFav_type']) && $favourable['userFav_type'] == 1) {
 							$total_amount += $goods['subtotal'];
 						} else {
-							if ($favourable['user_id'] == $goods['ru_id']) {
+							if ($favourable['store_id'] == $goods['store_id']) {
 								$total_amount += $goods['subtotal'];
 							}
 						}
@@ -1371,7 +1365,7 @@ function compute_discount_amount($cart_id = array()) {
 		$total_amount = 0;
 		if ($favourable['act_range'] == FAR_ALL) {
 			foreach ($goods_list as $goods) {
-				if($favourable['user_id'] == $goods['ru_id']){
+				if($favourable['store_id'] == $goods['store_id']){
 					$total_amount += $goods['subtotal'];
 				}
 			}
@@ -1386,7 +1380,7 @@ function compute_discount_amount($cart_id = array()) {
 
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $ids . ',', ',' . $goods['cat_id'] . ',') !== false) {
-				if($favourable['user_id'] == $goods['ru_id']){
+				if($favourable['store_id'] == $goods['store_id']){
 					$total_amount += $goods['subtotal'];
 				}
 				}
@@ -1394,7 +1388,7 @@ function compute_discount_amount($cart_id = array()) {
 		} elseif ($favourable['act_range'] == FAR_BRAND) {
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $favourable['act_range_ext'] . ',', ',' . $goods['brand_id'] . ',') !== false) {
-					if($favourable['user_id'] == $goods['ru_id']){
+					if($favourable['store_id'] == $goods['store_id']){
 						$total_amount += $goods['subtotal'];
 					}
 				}
@@ -1402,7 +1396,7 @@ function compute_discount_amount($cart_id = array()) {
 		} elseif ($favourable['act_range'] == FAR_GOODS) {
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $favourable['act_range_ext'] . ',', ',' . $goods['goods_id'] . ',') !== false) {
-					if($favourable['user_id'] == $goods['ru_id']){
+					if($favourable['store_id'] == $goods['store_id']){
 						$total_amount += $goods['subtotal'];
 					}
 				}
@@ -1506,7 +1500,7 @@ function addto_cart_groupbuy($act_id, $number = 1, $spec = array(), $parent = 0,
 		'goods_attr'     => addslashes($goods_attr),
 // 		'goods_attr_id'  => $specs,
 		'goods_attr_id'  => $goods_attr_id,
-// 		'ru_id'			 => $goods['user_id'],
+// 		'store_id'			 => $goods['store_id'],
 		'seller_id'		 => $goods['seller_id'],
 		'warehouse_id'   => $warehouse_id,
 		'area_id'  		 => $area_id,

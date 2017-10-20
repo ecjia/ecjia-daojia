@@ -124,8 +124,8 @@ class cart_cart_list_api extends Component_Event_Api {
 			        $row['disabled_label'] = '商品已下架';
 			    }
 			    //不可用状态，取消选中
-			    if ($row['is_disabed'] == 1) {
-			        $row['is_checked'] == 0;
+			    if ($row['is_disabled'] == 1) {
+			        $row['is_checked'] = 0;
 			        
 			        RC_Loader::load_app_class('cart', 'cart', false);
 			        cart::flow_check_cart_goods(array('id' => $row['rec_id'], 'is_checked' => 0));
