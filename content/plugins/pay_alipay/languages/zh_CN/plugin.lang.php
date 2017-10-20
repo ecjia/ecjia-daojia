@@ -62,8 +62,6 @@ return array(
     'alipay_pay_method' 	    => '选择接口类型',
     'alipay_pay_method_desc' 	=> '请选择您最后一次跟支付宝签订的协议里面说明的接口类型',
     'alipay_pay_method_range' => array(
-        0 => '使用标准双接口',
-        1 => '使用担保交易接口',
         2 => '使用即时到帐交易接口'
     ),
 

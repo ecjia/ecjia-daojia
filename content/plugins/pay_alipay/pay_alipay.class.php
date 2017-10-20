@@ -246,7 +246,7 @@ class pay_alipay extends PaymentAbstract
      */
     public function callbackUrl()
     {
-        return $this->return_url('/notify/pay_alipay.php');;
+        return $this->return_url('/notify/pay_alipay.php');
     }
     
     public function notify() {
