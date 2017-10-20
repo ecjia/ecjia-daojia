@@ -57,6 +57,10 @@ class merchant extends ecjia_merchant {
         RC_Style::enqueue_style('uniform-aristo');
         // 自定义JS
         RC_Script::enqueue_script('merchant_info', RC_App::apps_url('statics/js/merchant_info.js', __FILE__) , array() , false, true);
+        RC_Script::enqueue_script('photoswipe', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe.min.js', __FILE__) , array() , false, true);
+        RC_Script::enqueue_script('photoswipe-ui', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe-ui-default.min.js', __FILE__) , array() , false, true);
+        RC_Style::enqueue_style('photoswipe', RC_App::apps_url('statics/lib/photoswipe/css/photoswipe.css', __FILE__), array());
+        RC_Style::enqueue_style('default-skin', RC_App::apps_url('statics/lib/photoswipe/css/default-skin/default-skin.css', __FILE__), array());
         // 页面css样式
         RC_Style::enqueue_style('merchant', RC_App::apps_url('statics/css/merchant.css', __FILE__), array());
         // input file 长传
@@ -84,7 +88,7 @@ class merchant extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('merchant_manage');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('店铺设置', RC_Uri::url('merchant/mh_franchisee/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('店铺设置'));
 		$this->assign('app_url', RC_App::apps_url('statics', __FILE__));
 
 		$this->assign('ur_here', '设置店铺信息');
@@ -351,7 +355,7 @@ class merchant extends ecjia_merchant {
 		if($shop_close == '1'){
 			clear_cart_list($_SESSION['store_id']);
 		}
-        if($switch_update) {
+        if ($switch_update) {
             $_SESSION['temp_mobile']	= '';
             $_SESSION['temp_code'] 		= '';
             $_SESSION['temp_code_time'] = '';
@@ -415,6 +419,34 @@ class merchant extends ecjia_merchant {
     		$merchant_info['store_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($_SESSION['store_id'],  $merchant_info['shop_logo']))->getQrcodeUrl();
     	}
     	return $this->showmessage('刷新成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('merchant/merchant/init')));
+    }
+    
+    /**
+     * 店铺模版
+     */
+    public function template() {
+    	$this->admin_priv('merchant_manage');
+    	
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('店铺模版'));
+    	$this->assign('app_url', RC_App::apps_url('statics/img/template/', __FILE__));
+    	
+    	$shop_template_info = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_template')->first();
+    	if (empty($shop_template_info)) {
+    		RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->insert(array('code' => 'shop_template', 'value' => 'default1', 'store_id' => $_SESSION['store_id']));
+    		$this->assign('shop_template', 'default1');
+    	} else {
+    		$this->assign('shop_template', $shop_template_info['value']);
+    	}
+    	$this->assign('ur_here', '店铺模版');
+    	$this->assign('form_action', RC_Uri::url('merchant/merchant/template_update'));
+    	
+    	$this->display('merchant_template.dwt');
+    }
+    
+    public function template_update() {
+    	$shop_template = trim($_POST['shop_template']);
+    	RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_template')->update(array('value' => $shop_template));
+    	return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 }
 

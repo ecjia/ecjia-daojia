@@ -106,7 +106,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right top-menu">
                 <li class="dropdown">
-                    <input type="text" class="form-control input-sm search_query" placeholder="搜索" data-toggle="dropdown">
+                    <input type="text" class="form-control input-sm search_query" placeholder="搜索导航" data-toggle="dropdown">
                    	<ul class="dropdown-menu search-nav">
                    		<li class="search_query_none"><a href="javascript:;">{t}请先输入搜索信息{/t}</a></li>
 						<!--{ecjia:hook id=merchant_sidebar_collapse_search}-->
