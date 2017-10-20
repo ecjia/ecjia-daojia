@@ -209,6 +209,14 @@ return array(
     'CreateExpressTrackRecordTable' => $contentDir . '/database/migrations/2017_09_01_135329_create_express_track_record_table.php',
     'AlterAccessTokenSizeForConnectUserTable' => $contentDir . '/database/migrations/2017_09_01_145518_alter_access_token_size_for_connect_user_table.php',
     'AlterTypeSizeForWechatMenuTable' => $contentDir . '/database/migrations/2017_09_04_175915_alter_type_size_for_wechat_menu_table.php',
+    'CreateCronJobTable' => $contentDir . '/database/migrations/2017_09_27_161554_create_cron_job_table.php',
+    'CreateCronManagerTable' => $contentDir . '/database/migrations/2017_09_27_161609_create_cron_manager_table.php',
+    'CreateCashierRecordTable' => $contentDir . '/database/migrations/2017_09_27_163439_create_cashier_record_table.php',
+    'CreateCashierDeviceTable' => $contentDir . '/database/migrations/2017_09_27_163453_create_cashier_device_table.php',
+    'CreateQuickpayActivityTable' => $contentDir . '/database/migrations/2017_09_27_181816_create_quickpay_activity_table.php',
+    'CreateQuickpayOrdersTable' => $contentDir . '/database/migrations/2017_09_27_181829_create_quickpay_orders_table.php',
+    'CreateQuickpayOrderActionTable' => $contentDir . '/database/migrations/2017_09_27_181854_create_quickpay_order_action_table.php',
+    'RecreateCronsTable' => $contentDir . '/database/migrations/2017_09_27_191013_recreate_crons_table.php',
      
     
     // seeder
