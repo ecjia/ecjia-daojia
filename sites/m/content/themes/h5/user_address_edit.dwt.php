@@ -15,7 +15,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 {if $local eq 0}
-<p class="showTit">这个地址超过该门店的配送范围</p>
+<p class="showTit ecjia-margin-t ecjia-padding-l">这个地址超过该门店的配送范围</p>
 {/if}
 <form class="ecjia-address-list" name="theForm" action="{$form_action}" data-save-url="{url path='user/address/save_temp_data'}" method="post">
 	<div class="form-group form-group-text ecjia-border-t">

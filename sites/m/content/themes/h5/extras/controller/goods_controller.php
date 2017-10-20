@@ -589,38 +589,6 @@ class goods_controller {
     	ecjia_front::$controller->assign_title('店铺列表');
     	ecjia_front::$controller->display('store_list.dwt');
     }
-    
-    public static function seller_list() {
-    	$cid = intval($_GET['cid']);
-    	$limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
-    	$pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
-    	$type = isset($_GET['type']) ? $_GET['type'] : '';//判断是否是下滑加载
-
-    	if ($type == 'ajax_get') {
-    		$arr = array(
-    			'pagination'	=> array('count' => $limit, 'page' => $pages),
-    			'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-                'city_id'       => $_COOKIE['city_id']
-    		);
-    		$arr['category_id'] = $cid;
-    		
-    		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($arr)->hasPage()->run();
-    		if (!is_ecjia_error($response)) {
-				list($data, $page) = $response;
-				$arr_list = merchant_function::format_distance($data);
-				
-    			ecjia_front::$controller->assign('data', $arr_list);
-    			$say_list = ecjia_front::$controller->fetch('seller_list.dwt');
-    			
-    			if (isset($page['more']) && $page['more'] == 0) $data['is_last'] = 1;
-    			return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $data['is_last']));
-    		}
-    	}
-    	
-    	ecjia_front::$controller->assign_title('店铺列表');
-    	ecjia_front::$controller->assign('cid', $cid);
-    	ecjia_front::$controller->display('seller_list.dwt');
-    }
 }
 
 // end

@@ -11,7 +11,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 <div class="ecjia-store-goods-list">
-	<ul class="ecjia-store-list m_t0" id="ecjia-seller-list" {if $is_last neq 1}data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='goods/category/seller_list'}&type=ajax_get&cid={$cid}"{/if}>
+	<ul class="ecjia-store-list m_t0" id="ecjia-seller-list" {if $is_last neq 1}data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='seller/category/list'}&type=ajax_get&cid={$cid}"{/if}>
 	</ul>
 </div>
 <!-- {/block} -->

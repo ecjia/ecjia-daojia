@@ -66,7 +66,6 @@ RC_Hook::add_action('location/index/get_location_msg',array('location_controller
 RC_Loader::load_theme('extras/controller/goods_controller.php');
 RC_Hook::add_action('goods/category/init', array('goods_controller', 'init'));
 RC_Hook::add_action('goods/category/store_list', array('goods_controller', 'store_list'));//店铺分类列表
-RC_Hook::add_action('goods/category/seller_list', array('goods_controller', 'seller_list'));//店铺分类列表
 RC_Hook::add_action('goods/index/show', array('goods_controller', 'show'));//商品详情页
 RC_Hook::add_action('goods/index/promotion', array('goods_controller', 'promotion'));
 RC_Hook::add_action('goods/index/ajax_goods', array('goods_controller', 'ajax_goods'));
@@ -79,6 +78,7 @@ RC_Hook::add_action('merchant/index/init', array('merchant_controller', 'init'))
 RC_Hook::add_action('merchant/index/ajax_goods', array('merchant_controller', 'ajax_goods'));//获取店铺商品
 RC_Hook::add_action('merchant/index/position', array('merchant_controller', 'position'));//店铺位置
 RC_Hook::add_action('merchant/index/ajax_store_comment', array('merchant_controller', 'ajax_store_comment'));//获取店铺评论
+RC_Hook::add_action('seller/category/list', array('merchant_controller', 'seller_list'));//店铺分类列表
 
 //文章
 RC_Loader::load_theme('extras/controller/article_controller.php');
@@ -201,6 +201,7 @@ RC_Hook::add_action('user/order/comment_list', array('user_order_controller', 'c
 RC_Hook::add_action('user/order/goods_comment', array('user_order_controller', 'goods_comment'));
 RC_Hook::add_action('user/order/make_comment', array('user_order_controller', 'make_comment'));
 RC_Hook::add_action('user/order/buy_again', array('user_order_controller', 'buy_again'));
+RC_Hook::add_action('user/order/express_position', array('user_order_controller', 'express_position'));
 
 //用户资料
 RC_Loader::load_theme('extras/controller/user_profile_controller.php');
@@ -223,6 +224,22 @@ RC_Hook::add_action('connect/index/bind_signin_do', array('connect_controller', 
 
 RC_Loader::load_theme('extras/controller/mobile_controller.php');
 RC_Hook::add_action('mobile/discover/init', array('mobile_controller', 'init'));//百宝箱
+
+//闪惠
+RC_Loader::load_theme('extras/controller/quickpay_controller.php');
+RC_Hook::add_action('user/quickpay/quickpay_list', array('quickpay_controller', 'quickpay_list'));
+RC_Hook::add_action('user/quickpay/init', array('quickpay_controller', 'init'));
+RC_Hook::add_action('user/quickpay/explain', array('quickpay_controller', 'explain'));
+RC_Hook::add_action('user/quickpay/bonus', array('quickpay_controller', 'bonus'));
+RC_Hook::add_action('user/quickpay/integral', array('quickpay_controller', 'integral'));
+RC_Hook::add_action('user/quickpay/notify', array('quickpay_controller', 'notify'));
+RC_Hook::add_action('user/quickpay/async_quickpay_list', array('quickpay_controller', 'async_quickpay_list')); //闪惠异步加载
+RC_Hook::add_action('user/quickpay/quickpay_detail', array('quickpay_controller', 'quickpay_detail')); //单个闪惠订单详情
+RC_Hook::add_action('user/quickpay/flow_checkorder', array('quickpay_controller', 'flow_checkorder'));
+RC_Hook::add_action('user/quickpay/done', array('quickpay_controller', 'done'));
+RC_Hook::add_action('user/quickpay/pay', array('quickpay_controller', 'pay'));
+RC_Hook::add_action('user/quickpay/dopay', array('quickpay_controller', 'dopay'));
+RC_Hook::add_action('user/quickpay/notify', array('quickpay_controller', 'notify'));
 
 /**
  * step：3
@@ -248,6 +265,10 @@ RC_Hook::add_action('ecjia_front_finish_launching', function ($arg) {
     $referer = ecjia::config('map_qq_referer');
     ecjia_front::$controller->assign('key', $key);
     ecjia_front::$controller->assign('referer', $referer);
+    $wap_logo = ecjia::config('wap_logo');
+    if (!empty($wap_logo)) {
+    	setcookie("wap_logo", RC_Upload::upload_url($wap_logo), time() + 1800);
+    }
     //判断并微信登录
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     if (strpos($user_agent, 'MicroMessenger') !== false && ecjia_plugin::is_active('sns_wechat/sns_wechat.php')) {
@@ -390,7 +411,11 @@ ecjia_open::macro('goods_detail', function($querys) {
 	return RC_Uri::url('goods/index/show', array('goods_id' => $querys['goods_id']));
 });
 ecjia_open::macro('seller', function($querys) {
-	return RC_Uri::url('goods/category/seller_list', array('cid' => $querys['category_id']));
+	if (!empty($querys['category_id'])) {
+		return RC_Uri::url('seller/category/list', array('cid' => $querys['category_id']));
+	} else {
+		return RC_Uri::url('seller/category/list');
+	}
 });
 ecjia_open::macro('user_bonus', function($querys) {
     return RC_Uri::url('user/bonus/init', array('type' => $querys['type']));
@@ -400,6 +425,9 @@ ecjia_open::macro('user_address', function() {
 });
 ecjia_open::macro('help', function() {
 	return RC_Uri::url('article/help/init');
+});
+ecjia_open::macro('quickpay', function($querys) {
+	return RC_Uri::url('user/quickpay/init', array('store_id' => $querys['merchant_id']));
 });
 
 /**

@@ -45,6 +45,7 @@
 			ecjia.touch.search_header();
 			ecjia.touch.del_history();
 			ecjia.touch.share_spread();
+			ecjia.touch.copy_btn();
 
 			$("body").greenCheck();
 		},
@@ -181,7 +182,7 @@
         	$.post(wxconfig_url, info, function(response){
         		if (response == '') {return false;}
         		var data = response.data;
-        		if (data.appId != '') {
+        		if (data != undefined && data.appId != '') {
 	        		wx.config({
 	        			debug: false,
 	        			appId: data.appId,
@@ -201,8 +202,11 @@
 	        		    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 	        		});
 	        		var title = document.title;
+	        		var image = $('input[name="share_image"]').val();
 	        		var link = window.history.state != null ? window.history.state.url : window.location.href;
-	        		var image = '';
+	        		if (image == undefined) {
+	        			image = $.cookie('wap_logo');
+	        		}
 	        		var desc = link;
 	        		wx.ready(function () {
 	        			//分享到朋友圈
@@ -228,7 +232,6 @@
 	        		        dataUrl: '', 					// 如果type是music或video，则要提供数据链接，默认为空
 	        		        success: function () { 
 	        		            // 用户确认分享后执行的回调函数
-	        		        	alert(1);
 	        		        },
 	        		        cancel: function () { 
 	        		            // 用户取消分享后执行的回调函数
@@ -253,6 +256,12 @@
         	});
 		},
 		
+		copy_btn : function() {
+			var clipboard = new Clipboard('.copy-btn');
+			clipboard.on('success', function(e) {  
+			        alert("订单号复制成功！");
+			});  
+		},
 		
 		/**
 		 * 设置PJAX

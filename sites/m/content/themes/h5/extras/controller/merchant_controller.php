@@ -85,22 +85,22 @@ class merchant_controller {
 			ecjia_front::$controller->assign('store_info', $store_info);
 			ecjia_front::$controller->assign_title($store_info['seller_name']);
 			
-			if (empty($action_type) && empty($category_id)) {
-				$goods_count = $store_info['goods_count'];
-				if ($goods_count['best_goods'] > 0) {
-					$action_type = 'best';
-					$goods_num = $goods_count['best_goods'];
-					$type_name = '精选';
-				} elseif ($goods_count['hot_goods'] > 0) {
-					$action_type = 'hot';
-					$goods_num = $goods_count['hot_goods'];
-					$type_name = '热销';
-				} elseif ($goods_count['new_goods'] > 0) {
-					$action_type = 'new';
-					$goods_num = $goods_count['new_goods'];
-					$type_name = '新品';
-				}
-			}
+// 			if (empty($action_type) && empty($category_id)) {
+// 				$goods_count = $store_info['goods_count'];
+// 				if ($goods_count['best_goods'] > 0) {
+// 					$action_type = 'best';
+// 					$goods_num = $goods_count['best_goods'];
+// 					$type_name = '精选';
+// 				} elseif ($goods_count['hot_goods'] > 0) {
+// 					$action_type = 'hot';
+// 					$goods_num = $goods_count['hot_goods'];
+// 					$type_name = '热销';
+// 				} elseif ($goods_count['new_goods'] > 0) {
+// 					$action_type = 'new';
+// 					$goods_num = $goods_count['new_goods'];
+// 					$type_name = '新品';
+// 				}
+// 			}
 
 			ecjia_front::$controller->assign('title', $store_info['seller_name']);
 			ecjia_front::$controller->assign('header_left', ' ');
@@ -120,7 +120,8 @@ class merchant_controller {
 		if (!is_ecjia_error($store_category)) {
 			ecjia_front::$controller->assign('store_category', $store_category);
 		}
-		
+		//默认显示全部商品
+		$action_type = 'all';
 		$goods_list = array();
 		if (!empty($action_type) && $action_type != 'all') {
 			$parameter = array(
@@ -251,6 +252,7 @@ class merchant_controller {
 			return false;
 		}
 		
+		unset($_SESSION['quick_pay']);
 		ecjia_front::$controller->assign('status', $status);
 	   	ecjia_front::$controller->assign('ajax_url', RC_Uri::url('merchant/index/ajax_store_comment', array('store_id' => $store_id)));
 		ecjia_front::$controller->display('merchant.dwt');
@@ -454,6 +456,40 @@ class merchant_controller {
 			ecjia_front::$controller->assign_title('店铺位置');
 		}
 		ecjia_front::$controller->display('merchant_position.dwt', $cache_id);
+	}
+	
+	/**
+	 * 店铺列表
+	 */
+	public static function seller_list() {
+		$cid = intval($_GET['cid']);
+		$limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+		$pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
+		$type = isset($_GET['type']) ? $_GET['type'] : '';//判断是否是下滑加载
+	
+		if ($type == 'ajax_get') {
+			$arr = array(
+				'pagination'	=> array('count' => $limit, 'page' => $pages),
+				'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+				'city_id'       => $_COOKIE['city_id']
+			);
+			$arr['category_id'] = $cid;
+			$response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($arr)->hasPage()->run();
+			if (!is_ecjia_error($response)) {
+				list($data, $page) = $response;
+				$arr_list = merchant_function::format_distance($data);
+	
+				ecjia_front::$controller->assign('data', $arr_list);
+				$say_list = ecjia_front::$controller->fetch('seller_list.dwt');
+				 
+				if (isset($page['more']) && $page['more'] == 0) $data['is_last'] = 1;
+				return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $data['is_last']));
+			}
+		}
+		 
+		ecjia_front::$controller->assign_title('店铺列表');
+		ecjia_front::$controller->assign('cid', $cid);
+		ecjia_front::$controller->display('seller_list.dwt');
 	}
 }
 

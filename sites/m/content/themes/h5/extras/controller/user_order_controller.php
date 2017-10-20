@@ -84,6 +84,7 @@ class user_order_controller {
     public static function order_detail() {
         
         $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+        $type = !empty($_GET['type']) ? $_GET['type'] : '';
         if (empty($order_id)) {
             return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/order/order_list')));
         }
@@ -96,19 +97,33 @@ class user_order_controller {
         if (empty($data)) {
             return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/order/order_list')));
         }
-        
         $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name']
             .'-'.$data['order_status'].'-'.$data['shipping_status'].'-'.$data['pay_status'];
         $cache_id = sprintf('%X', crc32($cache_id));
         
-        if (!ecjia_front::$controller->is_cached('user_order_detail.dwt', $cache_id)) {
+        if ($type == 'detail') {
+            if (!ecjia_front::$controller->is_cached('user_order_detail.dwt', $cache_id)) {
             
-            ecjia_front::$controller->assign('order', $data);
-            ecjia_front::$controller->assign('title', '订单详情');
-            ecjia_front::$controller->assign_title('订单详情');
-            ecjia_front::$controller->assign_lang();
+                ecjia_front::$controller->assign('order', $data);
+                ecjia_front::$controller->assign('headInfo', $data['order_status_log'][0]);
+                if ($data['shipping_code'] == 'ship_o2o_express' && !empty($data['express_id'])) {
+                	ecjia_front::$controller->assign('express_url', RC_Uri::url('user/order/express_position', array('code' => $data['shipping_code'], 'express_id' => $data['express_id'], 'order_id' => $data['order_id'], 'store_id' => $data['store_id'])));
+                }
+                ecjia_front::$controller->assign('title', '订单详情');
+                ecjia_front::$controller->assign_title('订单详情');
+                ecjia_front::$controller->assign_lang();
+            }
+            ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
+        } else {
+            if (!ecjia_front::$controller->is_cached('user_order_status.dwt', $cache_id)) {
+            
+                ecjia_front::$controller->assign('order', $data);
+                ecjia_front::$controller->assign('title', '订单状态');
+                ecjia_front::$controller->assign_title('订单状态');
+                ecjia_front::$controller->assign_lang();
+            }
+            ecjia_front::$controller->display('user_order_status.dwt', $cache_id);
         }
-        ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
     }
 
     /**
@@ -195,6 +210,7 @@ class user_order_controller {
             $say_list = '';
             if (!empty($orders)) {
             	ecjia_front::$controller->assign('order_list', $orders);
+            	ecjia_front::$controller->assign('type', $type);
             	ecjia_front::$controller->assign_lang();
             	$say_list = ecjia_front::$controller->fetch('user_order_list.dwt');
             }
@@ -255,6 +271,7 @@ class user_order_controller {
      */
     public static function goods_comment() {
         $token      = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
         $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
         $cache_id = sprintf('%X', crc32($cache_id));
         
@@ -302,11 +319,11 @@ class user_order_controller {
         $rank 			= isset($_POST['score']) 			? intval($_POST['score']) 				: 0;
         $is_anonymous 	= isset($_POST['anonymity_status']) ? intval($_POST['anonymity_status']) 	: '';
        
-        $picture = array();
+        $file = array();
         $_FILES = $_FILES['picture'];
         for ($i=0; $i<5; $i++) {
             if (!empty($_FILES['name'][$i])) {
-                $picture['picture['.$i.']'] = '@'.realpath($_FILES['tmp_name'][$i]).";type=".$_FILES['type'][$i].";filename=".$_FILES['name'][$i];
+                $file['picture['.$i.']'] = curl_file_create(realpath($_FILES['tmp_name'][$i]), $_FILES['type'][$i], $_FILES['name'][$i]);
             }
         }
 
@@ -317,17 +334,48 @@ class user_order_controller {
             "rank"          => $rank,
             "is_anonymous"  => $is_anonymous
         );
-        
-        $push_comment = array_merge($push_comment, $picture);
-        
-        $api_url = RC_Hook::apply_filters('custom_site_api_url', RC_Uri::home_url() . ecjia_touch_manager::serverHost . ecjia_touch_api::COMMENT_CREATE);
-        $data = touch_function::upload_file($api_url, $push_comment);
-        $data = touch_function::format_curl_response($data);
+  
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::COMMENT_CREATE)->data($push_comment)->file($file)->run();
         if (is_ecjia_error($data)) {
             return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
         } else {
             return ecjia_front::$controller->showmessage("提交成功 " , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/order/comment_list', array('order_id' => $order_id))));
         }
+    }
+    
+    public static function express_position() {
+    	$code 		= trim($_GET['code']);
+    	$express_id = intval($_GET['express_id']);
+    	$order_id 	= intval($_GET['order_id']);
+    	$store_id = intval($_GET['store_id']);
+    	
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$params = array('token' => $token, 'order_id' => $order_id, 'city_id' => $_COOKIE['city_id']);
+    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_DETAIL)->data($params)->run();
+    	if (!is_ecjia_error($data)) {
+    		ecjia_front::$controller->assign('data', json_encode($data));
+    	}
+    	
+    	$params_express = array('token' => $token, 'order_id' => $order_id, 'express_id' => $express_id);
+    	$arr = ecjia_touch_manager::make()->api(ecjia_touch_api::EXPRESS_USER_LOCATION)->data($params)->run();
+    	if (!is_ecjia_error($arr)) {
+    		ecjia_front::$controller->assign('arr', json_encode($arr));
+    	}
+    	ecjia_front::$controller->assign('express_info', $arr);
+    	ecjia_front::$controller->assign('hidenav', 1);
+    	
+    	if (!empty($data['order_status_log']) && $data['order_status_log'][0]['status'] == 'finished') {
+    		//店铺信息
+    		$parameter_list = array(
+    			'seller_id' => $store_id,
+    			'city_id' => $_COOKIE['city_id']
+    		);
+    		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_HOME_DATA)->data($parameter_list)->run();
+    		if (!is_ecjia_error($store_info)) {
+    			ecjia_front::$controller->assign('store_location', json_encode($store_info['location']));
+    		}
+    	}
+    	ecjia_front::$controller->display('user_express_position.dwt');
     }
 }
 

@@ -32,6 +32,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="a1n a2g">
 		<div class="a21 clearfix">
 			<ul class="a1o">
+				<li class="a1p {if (!$category_id && !$action_type) || $action_type eq 'all'}a1r{/if}">
+					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=all" data-toggle="toggle-category" data-type="all">全部</strong>
+				</li>
+				
 				<!-- {if $store_info.goods_count.best_goods gt 0} -->
 				<li class="a1p {if $action_type eq 'best'}a1r{/if}">
 					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=best" data-toggle="toggle-category" data-type="best">精选</strong>
@@ -49,10 +53,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=new" data-toggle="toggle-category" data-type="new">新品</strong>
 				</li>
 				<!-- {/if} -->
-
-				<li class="a1p {if (!$category_id && !$action_type) || $action_type eq 'all'}a1r{/if}">
-					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=all" data-toggle="toggle-category" data-type="all">全部</strong>
-				</li>
 
 				<!-- {if $store_category} -->
 					<!-- {foreach from=$store_category item=val} -->
@@ -173,6 +173,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </div>
 <!-- 遮罩层 -->
 <div class="a53" style="display: none;"></div>
+<input type="hidden" name="share_image" value="{if $store_info.seller_logo}{$store_info.seller_logo}{else}{$theme_url}images/store_default.png{/if}">
 <!-- #BeginLibraryItem "/library/address_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- #BeginLibraryItem "/library/store_notice_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- #BeginLibraryItem "/library/goods_attr_modal.lbi" --><!-- #EndLibraryItem -->

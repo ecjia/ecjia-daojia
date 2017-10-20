@@ -54,11 +54,6 @@ class user_controller {
     
     private static function avatar_img($user_id) {
         $default_headerimg = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
-        
-        
-        
-        
-        
     }
     
     /**
@@ -80,8 +75,6 @@ class user_controller {
     		if (!ecjia_front::$controller->is_cached('user.dwt', $cache_id)) {
     			$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
     			$user = is_ecjia_error($user) ? array() : $user;
-    			
-    			 
     			if ($user) {
     				//判断是否第三方登录，同步头像
     				/* 获取远程用户头像信息*/
@@ -110,6 +103,9 @@ class user_controller {
     		
     		ecjia_front::$controller->assign('shop', $shop);
     		ecjia_front::$controller->assign('shop_config', $shop_config);
+    		
+    		$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+    		ecjia_front::$controller->assign('merchant_join_close', $config['merchant_join_close']);
     		
     		ecjia_front::$controller->assign('active', 'mine');
     		ecjia_front::$controller->assign_title('个人中心');

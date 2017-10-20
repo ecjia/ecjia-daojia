@@ -88,6 +88,13 @@ class user_privilege_controller {
         	ecjia_front::$controller->assign('title', '登录');
         	ecjia_front::$controller->assign_title('登录');
         	ecjia_front::$controller->assign_lang();
+
+            if (ecjia_plugin::is_active('sns_wechat/sns_wechat.php')) {
+                ecjia_front::$controller->assign('sns_wechat', 1);
+            }
+            if (ecjia_plugin::is_active('sns_qq/sns_qq.php')) {
+                ecjia_front::$controller->assign('sns_qq', 1);
+            }
         }
         ecjia_front::$controller->display('user_login.dwt', $cache_id);
     }

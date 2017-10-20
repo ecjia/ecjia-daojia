@@ -87,7 +87,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </div>
 
 <div class="ecjia-user-head ecjia-user ecjia-color-green">
-    <ul class="ecjia-user-marg-t ecjia-list list-short ecjia-user-no-border-t">
+    <ul class="ecjia-user-marg-t ecjia-list list-short">
        <li>
         	<a href="{url path='user/account/init'}">
         		<div class="icon-wallet"><img src="{$theme_url}images/user_center/75x75_1.png"></div>
@@ -199,6 +199,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <div class="ecjia-user ecjia-margin-b">
      <ul class="ecjia-list list-short">
+        <li>
+			<a href="{url path='user/quickpay/quickpay_list'}">
+        		<div class="icon-address-list"><img src="{$theme_url}images/user_center/quickpay.png"></div>
+        		<span class="icon-name">我的买单</span>
+        		<i class="iconfont  icon-jiantou-right"></i>
+        	</a>
+		</li>
 		<li>
 			<a href="{url path='user/address/address_list'}">
         		<div class="icon-address-list"><img src="{$theme_url}images/user_center/75x75_3.png"></div>
@@ -260,6 +267,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         </li>
     </ul>
     
+    {if $merchant_join_close neq 1}
     <ul class="ecjia-list list-short">
         <li>
         	<a class="external nopjax external" href="{url path='franchisee/index/first'}">
@@ -276,6 +284,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         	</a>
         </li>
     </ul>
+    {/if}
     
     <ul class="ecjia-list list-short">
         <!-- {foreach from=$shop item=value} 网店信息 -->

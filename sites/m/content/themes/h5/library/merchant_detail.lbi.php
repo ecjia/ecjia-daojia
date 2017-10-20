@@ -28,6 +28,32 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<span class="store-goods-desc">店铺动态</span>
 		</li>
 	</ul>
+	
+	{if $store_info.allow_use_quickpay eq 1}
+	<div class="store-hr"></div>
+	<ul class="store-promotion">
+		<li class="quick">
+			<span class="quick-label">买单</span>
+			<span class="quick-name">买单立享优惠</span>
+			<a class="quick-btn" href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_info.id}" >优惠买单</a>
+		</li>
+		{if $store_info.quick_activity_list}
+		<ul class="quick-item">
+		<!-- {foreach from=$store_info.quickpay_activity_list item=list key=key} -->
+		<li class="quick-li">
+			<div class="quick-left">
+				<span class="quick-name">{$list.title}</span>
+				{if $list.limit_time_weekly neq '' || $list.limit_time_daily neq ''}
+				<span class="quick-time">（{$list.limit_time_weekly}&nbsp;{$list.limit_time_daily}）</span>
+				{/if}
+			</div>
+		</li>
+		<!-- {/foreach} -->
+		</ul>
+		{/if}
+	</ul>
+	{/if}
+	
 	<div class="store-hr"></div>
 	{if $store_info.favourable_list}
 	<ul class="store-promotion">
@@ -60,7 +86,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</li>
 		<li>
 			<span class="other-info-name"><i class="icon-shop-description"></i>商家简介</span>
-			<p class="other-info-result">{if $store_info.shop_description}{$store_info.shop_description}{else}暂无{/if}</p>
+			<p class="other-info-result">{if $store_info.seller_description}{$store_info.seller_description}{else}暂无{/if}</p>
 		</li>
 	</ul>
 </div>

@@ -55,6 +55,10 @@ class franchisee_controller {
 	    $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 	    
 	    if (!ecjia_front::$controller->is_cached('franchisee_first.dwt', $cache_id)) {
+	    	$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+	    	if ($config['merchant_join_close'] == 1) {
+	    		return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    	}
 	        ecjia_front::$controller->assign('form_action', RC_Uri::url('franchisee/index/first_check'));
 	        ecjia_front::$controller->assign_title('店铺入驻');
 	        ecjia_front::$controller->assign_lang();
@@ -140,6 +144,10 @@ class franchisee_controller {
 	
 	//入驻第二步
 	public static function second() {
+		$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+		if ($config['merchant_join_close'] == 1) {
+			return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
 	    //验证第一步是否通过
 	    if (empty($_SESSION['franchisee_add']) || $_SESSION['franchisee_add']['access_time'] + 1800 < RC_Time::gmtime()) {
 	    	return ecjia_front::$controller->showmessage('请先填写基本信息', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
@@ -261,6 +269,10 @@ class franchisee_controller {
 
 	//入驻信息验证提交
 	public static function finish() {
+		$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+		if ($config['merchant_join_close'] == 1) {
+			return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
 	    $token = ecjia_touch_user::singleton()->getToken();
 	    
 	    $responsible_person = !empty($_SESSION['franchisee_add']['name']) ? $_SESSION['franchisee_add']['name'] : '';
@@ -393,6 +405,11 @@ class franchisee_controller {
 	}
 	
 	public static function process() {
+		$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+		if ($config['merchant_join_close'] == 1) {
+			return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 	    $token     = ecjia_touch_user::singleton()->getToken();
         $mobile    = trim($_GET['mobile']);
         $code      = trim($_GET['code']);

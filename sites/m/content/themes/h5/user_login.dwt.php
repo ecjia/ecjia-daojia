@@ -37,10 +37,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
         <input type="button" class="btn btn-info login-btn" name="ecjia-login" value="{$lang.login}" data-url="{url path='user/privilege/signin'}"/>
     </div>
+    {if $sns_qq eq 1 || $sns_wechat eq 1}
     <p class="ecjiaf-tac">其他帐号登录</p>
+    {/if}
 	<ul class="thirdparty-wrap">
+		{if $sns_qq eq 1}
     	<a href="{url path='connect/index/init' args='connect_code=sns_qq'}"><li class="thirdparty-qq"></li></a>
+    	{/if}
+    	{if $sns_wechat eq 1}
     	<a href="{url path='connect/index/init' args='connect_code=sns_wechat&login_type=snsapi_userinfo'}"><li class="thirdparty-weixin"></li></a>
+    	{/if}
 	</ul>
 </div>
 <!-- {/block} -->

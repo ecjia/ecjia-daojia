@@ -190,8 +190,7 @@ class cart_controller {
 		
 		RC_Cache::app_cache_set('cart_goods'.$token.$store_id.$_COOKIE['longitude'].$_COOKIE['latitude'].$_COOKIE['city_id'], $cart_list, 'cart');
 		$cart_goods_list = $cart_list['cart_list'][0]['goods_list'];
-    	$cart_count = $cart_list['cart_list'][0]['total'];
-    	
+		
     	$data_rec = '';
     	$current = array();
     	if (!empty($cart_goods_list)) {
@@ -202,7 +201,10 @@ class cart_controller {
     				} else {
     					$data_rec .= ','.$v['rec_id'];
     				}
-    			}
+    			} elseif ($v['is_checked'] == 0) {
+					$cart_list['cart_list'][0]['total']['check_all'] = false;	//全部选择
+					$cart_list['cart_list'][0]['total']['goods_number'] -= $v['goods_number'];
+				}
     			$goods_attr = explode(',', $v['goods_attr_id']);
     			if (!empty($spec) && !empty($goods_attr)) {
     				asort($spec);
@@ -215,6 +217,7 @@ class cart_controller {
     		}
     		$data_rec = trim($data_rec, ',');
     	}
+    	$cart_count = $cart_list['cart_list'][0]['total'];
     	 
     	//购物车列表 切换状态直接返回
     	if ($response) {

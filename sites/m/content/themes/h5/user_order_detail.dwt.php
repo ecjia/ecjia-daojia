@@ -11,22 +11,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <!-- #EndLibraryItem -->
 <div class="ecjia-order-detail">
-	<ul class="ecjia-list ecjia-list-two ecjia-nav ecjia-margin-t-n">
-		<li class="{if $smarty.get.type neq 'detail'} active{/if}"><a class="nopjax" href="#one" role="tab" data-toggle="tab">订单状态</a></li>
-		<li class="{if $smarty.get.type eq 'detail'} active{/if}"><a class="nopjax" href="#two" role="tab" data-toggle="tab">订单详情</a></li>
-	</ul>
-	<div class="goods-describe order-log-list {if $smarty.get.type neq 'detail'} active{/if}" id="one">
-		<!-- {foreach from=$order.order_status_log item=info} -->
-		<div class='order-log-item {$info.status} {if count($order.order_status_log) lt 2} item-only{/if}'>
-			<div class="order-log">
-				<span>{$info.order_status}</span><span class="ecjiaf-fr order-time">{$info.time}</span>
-				<p>{$info.message}</p>{if $info.status eq 'express_user_pickup' && $order.express_mobile}<a class="tel" href="tel://{$order.express_mobile}"></a>{/if}
-			</div>
-		</div>
-		<!-- {/foreach} -->
-	</div>
-	<div class="ecjia-checkout goods-describe ecjia-margin-b {if $smarty.get.type eq 'detail'} active{/if} " id="two">
+	<div class="ecjia-checkout ecjia-margin-b">
 		<div class="flow-goods-list">
+		    <div class="order-status-head">
+		    <a href="{url path='user/order/order_detail'}&order_id={$order.order_id}&type={'status'}">
+		        <span class="order-status-img"><p></p><img src="{$theme_url}images/icon/list_h_circle_50.png"></span>
+		        <div class="order-status-msg">
+    		        <span><span class="order-head-font">{$headInfo.order_status}</span><span class="ecjiaf-fr order-color">{$headInfo.time}</span></span>
+    		        <p class="ecjia-margin-t h-1"><span class="order-color order-status">{$headInfo.message}</span><span class="ecjiaf-fr order-more-color">更多状态 ></span></p>
+		        </div>
+	        </a>
+		    </div>
 			<div class="order-hd">
 				<a class="ecjiaf-fl" href='{url path="merchant/index/init" args="store_id={$order.store_id}"}'>
 					<i class="iconfont icon-shop"></i>{$order.seller_name}
@@ -69,17 +64,41 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<li style="height: auto;"><span class="ecjiaf-fl width-25-p">收货地址：</span>
 				<span class="ecjiaf-fr width-75-p">{$order.consignee} {$order.mobile}</span>
 				<span class="ecjiaf-fr width-75-p">{$order.province} {$order.city} {$order.district}{$order.address}</span></li>
+				<li>
+					<span class="ecjiaf-fl width-25-p">配送员：</span><span class="ecjiaf-fr width-75-p">
+					{if $order.express_user}
+						{$order.express_user}
+						{if $express_url}
+						<span>
+							<a style="float: right;display: inline-block;" class="nopjax external" href="{$express_url}">
+								<img class="order-map" src="{$theme_url}images/icon/order-map.png">
+							</a>
+						</span>
+						{/if}
+					{else}
+						暂无
+					{/if}
+					</span>
+				</li>
+				<li><span class="ecjiaf-fl width-25-p">配送员号码：</span><span class="ecjiaf-fr width-75-p">{if $order.express_user}{$order.express_mobile}{else}暂无{/if}</span></li>
 				<li><span class="ecjiaf-fl width-25-p">配送方式：</span><span class="ecjiaf-fr width-75-p">{$order.shipping_name}</span></li>
-				{if $order.express_user}<li><span class="ecjiaf-fl width-25-p">配送员：</span><span class="ecjiaf-fr width-75-p">{$order.express_user} {$order.express_mobile}</span></li>{/if}
 			</ul>
+			{if $order.shipping_code == 'ship_cac' && $order.pickup_code neq ''}
+			<p class="select-title ecjiaf-fwb ecjia-margin-l">提货信息</p>
+			<ul class="ecjia-list">
+				<li><span class="ecjiaf-fl width-25-p">提货码：</span><span class="ecjiaf-fr width-75-p">{$order.pickup_code}</span></li>
+				<li><span class="ecjiaf-fl width-25-p">提货状态：</span><span class="ecjiaf-fr width-75-p">{if $order.pickup_status == 0}未提取{else}已提取{/if}</span></li>
+				<li hidden><span class="ecjiaf-fl width-25-p">有效期至：</span><span class="ecjiaf-fr width-75-p">{$order.pickup_code_expiretime}</span></li>
+			</ul>
+			{/if}
 			<p class="select-title ecjiaf-fwb ecjia-margin-l">订单信息</p>
 			<ul class="ecjia-list">
+			    <li><span class="ecjiaf-fl width-25-p">订单编号：</span><span class="width-75-p">{$order.order_sn}</span><button class="copy-btn" data-clipboard-text="{$order.order_sn}">复制</button></li>
+			    <li><span class="ecjiaf-fl width-25-p">下单时间：</span><span class="ecjiaf-fr width-75-p">{$order.formated_add_time}</span></li>
+				<li><span class="ecjiaf-fl width-25-p">支付方式：</span><span class="ecjiaf-fr width-75-p">{$order.pay_name}</span></li>
 				<li><span class="ecjiaf-fl width-25-p">发票抬头：</span><span class="ecjiaf-fr width-75-p">{if $order.inv_title_type}{$order.inv_payee}{else}无{/if}</span></li>
 				<li><span class="ecjiaf-fl width-25-p">发票识别码：</span><span class="ecjiaf-fr width-75-p">{if $order.inv_tax_no}{$order.inv_tax_no}{else}无{/if}</span></li>
-				<li><span class="ecjiaf-fl width-25-p">订单编号：</span><span class="ecjiaf-fr width-75-p">{$order.order_sn}</span></li>
-				<li><span class="ecjiaf-fl width-25-p">下单时间：</span><span class="ecjiaf-fr width-75-p">{$order.formated_add_time}</span></li>
 				<li class="remark"><span class="ecjiaf-fl width-25-p">订单备注：</span><span class="ecjiaf-fr width-75-p">{if $order.postscript}{$order.postscript}{else}无{/if}</span></li>
-				<li><span class="ecjiaf-fl width-25-p">支付方式：</span><span class="ecjiaf-fr width-75-p">{$order.pay_name}</span></li>
 			</ul>
 			<div class="order-ft-link">
 				<a class="btn btn-small btn-hollow external" href="{if $order.service_phone}tel://{$order.service_phone}{else}javascript:alert('无法联系卖家');{/if}">联系卖家</a>
