@@ -84,7 +84,7 @@ class signin_module extends api_front implements api_interface {
 			$data = array(
 				'profile' => serialize($profile)
 			);
-			RC_Model::model('connect/connect_user_model')->where(array('connect_code' => $connect_user->connect_code, 'user_type' => 'user', 'open_id' => $connect_user->open_id, 'user_id' => $_SESSION['user_id']))->update($data);
+			RC_Model::model('connect/connect_user_model')->where(array('connect_code' => $connect_user->getConnectCode(), 'user_type' => 'user', 'open_id' => $connect_user->getOpenId(), 'user_id' => $_SESSION['user_id']))->update($data);
 			
 			/* 获取远程用户头像信息*/
 			RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
