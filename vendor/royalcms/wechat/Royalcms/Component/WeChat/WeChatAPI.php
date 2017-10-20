@@ -148,7 +148,7 @@ class WeChatAPI {
     public function uploadHeadimgKfaccount($kf_account, $media) {
         static $url = 'https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=%s&kf_account=%s';
         $token = $this->getAccessToken();
-        $body  = Utility::http(sprintf($url, $token, $kf_account), array('media' => '@'.realpath($media)));
+        $body  = Utility::http(sprintf($url, $token, $kf_account), array('media' => curl_file_create(realpath($media))));
         Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/uploadheadimg');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
@@ -435,8 +435,8 @@ class WeChatAPI {
      */
     public function uploadFile($type, $file) {
         static $url = 'http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s';
-        $token = $this->getAccessToken();
-        $body  = Utility::http(sprintf($url, $token, $type), array('media' => '@'.realpath($file)));
+        $token = $this->getAccessToken(); 
+        $body  = Utility::http(sprintf($url, $token, $type), array('media' => curl_file_create(realpath($file))));
         $result  = json_decode($body, true);
         Hook::do_action('wechat_api_request_record', 'media/upload');
         if (!$result || !empty($result['errcode'])) {
@@ -472,7 +472,7 @@ class WeChatAPI {
     public function uploadimgFile($file) {
         static $url = 'https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=%s';
         $token = $this->getAccessToken();
-        $body  = Utility::http(sprintf($url, $token), array('media' => '@'.realpath($file)));
+        $body  = Utility::http(sprintf($url, $token), array('media' => curl_file_create(realpath($file))));
         $result  = json_decode($body, true);
         Hook::do_action('wechat_api_request_record', 'media/uploadimg');
         if (!$result || !empty($result['errcode'])) {
@@ -549,9 +549,9 @@ class WeChatAPI {
     	static $url = 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=%s&type=%s';
     	$token = $this->getAccessToken();
     	if ($type == 'video') {
-    		$body = Utility::http(sprintf($url, $token, $type), array('media' => '@'.realpath($file), 'description' => Utility::json_encode($introduction)));
+    		$body = Utility::http(sprintf($url, $token, $type), array('media' => curl_file_create(realpath($file)), 'description' => Utility::json_encode($introduction)));
     	} else {
-    		$body = Utility::http(sprintf($url, $token, $type), array('media' => '@'.realpath($file)));
+    		$body = Utility::http(sprintf($url, $token, $type), array('media' => curl_file_create(realpath($file))));
     	}
     	$result  = json_decode($body, true);
     	Hook::do_action('wechat_api_request_record', 'material/add_material');
