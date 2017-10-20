@@ -66,6 +66,9 @@ class config_module extends api_front implements api_interface
     		}	
     	}
     	
+    	/*闪惠规则*/
+    	$quickpay_rule = ecjia::config('quickpay_rule');
+    	
         $data = array(
             'service_phone'     => ecjia::config('service_phone'),
             'service_qq'        => ecjia_config::has('qq') ? explode(',', ecjia::config('qq')) : array(),
@@ -82,6 +85,8 @@ class config_module extends api_front implements api_interface
         	'get_password_url'	=> RC_Uri::url('user/get_password/forget_pwd', 'type=mobile'),
         	'recommend_city'	=> $regions,
         	'bonus_readme_url'	=> RC_Uri::site_url().ecjia::config('bonus_readme_url'),
+        	'quickpay_rule'		=> $quickpay_rule,
+        	'merchant_join_close' => ecjia::config('merchant_join_close'),
         );
         
         $result = ecjia_app::validate_application('sms');
@@ -134,7 +139,8 @@ class config_module extends api_front implements api_interface
         
         $data['mobile_app_icon'] = ecjia_config::has('mobile_app_icon') ? RC_Upload::upload_url() . '/' . ecjia::config('mobile_app_icon') : '';
        	$shop_type = RC_Config::load_config('site', 'SHOP_TYPE');
-        $data['shop_type'] = !empty($shop_type) ? $shop_type : 'b2c';
+       	
+        $data['shop_type'] = !empty($shop_type) ? $shop_type : 'cityo2o';
         $data['wap_app_download_show'] = ecjia::config('wap_app_download_show');
         $data['wap_app_download_img'] = ecjia_config::has('wap_app_download_img') ? RC_Upload::upload_url() . '/' . ecjia::config('wap_app_download_img') : '';
         

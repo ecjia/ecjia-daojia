@@ -185,7 +185,6 @@ return array(
 		'top10_time' 			=> '排行统计的时间',
 		'goods_gallery_number' 	=> '商品详情页相册图片数量',
 		'article_title_length' 	=> '文章标题的长度',
-		'cron_method' 			=> '是否开启命令行调用计划任务',
 		'timezone' 				=> '默认时区',
 		'upload_size_limit' 	=> '附件上传大小',
 		'search_keywords' 		=> '首页搜索的关键字',
@@ -521,10 +520,6 @@ return array(
 		'sms_order_shipped' => array(
 			'0' => '不发短信',
 			'1' => '发短信',
-		),
-		'cron_method' => array(
-			'0' => '否',
-			'1' => '是',
 		),
 		'enable_order_check' => array(
 			'0' => '否',
