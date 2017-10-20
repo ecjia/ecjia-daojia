@@ -622,18 +622,17 @@ class admin_account extends ecjia_admin {
 	 */
 	public function validate_acount() {
 		$user_mobile =  empty($_POST['user_mobile']) ? 0 : $_POST['user_mobile'];
+		$user_info = RC_DB::table('users')->where('mobile_phone', $user_mobile)->first();
 		
 		if (empty($user_mobile)) {
-			return $this->showmessage('会员手机号码不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage('会员手机号码不能为空！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		} elseif (empty($user_info)) {
+			return $this->showmessage('该手机号对应的会员信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		} else {
+			$result = array();
+			$result = array('status' => 1, 'username' => $user_info['user_name']);
+			return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $result);
 		}
-		
-		$user_info = RC_DB::table('users')->where('mobile_phone', $user_mobile)->first();
-		if (empty($user_info)) {
-			return $this->showmessage('会员信息不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		$result = array();
-		$result = array('status' => 1, 'username' => $user_info['user_name']);
-		die(json_encode($result));
 	}
 	
 	/**

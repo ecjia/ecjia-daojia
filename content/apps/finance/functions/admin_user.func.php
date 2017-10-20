@@ -555,25 +555,6 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 	RC_DB::table('users')
 			->where('user_id', $user_id)
 			->increment('user_money', $step);
-			
-			
-	$user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'user_money', 'mobile_phone')->first();
-	
-	/* 短信告知用户账户变动 */
-	if (!empty($user_info['mobile_phone'])) { 
-		$options = array(
-			'mobile' => $user_info['mobile_phone'],
-			'event'	 => 'sms_user_account_change',
-			'value'  =>array(
-					'user_name' 	=> $user_info['user_name'],
-					'amount' 		=> $user_money,
-					'user_money' 	=> $user_info['user_money'],
-					'service_phone' => ecjia::config('service_phone'),
-			),
-		);
-		
-		RC_Api::api('sms', 'send_event_sms', $options);
-	}
 }
 
 // TODO:以下从api移入

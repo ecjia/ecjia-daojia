@@ -54,25 +54,30 @@
  
     app.account_edit = {
         init: function () {
-        	$(".user-mobile").blur(function(){
-        		 var $this = $(this);
-                 var url = $this.attr('action');
-                 var mobile = $this.val();
-                 var data = {
-                		 user_mobile: mobile,
-                 }
-                 
-        		  $.post(url, data, function (data) {
-        			 if (data.state == 'success') {
-                   		ecjia.admin.showmessage(data);
-                   	 }
-                 	 if (data.status == 1) {
-                 		$(".user").removeClass("username");
-                 		$(".userinfo").html(data.username);
-                 	 }
-                  }, 'json');
-             }),
+            app.account_edit.validate();
             app.account_edit.submit();
+        },
+        
+        validate: function () {
+        	$(".user-mobile").blur(function(){
+          		 var $this = $(this);
+                   var url = $this.attr('action');
+                   var mobile = $this.val();
+                   var data = {
+                  		 user_mobile: mobile,
+                   }
+                   
+          		  $.post(url, data, function (data) {
+          			 if (data.state == 'error') {
+                     	ecjia.admin.showmessage(data);
+                     } 
+          			 
+                   	 if (data.status == 1) {
+                   		$(".user").removeClass("username");
+                   		$(".userinfo").html(data.username);
+                   	 }
+                    }, 'json');
+               });
         },
         
         submit: function () {
@@ -112,7 +117,7 @@
         init: function () {
             app.account_check.submit();
         },
-        
+    
         submit: function () {
             var $this = $("form[name='theForm']");
             var option = {

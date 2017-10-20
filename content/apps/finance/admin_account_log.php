@@ -213,6 +213,23 @@ class admin_account_log extends ecjia_admin {
 		
 		/* 保存 */
 		change_account_log($user_id, $user_money, $frozen_money, $rank_points, $pay_points, $change_desc, ACT_ADJUSTING);
+		if(!empty($user_money) && $_POST['add_sub_user_money'] == 1) {
+			$user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'user_money', 'mobile_phone')->first();
+			/* 短信告知用户账户变动 */
+			if (!empty($user_info['mobile_phone'])) {
+				$options = array(
+					'mobile' => $user_info['mobile_phone'],
+					'event'	 => 'sms_user_account_change',
+					'value'  =>array(
+							'user_name' 	=> $user_info['user_name'],
+							'amount' 		=> $user_money,
+							'user_money' 	=> $user_info['user_money'],
+							'service_phone' => ecjia::config('service_phone'),
+					),
+				);
+				RC_Api::api('sms', 'send_event_sms', $options);
+			}
+		}
 		
 		ecjia_admin::admin_log($user['user_name'].'，'.RC_Lang::get('user::account_log.usermoney').$usermoney.$user_money.
 			RC_Lang::get('user::account_log.frozenmoney').$frozenmoney.$frozen_money.
