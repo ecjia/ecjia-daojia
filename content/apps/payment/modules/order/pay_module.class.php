@@ -55,12 +55,22 @@ class pay_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
     	$user_id = $_SESSION['user_id'];
-    	if ($user_id < 1 ) {
-    	    return new ecjia_error(100, 'Invalid session');
+    	
+    	$device	= $this->device;
+    	if (!empty($device) && is_array($device) && $device['code'] == '8001') {
+    		//收银台支付登录判断
+    		if ($_SESSION['staff_id'] <= 0 && empty($_SESSION['user_id'])) {
+    			return new ecjia_error(100, 'Invalid session');
+    		}
+    	} else {
+	    	if ($user_id < 1 ) {
+	    	    return new ecjia_error(100, 'Invalid session');
+	    	}
     	}
     	
 		$order_id	= $this->requestData('order_id', 0);
 		$is_mobile	= $this->requestData('is_mobile', true);
+		$wxpay_open_id = $this->requestData('wxpay_open_id', null);
 		
 		if (!$order_id) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
@@ -81,7 +91,14 @@ class pay_module extends api_front implements api_interface {
 			$_SESSION['user_id'] = $order['user_id'];
 		}
 		
+		//添加微信支付需要的OPEN_ID
+		if ($wxpay_open_id) {
+		    $order['open_id'] = $wxpay_open_id;
+		}
+		
 		//支付方式信息
+		RC_Logger::getLogger('info')->info('order-pay');
+		RC_Logger::getLogger('info')->info($order);
 		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
 		if (is_ecjia_error($handler)) {
 		    return $handler;

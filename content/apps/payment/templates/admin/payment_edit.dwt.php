@@ -22,7 +22,7 @@
 		{/if}
 	</h3>
 </div>
-<div class="row-fluid">
+<div class="row-fluid edit-page">
 	<div class="span12">
 		<form id="form-privilege"  class="form-horizontal"  name="editForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
 			<fieldset>
@@ -56,9 +56,9 @@
 							<!-- {/if} -->
 							<input name="cfg_name[]" type="hidden" value="{$config.name}" />
 							<input name="cfg_type[]" type="hidden" value="{$config.type}" />
-							<input name="cfg_lang[]" type="hidden" value="{$config.lang}" /><br>
+							<input name="cfg_lang[]" type="hidden" value="{$config.lang}" />
 							{if $config.desc}
-    						<br><span class="help-block">{$config.desc}</span>
+    						<span class="help-block">{$config.desc}</span>
     						{/if}
 							<!--the tenpay code -->
 							{if $key eq "0"}

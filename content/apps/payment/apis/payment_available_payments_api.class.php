@@ -67,7 +67,12 @@ class payment_available_payments_api extends Component_Event_Api {
 		$device_code = royalcms('request')->header('device-code');
 		if ($device_code) {
 		    $client = RC_Api::api('mobile', 'device_client', array('code' => $device_code));
-		    $available_plugins = $client->getPlatform()->getPayments();
+		    if (is_ecjia_error($client)) {
+		        RC_Logger::getLogger('record')->error('RC_Api-mobile-device_client'.$client->get_error_message());
+		        $available_plugins = array();
+		    } else {
+		        $available_plugins = $client->getPlatform()->getPayments();
+		    }
 		} else {
 		    $available_plugins = array();
 		}

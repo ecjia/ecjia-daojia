@@ -56,7 +56,6 @@ class payment_method {
 	
 	public function __construct() {
 		$this->db = RC_Model::model('payment/payment_model');
-		RC_Loader::load_app_class('payment_factory', 'payment', false);
 	}
 	
 	

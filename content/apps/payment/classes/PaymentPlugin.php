@@ -260,8 +260,7 @@ class PaymentPlugin extends PluginModel
         
         if (is_int($code)) {
             $data = $this->getPluginDataById($code);
-        }
-        else {
+        } else {
             $data = $this->getPluginDataByCode($code);
         }
         
