@@ -130,6 +130,8 @@ class pc_controller {
             ecjia_front::$controller->assign('cycleimage', $data);
             $count = count($data);
             ecjia_front::$controller->assign('count', $count);
+            ecjia_front::$controller->assign('pc_keywords', ecjia::config('shop_keywords'));
+            ecjia_front::$controller->assign('pc_description', ecjia::config('shop_desc'));
         }
         ecjia_front::$controller->display('index.dwt', $cache_id);
     }

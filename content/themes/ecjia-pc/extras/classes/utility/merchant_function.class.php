@@ -107,8 +107,7 @@ class merchant_function {
         //接单数、接单率
         $amount_info['list_amount'] = RC_DB::table('order_info')->where('store_id', $store_id)->count();
         $amount_info['order_amount'] = RC_DB::table('order_info')->where('store_id', $store_id)->where('order_status', 5)->where('shipping_status', 2)->where('pay_status', 2)->count();
-        $amount_info['order_precent'] = round($amount_info['order_amount'] / $amount_info['list_amount'] * 100, 2);
-
+        $amount_info['order_precent'] = $amount_info['list_amount'] == 0 ? 0 : round($amount_info['order_amount'] / $amount_info['list_amount'] * 100, 2);
         foreach ($outward_info as $key => $val) {
             if ($val['code'] == 'shop_trade_time') {
                 //判断营业时间
