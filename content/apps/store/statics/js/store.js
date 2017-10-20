@@ -5,7 +5,7 @@
 			//搜索功能
 			$("form[name='searchForm'] .search_store").on('click', function (e) {
 				e.preventDefault();
-				var url = $("form[name='searchForm']").attr('action') + '&keywords=' + $("input[name='keywords']").val();
+				var url = $("form[name='searchForm']").attr('action') + '&keywords=' + $("input[name='keywords']").val()+ '&cat_id=' + $("select[name='cat_id']").val();
 				ecjia.pjax(url);
 			});
 			app.store_list.toggle_view();

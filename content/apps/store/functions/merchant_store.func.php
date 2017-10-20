@@ -136,7 +136,6 @@ function get_merchant_config($store_id, $code, $arr){
  * 设置店铺配置信息
  */
 function set_merchant_config($store_id, $code, $value, $arr){
-    $merchants_config = RC_Model::model('merchant/merchants_config_model');
     if(empty($code)){
         if(is_array($arr)){
             foreach ($arr as $key => $val) {
@@ -162,6 +161,28 @@ function set_merchant_config($store_id, $code, $value, $arr){
     }
 }
 
+function get_store_full_info($store_id) {
+    
+    if (empty($store_id)) {
+        $store_id = $_SESSION['store_id'];
+    }
+    if (empty($store_id)) {
+        return false;
+    }
+    $store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
+    
+    $region_name = RC_DB::table('region')
+    ->whereIn('region_id', array($store_info['province'], $store_info['city'], $store_info['district']))
+    ->get();
+    $store_info['province_id']	= $store_info['province'];
+    $store_info['city_id']		= $store_info['city_id'];
+    $store_info['district_id']	= $store_info['district_id'];
+    $store_info['province']	= $region_name[0]['region_name'];
+    $store_info['city']		= $region_name[1]['region_name'];
+    $store_info['district']	= $region_name[2]['region_name'];
+    
+    return $store_info;
+}
 /*
  * 上传图片
  *  @param string $path 上传路径

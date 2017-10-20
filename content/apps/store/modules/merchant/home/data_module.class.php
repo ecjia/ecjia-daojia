@@ -61,6 +61,9 @@ class data_module extends api_front implements api_interface {
 		if (empty($seller_id)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
+		//是否开启闪惠功能
+		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $seller_id)->where('code', 'quickpay_enabled')->pluck('value');
+		
 		$user_id = $_SESSION['user_id'];
 		$api_version = $request->header('api-version');
 		$api_version = empty($api_version) ? $this->requestData('api_version') : $api_version;
@@ -78,7 +81,7 @@ class data_module extends api_front implements api_interface {
 		    if ($info['status'] == 2 || $info['shop_close'] == 1) {
 		        return array('shop_close' => 1);
 		    }
-		    
+		    $info['allow_use_quickpay'] = empty($allow_use_quickpay) ? 0 : 1;
 		    //流程逻辑开始
 		    // runloop 流
 		    $response = array();
@@ -108,6 +111,7 @@ class data_module extends api_front implements api_interface {
 		        $store_config[$value['code']] = $value['value'];
 		    }
 		    $info = array_merge($info, $store_config);
+		    
 		    
 		    if(substr($info['shop_logo'], 0, 1) == '.') {
 		        $info['shop_logo'] = str_replace('../', '/', $info['shop_logo']);
@@ -172,6 +176,30 @@ class data_module extends api_front implements api_interface {
 		        }
 		    }
 		    
+		    /*店铺闪惠活动列表*/
+		    $quickpay_activity_list = array();
+		  
+		    $quickpay_activity_list = RC_Api::api('quickpay', 'quickpay_activity_list', array('store_id' => $info['store_id']));
+		  
+		    if (is_ecjia_error($quickpay_activity_list)) {
+		    	return $quickpay_activity_list;
+		    }
+		    
+		    $quickpay_activity_list_new = array();
+		    if (!empty($quickpay_activity_list['list'])) {
+		    	foreach($quickpay_activity_list['list'] as $key => $val) {
+		    		$quickpay_activity_list_new[] = array(
+		    				'activity_id' 			=> $val['id'],
+		    				'title' 	  			=> $val['title'],
+		    				'activity_type' 		=> $val['activity_type'],
+		    				'label_activity_type' 	=> $val['label_activity_type'],
+		    				'limit_time_type'		=> $val['limit_time_type'],
+		    				'limit_time_weekly'		=> $val['limit_time_weekly_str'],
+		    				'limit_time_daily'		=> $val['limit_time_daily_str'],
+		    				'limit_time_exclude'	=> $val['limit_time_exclude'],
+		    		);
+		    	}	
+		    }
 		    if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
     			$geohash         = RC_Loader::load_app_class('geohash', 'store');
     			$geohash_code    = $geohash->encode($location['latitude'] , $location['longitude']);
@@ -182,6 +210,7 @@ class data_module extends api_front implements api_interface {
     		$info['trade_time'] = get_store_trade_time($info['store_id']);
 		    $seller_info = array(
 		        'id'				=> $info['store_id'],
+		    	'allow_use_quickpay' => empty($allow_use_quickpay) ? 0 : 1,
 		        'seller_name'		=> $info['merchants_name'],
 		        'seller_logo'		=> empty($info['shop_logo']) ?  '' : RC_Upload::upload_url($info['shop_logo']),
 		        'seller_banner'		=> empty($info['shop_banner_pic']) ?  '' : RC_Upload::upload_url($info['shop_banner_pic']),
@@ -214,6 +243,7 @@ class data_module extends api_front implements api_interface {
 		            'comment_delivery'		=> '100%',
 		        ),
 		        'favourable_list'	=> $favourable_list,
+		    	'quickpay_activity_list' => $quickpay_activity_list_new,
 		        'label_trade_time'	=> $info['trade_time'],
 		        'delivery_range'    => in_array($info['store_id'], $store_id_group) ? 'in' : 'out',
 		    );

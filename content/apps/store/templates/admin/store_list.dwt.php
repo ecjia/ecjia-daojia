@@ -31,6 +31,12 @@
 		<!-- {if $action_link} -->
     	<a class="btn plus_or_reply data-pjax" id="sticky_a" href="{$action_link.href}"><i class="fontello-icon-plus"></i>{$action_link.text}</a>
     	<!-- {/if} -->
+    	<!-- {if $enter_progress} -->
+    	<a class="btn plus_or_reply data-pjax" id="sticky_a" href="{$enter_progress.href}">{$enter_progress.text}</a>
+    	<!-- {/if} -->
+    	<!-- {if $bill_progress} -->
+    	<a class="btn plus_or_reply data-pjax" id="sticky_a" href="{$bill_progress.href}">{$bill_progress.text}</a>
+    	<!-- {/if} -->
 	</h3>
 </div>
 	

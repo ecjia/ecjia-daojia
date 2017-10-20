@@ -44,6 +44,15 @@
     				</div>
     			</div>
     		</div>
+
+			<div class="control-group formSep">
+    			<label class="control-label">{t}是否关闭入驻商加盟：{/t}</label>
+    			<div class="controls l_h30">
+					<input type="radio" name="merchant_join_close" value="0" {if $merchant_join_close eq 0}checked{/if}/>否
+					<input type="radio" name="merchant_join_close" value="1" {if $merchant_join_close eq 1}checked{/if}/>是 
+				</div>
+    		</div>
+
 		    <h3 class="heading">
 				定位设置
 			</h3>
@@ -52,6 +61,8 @@
     			<div class="controls">
     				<select name="mobile_location_range">
     					<option value='0' {if $mobile_location_range eq '0'}selected="true"{/if}>全城</option>
+    					<option value='1' {if $mobile_location_range eq '1'}selected="true"{/if}>约周边5000公里</option>
+    					<option value='2' {if $mobile_location_range eq '2'}selected="true"{/if}>约周边1000公里</option>
     					<option value='3' {if $mobile_location_range eq '3'}selected="true"{/if}>约周边120公里</option>
     					<option value='4' {if $mobile_location_range eq '4'}selected="true"{/if}>约周边30公里</option>
     					<option value='5' {if $mobile_location_range eq '5'}selected="true"{/if}>约周边4公里</option>
@@ -67,8 +78,8 @@
 	    	<div class="control-group formSep">
     			<label class="control-label">{t}门店切换模式：{/t}</label>
     			<div class="controls l_h30">
-    				<input type="radio" name="store_model" value="0" {if $model eq 0 || !$model}checked="true"{/if} />附近门店&nbsp;&nbsp;&nbsp;
-    				<input type="radio" name="store_model" value="1" {if $model eq 1}checked="true"{/if} />单门店&nbsp;&nbsp;&nbsp;
+    				<input type="radio" name="store_model" value="0" {if $model eq 0 || !$model}checked="true"{/if} />附近门店
+    				<input type="radio" name="store_model" value="1" {if $model eq 1}checked="true"{/if} />单门店
     				<input type="radio" name="store_model" value="2" {if $model eq 2}checked="true"{/if} />多门店
     				<span class="help-block">设置门店的切换模式，如选择“单门店”则可设置单独的一家门店，如选择“多门店”则可设置多家门店</span>
     			</div>

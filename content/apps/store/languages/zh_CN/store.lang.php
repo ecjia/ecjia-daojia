@@ -66,7 +66,7 @@ return array(
 
 	//商家入驻列列表
 	'store'			=>	'入驻商',
-	'store_list'	=>	'入驻商列表',
+	'store_list'	=>	'入驻商家列表',
 	'id'			=>	'编号',
 	'store_update'	=>	'编辑入驻商',
 	'store_title'	=>	'店铺名称',

@@ -110,6 +110,12 @@ class admin_config extends ecjia_admin {
 		$this->assign('store_list', $store_list);
 		$this->assign('cat_list', cat_list(0, 0, true));
 		
+		//是否关闭入驻商加盟
+		$info = RC_DB::table('shop_config')->where('code', 'merchant_join_close')->first();
+		
+		$merchant_join_close = ecjia::config('merchant_join_close');
+		$this->assign('merchant_join_close', $merchant_join_close);
+		
 		$this->display('store_config_info.dwt');
 	}
 		
@@ -125,6 +131,7 @@ class admin_config extends ecjia_admin {
 
 		$store_model = !empty($_POST['store_model']) ? intval($_POST['store_model']) : 0;
 		
+		$merchant_join_close = !empty($_POST['merchant_join_close']) ? intval($_POST['merchant_join_close']) : 0;
 		//附近门店
 		if ($store_model == 0) {
 			$store_model = 'nearby';
@@ -169,6 +176,9 @@ class admin_config extends ecjia_admin {
 		
 		//门店模式
 		ecjia_config::instance()->write_config('store_model', $store_model);
+		
+		//是否关闭入驻商加盟
+		ecjia_config::instance()->write_config('merchant_join_close', $merchant_join_close);
 		
 		ecjia_admin::admin_log('商家入驻>后台设置', 'setup', 'config');
 		return $this->showmessage(__('更新商店设置成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_config/init')));

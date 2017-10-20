@@ -108,8 +108,9 @@ class admin extends ecjia_admin {
 	    $this->assign('action_link', array('text' => '添加自营商家', 'href'=>RC_Uri::url('store/admin/add')));
 	    $this->assign('manage_mode', $manage_mode);
 	    
-	    $this->assign('search_action',RC_Uri::url('store/admin/init'));
-
+	    $this->assign('search_action', RC_Uri::url('store/admin/init'));
+	    $this->assign('bill_progress', array('text' => '结算流程', 'href'=>RC_Uri::url('store/admin/progress', array('type' => 'bill', 'from' => 'self'))));
+	    
 	    $this->display('store_list.dwt');
 	}
 	
@@ -131,8 +132,10 @@ class admin extends ecjia_admin {
 		$this->assign('store_list', $store_list);
 		$this->assign('filter', $store_list['filter']);
 		$this->assign('manage_mode', $manage_mode);
-	
 		$this->assign('search_action',RC_Uri::url('store/admin/join'));
+		
+		$this->assign('bill_progress', array('text' => '结算流程', 'href'=>RC_Uri::url('store/admin/progress', array('type' => 'bill'))));
+		$this->assign('enter_progress', array('text' => '入驻流程', 'href'=>RC_Uri::url('store/admin/progress', array('type' =>'enter'))));
 	
 		$this->display('store_list.dwt');
 	}
@@ -145,10 +148,11 @@ class admin extends ecjia_admin {
 	    $this->admin_priv('store_affiliate_add', ecjia::MSGTYPE_JSON);
 	    
 	    $this->assign('action_link',array('href' => RC_Uri::url('store/admin/init'),'text' => RC_Lang::get('store::store.store_list')));
+	    
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加自营商家'));
 	    $this->assign('ur_here', '添加自营商家');
 	    
-	    $cat_list = $this->get_cat_select_list();
+	    $cat_list 	= $this->get_cat_select_list();
 	    $province   = $this->db_region->get_regions(1, 1);
 	    $city       = $this->db_region->get_regions(2, $store['province']);
 	    $district   = $this->db_region->get_regions(3, $store['city']);
@@ -1065,7 +1069,7 @@ class admin extends ecjia_admin {
 		}
 
 		$filter_type = $db_store_franchisee
-            		->select(RC_DB::raw('count(*) as count_all'),
+         			->select(RC_DB::raw('count(*) as count_all'),
             		    RC_DB::raw('SUM(status = 1) as count_unlock'),
             		    RC_DB::raw('SUM(status = 2) as count_locking'))
         		    ->first();
@@ -1441,7 +1445,30 @@ class admin extends ecjia_admin {
 		}
         return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $shop_point);
     }
-
+    
+    public function progress() {
+    	$this->admin_priv('store_self_manage');
+    	$type = trim($_GET['type']);
+    	$from = trim($_GET['from']);
+    	
+    	if ($from == 'self') {
+    		$this->assign('action_link',array('href' => RC_Uri::url('store/admin/init'), 'text' => '自营店铺列表'));
+    	} else {
+    		$this->assign('action_link',array('href' => RC_Uri::url('store/admin/join'), 'text' => RC_Lang::get('store::store.store_list')));
+    	}
+    	$url = RC_App::apps_url('statics/', __FILE__);
+    	if ($type == 'bill') {
+    		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('结算流程'));
+    		$this->assign('ur_here', '结算流程');
+    	} else {
+    		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('入驻流程'));
+    		$this->assign('ur_here', '入驻流程');
+    	}
+    	
+    	$this->assign('type', $type);
+    	$this->assign('url', $url);
+    	$this->display('store_progress.dwt');
+    }
 }
 
 //end

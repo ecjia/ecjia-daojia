@@ -14,23 +14,31 @@
 
 <div class="nav nav-pills">
 	<li class="{if !$smarty.get.type || $smarty.get.type == 'join'}active{/if}">
-		<a class="data-pjax" href='{RC_Uri::url("store/admin_preaudit/init", "{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}" )}'>申请入驻 
+		<a class="data-pjax" href='{RC_Uri::url("store/admin_preaudit/init", "{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $smarty.get.cat_id}&cat_id={$smarty.get.cat_id}{/if}" )}'>申请入驻 
 			<span class="badge badge-info">{$store_list.filter.count_join}</span>
 		</a>
 	</li>
 	
 	<li class="{if $smarty.get.type eq 'edit'}active{/if}">
-		<a class="data-pjax" href='{RC_Uri::url("store/admin_preaudit/init", "type=edit{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}")}'>资料修改
+		<a class="data-pjax" href='{RC_Uri::url("store/admin_preaudit/init", "type=edit{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $smarty.get.cat_id}&cat_id={$smarty.get.cat_id}{/if}")}'>资料修改
 			<span class="badge badge-info use-plugins-num">{$store_list.filter.count_edit}</span>
 		</a>
 	</li>
 	
 	<li class="{if $smarty.get.type eq 'refuse'}active{/if}">	
-		<a class="data-pjax" href='{RC_Uri::url("store/admin_preaudit/init", "type=refuse{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}")}'>审核未通过
+		<a class="data-pjax" href='{RC_Uri::url("store/admin_preaudit/init", "type=refuse{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $smarty.get.cat_id}&cat_id={$smarty.get.cat_id}{/if}")}'>审核未通过
 			<span class="badge badge-info unuse-plugins-num">{$store_list.filter.count_refuse}</span>
 		</a>
 	</li>
 	<form class="f_r form-inline" action="{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}" name="searchForm" method="post">
+    	<div class="f_l m_r5">
+        	<select class="w150 " name="cat_id">
+        	   <option value="">请选择分类</option>
+        	   <!-- {foreach from=$cat_list key=k item=list} -->
+        	   <option value="{$k}" {if $smarty.get.cat_id eq $k}selected="selected"{/if}>{$list}</option>
+        	   <!-- {/foreach} -->
+        	</select>
+    	</div>
 		<input type="text" name="keywords" placeholder="{lang key='store::store.pls_name'}" value="{$store_list.filter.keywords}"/>
 		<input class="btn search_store" type="submit" value="{lang key='store::store.serach'}"/>
   	</form>
