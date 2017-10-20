@@ -1,7 +1,6 @@
 <?php namespace Royalcms\Component\Exception;
 
 use Royalcms\Component\Whoops\Run;
-use Royalcms\Component\Whoops\Handler\PrettyPageHandler;
 use Royalcms\Component\Whoops\Handler\JsonResponseHandler;
 use Royalcms\Component\Support\ServiceProvider;
 
@@ -164,7 +163,7 @@ class ExceptionServiceProvider extends ServiceProvider {
 			{
 				$handler->setResourcesPath($path);
 			}
-
+            
 			return $handler;
 		});
 	}

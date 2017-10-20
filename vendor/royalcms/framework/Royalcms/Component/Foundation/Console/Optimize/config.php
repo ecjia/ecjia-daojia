@@ -30,7 +30,6 @@ return array_map('realpath', array(
     $basePath.'/vendor/symfony/debug/Symfony/Component/Debug/ExceptionHandler.php',
     
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Support/ServiceProvider.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Exception/ExceptionServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Routing/RoutingServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Event/EventServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Support/Facades/Facade.php',
@@ -75,7 +74,6 @@ return array_map('realpath', array(
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Routing/Matching/MethodValidator.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Routing/Matching/SchemeValidator.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Routing/Matching/UriValidator.php',
-//     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Workbench/WorkbenchServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Event/Dispatcher.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Support/Contracts/ArrayableInterface.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Support/Contracts/JsonableInterface.php',
@@ -116,7 +114,6 @@ return array_map('realpath', array(
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Run.php',
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Handler/HandlerInterface.php',
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Handler/Handler.php',
-    $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Handler/PrettyPageHandler.php',
     $basePath.'/vendor/royalcms/whoops/Royalcms/Component/Whoops/Handler/JsonResponseHandler.php',
 
     $basePath.'/vendor/psr/log/Psr/Log/LoggerInterface.php',
@@ -151,11 +148,14 @@ return array_map('realpath', array(
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Cache/Repository.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Cache/Memory.php',
     
+    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Exception/ExceptionServiceProvider.php',
+    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Exception/PrettyPageHandler.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Exception/ExceptionDisplayerInterface.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Exception/SymfonyDisplayer.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Exception/WhoopsDisplayer.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Exception/PlainDisplayer.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Exception/Handler.php',
+    
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Support/Facades/Route.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/View/Engines/EngineResolver.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/View/ViewFinderInterface.php',

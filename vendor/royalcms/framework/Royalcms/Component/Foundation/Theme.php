@@ -2,9 +2,172 @@
 
 use Royalcms\Component\Support\Facades\Config;
 use Royalcms\Component\Support\Facades\Hook;
+use Royalcms\Component\Support\Format;
+use Royalcms\Component\Support\Facades\File as RC_File;
 
 class Theme extends Object
 {
+    
+    /**
+     * Parse the theme contents to retrieve theme's metadata.
+     *
+     * The metadata of the theme's data searches for the following in the theme's
+     * header. All theme data must be on its own line. For theme description, it
+     * must not have any newlines or only parts of the description will be displayed
+     * and the same goes for the theme data. The below is formatted for printing.
+     *
+     * <code>
+     * /*
+     * Template Name: Name of Plugin
+     * Template URI: Link to theme information
+     * Description: Theme Description
+     * Author: Theme author's name
+     * Author URI: Link to the author's web site
+     * Version: Must be set in the theme for Royalcms 3.2+
+     * Text Domain: Optional. Unique identifier, should be same as the one used in
+     *		theme_text_domain()
+     * Domain Path: Optional. Only useful if the translations are located in a
+     *		folder above the plugin's base path. For example, if .mo files are
+     *		located in the locale folder then Domain Path will be "/locale/" and
+     *		must have the first slash. Defaults to the base folder the plugin is
+     *		located in.
+     * Network: Optional. Specify "Network: true" to require that a plugin is activated
+     *		across all sites in an installation. This will prevent a plugin from being
+     *		activated on a single site when Multisite is enabled.
+     *  * / # Remove the space to close comment
+     * </code>
+     *
+     * Theme data returned array contains the following:
+     *		'Name' - Name of the plugin, must be unique.
+     *		'Title' - Title of the plugin and the link to the plugin's web site.
+     *		'Description' - Description of what the plugin does and/or notes
+     *		from the author.
+     *		'Author' - The author's name
+     *		'AuthorURI' - The authors web site address.
+     *		'Version' - The theme version number.
+     *		'TemplateURI' - Theme web site address.
+     *		'TextDomain' - Theme's text domain for localization.
+     *		'DomainPath' - Theme's relative directory path to .mo files.
+     *		'Logo' - The theme is Logo filename.
+     *      'TemplateType' - The theme type.
+     *      'Color' - The theme color.
+     *
+     * Some users have issues with opening large files and manipulating the contents
+     * for want is usually the first 1kiB or 2kiB. This function stops pulling in
+     * the plugin contents when it has all of the required plugin data.
+     *
+     * The first 8kiB of the file will be pulled in and if the plugin data is not
+     * within that first 8kiB, then the plugin author should correct their plugin
+     * and move the theme data headers to the top.
+     *
+     * The plugin file is assumed to have permissions to allow for scripts to read
+     * the file. This is not checked however and the file is only opened for
+     * reading.
+     *
+     * @since 3.2.0
+     *
+     * @param string $theme_file Path to the theme file
+     * @param bool $markup Optional. If the returned data should have HTML markup applied. Defaults to true.
+     * @param bool $translate Optional. If the returned data should be translated. Defaults to true.
+     * @return array See above for description.
+     */
+    public static function get_theme_data( $theme_file, $markup = true, $translate = true ) {
+    
+        $default_headers = array(
+            'Name' => 'Template Name',
+            'TemplateURI' => 'Template URI',
+            'Description' => 'Description',
+            'Version' => 'Version',
+            'Author' => 'Author',
+            'AuthorURI' => 'Author URI',
+            'TextDomain' => 'Text Domain',
+            'DomainPath' => 'Domain Path',
+            'Logo'=> 'Logo filename',
+            'TemplateType'=> 'Template Type',
+            'Color'=> 'Color',
+        );
+    
+        $theme_data = RC_File::get_file_data( $theme_file, $default_headers, 'theme' );
+    
+        if ( $markup || $translate ) {
+            $theme_data = self::_get_theme_data_markup_translate( $theme_file, $theme_data, $markup, $translate );
+        } else {
+            $theme_data['Title']      = $theme_data['Name'];
+            $theme_data['AuthorName'] = $theme_data['Author'];
+        }
+    
+        return $theme_data;
+    }
+    
+    
+    /**
+     * Sanitizes theme data, optionally adds markup, optionally translates.
+     *
+     * @since 3.2.0
+     * @access private
+     * @see get_theme_data()
+     */
+    public static function _get_theme_data_markup_translate( $theme_file, $theme_data, $markup = true, $translate = true ) {
+        // Translate fields
+        if ( $translate ) {
+            if ( ($textdomain = $theme_data['TextDomain']) == true ) {
+                if ( $theme_data['DomainPath'] ) {
+                    Locale::load_plugin_textdomain( $textdomain, false, dirname( $theme_file ) . $theme_data['DomainPath'] );
+                } else {
+                    Locale::load_plugin_textdomain( $textdomain, false, dirname( $theme_file ) );
+                }
+            } 
+            if ( $textdomain ) {
+                foreach ( array( 'Name', 'TemplateURI', 'Description', 'Author', 'AuthorURI', 'Version' ) as $field ) {
+                    $theme_data[ $field ] = Locale::translate( $theme_data[ $field ], $textdomain );
+                }
+            }
+        }
+    
+        // Sanitize fields
+        $allowed_tags = $allowed_tags_in_links = array(
+            'abbr'    => array( 'title' => true ),
+            'acronym' => array( 'title' => true ),
+            'code'    => true,
+            'em'      => true,
+            'strong'  => true,
+        );
+        $allowed_tags['a'] = array( 'href' => true, 'title' => true );
+    
+        // Name is marked up inside <a> tags. Don't allow these.
+        // Author is too, but some plugins have used <a> here (omitting Author URI).
+        $theme_data['Name']        = Kses::kses( $theme_data['Name'],        $allowed_tags_in_links );
+        $theme_data['Author']      = Kses::kses( $theme_data['Author'],      $allowed_tags );
+    
+        $theme_data['Description'] = Kses::kses( $theme_data['Description'], $allowed_tags );
+        $theme_data['Version']     = Kses::kses( $theme_data['Version'],     $allowed_tags );
+    
+        $theme_data['TemplateURI']   = Format::esc_url( $theme_data['TemplateURI'] );
+        $theme_data['AuthorURI']   = Format::esc_url( $theme_data['AuthorURI'] );
+    
+        $theme_data['Title']      = $theme_data['Name'];
+        $theme_data['AuthorName'] = $theme_data['Author'];
+    
+        // Apply markup
+        if ( $markup ) {
+            if ( $theme_data['TemplateURI'] && $theme_data['Name'] ) {
+                $theme_data['Title'] = '<a href="' . $theme_data['TemplateURI'] . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . $theme_data['Name'] . '</a>';
+            }
+    
+            if ( $theme_data['AuthorURI'] && $theme_data['Author'] ) {
+                $theme_data['Author'] = '<a href="' . $theme_data['AuthorURI'] . '" title="' . esc_attr__( 'Visit author homepage' ) . '">' . $theme_data['Author'] . '</a>';
+            }
+    
+    
+            $theme_data['Description'] = Format::texturize( $theme_data['Description'] );
+    
+            if ( $theme_data['Author'] ) {
+                $theme_data['Description'] .= ' <cite>' . sprintf( __('By %s.'), $theme_data['Author'] ) . '</cite>';
+            }
+        }
+    
+        return $theme_data;
+    }
 
     private static $theme_directories = array();
 

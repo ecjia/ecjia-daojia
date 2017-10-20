@@ -325,15 +325,15 @@ Route::any('/', function()
     $app->init();
 });
 
+$routes = $royalcms['path.system'].'/start/routes.php';
+
+if (file_exists($routes)) require $routes;
+
 Route::any('{url}', function($url)
 {
     $app = new \Royalcms\Component\App\App();
     $app->init();
 });
-
-$routes = $royalcms['path.system'].'/start/routes.php';
-
-if (file_exists($routes)) require $routes;
 
 try {
     /**

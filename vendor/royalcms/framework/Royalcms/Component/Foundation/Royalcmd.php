@@ -5,21 +5,21 @@ use Royalcms\Component\Console\Royalcmd as ConsoleApplication;
 class Royalcmd {
 
 	/**
-	 * The application instance.
+	 * The Royalcms instance.
 	 *
 	 * @var \Royalcms\Component\Foundation\Royalcms
 	 */
 	protected $royalcms;
 
 	/**
-	 * The Artisan console instance.
+	 * The Royalcmd console instance.
 	 *
 	 * @var  \Royalcms\Component\Console\Royalcmd
 	 */
 	protected $royalcmd;
 
 	/**
-	 * Create a new Artisan command runner instance.
+	 * Create a new Royalcmd command runner instance.
 	 *
 	 * @param  \Royalcms\Component\Foundation\Royalcms  $royalcms
 	 * @return void
@@ -30,7 +30,7 @@ class Royalcmd {
 	}
 
 	/**
-	 * Get the Artisan console instance.
+	 * Get the Royalcmd console instance.
 	 *
 	 * @return \Royalcms\Component\Console\Royalcmd
 	 */
@@ -54,7 +54,7 @@ class Royalcmd {
 	 */
 	public function __call($method, $parameters)
 	{
-		return call_user_func_array(array($this->getArtisan(), $method), $parameters);
+		return call_user_func_array(array($this->getRoyalcmd(), $method), $parameters);
 	}
 
 }

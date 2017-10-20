@@ -105,7 +105,7 @@ abstract class Component_Page_Page
     protected function page_list()
     {
         // 页码
-        $page_list = '';
+        $page_list = [];
         $start = max(1, min($this->current_page - ceil($this->page_row / 2), $this->total_pages - $this->page_row));
         $end = min($this->page_row + $start, $this->total_pages);
         if ($end == 1) // 只有一页不显示页码
