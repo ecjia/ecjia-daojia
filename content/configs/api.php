@@ -237,6 +237,7 @@ return array(
     'admin/order/refundConfirm'	=> 'orders::admin/orders/refundConfirm',	//收银台退款验证
     'admin/order/check'			=> 'orders::admin/orders/check',	//收银台验单
     'admin/order/quickpay'		=> 'orders::admin/orders/quickpay', //收银台快速收款
+	'admin/stats/payment' 		=> 'orders::admin/stats/payment',   //收银台收银统计
 
     //商家后台商品
 	'admin/goods/list'			=> 'goods::admin/goods/list',
@@ -395,9 +396,22 @@ return array(
 	'weapp/wxpay'					=> 'weapp::weapp/wxpay',	//小程序微信支付
 	
 	'admin/merchant/refreshQrcode'	=> 'store::admin/merchant/refreshQrcode',	//1.7 掌柜店铺刷新二维码
+	'market/shake'             => 'market::activity/shake',        //1.6增加 摇一摇
+    'admin/orders/today'        => 'orders::admin/orders/today',    //1.6增加 商家今日订单
+
+	'quickpay/activity/list'		=> 'quickpay::activity/list',  			//1.9 商家闪惠活动列表
+	'quickpay/flow/checkOrder'		=> 'quickpay::flow/checkOrder',			//1.9 闪惠购物流检查订单
+	'quickpay/flow/done'			=> 'quickpay::flow/done',	   			//1.9 闪惠购物流检查订单
+	'quickpay/order/list'			=> 'quickpay::order/list',	   			//1.9 闪惠订单列表
+	'quickpay/order/detail'			=> 'quickpay::order/detail',   			//1.9 闪惠订单详情
+	'quickpay/order/pay'			=> 'quickpay::order/pay',      			//1.9 闪惠订单支付
+	'express/user/location'			=> 'express::express/location',			//1.9查看配送员位置
+	'merchant/shop/payment'			=> 'quickpay::merchant/shop/payment',   //1.9 商家支付方式列表
 	
-	'market/shake'				=> 'market::activity/shake',   		//1.6增加 摇一摇
-	'admin/orders/today'		=> 'orders::admin/orders/today',	//1.6增加 商家今日订单
+    
+    /* 收银台*/
+    'admin/bonus/validate'		=> 'cart::admin/bonus/validate',
+
     
 	
     /** 1.0 已经废弃
