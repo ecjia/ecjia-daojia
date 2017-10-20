@@ -339,7 +339,7 @@ class InitShopConfigTableSeeder extends Seeder
 //             ['code' => 'push_order_payed_apps', 'value' => '', 'options' => ['type' => 'hidden']],
 //             ['code' => 'push_order_shipped_apps', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'invite_template', 'value' => '你的好友（{$user_name}）向您推荐了一款购物应用【{$shop_name}】，优惠活动多多，新人注册还有红包奖励，赶紧下载体验吧！', 'options' => ['type' => 'hidden']],
-            ['code' => 'invite_explain', 'value' => "1、通过推广页面把属于自己的二维码通过第三方平台分享给新人好友；\r\n2、新人好友通过您的邀请，打开链接，在活动页输入自己的手机号，并通过指定渠道下载客户端完成注册，即可获得奖励；\r\n3、每邀请一位新人好友并完成注册都可获得相应奖励；\r\n4、奖励一经领取后，不可删除，不可提现，不可转赠；\r\n5、新用户领取的奖励查看方式：【App-我的－我的钱包】查看，也可通过【我的推广—奖励明细】查看；\r\n6、如有任何的疑问请咨询官网客服人员；", 'options' => ['type' => 'hidden']],
+            ['code' => 'invite_explain', 'value' => "1、通过推广页面把属于自己的二维码通过第三方平台分享给新人好友；\r\n2、新人好友通过您的邀请，打开链接，在活动页输入自己的手机号，并通过指定渠道下载客户端完成注册，即可获得奖励；\r\n3、每邀请一位新人好友并完成注册都可获得相应奖励；\r\n4、奖励一经领取后，不可删除，不可提现，不可转赠；\r\n5、新用户领取的奖励查看方式：【App-我的－我的钱包】查看，也可通过【我的推广—奖励明细】查看；\r\n6、如有任何的疑问请咨询官网客服人员。", 'options' => ['type' => 'hidden']],
             //v1.5.0新增
             ['code' => 'app_template', 'value' => 'ecjia-app', 'options' => ['type' => 'hidden']],
             ['code' => 'app_stylename', 'value' => '', 'options' => ['type' => 'hidden']],
@@ -349,6 +349,11 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'store_model', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'region_cn_version', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'region_last_checktime', 'value' => '', 'options' => ['type' => 'hidden']],
+            //v1.9.0新增
+            ['code' => 'quickpay_rule', 'value' => "1、优惠买单仅限于到店消费后使用，请勿提前支付；\r\n2、请在输入买单金额前与商家确认门店信息和消费金额；\r\n3、遇节假日能否享受优惠，请详细咨询商家；\r\n4、请咨询商家能否与店内其他优惠同享；\r\n5、如需发票，请您在消费时向商家咨询。", 'options' => ['type' => 'hidden']],
+            ['code' => 'quickpay_fee', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'cron_secret_key', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'merchant_join_close', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
         ];
         
         $this->add_config($group, $data);
@@ -463,7 +468,7 @@ class InitShopConfigTableSeeder extends Seeder
         
         $data = [
             ['code' => 'addon_active_applications', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_active_plugins', 'value' => 'a:33:{i:0;s:25:"calculator/calculator.php";i:1;s:37:"captcha_royalcms/captcha_royalcms.php";i:2;s:37:"cron_auto_manage/cron_auto_manage.php";i:3;s:31:"cron_bill_day/cron_bill_day.php";i:4;s:35:"cron_bill_month/cron_bill_month.php";i:5;s:25:"cron_ipdel/cron_ipdel.php";i:6;s:41:"cron_order_receive/cron_order_receive.php";i:7;s:29:"cron_testlog/cron_testlog.php";i:8;s:29:"cron_unpayed/cron_unpayed.php";i:9;s:25:"mp_checkin/mp_checkin.php";i:10;s:17:"mp_dzp/mp_dzp.php";i:11;s:17:"mp_ggk/mp_ggk.php";i:12;s:21:"mp_goods/mp_goods.php";i:13;s:19:"mp_jfcx/mp_jfcx.php";i:14;s:19:"mp_kefu/mp_kefu.php";i:15;s:23:"mp_orders/mp_orders.php";i:16;s:27:"mp_userbind/mp_userbind.php";i:18;s:17:"mp_zjd/mp_zjd.php";i:19;s:25:"pay_alipay/pay_alipay.php";i:20;s:27:"pay_balance/pay_balance.php";i:21;s:21:"pay_cash/pay_cash.php";i:22;s:19:"pay_cod/pay_cod.php";i:24;s:21:"ship_cac/ship_cac.php";i:25;s:21:"ship_ems/ship_ems.php";i:26;s:23:"ship_flat/ship_flat.php";i:27;s:21:"ship_fpd/ship_fpd.php";i:28;s:37:"ship_o2o_express/ship_o2o_express.php";i:29;s:35:"ship_sf_express/ship_sf_express.php";i:30;s:37:"ship_sto_express/ship_sto_express.php";i:31;s:21:"ship_yto/ship_yto.php";i:32;s:21:"ship_zto/ship_zto.php";i:33;s:17:"sns_qq/sns_qq.php";i:34;s:19:"ueditor/ueditor.php";}', 'options' => ['type' => 'hidden']],
+            ['code' => 'addon_active_plugins', 'value' => 'a:25:{i:0;s:25:"calculator/calculator.php";i:1;s:37:"captcha_royalcms/captcha_royalcms.php";i:2;s:25:"mp_checkin/mp_checkin.php";i:3;s:17:"mp_dzp/mp_dzp.php";i:4;s:17:"mp_ggk/mp_ggk.php";i:5;s:21:"mp_goods/mp_goods.php";i:6;s:19:"mp_jfcx/mp_jfcx.php";i:7;s:19:"mp_kefu/mp_kefu.php";i:8;s:23:"mp_orders/mp_orders.php";i:9;s:27:"mp_userbind/mp_userbind.php";i:10;s:17:"mp_zjd/mp_zjd.php";i:11;s:25:"pay_alipay/pay_alipay.php";i:12;s:27:"pay_balance/pay_balance.php";i:13;s:19:"pay_cod/pay_cod.php";i:14;s:21:"ship_cac/ship_cac.php";i:15;s:21:"ship_ems/ship_ems.php";i:16;s:23:"ship_flat/ship_flat.php";i:17;s:21:"ship_fpd/ship_fpd.php";i:18;s:37:"ship_o2o_express/ship_o2o_express.php";i:19;s:35:"ship_sf_express/ship_sf_express.php";i:20;s:37:"ship_sto_express/ship_sto_express.php";i:21;s:21:"ship_yto/ship_yto.php";i:22;s:21:"ship_zto/ship_zto.php";i:23;s:17:"sns_qq/sns_qq.php";i:24;s:19:"ueditor/ueditor.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_system_plugins', 'value' => 'a:2:{s:7:"ueditor";s:19:"ueditor/ueditor.php";s:10:"calculator";s:25:"calculator/calculator.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_widget_nav_menu', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_widget_cat_articles', 'value' => '', 'options' => ['type' => 'hidden']],
@@ -471,13 +476,13 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'addon_widget_brand_goods', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_widget_ad_position', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_user_integrate_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_mobile_payment_plugins', 'value' => 'a:4:{s:11:"pay_balance";s:27:"pay_balance/pay_balance.php";s:10:"pay_alipay";s:25:"pay_alipay/pay_alipay.php";s:7:"pay_cod";s:19:"pay_cod/pay_cod.php";s:8:"pay_cash";s:21:"pay_cash/pay_cash.php";}', 'options' => ['type' => 'hidden']],
+            ['code' => 'addon_mobile_payment_plugins', 'value' => 'a:3:{s:11:"pay_balance";s:27:"pay_balance/pay_balance.php";s:10:"pay_alipay";s:25:"pay_alipay/pay_alipay.php";s:7:"pay_cod";s:19:"pay_cod/pay_cod.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_shipping_plugins', 'value' => 'a:9:{s:8:"ship_ems";s:21:"ship_ems/ship_ems.php";s:8:"ship_yto";s:21:"ship_yto/ship_yto.php";s:8:"ship_cac";s:21:"ship_cac/ship_cac.php";s:9:"ship_flat";s:23:"ship_flat/ship_flat.php";s:8:"ship_zto";s:21:"ship_zto/ship_zto.php";s:8:"ship_fpd";s:21:"ship_fpd/ship_fpd.php";s:16:"ship_o2o_express";s:37:"ship_o2o_express/ship_o2o_express.php";s:15:"ship_sf_express";s:35:"ship_sf_express/ship_sf_express.php";s:16:"ship_sto_express";s:37:"ship_sto_express/ship_sto_express.php";}', 'options' => ['type' => 'hidden']],
 //             ['code' => 'addon_cycleimage_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_captcha_plugins', 'value' => 'a:1:{s:16:"captcha_royalcms";s:37:"captcha_royalcms/captcha_royalcms.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_platform_plugins', 'value' => 'a:9:{s:7:"mp_jfcx";s:19:"mp_jfcx/mp_jfcx.php";s:9:"mp_orders";s:23:"mp_orders/mp_orders.php";s:6:"mp_ggk";s:17:"mp_ggk/mp_ggk.php";s:10:"mp_checkin";s:25:"mp_checkin/mp_checkin.php";s:6:"mp_dzp";s:17:"mp_dzp/mp_dzp.php";s:6:"mp_zjd";s:17:"mp_zjd/mp_zjd.php";s:7:"mp_kefu";s:19:"mp_kefu/mp_kefu.php";s:11:"mp_userbind";s:27:"mp_userbind/mp_userbind.php";s:8:"mp_goods";s:21:"mp_goods/mp_goods.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_merchant_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_cron_plugins', 'value' => 'a:7:{s:10:"cron_ipdel";s:25:"cron_ipdel/cron_ipdel.php";s:16:"cron_auto_manage";s:37:"cron_auto_manage/cron_auto_manage.php";s:12:"cron_testlog";s:29:"cron_testlog/cron_testlog.php";s:18:"cron_order_receive";s:41:"cron_order_receive/cron_order_receive.php";s:12:"cron_unpayed";s:29:"cron_unpayed/cron_unpayed.php";s:13:"cron_bill_day";s:31:"cron_bill_day/cron_bill_day.php";s:15:"cron_bill_month";s:35:"cron_bill_month/cron_bill_month.php";}', 'options' => ['type' => 'hidden']],
+            ['code' => 'addon_cron_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_connect_plugins', 'value' => 'a:1:{s:6:"sns_qq";s:17:"sns_qq/sns_qq.php";}', 'options' => ['type' => 'hidden']],
         ];
         
