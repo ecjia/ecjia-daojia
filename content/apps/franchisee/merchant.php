@@ -75,6 +75,9 @@ class merchant extends ecjia_merchant {
 	}
 
 	public function init() {
+		if (ecjia::config('merchant_join_close') == 1) {
+			return $this->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+		}
 		$this->unset_login_info();
 		$step 	= isset($_GET['step']) 		? $_GET['step'] 		: 1;
 		$type	= !empty($_GET['type']) 	? trim($_GET['type']) 	: '';
@@ -223,8 +226,8 @@ class merchant extends ecjia_merchant {
 		$options = array(
 			'mobile' => $mobile,
 			'event'	 => 'sms_get_validate',
-			'value'  =>array(
-				'code' 			=> $code,
+			'value'  => array(
+				'code' => $code,
 				'service_phone' => ecjia::config('service_phone'),
 			),
 		);
@@ -270,10 +273,12 @@ class merchant extends ecjia_merchant {
 			if ($type == 'edit_apply') {
 				$arr['type'] = $type;
 				
-				//判预审核表邮箱是否已存在
-				$count_preaudit_email = RC_DB::table('store_preaudit')->where('email', $email)->where('contact_mobile', '!=', $mobile)->count();
-				if ($count_preaudit_email != 0) {
-					return $this->showmessage('该邮箱已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				if (!empty($email)) {
+    				//判预审核表邮箱是否已存在
+    				$count_preaudit_email = RC_DB::table('store_preaudit')->where('email', $email)->where('contact_mobile', '!=', $mobile)->count();
+    				if ($count_preaudit_email != 0) {
+    					return $this->showmessage('该邮箱已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    				}
 				}
 			} else {
 				if (empty($code) || $code != $_SESSION['temp_code'] || $time >= $_SESSION['temp_code_time'] || $mobile != $_SESSION['temp_mobile']) {
@@ -301,10 +306,12 @@ class merchant extends ecjia_merchant {
 					return $this->showmessage('该手机号已申请入驻，无法再次申请', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 				
-				//判断预审核表邮箱是否已存在
-				$count_preaudit_email = RC_DB::table('store_preaudit')->where('email', $email)->count();
-				if ($count_preaudit_email != 0) {
-					return $this->showmessage('该邮箱已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				if (!empty($email)) {
+    				//判断预审核表邮箱是否已存在
+    				$count_preaudit_email = RC_DB::table('store_preaudit')->where('email', $email)->count();
+    				if ($count_preaudit_email != 0) {
+    					return $this->showmessage('该邮箱已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    				}
 				}
 			}
 			
@@ -314,13 +321,16 @@ class merchant extends ecjia_merchant {
 				return $this->showmessage('该手机号码已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			
-			//判断商家表邮箱是否已存在
-			$count_franchisee_email = RC_DB::table('store_franchisee')->where('email', $email)->count();
-			//判断员工表邮箱是否存在
-			$count_staff_email = RC_DB::table('staff_user')->where('email', $email)->count();
-			if ($count_franchisee_email != 0 || $count_staff_email != 0) {
-				return $this->showmessage('该邮箱已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			if (!empty($email)) {
+			    //判断商家表邮箱是否已存在
+    			$count_franchisee_email = RC_DB::table('store_franchisee')->where('email', $email)->count();
+    			//判断员工表邮箱是否存在
+    			$count_staff_email = RC_DB::table('staff_user')->where('email', $email)->count();
+    			if ($count_franchisee_email != 0 || $count_staff_email != 0) {
+    				return $this->showmessage('该邮箱已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    			}
 			}
+			
 			
 			$_SESSION['validate_type'] 		= $validate_type;
 			$_SESSION['responsible_person'] = $responsible_person;
@@ -374,7 +384,7 @@ class merchant extends ecjia_merchant {
 					return $this->showmessage('该手机号已申请入驻，无法再次申请', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 			}
-			
+			 
 			if (empty($merchants_name)) {
 				return $this->showmessage('店铺名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {
@@ -544,6 +554,10 @@ class merchant extends ecjia_merchant {
 	}
 	
 	public function view() {
+		if (ecjia::config('merchant_join_close') == 1) {
+			return $this->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+		}
+		
 		$this->unset_login_info();
 		$this->assign('ur_here', '查询审核进度');
 		$this->assign('action_link', array('href' => RC_Uri::url('franchisee/merchant/init'), 'text' => '申请入驻'));
