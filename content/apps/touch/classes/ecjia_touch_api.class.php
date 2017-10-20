@@ -124,6 +124,7 @@ class ecjia_touch_api
  	const ORDER_REMINDER       = 'order/reminder'; //提醒卖家发货
  	const ORDER_UPDATE	       = 'order/update';//订单更新
  	const ORDER_EXPRESS        = 'order/express';//订单快递
+ 	const EXPRESS_USER_LOCATION = 'express/user/location';
  	
  	//==============================================
  	// 用户
@@ -189,6 +190,7 @@ class ecjia_touch_api
  	const MERCHANT_GOODS_CATEGORY    = 'merchant/goods/category';//商店分类
  	const MERCHANT_GOODS_LIST 		 = 'merchant/goods/list';//商店商品
  	const MERCHANT_GOODS_SUGGESTLIST = 'merchant/goods/suggestlist';//商店推荐商品
+ 	const MERCHANT_SHOP_PAYMENT      = 'merchant/shop/payment';//获取商家支付方式列表
  	
  	//商家入驻
  	const ADMIN_MERCHANT_SIGNUP     = 'admin/merchant/signup';//提交入驻信息
@@ -224,6 +226,14 @@ class ecjia_touch_api
  	CONST ARTICLE_LIKE_CANCEL = 'article/like/cancel';//文章取消点赞
  	CONST ARTICLE_SUGGESTLIST = 'article/suggestlist';//精选文章
  	CONST ARTICLE_HOME_CYCLEIMAGE = 'article/home/cycleimage';//发现页文章分类及轮播图
+ 	
+ 	//闪惠
+ 	const QUICKPAY_ORDER_LIST 		= 'quickpay/order/list';//我的优惠买单列表
+ 	const QUICKPAY_FLOW_CHECKORDER 	= 'quickpay/flow/checkOrder';//闪惠优惠买单检查购物流订单
+ 	const QUICKPAY_FLOW_DONE 		= 'quickpay/flow/done';//闪惠购物流结算
+ 	const QUICKPAY_ORDER_DETAIL 	= 'quickpay/order/detail';
+ 	const QUICKPAY_ORDER_PAY 		= 'quickpay/order/pay';
+ 	const QUICKPAY_ACTIVIRY_LIST 	= 'quickpay/activity/list';
 }
 
 // end
