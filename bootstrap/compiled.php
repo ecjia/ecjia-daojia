@@ -422,8 +422,8 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.2.0';
-    const RELEASE = '2017-07-01';
+    const VERSION = '4.3.0';
+    const RELEASE = '2017-08-31';
     const PHP_REQUIRED = '5.4.0';
     protected $booted = false;
     protected $bootingCallbacks = array();
@@ -2956,96 +2956,6 @@ abstract class ServiceProvider
     public function isDeferred()
     {
         return $this->defer;
-    }
-}
-namespace Royalcms\Component\Exception;
-
-use Royalcms\Component\Whoops\Run;
-use Royalcms\Component\Whoops\Handler\PrettyPageHandler;
-use Royalcms\Component\Whoops\Handler\JsonResponseHandler;
-use Royalcms\Component\Support\ServiceProvider;
-class ExceptionServiceProvider extends ServiceProvider
-{
-    public function register()
-    {
-        $this->registerDisplayers();
-        $this->registerHandler();
-    }
-    protected function registerDisplayers()
-    {
-        $this->registerPlainDisplayer();
-        $this->registerDebugDisplayer();
-    }
-    protected function registerHandler()
-    {
-        $this->royalcms['exception'] = $this->royalcms->share(function ($royalcms) {
-            return new Handler($royalcms, $royalcms['exception.plain'], $royalcms['exception.debug']);
-        });
-    }
-    protected function registerPlainDisplayer()
-    {
-        $this->royalcms['exception.plain'] = $this->royalcms->share(function ($royalcms) {
-            if ($royalcms->runningInConsole()) {
-                return $royalcms['exception.debug'];
-            } else {
-                return new PlainDisplayer();
-            }
-        });
-    }
-    protected function registerDebugDisplayer()
-    {
-        $this->registerWhoops();
-        $this->royalcms['exception.debug'] = $this->royalcms->share(function ($royalcms) {
-            return new WhoopsDisplayer($royalcms['whoops'], $royalcms->runningInConsole());
-        });
-    }
-    protected function registerWhoops()
-    {
-        $this->registerWhoopsHandler();
-        $this->royalcms['whoops'] = $this->royalcms->share(function ($royalcms) {
-            with($whoops = new Run())->allowQuit(false);
-            $whoops->writeToOutput(false);
-            return $whoops->pushHandler($royalcms['whoops.handler']);
-        });
-    }
-    protected function registerWhoopsHandler()
-    {
-        if ($this->shouldReturnJson()) {
-            $this->royalcms['whoops.handler'] = $this->royalcms->share(function () {
-                return new JsonResponseHandler();
-            });
-        } else {
-            $this->registerPrettyWhoopsHandler();
-        }
-    }
-    protected function shouldReturnJson()
-    {
-        return $this->royalcms->runningInConsole() || $this->requestWantsJson();
-    }
-    protected function requestWantsJson()
-    {
-        return $this->royalcms['request']->ajax() || $this->royalcms['request']->wantsJson();
-    }
-    protected function registerPrettyWhoopsHandler()
-    {
-        $me = $this;
-        $this->royalcms['whoops.handler'] = $this->royalcms->share(function () use($me) {
-            with($handler = new PrettyPageHandler())->setEditor('sublime');
-            if (!is_null($path = $me->resourcePath())) {
-                $handler->setResourcesPath($path);
-            }
-            return $handler;
-        });
-    }
-    public function resourcePath()
-    {
-        if (is_dir($path = $this->getResourcePath())) {
-            return $path;
-        }
-    }
-    protected function getResourcePath()
-    {
-        return SITE_ROOT . 'vendor/royalcms/framework/Royalcms/Component/Exception' . '/resources';
     }
 }
 namespace Royalcms\Component\Routing;
@@ -9488,31 +9398,34 @@ class Timer extends Facade
 }
 namespace Royalcms\Component\Whoops;
 
-use Royalcms\Component\Whoops\Handler\HandlerInterface;
-use Royalcms\Component\Whoops\Handler\Handler;
-use Royalcms\Component\Whoops\Handler\CallbackHandler;
-use Royalcms\Component\Whoops\Exception\Inspector;
-use Royalcms\Component\Whoops\Exception\ErrorException;
 use InvalidArgumentException;
-use Exception;
-class Run
+use Royalcms\Component\Whoops\Exception\ErrorException;
+use Royalcms\Component\Whoops\Exception\Inspector;
+use Royalcms\Component\Whoops\Handler\CallbackHandler;
+use Royalcms\Component\Whoops\Handler\Handler;
+use Royalcms\Component\Whoops\Handler\HandlerInterface;
+use Royalcms\Component\Whoops\Util\Misc;
+use Royalcms\Component\Whoops\Util\SystemFacade;
+final class Run implements RunInterface
 {
-    const EXCEPTION_HANDLER = 'handleException';
-    const ERROR_HANDLER = 'handleError';
-    const SHUTDOWN_HANDLER = 'handleShutdown';
-    protected $isRegistered;
-    protected $allowQuit = true;
-    protected $sendOutput = true;
-    protected $sendHttpCode = 500;
-    protected $handlerStack = array();
-    protected $silencedPatterns = array();
+    private $isRegistered;
+    private $allowQuit = true;
+    private $sendOutput = true;
+    private $sendHttpCode = 500;
+    private $handlerStack = array();
+    private $silencedPatterns = array();
+    private $system;
+    public function __construct(SystemFacade $system = null)
+    {
+        $this->system = $system ?: new SystemFacade();
+    }
     public function pushHandler($handler)
     {
         if (is_callable($handler)) {
             $handler = new CallbackHandler($handler);
         }
         if (!$handler instanceof HandlerInterface) {
-            throw new InvalidArgumentException('Argument to ' . __METHOD__ . ' must be a callable, or instance of' . 'Royalcms\\Component\\Whoops\\Handler\\HandlerInterface');
+            throw new InvalidArgumentException('Argument to ' . __METHOD__ . ' must be a callable, or instance of ' . 'Royalcms\\Component\\Whoops\\Handler\\HandlerInterface');
         }
         $this->handlerStack[] = $handler;
         return $this;
@@ -9530,7 +9443,7 @@ class Run
         $this->handlerStack = array();
         return $this;
     }
-    protected function getInspector(Exception $exception)
+    private function getInspector($exception)
     {
         return new Inspector($exception);
     }
@@ -9541,9 +9454,9 @@ class Run
             class_exists('\\Royalcms\\Component\\Whoops\\Exception\\FrameCollection');
             class_exists('\\Royalcms\\Component\\Whoops\\Exception\\Frame');
             class_exists('\\Royalcms\\Component\\Whoops\\Exception\\Inspector');
-            set_error_handler(array($this, self::ERROR_HANDLER));
-            set_exception_handler(array($this, self::EXCEPTION_HANDLER));
-            register_shutdown_function(array($this, self::SHUTDOWN_HANDLER));
+            $this->system->setErrorHandler(array($this, self::ERROR_HANDLER));
+            $this->system->setExceptionHandler(array($this, self::EXCEPTION_HANDLER));
+            $this->system->registerShutdownFunction(array($this, self::SHUTDOWN_HANDLER));
             $this->isRegistered = true;
         }
         return $this;
@@ -9551,8 +9464,8 @@ class Run
     public function unregister()
     {
         if ($this->isRegistered) {
-            restore_exception_handler();
-            restore_error_handler();
+            $this->system->restoreExceptionHandler();
+            $this->system->restoreErrorHandler();
             $this->isRegistered = false;
         }
         return $this;
@@ -9570,6 +9483,10 @@ class Run
             return array('pattern' => $pattern, 'levels' => $levels);
         }, (array) $patterns));
         return $this;
+    }
+    public function getSilenceErrorsInPaths()
+    {
+        return $this->silencedPatterns;
     }
     public function sendHttpCode($code = null)
     {
@@ -9594,46 +9511,44 @@ class Run
         }
         return $this->sendOutput = (bool) $send;
     }
-    public function handleException(Exception $exception)
+    public function handleException($exception)
     {
         $inspector = $this->getInspector($exception);
-        ob_start();
+        $this->system->startOutputBuffering();
         $handlerResponse = null;
-        for ($i = count($this->handlerStack) - 1; $i >= 0; $i--) {
-            $handler = $this->handlerStack[$i];
+        $handlerContentType = null;
+        foreach (array_reverse($this->handlerStack) as $handler) {
             $handler->setRun($this);
             $handler->setInspector($inspector);
             $handler->setException($exception);
             $handlerResponse = $handler->handle($exception);
+            $handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
             if (in_array($handlerResponse, array(Handler::LAST_HANDLER, Handler::QUIT))) {
                 break;
             }
         }
-        $output = ob_get_clean();
+        $willQuit = $handlerResponse == Handler::QUIT && $this->allowQuit();
+        $output = $this->system->cleanOutputBuffer();
         if ($this->writeToOutput()) {
-            if ($handlerResponse == Handler::QUIT && $this->allowQuit()) {
-                while (ob_get_level() > 0) {
-                    ob_end_clean();
+            if ($willQuit) {
+                while ($this->system->getOutputBufferLevel() > 0) {
+                    $this->system->endOutputBuffering();
+                }
+                if (Misc::canSendHeaders() && $handlerContentType) {
+                    header("Content-Type: {$handlerContentType}");
                 }
             }
-            if ($this->sendHttpCode() && isset($_SERVER['REQUEST_URI']) && !headers_sent()) {
-                $httpCode = $this->sendHttpCode();
-                if (function_exists('http_response_code')) {
-                    http_response_code($httpCode);
-                } else {
-                    header('X-Ignore-This: 1', true, $httpCode);
-                }
-            }
-            echo $output;
+            $this->writeToOutputNow($output);
         }
-        if ($handlerResponse == Handler::QUIT && $this->allowQuit()) {
-            die;
+        if ($willQuit) {
+            $this->system->flushOutputBuffer();
+            $this->system->stopExecution(1);
         }
         return $output;
     }
     public function handleError($level, $message, $file = null, $line = null)
     {
-        if ($level & error_reporting()) {
+        if ($level & $this->system->getErrorReportingLevel()) {
             foreach ($this->silencedPatterns as $entry) {
                 $pathMatches = (bool) preg_match($entry['pattern'], $file);
                 $levelMatches = $level & $entry['levels'];
@@ -9641,46 +9556,49 @@ class Run
                     return true;
                 }
             }
-            $exception = new ErrorException($message, $level, 0, $file, $line);
+            $exception = new ErrorException($message, $level, $level, $file, $line);
             if ($this->canThrowExceptions) {
                 throw $exception;
             } else {
                 $this->handleException($exception);
             }
+            return true;
         }
+        return false;
     }
     public function handleShutdown()
     {
         $this->canThrowExceptions = false;
-        $error = error_get_last();
-        if ($error && $this->isLevelFatal($error['type'])) {
+        $error = $this->system->getLastError();
+        if ($error && Misc::isLevelFatal($error['type'])) {
             $this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
         }
     }
     private $canThrowExceptions = true;
-    private static function isLevelFatal($level)
+    private function writeToOutputNow($output)
     {
-        return in_array($level, array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING));
+        if ($this->sendHttpCode() && \Royalcms\Component\Whoops\Util\Misc::canSendHeaders()) {
+            $this->system->setHttpResponseCode($this->sendHttpCode());
+        }
+        echo $output;
+        return $this;
     }
 }
 namespace Royalcms\Component\Whoops\Handler;
 
 use Royalcms\Component\Whoops\Exception\Inspector;
-use Royalcms\Component\Whoops\Run;
-use Exception;
+use Royalcms\Component\Whoops\RunInterface;
 interface HandlerInterface
 {
     public function handle();
-    public function setRun(Run $run);
-    public function setException(Exception $exception);
+    public function setRun(RunInterface $run);
+    public function setException($exception);
     public function setInspector(Inspector $inspector);
 }
 namespace Royalcms\Component\Whoops\Handler;
 
-use Royalcms\Component\Whoops\Handler\HandlerInterface;
 use Royalcms\Component\Whoops\Exception\Inspector;
-use Royalcms\Component\Whoops\Run;
-use Exception;
+use Royalcms\Component\Whoops\RunInterface;
 abstract class Handler implements HandlerInterface
 {
     const DONE = 16;
@@ -9689,7 +9607,7 @@ abstract class Handler implements HandlerInterface
     private $run;
     private $inspector;
     private $exception;
-    public function setRun(Run $run)
+    public function setRun(RunInterface $run)
     {
         $this->run = $run;
     }
@@ -9705,7 +9623,7 @@ abstract class Handler implements HandlerInterface
     {
         return $this->inspector;
     }
-    public function setException(Exception $exception)
+    public function setException($exception)
     {
         $this->exception = $exception;
     }
@@ -9716,175 +9634,37 @@ abstract class Handler implements HandlerInterface
 }
 namespace Royalcms\Component\Whoops\Handler;
 
-use Royalcms\Component\Whoops\Handler\Handler;
-use InvalidArgumentException;
-class PrettyPageHandler extends Handler
-{
-    private $resourcesPath;
-    private $extraTables = array();
-    private $pageTitle = 'Whoops! There was an error.';
-    protected $editor;
-    protected $editors = array('sublime' => 'subl://open?url=file://%file&line=%line', 'textmate' => 'txmt://open?url=file://%file&line=%line', 'emacs' => 'emacs://open?url=file://%file&line=%line', 'macvim' => 'mvim://open/?url=file://%file&line=%line');
-    public function __construct()
-    {
-        if (ini_get('xdebug.file_link_format') || extension_loaded('xdebug')) {
-            $this->editors['xdebug'] = function ($file, $line) {
-                return str_replace(array('%f', '%l'), array($file, $line), ini_get('xdebug.file_link_format'));
-            };
-        }
-    }
-    public function handle()
-    {
-        if (php_sapi_name() === 'cli' && !isset($_ENV['whoops-test'])) {
-            return Handler::DONE;
-        }
-        if (!($resources = $this->getResourcesPath())) {
-            $resources = SITE_ROOT . 'vendor/royalcms/whoops/Royalcms/Component/Whoops/Handler' . '/../Resources';
-        }
-        $templateFile = "{$resources}/pretty-template.php";
-        $cssFile = "{$resources}/pretty-page.css";
-        $inspector = $this->getInspector();
-        $frames = $inspector->getFrames();
-        $v = (object) array('title' => $this->getPageTitle(), 'name' => explode('\\', $inspector->getExceptionName()), 'message' => $inspector->getException()->getMessage(), 'frames' => $frames, 'hasFrames' => !!count($frames), 'handler' => $this, 'handlers' => $this->getRun()->getHandlers(), 'pageStyle' => file_get_contents($cssFile), 'tables' => array('Server/Request Data' => $_SERVER, 'GET Data' => $_GET, 'POST Data' => $_POST, 'Files' => $_FILES, 'Cookies' => $_COOKIE, 'Session' => isset($_SESSION) ? $_SESSION : array(), 'Environment Variables' => $_ENV));
-        $extraTables = array_map(function ($table) {
-            return $table instanceof \Closure ? $table() : $table;
-        }, $this->getDataTables());
-        $v->tables = array_merge($extraTables, $v->tables);
-        call_user_func(function () use($templateFile, $v) {
-            $e = function ($_, $allowLinks = false) {
-                $escaped = htmlspecialchars($_, ENT_QUOTES, 'UTF-8');
-                if ($allowLinks) {
-                    $escaped = preg_replace('@([A-z]+?://([-\\w\\.]+[-\\w])+(:\\d+)?(/([\\w/_\\.#-]*(\\?\\S+)?[^\\.\\s])?)?)@', '<a href="$1" target="_blank">$1</a>', $escaped);
-                }
-                return $escaped;
-            };
-            $slug = function ($_) {
-                $_ = str_replace(' ', '-', $_);
-                $_ = preg_replace('/[^\\w\\d\\-\\_]/i', '', $_);
-                return strtolower($_);
-            };
-            require $templateFile;
-        });
-        return Handler::QUIT;
-    }
-    public function addDataTable($label, array $data)
-    {
-        $this->extraTables[$label] = $data;
-    }
-    public function addDataTableCallback($label, $callback)
-    {
-        if (!is_callable($callback)) {
-            throw new InvalidArgumentException('Expecting callback argument to be callable');
-        }
-        $this->extraTables[$label] = function () use($callback) {
-            try {
-                $result = call_user_func($callback);
-                return is_array($result) || $result instanceof \Traversable ? $result : array();
-            } catch (\Exception $e) {
-                return array();
-            }
-        };
-    }
-    public function getDataTables($label = null)
-    {
-        if ($label !== null) {
-            return isset($this->extraTables[$label]) ? $this->extraTables[$label] : array();
-        }
-        return $this->extraTables;
-    }
-    public function addEditor($identifier, $resolver)
-    {
-        $this->editors[$identifier] = $resolver;
-    }
-    public function setEditor($editor)
-    {
-        if (!is_callable($editor) && !isset($this->editors[$editor])) {
-            throw new InvalidArgumentException("Unknown editor identifier: {$editor}. Known editors:" . implode(',', array_keys($this->editors)));
-        }
-        $this->editor = $editor;
-    }
-    public function getEditorHref($filePath, $line)
-    {
-        if ($this->editor === null) {
-            return false;
-        }
-        $editor = $this->editor;
-        if (is_string($editor)) {
-            $editor = $this->editors[$editor];
-        }
-        if (is_callable($editor)) {
-            $editor = call_user_func($editor, $filePath, $line);
-        }
-        if (!is_string($editor)) {
-            throw new InvalidArgumentException(__METHOD__ . ' should always resolve to a string; got something else instead');
-        }
-        $editor = str_replace('%line', rawurlencode($line), $editor);
-        $editor = str_replace('%file', rawurlencode($filePath), $editor);
-        return $editor;
-    }
-    public function setPageTitle($title)
-    {
-        $this->pageTitle = (string) $title;
-    }
-    public function getPageTitle()
-    {
-        return $this->pageTitle;
-    }
-    public function getResourcesPath()
-    {
-        return $this->resourcesPath;
-    }
-    public function setResourcesPath($resourcesPath)
-    {
-        if (!is_dir($resourcesPath)) {
-            throw new InvalidArgumentException("{$resourcesPath} is not a valid directory");
-        }
-        $this->resourcesPath = $resourcesPath;
-    }
-}
-namespace Royalcms\Component\Whoops\Handler;
-
-use Royalcms\Component\Whoops\Handler\Handler;
+use Royalcms\Component\Whoops\Exception\Formatter;
 class JsonResponseHandler extends Handler
 {
     private $returnFrames = false;
-    private $onlyForAjaxRequests = false;
+    private $jsonApi = false;
+    public function setJsonApi($jsonApi = false)
+    {
+        $this->jsonApi = (bool) $jsonApi;
+        return $this;
+    }
     public function addTraceToOutput($returnFrames = null)
     {
         if (func_num_args() == 0) {
             return $this->returnFrames;
         }
         $this->returnFrames = (bool) $returnFrames;
-    }
-    public function onlyForAjaxRequests($onlyForAjaxRequests = null)
-    {
-        if (func_num_args() == 0) {
-            return $this->onlyForAjaxRequests;
-        }
-        $this->onlyForAjaxRequests = (bool) $onlyForAjaxRequests;
-    }
-    private function isAjaxRequest()
-    {
-        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+        return $this;
     }
     public function handle()
     {
-        if ($this->onlyForAjaxRequests() && !$this->isAjaxRequest()) {
-            return Handler::DONE;
+        if ($this->jsonApi === true) {
+            $response = array('errors' => array(Formatter::formatExceptionAsDataArray($this->getInspector(), $this->addTraceToOutput())));
+        } else {
+            $response = array('error' => Formatter::formatExceptionAsDataArray($this->getInspector(), $this->addTraceToOutput()));
         }
-        $exception = $this->getException();
-        $response = array('error' => array('type' => get_class($exception), 'message' => $exception->getMessage(), 'file' => $exception->getFile(), 'line' => $exception->getLine()));
-        if ($this->addTraceToOutput()) {
-            $inspector = $this->getInspector();
-            $frames = $inspector->getFrames();
-            $frameData = array();
-            foreach ($frames as $frame) {
-                $frameData[] = array('file' => $frame->getFile(), 'line' => $frame->getLine(), 'function' => $frame->getFunction(), 'class' => $frame->getClass(), 'args' => $frame->getArgs());
-            }
-            $response['error']['trace'] = $frameData;
-        }
-        echo json_encode($response);
+        echo json_encode($response, defined('JSON_PARTIAL_OUTPUT_ON_ERROR') ? JSON_PARTIAL_OUTPUT_ON_ERROR : 0);
         return Handler::QUIT;
+    }
+    public function contentType()
+    {
+        return 'application/json';
     }
 }
 namespace Psr\Log;
@@ -11285,10 +11065,227 @@ class Memory
 }
 namespace Royalcms\Component\Exception;
 
+use Royalcms\Component\Whoops\Run;
+use Royalcms\Component\Whoops\Handler\JsonResponseHandler;
+use Royalcms\Component\Support\ServiceProvider;
+class ExceptionServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        $this->registerDisplayers();
+        $this->registerHandler();
+    }
+    protected function registerDisplayers()
+    {
+        $this->registerPlainDisplayer();
+        $this->registerDebugDisplayer();
+    }
+    protected function registerHandler()
+    {
+        $this->royalcms['exception'] = $this->royalcms->share(function ($royalcms) {
+            return new Handler($royalcms, $royalcms['exception.plain'], $royalcms['exception.debug']);
+        });
+    }
+    protected function registerPlainDisplayer()
+    {
+        $this->royalcms['exception.plain'] = $this->royalcms->share(function ($royalcms) {
+            if ($royalcms->runningInConsole()) {
+                return $royalcms['exception.debug'];
+            } else {
+                return new PlainDisplayer();
+            }
+        });
+    }
+    protected function registerDebugDisplayer()
+    {
+        $this->registerWhoops();
+        $this->royalcms['exception.debug'] = $this->royalcms->share(function ($royalcms) {
+            return new WhoopsDisplayer($royalcms['whoops'], $royalcms->runningInConsole());
+        });
+    }
+    protected function registerWhoops()
+    {
+        $this->registerWhoopsHandler();
+        $this->royalcms['whoops'] = $this->royalcms->share(function ($royalcms) {
+            with($whoops = new Run())->allowQuit(false);
+            $whoops->writeToOutput(false);
+            return $whoops->pushHandler($royalcms['whoops.handler']);
+        });
+    }
+    protected function registerWhoopsHandler()
+    {
+        if ($this->shouldReturnJson()) {
+            $this->royalcms['whoops.handler'] = $this->royalcms->share(function () {
+                return new JsonResponseHandler();
+            });
+        } else {
+            $this->registerPrettyWhoopsHandler();
+        }
+    }
+    protected function shouldReturnJson()
+    {
+        return $this->royalcms->runningInConsole() || $this->requestWantsJson();
+    }
+    protected function requestWantsJson()
+    {
+        return $this->royalcms['request']->ajax() || $this->royalcms['request']->wantsJson();
+    }
+    protected function registerPrettyWhoopsHandler()
+    {
+        $me = $this;
+        $this->royalcms['whoops.handler'] = $this->royalcms->share(function () use($me) {
+            with($handler = new PrettyPageHandler())->setEditor('sublime');
+            if (!is_null($path = $me->resourcePath())) {
+                $handler->setResourcesPath($path);
+            }
+            return $handler;
+        });
+    }
+    public function resourcePath()
+    {
+        if (is_dir($path = $this->getResourcePath())) {
+            return $path;
+        }
+    }
+    protected function getResourcePath()
+    {
+        return SITE_ROOT . 'vendor/royalcms/framework/Royalcms/Component/Exception' . '/resources';
+    }
+}
+namespace Royalcms\Component\Exception;
+
+use Royalcms\Component\Whoops\Handler\Handler;
+use InvalidArgumentException;
+class PrettyPageHandler extends Handler
+{
+    private $resourcesPath;
+    private $extraTables = array();
+    private $pageTitle = 'Whoops! There was an error.';
+    protected $editor;
+    protected $editors = array('sublime' => 'subl://open?url=file://%file&line=%line', 'textmate' => 'txmt://open?url=file://%file&line=%line', 'emacs' => 'emacs://open?url=file://%file&line=%line', 'macvim' => 'mvim://open/?url=file://%file&line=%line');
+    public function __construct()
+    {
+        if (ini_get('xdebug.file_link_format') || extension_loaded('xdebug')) {
+            $this->editors['xdebug'] = function ($file, $line) {
+                return str_replace(array('%f', '%l'), array($file, $line), ini_get('xdebug.file_link_format'));
+            };
+        }
+    }
+    public function handle()
+    {
+        if (php_sapi_name() === 'cli' && !isset($_ENV['whoops-test'])) {
+            return Handler::DONE;
+        }
+        if (!($resources = $this->getResourcesPath())) {
+            $resources = SITE_ROOT . 'vendor/royalcms/framework/Royalcms/Component/Exception' . '/../Resources';
+        }
+        $templateFile = "{$resources}/pretty-template.php";
+        $cssFile = "{$resources}/pretty-page.css";
+        $inspector = $this->getInspector();
+        $frames = $inspector->getFrames();
+        $v = (object) array('title' => $this->getPageTitle(), 'name' => explode('\\', $inspector->getExceptionName()), 'message' => $inspector->getException()->getMessage(), 'frames' => $frames, 'hasFrames' => !!count($frames), 'handler' => $this, 'handlers' => $this->getRun()->getHandlers(), 'pageStyle' => file_get_contents($cssFile), 'tables' => array('Server/Request Data' => $_SERVER, 'GET Data' => $_GET, 'POST Data' => $_POST, 'Files' => $_FILES, 'Cookies' => $_COOKIE, 'Session' => isset($_SESSION) ? $_SESSION : array(), 'Environment Variables' => $_ENV));
+        $extraTables = array_map(function ($table) {
+            return $table instanceof \Closure ? $table() : $table;
+        }, $this->getDataTables());
+        $v->tables = array_merge($extraTables, $v->tables);
+        call_user_func(function () use($templateFile, $v) {
+            $e = function ($_, $allowLinks = false) {
+                $escaped = htmlspecialchars($_, ENT_QUOTES, 'UTF-8');
+                if ($allowLinks) {
+                    $escaped = preg_replace('@([A-z]+?://([-\\w\\.]+[-\\w])+(:\\d+)?(/([\\w/_\\.#-]*(\\?\\S+)?[^\\.\\s])?)?)@', '<a href="$1" target="_blank">$1</a>', $escaped);
+                }
+                return $escaped;
+            };
+            $slug = function ($_) {
+                $_ = str_replace(' ', '-', $_);
+                $_ = preg_replace('/[^\\w\\d\\-\\_]/i', '', $_);
+                return strtolower($_);
+            };
+            require $templateFile;
+        });
+        return Handler::QUIT;
+    }
+    public function addDataTable($label, array $data)
+    {
+        $this->extraTables[$label] = $data;
+    }
+    public function addDataTableCallback($label, $callback)
+    {
+        if (!is_callable($callback)) {
+            throw new InvalidArgumentException('Expecting callback argument to be callable');
+        }
+        $this->extraTables[$label] = function () use($callback) {
+            try {
+                $result = call_user_func($callback);
+                return is_array($result) || $result instanceof \Traversable ? $result : array();
+            } catch (\Exception $e) {
+                return array();
+            }
+        };
+    }
+    public function getDataTables($label = null)
+    {
+        if ($label !== null) {
+            return isset($this->extraTables[$label]) ? $this->extraTables[$label] : array();
+        }
+        return $this->extraTables;
+    }
+    public function addEditor($identifier, $resolver)
+    {
+        $this->editors[$identifier] = $resolver;
+    }
+    public function setEditor($editor)
+    {
+        if (!is_callable($editor) && !isset($this->editors[$editor])) {
+            throw new InvalidArgumentException("Unknown editor identifier: {$editor}. Known editors:" . implode(',', array_keys($this->editors)));
+        }
+        $this->editor = $editor;
+    }
+    public function getEditorHref($filePath, $line)
+    {
+        if ($this->editor === null) {
+            return false;
+        }
+        $editor = $this->editor;
+        if (is_string($editor)) {
+            $editor = $this->editors[$editor];
+        }
+        if (is_callable($editor)) {
+            $editor = call_user_func($editor, $filePath, $line);
+        }
+        if (!is_string($editor)) {
+            throw new InvalidArgumentException(__METHOD__ . ' should always resolve to a string; got something else instead');
+        }
+        $editor = str_replace('%line', rawurlencode($line), $editor);
+        $editor = str_replace('%file', rawurlencode($filePath), $editor);
+        return $editor;
+    }
+    public function setPageTitle($title)
+    {
+        $this->pageTitle = (string) $title;
+    }
+    public function getPageTitle()
+    {
+        return $this->pageTitle;
+    }
+    public function getResourcesPath()
+    {
+        return $this->resourcesPath;
+    }
+    public function setResourcesPath($resourcesPath)
+    {
+        if (!is_dir($resourcesPath)) {
+            throw new InvalidArgumentException("{$resourcesPath} is not a valid directory");
+        }
+        $this->resourcesPath = $resourcesPath;
+    }
+}
+namespace Royalcms\Component\Exception;
+
 use Exception;
 interface ExceptionDisplayerInterface
 {
-    public function display(Exception $exception);
+    public function display($exception);
 }
 namespace Royalcms\Component\Exception;
 
@@ -11301,7 +11298,7 @@ class SymfonyDisplayer implements ExceptionDisplayerInterface
     {
         $this->symfony = $symfony;
     }
-    public function display(Exception $exception)
+    public function display($exception)
     {
         $this->symfony->handle($exception);
     }
@@ -11321,7 +11318,7 @@ class WhoopsDisplayer implements ExceptionDisplayerInterface
         $this->whoops = $whoops;
         $this->runningInConsole = $runningInConsole;
     }
-    public function display(Exception $exception)
+    public function display($exception)
     {
         $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
         $headers = $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : array();
@@ -11335,7 +11332,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 class PlainDisplayer implements ExceptionDisplayerInterface
 {
-    public function display(Exception $exception)
+    public function display($exception)
     {
         $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
         $headers = $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : array();
