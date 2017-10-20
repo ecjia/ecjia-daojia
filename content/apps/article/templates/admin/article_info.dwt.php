@@ -45,7 +45,7 @@
 									 	<label>{lang key='article::article.external_links'}</label>
 										<div>
 											<input type="text" name="link_url" class="span10" value="{if $article.link neq ''}{$article.link|escape}{else}http://{/if}" />
-											<br><span class="help-block">{lang key='article::article.links_help_block'}</span>
+											<span class="help-block">{lang key='article::article.links_help_block'}</span>
 										</div>
 									</div>
 
@@ -62,7 +62,6 @@
 														<label class="control-label">{lang key='article::article.keywords'}</label>
 														<div class="controls">
 															<input class="span12" type="text" name="keywords" value="{$article.keywords|escape}" size="40" />
-															<br />
 															<p class="help-block w280 m_t5">{lang key='article::article.split'}</p>
 														</div>
 													</div>

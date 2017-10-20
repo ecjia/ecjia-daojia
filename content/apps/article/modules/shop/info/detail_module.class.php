@@ -53,11 +53,12 @@ class detail_module extends api_front implements api_interface {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
 		}
 		
-		$cache_article_key = 'article_info_'.$id;
-		$cache_id = sprintf('%X', crc32($cache_article_key));
+		//$cache_article_key = 'article_info_'.$id;
+		//$cache_id = sprintf('%X', crc32($cache_article_key));
 		
-		$article_db = RC_Model::model('article/orm_article_model');
-		$html = $article_db->get_cache_item($cache_id);
+		//$article_db = RC_Model::model('article/orm_article_model');
+		//$html = $article_db->get_cache_item($cache_id);
+		$html = array();
 		if (empty($html)) {
 			$article_info = get_article_info($id);
 			if (empty($article_info)) {
@@ -65,7 +66,7 @@ class detail_module extends api_front implements api_interface {
 			}
 			$base = sprintf('<base href="%s/" />', dirname(SITE_URL));
 			$html['data'] = '<!DOCTYPE html><html><head><title>'.$article_info['title'].'</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="initial-scale=1.0"><meta name="viewport" content="initial-scale = 1.0 , minimum-scale = 1.0 , maximum-scale = 1.0" /><style>img {width: auto\9;height: auto;vertical-align: middle;border: 0;-ms-interpolation-mode: bicubic;max-width: 100%; }html { font-size:100%; }p{word-wrap : break-word ;word-break:break-all;} </style>'.$base.'</head><body>'.$article_info['content'].'</body></html>';
-			$article_db->set_cache_item($cache_id, $html);
+			//$article_db->set_cache_item($cache_id, $html);
 		}
 		return $html;
 	}
