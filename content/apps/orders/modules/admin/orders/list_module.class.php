@@ -52,25 +52,29 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class list_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-
+		
 		$this->authadminSession();
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
-		$result = $this->admin_priv('order_view');
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
+        
+        $device		  = $this->device;
+        $device_code = isset($device['code']) ? $device['code'] : '';
+        $device_udid = isset($device['udid']) ? $device['udid'] : '';
+        $device_client = isset($device['client']) ? $device['client'] : '';
+        
+        if ($device_code != '8001') {
+        	$result = $this->admin_priv('order_view');
+        	if (is_ecjia_error($result)) {
+        		return $result;
+        	}
+        }
+        
 		$type		= $this->requestData('type', 'whole');
 		$keywords	= $this->requestData('keywords');
 		$user_id	= $this->requestData('user_id', 0);
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
-		
-		$device		  = $this->device;
-		$device_code = isset($device['code']) ? $device['code'] : '';
-		$device_udid = isset($device['udid']) ? $device['udid'] : '';
-		$device_client = isset($device['client']) ? $device['client'] : '';
 
 		$order_query = RC_Loader::load_app_class('order_query', 'orders');
 		$db = RC_Model::model('orders/order_info_model');
@@ -80,10 +84,11 @@ class list_module extends api_admin implements api_interface {
 		if ( !empty($keywords)) {
 			$where[] = "( oi.order_sn like '%".$keywords."%' or oi.consignee like '%".$keywords."%' or oi.mobile like '%".$keywords."%' )";
 		}
-		if ($user_id > 0) {
-		    $where['oi.user_id'] = $user_id;
-		}
-		if ($device_code != '8001') {
+		
+		if ($device_code != '8001' || $user_id > 0) {
+			if ($user_id > 0) {
+				$where['oi.user_id'] = $user_id;
+			}
 			switch ($type) {
 				case 'await_pay':
 					$where_query = $order_query->order_await_pay('oi.');
@@ -114,7 +119,7 @@ class list_module extends api_admin implements api_interface {
 			}
 			
 			$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
-			$field = 'oi.order_id, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time, og.goods_number, og.goods_id, og.goods_name, g.goods_thumb, g.goods_img, g.original_img, oi.integral, oi.money_paid, oi.surplus, oi.order_amount';
+			$field = 'oi.order_id, oi.store_id, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time, og.goods_number, og.goods_id, og.goods_name, g.goods_thumb, g.goods_img, g.original_img, oi.integral, oi.money_paid, oi.surplus, oi.order_amount';
 
 			$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
 			$result = ecjia_app::validate_application('store');
@@ -179,32 +184,82 @@ class list_module extends api_admin implements api_interface {
 				}
 			}
 		} else {
-			$db_adviser_log_view = RC_Model::model('orders/adviser_log_viewmodel');
-			if ($type == 'verify') {
-			    $where['al.type'] = 3;
-			    $join = array('order_info', 'order_goods', 'adviser', 'goods', 'term_meta');
-			} else {
-			    $where['al.type'] = array(1,2);
-			    $join = array('order_info', 'order_goods', 'adviser', 'goods');
+			
+			$db_cashier_record_view = RC_Model::model('orders/cashier_record_viewmodel');
+			$where['cr.mobile_device_id'] = $_SESSION['device_id'];
+			//$where['cr.mobile_device_id'] = 5558;
+			$where['cr.action'] = array('billing', 'receipt');
+			$join = array('order_info', 'order_goods', 'staff_user', 'goods');
+			
+			switch ($type) {
+				case 'await_pay':
+					$where_query = $order_query->order_await_pay('oi.');
+					break;
+				case 'payed' :
+					$where_query = $order_query->order_await_ship('oi.');
+					break;
+				case 'await_ship':
+					$where_query = $order_query->order_await_ship('oi.');
+					break;
+				case 'shipped':
+					$where_query = $order_query->order_shipped('oi.');
+					break;
+				case 'finished':
+					$where_query = $order_query->order_finished('oi.');
+					break;
+				case 'refund':
+					$where_query = $order_query->order_refund('oi.');
+					break;
+				case 'closed' :
+					$where_query = array_merge($order_query->order_invalid('oi.'),$order_query->order_canceled('oi.'));
+					break;
+				case 'whole':
+					break;
 			}
 			
-			$where['al.device_id'] = $_SESSION['device_id'];
-
+			if ($type == 'verify') {
+				$where['cr.action'] = 'check_order';
+				$join = array('order_info', 'order_goods', 'staff_user', 'goods', 'term_meta');
+			}
+			
+			//if ($type == 'verify') {
+			//    $where['cr.action'] = 'check_order';
+			//    $join = array('order_info', 'order_goods', 'staff_user', 'goods', 'term_meta');
+			//} else {
+			//    $where['cr.action'] = array('billing', 'receipt');
+			//    $join = array('order_info', 'order_goods', 'staff_user', 'goods');
+			//}
 			/*获取记录条数 */
-			$record_count = $db_adviser_log_view->join(null)->where($where)->count('al.order_id');
+			//$record_count = $db_cashier_record_view->join(null)->where($where)->count('cr.order_id');
+			//$page_row = new ecjia_page($record_count, $size, 6, '', $page);
+			//$order_id_group = $db_cashier_record_view->join(null)->where($where)->limit($page_row->limit())->order(array('create_at' => 'desc'))->get_field('order_id', true);
+			
+			//if ($type != 'verify') {
+				if (is_array($where_query)) {
+					$where = array_merge($where, $where_query);
+				}
+			//}
+			
+			$record_count = $db_cashier_record_view->join(array('order_info'))->where($where)->count('cr.order_id');
+			
 			$page_row = new ecjia_page($record_count, $size, 6, '', $page);
-			$order_id_group = $db_adviser_log_view->join(null)->where($where)->limit($page_row->limit())->order(array('add_time' => 'desc'))->get_field('order_id', true);
-
-			if (empty($order_id_group)) {
+			$order_id_group = $db_cashier_record_view->join(array('order_info'))->where($where)->limit($page_row->limit())->order(array('create_at' => 'desc'))->field('cr.order_id')->select();
+			
+			if (!empty($order_id_group)) {
+				foreach ($order_id_group as $val) {
+					$order_id_groups[] = $val['order_id']; 
+				}
+			}
+			
+			if (empty($order_id_groups)) {
 				$data = array();
 			} else {
 				$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
-				$field = 'oi.order_id, ad.username, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time,og.goods_id, og.goods_number, og.goods_name, g.goods_thumb, g.goods_img, g.original_img';
+				$field = 'oi.order_id, oi.store_id, su.name, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time,og.goods_id, og.goods_number, og.goods_name, g.goods_thumb, g.goods_img, g.original_img';
 				$field .= $type == 'verify' ? ', tm.meta_value' : '';
-				$where['al.order_id'] =  $order_id_group;
+				$where['cr.order_id'] =  $order_id_groups;
 				$where[] = "oi.order_id is not null";
-
-				$data = $db_adviser_log_view->field($field)->join($join)->where($where)->order(array('al.add_time' => 'desc'))->select();
+				$data = $db_cashier_record_view->field($field)->join($join)->where($where)->limit($page_row->limit())->order(array('cr.create_at' => 'desc'))->select();
 			}
 		}
 
@@ -236,7 +291,7 @@ class list_module extends api_admin implements api_interface {
 						)
 					);
 
-				if ($device_code == 8001) {
+				if ($device_code == '8001') {
 						if (in_array($val['order_status'], array(OS_CANCELED, OS_INVALID, OS_RETURNED))) {
 							$label_order_status = '已撤销';
 							$status_code		= 'canceled';
@@ -315,6 +370,13 @@ class list_module extends api_admin implements api_interface {
 					    'verify_code'				=> (isset($val['meta_value']) && !empty($val['meta_value'])) ? $val['meta_value'] : null,
 						'goods_items' 				=> $goods_lists
 					);
+					
+					if ($val['store_id'] > 0) {
+						$store_name = RC_DB::table('store_franchisee')->where('store_id', $val['store_id'])->pluck('merchants_name');
+						$order_list[$val['order_id']]['store_id'] = $val['store_id'];
+						$order_list[$val['order_id']]['store_name'] = $store_name;
+					}
+					
 					$order_id = $val['order_id'];
 				} else {
 					$goods_number += $val['goods_number'];

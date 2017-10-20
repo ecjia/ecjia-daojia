@@ -71,7 +71,7 @@ class cancel_module extends api_admin implements api_interface {
 			return new ecjia_error(101, '参数错误');
 		}
 		/*验证订单是否属于此入驻商*/
-		if (isset($_SESSION['ru_id']) && $_SESSION['ru_id'] > 0) {
+		if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
 			$ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->get_field('store_id', true);
 			if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
 				return new ecjia_error('no_authority', '对不起，您没权限对此订单进行操作！');

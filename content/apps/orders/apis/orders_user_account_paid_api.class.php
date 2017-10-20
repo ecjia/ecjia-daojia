@@ -155,6 +155,41 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			'add_time'		=> RC_Time::gmtime(),
 		));
 		
+		/*门店自提，时发送提货验证码；*/
+		if ($order_info['shipping_id'] > 0) {
+			$shipping_info = RC_DB::table('shipping')->where('shipping_id', $order_info['shipping_id'])->first();
+			if ($shipping_info['shipping_code'] == 'ship_cac') {
+				/*短信给用户发送收货验证码*/
+				if (ecjia::config('sms_shop_mobile') != '') {
+					$db_term_meta = RC_DB::table('term_meta');
+					$max_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->max('meta_value');
+					 
+					$max_code = $max_code ? ceil($max_code/10000) : 1000000;
+					$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+					 
+					$options = array(
+							'mobile' => $order_info['mobile'],
+							'event'	 => 'sms_order_pickup',
+							'value'  =>array(
+									'order_sn'  	=> $order_info['order_sn'],
+									'user_name' 	=> $order_info['consignee'],
+									'code'  		=> $code,
+									'service_phone' => ecjia::config('service_phone'),
+							),
+					);
+					RC_Api::api('sms', 'send_event_sms', $options);
+					 
+					$meta_data = array(
+							'object_type'	=> 'ecjia.order',
+							'object_group'	=> 'order',
+							'object_id'		=> $order_id,
+							'meta_key'		=> 'receipt_verification',
+							'meta_value'	=> $code,
+					);
+					$db_term_meta->insert($meta_data);
+				}
+			}
+		}
 		
 	    /* 客户付款短信提醒 */
         $staff_user = RC_DB::table('staff_user')->where('store_id', $order_info['store_id'])->where('parent_id', 0)->first();

@@ -471,6 +471,7 @@ function delivery_order($delivery_id, $order) {
 	
 	/* 如果使用库存，且发货时减库存，则修改库存 */
 	if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
+		RC_Loader::load_app_class('order_stork','orders');
 		foreach ($delivery_stock_result as $value) {
 			/* 商品（实货）、超级礼包（实货） */
 			if ($value['is_real'] != 0) {
@@ -485,6 +486,9 @@ function delivery_order($delivery_id, $order) {
 							'goods_number' => $value['storage'] - $value['sums'],
 					);
 					RC_Model::model('goods/goods_model')->where(array('goods_id' => $value['goods_id']))->update($data);
+					
+					//发货警告库存发送短信
+					order_stork::sms_goods_stock_warning($value['goods_id']);
 				}
 			}
 		}
@@ -605,7 +609,7 @@ function create_express_order($delivery_id) {
     $delivery_order = delivery_order_info($delivery_id);
     /* 判断发货单，生成配送单*/
     $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-    $shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
+    $shipping_info = $shipping_method->shipping_info(intval($delivery_order['shipping_id']));
     if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 //         $staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
 //         $express_from = !empty($staff_id) ? 'assign' : 'grab';

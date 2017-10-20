@@ -160,6 +160,7 @@ class orders_order_delivery_ship_api extends Component_Event_Api {
 		
 		/* 如果使用库存，且发货时减库存，则修改库存 */
 		if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
+			RC_Loader::load_app_class('order_stork','orders');
 			foreach ($delivery_stock_result as $value) {
 				/* 商品（实货）、超级礼包（实货） */
 				if ($value['is_real'] != 0) {
@@ -174,6 +175,9 @@ class orders_order_delivery_ship_api extends Component_Event_Api {
 							'goods_number' => $value['storage'] - $value['sums'],
 						);
 						RC_DB::table('goods')->where('goods_id', $value['goods_id'])->update($data);
+						
+						//发货警告库存发送短信
+						order_stork::sms_goods_stock_warning($value['goods_id']);
 					}
 				}
 			}

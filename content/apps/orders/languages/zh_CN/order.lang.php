@@ -838,6 +838,7 @@ return array(
     'return_integral_on_cancel' 	=> '取消订单 %s，退回支付订单时使用的积分',
     'buyer_cancel' 					=> '用户取消',
     'self'							=> '自营',
+    'validate_order'				=> '验单查询',
 );
 
 // end

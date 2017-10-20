@@ -57,11 +57,14 @@ class sales_module extends api_admin implements api_interface {
 		if ($_SESSION['admin_id' ] <= 0 && $_SESSION['staff_id'] <= 0) {
 		    return new ecjia_error(100, 'Invalid session');
 		}
-		
-		$result = $this->admin_priv('sale_order_stats');
-		if (is_ecjia_error($result)) {
-			return $result;
+		$device		  = $this->device;
+		if ( $device['code'] !='8001') {
+			$result = $this->admin_priv('sale_order_stats');
+			if (is_ecjia_error($result)) {
+				return $result;
+			}
 		}
+
 		//传入参数
 		$start_date = $this->requestData('start_date');
 		$end_date = $this->requestData('end_date');

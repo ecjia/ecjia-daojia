@@ -519,8 +519,13 @@ function get_order_sn() {
 * @param   int	 $user_id	用户id
 * @return  array   用户信息
 */
-function user_info($user_id) {
-    $user = RC_DB::table('users')->where('user_id', $user_id)->first();
+function user_info($user_id, $mobile) {
+	if (!empty($user_id)) {
+		$user = RC_DB::table('users')->where('user_id', $user_id)->first();
+	} elseif (!empty($mobile)){
+		$user = RC_DB::table('users')->where('mobile_phone', $mobile)->first();
+	}
+   
     unset($user['question']);
     unset($user['answer']);
     /* 格式化帐户余额 */
@@ -935,9 +940,21 @@ function get_goods_attr_info($arr, $type = 'pice', $warehouse_id = 0, $area_id =
     $attr = '';
     if (!empty($arr)) {
         $fmt = "%s:%s[%s] \n";
-        $field = "ga.goods_attr_id, a.attr_name, ga.attr_value, " . " IF(g.model_attr < 1, ga.attr_price, IF(g.model_attr < 2, wap.attr_price, wa.attr_price)) as attr_price ";
-        $dbview->view = array('attribute' => array('type' => Component_Model_View::TYPE_LEFT_JOIN, 'alias' => 'a', 'on' => 'a.attr_id = ga.attr_id'), 'goods' => array('type' => Component_Model_View::TYPE_LEFT_JOIN, 'alias' => 'g', 'on' => "g.goods_id = ga.goods_id"), 'warehouse_attr' => array('type' => Component_Model_View::TYPE_LEFT_JOIN, 'alias' => 'wap', 'on' => "ga.goods_id = wap.goods_id and wap.warehouse_id = '{$warehouse_id}' and ga.goods_attr_id = wap.goods_attr_id"), 'warehouse_area_attr' => array('type' => Component_Model_View::TYPE_LEFT_JOIN, 'alias' => 'wa', 'on' => "ga.goods_id = wa.goods_id and wa.area_id = '{$area_id}' and ga.goods_attr_id = wa.goods_attr_id"));
-        $data = $dbview->field($field)->join(array('attribute', 'goods', 'warehouse_attr', 'warehouse_area_attr'))->in(array('ga.goods_attr_id' => $arr))->select();
+        $field = "ga.goods_attr_id, a.attr_name, ga.attr_value, " .
+         " ga.attr_price as attr_price ";
+        $dbview->view = array(
+            'attribute' => array(
+                'type' => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'a',
+                'on' => 'a.attr_id = ga.attr_id'
+            ),
+            'goods' => array(
+                'type' => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'g',
+                'on' => "g.goods_id = ga.goods_id"
+            ),
+        );
+        $data = $dbview->field($field)->join(array('attribute', 'goods'))->in(array('ga.goods_attr_id' => $arr))->select();
         if (!empty($data)) {
             foreach ($data as $row) {
                 $attr_price = round(floatval($row['attr_price']), 2);

@@ -178,7 +178,7 @@ class merchant extends ecjia_merchant {
 			
 			$count_payed = RC_Cache::app_cache_get($cache_key, 'orders');
 			//有已付款新订单
-			if (!empty($count_payed) && $count['payed'] > $count_payed) {
+			if (!empty($count['payed']) && $count['payed'] > $count_payed) {
 				$this->assign('new_order', 1);
 			}
 			RC_Cache::app_cache_set($cache_key, $count['payed'], 'orders', 10080);
@@ -443,6 +443,19 @@ class merchant extends ecjia_merchant {
 			$this->assign('is_o2o_express', true);
 			$express_order = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
 			$this->assign('express_order', $express_order);
+		}
+
+		if ($shipping_info['shipping_code'] == "ship_cac" ) {
+		    $meta_value   = RC_DB::table('term_meta')
+		          ->select('meta_value')
+		          ->where('object_type', 'ecjia.order')
+		          ->where('object_group', 'order')
+		          ->where('meta_key', 'receipt_verification')
+		          ->where('object_id', $order_id)
+		          ->first();
+
+		    $this->assign('meta_value', $meta_value['meta_value']);
+		    $this->assign('shipping_code', $shipping_info['shipping_code']);
 		}
 		
 		/* 取得是否存在实体商品 */
@@ -1307,6 +1320,7 @@ class merchant extends ecjia_merchant {
 			/* 保存配送信息 */
 			/* 取得订单信息 */
 			$order_info = order_info($order_id);
+			
 			$region_id_list = array($order_info['country'], $order_info['province'], $order_info['city'], $order_info['district']);
 			/* 保存订单 */
 			$shipping_id	= $_POST['shipping'];
@@ -1366,6 +1380,54 @@ class merchant extends ecjia_merchant {
 
 			/* 更新 pay_log */
 			update_pay_log($order_id);
+			
+			//已付款订单修改配送方式为上门取货 重新生成取货码
+			if ($shipping['shipping_code'] == 'ship_cac' && $order_info['pay_status'] == PS_PAYED) {
+				$db_term_meta = RC_DB::table('term_meta');
+				$max_code = $db_term_meta
+					->where('object_type', 'ecjia.order')
+					->where('object_group', 'order')
+					->where('meta_key', 'receipt_verification')
+					->max('meta_value');
+				
+				$max_code = $max_code ? ceil($max_code/10000) : 1000000;
+				$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+				$options = array(
+					'mobile' => $order['mobile'],
+					'event'	 => 'sms_order_pickup',
+					'value'  => array(
+						'order_sn'  	=> $order['order_sn'],
+						'user_name' 	=> $order['consignee'],
+						'code'  		=> $code,
+						'service_phone' => ecjia::config('service_phone'),
+					),
+				);
+				RC_Api::api('sms', 'send_event_sms', $options);
+				
+				$term_meta_db = RC_DB::table('term_meta')
+					->where('object_type', 'ecjia.order')
+					->where('object_group', 'order')
+					->where('object_id', $order_id)
+					->where('meta_key', 'receipt_verification');
+				
+				//判断是否存在提货码信息
+				$count = $term_meta_db->count();
+				
+				//存在更新
+				if ($count != 0) {
+					$term_meta_db->update(array('meta_value' => $code));
+				} else {
+					//不存在添加
+					$meta_data = array(
+						'object_type'	=> 'ecjia.order',
+						'object_group'	=> 'order',
+						'object_id'		=> $order_id,
+						'meta_key'		=> 'receipt_verification',
+						'meta_value'	=> $code,
+					);
+					RC_DB::table('term_meta')->insert($meta_data);
+				}
+			}
 			
 			/* todo 记录日志 */
 			$sn = $old_order['order_sn'];

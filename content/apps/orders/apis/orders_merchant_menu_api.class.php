@@ -61,6 +61,7 @@ class orders_merchant_menu_api extends Component_Event_Api {
 			ecjia_merchant::make_admin_menu('09_delivery_order', __('发货单列表'), RC_Uri::url('orders/mh_delivery/init'), 6)->add_purview('delivery_view')->add_icon('fa-check-square'),
 			ecjia_merchant::make_admin_menu('10_back_order', __('退货单列表'), RC_Uri::url('orders/mh_back/init'), 7)->add_purview('back_view')->add_icon('fa-undo'),
 		    ecjia_merchant::make_admin_menu('11_back_order', __('催单提醒'), RC_Uri::url('orders/mh_reminder/init'), 7)->add_purview('remind_order_view')->add_icon('fa-file-o'),
+			ecjia_merchant::make_admin_menu('12_validate_order', __('验单查询'), RC_Uri::url('orders/mh_validate_order/init'), 8)->add_purview('validate_order')->add_icon('fa-check-circle'),
 		);
 		$menus->add_submenu($submenus);
 		

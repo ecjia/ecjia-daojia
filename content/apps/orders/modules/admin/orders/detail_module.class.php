@@ -56,13 +56,19 @@ class detail_module extends api_admin implements api_interface {
 		$this->authadminSession();
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
+        } 
+        
+        $device = $this->device;
+        if ($device['device_code'] != '8001') {
+        	$result = $this->admin_priv('order_view');
+        	if (is_ecjia_error($result)) {
+        		return $result;
+        	}
         }
-		$result = $this->admin_priv('order_view');
- 		if (is_ecjia_error($result)) {
- 			return $result;
- 		}
+		
 		$order_id = $this->requestData('id', 0);
 		$order_sn = $this->requestData('order_sn');
+		
 
  		if (empty($order_id) && empty($order_sn)) {
  			return new ecjia_error(101, '参数错误');
@@ -71,7 +77,27 @@ class detail_module extends api_admin implements api_interface {
 
 		/* 订单详情 */
 		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => $order_sn, 'store_id' => $_SESSION['store_id']));
-
+		if (is_ecjia_error($order)) {
+			return $order;
+		}
+		$db_term_meta = RC_DB::table('term_meta');
+		$verify_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->where('object_id', $order['order_id'])->pluck('meta_value');
+		$order['verify_code'] = empty($verify_code) ? '' : $verify_code;
+		
+		/*提货码验证状态*/
+		if (!empty($verify_code)) {
+			if ($order['shipping_status'] > SS_UNSHIPPED) {
+				$order['check_status'] = 1; 
+			} else {
+				$order['check_status'] = 0;
+			}
+		}
+		
+		if ($device['code'] == 8001) {
+			//$order['adviser_name'] = RC_Model::model('orders/adviser_log_viewmodel')->join(array('adviser'))->where(array('al.order_id' => $order['order_id']))->get_field('username');
+			$order['cashier_name'] = RC_DB::table('cashier_record as cr')->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))->where(RC_DB::raw('cr.order_id'), $order['order_id'])->pluck('name');
+		}
+		
 		$order['label_order_source'] = '';
 		/*订单来源返回处理*/
 		if (!empty($order['referer'])) {
@@ -219,6 +245,7 @@ class detail_module extends api_admin implements api_interface {
 				$goods_list[$k] = array(
 					'id'					=> $v['goods_id'],
 					'name'					=> $v['goods_name'],
+					'goods_sn'				=> $v['goods_sn'],
 					'goods_number'			=> $v['goods_number'],
 					'subtotal'				=> price_format($v['subtotal'], false),
 					'goods_attr'			=> trim($v['goods_attr']),

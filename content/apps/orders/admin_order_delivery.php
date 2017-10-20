@@ -79,7 +79,7 @@ class admin_order_delivery extends ecjia_admin {
 	public function init() {
 		/* 检查权限 */
 		$this->admin_priv('delivery_view');
-
+		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::order.order_delivery_list')));
 		ecjia_screen::get_current_screen()->add_help_tab( array(
@@ -326,6 +326,7 @@ class admin_order_delivery extends ecjia_admin {
 
 		/* 如果使用库存，且发货时减库存，则修改库存 */
 		if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
+			RC_Loader::load_app_class('order_stork','orders');
 			foreach ($delivery_stock_result as $value) {
 				/* 商品（实货）、超级礼包（实货） */
 				if ($value['is_real'] != 0) {
@@ -340,6 +341,9 @@ class admin_order_delivery extends ecjia_admin {
 							'goods_number' => $value['storage'] - $value['sums'],
 						);
 						RC_DB::table('goods')->where('goods_id', $value['goods_id'])->update($data);
+						
+						//发货警告库存发送短信
+						order_stork::sms_goods_stock_warning($value['goods_id']);
 					}
 				}
 			}
@@ -364,7 +368,6 @@ class admin_order_delivery extends ecjia_admin {
 			);
 			RC_DB::table('order_status_log')->insert($data);
 			$this->create_express_order($delivery_id);
-			
 		} else {
 		    $links[] = array('text' => RC_Lang::get('orders::order.delivery_sn') . RC_Lang::get('orders::order.detail'), 'href' => RC_Uri::url('orders/admin_order_delivery/delivery_info', array('delivery_id' => $delivery_id)));
 		    return $this->showmessage(RC_Lang::get('orders::order.act_false'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $links));
@@ -679,7 +682,7 @@ class admin_order_delivery extends ecjia_admin {
         $delivery_order = delivery_order_info($delivery_id);
         /* 判断发货单，生成配送单*/
         $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-        $shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
+        $shipping_info = $shipping_method->shipping_info(intval($delivery_order['shipping_id']));
         if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
     //         $staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
     //         $express_from = !empty($staff_id) ? 'assign' : 'grab';

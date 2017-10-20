@@ -46,40 +46,37 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 营销顾问日志数据模型
- */
-class adviser_log_viewmodel extends Component_Model_View {
-	public $table_name = '';
-	public $view = array();
-	public function __construct() {
-		$this->table_name = 'adviser_log';
-		$this->table_alias_name = 'al';
-		
-		$this->view = array(
-			'order_info' => array(
-				'type' => Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'=> 'oi',
-				'on'   => 'oi.order_id = al.order_id'
-			),
-			'order_goods' => array(
-				'type' => Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'=> 'og',
-				'on'   => 'oi.order_id = og.order_id'
-			),
-			'goods' => array(
-				'type' => Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'=> 'g',
-				'on'   => 'g.goods_id = og.goods_id'
-			),
-			'adviser' => array(
-				'type' => Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'=> 'ad',
-				'on'   => 'ad.id = al.adviser_id'
-			),
-		);
-		parent::__construct();
-	}
+class order_stork {
+
+    /* 发货警告库存发送短信 */
+    public static function sms_goods_stock_warning($goods_id = 0) {
+    	
+    	$goods_info  = RC_DB::TABLE('goods')->where('goods_id', $goods_id)->select('goods_name', 'goods_number', 'warn_number', 'store_id')->first();
+    	$mobile      = RC_DB::table('staff_user')->where('store_id', $goods_info['store_id'])->where('parent_id', 0)->pluck('mobile');
+    	$store_name  = RC_DB::TABLE('store_franchisee')->where('store_id', $goods_info['store_id'])->pluck('merchants_name');
+    	
+    	//发货警告库存发送短信
+    	$send_time = RC_Cache::app_cache_get('sms_goods_stock_warning_sendtime', 'orders');
+    	$now_time  = RC_Time::gmtime();
+
+    	if($now_time >$send_time + 86400) {
+	    	if (!empty($mobile) && $goods_info['goods_number'] <= $goods_info['warn_number']) {
+	    		$options = array(
+	    			'mobile' => $mobile,
+	    			'event'  => 'sms_goods_stock_warning',
+	    			'value'  =>array(
+	    					'store_name'   => $store_name,
+	    					'goods_name'   => $goods_info['goods_name'],
+	    					'goods_number' => $goods_info['goods_number']
+	    			),
+	    		);
+	    		$response = RC_Api::api('sms', 'send_event_sms', $options);
+	    		if (!is_ecjia_error($response)) {
+	    			 RC_Cache::app_cache_set('sms_goods_stock_warning_sendtime', $now_time, 'orders', 10080);
+	    		}
+	    	}
+    	}
+    }
 }
 
 // end

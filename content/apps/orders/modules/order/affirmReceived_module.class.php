@@ -90,7 +90,7 @@ class affirmReceived_module extends api_front implements api_interface {
 function affirm_received($order_id, $user_id = 0) {
     $db = RC_Model::model('orders/order_info_model');
     /* 查询订单信息，检查状态 */
-    $order = $db->field('user_id, order_sn, order_status, shipping_status, pay_status, shipping_id')->find(array('order_id' => $order_id));
+    $order = $db->field('user_id, order_sn, order_status, shipping_status, pay_status, shipping_id, pay_id')->find(array('order_id' => $order_id));
 
     // 如果用户ID大于 0 。检查订单是否属于该用户
     if ($user_id > 0 && $order['user_id'] != $user_id) {
@@ -106,7 +106,7 @@ function affirm_received($order_id, $user_id = 0) {
         //如果货到付款，修改付款状态为已付款
         if ($order['pay_id']) {
             $payment = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->first();
-            if ($payment['is_cod'] == 1) {
+            if ($payment['is_cod'] == '1') {
                 $data['pay_status'] = PS_PAYED;
             }
         }

@@ -69,6 +69,10 @@ class detail_module extends api_front implements api_interface {
 
 		/* 订单详情 */
 		$order = get_order_detail($order_id, $user_id, 'front');
+		if (is_ecjia_error($order)) {
+			return $order;
+		}
+		
 		/*发票抬头和发票识别码处理*/
 		if (!empty($order['inv_payee'])) {
 			if (strpos($order['inv_payee'],",") > 0) {
@@ -108,20 +112,46 @@ class detail_module extends api_front implements api_interface {
 		$order['agency_id'] 		= intval($order['agency_id']);
 		$order['extension_id'] 		= intval($order['extension_id']);
 		$order['parent_id'] 		= intval($order['parent_id']);
-
+		
+		if ($order['pay_status'] == 2) {
+			$order['is_paid'] = 1;
+		} else{
+			$order['is_paid'] = 0;
+		}
+		
 		if ($order === false) {
 			return new ecjia_error(8, 'fail');
 		}
 		
-		/* 判断支付方式*/
+		/* 判断配送方式*/
 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 		$shipping_info = $shipping_method->shipping_info($order['shipping_id']);
 		$order['shipping_code'] = $shipping_info['shipping_code'];
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 			$express_info = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
 			$order['express_user'] = $express_info['express_user'];
+			$order['express_id'] = $express_info['express_id'];
 			//$order['express_mobile'] = $express_info['express_mobile'];
-			$order['express_mobile'] = $express_info['staff_id'] > 0 ? RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->pluck('express_mobile') : '';
+			$order['express_mobile'] = $express_info['staff_id'] > 0 ? RC_DB::table('staff_user')->where('user_id', $express_info['staff_id'])->pluck('mobile') : '';
+		}
+		
+		/*提货信息*/
+		if ($shipping_info['shipping_code'] == 'ship_cac') {
+			$pickup_info = RC_DB::table('term_meta')
+							->where('object_id', $order['order_id'])
+							->where('object_group', 'order')
+							->where('meta_key', 'receipt_verification')
+							->first(); 
+			$order['pickup_code'] = $pickup_info['meta_value'];
+			if ($order['shipping_status'] > SS_UNSHIPPED) {
+				$order['pickup_status'] = 1;
+				$order['label_pickup_status'] = '已提取';
+				$order['pickup_code_expiretime'] = '';
+			} else{
+				$order['pickup_status'] = 0;
+				$order['label_pickup_status'] = '未提取';
+				$order['pickup_code_expiretime'] = '';
+			}
 		}
 		
 		//收货人地址
