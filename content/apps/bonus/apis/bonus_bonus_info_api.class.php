@@ -69,7 +69,7 @@ class bonus_bonus_info_api extends Component_Event_Api {
 	private function bonus_info($bonus_id, $bonus_sn = '', $store_id = null) {
 		$dbview = RC_DB::table('user_bonus as ub')->leftJoin('bonus_type as bt', RC_DB::raw('ub.bonus_type_id'), '=', RC_DB::raw('bt.type_id'));
 		
-		if ($store_id !== null) {
+		if (!empty($store_id)) {
 			$dbview->where(RC_DB::raw('bt.bonus_id'), $store_id);
 		}
 		

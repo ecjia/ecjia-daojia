@@ -49,7 +49,7 @@
 		                        <th>{lang key='bonus::bonus.type_name'}</th>
 		                        <th class="w150">{lang key='bonus::bonus.send_type'}</th>
 		                        <th class="w150">{lang key='bonus::bonus.type_money'}</th>
-		                        <th class="w150">{lang key='bonus::bonus.min_amount'}</th>
+		                        <th class="w150">{lang key='bonus::bonus.min_goods_amount'}</th>
 		                        <th class="w130">{lang key='bonus::bonus.send_count'}</th>
 		                        <th class="w100">{lang key='bonus::bonus.use_count'}</th>
 		                    </tr>
@@ -77,11 +77,7 @@
 		                            <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('bonus/merchant/edit_type_money')}" data-name="type_money" data-pk="{$type.type_id}" data-title="{lang key='bonus::bonus.edit_bonus_money'}">{$type.type_money}</span>
 		                        </td>
 		                        <td>
-		                        	<!-- {if $type.send_type eq 2} -->
-		                            <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('bonus/merchant/edit_min_amount')}" data-name="min_amount" data-pk="{$type.type_id}" title="{lang key='bonus::bonus.edit_order_limit'}">{$type.min_amount}</span>
-		                        	<!-- {else} -->
-									0.00
-									<!-- {/if} -->
+		                            <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('bonus/merchant/edit_min_amount')}" data-name="min_goods_amount" data-pk="{$type.type_id}" title="{lang key='bonus::bonus.edit_ming_goods_amount'}">{$type.min_goods_amount}</span>
 		                        </td>
 		                        <td>{$type.send_count}</td>
 		                        <td>{$type.use_count}</td>

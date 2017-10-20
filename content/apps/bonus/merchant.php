@@ -435,13 +435,13 @@ class merchant extends ecjia_merchant {
 	    $val = floatval($_POST['value']);
 	    /* 可为0 */
 	    if ($val <= 0 && !($_POST['value'] === '0')) {
-	        return $this->showmessage(RC_Lang::get('bonus::bonus.min_amount_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(RC_Lang::get('bonus::bonus.min_goods_amount_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
 	    else {
 	        RC_DB::table('bonus_type')
 		        ->where(RC_DB::Raw('type_id'), $id)
 		        ->where(RC_DB::Raw('store_id'), $_SESSION['store_id'])
-		        ->update(array('min_amount' => $val));
+		        ->update(array('min_goods_amount' => $val));
 	        return $this->showmessage(RC_Lang::get('bonus::bonus.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/init')));
 	    }
 	}

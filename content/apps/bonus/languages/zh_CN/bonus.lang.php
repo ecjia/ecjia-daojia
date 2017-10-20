@@ -79,6 +79,7 @@ return array(
 	'min_amount_empty' 	=> '红包类型的订单下限不能为空！',
 	'max_amount_empty' 	=> '红包类型的订单上限不能为空！',
 	'send_count_empty' 	=> '红包类型的发放数量不能为空！',
+	'min_goods_amount_empty' => '最小订单金额不能为空！',
 	
 	'send_by' => array(
 		SEND_BY_USER 		=> '按用户发放',
@@ -228,6 +229,7 @@ return array(
 	'gen_excel'					=> '导出报表',
 	'edit_bonus_money'			=> '编辑红包金额',
 	'edit_order_limit'			=> '编辑订单下限金额',
+	'edit_ming_goods_amount'	=> '编辑最小订单金额',
 	
 	'bonus_type_manage'		=> '红包类型管理',
 	'bonus_type_add'		=> '红包类型添加',
