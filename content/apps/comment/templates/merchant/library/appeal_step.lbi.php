@@ -11,7 +11,7 @@
 			
 			<li>
 				<div class="{if $check_status eq '1'}step-cur{elseif $check_status gt '1'}step-done{/if}">
-					<div class="step-no">2</div>
+					<div class="step-no">{if $check_status lt '2'}2{/if}</div>
 					<div class="m_t5">审核中<br>{$appeal.appeal_time}</div>
 				</div>
 			</li>

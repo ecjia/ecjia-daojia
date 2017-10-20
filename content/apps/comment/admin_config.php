@@ -99,7 +99,8 @@ class admin_config extends ecjia_admin {
 	    $this->assign('comment_award_open', ecjia::config('comment_award_open'));
 	    $this->assign('comment_award', ecjia::config('comment_award'));
 	    $this->assign('form_action', RC_Uri::url('comment/admin_config/update'));
-	     
+	    
+	    $this->assign('current_code', 'comment');
 	    $this->display('comment_config.dwt');
 	    
 	}
