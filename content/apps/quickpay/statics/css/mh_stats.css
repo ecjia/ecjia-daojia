@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+
+.ajax_loading {
+	height: 300px;
+	line-height: 300px;
+	text-align: center;
+}
+
+.ajax_loading i {
+	margin-right: 5px;
+	font-size: 16px;
+}
+
+
+.state-overview .value {
+	background-color: #fff;
+	border-radius: 4px;
+	height: 100px;
+	width: 100%;
+    float: left;
+	margin-bottom: 20px;
+	padding-top: 16px;
+}
+.state-overview .value h3 {
+	color: #e62129;
+	margin-bottom: 10px;
+}
+.state-overview .value p {
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+
+.panel-heading {
+    line-height:30px;
+}
+.sale_desc span{
+	color:#e62129;
+}

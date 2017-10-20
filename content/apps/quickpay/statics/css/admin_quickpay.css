@@ -1,0 +1,13 @@
+.time-picker {
+	margin-bottom:5px;
+}
+.date-picker {
+	margin-bottom:5px;
+}
+.time-picker .form-control {
+	display : unset;
+}
+
+.date-picker .form-control {
+	display : unset;
+}
