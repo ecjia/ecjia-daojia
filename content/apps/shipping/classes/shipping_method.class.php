@@ -197,13 +197,15 @@ class shipping_method  {
     
     /**
      * 取得配送方式信息
-     * @param   int     $shipping_id    配送方式id
+     * @param   int/string     $shipping_id    配送方式id/code
      * @return  array   配送方式信息
      */
-    public function shipping_info($shipping_id) {
-//         return $this->db->find(array('shipping_id' => $shipping_id , 'enabled' => 1));
-        
-        return RC_DB::table('shipping')->where('shipping_id', $shipping_id)->where('enabled', 1)->first();
+    public function shipping_info($shipping_id_code) {
+        if (is_int($shipping_id_code)) {
+            return RC_DB::table('shipping')->where('shipping_id', $shipping_id_code)->where('enabled', 1)->first();
+        } else {
+            return RC_DB::table('shipping')->where('shipping_code', $shipping_id_code)->where('enabled', 1)->first();
+        }
     }
 	
     
@@ -282,6 +284,10 @@ class shipping_method  {
     
     public function get_shipping_code($shipping_id) {
         return RC_DB::table('shipping')->where('shipping_id', $shipping_id)->pluck('shipping_code');
+    }
+    
+    public function get_shipping_id($shipping_code) {
+        return RC_DB::table('shipping')->where('shipping_code', $shipping_code)->pluck('shipping_id');
     }
 }
 
