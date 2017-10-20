@@ -49,9 +49,9 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('cron_abstract', 'cron', false);
+use Ecjia\App\Cron\CronAbstract;
 
-class cron_bill_month extends cron_abstract
+class cron_bill_month extends CronAbstract
 {
     
     /**
