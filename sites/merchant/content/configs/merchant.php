@@ -68,6 +68,8 @@ return array(
         'groupbuy' => 'groupbuy',
         /* 超值礼包活动 */
         'package' => 'package',
+    	/*闪惠  */
+    	'quickpay'   => 'quickpay',
         /* 结算 */
         'commission' => 'commission',
         /* 报表统计*/
