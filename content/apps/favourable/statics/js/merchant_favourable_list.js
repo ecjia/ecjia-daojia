@@ -279,7 +279,7 @@
                 }
                 if (!exists) {
                     var html = '<li>' + name + '<input name="act_range_ext[]" type="hidden" value="' + id + '"/>' +
-                        '<a href="javascript:;" class="delact1"><i class="fa fa-minus-circle ecjiafc-red"></i></a></li>';
+                        '&nbsp;<a href="javascript:;" class="delact1"><i class="fa fa-minus-circle ecjiafc-red"></i></a></li>';
                     $("#range-div").show().append(html);
                     app.favourable_info.remove1();
                 }
@@ -338,7 +338,7 @@
                         '</a></td><td><input name="gift_price[]" type="text" value="0" class="w100 form-control" />' +
                         '<input name="gift_id[]" type="hidden" value="' + id + '" />' +
                         '<input name="gift_name[]" type="hidden" value="' + name + '" />' +
-                        '<a href="javascript:;" class="delact"><i class="fa fa-minus-circle ecjiafc-red m_l15"></i></a></td></tr>';
+                        '&nbsp;<a href="javascript:;" class="delact"><i class="fa fa-minus-circle ecjiafc-red m_l15"></i></a></td></tr>';
                     $("#gift-table").append(new_html);
                     app.favourable_info.remove();
                 }
