@@ -44,31 +44,69 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Cron;
 
-/**
- * 计划任务信息
- * @author wutifang
- */
-class cron_cron_run_api extends Component_Event_Api {
+use Cron\CronExpression as BaseCronExpression;;
+
+class CronExpression
+{
+    
+    protected $expression_labels = [
+        'everyMinute'          => '每分钟执行一次任务',
+        'everyFiveMinutes'     => '每五分钟执行一次任务',
+        'everyTenMinutes'      => '每十分钟执行一次任务',
+        'everyThirtyMinutes'   => '每半小时执行一次任务',
+        'hourly'               => '每小时执行一次任务',
+        'daily'                => '每到午夜执行一次任务',
+        'weekly'               => '每周执行一次任务',
+        'monthly'              => '每月执行一次任务',
+        'quarterly'            => '每季度执行一次任务',
+        'yearly'               => '每年执行一次任务',
+    ];
+    
+    
+    protected $expression_vaules = [
+        'everyMinute'          => '*/1 * * * * *',
+        'everyFiveMinutes'     => '*/5 * * * * *',
+        'everyTenMinutes'      => '*/10 * * * * *',
+        'everyThirtyMinutes'   => '0,30 * * * * *',
+        'hourly'               => '0 * * * * *',
+        'daily'                => '0 0 * * * *',
+        'weekly'               => '0 0 * * 0 *',
+        'monthly'              => '0 0 1 * * *',
+        'quarterly'            => '0 0 1 */3 * *',
+        'yearly'               => '0 0 1 1 * *',
+    ];
+    
     /**
-     * @param  array $options	条件参数
+     * 获取所有内置表达式标签
+     * @return multitype:string
+     */
+    public function getExpressions()
+    {
+        return $this->expression_labels;
+    }
+    
+    /**
+     * 获取每一个表达式关键字对应的表达式内容
+     * @param string $expression
+     * @return string
+     */
+    public function getExpressionVaule($expression) {
+        return array_get($this->expression_vaules, $expression);
+    }
+    
+    
+    /**
+     * 获取最近几次将要运行的时间
+     * @param string $expression 表达式
+     * @param integer $total 次数，默认5次
      * @return array
      */
-	public function call( & $options) {	    
-
-	    $timestamp = RC_Time::gmtime();
-	    $cron_api_url = RC_Uri::url('cron/api/init', array('t' => $timestamp));
-
-	    $args = array(
-	        'headers' => array(
-	           'Referer' => RC_Uri::url(ROUTE_M.'/'.ROUTE_C.'/'.ROUTE_A, $_GET)
-	        ),
-	    );
-	    RC_Http::remote_get($cron_api_url, $args);
-	    
-	    return true;
-	}
+    public function getProvidesMultipleRunDates($expression, $total = 5) {
+        $cron = BaseCronExpression::factory($expression);
+        return $cron->getMultipleRunDates($total, date('Y-m-d H:i:s'), false, true);
+    }
+    
+    
 }
-
-// end

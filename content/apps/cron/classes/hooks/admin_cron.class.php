@@ -46,21 +46,19 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class admin_cron_hooks {
-    
-    public static function cron_run() {
-
-        /* 加入触发cron代码 */
-        if (!ecjia_config::has('cron_method')) {
-            $timestamp = RC_Time::gmtime();
-            $cron_api_url = RC_Uri::url('cron/api/init', array('t' => $timestamp));
-            
-            echo PHP_EOL;
-            echo "\t\t\t".'<div id="cron" class="hidden"><img src="' . $cron_api_url . '" style="width:0px;height:0px;" /></div>';
-        }
-    }
+class cron_admin_hooks {
+	
+	public static function append_admin_setting_group($menus) {
+		$setting = ecjia_admin_setting::singleton();
+		 
+		$menus[] = ecjia_admin::make_admin_menu('nav-header', '计划任务', '', 24)->add_purview(array('cron_config_manage'));
+		$menus[] = ecjia_admin::make_admin_menu('cron', '计划任务', RC_Uri::url('cron/admin_config/init'), 25)->add_purview('cron_config_manage');
+		 
+		return $menus;
+	}
+	
 }
 
-RC_Hook::add_action( 'admin_print_main_bottom', array('admin_cron_hooks', 'cron_run'), 90);
+RC_Hook::add_action('append_admin_setting_group', array('cron_admin_hooks', 'append_admin_setting_group') );
 
 // end

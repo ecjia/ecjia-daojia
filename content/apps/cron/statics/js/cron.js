@@ -2,17 +2,19 @@
 ;(function (app, $) {
     app.cron = {
         init: function () {
+        	$("#cron_tab").cronGen();     
             app.cron.theForm();
             app.cron.toggle_view();
             app.cron.trigger();
-            app.cron.select();
+            app.cron.ajax_select();
+            app.cron.ajax_five();
         },
+        
         //添加必填项js
         theForm: function () {
             var $form = $("form[name='theForm']");
             var option = {
                 submitHandler: function () {
-                	$(".remove_select").removeAttr("disabled");
                     $form.ajaxSubmit({
                         dataType: "json",
                         success: function (data) {
@@ -48,8 +50,8 @@
                             }, 'json');
                         }
                     }, {
-                        ok: js_lang.ok,
-                        cancel: js_lang.cancel
+                        ok: '确定',
+                        cancel: '取消'
                     });
                 } else {
                     $.get(url, code, function (data) {
@@ -83,23 +85,87 @@
             });
         },
         
-        select: function () {
-            $("select[name='select_cron_minute']").on('change', function (e) {
-            	if($(this).val() == 'five') {
-            		$("#cron_minute").val("0,10,15,20,25,30,35,40,45,50,55");
-            	}else if($(this).val() == 'ten'){
-            		$("#cron_minute").val("0,10,20,30,40,50");
-            	}else if($(this).val() == 'fifteen'){
-            		$("#cron_minute").val("0,15,30,45");
-            	}else if($(this).val() == 'twenty'){
-            		$("#cron_minute").val("0,20,40");
-            	}else if($(this).val() == 'thirty'){
-            		$("#cron_minute").val("0,30");
-            	}else{
-            		$("#cron_minute").val("");
-            	}
-            });
+        ajax_select :function(){
+        	$("#select_cron_config").change(function () {
+       		    var select_val = $("#select_cron_config option:selected").val();
+
+       		    if (select_val == 0){//未选择
+       		    	$("#config_time").css('display','none'); 
+       		    	$(".cron_ordinary").css('display','none'); 
+       		    	
+       		    	$("#config_time").val('');
+       		    	$("#cron_tab").val(''); 
+       		    	
+       		 	} else if (select_val == 'cron'){//自定义调度任务
+        			$("#config_time").css('display','none'); 
+         			$(".cron_ordinary").css('display','block'); 
+         			
+         			$('#config_time').val('');
+        			 
+        		} else if (select_val == 'manual'){//手动输入表达式
+        			$("#config_time").css('display','block'); 
+	    			$("#config_time").removeAttr("readonly");
+	    			$(".cron_ordinary").css('display','none'); 
+	    			
+	       	 		$("#config_time").val('');
+	    			$("#cron_tab").val(''); 
+	    			
+        			 
+        		} else {//具体设置
+	       	    	$(".cron_ordinary").css('display','none'); 
+	   		    	$("#cron_tab").val(''); 
+	   		    	
+        			var url = $("#data-href-law").val();
+	   	            var option = {'config_time': select_val}
+	   	            $.post(url, option, function (data) {
+		                 app.cron.ajax_select_data(data);
+		            }, 'json');
+	   	            
+	   	        }
+        	})
         },
+           
+        ajax_select_data :function(data){
+        	$("#config_time").css('display','block'); 
+        	$('#config_time').val(data.content);
+        	$('#config_time').attr("readonly","readonly");
+        }, 
+        
+        ajax_five :function(){
+        	 $('#test').on('click', function (e) {
+        		var url    = $("#data-href-five").val();
+        		var cron_tab   = $("input[name='cron_tab']").val();
+        		var config_time = $("input[name='config_time']").val();
+        		
+   	            var option = {
+   	            	'cron_tab': cron_tab,
+   	            	'config_time': config_time
+   	            }
+   	            $.post(url, option, function (data) {
+	                 app.cron.ajax_five_data(data);
+	            }, 'json');
+   	            
+        	})
+        },
+           
+        ajax_five_data :function(data){
+        	console.log(data);
+        	if (data.state == 'success') {　
+            	$('.help-block.cron-five').html('');
+            	var date = new Date();
+                if (data.content.length > 0) {
+                	var opt = '<span class="help-block.cron-five">';
+                    for (var i = 0; i < data.content.length; i++) {
+                        opt +=data.content[i] + '<br>';
+                    };
+                    opt += '</span>';
+                    $('.help-block.cron-five').append(opt);
+                } 
+        	} else {
+        		 ecjia.admin.showmessage(data);
+        	}
+
+        }, 
     }
 })(ecjia.admin, jQuery);
  

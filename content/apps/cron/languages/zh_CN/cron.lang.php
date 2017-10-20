@@ -63,8 +63,6 @@ return array(
 	'cron_allow_ip' 	=> '允许执行的服务器IP',
 	'cron_run_once' 	=> '执行后关闭',
 		
-	'cron_alow_files' 	=> '允许执行页面',
-	'notice_alow_files' => '前台后台触发计划运行的应用，留空即表示在所有应用均触发',
 	'notice_alow_ip' 	=> '允许运行计划任务服务器的IP，请用半角逗号分隔多个IP，留空即表示所执行的服务器IP不受限制',
 	'notice_minute' 	=> '请用半角逗号分隔多个分钟',
 	'cron_do' 			=> '执行',
@@ -139,7 +137,8 @@ return array(
 	'js_lang' => array(
 		'ok'		=> '确定',
 		'cancel'	=> '取消',
-	)
+	),
+
 );
 
 // end

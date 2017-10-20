@@ -5,15 +5,18 @@
 <script type="text/javascript">
 	ecjia.admin.cron.init();
 </script>
+
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+
 {if $cron_config_file.lock_time}
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
 	<strong>温馨提示：</strong>系统插件内置执行时间暂不可修改。
 </div>
 {/if}
+
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
@@ -25,18 +28,18 @@
 	
 <div class="row-fluid edit-page">
 	<div class="span12">
-		<form class="form-horizontal" name="theForm" data-edit-url="{RC_Uri::url('cron/admin_plugin/edit')}" method="post" enctype="multipart/form-data">
+		<form class="form-horizontal" name="theForm" action="{RC_Uri::url('cron/admin_plugin/update')}" method="post" >
 			<fieldset>
 				<div class="control-group formSep">
 					<label for="cron_name" class="control-label">{lang key='cron::cron.label_cron_name'}</label>
 					<div class="controls">
-						<input id="cron_name" name="cron_name" type="text" value="{$cron.cron_name|escape}" size="40" />
+						<input id="cron_name" name="cron_name" type="text" value="{$cron.cron_name}" size="40" />
 					</div>
 				</div>
 				<div class="control-group formSep">
 					<label for="cron_desc" class="control-label">{lang key='cron::cron.label_cron_desc'}</label>
 					<div class="controls">
-						<textarea id="cron_desc" name="cron_desc" cols="10" rows="3" class="span8">{$cron.cron_desc|escape}</textarea>
+						<textarea id="cron_desc" name="cron_desc" cols="10" rows="3" class="span8">{$cron.cron_desc}</textarea>
 					</div>
 				</div>
 				{if $cron.cron_config}
@@ -59,44 +62,66 @@
 					<!-- {/foreach} -->
 				</div>
 				{/if}
-				
-				<!-- 计划任务执行时间 -->
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='cron::cron.label_cron_time'}</label>
-					<div class="controls">
-						<div class="f_l">
-							<select name="ttype" class="w110 remove_select" {if $cron_config_file.lock_time}disabled="true"{/if}>
-								<option value="day" {if $cron.cronday gt 0}selected{/if}>{lang key='cron::cron.cron_month'}</option>
-								<option value="week" {if $cron.cronweek gt 0}selected{/if}>{lang key='cron::cron.cron_week'}</option>
-								<option value="unlimit" {if $cron.cronweek eq 0 && $cron.cronday eq 0}selected{/if}>{lang key='cron::cron.cron_unlimit'}</option>
-							</select>
+
+				<!-- 计划任务重构时间start -->
+				{if $cron_config_file.lock_time}
+					<div class="control-group formSep">
+						<label class="control-label">执行时间：</label>
+						<div class="controls">
+							<div class="f_l">
+	     		 				<select class="w220" id="select_cron_config" name="select_cron_config" disabled="disabled">
+	     		 					<option value='0'>请选择配置时间</option>
+	     		 					<!-- {foreach from=$config_list key=key item=val} -->
+										<option value="{$key}" {if $key eq $cron.expression_alias}selected="selected"{/if}>{$val}</option>
+									<!-- {/foreach} -->
+	     		 					<option value='cron' {if $cron.expression_alias eq 'cron'} selected="true" {/if}>自定义调度任务</option>
+									<option value='manual' {if $cron.expression_alias eq 'manual'} selected="true" {/if}>手动输入表达式</option>
+	     		 				</select>
+	     		 			</div>
+	     		 			
+							<input type="text" name="cron_tab" value="{$cron.cron_expression}" readonly="readonly" />
+						
+							<span class="test_cron">
+								<button class="btn btn-gebo m_l5" id="test" type="button" >进行检测</button>
+							</span>
+							<span class="help-block cron-five">
+							</span>
 						</div>
+					</div>
+				{else}
+					<div class="control-group formSep">
+						<label class="control-label">执行时间：</label>
+						<div class="controls">
+							<div class="f_l">
+	     		 				<select class="w220" id="select_cron_config" name="select_cron_config" >
+	     		 					<option value='0'>请选择配置时间</option>
+	     		 					<!-- {foreach from=$config_list key=key item=val} -->
+										<option value="{$key}" {if $key eq $cron.expression_alias}selected="selected"{/if}>{$val}</option>
+									<!-- {/foreach} -->
+	     		 					<option value='cron' {if $cron.expression_alias eq 'cron'} selected="true" {/if}>自定义调度任务</option>
+									<option value='manual' {if $cron.expression_alias eq 'manual'} selected="true" {/if}>手动输入表达式</option>
+	     		 				</select>
+	     		 			</div>
+	     		 			
+							<input type="text" name="config_time" id="config_time" type="text" value="{$cron.cron_expression}" {if $cron.expression_alias eq 'cron'}style="display:none"{elseif $cron.expression_alias neq 'manual'}readonly="readonly" {/if}/>
 							
-						<div class="ttype_day f_l m_l5 {if $cron.cronday gt 0}ecjiaf-db{else}ecjiaf-dn{/if}">
-							<select class="w100 remove_select" name="cron_day" id="cron_day" {if $cron_config_file.lock_time}disabled="true"{/if}> <!-- {html_options options=$days selected=$cron.cronday} --></select>
-     		 			</div>
-     		 				
-     		 			<div class="ttype_week f_l m_l5 {if $cron.cronweek gt 0}ecjiaf-db{else}ecjiaf-dn{/if}">
-     		 				<select class="w100 remove_select" name="cron_week" id="cron_week" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$week selected=$cron.cronweek} --></select>
-     		 			</div>
-     		 				
-     		 			<div class="f_l m_l5">
-     		 				<select class="w100 remove_select" name="cron_hour" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$hours selected=$cron.cronhour} --></select>
-     		 			</div>
+							<div class="cron_ordinary" {if $cron.expression_alias neq 'cron'}style="display: none;"{/if}>
+								<input id="cron_tab" name="cron_tab" type="text" class="form-control" value="{$cron.cron_expression}" /> 
+							</div>
+							
+							<span class="test_cron">
+								<button class="btn btn-gebo m_l5" id="test" type="button" >进行检测</button>
+							</span>
+							<span class="help-block cron-five">
+							</span>
+						</div>
 					</div>
-				</div>
-                    
-           		<div class="control-group formSep">
-					<label class="control-label">{lang key='cron::cron.label_cron_minute'}</label>
-					<div class="controls">
-						<div class="f_l">
-     		 				<select class="w100 remove_select" name="select_cron_minute" {if $cron_config_file.lock_time}disabled="true"{/if}><!-- {html_options options=$minute selected=$cron.cronminute} --></select>
-     		 			</div>
-						<input class="remove_select" name="cron_minute" id="cron_minute" type="text" value="{$cron.cronminute}" size="40"  {if $cron_config_file.lock_time}disabled="true"{/if}/>
-					    <div class="help-block">{lang key='cron::cron.notice_minute'}</div>
-					</div>
-				</div>
-					
+				{/if}
+				
+				<!-- 计划任务重构时间end -->
+
+
+				
 				<!-- 执行后关闭 -->
 				<div class="control-group formSep">
                     <label class="control-label">{lang key='cron::cron.label_cron_run_once'}</label>
@@ -109,7 +134,7 @@
 				<div class="control-group formSep">
                     <label class="control-label">{lang key='cron::cron.label_cron_advance'}</label>
 					<div class="controls chk_radio">
-				      	<input name="show_advance" type="checkbox" value="1" {if $cron.alow_files OR $cron.allow_ip}checked{/if}/>
+				      	<input name="show_advance" type="checkbox" value="1" {if $cron.allow_ip}checked{/if}/>
 				      	{lang key='cron::cron.cron_show_advance'}
 				    </div>
 				</div>
@@ -121,29 +146,12 @@
 					    <div class="help-block">{lang key='cron::cron.notice_alow_ip'}</div>
 				    </div>
 				</div>
-				<!-- 允许执行页面 -->
-				<div class="control-group formSep advance">
-					<div class="control-label">{lang key='cron::cron.label_cron_advance'}</div>
-					<div class="controls chk_radio">
-						<!-- {foreach from=$app_lists key=key item=app} -->
-						<div class="choose">
-							<span>
-								<input type="checkbox" name="alow_files[]" value="{$app.code}" id="{$app.code}" class="checkbox" {if $app.checked eq 1}checked{/if} />
-	      						{$app.name}
-	      					</span>
-      					</div>
-      					<!-- {foreachelse} -->
-						<span class="l_h30">{lang key='cron::cron.no_page_allowed'}</span>
-      					<!-- {/foreach} -->
-      					<div class="clear"></div>
-      					<div class="help-block">{lang key='cron::cron.notice_alow_files'}</div>
-					</div>
-				</div>
-					
+			
 				<div class="control-group">
 					<div class="controls">
+						<input type="hidden" value="{url path='cron/admin_plugin/ajax_law'}" id="data-href-law"/>
+						<input type="hidden" value="{url path='cron/admin_plugin/ajax_five'}" id="data-href-five"/>
 					  	<input type="hidden" name="cron_id" value="{$cron.cron_id}" />
-				      	<input type="hidden" name="step" value="2" />
 				      	<input type="hidden" name="cron_code" value="{$cron.cron_code}" />
 				      	<input class="btn btn-gebo" type="submit" value="{lang key='system::system.button_submit'}" />
 					</div>

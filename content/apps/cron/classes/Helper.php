@@ -44,19 +44,68 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
-use Ecjia\System\Plugin\AbstractPlugin;
+namespace Ecjia\App\Cron;
 
-/**
- * 计划任务抽象类
- * @author royalwang
- */
-abstract class cron_abstract extends AbstractPlugin {
+use ecjia_admin_log;
+use RC_Lang;
+
+class Helper {
+    
+    public static function assign_adminlog_content() {
+        ecjia_admin_log::instance()->add_action('enabled', RC_Lang::get('cron::cron.enable'));
+        ecjia_admin_log::instance()->add_action('disable', RC_Lang::get('cron::cron.disable'));
+        ecjia_admin_log::instance()->add_action('run', RC_Lang::get('cron::cron.cron_do'));
+        ecjia_admin_log::instance()->add_object('cron', RC_Lang::get('cron::cron.cron'));
+    }
+    
+    public static function get_minute($cron_minute) {
+        $cron_minute = explode(',', $cron_minute);
+        $cron_minute = array_unique($cron_minute);
+        foreach ($cron_minute as $key => $val) {
+            if ($val) {
+                $val = intval($val);
+                $val < 0 && $val = 0;
+                $val > 59 && $val = 59;
+                $cron_minute[$key] = $val;
+            }
+        }
+        return trim(implode(',', $cron_minute));
+    }
+    
+    
+    public static function get_dwh() {
+        $days = $week = $hours = array();
+        for ($i = 1 ; $i<=31 ; $i++) {
+            $days[$i] = $i.RC_Lang::get('cron::cron.cron_day');
+        }
+    
+        for ($i = 1 ; $i<8 ; $i++) {
+            $week[$i] = RC_Lang::get('cron::cron.week.'.$i);
+        }
+    
+        for ($i = 0 ; $i<24 ; $i++) {
+            $hours[$i] = $i.RC_Lang::get('cron::cron.cron_hour');
+        }
+        return array($days,$week,$hours);
+    }
+    
     /**
-     * 计划任务执行方法
+     * 获取下一次运行时间，获取GMT时间，用于存储数据库
+     * @return string
      */
-	abstract public function run();
-	
+    public static function getNextRunTime($cron_expression)
+    {
+        $times = with(new CronExpression)->getProvidesMultipleRunDates($cron_expression);
+        if (date('Y-m-d H:i').':00' == $times[0]->format('Y-m-d H:i:s')) {
+            $date = $times[1];
+        } else {
+            $date = $times[0];
+        }
+         
+        return \RC_Time::gmstr2time($date->format('Y-m-d H:i:s'));
+    }
+    
+    
 }
 
 // end

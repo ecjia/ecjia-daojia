@@ -45,104 +45,72 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-use Ecjia\System\Plugin\PluginModel;
 
 /**
- * 自动处理
- * @author royalwang
+ * ECJIA计划任务设置模块
+ * @author songqianqian
  */
-class cron_method extends PluginModel
-{
+class admin_config extends ecjia_admin {
+	public function __construct() {
+		parent::__construct();
+		
+		RC_Script::enqueue_script('jquery-validate');
+		RC_Script::enqueue_script('jquery-form');
+		RC_Script::enqueue_script('smoke');
+		RC_Style::enqueue_style('chosen');
+		RC_Style::enqueue_style('uniform-aristo');
+		RC_Script::enqueue_script('jquery-uniform');
+		RC_Script::enqueue_script('jquery-chosen');
+		
+		RC_Style::enqueue_style('cron', RC_App::apps_url('statics/css/cron.css', __FILE__));
+		RC_Script::enqueue_script('cron_config', RC_App::apps_url('statics/js/cron_config.js', __FILE__), array(), false, true);
+	}
 
-    protected $table = 'crons';
-    
-    /**
-     * 当前插件种类的唯一标识字段名
-     */
-    public function codeFieldName()
-    {
-        return 'cron_code';
-    }
-    
-    /**
-     * 激活的支付插件列表
-     */
-    public function getInstalledPlugins()
-    {
-        return ecjia_config::getAddonConfig('cron_plugins', true);
-    }
-    
-    /**
-     * 获取数据库中启用的插件列表
-     */
-    public function getEnableList()
-    {        
-        $data = $this->where('enable', 1)->order('cron_order', 'asc')->get()->toArray();
-        return $data;
-    }
-    
-    /**
-     * 获取数据库中插件数据
-     */
-    public function getPluginDataById($id)
-    {
-        return $this->where('cron_id', $id)->where('enable', 1)->first();
-    }
-    
-    public function getPluginDataByCode($code)
-    {
-        return $this->where('cron_code', $code)->where('enable', 1)->first();
-    }
-    
-    public function getPluginDataByName($name)
-    {
-        return $this->where('cron_name', $name)->where('enable', 1)->first();
-    }
-    
-    /**
-     * 获取数据中的Config配置数据，并处理
-     */
-    public function configData($code)
-    {
-        $pluginData = $this->getPluginDataByCode($code);
-
-        $config = $this->unserializeConfig($pluginData['cron_config']);
-
-        $config['cron_code'] = $code;
-        $config['cron_name'] = $pluginData['cron_name'];
-        
-        return $config;
-    }
-	
 	/**
-	 * 获取计划任务信息
-	 * 
-	 * @return array
+	 * 计划任务配置
 	 */
-	public function getCronInfo()
-	{
-	    $crondb = array();
+	public function init() {
+	    $this->admin_priv('cron_config_manage');
 	    
-	    $timestamp = RC_Time::gmtime();
-	    
-	    $rows = $this->where('enable', 1)->where('nextime', '<', $timestamp)->get()->toArray();
-        
-	    foreach ($rows as $rt)
-	    {
-	        $rt['cron'] = array( 
-	            'day'  =>$rt['day'],
-	            'week' =>$rt['week'],
-	            'm'    =>$rt['minute'],
-	            'hour' =>$rt['hour']
-	        );
-	        $rt['cron_config'] = unserialize($rt['cron_config']);
-	        $rt['minute']      = trim($rt['minute']);
-	        $rt['allow_ip']    = trim($rt['allow_ip']);
-	        $crondb[] = $rt;
-	    }
-	   
-	    return $crondb;
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('计划任务设置'));
+		$this->assign('ur_here', '计划任务设置');
+		$this->assign('ur_here_key', '计划任务秘钥');
+		$this->assign('ur_here_deploy', '计划任务部署');
+		
+	    $this->assign('cron_method', ecjia::config('cron_method'));
+	    $this->assign('cron_secret_key', ecjia::config('cron_secret_key'));
+
+		$this->assign('form_action', RC_Uri::url('cron/admin_config/update'));
+		$this->assign('cron_url', RC_Uri::home_url().'/index.php/cron.php?key='.ecjia::config('cron_secret_key'));
+		
+		$this->assign('current_code', 'cron');
+		$this->display('cron_config.dwt');
+	}
+		
+	/**
+	 * 处理计划任务配置
+	 */
+	public function update() {
+		$this->admin_priv('cron_config_manage');
+		
+		$cron_method = $_POST['cron_method'];
+		ecjia_config::instance()->write_config('cron_method', $cron_method);
+		
+		return $this->showmessage('计划任务配置成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_config/init')));
+	}
+	
+
+	/**
+	 * 更换计划任务秘钥
+	 */
+	public function update_key() {
+		$this->admin_priv('cron_config_manage');
+		
+		$cron_secret_key = with(new Ecjia\App\Cron\CronRun)->keygen();
+		ecjia_config::instance()->write_config('cron_secret_key', $cron_secret_key);
+	
+		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_config/init')));
 	}
 }
 
-// end
+//end

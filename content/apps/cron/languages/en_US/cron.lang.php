@@ -63,8 +63,6 @@ return array(
 	'cron_allow_ip' 	=> 'Permit the implementation of the server ip',
 	'cron_run_once' 	=> 'Turn off after the implementation of',
 		
-	'cron_alow_files' 	=> 'Permit the implementation of the page',
-	'notice_alow_files' => 'Front trigger is scheduled to run pages, blank pages that were triggered in all',
 	'notice_alow_ip' 	=> 'Mission plans to permit the server to run IP, please use comma to separate multiple IP',
 	'notice_minute' 	=> 'Use commas to separate multiple minutes',
 	'cron_do' 			=> 'Perform',

@@ -12,7 +12,7 @@
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
 	    <!-- {if $action_link} -->
-		<a class="btn plus_or_reply data-pjax"  id="sticky_a" href="{$action_link.href}"><i class="fontello-icon-plus"></i>{t}{$action_link.text}{/t}</a>
+		<a class="btn plus_or_reply data-pjax"  id="sticky_a" href="{$action_link.href}"><i class="fontello-icon-reply"></i>{t}{$action_link.text}{/t}</a>
 	    <!-- {/if} -->
 	</h3>
 </div>
@@ -29,7 +29,7 @@
         	<th class="w180">{lang key='cron::cron.cron_name'}</th>
 			<th>{lang key='cron::cron.cron_desc'}</th>
 			<th class="w150">{lang key='cron::cron.cron_this'}</th>
-			<th class="w170">{lang key='cron::cron.cron_next'}</th>
+			<th class="w150">{lang key='cron::cron.cron_next'}</th>
         </tr>
    	</thead>
     <tbody>
@@ -43,12 +43,12 @@
 		        	<a class="cursor_pointer toggle_view" href="{RC_Uri::url('cron/admin_plugin/run')}" data-val="{$module.code}" data-msg="{lang key='cron::cron.do_confirm'}">{lang key='cron::cron.cron_do'}</a>&nbsp;|&nbsp;
 		        	<a class="cursor_pointer ecjiafc-red toggle_view" href="{RC_Uri::url('cron/admin_plugin/disable')}" data-val="{$module.code}" data-msg="{lang key='cron::cron.disabled_confirm'}">{lang key='cron::cron.disable'}</a>
 		   		{else}
-		          	<a class="cursor_pointer toggle_view" href="{RC_Uri::url('cron/admin_plugin/enable')}" data-val="{$module.code}" data-msg="{lang key='cron::cron.enable_confirm'}">{lang key='cron::cron.enable'}</a>
+		          	<a class="cursor_pointer toggle_view" href="{RC_Uri::url('cron/admin_plugin/enabled')}" data-val="{$module.code}" data-msg="{lang key='cron::cron.enable_confirm'}">{lang key='cron::cron.enable'}</a>
 		    	{/if}
 	    	</div>
 		    </td>
-		    <td align="center">{$module.thistime}</td>
-		    <td align="center">{$module.nextime}</td>
+		    <td align="center">{$module.runtime}</td>
+		    <td align="center">{$module.nexttime}</td>
 		</tr>
 	 	<!-- {foreachelse} -->
 	 	<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
