@@ -61,29 +61,49 @@ class mh_group extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 		RC_Style::enqueue_style('uniform-aristo');
 
+		RC_Style::enqueue_style('staff', RC_App::apps_url('statics/css/staff.css', __FILE__), array());
+		RC_Style::enqueue_style('bar', RC_App::apps_url('statics/css/bar.css', __FILE__), array());
+
 		RC_Script::enqueue_script('staff_group', RC_App::apps_url('statics/js/staff_group.js', __FILE__));
+		RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/js/migrate.js', __FILE__) , array() , false, true);
+		RC_Script::enqueue_script('staff', RC_App::apps_url('statics/js/staff.js', __FILE__));
+		RC_Script::enqueue_script('staff_logs', RC_App::apps_url('statics/js/staff_logs.js', __FILE__), array(), false, true);
+		RC_Script::localize_script('staff_logs', 'js_lang', RC_Lang::get('staff::staff.js_lang'));
 		
 		ecjia_merchant_screen::get_current_screen()->set_parentage('staff', 'staff/merchant.php');
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工管理', RC_Uri::url('staff/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工管理', RC_Uri::url('staff/mh_group/init')));
 	}
 
-	
 	/**
-	 * 员工组列表页面
+	 * 员工组展示
 	 */
 	public function init() {
 	    $this->admin_priv('staff_group_manage');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工组列表'));
-	    $this->assign('ur_here', RC_Lang::get('staff::staff.group_list'));
-	    $this->assign('action_link', array('text' => RC_Lang::get('staff::staff.staff_group_add'), 'href' => RC_Uri::url('staff/mh_group/add')));
+	    $this->assign('ur_here', '员工管理');
 	    
+	    $Manager = RC_DB::table('staff_user')->where('store_id',$_SESSION['store_id'])->where('parent_id', 0)->first();
+	    $Manager['last_login'] = RC_Time::local_date('Y-m-d H:i', $Manager['last_login']);
+	    $Manager['add_time'] = RC_Time::local_date('Y-m-d', $Manager['add_time']);
+	    $this->assign('Manager', $Manager);
+	    
+	    $parent_id = RC_DB::TABLE('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('parent_id');
+	    $this->assign('parent_id', $parent_id);
+
 	    $staff_group_list = $this->staff_group_list($_SESSION['store_id']);
 	    $this->assign('staff_group_list', $staff_group_list);
+	   	$staff_count['express']      =  RC_DB::table('staff_user')->where('group_id', -1)->where('store_id',$_SESSION['store_id'])->count();
+	   	$staff_count['cashdesk']     =  RC_DB::table('staff_user')->where('group_id', -2)->where('store_id',$_SESSION['store_id'])->count();
+	   	$staff_count['unclassified'] =  RC_DB::table('staff_user')->where('group_id', 0)->where('store_id',$_SESSION['store_id'])->where('parent_id', '>', 0)->count();
+	   	$this->assign('staff_count', $staff_count);
+	   	
+	    $this->assign('staff_admin',  	RC_App::apps_url('statics/images/staff_admin.png', __FILE__));
+	    $this->assign('staff_cashdesk', RC_App::apps_url('statics/images/staff_cashdesk.png', __FILE__));
+	    $this->assign('staff_express',  RC_App::apps_url('statics/images/staff_express.png', __FILE__));
+	    $this->assign('staff_plus',  	RC_App::apps_url('statics/images/staff_plus.png', __FILE__));
+	    $this->assign('staff_edit',  	RC_App::apps_url('statics/images/staff_edit.png', __FILE__));
 	    
-	    $this->assign('search_action',RC_Uri::url('staff/mh_group/init'));
-	    
-	    $this->display('staff_group_list.dwt');
+	    $this->display('staff_customize.dwt');
 	}
 	
 	/**
@@ -92,10 +112,9 @@ class mh_group extends ecjia_merchant {
 	public function add() {
 		$this->admin_priv('staff_group_update');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('staff::staff.group_list'), RC_Uri::url('staff/mh_group/init')));
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('staff::staff.staff_group_add')));
 		$this->assign('ur_here', RC_Lang::get('staff::staff.staff_group_add'));
-		$this->assign('action_link',array('href' => RC_Uri::url('staff/mh_group/init'),'text' => RC_Lang::get('staff::staff.group_list')));
+		$this->assign('action_link',array('href' => RC_Uri::url('staff/mh_group/init'),'text' => '员工管理'));
 		
 		$priv_group = ecjia_merchant_purview::load_purview();
 		$this->assign('priv_group',$priv_group);
@@ -124,8 +143,8 @@ class mh_group extends ecjia_merchant {
 		);
 		
 		$group_id = RC_DB::table('staff_group')->insertGetId($data);
-		ecjia_merchant::admin_log($_POST['group_name'], 'add', 'staff_group');
 		
+		ecjia_merchant::admin_log($_POST['group_name'], 'add', 'staff_group');
 		$links[] = array('text' => RC_Lang::get('staff::staff.back_staff_group_list'), 'href' => RC_Uri::url('staff/mh_group/init'));
 		$links[] = array('text' => RC_Lang::get('staff::staff.continue_add_staff_group'), 'href' => RC_Uri::url('staff/mh_group/add'));
 		return $this->showmessage(RC_Lang::get('staff::staff.staff_add_group_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('staff/mh_group/edit', array('group_id' => $group_id))));
@@ -137,10 +156,9 @@ class mh_group extends ecjia_merchant {
 	public function edit() {
 		$this->admin_priv('staff_group_update');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('staff::staff.group_list'), RC_Uri::url('staff/mh_group/init')));
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('staff::staff.staff_group_update')));
 		$this->assign('ur_here',RC_Lang::get('staff::staff.staff_group_update'));
-		$this->assign('action_link',array('href' => RC_Uri::url('staff/mh_group/init'),'text' => RC_Lang::get('staff::staff.group_list')));
+		$this->assign('action_link',array('href' => RC_Uri::url('staff/mh_group/init'),'text' => '员工管理'));
 		
 		$group_id = intval($_GET['group_id']);
 		$staff_group = RC_DB::table('staff_group')->where('group_id', $group_id)->where('store_id', $_SESSION['store_id'])->first();
@@ -200,32 +218,30 @@ class mh_group extends ecjia_merchant {
 	}
 	
 	/**
-	 * 获取员工组列表信息
+	 * 获取员工组信息
 	 */
 	private function staff_group_list($store_id) {
 		$db_staff_group = RC_DB::table('staff_group');
-		$filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
-		if ($filter['keywords']) {
-			$db_staff_group->where('group_name', 'like', '%'.mysql_like_quote($filter['keywords']).'%');
-		}
 		
+		$db_staff_group->where(RC_DB::raw('store_id'), $store_id);
 		$count = $db_staff_group->count();
 		$page = new ecjia_merchant_page($count, 10, 5);
 		
 		$data = $db_staff_group
     		->selectRaw('group_id,group_name,groupdescribe')
-    		->where('store_id', $store_id)
     		->orderby('group_id', 'asc')
     		->take(10)
     		->skip($page->start_id-1)
     		->get();
+		
 		$res = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
+				$row['staff_count'] = RC_DB::table('staff_user')->where('group_id', $row['group_id'])->count();
 				$res[] = $row;
 			}
 		}
-		return array('staff_group_list' => $res, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
+		return array('staff_group_list' => $res, 'page' => $page->show(2), 'desc' => $page->page_desc());
 	}
 }
 

@@ -59,7 +59,6 @@
                           <label for="firstname" class="control-label col-lg-2">{lang key='staff::staff.staff_select_group_lable'}</label>
                           <div class="col-lg-6">
                               <select class="form-control" name="group_id">
-                                 <option value="0">{lang key='store::store.select_plz'}</option>
 								 <!-- {html_options options=$group_list selected=$staff.group_id} -->
                               </select>
                           </div>
