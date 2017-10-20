@@ -46,12 +46,12 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+use Ecjia\App\Cron\CronAbstract;
+
 /**
  * 自动处理插件
  */
-RC_Loader::load_app_class('cron_abstract', 'cron', false);
-
-class cron_auto_manage extends cron_abstract
+class cron_auto_manage extends CronAbstract
 {
     
     /**
