@@ -225,7 +225,10 @@ class admin_template extends ecjia_admin {
 		$id = RC_DB::table('notification_templates')->insertGetId($data);
 		
 		ecjia_admin::admin_log(sprintf(RC_Lang::get('sms::sms.template_code_is'), $template_code).'，'.sprintf(RC_Lang::get('sms::sms.template_subject_is'), $subject), 'add', 'sms_template');
-		return $this->showmessage('添加短信模板成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_template/edit', array('id' => $id, 'channel_code' => $channel_code, 'event_code' => $template_code))));
+		
+		$links[] = array('text' => '返回短信模板', 'href' => RC_Uri::url('sms/admin_template/init', array('channel_code' => $channel_code)));
+		$links[] = array('text' => '继续添加短信模板', 'href' => RC_Uri::url('sms/admin_template/add', array('channel_code' => $channel_code)));
+		return $this->showmessage('添加短信模板成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links,'pjaxurl' => RC_Uri::url('sms/admin_template/edit', array('id' => $id, 'channel_code' => $channel_code, 'event_code' => $template_code))));
 	}
 	
 	/**

@@ -35,7 +35,7 @@
 				<div class="controls">
 					<input type="text" name="send_num"  size="35" class="span8"/>
 					<span class="input-must">{lang key='system::system.require_field'}</span>
-					<br><span class="help-block">{lang key='sms::sms.send_num_notice'}</span>
+					<span class="help-block">{lang key='sms::sms.send_num_notice'}</span>
 				</div>
 			</div>
 							
