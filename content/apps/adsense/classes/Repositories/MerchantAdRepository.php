@@ -223,3 +223,5 @@ class MerchantAdRepository extends AbstractRepository
     }
     
 }
+
+// end

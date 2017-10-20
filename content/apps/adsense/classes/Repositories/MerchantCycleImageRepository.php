@@ -119,5 +119,6 @@ class MerchantCycleImageRepository extends AbstractRepository
         
     }
     
-    
 }
+
+// end

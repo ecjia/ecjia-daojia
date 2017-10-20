@@ -119,4 +119,6 @@ class MerchantShortcutMenuRepository extends AbstractRepository
     }
     
     
-	}
+}
+
+// end

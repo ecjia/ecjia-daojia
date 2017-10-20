@@ -128,4 +128,6 @@ class ShortcutMenuRepository extends AbstractRepository
     }
     
     
-	}
+}
+
+// end

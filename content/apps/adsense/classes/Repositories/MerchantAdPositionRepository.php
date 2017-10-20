@@ -138,3 +138,5 @@ class MerchantAdPositionRepository extends AbstractRepository
 	}
 	
 }
+
+// end

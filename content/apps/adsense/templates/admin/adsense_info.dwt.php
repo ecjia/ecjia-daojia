@@ -30,7 +30,7 @@
 								<div class="controls">
 									<input type="text" name="ad_name" value="{$ads.ad_name}" size="35"/>
 									<span class="input-must">{lang key='system::system.require_field'}</span>
-									<br><span class="help-block">{lang key='adsense::adsense.ad_name_notic'}</span>
+									<span class="help-block">{lang key='adsense::adsense.ad_name_notic'}</span>
 								</div>
 							</div>
 					
