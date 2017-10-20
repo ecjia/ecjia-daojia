@@ -1,28 +1,36 @@
-<?php namespace Royalcms\Component\Whoops\Handler;
+<?php
+/**
+ * Whoops - php errors for cool kids
+ * @author Filipe Dobreira <http://github.com/filp>
+ */
+
+namespace Royalcms\Component\Whoops\Handler;
 
 use Royalcms\Component\Whoops\Exception\Inspector;
-use Royalcms\Component\Whoops\Run;
-use Exception;
+use Royalcms\Component\Whoops\RunInterface;
 
 interface HandlerInterface
 {
     /**
-     * @return int|null  A handler may return nothing, or a Handler::HANDLE_* constant
+     * @return int|null A handler may return nothing, or a Handler::HANDLE_* constant
      */
     public function handle();
 
     /**
-     * @param Run $run
+     * @param  RunInterface  $run
+     * @return void
      */
-    public function setRun(Run $run);
+    public function setRun(RunInterface $run);
 
     /**
-     * @param Exception $exception
+     * @param  \Throwable $exception
+     * @return void
      */
-    public function setException(Exception $exception);
+    public function setException($exception);
 
     /**
-     * @param Inspector $inspector
+     * @param  Inspector $inspector
+     * @return void
      */
     public function setInspector(Inspector $inspector);
 }

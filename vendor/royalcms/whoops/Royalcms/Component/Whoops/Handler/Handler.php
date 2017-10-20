@@ -1,9 +1,13 @@
-<?php namespace Royalcms\Component\Whoops\Handler;
+<?php
+/**
+ * Whoops - php errors for cool kids
+ * @author Filipe Dobreira <http://github.com/filp>
+ */
 
-use Royalcms\Component\Whoops\Handler\HandlerInterface;
+namespace Royalcms\Component\Whoops\Handler;
+
 use Royalcms\Component\Whoops\Exception\Inspector;
-use Royalcms\Component\Whoops\Run;
-use Exception;
+use Royalcms\Component\Whoops\RunInterface;
 
 /**
  * Abstract implementation of a Handler.
@@ -20,7 +24,7 @@ abstract class Handler implements HandlerInterface
     const QUIT         = 0x30;
 
     /**
-     * @var Run
+     * @var RunInterface
      */
     private $run;
 
@@ -30,20 +34,20 @@ abstract class Handler implements HandlerInterface
     private $inspector;
 
     /**
-     * @var Exception $exception
+     * @var \Throwable $exception
      */
     private $exception;
 
     /**
-     * @param Run $run
+     * @param RunInterface $run
      */
-    public function setRun(Run $run)
+    public function setRun(RunInterface $run)
     {
         $this->run = $run;
     }
 
     /**
-     * @return Run
+     * @return RunInterface
      */
     protected function getRun()
     {
@@ -67,15 +71,15 @@ abstract class Handler implements HandlerInterface
     }
 
     /**
-     * @param Exception $exception
+     * @param \Throwable $exception
      */
-    public function setException(Exception $exception)
+    public function setException($exception)
     {
         $this->exception = $exception;
     }
 
     /**
-     * @return Exception
+     * @return \Throwable
      */
     protected function getException()
     {

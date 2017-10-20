@@ -1,6 +1,12 @@
-<?php namespace Royalcms\Component\Whoops\Handler;
+<?php
+/**
+ * Whoops - php errors for cool kids
+ * @author Filipe Dobreira <http://github.com/filp>
+ */
 
-use Royalcms\Component\Whoops\Handler\Handler;
+namespace Royalcms\Component\Whoops\Handler;
+
+use Royalcms\Component\Whoops\Exception\Formatter;
 
 /**
  * Catches an exception and converts it to a JSON
@@ -17,45 +23,31 @@ class JsonResponseHandler extends Handler
     /**
      * @var bool
      */
-    private $onlyForAjaxRequests = false;
+    private $jsonApi = false;
 
     /**
-     * @param  bool|null $returnFrames
-     * @return null|bool
+     * Returns errors[[]] instead of error[] to be in compliance with the json:api spec
+     * @param bool $jsonApi Default is false
+     * @return $this
+     */
+    public function setJsonApi($jsonApi = false)
+    {
+        $this->jsonApi = (bool) $jsonApi;
+        return $this;
+    }
+
+    /**
+     * @param  bool|null  $returnFrames
+     * @return bool|$this
      */
     public function addTraceToOutput($returnFrames = null)
     {
-        if(func_num_args() == 0) {
+        if (func_num_args() == 0) {
             return $this->returnFrames;
         }
 
         $this->returnFrames = (bool) $returnFrames;
-    }
-
-    /**
-     * @param  bool|null $onlyForAjaxRequests
-     * @return null|bool
-     */
-    public function onlyForAjaxRequests($onlyForAjaxRequests = null)
-    {
-        if(func_num_args() == 0) {
-            return $this->onlyForAjaxRequests;
-        }
-
-        $this->onlyForAjaxRequests = (bool) $onlyForAjaxRequests;
-    }
-
-    /**
-     * Check, if possible, that this execution was triggered by an AJAX request.
-     *
-     * @return bool
-     */
-    private function isAjaxRequest()
-    {
-        return (
-            !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
-        ;
+        return $this;
     }
 
     /**
@@ -63,41 +55,34 @@ class JsonResponseHandler extends Handler
      */
     public function handle()
     {
-        if($this->onlyForAjaxRequests() && !$this->isAjaxRequest()) {
-            return Handler::DONE;
-        }
+      if ($this->jsonApi === true) {
+        $response = [
+          'errors' => [
+            Formatter::formatExceptionAsDataArray(
+                  $this->getInspector(),
+                  $this->addTraceToOutput()
+            ),
+          ]
+        ];
+      } else {
+        $response = [
+            'error' => Formatter::formatExceptionAsDataArray(
+                $this->getInspector(),
+                $this->addTraceToOutput()
+            ),
+        ];
+      }
 
-        $exception = $this->getException();
+        echo json_encode($response, defined('JSON_PARTIAL_OUTPUT_ON_ERROR') ? JSON_PARTIAL_OUTPUT_ON_ERROR : 0);
 
-        $response = array(
-            'error' => array(
-                'type'    => get_class($exception),
-                'message' => $exception->getMessage(),
-                'file'    => $exception->getFile(),
-                'line'    => $exception->getLine()
-            )
-        );
-
-        if($this->addTraceToOutput()) {
-            $inspector = $this->getInspector();
-            $frames    = $inspector->getFrames();
-            $frameData = array();
-
-            foreach($frames as $frame) {
-                /** @var Frame $frame */
-                $frameData[] = array(
-                    'file'     => $frame->getFile(),
-                    'line'     => $frame->getLine(),
-                    'function' => $frame->getFunction(),
-                    'class'    => $frame->getClass(),
-                    'args'     => $frame->getArgs()
-                );
-            }
-
-            $response['error']['trace'] = $frameData;
-        }
-
-        echo json_encode($response);
         return Handler::QUIT;
+    }
+
+    /**
+     * @return string
+     */
+    public function contentType()
+    {
+        return 'application/json';
     }
 }
