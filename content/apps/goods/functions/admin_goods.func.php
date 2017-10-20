@@ -1008,7 +1008,7 @@ function bargain_price($price, $start, $end) {
  *        	规格ID的数组或者逗号分隔的字符串
  * @return void
  */
-function spec_price($spec, $goods_id = 0, $warehouse_area= array()) {
+function spec_price($spec, $goods_id = 0) {
 	$db_goods = RC_Model::model('goods/goods_model');
 	$db = RC_Model::model('goods/goods_attr_model');
 	if (! empty ( $spec )) {
@@ -1019,20 +1019,7 @@ function spec_price($spec, $goods_id = 0, $warehouse_area= array()) {
 		} else {
 			$spec = addslashes ( $spec );
 		}
-		$model_attr = $db_goods->where(array('goods_id' => $goods_id))->get_field('model_attr');
-
-		if ($model_attr == 1) { //仓库属性
-			$db_warehouse_attr = RC_Model::model('warehouse/warehouse_attr_model');
-			$warehouse_id = $warehouse_area['warehouse_id'];
-			$price = $db_warehouse_attr->in(array('goods_attr_id' => $spec))->where(array('goods_id' => $goods_id, 'warehouse_id' => $warehouse_id))->sum('`attr_price`|attr_price');
-
-		} elseif ($model_attr == 2) { //地区属性
-			$db_warehouse_area_attr = RC_Model::model('warehouse/warehouse_area_attr_model');
-			$area_id = $warehouse_area['area_id'];
-			$price = $db_warehouse_area_attr->in(array('goods_attr_id' => $spec))->where(array('goods_id' => $goods_id, 'area_id' => $area_id))->sum('`attr_price`|attr_price');
-		} elseif ($model_attr == 0){
-			$price = $db->in(array('goods_attr_id' => $spec))->sum('`attr_price`|attr_price');
-		}
+		$price = $db->in(array('goods_attr_id' => $spec))->sum('`attr_price`|attr_price');
 	} else {
 		$price = 0;
 	}
@@ -1465,7 +1452,7 @@ function get_goods_fittings($goods_list = array()) {
  * @param array $spec_goods_attr_id
  * @return array
  */
-function get_products_info($goods_id, $spec_goods_attr_id, $warehouse_id=0, $area_id=0) {
+function get_products_info($goods_id, $spec_goods_attr_id) {
 	$model_attr = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('model_attr');
 
 	$return_array = array ();

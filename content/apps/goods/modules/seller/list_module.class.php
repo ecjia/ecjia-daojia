@@ -142,6 +142,31 @@ class list_module extends api_front implements api_interface {
 					}
 				}
 				
+				/*店铺闪惠活动列表*/
+				$quickpay_activity_list = array();
+				$quickpay_activity_list = RC_Api::api('quickpay', 'quickpay_activity_list', array('store_id' => $row['id']));
+				
+				if (is_ecjia_error($quickpay_activity_list)) {
+					return $quickpay_activity_list;
+				}
+				
+				$quickpay_activity_list_new = array();
+				if (!empty($quickpay_activity_list['list'])) {
+					foreach ($quickpay_activity_list['list'] as $v) {
+						$quickpay_activity_list_new[] = array(
+								'activity_id' 	=> $v['id'],
+								'title' 		=> $v['title'],
+								'activity_type' => $v['activity_type'],
+								'label_activity_type' => $v['label_activity_type'],
+								'limit_time_type'	  => $v['limit_time_type'],
+								'limit_time_weekly '  => $v['limit_time_weekly_str'],
+								'limit_time_daily '   => $v['limit_time_daily_str'],
+								'limit_time_exclude'  => $v['limit_time_exclude'],
+								'total_order_count '  => $v['total_order_count']
+						);
+					}
+				}
+				
 				$goods_options = array('store_id' => $row['id'], 'cat_id' => $goods_category, 'keywords' => $keywords, 'page' => 1, 'size' => 10);
 				/* 如有查询添加，不限制分页*/
 				if (!empty($goods_category) || !empty($keywords)) {
@@ -194,6 +219,7 @@ class list_module extends api_front implements api_interface {
 					'is_follower'		=> in_array($row['id'], $collect_store_id) ? 1 : 0,
 					'goods_count'       => $goods_store_data['count'],
 					'favourable_list'	=> $favourable_list,
+					'quickpay_activity_list' => $quickpay_activity_list_new,
 					'distance'			=> $distance,
 					'label_trade_time'	=> $row['label_trade_time'],
 				    'seller_goods'		=> $goods_store_data['goods_list'],

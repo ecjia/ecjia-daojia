@@ -128,7 +128,7 @@ class goods_list {
 				'on' 	=> "mp.goods_id = g.goods_id and mp.user_rank = '".$_SESSION['user_rank']."'"
 			)
 		);
-		$field = "g.goods_id, g.goods_name, g.store_id, g.goods_name_style, g.market_price,
+		$field = "g.goods_id, g.goods_name, g.goods_sn, g.store_id, g.goods_name_style, g.market_price,
 				  g.is_new, g.is_best, g.is_hot, g.shop_price AS org_price, 
 				  IFNULL(mp.user_price, g.shop_price * ".$_SESSION['discount'].") AS shop_price, 
 				  g.promote_price, g.goods_type, g.promote_start_date, g.promote_end_date,
@@ -358,6 +358,7 @@ class goods_list {
 			
 					$arr[$key]['goods_id']		= $row['goods_id'];
 					$arr[$key]['name']			= $row['goods_name'];
+					$arr[$key]['goods_sn']		= $row['goods_sn'];
 					$arr[$key]['goods_brief'] 	= $row['goods_brief'];
 					$arr[$key]['store_id']		= $row['store_id'];
 					$arr[$key]['store_name']	= $row['merchants_name'];

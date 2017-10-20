@@ -1767,7 +1767,7 @@ function is_spec($goods_attr_id_array, $sort = 'asc') {
  *
  * @return 商品最终购买价格
  */
-function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $spec = array(), $warehouse_id = 0, $area_id = 0) {
+function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $spec = array()) {
 	$dbview = RC_Model::model('goods/sys_goods_member_viewmodel');
 	RC_Loader::load_app_func('admin_goods', 'goods');
 
@@ -1940,22 +1940,25 @@ function get_package_goods($package_id) {
 }
 
 /**
- * 获取审核状态
+ * 获取审核状态 1未审核 2审核未通过 3审核已通过 5无需审核
  */
 function get_review_status($store_id) {
-    $review_status = 1;
+	$review_status = 1; //默认未审核
+	
+	//商店设置->基本设置中 商家审核关闭 则所有商家商品无需审核
     if (ecjia::config('review_goods') == 0) {
         $review_status = 5;
     } else {
         if (isset($store_id) && $store_id > 0) {
+        	$manage_mode = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('manage_mode');
+        	if ($manage_mode == 'self') {
+        		$review_status = 5;
+        	}
             $shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_review_goods')->pluck('value');
-            if ($shop_review_goods == 0) {
-                $review_status = 5;
-            } else {
+            //单个商店开启了审核商品 则默认为未审核
+            if ($shop_review_goods == 1) {
                 $review_status = 1;
             }
-        } else {
-            $review_status = 5;
         }
     }
     return $review_status;
@@ -1978,6 +1981,13 @@ function get_goods_gallery_gol($goods_id) {
         $row [$key] ['thumb_url'] = get_image_path ( $goods_id, $gallery_img ['thumb_url'], true, 'gallery' );
     }
     return $row;
+}
+
+function formated_price_bulk($price) {
+    //格式化散装商品价格
+    $price = sprintf("%.1f", $price);
+    $price = sprintf("%01.2f",$price);
+    return $price;
 }
 
 // end

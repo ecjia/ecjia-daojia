@@ -418,22 +418,25 @@ function goods_enable_type_list($selected, $enabled = false, $show_all = false) 
 }
 
 /**
- * 获取审核状态
+ * 获取审核状态  1未审核 2审核未通过 3审核已通过 5无需审核
  */
 function get_merchant_review_status() {
-	$review_status = 1;
+	$review_status = 1; //默认未审核
+	
+	//商店设置->基本设置中 商家审核关闭 则所有商家商品无需审核
 	if (ecjia::config('review_goods') == 0) {
 		$review_status = 5;
 	} else {
 		if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-			$shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_review_goods')->pluck('value');
-			if ($shop_review_goods == 0) {
+			$manage_mode = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('manage_mode');
+			if ($manage_mode == 'self') {
 				$review_status = 5;
-			} else {
-			    $review_status = 1;
 			}
-		} else {
-			$review_status = 5;
+			$shop_review_goods = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_review_goods')->pluck('value');
+			//单个商店开启了审核商品 则默认为未审核
+			if ($shop_review_goods == 1) {
+				$review_status = 1;
+			}
 		}
 	}
 	return $review_status;

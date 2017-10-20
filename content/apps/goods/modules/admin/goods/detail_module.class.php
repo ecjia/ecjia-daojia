@@ -48,7 +48,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 商品详情
- * @author luchongchong
+ * @author 
  */
 class detail_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
@@ -64,7 +64,7 @@ class detail_module extends api_admin implements api_interface {
 		$id = $this->requestData('goods_id',0);
     	if (empty($id)) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}else {
+		} else {
 			$where['goods_id'] = $id;
 		}
 // 		$where['is_delete'] = 0;
@@ -197,9 +197,9 @@ function get_goods_gallery($goods_id) {
         foreach ($row as $key => $gallery_img) {
             $desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
             !empty($desc_index) && $row[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
-            $row[$key]['small']	= substr($gallery_img['img_original'], 0, 4) == 'http' ? $gallery_img['img_original'] : RC_Upload::upload_url($gallery_img['img_original']);
-            $row[$key]['url']		= substr($gallery_img['img_url'], 0, 4) == 'http' ? $gallery_img['img_url'] : RC_Upload::upload_url($gallery_img['img_url']);
-            $row[$key]['thumb']		= substr($gallery_img['thumb_url'], 0, 4) == 'http' ? $gallery_img['thumb_url'] : RC_Upload::upload_url($gallery_img['thumb_url']);
+            $row[$key]['small']	= get_upload_url($gallery_img['img_original']);
+            $row[$key]['url']	= get_upload_url($gallery_img['img_url']);
+            $row[$key]['thumb']	= get_upload_url($gallery_img['thumb_url']);
 
             $img_list_sort[$key] = $row[$key]['desc'];
             $img_list_id[$key] = $gallery_img['img_id'];
@@ -209,7 +209,14 @@ function get_goods_gallery($goods_id) {
     }
     return $row;
 }
-
+/**
+ * 获取上传文件url
+ * @param string $save_url 数据表存储的相对路径
+ * 
+ */
+function get_upload_url($save_url) {
+    return substr($save_url, 0, 4) == 'http' ? $save_url : RC_Upload::upload_url($save_url);
+}
 /**
  * 判断某个商品是否正在特价促销期
  *
