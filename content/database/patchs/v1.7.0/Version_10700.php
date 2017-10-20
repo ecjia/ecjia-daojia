@@ -47,8 +47,6 @@
 use Ecjia\System\Version\Version;
 use Ecjia\System\Database\Migrate;
 use Ecjia\System\Database\Seeder;
-use Ecjia\App\Adsense\Repositories\CycleImageRepository;
-use Ecjia\App\Adsense\Repositories\AdRepository;
 
 class Version_10700 extends Version
 {
