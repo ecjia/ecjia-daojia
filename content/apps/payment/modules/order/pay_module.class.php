@@ -82,8 +82,10 @@ class pay_module extends api_front implements api_interface {
 			return $order;
 		}
 		
-		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
+		if ($device['code'] != '8001') {
+			if ($_SESSION['user_id'] != $order['user_id']) {
+				return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
+			}
 		}
 		
 		//判断是否是管理员登录
@@ -97,10 +99,8 @@ class pay_module extends api_front implements api_interface {
 		}
 		
 		//支付方式信息
-		RC_Logger::getLogger('error')->info('test22');
 		RC_Logger::getLogger('info')->info('order-pay');
 		RC_Logger::getLogger('info')->info($order);
-		RC_Logger::getLogger('error')->info('test22');
 		
 		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
 		if (is_ecjia_error($handler)) {
