@@ -131,6 +131,7 @@ function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_s
 			$res2 = $db_store_franchisee
 					 ->select(RC_DB::raw('cat_id'), RC_DB::raw('COUNT(*) as store_num'))
 					 ->groupBy(RC_DB::raw('cat_id'))
+					 ->orderBy('cat_id', 'asc')
 					 ->get();
 			//$res3 = $db_goods_cat->join('goods')->where(array('g.is_delete' => 0, 'g.is_on_sale' => 1))->group ('gc.cat_id')->select();
 			$newres = array ();

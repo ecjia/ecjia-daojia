@@ -964,21 +964,33 @@ function order_bonus($order_id) {
 	$day	= getdate();
 	$today	= RC_Time::local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
 
-	$dbview->view = array(
-		'goods' => array(
-			'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-			'alias'	=> 'g',
-			'field'	=> 'b.type_id, b.type_money, SUM(o.goods_number) AS number',
-			'on'	=> 'o.goods_id = g.goods_id',
-		),
-		'bonus_type' => array(
-			'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-			'alias'	=> 'b',
-			'on'	=> 'g.bonus_type_id = b.type_id ',
-		)
-	);
+	// $dbview->view = array(
+	// 	'goods' => array(
+	// 		'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
+	// 		'alias'	=> 'g',
+	// 		'field'	=> 'b.type_id, b.type_money, SUM(o.goods_number) AS number',
+	// 		'on'	=> 'o.goods_id = g.goods_id',
+	// 	),
+	// 	'bonus_type' => array(
+	// 		'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
+	// 		'alias'	=> 'b',
+	// 		'on'	=> 'g.bonus_type_id = b.type_id ',
+	// 	)
+	// );
 
-	$list = $dbview->where(array('o.order_id' => $order_id , 'o.is_gift' => 0 , 'b.send_type' => SEND_BY_GOODS , 'b.send_start_date' => array('elt' => $today) , 'b.send_end_date' => array('egt' => $today)))->group('b.type_id')->select();
+	// $list = $dbview->where(array('o.order_id' => $order_id , 'o.is_gift' => 0 , 'b.send_type' => SEND_BY_GOODS , 'b.send_start_date' => array('elt' => $today) , 'b.send_end_date' => array('egt' => $today)))->group('b.type_id')->select();
+
+	$list = RC_DB::table('order_goods as o')
+		->leftJoin('goods as g', RC_DB::raw('o.goods_id'), '=', RC_DB::raw('g.goods_id'))
+		->leftJoin('bonus_type as b', RC_DB::raw('g.bonus_type_id'), '=', RC_DB::raw('b.type_id'))
+		->where(RC_DB::raw('o.order_id'), $order_id)
+		->where(RC_DB::raw('o.is_gift'), 0)
+		->where(RC_DB::raw('b.send_type'), SEND_BY_GOODS)
+		->where(RC_DB::raw('b.send_start_date'), '<=', $today)
+		->where(RC_DB::raw('b.send_end_date'), '>=', $today)
+		->groupBy(RC_DB::raw('b.type_id'))
+		->get();
+
 	/* 查询定单中非赠品总金额 */
 	$amount = order_amount($order_id, false);
 
