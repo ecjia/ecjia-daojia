@@ -51,14 +51,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
  *  @author songqian
  */
 class admin_shophelp extends ecjia_admin {
-	private $db_article_cat;
-	private $db_article;
-	
     public function __construct() {
 		parent::__construct();
-		
-		$this->db_article_cat	= RC_Model::model('article/article_cat_model');
-		$this->db_article	 	= RC_Model::model('article/article_model');
 		
  		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
@@ -126,7 +120,7 @@ class admin_shophelp extends ecjia_admin {
 		);
 		
 		$cat_id = intval($_GET['cat_id']);
-		$cat_name = $this->db_article_cat->article_cat_field($cat_id, 'cat_name');
+		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
         
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($cat_name));
 		
@@ -147,7 +141,7 @@ class admin_shophelp extends ecjia_admin {
 		$this->admin_priv('shophelp_manage');
 		
 		$cat_id = intval($_GET['cat_id']);
-		$cat_name = $this->db_article_cat->article_cat_field($cat_id, 'cat_name');
+		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
 
 		$this->assign('cat_name', $cat_name);
 		$this->assign('ur_here', RC_Lang::get('article::shophelp.add_help_article'));
@@ -177,7 +171,8 @@ class admin_shophelp extends ecjia_admin {
 		
 		$title 			= !empty($_POST['title']) 			? trim($_POST['title']) 			: '';
 		$cat_id 		= !empty($_POST['cat_id']) 			? intval($_POST['cat_id']) 			: 0;
-		$is_only = $this->db_article->article_count(array('title' => $title, 'cat_id' => $cat_id));
+		$is_only = RC_DB::table('article')->where('title', $title)->where('cat_id', $cat_id)->count();
+		
 		if ($is_only != 0) {
 			return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -192,14 +187,15 @@ class admin_shophelp extends ecjia_admin {
 			'author'	   	=> '_SHOPHELP',
 			'article_approved' => 1
 		);
-		$id = $this->db_article->article_manage($data);
+		$id = RC_DB::table('article')->insertGetId($data);
+		
 		//释放article_list缓存
 		$orm_article_db = RC_Model::model('article/orm_article_model');
 		$cache_article_list_key = 'article_list_';
 		$cache_id_list = sprintf('%X', crc32($cache_article_list_key));
 		$orm_article_db->delete_cache_item($cache_id_list);
 		
-		$cat_name = $this->db_article_cat->article_cat_field($cat_id, 'cat_name');
+		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
 		ecjia_admin::admin_log($title.'，'.RC_Lang::get('article::shophelp.help_category_is').$cat_name, 'add', 'shophelp');
 		
 		$links[] = array('text' => RC_Lang::get('article::shophelp.back_article_list'), 'href' => RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id)));
@@ -216,8 +212,8 @@ class admin_shophelp extends ecjia_admin {
 		$article_id   = !empty($_GET['id'])       ? intval($_GET['id'])       : 0;
 		$cat_id       = !empty($_GET['cat_id'])   ? intval($_GET['cat_id'])   : 0;
 		
-		$cat_name = $this->db_article_cat->article_cat_field($cat_id, 'cat_name');
-		$article  = $this->db_article->article_find($article_id);
+		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
+		$article = RC_DB::table('article')->where('article_id', $article_id)->first();
 		if (!empty($article['content'])) {
 			$article['content'] = stripslashes($article['content']);
 		}
@@ -251,13 +247,12 @@ class admin_shophelp extends ecjia_admin {
 		$id        = !empty($_POST['id']) 			? intval($_POST['id']) 		: 0;
 		$title     = !empty($_POST['title']) 		? trim($_POST['title']) 	: '';
 		
-	    $is_only = $this->db_article->article_count(array('title' => $title, 'cat_id' => $cat_id, 'article_id' => array('neq' => $id)));
+	    $is_only = RC_DB::table('article')->where('title', $title)->where('cat_id', $cat_id)->where('article_id', '!=', $id)->count();
 		if ($is_only != 0) {
 			return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$data = array(
-		    'article_id'    => $id,
 			'title'        	=> $title,
 			'cat_id'       	=> $cat_id,
 			'article_type' 	=> 'shop_help',
@@ -266,17 +261,18 @@ class admin_shophelp extends ecjia_admin {
 			'description'	=> !empty($_POST['description']) ? trim($_POST['description']) : '',
 			'article_approved' 	=> 1
 		);
-		if ($this->db_article->article_manage($data)) {
-		    $cat_name = $this->db_article_cat->article_cat_field($cat_id, 'cat_name');
-		    //释放article_list缓存
-		    $orm_article_db = RC_Model::model('article/orm_article_model');
-		    $cache_article_list_key = 'article_list_';
-		    $cache_id_list = sprintf('%X', crc32($cache_article_list_key));
-		    $orm_article_db->delete_cache_item($cache_id_list);
-		    
-			ecjia_admin::admin_log($title.'，'.RC_Lang::get('article::shophelp.help_category_is').$cat_name, 'edit', 'shophelp');
-			return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.articleedit_succeed'), $title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_shophelp/edit', array('id' => $id, 'cat_id' => $cat_id))));
-		}
+		
+		RC_DB::table('article')->where('article_id', $id)->update($data);
+	    $cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
+	    
+	    //释放article_list缓存
+	    $orm_article_db = RC_Model::model('article/orm_article_model');
+	    $cache_article_list_key = 'article_list_';
+	    $cache_id_list = sprintf('%X', crc32($cache_article_list_key));
+	    $orm_article_db->delete_cache_item($cache_id_list);
+	    
+		ecjia_admin::admin_log($title.'，'.RC_Lang::get('article::shophelp.help_category_is').$cat_name, 'edit', 'shophelp');
+		return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.articleedit_succeed'), $title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_shophelp/edit', array('id' => $id, 'cat_id' => $cat_id))));
 	}
 	
 	/**
@@ -291,21 +287,20 @@ class admin_shophelp extends ecjia_admin {
 		if (empty($cat_name)) {
 			return $this->showmessage(RC_Lang::get('article::shophelp.no_catname'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		if ($this->db_article_cat->article_cat_count(array('cat_name' => $cat_name, 'cat_id' => array('neq' => $id)))) {
+		$count = RC_DB::table('article_cat')->where('cat_name', $cat_name)->where('cat_id', '!=', $id)->count();
+		if ($count) {
 			return $this->showmessage(RC_Lang::get('article::shophelp.catname_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-		    if ($this->db_article_cat->article_cat_manage(array('cat_name' => $cat_name), array('cat_id' => $id))) {
-		    	//释放article_list缓存
-		    	$orm_article_db = RC_Model::model('article/orm_article_model');
-		    	$cache_article_list_key = 'article_list_';
-		    	$cache_id_list = sprintf('%X', crc32($cache_article_list_key));
-		    	$orm_article_db->delete_cache_item($cache_id_list);
-		    	
-		        ecjia_admin::admin_log($cat_name, 'edit', 'shophelpcat');
-				return $this->showmessage(RC_Lang::get('article::shophelp.catedit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($cat_name)));
-			} else {
-				return $this->showmessage(RC_Lang::get('article::shophelp.catedit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
+			RC_DB::table('article_cat')->where('cat_id', $id)->update(array('cat_name' => $cat_name));
+			
+	    	//释放article_list缓存
+	    	$orm_article_db = RC_Model::model('article/orm_article_model');
+	    	$cache_article_list_key = 'article_list_';
+	    	$cache_id_list = sprintf('%X', crc32($cache_article_list_key));
+	    	$orm_article_db->delete_cache_item($cache_id_list);
+	    	
+	        ecjia_admin::admin_log($cat_name, 'edit', 'shophelpcat');
+			return $this->showmessage(RC_Lang::get('article::shophelp.catedit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($cat_name)));
 		}
 	}
 	
@@ -320,9 +315,8 @@ class admin_shophelp extends ecjia_admin {
 		if (!is_numeric($order)) {
 			return $this->showmessage(RC_Lang::get('article::shophelp.enter_int'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-		    if ($this->db_article_cat->article_cat_manage(array('sort_order' => $order), array('cat_id' => $id))) {
-				return $this->showmessage(RC_Lang::get('article::shophelp.catedit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('article/admin_shophelp/init')) );
-			}
+			RC_DB::table('article_cat')->where('cat_id', $id)->update(array('sort_order' => $order));
+			return $this->showmessage(RC_Lang::get('article::shophelp.catedit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('article/admin_shophelp/init')) );
 		}
 	}
 	
@@ -333,11 +327,12 @@ class admin_shophelp extends ecjia_admin {
 		$this->admin_priv('shophelp_manage', ecjia::MSGTYPE_JSON);
 		
 		$id = !empty($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
-		/* 非空的分类不允许删除 */
-		if ($this->db_article->article_count(array('cat_id' => $id)) != 0) {
+
+		$count = RC_DB::table('article')->where('cat_id', $id)->count();
+		if ($count != 0) {
 			return $this->showmessage(RC_Lang::get('article::shophelp.not_emptycat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-		    $cat_name = $this->db_article_cat->article_cat_field($id, 'cat_name');
+		    $cat_name = RC_DB::table('article_cat')->where('cat_id', $id)->pluck('cat_name');
 		    //释放article_list缓存
 		    $orm_article_db = RC_Model::model('article/orm_article_model');
 		    $cache_article_list_key = 'article_list_';
@@ -345,7 +340,7 @@ class admin_shophelp extends ecjia_admin {
 		    $orm_article_db->delete_cache_item($cache_id_list);
 			ecjia_admin::admin_log($cat_name, 'remove', 'shophelpcat');
 			
-			$this->db_article_cat->article_cat_delete($id);
+			RC_DB::table('article_cat')->where('cat_id', $id)->delete();
 			return $this->showmessage(RC_Lang::get('article::shophelp.del_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		}
 	}
@@ -357,21 +352,19 @@ class admin_shophelp extends ecjia_admin {
 		$this->admin_priv('shophelp_manage', ecjia::MSGTYPE_JSON);
 		
 		$id = intval($_GET['id']);
-		$info = $this->db_article->article_find($id);
+		$info = RC_DB::table('article')->where('article_id', $id)->first();
 		
-		if ($this->db_article->article_delete($id)) {
-		    $cat_name = $this->db_article_cat->article_cat_field($info['cat_id'], 'cat_name');
-		    //释放article_list缓存
-		    $orm_article_db = RC_Model::model('article/orm_article_model');
-		    $cache_article_list_key = 'article_list_';
-		    $cache_id_list = sprintf('%X', crc32($cache_article_list_key));
-		    $orm_article_db->delete_cache_item($cache_id_list);
+		RC_DB::table('article')->where('article_id', $id)->delete();
+	    $cat_name = RC_DB::table('article_cat')->where('cat_id', $info['cat_id'])->pluck('cat_name');
+	    
+	    //释放article_list缓存
+	    $orm_article_db = RC_Model::model('article/orm_article_model');
+	    $cache_article_list_key = 'article_list_';
+	    $cache_id_list = sprintf('%X', crc32($cache_article_list_key));
+	    $orm_article_db->delete_cache_item($cache_id_list);
 
-		    ecjia_admin::admin_log($info['title'].'，'.RC_Lang::get('article::shophelp.help_category_is').$cat_name, 'remove', 'shophelp');
-			return $this->showmessage(RC_Lang::get('article::shophelp.remove_article_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-		} else {
-			return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.remove_fail')), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
+	    ecjia_admin::admin_log($info['title'].'，'.RC_Lang::get('article::shophelp.help_category_is').$cat_name, 'remove', 'shophelp');
+		return $this->showmessage(RC_Lang::get('article::shophelp.remove_article_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**
@@ -382,14 +375,15 @@ class admin_shophelp extends ecjia_admin {
 		
 		$cat_name = !empty($_POST['cat_name']) ? trim($_POST['cat_name']) : '';
 		if (!empty($cat_name)) {
-		    if ($this->db_article_cat->article_cat_count(array('cat_name' => $cat_name)) != 0) {
+			$count = RC_DB::table('article_cat')->where('cat_name', $cat_name)->count();
+		    if ($count != 0) {
 				return $this->showmessage(RC_Lang::get('article::shophelp.catname_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {
 				$data = array(
 					'cat_name'  => $cat_name,
 					'cat_type'  => 'shop_help',
 				);
-				$this->db_article_cat->article_cat_manage($data);
+				RC_DB::table('article_cat')->insert($data);
 				//释放article_list缓存
 				$orm_article_db = RC_Model::model('article/orm_article_model');
 				$cache_article_list_key = 'article_list_';
@@ -428,9 +422,7 @@ class admin_shophelp extends ecjia_admin {
 	 * 获取网店帮助分类下的文章列表
 	 */
 	private function get_shophelp_article($cat_id) {
-		$db_article = RC_Model::model('article/article_model');
-		
-		$count = $db_article->article_count(array('cat_id' => $cat_id));
+		$count = RC_DB::table('article')->where('cat_id', $cat_id)->count();
 		$page = new ecjia_page($count, 15, 5);
 
 		$data = RC_DB::table('article')

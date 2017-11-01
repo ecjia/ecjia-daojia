@@ -106,16 +106,16 @@ class article_list {
 	 * @return string
 	 */
 	public static function GetIds($parent_id){
-		if($parent_id){
-			if(is_array($parent_id)){
+		if ($parent_id) {
+			if (is_array($parent_id)) {
 				$parent_id = join(',', $parent_id);
-				$data = RC_Model::model('article/article_cat_model')->in(array('parent_id'=>$parent_id))->get_field('cat_id',true);
-			}else{
-				$data = RC_Model::model('article/article_cat_model')->where(array('parent_id'=>$parent_id))->get_field('cat_id',true);
+				$data = RC_DB::table('article_cat')->whereIn('parent_id', $parent_id)->lists('cat_id');
+			} else {
+				$data = RC_DB::table('article_cat')->where('parent_id', $parent_id)->lists('cat_id');
 			}
-			if(!empty($data)){
+			if (!empty($data)) {
 				$datas = self::GetIds($data) ? array_merge($data,self::GetIds($data)) : $data;
-			}else{
+			} else {
 				$datas = array('0' =>$parent_id);
 			}
 		}

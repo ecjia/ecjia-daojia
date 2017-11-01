@@ -68,14 +68,6 @@ class article_viewmodel extends Component_Model_View {
 		parent::__construct();
 	}
 	
-	public function article_count($where = array(), $table = null, $field = '*') {
-		return $this->join($table)->where($where)->count($field);
-	}
-	
-	public function article_select($option) {
-		return $this->join($option['table'])->field($option['field'])->where($option['where'])->order($option['order'])->limit($option['limit'])->select();
-	}
-	
 	public function get_shop_help() {
 	    $res = RC_DB::table('article')
     	    ->leftJoin('article_cat', 'article.cat_id', '=', 'article_cat.cat_id')

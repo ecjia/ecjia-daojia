@@ -51,16 +51,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
  *  @author songqian
  */
 class admin_shopinfo extends ecjia_admin {
-	
-	private $db_article;
-	private $db_article_cat;
-	
 	public function __construct() {
 		parent::__construct();
 		
-		$this->db_article     = RC_Model::model('article/article_model');
-		$this->db_article_cat = RC_Model::model('article/article_cat_model');
-
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -143,7 +136,7 @@ class admin_shopinfo extends ecjia_admin {
 		$desc    	= !empty($_POST['description']) ? trim($_POST['description'])   : '';
 		$file		= !empty($_FILES['file']) 		? $_FILES['file'] 				: '';
 		
- 		$is_only = $this->db_article->article_count(array('title' => $title, 'cat_id' => 0));
+ 		$is_only = RC_DB::table('article')->where('title', $title)->where('cat_id', 0)->count();
 		if ($is_only != 0) {
 			return $this->showmessage(sprintf(RC_Lang::get('article::shopinfo.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -174,7 +167,7 @@ class admin_shopinfo extends ecjia_admin {
 			'article_approved' 	=> 1,
 			'article_type' 		=> 'shop_info',
 		);
-		$id = $this->db_article->article_manage($data);
+		$id = RC_DB::table('article')->insertGetId($data);
 		//释放article_list缓存
 		$orm_article_db = RC_Model::model('article/orm_article_model');
 		$cat_id = 0;
@@ -208,7 +201,7 @@ class admin_shopinfo extends ecjia_admin {
 		$this->assign('action_link', array('text' => RC_Lang::get('article::shopinfo.shop_information'), 'href'=> RC_Uri::url('article/admin_shopinfo/init')));
 		
 		$id = intval($_GET['id']);
-		$article = $this->db_article->article_find($id);
+		$article = RC_DB::table('article')->where('article_id', $id)->first();
 		if (!empty($article['content'])) {
 			$article['content'] = stripslashes($article['content']);
 		}
@@ -237,13 +230,13 @@ class admin_shopinfo extends ecjia_admin {
 		$file		= !empty($_FILES['file']) 		? $_FILES['file'] 				: '';
 		
 		if ($title != $old_title) {
-			$is_only = $this->db_article->article_count(array('title' => $title, 'cat_id' => 0, 'article_id' => array('neq' => $id)));
+			$is_only = RC_DB::table('article')->where('title', $title)->where('cat_id', 0)->where('article_id', '!=', $id)->count();
 			if ($is_only != 0) {
 				return $this->showmessage(sprintf(RC_Lang::get('article::shopinfo.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
-		$old_file_name = $this->db_article->article_field($id, 'file_url');
+		$old_file_name = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');
 		//判断用户是否选择了文件
 		if (!empty($file)&&((isset($file['error']) && $file['error'] == 0) || (!isset($file['error']) && $file['tmp_name'] != 'none'))) {
 			$upload = RC_Upload::uploader('file', array('save_path' => 'data/article', 'auto_sub_dirs' => true));
@@ -262,7 +255,6 @@ class admin_shopinfo extends ecjia_admin {
 		}
 
 		$data = array(
-		    'article_id'  	=> $id,
 			'title'       	=> $title,
 			'content'     	=> $content,
 			'keywords'    	=> $keywords,
@@ -272,8 +264,7 @@ class admin_shopinfo extends ecjia_admin {
 			'article_approved' 	=> 1,
 			'article_type' 		=> 'shop_info',
 		);
-
-		$this->db_article->article_manage($data);
+		RC_DB::table('article')->where('article_id', $id)->update($data);
 		//释放article_list缓存
 		$orm_article_db = RC_Model::model('article/orm_article_model');
 		$cat_id = 0;
@@ -293,10 +284,12 @@ class admin_shopinfo extends ecjia_admin {
 		$this->admin_priv('shopinfo_manage', ecjia::MSGTYPE_JSON);
 		
 		$id = intval($_GET['id']);
-		$shop_info = $this->db_article->article_find($id);
+		$shop_info = RC_DB::table('article')->where('article_id', $id)->first();
 		
 		$disk = RC_Filesystem::disk();
-		if ($this->db_article->article_delete($id)) {
+		
+		$result = RC_DB::table('article')->where('article_id', $id)->delete();
+		if ($result) {
 			if (!empty($shop_info['file_url']) && $disk->exists(RC_Upload::upload_path() . $shop_info['file_url'])) {
 				$disk->delete(RC_Upload::upload_path() . $shop_info['file_url']);
 			}
@@ -319,16 +312,16 @@ class admin_shopinfo extends ecjia_admin {
 		$this->admin_priv('shopinfo_manage', ecjia::MSGTYPE_JSON);
 	
 		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$old_url = $this->db_article->article_field($id, 'file_url');
+		$old_url = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');;
 	
 		$disk = RC_Filesystem::disk();
 		$disk->delete(RC_Upload::upload_path() . $old_url);
 	
 		$data = array(
-			'article_id'  => $id,
 			'file_url'    => '',
 		);
-		$this->db_article->article_manage($data);
+		RC_DB::table('article')->where('article_id', $id)->update($data);
+		
 		//释放article_list缓存
 		$orm_article_db = RC_Model::model('article/orm_article_model');
 		$cat_id = 0;
