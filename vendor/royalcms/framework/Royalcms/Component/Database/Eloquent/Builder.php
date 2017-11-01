@@ -634,6 +634,10 @@ class Builder {
 	 */
 	public function has($relation, $operator = '>=', $count = 1, $boolean = 'and', $callback = null)
 	{
+	    if (strpos($relation, '.') !== false) {
+	        return $this->hasNested($relation, $operator, $count, $boolean, $callback);
+	    }
+	    
 		$relation = $this->getHasRelationQuery($relation);
 
 		$query = $relation->getRelationCountQuery($relation->getRelated()->newQuery(), $this);
@@ -641,6 +645,47 @@ class Builder {
 		if ($callback) call_user_func($callback, $query);
 
 		return $this->addHasWhere($query, $relation, $operator, $count, $boolean);
+	}
+	
+	/**
+	 * Add nested relationship count / exists conditions to the query.
+	 *
+	 * @param  string  $relations
+	 * @param  string  $operator
+	 * @param  int     $count
+	 * @param  string  $boolean
+	 * @param  \Closure|null  $callback
+	 * @return \Royalcms\Component\Database\Eloquent\Builder|static
+	 */
+	protected function hasNested($relations, $operator = '>=', $count = 1, $boolean = 'and', $callback = null)
+	{
+	    $relations = explode('.', $relations);
+	
+	    // In order to nest "has", we need to add count relation constraints on the
+	    // callback Closure. We'll do this by simply passing the Closure its own
+	    // reference to itself so it calls itself recursively on each segment.
+	    $closure = function ($q) use (&$closure, &$relations, $operator, $count, $boolean, $callback) {
+    	    if (count($relations) > 1) {
+    	       $q->whereHas(array_shift($relations), $closure);
+    	    } else {
+    	       $q->has(array_shift($relations), $operator, $count, 'and', $callback);
+    	    }
+	    };
+	
+	    return $this->has(array_shift($relations), '>=', 1, $boolean, $closure);
+	}
+	
+	/**
+	 * Add a relationship count / exists condition to the query.
+	 *
+	 * @param  string  $relation
+	 * @param  string  $boolean
+	 * @param  \Closure|null  $callback
+	 * @return \Illuminate\Database\Eloquent\Builder|static
+	 */
+	public function doesntHave($relation, $boolean = 'and', Closure $callback = null)
+	{
+	    return $this->has($relation, '<', 1, $boolean, $callback);
 	}
 
 	/**
@@ -655,6 +700,18 @@ class Builder {
 	public function whereHas($relation, Closure $callback, $operator = '>=', $count = 1)
 	{
 		return $this->has($relation, $operator, $count, 'and', $callback);
+	}
+	
+	/**
+	 * Add a relationship count / exists condition to the query with where clauses.
+	 *
+	 * @param  string  $relation
+	 * @param  \Closure|null  $callback
+	 * @return \Royalcms\Component\Database\Eloquent\Builder|static
+	 */
+	public function whereDoesntHave($relation, Closure $callback = null)
+	{
+	    return $this->doesntHave($relation, 'and', $callback);
 	}
 
 	/**
