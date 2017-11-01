@@ -57,9 +57,10 @@ class cron_cron_info_api extends Component_Event_Api {
      * @return array
      */
 	public function call(&$options) {
-		$db = RC_Loader::load_app_model('crons_model', 'cron');
-		
-		return $db->find($options);
+        if (!is_array($options) || !isset($options['cron_code'])) {
+        	return new ecjia_error('invalid_parameter', '参数无效');
+        }
+        return RC_DB::table('crons')->where('cron_code', $options['cron_code'])->first();
 	}
 }
 
