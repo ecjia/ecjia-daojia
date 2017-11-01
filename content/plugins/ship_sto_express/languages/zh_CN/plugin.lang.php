@@ -44,22 +44,101 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+/**
+ * 申通快递插件的语言文件
+ */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Lang::load_plugin('ship_sto_express');
 return array(
-    'shipping_code' => 'ship_sto_express',
-	'insure' 		=> false,		/* 不支持保价 */
-	'cod' 			=> false, 		/* 配送方式是否支持货到付款 */
-	'print_model'	=> 2,			/* 模式编辑器 */
-	'print_bg'		=> RC_Plugin::plugins_url('images/dly_sto_express.jpg',__FILE__) ,			/* 打印单背景 */
-	'config_lable'	=> 't_shop_address,' . RC_Lang::lang('lable_box/shop_address') . ',235,48,131,152,b_shop_address||,||t_shop_name,' . RC_Lang::lang('lable_box/shop_name') . ',237,26,131,200,b_shop_name||,||t_shop_tel,' . RC_Lang::lang('lable_box/shop_tel') . ',96,36,144,257,b_shop_tel||,||t_customer_post,' . RC_Lang::lang('lable_box/customer_post') . ',86,23,578,268,b_customer_post||,||t_customer_address,' . RC_Lang::lang('lable_box/customer_address') . ',232,49,434,149,b_customer_address||,||t_customer_name,' . RC_Lang::lang('lable_box/customer_name') . ',151,27,449,231,b_customer_name||,||t_customer_tel,' . RC_Lang::lang('lable_box/customer_tel'). ',90,32,452,261,b_customer_tel||,||',			/* 打印快递单标签位置信息 */
-		
-	'forms' => array(
-			array('name' => 'item_fee',      'value' => 15), /* 单件商品的配送费用 */
-			array('name' => 'base_fee',      'value' => 15), /* 1000克以内的价格           */
-			array('name' => 'step_fee',      'value' => 5),  /* 续重每1000克增加的价格 */
-	),
+    'sto_express'            => '申通快递',
+    'sto_express_desc'       => '江、浙、沪地区首重为15元/KG，其他地区18元/KG， 续重均为5-6元/KG， 云南地区为8元',
+    
+    'item_fee'              	=> '单件商品费用：',
+    'base_fee'              	=> '1000克以内费用',
+    'step_fee'               => '续重每1000克或其零数的费用',
+    
+    /* 快递单部分 */
+    'lable_select_notice' => '--选择插入标签--',
+    
+    'lable_box' => array(
+        'shop_country' => '网店-国家',
+        'shop_province' => '网店-省份',
+        'shop_city' => '网店-城市',
+        'shop_name' => '网店-名称',
+        'shop_district' => '网店-区/县',
+        'shop_tel' => '网店-联系电话',
+        'shop_address' => '网店-地址',
+        'customer_country' => '收件人-国家',
+        'customer_province' => '收件人-省份',
+        'customer_city' => '收件人-城市',
+        'customer_district' => '收件人-区/县',
+        'customer_tel' => '收件人-电话',
+        'customer_mobel' => '收件人-手机',
+        'customer_post' => '收件人-邮编',
+        'customer_address' => '收件人-详细地址',
+        'customer_name' => '收件人-姓名',
+        'year' => '年-当日日期',
+        'months' => '月-当日日期',
+        'day' => '日-当日日期',
+        'order_no' => '订单号-订单',
+        'order_postscript' => '备注-订单',
+        'order_best_time' => '送货时间-订单',
+        'pigeon' => '√-对号',
+        //'custom_content' => '自定义内容',
+    ),
+    
+    'shipping_print'         => '<table border="0" cellspacing="0" cellpadding="0" style="width:18.9cm;">
+  <tr>
+    <td colspan="3" style="height:2cm;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="width:8cm; height:4cm; padding-top:0.3cm;" align="center" valign="middle">
+     <table border="0" cellspacing="0" cellpadding="0" style="width:7.5cm;" align="center">
+  <tr>
+    <td style="width:2.3cm;">&nbsp;</td>
+    <td style="height:1.5cm;">{$shop_address}</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td style="height:0.9cm;">{$shop_name}</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td style="height:0.9cm;">{$shop_name}</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td style="height:0.9cm;">{$service_phone}</td>
+  </tr>
+</table>
+    
+    </td>
+    <td style="width:8cm; height:4cm; padding-top:0.3cm;" align="center" valign="middle">
+    <table border="0" cellspacing="0" cellpadding="0" style="width:7.5cm;" align="center">
+  <tr>
+    <td style="width:2.3cm;">&nbsp;</td>
+    <td style="height:1.5cm;">{$order.address}</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td style="height:0.9cm;"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td style="height:0.9cm;">{$order.consignee}</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td style="height:0.9cm;">{$order.tel}</td>
+  </tr>
+</table>
+    </td>
+    <td rowspan="2" style="width:3cm;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" style="height:3.5cm;">&nbsp;</td>
+  </tr>
+</table>',
 );
 
 // end
