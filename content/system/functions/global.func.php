@@ -274,23 +274,7 @@ function trim_right($str)
 }
 
 
-/**
- * 对 MYSQL LIKE 的内容进行转义
- *
- * @access public
- * @param
- *            string string 内容
- * @return string
- */
-function mysql_like_quote($str)
-{
-    return strtr($str, array(
-        "\\\\" => "\\\\\\\\",
-        '_' => '\_',
-        '%' => '\%',
-        "\'" => "\\\\\'"
-    ));
-}
+
 
 /**
  * 生成文件MD5值缓存
@@ -400,53 +384,7 @@ function deleteHTML($str)
 }
 
 
-/**
- * 格式化商品价格
- *
- * @access public
- * @param float $price
- *        	商品价格
- * @return string
- */
-function price_format($price, $change_price = true)
-{
-    if ($price === '') {
-        $price = 0;
-    }
-    
-    $price = floatval($price);
-    
-    if ($change_price && defined('IN_ADMIN') === false) {
-        switch (ecjia::config('price_format')) {
-        	case 0:
-        	    $price = number_format($price, 2, '.', '');
-        	    break;
-        	case 1: // 保留不为 0 的尾数
-        	    $price = preg_replace('/(.*)(\\.)([0-9]*?)0+$/', '\1\2\3', number_format($price, 2, '.', ''));
 
-        	    if (substr($price, - 1) == '.') {
-        	        $price = substr($price, 0, - 1);
-        	    }
-        	    break;
-        	case 2: // 不四舍五入，保留1位
-        	    $price = substr(number_format($price, 2, '.', ''), 0, - 1);
-        	    break;
-        	case 3: // 直接取整
-        	    $price = intval($price);
-        	    break;
-        	case 4: // 四舍五入，保留 1 位
-        	    $price = number_format($price, 1, '.', '');
-        	    break;
-        	case 5: // 先四舍五入，不保留小数
-        	    $price = round($price);
-        	    break;
-        }
-    } else {
-        $price = number_format($price, 2, '.', '');
-    }
-
-    return sprintf(ecjia::config('currency_format'), $price);
-}
 
 
 /**
@@ -723,7 +661,111 @@ function build_uri($app, $params, $append = '', $page = 0, $keywords = '', $size
     return $uri;
 }
 
+if ( ! function_exists('ecjia_time_format'))
+{
+    function ecjia_time_format($time) {
+        return RC_Time::local_date(ecjia::config('time_format'), $time);
+    }
+}
 
+if ( ! function_exists('ecjia_price_format'))
+{
+    /**
+     * 格式化商品价格
+     *
+     * @param float $price 商品价格
+     * @param boolean $change_price 是否修改价格
+     * @return string
+     */
+    function ecjia_price_format($price, $change_price = true)
+    {
+        if ($price === '') {
+            $price = 0;
+        }
+    
+        $price = floatval($price);
+    
+        if ($change_price && defined('IN_ADMIN') === false) {
+            switch (ecjia::config('price_format')) {
+            	case 0:
+            	    $price = number_format($price, 2, '.', '');
+            	    break;
+            	case 1: // 保留不为 0 的尾数
+            	    $price = preg_replace('/(.*)(\\.)([0-9]*?)0+$/', '\1\2\3', number_format($price, 2, '.', ''));
+    
+            	    if (substr($price, - 1) == '.') {
+            	        $price = substr($price, 0, - 1);
+            	    }
+            	    break;
+            	case 2: // 不四舍五入，保留1位
+            	    $price = substr(number_format($price, 2, '.', ''), 0, - 1);
+            	    break;
+            	case 3: // 直接取整
+            	    $price = intval($price);
+            	    break;
+            	case 4: // 四舍五入，保留 1 位
+            	    $price = number_format($price, 1, '.', '');
+            	    break;
+            	case 5: // 先四舍五入，不保留小数
+            	    $price = round($price);
+            	    break;
+            }
+        } else {
+            $price = number_format($price, 2, '.', '');
+        }
+    
+        return sprintf(ecjia::config('currency_format'), $price);
+    }
+}
+
+
+if ( ! function_exists('price_format'))
+{
+    /**
+     * ecjia_price_format 方法的别名
+     */
+    function price_format($price, $change_price = true) 
+    {
+        return ecjia_price_format($price, $change_price);
+    }
+}
+
+if ( ! function_exists('ecjia_upload_url'))
+{
+    function ecjia_upload_url($url) {
+        return !empty($url) ? RC_Upload::upload_url($url) : '';
+    }
+}
+
+if ( ! function_exists('ecjia_mysql_like_quote'))
+{
+    /**
+     * 对 MYSQL LIKE 的内容进行转义
+     *
+     * @param string string 内容
+     * @return string
+     */
+    function ecjia_mysql_like_quote($str)
+    {
+        return strtr($str, array(
+            '\\' => '\\\\',
+            '_' => '\_',
+            '%' => '\%',
+            "\\'" => "\\\\\'"
+        ));
+    }
+}
+
+if ( ! function_exists('mysql_like_quote'))
+{
+    /**
+     * ecjia_mysql_like_quote 方法别名
+     */
+    function mysql_like_quote($str)
+    {
+        return ecjia_mysql_like_quote($str);
+    }
+}
 
 
 

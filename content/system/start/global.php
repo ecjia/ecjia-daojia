@@ -139,9 +139,11 @@ Royalcms::missing(function($exception)
     return RC_Response::make('404 Not Found', 404);
 });
 
-RC_Event::listen('royalcms.query', function($query) {
+RC_Event::listen('royalcms.query', function($query, $bindings, $time) {
     if (royalcms('config')->get('system.debug')) {
-        RC_Logger::getLogger(RC_Logger::LOG_SQL)->info($query);
+        $query = str_replace('?', '"'.'%s'.'"', $query);
+        $sql = vsprintf($query, $bindings);
+        RC_Logger::getLogger(RC_Logger::LOG_SQL)->info($sql);
     }
 });
 
