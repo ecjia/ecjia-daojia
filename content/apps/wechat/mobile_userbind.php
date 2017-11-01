@@ -143,7 +143,7 @@ class mobile_userbind extends ecjia_front {
     public function bind_login_insert() {
     	$openid 	= trim($_POST['openid']);
     	$uuid   	= trim($_POST['uuid']);
-    	$user_name  = trim($_POST['username']);
+    	$mobile  	= trim($_POST['mobile']);
     	$password   = trim($_POST['password']);
     	
     	$account   = platform_account::make($uuid);
@@ -152,8 +152,8 @@ class mobile_userbind extends ecjia_front {
     	$unionid     = $wechat_user->getUnionid();
     	$user_profile = $wechat_user->getWechatUser();
     	
-    	if (empty($user_name)) {
-    		return ecjia_front::$controller->showmessage('用户名不能为空！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	if (empty($mobile)) {
+    		return ecjia_front::$controller->showmessage('手机号不能为空！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	if (empty($password)) {
@@ -161,14 +161,14 @@ class mobile_userbind extends ecjia_front {
     	}
     	
     	//判断已绑定用户
-    	$row = RC_DB::table('users')->where('user_name', $user_name)->first();
+    	$row = RC_DB::table('users')->where('mobile_phone', $mobile)->first();
     	if ($row) {
     		if (!empty($row['ec_salt'])) {
-    			if (!($row['user_name'] == $user_name && $row['password'] == md5(md5($password) . $row['ec_salt']))) {
+    			if (!($row['mobile_phone'] == $mobile && $row['password'] == md5(md5($password) . $row['ec_salt']))) {
     				return ecjia_front::$controller->showmessage('您输入账号信息不正确，绑定失败！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     			}
     		} else {
-    			if (!($row['user_name'] == $user_name && $row['password'] == md5($password))) {
+    			if (!($row['mobile_phone'] == $mobile && $row['password'] == md5($password))) {
     				return ecjia_front::$controller->showmessage('您输入账号信息不正确，绑定失败！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     			}
     		}

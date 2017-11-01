@@ -22,7 +22,7 @@
 					<div class="wechat-user-img-left">
 						<img src="{$front_url}/images/wechat_name.png" />
 					</div>
-					<input placeholder="请输入用户名" name="username" />
+					<input placeholder="请输入手机号" name="mobile" />
 				</label>
 			</div>
 			

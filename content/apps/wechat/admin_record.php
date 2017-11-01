@@ -254,7 +254,24 @@ class admin_record extends ecjia_admin {
 		$total = $customer_session_viewdb->join(array('wechat_user', 'wechat_customer'))->field('max(cs.id) as id')->where($where)->group('cs.openid')->select();
 		$count = count($total);
 		$page = new ecjia_page($count, 10, 5);
-		$list = $customer_session_viewdb->join(array('wechat_user', 'wechat_customer'))->field('max(cs.id) as id, wu.*')->where($where)->group('cs.openid')->limit($page->limit())->order(array('cs.time' => 'desc'))->select();
+		// $list = $customer_session_viewdb->join(array('wechat_user', 'wechat_customer'))->field('max(cs.id) as id, wu.*')->where($where)->group('cs.openid')->limit($page->limit())->order(array('cs.time' => 'desc'))->select();
+
+		$list = RC_DB::table('wechat_customer_session as cs')
+			->leftJoin('wechat_user as wu', function($join_w) {
+				$join_w->on(RC_DB::raw('wu.openid'), '=', RC_DB::raw('cs.openid'))
+				->on(RC_DB::raw('wu.wechat_id'), '=', RC_DB::raw('cs.wechat_id'));
+			})
+			->leftJoin('wechat_customer as c', function($join_c) {
+				$join_c->on(RC_DB::raw('c.kf_account'), '=', RC_DB::raw('cs.kf_account'))
+				->on(RC_DB::raw('c.wechat_id'), '=', RC_DB::raw('cs.wechat_id'));
+			})
+			->selectRaw('max(cs.id) as id, wu.*')
+			->whereRaw($where)
+			->groupBy(RC_DB::raw('cs.openid'))
+			->orderBy(RC_DB::raw('cs.time'), 'desc')
+			->take(10)
+			->skip($page->start_id-1)
+			->get();
 		
 		$row = array();
 		if (!empty($list)) {

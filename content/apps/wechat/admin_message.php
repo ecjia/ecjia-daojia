@@ -172,7 +172,16 @@ class admin_message extends ecjia_admin {
 		
 		$count = count($custom_message_viewdb->join('wechat_user')->field('max(m.id) as id')->where($where)->group('m.uid')->select());
 		$page  = new ecjia_page($count, 10, 5);
-		$list  = $custom_message_viewdb->join('wechat_user')->field('max(m.id) as id, wu.uid, wu.nickname, wu.headimgurl')->where($where)->group('m.uid')->limit($page->limit())->select();
+		// $list  = $custom_message_viewdb->join('wechat_user')->field('max(m.id) as id, wu.uid, wu.nickname, wu.headimgurl')->where($where)->group('m.uid')->limit($page->limit())->select();
+
+		$list = RC_DB::table('wechat_custom_message as m')
+			->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
+			->selectRaw('max(m.id) as id, wu.uid, wu.nickname, wu.headimgurl')
+			->whereRaw($where)
+			->groupBy(RC_DB::raw('m.uid'))
+			->take(10)
+			->skip($page->start_id-1)
+			->get();
 		
 		$row = array();
 		if (!empty($list)) {

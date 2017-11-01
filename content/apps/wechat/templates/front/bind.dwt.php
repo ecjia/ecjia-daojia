@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="{$front_url}/css/style.css" />
 	</head>
 
-	<body >
+	<body>
 		<div class="ecjia-login">
 		    <div class="user-img"><img src="{$data.wechat_image}"></div>
 		    <div class="ecjia-margin-l">

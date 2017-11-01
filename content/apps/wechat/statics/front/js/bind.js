@@ -6,12 +6,12 @@
 			$('.ecjia-bind-login').on('click', function(e) {
 				e.preventDefault();
 				var url = $(this).attr('href');
-				var username = $('input[name="username"]').val();
+				var mobile = $('input[name="mobile"]').val();
 				var password = $('input[name="password"]').val();
 				var openid = $('input[name="openid"]').val();
 				var uuid = $('input[name="uuid"]').val();
 				var info = {
-					'username': username,
+					'mobile': mobile,
 					'password': password,
 					'openid': openid,
 					'uuid': uuid,
