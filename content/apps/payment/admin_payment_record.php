@@ -130,6 +130,8 @@ class admin_payment_record extends ecjia_admin {
 			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.withdraw');
 		}elseif ($db_payment_record['trade_type'] == 'surplus') {
 			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.surplus');
+		}elseif ($db_payment_record['trade_type'] == 'quickpay') {
+			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.quickpay');
 		}
 		
 		if ($db_payment_record['pay_status'] == 0) {
@@ -163,6 +165,23 @@ class admin_payment_record extends ecjia_admin {
 			}
 			
 			$this->assign('user_account', $user_account);
+		}
+		
+		/*优惠买单订单*/
+		if ($db_payment_record['trade_type'] == 'quickpay') {
+			$quickpay_order = RC_DB::table('quickpay_orders')->where('order_sn', $order_sn)->first();
+			$quickpay_order['formated_goods_amount'] = price_format($quickpay_order['goods_amount']);
+			/*买单实付金额*/
+			if ($quickpay_order['pay_code'] == 'pay_balance') {
+				$quickpay_order['formated_order_amount'] = price_format($quickpay_order['order_amount'] + $quickpay_order['surplus']);
+			} else{
+				$quickpay_order['formated_order_amount'] = price_format($quickpay_order['order_amount']);
+			}
+			/*买单总优惠*/
+			$quickpay_order['formated_total_discount'] = price_format($quickpay_order['discount'] + $quickpay_order['integral_money'] + $quickpay_order['bonus']);
+			$quickpay_order['formated_order_status'] = RC_Lang::get('quickpay::order.os.'.$quickpay_order['order_status']) . ',' . RC_Lang::get('quickpay::order.ps.'.$quickpay_order['pay_status']) . ',' . RC_Lang::get('quickpay::order.vs.'.$quickpay_order['verification_status']);
+			
+			$this->assign('quickpay_order', $quickpay_order);
 		}
 		
 		if ($db_payment_record['trade_type'] == 'surplus') {

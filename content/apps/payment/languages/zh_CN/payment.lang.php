@@ -117,6 +117,7 @@ return array(
 	'deposit'		=>	'充值',
 	'withdraw'		=>	'提现',
 	'surplus'		=>	'会员充值',
+	'quickpay'		=>  '优惠买单',
 
 	'ctenpay' 		=> '立即注册财付通商户号',
 	'ctenpay_url' 	=> 'http://union.tenpay.com/mch/mch_register_b2c.shtml?sp_suggestuser=542554970',

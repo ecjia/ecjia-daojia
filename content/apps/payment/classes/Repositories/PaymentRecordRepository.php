@@ -203,11 +203,9 @@ class PaymentRecordRepository extends AbstractRepository
             'pay_status' => 1,
             'pay_time' => RC_Time::gmtime(),
         );
-        
         if (! is_null($tradeNo)) {
             $attributes['trade_no'] = $tradeNo;
         }
-        
         /* 修改此次支付操作的状态为已付款 */
         return $this->getModel()->where('order_trade_no', $orderTradeNo)
                                 ->where('pay_status', 0)

@@ -32,7 +32,15 @@
                         <tbody class="first-td-no-leftbd">
                         <tr>
                             <td><div align="right"><strong>{lang key='payment::payment.order_sn'}</strong></div></td>
-                            <td>{if $modules.trade_type eq 'buy'}<a target="__blank" href='{url path="/orders/admin/info" args="order_id={$order.order_id}"}'>{$modules.order_sn}</a>{else}<a target="_blank" href='{url path="/finance/admin_account/info" args="order_sn={$user_account.order_sn}&id={$user_account.id}{if $type}&type={$type}{/if}"}'>{$modules.order_sn}</a>{/if}</td>
+                            <td>
+	                            {if $modules.trade_type eq 'buy'}
+	                            	<a target="__blank" href='{url path="orders/admin/info" args="order_id={$order.order_id}"}'>{$modules.order_sn}</a>
+	                            {elseif $modules.trade_type eq 'quickpay'}
+	                            	<a target="_blank" href='{url path="quickpay/admin_order/order_info" args="order_id={$quickpay_order.order_id}"}'>{$modules.order_sn}</a>
+	                            {else}
+	                            	<a target="_blank" href='{url path="finance/admin_account/info" args="order_sn={$user_account.order_sn}&id={$user_account.id}{if $type}&type={$type}{/if}"}'>{$modules.order_sn}</a>
+	                            {/if}
+                            </td>
                             <td><div align="right"><strong>{lang key='payment::payment.pay_status'}</strong></div></td>
                             <td>{$modules.label_pay_status}</td>
                         </tr>
@@ -77,12 +85,27 @@
 				    <table class="table table-oddtd m_b0">
 				        <tbody class="first-td-no-leftbd">
 				        <!-- {if !$check_modules and $modules.trade_type neq 'refund'} -->
-				        	 <tr>
-					            <td><div align="right"><strong>{lang key='orders::order.label_order_amount'}</strong></div></td>
-					            <td>{$user_account.formated_order_amount}</td>
-					            <td><div align="right"><strong>{lang key='orders::order.label_order_status'}</strong></div></td>
-					            <td>{$user_account.formated_order_status}</td>
-					        </tr>
+					        <!-- {if $modules.trade_type neq 'quickpay'} -->
+						        <tr>
+						            <td><div align="right"><strong>{lang key='orders::order.label_order_amount'}</strong></div></td>
+						            <td>{$user_account.formated_order_amount}</td>
+						            <td><div align="right"><strong>{lang key='orders::order.label_order_status'}</strong></div></td>
+						            <td>{$user_account.formated_order_status}</td>
+						        </tr>
+					        <!-- {else} -->
+					        	<tr>
+						            <td><div align="right"><strong>买单消费总金额：</strong></div></td>
+						            <td>{$quickpay_order.formated_goods_amount}</td>
+						            <td><div align="right"><strong>买单优惠总金额：</strong></div></td>
+						            <td>{$quickpay_order.formated_total_discount}</td>
+						        </tr>
+						        <tr>
+						            <td><div align="right"><strong>买单实付金额：</strong></div></td>
+						            <td>{$quickpay_order.formated_order_amount}</td>
+						            <td><div align="right"><strong>{lang key='orders::order.label_order_status'}</strong></div></td>
+						            <td>{$quickpay_order.formated_order_status}</td>
+						        </tr>
+					        <!-- {/if} -->
 				        <!-- {/if} -->
 				        <!-- {if $check_modules} -->
 					        <tr>

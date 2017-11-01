@@ -52,7 +52,6 @@ use ecjia_error;
 use RC_Lang;
 use RC_Api;
 use RC_Hook;
-use GuzzleHttp\json_encode;
 
 /**
  * 短信插件抽象类
@@ -234,7 +233,7 @@ abstract class PaymentAbstract extends AbstractPlugin
         if (!$item) {
             return new ecjia_error('parse_order_trade_no_error', __('解析订单号时失败'));
         }
- 
+        
         if ($this->orderType == PayConstant::PAY_ORDER) {
             $result = RC_Api::api('orders', 'buy_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
         } elseif ($this->orderType == PayConstant::PAY_SURPLUS) {
