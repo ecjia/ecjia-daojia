@@ -122,9 +122,7 @@ class admin_position extends ecjia_admin {
 		$position = new Ecjia\App\Adsense\PositionManage('adsense', $city_id);
 		$data = $position->getAllPositions($orderBy);
 		$this->assign('data', $data);
-
 		$this->assign('search_action', RC_Uri::url('adsense/admin_position/init'));
-		
 		
 		$this->display('adsense_position_list.dwt');
 	}
