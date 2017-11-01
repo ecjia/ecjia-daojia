@@ -68,10 +68,23 @@ class orders_merchant_plugin {
 		$month_order = $db->where(array('oi.store_id' => $_SESSION['store_id'], 'oi.add_time' => array('gt' => RC_Time::gmtime() - 2592000)))->count('distinct oi.order_id');
         $now = RC_Time::gmtime();
         
-		$order_money = $db_order_viewmodel->field('pl.order_amount')->where(array('oi.store_id' => $_SESSION['store_id'], 'oi.add_time' =>array('gt' => $now-3600*24*30, 'lt' => $now), 'pl.is_paid' => 1))->group(array('oi.order_id'))->select();
-		foreach($order_money as $val){
-		    $num+=intval($val['order_amount']);
+		$order_money = RC_DB::table('order_info as oi')
+			->selectRaw('oi.order_id, oi.goods_amount')
+			->where(RC_DB::raw('oi.store_id'), $_SESSION['store_id'])
+			->where(RC_DB::raw('oi.add_time'), '>', $now-3600*24*30)
+			->where(RC_DB::raw('oi.add_time'), '<', $now)
+			->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
+			->groupBy(RC_DB::raw('oi.order_id'))
+			->groupBy(RC_DB::raw('oi.goods_amount'))
+			->get();
+		$num = 0;
+		if (!empty($order_money)) {
+			foreach($order_money as $val){
+				$num += $val['goods_amount'];
+			}
+			$num = floor($num * 100) / 100;
 		}
+
         $order_unconfirmed = $db->field('oi.order_id')->where(array('oi.order_status' => 0, 'oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $now-3600*60*24, 'lt' => $now)))->group('oi.order_id')->select();
         $order_unconfirmed = count($order_unconfirmed);
         

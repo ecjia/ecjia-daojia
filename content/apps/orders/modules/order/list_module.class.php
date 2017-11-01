@@ -72,14 +72,18 @@ class list_module extends api_front implements api_interface {
 		$type = $type == 'whole' ? '' : $type;
 		$options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords'=> $keywords);
 		$result = RC_Api::api('orders', 'order_list', $options);
+		
 		if (is_ecjia_error($result)) {
 			return $result;
 		}
 		
+		$page_row = new ecjia_page($result['count'], $size, 6, '', $page);
+		
+		
 		$pager = array(
-			'total' => $result['page']->total_records,
-			'count' => $result['page']->total_records,
-			'more'	=> $result['page']->total_pages <= $page ? 0 : 1,
+			'total' => $page_row->total_records,
+			'count' => $page_row->total_records,
+			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
 		);
 		return array('data' => $result['order_list'], 'pager' => $pager);
 	 }	

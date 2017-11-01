@@ -253,7 +253,17 @@ class mh_order_stats extends ecjia_merchant {
             $end_date = !empty($_GET['end_date']) ? RC_Time::local_strtotime($_GET['end_date']) + 86399 : RC_Time::local_strtotime(RC_Time::local_date('Y-m-d')) + 86399;
             $where = "i.store_id= " . $_SESSION['store_id'] . " AND i.add_time >= '{$start_date}' AND i.add_time <= '{$end_date}'" . order_query_sql('finished') . ' ';
             $where .= " AND i.is_delete = 0";
-            $ship_info = $this->db_shipping_view->field('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
+           
+            // $ship_info = $this->db_shipping_view->field('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
+
+            $ship_info = RC_DB::table('shipping as sp')
+                ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
+                ->whereRaw($where)
+                ->selectRaw('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')
+                ->groupBy(RC_DB::raw('i.shipping_id'))
+                ->orderBy('order_num', 'desc')
+                ->get();
+
             if ($ship_info) {
                 foreach ($ship_info as $k => $v) {
                     $new_ship_info[$v['ship_name']] = (int) $v['order_num'];
@@ -289,7 +299,13 @@ class mh_order_stats extends ecjia_merchant {
             //查询所有配送方式
             foreach ($start_date_arr as $key => $val) {
                 $where = "i.add_time >= '{$start_date_arr[$key]}' AND i.add_time <= '{$end_date_arr[$key]}'" . order_query_sql('finished') . ' AND i.store_id = ' . $_SESSION['store_id'];
-                $ship_name[] = $this->db_shipping_view->field('DISTINCT sp.shipping_name AS ship_name')->where($where)->group('i.shipping_id')->select();
+                // $ship_name[] = $this->db_shipping_view->field('DISTINCT sp.shipping_name AS ship_name')->where($where)->group('i.shipping_id')->select();
+                $ship_name[] = RC_DB::table('shipping as sp')
+                    ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
+                    ->whereRaw($where)
+                    ->selectRaw('DISTINCT sp.shipping_name AS ship_name')
+                    ->groupBy(RC_DB::raw('i.shipping_id'))
+                    ->get();
             }
             function array_get_by_key(array $array, $string) {
                 if (!trim($string)) {
@@ -307,7 +323,16 @@ class mh_order_stats extends ecjia_merchant {
             $ship_info = array();
             foreach ($start_date_arr as $key => $val) {
                 $where = "i.add_time >= '{$start_date_arr[$key]}' AND i.add_time <= '{$end_date_arr[$key]}'" . order_query_sql('finished') . ' AND i.store_id = ' . $_SESSION['store_id'];
-                $tmp = $this->db_shipping_view->field('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
+                // $tmp = $this->db_shipping_view->field('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
+
+                $tmp = RC_DB::table('shipping as sp')
+                    ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
+                    ->whereRaw($where)
+                    ->selectRaw('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')
+                    ->groupBy(RC_DB::raw('i.shipping_id'))
+                    ->orderBy('order_num', 'desc')
+                    ->get();
+
                 $tmp[$key]['shipping_time'] = RC_Time::local_date('Y-m', $val);
                 $ship_info[RC_Time::local_date('Y-m', $start_date_arr[$key])] = $tmp;
             }
@@ -368,7 +393,17 @@ class mh_order_stats extends ecjia_merchant {
         $data .= $order_info[confirmed_num] . "\t" . $order_info[succeed_num] . "\t" . $order_info[unconfirmed_num] . "\t" . $order_info[invalid_num] . "\n";
         /* 配送方式 */
         $where = 'i.add_time >= ' . $start_date . ' AND i.add_time <= ' . $end_date . '' . order_query_sql('finished') . ' AND i.store_id = ' . $_SESSION['store_id'];
-        $ship_res = $this->db_shipping_view->field('sp.shipping_id, sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
+        // $ship_res = $this->db_shipping_view->field('sp.shipping_id, sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
+        
+        $ship_res = RC_DB::table('shipping as sp')
+            ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
+            ->where($where)
+            ->selectRaw('sp.shipping_id, sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')
+            ->groupBy(RC_DB::raw('i.shipping_id'))
+            ->orderBy('order_num', 'desc')
+            ->get();
+
+
         $data .= "\n" . RC_Lang::get('orders::statistic.shipping_method') . "\n";
         foreach ($ship_res as $val) {
             $data .= $val['ship_name'] . "\t";

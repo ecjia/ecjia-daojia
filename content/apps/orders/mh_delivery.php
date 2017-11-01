@@ -253,7 +253,7 @@ class mh_delivery extends ecjia_merchant {
 		/* 检查权限 */
 		$this->admin_priv('delivery_view', ecjia::MSGTYPE_JSON);
 		
-		$db_delivery = RC_Loader::load_app_model('delivery_viewmodel','orders');
+		// $db_delivery = RC_Loader::load_app_model('delivery_viewmodel','orders');
 		/* 定义当前时间 */
 		define('GMTIME_UTC', RC_Time::gmtime()); // 获取 UTC 时间戳
 		/* 取得参数 */
@@ -293,8 +293,16 @@ class mh_delivery extends ecjia_merchant {
 		$order = order_info($order_id);
 		
 		/* 检查此单发货商品库存缺货情况 */
-		$virtual_goods			= array();
-		$delivery_stock_result	= $db_delivery->join(array('goods','products'))->where(array('dg.delivery_id' => $delivery_id))->group('dg.product_id')->select();
+		$virtual_goods = array();
+		// $delivery_stock_result = $db_delivery->join(array('goods','products'))->where(array('dg.delivery_id' => $delivery_id))->group('dg.product_id')->select();
+
+		$delivery_stock_result = RC_DB::table('delivery_goods as dg')
+			->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
+			->leftJoin('products as p', RC_DB::raw('dg.product_id'), '=', RC_DB::raw('p.product_id'))
+			->selectRaw('dg.goods_id, dg.is_real, dg.product_id, SUM(dg.send_number) AS sums, IF(dg.product_id > 0, p.product_number, g.goods_number) AS storage, g.goods_name, dg.send_number')
+			->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
+			->groupBy(RC_DB::raw('dg.product_id'))
+			->get();
 
 		/* 如果商品存在规格就查询规格，如果不存在规格按商品库存查询 */
 		if(!empty($delivery_stock_result)) {
@@ -318,17 +326,23 @@ class mh_delivery extends ecjia_merchant {
 				}
 			}
 		} else {
-			$db_delivery->view = array(
-				'goods' => array(
-					'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
-					'alias'		=> 'g',
-					'field'		=> 'dg.goods_id, dg.is_real, SUM(dg.send_number) AS sums, g.goods_number, g.goods_name, dg.send_number',
-					'on'		=> 'dg.goods_id = g.goods_id ',
-				)
-			);
+			// $db_delivery->view = array(
+			// 	'goods' => array(
+			// 		'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
+			// 		'alias'		=> 'g',
+			// 		'field'		=> 'dg.goods_id, dg.is_real, SUM(dg.send_number) AS sums, g.goods_number, g.goods_name, dg.send_number',
+			// 		'on'		=> 'dg.goods_id = g.goods_id ',
+			// 	)
+			// );
 
-			$delivery_stock_result = $db_delivery->where(array('dg.delivery_id' => $delivery_id))->group('dg.goods_id')->select();
-
+			// $delivery_stock_result = $db_delivery->where(array('dg.delivery_id' => $delivery_id))->group('dg.goods_id')->select();
+			$delivery_stock_result = RC_DB::table('delivery_goods as dg')
+				->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
+				->selectRaw('dg.goods_id, dg.is_real, SUM(dg.send_number) AS sums, g.goods_number, g.goods_name, dg.send_number')
+				->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
+				->groupBy(RC_DB::raw('dg.goods_id'))
+				->get();
+			
 			foreach ($delivery_stock_result as $value) {
 				if (($value['sums'] > $value['goods_number'] || $value['goods_number'] <= 0) &&
 					((ecjia::config('use_storage') == '1'  && ecjia::config('stock_dec_time') == SDT_SHIP) ||
@@ -779,7 +793,13 @@ class mh_delivery extends ecjia_merchant {
 		if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
 			// 检查此单发货商品数量
 			$virtual_goods = array();
-			$delivery_stock_result = $this->db_delivery->field('goods_id, product_id, is_real, SUM(send_number)|sums')->where(array('delivery_id' => $delivery_id))->group('goods_id')->select();
+			// $delivery_stock_result = $this->db_delivery->field('goods_id, product_id, is_real, SUM(send_number)|sums')->where(array('delivery_id' => $delivery_id))->group('goods_id')->select();
+
+			$delivery_stock_result = RC_DB::table('delivery_goods')
+				->selectRaw('goods_id, product_id, is_real, SUM(send_number) as sums')
+				->where('delivery_id', $delivery_id)
+				->groupBy('goods_id')
+				->get();
 
 			foreach ($delivery_stock_result as $key => $value) {
 				/* 虚拟商品 */

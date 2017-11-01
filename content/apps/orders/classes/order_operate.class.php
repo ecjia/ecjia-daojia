@@ -132,7 +132,7 @@ class order_operate {
 		/* 记录日志 */
 		ecjia_admin::admin_log('配货中，订单号是 '.$order['order_sn'], 'edit', 'order_status');
 		/* 记录log */
-		$this->order_action($order['order_sn'], OS_CONFIRMED, SS_PREPARING, $order['pay_status'], $note);
+		$this->order_action($order['order_sn'], OS_CONFIRMED, SS_PREPARING, $order['pay_status'], $note['action_note']);
 		
 		return true;
 	}

@@ -159,10 +159,25 @@ class mh_sale_order extends ecjia_merchant {
 	    $count = $this->db_order_goods_view->where($where)->count('distinct(og.goods_id)');
 		$page = new ecjia_merchant_page($count, 20, 5);
 		
+		// if ($is_pagination) {
+		// 	$limit = $page->limit();
+		// }
+	    // $sales_order_data = $this->db_order_goods_view->field('og.goods_id, og.goods_sn, og.goods_name, oi.order_status,SUM(og.goods_number) AS goods_num, SUM(og.goods_number * og.goods_price) AS turnover')->where($where)->group('og.goods_id')->order(array($filter['sort_by']=>$filter['sort_order']))->limit($limit)->select();
+
+		$db_goods_view = RC_DB::table('goods as g')
+			->leftJoin('order_goods as og', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
+			->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('og.order_id'))
+			->selectRaw('og.goods_id, og.goods_sn, og.goods_name, oi.order_status, SUM(og.goods_number) AS goods_num, SUM(og.goods_number * og.goods_price) AS turnover')
+			->whereRaw($where)
+			->groupBy(RC_DB::raw('og.goods_id'))
+			->orderBy($filter['sort_by'], $filter['sort_order'])
+			->orderBy('turnover', 'desc');
+
 		if ($is_pagination) {
-			$limit = $page->limit();
+			$db_goods_view->take(20)->skip($page->start_id-1);
 		}
-	    $sales_order_data = $this->db_order_goods_view->field('og.goods_id, og.goods_sn, og.goods_name, oi.order_status,SUM(og.goods_number) AS goods_num, SUM(og.goods_number * og.goods_price) AS turnover')->where($where)->group('og.goods_id')->order(array($filter['sort_by']=>$filter['sort_order']))->limit($limit)->select();
+		$sales_order_data = $db_goods_view->get();
+
 	    foreach ($sales_order_data as $key => $item)
 	    {
 	        $sales_order_data[$key]['wvera_price'] = price_format($item['goods_num'] ? $item['turnover'] / $item['goods_num'] : 0);

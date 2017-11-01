@@ -207,7 +207,7 @@ class mh_validate_order extends ecjia_merchant {
 		RC_Loader::load_app_func('function', 'orders');
 		
 		
-		$db_delivery = RC_Loader::load_app_model('delivery_viewmodel','orders');
+		// $db_delivery = RC_Loader::load_app_model('delivery_viewmodel','orders');
 		$db_delivery_order		= RC_Loader::load_app_model('delivery_order_model','orders');
 		$db_goods				= RC_Loader::load_app_model('goods_model','goods');
 		//$db_products			= RC_Loader::load_app_model('products_model','goods');
@@ -261,16 +261,23 @@ class mh_validate_order extends ecjia_merchant {
 				}
 			}
 		} else {
-			$db_delivery->view = array(
-					'goods' => array(
-							'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
-							'alias'		=> 'g',
-							'field'		=> 'dg.goods_id, dg.is_real, SUM(dg.send_number) AS sums, g.goods_number, g.goods_name, dg.send_number',
-							'on'		=> 'dg.goods_id = g.goods_id ',
-					)
-			);
+			// $db_delivery->view = array(
+			// 	'goods' => array(
+			// 		'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
+			// 		'alias'		=> 'g',
+			// 		'field'		=> 'dg.goods_id, dg.is_real, SUM(dg.send_number) AS sums, g.goods_number, g.goods_name, dg.send_number',
+			// 		'on'		=> 'dg.goods_id = g.goods_id ',
+			// 	)
+			// );
 	
-			$delivery_stock_result = $db_delivery->where(array('dg.delivery_id' => $delivery_id))->group('dg.goods_id')->select();
+			// $delivery_stock_result = $db_delivery->where(array('dg.delivery_id' => $delivery_id))->group('dg.goods_id')->select();
+
+			$delivery_stock_result = RC_DB::table('delivery_goods as dg')
+				->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
+				->selectRaw('dg.goods_id, dg.is_real, SUM(dg.send_number) AS sums, g.goods_number, g.goods_name, dg.send_number')
+				->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
+				->groupBy(RC_DB::raw('dg.goods_id'))
+				->get();
 	
 			foreach ($delivery_stock_result as $value) {
 				if (($value['sums'] > $value['goods_number'] || $value['goods_number'] <= 0) &&

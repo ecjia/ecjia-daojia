@@ -526,6 +526,10 @@ function user_info($user_id, $mobile) {
 		$user = RC_DB::table('users')->where('mobile_phone', $mobile)->first();
 	}
    
+	if (empty($user)) {
+		return new ecjia_error('userinfo_error', '用户信息不存在！');
+	}
+	
     unset($user['question']);
     unset($user['answer']);
     /* 格式化帐户余额 */
@@ -1237,7 +1241,7 @@ function EM_order_goods($order_id, $page = 1, $pagesize = 10) {
         ->groupBy(RC_DB::raw('og.rec_id'))
         ->take($pagesize)->skip(($page-1)*$pagesize)
 		->get();
-
+    $goods_list = array();
     if (!empty($res)) {
         RC_Loader::load_app_func('global', 'goods');
         foreach ($res as $row) {

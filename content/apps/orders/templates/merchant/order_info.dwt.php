@@ -199,7 +199,7 @@ ecjia.merchant.order.info();
 								<td>{if $order.shipping_id gt 0 and $order.shipping_status gt 0}<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>&nbsp;
 								<a href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}' class="special data-pjax">{lang key='system::system.edit'}</a>{/if}</td>
 								<td><div align="right"><strong>{lang key='orders::order.from_order'}</strong></div></td>
-								<td>{$order.referer}</td>
+								<td>{if $order.referer eq 'ecjia-cashdesk'}收银台{else}{$order.referer}{/if}</td>
 							</tr>
 							<!-- {if $order.express_user} -->
 							<tr>

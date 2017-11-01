@@ -101,13 +101,18 @@ class quickpay_module extends api_admin implements api_interface {
 		/* 获取商家或平台的地址 作为收货地址 */
 		$region = RC_Loader::load_app_model('region_model','shipping');
 		if ($_SESSION['store_id'] > 0){
-			RC_Loader::load_app_func('merchant_store','store');
-			$info = get_store_full_info($_SESSION['store_id']);
-			$region_info = array(
-			    'province'			=> $info['province'],
-			    'city'				=> $info['city'],
-			    'address'			=> $info['address'],
-			);
+			//RC_Loader::load_app_func('merchant_store','store');
+			//$info = get_store_full_info($_SESSION['store_id']);
+			$info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
+        	$region_info = array(
+        			'country'			=> ecjia::config('shop_country'),
+        			'province'			=> empty($info['province']) ? 0 : $info['province'],
+        			'city'				=> empty($info['city']) ? 0 : $info['city'],
+        			'district'		    => empty($info['district']) ? $info['district'] : 0,
+	       			'address'			=> empty($info['address']) ? '' : $info['address'],
+        			'longitude'			=> empty($info['longitude']) ? $info['longitude'] : '',
+        			'latitude'			=> empty($info['latitude']) ? '' : $info['latitude'],
+        	);
 			$consignee = array_merge($consignee, $region_info);
 		} else {
 			$region_info = array(
@@ -129,6 +134,7 @@ class quickpay_module extends api_admin implements api_interface {
 				'order_status'  => OS_CONFIRMED,
 				'shipping_status'=> SS_UNSHIPPED,
 				'pay_status' 	=> PS_UNPAYED,
+				'store_id'		=> $_SESSION['store_id'],
 // 				'agency_id' => get_agency_by_regions(array(
 // 						$consignee['country'],
 // 						$consignee['province'],
@@ -211,8 +217,8 @@ class quickpay_module extends api_admin implements api_interface {
 					'staff_id'			=> $_SESSION['staff_id'],
 					'order_id'	 		=> $new_order_id,
 					'order_type' 		=> 'ecjia-cashdesk',
-					'mobile_device_id'	=> $_SESSION['device_id'],
-					'device_sn'			=> $device_info['device_udid'],
+					'mobile_device_id'	=> empty($_SESSION['device_id']) ? 0 : $_SESSION['device_id'],
+					'device_sn'			=> empty($device_info['device_udid']) ? '' : $device_info['device_udid'],
 					'device_type'		=> 'ecjia-cashdesk',
 					'action'   	 		=> 'receipt', //收款
 					'create_at'	 		=> RC_Time::gmtime(),

@@ -105,18 +105,22 @@ class orders_admin_plugin {
 		//当前时间戳
 		$now = RC_Time::gmtime();
 		$order_money = RC_DB::table('order_info as oi')
-			->leftJoin('pay_log as pl', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('pl.order_id'))
-			->selectRaw('pl.order_amount')
+// 			->leftJoin('pay_log as pl', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('pl.order_id'))
+// 			->selectRaw('pl.order_amount')
+// 			->where(RC_DB::raw('pl.is_paid'), 1)
+		
+			->selectRaw('oi.order_id, oi.goods_amount')
 			->where(RC_DB::raw('oi.add_time'), '>=', $start_month)
 			->where(RC_DB::raw('oi.add_time'), '<=', $now)
-			->where(RC_DB::raw('pl.is_paid'), 1)
+			->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
 			->groupBy(RC_DB::raw('oi.order_id'))
+			->groupBy(RC_DB::raw('oi.goods_amount'))
 			->get();
-			
+		
 		$num = 0;
 		if (!empty($order_money)) {
 			foreach($order_money as $val){
-				$num += $val['order_amount'];
+				$num += $val['goods_amount'];
 			}
 			$num = floor($num * 100) / 100;
 		}
