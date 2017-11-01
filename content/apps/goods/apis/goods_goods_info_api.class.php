@@ -74,39 +74,48 @@ class goods_goods_info_api extends Component_Event_Api {
 	 * @return void
 	 */
 	private function get_goods_info($goods_id) {
-		$db_goods = RC_Model::model('goods/goods_viewmodel');
 		RC_Loader::load_app_func('global', 'goods');
 		$time = RC_Time::gmtime();
-		$db_goods->view = array (
-			'category' => array(
-				'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'	=> 'c',
-				'field'	=> "g.*, c.measure_unit, b.brand_id, b.brand_name AS goods_brand, m.type_money AS bonus_money,IFNULL(AVG(r.comment_rank), 0) AS comment_rank,IFNULL(mp.user_price, g.shop_price * '".$_SESSION['discount']."') AS rank_price",
-				'on'	=> 'g.cat_id = c.cat_id' 
-			),
-			'brand' => array(
-				'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'	=> 'b',
-				'on'	=> 'g.brand_id = b.brand_id ' 
-			),
-			'comment' => array(
-				'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
-				'alias' => 'r',
-				'on' 	=> 'r.id_value = g.goods_id AND comment_type = 0 AND r.parent_id = 0 AND r.status = 1' 
-			),
-			'bonus_type' => array(
-				'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
-				'alias' => 'm',
-				'on' 	=> 'g.bonus_type_id = m.type_id AND m.send_start_date <= "' . $time . '" AND m.send_end_date >= "' . $time . '"' 
-			),
-			'member_price' => array(
-				'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'	=> 'mp',
-				'on'  	=> 'mp.goods_id = g.goods_id AND mp.user_rank = "' . $_SESSION['user_rank'] . '"' 
-			) 
-		);
-		$row = $db_goods->group('g.goods_id')->find(array('g.goods_id' => $goods_id, 'g.is_delete' => 0));
-		
+		$db_goods = RC_DB::table('goods')->where('goods_id', $goods_id)->where('is_delete', 0);
+	
+	    //商品信息
+	    $row = $db_goods->first();
+	    
+	    //分类信息
+	    $cat_info = RC_DB::table('category')->where('cat_id', $row['cat_id'])->first();
+	    $row['measure_unit'] = $cat_info['measure_unit'];
+	    
+	    //品牌信息
+	    $brand_info = RC_DB::table('brand')->where('brand_id', $row['brand_id'])->first();
+	    $row['brand_logo'] = $brand_info['brand_logo'];
+	    $row['goods_brand'] = $brand_info['brand_name'];
+	    
+	    //评论信息
+	    $comment_info = RC_DB::table('comment')
+	    	->selectRaw('IFNULL(AVG(comment_rank), 0) AS comment_rank')
+	    	->where('id_value', $goods_id)
+	    	->where('comment_type', 0)
+	    	->where('parent_id', 0)
+	    	->where('status', 1)
+	    	->first();
+	    $row['comment_rank'] = $comment_info['comment_rank'];
+	    
+	    //红包类型信息
+	   	$bonus_info = RC_DB::table('bonus_type')
+	    	->where('type_id', $row['bonus_type_id'])
+	    	->where('send_start_date', '<=', $time)
+	    	->where('send_end_date', '>=', $time)
+	    	->first();
+	   	$row['bonus_money'] = $bonus_info['type_money'];
+		    
+	    //会员价格信息
+	    $member_price_info = RC_DB::table('member_price')
+	    	->selectRaw("IFNULL(user_price, $row[shop_price] * '$_SESSION[discount]') AS rank_price")
+	    	->where('goods_id', $goods_id)
+	    	->where('user_rank', $_SESSION['user_rank'])
+	    	->first();
+	    $row['rank_price'] = $member_price_info['rank_price'];
+
 		if ($row !== false) {
 			/* 用户评论级别取整 */
 			$row['comment_rank'] = ceil( $row['comment_rank'] ) == 0 ? 5 : ceil ( $row['comment_rank'] );

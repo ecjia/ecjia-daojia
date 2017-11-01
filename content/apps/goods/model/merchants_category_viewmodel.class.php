@@ -55,9 +55,9 @@ class merchants_category_viewmodel extends Component_Model_View {
 
 		$this->view = array(
 			'merchants_category' => array(
-					'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-					'alias' => 's',
-					'on'    => 'c.cat_id = s.parent_id ',
+				'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+				'alias' => 's',
+				'on'    => 'c.cat_id = s.parent_id ',
 			),
 		);
 		parent::__construct();

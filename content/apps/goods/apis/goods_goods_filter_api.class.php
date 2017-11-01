@@ -130,7 +130,7 @@ class goods_goods_filter_api extends Component_Event_Api {
 				if (!empty($temp_name)) {
 					$all_attr_list[$key]['filter_attr_name'] = $temp_name;
 
-					$field = 'a.attr_id, MIN(a.goods_attr_id ) AS goods_id, a.attr_value AS attr_value';
+					$field = 'MIN(a.attr_id) as attr_id, MIN(a.goods_attr_id ) AS goods_id, a.attr_value AS attr_value';
 					$attr_list = $db_goods_view->join('goods_attr')->field($field)->where($where)->group('a.attr_value')->select();
 					$temp_arrt_url_arr = array();
 
@@ -185,9 +185,9 @@ class goods_goods_filter_api extends Component_Event_Api {
 		$where['g.brand_id'] = array('gt' => 0);
 		$brands_filter = $dbview->join(array('brand', 'goods_cat'))
 				->where($where)
-				->having('goods_num > 0')
+				// ->having('goods_num > 0')
 				->order(array('b.sort_order' => 'ASC', 'b.brand_id' => 'ASC'))
-				->group('b.brand_id')
+				->group('b.brand_id, b.brand_name, b.brand_logo')
 				->select();
 		if (!empty($brands_filter)) {
 			foreach ($brands_filter AS $key => $val) {

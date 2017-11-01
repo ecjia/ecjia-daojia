@@ -102,28 +102,38 @@ class goods_seller_goods_category_api extends Component_Event_Api {
 	function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_show_all = true, $seller_id, $type='', $keywords) {
 		// 加载方法
 		RC_Loader::load_app_func('global', 'goods');
-		$db_goods = RC_Model::model('goods/goods_model');
-		$db_category = RC_Model::model('goods/merchants_category_viewmodel');
-		$db_goods_cat = RC_Model::model('goods/goods_cat_viewmodel');
-
 		static $res = NULL;
 
 		if ($res === NULL) {
 			$data = false;
 			if ($data === false) {
 				//商户商品分类
-                $where = array('c.store_id' => $seller_id);
+				$db_category = RC_DB::table('merchants_category as c')
+					->leftJoin('merchants_category as s', RC_DB::raw('c.cat_id'), '=', RC_DB::raw('s.parent_id'))
+					->where(RC_DB::raw('c.store_id'), $seller_id);
+
                 if (!empty($type)) {
-					$where['c.is_show'] = 1;
+					$db_category->where(RC_DB::raw('c.is_show'), 1);
 				}
                 $field = 'c.cat_id, c.cat_name, c.cat_image, c.parent_id, c.is_show, c.sort_order, COUNT(s.cat_id) AS has_children';
-                $res = $db_category->join(array('merchants_category'))->field($field)->where($where)->group('c.cat_id')->order(array('c.parent_id' => 'asc', 'c.sort_order' => 'asc'))->select();
+				$res = $db_category
+					->selectRaw($field)
+					->groupBy(RC_DB::raw('c.cat_id'))
+					->orderBy(RC_DB::raw('c.parent_id'), 'asc')
+					->orderBy(RC_DB::raw('c.sort_order'), 'asc')
+					->get();
 
-    			$res2 = RC_DB::table('goods')->selectRaw('cat_id, COUNT(*) as goods_num')->where('is_delete', 0)->where('is_on_sale', 1)->groupBy('cat_id')->get();
+    			$res2 = RC_DB::table('goods')
+    				->selectRaw('cat_id, COUNT(*) as goods_num')
+    				->where('is_delete', 0)
+    				->where('is_on_sale', 1)
+    				->groupBy('cat_id')
+    				->get();
 
     			$res3 = RC_DB::table('goods_cat as gc')
     				->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('gc.goods_id'))
-    				->where(RC_DB::raw('g.is_delete'), 0)->where(RC_DB::raw('g.is_on_sale'), 1)
+    				->where(RC_DB::raw('g.is_delete'), 0)
+    				->where(RC_DB::raw('g.is_on_sale'), 1)
     				->groupBy(RC_DB::raw('gc.cat_id'))
     				->get();
 

@@ -484,18 +484,28 @@ function get_package_goods_list($goods_id) {
     $dbview = RC_Model::model('goods/goods_activity_package_goods_viewmodel');
     $db_view = RC_Model::model('goods/goods_attr_attribute_viewmodel');
     $now = RC_Time::gmtime();
-    $where = array(
-		'ga.start_time' => array('elt' => $now) ,
-		'ga.end_time' => array('egt' => $now) ,
-    	'pg.goods_id' => $goods_id
-    );
-    $res = $dbview
-    	->join('package_goods')
-    	->where($where)
-    	->group('ga.act_id')
-    	->order(array('ga.act_id' => 'asc'))
-    	->select();
+  //   $where = array(
+		// 'ga.start_time' => array('elt' => $now) ,
+		// 'ga.end_time' => array('egt' => $now) ,
+  //   	'pg.goods_id' => $goods_id
+  //   );
+    // $res = $dbview
+    // 	->join('package_goods')
+    // 	->where($where)
+    // 	->group('ga.act_id')
+    // 	->order(array('ga.act_id' => 'asc'))
+    // 	->select();
 
+    $res = array();
+    $data = RC_DB::table('goods_activity')->where('start_time', '<=', $now)->where('end_time', '>=', $now)->groupBy('act_id')->get();
+    if (!empty($data)) {
+        foreach ($data as $k => $v) {
+            if ($v['goods_id'] == $goods_id) {
+                $res[] = $v;
+            }
+        }
+    }
+        
     foreach ($res as $tempkey => $value) {
         $subtotal = 0;
         $row = unserialize($value['ext_info']);

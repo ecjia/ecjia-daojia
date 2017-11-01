@@ -91,7 +91,8 @@ function merchant_cat_list($cat_id = 0, $selected = 0, $re_type = true, $level =
 				->leftJoin('merchants_category as s', RC_DB::raw('c.cat_id'), '=', RC_DB::raw('s.parent_id'))
 				->selectRaw('c.cat_id, c.cat_name, c.parent_id, c.is_show, c.sort_order, COUNT(s.cat_id) AS has_children')
 				->groupBy(RC_DB::raw('c.cat_id'))
-				->orderBy(RC_DB::raw('c.parent_id'), 'asc')->orderBy(RC_DB::raw('c.sort_order'), 'asc')
+				->orderBy(RC_DB::raw('c.parent_id'), 'asc')
+				->orderBy(RC_DB::raw('c.sort_order'), 'asc')
 				->where(RC_DB::raw('c.store_id'), $_SESSION['store_id'])
 				->get();
 				
@@ -104,7 +105,8 @@ function merchant_cat_list($cat_id = 0, $selected = 0, $re_type = true, $level =
 				
 			$res3 = RC_DB::table('goods_cat as gc')
 				->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('gc.goods_id'))
-				->where(RC_DB::raw('g.is_delete'), 0)->where(RC_DB::raw('g.is_on_sale'), 1)
+				->where(RC_DB::raw('g.is_delete'), 0)
+				->where(RC_DB::raw('g.is_on_sale'), 1)
 				->groupBy(RC_DB::raw('gc.cat_id'))
 				->get();
 				

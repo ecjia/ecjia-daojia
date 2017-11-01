@@ -87,16 +87,23 @@ function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_s
 				->leftJoin('category as s', RC_DB::raw('c.cat_id'), '=', RC_DB::raw('s.parent_id'))
 				->selectRaw('c.cat_id, c.cat_name, c.measure_unit, c.parent_id, c.is_show, c.show_in_nav, c.grade, c.sort_order, COUNT(s.cat_id) AS has_children')
 				->groupBy(RC_DB::raw('c.cat_id'))
-				->orderBy(RC_DB::raw('c.parent_id'), 'asc')->orderBy(RC_DB::raw('c.sort_order'), 'asc')
+				->orderBy(RC_DB::raw('c.parent_id'), 'asc')
+				->orderBy(RC_DB::raw('c.sort_order'), 'asc')
 				->get();
 				
-			$res2 = RC_DB::table('goods')->selectRaw('cat_id, COUNT(*) as goods_num')->where('is_delete', 0)->where('is_on_sale', 1)->groupBy('cat_id')->get();
+			$res2 = RC_DB::table('goods')
+				->selectRaw('cat_id, COUNT(*) as goods_num')
+				->where('is_delete', 0)
+				->where('is_on_sale', 1)
+				->groupBy('cat_id')
+				->get();
 				
 			$res3 = RC_DB::table('goods_cat as gc')
-			->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('gc.goods_id'))
-			->where(RC_DB::raw('g.is_delete'), 0)->where(RC_DB::raw('g.is_on_sale'), 1)
-			->groupBy(RC_DB::raw('gc.cat_id'))
-			->get();
+				->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('gc.goods_id'))
+				->where(RC_DB::raw('g.is_delete'), 0)
+				->where(RC_DB::raw('g.is_on_sale'), 1)
+				->groupBy(RC_DB::raw('gc.cat_id'))
+				->get();
 				
 			$newres = array ();
 			if (!empty($res2)) {

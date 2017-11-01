@@ -156,17 +156,35 @@ class goods_category {
     public static function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_show_all = true) {
     	// 加载方法
     	RC_Loader::load_app_func('global', 'goods');
-    	$db_goods = RC_Loader::load_app_model('goods_model', 'goods');
-    	$db_category = RC_Loader::load_app_model('category_viewmodel', 'goods');
-    	$db_goods_catview = RC_Loader::load_app_model('goods_cat_viewmodel', 'goods');
     	static $res = NULL;
     
     	if ($res === NULL) {
     		$data = false;
     		if ($data === false) {
-    			$res = $db_category->join('category')->field('c.cat_id, c.cat_name, c.measure_unit, c.parent_id, c.is_show, c.show_in_nav, c.grade, c.sort_order, COUNT(s.cat_id) AS has_children')->group('c.cat_id')->order(array('c.parent_id' => 'asc', 'c.sort_order' => 'asc'))->select();
-    			$res2 = $db_goods->field ( 'cat_id, COUNT(*)|goods_num' )->where(array('is_delete' => 0,'is_on_sale' => 1))->group ('cat_id asc')->select();
-    			$res3 = $db_goods_catview->join('goods')->field('gc.cat_id, COUNT(*)|goods_num')->where(array('g.is_delete' => 0,'g.is_on_sale' => 1))->group ('gc.cat_id')->select();
+                $res = RC_DB::table('category as c')
+                    ->leftJoin('category as s', RC_DB::raw('c.cat_id'), '=', RC_DB::raw('s.parent_id'))
+                    ->selectRaw('c.cat_id, c.cat_name, c.measure_unit, c.parent_id, c.is_show, c.show_in_nav, c.grade, c.sort_order, COUNT(s.cat_id) AS has_children')
+                    ->groupBy(RC_DB::raw('c.cat_id'))
+                    ->orderBy(RC_DB::raw('c.parent_id'), 'asc')
+                    ->orderBy(RC_DB::raw('c.sort_order'), 'asc')
+                    ->get();
+                    
+                $res2 = RC_DB::table('goods')
+                    ->selectRaw('cat_id, COUNT(*) as goods_num')
+                    ->where('is_delete', 0)
+                    ->where('is_on_sale', 1)
+                    ->groupBy('cat_id')
+                    ->orderBy('cat_id', 'asc')
+                    ->get();
+                    
+                $res3 = RC_DB::table('goods_cat as gc')
+                    ->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('gc.goods_id'))
+                    ->where(RC_DB::raw('g.is_delete'), 0)
+                    ->where(RC_DB::raw('g.is_on_sale'), 1)
+                    ->groupBy(RC_DB::raw('gc.cat_id'))
+                    ->get();
+
+
     			$newres = array ();
     			if (!empty($res2)) {
     				foreach($res2 as $k => $v) {

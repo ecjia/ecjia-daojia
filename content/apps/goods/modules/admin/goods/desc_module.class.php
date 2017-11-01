@@ -63,7 +63,7 @@ class desc_module extends api_admin implements api_interface {
 
 		RC_Loader::load_app_func('admin_goods', 'goods');
         $goods = get_goods_info($goods_id);
-
+        $goods = str_replace('\\"', '"', $goods);
         if ($goods === false) {
             /* 如果没有找到任何记录则跳回到首页 */
            	return new ecjia_error('not_exists_info', '不存在的信息');

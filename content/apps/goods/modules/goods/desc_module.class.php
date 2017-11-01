@@ -62,7 +62,7 @@ class desc_module extends api_front implements api_interface {
 		    return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
 		}
         $goods = get_goods_info($goods_id);
-        
+        $goods = str_replace('\\"', '"', $goods);
         if ($goods === false) {
             /* 如果没有找到任何记录则跳回到首页 */
             return new ecjia_error('does not exist', '不存在的信息');
