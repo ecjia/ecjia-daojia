@@ -75,7 +75,39 @@ class bonus_type_viewmodel extends Component_Model_View {
 		$record_count = $this->join(array('store_franchisee', 'user_bonus'))->where($options['where'])->count('DISTINCT bt.type_id');
 		//实例化分页
 		$page_row = new ecjia_page($record_count, $options['size'], 6, '', $options['page']);
-		$res = $this->join(array('store_franchisee', 'user_bonus'))->where($options['where'])->field('s.merchants_name, bt.*,ub.user_id')->group('bt.type_id')->limit($page_row->limit())->select();
+		
+		// $res = $this->join(array('store_franchisee', 'user_bonus'))
+		// 	->where($options['where'])
+		// 	->field('s.merchants_name, bt.*, ub.user_id')
+		// 	->group('bt.type_id')
+		// 	->limit($page_row->limit())
+		// 	->select();
+
+		$db_bonus_type = RC_DB::table('bonus_type as bt')
+			->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
+			->leftJoin('store_franchisee as s', RC_DB::raw('bt.store_id'), '=', RC_DB::raw('s.store_id'))
+			->selectRaw('s.merchants_name, bt.*, ub.user_id')
+			->groupBy(RC_DB::raw('bt.type_id'))
+			->take($options['size'])
+			->skip($page_row->start_id-1);
+		
+		if (!empty($options['where'])) {
+			foreach ($options['where'] as $k => $v) {
+				if ($k == 'bt.store_id') {
+					foreach ($v as $key => $val) {
+						if ($key === 'gt') {
+							$db_bonus_type->where(RC_DB::raw('bt.store_id'), '>', $val);
+						} else {
+							$db_bonus_type->whereIn(RC_DB::raw('bt.store_id'), $v);
+							break;
+						}
+					}
+				} else {
+					$db_bonus_type->where(RC_DB::raw($k), $v);
+				}
+			}
+		}
+		$res = $db_bonus_type->get();
 		return array('coupon_list' => $res, 'page' => $page_row);
 	}
 }
