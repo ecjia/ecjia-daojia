@@ -316,14 +316,7 @@ class done_module extends api_admin implements api_interface
         $order['order_sn'] = get_order_sn(); // 获取新订单号
         $db_order_info	= RC_Loader::load_app_model('order_info_model','orders');
         
-        RC_Logger::getLogger('error')->info('test11');
-        RC_Logger::getLogger('error')->info($order);
-        RC_Logger::getLogger('error')->info('test11');
-        
         $new_order_id	= $db_order_info->insert($order);
-//         RC_Logger::getlogger('info')->info('order-info');
-//         RC_Logger::getlogger('info')->info(array($new_order_id,$order));
-        
         $order['order_id'] = $new_order_id;
         
         /* 插入订单商品 */

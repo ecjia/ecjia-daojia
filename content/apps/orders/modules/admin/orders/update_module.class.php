@@ -72,10 +72,6 @@ class update_module extends api_admin implements api_interface {
 			RC_Loader::load_app_func('admin_order','orders');
 			$order_info = get_order_detail($order_id);
 			
-			RC_Logger::getLogger('error')->info('test44');
-			RC_Logger::getLogger('error')->info($order_info);
-			RC_Logger::getLogger('error')->info('test44');
-			
 			/*重新处理订单的配送费用*/
 			$payfee_change = $payment_info['pay_fee'] - $order_info['pay_fee'];
 			$order_amount = $order_info['order_amount'] + $payfee_change > 0 ? $order_info['order_amount'] + $payfee_change : 0;

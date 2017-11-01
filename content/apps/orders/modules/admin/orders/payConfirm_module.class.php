@@ -77,10 +77,6 @@ class payConfirm_module extends api_admin implements api_interface
 		/* 查询订单信息 */
 		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
 		
-		RC_Logger::getLogger('error')->info('test33');
-		RC_Logger::getLogger('error')->info($order);
-		RC_Logger::getLogger('error')->info('test33');
-		
 		if (empty($order)) {
 			return new ecjia_error('dose_not_exist', '不存在的信息');
 		}
