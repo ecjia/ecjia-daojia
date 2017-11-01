@@ -390,7 +390,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
 	RC_Loader::load_app_func('admin_goods', 'goods');
 	RC_Loader::load_app_func('global', 'goods');
 	
-	$field = "g.goods_id,  g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.store_id as store_id, g.model_inventory, g.model_attr, ".
+	$field = "g.goods_id, g.market_price, g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.store_id as store_id, g.model_inventory, g.model_attr, ".
 			"g.is_xiangou, g.xiangou_start_date, g.xiangou_end_date, g.xiangou_num, ".
 // 			"wg.w_id, wg.warehouse_price, wg.warehouse_promote_price, wg.region_number as wg_number, wag.region_price, wag.region_promote_price, wag.region_number as wag_number, ".
 // 			"IF(g.model_price < 1, g.shop_price, IF(g.model_price < 2, wg.warehouse_price, wag.region_price)) AS org_price,  ".
@@ -425,8 +425,6 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
    		$where['g.review_status'] = array('gt' => 2);
    	}
     $goods = $dbview->field($field)->join(array(/* 'warehouse_goods', 'warehouse_area_goods', */ 'member_price'))->find($where);
-    
-    
     if (empty($goods)) {
     	return new ecjia_error('no_goods', __('对不起，指定的商品不存在！'));
     }
@@ -513,12 +511,14 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
     	'store_id'		=> $goods['store_id'],
     	'model_attr'  	=> $goods['model_attr'], 	//属性方式
 //         'warehouse_id'  => $warehouse_id,  			//仓库
-        'area_id'  		=> $area_id, 				// 仓库地区
+        //'area_id'  		=> $area_id, 				// 仓库地区
     );
-    
     /*收银台商品购物车类型*/
     if (!empty($device) && $device['code'] == '8001') {
     	$parent['rec_type'] = CART_CASHDESK_GOODS;
+    	$rec_type = CART_CASHDESK_GOODS;
+    } else {
+    	$rec_type = CART_GENERAL_GOODS;
     }
 
     /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
@@ -583,6 +583,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
         $parent['goods_number'] = min($num, $basic_count_list[$parent_id]);
         $parent['parent_id']    = $parent_id;
 
+        
         /* 添加 */
         $db_cart->insert($parent);
         /* 改变数量 */
@@ -593,9 +594,9 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
     if ($num > 0) {
         /* 检查该商品是否已经存在在购物车中 */
     	if ($_SESSION['user_id']) {
-    		$row = $db_cart->field('rec_id, goods_number')->find('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.CART_GENERAL_GOODS.'" ');
+    		$row = $db_cart->field('rec_id, goods_number')->find('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ');
     	} else {
-    		$row = $db_cart->field('rec_id, goods_number')->find('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.CART_GENERAL_GOODS.'" ');
+    		$row = $db_cart->field('rec_id, goods_number')->find('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ');
     	}
     	
     	/* 限购判断*/
@@ -636,14 +637,13 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
                 		'area_id'	   => $area_id,
                 );
                 if ($_SESSION['user_id']) {
-                	$db_cart->where('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.CART_GENERAL_GOODS.'" AND warehouse_id = "'.$warehouse_id.'"')->update($data);
+                	$db_cart->where('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ')->update($data);
                 } else {
-                	$db_cart->where('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.CART_GENERAL_GOODS.'"  AND warehouse_id = "'.$warehouse_id.'"')->update($data);
+                	$db_cart->where('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ')->update($data);
                 }
             } else {
 				return new ecjia_error('low_stocks', __('库存不足'));
             }
-            
             $cart_id = $row['rec_id'];
         } else {
         	//购物车没有此物品，则插入
@@ -661,7 +661,6 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
     } else {
     	$db_cart->where(array('session_id' => SESS_ID , 'is_gift' => array('neq' => 0)))->delete();
     }
-    
     return $cart_id; 
 }
 
@@ -745,25 +744,31 @@ function flow_cart_stock($arr) {
  * @access public
  * @return void
  */
-function recalculate_price() {
+function recalculate_price($device) {
 	// 链接数据库
 	$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
 	$dbview = RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
-
+	
+	if ($device['code'] == '8001') {
+		$rec_type = CART_CASHDESK_GOODS;
+	} else {
+		$rec_type = CART_GENERAL_GOODS;
+	}
+	
 	/* 取得有可能改变价格的商品：除配件和赠品之外的商品 */
 	if ($_SESSION['user_id']) {
 		$res = $dbview->join(array(
 			'goods',
 			'member_price'
 		))
-		->where('c.user_id = "' . $_SESSION['user_id'] . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . CART_GENERAL_GOODS . '" AND c.extension_code <> "package_buy"')
+		->where('c.user_id = "' . $_SESSION['user_id'] . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" AND c.extension_code <> "package_buy"')
 		->select();
 	} else {
 		$res = $dbview->join(array(
 			'goods',
 			'member_price'
 		))
-		->where('c.session_id = "' . SESS_ID . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . CART_GENERAL_GOODS . '" AND c.extension_code <> "package_buy"')
+		->where('c.session_id = "' . SESS_ID . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" AND c.extension_code <> "package_buy"')
 		->select();
 	}
 
