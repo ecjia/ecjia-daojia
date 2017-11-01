@@ -44,20 +44,14 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+/**
+ * 申通快递插件的语言文件
+ */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Lang::load_plugin('ship_no_express');
 return array(
-    'shipping_code' => 'ship_no_express',
-	'insure' 		=> false,		/* 不支持保价 */
-	'cod' 			=> false, 		/* 配送方式是否支持货到付款 */
-	'print_model'	=> 2,			/* 模式编辑器 */
-		
-	'forms' => array(
-			array('name' => 'item_fee',      'value' => 0), /* 单件商品的配送费用 */
-			array('name' => 'base_fee',      'value' => 0), /* 1000克以内的价格           */
-			array('name' => 'step_fee',      'value' => 0),  /* 续重每1000克增加的价格 */
-	),
+    'no_express'            => '无需物流',
+    'no_express_desc'       => '不需要物流时选择此插件（本插件只限后台发货时使用）',
 );
 
 // end
