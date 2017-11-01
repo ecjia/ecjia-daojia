@@ -65,6 +65,9 @@ return array(
     'Ecjia\App\Cron' => $contentDir . '/apps/cron/classes',
     'Ecjia\App\Commission' => $contentDir . '/apps/commission/classes',
     'Ecjia\App\Cart' => $contentDir . '/apps/cart/classes',
+    'Ecjia\App\Shipping' => $contentDir . '/apps/shipping/classes',
+    'Ecjia\App\Orders' => $contentDir . '/apps/orders/classes',
+    'Ecjia\App\Goods' => $contentDir . '/apps/goods/classes',
     
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
     'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cron/classes/Royalcms/Component/Shoppingcart',
