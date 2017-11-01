@@ -207,11 +207,10 @@ class connect_controller {
             return ecjia_front::$controller->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('info' => $message));
         } else {
             $referer_url = !empty($_POST['referer']) ? urlencode($_POST['referer']) : RC_Uri::url('touch/my/init');
-    
-            RC_Loader::load_app_class('connect_user', 'connect', false);
-            $connect_user = new connect_user($connect_code, $open_id);
+            
+            $connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id);
             if ($data['id']) {
-                $result = $connect_user->bind_user($data['id'], 0);
+                $result = $connect_user->bindUser($data['id'], 0);
             } else {
                 RC_Logger::getlogger('error')->info('connect_controller-关联账号错误');
                 RC_Logger::getlogger('error')->info($data);

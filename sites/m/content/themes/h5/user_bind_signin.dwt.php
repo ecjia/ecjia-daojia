@@ -22,7 +22,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="form-group margin-right-left">
 		<label class="input">
 			<i class="iconfont icon-dengluyonghuming"></i>
-			<input placeholder="{$lang.name_or_mobile}" name="username" datatype="*3-16|zh2-7" errormsg="用户名错误请重新输入！" nullmsg="请输入用户名户或手机号" />
+			<input placeholder="{$lang.name_or_mobile}" name="username" datatype="*3-16|zh2-7" errormsg="手机号错误请重新输入！" nullmsg="请输入手机号" />
 		</label>
 	</div>
 	<div class="form-group ecjia-margin-t margin-right-left">
