@@ -47,7 +47,7 @@
 $_GET['m'] = 'payment';
 $_GET['c'] = 'respond';
 
-if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
+if (!empty(file_get_contents('php://input'))) {
     $_GET['a'] = 'notify';
 } elseif (!empty($_GET)) {
     $_GET['a'] = 'response';
