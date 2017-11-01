@@ -120,6 +120,8 @@ class admin_order extends ecjia_admin {
 			$order_info['activity_name'] = '每满多少减多少,最高减多少';
 		} elseif ($order_info['activity_type'] == 'reduced') { 
 			$order_info['activity_name'] = '满多少减多少';
+		} elseif ($order_info['activity_type'] == 'normal') {
+			$order_info['activity_name'] = '无优惠';
 		}
 		$order_info['status'] = RC_Lang::get('quickpay::order.os.'.$order_info['order_status']) . ',' . RC_Lang::get('quickpay::order.ps.'.$order_info['pay_status']) . ',' . RC_Lang::get('quickpay::order.vs.'.$order_info['verification_status']);
 		$this->assign('order_info', $order_info);

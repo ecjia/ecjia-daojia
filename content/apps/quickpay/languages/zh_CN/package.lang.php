@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA 应用语言包
  */
 return array(
-	'quickpay'      => '买单规则',
+	'quickpay'      => '买单',
 	'quickpay_desc' => '新一款闪付优惠活动',
 );
 

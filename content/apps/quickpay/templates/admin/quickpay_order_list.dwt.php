@@ -79,7 +79,7 @@
 							{$order.merchants_name}
 						</td>
 						<td>{$order.user_name} [TEL：{$order.user_mobile}]</td>
-						<td>{if $order.activity_type eq 'discount'}价格折扣{elseif $order.activity_type eq 'everyreduced'}每满多少减多少，最高减多少{else $order.activity_type eq 'reduced'}满多少减多少{/if}</td>
+						<td>{if $order.activity_type eq 'discount'}价格折扣{elseif $order.activity_type eq 'everyreduced'}每满多少减多少，最高减多少{elseif $order.activity_type eq 'reduced'}满多少减多少{elseif $order.activity_type eq 'normal'}无优惠{/if}</td>
 						<td>{$order.add_time}</td>
 						<td>{$order.goods_amount}</td>
 						<td>{$order.order_amount}</td>

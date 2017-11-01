@@ -81,8 +81,14 @@ class done_module extends api_front implements api_interface {
     	//$pay_id			= $this->requestData('pay_id', 0);
     	$store_id		= $this->requestData('store_id', 0);
     	
-    	if (empty($is_exclude_amount)) {
-    		$exclude_amount = '0.00';
+    	//if (empty($is_exclude_amount)) {
+    	//	$exclude_amount = '0.00';
+    	//}
+    	
+    	if ($goods_amount > 0 && $exclude_amount > 0) {
+    		if ($exclude_amount > $goods_amount) {
+    			return new ecjia_error('exclude_amount_error', '不可参与活动金额不能大于消费金额！');
+    		}
     	}
     	
 		if (empty($goods_amount) || empty($store_id)) {
