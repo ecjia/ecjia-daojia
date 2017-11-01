@@ -44,20 +44,106 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+/**
+ * EMS插件的语言文件
+ */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Lang::load_plugin('ship_ems');
 return array(
-    'shipping_code' => 'ship_ems',
-	'insure' 		=> false,		/* 不支持保价 */
-	'cod' 			=> false, 		/* 配送方式是否支持货到付款 */
-	'print_model'	=> 2,			/* 模式编辑器 */
-	'print_bg'		=> RC_Plugin::plugins_url('images/dly_ems.jpg',__FILE__) ,			/* 打印单背景 */
-	'config_lable'	=> 't_shop_name,' .RC_Lang::lang('lable_box/shop_name') . ',236,32,182,161,b_shop_name||,||t_shop_tel,' . RC_Lang::lang('lable_box/shop_tel') . ',127,21,295,135,b_shop_tel||,||t_shop_address,' . RC_Lang::lang('lable_box/shop_address')  . ',296,68,124,190,b_shop_address||,||t_pigeon,' . RC_Lang::lang('lable_box/pigeon') . ',21,21,192,278,b_pigeon||,||t_customer_name,' . RC_Lang::lang('lable_box/customer_name')  . ',107,23,494,136,b_customer_name||,||t_customer_tel,' . RC_Lang::lang('lable_box/customer_tel') . ',155,21,639,124,b_customer_tel||,||t_customer_mobel,' . RC_Lang::lang('lable_box/customer_mobel'). ',159,21,639,147,b_customer_mobel||,||t_customer_post,' . RC_Lang::lang('lable_box/customer_post') . ',88,21,680,258,b_customer_post||,||t_year,' . RC_Lang::lang('lable_box/year') . ',37,21,534,379,b_year||,||t_months,' . RC_Lang::lang('lable_box/months'). ',29,21,592,379,b_months||,||t_day,' . RC_Lang::lang('lable_box/day') . ',27,21,642,380,b_day||,||t_order_best_time,' . RC_Lang::lang('lable_box/order_best_time') . ',104,39,688,359,b_order_best_time||,||t_order_postscript,' . RC_Lang::lang('lable_box/order_postscript') . ',305,34,485,402,b_order_postscript||,||t_customer_address,' . RC_Lang::lang('lable_box/customer_address') . ',289,48,503,190,b_customer_address||,||',			/* 打印快递单标签位置信息 */
-		
-	'forms' => array(
-			array('name' => 'item_fee',     'value' => 20),
-			array('name' => 'base_fee',     'value' => 20),
-			array('name' => 'step_fee',     'value' => 15),
-	),
+    'ems'                   	=> 'EMS 国内邮政特快专递',
+    'ems_express_desc'      	=> 'EMS 国内邮政特快专递描述内容',
+    //'fee_compute_mode' = '费用计算方式';
+    'item_fee'              	=> '单件商品费用：',
+    'base_fee'              	=> '500克以内费用：',
+    'step_fee'              	=> '续重每500克或其零数的费用：',
+    
+    /* 快递单部分 */
+    'lable_select_notice' => '--选择插入标签--',
+    
+    'lable_box' => array(
+        'shop_country' => '网店-国家',
+        'shop_province' => '网店-省份',
+        'shop_city' => '网店-城市',
+        'shop_name' => '网店-名称',
+        'shop_district' => '网店-区/县',
+        'shop_tel' => '网店-联系电话',
+        'shop_address' => '网店-地址',
+        'customer_country' => '收件人-国家',
+        'customer_province' => '收件人-省份',
+        'customer_city' => '收件人-城市',
+        'customer_district' => '收件人-区/县',
+        'customer_tel' => '收件人-电话',
+        'customer_mobel' => '收件人-手机',
+        'customer_post' => '收件人-邮编',
+        'customer_address' => '收件人-详细地址',
+        'customer_name' => '收件人-姓名',
+        'year' => '年-当日日期',
+        'months' => '月-当日日期',
+        'day' => '日-当日日期',
+        'order_no' => '订单号-订单',
+        'order_postscript' => '备注-订单',
+        'order_best_time' => '送货时间-订单',
+        'pigeon' => '√-对号',
+        //'custom_content' => '自定义内容',
+    ),
+    
+    'shipping_print' 		=> '<table style="width:18.8cm" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="height:3.2cm;">&nbsp;</td>
+  </tr>
+</table>
+<table style="width:18.8cm;" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="width:8.9cm;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+    <td style="width:1.6cm; height:0.7cm;">&nbsp;</td>
+    <td style="width:2.3cm;">{$shop_name}</td>
+    <td style="width:2cm;">&nbsp;</td>
+    <td>{$service_phone}</td>
+    </tr>
+    <tr>
+    <td colspan="4" style="height:0.7cm; padding-left:1.6cm;">{$shop_name}</td>
+    </tr>
+    <tr>
+    <td>&nbsp;</td>
+    <td colspan="3" style="height:1.7cm;">{$shop_address}</td>
+    </tr>
+    <tr>
+    <td colspan="3" style="width:6.3cm; height:0.5cm;"></td>
+    <td>&nbsp;</td>
+    </tr>
+    </table>
+    </td>
+    <td style="width:0.4cm;"></td>
+    <td style="width:9.5cm;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+    <td style="width:1.6cm; height:0.7cm;">&nbsp;</td>
+    <td style="width:2.3cm;">{$order.consignee}</td>
+    <td style="width:2cm;">&nbsp;</td>
+    <td>{$order.mobile}</td>
+    </tr>
+    <tr>
+    <td colspan="4" style="height:0.7cm;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td>&nbsp;</td>
+    <td colspan="3" style="height:1.7cm;">{$order.address}</td>
+    </tr>
+    <tr>
+    <td colspan="3" style="width:6.3cm; height:0.5cm;"></td>
+    <td>{$order.zipcode}</td>
+    </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+<table style="width:18.8cm" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="height:5.1cm;">&nbsp;</td>
+  </tr>
+</table>',
 );
+
+// end
