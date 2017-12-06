@@ -447,7 +447,7 @@
 		var html = $('<div class="staticalert alert alert-error ui_showmessage"><a class="close" data-dismiss="alert">×</a>' + msg + '</div>');
 		$('#js-ecjia_deploy').before(html);
 
-		$('#' + id).closest("li.control-group").addClass("error f_error");;
+		$('#' + id).closest("li.control-group").addClass("error f_error");
 		$('body,html').animate({
 			scrollTop: 0
 		}, 300);
