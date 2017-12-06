@@ -54,7 +54,7 @@ Author URI: http://www.ecjia.com/
 Plugin App: cron
 */
 defined('IN_ECJIA') or exit('No permission resources.');
-class plugin_cron_ipdel {
+class plugin_cron_testlog {
 
 	public static function install() {
 		$config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
@@ -76,7 +76,7 @@ Ecjia_PluginManager::extend('cron_testlog', function() {
     return new cron_testlog();
 });
 
-RC_Plugin::register_activation_hook(__FILE__, array('plugin_cron_ipdel', 'install'));
-RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_cron_ipdel', 'uninstall'));
+RC_Plugin::register_activation_hook(__FILE__, array('cron_testlog', 'install'));
+RC_Plugin::register_deactivation_hook(__FILE__, array('cron_testlog', 'uninstall'));
 
 // end
