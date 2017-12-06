@@ -129,37 +129,38 @@
 										<input type="text" name="address"/>
 									</div>
 								</div>
+							
 								<div class="control-group control-group-small">
-									<label class="control-label">{lang key='orders::order.country_lable'}</label>
+									<label class="control-label">省：</label>
 									<div>
-										<select name="country" data-toggle="regionSummary" data-url='{url path="shipping/region/init"}' data-type="1" data-target="region-summary-provinces" >
+										<select class="region-summary-provinces" name="province" data-toggle="regionSummary" data-url='{url path="setting/region/init"}' data-type="1" data-target="region-summary-cities" >
 											<option value="0">{lang key='system::system.select_please'}</option>
-											<!-- {foreach from=$country_list item=country} -->
-											<option value="{$country.region_id}">{$country.region_name}</option>
+											<!-- {foreach from=$provinces key=key item=province} -->
+											<option value="{$province.region_id}">{$province.region_name}</option>
 											<!-- {/foreach} -->
 										</select>
 									</div>
 								</div>
 								<div class="control-group control-group-small">
-									<label class="control-label">{lang key='orders::order.province_and_city_lable'}</label>
+									<label class="control-label">市：</label>
 									<div>
-										<select class="region-summary-provinces" name="province" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities" >
+										<select class="region-summary-cities" name="city" data-toggle="regionSummary" data-type="2" data-target="region-summary-districts" >
 											<option value="0">{lang key='system::system.select_please'}</option>
 										</select>
 									</div>
 								</div>
 								<div class="control-group control-group-small">
-									<label class="control-label">{lang key='orders::order.city_lable'}</label>
+									<label class="control-label">区/县：</label>
 									<div>
-										<select class="region-summary-cities" name="city" data-toggle="regionSummary" data-type="3" data-target="region-summary-districts" >
+										<select class="region-summary-districts" name="district" data-toggle="regionSummary" data-type="3" data-target="region-summary-streets" >
 											<option value="0">{lang key='system::system.select_please'}</option>
 										</select>
 									</div>
 								</div>
 								<div class="control-group control-group-small">
-									<label class="control-label">{lang key='orders::order.area_lable'}</label>
+									<label class="control-label">街道/镇：</label>
 									<div>
-										<select class="region-summary-districts" name="district">
+										<select class="region-summary-streets" name="street">
 											<option value="0">{lang key='system::system.select_please'}</option>
 										</select>
 									</div>

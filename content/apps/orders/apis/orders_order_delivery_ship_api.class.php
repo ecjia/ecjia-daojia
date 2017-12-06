@@ -250,11 +250,12 @@ class orders_order_delivery_ship_api extends Component_Event_Api {
 			}
 			
 			/* 如果需要，发短信 */
-			if (!empty($order['mobile'])) {
+			$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+			if (!empty($userinfo['mobile_phone'])) {
 			    //发送短信
-			    $user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+			    $user_name = $userinfo['user_name'];
 			    $options = array(
-			        'mobile' => $order['mobile'],
+			        'mobile' => $userinfo['mobile_phone'],
 			        'event'	 => 'sms_order_shipped',
 			        'value'  =>array(
 			            'user_name'    => $user_name,

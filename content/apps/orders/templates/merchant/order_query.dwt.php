@@ -135,36 +135,36 @@ ecjia.merchant.order_query.init();
 							</div>
 						</div>
 						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">{t}国家：{/t}</label>
+							<label class="control-label col-lg-4">{t}省：{/t}</label>
 							<div class="col-lg-7">
-								<select class="form-control" name="country" data-toggle="regionSummary" data-url='{url path="shipping/region/init"}' data-type="1" data-target="region-summary-provinces" >
+								<select class="region-summary-provinces form-control" name="province" data-toggle="regionSummary" data-url='{url path="merchant/region/init"}'  data-type="1" data-target="region-summary-cities" >
 									<option value="0">{lang key='system::system.select_please'}</option>
-									<!-- {foreach from=$country_list item=country} -->
-									<option value="{$country.region_id}">{$country.region_name}</option>
+									<!-- {foreach from=$provinces item=province} -->
+									<option value="{$province.region_id}">{$province.region_name}</option>
 									<!-- {/foreach} -->
-								</select>
-							</div>
-						</div>
-						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">{t}省/市：{/t}</label>
-							<div class="col-lg-7">
-								<select class="region-summary-provinces form-control" name="province" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities" >
-									<option value="0">{lang key='system::system.select_please'}</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group form-inline">
 							<label class="control-label col-lg-4">{t}市：{/t}</label>
 							<div class="col-lg-7">
-								<select class="region-summary-cities form-control" name="city" data-toggle="regionSummary" data-type="3" data-target="region-summary-districts" >
+								<select class="region-summary-cities form-control" name="city" data-toggle="regionSummary" data-type="2" data-target="region-summary-districts" >
 									<option value="0">{lang key='system::system.select_please'}</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">{t}区：{/t}</label>
+							<label class="control-label col-lg-4">{t}区/县：{/t}</label>
 							<div class="col-lg-7">
-								<select class="region-summary-districts form-control" name="district">
+								<select class="region-summary-districts form-control" name="district" data-toggle="regionSummary" data-type="3" data-target="region-summary-streets" >
+									<option value="0">{lang key='system::system.select_please'}</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group form-inline">
+							<label class="control-label col-lg-4">{t}街道/镇：{/t}</label>
+							<div class="col-lg-7">
+								<select class="region-summary-streets form-control" name="street">
 									<option value="0">{lang key='system::system.select_please'}</option>
 								</select>
 							</div>

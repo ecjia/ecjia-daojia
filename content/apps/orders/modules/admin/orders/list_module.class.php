@@ -62,8 +62,8 @@ class list_module extends api_admin implements api_interface {
         $device_code = isset($device['code']) ? $device['code'] : '';
         $device_udid = isset($device['udid']) ? $device['udid'] : '';
         $device_client = isset($device['client']) ? $device['client'] : '';
-        
-        if ($device_code != '8001') {
+        $codes = array('8001', '8011');
+        if (!in_array($device_code, $codes)) {
         	$result = $this->admin_priv('order_view');
         	if (is_ecjia_error($result)) {
         		return $result;
@@ -84,8 +84,9 @@ class list_module extends api_admin implements api_interface {
 		if ( !empty($keywords)) {
 			$where[] = "( oi.order_sn like '%".$keywords."%' or oi.consignee like '%".$keywords."%' or oi.mobile like '%".$keywords."%' )";
 		}
+		$codes = array('8001', '8011');
 		
-		if ($device_code != '8001' || $user_id > 0) {
+		if (!in_array($device_code, $codes) || $user_id > 0) {
 			if ($user_id > 0) {
 				$where['oi.user_id'] = $user_id;
 			}
@@ -290,8 +291,8 @@ class list_module extends api_admin implements api_interface {
 							'small'	=> (isset($val['goods_thumb']) && !empty($val['goods_thumb']))   ? RC_Upload::upload_url($val['goods_thumb'])   : RC_Uri::admin_url('statics/images/nopic.png')
 						)
 					);
-
-				if ($device_code == '8001') {
+				$codes = array('8001', '8011');
+				if (in_array($device_code , $codes)) {
 						if (in_array($val['order_status'], array(OS_CANCELED, OS_INVALID, OS_RETURNED))) {
 							$label_order_status = '已撤销';
 							$status_code		= 'canceled';

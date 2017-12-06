@@ -156,16 +156,16 @@ class mh_delivery extends ecjia_merchant {
 
 		/* 取得区域名 */
 		$field = array("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region");
-
-
 		$db_order_info = RC_DB::table('order_info as o')
-				->leftJoin('region as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
-				->leftJoin('region as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
-				->leftJoin('region as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
-				->leftJoin('region as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'));
+				->leftJoin('regions as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
+				->leftJoin('regions as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
+				->leftJoin('regions as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
+				->leftJoin('regions as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'));
 		$order_id = $delivery_order['order_id'];
+		
 		$region = $db_order_info->selectRaw("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region")
 				->where(RC_DB::raw('o.order_id'), $order_id)->first();
+		
 		$delivery_order['region'] = $region['region'] ;
 
 		/* 是否保价 */
@@ -201,8 +201,8 @@ class mh_delivery extends ecjia_merchant {
 		}
 		
 		/* 判断配送方式是否是立即送*/
-		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-		$shipping_info = $shipping_method->shipping_info(intval($delivery_order['shipping_id']));
+// 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+		$shipping_info = ecjia_shipping::pluginData(intval($delivery_order['shipping_id']));
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 			/* 获取正在派单的配送员*/
 			$staff_list = RC_DB::table('staff_user')
@@ -277,7 +277,8 @@ class mh_delivery extends ecjia_merchant {
 		}
 		
 		/* 判断备注是否填写*/
-		if (empty($_POST['action_note'])) {
+		$require_note = ecjia::config('order_ship_note');
+		if ($require_note == 1 && empty($_POST['action_note'])) {
 		    return $this->showmessage(__('请填写备注信息！') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 根据发货单id查询发货单信息 */
@@ -430,8 +431,8 @@ class mh_delivery extends ecjia_merchant {
 		order_action($order['order_sn'], OS_CONFIRMED, $shipping_status, $order['pay_status'], $action_note, null, 1);
 		
 		/* 判断发货单，生成配送单*/
-		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-		$shipping_info = $shipping_method->shipping_info(intval($delivery_order['shipping_id']));
+// 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+		$shipping_info = ecjia_shipping::pluginData(intval($delivery_order['shipping_id']));
 		
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 			$staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
@@ -635,11 +636,12 @@ class mh_delivery extends ecjia_merchant {
 			}
 
             /* 商家发货 如果需要，发短信 */
-			if (!empty($order['mobile'])) {
+			$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+			if (!empty($userinfo['mobile_phone'])) {
 				//发送短信
-				$user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+				$user_name = $userinfo['user_name'];
 				$options = array(
-					'mobile' => $order['mobile'],
+					'mobile' => $userinfo['mobile_phone'],
 					'event'	 => 'sms_order_shipped',
 					'value'  =>array(
 						'user_name'    => $user_name,
@@ -737,7 +739,8 @@ class mh_delivery extends ecjia_merchant {
 		$action_note			= isset($_POST['action_note'])	? trim($_POST['action_note']) : '';
 
 		/* 判断备注是否填写*/
-		if (empty($_POST['action_note'])) {
+		$require_note = ecjia::config('order_unship_note');
+		if ($require_note == 1 && empty($_POST['action_note'])) {
 		    return $this->showmessage(__('请填写备注信息！') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 根据发货单id查询发货单信息 */
@@ -840,8 +843,8 @@ class mh_delivery extends ecjia_merchant {
 		}
 
 		/* 判断发货单，取消配送单*/
-		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-		$shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
+// 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+		$shipping_info = ecjia_shipping::pluginData($delivery_order['shipping_id']);
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 		    /* 如果是o2o速递，退货的时候删除ecjia_express_track_record相对应的记录 */
 		    RC_DB::table('express_track_record')->where('track_number', $delivery['invoice_no'])->delete();
@@ -884,8 +887,8 @@ class mh_delivery extends ecjia_merchant {
 				}
 				
 				/* 如果是o2o速递，退货的时候删除ecjia_express_track_record相对应的记录 */
-				$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-				$shipping_info = $shipping_method->shipping_info($delivery_order['shipping_id']);
+// 				$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+				$shipping_info = ecjia_shipping::pluginData($delivery_order['shipping_id']);
 				if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 				    RC_DB::table('express_track_record')->where('track_number', $delivery_order['invoice_no'])->delete();
 				}
@@ -915,14 +918,14 @@ class mh_delivery extends ecjia_merchant {
 		$id = $_GET['delivery_id'];
 		if (!empty($id)) {
 			$delivery_order = delivery_order_info($id);
-                $row = RC_DB::table('delivery_order')->select(RC_DB::raw('order_id, consignee, address, country, province, city, district, sign_building, email, zipcode, tel, mobile, best_time'))
+                $row = RC_DB::table('delivery_order')->select(RC_DB::raw('order_id, consignee, address, country, province, city, district, street, sign_building, email, zipcode, tel, mobile, best_time'))
 				            ->where('delivery_id', $id)->first();
 			if (!empty($row)) {
 			    $region = RC_DB::table('order_info as o')
-    			    ->leftJoin('region as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
-    			    ->leftJoin('region as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
-    			    ->leftJoin('region as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
-    			    ->leftJoin('region as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
+    			    ->leftJoin('regions as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
+    			    ->leftJoin('regions as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
+    			    ->leftJoin('regions as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
+    			    ->leftJoin('regions as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
     			    ->select(RC_DB::raw("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region"))
     			    ->where(RC_DB::raw('o.order_id'), $row['order_id'])
     			    ->first();

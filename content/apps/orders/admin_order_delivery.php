@@ -150,10 +150,10 @@ class admin_order_delivery extends ecjia_admin {
 
 		/* 取得区域名 */
 		$region = RC_DB::table('order_info as o')
-			->leftJoin('region as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
-			->leftJoin('region as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
-			->leftJoin('region as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
-			->leftJoin('region as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
+			->leftJoin('regions as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
+			->leftJoin('regions as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
+			->leftJoin('regions as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
+			->leftJoin('regions as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
 			->select(RC_DB::raw("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region"))
 			->where(RC_DB::raw('o.order_id'), $delivery_order['order_id'])
 			->first();
@@ -247,7 +247,8 @@ class admin_order_delivery extends ecjia_admin {
 		}
 		
 		/*判断备注是否填写*/
-	    if (empty($_POST['action_note'])) {
+		$require_note = ecjia::config('order_ship_note');
+	    if ($require_note == 1 && empty($_POST['action_note'])) {
 		   return $this->showmessage(__('请填写备注信息！') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 根据发货单id查询发货单信息 */
@@ -441,11 +442,13 @@ class admin_order_delivery extends ecjia_admin {
 			}
 			
 			/* 如果需要，发短信 */
-			if (!empty($order['mobile'])) {
+			$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+		
+			if (!empty($userinfo['mobile_phone'])) {
 			    //发送短信
-			    $user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+			    $user_name = $userinfo['user_name'];
 			    $options = array(
-			        'mobile' => $order['mobile'],
+			        'mobile' => $userinfo['mobile_phone'],
 			        'event'	 => 'sms_order_shipped',
 			        'value'  =>array(
 			            'user_name'    => $user_name,
@@ -479,7 +482,8 @@ class admin_order_delivery extends ecjia_admin {
 		$action_note			= isset($_POST['action_note'])	? trim($_POST['action_note']) : '';
 
 		/*判断备注是否填写*/
-		if (empty($_POST['action_note'])) {
+		$require_note = ecjia::config('order_unship_note');
+		if ($require_note == 1 && empty($_POST['action_note'])) {
 		    return $this->showmessage(__('请填写备注信息！') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 根据发货单id查询发货单信息 */
@@ -654,15 +658,15 @@ class admin_order_delivery extends ecjia_admin {
 
 		$id = $_GET['delivery_id'];
 		if (!empty($id)) {
-			$row = RC_DB::table('delivery_order')->select(RC_DB::raw('order_id, consignee, address, country, province, city, district, sign_building, email, zipcode, tel, mobile, best_time'))
+			$row = RC_DB::table('delivery_order')->select(RC_DB::raw('order_id, consignee, address, country, province, city, district, street, sign_building, email, zipcode, tel, mobile, best_time'))
 				->where('delivery_id', $id)->first();
 
 			if (!empty($row)) {
 				$region = RC_DB::table('order_info as o')
-					->leftJoin('region as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
-					->leftJoin('region as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
-					->leftJoin('region as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
-					->leftJoin('region as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
+					->leftJoin('regions as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
+					->leftJoin('regions as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
+					->leftJoin('regions as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
+					->leftJoin('regions as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
 					->select(RC_DB::raw("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region"))
 					->where(RC_DB::raw('o.order_id'), $row['order_id'])
 					->first();
@@ -681,8 +685,8 @@ class admin_order_delivery extends ecjia_admin {
 	    RC_Loader::load_app_func('global', 'orders');
         $delivery_order = delivery_order_info($delivery_id);
         /* 判断发货单，生成配送单*/
-        $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-        $shipping_info = $shipping_method->shipping_info(intval($delivery_order['shipping_id']));
+//         $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+        $shipping_info = ecjia_shipping::pluginData(intval($delivery_order['shipping_id']));
         if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
     //         $staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
     //         $express_from = !empty($staff_id) ? 'assign' : 'grab';

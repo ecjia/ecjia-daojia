@@ -378,30 +378,30 @@
 			<div class="control-group">
 				<label class="control-label w110">{lang key='orders::order.label_area'}</label>
 				<div class="controls choose_list not-line-height m_l130">
-					<select class="m_r5 w100" name="country" data-toggle="regionSummary" data-url='{url path="shipping/region/init"}' data-type="1" data-target="region-summary-provinces">
-						<option value="" selected="selected">{lang key='system::system.select_please'}</option>
-						<!--{foreach from=$country_list item=country} -->
-						<option value="{$country.region_id}" {if $order.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
-						<!--{/foreach} -->
-					</select>
-					<select class="region-summary-provinces w100" name="province" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities">
-						<option value="">{lang key='system::system.select_please'}</option>
-						<!--{foreach from=$province_list item=province} -->
-						<option value="{$province.region_id}" {if $order.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+					<select class="region-summary-provinces w120" name="province" id="selProvinces" data-url="{url path='setting/region/init'}" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities" >
+						<option value='0'>{lang key='system::system.select_please'}</option>
+						<!-- {foreach from=$province item=region} -->
+						<option value="{$region.region_id}" {if $region.region_id eq $order.province}selected{/if}>{$region.region_name}</option>
 						<!-- {/foreach} -->
 					</select>
-					<select class="region-summary-cities w130" name="city" data-toggle="regionSummary" data-type="3" data-target="region-summary-districts">
-						<option value="">{lang key='system::system.select_please'}</option>
-						<!-- {foreach from=$city_list item=city} -->
-						<option value="{$city.region_id}" {if $order.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+					<select class="region-summary-cities w120" name="city" id="selCities" data-toggle="regionSummary" data-type="3" data-target="region-summary-district">
+						<option value='0'>{lang key='system::system.select_please'}</option>
+						<!-- {foreach from=$city item=region} -->
+						<option value="{$region.region_id}" {if $region.region_id eq $order.city}selected{/if}>{$region.region_name}</option>
 						<!-- {/foreach} -->
 					</select>
-					<select class="region-summary-districts w130" name="district" >
-						<option value="">{lang key='system::system.select_please'}</option>
-						<!-- {foreach from=$district_list item=district} -->
-						<option value="{$district.region_id}" {if $order.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+					<select class="region-summary-district w120" name="district" id="seldistrict" data-toggle="regionSummary" data-type="4" data-target="region-summary-street">
+						<option value='0'>{lang key='system::system.select_please'}</option>
+						<!-- {foreach from=$district item=region} -->
+						<option value="{$region.region_id}" {if $region.region_id eq $order.district}selected{/if}>{$region.region_name}</option>
 						<!-- {/foreach} -->
 					</select>
+					<select class="region-summary-street w120" name="street" id="selstreet" >
+						<option value='0'>{lang key='system::system.select_please'}</option>
+						<!-- {foreach from=$street item=region} -->
+						<option value="{$region.region_id}" {if $region.region_id eq $order.street}selected{/if}>{$region.region_name}</option>
+						<!-- {/foreach} -->
+					</select>        						
 					<span class="input-must">{lang key='system::system.require_field'}</span>
 				</div>
 			</div>

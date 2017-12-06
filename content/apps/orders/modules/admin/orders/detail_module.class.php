@@ -59,7 +59,8 @@ class detail_module extends api_admin implements api_interface {
         } 
         
         $device = $this->device;
-        if ($device['device_code'] != '8001') {
+        $codes = array('8001', '8011');
+        if (!in_array($device['device_code'], $codes)) {
         	$result = $this->admin_priv('order_view');
         	if (is_ecjia_error($result)) {
         		return $result;
@@ -93,7 +94,9 @@ class detail_module extends api_admin implements api_interface {
 			}
 		}
 		
-		if ($device['code'] == 8001) {
+		$codes = array('8001', '8011');
+		
+		if (in_array($device['code'], $codes)) {
 			//$order['adviser_name'] = RC_Model::model('orders/adviser_log_viewmodel')->join(array('adviser'))->where(array('al.order_id' => $order['order_id']))->get_field('username');
 			$order['cashier_name'] = RC_DB::table('cashier_record as cr')->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))->where(RC_DB::raw('cr.order_id'), $order['order_id'])->pluck('name');
 		}
@@ -129,19 +132,20 @@ class detail_module extends api_admin implements api_interface {
 		$user_name = $db_user->where(array('user_id' => $order['user_id']))->get_field('user_name');
 
 		$order['user_name'] = empty($user_name) ? __('匿名用户') : $user_name;
-		//收货人地址
-		$db_region = RC_Model::model('shipping/region_model');
-		$region_name = $db_region->where(array('region_id' => array('in'=>$order['country'], $order['province'], $order['city'], $order['district'])))->order('region_type')->select();
-		$order['country_id']  = $order['country'];
-		$order['country']     = $region_name[0]['region_name'];
-		$order['province_id'] = $order['province'];
-		$order['province']    = $region_name[1]['region_name'];
-		$order['city_id']     = $order['city'];
-		$order['city']        = $region_name[2]['region_name'];
-		$order['district_id'] = $order['district'];
-		$order['district']    = isset($region_name[3]) ? $region_name[3]['region_name'] : '';
 
-		$order['invoice_no']            = !empty($order['invoice_no']) ? explode('<br>', $order['invoice_no']) : array();
+		$order['country_id']  = $order['country'];
+		$order['province_id'] = $order['province'];
+		$order['city_id']     = $order['city'];
+		$order['district_id'] = $order['district'];
+		$order['street_id']   = $order['street'];
+
+		$order['country']     = ecjia_region::getCountryName($order['country']);
+		$order['province']    = ecjia_region::getRegionName($order['province']);
+		$order['city']        = ecjia_region::getRegionName($order['city']);
+		$order['district']    = ecjia_region::getRegionName($order['district']);
+		$order['street']      = ecjia_region::getRegionName($order['street']);
+
+		$order['invoice_no'] = !empty($order['invoice_no']) ? explode('<br>', $order['invoice_no']) : array();
 		
 // 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
 		if ($order['pay_id'] > 0) {

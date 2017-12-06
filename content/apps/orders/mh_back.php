@@ -188,14 +188,14 @@ class mh_back extends ecjia_merchant {
 		$this->admin_priv('back_view', ecjia::MSGTYPE_JSON);
 		$id = $_GET['back_id'];
 		if (!empty($id)) {
-			$field = array('order_id', 'consignee', 'address', 'country', 'province', 'city', 'district', 'sign_building', 'email', 'zipcode', 'tel', 'mobile', 'best_time');
+			$field = array('order_id', 'consignee', 'address', 'country', 'province', 'city', 'district', 'street', 'sign_building', 'email', 'zipcode', 'tel', 'mobile', 'best_time');
 			$row = RC_DB::table('back_order')->select($field)->where('back_id', $id)->first();
 			if (!empty($row)) {
 				$region = RC_DB::table('order_info as o')
-					->leftJoin('region as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
-					->leftJoin('region as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
-					->leftJoin('region as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
-					->leftJoin('region as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
+					->leftJoin('regions as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
+					->leftJoin('regions as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
+					->leftJoin('regions as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
+					->leftJoin('regions as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
 					->select(RC_DB::raw("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region"))
 					->where(RC_DB::raw('o.order_id'), $row['order_id'])
 					->first();

@@ -410,11 +410,12 @@ class mh_validate_order extends ecjia_merchant {
 			}
 
             /* 商家发货 如果需要，发短信 */
-			if (!empty($order['mobile'])) {
+			$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+			if (!empty($userinfo['mobile_phone'])) {
 				//发送短信
-				$user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+				$user_name = $userinfo['user_name'];
 				$options = array(
-					'mobile' => $order['mobile'],
+					'mobile' => $userinfo['mobile_phone'],
 					'event'	 => 'sms_order_shipped',
 					'value'  =>array(
 						'user_name'    => $user_name,
@@ -552,10 +553,13 @@ class mh_validate_order extends ecjia_merchant {
 		/*默认全部发货*/
 		$delivery['order_sn']		= $order['order_sn'];
 		$delivery['user_id']		= intval($order['user_id']);
-		$delivery['country']		= intval($order['country']);
-		$delivery['province']		= intval($order['province']);
-		$delivery['city']			= intval($order['city']);
-		$delivery['district']		= intval($order['district']);
+
+		$delivery['country']		= trim($order['country']);
+		$delivery['province']		= trim($order['province']);
+		$delivery['city']			= trim($order['city']);
+		$delivery['district']		= trim($order['district']);
+		$delivery['street']			= trim($order['street']);
+
 		$delivery['agency_id']		= intval($order['agency_id']);
 		$delivery['insure_fee']		= floatval($order['insure_fee']);
 		$delivery['shipping_fee']	= floatval($order['shipping_fee']);
@@ -748,14 +752,26 @@ class mh_validate_order extends ecjia_merchant {
 		$delivery['best_time']		= $order['expect_shipping_time'];
 			
 		if (empty($delivery['longitude']) || empty($delivery['latitude'])) {
-			$db_region = RC_Model::model('region_model');
-			$region_name = $db_region->where(array('region_id' => array('in' => $delivery['province'], $delivery['city'])))->order('region_type')->select();
-		
-			$province_name	= $region_name[0]['region_name'];
-			$city_name		= $region_name[1]['region_name'];
-			$consignee_address = $province_name.'省'.$city_name.'市'.$delivery['address'];
+			$province_name = ecjia_region::getRegionName($delivery['province']);
+			$city_name = ecjia_region::getRegionName($delivery['city']);
+			$district_name = ecjia_region::getRegionName($delivery['district']);
+			$street_name = ecjia_region::getRegionName($delivery['street']);
+			$consignee_address = '';
+			if (!empty($province_name)) {
+				$consignee_address .= $province_name;
+			}
+			if (!empty($city_name)) {
+				$consignee_address .= $city_name;
+			}
+			if (!empty($district_name)) {
+				$consignee_address .= $district_name;
+			}
+			if (!empty($street_name)) {
+				$consignee_address .= $street_name;
+			}
+			$consignee_address .= $delivery['address'];
 			$consignee_address = urlencode($consignee_address);
-		
+
 			//腾讯地图api 地址解析（地址转坐标）
 // 			$keys = ecjia::config('map_qq_key');
 // 			$shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$consignee_address."&key=".$keys);
@@ -769,7 +785,7 @@ class mh_validate_order extends ecjia_merchant {
 		/* 过滤字段项 */
 		$filter_fileds = array(
 				'order_sn', 'add_time', 'user_id', 'how_oos', 'shipping_id', 'shipping_fee',
-				'consignee', 'address', 'longitude', 'latitude', 'country', 'province', 'city', 'district', 'sign_building',
+				'consignee', 'address', 'longitude', 'latitude', 'country', 'province', 'city', 'district', 'street', 'sign_building',
 				'email', 'zipcode', 'tel', 'mobile', 'best_time', 'postscript', 'insure_fee',
 				'agency_id', 'delivery_sn', 'action_user', 'update_time',
 				'suppliers_id', 'status', 'order_id', 'shipping_name'

@@ -209,17 +209,11 @@
 			
 			var option = {
 				rules:{
-					action_note : {
-						required : true
-					},
 					refund_note : {
 						required : true
 					},
 				},
 				messages:{
-					action_note : {
-						required : "请填写备注信息！" 
-					},
 					refund_note : {
 						required : "请填写退款说明！"
 					},

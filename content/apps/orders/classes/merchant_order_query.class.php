@@ -69,7 +69,7 @@ class merchant_order_query extends order {
 
 	/* 待付款订单 */
 	public function order_await_pay($alias = '') {
-		 $this->where = array();
+		$this->where = array();
 		$payment_method = RC_Loader::load_app_class('payment_method','payment');
 		$payment_id_row = $payment_method->payment_id_list(false);
 		$payment_id = "";
@@ -77,10 +77,10 @@ class merchant_order_query extends order {
 			$payment_id .= empty($payment_id) ? $v : ','.$v ;
 		}
 		$payment_id = empty($payment_id) ? "''" : $payment_id;
-		 $this->where[$alias.'order_status'] = array(OS_UNCONFIRMED, OS_CONFIRMED,OS_SPLITED);
+		 $this->where[$alias.'order_status'] = array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED);
 		 $this->where[$alias.'pay_status'] = PS_UNPAYED;
 		 $this->where[]= "( {$alias}shipping_status in (". SS_SHIPPED .",". SS_RECEIVED .") OR {$alias}pay_id in (" . $payment_id . ") )";
-		return  $this->where;
+		return $this->where;
 	}
 	
 	/* 待发货订单 */
@@ -248,10 +248,12 @@ public function get_order_list($pagesize = '15') {
 		$filter['zipcode'] 				= empty($args['zipcode']) 			? '' : trim($args['zipcode']);
 		$filter['tel'] 					= empty($args['tel']) 				? '' : trim($args['tel']);
 		$filter['mobile'] 				= empty($args['mobile']) 			? 0 : intval($args['mobile']);
-		$filter['country'] 				= empty($args['country']) 			? 0 : intval($args['country']);
-		$filter['province'] 			= empty($args['province']) 			? 0 : intval($args['province']);
-		$filter['city'] 				= empty($args['city']) 				? 0 : intval($args['city']);
-		$filter['district'] 			= empty($args['district']) 			? 0 : intval($args['district']);
+
+		$filter['country'] 				= empty($args['country']) 			? '' : trim($args['country']);
+		$filter['province'] 			= empty($args['province']) 			? '' : trim($args['province']);
+		$filter['city'] 				= empty($args['city']) 				? '' : trim($args['city']);
+		$filter['district'] 			= empty($args['district']) 			? '' : trim($args['district']);
+
 		$filter['shipping_id'] 			= empty($args['shipping_id']) 		? 0 : intval($args['shipping_id']);
 		$filter['pay_id'] 				= empty($args['pay_id']) 			? 0 : intval($args['pay_id']);
 		$filter['order_status'] 		= isset($args['order_status']) 		? intval($args['order_status']) : -1;

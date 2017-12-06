@@ -90,7 +90,7 @@ class shipping_detail_module extends api_admin implements api_interface {
 						'on'    =>	'og.goods_id = g.goods_id ',
 				),
 		);
-		$field = 'oi.order_id, order_sn, consignee, country, province, city, district, address, mobile, shipping_id, shipping_name, oi.add_time, pay_time, og.rec_id, og.goods_id, og.product_id, og.goods_name, og.goods_price, og.goods_number, og.goods_attr, goods_thumb, goods_img, original_img';
+		$field = 'oi.order_id, order_sn, consignee, country, province, city, district, street, address, mobile, shipping_id, shipping_name, oi.add_time, pay_time, og.rec_id, og.goods_id, og.product_id, og.goods_name, og.goods_price, og.goods_number, og.goods_attr, goods_thumb, goods_img, original_img';
 		$order_list = $order_dbview->join(array('order_goods', 'goods'))->field($field)->where(array('oi.order_id' => $order_id))->select();
 		if (empty($order_list)) {
 			return new ecjia_error('orders_empty', '订单信息不存在！');
@@ -105,35 +105,38 @@ class shipping_detail_module extends api_admin implements api_interface {
 			/* 首次设置订单信息*/
 			if ($key == 0) {
 				//收货人地址
-				$db_region = RC_Model::model('shipping/region_model');
-				$region_name = $db_region->where(array('region_id' => array('in'=>$val['country'],$val['province'],$val['city'],$val['district'])))->order('region_type')->select();
 				$order['country_id']	= $order['country'];
 				$order['province_id']	= $order['province'];
 				$order['city_id']		= $order['city'];
 				$order['district_id']	= $order['district'];
-				$order['country']	= $region_name[0]['region_name'];
-				$order['province']	= $region_name[1]['region_name'];
-				$order['city']		= $region_name[2]['region_name'];
-				$order['district']	= $region_name[3]['region_name'];
+				$order['street_id']		= $order['street'];
+
+				$order['country']	= ecjia_region::getCountryName($val['country']);
+				$order['province']	= ecaji_region::getRegionName($val['province']);
+				$order['city']		= ecaji_region::getRegionName($val['city']);
+				$order['district']	= ecaji_region::getRegionName($val['district']);
+				$order['street']    = ecaji_region::getRegionName($val['street']);
+
 				$delivery_info = array(
-						'order_id'	=> $val['order_id'],
-						'order_sn'	=> $val['order_sn'],
-						'consignee'	=> $val['consignee'],
-						'country_id'	=> $val['country'],
-						'province_id'	=> $val['province'],
-						'city_id'		=> $val['city'],
-						'district_id'	=> $val['district'],
-						'country'		=> $region_name[0]['region_name'],
-						'province'		=> $region_name[1]['region_name'],
-						'city'			=> $region_name[2]['region_name'],
-						'district'		=> $region_name[3]['region_name'],
-						'address'		=> $val['address'],
-						'mobile'		=> $val['mobile'],
-						'shipping_id'	=> $val['shipping_id'],
-						'shipping_name'	=> $val['shipping_name'],
-						'add_time'		=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
-						'pay_time'		=> empty($val['pay_time']) ? null : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
-						'deliveryed_number'	=> 0,
+					'order_id'		=> $val['order_id'],
+					'order_sn'		=> $val['order_sn'],
+					'consignee'		=> $val['consignee'],
+					'country_id'	=> $val['country'],
+					'province_id'	=> $val['province'],
+					'city_id'		=> $val['city'],
+					'district_id'	=> $val['district'],
+					'country'		=> $order['country'],
+					'province'		=> $order['province'],
+					'city'			=> $order['city'],
+					'district'		=> $order['district'],
+					'street'		=> $order['street'],
+					'address'		=> $val['address'],
+					'mobile'		=> $val['mobile'],
+					'shipping_id'	=> $val['shipping_id'],
+					'shipping_name'	=> $val['shipping_name'],
+					'add_time'		=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
+					'pay_time'		=> empty($val['pay_time']) ? null : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
+					'deliveryed_number'	=> 0,
 				);
 				/* 判断订单商品的发货情况*/
 				if (!empty($delivery_list)) {
@@ -152,9 +155,9 @@ class shipping_detail_module extends api_admin implements api_interface {
 				'goods_number'	=> $val['goods_number'],
 			    'goods_attr'    => trim($val['goods_attr']),
 				'img'			=> array(
-						'small'	=> !empty($val['goods_thumb']) ? RC_Upload::upload_url($val['goods_thumb']) : '',
-						'thumb'	=> !empty($val['goods_img']) ? RC_Upload::upload_url($val['goods_img']) : '',
-						'url'	=> !empty($val['original_img']) ? RC_Upload::upload_url($val['original_img']) : '',
+					'small'	=> !empty($val['goods_thumb']) ? RC_Upload::upload_url($val['goods_thumb']) : '',
+					'thumb'	=> !empty($val['goods_img']) ? RC_Upload::upload_url($val['goods_img']) : '',
+					'url'	=> !empty($val['original_img']) ? RC_Upload::upload_url($val['original_img']) : '',
 				)
 			);
 			

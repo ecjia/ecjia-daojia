@@ -234,9 +234,10 @@ class OrdersRepository extends AbstractRepository
         $filter['merchants_name']       = trim(array_get($filter, 'merchants_name'));
         $filter['merchant_keywords']    = trim(array_get($filter, 'merchant_keywords'));
         
-        $filter['country']              = intval(array_get($filter, 'country'));
-        $filter['province']             = intval(array_get($filter, 'province'));
-        $filter['district']             = intval(array_get($filter, 'district'));
+        $filter['country']              = trim(array_get($filter, 'country'));
+        $filter['province']             = trim(array_get($filter, 'province'));
+        $filter['district']             = trim(array_get($filter, 'district'));
+        
         $filter['shipping_id']          = intval(array_get($filter, 'shipping_id'));
         $filter['pay_id']               = intval(array_get($filter, 'pay_id'));
         $filter['status']               = intval(array_get($filter, 'status', -1));

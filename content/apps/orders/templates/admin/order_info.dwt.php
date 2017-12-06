@@ -152,6 +152,7 @@
 									<td><div align="right"><strong>{lang key='orders::order.label_pay_time'}</strong></div></td>
 									<td>{$order.pay_time}</td>
 								</tr>
+								
 								<tr>
 									<td><div align="right"><strong>{lang key='orders::order.label_shipping'}</strong></div></td>
 									<td>
@@ -170,6 +171,7 @@
 									<td><div align="right"><strong>{lang key='orders::order.label_shipping_time'}</strong></div></td>
 									<td>{$order.shipping_time}</td>
 								</tr>
+								
 								<tr>
 									<td><div align="right"><strong>{lang key='orders::order.label_invoice_no'}</strong></div></td>
 									<td>{if $order.shipping_id gt 0 and $order.shipping_status gt 0}<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>&nbsp;
@@ -178,14 +180,20 @@
 									<td>{if $order.referer eq 'ecjia-cashdesk'}收银台{else}{$order.referer}{/if}</td>
 								</tr>
 								
-								{if $order.express_user}
+								<!-- {if $order.express_user} -->
 								<tr>
 									<td><div align="right"><strong>{lang key='orders::order.label_express_user'}</strong></div></td>
-									<td>{$order.express_user}</span>&nbsp;
+									<td>{$order.express_user}</td>
 									<td><div align="right"><strong>{lang key='orders::order.label_express_user_mobile'}</strong></div></td>
 									<td>{$order.express_mobile}</td>
 								</tr>
-								{/if}
+								<!-- {/if} -->
+								
+								<tr>
+									<td><div align="right"><strong>期望送达时间：</strong></div></td>
+									<td colspan="3">{$order.expect_shipping_time}</td>
+								</tr>
+								
 							</tbody>
 						</table>
 					</div>

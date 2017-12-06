@@ -242,7 +242,7 @@ class delivery_module extends api_admin implements api_interface {
 		/* 过滤字段项 */
 		$filter_fileds = array(
 				'order_sn', 'add_time', 'store_id', 'user_id', 'how_oos', 'shipping_id', 'shipping_name', 'shipping_fee',
-				'consignee', 'address', 'country', 'province', 'city', 'district', 'sign_building', 'longitude', 'latitude',
+				'consignee', 'address', 'country', 'province', 'city', 'district', 'street', 'sign_building', 'longitude', 'latitude',
 				'email', 'zipcode', 'tel', 'mobile', 'best_time', 'postscript', 'insure_fee',
 				'agency_id', 'delivery_sn', 'action_user', 'update_time',
 				'suppliers_id', 'status', 'order_id', 'shipping_name'
@@ -266,12 +266,25 @@ class delivery_module extends api_admin implements api_interface {
 
 		/*掌柜发货时将用户地址转为坐标存入delivery_order表*/
 		if (empty($order_info['longitude']) || empty($order_info['latitude'])) {
-			$db_region = RC_Model::model('region_model');
-			$region_name = $db_region->where(array('region_id' => array('in' => $order_info['province'], $order_info['city'])))->order('region_type')->select();
-		
-			$province_name	= $region_name[0]['region_name'];
-			$city_name		= $region_name[1]['region_name'];
-			$consignee_address = $province_name.'省'.$city_name.'市'.$order_info['address'];
+			$province_name 	= ecjia_region::getRegionName($order_info['province']);
+			$city_name 		= ecjia_region::getRegionName($order_info['city']);
+			$district_name 	= ecjia_region::getRegionName($order_info['district']);
+			$street_name 	= ecjia_region::getRegionName($order_info['street']);
+			
+			$consignee_address = '';
+			if (!empty($province_name)) {
+				$consignee_address .= $province_name;
+			}
+			if (!empty($city_name)) {
+				$consignee_address .= $city_name;
+			}
+			if (!empty($district_name)) {
+				$consignee_address .= $district_name;
+			}
+			if (!empty($street_name)) {
+				$consignee_address .= $street_name;
+			}
+			$consignee_address .= $order_info['address'];
 			$consignee_address = urlencode($consignee_address);
 		
 			//腾讯地图api 地址解析（地址转坐标）
@@ -539,8 +552,8 @@ function delivery_order($delivery_id, $order) {
 	
 	/*当订单配送方式为o2o速递时,记录o2o速递物流信息*/
 	if ($order['shipping_id'] > 0) {
-		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-		$shipping_info = $shipping_method->shipping_info($order['shipping_id']);
+// 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+		$shipping_info = ecjia_shipping::pluginData($order['shipping_id']);
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 			$data = array(
 					'express_code' => $shipping_info['shipping_code'],
@@ -599,12 +612,13 @@ function delivery_order($delivery_id, $order) {
 		}
 		
 		/* 如果需要，发短信 */
-		if (!empty($order['mobile'])) {
+		$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+		if (!empty($userinfo['mobile_phone'])) {
 		    $order['invoice_no'] = $invoice_no;
 		    //发送短信
-		    $user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+		     $user_name = $userinfo['user_name'];
 		    $options = array(
-		        'mobile' => $order['mobile'],
+		        'mobile' => $userinfo['mobile_phone'],
 		        'event'	 => 'sms_order_shipped',
 		        'value'  =>array(
 		            'user_name'    => $user_name,
@@ -623,8 +637,8 @@ function delivery_order($delivery_id, $order) {
 function create_express_order($delivery_id) {
     $delivery_order = delivery_order_info($delivery_id);
     /* 判断发货单，生成配送单*/
-    $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-    $shipping_info = $shipping_method->shipping_info(intval($delivery_order['shipping_id']));
+//     $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+    $shipping_info = ecjia_shipping::pluginData(intval($delivery_order['shipping_id']));
     if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 //         $staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
 //         $express_from = !empty($staff_id) ? 'assign' : 'grab';

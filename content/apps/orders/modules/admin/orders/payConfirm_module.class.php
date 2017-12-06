@@ -59,12 +59,16 @@ class payConfirm_module extends api_admin implements api_interface
 			return new ecjia_error(100, 'Invalid session');
 		}
 		$device = $this->device;
-		if ($device['code'] !='8001') {
+		$codes = array('8001', '8011');
+		
+		if (!in_array($device['code'], $codes)) {
 			$result = $this->admin_priv('order_stats');
 			if (is_ecjia_error($result)) {
 				return $result;
 			}
 		}
+		
+		RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
 		
 		$order_id = $this->requestData('order_id');
 		$invoice_no = $this->requestData('invoice_no');
@@ -119,23 +123,35 @@ class payConfirm_module extends api_admin implements api_interface
 			$result = RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'split', 'note' => array('action_note' => '收银台生成发货单')));
 			if (is_ecjia_error($result)) {
 				RC_Logger::getLogger('error')->info('订单分单【订单id|'.$order_id.'】：'.$result->get_error_message());
+			} else {
+				/*订单状态日志记录*/
+				OrderStatusLog::generate_delivery_orderInvoice(array('order_id' => $order['order_id'], 'order_sn' => $order['order_sn']));
 			}
 			
 			/* 发货*/
 			$db_delivery_order	= RC_Loader::load_app_model('delivery_order_model', 'orders');
 			$delivery_id = $db_delivery_order->where(array('order_sn' => array('like' => '%'.$order['order_sn'].'%')))->order(array('delivery_id' => 'desc'))->get_field('delivery_id');
-			
 			$result = delivery_ship($order_id, $delivery_id, $invoice_no, $action_note);
+			
 			if (is_ecjia_error($result)) {
 				RC_Logger::getLogger('error')->info('订单发货【订单id|'.$order_id.'】：'.$result->get_error_message());
+			} else {
+				/*订单状态日志记录*/
+				OrderStatusLog::delivery_ship_finished(array('order_id' => $order['order_id'], 'order_sn' => $order['order_sn']));
 			}
+			
 			/* 确认收货*/
 			$arr = array('shipping_status' => SS_RECEIVED);
+			$arr['order_status']	= OS_SPLITED;
 			$arr['pay_status']		= PS_PAYED;
 			$arr['pay_time']		= RC_Time::gmtime();
 			$arr['money_paid']		= $order['money_paid'] + $order['order_amount'];
 			$arr['order_amount']	= 0;
-			update_order($order_id, $arr);
+			$res = update_order($order_id, $arr);
+			if ($res) {
+				/*订单状态日志记录*/
+				OrderStatusLog::affirm_received(array('order_id' => $order['order_id']));
+			}
 			
 			/* 记录log */
 			order_action($order['order_sn'], OS_SPLITED, SS_RECEIVED, PS_PAYED, '收银台确认收货');
@@ -170,7 +186,11 @@ class payConfirm_module extends api_admin implements api_interface
 			$result = RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'split', 'note' => array('action_note' => '收银台生成发货单')));
 			if (is_ecjia_error($result)) {
 				RC_Logger::getLogger('error')->info('订单分单【订单id|'.$order_id.'】：'.$result->get_error_message());
+			}else {
+				/*订单状态日志记录*/
+				OrderStatusLog::generate_delivery_orderInvoice(array('order_id' => $order['order_id'], 'order_sn' => $order['order_sn']));
 			}
+			
 			/* 发货*/
 			$db_delivery_order	= RC_Loader::load_app_model('delivery_order_model', 'orders');
 			$delivery_id = $db_delivery_order->where(array('order_sn' => array('like' => '%'.$order['order_sn'].'%')))->order(array('delivery_id' => 'desc'))->get_field('delivery_id');
@@ -178,14 +198,23 @@ class payConfirm_module extends api_admin implements api_interface
 			$result = delivery_ship($order_id, $delivery_id, $invoice_no, $action_note);
 			if (is_ecjia_error($result)) {
 				RC_Logger::getLogger('error')->info('订单发货【订单id|'.$order_id.'】：'.$result->get_error_message());
+			}else {
+				/*订单状态日志记录*/
+				OrderStatusLog::delivery_ship_finished(array('order_id' => $order['order_id'], 'order_sn' => $order['order_sn']));
 			}
+			
 			/* 确认收货*/
 			$arr = array('shipping_status' => SS_RECEIVED);
 			$arr['pay_status']		= PS_PAYED;
+			$arr['order_status']	= OS_SPLITED;
 			$arr['pay_time']		= RC_Time::gmtime();
 			$arr['money_paid']		= $order['money_paid'] + $order['order_amount'];
 			$arr['order_amount']	= 0;
-			update_order($order_id, $arr);
+			$res = update_order($order_id, $arr);
+			if ($res) {
+				/*订单状态日志记录*/
+				OrderStatusLog::affirm_received(array('order_id' => $order['order_id']));
+			}
 			
 			/* 记录log */
 			order_action($order['order_sn'], OS_SPLITED, SS_RECEIVED, PS_PAYED, '收银台确认收货');

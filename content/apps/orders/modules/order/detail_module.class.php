@@ -137,8 +137,8 @@ class detail_module extends api_front implements api_interface {
 		}
 		
 		/* 判断配送方式*/
-		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-		$shipping_info = $shipping_method->shipping_info($order['shipping_id']);
+// 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+		$shipping_info = ecjia_shipping::pluginData($order['shipping_id']);
 		$order['shipping_code'] = $shipping_info['shipping_code'];
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 			$express_info = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
@@ -168,14 +168,12 @@ class detail_module extends api_front implements api_interface {
 		}
 		
 		//收货人地址
-		$db_region = RC_Model::model('shipping/region_model');
-		$region_name = $db_region->in(array('region_id' => array($order['country'], $order['province'], $order['city'], $order['district'])))->order('region_type')->select();
+		$order['country'] = ecjia_region::getRegionName($order['country']);
+		$order['province'] = ecjia_region::getRegionName($order['province']);
+		$order['city'] = ecjia_region::getRegionName($order['city']);
+		$order['district'] = ecjia_region::getRegionName($order['district']);
+		$order['street'] = ecjia_region::getRegionName($order['street']);
 
-		$order['country']	= empty($region_name[0]['region_name']) ? '' : $region_name[0]['region_name'];
-		$order['province']	= empty($region_name[1]['region_name']) ? '' : $region_name[1]['region_name'];
-		$order['city']		= empty($region_name[2]['region_name']) ? '' : $region_name[2]['region_name'];
-		$order['district']	=  empty($region_name[3]['region_name']) ? '' : $region_name[3]['region_name'];
-		
 		$goods_list = array();
 		$goods_list = EM_order_goods($order_id);
 		

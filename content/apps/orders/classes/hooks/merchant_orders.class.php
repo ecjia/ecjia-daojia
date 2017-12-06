@@ -88,7 +88,7 @@ class orders_merchant_plugin {
         $order_unconfirmed = $db->field('oi.order_id')->where(array('oi.order_status' => 0, 'oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $now-3600*60*24, 'lt' => $now)))->group('oi.order_id')->select();
         $order_unconfirmed = count($order_unconfirmed);
         
-        $order_await_ship = $db->field('oi.order_id')->where(array_merge($order_query->order_await_ship('oi.'), array('oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $now-3600*60*24, 'lt' => $now))))->group('oi.order_id')->select();;
+        $order_await_ship = $db->field('oi.order_id')->where(array_merge($order_query->order_await_ship('oi.'), array('oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $now-3600*60*24, 'lt' => $now))))->group('oi.order_id')->select();
         $order_await_ship = count($order_await_ship);
         
         ecjia_admin::$controller->assign('month_order', $month_order);

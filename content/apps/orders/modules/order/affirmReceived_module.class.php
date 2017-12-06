@@ -208,27 +208,10 @@ function affirm_received($order_id, $user_id = 0) {
 
             	RC_DB::table('express_order')->where('express_id', $express_info['express_id'])->update(array('status' => 5, 'signed_time' => RC_Time::gmtime()));
             	
-            	/*推送消息*/
-//             	$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $express_info['staff_id']));
-//             	if (!is_ecjia_error($devic_info) && !empty($devic_info)) {
-//             		$push_event = RC_Model::model('push/push_event_viewmodel')->where(array('event_code' => 'express_confirm', 'is_open' => 1, 'status' => 1, 'mm.app_id is not null', 'mt.template_id is not null', 'device_code' => $devic_info['device_code'], 'device_client' => $devic_info['device_client']))->find();
-//             		if (!empty($push_event)) {
-//             			RC_Loader::load_app_class('push_send', 'push', false);
-//             			ecjia_admin::$controller->assign('express_info', $express_order_info);
-//             			$content = ecjia_admin::$controller->fetch_string($push_event['template_content']);
-            			 
-//             			if ($devic_info['device_client'] == 'android') {
-//             				$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_ANDROID)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-//             			} elseif ($devic_info['device_client'] == 'iphone') {
-//             				$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_IPHONE)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-//             			}
-//             		}
-//             	}
-            	
             	/*当订单配送方式为o2o速递时,记录o2o速递物流信息*/
             	if ($express_order_info['shipping_id'] > 0) {
-            		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-            		$shipping_info = $shipping_method->shipping_info($express_order_info['shipping_id']);
+//             		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+            		$shipping_info = ecjia_shipping::pluginData($express_order_info['shipping_id']);
             		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
             			$data = array(
             					'express_code' => $shipping_info['shipping_code'],

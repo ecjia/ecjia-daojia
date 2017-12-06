@@ -15,7 +15,9 @@ class payment_module extends api_admin implements api_interface
 		}
 		
 		$device		  = $this->device;
-		if ( $device['code'] !='8001') {
+		$codes = array('8001', '8011');
+		
+		if (!in_array($device['code'], $codes)) {
 			$result = $this->admin_priv('order_stats');
 			if (is_ecjia_error($result)) {
 				return $result;
@@ -50,7 +52,8 @@ function payment_stats($start_date, $end_date, $device)
 	$end_date	= RC_Time::local_strtotime($end_date. ' 23:59:59');
 
 	/* 获取请求当前数据的device信息*/
-	if (!is_array($device) || !isset($device['code']) || $device['code'] != '8001') {
+	$codes = array('8001', '8011');
+	if (!is_array($device) || !isset($device['code']) || !in_array($device['code'], $codes)) {
 		return new ecjia_error('caskdesk_error', '非收银台请求！');
 	}
 	

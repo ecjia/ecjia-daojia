@@ -664,33 +664,7 @@ function exist_real_goods($order_id = 0, $flow_type = CART_GENERAL_GOODS) {
     }
     return $query > 0;
 }
-/**
-* 查询配送区域属于哪个办事处管辖
-* @param   array   $regions	配送区域（1、2、3、4级按顺序）
-* @return  int	 办事处id，可能为0
-*/
-function get_agency_by_regions($regions) {
-    $db = RC_Loader::load_app_model('region_model', 'shipping');
-    if (!is_array($regions) || empty($regions)) {
-        return 0;
-    }
-    $arr = array();
-    $data = $db->field('region_id, agency_id')->where(array('region_id' => array('gt' => 0), 'agency_id' => array('gt' => 0)))->in(array('region_id' => $regions))->select();
-    if (!empty($data)) {
-        foreach ($data as $row) {
-            $arr[$row['region_id']] = $row['agency_id'];
-        }
-    }
-    if (empty($arr)) {
-        return 0;
-    }
-    $agency_id = 0;
-    for ($i = count($regions) - 1; $i >= 0; $i--) {
-        if (isset($arr[$regions[$i]])) {
-            return $arr[$regions[$i]];
-        }
-    }
-}
+
 /**
 * 改变订单中商品库存
 * @param   int	 $order_id   订单号
@@ -756,7 +730,7 @@ function change_goods_storage($goods_id, $product_id, $number = 0) {
     if (!empty($product_id)) {
         /* by will.chen start*/
         $product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->pluck('product_number');
-        if ($product_number < $number) {
+        if ($product_number < abs($number)) {
             return new ecjia_error('low_stocks', RC_Lang::get('orders::order.goods_num_err'));
         }
         /* end*/
@@ -764,7 +738,7 @@ function change_goods_storage($goods_id, $product_id, $number = 0) {
     }
     /* by will.chen start*/
     $goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_number');
-    if ($goods_number < $number) {
+    if ($goods_number < abs($number)) {
         return new ecjia_error('low_stocks', RC_Lang::get('orders::order.goods_num_err'));
     }
     /* end*/
@@ -996,21 +970,20 @@ function get_consignee($user_id) {
 * @return  bool	true 完整 false 不完整
 */
 function check_consignee_info($consignee, $flow_type) {
-    $db = RC_Loader::load_app_model('region_model', 'shipping');
     if (exist_real_goods(0, $flow_type)) {
         /* 如果存在实体商品 */
         $res = !empty($consignee['consignee']) && !empty($consignee['country']) && (!empty($consignee['tel']) || !empty($consignee['mobile']));
         if ($res) {
             if (empty($consignee['province'])) {
                 /* 没有设置省份，检查当前国家下面有没有设置省份 */
-                $pro = $db->get_regions(1, $consignee['country']);
+                $pro = ecjia_region::getSubarea($consignee['country']);
                 $res = empty($pro);
             } elseif (empty($consignee['city'])) {
                 /* 没有设置城市，检查当前省下面有没有城市 */
-                $city = $db->get_regions(2, $consignee['province']);
+                $city = ecjia_region::getSubarea($consignee['province']);
                 $res = empty($city);
             } elseif (empty($consignee['district'])) {
-                $dist = $db->get_regions(3, $consignee['city']);
+                $dist = ecjia_region::getSubarea($consignee['city']);
                 $res = empty($dist);
             }
         }
@@ -1538,7 +1511,7 @@ function get_back_list() {
 	//实例化分页
 	$page = new ecjia_page($count, 15, 6);
 	/* 查询 */
-	$row = $db_back_order->select('back_id', 'order_id', 'delivery_sn', 'order_sn', 'order_id', 'add_time', 'action_user', 'consignee', 'country', 'province', 'city', 'district', 'tel', 'status', 'update_time', 'email', 'return_time')->orderby($filter['sort_by'], $filter['sort_order'])->take(15)->skip($page->start_id - 1)->get();
+	$row = $db_back_order->select('back_id', 'order_id', 'delivery_sn', 'order_sn', 'order_id', 'add_time', 'action_user', 'consignee', 'country', 'province', 'city', 'district', 'street', 'tel', 'status', 'update_time', 'email', 'return_time')->orderby($filter['sort_by'], $filter['sort_order'])->take(15)->skip($page->start_id - 1)->get();
 	if (!empty($row) && is_array($row)) {
 		/* 格式化数据 */
 		foreach ($row as $key => $value) {

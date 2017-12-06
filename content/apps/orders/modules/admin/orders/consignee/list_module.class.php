@@ -77,7 +77,6 @@ class list_module extends api_admin implements api_interface {
 			$user_id = $order_info['user_id'];
 			$address_result = RC_Model::model('user/user_address_model')->where(array('user_id' => $user_id))->select();
 			if (!empty($address_result)) {
-				$db_region = RC_Model::model('shipping/region_model');
 				$user_info = RC_Model::model('user/users_model')->where(array('user_id' => $user_id))->find();
 				foreach ($address_result as $key => $value) {
 					$address_list[$key]['id']			= $value['address_id'];
@@ -88,13 +87,13 @@ class list_module extends api_admin implements api_interface {
 					$province	= $value['province'];
 					$city		= $value['city'];
 					$district	= $value['district'];
+					$street		= $value['street'];
 			
-					$region_name = $db_region->where(array('region_id' => array('in'=>$country,$province,$city,$district)))->order('region_type')->select();
-			
-					$address_list[$key]['country_name']		= $region_name[0]['region_name'];
-					$address_list[$key]['province_name']	= $region_name[1]['region_name'];
-					$address_list[$key]['city_name']		= $region_name[2]['region_name'];
-					$address_list[$key]['district_name']	= $region_name[3]['region_name'];
+					$address_list[$key]['country_name']		= ecjia_region::getCountryName($country);
+					$address_list[$key]['province_name']	= ecjia_region::getRegionName($province);
+					$address_list[$key]['city_name']		= ecjia_region::getRegionName($city);
+					$address_list[$key]['district_name']	= ecjia_region::getRegionName($district);
+					$address_list[$key]['street_name']		= ecjia_region::getRegionName($street);
 					$address_list[$key]['tel']				= $value['tel'];
 					$address_list[$key]['mobile']			= $value['mobile'];
 			

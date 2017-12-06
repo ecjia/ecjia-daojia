@@ -71,7 +71,7 @@ class consignee_module extends api_admin implements api_interface {
 		$consignee		= $this->requestData('consignee');
 		$address		= $this->requestData('address');
 		$country_id		= $this->requestData('country_id', 0);
-		$province_id	= $this->requestData('province_id', 0);
+		$province_id	= $this->requestData('province_id', '');
 		$city_id		= $this->requestData('city_id', 0);
 		$district_id	= $this->requestData('district_id', 0);
 		$mobile			= $this->requestData('mobile');
@@ -96,7 +96,7 @@ class consignee_module extends api_admin implements api_interface {
 		/* 判断是非为会员购买*/
 		if ($address_id > 0 && $order_info['user_id'] > 0) {
 			$db_address = RC_Model::model('user/user_address_model');
-			$field = "consignee, email, country, province, city, district, address, zipcode, tel, mobile, sign_building, best_time";
+			$field = "consignee, email, country, province, city, district, street, address, zipcode, tel, mobile, sign_building, best_time";
 			$orders = $db_address->field($field)->find(array('user_id' => $order_info['user_id'],'address_id' => $address_id));
 			update_order($order_id, $orders);
 		} else {

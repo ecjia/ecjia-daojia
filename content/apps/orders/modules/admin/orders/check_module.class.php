@@ -14,7 +14,8 @@ class check_module extends api_admin implements api_interface
 			return new ecjia_error(100, 'Invalid session');
 		}
 		$device = $this->device;
-		if ($device['device_code'] != '8001') {
+		$codes = array('8001', '8011');
+		if (!in_array($device['device_code'], $codes)) {
 			$result = $this->admin_priv('order_view');
 			if (is_ecjia_error($result)) {
 				return $result;

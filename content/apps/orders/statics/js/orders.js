@@ -89,6 +89,7 @@
 								app.order.operate_note(operatetype,data);
 								$("input[name='batch']").val('1');
 								$("input[name='order_id']").val(order_id);
+								
 								$('#operate').modal('show')
 							} else {
 								app.order.operate(operatetype);
@@ -155,8 +156,6 @@
 			}
 		},
 		operate_note : function (operatetype,data) {
-			var html = $(".modal-header").children("h3").html();
-			
 			//用户填写备注的js控制
 			$("#operate .modal-body").find("fieldset").children().not("div:eq(0)").not("div:last").addClass("ecjiaf-dn");
 			$('.batchtype').val(operatetype);
@@ -174,7 +173,7 @@
             arr['refund']   = js_lang.refund;
 
 			$("#operate .modal-header").children("h3").html(html+arr[operatetype]);
-			if(data != '') {
+			if (data != '') {
 				if(data.show_cancel_note) {
 					$(".show_cancel_note").removeClass("ecjiaf-dn")
 				}
@@ -209,13 +208,13 @@
 
 			var option = {
 				rules:{
-					action_note : {
+					refund_note : {
 						required : true
 					},
 				},
 				messages:{
-					action_note : {
-						required: js_lang.pls_input_note
+					refund_note : {
+						required: '请填写退款说明！'
 					},
 				},
 				submitHandler:function(){

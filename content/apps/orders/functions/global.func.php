@@ -941,7 +941,15 @@ function get_site_root_url() {
  * @param 订单id $order_id
  */
 function get_regions($order_id) {
-    $region = RC_DB::table('order_info as o')->leftJoin('region as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))->leftJoin('region as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))->leftJoin('region as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))->leftJoin('region as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))->select(RC_DB::raw("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region"))->where(RC_DB::raw('o.order_id'), $order_id)->first();
+    $region = RC_DB::table('order_info as o')
+    	->leftJoin('regions as c', RC_DB::raw('o.country'), '=', RC_DB::raw('c.region_id'))
+    	->leftJoin('regions as p', RC_DB::raw('o.province'), '=', RC_DB::raw('p.region_id'))
+    	->leftJoin('regions as t', RC_DB::raw('o.city'), '=', RC_DB::raw('t.region_id'))
+    	->leftJoin('regions as d', RC_DB::raw('o.district'), '=', RC_DB::raw('d.region_id'))
+    	->leftJoin('regions as s', RC_DB::raw('o.street'), '=', RC_DB::raw('s.region_id'))
+    	->select(RC_DB::raw("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, ''), '  ', IFNULL(s.region_name, '')) AS region"))
+    	->where(RC_DB::raw('o.order_id'), $order_id)
+    	->first();
     return $region['region'];
 }
 /**

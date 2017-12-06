@@ -13,7 +13,6 @@
 							<label class="control-label">{lang key='orders::order.label_action_note'}</label>
 							<div class="controls">
 								<textarea name="action_note" class="span10 lbi_action_note" cols="60" rows="3"></textarea>
-								<span class="input-must">*</span>
 							</div>
 						</div>
 						<div class="control-group formSep control-group-small ecjiaf-dn show_cancel_note">

@@ -419,7 +419,7 @@ function get_merchant_order_count() {
 	$start_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t));  //当天开始时间
 	$end_time = RC_Time::local_mktime(23, 59, 59, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t)); //当天结束时间
 
-	$array = array('oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $start_time, 'lt' => $t), 'oi.is_delete' => 0);
+	$array = array('oi.store_id'  => $_SESSION['store_id'], 'oi.add_time' => array('gt'=> $start_time, 'lt' => $end_time), 'oi.is_delete' => 0);
 	if (!empty($keywords)) {
 		$array[] = "(oi.order_sn like '%".mysql_like_quote($keywords)."%' or oi.consignee like '%".mysql_like_quote($keywords)."%')"; 
 	}

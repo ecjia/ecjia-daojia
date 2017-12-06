@@ -244,43 +244,45 @@ ecjia.merchant.order.addedit();
 							</div>
 						</div>
 						<div class="form-group order-step">
-							<label class="control-label col-lg-2">{t}所在地区：{/t}</label>
-							<div class="col-lg-6 form-inline" >
-								<div class="form-group">
-									<select class="form-control" name="country" data-toggle="regionSummary" data-url='{url path="shipping/region/init"}' data-type="1" data-target="region-summary-provinces">
-										<option value="" selected="selected">{lang key='system::system.select_please'}</option>
-										<!--{foreach from=$country_list item=country} -->
-										<option value="{$country.region_id}" {if $order.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
-										<!--{/foreach} -->
-									</select>
-								</div>
-								<div class="form-group">
-									<select class="region-summary-provinces form-control" name="province" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities">
-										<option value="">{lang key='system::system.select_please'}</option>
-										<!--{foreach from=$province_list item=province} -->
-										<option value="{$province.region_id}" {if $order.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
-										<!-- {/foreach} -->
-									</select>
-								</div>
-								<div class="form-group">
-									<select class="region-summary-cities form-control" name="city" data-toggle="regionSummary" data-type="3" data-target="region-summary-districts">
-										<option value="">{lang key='system::system.select_please'}</option>
-										<!-- {foreach from=$city_list item=city} -->
-										<option value="{$city.region_id}" {if $order.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
-										<!-- {/foreach} -->
-									</select>
-								</div>
-								<div class="form-group">
-									<select class="region-summary-districts form-control" name="district" >
-										<option value="">{lang key='system::system.select_please'}</option>
-										<!-- {foreach from=$district_list item=district} -->
-										<option value="{$district.region_id}" {if $order.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
-										<!-- {/foreach} -->
-									</select>
-								</div>
-								<span class="input-must">{lang key='system::system.require_field'}</span>
-							</div>
-						</div>
+                            <label class="control-label col-lg-2">{t}省份：{/t}</label>
+                            <div class="w110 f_l m_l15">
+                                <select class="form-control required" name="province" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities" data-url="{url path='merchant/region/init'}">
+                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <!-- {foreach from=$province item=region} -->
+                                        <option value="{$region.region_id}" {if $region.region_id eq $order.province}selected{/if}>{$region.region_name}</option>
+                                    <!-- {/foreach} -->
+                                </select>
+                            </div>
+
+                            <div class="w110 f_l m_l10">
+                                <select class="form-control required region-summary-cities" data-target="region-summary-distric" name="city" data-type="3" data-toggle="regionSummary">
+                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <!-- {foreach from=$city item=region} -->
+                                    <option value="{$region.region_id}" {if $region.region_id eq $order.city}selected{/if}>{$region.region_name}</option>
+                                    <!-- {/foreach} -->
+                                </select>
+                            </div>
+
+                            <div class="w110 f_l m_l10">
+                                <select class="form-control required region-summary-distric" data-target="region-summary-street" name="district" data-type="4" data-toggle="regionSummary">
+                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <!-- {foreach from=$district item=region} -->
+                                    <option value="{$region.region_id}" {if $region.region_id eq $order.district}selected{/if}>{$region.region_name}</option>
+                                    <!-- {/foreach} -->
+                                </select>
+                            </div>
+                            
+                            <div class="w110 f_l m_l10 m_r10">
+                          		<select class="form-control required region-summary-street" name="street" >
+                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <!-- {foreach from=$street item=region} -->
+                                    <option value="{$region.region_id}" {if $region.region_id eq $order.street}selected{/if}>{$region.region_name}</option>
+                                    <!-- {/foreach} -->
+                                </select>
+                            </div>
+                            <span class="input-must">*</span>
+                        </div>
+                        
 						<div class="order-step-formgroup form-group">
 							<label class="control-label col-lg-2">{lang key='orders::order.label_zipcode'}</label>
 							<div class="col-lg-6 form-inline" >
