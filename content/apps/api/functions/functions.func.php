@@ -70,7 +70,7 @@ function set_api_session_id($session_id) {
 		return array_get($post, 'token');
 	}
 	
-	return ;
+	return $session_id;
 }
 
 RC_Hook::add_filter('ecjia_api_session_id', 'set_api_session_id');

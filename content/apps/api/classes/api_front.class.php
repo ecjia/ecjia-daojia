@@ -86,7 +86,7 @@ abstract class api_front extends ecjia_api {
 		});
 	
 		RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
-			return RC_Hook::apply_filters('ecjia_api_session_id', '');
+			return RC_Hook::apply_filters('ecjia_api_session_id', $sessin_id);
 		});
 	
 		RC_Session::start();
