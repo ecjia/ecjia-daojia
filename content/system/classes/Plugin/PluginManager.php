@@ -101,6 +101,10 @@ class PluginManager extends Manager
     protected function loadPluginFile($driver) {
         $driver = strtolower($driver);
         
+        if (isset($this->customCreators[$driver])) {
+            return true;
+        }
+        
         if (isset($this->plugins[$driver])) {
             return \RC_Plugin::load_files($this->plugins[$driver]);
         }

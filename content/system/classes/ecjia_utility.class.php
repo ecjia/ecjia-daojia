@@ -183,9 +183,16 @@ class ecjia_utility {
      */
     public static function get_site_info()
     {
-        $shop_country = ecjia_region::instance()->region_name(ecjia::config('shop_country'));
-        $shop_province = ecjia_region::instance()->region_name(ecjia::config('shop_province'));
-        $shop_city = ecjia_region::instance()->region_name(ecjia::config('shop_city'));
+        if (class_exists('ecjia_region')) {
+            $shop_country = ecjia_region::getCountryName(ecjia::config('shop_country'));
+            $shop_province = ecjia_region::getRegionName(ecjia::config('shop_province'));
+            $shop_city = ecjia_region::getRegionName(ecjia::config('shop_city'));
+        } else {
+            $shop_country = ecjia::config('shop_country');
+            $shop_province = ecjia::config('shop_province');
+            $shop_city = ecjia::config('shop_city');
+        }
+        
     	$orders_stats = RC_Api::api('orders', 'orders_stats');
         $goods_stats = RC_Api::api('goods', 'goods_stats');
     	$user_stats = RC_Api::api('user', 'user_stats');

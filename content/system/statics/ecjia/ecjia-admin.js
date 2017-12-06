@@ -137,6 +137,23 @@
 				/* prevent accordion link click */
 				$('.sidebar .accordion-toggle').click(function(e) {e.preventDefault()});
 			},
+			click: function() {
+					$('.sidebar_switch').removeClass('on_switch off_switch');
+					if ( $('body').hasClass('sidebar_hidden') && $.cookie('ecjia_sidebar') != "hidden" ) {
+						$.cookie('ecjia_sidebar', null);
+						$('body').removeClass('sidebar_hidden');
+						$('.sidebar_switch').addClass('on_switch').show();
+						$('.sidebar_switch').attr( 'title', admin_lang.hide_sidebar);
+					} else if ($.cookie('ecjia_sidebar') == "hidden") {
+						$.cookie('ecjia_sidebar', 'hidden');
+						$('body').addClass('sidebar_hidden');
+						$('.sidebar_switch').addClass('off_switch');
+						$('.sidebar_switch').attr( 'title', admin_lang.display_sidebar);
+					};
+					ecjia.admin.sidebar.info_box();
+					ecjia.admin.sidebar.update_scroll();
+					$(window).resize();
+			},
 			info_box: function() {
 				 var s_box = $('.sidebar_info');
 				 var s_box_height = s_box.actual('height');

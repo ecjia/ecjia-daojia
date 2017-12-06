@@ -754,6 +754,18 @@ WELCOME;
     public static function is_super_admin() {
         
     }
+
+
+    public static function is_sidebar_hidden() {
+        $sidebar_display = ecjia_screen::get_current_screen()->get_sidebar_display();
+        $ecjia_sidebar = royalcms('request')->cookie('ecjia_sidebar');
+
+        if ($sidebar_display === false || $ecjia_sidebar == 'hidden') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 	
 }
 

@@ -14,7 +14,7 @@
 	<!-- {block name="meta"} --><!-- {/block} -->
 	<!-- {ecjia:hook id=admin_head} -->
 </head>
-<body>
+<body{if ecjia_admin::is_sidebar_hidden()} class="sidebar_hidden"{/if}>
 	<div class="clearfix" id="maincontainer">
 		<!-- #BeginLibraryItem "/library/common_header.lbi" --><!-- #EndLibraryItem -->
 		<div id="contentwrapper">
