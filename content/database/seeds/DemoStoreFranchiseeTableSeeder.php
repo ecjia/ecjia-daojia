@@ -75,7 +75,7 @@ class DemoStoreFranchiseeTableSeeder extends Seeder
                 'apply_time'                => 1478741085,
                 'confirm_time'              => 1478741104,
                 'expired_time'              => 1510277104,
-                'address'                   => '普陀区中山北路3553号',
+                'address'                   => '中山北路3553号301室',
                 'identity_type'             => '1',
                 'identity_number'           => 'xxxxxxxxxxxxxxxxxxxxx',
                 'personhand_identity_pic'   => '',
@@ -95,9 +95,10 @@ class DemoStoreFranchiseeTableSeeder extends Seeder
                 'latitude'                  => '31.235278361951',
                 'geohash'                   => 'wtw3dyhwdj',
                 'sort_order'                => 50,
-                'province'                  => 25,
-                'city'                      => 321,
-                'district'                  => 2709,
+                'province'                  => 'CN31',
+                'city'                      => 'CN3101',
+                'district'                  => 'CN310107',
+                'street'                    => 'CN310107014',
             )
         );
 
