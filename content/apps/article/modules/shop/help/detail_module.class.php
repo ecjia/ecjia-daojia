@@ -63,6 +63,7 @@ class detail_module extends api_front implements api_interface {
 			if (empty($article_info)) {
 				return new ecjia_error('does not exist', '不存在的信息');
 			}
+			$article_info['content'] = str_replace('\\"', '"', $article_info['content']);
 			$base = sprintf('<base href="%s/" />', dirname(SITE_URL));
 			$html['data'] = '<!DOCTYPE html><html><head><title>'.$article_info['title'].'</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="initial-scale=1.0"><meta name="viewport" content="initial-scale = 1.0 , minimum-scale = 1.0 , maximum-scale = 1.0" /><style>img {width: auto\9;height: auto;vertical-align: middle;border: 0;-ms-interpolation-mode: bicubic;max-width: 100%; }html { font-size:100%; }p{word-wrap : break-word ;word-break:break-all;} </style>'.$base.'</head><body>'.$article_info['content'].'</body></html>';
 			//$article_db->set_cache_item($cache_id, $html);
@@ -74,8 +75,7 @@ class detail_module extends api_front implements api_interface {
 
 function get_article_info($article_id) {
 	/* 获得文章的信息 */
-	$db = RC_Loader::load_app_model('article_model', 'article');
-    $row = $db->field('article_id as id, title, content')->find(array('article_id' => $article_id));
+    $row = RC_DB::table('article')->selectRaw('article_id as id, title, content')->where('article_id', $article_id)->first();
     return $row;
 }
 

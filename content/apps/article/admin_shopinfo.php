@@ -312,7 +312,7 @@ class admin_shopinfo extends ecjia_admin {
 		$this->admin_priv('shopinfo_manage', ecjia::MSGTYPE_JSON);
 	
 		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$old_url = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');;
+		$old_url = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');
 	
 		$disk = RC_Filesystem::disk();
 		$disk->delete(RC_Upload::upload_path() . $old_url);

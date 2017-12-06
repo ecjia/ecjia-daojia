@@ -39,7 +39,7 @@
 </div>
 
 <ul class="nav nav-pills">
-	<li class="{if !$smarty.get.type}active{/if}">
+	<li class="{if !$smarty.get.type && !$smarty.get.suggest_type}active{/if}">
 		<a class="data-pjax" href="{RC_Uri::url('article/admin/init')}
 			{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
 			{if $publishby}&publishby={$publishby}{/if}

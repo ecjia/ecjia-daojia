@@ -94,15 +94,15 @@ $LANG['articleadd_succeed'] = '文章添加成功';
 $LANG['articleedit_succeed'] = '文章 “%s” 编辑成功';
 $LANG['articlename_exist'] = '文章 %s 已经存在';
 $LANG['not_emptycat'] = '分类下还有文章，不允许删除非空分类';
-$LANG['lang_article_add'] = '添加新帮助文章';;
+$LANG['lang_article_add'] = '添加新帮助文章';
 /*JS 语言项*/
 $LANG['js_languages']['no_catname'] = '请输入分类名';
 $LANG['js_languages']['lang_remove'] = '移除';
 $LANG['js_languages']['lang_sort'] = '排序:';
-$LANG['js_languages']['lang_article_add'] = '添加新帮助文章';;
-$LANG['js_languages']['lang_article_list'] = '帮助文章列表';;
-$LANG['js_languages']['remove_confirm'] = '你确认要删除该记录吗？';;
-$LANG['js_languages']['no_title'] = '没有输入文章标题';;
+$LANG['js_languages']['lang_article_add'] = '添加新帮助文章';
+$LANG['js_languages']['lang_article_list'] = '帮助文章列表';
+$LANG['js_languages']['remove_confirm'] = '你确认要删除该记录吗？';
+$LANG['js_languages']['no_title'] = '没有输入文章标题';
 $LANG['js_languages']['no_cat'] = '没有选择帮助文章分类';
 $LANG['js_languages']['chap'] = '篇';
 
