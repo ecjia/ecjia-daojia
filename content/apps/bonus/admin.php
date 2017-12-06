@@ -50,16 +50,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 红包类型的处理
  */
 class admin extends ecjia_admin {
-	private $db_user_bonus;
-	private $db_bonus_type;
-	
 	public function __construct() {
+		
 		parent::__construct();
 		RC_Loader::load_app_func('admin_bonus');
-		
-		$this->db_user_bonus 	= RC_Model::model('bonus/user_bonus_model');
-		$this->db_bonus_type 	= RC_Model::model('bonus/bonus_type_model' );
-
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -180,7 +174,7 @@ class admin extends ecjia_admin {
 		$min_amount  = !empty($_POST['min_amount']) 		? floatval($_POST['min_amount']) 	: 0;
 		$bonus_type  = intval($_POST['bonus_type']) == 1 	? 1 								: 0;
 		$send_type	 = !empty($_POST['send_type'])			? intval($_POST['send_type'])		: 0;
-		$store_id = RC_DB::table('bonus_type')->select('store_id')->where('type_id', $type_id)->pluck();
+		$store_id = RC_DB::table('bonus_type')->where('type_id', $type_id)->pluck('store_id');
 		$store_id    = !empty($store_id)                    ? intval($store_id)    		        : 0;
 
 		if (RC_DB::table('bonus_type')->where('type_name', $type_name)->where('store_id', $store_id)->count() > 0) {
@@ -888,7 +882,7 @@ class admin extends ecjia_admin {
 		
 		$arr = $_POST;
 		$type_id = !empty($_POST['type_id']) ? intval($_POST['type_id']) : '';
-		$arr['store_id'] = RC_DB::table('bonus_type')->select('store_id')->where('type_id', $type_id)->pluck();
+		$arr['store_id'] = RC_DB::table('bonus_type')->where('type_id', $type_id)->pluck('store_id');
 		$row = RC_Api::api('goods', 'get_goods_list', $arr);
 		$opt = array();
 		if (!empty($row)) {

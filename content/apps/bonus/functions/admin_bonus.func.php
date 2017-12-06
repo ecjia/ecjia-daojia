@@ -196,8 +196,6 @@ function bonus_type_info($bonus_type_id) {
  * @return boolean
  */
 function add_to_maillist($username, $email, $subject, $content, $is_html) {
-	$db_mail_templates = RC_Model::model('mail/mail_templates_model');
-	$db_email_sendlist = RC_Model::model('mail/email_sendlist_model');
 	$time = time ();
 	$content = addslashes ( $content );
 	$template_id = RC_DB::table('mail_templates')->where('template_code', 'send_bonus')->pluck('template_id');
@@ -301,36 +299,58 @@ function unuse_bonus($bonus_id) {
  * 取得当前用户应该得到的红包总额
  */
 function get_total_bonus() {
-	$db_cart	= RC_Model::model('cart/cart_model');
-	$dbview		= RC_Model::model('cart/cart_exchange_viewmodel');
-	$db_bonus	= RC_Model::model('bonus/bonus_type_model');
 	$day		= RC_Time::local_getdate();
 	$today		= RC_Time::local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
 
-	/* 按商品发的红包 */
-	$dbview->view = array(
-		'goods' => array(
-			'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-			'alias'	=> 'g',
-			'on'	=> 'c.goods_id = g.goods_id'
-		),
-		'bonus_type' => array(
-			'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-			'alias'	=> 't',
-			'on'	=> 'g.bonus_type_id = t.type_id'
-		),
-	);
 	if ($_SESSION['user_id']) {
-		$goods_total = floatval($dbview->where(array('c.user_id' => $_SESSION['user_id'] , 'c.is_gift' => 0 , 't.send_type' => SEND_BY_GOODS , 't.send_start_date' => array('elt' => $today) , 't.send_end_date' => array('egt' => $today) , 'c.rec_type' => CART_GENERAL_GOODS))->sum('c.goods_number * t.type_money')); 
+		$total_money = RC_DB::table('cart as c')
+			->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
+			->leftJoin('bonus_type as t', RC_DB::raw('g.bonus_type_id'), '=', RC_DB::raw('t.type_id'))
+			->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])
+			->where(RC_DB::raw('c.is_gift'), 0)
+			->where(RC_DB::raw('t.send_type'), SEND_BY_GOODS)
+			->where(RC_DB::raw('t.send_start_date'), '<=', $today)
+			->where(RC_DB::raw('t.send_end_date'), '>=', $today)
+			->where(RC_DB::raw('c.rec_type'), CART_GENERAL_GOODS)
+			->SUM(RC_DB::raw('c.goods_number * t.type_money'));
+		$goods_total = floatval($total_money);
+
 	    /* 取得购物车中非赠品总金额 */
-	    $amount = floatval($db_cart->where(array('user_id' => $_SESSION['user_id'] , 'is_gift' => 0 , 'rec_type' => CART_GENERAL_GOODS))->sum('goods_price * goods_number'));
+	    $goods_amount = RC_DB::table('cart')
+	        ->where('user_id', $_SESSION['user_id'])
+	        ->where('is_gift', 0)
+	        ->where('rec_type', CART_GENERAL_GOODS)
+	        ->SUM(RC_DB::raw('goods_price * goods_number'));
+		$amount = floatval($goods_amount);
+
 	} else {
-		$goods_total = floatval($dbview->where(array('c.session_id' => SESS_ID , 'c.is_gift' => 0 , 't.send_type' => SEND_BY_GOODS , 't.send_start_date' => array('elt' => $today) , 't.send_end_date' => array('egt' => $today) , 'c.rec_type' => CART_GENERAL_GOODS))->sum('c.goods_number * t.type_money')); 
+		$total_money = RC_DB::table('cart as c')
+			->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
+			->leftJoin('bonus_type as t', RC_DB::raw('g.bonus_type_id'), '=', RC_DB::raw('t.type_id'))
+			->where(RC_DB::raw('c.session_id'), SESS_ID)
+			->where(RC_DB::raw('c.is_gift'), 0)
+			->where(RC_DB::raw('t.send_type'), SEND_BY_GOODS)
+			->where(RC_DB::raw('t.send_start_date'), '<=', $today)
+			->where(RC_DB::raw('t.send_end_date'), '>=', $today)
+			->where(RC_DB::raw('c.rec_type'), CART_GENERAL_GOODS)
+			->SUM(RC_DB::raw('c.goods_number * t.type_money'));
+		$goods_total = floatval($total_money);
+
 	    /* 取得购物车中非赠品总金额 */
-	    $amount = floatval($db_cart->where(array('session_id' => SESS_ID , 'is_gift' => 0 , 'rec_type' => CART_GENERAL_GOODS))->sum('goods_price * goods_number'));
+		$goods_amount = RC_DB::table('cart')
+	        ->where('session_id', SESS_ID)
+	        ->where('is_gift', 0)
+	        ->where('rec_type', CART_GENERAL_GOODS)
+	        ->SUM(RC_DB::raw('goods_price * goods_number'));
+		$amount = floatval($goods_amount);
 	}
 	/* 按订单发的红包 */
-	$order_total = floatval($db_bonus->field('FLOOR('.$amount.' / min_amount) * type_money')->find('send_type = "'. SEND_BY_ORDER . '" AND send_start_date <= '.$today.'  AND send_end_date >= '.$today.' AND min_amount > 0'));
+	$order_amount = RC_DB::table('bonus_type')
+		->selectRaw('FLOOR('.$amount.' / min_amount) * type_money')
+		->whereRaw('send_type = "'. SEND_BY_ORDER . '" AND send_start_date <= '.$today.'  AND send_end_date >= '.$today.' AND min_amount > 0')
+		->first();
+	$order_total = floatval($order_amount);
+
 	return $goods_total + $order_total;
 }
 
@@ -341,20 +361,18 @@ function get_total_bonus() {
 * @param   int	 $is_used	是否使用了
 */
 function change_user_bonus($bonus_id, $order_id, $is_used = true) {
-	$db = RC_Model::model('bonus/user_bonus_model');
 	if ($is_used) {
 		$data = array(
 			'used_time'	=> RC_Time::gmtime(),
 			'order_id'	=> $order_id
 		);
-		$db->where(array('bonus_id' => $bonus_id))->update($data);
 	} else {
 		$data = array(
 			'used_time'	=> 0,
 			'order_id'	=> 0
 		);
-		$db->where(array('bonus_id' => $bonus_id))->update($data);
 	}
+	RC_DB::table('user_bonus')->where('bonus_id', $bonus)->update($data);
 }
 /********从order.func移出的有关红包的方法---end************/
 

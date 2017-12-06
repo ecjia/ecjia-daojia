@@ -613,8 +613,7 @@ class merchant extends ecjia_merchant {
         foreach ($user_list AS $key => $val) {
 			/* 发送邮件通知 */
 			/* 读取邮件配置项 */
-        	$db_config = RC_Model::model('shop_config_model');
-        	$arr 	   = $db_config->get_email_setting();
+        	$arr 	   = RC_Model::model('shop_config_model')->get_email_setting();
 			$email_cfg = array_merge($val, $arr);
 			$email_cfg['reply_email'] = $arr['smtp_user'];
 			$this->assign('user_name', $val['user_name']);

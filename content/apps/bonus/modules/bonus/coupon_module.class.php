@@ -56,7 +56,7 @@ class coupon_module extends api_front implements api_interface {
 		
 		$this->authSession();
 		$location	= $this->requestData('location', array());
-		$city_id	= $this->requestData('city_id', 0);
+		$city_id	= $this->requestData('city_id', '');
 		/*经纬度为空判断*/
 		if (!is_array($location) || ((empty($location['longitude']) || empty($location['latitude'])) && $city_id <= 0)) {
 			return new ecjia_error('invalid_parameter', '参数无效');

@@ -65,36 +65,32 @@ class bonus_bonus_type_list_api extends Component_Event_Api {
 	
 	/* 注册送红包*/
 	private function bonus_type_list($options) {
-		$db_bonus_type = RC_Loader::load_app_model('bonus_type_model', 'bonus');
-		
-		
-		$where = array();
+		$db_bonus_type = RC_DB::table('bonus_type');
+
 		/* 在发放时间范围内*/
 		if ($options['type'] == 'allow_send') {
 			$time	= RC_Time::gmtime();
-			$where['send_start_date']	= array('elt' => $time);
-			$where['send_end_date']	= array('egt' => $time);
+			$db_bonus_type->where('send_start_date', '<=', $time)->where('send_end_date', '>=', $time);
 		}
 		/* 在使用时间范围内*/
 		if ($options['type'] == 'allow_use') {
 			$time	= RC_Time::gmtime();
-			$where['use_start_date']	= array('elt' => $time);
-			$where['use_end_date']	= array('egt' => $time);
+			$db_bonus_type->where('use_start_date', '<=', $time)->where('use_end_date', '>=', $time);
 		}
 		//红包发放类型，0按用户发放，1按商品，2按订单金额，3线下
 		if ($options['send_type'] == 'user') {
-			$where['send_type']	= 0;
+			$db_bonus_type->where('send_type', 0);
 		}
 		//店铺id
 		if (isset($options['store_id'])) {
-		    $where['store_id']	= intval($options['store_id']);
+		    $db_bonus_type->where('store_id', intval($options['store_id']));
 		}
 		
 		$limit = null;
 		if (isset($options['limit'])) {
 			
 		}
-		return RC_Model::model('bonus/bonus_type_model')->where($where)->limit($limit)->select();
+		return $db_bonus_type->get();
 	}
 }
 
