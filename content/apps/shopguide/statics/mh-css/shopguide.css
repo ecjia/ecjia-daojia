@@ -220,3 +220,13 @@
 	width: 60%; 
 	margin: 0 auto;
 }
+
+.template-item{margin-bottom:20px;padding:15px 20px;width:100%;height:auto;min-height:100px;background-color:#f9f9f9}
+.template-item .template-head{margin-bottom:10px;height:30px;border-bottom:1px solid #ddd}
+.template-item .head-left{float:left;font-weight:700;font-size:14px}
+.template-item .head-right{float:right}
+.template-item .head-right a{color:#428bca;text-decoration:none;}
+.template-item .head-right a.ecjiafc-red{color:#c62626;}
+.template-item .content-group{overflow:hidden;line-height:30px}
+.template-item .content-group .content-label{float:left;width:12%}
+.template-item .content-group .content-controls{float:left;width:88%}

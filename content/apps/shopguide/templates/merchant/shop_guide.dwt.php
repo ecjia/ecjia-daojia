@@ -28,9 +28,9 @@
 				<span class="m_t5">选择平台分类、添加商品</span><span class="stepNb">2</span></li>
 				<li id="step3" class="{if $step eq 3}current-step{/if}">
 				<div>
-					配送设置
+					运费模板
 				</div>
-				<span class="m_t5">设置店铺配送方式</span><span class="stepNb">3</span></li>
+				<span class="m_t5">设置店铺运费模板</span><span class="stepNb">3</span></li>
 				<li id="step3" class="{if $step eq 4}current-step{/if}">
 				<div>
 					完成向导
@@ -275,20 +275,40 @@
 				<!-- {elseif $smarty.get.step eq '3'} -->
 				<fieldset class="step3 step">
 					<div class="form-group">
-						<h3 class="control-label col-lg-3 m_t20">配送信息<span class="color_838383 m_l10">可开启配送方式，启用之后，点击配送方式可设置配送区域，配送方式可设置多个。此项非必填项，您可选择暂时跳过此步骤。</span></h3>
+						<h3 class="control-label col-lg-3 m_t20">运费模板<span class="color_838383 m_l10">点击添加运费模板，运费模板添加好后即可开启配送方式，可添加多个运费模板。此项非必填项，您可选择暂时跳过此步骤。</span></h3>
 					</div>
 					<ul class="step-ul">
-						<!-- {foreach from=$shipping_list item=val} -->
-						<a target="__blank" href="{RC_Uri::url('shipping/mh_area/init')}&shipping_id={$val.id}&code={$val.code}">
-						<li class="step-li color_fff">{$val.name}<image class="check" src="{$app_url}/mh-check.png"/></li>
-						</a>
+						<!-- {foreach from=$shipping_list item=list} -->
+						<div class="template-item">
+							<div class="template-head">
+								<div class="head-left">{$list.shipping_area_name}</div>
+								<div class="head-right">
+									<a target="__blank" href='{RC_Uri::url("shipping/mh_shipping/edit_shipping_template")}&template_name={$list.shipping_area_name}'>查看详情</a> &nbsp;|&nbsp;
+									<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg="您确定要删除该运费模板吗？" href='{RC_Uri::url("shipping/mh_shipping/remove_shipping_template", "name={$list.shipping_area_name}")}' title="{lang key='system::system.drop'}">删除</a>
+								</div>
+							</div>
+							<div class="template-content">
+								<div class="content-group">
+									<div class="content-label">物流快递：</div>
+									<div class="content-controls">
+										{$list.shipping_name}
+									</div>
+								</div>
+								<div class="content-group">
+									<div class="content-label">配送区域：</div>
+									<div class="content-controls">
+										{$list.shipping_area}
+									</div>
+								</div>
+							</div>
+						</div>
 						<!-- {/foreach} -->
-						<a target="__blank" href="{RC_Uri::url('shipping/merchant/init')}">
-						<li class="step-li">安装配送方式</li>
+						<a target="__blank" href="{RC_Uri::url('shipping/mh_shipping/add_shipping_template')}">
+						<li class="step-li">添加运费模板</li>
 						</a>
 					</ul>
 					<div class="color_838383 m_l54">
-						温馨提示：配送方式安装完成后，请刷新此页面查看安装后效果。
+						温馨提示：运费模板添加完成后，请刷新此页面查看安装后效果。
 					</div>
 					<div class="form-group">
 						<div class="col-lg-6 m_t0">
@@ -320,7 +340,7 @@
 							<a class="complete-li" href="{RC_Uri::url('favourable/merchant/add')}"><img src="{$app_url}/add-favourable.png">{lang key='shopguide::shopguide.add_favourable'}</a>
 							<a class="complete-li" href="{RC_Uri::url('staff/mh_profile/init')}"><img src="{$app_url}/mail-setting.png">个人设置</a>
 							<a class="complete-li" href="{RC_Uri::url('merchant/merchant/init')}"><img src="{$app_url}/store-setting.png">店铺设置</a>
-							<a class="complete-li" href="{RC_Uri::url('shipping/merchant/init')}"><img src="{$app_url}/add-user.png">设置配送方式</a>
+							<a class="complete-li" href="{RC_Uri::url('shipping/mh_shipping/add_shipping_template')}"><img src="{$app_url}/add-user.png">添加运费模板</a>
 						</ul>
 					</div>
 				</div>

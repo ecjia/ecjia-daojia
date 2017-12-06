@@ -51,31 +51,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  */
 class admin extends ecjia_admin {
-	private $db_region;
-	private $db_shipping;
-	private $db_shipping_area;
-	private $db_shipping_area_region;
-	private $db_payment;
-
-	private $db_category;
-	private $db_brand;
-	private $db_goods;
-	
 	public function __construct() {
 		parent::__construct();
 		
-		RC_Loader::load_app_class('shipping_factory', 'shipping', false);
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
-		
-		$this->db_region 				= RC_Loader::load_model('region_model');
-		$this->db_shipping 				= RC_Loader::load_app_model('shipping_model', 'shipping');
-		$this->db_shipping_area 		= RC_Loader::load_app_model('shipping_area_model', 'shipping');
-		$this->db_shipping_area_region 	= RC_Loader::load_app_model('shipping_area_region_model', 'shipping');
-		$this->db_payment 				= RC_Loader::load_app_model('payment_model', 'payment');
-		
-		$this->db_category 		= RC_Loader::load_app_model('category_model', 'goods');
-		$this->db_brand 		= RC_Loader::load_app_model('brand_model', 'goods');
-		$this->db_goods 		= RC_Loader::load_app_model('goods_model', 'goods');
 		
 		RC_Loader::load_app_func('global', 'goods');
 		RC_Loader::load_app_func('global', 'shopguide');
@@ -141,11 +120,15 @@ class admin extends ecjia_admin {
 			$data['shop_logo'] = RC_Upload::upload_url().'/'.$data['shop_logo'];
 		}
 		
-    	$this->assign('countries', $this->db_region->get_regions());
-		if ($data['shop_country'] > 0) {
-			$this->assign('provinces', $this->db_region->get_regions(1, $data['shop_country']));
+		$countries = with(new Ecjia\App\Setting\Country)->getCountries();
+		$this->assign('countries', $countries);
+		if (!empty($data['shop_country'])) {
+			$provinces = ecjia_region::getSubarea($data['shop_country']);
+			$this->assign('provinces', $provinces);
+			
 			if ($data['shop_province']) {
-				$this->assign('cities', $this->db_region->get_regions(2, $data['shop_province']));
+				$cities = ecjia_region::getSubarea($data['shop_province']);
+				$this->assign('cities', $cities);
 			}
 		}
 		
@@ -189,9 +172,9 @@ class admin extends ecjia_admin {
     	if ($step == 1) {
     		$shop_name 		= empty($_POST['shop_name']) 		? '' : $_POST['shop_name'];
     		$shop_title 	= empty($_POST['shop_title']) 		? '' : $_POST['shop_title'];
-    		$shop_country 	= empty($_POST['shop_country']) 	? '' : intval($_POST['shop_country']);
-    		$shop_province 	= empty($_POST['shop_province']) 	? '' : intval($_POST['shop_province']);
-    		$shop_city 		= empty($_POST['shop_city']) 		? '' : intval($_POST['shop_city']);
+    		$shop_country 	= empty($_POST['shop_country']) 	? '' : trim($_POST['shop_country']);
+    		$shop_province 	= empty($_POST['shop_province']) 	? '' : trim($_POST['shop_province']);
+    		$shop_city 		= empty($_POST['shop_city']) 		? '' : trim($_POST['shop_city']);
     		$shop_address 	= empty($_POST['shop_address']) 	? '' : $_POST['shop_address'];
     		$company_name	= empty($_POST['company_name']) 	? '' : $_POST['company_name'];
     		$service_phone  = empty($_POST['service_phone'])	? '' : $_POST['service_phone'];

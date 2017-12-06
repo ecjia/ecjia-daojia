@@ -51,12 +51,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author wutifang
  */
 class merchant extends ecjia_merchant {
-	private $db_region;
-	
 	public function __construct() {
 		parent::__construct();
-		
-		$this->db_region = RC_Loader::load_model('region_model');
 		
 		RC_Style::enqueue_style('jquery-stepy');
 		RC_Script::enqueue_script('jquery-validate');
@@ -85,8 +81,6 @@ class merchant extends ecjia_merchant {
 		RC_Loader::load_app_class('goods', 'goods', false);
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
 		RC_Loader::load_app_class('goods_imageutils', 'goods', false);
-		
-		RC_Loader::load_app_class('shipping_factory', 'shipping', false);
 	}
 	
     public function init() {
@@ -130,49 +124,36 @@ class merchant extends ecjia_merchant {
 		$this->assign('goods_info', $goods_info);
 		
 		if ($step == 3) {
-			//已启用的配送方式
-			$enabled_data = RC_DB::table('shipping as s')
-				->leftJoin('shipping_area as a', function($join) {
-					$join->on(RC_DB::raw('s.shipping_id'), '=', RC_DB::raw('a.shipping_id'))
-					->where(RC_DB::raw('a.store_id'), '=', $_SESSION['store_id']);
-				})
-				->groupBy(RC_DB::raw('s.shipping_id'))
-				->orderBy(RC_DB::raw('s.shipping_order'))
-				->selectRaw('s.*, a.shipping_area_id')
-				->where(RC_DB::raw('s.enabled'), 1)
-				->whereNotNull(RC_DB::raw('a.shipping_area_id'))
-				->get();
-			
-			/* 插件已经安装了，获得名称以及描述 */
-			$enabled_modules = array();
-			
-			$plugins = ecjia_config::instance()->get_addon_config('shipping_plugins', true);
-			
-			//已启用
-			foreach ($enabled_data as $_key => $_value) {
-				if (isset($plugins[$_value['shipping_code']])) {
-					$enabled_modules[$_key]['id']      			= $_value['shipping_id'];
-					$enabled_modules[$_key]['code']      		= $_value['shipping_code'];
-					$enabled_modules[$_key]['name']    			= $_value['shipping_name'];
-					$enabled_modules[$_key]['desc']    			= $_value['shipping_desc'];
-					$enabled_modules[$_key]['cod']     			= $_value['support_cod'];
-					$enabled_modules[$_key]['shipping_order'] 	= $_value['shipping_order'];
-					$enabled_modules[$_key]['insure_fee']  		= $_value['insure'];
-					$enabled_modules[$_key]['enabled'] 			= $_value['enabled'];
-						
-					/* 判断该派送方式是否支持保价 支持报价的允许在页面修改保价费 */
-					$shipping_handle = new shipping_factory($_value['shipping_code']);
-					$config          = $shipping_handle->configure_config();
-			
-					/* 只能根据配置判断是否支持保价  只有配置项明确说明不支持保价，才是不支持*/
-					if (isset($config['insure']) && ($config['insure'] === false)) {
-						$enabled_modules[$_key]['is_insure'] = false;
-					} else {
-						$enabled_modules[$_key]['is_insure'] = true;
-					}
-				}
-			}
-			$this->assign('shipping_list', $enabled_modules);
+			$data = RC_DB::table('shipping_area')
+	            ->where('store_id', $_SESSION['store_id'])
+	            ->select('shipping_area_name')
+	            ->groupBy('shipping_area_name')
+	            ->orderBy('shipping_area_id', 'desc')
+	            ->get();
+	
+	        if (!empty($data)) {
+	            foreach ($data as $k => $v) {
+	                $shipping_area_list    = RC_DB::table('shipping_area')->where('shipping_area_name', $v['shipping_area_name'])->where('store_id', $_SESSION['store_id'])->get();
+	                $data[$k]['area_list'] = $shipping_area_list;
+	                if (!empty($shipping_area_list)) {
+	                    $shipping_name = '';
+	                    foreach ($shipping_area_list as $key => $val) {
+	                        if ($key == 0) {
+	                            $region_name = RC_DB::table('area_region as a')
+	                                ->leftJoin('regions as r', RC_DB::raw('a.region_id'), '=', RC_DB::raw('r.region_id'))
+	                                ->where(RC_DB::raw('a.shipping_area_id'), $val['shipping_area_id'])
+	                                ->lists(RC_DB::raw('r.region_name'));
+	                            if (!empty($region_name)) {
+	                                $data[$k]['shipping_area'] = implode(' | ', $region_name);
+	                            }
+	                        }
+	                        $shipping_name .= RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_name') . '、';
+	                    }
+	                    $data[$k]['shipping_name'] = rtrim($shipping_name, '、');
+	                }
+	            }
+	        }
+			$this->assign('shipping_list', $data);
 		}
 		
 		$s_time = 480;
@@ -181,7 +162,7 @@ class merchant extends ecjia_merchant {
 		
 		$merchant_info = get_merchant_info();
 		$merchant_info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('merchants_name');
-		
+
 		$this->assign('data', $merchant_info);
 		$this->assign('step', $step);
 		$this->assign('type', $type);
