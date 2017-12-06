@@ -213,6 +213,26 @@ class Country
         'ZR' => '扎伊尔',
         'ZW' => '津巴布韦',
     ];
+    
+    
+    /**
+     * 获取所有国家信息
+     */
+    public function getCountries()
+    {
+        return $this->country;
+    }
  
 
+    /**
+     * 获取指定国家名称
+     * @param string $country
+     */
+    public function getCountryName($country)
+    {
+        return array_get($this->country, $country);
+    }
+    
+    
+    
 }

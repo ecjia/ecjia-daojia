@@ -45,25 +45,18 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-/**
- * 地区信息
- * @author royalwang
- *
- */
-class detail_module extends api_front implements api_interface
-{
 
+class token_module extends api_admin implements api_interface
+{
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-    	$city = $this->requestData('city');
-		
-    	$citys = ecjia_region::getRegionsBySearch($city, 3);
-    	$city_detail = head($citys);
-    	return array(
-			'region_id'		=> $city_detail['region_id'],
-			'region_name'	=> $city_detail['region_name'],
-		);
-	}
+    	$data = array(
+    			'access_token' => RC_Session::session_id(),
+    			'expires_in'   => RC_Config::load_config('session', 'lifetime'),
+    	);
+    	
+    	return $data;
+    }
 }
 
 

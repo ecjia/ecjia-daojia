@@ -45,26 +45,25 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-/**
- * 地区信息
- * @author royalwang
- *
- */
-class detail_module extends api_front implements api_interface
-{
 
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
-    {
-    	$city = $this->requestData('city');
+/**
+ * ECJIA 地区切换程序
+ */
+class region extends ecjia_admin {
+	
+	public function __construct() {
+		parent::__construct();
+	}
+	
+	public function init() {
 		
-    	$citys = ecjia_region::getRegionsBySearch($city, 3);
-    	$city_detail = head($citys);
-    	return array(
-			'region_id'		=> $city_detail['region_id'],
-			'region_name'	=> $city_detail['region_name'],
-		);
+		$parent_id	= $_GET['parent'];//上级区域编码
+		$arr['regions'] = with(new Ecjia\App\Setting\Region)->getSubarea($parent_id);//传参请求当前国家下信息
+		$arr['target']  = stripslashes(trim($_GET['target']));
+		$arr['target']  = htmlspecialchars($arr['target']);
+		
+		echo json_encode($arr);
 	}
 }
-
 
 // end

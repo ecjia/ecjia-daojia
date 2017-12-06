@@ -79,18 +79,16 @@ class setting_admin_hooks {
 	
     
     public static function form_config_region_select($item) {
-        $db_region = RC_Loader::load_model('region_model');
-        
-        $url = RC_Uri::url('shipping/region/init');
-        $countries = $db_region->get_regions();
+        $countries = with(new Ecjia\App\Setting\Country)->getCountries();
 
         ecjia_admin::$controller->assign('countries', $countries);
         ecjia_admin::$controller->assign('var', $item);
-        
-        if (ecjia::config('shop_country') > 0) {
-            ecjia_admin::$controller->assign('provinces', $db_region->get_regions(1, ecjia::config('shop_country')));
-            if (ecjia::config('shop_province')) {
-                ecjia_admin::$controller->assign('cities', $db_region->get_regions(2, ecjia::config('shop_province')));
+        $shop_country = ecjia::config('shop_country');
+        if (!empty($shop_country)) {
+        	ecjia_admin::$controller->assign('provinces', with(new Ecjia\App\Setting\Region)->getSubarea(ecjia::config('shop_country')));
+            $shop_province = ecjia::config('shop_province');
+            if ($shop_province) {
+            	ecjia_admin::$controller->assign('cities', with(new Ecjia\App\Setting\Region)->getSubarea(ecjia::config('shop_province')));
             }
         }
 

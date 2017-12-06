@@ -51,12 +51,10 @@ class config_module extends api_front implements api_interface
 
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-    	$db_region = RC_Loader::load_app_model('region_model', 'shipping');
-    	
     	$mobile_recommend_city = explode(',', ecjia::config('mobile_recommend_city'));
     	
     	$regions = array ();
-    	$region_data = $db_region->where(array('region_id' => $mobile_recommend_city ))->select();
+        $region_data = ecjia_region::getRegions($mobile_recommend_city);
     	if (!empty($region_data)) {
     		foreach ( $region_data as $val ) {
     			$regions[] = array(

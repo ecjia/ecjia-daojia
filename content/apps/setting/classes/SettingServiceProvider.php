@@ -1,5 +1,5 @@
-<?php
-//
+<?php 
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,27 +44,52 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
-/**
- * 地区信息
- * @author royalwang
- *
- */
-class detail_module extends api_front implements api_interface
-{
+namespace Ecjia\App\Setting;
 
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
-    {
-    	$city = $this->requestData('city');
-		
-    	$citys = ecjia_region::getRegionsBySearch($city, 3);
-    	$city_detail = head($citys);
-    	return array(
-			'region_id'		=> $city_detail['region_id'],
-			'region_name'	=> $city_detail['region_name'],
-		);
+use Royalcms\Component\Support\ServiceProvider;
+
+class SettingServiceProvider extends ServiceProvider {
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot() {
+    }
+
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+	    $this->registerRegion();
+	    
+	    $this->loadAlias();
 	}
+	
+	/**
+	 * Register the region
+	 * @return \Ecjia\App\Setting\Region
+	 */
+	public function registerRegion() 
+	{
+	    $this->royalcms->bindShared('ecjia.region', function($royalcms){
+	    	return new Region();
+	    });
+	}
+	
+	/**
+	 * Load the alias = One less install step for the user
+	 */
+	protected function loadAlias()
+	{
+	    $this->royalcms->booting(function()
+	    {
+	        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+	        $loader->alias('ecjia_region', 'Ecjia\App\Setting\Facades\Region');
+	    });
+	}
+	
 }
-
-
-// end

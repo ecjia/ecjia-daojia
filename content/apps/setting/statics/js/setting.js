@@ -2,7 +2,7 @@
 ;(function(app, $) {
 	app.setting = {
 		init : function() {
-			$(".ajaxmenu").on('click', function(e){
+			$(".ajaxremove").on('click', function(e){
 				e.preventDefault();
 				//$('.alert-error').removeClass('kind-notice');
 				var $this = $(this);
@@ -15,15 +15,7 @@
 				var message = $(this).attr('data-msg');
 				if (message) {
 					smoke.confirm(message,function(e){
-						e && $.ajax({
-							type: "get",
-							url: url,
-							dataType: "json",
-							success: function(data){
-								$this.html(info).removeClass('disabled');
-								ecjia.admin.showmessage(data); 
-							}
-						});
+						app.setting.get_userinfo(url);
 					}, {ok:js_lang.ok, cancel:js_lang.cancel});
 				} else { 
 					app.setting.get_userinfo(url);

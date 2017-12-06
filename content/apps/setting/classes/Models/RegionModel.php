@@ -44,27 +44,23 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
-/**
- * 地区信息
- * @author royalwang
- *
- */
-class detail_module extends api_front implements api_interface
+namespace Ecjia\App\Setting\Models;
+
+use Royalcms\Component\Database\Eloquent\Model;
+
+class RegionModel extends Model 
 {
-
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
-    {
-    	$city = $this->requestData('city');
-		
-    	$citys = ecjia_region::getRegionsBySearch($city, 3);
-    	$city_detail = head($citys);
-    	return array(
-			'region_id'		=> $city_detail['region_id'],
-			'region_name'	=> $city_detail['region_name'],
-		);
-	}
+	protected $table = 'regions';
+	
+	protected $primaryKey = 'region_id';
+	
+	/**
+	 * 该模型是否被自动维护时间戳
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
+	
 }
-
 
 // end

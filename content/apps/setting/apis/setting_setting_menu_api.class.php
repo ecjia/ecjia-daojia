@@ -54,7 +54,7 @@ class setting_setting_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
 		$shop_manage 	 = ecjia_admin::make_admin_menu('01_setting_shop_manage', __('商店设置'), RC_Uri::url('setting/shop_config/init',array('code' => 'shop_info')), 1)->add_purview('shop_config');
-		$area_manage = ecjia_admin::make_admin_menu('02_setting_area_manage', __('地区设置'), RC_Uri::url('setting/admin_area_manage/init'), 2)->add_purview('area_manage');
+		//$area_manage = ecjia_admin::make_admin_menu('02_setting_area_manage', __('地区设置'), RC_Uri::url('setting/admin_area_manage/init'), 2)->add_purview('area_manage');
 		$region_manage = ecjia_admin::make_admin_menu('03_setting_region_manage', __('地区管理'), RC_Uri::url('setting/admin_region/init'), 3)->add_purview('region_manage');
 		
 		return array($shop_manage, $area_manage, $region_manage);

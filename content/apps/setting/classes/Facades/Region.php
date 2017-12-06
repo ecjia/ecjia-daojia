@@ -1,5 +1,5 @@
-<?php
-//
+<?php 
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,27 +44,15 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
-/**
- * 地区信息
- * @author royalwang
- *
- */
-class detail_module extends api_front implements api_interface
-{
+namespace Ecjia\App\Setting\Facades;
 
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+use Royalcms\Component\Support\Facades\Facade;
+
+class Region extends Facade {
+
+    protected static function getFacadeAccessor()
     {
-    	$city = $this->requestData('city');
-		
-    	$citys = ecjia_region::getRegionsBySearch($city, 3);
-    	$city_detail = head($citys);
-    	return array(
-			'region_id'		=> $city_detail['region_id'],
-			'region_name'	=> $city_detail['region_name'],
-		);
-	}
+        return 'ecjia.region';
+    }
+    
 }
-
-
-// end

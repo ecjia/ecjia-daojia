@@ -93,7 +93,7 @@ return array(
 		'shop_website' 		=> '商店网址',
 		'shop_desc' 		=> '商店描述',
 		'shop_keywords' 	=> '商店关键字',
-		'shop_country' 		=> '所在国家',
+		'shop_country' 		=> '指定运营国家',
 		'shop_province' 	=> '所在省份',
 		'shop_city' 		=> '所在城市',
 		'shop_address' 		=> '详细地址',
