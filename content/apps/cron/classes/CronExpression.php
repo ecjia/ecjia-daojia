@@ -46,7 +46,7 @@
 //
 namespace Ecjia\App\Cron;
 
-use Cron\CronExpression as BaseCronExpression;;
+use Cron\CronExpression as BaseCronExpression;
 
 class CronExpression
 {
