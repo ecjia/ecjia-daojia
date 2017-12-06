@@ -63,6 +63,7 @@ return array (
 			'prefix'    => env('DB_PREFIX', 'ecjia_'),
 		    'port'      => env('DB_PORT', 3306),
 		    'strict'    => false,
+		    'unix_socket'=> env('DB_SOCKET', ''),
 		),
 	),
     
