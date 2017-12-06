@@ -202,17 +202,20 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    $push_order_pay = new OrderPay($order_data);
 	    RC_Notification::send($staff_user_ob, $push_order_pay);
 	    
+	    $store_name = RC_DB::TABLE('store_franchisee')->where('store_id', $order['store_id'])->pluck('merchants_name');
         /* 客户付款短信提醒 */
         if (!empty($staff_user['mobile'])) {
             $options = array(
                 'mobile' => $staff_user['mobile'],
-                'event'	 => 'sms_order_payed',
+                'event'	 => 'sms_quickpay_order_payed',
                 'value'  =>array(
                     'order_sn'  	=> $order['order_sn'],
-                    'consignee' 	=> $order['user_name'],
-                    'telephone'  	=> $order['user_mobile'],
+                	'store_name'	=> $store_name,	
+                    'user_name' 	=> $order['user_name'],
+                	'goods_amount'	=> $order['goods_amount'],
+                	'discount'		=> $order['discount'],
                     'order_amount'	=> $order['order_amount'],
-                    'service_phone' => ecjia::config('service_phone'),
+                	'telephone'  	=> $order['user_mobile'],
                 ),
             );
             RC_Api::api('sms', 'send_event_sms', $options);

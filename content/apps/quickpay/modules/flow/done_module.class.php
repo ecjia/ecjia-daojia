@@ -260,7 +260,7 @@ class done_module extends api_front implements api_interface {
     		$order['pay_time']		= RC_Time::gmtime();
     		$order['order_amount']	= 0;
     	}
-    	
+    	$order['order_amount'] = number_format($order['order_amount'], 2, '.', '');
     	/*插入订单数据*/
     	$db_order_info = RC_DB::table('quickpay_orders');
     	$new_order_id	= $db_order_info->insertGetId($order);
@@ -297,24 +297,6 @@ class done_module extends api_front implements api_interface {
     	
     		$content = ecjia_front::$controller->fetch_string($tpl['template_content']);
     		RC_Mail::send_mail(ecjia::config('shop_name'), ecjia::config('service_email'), $tpl['template_subject'], $content, $tpl['is_html']);
-    	}
-    	
-    	/* 如果需要，发短信 */
-    	$staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
-    	if (!empty($staff_user['mobile'])) {
-    		//发送短信
-    		$options = array(
-    				'mobile' => $staff_user['mobile'],
-    				'event'	 => 'sms_order_placed',
-    				'value'  =>array(
-    						'order_sn'		=> $order['order_sn'],
-    						'consignee' 	=> $order['user_name'],
-    						'telephone'  	=> $order['user_mobile'],
-    						'order_amount'  => $order['order_amount'],
-    						'service_phone' => ecjia::config('service_phone'),
-    				),
-    		);
-    		RC_Api::api('sms', 'send_event_sms', $options);
     	}
     	
     	/* 插入支付日志 */

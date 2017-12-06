@@ -33,7 +33,7 @@
                 $("#note_btn").on('click', function (e) {
                     e.preventDefault();
                     var url = $("form[name='actionForm']").attr('action');
-                    var action_note = $("textarea[name='action_note']").val();;
+                    var action_note = $("textarea[name='action_note']").val();
                     var option = {
                     	'action_note' : action_note,
                     	'order_id' : order_id

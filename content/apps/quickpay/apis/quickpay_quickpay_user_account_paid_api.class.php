@@ -208,21 +208,23 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		
 	    /* 客户付款短信提醒 */
         $staff_user = RC_DB::table('staff_user')->where('store_id', $order_info['store_id'])->where('parent_id', 0)->first();
+        $store_name = RC_DB::TABLE('store_franchisee')->where('store_id', $order_info['store_id'])->pluck('merchants_name');
 		if (!empty($staff_user['mobile'])) {
-			//发送短信
-			$options = array(
-				'mobile' => $staff_user['mobile'],
-				'event'	 => 'sms_order_payed',
-				'value'  =>array(
-					'order_sn'		=> $order_info['order_sn'],
-					'consignee' 	=> $order_info['consignee'],
-					'telephone'  	=> $order_info['mobile'],
-					'order_amount'	=> $order_info['order_amount'],
-					'service_phone' => ecjia::config('service_phone'),
-				),
-			);
-			RC_Api::api('sms', 'send_event_sms', $options);
-		}
+            $options = array(
+                'mobile' => $staff_user['mobile'],
+                'event'	 => 'sms_quickpay_order_payed',
+                'value'  =>array(
+                    'order_sn'  	=> $order_info['order_sn'],
+                	'store_name'	=> $store_name,
+                    'user_name' 	=> $order_info['user_name'],
+                	'goods_amount'	=> $order_info['goods_amount'],
+                	'discount'		=> $order_info['discount'],
+                    'order_amount'	=> $order_info['order_amount'],
+                	'telephone'  	=> $order_info['user_mobile'],
+                ),
+            );
+            RC_Api::api('sms', 'send_event_sms', $options);
+        }
 		
 		/* 客户付款通知（默认通知店长）*/
 		/* 获取店长的记录*/
