@@ -140,7 +140,7 @@ class admin_template extends ecjia_admin {
 		$existed = RC_DB::TABLE('notification_templates')->where('channel_code', $_GET['channel_code'])->select('template_code','template_subject')->get();
 		if (!empty($existed)) {
 			foreach ($existed as $value) {
-				$existed_list[$value['template_code']] = $value['template_subject']. ' [' .  $value['template_code'] . ']';;
+				$existed_list[$value['template_code']] = $value['template_subject']. ' [' .  $value['template_code'] . ']';
 			}
 			$res = array_diff($template_code_list,$existed_list);
 			unset($template_code_list);
@@ -256,7 +256,7 @@ class admin_template extends ecjia_admin {
 		$existed = RC_DB::TABLE('notification_templates')->where('channel_code', $_GET['channel_code'])->where('template_code', '!=', $_GET['event_code'])->select('template_code','template_subject')->get();
 		if (!empty($existed)) {
 			foreach ($existed as $value) {
-				$existed_list[$value['template_code']] = $value['template_subject']. ' [' .  $value['template_code'] . ']';;
+				$existed_list[$value['template_code']] = $value['template_subject']. ' [' .  $value['template_code'] . ']';
 			}
 			$res = array_diff($template_code_list, $existed_list);
 			$template_code_list = $res;

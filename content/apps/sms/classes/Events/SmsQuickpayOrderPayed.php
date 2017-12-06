@@ -49,23 +49,25 @@ namespace Ecjia\App\Sms\Events;
 
 use Ecjia\App\Sms\EventAbstract;
 
-class SmsOrderPayed extends EventAbstract
+class SmsQuickpayOrderPayed extends EventAbstract
 {
 
-    protected $code = 'sms_order_payed';
+    protected $code = 'sms_quickpay_order_payed';
 
-    protected $name = '客户付款时';
+    protected $name = '客户进行优惠买单付款时';
 
-    protected $description = '当客户付款时是否发送短信';
+    protected $description = '当客户进行优惠买单付款时是否发送短信通知店长';
     
-    protected $template = '订单编号：${order_sn}已付款。 收货人：${consignee}，联系电话：${telephone}，订单金额：${order_amount}。';
-
+    protected $template = '您有新的订单${order_sn}已付款，${user_name}在${store_name}店铺参与优惠买单活动，实付金额：${order_amount}。';
+    
     protected $available_values = [
     	'order_sn'		=> '订单编号',
-    	'consignee' 	=> '收货人',
+    	'store_name'	=> '店铺名称',
+    	'user_name'  	=> '购买者',
+    	'goods_amount'  => '消费金额',
+    	'discount'  	=> '闪惠金额',
+    	'order_amount'  => '实付金额',
     	'telephone'  	=> '联系方式',
-    	'order_amount'  => '订单金额',
-    	'service_phone' => '客服电话',
     ];
     
 }
