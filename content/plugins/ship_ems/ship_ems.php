@@ -49,7 +49,7 @@ Plugin Name: EMS 国内邮政特快专递
 Plugin URI: http://www.ecjia.com/plugins/ecjia.ems/
 Description: EMS 国内邮政特快专递描述内容
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 2.0.0
 Author URI: http://www.ecjia.com/
 Plugin App: shipping
 */
@@ -58,10 +58,11 @@ class plugin_ship_ems {
 
     public static function install() {
         $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
+        $config['print_bg'] = Ecjia_PluginManager::driver('ship_ems')->defaultPrintBackgroundImage();
+        $config['config_lable'] = Ecjia_PluginManager::driver('ship_ems')->getConfigLabel();
         $param = array('file' => __FILE__, 'config' => $config);
         RC_Api::api('shipping', 'plugin_install', $param);
     }
-
 
     public static function uninstall() {
         $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
@@ -77,8 +78,12 @@ class plugin_ship_ems {
 
 }
 
+Ecjia_PluginManager::extend('ship_ems', function() {
+    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'ship_ems.class.php';
+    return new ship_ems();
+});
+
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_ship_ems', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_ship_ems', 'uninstall'));
-RC_Hook::add_filter('shipping_factory_adapter_instance', array( 'plugin_ship_ems', 'adapter_instance' ), 10, 2);
 
 // end

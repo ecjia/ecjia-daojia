@@ -52,10 +52,16 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'ems'                   	=> 'EMS 国内邮政特快专递',
     'ems_express_desc'      	=> 'EMS 国内邮政特快专递描述内容',
-    //'fee_compute_mode' = '费用计算方式';
-    'item_fee'              	=> '单件商品费用：',
+
+	'item_fee'              	=> '单件商品费用：',
     'base_fee'              	=> '500克以内费用：',
     'step_fee'              	=> '续重每500克或其零数的费用：',
+	'free_money'             	=> '免费额度：',
+	'fee_compute_mode'       	=> '费用计算方式：',
+	'fee_compute_mode_range' 	=> array(
+		'by_weight' => '按重量',
+		'by_number' => '按件数'
+	),
     
     /* 快递单部分 */
     'lable_select_notice' => '--选择插入标签--',
