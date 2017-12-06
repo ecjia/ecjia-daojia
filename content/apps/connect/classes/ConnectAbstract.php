@@ -67,7 +67,7 @@ abstract class ConnectAbstract extends AbstractPlugin {
      */
     public function default_generate_username() {
         /* 不是用户注册，则创建随机用户名*/
-        return 'a' . rc_random(10, 'abcdefghijklmnopqrstuvwxyz0123456789');;
+        return 'a' . rc_random(10, 'abcdefghijklmnopqrstuvwxyz0123456789');
     }
     
     /**
