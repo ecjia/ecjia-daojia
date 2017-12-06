@@ -50,14 +50,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA移动应用配置模块
  */
 class admin_config extends ecjia_admin {
-	private $db_region;
 	public function __construct() {
 		parent::__construct();
 
 		RC_Loader::load_app_func('global');
 		assign_adminlog_content();
-		
-		$this->db_region = RC_Loader::load_app_model('region_model', 'shipping');
 		
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -130,22 +127,7 @@ class admin_config extends ecjia_admin {
 		$this->assign('mobile_phone_login_fgcolor', ecjia::config('mobile_phone_login_fgcolor'));
 		$this->assign('mobile_phone_login_bgcolor', ecjia::config('mobile_phone_login_bgcolor'));
 		$mobile_phone_login_bgimage = ecjia::config('mobile_phone_login_bgimage');
-		/*热门城市*/
-		$regions = array ();
-		$mobile_recommend_city = explode(',', ecjia::config('mobile_recommend_city'));
-		$region_data           = RC_DB::table('region')->whereIn('region_id', $mobile_recommend_city)->get();		
-		if (!empty($region_data)) {
-			foreach ( $region_data as $key => $val ) {
-				if ( empty($val['region_name']) ) {
-					$regions[$val['region_id']] = '<lable  style="color:red">' .RC_Lang::get('mobile::mobile.region_removed'). '</lable>';
-				} else {
-					$regions[$val['region_id']] = $val['region_name'];
-				}
-			}
-		}
-		
-		$this->assign('mobile_recommend_city', $regions);	
-		$this->assign('countries', $this->db_region->get_regions());
+
 		/*短信提醒*/
 		$order_reminder_type = ecjia::config('order_reminder_type', ecjia::CONFIG_CHECK) ? ecjia::config('order_reminder_type') : 0;
 		$this->assign('order_reminder_type', $order_reminder_type);
@@ -423,16 +405,7 @@ class admin_config extends ecjia_admin {
 				ecjia_config::instance()->write_config('mobile_phone_login_bgimage', $mobile_phone_login_bgimage);
 			}
 		}
-		/*热门城市处理*/
-		$regions 						= isset($_POST['regions']) 						? $_POST['regions'] 							: '';
-		$mobile_recommend_city = '';
-		if (!empty($regions)) {
-			foreach ($regions as $val) {
-				$mobile_recommend_city .= $val.',';
-			}
-			$mobile_recommend_city = substr($mobile_recommend_city, 0, -1);
-		}
-		ecjia_config::instance()->write_config('mobile_recommend_city', $mobile_recommend_city);
+
 		/*短信提醒处理*/
 		$order_reminder_type = intval($_POST['order_reminder_type']);
 		
@@ -660,9 +633,9 @@ class admin_config extends ecjia_admin {
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $list));
 	}
 
-	private function get_regions($type = 0, $parent = 0) {
-		return RC_DB::table('region')->where('region_type', $type)->where('parent_id', $parent)->select('region_id', 'region_name')->get();
-	}
+// 	private function get_regions($type = 0, $parent = 0) {
+// 		return RC_DB::table('region')->where('region_type', $type)->where('parent_id', $parent)->select('region_id', 'region_name')->get();
+// 	}
 }
 
 //end

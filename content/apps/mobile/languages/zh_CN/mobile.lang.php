@@ -124,8 +124,8 @@ return array(
 	'pad_login_bgcolor'			=> 'Pad登录页背景色：',
 	'pad_login_bgimage'			=> 'Pad登录页背景图片：',
 
-	'selected_area'				=> '已选择的热门城市：',
-	'hot_city'					=> '请选择热门城市：',
+	'selected_area'				=> '已选择的经营区域：',
+	'hot_city'					=> '请选择经营区域：',
 	'search_country_name'		=> '搜索的国家名称',
 	'empty_country'				=> '没有国家地区可选...',
 	'search_province_name'		=> '搜索的省份名称',

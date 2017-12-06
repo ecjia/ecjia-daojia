@@ -56,7 +56,7 @@ class data_module extends api_front implements api_interface {
 		$device		= $this->device;
 
 		$location	= $this->requestData('location', array());
-		$city_id	= $this->requestData('city_id', 0);
+		$city_id	= $this->requestData('city_id');
 
 		$request = null;
 		
@@ -120,9 +120,9 @@ function cycleimage_data($response, $request)
 	foreach ($cycleimageDatas as $val) {
 		$player_data[] = array(
 			'photo' => array(
-					'small'      => $val['image'],
-					'thumb'      => $val['image'],
-					'url'        => $val['image'],
+				'small'      => $val['image'],
+				'thumb'      => $val['image'],
+				'url'        => $val['image'],
 			),
 			'url'        => $val['url'],
 			'description'=> $val['text'],

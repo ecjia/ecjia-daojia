@@ -146,12 +146,12 @@ class data_module extends api_admin implements api_interface {
 		$unpaid_where     = $order_query->order_await_pay('oi.');
 		$await_ship_where = $order_query->order_await_ship('oi.');
 		if ($_SESSION['store_id'] > 0) {
-			$await_ship_orders_result = $db_orderinfo_view->field('oi.order_id')->where(array_merge($await_ship_where, $where))->group('oi.order_id')->select('oi.order_id');;
+			$await_ship_orders_result = $db_orderinfo_view->field('oi.order_id')->where(array_merge($await_ship_where, $where))->group('oi.order_id')->select('oi.order_id');
 			$unpaid_orders_result     = $db_orderinfo_view->field('oi.order_id')->where(array_merge($unpaid_where, $where))->group('oi.order_id')->select('oi.order_id');
 			$await_ship_orders        = count($await_ship_orders_result);
 			$unpaid_orders            = count($unpaid_orders_result);
 		} else {
-			$await_ship_orders        = $db_orderinfo_view->join(null)->where(array_merge($await_ship_where, $where))->count('oi.order_id');;
+			$await_ship_orders        = $db_orderinfo_view->join(null)->where(array_merge($await_ship_where, $where))->count('oi.order_id');
 			$unpaid_orders            = $db_orderinfo_view->join(null)->where(array_merge($unpaid_where, $where))->count('oi.order_id');
 		}
 		

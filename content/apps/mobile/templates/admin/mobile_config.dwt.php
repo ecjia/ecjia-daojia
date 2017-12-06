@@ -153,52 +153,7 @@
 						</div>
 					</div>
 				<!-- 登录色值end -->
-				<!-- 热门城市start -->
-					<h3 class="heading">热门城市设置</h3>
-					<div class="control-group formSep">
-						<label class="control-label">{lang key='mobile::mobile.selected_area'}</label>
-						<div class="controls selected_area chk_radio">
-							<!-- {foreach from=$mobile_recommend_city item=region key=id} -->
-							<input class="uni_style" type="checkbox" name="regions[]" value="{$id}" checked="checked" /> <span class="m_r10">{$region}&nbsp;&nbsp;</span>
-							<!-- {/foreach} -->
-						</div>
-					</div>
-					<div class="control-group formSep">
-						<label class="control-label">{lang key='mobile::mobile.hot_city'}</label>
-						<div class="controls">
-							<div class="ms-container ms-shipping span12" id="ms-custom-navigation">
-								<div class="ms-selectable ms-mobile-selectable span2">
-									<div class="search-header">
-										<input class="span12" type="text" placeholder="{lang key='mobile::mobile.search_country_name'}" autocomplete="off" id="selCountry" />
-									</div>
-									<ul class="ms-list ms-list-mobile nav-list-ready selCountry" data-url="{url path='shipping/region/init' args='target=selProvinces&type=1'}" data-next="selProvinces">
-										<!-- {foreach from=$countries item=country key=key} -->
-										<li class="ms-elem-selectable select_hot_city" data-val="{$country.region_id}"><span>{$country.region_name|escape:html}</span></li>
-										<!-- {foreachelse} -->
-										<li class="ms-elem-selectable select_hot_city" data-val="0"><span>{lang key='mobile::mobile.empty_country'}</span></li>
-										<!-- {/foreach} -->
-									</ul>
-								</div>
-								<div class="ms-selectable ms-mobile-selectable span2">
-									<div class="search-header">
-										<input class="span12" type="text" placeholder="{lang key='mobile::mobile.search_province_name'}" autocomplete="off" id="selProvinces" />
-									</div>
-									<ul class="ms-list ms-list-mobile nav-list-ready selProvinces" data-url="{url path='shipping/region/init' args='target=selCities&type=2'}" data-next="selCities">
-										<li class="ms-elem-selectable select_hot_city" data-val="0"><span>{lang key='mobile::mobile.select_province_first'}</span></li>
-									</ul>
-								</div>
-								<div class="ms-selectable ms-mobile-selectable span2">
-									<div class="search-header">
-										<input class="span12" type="text" placeholder="{lang key='mobile::mobile.search_city_name'}" autocomplete="off" id="selCities" />
-									</div>
-									<ul class="ms-list ms-list-mobile nav-list-ready selCities">
-										<li class="ms-elem-selectable select_hot_city" data-val="0"><span>{lang key='mobile::mobile.select_city_first'}</span></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				<!-- 热门城市end -->
+				
 				<!-- 短信提醒start -->
 					<h3 class="heading">短信提醒</h3>
 					<div class="control-group formSep edit-page">

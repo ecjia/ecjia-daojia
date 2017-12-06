@@ -143,15 +143,15 @@
         },
 
         choose_area: function () {
-            $('.select_hot_city').on('click', function (e) {
+            $('.select_hot_city').off('click').on('click', function (e) {
                 e.preventDefault();
                 var $this = $(this),
                     val = $this.attr('data-val'),
                     url = $this.parent().attr('data-url'),
                     $next = $('.' + $this.parent().attr('data-next'));
-                $next_attr = $this.parent().attr('data-next');
+                    $next_attr = $this.parent().attr('data-next');
                 /* 如果是县乡级别的，不触发后续操作 */
-                if ($this.parent().hasClass('selCities')) {
+                if ($this.parent().hasClass('selTown')) {
                     $this.siblings().removeClass('disabled');
                     if (val != 0) $this.addClass('disabled');
                     return;
@@ -176,16 +176,22 @@
                             if ($next_attr == 'selCities') {
                                 html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
                             }
+                            if ($next_attr == 'selDistricts') {
+                                html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
+                            }
+                            if ($next_attr == 'selTown') {
+                                html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
+                            }
                             html += '</li>';
                         };
 
                         $next.html(html);
                         app.config.quick_search();
-                        $('.select_hot_city').unbind("click");
-                        $('.select_hot_city .edit-list a').unbind("click");
+//                        $('.select_hot_city').unbind("click");
+//                        $('.select_hot_city .edit-list a').unbind("click");
                         app.config.choose_area();
                         app.config.selected_area();
-                        $next.find('.select_hot_city').eq(0).trigger('click');
+//                        $next.find('.select_hot_city').eq(0).trigger('click');
                         /* 如果没有返回参数，则直接触发选中0的操作 */
                     } else {
                         var $tmp = $('<li class="ms-elem-selectable" data-val="0"><span>' + js_lang.no_select_region + '</span></li>');
@@ -218,10 +224,11 @@
             $('#selProvinces').quicksearch($('.selProvinces .ms-elem-selectable'), opt);
             $('#selCities').quicksearch($('.selCities .ms-elem-selectable'), opt);
             $('#selDistricts').quicksearch($('.selDistricts .ms-elem-selectable'), opt);
+            $('#selStreets').quicksearch($('.selStreets .ms-elem-selectable'), opt);
         },
 
         selected_area: function () {
-            $('.ms-elem-selectable .edit-list a').on('click', function (e) {
+            $('.ms-elem-selectable .edit-list a').off('click').on('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 var bool = true;
@@ -230,6 +237,7 @@
                     val = $parent.attr('data-val'),
                     name = $parent.find('span').eq(0).text(),
                     $tmp = $('<input type="checkbox" checked="checked" value="' + val + '" name="regions[]" /><span class="m_r10">' + name + '</span>');
+                
                 $('.selected_area div').each(function (i) {
                     if ($(this).find("input").val() == val) {
                         var data = {
@@ -241,6 +249,7 @@
                         return false;
                     }
                 });
+                
                 if (bool) {
                     $('.selected_area').append($tmp);
                     $tmp.uniform();
