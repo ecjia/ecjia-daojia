@@ -14,7 +14,7 @@ class shake_module extends api_front implements api_interface {
 		}
 		
 		$location = $this->requestData('location', array());
-		$city_id	 = $this->requestData('city_id', 0);
+		$city_id	 = $this->requestData('city_id', '');
 		
 		/*经纬度为空判断*/
 		$options = array();
