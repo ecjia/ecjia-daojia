@@ -63,22 +63,60 @@ defined('IN_ECJIA') or exit('No permission resources.');
  *
  */
 
-RC_Loader::load_app_class('shipping_abstract', 'shipping', false);
+use Ecjia\App\Shipping\ShippingAbstract;
 
-class ship_sto_express extends shipping_abstract
+class ship_sto_express extends ShippingAbstract
 {
+    /**
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
+     */
+    public function getCode()
+    {
+        return $this->loadConfig('shipping_code');
+    }
     
     /**
-     * 获取插件配置信息
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
      */
-    public function configure_config() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-        if (is_array($config)) {
-            return $config;
-        }
-        return array();
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
     }
-
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+    
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
+    }
+    
+    /**
+     * 返回快递单打印背景图片
+     * @return NULL|string
+     */
+    public function printBcakgroundImage()
+    {
+        
+    }
+    
+    /**
+     * 返回快递单默认打印背景图片
+     * @return NULL|string
+     */
+    public function defaultPrintBackgroundImage()
+    {
+        return RC_Plugin::plugins_url($this->loadConfig('print_bg'), __FILE__);
+    }
+    
     /**
      * 计算订单的配送费用的函数
      *
@@ -89,24 +127,24 @@ class ship_sto_express extends shipping_abstract
      */
     public function calculate($goods_weight, $goods_amount, $goods_number)
     {
-        if ($this->configure['free_money'] > 0 && $goods_amount >= $this->configure['free_money'])
+        if ($this->config['free_money'] > 0 && $goods_amount >= $this->config['free_money'])
         {
             return 0;
         }
         else
         {
-            @$fee = $this->configure['base_fee'];
-            $this->configure['fee_compute_mode'] = !empty($this->configure['fee_compute_mode']) ? $this->configure['fee_compute_mode'] : 'by_weight';
+            @$fee = $this->config['base_fee'];
+            $this->config['fee_compute_mode'] = !empty($this->config['fee_compute_mode']) ? $this->config['fee_compute_mode'] : 'by_weight';
 
-             if ($this->configure['fee_compute_mode'] == 'by_number')
+             if ($this->config['fee_compute_mode'] == 'by_number')
             {
-                $fee = $goods_number * $this->configure['item_fee'];
+                $fee = $goods_number * $this->config['item_fee'];
             }
             else
             {
                 if ($goods_weight > 1)
                 {
-                    $fee += (ceil(($goods_weight - 1))) * $this->configure['step_fee'];
+                    $fee += (ceil(($goods_weight - 1))) * $this->config['step_fee'];
                 }
             }
 
