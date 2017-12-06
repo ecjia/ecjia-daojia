@@ -62,7 +62,6 @@ class list_module extends api_front implements api_interface {
 		
 		$db_user_address = RC_Model::model('user/user_address_model');
 		$dbview_user_address = RC_Model::model('user/user_address_user_viewmodel');
-		$db_region = RC_Model::model('shipping/region_model');
 		
 		$seller_id = $this->requestData('seller_id', 0);
 		$size = $this->requestData('pagination.count', 15);
@@ -86,17 +85,18 @@ class list_module extends api_front implements api_interface {
 				$result[$key]['address'] = empty($value['address']) ? '' : $value['address'];
 				$result[$key]['address_info'] = empty($value['address_info']) ? '' : $value['address_info'];
 			
-				$country = $value['country'];
-				$province = $value['province'];
-				$city = $value['city'];
-				$district = $value['district'];
+				$country 	= $value['country'];
+				$province 	= $value['province'];
+				$city 		= $value['city'];
+				$district 	= $value['district'];
+				$street 	= $value['street'];
 	
-				$region_name = $db_region->where(array('region_id' => array('in'=>$country,$province,$city,$district)))->order('region_type')->select();
-				
-				$result[$key]['country_name']    = $region_name[0]['region_name'];
-				$result[$key]['province_name']   = $region_name[1]['region_name'];
-				$result[$key]['city_name']       = $region_name[2]['region_name'];
-				$result[$key]['district_name']   = isset($region_name[3]['region_name']) ? $region_name[3]['region_name'] : '';
+				$result[$key]['country_name']   = ecjia_region::getRegionName($country);
+				$result[$key]['province_name']  = ecjia_region::getRegionName($province);
+				$result[$key]['city_name']    	= ecjia_region::getRegionName($city);
+				$result[$key]['district_name']  = ecjia_region::getRegionName($district);
+				$result[$key]['street_name']    = ecjia_region::getRegionName($street);
+
 				$result[$key]['tel']   			 = empty($value['tel']) ? '' : $value['tel'];
 				$result[$key]['mobile']   		 = $value['mobile'];
 				$result[$key]['location']		 = array(

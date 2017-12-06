@@ -69,7 +69,6 @@ class search_module extends api_admin implements api_interface {
 		}
 		
 		$db_user = RC_Model::model('user/user_viewmodel');
-		$region = RC_Model::model('shipping/region_model');
 		$db_user->view = array(
 				'user_rank' => array(
 						'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
@@ -92,7 +91,7 @@ class search_module extends api_admin implements api_interface {
 		);
 
 		$arr = $db_user->join(array('user_rank','user_address'))
-						->field('u.user_id, user_name, u.address_id, u.reg_time, avatar_img, user_rank, u.email, mobile_phone, r.rank_name, u.user_money, pay_points, country, province, city, district, address')
+						->field('u.user_id, user_name, u.address_id, u.reg_time, avatar_img, user_rank, u.email, mobile_phone, r.rank_name, u.user_money, pay_points, country, province, city, district, street, address')
 						->where($where)
 						->select();
 		$user_search = array();
@@ -113,20 +112,19 @@ class search_module extends api_admin implements api_interface {
 // 					$avatar_img = RC_Upload::upload_url().'/data/avatar/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2)."_".$filename.'.jpg';
 // 				}
 				
-				$address = $v['address_id'] > 0 ? $region->where(array('region_id' => $v['city']))->get_field('region_name')
-				.$region->where(array('region_id' => $v['district']))->get_field('region_name').$v['address'] : '';
+				$address = $v['address_id'] > 0 ? ecjia_region::getRegionName($v['city']).ecjia_region::getRegionName($v['district']).ecjia_region::getRegionName($v['street']) : '';
 				$user_search[] = array(
-						'id'			=>	$v['user_id'],
-						'name'			=>	$v['user_name'],
-						'rank_name'		=>	$v['rank_name'],
-						'email'			=>	$v['email'],
-						'mobile_phone'	=>	$v['mobile_phone'],
-						'formatted_user_money' =>	price_format($v['user_money'],false),
-						'user_points'	=>	$v['pay_points'],
-						'user_money'	=>	$v['user_money'],
-						'address'		=>	$address,
-						'avatar_img'	=>	$v['avatar_img'] ? RC_Upload::upload_url($v['avatar_img']) : '',
-						'reg_time'		=>   RC_Time::local_date(ecjia::config('time_format'), $v['reg_time']),
+					'id'			=>	$v['user_id'],
+					'name'			=>	$v['user_name'],
+					'rank_name'		=>	$v['rank_name'],
+					'email'			=>	$v['email'],
+					'mobile_phone'	=>	$v['mobile_phone'],
+					'formatted_user_money' =>	price_format($v['user_money'],false),
+					'user_points'	=>	$v['pay_points'],
+					'user_money'	=>	$v['user_money'],
+					'address'		=>	$address,
+					'avatar_img'	=>	$v['avatar_img'] ? RC_Upload::upload_url($v['avatar_img']) : '',
+					'reg_time'		=>   RC_Time::local_date(ecjia::config('time_format'), $v['reg_time']),
 				);
 			}
 		}

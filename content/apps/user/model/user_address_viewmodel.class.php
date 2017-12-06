@@ -54,20 +54,20 @@ class user_address_viewmodel extends Component_Model_View {
 		$this->table_alias_name	= 'ua';
 		
 		$this->view = array(
-			'region' => array(
+			'regions' => array(
 				'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
 				'alias'		=> 'c',
 				'on'		=> 'c.region_id = ua.country'
 			),
-			'region as p' => array(
+			'regions as p' => array(
 				'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
 				'on'		=> 'p.region_id = ua.province'
 			),
-			'region as t' => array(
+			'regions as t' => array(
 				'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
 				'on'		=> 't.region_id = ua.city'
 			),
-			'region as d' => array(
+			'regions as d' => array(
 				'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
 				'on'		=> 'd.region_id = ua.district'
 			)

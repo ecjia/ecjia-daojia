@@ -68,21 +68,15 @@ class info_module extends api_front implements api_interface {
 		
 		RC_Loader::load_app_func('admin_order', 'orders');
 
-		$db_user_address = RC_Model::model('user/user_address_model');
-		$db_region = RC_Model::model('shipping/region_model');
-		$info = $db_user_address->find(array('address_id' => $id, 'user_id' => $user_id));
-
+		$info = RC_DB::table('user_address')->where('address_id', $id)->where('user_id', $user_id)->first();
 		/* 验证地址id */
 		if (empty($info)) {
 		    return new ecjia_error(13, '不存在的信息');
 		}
-		
 		$consignee = get_consignee($user_id); // 取得默认地址
 		
-		$ids = array($info['country'], $info['province'], $info['city'], $info['district']);
-		$ids = array_filter($ids);
-
-		$data = $db_region->in(array('region_id' => implode(',', $ids)))->select();
+		$ids = array($info['country'], $info['province'], $info['city'], $info['district'], $info['street']);
+		$data = ecjia_region::getRegions($ids);
 		
 		$out = array();
 		foreach ($data as $key => $val) {
@@ -103,6 +97,7 @@ class info_module extends api_front implements api_interface {
 		    'province'   => $info['province'],
 		    'city'       => $info['city'],
 		    'district'   => $info['district'],
+			'street'   => $info['street'],
 		    'location'	 => array(
 		        'longitude' => $info['longitude'],
 		        'latitude'	=> $info['latitude'],
@@ -112,6 +107,7 @@ class info_module extends api_front implements api_interface {
 		    'province_name'  => isset($out[$info['province']]) ? $out[$info['province']] : '',
 		    'city_name'      => isset($out[$info['city']]) ? $out[$info['city']] : '',
 		    'district_name'  => isset($out[$info['district']]) ? $out[$info['district']] : '',
+			'street_name' 	 => isset($out[$info['street']]) ? $out[$info['street']] : '',
 		    
 		    'address'        => empty($info['address']) ? '' : $info['address'],
 		    'address_info'   => empty($info['address_info']) ? '' : $info['address_info'],

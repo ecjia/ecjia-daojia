@@ -66,10 +66,13 @@ class add_module extends api_front implements api_interface {
 		
 		$address['user_id']       = $_SESSION['user_id'];
 		$address['consignee']     = isset($address['consignee']) ? trim($address['consignee']) : '';
-// 		$address['country']       = isset($address['country']) ? intval($address['country']) : '';
-// 		$address['province']      = isset($address['province']) ? intval($address['province']) : '';
-		$address['city']      	  = isset($address['city']) ? intval($address['city']) : 0;
-		$address['district']      = isset($address['district']) ? intval($address['district']) : 0;
+		
+// 		$address['country']       = isset($address['country']) ? trim($address['country']) : '';
+		$address['province']      = isset($address['province']) ? trim($address['province']) : '';
+		$address['city']      	  = isset($address['city']) ? trim($address['city']) : '';
+		$address['district']      = isset($address['district']) ? trim($address['district']) : '';
+		$address['street']        = isset($address['street']) ? trim($address['street']) : '';
+
 		$address['email']         = !empty($address['email']) ? trim($address['email']) : '';
 		$address['mobile']        = isset($address['mobile']) ? trim($address['mobile']) : '';
 		$address['address']       = isset($address['address']) ? trim($address['address']) : '';
@@ -82,8 +85,14 @@ class add_module extends api_front implements api_interface {
 		if (!empty($address['wx_address'])) {
 			$address['address'] = trim($address['wx_address']);
 		}		
-		$address['province']	  = RC_Model::model('user/region_model')->where(array('region_id' => $address['city']))->get_field('parent_id');
-		$address['country']		  = RC_Model::model('user/region_model')->where(array('region_id' => $address['province']))->get_field('parent_id');
+		$data = ecjia_region::getSplitRegionWithKey($address['street']);
+
+		$address['country']		= $data['country'];
+		$address['province']	= $data['province'];
+		$address['city']		= $data['city'];
+		$address['district']	= $data['district'];
+		$address['street']		= $data['street'];
+		
 		$result = RC_Api::api('user', 'address_manage', $address);
 	
 		if (is_ecjia_error($result)) {

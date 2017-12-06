@@ -780,7 +780,7 @@ function EM_user_info($user_id, $mobile) {
 	$username_update_time = RC_Model::model('term_meta_model')->find($data);
 	
 	$address = $user_info['address_id'] > 0 ? RC_DB::table('user_address')->where('address_id', $user_info['address_id'])->first() : '';
-	$user_info['address'] = $user_info['address_id'] > 0 ? RC_DB::table('region')->where('region_id', $address['city'])->pluck('region_name').RC_DB::table('region')->where('region_id', $address['district'])->pluck('region_name').$address['address'] : '';
+	$user_info['address'] = $user_info['address_id'] > 0 ? ecjia_region::getRegionName($address['city']).ecjia_region::getRegionName($address['district']).ecjia_region::getRegionName($address['street']).$address['address'] : '';
 	
 	return array(
 		'id'				=> $user_info['user_id'],

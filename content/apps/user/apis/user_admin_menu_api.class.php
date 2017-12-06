@@ -63,7 +63,7 @@ class user_admin_menu_api extends Component_Event_Api {
 		);
 	
 		$menus->add_submenu($submenus);
-		return RC_Hook::apply_filters('user_admin_menu_api', $menus);;
+		return RC_Hook::apply_filters('user_admin_menu_api', $menus);
 	}
 }
 

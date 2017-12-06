@@ -79,7 +79,11 @@ class user_neighbors_address_store_api extends Component_Event_Api {
 		    	
 		    $geohash_store = substr($geohash_store_code, 0, $mobile_location_range);
 		    
-		    if ($geohash_code == $geohash_store) {
+		    //获取当前位置附近周边8点区域
+		    $neighbors = $geohash->geo_neighbors($geohash_code);
+		    array_push($neighbors, $geohash_code);
+		    
+		    if (in_array($geohash_store, $neighbors)) {
 		        return true;
 		    }
 		}

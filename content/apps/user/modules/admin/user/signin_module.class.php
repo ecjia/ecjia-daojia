@@ -65,7 +65,8 @@ class signin_module extends api_admin implements api_interface {
 
 		$db_user = RC_Model::model('user/admin_user_model');
 		/* 收银台请求判断处理*/
-		if (!empty($device) && is_array($device) && $device['code'] == '8001') {
+		$codes = array('8001', '8011');
+		if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
 			$adviser_info = RC_Model::model('achievement/adviser_model')->find(array('username' => $username));
 			if (empty($adviser_info)) {
 				$result = new ecjia_error('login_error', __('您输入的帐号信息不正确。'));
@@ -105,8 +106,8 @@ class signin_module extends api_admin implements api_interface {
 			$device_id = RC_Model::model('mobile/mobile_device_model')->where(array('device_udid' => $device['udid'], 'device_client' => $device['client'], 'device_code' => $device['code']))->get_field('id');
 			$_SESSION['device_id']	= $row['device_id'];
 
-			
-			if ($device['code'] == '8001') {
+			$codes = array('8001', '8011');
+			if (in_array($device['code'], $codes)) {
 				$_SESSION['adviser_id']	= $row['id'];
 				$_SESSION['seller_id']	= $row['seller_id'];
 				$_SESSION['admin_name']	= $row['username'];
@@ -151,7 +152,7 @@ class signin_module extends api_admin implements api_interface {
 					'avator_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
 			);
 			
-			if ($device['code'] == '8001') {
+			if (in_array($device['code'], $codes)) {
 				$out['userinfo']['username'] = $adviser_info['username'];
 				$out['userinfo']['email']	 = $adviser_info['email'];
 			}

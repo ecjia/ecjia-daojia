@@ -81,7 +81,8 @@ class signin_module extends api_admin implements api_interface {
 
 function signin_merchant($username, $password, $device) {
     /* 收银台请求判断处理*/
-    if (!empty($device) && is_array($device) && $device['code'] == '8001') {
+	$codes = array('8001', '8011');
+    if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
     	$staff_user_info = RC_DB::table('staff_user')->where('mobile', $username)->first();
         if (empty($staff_user_info)) {
 			$result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
@@ -262,7 +263,8 @@ function signin_admin($username, $password, $device) {
     }
     
     /* 收银台请求判断处理*/
-    if (!empty($device) && is_array($device) && $device['code'] == '8001') {
+    $codes = array('8001', '8011');
+    if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
         $adviser_info = RC_Model::model('achievement/adviser_model')->find(array('username' => $username));
         if (empty($adviser_info)) {
             $result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
@@ -351,7 +353,7 @@ function signin_admin($username, $password, $device) {
             'avator_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
         );
         	
-        if ($device['code'] == '8001') {
+        if (in_array($device['code'], $codes)) {
             $out['userinfo']['username'] = $adviser_info['username'];
             $out['userinfo']['email']	 = $adviser_info['email'];
         }
