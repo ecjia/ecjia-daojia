@@ -216,8 +216,8 @@
 					
 					<div class="form-group">
 						<label class="control-label col-lg-2">选择地区：</label>
-						<div class="col-lg-6 controls">
-							<div class="col-lg-4 p_l0 p_r5">
+						<div class="controls">
+							<div class="w120 f_l m_l15 m_r10">
 								<select class="region-summary-provinces col-lg-12" name="province" id="selProvinces" data-url="{url path='franchisee/merchant/get_region'}" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities">
 									<option value='0'>{lang key='system::system.select_please'}</option>
 									<!-- {foreach from=$province item=region} -->
@@ -226,8 +226,8 @@
 								</select>
 							</div>
 							
-							<div class="col-lg-4 p_l0 p_r5">
-								<select class="region-summary-cities col-lg-12" name="city" id="selCities" data-url="{url path='franchisee/merchant/get_region'}" data-toggle="regionSummary" data-type="3" data-target="region-summary-district">
+							<div class="w120 f_l m_r10">
+								<select class="region-summary-cities col-lg-12" name="city" id="selCities" data-toggle="regionSummary" data-type="3" data-target="region-summary-district">
 									<option value='0'>{lang key='system::system.select_please'}</option>
 									<!-- {foreach from=$city item=region} -->
 									<option value="{$region.region_id}" {if $region.region_id eq $data.city}selected{/if}>{$region.region_name}</option>
@@ -235,16 +235,25 @@
 								</select>
 							</div>
 							
-							<div class="col-lg-4 p_l0 p_r0">
-								<select class="region-summary-district col-lg-12" name="district" id="seldistrict">
+							<div class="w120 f_l m_r10">
+								<select class="form-control region-summary-district" id="selDistrict" data-toggle="regionSummary" name="district" data-type="4" data-target="region-summary-street">
 									<option value='0'>{lang key='system::system.select_please'}</option>
 									<!-- {foreach from=$district item=region} -->
 									<option value="{$region.region_id}" {if $region.region_id eq $data.district}selected{/if}>{$region.region_name}</option>
 									<!-- {/foreach} -->
 								</select>
 							</div>
+							
+							<div class="w120 f_l m_r10">
+                          		<select class="form-control region-summary-street" name="street" >
+                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <!-- {foreach from=$street item=region} -->
+                                    <option value="{$region.region_id}" {if $region.region_id eq $data.street}selected{/if}>{$region.region_name}</option>
+                                    <!-- {/foreach} -->
+                                </select>
+                            </div>
+                            <span class="input-must">*</span>
 						</div>
-						<span class="input-must">*</span>
 					</div>
 					
 					<div class="form-group">

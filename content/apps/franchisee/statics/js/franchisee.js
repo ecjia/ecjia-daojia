@@ -59,9 +59,6 @@
 					store_cat: {
 						min: 1
 					},
-					district: {
-						min: 1
-					},
 					address: "required",
 					responsible_person: "required",
 					company_responsible_person: "required",
@@ -76,9 +73,6 @@
 					email: {
 						required: "请输入电子邮箱",
 						email: "请输入一个正确的邮箱",
-					},
-					district: {
-						min: "请选择地区"
 					},
 					address: "请输入详细地址",
 					responsible_person: "请输入负责人姓名",
@@ -129,6 +123,7 @@
 				var province = $('select[name="province"]').val(),
 					city = $('select[name="city"]').val(),
 					district = $('select[name="district"]').val(),
+					street = $('select[name="street"]').val(),
 					address = $('input[name="address"]').val(),
 					url = $(this).attr('data-url');
 
@@ -136,6 +131,7 @@
 					'province': province,
 					'city': city,
 					'district': district,
+					'street': street,
 					'address': address,
 				}
 				$.post(url, option, app.franchisee.sethash, "JSON");
