@@ -178,6 +178,8 @@ RC_Hook::add_action('user/address/save_temp_data', array('user_address_controlle
 RC_Hook::add_action('user/address/near_location', array('user_address_controller', 'near_location'));
 RC_Hook::add_action('user/address/set_default', array('user_address_controller', 'set_default'));
 RC_Hook::add_action('user/address/choose_address', array('user_address_controller', 'choose_address'));
+RC_Hook::add_action('user/address/get_region', array('user_address_controller', 'get_region'));
+RC_Hook::add_action('user/address/save_address_temp', array('user_address_controller', 'save_address_temp'));
 
 //用户红包
 RC_Loader::load_theme('extras/controller/user_bonus_controller.php');

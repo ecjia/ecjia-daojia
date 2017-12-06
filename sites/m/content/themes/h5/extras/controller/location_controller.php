@@ -137,7 +137,7 @@ class location_controller {
     			ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
     		}
     		
-    		$city_id = !empty($_GET['city_id']) ? intval($_GET['city_id']) : 0;
+    		$city_id = !empty($_GET['city_id']) ? trim($_GET['city_id']) : '';
     		ecjia_front::$controller->assign('city_id', $city_id);
     		
     		ecjia_front::$controller->assign_title('选择城市');
@@ -162,17 +162,18 @@ class location_controller {
     	$latitude  			= $latng['lat'];
 
     	$ad_info 			= $location_content['ad_info'];
-    	$city_name			= $ad_info['city'];
+    	$city_name			= $ad_info['district'];
     	
     	$params = array(
     		'token' => ecjia_touch_user::singleton()->getToken(),
     		'city' 	=> $city_name,
     	);
     	$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+    	
     	if (is_ecjia_error($rs)) {
     		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
     	} else {
-    		$city_id = !empty($rs['region_id']) ? $rs['region_id'] : 0;
+    		$city_id = !empty($rs['region_id']) ? $rs['region_id'] : '';
     	}
     	$referer_url = RC_Uri::url('touch/index/init');
     	setcookie("referer_url", $referer_url, RC_Time::gmtime() + 3600 * 24 * 7);

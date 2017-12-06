@@ -450,8 +450,11 @@
 		},
 	};
 
-	ecjia.touch.address_from = {
+	ecjia.touch.address_form = {
 		init: function() {
+			ecjia.touch.address_form.choose_pcd();
+			ecjia.touch.address_form.choose_street();
+			
 			$("form[name='theForm']").on('submit', function(e) {
 				e.preventDefault();
 				return false;
@@ -481,11 +484,348 @@
 					ecjia.touch.showmessage(data);
 				}
 			});
+		},
+		
+		choose_pcd: function() {
+			var province = $("input[name='province_list']").val();
+			var city = $("input[name='city_list']").val();
+			var district = $("input[name='district_list']").val();
+
+			var clear = $("input[name='clear']").val();
+			if (clear == 1) {
+				sessionStorage.removeItem('province_id');
+				sessionStorage.removeItem('province_name');
+				sessionStorage.removeItem('city_id');
+				sessionStorage.removeItem('city_name');
+				sessionStorage.removeItem('district_id');
+				sessionStorage.removeItem('district_name');
+				sessionStorage.removeItem('street_id');
+				sessionStorage.removeItem('street_name');
+			} else {
+				var temp_province_id = sessionStorage.getItem('province_id');
+				if (temp_province_id != null) {
+					$('input[name="province"]').val(temp_province_id);
+				}
+				var temp_city_id = sessionStorage.getItem('city_id');
+				if (temp_city_id != null) {
+					$('input[name="city"]').val(temp_city_id);
+				}
+				var temp_district_id = sessionStorage.getItem('district_id');
+				if (temp_district_id != null) {
+					$('input[name="district"]').val(temp_district_id);
+				}
+				var temp_street_id = sessionStorage.getItem('street_id');
+				if (temp_street_id != null) {
+					$('input[name="street"]').val(temp_street_id);
+				}
+				
+				var val = '';
+				var temp_province_name 	= sessionStorage.getItem('province_name');
+				if (temp_province_name != null) {
+					val += temp_province_name;
+				}
+				var temp_city_name 		= sessionStorage.getItem('city_name');
+				if (temp_city_name != null) {
+					val += '-' + temp_city_name;
+				}
+				var temp_district_name 	= sessionStorage.getItem('district_name');
+				if (temp_district_name != null) {
+					val += '-' + temp_district_name;
+				}
+				if (val != '') {
+					$('.ecjia_user_address_picker').html(val);
+				}
+				var temp_street_name = sessionStorage.getItem('street_name');
+				if (temp_street_name != null) {
+					$('.ecjia_user_address_street_picker').html(temp_street_name);
+				}
+			}
+			
+			if ($.localStorage('province') == undefined) {
+				$.localStorage('province', province);
+			}
+			if ($.localStorage('city') == undefined) {
+				$.localStorage('city', city);
+			}
+			if ($.localStorage('district') == undefined) {
+				$.localStorage('district', district);
+			}
+			var data = region_data();
+			
+			var province_list 	= data[0];
+			var province_list_name 	= data[1];
+			var city_list 		= data[2];
+			var city_list_name 		= data[3];
+			var district_list 	= data[4];
+			var district_list_name 	= data[5];
+			
+			var url = $('.ecjia_user_address_picker').attr('data-url');
+			var myApp = new Framework7();
+
+			var pickerCustomToolbar = myApp.picker({
+			    input: '.ecjia_user_address_picker',
+			    cssClass: 'ecjia-user-address-picker',
+			    toolbarTemplate: 
+			        '<div class="toolbar">' +
+			            '<div class="toolbar-inner">' +
+			                '<div class="left">' +
+			                    '<a href="javascript:;" class="link close-picker external">取消</a>' +
+			                '</div>' +
+			                '<div class="right">' +
+			                    '<a href="javascript:;" class="link save-picker external">完成</a>' +
+			                '</div>' +
+			            '</div>' +
+			        '</div>',
+			    cols: [
+			        {
+			            values: province_list,
+			            displayValues: province_list_name,
+			            onChange: function(picker, value) {
+		            		var data = region_data(value);
+		            		if (picker.cols[1].replaceValues) {
+		            			picker.cols[1].replaceValues(data[2], data[3]);
+		            		}
+		            		if (picker.cols[2].replaceValues) {
+		            			picker.cols[2].replaceValues(data[4], data[5]);
+		            		}
+			            }
+			        },
+			        {
+			            values: city_list,
+			            displayValues: city_list_name,
+			            onChange: function(picker, value) {
+			            	var data = region_data('', value);
+			            	if (picker.cols[2].replaceValues) {
+			            		picker.cols[2].replaceValues(data[4], data[5]);
+			            	}
+			            }
+			        },
+			        {
+			            values: district_list,
+			            displayValues: district_list_name
+			        },
+			    ],
+			    onOpen: function (picker) {
+			    	var province = $('input[name="province"]').val();
+					var city = $('input[name="city"]').val();
+					var district = $('input[name="district"]').val();
+			    	picker.setValue([province, city, district]);//设置选中值
+			    	
+			        picker.container.find('.save-picker').on('click', function () {
+			        	var district_value = $('input[name="district"]').val();
+			        	var col0 = picker.cols[0].container.find('.picker-selected');
+			        	var col1 = picker.cols[1].container.find('.picker-selected');
+			        	var col2 = picker.cols[2].container.find('.picker-selected');
+		        		var html = col0.html();
+		        		if (col1.html() != '暂无') {
+		        			html += '-'+col1.html();
+		        		}
+		        		if (col2.html() != '暂无') {
+		        			html += '-'+col2.html();
+		        		}
+						$('.ecjia_user_address_picker').html(html);
+
+						var col0Value = col0.attr('data-picker-value');
+		        		var col1Value = col1.attr('data-picker-value');
+		        		var col2Value = col2.attr('data-picker-value');
+		        		$('input[name="province"]').val(col0Value);
+		        		$('input[name="city"]').val(col1Value);
+		        		$('input[name="district"]').val(col2Value);
+
+		        		if (district_value != col2Value) {
+		        			$('.ecjia_user_address_street_picker').html('');
+		        			$('input[name="street"]').val('');
+		        		}
+		        		$.post(url, {district_id:col2Value}, function(data) {
+							$('input[name="street_list"]').val(data.street_list);
+							var key = 'street_' + col2Value;
+					    	$.localStorage(key, data.street_list);
+						});
+						var temp_data = {
+							'province_id': col0Value,
+							'province_name': col0.html(),
+							'city_id': col1Value,
+							'city_name': col1.html(),
+							'district_id': col2Value,
+							'district_name': col2.html(),
+						};
+						save_temp(temp_data);
+						picker.close();
+						$('.modal-overlay').remove();
+			        });
+			        picker.container.find('.close-picker').on('click', function () {
+			    		picker.close();
+				    	$('.modal-overlay').remove();
+			    	});
+			    },
+			    onClose: function(picker) {
+			    	picker.close();
+			    	$('.modal-overlay').remove();
+			    }
+			});
+			
+			$('.ecjia_user_address_street_picker').off('click').on('click', function() {
+				var province = $('input[name="province"]').val();
+				var city = $('input[name="city"]').val();
+				var district = $('input[name="district"]').val();
+				if (province == '' || city == '' || district == '') {
+					alert('请先选择所在地区');
+					return false;
+				}
+			});
+		},
+		
+		choose_street: function() {
+			var App = new Framework7();
+			var pickerStreetToolbar = App.picker({
+			    input: '.ecjia_user_address_street_picker',
+			    cssClass: 'ecjia-user-address-street-picker',
+			    toolbarTemplate: 
+			        '<div class="toolbar">' +
+			            '<div class="toolbar-inner">' +
+			                '<div class="left">' +
+			                    '<a href="javascript:;" class="link close-picker external">取消</a>' +
+			                '</div>' +
+			                '<div class="right">' +
+			                    '<a href="javascript:;" class="link save-picker external">完成</a>' +
+			                '</div>' +
+			            '</div>' +
+			        '</div>',
+			    cols: [
+			        {
+			            values: [''],
+			            displayValues: ['请选择所在街道'],
+			        },
+			    ],
+			    onOpen: function (picker) {
+			    	var district = $('input[name="district"]').val();
+			    	var key = 'street_' + district;
+			    	if ($.localStorage(key) == undefined) {
+			    		var street_list = $("input[name='street_list']").val();
+				    	$.localStorage(key, street_list);
+			    	}
+			    	var data = region_data('', '', district);
+			    	picker.cols[0].replaceValues(data[6], data[7]);
+			    	var street = $('input[name="street"]').val();
+			    	picker.setValue([street]);//设置选中值
+			    	
+			        picker.container.find('.save-picker').on('click', function () {
+			        	var col0 = picker.cols[0].container.find('.picker-selected');
+			        	var col0Value = col0.attr('data-picker-value');
+			        	if (col0Value.length != 0) {
+			        		var html = col0.html();
+							$('.ecjia_user_address_street_picker').html(html);
+			        		$('input[name="street"]').val(col0Value);
+					     	var temp_data = {
+								'street_id': col0Value,
+								'street_name': html
+							};
+							save_temp(temp_data); 
+			        	}
+			        	picker.close();
+						$('.modal-overlay').remove();
+			        });
+			        picker.container.find('.close-picker').on('click', function () {
+			    		picker.close();
+				    	$('.modal-overlay').remove();
+			    	});
+			    },
+			    onClose: function(picker) {
+			    	picker.close();
+			    	$('.modal-overlay').remove();
+			    }
+			});
 		}
 	};
 
 	function uniqueId() {
 		return (new Date).getTime()
+	}
+
+	//处理地区数据
+	function region_data(province_id = '', city_id = '', district_id = '') {
+		var province = eval($.localStorage('province'));
+		var city = eval($.localStorage('city'));
+		var district = eval($.localStorage('district'));
+		var street = eval($.localStorage('street_' + district_id));
+
+		var province_value = [];
+        var province_display_value = [];
+        if (district_id == '') {
+	        for (i = 0; i < province.length; i++) {
+	            var name = province[i]['name'];
+	            var id = province[i]['id'];
+	            province_value.push(id);
+	            province_display_value.push(name);
+	        };
+        }
+        if (province_id == '') {
+        	province_id = province_value[0];
+        }
+        
+        var city_value = [];
+        var city_display_value = [];
+        if (district_id == '') {
+	        for (i = 0; i < city.length; i++) {
+	        	if (city[i]['parent_id'] == province_id) {
+	        		var name = city[i]['name'];
+	                var id = city[i]['id'];
+	                city_value.push(id);
+	                city_display_value.push(name);
+	        	}
+	        };
+        }
+        if (city_id == '') {
+        	city_id = city_value[0];
+        }
+        var district_value = [];
+        var district_display_value = [];
+        if (district_id == '') {
+	        for (i = 0; i < district.length; i++) {
+	        	if (district[i]['parent_id'] == city_id) {
+	        		var name = district[i]['name'];
+	                var id = district[i]['id'];
+	                district_value.push(id);
+	                district_display_value.push(name);
+	        	}
+	        };
+        }
+        
+        if (district_id == '') {
+        	district_id = district_value[0];
+        }
+        
+        var street_value = [];
+        var street_display_value = [];
+        if (street != undefined) {
+	        for (i = 0; i < street.length; i++) {
+	        	if (street[i]['parent_id'] == district_id) {
+	        		var name = street[i]['name'];
+	                var id = street[i]['id'];
+	                street_value.push(id);
+	                street_display_value.push(name);
+	        	}
+	        };
+        }
+        if (district_value.length == 0 || district_display_value.length == 0) {
+        	district_value = [''];
+        	district_display_value = ['暂无'];
+        }
+        if (street_value.length == 0 || street_display_value.length == 0) {
+        	street_value = [''];
+        	street_display_value = ['暂无'];
+        }
+        return [province_value, province_display_value, city_value, city_display_value, district_value, district_display_value, street_value, street_display_value];
+	}
+
+	function save_temp(arr) {
+		for (var i in arr) {
+			sessionStorage.setItem(i, arr[i]);
+			if (arr['street_id'] == undefined) {
+				sessionStorage.removeItem('street_id');
+				sessionStorage.removeItem('street_name');
+			}
+		}
 	}
 })(ecjia, jQuery);
 

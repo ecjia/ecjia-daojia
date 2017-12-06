@@ -32,7 +32,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<div class="ecjiaf-fl address-info">
 					<span>{$data.consignee.consignee|escape}</span>
 					<span>{$data.consignee.mobile}</span>
-					<p class="ecjia-truncate2 address-desc">{$data.consignee.address}{$data.consignee.address_info}</p>
+					<p class="ecjia-truncate2 address-desc">{$data.consignee.province_name}{$data.consignee.city_name}{$data.consignee.district_name}{$data.consignee.street_name} {$data.consignee.address}{$data.consignee.address_info}</p>
 				</div>
 				{else}
 				<p>已有地址超过配送范围，请重新选择或添加</p>

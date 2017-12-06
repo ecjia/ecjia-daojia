@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class touch_function {
     
     //获取token
-    public static function get_token($return_all = 0) {
+    public static function get_token($return_all = false) {
         $rs_token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
         if (!is_ecjia_error($rs_token)) {
         	if ($return_all) {

@@ -16,7 +16,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 <div class="ecjia-address-list p_t0">
-	<section class="m_b5">
+	<section class="m_b5 p_b5">
 		<!-- {if $address_list} -->
 		{if $type eq 'choose'}
 		<ul class="ecjia-list list-one ecjia-margin-b" id="J_ItemList">
@@ -31,7 +31,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<p class="ecjiaf-fl ecjia-mxw6">{$value.consignee}</p>
 							<p class="ecjiaf-fl ecjia-margin-l ecjia-address-mobile">{$value.mobile}</p>
 						</div>
-						<div class="address ecjiaf-wwb">{$value.province_name} {$value.city_name} {$value.address} {$value.address_info}</div>
+						<div class="address ecjiaf-wwb">{$value.province_name}{$value.city_name}{$value.district_name}{$value.street_name} {$value.address}{$value.address_info}</div>
 					</div>
 				</a>
 				<a class="edit-address ecjiaf-fr" href="{RC_uri::url('user/address/edit_address')}&id={$value.id}&clear=1"><div class="icon-edit-address"></div></a>
@@ -54,7 +54,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<p class="ecjiaf-fl ecjia-mxw6">{$value.consignee}</p>
 							<p class="ecjiaf-fl ecjia-margin-l ecjia-address-mobile">{$value.mobile}</p>
 						</div>
-						<div class="address ecjiaf-wwb">{$value.province_name} {$value.city_name} {$value.address} {$value.address_info}</div>
+						<div class="address ecjiaf-wwb">{$value.province_name}{$value.city_name}{$value.district_name}{$value.street_name} {$value.address}{$value.address_info}</div>
 					</div>
 				</a>
 				<a class="edit-address ecjiaf-fr" href="{RC_uri::url('user/address/edit_address')}&id={$value.id}&clear=1"><div class="icon-edit-address"></div></a>

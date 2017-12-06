@@ -103,7 +103,7 @@ class user_order_controller {
         
         if ($type == 'detail') {
             if (!ecjia_front::$controller->is_cached('user_order_detail.dwt', $cache_id)) {
-            
+            	
                 ecjia_front::$controller->assign('order', $data);
                 ecjia_front::$controller->assign('headInfo', $data['order_status_log'][0]);
                 if ($data['shipping_code'] == 'ship_o2o_express' && !empty($data['express_id'])) {

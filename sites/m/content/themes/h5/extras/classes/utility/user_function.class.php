@@ -50,7 +50,7 @@ class user_function {
 	/**
 	 * 记录搜索历史
 	 */
-	public static function insert_search($keywords, $store_id = 0) {
+	public static function insert_search($keywords = '', $store_id = 0) {
 		$ecjia_search = 'ECJia[search]';
 		if (!empty($store_id)) {
 			$cookie_search = $_COOKIE ['ECJia'] ['search'][$store_id];
@@ -59,7 +59,7 @@ class user_function {
 			$cookie_search = $_COOKIE ['ECJia'] ['search']['other'];
 			$ecjia_search .= '[other]';
 		}
-		if (isset($keywords)) {
+		if (!empty($keywords)) {
 			if (!empty($cookie_search)) {
 				$history = explode(',', $cookie_search);
 				array_unshift($history, $keywords);
@@ -104,6 +104,54 @@ class user_function {
 		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
 			return true;
 		} return false;
+	}
+	
+	public static function get_region_list($province_id = '', $city_id = '', $district_id = '') {
+		$province_list = RC_Cache::app_cache_get('user_address_province', 'user_address');
+		if (empty($province_list)) {
+			$rs_province = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 1))->run();
+			if (!is_ecjia_error($rs_province) && !empty($rs_province['regions'])) {
+				RC_Cache::app_cache_set('user_address_province', $rs_province['regions'], 'user_address');
+				$province_list = $rs_province['regions'];
+			}
+		}
+			
+		$city_list = RC_Cache::app_cache_get('user_address_city', 'user_address');
+		if (empty($city_list)) {
+			$rs_city = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 2))->run();
+			if (!is_ecjia_error($rs_city) && !empty($rs_city['regions'])) {
+				RC_Cache::app_cache_set('user_address_city', $rs_city['regions'], 'user_address');
+				$city_list = $rs_city['regions'];
+			}
+		}
+			
+		$district_list = RC_Cache::app_cache_get('user_address_district', 'user_address');
+		if (empty($district_list)) {
+			$rs_district = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 3))->run();
+			if (!is_ecjia_error($rs_district) && !empty($rs_district['regions'])) {
+				RC_Cache::app_cache_set('user_address_district', $rs_district['regions'], 'user_address');
+				$district_list = $rs_district['regions'];
+			}
+		}
+		
+		$street_list = array();
+		if (!empty($district_id)) {
+			$street_list = RC_Cache::app_cache_get('user_address_street'.$district_id, 'user_address');
+			if (empty($street_list)) {
+				$rs_street = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('parent_id' => $district_id))->run();
+				if (!is_ecjia_error($rs_street) && !empty($rs_street['regions'])) {
+					RC_Cache::app_cache_set('user_address_street'.$district_id, $rs_street['regions'], 'user_address');
+					$street_list = $rs_street['regions'];
+				}
+			}
+		}
+		
+		return array(
+			'province_list' => json_encode($province_list),
+			'city_list' 	=> json_encode($city_list),
+			'district_list' => json_encode($district_list),
+			'street_list' 	=> !empty($street_list) ? json_encode($street_list) : '',
+		);
 	}
 }
 
