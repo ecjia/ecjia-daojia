@@ -45,11 +45,11 @@
 //  ---------------------------------------------------------------------------------
 //
 /*
-Plugin Name: O2O速递
+Plugin Name: 商家配送
 Plugin URI: http://www.ecjia.com/plugins/ecjia.o2o_express/
-Description: O2O速递
+Description: 商家配送，适用于商家自己组建配送团队，方便管理与灵活派遣。
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 2.0.0
 Author URI: http://www.ecjia.com/
 Plugin App: shipping
 */
@@ -76,8 +76,12 @@ class plugin_ship_o2o_express {
     }
 }
 
+Ecjia_PluginManager::extend('ship_o2o_express', function() {
+    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'ship_o2o_express.class.php';
+    return new ship_o2o_express();
+});
+
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_ship_o2o_express', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_ship_o2o_express', 'uninstall'));
-RC_Hook::add_filter('shipping_factory_adapter_instance', array( 'plugin_ship_o2o_express', 'adapter_instance' ), 10, 2);
 
 // end

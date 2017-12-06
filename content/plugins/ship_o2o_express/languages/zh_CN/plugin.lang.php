@@ -50,12 +50,13 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
-    'ecjia_express'          	=> 'O2O速递',
-    'ecjia_express_desc'     	=> 'O2O速递',
+    'ecjia_express'          	=> '商家配送',
+    'ecjia_express_desc'     	=> '商家配送，适用于商家自己组建配送团队，方便管理与灵活派遣。',
     
     'item_fee' 		=> '单件商品费用：',
-    'base_fee' 		=> '首重费用',
-    'step_fee' 		=> '续重费用',
+    'base_fee' 		=> '首重费用：',
+    'step_fee' 		=> '续重费用：',
+	'pay_fee'       => '货到付款支付费用：',
 );
 
 // end

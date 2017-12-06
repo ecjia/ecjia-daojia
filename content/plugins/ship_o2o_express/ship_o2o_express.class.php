@@ -51,22 +51,42 @@
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('shipping_abstract', 'shipping', false);
+use Ecjia\App\Shipping\ShippingAbstract;
 
-class ship_o2o_express extends shipping_abstract
+class ship_o2o_express extends ShippingAbstract
 {
+    /**
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
+     */
+    public function getCode()
+    {
+        return $this->loadConfig('shipping_code');
+    }
     
     /**
-     * 获取插件配置信息
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
      */
-    public function configure_config() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-        if (is_array($config)) {
-            return $config;
-        }
-        return array();
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
     }
-
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+    
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
+    }
+    
     /**
      * 计算订单的配送费用的函数
      *
@@ -77,29 +97,50 @@ class ship_o2o_express extends shipping_abstract
      */
     public function calculate($goods_weight, $goods_amount, $goods_number)
     {
-        if ($this->configure['free_money'] > 0 && $goods_amount >= $this->configure['free_money'])
-        {
-            return 0;
-        }
-        else
-        {
-            @$fee = $this->configure['base_fee'];
-            $this->configure['fee_compute_mode'] = !empty($this->configure['fee_compute_mode']) ? $this->configure['fee_compute_mode'] : 'by_weight';
+    	// 先获取用户地址，
+    	// 再获取出发地点，
+    	// 然后通过APi计算距离，
+    	// 最后进行距离费用的匹配
+    	// 返回费用
+    	if ($this->config['free_money'] > 0 && $goods_amount >= $this->config['free_money'])
+    	{
+    		return 0;
+    	}
+    	else
+    	{
+    		$dist_fee = $this->config['express'];
+    		array_multisort(array_column($dist_fee, 'express_distance'), SORT_ASC, $dist_fee);
+    		foreach ($dist_fee as $val) {
+    			if (($val['express_distance'] * 1000) >= $distance) {
+    				return $val['express_money'];
+    			}
+    		}
+    		return 99;
+    	}
+    	
+//         if ($this->configure['free_money'] > 0 && $goods_amount >= $this->configure['free_money'])
+//         {
+//             return 0;
+//         }
+//         else
+//         {
+//             @$fee = $this->configure['base_fee'];
+//             $this->configure['fee_compute_mode'] = !empty($this->configure['fee_compute_mode']) ? $this->configure['fee_compute_mode'] : 'by_weight';
 
-            if ($this->configure['fee_compute_mode'] == 'by_number')
-            {
-                $fee = $goods_number * $this->configure['item_fee'];
-            }
-            else
-            {
-                if ($goods_weight > 1)
-                {
-                    $fee += (ceil(($goods_weight - 1))) * $this->configure['step_fee'];
-                }
-            }
+//             if ($this->configure['fee_compute_mode'] == 'by_number')
+//             {
+//                 $fee = $goods_number * $this->configure['item_fee'];
+//             }
+//             else
+//             {
+//                 if ($goods_weight > 1)
+//                 {
+//                     $fee += (ceil(($goods_weight - 1))) * $this->configure['step_fee'];
+//                 }
+//             }
 
-            return $fee;
-        }
+//             return $fee;
+//         }
     }
 
 
