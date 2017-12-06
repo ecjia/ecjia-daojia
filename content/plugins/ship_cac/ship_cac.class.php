@@ -51,21 +51,42 @@
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('shipping_abstract', 'shipping', false);
+use Ecjia\App\Shipping\ShippingAbstract;
 
-class ship_cac extends shipping_abstract
+class ship_cac extends ShippingAbstract
 {
     /**
-     * 获取插件配置信息
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
      */
-    public function configure_config() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-        if (is_array($config)) {
-            return $config;
-        }
-        return array();
+    public function getCode()
+    {
+        return $this->loadConfig('shipping_code');
     }
-
+    
+    /**
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
+     */
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
+    }
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+    
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
+    }
+    
      /**
      * 计算订单的配送费用的函数
      *

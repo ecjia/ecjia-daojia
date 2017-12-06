@@ -49,7 +49,7 @@ Plugin Name: 上门取货
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cac/
 Description: 买家自己到商家指定地点取货
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 2.0.0
 Author URI: http://www.ecjia.com/
 Plugin App: shipping
 */
@@ -77,8 +77,12 @@ class plugin_ship_cac {
 
 }
 
+Ecjia_PluginManager::extend('ship_cac', function() {
+    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'ship_cac.class.php';
+    return new ship_cac();
+});
+
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_ship_cac', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_ship_cac', 'uninstall'));
-RC_Hook::add_filter('shipping_factory_adapter_instance', array( 'plugin_ship_cac', 'adapter_instance' ), 10, 2);
 
 // end
