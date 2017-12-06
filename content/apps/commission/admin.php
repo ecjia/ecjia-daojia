@@ -106,16 +106,25 @@ class admin extends ecjia_admin {
 		
 		if ($_GET['refer'] == 'store') {
 		    RC_loader::load_app_func('global', 'store');
-		    $menu = set_store_menu($store_id, 'bill');
-		    $this->assign('menu', $menu);
-		    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('入驻商'), RC_Uri::url('store/admin/init')));
+		   
+		    $store = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
+		    if ($store['manage_mode'] == 'self') {
+		    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('自营店铺'), RC_Uri::url('store/admin/init')));
+		    } else {
+		    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('入驻商家'), RC_Uri::url('store/admin/join')));
+		    }
+		    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
+		    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('账单列表'));
+		    
+		    ecjia_screen::get_current_screen()->set_sidebar_display(false);
+		    ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
+		    ecjia_screen::get_current_screen()->add_option('current_code', 'store_admin_commission');
 		}
 		if ($store_id) {
 		    $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+		    $this->assign('merchants_name', $merchants_name);
 		    $this->assign('ur_here', $merchants_name.' - 账单列表');
 		}
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账单列表')));
 		
 		$bill_list = $this->db_store_bill->get_bill_list($store_id, $_GET['page'], 20, $filter);
 		$this->assign('bill_list', $bill_list);
@@ -127,7 +136,7 @@ class admin extends ecjia_admin {
 	    /* 检查权限 */
 	    $this->admin_priv('commission_update');
 	    $this->assign('ur_here', '月账单生成');
-	    $this->assign('action_link',	array('text' => '每月账单', 'href' => RC_Uri::url('commission/admin/init')));
+	    $this->assign('action_link', array('text' => '每月账单', 'href' => RC_Uri::url('commission/admin/init')));
 	     
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('每月账单'), RC_Uri::url('commission/admin/init')));
 	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账单生成')));
@@ -193,10 +202,9 @@ class admin extends ecjia_admin {
 	     
 	    $this->assign('search_action', RC_Uri::url('commission/admin/day'));
 	    $this->assign('ur_here', '每日账单');
-	    $this->assign('action_link',	array('text' => '账单生成', 'href' => RC_Uri::url('commission/admin/day_update')));
-	    
+	    $this->assign('action_link', array('text' => '账单生成', 'href' => RC_Uri::url('commission/admin/day_update')));
 	
-	    // 		/* 时间参数 */
+	    /* 时间参数 */
 	    $filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_date('Y-m-d', RC_Time::local_strtotime($_GET['start_date']));
 	    $filter['end_date']   = empty($_GET['end_date']) ? null : RC_Time::local_date('Y-m-d', RC_Time::local_strtotime($_GET['end_date']));
 	    $filter['type']       = $_GET['type'];
@@ -207,19 +215,27 @@ class admin extends ecjia_admin {
 	
 	    if ($_GET['refer'] == 'store') {
 	        RC_loader::load_app_func('global', 'store');
-	        $menu = set_store_menu($store_id, 'bill');
-	        $this->assign('menu', $menu);
 	        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('入驻商'), RC_Uri::url('store/admin/init')));
+	        
+	        $store = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
+	        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
+	        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('每日账单'));
+	        
+	        ecjia_screen::get_current_screen()->set_sidebar_display(false);
+	        ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
+	        ecjia_screen::get_current_screen()->add_option('current_code', 'store_admin_commission');
+	    } else {
+	    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('每日账单')));
 	    }
+	    
 	    if ($store_id) {
 	        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+	        $this->assign('merchants_name', $merchants_name);
 	        $this->assign('ur_here', $merchants_name.' - 每日账单');
 	    }
 	    if ($filter['start_date'] >  $filter['end_date']) {
 	        return $this->showmessage('开始时间不能大于结束时间', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 	    }
-	
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('每日账单')));
 	
 	    $bill_list = $this->db_store_bill_day->get_billday_list($store_id, $_GET['page'], 20, $filter);
 	    $this->assign('bill_list', $bill_list);
@@ -270,7 +286,6 @@ class admin extends ecjia_admin {
 	        $store_bill->bill_day(array('day' => $date));
 	    }
 	    return $this->showmessage('更新成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-	    
 	}
 	
 	//账单详情

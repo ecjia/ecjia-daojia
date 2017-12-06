@@ -54,7 +54,7 @@ ecjia.admin.bill_pay.init();
     					</tr>
     					<tr>
     						<td align="right"><h4 align="right">本月账单金额：</h4></td>
-    						<td colspan="1"><b class="ecjiaf-fs3">￥{$bill_info.bill_amount}</b><span class="m_l10 m_r10">= {$bill_info.order_amount} * {$bill_info.percent_value}%</span>
+    						<td colspan="1"><b class="ecjiaf-fs3">￥{$bill_info.bill_amount}</b>{if 0}<span class="m_l10 m_r10">= {$bill_info.order_amount} * {$bill_info.percent_value}%</span>{/if}
     						</td><td align="right"><div align="right"><strong>打款状态：</strong></div></td>
     						<td>
     						 {if $bill_info.pay_status eq 1}
