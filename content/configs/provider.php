@@ -66,6 +66,8 @@ return array(
     'Royalcms\Component\Shoppingcart\ShoppingcartServiceProvider',
     
     'Ecjia\System\Providers\SystemServiceProvider',
+    'Ecjia\App\Setting\SettingServiceProvider',
+    'Ecjia\App\Shipping\ShippingServiceProvider',
 );
 
 //end
