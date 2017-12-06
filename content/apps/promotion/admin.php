@@ -258,7 +258,7 @@ class admin extends ecjia_admin {
 		$goods_list = array();
         $arr = $_POST;
         $goods_id = !empty($_POST['goods_id']) ? intval($_POST['goods_id']) : '';
-        $arr['store_id'] = RC_DB::table('goods')->select('store_id')->where('goods_id', $goods_id)->pluck();
+        $arr['store_id'] = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('store_id');
 		$row = RC_Api::api('goods', 'get_goods_list', $arr);
 		if (!is_ecjia_error($row)) {
 			if (!empty($row)) {
