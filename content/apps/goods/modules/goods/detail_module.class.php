@@ -429,16 +429,18 @@ function EM_get_goods_gallery($goods_id) {
     /* 格式化相册图片路径 */
     RC_Loader::load_app_class('goods_imageutils', 'goods', false);
     $img_list_sort = $img_list_id = array();
-    foreach ($row as $key => $gallery_img) {
-    	$desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
-    	!empty($desc_index) && $row[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
-    	$row[$key]['img_url'] = empty($gallery_img ['img_original']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($gallery_img ['img_original']);
-    	$row[$key]['thumb_url'] = empty($gallery_img ['img_url']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($gallery_img ['img_url']);
-    	$img_list_sort[$key] = $row[$key]['desc'];
-    	$img_list_id[$key] = $gallery_img['img_id'];
+    if (!empty($row)) {
+        foreach ($row as $key => $gallery_img) {
+        	$desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
+        	!empty($desc_index) && $row[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
+        	$row[$key]['img_url'] = empty($gallery_img ['img_original']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($gallery_img ['img_original']);
+        	$row[$key]['thumb_url'] = empty($gallery_img ['img_url']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($gallery_img ['img_url']);
+        	$img_list_sort[$key] = $row[$key]['desc'];
+        	$img_list_id[$key] = $gallery_img['img_id'];
+        }
+        //先使用sort排序，再使用id排序。
+        array_multisort($img_list_sort, $img_list_id, $row);
     }
-    //先使用sort排序，再使用id排序。
-    array_multisort($img_list_sort, $img_list_id, $row);
     return $row;
 }
 

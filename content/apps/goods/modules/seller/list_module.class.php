@@ -56,7 +56,7 @@ class list_module extends api_front implements api_interface {
 
 		$keywords = $this->requestData('keywords');
 		$location = $this->requestData('location', array());
-		$city_id	 = $this->requestData('city_id', 0);
+		$city_id	 = $this->requestData('city_id', '');
 
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);

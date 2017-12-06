@@ -113,7 +113,7 @@ class mobilebuygoods_module extends api_front implements api_interface {
     	if (!empty($res)) {
     		foreach ($res as $val) {
     			$ext_info = unserialize($val['ext_info']);
-    			$price  = $ext_info['price'];;    		// 初始化
+    			$price  = $ext_info['price'];    		// 初始化
     			/* 计算节约价格*/
     			$saving_price = ($val['shop_price'] - $price) > 0 ? $val['shop_price'] - $price : 0;
     			$list[] = array(

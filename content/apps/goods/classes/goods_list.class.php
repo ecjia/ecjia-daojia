@@ -181,10 +181,22 @@ class goods_list {
 		
 		/* 城市id */
 		if (isset($filter['city_id'])) {
-			$where['sf.city'] = $filter['city_id'];
-			$cache_key .= '-city-' . $filter['city_id'];
+			$length = strlen($filter['city_id']);
+			if ($length == 4) {
+				$where['sf.province'] = $filter['city_id'];
+				$cache_key .= '-province-' . $filter['city_id'];
+			} elseif ($length == 6) {
+				$where['sf.city'] = $filter['city_id'];
+				$cache_key .= '-city-' . $filter['city_id'];
+			} elseif ($length == 8) {
+				$where['sf.district'] = $filter['city_id'];
+				$cache_key .= '-district-' . $filter['city_id'];
+			} elseif ($length == 11) {
+				$where['sf.street'] = $filter['city_id'];
+				$cache_key .= '-street-' . $filter['city_id'];
+			}
 		}
-		
+
 		if (isset($filter['merchant_cat_id']) && !empty($filter['merchant_cat_id']) && isset($filter['store_id']) && !empty($filter['store_id']) ) {
 		    $merchant_cat_list = RC_DB::table('merchants_category')
 		    	->selectRaw('cat_id')

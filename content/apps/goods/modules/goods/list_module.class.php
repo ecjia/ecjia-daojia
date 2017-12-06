@@ -55,7 +55,7 @@ class list_module extends api_front implements api_interface {
      public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
         $this->authSession();
         $location	= $this->requestData('location', array()) ;
-		$city_id	= $this->requestData('city_id', 0) ;
+		$city_id	= $this->requestData('city_id', '') ;
         /* 筛选条件*/
         $filter = $this->requestData('filter', array());
         $keyword = isset($filter['keywords']) ? RC_String::unicode2string($filter['keywords']): '';

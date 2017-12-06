@@ -55,7 +55,7 @@ class suggestlist_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$location	 = $this->requestData('location', array());
-		$city_id	 = $this->requestData('city_id', 0);
+		$city_id	 = $this->requestData('city_id', '');
 		$action_type = $this->requestData('action_type', '');
     	$sort_type	 = $this->requestData('sort_by', '');
     	$size = $this->requestData('pagination.count', 15);
