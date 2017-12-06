@@ -44,27 +44,94 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-class shipping_installer extends ecjia_installer
+/**
+ * 无需物流 默认配送方式插件
+ */
+
+namespace Ecjia\App\Shipping\Plugins;
+
+use Ecjia\App\Shipping\ShippingAbstract;
+
+class ShipNoExpress extends ShippingAbstract
 {
-
-    protected $dependent = array(
-        'ecjia.system' => '1.0',
-    );
-
-    public function __construct()
+    /**
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
+     */
+    public function getCode()
     {
-        $id = 'ecjia.shipping';
-        parent::__construct($id);
+        return 'ship_no_express';
+    }
+    
+    /**
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
+     */
+    public function loadConfig($key = null, $default = null)
+    {
+        return null;
+    }
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $lang = array(
+            'ship_no_express'            => '无需物流',
+            'ship_no_express_desc'       => '不需要物流时选择此插件（本配送方式只支持商家发货时使用）',
+        );
+    
+        return $this->getArrayData($lang, $key, $default);
+    }
+    
+    /**
+     * 计算订单的配送费用的函数
+     *
+     * @param   float   $goods_weight   商品重量
+     * @param   float   $goods_amount   商品金额
+     * @param   float   $goods_amount   商品件数
+     * @return  decimal
+     */
+    public function calculate($goods_weight, $goods_amount, $goods_number)
+    {
+        return 0;
     }
 
-    public function install()
-    {}
-
-    public function uninstall()
-    {}
-
+    /**
+     * 查询快递状态
+     *
+     * @access  public
+     * @param   string  $invoice_sn     发货单号
+     * @return  string  查询窗口的链接地址
+     */
+    public function query($invoice_sn)
+    {
+        return null;
+    }
+    
+    
+    public function express() 
+    {
+        return collect([
+        	'shipping_id' => 0,
+            'shipping_code' => $this->getCode(),
+            'shipping_name' => $this->loadLanguage('ship_no_express'),
+            'shipping_desc' => $this->loadLanguage('ship_no_express_desc'),
+            'insure' => 0,
+            'support_code' => 0,
+            'configure' => null,
+            'pay_fee' => 0.00,
+        ]);
+        
+    }
+    
 }
+
 
 // end

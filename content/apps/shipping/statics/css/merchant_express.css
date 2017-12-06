@@ -1,0 +1,67 @@
+.setting-group-title{position:relative;display:block;padding:10px 15px;border:1px solid #ddd;border-radius:4px;background:#e7e7e7;color:#555;font-weight:400;font-size:15px}
+.setting-group-item{position:relative;display:block;padding:5px 15px;border-radius:4px;color:#555}
+.setting-group-item.llv-active,.setting-group-item.llv-active:focus,.setting-group-item.llv-active:hover{border-color:#337ab7;background-color:#337ab7;color:#fff}
+.setting-group a:hover{border-radius:4px;background-color:#f2f2f2;color:#555;text-decoration:inherit}
+.change>li>a{position:relative;display:block;padding:5px 15px}
+.nav>li>a:hover{background-color:#e7e7e7}
+.wookmark .bd{height:200px;line-height:50px}
+.wookmark .thumbnail{margin-right:3%;width:30%}
+.group_info{margin-top:2px;padding:5px;height:52px;border-bottom:1px solid #d9d9d9;text-align:left;line-height:20px}
+.group_middle{padding:5px;height:98px;text-align:left;line-height:20px}
+.group_checkin{height:50px;border-top:1px solid #d9d9d9;background:#f6f7fb}
+.add_content{padding-top:39px}
+.add_content img{margin-top:5px}
+.label-info{float:right;margin-top:9px;margin-right:8px;padding:4px 8px;font-size:11px;cursor:default}
+.ecjiafc-gray,.ecjiafc-gray:after,.ecjiafc-gray:hover,.error_color,table .fontello-icon-cancel,table .fontello-icon-trash{color:#000}
+.position_detail h4{margin-top:10px;margin-bottom:20px;color:#000}
+.position_detail{margin-bottom:20px;padding:8px 35px 8px 14px;border:1px solid #fff;border-radius:4px;background-color:#fff;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.position_detail ul li{margin-top:10px;color:#d6d6d6}
+.position_detail .detail{color:#000}
+.detail strong{margin-left:10px}
+.detail span{margin-left:15px}
+
+/* 快递单模板列表样式 */
+.template-item{margin-bottom:20px;padding:15px 20px;width:100%;height:auto;min-height:100px;background-color:#f9f9f9}
+.template-item .template-head{margin-bottom:10px;height:30px;border-bottom:1px solid #ddd}
+.template-item .head-left{float:left;font-weight:700;font-size:14px}
+.template-item .head-right{float:right}
+.template-item .content-group{overflow:hidden;line-height:30px}
+.template-item .content-group .content-label{float:left;width:12%}
+.template-item .content-group .content-controls{float:left;width:88%}
+.w210{width:210px}
+
+/* 添加快递单模板样式 */
+.template-info-item{overflow:hidden;width:100%;height:auto;min-height:85px;border:1px solid #ddd;border-radius:4px}
+.template-info-head{height:30px;background-color:#F2F2F2;line-height:30px}
+.template-info-head .head-left{float:left;padding-left:15px}
+.template-info-head .head-right{float:right;padding-right:62px}
+.template-info-content{overflow:hidden}
+.template-info-content input{display:inline-block;width:80px}
+.template-info-content .content-area{display:none}
+.template-info-content .content-area-list{overflow:hidden;-webkit-padding-start:15px;padding-top:15px;margin-bottom:5px;width:85%;float:left;display:none;-moz-padding-start:15px;}
+.template-info-content .add_area{margin:10px 0 10px 10px}
+.template-info-content .add_shipping{margin:10px 0 10px 10px}
+.template-info-content .content-shipping{padding:10px;border-radius:4px;background-color:#F2F2F2;margin:10px}
+.template-info-content .content-shipping.by_weight{display:none}
+.template-info-content .content-area-handle{float:right;margin-top:17px;margin-right:15px}
+.template-info-content .content-area-list li{float:left;list-style:none;padding:2px 10px 2px 0;margin-right:5px;margin-bottom:10px;position:relative}
+.template-info-content .content-area-list li::after{content:'';position:absolute;top:6px;right:2px;height:13px;border-right:1px solid #aaa}
+.template-info-content .content-area-list li:last-child::after{border:none}
+
+#chooseRegion .modal-dialog{width:1000px}
+#chooseRegion .ms-shipping .ms-selectable{width:25%}
+#chooseRegion .select-region{overflow:hidden;margin-bottom:15px;-webkit-padding-start:0;margin-top:10px;-moz-padding-start:0;}
+#chooseRegion .select-region li{float:left;list-style:none;border-color:#3498db;background-color:#3498db;border:1px solid #3498db;color:#fff;padding:2px 23px 2px 10px;border-radius:4px;position:relative;margin-right:10px;margin-bottom:10px}
+#chooseRegion .select-region li:first-child{margin-left:0}
+#chooseRegion .select-region li .delete_area{font-size:19px;position:absolute;right:5px;top:-3px;cursor:pointer}
+
+.info-shipping-item{border-bottom:1px solid #ddd;overflow:hidden}
+.info-shipping-left{overflow:hidden;-webkit-padding-start:15px;padding-top:15px;margin-bottom:15px;width:85%;float:left;line-height:25px;-moz-padding-start:15px;}
+.info-shipping-right{float:right;margin-top:17px;margin-right:15px}
+.time-picker .form-control{display:inline-block}
+#addShipping .controls{padding-left:0;}
+#addShipping .time-picker{margin-bottom:5px;}
+#addShipping .col-lg-6.help-block, #addShipping .col-lg-10.help-block{padding-left:0;margin-bottom:0;}
+#addShipping .staticalert {width:98%;margin:10px auto;}
+#addShipping .modal-dialog{width:1000px;min-height:551px;}
+#addShipping .modal-body {width:998px;min-height:482px;}

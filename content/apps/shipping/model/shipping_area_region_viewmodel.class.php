@@ -55,19 +55,13 @@ class shipping_area_region_viewmodel extends Component_Model_View {
 		$this->table_alias_name	= 'a';
 		
 		$this->view = array(
-			'region' => array(
+			'regions' => array(
 				'type' 	=> Component_Model_View::TYPE_LEFT_JOIN, 
 				'alias' => 'r',
 				'on' 	=> 'a.region_id = r.region_id',
 			)
 		);
 		parent::__construct();
-	}
-	
-	public function shipping_region_select($where, $field='*', $join='') {
-		if (!empty($join)) {
-			return $this->join($join)->field($field)->where($where)->select();
-		}
 	}
 }
 

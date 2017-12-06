@@ -44,27 +44,81 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Shipping;
 
-class shipping_installer extends ecjia_installer
+trait CompatibleTrait 
 {
-
-    protected $dependent = array(
-        'ecjia.system' => '1.0',
-    );
-
-    public function __construct()
+    
+    /**
+     * 取得可用的配送方式列表
+     * @param   array   $region_id     收货人地区id数组（包括国家、省、市、区）
+     * @return  array   配送方式数组
+     */
+    public function available_shipping_list($region_id, $store_id = 0)
     {
-        $id = 'ecjia.shipping';
-        parent::__construct($id);
+        return $this->availableMerchantShippings($region_id, $store_id);
     }
-
-    public function install()
-    {}
-
-    public function uninstall()
-    {}
-
+    
+    
+    /**
+     * 取得可用的配送方式列表-前台
+     * @param   array   $region_id     收货人地区id数组（包括国家、省、市、区）
+     * @return  array   配送方式数组
+     */
+    public function available_shipping_list_front($region_id, $store_id = 0)
+    {
+        return $this->availableUserShippings($region_id, $store_id);
+    }
+    
+    /**
+     * @see ShippingPlugin::getInstalledPlugins
+     */
+    public function available_shipping_plugins()
+    {
+        return $this->getInstalledPlugins();
+    }
+    
+    /**
+     * 取得某配送方式对应于某收货地址的区域信息
+     * @param   int     $shipping_id        配送方式id
+     * @param   array   $region_id          收货人地区id数组
+     * @return  array   配送区域信息（config 对应着反序列化的 configure）
+     */
+    public function shipping_area_info($shipping_id, $region_id, $store_id = 0)
+    {
+        return $this->shippingArea($shipping_id, $region_id, $store_id);
+    }
+    
+    /**
+     * @see ECJia\System\Plugin\PluginModel::availablePluginList
+     */
+    public function shipping_list()
+    {
+        return $this->availablePluginList();
+    }
+    
+    /**
+     * @see ShippingPlugin::pluginData
+     */
+    public function shipping_info($shippingCode)
+    {
+        return $this->pluginData($shippingCode);
+    }
+    
+    /**
+     * @see ShippingPlugin::insureFee
+     */
+    public function shipping_insure_fee($shipping_code, $goods_amount, $insure)
+    {
+        return $this->insureFee($shipping_code, $goods_amount, $insure);
+    }
+    
+    /**
+     * @see ShippingPlugin::fee
+     */
+    public function shipping_fee($shipping_code, $shipping_config, $goods_weight, $goods_amount, $goods_number = '')
+    {
+        return $this->fee($shipping_code, $goods_weight, $goods_amount, $goods_number);
+    }
+    
 }
-
-// end

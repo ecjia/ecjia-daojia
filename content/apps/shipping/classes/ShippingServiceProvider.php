@@ -1,5 +1,5 @@
-<?php
-//
+<?php 
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,29 +44,52 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Shipping;
 
-class region_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name 	= 'region';
-		parent::__construct();
-	}
+use Royalcms\Component\Support\ServiceProvider;
+
+class ShippingServiceProvider extends ServiceProvider {
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot() {
+    }
 
 	/**
-	 * 获得指定国家的所有省份
+	 * Register the service provider.
 	 *
-	 * @access      public
-	 * @param       int     country    国家的编号
-	 * @return      array
+	 * @return void
 	 */
-	function get_regions($type = 0, $parent = 0) {
-		return RC_DB::table('region')->where('region_type', $type)->where('parent_id', $parent)->select('region_id', 'region_name')->get();
+	public function register()
+	{
+	    $this->registerShipping();
+	    
+	    $this->loadAlias();
 	}
 	
-	public function region_select($field='*') {
-		return RC_DB::table('region')->select($field)->get();
+	/**
+	 * Register the region
+	 * @return \Ecjia\App\Setting\Region
+	 */
+	public function registerShipping() 
+	{
+	    $this->royalcms->bindShared('ecjia.shipping', function($royalcms){
+	    	return new ShippingPlugin();
+	    });
 	}
+	
+	/**
+	 * Load the alias = One less install step for the user
+	 */
+	protected function loadAlias()
+	{
+	    $this->royalcms->booting(function()
+	    {
+	        $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+	        $loader->alias('ecjia_shipping', 'Ecjia\App\Shipping\Facades\Shipping');
+	    });
+	}
+	
 }
-
-// end

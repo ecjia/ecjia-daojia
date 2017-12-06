@@ -57,8 +57,8 @@
 							<td>{$area.merchants_name}</td>
 							<td>{$area.shipping_area_regions}</td>
 							<td>
-								<a class="data-pjax no-underline" href='{RC_Uri::url("shipping/admin_area/edit", "id={$area.shipping_area_id}&shipping_id={$shipping_id}&code={$code}")}' class="sepV_a" title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
-								<a class="ajaxremove  no-underline" data-toggle="ajaxremove" data-msg="{lang key='shipping::shipping_area.drop_area_confirm'}" href='{RC_Uri::url("shipping/admin_area/remove_area","id={$area.shipping_area_id}")}' title="{lang key='system::system.remove'}"><i class="fontello-icon-trash"></i></a>
+								<a class="data-pjax no-underline" href='{$edit_url}&id={$area.shipping_area_id}&shipping_id={$shipping_id}&code={$code}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
+								<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='shipping::shipping_area.drop_area_confirm'}" href='{RC_Uri::url("shipping/admin_area/remove_area","id={$area.shipping_area_id}")}' title="{lang key='system::system.remove'}"><i class="fontello-icon-trash"></i></a>
 							</td>
 						</tr>
 						<!-- {foreachelse} -->

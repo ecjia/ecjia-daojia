@@ -15,7 +15,7 @@
 		<table class="table table-striped table-hide-edit">
 			<thead>
 				<tr>
-					<th class="w110">{lang key='shipping::shipping.shipping_name'}</th>
+					<th class="w150">{lang key='shipping::shipping.shipping_name'}</th>
 					<th>{lang key='shipping::shipping.shipping_desc'}</th>
 					<th class="w80">{lang key='system::system.sort_order'}</th>
 					<th class="w80">{lang key='shipping::shipping.insure'}</th>
@@ -37,8 +37,9 @@
 							{$module.desc|nl2br}
 							<div class="edit-list">
 								<a class="data-pjax" href='{RC_Uri::url("shipping/admin/edit", "code={$module.code}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-								<a class="data-pjax" href='{RC_Uri::url("shipping/admin_area/init", "shipping_id={$module.id}&code={$module.code}")}'  title="{lang key='shipping::shipping.shipping_area'}">{lang key='shipping::shipping.set_shipping'}</a>&nbsp;|&nbsp;
-								<a class="data-pjax" href='{RC_Uri::url("shipping/admin/edit_print_template", "shipping_id={$module.id}&code={$module.code}")}' title="{lang key='shipping::shipping.shipping_print_edit'}">{lang key='shipping::shipping.shipping_print_edit'}</a>&nbsp;|&nbsp;
+								{if $module.print_support}
+									<a class="data-pjax" href='{RC_Uri::url("shipping/admin/edit_print_template", "shipping_id={$module.id}&code={$module.code}")}' title="{lang key='shipping::shipping.shipping_print_edit'}">快递单模板</a>&nbsp;|&nbsp;
+								{/if}
 								<a class="switch ecjiafc-red" href='javascript:ecjia.admin.shopping_list.plugin_state_click("{RC_Uri::url("shipping/admin/disable", "code={$module.code}")}");' title="{lang key='shipping::shipping.disable'}">{lang key='shipping::shipping.disable'}</a>
 							</div>
 						<!-- {else} -->

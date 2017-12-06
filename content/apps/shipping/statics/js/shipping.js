@@ -71,6 +71,7 @@
                         mesObj.message = $('#region_warn').val();
                         mesObj.state = 'error';
                         ecjia.admin.showmessage(mesObj);
+                        return false;
                     }
                 }
             }
@@ -232,14 +233,15 @@
         },
  
         choose_area: function () {
-            $('.ms-elem-selectable').on('click', function (e) {
+            $('.ms-elem-selectable').off('click').on('click', function (e) {
                 e.preventDefault();
                 var $this = $(this),
                     val = $this.attr('data-val'),
                     url = $this.parent().attr('data-url'),
                     $next = $('.' + $this.parent().attr('data-next'));
+                    $next_attr = $this.parent().attr('data-next');
                 /* 如果是县乡级别的，不触发后续操作 */
-                if ($this.parent().hasClass('selDistricts')) {
+                if ($this.parent().hasClass('selStreets')) {
                     $this.siblings().removeClass('disabled');
                     if (val != 0) $this.addClass('disabled');
                     return;
@@ -260,17 +262,32 @@
                     var html = '';
                     /* 如果有返回参数，则赋值并触发下一级别的选中 */
                     if (data.regions) {
-                        for (var i = data.regions.length - 1; i >= 0; i--) {
-                            html += '<li class="ms-elem-selectable" data-val="' + data.regions[i].region_id + '"><span>' + data.regions[i].region_name +
-                                '</span><span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span></li>';
+                        //for (var i = data.regions.length - 1; i >= 0; i--) {
+                        //    html += '<li class="ms-elem-selectable" data-val="' + data.regions[i].region_id + '"><span>' + data.regions[i].region_name +
+                        //        '</span><span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span></li>';
+                        //};
+                        for (var i = 0; i <= data.regions.length - 1; i++) {
+                            html += '<li class="ms-elem-selectable" data-val="' + data.regions[i].region_id + '"><span>' +
+                            	data.regions[i].region_name + '</span>';
+                            if ($next_attr == 'selCities') {
+                                html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
+                            }
+                            if ($next_attr == 'selDistricts') {
+                                html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
+                            }
+                            if ($next_attr == 'selStreets') {
+                                html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
+                            }
+                            html += '</li>';
                         };
+                        
                         $next.html(html);
                         app.area_info.quick_search();
-                        $('.ms-elem-selectable').unbind("click");
-                        $('.ms-elem-selectable .edit-list a').unbind("click");
+                        //$('.ms-elem-selectable').unbind("click");
+                        //$('.ms-elem-selectable .edit-list a').unbind("click");
                         app.area_info.choose_area();
                         app.area_info.selected_area();
-                        $next.find('.ms-elem-selectable').eq(0).trigger('click');
+                        //$next.find('.ms-elem-selectable').eq(0).trigger('click');
                         /* 如果没有返回参数，则直接触发选中0的操作 */
                     } else {
                         var $tmp = $('<li class="ms-elem-selectable" data-val="0"><span>' + js_lang.no_select_region + '</span></li>');
@@ -283,7 +300,7 @@
         },
  
         selected_area: function () {
-            $('.ms-elem-selectable .edit-list a').on('click', function (e) {
+            $('.ms-elem-selectable .edit-list a').off('click').on('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 var bool = true;
@@ -331,6 +348,7 @@
             $('#selProvinces').quicksearch($('.selProvinces .ms-elem-selectable'), opt);
             $('#selCities').quicksearch($('.selCities .ms-elem-selectable'), opt);
             $('#selDistricts').quicksearch($('.selDistricts .ms-elem-selectable'), opt);
+            $('#selStreets').quicksearch($('.selStreets .ms-elem-selectable'), opt);
         },
     }
  

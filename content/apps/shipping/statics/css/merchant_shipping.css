@@ -12,5 +12,5 @@
 	margin-bottom:5px;
 }
 .time-picker .form-control {
-	display : unset;
+	display: inline-block;
 }

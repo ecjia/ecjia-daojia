@@ -126,7 +126,7 @@ return array(
 	'choose_city_first'		=> '请先选择市/区名称...',
 	'search_districe_name'	=> '搜索的县/乡名称',
 	'choose_districe_first'	=> '请先选择县/乡名称...',
-	'shipping_method'		=> '配送方式',
+	'shipping_method'		=> '配送区域',
 	
 	'batch_drop_confirm'	=> '您确定要删除选中的配送区域吗？',
 	'select_drop_area'		=> '请先选中要删除的配送区域！',

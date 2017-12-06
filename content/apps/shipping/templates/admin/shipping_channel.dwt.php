@@ -1,6 +1,12 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 <!-- {extends file="plugin_config.dwt.php"} -->
 
+<!-- {block name="footer"} -->
+<script type="text/javascript">
+	ecjia.admin.shopping_list.list();
+</script>
+<!-- {/block} -->
+
 <!-- {block name="admin_plugin_list"} -->
 <h3 class="heading">
 	<!-- {if $ur_here}{$ur_here}{/if} -->
@@ -12,7 +18,7 @@
 <table class="table table-striped table-hide-edit">
 	<thead>
 		<tr>
-			<th class="w110">{lang key='shipping::shipping.shipping_name'}</th>
+			<th class="w150">{lang key='shipping::shipping.shipping_name'}</th>
 			<th>{lang key='shipping::shipping.shipping_desc'}</th>
 			<th class="w80">{lang key='system::system.sort_order'}</th>
 			<th class="w80">{lang key='shipping::shipping.insure'}</th>
@@ -34,14 +40,15 @@
 					{$module.desc|nl2br}
 					<div class="edit-list">
 						<a class="data-pjax" href='{RC_Uri::url("shipping/admin_plugin/edit", "code={$module.code}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-						<a class="data-pjax" href='{RC_Uri::url("shipping/admin_area_plugin/init", "shipping_id={$module.id}&code={$module.code}")}'  title="{lang key='shipping::shipping.shipping_area'}">{lang key='shipping::shipping.set_shipping'}</a>&nbsp;|&nbsp;
-						<a class="data-pjax" href='{RC_Uri::url("shipping/admin_plugin/edit_print_template", "shipping_id={$module.id}&code={$module.code}")}' title="{lang key='shipping::shipping.shipping_print_edit'}">{lang key='shipping::shipping.shipping_print_edit'}</a>&nbsp;|&nbsp;
-						<a class="switch ecjiafc-red" href='javascript:ecjia.admin.shopping_list.plugin_state_click("{RC_Uri::url("shipping/admin_plugin/disable", "code={$module.code}")}");' title="{lang key='shipping::shipping.disable'}">{lang key='shipping::shipping.disable'}</a>
+						{if $module.print_support}
+							<a class="data-pjax" href='{RC_Uri::url("shipping/admin/edit_print_template", "shipping_id={$module.id}&code={$module.code}")}' title="{lang key='shipping::shipping.shipping_print_edit'}">快递单模板</a>&nbsp;|&nbsp;
+						{/if}
+						<a class="switch ecjiafc-red" href="javascript:;" data-url='{RC_Uri::url("shipping/admin_plugin/disable", "code={$module.code}")}' title="{lang key='payment::payment.disable'}">{lang key='payment::payment.disable'}</a>
 					</div>
 				<!-- {else} -->
 					{$module.desc|nl2br}
 					<div class="edit-list">
-						<a class="switch" href='javascript:ecjia.admin.shopping_list.plugin_state_click("{RC_Uri::url("shipping/admin_plugin/enable", "code={$module.code}")}");' title="{lang key='shipping::shipping.enable'}">{lang key='shipping::shipping.enable'}</a>
+						<a class="switch" href="javascript:;" data-url='{RC_Uri::url("shipping/admin_plugin/enable", "code={$module.code}")}' title="{lang key='payment::payment.enable'}">{lang key='payment::payment.enable'}</a>
 					</div>
 				<!-- {/if} -->
 				

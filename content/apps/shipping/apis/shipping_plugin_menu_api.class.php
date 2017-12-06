@@ -50,11 +50,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 后台菜单API
  * @author royalwang
  */
-class shipping_plugin_menu_api extends Component_Event_Api {
-	public function call(&$options) {
-		$menus = ecjia_admin::make_admin_menu('shipping_list', RC_Lang::get('shipping::shipping.shipping'), RC_Uri::url('shipping/admin_plugin/init'), 2)->add_purview('ship_manage')->add_base('shipping');
-		return $menus;
-	}
+class shipping_plugin_menu_api extends Component_Event_Api
+{
+    public function call(&$options)
+    {
+        $menus = ecjia_admin::make_admin_menu('shipping_list', RC_Lang::get('shipping::shipping.shipping'), RC_Uri::url('shipping/admin_plugin/init'), 2)->add_purview('ship_manage')->add_base('shipping');
+        return $menus;
+    }
 }
 
 // end

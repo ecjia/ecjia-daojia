@@ -46,25 +46,17 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class shipping_installer extends ecjia_installer
-{
+/**
+ * 后台菜单API
+ * @author royalwang
+ */
+class shipping_store_menu_api extends Component_Event_Api {
+	
+	public function call(&$options) {	
+	    $store_id = royalcms('request')->query('store_id');
 
-    protected $dependent = array(
-        'ecjia.system' => '1.0',
-    );
-
-    public function __construct()
-    {
-        $id = 'ecjia.shipping';
-        parent::__construct($id);
-    }
-
-    public function install()
-    {}
-
-    public function uninstall()
-    {}
-
+	    return ecjia_admin::make_admin_menu('store_shipping', '配送区域', RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id)), 7)->add_purview('store_shipping_manage');
+	}
 }
 
 // end

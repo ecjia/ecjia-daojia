@@ -55,26 +55,77 @@ use Ecjia\System\Plugin\AbstractPlugin;
 abstract class ShippingAbstract extends AbstractPlugin
 {
 
-	
-	/**
-     * 计算订单的配送费用的函数
+    /**
+     * 计算订单的配送费用
      *
-     * @param   float   $goods_weight   商品重量
-     * @param   float   $goods_amount   商品金额
-     * @param   float   $goods_number   商品件数
+     * @param   float   $goodsWeight   商品重量
+     * @param   float   $goodsAmount   商品金额
+     * @param   float   $goodsNumber   商品件数
      * @return  decimal
      */
-	abstract public function calculate($goods_weight, $goods_amount, $goods_number);
-	
-	/**
-	 * 查询发货状态
-	 * 该配送方式不支持查询发货状态
-	 *
-	 * @access  public
-	 * @param   string  $delivery_sn     发货单号
-	 * @return  string
-	 */
-	abstract public function query($delivery_sn);
+    abstract public function calculate($goodsWeight, $goodsAmount, $goodsNumber);
+
+    /**
+     * 查询发货状态
+     * 该配送方式不支持查询发货状态
+     *
+     * @access  public
+     * @param   string  $deliverySn     发货单号
+     * @return  string
+     */
+    abstract public function query($deliverySn);
+    
+    
+    /**
+     * 计算订单的配送保价费用
+     * @param float $goodsAmount
+     * @param integer $insure
+     * @return number
+     */
+    public function calculateInsure($goodsAmount, $insure)
+    {
+        return ceil($goodsAmount * $insure);
+    }
+    
+    
+    /**
+     * 返回快递单打印背景图片
+     * @return NULL
+     */
+    public function printBcakgroundImage()
+    {
+        return null;
+    }
+    
+    /**
+     * 返回快递单默认打印背景图片
+     * @return NULL
+     */
+    public function defaultPrintBackgroundImage()
+    {
+        return null;
+    }
+    
+    /**
+     * 返回是否支持打印快递单模板
+     */
+    public function isSupportPrint()
+    {
+        return $this->loadConfig('print_support');
+    }
+    
+    /**
+     * 打印快递单标签位置信息
+     * @return NULL|string
+     */
+    public function getConfigLabel()
+    {
+        if ($this->loadConfig('config_lable')) {
+            return with(new PrintConfigLabel)->translantConfigLabel($this->loadConfig('config_lable'));
+        }
+        return null;
+    }
+    
 
 }
 

@@ -44,27 +44,63 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-class shipping_installer extends ecjia_installer
-{
+/**
+ * 订单模版变量说明 
+ */
+return array(
+	array(
+		'variable' => '{$shop_name}',
+		'name'  => '表示网店名称',
+	),
+	array(
+		'variable' => '{$province}',
+		'name'  => '表示网店所属省份',
+	),
+	array(
+		'variable' => '{$city}',
+		'name'  => '表示网店所属城市',
+	),
+	array(
+		'variable' => '{$shop_address}',
+		'name'  => '表示网店地址',
+	),
+	array(
+		'variable' => '{$service_phone}',
+		'name'  => '表示网店联系电话',
+	),
+	array(
+		'variable' => '{$order.order_amount}',
+		'name'  => '表示订单金额',
+	),
+	array(
+		'variable' => '{$order.region}',
+		'name'  => '表示收件人地区',
+	),
+	array(
+		'variable' => '{$order.tel}',
+		'name'  => '表示收件人电话',
+	),
+	array(
+		'variable' => '{$order.mobile}',
+		'name'  => '表示收件人手机',
+	),
+	array(
+		'variable' => '{$order.zipcode}',
+		'name'  => '表示收件人邮编',
+	),
+	array(
+		'variable' => '{$order.address}',
+		'name'  => '表示收件人详细地址',
+	),
+	array(
+		'variable' => '{$order.consignee}',
+		'name'  => '表示收件人名称',
+	),
+	array(
+		'variable' => '{$order.order_sn}',
+		'name'  => '表示订单号',
+	)
+);
 
-    protected $dependent = array(
-        'ecjia.system' => '1.0',
-    );
-
-    public function __construct()
-    {
-        $id = 'ecjia.shipping';
-        parent::__construct($id);
-    }
-
-    public function install()
-    {}
-
-    public function uninstall()
-    {}
-
-}
-
-// end
+//end

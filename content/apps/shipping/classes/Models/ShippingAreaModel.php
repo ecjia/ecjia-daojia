@@ -44,27 +44,62 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-class shipping_installer extends ecjia_installer
+namespace Ecjia\App\Shipping\Models;
+
+use Royalcms\Component\Database\Eloquent\Model;
+
+class ShippingAreaModel extends Model
 {
-
-    protected $dependent = array(
-        'ecjia.system' => '1.0',
-    );
-
-    public function __construct()
+    protected $table = 'shipping_area';
+    
+    protected $primaryKey = 'shipping_area_id';
+    
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+    
+    /**
+     * 获取拥有此地区的配送方式。
+     */
+    public function shipping()
     {
-        $id = 'ecjia.shipping';
-        parent::__construct($id);
+        return $this->belongsTo('Ecjia\App\Shipping\ShippingPlugin', 'shipping_id', 'shipping_id');
     }
-
-    public function install()
-    {}
-
-    public function uninstall()
-    {}
-
+    
+    /**
+     * 获取属于该配送区域的地区。
+     * @return \Royalcms\Component\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function regions()
+    {
+        return $this->belongsToMany('Ecjia\App\Setting\Region', 'area_region', 'shipping_area_id', 'region_id');
+    }
+    
+    
+    /**
+     * 限制查询只包括指定商家。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
+     */
+    public function scopeStore($query, $id)
+    {
+        return $query->where('store_id', $id);
+    }
+    
+    
+    /**
+     * 限制查询只包括指定配送方式。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
+     */
+    public function scopeShipping($query, $id)
+    {
+        return $query->where('shipping_id', $id);
+    }
+    
+    
 }
-
-// end

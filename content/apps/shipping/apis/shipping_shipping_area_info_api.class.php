@@ -50,13 +50,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 获取配送方式下拉列表
  * @author wutifang
  */
-class shipping_shipping_area_info_api extends Component_Event_Api {
-	
-	public function __construct() {
-		parent::__construct();
-		RC_Loader::load_app_class('shipping_factory', 'shipping', false);
-	}
-	
+class shipping_shipping_area_info_api extends Component_Event_Api
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+        RC_Loader::load_app_class('shipping_factory', 'shipping', false);
+    }
+
     /**
      * @param shipping_id   配送方式id
      * @param store_id      店铺ID
@@ -66,30 +68,31 @@ class shipping_shipping_area_info_api extends Component_Event_Api {
      * @param district      地区
      * @return array
      */
-	public function call(&$options) {	
-	    if (! array_get($options, 'shipping_id')) {
-	        return new ecjia_error('invalid_parameter', __('缺少必要参数'));
-	    }
-	   	
-	    $store_id  = array_get($options, 'store_id', 0);
-	    $country   = array_get($options, 'country', 0);
-	    $province  = array_get($options, 'province', 0);
-	    $city      = array_get($options, 'city', 0);
-	    $district  = array_get($options, 'district', 0);
-	    
-	    $shipping_method   = RC_Loader::load_app_class('shipping_method', 'shipping');
-	    $shipping = $shipping_method->shipping_info($options['shipping_id']);
-	    $cod      = $shipping['support_cod'];
-	    
-	    $region             = array($country, $province, $city, $district);
+    public function call(&$options)
+    {
+        if (!array_get($options, 'shipping_id')) {
+            return new ecjia_error('invalid_parameter', __('缺少必要参数'));
+        }
+
+        $store_id = array_get($options, 'store_id', 0);
+        $country  = array_get($options, 'country', 0);
+        $province = array_get($options, 'province', 0);
+        $city     = array_get($options, 'city', 0);
+        $district = array_get($options, 'district', 0);
+
+        $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+        $shipping        = $shipping_method->shipping_info($options['shipping_id']);
+        $cod             = $shipping['support_cod'];
+
+        $region             = array($country, $province, $city, $district);
         $shipping_area_info = $shipping_method->shipping_area_info($options['shipping_id'], $region, $options['store_id']);
-        
+
         $data['shipping'] = $shipping;
         $data['area']     = $shipping_area_info;
-	    
-	    return $data;
-	}
-	
+
+        return $data;
+    }
+
 }
 
 // end
