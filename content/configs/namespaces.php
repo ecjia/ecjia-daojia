@@ -68,6 +68,8 @@ return array(
     'Ecjia\App\Shipping' => $contentDir . '/apps/shipping/classes',
     'Ecjia\App\Orders' => $contentDir . '/apps/orders/classes',
     'Ecjia\App\Goods' => $contentDir . '/apps/goods/classes',
+    'Ecjia\App\Store' => $contentDir . '/apps/store/classes',
+    'Ecjia\App\Setting' => $contentDir . '/apps/setting/classes',
     
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
     'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cron/classes/Royalcms/Component/Shoppingcart',
