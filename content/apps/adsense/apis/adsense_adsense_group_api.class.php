@@ -75,7 +75,7 @@ class adsense_adsense_group_api extends Component_Event_Api {
         $data = $position->findAdByCode($code, $client);
    
         //如果指定的城市中找不到轮播图，就获取默认城市轮播图
-        if (empty($data) && $city > 0) {
+        if (empty($data) && !empty($city)) {
             //获取默认地区的轮播图
             $data = $this->getDefaultCityAds($code, $client);
         }

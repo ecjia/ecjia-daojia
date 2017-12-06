@@ -107,7 +107,7 @@ class admin_position extends ecjia_admin {
 		$this->assign('city_list', $city_list);
 		
 		//获取当前城市ID
-		$city_id = $citymanage->getCurrentCity(intval($_GET['city_id']));
+		$city_id = $citymanage->getCurrentCity(trim($_GET['city_id']));
 		$this->assign('city_id', $city_id);
 		
 		$sort_by   = trim($_GET['sort_by']);
@@ -167,8 +167,8 @@ class admin_position extends ecjia_admin {
     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	
-    	$city_id       = !empty($_POST['city_id']) ? intval($_POST['city_id']) : 0;
-    	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+    	$city_id       = !empty($_POST['city_id']) ? trim($_POST['city_id']) : '';
+    	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
     	}
@@ -248,8 +248,8 @@ class admin_position extends ecjia_admin {
     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	
-    	$city_id       = intval($_POST['city_id']);
-    	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+    	$city_id       = trim($_POST['city_id']);
+    	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
     	}
@@ -306,8 +306,8 @@ class admin_position extends ecjia_admin {
 		$max_number    = intval($_GET['max_number']);
 		$sort_order    = intval($_GET['sort_order']);
 		
-		$city_id = intval($_GET['city_id']);
-		$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+		$city_id = trim($_GET['city_id']);
+		$city_name     = ecjia_region::getRegionName($city_id);
 		if (!$city_name) {
 			$city_name = '默认';
 		}
@@ -367,7 +367,7 @@ class admin_position extends ecjia_admin {
 	
 		$id    = intval($_POST['pk']);
 		$sort_order   = intval($_POST['value']);
-		$city_id      = intval($_GET['city_id']);
+		$city_id      = trim($_GET['city_id']);
 		RC_DB::table('ad_position')->where('position_id', $id)->update(array('sort_order'=> $sort_order));
 		$group_position_id  = intval($_GET['group_position_id']);
 		if ($group_position_id) {
@@ -414,8 +414,7 @@ class admin_position extends ecjia_admin {
 	 * 获取热门城市
 	 */
 	private function get_select_city() {
-		$data = explode(',', ecjia::config('mobile_recommend_city'));
-		$data = RC_DB::table('region')->whereIn('region_id', $data)->get();
+		$data = ecjia_region::getRegions(explode(',', ecjia::config('mobile_recommend_city')));
 		$regions = array ();
 		if (!empty($data)) {
 			foreach ($data as $row) {

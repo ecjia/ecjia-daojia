@@ -240,7 +240,7 @@ class mh_cycleimage extends ecjia_merchant {
     
     	$info = RC_DB::TABLE('merchants_ad_position')->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] = $info['ad_width'];
-    	$data['ad_height'] = $info['ad_height'];;
+    	$data['ad_height'] = $info['ad_height'];
     	$data['enabled'] = 1;
     	$this->assign('data', $data);
     

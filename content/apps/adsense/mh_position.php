@@ -178,7 +178,7 @@ class mh_position extends ecjia_merchant {
     	RC_DB::table('merchants_ad_position')->where('position_id', $position_id)->update($data);
     	
     	ecjia_merchant::admin_log($position_name, 'edit', 'ads_position');
-    	return $this->showmessage('编辑广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/edit', array('position_id' => $position_id, 'city_id' => $city_id))));
+    	return $this->showmessage('编辑广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/edit', array('position_id' => $position_id))));
     }
 
     public function remove() {

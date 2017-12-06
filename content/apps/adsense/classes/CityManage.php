@@ -99,7 +99,7 @@ class CityManage
             } 
             else 
             {
-                $city_id = 0;
+                $city_id = '';
             }
         }
         

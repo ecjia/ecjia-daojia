@@ -236,7 +236,7 @@ class mh_shortcut extends ecjia_merchant {
     
     	$info = RC_DB::TABLE('merchants_ad_position')->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] = $info['ad_width'];
-    	$data['ad_height'] = $info['ad_height'];;
+    	$data['ad_height'] = $info['ad_height'];
     	$data['enabled'] = 1;
     	$this->assign('data', $data);
     
@@ -268,7 +268,7 @@ class mh_shortcut extends ecjia_merchant {
     			}
     		}
     	}else{
-    		return $this->showmessage('请上传菜单片', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage('请上传菜单图片', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	 
     	if (empty($_POST['show_client'])) {

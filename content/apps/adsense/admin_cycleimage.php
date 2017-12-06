@@ -99,7 +99,7 @@ class admin_cycleimage extends ecjia_admin {
 		$this->assign('city_list', $city_list);
 		
 		//获取当前城市ID
-		$city_id = $citymanage->getCurrentCity(intval($_GET['city_id']));
+		$city_id = $citymanage->getCurrentCity(trim($_GET['city_id']));
 		$this->assign('city_id', $city_id);
 
 		//获取轮播组
@@ -179,8 +179,8 @@ class admin_cycleimage extends ecjia_admin {
     	$ad_height     = !empty($_POST['ad_height']) ? intval($_POST['ad_height']) : 0;
     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
-    	$city_id       = !empty($_POST['city_id']) ? intval($_POST['city_id']) : 0;
-    	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+    	$city_id       = !empty($_POST['city_id']) ? trim($_POST['city_id']) : '';
+    	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
     	}
@@ -258,8 +258,8 @@ class admin_cycleimage extends ecjia_admin {
     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	
-    	$city_id       = intval($_POST['city_id']);
-    	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+    	$city_id       = trim($_POST['city_id']);
+    	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
     	}
@@ -291,7 +291,7 @@ class admin_cycleimage extends ecjia_admin {
     	
     	$position_id = intval($_GET['position_id']);
     	$position_name = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->pluck('position_name');
-    	$city_id = intval($_GET['city_id']);
+    	$city_id = trim($_GET['city_id']);
     	if (RC_DB::table('ad')->where('position_id', $position_id)->count() > 0) {
     		return $this->showmessage('该轮播组已存在轮播图，暂不能删除！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
@@ -319,8 +319,8 @@ class admin_cycleimage extends ecjia_admin {
     	$max_number    = intval($_GET['max_number']);
     	$sort_order    = intval($_GET['sort_order']);
 
-    	$city_id = intval($_GET['city_id']);
-    	$city_name     = RC_DB::TABLE('region')->where('region_id', $city_id)->pluck('region_name');
+    	$city_id = trim($_GET['city_id']);
+    	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
     	}
@@ -351,8 +351,7 @@ class admin_cycleimage extends ecjia_admin {
      * 获取热门城市
      */
     private function get_select_city() {
-    	$data = explode(',', ecjia::config('mobile_recommend_city'));
-    	$data = RC_DB::table('region')->whereIn('region_id', $data)->get();
+    	$data = ecjia_region::getRegions(explode(',', ecjia::config('mobile_recommend_city')));
     	$regions = array ();
     	if (!empty($data)) {
     		foreach ($data as $row) {
@@ -393,7 +392,7 @@ class admin_cycleimage extends ecjia_admin {
     	);
     	
     	$position_id = intval($_GET['position_id']);
-    	$city_id = intval($_GET['city_id']);
+    	$city_id = trim($_GET['city_id']);
     	$this->assign('position_id', $position_id);
     	$this->assign('city_id', $city_id);
 
@@ -403,7 +402,7 @@ class admin_cycleimage extends ecjia_admin {
 
     	$info = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] = $info['ad_width'];
-    	$data['ad_height'] = $info['ad_height'];;
+    	$data['ad_height'] = $info['ad_height'];
     	$data['enabled'] = 1;
 		$this->assign('data', $data);
 	
@@ -454,7 +453,7 @@ class admin_cycleimage extends ecjia_admin {
 		);
     	$id = RC_DB::table('ad')->insertGetId($data);
     	ecjia_admin::admin_log($ad_name, 'add', 'cycleimage');
-    	$city_id = intval($_POST['city_id']);
+    	$city_id = trim($_POST['city_id']);
     	return $this->showmessage('添加轮播图成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_cycleimage/edit', array('id' => $id,'city_id'=>$city_id))));
     }
     
@@ -482,7 +481,7 @@ class admin_cycleimage extends ecjia_admin {
     	$data['ad_width'] = $info['ad_width'];
     	$data['ad_height'] = $info['ad_height'];
     	
-    	$city_id = intval($_GET['city_id']);
+    	$city_id = trim($_GET['city_id']);
     	$show_client = intval($_GET['show_client']);
     	$this->assign('city_id', $city_id);
     	$this->assign('show_client', $show_client);
@@ -537,7 +536,7 @@ class admin_cycleimage extends ecjia_admin {
 		);
     	RC_DB::table('ad')->where('ad_id', $id)->update($data);
     	ecjia_admin::admin_log($ad_name, 'edit', 'cycleimage');
-    	$city_id = intval($_POST['city_id']);
+    	$city_id = trim($_POST['city_id']);
     	$show_client = intval($_POST['show_client_value']);
     	return $this->showmessage('编辑轮播图成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_cycleimage/edit', array('id' => $id, 'city_id' => $city_id, 'show_client' => $show_client))));
     }
@@ -566,7 +565,7 @@ class admin_cycleimage extends ecjia_admin {
     	$id       = intval($_POST['id']);
     	$val      = intval($_POST['val']);
     	$position_id  = intval($_GET['position_id']);
-    	$city_id      = intval($_GET['city_id']);
+    	$city_id      = trim($_GET['city_id']);
     	$show_client  = intval($_GET['show_client']);
     	
     	RC_DB::table('ad')->where('ad_id', $id)->update(array('enabled'=> $val));
@@ -582,7 +581,7 @@ class admin_cycleimage extends ecjia_admin {
     	$id    = intval($_POST['pk']);
     	$sort_order   = intval($_POST['value']);
     	$position_id  = intval($_GET['position_id']);
-    	$city_id      = intval($_GET['city_id']);
+    	$city_id      = trim($_GET['city_id']);
     	$show_client  = intval($_GET['show_client']);
     	
     	RC_DB::table('ad')->where('ad_id', $id)->update(array('sort_order'=> $sort_order));
