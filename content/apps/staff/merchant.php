@@ -356,7 +356,7 @@ class merchant extends ecjia_merchant {
 			if ($_POST['group_id'] > 0) {
 				$action_list	= RC_DB::TABLE('staff_group')
 				->where('group_id', $group_id)
-				->pluck('action_list');;
+				->pluck('action_list');
 			}
 			$data['action_list']	= $action_list;
 			$data['group_id']		= $group_id;
