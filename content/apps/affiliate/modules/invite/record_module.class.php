@@ -65,18 +65,26 @@ class record_module extends api_front implements api_interface {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
 		}
 		
-		$count = RC_Model::model('affiliate/invite_reward_model')->where(array('invite_id' => $_SESSION['user_id'], "FROM_UNIXTIME(add_time, '%Y-%m')" => $date))->count();
-		
+		$count = RC_DB::table('invite_reward')
+			->where('invite_id', $_SESSION['user_id'])
+			->where(RC_DB::raw("FROM_UNIXTIME(add_time, '%Y-%m')"), $date)
+			->count();
 		//实例化分页
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
-		
-		$list_result = RC_Model::model('affiliate/invite_reward_model')->where(array('invite_id' => $_SESSION['user_id'], "FROM_UNIXTIME(add_time, '%Y-%m')" => $date))->limit($page_row->limit())->order(array('add_time' => 'desc'))->select();
+		$list_result = RC_DB::table('invite_reward')
+			->where('invite_id', $_SESSION['user_id'])
+			->where(RC_DB::raw("FROM_UNIXTIME(add_time, '%Y-%m')"), $date)
+			->take($size)
+			->skip($page_row->start_id-1)
+			->orderBy('add_time', 'desc')
+			->get();
+
 		
 		$list = array();
 		foreach ($list_result as $val) {
 			if ($val['reward_type'] == 'bonus') {
 				$reward_type = '红包';
-				$val['reward_value'] = RC_Model::model('affiliate/affiliate_bonus_type_model')->where(array('type_id' => $val['reward_value']))->get_field('type_name');
+				$val['reward_value'] = RC_DB::table('bonus_type')->where('type_id', $val['reward_value'])->pluck('type_name');
 			} elseif ($val['reward_type'] == 'balance') {
 				$reward_type = '现金';
 				$val['reward_value'] = price_format($val['reward_value']);

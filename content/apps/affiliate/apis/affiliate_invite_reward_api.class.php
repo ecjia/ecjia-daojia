@@ -63,8 +63,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 	    	) {
 	        return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
 	    }
-
-	    $user_info = RC_Model::model('affiliate/affiliate_users_model')->field('user_name, parent_id')->where(array('user_id' => $options['user_id']))->find();
+	    $user_info = RC_DB::table('users')->selectRaw('user_name, parent_id')->where('user_id', $options['user_id'])->first();
 	    $invite_id = $user_info['parent_id'];
 	    $invitee_name = $user_info['user_name'];
 	    /* 推荐处理 */
@@ -73,7 +72,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 	    	/* 是否允许奖励*/
 	    	$is_reward = true;
 	    	if ($options['invite_type'] == 'orderpay') {
-	    		$reward_record = RC_Model::model('affiliate/invite_reward_model')->where(array('invite_id' => $invite_id, 'invitee_id' => $options['user_id']))->find();
+	    		$reward_record = RC_DB::table('invite_reward')->where('invite_id', $invite_id)->where('invitee_id', $options['user_id'])->first();
 	    		if (!empty($reward_record)) {
 	    			$is_reward = false;
 	    		}
@@ -81,7 +80,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    /* 邀请人奖励处理*/
 		    if ($affiliate['intvie_reward']['intive_reward_by'] == $options['invite_type'] && $is_reward && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
 		    	if ($affiliate['intvie_reward']['intive_reward_type'] == 'bonus') {
-		    		RC_Model::model('affiliate/affiliate_user_bonus_model')->insert(array('bonus_type_id' => $affiliate['intvie_reward']['intive_reward_value'], 'user_id' => $invite_id));
+		    		RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intvie_reward']['intive_reward_value'], 'user_id' => $invite_id));
 		    		$reward_type = 'bonus';
 		    	} elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'integral') {
 		    		$option = array(
@@ -102,7 +101,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    	}
 		    	 
 		    	if ($affiliate['intvie_reward']['intive_reward_value'] > 0) {
-		    		RC_Model::model('affiliate/invite_reward_model')->insert(array(
+		    		RC_DB::table('invite_reward')->insert(array(
 			    		'invite_id'		=> $invite_id,
 			    		'invitee_id'	=> $options['user_id'],
 			    		'invitee_name'	=> $invitee_name,
@@ -116,7 +115,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    /* 是否允许奖励*/
 		    $invitee_is_reward = true;
 		    if ($options['invite_type'] == 'orderpay') {
-		    	$order_count = RC_Model::model('orders/order_info_model')->where(array('user_id' => $options['user_id'], 'pay_status' => PS_PAYED))->count();
+		    	$order_count = RC_DB::table('order_info')->where('user_id', $options['user_id'])->where('pay_status', PS_PAYED)->count();
 		    	if ($order_count > 1) {
 		    		$invitee_is_reward = false;
 		    	}
@@ -124,7 +123,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    /* 受邀人奖励处理*/
 		    if ($affiliate['intviee_reward']['intivee_reward_by'] == $options['invite_type'] && $invitee_is_reward && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
 		    	if ($affiliate['intviee_reward']['intivee_reward_type'] == 'bonus') {
-		    		RC_Model::model('affiliate/affiliate_user_bonus_model')->insert(array('bonus_type_id' => $affiliate['intviee_reward']['intivee_reward_value'], 'user_id' => $options['user_id']));
+		    		RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intviee_reward']['intivee_reward_value'], 'user_id' => $options['user_id']));
 		    	} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'integral') {
 		    		$option = array(
 	    				'user_id'		=> $options['user_id'],

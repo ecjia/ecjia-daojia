@@ -66,16 +66,8 @@ class affiliate_log_model extends Component_Model_Model {
 	        'separate_type' => $separate_by
 	    );
 	    if ($oid) {
-	        $this->insert($data);
+	        RC_DB::table('affiliate_log')->insert($data);
 	    }
-	}
-	
-	public function affiliate_log_find($where, $field='*') {
-		return $this->where($where)->field($field)->find();
-	}
-	
-	public function affiliate_log_update($where, $data) {
-		return $this->where($where)->update($data);
 	}
 }
 

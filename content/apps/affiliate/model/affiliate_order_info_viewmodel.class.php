@@ -72,18 +72,6 @@ class affiliate_order_info_viewmodel extends Component_Model_View {
 		);
 		parent::__construct();
     }
-    
-    public function order_info_select($option) {
-    	return $this->join($option['table'])->field($option['field'])->where($option['where'])->order($option['order'])->limit($option['limit'])->select();
-    }
-    
-    public function order_info_count($option) {
-    	return $this->join($option['table'])->where($option['where'])->count('*');
-    }
-    
-    public function order_info_find($where, $field='*') {
-    	return $this->where($where)->field($field)->find();
-    }
 }
 
 // end

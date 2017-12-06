@@ -83,7 +83,7 @@ class mobile extends ecjia_front {
 		$affiliate = unserialize(ecjia::config('affiliate'));
 		if (isset($affiliate['on']) && $affiliate['on'] == 1 && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
 			if ($affiliate['intviee_reward']['intivee_reward_type'] == 'bonus') {
-				$reward_value = RC_Model::model('affiliate/affiliate_bonus_type_model')->where(array('type_id' => $affiliate['intviee_reward']['intivee_reward_value']))->get_field('type_money');
+				$reward_value = RC_DB::table('bonus_type')->where('type_id', $affiliate['intviee_reward']['intivee_reward_value'])->pluck('type_money');
 				$reward_value = price_format($reward_value);
 				$reward_type = '红包';
 			} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'integral') {
@@ -100,15 +100,15 @@ class mobile extends ecjia_front {
 				$affiliate_note .= "，完成注册首次下单后，您将获得".$reward_value.$reward_type."奖励";
 			}
 		}
-		$data = array(
-			'object_type'	=> 'ecjia.affiliate',
-			'object_group'	=> 'user_invite_code',
-			'meta_key'		=> 'invite_code',
-			'meta_value'	=> $invite_code
-		);
-		$user_id = RC_Model::model('term_meta_model')->where($data)->get_field('object_id');
+		$user_id = RC_DB::table('term_meta')
+			->where('object_type', 'ecjia.affiliate')
+			->where('object_group', 'user_invite_code')
+			->where('meta_key', 'invite_code')
+			->where('meta_value', $invite_code)
+			->pluck('object_id');
+
 		if (!empty($user_id)) {
-			$user_name = RC_Model::model('affiliate/affiliate_users_model')->where(array('user_id' => $user_id))->get_field('user_name');
+			$user_name = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
 			$note = $user_name."为您推荐[ ".ecjia::config('shop_name')." ]移动商城";
 			$this->assign('note', $note);
 		}
@@ -126,17 +126,14 @@ class mobile extends ecjia_front {
 			$invite_code = isset($_POST['invite_code']) ? trim($_POST['invite_code']) : '';
 			$mobile_phone = isset($_POST['mobile_phone']) ? trim($_POST['mobile_phone']) : '';
 			
-			
-			$count = RC_Model::model('affiliate/affiliate_users_model')->where(array('mobile_phone' => $mobile_phone))->count();
-			
+			$count = RC_DB::table('users')->where('mobile_phone', $mobile_phone)->count();
 			if (!empty($invite_code) && !empty($mobile_phone) && $count <= 0) {
-				$data = array(
-					'object_type'	=> 'ecjia.affiliate',
-					'object_group'	=> 'user_invite_code',
-					'meta_key'		=> 'invite_code',
-					'meta_value'	=> $invite_code,
-				);
-				$invite_id = RC_Model::model('term_meta_model')->where($data)->get_field('object_id');
+				$invite_id = RC_DB::table('term_meta')
+					->where('object_type', 'ecjia.affiliate')
+					->where('object_group', 'user_invite_code')
+					->where('meta_key', 'invite_code')
+					->where('meta_value', $invite_code)
+					->pluck('object_id');
 				
 				if (!empty($invite_id)) {
 					if (!empty($affiliate['config']['expire'])) {
@@ -155,20 +152,20 @@ class mobile extends ecjia_front {
 					$time = RC_Time::gmtime() + $c*3600;
 					
 					/* 判断在有效期内是否已被邀请*/
-					$is_invitee = RC_Model::model('affiliate/invitee_record_model')->where(array(
-						'invitee_phone' => $mobile_phone,
-						'invite_type'	=> 'signup',
-						'expire_time'	=> array('gt' => RC_Time::gmtime())
-					))->find();
+					$is_invitee = RC_DB::table('invitee_record')
+						->where('invitee_phone', $mobile_phone)
+						->where('invite_type', 'signup')
+						->where('expire_time', '>', RC_Time::gmtime())
+						->first();
 					
 					if (empty($is_invitee)) {
-						RC_Model::model('affiliate/invitee_record_model')->insert(array(
-								'invite_id'		=> $invite_id,
-								'invitee_phone' => $mobile_phone,
-								'invite_type'	=> 'signup',
-								'is_registered' => 0,
-								'expire_time'	=> $time,
-								'add_time'		=> RC_Time::gmtime()
+						RC_DB::table('invitee_record')->insert(array(
+							'invite_id'		=> $invite_id,
+							'invitee_phone' => $mobile_phone,
+							'invite_type'	=> 'signup',
+							'is_registered' => 0,
+							'expire_time'	=> $time,
+							'add_time'		=> RC_Time::gmtime()
 						));
 					}
 				}

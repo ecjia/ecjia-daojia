@@ -51,11 +51,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author wutifang
  */
 class admin extends ecjia_admin {
-	private $db_shop_config;
 	public function __construct() {
 		parent::__construct();
 		
-		$this->db_shop_config = RC_Loader::load_app_model('affiliate_shop_config_model');
 		RC_Loader::load_app_func('global');
 		assign_adminlog_content();
 		
