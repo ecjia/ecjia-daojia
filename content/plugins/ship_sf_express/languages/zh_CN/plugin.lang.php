@@ -54,8 +54,15 @@ return array(
     'sf_express_desc'        => '江、浙、沪地区首重15元/KG，续重2元/KG，其余城市首重20元/KG',
     
     'item_fee'              => '单件商品费用：',
-    'base_fee'              => '1000克以内费用',
-    'step_fee'               => '续重每1000克或其零数的费用',
+    'base_fee'              => '1000克以内费用：',
+    'step_fee'               => '续重每1000克或其零数的费用：',
+	'pay_fee'                => '货到付款支付费用：',
+	'free_money'             => '免费额度：',
+	'fee_compute_mode'       => '费用计算方式：',
+	'fee_compute_mode_range' => array(
+		'by_weight' => '按重量',
+		'by_number' => '按件数'
+	),
     
     /* 快递单部分 */
     'lable_select_notice' => '--选择插入标签--',
