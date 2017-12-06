@@ -57,7 +57,7 @@ class JsonResponse extends \Symfony\Component\HttpFoundation\JsonResponse {
 	 * @param  string  $key
 	 * @param  string  $value
 	 * @param  bool    $replace
-	 * @return \Illuminate\Http\Response
+	 * @return \Royalcms\Component\HttpKernel\Response
 	 */
 	public function header($key, $value, $replace = true)
 	{

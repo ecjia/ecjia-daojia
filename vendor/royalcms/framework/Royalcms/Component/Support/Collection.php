@@ -231,9 +231,13 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	 */
 	public function implode($value, $glue = null)
 	{
-		if (is_null($glue)) return implode($this->lists($value));
-
-		return implode($glue, $this->lists($value));
+		$first = $this->first();
+		
+		if (is_array($first) || is_object($first)) {
+		    return implode($glue, $this->pluck($value)->all());
+		}
+		
+		return implode($value, $this->items);
 	}
 
 	/**
@@ -286,6 +290,18 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	public function last()
 	{
 		return count($this->items) > 0 ? end($this->items) : null;
+	}
+	
+	/**
+	 * Get the values of a given key.
+	 *
+	 * @param  string  $value
+	 * @param  string|null  $key
+	 * @return static
+	 */
+	public function pluck($value, $key = null)
+	{
+	    return new static(Arr::pluck($this->items, $value, $key));
 	}
 
 	/**
