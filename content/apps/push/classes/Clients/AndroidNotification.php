@@ -78,7 +78,7 @@ class AndroidNotification extends NotificationAbstract
 			$brocast->setAppMasterSecret($this->appMasterSecret);
 			$brocast->setPredefinedKeyValue("appkey",           $this->appKey);
 			$brocast->setPredefinedKeyValue("timestamp",        $this->timestamp);
-			$brocast->setPredefinedKeyValue("title",            ecjia::config('app_name'));
+			$brocast->setPredefinedKeyValue("title",            ecjia::config('mobile_app_name'));
 			$brocast->setPredefinedKeyValue("after_open",       "go_app");
 			
 			$brocast->setPredefinedKeyValue("description",      $this->push_description);
@@ -113,7 +113,7 @@ class AndroidNotification extends NotificationAbstract
 			$unicast->setAppMasterSecret($this->appMasterSecret);
 			$unicast->setPredefinedKeyValue("appkey",           $this->appKey);
 			$unicast->setPredefinedKeyValue("timestamp",        $this->timestamp);
-			$unicast->setPredefinedKeyValue("title",            ecjia::config('app_name'));
+			$unicast->setPredefinedKeyValue("title",            ecjia::config('mobile_app_name'));
 			$unicast->setPredefinedKeyValue("after_open",       "go_app");
 
 			$unicast->setPredefinedKeyValue("description",      $this->push_description);
