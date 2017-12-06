@@ -50,44 +50,51 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
-    'yto'          	=> '圆通速递',
-    'yto_desc'     	=> '上海圆通物流（速递）有限公司经过多年的网络快速发展，在中国速递行业中一直处于领先地位。为了能更好的发展国际快件市场，加快与国际市场的接轨，强化圆通的整体实力，圆通已在东南亚、欧美、中东、北美洲、非洲等许多城市运作国际快件业务',
-    
-    'item_fee' 		=> '单件商品费用',
-    'base_fee' 		=> '首重费用',
-    'step_fee' 		=> '续重费用',
-    
+    'yto'                    => '圆通速递',
+    'yto_desc'               => '上海圆通物流（速递）有限公司经过多年的网络快速发展，在中国速递行业中一直处于领先地位。为了能更好的发展国际快件市场，加快与国际市场的接轨，强化圆通的整体实力，圆通已在东南亚、欧美、中东、北美洲、非洲等许多城市运作国际快件业务',
+
+    'item_fee'               => '单件商品费用：',
+    'base_fee'               => '首重费用：',
+    'step_fee'               => '续重费用：',
+    'pay_fee'                => '货到付款支付费用：',
+    'free_money'             => '免费额度：',
+    'fee_compute_mode'       => '费用计算方式：',
+    'fee_compute_mode_range' => array(
+        'by_weight' => '按重量',
+        'by_number' => '按件数'
+    ),
+
     /* 快递单部分 */
-    'lable_select_notice' => '--选择插入标签--',
-    
-    'lable_box' => array(
-        'shop_country' => '网店-国家',
-        'shop_province' => '网店-省份',
-        'shop_city' => '网店-城市',
-        'shop_name' => '网店-名称',
-        'shop_district' => '网店-区/县',
-        'shop_tel' => '网店-联系电话',
-        'shop_address' => '网店-地址',
-        'customer_country' => '收件人-国家',
+    'lable_select_notice'    => '--选择插入标签--',
+
+    'lable_box'              => array(
+        'shop_country'      => '网店-国家',
+        'shop_province'     => '网店-省份',
+        'shop_city'         => '网店-城市',
+        'shop_name'         => '网店-名称',
+        'shop_district'     => '网店-区/县',
+        'shop_tel'          => '网店-联系电话',
+        'shop_address'      => '网店-地址',
+        'customer_country'  => '收件人-国家',
         'customer_province' => '收件人-省份',
-        'customer_city' => '收件人-城市',
+        'customer_city'     => '收件人-城市',
         'customer_district' => '收件人-区/县',
-        'customer_tel' => '收件人-电话',
-        'customer_mobel' => '收件人-手机',
-        'customer_post' => '收件人-邮编',
-        'customer_address' => '收件人-详细地址',
-        'customer_name' => '收件人-姓名',
-        'year' => '年-当日日期',
-        'months' => '月-当日日期',
-        'day' => '日-当日日期',
-        'order_no' => '订单号-订单',
-        'order_postscript' => '备注-订单',
-        'order_best_time' => '送货时间-订单',
-        'pigeon' => '√-对号',
+        'customer_tel'      => '收件人-电话',
+        'customer_mobel'    => '收件人-手机',
+        'customer_post'     => '收件人-邮编',
+        'customer_address'  => '收件人-详细地址',
+        'customer_name'     => '收件人-姓名',
+        'year'              => '年-当日日期',
+        'months'            => '月-当日日期',
+        'day'               => '日-当日日期',
+        'order_no'          => '订单号-订单',
+        'order_postscript'  => '备注-订单',
+        'order_best_time'   => '送货时间-订单',
+        'pigeon'            => '√-对号',
         //'custom_content' => '自定义内容',
     ),
-    
-    'shipping_print' => '<table border="0" cellspacing="0" cellpadding="0" style="width:18.6cm; height:11.3cm;">
+
+    'shipping_print'         => '<table border="0" cellspacing="0" cellpadding="0" style="width:18.6cm; height:11.3cm;">
   <tr>
     <td valign="top" style="width:7.2cm;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -185,10 +192,10 @@ return array(
         <td style="width:2.8cm;">{$order.mobile}</td>
       </tr>
     </table>
-    
+
     </td>
     <td valign="top" style="width:4.2cm;">&nbsp;
-    
+
     </td>
   </tr>
 </table>',
