@@ -78,31 +78,48 @@ class location_module extends api_front implements api_interface {
 		$from = array();
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $order_info['store_id'])->first();
 		$from = array(
-				'name' 		=> $store_info['address'],
-				'location'	=> array(
-						'lat' => $store_info['latitude'],
-						'lng' => $store_info['longitude'],
-				),
+			'name' 		=> $store_info['address'],
+			'location'	=> array(
+				'lat' => $store_info['latitude'],
+				'lng' => $store_info['longitude'],
+			),
 		);
 		
 		/*收货地址既送达位置处理*/
 		$to = array();
-		$region_name = RC_DB::table('region')->whereIn('region_id', array($order_info['province'], $order_info['city']))->orderBy('region_type', 'asc')->get();
-		$province_name  = $region_name[0]['region_name'];
-		$city_name		= $region_name[1]['region_name'];
-		$consignee_address = $province_name.'省'.$city_name.'市'.$order_info['address'];
+
+		$province_name = ecjia_region::getRegionName($order_info['province']);
+		$city_name = ecjia_region::getRegionName($order_info['city']);
+		$district_name = ecjia_region::getRegionName($order_info['distreet']);
+		$street_name = ecjia_region::getRegionName($order_info['street']);
+
+		$consignee_address = '';
+		if (!empty($province_name)) {
+			$consignee_address .= $province_name;
+		}
+		if (!empty($city_name)) {
+			$consignee_address .= $city_name;
+		}
+		if (!empty($district_name)) {
+			$consignee_address .= $district_name;
+		}
+		if (!empty($street_name)) {
+			$consignee_address .= $street_name;
+		}
+		$consignee_address .= $order_info['address'];
 		$consignee_address = urlencode($consignee_address);
+
 		//腾讯地图api 地址解析（地址转坐标）
 		$map_qq_key = ecjia::config('map_qq_key');
 		$shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$consignee_address."&key=".$map_qq_key);
 		$shop_point = json_decode($shop_point['body'], true);
 		if (isset($shop_point['result']) && !empty($shop_point['result']['location'])) {
 			$to = array(
-					'name' 		=> $order_info['address'],
-					'location'	=> array(
-										'lat' => $shop_point['result']['location']['lat'],
-										'lng' => $shop_point['result']['location']['lng']
-									),
+				'name' 		=> $order_info['address'],
+				'location'	=> array(
+					'lat' => $shop_point['result']['location']['lat'],
+					'lng' => $shop_point['result']['location']['lng']
+				),
 			);
 		}
 		
