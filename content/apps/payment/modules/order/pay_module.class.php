@@ -57,7 +57,8 @@ class pay_module extends api_front implements api_interface {
     	$user_id = $_SESSION['user_id'];
     	
     	$device	= $this->device;
-    	if (!empty($device) && is_array($device) && $device['code'] == '8001') {
+    	$codes = array('8001', '8011');
+    	if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
     		//收银台支付登录判断
     		if ($_SESSION['staff_id'] <= 0 && empty($_SESSION['user_id'])) {
     			return new ecjia_error(100, 'Invalid session');
@@ -82,15 +83,13 @@ class pay_module extends api_front implements api_interface {
 			return $order;
 		}
 		
-		if ($device['code'] != '8001') {
-			if ($_SESSION['user_id'] != $order['user_id']) {
-				return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
-			}
+		//判断是否是管理员登录
+		if ($_SESSION['store_id'] > 0) {
+			$_SESSION['user_id'] = $order['user_id'];
 		}
 		
-		//判断是否是管理员登录
-		if ($_SESSION['admin_id'] > 0) {
-			$_SESSION['user_id'] = $order['user_id'];
+		if ($_SESSION['user_id'] != $order['user_id']) {
+			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
 		}
 		
 		//添加微信支付需要的OPEN_ID
@@ -124,6 +123,10 @@ class pay_module extends api_front implements api_interface {
         if (is_ecjia_error($result)) {
             return $result;
         } else {
+        	$codes = array('8001', '8011');
+        	if (in_array($device['code'], $codes)) {
+        		unset($_SESSION['user_id']);
+        	}
             $order['payment'] = $result;
         }
 
