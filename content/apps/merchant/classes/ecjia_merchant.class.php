@@ -106,8 +106,8 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		    'franchisee/merchant/view_post',
 		    'franchisee/merchant/remove_apply',
 		    'franchisee/merchant/drop_file',
-		    'franchisee/merchant/get_region',
 			'franchisee/merchant/getgeohash',
+			'franchisee/merchant/get_region',
 			'merchant/merchant/shopinfo',
 		);
 		$this->public_route = RC_Hook::apply_filters('merchant_access_public_route', $this->public_route);

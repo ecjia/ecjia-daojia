@@ -76,8 +76,8 @@
                                 </tr>
                                 <tr>
                                     <td class="active w350" align="right">{lang key='merchant::merchant.address'}：</td>
-                                    <td>{if $data.province || $data.city || $data.district || $data.address}
-                                        {$data.province} {$data.city} {$data.district} {$data.address}
+                                    <td>{if $data.province || $data.city || $data.district || $data.street || $data.address}
+                                        {$data.province} {$data.city} {$data.district} {$data.street} {$data.address}
                                         {else}
                                         <i>< 还未填写 ></i>
                                         {/if}

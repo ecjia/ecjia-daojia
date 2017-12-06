@@ -274,12 +274,14 @@ class merchant extends ecjia_merchant {
 
     	$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
     	$shop_notice = RC_DB::table('article')->where('article_id', $id)->first();
-
+		$shop_notice['content'] = stripslashes($shop_notice['content']);
+		
     	$shop_notice_list = RC_DB::table('article as a')
  			->orderBy(RC_DB::raw('a.add_time'), 'desc')
  			->take(5)
  			->where(RC_DB::raw('a.article_type'), 'merchant_notice')
  			->get();
+    	
     	if (!empty($shop_notice_list)) {
     		$disk = RC_Filesystem::disk();
     		foreach ($shop_notice_list as $k => $v) {

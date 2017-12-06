@@ -115,7 +115,7 @@
 			}
 			var _close = options.close ? '<a class="close" data-dismiss="alert">×</a>' : '';
 
-			var alert_obj = $('<div class="staticalert alert alert-success alert-dismissable ' + options.state + ' ui_showmessage">' + _close + options.message + '</div>');
+			var alert_obj = $('<div class="staticalert alert alert-dismissable ' + options.state + ' ui_showmessage">' + _close + options.message + '</div>');
 			
 			options.close_self >= 1000 && !options.links && window.setTimeout(function() {alert_obj.remove();}, options.close_self);
 

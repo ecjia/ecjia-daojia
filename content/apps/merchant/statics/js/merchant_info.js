@@ -151,12 +151,14 @@
                     city = $('select[name="city"]').val(),
                     district = $('select[name="district"]').val(),
                     address = $('input[name="address"]').val(),
+                    street = $('select[name="street"]').val(), 
                     url = $(this).attr('data-url');
 
                 var option = {
                     'province': 　province,
                     'city': 　city,
                     'district': 　district,
+                    'street': street,
                     'address': address,
                 }
                 $.post(url, option, app.merchant_info.sethash, "JSON");
