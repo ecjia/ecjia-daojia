@@ -11,6 +11,10 @@
 			app.admin_config.submit_form();
 			app.admin_config.edit();
 			app.admin_config.del_link_store();
+			app.admin_config.choose_area();
+			app.admin_config.quick_search();
+	        app.admin_config.selected_area();
+			
 		},
 		submit_form : function() {
 			var $form = $("form[name='theForm']");
@@ -115,6 +119,121 @@
 				$(this).parents('li').trigger('dblclick');
 			});
 		},
+		
+        choose_area: function () {
+            $('.select_hot_city').off('click').on('click', function (e) {
+                e.preventDefault();
+                var $this = $(this),
+                    val = $this.attr('data-val'),
+                    url = $this.parent().attr('data-url'),
+                    $next = $('.' + $this.parent().attr('data-next'));
+                    $next_attr = $this.parent().attr('data-next');
+                /* 如果是县乡级别的，不触发后续操作 */
+                if ($this.parent().hasClass('selTown')) {
+                    $this.siblings().removeClass('disabled');
+                    if (val != 0) $this.addClass('disabled');
+                    return;
+                }
+                /* 如果是0的选项，则后续参数也设置为0 */
+                if (val == 0) {
+                    var $tmp = $('<li class="ms-elem-selectable" data-val="0"><span>' + js_lang.no_select_region + '</span></li>');
+                    $next.html($tmp);
+                    $tmp.trigger('click');
+                    return;
+                }
+                /* 请求参数 */
+                $.get(url, {parent: val}, function (data) {
+                    $this.siblings().removeClass('disabled');
+                    $this.addClass('disabled');
+                    var html = '';
+                    /* 如果有返回参数，则赋值并触发下一级别的选中 */
+                    if (data.regions) {
+                        for (var i = 0; i <= data.regions.length - 1; i++) {
+                            html += '<li class="ms-elem-selectable select_hot_city" data-val="' + data.regions[i].region_id + '"><span>' +
+                            	data.regions[i].region_name + '</span>';
+                            if ($next_attr == 'selCities') {
+                                html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
+                            }
+                            if ($next_attr == 'selDistricts') {
+                                html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
+                            }
+                            if ($next_attr == 'selTown') {
+                                html += '<span class="edit-list"><a href="javascript:;">' + js_lang.add + '</a></span>';
+                            }
+                            html += '</li>';
+                        };
+
+                        $next.html(html);
+                        app.admin_config.quick_search();
+//                        $('.select_hot_city').unbind("click");
+//                        $('.select_hot_city .edit-list a').unbind("click");
+                        app.admin_config.choose_area();
+                        app.admin_config.selected_area();
+//                        $next.find('.select_hot_city').eq(0).trigger('click');
+                        /* 如果没有返回参数，则直接触发选中0的操作 */
+                    } else {
+                        var $tmp = $('<li class="ms-elem-selectable" data-val="0"><span>' + js_lang.no_select_region + '</span></li>');
+                        $next.html($tmp);
+                        $tmp.trigger('click');
+                        return;
+                    }
+                }, 'json');
+            });
+        },
+        
+        quick_search: function () {
+            var opt = {
+                onAfter: function () {
+                    $('.ms-group').each(function (index) {
+                        $(this).find('.isShow').length ? $(this).css('display', 'block') : $(this).css('display', 'none');
+                    });
+                    return;
+                },
+                show: function () {
+                    this.style.display = "";
+                    $(this).addClass('isShow');
+                },
+                hide: function () {
+                    this.style.display = "none";
+                    $(this).removeClass('isShow');
+                },
+            };
+            $('#selCountry').quicksearch($('.selCountry .ms-elem-selectable'), opt);
+            $('#selProvinces').quicksearch($('.selProvinces .ms-elem-selectable'), opt);
+            $('#selCities').quicksearch($('.selCities .ms-elem-selectable'), opt);
+            $('#selDistricts').quicksearch($('.selDistricts .ms-elem-selectable'), opt);
+            $('#selStreets').quicksearch($('.selStreets .ms-elem-selectable'), opt);
+        },
+
+        selected_area: function () {
+            $('.ms-elem-selectable .edit-list a').off('click').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var bool = true;
+                var $this = $(this),
+                    $parent = $this.parents('li.ms-elem-selectable'),
+                    val = $parent.attr('data-val'),
+                    name = $parent.find('span').eq(0).text(),
+                    $tmp = $('<input type="checkbox" checked="checked" value="' + val + '" name="regions[]" /><span class="m_r10">' + name + '</span>');
+                $('.selected_area div').each(function (i) {
+                	console.log($(this).find("input").val());
+                	console.log(val);
+                    if ($(this).find("input").val() == val) {
+                        var data = {
+                            message: js_lang.region_selected,
+                            state: "error",
+                        };
+                        ecjia.admin.showmessage(data);
+                        bool = false;
+                        return false;
+                    }
+                });
+                if (bool) {
+                    $('.selected_area').append($tmp);
+                    $tmp.uniform();
+                }
+            });
+        },
 	}
 })(ecjia.admin, jQuery);
 // end

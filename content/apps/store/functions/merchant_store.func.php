@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 获取店铺基本信息
  * @return  array
  */
-function get_merchant_info($store_id){
+function get_merchant_info($store_id = 0){
     $data = array(
         'shop_kf_mobile'            => '', // 客服手机号码
         'shop_nav_background'		=> '', //店铺导航背景图
@@ -85,7 +85,7 @@ function get_merchant_info($store_id){
     return $data;
 }
 
-function get_store_trade_time($store_id) {
+function get_store_trade_time($store_id = 0) {
     if (empty($store_id)) {
         $store_id = $_SESSION['store_id'];
     }
@@ -115,7 +115,7 @@ function get_store_trade_time($store_id) {
  * 获取店铺配置信息
  * @return  array
  */
-function get_merchant_config($store_id, $code, $arr){
+function get_merchant_config($store_id = 0, $code = '', $arr = ''){
     if(empty($code)){
         if(is_array($arr)){
             $config = RC_DB::table('merchants_config')->where('store_id', $store_id)->select('code','value')->get();
@@ -135,7 +135,7 @@ function get_merchant_config($store_id, $code, $arr){
 /*
  * 设置店铺配置信息
  */
-function set_merchant_config($store_id, $code, $value, $arr){
+function set_merchant_config($store_id = 0, $code = '', $value = '', $arr = ''){
     if(empty($code)){
         if(is_array($arr)){
             foreach ($arr as $key => $val) {
@@ -161,7 +161,7 @@ function set_merchant_config($store_id, $code, $value, $arr){
     }
 }
 
-function get_store_full_info($store_id) {
+function get_store_full_info($store_id = 0) {
     
     if (empty($store_id)) {
         $store_id = $_SESSION['store_id'];
@@ -171,16 +171,16 @@ function get_store_full_info($store_id) {
     }
     $store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
     
-    $region_name = RC_DB::table('region')
-    ->whereIn('region_id', array($store_info['province'], $store_info['city'], $store_info['district']))
-    ->get();
+    $region_name = ecjia_region::getRegions(array($store_info['province'], $store_info['city'], $store_info['district']), $store_info['street']);
+
     $store_info['province_id']	= $store_info['province'];
     $store_info['city_id']		= $store_info['city'];
     $store_info['district_id']	= $store_info['district'];
     $store_info['province']	= $region_name[0]['region_name'];
     $store_info['city']		= $region_name[1]['region_name'];
     $store_info['district']	= $region_name[2]['region_name'];
-    
+    $store_info['street']   = $region_name[3]['street'];
+
     return $store_info;
 }
 /*
@@ -217,7 +217,7 @@ function store_file_upload_info($path, $code, $old_images, $store_id){
 /**
 * 清除用户购物车
 */
-function clear_cart_list($store_id){
+function clear_cart_list($store_id = 0){
 	if(empty($store_id)) return false;
 	// 清除所有用户购物车内商家的商品
 	RC_DB::table('cart')->where('store_id', $store_id)->delete();

@@ -72,7 +72,7 @@ class store_neighbors_store_id_api extends Component_Event_Api {
 	 * @param 	int 		city_id        		城市id
 	 * @return  array       group_seller_id     店铺id
 	 */
-	private function neighbors_store($geohash_code, $city_id = 0)
+	private function neighbors_store($geohash_code, $city_id = '')
 	{
 		/* 判断是否有定位范围，如没有设置默认值*/
 		$mobile_location_range = ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK) ? ecjia::config('mobile_location_range') : 3;

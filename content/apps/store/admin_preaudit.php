@@ -50,11 +50,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 入驻商家待审核列表
  */
 class admin_preaudit extends ecjia_admin {
-	private $db_region;
 	public function __construct() {
 		parent::__construct();
-
-		$this->db_region = RC_Model::model('store/region_model');
 
 		//全局JS和CSS
 		RC_Script::enqueue_script('smoke');
@@ -117,12 +114,15 @@ class admin_preaudit extends ecjia_admin {
 		$id    = intval($_GET['id']);
 		$store = RC_DB::table('store_preaudit')->where('id', $id)->first();
 
-		$province   = $this->db_region->get_regions(1, 1);
-		$city       = $this->db_region->get_regions(2, $store['province']);
-		$district   = $this->db_region->get_regions(3, $store['city']);
-		$this->assign('province', $province);
-		$this->assign('city', $city);
-		$this->assign('district', $district);
+        $provinces = ecjia_region::getSubarea(ecjia::config('shop_country'));
+        $cities = ecjia_region::getSubarea($store['province']);
+        $districts = ecjia_region::getSubarea($store['city']);
+        $streets = ecjia_region::getSubarea($store['district']);
+        
+        $this->assign('province', $provinces);
+        $this->assign('city', $cities);
+        $this->assign('district', $districts);
+        $this->assign('street', $streets);
 
 		$certificates_list = array(
 			'1' => RC_Lang::get('store::store.people_id'),
@@ -225,6 +225,7 @@ class admin_preaudit extends ecjia_admin {
 			'province'					=> !empty($_POST['province'])				? $_POST['province']            : '',
 			'city'						=> !empty($_POST['city'])					? $_POST['city']                : '',
 			'district'					=> !empty($_POST['district'])				? $_POST['district']            : '',
+			'street'	    	 		=> !empty($_POST['street']) 				? $_POST['street'] 				: '',
 			'bank_address'         		=> !empty($_POST['bank_address']) 			? $_POST['bank_address']        : '',
 			'longitude'         		=> !empty($_POST['longitude']) 				? $_POST['longitude']           : '',
 			'latitude'         			=> !empty($_POST['latitude']) 				? $_POST['latitude']            : '',
@@ -283,12 +284,12 @@ class admin_preaudit extends ecjia_admin {
 		if (empty($info)) {
 		    return $this->showmessage('信息不存在或已处理完成', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,  array('pjaxurl' => RC_Uri::url('store/admin_preaudit/init')));
 		}
-		$info['province'] = RC_DB::table('region')->where('region_id', $info['province'])->pluck('region_name');
+		$info['province'] 	= ecjia_region::getRegionName($info['province']);
+		$info['city'] 		= ecjia_region::getRegionName($info['city']);
+		$info['district'] 	= ecjia_region::getRegionName($info['district']);
+		$info['street'] 	= ecjia_region::getRegionName($info['street']);
 
-		$info['city'] = RC_DB::table('region')->where('region_id', $info['city'])->pluck('region_name');
-
-		$info['district'] = RC_DB::table('region')->where('region_id', $info['district'])->pluck('region_name');
-
+		
 		$info['apply_time']	= RC_Time::local_date(ecjia::config('time_format'), $info['apply_time']);
 		$info['cat_name'] = RC_DB::table('store_category')->where('cat_id', $info['cat_id'])->pluck('cat_name');
 		$this->assign('store', $info);
@@ -342,32 +343,32 @@ class admin_preaudit extends ecjia_admin {
 					'shop_keyword'				=> $store['shop_keyword'],
 					'status'					=> 1,
 // 				    'identity_status'           => intval($_POST['identity_status']),
-					'responsible_person'		=>$store['responsible_person'],
-					'company_name'				=>$store['company_name'],
-					'email'						=>$store['email'],
-					'contact_mobile'			=>$store['contact_mobile'],
-					'apply_time'				=>$store['apply_time'],
-					'confirm_time'				=>RC_Time::gmtime(),
-				    'expired_time'				=>RC_Time::local_strtotime("+1 year"),
-					'address'					=>$store['address'],
-					'identity_type'				=>$store['identity_type'],
-					'identity_number'			=>$store['identity_number'],
-					'identity_pic_front'		=>$store['identity_pic_front'],
-					'identity_pic_back'			=>$store['identity_pic_back'],
-					'personhand_identity_pic'	=>$store['personhand_identity_pic'],
-					'business_licence'			=>$store['business_licence'],
-					'business_licence_pic'		=>$store['business_licence_pic'],
-					'bank_name'					=>$store['bank_name'],
-					'province'					=>$store['province'],
-					'city'						=>$store['city'],
-					'district'					=>$store['district'],
-					'bank_branch_name'			=>$store['bank_branch_name'],
-					'bank_account_number'		=>$store['bank_account_number'],
-					'bank_address'				=>$store['bank_address'],
-					'remark'					=>$remark,
-					'longitude'					=>$store['longitude'],
-					'latitude'					=>$store['latitude'],
-				    'geohash'                   =>$geohash_code,
+					'responsible_person'		=> $store['responsible_person'],
+					'company_name'				=> $store['company_name'],
+					'email'						=> $store['email'],
+					'contact_mobile'			=> $store['contact_mobile'],
+					'apply_time'				=> $store['apply_time'],
+					'confirm_time'				=> RC_Time::gmtime(),
+				    'expired_time'				=> RC_Time::local_strtotime("+1 year"),
+					'address'					=> $store['address'],
+					'identity_type'				=> $store['identity_type'],
+					'identity_number'			=> $store['identity_number'],
+					'identity_pic_front'		=> $store['identity_pic_front'],
+					'identity_pic_back'			=> $store['identity_pic_back'],
+					'personhand_identity_pic'	=> $store['personhand_identity_pic'],
+					'business_licence'			=> $store['business_licence'],
+					'business_licence_pic'		=> $store['business_licence_pic'],
+					'bank_name'					=> $store['bank_name'],
+					'province'					=> $store['province'],
+					'city'						=> $store['city'],
+					'district'					=> $store['district'],
+					'bank_branch_name'			=> $store['bank_branch_name'],
+					'bank_account_number'		=> $store['bank_account_number'],
+					'bank_address'				=> $store['bank_address'],
+					'remark'					=> $remark,
+					'longitude'					=> $store['longitude'],
+					'latitude'					=> $store['latitude'],
+				    'geohash'                   => $geohash_code,
 					'sort_order' 				=> 50,
 				);
 				
@@ -594,6 +595,8 @@ class admin_preaudit extends ecjia_admin {
 	    if (empty($info)) {
 	        return $this->showmessage('信息不存在或已处理完成', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,  array('pjaxurl' => RC_Uri::url('store/admin_preaudit/init')));
 	    }
+	    $this->assign('merchants_name', $info['merchants_name']);
+
 	    $log_store_id = $info['store_id'] ? $info['store_id'] : $info['id'];
 	    $log_type     = $info['store_id'] ? 2 : 1;
 
@@ -679,19 +682,6 @@ class admin_preaudit extends ecjia_admin {
 		return $cat_list;
 	}
 
-
-	/**
-	 * 获取指定地区的子级地区
-	 */
-	public function get_region(){
-		$type           = !empty($_GET['type'])   ? intval($_GET['type'])               : 0;
-		$parent         = !empty($_GET['parent']) ? intval($_GET['parent'])             : 0;
-		$arr['regions'] = $this->db_region->get_regions($type, $parent);
-		$arr['type']    = $type;
-		$arr['target']  = !empty($_GET['target']) ? stripslashes(trim($_GET['target'])) : '';
-		$arr['target']  = htmlspecialchars($arr['target']);
-		echo json_encode($arr);
-	}
 }
 
 //end

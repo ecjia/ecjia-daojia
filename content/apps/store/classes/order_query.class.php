@@ -230,10 +230,12 @@ class order_query extends order {
         $filter['zipcode'] 				= empty($args['zipcode']) 			? '' : trim($args['zipcode']);
         $filter['tel'] 					= empty($args['tel']) 				? '' : trim($args['tel']);
         $filter['mobile'] 				= empty($args['mobile']) 			? 0 : intval($args['mobile']);
-        $filter['country'] 				= empty($args['country']) 			? 0 : intval($args['country']);
-        $filter['province'] 			= empty($args['province']) 			? 0 : intval($args['province']);
-        $filter['city'] 				= empty($args['city']) 				? 0 : intval($args['city']);
-        $filter['district'] 			= empty($args['district']) 			? 0 : intval($args['district']);
+
+        $filter['country'] 				= empty($args['country']) 			? '' : trim($args['country']);
+        $filter['province'] 			= empty($args['province']) 			? '' : trim($args['province']);
+        $filter['city'] 				= empty($args['city']) 				? '' : trim($args['city']);
+        $filter['district'] 			= empty($args['district']) 			? '' : trim($args['district']);
+        
         $filter['shipping_id'] 			= empty($args['shipping_id']) 		? 0 : intval($args['shipping_id']);
         $filter['pay_id'] 				= empty($args['pay_id']) 			? 0 : intval($args['pay_id']);
         $filter['order_status'] 		= isset($args['order_status']) 		? intval($args['order_status']) : -1;

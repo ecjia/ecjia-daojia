@@ -85,7 +85,7 @@ function set_store_menu($store_id, $key){
         array(
             'menu'  => '店铺设置',
             'name'  => 'store_set',
-            'url'   => RC_Uri::url('store/admin/store_set', array('store_id' => $store_id))
+        	'url'   => RC_Uri::url('merchant/admin_store_setting/init', array('store_id' => $store_id))
         ),
         array(
             'menu'  => '资质认证',
@@ -105,12 +105,12 @@ function set_store_menu($store_id, $key){
         array(
             'menu'  => '查看员工',
             'name'  => 'view_staff',
-            'url'   => RC_Uri::url('store/admin/view_staff', array('store_id' => $store_id))
+            'url'   => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id))
         ),
         array(
             'menu'  => '配送方式',
             'name'  => 'shipping',
-            'url'   => RC_Uri::url('store/admin/shipping', array('store_id' => $store_id))
+            'url'   => RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id))
         ),
         array(
             'menu'  => '查看日志',
@@ -124,9 +124,8 @@ function set_store_menu($store_id, $key){
         ),
     );
     foreach($arr as $k => $val){
-        if($key == $val['name']){
+        if ($key == $val['name']) {
             $arr[$k]['active']  = 1;
-            $arr[$k]['url']     = "#tab".($k+1);
         }
     }
     return $arr;

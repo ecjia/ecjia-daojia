@@ -2,7 +2,8 @@
 <!-- {extends file="ecjia.dwt.php"} -->
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.admin.store_list.init();
+    ecjia.admin.sidebar.click();
+    ecjia.admin.store_list.init();
 </script>
 <!-- {/block} -->
 <!-- {block name="main_content"} -->

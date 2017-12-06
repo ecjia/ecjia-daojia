@@ -66,6 +66,7 @@ class admin_config extends ecjia_admin {
 		RC_Script::enqueue_script('bootstrap-placeholder');
 		
 		RC_Script::enqueue_script('admin_config', RC_App::apps_url('statics/js/admin_config.js', __FILE__), array(), false, true);
+		RC_Script::localize_script('admin_config', 'js_lang', RC_Lang::get('mobile::mobile.js_lang'));
 	}
 					
 	/**
@@ -115,6 +116,24 @@ class admin_config extends ecjia_admin {
 		
 		$merchant_join_close = ecjia::config('merchant_join_close');
 		$this->assign('merchant_join_close', $merchant_join_close);
+
+		/*热门城市*/
+		$regions = array ();
+		$mobile_recommend_city = explode(',', ecjia::config('mobile_recommend_city'));
+		$region_data           = ecjia_region::getRegions($mobile_recommend_city);
+		if (!empty($region_data)) {
+			foreach ( $region_data as $key => $val ) {
+				if ( empty($val['region_name']) ) {
+					$regions[$val['region_id']] = '<lable  style="color:red">' .RC_Lang::get('mobile::mobile.region_removed'). '</lable>';
+				} else {
+					$regions[$val['region_id']] = $val['region_name'];
+				}
+			}
+		}
+		$this->assign('mobile_recommend_city', $regions);
+
+		$provinces = ecjia_region::getSubarea(ecjia::config('shop_country'));//获取当前国家的所有省份
+		$this->assign('provinces', $provinces);
 		
 		$this->display('store_config_info.dwt');
 	}
@@ -179,6 +198,18 @@ class admin_config extends ecjia_admin {
 		
 		//是否关闭入驻商加盟
 		ecjia_config::instance()->write_config('merchant_join_close', $merchant_join_close);
+		
+		/*热门城市处理*/
+		$regions 						= isset($_POST['regions']) 						? $_POST['regions'] 							: '';
+		$mobile_recommend_city = '';
+		if (!empty($regions)) {
+			foreach ($regions as $val) {
+				$mobile_recommend_city .= $val.',';
+			}
+			$mobile_recommend_city = substr($mobile_recommend_city, 0, -1);
+		}
+		ecjia_config::instance()->write_config('mobile_recommend_city', $mobile_recommend_city);
+		
 		
 		ecjia_admin::admin_log('商家入驻>后台设置', 'setup', 'config');
 		return $this->showmessage(__('更新商店设置成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_config/init')));

@@ -44,15 +44,42 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Ecjia\App\Store\Plugin\ConfigMenu;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 class store_admin_hooks {
-	
-// 	public static function store_admin_menu_api($menus) {
-// 		$menu = ecjia_admin::make_admin_menu('06_notice_list', '商家公告', RC_Uri::url('store/admin_notice/init'), 7)->add_purview('notice_manage');
-// 	    $menus->add_submenu($menu);
-// 	    return $menus;
-// 	}
+
+    public static function display_admin_store_menus() {
+        $screen = ecjia_screen::get_current_screen();
+        $store_name = $screen->get_option('store_name');
+        $code = $screen->get_option('current_code');
+        
+        $menus = with(new ConfigMenu($store_name, $_SESSION['admin_id']))->authMenus();
+
+        echo '<div class="setting-group">'.PHP_EOL;
+        echo '<span class="setting-group-title"><i class="fontello-icon-cog"></i>' . $store_name . '</span>'.PHP_EOL;
+        echo '<ul class="nav nav-list m_t10">'.PHP_EOL; //
+
+        foreach ($menus as $key => $group) {
+            if ($group->action == 'divider') {
+                echo '<li class="divider"></li>';
+            } elseif ($group->action == 'nav-header') {
+                echo '<li class="nav-header">' . $group->name . '</li>';
+            } else {
+                echo '<li><a class="setting-group-item'; //data-pjax
+
+                if ($code == $group->action) {
+                    echo ' llv-active';
+                }
+
+                echo '" href="' . $group->link . '">' . $group->name . '</a></li>'.PHP_EOL;
+            }
+        }
+
+        echo '</ul>'.PHP_EOL;
+        echo '</div>'.PHP_EOL;
+    }
 	
 	public static function append_admin_setting_group($menus)
 	{
@@ -65,7 +92,7 @@ class store_admin_hooks {
 	}
 }
 
-// RC_Hook::add_filter( 'article_admin_menu_api', array('store_admin_hooks', 'store_admin_menu_api') );
+RC_Hook::add_action( 'display_admin_store_menus', array('store_admin_hooks', 'display_admin_store_menus') );
 RC_Hook::add_action( 'append_admin_setting_group', array('store_admin_hooks', 'append_admin_setting_group') );
 
 // end

@@ -47,36 +47,24 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 入驻申请撤销
- * @author
+ * 后台菜单API
+ * @author royalwang
  */
-class cancel_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+class store_store_menu_api extends Component_Event_Api {
+	
+	public function call(&$options) {	
+	    $store_id = royalcms('request')->query('store_id');
 
-        $this->authadminSession();
-		$value		    = $this->requestData('mobile');
-		$validate_code	= $this->requestData('validate_code');
-
-		if (empty($validate_code) || empty($value)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-
-		if (!empty($validate_code)) {
-			/* 判断校验码*/
-			if ($_SESSION['merchant_validate_code'] != $validate_code) {
-				return new ecjia_error('validate_code_error', '校验码错误！');
-			} elseif ($_SESSION['merchant_validate_expiry'] < RC_Time::gmtime()) {
-				return new ecjia_error('validate_code_time_out', '校验码已过期！');
-			} elseif ($_SESSION['merchant_validate_mobile'] != $value){
-                return new ecjia_error('validate_mobile_error', '手机号码错误！');
-            }
-
-            $preaudit_id = RC_DB::table('store_preaudit')->where('contact_mobile', '=', $value)->pluck('id');
-            RC_DB::table('store_preaudit')->where('contact_mobile', $value)->delete();
-            RC_DB::table('store_check_log')->where('store_id', $preaudit_id)->delete();
-            return array();
-		}
-    }
+		$menus = array(
+            ecjia_admin::make_admin_menu('store_preview', '基本信息', RC_Uri::url('store/admin/preview', array('store_id' => $store_id)), 1)->add_purview('store_affiliate_manage'),
+			ecjia_admin::make_admin_menu('store_auth', '资质认证', RC_Uri::url('store/admin/auth', array('store_id' => $store_id)), 3)->add_purview('store_auth_manage'),
+            ecjia_admin::make_admin_menu('store_commission', '佣金设置', RC_Uri::url('store/admin_commission/edit', array('store_id' => $store_id)), 4)->add_purview('store_commission_manage'),
+			ecjia_admin::make_admin_menu('store_view_log', '查看日志', RC_Uri::url('store/admin/view_log', array('store_id' => $store_id)), 8)->add_purview('store_log_manage'),
+            ecjia_admin::make_admin_menu('store_check_log', '审核日志', RC_Uri::url('store/admin/check_log', array('store_id' => $store_id)), 9)->add_purview('store_preaudit_check_log'),
+        );
+        
+        return $menus;
+	}
 }
 
-//end
+// end

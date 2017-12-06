@@ -329,7 +329,7 @@
         				<div class="control-group formSep">
         					<label class="control-label">选择地区：</label>
         					<div class="controls choose_list">
-        						<select class="region-summary-provinces w120" name="province" id="selProvinces" data-url="{url path='store/admin_preaudit/get_region'}" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities" >
+        						<select class="region-summary-provinces w120" name="province" id="selProvinces" data-url="{url path='setting/region/init'}" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities" >
         							<option value='0'>{lang key='system::system.select_please'}</option>
         							<!-- {foreach from=$province item=region} -->
         							<option value="{$region.region_id}" {if $region.region_id eq $store.province}selected{/if}>{$region.region_name}</option>
