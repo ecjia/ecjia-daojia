@@ -54,8 +54,15 @@ return array(
     'zto_desc'     	=> '中通快递的相关说明。保价费按照申报价值的2％交纳，但是，保价费不低于100元，保价金额不得高于10000元，保价金额超过10000元的，超过的部分无效',
     
     'item_fee' 		=> '单件商品费用：',
-    'base_fee' 		=> '首重费用',
-    'step_fee' 		=> '续重每1000克或其零数的费用',
+    'base_fee' 		=> '首重费用：',
+    'step_fee' 		=> '续重每1000克或其零数的费用：',
+	'pay_fee'                => '货到付款支付费用：',
+	'free_money'             => '免费额度：',
+	'fee_compute_mode'       => '费用计算方式：',
+	'fee_compute_mode_range' => array(
+			'by_weight' => '按重量',
+			'by_number' => '按件数'
+	),
     
     /* 快递单部分 */
     'lable_select_notice' => '--选择插入标签--',
