@@ -59,7 +59,7 @@ class delete_module extends api_front implements api_interface {
     	}
 	    $location	= $this->requestData('location', array());
 	    $seller_id	= $this->requestData('seller_id', 0);
-	    $city_id	= $this->requestData('city_id', 0);
+	    $city_id	= $this->requestData('city_id', '');
 
 	    RC_Loader::load_app_class('cart', 'cart', false);
 	    RC_Loader::load_app_func('cart', 'cart');

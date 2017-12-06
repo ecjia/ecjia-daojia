@@ -63,14 +63,23 @@ function EM_get_cart_goods() {
     );
 
     /* 循环、统计 */
-	$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
-	$db_goods_attr = RC_Loader::load_app_model('goods_attr_model', 'goods');
-	$db_goods = RC_Loader::load_app_model('goods_model', 'goods');
 	RC_Loader::load_app_func('global', 'goods');
 	if ($_SESSION['user_id']) {
-		$data = $db_cart->field('*, IF(parent_id, parent_id, goods_id) AS pid')->where(array('user_id' => $_SESSION['user_id'] , 'rec_type' =>  CART_GENERAL_GOODS))->order(array('pid' => 'asc', 'parent_id' => 'asc'))->select();
+        $data = RC_DB::table('cart')
+            ->selectRaw('*, IF(parent_id, parent_id, goods_id) AS pid')
+            ->where('user_id', $_SESSION['user_id'])
+            ->where('rec_type', CART_GENERAL_GOODS)
+            ->orderBy('pid', 'asc')
+            ->orderBy('parent_id', 'asc')
+            ->get();
 	} else {
-		$data = $db_cart->field('*, IF(parent_id, parent_id, goods_id) AS pid')->where(array('session_id' => SESS_ID , 'rec_type' =>  CART_GENERAL_GOODS))->order(array('pid' => 'asc', 'parent_id' => 'asc'))->select();
+        $data = RC_DB::table('cart')
+            ->selectRaw('*, IF(parent_id, parent_id, goods_id) AS pid')
+            ->where('session_id', SESS_ID)
+            ->where('rec_type', CART_GENERAL_GOODS)
+            ->orderBy('pid', 'asc')
+            ->orderBy('parent_id', 'asc')
+            ->get();
 	}
 
 	/* 用于统计购物车中实体商品和虚拟商品的个数 */
@@ -98,14 +107,14 @@ function EM_get_cart_goods() {
 
 		/* 查询规格 */
         if (trim($row['goods_attr']) != '' && $row['group_id'] == '') {//兼容官网套餐问题增加条件group_id
-			$attr_list = $db_goods_attr->field('attr_value')->in(array('goods_attr_id' => $row['goods_attr_id']))->select();
+            $attr_list = RC_DB::table('goods_attr')->select('attr_value')->whereIn('goods_attr_id', $row['goods_attr_id'])->get();
             foreach ($attr_list AS $attr) {
                 $row['goods_name'] .= ' [' . $attr['attr_value'] . '] ';
             }
         }
         /* 增加是否在购物车里显示商品图 */
         if ((ecjia::config('show_goods_in_cart') == "2" || ecjia::config('show_goods_in_cart') == "3") && $row['extension_code'] != 'package_buy') {
-			$goods_img = $db_goods->field('goods_thumb,goods_img,original_img')->find(array('goods_id' => $row['goods_id']));
+            $goods_img = RC_DB::table('goods')->selectRaw('goods_thumb, goods_img, original_img')->where('goods_id', $row['goods_id'])->first();
             
 			$row['goods_thumb'] = get_image_path($row['goods_id'], $goods_img['goods_thumb'], true);
             $row['goods_img'] = get_image_path($row['goods_id'], $goods_img['goods_img'], true);
@@ -136,11 +145,6 @@ function EM_get_cart_goods() {
  * @return  void
  */
 function flow_update_cart($arr) {
-	$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
-	$db_cart_view = RC_Loader::load_app_model('cart_cart_viewmodel', 'cart');
-	$db_products = RC_Loader::load_app_model('products_model', 'goods');
-	$dbview = RC_Loader::load_app_model('goods_cart_viewmodel', 'goods');   
-	
 	RC_Loader::load_app_func('admin_order', 'orders');
 	RC_Loader::load_app_func('global', 'goods');
     /* 处理 */
@@ -151,12 +155,24 @@ function flow_update_cart($arr) {
         }
         //查询：     
         if ($_SESSION['user_id']) {
-        	$goods = $db_cart->field('goods_id,goods_attr_id,product_id,extension_code')->find(array('rec_id' => $key , 'user_id' => $_SESSION['user_id']));
-        } else {
-        	$goods = $db_cart->field('goods_id,goods_attr_id,product_id,extension_code')->find(array('rec_id' => $key , 'session_id' => SESS_ID));
-        }
+            $goods = RC_DB::table('cart')
+                ->selectRaw('goods_id, goods_attr_id, product_id, extension_code')
+                ->where('rec_id', $key)
+                ->where('user_id', $_SESSION['user_id'])
+                ->first();
 
-        $row   = $dbview->join('cart')->find(array('c.rec_id' => $key));
+        } else {
+            $goods = RC_DB::table('cart')
+                ->selectRaw('goods_id, goods_attr_id, product_id, extension_code')
+                ->where('rec_id', $key)
+                ->where('session_id', SESS_ID)
+                ->first();
+        }
+        $row = RC_DB::table('goods as g')
+            ->leftJoin('cart as c', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('c.goods_id'))
+            ->where(RC_DB::raw('c.rec_id'), $key)
+            ->first();
+
         //查询：系统启用了库存，检查输入的商品数量是否有效
         if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
             if ($row['goods_number'] < $val) {
@@ -165,7 +181,11 @@ function flow_update_cart($arr) {
             /* 是货品 */
             $goods['product_id'] = trim($goods['product_id']);
             if (!empty($goods['product_id'])) {
-				$product_number = $db_products->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
+                $product_number = RC_DB::table('products')
+                    ->where('goods_id', $goods['goods_id'])
+                    ->where('product_id', $goods['product_id'])
+                    ->pluck('product_number');
+
                 if ($product_number < $val) {
                     return new ecjia_error('low_stocks', __('库存不足'));
                 }
@@ -179,9 +199,21 @@ function flow_update_cart($arr) {
         /* 查询：检查该项是否为基本件 以及是否存在配件 */
         /* 此处配件是指添加商品时附加的并且是设置了优惠价格的配件 此类配件都有parent_id goods_number为1 */
 		if ($_SESSION['user_id']) {
-			$offers_accessories_res = $db_cart_view->join('cart')->where(array('a.rec_id' => $key , 'a.user_id' => $_SESSION['user_id'] , 'a.extension_code' => array('neq' => 'package_buy') , 'b.user_id' => $_SESSION['user_id'] ))->select();
+            $offers_accessories_res = RC_DB::table('cart as a')
+                ->leftJoin('cart as b', RC_DB::raw('b.parent_id'), '=', RC_DB::raw('a.goods_id'))
+                ->where(RC_DB::raw('a.rec_id'), $key)
+                ->where(RC_DB::raw('a.user_id'), $_SESSION['user_id'])
+                ->where(RC_DB::raw('a.extension_code'), '!=', 'package_buy')
+                ->where(RC_DB::raw('b.user_id'), $_SESSION['user_id'])
+                ->get();
 		} else {
-			$offers_accessories_res = $db_cart_view->join('cart')->where(array('a.rec_id' => $key , 'a.session_id' => SESS_ID , 'a.extension_code' => array('neq' => 'package_buy') , 'b.session_id' => SESS_ID ))->select();
+            $offers_accessories_res = RC_DB::table('cart as a')
+                ->leftJoin('cart as b', RC_DB::raw('b.parent_id'), '=', RC_DB::raw('a.goods_id'))
+                ->where(RC_DB::raw('a.rec_id'), $key)
+                ->where(RC_DB::raw('a.session_id'), SESS_ID)
+                ->where(RC_DB::raw('a.extension_code'), '!=', 'package_buy')
+                ->where(RC_DB::raw('b.session_id'), SESS_ID)
+                ->get();
 		}
         
         //订货数量大于0
@@ -192,9 +224,15 @@ function flow_update_cart($arr) {
                 foreach ($offers_accessories_res as $offers_accessories_row) {
                     if ($row_num > $val) {
 						if ($_SESSION['user_id']) {
-							$db_cart->where(array('user_id' => $_SESSION['user_id'] , 'rec_id' => $offers_accessories_row['rec_id']))->delete();
+                            RC_DB::table('cart')
+                                ->where('user_id', $_SESSION['user_id'])
+                                ->where('rec_id', $offers_accessories_row['rec_id'])
+                                ->delete();
 						} else {
-							$db_cart->where(array('session_id' => SESS_ID , 'rec_id' => $offers_accessories_row['rec_id']))->delete();
+                            RC_DB::table('cart')
+                                ->where('session_id', SESS_ID)
+                                ->where('rec_id', $offers_accessories_row['rec_id'])
+                                ->delete();
 						}
                     }
                 	$row_num ++;
@@ -205,20 +243,32 @@ function flow_update_cart($arr) {
             if ($goods['extension_code'] == 'package_buy') {
                 //更新购物车中的商品数量
 				if ($_SESSION['user_id']) {
-					$db_cart->where(array('rec_id' => $key , 'user_id' => $_SESSION['user_id'] ))->update(array('goods_number' => $val));
+                    RC_DB::table('cart')
+                        ->where('user_id', $_SESSION['user_id'])
+                        ->where('rec_id', $key)
+                        ->update(array('goods_number' => $val));
 				} else {
-					$db_cart->where(array('rec_id' => $key , 'session_id' => SESS_ID ))->update(array('goods_number' => $val));
-				}
+                    RC_DB::table('cart')
+                        ->where('session_id', SESS_ID)
+                        ->where('rec_id', $key)
+                        ->update(array('goods_number' => $val));
+    	}
             }  else {
             	/* 处理普通商品或非优惠的配件 */
-                $attr_id    = empty($goods['goods_attr_id']) ? array() : explode(',', $goods['goods_attr_id']);
+                $attr_id = empty($goods['goods_attr_id']) ? array() : explode(',', $goods['goods_attr_id']);
                 $goods_price = get_final_price($goods['goods_id'], $val, true, $attr_id);
                 
                 //更新购物车中的商品数量
 				if ($_SESSION['user_id']) {
-					$db_cart->where(array('rec_id' => $key , 'user_id' => $_SESSION['user_id'] ))->update(array('goods_number' => $val , 'goods_price' => $goods_price));
+                    RC_DB::table('cart')
+                        ->where('user_id', $_SESSION['user_id'])
+                        ->where('rec_id', $key)
+                        ->update(array('goods_number' => $val , 'goods_price' => $goods_price));
 				} else {
-					$db_cart->where(array('rec_id' => $key , 'session_id' => SESS_ID ))->update(array('goods_number' => $val , 'goods_price' => $goods_price));
+                    RC_DB::table('cart')
+                        ->where('session_id', SESS_ID)
+                        ->where('rec_id', $key)
+                        ->update(array('goods_number' => $val , 'goods_price' => $goods_price));
 				}
             }
         } else {
@@ -227,26 +277,45 @@ function flow_update_cart($arr) {
             if (!empty($offers_accessories_res)) {
                 foreach ($offers_accessories_res as $offers_accessories_row) {
 					if ($_SESSION['user_id']) {
-                		$db_cart->where(array('user_id' => $_SESSION['user_id'] , 'rec_id' => $offers_accessories_row['rec_id']))->delete();
+                        RC_DB::table('cart')
+                            ->where('user_id', $_SESSION['user_id'])
+                            ->where('rec_id', $offers_accessories_row['rec_id'])
+                            ->delete();
+
                 	} else {
-                		$db_cart->where(array('session_id' => SESS_ID , 'rec_id' => $offers_accessories_row['rec_id']))->delete();
+                        RC_DB::table('cart')
+                            ->where('session_id', SESS_ID)
+                            ->where('rec_id', $offers_accessories_row['rec_id'])
+                            ->delete();
                 	}
                 }
             }
 
 			if ($_SESSION['user_id']) {
-				$db_cart->where(array('rec_id' => $key , 'user_id' => $_SESSION['user_id'] ))->delete();
+                RC_DB::table('cart')
+                    ->where('user_id', $_SESSION['user_id'])
+                    ->where('rec_id', $key)
+                    ->delete();
 			} else {
-				$db_cart->where(array('rec_id' => $key , 'session_id' => SESS_ID ))->delete();
+                RC_DB::table('cart')
+                    ->where('session_id', SESS_ID)
+                    ->where('rec_id', $key)
+                    ->delete();
 			}
         }
     }
 
     /* 删除所有赠品 */
 	if ($_SESSION['user_id']) {
-		$db_cart->where(array('user_id' => $_SESSION['user_id'] , 'is_gift' => array('neq' => 0)))->delete();
+        RC_DB::table('cart')
+            ->where('user_id', $_SESSION['user_id'])
+            ->where('is_gift', '!=', 0)
+            ->delete();
 	} else {
-		$db_cart->where(array('session_id' => SESS_ID , 'is_gift' => array('neq' => 0)))->delete();
+         RC_DB::table('cart')
+            ->where('session_id', SESS_ID)
+            ->where('is_gift', '!=', 0)
+            ->delete();
 	}
 }
 
@@ -258,23 +327,34 @@ function flow_update_cart($arr) {
  * @return  void
  */
 function flow_drop_cart_goods($id) {
-    $db_cart = RC_Loader::load_app_model('cart_model', 'cart');
-    $dbview  = RC_Loader::load_app_model('cart_group_goods_goods_viewmodel', 'cart');
-    
     /* 取得商品id */
-	$row = $db_cart->find(array('rec_id' => $id));
+    $row = RC_DB::table('cart')->where('rec_id', $id)->first();
     if ($row) {
         //如果是超值礼包
         if ($row['extension_code'] == 'package_buy') {
 			if ($_SESSION['user_id']) {
-				$db_cart->where(array('user_id' => $_SESSION['user_id'] , 'rec_id' => $id))->delete();
+                RC_DB::table('cart')
+                    ->where('user_id', $_SESSION['user_id'])
+                    ->where('rec_id', $id)
+                    ->delete();
 			} else {
-				$db_cart->where(array('session_id' => SESS_ID , 'rec_id' => $id))->delete();
+                RC_DB::table('cart')
+                    ->where('session_id', SESS_ID)
+                    ->where('rec_id', $id)
+                    ->delete();
 			}
         } elseif ($row['parent_id'] == 0 && $row['is_gift'] == 0) {
         	//如果是普通商品，同时删除所有赠品及其配件
             /* 检查购物车中该普通商品的不可单独销售的配件并删除 */
-			$data = $dbview->join(array('group_goods','goods'))->field('c.rec_id')->where(array('gg.parent_id' => $row['goods_id'] , 'c.parent_id' => $row['goods_id'] , 'c.extension_code' => array('neq' => 'package_buy') , 'g.is_alone_sale' => 0))->select();
+            $data = RC_DB::table('cart as c')
+                ->leftJoin('group_goods as gg', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('gg.goods_id'))
+                ->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
+                ->selectRaw('c.rec_id')
+                ->where(RC_DB::raw('gg.parent_id'), $row['goods_id'])
+                ->where(RC_DB::raw('c.parent_id'), $row['goods_id'])
+                ->where(RC_DB::raw('c.extension_code'), '!=', 'package_buy')
+                ->where(RC_DB::raw('g.is_alone_sale'), 0)
+                ->get();
             
             $_del_str = $id . ',';
             if (!empty($data)) {
@@ -284,18 +364,28 @@ function flow_drop_cart_goods($id) {
             }
             
             $_del_str = trim($_del_str, ',');
-
+            $goods_id = $row['goods_id'];
 			if ($_SESSION['user_id']) {
-				$db_cart->where("user_id = '" . $_SESSION['user_id'] . "' and (rec_id IN ($_del_str) OR parent_id = '$row[goods_id]' OR is_gift <> 0)")->delete();
+                RC_DB::table('cart')
+                    ->where('user_id', $_SESSION['user_id'])
+                    ->where(function($query) use($_del_str, $goods_id) {
+                        $query->whereIn('rec_id', $_del_str)->orWhere('parent_id', $goods_id)->orWhere('is_gift', '!=', 0);
+                    })
+                    ->delete();
 			} else {
-				$db_cart->where("session_id = '" . SESS_ID . "' and (rec_id IN ($_del_str) OR parent_id = '$row[goods_id]' OR is_gift <> 0)")->delete();
+                RC_DB::table('cart')
+                    ->where('session_id', SESS_ID)
+                    ->where(function($query) use($_del_str, $goods_id) {
+                        $query->whereIn('rec_id', $_del_str)->orWhere('parent_id', $goods_id)->orWhere('is_gift', '!=', 0);
+                    })
+                    ->delete();
 			}
         } else {
         	//如果不是普通商品，只删除该商品即可
 			if ($_SESSION['user_id']) {
-				$db_cart->where(array('user_id' => $_SESSION['user_id'] , 'rec_id' => $id))->delete();
+                RC_DB::table('cart')->where('user_id', $_SESSION['user_id'])->where('rec_id', $id)->delete();
 			} else {
-				$db_cart->where(array('session_id' => SESS_ID , 'rec_id' => $id))->delete();
+                RC_DB::table('cart')->where('session_id', SESS_ID)->where('rec_id', $id)->delete();
 			}
         }
     }
@@ -330,9 +420,9 @@ function flow_clear_cart_alone() {
 
     /* 查询：购物车中所有商品 */
 	if ($_SESSION['user_id']) {
-		$res = $db_cart->field('DISTINCT goods_id')->where(array('user_id' => $_SESSION['user_id'] , 'extension_code' => array('neq' => 'package_buy')))->select();
+        $res = RC_DB::table('cart')->selectRaw('DISTINCT goods_id')->where('user_id', $_SESSION['user_id'])->where('extension_code', '!=', 'package_buy')->get();
 	} else {
-		$res = $db_cart->field('DISTINCT goods_id')->where(array('session_id' => SESS_ID , 'extension_code' => array('neq' => 'package_buy')))->select();
+        $res = RC_DB::table('cart')->selectRaw('DISTINCT goods_id')->where('session_id', SESS_ID)->where('extension_code', '!=', 'package_buy')->get();
 	}
     
     $cart_good = array();
@@ -364,9 +454,9 @@ function flow_clear_cart_alone() {
 
     /* 删除 */
     if ($_SESSION['user_id']) {
-    	$db_cart->where(array('user_id' => $_SESSION['user_id']))->in(array('rec_id' => $del_rec_id))->delete();
+        RC_DB::table('cart')->where('user_id', $_SESSION['user_id'])->whereIn('rec_id', $del_rec_id)->delete();
     } else {
-    	$db_cart->where(array('session_id' => SESS_ID))->in(array('rec_id' => $del_rec_id))->delete();
+        RC_DB::table('cart')->where('session_id', SESS_ID)->whereIn('rec_id', $del_rec_id)->delete();
     }
 }
 
@@ -514,7 +604,8 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
         //'area_id'  		=> $area_id, 				// 仓库地区
     );
     /*收银台商品购物车类型*/
-    if (!empty($device) && $device['code'] == '8001') {
+    $codes = array('8001', '8011');
+    if (!empty($device) && in_array($device['code'], $codes)) {
     	$parent['rec_type'] = CART_CASHDESK_GOODS;
     	$rec_type = CART_CASHDESK_GOODS;
     } else {
@@ -670,9 +761,15 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
  * @access  private
  * @return  integral
  */
-function flow_available_points($cart_id = array()) {
+function flow_available_points($cart_id = array(), $device) {
+	$codes = array('8001', '8011');
+	if (in_array($device['code'], $codes)) {
+		$rec_type = CART_CASHDESK_GOODS;
+	} else{
+		$rec_type = CART_GENERAL_GOODS;
+	}
 	$db_view = RC_Loader::load_app_model('cart_goods_viewmodel', 'cart');
-	$cart_where = array('c.user_id' => $_SESSION['user_id'], 'c.is_gift' => 0 , 'g.integral' => array('gt' => '0') , 'c.rec_type' => CART_GENERAL_GOODS);
+	$cart_where = array('c.user_id' => $_SESSION['user_id'], 'c.is_gift' => 0 , 'g.integral' => array('gt' => '0') , 'c.rec_type' => $rec_type);
 	if (!empty($cart_id)) {
 		$cart_where = array_merge($cart_where, array('rec_id' => $cart_id));
 	}
@@ -748,8 +845,8 @@ function recalculate_price($device) {
 	// 链接数据库
 	$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
 	$dbview = RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
-	
-	if ($device['code'] == '8001') {
+	$codes = array('8001', '8011');
+	if (in_array($device['code'], $codes)) {
 		$rec_type = CART_CASHDESK_GOODS;
 	} else {
 		$rec_type = CART_GENERAL_GOODS;

@@ -62,7 +62,7 @@ class create_module extends api_front implements api_interface {
 	    $goods_number	= $this->requestData('number', 1);
 	    $location		= $this->requestData('location', array());
 	    $seller_id		= $this->requestData('seller_id', 0);
-	    $city_id		= $this->requestData('city_id', 0);
+	    $city_id		= $this->requestData('city_id', '');
 	    if (!$goods_id) {
 	        return new ecjia_error(101, '参数错误');
 	    }

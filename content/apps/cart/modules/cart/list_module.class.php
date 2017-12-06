@@ -62,7 +62,7 @@ class list_module extends api_front implements api_interface {
     	//recalculate_price(); //后续方法重新计算
 		$location	= $this->requestData('location', array());
 		$seller_id	= $this->requestData('seller_id', 0);
-		$city_id	= $this->requestData('city_id', 0);
+		$city_id	= $this->requestData('city_id', '');
 
 		
 		if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {

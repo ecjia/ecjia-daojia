@@ -199,10 +199,10 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 	
 		if (isset($is_real_good)) {
-			$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+// 			$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 			$order['shipping_id'] = intval($order['shipping_id']);
-			$data = $shipping_method->shipping_info($order['shipping_id']);
-			if (empty($data['shipping_id'])) {
+// 			$data = $shipping_method->shipping_info($order['shipping_id']);
+			if (! ecjia_shipping::isEnabled($order['shipping_id'])) {
 				return new ecjia_error('shipping_error', '请选择一个配送方式！');
 			}
 		}
@@ -225,8 +225,8 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		/* 配送方式 */
 		if ($order['shipping_id'] > 0) {
-			$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-			$shipping = $shipping_method->shipping_info($order['shipping_id']);
+// 			$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+			$shipping = ecjia_shipping::pluginData($order['shipping_id']);
 			$order['shipping_name'] = addslashes($shipping['shipping_name']);
 		}
 		$order['shipping_fee'] = $total['shipping_fee'];
@@ -291,7 +291,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		/* 插入订单表 */
 		$order['order_sn'] = cart::get_order_sn(); // 获取新订单号
 		//$db_order_info	= RC_Model::model('orders/order_info_model');
-		$db_order_info = RC_DB::table('order_info');
+
 		/*过滤没有的字段*/
 		unset($order['need_inv']);
 		unset($order['need_insure']);
@@ -305,8 +305,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		unset($order['inv_tax_no']);
 		unset($order['inv_title_type']);
 		
-		
-		$new_order_id	= $db_order_info->insertGetId($order);
+		$new_order_id = RC_DB::table('order_info')->insertGetId($order);
 		$order['order_id'] = $new_order_id;
 		
 		if (!empty($order['inv_payee'])) {
@@ -384,7 +383,7 @@ class cart_flow_done_api extends Component_Event_Api {
 				/* 库存不足删除已生成的订单（并发处理） will.chen*/
 				//$db_order_info->where(array('order_id' => $order['order_id']))->delete();
 				//$db_order_goods->where(array('order_id' => $order['order_id']))->delete();
-				$db_order_info->where('order_id', $order['order_id'])->delete();
+				RC_DB::table('order_info')->where('order_id', $order['order_id'])->delete();
 				$db_order_goods->where('order_id', $order['order_id'])->delete();
 				return $result;
 			}
@@ -554,6 +553,7 @@ class cart_flow_done_api extends Component_Event_Api {
 				'order_sn'               => $order['order_sn']
 			)
 		);
+		
 		RC_DB::table('order_status_log')->insert(array(
 			'order_status'	=> RC_Lang::get('cart::shopping_flow.label_place_order'),
 			'order_id'		=> $order['order_id'],

@@ -368,15 +368,15 @@ class cart {
 			if ($res) {
 				if (empty($consignee['province'])) {
 					/* 没有设置省份，检查当前国家下面有没有设置省份 */
-					$pro = RC_Model::model('shipping/region_model')->get_regions(1, $consignee['country']);
+					$pro = ecjia_region::getSubarea($consignee['country']);
 					$res = empty($pro);
 				} elseif (empty($consignee['city'])) {
 					/* 没有设置城市，检查当前省下面有没有城市 */
-					$city = RC_Model::model('shipping/region_model')->get_regions(2, $consignee['province']);
+					$city = ecjia_region::getSubarea($consignee['province']);
 					$res = empty($city);
 				} elseif (empty($consignee['district'])) {
-// 					$dist = RC_Model::model('shipping/region_model')->get_regions(3, $consignee['city']);
-// 					$res = empty($dist);
+					// $dist = ecjia_region::getSubarea($consignee['city']);
+					// $res = empty($dist);
 					$res = true;
 				}
 			}
@@ -456,7 +456,8 @@ class cart {
 	 * @return  integral
 	 */
 	public static function flow_available_points($cart_id = array(), $device) {
-		if ($device['code'] == '8001') {
+		$codes = array('8001', '8011');
+		if (in_array($device['code'], $codes)) {
 			$rec_type = CART_CASHDESK_GOODS ;
 		} else {
 			$rec_type = CART_GENERAL_GOODS;
@@ -668,9 +669,10 @@ class cart {
 			$region['district'] = isset($consignee['district']) ? $consignee['district'] : '';
 			$region_list = array($region['country'], $region['province'], $region['city'], $region['district']);
 
-			$shipping_method	= RC_Loader::load_app_class('shipping_method', 'shipping');
-			$shipping_info 		= $shipping_method->shipping_area_info($order['shipping_id'], $region_list, $store_id);
-
+// 			$shipping_method	= RC_Loader::load_app_class('shipping_method', 'shipping');
+// 			$shipping_info 		= $shipping_method->shipping_area_info($order['shipping_id'], $region_list, $store_id);
+			$shipping_info = ecjia_shipping::shippingArea($order['shipping_id'], $region_list, $store_id);
+			
 			if (!empty($shipping_info)) {
 				if ($order['extension_code'] == 'group_buy') {
 					$weight_price = self::cart_weight_price(CART_GROUP_BUY_GOODS);
@@ -690,11 +692,30 @@ class cart {
 				$shipping_count_where['is_shipping'] = array('neq' => 1);
 				$shipping_count       = $db->where($shipping_count_where)->count();
 
-				$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 :  $shipping_method->shipping_fee($shipping_info['shipping_code'], $shipping_info['configure'], $weight_price['weight'], $total['goods_price'], $weight_price['number']);
-
+				if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+				
+					/* ===== 计算收件人距离 START ===== */
+					// 收件人地址，带坐标 $consignee
+					// 获取到店家的地址，带坐标
+					$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->where('shop_close', '0')->first();
+					// 计算店家距离收件人距离 $distance
+					if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
+						//腾讯地图api距离计算
+						$key = ecjia::config('map_qq_key');
+						$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$key;
+						$distance_json = file_get_contents($url);
+						$distance_info = json_decode($distance_json, true);
+						$distance = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+					}
+					/* ===== 计算收件人距离 END ===== */
+					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $distance, $total['goods_price'], $weight_price['number']);
+				} else {
+					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $weight_price['weight'], $total['amount'], $weight_price['number']);
+				}
 
 				if (!empty($order['need_insure']) && $shipping_info['insure'] > 0) {
-					$total['shipping_insure'] = $shipping_method->shipping_insure_fee($shipping_info['shipping_code'], $total['goods_price'], $shipping_info['insure']);
+// 					$total['shipping_insure'] = $shipping_method->shipping_insure_fee($shipping_info['shipping_code'], $total['goods_price'], $shipping_info['insure']);
+					$total['shipping_insure'] = ecjia_shipping::insureFee($shipping_info['shipping_code'], $total['goods_price'], $shipping_info['insure']);
 				} else {
 					$total['shipping_insure'] = 0;
 				}
@@ -1693,7 +1714,7 @@ class cart {
 		if (!empty($product_id)) {
 			/* by will.chen start*/
 			$product_number = $db_products->where(array('goods_id' => $goods_id, 'product_id' => $product_id))->get_field('product_number');
-			if ($product_number < $number) {
+			if ($product_number < abs($number)) {
 				return new ecjia_error('low_stocks', __('库存不足'));
 			}
 			/* end*/

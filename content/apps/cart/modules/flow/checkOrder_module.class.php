@@ -219,8 +219,10 @@ class checkOrder_module extends api_front implements api_interface {
 		    /* 取得配送列表 */
 		    $region            = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district']);
 		    
-		    $shipping_method   = RC_Loader::load_app_class('shipping_method', 'shipping');
-		    $shipping_list     = $shipping_method->available_shipping_list_front($region, $order['store_id']);
+// 		    $shipping_method   = RC_Loader::load_app_class('shipping_method', 'shipping');
+// 		    $shipping_list     = $shipping_method->available_shipping_list_front($region, $order['store_id']);
+		    $shipping_list     = ecjia_shipping::availableUserShippings($region, $order['store_id']);
+		    
 		    $cart_weight_price = cart::cart_weight_price($flow_type, $cart_id);
 		    $insure_disabled   = true;
 		    $cod_disabled      = true;
@@ -240,6 +242,22 @@ class checkOrder_module extends api_front implements api_interface {
 		    $shipping_count_where['is_shipping'] = array('neq' => 1);
 		    $shipping_count       = $db_cart->where($shipping_count_where)->count();
 		    
+		    
+		    /* ===== 计算收件人距离 ===== */
+		    // 收件人地址，带坐标 $consignee
+		    // 获取到店家的地址，带坐标
+		    $store_info = RC_DB::table('store_franchisee')->where('store_id', $get_cart_goods['goods_list'][0]['store_id'])->where('shop_close', '0')->first();
+		    // 计算店家距离收件人距离 $distance
+		    if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
+		    	//腾讯地图api距离计算
+		    	$key = ecjia::config('map_qq_key');
+		    	$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$key;
+		    	$distance_json = file_get_contents($url);
+		    	$distance_info = json_decode($distance_json, true);
+		    	$distance = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+		    }
+		    /* ===== 计算收件人距离 ===== */
+		    
 		    $ck = array();
 		    foreach ($shipping_list AS $key => $val) {
 		        if (isset($ck[$val['shipping_id']])) {
@@ -248,11 +266,15 @@ class checkOrder_module extends api_front implements api_interface {
 		        }
 		        $ck[$val['shipping_id']] = $val['shipping_id'];
 		    
-		        $shipping_cfg = $shipping_method->unserialize_config($val['configure']);
+// 		        $shipping_cfg = $shipping_method->unserialize_config($val['configure']);
+		        $shipping_cfg = ecjia_shipping::unserializeConfig($val['configure']);
 		    
-		        $shipping_fee = ($shipping_count == 0 AND $cart_weight_price['free_shipping'] == 1) ? 0 : $shipping_method->shipping_fee($val['shipping_code'], unserialize($val['configure']),
-		            $cart_weight_price['weight'], $cart_weight_price['amount'], $cart_weight_price['number']);
-		    
+		        // O2O的配送费用计算传参调整
+		        if ($val['shipping_code'] == 'ship_o2o_express') {
+		        	$shipping_fee = ($shipping_count == 0 AND $cart_weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($val['shipping_area_id'], $distance, $cart_weight_price['amount'], $cart_weight_price['number']);
+		        } else {
+		        	$shipping_fee = ($shipping_count == 0 AND $cart_weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($val['shipping_area_id'], $cart_weight_price['weight'], $cart_weight_price['amount'], $cart_weight_price['number']);
+		        }
 		        $shipping_list[$key]['shipping_fee']        = $shipping_fee;
 		        $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee, false);
 		        $shipping_list[$key]['free_money']          = price_format($shipping_cfg['free_money'], false);
@@ -305,7 +327,9 @@ class checkOrder_module extends api_front implements api_interface {
 		        $cod        = true;
 		        $cod_fee    = 0;
 		    } else {
-		        $shipping = $shipping_method->shipping_info($order['shipping_id']);
+// 		        $shipping = $shipping_method->shipping_info($order['shipping_id']);
+		        $shipping = ecjia_shipping::pluginData($order['shipping_id']);
+		        
 		        $cod      = $shipping['support_cod'];
 		        if ($cod){
 		            /* 如果是团购，且保证金大于0，不能使用货到付款 */
@@ -327,7 +351,9 @@ class checkOrder_module extends api_front implements api_interface {
 		                }
 		            }
 		            if ($cod) {
-		                $shipping_area_info = $shipping_method->shipping_area_info($order['shipping_id'], $region, $order['store_id']);
+// 		                $shipping_area_info = $shipping_method->shipping_area_info($order['shipping_id'], $region, $order['store_id']);
+		                $shipping_area_info = ecjia_shipping::shippingArea($order['shipping_id'], $region, $order['store_id']);
+		                
 		                $cod_fee            = $shipping_area_info['pay_fee'];
 		            }
 		        }
@@ -473,22 +499,27 @@ class checkOrder_module extends api_front implements api_interface {
 			unset($out['consignee']['address_id']);
 			unset($out['consignee']['user_id']);
 			unset($out['consignee']['address_id']);
-			$ids = array($out['consignee']['country'], $out['consignee']['province'], $out['consignee']['city'], $out['consignee']['district']);
+			$ids = array($out['consignee']['province'], $out['consignee']['city'], $out['consignee']['district'], $out['consignee']['street']);
 			$ids = array_filter($ids);
-
-			$db_region = RC_Model::model('shipping/region_model');
-			$data      = $db_region->in(array('region_id' => implode(',', $ids)))->select();
-
-			$a_out = array();
-			foreach ($data as $key => $val) {
-				$a_out[$val['region_id']] = $val['region_name'];
+			
+			$data = array();
+			if (!empty($ids)) {
+				$data = ecjia_region::getRegions($ids);
 			}
-
-			$out['consignee']['country_name']	= isset($a_out[$out['consignee']['country']]) ? $a_out[$out['consignee']['country']] : '';
-			$out['consignee']['province_name']	= isset($a_out[$out['consignee']['province']]) ? $a_out[$out['consignee']['province']] : '';
-			$out['consignee']['city_name']		= isset($a_out[$out['consignee']['city']]) ? $a_out[$out['consignee']['city']] : '';
-			$out['consignee']['district_name']	= isset($a_out[$out['consignee']['district']]) ? $a_out[$out['consignee']['district']] : '';
-
+			
+			$a_out = array();
+			if (!empty($data)) {
+				foreach ($data as $key => $val) {
+					$a_out[$val['region_id']] = $val['region_name'];
+				}
+			}
+			$country = ecjia_region::getCountryName($out['consignee']['country']);
+			
+			$out['consignee']['country_name']	= $country;
+			$out['consignee']['province_name']	= isset($a_out[$out['consignee']['province']]) 	? $a_out[$out['consignee']['province']] : '';
+			$out['consignee']['city_name']		= isset($a_out[$out['consignee']['city']]) 		? $a_out[$out['consignee']['city']] 	: '';
+			$out['consignee']['district_name']	= isset($a_out[$out['consignee']['district']]) 	? $a_out[$out['consignee']['district']] : '';
+			$out['consignee']['street_name']	= isset($a_out[$out['consignee']['street']]) 	? $a_out[$out['consignee']['street']] : '';
 		}
 		if (!empty($out['inv_content_list'])) {
 			$temp = array();

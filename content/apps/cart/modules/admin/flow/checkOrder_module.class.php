@@ -92,7 +92,8 @@ class checkOrder_module extends api_admin implements api_interface {
 		/* 取得购物类型 */
 		$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
 	    /*收银台商品购物车类型*/
-	    if (!empty($device) && $device['code'] == '8001') {
+		$codes = array('8001', '8011');
+	    if (!empty($device) && in_array($device['code'], $codes)) {
 	    	$flow_type = CART_CASHDESK_GOODS;
 	    }
 		
