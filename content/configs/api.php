@@ -106,8 +106,8 @@ return array(
     'shop/payment'          => 'payment::shop/payment',
     'shop/help'             => 'article::shop/help',
     'shop/help/detail'      => 'article::shop/help/detail',
-    'shop/info'             	=> 'article::shop/info',
-    'shop/info/detail'			=> 'article::shop/info/detail',
+    'shop/info'             => 'article::shop/info',
+    'shop/info/detail'		=> 'article::shop/info/detail',
     'shop/token'           	=> 'setting::shop/token',
 
     //user
@@ -141,19 +141,19 @@ return array(
     'receive/coupon'        => 'bonus::bonus/receive_coupon',
 
 	//商家
-	'seller/category'              => 'store::seller/category',
-	'seller/list'                  => 'store::seller/list',
-	'seller/search'                => 'store::seller/search',
-	'seller/collect/list'          => 'store::seller/collect/list',
-	'seller/collect/create'        => 'store::seller/collect/create',
-	'seller/collect/delete'	       => 'store::seller/collect/delete',
-	'merchant/config'              => 'store::merchant/config',
-	'merchant/home/data'           => 'store::merchant/home/data',//1.6内容修改，1.5内容转移到merchant/config
-    'merchant/home/category'       => 'store::merchant/home/category',//1.6新增
-    'merchant/nearby'              => 'store::merchant/nearby',//1.6新增
-	'merchant/goods/category'      => 'store::merchant/goods/category',
-	'merchant/goods/list'          => 'store::merchant/goods/list',
-	'merchant/goods/suggestlist'   => 'store::merchant/goods/suggestlist',
+	'seller/category'              => 'merchant::seller/category',
+	'seller/list'                  => 'merchant::seller/list',
+	'seller/search'                => 'merchant::seller/search',
+	'seller/collect/list'          => 'merchant::seller/collect/list',
+	'seller/collect/create'        => 'merchant::seller/collect/create',
+	'seller/collect/delete'	       => 'merchant::seller/collect/delete',
+	'merchant/config'              => 'merchant::merchant/config',
+	'merchant/home/data'           => 'merchant::merchant/home/data',//1.6内容修改，1.5内容转移到merchant/config
+    'merchant/home/category'       => 'merchant::merchant/home/category',//1.6新增
+    'merchant/nearby'              => 'merchant::merchant/nearby',//1.6新增
+	'merchant/goods/category'      => 'merchant::merchant/goods/category',
+	'merchant/goods/list'          => 'merchant::merchant/goods/list',
+	'merchant/goods/suggestlist'   => 'merchant::merchant/goods/suggestlist',
 
     
 
@@ -309,9 +309,10 @@ return array(
     
 	'admin/shop/config'			=> 'setting::admin/shop/config',
     'admin/shop/attach/add'	    => 'mobile::admin/shop/attach/add',//1.5新增
+    'admin/shop/token'          => 'setting::admin/shop/token', //1.10新增
 	
-	'admin/merchant/info'		=> 'store::admin/merchant/info',
-	'admin/merchant/update'		=> 'store::admin/merchant/update',
+	'admin/merchant/info'		=> 'merchant::admin/merchant/info',
+	'admin/merchant/update'		=> 'merchant::admin/merchant/update',
 	
 
 
@@ -332,14 +333,14 @@ return array(
 	'admin/stats/order_sales'	=> 'orders::admin/stats/order_sales',
 
 	/* 入驻申请*/
-	'admin/merchant/signup'			=> 'store::admin/merchant/signup',
-	'admin/merchant/process'		=> 'store::admin/merchant/process',
-	'admin/merchant/account/info' 	=> 'store::admin/account/info',
-	'admin/merchant/account/validate'=>'store::admin/account/validate',
-	'admin/merchant/validate'		=> 'store::admin/merchant/validate',
-    'admin/merchant/cancel'     => 'store::admin/merchant/cancel', //入驻撤销
-    'admin/merchant/resignup'   => 'store::admin/merchant/resignup', //入驻修改信息提交
-    'admin/merchant/preaudit'	=> 'store::admin/merchant/preaudit', //入驻修改获取信息
+	'admin/merchant/signup'			=> 'merchant::admin/merchant/signup',
+	'admin/merchant/process'		=> 'merchant::admin/merchant/process',
+	'admin/merchant/account/info' 	=> 'merchant::admin/account/info',
+	'admin/merchant/account/validate'=>'merchant::admin/account/validate',
+	'admin/merchant/validate'		=> 'merchant::admin/merchant/validate',
+    'admin/merchant/cancel'     => 'merchant::admin/merchant/cancel', //入驻撤销
+    'admin/merchant/resignup'   => 'merchant::admin/merchant/resignup', //入驻修改信息提交
+    'admin/merchant/preaudit'	=> 'merchant::admin/merchant/preaudit', //入驻修改获取信息
     
     /*商家通知*/
     'admin/merchant/notification'	=> 'notification::admin/merchant/notification',
@@ -395,7 +396,7 @@ return array(
 	'weapp/wxbind'					=> 'weapp::weapp/wxbind',	//小程序绑定用户
 	'weapp/wxpay'					=> 'weapp::weapp/wxpay',	//小程序微信支付
 	
-	'admin/merchant/refreshQrcode'	=> 'store::admin/merchant/refreshQrcode',	//1.7 掌柜店铺刷新二维码
+	'admin/merchant/refreshQrcode'	=> 'merchant::admin/merchant/refreshQrcode',	//1.7 掌柜店铺刷新二维码
 	'market/shake'             => 'market::activity/shake',        //1.6增加 摇一摇
     'admin/orders/today'        => 'orders::admin/orders/today',    //1.6增加 商家今日订单
 
