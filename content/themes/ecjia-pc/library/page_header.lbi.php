@@ -13,7 +13,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 			<div class="select-location">
 				<i class="icon-position"></i>
 				<span class="current-position">{$info.city_name}</span>
-				<span class="choose-city">切换城市</span>
+				<span class="choose-city">切换位置</span>
 			</div>
 		</div>
 		<div class="ecjia-fl search" data-url="{RC_Uri::url('main/index/search')}">

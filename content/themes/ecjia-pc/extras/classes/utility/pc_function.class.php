@@ -64,7 +64,7 @@ class pc_function {
         $regions = array();
         if (ecjia_config::has('mobile_recommend_city')) {
             $mobile_recommend_city = explode(',', ecjia::config('mobile_recommend_city'));
-            $region_data = RC_DB::table('region')->whereIn('region_id', $mobile_recommend_city)->get();
+            $region_data = ecjia_region::getRegions($mobile_recommend_city);
             if (!empty($region_data)) {
                 foreach ($region_data as $val) {
                     $regions[] = array('id' => $val['region_id'], 'name' => $val['region_name']);
@@ -82,11 +82,12 @@ class pc_function {
         $shop_wechat_qrcode = !empty($shop_wechat_qrcode) ? RC_Upload::upload_url() . '/' . $shop_wechat_qrcode : '';
         
         if (empty($_COOKIE['city_id'])) {
-            $ipInfos = self::GetIpLookup();
-            if (!isset($ipInfos['city']) || empty($ipInfos['city'])) {
-                $ipInfos['city'] = !empty($regions) ? $regions[0]['name'] : '上海';
-            }
-            $city_detail = RC_DB::table('region')->where('region_name', 'like', '%' . mysql_like_quote($ipInfos['city']) . '%')->where('region_type', 2)->first();
+            $adcode = self::GetIpLookup();
+            $region_id = $adcode ? $adcode : '';
+            $city_detail = RC_DB::table('regions')
+                ->where('region_id', $region_id)
+                ->first();
+
             setcookie("city_id", $city_detail['region_id'], RC_Time::gmtime() + 3600 * 24 * 7);
             setcookie("city_name", $city_detail['region_name'], RC_Time::gmtime() + 3600 * 24 * 7);
             $_COOKIE['city_id'] = $city_detail['region_id'];
@@ -116,7 +117,7 @@ class pc_function {
         	'company_name' 			=> ecjia::config('company_name'), 
         	'powered' 				=> 'Powered&nbsp;by&nbsp;<a href="https:\\/\\/ecjia.com" target="_blank">ECJia</a>', 
         	'service_phone' 		=> ecjia::config('service_phone'), 
-        	'city_id' 				=> !empty($_COOKIE['city_id']) ? intval($_COOKIE['city_id']) : 0, 
+        	'city_id' 				=> !empty($_COOKIE['city_id']) ? trim($_COOKIE['city_id']) : '', 
         	'city_name' 			=> !empty($_COOKIE['city_name']) ? trim($_COOKIE['city_name']) : '',
         	'http_host'				=> isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
         	'kf_qq'					=> $kf_qq,
@@ -189,23 +190,18 @@ class pc_function {
         if (empty($ip)) {
             $ip = self::GetIp();
         }
-        $res = @file_get_contents('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' . $ip);
-        if (empty($res)) {
-            return false;
+        $key = ecjia::config('map_qq_key');
+        $res = @file_get_contents('https://apis.map.qq.com/ws/location/v1/ip?ip='.$ip.'&key='.$key);
+        
+        $json = json_decode($res, true);
+        if ($json['status'] != 0) {
+        	return false;
         }
-        $jsonMatches = array();
-        preg_match('#\\{.+?\\}#', $res, $jsonMatches);
-        if (!isset($jsonMatches[0])) {
-            return false;
-        }
-        $json = json_decode($jsonMatches[0], true);
-        if (isset($json['ret']) && $json['ret'] == 1) {
-            $json['ip'] = $ip;
-            unset($json['ret']);
-        } else {
-            return false;
-        }
-        return $json;
+        $shop_country = ecjia::config('shop_country');
+        $shop_country = !empty($shop_country) ? $shop_country : 'CN';
+        $adcode = $shop_country.$json['result']['ad_info']['adcode'];
+
+        return $adcode;
     }
     
     public static function get_cat_info($cat_id, $select_id) {
@@ -301,7 +297,18 @@ class pc_function {
     	$where .= " AND (is_on_sale='" . 1 . "')";
     	$where .= " AND (is_alone_sale='" . 1 . "')";
 //     	$where .= " AND (g.is_hot='" . 1 . "')";
-    	$where .= " AND (s.city = '".$_COOKIE['city_id']."')";
+
+        $length = strlen($_COOKIE['city_id']);
+        if ($length == 4) {
+            $where .= " AND (s.province = '".$_COOKIE['city_id']."')";
+        } elseif ($length == 6) {
+            $where .= " AND (s.city = '".$_COOKIE['city_id']."')";
+        } elseif ($length == 8) {
+            $where .= " AND (s.district = '".$_COOKIE['city_id']."')";
+        } elseif ($length == 11) {
+            $where .= " AND (s.street = '".$_COOKIE['city_id']."')";
+        }
+
     	$where .= " AND (s.shop_close = '". 0 ."')";
     	$where .= " AND (g.is_delete = '". 0 ."')";
     	$where .= " AND (g.review_status > '". 2 ."')";
@@ -313,13 +320,41 @@ class pc_function {
     		->where(RC_DB::raw('s.status'), 1);
     	/* 记录总数 */
     	$count['goods_count'] = $db_goods->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
-		$count['store_count'] = RC_DB::table('store_franchisee')
-			->where('city', $_COOKIE['city_id'])
-			->where('shop_close', 0)
-			->where('merchants_name', 'like', '%' . mysql_like_quote($filter['keywords']) . '%')
-			->count();
-    	
+
+        $db_store_franchisee = RC_DB::table('store_franchisee')->where('shop_close', 0)
+            ->where('merchants_name', 'like', '%' . mysql_like_quote($filter['keywords']) . '%');
+
+        if ($length == 4) {
+            $db_store_franchisee->where('province', $_COOKIE['city_id']);
+        } elseif ($length == 6) {
+            $db_store_franchisee->where('city', $_COOKIE['city_id']);
+        } elseif ($length == 8) {
+            $db_store_franchisee->where('district', $_COOKIE['city_id']);
+        } elseif ($length == 11) {
+            $db_store_franchisee->where('street', $_COOKIE['city_id']);
+        }
+		$count['store_count'] = $db_store_franchisee->count();
     	return $count;
+    }
+    
+    public static function has_store() {
+    	$db_store_franchisee = RC_DB::table('store_franchisee');
+    	$store = array();
+    	if (!empty($_COOKIE['city_id'])) {
+    		$length = strlen($_COOKIE['city_id']);
+    		if ($length == 4) {
+    			$db_store_franchisee->where('province', $_COOKIE['city_id']);
+    		} elseif ($length == 6) {
+    			$db_store_franchisee->where('city', $_COOKIE['city_id']);
+    		} elseif ($length == 8) {
+    			$db_store_franchisee->where('district', $_COOKIE['city_id']);
+    		} elseif ($length == 11) {
+    			$db_store_franchisee->where('street', $_COOKIE['city_id']);
+    		}
+    	}
+    	$store = $db_store_franchisee->where('shop_close', 0)->where('status', 1)->get();
+    	$has_store = !empty($store) ? true : false;
+    	return $has_store;
     }
 }
 //end

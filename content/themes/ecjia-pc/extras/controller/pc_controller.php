@@ -80,6 +80,8 @@ class pc_controller {
                             $categoryGoods[$key]['children'][$k] = array('id' => $v['id'], 'name' => $v['name'], 'image' => $v['img']);
                             
                             $goods_options = array('cat_id' => $v['id'], 'size' => 5);
+                            
+                            //这里city_id在goods_list_api已处理
                             if (!empty($_COOKIE['city_id'])) {
                                 $goods_options['city_id'] = $_COOKIE['city_id'];
                             } else {

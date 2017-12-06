@@ -231,12 +231,10 @@
 					expires: 7
 				});
 				
-				var location_id = $('.location-position').attr('data-id');
-				var location_name = $('.location-position').text();
-				$.cookie('location_id', location_id, {
+				$.cookie('location_id', city_id, {
 					expires: 7
 				});
-				$.cookie('location_name', location_name, {
+				$.cookie('location_address', city_name, {
 					expires: 7
 				});
 

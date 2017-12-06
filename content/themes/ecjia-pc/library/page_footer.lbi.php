@@ -52,7 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 		</div>
 		{if $info.region_list}
 		<div class="hot-city">
-			<div class="hot-city-left">热门城市</div>
+			<div class="hot-city-left">经营区域</div>
 			<div class="hot-city-right">
 				<!-- {foreach from=$info.region_list item=val} -->
 				<li class="position-li" data-id="{$val.id}">{$val.name}</li>

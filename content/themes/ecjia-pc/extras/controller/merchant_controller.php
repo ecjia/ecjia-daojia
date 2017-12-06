@@ -1,4 +1,5 @@
 <?php
+use GuzzleHttp\Psr7\_caseless_remove;
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -123,16 +124,26 @@ class merchant_controller {
 					ecjia_front::$controller->assign('page', $pages);
 					ecjia_front::$controller->assign('goods_info_url', RC_Uri::url('goods/index/show'));
 					
-					$cat_list = RC_DB::table('merchants_category as m')
+					$db_merchant_categoty = RC_DB::table('merchants_category as m')
 						->leftJoin('store_franchisee as s', RC_DB::raw('m.store_id'), '=', RC_DB::raw('s.store_id'))
-						->where(RC_DB::raw('s.city'), $_COOKIE['city_id'])
 						->where(RC_DB::raw('s.status'), 1)
 						->selectRaw('m.cat_id, m.cat_name, m.parent_id')
 						->where(RC_DB::raw('m.parent_id'), 0)
 						->where(RC_DB::raw('m.store_id'), $store_id)
 						->where(RC_DB::raw('m.is_show'), 1)
-						->orderBy(RC_DB::raw('m.sort_order'), 'asc')
-						->get();
+						->orderBy(RC_DB::raw('m.sort_order'), 'asc');
+
+					$length = strlen($_COOKIE['city_id']);
+			        if ($length == 4) {
+			        	$db_merchant_categoty->where(RC_DB::raw('s.province'), $_COOKIE['city_id']);
+			        } elseif ($length == 6) {
+			        	$db_merchant_categoty->where(RC_DB::raw('s.city'), $_COOKIE['city_id']);
+			        } elseif ($length == 8) {
+			        	$db_merchant_categoty->where(RC_DB::raw('s.district'), $_COOKIE['city_id']);
+			        } elseif ($length == 11) {
+			        	$db_merchant_categoty->where(RC_DB::raw('s.street'), $_COOKIE['city_id']);
+			        }
+					$cat_list = $db_merchant_categoty->get();
 					
 					$cat_arr = array();
 					if (!empty($cat_list)) {
@@ -335,8 +346,7 @@ class merchant_controller {
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['city_name']));
         
         if (!ecjia_front::$controller->is_cached('category_list.dwt', $cache_id)) {
-        	$store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->where('status', 1)->get();
-            $has_store = !empty($store) ? true : false;
+        	$has_store = pc_function::has_store();
             ecjia_front::$controller->assign('has_store', $has_store);
         	
             $cat_id = !empty($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
@@ -408,30 +418,37 @@ class merchant_controller {
         if (!empty($cat_id)) {
         	$db_store_franchisee->whereRaw('sf.cat_id='.$cat_id);
         }
-        $db_store = $db_store_franchisee->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'));
+        $db_store_franchisee->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'));
        
         if (!empty($keywords)) {
             $where .= "merchants_name LIKE '%" . mysql_like_quote($keywords) . "%'";
-            $db_store->whereRaw($where);
+            $db_store_franchisee->whereRaw($where);
         }
         
-        $count = $db_store
-        	->where(RC_DB::raw('sf.city'), $_COOKIE['city_id'])
+        $length = strlen($_COOKIE['city_id']);
+        if ($length == 4) {
+        	$db_store_franchisee->where(RC_DB::raw('sf.province'), $_COOKIE['city_id']);
+        } elseif ($length == 6) {
+        	$db_store_franchisee->where(RC_DB::raw('sf.city'), $_COOKIE['city_id']);
+        } elseif ($length == 8) {
+        	$db_store_franchisee->where(RC_DB::raw('sf.district'), $_COOKIE['city_id']);
+        } elseif ($length == 11) {
+        	$db_store_franchisee->where(RC_DB::raw('sf.street'), $_COOKIE['city_id']);
+        }
+        
+        $count = $db_store_franchisee
         	->where(RC_DB::raw('sf.status'), 1)
         	->where(RC_DB::raw('sf.shop_close'), 0)
         	->count();
         $page = new ecjia_page($count, 9, 5);
         
-        $data = $db_store
+        $data = $db_store_franchisee
 	        ->selectRaw('sf.store_id, sf.merchants_name, sf.manage_mode, sf.contact_mobile, sf.responsible_person, sf.confirm_time, sf.company_name, sf.sort_order, sc.cat_name, sf.status')
-	        ->where(RC_DB::raw('sf.city'), $_COOKIE['city_id'])
 	        ->orderby('store_id', 'asc')
-	        ->where(RC_DB::raw('sf.status'), 1)
-	        ->where(RC_DB::raw('sf.shop_close'), 0)
 	        ->take(9)
 	        ->skip($page->start_id-1)
 	        ->get();
-
+        
         $store_list = array();
         if (!empty($data)) {
             foreach ($data as $key => $val) {

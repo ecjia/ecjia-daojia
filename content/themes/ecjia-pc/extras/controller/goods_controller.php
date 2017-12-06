@@ -59,8 +59,7 @@ class goods_controller {
         ecjia_front::$controller->assign('info', $general_info);
         
         if (!ecjia_front::$controller->is_cached('goods_list.dwt', $cache_id)) {
-            $store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->where('status', 1)->get();
-            $has_store = !empty($store) ? true : false;
+            $has_store = pc_function::has_store();
             ecjia_front::$controller->assign('has_store', $has_store);
 
             if ($has_store) {
@@ -104,11 +103,13 @@ class goods_controller {
 	            if ($type == 'hot') {
 	                $goods_options['intro'] = 'hot';
 	            }
+	            //这里city_id在goods_list_api已处理
 	            if (!empty($_COOKIE['city_id'])) {
 	                $goods_options['city_id'] = $_COOKIE['city_id'];
 	            } else {
 	                $goods_options['city_id'] = 0;
 	            }
+
 	            $goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
 	            $pages = $goods_result['page']->show(2);
 	            
@@ -184,8 +185,7 @@ class goods_controller {
             $goods_id = !empty($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
             $goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_id', 'store_id', 'goods_name', 'market_price', 'shop_price', 'promote_price', 'goods_thumb', 'goods_desc', 'cat_id', 'keywords', 'goods_brief')->first();
             
-            $store = RC_DB::table('store_franchisee')->where('city', $_COOKIE['city_id'])->where('shop_close', 0)->where('store_id', $goods_info['store_id'])->first();
-            $has_store = !empty($store) ? true : false;
+            $has_store = pc_function::has_store();
             ecjia_front::$controller->assign('has_store', $has_store);
             
             if ($has_store) {
