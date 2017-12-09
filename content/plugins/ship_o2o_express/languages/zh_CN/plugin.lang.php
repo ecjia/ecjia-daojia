@@ -57,6 +57,7 @@ return array(
     'base_fee' 		=> '首重费用：',
     'step_fee' 		=> '续重费用：',
 	'pay_fee'       => '货到付款支付费用：',
+	'free_money'    => '免费额度：',
 );
 
 // end
