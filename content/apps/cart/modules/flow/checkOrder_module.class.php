@@ -217,7 +217,7 @@ class checkOrder_module extends api_front implements api_interface {
 		$total = cart::order_fee($order, $cart_goods, $consignee, $cart_id);
 		if (!empty($consignee)) {
 		    /* 取得配送列表 */
-		    $region            = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district']);
+		    $region            = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district'], $consignee['street']);
 		    
 // 		    $shipping_method   = RC_Loader::load_app_class('shipping_method', 'shipping');
 // 		    $shipping_list     = $shipping_method->available_shipping_list_front($region, $order['store_id']);
