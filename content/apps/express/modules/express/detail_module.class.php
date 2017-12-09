@@ -69,13 +69,19 @@ class detail_module extends api_admin implements api_interface {
     		$where = array('staff_id' => $_SESSION['staff_id'], 'express_sn' => $express_sn);
     	}
     	
-    	$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+    	$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
     	$express_order_info = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
 		
     	/* 判断配送单是否存在*/
 		if (empty($express_order_info)) {
 			return new ecjia_error('express_no_exists_error', '此配送单不存在！');
 		}
+		
+		$sf_district_name = ecjia_region::getRegionName($express_order_info['sf_district']);
+		$sf_street_name = ecjia_region::getRegionName($express_order_info['sf_street']);
+		$district_name = ecjia_region::getRegionName($express_order_info['district']);
+		$street_name = ecjia_region::getRegionName($express_order_info['street']);
+		
     	$express_order = array(
     		'express_id'	        => $express_order_info['express_id'],
     		'express_sn'	        => $express_order_info['express_sn'],
@@ -83,12 +89,12 @@ class detail_module extends api_admin implements api_interface {
     		'label_express_type'	=> $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
     		'order_sn'		        => $express_order_info['order_sn'],
     		'payment_name'	        => $express_order_info['pay_name'],
-    		'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $express_order_info['merchant_address'],
+    		'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $sf_district_name. $sf_street_name. $express_order_info['merchant_address'],
     		'express_from_location'	=> array(
         		'longitude' => $express_order_info['merchant_longitude'],
         		'latitude'	=> $express_order_info['merchant_latitude'],
     		),
-    		'express_to_address'	=> $express_order_info['address'],
+    		'express_to_address'	=> $district_name. $street_name. $express_order_info['address'],
     		'express_to_location'	=> array(
         		'longitude' => $express_order_info['longitude'],
         		'latitude'	=> $express_order_info['latitude'],

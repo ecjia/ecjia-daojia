@@ -68,12 +68,17 @@ class grab_list_module extends api_admin implements api_interface {
 		//实例化分页
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
-		$field                = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+		$field                = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
 		$express_order_result = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->order(array('express_id' => 'desc'))->select();
 		
 		$express_order_list = array();
 		if (!empty($express_order_result)) {
 			foreach ($express_order_result as $val) {
+				$sf_district_name = ecjia_region::getRegionName($val['sf_district']);
+				$sf_street_name = ecjia_region::getRegionName($val['sf_street']);
+				$district_name = ecjia_region::getRegionName($val['district']);
+				$street_name = ecjia_region::getRegionName($val['street']);
+				
 				$express_order_list[] = array(
 					'express_id'	         => $val['express_id'],
 					'express_sn'	         => $val['express_sn'],
@@ -81,12 +86,12 @@ class grab_list_module extends api_admin implements api_interface {
 					'label_express_type'	 => $val['from'] == 'assign' ? '系统派单' : '抢单',
 					'order_sn'		         => $val['order_sn'],
 					'payment_name'	         => $val['pay_name'],
-					'express_from_address'	 => '【'.$val['merchants_name'].'】'. $val['merchant_address'],
+					'express_from_address'	 => '【'.$val['merchants_name'].'】'. $sf_district_name. $sf_street_name. $val['merchant_address'],
 					'express_from_location'	 => array(
 						'longitude' => $val['merchant_longitude'],
 						'latitude'	=> $val['merchant_latitude'],
 					),
-					'express_to_address'	=> $val['address'],
+					'express_to_address'	=> $district_name. $street_name. $val['address'],
 					'express_to_location'	=> array(
 						'longitude' => $val['longitude'],
 						'latitude'	=> $val['latitude'],
