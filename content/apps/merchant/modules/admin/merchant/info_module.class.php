@@ -79,7 +79,7 @@ class info_module extends api_admin implements api_interface {
     	  		'seller_province'		=> ecjia_region::getRegionName($info['province']),
     	  		'seller_city'			=> ecjia_region::getRegionName($info['city']),
 		        'seller_district'		=> ecjia_region::getRegionName($info['district']),
-
+				'seller_street'			=> ecjia_region::getRegionName($info['street']),
     	  		'seller_address'		=> $info['address'],
 				'validated_status'		=> $info['identity_status'],
     	  		'seller_description'	=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_description')->pluck('value'),
