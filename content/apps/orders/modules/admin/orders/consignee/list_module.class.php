@@ -96,6 +96,10 @@ class list_module extends api_admin implements api_interface {
 					$address_list[$key]['street_name']		= ecjia_region::getRegionName($street);
 					$address_list[$key]['tel']				= $value['tel'];
 					$address_list[$key]['mobile']			= $value['mobile'];
+					$address_list[$key]['province_id']			= $province;
+					$address_list[$key]['city_id']				= $city;
+					$address_list[$key]['district_id']			= $district;
+					$address_list[$key]['street_id']			= $street;
 			
 					if ($value['address_id'] == $user_info['address_id']) {
 						$address_list[$key]['default_address'] = 1;

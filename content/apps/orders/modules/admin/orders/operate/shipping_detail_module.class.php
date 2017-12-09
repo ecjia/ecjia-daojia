@@ -90,7 +90,7 @@ class shipping_detail_module extends api_admin implements api_interface {
 						'on'    =>	'og.goods_id = g.goods_id ',
 				),
 		);
-		$field = 'oi.order_id, order_sn, consignee, country, province, city, district, street, address, mobile, shipping_id, shipping_name, oi.add_time, pay_time, og.rec_id, og.goods_id, og.product_id, og.goods_name, og.goods_price, og.goods_number, og.goods_attr, goods_thumb, goods_img, original_img';
+		$field = 'oi.order_id, order_sn, consignee, country, province, city, district, street, address, mobile, pay_id, shipping_id, shipping_name, oi.add_time, pay_time, og.rec_id, og.goods_id, og.product_id, og.goods_name, og.goods_price, og.goods_number, og.goods_attr, goods_thumb, goods_img, original_img';
 		$order_list = $order_dbview->join(array('order_goods', 'goods'))->field($field)->where(array('oi.order_id' => $order_id))->select();
 		if (empty($order_list)) {
 			return new ecjia_error('orders_empty', '订单信息不存在！');
@@ -105,26 +105,29 @@ class shipping_detail_module extends api_admin implements api_interface {
 			/* 首次设置订单信息*/
 			if ($key == 0) {
 				//收货人地址
-				$order['country_id']	= $order['country'];
-				$order['province_id']	= $order['province'];
-				$order['city_id']		= $order['city'];
-				$order['district_id']	= $order['district'];
-				$order['street_id']		= $order['street'];
+				$order['country_id']	= $val['country'];
+				$order['province_id']	= $val['province'];
+				$order['city_id']		= $val['city'];
+				$order['district_id']	= $val['district'];
+				$order['street_id']		= $val['street'];
 
 				$order['country']	= ecjia_region::getCountryName($val['country']);
-				$order['province']	= ecaji_region::getRegionName($val['province']);
-				$order['city']		= ecaji_region::getRegionName($val['city']);
-				$order['district']	= ecaji_region::getRegionName($val['district']);
-				$order['street']    = ecaji_region::getRegionName($val['street']);
-
+				$order['province']	= ecjia_region::getRegionName($val['province']);
+				$order['city']		= ecjia_region::getRegionName($val['city']);
+				$order['district']	= ecjia_region::getRegionName($val['district']);
+				$order['street']    = ecjia_region::getRegionName($val['street']);
+				
+				$order['pay_code'] = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->pluck('pay_code');
+				
 				$delivery_info = array(
 					'order_id'		=> $val['order_id'],
 					'order_sn'		=> $val['order_sn'],
 					'consignee'		=> $val['consignee'],
-					'country_id'	=> $val['country'],
-					'province_id'	=> $val['province'],
-					'city_id'		=> $val['city'],
-					'district_id'	=> $val['district'],
+					'country_id'	=> $order['country_id'],
+					'province_id'	=> $order['province_id'],
+					'city_id'		=> $order['city_id'],
+					'district_id'	=> $order['district_id'],
+					'street_id'		=> $order['street_id'],
 					'country'		=> $order['country'],
 					'province'		=> $order['province'],
 					'city'			=> $order['city'],
@@ -134,6 +137,7 @@ class shipping_detail_module extends api_admin implements api_interface {
 					'mobile'		=> $val['mobile'],
 					'shipping_id'	=> $val['shipping_id'],
 					'shipping_name'	=> $val['shipping_name'],
+					'pay_code'	=> $order['pay_code'],
 					'add_time'		=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
 					'pay_time'		=> empty($val['pay_time']) ? null : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
 					'deliveryed_number'	=> 0,

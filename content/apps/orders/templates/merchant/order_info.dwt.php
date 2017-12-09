@@ -555,7 +555,7 @@ ecjia.merchant.order.info();
 									{/if}
 
 									{if $operable_list.return}
-<!-- 									<button class="btn operatesubmit btn-info" type="submit" name="return">{lang key='orders::order.op_return'}</button> -->
+									<button class="btn operatesubmit btn-info" type="submit" name="return">{lang key='orders::order.op_return'}</button>
 									{/if}
 
 									{if $operable_list.to_delivery}

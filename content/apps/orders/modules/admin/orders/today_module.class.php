@@ -45,7 +45,13 @@ class today_module extends api_admin implements api_interface
 		
 		$where1['oi.add_time'] = array('egt' => $start_date, 'elt' => $end_date);
 		if (!empty($last_refresh_time) && $type == 'payed') {
-			$where1['oi.pay_time'] = array('egt' => $last_refresh_time, 'elt'=> $time);
+			//$where1['oi.pay_time'] = array('egt' => $last_refresh_time, 'elt'=> $time);
+			
+			$payment_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+		
+			$payment_id = empty($payment_id) ? 0 : $payment_id;
+
+			$where1[] = "(oi.pay_time >= ".$last_refresh_time." AND oi.pay_time <= ".$time.") OR oi.pay_id in (" . $payment_id . ")";
 		}
 		
 		if (!empty($type)) {
@@ -73,6 +79,7 @@ class today_module extends api_admin implements api_interface
 					break;
 			}
 		}
+		
 		if (!empty($where1)) {
 			$where = array_merge($where1, $where);
 		}
@@ -102,13 +109,14 @@ class today_module extends api_admin implements api_interface
 
 			/*获取记录条数*/
 			$record_count = $db_orderinfo_view->join(array('order_goods'))->where($where)->count('DISTINCT oi.order_id');
+			
 			/*已付款刷新是否有新订单*/
 			if (!empty($last_refresh_time) && ($type == 'payed')) {
 				$has_new_order = 0;
 				if (!empty($record_count)){
 					$has_new_order = 1;
 				}
-				unset($where['oi.pay_time']);
+				unset($where['0']);
 				$record_count = $db_orderinfo_view->join(null)->where($where)->count('oi.order_id');
 			}
 
@@ -147,7 +155,7 @@ class today_module extends api_admin implements api_interface
 				if (!empty($record_count)){
 					$has_new_order = 1;
 				}
-				unset($where['oi.pay_time']);
+				unset($where['0']);
 				$record_count = $db_orderinfo_view->join(null)->where($where)->count('oi.order_id');
 			}
 			//实例化分页

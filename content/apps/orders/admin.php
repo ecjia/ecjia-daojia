@@ -3199,9 +3199,6 @@ class admin extends ecjia_admin {
 			/* 退货用户余额、积分、红包 */
 			return_user_surplus_integral_bonus($order);
 		} elseif ('return' == $operation) {
-			//暂不支持退货
-			return false;
-			
 			/*判断备注是否填写*/
 			$require_note = ecjia::config('order_return_note');
 			if ($require_note == 1 && empty($_POST['action_note'])) {

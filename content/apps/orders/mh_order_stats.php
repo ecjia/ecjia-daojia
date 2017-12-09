@@ -384,10 +384,13 @@ class mh_order_stats extends ecjia_merchant {
         $end_date = RC_Time::local_strtotime($_GET['end_date']);
         /*文件名*/
         $filename = RC_Lang::get('orders::statistic.order_statement') . '_' . $_GET['start_date'] . '至' . $_GET['end_date'];
+        
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
-        header("Content-Disposition: attachment; filename={$filename}.xls");
+        header("Content-Disposition: attachment; filename=$filename.xls");
+        
         /* 订单概况 */
         $order_info = $this->get_orderinfo($start_date, $end_date);
+        
         $data = RC_Lang::get('orders::statistic.order_circs') . "\n";
         $data .= RC_Lang::get('orders::statistic.confirmed') . "\t" . RC_Lang::get('orders::statistic.succeed') . "\t" . RC_Lang::get('orders::statistic.unconfirmed') . "\t" . RC_Lang::get('orders::statistic.invalid') . "\n";
         $data .= $order_info[confirmed_num] . "\t" . $order_info[succeed_num] . "\t" . $order_info[unconfirmed_num] . "\t" . $order_info[invalid_num] . "\n";
@@ -397,12 +400,11 @@ class mh_order_stats extends ecjia_merchant {
         
         $ship_res = RC_DB::table('shipping as sp')
             ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
-            ->where($where)
+            ->whereRaw($where)
             ->selectRaw('sp.shipping_id, sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')
             ->groupBy(RC_DB::raw('i.shipping_id'))
             ->orderBy('order_num', 'desc')
             ->get();
-
 
         $data .= "\n" . RC_Lang::get('orders::statistic.shipping_method') . "\n";
         foreach ($ship_res as $val) {
