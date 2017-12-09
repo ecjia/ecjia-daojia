@@ -217,6 +217,16 @@ return array(
     'CreateQuickpayOrdersTable' => $contentDir . '/database/migrations/2017_09_27_181829_create_quickpay_orders_table.php',
     'CreateQuickpayOrderActionTable' => $contentDir . '/database/migrations/2017_09_27_181854_create_quickpay_order_action_table.php',
     'RecreateCronsTable' => $contentDir . '/database/migrations/2017_09_27_191013_recreate_crons_table.php',
+    'AlterRegionTypeForAdPositionTable' => $contentDir . '/database/migrations/2017_11_29_130102_alter_region_type_for_ad_position_table.php',
+    'AlterRegionTypeForOrderInfoTable' => $contentDir . '/database/migrations/2017_11_29_130129_alter_region_type_for_order_info_table.php',
+    'AlterRegionTypeForStoreFranchiseeTable' => $contentDir . '/database/migrations/2017_11_29_130143_alter_region_type_for_store_franchisee_table.php',
+    'AlterRegionTypeForExpressOrderTable' => $contentDir . '/database/migrations/2017_11_29_130159_alter_region_type_for_express_order_table.php',
+    'AlterRegionTypeForAreaRegionTable' => $contentDir . '/database/migrations/2017_11_29_130213_alter_region_type_for_area_region_table.php',
+    'AlterRegionTypeForBackOrderTable' => $contentDir . '/database/migrations/2017_11_29_130231_alter_region_type_for_back_order_table.php',
+    'AlterRegionTypeForDeliveryOrderTable' => $contentDir . '/database/migrations/2017_11_29_130245_alter_region_type_for_delivery_order_table.php',
+    'AlterRegionTypeForStorePreauditTable' => $contentDir . '/database/migrations/2017_11_29_130300_alter_region_type_for_store_preaudit_table.php',
+    'AlterRegionTypeForUserAddressTable' => $contentDir . '/database/migrations/2017_11_29_130316_alter_region_type_for_user_address_table.php',
+    'RenameRegionCnTable' => $contentDir . '/database/migrations/2017_11_29_135832_rename_region_cn_table.php',
      
     
     // seeder
@@ -233,7 +243,6 @@ return array(
     'InitPlatformExtendTableSeeder' => $contentDir . '/database/seeds/InitPlatformExtendTableSeeder.php',
     'InitRegFieldsTableSeeder' => $contentDir . '/database/seeds/InitRegFieldsTableSeeder.php',
     'InitRegionTableSeeder' => $contentDir . '/database/seeds/InitRegionTableSeeder.php',
-    'InitShippingTableSeeder' => $contentDir . '/database/seeds/InitShippingTableSeeder.php',
     'InitShopConfigTableSeeder' => $contentDir . '/database/seeds/InitShopConfigTableSeeder.php',
     'InitStoreCategoryTableSeeder' => $contentDir . '/database/seeds/InitStoreCategoryTableSeeder.php',
     'InitStorePercentTableSeeder' => $contentDir . '/database/seeds/InitStorePercentTableSeeder.php',
