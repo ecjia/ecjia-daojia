@@ -61,8 +61,7 @@ class admin extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Lang::load('platform');
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Platform\Helper::assign_adminlog_content();
 		
 		$this->db_platform_account = RC_Loader::load_app_model('platform_account_model');
 		$this->db_platform_config = RC_Loader::load_app_model('platform_config_model');

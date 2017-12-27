@@ -114,8 +114,7 @@ class platform_plugin_install_api extends Component_Event_Api
 	            $db->insert($data);
 	        }
 	        
-	        RC_Loader::load_app_func('global', 'platform');
-	        assign_adminlog_content();
+	        Ecjia\App\Platform\Helper::assign_adminlog_content();
 	    
 	        /* 记录日志 */
 	        ecjia_admin::admin_log($format_name, 'install', 'platform');

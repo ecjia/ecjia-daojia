@@ -44,10 +44,18 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Platform;
 
-	function assign_adminlog_content() {
-		ecjia_admin_log::instance()->add_object('platform_extend', RC_Lang::get('platform::platform.function_extension'));
+use ecjia_admin_log;
+use RC_Lang;
+
+class Helper
+{
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+        ecjia_admin_log::instance()->add_object('platform_extend', RC_Lang::get('platform::platform.function_extension'));
 		ecjia_admin_log::instance()->add_object('wechat', RC_Lang::get('platform::platform.platform_num'));
 		ecjia_admin_log::instance()->add_object('platform_logo', RC_Lang::get('platform::platform.platform_num_log'));
 		
@@ -57,6 +65,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 		ecjia_admin_log::instance()->add_action('batch_insert', RC_Lang::get('platform::platform.bulk_add'));
 		
 		ecjia_admin_log::instance()->add_object('platform', RC_Lang::get('platform::platform.platform_plug'));
-	}
-	
-//end
+    }
+    
+}
+
+// end
