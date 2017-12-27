@@ -56,17 +56,8 @@ class pay_module extends api_front implements api_interface {
     	
     	$user_id = $_SESSION['user_id'];
     	
-    	$device	= $this->device;
-    	$codes = array('8001', '8011');
-    	if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
-    		//收银台支付登录判断
-    		if ($_SESSION['staff_id'] <= 0 && empty($_SESSION['user_id'])) {
-    			return new ecjia_error(100, 'Invalid session');
-    		}
-    	} else {
-	    	if ($user_id < 1 ) {
-	    	    return new ecjia_error(100, 'Invalid session');
-	    	}
+    	if ($user_id < 1 ) {
+    	    return new ecjia_error(100, 'Invalid session');
     	}
     	
 		$order_id	= $this->requestData('order_id', 0);
@@ -123,10 +114,6 @@ class pay_module extends api_front implements api_interface {
         if (is_ecjia_error($result)) {
             return $result;
         } else {
-        	$codes = array('8001', '8011');
-        	if (in_array($device['code'], $codes)) {
-        		unset($_SESSION['user_id']);
-        	}
             $order['payment'] = $result;
         }
 
