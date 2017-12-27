@@ -501,6 +501,18 @@
 				sessionStorage.removeItem('district_name');
 				sessionStorage.removeItem('street_id');
 				sessionStorage.removeItem('street_name');
+			} else if (clear == 2) {
+				var temp_data = {
+					'province_id': $("input[name='province']").val(),
+					'province_name': $("input[name='province_list']").val(),
+					'city_id': $("input[name='city']").val(),
+					'city_name': $("input[name='city_name']").val(),
+					'district_id': $("input[name='district']").val(),
+					'district_name': $("input[name='district_name']").val(),
+					'street_id': $("input[name='street']").val(),
+					'street_name': $("input[name='street_name']").val()
+				};
+				save_temp(temp_data);
 			} else {
 				var temp_province_id = sessionStorage.getItem('province_id');
 				if (temp_province_id != null) {
@@ -550,7 +562,7 @@
 			if ($.localStorage('district') == undefined) {
 				$.localStorage('district', district);
 			}
-			var data = region_data();
+			var data = region_data('', '', '');
 			
 			var province_list 	= data[0];
 			var province_list_name 	= data[1];
@@ -581,7 +593,7 @@
 			            values: province_list,
 			            displayValues: province_list_name,
 			            onChange: function(picker, value) {
-		            		var data = region_data(value);
+		            		var data = region_data(value, '', '');
 		            		if (picker.cols[1].replaceValues) {
 		            			picker.cols[1].replaceValues(data[2], data[3]);
 		            		}
@@ -594,7 +606,7 @@
 			            values: city_list,
 			            displayValues: city_list_name,
 			            onChange: function(picker, value) {
-			            	var data = region_data('', value);
+			            	var data = region_data('', value, '');
 			            	if (picker.cols[2].replaceValues) {
 			            		picker.cols[2].replaceValues(data[4], data[5]);
 			            	}
@@ -633,7 +645,7 @@
 		        		$('input[name="district"]').val(col2Value);
 
 		        		if (district_value != col2Value) {
-		        			$('.ecjia_user_address_street_picker').html('');
+		        			$('.ecjia_user_address_street_picker').html('请选择街道');
 		        			$('input[name="street"]').val('');
 		        		}
 		        		$.post(url, {district_id:col2Value}, function(data) {
@@ -743,7 +755,7 @@
 	}
 
 	//处理地区数据
-	function region_data(province_id = '', city_id = '', district_id = '') {
+	function region_data(province_id, city_id, district_id) {
 		var province = eval($.localStorage('province'));
 		var city = eval($.localStorage('city'));
 		var district = eval($.localStorage('district'));

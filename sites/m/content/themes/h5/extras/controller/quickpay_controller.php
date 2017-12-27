@@ -113,7 +113,7 @@ class quickpay_controller {
 				'seller_id' => $store_id,
 				'city_id' 	=> $_COOKIE['city_id']
 			);
-			$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_HOME_DATA)->data($parameter_list)->run();
+			$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
 			if (empty($store_info['allow_use_quickpay'])) {
 				return ecjia_front::$controller->showmessage('该店铺未开启优惠买单活动', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('merchant/index/init', array('store_id' => $store_id))));
 			}

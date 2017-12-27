@@ -386,14 +386,16 @@ class cart_controller {
         		$payment_id = $_SESSION['cart'][$cart_key]['temp']['pay_id'];
         	}
         }
+        
         if ($payment_id) {
         	$selected_payment = $_SESSION['cart'][$cart_key]['data']['payment_list'][$payment_id];
         } else {
         	$selected_payment = array();
         	if ($rs['payment_list']) {
-        		foreach ($rs['payment_list'] as $payment) {
-        			$selected_payment = $payment;break;
-        		}
+//         		foreach ($rs['payment_list'] as $payment) {
+//         			$selected_payment = $payment;break;
+//         		}
+        		$selected_payment = head($rs['payment_list']);
         	}
         }
         
@@ -411,9 +413,11 @@ class cart_controller {
         } else {
         	$selected_shipping = array();
         	if ($rs['shipping_list']) {
-        		foreach ($rs['shipping_list'] as $tem_shipping) {
-        			$selected_shipping = $tem_shipping;break;
-        		}
+//         		foreach ($rs['shipping_list'] as $tem_shipping) {
+//         			$selected_shipping = $tem_shipping;break;
+//         		}
+        		$selected_shipping = head($rs['shipping_list']);
+        		$_SESSION['cart'][$cart_key]['temp']['shipping_id'] = $selected_shipping['shipping_id'];
         	}
         }
         if (isset($selected_shipping['shipping_date'])) {

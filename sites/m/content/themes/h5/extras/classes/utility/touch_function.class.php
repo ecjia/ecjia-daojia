@@ -79,18 +79,17 @@ class touch_function {
     	$longitude 	= !empty($latng[1]) 	? $latng[1] 					: $_COOKIE['longitude'];
     	$latitude  	= !empty($latng[0]) 	? $latng[0] 					: $_COOKIE['latitude'];
     	
-    	$params = array(
-    		'token' => ecjia_touch_user::singleton()->getToken(),
-    		'city' 	=> $city_name,
-    	);
-    	$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
-    	if (is_ecjia_error($rs)) {
-    		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
-    	} else {
-    		$city_id = $rs['region_id'];
-    	}
-    	 
     	if (!empty($addr)) {
+	    	$params = array(
+	    		'token' => ecjia_touch_user::singleton()->getToken(),
+	    		'city' 	=> $city_name,
+	    	);
+	    	$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+	    	if (is_ecjia_error($rs)) {
+	    		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+	    	} else {
+	    		$city_id = $rs['region_id'];
+	    	}
     		setcookie("location_address", $addr, time() + 1800);
     		setcookie("location_name", $name, time() + 1800);
     		setcookie("longitude", $longitude, time() + 1800);

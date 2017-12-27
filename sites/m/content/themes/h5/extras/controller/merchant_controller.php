@@ -73,7 +73,7 @@ class merchant_controller {
 // 			'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']), 
 			'city_id' => $_COOKIE['city_id']
 		);
-		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_HOME_DATA)->data($parameter_list)->run();
+		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
 		if (!is_ecjia_error($store_info)) {
 			$store_info = merchant_function::format_info_distance($store_info);
 			$store_info['comment']['comment_goods_val'] = (float)$store_info['comment']['comment_goods']/100;

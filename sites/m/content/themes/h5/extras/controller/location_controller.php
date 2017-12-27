@@ -163,13 +163,13 @@ class location_controller {
 
     	$ad_info 			= $location_content['ad_info'];
     	$city_name			= $ad_info['district'];
+    	$adcode				= $ad_info['adcode'];
     	
     	$params = array(
-    		'token' => ecjia_touch_user::singleton()->getToken(),
-    		'city' 	=> $city_name,
+    		'token' 	=> ecjia_touch_user::singleton()->getToken(),
+    		'city_id' 	=> $adcode,
     	);
     	$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
-    	
     	if (is_ecjia_error($rs)) {
     		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
     	} else {

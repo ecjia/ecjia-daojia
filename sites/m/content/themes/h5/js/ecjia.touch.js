@@ -167,20 +167,24 @@
 		
 		share_spread : function() {
 			var info = {
-    			'url' : window.location.href
+	        	'url' : window.location.href.split('#')[0]
     		};
-			var url = $('input[name="spread_url"]').val();
-        	if (url != undefined) {
+			var spread_url = $('input[name="spread_url"]').val();
+        	if (spread_url != undefined) {
         		return false;
         	}
 			var wxconfig_url = $('input[name="wxconfig_url"]').val();
         	if (wxconfig_url == undefined) {
         		return false;
         	}
-        	var desc = $('textarea[name="invite_template"]').val();
-
+        	
+    		var title = $('input[name="share_title"]').val() == undefined ? document.title : $('input[name="share_title"]').val();
+    		var image = $('input[name="share_image"]').val() == undefined ? $.cookie('wap_logo') : $('input[name="share_image"]').val();
+    		var desc = $('input[name="share_desc"]').val() == undefined ? document.title : $('input[name="share_desc"]').val();
+    		var link = window.location.href.split('#')[0];
+    		
         	$.post(wxconfig_url, info, function(response){
-        		if (response == '') {return false;}
+        		if (response == '' || response.data == undefined) {return false;}
         		var data = response.data;
         		if (data != undefined && data.appId != '') {
 	        		wx.config({
@@ -190,25 +194,16 @@
 	        			nonceStr: data.nonceStr,
 	        			signature: data.signature,
 	        			jsApiList: [
-	        				'checkJsApi',
 	        				'onMenuShareTimeline',
 	        				'onMenuShareAppMessage',
 	        				'onMenuShareQQ',
-	        				'hideOptionMenu',
 	        			]
 	        		});
 	        		wx.error(function(res){
-	        			console.log(res);
+	        			// console.log(res);
 	        		    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 	        		});
-	        		var title = document.title;
-	        		var image = $('input[name="share_image"]').val();
-	        		var link = window.history.state != null ? window.history.state.url : window.location.href;
-	        		if (image == undefined) {
-	        			image = $.cookie('wap_logo');
-	        		}
-	        		var desc = link;
-	        		wx.ready(function () {
+//	        		wx.ready(function () {
 	        			//分享到朋友圈
 	        			wx.onMenuShareTimeline({
 	        		        title: title, 					// 分享标题【必填】
@@ -251,7 +246,7 @@
 	        		           // 用户取消分享后执行的回调函数
 	        		        }
 	        		    });
-	        		});	
+//	        		});	
         		}
         	});
 		},

@@ -84,7 +84,7 @@ class user_order_controller {
     public static function order_detail() {
         
         $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-        $type = !empty($_GET['type']) ? $_GET['type'] : '';
+        $type = !empty($_GET['type']) ? $_GET['type'] : 'detail';
         if (empty($order_id)) {
             return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/order/order_list')));
         }
@@ -370,7 +370,7 @@ class user_order_controller {
     			'seller_id' => $store_id,
     			'city_id' => $_COOKIE['city_id']
     		);
-    		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_HOME_DATA)->data($parameter_list)->run();
+    		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
     		if (!is_ecjia_error($store_info)) {
     			ecjia_front::$controller->assign('store_location', json_encode($store_info['location']));
     		}

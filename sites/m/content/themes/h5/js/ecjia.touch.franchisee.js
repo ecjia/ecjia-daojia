@@ -347,7 +347,7 @@
 			if ($.localStorage('franchisee_district') == undefined) {
 				$.localStorage('franchisee_district', district);
 			}
-			var data = region_data();
+			var data = region_data('', '', '');
 			
 			var province_list 		= data[0];
 			var province_list_name 	= data[1];
@@ -381,7 +381,7 @@
 			            values: province_list,
 			            displayValues: province_list_name,
 			            onChange: function(picker, value) {
-		            		var data = region_data(value);
+		            		var data = region_data(value, '', '');
 		            		if (picker.cols[1].replaceValues) {
 		            			picker.cols[1].replaceValues(data[2], data[3]);
 		            		}
@@ -394,7 +394,7 @@
 			            values: city_list,
 			            displayValues: city_list_name,
 			            onChange: function(picker, value) {
-			            	var data = region_data('', value);
+			            	var data = region_data('', value, '');
 			            	if (picker.cols[2].replaceValues) {
 			            		picker.cols[2].replaceValues(data[4], data[5]);
 			            	}
@@ -681,7 +681,7 @@
 	};
 	
 	//处理地区数据
-	function region_data(province_id = '', city_id = '', district_id = '') {
+	function region_data(province_id, city_id, district_id) {
 		var province = eval($.localStorage('franchisee_province'));
 		var city = eval($.localStorage('franchisee_city'));
 		var district = eval($.localStorage('franchisee_district'));

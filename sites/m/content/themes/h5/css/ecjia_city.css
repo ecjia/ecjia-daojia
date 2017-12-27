@@ -10863,6 +10863,12 @@ footer {
     color: #555;
 	font-family: sans-serif;
 }
+
+.ecjia_user_address_picker .inherit, .ecjia_user_address_street_picker .inherit {
+	color: #757575;
+	margin-left: 6em;
+}
+
 .ecjia-user-address-picker .picker-item, .ecjia-user-address-street-picker .picker-item {
 	text-align: center;
 	padding: 0;
@@ -10877,7 +10883,6 @@ footer {
 .ecjia-user-address-street-picker .picker-items-col {
 	width: 100%;
 }
-
 
 .ecjia-franchisee-location-pcd, .ecjia-franchisee-location-street {
 	padding-left: 3.5em;

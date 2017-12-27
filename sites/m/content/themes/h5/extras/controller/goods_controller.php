@@ -531,7 +531,7 @@ class goods_controller {
     				user_function::insert_search($keywords, $store_id);//记录搜索
     			}
     			
-    			$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_HOME_DATA)->data(array('seller_id' => $store_id, 'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']), 'city_id' => $_COOKIE['city_id']))->run();
+    			$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data(array('seller_id' => $store_id, 'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']), 'city_id' => $_COOKIE['city_id']))->run();
     			if (!is_ecjia_error($store_info)) {
     				ecjia_front::$controller->assign('store_info', $store_info);
     			}

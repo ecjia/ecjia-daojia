@@ -27,21 +27,28 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<div class="ecjia_user_address_picker" data-url="{$get_region_url}">
 				{if $info.province_name || $info.city_name || $info.district_name}
 				{$info.province_name}-{$info.city_name}-{$info.district_name}
+				{else}
+				<span class="inherit">请选择所在地区</span>
 				{/if}
 			</div>
 			<i class="iconfont icon-jiantou-right"></i>
 			<input type="hidden" name="province" value="{if $info.province}{$info.province}{/if}"/>
 			<input type="hidden" name="city" value="{if $info.city}{$info.city}{/if}"/>
 			<input type="hidden" name="district" value="{if $info.district}{$info.district}{/if}"/>
+			
+			<input type="hidden" name="province_name" value="{if $info.province_name}{$info.province_name}{/if}" disabled/>
+			<input type="hidden" name="city_name" value="{if $info.city_name}{$info.city_name}{/if}" disabled/>
+			<input type="hidden" name="district_name" value="{if $info.district_name}{$info.district_name}{/if}" disabled/>
 		</div>
 	</div>
 	
 	<div class="form-group form-group-text margin-bottom0">
 		<div class="input">
 			<span>街道</span>
-			<div class="ecjia_user_address_street_picker" data-url="{$get_region_url}">{if $info.street_name}{$info.street_name}{/if}</div>
+			<div class="ecjia_user_address_street_picker" data-url="{$get_region_url}">{if $info.street_name}{$info.street_name}{else}<span class="inherit">请选择街道</span>{/if}</div>
 			<i class="iconfont icon-jiantou-right"></i>
 			<input type="hidden" name="street" value="{if $info.street}{$info.street}{/if}"/>
+			<input type="hidden" name="street_name" value="{if $info.street_name}{$info.street_name}{/if}" disabled/>
 		</div>
 	</div>
 	

@@ -192,6 +192,11 @@ class user_address_controller {
     	$location_backurl = urlencode(RC_Uri::url('user/address/add_address', array('clear' => 0)));
     	ecjia_front::$controller->assign('location_backurl', $location_backurl);
     	
+    	$clear = !empty($_GET['clear']) ? intval($_GET['clear']) : 0;
+    	if ($clear == 1) {
+    		ecjia_front::$controller->assign('clear', $clear);
+    	}
+    	
     	$referer_url = !empty($_GET['referer_url']) ? urlencode($_GET['referer_url']) : (!empty($_SESSION['referer_url']) ? $_SESSION['referer_url'] : '');
     	if (!empty($referer_url)) {
     		$_SESSION['referer_url'] = $referer_url;
@@ -202,6 +207,60 @@ class user_address_controller {
     	$my_location = "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=".$location_backurl."&key=".$key."&referer=".$referer;
     	ecjia_front::$controller->assign('my_location', $my_location);
     	
+    	$latng = !empty($_GET['latng']) ? $_GET['latng'] : '';
+    	$adcode = '';
+    	$regions = array();
+    	if (!empty($latng)) {
+    		$res = RC_Http::remote_get("http://apis.map.qq.com/ws/geocoder/v1/?location=".$latng."&key=".$key);
+    		$res = json_decode($res['body'], true);
+    		if ($res['status'] == 0 && isset($res['result']['ad_info'])) {
+    			$adcode = $res['result']['ad_info']['adcode'];
+    		}
+    		$params = array(
+    			'token' 	=> ecjia_touch_user::singleton()->getToken(),
+    			'city_id' 	=> $adcode,
+    		);
+    		$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+    		if (!is_ecjia_error($rs)) {
+    			$regions = $rs['regions'];
+    		}
+    	}
+    	
+    	$province_id = $city_id = $district_id = $street_id = '';
+    	$province_name = $city_name = $district_name = $street_name = '';
+    	if (!empty($regions)) {
+    		foreach ($regions as $k => $v) {
+    			if ($v['region_type'] == 1) {
+    				$province_id = $v['region_id'];
+    				$province_name = $v['region_name'];
+    			}
+    			if ($v['region_type'] == 2) {
+    				$city_id = $v['region_id'];
+    				$city_name = $v['region_name'];
+    			}
+    			if ($v['region_type'] == 3) {
+    				$district_id = $v['region_id'];
+    				$district_name = $v['region_name'];
+    			}
+    			if ($v['region_type'] == 4) {
+    				$street_id = $v['region_id'];
+    				$street_name = $v['region_name'];
+    			}
+    		}
+    		$info = array(
+    			'province' 			=> $province_id,
+    			'city' 				=> $city_id,
+    			'district' 			=> $district_id,
+    			'street' 			=> $street_id,
+    			'province_name' 	=> $province_name,
+    			'city_name' 		=> $city_name,
+    			'district_name' 	=> $district_name,
+    			'street_name' 		=> $street_name
+    		);
+    		ecjia_front::$controller->assign('clear', 2);//手动定位
+    		ecjia_front::$controller->assign('info', $info);
+    	}
+    	
     	ecjia_front::$controller->assign('form_action', RC_Uri::url('user/address/insert_address'));
     	ecjia_front::$controller->assign('temp_key', 'add');
     	ecjia_front::$controller->assign_title('添加收货地址');
@@ -210,11 +269,7 @@ class user_address_controller {
     	$type = !empty($_GET['type']) ? trim($_GET['type']) : '';
     	ecjia_front::$controller->assign('type', $type);
     	
-    	$clear = !empty($_GET['clear']) ? intval($_GET['clear']) : 0;
-    	if ($clear == 1) {
-    		ecjia_front::$controller->assign('clear', $clear);
-    	}
-    	$region_data = user_function::get_region_list();
+    	$region_data = user_function::get_region_list($province_id, $city_id, $district_id);
     	ecjia_front::$controller->assign('region_data', $region_data);
     	
     	$local = 1;
@@ -347,23 +402,76 @@ class user_address_controller {
             $_SESSION['referer_url'] = $referer_url;
             ecjia_front::$controller->assign('referer_url', $referer_url);
         }
-
-        $clear = !empty($_GET['clear']) ? intval($_GET['clear']) : 0;
-    	if ($clear == 1) {
-    		ecjia_front::$controller->assign('clear', $clear);
-    	}
-
-    	$region_data = user_function::get_region_list($info['province'], $info['city'], $info['district']);
-        ecjia_front::$controller->assign('region_data', $region_data);
         
         $key       = ecjia::config('map_qq_key');
         $referer   = ecjia::config('map_qq_referer');
         $my_location = "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=".$location_backurl."&key=".$key."&referer=".$referer;
         ecjia_front::$controller->assign('my_location', $my_location);
-
+        
         if (empty($temp_data['tem_city_name'])) {
-            $temp_data['tem_city_name'] = $info['city_name'];
+        	$temp_data['tem_city_name'] = $info['city_name'];
         }
+
+        $clear = !empty($_GET['clear']) ? intval($_GET['clear']) : 0;
+    	if ($clear == 1) {
+    		ecjia_front::$controller->assign('clear', $clear);
+    	}
+    	
+    	$latng = !empty($_GET['latng']) ? $_GET['latng'] : '';
+    	$adcode = '';
+    	$regions = array();
+    	if (!empty($latng)) {
+    		$res = RC_Http::remote_get("http://apis.map.qq.com/ws/geocoder/v1/?location=".$latng."&key=".$key);
+    		$res = json_decode($res['body'], true);
+    		if ($res['status'] == 0 && isset($res['result']['ad_info'])) {
+    			$adcode = $res['result']['ad_info']['adcode'];
+    		}
+    		$params = array(
+    			'token' 	=> ecjia_touch_user::singleton()->getToken(),
+    			'city_id' 	=> $adcode,
+    		);
+    		$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+    		if (!is_ecjia_error($rs)) {
+    			$regions = $rs['regions'];
+    		}
+    	}
+    	 
+    	$province_id = $city_id = $district_id = $street_id = '';
+    	$province_name = $city_name = $district_name = $street_name = '';
+    	if (!empty($regions)) {
+    		foreach ($regions as $k => $v) {
+    			if ($v['region_type'] == 1) {
+    				$province_id = $v['region_id'];
+    				$province_name = $v['region_name'];
+    			}
+    			if ($v['region_type'] == 2) {
+    				$city_id = $v['region_id'];
+    				$city_name = $v['region_name'];
+    			}
+    			if ($v['region_type'] == 3) {
+    				$district_id = $v['region_id'];
+    				$district_name = $v['region_name'];
+    			}
+    			if ($v['region_type'] == 4) {
+    				$street_id = $v['region_id'];
+    				$street_name = $v['region_name'];
+    			}
+    		}
+    		$info['province'] = $province_id;
+    		$info['city'] = $city_id;
+    		$info['district'] = $district_id;
+    		$info['street'] = $street_id;
+    		
+    		$info['province_name'] = $province_name;
+    		$info['city_name'] = $city_name;
+    		$info['district_name'] = $district_name;
+    		$info['street_name'] = $street_name;
+    		ecjia_front::$controller->assign('clear', 2);//手动定位
+    	}
+
+    	$region_data = user_function::get_region_list($info['province'], $info['city'], $info['district']);
+        ecjia_front::$controller->assign('region_data', $region_data);
+        
         ecjia_front::$controller->assign('info', $info);
         ecjia_front::$controller->assign('temp', $temp_data);
         ecjia_front::$controller->assign('temp_key', $temp_key);
