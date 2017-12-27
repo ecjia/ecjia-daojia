@@ -3,15 +3,23 @@
 	app.store_list = {
 		init: function () {
 			//搜索功能
-			$("form[name='searchForm'] .search_store").on('click', function (e) {
+			$("form[name='searchForm'] .search_store").off('click').on('click', function (e) {
 				e.preventDefault();
-				var url = $("form[name='searchForm']").attr('action') + '&keywords=' + $("input[name='keywords']").val()+ '&cat_id=' + $("select[name='cat_id']").val();
+				var url = $("form[name='searchForm']").attr('action'),
+					keywords = $("input[name='keywords']").val(),
+					cat_id = $("select[name='cat_id']").val();
+				if (keywords != '' && keywords != undefined) {
+					url += '&keywords=' + keywords;
+				}
+				if (cat_id != '' && cat_id != undefined) {
+					url += '&cat_id=' + cat_id;
+				}
 				ecjia.pjax(url);
 			});
 			app.store_list.toggle_view();
 		},
 		toggle_view : function (option) {
-			$('.toggle_view').on('click', function (e) {
+			$('.toggle_view').off('click').on('click', function (e) {
 				e.preventDefault();
 				var $this = $(this);
 				var href = $this.attr('href');
@@ -78,7 +86,7 @@
 		},
 
 		get_longitude: function () {
-			$('.longitude').on('click', function (e) {
+			$('.longitude').off('click').on('click', function (e) {
 				e.preventDefault();
 				var address = $("input[name='address']").val(); //详细地址
 				var url = $(".longitude").attr('data-url'); //请求链接
@@ -98,7 +106,7 @@
 		},
 
 		gethash: function () {
-			$('[data-toggle="get-gohash"]').on('click', function (e) {
+			$('[data-toggle="get-gohash"]').off('click').on('click', function (e) {
 				e.preventDefault();
 				var province = $('select[name="province"]').val(),
 					city = $('select[name="city"]').val(),

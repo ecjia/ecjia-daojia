@@ -56,7 +56,7 @@ return array(
 	'description' 	=> 'mail_desc',			
 	'author' 		=> 'ECJIA TEAM',			
 	'website' 		=> 'http://www.ecjia.com',	
-	'version' 		=> '1.3.0',					
+	'version' 		=> '1.11.0',					
 	'copyright' 	=> 'ECJIA Copyright 2014.',
 );
 
