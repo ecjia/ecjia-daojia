@@ -121,7 +121,7 @@ class create_module extends api_front implements api_interface {
 // 		    if (!empty($image_info)) {
 // 		        $data['has_image'] = 1;
 // 		    }
-		    $comment_id = RC_Model::model('comment/comment_model')->insert($data);
+		    $comment_id = RC_DB::table('comment')->insertGetId($data);
 		    
 		    //评价送积分
 		    $message = '';

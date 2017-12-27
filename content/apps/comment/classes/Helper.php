@@ -44,20 +44,27 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined ( 'IN_ECJIA' ) or exit ( 'No permission resources.' );
+namespace Ecjia\App\Comment;
 
-/*
- * 管理员操作对象和动作
-*/
-function assign_adminlog_content(){
-	ecjia_admin_log::instance()->add_action('reply', '回复');
-	ecjia_admin_log::instance()->add_action('revoke', '撤销');
-	ecjia_admin_log::instance()->add_action('to_trash', '移至回收站');
-	ecjia_admin_log::instance()->add_action('comment_status', '更新评论状态');
-	ecjia_admin_log::instance()->add_action('appeal_status', '更新申诉状态');
-	ecjia_admin_log::instance()->add_action('batch_trash', '批量移至回收站');
+use ecjia_admin_log;
 
-	ecjia_admin_log::instance()->add_object('merchant_appeal', '商家申诉');
+class Helper
+{
+    
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+        ecjia_admin_log::instance()->add_action('reply', '回复');
+		ecjia_admin_log::instance()->add_action('revoke', '撤销');
+		ecjia_admin_log::instance()->add_action('to_trash', '移至回收站');
+		ecjia_admin_log::instance()->add_action('comment_status', '更新评论状态');
+		ecjia_admin_log::instance()->add_action('appeal_status', '更新申诉状态');
+		ecjia_admin_log::instance()->add_action('batch_trash', '批量移至回收站');
+	
+		ecjia_admin_log::instance()->add_object('merchant_appeal', '商家申诉');
+    }
+    
 }
 
 // end

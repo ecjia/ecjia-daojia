@@ -50,16 +50,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA 用户评论管理程序
  */
 class admin extends ecjia_admin {
-	private $db_comment;
-	private $db_goods;
-	
 	public function __construct() {
 		parent::__construct();
 		
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
-		$this->db_comment = RC_Loader::load_app_model('comment_model');
-		$this->db_goods	  =	RC_Loader::load_app_model('comment_goods_model');
+		Ecjia\App\Comment\Helper::assign_adminlog_content();
 		
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -164,14 +158,14 @@ class admin extends ecjia_admin {
 		$this->admin_priv('comment_update');
 		
 		$comment_id = !empty($_GET['comment_id']) ? $_GET['comment_id'] : 0;
-		$comment_info = RC_DB::TABLE('comment')->where('comment_id', $comment_id)->first();
+		$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
 
 		if (empty($comment_info)) {
 			return $this->showmessage(RC_Lang::get('comment::comment_manage.no_comment_info'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR );
 		}
 
 		/*获取用户头像*/
-		$img_url = RC_DB::TABLE('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
+		$img_url = RC_DB::table('users')->where('user_id', $comment_info['user_id'])->pluck('avatar_img');
 		if ($img_url) {
 		    $avatar_img = RC_Upload::upload_url().'/'.$img_url;
 		} else {
@@ -179,7 +173,7 @@ class admin extends ecjia_admin {
 		}
 
 		/* 获得评论回复条数 */
-		$reply_info = RC_DB::TABLE('comment_reply')->where('comment_id', $comment_id)->get();
+		$reply_info = RC_DB::table('comment_reply')->where('comment_id', $comment_id)->get();
 		
 		if (!empty($reply_info)) {
 			foreach ($reply_info as $key => $val) {
@@ -201,34 +195,34 @@ class admin extends ecjia_admin {
 		$comment_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $comment_info['add_time']);
 		
 		//获取评论图片
-		$comment_pic_list = RC_DB::TABLE('term_attachment')
+		$comment_pic_list = RC_DB::table('term_attachment')
                 		->where('object_id', $comment_info['comment_id'])
                 		->where('object_group', 'comment')
                 		->where('object_app', 'ecjia.comment')
                 		->select('file_path')
                 		->get();
 
-		$shop_info['logo'] = RC_DB::TABLE('merchants_config')
+		$shop_info['logo'] = RC_DB::table('merchants_config')
                 		->where('store_id', $comment_info['store_id'])
                 		->where('code', 'shop_logo')
                 		->pluck('value');
         $shop_info['no_logo'] = RC_Uri::admin_url('statics/images/nopic.png');
         
-		$shop_info['name'] = RC_DB::TABLE('store_franchisee')
+		$shop_info['name'] = RC_DB::table('store_franchisee')
                 		->where('store_id', $comment_info['store_id'])
                 		->pluck('merchants_name');
 
-		$shop_info['amount'] = RC_DB::TABLE('comment')->where('store_id', $comment_info['store_id'])->count();
+		$shop_info['amount'] = RC_DB::table('comment')->where('store_id', $comment_info['store_id'])->count();
 
 		$shop_info['logo_img']  = RC_Upload::upload_url().'/'.$shop_info['logo'];
 		//统计该用户其他待审核评论
-		$nochecked = RC_DB::TABLE('comment')
+		$nochecked = RC_DB::table('comment')
 		              ->where('store_id', $comment_info['store_id'])
 		              ->where('comment_id', '!=', $comment_info['comment_id'])
 		              ->where('status', 0)
 		              ->count();
 
-		$other_comment = RC_DB::TABLE('comment')
+		$other_comment = RC_DB::table('comment')
             		->where('store_id', $comment_info['store_id'])
             		->where('comment_id', '!=', $comment_info['comment_id'])
             		->where('status', 0)
@@ -308,7 +302,7 @@ class admin extends ecjia_admin {
 		$email_status = $_POST['is_ok'];
 		if($email_status){
 			$reply_email = $_POST['reply_email'];
-			$comment_info = RC_DB::TABLE('comment')->where('comment_id', $comment_id)->select('user_name', 'content')->first();
+			$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->select('user_name', 'content')->first();
 			$user_name 			= $comment_info['user_name'];
 			$message_content 	= $comment_info['content'];
 			$message_note 		= $reply_content;
@@ -425,7 +419,7 @@ class admin extends ecjia_admin {
 	public function remove() {
 		$this->admin_priv('comment_delete', ecjia::MSGTYPE_JSON);
 		$id = intval($_GET['id']);
-		$res = $this->db_comment->comment_delete("comment_id=".$id." or parent_id=".$id);
+		$res = RC_DB::table('comment')->where('comment_id', $id)->orWhere('parent_id', $id)->delete();
 		
 		ecjia_admin::admin_log('', 'remove', 'users_comment');
 		return $this->showmessage(RC_Lang::get('comment::comment_manage.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
