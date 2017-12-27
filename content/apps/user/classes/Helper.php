@@ -44,31 +44,28 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\User;
 
-class comment_viewmodel extends Component_Model_View {
-	public $table_name = '';
-	public $view = array();
-	public function __construct() {
-		$this->table_name = 'comment';
-		$this->table_alias_name = 'c';
+use ecjia_admin_log;
+use RC_Lang;
+
+class Helper
+{
+    
+    
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+        ecjia_admin_log::instance()->add_object('usermoney', RC_Lang::get('user::users.usermoney'));
+		ecjia_admin_log::instance()->add_object('user_account', RC_Lang::get('user::users.user_account'));
+	
+		ecjia_admin_log::instance()->add_object('withdraw_apply', RC_Lang::get('user::user_account.withdraw_apply'));
+		ecjia_admin_log::instance()->add_object('pay_apply', RC_Lang::get('user::user_account.pay_apply'));
 		
-		//添加视图选项，方便调用
-		$this->view = array(
-				'comment' => array(
-						'type' 	=> Component_Model_View::TYPE_LEFT_JOIN, 
-						'alias'	=> 'r',
-						'field' => 'c.*, g.goods_name AS cmt_name, r.content AS reply_content, r.add_time AS reply_time',
-						'on' 	=> 'r.parent_id = c.comment_id AND r.parent_id > 0', 
-				),
-				'goods' => array(
-						'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'	=> 'g',
-						'on'	=> 'c.comment_type=0 AND c.id_value = g.goods_id',
-				)
-		);
-		parent::__construct();
-	}
+		ecjia_admin_log::instance()->add_action('check', RC_Lang::get('user::users.check'));
+    }
+    
 }
 
 // end
