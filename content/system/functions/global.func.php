@@ -288,25 +288,6 @@ function generate_md5_files($currentdir, $ext = '', $sub = 1, $skip = '')
 }
 
 /**
- * Check whether variable is a WordPress Error.
- *
- * Returns true if $thing is an object of the WP_Error class.
- *
- * @since 1.0.0
- *       
- * @param mixed $thing
- *            Check if unknown variable is a WP_Error object.
- * @return bool True, if WP_Error. False, if not WP_Error.
- */
-function is_ecjia_error($thing)
-{
-    if (is_object($thing) && is_a($thing, 'ecjia_error'))
-        return true;
-    return false;
-}
-
-
-/**
  * 去除HTML标签
  *
  * @param string $content
@@ -767,6 +748,25 @@ if ( ! function_exists('mysql_like_quote'))
     }
 }
 
-
+if ( ! function_exists('is_ecjia_error'))
+{
+    /**
+     * Check whether variable is a ecjia Error.
+     *
+     * Returns true if $thing is an object of the ecjia_error class.
+     *
+     * @since 1.0.0
+     *
+     * @param mixed $thing
+     *            Check if unknown variable is a ecjia_error object.
+     * @return bool True, if ecjia_error. False, if not ecjia_error.
+     */
+    function is_ecjia_error($thing)
+    {
+        if (is_object($thing) && (is_a($thing, 'ecjia_error') || is_a($thing, '\Royalcms\Component\Error\Error')))
+            return true;
+        return false;
+    }
+}
 
 // end

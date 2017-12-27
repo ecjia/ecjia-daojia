@@ -109,7 +109,7 @@ class VersionUtility
     
         $collection = Ecjia_VersionManager::getAvailableVersions();
     
-        $filtered = $collection->filter(function ($value, $key) use ($version1_id, $version2_id) {
+        $filtered = $collection->filter(function ($value) use ($version1_id, $version2_id) {
             return $value['id'] > $version1_id && $value['id'] <= $version2_id;
         });
     

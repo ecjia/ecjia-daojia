@@ -186,6 +186,7 @@
     				} else {
     					$('.antiscroll-inner,.antiscroll-content').height('400px');
     				}
+    				antiScroll = $('.antiScroll').antiscroll().data('antiscroll');
     				antiScroll.refresh();
     			}
 			},
