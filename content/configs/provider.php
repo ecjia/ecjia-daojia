@@ -62,12 +62,16 @@ return array(
     'Royalcms\Component\WeChat\Menu\MenuServiceProvider',
     'Royalcms\Component\WeChat\User\UserServiceProvider',
     'Royalcms\Component\WeChat\User\MiniAppUserServiceProvider',
+    'Royalcms\Component\WeChat\Js\JsServiceProvider',
     'Royalcms\Component\Cron\CronServiceProvider',
     'Royalcms\Component\Shoppingcart\ShoppingcartServiceProvider',
+    'Royalcms\Component\Printer\PrinterServiceProvider',
+    'Royalcms\Component\Image\ImageServiceProvider',
     
     'Ecjia\System\Providers\SystemServiceProvider',
     'Ecjia\App\Setting\SettingServiceProvider',
     'Ecjia\App\Shipping\ShippingServiceProvider',
+    'Ecjia\App\Printer\PrinterServiceProvider',
 );
 
 //end
