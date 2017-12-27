@@ -83,8 +83,7 @@ class update_module extends api_admin implements api_interface {
 				return $result1;
 			}
 			
-			RC_Loader::load_app_func('global', 'store');
-			assign_adminlog_content();
+			Ecjia\App\Store\Helper::assign_adminlog_content();
 			
 			$data_franchisee = array();
 			

@@ -82,7 +82,7 @@ class mh_franchisee extends ecjia_merchant {
         RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
         
         RC_Loader::load_app_func('merchant');
-        merchant_assign_adminlog_content();
+        Ecjia\App\Merchant\Helper::assign_adminlog_content();
 
         $this->store_preaudit = RC_Model::model('merchant/store_preaudit_model');
         $this->store_franchisee = RC_Model::model('merchant/store_franchisee_model');

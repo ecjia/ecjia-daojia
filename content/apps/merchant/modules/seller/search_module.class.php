@@ -85,7 +85,7 @@ class search_module extends api_front implements api_interface {
 
 		$seller_list = array();
 		if (!empty($result['seller_list'])) {
-			$db_goods_view = RC_Model::model('goods/comment_viewmodel');
+			// $db_goods_view = RC_Model::model('goods/comment_viewmodel');
 			$max_goods     = 0;
 // 			$mobilebuy_db = RC_Model::model('goods/goods_activity_model');
 			/* 手机专享*/

@@ -55,7 +55,6 @@ class admin_store_setting extends ecjia_admin {
 
 		RC_Loader::load_app_func('global', 'store');
 		RC_Loader::load_app_func('merchant_store', 'store');
-		assign_adminlog_content();
 
 		//全局JS和CSS
 		RC_Script::enqueue_script('smoke');
@@ -219,7 +218,7 @@ class admin_store_setting extends ecjia_admin {
             $time['start']  = $start_time;
             $time['end']    = $end_time;
             $shop_trade_time = serialize($time);
-            if($shop_trade_time != get_merchant_config('shop_trade_time')){
+            if($shop_trade_time != get_merchant_config($store_id, 'shop_trade_time')){
                 $merchants_config['shop_trade_time'] = $shop_trade_time;// 营业时间
             }
         }

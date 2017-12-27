@@ -164,6 +164,9 @@ class config_module extends api_front implements api_interface {
 		RC_Loader::load_app_func('merchant', 'merchant');
 		$info['trade_time']    = get_store_trade_time($seller_id);
 		//$info['trade_time'] = !empty($info['shop_trade_time']) ? unserialize($info['shop_trade_time']) : array('start' => '8:00', 'end' => '21:00');
+		//是否开启闪惠功能
+		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $seller_id)->where('code', 'quickpay_enabled')->pluck('value');
+		
 		$seller_info = array(
 				'id'					=> $info['store_id'],
 				'seller_name'			=> $info['merchants_name'],
@@ -206,6 +209,7 @@ class config_module extends api_front implements api_interface {
 // 				'best_goods'		=> $bestgoods_list,
 				'favourable_list'	=> $favourable_list,
 				'label_trade_time'	=> $info['trade_time'],
+				'allow_use_quickpay'=> empty($allow_use_quickpay) ? 0 : 1
 		);
 
 		return $seller_info;

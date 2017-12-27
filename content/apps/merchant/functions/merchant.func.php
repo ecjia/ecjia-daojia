@@ -202,12 +202,4 @@ function clear_cart_list($store_id = 0)
     RC_DB::table('cart')->where('store_id', $store_id)->delete();
 }
 
-/*
-* 管理员操作对象和动作
-*/
-function merchant_assign_adminlog_content()
-{
-    ecjia_admin_log::instance()->add_object('merchant', '我的店铺');
-}
-
 // end
