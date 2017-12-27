@@ -44,19 +44,28 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Affiliate;
 
-/**
- * 添加管理员记录日志操作对象
- */
-function assign_adminlog_content() {
-	ecjia_admin_log::instance()->add_object('affiliate', RC_Lang::get('affiliate::affiliate.affiliate'));
-	ecjia_admin_log::instance()->add_object('affiliate_percent', RC_Lang::get('affiliate::affiliate.affiliate_percent'));
-	ecjia_admin_log::instance()->add_object('config', RC_Lang::get('affiliate::affiliate.config'));
+use ecjia_admin_log;
+use RC_Lang;
 
-	ecjia_admin_log::instance()->add_action('do', RC_Lang::get('affiliate::affiliate.do'));
-	ecjia_admin_log::instance()->add_action('cancel', RC_Lang::get('affiliate::affiliate.cancel'));
-	ecjia_admin_log::instance()->add_action('rollback', RC_Lang::get('affiliate::affiliate.rollback'));
+class Helper
+{
+    
+    
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+        ecjia_admin_log::instance()->add_object('affiliate', RC_Lang::get('affiliate::affiliate.affiliate'));
+		ecjia_admin_log::instance()->add_object('affiliate_percent', RC_Lang::get('affiliate::affiliate.affiliate_percent'));
+		ecjia_admin_log::instance()->add_object('config', RC_Lang::get('affiliate::affiliate.config'));
+	
+		ecjia_admin_log::instance()->add_action('do', RC_Lang::get('affiliate::affiliate.do'));
+		ecjia_admin_log::instance()->add_action('cancel', RC_Lang::get('affiliate::affiliate.cancel'));
+		ecjia_admin_log::instance()->add_action('rollback', RC_Lang::get('affiliate::affiliate.rollback'));
+    }
+    
 }
 
-//end
+// end

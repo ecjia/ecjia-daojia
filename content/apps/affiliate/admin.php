@@ -53,9 +53,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class admin extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
-		
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+
+		Ecjia\App\Affiliate\Helper::assign_adminlog_content();
 		
 		/* 加载所有全局 js/css */
 		RC_Script::enqueue_script('bootstrap-placeholder');

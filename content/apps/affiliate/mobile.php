@@ -74,9 +74,9 @@ class mobile extends ecjia_front {
 			$url = ecjia::config('mobile_android_download');
 		}
 		
-		if (empty($url)) {
+		if ($this->is_weixin() == true) {
 			$this->assign('is_h5', 1);
-			$affiliate_note = "请输入您的电话并立即注册";
+			$affiliate_note = "请输入您的手机号并下载【".ecjia::config('shop_name')."】";
 		}
 		
 		/* 推荐处理 */
@@ -96,9 +96,11 @@ class mobile extends ecjia_front {
 			
 			if ($affiliate['intviee_reward']['intivee_reward_by'] == 'signup') {
 				$affiliate_note .= "，完成注册后，您将获得".$reward_value.$reward_type."奖励";
-			} else {
+			} 
+			else {
 				$affiliate_note .= "，完成注册首次下单后，您将获得".$reward_value.$reward_type."奖励";
 			}
+			
 		}
 		$user_id = RC_DB::table('term_meta')
 			->where('object_type', 'ecjia.affiliate')
@@ -109,7 +111,10 @@ class mobile extends ecjia_front {
 
 		if (!empty($user_id)) {
 			$user_name = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
-			$note = $user_name."为您推荐[ ".ecjia::config('shop_name')." ]移动商城";
+			$note = $user_name."为您推荐[".ecjia::config('shop_name')."]移动商城";
+			if ($this->is_weixin() == true) {
+				$note = $user_name."向您推荐一款购物应用【".ecjia::config('shop_name')."】";
+			}
 			$this->assign('note', $note);
 		}
 		
@@ -209,6 +214,14 @@ class mobile extends ecjia_front {
 		$img = QRcode::png($value, false, $errorCorrectionLevel, $matrixPointSize, 2);
 
 		echo $img;
+	}
+	
+	
+	public static function is_weixin(){
+		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+			return true;
+		}
+		return false;
 	}
 }
 
