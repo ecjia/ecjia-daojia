@@ -81,7 +81,7 @@ class merchant extends ecjia_merchant {
 		RC_Loader::load_app_func('merchant_order', 'orders');
 		RC_Loader::load_app_func('global', 'goods');
 		RC_Loader::load_app_func('global', 'orders');
-		assign_orderlog_content();
+		Ecjia\App\Orders\Helper::assign_adminlog_content();
 
 		$this->db_order_info		= RC_Model::model('orders/order_info_model');
 		$this->db_order_good		= RC_Model::model('orders/order_goods_model');
@@ -355,7 +355,7 @@ class merchant extends ecjia_merchant {
 		$order['shipping_time']		= $order['shipping_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']) : RC_Lang::get('orders::order.ss.'.SS_UNSHIPPED);
 		$order['status']			= RC_Lang::get('orders::order.os.'.$order['order_status']) . ',' . RC_Lang::get('orders::order.ps.'.$order['pay_status']) . ',' . RC_Lang::get('orders::order.ss.'.$order['shipping_status']);
 		$order['invoice_no']		= $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? RC_Lang::get('orders::order.ss.'.SS_UNSHIPPED) : $order['invoice_no'];
-		
+
 		/* 取得订单的来源 */
 		if ($order['from_ad'] == 0) {
 			$order['referer']	= empty($order['referer']) ? RC_Lang::get('orders::order.from_self_site') : $order['referer'];
@@ -471,7 +471,8 @@ class merchant extends ecjia_merchant {
 		$order['express_mobile'] = $express_info['express_mobile'];
 		
 		/* 判断是否为立即配送*/
-		$shipping_info = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->first();
+		$shipping_info = ecjia_shipping::getPluginDataById($order['shipping_id']);
+		
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 			$this->assign('is_o2o_express', true);
 			$express_order = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
@@ -514,18 +515,19 @@ class merchant extends ecjia_merchant {
 			$this->assign('print_time',   RC_Time::local_date(ecjia::config('time_format')));
 			//发货地址所在地
 			$region_array	= array();
-			$region_id	= ecjia::config('shop_province'	, ecjia::CONFIG_CHECK) ? ecjia::config('shop_country') . ',' : '';
-			$region_id	.= ecjia::config('shop_country'	, ecjia::CONFIG_CHECK) ? ecjia::config('shop_province') . ',' : '';
-			$region_id	.= ecjia::config('shop_city'	, ecjia::CONFIG_CHECK) ? ecjia::config('shop_city') . ',' : '';
+			$region_id	= ecjia::config('shop_country', ecjia::CONFIG_CHECK) ? ecjia::config('shop_country') . ',' : '';
+			$region_id	.= ecjia::config('shop_province', ecjia::CONFIG_CHECK) ? ecjia::config('shop_province') . ',' : '';
+			$region_id	.= ecjia::config('shop_city', ecjia::CONFIG_CHECK) ? ecjia::config('shop_city') . ',' : '';
 			$region_id	= substr($region_id, 0, -1);
+			$region_id_list = explode(',', $region_id);
 			
-			$region = ecjia_region::getRegions($region_id);
+			$region = ecjia_region::getRegions($region_id_list);
 			if (!empty($region)) {
 				foreach ($region as $region_data) {
 					$region_array[$region_data['region_id']] = $region_data['region_name'];
 				}
 			}
-			
+
 			$this->assign('shop_name', ecjia::config('shop_name'));
 			$this->assign('order_id', $order_id);
 			$this->assign('province', $region_array[ecjia::config('shop_province')]);
@@ -533,8 +535,8 @@ class merchant extends ecjia_merchant {
 			$this->assign('shop_address', ecjia::config('shop_address'));
 			$this->assign('service_phone', ecjia::config('service_phone'));
 			$this->assign('order', $order);
-			$shipping = $this->db_shipping->find(array('shipping_id' => $order['shipping_id']));
-
+			
+			$shipping = ecjia_shipping::getPluginDataById($order['shipping_id']);
 			//打印单模式
 			if ($shipping['print_model'] == 2) {
 				/* 可视化 快递单*/
@@ -600,8 +602,8 @@ class merchant extends ecjia_merchant {
 					$temp_config_lable[$temp_key] = implode(',', $temp_info);
 				}
 				$shipping['config_lable'] = implode('||,||',  $temp_config_lable);
-				$this->assign('shipping', 	$shipping);
-				
+				$this->assign('shipping', $shipping);
+
 				$this->display('print.dwt');
 			} elseif (!empty($shipping['shipping_print'])) {
 				/* 代码 */
@@ -633,7 +635,10 @@ class merchant extends ecjia_merchant {
 				$invalid_order = true;
 			}
 			$this->assign('invalid_order', $invalid_order);
-			
+
+			if ($order['pay_status'] == PS_PAYED) {
+				$this->assign('has_payed', 1);
+			}
 			/* 参数赋值：订单 */
 			$this->assign('order', $order);
 			$this->assign('order_id', $order_id);
@@ -641,6 +646,11 @@ class merchant extends ecjia_merchant {
 			if ($order['order_amount'] < 0 ) {
 				$anonymous = $order['user_id'] <= 0 ? 1 : 0;
 				$this->assign('refund_url', RC_Uri::url('orders/merchant/process','func=load_refund&anonymous='.$anonymous.'&order_id='.$order['order_id'].'&refund_amount='.$order['money_refund']));
+			}
+			$order_finishied = 0;
+			if (in_array($order['order_status'], array(OS_CONFIRMED, OS_SPLITED)) && in_array($order['shipping_status'], array(SS_SHIPPED, SS_RECEIVED)) && in_array($order['pay_status'], array(PS_PAYED, PS_PAYING))) {
+				$order_finishied = 1;
+				$this->assign('order_finished', $order_finishied);
 			}
 			$this->display('order_info.dwt');
 		}	
@@ -1418,8 +1428,9 @@ class merchant extends ecjia_merchant {
 				
 				$max_code = $max_code ? ceil($max_code/10000) : 1000000;
 				$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+				$mobile = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('mobile_phone');
 				$options = array(
-					'mobile' => $order['mobile'],
+					'mobile' => $mobile,
 					'event'	 => 'sms_order_pickup',
 					'value'  => array(
 						'order_sn'  	=> $order['order_sn'],
@@ -2597,6 +2608,7 @@ class merchant extends ecjia_merchant {
 				$order['shipping_status']	= SS_RECEIVED;
 			}
 			update_order($order_id, $arr);
+			
 			/* 记录日志 */
 			ecjia_merchant::admin_log('设为付款,订单号是'.$order['order_sn'], 'setup', 'order');
 			/* 记录log */

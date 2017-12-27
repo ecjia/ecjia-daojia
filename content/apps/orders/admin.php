@@ -60,7 +60,7 @@ class admin extends ecjia_admin {
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('global', 'goods');
 		RC_Loader::load_app_func('global', 'orders');
-		assign_orderlog_content();
+		Ecjia\App\Orders\Helper::assign_adminlog_content();
 		
 		$this->db_order_info	= RC_Model::model('orders/order_info_model');
 		$this->db_order_view	= RC_Model::model('orders/order_order_info_viewmodel');
@@ -530,6 +530,11 @@ class admin extends ecjia_admin {
 			if ($order['order_amount'] < 0 ) {
 				$anonymous = $order['user_id'] <= 0 ? 1 : 0;
 				$this->assign('refund_url', RC_Uri::url('orders/admin/process', 'func=load_refund&anonymous='.$anonymous.'&order_id='.$order['order_id'].'&refund_amount='.$order['money_refund']));
+			}
+			$order_finishied = 0;
+			if (in_array($order['order_status'], array(OS_CONFIRMED, OS_SPLITED)) && in_array($order['shipping_status'], array(SS_SHIPPED, SS_RECEIVED)) && in_array($order['pay_status'], array(PS_PAYED, PS_PAYING))) {
+				$order_finishied = 1;
+				$this->assign('order_finished', $order_finishied);
 			}
 			$this->display('order_info.dwt');
 		}
@@ -2640,6 +2645,7 @@ class admin extends ecjia_admin {
 				$order['shipping_status']	= SS_RECEIVED;
 			}
 			update_order($order_id, $arr);
+			
 			/* 记录日志 */
 			ecjia_admin::admin_log(RC_Lang::get('orders::order.ps.'.PS_PAYED).' '.RC_Lang::get('orders::order.order_is').$order['order_sn'], 'edit', 'order_status');
 			/* 记录log */

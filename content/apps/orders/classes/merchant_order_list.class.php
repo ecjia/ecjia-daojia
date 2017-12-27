@@ -124,7 +124,7 @@ class merchant_order_list {
 	
 	public function order_filter_where() {
 		$filter = $_GET;
-		$filter['country'] = ecjia::config('shop_country');
+// 		$filter['country'] = ecjia::config('shop_country');
 		$where = array();
 		if ($filter['keywords']) {
 			$this->db_order_info->whereRaw('(o.order_sn like "%'.mysql_like_quote($filter['keywords']).'%" or o.consignee like "%'.mysql_like_quote($filter['keywords']).'%")');

@@ -101,6 +101,7 @@ class pay_module extends api_admin implements api_interface {
 			$order_info['shipping_status']	= SS_RECEIVED;
 		}
 		update_order($order_id, $arr);
+		
 		/* 记录日志 */
 		if ($_SESSION['store_id'] > 0) {
 		    RC_Api::api('merchant', 'admin_log', array('text' => '已付款，订单号是 '.$order_info['order_sn'].'【来源掌柜】', 'action' => 'edit', 'object' => 'order_status'));

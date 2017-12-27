@@ -69,7 +69,7 @@ class mh_delivery extends ecjia_merchant {
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('merchant_order', 'orders');
 		RC_Loader::load_app_func('global', 'goods');
-		RC_Loader::load_app_func('global');
+		RC_Loader::load_app_func('global', 'orders');
 		$this->db_delivery_order	= RC_Model::model('orders/delivery_order_model');
 		$this->db_order_region		= RC_Model::model('order_region_viewmodel');
 		$this->db_delivery			= RC_Model::model('delivery_goods_model');

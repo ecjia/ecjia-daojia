@@ -115,7 +115,7 @@ class mh_back extends ecjia_merchant {
         
 		/* 根据发货单id查询发货单信息 */
 		if (!empty($back_id)) {
-			RC_Loader::load_app_func('global');
+			RC_Loader::load_app_func('global', 'orders');
 			$back_order = back_order_info($back_id, $store_id);
 		} else {
 			return $this->showmessage(RC_Lang::get('orders::order.return_form').'！' , ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR) ;

@@ -82,7 +82,7 @@ class list_module extends api_admin implements api_interface {
 					$address_list[$key]['id']			= $value['address_id'];
 					$address_list[$key]['consignee']	= $value['consignee'];
 					$address_list[$key]['address']		= $value['address'];
-						
+					$address_list[$key]['address_info']	= $value['address_info'];
 					$country	= $value['country'];
 					$province	= $value['province'];
 					$city		= $value['city'];

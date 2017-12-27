@@ -144,7 +144,7 @@
 									<td><div align="right"><strong>{lang key='orders::order.label_payment'}</strong></div></td>
 									<td>
 										{$order.pay_name}
-										{if $order.shipping_status neq 1 && !$invalid_order}
+										{if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 										<a class="data-pjax" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
 										{/if}
 										({lang key='orders::order.action_note'}<span>{if $order.pay_note}{$order.pay_note}{else}暂无{/if}</span>)
@@ -157,15 +157,14 @@
 									<td><div align="right"><strong>{lang key='orders::order.label_shipping'}</strong></div></td>
 									<td>
 										{if $exist_real_goods}
-										{if $order.shipping_id gt 0}
-										<span>{$order.shipping_name}</span>
-										{else}
-										<span>{lang key='system::system.require_field'}</span>
-										{/if}
-										{if !$invalid_order}
-										<a class="data-pjax" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
-										{/if}
-										{if $order.insure_fee gt 0}{lang key='orders::order.label_insure_fee'}{$order.formated_insure_fee}{/if}
+											<span>{if $order.shipping_name}{$order.shipping_name}{/if}</span>
+											
+											{if $order.shipping_id gt 0}
+												{if $order_finished neq 1 && !$invalid_order}
+												<a class="data-pjax" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
+												{/if}
+												{if $order.insure_fee gt 0}{lang key='orders::order.label_insure_fee'}{$order.formated_insure_fee}{/if}
+											{/if}
 										{/if}
 									</td>
 									<td><div align="right"><strong>{lang key='orders::order.label_shipping_time'}</strong></div></td>
@@ -174,8 +173,14 @@
 								
 								<tr>
 									<td><div align="right"><strong>{lang key='orders::order.label_invoice_no'}</strong></div></td>
-									<td>{if $order.shipping_id gt 0 and $order.shipping_status gt 0}<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>&nbsp;
-									<a href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=shipping"}' class="special data-pjax">{lang key='system::system.edit'}</a>{/if}</td>
+									<td>
+										{if $order.shipping_id gt 0 and $order.shipping_status gt 0}
+											<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>&nbsp;
+											{if $order_finished neq 1}
+												<a href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=shipping"}' class="special data-pjax">{lang key='system::system.edit'}</a>
+											{/if}
+										{/if}
+									</td>
 									<td><div align="right"><strong>{lang key='orders::order.from_order'}</strong></div></td>
 									<td>{if $order.referer eq 'ecjia-cashdesk'}收银台{else}{$order.referer}{/if}</td>
 								</tr>
@@ -203,7 +208,7 @@
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo-a">
 							<strong>{lang key='orders::order.invoice_information'}</strong>
 						</div>
-						{if $order.shipping_status neq 1 && !$invalid_order}
+						{if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 							<a class="data-pjax accordion-url" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=other"}'>{lang key='system::system.edit'}</a>
 						{/if}
 					</div>
@@ -231,7 +236,7 @@
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo">
 							<strong>{lang key='orders::order.other_info'}</strong>
 						</div>
-						{if $order.shipping_status neq 1 && !$invalid_order}
+						{if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 							<a class="data-pjax accordion-url" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=other"}'>{lang key='system::system.edit'}</a>
 						{/if}
 					</div>
@@ -306,7 +311,7 @@
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseThree">
 							<strong>{lang key='orders::order.consignee_info'}</strong>
 						</div>
-						{if $order.shipping_status neq 1 && !$invalid_order}
+						{if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 							<a class="data-pjax accordion-url" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=consignee"}'>{lang key='system::system.edit'}</a>
 						{/if}
 					</div>
@@ -346,7 +351,7 @@
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFour">
 							<strong>{lang key='orders::order.goods_info'}</strong>
 						</div>
-						{if $order.shipping_status neq 1 && !$invalid_order}
+						{if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 <!-- 							<a class="data-pjax accordion-url" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=goods"}'>{lang key='system::system.edit'}</a> -->
 						{/if}
 					</div>
@@ -412,7 +417,7 @@
 						<div class="accordion-toggle acc-in" data-toggle="collapse"  data-target="#collapseFive">
 							<strong>{lang key='orders::order.fee_info'}</strong>
 						</div>
-						{if $order.shipping_status neq 1 && !$invalid_order}
+						{if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 							<a class="data-pjax accordion-url" href='{url path="orders/admin/edit" args="order_id={$order.order_id}&step=money"}'>{lang key='system::system.edit'}</a>
 						{/if}
 					</div>
@@ -520,7 +525,7 @@
 										{if $operable_list.confirm}
 										<button class="btn operatesubmit" type="submit" name="confirm">{lang key='orders::order.op_confirm'}</button>
 										{/if} {if $operable_list.pay}
-										<button class="btn operatesubmit" type="submit" name="pay">{lang key='orders::order.op_pay'}</button>
+										<button class="btn operatesubmit" type="submit" name="pay">{lang key='orders::order.op_confirm_pay'}</button>
 										{/if} {if $operable_list.unpay}
 										<button class="btn operatesubmit" type="submit" name="unpay">{lang key='orders::order.op_unpay'}</button>
 										{/if} {if $operable_list.prepare}

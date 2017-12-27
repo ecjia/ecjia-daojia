@@ -52,7 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class admin_guest_stats extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
-		RC_Loader::load_app_func('global','orders');
+		RC_Loader::load_app_func('global', 'orders');
 		
 		/* 加载所有全局 js/css */
 		RC_Script::enqueue_script('bootstrap-placeholder');

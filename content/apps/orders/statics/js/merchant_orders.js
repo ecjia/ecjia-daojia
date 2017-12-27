@@ -12,7 +12,6 @@
 			app.order.batchForm();
 			app.order.tooltip();
 			app.order.current_order();
-			
 		},
 		tooltip : function(){
 			$('span').tooltip({
@@ -293,6 +292,7 @@
 			app.order.queryinfo();
 			app.order.operatesubmit();
 			app.order.batchForm();
+			app.order.toggle_view();
 		},
 		
 		//退款按钮
@@ -924,6 +924,17 @@
 				window.clearInterval(InterValObj);
 			});
 		},
+		
+       toggle_view: function() {
+           $('.toggle_view').off('click').on('click', function (e) {
+               e.preventDefault();
+               var $this = $(this);
+               var url = $this.attr('href');
+               $.post(url, function (data) {
+            	   ecjia.merchant.showmessage(data);
+               }, 'json');
+           });
+       },
 	};
 
 })(ecjia.merchant, jQuery);

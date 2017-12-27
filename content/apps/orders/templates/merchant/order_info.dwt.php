@@ -116,7 +116,15 @@ ecjia.merchant.order.info();
 			{if $prev_id}
 			</a>
 			{/if}
-			<button class="btn btn-primary" type="button" onclick="window.open('{url path="orders/merchant/info" args="order_id={$order.order_id}&print=1"}')">{lang key='orders::order.print_order'}</button>
+			<div class="btn-group form-group">
+        		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">打印 <span class="caret"></span></button>
+        		<ul class="dropdown-menu pull-right">
+        			<li><a class="nopjax" href='{url path="orders/merchant/info" args="order_id={$order.order_id}&print=1"}' target="__blank">订单打印</a></li>
+        			{if $has_payed eq 1}
+        			<li><a class="toggle_view" href='{url path="orders/mh_print/init" args="order_id={$order.order_id}"}'>小票打印</a></li>
+            		{/if}
+            	</ul>
+        	</div>
 		</div>
 	</div>
 </div>
@@ -163,7 +171,7 @@ ecjia.merchant.order.info();
 								<td><div align="right"><strong>{lang key='orders::order.label_payment'}</strong></div></td>
 								<td>
 									{$order.pay_name}
-									{if $order.shipping_status neq 1 && !$invalid_order}
+									{if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 									<a class="data-pjax" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
 									{/if}
 									({lang key='orders::order.label_action_note'}<span>{if $order.pay_note}{$order.pay_note}{else}暂无{/if}</span>)
@@ -176,20 +184,23 @@ ecjia.merchant.order.info();
 								<td><div align="right"><strong>{lang key='orders::order.label_shipping'}</strong></div></td>
 								<td>
 									{if $exist_real_goods}
-									{if $order.shipping_id gt 0}
-									<span>{$order.shipping_name}</span>
-									{else}
-									<span>{lang key='system::system.require_field'}</span>
-									{/if}
-									{if !$invalid_order}
-									<a class="data-pjax" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
-									{/if}
-									{if $shipping_code == 'ship_cac'}
-									(提货码：{if $meta_value neq ''}{$meta_value}{else}暂无{/if})
-									{else}
-									<input type="button" class="btn btn-primary" onclick="window.open('{url path="orders/merchant/info" args="order_id={$order.order_id}&shipping_print=1"}')" value="{lang key='orders::order.print_shipping'}">
-									{/if}
-									{if $order.insure_fee gt 0}{lang key='orders::order.label_insure_fee'}{$order.formated_insure_fee}{/if}
+										<span>{if $order.shipping_name}{$order.shipping_name}{/if}</span>
+										{if $order.shipping_id gt 0}
+											{if $order_finished neq 1 && !$invalid_order}
+											<a class="data-pjax" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
+											{/if}
+											
+											{if $shipping_code == 'ship_cac'}
+												(提货码：{if $meta_value neq ''}{$meta_value}{else}暂无{/if})
+											{else}
+												<input type="button" class="btn btn-primary" onclick="window.open('{url path="orders/merchant/info" args="order_id={$order.order_id}&shipping_print=1"}')" value="{lang key='orders::order.print_shipping'}">
+											{/if}
+										{/if}
+											
+										
+										{if $order.insure_fee gt 0}
+											{lang key='orders::order.label_insure_fee'}{$order.formated_insure_fee}
+										{/if}
 									{/if}
 								</td>
 								<td><div align="right"><strong>{lang key='orders::order.label_shipping_time'}</strong></div></td>
@@ -198,8 +209,14 @@ ecjia.merchant.order.info();
 							
 							<tr>
 								<td><div align="right"><strong>{lang key='orders::order.label_invoice_no'}</strong></div></td>
-								<td>{if $order.shipping_id gt 0 and $order.shipping_status gt 0}<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>&nbsp;
-								<a href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}' class="special data-pjax">{lang key='system::system.edit'}</a>{/if}</td>
+								<td>
+									{if $order.shipping_id gt 0 and $order.shipping_status gt 0}
+										<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>&nbsp;
+										{if $order_finished neq 1}
+											<a href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}' class="special data-pjax">{lang key='system::system.edit'}</a>
+										{/if}
+									{/if}
+								</td>
 								<td><div align="right"><strong>{lang key='orders::order.from_order'}</strong></div></td>
 								<td>{if $order.referer eq 'ecjia-cashdesk'}收银台{else}{$order.referer}{/if}</td>
 							</tr>
@@ -229,7 +246,7 @@ ecjia.merchant.order.info();
                             <strong>{t}发票信息{/t}</strong>
                         </h4>
                     </a>
-                    {if $order.shipping_status neq 1 && !$invalid_order}
+                    {if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 						<a class="data-pjax accordion-group-heading-absolute" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=other"}'>{lang key='system::system.edit'}</a>
 					{/if}
                 </div>
@@ -259,7 +276,7 @@ ecjia.merchant.order.info();
                             <strong>{lang key='orders::order.other_info'}</strong>
                         </h4>
                     </a>
-                    {if $order.shipping_status neq 1 && !$invalid_order}
+                    {if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 						<a class="data-pjax accordion-group-heading-absolute" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=other"}'>{lang key='system::system.edit'}</a>
 					{/if}
                 </div>
@@ -299,7 +316,7 @@ ecjia.merchant.order.info();
                             <strong>{lang key='orders::order.consignee_info'}</strong>
                         </h4>
                     </a>
-                    {if $order.shipping_status neq 1 && !$invalid_order}
+                    {if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 						<a class="data-pjax accordion-group-heading-absolute" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=consignee"}'>{lang key='system::system.edit'}</a>
 					{/if}
                 </div>
@@ -341,7 +358,7 @@ ecjia.merchant.order.info();
                             <strong>{lang key='orders::order.goods_info'}</strong>
                         </h4>
                     </a>
-                    {if $order.shipping_status neq 1}
+                    {if $order_finished neq 1 && $order.shipping_status neq 1}
 <!-- 						<a class="data-pjax accordion-group-heading-absolute" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=goods"}'>{lang key='system::system.edit'}</a> -->
 					{/if}
                 </div>
@@ -409,7 +426,7 @@ ecjia.merchant.order.info();
                             <strong>{lang key='orders::order.fee_info'}</strong>
                         </h4>
                     </a>
-                    {if $order.shipping_status neq 1 && !$invalid_order}
+                    {if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
 						<a class="data-pjax accordion-group-heading-absolute" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=money"}'>{lang key='system::system.edit'}</a>
 					{/if}
                 </div>
@@ -523,7 +540,7 @@ ecjia.merchant.order.info();
 									{/if}
 
 									{if $operable_list.pay}
-									<button class="btn operatesubmit btn-info" type="submit" name="pay">{lang key='orders::order.op_pay'}</button>
+									<button class="btn operatesubmit btn-info" type="submit" name="pay">{lang key='orders::order.op_confirm_pay'}</button>
 									{/if}
 
 									{if $operable_list.unpay}

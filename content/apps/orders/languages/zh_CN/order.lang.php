@@ -119,6 +119,7 @@ return array(
 	'already_shipped' => '已发货',
 	'op_unpay' 		=> '设为未付款',
 	'op_unship' 	=> '未发货',
+	'op_confirm_pay'=> '确认付款',
 	
 	'op_cancel_ship' 	=> '取消发货',
 	'op_receive' 		=> '已收货',

@@ -47,18 +47,6 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 添加管理员记录日志操作对象
- */
-function assign_orderlog_content() {
-	ecjia_admin_log::instance()->add_action('produce', RC_Lang::get('orders::order.produce'));
-	ecjia_admin_log::instance()->add_action('batch_setup', '批量设置');
-	ecjia_admin_log::instance()->add_object('delivery_order', RC_Lang::get('orders::order.delivery_sn'));
-	ecjia_admin_log::instance()->add_object('back_order', RC_Lang::get('orders::order.back_sn'));
-	ecjia_admin_log::instance()->add_object('order_payment', RC_Lang::get('orders::order.order_payment'));
-	ecjia_admin_log::instance()->add_object('order_status', RC_Lang::get('orders::order.order_status'));
-	ecjia_admin_log::instance()->add_object('order_consignee', RC_Lang::get('orders::order.order_consignee'));
-}
-/**
 * ECJIA 购物流程函数库
 */
 /**

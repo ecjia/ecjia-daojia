@@ -201,40 +201,10 @@ class today_module extends api_admin implements api_interface
 							)
 					);
 					
-					if (in_array($val['order_status'], array(OS_CONFIRMED, OS_SPLITED)) &&
-					in_array($val['shipping_status'], array(SS_RECEIVED)) &&
-					in_array($val['pay_status'], array(PS_PAYED, PS_PAYING)))
-					{
-						$label_order_status = '已完成';
-						$status_code = 'finished';
-					}
-					elseif (in_array($val['shipping_status'], array(SS_SHIPPED)))
-					{
-						$label_order_status = '已发货';
-						$status_code = 'shipped';
-					}
-					elseif (in_array($val['order_status'], array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) &&
-							in_array($val['pay_status'], array(PS_UNPAYED)) &&
-							(in_array($val['shipping_status'], array(SS_SHIPPED, SS_RECEIVED)) || !$payment['is_cod']))
-					{
-						$label_order_status = '待付款';
-						$status_code = 'await_pay';
-					}
-					elseif (in_array($val['order_status'], array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) &&
-							in_array($val['shipping_status'], array(SS_UNSHIPPED, SS_SHIPPED_PART, SS_PREPARING, SS_SHIPPED_ING, OS_SHIPPED_PART)) &&
-							(in_array($val['pay_status'], array(PS_PAYED, PS_PAYING)) || $payment['is_cod']))
-					{
-						if (!in_array($val['pay_status'], array(PS_PAYED)) && $type == 'payed') {
-							continue;
-						}
-						$label_order_status = '待发货';
-						$status_code = 'await_ship';
-					}
-					elseif (in_array($val['order_status'], array(OS_CANCELED))) {
-						$label_order_status = '已关闭';
-						$status_code = 'canceled';
-					}
-						
+					$label_info = label_order_status($val['order_status'], $val['shipping_status'], $val['pay_status'], $type, $payment['is_cod']);
+					$label_order_status = $label_info['label_order_status'];
+					$status_code = $label_info['status_code'];
+					
 					$goods_number = $val['goods_number'];
 					$order_list[$val['order_id']] = array(
 							'order_id'	=> intval($val['order_id']),
@@ -292,5 +262,32 @@ class today_module extends api_admin implements api_interface
 	} 
 }
 
-
+/**
+ * 订单状态
+ */
+function label_order_status($order_status, $shipping_status, $pay_status, $type, $is_cod) {
+	$label_order_status = '';
+	$status_code = '';
+	if (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED)) && in_array($shipping_status, array(SS_RECEIVED)) && in_array($pay_status, array(PS_PAYED, PS_PAYING))){
+		$label_order_status = '已完成';
+		$status_code = 'finished';
+	} elseif (in_array($shipping_status, array(SS_SHIPPED))) {
+		$label_order_status = '已发货';
+		$status_code = 'shipped';
+	} elseif (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) && in_array($pay_status, array(PS_UNPAYED)) && (in_array($shipping_status, array(SS_SHIPPED, SS_RECEIVED)) || !$is_cod)) {
+		$label_order_status = '待付款';
+		$status_code = 'await_pay';
+	} elseif (in_array($order_status, array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) && in_array($shipping_status, array(SS_UNSHIPPED, SS_SHIPPED_PART, SS_PREPARING, SS_SHIPPED_ING, OS_SHIPPED_PART)) && (in_array($pay_status, array(PS_PAYED, PS_PAYING)) || $is_cod)) {
+		if (!in_array($pay_status, array(PS_PAYED)) && $type == 'payed') {
+			//continue;
+		}
+		$label_order_status = '待发货';
+		$status_code = 'await_ship';
+	} elseif (in_array($order_status, array(OS_CANCELED))) {
+		$label_order_status = '已关闭';
+		$status_code = 'canceled';
+	}
+	
+	return array('label_order_status' => $label_order_status, 'status_code' => $status_code);
+}
 // end

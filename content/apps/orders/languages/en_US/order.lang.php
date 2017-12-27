@@ -118,6 +118,7 @@ return array(
 	'op_return'		=> 'Refundment',
 	'op_unpay'		=> 'Set Unpaid',
 	'op_unship'		=> 'Unshipped',
+	'op_confirm_pay'=> 'Confirm payment',
 		
 	'op_cancel_ship'	=> 'Cancellation Shipping',
 	'op_receive'		=> 'Received',

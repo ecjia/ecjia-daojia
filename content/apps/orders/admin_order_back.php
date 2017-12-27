@@ -56,7 +56,7 @@ class admin_order_back extends ecjia_admin {
         RC_Lang::load('order');
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('global', 'goods');
-		assign_orderlog_content();
+		Ecjia\App\Orders\Helper::assign_adminlog_content();
 		
 		/* 加载所有全局 js/css */
 		RC_Script::enqueue_script('jquery-form');
@@ -93,7 +93,7 @@ class admin_order_back extends ecjia_admin {
 		);
 		
 		/* 查询 */
-		RC_Loader::load_app_func('global');
+		RC_Loader::load_app_func('global', 'orders');
 		$result = get_back_list();
 
 		/* 模板赋值 */
@@ -122,7 +122,7 @@ class admin_order_back extends ecjia_admin {
 	
 		/* 根据发货单id查询发货单信息 */
 		if (!empty($back_id)) {
-			RC_Loader::load_app_func('global');
+			RC_Loader::load_app_func('global', 'orders');
 			$back_order = back_order_info($back_id);
 		} else {
 			return $this->showmessage(RC_Lang::get('orders::order.return_form'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);

@@ -103,7 +103,10 @@ class order_query extends order {
 		}
 		$payment_id = empty($payment_id) ? "''" : $payment_id;
 		
-    	$where[$alias.'order_status'] = array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART);
+		$pay_cod = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+		
+    	//$where[$alias.'order_status'] = array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART);
+		$where[] = "( {$alias}order_status in (" . OS_UNCONFIRMED .",". OS_CONFIRMED.", ". OS_SPLITED.", ". OS_SPLITING_PART.") OR ({$alias}pay_id in (" . $pay_cod . ") and {$alias}order_status in (" . OS_UNCONFIRMED .",". OS_CONFIRMED.", ". OS_SPLITED.", ". OS_SPLITING_PART.") ))";
 		$where[$alias.'shipping_status'] = array(SS_UNSHIPPED, SS_SHIPPED_PART, SS_PREPARING, SS_SHIPPED_ING, OS_SHIPPED_PART);
 		$where[] = "( {$alias}pay_status in (" . PS_PAYED .",". PS_PAYING.") OR {$alias}pay_id in (" . $payment_id . "))";
 		$where[$alias.'is_delete'] = 0;

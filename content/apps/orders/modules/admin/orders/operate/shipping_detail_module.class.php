@@ -116,6 +116,7 @@ class shipping_detail_module extends api_admin implements api_interface {
 				$order['city']		= ecjia_region::getRegionName($val['city']);
 				$order['district']	= ecjia_region::getRegionName($val['district']);
 				$order['street']    = ecjia_region::getRegionName($val['street']);
+				$order['shipping_code'] = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
 				
 				$order['pay_code'] = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->pluck('pay_code');
 				
@@ -137,6 +138,7 @@ class shipping_detail_module extends api_admin implements api_interface {
 					'mobile'		=> $val['mobile'],
 					'shipping_id'	=> $val['shipping_id'],
 					'shipping_name'	=> $val['shipping_name'],
+					'shipping_code'	=> $order['shipping_code'],
 					'pay_code'	=> $order['pay_code'],
 					'add_time'		=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
 					'pay_time'		=> empty($val['pay_time']) ? null : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),

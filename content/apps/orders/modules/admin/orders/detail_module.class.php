@@ -81,6 +81,17 @@ class detail_module extends api_admin implements api_interface {
 		if (is_ecjia_error($order)) {
 			return $order;
 		}
+		
+		//如果订单中会员id大于0，查询会员余额
+		if ($order['user_id'] > 0) {
+			$user_surplus = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_money');
+			$order['user_surplus'] = $user_surplus;
+			$order['format_user_surplus'] = price_format($user_surplus);
+		} else {
+			$order['user_surplus'] = null;
+			$order['format_user_surplus'] = null;
+		}
+		
 		$db_term_meta = RC_DB::table('term_meta');
 		$verify_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->where('object_id', $order['order_id'])->pluck('meta_value');
 		$order['verify_code'] = empty($verify_code) ? '' : $verify_code;
