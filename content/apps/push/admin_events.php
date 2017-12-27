@@ -55,8 +55,7 @@ class admin_events extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
 		
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Push\Helper::assign_adminlog_content();
 		
 		RC_Script::enqueue_script('tinymce');
 		RC_Style::enqueue_style('chosen');
