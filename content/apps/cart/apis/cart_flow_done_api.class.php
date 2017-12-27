@@ -202,7 +202,7 @@ class cart_flow_done_api extends Component_Event_Api {
 // 			$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 			$order['shipping_id'] = intval($order['shipping_id']);
 // 			$data = $shipping_method->shipping_info($order['shipping_id']);
-			if (! ecjia_shipping::isEnabled($order['shipping_id'])) {
+			if (!ecjia_shipping::isEnabled($order['shipping_id'])) {
 				return new ecjia_error('shipping_error', '请选择一个配送方式！');
 			}
 		}
@@ -224,10 +224,12 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 
 		/* 配送方式 */
+		$shipping_code = '';
 		if ($order['shipping_id'] > 0) {
 // 			$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 			$shipping = ecjia_shipping::pluginData($order['shipping_id']);
 			$order['shipping_name'] = addslashes($shipping['shipping_name']);
+			$shipping_code = $shipping['shipping_code'];
 		}
 		$order['shipping_fee'] = $total['shipping_fee'];
 		$order['insure_fee'] = $total['shipping_insure'];
@@ -453,6 +455,43 @@ class cart_flow_done_api extends Component_Event_Api {
 		    }
 		}
 		
+		/*如果订单金额为0，并且配送方式为上门取货时发送提货码*/
+		if (($order['order_amount'] + $order['surplus']) == '0.00' && (!empty($shipping_code) && ($shipping_code == 'ship_cac'))) {
+			/*短信给用户发送收货验证码*/
+			if (ecjia::config('sms_shop_mobile') != '') {
+				$db_term_meta = RC_DB::table('term_meta');
+				$max_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->max('meta_value');
+					
+				$max_code = $max_code ? ceil($max_code/10000) : 1000000;
+				$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+				$mobile = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('mobile_phone');
+				try {
+					//发送短信
+					$options = array(
+						'mobile' => $mobile,
+						'event'	 => 'sms_order_pickup',
+						'value'  =>array(
+								'order_sn'  	=> $order['order_sn'],
+								'user_name' 	=> $order['consignee'],
+								'code'  		=> $code,
+								'service_phone' => ecjia::config('service_phone'),
+						),
+					);
+					RC_Api::api('sms', 'send_event_sms', $options);
+				} catch (PDOException $e) {
+					RC_Logger::getLogger('info')->error($e);
+				}
+				$meta_data = array(
+						'object_type'	=> 'ecjia.order',
+						'object_group'	=> 'order',
+						'object_id'		=> $new_order_id,
+						'meta_key'		=> 'receipt_verification',
+						'meta_value'	=> $code,
+				);
+				$db_term_meta->insert($meta_data);
+			}
+		}
+		
 		/* 如果订单金额为0 处理虚拟卡 */
 		if ($order['order_amount'] <= 0) {
 			$rec_type = $options['flow_type'];
@@ -531,7 +570,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		$payment_info = $payment_method->payment_info_by_id($order['pay_id']);
 // 		RC_Logger::getLogger('info')->info(array('cart_flow_done_api-payment',$payment_info));
 
-		if (! empty($order['shipping_name'])) {
+		if (!empty($order['shipping_name'])) {
 			$order['shipping_name'] = trim(stripcslashes($order['shipping_name']));
 		}
 

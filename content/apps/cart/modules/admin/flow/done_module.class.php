@@ -112,7 +112,7 @@ class done_module extends api_admin implements api_interface
         /* 检查商品库存 */
         /* 如果使用库存，且下订单时减库存，则减少库存 */
         if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
-			$cart_goods_stock = get_cart_goods($cart_id);
+			$cart_goods_stock = get_cart_goods($cart_id, $flow_type);
             $_cart_goods_stock = array();
             foreach ($cart_goods_stock['goods_list'] as $value) {
                 $_cart_goods_stock[$value['rec_id']] = $value['goods_number'];

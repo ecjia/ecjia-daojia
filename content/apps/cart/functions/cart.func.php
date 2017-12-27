@@ -1124,7 +1124,7 @@ function clear_cart($type = CART_GENERAL_GOODS, $cart_id = array()) {
  * @access  public
  * @return  array
  */
-function get_cart_goods($cart_id = array()) {
+function get_cart_goods($cart_id = array(), $flow_type = CART_GENERAL_GOODS) {
 	RC_Loader::load_app_func('global', 'goods');
 	$db_cart 		= RC_Loader::load_app_model('cart_model', 'cart');
 	$db_goods_attr 	= RC_Loader::load_app_model('goods_attr_model','goods');
@@ -1141,17 +1141,17 @@ function get_cart_goods($cart_id = array()) {
 	);
 
 	/* 循环、统计 */
-	$cart_where = array('rec_type' => CART_GENERAL_GOODS);
+	$cart_where = array('rec_type' => $flow_type);
 	if (!empty($cart_id)) {
 		$cart_where = array_merge($cart_where, array('rec_id' => $cart_id));
 	}
 	if ($_SESSION['user_id']) {
 		$cart_where = array_merge($cart_where, array('user_id' => $_SESSION['user_id']));
-		$data = $db_cart->field('*,IF(parent_id, parent_id, goods_id)|pid')->where(array('user_id' => $_SESSION['user_id'] , 'rec_type' => CART_GENERAL_GOODS))->order(array('pid'=>'asc', 'parent_id'=>'asc'))->select();
 	} else {
 		$cart_where = array_merge($cart_where, array('session_id' => SESS_ID));
-		$data = $db_cart->field('*,IF(parent_id, parent_id, goods_id)|pid')->where(array('session_id' => SESS_ID , 'rec_type' => CART_GENERAL_GOODS))->order(array('pid'=>'asc', 'parent_id'=>'asc'))->select();
 	}
+	$data = $db_cart->field('*,IF(parent_id, parent_id, goods_id)|pid')->where($cart_where)->order(array('pid'=>'asc', 'parent_id'=>'asc'))->select();
+	
 	/* 用于统计购物车中实体商品和虚拟商品的个数 */
 	$virtual_goods_count = 0;
 	$real_goods_count    = 0;

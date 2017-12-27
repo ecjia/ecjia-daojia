@@ -297,7 +297,11 @@ class checkOrder_module extends api_front implements api_interface {
 		            }
 		            $shipping_list[$key]['shipping_date'] = array();
 		            $ship_date = 0;
-		    
+		            
+		            if (empty($shipping_cfg['ship_days'])) {
+		            	$shipping_cfg['ship_days'] = 7;
+		            }
+		            
 		            while ($shipping_cfg['ship_days']) {
 		                foreach ($shipping_cfg['ship_time'] as $k => $v) {
 		    
