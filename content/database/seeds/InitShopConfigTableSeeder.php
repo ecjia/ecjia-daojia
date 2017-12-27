@@ -58,37 +58,46 @@ class InitShopConfigTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->shop_info_group_1();
+        $this->G1_shop_info();
         
-        $this->basic_group_2();
+        $this->G2_basic();
         
-        $this->display_group_3();
+        $this->G3_display();
         
-        $this->shopping_flow_group_4();
+        $this->G4_shopping_flow();
         
-        $this->smtp_group_5();
+        $this->G5_smtp();
         
-        $this->hidden_group_6();
+        $this->G6_hidden();
         
-        $this->goods_group_7();
+        $this->G7_goods();
         
-        $this->sms_group_8();
+        $this->G8_sms();
         
-        $this->wap_group_9();
+        $this->G9_wap();
         
-        $this->mobile_group_10();
+        $this->G10_mobile();
         
-        $this->addon_group_11();
+        $this->G11_addon();
+        
+        $this->G12_printer();
     }
     
     protected function add_config($group, array $data)
     {
         collect($data)->each(function($item) use ($group) {
-        	ecjia_config::add($group, $item['code'], $item['value'], $item['options']);
+        	if (ecjia_config::has($item['code'])) {
+        	   ecjia_config::change($group, $item['code'], $item['value'], $item['options']);
+        	} else {
+        	    ecjia_config::add($group, $item['code'], $item['value'], $item['options']);
+        	}
         });
     }
     
-    protected function shop_info_group_1()
+    /**
+     * 网店信息组
+     */
+    protected function G1_shop_info()
     {
         $group = 'shop_info';
         
@@ -123,8 +132,10 @@ class InitShopConfigTableSeeder extends Seeder
         $this->add_config($group, $data);
     }
     
-    
-    protected function basic_group_2()
+    /**
+     * 基本信息组
+     */
+    protected function G2_basic()
     {
         $group = 'basic';
         
@@ -142,7 +153,6 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'integral_scale', 'value' => '1', 'options' => ['type' => 'text']],
             ['code' => 'integral_percent', 'value' => '1', 'options' => ['type' => 'text']],
             ['code' => 'sn_prefix', 'value' => 'ECS', 'options' => ['type' => 'text']],
-            ['code' => 'comment_check', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '0,1']],
             ['code' => 'no_picture', 'value' => '', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
             ['code' => 'stats_code', 'value' => "<script>\r\nvar _hmt = _hmt || [];\r\n(function() {\r\n  var hm = document.createElement(\"script\");\r\n  hm.src = \"https://hm.baidu.com/hm.js?45572e750ba4de1ede0e776212b5f6cd\";\r\n  var s = document.getElementsByTagName(\"script\")[0]; \r\n  s.parentNode.insertBefore(hm, s);\r\n})();\r\n</script>", 'options' => ['type' => 'textarea']],
             ['code' => 'cache_time', 'value' => '3600', 'options' => ['type' => 'text']],
@@ -151,8 +161,7 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'top10_time', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1,2,3,4']],
             ['code' => 'timezone', 'value' => '8', 'options' => ['type' => 'options', 'store_range' => '-12,-11,-10,-9,-8,-7,-6,-5,-4,-3.5,-3,-2,-1,0,1,2,3,3.5,4,4.5,5,5.5,5.75,6,6.5,7,8,9,9.5,10,11,12']],
             ['code' => 'upload_size_limit', 'value' => '64', 'options' => ['type' => 'options', 'store_range' => '-1,0,64,128,256,512,1024,2048,4096']],
-            ['code' => 'cron_method', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
-            ['code' => 'comment_factor', 'value' => '0', 'options' => ['type' => 'hidden', 'store_range' => '0,1,2,3']],
+//             ['code' => 'comment_factor', 'value' => '0', 'options' => ['type' => 'hidden', 'store_range' => '0,1,2,3']],
             ['code' => 'enable_order_check', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '0,1']],
             ['code' => 'default_storage', 'value' => '1000', 'options' => ['type' => 'text']],
             ['code' => 'bgcolor', 'value' => '#FFFFFF', 'options' => ['type' => 'text']],
@@ -176,13 +185,16 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'comment_award_open', 'value' => '0', 'options' => ['type' => 'hidden']],
             ['code' => 'comment_award', 'value' => '0', 'options' => ['type' => 'hidden']],
             ['code' => 'comment_award_rules', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'comment_check', 'value' => '1', 'options' => ['type' => 'hidden']],
         ];
         
         $this->add_config($group, $data);
     }
     
-    
-    protected function display_group_3()
+    /**
+     * 显示组
+     */
+    protected function G3_display()
     {
         $group = 'display';
         
@@ -223,8 +235,10 @@ class InitShopConfigTableSeeder extends Seeder
         $this->add_config($group, $data);
     }
     
-    
-    protected function shopping_flow_group_4()
+    /**
+     * 购物流组
+     */
+    protected function G4_shopping_flow()
     {
         $group = 'shopping_flow';
         
@@ -261,8 +275,10 @@ class InitShopConfigTableSeeder extends Seeder
         $this->add_config($group, $data);
     }
     
-    
-    protected function smtp_group_5()
+    /**
+     * 邮件组
+     */
+    protected function G5_smtp()
     {
         $group = 'smtp';
         
@@ -280,8 +296,10 @@ class InitShopConfigTableSeeder extends Seeder
         $this->add_config($group, $data);
     }
     
-    
-    protected function hidden_group_6()
+    /**
+     * 隐藏组
+     */
+    protected function G6_hidden()
     {
         $group = 'hidden';
         
@@ -293,14 +311,6 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'install_date', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'ecjia_version', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'ecjia_db_version', 'value' => '5', 'options' => ['type' => 'hidden']],
-//             ['code' => 'sms_user_name', 'value' => '', 'options' => ['type' => 'hidden']],
-//             ['code' => 'sms_password', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_auth_str', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_domain', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_count', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_total_money', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_balance', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'sms_last_request', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'affiliate', 'value' => 'a:5:{s:2:"on";i:1;s:6:"config";a:7:{s:6:"expire";d:24;s:11:"expire_unit";s:4:"hour";s:11:"separate_by";i:0;s:15:"level_point_all";s:2:"5%";s:15:"level_money_all";s:2:"1%";s:18:"level_register_all";i:2;s:17:"level_register_up";i:60;}s:13:"intvie_reward";a:3:{s:16:"intive_reward_by";s:6:"signup";s:18:"intive_reward_type";s:5:"bonus";s:19:"intive_reward_value";i:106;}s:14:"intviee_reward";a:3:{s:17:"intivee_reward_by";s:6:"signup";s:19:"intivee_reward_type";s:5:"bonus";s:20:"intivee_reward_value";i:106;}s:4:"item";a:4:{i:0;a:2:{s:11:"level_point";s:3:"60%";s:11:"level_money";s:3:"60%";}i:1;a:2:{s:11:"level_point";s:3:"30%";s:11:"level_money";s:3:"30%";}i:2;a:2:{s:11:"level_point";s:2:"7%";s:11:"level_money";s:2:"7%";}i:3;a:2:{s:11:"level_point";s:2:"3%";s:11:"level_money";s:2:"3%";}}}', 'options' => ['type' => 'hidden']],
             ['code' => 'captcha', 'value' => '45', 'options' => ['type' => 'hidden']],
             ['code' => 'captcha_width', 'value' => '100', 'options' => ['type' => 'hidden']],
@@ -312,11 +322,8 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'certificate_sn', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'certificate_file', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'auth_key', 'value' => '', 'options' => ['type' => 'hidden']],
-//             ['code' => 'cycleimage_data', 'value' => 'a:5:{i:0;a:4:{s:3:"src";s:27:"data/afficheimg/banner1.png";s:3:"url";s:26:"https://ecjia.com/o2o.html";s:4:"text";s:0:"";s:4:"sort";i:1;}i:1;a:4:{s:3:"src";s:27:"data/afficheimg/banner2.png";s:3:"url";s:17:"https://ecjia.com";s:4:"text";s:0:"";s:4:"sort";i:2;}i:2;a:4:{s:3:"src";s:27:"data/afficheimg/banner3.png";s:3:"url";s:65:"https://ecjia.com/wiki/%E5%B8%AE%E5%8A%A9:ECJia%E5%88%B0%E5%AE%B6";s:4:"text";s:0:"";s:4:"sort";i:3;}i:3;a:4:{s:3:"src";s:27:"data/afficheimg/banner4.png";s:3:"url";s:23:"http://www.ecmoban.com/";s:4:"text";s:0:"";s:4:"sort";i:4;}i:4;a:4:{s:3:"src";s:27:"data/afficheimg/banner5.png";s:3:"url";s:22:"http://www.dscmall.cn/";s:4:"text";s:0:"";s:4:"sort";i:5;}}', 'options' => ['type' => 'hidden']],
-//             ['code' => 'cycleimage_style', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'captcha_style', 'value' => 'captcha_royalcms', 'options' => ['type' => 'hidden']],
             ['code' => 'navigator_data', 'value' => 'a:4:{i:0;a:2:{s:4:"type";s:3:"top";s:4:"name";s:6:"顶部";}i:1;a:2:{s:4:"type";s:6:"middle";s:4:"name";s:6:"中间";}i:2;a:2:{s:4:"type";s:6:"bottom";s:4:"name";s:6:"底部";}i:3;a:2:{s:4:"type";s:5:"touch";s:4:"name";s:10:"ECJiaTouch";}}', 'options' => ['type' => 'hidden']],
-//             ['code' => 'sms_receipt_verification', 'value' => '1', 'options' => ['type' => 'hidden']],
             ['code' => 'last_check_upgrade_time', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'app_key_android', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'app_secret_android', 'value' => '', 'options' => ['type' => 'hidden']],
@@ -329,15 +336,6 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'merchant_admin_cpname', 'value' => 'ECJia商家后台管理', 'options' => ['type' => 'hidden']],
             ['code' => 'merchant_admin_login_logo', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'mobile_seller_home_adsense', 'value' => '94', 'options' => ['type' => 'hidden']],
-//             ['code' => 'app_name', 'value' => 'EC+到家', 'options' => ['type' => 'hidden']], //v.1.10.0 废弃
-//             ['code' => 'app_push_development', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-//             ['code' => 'push_order_placed_apps', 'value' => '', 'options' => ['type' => 'hidden']],
-//             ['code' => 'push_user_signin', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-//             ['code' => 'push_order_shipped', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-//             ['code' => 'push_order_payed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-//             ['code' => 'push_order_placed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-//             ['code' => 'push_order_payed_apps', 'value' => '', 'options' => ['type' => 'hidden']],
-//             ['code' => 'push_order_shipped_apps', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'invite_template', 'value' => '你的好友（{$user_name}）向您推荐了一款购物应用【{$shop_name}】，优惠活动多多，新人注册还有红包奖励，赶紧下载体验吧！', 'options' => ['type' => 'hidden']],
             ['code' => 'invite_explain', 'value' => "1、通过推广页面把属于自己的二维码通过第三方平台分享给新人好友；\r\n2、新人好友通过您的邀请，打开链接，在活动页输入自己的手机号，并通过指定渠道下载客户端完成注册，即可获得奖励；\r\n3、每邀请一位新人好友并完成注册都可获得相应奖励；\r\n4、奖励一经领取后，不可删除，不可提现，不可转赠；\r\n5、新用户领取的奖励查看方式：【App-我的－我的钱包】查看，也可通过【我的推广—奖励明细】查看；\r\n6、如有任何的疑问请咨询官网客服人员。", 'options' => ['type' => 'hidden']],
             //v1.5.0新增
@@ -352,14 +350,19 @@ class InitShopConfigTableSeeder extends Seeder
             //v1.9.0新增
             ['code' => 'quickpay_rule', 'value' => "1、优惠买单仅限于到店消费后使用，请勿提前支付；\r\n2、请在输入买单金额前与商家确认门店信息和消费金额；\r\n3、遇节假日能否享受优惠，请详细咨询商家；\r\n4、请咨询商家能否与店内其他优惠同享；\r\n5、如需发票，请您在消费时向商家咨询。", 'options' => ['type' => 'hidden']],
             ['code' => 'quickpay_fee', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'cron_method', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
             ['code' => 'cron_secret_key', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'merchant_join_close', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
+            
         ];
         
         $this->add_config($group, $data);
     }
     
-    protected function goods_group_7()
+    /**
+     * 商品组
+     */
+    protected function G7_goods()
     {
         $group = 'goods';
         
@@ -376,25 +379,24 @@ class InitShopConfigTableSeeder extends Seeder
         $this->add_config($group, $data);
     }
     
-    
-    protected function sms_group_8()
+    /**
+     * 短信组
+     */
+    protected function G8_sms()
     {
         $group = 'sms';
         
         $data = [
             ['code' => 'sms_shop_mobile', 'value' => '', 'options' => ['type' => 'text']],
-//             ['code' => 'sms_order_placed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-//             ['code' => 'sms_order_payed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-//             ['code' => 'sms_order_shipped', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'sms_signin', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'sms_send', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-//             ['code' => 'sms_user_signin', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
         ];
         
         $this->add_config($group, $data);
     }
     
-    protected function wap_group_9()
+    /**
+     * H5组
+     */
+    protected function G9_wap()
     {
         $group = 'wap';
         
@@ -403,8 +405,6 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'wap_logo', 'value' => 'data/assets/ecjia-intro/wap_logo.png', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
             ['code' => 'map_qq_key', 'value' => 'HVNBZ-HHR3P-HVBDP-LID55-D2YM3-2AF2W', 'options' => ['type' => 'text', 'sort_order' => '2']],
             ['code' => 'map_qq_referer', 'value' => 'ecjiaapp', 'options' => ['type' => 'text', 'sort_order' => '3']],
-//             ['code' => 'map_baidu_key', 'value' => 'cZV7jwY5aiZcCqKqRMB6ASWRa2x4ptBV', 'options' => ['type' => 'text', 'sort_order' => '4']],
-//             ['code' => 'map_baidu_referer', 'value' => 'ecjiaapp', 'options' => ['type' => 'text', 'sort_order' => '5']],
             ['code' => 'wap_app_download_show', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0', 'sort_order' => '11']],
             ['code' => 'wap_app_download_img', 'value' => 'data/assets/ecjia-intro/wap_app_download_img.png', 'options' => ['type' => 'file', 'store_range' => 'data/assets/', 'sort_order' => '12']],
         ];
@@ -412,19 +412,15 @@ class InitShopConfigTableSeeder extends Seeder
         $this->add_config($group, $data);
     }
     
-    
-    protected function mobile_group_10()
+    /**
+     * 手机应用组
+     */
+    protected function G10_mobile()
     {
         $group = 'mobile';
         
         $data = [
-//             ['code' => 'mobile_discover_data', 'value' => 'a:13:{i:4;a:5:{s:3:"src";s:37:"data/discover/1477876567618286130.png";s:3:"url";s:26:"https://ecjia.com/o2o.html";s:4:"text";s:15:"EC+到家简介";s:4:"sort";i:0;s:7:"display";i:1;}i:5;a:5:{s:3:"src";s:37:"data/discover/1478110259511162569.png";s:3:"url";s:44:"https://dn-ecmoban.qbox.me/ECJIAo2o-rwxf.mp4";s:4:"text";s:18:"到家视频介绍";s:4:"sort";s:1:"1";s:7:"display";i:0;}i:6;a:5:{s:3:"src";s:37:"data/discover/1477877330512416792.png";s:3:"url";s:35:"https://ecjia.com/wiki/常见问题";s:4:"text";s:12:"常见问题";s:4:"sort";s:1:"2";s:7:"display";i:1;}i:7;a:5:{s:3:"src";s:37:"data/discover/1477876646108552339.png";s:3:"url";s:40:"https://ecjia.com/readme/disclaimer.html";s:4:"text";s:12:"免责声明";s:4:"sort";i:3;s:7:"display";i:0;}i:8;a:5:{s:3:"src";s:37:"data/discover/1459462286529291580.png";s:3:"url";s:40:"https://ecjia.com/readme/disclaimer.html";s:4:"text";s:12:"会员专享";s:4:"sort";s:1:"4";s:7:"display";i:0;}i:9;a:5:{s:3:"src";s:37:"data/discover/1461121219027514959.png";s:3:"url";s:38:"ecjiaopen://app?open_type=user_address";s:4:"text";s:6:"地址";s:4:"sort";i:4;s:7:"display";i:1;}i:10;a:5:{s:3:"src";s:37:"data/discover/1461120899663962607.png";s:3:"url";s:37:"ecjiaopen://app?open_type=orders_list";s:4:"text";s:6:"订单";s:4:"sort";s:1:"4";s:7:"display";i:0;}i:11;a:5:{s:3:"src";s:37:"data/discover/1459462356158907938.png";s:3:"url";s:17:"https://ecjia.com";s:4:"text";s:9:"ec+官网";s:4:"sort";s:1:"5";s:7:"display";i:1;}i:12;a:5:{s:3:"src";s:37:"data/discover/1459462516430706755.png";s:3:"url";s:32:"ecjiaopen://app?open_type=qrcode";s:4:"text";s:15:"二维码扫描";s:4:"sort";s:1:"9";s:7:"display";i:0;}i:13;a:5:{s:3:"src";s:37:"data/discover/1484012474751128146.png";s:3:"url";s:41:"https://ecjia.com/wiki/帮助:ECJia到家";s:4:"text";s:18:"ECJia到家帮助 ";s:4:"sort";s:2:"11";s:7:"display";i:1;}i:14;a:5:{s:3:"src";s:37:"data/discover/1459462573769329651.png";s:3:"url";s:34:"ecjiaopen://app?open_type=groupbuy";s:4:"text";s:12:"意见反馈";s:4:"sort";s:2:"11";s:7:"display";i:0;}i:15;a:5:{s:3:"src";s:37:"data/discover/1459462586681562881.png";s:3:"url";s:34:"ecjiaopen://app?open_type=feedback";s:4:"text";s:6:"咨询";s:4:"sort";s:2:"12";s:7:"display";i:0;}i:16;a:5:{s:3:"src";s:37:"data/discover/1459462602180937166.png";s:3:"url";s:30:"ecjiaopen://app?open_type=help";s:4:"text";s:12:"帮助中心";s:4:"sort";s:2:"13";s:7:"display";i:1;}}', 'options' => ['type' => 'hidden']],
-//             ['code' => 'mobile_shortcut_data', 'value' => 'a:10:{i:0;a:5:{s:3:"src";s:37:"data/shortcut/1478221589448573017.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1032";s:4:"text";s:12:"水果蔬菜";s:4:"sort";s:1:"0";s:7:"display";i:1;}i:1;a:5:{s:3:"src";s:37:"data/shortcut/1477700183823048386.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1047";s:4:"text";s:12:"肉禽蛋奶";s:4:"sort";s:1:"1";s:7:"display";i:1;}i:2;a:5:{s:3:"src";s:37:"data/shortcut/1477700190620505129.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1064";s:4:"text";s:12:"冷热速食";s:4:"sort";s:1:"2";s:7:"display";i:1;}i:3;a:5:{s:3:"src";s:37:"data/shortcut/1477700197732149350.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1078";s:4:"text";s:12:"休闲食品";s:4:"sort";s:1:"3";s:7:"display";i:1;}i:4;a:5:{s:3:"src";s:37:"data/shortcut/1477700204215089751.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1092";s:4:"text";s:12:"酒水饮料";s:4:"sort";s:1:"5";s:7:"display";i:1;}i:5;a:5:{s:3:"src";s:37:"data/shortcut/1477700210378659761.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1114";s:4:"text";s:12:"粮油调味";s:4:"sort";s:1:"6";s:7:"display";i:1;}i:6;a:5:{s:3:"src";s:37:"data/shortcut/1477700217181679112.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1135";s:4:"text";s:12:"清洁日化";s:4:"sort";s:1:"7";s:7:"display";i:1;}i:7;a:5:{s:3:"src";s:37:"data/shortcut/1477700223890846471.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1167";s:4:"text";s:12:"家居用品";s:4:"sort";s:1:"8";s:7:"display";i:1;}i:8;a:5:{s:3:"src";s:37:"data/shortcut/1477700537011530251.png";s:3:"url";s:60:"ecjiaopen://app?open_type=goods_seller_list&category_id=1186";s:4:"text";s:12:"鲜花蛋糕";s:4:"sort";s:1:"9";s:7:"display";i:1;}i:9;a:5:{s:3:"src";s:37:"data/shortcut/1477700617184169592.png";s:3:"url";s:46:"ecjiaopen://app?open_type=seller&category_id=6";s:4:"text";s:12:"上门服务";s:4:"sort";s:2:"10";s:7:"display";i:1;}}', 'options' => ['type' => 'hidden']],
-//             ['code' => 'mobile_launch_adsense', 'value' => '102', 'options' => ['type' => 'manual']],
-//             ['code' => 'mobile_home_adsense1', 'value' => '89', 'options' => ['type' => 'hidden']],
-//             ['code' => 'mobile_home_adsense2', 'value' => '90', 'options' => ['type' => 'hidden']],
             ['code' => 'mobile_recommend_city', 'value' => 'CN310101,CN310104,CN310105,CN310106,CN310107,CN310109,CN310112,CN310113,CN310114,CN310115,CN310117', 'options' => ['type' => 'manual']],
-//             ['code' => 'mobile_cycleimage_data', 'value' => "a:5:{i:0;a:5:{s:3:\"src\";s:39:\"data/afficheimg/1449695891057975664.png\";s:3:\"url\";s:51:\"ecjiaopen://app?open_type=goods_detail&goods_id=507\";s:4:\"text\";s:0:\"\";s:4:\"sort\";s:1:\"1\";s:7:\"display\";i:0;}i:1;a:5:{s:3:\"src\";s:39:\"data/afficheimg/1449695897009489967.png\";s:3:\"url\";s:51:\"ecjiaopen://app?open_type=goods_list&category_id=11\";s:4:\"text\";s:0:\"\";s:4:\"sort\";s:1:\"2\";s:7:\"display\";i:0;}i:2;a:5:{s:3:\"src\";s:39:\"data/afficheimg/1449695966324425303.png\";s:3:\"url\";s:51:\"ecjiaopen://app?open_type=goods_list&category_id=12\";s:4:\"text\";s:0:\"\";s:4:\"sort\";s:1:\"3\";s:7:\"display\";i:0;}i:3;a:5:{s:3:\"src\";s:39:\"data/afficheimg/1449695980936007359.png\";s:3:\"url\";s:52:\"ecjiaopen://app?open_type=goods_list&category_id=143\";s:4:\"text\";s:0:\"\";s:4:\"sort\";s:1:\"3\";s:7:\"display\";i:0;}i:4;a:5:{s:3:\"src\";s:39:\"data/afficheimg/1449695988307349360.png\";s:3:\"url\";s:50:\"ecjiaopen://app?open_type=goods_list&category_id=5\";s:4:\"text\";s:0:\"\";s:4:\"sort\";s:1:\"5\";s:7:\"display\";i:0;}}", 'options' => ['type' => 'hidden']],
             ['code' => 'mobile_pc_url', 'value' => 'https://cityo2o.ecjia.com', 'options' => ['type' => 'text']],
             ['code' => 'mobile_touch_url', 'value' => 'https://cityo2o.ecjia.com/sites/m/', 'options' => ['type' => 'text', 'sort_order' => '2']],
             ['code' => 'mobile_iphone_download', 'value' => 'https://itunes.apple.com/cn/app/ec+dao-jia/id1118895347?mt=8', 'options' => ['type' => 'text', 'sort_order' => '3']],
@@ -440,8 +436,6 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'mobile_phone_login_bgimage', 'value' => 'data/assets/mobile_phone_login_bgimage.png', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
 //             ['code' => 'mobile_topic_adsense', 'value' => '', 'options' => ['type' => 'manual']],
             ['code' => 'mobile_shopkeeper_urlscheme', 'value' => 'com.ecjia.cityo2o://', 'options' => ['type' => 'hidden']],
-//             ['code' => 'mobile_cycleimage_phone_data', 'value' => 'a:5:{i:0;a:5:{s:3:"src";s:39:"data/afficheimg/1471820010293706033.png";s:3:"url";s:53:"ecjiaopen://app?open_type=goods_list&category_id=1032";s:4:"text";s:0:"";s:4:"sort";s:1:"1";s:7:"display";i:0;}i:1;a:5:{s:3:"src";s:39:"data/afficheimg/1470680042094971654.png";s:3:"url";s:51:"ecjiaopen://app?open_type=goods_detail&goods_id=693";s:4:"text";s:0:"";s:4:"sort";s:1:"2";s:7:"display";i:0;}i:2;a:5:{s:3:"src";s:39:"data/afficheimg/1470679954374104363.png";s:3:"url";s:51:"ecjiaopen://app?open_type=goods_list&category_id=12";s:4:"text";s:0:"";s:4:"sort";s:1:"3";s:7:"display";i:0;}i:3;a:5:{s:3:"src";s:39:"data/afficheimg/1470680474723510488.png";s:3:"url";s:52:"ecjiaopen://app?open_type=goods_list&category_id=143";s:4:"text";s:0:"";s:4:"sort";s:1:"4";s:7:"display";i:0;}i:4;a:5:{s:3:"src";s:39:"data/afficheimg/1470680492405164776.png";s:3:"url";s:50:"ecjiaopen://app?open_type=goods_list&category_id=5";s:4:"text";s:0:"";s:4:"sort";s:1:"5";s:7:"display";i:0;}}', 'options' => ['type' => 'hidden']],
-//             ['code' => 'mobile_home_adsense_group', 'value' => '98,97,99,100,101', 'options' => ['type' => 'manual']],
             ['code' => 'mobile_iphone_qrcode', 'value' => 'data/assets/qrcode.png', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
             ['code' => 'mobile_ipad_qrcode', 'value' => '', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
             ['code' => 'mobile_android_qrcode', 'value' => 'data/assets/qrcode.png', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
@@ -462,7 +456,10 @@ class InitShopConfigTableSeeder extends Seeder
         $this->add_config($group, $data);
     }
     
-    protected function addon_group_11()
+    /**
+     * 插件组
+     */
+    protected function G11_addon()
     {
         $group = 'addon';
         
@@ -483,6 +480,26 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'addon_merchant_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_cron_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_connect_plugins', 'value' => 'a:1:{s:6:"sns_qq";s:17:"sns_qq/sns_qq.php";}', 'options' => ['type' => 'hidden']],
+        ];
+        
+        $this->add_config($group, $data);
+    }
+    
+    /**
+     * 打印组
+     */
+    protected function G12_printer()
+    {
+        $group = 'printer';
+        
+        $data = [
+            //v1.11.0新增
+            ['code' => 'printer_key', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_secret', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_print_push', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_status_push', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_order_push', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_display_platform', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
         ];
         
         $this->add_config($group, $data);
