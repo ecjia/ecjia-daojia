@@ -132,9 +132,9 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    			 
 	    			$max_code = $max_code ? ceil($max_code/10000) : 1000000;
 	    			$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
-	    			 
+	    			$mobile = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('mobile_phone');
 	    			$options = array(
-	    					'mobile' => $order['user_mobile'],
+	    					'mobile' => $mobile,
 	    					'event'	 => 'sms_order_pickup',
 	    					'value'  =>array(
 	    							'order_sn'  	=> $order['order_sn'],
@@ -219,6 +219,12 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
                 ),
             );
             RC_Api::api('sms', 'send_event_sms', $options);
+        }
+        
+        //打印订单
+        $res = with(new Ecjia\App\Quickpay\OrderPrint($order_id, $order['store_id']))->doPrint(true);
+        if (is_ecjia_error($res)) {
+        	RC_Logger::getLogger('error')->error($res->get_error_message());
         }
     }
 }

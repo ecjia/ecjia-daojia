@@ -47,32 +47,22 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author songqianqian
+ * 打印订单
  */
-class quickpay_merchant_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-        	array('action_name' => '买单规则管理', 'action_code' => 'mh_quickpay_manage', 'relevance'   => ''),
-        	array('action_name' => '买单规则更新', 'action_code' => 'mh_quickpay_update', 'relevance'   => ''),
-        	array('action_name' => '买单规则删除', 'action_code' => 'mh_quickpay_delete', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单订单管理', 'action_code' => 'mh_quickpay_order_manage', 'relevance'   => ''),
-        	array('action_name' => '买单订单核实', 'action_code' => 'mh_quickpay_order_update', 'relevance'   => ''),
-        	array('action_name' => '买单订单删除', 'action_code' => 'mh_quickpay_order_delete', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单订单查询', 'action_code' => 'mh_quickpay_order_search', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单订单统计', 'action_code' => 'mh_quickpay_sale_general_stats', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单销售明细', 'action_code' => 'mh_sale_list_stats', 'relevance'   => ''),
-        	
-        	array('action_name' => '买单打印', 'action_code' => 'mh_quickpay_order_print', 'relevance'   => ''),
-	
-        );
-        return $purviews;
+class mh_print extends ecjia_merchant
+{
+    public function init()
+    {
+        $this->admin_priv('mh_quickpay_order_print', ecjia::MSGTYPE_JSON);
+
+        $order_id = intval($_GET['order_id']);
+        $result = with(new Ecjia\App\Quickpay\OrderPrint($order_id, $_SESSION['store_id']))->doPrint();
+
+        if (is_ecjia_error($result)) {
+            return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        return $this->showmessage('打印已发送', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/mh_order/order_info', array('order_id' => $order_id))));
     }
 }
 
-// end
+//end

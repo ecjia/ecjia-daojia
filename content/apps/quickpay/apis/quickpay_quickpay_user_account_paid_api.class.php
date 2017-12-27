@@ -181,9 +181,10 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 					 
 					$max_code = $max_code ? ceil($max_code/10000) : 1000000;
 					$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
-					 
+					$mobile = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('mobile_phone');
+					
 					$options = array(
-							'mobile' => $order_info['mobile'],
+							'mobile' => $mobile,
 							'event'	 => 'sms_order_pickup',
 							'value'  =>array(
 									'order_sn'  	=> $order_info['order_sn'],

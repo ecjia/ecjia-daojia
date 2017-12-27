@@ -110,8 +110,8 @@ class admin_sale_list extends ecjia_admin {
 		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,
 				COUNT(DISTINCT order_sn) AS order_count,
 				SUM(goods_amount) AS goods_amount,
-				SUM(order_amount) AS order_amount,
-				SUM(goods_amount - order_amount) AS favorable_amount")
+				SUM(order_amount + surplus) AS order_amount,
+				SUM(goods_amount - order_amount -surplus) AS favorable_amount")
 		->groupby('period')
 		->get();
 
@@ -174,15 +174,15 @@ class admin_sale_list extends ecjia_admin {
 	
 		$count_data = $db_quickpay_order
 		->selectRaw("COUNT(DISTINCT order_sn) AS order_count,
-				SUM(order_amount) AS order_amount")
+				SUM(order_amount + surplus) AS order_amount")
 		->get();
 		
 		$sale_list_data = $db_quickpay_order
 		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,
 				COUNT(DISTINCT order_sn) AS order_count, 
 				SUM(goods_amount) AS goods_amount,
-				SUM(order_amount) AS order_amount, 
-				SUM(goods_amount - order_amount) AS favorable_amount")
+				SUM(order_amount + surplus) AS order_amount, 
+				SUM(goods_amount - order_amount -surplus) AS favorable_amount")
 		->groupby('period')
 		->get();
 		

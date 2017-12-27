@@ -64,6 +64,15 @@
 	                  ecjia.merchant.showmessage(data);
 	             }, 'json');
 	         });
+	    	 
+             $('.toggle_view').off('click').on('click', function (e) {
+                 e.preventDefault();
+                 var $this = $(this);
+                 var url = $this.attr('data-href');
+                 $.post(url, function (data) {
+              	   ecjia.merchant.showmessage(data);
+                 }, 'json');
+             });
 	    }
 	};
     

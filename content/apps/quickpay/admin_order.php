@@ -123,6 +123,7 @@ class admin_order extends ecjia_admin {
 		} elseif ($order_info['activity_type'] == 'normal') {
 			$order_info['activity_name'] = '无优惠';
 		}
+		$order_info['order_amount'] = $order_info['order_amount'] + $order_info['surplus'];
 		$order_info['status'] = RC_Lang::get('quickpay::order.os.'.$order_info['order_status']) . ',' . RC_Lang::get('quickpay::order.ps.'.$order_info['pay_status']) . ',' . RC_Lang::get('quickpay::order.vs.'.$order_info['verification_status']);
 		$this->assign('order_info', $order_info);
 		
@@ -243,7 +244,7 @@ class admin_order extends ecjia_admin {
 		$count = $db_quickpay_order->count();
 		$page = new ecjia_page($count,10, 5);
 		$data = $db_quickpay_order
-		->select('order_id', 'order_sn', 'activity_type', 'user_mobile', 'user_name', 'add_time', 'goods_amount', 'order_amount', RC_DB::raw('sf.merchants_name'),RC_DB::raw('sf.manage_mode'))
+		->select('order_id', 'order_sn', 'activity_type', 'user_mobile', 'user_name', 'add_time', 'goods_amount', 'order_amount', 'surplus', RC_DB::raw('sf.merchants_name'),RC_DB::raw('sf.manage_mode'))
 		->orderby('order_id', 'asc')
 		->take(10)
 		->skip($page->start_id-1)
@@ -252,6 +253,7 @@ class admin_order extends ecjia_admin {
 		if (!empty($data)) {
 			foreach ($data as $row) {
 				$row['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
+				$row['order_amount'] = $row['order_amount'] +  $row['surplus'];
 				$res[] = $row;
 			}
 		}

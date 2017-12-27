@@ -9,7 +9,7 @@ ecjia.merchant.order_info.init();
 
 <!-- {block name="home-content"} -->
 
-<!-- #BeginLibraryItem "/library/quickpay_order_step.lbi" --><!-- #EndLibraryItem -->
+
 
 <div class="page-header">
 	<div class="pull-left">
@@ -23,6 +23,19 @@ ecjia.merchant.order_info.init();
 		{/if}
   	</div>
   	<div class="clearfix"></div>
+</div>
+
+<!-- #BeginLibraryItem "/library/quickpay_order_step.lbi" --><!-- #EndLibraryItem -->
+
+<div class="row">
+	<div class="col-lg-12 panel-heading form-inline">
+		<div class="form-group"><h3>订单号：{$order_info.order_sn}</h3></div>
+		<div class="form-group pull-right">
+			{if $has_payed eq 1}
+     		<button type="button" class="btn btn-primary toggle_view" data-href='{url path="quickpay/mh_print/init" args="order_id={$order_info.order_id}"}'>小票打印</button>
+     		{/if}
+		</div>
+	</div>
 </div>
 
 <div class="row-fluid">

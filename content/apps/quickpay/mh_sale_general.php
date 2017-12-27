@@ -84,7 +84,7 @@ class mh_sale_general extends ecjia_merchant {
         $data_count = RC_DB::table('quickpay_orders')
         	->select(RC_DB::raw('COUNT(DISTINCT order_sn) AS order_count'),
         		RC_DB::raw('SUM(goods_amount) AS goods_amount'),
-        		RC_DB::raw('SUM(IF(pay_code = "pay_balance", surplus, order_amount)) AS order_amount'),
+        		RC_DB::raw('SUM(IF(pay_code = "pay_balance", surplus , order_amount)) AS order_amount'),
         		RC_DB::raw('SUM(goods_amount - (IF(pay_code = "pay_balance", surplus, order_amount))) AS favorable_amount'))
         		->where('store_id', $_SESSION['store_id'])
         		->where('pay_time','<>','0')
@@ -180,7 +180,7 @@ class mh_sale_general extends ecjia_merchant {
 		$db_quickpay_order->where('pay_time', '>=', $start_time);
 		$db_quickpay_order->where('pay_time', '<=', $end_time);
 		$data_list = $db_quickpay_order
-		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,COUNT(DISTINCT order_sn) AS order_count, SUM(order_amount) AS order_amount")
+		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,COUNT(DISTINCT order_sn) AS order_count, SUM(order_amount + surplus) AS order_amount")
 		->groupby('period')
 		->get();
 		
@@ -249,7 +249,7 @@ class mh_sale_general extends ecjia_merchant {
 		$db_quickpay_order->where('pay_time', '>=', $start_time);
 		$db_quickpay_order->where('pay_time', '<=', $end_time);
 		$templateCount = $db_quickpay_order
-		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,COUNT(DISTINCT order_sn) AS order_count, SUM(order_amount) AS order_amount")
+		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,COUNT(DISTINCT order_sn) AS order_count, SUM(order_amount + surplus) AS order_amount")
 		->groupby('period')
 		->get();
 		

@@ -157,7 +157,7 @@ class admin_sale_general extends ecjia_admin {
         $db_quickpay_order->where('pay_time', '>=', $start_time);
         $db_quickpay_order->where('pay_time', '<=', $end_time);
         $data_list = $db_quickpay_order
-        ->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,COUNT(DISTINCT order_sn) AS order_count, SUM(order_amount) AS order_amount")
+        ->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,COUNT(DISTINCT order_sn) AS order_count, SUM(order_amount + surplus) AS order_amount")
         ->groupby('period')
         ->get();
         
@@ -226,7 +226,7 @@ class admin_sale_general extends ecjia_admin {
 		$db_quickpay_order->where('pay_time', '>=', $start_time);
 		$db_quickpay_order->where('pay_time', '<=', $end_time);
 		$templateCount = $db_quickpay_order
-		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,COUNT(DISTINCT order_sn) AS order_count, SUM(order_amount) AS order_amount")
+		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,COUNT(DISTINCT order_sn) AS order_count, SUM(order_amount + surplus) AS order_amount")
 		->groupby('period')
 		->get();
 		
