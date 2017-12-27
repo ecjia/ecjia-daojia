@@ -53,10 +53,15 @@ ecjia.merchant.bill.record()
 	        				<!-- {foreach from=$record_list.item key=key item=list} -->
 	        				<tr>
 	            				<td>
-	        						{if $list.order_type eq 1 ||$list.order_type eq 11}收入{/if}{if $list.order_type eq 2}支出{/if}
+	        						{if $list.order_type eq 1 || $list.order_type eq 11}收入{/if}{if $list.order_type eq 2}支出{/if}
 	        					</td>
 	        					<td>
+	        					{if $list.order_type_name eq '购物订单'} 
 	        						{assign var=order_url value=RC_Uri::url('orders/merchant/info',"order_id={$list.order_id}")}
+	        					{else} 
+	        						{assign var=order_url value=RC_Uri::url('quickpay/mh_order/order_info',"order_id={$list.order_id}")}
+	        					{/if}
+	        						
 	    					       <a href="{$order_url}" target="_blank">{$list.order_sn}</a>
 	        					</td>
 	        					<td>{$list.order_add_time}</td>

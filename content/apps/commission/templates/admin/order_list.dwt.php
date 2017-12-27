@@ -48,7 +48,12 @@
 					<tr>
 						<td>{$list.order_type_name}</td>
 						<td>
+						{if $list.order_type_name eq '购物订单'} 
 							{assign var=order_url value=RC_Uri::url('orders/admin/info',"order_id={$list.order_id}")}
+						{else}
+							{assign var=order_url value=RC_Uri::url('quickpay/admin_order/order_info',"order_id={$list.order_id}")}
+						{/if}
+						
 						     <a href="{$order_url}" target="_blank">{$list.order_sn}</a>
 						</td>
 					    <td>
