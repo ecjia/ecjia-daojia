@@ -238,6 +238,7 @@ return array(
     'admin/order/check'			=> 'orders::admin/orders/check',	//收银台验单
     'admin/order/quickpay'		=> 'orders::admin/orders/quickpay', //收银台快速收款
 	'admin/stats/payment' 		=> 'orders::admin/stats/payment',   //收银台收银统计
+	'admin/order/pay'           => 'orders::admin/orders/pay',//收银台付款
 
     //商家后台商品
 	'admin/goods/list'			=> 'goods::admin/goods/list',
