@@ -44,19 +44,26 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Finance;
 
-/**
-* 添加管理员记录日志操作对象
-*/
-function assign_adminlog() {
-	ecjia_admin_log::instance()->add_object('usermoney', RC_Lang::get('user::users.usermoney'));
-	ecjia_admin_log::instance()->add_object('user_account', RC_Lang::get('user::users.user_account'));
+use ecjia_admin_log;
 
-	ecjia_admin_log::instance()->add_object('withdraw_apply', RC_Lang::get('user::user_account.withdraw_apply'));
-	ecjia_admin_log::instance()->add_object('pay_apply', RC_Lang::get('user::user_account.pay_apply'));
+class Helper
+{
+    
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+    	ecjia_admin_log::instance()->add_object('usermoney', '会员账户');
+	    ecjia_admin_log::instance()->add_object('user_account', '充值提现');
 	
-	ecjia_admin_log::instance()->add_action('check', RC_Lang::get('user::users.check'));
+	    ecjia_admin_log::instance()->add_object('withdraw_apply', '提现申请');
+	    ecjia_admin_log::instance()->add_object('pay_apply', '充值申请');
+	    
+	    ecjia_admin_log::instance()->add_action('check', '到款审核');
+    }
+    
 }
-	
-//end
+
+// end

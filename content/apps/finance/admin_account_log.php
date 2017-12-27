@@ -54,8 +54,8 @@ class admin_account_log extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Loader::load_app_func('admin_user');
-		RC_Loader::load_app_func('global');
-		assign_adminlog();
+		
+		Ecjia\App\Finance\Helper::assign_adminlog_content();
 		
 		/* 加载所需js */
 		RC_Script::enqueue_script('jquery-validate');
