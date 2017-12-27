@@ -1,0 +1,393 @@
+.setting-group-title {
+	position: relative;
+	display: block;
+	padding: 10px 15px;
+	border: 1px solid #ddd;
+	color: #555;
+	font-weight: 400;
+	font-size: 15px;
+	background: #e7e7e7;
+	border-radius: 4px
+}
+
+.setting-group-item {
+	position: relative;
+	display: block;
+	padding: 5px 15px;
+	color: #555;
+	border-radius: 4px
+}
+
+.setting-group-item.llv-active,.setting-group-item.llv-active:focus,.setting-group-item.llv-active:hover {
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #337ab7;
+	padding: 5px 15px;
+}
+
+.setting-group .nav>li>a {
+	padding: 5px 15px;
+}
+
+.setting-group .nav li+.nav-header {
+    margin-top: 12px;
+}
+
+.setting-group a:hover {
+	color: #555;
+	text-decoration: inherit;
+	background-color: #f2f2f2;
+	border-radius: 4px
+}
+
+.change>li>a {
+	display: block;
+	padding: 5px 15px;
+	position: relative
+}
+
+.nav>li>a:hover {
+	background-color: #e7e7e7
+}
+
+.nav-list-title {
+	margin: 5px 0;
+	padding-left: 15px;
+	color: #999
+}
+
+.setting-group .nav-header {
+	margin: 5px 0;
+	padding-left: 15px;
+	color: #999;
+	font-size: 13px;
+}
+
+.printer_list.wookmark ul {
+	width: 100%;
+	overflow: hidden;
+	display: block;
+	-webkit-padding-start: 0;
+	padding: 0;
+}
+
+.no_printer {
+	height: 100px;
+    line-height: 100px;
+	background-color: #f9f9f9;
+}
+
+.ticket_box {
+	height: auto;
+	border: 1px solid #ddd;
+	padding: 20px;
+	font-size: 16px;
+	line-height: 30px;
+	position: relative
+}
+
+.ticket_box .store_logo {
+	margin-bottom: 10px
+}
+
+.ticket_box_header {
+	text-align: center
+}
+
+.ticket_box_header .pay_status {
+	font-size: 18px;
+	font-weight: 700
+}
+
+.ticket_box .store_logo img {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%
+}
+
+.ticket_content {
+	padding: 10px 0;
+	border-bottom: 2px dashed #ddd;
+	font-size: 15px;
+	overflow: hidden
+}
+
+.ticket_content.top_dashed {
+	border-top: 2px dashed #ddd;
+	margin-top: 2px
+}
+
+.ticket_content.no_dashed {
+	border-bottom: none;
+	padding-bottom: 0
+}
+
+.ticket_content.dashed {
+	border-top: 2px dashed #ddd;
+	border-bottom: none;
+	margin-top: 10px;
+}
+
+.ticket_content p.star {
+	display: inline-block;
+	vertical-align: middle;
+	height: 30px;
+	line-height: 40px
+}
+
+.ticket_content ul {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin-bottom: 0
+}
+
+.ticket_content p {
+    text-align: left;
+    margin: 0;
+    line-height: 30px;
+    height: 30px;
+}
+
+.ticket_content li {
+    list-style: none;
+    float: left;
+    padding: 0 30px;
+    text-align: center;
+    width: 120px;
+}
+
+.ticket_content li:first-child {
+	padding-left: 0;
+	width: 100px
+}
+
+.ticket_content li:last-child {
+	padding-right: 0;
+	width: 100px
+}
+
+.ticket_content .total {
+	float: right;
+	font-weight: 700;
+	font-size: 18px;
+}
+
+.ticket_content .ticket-item .left-item {
+	width: 50%;
+	float: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap
+}
+
+.ticket_content .ticket-item .right-item {
+	float: left;
+	width: 50%
+}
+
+.ticket_box .page_number {
+	position: absolute;
+	right: 15px;
+	bottom: 0;
+	font-size: 10px
+}
+
+.ticket_content .title {
+	height: 35px;
+	line-height: 30px;
+	text-align: center
+}
+
+.ticket_content .title .line {
+	display: inline-block;
+	width: 130px;
+	border-top: 2px dashed #ddd;
+	vertical-align: middle
+}
+
+.ticket_content .title .txt {
+	color: #686868;
+	vertical-align: middle;
+	display: inline-block;
+	width: 60px
+}
+
+.ticket_form label+div.col-lg-7,label+div.col-lg-2 {
+	padding-top: 7px
+}
+
+.ticket_form.form-horizontal .control-label {
+	text-align: left
+}
+
+.ticket_form .tail_textarea {
+	height: 90px
+}
+
+.ticket_form xmp {
+	display: inline-block
+}
+
+.ticket_form .toggle-button label,.ticket_form .toggle-button span {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box
+}
+
+#testPrint .form-horizontal {
+	margin: 0 10px;
+}
+
+textarea.form-control.test_textarea {
+	height: 150px;
+}
+
+.ticket-item.qrcode {
+	text-align: center;
+    margin: 10px auto;
+}
+
+.ticket-item.qrcode img {
+	width: 120px;
+    height: 120px;
+}
+
+.onoffswitch {
+	position: relative;
+	width: 98px;
+	height: 34px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.onoffswitch-checkbox {
+	display: none
+}
+
+.onoffswitch-label {
+	display: block;
+	overflow: hidden;
+	cursor: pointer;
+	border: 2px solid #1AB394;
+	border-radius: 3px
+}
+
+.switch [type=checkbox]+label {
+	position: absolute;
+	padding-left: 0;
+	padding-right: 0;
+	height: 34px;
+	line-height: 40px;
+	display: block;
+	width: 100px;
+	margin-bottom: 0;
+	top: 12px;
+}
+
+.switch [type=checkbox]:not(:checked)+label:after {
+	display: none
+}
+
+.onoffswitch-inner {
+	display: block;
+	width: 200%;
+	margin-left: -100%;
+	-moz-transition: margin .3s ease-in 0s;
+	-webkit-transition: margin .3s ease-in 0s;
+	-o-transition: margin .3s ease-in 0s;
+	transition: margin .3s ease-in 0s
+}
+
+.onoffswitch-inner:after,.onoffswitch-inner:before {
+	display: block;
+	float: left;
+	width: 50%;
+	height: 31px;
+	padding: 0;
+	line-height: 30px;
+	font-size: 14px;
+	color: #fff;
+	font-family: Trebuchet,Arial,sans-serif;
+	font-weight: 700;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.onoffswitch-inner:before {
+	content: "ON";
+	padding-left: 7px;
+	background-color: #1AB394;
+	color: #FFF
+}
+
+.onoffswitch-inner:after {
+	content: "OFF";
+	padding-right: 12px;
+	background-color: #FFF;
+	color: #919191;
+	text-align: right;
+}
+
+.switch.info-toggle-button .onoffswitch-inner:before {
+	content: "蜂鸣器";
+}
+
+.switch.info-toggle-button .onoffswitch-inner:after {
+	content: "喇叭";
+}
+
+.switch.info-toggle-print-type .onoffswitch-inner:before {
+	content: "开启";
+	padding-left: 10px;
+}
+
+.switch.info-toggle-print-type .onoffswitch-inner:after {
+	content: "关闭";
+}
+
+.switch.info-toggle-getorder .onoffswitch-inner:before {
+	content: "开启";
+	padding-left: 10px;
+}
+
+.switch.info-toggle-getorder .onoffswitch-inner:after {
+	content: "关闭";
+}
+
+.onoffswitch-switch {
+	display: block;
+	width: 44px;
+	margin: 0px;
+	background: #FFF;
+	border: 2px solid #1AB394;
+	border-radius: 3px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 54px;
+	-moz-transition: all .3s ease-in 0s;
+	-webkit-transition: all .3s ease-in 0s;
+	-o-transition: all .3s ease-in 0s;
+	transition: all .3s ease-in 0s;
+}
+
+.onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-inner {
+	margin-left: 0
+}
+
+.onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch {
+	right: 0
+}
+
+.switch {
+	display: inline-block;
+	margin-left: 80px;
+}
+
+.switch [type=checkbox]+label:before,.switch [type=checkbox]:checked+label:after {
+	display: none
+}
