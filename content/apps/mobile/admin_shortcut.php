@@ -62,8 +62,7 @@ class admin_shortcut extends ecjia_admin {
 			ecjia_config::instance()->insert_config('hidden', mobile_method::STORAGEKEY_shortcut_data, serialize(array()), array('type' => 'hidden'));
 		}
 
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Mobile\Helper::assign_adminlog_content();
 
 		/* 加载所需js */
 		RC_Script::enqueue_script('jquery-validate');

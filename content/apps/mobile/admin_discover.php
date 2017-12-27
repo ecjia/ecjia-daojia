@@ -60,9 +60,8 @@ class admin_discover extends ecjia_admin {
 		if (!ecjia::config(mobile_method::STORAGEKEY_discover_data, ecjia::CONFIG_CHECK)) {
 			ecjia_config::instance()->insert_config('hidden', mobile_method::STORAGEKEY_discover_data, serialize(array()), array('type' => 'hidden'));
 		}
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
-
+		Ecjia\App\Mobile\Helper::assign_adminlog_content();
+		
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');

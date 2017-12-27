@@ -57,8 +57,7 @@ class admin_mobile_activity extends ecjia_admin {
 		/*数据模型*/
 		$this->db_activity = RC_Model::model('mobile/mobile_activity_model');
 
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Mobile\Helper::assign_adminlog_content();
 
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-uniform');

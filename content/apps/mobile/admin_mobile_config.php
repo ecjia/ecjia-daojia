@@ -57,8 +57,7 @@ class admin_mobile_config extends ecjia_admin {
 		
 		$this->db_mobile_manage = RC_Model::model('mobile/mobile_manage_model');
 		
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Mobile\Helper::assign_adminlog_content();
 		
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');

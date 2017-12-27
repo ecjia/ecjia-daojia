@@ -58,8 +58,7 @@ class admin_device extends ecjia_admin {
 		/* 数据模型加载 */
 		$this->db_device = RC_Model::model('mobile/mobile_device_model');
 		
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Mobile\Helper::assign_adminlog_content();
 		
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
