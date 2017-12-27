@@ -55,14 +55,46 @@ class detail_module extends api_front implements api_interface
 
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-    	$city = $this->requestData('city');
-		
-    	$citys = ecjia_region::getRegionsBySearch($city, 3);
-    	$city_detail = head($citys);
-    	return array(
-			'region_id'		=> $city_detail['region_id'],
-			'region_name'	=> $city_detail['region_name'],
-		);
+        $api_version = $this->request->header('api-version');
+        
+        $city = $this->requestData('city');
+        $city_id = trim($this->requestData('city_id'));
+        
+        if (empty($city) && empty($city_id)) {
+        	return new ecjia_error('invalid_parameter', '缺少参数');
+        }
+        
+        // API版本大于1.9使用新接口返回数据
+        if (version_compare($api_version, '1.9', '>')) {
+            if (empty($city_id)) {
+                $citys = ecjia_region::getRegionsBySearch($city, 3);
+                $city_detail = head($citys);
+                $city_id = $city_detail['region_id'];
+            } else {
+                $pre = substr($city_id, 0, 2);
+                $shop_country = ecjia::config('shop_country');
+                if ($pre != $shop_country) {
+                    $city_id = $shop_country.$city_id;
+                }
+            }
+             
+            $all = ecjia_region::getRegionsWithRecursivelyUpwards($city_id);
+            $city_detail = last($all);
+            $result = array(
+                'region_id'		=> $city_detail['region_id'],
+                'region_name'	=> $city_detail['region_name'],
+                'regions'       => $all,
+            );
+        } else {
+            $citys = ecjia_region::getRegionsBySearch($city, 3);     
+            $city_detail = head($citys);
+            $result = array(
+                'region_id'		=> $city_detail['region_id'],
+                'region_name'	=> $city_detail['region_name'],
+            );
+        }
+    	
+    	return $result;
 	}
 }
 

@@ -2,20 +2,26 @@
 ;(function(app, $) {
 	app.setting = {
 		init : function() {
-			$(".ajaxremove").on('click', function(e){
+			$(".ajaxmenu").on('click', function(e){
 				e.preventDefault();
 				//$('.alert-error').removeClass('kind-notice');
 				var $this = $(this);
-				$this.html(js_lang.getting).addClass('disabled');
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
 				
 				var info = '';
 				var value = $(this).attr('data-value');
 				info = js_lang.get_region_info;
+				
 				var url = $(this).attr('data-url');
 				var message = $(this).attr('data-msg');
 				if (message) {
 					smoke.confirm(message,function(e){
-						app.setting.get_userinfo(url);
+						if (e) {
+							$this.html(js_lang.getting).addClass('disabled');
+							app.setting.get_userinfo(url);
+						}
 					}, {ok:js_lang.ok, cancel:js_lang.cancel});
 				} else { 
 					app.setting.get_userinfo(url);

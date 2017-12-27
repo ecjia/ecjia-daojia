@@ -68,7 +68,7 @@ class Region
      * @param string $regionId
      */
     public function getRegion($regionId) {
-        return RC_DB::table('regions')->where('region_id', $regionId)->first();
+        return RC_DB::table('regions')->where('region_id', $regionId)->select('region_id', 'region_name', 'parent_id', 'region_type')->first();
     }
     
     /**
@@ -89,7 +89,7 @@ class Region
      * @param array $regionIds
      */
     public function getRegions(array $regionIds) {
-        return RC_DB::table('regions')->whereIn('region_id', $regionIds)->get();
+        return RC_DB::table('regions')->whereIn('region_id', $regionIds)->select('region_id', 'region_name', 'parent_id', 'region_type')->get();
     }
     
     /**
@@ -120,7 +120,6 @@ class Region
         } else {
             $result = RC_DB::table('regions')->where('region_name', 'like', '%'.ecjia_mysql_like_quote($name).'%')->where('region_type', $type)->get();
         }
-        
         return $result;
     }
     
@@ -130,7 +129,9 @@ class Region
      * @param string $regionId
      */
     public function getRegionsWithRecursivelyUpwards($regionId) {
-        
+        $regions = $this->getSplitRegion($regionId);
+        $result = $this->getRegions($regions);
+        return $result;
     }
     
     /**
