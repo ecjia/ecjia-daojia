@@ -5,7 +5,9 @@
             app.shopguide.submit();
             app.shopguide.choose_area();
             app.shopguide.fileupload();
+            app.shopguide.region_click();
  
+            
             $('select[name="shipping"]').on('change', function () {
                 if ($(this).val() != '') {
                     $('.shipping_area').show();
@@ -165,6 +167,45 @@
                 return false;
             }
         },
+        
+        region_click : function() {
+			$(".get_region_info").on('click', function(e){
+				e.preventDefault();
+				var $this = $(this);
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				var value = $(this).attr('data-value');
+				var url = $(this).attr('data-url');
+				var message = $(this).attr('data-msg');
+				
+				if (message) {
+					smoke.confirm(message, function(e){
+						if (e) {
+							$this.html('正在获取中...').addClass('disabled');
+							app.shopguide.get_region(url);
+						}
+					}, {ok:'确定', cancel:'取消'});
+				} else { 
+					app.shopguide.get_region(url);
+				}
+			});	
+		},
+		
+		get_region : function(url){
+			$.ajax({
+				type: "get",
+				url: url,
+				dataType: "json",
+				success: function(data){
+					ecjia.admin.showmessage(data);
+					if (data.notice == 1) {
+						var url = data.url;
+						app.shopguide.get_region(url + '&page=' + data.page + '&more=' + data.more);
+					}
+				}
+			});
+		}
     }
 })(ecjia.admin, jQuery);
 

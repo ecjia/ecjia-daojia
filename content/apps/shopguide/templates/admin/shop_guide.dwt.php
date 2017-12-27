@@ -25,6 +25,12 @@
         <form class="stepy-wizzard form-horizontal application-installer" id="validate_wizard" action="{url path='shopguide/admin/step_post'}{if $smarty.get.step}&step={$smarty.get.step}{/if}" method="post" name="theForm">
             <!-- {if !$smarty.get.step || $smarty.get.step eq '1'} -->
             <fieldset class="step_one step">
+            	<h2>地区管理</h2>
+            	<div class="control-group m_t10 ecjiaf-pr">
+            		<label>地区同步：<span class="color_838383">点以下按钮可获取四级地区信息到本地。<br/>请务必先同步地区，才可进行其他操作。</span></label>
+            		<div class="controls"><button class="get_region_info btn m_t5" data-msg="你确定执行此操作吗？" data-url='{RC_Uri::url("shopguide/admin/get_regioninfo")}' data-value="get_regioninfo">{t}同步地区表信息{/t}</button></div>
+            	</div>
+            	
                 <h2>基本信息</h2>
                 <div class="control-group m_t10 ecjiaf-pr">
 					<label>{lang key='shopguide::shopguide.label_shop_name'}</label>

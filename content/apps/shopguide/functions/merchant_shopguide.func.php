@@ -63,64 +63,66 @@ function get_merchant_info($store_id = 0)
         $shop_time = unserialize($data['shop_trade_time']);
         unset($data['shop_trade_time']);
         $sart_time = explode(':', $shop_time['start']);
-        $end_time = explode(':', $shop_time['end']);
-        $s_time = $sart_time[0] * 60 + $sart_time[1];
-        $e_time = $end_time[0] * 60 + $end_time[1];
+        $end_time  = explode(':', $shop_time['end']);
+        $s_time    = $sart_time[0] * 60 + $sart_time[1];
+        $e_time    = $end_time[0] * 60 + $end_time[1];
     } else {
         // 默认时间点 8:00-21:00
         $s_time = 480;
         $e_time = 1260;
     }
-    $data['shop_trade_time'] = get_store_trade_time($store_id);
+    $data['shop_trade_time']     = get_store_trade_time($store_id);
     $data['shop_nav_background'] = !empty($data['shop_nav_background']) ? RC_Upload::upload_url($data['shop_nav_background']) : '';
-    $data['shop_logo'] = !empty($data['shop_logo']) ? RC_Upload::upload_url($data['shop_logo']) : '';
-    $data['shop_banner_pic'] = !empty($data['shop_banner_pic']) ? RC_Upload::upload_url($data['shop_banner_pic']) : '';
-    $data['shop_time_value'] = $s_time . "," . $e_time;
+    $data['shop_logo']           = !empty($data['shop_logo']) ? RC_Upload::upload_url($data['shop_logo']) : '';
+    $data['shop_banner_pic']     = !empty($data['shop_banner_pic']) ? RC_Upload::upload_url($data['shop_banner_pic']) : '';
+    $data['shop_time_value']     = $s_time . "," . $e_time;
     return $data;
 }
 
-function get_store_trade_time($store_id = 0) {
-	if (empty($store_id)) {
-		$store_id = $_SESSION['store_id'];
-	}
-	if (empty($store_id)) {
-		return false;
-	}
+function get_store_trade_time($store_id = 0)
+{
+    if (empty($store_id)) {
+        $store_id = $_SESSION['store_id'];
+    }
+    if (empty($store_id)) {
+        return false;
+    }
 
-	$trade_time = get_merchant_config('shop_trade_time', '', $store_id);
-	if (empty($trade_time)) {
-		return '暂未设置';
-	}
-	$trade_time = unserialize($trade_time);
-	if (empty($trade_time)) {
-		return '暂未设置';
-	}
-	$sart_time = $trade_time['start'];
-	$end_time = explode(':', $trade_time['end']);
-	if ($end_time[0] > 24) {
-		$end_time[0] = '次日'. ($end_time[0] - 24);
-	}
+    $trade_time = get_merchant_config('shop_trade_time', '', $store_id);
+    if (empty($trade_time)) {
+        return '暂未设置';
+    }
+    $trade_time = unserialize($trade_time);
+    if (empty($trade_time)) {
+        return '暂未设置';
+    }
+    $sart_time = $trade_time['start'];
+    $end_time  = explode(':', $trade_time['end']);
+    if ($end_time[0] > 24) {
+        $end_time[0] = '次日' . ($end_time[0] - 24);
+    }
 
-	return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
+    return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
 
 }
 
 /*
  * 获取店铺配置信息
  */
-function get_merchant_config($code = '', $arr = ''){
+function get_merchant_config($code = '', $arr = '')
+{
     $merchants_config = RC_Model::model('merchant/merchants_config_model');
-    if(empty($code)){
-        if(is_array($arr)){
-            $config = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->select('code','value')->get();
+    if (empty($code)) {
+        if (is_array($arr)) {
+            $config = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->select('code', 'value')->get();
             foreach ($config as $key => $value) {
                 $arr[$value['code']] = $value['value'];
             }
             return $arr;
-        }else{
-            return ;
+        } else {
+            return;
         }
-    }else{
+    } else {
         $config = $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $code))->get_field('value');
         return $config;
     }
@@ -132,23 +134,24 @@ function get_merchant_config($code = '', $arr = ''){
  *  @param string $code 接收图片参数
  *  @param string $old_images 旧图片
  */
-function shopguide_file_upload_info($path, $code, $old_images){
-    $code   = empty($code)? $path : $code;
-    $upload = RC_Upload::uploader('image', array('save_path' => 'merchant/'.$_SESSION['store_id'].'/data/'.$path, 'auto_sub_dirs' => true));
+function shopguide_file_upload_info($path, $code, $old_images)
+{
+    $code   = empty($code) ? $path : $code;
+    $upload = RC_Upload::uploader('image', array('save_path' => 'merchant/' . $_SESSION['store_id'] . '/data/' . $path, 'auto_sub_dirs' => true));
     $file   = $_FILES[$code];
 
-    if (!empty($file)&&((isset($file['error']) && $file['error'] == 0) || (!isset($file['error']) && $file['tmp_name'] != 'none'))) {
+    if (!empty($file) && ((isset($file['error']) && $file['error'] == 0) || (!isset($file['error']) && $file['tmp_name'] != 'none'))) {
         // 检测图片类型是否符合
-        if (!$upload->check_upload_file($file)){
-           return ecjia_admin::$controller->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }else{
+        if (!$upload->check_upload_file($file)) {
+            return ecjia_admin::$controller->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        } else {
             $image_info = $upload->upload($file);
             if (empty($image_info)) {
-            	return ecjia_admin::$controller->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_admin::$controller->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             // 删除旧的图片
             if (!empty($old_images)) {
-               $upload->remove($old_images);
+                $upload->remove($old_images);
             }
             $img_path = $upload->get_position($image_info);
         }
@@ -160,27 +163,28 @@ function shopguide_file_upload_info($path, $code, $old_images){
 /*
  * 设置店铺配置信息
  */
-function set_merchant_config($code = '', $value = '', $arr = ''){
+function set_merchant_config($code = '', $value = '', $arr = '')
+{
     $merchants_config = RC_Model::model('merchant/merchants_config_model');
-    if(empty($code)){
-        if(is_array($arr)){
+    if (empty($code)) {
+        if (is_array($arr)) {
             foreach ($arr as $key => $val) {
                 $count = $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $key))->count();
-                if(empty($count)){
+                if (empty($count)) {
                     $merchants_config->insert(array('store_id' => $_SESSION['store_id'], 'code' => $key, 'value' => $val));
-                }else{
+                } else {
                     $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $key))->update(array('value' => $val));
                 }
             }
             return true;
-        }else{
+        } else {
             return new ecjia_error(101, '参数错误');
         }
-    }else{
+    } else {
         $count = $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $code))->count();
-        if(empty($count)){
+        if (empty($count)) {
             $merchants_config->insert(array('store_id' => $_SESSION['store_id'], 'code' => $code, 'value' => $value));
-        }else{
+        } else {
             $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $code))->update(array('value' => $value));
         }
         return true;

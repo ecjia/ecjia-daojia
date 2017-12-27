@@ -115,6 +115,9 @@ return array(
 	'choose_template'	=> '选择模板',
 	'add_favourable'	=> '添加优惠活动',
 	'add_user'			=> '添加会员',
+	
+	'get_region_already'		=> '已经获取 %s 条地区数据，因数量较多，请耐心等待...',
+	'get_regioninfo_success'	=> '获取地区信息成功',
 );
 
 //end
