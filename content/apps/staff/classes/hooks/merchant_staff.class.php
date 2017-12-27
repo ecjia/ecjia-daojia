@@ -50,7 +50,7 @@ class merchant_staff_hooks {
 	//店铺信息
 	public static function merchant_dashboard_information() {
 		RC_Loader::load_app_func('merchant', 'merchant');
-		$merchant_info = get_merchant_info();
+		$merchant_info = get_merchant_info($_SESSION['store_id']);
 		ecjia_admin::$controller->assign('merchant_info', $merchant_info);
 
 		ecjia_merchant::$controller->display(

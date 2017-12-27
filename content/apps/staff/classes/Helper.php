@@ -44,34 +44,24 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Staff;
 
-/**
- * 添加管理员记录日志操作对象
- */
-function assign_adminlog_content() {
-	ecjia_admin_log::instance()->add_object('staff', RC_Lang::get('staff::staff.staff'));
-	ecjia_admin_log::instance()->add_object('stafflog', RC_Lang::get('staff::staff.stafflog'));
-	ecjia_admin_log::instance()->add_object('staff_profile', '个人资料');
-	ecjia_admin_log::instance()->add_object('account_set', '个人账户');
-	ecjia_admin_log::instance()->add_object('staff_group', '员工组');
+use ecjia_admin_log;
+use RC_Lang;
+
+class Helper
+{
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content()
+    {
+        ecjia_admin_log::instance()->add_object('staff', RC_Lang::get('staff::staff.staff'));
+        ecjia_admin_log::instance()->add_object('stafflog', RC_Lang::get('staff::staff.stafflog'));
+        ecjia_admin_log::instance()->add_object('staff_profile', '个人资料');
+        ecjia_admin_log::instance()->add_object('account_set', '个人账户');
+        ecjia_admin_log::instance()->add_object('staff_group', '员工组');
+    }
 }
 
-function get_staff_info($user_id = 0, $store_id = 0) {
-    if (empty($user_id)) {
-        $user_id = $_SESSION['staff_id'];
-    }
-    if (empty($store_id)) {
-        $store_id = $_SESSION['store_id'];
-    }
-    
-    $info = RC_DB::table('staff_user')->where('user_id', $user_id)->where('store_id', $store_id)->first();
-    if ($info) {
-        $info['avatar'] = $info['avatar'] ? RC_Upload::upload_url($info['avatar']) : RC_Uri::admin_url('statics/images/admin_avatar.png');
-        $info['group_name'] = RC_DB::table('staff_group')->where('group_id', $info['group_id'])->where('store_id', $info['store_id'])->pluck('group_name');
-     }
-    
-    return $info;
-}
-
-//end
+// end
