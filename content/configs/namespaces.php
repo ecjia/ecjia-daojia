@@ -70,9 +70,25 @@ return array(
     'Ecjia\App\Goods' => $contentDir . '/apps/goods/classes',
     'Ecjia\App\Store' => $contentDir . '/apps/store/classes',
     'Ecjia\App\Setting' => $contentDir . '/apps/setting/classes',
+    'Ecjia\App\Printer' => $contentDir . '/apps/printer/classes',
+    'Ecjia\App\Comment' => $contentDir . '/apps/comment/classes',
+    'Ecjia\App\Affiliate' => $contentDir . '/apps/affiliate/classes',
+    'Ecjia\App\Favourable' => $contentDir . '/apps/favourable/classes',
+    'Ecjia\App\Franchisee' => $contentDir . '/apps/franchisee/classes',
+    'Ecjia\App\Mail' => $contentDir . '/apps/mail/classes',
+    'Ecjia\App\Market' => $contentDir . '/apps/market/classes',
+    'Ecjia\App\Merchant' => $contentDir . '/apps/merchant/classes',
+    'Ecjia\App\Notification' => $contentDir . '/apps/notification/classes',
+    'Ecjia\App\Platform' => $contentDir . '/apps/platform/classes',
+    'Ecjia\App\Promotion' => $contentDir . '/apps/promotion/classes',
+    'Ecjia\App\Shopguide' => $contentDir . '/apps/shopguide/classes',
+    'Ecjia\App\Staff' => $contentDir . '/apps/staff/classes',
+    'Ecjia\App\Finance' => $contentDir . '/apps/finance/classes',
+
     
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
-    'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cron/classes/Royalcms/Component/Shoppingcart',
+    'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cart/classes/Royalcms/Component/Shoppingcart',
+    'Royalcms\Component\Printer' => $contentDir . '/apps/printer/classes/Royalcms/Component/Printer',
 );
 
 //end
