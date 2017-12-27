@@ -154,7 +154,9 @@ return array(
     //工具管理
     'maintain' => 'maintain',
     //营销活动
-    'market' => 'market'
+    'market' => 'market',
+    //打印机管理
+    'printer' => 'printer'
 );
 
 // end
