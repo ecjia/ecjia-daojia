@@ -54,7 +54,7 @@ class admin_percent extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Store\Helper::assign_adminlog_content();
 		
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('bootstrap-placeholder');

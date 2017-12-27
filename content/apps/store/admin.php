@@ -57,7 +57,7 @@ class admin extends ecjia_admin
 
         RC_Loader::load_app_func('global');
         RC_Loader::load_app_func('merchant_store');
-        assign_adminlog_content();
+        Ecjia\App\Store\Helper::assign_adminlog_content();
 
         //全局JS和CSS
         RC_Script::enqueue_script('smoke');
@@ -186,6 +186,7 @@ class admin extends ecjia_admin
         $store_id = intval($_POST['store_id']);
 
         $data = array(
+            'validate_type'  => 2,
             'cat_id'         => !empty($_POST['store_cat']) ? $_POST['store_cat'] : 0,
             'merchants_name' => !empty($_POST['merchants_name']) ? $_POST['merchants_name'] : '',
             'shop_keyword'   => !empty($_POST['shop_keyword']) ? $_POST['shop_keyword'] : '',
@@ -200,6 +201,7 @@ class admin extends ecjia_admin
             'latitude'       => !empty($_POST['latitude']) ? $_POST['latitude'] : '',
             'manage_mode'    => 'self',
             'shop_close'     => isset($_POST['shop_close']) ? $_POST['shop_close'] : 1,
+            'confirm_time'   => RC_Time::gmtime(),
         );
 
         if (empty($data['merchants_name'])) {
@@ -312,7 +314,7 @@ class admin extends ecjia_admin
             );
             $response = RC_Api::api('sms', 'send_event_sms', $options);
             if (is_ecjia_error($response)) {
-                return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                RC_Logger::getlogger('error')->info('添加自营店铺：'.$response->get_error_message());
             }
         } else {
             return $this->showmessage('操作失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

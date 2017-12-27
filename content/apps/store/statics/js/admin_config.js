@@ -8,6 +8,16 @@
 	    			return $("#content_1").html();
 	    		},
     		});
+			$('.info-toggle-button').toggleButtons({
+				label: {  
+                     enabled: "开启",  
+                     disabled: "关闭"  
+                },  
+                style: {
+                    enabled: "info",
+                    disabled: "success"
+                }
+            });
 			app.admin_config.submit_form();
 			app.admin_config.edit();
 			app.admin_config.del_link_store();

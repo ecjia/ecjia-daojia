@@ -54,7 +54,7 @@ class admin_commission extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Store\Helper::assign_adminlog_content();
 
 		/* 加载全局 js/css */
 		RC_Style::enqueue_style('chosen');

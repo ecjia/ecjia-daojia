@@ -52,7 +52,7 @@ class admin_config extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Store\Helper::assign_adminlog_content();
 	
 		RC_Loader::load_app_func('merchant_store_category', 'store');
 		RC_Script::enqueue_script('jquery-validate');
@@ -64,6 +64,9 @@ class admin_config extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');
 		RC_Script::enqueue_script('bootstrap-placeholder');
+		
+		RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
+		RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
 		
 		RC_Script::enqueue_script('admin_config', RC_App::apps_url('statics/js/admin_config.js', __FILE__), array(), false, true);
 		RC_Script::localize_script('admin_config', 'js_lang', RC_Lang::get('mobile::mobile.js_lang'));

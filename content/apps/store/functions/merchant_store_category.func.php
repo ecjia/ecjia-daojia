@@ -129,7 +129,7 @@ function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_s
 					->orderBy(RC_DB::raw('c.sort_order', 'asc'))
 					->get();
 			$res2 = $db_store_franchisee
-					 ->select(RC_DB::raw('cat_id'), RC_DB::raw('COUNT(*) as store_num'))
+					 ->select(RC_DB::raw('cat_id'), RC_DB::raw('SUM(IF(manage_mode = "self", 1, 0)) as self_num'), RC_DB::raw('SUM(IF(manage_mode = "join", 1, 0)) as join_num'))
 					 ->groupBy(RC_DB::raw('cat_id'))
 					 ->orderBy('cat_id', 'asc')
 					 ->get();
@@ -137,19 +137,13 @@ function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_s
 			$newres = array ();
 			if (!empty($res2)) {
 				foreach($res2 as $k => $v) {
-					$newres [$v ['cat_id']] = $v ['store_num'];
-// 					if (!empty($res3)) {
-// 						foreach ( $res3 as $ks => $vs ) {
-// 							if ($v ['cat_id'] == $vs ['cat_id']) {
-// 								$newres [$v ['cat_id']] = $v ['goods_num'] + $vs ['goods_num'];
-// 							}
-// 						}
-// 					}
+					$newres[$v['cat_id']] = array('self_num' => $v['self_num'], 'join_num' => $v['join_num']);
 				}
 			}
 			if (! empty ( $res )) {
 				foreach ( $res as $k => $v ) {
-					$res [$k] ['store_num'] = ! empty($newres [$v ['cat_id']]) ? $newres [$v['cat_id']] : 0;
+					$res[$k]['self_num'] = !empty($newres[$v['cat_id']]['self_num']) ? $newres[$v['cat_id']]['self_num'] : 0;
+					$res[$k]['join_num'] = !empty($newres[$v['cat_id']]['join_num']) ? $newres[$v['cat_id']]['join_num'] : 0;
 				}
 			}
 				
