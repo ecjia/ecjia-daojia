@@ -44,15 +44,24 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Weapp;
 
-	function assign_adminlog_content() {
-		ecjia_admin_log::instance()->add_object('weapp_logo', RC_Lang::get('weapp::weapp.weapp_logo'));		
-		ecjia_admin_log::instance()->add_object('weapp', RC_Lang::get('weapp::weapp.weapp'));
-			
-		ecjia_admin_log::instance()->add_object('users_tag', RC_Lang::get('weapp::weapp.user_tag'));
-		ecjia_admin_log::instance()->add_object('users_info', RC_Lang::get('weapp::weapp.user_info'));
-		
-	}
-	
-//end
+use ecjia_admin_log;
+use RC_Lang;
+
+class Helper
+{
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+    	ecjia_admin_log::instance()->add_object('weapp_logo', RC_Lang::get('weapp::weapp.weapp_logo'));
+    	ecjia_admin_log::instance()->add_object('weapp', RC_Lang::get('weapp::weapp.weapp'));
+    		
+    	ecjia_admin_log::instance()->add_object('users_tag', RC_Lang::get('weapp::weapp.user_tag'));
+    	ecjia_admin_log::instance()->add_object('users_info', RC_Lang::get('weapp::weapp.user_info'));
+    }
+    
+}
+
+// end

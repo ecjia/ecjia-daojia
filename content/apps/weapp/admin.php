@@ -54,8 +54,7 @@ class admin extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
 		
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Weapp\Helper::assign_adminlog_content();
 		
 		RC_Loader::load_app_class('platform_account', 'platform', false);
 		
