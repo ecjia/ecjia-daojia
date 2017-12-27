@@ -7,8 +7,11 @@
 	<!-- {if $action_link} -->
 	<a class="btn plus_or_reply data-pjax" id="sticky_a" href="{$action_link.href}"><i class="fontello-icon-plus"></i>{$action_link.text}</a>
 	<!-- {/if} -->
-	<!-- {if $action_link1} -->
-	<a class="btn plus_or_reply data-pjax" id="sticky_a" href="{$action_link1.href}"><i class="fontello-icon-exchange"></i>{$action_link1.text}</a>
+	<!-- {if $exchange_link} -->
+	<a class="btn plus_or_reply data-pjax" id="sticky_a" href="{$exchange_link.href}"><i class="fontello-icon-exchange"></i>{$exchange_link.text}</a>
+	<!-- {/if} -->
+	<!-- {if $back_link} -->
+	<a class="btn plus_or_reply data-pjax" id="sticky_a" href="{$back_link.href}"><i class="fontello-icon-reply"></i>{$back_link.text}</a>
 	<!-- {/if} -->
 	</h3>
 </div>
@@ -40,13 +43,14 @@
 				</th>
 			</tr>
 		</thead>
-		<!-- {foreach from=$cat_info item=cat} -->
+		<!-- {foreach from=$cat_list item=cat} -->
 		<tr class="{$cat.level}" id="{$cat.level}_{$cat.cat_id}">
+			{if $cat.parent_id eq $cat_id}
 			<td class="first-cell" align="left">
 				<!-- {if $cat.is_leaf neq 1} -->
-				<i class="fontello-icon-minus-squared-alt cursor_pointer ecjiafc-blue" id="icon_{$cat.level}_{$cat.cat_id}" style="margin-left:{$cat.level}em" onclick="rowClicked(this)"/></i>
+				<i class="fontello-icon-minus-squared-alt cursor_pointer ecjiafc-blue" id="icon_{$cat.level}_{$cat.cat_id}" /></i>
 				<!-- {else} -->
-				<i class="fontello-icon-angle-circled-right cursor_pointer ecjiafc-blue" style="margin-left:{$cat.level}em"/></i>
+				<i class="fontello-icon-angle-circled-right cursor_pointer ecjiafc-blue" /></i>
 				<!-- {/if} -->
 				<span><a href='{url path="goods/admin/init" args="cat_id={$cat.cat_id}"}'>{$cat.cat_name}</a></span>
 				<!-- {if $cat.cat_image} -->
@@ -75,9 +79,11 @@
 				<i class="{if $cat.is_show eq '1'}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{url path='goods/admin_category/toggle_is_show'}" data-id="{$cat.cat_id}"></i>
 			</td>
 			<td>
+				<a class="data-pjax no-underline" title="{t}进入{/t}" href="{url path='goods/admin_category/init' args="cat_id={$cat.cat_id}"}"><i class="fontello-icon-login"></i></a>
 				<a class="data-pjax no-underline" href='{url path="goods/admin_category/edit" args="cat_id={$cat.cat_id}"}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
 				<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='goods::category.drop_cat_confirm'}" href='{url path="goods/admin_category/remove" args="id={$cat.cat_id}"}' {lang key='system::system.remove'}><i class="fontello-icon-trash"></i></a>
 			</td>
+			{/if}
 		</tr>
 		<!-- {foreachelse}-->
 		<tr>

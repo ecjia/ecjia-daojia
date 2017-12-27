@@ -44,14 +44,25 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Goods;
 
-class comment_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'comment';
-		parent::__construct();
-	}
+use ecjia_admin_log;
+
+class Helper
+{
+    
+    
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+        ecjia_admin_log::instance()->add_object('category_goods', '分类商品');
+        
+	    ecjia_admin_log::instance()->add_action('move', '转移');
+	    ecjia_admin_log::instance()->add_action('batch_start', '批量上架');
+	    ecjia_admin_log::instance()->add_action('batch_end', '批量下架');
+    }
+    
 }
 
 // end

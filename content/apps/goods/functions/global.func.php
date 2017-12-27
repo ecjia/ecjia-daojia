@@ -46,16 +46,6 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 添加管理员操作对象
- */
-function assign_adminlog_content() {
-    ecjia_admin_log::instance()->add_object('category_goods', 	'分类商品');
-    ecjia_admin_log::instance()->add_action('move', 			'转移');
-    ecjia_admin_log::instance()->add_action('batch_start',	    '批量上架');
-    ecjia_admin_log::instance()->add_action('batch_end',	    '批量下架');
-}
-
 /*
  * 上传图片
  *  @param string $path 上传路径

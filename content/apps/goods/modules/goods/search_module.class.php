@@ -104,7 +104,6 @@ class search_module extends api_front implements api_interface {
             return $result;
         }
         if (!empty($result['seller_list'])) {
-            $db_comment = RC_Model::model('comment/comment_model');
             $max_goods = 0;
             $mobilebuy_db = RC_Model::model('goods/goods_activity_model');
             $db_favourable = RC_Model::model('favourable/favourable_activity_model');

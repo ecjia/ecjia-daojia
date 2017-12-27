@@ -151,7 +151,7 @@ class detail_module extends api_front implements api_interface {
         $data['properties']      = $properties['pro'];
         $data['specification']   = $properties['spe'];
         $data['collected']       = 0;
-		
+
         /*如果用户登录，获取该会员的等级对应的商品的shop_price*/
         if ($_SESSION['user_id'] > 0 && !empty($data['rank_prices'])) {
         	$user_rank = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->pluck('user_rank');
@@ -280,7 +280,6 @@ class detail_module extends api_front implements api_interface {
         	$data['promote_start_date'] = RC_Time::local_date('Y/m/d H:i:s O', $goods['promote_start_date']);
         	$data['promote_end_date']	= RC_Time::local_date('Y/m/d H:i:s O', $goods['promote_end_date']);
         }
-
 
         $data['rec_type'] = empty($rec_type) ? $activity_type : 'GROUPBUY_GOODS';
         $data['object_id'] = $object_id;
@@ -418,6 +417,7 @@ class detail_module extends api_front implements api_interface {
         	$share_link = ecjia_api::$controller->fetch_string(ecjia::config('mobile_share_link'));
         	$data['share_link']	= $share_link;
         }
+        $data['goods_brief'] = $goods['goods_brief'];
 
         return $data;
     }

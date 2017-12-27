@@ -56,7 +56,7 @@ class mh_category extends ecjia_merchant {
 		RC_Loader::load_app_func('admin_goods');
 		RC_Loader::load_app_func('merchant_goods');
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Goods\Helper::assign_adminlog_content();
 		
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');

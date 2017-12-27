@@ -56,7 +56,7 @@ class admin_goods_auto extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Goods\Helper::assign_adminlog_content();
 		
 		$this->db_auto_manage = RC_Loader::load_app_model('auto_manage_model', 'goods');
 		$this->db_goods = RC_Loader::load_app_model('goods_model', 'goods');
