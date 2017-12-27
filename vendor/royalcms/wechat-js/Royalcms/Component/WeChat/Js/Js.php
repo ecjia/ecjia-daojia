@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\WeChat\Js;
 
-use \Royalcms\Component\Cache\StoreInterface as Cache;
+use Royalcms\Component\Cache\CacheManager as Cache;
 use Royalcms\Component\WeChat\Core\AbstractAPI;
 use Royalcms\Component\Support\Str;
 use Royalcms\Component\Foundation\Uri as RC_Uri;
@@ -83,7 +83,7 @@ class Js extends AbstractAPI
     public function ticket($forceRefresh = false)
     {
         $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
-        $ticket = $this->getCache()->fetch($key);
+        $ticket = $this->getCache()->get($key);
 
         if (!$forceRefresh && !empty($ticket)) {
             return $ticket;
@@ -91,7 +91,7 @@ class Js extends AbstractAPI
 
         $result = $this->parseJSON('get', [self::API_TICKET, ['type' => 'jsapi']]);
 
-        $this->getCache()->save($key, $result['ticket'], $result['expires_in'] - 500);
+        $this->getCache()->put($key, $result['ticket'], $result['expires_in'] - 500);
 
         return $result['ticket'];
     }

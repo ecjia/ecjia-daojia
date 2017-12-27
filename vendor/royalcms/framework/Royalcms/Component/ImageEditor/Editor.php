@@ -301,7 +301,7 @@ abstract class Component_ImageEditor_Editor
             $this->quality = $quality;
             return true;
         } else {
-            return new RC_Error('invalid_image_quality', __('Attempted to set image quality outside of the range [1,100].'));
+            return RC_Error::make('invalid_image_quality', __('Attempted to set image quality outside of the range [1,100].'));
         }
     }
 

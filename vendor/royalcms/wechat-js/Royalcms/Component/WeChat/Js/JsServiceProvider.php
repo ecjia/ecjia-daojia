@@ -21,11 +21,12 @@ class JsServiceProvider extends ServiceProvider
     {
         $wechat = $this->royalcms['wechat'];
         
-        $wechat['js'] = function ($wechat) {
+        $wechat->bindShared('js', function($wechat)
+        {
             $js = new Js($wechat['access_token']);
             $js->setCache($wechat['cache']);
 
             return $js;
-        };
+        });
     }
 }

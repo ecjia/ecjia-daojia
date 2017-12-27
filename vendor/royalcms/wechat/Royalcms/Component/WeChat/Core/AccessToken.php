@@ -91,13 +91,13 @@ class AccessToken
     public function getToken($forceRefresh = false)
     {
         $cacheKey = $this->getCacheKey();
-        $cached = $this->getCache()->fetch($cacheKey);
+        $cached = $this->getCache()->get($cacheKey);
 
         if ($forceRefresh || empty($cached)) {
             $token = $this->getTokenFromServer();
 
             // XXX: T_T... 7200 - 1500
-            $this->getCache()->save($cacheKey, $token[$this->tokenJsonKey], $token['expires_in'] - 1500);
+            $this->getCache()->put($cacheKey, $token[$this->tokenJsonKey], $token['expires_in'] - 1500);
 
             return $token[$this->tokenJsonKey];
         }
@@ -115,7 +115,7 @@ class AccessToken
      */
     public function setToken($token, $expires = 7200)
     {
-        $this->getCache()->save($this->getCacheKey(), $token, $expires - 1500);
+        $this->getCache()->put($this->getCacheKey(), $token, $expires - 1500);
 
         return $this;
     }

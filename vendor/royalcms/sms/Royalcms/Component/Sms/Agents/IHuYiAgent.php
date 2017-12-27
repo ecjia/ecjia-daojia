@@ -130,7 +130,7 @@ class IHuYiAgent extends Sms implements SmsAgent
         if (intval($result['code'][0]) !== 2) {
             $response->setCode($result['code'][0]);
             $response->setDescription($result['msg'][0]);
-            return new RC_Error('ihuyi_sms_send_error', $response->getDescription(), $response);
+            return RC_Error::make('ihuyi_sms_send_error', $response->getDescription(), $response);
         }
         
         return $response;

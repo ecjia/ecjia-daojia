@@ -72,7 +72,7 @@ class LogViewer
     /**
      * @return array
      */
-    public function all()
+    public function all($offset = null, $maxlen = null)
     {
         $log = array();
 
@@ -91,7 +91,7 @@ class LogViewer
         if (File::size($this->file) > self::MAX_FILE_SIZE) return null;
 
         $file = File::get($this->file);
-
+        
         preg_match_all($pattern, $file, $headings);
 
         if (!is_array($headings)) return $log;
@@ -101,8 +101,12 @@ class LogViewer
         if ($log_data[0] < 1) {
             array_shift($log_data);
         }
-
+        
         foreach ($headings as $h) {
+            if (!(is_null($offset) && is_null($maxlen))) {
+                $h = collect($h)->slice(0, 1000)->all();
+            }
+            
             for ($i=0, $j = count($h); $i < $j; $i++) {
                 foreach ($log_levels as $level_key => $level_value) {
                     if (strpos(strtolower($h[$i]), '.' . $level_value)) {
@@ -144,7 +148,7 @@ class LogViewer
         }
         return array_values($files);
     }
-
+    
     /**
      * @return array
      */

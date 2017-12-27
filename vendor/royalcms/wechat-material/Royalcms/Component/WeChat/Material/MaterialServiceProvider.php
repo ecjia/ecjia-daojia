@@ -21,14 +21,14 @@ class MaterialServiceProvider extends ServiceProvider
     {
         $wechat = $this->royalcms['wechat'];
         
-        $wechat['material'] = function ($wechat) {
+        $wechat->bindShared('material', function($wechat)
+        {
             return new Material($wechat['access_token']);
-        };
-
-        $temporary = function ($wechat) {
+        });
+        
+        $wechat->bindShared('material_temporary', function($wechat)
+        {
             return new Temporary($wechat['access_token']);
-        };
-
-        $wechat['material_temporary'] = $temporary;
+        });
     }
 }

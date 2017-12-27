@@ -69,12 +69,12 @@ class Bundle
     {
         $alias_map = \RC_App::get_alias();
         if (!empty($alias_map) && !isset($alias_map[$this->alias])) {
-            return new \RC_Error('not_register_route_app', '没有注册此路由名称');
+            return \RC_Error::make('not_register_route_app', '没有注册此路由名称');
         }
         
         $identifier_map = \RC_App::get_identifier();
         if (!empty($identifier_map) && !isset($identifier_map[$this->identifier])) {
-            return new \RC_Error('not_register_app_identifier', '没有注册此应用ID');
+            return \RC_Error::make('not_register_app_identifier', '没有注册此应用ID');
         } 
         
         $app_controller = $this->controller_path . $filename . '.php';
@@ -89,7 +89,7 @@ class Bundle
             }
             return new $classname();
         } else {
-            return new \RC_Error('controller_does_not_exist', 'Controller does not exist.');
+            return \RC_Error::make('controller_does_not_exist', 'Controller does not exist.');
         }
     }
     

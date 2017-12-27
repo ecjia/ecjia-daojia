@@ -21,8 +21,9 @@ class NoticeServiceProvider extends ServiceProvider
     {
         $wechat = $this->royalcms['wechat'];
         
-        $wechat['notice'] = function ($wechat) {
+        $wechat->bindShared('notice', function($wechat)
+        {
             return new Notice($wechat['access_token']);
-        };
+        });
     }
 }

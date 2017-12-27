@@ -178,7 +178,6 @@ return array(
         'RC_Timer'             => 'Royalcms\Component\Timer\Facades\Timer',
         'RC_Format'            => 'Royalcms\Component\Support\Format',
         'RC_Package'           => 'Royalcms\Component\Support\Facades\Package',
-        'RC_Error'             => 'Royalcms\Component\Error\Error',
         'RC_ENV'               => 'Royalcms\Component\Support\Facades\Environment',
         'RC_Hash'              => 'Royalcms\Component\Support\Facades\Hash',
         'RC_Password'          => 'Royalcms\Component\Support\Facades\Password',

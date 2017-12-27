@@ -21,12 +21,14 @@ class StaffServiceProvider extends ServiceProvider
     {
         $wechat = $this->royalcms['wechat'];
         
-        $wechat['staff'] = function ($wechat) {
+        $wechat->bindShared('staff', function($wechat)
+        {
             return new Staff($wechat['access_token']);
-        };
-
-        $wechat['staff_session'] = $wechat['staff.session'] = function ($wechat) {
+        });
+        
+        $wechat->bindShared('staff_session', function($wechat)
+        {
             return new Session($wechat['access_token']);
-        };
+        });
     }
 }
