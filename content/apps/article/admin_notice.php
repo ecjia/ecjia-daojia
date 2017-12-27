@@ -55,8 +55,7 @@ class admin_notice extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Loader::load_app_func('admin_article');
-		RC_Loader::load_app_func('global', 'article');
-		assign_adminlog_contents();
+		Ecjia\App\Article\Helper::assign_adminlog_content();
 		
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');

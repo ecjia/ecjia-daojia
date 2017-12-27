@@ -44,23 +44,32 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Article;
 
-/**
- * 添加管理员记录日志操作对象
- */
-function assign_adminlog_contents() {
-	ecjia_admin_log::instance()->add_object('article_auto', RC_Lang::get('article::article.article_auto_release'));
+use ecjia_admin_log;
+use RC_Lang;
 
-	ecjia_admin_log::instance()->add_action('batch_setup', RC_Lang::get('article::article.batch_setup'));
-	ecjia_admin_log::instance()->add_action('batch_start', RC_Lang::get('article::article.button_start'));
-	ecjia_admin_log::instance()->add_action('batch_end', RC_Lang::get('article::article.button_end'));
-	ecjia_admin_log::instance()->add_action('cancel', RC_Lang::get('article::article.delete'));
-	ecjia_admin_log::instance()->add_action('comment_status', '更新文章评论状态');
-	ecjia_admin_log::instance()->add_object('article_comment', '文章评论');
-	
-	ecjia_admin_log::instance()->add_object('merchant_notice', '商家公告');
-	ecjia_admin_log::instance()->add_object('system_info', '系统信息');
+class Helper
+{
+    
+    
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+        ecjia_admin_log::instance()->add_object('article_auto', RC_Lang::get('article::article.article_auto_release'));
+
+    	ecjia_admin_log::instance()->add_action('batch_setup', RC_Lang::get('article::article.batch_setup'));
+    	ecjia_admin_log::instance()->add_action('batch_start', RC_Lang::get('article::article.button_start'));
+    	ecjia_admin_log::instance()->add_action('batch_end', RC_Lang::get('article::article.button_end'));
+    	ecjia_admin_log::instance()->add_action('cancel', RC_Lang::get('article::article.delete'));
+    	ecjia_admin_log::instance()->add_action('comment_status', '更新文章评论状态');
+    	ecjia_admin_log::instance()->add_object('article_comment', '文章评论');
+    	
+    	ecjia_admin_log::instance()->add_object('merchant_notice', '商家公告');
+    	ecjia_admin_log::instance()->add_object('system_info', '系统信息');
+    }
+    
 }
 
-//end
+// end

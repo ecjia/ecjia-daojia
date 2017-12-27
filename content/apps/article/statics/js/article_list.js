@@ -43,7 +43,6 @@
                     smoke.confirm(msg, function (e) {
                         if (e) {
                             $.post(url, data, function (data) {
-                            	console.log(data);
                             	ecjia.admin.showmessage(data);
                             }, 'json');
                         }
@@ -53,7 +52,6 @@
                     });
                 } else {
                     $.post(url, data, function (data) {
-                    	console.log(data);
                     	ecjia.admin.showmessage(data);
                     }, 'json');
                 }

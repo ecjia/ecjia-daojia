@@ -55,8 +55,7 @@ class admin_article_auto extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Loader::load_app_func('admin_article');
-		RC_Loader::load_app_func('global');
-		assign_adminlog_contents();
+		Ecjia\App\Article\Helper::assign_adminlog_content();
 		
 		/*加载全局JS及CSS*/
 		RC_Script::enqueue_script('jquery-validate');

@@ -58,8 +58,7 @@ class merchant extends ecjia_merchant {
 		RC_Loader::load_app_class('article_cat', 'article', false);
 		RC_Loader::load_app_func('merchant_article');
 		RC_Loader::load_app_func('merchant_goods', 'goods');
-		RC_Loader::load_app_func('global');
-		assign_adminlog_contents();
+		Ecjia\App\Article\Helper::assign_adminlog_content();
 		
 		RC_Style::enqueue_style('jquery-placeholder');
 		RC_Script::enqueue_script('jq_quicksearch', RC_Uri::admin_url() . '/statics/lib/multi-select/js/jquery.quicksearch.js', array('jquery'), false, true);

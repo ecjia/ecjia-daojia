@@ -57,8 +57,7 @@ class admin extends ecjia_admin {
 		RC_Loader::load_app_class('article_cat', 'article', false);
 		RC_Loader::load_app_class('article_list', 'article', false);
 		RC_Loader::load_app_func('admin_article');
-		RC_Loader::load_app_func('global');
-		assign_adminlog_contents();
+		Ecjia\App\Article\Helper::assign_adminlog_content();
 		
 		/* 加载所需js */
 		RC_Script::enqueue_script('smoke');
