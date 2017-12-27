@@ -56,8 +56,7 @@ class admin_email_list extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
 		
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Mail\Helper::assign_adminlog_content();
 
 		$this->db_email_list = RC_Model::model('mail/email_list_model');
 		

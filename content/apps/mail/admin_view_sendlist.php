@@ -59,8 +59,7 @@ class admin_view_sendlist extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Lang::load('view_sendlist');
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Mail\Helper::assign_adminlog_content();
 		
 		$this->db_email_sendlist	= RC_Model::model('mail/email_sendlist_model');
 		$this->db_mail_temp 		= RC_Model::model('mail/mail_templates_model');

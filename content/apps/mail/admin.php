@@ -59,8 +59,7 @@ class admin extends ecjia_admin {
 		$this->db_mail = RC_Model::model('mail/mail_templates_model');
 		
 		RC_Lang::load('mail_template');
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Mail\Helper::assign_adminlog_content();
 		
 		RC_Style::enqueue_style('chosen');
 		RC_Style::enqueue_style('uniform-aristo');
