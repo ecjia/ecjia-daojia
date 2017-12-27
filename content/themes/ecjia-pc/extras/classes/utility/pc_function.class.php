@@ -253,10 +253,10 @@ class pc_function {
     	$cat_list = explode(',', $str);
     	
     	$i = '<i class="iconfont icon-jiantou-right"></i>';
-    	$html = '全部分类';
+    	$html = '全部分类 ';
     	foreach (array_reverse($cat_list) as $k => $v) {
     		if ($k <= 2 && !empty($v)) {
-    			$html .= $i.$v;
+    			$html .= $i.$v.' ';
     		}
     	}    		
     	return $html;
@@ -355,6 +355,16 @@ class pc_function {
     	$store = $db_store_franchisee->where('shop_close', 0)->where('status', 1)->get();
     	$has_store = !empty($store) ? true : false;
     	return $has_store;
+    }
+    
+    //获取分类等级
+    public static function get_cat_level($cat_id = 0, $i = 0) {
+    	$info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
+    	if (!empty($info['parent_id'])) {
+    		$i++;
+    		$i = self::get_cat_level($info['parent_id'], $i);
+    	}
+    	return $i;
     }
 }
 //end

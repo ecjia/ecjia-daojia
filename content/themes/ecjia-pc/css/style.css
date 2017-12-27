@@ -411,7 +411,7 @@ a:active,a:hover{text-decoration:none;color:#47aa4d}
 .ecjia-category-swiper .swiper-button-prev.swiper-button-white,.ecjia-category-swiper .swiper-container-rtl .swiper-button-next.swiper-button-white{background-size:10px 44px;background-color:#f6f6f6;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23333'%2F%3E%3C%2Fsvg%3E")}
 
 .goods_info_back{background-color:#f6f6f6;width:100%;margin-top:80px}
-.goods_info{margin-top:8em}
+.goods_info{margin-top:80px}
 .goods_info .no_goods_info{height:400px;background:#fff;font-size:18px;text-align:center;line-height:400px;margin:20px auto}
 .goods_info .green{background-color:#47aa4d;color:#FFF!important;border:0!important}
 .goods_info .goods_current_screen{line-height:50px;font-size:15px;color:#333}

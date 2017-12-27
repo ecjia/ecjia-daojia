@@ -27,7 +27,7 @@
 				{if $c.children}
 					<!-- {foreach from=$c.children item=v key=k} -->
 					{if $select_id eq $v.cat_id}
-					<span class="category-item"><i class="iconfont icon-jiantou-right"></i><a href="{$goods_url}&cat_id={$v.cat_id}"><span class="ecjia-green">{$v.cat_name}</span></a></span>
+					<span class="category-item"><i class="iconfont icon-jiantou-right"></i><a href="{$goods_url}&cat_id={$c.cat_id}&select_id={$select_id}"><span class="ecjia-green">{$v.cat_name}</span></a></span>
 					{/if}
 					<!-- {/foreach} -->
 				{/if}

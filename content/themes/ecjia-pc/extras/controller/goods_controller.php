@@ -260,8 +260,8 @@ class goods_controller {
 	            if (!empty($goods_info['goods_desc'])) {
 	                $goods_info['goods_desc'] = stripslashes($goods_info['goods_desc']);
 	            }
-	            
-	            $cat_str = pc_function::get_cat_str($goods_info['cat_id']);
+	            $level = pc_function::get_cat_level($goods_info['cat_id']);
+	            $cat_str = pc_function::get_cat_str($goods_info['cat_id'], $level);
 	            $goods_info['cat_html'] = pc_function::get_cat_html($cat_str);
 
 	            $goods_info['order_amount'] = RC_DB::table('order_info')->where('store_id', $store_id)->where('order_status', 5)->where('shipping_status', 2)->where('pay_status', 2)->count();
