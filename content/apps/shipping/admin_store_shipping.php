@@ -57,7 +57,7 @@ class admin_store_shipping extends ecjia_admin
 
         RC_Loader::load_app_func('global', 'store');
         RC_Loader::load_app_func('merchant_store', 'store');
-        assign_adminlog_content();
+        Ecjia\App\Shipping\Helper::assign_adminlog_content();
 
         //全局JS和CSS
         RC_Script::enqueue_script('smoke');
@@ -77,13 +77,13 @@ class admin_store_shipping extends ecjia_admin
         RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
-        $store_id = intval($_GET['store_id']);
+        $store_id   = intval($_GET['store_id']);
         $store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
-        $nav_here = '入驻商家';
-        $url = RC_Uri::url('store/admin/join');
+        $nav_here   = '入驻商家';
+        $url        = RC_Uri::url('store/admin/join');
         if ($store_info['manage_mode'] == 'self') {
-        	$nav_here = '自营店铺';
-        	$url = RC_Uri::url('store/admin/init');
+            $nav_here = '自营店铺';
+            $url      = RC_Uri::url('store/admin/init');
         }
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here, $url));
     }
@@ -151,15 +151,15 @@ class admin_store_shipping extends ecjia_admin
         $this->assign('disabled', $all_modules['disabled']);
 
         $store = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
-        
+
         if ($store['manage_mode'] == 'self') {
-        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => '自营店铺列表'));
+            $this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => '自营店铺列表'));
         } else {
-        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/join'), 'text' => RC_Lang::get('store::store.store_list')));
+            $this->assign('action_link', array('href' => RC_Uri::url('store/admin/join'), 'text' => RC_Lang::get('store::store.store_list')));
         }
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送区域'));
-        
+
         ecjia_screen::get_current_screen()->set_sidebar_display(false);
         ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
         ecjia_screen::get_current_screen()->add_option('current_code', 'store_shipping');

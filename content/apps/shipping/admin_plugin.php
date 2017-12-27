@@ -55,8 +55,7 @@ class admin_plugin extends ecjia_admin
     {
         parent::__construct();
 
-        RC_Loader::load_app_func('global');
-        assign_adminlog_content();
+        Ecjia\App\Shipping\Helper::assign_adminlog_content();
 
         /* 加载全局 js/css */
         RC_Script::enqueue_script('jquery-validate');
@@ -83,25 +82,25 @@ class admin_plugin extends ecjia_admin
 
         RC_Script::localize_script('shipping', 'js_lang', RC_Lang::get('shipping::shipping.js_lang'));
         RC_Script::localize_script('shopping_admin', 'js_lang', RC_Lang::get('shipping::shipping.js_lang'));
-        
+
         RC_Script::enqueue_script('acejs', RC_Uri::admin_url('statics/lib/acejs/ace.js'), array(), false, true);
         RC_Script::enqueue_script('acejs-emmet', RC_Uri::admin_url('statics/lib/acejs/ext-emmet.js'), array(), false, true);
         RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));
         $admin_template_lang = array(
-        		'editlibrary'       	=> __('您确定要保存编辑内容吗？'),
-        		'choosetemplate'    	=> __('使用这个模板'),
-        		'choosetemplateFG'  	=> __('使用这个模板风格'),
-        		'abandon'           	=> __('您确定要放弃本次修改吗？'),
-        		'write'             	=> __('请先输入内容！'),
-        		'ok'                	=> __('确定'),
-        		'cancel'            	=> __('取消'),
-        		'confirm_leave'			=> __('您的修改内容还没有保存，您确定离开吗？'),
-        		'confirm_leave'			=> __('连接错误，请重新选择!'),
-        		'confirm_edit_project'	=> __('修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要修改库项目吗？')
+            'editlibrary'          => __('您确定要保存编辑内容吗？'),
+            'choosetemplate'       => __('使用这个模板'),
+            'choosetemplateFG'     => __('使用这个模板风格'),
+            'abandon'              => __('您确定要放弃本次修改吗？'),
+            'write'                => __('请先输入内容！'),
+            'ok'                   => __('确定'),
+            'cancel'               => __('取消'),
+            'confirm_leave'        => __('您的修改内容还没有保存，您确定离开吗？'),
+            'confirm_leave'        => __('连接错误，请重新选择!'),
+            'confirm_edit_project' => __('修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要修改库项目吗？'),
         );
-        
+
         RC_Script::localize_script('template', 'admin_template_lang', $admin_template_lang);
-        
+
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shipping::shipping.shipping'), RC_Uri::url('shipping/admin_plugin/init')));
         ecjia_screen::get_current_screen()->set_parentage('shipping', 'shipping/admin_plugin.php');
     }
@@ -109,7 +108,8 @@ class admin_plugin extends ecjia_admin
     /**
      * 配送方式列表  get
      */
-    public function init() {
+    public function init()
+    {
         $this->admin_priv('ship_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
@@ -148,13 +148,13 @@ class admin_plugin extends ecjia_admin
                 $modules[$_key]['shipping_order'] = $_value['shipping_order'];
                 $modules[$_key]['insure_fee']     = $_value['insure'];
                 $modules[$_key]['enabled']        = $_value['enabled'];
-                if($_value['enabled'] == 1){
-                	  $plugin_handle = ecjia_shipping::channel($_value['shipping_code']);
-                	  $print_support = $plugin_handle->isSupportPrint();
-                	  $config = $plugin_handle->loadConfig();
-                	  $modules[$_key]['print_support'] = $print_support;
+                if ($_value['enabled'] == 1) {
+                    $plugin_handle                   = ecjia_shipping::channel($_value['shipping_code']);
+                    $print_support                   = $plugin_handle->isSupportPrint();
+                    $config                          = $plugin_handle->loadConfig();
+                    $modules[$_key]['print_support'] = $print_support;
                 }
-                
+
                 /* 只能根据配置判断是否支持保价  只有配置项明确说明不支持保价，才是不支持*/
                 if (isset($config['insure']) && ($config['insure'] === false)) {
                     $modules[$_key]['is_insure'] = false;
@@ -171,7 +171,8 @@ class admin_plugin extends ecjia_admin
     /**
      * 编辑配送方式 code={$code}
      */
-    public function edit() {
+    public function edit()
+    {
         $this->admin_priv('ship_update');
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shipping::shipping.edit_shipping')));
@@ -199,7 +200,8 @@ class admin_plugin extends ecjia_admin
     /**
      * 提交配送方式post
      */
-    public function save() {
+    public function save()
+    {
         $this->admin_priv('ship_update');
 
         $name = trim($_POST['shipping_name']);
@@ -227,7 +229,8 @@ class admin_plugin extends ecjia_admin
     /**
      * 禁用配送方式
      */
-    public function disable() {
+    public function disable()
+    {
         $this->admin_priv('ship_update');
 
         $code = trim($_GET['code']);
@@ -243,7 +246,8 @@ class admin_plugin extends ecjia_admin
     /**
      * 启用配送方式
      */
-    public function enable() {
+    public function enable()
+    {
         $this->admin_priv('ship_update', ecjia::MSGTYPE_JSON);
 
         $code = trim($_GET['code']);
@@ -259,7 +263,8 @@ class admin_plugin extends ecjia_admin
     /**
      * 编辑配送方式名称
      */
-    public function edit_name() {
+    public function edit_name()
+    {
         $this->admin_priv('ship_update');
 
         /* 取得参数 */
@@ -293,7 +298,8 @@ class admin_plugin extends ecjia_admin
     /**
      * 修改配送方式保价费
      */
-    public function edit_insure() {
+    public function edit_insure()
+    {
         $this->admin_priv('ship_update');
 
         $shipping_id     = intval($_POST['pk']);
@@ -322,7 +328,8 @@ class admin_plugin extends ecjia_admin
     /**
      * 修改配送方式排序
      */
-    public function edit_order() {
+    public function edit_order()
+    {
         $this->admin_priv('ship_update');
 
         if (!is_numeric($_POST['value'])) {

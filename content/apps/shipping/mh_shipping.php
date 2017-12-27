@@ -55,8 +55,7 @@ class mh_shipping extends ecjia_merchant
     {
         parent::__construct();
 
-        RC_Loader::load_app_func('global');
-        assign_adminlog_content();
+        Ecjia\App\Shipping\Helper::assign_adminlog_content();
 
         /* 加载全局 js/css */
         RC_Script::enqueue_script('jquery-validate');
@@ -350,7 +349,7 @@ class mh_shipping extends ecjia_merchant
 				$express[$k]['express_money']	= $_POST['express_money'][$k];
 			}
 			$config[$count]['name']     = 'ship_days';
-			$config[$count]['value']    = empty($_POST['ship_days']) ? '' : intval($_POST['ship_days']);
+			$config[$count]['value']    = empty($_POST['ship_days']) ? 7 : intval($_POST['ship_days']);
 			$count++;
 			$config[$count]['name']     = 'last_order_time';
 			$config[$count]['value']    = empty($_POST['last_order_time']) ? '' : trim($_POST['last_order_time']);

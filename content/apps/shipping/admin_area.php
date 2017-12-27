@@ -226,7 +226,7 @@ class admin_area extends ecjia_admin
                 $config[$count]['value']    = empty($_POST['express_money']) ? 0 : floatval($_POST['express_money']);
                 $count++;
                 $config[$count]['name']  = 'ship_days';
-                $config[$count]['value'] = empty($_POST['ship_days']) ? '' : intval($_POST['ship_days']);
+                $config[$count]['value'] = empty($_POST['ship_days']) ? 7 : intval($_POST['ship_days']);
                 $count++;
                 $config[$count]['name']  = 'last_order_time';
                 $config[$count]['value'] = empty($_POST['last_order_time']) ? '' : trim($_POST['last_order_time']);
@@ -415,7 +415,7 @@ class admin_area extends ecjia_admin
                 $config[$count]['value'] = empty($_POST['express_money']) ? $express_money : floatval($_POST['express_money']);
                 $count++;
                 $config[$count]['name']  = 'ship_days';
-                $config[$count]['value'] = empty($_POST['ship_days']) ? '' : intval($_POST['ship_days']);
+                $config[$count]['value'] = empty($_POST['ship_days']) ? 7 : intval($_POST['ship_days']);
                 $count++;
                 $config[$count]['name']  = 'last_order_time';
                 $config[$count]['value'] = empty($_POST['last_order_time']) ? '' : trim($_POST['last_order_time']);
