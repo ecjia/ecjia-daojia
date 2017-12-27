@@ -55,7 +55,7 @@ class mh_notification extends ecjia_merchant {
 		parent::__construct();
 
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Notification\Helper::assign_adminlog_content();
 		
 		RC_Script::enqueue_script('mh-notification', RC_App::apps_url('statics/js/mh-notification.js', __FILE__));
 		RC_Style::enqueue_style('mh-notification', RC_App::apps_url('statics/css/mh-notification.css', __FILE__), array());
