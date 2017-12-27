@@ -67,9 +67,10 @@ class Version_11100 extends Version
         $seeder->fire();
         
         $this->updateConfig();
+        $this->removeDiscardConfigCode();
         
-        // 更新shop_config数据填充
-        $seeder = new Seeder('InitShopConfigTableSeeder');
+        // 更新shop_config数据表主键ID顺序
+        $seeder = new Seeder('FixShopConfigTableSeeder');
         $seeder->fire();
         
         // 清除缓存
@@ -90,6 +91,22 @@ class Version_11100 extends Version
         collect($data)->each(function($item) {
             ecjia_config::change($item['group'], $item['code'], $item['value'], $item['options']);
         });
+    }
+    
+    /**
+     * 移除废弃的配置项
+     */
+    public function removeDiscardConfigCode()
+    {
+        ecjia_config::delete('comment_factor'); //商品评论的条件
+        ecjia_config::delete('sms_auth_str'); 
+        ecjia_config::delete('sms_domain'); //域名
+        ecjia_config::delete('sms_count'); //发送短信条数
+        ecjia_config::delete('sms_total_money'); //总共充值金额
+        ecjia_config::delete('sms_balance'); //余额
+        ecjia_config::delete('sms_last_request');   //最后一次请求时间
+        ecjia_config::delete('sms_signin'); //用户注册时发短信（短信配置）
+        ecjia_config::delete('sms_send'); 
     }
 
     /**
