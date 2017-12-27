@@ -60,9 +60,10 @@ class admin_subscribe extends ecjia_admin {
 	
 	public function __construct() {
 		parent::__construct();
+		
 		RC_Lang::load('wechat');
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Wechat\Helper::assign_adminlog_content();
 		
 		$this->wu_viewdb = RC_Loader::load_app_model('wechat_user_viewmodel');
 		$this->wechat_user_db = RC_Loader::load_app_model('wechat_user_model');

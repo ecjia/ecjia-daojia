@@ -69,7 +69,7 @@ class admin_mass_message extends ecjia_admin {
 		RC_Loader::load_app_class('wechat_method', 'wechat', false);
 		
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Wechat\Helper::assign_adminlog_content();
 		
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');

@@ -58,7 +58,7 @@ class admin_customer extends ecjia_admin {
 		
 		RC_Lang::load('wechat');
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Wechat\Helper::assign_adminlog_content();
 		
 		$this->db_customer = RC_Loader::load_app_model('wechat_customer_model');
 		$this->db_platform_account = RC_Loader::load_app_model('platform_account_model', 'platform');

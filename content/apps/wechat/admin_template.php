@@ -57,7 +57,7 @@ class admin_template extends ecjia_admin {
 		parent::__construct();
 		
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Wechat\Helper::assign_adminlog_content();
 		
 		$this->db_mail = RC_Loader::load_app_model('mail_templates_model');
 	

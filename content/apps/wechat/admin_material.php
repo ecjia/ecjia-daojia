@@ -63,8 +63,9 @@ class admin_material extends ecjia_admin {
 		RC_Lang::load('wechat');
 		RC_Loader::load_app_class('platform_account', 'platform', false);
 		RC_Loader::load_app_class('wechat_method', 'wechat', false);
+
 		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
+		Ecjia\App\Wechat\Helper::assign_adminlog_content();
 		
 		/* 加载所有全局 js/css */
 		RC_Script::enqueue_script('bootstrap-placeholder');
