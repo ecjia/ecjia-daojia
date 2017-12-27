@@ -44,14 +44,21 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Franchisee;
 
-/*
- * 管理员操作对象和动作
-*/
-function assign_adminlog_content(){
-	ecjia_admin_log::instance()->add_object('apply_franchisee', '申请入驻');
-	ecjia_admin_log::instance()->add_action('cancel', '撤销');
+use ecjia_admin_log;
+
+class Helper
+{
+    
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+    	ecjia_admin_log::instance()->add_object('apply_franchisee', '申请入驻');
+    	ecjia_admin_log::instance()->add_action('cancel', '撤销');
+    }
+    
 }
 
-//end
+// end
