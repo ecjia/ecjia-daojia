@@ -73,11 +73,4 @@ function favourable_info($act_id) {
 	return $row;
 }
 
-/*
- * 管理员操作对象和动作
-*/
-function assign_adminlog_content(){
-	ecjia_admin_log::instance()->add_object('discount', '优惠');
-}
-
 // end
