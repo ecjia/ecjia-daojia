@@ -44,13 +44,21 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Promotion;
 
-/**
- * 添加管理员记录日志操作对象
- */
-function assign_adminlog_content() {
-	ecjia_admin_log::instance()->add_object('promotion', RC_Lang::get('promotion::promotion.promotion'));
+use ecjia_admin_log;
+use RC_Lang;
+
+class Helper
+{
+    
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content() {
+    	ecjia_admin_log::instance()->add_object('promotion', RC_Lang::get('promotion::promotion.promotion'));
+    }
+    
 }
 
-//end
+// end
