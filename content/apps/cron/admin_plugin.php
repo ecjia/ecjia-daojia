@@ -59,9 +59,6 @@ class admin_plugin extends ecjia_admin {
 		$this->cron_method = RC_Package::package('app::cron')->loadClass('cron_method');
 		RC_Package::package('app::cron')->loadClass('cron_helper');
 		
-// 		RC_Loader::load_app_func('global');
-// 		assign_adminlog_content();
-		
 		Ecjia\App\Cron\Helper::assign_adminlog_content();
 		
 		/*加载全局JS及CSS*/

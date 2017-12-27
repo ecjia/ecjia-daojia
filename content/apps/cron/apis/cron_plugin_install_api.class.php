@@ -68,8 +68,6 @@ class cron_plugin_install_api extends Component_Event_Api {
 		
 		if (isset($options['config']) && !empty($plugin_data['Name'])) {
 
-// 			RC_Loader::load_app_func('global', 'cron');
-// 			assign_adminlog_content();
 			Ecjia\App\Cron\Helper::assign_adminlog_content();
 			
 			$format_name = $plugin_data['Name'];

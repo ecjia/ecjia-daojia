@@ -79,8 +79,6 @@ class cron_plugin_uninstall_api extends Component_Event_Api {
 			/* 从数据库中删除计划任务 */
 			RC_DB::table('crons')->where('cron_code', $options['config']['cron_code'])->delete();
 			
-// 			RC_Loader::load_app_func('global', 'cron');
-// 			assign_adminlog_content();
 			Ecjia\App\Cron\Helper::assign_adminlog_content();
 			/* 记录日志 */
 			ecjia_admin::admin_log($format_name, 'uninstall', 'cron');

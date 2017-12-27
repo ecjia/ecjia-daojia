@@ -149,7 +149,6 @@
         },
            
         ajax_five_data :function(data){
-        	console.log(data);
         	if (data.state == 'success') {　
             	$('.help-block.cron-five').html('');
             	var date = new Date();
