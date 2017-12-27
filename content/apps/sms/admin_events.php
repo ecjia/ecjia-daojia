@@ -50,109 +50,112 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA短信事件模块
  * @author songqian
  */
-class admin_events extends ecjia_admin {
-	
-	public function __construct() {
-		parent::__construct();
-		
-		RC_Loader::load_app_func('global');
-		assign_adminlog_content();
-		
-		RC_Script::enqueue_script('tinymce');
-		RC_Style::enqueue_style('chosen');
-		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('jquery-uniform');
-		
-		RC_Script::enqueue_script('jquery-validate');
-		RC_Script::enqueue_script('jquery-form');
-		RC_Script::enqueue_script('smoke');
-		
-		RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
-		RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
-		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
-		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
-		RC_Script::enqueue_script('bootstrap-placeholder');
-		RC_Script::enqueue_script('jquery-dataTables-bootstrap');
-		
-		RC_Script::enqueue_script('sms_events', RC_App::apps_url('statics/js/sms_events.js', __FILE__), array(), false, false);
-		RC_Script::enqueue_script('sms_template', RC_App::apps_url('statics/js/sms_template.js', __FILE__), array(), false, false);
-		RC_Script::localize_script('sms_template', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
-		
-	}
-	
-	/**
-	 * 事件列表
-	 */
-	public function init () {
-		$this->admin_priv('sms_events_manage');
-		
-		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('短信事件'));
-		$this->assign('ur_here', '短信事件列表');
-		$this->assign('action_link', array('href'=>RC_Uri::url('sms/admin_template/init'), 'text' => '短信模板列表'));
-		
-		$data = $this->template_code_list();
-		$database = RC_DB::table('notification_events')
-					->where('channel_type', 'sms')
-					->select('id', 'event_code','status')
-					->get();
-		foreach ($database as $key => $val) {
-			$database[$val['event_code']] = $val;
-			unset($database[$key]);
-		}
-		foreach ($data as $k => $v) {
-			if (array_key_exists($v['code'], $database)) {
-				$data[$k]['id'] = $database[$v['code']]['id'];
-				$data[$k]['status'] = $database[$v['code']]['status'];
-			}
-		}
-		$this->assign('data', $data);
-		
-		$this->display('sms_events_list.dwt');
-	}
-	
-	public function open() {
-		$this->admin_priv('sms_events_manage');
-		if (empty($_GET['id'])) {
-			$data = array(
-				'event_code'  => $_GET['code'],
-				'status'	  => 'open',
-				'channel_type'=> 'sms',
-			);
-			RC_DB::table('notification_events')->insertGetId($data);
-		} else {
-			RC_DB::table('notification_events')->where('id', $_GET['id'])->update(array('status'=> 'open'));
-		}
-		ecjia_admin::admin_log($_GET['code'], 'add', 'sms_events');
-		return $this->showmessage('开启成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
-	}
-	
+class admin_events extends ecjia_admin
+{
 
-	public function close() {
-		$this->admin_priv('sms_events_manage');
-		RC_DB::table('notification_events')->where('id', $_GET['id'])->update(array('status'=> 'close'));
-		ecjia_admin::admin_log($_GET['code'], 'close', 'sms_events');
-		return $this->showmessage('关闭成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
-	}
-	
-	/**
-	 * 获取模板code
-	 */
-	private function template_code_list() {
-	
-		$template_code_list = array();
-		
-		$factory = new Ecjia\App\Sms\EventFactory();
-		$events = $factory->getEvents();
-		foreach ($events as $k => $event) {
-			$template_code_list[$k]['code'] = $event->getCode();
-			$template_code_list[$k]['name'] = $event->getName();
-			$template_code_list[$k]['description'] = $event->getDescription();
-		}
-		
-		return $template_code_list;
-	}
+    public function __construct()
+    {
+        parent::__construct();
+
+        Ecjia\App\Sms\Helper::assign_adminlog_content();
+
+        RC_Script::enqueue_script('tinymce');
+        RC_Style::enqueue_style('chosen');
+        RC_Style::enqueue_style('uniform-aristo');
+        RC_Script::enqueue_script('jquery-chosen');
+        RC_Script::enqueue_script('jquery-uniform');
+
+        RC_Script::enqueue_script('jquery-validate');
+        RC_Script::enqueue_script('jquery-form');
+        RC_Script::enqueue_script('smoke');
+
+        RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
+        RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
+        RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
+        RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
+        RC_Script::enqueue_script('bootstrap-placeholder');
+        RC_Script::enqueue_script('jquery-dataTables-bootstrap');
+
+        RC_Script::enqueue_script('sms_events', RC_App::apps_url('statics/js/sms_events.js', __FILE__), array(), false, false);
+        RC_Script::enqueue_script('sms_template', RC_App::apps_url('statics/js/sms_template.js', __FILE__), array(), false, false);
+        RC_Script::localize_script('sms_template', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
+    }
+
+    /**
+     * 事件列表
+     */
+    public function init()
+    {
+        $this->admin_priv('sms_events_manage');
+
+        ecjia_screen::get_current_screen()->remove_last_nav_here();
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('短信事件'));
+        $this->assign('ur_here', '短信事件列表');
+        $this->assign('action_link', array('href' => RC_Uri::url('sms/admin_template/init'), 'text' => '短信模板列表'));
+
+        $data     = $this->template_code_list();
+        $database = RC_DB::table('notification_events')
+            ->where('channel_type', 'sms')
+            ->select('id', 'event_code', 'status')
+            ->get();
+        foreach ($database as $key => $val) {
+            $database[$val['event_code']] = $val;
+            unset($database[$key]);
+        }
+        foreach ($data as $k => $v) {
+            if (array_key_exists($v['code'], $database)) {
+                $data[$k]['id']     = $database[$v['code']]['id'];
+                $data[$k]['status'] = $database[$v['code']]['status'];
+            }
+        }
+        $this->assign('data', $data);
+
+        $this->display('sms_events_list.dwt');
+    }
+
+    public function open()
+    {
+        $this->admin_priv('sms_events_manage');
+        if (empty($_GET['id'])) {
+            $data = array(
+                'event_code'   => $_GET['code'],
+                'status'       => 'open',
+                'channel_type' => 'sms',
+            );
+            RC_DB::table('notification_events')->insertGetId($data);
+        } else {
+            RC_DB::table('notification_events')->where('id', $_GET['id'])->update(array('status' => 'open'));
+        }
+        ecjia_admin::admin_log($_GET['code'], 'add', 'sms_events');
+        return $this->showmessage('开启成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
+    }
+
+    public function close()
+    {
+        $this->admin_priv('sms_events_manage');
+        RC_DB::table('notification_events')->where('id', $_GET['id'])->update(array('status' => 'close'));
+        ecjia_admin::admin_log($_GET['code'], 'close', 'sms_events');
+        return $this->showmessage('关闭成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
+    }
+
+    /**
+     * 获取模板code
+     */
+    private function template_code_list()
+    {
+
+        $template_code_list = array();
+
+        $factory = new Ecjia\App\Sms\EventFactory();
+        $events  = $factory->getEvents();
+        foreach ($events as $k => $event) {
+            $template_code_list[$k]['code']        = $event->getCode();
+            $template_code_list[$k]['name']        = $event->getName();
+            $template_code_list[$k]['description'] = $event->getDescription();
+        }
+
+        return $template_code_list;
+    }
 }
 
 //end
