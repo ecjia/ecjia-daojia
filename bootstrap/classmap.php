@@ -227,6 +227,10 @@ return array(
     'AlterRegionTypeForStorePreauditTable' => $contentDir . '/database/migrations/2017_11_29_130300_alter_region_type_for_store_preaudit_table.php',
     'AlterRegionTypeForUserAddressTable' => $contentDir . '/database/migrations/2017_11_29_130316_alter_region_type_for_user_address_table.php',
     'RenameRegionCnTable' => $contentDir . '/database/migrations/2017_11_29_135832_rename_region_cn_table.php',
+    'CreatePrinterMachineTable' => $contentDir . '/database/migrations/2017_12_20_144122_create_printer_machine_table.php',
+    'CreatePrinterTemplateTable' => $contentDir . '/database/migrations/2017_12_20_144140_create_printer_template_table.php',
+    'CreatePrinterPrintlistTable' => $contentDir . '/database/migrations/2017_12_20_144157_create_printer_printlist_table.php',
+    'DropRegionTable' => $contentDir . '/database/migrations/2017_12_20_173947_drop_region_table.php',
      
     
     // seeder
@@ -242,7 +246,6 @@ return array(
     'InitPlatformConfigTableSeeder' => $contentDir . '/database/seeds/InitPlatformConfigTableSeeder.php',
     'InitPlatformExtendTableSeeder' => $contentDir . '/database/seeds/InitPlatformExtendTableSeeder.php',
     'InitRegFieldsTableSeeder' => $contentDir . '/database/seeds/InitRegFieldsTableSeeder.php',
-    'InitRegionTableSeeder' => $contentDir . '/database/seeds/InitRegionTableSeeder.php',
     'InitShopConfigTableSeeder' => $contentDir . '/database/seeds/InitShopConfigTableSeeder.php',
     'InitStoreCategoryTableSeeder' => $contentDir . '/database/seeds/InitStoreCategoryTableSeeder.php',
     'InitStorePercentTableSeeder' => $contentDir . '/database/seeds/InitStorePercentTableSeeder.php',
