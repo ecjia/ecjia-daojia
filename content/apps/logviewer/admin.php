@@ -49,82 +49,85 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * ECJia日志查看
  */
-class admin extends ecjia_admin {
-	public function __construct() {
-		parent::__construct();
-		
-		RC_Style::enqueue_style('chosen');
-		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('jquery-uniform');
-		
-		RC_Script::enqueue_script('jquery-validate');
-		RC_Script::enqueue_script('jquery-form');
-		RC_Script::enqueue_script('smoke');
-		
-		RC_Script::enqueue_script('jquery-dataTables-bootstrap');
-		
-		/*加载自定义JS和CSS*/
-		RC_Style::enqueue_style('logviewer', RC_App::apps_url('statics/css/logviewer.css', __FILE__));
-		RC_Script::enqueue_script('logviewer', RC_App::apps_url('statics/js/logviewer.js', __FILE__));
+class admin extends ecjia_admin
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-		RC_Script::enqueue_script('acejs', RC_Uri::admin_url('statics/lib/acejs/ace.js'), array(), false, true);
-		RC_Script::enqueue_script('acejs-emmet', RC_Uri::admin_url('statics/lib/acejs/ext-emmet.js'), array(), false, true);
-		
-		RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('logviewer::logviewer.logviewer'), RC_Uri::url('logviewer/admin/init')));
-	}
-	
-	public function init () {
-		$this->admin_priv('logviewer_manage');
-		
-		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('logviewer::logviewer.logviewer')));
-		$this->assign('ur_here', RC_Lang::get('logviewer::logviewer.logviewer'));
-		$this->assign('search_action', RC_Uri::url('logviewer/admin/init'));
-		
-		$full = isset($_GET['full']) && !empty($_GET['full']) ? 1 : 0;
-		$this->assign('full', $full); // 是否全屏
-		
-		$allfiles = RC_LogViewer::getFiles(true);
-		$groups = [];
-		collect($allfiles)->each(function ($item) use (& $groups) {
-			$group = strstr($item, '-', true);
-			$groups[$group][] = $item;
-		});
-		
-		ksort($groups);
-		
-	    $type = !empty($_GET['type']) ? trim($_GET['type']) : key($groups);
-	    if (empty($type)) {
-	        $type = 'error';
-	    }
-	    $files = $groups[$type];
-	    $log_name = !empty($_GET['log_name']) ? trim($_GET['log_name']) : head($files);
-		
-		$logs = array();
-		if ($log_name) {
-			RC_LogViewer::setFile($log_name);
-			$current_file = RC_LogViewer::getFileName();
-			if (!empty($current_file)) {
-				$logs = RC_LogViewer::all(0, 1000);
-				if (!empty($logs)) {
-					foreach ($logs as $k => $v) {
-						$logs[$k]['level'] = !empty($v['level']) ? ucfirst($v['level']) : '';
-					}
-				}
-			}
-		}
-		
-		$this->assign('type', $type);
-		$this->assign('log_name', $log_name);
-		$this->assign('logs', $logs);
-		$this->assign('files', $files);
-		$this->assign('groups', $groups);
-		
-		$this->display('logviewer_list.dwt');
-	}
+        RC_Style::enqueue_style('chosen');
+        RC_Style::enqueue_style('uniform-aristo');
+        RC_Script::enqueue_script('jquery-chosen');
+        RC_Script::enqueue_script('jquery-uniform');
+
+        RC_Script::enqueue_script('jquery-validate');
+        RC_Script::enqueue_script('jquery-form');
+        RC_Script::enqueue_script('smoke');
+
+        RC_Script::enqueue_script('jquery-dataTables-bootstrap');
+
+        /*加载自定义JS和CSS*/
+        RC_Style::enqueue_style('logviewer', RC_App::apps_url('statics/css/logviewer.css', __FILE__));
+        RC_Script::enqueue_script('logviewer', RC_App::apps_url('statics/js/logviewer.js', __FILE__));
+
+        RC_Script::enqueue_script('acejs', RC_Uri::admin_url('statics/lib/acejs/ace.js'), array(), false, true);
+        RC_Script::enqueue_script('acejs-emmet', RC_Uri::admin_url('statics/lib/acejs/ext-emmet.js'), array(), false, true);
+
+        RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('logviewer::logviewer.logviewer'), RC_Uri::url('logviewer/admin/init')));
+    }
+
+    public function init()
+    {
+        $this->admin_priv('logviewer_manage');
+
+        ecjia_screen::get_current_screen()->remove_last_nav_here();
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('logviewer::logviewer.logviewer')));
+        $this->assign('ur_here', RC_Lang::get('logviewer::logviewer.logviewer'));
+        $this->assign('search_action', RC_Uri::url('logviewer/admin/init'));
+
+        $full = isset($_GET['full']) && !empty($_GET['full']) ? 1 : 0;
+        $this->assign('full', $full); // 是否全屏
+
+        $allfiles = RC_LogViewer::getFiles(true);
+        $groups   = [];
+        collect($allfiles)->each(function ($item) use (&$groups) {
+            $group            = strstr($item, '-', true);
+            $groups[$group][] = $item;
+        });
+
+        ksort($groups);
+
+        $type = !empty($_GET['type']) ? trim($_GET['type']) : key($groups);
+        if (empty($type)) {
+            $type = 'error';
+        }
+        $files    = $groups[$type];
+        $log_name = !empty($_GET['log_name']) ? trim($_GET['log_name']) : head($files);
+
+        $logs = array();
+        if ($log_name) {
+            RC_LogViewer::setFile($log_name);
+            $current_file = RC_LogViewer::getFileName();
+            if (!empty($current_file)) {
+                $logs = RC_LogViewer::all(0, 1000);
+                if (!empty($logs)) {
+                    foreach ($logs as $k => $v) {
+                        $logs[$k]['level'] = !empty($v['level']) ? ucfirst($v['level']) : '';
+                    }
+                }
+            }
+        }
+
+        $this->assign('type', $type);
+        $this->assign('log_name', $log_name);
+        $this->assign('logs', $logs);
+        $this->assign('files', $files);
+        $this->assign('groups', $groups);
+
+        $this->display('logviewer_list.dwt');
+    }
 }
 
 //end

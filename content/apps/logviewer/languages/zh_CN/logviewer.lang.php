@@ -50,13 +50,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA 日志查看语言文件
  */
 return array(
-	'logviewer'        => '日志查看',
-	'no_log'	       => '暂无日志',
-	'level'		       => '等级',
-	'date'		       => '日期',
-	'content'	       => '内容',
-	'log_file'	       => '日志文件',
-	'logviewer_manage' => '日志查看管理',
+    'logviewer'        => '日志查看',
+    'no_log'           => '暂无日志',
+    'level'            => '等级',
+    'date'             => '日期',
+    'content'          => '内容',
+    'log_file'         => '日志文件',
+    'logviewer_manage' => '日志查看管理',
 );
 
 //end

@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * ECJIA 应用语言包
  */
-$LANG['logviewer']		= '日志查看';
-$LANG['logviewer_desc']	= '无需在再一级一级找到日志文件打开进行查看了，该应用把所有的日志文件分类详细的排列出来，方便用户查看。';
+$LANG['logviewer']      = '日志查看';
+$LANG['logviewer_desc'] = '无需在再一级一级找到日志文件打开进行查看了，该应用把所有的日志文件分类详细的排列出来，方便用户查看。';
 
 // end

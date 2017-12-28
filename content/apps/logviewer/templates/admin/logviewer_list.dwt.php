@@ -78,7 +78,7 @@
 						</div>
                     </form>
                 </div>
-                
+
                 <div class="span3 chat_sidebar{if $full} hide{/if}">
                     <div class="chat_heading clearfix">
                         {t}日志文件{/t}
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

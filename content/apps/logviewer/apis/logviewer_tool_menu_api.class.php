@@ -46,12 +46,14 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class logviewer_tool_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('06_logviewer_list', RC_Lang::get('logviewer::logviewer.logviewer'), RC_Uri::url('logviewer/admin/init'), 6)->add_purview('logviewer_manage');
-		return $menus;
-	}
+class logviewer_tool_menu_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
+        $menus = ecjia_admin::make_admin_menu('06_logviewer_list', RC_Lang::get('logviewer::logviewer.logviewer'), RC_Uri::url('logviewer/admin/init'), 6)->add_purview('logviewer_manage');
+        return $menus;
+    }
 }
 
 // end
