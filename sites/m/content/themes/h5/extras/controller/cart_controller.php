@@ -620,17 +620,23 @@ class cart_controller {
 		
    		$integral 		= empty($_POST['integral']) ? 0 : intval($_POST['integral']);
  		$bonus 			= empty($_POST['bonus']) 	? 0 : intval($_POST['bonus']);
-        
+ 		
  		if (empty($rec_id)) {
-     		return ecjia_front::$controller->showmessage('请选择商品再进行结算', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+     		return ecjia_front::$controller->showmessage('请选择商品再进行结算', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+
         if (empty($address_id)) {
 			$pjax_url = !empty($_SESSION['order_address_temp']['pjax_url']) ? trim($_SESSION['order_address_temp']['pjax_url']) : RC_Uri::url('cart/index/init');
-            return ecjia_front::$controller->showmessage('请先选择收货地址', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
+            return ecjia_front::$controller->showmessage('请先选择收货地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
    		}
+   		
    		$expect_shipping_time = '';
    		if (!empty($shipping_date) || !empty($shipping_time)) {
    		    $expect_shipping_time = $shipping_date .' '. $shipping_time;
+   		}
+   		
+   		if (empty($shipping_id)) {
+   			return ecjia_front::$controller->showmessage('请选择一个配送方式', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
    		}
    		$params = array(
    			'token' 				=> ecjia_touch_user::singleton()->getToken(),
@@ -658,10 +664,12 @@ class cart_controller {
    		$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::FLOW_DONE)->data($params)->run();
    		if (is_ecjia_error($rs)) {
    			$pjax_url = !empty($_SESSION['order_address_temp']['pjax_url']) ? trim($_SESSION['order_address_temp']['pjax_url']) : RC_Uri::url('cart/index/init');
-   			return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
+   			return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
    		}
    		$order_id = $rs['order_id'];
-   		return ecjia_front::$controller->redirect(RC_Uri::url('pay/index/init', array('order_id' => $order_id, 'tips_show' => 1)));
+   		
+   		$url = RC_Uri::url('pay/index/init', array('order_id' => $order_id, 'tips_show' => 1));
+   		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
     }
 
     /**

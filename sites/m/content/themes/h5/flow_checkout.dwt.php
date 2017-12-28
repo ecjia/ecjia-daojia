@@ -21,7 +21,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <!-- #EndLibraryItem -->
 <div class="ecjia-checkout ecjia-padding-b">
-	<form id="theForm" name="theForm" action="{url path='flow/done'}" method="post">
+	<form id="theForm" name="checkForm" action="{url path='flow/done'}" method="post">
 		<a href="{if !$address_list && !$address_id}{RC_Uri::url('user/address/add_address')}&clear=1{else}{RC_Uri::url('user/address/address_list')}&store_id={$store_id}&rec_id={$rec_id}&type=choose{/if}">
 			<div class="flow-address ecjia-margin-b {if !$data.consignee}choose-address{/if}">
 				<label class="ecjiaf-fl">送至：</label>
@@ -185,8 +185,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<section class="ecjia-margin-t">
 			<input type="hidden" name="rec_id" value="{$rec_id}">
 			<input type="hidden" name="address_id" value="{$address_id}">
-			<input class="btn btn-info" name="submit" type="submit" value="提交订单" style="display:none;"/>
-			<a class="btn flow-done-sub pjax">提交订单<span class="flow-done-text">（应付{$total.amount_formated}）</span></a>
+			<input class="btn btn-info" name="submit" type="submit" value="提交订单（应付{$total.amount_formated}）" />
 			<input name="step" type="hidden" value="done" />
 		</section>
 	</form>

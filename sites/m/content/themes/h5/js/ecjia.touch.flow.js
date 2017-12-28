@@ -87,9 +87,21 @@
 		},
 
 		form_submit: function() {
-			$('.flow-done-sub').on('click', function() {
+			$("form[name='checkForm']").on('submit', function(e) {
 				ecjia.touch.pjaxloadding();
-				$("input[type='submit']").click();
+				e.preventDefault();
+				return false;
+			}).Validform({
+				tiptype: function(msg, o, cssctl) {
+					if (o.type == 3) {
+						alert(msg);
+					}
+				},
+				ajaxPost: true,
+				callback: function(data) {
+					$('.la-ball-atom').remove();
+					ecjia.touch.showmessage(data);
+				}
 			});
 
 			$('.check_address').off('click').on('click', function(e) {
