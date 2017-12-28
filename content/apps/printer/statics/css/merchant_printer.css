@@ -391,3 +391,19 @@ textarea.form-control.test_textarea {
 .switch [type=checkbox]+label:before,.switch [type=checkbox]:checked+label:after {
 	display: none
 }
+
+.switch.info-toggle-status, .switch.info-toggle-auto-print {
+	margin-left: 0;
+}
+
+.switch.info-toggle-status [type=checkbox]+label, .switch.info-toggle-auto-print [type=checkbox]+label {
+	top: 0;
+}
+.switch.info-toggle-status .onoffswitch-inner:before, .switch.info-toggle-auto-print .onoffswitch-inner:before {
+	content: "开启";
+	padding-left: 10px;
+}
+
+.switch.info-toggle-status .onoffswitch-inner:after, .switch.info-toggle-auto-print .onoffswitch-inner:after {
+	content: "关闭";
+}

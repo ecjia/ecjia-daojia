@@ -81,18 +81,6 @@
 	           	});
 			});
 			
-			//小票模板
-			$('.template-toggle-button').toggleButtons({
-				label: {  
-					disabled: "否", 
-                	enabled: "是" 
-                },  
-                style: {
-                    enabled: "info",
-                    disabled: "success"
-                },
-            });
-			
         	$('.view_key').off('click').on('click', function() {
         		var $this = $(this),
         			key = $this.attr('data-key'),

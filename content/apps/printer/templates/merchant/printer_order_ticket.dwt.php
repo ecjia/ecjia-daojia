@@ -60,19 +60,27 @@
 			                            	<span class="help-block">默认设置为1份，最多可设置9份</span>
 			                            </div>
 			                        </div>
-			                        <div class="form-group">
+			                        <div class="form-group m_b30">
 			                            <label class="control-label col-lg-5">{t}是否启用此模版{/t}</label>
 			                            <div class="col-lg-7">
-			                            	<div class="template-toggle-button">
-								                <input class="nouniform" name="status" type="checkbox" {if $info.status eq 1}checked{/if} value="1"/>
+								            <div class="switch info-toggle-status">
+								                <input type="checkbox" {if $info.status eq 1}checked{/if} value="1" name="status" class="onoffswitch-checkbox" id="status">
+								                <label class="onoffswitch-label" for="status">
+								                    <span class="onoffswitch-inner"></span>
+								                    <span class="onoffswitch-switch"></span>
+								                </label>
 								            </div>
 			                            </div>
 			                        </div>
-			                        <div class="form-group">
+			                        <div class="form-group m_b30">
 			                            <label class="control-label col-lg-5">{t}是否开启自动打印{/t}</label>
 			                            <div class="col-lg-7">
-			                            	<div class="template-toggle-button">
-								                <input class="nouniform" name="auto_print" type="checkbox" {if $info.auto_print eq 1}checked{/if} value="1"/>
+			                            	<div class="switch info-toggle-auto-print">
+								                <input type="checkbox" {if $info.auto_print eq 1}checked{/if} value="1" name="auto_print" class="onoffswitch-checkbox" id="auto_print">
+								                <label class="onoffswitch-label" for="auto_print">
+								                    <span class="onoffswitch-inner"></span>
+								                    <span class="onoffswitch-switch"></span>
+								                </label>
 								            </div>
 			                            </div>
 			                        </div>

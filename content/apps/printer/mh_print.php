@@ -68,11 +68,6 @@ class mh_print extends ecjia_merchant
         RC_Script::enqueue_script('ecjia-mh-editable-js');
         RC_Style::enqueue_style('ecjia-mh-editable-css');
 
-        RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
-        RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
-
-        RC_Style::enqueue_style('fontello', RC_Uri::admin_url('statics/lib/fontello/css/fontello.css'));
-
         RC_Style::enqueue_style('nouislider', RC_App::apps_url('statics/css/jquery.nouislider.css', __FILE__), array());
         RC_Script::enqueue_script('nouislider', RC_App::apps_url('statics/js/jquery.nouislider.min.js', __FILE__), array(), false, false);
 
