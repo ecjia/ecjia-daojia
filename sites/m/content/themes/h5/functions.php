@@ -101,6 +101,7 @@ RC_Hook::add_action('cart/index/check_spec', array('cart_controller', 'check_spe
 RC_Hook::add_action('cart/flow/checkout', array('cart_controller', 'checkout'));
 RC_Hook::add_action('cart/flow/pay', array('cart_controller', 'pay'));
 RC_Hook::add_action('cart/flow/shipping', array('cart_controller', 'shipping'));
+RC_Hook::add_action('cart/flow/pay_shipping', array('cart_controller', 'pay_shipping'));
 RC_Hook::add_action('cart/flow/shipping_date', array('cart_controller', 'shipping_date'));
 RC_Hook::add_action('cart/flow/invoice', array('cart_controller', 'invoice'));
 RC_Hook::add_action('cart/flow/bonus', array('cart_controller', 'bonus'));
@@ -242,6 +243,8 @@ RC_Hook::add_action('user/quickpay/done', array('quickpay_controller', 'done'));
 RC_Hook::add_action('user/quickpay/pay', array('quickpay_controller', 'pay'));
 RC_Hook::add_action('user/quickpay/dopay', array('quickpay_controller', 'dopay'));
 RC_Hook::add_action('user/quickpay/notify', array('quickpay_controller', 'notify'));
+RC_Hook::add_action('user/quickpay/cancel', array('quickpay_controller', 'cancel'));//取消闪惠订单
+RC_Hook::add_action('user/quickpay/delete', array('quickpay_controller', 'delete'));//删除闪惠订单
 
 /**
  * step：3

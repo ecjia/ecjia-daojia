@@ -81,6 +81,26 @@
 					}
 				});
 			});
+			
+			$('.quickpay_order_handle').off('click').on('click', function(e) {
+				e.preventDefault();
+				var myApp = new Framework7();
+				var url = $(this).attr('href');
+				var message = $(this).attr('data-message');
+				myApp.modal({
+					title: message,
+					buttons: [{
+						text: '取消',
+					}, {
+						text: '确定',
+						onClick: function() {
+							$.post(url, function(data) {
+								ecjia.touch.showmessage(data);
+							});
+						},
+					}]
+				});
+			});
         },
         
         checkout: function(c, a) {

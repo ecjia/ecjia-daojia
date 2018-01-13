@@ -515,6 +515,15 @@
 					ecjia.touch.category.toggle_checkbox();
 				}
 				ecjia.touch.category.check_all();
+				
+				if (data.count != undefined) {
+					var count = data.count;
+					if (count.meet_min_amount == 1) {
+						$('.check_cart').removeClass('disabled').html('去结算');
+					} else {
+						$('.check_cart').addClass('disabled').html('还差'+ count.label_short_amount +'起送');
+					}
+				}
 			});
 		},
 

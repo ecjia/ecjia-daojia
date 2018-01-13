@@ -20,6 +20,8 @@
 			ecjia.touch.flow.form_submit();
 			ecjia.touch.flow.select_inv_type();
 			ecjia.touch.flow.inv_img();
+			ecjia.touch.flow.selectPayShipping();
+			
 			$('[data-toggle="selectShipping"]:checked').trigger('click');
 			$('[data-toggle="selectPayment"]:checked').trigger('click');
 			$('[data-toggle="change_bonus"]:checked').trigger('click');
@@ -395,8 +397,74 @@
 				url = url.substring(0, url.length - 1);
 				$('.goods-checkout').attr('href', url);
 			});
-		}
+		},
+		
+		selectPayShipping: function() {
+			//选择支付方式
+			$('.select-pay-title').off('click').on('click', function() {
+				var $this = $(this),
+					parent = $this.parents('.ecjia-list'),
+					pay_id = $this.attr('data-payment');
+				parent.find('.select-pay-title').removeClass('active');
+				$this.addClass('active');
+				$('input[name="payment"]').val(pay_id);
+			});
+			//选择配送方式
+			$('.select-shipping-title').off('click').on('click', function() {
+				var $this = $(this),
+					parent = $this.parents('.ecjia-list'),
+					shipping_id = $this.attr('data-shipping'),
+					shipping_code = $this.attr('data-code');
+				parent.find('.select-shipping-title ').removeClass('active');
+				$this.addClass('active');
+				$('input[name="shipping"]').val(shipping_id);
+				if (shipping_code == 'ship_o2o_express') {
+					$('.select-shipping-date').addClass('show');
+				} else {
+					$('.select-shipping-date').removeClass('show');
+				}
+			});
+			//显示送达时间选择框
+			$('.select-shipping-date').off('click').on('click', function() {
+				$('.mod_address_slide').addClass('show');
+			});
+			//关闭送达时间选择框
+			$('.mod_address_slide_head .icon-close').off('click').on('click', function() {
+				$('.mod_address_slide').removeClass('show');
+			});
+			
+			//点击日期
+			$('.mod_address_slide_tabs li').off('click').on('click', function() {
+				var $this = $(this),
+					date = $this.attr('data-date');
+				$this.addClass('active').siblings('li').removeClass('active');
+				
+				$('.mod_address_slide_list li').each(function() {
+					if ($(this).attr('data-date') == date) {
+						$(this).removeClass('hide');
+					} else {
+						$(this).addClass('hide');
+					}
+				});
+			});
+			
+			//点击时间
+			$('.mod_address_slide_list li').off('click').on('click', function() {
+				var $this = $(this);
+					parent = $this.parent('.mod_address_slide_tabs'),
+					date = $this.attr('data-date'),
+					time = $this.attr('data-time');
+				$('.mod_address_slide_list').find('li').removeClass('active');
+				$this.addClass('active');
+				
+				$('input[name="shipping_date"]').val(date);
+				$('input[name="shipping_time"]').val(time);
+				$('.shipping-time').html(date+' '+time);
+				
+				$('.mod_address_slide').removeClass('show');
+			});
 
+		},
 	};
 
 })(ecjia, jQuery);

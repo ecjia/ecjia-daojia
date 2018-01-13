@@ -54,6 +54,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				           	<span class="slect-title">{$val.title}</span>
 				           	{if $is_available neq 1 && $val.is_allow_use eq 0}
 				           	<span class="ecjiaf-fr ecjia-margin-r ecjia-color-aaa">不可用</span>
+				           	{else}
+				           	<span class="ecjiaf-fr ecjia-margin-r">-{$val.formated_discount}</span>
 				           	{/if}
 				       	</li>
 				       	<!-- {/foreach} -->
@@ -92,7 +94,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					            <span class="fav_info">{if $data.user_integral lt $activity.order_max_integral }{$data.user_integral}{else}{$activity.order_max_integral}{/if}积分可用</span>
 					            {/if}
 					            <i class="iconfont icon-jiantou-right"></i>
-						        {if $temp.integral_bonus}
+						        {if $temp.integral && $temp.integral_bonus}
 	                            <span class="other_width">{$temp.integral}积分抵{$temp.integral_bonus}元</span>
 	                            {/if}
 					        </a>
@@ -138,6 +140,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<span class="slect-title">{$val.title}</span>
 			{if $val.is_allow_use eq 0}
 			<span class="ecjiaf-fr ecjia-margin-r ecjia-color-aaa">不可用</span>
+			{else}
+			<span class="ecjiaf-fr ecjia-margin-r">-{$val.formated_discount}</span>
 			{/if}
 		</li>
 		<!-- {/foreach} -->
@@ -177,7 +181,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	            <span class="fav_info">{if $data.user_integral lt $arr.order_max_integral }{$data.user_integral}{else}{$arr.order_max_integral}{/if}积分可用</span>
 	            {/if}
 	            <i class="iconfont icon-jiantou-right"></i>
-				{if $temp.integral_bonus}
+				{if $temp.integral && $temp.integral_bonus}
 				<span class="other_width">{$temp.integral}积分抵{$temp.integral_bonus}元</span>
 				{/if}
 	        </a>

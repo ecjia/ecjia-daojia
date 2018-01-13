@@ -21,6 +21,7 @@
 			ecjia.touch.user.modify_username();
 			ecjia.touch.user.record_cancel();
 			ecjia.touch.user.account_bind();
+			ecjia.touch.user.cancel_order();
 
 			$(function() {
 				$(".del").click(function() {
@@ -427,6 +428,27 @@
 			});
 		},
 
+		cancel_order: function() {
+			$('.cancel_order').off('click').on('click', function(e) {
+				e.preventDefault();
+				var myApp = new Framework7();
+				var url = $(this).attr('href');
+				myApp.modal({
+					title: '您确定要取消该订单吗？',
+					buttons: [{
+						text: '取消',
+					}, {
+						text: '确定',
+						onClick: function() {
+							$.post(url, function(data) {
+								ecjia.touch.showmessage(data);
+							});
+						},
+					}]
+				});
+			});
+		},
+
 		show_goods_list_click: function() {
 			$('.order-detail-list li.hd').on('click', function() {
 				if (!$(this).hasClass('active')) {
@@ -504,7 +526,7 @@
 			} else if (clear == 2) {
 				var temp_data = {
 					'province_id': $("input[name='province']").val(),
-					'province_name': $("input[name='province_list']").val(),
+					'province_name': $("input[name='province_name']").val(),
 					'city_id': $("input[name='city']").val(),
 					'city_name': $("input[name='city_name']").val(),
 					'district_id': $("input[name='district']").val(),
@@ -548,6 +570,7 @@
 					$('.ecjia_user_address_picker').html(val);
 				}
 				var temp_street_name = sessionStorage.getItem('street_name');
+
 				if (temp_street_name != null) {
 					$('.ecjia_user_address_street_picker').html(temp_street_name);
 				}
@@ -628,12 +651,17 @@
 			        	var col0 = picker.cols[0].container.find('.picker-selected');
 			        	var col1 = picker.cols[1].container.find('.picker-selected');
 			        	var col2 = picker.cols[2].container.find('.picker-selected');
+			        	
 		        		var html = col0.html();
+		        		$('input[name="province_name"]').val(html);
+		        		
 		        		if (col1.html() != '暂无') {
 		        			html += '-'+col1.html();
+		        			$('input[name="city_name"]').val(col1.html());
 		        		}
 		        		if (col2.html() != '暂无') {
 		        			html += '-'+col2.html();
+		        			$('input[name="district_name"]').val(col2.html());
 		        		}
 						$('.ecjia_user_address_picker').html(html);
 
@@ -726,6 +754,8 @@
 			        	var col0Value = col0.attr('data-picker-value');
 			        	if (col0Value.length != 0) {
 			        		var html = col0.html();
+			        		$('input[name="street_name"]').val(html);
+			        		
 							$('.ecjia_user_address_street_picker').html(html);
 			        		$('input[name="street"]').val(col0Value);
 					     	var temp_data = {

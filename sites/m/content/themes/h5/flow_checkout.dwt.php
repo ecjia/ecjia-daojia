@@ -42,7 +42,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</div>
 		</a>
 
-		<section class="flow-goods-list ecjia-margin-b">
+		<section class="flow-goods-list">
 			{if count($data.goods_list) gt 1}<a href='{url path="cart/flow/goods_list" args="address_id={$address_id}&rec_id={$rec_id}"}'>{/if}
 			<ul class="{if count($data.goods_list) > 1}goods-list{else}goods-item{/if}"><!-- goods-list 多个商品隐藏商品名称,goods-item -->
 				<!-- {foreach from=$data.goods_list item=goods name=goods} -->
@@ -81,37 +81,24 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			{if count($data.goods_list) gt 1}</a>{/if}
 		</section>
 
-		<section class="checklist">
-			<a class="check_address" href='{url path="cart/flow/pay" args="address_id={$address_id}&rec_id={$rec_id}&pay_id={$selected_payment.pay_id}"}'>
-				<span>{$lang.payment_method}</span>
+		<section class="checklist line">
+			<a class="check_address" href='{url path="cart/flow/pay_shipping" args="address_id={$address_id}&rec_id={$rec_id}"}'>
+				<span>支付配送</span>
 				<i class="iconfont icon-jiantou-right"></i>
 				<span class="ecjiaf-fr select_nav ecjia-truncate">{$selected_payment.pay_name}</span>
 				<input type="hidden" name="pay_id" value="{$selected_payment.pay_id}" />
-			</a>
-		</section>
-		<section class="checklist">
-			<a class="check_address" href='{url path="cart/flow/shipping" args="address_id={$address_id}&rec_id={$rec_id}&shipping_id={$selected_shipping.shipping_id}"}'>
-				<span>{$lang.shipping_method}</span>
-				<i class="iconfont icon-jiantou-right"></i>
+				
 				<span class="ecjiaf-fr select_nav ecjia-truncate">{$selected_shipping.shipping_name}</span>
 				<input type="hidden" name="shipping_id" value="{$selected_shipping.shipping_id}" />
+				
+				{if $selected_shipping.shipping_date_enable && $selected_shipping.shipping_date}
+				<span class="ecjiaf-fr select_nav ecjia-truncate">{if !$selected_shipping.shipping_date}<span class="ecjia-color-999">暂无可选时间</span>{else}<span class="icon-shop-time"></span>{$temp.shipping_date} {$temp.shipping_time}{/if}</span>
+				<input type="hidden" name="shipping_date" value="{$temp.shipping_date}" />
+				<input type="hidden" name="shipping_time" value="{$temp.shipping_time}" />
+				{/if}
 			</a>
 		</section>
-		{if $selected_shipping.shipping_date_enable}
-		<section class="checklist">
-			{if $selected_shipping.shipping_date}
-				<a class="check_address" href='{url path="cart/flow/shipping_date" args="address_id={$address_id}&rec_id={$rec_id}&shipping_id={$selected_shipping.shipping_id}"}'>
-			{/if}
-			<span>送达时间</span>
-			{if $selected_shipping.shipping_date}<i class="iconfont icon-jiantou-right"></i>{/if}
-			<span class="ecjiaf-fr select_nav ecjia-truncate">{if !$selected_shipping.shipping_date}<span class="ecjia-color-999">暂无可选时间</span>{else}{$temp.shipping_date} {$temp.shipping_time}{/if}</span>
-			<input type="hidden" name="shipping_date" value="{$temp.shipping_date}" />
-			<input type="hidden" name="shipping_time" value="{$temp.shipping_time}" />
-			{if $selected_shipping.shipping_date}
-			</a>
-			{/if}
-		</section>
-		{/if}
+		
 		{if $data.allow_can_invoice}
 		<section class="checklist "><!-- error -->
 			<a class="check_address" href='{url path="cart/flow/invoice" args="address_id={$address_id}&rec_id={$rec_id}"}'>

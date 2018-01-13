@@ -72,6 +72,7 @@ class quickpay_controller {
 		if ($_POST['integral_update']) {
 			if ($_POST['integral_clear']) {
 				unset($_SESSION['quick_pay']['temp']['integral']);
+				unset($_SESSION['quick_pay']['temp']['integral_bonus']);
 			} else if ($_POST['integral'] >  $_SESSION['quick_pay']['activity']['order_max_integral']) {
 				return ecjia_front::$controller->showmessage('积分使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else if ($_POST['integral'] >  $_SESSION['quick_pay']['data']['user_integral']) {
@@ -400,6 +401,46 @@ class quickpay_controller {
     }
     
     /**
+     * 取消订单
+     */
+    public static function cancel() {
+    	$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+    	if (empty($order_id)) {
+    		return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    
+    	$params_order = array('token' => ecjia_touch_user::singleton()->getToken(), 'order_id' => $order_id);
+    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::QUICKPAY_ORDER_CANCEL)->data($params_order)->run();
+    
+    	$url = RC_Uri::url('user/quickpay/quickpay_detail', array('order_id' => $order_id));
+    	if (! is_ecjia_error($data)) {
+    		return ecjia_front::$controller->showmessage('取消成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url, 'is_show' => false));
+    	} else {
+    		return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $url));
+    	}
+    }
+    
+    /**
+     * 删除订单
+     */
+    public static function delete() {
+    	$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+    	if (empty($order_id)) {
+    		return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    
+    	$params_order = array('token' => ecjia_touch_user::singleton()->getToken(), 'order_id' => $order_id);
+    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::QUICKPAY_ORDER_DELETE)->data($params_order)->run();
+    
+    	$url = RC_Uri::url('user/quickpay/quickpay_list');
+    	if (! is_ecjia_error($data)) {
+    		return ecjia_front::$controller->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
+    	} else {
+    		return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $url));
+    	}
+    }
+    
+    /**
      * 支付成功页面
      */
     public static function notify() {
@@ -467,7 +508,6 @@ class quickpay_controller {
      */
     public static function quickpay_detail() {
     	$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-    	$store_id = isset($_GET['order_id']) ? intval($_GET['store_id']) : 0;
     	 
     	$params_order = array('token' => $token, 'order_id' => $order_id);
     	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::QUICKPAY_ORDER_DETAIL)->data($params_order)->run();
@@ -483,8 +523,11 @@ class quickpay_controller {
     				}
     			}
     		}
+    		if ($data['order_status_str'] == '') {
+    			$url = RC_Uri::url('user/quickpay/quickpay_list');
+    			return ecjia_front::$controller->showmessage('该订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $url));
+    		}
     		ecjia_front::$controller->assign('data', $data);
-    		ecjia_front::$controller->assign('store_id', $store_id);
     	}
     
     	if (cart_function::is_weixin()) {
