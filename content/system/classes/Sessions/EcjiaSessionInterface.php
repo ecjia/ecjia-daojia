@@ -44,31 +44,29 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-interface ecjia_session_interface {
+
+namespace Ecjia\System\Sessions;
+
+interface EcjiaSessionInterface {
     /**
-     * 删除指定管理员的session
-     * @param int $adminid
+     * 删除指定用户的session
+     * @param int $user_id 用户ID
+     * @param int $user_type 用户类型user,admin,merchant
      * @return boolean
      */
-    public function delete_spec_admin_session($admin_id);
-    
-    /**
-     * 获取真正的session id
-     * @return string
-     */
-    public function get_session_id();
+    public function deleteSpecSession($userId, $userType);
     
     /**
      * 获取当前在线用户总数
      * @return number
      */
-    public function get_users_count();
+    public function getUserCount($userType);
     
     /**
      * 获取指定session_id的数据
      * @param string $session_id
      */
-    public function get_session_data($session_id);
+    public function getSessionData($sessionId);
 }
 
 // end

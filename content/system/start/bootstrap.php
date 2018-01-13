@@ -73,15 +73,49 @@ if (is_dir(SITE_PLUGIN_PATH.'ueditor')) {
 }
 
 //注册Session驱动
-RC_Session::extend('mysql', function () {
-    RC_Package::package('system')->loadClass('session.ecjia_session_mysql', false);
+RC_Session::extend('mysql', function ($royalcms) {
+    $getDatabaseConnection = function ($royalcms)
+    {
+        $connection = $royalcms['config']['session.connection'];
+    
+        return $royalcms['db']->connection($connection);
+    };
+    
+    $getDatabaseOptions = function ($table, $royalcms)
+    {
+        return array(
+            'db_table' => $table, 
+            'db_id_col' => 'id', 
+            'db_data_col' => 'payload', 
+            'db_time_col' => 'last_activity',
+            'db_userid_col' => 'user_id',
+            'db_usertype_col' => 'user_type',
+        );
+    };
 
-    return new ecjia_session_mysql();
+    $connection = $getDatabaseConnection($royalcms);
+    
+    $table = $connection->getTablePrefix().$royalcms['config']['session.table'];
+    
+    return new Ecjia\System\Sessions\Handler\MysqlSessionHandler($connection->getPdo(), $getDatabaseOptions($table, $royalcms));
 });
 RC_Session::extend('memcache', function () {
-    RC_Package::package('system')->loadClass('session.ecjia_session_memcache', false);
-
-    return new ecjia_session_memcache();
+    $getMemcachePrefix = function () {
+        $defaultconnection = RC_Config::get('database.defaultconnection');
+        $connection = array_get(RC_Config::get('database.connections'), $defaultconnection);
+        if (array_get($connection, 'database')) {
+            $memcache_prefix = $connection['database'] . ':';
+        }
+        else {
+            $memcache_prefix = 'ecjia_session:';
+        }
+    
+        return $memcache_prefix;
+    };
+    
+    $options = ['prefix' => $getMemcachePrefix(), 'expiretime' => RC_Config::get('session.lifetime', 1440) * 60];
+    
+    return new Ecjia\System\Sessions\Handler\MemcacheSessionHandler(royalcms('memcache'), $options);
 });
 
 

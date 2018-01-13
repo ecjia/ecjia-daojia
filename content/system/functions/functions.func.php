@@ -50,37 +50,14 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 加载ECJia项目主文件
  */
 RC_Package::package('system')->loadClass('ecjia', false);
-if ($_GET['m'] != 'installer') {
+if (royalcms('request')->query('m') != 'installer') {
     RC_Hook::add_action('init', 'load_theme_function');
     RC_Hook::add_filter('app_scan_bundles', 'app_scan_bundles');
-    RC_Hook::add_action('init', 'check_installed', 2);
-    
     RC_Hook::add_action('ecjia_controller', function ($arg) {
         new ecjia_controller();
     });
 }
-
-/**
- * 检测是否安装
- */
-function check_installed() {
-    $install_lock = storage_path() . '/data/install.lock';
-    if (!file_exists($install_lock) && !defined('NO_CHECK_INSTALL'))
-    {
-        $url = RC_Uri::url('installer/index/init');
-        
-        $cookies = royalcms('response')->headers->getCookies();
-        $response = RC_Redirect::away($url, 302);
-        foreach ($cookies as $cookie)
-        {
-            $response->withCookie($cookie);
-        }
-        
-        $response->send();
-        exit();
-    }
-}
-
+ 
 /**
  * 加载主题扩展文件
  */

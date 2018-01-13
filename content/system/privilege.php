@@ -683,7 +683,7 @@ class privilege extends ecjia_admin {
 		
 		if ($pwd_modified) {
 			/* 如果修改了密码，则需要将session中该管理员的数据清空 */
-			RC_Session::session()->delete_spec_admin_session($_SESSION['admin_id']); // 删除session中该管理员的记录
+			RC_Session::session()->deleteSpecSession($_SESSION['admin_id'], 'admin'); // 删除session中该管理员的记录
 			$msg = __('您已经成功的修改了密码，因此您必须重新登录！');
 		} else {
 			$msg = __('修改个人资料成功！');
@@ -839,7 +839,7 @@ class privilege extends ecjia_admin {
 		}
 		
 		if ($this->db_admin_user->drop($id)) {
-			RC_Session::session()->delete_spec_admin_session($id); // 删除session中该管理员的记录
+			RC_Session::session()->deleteSpecSession($id, 'admin'); // 删除session中该管理员的记录
             /* 记录日志 */
             ecjia_admin_log::instance()->add_object('admin_user', __('管理员账号'));
 			ecjia_admin::admin_log(addslashes($admin_name['user_name']), 'remove', 'admin_user');

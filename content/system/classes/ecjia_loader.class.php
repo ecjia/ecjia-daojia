@@ -147,14 +147,16 @@ class ecjia_loader {
 		$scripts->add( 'ecjia-admin_shop_config',     '/ecjia/ecjia-shop_config.js', array('ecjia-admin'), false, 1 );
 		$scripts->add( 'ecjia-admin_license',         '/ecjia/ecjia-admin_license.js', array('ecjia-admin'), false, 1 );
 
-
+		//对lib的扩展js
+		$scripts->add( 'jquery-chosen', 			    "/js/ecjia.chosen.js", array('ecjia-jquery-chosen'), false, 1 );
+		$scripts->add( 'ecjia-jquery-chosen', 			"/lib/chosen/chosen.jquery$suffix.js", array('jquery'), false, 1 );
+		
 		// 添加lib
 		$scripts->add( 'bootstrap', 				"/lib/bootstrap/js/bootstrap$suffix.js" );
 		$scripts->add( 'jquery-ui',					"/lib/jquery-ui/jquery-ui$suffix.js", array('jquery') );
 		$scripts->add( 'jquery-validate',			"/lib/validation/jquery.validate$suffix.js", array('jquery'), false, 1 );
 		$scripts->add( 'jquery-uniform',			"/lib/uniform/jquery.uniform$suffix.js", array('jquery'), false, 1 );
 		$scripts->add( 'smoke',						"/lib/smoke/smoke$suffix.js", array(), false, 1 );
-		$scripts->add( 'jquery-chosen', 			"/lib/chosen/chosen.jquery$suffix.js", array('jquery'), false, 1 );
 
 		$scripts->add( 'bootstrap-placeholder',     "/lib/jasny-bootstrap/js/bootstrap-placeholder$suffix.js", array('bootstrap') );
 

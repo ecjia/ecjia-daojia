@@ -345,21 +345,25 @@ abstract class ecjia_admin extends ecjia_base implements ecjia_template_fileload
 	 *
 	 * @access  public
 	 * @param   integer $user_id        管理员编号
-	 * @param   string  $username       管理员姓名
+	 * @param   string  $user_name       管理员姓名
 	 * @param   string  $action_list    权限列表
 	 * @param   string  $last_time      最后登录时间
 	 * @return  void
 	 */
-	public function admin_session($user_id, $username, $action_list, $last_time) {
-		$_SESSION['admin_id']    		= $user_id;
-		$_SESSION['admin_name']  		= $username;
-		$_SESSION['action_list'] 		= $action_list;
-		$_SESSION['last_check_order']  	= $last_time; // 用于保存最后一次检查订单的时间
+	public function admin_session($user_id, $username, $action_list, $last_time, $email = '') {
+// 		$_SESSION['admin_id']    		= $user_id;
+// 		$_SESSION['admin_name']  		= $username;
+// 		$_SESSION['action_list'] 		= $action_list;
+// 		$_SESSION['last_check_order']  	= $last_time; 
 		
-// 		RC_Session::set('admin_id', $user_id);
-// 		RC_Session::set('admin_name', $username);
-// 		RC_Session::set('action_list', $username);
-// 		RC_Session::set('last_check_order', $last_time);
+		RC_Session::set('admin_id', $user_id);
+		RC_Session::set('admin_name', $username);
+		RC_Session::set('action_list', $action_list);
+		RC_Session::set('last_check_order', $last_time); // 用于保存最后一次检查订单的时间
+		RC_Session::set('session_user_id', $user_id);
+		RC_Session::set('session_user_type', 'admin');
+		RC_Session::set('email', $email);
+		RC_Session::set('ip', RC_Ip::client_ip());
 	}
 	
 	/**

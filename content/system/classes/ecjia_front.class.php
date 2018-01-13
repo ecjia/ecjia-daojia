@@ -67,7 +67,7 @@ abstract class ecjia_front extends ecjia_base implements ecjia_template_fileload
 		}
 		
 		/* session id 定义*/
-		defined('SESS_ID') or define('SESS_ID', RC_Session::session()->get_session_id());
+		defined('SESS_ID') or define('SESS_ID', RC_Session::session_id());
 		RC_Hook::do_action('ecjia_front_access_session');
 		
 		if (isset($_SERVER['PHP_SELF'])) {
@@ -107,6 +107,18 @@ abstract class ecjia_front extends ecjia_base implements ecjia_template_fileload
 	    });
 	             
         RC_Session::start();
+        
+        $this->default_session();
+	}
+	
+	/**
+	 * 默认session项赋值
+	 */
+	protected function default_session()
+	{
+	    if (! RC_Session::has('user_rank')) RC_Session::set('user_rank', 0);
+	    if (! RC_Session::has('discount')) RC_Session::set('discount', 1.00);
+	    if (! RC_Session::has('ip')) RC_Session::set('ip', RC_Ip::client_ip());
 	}
 	
 	public function create_view()
