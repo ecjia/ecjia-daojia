@@ -96,10 +96,10 @@ class user_address_manage_api extends Component_Event_Api {
             $key = ecjia::config('map_qq_key');
             $shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$consignee_address."&key=".$key);
             $shop_point = json_decode($shop_point['body'], true);
-            $location   = (array)$shop_point['result']['location'];
-
-            $address['longitude']   = $location['lng'];
-            $address['latitude']    = $location['lat'];
+            if (isset($shop_point['result']) && !empty($shop_point['result']['location'])) {
+            	$address['longitude'] = $shop_point['result']['location']['lng'];
+            	$address['latitude'] = $shop_point['result']['location']['lat'];
+            }
             unset($address['location']);
         } else {
         	$address['longitude']	= $address['location']['longitude'];
