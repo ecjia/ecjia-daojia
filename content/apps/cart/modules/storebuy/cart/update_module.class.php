@@ -46,36 +46,42 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class flow_hooks {
-	/**
-	 * 清除购物车中过期的数据
-	 */
-	public static function clear_cart() {
-	    $lasttime = RC_Cache::app_cache_get('clean_cart_session', 'cart');
-	    if (! $lasttime) {
-	        $db_view = RC_Model::model('cart/cart_sessions_viewmodel');
-	        $db = RC_Model::model('cart/cart_model');
-	        /* 取得有效的session */
-	        $valid_sess = $db_view->join('sessions')->select();
-	        
-	        if (!empty($valid_sess)) {
-	            $sess_arr = array();
-	            foreach ($valid_sess as $sess) {
-	            	if (!empty($sess['session_id'])){
-	            		$sess_arr[] = $sess['session_id'];
-	            	}
-	            }
-	        
-	            // 删除cart中无效的数据
-	            if (!empty($sess_arr)) {
-	            	$db->in(array('session_id' => $sess_arr), true)->delete();
-	            }
-	        }
-	        RC_Cache::app_cache_set('clean_cart_session', 'clean_cart_session', 'cart', 1440);
-	    }
+/**
+ * 购物车更新商品数目
+ * @author royalwang
+ */
+class update_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    		
+    	$this->authSession();
+    	if ($_SESSION['user_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+		$location       = $this->requestData('location',array());
+		$city_id		= $this->requestData('city_id', '');
+
+		RC_Loader::load_app_class('cart', 'cart', false);
+		RC_Loader::load_app_func('cart', 'cart');
+		
+		$rec_id     = $this->requestData('rec_id', 0);
+		$new_number = $this->requestData('new_number', 0);
+		
+		if ($new_number < 1 || $rec_id < 1) {
+			return new ecjia_error(101, '参数错误');
+		}
+		$goods_number = array($rec_id => $new_number);
+
+		$result = cart::flow_update_cart($goods_number);
+		if (is_ecjia_error($result)) {
+			return new ecjia_error(10008, '库存不足');
+		}
+		//更新数量选中此商品
+		cart::flow_check_cart_goods(array('id' => $rec_id, 'is_checked' => 1));
+		
+        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_STOREBUY_GOODS));
+        
+        return formated_cart_list($cart_result);
 	}
 }
-
-// RC_Hook::add_action( 'ecjia_admin_finish_launching', array('flow_hooks', 'clear_cart') );
 
 // end

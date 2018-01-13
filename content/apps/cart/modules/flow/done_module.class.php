@@ -86,6 +86,9 @@ class done_module extends api_front implements api_interface {
     	
     	/* 获取收货信息*/
     	$address_id = $this->requestData('address_id', 0);
+    	if (empty($address_id)) {
+    	    return new ecjia_error('empty_address', '请选择收货地址');
+    	}
     	
     	//发票抬头处理
     	$inv_title_type = trim($this->requestData('inv_title_type', ''));
@@ -135,6 +138,13 @@ class done_module extends api_front implements api_interface {
     		'agency_id'		=> 0,
     		'expect_shipping_time' =>  $this->requestData('expect_shipping_time', ''),
     	);
+    	
+    	if (empty($order['pay_id'])) {
+    	    return new ecjia_error('empty_payment', '请选择支付方式');
+    	}
+    	if (empty($order['shipping_id'])) {
+    	    return new ecjia_error('empty_shipping', '请选择配送方式');
+    	}
     	
     	$result = RC_Api::api('cart', 'flow_done', array('cart_id' => $cart_id, 'order' => $order, 'address_id' => $address_id, 'flow_type' => $flow_type, 'bonus_sn' => $this->requestData('bonus_sn'), 'location' => $location, 'device' => $this->device));
     	

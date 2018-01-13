@@ -470,7 +470,7 @@ function flow_clear_cart_alone() {
  * @param   integer $parent     基本件
  * @return  boolean
  */
-function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse_id = 0, $area_id = 0, $price = 0, $weight = 0, $device) {
+function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse_id = 0, $area_id = 0, $price = 0, $weight = 0, $flow_type = CART_GENERAL_GOODS) {
 	$dbview 		= RC_Loader::load_app_model('sys_goods_member_viewmodel', 'goods');
 	$db_cart 		= RC_Loader::load_app_model('cart_model', 'cart');
 	$db_products 	= RC_Loader::load_app_model('products_model', 'goods');
@@ -581,6 +581,9 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
 //     $goods['market_price'] += $spec_price;
     $goods_attr             = get_goods_attr_info($spec, 'pice');
     $goods_attr_id          = join(',', $spec);
+    
+    /*收银台商品购物车类型*/
+    $rec_type = !empty($flow_type) ? intval($flow_type) : CART_GENERAL_GOODS;
 	
     /* 初始化要插入购物车的基本件数据 */
     $parent = array(
@@ -597,20 +600,13 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
         'extension_code'=> $goods['extension_code'],
         'is_gift'       => 0,
         'is_shipping'   => $goods['is_shipping'],
-        'rec_type'      => CART_GENERAL_GOODS,
+        'rec_type'      => $rec_type,
     	'store_id'		=> $goods['store_id'],
     	'model_attr'  	=> $goods['model_attr'], 	//属性方式
 //         'warehouse_id'  => $warehouse_id,  			//仓库
         //'area_id'  		=> $area_id, 				// 仓库地区
     );
-    /*收银台商品购物车类型*/
-    $codes = array('8001', '8011');
-    if (!empty($device) && in_array($device['code'], $codes)) {
-    	$parent['rec_type'] = CART_CASHDESK_GOODS;
-    	$rec_type = CART_CASHDESK_GOODS;
-    } else {
-    	$rec_type = CART_GENERAL_GOODS;
-    }
+    
 
     /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
     /* 则按照该配件的优惠价格卖，但是每一个基本件只能购买一个优惠价格的“该配件”，多买的“该配件”不享受此优惠 */
@@ -761,13 +757,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse
  * @access  private
  * @return  integral
  */
-function flow_available_points($cart_id = array(), $device) {
-	$codes = array('8001', '8011');
-	if (in_array($device['code'], $codes)) {
-		$rec_type = CART_CASHDESK_GOODS;
-	} else{
-		$rec_type = CART_GENERAL_GOODS;
-	}
+function flow_available_points($cart_id = array(), $rec_type = CART_GENERAL_GOODS) {
 	$db_view = RC_Loader::load_app_model('cart_goods_viewmodel', 'cart');
 	$cart_where = array('c.user_id' => $_SESSION['user_id'], 'c.is_gift' => 0 , 'g.integral' => array('gt' => '0') , 'c.rec_type' => $rec_type);
 	if (!empty($cart_id)) {
@@ -995,7 +985,7 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 	if (!empty($_SESSION['store_id'])) {
 		$cart_where = array_merge($cart_where, array('c.store_id' => $_SESSION['store_id']));
 	}
-	$field = 'goods_img, original_img, goods_thumb, c.rec_id, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, c.goods_price * c.goods_number|subtotal, goods_weight as goodsWeight, c.goods_attr_id';
+	$field = 'g.store_id, goods_img, original_img, goods_thumb, c.rec_id, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, c.goods_price * c.goods_number|subtotal, goods_weight as goodsWeight, c.goods_attr_id';
 	if ($_SESSION['user_id']) {
 		$cart_where = array_merge($cart_where, array('c.user_id' => $_SESSION['user_id']));
 		$arr        = $db->field($field)->where($cart_where)->select();
@@ -1068,6 +1058,7 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 		if ($value['extension_code'] == 'package_buy') {
 			$arr[$key]['package_goods_list'] = get_package_goods($value['goods_id']);
 		}
+		$arr[$key]['store_name'] = RC_DB::table('store_franchisee')->where('store_id', $value['store_id'])->pluck('merchants_name');
 	}
 	return $arr;
 }
@@ -1638,7 +1629,7 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
                     'seller_name'	=> $row['store_name'],
                     'manage_mode'   => $row['manage_mode'],
                     'is_disabled'   => 0,
-                    'disabled_label'=> "欢迎选购",
+                    'disabled_label'=> "",
                 );
             }
             $goods_attrs = null;
@@ -1688,7 +1679,8 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
         $favourable             = RC_Api::api('favourable', 'favourable_list', array('store_id' => array(0, $seller['seller_id']), 'type' => 'on_going', 'sort_by' => 'store_id', 'sort_order' => 'ASC'));
         $promotions             = formated_favourable($favourable, $seller['goods_list']);
         $seller['promotions']   = $promotions;
-        
+        $min_goods_amount = RC_DB::table('merchants_config')->where('store_id', $seller['seller_id'])->where('code', 'min_goods_amount')->pluck('value');
+        $seller['store_min_goods_amount']   = sprintf("%.2f", $min_goods_amount);
         RC_Loader::load_app_class('cart', 'cart', false);
         //优惠价格
         $discount                   = cart::compute_discount_store($seller['seller_id']);
@@ -1706,7 +1698,7 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
             'save_rate'    => 0, // 节省百分比
             'goods_amount' => 0, // 本店售价合计（无格式）
             'goods_number' => 0, // 商品总件数
-            'discount'     => 0,
+            'discount'     => 0
         );
         foreach ($seller['goods_list'] as $goods) {
             if ($goods['is_checked'] == 1) {
@@ -1726,6 +1718,18 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
             $total['save_rate'] = $total['market_price'] ? round(($total['market_price'] - $total['goods_price']) *
                 100 / $total['market_price']).'%' : 0;
         }
+        
+        if ($total['goods_amount'] < $min_goods_amount) {
+        	$meet_min_amount = 0;
+        	$total['short_amount'] = sprintf("%.2f", ($min_goods_amount - $total['goods_amount']));
+        	$total['label_short_amount'] = price_format($total['short_amount']); 
+        } else {
+        	$meet_min_amount = 1;
+        	$total['short_amount'] = 0.00;
+        	$total['label_short_amount'] = price_format($total['short_amount']);
+        }
+        
+        $total['meet_min_amount'] = $meet_min_amount;
         
         $total['unformatted_goods_price']     = $total['goods_price'];
         $total['goods_price']  			      = price_format($total['goods_price'], false);

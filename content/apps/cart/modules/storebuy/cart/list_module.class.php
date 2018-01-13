@@ -46,36 +46,33 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class flow_hooks {
-	/**
-	 * 清除购物车中过期的数据
-	 */
-	public static function clear_cart() {
-	    $lasttime = RC_Cache::app_cache_get('clean_cart_session', 'cart');
-	    if (! $lasttime) {
-	        $db_view = RC_Model::model('cart/cart_sessions_viewmodel');
-	        $db = RC_Model::model('cart/cart_model');
-	        /* 取得有效的session */
-	        $valid_sess = $db_view->join('sessions')->select();
-	        
-	        if (!empty($valid_sess)) {
-	            $sess_arr = array();
-	            foreach ($valid_sess as $sess) {
-	            	if (!empty($sess['session_id'])){
-	            		$sess_arr[] = $sess['session_id'];
-	            	}
-	            }
-	        
-	            // 删除cart中无效的数据
-	            if (!empty($sess_arr)) {
-	            	$db->in(array('session_id' => $sess_arr), true)->delete();
-	            }
-	        }
-	        RC_Cache::app_cache_set('clean_cart_session', 'clean_cart_session', 'cart', 1440);
-	    }
+/**
+ * 购物车列表
+ * @author royalwang
+ */
+class list_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+
+    	$this->authSession();
+    	
+    	if ($_SESSION['user_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	RC_Loader::load_app_func('cart', 'cart');
+    	//recalculate_price(); //后续方法重新计算
+		$store_id	= $this->requestData('store_id', 0);
+		$city_id	= $this->requestData('city_id', '');
+
+		
+		if ($store_id) {
+		    $store_id_group = array($store_id);
+		    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
+		} else {
+		    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_STOREBUY_GOODS));
+		}
+		
+		return formated_cart_list($cart_result, $store_id_group);
 	}
 }
-
-// RC_Hook::add_action( 'ecjia_admin_finish_launching', array('flow_hooks', 'clear_cart') );
 
 // end

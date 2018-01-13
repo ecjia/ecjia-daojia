@@ -46,36 +46,66 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class flow_hooks {
-	/**
-	 * 清除购物车中过期的数据
-	 */
-	public static function clear_cart() {
-	    $lasttime = RC_Cache::app_cache_get('clean_cart_session', 'cart');
-	    if (! $lasttime) {
-	        $db_view = RC_Model::model('cart/cart_sessions_viewmodel');
-	        $db = RC_Model::model('cart/cart_model');
-	        /* 取得有效的session */
-	        $valid_sess = $db_view->join('sessions')->select();
-	        
-	        if (!empty($valid_sess)) {
-	            $sess_arr = array();
-	            foreach ($valid_sess as $sess) {
-	            	if (!empty($sess['session_id'])){
-	            		$sess_arr[] = $sess['session_id'];
-	            	}
-	            }
-	        
-	            // 删除cart中无效的数据
-	            if (!empty($sess_arr)) {
-	            	$db->in(array('session_id' => $sess_arr), true)->delete();
-	            }
-	        }
-	        RC_Cache::app_cache_set('clean_cart_session', 'clean_cart_session', 'cart', 1440);
+/**
+ * 到店购物添加到购物车
+ * @author 
+ */
+class create_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+
+    	$this->authSession();
+    	if ($_SESSION['user_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+
+	    $goods_sn		= $this->requestData('goods_sn', '');
+	    $goods_number	= $this->requestData('number', 1);
+	    $store_id		= $this->requestData('store_id', 0);
+	    if (!$goods_sn) {
+	        return new ecjia_error(101, '参数错误');
 	    }
+	    
+	    $rec_type		= $this->requestData('rec_type', CART_STOREBUY_GOODS); //暂没用到
+	    $rec_type = CART_STOREBUY_GOODS;
+
+	    RC_Loader::load_app_func('cart', 'cart');
+
+	    unset($_SESSION['flow_type']);
+    	if (!$goods_sn) {
+    		return new ecjia_error('not_found_goods', '请选择您所需要购买的商品！');
+    	}
+
+        $products_db = RC_Loader::load_app_model('products_model', 'goods');
+		$goods_db = RC_Loader::load_app_model('goods_model', 'goods');
+		$goods_spec = array();
+		
+		$products_goods = $products_db->where(array('product_sn' => $goods_sn))->find();
+		if (!empty($products_goods)) {
+			$goods_spec = explode('|', $products_goods['goods_attr']);
+			$where = array('goods_id' => $products_goods['goods_id']);
+			if (isset($store_id) && $store_id > 0) {
+				$where['store_id'] = $store_id;
+			}
+		} else {
+			$where = array('goods_sn' => $goods_sn);
+		    if (isset($store_id) && $store_id > 0) {
+				$where['store_id'] = $store_id;
+			}
+		}
+		$goods = $goods_db->where($where)->find();
+		if (empty($goods)) {
+			return new ecjia_error('addgoods_error', '该商品不存在或已下架');
+		}
+		$result = addto_cart($goods['goods_id'], $goods_number, $goods_spec, 0, 0, 0, 0, 0, $rec_type);
+		
+		if (is_ecjia_error($result)) {
+			return $result;
+		}
+	     
+	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_STOREBUY_GOODS));
+	     
+	    return formated_cart_list($cart_result);
 	}
 }
-
-// RC_Hook::add_action( 'ecjia_admin_finish_launching', array('flow_hooks', 'clear_cart') );
 
 // end

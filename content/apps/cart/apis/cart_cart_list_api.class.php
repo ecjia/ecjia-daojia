@@ -70,7 +70,7 @@ class cart_cart_list_api extends Component_Event_Api {
 		$dbview_cart = RC_DB::table('cart as c')
 					   ->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
 					   ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('c.store_id'));
-		$db_goods_attr = RC_DB::table('goods_attr');
+// 		$db_goods_attr = RC_DB::table('goods_attr');
 
 		/* 初始化 */
 		$goods_list = array();

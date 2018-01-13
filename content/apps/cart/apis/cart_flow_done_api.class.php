@@ -186,8 +186,14 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 
 		/* 检查商品总额是否达到最低限购金额 */
-		if ($options['flow_type'] == CART_GENERAL_GOODS && cart::cart_amount(true, CART_GENERAL_GOODS, $options['cart_id']) < ecjia::config('min_goods_amount')) {
-			return new ecjia_error('bug_error', '您的商品金额未达到最低限购金额！');
+		//获取店铺最小购物金额设置
+		$min_goods_amount = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'min_goods_amount')->pluck('value');
+		$cart_amount = cart::cart_amount(true, CART_GENERAL_GOODS, $options['cart_id']);
+		$be_short_amount = $cart_amount - $min_goods_amount;
+		$be_short_amount = price_format($be_short_amount);
+		
+		if ($options['flow_type'] == CART_GENERAL_GOODS && $cart_amount < $min_goods_amount) {
+			return new ecjia_error('bug_error', '您的商品金额未达到最低限购金额，还差【'.$be_short_amount.'】');
 		}
 
 		/* 收货人信息 */
