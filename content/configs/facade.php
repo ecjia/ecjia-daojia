@@ -2,6 +2,7 @@
 
 return array(
 	
-    'RC_Omnipay' => 'Royalcms\Component\Omnipay\Facades\Omnipay',
+    'RC_Pay' => 'Royalcms\Component\Omnipay\Facades\Omnipay',
+    'RC_Redis' => 'Royalcms\Component\Redis\Facades\Redis',
      
 );
