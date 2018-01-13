@@ -20,7 +20,7 @@
 .detail strong{margin-left:10px}
 .detail span{margin-left:15px}
 
-/* 快递单模板列表样式 */
+/* 杩愯垂妯℃澘鍒楄〃鏍峰紡 */
 .template-item{margin-bottom:20px;padding:15px 20px;width:100%;height:auto;min-height:100px;background-color:#f9f9f9}
 .template-item .template-head{margin-bottom:10px;height:30px;border-bottom:1px solid #ddd}
 .template-item .head-left{float:left;font-weight:700;font-size:14px}
@@ -30,7 +30,19 @@
 .template-item .content-group .content-controls{float:left;width:88%}
 .w210{width:210px}
 
-/* 添加快递单模板样式 */
+/*鍏煎骞冲彴鍚庡彴*/
+.shipping-template-list .template-item{width:auto;}
+.shipping-template-list .template-item .content-group .content-label{width:75px;float:left;}
+.shipping-template-list .template-item .content-group .content-controls{float:left;}
+.shipping-template-list .no-records{border-top:none;}
+.shipping-template-info .template-info-content .content-area-list{-webkit-padding-start:0;margin-left:15px;}
+.shipping-template-info .template-info-shipping .info-shipping-item:last-child{border-bottom:none;}
+.shipping-template-info .template-info-item{width:95%;}
+.shipping-template-info .help-block{margin-top:0;}
+.shipping-template-info .info-shipping-left{width:auto;margin-right:15px;}
+.shipping-template-info .template-info-content .content-area-list{width:auto;margin-right:15px;padding-left:0;}
+
+/* 杩愯垂妯℃澘鏍峰紡 */
 .template-info-item{overflow:hidden;width:100%;height:auto;min-height:85px;border:1px solid #ddd;border-radius:4px}
 .template-info-head{height:30px;background-color:#F2F2F2;line-height:30px}
 .template-info-head .head-left{float:left;padding-left:15px}

@@ -55,7 +55,7 @@ class shipping_store_menu_api extends Component_Event_Api {
 	public function call(&$options) {	
 	    $store_id = royalcms('request')->query('store_id');
 
-	    return ecjia_admin::make_admin_menu('store_shipping', '配送区域', RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id)), 7)->add_purview('store_shipping_manage');
+	    return ecjia_admin::make_admin_menu('store_shipping', '运费模板', RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id)), 7)->add_purview('store_shipping_manage');
 	}
 }
 

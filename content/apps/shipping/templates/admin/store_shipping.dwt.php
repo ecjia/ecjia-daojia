@@ -1,7 +1,5 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 <!-- {extends file="ecjia.dwt.php"} -->
-<!-- {block name="footer"} -->
-<!-- {/block} -->
 
 <!-- {block name="main_content"} -->
 <div>
@@ -18,92 +16,38 @@
 		<!-- {ecjia:hook id=display_admin_store_menus} -->
 	</div>
 	<div class="span9">
-		<div class="tab-pane active">
-		    <h3 class="ecjiaf-fwn">已启用<small class="ecjiaf-ff1">（删除配送区域即可关闭配送方式）</small></h3>
-			<table class="table table-striped table-hide-edit">
-    		    <thead>
-    		      <tr>
-        		      <th class="w110">{lang key='shipping::shipping.shipping_name'}</th>
-					  <th>{lang key='shipping::shipping.shipping_desc'}</th>
-					  <th class="w80">{lang key='shipping::shipping.insure'}</th>
-					  <th class="w100">{lang key='shipping::shipping.support_cod'}</th>
-    		      </tr>
-    		      
-    		    </thead>
-    		  	<tbody>
-    		  	<!-- {foreach from=$enabled item=module} -->
-					<tr>
-						<td>
-							{$module.name}
-						</td>
-						<td class="hide-edit-area">
-							{$module.desc|nl2br}
-							<div class="edit-list">
-								<a href='{RC_Uri::url("shipping/admin_area/init", "shipping_id={$module.id}&code={$module.code}&store_id={$store_id}")}'  title="{lang key='shipping::shipping.shipping_area'}">{lang key='shipping::shipping.set_shipping'}</a>
-							</div>
-						</td>
-						<td>
-							<!-- {if $module.is_insure } -->
-								{$module.insure_fee}
-							<!-- {else} -->
-								{lang key='shipping::shipping.not_support'}
-							<!-- {/if} -->
-						</td>
-						<td>
-							{if $module.cod==1}
-								{lang key='system::system.yes'}
-							{else}
-								{lang key='system::system.no'}
-							{/if}
-						</td>
-					</tr>
-				<!-- {foreachelse} -->
-					<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
-				<!-- {/foreach} -->
-    			</tbody>
-    		</table>
-    		<h3 class="ecjiaf-fwn">未启用<small class="ecjiaf-ff1">（设置配送区域即可开启配送方式）</small></h3>
-    		<table class="table table-striped table-hide-edit">
-    		    <thead>
-    		      	<tr>
-        		      	<th class="w110">{lang key='shipping::shipping.shipping_name'}</th>
-					  	<th>{lang key='shipping::shipping.shipping_desc'}</th>
-					  	<th class="w80">{lang key='shipping::shipping.insure'}</th>
-					  	<th class="w100">{lang key='shipping::shipping.support_cod'}</th>
-    		      	</tr>
-    		    </thead>
-    		  	<tbody>
-    		  	<!-- {foreach from=$disabled item=module} -->
-				<tr>
-					<td>
-						{$module.name}
-					</td>
-					<td class="hide-edit-area">
-						{$module.desc|nl2br}
-						<div class="edit-list">
-							<a href='{RC_Uri::url("shipping/admin_area/init", "shipping_id={$module.id}&code={$module.code}&store_id={$store_id}")}'  title="{lang key='shipping::shipping.shipping_area'}">{lang key='shipping::shipping.set_shipping'}</a>
+		<div class="shipping-template-list">
+			<!-- {foreach from=$data.item item=list} -->
+			<div class="template-item">
+				<div class="template-head">
+					<div class="head-left">{$list.shipping_area_name}</div>
+					<div class="head-right">
+						<a class="data-pjax" href='{RC_Uri::url("shipping/admin_store_shipping/view")}&store_id={$store_id}&template_name={$list.shipping_area_name}'>查看详情</a>
+					</div>
+				</div>
+				<div class="template-content">
+					<div class="content-group">
+						<div class="content-label">物流快递：</div>
+						<div class="content-controls">
+							{$list.shipping_name}
 						</div>
-					</td>
-					<td>
-						<!-- {if $module.is_insure } -->
-							{$module.insure_fee}
-						<!-- {else} -->
-							{lang key='shipping::shipping.not_support'}
-						<!-- {/if} -->
-					</td>
-					<td>
-						{if $module.cod==1}
-							{lang key='system::system.yes'}
-						{else}
-							{lang key='system::system.no'}
-						{/if}
-					</td>
-				</tr>
-				<!-- {foreachelse} -->
-				<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
-				<!-- {/foreach} -->
-    			</tbody>
-    		</table>
+					</div>
+					<div class="content-group">
+						<div class="content-label">配送区域：</div>
+						<div class="content-controls">
+							{$list.shipping_area}
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- {foreachelse} -->
+				<table class="table table-striped table-hide-edit">
+					<tbody>
+						<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
+					</tbody>
+				</table>
+			<!-- {/foreach} -->
+			<!-- {$data.page} -->
 		</div>
 	</div>
 </div>
