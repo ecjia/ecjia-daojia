@@ -231,6 +231,9 @@ return array(
     'CreatePrinterTemplateTable' => $contentDir . '/database/migrations/2017_12_20_144140_create_printer_template_table.php',
     'CreatePrinterPrintlistTable' => $contentDir . '/database/migrations/2017_12_20_144157_create_printer_printlist_table.php',
     'DropRegionTable' => $contentDir . '/database/migrations/2017_12_20_173947_drop_region_table.php',
+    'CreateSessionTable' => $contentDir . '/database/migrations/2018_01_11_095623_create_session_table.php',
+    'DropSessionsTable' => $contentDir . '/database/migrations/2018_01_12_150951_drop_sessions_table.php',
+    'DropSessionsDataTable' => $contentDir . '/database/migrations/2018_01_12_151009_drop_sessions_data_table.php',
      
     
     // seeder
