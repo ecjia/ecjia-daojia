@@ -160,11 +160,19 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                 <label for="open">开启</label>
                                 <input id="close" type="radio" name="express_assign_auto" value="0" {if $data.express_assign_auto eq 0} checked="true" {/if}  />
                                 <label for="close">关闭</label>
-                                <span class="help-block">（订单使用o2o配送方式时。当发货未选择配送员时，系统将自动优先分派配送单，再进入抢单模式，否则进入抢单模式）</span>
+                                <span class="help-block">（订单使用商家配送方式时。当发货未选择配送员时，系统将自动优先分派配送单，再进入抢单模式，否则进入抢单模式）</span>
                             </div>
                             
                         </div>
-
+						
+						 <div class="form-group">
+                            <label class="control-label col-lg-2">{t}最小购物金额：{/t}</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" name="min_goods_amount" type="text" value="{$data.min_goods_amount}"/>
+                                <span class="help-block">用户下单时达到此购物金额，才能提交订单</span>
+                            </div>
+                        </div>
+						
                         <div class="form-group ">
                             <div class="col-lg-6 col-md-offset-2">
                                 <input class="btn btn-info" type="submit" name="name" value="提交信息">

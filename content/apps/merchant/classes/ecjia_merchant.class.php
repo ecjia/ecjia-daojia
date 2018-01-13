@@ -438,14 +438,26 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 	 * @param   string  $last_time      最后登录时间
 	 * @return  void
 	 */
-	public function admin_session($store_id, $merchants_name, $user_id, $mobile, $username, $action_list, $last_time) {
-		$_SESSION['store_id']    		= $store_id;
-		$_SESSION['store_name']    		= $merchants_name;
-		$_SESSION['staff_id']    		= $user_id;
-		$_SESSION['staff_mobile']  		= $mobile;
-		$_SESSION['staff_name']  		= $username;
-		$_SESSION['action_list'] 		= $action_list;
-		$_SESSION['last_check_order']  	= $last_time; // 用于保存最后一次检查订单的时间
+	public function admin_session($store_id, $merchants_name, $user_id, $mobile, $username, $action_list, $last_time, $email = '') {
+// 		$_SESSION['store_id']    		= $store_id;
+// 		$_SESSION['store_name']    		= $merchants_name;
+// 		$_SESSION['staff_id']    		= $user_id;
+// 		$_SESSION['staff_mobile']  		= $mobile;
+// 		$_SESSION['staff_name']  		= $username;
+// 		$_SESSION['action_list'] 		= $action_list;
+// 		$_SESSION['last_check_order']  	= $last_time; // 用于保存最后一次检查订单的时间
+		
+		RC_Session::set('store_id', $store_id); // 用于保存最后一次检查订单的时间
+		RC_Session::set('store_name', $merchants_name);
+		RC_Session::set('staff_id', $user_id);
+		RC_Session::set('staff_mobile', $mobile);
+		RC_Session::set('staff_name', $username);
+		RC_Session::set('action_list', $action_list);
+		RC_Session::set('last_check_order', $last_time);
+		RC_Session::set('session_user_id', $user_id);
+		RC_Session::set('session_user_type', 'merchant');
+		RC_Session::set('email', $email);
+		RC_Session::set('ip', RC_Ip::client_ip());
 	}
 
 	/**

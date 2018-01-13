@@ -1,0 +1,21 @@
+.merchant-template-content .template-content {
+	height: 405.22px;
+	float: left;
+}
+.merchant-template-content .template-item {
+	width: 200px;
+	height: 403.22px;
+	float: left;
+}
+.merchant-template-content .template-content .template-item:nth-child(2){
+	margin-left: 80px;
+}
+.merchant-template-content .template-content .template-item:nth-child(3){
+	margin-left: 90px;
+}
+.m_l132 {
+	margin-left: 132px;
+}
+.m_l136 {
+	margin-left: 136px;
+}

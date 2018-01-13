@@ -63,6 +63,8 @@ class merchant extends ecjia_merchant {
         RC_Style::enqueue_style('default-skin', RC_App::apps_url('statics/lib/photoswipe/css/default-skin/default-skin.css', __FILE__), array());
         // 页面css样式
         RC_Style::enqueue_style('merchant', RC_App::apps_url('statics/css/merchant.css', __FILE__), array());
+        
+        RC_Style::enqueue_style('merchant_template', RC_App::apps_url('statics/css/merchant_template.css', __FILE__), array());
         // input file 长传
         RC_Style::enqueue_style('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', __FILE__), array());
         RC_Script::enqueue_script('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', __FILE__), array(), false, true);
@@ -93,6 +95,14 @@ class merchant extends ecjia_merchant {
 
 		$this->assign('ur_here', '设置店铺信息');
         $merchant_info = get_merchant_info($_SESSION['store_id']);
+        //店铺最小购物金额设置
+        $has_min_goods_amount = array_key_exists('min_goods_amount', $merchant_info);
+       	if ($has_min_goods_amount == false) {
+       		$db = RC_DB::table('merchants_config');
+       		$data = array('store_id' => $_SESSION['store_id'], 'group' => 0, 'code' => 'min_goods_amount', 'type' => 'text', 'store_range' => '', 'store_dir' => '', 'value' => 0, 'sort_order' => 1);
+       		$db->insert($data);
+       	}
+        
         $merchant_info['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('merchants_name');
         
         $disk = RC_Filesystem::disk();
@@ -118,10 +128,12 @@ class merchant extends ecjia_merchant {
         $shop_trade_time        = empty($_POST['shop_trade_time'])                                          ? '' : htmlspecialchars($_POST['shop_trade_time']);
         $shop_notice            = ($_POST['shop_notice'] == get_merchant_config('shop_notice'))             ? '' : htmlspecialchars($_POST['shop_notice']);
 		$express_assign_auto	= isset($_POST['express_assign_auto']) ? intval($_POST['express_assign_auto']) : 0;
-        
+		$min_goods_amount		= isset($_POST['min_goods_amount']) ? intval($_POST['min_goods_amount']) : 0;
+		
         $merchants_config = array();
 		$merchants_config['express_assign_auto'] = $express_assign_auto;
-        
+		$merchants_config['min_goods_amount'] 	 = $min_goods_amount;
+		
 		$shop_nav_background = get_merchant_config('shop_nav_background');
         $shop_logo           = get_merchant_config('shop_logo');
         $shop_thumb_logo     = get_merchant_config('shop_thumb_logo');
@@ -424,12 +436,12 @@ class merchant extends ecjia_merchant {
     }
     
     /**
-     * 店铺模版
+     * 小程序模版
      */
     public function template() {
     	$this->admin_priv('merchant_template');
     	
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('店铺模版'));
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('小程序模版'));
     	$this->assign('app_url', RC_App::apps_url('statics/img/template/', __FILE__));
     	
     	$shop_template_info = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_template')->first();
@@ -439,7 +451,7 @@ class merchant extends ecjia_merchant {
     	} else {
     		$this->assign('shop_template', $shop_template_info['value']);
     	}
-    	$this->assign('ur_here', '店铺模版');
+    	$this->assign('ur_here', '小程序模版');
     	$this->assign('form_action', RC_Uri::url('merchant/merchant/template_update'));
     	
     	$this->display('merchant_template.dwt');
