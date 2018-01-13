@@ -422,8 +422,8 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.5.0';
-    const RELEASE = '2017-12-04';
+    const VERSION = '4.6.0';
+    const RELEASE = '2017-12-29';
     const PHP_REQUIRED = '5.4.0';
     protected $booted = false;
     protected $bootingCallbacks = array();
@@ -4392,20 +4392,15 @@ namespace Royalcms\Component\Hook;
 use Royalcms\Component\Support\ServiceProvider;
 class HookServiceProvider extends ServiceProvider
 {
-    protected $defer = true;
     public function register()
     {
-        $this->registerHooks();
+        $this->registerHookService();
     }
-    protected function registerHooks()
+    protected function registerHookService()
     {
-        $this->royalcms->bindShared('hook', function ($royalcms) {
+        $this->royalcms->singleton('hook', function ($royalcms) {
             return new Hooks();
         });
-    }
-    public function provides()
-    {
-        return array('hook');
     }
 }
 namespace Royalcms\Component\Error;
@@ -8445,8 +8440,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Royalcms\Component\Support\Facades\Hook;
-use Royalcms\Component\Support\Facades\Config;
-class Store implements SessionInterface
+class Store implements SessionInterface, StoreInterface
 {
     protected $id;
     protected $name;
@@ -8463,25 +8457,8 @@ class Store implements SessionInterface
         $this->metaBag = new MetadataBag();
         $this->setId($id ?: $this->generateSessionId());
     }
-    public function session()
-    {
-        return $this->getHandler();
-    }
-    public function session_id()
-    {
-        return $this->getId();
-    }
-    public function destroy()
-    {
-        return $this->flush();
-    }
-    public function delete($name)
-    {
-        $this->remove($name);
-    }
     public function start()
     {
-        session_start();
         $this->loadSession();
         if (!$this->has('_token')) {
             $this->regenerateToken();
@@ -8490,7 +8467,7 @@ class Store implements SessionInterface
     }
     protected function loadSession()
     {
-        $this->attributes = $_SESSION;
+        $this->attributes = $this->readFromHandler();
         foreach (array_merge($this->bags, array($this->metaBag)) as $bag) {
             $this->initializeLocalBag($bag);
             $bag->initialize($this->bagData[$bag->getStorageKey()]);
@@ -8543,7 +8520,6 @@ class Store implements SessionInterface
     }
     public function regenerate($destroy = false)
     {
-        session_regenerate_id();
         return $this->migrate($destroy);
     }
     public function save()
@@ -8665,10 +8641,6 @@ class Store implements SessionInterface
     public function flush()
     {
         $this->clear();
-        $_SESSION = array();
-        session_unset();
-        session_destroy();
-        session_write_close();
     }
     public function isStarted()
     {
