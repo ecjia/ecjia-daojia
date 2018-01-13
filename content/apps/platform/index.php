@@ -55,7 +55,7 @@ class index extends ecjia_api {
 	 * 首页信息
 	 */
 	public function init() {
-	   $request = Component_HttpFoundation_Request::createFromGlobals();
+	   $request = royalcms('request');
        $uuid = $request->get('uuid');
 
        RC_Loader::load_app_class('platform_account', 'platform', false);
