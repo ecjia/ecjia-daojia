@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\Routing;
 
 use Royalcms\Component\HttpKernel\RedirectResponse;
-use Royalcms\Component\Session\Store as SessionStore;
+use Royalcms\Component\Session\StoreInterface;
 
 class Redirector {
 
@@ -210,10 +210,10 @@ class Redirector {
 	/**
 	 * Set the active session store.
 	 *
-	 * @param  \Royalcms\Component\Session\Store  $session
+	 * @param  \Royalcms\Component\Session\StoreInterface  $session
 	 * @return void
 	 */
-	public function setSession(SessionStore $session)
+	public function setSession(StoreInterface $session)
 	{
 		$this->session = $session;
 	}

@@ -424,14 +424,28 @@ class Kses extends Object {
     /**
      * function kses_no_null
      * 
+     * Removes any invalid control characters in $string.
+     *
+     * Also removes any instance of the '\0' string.
+     * 
      * This function removes any NULL characters in $string.
+     * @since 1.0.0
+     * @param string $string
+     * @param array $options Set 'slash_zero' => 'keep' when '\0' is allowed. Default is 'remove'.
+     * @return string
      */ 
-    public static function no_null($string)
+    public static function no_null($string, $options = null)
     {
-        $string = preg_replace('/\0+/', '', $string);
-        $string = preg_replace('/(\\\\0)+/', '', $string);
+        if ( ! isset( $options['slash_zero'] ) ) {
+    		$options = array( 'slash_zero' => 'remove' );
+    	}
     
-        return $string;
+    	$string = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $string );
+    	if ( 'remove' == $options['slash_zero'] ) {
+    		$string = preg_replace( '/\\\\+0+/', '', $string );
+    	}
+    
+    	return $string;
     } 
     
     

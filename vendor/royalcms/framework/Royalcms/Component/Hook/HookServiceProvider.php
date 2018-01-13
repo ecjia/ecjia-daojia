@@ -4,13 +4,6 @@ use Royalcms\Component\Support\ServiceProvider;
 
 class HookServiceProvider extends ServiceProvider {
     
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
 	/**
 	 * Register the service provider.
 	 *
@@ -18,7 +11,7 @@ class HookServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->registerHooks();
+		$this->registerHookService();
 	}
 
 	/**
@@ -26,22 +19,12 @@ class HookServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	protected function registerHooks()
+	protected function registerHookService()
 	{
-		$this->royalcms->bindShared('hook', function($royalcms)
+		$this->royalcms->singleton('hook', function($royalcms)
 		{
 			return new Hooks();
 		});
 	}
 	
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-	    return array('hook');
-	}
-
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Royalcms\Component\Database\Schema\Blueprint;
 use Royalcms\Component\Database\Migrations\Migration;
 
 class CreateSessionTable extends Migration {
@@ -11,11 +12,11 @@ class CreateSessionTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('sessions', function($t)
+		RC_Schema::create('sessions', function(Blueprint $table)
 		{
-			$t->string('id')->unique();
-			$t->text('payload');
-			$t->integer('last_activity');
+			$table->string('id', 190)->unique();
+			$table->text('payload');
+			$table->integer('last_activity');
 		});
 	}
 
@@ -26,7 +27,7 @@ class CreateSessionTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('sessions');
+		RC_Schema::drop('sessions');
 	}
 
 }

@@ -5,9 +5,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Royalcms\Component\Support\Facades\Hook;
-use Royalcms\Component\Support\Facades\Config;
 
-class Store implements SessionInterface {
+class Store implements SessionInterface, StoreInterface
+{
 
 	/**
 	 * The session ID.
@@ -81,57 +81,12 @@ class Store implements SessionInterface {
 		$this->setId($id ?: $this->generateSessionId());
 	}
 	
-	/**
-	 * Get the session handler.
-	 *
-	 * @return void
-	 * @todo $_SESSION
-	 */
-	public function session()
-	{
-	    return $this->getHandler();
-	}
-	
-	/**
-	 * Get the session id.
-	 *
-	 * @return string
-	 * @todo $_SESSION
-	 */
-	public function session_id()
-	{
-	    return $this->getId();
-	}
-	
-	/**
-	 * Destroy the session data from the handler.
-	 *
-	 * @return void
-	 * @todo $_SESSION
-	 */
-	public function destroy()
-	{
-	    return $this->flush();
-	}
-	
-	/**
-	 * Delete the session data from the handler.
-	 *
-	 * @return void
-	 * @todo $_SESSION
-	 */
-	public function delete($name)
-	{
-	    $this->remove($name);
-	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function start()
 	{	
-	    session_start();
-	    
 		$this->loadSession();
 		
 		if ( ! $this->has('_token')) $this->regenerateToken();
@@ -146,9 +101,7 @@ class Store implements SessionInterface {
 	 */
 	protected function loadSession()
 	{
-// 		$this->attributes = $this->readFromHandler();
-		//@todo 兼容$_SESSION
-        $this->attributes = $_SESSION;
+		$this->attributes = $this->readFromHandler();
         
 		foreach (array_merge($this->bags, array($this->metaBag)) as $bag)
 		{
@@ -256,9 +209,6 @@ class Store implements SessionInterface {
 	 */
 	public function regenerate($destroy = false)
 	{
-	    // PHP Native session regenerate.
-	    session_regenerate_id();
-	    
 		return $this->migrate($destroy);
 	}
 
@@ -529,14 +479,6 @@ class Store implements SessionInterface {
 	public function flush()
 	{
 		$this->clear();
-		
-		// 重置会话中的所有变量
-		$_SESSION = array();
-		
-		//PHP Native session unset
-		session_unset();
-		session_destroy();
-		session_write_close();
 	}
 
 	/**

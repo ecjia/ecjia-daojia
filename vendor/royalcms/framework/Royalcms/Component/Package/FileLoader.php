@@ -173,8 +173,13 @@ class FileLoader implements LoaderInterface {
     
     public function loadConfig($cfgname)
     {
-        $path = "configs/{$cfgname}.cfg.php";
-        return $this->load($path)->fileContent();
+        $path = "configs/{$cfgname}.php";
+        $content = $this->load($path)->fileContent();
+        if ($content === false) {
+            $path = "configs/{$cfgname}.cfg.php";
+            $content = $this->load($path)->fileContent();
+        }
+        return $content;
     }
     
     public function loadLanguage($langname)

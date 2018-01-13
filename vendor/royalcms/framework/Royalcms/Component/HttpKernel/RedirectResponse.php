@@ -2,7 +2,7 @@
 
 use Royalcms\Component\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Cookie;
-use Royalcms\Component\Session\Store as SessionStore;
+use Royalcms\Component\Session\StoreInterface;
 use Royalcms\Component\Support\Contracts\MessageProviderInterface;
 
 class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectResponse {
@@ -161,10 +161,10 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	/**
 	 * Set the session store implementation.
 	 *
-	 * @param  \Royalcms\Component\Session\Store  $store
+	 * @param  \Royalcms\Component\Session\StoreInterface  $store
 	 * @return void
 	 */
-	public function setSession(SessionStore $session)
+	public function setSession(StoreInterface $session)
 	{
 		$this->session = $session;
 	}
