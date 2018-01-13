@@ -56,7 +56,7 @@ class admin_switch extends ecjia_admin {
 	}
 	
 	public function init() {
-	    $request = Component_HttpFoundation_Request::createFromGlobals();
+	    $request = royalcms('request');
 	    $uuid = $request->get('uuid');
 	    $platform = $request->get('platform');
 	    
