@@ -413,7 +413,20 @@ return array(
     
     /* 收银台*/
     'admin/bonus/validate'		=> 'cart::admin/bonus/validate',
-
+    
+    /* 到店购物 小程序1.3.0新增 */
+    'storebuy/cart/create'      => 'cart::storebuy/cart/create',//（加购物车）
+    'storebuy/cart/update'      => 'cart::storebuy/cart/update',//（更新购物车）
+    'storebuy/cart/checked'     => 'cart::storebuy/cart/checked',//（购物车选中状态切换）
+    'storebuy/cart/list'        => 'cart::storebuy/cart/list',//（购物车商品列表）
+	'storebuy/cart/delete'      => 'cart::storebuy/cart/delete',//（从购物车中删除商品）
+    'storebuy/flow/checkOrder'  => 'cart::storebuy/flow/checkOrder',//（购物流检查订单）
+    'storebuy/flow/done'        => 'cart::storebuy/flow/done',//（购物流结算）
+    'storebuy/merchant/goods/list'       => 'merchant::merchant/goods/storebuy/list',//（商品列表）
+    'storebuy/merchant/goods/suggestlist'   => 'merchant::merchant/goods/storebuy/suggestlist',
+    
+	'quickpay/order/cancel'		=> 'quickpay::order/operate/cancel',    //1.12用户取消买单订单
+	'quickpay/order/delete'		=> 'quickpay::order/operate/delete',    //1.12用户删除买单订单
     
 	
     /** 1.0 已经废弃
