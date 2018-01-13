@@ -167,7 +167,7 @@ class admin_position extends ecjia_admin {
     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	
-    	$city_id       = !empty($_POST['city_id']) ? trim($_POST['city_id']) : '';
+    	$city_id       = isset($_POST['city_id']) ? trim($_POST['city_id']) : 0;
     	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
@@ -248,7 +248,7 @@ class admin_position extends ecjia_admin {
     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	
-    	$city_id       = trim($_POST['city_id']);
+    	$city_id       = isset($_POST['city_id']) ? trim($_POST['city_id']) : 0;
     	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
