@@ -232,9 +232,11 @@ class ecjia_touch_api
  	const QUICKPAY_ORDER_LIST 		= 'quickpay/order/list';//我的优惠买单列表
  	const QUICKPAY_FLOW_CHECKORDER 	= 'quickpay/flow/checkOrder';//闪惠优惠买单检查购物流订单
  	const QUICKPAY_FLOW_DONE 		= 'quickpay/flow/done';//闪惠购物流结算
- 	const QUICKPAY_ORDER_DETAIL 	= 'quickpay/order/detail';
- 	const QUICKPAY_ORDER_PAY 		= 'quickpay/order/pay';
- 	const QUICKPAY_ACTIVIRY_LIST 	= 'quickpay/activity/list';
+ 	const QUICKPAY_ORDER_DETAIL 	= 'quickpay/order/detail';//闪惠订单详情
+ 	const QUICKPAY_ORDER_PAY 		= 'quickpay/order/pay';//闪惠订单支付
+ 	const QUICKPAY_ACTIVIRY_LIST 	= 'quickpay/activity/list';//闪惠活动列表
+ 	const QUICKPAY_ORDER_CANCEL     = 'quickpay/order/cancel';//取消闪惠订单
+ 	const QUICKPAY_ORDER_DELETE     = 'quickpay/order/delete';//删除闪惠订单
  	
  	const ADMIN_SHOP_TOKEN = 'admin/shop/token';//获取后台token
 }
