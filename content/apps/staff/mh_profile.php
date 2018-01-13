@@ -200,7 +200,7 @@ class mh_profile extends ecjia_merchant
 
         if ($pwd_modified) {
             /* 如果修改了密码，则需要将session中该管理员的数据清空 */
-            RC_Session::session()->delete_spec_admin_session($_SESSION['staff_id']); // 删除session中该管理员的记录
+            RC_Session::session()->deleteSpecSession($_SESSION['staff_id'], 'merchant'); // 删除session中该管理员的记录
 
             $msg = __('您已经成功的修改了密码，因此您必须重新登录！');
         } else {

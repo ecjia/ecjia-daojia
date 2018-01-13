@@ -191,7 +191,7 @@ class privilege extends ecjia_merchant {
 					$cookie_name = RC_Config::get('session.session_admin_name');
 					$ecjia_admin_token = $_COOKIE[$cookie_name];
 					if ($session_id == $ecjia_admin_token) {
-						$session_data = RC_Session::session()->get_session_data($session_id);
+						$session_data = RC_Session::session()->getSessionData($session_id);
 						if ($session_data['action_list'] == 'all') {
 							$staff_info = RC_DB::TABLE('staff_user')->where('store_id', $store_id)->where('parent_id', 0)->where('action_list', 'all')->first();
 							if (!empty($staff_info)) {

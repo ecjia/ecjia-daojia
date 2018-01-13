@@ -436,7 +436,7 @@ class merchant extends ecjia_merchant
         $name = $db_staff_user->pluck('name');
 
         if ($db_staff_user->delete()) {
-            RC_Session::session()->delete_spec_admin_session($user_id); // 删除session中该管理员的记录
+            RC_Session::session()->deleteSpecSession($user_id, 'merchant'); // 删除session中该管理员的记录
             ecjia_merchant::admin_log($name, 'remove', 'staff');
             return $this->showmessage(RC_Lang::get('staff::staff.delete_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/init')));
         } else {

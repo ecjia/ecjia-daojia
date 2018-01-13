@@ -212,7 +212,9 @@
 			            </div>
 			        </div>
 			    </div>
-			   	<span class="help-block">注：所有组的员工加起来最多只能添加10个员工</span> 
+	    	</div>
+	    	<div class="m_l15">
+	    		<span class="help-block">注：所有组的员工加起来最多只能添加10个员工</span> 
 	    	</div>
 		</div>
 	</div>
