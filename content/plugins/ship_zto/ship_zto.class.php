@@ -46,7 +46,7 @@
 //
 
 /**
- * 中通速递插件
+ * 中通快递插件
  */
 
 defined('IN_ECJIA') or exit('No permission resources.');
