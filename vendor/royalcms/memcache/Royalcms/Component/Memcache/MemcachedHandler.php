@@ -43,8 +43,8 @@ class MemcachedHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command
-        if(($return = self::$_memcache->getStats()) != false)
-        {
+        $return = self::$_memcache->getStats();
+        if ($return) {
             # Delete server key based
             $stats = $return[$server.':'.$port];
 
@@ -90,6 +90,8 @@ class MemcachedHandler implements CommandInterface
     public function slabs($server, $port)
     {
         throw new \Exception('PECL Memcache does not support slabs stats, use Server or Memcache instead');
+        
+        return false;
     }
 
     /**
@@ -105,6 +107,8 @@ class MemcachedHandler implements CommandInterface
     public function items($server, $port, $slab)
     {
         throw new \Exception('PECL Memcache does not support slabs items stats, use Server or Memcache instead');
+        
+        return false;
     }
 
     /**
@@ -123,11 +127,8 @@ class MemcachedHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : get
-        if(($item = self::$_memcache->get($key)) != false)
-        {
-            return print_r($item, true);
-        }
-        return self::$_memcache->getResultMessage();
+        $item = self::$_memcache->get($key);
+        return $item;
     }
     
     /**
@@ -142,17 +143,23 @@ class MemcachedHandler implements CommandInterface
      *
      * @return String
      */
-    function set($server, $port, $key, $data, $duration)
+    public function set($server, $port, $key, $data, $duration)
     {
-    # Adding server
+        # Adding server
         self::$_memcache->addServer($server, $port);
     
         # Checking duration
         if ($duration == '') { $duration = 0; }
     
         # Executing command : set
-        self::$_memcache->set($key, $data, $duration);
-        return self::$_memcache->getResultMessage();
+        if (self::$_memcache->set($key, $data, $duration)) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -167,7 +174,7 @@ class MemcachedHandler implements CommandInterface
      *
      * @return String
      */
-    function add($server, $port, $key, $data, $duration)
+    public function add($server, $port, $key, $data, $duration)
     {
         # Adding server
         self::$_memcache->addServer($server, $port);
@@ -176,8 +183,14 @@ class MemcachedHandler implements CommandInterface
         if ($duration == '') { $duration = 0; }
 
         # Executing command : set
-        self::$_memcache->add($key, $data, $duration);
-        return self::$_memcache->getResultMessage();
+        if (self::$_memcache->add($key, $data, $duration))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
     
     /**
@@ -192,7 +205,7 @@ class MemcachedHandler implements CommandInterface
      *
      * @return String
      */
-    function replace($server, $port, $key, $data, $duration)
+    public function replace($server, $port, $key, $data, $duration)
     {
         # Adding server
         self::$_memcache->addServer($server, $port);
@@ -201,8 +214,14 @@ class MemcachedHandler implements CommandInterface
         if ($duration == '') { $duration = 0; }
     
         # Executing command : set
-        self::$_memcache->replace($key, $data, $duration);
-        return self::$_memcache->getResultMessage();
+        if (self::$_memcache->replace($key, $data, $duration))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -221,8 +240,14 @@ class MemcachedHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : delete
-        self::$_memcache->delete($key);
-        return self::$_memcache->getResultMessage();
+        if (self::$_memcache->delete($key))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -236,17 +261,21 @@ class MemcachedHandler implements CommandInterface
      *
      * @return String
      */
-    function increment($server, $port, $key, $value)
+    public function increment($server, $port, $key, $value)
     {
         # Adding server
         self::$_memcache->addServer($server, $port);
 
         # Executing command : increment
-        if(($result = self::$_memcache->increment($key, $value)) != false)
+        $result = self::$_memcache->increment($key, $value);
+        if ($result) 
         {
             return $result;
         }
-        return self::$_memcache->getResultMessage();
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -260,17 +289,21 @@ class MemcachedHandler implements CommandInterface
      *
      * @return String
      */
-    function decrement($server, $port, $key, $value)
+    public function decrement($server, $port, $key, $value)
     {
         # Adding server
         self::$_memcache->addServer($server, $port);
 
         # Executing command : decrement
-        if(($result = self::$_memcache->decrement($key, $value)) != false)
+        $result = self::$_memcache->decrement($key, $value);
+        if ($result) 
         {
             return $result;
         }
-        return self::$_memcache->getResultMessage();
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -289,8 +322,14 @@ class MemcachedHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : delete
-        self::$_memcache->flush($delay);
-        return self::$_memcache->getResultMessage();
+        if (self::$_memcache->flush($delay))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -303,9 +342,11 @@ class MemcachedHandler implements CommandInterface
      *
      * @return Array
      */
-    function search($server, $port, $search)
+    public function search($server, $port, $search)
     {
         throw new \Exception('PECL Memcached does not support search function, use Server instead');
+        
+        return false;
     }
 
     /**
@@ -318,9 +359,22 @@ class MemcachedHandler implements CommandInterface
      *
      * @return String
      */
-    function telnet($server, $port, $command)
+    public function telnet($server, $port, $command)
     {
         throw new \Exception('PECL Memcached does not support telnet, use Server instead');
+        
+        return false;
+    }
+    
+    public function getResultMessage()
+    {
+        return self::$_memcache->getResultMessage();
+    }
+    
+    
+    public function getMemcache()
+    {
+        return self::$_memcache;
     }
 }
 

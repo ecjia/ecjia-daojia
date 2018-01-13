@@ -172,7 +172,8 @@ class ServerHandler implements CommandInterface
     public function stats($server, $port)
     {
         # Executing command
-        if(($return = $this->exec('stats', $server, $port)) != false)
+        $return = $this->exec('stats', $server, $port);
+        if($return)
         {
             return $this->parse($return);
         }
@@ -191,7 +192,8 @@ class ServerHandler implements CommandInterface
     public function settings($server, $port)
     {
         # Executing command
-        if(($return = $this->exec('stats settings', $server, $port)) != false)
+        $return = $this->exec('stats settings', $server, $port);
+        if($return)
         {
             return $this->parse($return);
         }
@@ -218,7 +220,8 @@ class ServerHandler implements CommandInterface
         unset($stats);
 
         # Executing command : slabs stats
-        if(($result = $this->exec('stats slabs', $server, $port)) != false)
+        $result = $this->exec('stats slabs', $server, $port);
+        if ($result)
         {
             # Parsing result
             $result = $this->parse($result);
@@ -269,7 +272,8 @@ class ServerHandler implements CommandInterface
         $items = false;
 
         # Executing command : stats cachedump
-        if(($result = $this->exec('stats cachedump ' . $slab . ' ' . self::$_ini['max_item_dump'], $server, $port)) != false)
+        $result = $this->exec('stats cachedump ' . $slab . ' ' . self::$_ini['max_item_dump'], $server, $port);
+        if($result)
         {
             # Parsing result
             $items = $this->parse($result, false);
@@ -290,11 +294,15 @@ class ServerHandler implements CommandInterface
     public function get($server, $port, $key)
     {
         # Executing command : get
-        if(($string = $this->exec('get ' . $key, $server, $port)) != false)
+        $string = $this->exec('get ' . $key, $server, $port);
+        if ($string)
         {
             return preg_replace('/^VALUE ' . preg_quote($key, '/') . '[0-9 ]*\r\n/', '', $string);
         }
-        return self::$_log;
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -315,11 +323,15 @@ class ServerHandler implements CommandInterface
         $data = preg_replace('/\r/', '', $data);
 
         # Executing command : set
-        if(($result = $this->exec('set ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port)) != false)
+        $result = $this->exec('set ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port);
+        if($result)
         {
             return $result;
+        } 
+        else 
+        {
+            return false;
         }
-        return self::$_log;
     }
     
     /**
@@ -340,11 +352,15 @@ class ServerHandler implements CommandInterface
         $data = preg_replace('/\r/', '', $data);
     
         # Executing command : set
-        if(($result = $this->exec('add ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port)) != false)
+        $result = $this->exec('add ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port);
+        if ($result)
         {
             return $result;
+        } 
+        else 
+        {
+            return false;
         }
-        return self::$_log;
     }
     
     /**
@@ -365,11 +381,15 @@ class ServerHandler implements CommandInterface
         $data = preg_replace('/\r/', '', $data);
     
         # Executing command : set
-        if(($result = $this->exec('replace ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port)) != false)
+        $result = $this->exec('replace ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port);
+        if($result)
         {
             return $result;
         }
-        return self::$_log;
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -385,11 +405,15 @@ class ServerHandler implements CommandInterface
     public function delete($server, $port, $key)
     {
         # Executing command : delete
-        if(($result = $this->exec('delete ' . $key, $server, $port)) != false)
+        $result = $this->exec('delete ' . $key, $server, $port);
+        if ($result)
         {
             return $result;
         }
-        return self::$_log;
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -406,11 +430,15 @@ class ServerHandler implements CommandInterface
     function increment($server, $port, $key, $value)
     {
         # Executing command : increment
-        if(($result = $this->exec('incr ' . $key . ' ' . $value, $server, $port)) != false)
+        $result = $this->exec('incr ' . $key . ' ' . $value, $server, $port);
+        if($result)
         {
             return $result;
         }
-        return self::$_log;
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -427,11 +455,15 @@ class ServerHandler implements CommandInterface
     function decrement($server, $port, $key, $value)
     {
         # Executing command : decrement
-        if(($result = $this->exec('decr ' . $key . ' ' . $value, $server, $port)) != false)
+        $result = $this->exec('decr ' . $key . ' ' . $value, $server, $port);
+        if ($result)
         {
             return $result;
         }
-        return self::$_log;
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -447,11 +479,15 @@ class ServerHandler implements CommandInterface
     function flush($server, $port, $delay)
     {
         # Executing command : flush_all
-        if(($result = $this->exec('flush_all ' . $delay, $server, $port)) != false)
+        $result = $this->exec('flush_all ' . $delay, $server, $port);
+        if ($result)
         {
             return $result;
         }
-        return self::$_log;
+        else 
+        {
+            return false;
+        }
     }
 
     /**
@@ -470,7 +506,8 @@ class ServerHandler implements CommandInterface
         $items = false;
 
         # Executing command : slabs stats
-        if(($result = $this->exec('stats slabs', $server, $port)) != false)
+        $result = $this->exec('stats slabs', $server, $port);
+        if ($result)
         {
             # Parsing result
             $result = $this->parse($result);
@@ -488,12 +525,13 @@ class ServerHandler implements CommandInterface
         foreach($slabs as $slab => $unused)
         {
             # Executing command : stats cachedump
-            if(($result = $this->exec('stats cachedump ' . $slab . ' 0', $server, $port)) != false)
+            $result = $this->exec('stats cachedump ' . $slab . ' 0', $server, $port);
+            if ($result)
             {
                 # Parsing result
                 preg_match_all('/^ITEM ((?:.*)' . preg_quote($search, '/') . '(?:.*)) \[(?:.*)\]\r\n/imU', $result, $matchs, PREG_SET_ORDER);
 
-                foreach($matchs as $item)
+                foreach ($matchs as $item)
                 {
                     $items[] = $item[1];
                 }
@@ -501,7 +539,7 @@ class ServerHandler implements CommandInterface
             unset($slabs[$slab]);
         }
 
-        if(is_array($items))
+        if (is_array($items))
         {
             sort($items);
         }
@@ -522,11 +560,26 @@ class ServerHandler implements CommandInterface
     function telnet($server, $port, $command)
     {
         # Executing command
-        if(($result = $this->exec($command, $server, $port)) != false)
+        $result = $this->exec($command, $server, $port);
+        if ($result)
         {
             return $result;
         }
+        else 
+        {
+            return false;
+        }
+    }
+    
+    public function getResultMessage()
+    {
         return self::$_log;
+    }
+    
+    
+    public function getMemcache()
+    {
+        return $this;
     }
 }
 

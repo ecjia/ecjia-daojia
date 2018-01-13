@@ -184,6 +184,12 @@ interface CommandInterface
      * @return String
      */
     function telnet($server, $port, $command);
+    
+    
+    public function getResultMessage();
+    
+    
+    public function getMemcache();
 }
 
 // end

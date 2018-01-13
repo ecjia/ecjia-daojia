@@ -8,6 +8,8 @@ class MemcacheHandler implements CommandInterface
 {
     private static $_ini;
     private static $_memcache;
+    
+    protected $resultMessage;
 
     /**
      * Constructor
@@ -44,7 +46,8 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command
-        if(($return = self::$_memcache->getExtendedStats()) != false)
+        $return = self::$_memcache->getExtendedStats();
+        if($return)
         {
             # Delete server key based
             $stats = $return[$server.':'.$port];
@@ -85,7 +88,8 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : slabs
-        if(($slabs = self::$_memcache->getStats('slabs')) != false)
+        $slabs = self::$_memcache->getStats('slabs');
+        if($slabs)
         {
             # Finding uptime
             $stats = $this->stats($server, $port);
@@ -93,7 +97,8 @@ class MemcacheHandler implements CommandInterface
             unset($stats);
 
             # Executing command : items
-            if(($result = self::$_memcache->getStats('items')) != false)
+            $result = self::$_memcache->getStats('items');
+            if($result)
             {
                 # Indexing by slabs
                 foreach($result['items'] as $id => $items)
@@ -128,11 +133,8 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : slabs stats
-        if(($items = self::$_memcache->getStats('cachedump', $slab, self::$_ini->get('max_item_dump'))) != false)
-        {
-            return $items;
-        }
-        return false;
+        $items = self::$_memcache->getStats('cachedump', $slab, self::$_ini->get('max_item_dump'));
+        return $items;
     }
 
     /**
@@ -151,11 +153,8 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : get
-        if (($item = self::$_memcache->get($key)) != false)
-        {
-            return print_r($item, true);
-        }
-        return 'NOT_FOUND';
+        $item = self::$_memcache->get($key);
+        return $item;
     }
 
     /**
@@ -176,11 +175,15 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : set
-        if (self::$_memcache->set($key, $data, 0, $duration))
+        if (self::$_memcache->set($key, $data, 0, $duration)) 
         {
-            return 'STORED';
+            return true;
+        } 
+        else 
+        {
+            $this->resultMessage = 'ERROR';
+            return false;
         }
-        return 'ERROR';
     }
     
     /**
@@ -203,9 +206,13 @@ class MemcacheHandler implements CommandInterface
         # Executing command : set
         if (self::$_memcache->add($key, $data, 0, $duration))
         {
-            return 'STORED';
+            return true;
+        } 
+        else 
+        {
+            $this->resultMessage = 'ERROR';
+            return false;
         }
-        return 'ERROR';
     }
     
     /**
@@ -228,9 +235,13 @@ class MemcacheHandler implements CommandInterface
         # Executing command : replace
         if(self::$_memcache->replace($key, $data, 0, $duration))
         {
-            return 'STORED';
+            return true;
         }
-        return 'ERROR';
+        else 
+        {
+            $this->resultMessage = 'ERROR';
+            return false;
+        }
     }
 
     /**
@@ -249,11 +260,15 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : delete
-        if(self::$_memcache->delete($key))
+        if (self::$_memcache->delete($key))
         {
-            return 'DELETED';
+            return true;
         }
-        return 'NOT_FOUND';
+        else 
+        {
+            $this->resultMessage = 'NOT_FOUND';
+            return false;
+        }
     }
 
     /**
@@ -273,11 +288,16 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : increment
-        if(($result = self::$_memcache->increment($key, $value)) != false)
+        $result = self::$_memcache->increment($key, $value);
+        if ($result)
         {
             return $result;
         }
-        return 'NOT_FOUND';
+        else 
+        {
+            $this->resultMessage = 'NOT_FOUND';
+            return false;
+        }
     }
 
     /**
@@ -297,11 +317,16 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : decrement
-        if(($result = self::$_memcache->decrement($key, $value)) != false)
+        $result = self::$_memcache->decrement($key, $value);
+        if ($result)
         {
             return $result;
         }
-        return 'NOT_FOUND';
+        else 
+        {
+            $this->resultMessage = 'NOT_FOUND';
+            return false;
+        }
     }
 
     /**
@@ -321,8 +346,13 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
 
         # Executing command : flush_all
-        self::$_memcache->flush();
-        return 'OK';
+        if (self::$_memcache->flush())
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -338,6 +368,8 @@ class MemcacheHandler implements CommandInterface
     function search($server, $port, $search)
     {
         throw new \Exception('PECL Memcache does not support search function, use Server instead');
+        
+        return false;
     }
 
     /**
@@ -353,6 +385,19 @@ class MemcacheHandler implements CommandInterface
     function telnet($server, $port, $command)
     {
         throw new \Exception('PECL Memcache does not support telnet, use Server instead');
+        
+        return false;
+    }
+    
+    public function getResultMessage()
+    {
+        return $this->resultMessage;
+    }
+    
+    
+    public function getMemcache()
+    {
+        return self::$_memcache;
     }
 }
 
