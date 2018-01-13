@@ -68,9 +68,10 @@ class PaymentRecordRepository extends AbstractRepository
     public function addOrUpdatePaymentRecord($orderSn, $amount, $type = PayConstant::PAY_ORDER, $callback = null)
     {
         $where = array(
-        	'order_sn' => $orderSn,
-            'trade_type' => $type,
-            'pay_status' => 0
+        	'order_sn'      => $orderSn,
+            'trade_type'    => $type,
+            'pay_status'    => 0,
+            'total_fee'     => $amount,
         );
         $result = $this->findWhere($where);
 
