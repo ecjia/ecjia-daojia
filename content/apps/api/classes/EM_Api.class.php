@@ -110,7 +110,7 @@ abstract class EM_Api {
     			RC_Session::init(null, self::$token);
     		}
     		
-    		define('SESS_ID', RC_Session::session()->get_session_id());
+    		define('SESS_ID', RC_Session::session_id());
     		
     		if (empty($_SESSION['user_id']) && empty($_SESSION['admin_id']) && $validate) {
     			self::outPut(100);
@@ -127,7 +127,7 @@ abstract class EM_Api {
     			RC_Session::init(null, self::$session['sid']);
     		}
     		
-    		define('SESS_ID', RC_Session::session()->get_session_id());
+    		define('SESS_ID', RC_Session::session_id());
     		
     		if (empty($_SESSION['user_id']) && empty($_SESSION['admin_id'])  && $validate) {
     			self::outPut(100);
