@@ -99,6 +99,7 @@ class detail_module extends api_front implements api_interface {
 		
 		/*返回数据处理*/
 		$order['order_id'] 			= intval($order['order_id']);
+		$order['order_mode'] 		= in_array($order['extension_code'], array('storebuy', 'cashdesk')) ? 'storebuy' : 'default';
 		$order['user_id'] 			= intval($order['user_id']);
 		$order['order_status'] 		= intval($order['order_status']);
 		$order['shipping_status'] 	= intval($order['shipping_status']);
@@ -203,6 +204,7 @@ class detail_module extends api_front implements api_interface {
 				$goods_list[$k] = array(
 						'rec_id'		=> $v['rec_id'],
 						'goods_id'		=> $v['goods_id'],
+				        'goods_sn'      => $v['goods_sn'],
 						'name'			=> $v['goods_name'],
 						'goods_attr_id'	=> $v['goods_attr_id'],
 						'goods_attr'	=> $attr,

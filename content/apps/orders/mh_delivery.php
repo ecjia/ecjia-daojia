@@ -451,6 +451,7 @@ class mh_delivery extends ecjia_merchant {
 				'province'		=> $delivery_order['province'],
 				'city'			=> $delivery_order['city'],
 				'district'		=> $delivery_order['district'],
+				'street'		=> $delivery_order['street'],
 				'email'			=> $delivery_order['email'],
 				'mobile'		=> $delivery_order['mobile'],
 				'best_time'		=> $delivery_order['best_time'],
@@ -532,6 +533,9 @@ class mh_delivery extends ecjia_merchant {
 
 
 			    //消息通知
+			    $express_from_address = ecjia_region::getRegionName($express_order_info['sf_district']).ecjia_region::getRegionName($express_order_info['sf_street']).$express_order_info['merchant_address'];
+			    $express_to_address = ecjia_region::getRegionName($express_order_info['district']).ecjia_region::getRegionName($express_order_info['street']).$express_order_info['address'];
+			     
 			    $notification_express_data = array(
 			        'title'	=> '系统派单',
 			        'body'	=> '有单啦！系统已分配配送单到您账户，赶快行动起来吧！',
@@ -542,12 +546,12 @@ class mh_delivery extends ecjia_merchant {
 			            'label_express_type'	=> $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
 			            'order_sn'				=> $express_order_info['order_sn'],
 			            'payment_name'			=> $express_order_info['pay_name'],
-			            'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $express_order_info['merchant_address'],
+			            'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $express_from_address,
 			            'express_from_location'	=> array(
 			                'longitude' => $express_order_info['merchant_longitude'],
 			                'latitude'	=> $express_order_info['merchant_latitude'],
 			            ),
-			            'express_to_address'	=> $express_order_info['address'],
+			            'express_to_address'	=> $express_to_address,
 			            'express_to_location'	=> array(
 			                'longitude' => $express_order_info['longitude'],
 			                'latitude'	=> $express_order_info['latitude'],

@@ -156,6 +156,7 @@ class OrdersRepository extends AbstractRepository
         	'order_info.pay_id',
         	'order_info.order_amount',
         	'order_info.store_id',
+            'order_info.extension_code',
         ];
         
         if (!empty($keywords)) {

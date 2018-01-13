@@ -60,7 +60,7 @@ class detail_module extends api_admin implements api_interface {
         
         $device = $this->device;
         $codes = array('8001', '8011');
-        if (!in_array($device['device_code'], $codes)) {
+        if (!in_array($device['code'], $codes)) {
         	$result = $this->admin_priv('order_view');
         	if (is_ecjia_error($result)) {
         		return $result;

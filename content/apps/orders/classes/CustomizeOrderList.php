@@ -22,6 +22,7 @@ class CustomizeOrderList
     
                 'order_id'          => $item->order_id,
                 'order_sn'          => $item->order_sn,
+                'order_mode'        => in_array($item->extension_code, array('storebuy', 'cashdesk')) ? 'storebuy' : 'default',
                 'order_amount'      => $item->order_amount,
                 'order_status'      => $item->order_status,
                 'shipping_status'   => $item->shipping_status,

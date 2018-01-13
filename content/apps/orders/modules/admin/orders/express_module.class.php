@@ -316,6 +316,8 @@ function getComType($typeCom)
 		$typeCom = 'yuefengwuliu';
 	} elseif ($typeCom == '韵达快运') {
 		$typeCom = 'yunda';
+	} elseif ($typeCom == '韵达速递') {
+		$typeCom = 'yunda';
 	} elseif ($typeCom == '源安达') {
 		$typeCom = 'yuananda';
 	} elseif ($typeCom == '运通快递') {
@@ -331,6 +333,8 @@ function getComType($typeCom)
 	} elseif ($typeCom == '顺丰速运') {
 		$typeCom = 'shunfeng';
 	} elseif ($typeCom == '中通速递') {
+		$typeCom = 'zhongtong';
+	} elseif ($typeCom == '中通快递') {
 		$typeCom = 'zhongtong';
 	} elseif ($typeCom == '中邮物流') {
 		$typeCom = 'zhongyouwuliu';

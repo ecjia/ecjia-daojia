@@ -68,8 +68,11 @@ class shipping_module extends api_admin implements api_interface {
 		}
 
 		$order_id		= $this->requestData('order_id', 0);
-		$shipping_id	= $this->requestData('shipping_id');
+		$shipping_id	= $this->requestData('shipping_id', 0);
 		$action_note	= $this->requestData('action_note');
+		$shipping_id	= !empty($shipping_id) ? intval($shipping_id) : 0;
+		$expect_shipping_time		= $this->requestData('expect_shipping_time', '');
+		
 		if (empty($order_id)) {
 			return new ecjia_error(101, '参数错误');
 		}
@@ -87,18 +90,18 @@ class shipping_module extends api_admin implements api_interface {
 			return new ecjia_error(101, '参数错误');
 		}
 		//无需物流方式
-		if ($shipping_id == 0) {
-		    $noexpress_data = RC_DB::table('shipping')
-		    ->where('shipping_code', 'ship_no_express')
-		    ->first();
-		    if (empty($noexpress_data['enabled'])) {
-		        return new ecjia_error('no_express', '该插件未安装');
-		    }
-		    if ($noexpress_data['enabled'] != 1) {
-		        return new ecjia_error('no_express', '该插件未启用');
-		    }
-		    $shipping_id = $noexpress_data['shipping_id'];
-		}
+// 		if ($shipping_id == 0) {
+// 		    $noexpress_data = RC_DB::table('shipping')
+// 		    ->where('shipping_code', 'ship_no_express')
+// 		    ->first();
+// 		    if (empty($noexpress_data['enabled'])) {
+// 		        return new ecjia_error('no_express', '该插件未安装');
+// 		    }
+// 		    if ($noexpress_data['enabled'] != 1) {
+// 		        return new ecjia_error('no_express', '该插件未启用');
+// 		    }
+// 		    $shipping_id = $noexpress_data['shipping_id'];
+// 		}
 		
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('global', 'orders');
@@ -106,21 +109,29 @@ class shipping_module extends api_admin implements api_interface {
 		/* 取得订单信息 */
 		$region_id_list = array($order_info['country'], $order_info['province'], $order_info['city'], $order_info['district']);
 		/* 保存订单 */
-		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-		$shipping		= $shipping_method->shipping_area_info($shipping_id, $region_id_list, $order_info['store_id']);
-		if (empty($shipping)) {
-		    return new ecjia_error('shipping_fail', '配送方式获取失败');
+		//$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+		//$shipping		= $shipping_method->shipping_area_info($shipping_id, $region_id_list, $order_info['store_id']);
+		$best_time = '';
+		if(!empty($shipping_id) > 0){
+			$shipping = ecjia_shipping::pluginData($shipping_id);
+			if (empty($shipping)) {
+				return new ecjia_error('shipping_fail', '配送方式获取失败');
+			}
+			if (($shipping['shipping_code'] == 'ship_o2o_express' || $shipping['shipping_code'] == 'ship_ecjia_express') && !empty($expect_shipping_time)) {
+				$best_time = $expect_shipping_time;
+			}
 		}
-		if (strpos($shipping['shipping_code'], 'ship') === false) {
-			$shipping['shipping_code'] = 'ship_'.$shipping['shipping_code'];
-		}
+		
 		$weight_amount	= order_weight_price($order_id);
-		$shipping_fee	= $shipping_method->shipping_fee($shipping['shipping_code'], $shipping['configure'], $weight_amount['weight'], $weight_amount['amount'], $weight_amount['number']);
+		//$shipping_fee	= $shipping_method->shipping_fee($shipping['shipping_code'], $shipping['configure'], $weight_amount['weight'], $weight_amount['amount'], $weight_amount['number']);
+		
 		$order = array(
 			'shipping_id'	=> $shipping_id,
-			'shipping_name'	=> addslashes($shipping['shipping_name']),
-// 			'shipping_fee'	=> $shipping_fee
+			'shipping_name'	=> $shipping_id > 0 ? addslashes($shipping['shipping_name']) : '无需物流',
+			'expect_shipping_time'	=> $best_time
+// 			'shipping_fee'	=> $shipping_fee//修改配送方式，额外产生的费用不做修改
 		);
+		
 		
 // 		if (isset($$this->requestData['insure'])) {
 // 			/* 计算保价费 */

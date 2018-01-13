@@ -15,7 +15,7 @@ class check_module extends api_admin implements api_interface
 		}
 		$device = $this->device;
 		$codes = array('8001', '8011');
-		if (!in_array($device['device_code'], $codes)) {
+		if (!in_array($device['code'], $codes)) {
 			$result = $this->admin_priv('order_view');
 			if (is_ecjia_error($result)) {
 				return $result;
@@ -315,28 +315,22 @@ function delivery_ship($order_id, $delivery_id) {
 				// 				$this->showmessage(RC_Lang::lang('send_mail_fail') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
-
-		$result = ecjia_app::validate_application('sms');
-		if (!is_ecjia_error($result)) {
-			/* 如果需要，发短信 */
-			if (ecjia::config('sms_order_shipped') == '1' && $order['mobile'] != '') {
+		
+		if (!empty($order['user_id'])) {
+			$user_info = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->select('mobile_phone','user_name')->first(); 
+			if (!empty($user_info['mobile_phone'])) { 
 				//发送短信
-				$tpl_name = 'order_shipped_sms';
-				$tpl   = RC_Api::api('sms', 'sms_template', $tpl_name);
-				if (!empty($tpl)) {
-					ecjia_admin::$controller->assign('order_sn', $order['order_sn']);
-					ecjia_admin::$controller->assign('shipped_time', RC_Time::local_date(RC_Lang::lang('sms_time_format')));
-					ecjia_admin::$controller->assign('mobile', $order['mobile']);
-
-					$content = ecjia_admin::$controller->fetch_string($tpl['template_content']);
-
-					$options = array(
-							'mobile' 		=> $order['mobile'],
-							'msg'			=> $content,
-							'template_id' 	=> $tpl['template_id'],
-					);
-					$response = RC_Api::api('sms', 'sms_send', $options);
-				}
+				$options = array(
+						'mobile' => $user_info['mobile_phone'],
+						'event'	 => 'sms_order_shipped',
+						'value'  =>array(
+								'user_name'    => $user_info['user_name'],
+								'order_sn'     => $order['order_sn'],
+								'consignee'    => $order['consignee'],
+								'service_phone'=> ecjia::config('service_phone'),
+						),
+				);
+				RC_Api::api('sms', 'send_event_sms', $options);
 			}
 		}
 	}

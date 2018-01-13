@@ -177,10 +177,13 @@ function affirm_received($order_id, $user_id = 0) {
             		),
             	);
             	RC_Api::api('push', 'push_event_send', $options);
-      
+      			
+            	$express_from_address = ecjia_region::getRegionName($express_order_info['sf_district']).ecjia_region::getRegionName($express_order_info['sf_street']).$express_order_info['merchant_address'];
+            	$express_to_address = ecjia_region::getRegionName($express_order_info['district']).ecjia_region::getRegionName($express_order_info['street']).$express_order_info['address'];
+            	 
             	$express_data = array(
             		'title'     => '配送成功',
-            		'body'      => '买家已成功确认收货！配送单号为：'.$express_order_info['express_id'],
+            		'body'      => '买家已成功确认收货！配送单号为：'.$express_order_info['express_sn'],
             		'data'      => array(
 	            		'express_id'            => $express_order_info['express_id'],
 	            		'express_sn'         	=> $express_order_info['express_sn'],
@@ -188,12 +191,12 @@ function affirm_received($order_id, $user_id = 0) {
 	            		'label_express_type'    => $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
 	            		'order_sn'           	=> $express_order_info['order_sn'],
 	            		'payment_name'        	=> $express_order_info['pay_name'],
-	            		'express_from_address'  => '【'.$express_order_info['merchants_name'].'】'. $express_order_info['merchant_address'],
+	            		'express_from_address'  => '【'.$express_order_info['merchants_name'].'】'. $express_from_address,
 	            		'express_from_location' => array(
 	            			'longitude' => $express_order_info['merchant_longitude'],
 	            			'latitude'  => $express_order_info['merchant_latitude'],
 	 					),
-	          			'express_to_address'    => $express_order_info['address'],
+	          			'express_to_address'    => $express_to_address,
 	            		'express_to_location'   => array(
 	            			'longitude' 		=> $express_order_info['longitude'],
 	            			'latitude'  		=> $express_order_info['latitude'],

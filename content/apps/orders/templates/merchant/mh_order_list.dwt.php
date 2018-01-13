@@ -157,7 +157,7 @@ ecjia.merchant.order.init();
      </div>
 </div>
 {if $date}
-<audio id="audio" src="{$music_url}new_order.mp3" style="opacity:0" preload="auto" controls hidden="true"/>  
+<audio id="audio" src="{$music_url}new_order.mp3" style="opacity:0" preload="auto" controls hidden="true" loop="loop"/>  
 {/if}
 <form action="{$form_action}" name="orderpostForm" id="listForm" data-pjax-url="{$search_action}" method="post"></form>
 <!-- {/block} -->

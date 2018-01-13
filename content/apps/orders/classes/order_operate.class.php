@@ -433,7 +433,7 @@ class order_operate {
 	/* 收货确认 */
 	private function order_receive($order, $note) {
 		/* 标记订单为“收货确认”，如果是货到付款，同时修改订单为已付款 */
-		$arr = array('shipping_status' => SS_RECEIVED);
+		$arr = array('shipping_status' => SS_RECEIVED, 'order_status' => OS_SPLITED);
 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
 		$payment = $payment_method->payment_info($order['pay_id']);
 		if ($payment['is_cod']) {

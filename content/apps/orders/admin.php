@@ -257,6 +257,9 @@ class admin extends ecjia_admin {
 		$order['order_time']	= RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
 		$order['pay_time']		= $order['pay_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']) : RC_Lang::get('orders::order.ps.'.PS_UNPAYED);
 		$order['shipping_time']	= $order['shipping_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']) : RC_Lang::get('orders::order.ss.'.SS_UNSHIPPED);
+		$order['format_shipping_time']	= $order['shipping_time'];
+		$order['format_confirm_time']	= $order['confirm_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['confirm_time']) : '未确认';
+		$order['unformat_status'] = $order['status'];
 		$order['status']		= RC_Lang::get('orders::order.os.'.$order['order_status']) . ',' . RC_Lang::get('orders::order.ps.'.$order['pay_status']) . ',' . RC_Lang::get('orders::order.ss.'.$order['shipping_status']);
 		$order['invoice_no']	= $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? RC_Lang::get('orders::order.ss.'.SS_UNSHIPPED) : $order['invoice_no'];
 		
@@ -2713,6 +2716,7 @@ class admin extends ecjia_admin {
 			array_walk($_POST['send_number'], 'intval_array_walk');
 			
 			$delivery = $_POST['delivery'];
+			
 			$send_number = $_POST['send_number'];
 			$action_note = isset($_POST['action_note']) ? trim($_POST['action_note']) : '';
 			
@@ -2888,17 +2892,53 @@ class admin extends ecjia_admin {
 			$delivery['update_time']	= GMTIME_UTC;
 			$delivery_time = $delivery['update_time'];
 
-			$delivery['add_time']		= RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->pluck('add_time');
+			$orderinfo		= RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->first();
 			
+			$delivery['add_time'] = $orderinfo['add_time'];
 			/* 获取发货单所属供应商 */
 			$delivery['suppliers_id']	= $suppliers_id;
 			/* 设置默认值 */
 			$delivery['status']			= 2; // 正常
 			$delivery['order_id']		= $order_id;
+		
+			
+			/*平台发货时将用户地址转为坐标存入delivery_order表*/
+			if (empty($orderinfo['longitude']) || empty($orderinfo['latitude'])) {
+				$province_name 	= ecjia_region::getRegionName($delivery['province']);
+				$city_name 		= ecjia_region::getRegionName($delivery['city']);
+				$district_name 	= ecjia_region::getRegionName($delivery['district']);
+				$street_name 	= ecjia_region::getRegionName($delivery['street']);
+			
+				$consignee_address = '';
+				if (!empty($province_name)) {
+					$consignee_address .= $province_name;
+				}
+				if (!empty($city_name)) {
+					$consignee_address .= $city_name;
+				}
+				if (!empty($district_name)) {
+					$consignee_address .= $district_name;
+				}
+				if (!empty($street_name)) {
+					$consignee_address .= $street_name;
+				}
+				$consignee_address .= $delivery['address'];
+				$consignee_address = urlencode($consignee_address);
+			
+				//腾讯地图api 地址解析（地址转坐标）
+				$keys = ecjia::config('map_qq_key');
+				$shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$consignee_address."&key=".$keys);
+				$shop_point = json_decode($shop_point['body'], true);
+				if (isset($shop_point['result']) && !empty($shop_point['result']['location'])) {
+					$delivery['longitude']	= $shop_point['result']['location']['lng'];
+					$delivery['latitude']	= $shop_point['result']['location']['lat'];
+				}
+			}
+			
 			/* 过滤字段项 */
 			$filter_fileds = array(
 				'order_sn', 'add_time', 'user_id', 'how_oos', 'shipping_id', 'shipping_fee',
-				'consignee', 'address', 'country', 'province', 'city', 'district', 'street', 'sign_building',
+				'consignee', 'address', 'longitude', 'latitude','country', 'province', 'city', 'district', 'street', 'sign_building',
 				'email', 'zipcode', 'tel', 'mobile', 'best_time', 'postscript', 'insure_fee',
 				'agency_id', 'delivery_sn', 'action_user', 'update_time',
 				'suppliers_id', 'status', 'order_id', 'shipping_name'

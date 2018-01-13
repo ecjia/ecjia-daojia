@@ -68,6 +68,7 @@ class delivery_module extends api_admin implements api_interface {
 
 		$order_id		= $this->requestData('order_id', 0);
 		$invoice_no		= $this->requestData('invoice_no');
+		$expect_shipping_time		= $this->requestData('expect_shipping_time', '');
 		/* 发货数量*/
 		$send_number	= $this->requestData('send_number');//array('123' => 1);rec_id,num
 
@@ -95,6 +96,10 @@ class delivery_module extends api_admin implements api_interface {
 			$rand1 = mt_rand(100000,999999);
 			$rand2 = mt_rand(1000000,9999999);
 			$invoice_no = $rand1.$rand2;
+			//发货页送达时间
+			if (!empty($expect_shipping_time)) {
+				$order_info['best_time'] = $expect_shipping_time;
+			}
 		}
 		
 		/* 订单是否已全部分单检查 */
@@ -406,6 +411,10 @@ class delivery_module extends api_admin implements api_interface {
 		order_action($order_info['order_sn'], $arr['order_status'], $shipping_status, $order_info['pay_status'], $action_note);
 		
 		$order_info['invoice_no'] = $invoice_no;
+		if (!empty($expect_shipping_time)) {
+			$order_info['expect_shipping_time'] = $expect_shipping_time;
+		}
+		
 		$delivery_result = delivery_order($delivery_id, $order_info);
 		if (!is_ecjia_error($delivery_result)) {
 		    create_express_order($delivery_id);
@@ -658,6 +667,7 @@ function create_express_order($delivery_id) {
             'province'		=> $delivery_order['province'],
             'city'			=> $delivery_order['city'],
             'district'		=> $delivery_order['district'],
+        	'street'		=> $delivery_order['street'],
             'email'			=> $delivery_order['email'],
             'mobile'		=> $delivery_order['mobile'],
             'best_time'		=> $delivery_order['best_time'],
