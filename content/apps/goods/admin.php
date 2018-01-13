@@ -567,6 +567,10 @@ class admin extends ecjia_admin {
 		$catgory_id = empty($_POST['cat_id']) 	? 0 : intval($_POST['cat_id']);
 		$brand_id 	= empty($_POST['brand_id']) ? 0 : intval($_POST['brand_id']);
 		
+		if (empty($catgory_id)) {
+			return $this->showmessage('请选择商品分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		$store_category = !empty($_POST['store_category']) ? intval($_POST['store_category']) : 0;
 		if ($store_category > 0){
 			$catgory_id = $store_category;

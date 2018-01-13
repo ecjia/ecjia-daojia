@@ -308,11 +308,16 @@
 
 		submit_info: function() {
 			$('button[type="submit"]').on('click', function() {
-				var btn = $(this);
-				var pjaxurl = btn.attr('data-url');
-
 				$form = $('form[name="theForm"]');
-
+				
+				//判断是否点击直接完成按钮
+				var bool = $(this).hasClass('complete');
+				var complete = 0;
+				if (bool) {
+					complete = 1;
+				}
+				$('.complete').attr('data-complete', complete);
+				
 				var option = {
 					rules: {
 						goods_name: {
@@ -352,7 +357,9 @@
 						$form.ajaxSubmit({
 							dataType: "json",
 							success: function(data) {
-								if (btn.hasClass('complete')) {
+								var bool = $('.complete').attr('data-complete');
+								if (bool == 1) {
+									var pjaxurl = $('.complete').attr('data-url');
 									var url = pjaxurl + '&goods_id=' + data.goods_id;
 									app.goods_info.complete(url);
 									return false;

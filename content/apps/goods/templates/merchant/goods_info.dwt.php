@@ -215,7 +215,7 @@
 				                          		<label class="control-label {if $goods.goods_id}col-lg-5{else}col-lg-6{/if}">
 				                          			<button class="btn btn-info" type="submit">{if $goods.goods_id}{lang key='goods::goods.update'}{else}{lang key='goods::goods.next_step'}{/if}</button>
 				                          			{if $step}
-				                          			<button class="btn btn-info complete m_l5" type="submit" data-url='{url path="goods/merchant/edit"}'>直接完成</button>
+				                          			<button class="btn btn-info complete m_l5" type="submit" data-url='{url path="goods/merchant/edit"}' data-complete="1">直接完成</button>
 													{/if}
 													<input type="hidden" id="type" value="{$link.type}" />
 													<input type="hidden" name="goods_id" value="{$goods.goods_id}" />

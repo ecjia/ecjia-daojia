@@ -60,19 +60,35 @@
 			<div class="panel-body panel-body-small">
 				<ul class="nav nav-pills pull-left">
 					<li class="{if !$smarty.get.type}active{/if}">
-						<a class="data-pjax" href='{RC_Uri::url("goods/merchant/init", "{$get_url}&type=''")}'>{lang key='goods::goods.intro_type'} 
+						<a class="data-pjax" href="{RC_Uri::url('goods/merchant/init')}
+							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+							">
+							{lang key='goods::goods.intro_type'} 
 							<span class="badge badge-info">{$goods_list.filter.count_goods_num}</span>
 						</a>
 					</li>
 					
 					<li class="{if $smarty.get.type eq 1}active{/if}">
-						<a class="data-pjax" href='{RC_Uri::url("goods/merchant/init", "{$get_url}&type=1")}'>{lang key='goods::goods.is_on_saled'}
+						<a class="data-pjax" href='{RC_Uri::url("goods/merchant/init", "type=1
+							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+							")}'>{lang key='goods::goods.is_on_saled'}
 							<span class="badge badge-info use-plugins-num">{$goods_list.filter.count_on_sale}</span>
 						</a>
 					</li>
 					
 					<li class="{if $smarty.get.type eq 2}active{/if}">	
-						<a class="data-pjax" href='{RC_Uri::url("goods/merchant/init", "{$get_url}&type=2")}'>{lang key='goods::goods.not_on_saled'}
+						<a class="data-pjax" href='{RC_Uri::url("goods/merchant/init", "type=2
+							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+							")}'>{lang key='goods::goods.not_on_saled'}
 							<span class="badge badge-info unuse-plugins-num">{$goods_list.filter.count_not_sale}</span>
 						</a>
 					</li>
@@ -97,7 +113,7 @@
 		           	</ul>
 				</div>
 				
-				<form class="form-inline f_l m_l5" action="{RC_Uri::url('goods/merchant/init')}{$get_url}" method="post" name="filter_form">
+				<form class="form-inline f_l m_l5" action="{RC_Uri::url('goods/merchant/init')}{if $smarty.get.type}&type={$smarty.get.type}{/if}" method="post" name="filter_form">
 					<div class="screen f_l">
 						<div class="form-group">
 							<select class="w130" name="review_status">
@@ -112,7 +128,7 @@
 					</div>
 				</form>
 				
-				<form class="form-inline f_r" action="{RC_Uri::url('goods/merchant/init')}{$get_url}" method="post" name="search_form">
+				<form class="form-inline f_r" action="{RC_Uri::url('goods/merchant/init')}" method="post" name="search_form">
 					<div class="screen f_r">
 						<div class="form-group">
 							<select class="w130" name="cat_id">
@@ -142,7 +158,7 @@
 				<section class="panel">
 					<table class="table table-striped table-hover table-hide-edit ecjiaf-tlf">
 						<thead>
-							<tr data-sorthref="{RC_Uri::url('goods/merchant/init')}{$get_url}">
+							<tr data-sorthref='{RC_Uri::url("goods/merchant/init", "{if $smarty.get.type}&type={$smarty.get.type}{/if}")}'>
 								<th class="table_checkbox check-list w30">
 									<div class="check-item">
 										<input id="checkall" type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/>
@@ -205,7 +221,7 @@
 									</span> 
 								</td>
 								<td align="center">
-									<i class="cursor_pointer fa {if $goods.is_on_sale}fa-check {else}fa-times{/if}" data-trigger="toggle_on_sale" data-url="{RC_Uri::url('goods/merchant/toggle_on_sale')}" refresh-url="{RC_Uri::url('goods/merchant/init')}{$get_url}" data-id="{$goods.goods_id}"></i>
+									<i class="cursor_pointer fa {if $goods.is_on_sale}fa-check {else}fa-times{/if}" data-trigger="toggle_on_sale" data-url="{RC_Uri::url('goods/merchant/toggle_on_sale')}" refresh-url="{RC_Uri::url('goods/merchant/init')}" data-id="{$goods.goods_id}"></i>
 								</td>
 								<td align="center">
 									<i class="cursor_pointer fa {if $goods.store_best}fa-check {else}fa-times{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/merchant/toggle_best')}" data-id="{$goods.goods_id}"></i>

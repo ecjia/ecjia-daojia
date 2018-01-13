@@ -176,9 +176,9 @@ class merchant extends ecjia_merchant {
 		$use_storage = ecjia::config('use_storage');
 		$this->assign('use_storage', empty($use_storage) ? 0 : 1);
 		
-		$get_list = !empty($_GET) ? $_GET : '';
-		$get_rul = $this->generate_url($_GET);
-		$this->assign('get_url', $get_rul);
+// 		$get_list = !empty($_GET) ? $_GET : '';
+// 		$get_rul = $this->generate_url($get_list);
+// 		$this->assign('get_url', $get_rul);
 		
 		$goods_list = goods::merchant_goods_list(0, 1);
 		$this->assign('goods_list', $goods_list);
@@ -535,6 +535,14 @@ class merchant extends ecjia_merchant {
 		$brand_id 			= empty($_POST['brand_id']) 		? 0 	: intval($_POST['brand_id']);
 		$merchant_cat_id 	= empty($_POST['merchant_cat_id']) 	? '' 	: intval($_POST['merchant_cat_id']);
 
+		if (empty($cat_id)) {
+			return $this->showmessage('所属平台商品分类不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if (empty($merchant_cat_id)) {
+			return $this->showmessage('请选择店铺商品分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		if (empty($goods_name)) {
 			return $this->showmessage(RC_Lang::get('goods::goods.goods_name_null'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -913,6 +921,11 @@ class merchant extends ecjia_merchant {
 		if ($store_category > 0){
 			$catgory_id = $store_category;
 		}
+		
+		if (empty($merchant_cat_id)) {
+			return $this->showmessage('请选择店铺商品分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		if (empty($goods_name)) {
 			return $this->showmessage(RC_Lang::get('goods::category.goods_name_null'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}

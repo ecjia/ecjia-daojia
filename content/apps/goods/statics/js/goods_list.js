@@ -451,7 +451,7 @@
 						min: "商品库存最小只能为0！"
 					},
 					cat_id: {
-						required: "请选择商品分类！"
+						min: "请选择商品分类！"
 					}
 				},
 				submitHandler: function() {

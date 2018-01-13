@@ -55,6 +55,7 @@ class goods_goods_list_api extends Component_Event_Api {
      * @param  $options['keyword'] 关键字
      *         $options['cat_id'] 分类id
      *         $options['brand_id'] 品牌id
+     *         $options['store_id
      * @return array
      */
 	public function call(&$options) {
@@ -68,7 +69,12 @@ class goods_goods_list_api extends Component_Event_Api {
 			goods_list::get_keywords_where($options['keywords']);
 		}
 		
-	   	$row = goods_list::get_goods_list($options);
+		if ($options['product'] == 1) {
+		    $row = goods_list::get_product_goods_list($options);
+		} else {
+		    $row = goods_list::get_goods_list($options);
+		}
+	   	
 	    return $row;
 	}
 }

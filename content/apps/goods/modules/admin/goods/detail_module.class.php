@@ -62,10 +62,16 @@ class detail_module extends api_admin implements api_interface {
 		}
 
 		$id = $this->requestData('goods_id',0);
-    	if (empty($id)) {
+		$goods_sn = $this->requestData('goods_sn');
+		
+    	if (empty($id) && empty($goods_sn)) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		} else {
+		}
+		if (!empty($id)) {
 			$where['goods_id'] = $id;
+		}
+		if (!empty($goods_sn)) {
+			$where['goods_sn'] = $goods_sn;
 		}
 // 		$where['is_delete'] = 0;
 		$db_goods = RC_Model::model('goods/goods_model');

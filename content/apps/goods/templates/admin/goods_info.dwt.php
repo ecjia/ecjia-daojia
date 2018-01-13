@@ -223,7 +223,7 @@
 																	<!-- {/foreach} -->
 																</select>
 																<div class="f_error">
-																	<label class="cat_id_error ecjiafc-red">{lang key='goods::goods.select_cat_first'}</label>
+																	<label class="cat_id_error ecjiafc-red">{lang key='goods::goods.js_lang.category_id_select'}</label>
 																</div>
 															</div>
 															<label><b>{lang key='goods::goods.select_extend_cat'}</b></label>
