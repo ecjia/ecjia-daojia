@@ -362,6 +362,7 @@ class admin_preaudit extends ecjia_admin {
 					'province'					=> $store['province'],
 					'city'						=> $store['city'],
 					'district'					=> $store['district'],
+					'street'					=> $store['street'],
 					'bank_branch_name'			=> $store['bank_branch_name'],
 					'bank_account_number'		=> $store['bank_account_number'],
 					'bank_address'				=> $store['bank_address'],
