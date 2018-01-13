@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Royalcms' => array($vendorDir . '/royalcms/framework'),
+    'Royalcms\\Component\\NativeSession\\' => array($vendorDir . '/royalcms/native-session'),
     'Royalcms\\Component\\SmartyView\\' => array($vendorDir . '/royalcms/smarty-view'),
     'Royalcms\\Component\\Aliyun\\' => array($vendorDir . '/royalcms/aliyun'),
     'Royalcms\\Component\\Whoops\\' => array($vendorDir . '/royalcms/whoops'),
@@ -39,6 +40,7 @@ return array(
     'Royalcms\\Component\\Omnipay\\' => array($vendorDir . '/royalcms/omnipay'),
     'Royalcms\\Component\\Hashids\\' => array($vendorDir . '/royalcms/hashids'),
     'Royalcms\\Component\\Curl\\' => array($vendorDir . '/royalcms/curl'),
+    'Royalcms\\Component\\Redis\\' => array($vendorDir . '/royalcms/redis'),
     'Royalcms\\Component\\WeChat\\' => array($vendorDir . '/royalcms/wechat'),
     'Royalcms\\Component\\WeChat\\Menu\\' => array($vendorDir . '/royalcms/wechat-menu'),
     'Royalcms\\Component\\WeChat\\User\\' => array($vendorDir . '/royalcms/wechat-user'),
