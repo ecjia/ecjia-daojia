@@ -218,11 +218,6 @@ class admin extends ecjia_admin {
 			return $this->showmessage(RC_Lang::get('user::users.js_languages.credit_line'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
-		/* 注册送积分 */
-		if (ecjia_config::has('register_points')) {
-			change_account_log($_SESSION['user_id'] , 0 , 0 , ecjia::config('register_points'), ecjia::config('register_points'), RC_Lang::get('user::users.register_points'));
-		}
-
 		/* 更新会员的其它信息 */
 		$other['credit_line']	= $credit_line;
 		$other['user_rank']		= $rank;
@@ -264,6 +259,11 @@ class admin extends ecjia_admin {
 						RC_DB::table('reg_extend_info')->insert($data);
 					}
 				}
+			}
+			
+			/* 注册送积分 */
+			if (ecjia_config::has('register_points')) {
+			    change_account_log($user_info['user_id'] , 0 , 0 , ecjia::config('register_points'), ecjia::config('register_points'), RC_Lang::get('user::users.register_points'));
 			}
 			
 			/* 记录管理员操作 */
