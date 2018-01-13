@@ -123,6 +123,10 @@ class merchant extends ecjia_merchant {
 		$goods_id 	= intval($_POST['goods_id']);
 		$price		= $_POST['price'];
 		
+		if (empty($goods_id)) {
+			return $this->showmessage('请选择活动商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
 			RC_DB::table('goods')->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
 		}
@@ -211,6 +215,10 @@ class merchant extends ecjia_merchant {
 		$end_time 		= RC_Time::local_strtotime($_POST['end_time']);
 		$old_goods_id   = intval($_POST['old_goods_id']);
 
+		if (empty($goods_id)) {
+			return $this->showmessage('请选择活动商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		$db = RC_DB::table('goods');
 		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
 			$db->where('store_id', $_SESSION['store_id']);

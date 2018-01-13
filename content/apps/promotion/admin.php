@@ -123,6 +123,10 @@ class admin extends ecjia_admin {
 		$goods_id 	= intval($_POST['goods_id']);
 		$price		= $_POST['price'];
 		
+		if (empty($goods_id)) {
+			return $this->showmessage('请选择活动商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		$time = RC_Time::gmtime();
 		$info = RC_DB::table('goods')
 			->where('is_promote', 1)
@@ -199,6 +203,10 @@ class admin extends ecjia_admin {
 		$start_time 	= RC_Time::local_strtotime($_POST['start_time']);
 		$end_time 		= RC_Time::local_strtotime($_POST['end_time']);
 		$old_goods_id   = intval($_POST['old_goods_id']);
+		
+		if (empty($goods_id)) {
+			return $this->showmessage('请选择活动商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
 		
 		if ($start_time >= $end_time) {
 			return $this->showmessage(RC_Lang::get('promotion::promotion.promotion_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

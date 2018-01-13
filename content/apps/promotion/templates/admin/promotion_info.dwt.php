@@ -39,6 +39,7 @@
 								<option value="{$promotion_info.goods_id}">{$promotion_info.goods_name}</option>
 							<!-- {/if} -->
 						</select>
+						<span class="input-must">{lang key='system::system.require_field'}</span>
 						<span class="help-block">{lang key='promotion::promotion.select_goods_notice'}</span>
 					</div>
 				</div>

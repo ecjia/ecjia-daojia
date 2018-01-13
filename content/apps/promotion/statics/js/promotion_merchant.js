@@ -94,6 +94,7 @@
 						},
 						price : {
 							required : "请填写活动价格",
+							min : '活动价格最低为1分钱'
 						},
 					},
 					submitHandler : function() {
