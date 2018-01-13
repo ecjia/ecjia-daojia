@@ -6,8 +6,8 @@
 			<li class="step-first">
 				<div class="{if $step lt '2'}step-cur{else}step-done{/if}">
 					<div class="step-no">{if $step lt '2'}1{/if}</div>
-					<div class="m_t5">提交订单</div>
-					<div class="m_t5 ecjiafc-blue">{$order_info.add_time}</div>
+					<div class="m_t5">{if $order_info.order_status eq 9}取消订单{else}提交订单{/if}</div>
+					<div class="m_t5 ecjiafc-blue">{if $order_info.order_status eq 9}{$cancel_time}{else}{$order_info.add_time}{/if}</div>
 				</div>
 			</li>
 			<li>

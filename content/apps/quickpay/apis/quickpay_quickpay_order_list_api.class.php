@@ -36,7 +36,10 @@ class quickpay_quickpay_order_list_api extends Component_Event_Api {
 		$size  	  = empty($options['size']) 		? 15 : intval($options['size']);
 		$page 	  = empty($options['page']) 		? 1 : intval($options['page']);
 		
+		$deleted_status = Ecjia\App\Quickpay\Status::DELETED;
+		
 		$db->where('order_type', 'quickpay');
+		$db->where('order_status', '<>', $deleted_status);
 		
 		if (!empty($options['user_id'])) {
 			$db->where('user_id', $options['user_id']);

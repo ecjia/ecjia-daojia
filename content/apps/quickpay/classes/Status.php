@@ -62,6 +62,9 @@ class Status
     
     const UNVERIFICATION = 0;//未核销
     
-    const VERIFICATION   = 1;//已核销
+    const VERIFICATION   = 1;//已核销 
     
+    const CANCELED       = 9;//取消
+    
+    const DELETED        = 99;//删除
 }

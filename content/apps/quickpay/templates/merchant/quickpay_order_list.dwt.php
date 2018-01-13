@@ -35,9 +35,19 @@ ecjia.merchant.order_list.init();
 			<div class='col-lg-12 panel-heading form-inline'>
         		<div class="btn-group form-group">
         			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> 批量操作 <span class="caret"></span></button>
-        			<ul class="dropdown-menu operate_note">
-        				<li><a class="batch-del-btn" data-toggle="ecjiabatch" data-name="order_id" data-idClass=".checkbox:checked" data-url="{url path='quickpay/mh_order/batch'}" data-msg="删除订单将清除该订单的所有信息。您确定要这么做吗？" data-noSelectMsg="请选择您要操作的订单" href="javascript:;"><i class="fa fa-trash-o"></i> 删除</a></li>
+        			<ul class="dropdown-menu">
+        				<li><a  data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='quickpay/mh_order/batch'}&operation=remove" data-msg="删除订单将清除该订单的所有信息。您确定要这么做吗？" data-noSelectMsg="请选择您要操作的订单" href="javascript:;"><i class="fa fa-trash-o"></i> 删除</a></li>
+        				<li><a  data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='quickpay/mh_order/batch'}&operation=cancel" data-msg="你确定要取消这些订单吗？" data-noSelectMsg="请选择您要操作的订单" href="javascript:;"><i class="fa fa-times"></i> 取消</a></li>
                    	</ul>
+        		</div>
+        		
+        		<div class="form-group">
+        			<select class="w100" name='order_status'>
+						<option value="0">{t}订单状态{/t}</option>
+						<!-- {foreach from=$status_list item=list key=key} -->
+						<option value="{$key}" {if $key eq $smarty.get.order_status}selected="selected"{/if}>{$list}</option>
+						<!-- {/foreach} -->
+					</select>
         		</div>
         		
         		<div class="form-group">
@@ -73,13 +83,42 @@ ecjia.merchant.order_list.init();
 		                    <form class="form-horizontal" method="post" name="actionForm" id="actionForm" action='{url path="quickpay/mh_order/order_action"}'>
 		                       <div class="form-group">
 		                           <div class="col-lg-12">
-		                              <textarea id="action_note" class="form-control" id="action_note" name="action_note"></textarea>
+		                              <textarea id="action_note" class="form-control" name="action_note"></textarea>
 		                           </div>
 		                       </div>
 		                      
 		                       <div class="form-group">
 		                          <div class="col-lg-10">
 		                               <button type="submit" id="note_btn" class="btn btn-primary">确认核销</button>
+		                          </div>
+		                       </div>
+		                    </form>
+	                    </div>
+                    </div>
+                </div>
+           </div>
+           
+           <div id="actionmodal_cancle" class="modal fade">
+                <div class="modal-dialog" style="margin-top: 200px;">
+                    <div class="modal-content">
+	                    <div class="modal-header">
+		                    <button data-dismiss="modal" class="close" type="button">×</button>
+		                    <h4 class="modal-title">操作备注</h4>
+	                    </div>
+	                    
+	                    <div class="modal-body">
+	                     <div class="success-msg"></div>
+	                     <div class="error-msg"></div>
+		                    <form class="form-horizontal" method="post" name="actioncancelForm" id="actioncancelForm" action='{url path="quickpay/mh_order/order_action_cancel"}'>
+		                       <div class="form-group">
+		                           <div class="col-lg-12">
+		                              <textarea id="action_cancel_note" class="form-control" name="action_cancel_note"></textarea>
+		                           </div>
+		                       </div>
+		                      
+		                       <div class="form-group">
+		                          <div class="col-lg-10">
+		                               <button type="submit" id="note_btn_cancel" class="btn btn-primary">取消</button>
 		                          </div>
 		                       </div>
 		                    </form>
@@ -103,8 +142,8 @@ ecjia.merchant.order_list.init();
         						<th>购买者信息</th>
         						<th class="w200">买单优惠类型</th>
         						<th class="w200">下单时间</th>
-        						<th class="w100">消费金额</th>
         						<th class="w100">实付金额</th>
+        						<th class="w180">订单状态</th>
         					</tr>
 				        </thead>
 				        <tbody>
@@ -119,10 +158,18 @@ ecjia.merchant.order_list.init();
     						<td class="hide-edit-area">
     							{$order.order_sn}
     							<div class="edit-list">
-    								{if $order.pay_status eq 1 and $order.verification_status neq 1}	
-    									<a href="#actionmodal" data-toggle="modal" order-id="{$order.order_id}" >核销</a>&nbsp;|&nbsp;
-    								{/if}
     								<a target="_blank" href='{url path="quickpay/mh_order/order_info" args="order_id={$order.order_id}"}' title="查看详情">{t}查看详情{/t}</a>
+    								{if $order.order_status eq 0 and $order.pay_status eq 0 and $order.verification_status eq 0}	
+    									|&nbsp;<a href="#actionmodal_cancle" data-toggle="modal" id="modal_cancel" order-id="{$order.order_id}">取消</a>
+    								{/if}
+    								
+    								{if $order.order_status eq 9}	
+    									|&nbsp;<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="你确定要删除该订单吗？" href='{url path="quickpay/mh_order/remove" args="order_id={$order.order_id}"}' title="删除">删除</a>
+    								{/if}
+    							
+    								{if $order.pay_status eq 1 and $order.verification_status neq 1}	
+    									|&nbsp;<a href="#actionmodal" data-toggle="modal" id="modal" order-id="{$order.order_id}">核销</a>
+    								{/if}
     							</div>
     						</td>
     						<td align="left">
@@ -132,8 +179,12 @@ ecjia.merchant.order_list.init();
     							{if $order.activity_type eq 'discount'}价格折扣{elseif $order.activity_type eq 'everyreduced'}每满多少减多少，最高减多少{elseif $order.activity_type eq 'reduced'}满多少减多少{elseif $order.activity_type eq 'normal'}无优惠{/if}
     						</td>
     						<td>{$order.add_time}</td>
-    						<td>{$order.goods_amount}</td>
     						<td>{$order.order_amount}</td>
+    						<td>
+								{if $order.order_status eq 1}已确认{elseif $order.order_status eq 9}<font class="ecjiafc-red">已取消</font>{elseif $order.order_status eq 99}<font class="ecjiafc-red">已删除</font>{else}未确认{/if},
+								{if $order.pay_status eq 1}已付款{else}未付款{/if},
+								{if $order.verification_status eq 1}已核销{else}未核销{/if}
+							</td>
     					</tr>
     					<!-- {foreachelse}-->
     					<tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>

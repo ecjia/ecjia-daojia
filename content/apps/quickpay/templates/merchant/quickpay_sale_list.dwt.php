@@ -17,7 +17,7 @@
 
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-	<strong>温馨提示：</strong>没有完成的订单不计入销售明细。
+	<strong>温馨提示：</strong>只有已付款的订单才计入销售明细。
 </div>
 
 <div class="page-header">

@@ -114,7 +114,7 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 			'pay_status'      => Ecjia\App\Quickpay\Status::PAID,
 			'pay_time'        => RC_Time::gmtime(),
 			'order_amount'    => 0,
-			'surplus'         => $order_info['order_amount'],
+			'surplus'         => sprintf("%.2f", $order_info['order_amount']),
 		);
 		
 		/*更新订单状态及信息*/

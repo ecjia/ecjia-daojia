@@ -297,6 +297,9 @@ class quickpay_activity {
 		} elseif (($order_status == Ecjia\App\Quickpay\Status::CONFIRMED) && ($pay_status == Ecjia\App\Quickpay\Status::PAID) && ($verification_status == Ecjia\App\Quickpay\Status::VERIFICATION)) {
 			$order_status_str = 'succeed';
 			$label_order_status = '买单成功';
+		} elseif (($order_status == Ecjia\App\Quickpay\Status::CANCELED) && ($pay_status == Ecjia\App\Quickpay\Status::UNPAID) && ($verification_status == Ecjia\App\Quickpay\Status::UNVERIFICATION)){
+			$order_status_str = 'canceled';
+			$label_order_status = '已取消';
 		}
 		return array('order_status_str' => $order_status_str, 'label_order_status' => $label_order_status);
 	}

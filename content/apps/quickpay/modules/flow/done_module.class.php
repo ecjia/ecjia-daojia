@@ -94,7 +94,7 @@ class done_module extends api_front implements api_interface {
 		if (empty($goods_amount) || empty($store_id)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
 		}
-    	
+		$goods_amount = sprintf("%.2f", $goods_amount);
     	/*商家买单功能是否开启*/
 		$quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->pluck('value');
 		if (empty($quickpay_enabled)) {

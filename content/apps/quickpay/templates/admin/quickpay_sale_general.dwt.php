@@ -16,7 +16,7 @@ var templateCounts = '{$data}';
 <!-- {block name="main_content"} -->
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>温馨提示：</strong>没有完成的订单不计入订单统计。
+	<strong>温馨提示：</strong>只有已付款的订单才计入订单统计。
 </div>
 <div>
 	<h3 class="heading">

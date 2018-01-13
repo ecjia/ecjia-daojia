@@ -47,25 +47,65 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 买单订单管理语言文件
+ * 买单订单删除
+ * @author zrl
+ *
  */
-return array(
-	/* 订单状态 */
-	'os' => array(
-		0 	=> '未确认',
-		1 	=> '已确认',
-		9   => '已取消',
-		99  => '已删除'
-	),	
-	'ps' => array(
-		0 	=> '未付款',
-		1 	=> '已付款',
-	),
-	'vs' => array(
-		0 	=> '未核销',
-		1 	=> '已核销',
+class delete_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    	//如果用户登录获取其session
+    	$this->authSession();
+		$user_id = $_SESSION['user_id'];
+		if ($user_id < 1) {
+			return new ecjia_error(100, 'Invalid session');
+		}
+		
+		$user_id 		= $_SESSION['user_id'];
+		$order_id		= $this->requestData('order_id', 0);
+		
+		if ( $order_id <= 0) {
+			return new ecjia_error('invalid_parameter', '参数错误！');
+		}
 	
-	),
-);
+		$options = array('order_id' => $order_id);
+		$order_info = RC_Api::api('quickpay', 'quickpay_order_info', $options);
+		if (is_ecjia_error($order_info)) {
+			return $order_info;
+		}
+		
+		if (empty($order_info)) {
+			return new ecjia_error('not_exist_info', '订单信息不存在！');
+		}
+		
+		$pay_status = Ecjia\App\Quickpay\Status::UNPAID;
+		$order_status = Ecjia\App\Quickpay\Status::CANCELED;
+		$verification_status = Ecjia\App\Quickpay\Status::UNVERIFICATION;
+		
+		if (($order_info['order_status'] != $pay_status) && ($order_info['pay_status'] != $pay_status) && $order_info['verification_status'] != $verification_status) {
+			return new ecjia_error('not_support_cancel', '当前订单不支持删除！');
+		}
+		
+		$arr = array(
+				'order_status' 			=> Ecjia\App\Quickpay\Status::DELETED,
+		);
+		
+		RC_DB::table('quickpay_orders')->where('order_id', $order_id)->update($arr);
+		
+		/* 记录log */
+		RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
+		$data = array(
+				'order_id' 			=> $order_id,
+				'action_user_id'	=> $order_info['user_id'],
+				'action_user_name' 	=> $order_info['user_name'],
+				'action_user_type'	=> 'user',
+				'order_status' 		=> Ecjia\App\Quickpay\Status::DELETED,
+				'pay_status' 		=> $pay_status,
+				'action_note' 		=> ''
+		);
+		quickpay_activity::quickpay_order_action($data);
+	
+		return array();
+	}
+}
 
 // end

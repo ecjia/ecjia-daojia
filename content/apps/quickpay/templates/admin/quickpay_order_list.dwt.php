@@ -25,23 +25,24 @@
 
 <div class="row-fluid batch" >
 	<form action="{$search_action}{if $filter.type}&type={$filter.type}{/if}" name="searchForm" method="post" >
-		<div class="btn-group f_l m_r5">
-			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>批量操作
-				<span class="caret"></span>
-			</a>
-			<ul class="dropdown-menu">
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='quickpay/admin_order/batch'}" data-msg="您确实要删除选中的订单吗？" data-noSelectMsg="请先选中要删除的订单！" data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>删除</a></li>
-			</ul>
+		<div class="f_l m_r5">
+			<select class="w100" name="order_status">
+				<option value="0">订单状态</option>
+				<!-- {foreach from=$status_list item=list key=key} -->
+				<option value="{$key}" {if $key eq $smarty.get.order_status}selected="selected"{/if}>{$list}</option>
+				<!-- {/foreach} -->
+			</select>
 		</div>
 		
-		<select class="w200" name="activity_type">
-			<option value="0">买单优惠类型</option>
-			<!-- {foreach from=$type_list item=list key=key} -->
-			<option value="{$key}" {if $key eq $smarty.get.activity_type}selected="selected"{/if}>{$list}</option>
-			<!-- {/foreach} -->
-		</select>
-		<a class="btn m_l5 screen-btn">筛选</a>
+		<div class="f_l m_r5">
+			<select class="w200" name="activity_type">
+				<option value="0">买单优惠类型</option>
+				<!-- {foreach from=$type_list item=list key=key} -->
+				<option value="{$key}" {if $key eq $smarty.get.activity_type}selected="selected"{/if}>{$list}</option>
+				<!-- {/foreach} -->
+			</select>
+		</div>
+		<a class="btn screen-btn">筛选</a>
 		
 		<div class="choose_list f_r" >
 			<input type="text" name="merchant_keywords" value="{$order_list.filter.merchant_keywords}" placeholder="请输入商家名称"/> 
@@ -57,20 +58,18 @@
 			<table class="table table-striped table-hide-edit">
 				<thead>
 					<tr>
-						<th class="table_checkbox"><input type="checkbox" data-toggle="selectall" data-children=".checkbox" /></th>
 						<th class="w100">订单号</th>
 						<th class="w120">商家名称</th>
 						<th>购买者信息</th>
 						<th class="w150">买单优惠类型</th>
 						<th class="w150">下单时间</th>
-						<th class="w100">消费金额</th>
-						<th class="w100">实付金额</th>
+						<th class="w80">实付金额</th>
+						<th class="w200">订单状态</th>
 					</tr>
 				</thead>
 				<tbody>
 					<!-- {foreach from=$order_list.list item=order key=okey} -->
 					<tr>
-						<td><input type="checkbox" class="checkbox" name="order_id[]"  value="{$order.order_id}" /></td>
 						<td class="hide-edit-area">
 							{$order.order_sn}
 							<div class="edit-list"><a href='{url path="quickpay/admin_order/order_info" args="order_id={$order.order_id}"}' class="data-pjax" title="查看详情">查看详情</a></div>
@@ -81,8 +80,12 @@
 						<td>{$order.user_name} [TEL：{$order.user_mobile}]</td>
 						<td>{if $order.activity_type eq 'discount'}价格折扣{elseif $order.activity_type eq 'everyreduced'}每满多少减多少，最高减多少{elseif $order.activity_type eq 'reduced'}满多少减多少{elseif $order.activity_type eq 'normal'}无优惠{/if}</td>
 						<td>{$order.add_time}</td>
-						<td>{$order.goods_amount}</td>
 						<td>{$order.order_amount}</td>
+						<td>
+							{if $order.order_status eq 1}已确认{elseif $order.order_status eq 9}<font class="ecjiafc-red">已取消</font>{elseif $order.order_status eq 99}<font class="ecjiafc-red">已删除</font>{else}未确认{/if},
+							{if $order.pay_status eq 1}已付款{else}未付款{/if},
+							{if $order.verification_status eq 1}已核销{else}未核销{/if}
+						</td>
 					</tr>
 					<!-- {foreachelse}-->
 					<tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>

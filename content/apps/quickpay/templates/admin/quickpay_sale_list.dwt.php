@@ -26,7 +26,7 @@
 
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>温馨提示：</strong>没有完成的订单不计入销售明细。
+	<strong>温馨提示：</strong>只有已付款的订单才计入销售明细。
 </div>
 
 <div>

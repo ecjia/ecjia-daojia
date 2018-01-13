@@ -73,22 +73,13 @@ class admin_sale_general extends ecjia_admin {
         
         RC_Style::enqueue_style('admin_order', RC_App::apps_url('statics/css/admin_order.css', __FILE__));
 
-//         $data_count = RC_DB::table('quickpay_orders')
-//         ->selectRaw("COUNT(DISTINCT order_sn) AS order_count,
-//         		SUM(goods_amount) AS goods_amount,
-//         		SUM(order_amount) AS order_amount,
-//         		SUM(goods_amount - order_amount) AS favorable_amount")
-//                 		->where('pay_time','<>','0')
-//                 		->first();
-
         $data_count = RC_DB::table('quickpay_orders')
         		->select(RC_DB::raw('COUNT(DISTINCT order_sn) AS order_count'),
         		RC_DB::raw('SUM(goods_amount) AS goods_amount'),
         		RC_DB::raw('SUM(IF(pay_code = "pay_balance", surplus, order_amount)) AS order_amount'),
         		RC_DB::raw('SUM(goods_amount - (IF(pay_code = "pay_balance", surplus, order_amount))) AS favorable_amount'))
-        		->where('pay_time','<>','0')
+        		->where('pay_status',1)
         		->first();
-
         $this->assign('data_count', $data_count);
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单管理', RC_Uri::url('quickpay/admin_order/init')));
     }

@@ -113,6 +113,7 @@ class admin_sale_list extends ecjia_admin {
 				SUM(order_amount + surplus) AS order_amount,
 				SUM(goods_amount - order_amount -surplus) AS favorable_amount")
 		->groupby('period')
+		->orderby('period', 'desc')
 		->get();
 
 		$filename = mb_convert_encoding('平台买单销售明细报表' . '_' . $_GET['start_date'] . '至' . $_GET['end_date'], "GBK", "UTF-8");
@@ -184,6 +185,7 @@ class admin_sale_list extends ecjia_admin {
 				SUM(order_amount + surplus) AS order_amount, 
 				SUM(goods_amount - order_amount -surplus) AS favorable_amount")
 		->groupby('period')
+		->orderby('period', 'desc')
 		->get();
 		
 		$filter['start_date'] = RC_Time::local_date('Y-m-d', $start);

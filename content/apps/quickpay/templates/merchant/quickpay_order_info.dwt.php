@@ -16,6 +16,10 @@ ecjia.merchant.order_info.init();
 		<h2><!-- {if $ur_here}{$ur_here}{/if} --></h2>
   	</div>
   	<div class="pull-right">
+  		{if $order_info.order_status eq 9}
+  		 <a class="ajaxremove" data-toggle="ajaxremove" data-msg="删除订单将清楚该订单的所有信息。您确定要这么做吗？" href='{url path="quickpay/mh_order/remove" args="order_id={$order_info.order_id}"}' title="删除订单"><button type="button" class="btn btn-primary">删除订单</button></a>
+  		{/if}
+  		
   		{if $action_link}
 		<a href="{$action_link.href}" class="btn btn-primary data-pjax">
 			<i class="fa fa-reply"></i> {$action_link.text}
@@ -26,17 +30,16 @@ ecjia.merchant.order_info.init();
 </div>
 
 <!-- #BeginLibraryItem "/library/quickpay_order_step.lbi" --><!-- #EndLibraryItem -->
-
+{if $has_payed eq 1}
 <div class="row">
 	<div class="col-lg-12 panel-heading form-inline">
 		<div class="form-group"><h3>订单号：{$order_info.order_sn}</h3></div>
 		<div class="form-group pull-right">
-			{if $has_payed eq 1}
      		<button type="button" class="btn btn-primary toggle_view" data-href='{url path="quickpay/mh_print/init" args="order_id={$order_info.order_id}"}'>小票打印</button>
-     		{/if}
 		</div>
 	</div>
 </div>
+{/if}
 
 <div class="row-fluid">
 	<div class="span12">
@@ -153,7 +156,10 @@ ecjia.merchant.order_info.init();
 				</table>
             </div>
 		</div>
-		<div class="accordion-group panel panel-default">
+		
+		<!-- 需要核销 -->
+        {if $order_info.pay_status eq 1 and $order_info.verification_status neq 1}
+        <div class="accordion-group panel panel-default">
 			<div class="panel-heading">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
                     <h4 class="panel-title">
@@ -171,13 +177,42 @@ ecjia.merchant.order_info.init();
 						<tr>
 							<td><div align="right"><strong>当前可执行操作：</strong></div></td>
 							<td colspan="3">
-								{if $order_info.pay_status eq 1 and $order_info.verification_status neq 1}
-									<a class="change_status" data-href='{url path="quickpay/mh_order/order_action"}'>
-										<button class="btn operatesubmit btn-info" type="button">确认核销</button>
-									</a>
-								{else}
-									<button class="btn operatesubmit btn-info" type="button" disabled="disabled">确认核销</button>
-								{/if}
+								<a class="change_status" data-href='{url path="quickpay/mh_order/order_action"}'>
+									<button class="btn operatesubmit btn-info" type="button">确认核销</button>
+								</a>
+								<input type="hidden" value="{$order_info.order_id}" name="order_id">
+								<input type="hidden" value="type_info" name="type_info">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+            </div>
+        </div>
+        {/if}
+		
+        <!-- 需要取消 -->
+        {if $order_info.order_status eq 0 and $order_info.pay_status eq 0 and $order_info.verification_status eq 0}
+        <div class="accordion-group panel panel-default">
+			<div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
+                    <h4 class="panel-title">
+                        <strong>{t}订单操作{/t}</strong>
+                    </h4>
+                </a>
+            </div>
+            <div class="accordion-body in collapse " id="collapseEight">
+            	<table class="table table-oddtd m_b0">
+					<tbody class="first-td-no-leftbd">
+						<tr>
+							<td width="15%"><div align="right"><span class="input-must">*</span> <strong>{lang key='orders::order.label_action_note'}</strong></div></td>
+							<td colspan="3"><textarea name="action_note" class="span12 action_note form-control" cols="60" rows="3"></textarea></td>
+						</tr>
+						<tr>
+							<td><div align="right"><strong>当前可执行操作：</strong></div></td>
+							<td colspan="3">
+								<a class="change_status" data-href='{url path="quickpay/mh_order/order_action_cancel"}'>
+									<button class="btn operatesubmit btn-info" type="button">取消</button>
+								</a>
 								<input type="hidden" value="{$order_info.order_id}" name="order_id">
 								<input type="hidden" value="type_info" name="type_info">
 							</td>
@@ -186,6 +221,8 @@ ecjia.merchant.order_info.init();
 				</table>
             </div>
 		</div>
+        {/if}
+        
 	</div>
 </div>
 <!-- {/block} -->
