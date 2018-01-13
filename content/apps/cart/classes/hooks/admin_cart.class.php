@@ -49,6 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class flow_hooks {
 	/**
 	 * 清除购物车中过期的数据
+	 * @deprecated 1.12.0 已经废弃了
 	 */
 	public static function clear_cart() {
 	    $lasttime = RC_Cache::app_cache_get('clean_cart_session', 'cart');
