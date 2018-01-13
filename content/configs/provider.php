@@ -67,6 +67,7 @@ return array(
     'Royalcms\Component\Shoppingcart\ShoppingcartServiceProvider',
     'Royalcms\Component\Printer\PrinterServiceProvider',
     'Royalcms\Component\Image\ImageServiceProvider',
+    'Royalcms\Component\Redis\RedisServiceProvider',
     
     'Ecjia\System\Providers\SystemServiceProvider',
     'Ecjia\App\Setting\SettingServiceProvider',
