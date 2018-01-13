@@ -52,15 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class admin extends ecjia_admin
 {
-    private $db_sms_sendlist;
-
     public function __construct()
     {
         parent::__construct();
 
         Ecjia\App\Sms\Helper::assign_adminlog_content();
-
-        $this->db_sms_sendlist = RC_Model::model('sms/sms_sendlist_model');
 
         /* 加载全局 js/css */
         RC_Script::enqueue_script('jquery-validate');
@@ -81,67 +77,6 @@ class admin extends ecjia_admin
         RC_Style::enqueue_style('hint.min', RC_Uri::admin_url('statics/lib/hint_css/hint.min.css'));
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_record_list'), RC_Uri::url('sms/admin/init')));
-    }
-
-    /**
-     * 发送短信页面
-     */
-    public function display_send_ui()
-    {
-        $this->admin_priv('sms_send_manage');
-
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.send_sms')));
-        $this->assign('action_link', array('text' => RC_Lang::get('sms::sms.sms_record_list'), 'href' => RC_Uri::url('sms/admin/init')));
-        $this->assign('ur_here', RC_Lang::get('sms::sms.send_sms'));
-
-        $special_ranks    = RC_Model::Model('sms/sms_user_rank_model')->get_rank_list();
-        $send_rank['1_0'] = RC_Lang::get('sms::sms.user_list');
-
-        foreach ($special_ranks as $rank_key => $rank_value) {
-            $send_rank['2_' . $rank_key] = $rank_value;
-        }
-        $this->assign('send_rank', $send_rank);
-        $this->assign('form_action', RC_Uri::url('sms/admin/send_sms'));
-
-        $this->display('sms_send.dwt');
-    }
-
-    /**
-     * 发送短信处理
-     */
-    public function send_sms()
-    {
-        $send_num = isset($_POST['send_num']) ? $_POST['send_num'] : '';
-
-        if (isset($send_num)) {
-            $phone = $send_num . ',';
-        }
-        $send_rank = isset($_POST['send_rank']) ? $_POST['send_rank'] : 0;
-
-        if ($send_rank != 0) {
-            $rank_array = explode('_', $send_rank);
-            if ($rank_array['0'] == 1) {
-                $data = RC_DB::table('users')->where('mobile_phone', '!=', '')->select('mobile_phone')->get();
-
-                if (!empty($data)) {
-                    foreach ($data as $rank_rs) {
-                        $value[] = $rank_rs['mobile_phone'];
-                    }
-                }
-            } else {
-                $rank_row = RC_DB::table('user_rank')->where('rank_id', $rank_array['1'])->first();
-
-                foreach ($data as $rank_rs) {
-                    $value[] = $rank_rs['mobile_phone'];
-                }
-            }
-            if (isset($value)) {
-                $phone .= implode(',', $value);
-            }
-        }
-        $msg       = isset($_POST['msg']) ? $_POST['msg'] : '';
-        $send_date = isset($_POST['send_date']) ? $_POST['send_date'] : '';
-        $link[]    = array('text' => RC_Lang::get('system::system.back') . RC_Lang::get('sms::sms.sms_record'), 'href' => 'index.php?m=admincp&c=admin&a=display_send_ui');
     }
 
     /**
@@ -167,7 +102,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('text' => RC_Lang::get('sms::sms.add_sms_send'), 'href' => RC_Uri::url('sms/admin/display_send_ui')));
         $this->assign('ur_here', RC_Lang::get('sms::sms.sms_record_list'));
 
-        $listdb = $this->db_sms_sendlist->get_sendlist();
+        $listdb = $this->get_sendlist();
         $this->assign('listdb', $listdb);
 
         $this->assign('search_action', RC_Uri::url('sms/admin/init'));
@@ -210,6 +145,85 @@ class admin extends ecjia_admin
         } else {
             return $this->showmessage(RC_Lang::get('sms::sms.batch_send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
         }
+    }
+    
+    /**
+     * 获取短信发送记录列表
+     */
+   	private function get_sendlist() {
+    	$start_date	= empty($_GET['start_date'])	? '' : RC_Time::local_strtotime($_GET['start_date']);
+    	$end_date	= empty($_GET['end_date']) 		? '' : RC_Time::local_strtotime($_GET['end_date']);
+    	$keywords	= empty($_GET['keywords']) 		? '' : trim($_GET['keywords']);
+    	 
+    	$where = array();
+    	$filter['keywords']   = $keywords;
+    	$filter['start_date'] = $start_date;
+    	$filter['end_date']   = $end_date;
+    	$filter['errorval']   = empty($_GET['errorval']) ? 0 : intval($_GET['errorval']);
+    	 
+    	$db_sms_sendlist = RC_DB::table('sms_sendlist');
+    	 
+    	if ($filter['keywords']) {
+    		$db_sms_sendlist->where(function($query) use ($keywords) {
+    			$query->where('mobile', 'like', '%'.mysql_like_quote($keywords).'%')->orWhere('sms_content', 'like', '%'.mysql_like_quote($keywords).'%');
+    		});
+    	}
+    
+    	if ($filter['start_date'] ) {
+    		$db_sms_sendlist->where('last_send', '>=', $start_date);
+    	}
+    
+    	if ($filter['end_date']) {
+    		$db_sms_sendlist->where('last_send', '<=', $end_date);
+    	}
+    	 
+    	$msg_count = $db_sms_sendlist->select(RC_DB::raw('count(*) AS count, SUM(IF(error > 0, 1, 0)) AS faild, SUM(IF(error = 0, 1, 0)) AS success, SUM(IF(error < 0, 1, 0)) AS wait'))
+    	->first();
+    
+    	$msg_count = array(
+    			'count'		=> empty($msg_count['count']) 	? 0 : $msg_count['count'],
+    			'faild'	    => empty($msg_count['faild']) 	? 0 : $msg_count['faild'],
+    			'success'	=> empty($msg_count['success']) ? 0 : $msg_count['success'],
+    			'wait'	    => empty($msg_count['wait']) 	? 0 : $msg_count['wait']
+    	);
+    	 
+    	//待发送
+    	if ($filter['errorval'] == 1) {
+    		$where['error'] = -1;
+    		 
+    		$db_sms_sendlist->where('error', '=', -1);
+    	}
+    
+    	//发送成功
+    	if ($filter['errorval'] == 2) {
+    		$where['error'] = 0;
+    		 
+    		$db_sms_sendlist->where('error', '=', 0);
+    	}
+    
+    	//发送失败
+    	if ($filter['errorval'] == 3) {
+    		$where['error'] = array('gt' => 0);
+    		 
+    		$db_sms_sendlist->where('error', '>', 0);
+    	}
+    
+    	$count = $db_sms_sendlist->count();
+    	$page = new ecjia_page($count, 15, 6);
+    	 
+    	$row = $db_sms_sendlist->select('*')->orderby('last_send', 'desc')->take(15)->skip($page->start_id-1)->get();
+    
+    	if (!empty($row)) {
+    		foreach ($row AS $key => $val) {
+    			$row[$key]['last_send'] = RC_Time::local_date(ecjia::config('time_format'), $val['last_send']);
+    			$row[$key]['channel_name'] = RC_DB::TABLE('notification_channels')->where('channel_code', $val['channel_code'])->pluck('channel_name');
+    		}
+    	}
+    
+    	$filter['start_date'] = RC_Time::local_date(ecjia::config('date_format'), $filter['start_date']);
+    	$filter['end_date']   = RC_Time::local_date(ecjia::config('date_format'), $filter['end_date']);
+    	 
+    	return array('item' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'msg_count' => $msg_count);
     }
 }
 

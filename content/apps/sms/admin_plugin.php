@@ -52,8 +52,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class admin_plugin extends ecjia_admin
 {
-    private $sms_method;
-
     public function __construct()
     {
         parent::__construct();
@@ -69,8 +67,6 @@ class admin_plugin extends ecjia_admin
 
         RC_Script::enqueue_script('sms_channel', RC_App::apps_url('statics/js/sms_channel.js', __FILE__));
         RC_Script::localize_script('sms_channel', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
-
-        $this->sms_method = RC_Package::package('app::sms')->loadClass('sms_method');
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_channel'), RC_Uri::url('sms/admin_plugin/init')));
         ecjia_screen::get_current_screen()->set_parentage('sms', 'sms/admin_plugin.php');
@@ -143,9 +139,7 @@ class admin_plugin extends ecjia_admin
                     $code_list[$value['name']] = $value['value'];
                 }
             }
-            $sms_handle = $this->sms_method->pluginInstance($channel_code);
-
-            $sms_config_file                = $sms_handle->loadConfig();
+            $sms_handle = with(new Ecjia\App\Sms\SmsPlugin)->channel($channel_code);
             $channel_info['channel_config'] = $sms_handle->makeFormData($code_list);
         }
         $this->assign('channel', $channel_info);

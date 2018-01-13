@@ -151,6 +151,8 @@ class SmsManager extends Object
                 return new ecjia_error('sms_template_not_exist', __('短信模板不存在'));
             }
             
+            $template_var = $this->matchTemplateVar($template['template_content'], $template_var);
+            
             $handler->setContent($template['template_content']);
             $handler->setContentByCustomVar($template_var);
             $handler->setTemplateVar($template_var);
@@ -175,6 +177,22 @@ class SmsManager extends Object
             
             return true;
         }
+    }
+    
+    /**
+     * 匹配模板内容中的变量
+     * @param string $content
+     * @param array $template_var
+     */
+    protected function matchTemplateVar($content, $template_var)
+    {
+        $matchs = [];
+        preg_match_all('|\${(.*)}|U', $content, $matchs);
+        $variable = $matchs[1];
+        foreach ($template_var as $key => $var) {
+            if (!in_array($key, $variable)) unset($template_var[$key]);
+        }
+        return $template_var;
     }
     
     /**

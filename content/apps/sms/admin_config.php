@@ -110,24 +110,6 @@ class admin_config extends ecjia_admin
         ecjia_admin::admin_log(RC_Lang::get('sms::sms.set_config'), 'setup', 'sms_config');
         return $this->showmessage(RC_Lang::get('sms::sms.update_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_config/init')));
     }
-
-    /**
-     * 查询账户余额
-     */
-    public function check_balance()
-    {
-        $this->admin_priv('auction_manage', ecjia::MSGTYPE_JSON);
-
-        RC_Loader::load_app_class('sms_send', 'sms');
-        $balance = sms_send::make()->check_balance();
-
-        if (is_ecjia_error($balance)) {
-            return $this->showmessage($balance->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        } else {
-            $balance_label = sprintf(RC_Lang::get('sms::sms.surplus'), "<strong>{$balance}</strong>");
-            return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $balance_label));
-        }
-    }
 }
 
 //end
