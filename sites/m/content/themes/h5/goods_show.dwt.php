@@ -301,7 +301,7 @@ var releated_goods = {$releated_goods};
         </div>
         {/if}
     </div>
-    <a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$goods_info.seller_id}" data-address="{$address_id}" data-rec="{$data_rec}" href="javascript:;">{if $count.meet_min_amount eq 1}去结算{else}还差{$count.label_short_amount}起送{/if}</a>
+    <a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$goods_info.seller_id}" data-address="{$address_id}" data-rec="{$data_rec}" href="javascript:;">{if $count.meet_min_amount eq 1 || !$count.label_short_amount}去结算{else}还差{$count.label_short_amount}起送{/if}</a>
     <div class="minicart-content" style="transform: translateY(0px); display: block;">
         <a href="javascript:void 0;" class="a4x {if $count.goods_number}light{else}disabled{/if} incartcontent show_cart" show="false">
             {if $real_count.goods_number}

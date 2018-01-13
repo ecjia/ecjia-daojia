@@ -197,7 +197,7 @@
 								$('.store-add-cart').removeClass('active');
 								$('.store-add-cart').children('.a4x').removeClass('light').addClass('disabled').children('.a4y').remove();
 								$('.store-add-cart').children('.a4z').children('div').addClass('a50').html('购物车是空的');
-								$('.store-add-cart').children('.a51').addClass('disabled');
+								$('.store-add-cart').children('.a51').addClass('disabled').html('去结算');
 								ecjia.touch.category.hide_cart(true);
 							}
 							$('#goods_' + goods_id).children('.reduce').removeClass('show').addClass('hide');
@@ -475,7 +475,7 @@
 					}
 
 					if (data.count.goods_number == 0) {
-						$('.a51').addClass('disabled');
+						$('.a51').addClass('disabled').html('去结算');
 					} else {
 						$('.a51').removeClass('disabled');
 						//隐藏加入购物车按钮 显示加减按钮
@@ -518,7 +518,7 @@
 				
 				if (data.count != undefined) {
 					var count = data.count;
-					if (count.meet_min_amount == 1) {
+					if (count.meet_min_amount == 1 || !count.label_short_amount) {
 						$('.check_cart').removeClass('disabled').html('去结算');
 					} else {
 						$('.check_cart').addClass('disabled').html('还差'+ count.label_short_amount +'起送');
@@ -567,7 +567,7 @@
 				$('.store-add-cart').children('.a4x').addClass('disabled').addClass('outcartcontent').removeClass('light').removeClass('incartcontent');
 				$('.minicart-content').children('.a4x').removeClass('light').addClass('disabled');
 				$('.store-add-cart').children('.a4z').children('div').addClass('a50').html('购物车是空的');
-				$('.store-add-cart').children('.a51').addClass('disabled');
+				$('.store-add-cart').children('.a51').addClass('disabled').html('去结算');;
 				$('.minicart-goods-list').html('');
 			}
 			//启用用滚动条
