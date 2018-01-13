@@ -54,11 +54,11 @@
 	                                <input id="template_1" type="radio" name="shop_template" value="default1" {if $shop_template eq 'default1'} checked{/if}/>
 	                                <label for="template_1">普通商城类模版<span class="help-block">适用于普通电商购物</span></label>
                                 </div>
-                                <div class="f_l m_l132">
+                                <div class="f_l m_l130">
 	                                <input id="template_2" type="radio" name="shop_template" value="default2" {if $shop_template eq 'default2'} checked{/if}/>
 	                                <label for="template_2">外卖类模版<span class="help-block">适用于同城餐饮外卖</span></label>
                                 </div>
-                                <div class="f_l m_l136">
+                                <div class="f_l m_l140">
 	                                <input id="template_3" type="radio" name="shop_template" value="default3" {if $shop_template eq 'default3'} checked{/if}/>
 	                                <label for="template_3">自助购物模版<span class="help-block">适用于自助买单、到店消费</span></label>
                                 </div>
