@@ -113,7 +113,11 @@ class user_order_controller {
                 ecjia_front::$controller->assign_title('订单详情');
                 ecjia_front::$controller->assign_lang();
             }
-            ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
+            if ($data['order_mode'] == 'storebuy') {
+            	ecjia_front::$controller->display('user_order_storebuy_detail.dwt', $cache_id);
+            } else {
+            	ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
+            }
         } else {
             if (!ecjia_front::$controller->is_cached('user_order_status.dwt', $cache_id)) {
             

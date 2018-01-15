@@ -84,7 +84,7 @@ class article_controller {
         		preg_match('/<body>([\s\S]*?)<\/body>/', $data, $res);
         		$bodystr = trim($res[0]);
         		if ($bodystr != '<body></body>') {
-        			ecjia_front::$controller->assign('data', $bodystr);
+        			ecjia_front::$controller->assign('data', stripslashes($bodystr));
         		}
         	}
         	ecjia_front::$controller->assign_title($title);
@@ -107,7 +107,7 @@ class article_controller {
         		preg_match('/<body>([\s\S]*?)<\/body>/', $shop_detail, $res);
         		$bodystr = trim($res[0]);
         		if ($bodystr != '<body></body>') {
-        			ecjia_front::$controller->assign('data', $bodystr);
+        			ecjia_front::$controller->assign('data', stripslashes($bodystr));
         		}
         	}
         	ecjia_front::$controller->assign('title', $title);
@@ -174,7 +174,7 @@ class article_controller {
     		preg_match('/<body>([\s\S]*?)<\/body>/', $data['content'], $res);
     		$bodystr = trim($res[0]);
     		if ($bodystr != '<body></body>') {
-    			ecjia_front::$controller->assign('content', $bodystr);
+    			ecjia_front::$controller->assign('content', stripslashes($bodystr));
     		}
     		ecjia_front::$controller->assign('data', $data);
     	}

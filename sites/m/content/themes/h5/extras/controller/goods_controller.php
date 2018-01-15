@@ -270,7 +270,7 @@ class goods_controller {
 	    	preg_match('/<body>([\s\S]*?)<\/body>/', $goods_desc, $res);
 	    	$bodystr = trim($res[0]);
 	    	if ($bodystr != '<body></body>') {
-	    		ecjia_front::$controller->assign('goods_desc', $bodystr);
+	    		ecjia_front::$controller->assign('goods_desc', stripslashes($bodystr));
 	    	}
 	    }
 	    

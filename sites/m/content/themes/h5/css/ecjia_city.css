@@ -6414,6 +6414,14 @@ footer {
 	padding: 0 1em;
 }
 
+.ecjia-order-list .ecjia-order-item .ecjiaf-order-status {
+	background-color: #f4a12e;
+    color: #fff;
+    border-radius: 10px 0 10px 0;
+    font-size: .8em;
+    padding: .2em.5em;
+}
+
 .order-hd i {
 	font-size: 1.5em;
 	margin-right: .5em;
@@ -6533,6 +6541,14 @@ footer {
 /*========================  订单详情 ===========================*/
 .ecjia-order-detail .order-hd {
 	background-color: #fff;
+}
+
+.ecjia-order-detail .order-hd .ecjiaf-order-status {
+	background-color: #f4a12e;
+    color: #fff;
+    border-radius: 10px 0 10px 0;
+    font-size: .8em;
+    padding: .2em.5em;
 }
 
 .ecjia-order-detail .goods-item {
