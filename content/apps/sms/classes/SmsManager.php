@@ -104,9 +104,9 @@ class SmsManager extends Object
         $messages = [
             'required'  => __('手机号不能为空'),
             'regex'     => __('必须输入合法的手机号'),
-            ];
+        ];
         $validator = RC_Validator::make(array('mobile' => $mobile), [
-            'mobile'     => 'required|regex:/^1[34578][0-9]{9}$/',
+            'mobile'     => 'required|regex:/^1[3456789][0-9]{9}$/',
         ], $messages);
         if ($validator->fails()) {
             $errors = $validator->errors();
