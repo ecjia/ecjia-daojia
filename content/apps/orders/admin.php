@@ -115,7 +115,7 @@ class admin extends ecjia_admin {
 		
 		$order_query = RC_Loader::load_app_class('order_query', 'orders');
 		$order_list = $order_query->get_order_list();
-    
+    	
 		/* 模板赋值 */
 		$this->assign('ur_here', 		RC_Lang::get('system::system.02_order_list'));
 		$this->assign('action_link', 	array('href' => RC_Uri::url('orders/admin/order_query'), 'text' => RC_Lang::get('system::system.03_order_query')));
@@ -150,6 +150,12 @@ class admin extends ecjia_admin {
 		}
 		if (empty($order)) {
 			return $this->showmessage(RC_Lang::get('orders::order.not_exist_order'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('orders::order.return_list'), 'href' => RC_Uri::url('orders/admin/init')))));
+		}
+		
+		/*判断订单来源，自助购订单*/
+		$storebuy_order = false;
+		if ($order['referer'] == 'ecjia-storebuy') {
+			$storebuy_order = true;
 		}
 		
 		/*发票抬头和发票识别码处理*/
@@ -223,6 +229,7 @@ class admin extends ecjia_admin {
 			$user = user_info($order['user_id']);
 			if (!empty($user)) {
 				$order['user_name'] = $user['user_name'];
+				$order['mobile_phone'] = $user['mobile_phone'];
 			}
 		}
 		
@@ -240,17 +247,22 @@ class admin extends ecjia_admin {
 		
 		//订单流程状态
 		$time_key = 1;
-		if ($order['pay_time'] > 0) {
+		if (!$storebuy_order && $order['pay_time'] > 0) {
 			$time_key = 2;
 			$this->assign('pay_key', true);
+		} elseif ($storebuy_order  && $order['pay_time'] > 0) {
+			$time_key = 3;
+			$this->assign('pay_key', true);
 		}
-		if ($order['shipping_time'] > 0) {
+		
+		if (!$storebuy_order && $order['shipping_time'] > 0) {
 			if ($order['shipping_status'] == SS_RECEIVED) {
 				$time_key = 4;
 			} else {
 				$time_key = 3;
 			}
 		}
+		
 		$this->assign('time_key', $time_key);
 		
 		/* 其他处理 */
@@ -262,6 +274,13 @@ class admin extends ecjia_admin {
 		$order['unformat_status'] = $order['status'];
 		$order['status']		= RC_Lang::get('orders::order.os.'.$order['order_status']) . ',' . RC_Lang::get('orders::order.ps.'.$order['pay_status']) . ',' . RC_Lang::get('orders::order.ss.'.$order['shipping_status']);
 		$order['invoice_no']	= $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? RC_Lang::get('orders::order.ss.'.SS_UNSHIPPED) : $order['invoice_no'];
+		
+		if ($storebuy_order) {
+			$order['status'] = RC_Lang::get('orders::order.os.'.OS_CONFIRMED).','.RC_Lang::get('orders::order.ps.'.$order['pay_status']);
+			if ($order['pay_status'] == PS_PAYED) {
+				$order['status'] .= ',' . RC_Lang::get('orders::order.cs.'.CS_FINISHED);
+			}
+		}
 		
 		/* 取得订单的来源 */
 		if ($order['from_ad'] == 0) {
@@ -525,8 +544,11 @@ class admin extends ecjia_admin {
 				$invalid_order = true;
 			}
 			$this->assign('invalid_order', $invalid_order);
-
+			
 			/* 参数赋值：订单 */
+			if ($storebuy_order) {
+				$order['formated_order_amount'] = price_format($order['goods_amount'] - ($order['discount'] + $order['integral_money'] + $order['bonus']));
+			}
 			$this->assign('order', $order);
 			$this->assign('order_id', $order_id);
 			
@@ -539,9 +561,14 @@ class admin extends ecjia_admin {
 				$order_finishied = 1;
 				$this->assign('order_finished', $order_finishied);
 			}
-			$this->display('order_info.dwt');
+			if ($storebuy_order) {
+				$this->display('storebuy_order_info.dwt');
+			} else {
+				$this->display('order_info.dwt');
+			}
 		}
 	}
+	
 	
 	/**
 	 * 根据订单号与订单id查询

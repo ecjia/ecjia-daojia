@@ -262,7 +262,7 @@ return array(
 	'order_status' 		=> '订单状态',
 	'pay_status' 		=> '付款状态',
 	'shipping_status' 	=> '发货状态',
-	'action_note' 		=> '备注：',
+	'action_note' 		=> '备注',
 	'pay_note' 			=> '支付备注：',
 	
 	'sms_time_format' 	=> 'm月j日G时',

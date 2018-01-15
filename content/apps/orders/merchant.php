@@ -255,6 +255,12 @@ class merchant extends ecjia_merchant {
 		if (empty($order) || is_ecjia_error($order) || $order['store_id'] != $_SESSION['store_id']) {
 			return $this->showmessage(__('无法找到对应的订单！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 		}
+
+		//判断是否是自助购物订单
+		$storebuy_order = false;
+		if (in_array($order['extension_code'], array('storebuy', 'cashdesk'))) {
+			$storebuy_order = true;
+		}
 		
 		/*发票抬头和发票识别码处理*/
 		if (!empty($order['inv_payee'])) {
@@ -335,12 +341,15 @@ class merchant extends ecjia_merchant {
 		
 		//订单流程状态
 		$time_key = 1;
-		if ($order['pay_time'] > 0) {
+		if (!$storebuy_order && $order['pay_time'] > 0) {
 			$time_key = 2;
+			$this->assign('pay_key', true);
+		} elseif ($storebuy_order  && $order['pay_time'] > 0) {
+			$time_key = 3;
 			$this->assign('pay_key', true);
 		}
 
-		if ($order['shipping_time'] > 0) {
+		if (!$storebuy_order && $order['shipping_time'] > 0) {
 			if ($order['shipping_status'] == SS_RECEIVED) {
 				$time_key = 4;
 			} else {
@@ -354,6 +363,13 @@ class merchant extends ecjia_merchant {
 		$order['pay_time']			= $order['pay_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']) : RC_Lang::get('orders::order.ps.'.PS_UNPAYED);
 		$order['shipping_time']		= $order['shipping_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']) : RC_Lang::get('orders::order.ss.'.SS_UNSHIPPED);
 		$order['status']			= RC_Lang::get('orders::order.os.'.$order['order_status']) . ',' . RC_Lang::get('orders::order.ps.'.$order['pay_status']) . ',' . RC_Lang::get('orders::order.ss.'.$order['shipping_status']);
+
+		if ($storebuy_order) {
+			$order['status'] = RC_Lang::get('orders::order.os.'.$order['order_status']) . ',' . RC_Lang::get('orders::order.ps.'.$order['pay_status']);
+			if ($order['pay_status'] == PS_PAYED) {
+				$order['status'] .= ',' . RC_Lang::get('orders::order.cs.'.CS_FINISHED);
+			}
+		}
 		$order['invoice_no']		= $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? RC_Lang::get('orders::order.ss.'.SS_UNSHIPPED) : $order['invoice_no'];
 
 		/* 取得订单的来源 */
@@ -652,7 +668,11 @@ class merchant extends ecjia_merchant {
 				$order_finishied = 1;
 				$this->assign('order_finished', $order_finishied);
 			}
-			$this->display('order_info.dwt');
+			if ($storebuy_order) {
+				$this->display('order_storebuy_info.dwt');
+			} else {
+				$this->display('order_info.dwt');
+			}
 		}	
 	}
 	
