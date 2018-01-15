@@ -167,7 +167,7 @@
 								</th>
 								<th class="w100 text-center">{lang key='goods::goods.thumb'}</th>
 								<th data-toggle="sortby" data-sortby="goods_id">{lang key='goods::goods.goods_name'}</th>
-								<th class="w110 sorting " data-toggle="sortby" data-sortby="goods_sn">{lang key='goods::goods.goods_sn'}</th>
+								<th class="w130 sorting" data-toggle="sortby" data-sortby="goods_sn">{lang key='goods::goods.goods_sn'}</th>
 								<th class="w100 sorting text-center" data-toggle="sortby" data-sortby="shop_price">{lang key='goods::goods.shop_price'}</th>
 								<th class="w70 text-center"> {lang key='goods::goods.is_on_sale'} </th>
 								<th class="w70 text-center"> {lang key='goods::goods.is_best'} </th>
