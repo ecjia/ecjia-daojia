@@ -81,15 +81,15 @@
 						}
 						$('.store_list').trigger("liszt:updated").trigger("change");
 					} else if (store_model == 2) {
-						$('.nav-list-ready').html('');
+						$('.nav-list-ready.nav-store-list').html('');
 						if (data.content.length > 0) {
 							for (var i = 0; i < data.content.length; i++) {
 								var disable = $('.nav-list-content .ms-elem-selection').find('input[value="' + data.content[i].store_id + '"]').length ? 'disabled' : '';
 								var opt = '<li class="ms-elem-selectable ' + disable + '" id="store_id_' + data.content[i].store_id + '" data-id="' + data.content[i].store_id + '"><span>' + data.content[i].merchants_name + '</span></li>'
-								$('.nav-list-ready').append(opt);
+								$('.nav-list-ready.nav-store-list').append(opt);
 							};
 						} else {
-							$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>未搜索到店铺信息</span></li>');
+							$('.nav-list-ready.nav-store-list').html('<li class="ms-elem-selectable disabled"><span>未搜索到店铺信息</span></li>');
 						}
 						app.admin_config.add_link_store();
 					}

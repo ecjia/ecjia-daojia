@@ -115,7 +115,7 @@
 							<div class="search-header">
 								<div class="custom-header custom-header-align">可选门店</div>
 							</div>
-							<ul class="ms-list nav-list-ready">
+							<ul class="ms-list nav-list-ready nav-store-list">
 								<li class="ms-elem-selectable disabled"><span>暂无内容</span></li>
 							</ul>
 						</div>
