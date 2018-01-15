@@ -93,14 +93,20 @@ class store_bill {
      */
     public function bill_month($options) {
         if (!isset($options['month'])) {
-            $month =  RC_Time::local_date('m')-1;
-            if ($month < 10) {
-                $month = '0'.$month;
+            $month = RC_Time::local_date('m');
+            if ($month == '01') {
+                $month = 12;
+                $month = RC_Time::local_date('Y') - 1 . '-' . $month;
+            } else {
+                $month = $month - 1;
+                if ($month < 10) {
+                    $month = '0'.$month;
+                }
+                $month = RC_Time::local_date('Y') . '-' . $month;
             }
-            $month = RC_Time::local_date('Y') . '-' . $month;
+            
             $options['month'] = $month;
         }
-        
         RC_Logger::getLogger('bill_month')->info($options);
         
         //已有账单数据
