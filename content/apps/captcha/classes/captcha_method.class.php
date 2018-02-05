@@ -86,7 +86,7 @@ class captcha_method  {
 	 * 取得指定code的验证码
 	 * @param $code
 	 */
-	public function captcha_style_image($code) {
+	public function captcha_style_image($code = null) {
 		if (empty($code)) {
 			$code = ecjia::config('captcha_style');
 		}
@@ -100,7 +100,26 @@ class captcha_method  {
 		$handler = new captcha_factory($code, $config);
 		@ob_end_clean(); //清除之前出现的多余输入
 		error_reporting(0);
-		return $handler->generate_image();
+		$handler->generate_image();
+	}
+	
+	/**
+	 * 取得默认的验证码
+	 * @param $code
+	 */
+	public function captcha_default_image($code = null) {
+	    if (empty($code)) {
+	        $code = ecjia::config('captcha_style');
+	    }
+	
+	    $config = array(
+	        'width'  => ecjia::config('captcha_width'),
+	        'height' => ecjia::config('captcha_height'),
+	    );
+	
+	    RC_Loader::load_app_class('captcha_factory', 'captcha', false);
+	    $handler = new captcha_factory($code, $config);
+	    $handler->generate_image();
 	}
 	
 	

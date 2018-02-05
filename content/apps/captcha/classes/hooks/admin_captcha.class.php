@@ -50,7 +50,7 @@ RC_Loader::load_app_config('constant', 'captcha', false);
 
 class captcha_admin_plugin {
 	
-	static public function admin_login_captcha() {
+	public static function admin_login_captcha() {
 		if (ecjia_config::has('captcha_style') && 
 			(intval(ecjia::config('captcha')) & CAPTCHA_ADMIN) && 
 			RC_ENV::gd_version() > 0) {
@@ -136,7 +136,7 @@ EOF;
 	}
 	
 	
-	static public function admin_login_validate($args) {
+	public static function admin_login_validate($args) {
 		if (ecjia_config::has('captcha_style') && 
 			!empty($_SESSION['captcha_word']) && 
 			(intval(ecjia::config('captcha')) & CAPTCHA_ADMIN)) {
@@ -149,7 +149,7 @@ EOF;
 		}
 	}
 	
-	static public function set_admin_captcha_access($route) {
+	public static function set_admin_captcha_access($route) {
 	    $route[] = 'captcha/admin_captcha/init';
 	    $route[] = 'captcha/admin_captcha/check_validate';
 	    return $route;

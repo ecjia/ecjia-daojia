@@ -59,8 +59,7 @@ class admin_captcha extends ecjia_admin {
 		$code = isset($_GET['code']) ? trim($_GET['code']) : '';
 
 		$captcha = RC_Loader::load_app_class('captcha_method');
-		$image = $captcha->captcha_style_image($code);
-		echo $image;
+		$captcha->captcha_style_image($code);
 	}
 
 	public function check_validate() {

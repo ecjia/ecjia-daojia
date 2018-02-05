@@ -50,7 +50,7 @@ RC_Loader::load_app_config('constant', 'captcha', false);
 
 class captcha_merchant_plugin {
 	
-	static public function merchant_login_captcha() {
+	public static function merchant_login_captcha() {
 		if (ecjia_config::has('captcha_style') && 
 			(intval(ecjia::config('captcha')) & CAPTCHA_ADMIN) && 
 			RC_ENV::gd_version() > 0) {
@@ -130,7 +130,7 @@ EOF;
 		}
 	}
 	
-	static public function merchant_login_validate($args) {
+	public static function merchant_login_validate($args) {
 		if (ecjia_config::has('captcha_style') && 
 			!empty($_SESSION['captcha_word']) && 
 			(intval(ecjia::config('captcha')) & CAPTCHA_ADMIN)) {
@@ -143,7 +143,7 @@ EOF;
 		}
 	}
 	
-	static public function set_merchant_captcha_access($route) {
+	public static function set_merchant_captcha_access($route) {
 	    $route[] = 'captcha/merchant_captcha/init';
 	    $route[] = 'captcha/merchant_captcha/check_validate';
 	    return $route;
