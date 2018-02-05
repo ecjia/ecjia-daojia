@@ -428,10 +428,9 @@ return array(
 	'quickpay/order/cancel'		=> 'quickpay::order/operate/cancel',    //1.12用户取消买单订单
 	'quickpay/order/delete'		=> 'quickpay::order/operate/delete',    //1.12用户删除买单订单
 	
+    'captcha/image' 			=> 'captcha::captcha/image', //1.13 增加验证码图片
     
-    
-    
-    'captcha/image' => 'captcha::captcha/image', //1.13 增加验证码图片
+	'user/account/switchPayment'=> 'user::user/account/switchPayment',   //1.13 用户更新充值订单支付方式
     
 	
     /** 1.0 已经废弃
