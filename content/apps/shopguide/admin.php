@@ -336,7 +336,7 @@ class admin extends ecjia_admin
         if ($time - $region_last_checktime < 7 * 24 * 60 * 60) {
             //更新检测时间
             ecjia_config::instance()->write_config('region_last_checktime', $time);
-            $this->showmessage(__('当前版本已是最新版本，上次更新时间是（' . $time_last_format . '）'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
+            return $this->showmessage(__('当前版本已是最新版本，上次更新时间是（' . $time_last_format . '）'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
         }
 
         $page   = !empty($_GET['page']) ? intval($_GET['page']) + 1 : 1;
@@ -349,7 +349,7 @@ class admin extends ecjia_admin
         $cloud = ecjia_cloud::instance()->api('region/synchrony')->data($params)->run();
         //判断是否有错误返回
         if (is_ecjia_error($cloud->getError())) {
-            $this->showmessage($cloud->getError()->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
+            return $this->showmessage($cloud->getError()->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
         }
 
         //获取每页可更新数
