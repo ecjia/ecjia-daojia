@@ -78,7 +78,7 @@ class checkOrder_module extends api_front implements api_interface {
 		$flow_type = CART_STOREBUY_GOODS;
 
 		/* 对商品信息赋值 */
-		$cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+		$cart_goods = cart_goods($flow_type, $cart_id); // 取得商品列表，计算合计
 	
 		/* 取得订单信息*/
 		$order = flow_order_info();

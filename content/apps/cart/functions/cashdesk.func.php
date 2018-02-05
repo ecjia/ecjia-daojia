@@ -11,6 +11,13 @@
  * @return  array
  */
 function cashdesk_order_fee($order, $goods, $consignee = array()) {
+	
+	RC_Logger::getLogger('test')->info('测试收银购物流111');
+	RC_Logger::getLogger('test')->info($order);
+	RC_Logger::getLogger('test')->info($goods);
+	RC_Logger::getLogger('test')->info($consignee);
+	RC_Logger::getLogger('test')->info('测试收银购物流222');
+	
     RC_Loader::load_app_func('global','goods');
     RC_Loader::load_app_func('cart','cart');
     $db 	= RC_Loader::load_app_model('cart_model', 'cart');

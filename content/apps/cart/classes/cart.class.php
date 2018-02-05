@@ -704,7 +704,7 @@ class cart {
 					/* ===== 计算收件人距离 END ===== */
 					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $distance, $total['goods_price'], $weight_price['number']);
 				} else {
-					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $weight_price['weight'], $total['amount'], $weight_price['number']);
+					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $weight_price['weight'], $total['goods_price'], $weight_price['number']);
 				}
 
 				if (!empty($order['need_insure']) && $shipping_info['insure'] > 0) {
