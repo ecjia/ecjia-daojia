@@ -235,6 +235,10 @@ if (! defined('RC_APP_PATH')) {
     define('RC_APP_PATH', RC_CONTENT_PATH . 'apps' . DIRECTORY_SEPARATOR);
 }
 
+if (! defined('RC_LANG_PATH')) {
+    define('RC_LANG_PATH', RC_CONTENT_PATH . 'languages' . DIRECTORY_SEPARATOR);
+}
+
 /**
  * Allows for the plugins directory to be moved from the default location.
  *
@@ -255,6 +259,10 @@ if (! defined('RC_APP_URL')) {
  */
 if (! defined('SITE_APP_PATH')) {
     define('SITE_APP_PATH', SITE_CONTENT_PATH . 'apps' . DIRECTORY_SEPARATOR);
+}
+
+if (! defined('SITE_LANG_PATH')) {
+    define('SITE_LANG_PATH', SITE_CONTENT_PATH . 'languages' . DIRECTORY_SEPARATOR);
 }
 
 /**

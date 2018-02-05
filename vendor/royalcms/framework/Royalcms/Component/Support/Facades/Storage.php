@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\Support\Facades;
 
 /**
- * @see \Royalcms\Component\Filesystem\FilesystemManager
+ * @see \Royalcms\Component\Storage\FilesystemManager
  */
 class Storage extends Facade {
 
@@ -12,7 +12,7 @@ class Storage extends Facade {
 	 */
 	protected static function getFacadeAccessor()
 	{
-		return 'filesystem';
+		return 'storage';
 	}
 
 }

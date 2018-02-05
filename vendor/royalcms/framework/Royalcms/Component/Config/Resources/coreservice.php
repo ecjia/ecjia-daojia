@@ -56,7 +56,7 @@ return array(
         'RC_Event'             => 'Royalcms\Component\Support\Facades\Event',
         'RC_Variable'          => 'Royalcms\Component\Support\Facades\Variable',
         'RC_Storage'           => 'Royalcms\Component\Storage\Facades\Storage',
-        'RC_Filesystem'        => 'Royalcms\Component\Support\Facades\Filesystem',
+        'RC_Filesystem'        => 'Royalcms\Component\Support\Facades\Storage',
         'RC_Json'              => 'Royalcms\Component\Support\Json',
         'RC_Hook'              => 'Royalcms\Component\Support\Facades\Hook',
         'RC_Ip'                => 'Royalcms\Component\IpAddress\Ip',
@@ -70,7 +70,6 @@ return array(
         'RC_Password'          => 'Royalcms\Component\Support\Facades\Password',
         'RC_Redis'             => 'Royalcms\Component\Support\Facades\Redis',
         'RC_Notification'      => 'Royalcms\Component\Support\Facades\Notification',
-    
     
     
         'RC_Object'            => 'Royalcms\Component\Foundation\Object',
@@ -93,7 +92,6 @@ return array(
         'RC_Array'          => 'Royalcms\Component\Foundation\ArrayHelper',
         'RC_Kses'           => 'Royalcms\Component\Foundation\Kses',
         'RC_Loader'         => 'Royalcms\Component\Foundation\Loader',
-        'RC_Locale'         => 'Royalcms\Component\Foundation\Locale',
         'RC_Route'          => 'Royalcms\Component\Foundation\Route',
         'RC_Api'            => 'Royalcms\Component\Foundation\Api',
         'RC_App'            => 'Royalcms\Component\Foundation\App',
@@ -121,7 +119,6 @@ return array(
     'providers' => array(
         'Royalcms\Component\Encryption\EncryptionServiceProvider',
         'Royalcms\Component\Filesystem\FilesystemServiceProvider',
-        'Royalcms\Component\FilesystemKernel\FilesystemServiceProvider',
         'Royalcms\Component\Cache\CacheServiceProvider',
         'Royalcms\Component\Log\LogServiceProvider',
         'Royalcms\Component\Cookie\CookieServiceProvider',
@@ -149,6 +146,7 @@ return array(
         'Royalcms\Component\Purifier\PurifierServiceProvider',
         'Royalcms\Component\LogViewer\LogViewerServiceProvider',
         'Royalcms\Component\Storage\StorageServiceProvider',
+        'Royalcms\Component\Gettext\GettextServiceProvider',
     
     
     

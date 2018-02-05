@@ -65,7 +65,7 @@ class PackageManager extends NamespacedItemResolver {
      * Attempt to get the disk from the local cache.
      *
      * @param  string  $name
-     * @return \Royalcms\Component\FilesystemKernel\FilesystemBase
+     * @return \Royalcms\Component\Storage\FilesystemBase
      */
     protected function get($name)
     {
@@ -87,7 +87,7 @@ class PackageManager extends NamespacedItemResolver {
      * Resolve the given disk.
      *
      * @param  string  $name
-     * @return \Royalcms\Component\FilesystemKernel\FilesystemBase
+     * @return \Royalcms\Component\Storage\FilesystemBase
      */
     protected function resolve($name, $alias)
     {
@@ -103,7 +103,7 @@ class PackageManager extends NamespacedItemResolver {
      * Create an instance of the local driver.
      *
      * @param  array  $config
-     * @return \Royalcms\Component\FilesystemKernel\Direct
+     * @return \Royalcms\Component\Storage\Direct
      */
     public function createAppPackage($alias)
     {
@@ -146,7 +146,7 @@ class PackageManager extends NamespacedItemResolver {
      * Call a custom driver creator.
      *
      * @param  array  $config
-     * @return \Royalcms\Component\FilesystemKernel\FilesystemBase
+     * @return \Royalcms\Component\Storage\FilesystemBase
      */
     protected function callCustomCreator($alias)
     {

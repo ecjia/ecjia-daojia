@@ -57,7 +57,7 @@ return array_map('realpath', array(
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Filesystem/FilesystemServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Session/SessionServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/View/ViewServiceProvider.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/FilesystemKernel/FilesystemServiceProvider.php',
+    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Storage/StorageServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Hook/HookServiceProvider.php',
     $basePath.'/vendor/royalcms/framework/Royalcms/Component/Error/ErrorServiceProvider.php',
     $basePath.'/vendor/royalcms/timer/Royalcms/Component/Timer/TimerServiceProvider.php',

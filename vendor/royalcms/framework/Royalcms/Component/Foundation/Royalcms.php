@@ -28,14 +28,14 @@ class Royalcms extends Container implements HttpKernelInterface, TerminableInter
 	 *
 	 * @var string
 	 */
-	const VERSION = '4.7.0';
+	const VERSION = '4.8.0';
 	
 	/**
 	 * The Royalcms framework release.
 	 *
 	 * @var string
 	 */
-	const RELEASE = '2018-01-13';
+	const RELEASE = '2018-02-02';
 	
 	/**
 	 * The Royalcms framework minimum PHP version requirements.
@@ -1133,9 +1133,9 @@ class Royalcms extends Container implements HttpKernelInterface, TerminableInter
 		    'filesystem'     => 'Royalcms\Component\Filesystem\FilesystemManager',
 		    'filesystem.disk'        => 'Royalcms\Component\Support\Contracts\Filesystem\Filesystem',
 		    'filesystem.cloud'       => 'Royalcms\Component\Support\Contracts\Filesystem\Cloud',
-		    'filesystemkernel'       => 'Royalcms\Component\FilesystemKernel\FilesystemManager',
-		    'filesystemkernel.disk'  => 'Royalcms\Component\FilesystemKernel\FilesystemBase',
-		    'filesystemkernel.cloud' => 'Royalcms\Component\FilesystemKernel\FilesystemBase',
+		    'storage'        => 'Royalcms\Component\Storage\FilesystemManager',
+		    'storage.disk'   => 'Royalcms\Component\Storage\FilesystemBase',
+		    'storage.cloud'  => 'Royalcms\Component\Storage\FilesystemBase',
 		    'cache'          => 'Royalcms\Component\Cache\CacheManager',
 		    'cache.store'    => 'Royalcms\Component\Cache\Repository',
 		    'log'            => 'Royalcms\Component\Log\Writer',
