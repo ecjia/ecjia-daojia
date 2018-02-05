@@ -40,12 +40,14 @@
 			var $form = $('form[name="theForm"]');
 			var option = {
 				rules:{
+					platform: {required : true},
 					name : {required : true},
 					token : {required : true},
 					appid : {required : true},
 					appsecret : {required : true},
 				},
 				messages:{
+					platform: {required : js_lang.platform},
 					name : {required : js_lang.platform_name},
 					token : {required : js_lang.token},
 					appid : {required : js_lang.appid},

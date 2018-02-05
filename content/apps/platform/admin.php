@@ -159,9 +159,30 @@ class admin extends ecjia_admin {
 	public function insert() {
 		$this->admin_priv('platform_config_add', ecjia::MSGTYPE_JSON);
 		
-		if (empty($_POST['platform'])) {
+		$platform = !empty($_POST['platform']) ? trim($_POST['platform']) : '';
+		$type = !empty($_POST['type']) ? intval($_POST['type']) : 0;
+		$name = !empty($_POST['name']) ? trim($_POST['name']) : '';
+		$token = !empty($_POST['token']) ? trim($_POST['token']) : '';
+		$appid = !empty($_POST['token']) ? trim($_POST['appid']) : '';
+		$appsecret = !empty($_POST['appsecret']) ? trim($_POST['appsecret']) : '';
+		$aeskey = !empty($_POST['aeskey']) ? trim($_POST['aeskey']) : '';
+		
+		if (empty($platform)) {
 			return $this->showmessage(RC_Lang::get('platform::platform.select_terrace'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+		if (empty($name)) {
+			return $this->showmessage('请输入公众号名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		if (empty($token)) {
+			return $this->showmessage('请输入Token', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		if (empty($appid)) {
+			return $this->showmessage('请输入AppID', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		if (empty($appsecret)) {
+			return $this->showmessage('请输入AppSecret', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		$uuid = Royalcms\Component\Uuid\Uuid::generate();
 		$uuid = str_replace("-", "", $uuid);
 		
@@ -179,19 +200,18 @@ class admin extends ecjia_admin {
 		
 		$data = array(
 			'uuid'		=>  $uuid,
-			'platform'	=>	$_POST['platform'],
+			'platform'	=>	$platform,
 			'logo'		=> 	$platform_logo,
-			'type'		=>	$_POST['type'],
-			'name'		=>	$_POST['name'],
-			'token'		=>	$_POST['token'],
-			'appid'		=>	$_POST['appid'],
-			'appsecret'	=>	$_POST['appsecret'],
-			'aeskey'	=>	$_POST['aeskey'],
+			'type'		=>	$type,
+			'name'		=>	$name,
+			'token'		=>	$token,
+			'appid'		=>	$appid,
+			'appsecret'	=>	$appsecret,
+			'aeskey'	=>	$aeskey,
 			'add_time'	=>	RC_Time::gmtime(),
 			'sort'		=>	intval($_POST['sort']),
 			'status'	=>	intval($_POST['status']),
 		);
-	
 		$id = $this->db_platform_account->insert($data);
 		
 		ecjia_admin::admin_log($_POST['name'], 'add', 'wechat');
@@ -241,8 +261,29 @@ class admin extends ecjia_admin {
 		$this->admin_priv('platform_config_update', ecjia::MSGTYPE_JSON);
 		
 		$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-		if (empty($_POST['platform'])) {
-			return $this->showmessage(RC_Lang::get('platform::platform.select_terrace2'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		
+		$platform = !empty($_POST['platform']) ? trim($_POST['platform']) : '';
+		$type = !empty($_POST['type']) ? intval($_POST['type']) : 0;
+		$name = !empty($_POST['name']) ? trim($_POST['name']) : '';
+		$token = !empty($_POST['token']) ? trim($_POST['token']) : '';
+		$appid = !empty($_POST['token']) ? trim($_POST['appid']) : '';
+		$appsecret = !empty($_POST['appsecret']) ? trim($_POST['appsecret']) : '';
+		$aeskey = !empty($_POST['aeskey']) ? trim($_POST['aeskey']) : '';
+		
+		if (empty($platform)) {
+			return $this->showmessage(RC_Lang::get('platform::platform.select_terrace'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		if (empty($name)) {
+			return $this->showmessage('请输入公众号名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		if (empty($token)) {
+			return $this->showmessage('请输入Token', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		if (empty($appid)) {
+			return $this->showmessage('请输入AppID', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		if (empty($appsecret)) {
+			return $this->showmessage('请输入AppSecret', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		//获取旧的logo
@@ -265,18 +306,17 @@ class admin extends ecjia_admin {
 			$platform_logo = $old_logo;
 		}
 		$data = array(
-			'platform'	=>	$_POST['platform'],
-			'type'		=>	$_POST['type'],
-			'name'		=>	$_POST['name'],
+			'platform'	=>	$platform,
+			'type'		=>	$type,
+			'name'		=>	$name,
 			'logo'		=> 	$platform_logo,
-			'token'		=>	$_POST['token'],
-			'appid'		=>	$_POST['appid'],
-			'appsecret'	=>	$_POST['appsecret'],
-			'aeskey'	=>	$_POST['aeskey'],
+			'token'		=>	$token,
+			'appid'		=>	$appid,
+			'appsecret'	=>	$appsecret,
+			'aeskey'	=>	$aeskey,
 			'sort'		=>	intval($_POST['sort']),
 			'status'	=>	intval($_POST['status']),
 		);
-	
 		$this->db_platform_account->where(array('id' => $id))->update($data);
 		
 		ecjia_admin::admin_log($_POST['name'], 'edit', 'wechat');

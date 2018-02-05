@@ -233,6 +233,7 @@ return array(
     
     /*JS*/
     'js_lang' => array(
+    	'platform'			 => '请选择平台',
         'platform_name'      => '请输入公众号名称',
         'token'              => '请输入Token',
         'appid'              => '请输入AppID',

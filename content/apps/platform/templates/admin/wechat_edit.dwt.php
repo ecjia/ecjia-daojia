@@ -44,9 +44,9 @@
 							
 							<div class="control-group formSep" >
 								<label class="control-label">{lang key='platform::platform.lable_terrace'}</label>
-								<div class="controls w300 no-chzn-container">
+								<div class="controls w300">
 									<select name="platform" class="form-control">
-										<option value="0" {if $wechat.platform eq 0}selected="selected"{/if}>{lang key='platform::platform.select_terrace'}</option>
+										<option value="" {if $wechat.platform eq ''}selected="selected"{/if}>{lang key='platform::platform.select_terrace'}</option>
 										<option value="wechat" {if $wechat.platform eq 'wechat'}selected="selected"{/if}>{lang key='platform::platform.weixin'}</option>
 									</select>
 									<span class="input-must">{lang key='system::system.require_field'}</span>
