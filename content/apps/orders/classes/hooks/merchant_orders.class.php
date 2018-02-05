@@ -296,7 +296,7 @@ class orders_merchant_plugin {
 		ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_ordersstat.lbi', 'orders'));
 	}
 	
-	static public function orders_stats_admin_menu_api($menus) {
+	public static function orders_stats_admin_menu_api($menus) {
 	    $menu = array(
 	        ecjia_admin::make_admin_menu('guest_stats', __('客户统计'), RC_Uri::url('orders/admin_guest_stats/init'), 51)->add_purview('guest_stats'),
 	        ecjia_admin::make_admin_menu('order_stats', __('订单统计'), RC_Uri::url('orders/admin_order_stats/init'), 52)->add_purview('order_stats'),

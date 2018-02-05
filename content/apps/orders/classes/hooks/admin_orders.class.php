@@ -198,7 +198,7 @@ class orders_admin_plugin {
 	}
 	
 	
-	static public function orders_stats_admin_menu_api($menus) {
+	public static function orders_stats_admin_menu_api($menus) {
 	    $menu = array(
 	        ecjia_admin::make_admin_menu('divider', '', '', 50)->add_purview(array('order_stats', 'guest_stats', 'sale_general_stats', 'users_order_stats', 'sale_list_stats', 'sale_order_stats', 'visit_sold_stats', 'adsense_conversion_stats')),
 	        ecjia_admin::make_admin_menu('guest_stats', __('客户统计'), RC_Uri::url('orders/admin_guest_stats/init'), 51)->add_purview('guest_stats'),
