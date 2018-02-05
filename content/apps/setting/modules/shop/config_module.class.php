@@ -141,7 +141,7 @@ class config_module extends api_front implements api_interface
         $data['shop_type'] = !empty($shop_type) ? $shop_type : 'cityo2o';
         $data['wap_app_download_show'] = ecjia::config('wap_app_download_show');
         $data['wap_app_download_img'] = ecjia_config::has('wap_app_download_img') ? RC_Upload::upload_url() . '/' . ecjia::config('wap_app_download_img') : '';
-        
+
         return $data;
     }
 }

@@ -130,7 +130,12 @@ class Region
      */
     public function getRegionsWithRecursivelyUpwards($regionId) {
         $regions = $this->getSplitRegion($regionId);
-        $result = $this->getRegions($regions);
+        if (!empty($regions)) {
+        	$result = $this->getRegions($regions);
+        } else {
+        	$result = array();
+        }
+        
         return $result;
     }
     

@@ -170,24 +170,24 @@ class admin_region extends ecjia_admin {
 		
 		if (($region_type === 4) || ($region_type === 5)) {
 			if($region_id_length != 3) {
-				$this->showmessage(__('当前级地区码只能填3位数字！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('当前级地区码只能填3位数字！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} else {
 			if ($region_id_length != 2) {
-				$this->showmessage(__('当前级地区码只能填2位数字！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('当前级地区码只能填2位数字！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		$region_id = trim($parent_id.$region_id);
 
 		if (empty($region_name)) {
-			$this->showmessage(__('区域名称不能为空！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('区域名称不能为空！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		/* 查看地区码是否重复 */		
 		$is_only = RC_DB::table('regions')->where('region_id', $region_id)->where('region_type', $region_type)->count();
 		if ($is_only) {
-			$this->showmessage(__('抱歉，当前级已经有相同的地区码存在！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('抱歉，当前级已经有相同的地区码存在！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			$data = array(
 				'region_id'	  => $region_id,
@@ -210,13 +210,13 @@ class admin_region extends ecjia_admin {
 // 				$last_version = substr(trim($region_cn_version), 0, 9).$new_version;
 // 				ecjia_config::instance()->write_config('region_cn_version', $last_version);
 				if ($parent_id == 'CN') {
-					$this->showmessage(__('添加新地区成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
+					return $this->showmessage(__('添加新地区成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
 				} else {
-					$this->showmessage(__('添加新地区成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('setting/admin_region/init', array('id' => $parent_id))));
+					return $this->showmessage(__('添加新地区成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('setting/admin_region/init', array('id' => $parent_id))));
 				}
 				
 			} else {
-				$this->showmessage(__('添加新地区失败！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('添加新地区失败！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	}
@@ -233,7 +233,7 @@ class admin_region extends ecjia_admin {
 		$index_letter		= strtoupper($index_letter);
 		
 		if (empty($region_name)) {
-			$this->showmessage(__('区域名称不能为空！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('区域名称不能为空！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$old = RC_DB::table('regions')->selectRaw('region_name,parent_id')->where('region_id', $region_id)->first();
@@ -257,9 +257,9 @@ class admin_region extends ecjia_admin {
 // 			$last_version = substr(trim($region_cn_version), 0, 9).$new_version;
 // 			ecjia_config::instance()->write_config('region_cn_version', $last_version);
 			
-			$this->showmessage(__('修改名称成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('setting/admin_region/init', array('id' => $parent_id))));
+			return $this->showmessage(__('修改名称成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('setting/admin_region/init', array('id' => $parent_id))));
 		} else {
-			$this->showmessage(__('修改名称失败！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('修改名称失败！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 	}
@@ -291,7 +291,7 @@ class admin_region extends ecjia_admin {
 // 		$new_version = sprintf("%06d", $version);
 // 		$last_version = substr(trim($region_cn_version), 0, 9).$new_version;
 // 		ecjia_config::instance()->write_config('region_cn_version', $last_version);
-		$this->showmessage(sprintf(__('成功删除地区 %s'), $regionname), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(sprintf(__('成功删除地区 %s'), $regionname), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 
@@ -332,7 +332,7 @@ class admin_region extends ecjia_admin {
 		if ($time - $region_last_checktime < 7*24*60*60) {
 			//更新检测时间
 			ecjia_config::instance()->write_config('region_last_checktime', $time);
-			$this->showmessage(__('当前版本已是最新版本，同步更新时间间隔不能小于7天，上次更新时间是（'.$time_last_format.'）'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
+			return $this->showmessage(__('当前版本已是最新版本，同步更新时间间隔不能小于7天，上次更新时间是（'.$time_last_format.'）'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
 		}
 		
 
@@ -346,7 +346,7 @@ class admin_region extends ecjia_admin {
 		$cloud = ecjia_cloud::instance()->api('region/synchrony')->data($params)->run();
 		//判断是否有错误返回
 		if (is_ecjia_error($cloud->getError())) {
-		    $this->showmessage($cloud->getError()->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
+		    return $this->showmessage($cloud->getError()->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
 		}
 
 		//获取每页可更新数		

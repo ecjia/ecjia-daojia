@@ -63,7 +63,6 @@ class detail_module extends api_front implements api_interface
         if (empty($city) && empty($city_id)) {
         	return new ecjia_error('invalid_parameter', '缺少参数');
         }
-        
         // API版本大于1.9使用新接口返回数据
         if (version_compare($api_version, '1.9', '>')) {
             if (empty($city_id)) {
@@ -77,15 +76,25 @@ class detail_module extends api_front implements api_interface
                     $city_id = $shop_country.$city_id;
                 }
             }
-             
+            if (empty($city_id)) {
+            	return new ecjia_error('invalid_parameter', '参数错误');
+            } 
             $all = ecjia_region::getRegionsWithRecursivelyUpwards($city_id);
-            $city_detail = last($all);
-            $result = array(
-                'region_id'		=> $city_detail['region_id'],
-                'region_name'	=> $city_detail['region_name'],
-                'regions'       => $all,
-            );
+            if (!empty($all)) {
+            	$city_detail = last($all);
+            	$result = array(
+            			'region_id'		=> $city_detail['region_id'],
+            			'region_name'	=> $city_detail['region_name'],
+            			'regions'       => $all,
+            	);
+            } else {
+            	$result = array();
+            }
+           
         } else {
+        	if (empty($city)) {
+        		return new ecjia_error('invalid_parameter', '参数错误');
+        	}
             $citys = ecjia_region::getRegionsBySearch($city, 3);     
             $city_detail = head($citys);
             $result = array(
