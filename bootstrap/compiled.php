@@ -422,8 +422,8 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.7.0';
-    const RELEASE = '2018-01-13';
+    const VERSION = '4.8.0';
+    const RELEASE = '2018-02-02';
     const PHP_REQUIRED = '5.4.0';
     protected $booted = false;
     protected $bootingCallbacks = array();
@@ -847,7 +847,7 @@ class Royalcms extends Container implements HttpKernelInterface, TerminableInter
     }
     public function registerCoreContainerAliases()
     {
-        $aliases = array('royalcms' => 'Royalcms\\Component\\Foundation\\Royalcms', 'royalcmd' => 'Royalcms\\Component\\Console\\Royalcmd', 'config' => 'Royalcms\\Component\\Config\\Repository', 'files' => 'Royalcms\\Component\\Filesystem\\Filesystem', 'filesystem' => 'Royalcms\\Component\\Filesystem\\FilesystemManager', 'filesystem.disk' => 'Royalcms\\Component\\Support\\Contracts\\Filesystem\\Filesystem', 'filesystem.cloud' => 'Royalcms\\Component\\Support\\Contracts\\Filesystem\\Cloud', 'filesystemkernel' => 'Royalcms\\Component\\FilesystemKernel\\FilesystemManager', 'filesystemkernel.disk' => 'Royalcms\\Component\\FilesystemKernel\\FilesystemBase', 'filesystemkernel.cloud' => 'Royalcms\\Component\\FilesystemKernel\\FilesystemBase', 'cache' => 'Royalcms\\Component\\Cache\\CacheManager', 'cache.store' => 'Royalcms\\Component\\Cache\\Repository', 'log' => 'Royalcms\\Component\\Log\\Writer', 'log.store' => 'Royalcms\\Component\\Log\\FileStore', 'error' => 'Royalcms\\Component\\Error\\Error', 'cookie' => 'Royalcms\\Component\\Cookie\\CookieJar', 'session' => 'Royalcms\\Component\\Session\\SessionManager', 'session.store' => 'Royalcms\\Component\\Session\\Store', 'request' => 'Royalcms\\Component\\HttpKernel\\Request', 'response' => 'Royalcms\\Component\\HttpKernel\\Response', 'view' => 'Royalcms\\Component\\View\\Environment', 'events' => 'Royalcms\\Component\\Events\\Dispatcher', 'hook' => 'Royalcms\\Component\\Hook\\Hooks', 'phpinfo' => 'Royalcms\\Component\\Foundation\\Phpinfo', 'router' => 'Royalcms\\Component\\Routing\\Router', 'redirect' => 'Royalcms\\Component\\Routing\\Redirector', 'url' => 'Royalcms\\Component\\Routing\\UrlGenerator', 'translator' => 'Royalcms\\Component\\Translation\\Translator', 'package' => 'Royalcms\\Component\\Package\\PackageManager', 'encrypter' => 'Royalcms\\Component\\Encryption\\Encrypter', 'db' => 'Royalcms\\Component\\Database\\DatabaseManager', 'hash' => 'Royalcms\\Component\\Hashing\\HasherInterface', 'mailer' => 'Royalcms\\Component\\Mail\\Mailer', 'paginator' => 'Royalcms\\Component\\Pagination\\Environment', 'queue' => 'Royalcms\\Component\\Queue\\QueueManager', 'redis' => 'Royalcms\\Component\\Redis\\Database', 'remote' => 'Royalcms\\Component\\Remote\\RemoteManager', 'validator' => 'Royalcms\\Component\\Validation\\Factory');
+        $aliases = array('royalcms' => 'Royalcms\\Component\\Foundation\\Royalcms', 'royalcmd' => 'Royalcms\\Component\\Console\\Royalcmd', 'config' => 'Royalcms\\Component\\Config\\Repository', 'files' => 'Royalcms\\Component\\Filesystem\\Filesystem', 'filesystem' => 'Royalcms\\Component\\Filesystem\\FilesystemManager', 'filesystem.disk' => 'Royalcms\\Component\\Support\\Contracts\\Filesystem\\Filesystem', 'filesystem.cloud' => 'Royalcms\\Component\\Support\\Contracts\\Filesystem\\Cloud', 'storage' => 'Royalcms\\Component\\Storage\\FilesystemManager', 'storage.disk' => 'Royalcms\\Component\\Storage\\FilesystemBase', 'storage.cloud' => 'Royalcms\\Component\\Storage\\FilesystemBase', 'cache' => 'Royalcms\\Component\\Cache\\CacheManager', 'cache.store' => 'Royalcms\\Component\\Cache\\Repository', 'log' => 'Royalcms\\Component\\Log\\Writer', 'log.store' => 'Royalcms\\Component\\Log\\FileStore', 'error' => 'Royalcms\\Component\\Error\\Error', 'cookie' => 'Royalcms\\Component\\Cookie\\CookieJar', 'session' => 'Royalcms\\Component\\Session\\SessionManager', 'session.store' => 'Royalcms\\Component\\Session\\Store', 'request' => 'Royalcms\\Component\\HttpKernel\\Request', 'response' => 'Royalcms\\Component\\HttpKernel\\Response', 'view' => 'Royalcms\\Component\\View\\Environment', 'events' => 'Royalcms\\Component\\Events\\Dispatcher', 'hook' => 'Royalcms\\Component\\Hook\\Hooks', 'phpinfo' => 'Royalcms\\Component\\Foundation\\Phpinfo', 'router' => 'Royalcms\\Component\\Routing\\Router', 'redirect' => 'Royalcms\\Component\\Routing\\Redirector', 'url' => 'Royalcms\\Component\\Routing\\UrlGenerator', 'translator' => 'Royalcms\\Component\\Translation\\Translator', 'package' => 'Royalcms\\Component\\Package\\PackageManager', 'encrypter' => 'Royalcms\\Component\\Encryption\\Encrypter', 'db' => 'Royalcms\\Component\\Database\\DatabaseManager', 'hash' => 'Royalcms\\Component\\Hashing\\HasherInterface', 'mailer' => 'Royalcms\\Component\\Mail\\Mailer', 'paginator' => 'Royalcms\\Component\\Pagination\\Environment', 'queue' => 'Royalcms\\Component\\Queue\\QueueManager', 'redis' => 'Royalcms\\Component\\Redis\\Database', 'remote' => 'Royalcms\\Component\\Remote\\RemoteManager', 'validator' => 'Royalcms\\Component\\Validation\\Factory');
         foreach ($aliases as $key => $alias) {
             $this->alias($key, $alias);
         }
@@ -4355,36 +4355,6 @@ class ViewServiceProvider extends ServiceProvider
         if (isset($royalcms['session.store']) && !is_null($config['driver'])) {
             return $royalcms['session.store']->has('errors');
         }
-    }
-}
-namespace Royalcms\Component\FilesystemKernel;
-
-use Royalcms\Component\Support\ServiceProvider;
-class FilesystemServiceProvider extends ServiceProvider
-{
-    public function register()
-    {
-        $this->registerManager();
-        $this->royalcms->bindShared('filesystemkernel.disk', function ($royalcms) {
-            return $royalcms['filesystemkernel']->disk($this->getDefaultDriver());
-        });
-        $this->royalcms->bindShared('filesystemkernel.cloud', function ($royalcms) {
-            return $royalcms['filesystemkernel']->disk($this->getCloudDriver());
-        });
-    }
-    protected function registerManager()
-    {
-        $this->royalcms->bindShared('filesystemkernel', function ($royalcms) {
-            return new FilesystemManager($royalcms);
-        });
-    }
-    protected function getDefaultDriver()
-    {
-        return $this->royalcms['config']['filesystems.default'];
-    }
-    protected function getCloudDriver()
-    {
-        return $this->royalcms['config']['filesystems.cloud'];
     }
 }
 namespace Royalcms\Component\Hook;
