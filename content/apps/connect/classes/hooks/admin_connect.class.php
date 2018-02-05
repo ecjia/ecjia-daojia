@@ -48,7 +48,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 class connect_admin_plugin {
 	
-	static public function connect_admin_menu_api($menus) {
+	public static function connect_admin_menu_api($menus) {
 	    $menu = ecjia_admin::make_admin_menu('menu_user_connect', RC_Lang::get('connect::connect.connect'), RC_Uri::url('connect/admin_plugin/init'), 52)->add_purview('connect_users_manage');
 	    $menus->add_submenu($menu);
 	    return $menus;
