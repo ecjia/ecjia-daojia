@@ -1,5 +1,4 @@
 <?php
-use GuzzleHttp\Psr7\_caseless_remove;
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \

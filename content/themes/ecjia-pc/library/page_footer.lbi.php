@@ -60,6 +60,30 @@ defined('IN_ECJIA') or exit('No permission resources.');
 			</div>
 		</div>
 		{/if}
+		
+		{if $info.link_list}
+		<div class="friend-link">
+			<div class="friend-link-title">合作伙伴</div>
+			<div class="friend-link-content">
+				<!-- {if $info.link_list.has_logo} -->
+				<ul class="link-content">
+				<!-- {foreach from=$info.link_list.has_logo item=val} -->
+				<li><a href="{$val.link_url}" target="__blank"><img src="{$val.link_logo}" width="110" height="auto"></a></li>
+				<!-- {/foreach} -->
+				</ul>
+				<!-- {/if} -->
+				
+				<!-- {if $info.link_list.no_logo} -->
+				<ul class="link-content m_t0">
+				<!-- {foreach from=$info.link_list.no_logo item=val} -->
+				<li><a href="{$val.link_url}" target="__blank"><span>{$val.link_name}</span></a></li>
+				<!-- {/foreach} -->
+				</ul>
+				<!-- {/if} -->
+			</div>
+		</div>
+		{/if}
+		
 	</div>
 </div>
 

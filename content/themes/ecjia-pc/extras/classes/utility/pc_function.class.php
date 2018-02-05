@@ -104,6 +104,20 @@ class pc_function {
         	$kf_qq = explode(',', ecjia::config('qq'));
         	$kf_qq = $kf_qq[0];
         }
+        
+        $link_list = RC_DB::table('friend_link')->get();
+        $has_logo_arr = $no_logo_arr = array();
+        if (!empty($link_list)) {
+        	foreach ($link_list as $k => $v) {
+        		if (empty($v['link_logo'])) {
+        			$no_logo_arr[] = $v;
+        		} else {
+        			$v['link_logo'] = RC_Upload::upload_url($v['link_logo']);
+        			$has_logo_arr[] = $v;
+        		}
+        	}
+        }
+        
         $data = array(
         	'shop_logo' 		=> $shop_logo_url, 
         	'merchant_url' 		=> $merchant_url, 
@@ -123,6 +137,7 @@ class pc_function {
         	'kf_qq'					=> $kf_qq,
         	'location_id'			=>	$_COOKIE['location_id'],
         	'location_address' 		=>	$_COOKIE['location_address'],
+        	'link_list'				=> array('has_logo' => $has_logo_arr, 'no_logo' => $no_logo_arr)
         );
         
         $data['close_choose_city'] = 0;
