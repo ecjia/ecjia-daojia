@@ -24,10 +24,10 @@ class MemcacheHandler implements CommandInterface
             throw new \ErrorException('Memcache not support!');
         }
         
-        # Importing configuration
+        /* Importing configuration */
         self::$_ini = royalcms('config')->get('memcache::config');
 
-        # Initializing
+        /* Initializing */
         self::$_memcache = new \Memcache();
     }
 
@@ -42,14 +42,39 @@ class MemcacheHandler implements CommandInterface
      */
     public function stats($server, $port)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command
+        /* Executing command */
         $return = self::$_memcache->getExtendedStats();
-        if($return)
+        if ($return)
         {
-            # Delete server key based
+            /* Delete server key based */
+            $stats = $return[$server.':'.$port];
+            return $stats;
+        }
+        return false;
+    }
+    
+    /**
+     * Send sizes command to server
+     * Return the result if successful or false otherwise
+     *
+     * @param String $server Hostname
+     * @param Integer $port Hostname Port
+     *
+     * @return Array|Boolean
+     */
+    public function sizes($server, $port)
+    {
+        /* Adding server */
+        self::$_memcache->addServer($server, $port);
+    
+        /* Executing command */
+        $return = self::$_memcache->getExtendedStats('sizes');
+        if ($return)
+        {
+            /* Delete server key based */
             $stats = $return[$server.':'.$port];
             return $stats;
         }
@@ -81,26 +106,26 @@ class MemcacheHandler implements CommandInterface
      */
     public function slabs($server, $port)
     {
-        # Initializing
+        /* Initializing */
         $slabs = array();
 
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : slabs
+        /* Executing command : slabs */
         $slabs = self::$_memcache->getStats('slabs');
-        if($slabs)
+        if ($slabs)
         {
-            # Finding uptime
+            /* Finding uptime */
             $stats = $this->stats($server, $port);
             $slabs['uptime'] = $stats['uptime'];
             unset($stats);
 
-            # Executing command : items
+            /* Executing command : items */
             $result = self::$_memcache->getStats('items');
             if($result)
             {
-                # Indexing by slabs
+                /* Indexing by slabs */
                 foreach($result['items'] as $id => $items)
                 {
                     foreach($items as $key => $value)
@@ -126,14 +151,38 @@ class MemcacheHandler implements CommandInterface
      */
     public function items($server, $port, $slab)
     {
-        # Initializing
+        /* Initializing */
         $items = false;
 
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : slabs stats
-        $items = self::$_memcache->getStats('cachedump', $slab, self::$_ini->get('max_item_dump'));
+        /* Executing command : slabs stats */
+        $items = self::$_memcache->getStats('cachedump', $slab, self::$_ini['max_item_dump']);
+        return $items;
+    }
+    
+    /**
+     * Send stats cachedump command to server to retrieve slabs items
+     * Return the result if successful or false otherwise
+     *
+     * @param String $server Hostname
+     * @param Integer $port Hostname Port
+     * @param Interger $slab Slab ID
+     * @param Interger $maxnum Max num
+     *
+     * @return Array|Boolean
+     */
+    public function cachedump($server, $port, $slab, $maxnum)
+    {
+        /* Initializing */
+        $items = false;
+        
+        /* Adding server */
+        self::$_memcache->addServer($server, $port);
+        
+        /* Executing command : slabs stats */
+        $items = self::$_memcache->getStats('cachedump', $slab, $maxnum);
         return $items;
     }
 
@@ -149,10 +198,10 @@ class MemcacheHandler implements CommandInterface
      */
     public function get($server, $port, $key)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : get
+        /* Executing command : get */
         $item = self::$_memcache->get($key);
         return $item;
     }
@@ -171,10 +220,10 @@ class MemcacheHandler implements CommandInterface
      */
     function set($server, $port, $key, $data, $duration)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : set
+        /* Executing command : set */
         if (self::$_memcache->set($key, $data, 0, $duration)) 
         {
             return true;
@@ -200,10 +249,10 @@ class MemcacheHandler implements CommandInterface
      */
     function add($server, $port, $key, $data, $duration)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
     
-        # Executing command : set
+        /* Executing command : set */
         if (self::$_memcache->add($key, $data, 0, $duration))
         {
             return true;
@@ -229,10 +278,10 @@ class MemcacheHandler implements CommandInterface
      */
     function replace($server, $port, $key, $data, $duration)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
     
-        # Executing command : replace
+        /* Executing command : replace */
         if(self::$_memcache->replace($key, $data, 0, $duration))
         {
             return true;
@@ -256,10 +305,10 @@ class MemcacheHandler implements CommandInterface
      */
     public function delete($server, $port, $key)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : delete
+        /* Executing command : delete */
         if (self::$_memcache->delete($key))
         {
             return true;
@@ -284,10 +333,10 @@ class MemcacheHandler implements CommandInterface
      */
     function increment($server, $port, $key, $value)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : increment
+        /* Executing command : increment */
         $result = self::$_memcache->increment($key, $value);
         if ($result)
         {
@@ -313,10 +362,10 @@ class MemcacheHandler implements CommandInterface
      */
     function decrement($server, $port, $key, $value)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : decrement
+        /* Executing command : decrement */
         $result = self::$_memcache->decrement($key, $value);
         if ($result)
         {
@@ -342,10 +391,10 @@ class MemcacheHandler implements CommandInterface
      */
     function flush($server, $port, $delay)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : flush_all
+        /* Executing command : flush_all */
         if (self::$_memcache->flush())
         {
             return true;

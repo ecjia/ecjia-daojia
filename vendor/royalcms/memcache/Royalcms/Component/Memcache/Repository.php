@@ -58,10 +58,102 @@ class Repository implements ArrayAccess {
 	    }
 	}
 	
+	/**
+	 * Specified drive operation
+	 * @param string $driver
+	 */
+	public function driver($driver)
+	{
+	    $this->driver = $driver;
+	    return $this;
+	}
+	
+	
+	/**
+	 * Get the Memcahce drive
+	 * @return string
+	 */
+	public function getDriver()
+	{
+	    return $this->driver;
+	}
+	
+	
 	public function getMemcache()
 	{
 	    return $this->driver->getMemcache();
 	}
+	
+	/**
+	 * Send stats command to server
+	 * Return the result if successful or false otherwise
+	 *
+	 * @return Array|Boolean
+	 */
+	public function stats()
+	{
+	    return CommandFactory::api($this->driver)->stats($this->hostname, $this->port);
+	}
+	
+	/**
+	 * Retrieve slabs stats
+	 * Return the result if successful or false otherwise
+	 *
+	 * @return Array|Boolean
+	 */
+	public function slabs()
+	{
+	    return CommandFactory::api($this->driver)->slabs($this->hostname, $this->port);
+	}
+	
+	/**
+	 * Send stats settings command to server
+	 * Return the result if successful or false otherwise
+	 *
+	 * @return Array|Boolean
+	 */
+	public function settings()
+	{
+	    return CommandFactory::api($this->driver)->settings($this->hostname, $this->port);
+	}
+	
+	/**
+	 * Send sizes command to server
+	 * Return the result if successful or false otherwise
+	 *
+	 * @return Array|Boolean
+	 */
+	public function sizes()
+	{
+	    return CommandFactory::api($this->driver)->sizes($this->hostname, $this->port);
+	}
+	
+	/**
+	 * Send stats cachedump command to server to retrieve slabs items
+	 * Return the result if successful or false otherwise
+	 *
+	 * @param Interger $slab Slab ID
+	 *
+	 * @return Array|Boolean
+	 */
+	public function items($slab)
+	{
+	   return CommandFactory::api($this->driver)->items($this->hostname, $this->port, $slab);
+    }
+    
+    /**
+     * Send stats cachedump command to server to retrieve slabs items
+     * Return the result if successful or false otherwise
+     *
+     * @param Interger $slab Slab ID
+     * @param Interger $maxnum Max num
+     *
+     * @return Array|Boolean
+     */
+    public function cachedump($slab, $maxnum)
+    {
+        return CommandFactory::api($this->driver)->cachedump($this->hostname, $this->port, $slab, $maxnum);
+    }
 
 	/**
 	 * Get the specified configuration value.
@@ -101,7 +193,7 @@ class Repository implements ArrayAccess {
 	 *
 	 * @return String
 	 */
-	function add($server, $port, $key, $value, $duration)
+	public function add($server, $port, $key, $value, $duration)
 	{
 	   return CommandFactory::api($this->driver)->add($this->hostname, $this->port, $key, $value, $duration);
 	}
@@ -118,7 +210,7 @@ class Repository implements ArrayAccess {
 	 *
 	 * @return String
 	 */
-	function replace($server, $port, $key, $value, $duration)
+	public function replace($server, $port, $key, $value, $duration)
 	{
 	    return CommandFactory::api($this->driver)->replace($this->hostname, $this->port, $key, $value, $duration);
 	}
@@ -132,7 +224,7 @@ class Repository implements ArrayAccess {
 	 */
 	public function delete($key)
 	{
-	    CommandFactory::api($this->driver)->set($this->hostname, $this->port, $key);
+	    return CommandFactory::api($this->driver)->set($this->hostname, $this->port, $key);
 	}
 	
 	/**
@@ -144,7 +236,7 @@ class Repository implements ArrayAccess {
 	 */
 	public function increment($key, $value)
 	{
-	    CommandFactory::api($this->driver)->increment($this->hostname, $this->port, $key, $value);
+	    return CommandFactory::api($this->driver)->increment($this->hostname, $this->port, $key, $value);
 	}
 	
 	/**
@@ -156,7 +248,7 @@ class Repository implements ArrayAccess {
 	 */
 	public function decrement($key, $value)
 	{
-	    CommandFactory::api($this->driver)->decrement($this->hostname, $this->port, $key, $value);
+	    return CommandFactory::api($this->driver)->decrement($this->hostname, $this->port, $key, $value);
 	}
 	
 	/**
@@ -168,7 +260,7 @@ class Repository implements ArrayAccess {
 	 */
 	public function flush($delay)
 	{
-	    CommandFactory::api($this->driver)->flush_all($this->hostname, $this->port, $delay);
+	    return CommandFactory::api($this->driver)->flush($this->hostname, $this->port, $delay);
 	}
 	
 	/**
@@ -180,7 +272,7 @@ class Repository implements ArrayAccess {
 	 */
 	public function search($telnet)
 	{
-	    CommandFactory::api($this->driver)->search($this->hostname, $this->port, $telnet);
+	    return CommandFactory::api($this->driver)->search($this->hostname, $this->port, $telnet);
 	}
 	
 	/**
@@ -192,7 +284,7 @@ class Repository implements ArrayAccess {
 	 */
 	public function telnet($key)
 	{
-	    CommandFactory::api($this->driver)->telnet($this->hostname, $this->port, $key);
+	    return CommandFactory::api($this->driver)->telnet($this->hostname, $this->port, $key);
 	}
 
 

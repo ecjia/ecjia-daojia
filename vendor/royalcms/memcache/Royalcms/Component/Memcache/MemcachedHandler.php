@@ -21,10 +21,10 @@ class MemcachedHandler implements CommandInterface
             throw new \ErrorException('Memcached not support!');
         }
         
-        # Importing configuration
+        /* Importing configuration */
         self::$_ini = royalcms('config')->get('memcache::config');
         
-        # Initializing
+        /* Initializing */
         self::$_memcache = new \Memcached();
     }
 
@@ -39,16 +39,16 @@ class MemcachedHandler implements CommandInterface
      */
     public function stats($server, $port)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command
+        /* Executing command */
         $return = self::$_memcache->getStats();
         if ($return) {
-            # Delete server key based
+            /* Delete server key based */
             $stats = $return[$server.':'.$port];
 
-            # Adding value that miss
+            /* Adding value that miss */
             $stats['delete_hits'] = '';
             $stats['delete_misses'] = '';
             $stats['incr_hits'] = '';
@@ -75,6 +75,24 @@ class MemcachedHandler implements CommandInterface
      */
     public function settings($server, $port)
     {
+        throw new \Exception('PECL Memcached does not support slabs stats, use Server or Memcache instead');
+        
+        return false;
+    }
+    
+    /**
+     * Send sizes command to server
+     * Return the result if successful or false otherwise
+     *
+     * @param String $server Hostname
+     * @param Integer $port Hostname Port
+     *
+     * @return Array|Boolean
+     */
+    public function sizes($server, $port)
+    {
+        throw new \Exception('PECL Memcached does not support slabs stats, use Server or Memcache instead');
+    
         return false;
     }
 
@@ -89,7 +107,7 @@ class MemcachedHandler implements CommandInterface
      */
     public function slabs($server, $port)
     {
-        throw new \Exception('PECL Memcache does not support slabs stats, use Server or Memcache instead');
+        throw new \Exception('PECL Memcached does not support slabs stats, use Server or Memcache instead');
         
         return false;
     }
@@ -106,8 +124,26 @@ class MemcachedHandler implements CommandInterface
      */
     public function items($server, $port, $slab)
     {
-        throw new \Exception('PECL Memcache does not support slabs items stats, use Server or Memcache instead');
+        throw new \Exception('PECL Memcached does not support slabs items stats, use Server or Memcache instead');
         
+        return false;
+    }
+    
+    /**
+     * Send stats cachedump command to server to retrieve slabs items
+     * Return the result if successful or false otherwise
+     *
+     * @param String $server Hostname
+     * @param Integer $port Hostname Port
+     * @param Interger $slab Slab ID
+     * @param Interger $maxnum Max num
+     *
+     * @return Array|Boolean
+     */
+    public function cachedump($server, $port, $slab, $maxnum)
+    {
+        throw new \Exception('PECL Memcached does not support slabs items stats, use Server or Memcache instead');
+    
         return false;
     }
 
@@ -123,10 +159,10 @@ class MemcachedHandler implements CommandInterface
      */
     public function get($server, $port, $key)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : get
+        /* Executing command : get */
         $item = self::$_memcache->get($key);
         return $item;
     }
@@ -145,13 +181,13 @@ class MemcachedHandler implements CommandInterface
      */
     public function set($server, $port, $key, $data, $duration)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
     
-        # Checking duration
+        /* Checking duration */
         if ($duration == '') { $duration = 0; }
     
-        # Executing command : set
+        /* Executing command : set */
         if (self::$_memcache->set($key, $data, $duration)) 
         {
             return true;
@@ -176,13 +212,13 @@ class MemcachedHandler implements CommandInterface
      */
     public function add($server, $port, $key, $data, $duration)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Checking duration
+        /* Checking duration */
         if ($duration == '') { $duration = 0; }
 
-        # Executing command : set
+        /* Executing command : set */
         if (self::$_memcache->add($key, $data, $duration))
         {
             return true;
@@ -207,13 +243,13 @@ class MemcachedHandler implements CommandInterface
      */
     public function replace($server, $port, $key, $data, $duration)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
     
-        # Checking duration
+        /* Checking duration */
         if ($duration == '') { $duration = 0; }
     
-        # Executing command : set
+        /* Executing command : set */
         if (self::$_memcache->replace($key, $data, $duration))
         {
             return true;
@@ -236,10 +272,10 @@ class MemcachedHandler implements CommandInterface
      */
     public function delete($server, $port, $key)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : delete
+        /* Executing command : delete */
         if (self::$_memcache->delete($key))
         {
             return true;
@@ -263,10 +299,10 @@ class MemcachedHandler implements CommandInterface
      */
     public function increment($server, $port, $key, $value)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : increment
+        /* Executing command : increment */
         $result = self::$_memcache->increment($key, $value);
         if ($result) 
         {
@@ -291,10 +327,10 @@ class MemcachedHandler implements CommandInterface
      */
     public function decrement($server, $port, $key, $value)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : decrement
+        /* Executing command : decrement */
         $result = self::$_memcache->decrement($key, $value);
         if ($result) 
         {
@@ -318,10 +354,10 @@ class MemcachedHandler implements CommandInterface
      */
     public function flush($server, $port, $delay)
     {
-        # Adding server
+        /* Adding server */
         self::$_memcache->addServer($server, $port);
 
-        # Executing command : delete
+        /* Executing command : delete */
         if (self::$_memcache->flush($delay))
         {
             return true;

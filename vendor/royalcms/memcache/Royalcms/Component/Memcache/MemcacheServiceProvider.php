@@ -29,7 +29,7 @@ class MemcacheServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-	    $this->royalcms['config']->package('royalcms/memcache', __DIR__ . '/Config');
+	    $this->package('royalcms/memcache');
 	    
 		$this->bindMemcache();
 		

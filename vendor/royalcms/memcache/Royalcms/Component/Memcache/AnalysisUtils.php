@@ -15,20 +15,20 @@ class AnalysisUtils
      */
     public static function merge($array, $stats)
     {
-        # Checking input
-        if(!is_array($array))
+        /* Checking input */
+        if (!is_array($array))
         {
             return $stats;
         }
-        elseif(!is_array($stats))
+        elseif (!is_array($stats))
         {
             return $array;
         }
 
-        # Merging Stats
-        foreach($stats as $key => $value)
+        /* Merging Stats */
+        foreach ($stats as $key => $value)
         {
-            if(isset($array[$key]) && ($key != 'version') && ($key != 'uptime'))
+            if (isset($array[$key]) && ($key != 'version') && ($key != 'uptime'))
             {
                 $array[$key] += $value;
             }
@@ -50,20 +50,20 @@ class AnalysisUtils
      */
     public static function diff($array, $stats)
     {
-        # Checking input
-        if(!is_array($array))
+        /* Checking input */
+        if (!is_array($array))
         {
             return $stats;
         }
-        elseif(!is_array($stats))
+        elseif (!is_array($stats))
         {
             return $array;
         }
 
-        # Diff for each key
-        foreach($stats as $key => $value)
+        /* Diff for each key */
+        foreach ($stats as $key => $value)
         {
-            if(isset($array[$key]))
+            if (isset($array[$key]))
             {
                 $stats[$key] = $value - $array[$key];
             }
@@ -86,15 +86,15 @@ class AnalysisUtils
             return false;
         }
 
-        # Command set()
+        /* Command set() */
         $stats['set_rate'] = ($stats['cmd_set'] == 0) ? '0.0' : sprintf('%.1f', $stats['cmd_set'] / $stats['uptime'], 1);
 
-        # Command get()
+        /* Command get() */
         $stats['get_hits_percent'] = ($stats['cmd_get'] == 0) ? ' - ' : sprintf('%.1f', $stats['get_hits'] / $stats['cmd_get'] * 100, 1);
         $stats['get_misses_percent'] = ($stats['cmd_get'] == 0) ? ' - ' : sprintf('%.1f', $stats['get_misses'] / $stats['cmd_get'] * 100, 1);
         $stats['get_rate'] = ($stats['cmd_get'] == 0) ? '0.0' : sprintf('%.1f', $stats['cmd_get'] / $stats['uptime'], 1);
 
-        # Command delete(), version > 1.2.X
+        /* Command delete(), version > 1.2.X */
         if(isset($stats['delete_hits'], $stats['delete_misses']))
         {
             $stats['cmd_delete'] = $stats['delete_hits'] + $stats['delete_misses'];
@@ -109,7 +109,7 @@ class AnalysisUtils
         }
         $stats['delete_rate'] = ($stats['cmd_delete'] == 0) ? '0.0' : sprintf('%.1f', $stats['cmd_delete'] / $stats['uptime'], 1);
 
-        # Command cas(), version > 1.2.X
+        /* Command cas(), version > 1.2.X */
         if(isset($stats['cas_hits'], $stats['cas_misses'], $stats['cas_badval']))
         {
             $stats['cmd_cas'] = $stats['cas_hits'] + $stats['cas_misses'] + $stats['cas_badval'];
@@ -126,7 +126,7 @@ class AnalysisUtils
         }
         $stats['cas_rate'] = ($stats['cmd_cas'] == 0) ? '0.0' : sprintf('%.1f', $stats['cmd_cas'] / $stats['uptime'], 1);
 
-        # Command increment(), version > 1.2.X
+        /* Command increment(), version > 1.2.X */
         if(isset($stats['incr_hits'], $stats['incr_misses']))
         {
             $stats['cmd_incr'] = $stats['incr_hits'] + $stats['incr_misses'];
@@ -142,7 +142,7 @@ class AnalysisUtils
         }
         $stats['incr_rate'] = ($stats['cmd_incr'] == 0) ? '0.0' : sprintf('%.1f', $stats['cmd_incr'] / $stats['uptime'], 1);
 
-        # Command decrement(), version > 1.2.X
+        /* Command decrement(), version > 1.2.X */
         if(isset($stats['decr_hits'], $stats['decr_misses']))
         {
             $stats['cmd_decr'] = $stats['decr_hits'] + $stats['decr_misses'];
@@ -157,7 +157,7 @@ class AnalysisUtils
         }
         $stats['decr_rate'] = ($stats['cmd_decr'] == 0) ? '0.0' : sprintf('%.1f', $stats['cmd_decr'] / $stats['uptime'], 1);
 
-        # Command decrement(), version > 1.4.7
+        /* Command decrement(), version > 1.4.7 */
         if(isset($stats['touch_hits'], $stats['touch_misses']))
         {
             $stats['cmd_touch'] = $stats['touch_hits'] + $stats['touch_misses'];
@@ -172,12 +172,12 @@ class AnalysisUtils
         }
         $stats['touch_rate'] = ($stats['cmd_touch'] == 0) ? '0.0' : sprintf('%.1f', $stats['cmd_touch'] / $stats['uptime'], 1);
 
-        # Total hit & miss
-        #$stats['cmd_total'] = $stats['cmd_get'] + $stats['cmd_set'] + $stats['cmd_delete'] + $stats['cmd_cas'] + $stats['cmd_incr'] + $stats['cmd_decr'];
-        #$stats['hit_percent'] = ($stats['cmd_get'] == 0) ? '0.0' : sprintf('%.1f', ($stats['get_hits']) / ($stats['get_hits'] + $stats['get_misses']) * 100, 1);
-        #$stats['miss_percent'] = ($stats['cmd_get'] == 0) ? '0.0' : sprintf('%.1f', ($stats['get_misses']) / ($stats['get_hits'] + $stats['get_misses']) * 100, 1);
+        /* Total hit & miss */
+        /* $stats['cmd_total'] = $stats['cmd_get'] + $stats['cmd_set'] + $stats['cmd_delete'] + $stats['cmd_cas'] + $stats['cmd_incr'] + $stats['cmd_decr']; */
+        /* $stats['hit_percent'] = ($stats['cmd_get'] == 0) ? '0.0' : sprintf('%.1f', ($stats['get_hits']) / ($stats['get_hits'] + $stats['get_misses']) * 100, 1); */
+        /* $stats['miss_percent'] = ($stats['cmd_get'] == 0) ? '0.0' : sprintf('%.1f', ($stats['get_misses']) / ($stats['get_hits'] + $stats['get_misses']) * 100, 1); */
 
-        # Command flush_all
+        /* Command flush_all */
         if(isset($stats['cmd_flush']))
         {
             $stats['flush_rate'] = ($stats['cmd_flush'] == 0) ? '0.0' : sprintf('%.1f', $stats['cmd_flush'] / $stats['uptime'], 1);
@@ -187,15 +187,15 @@ class AnalysisUtils
             $stats['flush_rate'] = '0.0';
         }
 
-        # Cache size
+        /* Cache size */
         $stats['bytes_percent'] = ($stats['limit_maxbytes'] == 0) ? '0.0' : sprintf('%.1f', $stats['bytes'] / $stats['limit_maxbytes'] * 100, 1);
 
-        # Request rate
+        /* Request rate */
         $stats['request_rate'] = sprintf('%.1f', ($stats['cmd_get'] + $stats['cmd_set'] + $stats['cmd_delete'] + $stats['cmd_cas'] + $stats['cmd_incr'] + $stats['cmd_decr']) / $stats['uptime'], 1);
         $stats['hit_rate'] = sprintf('%.1f', ($stats['get_hits']) / $stats['uptime'], 1);
         $stats['miss_rate'] = sprintf('%.1f', ($stats['get_misses']) / $stats['uptime'], 1);
 
-        # Eviction & reclaimed rate
+        /* Eviction & reclaimed rate */
         $stats['eviction_rate'] = ($stats['evictions'] == 0) ? '0.0' : sprintf('%.1f', $stats['evictions'] / $stats['uptime'], 1);
         $stats['reclaimed_rate'] = (!isset($stats['reclaimed']) || ($stats['reclaimed'] == 0)) ? '0.0' : sprintf('%.1f', $stats['reclaimed'] / $stats['uptime'], 1);
 
@@ -211,17 +211,17 @@ class AnalysisUtils
      */
     public static function slabs($slabs)
     {
-        # Initializing Used Slabs
+        /* Initializing Used Slabs */
         $slabs['used_slabs'] = 0;
         $slabs['total_wasted'] = 0;
 
-        # Request Rate par Slabs
+        /* Request Rate par Slabs */
         foreach($slabs as $id => $slab)
         {
-            # Check if it's a Slab
+            /* Check if it's a Slab */
             if(is_numeric($id))
             {
-                # Check if Slab is used
+                /* Check if Slab is used */
                 if($slab['used_chunks'] > 0)
                 {
                     $slabs['used_slabs']++;
@@ -232,7 +232,7 @@ class AnalysisUtils
             }
         }
 
-        # Cheking server total malloced > 0
+        /* Cheking server total malloced > 0 */
         if(!isset($slabs['total_malloced']))
         {
             $slabs['total_malloced'] = 0;
@@ -273,10 +273,10 @@ class AnalysisUtils
      */
     public static function byteResize($value)
     {
-        # Unit list
+        /* Unit list */
         $units = array('', 'K', 'M', 'G', 'T');
 
-        # Resizing
+        /* Resizing */
         foreach($units as $unit)
         {
             if($value < 1024)
@@ -297,10 +297,10 @@ class AnalysisUtils
      */
     public static function valueResize($value)
     {
-        # Unit list
+        /* Unit list */
         $units = array('', 'K', 'M', 'G', 'T');
 
-        # Resizing
+        /* Resizing */
         foreach($units as $unit)
         {
             if($value < 1000)
@@ -321,10 +321,10 @@ class AnalysisUtils
      */
     public static function hitResize($value)
     {
-        # Unit list
+        /* Unit list */
         $units = array('', 'K', 'M', 'G', 'T');
 
-        # Resizing
+        /* Resizing */
         foreach($units as $unit)
         {
             if($value < 10000000)

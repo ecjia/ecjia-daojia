@@ -17,7 +17,7 @@ class ServerHandler implements CommandInterface
      */
     public function __construct()
     {
-        # Importing configuration
+        /* Importing configuration */
         self::$_ini = royalcms('config')->get('memcache::config');
     }
 
@@ -34,52 +34,52 @@ class ServerHandler implements CommandInterface
      */
     public function exec($command, $server, $port)
     {
-        # Variables
+        /* Variables */
         $buffer = '';
         $handle = null;
 
-        # Socket Opening
+        /* Socket Opening */
         if(!($handle = @fsockopen($server, $port, $errno, $errstr, self::$_ini['connection_timeout'])))
         {
-            # Adding error to log
+            /* Adding error to log */
             self::$_log = utf8_encode($errstr);
-
+            
             return false;
         }
-
-        # Sending Command ...
+        
+        /* Sending Command ... */
         fwrite($handle, $command . "\r\n");
 
-        # Getting first line
+        /* Getting first line */
         $buffer = fgets($handle);
-
-        # Checking if result is valid
+        
+        /* Checking if result is valid */
         if($this->end($buffer, $command))
         {
-            # Closing socket
+            /* Closing socket */
             fclose($handle);
 
-            # Adding error to log
+            /* Adding error to log */
             self::$_log = $buffer;
 
             return false;
         }
 
-        # Reading Results
-        while((!feof($handle)))
+        /* Reading Results */
+        while ((!feof($handle)))
         {
-            # Getting line
+            /* Getting line */
             $line = fgets($handle);
 
             $buffer .= $line;
 
-            # Checking for end of MemCache command
-            if($this->end($line, $command))
+            /* Checking for end of MemCache command */
+            if ($this->end($line, $command))
             {
                 break;
             }
         }
-        # Closing socket
+        /* Closing socket */
         fclose($handle);
 
         return $buffer;
@@ -96,18 +96,18 @@ class ServerHandler implements CommandInterface
      */
     private function end($buffer, $command)
     {
-        # incr or decr also return integer
-        if((preg_match('/^(incr|decr)/', $command)))
+        /* incr or decr also return integer */
+        if ((preg_match('/^(incr|decr)/', $command)))
         {
-            if(preg_match('/^(END|ERROR|SERVER_ERROR|CLIENT_ERROR|NOT_FOUND|[0-9]*)/', $buffer))
+            if (preg_match('/^(END|ERROR|SERVER_ERROR|CLIENT_ERROR|NOT_FOUND|[0-9]*)/', $buffer))
             {
                 return true;
             }
         }
         else
         {
-            # Checking command response end
-            if(preg_match('/^(END|DELETED|OK|ERROR|SERVER_ERROR|CLIENT_ERROR|NOT_FOUND|STORED|RESET|TOUCHED)/', $buffer))
+            /* Checking command response end */
+            if (preg_match('/^(END|DELETED|OK|ERROR|SERVER_ERROR|CLIENT_ERROR|NOT_FOUND|STORED|RESET|TOUCHED)/', $buffer))
             {
                 return true;
             }
@@ -125,33 +125,33 @@ class ServerHandler implements CommandInterface
      */
     public function parse($string, $stats = true)
     {
-        # Variable
+        /* Variable */
         $return = array();
 
-        # Exploding by \r\n
+        /* Exploding by \r\n */
         $lines = preg_split('/\r\n/', $string);
 
-        # Stats
+        /* Stats */
         if($stats)
         {
-            # Browsing each line
-            foreach($lines as $line)
+            /* Browsing each line */
+            foreach ($lines as $line)
             {
                 $data = preg_split('/ /', $line);
-                if(isset($data[2]))
+                if (isset($data[2]))
                 {
                     $return[$data[1]] = $data[2];
                 }
             }
         }
-        # Items
+        /* Items */
         else
         {
-            # Browsing each line
-            foreach($lines as $line)
+            /* Browsing each line */
+            foreach ($lines as $line)
             {
                 $data = preg_split('/ /', $line);
-                if(isset($data[1]))
+                if (isset($data[1]))
                 {
                     $return[$data[1]] = array(substr($data[2], 1), $data[4]);
                 }
@@ -171,9 +171,9 @@ class ServerHandler implements CommandInterface
      */
     public function stats($server, $port)
     {
-        # Executing command
+        /* Executing command */
         $return = $this->exec('stats', $server, $port);
-        if($return)
+        if ($return)
         {
             return $this->parse($return);
         }
@@ -191,9 +191,29 @@ class ServerHandler implements CommandInterface
      */
     public function settings($server, $port)
     {
-        # Executing command
+        /* Executing command */
         $return = $this->exec('stats settings', $server, $port);
-        if($return)
+        if ($return)
+        {
+            return $this->parse($return);
+        }
+        return false;
+    }
+    
+    /**
+     * Send sizes command to server
+     * Return the result if successful or false otherwise
+     *
+     * @param String $server Hostname
+     * @param Integer $port Hostname Port
+     *
+     * @return Array|Boolean
+     */
+    public function sizes($server, $port)
+    {
+        /* Executing command */
+        $return = $this->exec('stats sizes', $server, $port);
+        if ($return)
         {
             return $this->parse($return);
         }
@@ -211,39 +231,39 @@ class ServerHandler implements CommandInterface
      */
     public function slabs($server, $port)
     {
-        # Initializing
+        /* Initializing */
         $slabs = array();
 
-        # Finding uptime
+        /* Finding uptime */
         $stats = $this->stats($server, $port);
         $slabs['uptime'] = $stats['uptime'];
         unset($stats);
 
-        # Executing command : slabs stats
+        /* Executing command : slabs stats */
         $result = $this->exec('stats slabs', $server, $port);
         if ($result)
         {
-            # Parsing result
+            /* Parsing result */
             $result = $this->parse($result);
             $slabs['active_slabs'] = $result['active_slabs'];
             $slabs['total_malloced'] = $result['total_malloced'];
             unset($result['active_slabs']);
             unset($result['total_malloced']);
 
-            # Indexing by slabs
+            /* Indexing by slabs */
             foreach($result as $key => $value)
             {
                 $key = preg_split('/:/', $key);
                 $slabs[$key[0]][$key[1]] = $value;
             }
 
-            # Executing command : items stats
+            /* Executing command : items stats */
             if(($result = $this->exec('stats items', $server, $port)) != false)
             {
-                # Parsing result
+                /* Parsing result */
                 $result = $this->parse($result);
 
-                # Indexing by slabs
+                /* Indexing by slabs */
                 foreach($result as $key => $value)
                 {
                     $key = preg_split('/:/', $key);
@@ -268,14 +288,40 @@ class ServerHandler implements CommandInterface
      */
     public function items($server, $port, $slab)
     {
-        # Initializing
+        /* Initializing */
         $items = false;
 
-        # Executing command : stats cachedump
+        /* Executing command : stats cachedump */
         $result = $this->exec('stats cachedump ' . $slab . ' ' . self::$_ini['max_item_dump'], $server, $port);
         if($result)
         {
-            # Parsing result
+            /* Parsing result */
+            $items = $this->parse($result, false);
+        }
+        return $items;
+    }
+    
+    /**
+     * Send stats cachedump command to server to retrieve slabs items
+     * Return the result if successful or false otherwise
+     *
+     * @param String $server Hostname
+     * @param Integer $port Hostname Port
+     * @param Interger $slab Slab ID
+     * @param Interger $maxnum Max num
+     *
+     * @return Array|Boolean
+     */
+    public function cachedump($server, $port, $slab, $maxnum)
+    {
+        /* Initializing */
+        $items = false;
+    
+        /* Executing command : stats cachedump */
+        $result = $this->exec('stats cachedump ' . $slab . ' ' . $maxnum, $server, $port);
+        if ($result)
+        {
+            /* Parsing result */
             $items = $this->parse($result, false);
         }
         return $items;
@@ -293,7 +339,7 @@ class ServerHandler implements CommandInterface
      */
     public function get($server, $port, $key)
     {
-        # Executing command : get
+        /* Executing command : get */
         $string = $this->exec('get ' . $key, $server, $port);
         if ($string)
         {
@@ -319,10 +365,10 @@ class ServerHandler implements CommandInterface
      */
     function set($server, $port, $key, $data, $duration)
     {
-        # Formatting data
+        /* Formatting data */
         $data = preg_replace('/\r/', '', $data);
 
-        # Executing command : set
+        /* Executing command : set */
         $result = $this->exec('set ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port);
         if($result)
         {
@@ -348,10 +394,10 @@ class ServerHandler implements CommandInterface
      */
     function add($server, $port, $key, $data, $duration)
     {
-        # Formatting data
+        /* Formatting data */
         $data = preg_replace('/\r/', '', $data);
     
-        # Executing command : set
+        /* Executing command : set */
         $result = $this->exec('add ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port);
         if ($result)
         {
@@ -377,12 +423,12 @@ class ServerHandler implements CommandInterface
      */
     function replace($server, $port, $key, $data, $duration)
     {
-        # Formatting data
+        /* Formatting data */
         $data = preg_replace('/\r/', '', $data);
     
-        # Executing command : set
+        /* Executing command : set */
         $result = $this->exec('replace ' . $key . ' 0 ' . $duration . ' ' . strlen($data) . "\r\n" . $data, $server, $port);
-        if($result)
+        if ($result)
         {
             return $result;
         }
@@ -404,7 +450,7 @@ class ServerHandler implements CommandInterface
      */
     public function delete($server, $port, $key)
     {
-        # Executing command : delete
+        /* Executing command : delete */
         $result = $this->exec('delete ' . $key, $server, $port);
         if ($result)
         {
@@ -429,9 +475,9 @@ class ServerHandler implements CommandInterface
      */
     function increment($server, $port, $key, $value)
     {
-        # Executing command : increment
+        /* Executing command : increment */
         $result = $this->exec('incr ' . $key . ' ' . $value, $server, $port);
-        if($result)
+        if ($result)
         {
             return $result;
         }
@@ -454,7 +500,7 @@ class ServerHandler implements CommandInterface
      */
     function decrement($server, $port, $key, $value)
     {
-        # Executing command : decrement
+        /* Executing command : decrement */
         $result = $this->exec('decr ' . $key . ' ' . $value, $server, $port);
         if ($result)
         {
@@ -478,7 +524,7 @@ class ServerHandler implements CommandInterface
      */
     function flush($server, $port, $delay)
     {
-        # Executing command : flush_all
+        /* Executing command : flush_all */
         $result = $this->exec('flush_all ' . $delay, $server, $port);
         if ($result)
         {
@@ -505,15 +551,15 @@ class ServerHandler implements CommandInterface
         $slabs = array();
         $items = false;
 
-        # Executing command : slabs stats
+        /* Executing command : slabs stats */
         $result = $this->exec('stats slabs', $server, $port);
         if ($result)
         {
-            # Parsing result
+            /* Parsing result */
             $result = $this->parse($result);
             unset($result['active_slabs']);
             unset($result['total_malloced']);
-            # Indexing by slabs
+            /* Indexing by slabs */
             foreach($result as $key => $value)
             {
                 $key = preg_split('/:/', $key);
@@ -521,14 +567,14 @@ class ServerHandler implements CommandInterface
             }
         }
 
-        # Exploring each slabs
+        /* Exploring each slabs */
         foreach($slabs as $slab => $unused)
         {
-            # Executing command : stats cachedump
+            /* Executing command : stats cachedump */
             $result = $this->exec('stats cachedump ' . $slab . ' 0', $server, $port);
             if ($result)
             {
-                # Parsing result
+                /* Parsing result */
                 preg_match_all('/^ITEM ((?:.*)' . preg_quote($search, '/') . '(?:.*)) \[(?:.*)\]\r\n/imU', $result, $matchs, PREG_SET_ORDER);
 
                 foreach ($matchs as $item)
@@ -559,7 +605,7 @@ class ServerHandler implements CommandInterface
      */
     function telnet($server, $port, $command)
     {
-        # Executing command
+        /* Executing command */
         $result = $this->exec($command, $server, $port);
         if ($result)
         {

@@ -33,6 +33,17 @@ interface CommandInterface
      * @return Array|Boolean
      */
     public function settings($server, $port);
+    
+    /**
+     * Send sizes command to server
+     * Return the result if successful or false otherwise
+     *
+     * @param String $server Hostname
+     * @param Integer $port Hostname Port
+     *
+     * @return Array|Boolean
+     */
+    public function sizes($server, $port);
 
     /**
      * Retrieve slabs stats
