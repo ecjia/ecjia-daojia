@@ -234,6 +234,7 @@ return array(
     'CreateSessionTable' => $contentDir . '/database/migrations/2018_01_11_095623_create_session_table.php',
     'DropSessionsTable' => $contentDir . '/database/migrations/2018_01_12_150951_drop_sessions_table.php',
     'DropSessionsDataTable' => $contentDir . '/database/migrations/2018_01_12_151009_drop_sessions_data_table.php',
+    'CreateFriendLinkTable' => $contentDir . '/database/migrations/2018_02_02_112721_create_friend_link_table.php',
      
     
     // seeder
@@ -275,6 +276,7 @@ return array(
     'DemoArticleTableSeeder' => $contentDir . '/database/seeds/DemoArticleTableSeeder.php',
     'DemoArticleTableSeeder' => $contentDir . '/database/seeds/DemoArticleTableSeeder.php',
     'DemoGoodsArticleTableSeeder' => $contentDir . '/database/seeds/DemoGoodsArticleTableSeeder.php',
+    'DemoFriendLinkTableSeeder' => $contentDir . '/database/seeds/DemoFriendLinkTableSeeder.php',
     
 );
 
