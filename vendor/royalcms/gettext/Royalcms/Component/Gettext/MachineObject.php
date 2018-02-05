@@ -1,10 +1,15 @@
-<?php namespace Royalcms\Component\Gettext;
-defined('IN_ROYALCMS') or exit('No permission resources.');
+<?php 
 
-class Component_Translation_MO extends Component_Translation_GettextTranslations
+namespace Royalcms\Component\Gettext;
+
+use Royalcms\Component\Gettext\Translations\GettextTranslations;
+use Royalcms\Component\Gettext\Reader\FileReader;
+use Royalcms\Component\Gettext\Entry;
+
+class MachineObject extends GettextTranslations
 {
 
-    var $_nplurals = 2;
+    protected $_nplurals = 2;
 
     /**
      * Fills up with the entries from MO file $filename
@@ -12,15 +17,15 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
      * @param string $filename
      *            MO file to load
      */
-    function import_from_file($filename)
+    public function import_from_file($filename)
     {
-        $reader = new Component_Pomo_FileReader($filename);
+        $reader = new FileReader($filename);
         if (! $reader->is_resource())
             return false;
         return $this->import_from_reader($reader);
     }
 
-    function export_to_file($filename)
+    public function export_to_file($filename)
     {
         $fh = fopen($filename, 'wb');
         if (! $fh)
@@ -30,7 +35,7 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
         return $res;
     }
 
-    function export()
+    public function export()
     {
         $tmp_fh = fopen("php://temp", 'r+');
         if (! $tmp_fh)
@@ -40,7 +45,7 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
         return stream_get_contents($tmp_fh);
     }
 
-    function is_entry_good_for_export($entry)
+    public function is_entry_good_for_export($entry)
     {
         if (empty($entry->translations)) {
             return false;
@@ -53,7 +58,7 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
         return true;
     }
 
-    function export_to_file_handle($fh)
+    public function export_to_file_handle($fh)
     {
         $entries = array_filter($this->entries, array(
             $this,
@@ -100,7 +105,7 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
         return true;
     }
 
-    function export_original($entry)
+    public function export_original($entry)
     {
         // TODO: warnings for control characters
         $exported = $entry->singular;
@@ -111,13 +116,13 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
         return $exported;
     }
 
-    function export_translations($entry)
+    public function export_translations($entry)
     {
         // TODO: warnings for control characters
         return implode(chr(0), $entry->translations);
     }
 
-    function export_headers()
+    public function export_headers()
     {
         $exported = '';
         foreach ($this->headers as $header => $value) {
@@ -145,7 +150,7 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
             }
     }
 
-    function import_from_reader($reader)
+    public function import_from_reader($reader)
     {
         $endian_string = self::get_byteorder($reader->readint32());
         if (false === $endian_string) {
@@ -241,9 +246,9 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
      *            translation string from MO file. Might contain
      *            0x00 as a plural translations separator
      */
-    function &make_entry($original, $translation)
+    public function &make_entry($original, $translation)
     {
-        $entry = new Component_Translation_Entry();
+        $entry = new Entry();
         // look for context
         $parts = explode(chr(4), $original);
         if (isset($parts[1])) {
@@ -262,12 +267,12 @@ class Component_Translation_MO extends Component_Translation_GettextTranslations
         return $entry;
     }
 
-    function select_plural_form($count)
+    public function select_plural_form($count)
     {
         return $this->gettext_select_plural_form($count);
     }
 
-    function get_plural_forms_count()
+    public function get_plural_forms_count()
     {
         return $this->_nplurals;
     }

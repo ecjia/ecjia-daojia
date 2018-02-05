@@ -1,12 +1,13 @@
-<?php namespace Royalcms\Component\Gettext;
-defined('IN_ROYALCMS') or exit('No permission resources.');
+<?php 
 
-class Component_Translation_NoopTranslations
+namespace Royalcms\Component\Gettext\Translations;
+
+class NoopTranslations
 {
 
-    var $entries = array();
+    protected $entries = array();
 
-    var $headers = array();
+    protected $headers = array();
 
     public function add_entry($entry)
     {

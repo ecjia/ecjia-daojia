@@ -1,14 +1,18 @@
-<?php namespace Royalcms\Component\Gettext;
-defined('IN_ROYALCMS') or exit('No permission resources.');
+<?php 
+
+namespace Royalcms\Component\Gettext;
+
+use Royalcms\Component\Gettext\Translations\GettextTranslations;
+use Royalcms\Component\Gettext\Entry;
 
 define('PO_MAX_LINE_LEN', 79);
 
 ini_set('auto_detect_line_endings', 1);
 
-class Component_Translation_PO extends Component_Translation_GettextTranslations
+class PortableObject extends GettextTranslations
 {
 
-    var $comments_before_headers = '';
+    protected $comments_before_headers = '';
 
     /**
      * Exports headers to a PO entry
@@ -282,7 +286,7 @@ class Component_Translation_PO extends Component_Translation_GettextTranslations
 
     public function read_entry($f, $lineno = 0)
     {
-        $entry = new Component_Translation_Entry();
+        $entry = new Entry();
         // where were we in the last step
         // can be: comment, msgctxt, msgid, msgid_plural, msgstr, msgstr_plural
         $context = '';

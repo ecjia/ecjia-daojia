@@ -1,10 +1,11 @@
-<?php namespace Royalcms\Component\Gettext;
-defined('IN_ROYALCMS') or exit('No permission resources.');
+<?php 
+
+namespace Royalcms\Component\Gettext;
 
 /**
  * Translation_Entry class encapsulates a translatable string
  */
-class Component_Translation_Entry
+class Entry
 {
 
     /**

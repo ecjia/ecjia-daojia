@@ -1,12 +1,15 @@
-<?php namespace Royalcms\Component\Gettext;
-defined('IN_ROYALCMS') or exit('No permission resources.');
+<?php 
 
-class Component_Translation_Translations
+namespace Royalcms\Component\Gettext\Translations;
+
+use Royalcms\Component\Gettext\Entry;
+
+class Translations
 {
 
-    var $entries = array();
+    protected $entries = array();
 
-    var $headers = array();
+    protected $headers = array();
 
     /**
      * Add entry to the PO structure
@@ -18,7 +21,7 @@ class Component_Translation_Translations
     public function add_entry($entry)
     {
         if (is_array($entry)) {
-            $entry = new Component_Translation_Entry($entry);
+            $entry = new Entry($entry);
         }
         $key = $entry->key();
         if (false === $key)
@@ -30,7 +33,7 @@ class Component_Translation_Translations
     public function add_entry_or_merge($entry)
     {
         if (is_array($entry)) {
-            $entry = new Component_Translation_Entry($entry);
+            $entry = new Entry($entry);
         }
         $key = $entry->key();
         if (false === $key)
@@ -79,7 +82,7 @@ class Component_Translation_Translations
 
     public function translate($singular, $context = null)
     {
-        $entry = new Component_Translation_Entry(array(
+        $entry = new Entry(array(
             'singular' => $singular,
             'context' => $context
         ));
@@ -111,7 +114,7 @@ class Component_Translation_Translations
 
     public function translate_plural($singular, $plural, $count, $context = null)
     {
-        $entry = new Component_Translation_Entry(array(
+        $entry = new Entry(array(
             'singular' => $singular,
             'plural' => $plural,
             'context' => $context

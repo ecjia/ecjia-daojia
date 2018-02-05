@@ -1,7 +1,8 @@
 <?php
-defined('IN_ROYALCMS') or exit('No permission resources.');
 
-class Component_Pomo_Reader
+namespace Royalcms\Component\Gettext\Reader;
+
+class Reader
 {
 
     protected $endian = 'little';

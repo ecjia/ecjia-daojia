@@ -1,7 +1,8 @@
-<?php namespace Royalcms\Component\Gettext;
-defined('IN_ROYALCMS') or exit('No permission resources.');
+<?php 
 
-class Component_Translation_GettextTranslations extends Component_Translation_Translations
+namespace Royalcms\Component\Gettext\Translations;
+
+class GettextTranslations extends Translations
 {
 
     /**

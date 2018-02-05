@@ -1,9 +1,11 @@
 <?php
-defined('IN_ROYALCMS') or exit('No permission resources.');
+
+namespace Royalcms\Component\Gettext\Reader;
+
 /**
  * Reads the contents of the file in the beginning.
  */
-class Component_Pomo_CachedFileReader extends Component_Pomo_StringReader
+class CachedFileReader extends StringReader
 {
 
     public function __construct($filename)

@@ -1,7 +1,8 @@
 <?php
-defined('IN_ROYALCMS') or exit('No permission resources.');
 
-class Component_Pomo_FileReader extends Component_Pomo_Reader
+namespace Royalcms\Component\Gettext\Reader;
+
+class FileReader extends Reader
 {
 
     public function __construct($filename)

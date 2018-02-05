@@ -1,11 +1,12 @@
 <?php
-defined('IN_ROYALCMS') or exit('No permission resources.');
+
+namespace Royalcms\Component\Gettext\Reader;
 
 /**
  * Provides file-like methods for manipulating a string instead
  * of a physical file.
  */
-class Component_Pomo_StringReader extends Component_Pomo_Reader
+class StringReader extends Reader
 {
 
     protected $_str = '';
