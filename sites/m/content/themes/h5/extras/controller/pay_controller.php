@@ -83,10 +83,7 @@ class pay_controller {
         	if (is_ecjia_error($detail)) {
         	    return ecjia_front::$controller->showmessage($detail->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         	}
-//         	//支付方式信息
-//         	$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-//         	$payment_info = $payment_method->payment_info_by_id($detail['pay_id']);
-        	
+        	//支付方式信息
         	if ($detail['pay_code'] == 'pay_wxpay') {
         	    $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($detail['pay_code']);
         	    $open_id = $handler->getWechatOpenId();
@@ -119,19 +116,6 @@ class pay_controller {
 	        	}
 	        	/* 调起微信支付*/
 	        	else if ($order['pay_code'] == 'pay_wxpay') {
-	        		// 取得支付信息，生成支付代码
-// 	        		$payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
-	        		 
-// // 	        		$handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
-// 	        		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($order['pay_code']);
-// 	        		$handler->set_orderinfo($detail);
-// 	        		$handler->set_mobile(false);
-// 	        		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
-// 	        		$rs_pay = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
-// 	        		if (is_ecjia_error($rs_pay)) {
-// 	        		    return ecjia_front::$controller->showmessage($rs_pay->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
-// 	        		}
-// 	        		$order = $rs_pay;
 	        		$pay_online = array_get($rs_pay, 'payment.private_data.pay_online', array_get($rs_pay, 'payment.pay_online'));
 	        		ecjia_front::$controller->assign('pay_button', $pay_online);
 	        		unset($order['pay_online']);

@@ -3886,6 +3886,9 @@ footer {
     height: 30px;
     line-height: 30px;
     margin-left: 0;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ecjia .ecjia-select label.select-item .active {

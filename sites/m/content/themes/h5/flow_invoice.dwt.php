@@ -27,7 +27,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 <p>单位</p>
                 <image {if $temp.inv_type_name != 'enterprise'}style="display:none"{/if} class="ecjia-bill-img" src="{$theme_url}images/select.png"></image>
             </div>
-            <input name="inv_type_name" type="hidden" value="{if $temp.inv_type_name != ''}$temp.inv_type_name{else if}personal{/if}" />
+            <input name="inv_type_name" type="hidden" value="{if $temp.inv_type_name != ''}{$temp.inv_type_name}{else}personal{/if}" />
             <div class="input input100 inv_input {if $temp.inv_type_name != 'enterprise'}inv_none{/if}">
                 <input class="inv_type_input" type="text" name="inv_payee" value="{$temp.inv_payee}" placeholder="请填写单位发票抬头">
                 <div class="img_flat">
