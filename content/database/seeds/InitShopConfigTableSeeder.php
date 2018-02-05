@@ -443,7 +443,7 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'mobile_app_name', 'value' => 'EC+到家', 'options' => ['type' => 'text']],
             ['code' => 'mobile_app_version', 'value' => '1.10.0', 'options' => ['type' => 'text']],
             ['code' => 'mobile_app_preview', 'value' => 'a:2:{i:0;s:35:"data/assets/mobile_app_preview1.jpg";i:1;s:35:"data/assets/mobile_app_preview2.jpg";}', 'options' => ['type' => 'manual']],
-            ['code' => 'mobile_app_video', 'value' => 'https://dn-ecmoban.qbox.me/ECJIAo2o-rwxf.mp4', 'options' => ['type' => 'text']],
+            ['code' => 'mobile_app_video', 'value' => 'https://dn-ecmoban.qbox.me/DJ20170930-rwxf.mp4', 'options' => ['type' => 'text']],
             ['code' => 'mobile_shop_urlscheme', 'value' => 'com.ecjia.cityo2o://', 'options' => ['type' => 'text']],
             ['code' => 'mobile_share_link', 'value' => 'https://cityo2o.ecjia.com/sites/api/index.php?m=affiliate&c=mobile&a=init&invite_code={$invite_code}', 'options' => ['type' => 'text']],
             ['code' => 'mobile_feedback_autoreply', 'value' => '', 'options' => ['type' => 'textarea']],

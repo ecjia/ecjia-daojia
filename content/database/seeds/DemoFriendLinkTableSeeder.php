@@ -44,9 +44,12 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+/**
+ * 插入数据 `ecjia_term_meta` meta关联表
+ */
 use Royalcms\Component\Database\Seeder;
 
-class DemoDatabaseSeeder extends Seeder
+class DemoFriendLinkTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -55,20 +58,75 @@ class DemoDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('DemoStoreFranchiseeTableSeeder');
-        $this->call('DemoMerchantsConfigTableSeeder');
-        $this->call('DemoStaffUserTableSeeder');
-        $this->call('DemoCategoryTableSeeder');
-        $this->call('DemoMerchantsCategoryTableSeeder');
-        $this->call('DemoGoodsTableSeeder');
-        $this->call('DemoGoodsGalleryTableSeeder');
-        $this->call('DemoGoodsAttrTableSeeder');
-        $this->call('DemoGoodsCatTableSeeder');
-        $this->call('DemoAttributeTableSeeder');
-        $this->call('DemoTermMetaTableSeeder');
-        $this->call('DemoArticleCatTableSeeder');
-        $this->call('DemoArticleTableSeeder');
-        $this->call('DemoGoodsArticleTableSeeder');
-        $this->call('DemoFriendLinkTableSeeder');
+        $data = array(
+        	array(
+        		'link_id'         => '1',
+        		'link_name'       => 'ECJia',
+        		'link_url'        => 'https://ecjia.com',
+        		'link_logo'       => 'data/friendlink/1516064370074434971.png',
+        		'show_order'      => '50',
+        	),
+        	array(
+        		'link_id'         => '2',
+        		'link_name'       => 'ECJia到家',
+        		'link_url'        => 'https://daojia.ecjia.com',
+        		'link_logo'       => 'data/friendlink/1516065080563470058.png',
+        		'show_order'      => '51',
+        	),
+        	array(
+        		'link_id'         => '3',
+        		'link_name'       => 'ECJia云短信',
+        		'link_url'        => 'https://sms.ecjia.com',
+        		'link_logo'       => 'data/friendlink/1516065143412858667.png',
+        		'show_order'      => '52',
+        	),
+        	array(
+        		'link_id'         => '4',
+        		'link_name'       => 'ECJia店铺街',
+        		'link_url'        => 'https://daojia.ecjia.com/app_street.html',
+        		'link_logo'       => 'data/friendlink/1516064398084199921.png',
+        		'show_order'      => '60',
+        	),
+        	array(
+        		'link_id'         => '5',
+        		'link_name'       => 'ECJia掌柜',
+        		'link_url'        => 'https://daojia.ecjia.com/app_shopkeeper.html',
+        		'link_logo'       => 'data/friendlink/1516064416107998015.png',
+        		'show_order'      => '61',
+        	),
+        	array(
+        		'link_id'         => '6',
+        		'link_name'       => 'ECJia配送员',
+        		'link_url'        => 'https://daojia.ecjia.com/app_deliver.html',
+        		'link_logo'       => 'data/friendlink/1516064454522712258.png',
+        		'show_order'      => '50',
+        	),
+        	array(
+        		'link_id'         => '7',
+        		'link_name'       => '大商创',
+        		'link_url'        => 'http://www.dscmall.cn/',
+        		'link_logo'       => 'data/friendlink/1516064461322168913.png',
+        		'show_order'      => '70',
+        	),
+        	array(
+        		'link_id'         => '8',
+        		'link_name'       => '模板堂',
+        		'link_url'        => 'http://www.ecmoban.com/',
+        		'link_logo'       => 'data/friendlink/1516064468293462321.png',
+        		'show_order'      => '71',
+        	),
+        	array(
+        		'link_id'         => '9',
+        		'link_name'       => 'ECTouch',
+        		'link_url'        => 'https://www.ectouch.cn/',
+        		'link_logo'       => 'data/friendlink/1516064475491192193.png',
+        		'show_order'      => '72',
+        	),
+           
+        );
+        
+        RC_DB::table('friend_link')->truncate();
+        RC_DB::table('friend_link')->insert($data);
     }
+    
 }
