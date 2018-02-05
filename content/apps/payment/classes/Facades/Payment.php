@@ -1,5 +1,5 @@
-<?php
-//
+<?php 
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,17 +44,15 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Shipping\Facades;
 
-class payment_admin_plugin {
-	
-	public static function payment_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('payment_record', RC_Lang::get('payment::payment.transaction_flow_record'), RC_Uri::url('payment/admin_payment_record/init'), 11)->add_purview('payment_manage');
-	    $menus->add_submenu($menu);
-	    return $menus;
-	}
+use Royalcms\Component\Support\Facades\Facade;
+
+class Payment extends Facade {
+
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.payment';
+    }
+    
 }
-
-RC_Hook::add_filter( 'finance_admin_menu_api', array('payment_admin_plugin', 'payment_admin_menu_api') );
-
-// end
