@@ -117,7 +117,7 @@ class PluginManager extends Manager
      * Call a custom driver creator.
      *
      * @param  array  $config
-     * @return \Royalcms\Component\FilesystemKernel\FilesystemBase
+     * @return \Royalcms\Component\Storage\FilesystemBase
      */
     protected function callCustomCreator($driver)
     {

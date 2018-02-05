@@ -50,8 +50,8 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 define('APPNAME', 'ECJIA');
-define('VERSION', '1.26');
-define('RELEASE', '20180115'); 
+define('VERSION', '1.27');
+define('RELEASE', '20180202'); 
 
 class ecjia {
 	
@@ -244,20 +244,33 @@ class ecjia {
 	public static function load_lang() {
 	    $apps = ecjia_app::app_floders();
 	    foreach ($apps as $app) {
-	        $namespace = $app;
-	        $dir = SITE_CONTENT_PATH . 'apps/' . $app . '/languages';
-	        $dir2 = RC_CONTENT_PATH . 'apps/' . $app . '/languages';
-	        if (is_dir($dir)) {
-	            $path = $dir;
-	        } elseif (is_dir($dir2)) {
-	            $path = $dir2;
-	        } else {
-	            $path = null;
-	        }
-	        if ($path) {
-	            RC_Lang::addNamespace($namespace, $path);
+	        self::loadTranslationLang($app);
+	        if (royalcms('config')->get('system.locale') != 'zh_CN') {
+	            self::loadGettextLang($app);
 	        }
 	    }
+	}
+	
+	public static function loadTranslationLang($app)
+	{
+	    $namespace = $app;
+	    $dir = SITE_CONTENT_PATH . 'apps/' . $app . '/languages';
+	    $dir2 = RC_CONTENT_PATH . 'apps/' . $app . '/languages';
+	    if (is_dir($dir)) {
+	        $path = $dir;
+	    } elseif (is_dir($dir2)) {
+	        $path = $dir2;
+	    } else {
+	        $path = null;
+	    }
+	    if ($path) {
+	        RC_Lang::addNamespace($namespace, $path);
+	    }
+	}
+	
+	public static function loadGettextLang($app)
+	{
+	    RC_Gettext::loadAppTextdomain($app);
 	}
 	
     

@@ -52,13 +52,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class admin_message extends ecjia_admin {
 	private $db_admin;
 	private $db_message;
-	private $db_session;
+// 	private $db_session;
 	private $db_view;
 	
 	public function __construct() {
 		parent::__construct();
 		
-		$this->db_session	= RC_Loader::load_model('session_model');
+// 		$this->db_session	= RC_Loader::load_model('session_model');
 		$this->db_admin		= RC_Model::model('admin_user_model');
 		$this->db_message	= RC_Loader::load_model('admin_message_model');
 		$this->db_view		= RC_Loader::load_model('admin_message_user_viewmodel');
@@ -102,13 +102,11 @@ class admin_message extends ecjia_admin {
 		$chat_list = ecjia_admin_message::get_admin_chat();
 		/* 获取管理员列表 */
 		$admin_list = $this->db_admin->field('user_id, user_name')->select();
-		$tmp_online = $this->db_session->field('adminid')->where(array('adminid' => array('gt' => 0)))->select();
-
+		
         $admin_online_sort = $admin_id_sort = $admin_online = array();
+        
+        $admin_online = [$_SESSION['admin_id']];
 
-		foreach ($tmp_online as $v) {
-			$admin_online[] = $v['adminid'];
-		}
 		if (!empty($admin_list)) {
 			foreach ($admin_list as $k => $v) {
 				$admin_list[$k]['is_online'] = in_array($v['user_id'], $admin_online) ? 1 : 0;

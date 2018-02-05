@@ -47,7 +47,7 @@
 use Royalcms\Component\Support\Facades\Royalcms;
 
 // Load the default text localization domain.
-RC_Locale::load_default_textdomain();
+RC_Locale::loadDefaultTextdomain();
 
 //加载项目函数库
 RC_Loader::load_sys_func('functions');

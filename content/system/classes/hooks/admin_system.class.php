@@ -50,14 +50,14 @@ use Ecjia\System\Admins\Plugin\ConfigMenu;
 
 class admin_system_hooks {
 		
-	static public function admin_dashboard_header_links() {
+	public static function admin_dashboard_header_links() {
 		echo <<<EOF
 		<a data-toggle="modal" data-backdrop="static" href="index.php-uid=1&page=dashboard.html#myMail" class="label ttip_b" title="New messages">25 <i class="splashy-mail_light"></i></a>
 		<a data-toggle="modal" data-backdrop="static" href="index.php-uid=1&page=dashboard.html#myTasks" class="label ttip_b" title="New tasks">10 <i class="splashy-calendar_week"></i></a>
 EOF;
 	}
 	
-	static public function admin_dashboard_header_codes() {
+	public static function admin_dashboard_header_codes() {
 		echo <<<EOF
 	<div class="modal hide fade" id="myMail">
 		<div class="modal-header">
