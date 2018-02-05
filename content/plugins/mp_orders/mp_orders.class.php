@@ -167,9 +167,9 @@ class mp_orders extends platform_abstract
     			$home_url =  RC_Uri::home_url();
     			if (strpos($home_url, 'sites')) {
     				$url = substr($home_url, 0, strpos($home_url, 'sites'));
-    				$articles[0]['Url'] = $url.'sites/m/index.php?m=user&c=user_order&a=order_detail&order_id='.$order_id;
+    				$articles[0]['Url'] = $url.'sites/m/index.php?m=user&c=order&a=order_detail&order_id='.$order_id;
     			} else {
-    				$articles[0]['Url'] = $home_url.'/sites/m/index.php?m=user&c=user_order&a=order_detail&order_id='.$order_id;
+    				$articles[0]['Url'] = $home_url.'/sites/m/index.php?m=user&c=order&a=order_detail&order_id='.$order_id;
     			}
 
     			$count = count($articles);
