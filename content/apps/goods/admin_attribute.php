@@ -193,7 +193,6 @@ class admin_attribute extends ecjia_admin {
 		
 		/* 取得属性信息 */
 		if ($is_add) {
-			$goods_type = isset($_GET['goods_type']) ? intval($_GET['goods_type']) : 0;
 			$attr = array(
 				'attr_id' 			=> 0,
 				'cat_id' 			=> $goods_type,
@@ -206,12 +205,11 @@ class admin_attribute extends ecjia_admin {
 			);
 		} else {
 			$attr = RC_DB::table('attribute')->where('attr_id', $_GET['attr_id'])->first();
-			$goods_type = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
 		}
 		$this->assign('attr', $attr);
 		$this->assign('attr_groups', get_attr_groups($attr['cat_id']));
 		
-		$info = RC_DB::table('goods_type')->where('cat_id', $goods_type)->first();
+		$info = RC_DB::table('goods_type')->where('cat_id', $attr['cat_id'])->first();
 		
 		/* 取得商品分类列表 */
 		$this->assign('goods_type_list', goods_type_list($attr['cat_id'], $info['store_id'], false));
@@ -244,8 +242,10 @@ class admin_attribute extends ecjia_admin {
 	
 		$cat_id = isset($_REQUEST['cat_id']) ? intval($_REQUEST['cat_id']) : 0;
 		$attr_id = isset($_POST['attr_id']) ? intval($_POST['attr_id']) : 0;
+		
 		/* 检查名称是否重复 */
-		if (RC_DB::table('attribute')->where('cat_id', $cat_id)->where('attr_name', trim($_POST['attr_name']))->where('attr_id', '!=', $_POST['attr_id'])->count()) {
+		$count = RC_DB::table('attribute')->where('cat_id', $cat_id)->where('attr_name', trim($_POST['attr_name']))->where('attr_id', '!=', $_POST['attr_id'])->count();
+		if ($count != 0) {
 			return $this->showmessage(RC_Lang::get('goods::attribute.name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 			

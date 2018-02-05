@@ -1762,7 +1762,7 @@ function get_where_sql($filter) {
  * @return  string
  */
 function goods_type_list($selected, $store_id = 0, $show_all = false) {
-	$db_goods_type = RC_DB::table('goods_type')->select('cat_id', 'cat_name')->where('enabled', 1);
+	$db_goods_type = RC_DB::table('goods_type')->select('cat_id', 'cat_name');
 
 	$db_goods_type->where('store_id', $store_id);
 	if ($show_all) {

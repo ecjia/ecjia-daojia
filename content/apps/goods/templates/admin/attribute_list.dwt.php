@@ -88,7 +88,7 @@
 						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin_attribute/edit_sort_order')}" data-name="edit_sort_order" data-pjax-url='{url path="goods/admin_attribute/init" args="cat_id={$smarty.get.cat_id}"}' data-pk="{$attr.attr_id}" data-title="{lang key='goods::attribute.order_not_null'}">{$attr.sort_order}</span>
 					</td>
 					<td align="center" nowrap="true" valign="top">
-						<a class="data-pjax" href='{RC_Uri::url("goods/admin_attribute/edit", "cat_id={$cat_id}&attr_id={$attr.attr_id}")}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
+						<a class="data-pjax" href='{RC_Uri::url("goods/admin_attribute/edit", "attr_id={$attr.attr_id}")}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
 						<a class="ajaxremove" data-toggle="ajaxremove" data-msg="{lang key='goods::attribute.drop_confirm'}" href='{RC_Uri::url("goods/admin_attribute/remove", "id={$attr.attr_id}")}' title="{lang key='system::system.remove'}"><i class="fontello-icon-trash"></i></a>
 					</td>
 				</tr>
