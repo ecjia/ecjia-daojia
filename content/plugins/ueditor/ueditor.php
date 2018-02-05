@@ -49,7 +49,7 @@ Plugin Name: UEditor富文本编辑器
 Plugin URI: http://www.ecjia.com/plugins/ecjia.ueditor/
 Description: UEditor富文本编辑器，来自百度编辑器
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.13.0
 Author URI: http://www.ecjia.com/
 Plugin App: system
 */
