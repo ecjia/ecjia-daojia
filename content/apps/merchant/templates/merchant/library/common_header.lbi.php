@@ -113,7 +113,7 @@
                    	</ul>
                 </li>
                 <!-- user login dropdown start-->
-                <li class="dropdown m_t5">
+                <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                     	{if $ecjia_staff_logo}
                         <img alt="" width="30" height="30" src="{RC_Upload::upload_url()}/{$ecjia_staff_logo}">

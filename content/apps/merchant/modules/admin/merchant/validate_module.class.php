@@ -56,12 +56,18 @@ class validate_module extends api_admin implements api_interface {
 		$value		    = $this->requestData('value');
 		$validate_type	= $this->requestData('validate_type');
 		$validate_code	= $this->requestData('validate_code');
+		$captcha_code = $this->requestData('captcha_code');
 		$time           = RC_Time::gmtime();
 
-		if (empty($type) || empty($value)) {
+		if (empty($type) || empty($value) || empty($captcha_code)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
-
+		
+		//判断验证码是否正确
+		if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
+			return new ecjia_error( 'captcha_code_error', '验证码错误');
+		}
+		
 		/* 如果进度查询，查询入驻信息是否存在*/
 		if ($validate_type == 'process') {
 			$info_store_preaudit	= RC_DB::table('store_preaudit')->where('contact_mobile', $value)->first();

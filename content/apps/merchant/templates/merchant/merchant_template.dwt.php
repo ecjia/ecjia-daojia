@@ -64,7 +64,25 @@
                                 </div>
                         	</div>
                         </div>
-                        <div class="form-group">
+                        
+                      	<div class="form-group">
+                        	<label class="control-label col-lg-2"></label>
+                            <div class="col-lg-10">
+                                <div class="template-content img-pwsp-list">
+                                	<div class="template-item">
+                                		<figure><span><a class="nopjax" href="{$app_url}template_4.png" data-size="248x500" data-med-size="200x403" title="点击放大" data-med="{$app_url}template_4.png"><img href="{$app_url}template_4.png" src="{$app_url}template_4.png" class="w200"/></a></span></figure>
+                                	</div>
+                                </div>
+                            </div>
+                            <label class="control-label col-lg-2"></label>
+                            <div class="col-lg-10 m_b10">
+                            	<div class="f_l">
+	                                <input id="template_4" type="radio" name="shop_template" value="default4" {if $shop_template eq 'default4'} checked{/if}/>
+	                                <label for="template_4">优惠买单模版<span class="help-block">适用于到店支付、享受店铺优惠</span></label>
+                                </div>
+                        	</div>
+                        </div>
+                        <div class="form-group m_t20">
                             <div class="col-lg-6 col-md-offset-2">
                                 <input class="btn btn-info" type="submit" name="name" value="确定">
                             </div>
