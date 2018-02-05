@@ -56,11 +56,16 @@ class userbind_module extends api_front implements api_interface {
     	$this->authSession();	
 		$type = $this->requestData('type');
 		$value = $this->requestData('value');
+		$captcha_code = $this->requestData('captcha_code');
 		
 		$type_array = array('mobile');
 		//判断值是否为空，且type是否是在此类型中
-		if ( empty($type) || empty($value) || !in_array($type, $type_array)) {
+		if ( empty($type) || empty($value)  || empty($captcha_code) || !in_array($type, $type_array)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+		}
+		//判断验证码是否正确
+		if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
+			return new ecjia_error( 'captcha_code_error', '验证码错误');
 		}
 		
 		$db_user = RC_Model::model('user/users_model');

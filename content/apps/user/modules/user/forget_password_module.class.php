@@ -53,10 +53,19 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class forget_password_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
+    	$this->authSession();
+    	
         $type = $this->requestData('type');
         $value = $this->requestData('value');
-        if (empty($type) || empty($value)) {
+        $captcha_code = $this->requestData('captcha_code');
+        
+        if (empty($type) || empty($value) || empty($captcha_code)) {
         	return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+        }
+        
+        //判断验证码是否正确
+        if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
+        	return new ecjia_error( 'captcha_code_error', '验证码错误');
         }
         
         $db = RC_Model::model('user/users_model');

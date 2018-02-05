@@ -59,7 +59,7 @@ class cancel_module extends api_front implements api_interface {
  		$id = $this->requestData('account_id' , 0);
  		$user_id = $_SESSION['user_id'];
  		if ($id <= 0 || $user_id == 0) {
- 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+ 			return new ecjia_error( 'invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
  		}
  		
  		RC_Loader::load_app_func('admin_user', 'user');
@@ -67,7 +67,7 @@ class cancel_module extends api_front implements api_interface {
  		if ($result) {
  			return array();
  		} else {
- 			return new ecjia_error(8, 'fail');
+ 			return new ecjia_error('cancel_fail', '取消失败');
  		}
 	}
 }
