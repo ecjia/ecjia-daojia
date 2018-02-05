@@ -241,7 +241,7 @@ class quickpay_activity {
 		
 		$time = RC_Time::local_strtotime($time);
 		
-		if($curr_time >= $timeBegin1 && $curr_time <= $timeEnd1)
+		if ($time >= $timeBegin1 && $time <= $timeEnd1)
 		{
 			return 0;
 		}
