@@ -1799,8 +1799,17 @@ function formated_favourable($favourable_result, $goods_list) {
             }
         }
     }
-    
-    return $favourable_list;
+    //去重
+    $favourable_list_new = array();
+   	if (!empty($favourable_list)) {
+   		foreach ($favourable_list as $k => $v) {
+   			$favourable_list_new[$v['id']] = $v;
+   		}
+   	}
+   	
+   	$favourable_list_new = array_merge($favourable_list_new);
+
+    return $favourable_list_new;
 }
 
 // end
