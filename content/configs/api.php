@@ -286,20 +286,20 @@ return array(
     'admin/merchant/goods/category/delete'	=> 'goods::admin/goods/merchant/category/delete',//1.5新增
 
     //商家后台用户
-	'admin/user/signin'			=> 'user::v2/admin/user/signin',
-    'admin/user/signout'		=> 'user::admin/user/signout',
-    'admin/user/search' 		=> 'user::admin/user/search',
-    'admin/user/rank'           => 'user::admin/user/rank',
-	'admin/user/userinfo'		=> 'user::v2/admin/user/userinfo',
-    'admin/user/info'			=> 'user::admin/user/info',//1.5新增
-	'admin/user/forget_request'	=> 'user::v2/admin/user/forget_request',
-	'admin/user/forget_validate' => 'user::v2/admin/user/forget_validate',
-	'admin/user/password' 		=> 'user::admin/user/password',
-    'admin/user/bind'           => 'user::admin/user/bind', //1.5新增
-    'admin/user/update'			=> 'user::v2/admin/user/update',
+	'admin/user/signin'			=> 'staff::v2/admin/user/signin',
+    'admin/user/signout'		=> 'staff::admin/user/signout',
+    'admin/user/search' 		=> 'staff::admin/user/search',
+    'admin/user/rank'           => 'staff::admin/user/rank',
+	'admin/user/userinfo'		=> 'staff::v2/admin/user/userinfo',
+    'admin/user/info'			=> 'staff::admin/user/info',//1.5新增
+	'admin/user/forget_request'	=> 'staff::v2/admin/user/forget_request',
+	'admin/user/forget_validate' =>'staff::v2/admin/user/forget_validate',
+	'admin/user/password' 		=> 'staff::admin/user/password',
+    'admin/user/bind'           => 'staff::admin/user/bind', //1.5新增
+    'admin/user/update'			=> 'staff::v2/admin/user/update',
     
-    'admin/user/account/validate'	=> 'user::admin/user/account/validate', //1.5废弃，换用admin/shop/captcha/sms/
-    'admin/user/account/update'	    => 'user::admin/user/account/update', //1.5废弃，换用admin/user/update
+    'admin/user/account/validate'	=> 'staff::admin/user/account/validate', //1.5废弃，换用admin/shop/captcha/sms/
+    'admin/user/account/update'	    => 'staff::admin/user/account/update', //1.5废弃，换用admin/user/update
     
     //后台验证码
     'admin/shop/captcha/sms'        => 'captcha::captcha/admin/sms',   //1.5新增
@@ -427,6 +427,11 @@ return array(
     
 	'quickpay/order/cancel'		=> 'quickpay::order/operate/cancel',    //1.12用户取消买单订单
 	'quickpay/order/delete'		=> 'quickpay::order/operate/delete',    //1.12用户删除买单订单
+	
+    
+    
+    
+    'captcha/image' => 'captcha::captcha/image', //1.13 增加验证码图片
     
 	
     /** 1.0 已经废弃
