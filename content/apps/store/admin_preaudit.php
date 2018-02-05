@@ -497,6 +497,7 @@ class admin_preaudit extends ecjia_admin {
 					'province'					=> $store['province'],
 					'city'						=> $store['city'],
 					'district'					=> $store['district'],
+					'street'					=> $store['street'],
 				    'address'					=> $store['address'],
 				    'longitude'					=> $store['longitude'],
 				    'latitude'					=> $store['latitude'],
@@ -565,6 +566,7 @@ class admin_preaudit extends ecjia_admin {
 			}
 		} else if($_POST['check_status'] == 3) {
 		    $store = RC_DB::table('store_preaudit')->where('id', $id)->first();
+		    
 		    //不通过
 		    $log = array(
 		        'store_id' => $store_id ? $store_id : $id,
@@ -574,6 +576,19 @@ class admin_preaudit extends ecjia_admin {
 		    );
 		    RC_Api::api('store', 'add_check_log', $log);
 		    RC_DB::table('store_preaudit')->where('id', $id)->update(array('remark' => $remark, 'check_status' => intval($_POST['check_status'])));
+		    
+		    //短信发送通知
+		    $options = array(
+	    		'mobile' => $store['contact_mobile'],
+	    		'event'	 => 'sms_join_merchant_fail',
+	    		'value'  =>array(
+    				'user_name' => $store['responsible_person'],
+    				'shop_name' => ecjia::config('shop_name'),
+	    			'merchants_name' => $store['merchants_name'],
+    				'service_phone' => ecjia::config('service_phone'),
+	    		),
+		    );
+		    RC_Api::api('sms', 'send_event_sms', $options);
 		    
 		    ecjia_admin::admin_log($store['merchants_name'].' 拒绝', 'check', 'merchants_preaudit');
 		    return $this->showmessage(RC_Lang::get('store::store.deal_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_preaudit/init')));
