@@ -47,7 +47,8 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 class wechat_admin_plugin {
-	static public function api_request_record($api_name) {
+    
+	public static function api_request_record($api_name) {
 	    RC_Loader::load_app_class('wechat_request_times', 'wechat', false);
 	    
 	    $platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
