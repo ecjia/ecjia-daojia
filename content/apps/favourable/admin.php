@@ -512,6 +512,7 @@ class admin extends ecjia_admin {
 		$keyword      = !empty($_POST['keyword'])      ? trim($_POST['keyword'])  : '';
 		$store_id     = is_numeric($_POST['store_id']) ? $_POST['store_id']       : '';
 		$where = array();
+		
 		if ($act_range == FAR_ALL) {//全部商品
 			$arr[0] = array(
 				'id'   => 0,
@@ -546,7 +547,10 @@ class admin extends ecjia_admin {
 			if (!empty($keyword)) {
 				$db_goods->where('goods_name', 'like', '%'.mysql_like_quote($keyword).'%');
 			}
-			$db_goods->where('is_delete', 0)->where('store_id', $store_id);
+			$db_goods->where('is_delete', 0);
+			if (!empty($store_id)) {
+				$db_goods->where('store_id', $store_id);
+			}
 			$arr = $db_goods->get();
 
 			if (!empty($arr)) {
