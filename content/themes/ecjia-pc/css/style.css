@@ -257,8 +257,8 @@ a:active,a:hover{text-decoration:none;color:#47aa4d}
 .ecjia-page-footer .friend-link .friend-link-title{width:100%;text-align:left;font-size:18px;color:#1d1515;margin-left:20px;margin-bottom:20px}
 .ecjia-page-footer .friend-link .link-content{margin:10px auto 0 auto;padding:0 20px;overflow:hidden}
 .ecjia-page-footer .friend-link .link-content.m_t0{margin-top:0}
-.ecjia-page-footer .friend-link .friend-link-content li:first-child{margin:0}
-.ecjia-page-footer .friend-link .friend-link-content li:nth-child(9n+1){margin:0}
+.ecjia-page-footer .friend-link .friend-link-content li:first-child{margin-left:0}
+.ecjia-page-footer .friend-link .friend-link-content li:nth-child(9n+1){margin-left:0}
 .ecjia-page-footer .friend-link .friend-link-content li{float:left;overflow:hidden;width:118px;height:60px;text-align:center;background:#fff;margin-left:10px;line-height:55px;cursor:pointer;margin-bottom:20px;border:1px solid #eee;border-radius:4px}
 .ecjia-page-footer .friend-link .link-content a{color:#08c}
 .ecjia-page-footer .friend-link .link-content a span {line-height: 20px;text-overflow: ellipsis;width: 120px;overflow: hidden;-webkit-line-clamp: 3;-webkit-box-orient: vertical;display: -webkit-inline-box;vertical-align: middle;}

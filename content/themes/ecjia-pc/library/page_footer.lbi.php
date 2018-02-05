@@ -68,7 +68,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 				<!-- {if $info.link_list.has_logo} -->
 				<ul class="link-content">
 				<!-- {foreach from=$info.link_list.has_logo item=val} -->
-				<li><a href="{$val.link_url}" target="__blank"><img src="{$val.link_logo}" width="110" height="auto"></a></li>
+				<li><a href="{$val.link_url}" title="{$val.link_name}" target="{$val.link_target}"><img src="{$val.link_logo}" width="110" height="auto"></a></li>
 				<!-- {/foreach} -->
 				</ul>
 				<!-- {/if} -->
@@ -76,7 +76,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 				<!-- {if $info.link_list.no_logo} -->
 				<ul class="link-content m_t0">
 				<!-- {foreach from=$info.link_list.no_logo item=val} -->
-				<li><a href="{$val.link_url}" target="__blank"><span>{$val.link_name}</span></a></li>
+				<li><a href="{$val.link_url}" title="{$val.link_name}" target="{$val.link_target}"><span>{$val.link_name}</span></a></li>
 				<!-- {/foreach} -->
 				</ul>
 				<!-- {/if} -->

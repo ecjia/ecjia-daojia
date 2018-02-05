@@ -105,7 +105,7 @@ class pc_function {
         	$kf_qq = $kf_qq[0];
         }
         
-        $link_list = RC_DB::table('friend_link')->get();
+        $link_list = RC_DB::table('friend_link')->where('status', 0)->orderBy('show_order', 'asc')->get();
         $has_logo_arr = $no_logo_arr = array();
         if (!empty($link_list)) {
         	foreach ($link_list as $k => $v) {
