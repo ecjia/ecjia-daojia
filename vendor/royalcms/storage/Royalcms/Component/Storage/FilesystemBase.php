@@ -137,12 +137,12 @@ abstract class FilesystemBase
      *
      * @access public
      * @since 2.5.0
-     * @deprecated 2.7.0 use WP_Filesystem::abspath() or WP_Filesystem::wp_*_dir() instead.
-     * @see WP_Filesystem::abspath()
-     * @see WP_Filesystem::wp_content_dir()
-     * @see WP_Filesystem::wp_plugins_dir()
-     * @see WP_Filesystem::wp_themes_dir()
-     * @see WP_Filesystem::wp_lang_dir()
+     * @deprecated 2.7.0 use RC_Filesystem::abspath() or RC_Filesystem::wp_*_dir() instead.
+     * @see RC_Filesystem::abspath()
+     * @see RC_Filesystem::wp_content_dir()
+     * @see RC_Filesystem::wp_plugins_dir()
+     * @see RC_Filesystem::wp_themes_dir()
+     * @see RC_Filesystem::wp_lang_dir()
      *
      * @param string $base
      *            The folder to start searching from.
@@ -163,7 +163,7 @@ abstract class FilesystemBase
      *
      * @access public
      * @since 2.5.0
-     * @deprecated 2.7.0 use \Royalcms\Component\Storage\FilesystemBase::abspath() or WP_Filesystem::rc_*_dir() methods instead.
+     * @deprecated 2.7.0 use \Royalcms\Component\Storage\FilesystemBase::abspath() or RC_Filesystem::rc_*_dir() methods instead.
      * @see \Royalcms\Component\Storage\FilesystemBase::abspath()
      * @see \Royalcms\Component\Storage\FilesystemBase::rc_content_dir()
      * @see \Royalcms\Component\Storage\FilesystemBase::rc_plugins_dir()
