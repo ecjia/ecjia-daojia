@@ -61,7 +61,7 @@ class store_bill {
         if (!isset($options['day'])) {
             $options['day'] = RC_Time::local_date('Y-m-d', RC_Time::gmtime() - 86400) ;
         }
-        RC_Logger::getLogger('bill_day')->error($options);
+        RC_Logger::getLogger('bill_day')->info($options);
         
         //已有账单数据
         $data = RC_Model::model('commission/store_bill_detail_model')->count_bill_day($options);
