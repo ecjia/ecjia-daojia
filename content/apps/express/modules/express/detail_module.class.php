@@ -69,7 +69,7 @@ class detail_module extends api_admin implements api_interface {
     		$where = array('staff_id' => $_SESSION['staff_id'], 'express_sn' => $express_sn);
     	}
     	
-    	$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+    	$field = 'eo.*, oi.expect_shipping_time, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
     	$express_order_info = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
 		
     	/* 判断配送单是否存在*/
@@ -106,7 +106,7 @@ class detail_module extends api_admin implements api_interface {
     		'express_time'	=> $express_order_info['express_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['express_time']) : '',
     		'order_time'	=> $express_order_info['order_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['order_time']) : '',
     		'pay_time'		=> empty($express_order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['pay_time']),
-    		'best_time'		=> $express_order_info['best_time'],
+    		'best_time'		=> $express_order_info['expect_shipping_time'],
     		'signed_time'	=> $express_order_info['signed_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['signed_time']) : '',
     		'shipping_fee'	=> $express_order_info['shipping_fee'],
     		'order_amount'	=> $express_order_info['order_amount'],

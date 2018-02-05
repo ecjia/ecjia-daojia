@@ -68,7 +68,7 @@ class pickup_module extends api_admin implements api_interface {
     	$express_order         = array();
     	$express_order_db      = RC_Model::model('express/express_order_viewmodel');
     	$where                 = array('staff_id' => $_SESSION['staff_id'], 'eo.delivery_sn' => $delivery_sn);
-    	$field                 = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+    	$field 				   = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
     	$express_order_info    = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
 		
     	if (empty($express_order_info)) {

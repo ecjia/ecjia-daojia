@@ -93,7 +93,7 @@ class list_module extends api_admin implements api_interface {
 		//实例化分页
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
-		$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+		$field = 'eo.*, oi.expect_shipping_time, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
 		$express_order_result = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->order(array('express_id' => 'desc'))->limit($page_row->limit())->select();
 		
 		$express_order_list = array();
@@ -141,7 +141,7 @@ class list_module extends api_admin implements api_interface {
 					'order_time'	=> $val['order_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $val['order_time']) : '',
 					'pay_time'		=> empty($val['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
 					'signed_time'	=> $val['signed_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $val['signed_time']) : '',
-					'best_time'		=> $val['best_time'],
+					'best_time'		=> $val['expect_shipping_time'],
 					'shipping_fee'	=> $val['shipping_fee'],
 					'order_amount'	=> $val['order_amount'],
 				);
