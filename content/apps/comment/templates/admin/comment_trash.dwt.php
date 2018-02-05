@@ -14,7 +14,7 @@
 	
 	<div class="trash-btn">
 		<a class="btn plus_or_reply data-pjax" href="{$action_link.href}" id="sticky_a">
-			<i class="fontello-icon-reply"></i> {'商品评价'}
+			<i class="fontello-icon-reply"></i> 商品评价
 		</a> 
 	</div>
 	</h3>
@@ -22,7 +22,7 @@
 <div class="row-fluid batch">
 	<div class="choose_list f_r" >
 		<form class="f_r form-inline" action="{RC_Uri::url('comment/admin/trash')}{if $comment_list.filter.status neq null}&status={$comment_list.filter.status}{/if}{if $comment_list.filter.has_img neq null}&has_img={$comment_list.filter.has_img}{/if}{if $smarty.get.rank}&rank={$smarty.get.rank}{/if}{if $select_status}&select_status={$select_status}{/if}{if $select_rank}&select_rank={$select_rank}{/if}{if $select_img}&select_img={$select_img}{/if}"  method="post" name="searchForm">
-			<input type="text" name="keyword" value="{$smarty.get.keywords}" placeholder="{'输入评价关键字进行搜索'}" size="15" />
+			<input type="text" name="keyword" value="{$smarty.get.keywords}" placeholder="输入评价关键字进行搜索" size="15" />
 			<button class="btn search_comment" type="button">{lang key='system::system.button_search'}</button>
 		</form>
 	</div>

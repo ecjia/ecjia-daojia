@@ -30,7 +30,7 @@
     		                {/if}
     					</div>
     					<div class="comment-thumb-details">
-    						<h1>{if $comment_info.is_anonymous eq 1 }{'匿名发表'}{else}{$comment_info.user_name}{/if}</h1>
+    						<h1>{if $comment_info.is_anonymous eq 1 }匿名发表{else}{$comment_info.user_name}{/if}</h1>
     						<p>{$comment_info.add_time}<span>IP: {$comment_info.ip_address}</span></p><br>
     					</div>
     					<div class="comment-goods">
@@ -63,7 +63,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_seo">
-							<strong>{'回复评价'}</strong>
+							<strong>回复评价</strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="goods_info_area_seo">
@@ -103,7 +103,7 @@
 			    <div class="reply-title">回复： </div>
     			<textarea class="span12 form-control" name="reply_content" rows="6" cols="48" placeholder="回复内容"></textarea>
     			<div class="text-right" style="margin: 10px 0">
-					<input type="checkbox" name="is_ok" id="is_ok" value="1" /><span>{'邮件通知'}</span>
+					<input type="checkbox" name="is_ok" id="is_ok" value="1" /><span>邮件通知</span>
     			    <input type="text" style="margin-left: 20px;" name="reply_email" value="{$comment_info.email}" placeholder="电子邮箱" />
     			</div>
 			</div>
@@ -120,7 +120,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_brand">
-							<strong>{'店铺信息'}</strong>
+							<strong>店铺信息</strong>
 						</a>
 					</div>
 					<div class="accordion-body in in_visable collapse" id="goods_info_area_brand">
@@ -153,7 +153,7 @@
         					   </div>
         					</div>
         					{if $comment_info.store_id neq 0}
-						          <a class="data-pjax btn btn-gebo" href="{$store_url}" class="btn btn-gebo" type="submit">{'进入店铺评价'}</a>
+						          <a class="data-pjax btn btn-gebo" href="{$store_url}" class="btn btn-gebo" type="submit">进入店铺评价</a>
 						    {/if}
 						</div>
 					</div>
@@ -164,10 +164,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_tvimg">
-							<strong>
-							{'该商户其他待审核评价'}
-						    <span class="badge badge-info">{$nochecked}</span>
-							</strong>
+							<strong>该商户其他待审核评价<span class="badge badge-info">{$nochecked}</span></strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse reply_admin_list" id="goods_info_area_tvimg">
