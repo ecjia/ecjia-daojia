@@ -1,4 +1,4 @@
-<?php namespace Royalcms\Component\UEditor\Uploader;
+<?php
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -44,8 +44,7 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-
-use Royalcms\Component\Support\Facades\Filesystem;
+namespace Royalcms\Component\UEditor\Uploader;
 
 /**
  * Class UploadCatch
@@ -107,7 +106,7 @@ class UploadCatch  extends UploadBase
             return false;
         }
         
-        $filesystem = Filesystem::disk();
+        $filesystem = \RC_Storage::disk();
 
         //创建目录失败
         if (! $filesystem->exists($dirname) && ! $filesystem->mkdir($dirname)) {
@@ -140,3 +139,5 @@ class UploadCatch  extends UploadBase
         return strtolower(strrchr($this->oriName, '.'));
     }
 }
+
+// end

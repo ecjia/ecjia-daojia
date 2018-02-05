@@ -1,4 +1,4 @@
-<?php namespace Royalcms\Component\UEditor;
+<?php
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -44,6 +44,7 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Royalcms\Component\UEditor;
 
 use Royalcms\Component\Support\ServiceProvider;
 
@@ -96,3 +97,5 @@ class UEditorServiceProvider extends ServiceProvider
     {}
 
 }
+
+// end

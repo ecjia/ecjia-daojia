@@ -1,4 +1,4 @@
-<?php namespace Royalcms\Component\UEditor;
+<?php 
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -44,6 +44,7 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Royalcms\Component\UEditor;
 
 use Royalcms\Component\Routing\Controller as BaseController;
 use Royalcms\Component\HttpKernel\Request;
