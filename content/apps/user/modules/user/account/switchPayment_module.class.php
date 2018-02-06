@@ -57,9 +57,10 @@ class switchPayment_module extends api_front implements api_interface {
  		if ($user_id < 1 ) {
  		    return new ecjia_error(100, 'Invalid session');
  		}
- 		$order_sn	= $this->requestData('order_sn', 0);
+ 		$order_sn	= $this->requestData('order_sn', '');
  		$order_sn	= trim($order_sn);
-		$pay_code	= $this->requestData('pay_code',0);
+		$pay_code	= $this->requestData('pay_code','');
+		
 		if (empty($order_sn) || empty($pay_code)) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 		}

@@ -62,7 +62,6 @@ class pay_module extends api_front implements api_interface {
  		$payment_id = $this->requestData('payment_id', 0);
  		$user_id = $_SESSION['user_id'];
  		$wxpay_open_id = $this->requestData('wxpay_open_id', 0);
-	
  		if ($account_id <= 0 || $payment_id <= 0) {
 	    	return new ecjia_error(101, '参数错误');
 	    }
@@ -76,6 +75,28 @@ class pay_module extends api_front implements api_interface {
 	    $plugin = new Ecjia\App\Payment\PaymentPlugin();
 	    $payment_info = $plugin->getPluginDataById($payment_id);
 	    RC_Logger::getLogger('pay')->info($payment_info);
+	    
+	    //对比支付方式pay_code；如果有变化，则更新支付方式
+	    $pay_code   = $payment_info['pay_code'];
+	    if (!empty($pay_code)) {
+	    	if ($order['payment'] != $pay_code) {
+	    		$payment_list = RC_Api::api('payment', 'available_payments');
+	    		if (!empty($payment_list)) {
+	    			foreach ($payment_list as $k => $v) {
+	    				if ($v['pay_code'] == 'pay_balance') {
+	    					unset($payment_list[$k]);
+	    				}
+	    			}
+	    			foreach ($payment_list as $vv) {
+	    				$pay_codes[] = $vv['pay_code'];
+	    			}
+	    			if (in_array($pay_code, $pay_codes)) {
+	    				RC_DB::table('user_account')->where('id', $account_id)->update(array('payment' => $pay_code));
+	    			}
+	    		}
+	    	}
+	    }
+	    
 	    /* 如果当前支付方式没有被禁用，进行支付的操作 */
 	    if (!empty($payment_info)) {
 	        $order['order_id']       = $order['id'];
