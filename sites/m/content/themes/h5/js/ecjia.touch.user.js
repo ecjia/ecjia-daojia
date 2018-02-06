@@ -367,7 +367,7 @@
 				});
 			});
 
-			$("input[name='record_sure']").on('click', function(e) {
+			$("input[name='record_sure']").on('click', function(e) {//微信充值
 				e.preventDefault();
 				var amount = $("input[name='amount']").val();
 				var account_id = $("input[name='account_id']").val();

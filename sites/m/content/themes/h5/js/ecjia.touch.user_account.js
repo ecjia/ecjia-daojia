@@ -7,6 +7,7 @@
 		init: function() {
 			 ecjia.touch.user_account.wxpay_user_account();
 			 ecjia.touch.user_account.btnflash();
+			 ecjia.touch.user_account.btnpay();
 		},
 
 		wxpay_user_account: function() {
@@ -91,6 +92,47 @@
 							return false;
 						}
 						location.href = data.redirect_url;
+					}
+				});
+			});
+		},
+		
+		//继续充值
+		btnpay : function() {
+			$('.pay-btn').off('click').on('click', function(e) {
+				e.preventDefault();
+				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+				
+				var alipay_btn_html = $(this).val();
+				$(this).val("请求中...");
+				$(this).attr("disabled", true); 
+				$(this).addClass("payment-bottom");
+				
+				if ($("input[name='pay_id']:checked").val() == null) {
+					alert("请选择支付方式");
+					return false;
+				} 
+				
+				var url = $("form[name='useraccountForm']").attr('action');
+				$("form[name='useraccountForm']").ajaxSubmit({
+					type: 'post',
+					url: url,
+					dataType: "json",
+					success: function(data) {
+						$('.pay-btn').removeClass("payment-bottom")
+						$('.pay-btn').removeAttr("disabled"); 
+						$('.pay-btn').val(alipay_btn_html);
+						if (data.state == 'error') {
+							ecjia.touch.showmessage(data);
+							return false;
+						}
+						if (data.redirect_url) {
+							location.href = data.redirect_url;
+						} else if(data.weixin_data) {
+							$('.wei-xin-pay').html("");
+							$('.wei-xin-pay').html(data.weixin_data);
+							callpay();
+						}
 					}
 				});
 			});

@@ -167,6 +167,9 @@ RC_Hook::add_action('user/account/ajax_record_deposit', array('user_account_cont
 RC_Hook::add_action('user/account/record_info', array('user_account_controller', 'record_info'));
 RC_Hook::add_action('user/account/record_cancel', array('user_account_controller', 'record_cancel'));
 
+RC_Hook::add_action('user/account/recharge_again', array('user_account_controller', 'recharge_again'));//继续充值
+RC_Hook::add_action('user/account/recharge_again_account', array('user_account_controller', 'recharge_again_account'));//继续充值
+
 //用户收货地址
 RC_Loader::load_theme('extras/controller/user_address_controller.php');
 RC_Hook::add_action('user/address/address_list', array('user_address_controller', 'address_list'));

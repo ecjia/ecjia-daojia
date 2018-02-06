@@ -4823,6 +4823,29 @@ footer {
 	color: #A4A4A4;
 }
 
+.ecjia-account .help-text {
+	height:60px;
+	background: #ffecca;
+}
+
+.ecjia-account .help-text p{
+ 	margin-left:1em;
+	color: #fc8d41;
+	padding-top: 1em;
+}
+
+.ecjia-account .account-user-money {
+	text-align: center;
+	font-size: 1.4em;
+	padding-top: 1em;
+}
+
+.ecjia-account .account-user-info {
+	text-align: center;
+	color: #A4A4A4;
+	padding-bottom: 1em;
+}
+
 .ecjia-account-passwd-on {
 	padding: 0!important;
 	height: 1.5em!important;

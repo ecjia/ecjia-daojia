@@ -27,7 +27,7 @@ ecjia.touch.user_account.init();
     	 {if $payment_list}
 		    <ul class="ecjia-list ecjia-margin-t">
 		        <li>
-		                        其它支付方式 <span class="ecjiaf-fr"></span>
+		                        支付方式 <span class="ecjiaf-fr"></span>
 		        </li>
 		    </ul>
 		    <ul class="ecjia-list list-short payment-list">
