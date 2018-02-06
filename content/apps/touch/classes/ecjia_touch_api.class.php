@@ -149,6 +149,7 @@ class ecjia_touch_api
  	const VALIDATE_ACCOUNT    = 'validate/account';//验证用户账户信息
  	const VALIDATE_SIGNIN     = 'validate/signin'; //用户手机验证码登录
  	const VALIDATE_FORGET_PASSWORD = 'validate/forget_password';//用户找回密码验证
+ 	const USER_ACCOUNT_SWITCHPAYMENT = 'user/account/switchPayment'; //1.13 用户更新充值订单支付方式
  	
  	const USER_SIGNIN	           = 'user/signin';//用户登录
  	const USER_SIGNOUT	           = 'user/signout';//用户退出
