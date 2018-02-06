@@ -61,7 +61,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 		</div>
 		{/if}
 		
-		{if $info.link_list}
+		{if $info.link_list.has_logo || $info.link_list.no_logo}
 		<div class="friend-link">
 			<div class="friend-link-title">合作伙伴</div>
 			<div class="friend-link-content">
