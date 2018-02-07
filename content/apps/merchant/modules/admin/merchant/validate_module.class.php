@@ -56,16 +56,22 @@ class validate_module extends api_admin implements api_interface {
 		$value		    = $this->requestData('value');
 		$validate_type	= $this->requestData('validate_type');
 		$validate_code	= $this->requestData('validate_code');
-		$captcha_code = $this->requestData('captcha_code');
 		$time           = RC_Time::gmtime();
-
-		if (empty($type) || empty($value) || empty($captcha_code)) {
+		$api_version = $this->request->header('api-version');
+		
+		if (empty($type) || empty($value)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		
-		//判断验证码是否正确
-		if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
-			return new ecjia_error( 'captcha_code_error', '验证码错误');
+		if (version_compare($api_version, '1.14.0', '>=')) {
+			$captcha_code = $this->requestData('captcha_code');
+			if (empty($captcha_code)) {
+				return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			}
+			//判断验证码是否正确
+			if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
+				return new ecjia_error( 'captcha_code_error', '验证码错误');
+			}
 		}
 		
 		/* 如果进度查询，查询入驻信息是否存在*/
