@@ -102,12 +102,8 @@ class mobile extends ecjia_front {
 			}
 			
 		}
-		$user_id = RC_DB::table('term_meta')
-			->where('object_type', 'ecjia.affiliate')
-			->where('object_group', 'user_invite_code')
-			->where('meta_key', 'invite_code')
-			->where('meta_value', $invite_code)
-			->pluck('object_id');
+		
+		$user_id = Ecjia\App\Affiliate\UserInviteCode::getUserId($invite_code);
 
 		if (!empty($user_id)) {
 			$user_name = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
@@ -133,14 +129,9 @@ class mobile extends ecjia_front {
 			
 			$count = RC_DB::table('users')->where('mobile_phone', $mobile_phone)->count();
 			if (!empty($invite_code) && !empty($mobile_phone) && $count <= 0) {
-				$invite_id = RC_DB::table('term_meta')
-					->where('object_type', 'ecjia.affiliate')
-					->where('object_group', 'user_invite_code')
-					->where('meta_key', 'invite_code')
-					->where('meta_value', $invite_code)
-					->pluck('object_id');
+				$invite_user_id = Ecjia\App\Affiliate\UserInviteCode::getUserId($invite_code);
 				
-				if (!empty($invite_id)) {
+				if (!empty($invite_user_id)) {
 					if (!empty($affiliate['config']['expire'])) {
 						if ($affiliate['config']['expire_unit'] == 'hour') {
 							$c = $affiliate['config']['expire'] * 1;
@@ -165,7 +156,7 @@ class mobile extends ecjia_front {
 					
 					if (empty($is_invitee)) {
 						RC_DB::table('invitee_record')->insert(array(
-							'invite_id'		=> $invite_id,
+							'invite_id'		=> $invite_user_id,
 							'invitee_phone' => $mobile_phone,
 							'invite_type'	=> 'signup',
 							'is_registered' => 0,
@@ -201,19 +192,18 @@ class mobile extends ecjia_front {
 		return ecjia_front::$controller->showmessage('提交成功！', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('url' => $url, 'app' => $app_url));
 	}
 	
-	public function qrcode_image() {
-		$code = $_GET['invite_code'];
-		$value = RC_Uri::site_url().'/index.php?m=affiliate&c=mobile&a=init&invite_code='. $code;
-		
-		// 二维码
-		// 纠错级别：L、M、Q、H
-		$errorCorrectionLevel = 'L';
-		// 点的大小：1到10
-		$matrixPointSize = 10;
-		RC_Loader::load_app_class('QRcode', 'affiliate');
-		$img = QRcode::png($value, false, $errorCorrectionLevel, $matrixPointSize, 2);
-
-		echo $img;
+	/**
+	 * 生成推广二维码图片
+	 */
+	public function qrcode()
+	{
+	    $code = $_GET['invite_code'];
+	    
+	    $img = with(new Ecjia\App\Affiliate\GenerateInviteCode($code))->createQrcode();
+	    
+	    $this->header('Content-Type', 'image/png');
+	    
+	    $this->displayContent($img);
 	}
 	
 	

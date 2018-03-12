@@ -59,7 +59,7 @@ class affiliate_invite_bind_api extends Component_Event_Api {
 	public function call(&$options) {	
 	    if (!is_array($options) 
 	        || (!isset($options['invite_code']))) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+	        return new ecjia_error('invalid_parameter', __('调用affiliate_invite_bind_api参数无效', 'affiliate'));
 	    }
 	    /* 统一转为大写*/
 	    $options['invite_code'] = strtoupper($options['invite_code']);

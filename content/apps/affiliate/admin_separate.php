@@ -158,7 +158,7 @@ class admin_separate extends ecjia_admin {
 							'change_desc'	=> $info
 						);
 						RC_Api::api('user', 'account_change_log', $arr);
-						RC_Model::model('affiliate/affiliate_log_model')->write_affiliate_log($oid, $up_uid, $row['user_name'], $setmoney, $setpoint, $separate_by);
+						$this->write_affiliate_log($oid, $up_uid, $row['user_name'], $setmoney, $setpoint, $separate_by);
 					}
 				}
 			} else {
@@ -182,7 +182,7 @@ class admin_separate extends ecjia_admin {
 						'change_desc'	=> $info
 					);
 					RC_Api::api('user', 'account_change_log', $arr);
-					RC_Model::model('affiliate/affiliate_log_model')->write_affiliate_log($oid, $up_uid, $row['user_name'], $money, $point, $separate_by);
+					$this->write_affiliate_log($oid, $up_uid, $row['user_name'], $money, $point, $separate_by);
 				} else {
 					return $this->showmessage(RC_Lang::get('affiliate::affiliate_ck.edit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 				}
@@ -329,6 +329,26 @@ class admin_separate extends ecjia_admin {
 			}
 		}
 		return array('item' => $logdb, 'page' => $page->show(5), 'desc' => $page->page_desc(), 'current_page' => $page->current_page);
+	}
+	
+	
+	/**
+	 * 记录分成日志
+	 */
+	private function write_affiliate_log($oid, $uid, $username, $money, $point, $separate_by) {
+	    $time = RC_Time::gmtime();
+	    $data = array(
+	        'order_id' 		=> $oid,
+	        'user_id' 		=> $uid,
+	        'user_name' 	=> $username,
+	        'time' 			=> $time,
+	        'money' 		=> $money,
+	        'point' 		=> $point,
+	        'separate_type' => $separate_by
+	    );
+	    if ($oid) {
+	        RC_DB::table('affiliate_log')->insert($data);
+	    }
 	}
 }
 

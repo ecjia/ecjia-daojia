@@ -47,34 +47,99 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 推荐人验证的记录
- * @author will.chen
+ * 推荐邀请用户
+ * @author zrl
  */
-class validate_module extends api_front implements api_interface
+class invite_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-        $this->authSession();
-        $mobile                     = $this->requestData('mobile');
-        $invite_info['invite_code'] = '';
-        if (empty($mobile)) {
-            return $invite_info;
+    	$this->authSession();
+        $mobile       = $this->requestData('mobile');
+        $invite_code  = $this->requestData('invite_code');
+        $sms_code     = $this->requestData('sms_code');
+        
+        if (empty($mobile) || empty($invite_code) || empty($sms_code)) {
+        	return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+        }
+        //手机号码格式判断
+        $str = '/^1[34578]{1}\d{9}$/';
+        if(!preg_match($str, $mobile)){
+        	new ecjia_error('mobile_wrong', '手机号码格式不正确！');
+        }
+        //验证短信验证码
+        //判断校验码是否过期
+        if ($_SESSION['bindcode_lifetime'] + 1800 < RC_Time::gmtime()) {
+        	//过期
+        	$result = new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
+        	return $result;
+        }
+        //判断校验码是否正确
+        if ($sms_code != $_SESSION['bind_code'] ) {
+        	$result = new ecjia_error('code_error', __('验证码错误，请重新填写！'));
+        	return $result;
+        }
+        	
+        //校验其他信息
+        if ($mobile != $_SESSION['bind_value']) {
+        	$result = new ecjia_error('msg_error', __('信息错误，请重新获取验证码'));
+        	return $result;
         }
         /* 推荐处理 */
         $affiliate = unserialize(ecjia::config('affiliate'));
-
         if (isset($affiliate['on']) && $affiliate['on'] == 1) {
-            $invite_id = RC_DB::table('invitee_record')
-                ->where('invitee_phone', $mobile)
-                ->where('is_registered', 0)
-                ->where('expire_time', '>', RC_Time::gmtime())
-                ->pluck('invite_id');
-
-            if (!empty($invite_id) && $invite_id > 0) {
-                $invite_info['invite_code'] = Ecjia\App\Affiliate\UserInviteCode::getCode($invite_id);
-            }
+        	$count = RC_DB::table('users')->where('mobile_phone', $mobile)->count();
+        	if ($count > 0) {
+        		return new ecjia_error('mobile_registered', '该手机号已注册！');
+        	}
+        	if (!empty($invite_code) && !empty($mobile) && $count <= 0) {
+        		$invite_user_id = Ecjia\App\Affiliate\UserInviteCode::getUserId($invite_code);
+        
+        		if (!empty($invite_user_id)) {
+        			if (!empty($affiliate['config']['expire'])) {
+        				if ($affiliate['config']['expire_unit'] == 'hour') {
+        					$c = $affiliate['config']['expire'] * 1;
+        				} elseif ($affiliate['config']['expire_unit'] == 'day') {
+        					$c = $affiliate['config']['expire'] * 24;
+        				} elseif ($affiliate['config']['expire_unit'] == 'week') {
+        					$c = $affiliate['config']['expire'] * 24 * 7;
+        				} else {
+        					$c = 1;
+        				}
+        			} else {
+        				$c = 24; // 过期时间为 1 天
+        			}
+        			$time = RC_Time::gmtime() + $c*3600;
+        				
+        			/* 判断在有效期内是否已被邀请*/
+        			$is_invitee = RC_DB::table('invitee_record')
+        			->where('invitee_phone', $mobile)
+        			->where('invite_type', 'signup')
+        			->where('expire_time', '>', RC_Time::gmtime())
+        			->first();
+        			if (!empty($is_invitee)) {
+        				return new ecjia_error('mobile_invited', '您已被邀请过，请勿重复提交！');
+        			}else {
+        				RC_DB::table('invitee_record')->insert(array(
+        				'invite_id'		=> $invite_user_id,
+        				'invitee_phone' => $mobile,
+        				'invite_type'	=> 'signup',
+        				'is_registered' => 0,
+        				'expire_time'	=> $time,
+        				'add_time'		=> RC_Time::gmtime()
+        				));
+        				unset($_SESSION['bind_code']);
+        				unset($_SESSION['bindcode_lifetime']);
+        				unset($_SESSION['bind_value']);
+        				unset($_SESSION['bind_type']);
+        				
+        				return array();
+        			}
+        		}
+        	}
+        } else {
+        	return new ecjia_error('affiliate_reward_off', '未开启推荐奖励！');
         }
-        return $invite_info;
     }
 }
 

@@ -61,7 +61,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 	        || !isset($options['invite_type'])
 	    	|| !isset($options['user_id'])
 	    	) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+	        return new ecjia_error('invalid_parameter', __('调用affiliate_invite_reward_api参数无效', 'affiliate'));
 	    }
 	    $user_info = RC_DB::table('users')->selectRaw('user_name, parent_id')->where('user_id', $options['user_id'])->first();
 	    $invite_id = $user_info['parent_id'];

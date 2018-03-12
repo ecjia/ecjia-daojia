@@ -44,14 +44,49 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Affiliate;
 
-class affiliate_bonus_type_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'bonus_type';
-		parent::__construct();
-	}
+use RC_Uri;
+use RC_QrCode;
+
+class GenerateInviteCode
+{
+    /**
+     * invite code
+     *
+     * @var string
+     */
+    protected $code;
+    
+    public function __construct($code)
+    {
+        $this->code = $code;
+    }
+    
+    public function content()
+    {
+        $args = [
+            'invite_code'      => $this->code
+        ];
+        return RC_Uri::url('affiliate/mobile/init', $args);
+    }
+    
+    /**
+     * 创建二维码
+     * @param number $size
+     */
+    public function createQrcode($size = 430)
+    {
+    
+        $img = RC_QrCode::format('png')->size($size)->margin(1)
+                                ->errorCorrection('L')
+                                ->generate($this->content());
+    
+    
+        return $img;
+    }
+
+
 }
 
 // end
