@@ -3271,152 +3271,154 @@ class admin extends ecjia_admin {
 			}
 			/* 退货用户余额、积分、红包 */
 			return_user_surplus_integral_bonus($order);
-		} elseif ('return' == $operation) {
-			/*判断备注是否填写*/
-			$require_note = ecjia::config('order_return_note');
-			if ($require_note == 1 && empty($_POST['action_note'])) {
-				return $this->showmessage(__('请填写备注信息！') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
+		} 
+// 		elseif ('return' == $operation) {
+// 			/*判断备注是否填写*/
+// 			$require_note = ecjia::config('order_return_note');
+// 			if ($require_note == 1 && empty($_POST['action_note'])) {
+// 				return $this->showmessage(__('请填写备注信息！') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+// 			}
 			
-			/* 退货 */
-			/* 定义当前时间 */
-			define('GMTIME_UTC', RC_Time::gmtime()); // 获取 UTC 时间戳
+// 			/* 退货 */
+// 			/* 定义当前时间 */
+// 			define('GMTIME_UTC', RC_Time::gmtime()); // 获取 UTC 时间戳
 		
-			/* 过滤数据 */
-			$_POST['refund'] = isset($_POST['refund']) ? $_POST['refund'] : '';
-			$_POST['refund_note'] = isset($_POST['refund_note']) ? $_POST['refund'] : '';
+// 			/* 过滤数据 */
+// 			$_POST['refund'] = isset($_POST['refund']) ? $_POST['refund'] : '';
+// 			$_POST['refund_note'] = isset($_POST['refund_note']) ? $_POST['refund'] : '';
 		
-			/* 标记订单为“退货”、“未付款”、“未发货” */
-			$arr = array(
-				'order_status'		=> OS_RETURNED,
-				'pay_status'		=> PS_UNPAYED,
-				'shipping_status'	=> SS_UNSHIPPED,
-				'money_paid'		=> 0,
-				'invoice_no'		=> '',
-				'order_amount'		=> $order['money_paid']
-			);
-			update_order($order_id, $arr);
+// 			/* 标记订单为“退货”、“未付款”、“未发货” */
+// 			$arr = array(
+// 				'order_status'		=> OS_RETURNED,
+// 				'pay_status'		=> PS_UNPAYED,
+// 				'shipping_status'	=> SS_UNSHIPPED,
+// 				'money_paid'		=> 0,
+// 				'invoice_no'		=> '',
+// 				'order_amount'		=> $order['money_paid']
+// 			);
+// 			update_order($order_id, $arr);
 		
-			/* todo 处理退款 */
-			if ($order['pay_status'] != PS_UNPAYED) {
-				$refund_type = $_POST['refund'];
-				$refund_note = $_POST['refund'];
-				order_refund($order, $refund_type, $refund_note);
-			}
+// 			/* todo 处理退款 */
+// 			if ($order['pay_status'] != PS_UNPAYED) {
+// 				$refund_type = $_POST['refund'];
+// 				$refund_note = $_POST['refund'];
+// 				order_refund($order, $refund_type, $refund_note);
+// 			}
 		
-			/* 记录log */
-			order_action($order['order_sn'], OS_RETURNED, SS_UNSHIPPED, PS_UNPAYED, $action_note);
+// 			/* 记录log */
+// 			order_action($order['order_sn'], OS_RETURNED, SS_UNSHIPPED, PS_UNPAYED, $action_note);
 		
-			/* 如果订单用户不为空，计算积分，并退回 */
-			if ($order['user_id'] > 0) {
-				/* 取得用户信息 */
-				$user = user_info($order['user_id']);
-				$goods_num = RC_DB::table('order_goods')->select('goods_number', 'send_number')->where('order_id', $order['order_id'])->first();
+// 			/* 如果订单用户不为空，计算积分，并退回 */
+// 			if ($order['user_id'] > 0) {
+// 				/* 取得用户信息 */
+// 				$user = user_info($order['user_id']);
+// 				$goods_num = RC_DB::table('order_goods')->select('goods_number', 'send_number')->where('order_id', $order['order_id'])->first();
 		
-				if ($goods_num['goods_number'] == $goods_num['send_number']) {
-					/* 计算并退回积分 */
-					$integral = integral_to_give($order);
-					$options = array(
-						'user_id'		=> $order['user_id'],
-						'rank_points'	=> (-1) * intval($integral['rank_points']),
-						'pay_points'	=> (-1) * intval($integral['custom_points']),
-						'change_desc'	=> sprintf(RC_Lang::get('orders::order.return_order_gift_integral'), $order['order_sn'])
-					);
-					RC_Api::api('user', 'account_change_log', $options);
-				}
-				/* todo 计算并退回红包 */
-				return_order_bonus($order_id);
-			}
+// 				if ($goods_num['goods_number'] == $goods_num['send_number']) {
+// 					/* 计算并退回积分 */
+// 					$integral = integral_to_give($order);
+// 					$options = array(
+// 						'user_id'		=> $order['user_id'],
+// 						'rank_points'	=> (-1) * intval($integral['rank_points']),
+// 						'pay_points'	=> (-1) * intval($integral['custom_points']),
+// 						'change_desc'	=> sprintf(RC_Lang::get('orders::order.return_order_gift_integral'), $order['order_sn'])
+// 					);
+// 					RC_Api::api('user', 'account_change_log', $options);
+// 				}
+// 				/* todo 计算并退回红包 */
+// 				return_order_bonus($order_id);
+// 			}
 		
-			/* 如果使用库存，则增加库存（不论何时减库存都需要） */
-			if (ecjia::config('use_storage') == '1') {
-				if (ecjia::config('stock_dec_time') == SDT_SHIP) {
-					change_order_goods_storage($order['order_id'], false, SDT_SHIP);
-				} elseif (ecjia::config('stock_dec_time') == SDT_PLACE) {
-					change_order_goods_storage($order['order_id'], false, SDT_PLACE);
-				}
-			}
+// 			/* 如果使用库存，则增加库存（不论何时减库存都需要） */
+// 			if (ecjia::config('use_storage') == '1') {
+// 				if (ecjia::config('stock_dec_time') == SDT_SHIP) {
+// 					change_order_goods_storage($order['order_id'], false, SDT_SHIP);
+// 				} elseif (ecjia::config('stock_dec_time') == SDT_PLACE) {
+// 					change_order_goods_storage($order['order_id'], false, SDT_PLACE);
+// 				}
+// 			}
 		
-			/* 退货用户余额、积分、红包 */
-			return_user_surplus_integral_bonus($order);
+// 			/* 退货用户余额、积分、红包 */
+// 			return_user_surplus_integral_bonus($order);
 		
-			/* 获取当前操作员 */
-			$delivery['action_user'] = $_SESSION['admin_name'];
-			/* 添加退货记录 */
-			$delivery_list = array();
-			$delivery_list = RC_DB::table('delivery_order')->where('order_id', $order['order_id'])->whereIn('status', array(0, 2))->get();
+// 			/* 获取当前操作员 */
+// 			$delivery['action_user'] = $_SESSION['admin_name'];
+// 			/* 添加退货记录 */
+// 			$delivery_list = array();
+// 			$delivery_list = RC_DB::table('delivery_order')->where('order_id', $order['order_id'])->whereIn('status', array(0, 2))->get();
 	
-			if ($delivery_list) {
-				foreach ($delivery_list as $list) {
-					$data = array(
-						'delivery_sn'	=> $list['delivery_sn'], 
-						'order_sn'		=> $list['order_sn'],
-						'order_id'		=> $list['order_id'],
-						'add_time'		=> $list['add_time'],
-						'shipping_id'	=> $list['shipping_id'],
-						'user_id'		=> $list['user_id'],
-						'action_user'	=> $delivery['action_user'],
-						'consignee'		=> $list['consignee'],
-						'address'		=> $list['address'],
-						'country'		=> $list['country'],
-						'province'		=> $list['province'],
-						'city'			=> $list['city'],
-						'district'		=> $list['district'],
-						'sign_building'	=> $list['sign_building'],
-						'email'			=> $list['email'],
-						'zipcode'		=> $list['zipcode'],
-						'tel'			=> $list['tel'],
-						'mobile'		=> $list['mobile'],
-						'best_time'		=> $list['best_time'],
-						'postscript'	=> $list['postscript'],
-						'how_oos'		=> $list['how_oos'],
-						'insure_fee'	=> $list['insure_fee'],
-						'shipping_fee'	=> $list['shipping_fee'],
-						'update_time'	=> $list['update_time'],
-						'suppliers_id'	=> $list['suppliers_id'],
-						'return_time'	=> GMTIME_UTC,
-						'agency_id'		=> $list['agency_id'],
-					    'store_id'      => $list['store_id'],
-						'invoice_no'	=> $list['invoice_no'],
-					);					
-					$back_id = RC_DB::table('back_order')->insertGetId($data);
+// 			if ($delivery_list) {
+// 				foreach ($delivery_list as $list) {
+// 					$data = array(
+// 						'delivery_sn'	=> $list['delivery_sn'], 
+// 						'order_sn'		=> $list['order_sn'],
+// 						'order_id'		=> $list['order_id'],
+// 						'add_time'		=> $list['add_time'],
+// 						'shipping_id'	=> $list['shipping_id'],
+// 						'user_id'		=> $list['user_id'],
+// 						'action_user'	=> $delivery['action_user'],
+// 						'consignee'		=> $list['consignee'],
+// 						'address'		=> $list['address'],
+// 						'country'		=> $list['country'],
+// 						'province'		=> $list['province'],
+// 						'city'			=> $list['city'],
+// 						'district'		=> $list['district'],
+// 						'sign_building'	=> $list['sign_building'],
+// 						'email'			=> $list['email'],
+// 						'zipcode'		=> $list['zipcode'],
+// 						'tel'			=> $list['tel'],
+// 						'mobile'		=> $list['mobile'],
+// 						'best_time'		=> $list['best_time'],
+// 						'postscript'	=> $list['postscript'],
+// 						'how_oos'		=> $list['how_oos'],
+// 						'insure_fee'	=> $list['insure_fee'],
+// 						'shipping_fee'	=> $list['shipping_fee'],
+// 						'update_time'	=> $list['update_time'],
+// 						'suppliers_id'	=> $list['suppliers_id'],
+// 						'return_time'	=> GMTIME_UTC,
+// 						'agency_id'		=> $list['agency_id'],
+// 					    'store_id'      => $list['store_id'],
+// 						'invoice_no'	=> $list['invoice_no'],
+// 					);					
+// 					$back_id = RC_DB::table('back_order')->insertGetId($data);
 		
-					$query = RC_DB::table('delivery_goods')
-						->selectRaw('goods_id, product_id, product_sn, goods_name, goods_sn, is_real, send_number, goods_attr')
-						->where('delivery_id', $list['delivery_id'])
-						->first();
+// 					$query = RC_DB::table('delivery_goods')
+// 						->selectRaw('goods_id, product_id, product_sn, goods_name, goods_sn, is_real, send_number, goods_attr')
+// 						->where('delivery_id', $list['delivery_id'])
+// 						->first();
 					
-					$source = array(
-						'back_id'		=> $back_id,
-						'goods_id'		=> $query['goods_id'],
-						'product_id'	=> $query['product_id'],
-						'product_sn'	=> $query['product_sn'],
-						'goods_name'	=> $query['goods_name'],
-						'goods_sn'		=> $query['goods_sn'],
-						'is_real'		=> $query['is_real'],
-						'send_number'	=> $query['send_number'],
-						'goods_attr'	=> $query['goods_attr'],
-					);
-					RC_DB::table('back_goods')->insert($source);
-				}
-			}
+// 					$source = array(
+// 						'back_id'		=> $back_id,
+// 						'goods_id'		=> $query['goods_id'],
+// 						'product_id'	=> $query['product_id'],
+// 						'product_sn'	=> $query['product_sn'],
+// 						'goods_name'	=> $query['goods_name'],
+// 						'goods_sn'		=> $query['goods_sn'],
+// 						'is_real'		=> $query['is_real'],
+// 						'send_number'	=> $query['send_number'],
+// 						'goods_attr'	=> $query['goods_attr'],
+// 					);
+// 					RC_DB::table('back_goods')->insert($source);
+// 				}
+// 			}
 	
-			/* 修改订单的发货单状态为退货 */
-			$data = array(
-				'status' => 1,
-			);
-			RC_DB::table('delivery_order')->where('order_id', $order['order_id'])->whereIn('status', array(0, 2))->update($data);
+// 			/* 修改订单的发货单状态为退货 */
+// 			$data = array(
+// 				'status' => 1,
+// 			);
+// 			RC_DB::table('delivery_order')->where('order_id', $order['order_id'])->whereIn('status', array(0, 2))->update($data);
 	
-			/* 将订单的商品发货数量更新为 0 */
-			$data = array(
-				'send_number' => 0,
-			);
-			RC_DB::table('order_goods')->where('order_id', $order_id)->update($data);
+// 			/* 将订单的商品发货数量更新为 0 */
+// 			$data = array(
+// 				'send_number' => 0,
+// 			);
+// 			RC_DB::table('order_goods')->where('order_id', $order_id)->update($data);
 			
-			//update commission_bill
-			RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 2, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+// 			//update commission_bill
+// 			RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 2, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
 				
-		} elseif ('after_service' == $operation) {
+// 		} 
+		elseif ('after_service' == $operation) {
 			/* 记录log */
 			order_action($order['order_sn'], $order['order_status'], $order['shipping_status'], $order['pay_status'], '[' . RC_Lang::get('orders::order.op_after_service') . '] ' . $action_note);
 		} else {

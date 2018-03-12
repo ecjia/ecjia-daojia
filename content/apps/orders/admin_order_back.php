@@ -70,6 +70,10 @@ class admin_order_back extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::order.order_back_list'), RC_Uri::url('orders/admin_order_back/init')));
+		
+		$upgrade_url = RC_Uri::url('refund/admin/init');
+		$warning = sprintf(__('温馨提示：当前退货单功能已废弃，退货单列表以及详情页仅支持历史数据查看。从 v1.14.0 版本起请进入售后列表体验新的退货退款功能。<br><br><a href="%s">进入售后列表 >></a>'),$upgrade_url);
+		ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning, 'alert-warning'));
 	}
 	
 	/**

@@ -7,7 +7,7 @@
 </script>
 <!-- {/block} -->
 
-<!-- {block name="main_content"} -->
+<!-- {block name="main_content"} -->           	                	
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->

@@ -147,7 +147,10 @@ class orders_order_info_api extends Component_Event_Api {
 	        elseif (in_array($order['order_status'], array(OS_CANCELED))) {
 	        	$order['label_order_status'] = '已取消';
 	        	$order['order_status_code'] = 'canceled';
-	        }
+	        }elseif (in_array($order['order_status'], array(OS_RETURNED))) {
+				$order['label_order_status'] = RC_Lang::get('orders::order.label_refunded');
+				$order['order_status_code'] = 'refunded';
+			}
 	        
 	        /* 对发货号处理 */
 	        if (! empty($order['invoice_no'])) {

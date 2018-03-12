@@ -23,6 +23,98 @@ ecjia.merchant.order.info();
 </div>
 <!-- #BeginLibraryItem "/library/order_operate.lbi" --><!-- #EndLibraryItem -->
 <!-- #BeginLibraryItem "/library/order_refund.lbi" --><!-- #EndLibraryItem -->
+
+	<div id="actionmodal" class="modal fade">
+        <div class="modal-dialog" style="margin-top: 200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">订单操作：退款/退货</h4>
+                </div>
+                
+                <div class="modal-body">
+                	  <div class="success-msg"></div>
+		              <div class="error-msg"></div>
+                      <form class="form-horizontal" method="post" name="actionForm" id="actionForm" action='{url path="orders/merchant/mer_action_return"}'>
+                      
+					   <div class="form-group">
+							<label class="control-label col-lg-3">退款方式：</label>
+							<div class="controls col-lg-8">
+								<select class="form-control" id="refund_type_select" name="refund_type_select" style="width: 250px;">
+					                <option value="">请选择…</option>
+					                <option value="refund">仅退款</option>
+					                <option value="return">退货退款</option>
+					            </select>
+							</div>
+						</div>
+						
+						<div id="refund_type_select_return">
+							<div class="form-group">
+					    		<label class="control-label col-lg-3">返还方式：</label>
+								<div class="col-lg-8 chk_radio return_shipping_range">
+									<input type="checkbox" name="return_shipping_range" id="home" value="home" > 
+									<label for="home"><strong>上门取件</strong></label><small>（由商家联系配送员上门取件）</small>
+					    			<br/>
+					    			 
+					    			<input name="return_shipping_range" id="express" value="express" type="checkbox"> 
+									<label for="express"><strong>自选快递</strong></label><small>（由用户自选第三方快递公司配送）</small>
+									<div class="return_shipping_content">
+										<p>收件人：{$return_shipping_content.staff_name} &nbsp;&nbsp;&nbsp;手机：{$return_shipping_content.staff_mobile}</p>
+										<p>地址：{$return_shipping_content.address}</p>
+									</div>
+									<br/>
+								  
+								    <input name="return_shipping_range" id="shop" value="shop" type="checkbox"> 
+									<label for="shop"><strong>到店退货</strong></label><small>（由用户到门店线下退货）</small>
+									<div class="return_shipping_content">
+										<p>店铺名称：{$return_shipping_content.store_name} &nbsp;&nbsp;&nbsp;电话：{$return_shipping_content.shop_kf_mobile}</p>
+										<p>地址：{$return_shipping_content.address}</p>
+									</div>
+								</div>
+							</div>
+						</div>	
+						
+						<div class="form-group">
+							<label class="control-label col-lg-3">退款原因：</label>
+							<div class="controls col-lg-8">
+								<select class="form-control" id="refund_reason_select" name="refund_reason_select" style="width: 250px;">
+									<option value="">请选择…</option>
+					                <option value="91">暂不想购买了</option>
+									<option value="92">信息填写有误，重新购买</option>
+									<option value="93">外表损伤（包装，商品等）</option>
+									<option value="94">商品质量问题</option>
+									<option value="95">发错货</option>
+									<option value="96">未在时效内送达</option>
+									<option value="97">服务态度问题</option>					
+					            </select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-lg-3">退款说明：</label>
+							<div class="controls col-lg-8">
+								<textarea name="refund_content" cols="60" rows="3" class="form-control" id="refund_content"></textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-lg-3">操作备注：</label>
+							<div class="controls col-lg-8">
+								<textarea name="merchant_action_note" cols="60" rows="3" class="form-control" id="merchant_action_note"></textarea>
+							</div>
+						</div>
+						
+						
+                        <div class="control-group t_c">
+							<button class="btn btn-info" id="note_btn" type="submit">{t}确定{/t}</button>
+							<input type="hidden" name="order_id" value="{$order_id}" />
+						</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   	</div>
+   	
 <div class="modal fade" id="consigneeinfo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -572,9 +664,10 @@ ecjia.merchant.order.info();
 									{/if}
 
 									{if $operable_list.return}
-									<button class="btn operatesubmit btn-info" type="submit" name="return">{lang key='orders::order.op_return'}</button>
+									<a style="cursor: pointer;" class="btn btn-info" href="#actionmodal" data-toggle="modal" id="modal">退款/退货</a>
 									{/if}
-
+									
+									
 									{if $operable_list.to_delivery}
 									<button class="btn operatesubmit btn-info" type="submit" name="to_delivery">{lang key='orders::order.op_to_delivery'}</button>
 									<input name="order_sn" type="hidden" value="{$order.order_sn}" />

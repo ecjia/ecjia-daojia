@@ -287,12 +287,83 @@
 		},
 		info : function() {
 			html = $(".modal-header").children("h3").html();
+			app.order.mer_action_return();
 			app.order.refund_click();
 			app.order.refundsubmit();
 			app.order.queryinfo();
 			app.order.operatesubmit();
 			app.order.batchForm();
 			app.order.toggle_view();
+		},
+		
+		//商家进行退款
+		mer_action_return : function() {
+			$("#refund_type_select_return").hide();
+			$("#refund_type_select").change(function () {
+	           $(this).children().each(function (i) {
+	                $("#refund_type_select_" + $(this).val()).hide();
+	           })
+	           $("#refund_type_select_" + $(this).val()).show();
+	        });
+			
+			$("#note_btn").on('click', function (e) {
+				e.preventDefault();
+			    var url = $("form[name='actionForm']").attr('action');
+			    var action_note = $("input[name='action_note']").val();//订单操作备注
+				var order_id = $("input[name='order_id']").val();//订单id
+				var refund_type = $("select[name='refund_type_select']").val();//退款方式
+				var refund_reason = $("select[name='refund_reason_select']").val();//退款原因
+				var refund_content = $("textarea[name='refund_content']").val();//退款说明
+				var merchant_action_note = $("textarea[name='merchant_action_note']").val();//管理员操作备注
+				
+				if (refund_type == '') {
+					var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>请选择退款方式</div>');
+					$info.appendTo('.error-msg').delay(3000).hide(0);
+					return false;
+	            }
+				if (refund_reason == '') {
+					var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>请选择退款原因</div>');
+					$info.appendTo('.error-msg').delay(3000).hide(0);
+					return false;
+	            }
+				
+				//退货退款
+				if(refund_type == 'return') {
+					//选择返还方式
+					var arr = new Array();
+				　　  $("input[name=return_shipping_range]:checked").each(function (key, value) {
+				　　　　	arr[key] = $(value).val();
+				　　  });
+				  	 var option = {
+				  			'refund_type' : refund_type,
+				  			'refund_reason' : refund_reason,
+				  			'action_note' : action_note,
+				  			'order_id' : order_id,
+				  			'return_shipping_range':arr,
+				  			'refund_content':refund_content,
+				  			'merchant_action_note':merchant_action_note,
+				  	 };
+				} else {
+					var option = {
+				  			'refund_type' : refund_type,
+				  			'refund_reason' : refund_reason,
+				  			'action_note' : action_note,
+				  			'order_id' : order_id,
+				  			'refund_content':refund_content,
+				  			'merchant_action_note':merchant_action_note,
+				  	 };
+				}
+				console.log(option);
+			    $.post(url, option, function (data) {
+			         if (data.state == 'success') {
+						$('#actionmodal').modal('hide');
+						ecjia.merchant.showmessage(data);
+					 } else {
+						var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
+						$info.appendTo('.error-msg').delay(5000).hide(0);
+					 }
+			    }, 'json');
+			});
 		},
 		
 		//退款按钮

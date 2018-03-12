@@ -196,3 +196,22 @@
     font-size: 28px;
     border-radius: 4px;
 }
+
+
+.return_shipping_content {
+    color: #737373;
+    margin-left: 30px;
+}
+.return_shipping_content p{
+	margin-bottom:0px;
+	font-size: 12px;
+	
+}
+.return_shipping_range strong{
+	margin-left:5px;
+}
+
+.return_shipping_range small{
+	 color: #737373;
+}
+

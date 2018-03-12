@@ -1244,7 +1244,7 @@ function EM_order_query_sql($type = 'finished', $alias = '') {
         return "{$alias}order_status " . db_create_in(array(OS_UNCONFIRMED, OS_CONFIRMED)) . " AND {$alias}shipping_status " . db_create_in(array(SS_UNSHIPPED, SS_PREPARING)) . " AND {$alias}pay_status = '" . PS_UNPAYED . "' ";
     } elseif ($type == 'shipped') {
         /* 已发货订单：不论是否付款 */
-        return "{$alias}shipping_status " . db_create_in(array(SS_SHIPPED)) . " ";
+        return "{$alias}shipping_status " . db_create_in(array(SS_SHIPPED)) . " AND {$alias}order_status != '".OS_RETURNED."'";
     } else {
         die('函数 order_query_sql 参数错误');
     }

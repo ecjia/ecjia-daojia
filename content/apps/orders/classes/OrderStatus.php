@@ -60,7 +60,7 @@ class OrderStatus
     ];
 
     
-    public static function getOrderStatusLabel($order_status, $shipping_status, $pay_status, $is_cod) 
+    public static function getOrderStatusLabel($order_status, $shipping_status, $pay_status, $is_cod, $refund_info) 
     {
         if (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED)) &&
             in_array($shipping_status, array(SS_RECEIVED)) &&
@@ -69,7 +69,7 @@ class OrderStatus
             $label_order_status = RC_Lang::get('orders::order.cs.'.CS_FINISHED);
             $status_code = 'finished';
         }
-        elseif (in_array($shipping_status, array(SS_SHIPPED)))
+        elseif (in_array($shipping_status, array(SS_SHIPPED)) && $order_status != OS_RETURNED)
         {
             $label_order_status = RC_Lang::get('orders::order.label_await_confirm');
             $status_code = 'shipped';
@@ -98,10 +98,32 @@ class OrderStatus
             $label_order_status = RC_Lang::get('orders::order.label_canceled');
             $status_code = 'canceled';
         }
+        elseif (in_array($order_status, array(OS_RETURNED)) && $pay_status == PS_PAYED) {
+        	$label_order_status = RC_Lang::get('orders::order.label_refunded');
+        	$status_code = 'refund';
+        }
         
         return array($label_order_status, $status_code);
     }
     
+    
+    public static function getRefundStatusLabel($order_status, $rfo_status, $rfd_status)
+    {
+    	if ($rfo_status == '10') {
+    		$status_code 		= 'canceled';
+    		$label_refund_status	= '取消退款';
+    	} elseif (($rfo_status == '1' && $rfd_status == '2')) {
+    		$status_code = 'refunded';
+    		$label_refund_status= '已退款';
+    	}elseif ($rfo_status == '11') {
+    		$status_code = 'refused';
+    		$label_refund_status = '退款被拒';
+    	} else{
+    		$status_code = 'going';
+    		$label_refund_status = '进行中';
+    	}
+    	return array($label_refund_status, $status_code);
+    }
     
     public static function getQueryOrder($type)
     {
@@ -193,15 +215,24 @@ class OrderStatus
     public static function queryOrderShipped() 
     {
     	return function ($query) {
-    		$query->where('order_info.shipping_status', SS_SHIPPED);
+    		$query->where('order_info.shipping_status', SS_SHIPPED)
+    			  ->where('order_info.order_status', '<>', OS_RETURNED);
     	};
     }
     
-    /* 退货 */
+    /* 退款 */
     public static function queryOrderRefund() 
     {
     	return function ($query) {
-    		$query->where('order_info.order_status', OS_RETURNED);
+    		$query->leftJoin('refund_order', function ($join) {
+    			$join->on('order_info.order_id', '=', 'refund_order.order_id')
+    			     ->where('refund_order.status', '<>', 10);
+    		});
+    		$query->where('order_info.order_status', OS_RETURNED)
+    			  ->where('order_info.pay_status', PS_PAYED);
+    		
+    		$fields = array('refund_order.status as rfo_status', 'refund_order.refund_status as rfd_status', 'refund_order.refund_sn');
+    		$query->addSelect($fields);
     	};
     }
     

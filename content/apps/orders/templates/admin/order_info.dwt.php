@@ -540,9 +540,11 @@
 										<button class="btn operatesubmit" type="submit" name="cancel">{lang key='orders::order.op_cancel'}</button>
 										{/if} {if $operable_list.invalid}
 										<button class="btn operatesubmit" type="submit" name="invalid">{lang key='orders::order.op_invalid'}</button>
-										{/if} {if $operable_list.return}
-										<button class="btn operatesubmit" type="submit" name="return">{lang key='orders::order.op_return'}</button>
-										{/if} {if $operable_list.to_delivery}
+										{/if} 
+<!-- 										{if $operable_list.return} -->
+<!-- 										<button class="btn operatesubmit" type="submit" name="return">{lang key='orders::order.op_return'}</button> -->
+<!-- 										{/if}  -->
+										{if $operable_list.to_delivery}
 										<button class="btn operatesubmit" type="submit" name="to_delivery">{lang key='orders::order.op_to_delivery'}</button>
 										<input name="order_sn" type="hidden" value="{$order.order_sn}" />
 										{/if}
