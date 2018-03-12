@@ -361,7 +361,7 @@ class admin_articlecat extends ecjia_admin {
 			return $this->showmessage(RC_Lang::get('article::article.is_fullcat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}else {
 			/* 非空的分类不允许删除 */
-			$query = RC_DB::table('article_cat')->where('cat_id', $id)->count();
+			$query = RC_DB::table('article')->where('cat_id', $id)->count();
 			if ($query > 0) {
 				return $this->showmessage(sprintf(RC_Lang::get('article::article.not_emptycat')), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {
