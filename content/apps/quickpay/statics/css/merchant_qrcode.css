@@ -1,0 +1,72 @@
+.qrcode-content {
+	width: 100%;
+	height: 430px;
+}
+
+.qrcode-content .left-side {
+	width: 300px;
+	height: 430px;
+	border: 1px solid #eee;
+	float: left;
+	background-color: #379ED8;
+	border-radius: 8px;
+	text-align: center;
+}
+
+.qrcode-content .left-side .store-logo img {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	margin: 20px 0 10px 0;
+}
+
+.qrcode-content .left-side .store-name {
+	font-size: 18px;
+	color: #fff;
+	margin: 10px 0;
+}
+
+.qrcode-content .left-side .qrcode {
+	margin-top: 20px;
+}
+
+.qrcode-content .left-side .qrcode img {
+	width: 220px;
+	height: 220px;
+}
+
+.qrcode-content .left-side .info {
+	color: #fff;
+	font-size: 15px;
+	margin-top: 20px;
+}
+
+.qrcode-content .right-side {
+	width: 746px;
+	height: 430px;
+	float: left;
+	margin-left: 20px;
+	padding: 20px;
+	background-color: #F9F9F9;
+	border-radius: 8px;
+}
+
+.qrcode-content .right-side .right-head {
+	font-size: 18px;
+	padding: 10px 0;
+	border-bottom: 1px dashed #ddd;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.qrcode-content .right-side .right-content {
+	line-height: 25px;
+}
+
+.qrcode-content .right-side .right-content p:first-child {
+	text-indent: 2em;
+}
+
+.qrcode-content .right-side .right-handle {
+	margin-top: 30px;
+}

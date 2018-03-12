@@ -46,35 +46,16 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台权限API
- * @author songqianqian
- */
-class quickpay_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-        	array('action_name' => '买单活动设置', 'action_code' => 'quickpay_config_manage', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单活动管理', 'action_code' => 'quickpay_manage', 'relevance'   => ''),
-        	array('action_name' => '买单活动编辑', 'action_code' => 'quickpay_update', 'relevance'   => ''),
-        	array('action_name' => '买单活动删除', 'action_code' => 'quickpay_delete', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单订单管理', 'action_code' => 'quickpay_order_manage', 'relevance'   => ''),
-        	array('action_name' => '买单订单核实', 'action_code' => 'quickpay_order_update', 'relevance'   => ''),
-        	array('action_name' => '买单订单删除', 'action_code' => 'quickpay_order_delete', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单订单查询', 'action_code' => 'quickpay_order_search', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单订单统计', 'action_code' => 'quickpay_sale_general_stats', 'relevance'   => ''),
-        		
-        	array('action_name' => '买单销售明细', 'action_code' => 'quickpay_sale_list', 'relevance'   => ''),
-        		
-        		
-        	array('action_name' => '收款二维码', 'action_code' => 'quickpay_collectmoney_qrcode', 'relevance'   => ''),
-        );
-        return $purviews;
-    }
+class quickpay_merchant_hook {
+	
+	public static function quickpay_merchant_menu_api($menus) {
+	    $menu = ecjia_merchant::make_admin_menu('04_merchant_qrcode', __('收款二维码'), RC_Uri::url('quickpay/mh_qrcode/init'), 4)->add_purview('quickpay_collectmoney_qrcode')->add_icon('fa-qrcode');
+	    
+	    $menus->add_submenu($menu);
+	    return $menus;
+	}
 }
+
+RC_Hook::add_filter( 'merchant_merchant_menu_api', array('quickpay_merchant_hook', 'quickpay_merchant_menu_api') );
 
 // end
