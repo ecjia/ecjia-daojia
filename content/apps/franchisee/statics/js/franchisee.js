@@ -21,6 +21,10 @@
 			$("#get_code").on('click', function (e) {
 				e.preventDefault();
 				var url = $(this).attr('data-url') + '&mobile=' + $("input[name='mobile']").val();
+				var captcha = $('input[name="captcha"]').val();
+				if (captcha != '') {
+					url += '&captcha=' + captcha;
+				}
 				$.get(url, function (data) {
 					if (data.state == 'success') {
 						curCount = count;

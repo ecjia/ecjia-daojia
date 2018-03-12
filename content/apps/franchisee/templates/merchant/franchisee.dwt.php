@@ -21,34 +21,36 @@
     var lat = '{$data.latitude}';
     var lng = '{$data.longitude}';
 	var latLng = new qq.maps.LatLng(lat, lng);
-	var map = new qq.maps.Map(document.getElementById("allmap"),{
-	    center: latLng,
-	    zoom: 16
-	});
-	setTimeout(function(){
-	    var marker = new qq.maps.Marker({
-	        position: latLng, 
-	        map: map
-	      });
-	    markersArray.push(marker);
-	}, 500);
-	if (step == 1) {
-		//添加监听事件 获取鼠标单击事件
-		qq.maps.event.addListener(map, 'click', function(event) {
-		    if (markersArray) {
-		        for (i in markersArray) {
-		            markersArray[i].setMap(null);
-		        }
-		        markersArray.length = 0;
-		    }
-		    $('input[name="longitude"]').val(event.latLng.lng)
-		    $('input[name="latitude"]').val(event.latLng.lat)
-		       var marker = new qq.maps.Marker({
-		        position: event.latLng, 
+	if (lat != '' && lng != '') {
+		var map = new qq.maps.Map(document.getElementById("allmap"),{
+		    center: latLng,
+		    zoom: 16
+		});
+		setTimeout(function(){
+		    var marker = new qq.maps.Marker({
+		        position: latLng, 
 		        map: map
 		      });
-		    markersArray.push(marker);    
-		});
+		    markersArray.push(marker);
+		}, 500);
+		if (step == 1) {
+			//添加监听事件 获取鼠标单击事件
+			qq.maps.event.addListener(map, 'click', function(event) {
+			    if (markersArray) {
+			        for (i in markersArray) {
+			            markersArray[i].setMap(null);
+			        }
+			        markersArray.length = 0;
+			    }
+			    $('input[name="longitude"]').val(event.latLng.lng)
+			    $('input[name="latitude"]').val(event.latLng.lat)
+			       var marker = new qq.maps.Marker({
+			        position: event.latLng, 
+			        map: map
+			      });
+			    markersArray.push(marker);    
+			});
+		}
 	}
 </script>
 <!-- {/block} -->
@@ -116,12 +118,15 @@
 					  	<div class="controls col-lg-6">
 					      	<input class="form-control" name="mobile" id="mobile" placeholder="请输入手机号码" type="text" value="{$info.contact_mobile}" {if $type eq 'edit_apply'}readonly{/if}/>
 					  	</div>
-					  	{if $type neq 'edit_apply'}
-					 	<a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
-					 	{/if}
 					</div>
 					
 					{if $type neq 'edit_apply'}
+					<div class="form-group">
+					  	<label class="control-label col-lg-2">图形验证码：</label>
+					    <!-- {ecjia:hook id=merchant_join_captcha} -->
+					 	<a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
+					</div>
+					
 					<div class="form-group">
 					  	<label class="control-label col-lg-2">{t}短信验证码：{/t}</label>
 					  	<div class="col-lg-6">

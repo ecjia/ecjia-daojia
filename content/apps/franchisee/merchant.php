@@ -232,6 +232,21 @@ class merchant extends ecjia_merchant {
 		if (empty($mobile)) {
 			return $this->showmessage('请输入手机号码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+		$chars = "/^1(3|4|5|7|8)\d{9}$/";
+		if (!preg_match($chars, $mobile)) {
+			return $this->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		$captcha = isset($_GET['captcha']) ? $_GET['captcha'] : '';
+		if (empty($captcha)) {
+			return $this->showmessage('请输入图形验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		$validate_error = RC_Hook::apply_filters('merchant_login_validate', $_GET);
+		if (!empty($validate_error) && is_string($validate_error)) {
+			return $this->showmessage($validate_error, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		$code = rand(100000, 999999);
 		$options = array(
 			'mobile' => $mobile,
