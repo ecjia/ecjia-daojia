@@ -14,10 +14,14 @@ class friendlink_installer extends ecjia_installer
     }
 
     public function install()
-    {}
+    {
+    	return true;
+    }
 
     public function uninstall()
-    {}
+    {
+    	return true;
+    }
 
 }
 
