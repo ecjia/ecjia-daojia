@@ -429,9 +429,20 @@ return array(
 	'quickpay/order/delete'		=> 'quickpay::order/operate/delete',    //1.12用户删除买单订单
 	
     'captcha/image' 			=> 'captcha::captcha/image', //1.13 增加验证码图片
-    
 	'user/account/switchPayment'=> 'user::user/account/switchPayment',   //1.13 用户更新充值订单支付方式
-    
+
+    'refund/reasons'            => 'refund::refund/reasons',             //1.14售后原因
+    'refund/cancel'             => 'refund::refund/cancel',              //1.14撤销售后申请
+    'refund/apply'              => 'refund::refund/apply',               //1.14申请售后
+	'refund/list'               => 'refund::refund/list',                //1.14售后列表
+	'refund/detail'             => 'refund::refund/detail',              //1.14售后详情
+	'refund/returnway/home'     => 'refund::refund/returnway/home',      //1.14选择上门取件返还方式
+	'refund/returnway/express'  => 'refund::refund/returnway/express',   //1.14选择自选快递返还方式
+	'refund/returnway/shop'     => 'refund::refund/returnway/shop',      //1.14选择到店退货返还方式
+	'refund/payrecord'     		=> 'refund::refund/payrecord',      	 //1.14查看退款进度
+	'affiliate/user/invite'     => 'affiliate::user/invite',             //1.14推荐邀请用户
+		
+		
 	
     /** 1.0 已经废弃
      * article 
