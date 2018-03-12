@@ -46,6 +46,7 @@ return array(
     'Royalcms\\Component\\Convert\\' => array($vendorDir . '/royalcms/convert'),
     'Royalcms\\Component\\Gettext\\' => array($vendorDir . '/royalcms/gettext'),
     'Royalcms\\Component\\Reflection\\' => array($vendorDir . '/royalcms/reflection'),
+    'Royalcms\\Component\\Tcpdf\\' => array($vendorDir . '/royalcms/tcpdf'),
     'Royalcms\\Component\\WeChat\\' => array($vendorDir . '/royalcms/wechat'),
     'Royalcms\\Component\\WeChat\\Menu\\' => array($vendorDir . '/royalcms/wechat-menu'),
     'Royalcms\\Component\\WeChat\\User\\' => array($vendorDir . '/royalcms/wechat-user'),
