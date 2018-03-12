@@ -108,6 +108,7 @@ return array(
 	'code_style'			=> '可用验证码样式',
 	'enable_code'			=> '启用此验证码',
 	'add_code'				=> '添加验证码',
+	'captcha_required'		=> '请输入图形验证码'
 );
 
 // end
