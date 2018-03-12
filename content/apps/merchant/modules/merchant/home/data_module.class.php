@@ -62,7 +62,8 @@ class data_module extends api_front implements api_interface {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		//是否开启闪惠功能
-		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $seller_id)->where('code', 'quickpay_enabled')->pluck('value');
+		RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
+		$allow_use_quickpay = quickpay_activity::is_open_quickpay($seller_id);
 		
 		$user_id = $_SESSION['user_id'];
 		$api_version = $request->header('api-version');

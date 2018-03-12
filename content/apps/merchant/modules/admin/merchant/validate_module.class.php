@@ -52,6 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class validate_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    	$this->authadminSession();
 		$type		    = $this->requestData('type');
 		$value		    = $this->requestData('value');
 		$validate_type	= $this->requestData('validate_type');
@@ -63,7 +64,7 @@ class validate_module extends api_admin implements api_interface {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		
-		if (version_compare($api_version, '1.14.0', '>=')) {
+		if (version_compare($api_version, '1.14', '>=')) {
 			$captcha_code = $this->requestData('captcha_code');
 			if (empty($captcha_code)) {
 				return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));

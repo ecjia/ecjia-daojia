@@ -74,7 +74,26 @@ class ecjia_merchant_screen extends ecjia_screen {
         
         <?php 
         endif;
+        
+        $this->render_screen_admin_notice();
     }
+    
+    public function render_screen_admin_notice()
+    {
+        if (!empty($this->_admin_notice)) :
+            foreach ($this->_admin_notice as $admin_notice) :
+                ?>
+                <div class="alert alert-dismissable<?php if ($admin_notice->get_type()) echo ' '.$admin_notice->get_type(); else echo ' alert-warning'; ?>">
+                    <?php if ($admin_notice->get_allow_close()) :?>
+                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"></i></button>
+                	<?php endif;?>
+                	<?php echo $admin_notice->get_content();?>
+                </div>
+		       <?php
+		    endforeach;
+		endif;
+    }
+    
 }
 
 // end

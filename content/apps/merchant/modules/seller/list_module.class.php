@@ -219,6 +219,7 @@ class list_module extends api_front implements api_interface {
 					'is_follower'		=> in_array($row['id'], $collect_store_id) ? 1 : 0,
 					'goods_count'       => $goods_store_data['count'],
 					'favourable_list'	=> $favourable_list,
+					'allow_use_quickpay'=> intval($row['allow_use_quickpay']),
 					'quickpay_activity_list' => $quickpay_activity_list_new,
 					'distance'			=> $distance,
 					'label_trade_time'	=> $row['label_trade_time'],
