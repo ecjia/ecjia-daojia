@@ -53,8 +53,9 @@ class ecjia_touch_user extends RC_Object {
     /**
      * 登录
      */
-    public function signin($username, $password) {
+    public function signin($type, $username, $password) {
         $data = array(
+        	'type' => $type,
         	'name' => $username,
             'password' => $password,
         );
