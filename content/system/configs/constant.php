@@ -192,6 +192,7 @@ define('GAT_MOBILE_BUY',			100); 	//移动专享
 define('ACT_SAVING',                0);     // 帐户冲值
 define('ACT_DRAWING',               1);     // 帐户提款
 define('ACT_ADJUSTING',             2);     // 调节帐户
+define('ACT_REFUND',                3);     // 退款
 define('ACT_OTHER',                99);     // 其他类型
 
 /* 密码加密方法 */

@@ -190,11 +190,6 @@ class ecjia_screen {
 	private $_help_sidebar = '';
 
 	/**
-	 * Stores old string-based help.
-	 */
-	private static $_old_compat_help = array();
-
-	/**
 	 * The screen options associated with screen, if any.
 	 *
 	 * @since 1.0.0
@@ -462,20 +457,6 @@ class ecjia_screen {
 	}
 
 	/**
-	 * Sets the old string-based contextual help for the screen.
-	 *
-	 * For backwards compatibility.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param WP_Screen $screen A screen object.
-	 * @param string $help Help text.
-	 */
-	static function add_old_compat_help( $screen, $help ) {
-		self::$_old_compat_help[ $screen->id ] = $help;
-	}
-
-	/**
 	 * Set the parent information for the screen.
 	 * This is called in header after the menu parent for the screen has been determined.
 	 *
@@ -723,6 +704,17 @@ class ecjia_screen {
 	public function get_columns() {
 		return $this->columns;
 	}
+	
+	/**
+	 * Gets the admin notice registered for the screen.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array Help tabs with arguments.
+	 */
+	public function get_admin_notice() {
+	    return $this->_admin_notice;
+	}
 
 	/**
 	 * Render the screen's help section.
@@ -732,60 +724,6 @@ class ecjia_screen {
 	 * @since 1.0.0
 	 */
 	public function render_screen_meta() {
-
-		/**
-		 * Filter the legacy contextual help list.
-		 *
-		 * @since 1.0.0
-		 * @deprecated 1.0.0 Use get_current_screen()->add_help_tab() or
-		 *                   get_current_screen()->remove_help_tab() instead.
-		 *
-		 * @param array     $old_compat_help Old contextual help.
-		 * @param WP_Screen $this            Current WP_Screen instance.
-		 */
-		self::$_old_compat_help = RC_Hook::apply_filters( 'contextual_help_list', self::$_old_compat_help, $this );
-
-		$old_help = isset( self::$_old_compat_help[ $this->id ] ) ? self::$_old_compat_help[ $this->id ] : '';
-
-		/**
-		 * Filter the legacy contextual help text.
-		 *
-		 * @since 1.0.0
-		 * @deprecated 1.0.0 Use get_current_screen()->add_help_tab() or
-		 *                   get_current_screen()->remove_help_tab() instead.
-		 *
-		 * @param string    $old_help  Help text that appears on the screen.
-		 * @param string    $screen_id Screen ID.
-		 * @param WP_Screen $this      Current WP_Screen instance.
-		 *
-		 */
-		$old_help = RC_Hook::apply_filters( 'contextual_help', $old_help, $this->id, $this );
-
-		// Default help only if there is no old-style block of text and no new-style help tabs.
-		if ( empty( $old_help ) && ! $this->get_help_tabs() ) {
-
-			/**
-			 * Filter the default legacy contextual help text.
-			 *
-			 * @since 1.0.0
-			 * @deprecated 1.0.0 Use get_current_screen()->add_help_tab() or
-			 *                   get_current_screen()->remove_help_tab() instead.
-			 *
-			 * @param string $old_help_default Default contextual help text.
-			 */
-			$default_help = RC_Hook::apply_filters( 'default_contextual_help', '' );
-			if ( $default_help )
-				$old_help = '<p>' . $default_help . '</p>';
-		}
-
-		if ( $old_help ) {
-			$this->add_help_tab( array(
-				'id'      => 'old-contextual-help',
-				'title'   => __('Overview'),
-				'content' => $old_help,
-			) );
-		}
-
 		$help_sidebar = $this->get_help_sidebar();
 
 		$help_class = 'hidden';
@@ -909,7 +847,7 @@ class ecjia_screen {
     		?>
     		</div>
     		<?php
-    		if ( ! $this->get_help_tabs() && ! $this->show_screen_options() ){
+    		if ( ! $this->get_help_tabs() && ! $this->show_screen_options() && ! $this->get_admin_notice()){
     			echo "</div>";
     			return;
     		}
@@ -960,10 +898,16 @@ class ecjia_screen {
 		<?php
 		endif;
 
-		if (!empty($this->_admin_notice)) :
-    		foreach ($this->_admin_notice as $admin_notice) :
-		 ?>
-                <div class="alert">
+		$this->render_screen_admin_notice();
+	}
+	
+	
+	public function render_screen_admin_notice()
+	{
+        if (!empty($this->_admin_notice)) :
+            foreach ($this->_admin_notice as $admin_notice) :
+            ?>
+                <div class="alert<?php if ($admin_notice->get_type()) echo ' '.$admin_notice->get_type(); ?>">
                     <?php if ($admin_notice->get_allow_close()) :?>
                 	<a data-dismiss="alert" class="close">×</a>
                 	<?php endif;?>
@@ -972,7 +916,7 @@ class ecjia_screen {
 		       <?php
 		    endforeach;
 		endif;
-	}
+    }
 
 	public function show_screen_options() {
 		global $wp_meta_boxes;
