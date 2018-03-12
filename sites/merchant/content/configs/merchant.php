@@ -86,6 +86,8 @@ return array(
         'touch'   => 'touch',
         /* 小票打印  */
         'printer'   => 'printer',
+    	/* 退款退货  */
+    	'refund'   => 'refund',
     ),
 );
 
