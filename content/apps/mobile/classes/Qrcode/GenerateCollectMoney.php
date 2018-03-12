@@ -44,57 +44,35 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\App\Mobile\Qrcode;
 
-class redirect extends ecjia_front
-{
+use RC_Upload;
+use RC_Uri;
+
+class GenerateCollectMoney extends AbstractQrcode {
+        
+    public function content()
+    {
+        $args = [
+            'handle'        => 'ecjiaopen', 
+            'open_type'     => 'collectmoney', 
+            'merchant_id'   => $this->id
+        ];
+        return RC_Uri::url('mobile/redirect/init', $args);
+    }
     
-    public function __construct() {
-        parent::__construct();	
+    public function storeDir() 
+    {
+        $dir = RC_Upload::upload_path().'data/qrcodes/collectmoney/';
+        return $dir;
     }
     
     
-    public function init() {
-        
-        $request = royalcms('request');
-        
-        $handle = $request->query('handle');
-        
-        if ($handle != 'ecjiaopen') {
-            $this->showmessage('Invalid parameter', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
-        }
-        
-        $open_type = $request->query('open_type');
-        
-        // 商品祥情跳转
-        if ($open_type == 'goods_detail') 
-        {
-            $goods_id = $request->query('goods_id');
-            $url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
-            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
-            $this->redirect($url);
-        }
-        // 商家主页跳转
-        elseif ($open_type == 'merchant') 
-        {
-            $store_id = $request->query('merchant_id');
-            $url = RC_Uri::url('merchant/index/init', array('store_id' => $store_id));
-            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
-            $this->redirect($url);
-        }
-        // 商家收款码跳转
-        elseif ($open_type == 'collectmoney') 
-        {
-            $store_id = $request->query('merchant_id');
-            $url = RC_Uri::url('merchant/quickpay/collectmoney', array('store_id' => $store_id));
-            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
-            $this->redirect($url);
-        }
-        else 
-        {
-            $this->showmessage('Invalid parameter', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
-        }
-        
+    public function fileName($size = 430)
+    {
+        return 'merchant_' . $this->id . '.png';
     }
-    
     
 }
+
+// end
