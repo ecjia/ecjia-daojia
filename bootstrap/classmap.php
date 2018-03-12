@@ -235,6 +235,11 @@ return array(
     'DropSessionsTable' => $contentDir . '/database/migrations/2018_01_12_150951_drop_sessions_table.php',
     'DropSessionsDataTable' => $contentDir . '/database/migrations/2018_01_12_151009_drop_sessions_data_table.php',
     'CreateFriendLinkTable' => $contentDir . '/database/migrations/2018_02_02_112721_create_friend_link_table.php',
+    'CreateRefundOrderTable' => $contentDir . '/database/migrations/2018_03_07_102936_create_refund_order_table.php',
+    'CreateRefundOrderActionTable' => $contentDir . '/database/migrations/2018_03_07_103000_create_refund_order_action_table.php',
+    'CreateRefundPayrecordTable' => $contentDir . '/database/migrations/2018_03_07_103020_create_refund_payrecord_table.php',
+    'CreateRefundStatusLogTable' => $contentDir . '/database/migrations/2018_03_07_104139_create_refund_status_log_table.php',
+    'CreateRefundGoodsTable' => $contentDir . '/database/migrations/2018_03_07_133438_create_refund_goods_table.php',
      
     
     // seeder
