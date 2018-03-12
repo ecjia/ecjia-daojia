@@ -156,7 +156,9 @@ return array(
     //营销活动
     'market' => 'market',
     //打印机管理
-    'printer' => 'printer'
+    'printer' => 'printer',
+    //退货退款管理
+    'refund' => 'refund'
 );
 
 // end
