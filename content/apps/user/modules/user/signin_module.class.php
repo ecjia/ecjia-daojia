@@ -49,35 +49,101 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class signin_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
+    	$this->authSession();
+    	
 	    RC_Loader::load_app_class('integrate', 'user', false);
 	    $user = integrate::init_users();
 		RC_Loader::load_app_func('admin_user','user');
 		RC_Loader::load_app_func('cart','cart');
 		$name = $this->requestData('name');
 		$password = $this->requestData('password');
+		$login_type = $this->requestData('type');
+		$login_type_array = array('smslogin', 'password');
+		$api_version = $this->request->header('api-version');
 		
-		$is_mobile = false;
-
-		/* 判断是否为手机号*/
-		if (is_numeric($name) && strlen($name) == 11 && preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $name)) {
-			$db_user    = RC_Model::model('user/users_model');
-			$user_count = $db_user->where(array('mobile_phone' => $name))->count();
-			if ($user_count > 1) {
-				return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+		if (version_compare($api_version, '1.14', '>=')) {
+			if (empty($login_type) || !in_array($login_type, $login_type_array) || empty($name) || empty($password)) {
+				return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 			}
-			$check_user = $db_user->where(array('mobile_phone' => $name))->get_field('user_name');
-			/* 获取用户名进行判断验证*/
-			if (!empty($check_user)) {
-				if ($user->login($check_user, $password)) {
-					$is_mobile = true;
+			
+			if ($login_type == 'password') {
+				$is_mobile = false;
+					
+				/* 判断是否为手机号*/
+				if (is_numeric($name) && strlen($name) == 11 && preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $name)) {
+					$db_user    = RC_Model::model('user/users_model');
+					$user_count = $db_user->where(array('mobile_phone' => $name))->count();
+					if ($user_count > 1) {
+						return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+					}
+					$check_user = $db_user->where(array('mobile_phone' => $name))->get_field('user_name');
+					/* 获取用户名进行判断验证*/
+					if (!empty($check_user)) {
+						if ($user->login($check_user, $password)) {
+							$is_mobile = true;
+						}
+					}
+				}
+					
+				/* 如果不是手机号码*/
+				if (!$is_mobile) {
+					if (!$user->login($name, $password)) {
+						return new ecjia_error('userinfo_error', '您输入的账号信息不正确 ！');
+					}
+				}
+			} else {
+				//短信验证码验证
+				//判断校验码是否过期
+				if ($_SESSION['bindcode_lifetime'] + 1800 < RC_Time::gmtime()) {
+					//过期
+					return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
+				}
+				//判断校验码是否正确
+				if ($password != $_SESSION['bind_code'] ) {
+					return new ecjia_error('code_error', __('验证码错误，请重新填写！'));
+				}
+				//校验其他信息
+				if ($name != $_SESSION['bind_value']) {
+					return  new ecjia_error('msg_error', __('信息错误，请重新获取验证码'));
+				}
+				 
+				if (!is_numeric($name) && strlen($name) != 11 && !preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $name)) {
+					return new ecjia_error('mobile_wrong', '手机号码格式不正确！');
+				}
+				$user_count = RC_DB::table('users')->where('mobile_phone', $name)->count();
+				if ($user_count > 1) {
+					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+				}
+				$user_name = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
+				//账号信息检查
+				if (!$user->login($user_name)) {
+					return new ecjia_error('userinfo_error', '您输入的账号信息不正确 ！');
 				}
 			}
-		}
-		
-		/* 如果不是手机号码*/
-		if (!$is_mobile) {
-			if (!$user->login($name, $password)) {
-				return new ecjia_error('userinfo_error', '您输入的账号信息不正确 ！');
+		} else {
+			$is_mobile = false;
+			
+			/* 判断是否为手机号*/
+			if (is_numeric($name) && strlen($name) == 11 && preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $name)) {
+				$db_user    = RC_Model::model('user/users_model');
+				$user_count = $db_user->where(array('mobile_phone' => $name))->count();
+				if ($user_count > 1) {
+					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+				}
+				$check_user = $db_user->where(array('mobile_phone' => $name))->get_field('user_name');
+				/* 获取用户名进行判断验证*/
+				if (!empty($check_user)) {
+					if ($user->login($check_user, $password)) {
+						$is_mobile = true;
+					}
+				}
+			}
+			
+			/* 如果不是手机号码*/
+			if (!$is_mobile) {
+				if (!$user->login($name, $password)) {
+					return new ecjia_error('userinfo_error', '您输入的账号信息不正确 ！');
+				}
 			}
 		}
 		

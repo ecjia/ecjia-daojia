@@ -63,20 +63,27 @@ class forget_password_module extends api_front implements api_interface {
         	return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
         }
         
-        if (version_compare($api_version, '1.14.0', '>=')) {
-        	$captcha_code = $this->requestData('captcha_code');
-        	if (empty($captcha_code)) {
-        		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-        	}
-	        //判断验证码是否正确
-	        if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
-	        	return new ecjia_error( 'captcha_code_error', '验证码错误');
-	        }
-        }
-        
         $db = RC_Model::model('user/users_model');
         
         if ($type == 'mobile') {
+        	//手机号码格式判断
+        	if ($type == 'mobile') {
+        		$str = '/^1[34578]{1}\d{9}$/';
+        		if(!preg_match($str, $value)){
+        			new ecjia_error('mobile_wrong', '手机号码格式不正确！');
+        		}
+        	}
+        	if (version_compare($api_version, '1.14', '>=')) {
+        		$captcha_code = $this->requestData('captcha_code');
+        		if (empty($captcha_code)) {
+        			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+        		}
+        		//判断验证码是否正确
+        		if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
+        			return new ecjia_error( 'captcha_code_error', '验证码错误');
+        		}
+        	}
+        	
         	$user_count = $db->where(array('mobile_phone' => $value))->count();
         	//如果用户数量大于1
         	if ($user_count > 1) {

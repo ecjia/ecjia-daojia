@@ -57,14 +57,20 @@ class userbind_module extends api_front implements api_interface {
 		$type = $this->requestData('type');
 		$value = $this->requestData('value');
 		$api_version = $this->request->header('api-version');
-		
 		$type_array = array('mobile');
 		//判断值是否为空，且type是否是在此类型中
 		if ( empty($type) || empty($value) || !in_array($type, $type_array)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		
-		if (version_compare($api_version, '1.14.0', '>=')) {
+		//手机号码格式判断
+		if ($type == 'mobile') {
+			$str = '/^1[34578]{1}\d{9}$/';
+			if(!preg_match($str, $value)){
+				new ecjia_error('mobile_wrong', '手机号码格式不正确！');
+			}
+		}
+		if (version_compare($api_version, '1.14', '>=')) {
 			$captcha_code = $this->requestData('captcha_code');
 			if (empty($captcha_code)) {
 				return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
@@ -80,13 +86,15 @@ class userbind_module extends api_front implements api_interface {
 		$code = rand(100000, 999999);
 		RC_Loader::load_app_class('integrate', 'user', false);
 		$user = integrate::init_users();
-		if ($user->check_user($value)) {
-			return array('registered' => 1);
+		//版本兼容
+		if (version_compare($api_version, '1.14', '<')) {
+			if ($user->check_user($value)) {
+				return array('registered' => 1);
+			}
 		}
+		
+		
 		$mobile_phone = $db_user->find(array('mobile_phone' => $value));
-		if (!empty($mobile_phone)) {
-			return array('registered' => 1);
-		}
 		
 		if ($type == 'mobile') {
 			//发送短信
@@ -98,6 +106,7 @@ class userbind_module extends api_front implements api_interface {
 						'service_phone' => ecjia::config('service_phone'),
 				),
 			);
+			
 			$response = RC_Api::api('sms', 'send_event_sms', $options);	
 			
 			$_SESSION['bind_code']         = $code;
@@ -108,7 +117,26 @@ class userbind_module extends api_front implements api_interface {
 			if (is_ecjia_error($response)) {
 				return new ecjia_error('sms_error', '短信发送失败！');
 			} else {
-				return array('registered' => 0);
+				//版本兼容
+				if (version_compare($api_version, '1.14', '<')) {
+					return array('registered' => 0);
+				} else {
+					/* 判断在有效期内是否已被邀请*/
+					$is_invited = 0;
+					$is_invitedinfo = RC_DB::table('invitee_record')
+					->where('invitee_phone', $value)
+					->where('invite_type', 'signup')
+					->where('expire_time', '>', RC_Time::gmtime())
+					->first();
+					if (!empty($is_invitedinfo)) {
+						$is_invited = 1;
+					}
+					if (!empty($mobile_phone)) {
+						return array('registered' => 1);
+					} else {
+						return array('registered' => 0, 'is_invited' => $is_invited);
+					}
+				}
 			}
 		}
 	}

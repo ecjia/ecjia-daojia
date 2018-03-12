@@ -737,8 +737,8 @@ function EM_user_info($user_id, $mobile) {
 	->whereRaw(RC_DB::raw('c.comment_id is null'))
 	->select(RC_DB::Raw('count(DISTINCT oi.order_id) as counts'))->get();
 	$allow_comment_count = $allow_comment_count['0']['counts'];
-	
-	
+	//申请售后数
+	$refund_order = RC_DB::table('order_info')->where('user_id', $_SESSION['user_id'])->where('order_status', OS_RETURNED)->count();
 	/* 取得用户等级 */
 	if ($user_info['user_rank'] == 0) {
 		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
@@ -799,6 +799,7 @@ function EM_user_info($user_id, $mobile) {
 			'shipped' 		=> $shipped,
 			'finished' 		=> $finished,
 		    'allow_comment'	=> $allow_comment_count,
+			'refund_order'	=> $refund_order
 		),
 		'user_money'		=> $user_info['user_money'],
 		'formated_user_money' 	=> price_format($user_info['user_money'], false),
