@@ -137,10 +137,12 @@ class ConnectUser extends AbstractRepository
     public function getUserName()
     {
         if ($this->user_name) {
-            return $this->user_name;
+            $username = $this->user_name;
         } else {
-            return $this->getConnectPlugin()->get_username();
+            $username = $this->getConnectPlugin()->get_username();
         }
+        
+        return $this->filterUserName($username);
     }
     
     public function getUserHeaderImg()
@@ -357,6 +359,18 @@ class ConnectUser extends AbstractRepository
         } else {
             return false;
         }
+    }
+    
+    /**
+     * 过滤用户呢称中的非法字符
+     * @param string $username
+     * @return string
+     */
+    public function filterUserName($username)
+    {
+        $username = \RC_Format::filterEmoji($username);
+        $username = safe_replace($username);
+        return $username;
     }
     
     public function getGenerateUserName() {

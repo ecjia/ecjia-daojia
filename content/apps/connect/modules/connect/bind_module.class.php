@@ -55,6 +55,20 @@ class bind_module extends api_front implements api_interface {
 		$password	  = $this->requestData('password');
 		$profile	  = $this->requestData('profile');
 		$device		  = $this->device;
+		$api_version = $this->request->header('api-version');
+		
+		if (version_compare($api_version, '1.14', '>=')) {
+			//短信验证码验证，$username手机号，$password短信验证码
+			//判断校验码是否过期
+			if (!empty($username) && (!isset($_SESSION['bindcode_lifetime']) || $_SESSION['bindcode_lifetime'] + 180 < RC_Time::gmtime())) {
+				//过期
+				return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
+			}
+			//判断校验码是否正确
+			if (!empty($username) && (!isset($_SESSION['bindcode_lifetime']) || $password != $_SESSION['bind_code'] )) {
+				return new ecjia_error('code_error', '验证码错误，请重新填写！');
+			}
+		}
 		
 		if (empty($open_id) || empty($connect_code) || empty($username) || empty($password)) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
@@ -92,6 +106,13 @@ class bind_module extends api_front implements api_interface {
 			if (!empty($check_user)) {
 				if ($user->login($check_user, $password)) {
 					$is_mobile = true;
+					if (version_compare($api_version, '1.14', '>=')) {
+						if ($is_mobile) {
+							if (!empty($username)) {
+								RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('mobile_phone' => $username));
+							}
+						}
+					}
 				}
 			}
 		}
