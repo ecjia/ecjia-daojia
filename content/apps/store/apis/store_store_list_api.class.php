@@ -194,6 +194,7 @@ class store_store_list_api extends Component_Event_Api {
 						'shop_trade_time'           => '', // 营业时间
 						'shop_description'          => '', // 店铺描述
 						'shop_notice'               => '', // 店铺公告
+						'quickpay_enabled'			=> '', // 是否开启了优惠活动
 					);
 					$config = RC_DB::table('merchants_config')->where('store_id', $val['store_id'])->select('code', 'value')->get();
 					foreach ($config as $key => $value) {
@@ -211,6 +212,7 @@ class store_store_list_api extends Component_Event_Api {
 							'manage_mode'		 => empty($result[$k]['manage_mode']) ? 'join' : $result[$k]['manage_mode'],
 							'shop_logo'		     => empty($result[$k]['shop_logo']) ?  '' : RC_Upload::upload_url($result[$k]['shop_logo']),//后期增加
 							'seller_logo'		 => empty($result[$k]['shop_logo']) ?  '' : RC_Upload::upload_url($result[$k]['shop_logo']),//后期删除
+							'allow_use_quickpay' => empty($result[$k]['quickpay_enabled']) ?  '0' : 1,
 							'follower'			 => $result[$k]['follower'],
 							'sort_order'		 => $result[$k]['sort_order'],
 							'location' => array(
