@@ -195,6 +195,7 @@ class user_privilege_controller {
     		return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$_SESSION['user_temp']['mobile_phone'] = $mobile_phone;
+    	
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/privilege/captcha_validate')));
     }
     
@@ -288,11 +289,11 @@ class user_privilege_controller {
     
     //输入验证码
     public static function enter_code() {
-    	if (empty($mobile_phone)) {
+    	$mobile = $_SESSION['user_temp']['mobile_phone'];
+    	if (empty($mobile)) {
     		ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
     	}
     	
-    	$mobile = $_SESSION['user_temp']['mobile_phone'];
     	$code_captcha = $_SESSION['user_temp']['captcha_code'];
     	
     	ecjia_front::$controller->assign('title', '输入验证码');
