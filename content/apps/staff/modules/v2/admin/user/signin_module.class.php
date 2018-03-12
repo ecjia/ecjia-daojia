@@ -57,10 +57,28 @@ class signin_module extends api_admin implements api_interface {
 		$username	= $this->requestData('username');
 		$password	= $this->requestData('password');
 		$device		= $this->device;
+		$api_version = $this->request->header('api-version');
 		//$device = array('code'=> '8001', 'udid' => 'bdc0525eebad246de659a7d0ac39fe834d198c5f', 'client' => 'android');
 		if (empty($username) || empty($password)) {
 			$result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
 			return $result;
+		}
+		
+		if (version_compare($api_version, '1.14', '>=')) {
+			$user_count = RC_DB::table('staff_user')->where('mobile', $username)->count();
+			if ($user_count > 1) {
+				return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+			}
+			//短信验证码验证，$username手机号，$password短信验证码
+			//判断校验码是否过期
+			if (!empty($username) && (!isset($_SESSION['bindcode_lifetime']) || $_SESSION['bindcode_lifetime'] + 180 < RC_Time::gmtime())) {
+				//过期
+				return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
+			}
+			//判断校验码是否正确
+			if (!empty($username) && (!isset($_SESSION['bindcode_lifetime']) || $password != $_SESSION['bind_code'] )) {
+				return new ecjia_error('code_error', '验证码错误，请重新填写！');
+			}
 		}
 		
 		//根据用户名判断是商家还是平台管理员
@@ -69,7 +87,7 @@ class signin_module extends api_admin implements api_interface {
 		
 		if ($row_staff) {
 		    //商家
-		    return signin_merchant($username, $password, $device);
+		    return signin_merchant($username, $password, $device, $api_version);
 		} else {
 		    //平台
 		    $result = new ecjia_error('login_error', __('此账号不是商家账号'));
@@ -79,7 +97,7 @@ class signin_module extends api_admin implements api_interface {
 	}
 }
 
-function signin_merchant($username, $password, $device) {
+function signin_merchant($username, $password, $device, $api_version) {
     /* 收银台请求判断处理*/
 	$codes = array('8001', '8011');
     if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
@@ -96,11 +114,16 @@ function signin_merchant($username, $password, $device) {
     
     /* 检查密码是否正确 */
     $db_staff_user = RC_DB::table('staff_user')->selectRaw('user_id, mobile, name, store_id, nick_name, email, last_login, last_ip, action_list, avatar, group_id, online_status');
-    if (!empty($salt)) {
-        $db_staff_user->where('mobile', $username)->where('password', md5(md5($password).$salt) );
+    if (version_compare($api_version, '1.14', '>=')) {
+    	$db_staff_user->where('mobile', $username);
     } else {
-        $db_staff_user->where('mobile', $username)->where('password', md5($password) );
+    	if (!empty($salt)) {
+    		$db_staff_user->where('mobile', $username)->where('password', md5(md5($password).$salt) );
+    	} else {
+    		$db_staff_user->where('mobile', $username)->where('password', md5($password) );
+    	}
     }
+   
     $row = $db_staff_user->first();
     
     if ($row) {
