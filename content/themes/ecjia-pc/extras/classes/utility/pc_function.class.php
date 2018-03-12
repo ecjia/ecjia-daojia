@@ -105,17 +105,12 @@ class pc_function {
         	$kf_qq = $kf_qq[0];
         }
         
-        $link_list = RC_DB::table('friend_link')->where('status', 0)->orderBy('show_order', 'asc')->get();
-        $has_logo_arr = $no_logo_arr = array();
-        if (!empty($link_list)) {
-        	foreach ($link_list as $k => $v) {
-        		if (empty($v['link_logo'])) {
-        			$no_logo_arr[] = $v;
-        		} else {
-        			$v['link_logo'] = RC_Upload::upload_url($v['link_logo']);
-        			$has_logo_arr[] = $v;
-        		}
-        	}
+        //获取友情链接数据
+        $result = RC_Api::api('friendlink', 'friendlink_list', ['type' => 'all']);
+        if (! is_ecjia_error($result)) {
+            list($has_logo_arr, $no_logo_arr) = $result;
+        } else {
+            list($has_logo_arr, $no_logo_arr) = [];
         }
         
         $data = array(
