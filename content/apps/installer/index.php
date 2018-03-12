@@ -52,7 +52,8 @@ class index extends SimpleController {
 	public function __construct() {
 		parent::__construct();
 
-		set_time_limit(60);
+		//安装脚本不限制超时时间
+		set_time_limit(0);
 		define('DATA_PATH', dirname(__FILE__).'/data/');
 		
 		/* js与css加载路径*/
