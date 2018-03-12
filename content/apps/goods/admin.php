@@ -1929,7 +1929,7 @@ class admin extends ecjia_admin {
 			$where .= " AND title LIKE '%" . mysql_like_quote($keyword) . "%' ";
 		}
 
-		$db_article = RC_Model::model('article/article_model');
+		$db_article = RC_Model::model('goods/goods_article_model');
 		$data = $db_article->field('article_id,title')->where($where)->order('article_id DESC')->limit(50)->select();
 		$arr = array();
 		if (!empty($data)) {
