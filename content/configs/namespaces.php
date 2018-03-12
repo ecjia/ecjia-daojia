@@ -85,6 +85,7 @@ return array(
     'Ecjia\App\Staff' => $contentDir . '/apps/staff/classes',
     'Ecjia\App\Finance' => $contentDir . '/apps/finance/classes',
     'Ecjia\App\Memadmin' => $contentDir . '/apps/memadmin/classes',
+	'Ecjia\App\Refund' => $contentDir . '/apps/refund/classes',
 
     
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
