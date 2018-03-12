@@ -491,6 +491,61 @@ class merchant_controller {
 		ecjia_front::$controller->assign('cid', $cid);
 		ecjia_front::$controller->display('seller_list.dwt');
 	}
+	
+	public static function collectmoney() {
+		$store_id = intval($_GET['store_id']);
+		
+		//店铺信息
+		$parameter_list = array(
+			'seller_id' => $store_id,
+			'city_id' => $_COOKIE['city_id']
+		);
+		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
+		$store_info = !is_ecjia_error($store_info) ? $store_info : array();
+		
+		ecjia_front::$controller->assign('store_info', $store_info);
+		ecjia_front::$controller->assign('store_id', $store_id);
+
+		ecjia_front::$controller->assign_title($store_info['seller_name'].'在线买单');
+		ecjia_front::$controller->assign('title', $store_info['seller_name'].'在线买单');
+		
+		if (cart_function::is_weixin()) {
+			//提前获取微信支付wxpay_open_id
+			$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel('pay_wxpay');
+			$open_id = $handler->getWechatOpenId();
+			$_SESSION['wxpay_open_id'] = $open_id;
+		}
+			
+		$direct_pay = false;
+		if (cart_function::is_weixin() || cart_function::is_alipay()) {
+			$params = array('store_id' => $store_id);
+			$payment_list = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_SHOP_PAYMENT)->data($params)->run();
+			/*根据浏览器过滤支付方式，微信自带浏览器过滤掉支付宝支付，其他浏览器过滤掉微信支付*/
+			
+			$payment = array();
+			if (!empty($payment_list['payment'])) {
+				if (cart_function::is_weixin()) {
+					$direct_pay = true;
+					foreach ($payment_list['payment'] as $key => $val) {
+						if ($val['pay_code'] == 'pay_wxpay') {
+							$payment = $payment_list['payment'][$key];
+						}
+					}
+				} elseif (cart_function::is_alipay()) {
+					$direct_pay = true;
+					foreach ($payment_list['payment'] as $key => $val) {
+						if ($val['pay_code'] == 'pay_alipay') {
+							$payment = $payment_list['payment'][$key];
+						}
+					}
+				}
+			}
+			ecjia_front::$controller->assign('payment', $payment);
+		}
+		ecjia_front::$controller->assign('direct_pay', $direct_pay);
+		
+		ecjia_front::$controller->display('quickpay_collectmoney.dwt');
+	}
 }
 
 // end

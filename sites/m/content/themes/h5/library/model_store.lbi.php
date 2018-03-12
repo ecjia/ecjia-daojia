@@ -29,10 +29,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						</div>
 						<div class="store-range">
 							<i class="icon-shop-time"></i>{$val.label_trade_time}
+							
+							<!-- {if $val.allow_use_quickpay eq 1} -->
+							<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$val.id}"><span class="store-quickpay-btn">买单</span></a>
+							<!-- {/if} -->
+							
 						</div>
+						{if $val.seller_notice}
 						<div class="store-notice">
 							<i class="icon-shop-notice"></i>{$val.seller_notice}
 						</div>
+						{/if}
 						<!-- {if $val.favourable_list} -->
 						<ul class="store-promotion">
 							<!-- {foreach from=$val.favourable_list item=list} -->
@@ -43,7 +50,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<!-- {/foreach} -->
 						</ul>
 						<!-- {/if} -->
-						<!-- {if $val.quickpay_activity_list} -->
+						
+						<!-- {if $val.allow_use_quickpay eq 1 && $val.quickpay_activity_list} -->
 						<ul class="store-promotion">
 							<!-- {foreach from=$val.quickpay_activity_list item=list key=key} -->
 							{if $key eq 0}
@@ -55,6 +63,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<!-- {/foreach} -->
 						</ul>
 						<!-- {/if} -->
+						
 					</a>
 					{if $val.seller_goods}
 					<div class="suggest-goods-list">

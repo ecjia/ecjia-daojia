@@ -60,8 +60,8 @@ class user_get_password_controller {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_FORGET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'code' => $code))->run();
          
             if (! is_ecjia_error($data)) {
-                $_SESSION['mobile'] = $mobile;
-                $_SESSION['code_status'] = 'succeed';
+                $_SESSION['user_temp']['mobile'] = $mobile;
+                $_SESSION['user_temp']['code_status'] = 'succeed';
                 return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/get_password/reset_password')));
             } else {
                 return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -98,8 +98,8 @@ class user_get_password_controller {
         /*验证码相关设置*/
         $passwordf = !empty($_POST['passwordf']) ? trim($_POST['passwordf']) : '';
         $passwords = !empty($_POST['passwords']) ? trim($_POST['passwords']) : '';
-        $mobile    = !empty($_SESSION['mobile']) ? trim($_SESSION['mobile']) : '';
-        if ($_SESSION['code_status'] != 'succeed') {
+        $mobile    = !empty($_SESSION['user_temp']['mobile']) ? trim($_SESSION['user_temp']['mobile']) : '';
+        if ($_SESSION['user_temp']['code_status'] != 'succeed') {
             ecjia_front::$controller->redirect(RC_Uri::url('user/get_password/mobile_register'));
         }
         
@@ -111,8 +111,8 @@ class user_get_password_controller {
         if ($passwordf) {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_RESET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'password' => $passwordf))->run();
             if (!is_ecjia_error($data)) {
-                unset($_SESSION['mobile']);
-                unset($_SESSION['code_status']);
+                unset($_SESSION['user_temp']['mobile']);
+                unset($_SESSION['user_temp']['code_status']);
                 return ecjia_front::$controller->showmessage(__('您已成功找回密码'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/privilege/login')));
             } else {
                 return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

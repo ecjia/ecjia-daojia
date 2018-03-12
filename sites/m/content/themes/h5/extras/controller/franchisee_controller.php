@@ -138,7 +138,7 @@ class franchisee_controller {
 			}
 			$chars = "/^1(3|4|5|7|8)\d{9}$/";
 			if (!preg_match($chars, $mobile)) {
-				return ecjia_front::$controller->showmessage('手机号码格式错误', ecjia::MSGSTAT_JSON | ecjia::MSGTYPE_ERROR);
+				return ecjia_front::$controller->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	}

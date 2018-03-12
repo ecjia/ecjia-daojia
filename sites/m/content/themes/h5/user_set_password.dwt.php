@@ -33,7 +33,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     				</label>
     			</div>
     			<div>
-        			 <ul class="ecjia-login-login-foot">
+        			 <ul class="ecjia-login-login-foot m_r0">
         			     <li class="remark-size">{$lang.set_your_password}</li>
         			 </ul>
     			</div>
@@ -45,9 +45,26 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     					<input name="password" id="password-1" type="password" errormsg="请输入6 ~ 16 位的密码" placeholder="{$lang.input_passwd}">
     				</label>
     			</div>
+    			
+    			{if $invited eq 0}
+    			<div>
+    				<ul class="ecjia-login-login-foot m_r0 verification">
+	        			<label class="ecjia-checkbox">
+			      			<input type="checkbox" name="show_verification" value="1" />
+			            </label>我有邀请码
+		      		</ul>
+    			</div>
+    			
+    			<div class="form-group bf margin-right-left verification_div">
+    				<label class="input">
+    					<input class="p_d0" name="verification" type="text" errormsg="请输入邀请码" placeholder="请输入邀请码">
+    				</label>
+    			</div>
+    			{/if}
+    			
     			<div class="ecjia-login-b">
     				<div class="around margin-top">
-    				<button class="btn btn-info login-btn" name="signin" data-url="{RC_Uri::url('user/index/set_password')}" type="submit">{$lang.login_finish}</button>
+    				<button class="btn btn-info login-btn" name="signin" data-url="{RC_Uri::url('user/privilege/set_password')}" id="signin" type="submit">{$lang.login_finish}</button>
     				</div>
     			</div>
     		</form>

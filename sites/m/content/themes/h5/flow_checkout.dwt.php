@@ -92,7 +92,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<input type="hidden" name="shipping_id" value="{$selected_shipping.shipping_id}" />
 				
 				{if $selected_shipping.shipping_date_enable && $selected_shipping.shipping_date}
-				<span class="ecjiaf-fr select_nav ecjia-truncate">{if !$selected_shipping.shipping_date}<span class="ecjia-color-999">暂无可选时间</span>{else}<span class="icon-shop-time"></span>{$temp.shipping_date} {$temp.shipping_time}{/if}</span>
+				<span class="ecjiaf-fr select_nav ecjia-truncate">{if !$selected_shipping.shipping_date}<span class="ecjia-color-999">暂无可选时间</span>{elseif $temp.shipping_date && $temp.shipping_time}<span class="icon-shop-time"></span>{$temp.shipping_date} {$temp.shipping_time}{/if}</span>
 				<input type="hidden" name="shipping_date" value="{$temp.shipping_date}" />
 				<input type="hidden" name="shipping_time" value="{$temp.shipping_time}" />
 				{/if}

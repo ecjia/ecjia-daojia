@@ -9,7 +9,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <html lang="zh-CN">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0, minimal-ui">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0, minimal-ui, viewport-fit=cover">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="format-detection" content="telephone=no" />
 	<title>{$page_title}</title>

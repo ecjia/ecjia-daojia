@@ -22,6 +22,9 @@
 			ecjia.touch.user.record_cancel();
 			ecjia.touch.user.account_bind();
 			ecjia.touch.user.cancel_order();
+			ecjia.touch.user.return_order();
+			ecjia.touch.user.affiliate();
+			ecjia.touch.user.resend_sms();
 
 			$(function() {
 				$(".del").click(function() {
@@ -72,7 +75,7 @@
 		},
 		//用户登录
 		ecjia_login: function() {
-			$('input[name="ecjia-login"]').on('click', function(e) {
+			$('input[name="ecjia-login"]').off('click').on('click', function(e) {
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				e.preventDefault();
 				var url = $(this).attr('data-url');
@@ -97,6 +100,157 @@
 					}
 				});
 			});
+			
+			$('input[name="ecjia-mobile-login"]').off('click').on('click', function(e) {
+				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+				e.preventDefault();
+				var url = $(this).attr('data-url');
+				var mobile_phone = $('input[name="mobile_phone"]').val();
+
+				var info = {
+					'mobile_phone': mobile_phone,
+				};
+				$.post(url, info, function(data) {
+					$('.la-ball-atom').remove();
+					if (data.state == 'error') {
+						alert(data.message);
+					}
+					ecjia.touch.showmessage(data);
+				});
+			});
+			
+			$('.refresh_captcha').off('click').on('click', function(e) {
+				var url = $(this).attr('data-url');
+				$.post(url, function(data) {
+					if (data.state == 'error') {
+						ecjia.touch.showmessage(data);
+						return false;
+					}
+					$('.captcha').children('img').attr('src', 'data:image/png;base64,' + data.message);
+				});
+			});
+			
+			$('input[name="ecjia-captcha-validate"]').off('click').on('click', function(e) {
+				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+				e.preventDefault();
+				var url = $(this).attr('data-url');
+				var code_captcha = $('input[name="code_captcha"]').val();
+				
+				var info = {
+					'code_captcha': code_captcha
+				};
+				$.post(url, info, function(data) {
+					$('.la-ball-atom').remove();
+					if (data.state == 'error') {
+						alert(data.message);
+					}
+					ecjia.touch.showmessage(data);
+				});
+			});
+			
+			var payPassword = $("#payPassword_container"),
+				_this = payPassword.find('i'),
+				k = 0,
+				j = 0,
+				password = '';
+			payPassword.on('focus', "input[name='payPassword_rsainput']", function() {
+				var _this = payPassword.find('i');
+				if (payPassword.attr('data-busy') === '0') {
+					_this.eq(k).addClass("active");
+					payPassword.attr('data-busy', '1')
+				}
+			});
+			payPassword.on('change', "input[name='payPassword_rsainput']", function() {
+				_this.eq(k).removeClass("active");
+				payPassword.attr('data-busy', '0')
+			}).on('blur', "input[name='payPassword_rsainput']", function() {
+				_this.eq(k).removeClass("active");
+				payPassword.attr('data-busy', '0')
+			});
+			payPassword.on('keyup', "input[name='payPassword_rsainput']", function(e) {
+				var e = (e) ? e : window.event;
+				if (e.keyCode == 8 || (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
+					k = this.value.length;
+					l = _this.size();
+					for (; l--;) {
+						if (l === k) {
+							_this.eq(l).addClass("active");
+							_this.eq(l).find('b').css('visibility', 'hidden')
+						} else {
+							_this.eq(l).removeClass("active");
+							_this.eq(l).find('b').css('visibility', l < k ? 'visible' : 'hidden')
+						}
+						if (k === 6) {
+							$('input[name="payPassword_rsainput"]').blur();
+							var val = this.value;
+							var type = $('input[name="type"]').val();
+							var mobile = $('input[name="mobile"]').val();
+							var url = $('input[name="url"]').val();
+							
+							var info = {
+								'type': type,
+								'password': val,
+								'mobile': mobile
+							}
+							$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+							$.post(url, info, function(data) {
+								$('.la-ball-atom').remove();
+								if (data.state == 'error') {
+									alert(data.message);
+								} else if (data.state == 'success'){
+									location.href = data.url;
+								}
+							})
+							return false;
+						}
+					}
+				} else {
+					var _val = this.value;
+					this.value = _val.replace(/\D/g, '')
+				}
+			});
+			
+			$('.i-block i').off('click').on('click', function() {
+				$('input[name="payPassword_rsainput"]').focus();
+			});
+			
+			$('input[name="show_verification"]').off('change').on('change', function() {
+				var val = $('input[name="show_verification"]:checked').val();
+				if (val == 1) {
+					$('.verification_div').show();
+					$(this).parent('label').addClass('ecjia-checkbox-checked');
+				} else {
+					$('.verification_div').hide();
+					$(this).parent('label').removeClass('ecjia-checkbox-checked');
+				}
+			});
+		},
+		
+		resend_sms: function() {
+			$('.resend_sms').off('click').on('click', function() {
+				var $this = $(this),
+					url = $this.attr('data-url');
+				$.post(url, {'type': 'resend'}, function(data) {
+					ecjia.touch.showmessage(data);
+				});
+			});
+
+			var InterValObj; //timer变量，控制时间
+			var count = 180; //间隔函数，1秒执行
+			var curCount; //当前剩余秒数
+			curCount = count;
+			$(".resend_sms").addClass("disabled");
+			InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+			
+			//timer处理函数
+			function SetRemainTime() {
+				if (curCount == 0) {
+					window.clearInterval(InterValObj); 			//停止计时器
+					$(".resend_sms").removeClass("disabled"); 	//启用按钮
+				} else {
+					curCount--;
+				}
+			};
 		},
 
 		//用户登出
@@ -260,10 +414,14 @@
 				e.preventDefault();
 				var url = $(this).attr('data-url'),
 					username = $("input[name='username']").val().trim(),
-					password = $("input[name='password']").val().trim();
+					password = $("input[name='password']").val().trim(),
+					show_verification = $("input[name='show_verification']:checked").val(),
+					verification = $("input[name='verification']").val().trim();
 				var info = {
 					'username': username,
-					'password': password
+					'password': password,
+					'show_verification': show_verification,
+					'verification': verification
 				};
 				$.post(url, info, function(data) {
 					ecjia.touch.showmessage(data);
@@ -292,7 +450,7 @@
 				e.preventDefault();
 				var url = $(this).attr('data-url'),
 					passwordf = $("input[name='passwordf']").val().trim();
-				passwords = $("input[name='passwords']").val().trim();
+					passwords = $("input[name='passwords']").val().trim();
 				var info = {
 					'passwordf': passwordf,
 					'passwords': passwords
@@ -437,7 +595,8 @@
 		},
 
 		cancel_order: function() {
-			$('.cancel_order').off('click').on('click', function(e) {
+			//未付款订单
+			$('.cancel_order_unpay').off('click').on('click', function(e) {
 				e.preventDefault();
 				var myApp = new Framework7();
 				var url = $(this).attr('href');
@@ -454,6 +613,399 @@
 						},
 					}]
 				});
+			});
+			
+			$('.affirm_received').off('click').on('click', function(e) {
+				e.preventDefault();
+				var myApp = new Framework7();
+				var url = $(this).attr('href');
+				myApp.modal({
+					title: '您确定要确认收货吗？',
+					buttons: [{
+						text: '取消',
+					}, {
+						text: '确定',
+						onClick: function() {
+							$.post(url, function(data) {
+								ecjia.touch.showmessage(data);
+							});
+						},
+					}]
+				});
+			});
+
+			
+			var App = new Framework7();
+			var reason_list = eval($('input[name="reason_list"]').val());
+			var reason_id = [];
+			var reason_value = [];
+			if (reason_list == undefined) {
+				return false;
+			}
+			
+	        for (i = 0; i < reason_list.length; i++) {
+	            var id = reason_list[i]['reason_id'];
+	            var name = reason_list[i]['reason_name'];
+	            reason_id.push(id);
+	            reason_value.push(name);
+	        };
+			
+			var pickerStreetToolbar = App.picker({
+			    input: '.cancel_order',
+			    cssClass: 'cancel_order_reason',
+			    toolbarTemplate: 
+			        '<div class="toolbar">' +
+			            '<div class="toolbar-inner">' +
+			                '<div class="left">' +
+			                    '<a href="javascript:;" class="link close-picker external">取消</a>' +
+			                '</div>' +
+			                '<div class="center">' + '订单取消原因' + '</div>' +
+			                '<div class="right">' +
+			                    '<a href="javascript:;" class="link save-picker external">确定</a>' +
+			                '</div>' +
+			            '</div>' +
+			        '</div>',
+			    cols: [
+			        {
+			            values: reason_id,
+			            displayValues: reason_value
+			        },
+			    ],
+			    onOpen: function (picker) {
+			    	var $pick_overlay = '<div class="picker-modal-overlay"></div>';
+			    	if ($('.picker-modal').hasClass('modal-in')) {
+			    		$('.picker-modal').after($pick_overlay);
+			    	}
+			    	
+			        picker.container.find('.save-picker').on('click', function () {
+			        	picker.close();
+			        	remove_overlay();
+			        	
+			        	var reason_id = picker.cols[0].container.find('.picker-selected').attr('data-picker-value');
+			        	var url = $('.cancel_order').attr('href');
+			        	if (reason_id != undefined) {
+			        		url += '&reason_id=' + reason_id;
+			        	}
+			        	$.post(url, function(data) {
+							ecjia.touch.showmessage(data);
+						});
+			        });
+			        picker.container.find('.close-picker').on('click', function () {
+			    		picker.close();
+			    		remove_overlay();
+			    	});
+			    },
+			    onClose: function(picker) {
+			    	picker.close();
+			    	remove_overlay();
+			    }
+			});
+		},
+		
+		return_order: function() {
+			ecjia.touch.user.photo();
+			ecjia.touch.user.remove_goods_img();
+			ecjia.touch.user.choose_reason();
+			ecjia.touch.user.undo_reply();
+			ecjia.touch.user.copy_btn();
+			ecjia.touch.user.form();
+			ecjia.touch.user.shipping_fee_notice();
+			ecjia.touch.user.select_pickup_time();
+		},
+		
+		//评价晒单上传图片，并且不能超过5张。
+		photo: function() {
+			$('.push_photo').hide();
+			var length = $('.push_photo_img').children().length;
+			if (length != 0 && length != undefined) {
+				$('.push_img').find('.push_photo').eq(length).show();
+			} else {
+				$('#result0').show();
+			}
+			$(".push_img_btn").on('change', function() {
+				var f = $(this)[0].files[0];
+				if (f) {
+					var fr = new FileReader();
+					fr.onload = function() {
+						var _img = new Image();
+						_img.src = this.result;
+
+						var num = [];
+						$(".push_photo").each(function() {
+							if (!$(this).is(':hidden')) {
+								var id = $(this).attr('id');
+								var number = id.substr(id.length - 1, 1);
+								num.push(number);
+							}
+						});
+						var num = parseInt(num[0]);
+
+						var check_push_rm = "check_push_rm" + num;
+						var img_span = "<i class='a4y'>X</i>";
+						var url = "<div class='" + check_push_rm + "'></div>";
+
+						$(url).appendTo(".push_photo_img");
+						$(_img).appendTo("." + check_push_rm);
+						$(img_span).appendTo("." + check_push_rm);
+						ecjia.touch.user.remove_goods_img();
+
+						var result = [];
+						$(".push_photo").each(function() {
+							if ($(this).is(':hidden')) {
+								var id = $(this).attr('id');
+								var number = id.substr(id.length - 1, 1);
+								var check_push_rm = ".check_push_rm" + number;
+
+								if ($(check_push_rm).length == 0) {
+									result.push(id);
+								}
+							}
+						});
+						var result = "#" + result[0];
+						$('.push_photo').hide();
+						$(result).show();
+
+						if ($(".push_photo_img img").length > 4) {
+							$(".push_photo").hide();
+						}
+						if ($(".push_photo_img img").length >= 1) {
+							$(".push_result_img").css("margin-left", "0");
+						}
+					}
+					fr.readAsDataURL(f);
+				}
+			})
+		},
+
+		remove_goods_img: function() {
+			$(".a4y").on('click', function(e) {
+				e.preventDefault();
+
+				var path = $(this).parent();
+				var myApp = new Framework7({
+					modalButtonCancel: '取消',
+					modalButtonOk: '确定',
+					modalTitle: ''
+				});
+				myApp.confirm('您确定要删除照片？', function() {
+					if ($(".push_photo_img img").length <= 5) {
+						$(".push_photo").show();
+					}
+					path.remove();
+					var c_name = path[0].className;
+					var num = c_name.substr(c_name.length - 1, 1);
+					if (isNaN(parseInt(num))) num = 0;
+					var result = "#result" + num;
+					var filechooser = "#filechooser" + num;
+					$('.push_photo').hide();
+					
+					$(filechooser).val('');
+					$(result).show();
+					if ($(".push_photo_img img").length < 1) {
+						$(".push_result_img").css("margin-left", "0.3em");
+					}
+				});
+			})
+		},
+		
+		choose_reason: function() {
+			var App = new Framework7();
+			var reason_list = eval($('input[name="reason_list"]').val());
+			var reason_id = [];
+			var reason_value = [];
+			if (reason_list == undefined) {
+				return false;
+			}
+			
+	        for (i = 0; i < reason_list.length; i++) {
+	            var id = reason_list[i]['reason_id'];
+	            var name = reason_list[i]['reason_name'];
+	            reason_id.push(id);
+	            reason_value.push(name);
+	        };
+			var pickerStreetToolbar = App.picker({
+			    input: '.choose_reason',
+			    cssClass: 'choose_reason_modal',
+			    toolbarTemplate: 
+			        '<div class="toolbar">' +
+			            '<div class="toolbar-inner">' +
+			                '<div class="left">' +
+			                    '<a href="javascript:;" class="link close-picker external">取消</a>' +
+			                '</div>' +
+			                '<div class="right">' +
+			                    '<a href="javascript:;" class="link save-picker external">确定</a>' +
+			                '</div>' +
+			            '</div>' +
+			        '</div>',
+			    cols: [
+			        {
+			            values: reason_id,
+			            displayValues: reason_value
+			        },
+			    ],
+			    onOpen: function (picker) {
+			    	var $pick_overlay = '<div class="picker-modal-overlay"></div>';
+			    	if ($('.picker-modal').hasClass('modal-in')) {
+			    		$('.picker-modal').after($pick_overlay);
+			    	}
+			    	var current_reason_id = $('input[name="reason_id"]').val();
+			    	if (current_reason_id != undefined && current_reason_id != '') {
+			    		picker.setValue([current_reason_id]);//设置选中值
+			    	}
+			    	
+			        picker.container.find('.save-picker').on('click', function () {
+			        	var reason_name = picker.cols[0].container.find('.picker-selected').html();
+			        	var reason_id = picker.cols[0].container.find('.picker-selected').attr('data-picker-value');
+			        	$('.choose_reason').children('span').html(reason_name);
+			        	$('input[name="reason_id"]').val(reason_id);
+			        	picker.close();
+			        	remove_overlay();
+			        });
+			        picker.container.find('.close-picker').on('click', function () {
+			    		picker.close();
+			    		remove_overlay();
+			    	});
+			    },
+			    onClose: function(picker) {
+			    	picker.close();
+			    	remove_overlay();
+			    }
+			});
+		},
+		
+		undo_reply: function() {
+			$('.undo_reply').off('click').on('click', function(e) {
+				e.preventDefault();
+				var myApp = new Framework7();
+				var url = $(this).attr('href');
+				myApp.modal({
+					title: '您确定要撤销申请？',
+					buttons: [{
+						text: '取消',
+					}, {
+						text: '确定',
+						onClick: function() {
+							$.post(url, function(data) {
+								ecjia.touch.showmessage(data);
+							});
+						},
+					}]
+				});
+			});
+		},
+		
+		copy_btn: function() {
+			var clipboard = new Clipboard('.copy-btn');
+			clipboard.on('success', function(e) {  
+				alert("复制成功！");
+			});  
+		},
+		
+		form: function() {
+			$('input[name="add-return-btn"]').on('click', function(e) {
+				e.preventDefault();
+				var url = $("form[name='theForm']").attr('action');
+				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+				$("form[name='theForm']").ajaxSubmit({
+					type: 'post',
+					url: url,
+					dataType: "json",
+					success: function(data) {
+						$('.la-ball-atom').remove();
+						ecjia.touch.showmessage(data);
+					}
+				});
+			});
+			
+//			$("form[name='theForm']").on('submit', function(e) {
+//				e.preventDefault();
+//				return false;
+//			}).Validform({
+//				tiptype: function(msg, o, cssctl) {
+//					//msg：提示信息;
+//					//o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+//					//cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+//					if (o.type == 3) {
+//						alert(msg);
+//					}
+//				},
+//				ajaxPost: true,
+//				callback: function(data) {
+//					ecjia.touch.showmessage(data);
+//				}
+//			});
+		},
+		
+		shipping_fee_notice: function() {
+			$('.shipping_fee_notice').off('click').on('click', function() {
+				var $this = $(this);
+				var myApp = new Framework7();
+				//禁用滚动条
+				$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+					event.preventDefault;
+				}, false);
+
+				var wHeight = $(window).height();
+				var scrollTop = $(document).scrollTop();
+				var top;
+				if (wHeight - 400 < 0) {
+					top = scrollTop;
+				} else {
+					var ua = navigator.userAgent.toLowerCase();
+					if (ua.match(/MicroMessenger/i) == "micromessenger") {
+						top = scrollTop + (wHeight - 230) / 2;
+					} else {
+						top = scrollTop + (wHeight - 200) / 2;
+					}
+				}
+				$('.ecjia-shipping-fee-modal').show().css('top', top);
+				$('.ecjia-shipping-fee-overlay').show();
+				
+				myApp.openModal('.ecjia-shipping-fee-modal');
+				$('.modal-overlay').remove();
+				return false;
+			});
+			
+			$('.ecjia-shipping-fee-overlay').on('click', function() {
+				$('.ecjia-shipping-fee-modal').hide();
+				$('.ecjia-shipping-fee-overlay').hide();
+				$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
+			});
+		},
+		
+		select_pickup_time: function() {
+			//显示送达时间选择框
+			$('input[name="expect_pickup_time"]').off('click').on('click', function() {
+				$('.mod_address_slide').addClass('show');
+			});
+			//关闭送达时间选择框
+			$('.mod_address_slide_head .icon-close').off('click').on('click', function() {
+				$('.mod_address_slide').removeClass('show');
+			});
+			
+			//点击日期
+			$('.mod_address_slide_tabs li').off('click').on('click', function() {
+				var $this = $(this),
+					date = $this.attr('data-date');
+				$this.addClass('active').siblings('li').removeClass('active');
+				$('.mod_address_slide_list').removeClass('hide');
+				$('.mod_address_slide_list li').each(function() {
+					$(this).removeClass('active');
+				});
+			});
+			
+			//点击时间
+			$('.mod_address_slide_list li').off('click').on('click', function() {
+				var $this = $(this);
+					date = $('.mod_address_slide_tabs').find('li.active').attr('data-date'),
+					time = $this.attr('data-time');
+				$('.mod_address_slide_list').find('li').removeClass('active');
+				$this.addClass('active');
+
+				var val = date+' '+time;
+				$('input[name="expect_pickup_time"]').val(val);
+				
+				$('.mod_address_slide').removeClass('show');
 			});
 		},
 
@@ -478,6 +1030,94 @@
 				}
 			})
 		},
+		
+		affiliate: function() {
+			var InterValObj; //timer变量，控制时间
+			var count = 120; //间隔函数，1秒执行
+			var curCount; //当前剩余秒数
+			
+			$('.identify_code_btn').off('click').on('click', function() {
+				var $this = $(this),
+					mobile = $('input[name="mobile"]').val(),
+					code_captcha = $('input[name="code_captcha"]').val(),
+					url = $this.attr('data-url');
+					
+				if (mobile || mobile == '') {
+					if (mobile.length == 11) {
+						url += '&mobile=' + mobile;
+					} else {
+						alert('请输入正确的手机号');
+						return false;
+					}
+				}
+					
+				if (code_captcha || code_captcha == '') {
+					if (code_captcha == '') {
+						alert("请输入验证码");
+						return false;
+					} else {
+						url += '&code_captcha=' + code_captcha;
+					}
+				}
+				
+				$.get(url, function(data) {
+					if (data.state == 'success') {　
+						curCount = count;
+						$("#mobile").attr("readonly", "true");
+						$(".identify_code_btn").attr("disabled", "true");
+						$('.identify_code').addClass('disabled');
+						$(".identify_code_btn").html(curCount + "s");
+						InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+					}
+					ecjia.touch.showmessage(data);
+				});
+			});
+			
+			$('.identify_code').off('click').on('click', function() {
+				var $this = $(this),
+					url = $this.attr('data-url');
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				$.post(url, function(data) {
+					if (data.state == 'error') {
+						ecjia.touch.showmessage(data);
+						return false;
+					}
+					$this.find('img').attr('src', 'data:image/png;base64,' + data.message);
+				});
+			});
+			
+			//timer处理函数
+			function SetRemainTime() {
+				if (curCount == 0) {
+					window.clearInterval(InterValObj); 		//停止计时器
+					$("#mobile").removeAttr("readonly");	//启用按钮
+					$(".identify_code_btn").removeAttr("disabled"); 	//启用按钮
+					$(".identify_code_btn").html("验证");
+					$('.identify_code').removeClass('disabled');
+				} else {
+					curCount--;
+					$(".identify_code_btn").attr("disabled", "true");
+					$(".identify_code_btn").html(curCount + "s");
+				}
+			};
+			
+			$("form[name='inviteForm']").on('submit', function(e) {
+				e.preventDefault();
+				return false;
+			}).Validform({
+				tiptype: function(msg, o, cssctl) {
+					if (o.type == 3) {
+						alert(msg);
+					}
+				},
+				ajaxPost: true,
+				callback: function(data) {
+					ecjia.touch.showmessage(data);
+				}
+			});
+		}
 	};
 
 	ecjia.touch.address_form = {
@@ -649,6 +1289,11 @@
 			        },
 			    ],
 			    onOpen: function (picker) {
+			    	var $pick_overlay = '<div class="picker-modal-overlay"></div>';
+			    	if ($('.picker-modal').hasClass('modal-in')) {
+			    		$('.picker-modal').after($pick_overlay);
+			    	}
+			    	
 			    	var province = $('input[name="province"]').val();
 					var city = $('input[name="city"]').val();
 					var district = $('input[name="district"]').val();
@@ -699,16 +1344,16 @@
 						};
 						save_temp(temp_data);
 						picker.close();
-						$('.modal-overlay').remove();
+						remove_overlay();
 			        });
 			        picker.container.find('.close-picker').on('click', function () {
 			    		picker.close();
-				    	$('.modal-overlay').remove();
+			    		remove_overlay();
 			    	});
 			    },
 			    onClose: function(picker) {
 			    	picker.close();
-			    	$('.modal-overlay').remove();
+			    	remove_overlay();
 			    }
 			});
 			
@@ -746,6 +1391,11 @@
 			        },
 			    ],
 			    onOpen: function (picker) {
+			    	var $pick_overlay = '<div class="picker-modal-overlay"></div>';
+			    	if ($('.picker-modal').hasClass('modal-in')) {
+			    		$('.picker-modal').after($pick_overlay);
+			    	}
+			    	
 			    	var district = $('input[name="district"]').val();
 			    	var key = 'street_' + district;
 			    	if ($.localStorage(key) == undefined) {
@@ -773,16 +1423,16 @@
 							save_temp(temp_data); 
 			        	}
 			        	picker.close();
-						$('.modal-overlay').remove();
+			        	remove_overlay();
 			        });
 			        picker.container.find('.close-picker').on('click', function () {
 			    		picker.close();
-				    	$('.modal-overlay').remove();
+			    		remove_overlay();
 			    	});
 			    },
 			    onClose: function(picker) {
 			    	picker.close();
-			    	$('.modal-overlay').remove();
+			    	remove_overlay();
 			    }
 			});
 		}
@@ -876,6 +1526,11 @@
 				sessionStorage.removeItem('street_name');
 			}
 		}
+	}
+	
+	function remove_overlay() {
+		$('.modal-overlay').remove();
+    	$('.picker-modal-overlay').remove();
 	}
 })(ecjia, jQuery);
 

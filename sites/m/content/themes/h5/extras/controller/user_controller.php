@@ -135,6 +135,7 @@ class user_controller {
 					}
 				}
 			}
+			$invite_user_detail['invite_url'] = RC_Uri::url('affiliate/index/init', array('invite_code' => $invite_user_detail['invite_code']));
 			ecjia_front::$controller->assign('share_title', $name.'推荐这个实用的App给你~');
 			ecjia_front::$controller->assign_title('我的推广');
 	    	ecjia_front::$controller->assign('invite_user', $invite_user_detail);

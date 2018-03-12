@@ -78,7 +78,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</li>
 		<li>
 			<span class="other-info-name"><i class="icon-shop-location"></i>所在地区</span>
-			<p class="other-info-result">{if $store_info.shop_address}{$store_info.shop_address}{else}暂无{/if}</p>
+			<p class="other-info-result {if $store_info.shop_address}shop-address-result{/if}">{if $store_info.shop_address}{$store_info.shop_address}{else}暂无{/if}</p>
+			{if $store_info.shop_address}
+			<a href="{$header_right.location_url}" class="nopjax external"><i class="iconfont icon-jiantou-right"></i></a>
+			{/if}
 		</li>
 		<li>
 			<span class="other-info-name"><i class="icon-shop-time"></i>营业时间</span>

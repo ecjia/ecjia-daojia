@@ -41,6 +41,9 @@ var releated_goods = {$releated_goods};
 							</div>
 							<div class="store-range">
 								<i class="icon-shop-time"></i>{$val.label_trade_time}
+								<!-- {if $val.allow_use_quickpay eq 1} -->
+								<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$val.id}"><span class="store-quickpay-btn">买单</span></a>
+								<!-- {/if} -->
 							</div>
 							<div class="store-notice">
 								<i class="icon-shop-notice"></i>{$val.seller_notice}
@@ -58,7 +61,7 @@ var releated_goods = {$releated_goods};
 						<!-- {/foreach} -->
 					</ul>
 					{/if}
-					<!-- {if $val.quickpay_activity_list} -->
+					<!-- {if $val.allow_use_quickpay eq 1 && $val.quickpay_activity_list} -->
 					<ul class="store-promotion">
 						<!-- {foreach from=$val.quickpay_activity_list item=list key=key} -->
 						{if $key eq 0}

@@ -84,20 +84,21 @@ class touch_function {
 	    		'token' => ecjia_touch_user::singleton()->getToken(),
 	    		'city' 	=> $city_name,
 	    	);
-	    	$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+	    	$header = array('api-version' => '1.9');//小于1.10 兼容新版本
+	    	$rs = ecjia_touch_manager::make()->header($header)->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
 	    	if (is_ecjia_error($rs)) {
 	    		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
-	    	} else {
-	    		$city_id = $rs['region_id'];
 	    	}
     		setcookie("location_address", $addr, time() + 1800);
     		setcookie("location_name", $name, time() + 1800);
     		setcookie("longitude", $longitude, time() + 1800);
     		setcookie("latitude", $latitude, time() + 1800);
     		setcookie("location_address_id", 0, time() + 1800);
-    		setcookie("city_id", $city_id, time() + 1800);
-    		setcookie("city_name", $rs['region_name'], time() + 1800);
-    		 
+
+    		if (!empty($rs['region_id']) && !empty($rs['region_name'])) {
+    			setcookie("city_id", $rs['region_id'], time() + 1800);
+    			setcookie("city_name", $rs['region_name'], time() + 1800);
+    		}
     		ecjia_front::$controller->redirect($referer_url);
     		die();
     	}

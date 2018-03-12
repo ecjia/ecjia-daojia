@@ -146,10 +146,11 @@ class touch_controller {
 	        );
 	        
 	        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
+	        
 	        if (!is_ecjia_error($response)) {
 	        	list($data, $paginated) = $response;
 	        	$data = merchant_function::format_distance($data);
-	        
+
 	        	if (isset($paginated['more']) && $paginated['more'] == 0) $is_last = 1;
 	        	ecjia_front::$controller->assign('data', $data);
 	        	ecjia_front::$controller->assign('is_last', $is_last);

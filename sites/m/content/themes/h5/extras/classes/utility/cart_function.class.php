@@ -52,7 +52,18 @@ class cart_function {
 	 * @return boolean
 	 */
 	public static function is_weixin(){
-		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断是否在支付宝内访问
+	 * @return boolean
+	 */
+	public static function is_alipay(){
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false) {
 			return true;
 		}
 		return false;

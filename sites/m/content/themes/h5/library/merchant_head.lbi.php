@@ -21,6 +21,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					</div>
 					<div class="store-range">
 						<i class="icon-shop-time"></i>{$store_info.label_trade_time}
+						{if $store_info.allow_use_quickpay eq 1}
+						<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_id}"><span class="check">买单</span></a>
+						{/if}
 					</div>
 					<div class="store-description"><i class="icon-shop-notice"></i>{$store_info.seller_notice}</div>
 				</div>
@@ -44,14 +47,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<!-- {if $header_right.icon neq ''} -->
 			<i class="{$header_left.icon}"></i>
 		<!-- {else} -->
-			{if $store_info.allow_use_quickpay eq 1}
-			<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_id}"><span class="check">买单</span></a>
-			{/if}
 			<!-- {if $header_right.search neq ''} -->
 			<a href="{$header_right.search_url}">{$header_right.search}</a>
-			<!-- {/if} -->
-			<!-- {if $header_right.location neq ''} -->
-			<a href="{$header_right.location_url}" class="nopjax external">{$header_right.location}</a>
 			<!-- {/if} -->
 		<!-- {/if} -->
 	</div>

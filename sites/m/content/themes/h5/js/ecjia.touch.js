@@ -254,7 +254,7 @@
 		copy_btn : function() {
 			var clipboard = new Clipboard('.copy-btn');
 			clipboard.on('success', function(e) {  
-			        alert("订单号复制成功！");
+			        alert("复制成功！");
 			});  
 		},
 		
@@ -448,6 +448,7 @@
 				ecjia.touch.category.store_toggle();
 				ecjia.touch.record_time();
 				ecjia.touch.category.image_preview();
+				ecjia.touch.user.cancel_order();
 			});
 		},
 

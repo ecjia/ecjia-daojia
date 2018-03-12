@@ -556,6 +556,7 @@ class goods_controller {
     	} else {
     		$arr['category_id'] = $cid;
     		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_SELLER_LIST)->data($arr)->hasPage()->run();
+
     		if (!is_ecjia_error($response)) {
     			list($arr_list, $page) = $response;
     			

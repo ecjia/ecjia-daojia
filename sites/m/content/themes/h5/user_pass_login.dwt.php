@@ -1,7 +1,7 @@
 <?php
 /*
-Name: 手机登录模板
-Description: 这是手机登录页
+Name: 用户登录模板
+Description: 这是用户登录页
 Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
@@ -15,23 +15,28 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <!-- #BeginLibraryItem "/library/page_header.lbi" -->
 <!-- #EndLibraryItem -->
-<div class="ecjia-form ecjia-login">
+<div class="ecjia-form  ecjia-login">
 	<div class="form-group margin-right-left">
 		<label class="input">
-			<span class="roaming">+86</span>
-			<input placeholder="手机号" name="mobile_phone" class="mobile_phone">
+			<input class="p_d0" placeholder="手机号" name="username">
 		</label>
+	</div>
+	<div class="form-group ecjia-margin-t margin-right-left">
+		<label class="input">
+			<i class="iconfont icon-attention ecjia-login-margin-l" id="password1"></i>
+			<input class="p_d0" placeholder="密码" id="password-1" name="password" type="password">
+		</label>
+	</div>
+	<div class="ecjia-login-login-foot ecjia-margin-b">
+		<a class="ecjiaf-fr ecjia-margin-t" href="{url path='user/get_password/mobile_register'}">{$lang.forgot_password}？</a>
 	</div>
     <div class="around">
         <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
-        <input type="button" class="btn btn-info login-btn" name="ecjia-mobile-login" value="{$lang.login}" data-url="{url path='user/privilege/mobile_login'}"/>
+        <input type="button" class="btn btn-info login-btn" name="ecjia-login" value="{$lang.login}" data-url="{url path='user/privilege/signin'}"/>
     </div>
-    <p class="ecjiaf-tac">未注册手机验证后自动注册登录</p>
-    
     {if $sns_qq eq 1 || $sns_wechat eq 1}
-    <p class="ecjiaf-tac other-account">其他账号登录</p>
-   	{/if}  
-    
+    <p class="ecjiaf-tac other-account">其他帐号登录</p>
+    {/if}
 	<ul class="thirdparty-wrap">
 		{if $sns_qq eq 1}
     	<a href="{url path='connect/index/init' args='connect_code=sns_qq'}"><li class="thirdparty-qq"></li></a>

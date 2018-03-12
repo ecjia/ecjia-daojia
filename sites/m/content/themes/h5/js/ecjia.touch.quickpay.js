@@ -9,6 +9,8 @@
 			ecjia.touch.quickpay.quick_pay();
 		},
 		check: function() {
+			ecjia.touch.quickpay.checkbtn();
+			
 			$('input[name="order_money"]').koala({
 				delay: 500,
 				keyup: function(event) {
@@ -23,9 +25,14 @@
 				}
             });
 			
+			//关闭确认付款框
+			$('.ecjia-pay-content .pay-content-close').off('click').on('click', function() {
+				$('.ecjia-pay-content').removeClass('show');
+			});
+			
 			$('input[name="activity_id"]').off('click').on('click', function() {
 				var order_money = $("input[name='order_money']").val();
-				if (order_money == '' || order_money.length == 0 || order_money == undefined) {
+				if (order_money == '' || order_money == undefined) {
 					alert('请输入消费金额');
 					return false;
 				}
@@ -50,10 +57,14 @@
 			$('.quickpay_done').off('click').on('click', function(e) {
 				e.preventDefault();
 				var order_id = $("input[name='order_id']").val();
+				var direct_pay = $("input[name='direct_pay']").val();
+				
 				var show_exclude_amount = $("input[name='show_exclude_amount']:checked").val();
+				var direct_pay = $("input[name='direct_pay']").val();
+				
 				if (order_id == undefined) {
 					var order_money = $("input[name='order_money']").val();
-					if (order_money == '' || order_money.length == 0 || order_money == undefined) {
+					if (order_money == '' || order_money == undefined) {
 						alert('消费金额不能为空');
 						return false;
 					}
@@ -69,12 +80,44 @@
 				}
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var url = $("form[name='quickpayForm']").attr('action');
+
 				$("form[name='quickpayForm']").ajaxSubmit({
 					type: 'post',
 					url: url,
 					dataType: "json",
 					success: function(data) {
 						$('.la-ball-atom').remove();
+						var myApp = new Framework7();
+						if (data.referer_url || data.message == 'Invalid session') {
+							myApp.modal({
+								title: '温馨提示',
+								text: '您还没有登录',
+								buttons: [{
+									text: '取消',
+								}, {
+									text: '去登录',
+									onClick: function() {
+										location.href = data.referer_url;
+										return false;
+									}
+								}, ]
+							});
+							return false;
+						}
+						if (data.status == 'error') {
+							alert(data.message);
+							return false;
+						}
+						if (direct_pay == 1) {
+							$('.ecjia-pay-content').find('.goods-amount').html(data.content.format_goods_amount);
+							$('.ecjia-pay-content').find('.discount').html('-'+data.content.format_discount);
+							$('.ecjia-pay-content').find('.total-fee').html(data.content.format_total_fee);
+							$('.confirm-pay-btn').attr('data-money', data.content.goods_amount);
+							$('.confirm-pay-btn').attr('data-activity', data.activity_id);
+							$('.ecjia-pay-content').addClass('show');
+							$('.ecjia-pay-content-lay').show();
+							return false;
+						}
 						if (data.redirect_url) {
 							location.href = data.redirect_url;
 						}
@@ -101,6 +144,46 @@
 					}]
 				});
 			});
+			
+			$('.confirm-pay-btn').off('click').on('click', function(e) {
+				e.preventDefault();
+				var $this = $(this),
+					order_money = $this.attr('data-money'),
+					store_id = $("input[name='store_id']").val(),
+					activity_id = $this.attr('data-activity'),
+					pay_code = $this.attr('data-paycode'),
+					pay_url = $("input[name='pay_url']").val();
+				var info = {
+					'store_id' 				: store_id,
+	        		'order_money' 			: order_money,
+	        		'activity_id'			: activity_id,
+				};
+				var url = $('input[name="quickpay_done_url"]').val();
+				
+				$this.addClass('disabled').html('请求中...');
+				$.post(url, info, function(data) {
+					if (data.status == 'error') {
+						alert(data.message);
+						$this.removeClass('disabled').html('确认买单');
+						return false;
+					}
+					var order_id = data.order_id;
+					$.post(pay_url, {order_id: order_id, pay_code: pay_code}, function(data) {
+						$this.removeClass('disabled').html('确认买单');
+						if (data.state == 'error') {
+							alert(data.message);
+							return false;
+						}
+						if (data.redirect_url) {
+							location.href = data.redirect_url;
+						} else if(data.weixin_data) {
+							$('.wei-xin-pay').html("");
+							$('.wei-xin-pay').html(data.weixin_data);
+							callpay();
+						}
+					});
+				});
+			});
         },
         
         checkout: function(c, a) {
@@ -109,12 +192,18 @@
 	        var drop_out_money = $("input[name='drop_out_money']").val();
 	        var store_id = $("input[name='store_id']").val();
 	        var show_exclude_amount = $("input[name='show_exclude_amount']:checked").val();
-	        
-			if (order_money == '' || order_money.length == 0 || order_money == undefined) {
+			if (order_money == '' || order_money == undefined) {
+				$('.check_quickpay_btn').prop('disabled', true);
 				return false;
 			}
+			$('.check_quickpay_btn').prop('disabled', false);
 			
-        	var url =  $("input[name='drop_out_money']").attr('data-url')
+        	var direct_pay = $("input[name='direct_pay']").val();
+        	if (direct_pay == 1) {
+        		return false;
+        	}
+        	
+        	var url =  $('form[name="quickpayForm"]').attr('data-url');
         	var activity_id = $("input[name='activity_id']:checked").val();
         	if (c == 'change_amount') {
         		change_amount = 1;
@@ -135,6 +224,7 @@
         		'change_activity'		: change_activity
         	}
         	$.post(url, info, function(data) {
+        		$('.auto_activity_id').val(data.activity_id);
         		$('.quickpay_done').removeAttr('disabled');
         		$('.quickpay-content').html(data.list);
         		$("body").greenCheck();
@@ -186,6 +276,13 @@
 					}
 				});
 			});
+		},
+		
+		checkbtn: function() {
+			var order_money = $("input[name='order_money']").val();
+			if (order_money == '' || order_money == undefined) {
+				$('.check_quickpay_btn').prop('disabled', true);
+			}
 		},
 	};
 })(ecjia, jQuery);

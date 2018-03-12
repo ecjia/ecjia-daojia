@@ -14,7 +14,8 @@ Template Type: type_0
 	ECJia css reset
   ==================================================*/
 html,
-body {font-family: Helvetica, '宋体', Arial, sans-serif; background: #efeff4; color: #555;height:100%;}
+body {font-family: 'Microsoft YaHei',Verdana,Arial,Helvetica,sans-serif; background: #efeff4; color: #555;height:100%;}
+
 body,
 ul,
 ol,
@@ -357,6 +358,20 @@ textarea{
 	text-align: center;
 	padding: 0;
 }
+
+/**
+ * ecjia-list-five
+ * 全局五栏列表样式
+ * 依赖:ecjia-list
+ */
+.ecjia-list-five li {
+	float: left;
+	width: 20%;
+	border-bottom: 0;
+	text-align: center;
+	padding: 0;
+}
+
 /**
  * ecjia-nav
  * 扩展列表nav下划线
@@ -898,7 +913,7 @@ select, input, textarea {
 .ecjia-header .ecjia-header-left a,
 .ecjia-header .ecjia-header-right a {
 	display: block;
-	width: 4em;
+	min-width: 4em;
 	height: 3.5em;
 	/*padding: 1em 0;*/
 	line-height: 3.5em;
@@ -909,7 +924,8 @@ select, input, textarea {
 }
 .ecjia-header .ecjia-header-left a span,
 .ecjia-header .ecjia-header-right a span {
-	font-size: 1.2em;
+	font-size: 1em;
+    margin-right: .5em;
 }
 .ecjia-header .ecjia-header-left a i,
 .ecjia-header .ecjia-header-right a i {

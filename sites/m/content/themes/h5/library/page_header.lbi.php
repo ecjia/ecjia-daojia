@@ -24,9 +24,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<!-- {if $header_right.search neq ''} -->
 			<a href="{$header_right.search_url}" class="m_r5">{$header_right.search}</a>
 			<!-- {/if} -->
-			<!-- {if $header_right.location neq ''} -->
-			<a href="{$header_right.location_url}" class="nopjax external">{$header_right.location}</a>
-			<!-- {/if} -->
 		<!-- {/if} -->
 	</div>
 	<!-- {/if} -->

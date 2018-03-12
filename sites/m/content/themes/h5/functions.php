@@ -78,6 +78,7 @@ RC_Hook::add_action('merchant/index/init', array('merchant_controller', 'init'))
 RC_Hook::add_action('merchant/index/ajax_goods', array('merchant_controller', 'ajax_goods'));//获取店铺商品
 RC_Hook::add_action('merchant/index/position', array('merchant_controller', 'position'));//店铺位置
 RC_Hook::add_action('merchant/index/ajax_store_comment', array('merchant_controller', 'ajax_store_comment'));//获取店铺评论
+RC_Hook::add_action('merchant/quickpay/collectmoney', array('merchant_controller', 'collectmoney'));
 RC_Hook::add_action('seller/category/list', array('merchant_controller', 'seller_list'));//店铺分类列表
 
 //文章
@@ -121,6 +122,13 @@ RC_Hook::add_action('touch/my/init', array('user_controller', 'init'));
 RC_Hook::add_action('user/index/spread', array('user_controller', 'spread'));
 RC_Hook::add_action('user/index/wxconfig', array('user_controller', 'wxconfig'));
 
+//推荐
+RC_Loader::load_theme('extras/controller/affiliate_controller.php');
+RC_Hook::add_action('affiliate/index/init', array('affiliate_controller', 'init'));//邀请注册
+RC_Hook::add_action('affiliate/index/check', array('affiliate_controller', 'check'));
+RC_Hook::add_action('affiliate/index/refresh', array('affiliate_controller', 'refresh'));
+RC_Hook::add_action('affiliate/index/invite', array('affiliate_controller', 'invite'));
+
 //商家入驻申请
 RC_Loader::load_theme('extras/controller/franchisee_controller.php');
 RC_Hook::add_action('franchisee/index/first', array('franchisee_controller', 'first'));//入驻申请加载页面
@@ -140,12 +148,19 @@ RC_Hook::add_action('franchisee/index/get_region', array('franchisee_controller'
 //登录注册
 RC_Loader::load_theme('extras/controller/user_privilege_controller.php');
 RC_Hook::add_action('user/privilege/login', array('user_privilege_controller', 'login'));
+RC_Hook::add_action('user/privilege/mobile_login', array('user_privilege_controller', 'mobile_login'));
+RC_Hook::add_action('user/privilege/pass_login', array('user_privilege_controller', 'pass_login'));
 RC_Hook::add_action('user/privilege/signin', array('user_privilege_controller', 'signin'));
 RC_Hook::add_action('user/privilege/signup', array('user_privilege_controller', 'signup'));
 RC_Hook::add_action('user/privilege/register', array('user_privilege_controller', 'register'));
 RC_Hook::add_action('user/privilege/validate_code', array('user_privilege_controller', 'validate_code'));
 RC_Hook::add_action('user/privilege/set_password', array('user_privilege_controller', 'set_password'));
 RC_Hook::add_action('user/privilege/logout', array('user_privilege_controller', 'logout'));
+RC_Hook::add_action('user/privilege/captcha_validate', array('user_privilege_controller', 'captcha_validate'));
+RC_Hook::add_action('user/privilege/captcha_refresh', array('user_privilege_controller', 'captcha_refresh'));
+RC_Hook::add_action('user/privilege/captcha_check', array('user_privilege_controller', 'captcha_check'));
+RC_Hook::add_action('user/privilege/enter_code', array('user_privilege_controller', 'enter_code'));
+RC_Hook::add_action('user/privilege/mobile_signin', array('user_privilege_controller', 'mobile_signin'));
 
 //找回密码
 RC_Loader::load_theme('extras/controller/user_get_password_controller.php');
@@ -201,6 +216,7 @@ RC_Loader::load_theme('extras/controller/user_order_controller.php');
 RC_Hook::add_action('user/order/order_list', array('user_order_controller', 'order_list'));
 RC_Hook::add_action('user/order/order_cancel', array('user_order_controller', 'order_cancel'));
 RC_Hook::add_action('user/order/async_order_list', array('user_order_controller', 'async_order_list'));
+RC_Hook::add_action('user/order/async_return_order_list', array('user_order_controller', 'async_return_order_list'));
 RC_Hook::add_action('user/order/order_detail', array('user_order_controller', 'order_detail'));
 RC_Hook::add_action('user/order/affirm_received', array('user_order_controller', 'affirm_received'));
 RC_Hook::add_action('user/order/comment_list', array('user_order_controller', 'comment_list'));
@@ -208,6 +224,14 @@ RC_Hook::add_action('user/order/goods_comment', array('user_order_controller', '
 RC_Hook::add_action('user/order/make_comment', array('user_order_controller', 'make_comment'));
 RC_Hook::add_action('user/order/buy_again', array('user_order_controller', 'buy_again'));
 RC_Hook::add_action('user/order/express_position', array('user_order_controller', 'express_position'));
+RC_Hook::add_action('user/order/return_list', array('user_order_controller', 'return_list'));
+RC_Hook::add_action('user/order/return_order', array('user_order_controller', 'return_order'));
+RC_Hook::add_action('user/order/add_return', array('user_order_controller', 'add_return'));
+RC_Hook::add_action('user/order/return_detail', array('user_order_controller', 'return_detail'));
+RC_Hook::add_action('user/order/undo_reply', array('user_order_controller', 'undo_reply'));
+RC_Hook::add_action('user/order/return_way_list', array('user_order_controller', 'return_way_list'));
+RC_Hook::add_action('user/order/return_way', array('user_order_controller', 'return_way'));
+RC_Hook::add_action('user/order/add_return_way', array('user_order_controller', 'add_return_way'));
 
 //用户资料
 RC_Loader::load_theme('extras/controller/user_profile_controller.php');
@@ -241,8 +265,8 @@ RC_Hook::add_action('user/quickpay/integral', array('quickpay_controller', 'inte
 RC_Hook::add_action('user/quickpay/notify', array('quickpay_controller', 'notify'));
 RC_Hook::add_action('user/quickpay/async_quickpay_list', array('quickpay_controller', 'async_quickpay_list')); //闪惠异步加载
 RC_Hook::add_action('user/quickpay/quickpay_detail', array('quickpay_controller', 'quickpay_detail')); //单个闪惠订单详情
-RC_Hook::add_action('user/quickpay/flow_checkorder', array('quickpay_controller', 'flow_checkorder'));
-RC_Hook::add_action('user/quickpay/done', array('quickpay_controller', 'done'));
+RC_Hook::add_action('quickpay/flow/flow_checkorder', array('quickpay_controller', 'flow_checkorder'));
+RC_Hook::add_action('quickpay/flow/done', array('quickpay_controller', 'done'));
 RC_Hook::add_action('user/quickpay/pay', array('quickpay_controller', 'pay'));
 RC_Hook::add_action('user/quickpay/dopay', array('quickpay_controller', 'dopay'));
 RC_Hook::add_action('user/quickpay/notify', array('quickpay_controller', 'notify'));
@@ -277,19 +301,23 @@ RC_Hook::add_action('ecjia_front_finish_launching', function ($arg) {
     if (!empty($wap_logo)) {
     	setcookie("wap_logo", RC_Upload::upload_url($wap_logo), time() + 1800);
     }
-    //判断并微信登录
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    if (strpos($user_agent, 'MicroMessenger') || strpos($user_agent, 'CriOS')) {
+    	ecjia_front::$controller->assign('is_weixin', true);
+    }
+    
+    //判断并微信登录
     if (strpos($user_agent, 'MicroMessenger') !== false && ecjia_plugin::is_active('sns_wechat/sns_wechat.php')) {
-        //微信浏览器
-        if (ROUTE_M != 'connect') {
-            if (!ecjia_touch_user::singleton()->isSignin()) {
-                if ($_REQUEST['referer_url']) {
-                    RC_Cookie::set('referer', $_REQUEST['referer_url']);
-                }
-                $url = RC_Uri::url('connect/index/init', array('connect_code' => 'sns_wechat', 'login_type' => 'snsapi_userinfo'));
-                ecjia_front::$controller->redirect($url);
-            }
-        }
+        // //微信浏览器
+        // if (ROUTE_M != 'connect') {
+        //     if (!ecjia_touch_user::singleton()->isSignin()) {
+        //         if ($_REQUEST['referer_url']) {
+        //             RC_Cookie::set('referer', $_REQUEST['referer_url']);
+        //         }
+        //         $url = RC_Uri::url('connect/index/init', array('connect_code' => 'sns_wechat', 'login_type' => 'snsapi_userinfo'));
+        //         ecjia_front::$controller->redirect($url);
+        //     }
+        // }
     }
 
     if (ROUTE_M == 'user') {
@@ -506,6 +534,11 @@ ecjia_open::macro('user_bonus', function($querys) {
 //店铺优惠买单
 ecjia_open::macro('quickpay', function($querys) {
 	return RC_Uri::url('user/quickpay/init', array('store_id' => $querys['merchant_id']));
+});
+
+//收款二维码
+ecjia_open::macro('collectmoney', function($querys) {
+	return RC_Uri::url('merchant/quickpay/collectmoney', array('store_id' => $querys['merchant_id']));
 });
 
 /**

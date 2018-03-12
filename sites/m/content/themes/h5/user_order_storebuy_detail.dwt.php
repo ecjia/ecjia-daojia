@@ -47,7 +47,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<li>积分抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_integral_money}</span></li>
 				<li>红包抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_bonus}</span></li>
 				<li>优惠金额：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_discount}</span></li>
-				<li>应付金额：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_discount}</span></li>
+				<li>应付金额：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_total_fee}</span></li>
 			</ul>
 
 			<p class="select-title ecjiaf-fwb ecjia-margin-l">订单信息</p>

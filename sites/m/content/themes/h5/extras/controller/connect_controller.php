@@ -109,7 +109,7 @@ class connect_controller {
             	return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
             }
             //登录
-            ecjia_touch_user::singleton()->signin($params['name'], $params['password']);
+            ecjia_touch_user::singleton()->signin('password', $params['name'], $params['password']);
             return $response['session']['uid'];
         }
     }
@@ -160,7 +160,7 @@ class connect_controller {
         }
         if ($result) {
             //登录
-            ecjia_touch_user::singleton()->signin($username, $password);
+            ecjia_touch_user::singleton()->signin('password', $username, $password);
             return ecjia_front::$controller->showmessage('恭喜您，注册成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/my/init')));
         } else {
             return ecjia_front::$controller->showmessage('授权用户信息关联失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

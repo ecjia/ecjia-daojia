@@ -67,18 +67,20 @@ setTimeout(function () { location.reload(); }, 20000)
 </script>
 <!-- {/block} -->
 <!-- {block name="main-content"} -->
-<div id="allmap">
-</div>
-<div class="express-info">
-	<div class="express-img">
-		<img src="{$express_info.avatar}" />
+<div class="ecjia-express-info">
+	<div id="allmap">
 	</div>
-	<div class="info">
-		<div class="name">{$express_info.express_user}</div>
-		<div class="status">{$express_info.label_shipping_status}</div>
-	</div>
-	<div class="phone">
-		<a href="tel:{$express_info.express_mobile}"><img src="{$theme_url}images/icon/icon-phone.png" /></a>
+	<div class="express-info">
+		<div class="express-img">
+			<img src="{$express_info.avatar}" />
+		</div>
+		<div class="info">
+			<div class="name">{$express_info.express_user}</div>
+			<div class="status">{$express_info.label_shipping_status}</div>
+		</div>
+		<div class="phone">
+			<a href="tel:{$express_info.express_mobile}"><img src="{$theme_url}images/icon/icon-phone.png" /></a>
+		</div>
 	</div>
 </div>
 <!-- {/block} -->
