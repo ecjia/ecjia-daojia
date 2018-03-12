@@ -171,24 +171,27 @@ function flow_update_cart($arr) {
         $row = RC_DB::table('goods as g')
             ->leftJoin('cart as c', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('c.goods_id'))
             ->where(RC_DB::raw('c.rec_id'), $key)
+            ->selectRaw('g.goods_number as g_number, c.*')
             ->first();
 
         //查询：系统启用了库存，检查输入的商品数量是否有效
         if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
-            if ($row['goods_number'] < $val) {
+            if ($row['g_number'] < $val) {
                 return new ecjia_error('low_stocks', __('库存不足'));
             }
             /* 是货品 */
-            $goods['product_id'] = trim($goods['product_id']);
             if (!empty($goods['product_id'])) {
-                $product_number = RC_DB::table('products')
-                    ->where('goods_id', $goods['goods_id'])
-                    ->where('product_id', $goods['product_id'])
-                    ->pluck('product_number');
-
-                if ($product_number < $val) {
-                    return new ecjia_error('low_stocks', __('库存不足'));
-                }
+            	$goods['product_id'] = trim($goods['product_id']);
+            	if (!empty($goods['product_id'])) {
+            		$product_number = RC_DB::table('products')
+            		->where('goods_id', $goods['goods_id'])
+            		->where('product_id', $goods['product_id'])
+            		->pluck('product_number');
+            	
+            		if ($product_number < $val) {
+            			return new ecjia_error('low_stocks', __('库存不足'));
+            		}
+            	}
             }
         }  elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
         	if (judge_package_stock($goods['goods_id'], $val)) {
