@@ -93,16 +93,27 @@ class store_bill_detail_model extends Component_Model_Model {
             }
             $data['brokerage_amount'] = $data['order_amount'] * $data['percent_value'] / 100;
         } else if ($data['order_type'] == 2) {
-            //退货时 结算比例使用当时入账比例
-            $data['percent_value'] = $this->get_bill_percent($data['order_id']);
-            if (!$data['percent_value']) {
-                RC_Logger::getLogger('bill_order')->error('退货未找到原入账订单，订单号：'.$data['order_id']);
-                RC_Logger::getLogger('bill_order')->error($data);
-                return false;
+            if ($data['brokerage_amount']) {
+                //退货时 结算比例使用当时入账比例
+                $data['percent_value'] = $this->get_bill_percent($data['order_id']);
+                if (!$data['percent_value']) {
+                    RC_Logger::getLogger('bill_order')->error('退货未找到原入账订单，订单号：'.$data['order_id']);
+                    RC_Logger::getLogger('bill_order')->error($data);
+                    return false;
+                }
+                if (($data['brokerage_amount'] = $data['order_amount'] * $data['percent_value'] / 100) > 0) {
+                    $data['brokerage_amount'] *= -1;
+                }
+            } else {
+                $datail = $this->get_bill_detail($data['order_id']);
+                if (empty($datail)) {
+                    RC_Logger::getLogger('bill_order')->info('order_id:'.$data['order_id'].'，未收货，未入账，结算无需退款');
+                    return false;
+                }
+                $data['percent_value'] = $datail['percent_value'];
+                $data['brokerage_amount'] = $datail['brokerage_amount'] * -1;
             }
-            if (($data['brokerage_amount'] = $data['order_amount'] * $data['percent_value'] / 100) > 0) {
-                $data['brokerage_amount'] *= -1;
-            }
+            
         }
 
         $data['add_time'] = RC_Time::gmtime();
@@ -181,10 +192,16 @@ class store_bill_detail_model extends Component_Model_Model {
 	    $rs = RC_DB::table('store_bill_detail')->where('order_id', $order_id)->where('order_type', 1)->first();
 	    return $rs['percent_value'];
 	}
+	
+	public function get_bill_detail($order_id) {
+	    $rs = RC_DB::table('store_bill_detail')->where('order_id', $order_id)->where('order_type', 1)->first();
+	    return $rs;
+	}
 
 	public function get_bill_record($store_id, $page = 1, $page_size = 15, $filter, $is_admin = 0) {
 	    $db_bill_detail = RC_DB::table('store_bill_detail as bd')
-	    ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('bd.store_id'));
+	    ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('bd.store_id'))
+	    ->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('bd.order_id'));
 
 	    if ($store_id) {
 	        $db_bill_detail->whereRaw('bd.store_id ='.$store_id);
@@ -251,6 +268,7 @@ class store_bill_detail_model extends Component_Model_Model {
 	        		$row[$key]['order_type_name'] = '购物订单';
 	        	} elseif ($val['order_type'] == Ecjia\App\Commission\Constant::ORDER_REFUNDS) {
 	        		$row[$key]['order_type_name'] = '退款';
+	        		$row[$key]['order_type_name_style'] = '<span class="ecjiafc-red">退款</span>';
 	        	} elseif ($val['order_type'] == Ecjia\App\Commission\Constant::ORDER_QUICKYPAY){
 	        		$row[$key]['order_type_name'] = '闪惠订单';
 	        	} else {

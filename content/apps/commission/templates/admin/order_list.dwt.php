@@ -46,11 +46,11 @@
 
    				 	<!-- {foreach from=$record_list.item item=list} -->
 					<tr>
-						<td>{$list.order_type_name}</td>
+						<td>{if $list.order_type_name_style}{$list.order_type_name_style}{else}{$list.order_type_name}{/if}</td>
 						<td>
-						{if $list.order_type_name eq '购物订单'} 
+						{if $list.order_type eq 1 || $list.order_type eq 2} 
 							{assign var=order_url value=RC_Uri::url('orders/admin/info',"order_id={$list.order_id}")}
-						{else}
+						{else if $list.order_type eq 11}
 							{assign var=order_url value=RC_Uri::url('quickpay/admin_order/order_info',"order_id={$list.order_id}")}
 						{/if}
 						
