@@ -154,10 +154,11 @@ class sns_qq extends ConnectAbstract
     public function callback($user_type = 'user') {
         $state = $this->recorder->read("state");
         $callback = $this->recorder->readInc("callback");
-
+        
         //--------验证state防止CSRF攻击
-        if($_GET['state'] != $state){
-            return new ecjia_error('30001', ErrorCase::showError('30001'));
+        if ($_GET['state'] != $state){
+            RC_Logger::getLogger('wechat')->debug('QQ connect get session:'.json_encode($_SESSION));
+            return new ecjia_error('retry_return_login', ErrorCase::showError('30001'));
         }
 
         $token = $this->access_token($callback, $_GET['code']);
