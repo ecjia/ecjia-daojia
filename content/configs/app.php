@@ -158,7 +158,9 @@ return array(
     //打印机管理
     'printer' => 'printer',
     //退货退款管理
-    'refund' => 'refund'
+    'refund' => 'refund',
+    //Ucenter
+    'ucenter' => 'ucenter'
 );
 
 // end
