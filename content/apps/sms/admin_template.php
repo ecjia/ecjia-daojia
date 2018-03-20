@@ -145,7 +145,7 @@ class admin_template extends ecjia_admin
             foreach ($existed as $value) {
                 $existed_list[$value['template_code']] = $value['template_subject'] . ' [' . $value['template_code'] . ']';
             }
-            $res = array_diff($template_code_list, $existed_list);
+            $res = array_diff_key($template_code_list, $existed_list);
             unset($template_code_list);
             $template_code_list = $res;
         }

@@ -49,23 +49,20 @@ namespace Ecjia\App\Sms\Events;
 
 use Ecjia\App\Sms\EventAbstract;
 
-class SmsRefundChange extends EventAbstract
+class SmsRefundBalanceArrived extends EventAbstract
 {
     
-    protected $code = 'sms_refund_change';
+    protected $code = 'sms_refund_balance_arrived';
     
-    protected $name = '退款成功到账通知';
+    protected $name = '退款到余额';
     
-    protected $description = '通知用户退款成功';
+    protected $description = '通知用户退款到余额';
     
-    protected $template = '尊敬的${user_name}，退款业务已受理成功，退款金额${amount}元资金已到账，目前可用资金${user_money}元；退还消费积分为${point}，目前可用积分${pay_points}元。如有问题请拨打客服电话：${service_phone}。';
+    protected $template = '尊敬的${user_name}，退款业务已受理成功，退回余额${amount}元，目前可用余额${user_money}元。';
 
     protected $available_values = [
     	'user_name' 	=> '用户名称',
     	'amount'    	=> '退款金额',
-    	'user_money'	=> '可用资金',
-    	'point'			=> '退还积分',
-    	'pay_points'	=> '可用积分',
-    	'service_phone'	=> '客服电话'
+    	'user_money'	=> '可用余额',
     ];  
 }

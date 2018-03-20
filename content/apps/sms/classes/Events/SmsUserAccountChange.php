@@ -54,7 +54,7 @@ class SmsUserAccountChange extends EventAbstract
     
     protected $code = 'sms_user_account_change';
     
-    protected $name = '用户充值到账通知';
+    protected $name = '用户充值到账';
     
     protected $description = '通知用户的账户充值信息';
     
