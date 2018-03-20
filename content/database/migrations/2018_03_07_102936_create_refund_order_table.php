@@ -69,6 +69,7 @@ class CreateRefundOrderTable extends Migration {
 			$table->string('order_sn', 60)->comment('订单编号');
 			$table->string('shipping_code', 60)->nullable()->comment('配送方式代号');
 			$table->string('shipping_name', 120)->nullable()->comment('配送方式名称');
+			$table->tinyInteger('shipping_whether')->unsigned()->default('0')->comment('是否配送0未配送 1已配送');
 			$table->decimal('shipping_fee', 10, 2)->unsigned()->default('0.00')->comment('配送费');
 			$table->decimal('insure_fee', 10, 2)->unsigned()->default('0.00')->comment('保险费');
 			$table->string('pay_code', 60)->nullable()->comment('支付方式代号');
