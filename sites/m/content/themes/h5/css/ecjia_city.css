@@ -5536,6 +5536,19 @@ footer {
 	background-color: #F7F7F7;
 }
 
+.ecjia-login.background-fff {
+	background-color: #fff;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    max-width: 640px;
+    padding-top: 3em;
+}
+
+.ecjia-login.ecjia-no-header {
+	padding-top: 3em;
+}
+
 .ecjia-login-margin-l {
 	margin-left: 91%;
 	margin-top: 0.2em;
@@ -5666,7 +5679,7 @@ footer {
 
 .ecjia-login-login-foot.m_r0.verification {
 	margin-right: 0;
-	line-height: 2em;
+	line-height: 2.5em;
 }
 
 .ecjia-login-login-foot.m_r0.verification .ecjia-checkbox {
@@ -6758,12 +6771,7 @@ footer {
 
 .ecjia-order-detail .ecjia-checkout .flow-goods-list {
 	background: none;
-	padding-bottom: 4.4em;
-}
-
-.ecjia-order-detail .ecjia-checkout .flow-goods-list {
-	background: none;
-	padding-bottom: 4.4em;
+	padding-bottom: 3.6em;
 }
 
 .ecjia-order-detail .flow-goods-list .ecjia-list li {
@@ -11915,14 +11923,26 @@ body,
 .ecjia-discover-detail .nav-bt-fix,
 .ecjia-download,
 .ecjia-account .btn-bottom,
-.ecjia-order-detail .order-ft-link, .ecjia-address-list .order-ft-link,
+.ecjia-order-detail .order-ft-link, 
+.ecjia-address-list .order-ft-link,
 .ecjia-spread .spread-bottom-bar-pannel,
-.ecjia-address-list .ecjia-margin-t.jm
+.ecjia-address-list .ecjia-margin-t.jm,
+.category .category_left,
+.ecjia-order-detail .ecjia-checkout
 {
   	padding-bottom: constant(safe-area-inset-bottom);
 	padding-bottom: env(safe-area-inset-bottom);
 }
 
+.ecjia-suggest-store,
+.ecjia-user .ecjia-list.safe-area:last-child,
+.category .category_right div.cat_list.show,
+.ecjia-article.article-list,
+.ecjia-discover-detail .floor .floor-content
+{
+	margin-bottom: constant(safe-area-inset-bottom);
+	margin-bottom: env(safe-area-inset-bottom);
+}
 
 .ecjia-quickpay-content {
 	margin: 25px;
@@ -11945,12 +11965,11 @@ body,
 }
 
 .ecjia-quickpay-content .quickpay-content-input .logo {
-	font-size: 1em;
+	font-size: 1.5em;
 }
 
 .ecjia-quickpay-content .quickpay-content-input input {
-	font-size: 1em;
-	margin-left: 10px;
+	font-size: 1.5em;
 	width: 100%;
 }
 
@@ -12042,7 +12061,7 @@ body,
 }
 
 .ecjia-pay-content-area .pay-content-btn {
-	margin-top: 15px;
+	margin: 15px 0;
 }
 
 .ecjia-pay-content-area .btn {
@@ -12064,4 +12083,98 @@ body,
 
 .ecjia-form .form-group .input input.p_d0 {
 	padding: 0;
+}
+
+.ecjia-address-list .form-group .input.captcha span {
+	height: 2em;
+    border-right: 1px solid #aaa;
+    top: .7em;
+}
+
+.ecjia-address-list .form-group .input.captcha span img {
+	width: 5em;
+    height: 2em;
+    position: absolute;
+    top: .2em;
+}
+
+.ecjia-address-list .form-group-text .input.captcha input {
+	padding-left: 8em;
+}
+
+.captcha-refresh {
+	margin-right: 1em;
+    margin-bottom: 1em;
+	color: #378FCB;
+}
+
+#payPassword_container {
+    margin-bottom: 1em;
+	position: relative;
+}
+
+#payPassword_container .pass_container, #payPassword_container .franchisee_pass_container {
+	width: 320px;
+    height: 50px;
+    margin: 0 auto;
+}
+
+#payPassword_container .pass_container input, #payPassword_container .franchisee_pass_container input {
+    width: 45px;
+    float: left;
+    border: 1px solid #aaa;
+    height: 50px;
+    border-radius: 4px;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 2em;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+	line-height: 50px;
+}
+
+#payPassword_container .pass_container input:last-child, #payPassword_container .franchisee_pass_container input:last-child {
+	margin-right: 0;
+}
+
+.ecjia-form.background-fff .form-group {
+	border-radius: 0;
+	padding: .5em 0;
+	position: relative;
+}
+
+.ecjia-form .form-group .input.p_r7 {
+	padding-right: 9em;
+}
+
+.ecjia-form.background-fff .notice {
+	margin: 1em 7%;
+    color: #aaa;
+    font-size: .9em;
+}
+
+.ecjia-form.background-fff .get-code {
+	position: absolute;
+    background-color: #fff;
+    top: .5em;
+    width: 8em;
+    border: 1px solid #47aa4d;
+    z-index: 1;
+    height: 2.5em;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    color: #47aa4d;
+    font-size: 1em;	
+	line-height: 2.5em;
+}
+.ecjia-form.background-fff .form-group .input input {
+	padding-left: 2.5em;
+}
+
+.ecjia-form.background-fff .form-group .input img {
+	position: absolute;
+    width: 2em;
+    height: 2em;
+    top: .2em;
 }

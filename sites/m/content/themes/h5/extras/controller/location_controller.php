@@ -78,29 +78,21 @@ class location_controller {
     	
     	if (!ecjia_front::$controller->is_cached('select_location.dwt', $cache_id)) {
     		$referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
+    		
     		if (!empty($referer_url)) {
-    			ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
-    			$backurl = urlencode($referer_url);
+    			ecjia_front::$controller->assign('referer_url', $referer_url);
+    			$backurl = $referer_url;
     		} else{
-    			$backurl = urlencode(RC_Uri::url('touch/index/init'));
+    			$backurl = RC_Uri::url('touch/index/init');
     		}
-    		$key       = ecjia::config('map_qq_key');
-    		$referer   = ecjia::config('map_qq_referer');
-    		$my_location = "https://apis.map.qq.com/tools/locpicker?search=1&type=0&backurl=".$backurl."&key=".$key."&referer=".$referer;
+    		
+    		// 获取当前定位地址
+    		$ecjia_location = new ecjia_location();
+    		$my_location = $ecjia_location->getLocationUrl($backurl);
     		ecjia_front::$controller->assign('my_location', $my_location);
     		
-    		$key = ecjia::config('map_qq_key');
-    		$lat = $_COOKIE['position_latitude'];
-    		$lng = $_COOKIE['position_longitude'];
-    		$url = "http://apis.map.qq.com/ws/place/v1/search?boundary=nearby(".$lat.",".$lng.",1000)&page_size=20&page_index=1&keyword=".$_COOKIE['position_city_name']."&orderby=_distance&key=".$key;
-    		
-    		$response = RC_Http::remote_get($url);
-    		$content  = json_decode($response['body'], true);
-    		if (empty($content['data'])) {
-    			$url = "http://apis.map.qq.com/ws/place/v1/search?boundary=region(".$_COOKIE['position_city_name'].",0)&page_size=20&page_index=1&keyword=".$_COOKIE['position_name']."&orderby=_distance&key=".$key;
-    			$response = RC_Http::remote_get($url);
-    			$content  = json_decode($response['body'], true);
-    		}
+    		// 获取周边数据
+    		$content = $ecjia_location->getNearByBoundary();
     		ecjia_front::$controller->assign('content', $content['data']);
     	}
     	
@@ -109,15 +101,10 @@ class location_controller {
     
     //请求接口返回数据
     public static function search_list() {
-    	$region   = urlencode($_GET['region']);
-    	$keywords = urlencode($_GET['keywords']);
+    	$region   = $_GET['region'];
+    	$keywords = $_GET['keywords'];
 
-    	$key		= ecjia::config('map_qq_key');
-    	$url       	= "http://apis.map.qq.com/ws/place/v1/suggestion/?&region_fix=1&region=".$region."&keyword=".$keywords."&key=".$key."";
-
-    	$response 	= RC_Http::remote_get($url);
-    	$content  	= json_decode($response['body'], true);
-    	
+    	$content = with(new ecjia_location())->getSuggestionRegion($region, $keywords);
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $content));
     }
     
@@ -149,11 +136,8 @@ class location_controller {
 
     //请求接口返回数据
     public static function get_location_msg() {
-    	$locations 			= $_GET['lat'].','.$_GET['lng'];
-    	$key 				= ecjia::config('map_qq_key');
-    	$url       			= "https://apis.map.qq.com/ws/geocoder/v1/?location=".$locations."&key=".$key."&get_poi=1";
-    	$response_address	= RC_Http::remote_get($url);
-    	$content   			= json_decode($response_address['body'],true);
+    	$content = with(new ecjia_location())->getGeoCoder($_GET['lat'], $_GET['lng']);
+    	
     	$location_content 	= $content['result']['pois'][0];
     	$location_name    	= $location_content['title'];
     	$location_address 	= $location_content['address'];
@@ -186,11 +170,12 @@ class location_controller {
     	}
     	
     	//写入cookie
+    	setcookie("location_address_id", 0, time() + 1800);
     	setcookie("location_address", $location_address, time() + 1800);
     	setcookie("location_name", $location_name, time() + 1800);
     	setcookie("longitude", $longitude, time() + 1800);
     	setcookie("latitude", $latitude, time() + 1800);
-    	setcookie("location_address_id", 0, time() + 1800);
+    	
     	setcookie("city_id", $city_id, time() + 1800);
     	setcookie("city_name", $rs['region_name'], time() + 1800);
     	

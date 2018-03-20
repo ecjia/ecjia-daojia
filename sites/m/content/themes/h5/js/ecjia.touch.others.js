@@ -19,7 +19,7 @@
 			this.article_cat_click();
 		},
 		
-		removeItem() {
+		removeItem: function() {
 			sessionStorage.removeItem('swiper');				//首页轮播图
 			
 			sessionStorage.removeItem('discover_swiper');		//发现页滚动图标

@@ -147,8 +147,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					{/if}
 				</div>
 				{/if}
-			
-			
 			{/if}
 
 			<div class="order-ft-link">
@@ -160,10 +158,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				
 				{if $order.refund_type eq 'refund' && $order.refund_status neq 'refunded'}
 					{if $order.status eq 'agree' || $order.refund_status eq 'refunded'}
-						<a class="btn btn-small btn-hollow external" href="{url path='user/order/return_detail'}&refund_sn={$order.refund_sn}&type=return_money">退款详情</a>
+<!-- 						<a class="btn btn-small btn-hollow external" href="{url path='user/order/return_detail'}&refund_sn={$order.refund_sn}&type=return_money">退款详情</a> -->
 					{/if}
 					
-					{if $order.status eq 'agree' || $order.status eq 'uncheck'}
+					{if $order.status eq 'uncheck'}
 						<a class="btn btn-small btn-hollow undo_reply" href='{url path="user/order/undo_reply" args="order_id={$order_id}&refund_sn={$order.refund_sn}"}'>撤销申请</a>
 					{/if}
 					
@@ -173,7 +171,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				{/if}
 				
 				{if $order.refund_type eq 'return' && $order.refund_status neq 'refunded'}
-					{if $order.status eq 'uncheck' || $order.status eq 'agree'}
+					{if $order.status eq 'uncheck'}
 						<a class="btn btn-small btn-hollow undo_reply" href='{url path="user/order/undo_reply" args="order_id={$order_id}&refund_sn={$order.refund_sn}"}'>撤销申请</a>
 					{/if}
 					
@@ -190,7 +188,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					{/if}
 				{/if}
 				
-				{if $order.refund_status eq 'refunded'}
+				{if $order.refund_status eq 'refunded' || $order.refund_status eq 'checked'}
 					<a class="btn btn-small btn-hollow external" href="{url path='user/order/return_detail'}&refund_sn={$order.refund_sn}&type=return_money">退款详情</a>
 				{/if}
 			</div>

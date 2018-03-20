@@ -59,7 +59,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<div class="notice-content">
 							<span class="title">温馨提示：</span>
 							<div class="content">
-							1.退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系ECJia到家客服。<br/>
+							1.退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系客服。<br/>
 							2.如需退货请准备好发票，附件等资料，与商品一并寄回。
 							</div>
 						</div>

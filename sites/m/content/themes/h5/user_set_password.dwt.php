@@ -29,7 +29,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     			<div class="form-group margin-right-left">
     				<label class="input">
     					<i class="iconfont icon-gerenzhongxin icon-set"></i>
-    					<input name="username" type="text" id="username" name="username" errormsg="{$lang.msg_mast_length}" placeholder="{$lang.input_name}" />
+    					<input name="username" type="text" id="username" name="username" autocomplete="off" errormsg="{$lang.msg_mast_length}" placeholder="{$lang.input_name}" value="{$user_name}"/>
     				</label>
     			</div>
     			<div>
@@ -42,7 +42,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     				<label class="input">
     					<i class="iconfont icon-unlock"></i>
     					<i class="iconfont icon-attention ecjia-login-margin-l" id="password1"></i>
-    					<input name="password" id="password-1" type="password" errormsg="请输入6 ~ 16 位的密码" placeholder="{$lang.input_passwd}">
+    					<input name="password" id="password-1" type="password" autocomplete="off" errormsg="请输入6 ~ 16 位的密码" placeholder="{$lang.input_passwd}">
     				</label>
     			</div>
     			
@@ -64,7 +64,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     			
     			<div class="ecjia-login-b">
     				<div class="around margin-top">
-    				<button class="btn btn-info login-btn" name="signin" data-url="{RC_Uri::url('user/privilege/set_password')}" id="signin" type="submit">{$lang.login_finish}</button>
+    				<button class="btn btn-info login-btn" name="signin" data-url="{$set_url}" id="signin" type="submit">{$lang.login_finish}</button>
     				</div>
     			</div>
     		</form>

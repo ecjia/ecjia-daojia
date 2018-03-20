@@ -327,7 +327,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     </ul>
     {/if}
     
-    <ul class="ecjia-list list-short">
+    <ul class="ecjia-list list-short safe-area">
         <!-- {foreach from=$shop item=value} 网店信息 -->
             <li>
             	<a class="external" href="{RC_uri::url('article/shop/detail')}&title={$value.title}&article_id={$value.id}">

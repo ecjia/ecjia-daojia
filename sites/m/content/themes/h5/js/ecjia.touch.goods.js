@@ -1487,6 +1487,7 @@
 						var spec_arr = spec.split(',');
 					}
 					var modal = '.ecjia-attr-static';
+					var multi = '';
 					for (var i in releated_goods) {
 						var r = releated_goods[i];
 						if (r.goods_info != undefined && goods_id == r.goods_info.goods_id) {
@@ -1495,20 +1496,28 @@
 							var html = '';
 							for (var j in r.goods_info.specification) {
 								var s = r.goods_info.specification[j];
+								if (s.attr_type == '2') {
+									multi = 'multi-select';
+								} else {
+									multi = '';
+								}
 								html += '<div class="goods-attr" data-index=' + j + '><p class="attr-name">' + s.name + '<p>' + '<ul>';
 								for (var k in s.value) {
 									var t = s.value[k];
+									console.log(spec_arr);
 									if (spec_arr != undefined) {
 										if ($.inArray(t.id, spec_arr) != -1) {
-											html += '<li class="active" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
+											html += '<li class="active '+ multi +'" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										} else {
-											html += '<li data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
+											html += '<li class="'+ multi +'" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										}
 									} else {
-										if (k == 0) {
+										if (k == 0 && multi == '') {
 											html += '<li class="active" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
+										} else if (multi != '') {
+											html += '<li class="'+ multi +'" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										} else {
-											html += '<li data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
+											html += '<li class="'+ multi +'" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										}
 									}
 								}
@@ -1656,7 +1665,15 @@
 // 				if (index == 0) {
 // 					$('div.goods-attr:gt(0)').find('li:eq(0)').addClass('active').siblings('li').removeClass('active');
 // 				}
-				$this.addClass('active').siblings('li').removeClass('active');
+				if (!$this.hasClass('multi-select')) {
+					$this.addClass('active').siblings('li').removeClass('active');
+				} else {
+					if (!$this.hasClass('active')) {
+						$this.addClass('active');
+					} else {
+						$this.removeClass('active');
+					}
+				}
 
 				$spec_html = '(';
 				$spec_price = parseFloat($(modal).find('input[name="goods_price"]').val());

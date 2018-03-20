@@ -179,7 +179,7 @@ class goods_controller {
 	    		if (!empty($cart_goods['cart_list'][0]['goods_list'])) {
 	    			$cart_goods['cart_list'][0]['total']['check_all'] = true;
 	    			$cart_goods['cart_list'][0]['total']['check_one'] = false;
-	    		
+	    			
 	    			foreach ($cart_goods['cart_list'][0]['goods_list'] as $key => $val) {
 	    				$goods_attr_id = explode(',', $val['goods_attr_id']);
 	    				asort($goods_attr_id);
@@ -248,7 +248,9 @@ class goods_controller {
 		    				}
 		    			}
 		    		}
-		    		$related_goods_list[] = $v['goods_id'];
+		    		if ($k < 6) {
+		    			$related_goods_list[] = $v['goods_id'];
+		    		}
 		    	}
 		    }
 		    

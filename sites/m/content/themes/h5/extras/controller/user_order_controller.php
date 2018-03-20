@@ -59,8 +59,8 @@ class user_order_controller {
         $type = isset($_GET['type']) ? $_GET['type'] : '';
         if ($type == 'refund') {
         	$params_order = array('token' => $token, 'pagination' => array('count' => 10, 'page' => 1), 'type' => $type);
-			$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_LIST)->data($params_order)->run();
-        	$data = is_ecjia_error($data) ? array() : $data;
+			$data = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_LIST)->data($params_order)->run();
+			$data = is_ecjia_error($data) ? array() : $data;
 
         	ecjia_front::$controller->assign('order_list', $data);
         	ecjia_front::$controller->assign_title('售后订单');
@@ -280,7 +280,7 @@ class user_order_controller {
     	if (!empty($order_id)) {
     		$api = ecjia_touch_api::REFUND_LIST;
     	} else {
-    		$api = ecjia_touch_api::ORDER_LIST;
+    		$api = ecjia_touch_api::REFUND_LIST;
     	}
     	$data = ecjia_touch_manager::make()->api($api)->data($params_order)->hasPage()->run();
     	if (!is_ecjia_error($data)) {
@@ -308,12 +308,13 @@ class user_order_controller {
         if (empty($order_id)) {
             return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        $order_type = trim($_GET['order_type']);
         
         $params_order = array('token' => ecjia_touch_user::singleton()->getToken(), 'order_id' => $order_id);
         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_AFFIRMRECEIVED)->data($params_order)->run();
 
         if (isset($_GET['from']) && $_GET['from'] == 'list') {
-            $url = RC_Uri::url('user/order/order_list');
+            $url = RC_Uri::url('user/order/order_list', array('type' => $order_type));
         } else {
             $url = RC_Uri::url('user/order/order_detail', array('order_id' => $order_id));
         }
@@ -600,9 +601,9 @@ class user_order_controller {
     			$file['refund_images['.$i.']'] = curl_file_create(realpath($_FILES['tmp_name'][$i]), $_FILES['type'][$i], $_FILES['name'][$i]);
     		}
     	}
-    	if (empty($file)) {
-    		return ecjia_front::$controller->showmessage('申请失败，请上传照片', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    	}
+//     	if (empty($file)) {
+//     		return ecjia_front::$controller->showmessage('申请失败，请上传照片', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//     	}
     	$params = array(
     		'token' 				=> ecjia_touch_user::singleton()->getToken(),
     		'order_id' 				=> $order_id,

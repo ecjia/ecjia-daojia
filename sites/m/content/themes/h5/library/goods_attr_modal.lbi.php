@@ -16,7 +16,18 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<p class="attr-name">{$value.name}</p>
 				<ul>
 					<!-- {foreach from=$value.value item=val key=key} -->
-					<li class="{if $goods_info.has_spec eq 0}{if $key eq 0}active{/if}{else}{if $val.active eq 1}active{/if}{/if}" data-attr="{$val.id}" data-price="{$val.price}">{$val.label}</li>
+					<li class="
+						{if $goods_info.has_spec eq 0}
+							{if $key eq 0 && $value.attr_type eq 1}
+								active
+							{/if}
+						{else}
+							{if $val.active eq 1}
+								active
+							{/if}
+						{/if}
+						{if $value.attr_type eq 2}multi-select{/if}
+					" data-attr="{$val.id}" data-price="{$val.price}">{$val.label}</li>
 					<!-- {/foreach} -->
 				</ul>
 			</div>

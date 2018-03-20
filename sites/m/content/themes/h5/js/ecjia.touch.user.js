@@ -148,67 +148,47 @@
 				});
 			});
 			
-			var payPassword = $("#payPassword_container"),
-				_this = payPassword.find('i'),
-				k = 0,
-				j = 0,
-				password = '';
-			payPassword.on('focus', "input[name='payPassword_rsainput']", function() {
-				var _this = payPassword.find('i');
-				if (payPassword.attr('data-busy') === '0') {
-					_this.eq(k).addClass("active");
-					payPassword.attr('data-busy', '1')
-				}
-			});
-			payPassword.on('change', "input[name='payPassword_rsainput']", function() {
-				_this.eq(k).removeClass("active");
-				payPassword.attr('data-busy', '0')
-			}).on('blur', "input[name='payPassword_rsainput']", function() {
-				_this.eq(k).removeClass("active");
-				payPassword.attr('data-busy', '0')
-			});
-			payPassword.on('keyup', "input[name='payPassword_rsainput']", function(e) {
-				var e = (e) ? e : window.event;
-				if (e.keyCode == 8 || (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-					k = this.value.length;
-					l = _this.size();
-					for (; l--;) {
-						if (l === k) {
-							_this.eq(l).addClass("active");
-							_this.eq(l).find('b').css('visibility', 'hidden')
-						} else {
-							_this.eq(l).removeClass("active");
-							_this.eq(l).find('b').css('visibility', l < k ? 'visible' : 'hidden')
-						}
-						if (k === 6) {
-							$('input[name="payPassword_rsainput"]').blur();
-							var val = this.value;
-							var type = $('input[name="type"]').val();
-							var mobile = $('input[name="mobile"]').val();
-							var url = $('input[name="url"]').val();
-							
-							var info = {
-								'type': type,
-								'password': val,
-								'mobile': mobile
-							}
-							$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
-							$.post(url, info, function(data) {
-								$('.la-ball-atom').remove();
-								if (data.state == 'error') {
-									alert(data.message);
-								} else if (data.state == 'success'){
-									location.href = data.url;
-								}
-							})
-							return false;
-						}
+			var $input = $(".pass_container input"); 
+            $(".pass_container input").on("input", function() {  
+            	var val = $(this).val();
+            	if (val == '') {
+            		var index = parseInt($(this).index()) - 1;
+            		if (index < 0) {
+            			index = 0;
+            		}
+            		$(this).blur();
+                	$input.eq("" + index + "").focus();
+            	} else {
+            		var index = parseInt($(this).index()) + 1;
+            		$(this).blur();
+                	$input.eq("" + index + "").focus();
+            	}
+            	var value = '';
+            	$input.each(function() {
+            		value += $(this).val();
+            	})
+            	if (value.length == 6) {
+					var type = $('input[name="type"]').val();
+					var mobile = $('input[name="mobile"]').val();
+					var url = $('input[name="url"]').val();
+					
+					var info = {
+						'type': type,
+						'password': value,
+						'mobile': mobile
 					}
-				} else {
-					var _val = this.value;
-					this.value = _val.replace(/\D/g, '')
-				}
-			});
+					$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+					$.post(url, info, function(data) {
+						$('.la-ball-atom').remove();
+						if (data.state == 'error') {
+							alert(data.message);
+						} else if (data.state == 'success'){
+							location.href = data.url;
+						}
+					})
+					return false;
+            	}
+            });
 			
 			$('.i-block i').off('click').on('click', function() {
 				$('input[name="payPassword_rsainput"]').focus();
@@ -252,7 +232,7 @@
 				}
 			};
 		},
-
+		
 		//用户登出
 		ecjia_logout: function() {
 			$('input[name="logout"]').on('click', function(e) {
@@ -341,6 +321,10 @@
 				var mobile = $("input[name='mobile']").val();
 				var search_str = /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/;
 				var email = $("input[name='email']").val();
+				var set_count = $(this).attr('data-time');
+				if (set_count != undefined) {
+					count = set_count;
+				}
 				if (mobile || mobile == '') {
 					if (mobile.length == 11) {
 						url += '&mobile=' + mobile;
@@ -388,7 +372,7 @@
 				e.preventDefault();
 				var url = $(this).attr('data-url'),
 					mobile = $("input[name='mobile']").val().trim(),
-					verification = $("input[name='verification']").val().trim(),
+					verification = $("input[name='verification']").val(),
 					code = $("input[name='code']").val().trim();
 				if (code == '') {
 					alert('请输入验证码');
@@ -410,13 +394,13 @@
 		},
 		/* 处理注册  */
 		register_password: function() {
-			$("#signin").on('click', function(e) {
+			$("#signin").off('click').on('click', function(e) {
 				e.preventDefault();
 				var url = $(this).attr('data-url'),
 					username = $("input[name='username']").val().trim(),
 					password = $("input[name='password']").val().trim(),
 					show_verification = $("input[name='show_verification']:checked").val(),
-					verification = $("input[name='verification']").val().trim();
+					verification = $("input[name='verification']").val();
 				var info = {
 					'username': username,
 					'password': password,
@@ -430,7 +414,7 @@
 		},
 		/*找回密码重置密码*/
 		mobile_register: function() {
-			$("input[name='mobile_register']").on('click', function(e) {
+			$("input[name='mobile_register']").off('click').on('click', function(e) {
 				e.preventDefault();
 				var url = $(this).attr('data-url'),
 					mobile = $("input[name='mobile']").val().trim(),

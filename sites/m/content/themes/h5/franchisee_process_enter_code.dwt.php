@@ -1,7 +1,7 @@
 <?php
 /*
-Name: 手机验证码模板
-Description: 这是手机验证码登录页
+Name: 商家入驻查询验证码模板
+Description: 这是商家入驻查询验证码页
 Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
@@ -11,18 +11,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.touch.user.init();
+	ecjia.touch.franchisee.init();
 </script>
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<!-- #BeginLibraryItem "/library/page_header.lbi" -->
 <!-- #EndLibraryItem -->
 <div class="ecjia-form ecjia-login">
-	<p class="ecjiaf-tac ecjia-margin-b">验证码已发送至+{$mobile}</p>
-	
+	<p class="ecjiaf-tac ecjia-margin-b">已发送验证码到{$mobile}</p>
+
 	<div id="payPassword_container">
-		<div class="pass_container">
+		<div class="franchisee_pass_container">
 			<input class="input" type="tel" maxlength="1">  
 			<input class="input" type="tel" maxlength="1">
 			<input class="input" type="tel" maxlength="1">
@@ -32,9 +31,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</div>
 	</div>
 	
-	<input type="hidden" name="type" value="{$type}" />
 	<input type="hidden" name="url" value="{$url}" />
-	
+	<input type="hidden" name="mobile" value="{$mobile}" />
     <p class="ecjiaf-tac blue resend_sms" data-url="{$resend_url}">重新发送验证码</p>
 </div>
 <!-- {/block} -->

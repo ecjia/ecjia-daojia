@@ -98,9 +98,14 @@ class user_front {
 	        'user/get_password/reset_pwd_form',
 	        'user/get_password/reset_pwd',
 	        'user/get_password/mobile_register_account',
-	    	'user/get_password/mobile_register',
-	    	'user/get_password/reset_password',
+	    	'user/get_password/init',
+	    	'user/get_password/mobile_check',
+	    	'user/get_password/captcha_validate',
+	    	'user/get_password/enter_code',
+	    	'user/get_password/captcha_check',
+	    	'user/get_password/validate_forget_password',
 	    		
+	    	'user/get_password/reset_password',
 	        'user/mobile_reward/init',
 	        'user/mobile_reward/recieve',
 	    		

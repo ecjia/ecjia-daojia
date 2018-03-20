@@ -86,7 +86,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			{/if}
 		{/if}
 		
-		{if $list.shipping_status eq '1'} <a class="btn btn-hollow affirm_received" href='{url path="user/order/affirm_received" args="order_id={$list.order_id}&from=list"}'>确认收货</a>{/if}
+		{if $list.shipping_status eq '1'} <a class="btn btn-hollow affirm_received" href='{url path="user/order/affirm_received" args="order_id={$list.order_id}&from=list&order_type=shipped"}'>确认收货</a>{/if}
 		{if $list.shipping_status eq '2'} <a class="btn btn-hollow" href='{url path="user/order/comment_list" args="order_id={$list.order_id}&from=list"}'>评价晒单</a>{/if}
 		</span>
 	</div>

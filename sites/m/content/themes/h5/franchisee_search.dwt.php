@@ -22,15 +22,15 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
 	
 	<div class="form-group form-group-text">
-		<label class="input">
-			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_code.png" width="30" height="30"></span>
-			<input style="padding-left: 3.5em;" name="f_code" placeholder="{t}请输入验证码{/t}" type="tel" />
-			<input type="button" class="btn btn-small btn-info settled-message" value="{$lang.return_verification}" data-url="{url path='franchisee/index/validate' args='type=process'}" id="get_code" />
+		<label class="input captcha">
+			<span class="ecjiaf-fl"><img src="data:image/png;base64,{$image}" ></span>
+			<input name="f_code" placeholder="{t}请输入左侧验证码{/t}" type="text" value=""   />
 		</label>
 	</div>
+	<p class="ecjiaf-fr captcha-refresh" data-url="{url path='franchisee/index/captcha_refresh'}">看不清，换一张</p>
 	
 	<div class="ecjia-margin-t2 ecjia-margin-b">
-		<input class="btn btn-info process_search" type="button" value="{t}查询{/t}" data-url="{$url}"/>
+		<input class="btn btn-info process_search" type="button" value="下一步" data-url="{$url}"/>
 	</div>
 	
 </div>

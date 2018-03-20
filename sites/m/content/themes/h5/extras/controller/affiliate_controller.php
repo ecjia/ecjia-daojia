@@ -98,7 +98,7 @@ class affiliate_controller {
 			return ecjia_front::$controller->showmessage('该手机号已被推荐邀请', ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
 		}
 		
-		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return ecjia_front::$controller->showmessage('验证码已发送', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	//刷新图形验证码
@@ -139,7 +139,7 @@ class affiliate_controller {
 		if (is_ecjia_error($res)) {
 			return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
 		}
-		return ecjia_front::$controller->showmessage('领取成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return ecjia_front::$controller->showmessage('领取成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/index/init')));
 	}
 }
 

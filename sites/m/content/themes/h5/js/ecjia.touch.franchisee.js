@@ -22,6 +22,8 @@
 
 			ecjia.touch.franchisee.validate_code();
 			ecjia.touch.franchisee.next();
+			ecjia.touch.franchisee.enter_code();
+			ecjia.touch.franchisee.resend_sms();
 
 			$('.process_search').off('click').on('click', function() {
 				var url = $(this).attr('data-url'),
@@ -30,12 +32,12 @@
 						'f_code': $("input[name='f_code']").val()
 					};
 				$.post(url, info, function(data) {
+//					ecjia.touch.showmessage(data);
+					$('.la-ball-atom').remove();
 					if (data.state == 'error') {
 						alert(data.message);
-					} else {
-						if (typeof(data.pjaxurl) != 'undefined') {
-							location.href = data.pjaxurl;
-						}
+					} else if (data.state == 'success'){
+						location.href = data.url;
 					}
 				});
 			});
@@ -173,6 +175,93 @@
 					}
 				});
 			});
+			
+			$('.captcha-refresh').off('click').on('click', function(e) {
+				var url = $(this).attr('data-url');
+				$.post(url, function(data) {
+					if (data.state == 'error') {
+						ecjia.touch.showmessage(data);
+						return false;
+					}
+					$('.captcha').find('img').attr('src', 'data:image/png;base64,' + data.message);
+				});
+			});
+			
+			$('.resend_sms').off('click').on('click', function() {
+				var $this = $(this),
+					url = $this.attr('data-url');
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				$.post(url, {'type': 'resend'}, function(data) {
+					ecjia.touch.showmessage(data);
+				});
+			});
+		},
+		
+		resend_sms: function() {
+			var InterValObj; //timer变量，控制时间
+			var count = 60; //间隔函数，1秒执行
+			var curCount; //当前剩余秒数
+			curCount = count;
+			$(".resend_sms").addClass("disabled");
+			InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+			$(".resend_sms").html(curCount + "s后可重新获取");
+			//timer处理函数
+			function SetRemainTime() {
+				if (curCount == 0) {
+					window.clearInterval(InterValObj); 			//停止计时器
+					$(".resend_sms").removeClass("disabled"); 	//启用按钮
+					$(".resend_sms").html('重新发送验证码');
+				} else {
+					curCount--;
+					$(".resend_sms").html(curCount + "s后可重新获取");
+				}
+			};
+		},
+		
+		enter_code: function() {
+			var $input = $(".franchisee_pass_container input"); 
+            $(".franchisee_pass_container input").on("input", function() {  
+            	var val = $(this).val();
+            	if (val == '') {
+            		var index = parseInt($(this).index()) - 1;
+            		if (index < 0) {
+            			index = 0;
+            		}
+            		$(this).blur();
+                	$input.eq("" + index + "").focus();
+            	} else {
+            		var index = parseInt($(this).index()) + 1;
+            		$(this).blur();
+                	$input.eq("" + index + "").focus();
+            	}
+            	var value = '';
+            	$input.each(function() {
+            		value += $(this).val();
+            	})
+            	if (value.length == 6) {
+					var type = $('input[name="type"]').val();
+					var mobile = $('input[name="mobile"]').val();
+					var url = $('input[name="url"]').val();
+					
+					var info = {
+						'type': type,
+						'value': value,
+						'mobile': mobile
+					}
+					$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+					$.post(url, info, function(data) {
+						$('.la-ball-atom').remove();
+						if (data.state == 'error') {
+							alert(data.message);
+						} else if (data.state == 'success'){
+							location.href = data.url;
+						}
+					})
+					return false;
+            	}
+            });
 		},
 
 		//入驻页面下一步

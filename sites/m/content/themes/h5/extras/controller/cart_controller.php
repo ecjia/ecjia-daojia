@@ -272,6 +272,8 @@ class cart_controller {
     				$goods_attr = explode(',', $val['goods_attr_id']);
     				if (!empty($goods_attr)) {
     					asort($goods_attr);
+    					$spec = implode(',', $spec);
+    					$goods_attr = implode(',', $goods_attr);
     					if ($spec == $goods_attr) {
     						return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('info' => $val));
     					}
