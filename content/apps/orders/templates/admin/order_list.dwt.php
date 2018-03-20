@@ -20,19 +20,19 @@
 
 <ul class="nav nav-pills">
 	<li class="{if $filter.type eq ''}active{/if}">
-		<a class="data-pjax" href='{url path="orders/admin/init" args="{if $filter.composite_status !== '' && $filter.composite_status != -1}&composite_status={$filter.composite_status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}"}'>{lang key='orders::order.all'} 
+		<a class="data-pjax" href="{$search_url}">{lang key='orders::order.all'} 
 			<span class="badge badge-info">{if $count.count}{$count.count}{else}0{/if}</span> 
 		</a>
 	</li>
 	<li class="{if $filter.type eq 'self'}active{/if}">
-		<a class="data-pjax" href='{url path="orders/admin/init" args="type=self{if $filter.composite_status !== '' && $filter.composite_status != -1}&composite_status={$filter.composite_status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}"}'>{lang key='orders::order.self'}
+		<a class="data-pjax" href="{$search_url}&type=self">{lang key='orders::order.self'}
 			<span class="badge badge-info">{if $count.self}{$count.self}{else}0{/if}</span> 
 		</a>
 	</li>
 </ul>
 
 <div class="row-fluid batch" >
-	<form action="{$search_action}{if $filter.type}&type={$filter.type}{/if}" name="searchForm" method="post" >
+	<form action="{$search_url}{if $filter.type}&type={$filter.type}{/if}" name="searchForm" method="post" >
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 				<i class="fontello-icon-cog"></i>{lang key='orders::order.bulk_operations'}

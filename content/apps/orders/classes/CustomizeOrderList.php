@@ -47,14 +47,9 @@ class CustomizeOrderList
                     'order_id'      => $item->order_id,
                     'order_sn'      => $item->order_sn,
                     ],
-    			
-                'refund_info'=> [],
                 'goods_list' => [],
             ];
-            if (!empty($item->refund_sn)) {
-            	list($label_refund_status, $refund_status_code) = OrderStatus::getRefundStatusLabel($item->order_status, $item->rfo_status, $item->rfd_status);
-            	$data['refund_info'] = array('refund_sn' => $item->refund_sn, 'refund_status_code' => $refund_status_code, 'label_refund_status' => $label_refund_status);
-            }
+            
             $data['goods_list'] = $item->orderGoods->map(function ($item) use (& $goods_number) {
                 $attr = GoodsAttr::decodeGoodsAttr($item->goods_attr);
                 $subtotal = $item->goods_price * $item->goods_number;

@@ -65,7 +65,7 @@ ecjia.merchant.order.init();
         				<li><a class="batch-print" data-url="{$form_action}&print=1" href="javascript:;"><i class="fa fa-print"></i> {lang key='orders::order.print_order'}</a></li>
                    	</ul>
         		</div>
-        		<div class="form-group ">
+        		<div class="form-group">
         			<select class="w130" name="status" id="select-rank">
         				<option value="-1">{lang key='orders::order.all_status'}</option>
         				<!-- {html_options options=$status_list selected=$order_list.filter.composite_status } -->
@@ -82,7 +82,7 @@ ecjia.merchant.order.init();
 				</ul>
         		{/if}
         		
-        		<form class="form-inline pull-right" action='{RC_Uri::url("orders/merchant/init")}{if $smarty.get.date}&date={$smarty.get.date}{/if}' method="post" name="searchForm">
+        		<form class="form-inline pull-right" action='{$search_url}{if $smarty.get.date}&date={$smarty.get.date}{/if}' method="post" name="searchForm">
         			<div class="form-group">
         				<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='orders::order.pls_consignee'}">
         			</div>

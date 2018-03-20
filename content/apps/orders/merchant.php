@@ -241,6 +241,9 @@ class merchant extends ecjia_merchant {
 		$this->assign('ps', RC_Lang::get('orders::order.ps'));
 		$this->assign('ss', RC_Lang::get('orders::order.ss'));
 		
+		$search_url = $this->get_search_url();
+		$this->assign('search_url', $search_url);
+		
 		$this->assign_lang();
 		$this->display('mh_order_list.dwt');
 	}
@@ -647,9 +650,9 @@ class merchant extends ecjia_merchant {
 			
 			//无效订单 只能查看和删除 不能进行其他操作
 			$invalid_order = false;
-			if ($order['order_status'] == OS_INVALID) {
-				$invalid_order = true;
-			}
+// 			if ($order['order_status'] == OS_INVALID) {
+// 				$invalid_order = true;
+// 			}
 			$this->assign('invalid_order', $invalid_order);
 
 			if ($order['pay_status'] == PS_PAYED) {
@@ -2029,6 +2032,10 @@ class merchant extends ecjia_merchant {
 			$require_note	= true;
 			$action			= RC_Lang::get('orders::order.op_after_service');
 			$operation		= 'after_service';
+		} elseif (isset($_GET['confirm_return'])) {
+			/* 退货退款确认 */
+			$action			= RC_Lang::get('orders::order.op_return_confirm');
+			$operation		= 'confirm_return';
 		} elseif (isset($_GET['return'])) {
 			/* 退货 */
 			$require_note	= ecjia::config('order_return_note') == 1 ? true : false;
@@ -2174,7 +2181,13 @@ class merchant extends ecjia_merchant {
 			$require_note	= true;
 			$action			= RC_Lang::get('orders::order.op_after_service');
 			$operation		= 'after_service';
-		} elseif (isset($_GET['return'])) {
+		}elseif (isset($_GET['confirm_return'])) {
+			/* 退货退款确认 */
+			$require_note	= true;
+			$action			= RC_Lang::get('orders::order.op_return_confirm');
+			$operation		= 'confirm_return';
+		} 
+		elseif (isset($_GET['return'])) {
 			/* 退货 */
 			$require_note	= ecjia::config('order_return_note') == 1;
 			$order			= order_info($order_id);
@@ -2571,6 +2584,7 @@ class merchant extends ecjia_merchant {
 	 * 操作订单状态（处理提交）
 	 */
 	public function operate_post() {
+		
 		/* 检查权限 */
 		$this->admin_priv('order_os_edit' , ecjia::MSGTYPE_JSON);
 
@@ -3378,7 +3392,9 @@ class merchant extends ecjia_merchant {
 			order_action($order['order_sn'], $order['order_status'], $order['shipping_status'], $order['pay_status'], '[' . RC_Lang::get('orders::order.op_after_service') . '] ' . $action_note);
 			/* 记录日志 */
 			ecjia_merchant::admin_log('添加售后,订单号是'.$order['order_sn'], 'setup', 'order');
-		} else {
+		} elseif ('confirm_return' == $operation) {
+			order_action($order['order_sn'], $order['order_status'], $order['shipping_status'], $order['pay_status'], '[' . RC_Lang::get('orders::order.op_return_confirm') . '] ' . $action_note);
+		}else {
 			return $this->showmessage('invalid params' , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
@@ -3707,18 +3723,22 @@ class merchant extends ecjia_merchant {
 		if ($delivery_list) {
 			foreach ($delivery_list as $list) {
 				$query = RC_DB::table('delivery_goods')->where('delivery_id', $list['delivery_id'])->selectRaw('goods_id, product_id, product_sn, goods_name,goods_sn, is_real, send_number, goods_attr')->get();
-				$source = array(
-						'refund_id'		=> $refund_id,
-						'goods_id'		=> $query['goods_id'],
-						'product_id'	=> $query['product_id'],
-						'product_sn'	=> $query['product_sn'],
-						'goods_name'	=> $query['goods_name'],
-						'goods_sn'		=> $query['goods_sn'],
-						'is_real'		=> $query['is_real'],
-						'send_number'	=> $query['send_number'],
-						'goods_attr'	=> $query['goods_attr'],
-				);
-				RC_DB::table('refund_goods')->insertGetId($source);
+				if (!empty($query)) {
+					foreach ($query as $res) {
+						$source = array(
+								'refund_id'		=> $refund_id,
+								'goods_id'		=> $res['goods_id'],
+								'product_id'	=> $res['product_id'],
+								'product_sn'	=> $res['product_sn'],
+								'goods_name'	=> $res['goods_name'],
+								'goods_sn'		=> $res['goods_sn'],
+								'is_real'		=> $res['is_real'],
+								'send_number'	=> $res['send_number'],
+								'goods_attr'	=> $res['goods_attr'],
+						);
+						RC_DB::table('refund_goods')->insertGetId($source);
+					}
+				}
 			}
 		}
 		
@@ -3727,7 +3747,7 @@ class merchant extends ecjia_merchant {
 		
 		/* 记录log */
 		$action_note = trim($_POST['action_note']);
-		order_refund::order_action($order_id, OS_RETURNED, $order['shipping_status'], $order['pay_status'], $action_note, '商家');
+		order_refund::order_action($order_id, OS_RETURNED, $order['shipping_status'], $order['pay_status'], $action_note, $_SESSION['staff_name']);
 		
 		/* 发货单状态为“退货” */
 		$data = array('status' => 1);
@@ -3814,6 +3834,70 @@ class merchant extends ecjia_merchant {
 		
 		/* 操作成功 */
 		return $this->showmessage('申请操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('orders/merchant/info', array('order_id' => $order_id))));
+	}
+	
+	private function get_search_url() {
+		$arr = array();
+		if (isset($_GET['order_sn'])) {
+			$arr['order_sn'] = trim($_GET['order_sn']);
+		}
+		if (isset($_GET['start_time'])) {
+			$arr['start_time'] = trim($_GET['start_time']);
+		}
+		if (isset($_GET['end_time'])) {
+			$arr['end_time'] = trim($_GET['end_time']);
+		}
+		if (isset($_GET['email'])) {
+			$arr['email'] = trim($_GET['email']);
+		}
+		if (isset($_GET['user_name'])) {
+			$arr['user_name'] = trim($_GET['user_name']);
+		}
+		if (isset($_GET['consignee'])) {
+			$arr['consignee'] = trim($_GET['consignee']);
+		}
+		if (isset($_GET['tel'])) {
+			$arr['tel'] = trim($_GET['tel']);
+		}
+		if (isset($_GET['mobile'])) {
+			$arr['mobile'] = trim($_GET['mobile']);
+		}
+		if (isset($_GET['merchants_name'])) {
+			$arr['merchants_name'] = trim($_GET['merchants_name']);
+		}
+		if (isset($_GET['address'])) {
+			$arr['address'] = trim($_GET['address']);
+		}
+	
+		if (isset($_GET['zipcode'])) {
+			$arr['zipcode'] = trim($_GET['zipcode']);
+		}
+		if (isset($_GET['order_status'])) {
+			$arr['order_status'] = trim($_GET['order_status']);
+		}
+		if (isset($_GET['pay_status'])) {
+			$arr['pay_status'] = intval($_GET['pay_status']);
+		}
+		if (isset($_GET['shipping_status'])) {
+			$arr['shipping_status'] = intval($_GET['shipping_status']);
+		}
+		if (isset($_GET['shipping_id'])) {
+			$arr['shipping_id'] = intval($_GET['shipping_id']);
+		}
+		if (isset($_GET['pay_id'])) {
+			$arr['pay_id'] = intval($_GET['pay_id']);
+		}
+		if (isset($_GET['composite_status'])) {
+			$arr['composite_status'] = intval($_GET['composite_status']);
+		}
+		if (isset($_GET['keywords'])) {
+			$arr['keywords'] = intval($_GET['keywords']);
+		}
+		if (isset($_GET['merchant_keywords'])) {
+			$arr['merchant_keywords'] = intval($_GET['merchant_keywords']);
+		}
+	
+		return RC_Uri::url('orders/merchant/init', $arr);
 	}
 }
 

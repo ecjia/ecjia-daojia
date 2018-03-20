@@ -83,7 +83,7 @@ function merchant_operable_list($order) {
             // 确认
             $list['invalid'] = true;
             // 无效
-            $list['cancel'] = true;
+//             $list['cancel'] = true;
             // 取消
             if ($is_cod) {
                 /* 货到付款 */
@@ -170,6 +170,7 @@ function merchant_operable_list($order) {
                     if (SS_UNSHIPPED == $ss) {
                         $list['prepare'] = true;
                         // 配货
+                        $list['return'] = true;
                     }
                     $list['split'] = true;
                     // 分单
@@ -177,19 +178,20 @@ function merchant_operable_list($order) {
                 if ($priv_list['ps']) {
                     $list['unpay'] = false;
                     // 设为未付款
-                    if ($priv_list['os']) {
-                        $list['cancel'] = true;
-                        // 取消
-                    }
+//                     if ($priv_list['os']) {
+//                         $list['cancel'] = true;
+//                         // 取消
+//                     }
                 }
-            } elseif (SS_SHIPPED_ING == $ss || SS_SHIPPED_PART == $ss) {
+            } elseif (SS_SHIPPED_ING == $ss || SS_SHIPPED_PART == $ss) {//部分发货
                 /* 状态：已确认、未付款、发货中 */
                 // 部分分单
                 if (OS_SPLITING_PART == $os) {
                     $list['split'] = true;
                     // 分单
                 }
-                $list['to_delivery'] = true;
+                $list['split'] = true;//生成发货单
+//                 $list['to_delivery'] = true;
                 // 去发货
             } else {
                 /* 状态：已确认、已付款和付款中、已发货或已收货 */
@@ -215,6 +217,7 @@ function merchant_operable_list($order) {
                     // 退货（包括退款）
                 }
             }
+            $list['after_service'] = true;
         }
     } elseif (OS_CANCELED == $os) {
         /* 状态：取消 */
@@ -232,7 +235,8 @@ function merchant_operable_list($order) {
     } elseif (OS_RETURNED == $os) {
         /* 状态：退货 */
         if ($priv_list['os']) {
-            $list['confirm'] = true;
+            $list['confirm_return'] = true;
+            $list['after_service'] = true;
         }
     }
     /* 修正发货操作 */
@@ -251,7 +255,7 @@ function merchant_operable_list($order) {
         }
         /* 如果部分发货 不允许 取消 订单 */
         if (order_deliveryed($order['order_id'])) {
-            $list['return'] = true;
+//             $list['return'] = true;
             // 退货（包括退款）
             unset($list['cancel']);
             // 取消
@@ -264,7 +268,7 @@ function merchant_operable_list($order) {
     }
     
     /* 售后 */
-    $list['after_service'] = true;
+//     $list['after_service'] = true;
     return $list;
 }
 

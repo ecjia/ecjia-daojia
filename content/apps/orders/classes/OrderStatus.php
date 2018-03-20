@@ -106,25 +106,6 @@ class OrderStatus
         return array($label_order_status, $status_code);
     }
     
-    
-    public static function getRefundStatusLabel($order_status, $rfo_status, $rfd_status)
-    {
-    	if ($rfo_status == '10') {
-    		$status_code 		= 'canceled';
-    		$label_refund_status	= '取消退款';
-    	} elseif (($rfo_status == '1' && $rfd_status == '2')) {
-    		$status_code = 'refunded';
-    		$label_refund_status= '已退款';
-    	}elseif ($rfo_status == '11') {
-    		$status_code = 'refused';
-    		$label_refund_status = '退款被拒';
-    	} else{
-    		$status_code = 'going';
-    		$label_refund_status = '进行中';
-    	}
-    	return array($label_refund_status, $status_code);
-    }
-    
     public static function getQueryOrder($type)
     {
         $method = array_get(self::$orderTypes, $type);
@@ -220,19 +201,13 @@ class OrderStatus
     	};
     }
     
+    
+    
     /* 退款 */
     public static function queryOrderRefund() 
     {
     	return function ($query) {
-    		$query->leftJoin('refund_order', function ($join) {
-    			$join->on('order_info.order_id', '=', 'refund_order.order_id')
-    			     ->where('refund_order.status', '<>', 10);
-    		});
-    		$query->where('order_info.order_status', OS_RETURNED)
-    			  ->where('order_info.pay_status', PS_PAYED);
-    		
-    		$fields = array('refund_order.status as rfo_status', 'refund_order.refund_status as rfd_status', 'refund_order.refund_sn');
-    		$query->addSelect($fields);
+    		 $query->where('order_info.order_status', OS_RETURNED);
     	};
     }
     

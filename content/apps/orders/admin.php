@@ -125,11 +125,13 @@ class admin extends ecjia_admin {
 		$this->assign('count', 			$order_list['count']);
 		
 		$this->assign('form_action', 	RC_Uri::url('orders/admin/operate', array('batch' => 1)));
-		$this->assign('search_action', 	RC_Uri::url('orders/admin/init'));
 		
 		$this->assign('os', RC_Lang::get('orders::order.os'));
 		$this->assign('ps', RC_Lang::get('orders::order.ps'));
 		$this->assign('ss', RC_Lang::get('orders::order.ss'));
+		
+		$search_url = $this->get_search_url();
+		$this->assign('search_url', $search_url);
 		
 		$this->display('order_list.dwt');
 	}
@@ -227,6 +229,9 @@ class admin extends ecjia_admin {
 		/* 取得用户名 */
 		if ($order['user_id'] > 0) {
 			$user = user_info($order['user_id']);
+			if (is_ecjia_error($user)) {
+				$user = array();
+			}
 			if (!empty($user)) {
 				$order['user_name'] = $user['user_name'];
 				$order['mobile_phone'] = $user['mobile_phone'];
@@ -3658,6 +3663,70 @@ class admin extends ecjia_admin {
 		} else {
 			return $this->showmessage(RC_Lang::get('orders::order.not_member_inf_found'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+	}
+	
+	private function get_search_url() {
+		$arr = array();
+		if (isset($_GET['order_sn'])) {
+			$arr['order_sn'] = trim($_GET['order_sn']);
+		}
+		if (isset($_GET['start_time'])) {
+			$arr['start_time'] = trim($_GET['start_time']);
+		}
+		if (isset($_GET['end_time'])) {
+			$arr['end_time'] = trim($_GET['end_time']);
+		}
+		if (isset($_GET['email'])) {
+			$arr['email'] = trim($_GET['email']);
+		}
+		if (isset($_GET['user_name'])) {
+			$arr['user_name'] = trim($_GET['user_name']);
+		}
+		if (isset($_GET['consignee'])) {
+			$arr['consignee'] = trim($_GET['consignee']);
+		}
+		if (isset($_GET['tel'])) {
+			$arr['tel'] = trim($_GET['tel']);
+		}
+		if (isset($_GET['mobile'])) {
+			$arr['mobile'] = trim($_GET['mobile']);
+		}
+		if (isset($_GET['merchants_name'])) {
+			$arr['merchants_name'] = trim($_GET['merchants_name']);
+		}
+		if (isset($_GET['address'])) {
+			$arr['address'] = trim($_GET['address']);
+		}
+		
+		if (isset($_GET['zipcode'])) {
+			$arr['zipcode'] = trim($_GET['zipcode']);
+		}
+		if (isset($_GET['order_status'])) {
+			$arr['order_status'] = trim($_GET['order_status']);
+		}
+		if (isset($_GET['pay_status'])) {
+			$arr['pay_status'] = intval($_GET['pay_status']);
+		}
+		if (isset($_GET['shipping_status'])) {
+			$arr['shipping_status'] = intval($_GET['shipping_status']);
+		}
+		if (isset($_GET['shipping_id'])) {
+			$arr['shipping_id'] = intval($_GET['shipping_id']);
+		}
+		if (isset($_GET['pay_id'])) {
+			$arr['pay_id'] = intval($_GET['pay_id']);
+		}
+		if (isset($_GET['composite_status'])) {
+			$arr['composite_status'] = intval($_GET['composite_status']);
+		}
+		if (isset($_GET['keywords'])) {
+			$arr['keywords'] = intval($_GET['keywords']);
+		}
+		if (isset($_GET['merchant_keywords'])) {
+			$arr['merchant_keywords'] = intval($_GET['merchant_keywords']);
+		}
+		
+		return RC_Uri::url('orders/admin/init', $arr);
 	}
 }
 

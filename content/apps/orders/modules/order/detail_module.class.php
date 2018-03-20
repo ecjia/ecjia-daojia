@@ -155,7 +155,7 @@ class detail_module extends api_front implements api_interface {
 		$refund_fee_info = array(
 				'refund_goods_amount' => price_format($order['goods_amount']),
 				'refund_shipping_fee' => $refund_shipping_fee,
-				'refund_inv_tax'	  => $order['inv_tax'] > 0 ? price_format($order['inv_tax']) : 0 ,
+				'refund_inv_tax'	  => $order['tax'] > 0 ? price_format($order['tax']) : 0 ,
 				'refund_integral'	  => intval($order['integral']),
 				'refund_total_amount' => price_format($refund_total_amount)
 		);

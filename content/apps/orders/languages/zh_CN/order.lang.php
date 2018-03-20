@@ -125,6 +125,7 @@ return array(
 	'op_receive' 		=> '已收货',
 	'op_assign' 		=> '指派给',
 	'op_after_service' 	=> '售后',
+	'op_return_confirm' => '退货确认',
 	'act_ok' 			=> '操作成功',
 	'act_false' 		=> '操作失败',
 	'act_ship_num' 		=> '此单发货数量不能超出订单商品数量',

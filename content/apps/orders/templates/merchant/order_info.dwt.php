@@ -558,7 +558,6 @@ ecjia.merchant.order.info();
 									{lang key='orders::order.label_money_dues'}<strong>{$order.formated_order_amount}</strong>
 									{else}
 									{lang key='orders::order.label_money_refund'}<strong>{$order.formated_money_refund}</strong>
-									<input class="refund_click btn btn-info" type="button" data-href="{$refund_url}" value="{lang key='orders::order.refund'}">
 									{/if}
 									{if $order.extension_code eq "group_buy"}<br />{lang key='orders::order.notice_gb_order_amount'}{/if}
 								</div>
@@ -647,17 +646,17 @@ ecjia.merchant.order.info();
 									<button class="btn operatesubmit btn-info" type="submit" name="ship">{lang key='orders::order.op_split'}</button>
 									{/if}
 
-									{if $operable_list.unship}
-									<button class="btn operatesubmit btn-info" type="submit" name="unship">{lang key='orders::order.op_unship'}</button>
-									{/if}
+<!-- 									{if $operable_list.unship} -->
+<!-- 									<button class="btn operatesubmit btn-info" type="submit" name="unship">{lang key='orders::order.op_unship'}</button> -->
+<!-- 									{/if} -->
 
 <!-- 									{if $operable_list.receive} -->
 <!-- 									<button class="btn operatesubmit btn-info" type="submit" name="receive">{lang key='orders::order.op_receive'}</button> -->
 <!-- 									{/if}  -->
 
-									{if $operable_list.cancel}
-									<button class="btn operatesubmit btn-info" type="submit" name="cancel">{lang key='orders::order.op_cancel'}</button>
-									{/if}
+<!-- 									{if $operable_list.cancel} -->
+<!-- 									<button class="btn operatesubmit btn-info" type="submit" name="cancel">{lang key='orders::order.op_cancel'}</button> -->
+<!-- 									{/if} -->
 
 									{if $operable_list.invalid}
 									<button class="btn operatesubmit btn-info" type="submit" name="invalid">{lang key='orders::order.op_invalid'}</button>
@@ -667,19 +666,39 @@ ecjia.merchant.order.info();
 									<a style="cursor: pointer;" class="btn btn-info" href="#actionmodal" data-toggle="modal" id="modal">退款/退货</a>
 									{/if}
 									
-									
-									{if $operable_list.to_delivery}
-									<button class="btn operatesubmit btn-info" type="submit" name="to_delivery">{lang key='orders::order.op_to_delivery'}</button>
-									<input name="order_sn" type="hidden" value="{$order.order_sn}" />
+									{if $operable_list.confirm_return}
+									<button class="btn operatesubmit btn-info" type="submit" name="confirm_return">确认</button>
 									{/if}
-
+									
+									
+<!-- 									{if $operable_list.to_delivery} -->
+<!-- 									<button class="btn operatesubmit btn-info" type="submit" name="to_delivery">{lang key='orders::order.op_to_delivery'}</button> -->
+<!-- 									{/if} -->
+									{if $operable_list.after_service}
 									<button class="btn operatesubmit btn-info" type="submit" name="after_service">{lang key='orders::order.op_after_service'}</button>
+									{/if}
+									
+								
+									
 									{if $operable_list.remove}
 									<button class="btn operatesubmit btn-info" type="submit" name="remove">{lang key='orders::order.remove'}</button>
 									{/if}
 
 									{if $order.extension_code eq "group_buy"}{lang key='orders::order.notice_gb_ship'}{/if}
 									<input name="order_id" class="order_id" type="hidden" value="{$order.order_id}">
+								</td>
+							</tr>
+							<tr>
+								<td width="15%"><div align="right"> <strong>操作说明：</strong></div></td>
+								<td colspan="3">
+								{if $operable_list.confirm}【确认】设置该订单为有效订单；<br>{/if}
+								{if $operable_list.prepare}【配货】标记订单为配货状态，对订单商品进行配货；<br>{/if}
+								{if $operable_list.split}【生成发货单】对已经配货完成的订单进行发货，并且生成发货单详细信息；<br>{/if}
+								{if $operable_list.invalid}【无效】设置该订单为无效/作废订单；<br>{/if}
+								{if $operable_list.return}【退款/退货】设置该订单进入售后处理流程；<br>{/if}
+								{if $operable_list.confirm_return}【确认】操作人员对该订单的确认操作记录；<br>{/if}
+								{if $operable_list.after_service}【售后】对该订单的补充说明；<br>{/if}
+								{if $operable_list.remove}【移除】对已经标记取消或无效的订单删除<br>{/if}
 								</td>
 							</tr>
 						</tbody>

@@ -158,6 +158,7 @@
 			arr['cancel']	= '取消';
 			arr['invalid']	= '无效';
 			arr['after_service'] = '售后';
+			arr['confirm_return'] = '确认';
 			arr['return']	= '退货';
 			arr['refund']	= '退款';
 			
