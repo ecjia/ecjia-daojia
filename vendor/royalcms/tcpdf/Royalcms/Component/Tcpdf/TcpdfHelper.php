@@ -2,10 +2,10 @@
 
 namespace Royalcms\Component\Tcpdf;
 
-use \TCPDF;
+use \TCPDF as BaseTCPDF;
 use RC_Config;
 
-class TcpdfHelper extends TCPDF
+class TcpdfHelper extends BaseTCPDF
 {
     
     //holds custom header string/html
