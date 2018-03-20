@@ -91,6 +91,10 @@ abstract class ecjia_base extends Royalcms\Component\Routing\Controller {
         $this->load_hooks();
     }
     
+    public function getRequest()
+    {
+        return $this->request;
+    }
     
     public function __call($method, $parameters) 
     {
