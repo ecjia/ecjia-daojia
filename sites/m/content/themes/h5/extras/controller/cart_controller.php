@@ -241,8 +241,10 @@ class cart_controller {
     		$spec = ltrim($spec, ',');
     		$spec = explode(',', $spec);
     	}
-    	asort($spec);
-    	
+    	if (!empty($spec)) {
+    		asort($spec);
+    		$spec = implode(',', $spec);
+    	}
     	$goods_id = !empty($_POST['goods_id']) ? intval($_POST['goods_id']) : 0;
     	$seller_id = !empty($_POST['store_id']) ? intval($_POST['store_id']) : (!empty($_GET['store_id']) ? intval($_GET['store_id']) : 0);
     
@@ -264,18 +266,20 @@ class cart_controller {
     		}
     		RC_Cache::app_cache_set('cart_goods'.$token.$seller_id.$_COOKIE['longitude'].$_COOKIE['latitude'].$_COOKIE['city_id'], $cart_list, 'cart');
     	}
-    	
 
     	if (!empty($cart_list['cart_list'][0]['goods_list'])) {
     		foreach ($cart_list['cart_list'][0]['goods_list'] as $key => $val) {
     			if ($goods_id == $val['goods_id']) {
-    				$goods_attr = explode(',', $val['goods_attr_id']);
-    				if (!empty($goods_attr)) {
-    					asort($goods_attr);
-    					$spec = implode(',', $spec);
-    					$goods_attr = implode(',', $goods_attr);
-    					if ($spec == $goods_attr) {
-    						return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('info' => $val));
+    				if (empty($val['goods_attr_id']) && empty($spec)) {
+    					return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('info' => $val));
+    				} else {
+    					$goods_attr = explode(',', $val['goods_attr_id']);
+    					if (!empty($goods_attr)) {
+    						asort($goods_attr);
+    						$goods_attr = implode(',', $goods_attr);
+    						if ($spec == $goods_attr) {
+    							return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('info' => $val));
+    						}
     					}
     				}
     			}
