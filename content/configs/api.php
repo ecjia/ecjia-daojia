@@ -441,6 +441,8 @@ return array(
 	'refund/returnway/shop'     => 'refund::refund/returnway/shop',      //1.14选择到店退货返还方式
 	'refund/payrecord'     		=> 'refund::refund/payrecord',      	 //1.14查看退款进度
 	'affiliate/user/invite'     => 'affiliate::user/invite',             //1.14推荐邀请用户
+	
+	'admin/shop/captcha/sms/checkcode' => 'captcha::captcha/admin/checkcode', 	 //1.14掌柜验证图形验证码并发送短信
 		
 		
 	
