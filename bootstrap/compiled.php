@@ -422,8 +422,8 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.8.0';
-    const RELEASE = '2018-02-02';
+    const VERSION = '4.9.0';
+    const RELEASE = '2018-03-12';
     const PHP_REQUIRED = '5.4.0';
     protected $booted = false;
     protected $bootingCallbacks = array();
