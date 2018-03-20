@@ -46,7 +46,7 @@
 								<!-- {/foreach} -->
 							</select>
 						</div>
-						<button class="btn btn-primary screen-btn" type="submit"><i class="fa fa-search"></i>筛选</button>
+						<button class="btn btn-primary screen-btn" type="submit"><i class="fa fa-search"></i> 筛选</button>
 					</div>
 				</form>
 				
