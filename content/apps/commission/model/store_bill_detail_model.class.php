@@ -65,7 +65,6 @@ class store_bill_detail_model extends Component_Model_Model {
 
 	public function add_bill_detail($data) {
         if (!is_array($data) || !isset($data['order_type']) || empty($data['order_id']) ) {
-            RC_Logger::getLogger('bill_order_error')->error($data);
             return false;
         }
 
@@ -117,7 +116,7 @@ class store_bill_detail_model extends Component_Model_Model {
         }
 
         $data['add_time'] = RC_Time::gmtime();
-        RC_Logger::getLogger('bill_order')->info($data);
+//         RC_Logger::getLogger('bill_order')->info($data);
         unset($data['order_amount']);
 	    return RC_DB::table('store_bill_detail')->insertGetId($data);
 	}

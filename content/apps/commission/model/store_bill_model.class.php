@@ -62,7 +62,7 @@ class store_bill_model extends Component_Model_Model {
 	 * @param integer $store_id
 	 * @param array $filter
 	 */
-	public function get_bill_list ($store_id, $page = 1, $page_size = 15, $filter = array()) {
+	public function get_bill_list ($store_id, $page_current = 1, $page_size = 15, $filter = array()) {
 	    $db_store_bill = RC_DB::table('store_bill as b')->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('b.store_id'));
 	    
 	    if ($store_id) {
@@ -86,29 +86,37 @@ class store_bill_model extends Component_Model_Model {
 	        $db_store_bill->whereRaw("s.merchants_name LIKE '%". $filter['merchant_keywords']."%'");
 	    }
 	    
-	    $filter_count = $db_store_bill
-	    ->select(RC_DB::raw('count(*) as count_all'),
-	        RC_DB::raw('SUM(pay_status = 1) as count_unpay'),
-	        RC_DB::raw('SUM(pay_status = 2) as count_paying'),
-	        RC_DB::raw('SUM(pay_status = 3) as count_payed'))
-	        ->first();
-	    $filter ['count_all'] 	= $filter_count['count_all'] > 0 ? $filter_count['count_all'] : 0;
-	    $filter ['count_unpay'] = $filter_count['count_unpay'] > 0 ? $filter_count['count_unpay'] : 0;
-	    $filter ['count_paying'] 	= $filter_count['count_paying'] > 0 ? $filter_count['count_paying'] : 0;
-	    $filter ['count_payed'] 	= $filter_count['count_payed'] > 0 ? $filter_count['count_payed'] : 0;
-	    
-	    if (!empty($filter['type'])) {
-	        $db_store_bill->whereRaw('b.pay_status=' . intval($filter['type']));
+	    if ($page_current == 0 && $page_size == 0 ) {
+	        //全部
+	        return $row = $db_store_bill
+	               ->select(RC_DB::raw('b.bill_sn, s.merchants_name, b.bill_month, b.percent_value, b.bill_amount, 
+	                    s.bank_account_name, s.bank_account_number, s.bank_name, s.bank_branch_name, b.order_count, b.order_amount, b.refund_count, b.refund_amount '))
+    	           ->orderBy('bill_month', 'desc')->get();
+	    } else {
+	        $filter_count = $db_store_bill
+	        ->select(RC_DB::raw('count(*) as count_all'),
+	            RC_DB::raw('SUM(pay_status = 1) as count_unpay'),
+	            RC_DB::raw('SUM(pay_status = 2) as count_paying'),
+	            RC_DB::raw('SUM(pay_status = 3) as count_payed'))
+	            ->first();
+	        $filter ['count_all'] 	= $filter_count['count_all'] > 0 ? $filter_count['count_all'] : 0;
+	        $filter ['count_unpay'] = $filter_count['count_unpay'] > 0 ? $filter_count['count_unpay'] : 0;
+	        $filter ['count_paying'] 	= $filter_count['count_paying'] > 0 ? $filter_count['count_paying'] : 0;
+	        $filter ['count_payed'] 	= $filter_count['count_payed'] > 0 ? $filter_count['count_payed'] : 0;
+	         
+	        if (!empty($filter['type'])) {
+	            $db_store_bill->whereRaw('b.pay_status=' . intval($filter['type']));
+	        }
+	        
+	        $page = new ecjia_page($filter_count['count_all'], $page_size, 6);
+	        
+	        $db_store_bill
+    	        ->select(RC_DB::raw('b.*, s.merchants_name, s.bank_account_name, s.bank_name, s.bank_branch_name, s.bank_account_number'))
+    	        ->orderBy('bill_month', 'desc')
+    	        ->take($page_size)->skip($page->start_id-1);
+	        $row = $db_store_bill->get();
 	    }
-	   
-	    $page = new ecjia_page($filter_count['count_all'], $page_size, 6);
 	    
-	    $row = $db_store_bill
-		    ->select(RC_DB::raw('b.*, s.merchants_name '))
-		    ->take($page_size)
-		    ->orderBy('bill_month', 'desc')
-		    ->skip($page->start_id-1)
-		    ->get();
 	    
 	    if ($row) {
 	        foreach ($row as $key => &$val) {

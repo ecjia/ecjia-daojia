@@ -21,6 +21,7 @@ ecjia.admin.bill_list.init();
 		<!-- {if $action_link} -->
 		<a class="btn plus_or_reply {if $smarty.get.refer neq 'store'}data-pjax{/if}" href="{$action_link.href}" {if $smarty.get.refer eq 'store'}target="__blank"{/if}><i class="fontello-icon-plus"></i>{$action_link.text}</a>
 		<!-- {/if} -->
+		<a class="btn plus_or_reply" id="sticky_a" href='{RC_Uri::url("commission/admin/export", "{$url_parames}")}'><i class="fontello-icon-download"></i>导出结果</a>
 	</h3>
 </div>
 
@@ -34,31 +35,35 @@ ecjia.admin.bill_list.init();
 		{if $smarty.get.refer neq 'store'}
 			<ul class="nav nav-pills">
 			    <li class="{if !$smarty.get.type}active{/if}">
-					<a class="data-pjax" href='{RC_Uri::url("commission/admin/init", "{if $smarty.get.store_id}&store_id={$smarty.get.store_id}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $smarty.get.merchant_keywords}&merchant_keywords={$smarty.get.merchant_keywords}{/if}")}'>全部
+					<a class="data-pjax" href='{RC_Uri::url("commission/admin/init", "{$url_parames}")}'>全部
 						<span class="badge badge-info">{$bill_list.filter.count_all}</span>
 					</a>
 				</li>
 				<li class="{if $smarty.get.type eq 1}active{/if}">
-					<a class="data-pjax" href='{RC_Uri::url("commission/admin/init", "type=1{if $smarty.get.store_id}&store_id={$smarty.get.store_id}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $smarty.get.merchant_keywords}&merchant_keywords={$smarty.get.merchant_keywords}{/if}")}'>未结算 
+					<a class="data-pjax" href='{RC_Uri::url("commission/admin/init", "type=1{$url_parames}")}'>未结算 
 						<span class="badge badge-info">{$bill_list.filter.count_unpay}</span>
 					</a>
 				</li>
 				<li class="{if $smarty.get.type eq 2}active{/if}">
-					<a class="data-pjax" href='{RC_Uri::url("commission/admin/init", "type=2{if $smarty.get.store_id}&store_id={$smarty.get.store_id}{/if}")}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $smarty.get.merchant_keywords}&merchant_keywords={$smarty.get.merchant_keywords}{/if}'>部分结算 
+					<a class="data-pjax" href='{RC_Uri::url("commission/admin/init", "type=2{$url_parames}")}'>部分结算 
 						<span class="badge badge-info">{$bill_list.filter.count_paying}</span>
 					</a>
 				</li>
 				<li class="{if $smarty.get.type eq 3}active{/if}">
-					<a class="data-pjax" href='{RC_Uri::url("commission/admin/init", "type=3{if $smarty.get.store_id}&store_id={$smarty.get.store_id}{/if}")}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $smarty.get.merchant_keywords}&merchant_keywords={$smarty.get.merchant_keywords}{/if}'>已结算
+					<a class="data-pjax" href='{RC_Uri::url("commission/admin/init", "type=3{$url_parames}")}'>已结算
 						<span class="badge badge-info use-plugins-num">{$bill_list.filter.count_payed}</span>
 					</a>
 				</li>
-				<form class="f_r form-inline" action='{RC_Uri::url("commission/admin/init")}{if $smarty.get.type}&type={$smarty.get.type}{/if}' method="post" name="searchForm">
-					<!-- 关键字 -->
-					<input type="text" name="merchant_keywords" value="{$smarty.get.merchant_keywords}" placeholder="{lang key='goods::goods.enter_merchant_keywords'}" size="15" />
-					<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="账单编号" size="15" />
-					<button class="btn screen-btn" type="submit">{lang key='system::system.button_search'}</button>
-				</form>
+			</ul>
+			<ul class="nav nav-pills choose_list " style="border:none;">
+    			<form class="f_r form-inline" action='{RC_Uri::url("commission/admin/init")}{if $smarty.get.type}&type={$smarty.get.type}{/if}' method="post" name="searchForm">
+    				<!-- 关键字 -->
+    				<input class="date f_l w120" name="start_date" type="text" value="{$smarty.get.start_date}" placeholder="开始时间">
+                    <input class="date f_l w120" name="end_date" type="text" value="{$smarty.get.end_date}" placeholder="结束时间">
+    				<input type="text" name="merchant_keywords" value="{$smarty.get.merchant_keywords}" placeholder="{lang key='goods::goods.enter_merchant_keywords'}" size="15" />
+    				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="账单编号" size="15" />
+    				<button class="btn screen-btn" type="submit">{lang key='system::system.button_search'}</button>
+    			</form>
 			</ul>
 			{/if}
 

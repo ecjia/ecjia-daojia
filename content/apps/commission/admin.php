@@ -126,6 +126,24 @@ class admin extends ecjia_admin {
 		    $this->assign('ur_here', $merchants_name.' - 账单列表');
 		}
 		
+		$url_parames = '';
+		if(!empty($_GET['store_id'])) {
+		    $url_parames .= '&store_id='.intval($_GET['store_id']);
+		}
+		if(!empty($_GET['keywords'])) {
+		    $url_parames .= '&keywords='.$_GET['keywords'];
+		}
+		if(!empty($_GET['merchant_keywords'])) {
+		    $url_parames .= '&merchant_keywords='.$_GET['merchant_keywords'];
+		}
+		if(!empty($_GET['start_date'])) {
+		    $url_parames .= '&start_date='.$_GET['start_date'];
+		}
+		if(!empty($_GET['end_date'])) {
+		    $url_parames .= '&end_date='.$_GET['end_date'];
+		}
+		$this->assign('url_parames', $url_parames);
+		
 		$bill_list = $this->db_store_bill->get_bill_list($store_id, $_GET['page'], 20, $filter);
 		$this->assign('bill_list', $bill_list);
 		
@@ -410,7 +428,6 @@ class admin extends ecjia_admin {
 	    //打款流水
 	    $log_list = RC_Model::model('commission/store_bill_paylog_model')->get_bill_paylog_list($bill_info['bill_id'], 1, 100);
 	    
-	    
 	    $bill_unpayed = $bill_info['bill_amount']-$log_list['filter']['count_bill_amount'];
 	    $bill_unpayed = (double)$bill_unpayed;
 
@@ -473,6 +490,60 @@ class admin extends ecjia_admin {
 	    $this->bill_and_log($bill_id);
 	    $this->assign('action', 'pay_log');
 	    $this->display('bill_pay.dwt');
+	}
+	
+	public function export() {
+	    /**
+	     * 账单编号
+	     * 店铺名
+	     * 月份
+	     * 佣金百分比
+	     * 账单金额
+	     * 收款人	
+	     * 银行账号	
+	     * 收款银行	
+	     * 开户行支行
+	     * 入账订单数
+	     * 入账总金额
+	     * 退款订单数
+	     * 退款总金额
+	     */
+	    $filter['start_date'] = empty($_GET['start_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime($_GET['start_date']));
+	    $filter['end_date']   = empty($_GET['end_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime($_GET['end_date']));
+	    $filter['type']       = $_GET['type'];
+	    $filter['keywords'] 		 = empty ($_GET['keywords']) 		  ? '' : trim($_GET['keywords']);
+	    $filter['merchant_keywords'] = empty ($_GET['merchant_keywords']) ? '' : trim($_GET['merchant_keywords']);
+	    
+        $bill_list = $this->db_store_bill->get_bill_list(0, 0, 0, $filter);
+	    
+        /* RC_Excel::create('结算账单'.RC_Time::local_date('Ymd'), function($excel) use ($bill_list){
+            $excel->sheet('First sheet', function($sheet) use ($bill_list) {
+                $sheet->setAutoSize(true);
+                $sheet->setWidth('B', 20);
+                $sheet->setWidth('E', 15);
+                $sheet->setWidth('G', 26);
+                $sheet->setWidth('H', 20);
+                $sheet->setWidth('I', 25);
+                $sheet->setWidth('K', 15);
+                $sheet->setWidth('M', 15);
+                $sheet->row(1, array(
+                    '账单编号', '店铺名', '月份', '佣金百分比', '账单金额', 
+                    '收款人', '银行账号', '收款银行', '开户行支行',
+                    '入账订单数', '入账总金额', '退款订单数', '退款总金额'
+                ));
+                foreach ($bill_list as $item) {
+                    $sheet->appendRow($item);
+                }
+            });
+        })->download('xls'); */
+        
+        RC_Excel::load(RC_APP_PATH . 'commission' . DIRECTORY_SEPARATOR .'statics/bill.xls', function($excel) use ($bill_list){
+            $excel->sheet('First sheet', function($sheet) use ($bill_list) {
+                foreach ($bill_list as $key => $item) {
+                    $sheet->appendRow($key+2, $item);
+                }
+            });
+        })->download('xls');
 	}
 	
 	private function bill_and_log($bill_id) {

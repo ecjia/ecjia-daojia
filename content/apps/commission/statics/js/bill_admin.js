@@ -2,6 +2,9 @@
 ;(function (app, $) {
     app.bill_list = {
         init: function () {
+        	$(".date").datepicker({
+				format: "yyyy-mm-dd",
+			});
             app.bill_list.searchForm();
             app.bill_list.toggle_view();
         },
@@ -12,7 +15,12 @@
 				var keywords = $("input[name='keywords']").val();
 				var merchant_keywords = $("input[name='merchant_keywords']").val();
 				var url = $("form[name='searchForm']").attr('action'); //请求链接
+				var start_date = $("input[name='start_date']").val();
+				var end_date = $("input[name='end_date']").val();
 				
+				if (start_date == 'undefind') start_date = '';
+				if (end_date == 'undefind') end_date = '';
+
 				if (keywords == 'undefind') keywords = '';
 				if (merchant_keywords == 'undefind') merchant_keywords = '';
 				if (url == 'undefind') url = '';
@@ -23,6 +31,12 @@
 				}
 				if (merchant_keywords) {
 					parmars += '&merchant_keywords=' + merchant_keywords;
+				}
+				if (start_date) {
+					parmars += '&start_date=' + start_date;
+				}
+				if (end_date) {
+					parmars += '&end_date=' + end_date;
 				}
 				ecjia.pjax(url + parmars);
 			});
