@@ -52,7 +52,10 @@
 					speed: 300,
 				});
 			});
-    		
+            $("#order-money-info").click(function(){
+            	$(".order-money-info").toggle();
+            });
+            
             $("#order-info").click(function(){
             	$(".order-info").toggle();
             });
@@ -100,6 +103,10 @@
     				});
     			});
         		
+        		$("#order-money-info").click(function(){
+        			$(".order-money-info").toggle();
+        		});
+        		
                 $("#order-info").click(function(){
                 	$(".order-info").toggle();
                 });
@@ -145,6 +152,8 @@
                     $.post(url, option, function (data) {
                          if (data.state == 'success') {
 							$('#actionmodal').modal('hide');
+							$(".modal-backdrop").remove();
+							$("body").removeClass('modal-open');
 							ecjia.merchant.showmessage(data);
 						 } else {
 							var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');

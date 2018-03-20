@@ -36,9 +36,11 @@ class refund_refund_order_list_api extends Component_Event_Api {
 		$size  	  = empty($options['size']) 		? 15 : intval($options['size']);
 		$page 	  = empty($options['page']) 		? 1 : intval($options['page']);
 		
-		//$cancel_status = Ecjia\App\Refund\RefundStatus::CANCELED;
-		//$db->where('status', '<>', $cancel_status);
-		
+		if (empty($options['order_id'])) {
+			$cancel_status = Ecjia\App\Refund\RefundStatus::CANCELED;
+			$db->where('status', '<>', $cancel_status);
+		}
+	
 		if (!empty($options['user_id'])) {
 			$db->where('user_id', $options['user_id']);
 		}

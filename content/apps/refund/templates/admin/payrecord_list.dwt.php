@@ -54,17 +54,16 @@
 		<table class="table table-striped smpl_tbl table-hide-edit">
 			<thead>
 				<tr>
-				    <th class="w100">退款编号</th>
-				    <th class="w100">商家名称</th>
-				    <th class="w100">订单编号</th>
-				    <th class="w50">申请类型</th>
-				    <th class="w50">退款金额</th>
-				    <th class="w150">申请时间</th>
+				    <th class="w150">退款编号</th>
+				    <th class="w150">商家名称</th>
+				    <th class="w150">订单编号</th>
+				    <th class="w100">申请类型</th>
+				    <th class="w100">退款金额</th>
+				    <th class="w100">申请时间</th>
 				    {if $smarty.get.back_type eq 'have'}
-					    <th class="w50">退款方式</th>
-					    <th class="w150">退款时间</th>
+					    <th class="w100">退款时间</th>
 				    {/if}
-				    <th class="w50">处理状态</th>
+				    <th class="w100">处理状态</th>
 			  	</tr>
 			</thead>
 			<!-- {foreach from=$data.list item=list} -->
@@ -83,15 +82,17 @@
 		      	<td>{$list.order_money_paid}</td>
 		      	<td>{$list.add_time}</td>
 		      	{if $smarty.get.back_type eq 'have'}
-			      	<td>{if $list.action_back_type eq 'original'}原路退回{elseif $list.action_back_type eq 'surplus'}退回余额{/if}</td>
 			      	<td>{$list.action_back_time}</td>
 		      	{/if}
 				<td>
-					{if $list.action_back_time}已退款{else}待退款{/if}
+					{if $list.action_back_time}已退款{else}待退款{/if}<br>
+					{if $smarty.get.back_type eq 'have'}
+					{if $list.action_back_type eq 'original'}原路退回{elseif $list.action_back_type eq 'surplus'}退回余额{/if}
+					{/if}
 				</td>
 		    </tr>
 		    <!-- {foreachelse} -->
-	        <tr><td class="no-records" {if $smarty.get.back_type eq 'have'}colspan="9"{else}colspan="7"{/if}>{lang key='system::system.no_records'}</td></tr>
+	        <tr><td class="no-records" {if $smarty.get.back_type eq 'have'}colspan="8"{else}colspan="7"{/if}>{lang key='system::system.no_records'}</td></tr>
 			<!-- {/foreach} -->
             </tbody>
          </table>

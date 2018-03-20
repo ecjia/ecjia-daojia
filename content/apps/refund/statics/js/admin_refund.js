@@ -53,6 +53,10 @@
 				});
 			});
     		
+    		$("#order-money-info").click(function(){
+             	$(".order-money-info").toggle();
+            });
+    		 
             $("#order-info").click(function(){
             	$(".order-info").toggle();
             });
@@ -89,7 +93,10 @@
     					speed: 300,
     				});
     			});
-        		
+           		$("#order-money-info").click(function(){
+                 	$(".order-money-info").toggle();
+                });
+           		
                 $("#order-info").click(function(){
                 	$(".order-info").toggle();
                 });

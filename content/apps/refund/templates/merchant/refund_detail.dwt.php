@@ -32,7 +32,7 @@
  				{if $key eq $refund_info.refund_reason}{$val}{/if}
 				<!-- {/foreach} -->
 				</p>
-				<p>退款金额：{$refund_total_amount}</p>
+				<p>退款金额：<font class="ecjiafc-red ecjiafc-font">{$refund_total_amount}</font></p>
 				<p>退款说明：{if $refund_info.refund_content}{$refund_info.refund_content}{else}暂无{/if}</p>
 				<p>上传凭证： 
 					{if $refund_img_list}
@@ -45,6 +45,7 @@
 	            	暂无
 					{/if}
                 </p>
+                <p>申请时间：{$refund_info.add_time}</p>
 			</div>
         </section>
         
@@ -105,26 +106,26 @@
 				<h4>商城平台退款详情</h4>
 				<div class="adm_check">
 					<p>退款方式：{if $payrecord_info.action_back_type eq 'original'}原路退回{else}退回余额{/if}</p>
-					<p>应退款金额：{$payrecord_info.order_money_paid_type}</p>
-					{if $payrecord_info.back_pay_fee neq '0.00'}
+					<p>应退款金额：<font class="ecjiafc-red ecjiafc-font">{$payrecord_info.order_money_paid_type}</font></p>
+					{if $payrecord_info.back_pay_fee gt '0.00'}
 						<p>扣除支付手续费：-{$payrecord_info.back_pay_fee_type}</p>
 					{/if}
 					
-					{if $payrecord_info.back_shipping_fee neq '0.00'}
+					{if $payrecord_info.back_shipping_fee gt '0.00'}
 						<p>扣除配送费：-{$payrecord_info.back_shipping_fee_type}</p>
 					{/if}
 					
-					{if $payrecord_info.back_insure_fee neq '0.00'}
+					{if $payrecord_info.back_insure_fee gt '0.00'}
 						<p>扣除保价费：-{$payrecord_info.back_insure_fee_type}</p>
 					{/if}
 					
-					{if $payrecord_info.back_inv_tax neq '0.00'}
-						<p>退回发票费：<font class="ecjiafc-red"><strong>{$payrecord_info.back_inv_tax_type}</strong></font></p>
+					{if $payrecord_info.back_inv_tax gt '0.00'}
+						<p>退回发票费：{$payrecord_info.back_inv_tax_type}</p>
 					{/if}
 					
-					<p>实际退款金额：<font class="ecjiafc-red"><strong>{$payrecord_info.back_money_total_type}</strong></font></p>
-					{if $payrecord_info.back_integral neq '0'}
-						<p>积分：<font class="ecjiafc-red"><strong>{$payrecord_info.back_integral}</strong></font></p>
+					<p>实际退款金额：<font class="ecjiafc-red ecjiafc-font">{$payrecord_info.back_money_total_type}</font></p>
+					{if $payrecord_info.back_integral gt '0'}
+						<p>积分：<font class="ecjiafc-red ecjiafc-font">{$payrecord_info.back_integral}</font></p>
 					{/if}
 					<p>退款时间：{$payrecord_info.action_back_time}</p>
 				</div>
@@ -136,33 +137,125 @@
         <div class="panel panel-body">
             <h4>已收货商品</h4>
            	<div class="goods-content">
-           		<!-- {foreach from=$goods_list item=list} -->
-           		<div class="goods-info">
-           			<div class="goods-img">
-	           			<img src="{$list.image}">
-		           	</div>
-	           		<div class="goods-desc">
-	           			 <p>{$list.goods_name}</p>
-	           			 <p>{$list.goods_price}&nbsp;&nbsp;&nbsp;x{$list.goods_number}</p>
+           		{if $goods_list}
+	           		<!-- {foreach from=$goods_list item=list} -->
+	           		<div class="goods-info">
+	           			<div class="goods-img">
+		           			<img src="{$list.image}">
+			           	</div>
+		           		<div class="goods-desc">
+		           			 <p>{$list.goods_name}</p>
+		           			 <p>{$list.goods_price}&nbsp;&nbsp;&nbsp;x{$list.goods_number}</p>
+		           		</div>
 	           		</div>
-           		</div>
-           		<!-- {/foreach} -->
-           		<hr>
-                <p>运费：{$order_info.shipping_fee}</p>
-                <p>订单总额：{$order_amount}（退款：{$refund_total_amount}）</p>
-                <hr>
-                <p>订单编号：{$order_info.order_sn} <span><a id="order-info" href="javascript:;">查看更多</a></span></p>
-                <div class="order-info" style="display: none;">
-	                <p>支付方式：{$order_info.pay_name}</p>
-	                <p>下单时间：{$order_info.add_time}</p>
-	                <p>付款时间：{$order_info.pay_time}</p>
-                </div>
-                <hr>
-                <p>收货人：{$order_info.consignee}<span><a id="address-info" href="javascript:;">查看更多</a></span></p>
-                <div class="address-info" style="display: none;">
-	                <p>收货地址：{$order_info.province}{$order_info.city}{$order_info.district}{$order_info.street}{$order_info.address}</p>
-	                <p>联系电话：{$order_info.mobile}</p>
-                </div>
+	           		<!-- {/foreach} -->
+	           		<hr>
+           		{/if}
+                {if $order_data}
+	               	<p>订单实付金额：{$order_money_total} <span><a id="order-money-info" href="javascript:;">查看更多</a></span></p>
+	                <div class="order-money-info" style="display: none;">
+	                	{if $order_info.goods_amount gt '0.00'}
+		                <p>商品总金额：<span>{$order_info.goods_amount_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.tax gt '0.00'}
+		                <p>发票税额：<span>{$order_info.tax_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.shipping_fee gt '0.00'}
+		                <p>配送费用：<span>{$order_info.shipping_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.insure_fee gt '0.00'}
+		                <p>保价费用：<span>{$order_info.insure_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.pay_fee gt '0.00'}
+		                <p>支付费用：<span>{$order_info.pay_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.pack_fee gt '0.00'}
+		                <p>包装费用：<span>{$order_info.pack_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.card_fee gt '0.00'}
+		                <p>贺卡费用：<span>{$order_info.card_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.integral_money gt '0.00'}
+		                <p>积分金额：<span>{$order_info.integral_money_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.bonus gt '0.00'}
+		                <p>红包金额：<span>{$order_info.bonus_price}</span></p>
+		                {/if}
+		                
+		                {if $order_info.discount gt '0.00'}
+		                <p>折扣金额：<span>{$order_info.discount_price}</span></p>
+		                {/if}
+	                </div>
+	                <hr>
+	                <p>订单编号：<a target="_blank" href='{url path="orders/merchant/info" args="order_id={$order_info.order_id}"}'>{$order_info.order_sn}</a><span><a id="order-info" href="javascript:;">查看更多</a></span></p>
+	                <div class="order-info" style="display: none;">
+		                <p>支付方式：{$order_info.pay_name}</p>
+		                <p>下单时间：{$order_info.add_time}</p>
+		                <p>付款时间：{$order_info.pay_time}</p>
+	                </div>
+	                <hr>
+	                <p>收货人：{$order_info.consignee}<span><a id="address-info" href="javascript:;">查看更多</a></span></p>
+	                <div class="address-info" style="display: none;">
+		                <p>收货地址：{$order_info.province}{$order_info.city}{$order_info.district}{$order_info.street}{$order_info.address}</p>
+		                <p>联系电话：{$order_info.mobile}</p>
+	                </div>
+                {else}
+	                <p>订单实付金额：{$refund_total_amount} <span><a id="order-money-info" href="javascript:;">查看更多</a></span></p>
+	                <div class="order-money-info" style="display: none;">
+	                	{if $refund_info.goods_amount gt '0.00'}
+		                <p>商品总金额：<span>{$refund_info.goods_amount_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.inv_tax gt '0.00'}
+		                <p>发票税额：<span>{$refund_info.inv_tax_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.shipping_fee gt '0.00'}
+		                <p>配送费用：<span>{$refund_info.shipping_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.insure_fee gt '0.00'}
+		                <p>保价费用：<span>{$refund_info.insure_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.pay_fee gt '0.00'}
+		                <p>支付费用：<span>{$refund_info.pay_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.pack_fee gt '0.00'}
+		                <p>包装费用：<span>{$refund_info.pack_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.card_fee gt '0.00'}
+		                <p>贺卡费用：<span>{$refund_info.card_fee_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.integral_money gt '0.00'}
+		                <p>积分金额：<span>{$refund_info.integral_money_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.bonus gt '0.00'}
+		                <p>红包金额：<span>{$refund_info.bonus_price}</span></p>
+		                {/if}
+		                
+		                {if $refund_info.discount gt '0.00'}
+		                <p>折扣金额：<span>{$refund_info.discount_price}</span></p>
+		                {/if}
+	                </div>
+	                <hr>
+	                <p>订单编号：<a target="_blank" href='{url path="orders/merchant/info" args="order_id={$refund_info.order_id}"}'>{$refund_info.order_sn}</a><span><a id="order-info" href="javascript:;">查看更多</a></span></p>
+	                <div class="order-info" style="display: none;">
+		                <p>支付方式：{$refund_info.pay_name}</p>
+	                </div>
+                {/if}
 	        </div>
         </div>
 	</div>
