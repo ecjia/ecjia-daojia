@@ -58,6 +58,8 @@ class signin_module extends api_admin implements api_interface {
 		$password	= $this->requestData('password');
 		$device		= $this->device;
 		$api_version = $this->request->header('api-version');
+		$login_type = $this->requestData('type', 'password');
+		$login_type_array = array('smslogin', 'password');
 		//$device = array('code'=> '8001', 'udid' => 'bdc0525eebad246de659a7d0ac39fe834d198c5f', 'client' => 'android');
 		if (empty($username) || empty($password)) {
 			$result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
@@ -65,21 +67,26 @@ class signin_module extends api_admin implements api_interface {
 		}
 		
 		if (version_compare($api_version, '1.14', '>=')) {
-			$user_count = RC_DB::table('staff_user')->where('mobile', $username)->count();
-			if ($user_count > 1) {
-				return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+			if (empty($login_type) || !in_array($login_type, $login_type_array) || empty($username) || empty($password)) {
+				return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 			}
-			//短信验证码验证，$username手机号，$password短信验证码
-			//判断校验码是否过期
-			if (!empty($username) && (!isset($_SESSION['bindcode_lifetime']) || $_SESSION['bindcode_lifetime'] + 180 < RC_Time::gmtime())) {
-				//过期
-				return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
+			if ($login_type =='smslogin') {
+				$user_count = RC_DB::table('staff_user')->where('mobile', $username)->count();
+				if ($user_count > 1) {
+					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+				}
+				//短信验证码验证，$username手机号，$password短信验证码
+				//判断校验码是否过期
+				if (!empty($username) && (!isset($_SESSION['sms_code_lifetime']) || $_SESSION['sms_code_lifetime'] + 180 < RC_Time::gmtime())) {
+					//过期
+					return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
+				}
+				//判断校验码是否正确
+				if (!empty($username) && (!isset($_SESSION['sms_code_lifetime']) || $password != $_SESSION['sms_code'] )) {
+					return new ecjia_error('code_error', '验证码错误，请重新填写！');
+				}
 			}
-			//判断校验码是否正确
-			if (!empty($username) && (!isset($_SESSION['bindcode_lifetime']) || $password != $_SESSION['bind_code'] )) {
-				return new ecjia_error('code_error', '验证码错误，请重新填写！');
-			}
-		}
+		}		
 		
 		//根据用户名判断是商家还是平台管理员
 		//如果商家员工表存在，以商家为准
@@ -87,7 +94,7 @@ class signin_module extends api_admin implements api_interface {
 		
 		if ($row_staff) {
 		    //商家
-		    return signin_merchant($username, $password, $device, $api_version);
+		    return signin_merchant($username, $password, $device, $api_version, $login_type);
 		} else {
 		    //平台
 		    $result = new ecjia_error('login_error', __('此账号不是商家账号'));
@@ -97,7 +104,7 @@ class signin_module extends api_admin implements api_interface {
 	}
 }
 
-function signin_merchant($username, $password, $device, $api_version) {
+function signin_merchant($username, $password, $device, $api_version, $login_type) {
     /* 收银台请求判断处理*/
 	$codes = array('8001', '8011');
     if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
@@ -115,7 +122,15 @@ function signin_merchant($username, $password, $device, $api_version) {
     /* 检查密码是否正确 */
     $db_staff_user = RC_DB::table('staff_user')->selectRaw('user_id, mobile, name, store_id, nick_name, email, last_login, last_ip, action_list, avatar, group_id, online_status');
     if (version_compare($api_version, '1.14', '>=')) {
-    	$db_staff_user->where('mobile', $username);
+    	if ($login_type == 'smslogin') {
+    		$db_staff_user->where('mobile', $username);
+    	} else {
+    		if (!empty($salt)) {
+    			$db_staff_user->where('mobile', $username)->where('password', md5(md5($password).$salt) );
+    		} else {
+    			$db_staff_user->where('mobile', $username)->where('password', md5($password) );
+    		}
+    	}
     } else {
     	if (!empty($salt)) {
     		$db_staff_user->where('mobile', $username)->where('password', md5(md5($password).$salt) );
