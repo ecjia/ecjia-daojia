@@ -86,11 +86,13 @@ return array(
     'Ecjia\App\Finance' => $contentDir . '/apps/finance/classes',
     'Ecjia\App\Memadmin' => $contentDir . '/apps/memadmin/classes',
 	'Ecjia\App\Refund' => $contentDir . '/apps/refund/classes',
+	'Ecjia\App\Ucenter' => $contentDir . '/apps/ucenter/classes',
 
     
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
     'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cart/classes/Royalcms/Component/Shoppingcart',
     'Royalcms\Component\Printer' => $contentDir . '/apps/printer/classes/Royalcms/Component/Printer',
+    'Royalcms\Component\Ucenter' => $contentDir . '/apps/ucenter/classes/Royalcms/Component/Ucenter',
 );
 
 //end
