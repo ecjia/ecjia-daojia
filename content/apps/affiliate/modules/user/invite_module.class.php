@@ -63,7 +63,7 @@ class invite_module extends api_front implements api_interface
         	return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
         }
         //手机号码格式判断
-        $str = '/^1[34578]{1}\d{9}$/';
+        $str = '/^1[345678]{1}\d{9}$/';
         if(!preg_match($str, $mobile)){
         	new ecjia_error('mobile_wrong', '手机号码格式不正确！');
         }
