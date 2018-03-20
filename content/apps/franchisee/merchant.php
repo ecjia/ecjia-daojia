@@ -232,7 +232,7 @@ class merchant extends ecjia_merchant {
 		if (empty($mobile)) {
 			return $this->showmessage('请输入手机号码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		$chars = "/^1(3|4|5|7|8)\d{9}$/";
+		$chars = "/^1(3|4|5|6|7|8)\d{9}$/";
 		if (!preg_match($chars, $mobile)) {
 			return $this->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
