@@ -97,7 +97,7 @@ function get_user_info_merchant() {
             'action_list'	=> $result['action_list'],
         );
     } else {
-        return new ecjia_error('error', '用户信息不存在，你是火星来的吧');
+        return new ecjia_error('error', '用户信息不存在');
     }
     
     return $userinfo;

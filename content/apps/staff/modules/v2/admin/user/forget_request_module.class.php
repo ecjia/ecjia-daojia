@@ -67,7 +67,7 @@ class forget_request_module extends api_admin implements api_interface {
 		    }
 		}
 		if ($type == "mobile") {
-		    if(! preg_match('/^1[34578]{1}\d{9}$/', $type_info)){
+		    if(! preg_match('/^1[345678]{1}\d{9}$/', $type_info)){
 		        return new ecjia_error('mobile_error', __('手机号格式不正确！'));
 		    }
 		}

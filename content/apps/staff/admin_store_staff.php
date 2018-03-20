@@ -185,7 +185,7 @@ class admin_store_staff extends ecjia_admin
         if (empty($mobile)) {
             return $this->showmessage('联系手机不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        $chars = "/^1(3|4|5|7|8)\d{9}$/";
+        $chars = "/^1(3|4|5|6|7|8)\d{9}$/";
         if (!preg_match($chars, $mobile)) {
             return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
         }
