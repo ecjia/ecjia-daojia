@@ -69,6 +69,7 @@ return array(
     'Royalcms\Component\Image\ImageServiceProvider',
     'Royalcms\Component\Redis\RedisServiceProvider',
     'Royalcms\Component\Tcpdf\TcpdfServiceProvider',
+    'Royalcms\Component\Ucenter\UcenterServiceProvider',
     
     'Ecjia\System\Providers\SystemServiceProvider',
     'Ecjia\App\Setting\SettingServiceProvider',

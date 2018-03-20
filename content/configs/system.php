@@ -60,7 +60,7 @@ return array(
     'auth_key' 						=> env('AUTH_KEY', 'UbGuq4G8uqk9yRKHhiRnUbGuq4G8uqk9'), 
 
     //调试开关
-    'debug'                         => false, 
+    'debug'                         => env('DEBUG', false), 
 
 	'admin_entrance'				=> 'admincp',
 	
