@@ -94,7 +94,7 @@
 						<div class="form-group">
 							<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="输入用户名称">
 						</div>
-						<button class="btn btn-primary screen-btn" type="button"><i class="fa fa-search"></i>搜索 </button>
+						<button class="btn btn-primary screen-btn" type="button"><i class="fa fa-search"></i> 搜索</button>
 					</div>
 				</form>
 			</div>
