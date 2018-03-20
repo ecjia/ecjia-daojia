@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class sms_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 	    //sms_get_validate 
-    
+    	$this->authSession();
 		$type = $this->requestData('type');
 		$value = $this->requestData('mobile', '');
 		
@@ -58,7 +58,7 @@ class sms_module extends api_front implements api_interface {
 		}
 		
 		$code = rand(100001, 999999);
-	    $chars = "/^1(3|4|5|7|8)\d{9}$/s";
+	    $chars = "/^1(3|4|5|6|7|8)\d{9}$/s";
 	    if (!preg_match($chars, $value)) {
 	        return new ecjia_error('mobile_error', '手机号码格式错误');
 	    }
