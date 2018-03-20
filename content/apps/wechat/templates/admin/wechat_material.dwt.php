@@ -96,7 +96,7 @@
                 <p>
                     <a class="ajaxremove" data-imgid="{$articles.id}" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.remove_images_material'}" href='{url path="wechat/admin_material/remove" args="id={$articles.id}"}' title="{lang key='wechat::wechat.delete'}"><i class="icon-trash"></i></a>
                     <!-- {if $articles.article_id} -->
-                    <a class="data-pjax" href='{url path="wechat/admin_material/articles_edit" args="id={$articles.id}&material=1"}'><i class="icon-pencil"></i></a>
+                    <a class="data-pjax" href='{url path="wechat/admin_material/edit" args="id={$articles.id}&material=1"}'><i class="icon-pencil"></i></a>
                     <!-- {else} -->
                     <a class="data-pjax" href='{url path="wechat/admin_material/edit" args="id={$articles.id}&material=1"}'><i class="icon-pencil"></i></a>
                     <!-- {/if} -->
