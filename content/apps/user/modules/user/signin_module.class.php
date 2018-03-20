@@ -57,7 +57,7 @@ class signin_module extends api_front implements api_interface {
 		RC_Loader::load_app_func('cart','cart');
 		$name = $this->requestData('name');
 		$password = $this->requestData('password');
-		$login_type = $this->requestData('type');
+		$login_type = $this->requestData('type', 'password');
 		$login_type_array = array('smslogin', 'password');
 		$api_version = $this->request->header('api-version');
 		
@@ -107,7 +107,7 @@ class signin_module extends api_front implements api_interface {
 					return  new ecjia_error('msg_error', __('信息错误，请重新获取验证码'));
 				}
 				 
-				if (!is_numeric($name) && strlen($name) != 11 && !preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $name)) {
+				if (!is_numeric($name) && strlen($name) != 11 && !preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $name)) {
 					return new ecjia_error('mobile_wrong', '手机号码格式不正确！');
 				}
 				$user_count = RC_DB::table('users')->where('mobile_phone', $name)->count();
@@ -124,13 +124,14 @@ class signin_module extends api_front implements api_interface {
 			$is_mobile = false;
 			
 			/* 判断是否为手机号*/
-			if (is_numeric($name) && strlen($name) == 11 && preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $name)) {
+			if (is_numeric($name) && strlen($name) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $name)) {
 				$db_user    = RC_Model::model('user/users_model');
 				$user_count = $db_user->where(array('mobile_phone' => $name))->count();
 				if ($user_count > 1) {
 					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
 				}
 				$check_user = $db_user->where(array('mobile_phone' => $name))->get_field('user_name');
+				
 				/* 获取用户名进行判断验证*/
 				if (!empty($check_user)) {
 					if ($user->login($check_user, $password)) {

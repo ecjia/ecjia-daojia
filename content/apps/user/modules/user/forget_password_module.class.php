@@ -68,7 +68,7 @@ class forget_password_module extends api_front implements api_interface {
         if ($type == 'mobile') {
         	//手机号码格式判断
         	if ($type == 'mobile') {
-        		$str = '/^1[34578]{1}\d{9}$/';
+        		$str = '/^1[345678]{1}\d{9}$/';
         		if(!preg_match($str, $value)){
         			new ecjia_error('mobile_wrong', '手机号码格式不正确！');
         		}

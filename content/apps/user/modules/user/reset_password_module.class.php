@@ -100,7 +100,7 @@ class reset_password_module extends api_front implements api_interface {
         if ($user->edit_user(array('username'=> $user_info['user_name'], 'old_password' => null, 'password' => $password), $forget_pwd = 1)) {
         	$db->where(array('user_id' => $user_id))->update(array('ec_salt' => 0));
 			$session_db	= RC_Model::model('user/user_session_model');
-			$session_db->delete(array('userid' => $user_id));
+			$session_db->delete(array('user_id' => $user_id));
 			$user->logout();
         }
 		
