@@ -21,7 +21,7 @@ ecjia.admin.shipping_config.init();
 				<div class="control-group formSep">
 					<label class="control-label">App Key:</label>
 					<div class="controls">
-						<input type='text' name='express_key' value="{$cloud_express_key}" size='20' /> 
+						<input type='text' class="w350" name='express_key' value="{$cloud_express_key}" /> 
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
 				</div>
@@ -29,7 +29,7 @@ ecjia.admin.shipping_config.init();
 				<div class="control-group formSep">
 					<label class="control-label">App Secret:</label>
 					<div class="controls">
-						<input type="text" name='express_secret' value="{$cloud_express_secret}" size='20' /> 
+						<input type="text" class="w350" name='express_secret' value="{$cloud_express_secret}" /> 
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
 				</div>
