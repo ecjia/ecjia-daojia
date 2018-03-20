@@ -94,33 +94,58 @@ class bind_module extends api_front implements api_interface {
 		
 		$is_mobile = false;
 		
-		/* 判断是否为手机号*/
-		if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $username)) {
-			$db_user     = RC_Model::model('user/users_model');
-			$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
-			if ($user_count > 1) {
-				return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+
+		
+		if (version_compare($api_version, '1.14', '<')) {
+			/* 判断是否为手机号*/
+			if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $username)) {
+				$db_user     = RC_Model::model('user/users_model');
+				$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
+				if ($user_count > 1) {
+					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+				}
+				$check_user = $db_user->where(array('mobile_phone' => $username))->get_field('user_name');
+				/* 获取用户名进行判断验证*/
+				if (!empty($check_user)) {
+					if ($user->login($check_user, $password)) {
+						$is_mobile = true;
+					}
+				}
 			}
-			$check_user = $db_user->where(array('mobile_phone' => $username))->get_field('user_name');
-			/* 获取用户名进行判断验证*/
-			if (!empty($check_user)) {
-				if ($user->login($check_user, $password)) {
-					$is_mobile = true;
-					if (version_compare($api_version, '1.14', '>=')) {
-						if ($is_mobile) {
-							if (!empty($username)) {
-								RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('mobile_phone' => $username));
-							}
+			
+			/* 如果不是手机号码*/
+			if (!$is_mobile) {
+				if (!$user->login($username, $password)) {
+					return new ecjia_error('password_error', '密码错误！');
+				}
+			}
+		} else {
+			/* 判断是否为手机号*/
+			if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $username)) {
+				$db_user     = RC_Model::model('user/users_model');
+				$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
+				if ($user_count > 1) {
+					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+				}
+				$check_user = $db_user->where(array('mobile_phone' => $username))->get_field('user_name');
+				/* 获取用户名进行判断验证*/
+				if (!empty($check_user)) {
+					if ($user->login($check_user)) {
+						$is_mobile = true;
+					}
+					if ($is_mobile) {
+						if (!empty($username)) {
+							RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('mobile_phone' => $username));
 						}
 					}
 				}
 			}
-		}
-		
-		/* 如果不是手机号码*/
-		if (!$is_mobile) {
-			if (!$user->login($username, $password)) {
-				return new ecjia_error('password_error', '密码错误！');
+			
+			/* 如果不是手机号码*/
+			if (!$is_mobile) {
+				if (!$user->login($username, $password)) {
+					return new ecjia_error('password_error', '密码错误！');
+				}
 			}
 		}
 		

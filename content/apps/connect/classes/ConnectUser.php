@@ -350,11 +350,9 @@ class ConnectUser extends AbstractRepository
                 'user_id' => $user_id,
             );
             $result = $this->update($model, $data);
-            
             if ($result) {
                 $this->buildUserInfo();
             }
-            
             return $result;
         } else {
             return false;

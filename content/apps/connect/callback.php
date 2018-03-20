@@ -69,10 +69,9 @@ class callback extends ecjia_front {
         $user_type = $this->request->query('user_type', 'user');
         
         $connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
-        
         $connect_user = $connect_handle->callback($user_type);
-        
         if (is_ecjia_error($connect_user)) {
+        	RC_Logger::getlogger('wechat')->error($connect_user->get_error_message());
             $result['connect_user'] = $connect_user;
             $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $user_type), $templateStr, $result);
             //echo 内容
@@ -88,6 +87,8 @@ class callback extends ecjia_front {
                 $result['login_url'] = RC_Uri::url('connect/callback/bind_signup', array('connect_code' => $connect_code, 'open_id' => $connect_user->getOpenId()));
                 
                 $result['connect_user'] = $connect_user;
+                
+                RC_Logger::getlogger('wechat')->error($result);
                 
                 $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $connect_user->getUserType()), $templateStr, $result);
                 //echo 内容
