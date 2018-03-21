@@ -108,6 +108,7 @@ class record_module extends api_front implements api_interface {
 				$account_list[$key]['is_paid']		 = $value['is_paid'];
 				$account_list[$key]['pay_status']	 = $value['pay_status'];
 				$account_list[$key]['add_time']		 = $value['add_time'];
+				$account_list[$key]['pay_code']		 = $value['pay_code'];
  			}
  			
  			$pager = array(

@@ -303,6 +303,7 @@ function get_account_log($user_id, $num, $start, $process_type = '') {
 			$rows['short_user_note']  = ($rows['user_note'] > '') ? RC_String::sub_str($rows['user_note'], 30) : '暂无';
 			$rows['pay_status']       = ($rows['is_paid'] == 0) ? __('未确认') : __('已完成');
 			$rows['format_amount']    = price_format(abs($rows['amount']), false);
+			$rows['pay_code']		  = $rows['payment'];
 			
 			/* 会员的操作类型： 冲值，提现 */
 			if ($rows['process_type'] == 0) {
