@@ -47,7 +47,7 @@ ecjia.touch.user.record_cancel();
                 
         		<input class="btn ecjia-fl btn-c" id="record_cancel" name="record_cancel" data-url="{url path='user/account/record_cancel'}" type="button" value="{t}取消{/t}" />
         		
-        		<a  class="btn ecjiaf-fr ecjia-fl nopjax"href="{RC_Uri::url('user/account/recharge_again')}&format_amount={$sur_amount.format_amount}&order_sn={$sur_amount.order_sn}&account_id={$sur_amount.account_id}&payment_id={$sur_amount.payment_id}" >{t}继续充值{/t}</a>
+        		<a  class="btn ecjiaf-fr ecjia-fl nopjax external" href="{RC_Uri::url('user/account/recharge_again')}&format_amount={$sur_amount.format_amount}&order_sn={$sur_amount.order_sn}&account_id={$sur_amount.account_id}&payment_id={$sur_amount.payment_id}" >{t}继续充值{/t}</a>
         		
         	</div>
         {else}
