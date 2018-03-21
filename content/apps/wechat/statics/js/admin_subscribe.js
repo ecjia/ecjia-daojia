@@ -312,10 +312,15 @@
 				url: url,
 				dataType: "json",
 				success: function(data){
+					var url = data.url;
+					if (data.notice == 2) {
+						app.admin_subscribe.get_userinfo(url + '&p=' + data.p + '&next_openid=' + data.next_openid);
+						return false;
+					}
 					ecjia.admin.showmessage(data);
 					if (data.notice == 1) {
-						var url = data.url;
 						app.admin_subscribe.get_userinfo(url + '&p=' + data.p);
+						return false;
 					}
 				}
 			});

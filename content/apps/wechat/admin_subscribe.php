@@ -338,7 +338,6 @@ class admin_subscribe extends ecjia_admin {
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
 		$wechat_id = $platform_account->getAccountID();
 
-// 		$wechat = wechat_method::wechat_instance($uuid);
 		$wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
 		if (is_ecjia_error($wechat_id)) {
@@ -357,27 +356,25 @@ class admin_subscribe extends ecjia_admin {
 		
 		//读取缓存
 		$wechat_user_list =  RC_Cache::app_cache_get('wechat_user_list_'.$wechat_id, 'wechat');
+
 		if ($wechat_user_list == false) {
-		    
 		    try {
-		        
-		        $wechat_user = $wechat->user->lists()->toArray();
-		        
-		        if ($wechat_user['total'] <= 10000) {
-		            $wechat_user_list = $wechat_user['data']['openid'];
-		        } else {
-		            $num = ceil($wechat_user['total'] / 10000);
-		            for ($i = 1; $i < $num; $i ++) {
-		                $wechat_user1 = $wechat->user->lists($wechat_user['next_openid'])->toArray();
-		                $wechat_user_list = array_merge($wechat_user['data']['openid'], $wechat_user1['data']['openid']);
-		            }
+		    	$next_openid = !empty($_GET['next_openid']) ? intval($_GET['next_openid']) : '';
+		    	if (!empty($next_openid)) {
+		    		$wechat_user = $wechat->user->lists($next_openid)->toArray();
+		    	} else {
+		    		$wechat_user = $wechat->user->lists()->toArray();
+		    	}
+		        $wechat_user_list = $wechat_user['data']['openid'];
+
+		        if ($wechat_user['total'] > 10000) {
+		            $next_openid = $wechat_user['next_openid'];
+		            RC_Cache::app_cache_set('wechat_user_next_openid_'.$wechat_id, $next_openid, 'wechat');
 		        }
-		        
 		        //设置缓存
 		        RC_Cache::app_cache_set('wechat_user_list_'.$wechat_id, $wechat_user_list, 'wechat');
 		        
 		    } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
-			    
 			    return $this->showmessage(Ecjia\App\Wechat\ErrorCodes::getError($e->getCode()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			
@@ -410,12 +407,18 @@ class admin_subscribe extends ecjia_admin {
 		}
 		
 		$arr1 = $arr2 = array();
-		$list = array_slice($wechat_user_list, $p, 100);
 		
+		$s = $p;//数组切割开始位置
+		if (!empty($next_openid)) {
+			$s = 0;
+		}
+		$list = array_slice($wechat_user_list, $s, 100);
 		$total = count($wechat_user_list);
 		$counts = count($list);
 		
 		$p += $counts;
+		$s = $p;
+
 		$where = '';
 		if (!empty($list)) {
 			foreach ($list as $k => $vs) {
@@ -449,7 +452,6 @@ class admin_subscribe extends ecjia_admin {
 		        }
 		        
 		    } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
-			    
 			    return $this->showmessage(Ecjia\App\Wechat\ErrorCodes::getError($e->getCode()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			
@@ -478,19 +480,22 @@ class admin_subscribe extends ecjia_admin {
 		        }
 		        
 		    } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
-			    
 			    return $this->showmessage(Ecjia\App\Wechat\ErrorCodes::getError($e->getCode()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 
 		}
-		
-		if ($p < $total) {
+
+		if ($s < $total) {
 			RC_Cache::app_cache_set('wechat_user_position_'.$wechat_id, $p, 'wechat');
 			return $this->showmessage(sprintf(RC_Lang::get('wechat::wechat.get_user_already'), $p), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url("wechat/admin_subscribe/get_userinfo"), 'notice' => 1, 'p' => $p));
 		} else {
-			RC_Cache::app_cache_delete('wechat_user_position_'.$wechat_id, 'wechat');
 			RC_Cache::app_cache_delete('wechat_user_list_'.$wechat_id, 'wechat');
-			
+			RC_Cache::app_cache_delete('wechat_user_position_'.$wechat_id, 'wechat');
+
+			$next_openid = RC_Cache::app_cache_get('wechat_user_next_openid_'.$wechat_id, 'wechat');
+			if ($next_openid) {
+				return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url("wechat/admin_subscribe/get_userinfo"), 'notice' => 2, 'p' => $p, 'next_openid' => $next_openid));
+			}
 			ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.get_user_info'), 'setup', 'users_info');
 			return $this->showmessage(RC_Lang::get('wechat::wechat.get_userinfo_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/admin_subscribe/init', array('action' => 'get_list'))));
 		}
