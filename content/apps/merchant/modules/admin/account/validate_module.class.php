@@ -167,6 +167,7 @@ class validate_module extends api_admin implements api_interface {
 		$data['apply_time'] = RC_Time::gmtime();
 		unset($merchant_info['manage_mode']);unset($merchant_info['status']);unset($merchant_info['shop_close']);unset($merchant_info['apply_time']);
 		unset($merchant_info['confirm_time']);unset($merchant_info['identity_status']);unset($merchant_info['percent_id']);unset($merchant_info['sort_order']);
+		unset($merchant_info['expired_time']);
 		$data = array_merge($data, $merchant_info);
 
 		if ($store_preaudit_info) {
@@ -177,6 +178,8 @@ class validate_module extends api_admin implements api_interface {
 		
 		//审核日志
 		RC_Loader::load_app_func('merchant_franchisee', 'franchisee');
+		$store_franchisee_info['id'] = $store_franchisee_info['store_id'];
+		unset($store_franchisee_info['store_id']);
 		add_check_log($data, $store_franchisee_info);
 
 		return array();
