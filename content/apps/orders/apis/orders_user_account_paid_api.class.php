@@ -154,10 +154,11 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			$shipping_info = RC_DB::table('shipping')->where('shipping_id', $order_info['shipping_id'])->first();
 			if ($shipping_info['shipping_code'] == 'ship_cac') {
 				/*短信给用户发送收货验证码*/
-				if (ecjia::config('sms_shop_mobile') != '') {
+				$mobile = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('mobile_phone');
+				if (!empty($mobile)) {
 					$db_term_meta = RC_DB::table('term_meta');
 					$max_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->max('meta_value');
-					 
+						
 					$max_code = $max_code ? ceil($max_code/10000) : 1000000;
 					$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
 					$mobile = RC_DB::table('users')->where('user_id', $order_info['user_id'])->pluck('mobile_phone');
@@ -172,7 +173,7 @@ class orders_user_account_paid_api extends Component_Event_Api {
 							),
 					);
 					RC_Api::api('sms', 'send_event_sms', $options);
-					 
+						
 					$meta_data = array(
 							'object_type'	=> 'ecjia.order',
 							'object_group'	=> 'order',
