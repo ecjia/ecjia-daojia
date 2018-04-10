@@ -54,14 +54,14 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class commission_add_bill_detail_api extends Component_Event_Api {
     /*
      * 必填参数
-     * order_type 1入账订单，2退货
+     * order_type buy订单,quickpay买单,refund退款
      * order_id
      * 非必填
      * store_id
      * order_amount 金额
      */
     public function call(&$options) {
-        if (!is_array($options) || !isset($options['order_type']) || !in_array($options['order_type'], array(1,2))
+        if (!is_array($options) || !isset($options['order_type']) || !in_array($options['order_type'], array('buy','quickpay','refund'))
             || !isset($options['order_id']) ) {
             return new ecjia_error('invalid_parameter', '参数无效');
         }

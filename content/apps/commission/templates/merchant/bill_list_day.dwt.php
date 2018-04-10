@@ -9,7 +9,7 @@ ecjia.merchant.bill.record()
 <!-- {block name="home-content"} -->
 <div class="page-header">
 	<div class="pull-left">
-		<h3><!-- {if $ur_here}{$ur_here}{/if} --></h3>
+		<h2><!-- {if $ur_here}{$ur_here}{/if} --></h2>
   	</div>
 	<!-- {if $action_link} -->
 	<div class="pull-right">
@@ -40,6 +40,8 @@ ecjia.merchant.bill.record()
 	        			<thead>
 	        				<tr>
 	        					<th class="w120">{t}账单日期{/t}</th>
+	        					<th class="w120">{t}订单数量{/t}</th>
+	        					<th class="w120">{t}退款数量{/t}</th>
 	        					<th class="w120">{t}入账金额{/t}</th>
 	        					<th class="w120">{t}退款金额{/t}</th>
 	        					<th class="w80">{t}佣金比例{/t}</th>
@@ -52,8 +54,10 @@ ecjia.merchant.bill.record()
 	            				<td>
 	        						{$list.day}
 	        					</td>
+	        					<td>{$list.order_count}</td>
+	        					<td>{$list.refund_count}</td>
 	        					<td class="ecjiafc-tar">￥{$list.order_amount}</td>
-	        					<td class="ecjiafc-red">￥{$list.refund_amount}</td>
+	        					<td class="">￥{$list.refund_amount}</td>
 	        					<!-- {if $commission.percent_value} -->
     						    <td>{$list.percent_value}%</td>
     						    <!-- {else} -->

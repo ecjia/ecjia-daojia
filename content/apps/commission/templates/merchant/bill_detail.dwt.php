@@ -9,7 +9,7 @@ ecjia.merchant.bill.init()
 <!-- {block name="home-content"} -->
 <div class="page-header">
 	<div class="pull-left">
-		<h3><!-- {if $ur_here}{$ur_here}{/if} --></h3>
+		<h2><!-- {if $ur_here}{$ur_here}{/if} --></h2>
   	</div>
 	<!-- {if $action_link} -->
 	<div class="pull-right">
@@ -50,14 +50,7 @@ ecjia.merchant.bill.init()
 								<td align="right">佣金百分比：</td>
 								<td>{$bill_info.percent_value}%&nbsp;<a title="以订单入账比例为准"><i class="fa fa-question-circle"></i></a></td>
 								<td align="right"><h4>本月账单金额：</h4></td>
-								<td><h4 class="ecjiaf-ib"><b>￥{$bill_info.bill_amount}</b></h4>&nbsp;
-								{if $bill_info.pay_status eq 1}
-	        					<a class="label btn-warning">未打款</a>
-	        					{else if $bill_info.pay_status eq 2}
-	        					<a class="label btn-info tooltip_ecjia" rel="popover" data-placement="bottom" title="打款时间" data-content="{$bill_info.pay_time_formate}">第{$bill_info.pay_count}笔打款</a>
-	        					{else if $bill_info.pay_status eq 3}
-	        					<a class="label btn-success tooltip_ecjia" rel="popover" data-placement="bottom" title="打款时间" data-content="{$bill_info.pay_time_formate}">已打款</a>
-	        					{/if}
+								<td><h4 class="ecjiaf-ib ecjiafc-red"><b>￥{$bill_info.bill_amount}</b></h4>
 								</td>{if 0} = {$bill_info.available_amount} * {$bill_info.percent_value}%{/if}
 							</tr>
 						</tbody>
@@ -82,6 +75,8 @@ ecjia.merchant.bill.init()
         			<thead>
         				<tr>
         					<th>{t}账单日期{/t}</th>
+        					<th class="">{t}订单数量{/t}</th>
+        					<th class="">{t}退款数量{/t}</th>
 						    <th>{t}入账金额{/t}</th>
 						    <th>{t}退款金额{/t}</th>
 						    <th>{t}佣金比例{/t}</th>
@@ -94,8 +89,10 @@ ecjia.merchant.bill.init()
     							<td>
     							{$commission.day}
     							</td>
-    						    <td class="ecjiaf-tar">￥{$commission.order_amount}</td>
-    						    <td class="ecjiafc-red">￥{$commission.refund_amount}</td>
+    							<td>{$commission.order_count}</td>
+	        					<td>{$commission.refund_count}</td>
+    						    <td class="">￥{$commission.order_amount}</td>
+    						    <td class="">￥{$commission.refund_amount}</td>
     						    <!-- {if $commission.percent_value} -->
     						    <td>{$commission.percent_value}%</td>
     						    <!-- {else} -->
@@ -115,34 +112,28 @@ ecjia.merchant.bill.init()
         				<tr>
         					<th class="w80">{t}类型{/t}</th>
         					<th class="w120">{t}订单编号{/t}</th>
-        					<th class="w120">{t}下单时间{/t}</th>
         					<th class="w120">{t}金额{/t}</th>
-        					<th class="w180">{t}订单状态{/t}</th>
         					<th class="w80">{t}佣金比例{/t}</th>
         					<th class="w110">{t}佣金金额{/t}</th>
         					<th class="w120">{t}入账时间{/t}</th>
+        					<th class="w110">{t}结算状态{/t}</th>
         				</tr>
         			</thead>
         			<tbody>
         			<!-- {foreach from=$record_list.item key=key item=list} -->
         				<tr>
             				<td>
-        						{if $list.order_type eq 1 || $list.order_type eq 11}收入{/if}{if $list.order_type eq 2}支出{/if}
+        						{if $list.order_type eq 'buy' || $list.order_type eq 'quickpay'}收入{/if}{if $list.order_type eq 'refund'}支出{/if}
         					</td>
         					<td>
         						{assign var=order_url value=RC_Uri::url('orders/merchant/info',"order_id={$list.order_id}")}
     					       <a href="{$order_url}" target="_blank">{$list.order_sn}</a>
         					</td>
-        					<td>{$list.order_add_time}</td>
         					<td>￥{$list.total_fee}</td>
-        					{if $list.order_type eq 11}
-        						<td>{$lang_os_quickpay[$list.order_status]},{$lang_ps_quickpay[$list.pay_status]},{$lang_vs_quickpay[$list.verification_status]}</td>
-        					{else}
-        						<td>{$lang_os[$list.order_status]},{$lang_ps[$list.pay_status]},{$lang_ss[$list.shipping_status]}</td>
-        					{/if}
         					<td>{$list.percent_value}%</td>
         					<td>￥{$list.brokerage_amount}</td>
         					<td>{$list.add_time}</td>
+        					<td>{if $list.bill_status eq 0}未结算{else}已结算{/if}</td>
         				</tr>
         			<!-- {foreachelse} -->
         		    	<tr><td class="dataTables_empty" colspan="8">没有找到任何记录</td></tr>

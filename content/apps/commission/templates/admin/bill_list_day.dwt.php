@@ -69,6 +69,8 @@ ecjia.admin.bill_list.searchFormDay();
                         <tr >
                             <th>{t}账单日期{/t}</th>
                             {if $smarty.get.refer neq 'store'}<th>{t}商家名称{/t}</th>{/if}
+                            <th>{t}订单{/t}</th>
+                            <th>{t}退款{/t}</th>
                             <th>{t}入账金额{/t}</th>
                             <th>{t}退款金额{/t}</th>
                             <th>{t}佣金比例{/t}</th>
@@ -92,8 +94,10 @@ ecjia.admin.bill_list.searchFormDay();
                              <a href='{$store_url}' title="查看商家资料" target="_blank"><i class="fontello-icon-info-circled"></i></a>
                         </td>
                         {/if}
+                        <td>{$commission.order_count}</td>
+    					<td>{$commission.refund_count}</td>
                         <td class="ecjiaf-tar">￥{$commission.order_amount}</td>
-                        <td class="ecjiafc-red">￥{$commission.refund_amount}</td>
+                        <td class="">￥{$commission.refund_amount}</td>
                         <!-- {if $commission.percent_value} -->
                         <td>{$commission.percent_value}%</td>
                         <!-- {else} -->

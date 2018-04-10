@@ -77,7 +77,7 @@ class store_bill_day_model extends Component_Model_Model {
 	    }
 	    
 	    if (!empty($filter['start_date']) && !empty($filter['end_date'])) {
-	        $db_bill_day->whereRaw("day BETWEEN '".$filter['start_date']."' AND '".$filter['end_date']."'");
+	        $db_bill_day->whereRaw("(day BETWEEN '".$filter['start_date']."' AND '".$filter['end_date']."')");
 	    } else {
 	        if (!empty($filter['start_date']) && empty($filter['end_date'])) {
 	            $db_bill_day->whereRaw("day >= '".$filter['start_date']."'");

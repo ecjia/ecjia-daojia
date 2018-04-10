@@ -44,33 +44,57 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Commission;
+defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 优惠买单订单状态处理（订单状态、支付状态、审核状态）
+ * 订单结算队列表
  */
-class Constant
-{
+class store_bill_queue_model extends Component_Model_Model {
+	public $table_name = '';
+	public $view = array();
+	public function __construct() {
+		$this->table_name = 'store_bill_queue';
+		parent::__construct();
+	}
 	
-    /**
-     * 购物订单支付
-     * @var integer
-     */
-    const ORDER_BUY = 1;
-    
-    /**
-     * 购物订单退款
-     * @var integer
-     */
-    const ORDER_REFUNDS = 2;
-    
-    
-    /**
-     * 优惠买单订单
-     * @var integer
-     */
-    const ORDER_QUICKYPAY = 11;
-    
-    
-    
+	
+	/**
+	 * 处理订单结算队列
+	 * priority 优先级  越大越优先
+	 */
+	
+	public function bill_queue() {
+	    $list = RC_DB::table('store_bill_queue')->orderBy('priority', 'desc')->get();
+	    if ($list) {
+	        foreach ($list as $row) {
+	            RC_Api::api('commission', 'add_bill_detail', array('order_type' => $row['order_type'], 'order_id' => $row['order_id']));
+	        }
+	    }
+	}
+	
+	/**
+	 * 
+	 * @param array $data
+	 * string $data['order_type']
+	 * int $data['order_id']
+	 */
+	public function add_bill_queue($data = array()) {
+
+	    $detail = RC_DB::table('store_bill_detail')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])
+	       ->where('bill_status', 1)->count();
+	    if($detail) {
+	        return false;
+	    }
+	    
+	    $option = array(
+	        'order_type' => $data['order_type'],
+	        'order_id' => $data['order_id'],
+	        'priority' => $data['order_type'] == 'refund' ? 1 : 0,
+	        'add_time' => RC_Time::gmtime()
+	    );
+	    return RC_DB::table('store_bill_queue')->insert($option);
+	}
+	
 }
+
+// end

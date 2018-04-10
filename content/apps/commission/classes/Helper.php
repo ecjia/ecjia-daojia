@@ -46,31 +46,21 @@
 //
 namespace Ecjia\App\Commission;
 
-/**
- * 优惠买单订单状态处理（订单状态、支付状态、审核状态）
- */
-class Constant
+use ecjia_admin_log;
+
+class Helper
 {
-	
     /**
-     * 购物订单支付
-     * @var integer
+     * 添加管理员记录日志操作对象
      */
-    const ORDER_BUY = 1;
-    
-    /**
-     * 购物订单退款
-     * @var integer
-     */
-    const ORDER_REFUNDS = 2;
-    
-    
-    /**
-     * 优惠买单订单
-     * @var integer
-     */
-    const ORDER_QUICKYPAY = 11;
-    
-    
-    
+    public static function assign_adminlog_content()
+    {
+        ecjia_admin_log::instance()->add_action('apply', '申请');
+        ecjia_admin_log::instance()->add_action('audit', '审核');
+        
+        ecjia_admin_log::instance()->add_object('withdraw', '提现');
+    }
+
 }
+
+// end

@@ -57,6 +57,8 @@
 			$(".start_date,.end_date").datepicker({
                 format: "yyyy-mm-dd",
 			});
+
+			$('.tooltip_ecjia').popover();
 			$('.screen-btn').on('click', function(e) {
 				e.preventDefault();
 				var start_date		= $("input[name='start_date']").val(); 		//开始时间

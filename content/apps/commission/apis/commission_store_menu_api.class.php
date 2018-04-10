@@ -55,7 +55,7 @@ class commission_store_menu_api extends Component_Event_Api {
 	public function call(&$options) {	
 	    $store_id = royalcms('request')->query('store_id');
 	    
-        return ecjia_admin::make_admin_menu('store_admin_commission', '结算账单', RC_Uri::url('commission/admin/init', array('store_id' => $store_id, 'refer' => 'store')), 5)->add_purview('commission_manage');
+        return ecjia_admin::make_admin_menu('store_admin_commission', '结算账单', RC_Uri::url('commission/admin/init', array('store_id' => $store_id, 'refer' => 'store')), 6)->add_purview('commission_manage');
 	}
 }
 

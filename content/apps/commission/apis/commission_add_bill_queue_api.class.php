@@ -44,33 +44,27 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Commission;
+defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 优惠买单订单状态处理（订单状态、支付状态、审核状态）
+ * 加入结算队列
+ * table store_bill_detail
+ * @author hyy
  */
-class Constant
-{
-	
-    /**
-     * 购物订单支付
-     * @var integer
+class commission_add_bill_queue_api extends Component_Event_Api {
+    /*
+     * 必填参数
+     * order_type buy订单,quickpay买单,refund退款
+     * order_id 订单是order_id，退款是refund_id
      */
-    const ORDER_BUY = 1;
-    
-    /**
-     * 购物订单退款
-     * @var integer
-     */
-    const ORDER_REFUNDS = 2;
-    
-    
-    /**
-     * 优惠买单订单
-     * @var integer
-     */
-    const ORDER_QUICKYPAY = 11;
-    
-    
-    
+    public function call(&$options) {
+        if (!is_array($options) || !isset($options['order_type']) || !in_array($options['order_type'], array('buy','quickpay','refund'))
+            || !isset($options['order_id']) ) {
+                return new ecjia_error('invalid_parameter', '参数无效');
+        }
+            
+        return RC_Model::model('commission/store_bill_queue_model')->add_bill_queue($options);
+    }
 }
+
+// end
