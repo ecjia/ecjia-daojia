@@ -55,6 +55,8 @@ class admin extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
 		
+		Ecjia\App\Quickpay\Helper::assign_adminlog_content();
+		
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -249,26 +251,28 @@ class admin extends ecjia_admin {
 		}
 	
 		$data = array(
-				'title'      	=> $title,
-				'description'	=> $description,
-				'activity_type' => $_POST['activity_type'],
-				'activity_value'=> $activity_value,
-	
-				'limit_time_type'	=> $limit_time_type,
-				'limit_time_weekly'	=> $limit_time_weekly,
-				'limit_time_daily'	=> $limit_time_daily,
-				'limit_time_exclude'=> $limit_time_exclude,
-	
-				'start_time'	=> $start_time,
-				'end_time'		=> $end_time,
-	
-				'use_integral'	=> $use_integral,
-				'use_bonus'		=> $use_bonus,
-	
-				'enabled' 		=> intval($_POST['enabled']),
+			'title'      	=> $title,
+			'description'	=> $description,
+			'activity_type' => $_POST['activity_type'],
+			'activity_value'=> $activity_value,
+
+			'limit_time_type'	=> $limit_time_type,
+			'limit_time_weekly'	=> $limit_time_weekly,
+			'limit_time_daily'	=> $limit_time_daily,
+			'limit_time_exclude'=> $limit_time_exclude,
+
+			'start_time'	=> $start_time,
+			'end_time'		=> $end_time,
+
+			'use_integral'	=> $use_integral,
+			'use_bonus'		=> $use_bonus,
+
+			'enabled' 		=> intval($_POST['enabled']),
 		);
-	
 		RC_DB::table('quickpay_activity')->where('id', $id)->update($data);
+		
+		ecjia_admin::admin_log($title, 'edit', 'quickpay');
+		
 		return $this->showmessage('编辑优惠买单规则成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/admin/edit', array('id' => $id ,'store_id' => $store_id))));
 	}
 	
@@ -326,8 +330,11 @@ class admin extends ecjia_admin {
 		$this->admin_priv('quickpay_delete');
 	
 		$id = intval($_GET['id']);
+		$title = RC_DB::TABLE('quickpay_activity')->where('id', $id)->pluck('title');
+		
 		RC_DB::table('quickpay_activity')->where('id', $id)->delete();
-	
+
+		ecjia_admin::admin_log($title, 'remove', 'quickpay');
 		return $this->showmessage('成功删除该优惠买单规则', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
@@ -362,8 +369,12 @@ class admin extends ecjia_admin {
 		$this->admin_priv('quickpay_delete');
 
 		$ids  = explode(',', $_POST['id']);
-		RC_DB::table('quickpay_activity')->whereIn('id', $ids)->delete();
+		$info = RC_DB::table('quickpay_orders')->whereIn('order_id', $ids)->get();
 		
+		RC_DB::table('quickpay_activity')->whereIn('id', $ids)->delete();
+		foreach ($info as $v) {
+			ecjia_admin::admin_log($v['order_sn'], 'batch_trash', 'quickpay');
+		}
 		return $this->showmessage('批量删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/admin/init')));
 	}
 

@@ -87,7 +87,7 @@
 							<tr>
 								<td>
 									<div align="right">
-										= 买单实付金额：<strong>¥{$order_info.order_amount}</strong>
+										= 买单实付金额：<strong>{$order_info.order_amount}</strong>
 									</div>
 								</td>
 							</tr>

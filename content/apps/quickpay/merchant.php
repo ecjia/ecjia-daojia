@@ -53,6 +53,8 @@ class merchant extends ecjia_merchant {
 	public function __construct() {
 		parent::__construct();
 		
+		Ecjia\App\Quickpay\Helper::assign_adminlog_content();
+		
 		RC_Script::enqueue_script('jquery-form');
 		RC_Script::enqueue_script('smoke');
 		RC_Style::enqueue_style('uniform-aristo');
@@ -113,6 +115,8 @@ class merchant extends ecjia_merchant {
 			RC_DB::table('merchants_config')->insert(array('store_id' => $_SESSION['store_id'], 'code' => 'quickpay_enabled', 'value' => '1'));
 		}
 		
+		ecjia_merchant::admin_log('成功', 'open', 'quickpay');
+		
 		return $this->showmessage('开启买单成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/init')));
 	}
 	
@@ -123,6 +127,9 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_quickpay_update');
 		
 		RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'quickpay_enabled')->update(array('value' => 0));
+		
+		ecjia_merchant::admin_log('成功', 'close', 'quickpay');
+		
 		return $this->showmessage('关闭买单成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/init')));
 	}
 	
@@ -269,6 +276,9 @@ class merchant extends ecjia_merchant {
 			
 			'enabled' 		=> intval($_POST['enabled']),
 		);
+		
+		ecjia_merchant::admin_log($title, 'add', 'quickpay');
+		
 		$id = RC_DB::table('quickpay_activity')->insertGetId($data);
 		return $this->showmessage('添加优惠买单规则成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/edit', array('id' => $id))));
 	}
@@ -434,6 +444,7 @@ class merchant extends ecjia_merchant {
 				
 			'enabled' 		=> intval($_POST['enabled']),
 		);
+		ecjia_merchant::admin_log($title, 'edit', 'quickpay');
 		
 		RC_DB::table('quickpay_activity')->where('id', $id)->update($data);
 		return $this->showmessage('编辑优惠买单规则成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/edit', array('id' => $id))));
@@ -446,7 +457,11 @@ class merchant extends ecjia_merchant {
     	$this->admin_priv('mh_quickpay_delete');
     	 
     	$id = intval($_GET['id']);
+    	$title = RC_DB::TABLE('quickpay_activity')->where('id', $id)->pluck('title');
+    	
     	RC_DB::table('quickpay_activity')->where('id', $id)->delete();
+    	
+    	ecjia_merchant::admin_log($title, 'remove', 'quickpay');
     	 
     	return $this->showmessage('成功删除该优惠买单规则', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
