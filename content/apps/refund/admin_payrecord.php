@@ -57,6 +57,8 @@ class admin_payrecord extends ecjia_admin {
 		
 		RC_Loader::load_app_class('RefundReasonList', 'refund', false);
 		
+		Ecjia\App\Refund\Helper::assign_adminlog_content();
+		
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-dropper', RC_Uri::admin_url() . '/statics/lib/dropper-upload/jquery.fs.dropper.js', array(), false, true);
 		RC_Script::enqueue_script('jquery-imagesloaded');
@@ -247,7 +249,8 @@ class admin_payrecord extends ecjia_admin {
 		RC_DB::table('refund_order_action')->insertGetId($data);
 		
 		//记录到结算表
-		RC_Api::api('commission', 'add_bill_detail', array('order_type' => 2, 'order_id' => $refund_order['order_id'],'store_id' => $refund_order['store_id']));
+// 		RC_Api::api('commission', 'add_bill_detail', array('order_type' => 'refund', 'order_id' => $refund_order['order_id'], 'store_id' => $refund_order['store_id']));
+		RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'refund', 'order_id' => $refund_order['refund_id']));
 		
 		//售后订单状态变动日志表
 		RefundStatusLog::refund_payrecord(array('refund_id' => $refund_id, 'back_money' => $back_money_total));
@@ -271,6 +274,7 @@ class admin_payrecord extends ecjia_admin {
 			RC_Api::api('sms', 'send_event_sms', $options);
 		}
 
+		ecjia_admin::admin_log('['.$refund_order['refund_sn'].']', 'payrecord', 'refund_order');
 		return $this->showmessage('退款操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
 	}
 
