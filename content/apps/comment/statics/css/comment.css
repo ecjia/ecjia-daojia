@@ -214,3 +214,8 @@
 .reply_admin_list .accordion-inner {
 	padding: 10px 15px;
 }
+
+.img-pwsp-list figure {
+	display: inline-block;
+	margin: 0;
+}

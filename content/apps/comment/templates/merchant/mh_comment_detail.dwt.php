@@ -15,7 +15,7 @@
   	<div class="pull-right">
   		{if $action_link}
 		<a href="{$action_link.href}" class="btn btn-primary data-pjax">
-			<i class="fa fa-reply"></i>{$action_link.text}
+			<i class="fa fa-reply"></i> {$action_link.text}
 		</a>
 		{/if}
   	</div>
@@ -48,9 +48,17 @@
 								<i class="fa fa-star" style="color:#bbb;"></i>
 							{/section}
 			                <p>{$comment_info.content}</p>
-			                 <!-- {foreach from=$comment_pic_list item=list} -->
-			                	<img src="{RC_Upload::upload_url()}/{$list.file_path}">
-			                 <!-- {/foreach} -->
+			                <div class="img-pwsp-list">
+				        		<!-- {foreach from=$comment_pic_list item=list} -->
+			        			<figure>
+	                        		<span>
+	                            		<a class="nopjax" href="{RC_Upload::upload_url()}/{$list.file_path}">
+	                            			<img src="{RC_Upload::upload_url()}/{$list.file_path}">
+	                            		</a>
+	                           		</span>
+                           		</figure>
+				       			<!-- {/foreach} -->
+			       			</div>
 						</div>
 						{if $go_on_appeal}
 							<button class="btn btn-info" type="button" style="margin-top: 10px;" disabled="disabled">申诉中</button>
@@ -166,4 +174,7 @@
 		</section>
 	</div>
 </div>
+
+<!-- #BeginLibraryItem "/library/comment_view_image.lbi" --><!-- #EndLibraryItem -->
+
 <!-- {/block} -->

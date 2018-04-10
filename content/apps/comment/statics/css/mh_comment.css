@@ -197,3 +197,7 @@ i.fa-star {
     border: 1px solid #999;
 }
 
+.img-pwsp-list figure {
+	display: inline-block
+}
+

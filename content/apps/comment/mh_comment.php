@@ -68,6 +68,11 @@ class mh_comment extends ecjia_merchant {
 		RC_Style::enqueue_style('mh_comment', RC_App::apps_url('statics/css/mh_comment.css', __FILE__), array());
 		RC_Script::enqueue_script('mh_comment', RC_App::apps_url('statics/js/mh_comment.js', __FILE__), array(), false, true);
 		
+		RC_Script::enqueue_script('photoswipe', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe.min.js', __FILE__) , array() , false, true);
+		RC_Script::enqueue_script('photoswipe-ui', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe-ui-default.min.js', __FILE__) , array() , false, true);
+		RC_Style::enqueue_style('photoswipe', RC_App::apps_url('statics/lib/photoswipe/css/photoswipe.css', __FILE__), array());
+		RC_Style::enqueue_style('default-skin', RC_App::apps_url('statics/lib/photoswipe/css/default-skin/default-skin.css', __FILE__), array());
+		
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('评论管理', RC_Uri::url('comment/mh_comment/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('comment', 'comment/mh_comment.php');
 	}
@@ -144,6 +149,8 @@ class mh_comment extends ecjia_merchant {
 	    
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('评论详情'));
 	    $this->assign('ur_here', '评论详情');
+	    
+	    $this->assign('action_link', array('text' => '评论列表', 'href'=> RC_Uri::url('comment/mh_comment/init')));
 	    
 		$comment_id = $_GET['comment_id'];
 		$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->first();

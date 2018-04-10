@@ -36,9 +36,17 @@
     					<div class="comment-goods">
     					  	<p>商品评分：{section name=loop loop=$comment_info.comment_rank}<i class="fontello-icon-star" style="color:#FF9933;"></i>{/section}{section name=loop loop=5-$comment_info.comment_rank}<i class="fontello-icon-star" style="color:#bbb;"></i>{/section}</p>
     		                <p>{$comment_info.content}</p>
-    		                 <!-- {foreach from=$comment_pic_list item=list} -->
-    		                	<img src="{RC_Upload::upload_url()}/{$list.file_path}">
-    		                 <!-- {/foreach} -->
+                            <div class="img-pwsp-list">
+    		                      <!-- {foreach from=$comment_pic_list item=list} -->
+    		                      	<figure>
+	                            		<span>
+	                                		<a class="nopjax" href="{RC_Upload::upload_url()}/{$list.file_path}">
+	                                			<img src="{RC_Upload::upload_url()}/{$list.file_path}">
+	                                		</a>
+	                               		</span>
+                               		</figure>
+    		                      <!-- {/foreach} -->
+                             </div>
     					</div>
     					{if $comment_info.status neq 3}
     					<div class="edit-list">
@@ -195,4 +203,6 @@
 		</div>
 	</div>
 </form>
+
+<!-- #BeginLibraryItem "/library/comment_view_image.lbi" --><!-- #EndLibraryItem -->
 <!-- {/block} -->

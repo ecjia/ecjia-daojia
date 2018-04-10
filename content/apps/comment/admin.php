@@ -71,6 +71,11 @@ class admin extends ecjia_admin {
 		RC_Style::enqueue_style('comment', RC_App::apps_url('statics/css/comment.css', __FILE__));
 		//RC_Style::enqueue_style('start', RC_App::apps_url('statics/css/start.css', __FILE__));
 		
+		RC_Script::enqueue_script('photoswipe', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe.min.js', __FILE__) , array() , false, true);
+		RC_Script::enqueue_script('photoswipe-ui', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe-ui-default.min.js', __FILE__) , array() , false, true);
+		RC_Style::enqueue_style('photoswipe', RC_App::apps_url('statics/lib/photoswipe/css/photoswipe.css', __FILE__), array());
+		RC_Style::enqueue_style('default-skin', RC_App::apps_url('statics/lib/photoswipe/css/default-skin/default-skin.css', __FILE__), array());
+		
 		RC_Script::localize_script('comment_manage', 'js_lang', RC_Lang::get('comment::comment_manage.js_lang'));
 	}
 	
