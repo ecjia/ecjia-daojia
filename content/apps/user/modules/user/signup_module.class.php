@@ -85,7 +85,7 @@ class signup_module extends api_front implements api_interface
 			$code .= $charset[rand(1, $charset_len)];
 		}
 		/* 判断是否为手机*/
-		if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $username)) {
+		if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
 			/* 设置用户手机号*/
 			$other['mobile_phone'] = $username;
 			
@@ -101,7 +101,7 @@ class signup_module extends api_front implements api_interface
 		}
 		
 		$other['mobile_phone'] = empty($mobile) ? $other['mobile_phone'] : $mobile;
-		if (is_numeric($other['mobile_phone']) && strlen($other['mobile_phone']) == 11 && preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $other['mobile_phone'])) {
+		if (is_numeric($other['mobile_phone']) && strlen($other['mobile_phone']) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $other['mobile_phone'])) {
 			$db_user      = RC_Loader::load_app_model('users_model', 'user');
 			$mobile_count = $db_user->where(array('mobile_phone' => $other['mobile_phone']))->count();
 			if ($mobile_count > 0 ) {

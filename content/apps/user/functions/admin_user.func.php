@@ -673,10 +673,9 @@ function update_address($address) {
 	return true;
 }
 
-function EM_user_info($user_id, $mobile) {
-	$db_collect_goods  = RC_Model::model('goods/collect_goods_model');
-	$db_user_rank      = RC_Model::model('user/user_rank_model');
-	$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
+function EM_user_info($user_id = 0, $mobile = '') {
+// 	$db_collect_goods  = RC_Model::model('goods/collect_goods_model');
+// 	$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
 // 	$db_orderinfo_view->view = array(
 // 	    'order_goods' => array(
 // 	        'type'      =>    Component_Model_View::TYPE_LEFT_JOIN,
@@ -746,6 +745,8 @@ function EM_user_info($user_id, $mobile) {
 	$refund_order = RC_DB::table('refund_order')->where('user_id', $_SESSION['user_id'])
 						->whereRaw('status != 10 and refund_status != 2')
 						->count();
+	
+	$db_user_rank = RC_Model::model('user/user_rank_model');
 	/* 取得用户等级 */
 	if ($user_info['user_rank'] == 0) {
 		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）

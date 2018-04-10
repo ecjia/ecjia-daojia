@@ -38,7 +38,7 @@
 			<tr class="{if $val.default_address}info{/if}">
 				<td>{$val.consignee|escape}</td>
 				<td>
-					{$val.country_name} {$val.province_name} {$val.city_name} {$val.district_name}
+					{$val.country_name} {$val.province_name} {$val.city_name} {$val.district_name} {$val.street_name}
 				</td>
 				<td>{$val.address|escape}{$val.address_info|escape}</td>
 				<td>{$val.zipcode|escape}</td>

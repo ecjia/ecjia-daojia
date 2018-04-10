@@ -70,7 +70,7 @@ class signin_module extends api_front implements api_interface {
 				$is_mobile = false;
 					
 				/* 判断是否为手机号*/
-				if (is_numeric($name) && strlen($name) == 11 && preg_match( '/^1[3|4|5|7|8][0-9]\d{8}$/', $name)) {
+				if (is_numeric($name) && strlen($name) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $name)) {
 					$db_user    = RC_Model::model('user/users_model');
 					$user_count = $db_user->where(array('mobile_phone' => $name))->count();
 					if ($user_count > 1) {
@@ -150,12 +150,11 @@ class signin_module extends api_front implements api_interface {
 		
 		$user_info = EM_user_info($_SESSION['user_id']);
 		$out = array(
-				'session' => array(
-						'sid' => RC_Session::session_id(),
-						'uid' => $_SESSION['user_id']
-				),
-		
-				'user' => $user_info
+			'session' => array(
+				'sid' => RC_Session::session_id(),
+				'uid' => $_SESSION['user_id']
+			),
+			'user' => $user_info
 		);
 		
 		update_user_info();

@@ -143,7 +143,7 @@
 										{if $item.zipcode}{lang key='user::users.zip_code'}{$item.zipcode}{/if}
 									</td>
 									<td>
-										{$item.province_name}&nbsp;{$item.city_name}&nbsp;{$item.district_name}&nbsp;&nbsp;{$item.address}
+										{$item.province_name}&nbsp;{$item.city_name}&nbsp;{$item.district_name}&nbsp;&nbsp;{$item.street_name}&nbsp;&nbsp;{$item.address}&nbsp;&nbsp;{$item.address_info|escape}
 									</td>
 								</tr>
 								<!-- {foreachelse} -->
