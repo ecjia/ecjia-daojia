@@ -131,7 +131,7 @@
 							<td>
 								<span>{if $list.cat_id gt 0}{$list.cat_name|escape:html}{else}{lang key='article::article.reserve'}{/if}</span>
 							</td>
-							<td>{$list.like_value}</td>
+							<td>{$list.like_count}</td>
 							<td>{$list.comment_count}</td>
 							<td>
 								<span>{$list.date}</span>

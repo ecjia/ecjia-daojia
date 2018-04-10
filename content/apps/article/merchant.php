@@ -1136,7 +1136,7 @@ class merchant extends ecjia_merchant {
 		
 		if (!empty($_GET['sort_by'])) {
 			if ($_GET['sort_by'] == 'like_count') {
-				$filter['sort_by'] = 'd.like_value';
+				$filter['sort_by'] = 'a.like_value';
 			}
 			if ($_GET['sort_by'] == 'comment_count') {
 				$filter['sort_by'] = 'a.comment_count';
@@ -1146,9 +1146,6 @@ class merchant extends ecjia_merchant {
 		$db_article = RC_DB::table('article as a')
 		    ->where(RC_DB::raw('a.store_id'), $_SESSION['store_id'])
 			->leftJoin('article_cat as ac', RC_DB::raw('ac.cat_id'), '=', RC_DB::raw('a.cat_id'))
-			->leftJoin('discuss_likes as d', function($join){
-				$join->on(RC_DB::raw('d.id_value'), '=', RC_DB::raw('a.article_id'))->on(RC_DB::raw('d.like_type'), '=', RC_DB::raw("'article'"));
-			})
 			->where(RC_DB::raw('a.article_approved'), '!=', 'spam');
 		
 		//不获取系统帮助文章的过滤
@@ -1181,7 +1178,7 @@ class merchant extends ecjia_merchant {
 		$count = $db_article->selectRaw('a.article_id')->count();
 		$page = new ecjia_merchant_page($count, 15, 5);
 		
-		$result = $db_article->select(RC_DB::raw('a.*'), RC_DB::raw('ac.cat_id'), RC_DB::raw('ac.cat_name'), RC_DB::raw('ac.cat_type'), RC_DB::raw('ac.sort_order'), RC_DB::raw('d.like_value'))
+		$result = $db_article->select(RC_DB::raw('a.*'), RC_DB::raw('ac.cat_id'), RC_DB::raw('ac.cat_name'), RC_DB::raw('ac.cat_type'), RC_DB::raw('ac.sort_order'))
 			->orderby(RC_DB::raw($filter['sort_by']), $filter['sort_order'])
 			->take(15)
 		    ->skip($page->start_id-1)
@@ -1192,9 +1189,6 @@ class merchant extends ecjia_merchant {
 			foreach ($result as $rows) {
 				if (isset($rows['add_time'])) {
 					$rows['date'] = RC_Time::local_date(ecjia::config('time_format'), $rows['add_time']);
-				}
-				if (empty($rows['like_value'])) {
-					$rows['like_value'] = 0;
 				}
 				$arr[] = $rows;
 			}
