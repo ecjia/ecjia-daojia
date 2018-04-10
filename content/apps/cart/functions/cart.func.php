@@ -206,7 +206,6 @@ function flow_update_cart($arr) {
                 ->leftJoin('cart as b', RC_DB::raw('b.parent_id'), '=', RC_DB::raw('a.goods_id'))
                 ->where(RC_DB::raw('a.rec_id'), $key)
                 ->where(RC_DB::raw('a.user_id'), $_SESSION['user_id'])
-                ->where(RC_DB::raw('a.extension_code'), '!=', 'package_buy')
                 ->where(RC_DB::raw('b.user_id'), $_SESSION['user_id'])
                 ->get();
 		} else {
@@ -214,7 +213,6 @@ function flow_update_cart($arr) {
                 ->leftJoin('cart as b', RC_DB::raw('b.parent_id'), '=', RC_DB::raw('a.goods_id'))
                 ->where(RC_DB::raw('a.rec_id'), $key)
                 ->where(RC_DB::raw('a.session_id'), SESS_ID)
-                ->where(RC_DB::raw('a.extension_code'), '!=', 'package_buy')
                 ->where(RC_DB::raw('b.session_id'), SESS_ID)
                 ->get();
 		}
@@ -355,7 +353,6 @@ function flow_drop_cart_goods($id) {
                 ->selectRaw('c.rec_id')
                 ->where(RC_DB::raw('gg.parent_id'), $row['goods_id'])
                 ->where(RC_DB::raw('c.parent_id'), $row['goods_id'])
-                ->where(RC_DB::raw('c.extension_code'), '!=', 'package_buy')
                 ->where(RC_DB::raw('g.is_alone_sale'), 0)
                 ->get();
             
@@ -423,9 +420,9 @@ function flow_clear_cart_alone() {
 
     /* 查询：购物车中所有商品 */
 	if ($_SESSION['user_id']) {
-        $res = RC_DB::table('cart')->selectRaw('DISTINCT goods_id')->where('user_id', $_SESSION['user_id'])->where('extension_code', '!=', 'package_buy')->get();
+        $res = RC_DB::table('cart')->selectRaw('DISTINCT goods_id')->where('user_id', $_SESSION['user_id'])->get();
 	} else {
-        $res = RC_DB::table('cart')->selectRaw('DISTINCT goods_id')->where('session_id', SESS_ID)->where('extension_code', '!=', 'package_buy')->get();
+        $res = RC_DB::table('cart')->selectRaw('DISTINCT goods_id')->where('session_id', SESS_ID)->get();
 	}
     
     $cart_good = array();
@@ -834,7 +831,7 @@ function flow_cart_stock($arr) {
  * @access public
  * @return void
  */
-function recalculate_price($device) {
+function recalculate_price($device = array()) {
 	// 链接数据库
 	$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
 	$dbview = RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');

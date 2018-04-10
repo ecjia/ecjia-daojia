@@ -398,6 +398,7 @@ class checkOrder_module extends api_front implements api_interface {
 			// 能使用积分
 			$allow_use_integral = 1;
 			$order_max_integral = cart::flow_available_points($cart_id);
+			$order_max_integral  = min($order_max_integral, $user_info['pay_points']);
 		} else {
 			$allow_use_integral = 0;
 			$order_max_integral = 0;

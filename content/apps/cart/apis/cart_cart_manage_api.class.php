@@ -333,7 +333,6 @@ class cart_cart_manage_api extends Component_Event_Api {
                 ->where('user_id', $_SESSION['user_id'])
                 ->where('goods_id', $goods_id)
                 ->where('parent_id', $parent_id)
-                ->where('extension_code', '!=', 'package_buy')
                 ->where('rec_type', '=', $rec_type)
                 ->where('goods_attr_id', $goods_attr_id)
                 ->first();
