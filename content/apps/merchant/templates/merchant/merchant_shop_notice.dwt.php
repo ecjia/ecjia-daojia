@@ -34,7 +34,7 @@
                    			<h4 class="panel-title">{$shop_notice.title}</h4>
                   		</div>
 	           			<div id="{$shop_info.article_id}" class="panel-collapse collapse in">
-							<div class="panel-body shop_notice">
+							<div class="panel-body merchant_shop_notice">
 								{$shop_notice.content}
 							</div>
 						</div>

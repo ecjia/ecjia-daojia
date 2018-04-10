@@ -38,7 +38,13 @@
                             <div class="col-lg-10">
                                 <div class="template-content img-pwsp-list">
                                 	<div class="template-item">
-                                		<figure><span><a class="nopjax" href="{$app_url}template_1.png" data-size="248x500" data-med-size="200x403" title="点击放大" data-med="{$app_url}template_1.png"><img href="{$app_url}template_1.png" src="{$app_url}template_1.png" class="w200"/></a></span></figure>
+                                		<figure>
+                                			<span>
+                                				<a class="nopjax" href="{$app_url}template_1.png" data-size="248x500" data-med-size="200x403" title="点击放大" data-med="{$app_url}template_1.png">
+                                					<img href="{$app_url}template_1.png" src="{$app_url}template_1.png" class="w200"/>
+                                				</a>
+                                			</span>
+                                		</figure>
                                 	</div>
                                 	<div class="template-item">
                                 		<figure><span><a class="nopjax" href="{$app_url}template_2.png" data-size="248x500" data-med-size="200x403" title="点击放大" data-med="{$app_url}template_2.png"><img href="{$app_url}template_2.png" src="{$app_url}template_2.png" class="w200"/></a></span></figure>

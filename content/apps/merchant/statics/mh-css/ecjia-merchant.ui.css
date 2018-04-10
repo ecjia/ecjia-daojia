@@ -5504,3 +5504,11 @@ table tr th.sorting-desc{
 	padding-top:10px;
 	padding-bottom:0;
 }
+
+/* 商家公告 */
+.merchant_shop_notice {
+	overflow: hidden;
+}
+.merchant_shop_notice img {
+	width: 100% !important;
+}
