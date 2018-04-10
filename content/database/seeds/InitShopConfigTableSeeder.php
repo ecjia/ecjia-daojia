@@ -353,7 +353,8 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'cron_method', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
             ['code' => 'cron_secret_key', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'merchant_join_close', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
-            
+            //v1.15.0新增
+            ['code' => 'store_deposit', 'value' => '0', 'options' => ['type' => 'hidden']],
         ];
         
         $this->add_config($group, $data);
