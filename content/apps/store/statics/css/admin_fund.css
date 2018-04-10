@@ -1,0 +1,33 @@
+.fund-title {
+    background-color: #f9f9f9;
+    line-height: 50px;
+    border-radius: 4px;
+    padding: 15px;
+    margin-left: 0;
+    margin-bottom: 20px;
+}
+
+.fund-title .panel-item {
+	display: block;
+	float: left;
+	max-width: 500px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-right: 20px;
+}
+
+.fund-title .panel-item .price, .form-group .price {
+	font-size: 24px;
+	color: #c62626;
+}
+
+.fund-list-header {
+	padding-left: 20px;
+	font-weight: 600;
+	font-size: 15px;
+}
+
+.withdraw-price {
+    color: #e62129;
+}

@@ -119,7 +119,10 @@ class admin_config extends ecjia_admin {
 		
 		$merchant_join_close = ecjia::config('merchant_join_close');
 		$this->assign('merchant_join_close', $merchant_join_close);
-
+		
+		//保证金
+		$this->assign('store_deposit', ecjia::config('store_deposit'));
+		
 		/*热门城市*/
 		$regions = array ();
 		$mobile_recommend_city = explode(',', ecjia::config('mobile_recommend_city'));
@@ -152,6 +155,7 @@ class admin_config extends ecjia_admin {
 		$mobile_location_range  = isset($_POST['mobile_location_range']) ? intval($_POST['mobile_location_range']) : 0;
 
 		$store_model = !empty($_POST['store_model']) ? intval($_POST['store_model']) : 0;
+		$store_deposit = !empty($_POST['store_deposit']) ? intval($_POST['store_deposit']) : 0;
 		
 		$merchant_join_close = !empty($_POST['merchant_join_close']) ? intval($_POST['merchant_join_close']) : 0;
 		//附近门店
@@ -196,11 +200,14 @@ class admin_config extends ecjia_admin {
 			ecjia_config::instance()->write_config('merchant_admin_login_logo', $logo);
 		}
 		
-		//门店模式
-		ecjia_config::instance()->write_config('store_model', $store_model);
-		
 		//是否关闭入驻商加盟
 		ecjia_config::instance()->write_config('merchant_join_close', $merchant_join_close);
+		
+		//保证金
+		ecjia_config::instance()->write_config('store_deposit', $store_deposit);
+		
+		//门店模式
+		ecjia_config::instance()->write_config('store_model', $store_model);
 		
 		/*热门城市处理*/
 		$regions 						= isset($_POST['regions']) 						? $_POST['regions'] 							: '';

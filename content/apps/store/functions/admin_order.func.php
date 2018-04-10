@@ -183,6 +183,7 @@ function order_info($order_id, $order_sn = '') {
 		$order['formated_surplus']			= price_format($order['surplus'], false);
 		$order['formated_order_amount']		= price_format(abs($order['order_amount']), false);
 		$order['formated_add_time']			= RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
+		$order['pay_code'] = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->pluck('pay_code');
 	}
 	return $order;
 }

@@ -29,7 +29,7 @@
     			<div class="controls">
     				<div class="fileupload {if $config_logo}fileupload-exists{else}fileupload-new{/if}" data-provides="fileupload">
     				<a tabindex="0" role="button" href="javascript:;" class="no-underline cursor_pointor" data-trigger="focus" data-toggle="popover" data-placement="top">	
-    					<div class="fileupload-preview thumbnail fileupload-exists" style="width: 50px; height: 50px; line-height: 50px;">
+    					<div class="fileupload-preview thumbnail fileupload-exists" style="width: 230px; height: 50px; line-height: 50px;">
     						<img src="{$config_logoimg}" alt="{t}预览图片{/t}" />
     					</div>
     				</a>
@@ -52,9 +52,20 @@
 					<input type="radio" name="merchant_join_close" value="1" {if $merchant_join_close eq 1}checked{/if}/>是 
 				</div>
     		</div>
+    		
+    		<h3 class="heading">
+				保证金
+			</h3>
+	    	<div class="control-group formSep">
+    			<label class="control-label">{t}默认保证金：{/t}</label>
+    			<div class="controls">
+    				<input type="text" name="store_deposit" value="{$store_deposit}" /> 元
+    				<span class="help-block">商家入驻后需要向平台缴纳的保证金金额，提现时账户余额大于等于保证金</span>
+    			</div>
+    		</div>
 
 		    <h3 class="heading">
-				定位设置
+				定位
 			</h3>
 	    	<div class="control-group formSep">
     			<label class="control-label">{t}定位范围：{/t}</label>
@@ -73,7 +84,7 @@
     		</div>
     		
     		<h3 class="heading">
-				门店模式设置
+				门店模式
 			</h3>
 	    	<div class="control-group formSep">
     			<label class="control-label">{t}门店切换模式：{/t}</label>
@@ -138,7 +149,7 @@
     		</div>
  
     		<!-- 热门城市start -->
-			<h3 class="heading">经营区域设置</h3>
+			<h3 class="heading">经营区域</h3>
 			<div class="control-group formSep">
 				<label class="control-label">已选择的经营区域：</label>
 				<div class="controls selected_area chk_radio">
