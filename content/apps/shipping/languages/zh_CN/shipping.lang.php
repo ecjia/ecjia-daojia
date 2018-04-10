@@ -170,7 +170,7 @@ return array(
 	'insure_lable' 			=> '保价费用：',
 	'shipping_name_lable'	=> '名称：',
 	'shipping_desc_lable' 	=> '描述：',
-	'support_cod_label'		=> '货到付款：',
+	'support_cod_label'		=> '是否支持货到付款：',
 	'shipping_not_available'=> '该配送插件不存在或尚未安装',
 	'repeat'				=> '已存在',
 	'install_ok' 			=> '安装成功',
