@@ -1942,16 +1942,22 @@ class merchant extends ecjia_merchant {
 				}
 			}
 		}
-		$this->assign('order'				, $order);
-		$this->assign('exist_real_goods'	, $exist_real_goods);
-		$this->assign('goods_attr'			, $attr);
-		$this->assign('goods_list'			, $goods_list);
-		$this->assign('order_id'			, $order_id); // 订单id
-		$this->assign('operation'			, 'split'); // 订单id
-		$this->assign('action_note'			, $action_note); // 发货操作信息
+		
+		if (!empty($order['shipping_id'])) {
+			$shipping_info = ecjia_shipping::getPluginDataById($order['shipping_id']);
+			$this->assign('shipping_code', $shipping_info['shipping_code']);
+		}
+		
+		$this->assign('order', $order);
+		$this->assign('exist_real_goods', $exist_real_goods);
+		$this->assign('goods_attr', $attr);
+		$this->assign('goods_list', $goods_list);
+		$this->assign('order_id', $order_id); // 订单id
+		$this->assign('operation', 'split'); // 订单id
+		$this->assign('action_note', $action_note); // 发货操作信息
 		/* 显示模板 */
-		$this->assign('ur_here'				, RC_Lang::get('orders::order.order_operate') . RC_Lang::get('orders::order.op_split'));
-		$this->assign('form_action'			, RC_Uri::url('orders/merchant/operate_post'));
+		$this->assign('ur_here', RC_Lang::get('orders::order.order_operate') . RC_Lang::get('orders::order.op_split'));
+		$this->assign('form_action', RC_Uri::url('orders/merchant/operate_post'));
 		
 		$this->assign_lang();
 		$this->display('order_delivery_info.dwt');
@@ -3136,8 +3142,9 @@ class merchant extends ecjia_merchant {
 				);
 				RC_DB::table('order_status_log')->insert($data);
 				//update commission_bill
-				RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 1, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
-				RC_Api::api('goods', 'update_goods_sales', array('order_id' => $order_id));
+// 				RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 'buy', 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+				RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'buy', 'order_id' => $order_id));
+		        RC_Api::api('goods', 'update_goods_sales', array('order_id' => $order_id));
 			}
 			
 			/* 记录log */
@@ -3383,7 +3390,7 @@ class merchant extends ecjia_merchant {
 // 				);
 // 				$this->db_order_good->where(array('order_id' => $order_id))->update($data);
 // 				//update commission_bill
-// 				RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 2, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+// 				RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => '', 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
 				
 // 		} 
 		
@@ -3758,7 +3765,8 @@ class merchant extends ecjia_merchant {
 		$this->db_order_good->where(array('order_id' => $order_id))->update(array('send_number' => 0));
 		
 		//update commission_bill
-		RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 2, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+// 		RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 'refund', 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+		RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'refund', 'order_id' => $refund_id));
 		
 		//仅退款---同意---进入打款表
 		$refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();

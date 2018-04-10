@@ -19,7 +19,7 @@ var templateCounts = '{$data}';
 </div>
 <div class="page-header">
 	<div class="pull-left">
-		<h3><!-- {if $ur_here}{$ur_here}{/if} --></h3>
+		<h2><!-- {if $ur_here}{$ur_here}{/if} --></h2>
 	</div>
 	<!-- {if $action_link} -->
 	<div class="pull-right">

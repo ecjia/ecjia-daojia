@@ -143,6 +143,9 @@ class admin_order_delivery extends ecjia_admin {
 		/* 取得用户名 */
 		if ($delivery_order['user_id'] > 0) {
 			$user = user_info($delivery_order['user_id']);
+			if (is_ecjia_error($user)) {
+				$user = array();
+			}
 			if (!empty($user)) {
 				$delivery_order['user_name'] = $user['user_name'];
 			}
@@ -201,6 +204,13 @@ class admin_order_delivery extends ecjia_admin {
 		    }
 		}
 	    
+		if (!empty($delivery_order['shipping_id'])) {
+			$shipping_info = ecjia_shipping::getPluginDataById($delivery_order['shipping_id']);
+			if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+				$order = RC_Api::api('orders', 'order_info', array('order_id' => $delivery_order['order_id']));
+				$this->assign('expect_shipping_time', $order['expect_shipping_time']);
+			}
+		}
 		/* 模板赋值 */
 		$this->assign('action_list', 		$act_list);
 		$this->assign('delivery_order', 	$delivery_order);

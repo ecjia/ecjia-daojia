@@ -149,6 +149,9 @@ class mh_delivery extends ecjia_merchant {
 		/* 取得用户名 */
 		if ($delivery_order['user_id'] > 0) {
 			$user = user_info($delivery_order['user_id']);
+			if (is_ecjia_error($user)) {
+				$user = array();
+			}
 			if (!empty($user)) {
 				$delivery_order['user_name'] = $user['user_name'];
 			}
@@ -204,6 +207,7 @@ class mh_delivery extends ecjia_merchant {
 // 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 		$shipping_info = ecjia_shipping::pluginData(intval($delivery_order['shipping_id']));
 		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+			
 			/* 获取正在派单的配送员*/
 			$staff_list = RC_DB::table('staff_user')
 				->where('store_id', $_SESSION['store_id'])
@@ -215,6 +219,9 @@ class mh_delivery extends ecjia_merchant {
 			
 			$express_order = RC_DB::table('express_order')->where('delivery_id', $delivery_order['delivery_id'])->first();
 			$this->assign('express_order', $express_order);
+			
+			$order = RC_Api::api('orders', 'order_info', array('order_id' => $delivery_order['order_id']));
+			$this->assign('expect_shipping_time', $order['expect_shipping_time']);
 		}
 		
 		//获取shopping_code
@@ -230,11 +237,11 @@ class mh_delivery extends ecjia_merchant {
 		}
 		
 		/* 模板赋值 */
-		$this->assign('action_list'			, $act_list);
-		$this->assign('delivery_order'		, $delivery_order);
-		$this->assign('exist_real_goods'	, $exist_real_goods);
-		$this->assign('goods_list'			, $goods_list);
-		$this->assign('delivery_id'			, $delivery_id); // 发货单id
+		$this->assign('action_list', $act_list);
+		$this->assign('delivery_order', $delivery_order);
+		$this->assign('exist_real_goods', $exist_real_goods);
+		$this->assign('goods_list', $goods_list);
+		$this->assign('delivery_id', $delivery_id); // 发货单id
 		
 		/* 显示模板 */
 		$this->assign('ur_here'				, RC_Lang::get('orders::order.order_operate_view'));

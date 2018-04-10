@@ -205,6 +205,8 @@ class OrdersRepository extends AbstractRepository
                 });
             }
             
+            $query->groupby('order_info.order_id');
+            
             if (is_callable($whereQuery)) {
                 $whereQuery($query);
             }

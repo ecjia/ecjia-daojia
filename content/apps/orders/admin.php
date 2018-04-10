@@ -2009,6 +2009,11 @@ class admin extends ecjia_admin {
 				}
 			}
 		}
+		
+		if (!empty($order['shipping_id'])) {
+			$shipping_info = ecjia_shipping::getPluginDataById($order['shipping_id']);
+			$this->assign('shipping_code', $shipping_info['shipping_code']);
+		}
 		$this->assign('order', $order);
 		$this->assign('exist_real_goods', $exist_real_goods);
 		$this->assign('goods_attr', $attr);
@@ -3169,7 +3174,8 @@ class admin extends ecjia_admin {
 				);
 				RC_DB::table('order_status_log')->insert($data);
 				//update commission_bill
-				RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 1, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+// 				RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 'buy', 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+				RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'buy', 'order_id' => $order_id));
 				RC_Api::api('goods', 'update_goods_sales', array('order_id' => $order_id));
 			}
 			
@@ -3420,7 +3426,7 @@ class admin extends ecjia_admin {
 // 			RC_DB::table('order_goods')->where('order_id', $order_id)->update($data);
 			
 // 			//update commission_bill
-// 			RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 2, 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
+// 			RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => '', 'order_id' => $order_id, 'order_amount' => $order['order_amount']));
 				
 // 		} 
 		elseif ('after_service' == $operation) {
@@ -3720,10 +3726,10 @@ class admin extends ecjia_admin {
 			$arr['composite_status'] = intval($_GET['composite_status']);
 		}
 		if (isset($_GET['keywords'])) {
-			$arr['keywords'] = intval($_GET['keywords']);
+			$arr['keywords'] = trim($_GET['keywords']);
 		}
 		if (isset($_GET['merchant_keywords'])) {
-			$arr['merchant_keywords'] = intval($_GET['merchant_keywords']);
+			$arr['merchant_keywords'] = trim($_GET['merchant_keywords']);
 		}
 		
 		return RC_Uri::url('orders/admin/init', $arr);

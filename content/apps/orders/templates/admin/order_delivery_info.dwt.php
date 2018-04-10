@@ -102,7 +102,13 @@
 								<td><div align="right"><strong>{lang key='orders::order.label_sign_building'}</strong></div></td>
 								<td>{$order.sign_building|escape}</td>
 								<td><div align="right"><strong>{lang key='orders::order.label_best_time'}</strong></div></td>
-								<td>{$order.best_time|escape}</td>
+								<td>
+									{if $shipping_code eq 'ship_o2o_express'}
+										{$order.expect_shipping_time|escape}
+									{else}
+										{$order.best_time|escape}
+									{/if}
+								</td>
 							</tr>
 							<tr>
 								<td><div align="right"><strong>{lang key='orders::order.label_postscript'}</strong></div></td>

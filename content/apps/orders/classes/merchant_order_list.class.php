@@ -201,7 +201,7 @@ class merchant_order_list {
 			$this->db_order_info->where(RC_DB::raw('o.add_time'), '>=', $start_time);
 		}
 		if ($filter['end_time']) {
-			$end_time = RC_Time::local_strtotime($filter['end_time']);
+			$end_time = RC_Time::local_strtotime($filter['end_time']) + 86399;
 			$this->db_order_info->where(RC_DB::raw('o.add_time'), '<=', $end_time);
 		}
 		

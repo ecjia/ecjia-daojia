@@ -95,6 +95,8 @@ class payConfirm_module extends api_admin implements api_interface
 		}
 		$payment_handler->set_orderinfo($order);
 		
+		RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'buy', 'order_id' => $order_id));
+		
 		if ($pay_info['pay_code'] == 'pay_cash') {
 			/* 进行确认*/
 			$result = RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'confirm', 'note' => array('action_note' => '收银台订单确认')));

@@ -307,8 +307,8 @@ class order_query extends order {
         $filter['sort_by'] 				= empty($args['sort_by']) 			? 'add_time' 							: trim($args['sort_by']);
         $filter['sort_order'] 			= empty($args['sort_order']) 		? 'DESC' 								: trim($args['sort_order']);
         
-        $filter['start_time'] 			= empty($args['start_time']) 		? '' : (strpos($args['start_time'], '-') > 0 	?  RC_Time::local_strtotime($_GET['start_time']) 	: $_GET['start_time']);
-        $filter['end_time'] 			= empty($args['end_time']) 			? '' : (strpos($args['end_time'], '-') > 0 		?  RC_Time::local_strtotime($_GET['end_time']) 		: $_GET['end_time']);
+        $filter['start_time'] 			= empty($args['start_time']) 		? '' : RC_Time::local_strtotime($_GET['start_time']);
+        $filter['end_time'] 			= empty($args['end_time']) 			? '' : RC_Time::local_strtotime($_GET['end_time']) + 86399;
 		$filter['type']					= empty($args['type']) 				? '' : $args['type']; 
         
         /* 团购订单 */
