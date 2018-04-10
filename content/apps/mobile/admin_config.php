@@ -126,6 +126,8 @@ class admin_config extends ecjia_admin {
 		$this->assign('mobile_phone_login_fgcolor', ecjia::config('mobile_phone_login_fgcolor'));
 		$this->assign('mobile_phone_login_bgcolor', ecjia::config('mobile_phone_login_bgcolor'));
 		$mobile_phone_login_bgimage = ecjia::config('mobile_phone_login_bgimage');
+		$mobile_phone_login_bgimage = empty($mobile_phone_login_bgimage) ? '' : RC_Upload::upload_url($mobile_phone_login_bgimage);
+		$this->assign('mobile_phone_login_bgimage', $mobile_phone_login_bgimage);
 
 		/*短信提醒*/
 		$order_reminder_type = ecjia::config('order_reminder_type', ecjia::CONFIG_CHECK) ? ecjia::config('order_reminder_type') : 0;
