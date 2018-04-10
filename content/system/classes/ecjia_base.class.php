@@ -238,7 +238,7 @@ abstract class ecjia_base extends Royalcms\Component\Routing\Controller {
     {
         $response = royalcms('response');
         $response->setContent($content);
-        return $response->send();
+        return $response;
     }
     
     /**
