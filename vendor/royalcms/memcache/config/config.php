@@ -15,6 +15,7 @@ return array (
     'memory_alert'            => '80',
     'hit_rate_alert'          => '90',
     'eviction_alert'          => '0',
+    'file_path'               => storage_path('temp/memcache/'),
     'driver'                  => null,  // Memcache驱动，有Memcached、Memcache、Server。
     'servers'                 => array (
         '127.0.0.1:11211' => array (

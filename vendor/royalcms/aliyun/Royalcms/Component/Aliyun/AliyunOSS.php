@@ -2,6 +2,7 @@
 
 use Royalcms\Component\Aliyun\OSS\OSSClient;
 use Royalcms\Component\Aliyun\OSS\Models\OSSOptions;
+use Royalcms\Component\Flysystem\Util\MimeType;
 
 class AliyunOSS {
 
@@ -21,6 +22,13 @@ class AliyunOSS {
   {
     return new AliyunOSS($serverName, $AccessKeyId, $AccessKeySecret);
   }
+  
+  protected function getFileMimeContentType($filename)
+  {
+      $paths = pathinfo($filename);
+      $mimes = MimeType::getExtensionToMimeTypeMap();
+      return array_get($mimes, $paths['extension']);
+  }
 
   public function setBucket($bucket)
   {
@@ -35,7 +43,8 @@ class AliyunOSS {
         'Bucket' => $this->bucket,
         'Key' => $key,
         'Content' => $handle,
-        'ContentLength' => filesize($file)
+        'ContentLength' => filesize($file),
+        'ContentType' => $this->getFileMimeContentType($key),
     ));
     fclose($handle);
     return $value;
@@ -47,7 +56,8 @@ class AliyunOSS {
         'Bucket' => $this->bucket,
         'Key' => $key,
         'Content' => $content,
-        'ContentLength' => strlen($content)
+        'ContentLength' => strlen($content),
+        'ContentType' => $this->getFileMimeContentType($key),
     ));
   }
 

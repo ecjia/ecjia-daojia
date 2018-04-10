@@ -4,7 +4,8 @@ use Royalcms\Component\Support\Format;
 use Royalcms\Component\Error\Error;
 use Royalcms\Component\Upload\Upload;
 use Royalcms\Component\Aliyun\OSS\Exceptions\OSSException;
-use \Royalcms\Component\Aliyun\AliyunOSS as OSS;
+use Royalcms\Component\Aliyun\AliyunOSS as OSS;
+
 
 /**
  * Royalcms Direct Filesystem.
@@ -58,7 +59,7 @@ class Aliyunoss extends FilesystemBase
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
             return false;
-        }
+        } 
     }
     
     protected function getBucketAcl($file) {
@@ -106,7 +107,12 @@ class Aliyunoss extends FilesystemBase
     }
     
     public function move_uploaded_file($filename, $destination) {
-        return $this->link->uploadFile($this->filterOsskey($destination), $filename);
+    	try {
+    		return $this->link->uploadFile($this->filterOsskey($destination), $filename);
+    	} catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        } 
     }
 
     /**
@@ -161,7 +167,12 @@ class Aliyunoss extends FilesystemBase
      */
     public function put_contents($file, $contents, $mode = false)
     {
-        return $this->link->uploadContent($this->filterOsskey($file), $contents);
+    	try {
+    		return $this->link->uploadContent($this->filterOsskey($file), $contents);
+    	} catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        } 
     }
 
     /**
