@@ -66,7 +66,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					{/if}
 					
 					<p><i class="c6 ecjia-red">{$order.refund_total_amount}</i><b>退总金额</b></p>
-					<p class="ca"><span>温馨提示:</span><b>退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系商家到家客服。</b></p>
+					<p class="ca"><span>温馨提示:</span><b>退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系客服。</b></p>
 				</div>
 			</div>
 			

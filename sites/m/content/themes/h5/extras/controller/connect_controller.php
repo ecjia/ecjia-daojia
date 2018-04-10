@@ -67,7 +67,8 @@ class connect_controller {
             RC_Logger::getlogger('wechat')->error($connect_user->get_error_message());
             
             if ($connect_user->get_error_code() == 'retry_return_login' || $connect_user->get_error_code() == '-1') {
-                return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+                $login_str = user_function::return_login_str();
+                return ecjia_front::$controller->redirect(RC_Uri::url($login_str));
             }
             
             if ($connect_user->get_error_message()) {
@@ -77,34 +78,20 @@ class connect_controller {
             }
             return ecjia_front::$controller->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-
-        $profile = $connect_user->getProfile();
-
-        $user_name = $connect_user->getUserName();
-        $user_img = $connect_user->getUserHeaderImg();
-        
-        ecjia_front::$controller->assign('connect_code', $data['connect_code']);
-        ecjia_front::$controller->assign('user_img', $user_img);
-        ecjia_front::$controller->assign('user_name', $user_name);
         
         $connect_code = $connect_user->getConnectCode();
         $open_id = $connect_user->getOpenId();
-        
-        $data['bind_url'] = RC_Uri::url('connect/index/bind_signin', array('connect_code' => $connect_code, 'open_id' => $open_id));
-        //快速注册修改
-        ecjia_front::$controller->assign('data', $data);
+        $user_name = $connect_user->getUserName();
 
         $_SESSION['user_temp']['connect_code'] = $connect_code;
         $_SESSION['user_temp']['open_id'] = $open_id;
         $_SESSION['user_temp']['user_name'] = $user_name;
         
-        ecjia_front::$controller->assign('title', '绑定手机号');
-        ecjia_front::$controller->assign_title('绑定手机号');
+		ecjia_front::$controller->assign('title', '绑定手机号');
+ 		ecjia_front::$controller->assign_title('绑定手机号');
         
-        return ecjia_front::$controller->fetch('user_bind_mobile.dwt');
+		return ecjia_front::$controller->fetch('user_bind_mobile.dwt');
     }
-    
-    
     
     /* 第三方登录快速注册 */
     public static function bind_signup($params) {
@@ -156,7 +143,9 @@ class connect_controller {
             return ecjia_front::$controller->showmessage('邀请码格式不正确', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     
-        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $code))->run();
+        $token = touch_function::get_token();
+
+        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $code, 'token' => $token))->run();
         if (is_ecjia_error($response)) {
         	return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -312,11 +301,11 @@ class connect_controller {
     	$mobile_phone = $_SESSION['user_temp']['mobile'];
     	 
     	if (empty($mobile_phone)) {
-    		ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+            $login_str = user_function::return_login_str();
+    		ecjia_front::$controller->redirect(RC_Uri::url($login_str));
     	}
     	 
-    	$data	= ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-    	$token	= $data['access_token'];
+    	$token = touch_function::get_token();
     	$_SESSION['user_temp']['token'] = $token;
     	 
     	$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
@@ -357,7 +346,7 @@ class connect_controller {
     		return ecjia_front::$controller->showmessage('请输入验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	if (RC_Time::gmtime() < $_SESSION['user_temp']['resend_sms_time'] + 180) {
-    		return ecjia_front::$controller->showmessage('规定时间以外，可重新发送验证码（3分钟）', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage('规定时间以外，可重新发送验证码（1分钟）', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$param = array(
     		'token'	=> $token,
@@ -400,7 +389,8 @@ class connect_controller {
     public static function enter_code() {
     	$mobile = $_SESSION['user_temp']['mobile'];
     	if (empty($mobile)) {
-    		ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+            $login_str = user_function::return_login_str();
+    		ecjia_front::$controller->redirect(RC_Uri::url($login_str));
     	}
     	 
     	$code_captcha = $_SESSION['user_temp']['captcha_code'];
@@ -424,6 +414,7 @@ class connect_controller {
     	$type = trim($_POST['type']);
     	$password = trim($_POST['password']);
     	$mobile = $_SESSION['user_temp']['mobile'];
+    	$token = $_SESSION['user_temp']['token'];
     	 
     	$registered = $_SESSION['user_temp']['registered'];
     	$invited = $_SESSION['user_temp']['invited'];
@@ -459,7 +450,7 @@ class connect_controller {
     			return ecjia_front::$controller->showmessage('授权用户信息关联失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
     	} else {
-    		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password))->run();
+    		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password, 'token' => $token))->run();
     		if (is_ecjia_error($data)) {
     			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
@@ -480,7 +471,8 @@ class connect_controller {
     	$mobile = !empty($_SESSION['user_temp']['mobile']) ? $_SESSION['user_temp']['mobile'] : '';
     	 
     	if ($_SESSION['user_temp']['register_status'] != 'succeed' || empty($mobile)) {
-    		ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+            $login_str = user_function::return_login_str();
+    		ecjia_front::$controller->redirect(RC_Uri::url($login_str));
     	}
     	if (isset($_POST['username'])) {
     		$username 			= !empty($_POST['username']) 				? trim($_POST['username']) 			: '';

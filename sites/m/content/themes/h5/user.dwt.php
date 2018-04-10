@@ -29,7 +29,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 </a>
 {else}
 <div class="ecjia-user-info user-new-info ecjia-user">
-   	<a href="{url path='user/privilege/login'}"><div class="no-login">登录 / 注册</div></a>
+   	<a href="{$login_url}"><div class="no-login">登录 / 注册</div></a>
 </div>
 {/if}
 
@@ -133,7 +133,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-user-head ecjia-user ecjia-color-green ecjia-user-marg-t">
     <ul class="ecjia-user-marg-t ecjia-list list-short ecjia-user-no-border-t">
        <li>
-        	<a href="{url path='user/privilege/login'}">
+        	<a href="{$login_url}">
         		<div class="icon-wallet"><img src="{$theme_url}images/user_center/75x75_2.png"></div>
         		<span class="icon-name">{t}我的订单{/t}</span>
         		<span class="icon-long">查看全部订单</span>
@@ -145,31 +145,31 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-user-border-b">
     <ul class="ecjia-user ecjia-list bonus ecjia-nav-child-f ecjia-list-five ecjia-login-nav-bottom">
     	<li>
-    		<a href="{url path='user/privilege/login'}">
+    		<a href="{$login_url}">
     		    <p><img src="{$theme_url}images/user_center/o_75_2.png" /></p>
     			<p>待付款</p>
     		</a>
     	</li>
     	<li>
-    		<a href="{url path='user/privilege/login'}">
+    		<a href="{$login_url}">
     		    <p><img src="{$theme_url}images/user_center/o_75_3.png" /></p>
     			<p>待发货</p>
     		</a>
     	</li>
     	<li>
-    	    <a href="{url path='user/privilege/login'}">
+    	    <a href="{$login_url}">
         		<p><img src="{$theme_url}images/user_center/o_75_4.png" /></p>
         		<p>待收货</p>
     		</a>
     	</li>
     	<li>
-    	    <a href="{url path='user/privilege/login'}">
+    	    <a href="{$login_url}">
         		<p><img src="{$theme_url}images/user_center/o_75_5.png" /></p>
         		<p>待评价</p>
     		</a>
     	</li>
   		<li>
-    	    <a href="{url path='user/privilege/login'}">
+    	    <a href="{$login_url}">
         		<p class="oc-icon">
         		  <img src="{$theme_url}images/user_center/o_75_6.png" />
         		</p>
@@ -182,7 +182,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-user-head ecjia-user ecjia-color-green ecjia-user-marg-t">
     <ul class="ecjia-list list-short ecjia-user-no-border-t">
        <li>
-        	<a href="{url path='user/privilege/login'}">
+        	<a href="{$login_url}">
         		<div class="icon-wallet"><img src="{$theme_url}images/user_center/75x75_1.png"></div>
         		<span class="icon-name">{t}我的钱包{/t}</span>
         		<i class="iconfont icon-jiantou-right"></i>
@@ -193,19 +193,19 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-user-border-b">
     <ul class="ecjia-user ecjia-list bonus ecjia-nav-child-f ecjia-list-three ecjia-login-nav-bottom">
     	<li>
-    		<a href="{url path='user/privilege/login'}">
+    		<a href="{$login_url}">
     		    <p>{'- -'}</p>
     			<p>余额</p>
     		</a>
     	</li>
     	<li>
-    		<a href="{url path='user/privilege/login'}">
+    		<a href="{$login_url}">
     		    <p>{'- -'}</p>
     			<p>红包</p>
     		</a>
     	</li>
     	<li>
-    	    <a href="{url path='user/privilege/login'}">
+    	    <a href="{$login_url}">
         		<p>{'- -'}</p>
         		<p>积分</p>
     		</a>
@@ -290,6 +290,14 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         		<i class="iconfont icon-jiantou-right"></i>
         	</a>
         </li>
+		<li>
+        	<a class="external" href="{url path='touch/index/cache_set'}">
+        		<div class="icon-offical-website"><img src="{$theme_url}images/user_center/75x75_14.png"></div>
+        		<span class="icon-name">缓存设置</span>
+        		<span class="icon-long"></span>
+        		<i class="iconfont icon-jiantou-right"></i>
+        	</a>
+        </li>
     </ul>
     <ul class="ecjia-list list-short">
         <li>
@@ -311,14 +319,14 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     {if $merchant_join_close neq 1}
     <ul class="ecjia-list list-short">
         <li>
-        	<a class="external nopjax external" href="{url path='franchisee/index/first'}">
+        	<a class="nopjax external" href="{url path='franchisee/index/first'}">
         		<div class="icon-help-center"><img src="{$theme_url}images/user_center/75x75_10.png"></div>
         		<span class="icon-name">店铺入驻申请</span>
         		<i class="iconfont icon-jiantou-right"></i>
         	</a>
         </li>
         <li>
-        	<a class="external nopjax external" href="{url path='franchisee/index/search'}">
+        	<a class="nopjax external" href="{url path='franchisee/index/search'}">
         		<div class="icon-help-center"><img src="{$theme_url}images/user_center/75x75_9.png"></div>
         		<span class="icon-name">店铺入驻查询</span>
         		<i class="iconfont icon-jiantou-right"></i>

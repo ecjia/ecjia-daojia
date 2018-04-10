@@ -98,7 +98,9 @@ class cart_controller {
     
     public static function update_cart() {
     	$url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
-    	$referer_url = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url)));
+        $login_str = user_function::return_login_str();
+
+    	$referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
     	if (!ecjia_touch_user::singleton()->isSignin()) {
     		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
     	}
@@ -547,7 +549,6 @@ class cart_controller {
         ecjia_front::$controller->assign('store_id', $store_id);
         ecjia_front::$controller->assign('temp', $_SESSION['cart'][$cart_key]['temp']);
         
-        ecjia_front::$controller->assign('title', '结算');
         ecjia_front::$controller->assign_title('结算');
         ecjia_front::$controller->assign_lang();
 
@@ -595,7 +596,6 @@ class cart_controller {
         ecjia_front::$controller->assign('list', $rs['goods_list']);
         ecjia_front::$controller->assign('total_goods_number', $total_goods_number);
         
-        ecjia_front::$controller->assign('title', '商品清单');
         ecjia_front::$controller->assign_title('商品清单');
         
         ecjia_front::$controller->display('flow_goodslist.dwt');
@@ -741,7 +741,6 @@ class cart_controller {
         ecjia_front::$controller->assign('rec_id', $rec_id);
         ecjia_front::$controller->assign_lang();
         
-        ecjia_front::$controller->assign('title', '支付方式');
         ecjia_front::$controller->assign_title('支付方式');
         
         ecjia_front::$controller->display('flow_pay.dwt');
@@ -774,8 +773,6 @@ class cart_controller {
         ecjia_front::$controller->assign('address_id', $address_id);
         ecjia_front::$controller->assign('rec_id', $rec_id);
         
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign('title', '配送方式');
         ecjia_front::$controller->assign_title('配送方式');
         
         ecjia_front::$controller->display('flow_shipping.dwt');
@@ -846,7 +843,6 @@ class cart_controller {
     	ecjia_front::$controller->assign('address_id', $address_id);
     	ecjia_front::$controller->assign('rec_id', $rec_id);
     	
-    	ecjia_front::$controller->assign('title', '选择支付配送方式');
     	ecjia_front::$controller->assign_title('选择支付配送方式');
     	
     	ecjia_front::$controller->display('flow_pay_shipping.dwt');
@@ -879,8 +875,6 @@ class cart_controller {
         ecjia_front::$controller->assign('rec_id', $rec_id);
         ecjia_front::$controller->assign('temp', $_SESSION['cart'][$cart_key]['temp']);
         
-        ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign('title', '配送时间');
         ecjia_front::$controller->assign_title('配送时间');
         
         ecjia_front::$controller->display('flow_shipping_date.dwt');
@@ -917,7 +911,6 @@ class cart_controller {
         ecjia_front::$controller->assign('address_id', $address_id);
         ecjia_front::$controller->assign('rec_id', $rec_id);
         
-        ecjia_front::$controller->assign('title', '开发票');
         ecjia_front::$controller->assign_title('开发票');
         
         ecjia_front::$controller->display('flow_invoice.dwt');
@@ -949,7 +942,6 @@ class cart_controller {
         ecjia_front::$controller->assign('address_id', $address_id);
         ecjia_front::$controller->assign('rec_id', $rec_id);
 
-        ecjia_front::$controller->assign('title', '备注留言');
         ecjia_front::$controller->assign_title('备注留言');
         
         ecjia_front::$controller->display('flow_note.dwt');
@@ -984,7 +976,6 @@ class cart_controller {
         ecjia_front::$controller->assign('address_id', $address_id);
         ecjia_front::$controller->assign('rec_id', $rec_id);
         
-        ecjia_front::$controller->assign('title', '使用红包');
         ecjia_front::$controller->assign_title('使用红包');
         
         ecjia_front::$controller->display('flow_bonus.dwt');

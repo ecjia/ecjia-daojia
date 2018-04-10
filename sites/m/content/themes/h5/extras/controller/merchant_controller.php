@@ -85,29 +85,17 @@ class merchant_controller {
 			ecjia_front::$controller->assign('store_info', $store_info);
 			ecjia_front::$controller->assign_title($store_info['seller_name']);
 			
-// 			if (empty($action_type) && empty($category_id)) {
-// 				$goods_count = $store_info['goods_count'];
-// 				if ($goods_count['best_goods'] > 0) {
-// 					$action_type = 'best';
-// 					$goods_num = $goods_count['best_goods'];
-// 					$type_name = '精选';
-// 				} elseif ($goods_count['hot_goods'] > 0) {
-// 					$action_type = 'hot';
-// 					$goods_num = $goods_count['hot_goods'];
-// 					$type_name = '热销';
-// 				} elseif ($goods_count['new_goods'] > 0) {
-// 					$action_type = 'new';
-// 					$goods_num = $goods_count['new_goods'];
-// 					$type_name = '新品';
-// 				}
-// 			}
-
 			ecjia_front::$controller->assign('title', $store_info['seller_name']);
 			ecjia_front::$controller->assign('header_left', ' ');
 				
+			$map_url = 'https://3gimg.qq.com/lightmap/v1/marker/index.html?type=0&marker=coord:';
+			$url_param = ''.$store_info['location']['latitude'].','.$store_info['location']['longitude'].';title:'.$store_info['seller_name'].';addr:'.$store_info['shop_address'];
+			$url_param = urlencode($url_param);
+			$map_url .= $url_param;
+			
 			$header_right = array(
 				'location' => '<i class="icon-shop-location"></i>',
-				'location_url' => RC_Uri::url('merchant/index/position', array('shop_address' => $store_info['shop_address'])),
+				'location_url' => $map_url,
 				'search' => '<i class="icon-shop-search"></i>',
 				'search_url' => RC_Uri::url('touch/index/search', array('store_id' => $store_id)),
 			);

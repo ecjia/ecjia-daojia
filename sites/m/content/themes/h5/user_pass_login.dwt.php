@@ -18,7 +18,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-form  ecjia-login">
 	<div class="form-group margin-right-left">
 		<label class="input">
-			<input class="p_d0" placeholder="手机号" name="username">
+			<input class="p_d0" placeholder="请输入用户名或手机号" name="username">
 		</label>
 	</div>
 	<div class="form-group ecjia-margin-t margin-right-left">
@@ -39,10 +39,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     {/if}
 	<ul class="thirdparty-wrap">
 		{if $sns_qq eq 1}
-    	<a href="{url path='connect/index/init' args='connect_code=sns_qq'}"><li class="thirdparty-qq"></li></a>
+    	<a class="nopjax external" href="{url path='connect/index/init' args='connect_code=sns_qq'}"><li class="thirdparty-qq"></li></a>
     	{/if}
     	{if $sns_wechat eq 1}
-    	<a href="{url path='connect/index/init' args='connect_code=sns_wechat&login_type=snsapi_userinfo'}"><li class="thirdparty-weixin"></li></a>
+    	<a href="{$wechat_login_url}"><li class="thirdparty-weixin"></li></a>
     	{/if}
 	</ul>
 </div>

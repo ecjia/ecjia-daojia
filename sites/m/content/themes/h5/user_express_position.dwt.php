@@ -15,12 +15,12 @@ var data = JSON.parse('{$data}');
 var arr = JSON.parse('{$arr}');
 var store_json = '{$store_location}';
 if (store_json.length > 0) {
-	var store_location = JSON.parse(location);
+	var store_location = JSON.parse(store_json);
 }
 var center = new qq.maps.LatLng(arr.from.location.lat, arr.from.location.lng);
 var map = new qq.maps.Map(document.getElementById("allmap"), {
     center: center,
-    zoom: 18
+    zoom: 13
 });
 var infoWin = new qq.maps.InfoWindow({
     map: map
@@ -72,7 +72,7 @@ setTimeout(function () { location.reload(); }, 20000)
 	</div>
 	<div class="express-info">
 		<div class="express-img">
-			<img src="{$express_info.avatar}" />
+			<img src="{if $express_info.avatar}{$express_info.avatar}{else}{$theme_url}images/default_user.png{/if}" />
 		</div>
 		<div class="info">
 			<div class="name">{$express_info.express_user}</div>

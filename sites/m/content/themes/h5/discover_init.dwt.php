@@ -54,13 +54,15 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</div>
 		<div class="article-add"><i class="iconfont icon-jiantou-bottom"></i></div>
 		
-		<div class="ecjia-down-navi clearfix"> 
-			<ul class="navi-list">
-				<li class="navi active" data-id="stickie"><p class="navi-name">精选</p></li>
-				<!-- {foreach from=$article_cat item=cat key=key} -->
-				<li class="navi" data-id="{$cat.cat_id}"><p class="navi-name">{$cat.cat_name}</p></li>
-				<!-- {/foreach} -->
-			</ul>
+		<div class="ecjia-down-navi-content">
+			<div class="ecjia-down-navi clearfix"> 
+				<ul class="navi-list">
+					<li class="navi active" data-id="stickie"><p class="navi-name">精选</p></li>
+					<!-- {foreach from=$article_cat item=cat key=key} -->
+					<li class="navi" data-id="{$cat.cat_id}"><p class="navi-name">{$cat.cat_name}</p></li>
+					<!-- {/foreach} -->
+				</ul>
+			</div>
 		</div>
 	</div>
 	

@@ -52,8 +52,10 @@ ecjia.touch.user.record_cancel();
         	</div>
         {else}
             <div class="two-btn btn-bottom">
-                <p class="apply-img"></p>
-                <p class="apply">已申请</p>
+                <div class="info">
+                    <p class="apply-img"></p>
+                    <p class="apply">已申请</p>
+                </div>
                 <input name="record_type" type="hidden" value={$sur_amount.type} />
                 <input name="account_id" type="hidden" value={$sur_amount.account_id}>
                 <input class="btn ecjiaf-fr btn-c ecjia-fl" id="record_cancel" name="record_cancel" data-url="{url path='user/account/record_cancel'}" type="button" value="{t}取消{/t}" />

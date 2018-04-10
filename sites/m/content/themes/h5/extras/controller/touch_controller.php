@@ -257,6 +257,32 @@ class touch_controller {
         }
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
     }
+    
+    public static function cache_set() {
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$user_info = ecjia_touch_user::singleton()->getUserinfo();
+    
+    	$cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+    	$cache_id = sprintf('%X', crc32($cache_id));
+    
+    	if (!ecjia_front::$controller->is_cached('cache_set.dwt', $cache_id)) {
+    
+    		ecjia_front::$controller->assign_title('缓存设置');
+    	}
+    	ecjia_front::$controller->display('cache_set.dwt', $cache_id);
+    }
+    
+    public static function clear_cache() {
+   		ecjia_touch_user::singleton()->signout();
+   		
+    	RC_Cookie::clear();
+    	foreach ($_COOKIE as $key => $value) {
+    		setcookie($key, null, -3600);
+    	}
+    	
+    	$url = RC_Uri::url('touch/my/init');
+    	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
+    }
 }
 
 // end

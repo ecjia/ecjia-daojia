@@ -82,14 +82,18 @@ class user_privilege_controller {
         	ecjia_front::$controller->assign('anonymous_buy', ecjia::config('anonymous_buy'));
         	
         	$url = RC_Uri::url('user/privilege/pass_login');
+        	$wechat_login_url = RC_Uri::url('user/privilege/wechat_login');
         	if (!empty($_GET['referer_url'])) {
         		$url = RC_Uri::url('user/privilege/pass_login', array('referer_url' => urlencode($_GET['referer_url'])));
+        		$wechat_login_url = RC_Uri::url('user/privilege/wechat_login', array('referer_url' => urlencode($_GET['referer_url'])));
+        		
         		$_SESSION['user_temp']['referer_url'] = urlencode($_GET['referer_url']);
         	} else {
         	    $_SESSION['user_temp']['referer_url'] = $GLOBALS['_SERVER']['HTTP_REFERER'];
         	}
         	ecjia_front::$controller->assign('header_right', array('info' => '密码登录', 'href' => $url));
         	
+        	ecjia_front::$controller->assign('wechat_login_url', $wechat_login_url);
         	ecjia_front::$controller->assign('title', '手机登录');
         	ecjia_front::$controller->assign_title('手机登录');
         	ecjia_front::$controller->assign_lang();
@@ -102,6 +106,50 @@ class user_privilege_controller {
             }
         }
         ecjia_front::$controller->display('user_login.dwt', $cache_id);
+    }
+    
+    //微信登录
+    public static function wechat_login() {
+    	unset($_SESSION['user_temp']);
+    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+    	 
+    	$signin = ecjia_touch_user::singleton()->isSignin();
+    	if ($signin) {
+    		$token = ecjia_touch_user::singleton()->getToken();
+    		$cache_id = $_SERVER['QUERY_STRING'].'-'.$token;
+    		$cache_id = sprintf('%X', crc32($cache_id));
+    		 
+    		if (!ecjia_front::$controller->is_cached('user_wechat_login.dwt', $cache_id)) {
+    			$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+    			if (!is_ecjia_error($user)) {
+    				ecjia_front::$controller->redirect(RC_Uri::url('touch/index/init'));
+    			} else {
+    				ecjia_touch_user::singleton()->signout();
+    			}
+    		}
+    	}
+    	
+    	if (!ecjia_front::$controller->is_cached('user_wechat_login.dwt', $cache_id)) {
+    		ecjia_front::$controller->assign_title('微信快捷登录');
+    		ecjia_front::$controller->assign_lang();
+    		ecjia_front::$controller->assign('hidenav', 1);
+    		
+    		$pass_login_url = RC_Uri::url('user/privilege/pass_login');
+    		$login_url = RC_Uri::url('user/privilege/login');
+    		if (!empty($_GET['referer_url'])) {
+    			$pass_login_url = RC_Uri::url('user/privilege/pass_login', array('referer_url' => urlencode($_GET['referer_url'])));
+    			$login_url = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($_GET['referer_url'])));
+    			$_SESSION['user_temp']['referer_url'] = urlencode($_GET['referer_url']);
+    		} else {
+    			$_SESSION['user_temp']['referer_url'] = $GLOBALS['_SERVER']['HTTP_REFERER'];
+    		}
+    		ecjia_front::$controller->assign('pass_login_url', $pass_login_url);
+    		ecjia_front::$controller->assign('login_url', $login_url);
+    		
+    		RC_Cookie::set('wechat_auto_register', 1);
+    	}
+    	
+    	ecjia_front::$controller->display('user_wechat_login.dwt', $cache_id);
     }
     
     //密码登录
@@ -127,12 +175,20 @@ class user_privilege_controller {
     	
     	if (!ecjia_front::$controller->is_cached('user_pass_login.dwt', $cache_id)) {
     		$url = RC_Uri::url('user/privilege/login');
+    		$wechat_login_url = RC_Uri::url('user/privilege/wechat_login');
+    		
     		if (!empty($_GET['referer_url'])) {
     			$url = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($_GET['referer_url'])));
+    			$wechat_login_url = RC_Uri::url('user/privilege/wechat_login', array('referer_url' => urlencode($_GET['referer_url'])));
+    			
+    			$_SESSION['user_temp']['referer_url'] = urlencode($_GET['referer_url']);
+    		} else {
+    			$_SESSION['user_temp']['referer_url'] = $GLOBALS['_SERVER']['HTTP_REFERER'];
     		}
     		
     		ecjia_front::$controller->assign('header_right', array('info' => '手机登录', 'href' => $url));
     		 
+    		ecjia_front::$controller->assign('wechat_login_url', $wechat_login_url);
     		ecjia_front::$controller->assign('title', '密码登录');
     		ecjia_front::$controller->assign_title('密码登录');
     		ecjia_front::$controller->assign_lang();
@@ -185,7 +241,7 @@ class user_privilege_controller {
         	} else {
         		$url = RC_Uri::url('touch/my/init');
         		$referer_url = !empty($_POST['referer_url']) ? urldecode($_POST['referer_url']) : urldecode($_SESSION['user_temp']['referer_url']);
-        		if (!empty($referer_url)) {
+        		if (!empty($referer_url) && $referer_url != RC_Uri::url('user/privilege/login')) {
         			$url = $referer_url;
         		}
         		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
@@ -203,7 +259,7 @@ class user_privilege_controller {
     		return ecjia_front::$controller->showmessage('请输入手机号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
-    	$chars = "/^1(3|4|5|6|7|8)\d{9}$/";
+    	$chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
     	if (!preg_match($chars, $mobile_phone)) {
     		return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
@@ -220,8 +276,7 @@ class user_privilege_controller {
     		ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
     	}
     	
-    	$data	= ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-    	$token	= $data['access_token'];
+    	$token = touch_function::get_token();
     	$_SESSION['user_temp']['token'] = $token;
     	
     	$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
@@ -262,7 +317,7 @@ class user_privilege_controller {
 			return ecjia_front::$controller->showmessage('请输入验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (RC_Time::gmtime() < $_SESSION['user_temp']['resend_sms_time'] + 180) {
-			return ecjia_front::$controller->showmessage('规定时间以外，可重新发送验证码（3分钟）', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return ecjia_front::$controller->showmessage('规定时间以外，可重新发送验证码（1分钟）', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
     	$param = array(
     		'token'	=> $token,
@@ -331,6 +386,7 @@ class user_privilege_controller {
     	$type = trim($_POST['type']);
     	$password = trim($_POST['password']);
     	$mobile = $_SESSION['user_temp']['mobile'];
+        $token = $_SESSION['user_temp']['token'];
     	
     	$registered = $_SESSION['user_temp']['registered'];
     	$invited = $_SESSION['user_temp']['invited'];
@@ -347,8 +403,9 @@ class user_privilege_controller {
     		if (!empty($referer_url)) {
     			$url = $referer_url;
     		}
+    		unset($_SESSION['user_temp']);
     	} else {
-    		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password))->run();
+    		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password, 'token' => $token))->run();
     		if (is_ecjia_error($data)) {
     			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}

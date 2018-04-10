@@ -153,6 +153,14 @@ class user_function {
 			'street_list' 	=> !empty($street_list) ? json_encode($street_list) : '',
 		);
 	}
+
+	public static function return_login_str() {
+		$str = 'user/privilege/login';
+		if (user_function::is_weixin()) {
+			$str = 'user/privilege/wechat_login';
+		}
+		return $str;
+	}
 }
 
 //end

@@ -54,6 +54,8 @@ return [
     'touch/index/ajax_suggest_store'    => 'touch_controller@ajax_suggest_store',
     'touch/index/search'                => 'touch_controller@search',
     'touch/index/del_search'            => 'touch_controller@del_search',
+    'touch/index/cache_set'				=> 'touch_controller@cache_set', //缓存设置
+    'touch/index/clear_cache'			=> 'touch_controller@clear_cache', //清除缓存
     
     //定位
     'location/index/select_location'    => 'location_controller@select_location',
@@ -155,6 +157,7 @@ return [
     'user/privilege/captcha_check'      => 'user_privilege_controller@captcha_check',
     'user/privilege/enter_code'         => 'user_privilege_controller@enter_code',
     'user/privilege/mobile_signin'      => 'user_privilege_controller@mobile_signin',
+    'user/privilege/wechat_login'       => 'user_privilege_controller@wechat_login',
     
     //找回密码
     'user/get_password/init'            => 'user_get_password_controller@init',
@@ -172,14 +175,14 @@ return [
     'user/account/recharge_account'     => 'user_account_controller@recharge_account',
     'user/account/withdraw'             => 'user_account_controller@withdraw',
     'user/account/withdraw_account'     => 'user_account_controller@withdraw_account',
-    'user/account/balance'              => 'user_account_controller@balance',   //余额
+    'user/account/balance'              => 'user_account_controller@balance', //余额
     'user/account/record'               => 'user_account_controller@record',
     'user/account/ajax_record'          => 'user_account_controller@ajax_record',
     'user/account/ajax_record_raply'    => 'user_account_controller@ajax_record_raply',
     'user/account/ajax_record_deposit'  => 'user_account_controller@ajax_record_deposit',
     'user/account/record_info'          => 'user_account_controller@record_info',
     'user/account/record_cancel'        => 'user_account_controller@record_cancel',
-    'user/account/recharge_again'       => 'user_account_controller@recharge_again',    //继续充值
+    'user/account/recharge_again'       => 'user_account_controller@recharge_again', //继续充值
     'user/account/recharge_again_account' => 'user_account_controller@recharge_again_account', //继续充值
     
     //用户收货地址

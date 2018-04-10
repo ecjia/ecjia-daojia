@@ -104,7 +104,11 @@ class user_controller {
     		
     	ecjia_front::$controller->assign('active', 'mine');
     	ecjia_front::$controller->assign_title('个人中心');
-    		
+    	
+    	
+        $login_str = user_function::return_login_str();
+		ecjia_front::$controller->assign('login_url', RC_Uri::url($login_str));
+        
     	ecjia_front::$controller->display('user.dwt');
     }
     
@@ -214,7 +218,6 @@ class user_controller {
             
 //         }
     }
-    
 }
 
 // end

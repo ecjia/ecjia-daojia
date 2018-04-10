@@ -59,11 +59,12 @@ class user_front {
 		if (!$this->check_login()) {
 		    /*未登录处理*/
             $url = RC_Uri::site_url() . substr($_SERVER['REQUEST_URI'], strripos($_SERVER['REQUEST_URI'], '/'));
+            $login_str = user_function::return_login_str();
             if (isset($_GET['referer_url'])) {
             	$url = $_GET['referer_url'];
-            	return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url))));
+            	return ecjia_front::$controller->redirect(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));
             }
-            return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url))));
+            return ecjia_front::$controller->redirect(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));
 		}
 	}
 	
@@ -80,6 +81,7 @@ class user_front {
 	    	'user/privilege/captcha_check',
 	    	'user/privilege/enter_code',
 	    	'user/privilege/mobile_signin',
+	    	'user/privilege/wechat_login',
 	    		
 	        'user/privilege/bind_signin',
 	        'user/privilege/bind_signin_do',

@@ -46,6 +46,7 @@
 			ecjia.touch.del_history();
 			ecjia.touch.share_spread();
 			ecjia.touch.copy_btn();
+			ecjia.touch.clear_cache();
 
 			$("body").greenCheck();
 		},
@@ -256,6 +257,42 @@
 			clipboard.on('success', function(e) {  
 			        alert("复制成功！");
 			});  
+		},
+		
+		clear_cache: function() {
+			$('.clear_cache').off('click').on('click', function() {
+				var $this = $(this),
+				url = $this.attr('data-url'),
+				message = $this.attr('data-message');
+			
+				var myApp = new Framework7();
+				myApp.modal({
+					title: message,
+					buttons: [{
+						text: '取消',
+						onClick: function() {
+							$('.modal').remove();
+							$('.modal-overlay').remove();
+							return false;
+						}
+					}, {
+						text: '确定',
+						onClick: function() {
+							sessionStorage.clear();
+							$.post(url, function(data) {
+								var refresh_url = data.url;
+								iosOverlay({
+									text: '清除缓存中，请稍后...',
+									duration: 2e3,
+								});
+								setTimeout(function(){
+									location.href = refresh_url;
+								}, 50);
+							});
+						},
+					}]
+				});
+			});
 		},
 		
 		/**
@@ -824,7 +861,9 @@
 	});
 
 	//PJAX前进、返回执行
-//	$(document).on('pjax:popstate', function() {});
+	$(document).on('pjax:popstate', function() {
+		window.scrollTo(0,1);
+	});
 
 	//PJAX历史和跳转都会执行的方法
 	$(document).on('pjax:end', function() {
@@ -850,6 +889,7 @@
 		ecjia.touch.goods_detail.change();
 		ecjia.touch.index.init_swiper();
 		ecjia.touch.share_spread();
+		ecjia.touch.clear_cache();
 
 		var ua = navigator.userAgent.toLowerCase();
 		if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/ECJiaBrowse/i) == "ecjiabrowse") {

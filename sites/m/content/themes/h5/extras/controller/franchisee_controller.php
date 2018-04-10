@@ -245,7 +245,7 @@ class franchisee_controller {
         $category = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_CATEGORY)->data(array('token' => $token))->send()->getBody();
         $category_list 	= ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_CATEGORY)->data(array('token' => $token))->run();
         
-        $region_data = user_function::get_region_list();
+        $region_data = user_function::get_region_list('', '', $reaudit['district']);
         ecjia_front::$controller->assign('region_data', $region_data);
         
         if (is_ecjia_error($mobile)) {
@@ -265,9 +265,13 @@ class franchisee_controller {
             } else {
                 $validate_type = '个人入驻';
             }
+            $province_list['regions'] = json_decode($region_data['province_list'], true);
+            $city_list['regions'] = json_decode($region_data['city_list'], true);
+            $district_list['regions'] = json_decode($region_data['district_list'], true);
+            $street_list['regions'] = json_decode($region_data['street_list'], true);
             
             if (!empty($reaudit)) {
-                foreach ($province_list[regions] as $k1 => $v1) {
+                foreach ($province_list['regions'] as $k1 => $v1) {
                     foreach ($v1 as $k2 => $v3) {
                         if ($v3 == $reaudit['province']) {
                             $province_show = $v1['name'];
@@ -288,10 +292,18 @@ class franchisee_controller {
                         }
                     }
                 }
+                foreach ($street_list['regions'] as $k1 => $v1) {
+                    foreach ($v1 as $k2 => $v3) {
+                        if ($v3 == $reaudit['street']) {
+                            $stree_show = $v1['name'];
+                        }
+                    }
+                }
                 $_COOKIE['franchisee_seller_category_id']    = $reaudit['seller_category'];
                 $_COOKIE['franchisee_province_id']           = $reaudit['province'];
                 $_COOKIE['franchisee_city_id']               = $reaudit['city'];
                 $_COOKIE['franchisee_district_id']           = $reaudit['district'];
+                $_COOKIE['franchisee_street_id']             = $reaudit['street'];
                 
             }
         }
@@ -302,7 +314,9 @@ class franchisee_controller {
             'province_name' => $province_show,
             'city_name'     => $city_show,
             'district_name' => $district_show,
-            'address'       => $reaudit['address']
+            'street_name'   => $stree_show,
+            'address'       => $reaudit['address'],
+            'pcd_name'		=> $province_show . '-' . $city_show . '-' . $district_show
         );
         
         $longitude = !empty($_GET['longitude']) ? $_GET['longitude'] : $reaudit['location']['longitude'];

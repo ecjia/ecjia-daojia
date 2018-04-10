@@ -62,7 +62,6 @@ class article_controller {
     			ecjia_front::$controller->assign('data', $data);
     		}
     		ecjia_front::$controller->assign_title('帮助中心');
-    		ecjia_front::$controller->assign('title', '帮助中心');
     	}
         ecjia_front::$controller->display('article_init.dwt', $cache_id);
     }
@@ -190,7 +189,9 @@ class article_controller {
     	$type = !empty($_POST['type']) ? trim($_POST['type']) : '';
     	if (!ecjia_touch_user::singleton()->isSignin()) {
     		$url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
-    		$referer_url = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url)));
+            $login_str = user_function::return_login_str();
+
+    		$referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
     		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
     	}
     	
@@ -219,7 +220,9 @@ class article_controller {
     public static function like_article() {
     	if (!ecjia_touch_user::singleton()->isSignin()) {
     		$url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
-    		$referer_url = RC_Uri::url('user/privilege/login', array('referer_url' => urlencode($url)));
+            $login_str = user_function::return_login_str();
+
+    		$referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
     		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
     	}
     	

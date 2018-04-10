@@ -216,7 +216,7 @@
 			});
 
 			var InterValObj; //timer变量，控制时间
-			var count = 180; //间隔函数，1秒执行
+			var count = 60; //间隔函数，1秒执行
 			var curCount; //当前剩余秒数
 			curCount = count;
 			$(".resend_sms").addClass("disabled");
@@ -313,7 +313,7 @@
 		/* 注册验证码 */
 		get_code: function() {
 			var InterValObj; //timer变量，控制时间
-			var count = 120; //间隔函数，1秒执行
+			var count = 60; //间隔函数，1秒执行
 			var curCount; //当前剩余秒数
 			$('#get_code').off('click').on('click', function(e) {
 				e.preventDefault();
@@ -1017,7 +1017,7 @@
 		
 		affiliate: function() {
 			var InterValObj; //timer变量，控制时间
-			var count = 120; //间隔函数，1秒执行
+			var count = 60; //间隔函数，1秒执行
 			var curCount; //当前剩余秒数
 			
 			$('.identify_code_btn').off('click').on('click', function() {
