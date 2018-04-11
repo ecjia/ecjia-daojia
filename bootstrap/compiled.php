@@ -11096,9 +11096,9 @@ class ExceptionServiceProvider extends ServiceProvider
 }
 namespace Royalcms\Component\Exception;
 
-use Royalcms\Component\Whoops\Handler\Handler;
+use Royalcms\Component\Whoops\Handler\Handler as WhoopsHandler;
 use InvalidArgumentException;
-class PrettyPageHandler extends Handler
+class PrettyPageHandler extends WhoopsHandler
 {
     private $resourcesPath;
     private $extraTables = array();
