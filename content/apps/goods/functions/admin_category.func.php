@@ -461,7 +461,7 @@ function get_parent_cats($cat_id, $is_merchant_category = 0, $store_id = 0)
     return change_cats_level($cats);
 }
 
-function change_cats_level($cats) {
+function change_cats_level($cats = array()) {
     if (empty($cats)) return $cats;
     $levels = count($cats);
     $new_cats = array();

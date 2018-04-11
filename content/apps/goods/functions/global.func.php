@@ -879,7 +879,7 @@ function get_brand_list() {
 }
 
 /*返回商品详情页面的导航条数组*/
-function get_goods_info_nav($goods_id=0, $extension_code='') {
+function get_goods_info_nav($goods_id = 0, $extension_code = '') {
 	return array(
 		'edit'                  => array('name' => RC_Lang::get('goods::goods.tab_general'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit', "goods_id=$goods_id".$extension_code)),
 		'edit_goods_desc'       => array('name' => RC_Lang::get('goods::goods.tab_detail'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
@@ -893,7 +893,7 @@ function get_goods_info_nav($goods_id=0, $extension_code='') {
 }
 
 /*返回商家商品详情页面的导航条数组*/
-function get_merchant_goods_info_nav($goods_id=0, $extension_code='') {
+function get_merchant_goods_info_nav($goods_id  =0, $extension_code = '') {
 	return array(
 		'edit'                  => array('name' => RC_Lang::get('goods::goods.tab_general'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit', "goods_id=$goods_id".$extension_code)),
 		'edit_goods_desc'       => array('name' => RC_Lang::get('goods::goods.tab_detail'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
