@@ -470,7 +470,7 @@ function flow_clear_cart_alone() {
  * @param   integer $parent     基本件
  * @return  boolean
  */
-function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$warehouse_id = 0, $area_id = 0, $price = 0, $weight = 0, $flow_type = CART_GENERAL_GOODS) {
+function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehouse_id = 0, $area_id = 0, $price = 0, $weight = 0, $flow_type = CART_GENERAL_GOODS) {
 	$dbview 		= RC_Loader::load_app_model('sys_goods_member_viewmodel', 'goods');
 	$db_cart 		= RC_Loader::load_app_model('cart_model', 'cart');
 	$db_products 	= RC_Loader::load_app_model('products_model', 'goods');
