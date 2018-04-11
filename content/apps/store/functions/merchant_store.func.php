@@ -189,7 +189,7 @@ function get_store_full_info($store_id = 0) {
  *  @param string $code 接收图片参数
  *  @param string $old_images 旧图片
  */
-function store_file_upload_info($path, $code, $old_images, $store_id){
+function store_file_upload_info($path, $code, $old_images = '', $store_id){
     $code   = empty($code)? $path : $code;
     $upload = RC_Upload::uploader('image', array('save_path' => 'merchant/'.$store_id.'/data/'.$path, 'auto_sub_dirs' => true));
     $file   = $_FILES[$code];

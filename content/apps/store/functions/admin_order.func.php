@@ -375,7 +375,7 @@ function order_fee($order, $goods, $consignee) {
     /* 线下红包 */
     if (!empty($order['bonus_kill'])) {
 
-        $bonus                        = bonus_info(0,$order['bonus_kill']);
+        $bonus                        = bonus_info(0, $order['bonus_kill']);
         $total['bonus_kill']          = $order['bonus_kill'];
         $total['bonus_kill_formated'] = price_format($total['bonus_kill'], false);
     }
@@ -1371,7 +1371,7 @@ function deleteRepeat ($array)
  * @param   int     $order_id   订单id
  * @return  array   订单商品数组
  */
-function EM_order_goods($order_id , $page=1 , $pagesize = 10)
+function EM_order_goods($order_id , $page = 1 , $pagesize = 10)
 {
 	$dbview = RC_Loader::load_app_model('order_goods_goods_viewmodel', 'orders');
 	$res = $dbview->join('goods')->where(array('o.order_id' => $order_id))->limit(($page-1)*$pagesize,$pagesize)->select();
