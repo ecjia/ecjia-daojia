@@ -119,7 +119,7 @@ class quickpay_activity {
 	 * @param   float   $goods_amount   订单商品金额
 	 * @return  array   红包数组
 	 */
-	public static function user_bonus($user_id, $goods_amount = 0, $store_id=0) {
+	public static function user_bonus($user_id, $goods_amount = 0, $store_id = 0) {
 		$today = RC_Time::gmtime();
 		$dbview = RC_DB::table('user_bonus as ub')
 		->leftJoin('bonus_type as bt', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'));
