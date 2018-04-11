@@ -64,7 +64,6 @@ class express_module extends api_admin implements api_interface {
 		
 		$order_id = $this->requestData('order_id');
 		if (empty($order_id)) {
-			//EM_Api::outPut(101);
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		
@@ -76,8 +75,8 @@ class express_module extends api_admin implements api_interface {
 		}
 		
 		$delivery_result = RC_Model::model('orders/delivery_order_model')->where(array('order_id' => $order_id))->select();
-		RC_Logger::getlogger('info')->info($order_id);
-		RC_Logger::getlogger('info')->info($delivery_result);
+// 		RC_Logger::getlogger('info')->info($order_id);
+// 		RC_Logger::getlogger('info')->info($delivery_result);
 		
 		$delivery_list = array();
 		if (!empty($delivery_result)) {
@@ -89,10 +88,10 @@ class express_module extends api_admin implements api_interface {
 							'on'    => 'dg.goods_id = g.goods_id',
 					),
 			);
+			$ship_code = RC_Loader::load_app_config('shipping_code', 'shipping');
 			foreach ($delivery_result as $val) {
-				$shipping_info = RC_DB::table('shipping')
-				->where('shipping_id', $val['shipping_id'])
-				->first();
+				$shipping_info = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])
+				    ->first();
 				if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
 					$delivery_list1 = array();
 					if (!empty($val['invoice_no'])){
@@ -134,11 +133,10 @@ class express_module extends api_admin implements api_interface {
 					}
 				} else {
 					$data = array();
-					$typeCom = getComType($val['shipping_name']);//快递公司类型
-					// 				$typeCom = getComType('天天');//快递公司类型
-					if (!empty($typeCom) && !empty($val['invoice_no'])) {
-						// 					$val['invoice_no'] = '667296821017';
+// 					$typeCom = getComType($val['shipping_name']);//快递公司类型
+					$typeCom = $ship_code[$shipping_info['shipping_code']];
 					
+					if (!empty($typeCom) && !empty($val['invoice_no'])) {
 						$cloud_express_key = ecjia::config('cloud_express_key');
 						$cloud_express_secret = ecjia::config('cloud_express_secret');
 						if (!empty($cloud_express_key) && !empty($cloud_express_secret)) {
