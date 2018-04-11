@@ -673,7 +673,7 @@ function update_address($address) {
 	return true;
 }
 
-function EM_user_info($user_id = 0, $mobile = '') {
+function EM_user_info($user_id, $mobile = '') {
 // 	$db_collect_goods  = RC_Model::model('goods/collect_goods_model');
 // 	$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
 // 	$db_orderinfo_view->view = array(
