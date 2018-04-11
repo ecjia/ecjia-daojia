@@ -146,7 +146,7 @@ class mh_keywords_stats extends ecjia_merchant {
 		$page = new ecjia_merchant_page($count, $page_num, 5);
 		
 		if ($is_page) {
-			$db_keywords->take($page_num)->skip($page->current_page-1*$page_num);
+			$db_keywords->take($page->page_size)->skip($page->start_id-1);
 		}
 		$data = $db_keywords->get();
 		return array('item' => $data, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'date' => $start_date.'-'.$end_date);
