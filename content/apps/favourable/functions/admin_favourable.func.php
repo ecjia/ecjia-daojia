@@ -47,7 +47,7 @@
 defined ( 'IN_ECJIA' ) or exit ( 'No permission resources.' );
 
 /**
- * 文章及文章分类相关函数库
+ * 优惠活动信息
  */
 function favourable_info($act_id) {
     $db = RC_Loader::load_app_model ( 'favourable_activity_model', 'favourable' );
@@ -60,7 +60,7 @@ function favourable_info($act_id) {
     } else {
         $row = $db->find(array('act_id' => $act_id));
     }
-	if (! empty ( $row )) {
+	if (!empty($row)) {
 		$row ['start_time']           = RC_Time::local_date ( ecjia::config ( 'time_format' ), $row ['start_time'] );
 		$row ['end_time']             = RC_Time::local_date ( ecjia::config ( 'time_format' ), $row ['end_time'] );
 		$row ['formated_min_amount']  = price_format ( $row ['min_amount'] );
