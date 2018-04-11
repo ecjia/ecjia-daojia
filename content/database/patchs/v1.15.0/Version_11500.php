@@ -46,6 +46,7 @@
 //
 use Ecjia\System\Version\Version;
 use Ecjia\System\Database\Migrate;
+use Ecjia\System\Database\Seeder;
 
 class Version_11500 extends Version
 {
@@ -55,10 +56,13 @@ class Version_11500 extends Version
      */
     public function fire()
     {
-        $migrate = new Migrate();
-        
         // 更新新增的迁移项
+        $migrate = new Migrate();
         $migrate->fire();
+        
+        // 更新shop_config数据填充
+        $seeder = new Seeder('InitShopConfigTableSeeder');
+        $seeder->fire();
         
         $this->fixStoreAccount();
         
