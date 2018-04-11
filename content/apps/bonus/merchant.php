@@ -952,7 +952,7 @@ class merchant extends ecjia_merchant {
     		$this->assign('count',     1);
     		$this->assign('money',     price_format($bonus_type['type_money']));
     		$content = $this->fetch_string($tpl['template_content']);
-    		if (bonus::add_to_maillist($bonus['user_name'], $bonus['email'], $tpl['template_subject'], $content, $tpl['is_html'], false)) {
+    		if (bonus::add_to_maillist($bonus['user_name'], $bonus['email'], $tpl['template_subject'], $content, $tpl['is_html'])) {
     			$data =array( 'emailed' => BONUS_INSERT_MAILLIST_SUCCEED);
     			RC_DB::table('user_bonus')->where(RC_DB::raw('bonus_id'), $bonus[bonus_id])->update($data);
     			$send_count++;

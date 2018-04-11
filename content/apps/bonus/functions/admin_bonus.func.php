@@ -218,7 +218,7 @@ function add_to_maillist($username, $email, $subject, $content, $is_html) {
  * @param   float   $goods_amount   订单商品金额
  * @return  array   红包数组
  */
-function user_bonus($user_id, $goods_amount = 0, $cart_id = array(), $store_id) {
+function user_bonus($user_id, $goods_amount = 0, $cart_id = array(), $store_id = 0) {
 	$db_cart = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'));
 	
     if (!empty($cart_id)) {
@@ -372,7 +372,7 @@ function change_user_bonus($bonus_id, $order_id, $is_used = true) {
 			'order_id'	=> 0
 		);
 	}
-	RC_DB::table('user_bonus')->where('bonus_id', $bonus)->update($data);
+	RC_DB::table('user_bonus')->where('bonus_id', $bonus_id)->update($data);
 }
 /********从order.func移出的有关红包的方法---end************/
 

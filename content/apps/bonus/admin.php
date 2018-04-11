@@ -820,7 +820,7 @@ class admin extends ecjia_admin {
 				$this->assign('money',     price_format($bonus_type['type_money']));
 				$content = $this->fetch_string($tpl['template_content']);
 				
-				if (add_to_maillist($bonus['user_name'], $bonus['email'], $tpl['template_subject'], $content, $tpl['is_html'], false)) {
+				if (add_to_maillist($bonus['user_name'], $bonus['email'], $tpl['template_subject'], $content, $tpl['is_html'])) {
 					$data = array('emailed' => BONUS_INSERT_MAILLIST_SUCCEED);
 					$send_count++;
 				} else {
