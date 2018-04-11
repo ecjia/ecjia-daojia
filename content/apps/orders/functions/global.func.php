@@ -962,7 +962,7 @@ function get_regions($order_id) {
  * @param   int     $back_id   退货单 id（如果 back_id > 0 就按 id 查，否则按 sn 查）
  * @return  array   退货单信息（金额都有相应格式化的字段，前缀是 formated_ ）
  */
-function back_order_info($back_id, $store_id) {
+function back_order_info($back_id, $store_id = 0) {
     $return_order = array();
     if (empty($back_id) || !is_numeric($back_id)) {
         return $return_order;

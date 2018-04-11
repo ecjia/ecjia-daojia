@@ -96,6 +96,7 @@ class mh_sale_general extends ecjia_merchant {
 		
         $order_type = !empty($_GET['order_type']) ? intval($_GET['order_type']) : 1;
         $data = $this->get_order_status($order_type);
+//         _dump(json_decode($data['item'],true),1);
 
         $this->assign('data', $data['item']);
         $this->assign('filter', $data['filter']);
@@ -121,6 +122,7 @@ class mh_sale_general extends ecjia_merchant {
 		
 		$order_type = !empty($_GET['order_type']) ? intval($_GET['order_type']) : 0;
 		$data = $this->get_order_status($order_type);
+// 		_dump(json_decode($data['item'],true),1);
 		
         $this->assign('data', $data['item']);
         $this->assign('filter', $data['filter']);
@@ -168,7 +170,8 @@ class mh_sale_general extends ecjia_merchant {
         }
         
 		$format = ($query_type == 'year') ? '%Y' : '%Y-%m';
-		$where = "oi.store_id = ". $_SESSION['store_id'] ." AND (order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) AND (shipping_time >= ' ". $start_time ."' AND shipping_time <= '" .$end_time. "'  )";
+		$where = "oi.store_id = ". $_SESSION['store_id'] ." AND (order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' )";
+		/*  AND (shipping_time >= ' ". $start_time ."' AND shipping_time <= '" .$end_time. "'  ) */
 		$where .= " AND oi.is_delete = 0";
 		
 		// $templateCount = $this->db_orderinfo_view
@@ -177,12 +180,11 @@ class mh_sale_general extends ecjia_merchant {
 		// 	->group('period')
 		// 	->select();
 		$templateCount = RC_DB::table('order_info as oi')
-			->leftJoin('order_goods as g', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('g.order_id'))
-			->selectRaw("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '". $format ."') AS period, COUNT(DISTINCT order_sn) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount")
+// 			->leftJoin('order_goods as g', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('g.order_id'))
+			->selectRaw("DATE_FORMAT(FROM_UNIXTIME(add_time+3600*8), '". $format ."') AS period, COUNT(DISTINCT order_sn) AS order_count, SUM(goods_amount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount")
 			->whereRaw($where)
 			->groupBy('period')
 			->get();
-
 		
 		if ($order_type == 1) {
 		    if ($templateCount) {
@@ -253,7 +255,7 @@ class mh_sale_general extends ecjia_merchant {
 		// 	->select();
 
 		$data_list = RC_DB::table('order_info as oi')
-			->leftJoin('order_goods as g', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('g.order_id'))
+// 			->leftJoin('order_goods as g', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('g.order_id'))
 			->selectRaw("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '". $format ."') AS period, COUNT(DISTINCT order_sn) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount")
 			->whereRaw($where)
 			->groupBy('period')

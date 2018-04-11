@@ -508,7 +508,7 @@ function get_order_sn() {
 * @param   int	 $user_id	用户id
 * @return  array   用户信息
 */
-function user_info($user_id, $mobile) {
+function user_info($user_id, $mobile = '') {
 	if (!empty($user_id)) {
 		$user = RC_DB::table('users')->where('user_id', $user_id)->first();
 	} elseif (!empty($mobile)){
