@@ -143,9 +143,11 @@ class admin_sale_general extends ecjia_admin {
         }
         
         $format = $query_type == 'year' ? '%Y' : '%Y-%m';
-        $where = "(order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) AND (shipping_time >= ' " . $start_time . "' AND shipping_time <= '" . $end_time . "')";
+        $where = "(order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) ";
+//         AND (shipping_time >= ' " . $start_time . "' AND shipping_time <= '" . $end_time . "')
         $where .= " AND is_delete = 0";
-        $templateCount = RC_DB::table('order_info')->select(RC_DB::raw("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '" . $format . "') AS period, COUNT(*) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount"))->whereRaw($where)->groupby('period')->get();
+        $templateCount = RC_DB::table('order_info')->select(RC_DB::raw("DATE_FORMAT(FROM_UNIXTIME(add_time+3600*8), '" . $format . "') AS period, COUNT(*) AS order_count, SUM(goods_amount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount"))
+            ->whereRaw($where)->groupby('period')->get();
         if ($order_type == 1) {
             if (!empty($templateCount)) {
                 foreach ($templateCount as $k => $v) {
