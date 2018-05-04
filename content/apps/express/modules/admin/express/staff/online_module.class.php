@@ -47,79 +47,79 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 配送抢单列表
- * @author will.chen
+ * 掌柜指派订单获取在线配送员列表
+ * @author zrl
  */
-class grab_list_module extends api_admin implements api_interface {
+class online_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+    	$this->authadminSession();
+    	if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
+		//权限判断，查看配送员列表的权限
+        $result = $this->admin_priv('mh_express_manage');
+        if (is_ecjia_error($result)) {
+        	return $result;
+        }
+        $express_id = $this->requestData('express_id', 0);
+		$size     	= $this->requestData('pagination.count', 15);
+		$page     	= $this->requestData('pagination.page', 1);
+		$keywords = $this->requestData('keywords');
 		
-		$location         = $this->requestData('location', array());
-		$size             = $this->requestData('pagination.count', 15);
-		$page             = $this->requestData('pagination.page', 1);
-		//$where            = array('eo.store_id' => $_SESSION['store_id'], 'staff_id' => 0, 'eo.status' => 0);
-		$where = array();
-		$where['staff_id'] = 0;
-		$where['eo.status'] = 0;
-		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-			$where['eo.store_id'] = $_SESSION['store_id'];
+		if (empty($express_id)) {
+			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 		}
 		
-		$express_order_db = RC_Model::model('express/express_order_viewmodel');
+		$db = RC_DB::table('staff_user')->leftJoin('express_user', 'staff_user.user_id', '=', 'express_user.user_id');
 		
-		$count            = $express_order_db->join(null)->where($where)->count();
+		$db->where('staff_user.store_id', $_SESSION['store_id']);
+		$db->where('staff_user.group_id', '=', '-1');
+		$db->where('staff_user.parent_id', '>', 0);
+		$db->where('staff_user.online_status', '=', 1);
+		
+		if (!empty($keywords)) {
+			$db ->whereRaw('(staff_user.mobile  like  "%'.mysql_like_quote($keywords).'%" or staff_user.name like "%'.mysql_like_quote($keywords).'%")');
+		}
+		
+		$count = $db->select('staff_user.user_id')->count();
+		
 		//实例化分页
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
-		$field                = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
-		$express_order_result = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->order(array('express_id' => 'desc'))->select();
+		$list = $db->take($size)->skip($page_row->start_id - 1)->select('staff_user.*', 'express_user.longitude', 'express_user.latitude')->orderBy('staff_user.add_time', 'desc')->get();
 		
-		$express_order_list = array();
-		if (!empty($express_order_result)) {
-			foreach ($express_order_result as $val) {
-				$sf_district_name = ecjia_region::getRegionName($val['sf_district']);
-				$sf_street_name = ecjia_region::getRegionName($val['sf_street']);
-				$district_name = ecjia_region::getRegionName($val['district']);
-				$street_name = ecjia_region::getRegionName($val['street']);
-				
-				$express_order_list[] = array(
-					'express_id'	         => $val['express_id'],
-					'express_sn'	         => $val['express_sn'],
-					'express_type'	         => $val['from'],
-					'label_express_type'	 => $val['from'] == 'assign' ? '系统派单' : '抢单',
-					'order_sn'		         => $val['order_sn'],
-					'payment_name'	         => $val['pay_name'],
-					'express_from_address'	 => '【'.$val['merchants_name'].'】'. $sf_district_name. $sf_street_name. $val['merchant_address'],
-					'express_from_location'	 => array(
-						'longitude' => $val['merchant_longitude'],
-						'latitude'	=> $val['merchant_latitude'],
-					),
-					'express_to_address'	=> $district_name. $street_name. $val['address'],
-					'express_to_location'	=> array(
-						'longitude' => $val['longitude'],
-						'latitude'	=> $val['latitude'],
-					),
-					'distance'		=> $val['distance'],
-					'consignee'		=> $val['consignee'],
-					'mobile'		=> $val['mobile'],
-					'order_time'	=> $val['order_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $val['order_time']) : '',
-					'pay_time'		=> empty($val['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
-					'best_time'		=> $val['best_time'],
-					'shipping_fee'	=> $val['shipping_fee'],
-					'order_amount'	=> $val['order_amount'],
+		$express_user_list = array();
+		$distance = 0;
+		$location		= RC_DB::table('express_order')->where('express_id', $express_id)->select('longitude', 'latitude')->first();
+		if (!empty($list)) {
+			foreach ($list as $row) {
+				$wait_count 	= RC_DB::table('express_order')->where('staff_id', $row['user_id'])->where('status', 1)->count();
+				$sending_count	= RC_DB::table('express_order')->where('staff_id', $row['user_id'])->where('status', 2)->count(); 
+				if (!empty($location['longitude']) && !empty($location['latitude']) && !empty($row['latitude']) && !empty($row['longitude'])) {
+					//腾讯地图api距离计算
+					$keys = ecjia::config('map_qq_key');
+					$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$row['latitude'].",".$row['longitude']."&to=".$location['latitude'].",".$location['longitude']."&key=".$keys;
+					$distance_json = file_get_contents($url);
+					$distance_info = json_decode($distance_json, true);
+					$row['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+				}
+				$express_user_list[] = array(
+						'staff_id' 					=> $row['user_id'],
+						'staff_name' 				=> $row['name'],
+						'avatar' 					=> empty($row['avatar']) ? '' : RC_Upload::upload_url($row['avatar']),
+						'mobile'					=> $row['mobile'],
+						'wait_count'				=> $wait_count,
+						'sending_count'				=> $sending_count,
+						'distance'					=> !empty($row['distance']) ? $row['distance'] : $distance
 				);
 			}
 		}
-		
 		$pager = array(
 			'total' => $page_row->total_records,
 			'count' => $page_row->total_records,
 			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
 		);
-		return array('data' => $express_order_list, 'pager' => $pager);
+		return array('data' => $express_user_list, 'pager' => $pager);
 	 }	
 }
 

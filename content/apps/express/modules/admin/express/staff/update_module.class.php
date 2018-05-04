@@ -46,18 +46,76 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+
 /**
- * 配送应用
+ * 掌柜编辑配送员
+ * @author zrl
  */
-return array(
-    'identifier'    => 'ecjia.express',
-    'directory'     => 'express',
-    'name'          => 'express',
-    'description'   => 'express_desc',			  /* 描述对应的语言项 */
-	'author'        => 'ECJIA TEAM',			  /* 作者 */
-	'website'       => 'http://www.ecjia.com',	  /* 网址 */
-	'version'       => '1.10.0',					  /* 版本号 */
-	'copyright'     => 'ECJIA Copyright 2014.'
-);
+class update_module extends api_admin implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	$this->authadminSession();
+    	if ($_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+		//检查权限，添加员工的权限
+        $result = $this->admin_priv('staff_update');
+        if (is_ecjia_error($result)) {
+        	return $result;
+        }
+        
+        $staff_id 	= $this->requestData('staff_id', 0);
+        $name 		= $this->requestData('name', '');
+        $user_ident = $this->requestData('user_ident', '');
+        $email 		= $this->requestData('email', '');
+        $remark 	= $this->requestData('remark', '');
+        
+		if (empty($staff_id)) {
+    		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    	}
+    	
+    	//配送员信息
+    	$express_user_info = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('user_id', $staff_id)->first();
+    	if (empty($express_user_info)) {
+    		return new ecjia_error('express_userinfo_not_exist', '配送员信息不存在！');
+    	}
+    	
+    	$data = array();
+    	//用户名重复判断
+    	if (!empty($name)) {
+    		$user_name_count = RC_DB::table('staff_user')->where('user_id', '<>', $staff_id)->where('name', $name)->where('store_id', $_SESSION['store_id'])->count();
+    		if ($user_name_count > 0) {
+    			return new ecjia_error('staff_name_exist', '该员工名称已存在');
+    		}
+    		$data['name'] = $name;
+    	}
+    	
+    	//邮件重复判断
+    	if (!empty($email)) {
+    		$email_count = RC_DB::table('staff_user')->where('user_id', '<>', $staff_id)->where('email', $email)->where('store_id', $_SESSION['store_id'])->count();
+    		if ($email_count > 0) {
+    			return new ecjia_error('email_exist', '该邮箱已存在');
+    		}
+    		$data['email'] = $email;
+    	}
+    	
+    	//工号重复判断
+    	if (!empty($user_ident)) {
+    		$user_ident_count = RC_DB::table('staff_user')->where('user_id', '<>', $staff_id)->where('user_ident', $user_ident)->where('store_id', $_SESSION['store_id'])->count();
+    		if ($user_ident_count > 0) {
+    			return new ecjia_error('user_ident_exist', '该员工工号已存在');
+    		}
+    		$data['user_ident'] = $user_ident;
+    	}
+    	
+    	if (!empty($data)) {
+    		RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('user_id', $staff_id)->update($data);
+    	}
+    	//记录管理员操作记录log
+    	Ecjia\App\Express\Helper::assign_adminlog_content();
+    	RC_Api::api('merchant', 'admin_log', array('text'=> '配送员:'.$name.'【来源掌柜】', 'action'=>'edit', 'object'=>'express_user_profile'));
+    	
+    	return array();
+	 }	
+}
 
 // end

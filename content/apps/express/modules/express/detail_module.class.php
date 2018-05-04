@@ -52,6 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class detail_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	$this->authadminSession();
     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
@@ -64,12 +65,12 @@ class detail_module extends api_admin implements api_interface {
     	$express_order     = array();
     	$express_order_db  = RC_Model::model('express/express_order_viewmodel');
     	if (!empty($express_id)) {
-    		$where = array('staff_id' => $_SESSION['staff_id'], 'express_id' => $express_id);
+    		$where = array('express_id' => $express_id);
     	} else {
-    		$where = array('staff_id' => $_SESSION['staff_id'], 'express_sn' => $express_sn);
+    		$where = array('express_sn' => $express_sn);
     	}
     	
-    	$field = 'eo.*, oi.expect_shipping_time, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+    	$field = 'eo.*, oi.expect_shipping_time, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, oi.postscript, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
     	$express_order_info = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
 		
     	/* 判断配送单是否存在*/
@@ -81,6 +82,32 @@ class detail_module extends api_admin implements api_interface {
 		$sf_street_name = ecjia_region::getRegionName($express_order_info['sf_street']);
 		$district_name = ecjia_region::getRegionName($express_order_info['district']);
 		$street_name = ecjia_region::getRegionName($express_order_info['street']);
+		$express_avatar = '';
+		
+		if ($express_order_info['staff_id'] > 0) {
+			$express_avatar = RC_DB::table('staff_user')->where('user_id', $express_order_info['staff_id'])->pluck('avatar');
+		}
+		
+		$app_url =  RC_App::apps_url('statics/images', __FILE__);
+		
+		switch ($express_order_info['status']) {
+			case '0' :
+				$status = 'wait_assign';
+				$label_express_status = '待指派';
+				break;
+			case '1' :
+				$status = 'wait_pickup';
+				$label_express_status = '待取货';
+				break;
+			case '2' :
+				$status = 'sending';
+				$label_express_status = '配送中';
+				break;
+			case '5' :
+				$status = 'finished';
+				$label_express_status = '已完成';
+				break;
+		}
 		
     	$express_order = array(
     		'express_id'	        => $express_order_info['express_id'],
@@ -101,6 +128,7 @@ class detail_module extends api_admin implements api_interface {
     		),
     		'distance'		=> $express_order_info['distance'],
     		'consignee'		=> $express_order_info['consignee'],
+    		'buyer_message' => $express_order_info['postscript'],
     		'mobile'		=> $express_order_info['mobile'],
     		'receive_time'	=> $express_order_info['receive_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['receive_time']) : '',
     		'express_time'	=> $express_order_info['express_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['express_time']) : '',
@@ -110,7 +138,14 @@ class detail_module extends api_admin implements api_interface {
     		'signed_time'	=> $express_order_info['signed_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['signed_time']) : '',
     		'shipping_fee'	=> $express_order_info['shipping_fee'],
     		'order_amount'	=> $express_order_info['order_amount'],
+    		'staff_id'		=> $express_order_info['staff_id'],
+    		'express_user'	=> $express_order_info['express_user'],
+    		'express_mobile'=> $express_order_info['express_mobile'],
+    		'express_avatar'=> empty($express_avatar) ? $app_url.'/touxiang.png' : RC_Upload::upload_url($express_avatar),
+    		'express_status'=> $status,
+    		'label_express_status' => $label_express_status,
     		'goods_items'	=> array(),
+    		'pickup_qrcode_sn'	=> 'ecjiaopen://app?open_type=express_pickup&delivery_sn='. $express_order_info['delivery_sn'],
     	);
     	
     	$goods_items = RC_DB::table('delivery_goods as dg')
@@ -121,10 +156,12 @@ class detail_module extends api_admin implements api_interface {
     	
     	if (!empty($goods_items)) {
     		foreach ($goods_items as $val) {
+    			$goods_attr = RC_DB::table('order_goods')->where('order_id', $express_order_info['order_id'])->where('goods_id', $val['goods_id'])->pluck('goods_attr');
     			$express_order['goods_items'][] = array(
     				'goods_id'	            => $val['goods_id'],
     				'name'		            => $val['goods_name'],
     				'goods_number'	        => $val['send_number'],
+    				'goods_attr'			=> empty($goods_attr) ? '' : $goods_attr,
     				'formatted_shop_price'	=> price_format($val['shop_price']),
     				'img'		            => array(
     					'small'	=> !empty($val['goods_thumb']) ? RC_Upload::upload_url($val['goods_thumb']) : '',

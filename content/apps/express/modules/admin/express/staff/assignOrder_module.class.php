@@ -46,18 +46,71 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+
 /**
- * 配送应用
+ * 掌柜指派订单
+ * @author zrl
  */
-return array(
-    'identifier'    => 'ecjia.express',
-    'directory'     => 'express',
-    'name'          => 'express',
-    'description'   => 'express_desc',			  /* 描述对应的语言项 */
-	'author'        => 'ECJIA TEAM',			  /* 作者 */
-	'website'       => 'http://www.ecjia.com',	  /* 网址 */
-	'version'       => '1.10.0',					  /* 版本号 */
-	'copyright'     => 'ECJIA Copyright 2014.'
-);
+class assignOrder_module extends api_admin implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	$this->authadminSession();
+    	if ($_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+		//检查权限，指派订单的权限
+        $result = $this->admin_priv('mh_express_task_manage');
+        if (is_ecjia_error($result)) {
+        	return $result;
+        }
+        
+        $express_id = $this->requestData('express_id', 0);
+        $staff_id 	= $this->requestData('staff_id', 0);
+        
+		if (empty($express_id) || empty($staff_id)) {
+    		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    	}
+    	
+    	//配送单信息是否存在
+    	$express_orderinfo = RC_DB::table('express_order')->where('express_id', $express_id)->first();
+    	if (empty($express_orderinfo)) {
+    		return new ecjia_error('not_exists_express_order', '配送单信息不存在');
+    	}
+    	if ($express_orderinfo['store_id'] != $_SESSION['store_id']) {
+    		return new ecjia_error('no_authority', '对不起，您没权限指派此订单！');
+    	}
+    	
+    	//配送员信息
+    	$express_user_dbview = RC_DB::table('staff_user')->leftJoin('express_user', 'express_user.user_id', '=', 'staff_user.user_id');
+    						
+    	$express_user_info = $express_user_dbview->where('staff_user.user_id', $staff_id)->select('staff_user.*', 'express_user.shippingfee_percent')->first();
+    	
+    	if (empty($express_user_info)) {
+    		return new ecjia_error('not_exists_express_userinfo', '配送员信息不存在');
+    	}
+    	
+    	if ($express_user_info['store_id'] != $_SESSION['store_id']) {
+    		return new ecjia_error('express_user_not_belong_store', '指定配送员不属于当前店铺！');
+    	}
+    	
+    	$commision = $express_user_info['shippingfee_percent']/100 * $express_orderinfo['shipping_fee'];
+    	$commision = sprintf("%.2f", $commision);
+    	$data = array(
+    			'from' 			=> 'assign',
+    			'status'		=> 1,
+    			'staff_id'		=> $staff_id,
+    			'express_user'	=> $express_user_info['name'],
+    			'express_mobile'=> $express_user_info['mobile'],
+    			'commision'		=> $commision,
+    			'commision_status'	=> 0,
+    			'receive_time'	=> RC_Time::gmtime()
+    	);
+    	
+    	$update = RC_DB::table('express_order')->where('express_id', $express_id)->update($data);
+    	//记录管理员操作log
+    	Ecjia\App\Express\Helper::assign_adminlog_content();
+    	RC_Api::api('merchant', 'admin_log', array('text'=> '配送单号：'.$express_orderinfo['express_sn'].'【来源掌柜】', 'action'=>'assign', 'object'=>'express_order'));
+    	return array();
+	 }	
+}
 
 // end

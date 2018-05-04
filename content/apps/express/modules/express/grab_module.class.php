@@ -54,6 +54,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class grab_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	$this->authadminSession();
     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
@@ -64,15 +65,27 @@ class grab_module extends api_admin implements api_interface {
 		if (empty($express_id)) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
-		$where                = array('store_id' => $_SESSION['store_id'], 'staff_id' => 0, 'express_id' => $express_id);
+		
+		//$where                = array('store_id' => $_SESSION['store_id'], 'staff_id' => 0, 'express_id' => $express_id);
+		$where = array();
+		$where['staff_id'] = 0;
+		$where['express_id'] = $express_id;
+		if (!empty($_SESSION['store_id'])) {
+			$where['store_id'] = $_SESSION['store_id'];
+		}
 		
 		$express_order_db     = RC_Model::model('express/express_order_model');
 		$express_order_info   = $express_order_db->where($where)->find();
 		
 		if (!empty($express_order_info)) {
-			$update_date                     = array('staff_id' => $_SESSION['staff_id'], 'from' => 'grab', 'status' => 1, 'receive_time' => RC_Time::gmtime());
+			$update_date                     = array('staff_id' => $_SESSION['staff_id'], 'from' => 'grab', 'status' => 1, 'commision_status' => 0, 'receive_time' => RC_Time::gmtime());
 			$update_date['express_user']	 = $_SESSION['staff_name'];
 			$update_date['express_mobile']	 = $_SESSION['staff_mobile'];
+			
+			/*配送员可得配送费处理，商家shippingfee_percent默认是100%*/
+			$shippingfee_percent = RC_DB::table('express_user')->where('user_id', $_SESSION['staff_id'])->pluck('shippingfee_percent');
+			$update_date['commision'] = $shippingfee_percent/100*$express_order_info['shipping_fee'];
+			
 			
 			$result                  = $express_order_db->where($where)->update($update_date);
 			$orm_staff_user_db       = RC_Model::model('express/orm_staff_user_model');
@@ -80,14 +93,13 @@ class grab_module extends api_admin implements api_interface {
 			$express_order_viewdb    = RC_Model::model('express/express_order_viewmodel');
 			
 			$where                   = array('staff_id' => $_SESSION['staff_id'], 'express_id' => $express_id);
-			$field 				     = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+			$field                   = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
 			$express_order_info      = $express_order_viewdb->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
 			
 			//消息通知
 			$express_from_address = ecjia_region::getRegionName($express_order_info['sf_district']).ecjia_region::getRegionName($express_order_info['sf_street']).$express_order_info['merchant_address'];
 			$express_to_address = ecjia_region::getRegionName($express_order_info['district']).ecjia_region::getRegionName($express_order_info['street']).$express_order_info['address'];
-			
-			
+				
 			$express_data            = array(
 				'title'	=> '抢单成功',
 				'body'	=> '您已成功抢到配送单号，单号为：'.$express_order_info['express_sn'],
@@ -114,7 +126,7 @@ class grab_module extends api_admin implements api_interface {
 					'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $express_order_info['add_time']),
 					'pay_time'		=> empty($express_order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['pay_time']),
 					'best_time'		=> empty($express_order_info['best_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['best_time']),
-					'shipping_fee'	=> $express_order_info['shipping_fee'],
+					'shipping_fee'	=> $update_date['commision'],
 					'order_amount'	=> $express_order_info['order_amount'],
 				),
 			);

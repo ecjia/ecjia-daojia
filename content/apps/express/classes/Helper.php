@@ -44,20 +44,24 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Express;
 
-/**
- * 配送应用
- */
-return array(
-    'identifier'    => 'ecjia.express',
-    'directory'     => 'express',
-    'name'          => 'express',
-    'description'   => 'express_desc',			  /* 描述对应的语言项 */
-	'author'        => 'ECJIA TEAM',			  /* 作者 */
-	'website'       => 'http://www.ecjia.com',	  /* 网址 */
-	'version'       => '1.10.0',					  /* 版本号 */
-	'copyright'     => 'ECJIA Copyright 2014.'
-);
+use ecjia_admin_log;
+use RC_Lang;
+
+class Helper
+{
+    /**
+     * 添加管理员记录日志操作对象
+     */
+    public static function assign_adminlog_content()
+    {
+    	ecjia_admin_log::instance()->add_action('assign', '指派');
+    	
+        ecjia_admin_log::instance()->add_object('express_user', '配送员');
+        ecjia_admin_log::instance()->add_object('express_user_profile', '配送员资料');
+        ecjia_admin_log::instance()->add_object('express_order', '订单');
+    }
+}
 
 // end

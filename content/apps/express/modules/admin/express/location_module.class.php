@@ -47,26 +47,45 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 获取配送总数
- * @author chenzhejun@ecmoban.com
- * @param   array	 $options
- * @return  array   商家活动数组
+ * 查看配送订单配送员位置
+ * @author zrl
  */
-class express_express_order_count_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-    	if (!is_array($options)) {
-    		return new ecjia_error('invalid_parameter', '参数无效');
-    	}
-    	
-    	$db    = RC_DB::table('express_order');
-    	$where = array();
-    	
-    	if (isset($_SESSION['store_id']) && $_SESSION['store_id']) {
-    		$db->where('store_id', $_SESSION['store_id']);
-    	}
-    	return $db->count();
-    }
+class location_module extends api_admin implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	$this->authadminSession();
+    	if ($_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+		
+        $staff_id = $this->requestData('staff_id');
+        
+        if (empty($staff_id)) {
+        	return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+        }
+        
+        $dbview = RC_DB::table('staff_user as su')
+        			->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'));
+        
+        $dbview->where(RC_DB::raw('su.user_id'), $staff_id);
+        
+        $express_user_info = $dbview->selectRaw('eu.*, su.name, su.mobile, su.avatar')->first();
+        
+        if (empty($express_user_info)) {
+        	return new ecjia_error('not_exists_expressinfo', '配送员信息不存在');
+        }
+        $app_url =  RC_App::apps_url('statics/images', __FILE__);
+        
+        $express_user_info = array(
+        	'express_user'	        => empty($express_user_info['name']) ? 	'' 	: $express_user_info['name'],
+        	'express_mobile'		=> empty($express_user_info['mobile']) ? '' : $express_user_info['mobile'],
+        	'avatar'	        	=> !empty($express_user_info['avatar']) ? RC_Upload::upload_url($express_user_info['avatar']) : $app_url.'/touxiang.png',
+        	'express_user_location'	=> array(
+        		'longitude'			=> empty($express_user_info['longitude']) ? '' : $express_user_info['longitude'],
+        		'latitude'			=> empty($express_user_info['latitude']) ? '' : $express_user_info['latitude'],
+        	),
+        );
+		return $express_user_info;
+	 }	
 }
 
 // end

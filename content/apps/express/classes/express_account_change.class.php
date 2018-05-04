@@ -47,17 +47,33 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 配送应用
+ * 配送员资金账户变动
  */
-return array(
-    'identifier'    => 'ecjia.express',
-    'directory'     => 'express',
-    'name'          => 'express',
-    'description'   => 'express_desc',			  /* 描述对应的语言项 */
-	'author'        => 'ECJIA TEAM',			  /* 作者 */
-	'website'       => 'http://www.ecjia.com',	  /* 网址 */
-	'version'       => '1.10.0',					  /* 版本号 */
-	'copyright'     => 'ECJIA Copyright 2014.'
-);
+class express_account_change {
+	
+	/**
+	 * 配送员资金变动记录
+	 */
+	public static function express_account_change_log($options){
+		/*插入配送员帐户变动记录 */
+		 $account_log = array (
+            'staff_user_id'		=> $options['staff_user_id'],
+            'user_money'		=> $options['user_money'],
+            'frozen_money'		=> $options['frozen_money'],
+            'change_time'		=> RC_Time::gmtime(),
+            'change_desc'		=> $options['change_desc'],
+            'change_type'		=> $options['change_type']
+        );
+		 
+		RC_DB::table('express_user_account_log')->insert($account_log);
+		
+		/*更新配送员账户信息 */
+		RC_DB::table('express_user')->where('user_id', $options['staff_user_id'])->increment('user_money', $options['user_money']);
+		
+		return true;
+	}
+
+}	
+
 
 // end

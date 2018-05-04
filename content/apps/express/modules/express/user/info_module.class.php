@@ -62,6 +62,22 @@ class info_module extends api_admin implements api_interface {
         $assign_count        = RC_DB::table('express_order')->where('staff_id', $_SESSION['staff_id'])->where('from', 'assign')->where('status', 5)->count();
         $grab_count          = RC_DB::table('express_order')->where('staff_id', $_SESSION['staff_id'])->where('from', 'grab')->where('status', 5)->count();
         
+        /*配送员信息处理*/
+        if ($express_count_stats['store_id'] == '0') {
+        	//平台
+        	$work_platform = 'admin';
+        	if ($express_count_stats['work_type'] == '1') {
+        		$work_type = 'assign';
+        	} elseif ($express_count_stats['work_type'] == '2') {
+        		$work_type = 'grab';
+        	} else {
+        		$work_type = 'assign';
+        	}
+        } else {
+        	//商家
+        	$work_platform = 'merchant';
+        	$work_type = 'assign';
+        }	
         
         $express_user_info = array(
 			'user_id'		       	=> $_SESSION['staff_id'],
@@ -71,7 +87,7 @@ class info_module extends api_admin implements api_interface {
         	'mobile'		        => $staff_user['mobile'],
         	'email'			        => $staff_user['email'],
         	'delivery_count'		=> !empty($express_count_stats) ? $express_count_stats['delivery_count'] : 0,
-        	'sum_delivery_money'	=> RC_DB::table('express_order')->where('staff_id', $_SESSION['staff_id'])->where('status', 5)->sum('shipping_fee'),
+        	'sum_delivery_money'	=> RC_DB::table('express_order')->where('staff_id', $_SESSION['staff_id'])->where('status', 5)->where('commision_status', 1)->sum('commision'),
         	'sum_delivery_distance'	=> !empty($express_count_stats) ? $express_count_stats['delivery_distance'] : 0,
         	'express_type_stats'	=> array(
         		'assign_count'		=> $assign_count,
@@ -80,6 +96,8 @@ class info_module extends api_admin implements api_interface {
         	'role_name'				=> '配送员',
         	'last_login' 			=> RC_Time::local_date(ecjia::config('time_format'), $staff_user['last_login']),
             'online_status'         => $staff_user['online_status'] == 1 ? 'online' : 'offline',
+        	'work_platform'			=> $work_platform,
+        	'work_type'				=> $work_type,
         );
 		return $express_user_info;
 	 }	

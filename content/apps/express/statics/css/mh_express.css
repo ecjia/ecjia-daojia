@@ -1,0 +1,202 @@
+/* 
+ * 配送员管理-查看详情
+ */
+.w480 {
+	width: 480px;
+}
+.order_number span{
+	margin-left:180px;
+	font-size: 16px;
+}
+
+
+/* 
+ * 配送员管理-查看当前位置
+ */
+.modal {
+	margin-top:100px;
+}
+.modal-content{
+	width:900px;
+	margin-left: -150px;
+}
+
+#allmap {
+	height:600px;
+}
+
+
+/* 
+ * 配送员管理-查看账目明细
+ */
+.all{
+   height:100px;
+}
+.all-match{
+   height:50px;
+}
+.sale_desc{
+	line-height:50px;
+}
+
+
+
+/* 
+ * 资金对账-对账详情
+ */
+ul.list-mod-briefing {
+	margin: 30px 0;
+    overflow: hidden;
+	padding: 0;
+}
+ul.list-mod-briefing li {
+	list-style-type:none; 
+	position: relative;
+	background: #fff;
+	float: left;
+	margin-right:14.666666px;
+}
+ul.list-mod-briefing li:last-child {
+	margin-right: 0;
+}
+ul.list-mod-briefing li .bd {
+	height: 117px;
+	font-size: 28px;
+	text-align: center;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	line-height: 150px;
+}
+ul.list-mod-briefing li .ft {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 80px;
+	height: 38px;
+	line-height: 38px;
+	padding: 0 15px;
+	text-align: center;
+	color: #fff;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+ul.list-mod-briefing li:nth-of-type(1n) .ft {
+	background: #2fc1a5;
+}
+ul.list-mod-briefing li:nth-of-type(2n) .ft {
+	background: #efbc2e;
+}
+ul.list-mod-briefing li:nth-of-type(3n) .ft {
+	background: #f44775;
+}
+ul.list-mod-briefing li:nth-of-type(4n) .ft {
+	background: #7a31ec;
+}
+.span3{
+	 width: 24%;
+}
+
+
+
+/* 
+ * 历史配送-查看详情
+ */
+.express_content{
+	height:600px;
+	overflow:auto;
+}
+.express_order{
+	height: 35px;
+	font-size: 16px;
+	border-bottom: 1px solid #dcdcdc;
+}
+
+.express_order span{
+	margin-right:35px;
+}
+
+.express_title{
+	font-size: 18px;
+	font-weight:bold;
+}
+
+.express_content ul {
+	padding:15px;
+}
+.express_content li {
+	font-size: 14px;
+	list-style: none;
+	padding:5px;
+}
+
+.pickup_info{
+	width:415px;
+	height:190px;
+	background-color: #f9fafa;
+	border: 1px solid #f9fafa;
+    border-radius: 5px;
+    margin-top: 20px;
+	float:left;
+}
+.delivery_info{
+	width:415px;
+	height:190px;
+	background-color: #f9fafa;
+	border: 1px solid #f9fafa;
+    border-radius: 5px;
+    margin-top: 20px;
+	float:right;
+}
+
+.shipping_info{
+	width:415px;
+	height:190px;
+	background-color: #f9fafa;
+	border: 1px solid #f9fafa;
+    border-radius: 5px;
+    margin-top: 20px;
+	float:left;
+}
+.shipping_info_over{
+	width:415px;
+	height:190px;
+	background-color: #f9fafa;
+	border: 1px solid #f9fafa;
+    border-radius: 5px;
+    margin-top: 20px;
+	float:left;
+}
+
+.order_goods{
+	width:851px;
+	background-color: #f9fafa;
+	border: 1px solid #f9fafa;
+    margin-top: 20px;
+	float:left;
+	border-bottom: 1px solid #dcdcdc;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+.goods-info{
+	margin-bottom: 15px;
+}
+.info-left{
+    float: left;
+}
+
+.info-right{
+	margin-left: 70px;
+}
+.goods_number{
+	margin-left:60px;
+}
+
+
+.order_desc{
+	width:851px;
+	background-color: #f9fafa;
+	border: 1px solid #f9fafa;
+	float:left;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}

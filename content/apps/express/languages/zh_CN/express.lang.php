@@ -122,6 +122,11 @@ return array(
 	'change_express_user'	=> '变更配送人员',
 	'label_express_user'	=> '配送人员：',
 	'express_user_pickup'	=> '配送员已取货',
+	//js
+	'js_lang'	=> array(
+			'ok'					=> '确定',
+			'cancel'				=> '取消',
+	),
 );		
 
 //end

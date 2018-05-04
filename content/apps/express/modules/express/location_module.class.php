@@ -73,18 +73,7 @@ class location_module extends api_front implements api_interface {
 		}
 		
 		$out = array();
-		
-		/*店铺位置既起送位置处理*/
-		$from = array();
-		$store_info = RC_DB::table('store_franchisee')->where('store_id', $order_info['store_id'])->first();
-		$from = array(
-			'name' 		=> $store_info['address'],
-			'location'	=> array(
-				'lat' => $store_info['latitude'],
-				'lng' => $store_info['longitude'],
-			),
-		);
-		
+			
 		/*收货地址既送达位置处理*/
 		$to = array();
 
@@ -133,6 +122,27 @@ class location_module extends api_front implements api_interface {
 		$express_user = $staff_user_info['name'];
 		$express_mobile = $staff_user_info['mobile'];
 		$avatar = empty($staff_user_info['avatar']) ? '' :  RC_Upload::upload_url($staff_user_info['avatar']);
+		
+		
+		/*配送员当前位置处理*/
+		$from = array();
+		$express_user_info = RC_DB::table('express_user')->where('user_id', $express_order_info['staff_id'])->first();
+		//腾讯地图api 地址解析（坐标转地址）
+		$current_location = $express_user_info['latitude'].','.$express_user_info['longitude'];
+		
+		$current_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?location=".$current_location."&key=".$map_qq_key."&get_poi=1");
+		$current_point = json_decode($current_point['body'], true);
+		
+		if (isset($current_point['result']) && !empty($current_point['result']['address']) && !empty($express_user_info['latitude']) && !empty($express_user_info['longitude'])) {
+			$from = array(
+					'name' 		=> $current_point['result']['address'],
+					'location'	=> array(
+							'lat' => $express_user_info['latitude'],
+							'lng' => $express_user_info['longitude'],
+					),
+			);
+		}
+		
 		/*配送状态*/
 		if ($order_info['shipping_status'] == SS_RECEIVED) {
 			$shipping_status = 'finished';
