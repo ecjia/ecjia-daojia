@@ -101,6 +101,8 @@ class ecjia_touch_api
  	const CART_CHECKED		= 'cart/checked';//购物车更新选中状态
  	const FLOW_CHECKORDER 	= 'flow/checkOrder';//购物流检查订单
  	const FLOW_DONE			= 'flow/done';//购物流完成
+ 	const STOREPICKUP_FLOW_CHECKORDER 	= 'storepickup/flow/checkOrder';//购物流检查订单
+ 	const STOREPICKUP_FLOW_DONE			= 'storepickup/flow/done';//购物流完成
  	
  	//==============================================
  	// 商品
@@ -193,6 +195,7 @@ class ecjia_touch_api
  	const MERCHANT_GOODS_SUGGESTLIST = 'merchant/goods/suggestlist';//商店推荐商品
  	const MERCHANT_SHOP_PAYMENT      = 'merchant/shop/payment';//获取商家支付方式列表
  	const MERCHANT_CONFIG         	 = 'merchant/config';//商店基本信息
+ 	const MERCHANT_NEARBY         	 = 'merchant/nearby';//附近店铺
  	
  	//商家入驻
  	const ADMIN_MERCHANT_SIGNUP     = 'admin/merchant/signup';//提交入驻信息
@@ -210,7 +213,8 @@ class ecjia_touch_api
  	const ORDERS_COMMENT_DETAIL     = 'orders/comment/detail';//获取单个订单的评论详情
  	
  	const STORE_COMMENTS			= 'store/comments';//店铺评论
- 	
+ 	const STORE_BUSINESS_CITY       = 'store/business/city';
+
  	//==============================================
  	// 绑定手机号或邮箱
  	//==============================================

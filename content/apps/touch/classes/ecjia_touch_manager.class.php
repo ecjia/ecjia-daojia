@@ -65,7 +65,7 @@ class ecjia_touch_manager extends Ecjia\System\Api\ApiManager
         	'device-udid'     => RC_Session::getId(),
             'device-client'   => 'h5',
             'device-code'     => '6004',
-            'api-version'     => '1.14',
+            'api-version'     => '1.16',
         ));
     }
 
