@@ -87,6 +87,8 @@ return array(
     'Ecjia\App\Memadmin' => $contentDir . '/apps/memadmin/classes',
 	'Ecjia\App\Refund' => $contentDir . '/apps/refund/classes',
 	'Ecjia\App\Ucenter' => $contentDir . '/apps/ucenter/classes',
+    'Ecjia\App\Express' => $contentDir . '/apps/express/classes',
+
 
     
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
