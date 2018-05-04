@@ -21,7 +21,6 @@
         		var mobile_phone = $("input[name='mobile_phone']").val();
         		var invite_code	= $("input[name='invite_code']").val();
         		
-        		
         		var phoneReg = /^1[34578]\d{9}$/; 
         		if (phoneReg.test(mobile_phone) == false) {
         			alert('填写的手机号码格式不正确');
@@ -46,7 +45,24 @@
 					}
         		});
         	});
+			app.affiliate.submit_form();
 		},
+		
+        submit_form: function (formobj) {
+            var $form = $("form[name='theForm']");
+            var option = {
+                submitHandler: function () {
+                    $form.ajaxSubmit({
+                        dataType: "json",
+                        success: function (data) {
+                            ecjia.admin.showmessage(data);
+                        }
+                    });
+                }
+            }
+            var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+            $form.validate(options);
+        },
 		
         info : function () {
             app.affiliate.percent_form();

@@ -110,7 +110,7 @@ class admin_separate extends ecjia_admin {
 		empty($affiliate) && $affiliate = array();
 		$separate_by = $affiliate['config']['separate_by'];
 		$oid = (int)$_GET['id'];
-		$row = RC_DB::table('order_info')->where('order_id', $oid)->selectRaw('order_sn, is_separate, (goods_amount - discount) as goods_amount, user_id')->first();
+		$row = RC_DB::table('order_info')->where('order_id', $oid)->selectRaw('order_id, extension_code, extension_id, order_sn, is_separate, (goods_amount - discount) as goods_amount, user_id')->first();
 		$order_sn = $row['order_sn'];
 		
 		if (empty($row['is_separate'])) {
@@ -123,8 +123,12 @@ class admin_separate extends ecjia_admin {
 				$affiliate['config']['level_money_all'] /= 100;
 			}
 			$money = round($affiliate['config']['level_money_all'] * $row['goods_amount'],2);
-			$integral = RC_Api::api('orders', 'order_integral', array('order_id' => $oid, 'extension_code' => ''));
-			
+			//$integral = RC_Api::api('orders', 'order_integral', array('order_id' => $oid, 'extension_code' => ''));
+			RC_Loader::load_app_func('admin_order', 'orders');
+			$integral = array();
+			if (!empty($row)) {
+				$integral = integral_to_give($row);
+			}
 			$point = round($affiliate['config']['level_point_all'] * intval($integral['rank_points']), 0);
 			if (empty($separate_by)) {
 				//推荐注册分成
