@@ -21,7 +21,7 @@
 								if (result.state == 'error') {
 									smoke.alert(result.message, {ok: '确定',});
 								} else if (result.state == 'success') {
-									var files='<ul class=""><li>更新内容</li><li><pre>'+ result.readme +'</pre></li><li>文件变动</li><li><pre>'+ result.files +'</pre></li></ul>';
+									var files='<ul class=""><li>更新内容</li><li><pre>'+ result.readme +'</pre></li></ul>';
 									$this.parent().css({'margin-bottom': 0, 'border-radius': '4px 4px 0 0'}).after(files);
 								}
 							},

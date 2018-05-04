@@ -123,12 +123,10 @@ class index extends SimpleController {
         $v = Ecjia_VersionManager::version($version);
         
         // 获取变动文件
-        $files_changes = $v->getChangeFiles();
-        $files_changes = empty($files_changes) ? '无' : $files_changes;
         $readme = $v->getReadme();
         $readme = empty($readme) ? '无' : $readme;
         
-        return $this->showmessage('ok', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('files' => $files_changes, 'readme' => $readme));
+        return $this->showmessage('ok', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('readme' => $readme));
     }
     
     public function ajax_upgrade()

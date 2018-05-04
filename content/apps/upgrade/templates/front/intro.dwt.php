@@ -38,7 +38,7 @@
 								    <h5>{$ver}</h5><span></span><i class="fontello-icon-angle-double-down" data-ver="{$ver}"></i>
 								</div>
 							    <!-- {/foreach} -->
-							    <p>注：M表示修改，A表示新增，D表示删除（文件需手动删除）</p>
+							    <p>注：升级时遇到问题，可查看升级帮助文档说明（<a href="https://ecjia.com/wiki/%E5%88%86%E7%B1%BB:ECJiaWiki:Version" target="_blank">ECJia到家版本历史</a>）。</p>
 								</div>
 								
 						    </div>
