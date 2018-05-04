@@ -47,7 +47,6 @@
 
 namespace Ecjia\App\Sms;
 
-use Royalcms\Component\Foundation\Object;
 use Ecjia\App\Sms\Models\SmsTemplateModel;
 use Ecjia\App\Sms\Models\SmsSendlistModel;
 use Ecjia\App\Sms\EventAbstract;
@@ -55,8 +54,9 @@ use ecjia_error;
 use RC_Time;
 use RC_Validator;
 use RC_Hook;
+use RC_Object;
 
-class SmsManager extends Object
+class SmsManager extends RC_Object
 {
         
     protected $model;
