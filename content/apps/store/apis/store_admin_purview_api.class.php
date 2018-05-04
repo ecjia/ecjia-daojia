@@ -83,6 +83,10 @@ class store_admin_purview_api extends Component_Event_Api {
         	//店铺分类权限
         	array('action_name' => __('店铺分类管理'), 'action_code' => 'store_category_manage', 'relevance'   => ''),
         	array('action_name' => __('店铺分类删除'), 'action_code' => 'store_category_drop', 'relevance'   => ''),
+        		
+        	//经营城市权限
+        	array('action_name' => __('经营城市管理'), 'action_code' => 'store_business_city_manage', 'relevance'   => ''),
+        	array('action_name' => __('经营城市删除'), 'action_code' => 'store_business_city_drop', 'relevance'   => ''),
 
         	//佣金比例权限
         	array('action_name' => __('佣金比例管理'), 'action_code' => 'store_percent_manage', 'relevance'   => ''),

@@ -44,37 +44,37 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Store;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use ecjia_admin_log;
+/**
+ * 经营城市列表
+ * @author zrl
+ */
+class city_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
-class Helper
-{
-
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content()
-    {
-        ecjia_admin_log::instance()->add_object('store_commission', '佣金结算');
-        ecjia_admin_log::instance()->add_object('store_commission_status', '佣金结算状态');
-
-        ecjia_admin_log::instance()->add_object('merchants_step', '申请流程');
-        ecjia_admin_log::instance()->add_object('merchants_step_title', '申请流程信息');
-        ecjia_admin_log::instance()->add_object('merchants_step_custom', '自定义字段');
-
-        ecjia_admin_log::instance()->add_object('seller', '入驻商');
-        ecjia_admin_log::instance()->add_object('merchants_brand', '商家品牌');
-        ecjia_admin_log::instance()->add_object('store_category', '店铺分类');
-        ecjia_admin_log::instance()->add_object('merchant_notice', '商家公告');
-
-        ecjia_admin_log::instance()->add_object('config', '配置');
-        ecjia_admin_log::instance()->add_object('store_percent', '佣金比例');
-        ecjia_admin_log::instance()->add_object('store_mobileconfig', '店铺街配置');
-        
-        ecjia_admin_log::instance()->add_object('store_business_city', '店铺经营城市');
-    }
-
+		$db = RC_DB::table('store_business_city');
+		
+		$business_city_list = array();
+		$business_city_list = $db->select('*')->orderBy('index_letter', 'asc')->get();
+		
+		if (!empty($business_city_list)) {
+			foreach ($business_city_list as $key => $val) {
+				if (!empty($val['business_district'])) {
+					$business_district = explode(',', $val['business_district']);
+					foreach ($business_district as $res) {
+						$district_name = ecjia_region::getRegionName($res);
+						$business_city_list[$key]['business_district_list'][] = array('district_id' => $res, 'district_name' => $district_name);
+					}
+				} else {
+					$business_city_list[$key]['business_district_list'][] = array();
+				}
+			}
+		}
+		
+		return array('data' => $business_city_list);
+		
+	}
 }
 
 // end

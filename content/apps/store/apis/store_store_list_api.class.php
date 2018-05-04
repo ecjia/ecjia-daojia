@@ -119,7 +119,12 @@ class store_store_list_api extends Component_Event_Api {
 			$cache_key .= '-keywords-' . $filter['keywords'];
 			$where[]    = '(merchants_name like "%'.$filter['keywords'].'%" or goods_name like "%'.$filter['keywords'].'%")';
 		}
-
+		
+		if (!empty($filter['district_id'])) {
+				$cache_key .= '-district_id-' . $filter['district_id'];
+				$where['ssi.district'] = $filter['district_id'];
+		}
+		
 		/* 店铺分类*/
 		if (isset($filter['seller_category']) && !empty($filter['seller_category'])) {
 			$cache_key           .= '-seller_category-' . $filter['seller_category'];
@@ -205,6 +210,7 @@ class store_store_list_api extends Component_Event_Api {
 					if(substr($result[$k]['shop_logo'], 0, 1) == '.') {
 						$result[$k]['shop_logo'] = str_replace('../', '/', $val['shop_logo']);
 					}
+					
 					$seller_list[] = array(
 							'id'				 => $result[$k]['store_id'],
 							'seller_name'		 => $result[$k]['merchants_name'],

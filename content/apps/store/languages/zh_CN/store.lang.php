@@ -63,6 +63,7 @@ return array(
 	'percent' 		=> '佣金比例',
 	'config' 		=> '后台设置',
 	'mobileconfig' 	=> '移动应用设置',
+	'business_city' => '经营城市',
 
 	//商家入驻列列表
 	'store'			=>	'入驻商家',
