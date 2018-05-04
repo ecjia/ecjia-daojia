@@ -96,7 +96,39 @@ class config_module extends api_front implements api_interface {
             $store_config[$value['code']] = $value['value'];
         }
         $info = array_merge($info, $store_config);
+        
+        /*店铺是否打烊*/
+        $shop_closed = 0;
+        if (!empty($info['shop_trade_time'])) {
+        	$shop_trade_time = unserialize($info['shop_trade_time']);
+        	if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
+        		$shop_closed =1;
+        	}
 
+        	$current_time = RC_Time::gmtime();
+        	if (!empty($shop_trade_time)) {
+        		$start_time = RC_Time::local_strtotime($shop_trade_time['start']);
+        		$end_time = RC_Time::local_strtotime($shop_trade_time['end']);
+        	
+        		//处理营业时间格式例：7:00--次日5:30
+        		$start = $shop_trade_time['start'];
+        		$end = explode(':', $shop_trade_time['end']);
+        		if ($end[0] > 24) {
+        			$hour = $end[0] - 24;
+        			$end[0] = '次日'. ($hour);
+        			$end_time = $hour. ':' . $end[1];
+        			$end_time = RC_Time::local_strtotime($end_time) + 24*3600;
+        		}
+        		$shop_hours = $start . '--' . $end[0] . ':' . $end[1];
+        		//1为不营业，0为营业
+        		if ($start_time < $current_time && $current_time < $end_time) {
+        			$shop_closed = 0;
+        		} else {
+        			$shop_closed = 1;
+        		}
+        	}
+        }
+		
 		if(substr($info['shop_logo'], 0, 1) == '.') {
 			$info['shop_logo'] = str_replace('../', '/', $info['shop_logo']);
 		}
@@ -166,6 +198,8 @@ class config_module extends api_front implements api_interface {
 		//$info['trade_time'] = !empty($info['shop_trade_time']) ? unserialize($info['shop_trade_time']) : array('start' => '8:00', 'end' => '21:00');
 		//是否开启闪惠功能
 		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $seller_id)->where('code', 'quickpay_enabled')->pluck('value');
+		/*店铺小程序二维码*/
+		$seller_weapp_qrcode  = RC_Uri::url('weapp/wxacode/init', array('storeid' => $info['store_id']));
 		
 		$seller_info = array(
 				'id'					=> $info['store_id'],
@@ -174,6 +208,7 @@ class config_module extends api_front implements api_interface {
 				'seller_logo'			=> empty($info['shop_logo']) ?  '' : RC_Upload::upload_url($info['shop_logo']),
 		        'seller_banner'			=> empty($info['shop_banner_pic']) ?  '' : RC_Upload::upload_url($info['shop_banner_pic']),
 		        'seller_qrcode'			=> with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($info['store_id'], empty($info['shop_logo']) ?  '' : RC_Upload::upload_url($info['shop_logo'])))->getQrcodeUrl(),
+				'seller_weapp_qrcode'   => $seller_weapp_qrcode,
 				'seller_category'		=> $info['cat_name'],
 				'shop_name'				=> $info['company_name'],
 				'shop_address'			=> $province_name.$city_name.$district_name.$street_name.' '.$info['address'],
@@ -209,7 +244,8 @@ class config_module extends api_front implements api_interface {
 // 				'best_goods'		=> $bestgoods_list,
 				'favourable_list'	=> $favourable_list,
 				'label_trade_time'	=> $info['trade_time'],
-				'allow_use_quickpay'=> empty($allow_use_quickpay) ? 0 : 1
+				'allow_use_quickpay'=> empty($allow_use_quickpay) ? 0 : 1,
+				'shop_closed'		=> $shop_closed
 		);
 
 		return $seller_info;

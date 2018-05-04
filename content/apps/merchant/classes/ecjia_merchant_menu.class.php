@@ -45,7 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 use Royalcms\Component\Foundation\Royalcms;
-use Royalcms\Component\Foundation\Object as RC_Object;
+use RC_Object;
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**

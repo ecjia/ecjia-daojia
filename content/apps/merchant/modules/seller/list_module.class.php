@@ -62,171 +62,436 @@ class list_module extends api_front implements api_interface {
 		$page = $this->requestData('pagination.page', 1);
 		$seller_category = $this->requestData('category_id', 0);
 		
-		$options = array(
-			'keywords'		=> $keywords,
-			'size'			=> $size,
-			'page'			=> $page,
-// 			'geohash'		=> $geohash_code,
-			'sort'			=> array('sort_order' => 'asc'),
-			'limit'			=> 'all',
-			'seller_category' => $seller_category
-		);
-
-		/*经纬度为空判断*/
-		if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
-			$geohash      = RC_Loader::load_app_class('geohash', 'store');
-			$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
-			$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
-		} else {
-			$seller_list = array();
-			$page = array(
-				'total'	=> '0',
-				'count'	=> '0',
-				'more'	=> '0',
+		//city_id是否为地区id
+		if (!empty($city_id)) {
+			$length = strlen($city_id);
+			if ($length >= 8) {
+				$district_id = substr($city_id, 0, 8);
+				$city_id = substr($city_id, 0, 6);
+			}
+		}
+		$api_version = $this->request->header('api-version');
+		$no_need_goods = 0;
+		$no_need_favourable = 0;
+		$no_need_quickpay = 0;
+		
+		if (version_compare($api_version, '1.16', '>=')) {
+			$no_needs	= $this->requestData('no_needs', '');
+			if (!empty($no_needs)) {
+				$no_needs = explode(',', $no_needs);
+				if (in_array('goods', $no_needs)) {
+					$no_need_goods = 1;
+				}
+				if (in_array('favourable', $no_needs)) {
+					$no_need_favourable = 1;
+				}
+				if (in_array('quickpay', $no_needs)) {
+					$no_need_quickpay = 1;
+				}
+			}
+			
+			$options = array(
+					'keywords'			=> $keywords,
+					'size'				=> $size,
+					'page'				=> $page,
+					//'geohash'			=> $geohash_code,
+					'sort'				=> array('sort_order' => 'asc'),
+					'limit'				=> 'all',
+					'seller_category' 	=> $seller_category,
+					'district_id'		=> $district_id,
 			);
-			return array('data' => $seller_list, 'pager' => $page);
-		}
-		
-		if (empty($options['store_id'])) {
-			$options['store_id'] = array(0);
-		}
-		
-		$store_data = RC_Api::api('store', 'store_list', $options);
-		$seller_list = $distance_list = $sort_order = array();
-		if (!empty($store_data['seller_list'])) {
-			$collect_store_id = RC_DB::table('collect_store')->where('user_id', $_SESSION['user_id'])->lists('store_id');
-
-			foreach ($store_data['seller_list'] as $key => $row) {
-				$favourable_list = array();
-				/*增加优惠活动缓存*/
-				$store_options = array(
-						'store_id' => $row['id']
+				
+			/*经纬度为空判断*/
+			if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
+				$geohash      = RC_Loader::load_app_class('geohash', 'store');
+				$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
+				$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+			} else {
+				$seller_list = array();
+				$page = array(
+						'total'	=> '0',
+						'count'	=> '0',
+						'more'	=> '0',
 				);
-				$favourable_result = RC_Api::api('favourable', 'store_favourable_list', $store_options);
-				if (!empty($favourable_result)) {
-					foreach ($favourable_result as $val) {
-						if ($val['act_range'] == '0') {
-							$favourable_list[] = array(
-								'name' => $val['act_name'],
-								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-								'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
-							);
+				return array('data' => $seller_list, 'pager' => $page);
+			}
+				
+			if (empty($options['store_id'])) {
+				$options['store_id'] = array(0);
+			}
+			$store_data = RC_Api::api('store', 'store_list', $options);
+			$seller_list = $distance_list = $sort_order = array();
+			
+			if (!empty($store_data['seller_list'])) {
+				$collect_store_id = RC_DB::table('collect_store')->where('user_id', $_SESSION['user_id'])->lists('store_id');
+				
+				foreach ($store_data['seller_list'] as $key => $row) {
+					//打烊时间处理
+					$shop_trade_time =  RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->pluck('value');
+					$shop_closed = 0;
+					if (!empty($shop_trade_time)) {
+						$shop_trade_time = unserialize($shop_trade_time);
+						if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
+							$shop_closed =1;
+						}
+						$current_time = RC_Time::gmtime();
+						$start_time = $shop_trade_time['start'];
+						$end_time = $shop_trade_time['end'];
+						$shop_trade_end_time_str = RC_Time::local_strtotime($end_time);
+						/*营业至次日*/
+						if ($shop_trade_time['end'] > 24) {
+							$end_time = explode(':', $shop_trade_time['end']);
+							$shop_trade_end_time = $end_time['0'] - 24;
+							$shop_trade_end_time = $shop_trade_end_time.':'.$end_time['1'];
+							$shop_trade_end_time_str =  RC_Time::local_strtotime($shop_trade_end_time) + 24*3600;
+						}
+						$shop_trade_start_time_str = RC_Time::local_strtotime($start_time);
+						if (($shop_trade_start_time_str < $current_time) && ($current_time < $shop_trade_end_time_str)) {
+							$shop_closed = 0;
 						} else {
-							$act_range_ext = explode(',', $val['act_range_ext']);
-							switch ($val['act_range']) {
-								case 1 :
+							$shop_closed =1;
+						}
+					}
+					$row['shop_closed'] = $shop_closed;
+					
+					$favourable_list = array();
+					//是否需要返回优惠活动数据
+					if (empty($no_need_favourable)) {
+						/*增加优惠活动缓存*/
+						$store_options = array(
+								'store_id' => $row['id']
+						);
+						$favourable_result = RC_Api::api('favourable', 'store_favourable_list', $store_options);
+						if (!empty($favourable_result)) {
+							foreach ($favourable_result as $val) {
+								if ($val['act_range'] == '0') {
 									$favourable_list[] = array(
-									'name' => $val['act_name'],
-									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+											'name' => $val['act_name'],
+											'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+											'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
 									);
-									break;
-								case 2 :
-									$favourable_list[] = array(
-									'name' => $val['act_name'],
-									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
-									);
-									break;
-								case 3 :
-									$favourable_list[] = array(
-									'name' => $val['act_name'],
-									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
-									);
-									break;
-								default:
-									break;
+								} else {
+									$act_range_ext = explode(',', $val['act_range_ext']);
+									switch ($val['act_range']) {
+										case 1 :
+											$favourable_list[] = array(
+											'name' => $val['act_name'],
+											'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+											'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+											);
+											break;
+										case 2 :
+											$favourable_list[] = array(
+											'name' => $val['act_name'],
+											'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+											'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+											);
+											break;
+										case 3 :
+											$favourable_list[] = array(
+											'name' => $val['act_name'],
+											'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+											'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+											);
+											break;
+										default:
+											break;
+									}
+								}
 							}
 						}
 					}
-				}
-				
-				$goods_options = array('store_id' => $row['id'], 'cat_id' => $goods_category, 'keywords' => $keywords, 'page' => 1, 'size' => 10);
-				/* 如有查询添加，不限制分页*/
-				if (!empty($goods_category) || !empty($keywords)) {
-					$goods_options['size'] = $goods_options['page'] = 0;
-				}
-				
-				/*店铺闪惠活动列表*/
-				$quickpay_activity_list = array();
-				$quickpay_activity_list = RC_Api::api('quickpay', 'quickpay_activity_list', array('store_id' => $row['id']));
-				
-				if (is_ecjia_error($quickpay_activity_list)) {
-					return $quickpay_activity_list;
-				}
-				
-				$quickpay_activity_list_new = array();
-				if (!empty($quickpay_activity_list['list'])) {
-					foreach ($quickpay_activity_list['list'] as $v) {
-						$quickpay_activity_list_new[] = array(
-							'activity_id' 	=> $v['id'],
-							'title' 		=> $v['title'],
-							'activity_type' => $v['activity_type'],
-							'label_activity_type' => $v['label_activity_type'],
-							'limit_time_type'	  => $v['limit_time_type'],
-							'limit_time_weekly '  => $v['limit_time_weekly_str'],
-							'limit_time_daily '   => $v['limit_time_daily_str'],
-							'limit_time_exclude'  => $v['limit_time_exclude'],
-							'total_order_count '  => $v['total_order_count']
-						);
+					//是否需要返回闪惠活动数据
+					$quickpay_activity_list_new = array();
+					if (empty($no_need_quickpay)) {
+						/*店铺闪惠活动列表*/
+						$quickpay_activity_list = array();
+						$quickpay_activity_list = RC_Api::api('quickpay', 'quickpay_activity_list', array('store_id' => $row['id']));
+							
+						if (is_ecjia_error($quickpay_activity_list)) {
+							return $quickpay_activity_list;
+						}
+						if (!empty($quickpay_activity_list['list'])) {
+							foreach ($quickpay_activity_list['list'] as $v) {
+								$quickpay_activity_list_new[] = array(
+										'activity_id' 	=> $v['id'],
+										'title' 		=> $v['title'],
+										'activity_type' => $v['activity_type'],
+										'label_activity_type' => $v['label_activity_type'],
+										'limit_time_type'	  => $v['limit_time_type'],
+										'limit_time_weekly '  => $v['limit_time_weekly_str'],
+										'limit_time_daily '   => $v['limit_time_daily_str'],
+										'limit_time_exclude'  => $v['limit_time_exclude'],
+										'total_order_count '  => $v['total_order_count']
+								);
+							}
+						}
 					}
-				}
-				
-				$goods_list = array();
-				$goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
-				if (!empty($goods_result['list'])) {
-					foreach ($goods_result['list'] as $val) {
-						/* 判断是否有促销价格*/
-						$price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
-						$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
-						/* 计算节约价格*/
-						$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
-
-						$goods_list[] = array(
-							'goods_id'		=> $val['goods_id'],
-							'name'			=> $val['name'],
-							'market_price'	=> $val['market_price'],
-							'shop_price'	=> $val['shop_price'],
-							'promote_price'	=> $val['promote_price'],
-							'img' => array(
-								'thumb'	=> $val['goods_img'],
-								'url'	=> $val['original_img'],
-								'small'	=> $val['goods_thumb']
-							),
-							'activity_type' => $activity_type,
-							'object_id'		=> 0,
-							'saving_price'	=>	$saving_price,
-							'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
-						);
+					
+					//是否需要返回商品数据
+					$goods_store_data = array();
+					$goods_options = array('store_id' => $row['id'], 'cat_id' => $goods_category, 'keywords' => $keywords, 'page' => 1, 'size' => 10);
+					/* 如有查询添加，不限制分页*/
+					if (!empty($goods_category) || !empty($keywords)) {
+						$goods_options['size'] = $goods_options['page'] = 0;
 					}
+					if (empty($no_need_goods)) {
+						$goods_list = array();
+						$goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
+						if (!empty($goods_result['list'])) {
+							foreach ($goods_result['list'] as $val) {
+								/* 判断是否有促销价格*/
+								$price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
+								$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
+								/* 计算节约价格*/
+								$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
+				
+								$goods_list[] = array(
+										'goods_id'		=> $val['goods_id'],
+										'name'			=> $val['name'],
+										'market_price'	=> $val['market_price'],
+										'shop_price'	=> $val['shop_price'],
+										'promote_price'	=> $val['promote_price'],
+										'img' => array(
+												'thumb'	=> $val['goods_img'],
+												'url'	=> $val['original_img'],
+												'small'	=> $val['goods_thumb']
+										),
+										'activity_type' => $activity_type,
+										'object_id'		=> 0,
+										'saving_price'	=>	$saving_price,
+										'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+								);
+							}
+						}
+						$goods_store_data = array('goods_list' => $goods_list, 'count' => $goods_result['page']->total_records);
+					}
+					
+					$distance = getDistance($location['latitude'], $location['longitude'], $row['location']['latitude'], $row['location']['longitude']);
+						
+					$distance_list[]	= $distance;
+					$sort_order[]	 	= $row['sort_order'];
+						
+					$seller_list[] = array(
+							'id'						=> $row['id'],
+							'seller_name'				=> $row['seller_name'],
+							'seller_category'			=> $row['seller_category'],
+							'manage_mode'				=> $row['manage_mode'],
+							'seller_logo'				=> $row['shop_logo'],
+							'seller_notice'     		=> $row['seller_notice'],
+							'follower'					=> $row['follower'],
+							'shop_closed'				=> $row['shop_closed'],
+							'is_follower'				=> in_array($row['id'], $collect_store_id) ? 1 : 0,
+							'goods_count'       		=> !empty($goods_store_data['goods_list']) ? $goods_store_data['count'] : 0,
+							'favourable_list'			=> $favourable_list,
+							'allow_use_quickpay'		=> intval($row['allow_use_quickpay']),
+							'quickpay_activity_list' 	=> $quickpay_activity_list_new,
+							'distance'					=> $distance,
+							'label_trade_time'			=> $row['label_trade_time'],
+							'seller_goods'				=> !empty($goods_store_data['goods_list']) ? $goods_store_data['goods_list'] : array(),
+					);
 				}
-				$goods_store_data = array('goods_list' => $goods_list, 'count' => $goods_result['page']->total_records);
-
-				$distance = getDistance($location['latitude'], $location['longitude'], $row['location']['latitude'], $row['location']['longitude']);
-	
-				$distance_list[]	= $distance;
-				$sort_order[]	 	= $row['sort_order'];
-	
-				$seller_list[] = array(
-					'id'				=> $row['id'],
-					'seller_name'		=> $row['seller_name'],
-					'seller_category'	=> $row['seller_category'],
-					'manage_mode'		=> $row['manage_mode'],
-					'seller_logo'		=> $row['shop_logo'],
-				    'seller_notice'     => $row['seller_notice'],
-					'follower'			=> $row['follower'],
-					'is_follower'		=> in_array($row['id'], $collect_store_id) ? 1 : 0,
-					'goods_count'       => $goods_store_data['count'],
-					'favourable_list'	=> $favourable_list,
-					'allow_use_quickpay'=> intval($row['allow_use_quickpay']),
-					'quickpay_activity_list' => $quickpay_activity_list_new,
-					'distance'			=> $distance,
-					'label_trade_time'	=> $row['label_trade_time'],
-				    'seller_goods'		=> $goods_store_data['goods_list'],
+			}
+		} else {
+			$options = array(
+					'keywords'			=> $keywords,
+					'size'				=> $size,
+					'page'				=> $page,
+					//'geohash'			=> $geohash_code,
+					'sort'				=> array('sort_order' => 'asc'),
+					'limit'				=> 'all',
+					'seller_category' 	=> $seller_category,
+					'district_id'		=> $district_id,
+			);
+			
+			/*经纬度为空判断*/
+			if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
+				$geohash      = RC_Loader::load_app_class('geohash', 'store');
+				$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
+				$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+			} else {
+				$seller_list = array();
+				$page = array(
+						'total'	=> '0',
+						'count'	=> '0',
+						'more'	=> '0',
 				);
+				return array('data' => $seller_list, 'pager' => $page);
+			}
+			
+			if (empty($options['store_id'])) {
+				$options['store_id'] = array(0);
+			}
+			$store_data = RC_Api::api('store', 'store_list', $options);
+			$seller_list = $distance_list = $sort_order = array();
+			if (!empty($store_data['seller_list'])) {
+				$collect_store_id = RC_DB::table('collect_store')->where('user_id', $_SESSION['user_id'])->lists('store_id');
+			
+				foreach ($store_data['seller_list'] as $key => $row) {
+					//打烊时间处理
+					$shop_trade_time =  RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->pluck('value');
+					$shop_closed = 0;
+					if (!empty($shop_trade_time)) {
+						$shop_trade_time = unserialize($shop_trade_time);
+						if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
+							$shop_closed =1;
+						}
+						$current_time = RC_Time::gmtime();
+						$start_time = $shop_trade_time['start'];
+						$end_time = $shop_trade_time['end'];
+						$shop_trade_end_time_str = RC_Time::local_strtotime($end_time);
+						/*营业至次日*/
+						if ($shop_trade_time['end'] > 24) {
+							$end_time = explode(':', $shop_trade_time['end']);
+							$shop_trade_end_time = $end_time['0'] - 24;
+							$shop_trade_end_time = $shop_trade_end_time.':'.$end_time['1'];
+							$shop_trade_end_time_str =  RC_Time::local_strtotime($shop_trade_end_time) + 24*3600;
+						}
+						$shop_trade_start_time_str = RC_Time::local_strtotime($start_time);
+						if (($shop_trade_start_time_str < $current_time) && ($current_time < $shop_trade_end_time_str)) {
+							$shop_closed = 0;
+						} else {
+							$shop_closed =1;
+						}
+					}
+					$row['shop_closed'] = $shop_closed;
+					
+					$favourable_list = array();
+					/*增加优惠活动缓存*/
+					$store_options = array(
+							'store_id' => $row['id']
+					);
+					$favourable_result = RC_Api::api('favourable', 'store_favourable_list', $store_options);
+					if (!empty($favourable_result)) {
+						foreach ($favourable_result as $val) {
+							if ($val['act_range'] == '0') {
+								$favourable_list[] = array(
+										'name' => $val['act_name'],
+										'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+										'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+								);
+							} else {
+								$act_range_ext = explode(',', $val['act_range_ext']);
+								switch ($val['act_range']) {
+									case 1 :
+										$favourable_list[] = array(
+										'name' => $val['act_name'],
+										'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+										'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+										);
+										break;
+									case 2 :
+										$favourable_list[] = array(
+										'name' => $val['act_name'],
+										'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+										'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+										);
+										break;
+									case 3 :
+										$favourable_list[] = array(
+										'name' => $val['act_name'],
+										'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+										'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+										);
+										break;
+									default:
+										break;
+								}
+							}
+						}
+					}
+			
+					$goods_options = array('store_id' => $row['id'], 'cat_id' => $goods_category, 'keywords' => $keywords, 'page' => 1, 'size' => 10);
+					/* 如有查询添加，不限制分页*/
+					if (!empty($goods_category) || !empty($keywords)) {
+						$goods_options['size'] = $goods_options['page'] = 0;
+					}
+			
+					/*店铺闪惠活动列表*/
+					$quickpay_activity_list = array();
+					$quickpay_activity_list = RC_Api::api('quickpay', 'quickpay_activity_list', array('store_id' => $row['id']));
+			
+					if (is_ecjia_error($quickpay_activity_list)) {
+						return $quickpay_activity_list;
+					}
+			
+					$quickpay_activity_list_new = array();
+					if (!empty($quickpay_activity_list['list'])) {
+						foreach ($quickpay_activity_list['list'] as $v) {
+							$quickpay_activity_list_new[] = array(
+									'activity_id' 	=> $v['id'],
+									'title' 		=> $v['title'],
+									'activity_type' => $v['activity_type'],
+									'label_activity_type' => $v['label_activity_type'],
+									'limit_time_type'	  => $v['limit_time_type'],
+									'limit_time_weekly '  => $v['limit_time_weekly_str'],
+									'limit_time_daily '   => $v['limit_time_daily_str'],
+									'limit_time_exclude'  => $v['limit_time_exclude'],
+									'total_order_count '  => !empty($v['total_order_count']) ? $v['total_order_count'] : 0
+							);
+						}
+					}
+			
+					$goods_list = array();
+					$goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
+					if (!empty($goods_result['list'])) {
+						foreach ($goods_result['list'] as $val) {
+							/* 判断是否有促销价格*/
+							$price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
+							$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
+							/* 计算节约价格*/
+							$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
+			
+							$goods_list[] = array(
+									'goods_id'		=> $val['goods_id'],
+									'name'			=> $val['name'],
+									'market_price'	=> $val['market_price'],
+									'shop_price'	=> $val['shop_price'],
+									'promote_price'	=> $val['promote_price'],
+									'img' => array(
+											'thumb'	=> $val['goods_img'],
+											'url'	=> $val['original_img'],
+											'small'	=> $val['goods_thumb']
+									),
+									'activity_type' => $activity_type,
+									'object_id'		=> 0,
+									'saving_price'	=>	$saving_price,
+									'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+							);
+						}
+					}
+					$goods_store_data = array('goods_list' => $goods_list, 'count' => $goods_result['page']->total_records);
+			
+					$distance = getDistance($location['latitude'], $location['longitude'], $row['location']['latitude'], $row['location']['longitude']);
+			
+					$distance_list[]	= $distance;
+					$sort_order[]	 	= $row['sort_order'];
+			
+					$seller_list[] = array(
+							'id'				=> $row['id'],
+							'seller_name'		=> $row['seller_name'],
+							'seller_category'	=> $row['seller_category'],
+							'manage_mode'		=> $row['manage_mode'],
+							'seller_logo'		=> $row['shop_logo'],
+							'seller_notice'     => $row['seller_notice'],
+							'follower'			=> $row['follower'],
+							'shop_closed'		=> $row['shop_closed'],
+							'is_follower'		=> in_array($row['id'], $collect_store_id) ? 1 : 0,
+							'goods_count'       => $goods_store_data['count'],
+							'favourable_list'	=> $favourable_list,
+							'allow_use_quickpay'=> intval($row['allow_use_quickpay']),
+							'quickpay_activity_list' => $quickpay_activity_list_new,
+							'distance'			=> $distance,
+							'label_trade_time'	=> $row['label_trade_time'],
+							'seller_goods'		=> $goods_store_data['goods_list'],
+					);
+				}
 			}
 		}
+		
+
+		
+
 		array_multisort($distance_list, SORT_ASC, $sort_order, SORT_ASC, $seller_list);
 
 		$seller_list = array_slice($seller_list, ($page-1) * $size, $size);
