@@ -240,6 +240,16 @@ return array(
     'CreateRefundPayrecordTable' => $contentDir . '/database/migrations/2018_03_07_103020_create_refund_payrecord_table.php',
     'CreateRefundStatusLogTable' => $contentDir . '/database/migrations/2018_03_07_104139_create_refund_status_log_table.php',
     'CreateRefundGoodsTable' => $contentDir . '/database/migrations/2018_03_07_133438_create_refund_goods_table.php',
+    'CreateStoreAccountTable' => $contentDir . '/database/migrations/2018_04_02_143405_create_store_account_table.php',
+    'CreateStoreAccountLogTable' => $contentDir . '/database/migrations/2018_04_02_143427_create_store_account_log_table.php',
+    'CreateStoreAccountOrderTable' => $contentDir . '/database/migrations/2018_04_02_143451_create_store_account_order_table.php',
+    'CreateStoreBillQueueTable' => $contentDir . '/database/migrations/2018_04_02_165012_create_store_bill_queue_table.php',
+    'AddOrderForStoreBillDetailTable' => $contentDir . '/database/migrations/2018_04_02_180209_add_order_for_store_bill_detail_table.php',
+    'CreateExpressUserAccountLogTable' => $contentDir . '/database/migrations/2018_04_27_103754_create_express_user_account_log_table.php',
+    'CreateStoreBusinessCityTable' => $contentDir . '/database/migrations/2018_04_27_104020_create_store_business_city_table.php',
+    'AddUserMoneyForExpressUserTable' => $contentDir . '/database/migrations/2018_04_27_105800_add_user_money_for_express_user_table.php',
+    'AddCommisionStatusForExpressOrderTable' => $contentDir . '/database/migrations/2018_04_27_105952_add_commision_status_for_express_order_table.php',
+    'AlterInStatusForMobileDeviceTable' => $contentDir . '/database/migrations/2018_04_27_110031_alter_in_status_for_mobile_device_table.php',
      
     
     // seeder
