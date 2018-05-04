@@ -407,20 +407,12 @@ class detail_module extends api_front implements api_interface {
 
         /* 分享链接*/
         $data['share_link'] = '';
-        if (ecjia_config::has('mobile_share_link')) {
-        	ecjia_api::$controller->assign('goods_id', $goods['goods_id']);
-        	if ($_SESSION['user_id'] > 0) {
-        		$user_invite_code = RC_Api::api('affiliate', 'user_invite_code');
-        		ecjia_api::$controller->assign('invite_code', $user_invite_code);
-        	}
-        	$share_link = ecjia_api::$controller->fetch_string(ecjia::config('mobile_share_link'));
+        $mobile_touch_url = ecjia::config('mobile_touch_url');
+        if (!empty($mobile_touch_url)) {
         	/*商品分享链接*/
-        	if (ecjia_config::has('mobile_touch_url')) {
-        		$data['share_link'] = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=show&goods_id='.$goods_id.'&hidenav=1&hidetab=1';
-        	} else {
-        		$data['share_link'] = null;
-        	}
-        	//$data['share_link']	= $share_link;
+        	$data['share_link'] = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=show&goods_id='.$goods_id.'&hidenav=1&hidetab=1';
+        } else {
+        	$data['share_link'] = null;
         }
         $data['goods_brief'] = $goods['goods_brief'];
 
