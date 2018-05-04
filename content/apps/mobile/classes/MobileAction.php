@@ -2,9 +2,9 @@
 
 namespace Ecjia\App\Mobile;
 
-use Royalcms\Component\Foundation\Object;
+use RC_Object;
 
-class MobileAction extends Object
+class MobileAction extends RC_Object
 {
     const MAIN              = 'main';    //主页
     const SINGIN            = 'singin';    //登录

@@ -50,9 +50,9 @@ use RC_File;
 use RC_QrCode;
 use RC_Upload;
 use RC_Storage;
-use Royalcms\Component\Foundation\Object;
+use RC_Object;
 
-abstract class AbstractQrcode extends Object
+abstract class AbstractQrcode extends RC_Object
 {
     
     /**

@@ -85,6 +85,7 @@ class setDeviceinfo_module extends api_front implements api_interface {
 			$device_data['location_province']	= $province;
 			$device_data['location_city']		= $city;
 			$device_data['visit_times']		    = 1;
+			$device_data['in_status']		    = 0;
 			
 			$db_mobile_device->insert($device_data);
 		} else {

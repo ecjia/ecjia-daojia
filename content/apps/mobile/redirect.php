@@ -55,46 +55,59 @@ class redirect extends ecjia_front
     
     public function init() {
         
-        $request = royalcms('request');
-        
-        $handle = $request->query('handle');
+        $handle = $this->request->query('handle');
         
         if ($handle != 'ecjiaopen') {
             $this->showmessage('Invalid parameter', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
         
-        $open_type = $request->query('open_type');
+        $gets = $this->request->query();
+        unset($gets['m'], $gets['a'], $gets['c'], $gets['handle']);
         
-        // 商品祥情跳转
-        if ($open_type == 'goods_detail') 
-        {
-            $goods_id = $request->query('goods_id');
-            $url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
-            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
-            $this->redirect($url);
+        try {
+            $ecjiaopen = 'ecjiaopen://app?'.http_build_query($gets);
+            $url = with(new ecjia_open($ecjiaopen))->toHttpUrl();
+
+        } catch (BadMethodCallException $e) {
+            
+            $ecjiaopen_handle = RC_Hook::apply_filters('ecjia_open_url_parse', [&$this, 'ecjiaopen_handler']);
+            $url = $ecjiaopen_handle($ecjiaopen);
+
         }
-        // 商家主页跳转
-        elseif ($open_type == 'merchant') 
-        {
-            $store_id = $request->query('merchant_id');
-            $url = RC_Uri::url('merchant/index/init', array('store_id' => $store_id));
-            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
-            $this->redirect($url);
-        }
-        // 商家收款码跳转
-        elseif ($open_type == 'collectmoney') 
-        {
-            $store_id = $request->query('merchant_id');
-            $url = RC_Uri::url('merchant/quickpay/collectmoney', array('store_id' => $store_id));
-            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
-            $this->redirect($url);
-        }
-        else 
-        {
+        
+        if (strpos($url, 'ecjiaopen://') === 0) {
+            //如果还未解析返回错误信息
             $this->showmessage('Invalid parameter', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
         
+        $this->redirect($url);
     }
     
     
+    protected function ecjiaopen_handler($ecjiaopen)
+    {
+        // 商品祥情跳转
+        ecjia_open::macro('goods_detail', function($querys) {
+            $url = RC_Uri::url('goods/index/show', array('goods_id' => $querys['goods_id']));
+            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
+            return $url;
+        });
+        // 商家主页跳转
+        ecjia_open::macro('merchant', function($querys) {
+            $url = RC_Uri::url('merchant/index/init', array('store_id' => $querys['merchant_id']));
+            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
+            return $url;
+        });
+        // 商家收款码跳转
+        ecjia_open::macro('collectmoney', function($querys) {
+            $url = RC_Uri::url('merchant/quickpay/collectmoney', array('store_id' => $querys['merchant_id']));
+            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
+            return $url;
+        });
+     
+        return with(new ecjia_open($ecjiaopen))->toHttpUrl();
+    }
+    
 }
+
+// end

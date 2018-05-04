@@ -154,35 +154,24 @@
 					</div>
 				<!-- 登录色值end -->
 				
-				<!-- 短信提醒start -->
-					<h3 class="heading">短信提醒</h3>
-					<div class="control-group formSep edit-page">
-						<label class="control-label">{lang key='mobile::mobile.remind_seller_ship'}</label>
-						<div class="controls chk_radio">
-							<input type='radio' name='order_reminder_type' value='2' {if $order_reminder_type eq 2}checked='checked'{/if} />{lang key='mobile::mobile.message_notice'}
-							<input type='radio' name='order_reminder_type' value='1' {if $order_reminder_type eq 1}checked='checked'{/if} />{lang key='mobile::mobile.push_notice'}
-							<input type='radio' name='order_reminder_type' value='0' {if $order_reminder_type eq 0}checked='checked'{/if} />{lang key='mobile::mobile.not_notice'}
+				<!-- iOS智能广告条start -->
+					<h3 class="heading">iOS智能广告条</h3>
+					<div class="control-group formSep">
+						<label class="control-label">App Store ID</label>
+						<div class="controls">
+							<input type='text' name='app_store_id' value='{$app_store_id}'>
+							<span class="help-block">Apple应用商城中的应用程序ID。可以从<a href="https://linkmaker.itunes.apple.com/" target="_blank">iTunes Link Maker</a>中找到您的应用程序ID，请在搜索字段中输入您的应用程序的名称，然后选择适当的国家和媒体类型。 在结果中，找到您的应用程序并在右侧的列中选择iPhone应用程序链接。 您的应用ID是ID和？mt之间的九位数字。</span>
 						</div>
 					</div>
-
-					<div class="control-group formSep order_reminder_2 {if $order_reminder_type eq '0' || $order_reminder_type eq '1'}ecjiaf-dn{/if}">
-						<label class="control-label order_reminder_2">{lang key='mobile::mobile.order_remind_by_message'}</label>
-						<div class="controls chk_radio order_reminder_2">
-							<input type='text' name='order_reminder_mobile' value='{$order_reminder_value}'>
+					<div class="control-group formSep">
+						<label class="control-label">App Argument</label>
+						<div class="controls">
+							<input type='text' name='app_argument' value='{$app_argument}'>
+							<span class="help-block">可以指定从您的网站跳转到iOS应用程序中的相应位置，如不填写为空，会自动获取当前页面地址。</span>
 						</div>
 					</div>
-					<div class="control-group formSep order_reminder_1 {if $order_reminder_type eq '0' || $order_reminder_type eq '2'}ecjiaf-dn{/if}">
-						<label class="control-label">{lang key='mobile::mobile.order_remind_by_push'}</label>
-						<div class="controls chk_radio">
-							<select name='order_reminder_push'>
-								<option value='0'>{lang key='mobile::mobile.pls_select'}</option>
-								<!-- {foreach from=$admin_user_list item=list} -->
-									<option value="{$list.user_id}" {if $list.user_id eq $order_reminder_value}selected{/if}>{$list.user_name}</option>
-								<!-- {/foreach} -->
-							</select>
-						</div>
-					</div>
-				<!-- 短信提醒end -->
+				<!-- iOS智能广告条end -->
+				
 				<!-- {/if} -->
 				<!-- {if $code eq 'app_download_url'} -->
 					<h3 class="heading">APP下载地址</h3>

@@ -44,37 +44,30 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Mobile\Qrcode;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use RC_Upload;
-use RC_Uri;
-
-class GenerateMerchant extends AbstractQrcode {
-        
-    public function content()
-    {
-        $args = [
-            'handle'        => 'ecjiaopen', 
-            'open_type'     => 'merchant', 
-            'merchant_id'   => $this->id
-        ];
-        $url = RC_Uri::url('mobile/redirect/init', $args);
-        $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
-        return $url;
-    }
+class mobile_front_hooks {
     
-    public function storeDir() 
-    {
-        $dir = RC_Upload::upload_path().'data/qrcodes/merchants/';
-        return $dir;
-    }
-    
-    
-    public function fileName($size = 430)
-    {
-        return 'merchant_' . $this->id . '.png';
-    }
+   public static function iOS_Smart_App_Banner() 
+   {
+       if (RC_SITE == 'm' && ecjia::config('app_store_id')) {
+           #content 属性可以传三个参数，以逗号隔开
+           #app-id(必选) 填写应用在APPStrore的ID
+           #affiliate-data(可选) 是iTunes 分销联盟计划的ID 一般用不到。
+           #app-argument（可选）点击『打开』给APP传参数
+           $app_id = ecjia::config('app_store_id');
+           if (ecjia::config('app_argument')) {
+               $app_argument = ecjia::config('app_argument');
+           } else {
+               $app_argument = RC_Uri::current_url();
+           }
+           
+           echo "<meta name=\"apple-itunes-app\" content=\"app-id={$app_id}, app-argument={$app_argument}\">";
+       }
+   }
     
 }
+
+RC_Hook::add_action( 'front_head', array('mobile_front_hooks', 'iOS_Smart_App_Banner') );
 
 // end

@@ -74,6 +74,7 @@ class setDeviceToken_module extends api_front implements api_interface {
 		if (empty($row)) {
 			$device_data['add_time']     = RC_Time::gmtime();
 			$device_data['device_token'] = !empty($device['device_token']) ? $device['device_token'] : '';
+			$device_data['in_status']	 = 0;
 				
 			$db_mobile_device->insert($device_data);
 		} else {

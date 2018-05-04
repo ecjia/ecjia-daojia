@@ -58,7 +58,9 @@ class GenerateCollectMoney extends AbstractQrcode {
             'open_type'     => 'collectmoney', 
             'merchant_id'   => $this->id
         ];
-        return RC_Uri::url('mobile/redirect/init', $args);
+        $url = RC_Uri::url('mobile/redirect/init', $args);
+        $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
+        return $url;
     }
     
     public function storeDir() 
