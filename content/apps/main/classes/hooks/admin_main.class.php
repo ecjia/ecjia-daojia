@@ -85,7 +85,7 @@ class admin_main_hooks {
 	
 	public static function set_daojia_admin_welcome()
 	{
-	    if (1) {
+	    if (! ecjia_license::instance()->license_check()) {
 	        $ecjia_version = RC_Config::get('release.version');
 	        $ecjia_release = RC_Config::get('release.build');
 	        $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
@@ -112,6 +112,34 @@ class admin_main_hooks {
 				</div>
 			</div>
 		</div>
+WELCOME;
+	        echo $welcome;
+	    } else {
+	        $license_logo = RC_Uri::admin_url('statics/images/license-logo.png');
+	        $license_url = RC_Uri::url('admincp/index/license');
+	        $certificate = ecjia_license::instance()->get_certificate();
+	        $license_domain = $certificate['subject']['commonName'];
+	        
+	        $welcome = <<<WELCOME
+        <div class="row-fluid move-mods show">
+            <div class="span12 move-mod nomove">
+        		<div>
+        			<a class="close m_r10" data-dismiss="alert">×</a>
+        			<div class="hero-unit padding20">
+        				<div class="row-fluid">
+        					<div class="span2 m_t15 t_c">
+        						<img src="{$license_logo}"/>
+        					</div>
+        					<div class="span10">
+        						<h1>终身商业授权</span></h1>
+        						<p>恭喜您，您正在使用商业授权版本，享有该系统进行商业运营的合法权利。</p>
+        						<p>授权域名：{$license_domain} <a class="f_r" href="{$license_url}" target="_self">查看授权证书 »</a></p>
+        					</div>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
 WELCOME;
 	        echo $welcome;
 	    }
