@@ -298,14 +298,15 @@ class orders_merchant_plugin {
 	
 	public static function orders_stats_admin_menu_api($menus) {
 	    $menu = array(
-	        ecjia_admin::make_admin_menu('guest_stats', __('客户统计'), RC_Uri::url('orders/admin_guest_stats/init'), 51)->add_purview('guest_stats'),
-	        ecjia_admin::make_admin_menu('order_stats', __('订单统计'), RC_Uri::url('orders/admin_order_stats/init'), 52)->add_purview('order_stats'),
-	        ecjia_admin::make_admin_menu('sale_general', __('销售概况'), RC_Uri::url('orders/admin_sale_general/init'), 53)->add_purview('sale_general_stats'),
-	        ecjia_admin::make_admin_menu('users_order', __('会员排行'), RC_Uri::url('orders/admin_users_order/init'), 54)->add_purview('users_order_stats'),
-	        ecjia_admin::make_admin_menu('sale_list', __('销售明细'), RC_Uri::url('orders/admin_sale_list/init'), 55)->add_purview('sale_list_stats'),
-	        ecjia_admin::make_admin_menu('sale_order', __('销售排行'), RC_Uri::url('orders/admin_sale_order/init'), 56)->add_purview('sale_order_stats'),
-	        ecjia_admin::make_admin_menu('visit_sold', __('访问购买率'), RC_Uri::url('orders/admin_visit_sold/init'), 57)->add_purview('visit_sold_stats'),
-	        ecjia_admin::make_admin_menu('adsense', __('广告转化率'), RC_Uri::url('orders/admin_adsense/init'), 58)->add_purview('adsense_conversion_stats')
+    		11 => ecjia_merchant::make_admin_menu('01_order_stats',__('订单统计'), RC_Uri::url('orders/mh_order_stats/init'), 2)->add_purview('order_stats')->add_icon('fa-bar-chart-o')->add_base('stats'), //'flow_stats'
+    		12 => ecjia_merchant::make_admin_menu('02_sale_general',__('销售概况'), RC_Uri::url('orders/mh_sale_general/init'), 3)->add_purview('sale_general_stats')->add_icon('fa-bar-chart-o')->add_base('stats'), //'flow_stats'
+    		13 => ecjia_merchant::make_admin_menu('03_sale_list',__('销售明细'), RC_Uri::url('orders/mh_sale_list/init'), 4)->add_purview('sale_list_stats')->add_icon('fa-list')->add_base('stats'), //'flow_stats'
+    		14 => ecjia_merchant::make_admin_menu('04_sale_order',__('销售排行'), RC_Uri::url('orders/mh_sale_order/init'), 5)->add_purview('sale_order_stats')->add_icon('fa-trophy')->add_base('stats'), //'flow_stats'
+    		
+//     		15 => ecjia_admin::make_admin_menu('guest_stats', __('客户统计'), RC_Uri::url('orders/admin_guest_stats/init'), 51)->add_purview('guest_stats'),
+//     		16 => ecjia_admin::make_admin_menu('users_order', __('会员排行'), RC_Uri::url('orders/admin_users_order/init'), 54)->add_purview('users_order_stats'),
+//     		17 => ecjia_admin::make_admin_menu('visit_sold', __('访问购买率'), RC_Uri::url('orders/admin_visit_sold/init'), 57)->add_purview('visit_sold_stats'),
+//     		18 => ecjia_admin::make_admin_menu('adsense', __('广告转化率'), RC_Uri::url('orders/admin_adsense/init'), 58)->add_purview('adsense_conversion_stats')
 	    );
 	    $menus->add_submenu($menu);
 	    return $menus;
@@ -317,6 +318,6 @@ RC_Hook::add_action('admin_dashboard_top', array('orders_merchant_plugin', 'widg
 RC_Hook::add_action('admin_dashboard_left', array('orders_merchant_plugin', 'widget_admin_dashboard_orderschart'));
 RC_Hook::add_action('admin_dashboard_left', array('orders_merchant_plugin', 'widget_admin_dashboard_ordersstat'), 11);
 RC_Hook::add_action('admin_dashboard_right', array('orders_merchant_plugin', 'widget_admin_dashboard_salechart'));
-RC_Hook::add_filter('stats_admin_menu_api', array('orders_merchant_plugin', 'orders_stats_admin_menu_api'));
+RC_Hook::add_filter('stats_merchant_menu_api', array('orders_merchant_plugin', 'orders_stats_admin_menu_api'));
 
 // end

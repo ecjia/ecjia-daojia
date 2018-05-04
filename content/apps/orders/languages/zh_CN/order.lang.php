@@ -820,6 +820,7 @@ return array(
     'order_cancel'				=> '订单已取消',
     'merchant_process'			=> '等待商家接单',
     'express_user_pickup'		=> '配送员已取货',
+    'order_pickup_success'		=> '已提货',
     
     'submit_order'				=> '提交订单',
     'pay_for_order'				=> '支付订单',

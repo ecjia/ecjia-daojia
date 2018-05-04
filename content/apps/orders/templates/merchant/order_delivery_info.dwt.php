@@ -114,6 +114,8 @@
 							<td>
 								{if $shipping_code eq 'ship_o2o_express'}
 									{$order.expect_shipping_time|escape}
+								{elseif $shipping_code eq 'ship_ecjia_express'}
+									{$order.expect_shipping_time|escape}
 								{else}
 									{$order.best_time|escape}
 								{/if}
@@ -263,6 +265,7 @@
 									<input name="delivery[province]" type="hidden" value="{$order.province}">
 									<input name="delivery[city]" type="hidden" value="{$order.city}">
 									<input name="delivery[district]" type="hidden" value="{$order.district}">
+									<input name="delivery[street]" type="hidden" value="{$order.street}">
 									<input name="delivery[sign_building]" type="hidden" value="{$order.sign_building}">
 									<input name="delivery[email]" type="hidden" value="{$order.email}">
 									<input name="delivery[zipcode]" type="hidden" value="{$order.zipcode}">

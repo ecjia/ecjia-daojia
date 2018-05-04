@@ -148,7 +148,7 @@ function affirm_received($order_id, $user_id = 0) {
             	
             	$express_order_viewdb = RC_Model::model('express/express_order_viewmodel');
             	$where = array('staff_id' => $express_info['staff_id'], 'express_id' => $express_info['express_id']);
-            	$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+            	$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, oi.shipping_id, oi.invoice_no, sf.merchants_name, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
             	$express_order_info = $express_order_viewdb->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
             		
             	//短信发送
@@ -208,20 +208,40 @@ function affirm_received($order_id, $user_id = 0) {
 	            		'order_time'      	=> RC_Time::local_date(ecjia::config('time_format'), $express_order_info['add_time']),
 	            		'pay_time'       	=> empty($express_order_info['pay_time']) 	? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['pay_time']),
 	            		'best_time'       	=> empty($express_order_info['best_time']) 	? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['best_time']),
-	            		'shipping_fee'    	=> $express_order_info['shipping_fee'],
+	            		'shipping_fee'    	=> $express_order_info['commision'],
 	            		'order_amount'    	=> $express_order_info['order_amount'],
             		),
             	);
             	$express_finished = new ExpressFinished($express_data);
             	RC_Notification::send($user, $express_finished);
-
-            	RC_DB::table('express_order')->where('express_id', $express_info['express_id'])->update(array('status' => 5, 'signed_time' => RC_Time::gmtime()));
+				
+            	$update_data = array(
+            		'status' 			=> 5,
+            		'signed_time' 		=> RC_Time::gmtime(),
+            		'commision_status'	=> 1,
+            		'commision_time'	=> RC_Time::gmtime(), 
+            	);
+            	
+            	RC_DB::table('express_order')->where('express_id', $express_info['express_id'])->update($update_data);
+            	
+            	/*用户确认收货后更新配送员资金账户信息*/
+            	RC_Loader::load_app_class('express_account_change', 'express', false);
+            	
+            	$options = array(
+            			'staff_user_id' => $express_order_info['staff_id'],
+            			'user_money'	=> $express_order_info['commision'],
+            			'frozen_money'	=> '0.00',
+            			'change_desc'	=> '配送订单'.$express_order_info['order_sn'].'所得的配送费用',
+            			'change_type'	=> '99'
+            	);
+            	
+            	express_account_change::express_account_change_log($options);
             	
             	/*当订单配送方式为o2o速递时,记录o2o速递物流信息*/
             	if ($express_order_info['shipping_id'] > 0) {
 //             		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
             		$shipping_info = ecjia_shipping::pluginData($express_order_info['shipping_id']);
-            		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+            		if ($shipping_info['shipping_code'] == 'ship_o2o_express' || $shipping_info['shipping_code'] == 'ship_ecjia_express') {
             			$data = array(
             					'express_code' => $shipping_info['shipping_code'],
             					'track_number' => $express_order_info['invoice_no'],

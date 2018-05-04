@@ -2727,7 +2727,8 @@ class merchant extends ecjia_merchant {
 			$delivery['province']		= trim($delivery['province']);
 			$delivery['city']			= trim($delivery['city']);
 			$delivery['district']		= trim($delivery['district']);
-
+			$delivery['street']			= trim($delivery['street']);
+			
 			$delivery['agency_id']		= intval($delivery['agency_id']);
 			$delivery['insure_fee']		= floatval($delivery['insure_fee']);
 			$delivery['shipping_fee']	= floatval($delivery['shipping_fee']);

@@ -92,7 +92,7 @@ class express_module extends api_admin implements api_interface {
 			foreach ($delivery_result as $val) {
 				$shipping_info = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])
 				    ->first();
-				if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+				if ($shipping_info['shipping_code'] == 'ship_o2o_express' || $shipping_info['shipping_code'] == 'ship_ecjia_express') {
 					$delivery_list1 = array();
 					if (!empty($val['invoice_no'])){
 						$delivery_list1 = RC_DB::table('express_track_record as etr')

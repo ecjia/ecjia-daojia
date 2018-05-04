@@ -90,7 +90,7 @@ class shipping_detail_module extends api_admin implements api_interface {
 						'on'    =>	'og.goods_id = g.goods_id ',
 				),
 		);
-		$field = 'oi.order_id, order_sn, consignee, country, province, city, district, street, address, mobile, pay_id, shipping_id, shipping_name, oi.add_time, pay_time, og.rec_id, og.goods_id, og.product_id, og.goods_name, og.goods_price, og.goods_number, og.goods_attr, goods_thumb, goods_img, original_img';
+		$field = 'oi.order_id, oi.expect_shipping_time, order_sn, consignee, country, province, city, district, street, address, mobile, pay_id, shipping_id, shipping_name, oi.add_time, pay_time, og.rec_id, og.goods_id, og.product_id, og.goods_name, og.goods_price, og.goods_number, og.goods_attr, goods_thumb, goods_img, original_img';
 		$order_list = $order_dbview->join(array('order_goods', 'goods'))->field($field)->where(array('oi.order_id' => $order_id))->select();
 		if (empty($order_list)) {
 			return new ecjia_error('orders_empty', '订单信息不存在！');
@@ -120,6 +120,11 @@ class shipping_detail_module extends api_admin implements api_interface {
 				
 				$order['pay_code'] = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->pluck('pay_code');
 				
+				
+				//期望送达时间
+				$expect_shipping_time = trim($val['expect_shipping_time']);
+				$expect_shipping_time = explode(" ", $expect_shipping_time );  
+
 				$delivery_info = array(
 					'order_id'		=> $val['order_id'],
 					'order_sn'		=> $val['order_sn'],
@@ -144,6 +149,46 @@ class shipping_detail_module extends api_admin implements api_interface {
 					'pay_time'		=> empty($val['pay_time']) ? null : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
 					'deliveryed_number'	=> 0,
 				);
+				
+				if ($order['shipping_code'] == 'ship_o2o_express' || $order['shipping_code'] == 'ship_ecjia_express') {
+					
+					$delivery_info['expect_shipping_time'] = array('date' => $expect_shipping_time['0'], 'time' => $expect_shipping_time['1']);
+					$shipping_area_info = RC_DB::table('shipping_area')
+								->where('store_id', $_SESSION['store_id'])
+								->where('shipping_id', $val['shipping_id'])->first();
+					$shipping_cfg = ecjia_shipping::unserializeConfig($shipping_area_info['configure']);
+					
+					/* 获取最后可送的时间（当前时间+需提前下单时间）*/
+					$time = RC_Time::local_date('H:i', RC_Time::gmtime() + $shipping_cfg['last_order_time'] * 60);
+					
+					$ship_date = 0;
+					
+					if (empty($shipping_cfg['ship_days'])) {
+						$shipping_cfg['ship_days'] = 7;
+					}
+					
+					while ($shipping_cfg['ship_days']) {
+						foreach ($shipping_cfg['ship_time'] as $k => $v) {
+					
+							if ($v['end'] > $time || $ship_date > 0) {
+								$delivery_info['shipping_date'][$ship_date]['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$ship_date.' day'));
+								$delivery_info['shipping_date'][$ship_date]['time'][] = array(
+										'start_time' 	=> $v['start'],
+										'end_time'		=> $v['end'],
+								);
+							}
+						}
+					
+						$ship_date ++;
+					
+						if (count($delivery_info['shipping_date']) >= $shipping_cfg['ship_days']) {
+							break;
+						}
+					}
+					$delivery_info['shipping_date'] = array_merge($delivery_info['shipping_date']);
+					
+				}
+				
 				/* 判断订单商品的发货情况*/
 				if (!empty($delivery_list)) {
 					foreach ($delivery_list as $v) {

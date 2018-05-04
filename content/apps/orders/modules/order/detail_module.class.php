@@ -163,7 +163,14 @@ class detail_module extends api_front implements api_interface {
 		
 		/*返回数据处理*/
 		$order['order_id'] 			= intval($order['order_id']);
-		$order['order_mode'] 		= in_array($order['extension_code'], array('storebuy', 'cashdesk')) ? 'storebuy' : 'default';
+		//$order['order_mode'] 		= in_array($order['extension_code'], array('storebuy', 'cashdesk')) ? 'storebuy' : 'default';
+		if (in_array($order['extension_code'], array('storebuy', 'cashdesk'))) {
+			$order['order_mode'] = 'storebuy';
+		} elseif ($order['extension_code'] == 'storepickup') {
+			$order['order_mode'] = 'storepickup';
+		} else {
+			$order['order_mode'] = 'default';
+		}
 		$order['user_id'] 			= intval($order['user_id']);
 		$order['order_status'] 		= intval($order['order_status']);
 		$order['shipping_status'] 	= intval($order['shipping_status']);
@@ -248,9 +255,17 @@ class detail_module extends api_front implements api_interface {
 		}
 		$order['seller_id']		= !empty($seller_info['store_id']) ? intval($seller_info['store_id']) : 0;
 		$order['seller_name']	= !empty($seller_info['merchants_name']) ? $seller_info['merchants_name'] : '';
+		$order['store_address']	= ecjia_region::getRegionName($seller_info['province']).ecjia_region::getRegionName($seller_info['city']).ecjia_region::getRegionName($seller_info['district']).ecjia_region::getRegionName($seller_info['street']).$seller_info['address'];
 		$order['manage_mode']	= $seller_info['manage_mode'];
-		$order['service_phone']		= RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
-
+		$order['service_phone']	= RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
+		/*下单用户信息*/
+		if (!empty($order['user_id'])) {
+			$order_user_info = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+			$order['order_user_info'] = array('user_name' => $order_user_info['user_name'], 'mobile_phone' => $order_user_info['mobile_phone']);
+		} else {
+			$order['order_user_info'] = array();
+		}
+		
 		if (!empty($goods_list)) {
 			foreach ($goods_list as $k => $v) {
 				$attr = array();
@@ -302,7 +317,8 @@ class detail_module extends api_front implements api_interface {
 				'express_user_pickup'	=> RC_Lang::get('orders::order.express_user_pickup'),
 				'cancel'		=> RC_Lang::get('orders::order.order_cancel'),
 				'confirm_receipt'	=> RC_Lang::get('orders::order.confirm_receipted'),
-				'finished'		=> RC_Lang::get('orders::order.order_finished')
+				'finished'		=> RC_Lang::get('orders::order.order_finished'),
+				'pickup_success'=> RC_Lang::get('orders::order.order_pickup_success'),
 			);
 			
 			foreach ($order_status_log as $val) {

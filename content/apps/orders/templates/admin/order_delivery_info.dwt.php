@@ -105,6 +105,8 @@
 								<td>
 									{if $shipping_code eq 'ship_o2o_express'}
 										{$order.expect_shipping_time|escape}
+									{elseif $shipping_code eq 'ship_ecjia_express'}
+										{$order.expect_shipping_time|escape}
 									{else}
 										{$order.best_time|escape}
 									{/if}

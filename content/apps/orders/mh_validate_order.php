@@ -416,12 +416,10 @@ class mh_validate_order extends ecjia_merchant {
 				$user_name = $userinfo['user_name'];
 				$options = array(
 					'mobile' => $userinfo['mobile_phone'],
-					'event'	 => 'sms_order_shipped',
+					'event'	 => 'sms_order_pickup_success',
 					'value'  =>array(
 						'user_name'    => $user_name,
-						'order_sn'     => $order['order_sn'],
-						'consignee'    => $order['consignee'],
-						'service_phone'=> ecjia::config('service_phone'),
+						'order_sn'     => $order['order_sn']
 					),
 				);
 				RC_Api::api('sms', 'send_event_sms', $options);
@@ -926,15 +924,22 @@ class mh_validate_order extends ecjia_merchant {
 		}
 		$update = update_order($order['order_id'], $arr);
 		if ($update) {
+			//$data = array(
+// 					'order_status' => RC_Lang::get('orders::order.ss.'.SS_RECEIVED),
+// 					'order_id'     => $order['order_id'],
+// 					'message'      => RC_Lang::get('orders::order.order_goods_served'),
+// 					'add_time'     => RC_Time::gmtime()
+			//);
+			
 			$data = array(
-					'order_status' => RC_Lang::get('orders::order.ss.'.SS_RECEIVED),
+					'order_status' => '已提货',
 					'order_id'     => $order['order_id'],
-					'message'      => RC_Lang::get('orders::order.order_goods_served'),
+					'message'      => '您的商品已被提货，感谢您下次光顾！',
 					'add_time'     => RC_Time::gmtime()
 			);
+			
 			RC_DB::table('order_status_log')->insert($data);
-			//update commission_bill
-// 			RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 'buy', 'order_id' => $order['order_id'], 'order_amount' => $order['order_amount']));
+			
 			RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'buy', 'order_id' => $order['order_id']));
 			RC_Api::api('goods', 'update_goods_sales', array('order_id' => $order['order_id']));
 		}

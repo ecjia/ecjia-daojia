@@ -351,7 +351,7 @@ class merchant_order_list {
 	public function order_amount_field($alias = '') {
 		return "   {$alias}goods_amount + {$alias}tax + {$alias}shipping_fee" .
 		" + {$alias}insure_fee + {$alias}pay_fee + {$alias}pack_fee" .
-		" + {$alias}card_fee ";
+		" + {$alias}card_fee  - {$alias}discount";
 	}
 }
 
