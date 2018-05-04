@@ -129,19 +129,22 @@ class merchant_function {
                 if (!empty($shop_hours)) {
                     $start_time = RC_Time::local_strtotime($shop_hours['start']);
                     $end_time = RC_Time::local_strtotime($shop_hours['end']);
+                    //处理营业时间格式例：7:00--次日5:30
+                    $start = $shop_hours['start'];
+                    $end = explode(':', $shop_hours['end']);
+                    if ($end[0] > 24) {
+                        $hour = $end[0] - 24;
+                    	$end[0] = '次日'. ($hour);
+                        $end_time = $hour. ':' . $end[1];
+                        $end_time = RC_Time::local_strtotime($end_time) + 24*3600;
+                    }
+                    $shop_hours = $start . '--' . $end[0] . ':' . $end[1];
                     //0为不营业，1为营业
                     if ($start_time < $now_time && $now_time < $end_time) {
                         $business_status = 1;
                     } else {
                         $business_status = 0;
                     }
-                    //处理营业时间格式例：7:00--次日5:30
-                    $start = $shop_hours['start'];
-                    $end = explode(':', $shop_hours['end']);
-                    if ($end[0] > 24) {
-                    	$end[0] = '次日'. ($end[0] - 24);
-                    }
-                    $shop_hours = $start . '--' . $end[0] . ':' . $end[1];
                 } else {
                 	$shop_hours = '暂未设置';
                 }

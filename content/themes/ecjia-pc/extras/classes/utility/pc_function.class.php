@@ -61,16 +61,15 @@ class pc_function {
         $merchant_login = str_replace('index.php', 'sites/merchant/index.php', $merchant_login);
         $company_name = ecjia::config('company_name');
         $shop_address = ecjia::config('shop_address');
+
         $regions = array();
-        if (ecjia_config::has('mobile_recommend_city')) {
-            $mobile_recommend_city = explode(',', ecjia::config('mobile_recommend_city'));
-            $region_data = ecjia_region::getRegions($mobile_recommend_city);
-            if (!empty($region_data)) {
-                foreach ($region_data as $val) {
-                    $regions[] = array('id' => $val['region_id'], 'name' => $val['region_name']);
-                }
+        $region_list = RC_DB::table('store_business_city')->select('*')->orderBy('index_letter', 'asc')->get();
+        if (!empty($region_list)) {
+            foreach ($region_list as $key => $val) {
+                $regions[$val['index_letter']][] = $val;
             }
         }
+
         $shop_info = RC_DB::table('article')->select('article_id', 'title')->where('cat_id', 0)->where('article_type', 'shop_info')->orderby('article_id', 'asc')->get();
         if (!empty($shop_info)) {
             foreach ($shop_info as $key => $val) {

@@ -31,7 +31,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.cookie.js" ></script>
 	<script type="text/javascript" src="{$theme_url}lib/ecjiaUI/ecjia.js" ></script>
 	<script type="text/javascript" src="{$theme_url}lib/swiper/js/swiper.min.js"></script>
-	 <script type="text/javascript">var theme_url = "{$theme_url}";</script>
+	<script type="text/javascript" src="{$theme_url}lib/jquery-localstorage/jquery.localstorage.js"></script>
+	<script type="text/javascript">var theme_url = "{$theme_url}";</script>
 	 
 	<!-- {block name="meta"} --><!-- {/block} -->
 	<script type="text/javascript" src="{$theme_url}js/ecjia.pc.raty.js" ></script>
