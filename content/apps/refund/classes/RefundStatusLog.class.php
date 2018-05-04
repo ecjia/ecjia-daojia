@@ -103,7 +103,7 @@ class RefundStatusLog
     	if($options['status'] == 3) {
     		$message = '商家已确认收货，等待商家退款';
     	} else {
-    		$message = '商家拒绝确认收货，理由：商品没有问题';
+    		$message = '商家未收到货';
     	}
     	$data = array(
     		'status'	=> '确认收货处理',
