@@ -46,15 +46,15 @@
 //
 namespace Ecjia\App\Printer;
 
-use Royalcms\Component\Foundation\Object;
 use ecjia_error;
 use ecjia_printer;
 use Ecjia\App\Printer\Models\PrinterTemplateModel;
 use Ecjia\App\Printer\Models\PrinterPrintlistModel;
 use RC_Hook;
 use RC_Time;
+use RC_Object;
 
-class EventPrint extends Object
+class EventPrint extends RC_Object
 {
     
     protected $model;
