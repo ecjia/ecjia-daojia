@@ -51,7 +51,7 @@ Plugin Name: 商家结算队列处理
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_bill_queue/
 Description: 商家结算队列处理
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.16.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
 */

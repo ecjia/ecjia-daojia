@@ -49,7 +49,7 @@ Plugin Name: 测试计划任务
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_testlog/
 Description: 测试计划任务，生成日志
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.16.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
 */
