@@ -51,6 +51,7 @@ return array(
     'Royalcms\\Component\\WeChat\\Menu\\' => array($vendorDir . '/royalcms/wechat-menu'),
     'Royalcms\\Component\\WeChat\\User\\' => array($vendorDir . '/royalcms/wechat-user'),
     'Royalcms\\Component\\WeChat\\Js\\' => array($vendorDir . '/royalcms/wechat-js'),
+    'Royalcms\\Component\\WeApp\\' => array($vendorDir . '/royalcms/weapp'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'DebugBar' => array($vendorDir . '/maximebf/debugbar/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
