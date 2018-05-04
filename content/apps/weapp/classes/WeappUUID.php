@@ -57,6 +57,8 @@ class WeappUUID {
     
     protected $weapp;
     
+    protected $weapp_user;
+    
     protected $appid;
     
     public function __construct($uuid) {
@@ -79,7 +81,8 @@ class WeappUUID {
             
             $wechat = royalcms('wechat');
             $wechat->make('config')->set('mini_app', $config);
-            $this->weapp = $wechat->make('mini_app_user');
+            $this->weapp_user = $wechat->make('mini_app_user');
+            $this->weapp = $wechat->make('weapp');
         } else {
             throw new Exception('UUID is not available, please check and try again.');
         }
@@ -88,6 +91,14 @@ class WeappUUID {
     /**
      * 获取微信小程序用户对象
      * @return \Royalcms\Component\WeChat\User\MiniAppUser;
+     */
+    public function getWeappUser() {
+        return $this->weapp_user;
+    }
+    
+    /**
+     * 获取微信小程序用户对象
+     * @return \Royalcms\Component\Weapp\WeApp;
      */
     public function getWeapp() {
         return $this->weapp;
