@@ -67,7 +67,7 @@ class create_module extends api_front implements api_interface {
 		$goods = get_goods_info($goods_id);
 
 		if (!$goods) {
-			return new ecjia_error(13, '不存在的信息');
+			return new ecjia_error('not_exists_info', '不存在的信息');
 		}
 		/* 检查是否已经存在于用户的收藏夹 */
 		

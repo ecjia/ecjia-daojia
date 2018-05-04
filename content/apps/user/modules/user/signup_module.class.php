@@ -146,7 +146,24 @@ class signup_module extends api_front implements api_interface
  			
  			/*注册送红包*/
  			//RC_Api::api('bonus', 'send_bonus', array('type' => SEND_BY_REGISTER));
- 			
+ 			/*客户端没传invite_code时，判断手机号码有没被邀请过*/
+ 			if (empty($invite_code)) {
+ 				/*获取邀请记录信息*/
+ 				$is_invitedinfo = RC_DB::table('invitee_record')
+ 				->where('invitee_phone', $mobile)
+ 				->where('invite_type', 'signup')
+ 				->where('expire_time', '>', RC_Time::gmtime())
+ 				->first();
+ 				if (!empty($is_invitedinfo)) {
+ 					/*获取邀请者的邀请码*/
+ 					$invite_code = RC_DB::table('term_meta')
+ 					->where('object_type', 'ecjia.affiliate')
+ 					->where('object_group', 'user_invite_code')
+ 					->where('meta_key', 'invite_code')
+ 					->where('object_id', $is_invitedinfo['invite_id'])
+ 					->pluck('meta_value');
+ 				}
+ 			}
  			$result = ecjia_app::validate_application('affiliate');
  			if (!is_ecjia_error($result) && !empty($invite_code)) {
  				RC_Api::api('affiliate', 'invite_bind', array('invite_code' => $invite_code, 'mobile' => $mobile));
