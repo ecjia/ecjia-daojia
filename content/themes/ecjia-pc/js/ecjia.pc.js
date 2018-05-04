@@ -302,15 +302,19 @@
                 var s = $(this).html();
                 var top = $(this).attr('data-top');
                 if (top == 'top') {
-                    $('.city-container').stop(true, false).animate({
+                    $('.city-content .content').stop(true, false).animate({
                         scrollTop: 0
                     }, 500);
                 } else {
                     if ($('#' + s + '1').position() == undefined) {
                         return false;
                     }
-                    var top = $('#' + s + '1').position().top + $('.city-container').scrollTop();
-                    $('.city-container').stop(true, false).animate({
+                    var div_height = 0;
+                    if ($.localStorage('history_city')) {
+                        div_height = 175;
+                    }
+                    var top = $('#' + s + '1').position().top + div_height;
+                    $('.city-content .content').stop(true, false).animate({
                         scrollTop: top
                     }, 500);
                     $("#showLetter span").html(s);
@@ -510,7 +514,7 @@
         });
         $(".choose-city-div").show();
         $(".choose-city-overlay").show();
-        var container_height = $('.city-container').height();
+        var container_height = $('.city-content .content').height();
         var letter_height = $('.letter').height();
         var top = (container_height - letter_height) / 2;
         $('.letter').css('top', top);

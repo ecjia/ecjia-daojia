@@ -1490,6 +1490,13 @@ a:active, a:hover {
     padding: 10px 0;
     font-size: 16px
 }
+
+.choose-city-div .city-content .content {
+    height: 550px;
+    overflow: auto;
+    position: relative;
+}
+
 .choose-city-div .header {
     border-bottom: 1px solid #eee;
     padding: 10px 20px
@@ -3086,19 +3093,17 @@ a:active, a:hover {
 }
 .ecjia-select-city .city-container {
     width: 100%;
-    overflow: auto;
-    height: 370px
 }
-.ecjia-select-city .letter {
+.city-content .letter {
     width: auto;
     position: absolute;
     right: 20px;
     text-align: center
 }
-.ecjia-select-city .letter ul {
+.city-content .letter ul {
     list-style-type: none
 }
-.ecjia-select-city .letter ul li a {
+.city-content .letter ul li a {
     text-decoration: none;
     color: #006ac7;
     font-size: 12px

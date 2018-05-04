@@ -22,26 +22,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</div>
 			{/if}
 			
-			<div class="ecjia-history-city">
-		
-			</div>
+			<div class="ecjia-history-city"></div>
 
 			{if $info.region_list}
 			<div class="ecjia-select-city">
 				<!--显示点击的是哪一个字母-->
 				<div id="showLetter" class="showLetter"><span>A</span></div>
-				<!--城市索引查询-->
-				<div class="letter">
-					<ul>
-						{if $info.location_address}
-						<li><a href="javascript:;" data-top="top">定位</a></li>
-						{/if}
-						<!--{foreach from=$info.region_list key=key item=val}-->
-						<li><a href="javascript:;">{$key}</a></li>
-						<!--{/foreach}-->
-					</ul>
-				</div>
-
 				<!--城市列表-->
 				<div class="city-container">
 					<div class="city-list">
@@ -57,7 +43,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				</div>
 			</div>
 			{/if}
-
+		</div>
+		<!--城市索引查询-->
+		<div class="letter">
+			<ul>
+				{if $info.location_address}
+				<li><a href="javascript:;" data-top="top">定位</a></li>
+				{/if}
+				<!--{foreach from=$info.region_list key=key item=val}-->
+				<li><a href="javascript:;">{$key}</a></li>
+				<!--{/foreach}-->
+			</ul>
 		</div>
 	</div>
 </div>
