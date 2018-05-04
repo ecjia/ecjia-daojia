@@ -422,8 +422,8 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.10.0';
-    const RELEASE = '2018-04-11';
+    const VERSION = '4.11.0';
+    const RELEASE = '2018-05-04';
     const PHP_REQUIRED = '5.4.0';
     protected $booted = false;
     protected $bootingCallbacks = array();
@@ -11116,7 +11116,7 @@ class PrettyPageHandler extends WhoopsHandler
     public function handle()
     {
         if (php_sapi_name() === 'cli' && !isset($_ENV['whoops-test'])) {
-            return Handler::DONE;
+            return WhoopsHandler::DONE;
         }
         if (!($resources = $this->getResourcesPath())) {
             $resources = SITE_ROOT . 'vendor/royalcms/framework/Royalcms/Component/Exception' . '/../Resources';
@@ -11145,7 +11145,7 @@ class PrettyPageHandler extends WhoopsHandler
             };
             require $templateFile;
         });
-        return Handler::QUIT;
+        return WhoopsHandler::QUIT;
     }
     public function addDataTable($label, array $data)
     {
