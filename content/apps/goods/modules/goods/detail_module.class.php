@@ -80,7 +80,7 @@ class detail_module extends api_front implements api_interface {
         	$goods = get_goods_info($goods_id);
         	$orm_goods_db->set_cache_item($cache_basic_info_id);
         }
-      
+    
         if ($goods === false) {
             /* 如果没有找到任何记录则跳回到首页 */
            return new ecjia_error('does not exist', '不存在的信息');
@@ -285,12 +285,11 @@ class detail_module extends api_front implements api_interface {
         $data['object_id'] = $object_id;
 
         if (ecjia_config::has('mobile_touch_url')) {
-        	$data['goods_url'] = ecjia::config('mobile_touch_url').'?goods&c=index&a=show&id='.$goods_id.'&hidenav=1&hidetab=1';
+        	$data['goods_url'] = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=show&goods_id='.$goods_id.'&hidenav=1&hidetab=1';
         } else {
         	$data['goods_url'] = null;
         }
-
-
+        
         $data['favourable_list'] = $favourable_list;
 
         $location = $this->requestData('location', array());
@@ -415,7 +414,13 @@ class detail_module extends api_front implements api_interface {
         		ecjia_api::$controller->assign('invite_code', $user_invite_code);
         	}
         	$share_link = ecjia_api::$controller->fetch_string(ecjia::config('mobile_share_link'));
-        	$data['share_link']	= $share_link;
+        	/*商品分享链接*/
+        	if (ecjia_config::has('mobile_touch_url')) {
+        		$data['share_link'] = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=show&goods_id='.$goods_id.'&hidenav=1&hidetab=1';
+        	} else {
+        		$data['share_link'] = null;
+        	}
+        	//$data['share_link']	= $share_link;
         }
         $data['goods_brief'] = $goods['goods_brief'];
 

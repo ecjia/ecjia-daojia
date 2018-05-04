@@ -63,7 +63,6 @@ class desc_module extends api_admin implements api_interface {
 
 		//RC_Loader::load_app_func('admin_goods', 'goods');
         $goods = get_goods_info($goods_id);
-        $goods = str_replace('\\"', '"', $goods);
         if ($goods === false) {
             /* 如果没有找到任何记录则跳回到首页 */
            	return new ecjia_error('not_exists_info', '不存在的信息');
@@ -71,6 +70,7 @@ class desc_module extends api_admin implements api_interface {
         	if ($_SESSION['store_id'] > 0 && $_SESSION['store_id'] != $goods['store_id']) {
         		return new ecjia_error('not_exists_info', '不存在的信息');
         	}
+        	$goods = str_replace('\\"', '"', $goods);
         	$data = $goods;
 	        $base = sprintf('<base href="%s/" />', dirname(SITE_URL));
 	        $style = RC_App::apps_url('goods/statics/styles/goodsapi.css');
@@ -101,7 +101,9 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 	
 	//商品信息
 	$row = $db_goods->first();
-
+	if (empty($row)) {
+		return false;
+	}
 	//分类信息
 	$cat_info = RC_DB::table('category')->where('cat_id', $row['cat_id'])->first();
 	$row['measure_unit'] = $cat_info['measure_unit'];

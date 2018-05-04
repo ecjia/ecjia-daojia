@@ -63,6 +63,9 @@ class goods_goods_info_api extends Component_Event_Api {
 	        return new ecjia_error('invalid_parameter', '参数无效');
 	    }
 	   	$row = $this->get_goods_info($options['id']);
+	   	if ($row == false) {
+	   		return new ecjia_error('not_exist_info', '不存在的信息！');
+	   	}
 	    return $row;
 	}
 	
@@ -80,7 +83,9 @@ class goods_goods_info_api extends Component_Event_Api {
 	
 	    //商品信息
 	    $row = $db_goods->first();
-	    
+	    if (empty($row)) {
+	    	return false;
+	    }
 	    //分类信息
 	    $cat_info = RC_DB::table('category')->where('cat_id', $row['cat_id'])->first();
 	    $row['measure_unit'] = $cat_info['measure_unit'];

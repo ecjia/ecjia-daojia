@@ -561,7 +561,9 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 	}
     //商品信息
     $row = $db_goods->first();
-    
+    if (empty($row)) {
+    	return false;
+    }
     //分类信息
     $cat_info = RC_DB::table('category')->where('cat_id', $row['cat_id'])->first();
     $row['measure_unit'] = $cat_info['measure_unit'];
