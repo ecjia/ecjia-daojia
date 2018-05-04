@@ -26,9 +26,9 @@ ecjia.merchant.order_list.init();
 	    <div class="panel">
 	     	<div class="panel-body panel-body-small">
         		<ul class="nav nav-pills pull-left">
-        			<li class="{if $smarty.get.check_type eq ''}active{/if}"><a class="data-pjax" href='{url path="quickpay/mh_order/init" args="{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>全部 <span class="badge badge-info">{if $order_list.count.count}{$order_list.count.count}{else}0{/if}</span> </a></li>
-        			<li class="{if $smarty.get.check_type eq 'verification'}active{/if}"><a class="data-pjax" href='{url path="quickpay/mh_order/init" args="check_type=verification{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>已核销<span class="badge badge-info">{if $order_list.count.verification}{$order_list.count.verification}{else}0{/if}</span> </a></li>
-        			<li class="{if $smarty.get.check_type eq 'unverification'}active{/if}"><a class="data-pjax" href='{url path="quickpay/mh_order/init" args="check_type=unverification{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>待核销<span class="badge badge-info">{if $order_list.count.unverification}{$order_list.count.unverification}{else}0{/if}</span> </a></li>
+        			<li class="{if $filter.check_type eq 'unverification'}active{/if}"><a class="data-pjax" href='{url path="quickpay/mh_order/init" args="check_type=unverification{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>待核销<span class="badge badge-info">{if $order_list.count.unverification}{$order_list.count.unverification}{else}0{/if}</span> </a></li>
+        			<li class="{if $filter.check_type eq 'verification'}active{/if}"><a class="data-pjax" href='{url path="quickpay/mh_order/init" args="check_type=verification{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>已核销<span class="badge badge-info">{if $order_list.count.verification}{$order_list.count.verification}{else}0{/if}</span> </a></li>
+        			<li class="{if $filter.check_type eq 'unpay'}active{/if}"><a class="data-pjax" href='{url path="quickpay/mh_order/init" args="check_type=unpay{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>未付款 <span class="badge badge-info">{if $order_list.count.unpay}{$order_list.count.unpay}{else}0{/if}</span> </a></li>
         		</ul>
             </div>
             
@@ -60,7 +60,7 @@ ecjia.merchant.order_list.init();
         		</div>
         		<button class="btn btn-primary screen-btn" type="button"><i class="fa fa-search"></i> 筛选</button>
         		
-        		<form class="form-inline pull-right" name="searchForm" method="post" action="{$search_action}">
+        		<form class="form-inline pull-right" name="searchForm" method="post" action="{$search_action}{if $filter.check_type}&check_type={$filter.check_type}{/if}"}">
 					<div class="form-group">
 						<!-- 关键字 -->
 						<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入订单号"/> 
@@ -173,7 +173,7 @@ ecjia.merchant.order_list.init();
     							</div>
     						</td>
     						<td align="left">
-    							{$order.user_name} [TEL：{$order.user_mobile}]
+    							{$order.user_name}
     						</td>
     						<td>
     							{if $order.activity_type eq 'discount'}价格折扣{elseif $order.activity_type eq 'everyreduced'}每满多少减多少，最高减多少{elseif $order.activity_type eq 'reduced'}满多少减多少{elseif $order.activity_type eq 'normal'}无优惠{/if}

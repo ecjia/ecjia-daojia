@@ -375,13 +375,13 @@ class mh_order extends ecjia_merchant {
 		} elseif($filter['order_status'] == 4) {
 			$db_quickpay_order->where('order_status', 99);
 		} elseif($filter['order_status'] == 5) {
-			$db_quickpay_order->where('pay_status', 0);
+			$db_quickpay_order->where('pay_status', 0)->where('order_status', 0);
 		} elseif($filter['order_status'] == 6) {
-			$db_quickpay_order->where('pay_status', 1);
+			$db_quickpay_order->where('pay_status', 1)->where('order_status', 1);
 		} elseif($filter['order_status'] == 7) {
-			$db_quickpay_order->where('verification_status', 0);
+			$db_quickpay_order->where('verification_status', 0)->where('order_status', 1)->where('pay_status', 1);
 		} elseif($filter['order_status'] == 8){
-			$db_quickpay_order->where('verification_status', 1);
+			$db_quickpay_order->where('verification_status', 1)->where('order_status', 1)->where('pay_status', 1);
 		}
 		
 		if ($filter['start_time']) {
@@ -403,20 +403,26 @@ class mh_order extends ecjia_merchant {
 		}
 
 		
-		$check_type = trim($_GET['check_type']);
-		$order_count = $db_quickpay_order->select(RC_DB::raw('count(*) as count'),
-				RC_DB::raw('SUM(IF(verification_status = 1, 1, 0)) as verification'),
-				RC_DB::raw('SUM(IF(verification_status = 0, 1, 0)) as unverification'))->first();
+		$filter['check_type'] = !empty($_GET['check_type']) ? trim($_GET['check_type']) : 'unverification';
+		$order_count = $db_quickpay_order->select(RC_DB::raw('SUM(IF(order_status = 0 and verification_status=0 and pay_status=0, 1, 0)) as unpay'),
+				RC_DB::raw('SUM(IF(verification_status = 1 and order_status=1 and pay_status=1, 1, 0)) as verification'),
+				RC_DB::raw('SUM(IF(verification_status = 0 and order_status =1 and pay_status=1, 1, 0)) as unverification'))->first();
 		
-		if ($check_type == 'verification') {
-			$db_quickpay_order->where('verification_status', 1);
+		if ($filter['check_type'] == 'unverification') {
+			$db_quickpay_order->where('verification_status', 0)->where('order_status', 1)->where('pay_status', 1);
 		}
 		
-		if ($check_type == 'unverification') {
-			$db_quickpay_order->where('verification_status', 0);
+		if ($filter['check_type'] == 'verification') {
+			$db_quickpay_order->where('verification_status', 1)->where('order_status', 1)->where('pay_status', 1);
 		}
+		
+		if ($filter['check_type'] == 'unpay') {
+			$db_quickpay_order->where('verification_status', 0)->where('order_status', 0)->where('pay_status', 0);
+		}
+		
 
 		$count = $db_quickpay_order->count();
+		
 		$page = new ecjia_merchant_page($count,10, 5);
 		$data = $db_quickpay_order
 		->selectRaw('order_id,order_sn,activity_type,user_mobile,user_name,add_time,order_amount,surplus,order_status,pay_status,verification_status')
