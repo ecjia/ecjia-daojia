@@ -260,7 +260,7 @@ class ConnectUser extends AbstractRepository
             }
             
             if ($refresh_token) {
-                $data['refresh_token'] = refresh_token;
+                $data['refresh_token'] = $refresh_token;
             }
             
             if ($user_profile) {
@@ -289,7 +289,7 @@ class ConnectUser extends AbstractRepository
             }
             
             if ($refresh_token) {
-                $data['refresh_token'] = refresh_token;
+                $data['refresh_token'] = $refresh_token;
             }
             
             if ($user_profile) {
