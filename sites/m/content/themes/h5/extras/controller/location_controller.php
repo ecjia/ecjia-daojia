@@ -115,22 +115,22 @@ class location_controller
     public static function select_city()
     {
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
+        $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::STORE_BUSINESS_CITY)->run();
+        if (is_ecjia_error($rs)) {
+            return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+        }
+
+        $arr = [];
+        if (!empty($rs)) {
+            foreach ($rs as $key => $value) {
+                $value['business_district_list'] = '';
+                $arr[$value['index_letter']][] = $value;
+            }
+        }
+        ecjia_front::$controller->assign('rs', $arr);
+
         if (!ecjia_front::$controller->is_cached('select_location_city.dwt', $cache_id)) {
-
-            $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::STORE_BUSINESS_CITY)->run();
-            if (is_ecjia_error($rs)) {
-                return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
-            }
-
-            $arr = [];
-            if (!empty($rs)) {
-                foreach ($rs as $key => $value) {
-                    $value['business_district_list'] = '';
-                    $arr[$value['index_letter']][] = $value;
-                }
-            }
-            ecjia_front::$controller->assign('rs', $arr);
-
             $referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
             if (!empty($referer_url)) {
                 ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
