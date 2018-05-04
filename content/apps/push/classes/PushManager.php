@@ -47,14 +47,14 @@
 
 namespace Ecjia\App\Push;
 
-use Royalcms\Component\Foundation\Object;
 use Ecjia\App\Push\Models\PushTemplateModel;
 use Ecjia\App\Push\Models\PushMessageModel;
 use ecjia_error;
 use RC_Time;
 use RC_Hook;
+use RC_Object;
 
-class PushManager extends Object
+class PushManager extends RC_Object
 {
         
     protected $model;
