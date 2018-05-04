@@ -46,6 +46,7 @@
 //
 use Ecjia\System\Version\Version;
 use Ecjia\System\Database\Migrate;
+use Ecjia\System\Database\Seeder;
 
 class Version_11600 extends Version
 {
@@ -58,6 +59,10 @@ class Version_11600 extends Version
         // 更新新增的迁移项
         $migrate = new Migrate();
         $migrate->fire();
+        
+        // 更新store_business_city数据填充
+        $seeder = new Seeder('InitStoreBusinessCityTableSeeder');
+        $seeder->fire();
         
         // 清除缓存
         ecjia_update_cache::make()->clean('system_userdata_cache');
