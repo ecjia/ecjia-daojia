@@ -45,14 +45,14 @@
 //  ---------------------------------------------------------------------------------
 //
 use Royalcms\Component\Foundation\Royalcms;
-use Royalcms\Component\Foundation\Object;
+use RC_Object;
 
 /**
  * ECJia 后台菜单管理
  * @author royalwang
  *
  */
-class ecjia_admin_menu extends Object {
+class ecjia_admin_menu extends RC_Object {
     
     /**
      * 后台菜单 （key => value）

@@ -48,13 +48,13 @@
 
 namespace Ecjia\System\Admins\Plugin;
 
-use ecjia_app;
 use RC_Cache;
 use RC_Api;
+use RC_Object;
 use admin_menu;
-use Royalcms\Component\Foundation\Object;
+use ecjia_app;
 
-class ConfigMenu extends Object
+class ConfigMenu extends RC_Object
 {
     
     protected $cacheKey;

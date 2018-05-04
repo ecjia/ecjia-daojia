@@ -75,7 +75,10 @@ abstract class Version implements UpgradeInterface
      */
     protected function loadChangeFiles()
     {
-        $this->changeFiles = RC_File::get($this->upgradeLogPath());
+        $filepath = $this->upgradeLogPath();
+        if (RC_File::exists($filepath)) {
+            $this->changeFiles = RC_File::get($filepath);
+        }
     }
     
     /**
@@ -83,7 +86,10 @@ abstract class Version implements UpgradeInterface
      */
     protected function loadReadme()
     {
-        $this->readme = RC_File::get($this->upgradeReadmePath());
+        $filepath = $this->upgradeReadmePath();
+        if (RC_File::exists($filepath)) {
+            $this->readme = RC_File::get($filepath);
+        }
     }
     
     /**

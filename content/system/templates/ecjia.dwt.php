@@ -35,7 +35,7 @@
 </body>
 </html>
 <!-- {else} -->
-	<title>{block name="title"}{$ecjia_admin_cptitle}{if $ur_here} - {$ur_here}{/if}{/block}</title>
+	<title>{block name="title"}{if $ur_here}{$ur_here} - {/if}{$ecjia_admin_cptitle}{/block}</title>
 	<!-- {block name="meta"} --><!-- {/block} -->
 	<!-- {ecjia:hook id=admin_pjax_head} -->
 	<!-- {ecjia:hook id=admin_print_main_header} -->

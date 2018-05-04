@@ -47,10 +47,19 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 class ecjia_license {
+    /**
+     * 证书文件
+     * @var string
+     */
+    protected $certificate_file;
     
-    private $license = array();
+    /**
+     * 证书编号
+     * @var string
+     */
+    protected $certificate_sn;
     
-    private static $instance = null;
+    protected static $instance = null;
     
     
     /**
@@ -61,7 +70,7 @@ class ecjia_license {
      */
     public static function instance() {
         if (self::$instance === null) {
-            self::$instance = new self();
+            self::$instance = new static();
         }
         return self::$instance;
     }
@@ -77,23 +86,35 @@ class ecjia_license {
      */
     public static function get_shop_license()
     {
-        return self::instance()->license;
+        return self::instance()->get_license();
     }
     
-    
-    public function __construct() {
-        if (!ecjia::config('certificate_sn', ecjia::CONFIG_CHECK)) {
-            ecjia_config::instance()->insert_config('hidden', 'certificate_sn', '', array('type' => 'hidden'));
+    public function __construct($certificate_sn = null, $certificate_file = null) 
+    {
+        if (! ecjia_config::has('certificate_sn')) {
+            ecjia_config::add('hidden', 'certificate_sn', '', array('type' => 'hidden'));
         }
-        if (!ecjia::config('certificate_file', ecjia::CONFIG_CHECK)) {
-            ecjia_config::instance()->insert_config('hidden', 'certificate_file', '', array('type' => 'hidden'));
+        if (! ecjia_config::has('certificate_file')) {
+            ecjia_config::add('hidden', 'certificate_file', '', array('type' => 'hidden'));
         }
         
         // 取出网店 license
-        $this->license['certificate_sn'] = ecjia::config('certificate_sn');
-        $this->license['certificate_file'] = ecjia::config('certificate_file');
+        $this->certificate_sn = $certificate_sn ?: ecjia::config('certificate_sn');
+        $this->certificate_file = $certificate_file ?: ecjia::config('certificate_file');
     }
     
+    
+    public function get_license()
+    {
+        return ['certificate_sn' => $this->certificate_sn, 'certificate_file' => $this->certificate_file];
+    }
+    
+    
+    public function get_certificate()
+    {
+        $certificate_file = RC_Upload::upload_path($this->certificate_file);
+        return $this->parse_certificate($certificate_file);
+    }
     
     /**
      * 解析证书文件内容
@@ -118,11 +139,31 @@ class ecjia_license {
      */
     public function license_check() {
         // 检测网店 license
-        if (!empty($this->license['certificate_sn']) && !empty($this->license['certificate_file'])) {
+        $certificate_file = RC_Upload::upload_path($this->certificate_file);
+        if (!empty($this->certificate_sn) && !empty($this->certificate_file) && file_exists($certificate_file)) {
             return true;
         } else {
             return false;
         }
+    }
+    
+    /**
+     * license online check
+     * @return  bool
+     */
+    public function license_online_check() {
+        $params = [
+        	'site_host' => $_SERVER['HTTP_HOST'],
+        	'license_number' => $this->certificate_sn,
+        	'license_content' => base64_encode(file_get_contents(RC_Upload::upload_path($this->certificate_file))),
+        ];
+        $cloud = ecjia_cloud::instance()->api('product/license/validate')->data($params)->run();
+        if ($cloud->getStatus() == ecjia_cloud::STATUS_ERROR) {
+            $data = false;
+        } else {
+            $data = true;
+        }
+        return $data;
     }
 
 }

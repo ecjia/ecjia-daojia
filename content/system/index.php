@@ -368,22 +368,31 @@ class index extends ecjia_admin {
         }
         $info = $upload->upload($_FILES['license']);
         $license_file = $upload->get_position($info);
+        $license_full_file = RC_Upload::upload_path(str_replace('/', DS, $license_file));
 
         /* 取出证书内容 */
-        $license_arr = ecjia_license::instance()->parse_certificate(RC_Upload::upload_path() . str_replace('/', DS, $license_file));
+        $license_arr = ecjia_license::instance()->parse_certificate($license_full_file);
 
         /* 恢复证书 */
         if (empty($license_arr)) {
             return $this->showmessage(__('证书内容不全。请先确定证书是否正确然后重新上传！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
-            // TODO 证书在线验证
-            ecjia_config::instance()->write_config('certificate_sn', $license_arr['serialNumber']);
-            ecjia_config::instance()->write_config('certificate_file', $license_file);
-
-            /* 记录日志 */
-            ecjia_admin::admin_log($license_file, 'add', 'license');
-
-            return $this->showmessage(__('证书上传成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('@index/license')));
+            // 证书在线验证
+            $isLicense = with(new ecjia_license($license_arr['serialNumber'], $license_file))->license_online_check();
+            if ($isLicense) {
+                ecjia_config::instance()->write_config('certificate_sn', $license_arr['serialNumber']);
+                ecjia_config::instance()->write_config('certificate_file', $license_file);
+                
+                /* 记录日志 */
+                ecjia_admin::admin_log($license_file, 'add', 'license');
+                
+                return $this->showmessage(__('授权证书上传成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('@index/license')));
+            } else {
+                /* 证书验证失败，删除错误的证书文件 */
+                RC_Storage::disk()->delete($license_full_file);
+                
+                return $this->showmessage(__('授权证书连接服务器校验失败，请检查授权证书的合法性。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('@index/license')));
+            }
         }
     }
 

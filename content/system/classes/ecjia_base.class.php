@@ -234,9 +234,12 @@ abstract class ecjia_base extends Royalcms\Component\Routing\Controller {
      *
      * @param string $msg 显示内容
      */
-    protected function displayContent($content)
+    protected function displayContent($content, $content_type = null)
     {
         $response = royalcms('response');
+        if ($content_type) {
+            $response->header('Content-Type', $content_type);
+        }
         $response->setContent($content);
         return $response;
     }
