@@ -47,8 +47,8 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 购物流检查订单
- * @author royalwang
+ * 门店提货购物流检查订单
+ * @author zrl
  */
 class checkOrder_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
@@ -75,11 +75,14 @@ class checkOrder_module extends api_front implements api_interface {
 		RC_Loader::load_app_func('admin_bonus','bonus');
 
 		/* 取得购物类型 */
-		$flow_type = CART_STOREBUY_GOODS;
+		$flow_type = CART_GENERAL_GOODS;
 
 		/* 对商品信息赋值 */
 		$cart_goods = cart_goods($flow_type, $cart_id); // 取得商品列表，计算合计
-	
+		if (empty($cart_goods)) {
+			return new ecjia_error('not_found_cart_goods', '购物车中还没有商品');
+		}
+		
 		/* 取得订单信息*/
 		$order = flow_order_info();
 		/* 计算折扣 */
@@ -120,8 +123,9 @@ class checkOrder_module extends api_front implements api_interface {
 // 		$out['shipping_list']	= $shipping_list;	//快递信息
 // 		$out['payment_list']	= $payment_list;
 		/* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
-		$rec_ids = array();
 		/*会员价处理*/
+		$store_group = array();
+		$rec_ids = array();
 		if (!empty($cart_goods)) {
 			RC_Loader::load_app_class('goods_info', 'goods', false);
 			foreach ($cart_goods as $k => $v) {
@@ -132,6 +136,14 @@ class checkOrder_module extends api_front implements api_interface {
 			$store_id = $store_group['0'];
 		}
 		
+		/*店铺信息*/
+		$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->pluck('value');
+		$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->selectRaw('merchants_name, province, city, district, street, address, longitude, latitude')->first();
+		$store_address = ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address']; 
+		$out['store_info'] = array('store_name' => $store_info['merchants_name'], 'store_address' => $store_address, 'shop_kf_mobile' => $shop_kf_mobile, 'location' => array('longitude' => $store_info['longitude'], 'latitude' => $store_info['latitude']));
+		$payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $store_id, 'cod_fee' => 0));
+		$out['payment_list']	= $payment_list;//支付信息
+		
 		if ((ecjia::config('use_integral', ecjia::CONFIG_CHECK) || ecjia::config('use_integral') == '1')
 		&& $_SESSION['user_id'] > 0
 		&& $user_info['pay_points'] > 0
@@ -140,6 +152,7 @@ class checkOrder_module extends api_front implements api_interface {
 			// 能使用积分
 			$allow_use_integral = 1;
 			$order_max_integral = cart::flow_available_points($rec_ids, $flow_type);
+			$order_max_integral  = min($order_max_integral, $user_info['pay_points']);
 		} else {
 			$allow_use_integral = 0;
 			$order_max_integral = 0;
@@ -149,33 +162,151 @@ class checkOrder_module extends api_front implements api_interface {
 		$out['order_max_integral'] = $order_max_integral;//订单最大可使用积分
 		/* 如果使用红包，取得用户可以使用的红包及用户选择的红包 */
 		$allow_use_bonus = 0;
+		$bonus_list = array();
 		if ((ecjia::config('use_bonus', ecjia::CONFIG_CHECK) || ecjia::config('use_bonus') == '1')
 				&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS)){
 			// 取得用户可用红包
 			$user_bonus = user_bonus($_SESSION['user_id'], $total['goods_price'], array(), $_SESSION['store_id']);
 			if (!empty($user_bonus)) {
 				foreach ($user_bonus AS $key => $val) {
-					$user_bonus[$key]['bonus_money_formated'] = price_format($val['type_money'], false);//use_start_date  use_end_date
-					$user_bonus[$key]['use_start_date_formated'] = RC_Time::local_date(ecjia::config('date_format'), $val['use_start_date']);
-					$user_bonus[$key]['use_end_date_formated'] = RC_Time::local_date(ecjia::config('date_format'), $val['use_end_date']);
-					$user_bonus[$key]['min_amount'] = $val['min_goods_amount'];
-					$user_bonus[$key]['label_min_amount'] = '满'.$val['min_goods_amount'].'可使用';
+					$bonus_list[] = array(
+							'bonus_id' 					=> $val['bonus_id'],
+							'bonus_name' 				=> $val['type_name'],
+							'bonus_amount'				=> $val['type_money'],
+							'formatted_bonus_amount' 	=>  price_format($val['type_money'], false),
+							'start_date'               	=> $val['use_start_date'],
+							'end_date'               	=> $val['use_end_date'],
+							'formatted_start_date' 		=> RC_Time::local_date(ecjia::config('date_format'), $val['use_start_date']),
+							'formatted_end_date' 		=> RC_Time::local_date(ecjia::config('date_format'), $val['use_end_date']),
+							'request_amount' 			=> $val['min_goods_amount'],
+							'formatted_request_amount' 	=> $val['min_goods_amount'],
+							'label_min_amount' 			=> '满'.$val['min_goods_amount'].'可使用',
+					);
 				}
-				$bonus_list = $user_bonus;
 			}
 			// 能使用红包
 			$allow_use_bonus = 1;
 		}
+		
 		$out['allow_use_bonus'] = $allow_use_bonus;//是否使用红包
 		$out['bonus'] 			= $bonus_list;//红包
+		
+		$out['allow_can_invoice']	= ecjia::config('can_invoice');//能否开发票
+		/* 如果能开发票，取得发票内容列表 */
+		if ((ecjia_config::has('can_invoice') || ecjia::config('can_invoice') == '1')
+		&& ecjia_config::has('invoice_content')
+		&& $flow_type != CART_EXCHANGE_GOODS)
+		{
+			$inv_content_list = explode("\n", str_replace("\r", '', ecjia::config('invoice_content')));
+				
+			$inv_type_list = array();
+			$invoice_type  = ecjia::config('invoice_type');
+			$invoice_type = unserialize($invoice_type);
+			foreach ($invoice_type['type'] as $key => $type) {
+				if (!empty($type)) {
+					$inv_type_list[$type] = array(
+							'label'      => $type . ' [' . floatval($invoice_type['rate'][$key]) . '%]',
+							'label_type' => $type,
+							'rate'       => floatval($invoice_type['rate'][$key])
+					);
+				}
+			}
+		}
+		$out['inv_content_list']	= empty($inv_content_list) ? array() : $inv_content_list;//发票内容项
+		$out['inv_type_list']		= empty($inv_type_list) ? array() : $inv_type_list;//发票类型及税率
+		/*发票内容处理*/
+		if (!empty($out['inv_content_list'])) {
+			$temp = array();
+			foreach ($out['inv_content_list'] as $key => $value) {
+				$temp[] = array('id'=>$key, 'value'=>$value);
+			}
+			$out['inv_content_list'] = $temp;
+		}
+		if (!empty($out['inv_type_list'])) {
+			$temp = array();
+			$i = 1;
+			foreach ($out['inv_type_list'] as $key => $value) {
+				$temp[] = array(
+						'id'	       => $i,
+						'value'	       => $value['label'],
+						'label_value'  => $value['label_type'],
+						'rate'	       => $value['rate']);
+				$i++;
+			}
+			$out['inv_type_list'] = $temp;
+		}
+		
 		$out['your_integral']	= $user_info['pay_points'];//用户可用积分
 		
 		$out['discount']		= number_format($discount['discount'], 2, '.', '');//用户享受折扣数
 		$out['discount_formated'] = $total['discount_formated'];
+				
+		if (!empty($out['payment_list'])) {
+			foreach ($out['payment_list'] as $key => $value) {
+				unset($out['payment_list'][$key]['pay_config']);
+				unset($out['payment_list'][$key]['pay_desc']);
+				$out['payment_list'][$key]['pay_name'] = strip_tags($value['pay_name']);
+				// cod 货到付款，alipay支付宝，bank银行转账
+				if (in_array($value['pay_code'], array('post', 'balance'))) {
+					unset($out['payment_list'][$key]);
+				}
+			}
+			$out['payment_list'] = array_values($out['payment_list']);
+		}
 
-		$payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $store_id, 'cod_fee' => 0));
-		$out['payment_list']	= $payment_list;//支付信息
+		/*ship_cac上门取货*/
+		/*取货时间*/
+		$expect_pickup_date = array();
+		$store_region_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select('province', 'city', 'district', 'street')->first();
+		$store_region_info['country'] = ecjia::config('shop_country');
+		$region            = array($store_region_info['country'], $store_region_info['province'], $store_region_info['city'], $store_region_info['district'], $store_region_info['street']);
+		$shipping_list     = ecjia_shipping::availableUserShippings($region, $store_id);
+		if (!empty($shipping_list)) {
+			foreach ($shipping_list as $k => $v) {
+				if ($v['shipping_code'] !='ship_cac') {
+					unset($shipping_list[$k]);
+				}
+			}
+			$shipping_list = array_values($shipping_list);
+			$shipping_cac_info = $shipping_list['0'];
+			if (empty($shipping_cac_info)) {
+				$expect_pickup_date = array();
+			} else {
+				$shipping_cfg = ecjia_shipping::unserializeConfig($shipping_cac_info['configure']);
+				if (!empty($shipping_cfg['pickup_time'])) {
+					/* 获取最后可取货的时间（当前时间）*/
+					$time = RC_Time::local_date('H:i', RC_Time::gmtime());
+					if (empty($shipping_cfg['pickup_time'])) {
+						$expect_pickup_date = array();
+					}
+					$pickup_date = 0;
+					/*取货日期*/
+					if (empty($shipping_cfg['pickup_days'])) {
+						$shipping_cfg['pickup_days'] = 7;
+					}
+					while ($shipping_cfg['pickup_days']) {
+						foreach ($shipping_cfg['pickup_time'] as $k => $v) {
+							if ($v['end'] > $time || $pickup_date > 0) {
+								$expect_pickup_date[$pickup_date]['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$pickup_date.' day'));
+								$expect_pickup_date[$pickup_date]['time'][] = array(
+										'start_time' 	=> $v['start'],
+										'end_time'		=> $v['end'],
+								);
+							}
+						}
 					
+						$pickup_date ++;
+					
+						if (count($expect_pickup_date) >= $shipping_cfg['pickup_days']) {
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		$out['expect_pickup_date'] = $expect_pickup_date;
+		
 		if (!empty($out['goods_list'])) {
 			foreach ($out['goods_list'] as $key => $value) {
 				if (!empty($value['goods_attr'])) {

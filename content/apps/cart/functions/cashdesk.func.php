@@ -58,12 +58,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 function cashdesk_order_fee($order, $goods, $consignee = array()) {
 	
-	RC_Logger::getLogger('test')->info('测试收银购物流111');
-	RC_Logger::getLogger('test')->info($order);
-	RC_Logger::getLogger('test')->info($goods);
-	RC_Logger::getLogger('test')->info($consignee);
-	RC_Logger::getLogger('test')->info('测试收银购物流222');
-	
     RC_Loader::load_app_func('global','goods');
     RC_Loader::load_app_func('cart','cart');
     $db 	= RC_Loader::load_app_model('cart_model', 'cart');
@@ -148,22 +142,25 @@ function cashdesk_order_fee($order, $goods, $consignee = array()) {
         }
     }
     $total['discount_formated'] = price_format($total['discount'], false);
-
     /* 税额 */
     if (!empty($order['need_inv']) && $order['inv_type'] != '') {
-        /* 查税率 */
-        $rate = 0;
-        $invoice_type=ecjia::config('invoice_type');
-        foreach ($invoice_type['type'] as $key => $type) {
-            if ($type == $order['inv_type']) {
-                $rate_str = $invoice_type['rate'];
-                $rate = floatval($rate_str[$key]) / 100;
-                break;
-            }
-        }
-        if ($rate > 0) {
-            $total['tax'] = $rate * $total['goods_price'];
-        }
+    	/* 查税率 */
+    	$rate = 0;
+    	$invoice_type = ecjia::config('invoice_type');
+    	if ($invoice_type) {
+    		$invoice_type = unserialize($invoice_type);
+    		foreach ($invoice_type['type'] as $key => $type) {
+    			if ($type == $order['inv_type']) {
+    				$rate_str = $invoice_type['rate'];
+    				$rate = floatval($rate_str[$key]) / 100;
+    				break;
+    			}
+    		}
+    	}
+    	if ($rate > 0) {
+    		$total['tax'] = $rate * $total['goods_price'];
+    		$total['tax'] = round($total['tax'], 2);
+    	}
     }
     $total['tax_formated'] = price_format($total['tax'], false);
     //	TODO：暂时注释
