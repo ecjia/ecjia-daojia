@@ -76,7 +76,7 @@ Ecjia_PluginManager::extend('cron_testlog', function() {
     return new cron_testlog();
 });
 
-RC_Plugin::register_activation_hook(__FILE__, array('cron_testlog', 'install'));
-RC_Plugin::register_deactivation_hook(__FILE__, array('cron_testlog', 'uninstall'));
+RC_Plugin::register_activation_hook(__FILE__, array('plugin_cron_testlog', 'install'));
+RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_cron_testlog', 'uninstall'));
 
 // end
