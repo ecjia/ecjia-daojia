@@ -45,7 +45,6 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  *促销商品信息
