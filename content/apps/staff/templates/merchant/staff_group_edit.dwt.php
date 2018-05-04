@@ -90,6 +90,7 @@
 	                          <div class="col-lg-offset-2 col-lg-6">
 	                          	  <input type="hidden"  name="group_id" value="{$staff_group.group_id}" />
 	                              <button class="btn btn-info" type="submit">{lang key='staff::staff.sub_update'}</button>
+	                              <a class="btn btn-danger m_l10" data-toggle="ajaxremove" data-msg="您确定要删除该员工组吗？删除后该组下的员工将被移至到默认员工组" href="{RC_Uri::url('staff/mh_group/remove')}&group_id={$staff_group.group_id}">{lang key='staff::staff.sub_delete'}</a>
 	                          </div>
 	                      </div>
 	                    {else}

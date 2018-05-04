@@ -258,7 +258,21 @@ class merchant extends ecjia_merchant
             'introduction' => !empty($_POST['introduction']) ? $_POST['introduction'] : '',
         );
         $staff_id = RC_DB::table('staff_user')->insertGetId($data);
+        
+        //插入配送员关联表
+        if($group_id == '-1') {
+        	$data_express = array(
+        		'user_id'	=> $staff_id,
+        		'store_id'  => $store_id,
+        		'work_type' => 1,
+        		'shippingfee_percent' => 100,
+        		'apply_source' => 'merchant',
+        	);
+        	RC_DB::table('express_user')->insertGetId($data_express);
+        }
+        
         ecjia_merchant::admin_log($_POST['name'], 'add', 'staff');
+        
         return $this->showmessage(RC_Lang::get('staff::staff.staff_add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 3, 'id' => $staff_id))));
     }
 

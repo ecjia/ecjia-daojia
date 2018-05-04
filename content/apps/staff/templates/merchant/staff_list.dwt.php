@@ -57,7 +57,7 @@
 						<tbody>
 							<!-- {foreach from=$staff_list.staff_list item=list} -->
 							<tr>
-								<td>{$list.name}({$list.nick_name}){if $list.group_name} <small class="label label-warning">{$list.group_name}</small>{/if}</td>
+								<td>{$list.name}{if $list.nick_name}({$list.nick_name}){/if}{if $list.group_name} <small class="label label-warning">{$list.group_name}</small>{/if}</td>
 								<td>{$list.user_ident}</td>
 								<td>{$list.mobile}</td>
 								<td>{$list.email}</td>

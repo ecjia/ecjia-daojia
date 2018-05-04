@@ -77,8 +77,8 @@ class merchant_staff_hooks {
 			->where(RC_DB::raw('o.add_time'), '<=', $now)
 			->where(RC_DB::raw('o.is_delete'), 0)
 			->whereIn(RC_DB::raw('o.order_status'), array(OS_CONFIRMED, OS_SPLITED))
-			->whereIn(RC_DB::raw('o.shipping_status'), array(SS_RECEIVED))
-			->whereIn(RC_DB::raw('o.pay_status'), array(PS_PAYED))
+			->whereIn(RC_DB::raw('o.shipping_status'), array(SS_SHIPPED, SS_RECEIVED))
+			->whereIn(RC_DB::raw('o.pay_status'), array(PS_PAYING, PS_PAYED))
 			->groupBy(RC_DB::raw('o.order_id'))
 			->get();
 
@@ -179,7 +179,7 @@ class merchant_staff_hooks {
 				$start_time = $time - 30*86400;
 				$store_id = $_SESSION['store_id'];
 
-				$where = "add_time > '$start_time' AND add_time <= '$time' AND store_id = $store_id AND is_delete = 0";
+				$where = "add_time >= '$start_time' AND add_time <= '$time' AND store_id = $store_id AND is_delete = 0";
 
 				$list = RC_DB::table('order_info')
 					->selectRaw("FROM_UNIXTIME(add_time+8*3600, '". $format ."') AS day, count('order_id') AS count")

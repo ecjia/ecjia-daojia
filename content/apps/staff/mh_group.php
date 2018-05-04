@@ -209,18 +209,30 @@ class mh_group extends ecjia_merchant
      */
     public function remove()
     {
+    	//判断权限
         $this->admin_priv('staff_group_remove', ecjia::MSGTYPE_JSON);
 
-        $group_id   = intval($_GET['group_id']);
-        $remove_num = RC_DB::table('staff_user')->where('group_id', $group_id)->count();
-        if ($remove_num > 0) {
-            return $this->showmessage(RC_Lang::get('staff::staff.confirm_remove'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        } else {
-            $name = RC_DB::table('staff_group')->where(RC_DB::raw('group_id'), $group_id)->pluck('group_name');
-            RC_DB::table('staff_group')->where('group_id', $group_id)->delete();
-            ecjia_merchant::admin_log($name, 'remove', 'staff_group');
-            return $this->showmessage(RC_Lang::get('staff::staff.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_group/init')));
+        //组id
+        $group_id = intval($_GET['group_id']);
+        
+        if (empty($group_id)) {
+        	return $this->showmessage('请选择要删除的员工组', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        
+        //将该组下的员工移入默认员工组
+		RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('group_id', $group_id)->update(array('group_id' => 0));
+        
+        //获取员工组名称
+        $group_name = RC_DB::table('staff_group')->where(RC_DB::raw('group_id'), $group_id)->pluck('group_name');
+        
+        //删除员工组
+        RC_DB::table('staff_group')->where('group_id', $group_id)->delete();
+        
+        //记录日志
+        ecjia_merchant::admin_log($group_name, 'remove', 'staff_group');
+        
+        //提示
+        return $this->showmessage(RC_Lang::get('staff::staff.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_group/init')));
     }
 
     /**

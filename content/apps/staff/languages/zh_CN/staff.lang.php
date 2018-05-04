@@ -82,6 +82,7 @@ return array(
 	'staff_edit_success'	       => '编辑员工信息成功',
 	'sub'	                       => '确定',
 	'sub_update'                   => '更新',
+	'sub_delete'                   => '删除',
 	'back_staff_list'              => '返回员工列表',
 	'continue_add_staff'           => '继续添加员工',
 	'staff_add_success'	           => '添加员工信息成功',
