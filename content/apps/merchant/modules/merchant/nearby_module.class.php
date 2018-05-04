@@ -103,6 +103,33 @@ class nearby_module extends api_front implements api_interface {
 			$collect_store_id = RC_DB::table('collect_store')->where('user_id', $_SESSION['user_id'])->lists('store_id');
 
 			foreach ($store_data['seller_list'] as $key => $row) {
+				//打烊时间处理
+				$shop_trade_time =  RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->pluck('value');
+				$shop_closed = 0;
+				if (!empty($shop_trade_time)) {
+					$shop_trade_time = unserialize($shop_trade_time);
+					if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
+						$shop_closed =1;
+					}
+					$current_time = RC_Time::gmtime();
+					$start_time = $shop_trade_time['start'];
+					$end_time = $shop_trade_time['end'];
+					$shop_trade_end_time_str = RC_Time::local_strtotime($end_time);
+					/*营业至次日*/
+					if ($shop_trade_time['end'] > 24) {
+						$end_time = explode(':', $shop_trade_time['end']);
+						$shop_trade_end_time = $end_time['0'] - 24;
+						$shop_trade_end_time = $shop_trade_end_time.':'.$end_time['1'];
+						$shop_trade_end_time_str =  RC_Time::local_strtotime($shop_trade_end_time) + 24*3600;
+					}
+					$shop_trade_start_time_str = RC_Time::local_strtotime($start_time);
+					if (($shop_trade_start_time_str < $current_time) && ($current_time < $shop_trade_end_time_str)) {
+						$shop_closed = 0;
+					} else {
+						$shop_closed =1;
+					}
+				}
+				$row['shop_closed'] = $shop_closed;
 				
 				$distance = getDistance($location['latitude'], $location['longitude'], $row['location']['latitude'], $row['location']['longitude']);
 	
@@ -115,6 +142,7 @@ class nearby_module extends api_front implements api_interface {
 					'seller_category'	=> $row['seller_category'],
 					'manage_mode'		=> $row['manage_mode'],
 					'seller_logo'		=> $row['shop_logo'],
+					'shop_closed'		=> $row['shop_closed'],
 				    'seller_notice'     => $row['seller_notice'],
 					'seller_province'   => $row['province'],
 				    'seller_city'       => $row['city'],
