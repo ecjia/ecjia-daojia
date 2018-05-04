@@ -246,6 +246,7 @@ class merchant extends ecjia_merchant {
 			->where('store_id', $_SESSION['store_id'])
 			->select('bank_name', 'bank_branch_name', 'bank_account_name', 'bank_account_number','bank_address')
 			->first();
+		
 		if (!empty($bank_info['bank_account_number'])) {
 			$bank_account_number = $this->substr_cut($bank_info['bank_account_number']);
 			$bank_info['bank_account_number'] = ' ( '.$bank_account_number.' ) ';
@@ -277,10 +278,11 @@ class merchant extends ecjia_merchant {
 		
 		$bank_info = RC_DB::table('store_franchisee')
 			->where('store_id', $_SESSION['store_id'])
-			->select('bank_name', 'bank_branch_name', 'bank_account_name', 'bank_account_number','bank_address')
+			->select('bank_name', 'bank_branch_name', 'bank_account_name', 'bank_account_number', 'bank_address')
 			->first();
-		if (empty($bank_info)) {
-			return $this->showmessage('请先添加收款账号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+
+		if (empty($bank_info['bank_account_number']) || empty($bank_info['bank_name'])) {
+			return $this->showmessage('请先添加提现银行卡', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		/* 变量初始化 */

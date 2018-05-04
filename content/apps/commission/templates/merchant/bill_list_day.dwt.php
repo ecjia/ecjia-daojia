@@ -58,7 +58,7 @@ ecjia.merchant.bill.record()
 	        					<td>{$list.refund_count}</td>
 	        					<td class="ecjiafc-tar">￥{$list.order_amount}</td>
 	        					<td class="">￥{$list.refund_amount}</td>
-	        					<!-- {if $commission.percent_value} -->
+	        					<!-- {if $list.percent_value} -->
     						    <td>{$list.percent_value}%</td>
     						    <!-- {else} -->
     						    <td>100%</td>

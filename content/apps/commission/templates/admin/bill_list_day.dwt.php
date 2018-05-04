@@ -106,7 +106,7 @@ ecjia.admin.bill_list.searchFormDay();
                         <td>￥{$commission.brokerage_amount}</td>
                     </tr>
                     <!-- {foreachelse} -->
-                   <tr><td class="no-records" colspan="7">{t}没有找到任何记录{/t}</td></tr>
+                   <tr><td class="no-records" colspan="8">{t}没有找到任何记录{/t}</td></tr>
                     <!-- {/foreach} -->
                 </table>
                 <!-- {$bill_list.page} -->

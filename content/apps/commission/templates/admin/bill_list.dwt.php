@@ -93,7 +93,7 @@ ecjia.admin.bill_list.init();
 					    <td>￥{$commission.bill_amount}</td>
 					</tr>
 					<!-- {foreachelse} -->
-				   	<tr><td class="no-records" colspan="8">{t}没有找到任何记录{/t}</td></tr>
+				   	<tr><td class="no-records" colspan="9">{t}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</table>
 				<!-- {$bill_list.page} -->

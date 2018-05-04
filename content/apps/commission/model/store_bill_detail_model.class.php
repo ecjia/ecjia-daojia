@@ -76,10 +76,14 @@ class store_bill_detail_model extends Component_Model_Model {
         } else if($data['order_type'] == 'refund') {
             $order_info = RC_DB::table('refund_order')->where('refund_id', $data['order_id'])->first();
             $data['order_sn'] = $order_info['refund_sn'];//退款单号
-        } else {
+        } else if($data['order_type'] == 'buy') {
             RC_Loader::load_app_func('admin_order', 'orders');
             $order_info = order_info($data['order_id']);
             $data['order_sn'] = $order_info['order_sn'];
+        } else {
+            //超出范围
+            RC_Logger::getLogger('commission/model/store_bill_detail_model-bill_order_error')->error('订单类型超出范围，order_id:'.$data['order_id']);
+            return false;
         }
         
         if (empty($order_info)) {
@@ -152,6 +156,7 @@ class store_bill_detail_model extends Component_Model_Model {
                     return false;
                 }
                 $back_money_total = RC_DB::table('refund_payrecord')->where('refund_id', $data['order_id'])->pluck('back_money_total');
+                $back_money_total = $back_money_total > 0 ? $back_money_total : $back_money_total * -1;
                 $data['percent_value'] = $datail['percent_value'];
                 //退款结算：平台得-用户退=商家得
                 $data['brokerage_amount'] = $datail['platform_profit'] - $back_money_total;
@@ -169,7 +174,7 @@ class store_bill_detail_model extends Component_Model_Model {
         }
 
         $data['add_time'] = RC_Time::gmtime();
-//         RC_Logger::getLogger('bill_order')->info($data);
+//         RC_Logger::getLogger('info')->info($data);
         $datail_id = RC_DB::table('store_bill_detail')->insertGetId($data);
 	    if($datail_id) {
 	        //TODO每成功后结算一次
@@ -191,7 +196,6 @@ class store_bill_detail_model extends Component_Model_Model {
 	        return true;
 	    }
 	    return false;
-	     
 	    
 	}
 
@@ -256,15 +260,15 @@ class store_bill_detail_model extends Component_Model_Model {
 
 	public function get_bill_record($store_id, $page = 1, $page_size = 15, $filter, $is_admin = 0) {
 	    $db_bill_detail = RC_DB::table('store_bill_detail as bd')
-	    ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('bd.store_id'))
-	    ->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('bd.order_id'));
+	    ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('bd.store_id'));
+// 	    ->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('bd.order_id'));
 
 	    if ($store_id) {
 	        $db_bill_detail->whereRaw('bd.store_id ='.$store_id);
 	    }
 
 	    if (!empty($filter['order_sn'])) {
-	        $db_bill_detail->whereRaw('oi.order_sn ='.$filter['order_sn']);
+	        $db_bill_detail->whereRaw('bd.order_sn ='.$filter['order_sn']);
 	    }
 	    if (!empty($filter['merchant_keywords'])) {
 	        $db_bill_detail->whereRaw("s.merchants_name like'%".$filter['merchant_keywords']."%'");
