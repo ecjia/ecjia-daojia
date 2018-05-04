@@ -24,7 +24,7 @@ error_reporting(-1);
 |
 */
 
-if ( ! extension_loaded('mcrypt'))
+if ( ! extension_loaded('mcrypt') && version_compare(PHP_VERSION, '7.2', '<'))
 {
 	echo 'Mcrypt PHP extension required.'.PHP_EOL;
 

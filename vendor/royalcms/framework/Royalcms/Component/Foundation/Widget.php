@@ -3,7 +3,7 @@
 use Royalcms\Component\Support\Facades\Hook;
 use Royalcms\Component\Support\Format;
 
-class Widget extends Object
+class Widget extends RoyalcmsObject
 {
 
     private static $widget_factory_instance = null;

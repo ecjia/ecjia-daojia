@@ -8,7 +8,7 @@ use Royalcms\Component\Rewrite\Facades\Rewrite;
  *
  * @package Royalcms
  */
-class Route extends Object
+class Route extends RoyalcmsObject
 {
 
     /**

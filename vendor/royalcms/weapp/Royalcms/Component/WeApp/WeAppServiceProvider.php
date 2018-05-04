@@ -21,6 +21,11 @@ class WeAppServiceProvider extends ServiceProvider
     {
         $wechat = $this->royalcms['wechat'];
         
+        $wechat->bindShared('weapp', function($wechat)
+        {
+            return new WeApp($wechat);
+        });
+        
         
     }
 }

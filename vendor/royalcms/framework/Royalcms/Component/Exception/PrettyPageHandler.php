@@ -64,7 +64,7 @@ class PrettyPageHandler extends WhoopsHandler
         // Check conditions for outputting HTML:
         // @todo: make this more robust
         if(php_sapi_name() === 'cli' && !isset($_ENV['whoops-test'])) {
-            return Handler::DONE;
+            return WhoopsHandler::DONE;
         }
 
         // Get the 'pretty-template.php' template file
@@ -139,7 +139,7 @@ class PrettyPageHandler extends WhoopsHandler
         });
 
 
-        return Handler::QUIT;
+        return WhoopsHandler::QUIT;
     }
 
     /**

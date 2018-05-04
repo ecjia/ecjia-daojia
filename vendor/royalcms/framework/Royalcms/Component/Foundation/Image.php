@@ -4,7 +4,7 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
 /** 
  * IP处理类
 */
-class Image extends Object
+class Image extends RoyalcmsObject
 {
     
     /**

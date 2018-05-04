@@ -179,10 +179,12 @@ interface CommandInterface
      * @param String $server Hostname
      * @param Integer $port Hostname Port
      * @param String $key Key to search
+     * @param String $level Level of Detail
+     * @param String $more More action
      *
      * @return array
      */
-    function search($server, $port, $search);
+    function search($server, $port, $search, $level = false, $more = false);
 
     /**
      * Execute a telnet command on a server

@@ -8,7 +8,7 @@ use Royalcms\Component\Support\Facades\Config;
  * @author royalwang
  * @since 4.0
  */
-class Loader extends Object
+class Loader extends RoyalcmsObject
 {
 
     /**

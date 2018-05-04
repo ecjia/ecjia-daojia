@@ -44,7 +44,7 @@ class Repository implements ArrayAccess {
 	public function switchServer($hostname, $port, $driver = null) {
 	    $this->hostname = $hostname;
 	    $this->port = $port;
-
+        
 	    if ($driver) {
 	        $this->driver = $driver;
 	    } else {
@@ -56,6 +56,8 @@ class Repository implements ArrayAccess {
 	            $this->driver = 'Server';
 	        }
 	    }
+	    
+	    return $this;
 	}
 	
 	/**
@@ -224,7 +226,7 @@ class Repository implements ArrayAccess {
 	 */
 	public function delete($key)
 	{
-	    return CommandFactory::api($this->driver)->set($this->hostname, $this->port, $key);
+	    return CommandFactory::api($this->driver)->delete($this->hostname, $this->port, $key);
 	}
 	
 	/**
@@ -264,15 +266,18 @@ class Repository implements ArrayAccess {
 	}
 	
 	/**
-	 * Search a given configuration value.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @return void
-	 */
-	public function search($telnet)
+     * Search for item
+     * Return all the items matching parameters if successful, false otherwise
+     *
+     * @param String $key Key to search
+     * @param String $level Level of Detail
+     * @param String $more More action
+     *
+     * @return array
+     */
+	public function search($search, $level = false, $more = false)
 	{
-	    return CommandFactory::api($this->driver)->search($this->hostname, $this->port, $telnet);
+	    return CommandFactory::api($this->driver)->search($this->hostname, $this->port, $search, $level, $more);
 	}
 	
 	/**
@@ -285,6 +290,12 @@ class Repository implements ArrayAccess {
 	public function telnet($key)
 	{
 	    return CommandFactory::api($this->driver)->telnet($this->hostname, $this->port, $key);
+	}
+	
+	
+	public function getResultMessage()
+	{
+	    return CommandFactory::api($this->driver)->getResultMessage();
 	}
 
 

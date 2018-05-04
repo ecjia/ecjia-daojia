@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\Foundation;
 defined('IN_ROYALCMS') or exit('No permission resources.');
 
-class ArrayHelper extends Object
+class ArrayHelper extends RoyalcmsObject
 {
 
     /**

@@ -282,7 +282,7 @@ class MemcacheHandler implements CommandInterface
         self::$_memcache->addServer($server, $port);
     
         /* Executing command : replace */
-        if(self::$_memcache->replace($key, $data, 0, $duration))
+        if (self::$_memcache->replace($key, $data, 0, $duration))
         {
             return true;
         }
@@ -411,10 +411,12 @@ class MemcacheHandler implements CommandInterface
      * @param String $server Hostname
      * @param Integer $port Hostname Port
      * @param String $key Key to search
+     * @param String $level Level of Detail
+     * @param String $more More action
      *
      * @return array
      */
-    function search($server, $port, $search)
+    function search($server, $port, $search, $level = false, $more = false)
     {
         throw new \Exception('PECL Memcache does not support search function, use Server instead');
         

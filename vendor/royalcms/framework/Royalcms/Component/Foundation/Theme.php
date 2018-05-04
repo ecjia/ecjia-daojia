@@ -5,7 +5,7 @@ use Royalcms\Component\Support\Facades\Hook;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Support\Facades\File as RC_File;
 
-class Theme extends Object
+class Theme extends RoyalcmsObject
 {
     
     /**

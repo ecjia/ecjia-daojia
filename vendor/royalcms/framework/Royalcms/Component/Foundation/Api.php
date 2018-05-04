@@ -1,7 +1,10 @@
-<?php namespace Royalcms\Component\Foundation;
-defined('IN_ROYALCMS') or exit('No permission resources.');
+<?php 
 
-class Api extends Object
+namespace Royalcms\Component\Foundation;
+
+use RC_Hook;
+
+class Api extends RoyalcmsObject
 { 
 
     /**
@@ -18,6 +21,10 @@ class Api extends Object
     public static function api($app, $name, $params = array())
     {
         $api_name = $app . '.' . $name;
+        $api_call = $app . '_' . $name . '_apihook';
+        if (RC_Hook::has_filter($api_call)) {
+            $api_name = RC_Hook::apply_filters($api_call, $api_name, $params);
+        }
         return Loader::load_api($api_name, $params);
     }
 

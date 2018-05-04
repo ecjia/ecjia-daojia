@@ -7,7 +7,7 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
  * @author royalwang
  * @since 3.0.0
  */
-class Zend extends Object
+class Zend extends RoyalcmsObject
 {
 
     /**

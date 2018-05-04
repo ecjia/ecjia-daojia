@@ -375,10 +375,12 @@ class MemcachedHandler implements CommandInterface
      * @param String $server Hostname
      * @param Integer $port Hostname Port
      * @param String $key Key to search
+     * @param String $level Level of Detail
+     * @param String $more More action
      *
-     * @return Array
+     * @return array
      */
-    public function search($server, $port, $search)
+    public function search($server, $port, $search, $level = false, $more = false)
     {
         throw new \Exception('PECL Memcached does not support search function, use Server instead');
         

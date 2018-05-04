@@ -7,7 +7,7 @@ use Royalcms\Component\Support\Format;
 /**
  * APP快捷操作类
  */
-class App extends Object
+class App extends RoyalcmsObject
 {
     /**
      * 别名映射

@@ -72,7 +72,7 @@ return array(
         'RC_Notification'      => 'Royalcms\Component\Support\Facades\Notification',
     
     
-        'RC_Object'            => 'Royalcms\Component\Foundation\Object',
+        'RC_Object'            => 'Royalcms\Component\Foundation\RoyalcmsObject',
         'RC_Model'             => 'Royalcms\Component\Model\ModelManage',
         'RC_Http'              => 'Royalcms\Component\HttpRequest\HttpRequest',
         'RC_Uuid'              => 'Royalcms\Component\Uuid\Uuid',

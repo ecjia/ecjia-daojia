@@ -6,7 +6,7 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
  *
  * @package tools_class
  */
-class Xml extends Object
+class Xml extends RoyalcmsObject
 {
 
     /**

@@ -4,7 +4,7 @@ use Royalcms\Component\Support\Facades\Hook;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Support\Facades\File;
 
-class Plugin extends Object
+class Plugin extends RoyalcmsObject
 {
     
     /**

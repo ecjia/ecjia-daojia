@@ -28,14 +28,14 @@ class Royalcms extends Container implements HttpKernelInterface, TerminableInter
 	 *
 	 * @var string
 	 */
-	const VERSION = '4.10.0';
+	const VERSION = '4.11.0';
 	
 	/**
 	 * The Royalcms framework release.
 	 *
 	 * @var string
 	 */
-	const RELEASE = '2018-04-11';
+	const RELEASE = '2018-05-04';
 	
 	/**
 	 * The Royalcms framework minimum PHP version requirements.

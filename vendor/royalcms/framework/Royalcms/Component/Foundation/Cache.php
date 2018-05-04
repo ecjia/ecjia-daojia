@@ -6,7 +6,7 @@ use Royalcms\Component\Support\Facades\Cache as CacheCache;
 
 defined('IN_ROYALCMS') or exit('No permission resources.');
 
-class Cache extends Object
+class Cache extends RoyalcmsObject
 {    
     /**
      * 快速设置APP缓存数据

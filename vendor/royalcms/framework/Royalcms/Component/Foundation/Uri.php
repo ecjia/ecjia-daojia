@@ -4,7 +4,7 @@ use Royalcms\Component\Support\Facades\Config;
 use Royalcms\Component\Support\Facades\Hook;
 use Royalcms\Component\Support\Format;
 
-class Uri extends Object
+class Uri extends RoyalcmsObject
 {
 
     /**

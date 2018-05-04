@@ -4,7 +4,7 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
 /**
  * 表单验证处理类
  */
-class Validate extends Object
+class Validate extends RoyalcmsObject
 {
     /* 验证错误信息 初始没有错误信息 */ 
     public $error = false; 

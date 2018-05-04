@@ -2,7 +2,7 @@
 
 use Royalcms\Component\Support\Facades\Config;
 
-class Token extends Object
+class Token extends RoyalcmsObject
 {
 
     public static $key = "royalcms";

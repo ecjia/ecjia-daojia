@@ -3,9 +3,9 @@
 use Royalcms\Component\Support\Facades\Config;
 use Royalcms\Component\Support\Facades\Hook;
 use Royalcms\Component\Foundation\Loader;
-use Royalcms\Component\Foundation\Object;
+use Royalcms\Component\Foundation\RoyalcmsObject;
 
-class ModelManage extends Object {
+class ModelManage extends RoyalcmsObject {
     
     private static $_cache_model = array();
     

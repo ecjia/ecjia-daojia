@@ -3,7 +3,7 @@
 use Exception;
 use BadMethodCallException;
 
-abstract class Object
+abstract class RoyalcmsObject
 {
     protected static $registered_instance = array();
     
