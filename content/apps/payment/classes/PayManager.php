@@ -47,12 +47,12 @@
 
 namespace Ecjia\App\Payment;
 
-use Royalcms\Component\Foundation\Object;
-use ecjia_error;
+use RC_Object;
 use RC_Time;
 use RC_Validator;
+use ecjia_error;
 
-class PayManager extends Object
+class PayManager extends RC_Object
 {
     
     
