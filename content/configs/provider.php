@@ -71,6 +71,8 @@ return array(
     'Royalcms\Component\Tcpdf\TcpdfServiceProvider',
     'Royalcms\Component\Ucenter\UcenterServiceProvider',
     
+    'Royalcms\Component\WeApp\WeAppServiceProvider',
+    
     'Ecjia\System\Providers\SystemServiceProvider',
     'Ecjia\App\Setting\SettingServiceProvider',
     'Ecjia\App\Shipping\ShippingServiceProvider',
