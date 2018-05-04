@@ -271,6 +271,7 @@ return array(
     'InitUserRankTableSeeder' => $contentDir . '/database/seeds/InitUserRankTableSeeder.php',
     'InitWechatMediaTableSeeder' => $contentDir . '/database/seeds/InitWechatMediaTableSeeder.php',
     'InitWechatReplyTableSeeder' => $contentDir . '/database/seeds/InitWechatReplyTableSeeder.php',
+    'InitStoreBusinessCityTableSeeder' => $contentDir . '/database/seeds/InitStoreBusinessCityTableSeeder.php',
     
     
     'FixShopConfigTableSeeder' => $contentDir . '/database/seeds/FixShopConfigTableSeeder.php',
