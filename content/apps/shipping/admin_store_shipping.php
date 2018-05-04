@@ -165,9 +165,9 @@ class admin_store_shipping extends ecjia_admin
     			$fields = ecjia_shipping::unserializeConfig($shipping_data['configure']);
     	
     			$data[$k]['fee_compute_mode'] = $fields['fee_compute_mode'];
-    			$shipping_handle              = ecjia_shipping::areaChannel($shipping_data['shipping_area_id']);
-    			$fields                       = $shipping_handle->makeFormData($fields);
-    	
+				$shipping_handle = ecjia_shipping::areaChannel($shipping_data['shipping_area_id']);
+				$fields = !is_ecjia_error($shipping_handle) ? $shipping_handle->makeFormData($fields) : array();
+				
     			if (!empty($fields)) {
     				foreach ($fields as $key => $val) {
     					if ($shipping_data['shipping_code'] == 'ship_o2o_express' && (in_array($val['name'], array('ship_days', 'last_order_time', 'ship_time', 'express_money')))) {

@@ -70,7 +70,8 @@ class mh_shipping extends ecjia_merchant
         RC_Script::enqueue_script('ecjia.utils');
 
         RC_Style::enqueue_style('mh_shipping', RC_App::apps_url('statics/css/merchant_express.css', __FILE__), array());
-
+        
+        ecjia_merchant_screen::get_current_screen()->set_parentage('shipping', 'shipping/mh_shipping.php');
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送管理', RC_Uri::url('shipping/mh_shipping/shipping_template')));
     }
 
@@ -140,8 +141,8 @@ class mh_shipping extends ecjia_merchant
                 $fields = ecjia_shipping::unserializeConfig($shipping_data['configure']);
 
                 $data[$k]['fee_compute_mode'] = $fields['fee_compute_mode'];
-                $shipping_handle              = ecjia_shipping::areaChannel($shipping_data['shipping_area_id']);
-                $fields                       = $shipping_handle->makeFormData($fields);
+                $shipping_handle = ecjia_shipping::areaChannel($shipping_data['shipping_area_id']);
+                $fields = !is_ecjia_error($shipping_handle) ? $shipping_handle->makeFormData($fields) : array();
 
                 if (!empty($fields)) {
                     foreach ($fields as $key => $val) {
@@ -209,12 +210,12 @@ class mh_shipping extends ecjia_merchant
 	        	->first();
         	$config = $fields = ecjia_shipping::unserializeConfig($shipping_data['configure']);
         	
-        	$shipping_handle	= ecjia_shipping::areaChannel($shipping_data['shipping_area_id']);
-        	$fields				= $shipping_handle->makeFormData($fields);
+            $shipping_handle = ecjia_shipping::areaChannel($shipping_data['shipping_area_id']);
+            $fields = !is_ecjia_error($shipping_handle) ? $shipping_handle->makeFormData($fields) : array();
 
         	if (!empty($config)) {
         		foreach ($config as $key => $val) {
-        			if ($shipping_data['shipping_code'] == 'ship_o2o_express' && (in_array($key, array('ship_days', 'last_order_time', 'ship_time', 'express')))) {
+        			if (($shipping_data['shipping_code'] == 'ship_o2o_express' || $shipping_data['shipping_code'] == 'ship_ecjia_express') && (in_array($key, array('ship_days', 'last_order_time', 'ship_time', 'express')))) {
 	        			if ($key == 'ship_days') {
 							$this->assign('ship_days', $val);
 						}
@@ -236,6 +237,19 @@ class mh_shipping extends ecjia_merchant
 							$this->assign('o2o_express', $express);
 						}
         			}
+        			/*上门取货设置*/
+        			if ($shipping_data['shipping_code'] == 'ship_cac') {
+        				if ($key == 'pickup_days') {
+        					$this->assign('pickup_days', $val);
+        				}
+        				if ($key == 'pickup_time') {
+        					$cac_pickup_time = array();
+        					foreach ($val as $v) {
+        						$cac_pickup_time[] = $v;
+        					}
+        					$this->assign('cac_pickup_time', $cac_pickup_time);
+        				}
+        			}
         		}
         	}
         } else {
@@ -244,9 +258,9 @@ class mh_shipping extends ecjia_merchant
 	        	->where('shipping_id', $shipping_id)
 	        	->first();
         	
-        	$fields          = array();
-        	$shipping_handle = ecjia_shipping::channel($shipping_data['shipping_code']);
-        	$fields          = $shipping_handle->makeFormData($fields);
+        	$fields = array();
+            $shipping_handle = ecjia_shipping::channel($shipping_data['shipping_code']);
+            $fields = !is_ecjia_error($shipping_handle) ? $shipping_handle->makeFormData($fields) : array();
         }
         $shipping_area['shipping_code'] = $shipping_data['shipping_code'];
         
@@ -313,9 +327,9 @@ class mh_shipping extends ecjia_merchant
         }
         $shipping_data = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->select('shipping_name', 'shipping_code', 'support_cod')->first();
 
-        $config          = array();
+        $config = array();
         $shipping_handle = ecjia_shipping::channel($shipping_data['shipping_code']);
-        $config          = $shipping_handle->makeFormData($config);
+        $config = !is_ecjia_error($shipping_handle) ? $shipping_handle->makeFormData($config) : array();
 
         if (!empty($config)) {
             foreach ($config as $key => $val) {
@@ -323,15 +337,18 @@ class mh_shipping extends ecjia_merchant
                 $config[$key]['value'] = $_POST[$val['name']];
             }
         }
-
+		
         $count = count($config);
-        if ($shipping_data['shipping_code'] == 'ship_o2o_express') {
+        /*商家配送和众包配送的设置*/
+        if ($shipping_data['shipping_code'] == 'ship_o2o_express' || $shipping_data['shipping_code'] == 'ship_ecjia_express') {
 			$time = array();
 			foreach ($_POST['start_ship_time'] as $k => $v) {
-				if (empty($v)) {
+				$start_time = trim($v);
+				if (empty($start_time)) {
 					return $this->showmessage('配送开始时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
-				if (empty($_POST['end_ship_time'][$k])) {
+				$end_time = trim($_POST['end_ship_time'][$k]);
+				if (empty($end_time)) {
 					return $this->showmessage('配送结束时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 				$time[$k]['start']	= $v;
@@ -339,11 +356,13 @@ class mh_shipping extends ecjia_merchant
 			}
 			$express = array();
 			foreach ($_POST['express_distance'] as $k => $v) {
-				if ($v == null) {
-					return $this->showmessage('配送距离不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				$express_distance = floatval($v);
+				if (empty($express_distance)) {
+					return $this->showmessage('配送距离只能为数值且不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
-				if ($_POST['express_money'][$k] == null) {
-					return $this->showmessage('配送费不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				$express_money = floatval($_POST['express_money'][$k]);
+				if (empty($express_money)) {
+					return $this->showmessage('配送费只能为数值且不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 				$express[$k]['express_distance'] = $v;
 				$express[$k]['express_money']	= $_POST['express_money'][$k];
@@ -359,6 +378,28 @@ class mh_shipping extends ecjia_merchant
 			$count++;
 			$config[$count]['name']     = 'express';
 			$config[$count]['value']    = empty($express) ? '' : $express;
+        }
+        /*上门取货的设置*/
+        if ($shipping_data['shipping_code'] == 'ship_cac') {
+        	$time = array();
+        	foreach ($_POST['start_pickup_time'] as $k => $v) {
+        		$start_pickup_time = trim($v);
+        		if (empty($start_pickup_time)) {
+        			return $this->showmessage('取货开始时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        		}
+        		$end_pickup_time = trim($_POST['end_pickup_time'][$k]);
+        		if (empty($end_pickup_time)) {
+        			return $this->showmessage('取货结束时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        		}
+        		$time[$k]['start']	= $v;
+        		$time[$k]['end']	= $_POST['end_pickup_time'][$k];
+        	}
+        	$config[$count]['name']     = 'pickup_days';
+        	$config[$count]['value']    = empty($_POST['pickup_days']) ? 7 : intval($_POST['pickup_days']);
+        	$count++;
+        	$config[$count]['name']     = 'pickup_time';
+        	$config[$count]['value']    = empty($time) ? '' : $time;
+        	
         }
         $data = array(
             'shipping_area_name' => $temp_name,

@@ -23,8 +23,9 @@
 						<div class="setting-group">
 					        <span class="setting-group-title">配送管理</span>
 					        <ul class="nav nav-list m_t10 change">
-						        <li><a class="setting-group-item data-pjax llv-active" href='{url path="shipping/mh_shipping/shipping_template"}'>运费模板</a></li>
-						        <li><a class="setting-group-item data-pjax" href='{url path="shipping/mh_shipping/shipping_record"}'>配送记录</a></li>
+						        <li><a class="setting-group-item llv-active" href='{url path="shipping/mh_shipping/shipping_template"}'>运费模板</a></li>
+						        <li><a class="setting-group-item" href='{url path="express/merchant/init" args="type=wait_grab"}'>配送任务</a></li>
+						        <li><a class="setting-group-item" href='{url path="express/mh_history/init"}'>历史配送</a></li>
 					        </ul>
 						</div>
 					</div>

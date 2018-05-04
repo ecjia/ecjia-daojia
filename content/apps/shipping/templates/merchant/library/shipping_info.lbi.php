@@ -52,7 +52,7 @@
 <!-- {/foreach} -->
 {/if}
 
-{if $shipping_area.shipping_code eq 'ship_o2o_express'}
+{if $shipping_area.shipping_code eq 'ship_o2o_express' || $shipping_area.shipping_code eq 'ship_ecjia_express'}
 	<div class="form-group" id="ship_days">
 		<label class="control-label col-lg-4">下单后几天内配送：</label>
 		<div class="controls col-lg-6">
@@ -122,4 +122,39 @@
 			<span class="col-lg-10 help-block">如首个距离设10公里，配送费设5元，表示在10公里内，用户需支付配送费5元，后面新增距离阶梯时必须大于上一个距离，比如上一个距离是10，再次增加时，填写的公里数必须大于10</span>
 		</div>
 	</div>
+{/if}
+{if $shipping_area.shipping_code eq 'ship_cac'}
+	<div class="form-group" id="pickup_days">
+		<label class="control-label col-lg-4">下单后几天内取货：</label>
+		<div class="controls col-lg-4">
+			<input class="form-control col-lg-3" name="pickup_days" placeholder="请填写有效天数，最小单位为1" type="text" value="{$pickup_days}" />
+		</div>
+		<div class="clear">
+			<label class="control-label col-lg-4"></label>
+			<span class="col-lg-6 help-block">默认7天以内取货（用户可选择的时间）</span>
+		</div> 
+	</div>
+	<div class="form-group" id="ship_time">
+		<label class="control-label col-lg-4">取货时间：</label>
+		<div class="controls col-lg-6">
+		<!-- {foreach from=$cac_pickup_time item=pickup_time name=pickup} -->
+			<div class='time-picker'>
+				从&nbsp;&nbsp;<input class="w100 form-control tp_1" name="start_pickup_time[]" type="text" value="{$pickup_time.start}" autocomplete="off" />&nbsp;&nbsp;
+				至&nbsp;&nbsp; <input class="w100 form-control tp_1" name="end_pickup_time[]" type="text" value="{$pickup_time.end}" autocomplete="off" />&nbsp;&nbsp;
+				<!-- {if $smarty.foreach.pickup.last} -->
+					<a class="no-underline" data-toggle="clone-obj" data-before="before" data-parent=".time-picker" href="javascript:;"><i class="fontello-icon-plus fa fa-plus"></i></a>
+				<!-- {else} -->
+					<a class="no-underline" href="javascript:;" data-parent=".time-picker" data-toggle="remove-obj"><i class="fontello-icon-cancel ecjiafc-red fa fa-times "></i></a>
+				<!-- {/if} -->
+			</div> 
+		<!-- {foreachelse} --> 
+			<div class='time-picker'>
+				<input class="w100 form-control tp_1" name="start_pickup_time[]" type="text" value="{$time_field.start}"/>&nbsp;&nbsp;
+				至&nbsp;&nbsp; <input class="w100 form-control tp_1" name="end_pickup_time[]" type="text" value="{$time_field.end}" />&nbsp;&nbsp;
+				<a class="no-underline" data-toggle="clone-obj" data-before="before" data-parent=".time-picker" href="javascript:;"><i class="fontello-icon-plus fa fa-plus"></i></a>
+			</div> 
+		<!-- {/foreach} --> 
+			<span class="col-lg-6 help-block">可设置多个取货时间段</span>
+		</div>
+  </div>
 {/if}
