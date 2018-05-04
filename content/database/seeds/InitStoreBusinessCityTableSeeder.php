@@ -44,9 +44,12 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+/**
+ * 插入数据 `store_business_city` 经营城市
+ */
 use Royalcms\Component\Database\Seeder;
 
-class InitDatabaseSeeder extends Seeder
+class InitStoreBusinessCityTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -55,22 +58,52 @@ class InitDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('InitAdPositionTableSeeder');
-        $this->call('InitAdTableSeeder');
-        $this->call('InitConnectTableSeeder');
-        $this->call('InitMailTemplatesTableSeeder');
-        $this->call('InitMobileScreenshotsTableSeeder');
-        $this->call('InitPaymentTableSeeder');
-        $this->call('InitPlatformCommandTableSeeder');
-        $this->call('InitPlatformConfigTableSeeder');
-        $this->call('InitPlatformExtendTableSeeder');
-        $this->call('InitRegFieldsTableSeeder');
-        $this->call('InitShopConfigTableSeeder');
-        $this->call('InitStoreCategoryTableSeeder');
-        $this->call('InitStorePercentTableSeeder');
-        $this->call('InitUserRankTableSeeder');
-        $this->call('InitWechatMediaTableSeeder');
-        $this->call('InitWechatReplyTableSeeder');
-        $this->call('InitStoreBusinessCityTableSeeder');
+        $data = array(
+            array(
+              'business_city'           => 'CN1101',
+              'business_city_name'      => '北京市',
+              'business_city_alias'     => '北京',
+              'index_letter'            => 'B',
+              'business_district'       => 'CN110101',
+            ),
+            array(
+              'business_city'           => 'CN1301',
+              'business_city_name'      => '石家庄市',
+              'business_city_alias'     => '石家庄',
+              'index_letter'            => 'S',
+              'business_district'       => '',
+            ),
+            array(
+              'business_city'           => 'CN1401',
+              'business_city_name'      => '太原市',
+              'business_city_alias'     => '太原',
+              'index_letter'            => 'T',
+              'business_district'       => '',
+            ),
+            array(
+              'business_city'           => 'CN3101',
+              'business_city_name'      => '上海市',
+              'business_city_alias'     => '上海',
+              'index_letter'            => 'S',
+              'business_district'       => 'CN310151,CN310120,CN310118,CN310117,CN310114,CN310113,CN310112,CN310110,CN310109,CN310106,CN310107,CN310105,CN310104,CN310101',
+            ),
+            array(
+              'business_city'           => 'CN3201',
+              'business_city_name'      => '南京市',
+              'business_city_alias'     => '南京',
+              'index_letter'            => 'N',
+              'business_district'       => 'CN320102',
+            ),
+            array(
+                'business_city'         => 'CN3301',
+                'business_city_name'    => '杭州市',
+                'business_city_alias'   => '杭州',
+                'index_letter'          => 'H',
+                'business_district'     => 'CN330102',
+            ),
+        );
+
+        RC_DB::table('store_business_city')->truncate();
+        RC_DB::table('store_business_city')->insert($data);
     }
 }
