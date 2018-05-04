@@ -120,7 +120,6 @@ class user_order_controller {
         $params_order = array('token' => $token, 'order_id' => $order_id);
         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_DETAIL)->data($params_order)->run();
         $data = is_ecjia_error($data) ? array() : $data;
-
         if (empty($data)) {
             return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/order/order_list')));
         }
@@ -141,7 +140,9 @@ class user_order_controller {
                 
                 if (!empty($data['order_status_code'])) {
                 	$params = array('token' => $token, 'type' => $data['order_status_code']);
-                	$reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_RESIONS)->data($params)->run();
+					$reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_RESIONS)->data($params)->run();
+					$reason_list = !is_ecjia_error($reason_list) ? $reason_list : array();
+
                 	ecjia_front::$controller->assign('reason_list', json_encode($reason_list));
                 	ecjia_front::$controller->assign('refund_type', 'refund');
                 }
@@ -149,6 +150,21 @@ class user_order_controller {
             if ($data['order_mode'] == 'storebuy') {
             	ecjia_front::$controller->display('user_order_storebuy_detail.dwt', $cache_id);
             } else {
+				//店铺信息
+				$parameter_list = array(
+					'seller_id' => $data['store_id'],
+					'city_id' => $_COOKIE['city_id']
+				);
+				$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
+				$store_info = is_ecjia_error($store_info) ? array() : $store_info;
+		
+				if (!empty($store_info)) {
+					$map_url = 'https://3gimg.qq.com/lightmap/v1/marker/index.html?type=0&marker=coord:';
+					$url_param = ''.$store_info['location']['latitude'].','.$store_info['location']['longitude'].';title:'.$store_info['seller_name'].';addr:'.$store_info['shop_address'];
+					$url_param = urlencode($url_param);
+					$map_url .= $url_param;
+					ecjia_front::$controller->assign('location_url', $map_url);
+				}
             	ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
             }
         } else {
@@ -382,8 +398,9 @@ class user_order_controller {
             //rec_id返回的信息
             if ($goods_info['is_commented'] == 1) {
                 $rec_data = array('token' => $token, 'rec_id' => $goods_info['rec_id']);
-                $rec_id = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDERS_COMMENT_DETAIL)->data($rec_data)->run();
-                $rec_info = is_ecjia_error($rec_id) ? array() : $rec_id;
+                $rec_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDERS_COMMENT_DETAIL)->data($rec_data)->run();
+				$rec_info = is_ecjia_error($rec_info) ? array() : $rec_info;
+				
                 ecjia_front::$controller->assign('rec_info', $rec_info);
             }
             
@@ -508,7 +525,8 @@ class user_order_controller {
     			}
     		}
     		$params = array('token' => $token, 'type' => $data['order_status_code']);
-    		$reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_RESIONS)->data($params)->run();
+			$reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_RESIONS)->data($params)->run();
+			$reason_list = !is_ecjia_error($reason_list) ? $reason_list : array();
     	}
     	ecjia_front::$controller->assign('reason_list', json_encode($reason_list));
 		
@@ -601,9 +619,6 @@ class user_order_controller {
     			$file['refund_images['.$i.']'] = curl_file_create(realpath($_FILES['tmp_name'][$i]), $_FILES['type'][$i], $_FILES['name'][$i]);
     		}
     	}
-//     	if (empty($file)) {
-//     		return ecjia_front::$controller->showmessage('申请失败，请上传照片', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-//     	}
     	$params = array(
     		'token' 				=> ecjia_touch_user::singleton()->getToken(),
     		'order_id' 				=> $order_id,

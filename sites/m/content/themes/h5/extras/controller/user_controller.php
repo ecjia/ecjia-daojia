@@ -152,17 +152,6 @@ class user_controller {
     }
 	
     public static function wxconfig() {
-//     	$url = $_POST['url'];
-//     	RC_Loader::load_app_class('platform_account', 'platform', false);
-//     	RC_Loader::load_app_class('wechat_method', 'wechat', false);
-    	 
-//     	$uuid = platform_account::getCurrentUUID('wechat');
-//     	$wechat = wechat_method::wechat_instance($uuid);
-// 		if (!empty($wechat)) {
-// 			$config = $wechat->wxconfig($url);
-// 			return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $config));
-// 		}
-		
     	$url = trim($_POST['url']);
     	if (empty($url)) {
     		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -171,13 +160,14 @@ class user_controller {
 		$uuid = platform_account::getCurrentUUID('wechat');
 		$wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 		
-		$apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
-		$wechat->js->setUrl($url);
-		$config = $wechat->js->config($apis, false);
-		$config = json_decode($config, true);
-		
-		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $config));
-		
+		if (!empty($wechat)) {
+			$apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
+			$wechat->js->setUrl($url);
+			$config = $wechat->js->config($apis, false);
+			$config = json_decode($config, true);
+			
+			return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $config));
+		}
     }
     
     public static function sync_avatar($connect_user) {
@@ -193,30 +183,11 @@ class user_controller {
         if (array_get($user, 'avatar_img')) {
             return false;
         }
-//         $connect_user = RC_Api::api('connect', 'connect_user_info', array('user_id' => $user_id));
-        
-//         RC_Logger::getlogger('info')->info('user_controller-connect');
-//         if (is_ecjia_error($connect_user)) {
-//             $connect_user = $connect_user->get_error_message();
-//         }
-//         RC_Logger::getlogger('info')->info($connect_user);
 
         $head_img = $connect_user->getUserHeaderImg();
         if ($head_img) {
             RC_Api::api('user', 'update_user_avatar', array('avatar_url' => $head_img, 'user_id' => $user_id));
         }
-        
-        //  $user_img = $head_img;
-        
-//         if ($connect_user) {
-//             if ($connect_user['connect_code'] == 'sns_qq') {
-//                 $head_img = $connect_user['profile']['figureurl_qq_2'];
-//             } else if ($connect_user['connect_code'] == 'sns_wechat') {
-//                 $head_img = $connect_user['profile']['headimgurl'];
-//             }
-//             RC_Logger::getlogger('info')->info('user_controller-headimg' . $head_img);
-            
-//         }
     }
 }
 

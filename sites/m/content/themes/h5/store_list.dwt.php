@@ -32,6 +32,9 @@ var releated_goods = {$releated_goods};
 					<div class="basic-info">
 						<div class="store-left">
 							<img src="{if $val.seller_logo}{$val.seller_logo}{else}{$theme_url}images/store_default.png{/if}">
+							{if $val.shop_closed eq 1}
+								<div class="shop_closed_mask">休息中</div>
+							{/if}
 						</div>
 						<div class="store-right">
 							<div class="store-title">
@@ -110,9 +113,10 @@ var releated_goods = {$releated_goods};
 				<img class="pic" src="{$val.img.small}">
 				<dl>
 					<dt>{$val.name}</dt>
-					<dd><label>{if $val.promote_price}{$val.promote_price}{else}{$val.shop_price}{/if}</label></dd>
+					<dd><label>{if $val.unformatted_promote_price neq 0 && $val.unformatted_promote_price lt $val.unformatted_shop_price}{$val.promote_price}{else}{$val.shop_price}{/if}</label></dd>
 				</dl>
 			</a>
+			{if $store_info.shop_closed neq 1}
 			<div class="box" id="goods_{$val.id}">
 				<!-- {if $val.specification} -->
 				<div class="goods_attr goods_spec_{$val.id}">
@@ -125,6 +129,7 @@ var releated_goods = {$releated_goods};
 				<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加</span>
 				<!-- {/if} -->
 			</div>
+			{/if}
 		</li>
 		<!-- {/if} -->
 		<!-- {/foreach} -->
@@ -162,12 +167,17 @@ var releated_goods = {$releated_goods};
 		{/if}
 	</a>
 	<div class="a4z" style="transform: translateX(0px);">
-		{if !$real_count.goods_number}
-			<div class="a50">购物车是空的</div>
+		{if $store_info.shop_closed eq 1}
+			<div class="a61">商家打烊了</div>
+			<div class="a62">营业时间 {$store_info.label_trade_time}</div>
 		{else}
-		<div>
-			{$count.goods_price}{if $count.discount neq 0}<label>(已减{$count.discount})</label>{/if}
-		</div>
+			{if !$real_count.goods_number}
+				<div class="a50">购物车是空的</div>
+			{else}
+			<div>
+				{$count.goods_price}{if $count.discount neq 0}<label>(已减{$count.discount})</label>{/if}
+			</div>
+			{/if}
 		{/if}
 	</div>
 	<a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$store_id}" data-address="{$address_id}" data-rec="{$rec_id}" href="javascript:;">{if $count.meet_min_amount eq 1 || !$count.label_short_amount}去结算{else}还差{$count.label_short_amount}起送{/if}</a>
@@ -250,9 +260,10 @@ var releated_goods = {$releated_goods};
 			<dl>
 				<dt>{$val.name}</dt>
 				<dd></dd>
-				<dd><label>{if $val.promote_price}{$val.promote_price}{else}{$val.shop_price}{/if}</label></dd>
+				<dd><label>{if $val.unformatted_promote_price neq 0 && $val.unformatted_promote_price lt $val.unformatted_shop_price}{$val.promote_price}{else}{$val.shop_price}{/if}</label></dd>
 			</dl>
 		</a>
+		{if $store_info.shop_closed neq 1}
 		<div class="box" id="goods_{$val.id}">
 			<!-- {if $val.specification} -->
 			<div class="goods_attr goods_spec_{$val.id}">
@@ -265,6 +276,7 @@ var releated_goods = {$releated_goods};
 			<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加</span>
 			<!-- {/if} -->
 		</div>
+		{/if}
 	</li>
 	<!-- {/foreach} -->
 <!-- {/block} -->

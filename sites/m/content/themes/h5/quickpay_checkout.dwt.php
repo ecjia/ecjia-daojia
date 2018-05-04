@@ -17,12 +17,15 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 <div class="quickpay">
+	{if $store_info.shop_closed eq 1}
+	<div class="shop_closed_notice">商家打烊中，优惠买单尚未开始~</div>
+	{/if}
 	<form name="quickpayForm" action="{url path='quickpay/flow/done'}" method="post" data-url="{url path='quickpay/flow/flow_checkorder'}">
 	    <div class="checkout">
 	        <div class="quickpay_div before_two">
 	            <li class="outher_d amount_li">
 	            	<span>{t}消费金额 (元){/t}</span>
-	            	<input class="quick_money" type="number" name="order_money" step="0.01" placeholder="请询问店员后输入" value="{$data.goods_amount}">
+	            	<input class="quick_money" type="number" name="order_money" step="0.01" placeholder="请询问店员后输入" value="{$data.goods_amount}" {if $store_info.shop_closed eq 1}readonly{/if}>
 	            </li>
 	            
 	            <li class="outher_d exclude_amount_li">

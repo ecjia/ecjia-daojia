@@ -107,6 +107,10 @@ return [
     'cart/flow/goods_list'              => 'cart_controller@goods_list',
     'cart/flow/done'                    => 'cart_controller@done',
     
+    'cart/flow/storepickup_checkout'    => 'cart_controller@storepickup_checkout',
+    'cart/flow/storepickup_done'        => 'cart_controller@storepickup_done',
+    'cart/flow/pay_pickup'            	=> 'cart_controller@pay_pickup',
+    
     //支付
     'pay/index/init'                    => 'pay_controller@init',
     'pay/index/notify'                  => 'pay_controller@notify',

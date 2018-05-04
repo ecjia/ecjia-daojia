@@ -56,12 +56,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 				<!-- {if $store_category} -->
 					<!-- {foreach from=$store_category item=val} -->
-					<li class="a1p {if $val.id eq $category_id}a1r{/if}">
+					<li class="a1p {if $val.id eq $category_id}a1r{else if $val.checked eq 1}a1t{/if}">
 						<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}" data-category="{$val.id}" data-toggle="toggle-category">{$val.name}</strong>
 						<!-- {if $val.children} -->
 							<strong class="a1v">
 							<!-- {foreach from=$val.children item=v} -->
-							<span class="a1u h a1w" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}" data-category="{$v.id}" data-toggle="toggle-category">
+							<span class="a1u h a1w {if $v.checked eq 1}active{/if}" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}" data-category="{$v.id}" data-toggle="toggle-category">
 								{$v.name}
 							</span>
 							<!-- {/foreach} -->
@@ -98,12 +98,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		{/if}
 	</a>
 	<div class="a4z" style="transform: translateX(0px);">
-		{if !$real_count.goods_number}
-			<div class="a50">购物车是空的</div>
+		{if $store_info.shop_closed eq 1}
+			<div class="a61">商家打烊了</div>
+			<div class="a62">营业时间 {$store_info.label_trade_time}</div>
 		{else}
-		<div>
-			{$count.goods_price}{if $count.discount neq 0}<label>(已减{$count.discount})</label>{/if}
-		</div>
+			{if !$real_count.goods_number}
+				<div class="a50">购物车是空的</div>
+			{else}
+			<div>
+				{$count.goods_price}{if $count.discount neq 0}<label>(已减{$count.discount})</label>{/if}
+			</div>
+			{/if}
 		{/if}
 	</div>
 	<a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$store_id}" data-address="{$address_id}" data-rec="{$rec_id}">{if $count.meet_min_amount eq 1 || !$count.label_short_amount}去结算{else}还差{$count.label_short_amount}起送{/if}</a>

@@ -33,7 +33,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	      <!-- {/if} -->
 	
 	      <!--  配送费用 -->
+	      <!-- {if $total.shipping_fee > 0} 支付手续费 -->
 	      <li>运费:<span class="cart-order">{$total.shipping_fee_formated}</span></li>
+		  <!-- {/if} -->
 	
 	      <!-- {if $total.shipping_insure > 0} 保价费用 -->
 	      <li>{$lang.insure_fee}:<span class="cart-order">{$total.shipping_insure_formated}</span></li>

@@ -22,7 +22,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<span class="list-page-box">
 						<span class="goods-name">{$val.name}</span>
 						<span class="list-page-goods-price">
-							<!--{if $val.promote_price}-->
+							<!--{if $val.unformatted_promote_price neq 0 && $val.unformatted_promote_price lt $val.unformatted_shop_price}-->
 							<span>{$val.promote_price}</span>
 							<!--{else}-->
 							<span>{$val.shop_price}</span>

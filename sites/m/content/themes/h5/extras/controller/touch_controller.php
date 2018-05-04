@@ -141,8 +141,7 @@ class touch_controller {
 	        
 	        $paramater = array(
 	        	'pagination' 	=> array('count' => 6, 'page' => 1),
-	        	'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-	        	'city_id'       => $_COOKIE['city_id']
+	        	'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude'])
 	        );
 	        
 	        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
@@ -191,13 +190,12 @@ class touch_controller {
      * ajax获取推荐店铺
      */
     public static function ajax_suggest_store() {
-    	$limit = 6;
+    	$limit = intval($_GET['size']) ? intval($_GET['size']) : 10;
     	$page = intval($_GET['page']) ? intval($_GET['page']) : 1;
     	
     	$paramater = array(
     		'pagination' 	=> array('count' => $limit, 'page' => $page),
-    		'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-            'city_id'       => $_COOKIE['city_id']
+    		'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude'])
     	);
     		
     	$cache_id = sprintf('%X', crc32($limit.'-'.$page.'-'.$_COOKIE['longitude'].'-'.$_COOKIE['latitude'].'-'.$_COOKIE['city_id']));

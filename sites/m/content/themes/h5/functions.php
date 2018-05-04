@@ -86,8 +86,9 @@ RC_Hook::add_action('ecjia_front_finish_launching', function ($arg) {
                 if ($_REQUEST['referer_url']) {
                     RC_Cookie::set('referer', $_REQUEST['referer_url']);
                 } else {
-                    RC_Cookie::set('referer', $_SERVER['HTTP_REFERER']);
+                    RC_Cookie::set('referer', empty($_SERVER['HTTP_REFERER']) ? RC_Uri::current_url() : $_SERVER['HTTP_REFERER']);
                 }
+                
                 $url = RC_Uri::url('connect/index/init', array('connect_code' => 'sns_wechat', 'login_type' => 'snsapi_userinfo'));
                 ecjia_front::$controller->redirect($url);
             }
@@ -121,7 +122,6 @@ RC_Hook::add_filter('connect_callback_user_template', function($templateStr, $da
             return connect_controller::callback_template($data);
         
         } else {
-            
             RC_Cookie::set('wechat_not_login', 1);
             //结合cookie判断返回来源url
             $back_url = RC_Cookie::get('referer', RC_Uri::url('touch/index/init'));
@@ -273,7 +273,7 @@ ecjia_open::macro('help', function() {
 });
 //用户中心
 ecjia_open::macro('user_center', function() {
-	return RC_Uri::url('touch/my/init');
+	return RC_Uri::url('user/profile/init');
 });
 //商品详情
 ecjia_open::macro('goods_detail', function($querys) {
@@ -322,7 +322,7 @@ ecjia_open::macro('goods_seller_list', function($querys) {
 
 //所有分类
 ecjia_open::macro('goods_list', function($querys) {
-    return RC_Uri::url('goods/category/init', array('cid' => $querys['category_id']));
+    return RC_Uri::url('goods/category/init', array('category_id' => $querys['category_id']));
 });
 //店铺列表
 ecjia_open::macro('seller', function($querys) {

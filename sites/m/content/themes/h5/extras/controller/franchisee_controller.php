@@ -56,12 +56,16 @@ class franchisee_controller {
 	    $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 	    
 	    if (!ecjia_front::$controller->is_cached('franchisee_first.dwt', $cache_id)) {
-	    	$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+			$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+			$config = !is_ecjia_error($config) ? $config : array();
+
 	    	if ($config['merchant_join_close'] == 1) {
 	    		return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
 	    	}
 	    	
-	    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+			$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+			$data = !is_ecjia_error($data) ? $data : array();
+
 	    	$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $data['access_token']))->run();
 	    	if (is_ecjia_error($res)) {
 	    		return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGTYPE_JSON);
@@ -99,6 +103,8 @@ class franchisee_controller {
 		}
 		
 		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
+
 	    //验证code
 	    $params = array(
 	        'token' 		=> $data['access_token'],
@@ -144,6 +150,8 @@ class franchisee_controller {
 	//重新发送验证码
 	public static function resend_sms() {
 		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
+
 		//验证code
 		$params = array(
 			'token' 		=> $data['access_token'],
@@ -163,6 +171,8 @@ class franchisee_controller {
 	//检查短信验证码是否正确
 	public static function validate_code() {
 		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
+
 		//验证code
 		$value = trim($_POST['value']);
 		$params = array(
@@ -188,6 +198,8 @@ class franchisee_controller {
 		$type      = !empty($_GET['type']) ? $_GET['type'] : 'signup';
 
 		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
+
 		if (!empty($mobile)) {
 			$params = array(
 				'token' 		=> $data['access_token'],
@@ -215,6 +227,8 @@ class franchisee_controller {
 	//入驻第二步
 	public static function second() {
 		$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+		$config = !is_ecjia_error($config) ? $config : array();
+
 		if ($config['merchant_join_close'] == 1) {
 			return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -224,6 +238,7 @@ class franchisee_controller {
 	    }
 	    
 	    $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
 
         //重新修改入驻信息Get获取，正常入驻存session
         if (empty($_SESSION['franchisee_add']['mobile'])) {
@@ -242,8 +257,11 @@ class franchisee_controller {
         if (is_ecjia_error($reaudit)) {
         	return ecjia_front::$controller->showmessage($reaudit->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
         }
-        $category = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_CATEGORY)->data(array('token' => $token))->send()->getBody();
-        $category_list 	= ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_CATEGORY)->data(array('token' => $token))->run();
+		$category = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_CATEGORY)->data(array('token' => $token))->send()->getBody();
+		$category = !is_ecjia_error($category) ? $category : array();
+
+		$category_list 	= ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_CATEGORY)->data(array('token' => $token))->run();
+		$category_list = !is_ecjia_error($category_list) ? $category_list : array();
         
         $region_data = user_function::get_region_list('', '', $reaudit['district']);
         ecjia_front::$controller->assign('region_data', $region_data);
@@ -352,10 +370,13 @@ class franchisee_controller {
 	//入驻信息验证提交
 	public static function finish() {
 		$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+		$config = !is_ecjia_error($config) ? $config : array();
+
 		if ($config['merchant_join_close'] == 1) {
 			return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-	    $token = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$token = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$token = !is_ecjia_error($token) ? $token : array();
 	    
 	    $responsible_person = !empty($_SESSION['franchisee_add']['name']) ? $_SESSION['franchisee_add']['name'] : '';
 	    $email 				= !empty($_SESSION['franchisee_add']['email']) ? $_SESSION['franchisee_add']['email'] : '';
@@ -455,7 +476,9 @@ class franchisee_controller {
 		unset($_SESSION['franchisee_add']);
 	    $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 	    
-	    $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
+
 	    $res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $data['access_token']))->run();
 	    if (is_ecjia_error($res)) {
 	    	return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGTYPE_JSON);
@@ -520,6 +543,8 @@ class franchisee_controller {
 		}
 		 
 		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
+
 		$params  = array(
 			'token' 		=> $data['access_token'],
 			'value' 		=> $mobile,
@@ -568,6 +593,8 @@ class franchisee_controller {
 		}
 
 		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
+
 		$params  = array(
 			'token' 		=> $data['access_token'],
 			'mobile' 		=> $mobile,
@@ -583,11 +610,15 @@ class franchisee_controller {
 	
 	public static function process() {
 		$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+		$config = !is_ecjia_error($config) ? $config : array();
+
 		if ($config['merchant_join_close'] == 1) {
 			return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-	    $data	= ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+		$data = !is_ecjia_error($data) ? $data : array();
+
 	    $token	= $data['access_token'];
         $mobile	= trim($_GET['mobile']);
         $code 	= trim($_GET['code']);
@@ -673,7 +704,8 @@ class franchisee_controller {
 	//刷新验证码
 	public static function captcha_refresh() {
 		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		 
+		$data = !is_ecjia_error($data) ? $data : array();
+		
 		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $data['access_token']))->run();
 		if (is_ecjia_error($res)) {
 			return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);

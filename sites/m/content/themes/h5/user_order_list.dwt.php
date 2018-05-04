@@ -21,7 +21,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <div class="ecjia-header">
         	<div class="ecjia-search-header ecjia-search">
         		<form class="ecjia-form" action="{url path='user/order/order_list&type=whole'}{if $store_id neq 0}&store_id={$store_id}{/if}">
-        			<input id="keywordBox" name="keywords" type="search" placeholder="商品名称/订单号" {if $keywords}value={$keywords}{/if} data-type="search_order">
+        			<input name="keywords" type="search" placeholder="商品名称/订单号" {if $keywords}value={$keywords}{/if} data-type="search_order">
         			<i class="iconfont icon-search btn-search"></i>
         		</form>
         	</div>
@@ -47,7 +47,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <li class="ecjia-order-item ecjia-checkout ecjia-margin-t {if $type == "whole"}ecjia-order-mt{/if}">
 	<div class="order-hd">
 		<a class="ecjiaf-fl" href='{url path="merchant/index/init" args="store_id={$list.seller_id}"}'>
-			<i class="iconfont icon-shop"></i>{$list.seller_name} <i class="iconfont icon-jiantou-right"></i>
+			{if $list.order_mode eq 'default'}<span class="order_model">【配送】</span>{elseif $list.order_mode eq 'storepickup'}<span class="order_model">【自提】</span>{/if}{$list.seller_name} <i class="iconfont icon-jiantou-right"></i>
 		</a>
 		{if $list.order_mode eq 'storebuy'}
 		<span class="ecjiaf-order-status">到店购物</span>
@@ -86,7 +86,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			{/if}
 		{/if}
 		
-		{if $list.shipping_status eq '1'} <a class="btn btn-hollow affirm_received" href='{url path="user/order/affirm_received" args="order_id={$list.order_id}&from=list&order_type=shipped"}'>确认收货</a>{/if}
+		{if $list.shipping_status eq '1'} <a class="btn btn-hollow affirm_received" href='{url path="user/order/affirm_received" args="order_id={$list.order_id}&from=list&order_type={$type}"}'>确认收货</a>{/if}
 		{if $list.shipping_status eq '2'} <a class="btn btn-hollow" href='{url path="user/order/comment_list" args="order_id={$list.order_id}&from=list"}'>评价晒单</a>{/if}
 		</span>
 	</div>

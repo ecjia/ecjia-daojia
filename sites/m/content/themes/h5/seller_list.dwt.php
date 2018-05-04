@@ -25,6 +25,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<div class="basic-info">
 					<div class="store-left">
 						<img src="{$val.seller_logo}">
+						{if $val.shop_closed eq 1}
+							<div class="shop_closed_mask">休息中</div>
+						{/if}
 					</div>
 					<div class="store-right">
 						<div class="store-title">

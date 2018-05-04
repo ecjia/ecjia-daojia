@@ -122,7 +122,7 @@ class user_profile_controller {
         }
         if (!empty($name)) {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_UPDATE)->data(array('user_name' => $name))->run();
-            if (! is_ecjia_error($data)) {
+            if (!is_ecjia_error($data)) {
                 return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('msg' => RC_Uri::url('user/profile/init')));
             } else {
                 return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('msg' => $data->get_error_message()));
@@ -173,7 +173,8 @@ class user_profile_controller {
     		}
     	}
     	
-    	$user_info = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+        $user_info = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+        $user_info = !is_ecjia_error($user_info) ? $user_info : array();
     	if (empty($user_info['mobile_phone'])) {
     		return ecjia_front::$controller->showmessage('请先绑定手机号码', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
     	}
@@ -217,6 +218,9 @@ class user_profile_controller {
         $email = !empty($_GET['email']) ? $_GET['email'] : '';
 
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+        if (is_ecjia_error($user)) {
+            return ecjia_front::$controller->showmessage($user->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         if (!empty($mobile)) {
             if ($user['mobile_phone'] == $mobile) {
                 return ecjia_front::$controller->showmessage('该手机号与当前绑定的手机号相同', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -312,8 +316,10 @@ class user_profile_controller {
         $cache_id   = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$token));
         
         if (!ecjia_front::$controller->is_cached('user_bind_info.dwt', $cache_id)) {
-            $user       = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
-            $type       = !empty($_GET['type']) ? trim($_GET['type']) : '';
+            $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->run();
+            $user = !is_ecjia_error($user) ? $user : array();
+            
+            $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
             ecjia_front::$controller->assign('user', $user);
             if ($type == 'mobile') {
                 ecjia_front::$controller->assign('type', 'mobile');

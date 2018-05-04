@@ -4,8 +4,11 @@
 	<li class="store-info">
 		<div class="basic-info">
 			<div class="store-left">
-				<a href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
+				<a class="seller-logo" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 					<img src="{$val.seller_logo}">
+					{if $val.shop_closed eq 1}
+						<div class="shop_closed_mask">休息中</div>
+					{/if}
 				</a>
 			</div>
 			<div class="store-right">

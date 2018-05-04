@@ -519,7 +519,11 @@
 				if (data.count != undefined) {
 					var count = data.count;
 					if (count.meet_min_amount == 1 || !count.label_short_amount) {
-						$('.check_cart').removeClass('disabled').html('去结算');
+						if (count.real_goods_count > 0) {
+							$('.check_cart').removeClass('disabled').html('去结算');
+						} else {
+							$('.check_cart').html('去结算');
+						}
 					} else {
 						$('.check_cart').addClass('disabled').html('还差'+ count.label_short_amount +'起送');
 					}
@@ -804,12 +808,12 @@
 				$('.ecjia-store-banner').css('display', 'none');
 
 				$('.page_hearder_hide').show();
-				$('.ecjia-store-goods').children('.a1n').css('top', '6.6em');
+				$('.ecjia-store-goods').children('.a1n').css('top', '6.7em');
 
 				//店铺评论
 				$('.ecjia-store-ul').css('top', '3em');
-				$('.ecjia-seller-comment').css('top', '6.6em');
-				$('.ecjia-store-detail').css('top', '6.6em');
+				$('.ecjia-seller-comment').css('top', '6.7em');
+				$('.ecjia-store-detail').css('top', '6.7em');
 			} else {
 				$('.ecjia-store-banner').css('display', 'block');
 				$('.page_hearder_hide').hide();
@@ -1115,25 +1119,6 @@
 					url += '&store_id=' + store_id;
 				}
 
-//        		if (address_id != undefined && address_id != '') {
-//        			url += '&address_id=' + address_id;
-//        		} else {
-//        			//禁用滚动条
-//                	$('body').css('overflow-y', 'hidden').on('touchmove',function(event){event.preventDefault;}, false);
-//                	
-//                	var height = ($('body').scrollTop() + 160) + 'px';
-//        			$('.ecjia-modal').show().css('top', height);
-//        			$('.ecjia-modal-overlay').show();
-//        			myApp.openModal('.ecjia-modal');
-//        			$('.modal-overlay').remove();
-//        			
-//        			$('body').on('click', function(){
-//        				$('.ecjia-modal').hide();
-//        				$('.ecjia-modal-overlay').hide();
-//        				$('body').css('overflow-y', 'auto').off("touchmove");		//启用滚动条
-//        			});
-//        			return false;
-//        		}
 				if (rec_id != undefined) {
 					url += '&rec_id=' + rec_id;
 				}
@@ -1197,14 +1182,6 @@
 						rec_id = $this.attr('rec_id');
 
 						var li = $this.parents('.item-goods');
-//            			if (li.siblings('li').length == 0) {
-//            				li.parents('.cart-single').remove();
-//            				if ($('li.cart-single').length == 0) {
-//            					$('.ecjia-flow-cart').remove();
-//            					$('.flow-no-pro').removeClass('hide');
-//            				}
-//            			}
-//            			li.remove();
 						ecjia.touch.category.update_cart(rec_id, '', '', '', store_id, '', '', li);
 						return false;
 					}
@@ -1660,10 +1637,7 @@
 			//切换属性
 			$('.goods-attr-list .goods-attr li').off('click').on('click', function() {
 				var $this = $(this);
-// 				var index = $this.parents('.goods-attr').attr('data-index');
-// 				if (index == 0) {
-// 					$('div.goods-attr:gt(0)').find('li:eq(0)').addClass('active').siblings('li').removeClass('active');
-// 				}
+
 				if (!$this.hasClass('multi-select')) {
 					$this.addClass('active').siblings('li').removeClass('active');
 				} else {

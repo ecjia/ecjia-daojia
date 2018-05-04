@@ -16,7 +16,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<!-- #EndLibraryItem -->
 <div class="ecjia-form ecjia-login">
 	<p class="ecjiaf-tac ecjia-margin-b">已发送验证码到{$mobile}</p>
 

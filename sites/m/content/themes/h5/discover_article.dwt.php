@@ -138,5 +138,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <input type="hidden" name="like_article" value="{RC_Uri::url('article/index/like_article')}&article_id={$article_id}" />
     <div class="box_overlay"></div>
 </div>
+<input type="hidden" name="share_title" value="{$data.title}">
 <!-- {/block} -->
  {/nocache}

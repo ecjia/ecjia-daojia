@@ -24,7 +24,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			    <a href="{url path='user/order/return_detail'}&refund_sn={$order.refund_sn}&type={'status'}">
 			        <span class="order-status-img"><p></p><img src="{$theme_url}images/address_list/50x50_2.png"></span>
 			        <div class="order-status-msg">
-	    		        <span><span class="order-head-font">{$refund_logs.label_status}</span><span class="ecjiaf-fr order-color">{$refund_logs.formatted_action_time}</span></span>
+	    		        <span class="order-head-top"><span class="order-head-font">{$refund_logs.label_status}</span><span class="ecjiaf-fr order-color">{$refund_logs.formatted_action_time}</span></span>
 	    		        <p class="ecjia-margin-t status"><span class="order-color order-status">{$refund_logs.log_description}</span><span class="ecjiaf-fr more-status">更多状态 ></span></p>
 			        </div>
 		        </a>

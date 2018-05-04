@@ -18,6 +18,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <form id="theForm" name="theForm" action='{url path="cart/flow/checkout" args="{if $smarty.session.order_address_temp.store_id}store_id={$smarty.session.order_address_temp.store_id}&{/if}address_id={$address_id}&rec_id={$rec_id}"}' method="post">
     <div class="ecjia-select">
+    
         {if $payment_list.online}
         <p class="select-title ecjia-margin-l">线上支付</p>
         <ul class="ecjia-list">
@@ -33,6 +34,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <!-- {/foreach} -->
         </ul>
         {/if}
+        
         {if $payment_list.offline}
         <p class="select-title ecjia-margin-l">线下支付</p>
         <ul class="ecjia-list">

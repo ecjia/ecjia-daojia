@@ -459,6 +459,10 @@
 				
 				$('input[name="shipping_date"]').val(date);
 				$('input[name="shipping_time"]').val(time);
+				
+				$('input[name="pickup_date"]').val(date);
+				$('input[name="pickup_time"]').val(time);
+				
 				$('.shipping-time').html(date+' '+time);
 				
 				$('.mod_address_slide').removeClass('show');

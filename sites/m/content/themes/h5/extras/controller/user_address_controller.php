@@ -391,7 +391,6 @@ class user_address_controller {
         $temp_data = user_address_controller::save_temp_data(1, $temp_key, $_GET['clear'], $_GET);
         $params = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $id);
         $info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params)->run();
-
         $info = is_ecjia_error($info) ? array() : $info;
         
         $location_backurl = urlencode(RC_Uri::url('user/address/edit_address', array('id' => $id, 'clear' => 0)));

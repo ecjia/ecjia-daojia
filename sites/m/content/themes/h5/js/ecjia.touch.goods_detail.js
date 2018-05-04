@@ -80,7 +80,7 @@
 					if (myD >= 0) {
 						if (type == 1) {
 							msg = '距结束';
-							var str = msg + myD + '天 &nbsp;&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
+							var str = msg + myD + '天&nbsp;<span class="end-time">' + hh + '</span>:<span class="end-time">' + mm + '</span>:<span class="end-time">' + ss + '</span>';
 						} else {
 							msg = '剩余';
 							var str = msg + myD + "天&nbsp;" + hh + ":" + mm + ":" + ss;

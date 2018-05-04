@@ -51,7 +51,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	            <label class="select-item">
 	                <li class="select-item-li">
 	                	<!-- {foreach from=$shipping_list item=list} -->
+	                	{if $list.shipping_code neq 'ship_cac'}
 	                    <span class="select-shipping-title {if $temp.shipping_id eq $list.shipping_id}active{/if}" data-shipping="{$list.shipping_id}" data-code="{$list.shipping_code}">{$list.shipping_name}</span>
+	                    {/if}
 	                    <!-- {/foreach} -->
 	                </li>
 	            </label>
@@ -73,7 +75,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <div class="ecjia-margin-t ecjia-margin-b">
             <input type="hidden" name="address_id" value="{$address_id}">
             <input type="hidden" name="rec_id" value="{$rec_id}" />
-            
             <input type="hidden" name="payment" value="{$temp.pay_id}">
             <input type="hidden" name="shipping" value="{$temp.shipping_id}">
 			<input class="btn btn-info" name="payment_shipping_update" type="submit" value="确定"/>

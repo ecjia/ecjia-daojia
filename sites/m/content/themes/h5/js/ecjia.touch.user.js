@@ -1219,11 +1219,11 @@
 			}
 			var data = region_data('', '', '');
 			
-			var province_list 	= data[0];
+			var province_list 		= data[0];
 			var province_list_name 	= data[1];
-			var city_list 		= data[2];
+			var city_list 			= data[2];
 			var city_list_name 		= data[3];
-			var district_list 	= data[4];
+			var district_list 		= data[4];
 			var district_list_name 	= data[5];
 			
 			var url = $('.ecjia_user_address_picker').attr('data-url');
@@ -1313,11 +1313,15 @@
 		        			$('.ecjia_user_address_street_picker').html('请选择街道');
 		        			$('input[name="street"]').val('');
 		        		}
-		        		$.post(url, {district_id:col2Value}, function(data) {
-							$('input[name="street_list"]').val(data.street_list);
-							var key = 'street_' + col2Value;
-					    	$.localStorage(key, data.street_list);
-						});
+		        		
+		        		var key = 'street_' + col2Value;
+		        		if ($.localStorage(key) == undefined) {
+		        			$.post(url, {district_id:col2Value}, function(data) {
+								$('input[name="street_list"]').val(data.street_list);
+						    	$.localStorage(key, data.street_list);
+							});
+		        		}
+		        		
 						var temp_data = {
 							'province_id': col0Value,
 							'province_name': col0.html(),

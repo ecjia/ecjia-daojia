@@ -52,22 +52,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class user_get_password_controller {
 	
     public static function init() {
-//         /*验证码相关设置*/
-//         $mobile = $_SESSION['user_temp']['mobile'];
-//         $code = !empty($_POST['code']) ? trim($_POST['code']) : '';
-//         $token = touch_function::get_token();
-//         if (!empty($code)) {
-//             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_FORGET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'code' => $code))->run();
-         
-//             if (! is_ecjia_error($data)) {
-//                 $_SESSION['user_temp']['mobile'] = $mobile;
-//                 $_SESSION['user_temp']['code_status'] = 'succeed';
-//                 return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/get_password/reset_password')));
-//             } else {
-//                 return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-//             }
-//         }
-        
     	unset($_SESSION['user_temp']);
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
         if (!ecjia_front::$controller->is_cached('user_mobile_register.dwt', $cache_id)) {
@@ -106,7 +90,9 @@ class user_get_password_controller {
         $token = touch_function::get_token();
     	$_SESSION['user_temp']['token'] = $token;
     	
-    	$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
+		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
+		$res = !is_ecjia_error($res) ? $res : array();
+		
     	ecjia_front::$controller->assign('captcha_image', $res['base64']);
     	
     	ecjia_front::$controller->assign('title', '身份验证');
@@ -193,23 +179,6 @@ class user_get_password_controller {
     		return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     }
-    
-//     public static function mobile_register_account() {
-//         $mobile = !empty($_GET['mobile']) ? trim($_GET['mobile']) : '';
-//         $chars = "/^1(3|4|5|7|8)\d{9}$/";
-        
-//         if (!preg_match($chars, $mobile)) {
-//         	return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-//         }
-//         $token = touch_function::get_token();
-//         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_FORGET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile))->run();
-        
-//         if (!is_ecjia_error($data)) {
-//         	return ecjia_front::$controller->showmessage(__("短信已发送到手机".$mobile."，请注意查看"), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-//         } else {
-//         	return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-//         }
-//     }
     
     //重新设置密码
     public static function reset_password() {

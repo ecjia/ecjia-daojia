@@ -70,16 +70,20 @@ var releated_goods = {$releated_goods};
 	            </div>
 	            <div class="goods-price goods-price-new" goods_id="{$goods_info.id}">
 	                <!-- $goods.is_promote and $goods.gmt_end_time -->
-	                <!--{if ($goods_info.promote_price gt 0) AND ($goods_info.promote_start_date lt $goods_info.promote_end_date) AND ($goods_info.formated_promote_price lt $goods_info.shop_price)} 促销-->
+	                
+	                <!--{if ($goods_info.promote_price gt 0) AND ($goods_info.promote_start_date lt $goods_info.promote_end_date) AND ($goods_info.promote_price lt $goods_info.shop_price)} 促销-->
+		                
 		                <div class="ecjia-price-time">
 		                	<div class="time-left">
 			                	<span class="ecjia-promote_price-span">{$goods_info.formated_promote_price}</span>
-			                	<del> 原价：{$goods_info.shop_price}</del></br>
+			                	<del> 原价：{$goods_info.unformatted_shop_price}</del></br>
 			                	<div class="ecjia-left-time">
 			                		<span class="detail-clock-icon"></span>
 									<span class="goods-detail-promote" data-type="1" value="{$goods_info.promote_end_time}"></span>
 			                	</div>
 			                </div>
+			                
+			                {if $goods_info.shop_closed neq 1}
 			                <div class="cart-plus-right goods_spec_{$goods_info.id}" goods_id="{$goods_info.id}">
 			                	{if $goods_info.specification}
 			                	<span class="goods-add-cart choose_attr {if $goods_info.in_related_goods eq 1}spec_goods{/if}" goods_id="{$goods_info.id}">选规格</span>
@@ -93,23 +97,30 @@ var releated_goods = {$releated_goods};
                                 </div>
                                 {/if}
 		                    </div>
+		                    {/if}
+		                    
 		                 </div>
 	                <!--{else}-->
-	                {$goods_info.shop_price}
-	                <del>市场价：{$goods_info.market_price}</del>	
-                	{if $goods_info.specification}
-                	<span class="goods_spec_{$goods_info.id}">
-		            <span class="goods-add-cart choose_attr {if $goods_info.in_related_goods eq 1}spec_goods{/if}" goods_id="{$goods_info.id}">选规格</span>
-		            {if $goods_attr_num}<i class="attr-number">{$goods_attr_num}</i>{/if}
-		            </span>
-		            {else}
-                	<span class="goods-add-cart market-goods-add-cart add-cart-a {if $rec_id}hide{/if}" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加入购物车</span>
-              		<div class="ecjia-goods-plus-box ecjia-market-plus-box {if !$rec_id}hide{/if} box" id="goods_{$goods_info.id}">
-              			<span class="reduce" data-toggle="remove-to-cart" rec_id="{$rec_id}">减</span>
-                     	<label>{if !$rec_id}1{else}{$num}{/if}</label>
-              			<span class="add" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加</span>
-                    </div>
-                    {/if}
+	                
+		                {$goods_info.shop_price}
+		                <del>市场价：{$goods_info.market_price}</del>	
+		                
+		                {if $goods_info.shop_closed neq 1}
+		                	{if $goods_info.specification}
+		                	<span class="goods_spec_{$goods_info.id}">
+					            <span class="goods-add-cart choose_attr {if $goods_info.in_related_goods eq 1}spec_goods{/if}" goods_id="{$goods_info.id}">选规格</span>
+					            {if $goods_attr_num}<i class="attr-number">{$goods_attr_num}</i>{/if}
+					        </span>
+				            {else}
+		                	<span class="goods-add-cart market-goods-add-cart add-cart-a {if $rec_id}hide{/if}" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加入购物车</span>
+		              		<div class="ecjia-goods-plus-box ecjia-market-plus-box {if !$rec_id}hide{/if} box" id="goods_{$goods_info.id}">
+		              			<span class="reduce" data-toggle="remove-to-cart" rec_id="{$rec_id}">减</span>
+		                     	<label>{if !$rec_id}1{else}{$num}{/if}</label>
+		              			<span class="add" data-toggle="add-to-cart" rec_id="{$rec_id}" goods_id="{$goods_info.id}">加</span>
+		                    </div>
+		                    {/if}
+	                    {/if}
+	                    
 	                <!-- {/if} -->
 	            </div>
 	            <!-- {if $goods_info.favourable_list} -->
@@ -212,14 +223,18 @@ var releated_goods = {$releated_goods};
 									<!--{else}-->
 									<span class="goods-price">{$goods.shop_price}</span>
 									<!--{/if}-->
-									{if $goods.specification}
-										<div class="goods_attr goods_spec_{$goods.goods_id}" goods_id="{$goods_info.id}">
-											<span class="choose_attr spec_goods" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}" data-spec="{$goods.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}" data-store="{$store_id}">选规格</span>
-											{if $goods.num}<i class="attr-number">{$goods.num}</i>{/if}
-										</div>
-									{else}
-										<span class="goods-price-plus may_like_{$goods.goods_id}" data-toggle="add-to-cart" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}"></span>
+									
+									{if $goods_info.shop_closed neq 1}
+										{if $goods.specification}
+											<div class="goods_attr goods_spec_{$goods.goods_id}" goods_id="{$goods_info.id}">
+												<span class="choose_attr spec_goods" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}" data-spec="{$goods.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}" data-store="{$store_id}">选规格</span>
+												{if $goods.num}<i class="attr-number">{$goods.num}</i>{/if}
+											</div>
+										{else}
+											<span class="goods-price-plus may_like_{$goods.goods_id}" data-toggle="add-to-cart" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}"></span>
+										{/if}
 									{/if}
+									
 								</div>
 							</li>
 							<!--{/if}-->
@@ -293,12 +308,17 @@ var releated_goods = {$releated_goods};
         {/if}
     </a>
     <div class="a4z" style="transform: translateX(0px);">
-        {if !$real_count.goods_number}
-            <div class="a50">购物车是空的</div>
-        {else}
-        <div>
-            {$count.goods_price}{if $count.discount neq 0}<label>(已减{$count.discount})</label>{/if}
-        </div>
+    	{if $goods_info.shop_closed eq 1}
+			<div class="a61">商家打烊了</div>
+			<div class="a62">营业时间 {$goods_info.label_trade_time}</div>
+		{else}
+	        {if !$real_count.goods_number}
+	            <div class="a50">购物车是空的</div>
+	        {else}
+	        <div>
+	            {$count.goods_price}{if $count.discount neq 0}<label>(已减{$count.discount})</label>{/if}
+	        </div>
+	        {/if}
         {/if}
     </div>
     <a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$goods_info.seller_id}" data-address="{$address_id}" data-rec="{$data_rec}" href="javascript:;">{if $count.meet_min_amount eq 1 || !$count.label_short_amount}去结算{else}还差{$count.label_short_amount}起送{/if}</a>

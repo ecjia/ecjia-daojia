@@ -15,26 +15,28 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<form id="theForm" name="theForm" action='{url path="cart/flow/checkout" args="{if $smarty.session.order_address_temp.store_id}store_id={$smarty.session.order_address_temp.store_id}&{/if}address_id={$address_id}&rec_id={$rec_id}"}' method="post">
+<form id="theForm" name="theForm" action='{url path="cart/flow/{$action}" args="{if $smarty.session.order_address_temp.store_id}store_id={$smarty.session.order_address_temp.store_id}&{/if}address_id={$address_id}&rec_id={$rec_id}"}' method="post">
     <div class="ecjia-select ecjia-flow-invoice">
         <p class="select-title ecjia-margin-l">发票抬头</p>
         <div class="select-type">
-            <div class="inv_type personal {if $temp.inv_type_name != 'enterprise'}action{/if}">
+            <div class="inv_type personal {if $temp.inv_type_name neq 'enterprise'}action{/if}">
                 <p>个人</p>
-                <image {if $temp.inv_type_name == 'enterprise'}style="display:none"{/if} class="ecjia-bill-img" src="{$theme_url}images/select.png"></image>
+                <image {if $temp.inv_type_name eq 'enterprise'}style="display:none"{/if} class="ecjia-bill-img" src="{$theme_url}images/select.png"></image>
             </div>
-            <div class="inv_type enterprise {if $temp.inv_type_name == 'enterprise'}action{/if}">
+            <div class="inv_type enterprise {if $temp.inv_type_name eq 'enterprise'}action{/if}">
                 <p>单位</p>
-                <image {if $temp.inv_type_name != 'enterprise'}style="display:none"{/if} class="ecjia-bill-img" src="{$theme_url}images/select.png"></image>
+                <image {if $temp.inv_type_name neq 'enterprise'}style="display:none"{/if} class="ecjia-bill-img" src="{$theme_url}images/select.png"></image>
             </div>
-            <input name="inv_type_name" type="hidden" value="{if $temp.inv_type_name != ''}{$temp.inv_type_name}{else}personal{/if}" />
-            <div class="input input100 inv_input {if $temp.inv_type_name != 'enterprise'}inv_none{/if}">
+
+            <input name="inv_type_name" type="hidden" value="{if $temp.inv_type_name neq ''}{$temp.inv_type_name}{else}personal{/if}" />
+            <div class="input input100 inv_input {if $temp.inv_type_name neq 'enterprise'}inv_none{/if}">
                 <input class="inv_type_input" type="text" name="inv_payee" value="{$temp.inv_payee}" placeholder="请填写单位发票抬头">
                 <div class="img_flat">
                     <input class="inv_type_input" type="text" name="inv_bill_code" value="{$temp.inv_bill_code}" placeholder="请输入纳税人识别码">
                     <img class="inv_img" src="{$theme_url}images/info.png" />
                 </div>
             </div>
+
         </div>
         <p class="select-title ecjia-margin-l ">发票内容</p>
         <ul class="ecjia-list ecjia-border-t">

@@ -37,6 +37,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<!-- skin -->
 	<link rel="stylesheet" href="{$theme_url}{$curr_style}">
 	<link rel="stylesheet" href="{$theme_url}lib/iOSOverlay/css/iosOverlay.css">
+	<!-- {ecjia:hook id=front_head} -->
 </head>
 <body>
 	<div class="ecjia" id="get_location" data-url="{url path='location/index/get_location_msg'}">

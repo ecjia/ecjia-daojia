@@ -27,6 +27,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <input type="hidden" name="from" value="{$smarty.get.from}" class="ecjia-from-page {if $smarty.get.out eq 1}out-range{/if}" />
 
 <div class="ecjia-quickpay-form">
+	{if $store_info.shop_closed eq 1}
+	<div class="shop_closed_notice">商家打烊中，优惠买单尚未开始~</div>
+	{/if}
 	<form name="quickpayForm" action="{if $direct_pay eq 1}{url path='quickpay/flow/flow_checkorder'}{else}{url path='quickpay/flow/done'}{/if}" method="post" data-url="{url path='quickpay/flow/flow_checkorder'}">
 		<div class="ecjia-quickpay-content">
 			<div class="quickpay-content-title">
@@ -34,7 +37,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</div>
 			<div class="quickpay-content-input">
 				<div class="logo">￥</div>
-				<input type="number" placeholder='请询问店员后输入' step="0.01" name="order_money" maxlength="9" />
+				<input type="number" placeholder='请询问店员后输入' step="0.01" name="order_money" maxlength="9" {if $store_info.shop_closed eq 1}readonly{/if}/>
 			</div>
 			<div class="quickpay-content-block">
 				<a class="more-discount external" href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_id}">更多优惠选择 >>></a>
