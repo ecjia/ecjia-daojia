@@ -442,9 +442,23 @@ return array(
 	'refund/payrecord'     		=> 'refund::refund/payrecord',      	 //1.14查看退款进度
 	'affiliate/user/invite'     => 'affiliate::user/invite',             //1.14推荐邀请用户
 	
-	'admin/shop/captcha/sms/checkcode' => 'captcha::captcha/admin/checkcode', 	 //1.14掌柜验证图形验证码并发送短信
-		
-		
+    'admin/shop/captcha/sms/checkcode' => 'captcha::captcha/admin/checkcode',    //1.14掌柜验证图形验证码并发送短信
+
+	'admin/express/task'             	=> 'express::admin/express/task',           	//掌柜配送任务列表
+	'admin/express/staff/location'   	=> 'express::admin/express/location',       	//掌柜查看配送订单配送员位置
+	'admin/express/finished'         	=> 'express::express/finished',             	//配送员app中配送员完成配送单
+	'admin/express/staff/detail'     	=> 'express::admin/express/staff/detail',   	//掌柜查看配送员详情
+	'admin/express/staff/list'       	=> 'express::admin/express/staff/list',     	//掌柜查看配送员列表
+	'admin/express/staff/add/validate'	=> 'express::admin/express/staff/validate',		//掌柜添加配送员验证
+	'admin/express/staff/add'			=> 'express::admin/express/staff/add',	    	//掌柜添加配送员
+	'admin/express/staff/update'		=> 'express::admin/express/staff/update',		//掌柜编辑配送员
+	'admin/express/assignOrder'			=> 'express::admin/express/staff/assignOrder',	//掌柜指派订单给配送员
+	'admin/express/staff/online'		=> 'express::admin/express/staff/online',		//掌柜指派订单获取在线配送员
+	
+	'storepickup/flow/checkOrder'  		=> 'cart::storepickup/flow/checkOrder',			//门店提货购物流检查订单
+	'storepickup/flow/done'        		=> 'cart::storepickup/flow/done',				//门店提货购物流结算
+	'store/business/city'        		=> 'store::business/city',						//经营城市列表
+	
 	
     /** 1.0 已经废弃
      * article 
