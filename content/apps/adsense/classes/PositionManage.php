@@ -123,8 +123,7 @@ class PositionManage
                 $adsModel->take($model->max_number);
             }
             
-            $result = $adsModel->get(['ad_id', 'ad_name', 'ad_code', 'ad_link', 'sort_order']);
-
+            $result = $adsModel->orderBy('sort_order', 'asc')->get(['ad_id', 'ad_name', 'ad_code', 'ad_link', 'sort_order']);
             return $result->toArray();
         }
         if ($this->type == 'shortcut') {

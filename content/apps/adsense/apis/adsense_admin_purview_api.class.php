@@ -75,6 +75,11 @@ class adsense_admin_purview_api extends Component_Event_Api {
 		);
 		return $purviews;
 	}
+	
+	
+	public function getHelpUrls() {
+	    return 'https://ecjia.com/wiki/ECJiaWiki:Api:adsense_admin_purview_api';
+	}
 }
 
 // end
