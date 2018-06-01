@@ -20,4 +20,5 @@ return array(
     'Omnipay\\WechatPay\\' => array($vendorDir . '/omnipay/wechatpay/src'),
     'Omnipay\\UnionPay\\' => array($vendorDir . '/omnipay/unionpay/src'),
     'Omnipay\\Alipay\\' => array($vendorDir . '/omnipay/alipay/src'),
+    'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
 );
