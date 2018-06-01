@@ -328,14 +328,6 @@ class admin_region extends ecjia_admin {
 		$time = \RC_Time::gmtime();
 		$time_last_format = RC_Time::local_date(ecjia::config('time_format'), $region_last_checktime);
 		
-		//同步检测时间间隔不能小于7天
-		if ($time - $region_last_checktime < 7*24*60*60) {
-			//更新检测时间
-			ecjia_config::instance()->write_config('region_last_checktime', $time);
-			return $this->showmessage(__('当前版本已是最新版本，同步更新时间间隔不能小于7天，上次更新时间是（'.$time_last_format.'）'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
-		}
-		
-
 		$page = !empty($_GET['page']) ? intval($_GET['page']) + 1 : 1;
 		$params = array(
 				'pagination' => array('page' => $page, 'count' => 1500),
@@ -344,6 +336,7 @@ class admin_region extends ecjia_admin {
 		
 		//获取ecjia_cloud对象
 		$cloud = ecjia_cloud::instance()->api('region/synchrony')->data($params)->run();
+		
 		//判断是否有错误返回
 		if (is_ecjia_error($cloud->getError())) {
 		    return $this->showmessage($cloud->getError()->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
@@ -357,21 +350,31 @@ class admin_region extends ecjia_admin {
 
 		if (!empty($data['last_regions'])) {
 			$region_cn_version_new = $data['region_cn_version'];
-			if ($pageinfo['more'] == 1) {
-				$count = count($data['last_regions'])*$page;
-			} else{
-				$count = count($data['last_regions'])*($page -1) +  count($data['last_regions']);
+			/*检测是否有数据*/
+			if (count($data['last_regions']) > 0) {
+				//同步检测时间间隔不能小于7天
+				if ($time - $region_last_checktime < 7*24*60*60) {
+					//更新检测时间
+					ecjia_config::instance()->write_config('region_last_checktime', $time);
+					return $this->showmessage(__('当前版本已是最新版本，同步更新时间间隔不能小于7天，上次更新时间是（'.$time_last_format.'）'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
+				}
+				
+				if ($pageinfo['more'] == 1) {
+					$count = count($data['last_regions'])*$page;
+				} else{
+					$count = count($data['last_regions'])*($page -1) +  count($data['last_regions']);
+				}
+				$update_data = $data['last_regions'];
+					
+				//首次先清空本地地区表
+				$first_page = intval($_GET['page']);
+				if ($first_page == 0) {
+					RC_DB::table('regions')->where('country', 'CN')->delete();
+				}
+					
+				//批量插入
+				RC_DB::table('regions')->insert($update_data);
 			}
-			$update_data = $data['last_regions'];
-			
-			//首次先清空本地地区表
-			$first_page = intval($_GET['page']);
-			if ($first_page == 0) {
-				RC_DB::table('regions')->where('country', 'CN')->delete();
-			}
-			
-			//批量插入
-			RC_DB::table('regions')->insert($update_data);
 		}
 
 		if ($pageinfo['more'] > 0) {
