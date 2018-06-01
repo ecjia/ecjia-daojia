@@ -44,22 +44,67 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Merchant;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use ecjia_admin_log;
-
-class Helper
-{
-    
-    
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_object('merchant', '我的店铺');
-    	ecjia_admin_log::instance()->add_object('store', '店铺');
-    }
-    
+/**
+ * 掌柜切换店铺上下线给店长发送短信验证码
+ * @author zrl
+ *
+ */
+class sms_module extends api_admin implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    	$this->authadminSession();
+    	if ($_SESSION['staff_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	
+    	if (RC_Time::gmtime() - $_SESSION['captcha']['sms']['sendtime'] < 60) {
+    		return new ecjia_error('send_error', '发送频率过高，请一分钟后再试');
+    	}
+    	
+    	/*店长信息获取*/
+    	$staff_info = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->first();
+		if (empty($staff_info)) {
+			return new ecjia_error('shopkeeper_info_error', '店长信息不存在！');
+		}
+    	
+    	if (empty($staff_info['mobile'])) {
+    		return new ecjia_error('shopkeeper_mobile_error', '当前店铺店长手机号码并未填写！');
+    	}
+    	
+		$code = rand(100001, 999999);
+	    $chars = "/^1(3|4|5|6|7|8)\d{9}$/s";
+	    if (!preg_match($chars, $staff_info['mobile'])) {
+	        return new ecjia_error('mobile_error', '手机号码格式错误');
+	    }
+	    
+	    //发送短信
+	    $options = array(
+    		'mobile' => $staff_info['mobile'],
+    		'event'	 => 'sms_get_validate',
+    		'value'  =>array(
+    			'code' 			=> $code,
+    			'service_phone' => ecjia::config('service_phone'),
+    		),
+	    );
+	    
+	    $_SESSION['captcha']['sms']['toboss'] = array(
+    		'value' => $staff_info['mobile'],
+    		'code' => $code,
+    		'lifetime' => RC_Time::gmtime() + 1800,
+    		'sendtime' => RC_Time::gmtime(),
+	    	'is_used'  => 0,
+	    );
+	    $_SESSION['captcha']['sms']['sendtime'] = RC_Time::gmtime();
+	    
+	    $response = RC_Api::api('sms', 'send_event_sms', $options);
+	    if (is_ecjia_error($response)) {
+	    	return new ecjia_error('sms_error', '短信发送失败！');//$response['description']
+	    } else {
+			return array();
+	    }
+	}
 }
+
 
 // end

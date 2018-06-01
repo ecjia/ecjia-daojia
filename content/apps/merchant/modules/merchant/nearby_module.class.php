@@ -109,24 +109,25 @@ class nearby_module extends api_front implements api_interface {
 				if (!empty($shop_trade_time)) {
 					$shop_trade_time = unserialize($shop_trade_time);
 					if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
-						$shop_closed =1;
-					}
-					$current_time = RC_Time::gmtime();
-					$start_time = $shop_trade_time['start'];
-					$end_time = $shop_trade_time['end'];
-					$shop_trade_end_time_str = RC_Time::local_strtotime($end_time);
-					/*营业至次日*/
-					if ($shop_trade_time['end'] > 24) {
-						$end_time = explode(':', $shop_trade_time['end']);
-						$shop_trade_end_time = $end_time['0'] - 24;
-						$shop_trade_end_time = $shop_trade_end_time.':'.$end_time['1'];
-						$shop_trade_end_time_str =  RC_Time::local_strtotime($shop_trade_end_time) + 24*3600;
-					}
-					$shop_trade_start_time_str = RC_Time::local_strtotime($start_time);
-					if (($shop_trade_start_time_str < $current_time) && ($current_time < $shop_trade_end_time_str)) {
-						$shop_closed = 0;
+						$shop_closed = 1;
 					} else {
-						$shop_closed =1;
+						$current_time = RC_Time::gmtime();
+						$start_time = RC_Time::local_strtotime($shop_trade_time['start']);
+			            $end_time = RC_Time::local_strtotime($shop_trade_time['end']);
+						//处理营业时间格式例：7:00--次日5:30
+			            $start = $shop_trade_time['start'];
+			            $end = explode(':', $shop_trade_time['end']);
+			            if ($end[0] > 24) {
+			                $hour = $end[0] - 24;
+			            	$end[0] = '次日'. ($hour);
+			                $end_str = $hour. ':' . $end[1];
+			                $end_time = RC_Time::local_strtotime($end_str) + 24*3600;
+			            }
+			            if ($start_time < $current_time && $current_time < $end_time) {
+			                $shop_closed = 0;
+			            } else {
+			                $shop_closed = 1;
+			            }
 					}
 				}
 				$row['shop_closed'] = $shop_closed;

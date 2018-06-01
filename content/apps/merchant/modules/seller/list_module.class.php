@@ -99,13 +99,17 @@ class list_module extends api_front implements api_interface {
 					'limit'				=> 'all',
 					'seller_category' 	=> $seller_category,
 					'district_id'		=> $district_id,
+					'city_id'			=> $city_id
 			);
-				
+			
 			/*经纬度为空判断*/
-			if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
+			if ((is_array($location) && !empty($location['longitude']) && !empty($location['latitude'])) && empty($city_id)) {
 				$geohash      = RC_Loader::load_app_class('geohash', 'store');
 				$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
 				$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+			} elseif ((is_array($location) && !empty($location['longitude']) && !empty($location['latitude'])) && !empty($city_id)) {
+				 $store_ids = RC_DB::table('store_franchisee')->where('city', $city_id)->where('shop_close', '0')->lists('store_id');
+				 $options['store_id'] = $store_ids;
 			} else {
 				$seller_list = array();
 				$page = array(
@@ -132,26 +136,34 @@ class list_module extends api_front implements api_interface {
 					if (!empty($shop_trade_time)) {
 						$shop_trade_time = unserialize($shop_trade_time);
 						if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
-							$shop_closed =1;
-						}
-						$current_time = RC_Time::gmtime();
-						$start_time = $shop_trade_time['start'];
-						$end_time = $shop_trade_time['end'];
-						$shop_trade_end_time_str = RC_Time::local_strtotime($end_time);
-						/*营业至次日*/
-						if ($shop_trade_time['end'] > 24) {
-							$end_time = explode(':', $shop_trade_time['end']);
-							$shop_trade_end_time = $end_time['0'] - 24;
-							$shop_trade_end_time = $shop_trade_end_time.':'.$end_time['1'];
-							$shop_trade_end_time_str =  RC_Time::local_strtotime($shop_trade_end_time) + 24*3600;
-						}
-						$shop_trade_start_time_str = RC_Time::local_strtotime($start_time);
-						if (($shop_trade_start_time_str < $current_time) && ($current_time < $shop_trade_end_time_str)) {
-							$shop_closed = 0;
+							$shop_closed = 1;
 						} else {
-							$shop_closed =1;
+							$current_time = RC_Time::gmtime();
+							$start_time = RC_Time::local_strtotime($shop_trade_time['start']);
+				            $end_time = RC_Time::local_strtotime($shop_trade_time['end']);
+							//处理营业时间格式例：7:00--次日5:30
+				            $start = $shop_trade_time['start'];
+				            $end = explode(':', $shop_trade_time['end']);
+				            if ($end[0] > 24) {
+				                $hour = $end[0] - 24;
+				            	$end[0] = '次日'. ($hour);
+				                $end_str = $hour. ':' . $end[1];
+				                $end_time = RC_Time::local_strtotime($end_str) + 24*3600;
+				            }
+				            if ($start_time < $current_time && $current_time < $end_time) {
+				                $shop_closed = 0;
+				            } else {
+				                $shop_closed = 1;
+				            }
 						}
 					}
+					
+					/*店铺关闭*/
+					$store_franchisee_shop_close = RC_DB::table('store_franchisee')->where('store_id', $row['id'])->pluck('shop_close');
+					if ($store_franchisee_shop_close == '1' && $shop_closed == 0) {
+						$shop_closed =1;
+					}
+					
 					$row['shop_closed'] = $shop_closed;
 					
 					$favourable_list = array();
@@ -305,10 +317,13 @@ class list_module extends api_front implements api_interface {
 			);
 			
 			/*经纬度为空判断*/
-			if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
+			if ((is_array($location) && !empty($location['longitude']) && !empty($location['latitude'])) && empty($city_id)) {
 				$geohash      = RC_Loader::load_app_class('geohash', 'store');
 				$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
 				$options['store_id']   = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+			} elseif ((is_array($location) && !empty($location['longitude']) && !empty($location['latitude'])) && !empty($city_id)) {
+				$store_ids = RC_DB::table('store_franchisee')->where('city', $city_id)->where('shop_close', '0')->lists('store_id');
+				$options['store_id'] = $store_ids;
 			} else {
 				$seller_list = array();
 				$page = array(
@@ -334,24 +349,25 @@ class list_module extends api_front implements api_interface {
 					if (!empty($shop_trade_time)) {
 						$shop_trade_time = unserialize($shop_trade_time);
 						if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
-							$shop_closed =1;
-						}
-						$current_time = RC_Time::gmtime();
-						$start_time = $shop_trade_time['start'];
-						$end_time = $shop_trade_time['end'];
-						$shop_trade_end_time_str = RC_Time::local_strtotime($end_time);
-						/*营业至次日*/
-						if ($shop_trade_time['end'] > 24) {
-							$end_time = explode(':', $shop_trade_time['end']);
-							$shop_trade_end_time = $end_time['0'] - 24;
-							$shop_trade_end_time = $shop_trade_end_time.':'.$end_time['1'];
-							$shop_trade_end_time_str =  RC_Time::local_strtotime($shop_trade_end_time) + 24*3600;
-						}
-						$shop_trade_start_time_str = RC_Time::local_strtotime($start_time);
-						if (($shop_trade_start_time_str < $current_time) && ($current_time < $shop_trade_end_time_str)) {
-							$shop_closed = 0;
+							$shop_closed = 1;
 						} else {
-							$shop_closed =1;
+							$current_time = RC_Time::gmtime();
+							$start_time = RC_Time::local_strtotime($shop_trade_time['start']);
+		                    $end_time = RC_Time::local_strtotime($shop_trade_time['end']);
+							//处理营业时间格式例：7:00--次日5:30
+		                    $start = $shop_trade_time['start'];
+		                    $end = explode(':', $shop_trade_time['end']);
+		                    if ($end[0] > 24) {
+		                        $hour = $end[0] - 24;
+		                    	$end[0] = '次日'. ($hour);
+		                        $end_str = $hour. ':' . $end[1];
+		                        $end_time = RC_Time::local_strtotime($end_str) + 24*3600;
+		                    }
+		                    if ($start_time < $current_time && $current_time < $end_time) {
+		                        $shop_closed = 0;
+		                    } else {
+		                        $shop_closed = 1;
+		                    }
 						}
 					}
 					$row['shop_closed'] = $shop_closed;
@@ -489,11 +505,8 @@ class list_module extends api_front implements api_interface {
 			}
 		}
 		
-
-		
-
 		array_multisort($distance_list, SORT_ASC, $sort_order, SORT_ASC, $seller_list);
-
+		
 		$seller_list = array_slice($seller_list, ($page-1) * $size, $size);
 		
 		$page = array(

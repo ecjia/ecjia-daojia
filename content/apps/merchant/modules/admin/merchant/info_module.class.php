@@ -70,9 +70,53 @@ class info_module extends api_admin implements api_interface {
 			RC_Loader::load_app_func('merchant', 'merchant');
 			
 			$shop_trade_time = get_store_trade_time($info['store_id']);
+			
+			$unformat_shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->pluck('value');
+			
+			/*店铺是否打烊*/
+			$shop_closed = 0;
+			if (!empty($unformat_shop_trade_time)) {
+				$trade_time = unserialize($unformat_shop_trade_time);
+				if (empty($trade_time['start']) || empty($trade_time['end'])) {
+					$shop_closed =1;
+				}
+			
+				$current_time = RC_Time::gmtime();
+				if (!empty($trade_time)) {
+					$start_time = RC_Time::local_strtotime($trade_time['start']);
+					$end_time = RC_Time::local_strtotime($trade_time['end']);
+					 
+					//处理营业时间格式例：7:00--次日5:30
+					$start = $trade_time['start'];
+					$end = explode(':', $trade_time['end']);
+					if ($end[0] > 24) {
+						$hour = $end[0] - 24;
+						$end[0] = '次日'. ($hour);
+						$end_time = $hour. ':' . $end[1];
+						$end_time = RC_Time::local_strtotime($end_time) + 24*3600;
+					}
+					$shop_hours = $start . '--' . $end[0] . ':' . $end[1];
+					//1为不营业，0为营业
+					if ($start_time < $current_time && $current_time < $end_time) {
+						$shop_closed = 0;
+					} else {
+						$shop_closed = 1;
+					}
+				}
+			}
+			/*店铺关闭*/
+			if ($shop_closed == 0 && $info['shop_close'] == '1') {
+				$shop_closed = 1;
+			}
+			
+			/*店长手机号码*/
+			$shopkeeper_mobile = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('mobile');
+			
 			$seller_info = array(
     	  		'id'					=> $info['store_id'],
     	  		'seller_name'			=> $info['merchants_name'],
+				'shop_closed'			=> $shop_closed,
+				'shopkeeper_mobile'		=> empty($shopkeeper_mobile) ? '' : $shopkeeper_mobile,
     	  		'seller_logo'			=> RC_Upload::upload_url(RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_logo')->pluck('value')),
     	  		'seller_category'		=> RC_DB::table('store_category')->where('cat_id', $info['cat_id'])->pluck('cat_name'),
     	  		'seller_telephone'		=> RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value'),

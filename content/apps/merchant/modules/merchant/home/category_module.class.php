@@ -121,14 +121,16 @@ class category_module extends api_front implements api_interface {
 		        );
 	        }
 		    $out[] = array(
-		        'id' => $cat['cat_id'],
-		        'name' => $cat['cat_name'],
+		        'id' 	=> $cat['cat_id'],
+		        'name' 	=> $cat['cat_name'],
 		        'image' => !empty($cat['cat_image']) ? RC_Upload::upload_url($cat['cat_image']) : '',
 		        'goods' => $formate_goods,
 		    );
 		}
-// 		_dump($out,1);
-
+		//按id正序排序
+		if (!empty($out)) {
+			array_multisort(array_column($out, 'id'), SORT_ASC, $out);
+		}
 		return $out;
 	}
 }

@@ -44,22 +44,81 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Merchant;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use ecjia_admin_log;
-
-class Helper
-{
-    
-    
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_object('merchant', '我的店铺');
-    	ecjia_admin_log::instance()->add_object('store', '店铺');
-    }
-    
+/**
+ * 掌柜切换店铺下线
+ * @author zrl
+ *
+ */
+class offline_module extends api_admin implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    	$this->authadminSession();
+    	if ($_SESSION['staff_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	$smscode = $this->requestData('smscode');
+    	if (empty($smscode)) {
+    		return new ecjia_error('smscode_error', '请填写短信验证码！');
+    	}
+    	
+    	/*店长信息获取*/
+    	$staff_info = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->first();
+    	if (empty($staff_info)) {
+    		return new ecjia_error('shopkeeper_info_error', '店长信息不存在！');
+    	}
+    	 
+    	if (empty($staff_info['mobile'])) {
+    		return new ecjia_error('shopkeeper_mobile_error', '当前店铺店长手机号码并未填写！');
+    	}
+    	
+    	if (!empty($smscode)) {
+    		if ($_SESSION['captcha']['sms']['toboss']['code'] != $smscode) {
+    			return new ecjia_error('smscode_error', '验证码错误！');
+    		} elseif ($_SESSION['captcha']['sms']['toboss']['lifetime'] < RC_Time::gmtime()) {
+    			return new ecjia_error('smscode_error', '验证码已过期！');
+    		}elseif ($_SESSION['captcha']['sms']['toboss']['value'] != $staff_info['mobile']) {
+    			return new ecjia_error('smscode_error', '接收验证码手机号与当前店铺店长手机号码不一致！');
+    		}elseif (empty($_SESSION['captcha']['sms']['toboss']['code'])) {
+    			return new ecjia_error('smscode_error', '验证码不可重复使用！');
+    		}
+    	}
+    	
+    	$store_info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
+    	
+    	if ($store_info['shop_close'] == '1') {
+    		return new ecjia_error('store_on_business', '当前店铺已经在休息！');
+    	}
+    	
+    	/*切换店铺上线*/
+    	RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->update(array('shop_close' => 1));
+    	
+    	//记录管理员日志
+    	Ecjia\App\Merchant\Helper::assign_adminlog_content();
+    	RC_Api::api('merchant', 'admin_log', array('text'=> $_SESSION['staff_name'].'切换店铺下线'.'【来源掌柜】', 'action'=>'setup', 'object'=>'store'));
+    	 
+    	unset($_SESSION['captcha']['sms']['toboss']['lifetime']);
+    	unset($_SESSION['captcha']['sms']['toboss']['value']);
+    	unset($_SESSION['captcha']['sms']['toboss']['code']);
+    	unset($_SESSION['captcha']['sms']['toboss']['sendtime']);
+    	unset($_SESSION['captcha']['sms']['toboss']['is_used']);
+    	
+    	/*释放app缓存*/
+    	$store_franchisee_db = RC_Model::model('merchant/orm_store_franchisee_model');
+    	$store_cache_array = $store_franchisee_db->get_cache_item('store_list_cache_key_array');
+    	if (!empty($store_cache_array)) {
+    		foreach ($store_cache_array as $val) {
+    			$store_franchisee_db->delete_cache_item($val);
+    		}
+    		$store_franchisee_db->delete_cache_item('store_list_cache_key_array');
+    	}
+    	
+    	RC_Loader::load_app_func('merchant', 'merchant');
+    	clear_cart_list($_SESSION['store_id']);
+    	
+    	return array();
+	}
 }
+
 
 // end
