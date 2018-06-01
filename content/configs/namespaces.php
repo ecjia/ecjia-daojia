@@ -88,6 +88,7 @@ return array(
 	'Ecjia\App\Refund' => $contentDir . '/apps/refund/classes',
 	'Ecjia\App\Ucenter' => $contentDir . '/apps/ucenter/classes',
     'Ecjia\App\Express' => $contentDir . '/apps/express/classes',
+    'Ecjia\App\User' => $contentDir . '/apps/user/classes',
 
 
     
