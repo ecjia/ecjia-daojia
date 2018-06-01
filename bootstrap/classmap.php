@@ -250,6 +250,11 @@ return array(
     'AddUserMoneyForExpressUserTable' => $contentDir . '/database/migrations/2018_04_27_105800_add_user_money_for_express_user_table.php',
     'AddCommisionStatusForExpressOrderTable' => $contentDir . '/database/migrations/2018_04_27_105952_add_commision_status_for_express_order_table.php',
     'AlterInStatusForMobileDeviceTable' => $contentDir . '/database/migrations/2018_04_27_110031_alter_in_status_for_mobile_device_table.php',
+    'CreateExpressOrderReminderTable' => $contentDir . '/database/migrations/2018_05_28_104232_create_express_order_reminder_table.php',
+    'AlterPointsForUsersTable' => $contentDir . '/database/migrations/2018_05_28_104402_alter_points_for_users_table.php',
+    'AlterBrokerageAmountForStoreBillDayTable' => $contentDir . '/database/migrations/2018_05_28_104440_alter_brokerage_amount_for_store_bill_day_table.php',
+    'AlterBrokerageAmountForStoreBillDetailTable' => $contentDir . '/database/migrations/2018_05_28_104459_alter_brokerage_amount_for_store_bill_detail_table.php',
+    'AddFromTypeForAccountLogTable' => $contentDir . '/database/migrations/2018_05_28_104546_add_from_type_for_account_log_table.php',
      
     
     // seeder
