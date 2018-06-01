@@ -98,10 +98,10 @@ class PrintStoreOrders extends EventAbstract
 	    'merchant_address'		=> '上海市普陀区中山北路3553号301室',
 	    
 	    'goods_lists' => [
-			    ['goods_name'   => '乐口事 卢森堡玛奇朵咖啡味牛奶 330ml', 'goods_number' => '3', 'goods_amount' => '5.00'],
-			    ['goods_name'   => '爱之鱼 东海小黄鱼（12条装）450g', 'goods_number' => '1', 'goods_amount' => '2.00'],
-			    ['goods_name'   => '美国熟冻珍宝蟹（整只）800g以上/只', 'goods_number' => '1', 'goods_amount' => '2.00'],
-			    ['goods_name'   => '申扬 农家草鸡蛋 18枚装（6枚*3）', 'goods_number' => '1', 'goods_amount' => '30.00'],
+			    ['goods_name'   => '乐口事 卢森堡玛奇朵咖啡味牛奶 330ml【重量:100g】', 'goods_number' => '3', 'goods_amount' => '5.00'],
+			    ['goods_name'   => '爱之鱼 东海小黄鱼（12条装）450g【数量:12个】', 'goods_number' => '1', 'goods_amount' => '2.00'],
+			    ['goods_name'   => '美国熟冻珍宝蟹（整只）800g以上/只【重量:100g 种类:水产 包装:简装 国产/进口: 国产】', 'goods_number' => '1', 'goods_amount' => '2.00'],
+			    ['goods_name'   => '申扬 农家草鸡蛋 18枚装（6枚*3）【数量:6个】', 'goods_number' => '1', 'goods_amount' => '30.00'],
 		],
 		    
 		'goods_subtotal' => '49.00', //商品总计
