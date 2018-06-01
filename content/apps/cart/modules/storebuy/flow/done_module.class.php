@@ -77,6 +77,9 @@ class done_module extends api_front implements api_interface
         //获取所需购买购物车id  will.chen
         $rec_id = $this->requestData('rec_id', 0);
         $rec_id = empty($rec_id) ? $_SESSION['cart_id'] : $rec_id;
+        if (empty($rec_id)) {
+            return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+        }
 		$cart_id = empty($rec_id) ? '' : explode(',', $rec_id);
 		
         /* 取得购物类型 */
@@ -126,7 +129,6 @@ class done_module extends api_front implements api_interface
         /* 订单中的商品 */
         $cart_goods = cart_goods($flow_type, $cart_id);
         if (empty($cart_goods)) {
-            //EM_Api::outPut(10002);
             return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
         }
         
@@ -203,6 +205,9 @@ class done_module extends api_front implements api_interface
             'agency_id'			=> 0,
             'store_id'          => $store_id
         );
+        if (empty($order['pay_id'])) {
+            return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+        }
         
         /* 扩展信息 */
         if ($flow_type != CART_GENERAL_GOODS) {
@@ -418,9 +423,11 @@ class done_module extends api_front implements api_interface
         /* 处理积分、红包 */
 		if ($order['user_id'] > 0 && $order['integral'] > 0) {
         	$options = array(
-        			'user_id'=>$order['user_id'],
-        			'pay_points'=> $order['integral'] * (- 1),
-        			'change_desc'=>sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn'])
+        			'user_id'		=> $order['user_id'],
+        			'pay_points'	=> $order['integral'] * (- 1),
+        			'change_desc'	=> sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn']),
+        			'from_type'		=> 'order_use_integral',
+        			'from_value'	=> $order['order_sn']
         	);
         	$result = RC_Api::api('user', 'account_change_log', $options);
         	if (is_ecjia_error($result)) {

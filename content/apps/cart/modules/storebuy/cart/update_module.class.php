@@ -78,9 +78,11 @@ class update_module extends api_front implements api_interface {
 		//更新数量选中此商品
 		cart::flow_check_cart_goods(array('id' => $rec_id, 'is_checked' => 1));
 		
-        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_STOREBUY_GOODS));
+	    $store_id = RC_DB::table('cart')->where('rec_id', $rec_id)->pluck('store_id');
+		$store_id_group = array($store_id);
+        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
         
-        return formated_cart_list($cart_result);
+        return formated_cart_list($cart_result, $store_id_group);
 	}
 }
 

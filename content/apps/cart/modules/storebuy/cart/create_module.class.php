@@ -102,9 +102,10 @@ class create_module extends api_front implements api_interface {
 			return $result;
 		}
 	     
-	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_STOREBUY_GOODS));
+		$store_id_group = array($goods['store_id']);
+	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
 	     
-	    return formated_cart_list($cart_result);
+	    return formated_cart_list($cart_result, $store_id_group);
 	}
 }
 

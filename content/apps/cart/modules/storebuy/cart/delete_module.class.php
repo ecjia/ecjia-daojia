@@ -64,6 +64,9 @@ class delete_module extends api_front implements api_interface {
 	    RC_Loader::load_app_func('cart', 'cart');
 		
 	    $rec_id = $this->requestData('rec_id');
+	    if (empty($rec_id)) {
+            return new ecjia_error(101, '参数错误');
+	    }
 	    $rec_id = explode(',', $rec_id);
 	    
 	    if (is_array($rec_id)) {
@@ -73,10 +76,14 @@ class delete_module extends api_front implements api_interface {
 	    } else {
 	    	cart::flow_drop_cart_goods($rec_id);
 	    }
+	    if(empty($store_id)) {
+	        $store_id = RC_DB::table('cart')->where('rec_id', $rec_id[0])->pluck('store_id');
+	    }
 	    
-        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_STOREBUY_GOODS));
+	    $store_id_group = array($store_id);
+        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
         
-        return formated_cart_list($cart_result);
+        return formated_cart_list($cart_result, $store_id_group);
 	}
 }
 

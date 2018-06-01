@@ -605,6 +605,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     	'model_attr'  	=> $goods['model_attr'], 	//属性方式
 //         'warehouse_id'  => $warehouse_id,  			//仓库
         //'area_id'  		=> $area_id, 				// 仓库地区
+        'add_time'      => RC_Time::gmtime()
     );
     
 
@@ -1026,26 +1027,42 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 		$arr[$key]['formated_subtotal']     = price_format($value['subtotal'], false);
 		
 		/* 查询规格 */
-		if (trim($value['goods_attr']) != '' && $value['group_id'] == '') {//兼容官网套餐问题增加条件group_id
-			$value['goods_attr_id'] = empty($value['goods_attr_id']) ? '' : explode(',', $value['goods_attr_id']);
-			$attr_list = $db_goods_attr->field('attr_value')->in(array('goods_attr_id' => $value['goods_attr_id']))->select();
-			foreach ($attr_list AS $attr) {
-				$arr[$key]['goods_name'] .= ' [' . $attr['attr_value'] . '] ';
-			}
-		}
+// 		if (trim($value['goods_attr']) != '' && $value['group_id'] == '') {//兼容官网套餐问题增加条件group_id
+// 			$value['goods_attr_id'] = empty($value['goods_attr_id']) ? '' : explode(',', $value['goods_attr_id']);
+// 			$attr_list = $db_goods_attr->field('attr_value')->in(array('goods_attr_id' => $value['goods_attr_id']))->select();
+// 			foreach ($attr_list AS $attr) {
+// 				$arr[$key]['goods_name'] .= ' [' . $attr['attr_value'] . '] ';
+// 			}
+// 		}
 		
-		$arr[$key]['goods_attr'] = array();
+// 		$arr[$key]['goods_attr'] = array();
+// 		if (!empty($value['goods_attr'])) {
+// 			$goods_attr = explode("\n", $value['goods_attr']);
+// 			$goods_attr = array_filter($goods_attr);
+			
+// 			foreach ($goods_attr as  $v) {
+// 				$a = explode(':',$v);
+// 				if (!empty($a[0]) && !empty($a[1])) {
+// 					$arr[$key]['goods_attr'][] = array('name'=>$a[0], 'value'=>$a[1]);
+// 				}
+// 			}
+// 		}
+		$store_group[] = $value['store_id'];
+		$goods_attr_gourp = array();
 		if (!empty($value['goods_attr'])) {
 			$goods_attr = explode("\n", $value['goods_attr']);
 			$goods_attr = array_filter($goods_attr);
-			
 			foreach ($goods_attr as  $v) {
 				$a = explode(':',$v);
 				if (!empty($a[0]) && !empty($a[1])) {
-					$arr[$key]['goods_attr'][] = array('name'=>$a[0], 'value'=>$a[1]);
+					$goods_attr_gourp[] = array('name' => $a[0], 'value' => $a[1]);
 				}
 			}
 		}
+		$arr[$key]['attr'] =  $value['goods_attr'];
+		$arr[$key]['goods_attr'] =  $goods_attr_gourp;
+		
+		
 		RC_Loader::load_app_func('global', 'goods');
 		$arr[$key]['img'] = array(
 			'thumb'	=> get_image_path($value['goods_id'], $value['goods_img'], true),

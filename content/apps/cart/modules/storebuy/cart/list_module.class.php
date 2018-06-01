@@ -63,13 +63,12 @@ class list_module extends api_front implements api_interface {
 		$store_id	= $this->requestData('store_id', 0);
 		$city_id	= $this->requestData('city_id', '');
 
-		
-		if ($store_id) {
-		    $store_id_group = array($store_id);
-		    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
-		} else {
-		    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_STOREBUY_GOODS));
+		if($store_id <= 0) {
+		    return new ecjia_error(101, '参数错误');
 		}
+		
+	    $store_id_group = array($store_id);
+	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
 		
 		return formated_cart_list($cart_result, $store_id_group);
 	}

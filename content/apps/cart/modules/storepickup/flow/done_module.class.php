@@ -134,7 +134,18 @@ class done_module extends api_front implements api_interface
             return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
         }
         
-        $store_id = $cart_goods[0]['store_id'];
+        if (!empty($cart_goods)) {
+        	foreach ($cart_goods as $k => $v) {
+        		$store_group[] = $v['store_id'];
+        	}
+        	$store_group = array_unique($store_group);
+        }
+        
+        if (count($store_group) > 1) {
+        	return new ecjia_error('pls_single_shop_for_settlement', '请单个店铺进行结算!');
+        } else {
+        	$store_id = $store_group['0'];
+        }
         
         /* 判断是否是会员 */
         $consignee = array();
@@ -290,7 +301,7 @@ class done_module extends api_front implements api_interface
         }
 
         /* 订单中的总额 *///$order['bonus_id']
-        $total = cashdesk_order_fee($order, $cart_goods, $consignee);
+        $total = cashdesk_order_fee($order, $cart_goods, $consignee, $cart_id);
         $order['bonus']			= $total['bonus'];
         $order['goods_amount']	= $total['goods_price'];
         $order['discount']		= $total['discount'];
@@ -451,9 +462,11 @@ class done_module extends api_front implements api_interface
         /* 处理积分、红包 */
 		if ($order['user_id'] > 0 && $order['integral'] > 0) {
         	$options = array(
-        			'user_id'=>$order['user_id'],
-        			'pay_points'=> $order['integral'] * (- 1),
-        			'change_desc'=>sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn'])
+        			'user_id'		=> $order['user_id'],
+        			'pay_points'	=> $order['integral'] * (- 1),
+        			'change_desc'	=> sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn']),
+        			'from_type'		=> 'order_use_integral',
+        			'from_value'	=> $order['order_sn']
         	);
         	$result = RC_Api::api('user', 'account_change_log', $options);
         	if (is_ecjia_error($result)) {

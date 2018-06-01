@@ -79,19 +79,15 @@ class checkOrder_module extends api_front implements api_interface {
 
 		/* 对商品信息赋值 */
 		$cart_goods = cart_goods($flow_type, $cart_id); // 取得商品列表，计算合计
+		
 		if (empty($cart_goods)) {
 			return new ecjia_error('not_found_cart_goods', '购物车中还没有商品');
 		}
 		
 		/* 取得订单信息*/
 		$order = flow_order_info();
-		/* 计算折扣 */
-		if ($flow_type != CART_EXCHANGE_GOODS && $flow_type != CART_GROUP_BUY_GOODS) {
-			$discount = compute_discount();
-			$favour_name = empty($discount['name']) ? '' : join(',', $discount['name']);
-		}
 		/* 计算订单的费用 */
-		$total = cashdesk_order_fee($order, $cart_goods);
+		$total = cashdesk_order_fee($order, $cart_goods, array(), $cart_id);
 	
 // 		/* 取得支付列表 */
 // 		$cod_fee    = 0;
@@ -107,6 +103,7 @@ class checkOrder_module extends api_front implements api_interface {
 		
 		
 		$out = array();
+		$out['checkorder_mode']	= 'storepickup';
 		$out['user_info'] = array();
 		if (isset($_SESSION['user_id']) && $_SESSION['user_id']) {
 			$user_info = RC_Model::model('user/users_model')->find(array('user_id' => $_SESSION['user_id']));
@@ -114,7 +111,7 @@ class checkOrder_module extends api_front implements api_interface {
 					'user_id'	=> intval($user_info['user_id']),
 					'user_name'	=> $user_info['user_name'],
 					'mobile'	=> $user_info['mobile_phone'],
-					'integral'	=> intval($user_info['pay_points']),
+					'integral'	=> $user_info['pay_points'] > 0 ? intval($user_info['pay_points']) : 0,
 			);
 		}
 		
@@ -127,13 +124,18 @@ class checkOrder_module extends api_front implements api_interface {
 		$store_group = array();
 		$rec_ids = array();
 		if (!empty($cart_goods)) {
-			RC_Loader::load_app_class('goods_info', 'goods', false);
 			foreach ($cart_goods as $k => $v) {
 				$rec_ids[] = $v['rec_id'];
 				$store_group[] = $v['store_id'];
 			}
 			$store_group = array_unique($store_group);
 			$store_id = $store_group['0'];
+		}
+		
+		if (count($store_group) > 1) {
+			return new ecjia_error('pls_single_shop_for_settlement', '请单个店铺进行结算!');
+		} else {
+			$store_id = $store_group[0];
 		}
 		
 		/*店铺信息*/
@@ -152,7 +154,8 @@ class checkOrder_module extends api_front implements api_interface {
 			// 能使用积分
 			$allow_use_integral = 1;
 			$order_max_integral = cart::flow_available_points($rec_ids, $flow_type);
-			$order_max_integral  = min($order_max_integral, $user_info['pay_points']);
+			$user_pay_points = $user_info['pay_points'] > 0 ? $user_info['pay_points'] : 0;
+			$order_max_integral  = min($order_max_integral, $user_pay_points);
 		} else {
 			$allow_use_integral = 0;
 			$order_max_integral = 0;
@@ -236,9 +239,8 @@ class checkOrder_module extends api_front implements api_interface {
 			$out['inv_type_list'] = $temp;
 		}
 		
-		$out['your_integral']	= $user_info['pay_points'];//用户可用积分
-		
-		$out['discount']		= number_format($discount['discount'], 2, '.', '');//用户享受折扣数
+		$out['your_integral']	= $user_info['pay_points'] > 0 ? $user_info['pay_points'] : 0;//用户可用积分
+		$out['discount']		= number_format($total['discount'], 2, '.', '');//用户享受折扣数
 		$out['discount_formated'] = $total['discount_formated'];
 				
 		if (!empty($out['payment_list'])) {
@@ -285,16 +287,22 @@ class checkOrder_module extends api_front implements api_interface {
 						$shipping_cfg['pickup_days'] = 7;
 					}
 					while ($shipping_cfg['pickup_days']) {
+						$pickup = [];
+						
 						foreach ($shipping_cfg['pickup_time'] as $k => $v) {
 							if ($v['end'] > $time || $pickup_date > 0) {
-								$expect_pickup_date[$pickup_date]['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$pickup_date.' day'));
-								$expect_pickup_date[$pickup_date]['time'][] = array(
-										'start_time' 	=> $v['start'],
-										'end_time'		=> $v['end'],
+								
+								$pickup['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$pickup_date.' day'));
+								$pickup['time'][] = array(
+									'start_time' 	=> $v['start'],
+									'end_time'		=> $v['end'],
 								);
+								
 							}
 						}
-					
+						if (!empty($pickup['date']) && !empty($pickup['time'])) {
+							$expect_pickup_date[] = $pickup;
+						}
 						$pickup_date ++;
 					
 						if (count($expect_pickup_date) >= $shipping_cfg['pickup_days']) {
@@ -305,24 +313,7 @@ class checkOrder_module extends api_front implements api_interface {
 			}
 		}
 		
-		$out['expect_pickup_date'] = $expect_pickup_date;
-		
-		if (!empty($out['goods_list'])) {
-			foreach ($out['goods_list'] as $key => $value) {
-				if (!empty($value['goods_attr'])) {
-					$goods_attr = explode("\n", $value['goods_attr']);
-					$goods_attr = array_filter($goods_attr);
-					$out['goods_list'][$key]['goods_attr'] = array();
-					foreach ($goods_attr as  $v) {
-						$a = explode(':',$v);
-						if (!empty($a[0]) && !empty($a[1])) {
-							$out['goods_list'][$key]['goods_attr'][] = array('name' => $a[0], 'value' => $a[1]);
-						}
-					}
-				}
-			}
-		}
-		
+		$out['expect_pickup_date'] = array_merge($expect_pickup_date);
 		return $out;
 	}
 }

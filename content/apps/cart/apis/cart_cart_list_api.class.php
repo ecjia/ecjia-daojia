@@ -102,8 +102,8 @@ class cart_cart_list_api extends Component_Event_Api {
 
 		/* 循环、统计 */
 		$data = $dbview_cart
-			->selectRaw("c.*,IF(c.parent_id, c.parent_id, c.goods_id) AS pid, goods_thumb, goods_img, original_img, g.goods_number as g_goods_number, g.is_on_sale, s.merchants_name as store_name, manage_mode")
-			->orderBy('add_time', 'desc')
+			->selectRaw("c.*,IF(c.parent_id, c.parent_id, c.goods_id) AS pid, g.goods_thumb, g.goods_img, g.original_img, g.goods_number as g_goods_number, g.is_on_sale, g.is_delete, s.merchants_name as store_name, manage_mode")
+			->orderBy('add_time', 'desc')->orderBy('rec_id', 'desc')
 			->get();
 		/* 用于统计购物车中实体商品和虚拟商品的个数 */
 		$virtual_goods_count = 0;
@@ -119,7 +119,7 @@ class cart_cart_list_api extends Component_Event_Api {
 			        $row['disabled_label'] = '库存不足';
 			    }
 			    //判断上架状态
-			    if ($row['is_on_sale'] == 0) {
+			    if ($row['is_on_sale'] == 0 || $row['is_delete'] == '1') {
 			        $row['is_disabled'] = 1;
 			        $row['disabled_label'] = '商品已下架';
 			    }

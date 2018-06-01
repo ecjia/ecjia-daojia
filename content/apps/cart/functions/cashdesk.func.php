@@ -56,7 +56,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @param   bool    $is_gb_deposit  是否团购保证金（如果是，应付款金额只计算商品总额和支付费用，可以获得的积分取 $gift_integral）
  * @return  array
  */
-function cashdesk_order_fee($order, $goods, $consignee = array()) {
+function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id) {
 	
     RC_Loader::load_app_func('global','goods');
     RC_Loader::load_app_func('cart','cart');
@@ -131,15 +131,15 @@ function cashdesk_order_fee($order, $goods, $consignee = array()) {
     $total['goods_price_formated']  = price_format($total['goods_price'], false);
     $total['market_price_formated'] = price_format($total['market_price'], false);
     $total['saving_formated']       = price_format($total['saving'], false);
-
+    
     /* 折扣 */
     if ($order['extension_code'] != 'group_buy') {
-        RC_Loader::load_app_func('cart','cart');
-        $discount = compute_discount();
-        $total['discount'] = $discount['discount'];
-        if ($total['discount'] > $total['goods_price']) {
-            $total['discount'] = $total['goods_price'];
-        }
+    	RC_Loader::load_app_class('cart', 'cart', false);
+    	$discount = cart::compute_discount($cart_id);
+    	$total['discount'] = round($discount['discount'], 2);
+    	if ($total['discount'] > $total['goods_price']) {
+    		$total['discount'] = $total['goods_price'];
+    	}
     }
     $total['discount_formated'] = price_format($total['discount'], false);
     /* 税额 */
