@@ -578,13 +578,12 @@ a:active, a:hover {
     overflow: hidden;
     margin: 0 auto;
     padding: 0;
-    width: 80%;
+    width: 95%;
     text-align: center;
     text-overflow: ellipsis;
-    white-space: nowrap
 }
 .ecjia-category-content .category-list li {
-    display: inline;
+    display: inline-block;
     width: auto;
     font-size: 16px;
     cursor: pointer
