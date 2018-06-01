@@ -51,7 +51,7 @@ Plugin Name: 配送中心自动派单
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_express_auto_dispatch/
 Description: 配送中心自动派单
 Author: ECJIA TEAM
-Version: 1.1.0
+Version: 1.17.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
 */
