@@ -70,7 +70,6 @@
 					<th class="w150">{lang key='wechat::wechat.nickname'}</th>
 					<th class="w100">{lang key='wechat::wechat.province'}</th>
 					<th class="w80">{lang key='wechat::wechat.subscribe_time'}</th>
-					<th class="w100">{lang key='wechat::wechat.bind_user'}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -98,7 +97,6 @@
 					</td>
 					<td>{$val['province']} - {$val['city']}</td>
 					<td>{RC_Time::local_date('Y-m-d H:i:s', ($val['subscribe_time']-8*3600))}</td>
-					<td class="ecjiaf-pre">{if $val['user_name']}{$val['user_name']}{else}{lang key='wechat::wechat.not_bind_yet'}{/if}</td>
 				</tr>
 				<!--  {foreachelse} -->
 				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
