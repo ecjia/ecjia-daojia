@@ -439,7 +439,7 @@ class merchant extends ecjia_merchant {
 		$cat_id = empty($_GET['cat_id']) ? '' : intval($_GET['cat_id']);
 		/* 检查货号是否重复 */
 		if ($_POST['goods_sn']) {
-			$count = $this->db_goods->is_only(array('goods_sn' => $_POST['goods_sn'], 'is_delete' => 0, 'goods_id' => array('neq' => $_POST['goods_id'])));
+			$count = $this->db_goods->is_only(array('goods_sn' => $_POST['goods_sn'], 'is_delete' => 0, 'store_id' => $_SESSION['store_id'], 'goods_id' => array('neq' => $_POST['goods_id'])));
 			if ($count > 0) {
 				return $this->showmessage(RC_Lang::get('goods::goods.goods_sn_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
@@ -833,7 +833,7 @@ class merchant extends ecjia_merchant {
 
 		/* 检查货号是否重复 */
 		if (trim($_POST['goods_sn'])) {
-			$count = RC_DB::table('goods')->where('goods_sn', trim($_POST['goods_sn']))->where('is_delete', 0)->where('goods_id', '!=', $goods_id)->count();
+			$count = RC_DB::table('goods')->where('goods_sn', trim($_POST['goods_sn']))->where('is_delete', 0)->where('goods_id', '!=', $goods_id)->where('store_id', $_SESSION['store_id'])->count();
 			if ($count > 0) {
 				return $this->showmessage(RC_Lang::get('goods::goods.goods_sn_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
@@ -1314,7 +1314,7 @@ class merchant extends ecjia_merchant {
 
 		/* 检查是否重复 */
 		if ($goods_sn) {
-			$count = RC_DB::table('goods')->where('goods_sn', $goods_sn)->where('goods_id', '!=', $goods_id)->count();
+			$count = RC_DB::table('goods')->where('goods_sn', $goods_sn)->where('goods_id', '!=', $goods_id)->where('store_id', $_SESSION['store_id'])->count();
 			if ($count > 0) {
 				return $this->showmessage(RC_Lang::get('goods::goods.goods_sn_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}

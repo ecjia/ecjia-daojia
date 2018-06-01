@@ -152,12 +152,21 @@ class detail_module extends api_front implements api_interface {
         $data['specification']   = $properties['spe'];
         $data['collected']       = 0;
 
+       
         /*如果用户登录，获取该会员的等级对应的商品的shop_price*/
         if ($_SESSION['user_id'] > 0 && !empty($data['rank_prices'])) {
-        	$user_rank = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->pluck('user_rank');
+        	$user_info = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->first();
+        	/* 取得用户等级 */
+        	if ($user_info['user_rank'] == 0) {
+        		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+        		$user_rank_info = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', $user_info['rank_points'])->where('max_points', '>', $user_info['rank_points'])->first();
+        	} else {
+        		// 特殊等级
+        		$user_rank_info = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
+        	}
         	foreach ($data['rank_prices'] as $key => $val) {
-        		if ($key == $user_rank) {
-        			$data['shop_price'] = $val['unformatted_price'];
+        		if ($key == $user_rank_info['rank_id']) {
+        			$row['shop_price'] = $val['unformatted_price'];
         		}
         	}
         }
