@@ -64,53 +64,7 @@ class touch_controller {
         
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['longitude'].'-'.$_COOKIE['latitude'].'-'.$_COOKIE['close_download']));
         if (!ecjia_front::$controller->is_cached('index.dwt', $cache_id)) {
-	        $arr = array(
-	        	'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-	            'city_id' => $_COOKIE['city_id']
-	        );
-	        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DATA)->data($arr)->run();
-	
-	        //处理ecjiaopen url
-	        if (!is_ecjia_error($data) && !empty($data)) {
-	        	foreach ($data as $k => $v) {
-	        		if ($k == 'player' || $k == 'mobile_menu') {
-	        			foreach ($v as $key => $val) {
-	        				if (strpos($val['url'], 'ecjiaopen://') === 0) {
-	        					$data[$k][$key]['url'] = with(new ecjia_open($val['url']))->toHttpUrl();
-	        				}
-	        			}
-	        		} elseif ($k == 'adsense_group' || $k == 'promote_goods') {
-	        			foreach ($v as $key => $val) {
-	        				if (isset($val['adsense'])) {
-	        					foreach ($val['adsense'] as $k_k => $v_v) {
-	        						if (strpos($v_v['url'], 'ecjiaopen://') === 0) {
-	        							$data[$k][$key]['adsense'][$k_k]['url'] = with(new ecjia_open($v_v['url']))->toHttpUrl();
-	        						}
-	        					}
-	        				}
-	        				if ($k == 'adsense_group') {
-	        					$data['adsense_group'][$key]['count'] = count($val['adsense']);
-	        				}
-	        				if ($k == 'promote_goods') {
-	        					$data['promote_goods'][$key]['promote_end_date'] = RC_Time::local_strtotime($val['promote_end_date']);
-	        				}
-	        			}
-	        		}
-	        	}
-	        	//首页菜单
-	        	ecjia_front::$controller->assign('navigator', $data['mobile_menu']);
-	        	
-	        	//首页广告
-	        	ecjia_front::$controller->assign('adsense_group', $data['adsense_group']);
-	        	
-	        	//首页促销商品
-	        	ecjia_front::$controller->assign('promotion_goods', $data['promote_goods']);
-	        	
-	        	//新品推荐
-	        	ecjia_front::$controller->assign('new_goods', $data['new_goods']);
-	        	
-	        	ecjia_front::$controller->assign('cycleimage', $data['player']);
-	        }
+
 	
 	        ecjia_front::$controller->assign('page_header', 'index');
 	        ecjia_front::$controller->assign('searchs', user_function::insert_search());
@@ -123,37 +77,87 @@ class touch_controller {
 	        ecjia_front::$controller->assign('searchs_count', count(user_function::get_search($store_id)));
 	        
 	        ecjia_front::$controller->assign('down_url', RC_Uri::url('mobile/mobile/download'));
-	        if (isset($_COOKIE['close_download'])) {
-	        	ecjia_front::$controller->assign('close_download', $_COOKIE['close_download']);
-	        }
-	        
-	        //下载推广是否开启
-	        $config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-	        if (!is_ecjia_error($config)) {
-	        	if ($config['wap_app_download_show'] && $config['wap_app_download_img']) {
-	        		ecjia_front::$controller->assign('download_app_switch', 1);
-	        		ecjia_front::$controller->assign('app_download_img', $config['wap_app_download_img']);
-	        	}
-	        }
-	        
-	        ecjia_front::$controller->assign_title();
-	        ecjia_front::$controller->assign_lang();
-	        
-	        $paramater = array(
-	        	'pagination' 	=> array('count' => 6, 'page' => 1),
-	        	'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude'])
-	        );
-	        
-	        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
-	        
-	        if (!is_ecjia_error($response)) {
-	        	list($data, $paginated) = $response;
-	        	$data = merchant_function::format_distance($data);
 
-	        	if (isset($paginated['more']) && $paginated['more'] == 0) $is_last = 1;
-	        	ecjia_front::$controller->assign('data', $data);
-	        	ecjia_front::$controller->assign('is_last', $is_last);
-	        }
+            ecjia_front::$controller->assign_title();
+            ecjia_front::$controller->assign_lang();
+        }
+
+        if (isset($_COOKIE['close_download'])) {
+            ecjia_front::$controller->assign('close_download', $_COOKIE['close_download']);
+        }
+        $arr = array(
+            'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+            'city_id' => $_COOKIE['city_id']
+        );
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DATA)->data($arr)->run();
+
+        //处理ecjiaopen url
+        if (!is_ecjia_error($data) && !empty($data)) {
+            foreach ($data as $k => $v) {
+                if ($k == 'player' || $k == 'mobile_menu') {
+                    foreach ($v as $key => $val) {
+                        if (strpos($val['url'], 'ecjiaopen://') === 0) {
+                            $data[$k][$key]['url'] = with(new ecjia_open($val['url']))->toHttpUrl();
+                        }
+                    }
+                } elseif ($k == 'adsense_group' || $k == 'promote_goods') {
+                    foreach ($v as $key => $val) {
+                        if (isset($val['adsense'])) {
+                            foreach ($val['adsense'] as $k_k => $v_v) {
+                                if (strpos($v_v['url'], 'ecjiaopen://') === 0) {
+                                    $data[$k][$key]['adsense'][$k_k]['url'] = with(new ecjia_open($v_v['url']))->toHttpUrl();
+                                }
+                            }
+                        }
+                        if ($k == 'adsense_group') {
+                            $data['adsense_group'][$key]['count'] = count($val['adsense']);
+                        }
+                        if ($k == 'promote_goods') {
+                            $data['promote_goods'][$key]['promote_end_date'] = RC_Time::local_strtotime($val['promote_end_date']);
+                        }
+                    }
+                }
+            }
+            //首页菜单
+            ecjia_front::$controller->assign('navigator', $data['mobile_menu']);
+            
+            //首页广告
+            ecjia_front::$controller->assign('adsense_group', $data['adsense_group']);
+            
+            //首页促销商品
+            ecjia_front::$controller->assign('promotion_goods', $data['promote_goods']);
+            
+            //新品首发
+            ecjia_front::$controller->assign('new_goods', $data['new_goods']);
+            
+            //推荐商品
+            ecjia_front::$controller->assign('best_goods', $data['best_goods']);
+            
+            ecjia_front::$controller->assign('cycleimage', $data['player']);
+        }
+
+        //下载推广是否开启
+        $config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+        if (!is_ecjia_error($config)) {
+            if ($config['wap_app_download_show'] && $config['wap_app_download_img']) {
+                ecjia_front::$controller->assign('download_app_switch', 1);
+                ecjia_front::$controller->assign('app_download_img', $config['wap_app_download_img']);
+            }
+        }
+        $paramater = array(
+            'pagination'    => array('count' => 10, 'page' => 1),
+            'location'      => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude'])
+        );
+        
+        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
+
+        if (!is_ecjia_error($response)) {
+            list($data, $paginated) = $response;
+            $data = merchant_function::format_distance($data);
+
+            if (isset($paginated['more']) && $paginated['more'] == 0) $is_last = 1;
+            ecjia_front::$controller->assign('data', $data);
+            ecjia_front::$controller->assign('is_last', $is_last);
         }
         ecjia_front::$controller->display('index.dwt', $cache_id);
     }

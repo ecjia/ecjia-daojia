@@ -69,6 +69,7 @@ RC_Hook::add_action('ecjia_front_finish_launching', function ($arg) {
     $referer = ecjia::config('map_qq_referer');
     ecjia_front::$controller->assign('key', $key);
     ecjia_front::$controller->assign('referer', $referer);
+    
     $wap_logo = ecjia::config('wap_logo');
     if (!empty($wap_logo)) {
     	setcookie("wap_logo", RC_Upload::upload_url($wap_logo), time() + 1800);
@@ -126,7 +127,6 @@ RC_Hook::add_filter('connect_callback_user_template', function($templateStr, $da
             //结合cookie判断返回来源url
             $back_url = RC_Cookie::get('referer', RC_Uri::url('touch/index/init'));
             ecjia_front::$controller->redirect($back_url);
-        
         }
     } else {
         
@@ -177,7 +177,6 @@ RC_Hook::add_action('connect_callback_user_signin', function($connect_user) {
             'sid' => RC_Session::session_id(),
             'uid' => $_SESSION['user_id']
         ),
-    
         'user' => $user_info
     );
     ecjia_touch_user::singleton()->setUserinfo($res);
@@ -246,11 +245,9 @@ RC_Hook::add_action('connect_sns_wechat_handle', function($connect_handle) {
     }
 });
 
-
 /**
  * ecjiaopen协议 
  **/
-
 //首页
 ecjia_open::macro('main', function($querys) {
 	return RC_Uri::url('touch/index/init');
@@ -305,21 +302,24 @@ ecjia_open::macro('sign_up', function($querys) {
 });
 //找回密码
 ecjia_open::macro('forget_password', function($querys) {
-	return RC_Uri::url('user/get_password/mobile_register');
+	return RC_Uri::url('user/get_password/init');
 });
 //修改密码
 ecjia_open::macro('user_password', function($querys) {
 	return RC_Uri::url('user/profile/edit_password');
 });
-//促销商品
+//促销商品/新品
 ecjia_open::macro('goods_suggest', function($querys) {
-	return RC_Uri::url('goods/index/promotion');
+	if ($querys['type'] == 'promotion') {
+		return RC_Uri::url('goods/index/promotion');
+	} elseif ($querys['type'] == 'new') {
+		return RC_Uri::url('goods/index/new');
+	}
 });
 //店铺分类列表
 ecjia_open::macro('goods_seller_list', function($querys) {
 	return RC_Uri::url('goods/category/store_list', array('cid' => $querys['category_id']));
 });
-
 //所有分类
 ecjia_open::macro('goods_list', function($querys) {
     return RC_Uri::url('goods/category/init', array('category_id' => $querys['category_id']));
@@ -340,10 +340,17 @@ ecjia_open::macro('user_bonus', function($querys) {
 ecjia_open::macro('quickpay', function($querys) {
 	return RC_Uri::url('user/quickpay/init', array('store_id' => $querys['merchant_id']));
 });
-
 //收款二维码
 ecjia_open::macro('collectmoney', function($querys) {
 	return RC_Uri::url('merchant/quickpay/collectmoney', array('store_id' => $querys['merchant_id']));
+});
+//历史记录
+ecjia_open::macro('history', function($querys) {
+	return RC_Uri::url('touch/index/history');
+});
+//店铺首页
+ecjia_open::macro('merchant', function($querys) {
+    return RC_Uri::url('merchant/index/init', array('store_id' => $querys['merchant_id']));
 });
 
 /**

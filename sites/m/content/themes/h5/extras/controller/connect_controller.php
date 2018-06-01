@@ -62,10 +62,6 @@ class connect_controller {
     	
         $connect_user = $data['connect_user'];
         if (is_ecjia_error($connect_user)) {
-            //错误
-            RC_Logger::getlogger('wechat')->info('connect-controller,callback_template');
-            RC_Logger::getlogger('wechat')->error($connect_user->get_error_message());
-            
             if ($connect_user->get_error_code() == 'retry_return_login' || $connect_user->get_error_code() == '-1') {
                 $login_str = user_function::return_login_str();
                 return ecjia_front::$controller->redirect(RC_Uri::url($login_str));
@@ -222,8 +218,6 @@ class connect_controller {
             if ($data['id']) {
                 $result = $connect_user->bindUser($data['id']);
             } else {
-//                 RC_Logger::getlogger('error')->info('connect_controller-关联账号错误');
-//                 RC_Logger::getlogger('error')->info($data);
                 return ecjia_front::$controller->showmessage('用户验证成功，获取用户信息失败，请重试！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             if ($result) {
@@ -296,7 +290,7 @@ class connect_controller {
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('connect/index/captcha_validate')));
     }
     
-    //身份验证
+    //图形验证码
     public static function captcha_validate() {
     	$mobile_phone = $_SESSION['user_temp']['mobile'];
     	 
@@ -313,8 +307,8 @@ class connect_controller {
         
     	ecjia_front::$controller->assign('captcha_image', $res['base64']);
     	 
-    	ecjia_front::$controller->assign('title', '身份验证');
-    	ecjia_front::$controller->assign_title('身份验证');
+    	ecjia_front::$controller->assign('title', '图形验证码');
+    	ecjia_front::$controller->assign_title('图形验证码');
     	ecjia_front::$controller->assign_lang();
     	ecjia_front::$controller->assign('url', RC_Uri::url('connect/index/captcha_check'));
     	ecjia_front::$controller->assign('refresh_url', RC_Uri::url('connect/index/captcha_refresh'));
@@ -436,8 +430,6 @@ class connect_controller {
     		if ($data['id']) {
     			$result = $connect_user->bindUser($data['id']);
     		} else {
-//     			RC_Logger::getlogger('error')->info('connect_controller-关联账号错误');
-//     			RC_Logger::getlogger('error')->info($data);
     			return ecjia_front::$controller->showmessage('用户验证成功，获取用户信息失败，请重试！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
 

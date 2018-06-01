@@ -6,6 +6,7 @@ Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+{nocache}
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
@@ -21,7 +22,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     {/if}
     <ul class="ecjia-list ecjia-margin-t">
         <li>订单金额：<span class="ecjiaf-fr">{$detail.formated_total_fee}</span></li>
-        <li>支付方式：<span class="ecjiaf-fr flow-msg">{$data.pay_name}</span></li>
+        <li>支付方式：<span class="ecjiaf-fr flow-msg">{if $data.pay_name}{$data.pay_name}{else}{$detail.pay_name}{/if}</span></li>
     </ul>
     <div class="ecjia-margin-t ecjia-margin-b flow-msg">{if $data.pay_status eq 'success'}支付成功！{else}{$pay_error}{/if}</div>
     {if $payment_list}
@@ -63,3 +64,4 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     {/if}
 </div>
 <!-- {/block} -->
+{/nocache}

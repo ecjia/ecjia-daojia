@@ -136,6 +136,10 @@ class quickpay_controller {
 		ecjia_front::$controller->assign('show_exclude_amount', $_SESSION['quick_pay']['show_exclude_amount']);
 		ecjia_front::$controller->assign_title($store_info['seller_name']);
 		ecjia_front::$controller->assign('store_info', $store_info);
+        if (empty($_POST)) {
+            unset($_SESSION['quick_pay']['temp']);
+            unset($_SESSION['quick_pay']['data']);
+        }
 		
 		ecjia_front::$controller->display('quickpay_checkout.dwt');
 	}
@@ -364,7 +368,7 @@ class quickpay_controller {
 				return ecjia_front::$controller->showmessage('该订单已支付请勿重复支付', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
 			}
 			
-			if (cart_function::is_weixin()) {
+			if (empty($_SESSION['wxpay_open_id']) && cart_function::is_weixin()) {
 				//提前获取微信支付wxpay_open_id
 				$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel('pay_wxpay');
 				$open_id = $handler->getWechatOpenId();
@@ -410,6 +414,12 @@ class quickpay_controller {
     		'order_id' 		=> $order_id,
     	);
     	if ($pay_code == 'pay_wxpay') {
+            if (empty($_SESSION['wxpay_open_id']) && cart_function::is_weixin()) {
+                //提前获取微信支付wxpay_open_id
+                $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel('pay_wxpay');
+                $open_id = $handler->getWechatOpenId();
+                $_SESSION['wxpay_open_id'] = $open_id;
+            }
     		$params_list['wxpay_open_id'] = $_SESSION['wxpay_open_id'];
     	}
     	
@@ -550,29 +560,20 @@ class quickpay_controller {
     	$params_order = array('token' => $token, 'order_id' => $order_id);
     	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::QUICKPAY_ORDER_DETAIL)->data($params_order)->run();
     	if (!is_ecjia_error($data)) {
-    		if (!empty($data)) {
-    			if (cart_function::is_weixin() == true) {
-    				if ($data['pay_code'] == 'pay_alipay') {
-    					unset($data['pay_code']);
-    				}
-    			} else {
-    				if ($data['pay_code'] == 'pay_wxpay') {
-    					unset($data['pay_code']);
-    				}
-    			}
-    		}
+    		//店铺信息
+    		$parameter_list = array(
+    			'seller_id' => $data['store_id'],
+    			'city_id' 	=> $_COOKIE['city_id']
+    		);
+    		$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
+    		$change_result = user_function::is_change_payment($data['pay_code'], $store_info['manage_mode']);
+    		
+    		ecjia_front::$controller->assign('change', $change_result['change']);
     		if ($data['order_status_str'] == '') {
     			$url = RC_Uri::url('user/quickpay/quickpay_list');
     			return ecjia_front::$controller->showmessage('该订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $url));
     		}
     		ecjia_front::$controller->assign('data', $data);
-    	}
-    
-    	if (cart_function::is_weixin()) {
-    		//提前获取微信支付wxpay_open_id
-    		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel('pay_wxpay');
-    		$open_id = $handler->getWechatOpenId();
-    		$_SESSION['wxpay_open_id'] = $open_id;
     	}
     
     	ecjia_front::$controller->assign_title('买单详情');

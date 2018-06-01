@@ -1371,6 +1371,10 @@ dd, dl, dt, li, ol, ul {
     background-image: url(../images/icon/new.png)
 }
 
+.ecjia-mod .head-title .icon-best {
+    background-image: url(../images/icon/best.png)
+}
+
 .ecjia-mod .head-title .icon-store {
     background-image: url(../images/icon/store.png)
 }
@@ -3067,14 +3071,15 @@ footer {
 
 .store-add-cart.a4w .a5u {
     right: 61px;
-    background-position: center -68px
+    background-position: center -68px;
+    margin-right: 12px;
 }
 
 .a5u, .store-add-cart.a4w .a5v {
     position: absolute;
     z-index: 3;
     top: 40px;
-    width: 49px;
+    width: 30px;
     height: 40px;
     background-image: url(../images/icon/op.png);
     background-repeat: no-repeat;
@@ -3084,19 +3089,19 @@ footer {
 .store-add-cart.a4w .a5x {
     position: absolute;
     top: 39px;
-    right: 35px;
-    width: 39px;
+    right: 38px;
+    width: 35px;
     line-height: 55px;
     height: 40px;
     overflow: hidden;
     text-align: center;
     font-size: 1em;
-    font-weight: 400
+    font-weight: 400;
 }
 
 .store-add-cart.a4w .a5v {
-    right: 0;
-    background-position: center 12px
+    right: 10px;
+    background-position: center 12px;
 }
 
 .store-add-cart.a4w .a7g {
@@ -3724,6 +3729,10 @@ footer {
     border-bottom: 1px solid #eee
 }
 
+.ecjia .ecjia-select .ecjia-list.border-top-none {
+    border-top: none;
+}
+
 .ecjia .ecjia-select .icon-pay-title {
     background: url(../images/icon/icon-pay.png);
     width: 1.5em;
@@ -3961,14 +3970,15 @@ footer {
     margin: 1.6% 3.2%;
     display: block;
     float: left;
-    width: 21.5%;
+    min-width: 21.5%;
     text-align: center;
     height: 30px;
     line-height: 30px;
     margin-left: 0;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis
+    text-overflow: ellipsis;
+    padding: 0 .5em;
 }
 
 .ecjia .ecjia-select label.select-item .active {
@@ -5919,7 +5929,8 @@ footer {
 }
 
 .ecjia-goods-basic-info .swiper-goods-img {
-    max-height: 40em
+    max-height: 40em;
+    background-color: #fff;
 }
 
 .ecjia-goods-basic-info .focus {
@@ -6147,19 +6158,30 @@ footer {
 .goods-info .ecjia-left-time {
     border: 1px solid #ff3434;
     width: 82%;
-    height: 1.1em;
-    line-height: 1.1em;
-    margin-top: 9px
+    height: 1.3em;
+    margin-top: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
 }
 
 .goods-info .ecjia-left-time .detail-clock-icon {
-    width: 1.1em;
-    height: 1.03em;
+    width: 1.3em;
+    height: 1.3em;
     background: url(../images/icon/goods-detail-colok.png);
     position: absolute;
     background-origin: content-box;
     background-repeat: no-repeat;
-    background-size: 100% 100%
+    background-size: 100% 100%;
 }
 
 .goods-price-plus {
@@ -6177,13 +6199,22 @@ footer {
 }
 
 .goods-info .ecjia-left-time .goods-detail-promote {
-    height: 1.3em;
-    line-height: 1.3em;
+    height: 1.5em;
     font-size: .7em;
-    display: inline-block;
-    float: right;
-    width: 89.5%;
-    text-align: center
+    margin-left: 2em;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
 }
 
 .goods-info .ecjia-left-time .iconfont {
@@ -6600,7 +6631,6 @@ footer {
 
 .ecjia-order-list .ecjia-order-item .order-hd .order_model {
     color: #47aa4d;
-    padding-right: .5em;
 }
 
 .ecjia-order-list .ecjia-order-item .ecjiaf-order-status {
@@ -13176,6 +13206,9 @@ footer {
 .location-city-container {
     padding-left: 4%;
     padding-bottom: 1em;
+}
+
+.location-city-container span {
     font-weight: bold;
 }
 
@@ -13209,3 +13242,130 @@ footer {
 .ecjia-history-city ul li:first-child {
     margin-left: 15px;
 }
+
+.ecjia-payment-notice {
+    color: #fc8d41;
+    background: #ffecca;
+    padding: .5em 0;
+    line-height: 1.5em;
+    padding-left: 1em;
+}
+
+.ecjia-num-content {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    max-width: 640px;
+    margin: 0 auto;
+    display: none;
+    z-index: 1001;
+}
+
+.ecjia-num-content.show {
+    display: block;
+}
+
+.ecjia-num-view-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.2);
+    z-index: 1002;
+}
+
+.ecjia-num-view {
+    position: absolute;
+    width: 66%;
+    z-index: 1003;
+    min-height: 5em;
+    background-color: #fff;
+    border-radius: 8px;
+    left: 17%;
+    top: 45%;
+}
+
+.ecjia-num-view img {
+    width: 2em;
+    height: 2.1em;
+    float: left;
+    padding-top: .1em;
+    cursor: pointer;
+}
+
+.ecjia-num-view .title {
+    line-height: 3em;
+    text-align: center;
+    font-size: 1.1em
+}
+
+.ecjia-num-view .num-handle {
+    height: 3.5em;
+    border-bottom: 1px solid #eee;
+}
+
+.ecjia-num-view .num-handle .num-handle-content {
+    width: 12em;
+    text-align: center;
+    margin: 0 auto;
+    height: 3.5em;
+}
+
+.ecjia-num-view input {
+    float: left;
+    width: 6.5em;
+    border: 1px solid #eee;
+    margin: 0 .7em;
+    height: 2.3em;
+    text-align: center;
+    border-radius: 15px;
+    padding: .2em .8em;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ecjia-num-view .num-confirm {
+    width: 100%
+}
+
+.ecjia-num-view .btn-confirm {
+    width: 50%;
+    line-height: 40px;
+    background-color: #fff;
+    color: #47aa4d;
+    padding: 0;
+    float: left;
+    margin: 0;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ecjia-num-view .btn-confirm.btn-cancel {
+    border-right: 1px solid #eee;
+    border-bottom-left-radius: 8px;
+    color: #838383
+}
+
+.ecjia-num-view .btn-confirm.btn-ok {
+    border-bottom-right-radius: 8px
+}
+

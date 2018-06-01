@@ -199,6 +199,10 @@ class location_controller
         setcookie("position_longitude", $longitude, time() + 1800);
         setcookie("position_latitude", $latitude, time() + 1800);
 
+        if (empty($city_id)) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('location/index/select_city')));
+        }
+
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $href_url));
     }
 

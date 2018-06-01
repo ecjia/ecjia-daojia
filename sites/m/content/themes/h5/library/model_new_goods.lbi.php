@@ -1,14 +1,14 @@
 <?php
 /*
-Name: 新品推荐
-Description: 这是首页的新品推荐模块
+Name: 新品首发
+Description: 这是首页的新品首发模块
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 {if $new_goods}
-<div class="ecjia-mod ecjia-new-model ecjia-margin-t {if !$data}ecjia-mod-pb35{/if}">
+<div class="ecjia-mod ecjia-new-model ecjia-margin-t {if !$data && !$best_goods}ecjia-mod-pb35{/if}">
 	<div class="head-title ecjia-new-goods">
-		<h2><i class="icon-new"></i>新品推荐<a href="{$more_news}" class="more_info">更多</a></h2>
+		<h2><i class="icon-new"></i>新品首发<a href="{$more_news}" class="more_info">更多</a></h2>
 	</div>
 	<div class="swiper-container swiper-promotion">
 		<div class="swiper-wrapper">

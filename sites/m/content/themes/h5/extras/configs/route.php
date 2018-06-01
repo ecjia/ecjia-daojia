@@ -114,7 +114,8 @@ return [
     //支付
     'pay/index/init'                    => 'pay_controller@init',
     'pay/index/notify'                  => 'pay_controller@notify',
-    
+    'pay/index/pay_order'               => 'pay_controller@pay_order',
+
     //会员
     'touch/my/init'                     => 'user_controller@init',
     'user/index/spread'                 => 'user_controller@spread',

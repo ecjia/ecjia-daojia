@@ -167,7 +167,6 @@ gulp.task('develop-move', ['clean-develop'], function() {/*合并到develop分�
         '!touch.dwt.develop.php',
         '!touch.dwt.dev.php',
         '!gulpfile.js',
-        '!package.json',
         'images/screenshot.png'
     ];
     return gulp.src(developURI)

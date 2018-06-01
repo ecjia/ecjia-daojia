@@ -70,7 +70,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	    	<input  type="hidden" name="pay_code" value="{$data.pay_code}" />
 	    	{if $data.order_status_str eq 'unpaid'}
 	    		<a class="btn btn-small btn-hollow external quickpay_order_handle" href="{RC_Uri::url('user/quickpay/cancel')}&order_id={$data.order_id}" data-message="您确定要取消该订单吗？">取消订单</a>
-		    	{if $data.pay_code eq ''}
+		    	{if $change eq 1}
 		    	<a class="btn btn-small btn-hollow external" href="{RC_Uri::url('user/quickpay/pay')}&order_id={$data.order_id}">去支付</a>
 		    	{else}
 		    	<input type="submit" class="btn btn-small btn-hollow external quick_pay_btn" value="去支付" />

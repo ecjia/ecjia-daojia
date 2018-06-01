@@ -1,7 +1,7 @@
 <?php
 /*
-Name: 到店购物订单详情模板
-Description: 这是到店购物订单详情页
+Name: 扫码购订单详情模板
+Description: 这是扫码购订单详情页
 Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
@@ -23,7 +23,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<a class="ecjiaf-fl" href='{url path="merchant/index/init" args="store_id={$order.store_id}"}'>
 					<i class="iconfont icon-shop"></i>{$order.seller_name}
 				</a>
-				<div class="ecjiaf-fr"><span class="ecjiaf-order-status">到店购物</span></div>
+				<div class="ecjiaf-fr"><span class="ecjiaf-order-status">扫码购</span></div>
 			</div>
 			<ul class="goods-item">
 				<!-- {foreach from=$order.goods_list item=goods} -->

@@ -9,7 +9,6 @@
 			ecjia.touch.user.ecjia_logout();
 			ecjia.touch.user.show_goods_list_click();
 			ecjia.touch.user.show_share_click();
-//			ecjia.touch.user.loginout_click();
 			ecjia.touch.user.clear_history();
 			ecjia.touch.user.get_code();
 			ecjia.touch.user.mobile_verification();

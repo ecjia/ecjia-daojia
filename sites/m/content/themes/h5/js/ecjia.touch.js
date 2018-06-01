@@ -149,10 +149,10 @@
 
                     var referer_url = $.cookie('referer_url');
                     var url = $("#ecjia-zs").attr('data-url');
-                    if (referer_url != undefined && referer_url.length == 0) {
-                        referer_url = url;
+                    if (referer_url != undefined && referer_url.length != 0) {
+                        url = referer_url;
                     }
-                    ecjia.pjax(referer_url);
+                    ecjia.pjax(url);
                     $.cookie('referer_url', '', 1);
                 });
             } else if (type == 'address') {
@@ -171,8 +171,9 @@
 
         share_spread: function () {
             var info = {
-                'url': window.location.href.split('#')[0]
+                'url': location.href.split('#')[0]
             };
+            
             var spread_url = $('input[name="spread_url"]').val();
             if (spread_url != undefined) {
                 return false;
@@ -185,7 +186,7 @@
             var title = $('input[name="share_title"]').val() == undefined ? document.title : $('input[name="share_title"]').val();
             var image = $('input[name="share_image"]').val() == undefined ? $.cookie('wap_logo') : $('input[name="share_image"]').val();
             var desc = $('input[name="share_desc"]').val() == undefined ? document.title : $('input[name="share_desc"]').val();
-            var link = window.location.href.split('#')[0];
+            var link = location.href.split('#')[0];
 
             $.post(wxconfig_url, info, function (response) {
                 if (response == '' || response.data == undefined) {
@@ -215,6 +216,7 @@
                         title: title, 					// 分享标题【必填】
                         link: link, 					// 分享链接【必填】
                         imgUrl: image, 					// 分享图标【必填】
+                        img_url: image,
                         success: function () {
                             // 用户确认分享后执行的回调函数
                         },
@@ -230,7 +232,7 @@
                         link: link, 					// 分享链接【必填】
                         imgUrl: image, 					// 分享图标【必填】
                         type: 'link', 					// 分享类型,music、video或link，不填默认为link【必填】
-                        dataUrl: '', 					// 如果type是music或video，则要提供数据链接，默认为空
+                        img_url: image,
                         success: function () {
                             // 用户确认分享后执行的回调函数
                         },
@@ -245,6 +247,7 @@
                         desc: desc, 					// 分享描述
                         link: link, 					// 分享链接
                         imgUrl: image, 					// 分享图标
+                        img_url: image,
                         success: function () {
                             // 用户确认分享后执行的回调函数
                         },

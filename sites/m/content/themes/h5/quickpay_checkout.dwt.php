@@ -158,7 +158,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		{if $arr.allow_use_bonus && $arr.bonus_list|count gt 0}
 	    <li class="outher_d">
 	    	{if $arr.bonus_list|count gt 0}
-	        <a class="nopjax" href='{url path="user/quickpay/bonus" args="store_id={$store_id}"}'>
+	        <a class="nopjax external" href='{url path="user/quickpay/bonus" args="store_id={$store_id}"}'>
 	            <div class="icon-wallet"></div>
 	            <span class="icon-name">使用红包</span>
 	            <span class="fav_info">{count($arr.bonus_list)}个可用</span>
@@ -174,7 +174,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	    
 	    {if $arr.allow_use_integral && $arr.order_max_integral neq 0}
 	    <li class="outher_d">
-	        <a href='{url path="user/quickpay/integral" args="store_id={$store_id}"}'>
+	        <a class="nopjax external" href='{url path="user/quickpay/integral" args="store_id={$store_id}"}'>
 	            <div class="icon-wallet"></div>
 	            <span class="icon-name">{t}使用积分{/t}</span>
 	            {if $temp.integral gt 0}

@@ -21,9 +21,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <!-- #EndLibraryItem -->
 <div class="ecjia-checkout ecjia-padding-b">
+	{if $show_storepickup}
 	<div class="ecjia-checkout-tab">
 		<a href="{if $shipping_type eq 'default_shipping'}javascript:;{else}{RC_Uri::url('cart/flow/checkout')}&store_id={$store_id}&rec_id={$rec_id}{/if}"><span class="tab tab-left {if $shipping_type eq 'default_shipping'}active{/if}">配送上门</span></a><a href="{if $shipping_type eq 'storepickup'}javascript:;{else}{RC_Uri::url('cart/flow/storepickup_checkout')}&store_id={$store_id}&rec_id={$rec_id}{/if}"><span class="tab tab-right {if $shipping_type eq 'storepickup'}active{/if}">门店提货</span></a>
 	</div>
+	{/if}
 	<form id="theForm" name="checkForm" action="{$done_url}" method="post">
 		
 		{if $shipping_type eq 'default_shipping'}

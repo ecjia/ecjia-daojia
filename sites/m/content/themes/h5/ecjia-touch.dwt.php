@@ -99,12 +99,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <script type="text/javascript" src="{$theme_url}lib/iOSOverlay/js/prettify.js"></script>
 	<!-- {block name="footer"} --><!-- {/block} -->
 	<script type="text/javascript">
-    	// window.onunload = unload;
-    	// function unload (e){
-    	  // window.scrollTo(0,0);
-    	// }
-	</script>
-	<script type="text/javascript">
 		var hidenav = {if $hidenav eq 1}1{else}0{/if}, hidetab = {if $hidetab eq 1}1{else}0{/if}, hideinfo = {if $hideinfo}1{else}0{/if};
 		if (hideinfo) {
 			$('header').hide();

@@ -79,7 +79,7 @@ class user_get_password_controller {
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/get_password/captcha_validate')));
     }
     
-    //身份验证
+    //图形验证码
     public static function captcha_validate() {
     	$mobile_phone = $_SESSION['user_temp']['mobile'];
     	
@@ -95,8 +95,8 @@ class user_get_password_controller {
 		
     	ecjia_front::$controller->assign('captcha_image', $res['base64']);
     	
-    	ecjia_front::$controller->assign('title', '身份验证');
-    	ecjia_front::$controller->assign_title('身份验证');
+    	ecjia_front::$controller->assign('title', '图形验证码');
+    	ecjia_front::$controller->assign_title('图形验证码');
     	ecjia_front::$controller->assign_lang();
     	ecjia_front::$controller->assign('url', RC_Uri::url('user/get_password/captcha_check'));
     	ecjia_front::$controller->assign('refresh_url', RC_Uri::url('user/privilege/captcha_refresh'));
@@ -187,7 +187,7 @@ class user_get_password_controller {
         $passwords = !empty($_POST['passwords']) ? trim($_POST['passwords']) : '';
         $mobile    = !empty($_SESSION['user_temp']['mobile']) ? trim($_SESSION['user_temp']['mobile']) : '';
         if ($_SESSION['user_temp']['code_status'] != 'succeed') {
-            ecjia_front::$controller->redirect(RC_Uri::url('user/get_password/mobile_register'));
+            ecjia_front::$controller->redirect(RC_Uri::url('user/get_password/init'));
         }
         
         if (isset($_POST['passwordf'])) {

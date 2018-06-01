@@ -19,7 +19,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="location-city">
 	<h2 class="location-city-title"><span>当前定位城市</span></h2>
 	<div class="location-city-container">
-		<i class="icon-position"></i>{$smarty.cookies.position_city_name}
+		<i class="icon-position"></i><span class="select-city-li" data-id="{$smarty.cookies.position_city_id}">{$smarty.cookies.position_city_name}</span>
 	</div>
 </div>
 {/if}

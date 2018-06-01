@@ -70,9 +70,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				{if $order.discount neq 0}
 				<li>优惠金额：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_discount}</span></li>
 				{/if}
-				{if $order.shipping_fee neq 0}
 				<li>运费：<span class="ecjiaf-fr ">{$order.formated_shipping_fee}</span></li>
-				{/if}
 				{if $order.pay_fee neq 0}
 				<li>手续费：<span class="ecjiaf-fr ">{$order.formated_pay_fee}</span></li>
 				{/if}

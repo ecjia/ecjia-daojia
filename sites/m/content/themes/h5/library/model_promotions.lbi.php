@@ -6,7 +6,7 @@ Description: 这是首页的促销专场模块
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 {if $promotion_goods}
-<div class="ecjia-mod ecjia-promotion-model ecjia-margin-t {if !$data && !$new_goods}ecjia-mod-pb35{/if}">
+<div class="ecjia-mod ecjia-promotion-model ecjia-margin-t {if !$data && !$new_goods && !$best_goods}ecjia-mod-pb35{/if}">
 	<div class="head-title">
 		<h2><i class="icon-promotion"></i>促销商品<a href="{$more_sales}" class="more_info">更多</a></h2>
 	</div>
@@ -22,7 +22,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<span class="list-page-box">
 						<span class="goods-name">{$val.name}</span>
 						<span class="list-page-goods-price">
-							<!--{if $val.unformatted_promote_price neq 0 && $val.unformatted_promote_price lt $val.unformatted_shop_price}-->
+							<!--{if $val.unformatted_promote_price neq 0}-->
 							<span>{$val.promote_price}</span>
 							<!--{else}-->
 							<span>{$val.shop_price}</span>

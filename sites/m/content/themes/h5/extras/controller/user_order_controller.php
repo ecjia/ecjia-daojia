@@ -131,7 +131,7 @@ class user_order_controller {
             if (!ecjia_front::$controller->is_cached('user_order_detail.dwt', $cache_id)) {
             	ecjia_front::$controller->assign('order', $data);
                 ecjia_front::$controller->assign('headInfo', $data['order_status_log'][0]);
-                if ($data['shipping_code'] == 'ship_o2o_express' && !empty($data['express_id'])) {
+                if (($data['shipping_code'] == 'ship_o2o_express' || $data['shipping_code'] == 'ship_ecjia_express') && !empty($data['express_id'])) {
                 	ecjia_front::$controller->assign('express_url', RC_Uri::url('user/order/express_position', array('code' => $data['shipping_code'], 'express_id' => $data['express_id'], 'order_id' => $data['order_id'], 'store_id' => $data['store_id'])));
                 }
                 ecjia_front::$controller->assign('title', '订单详情');

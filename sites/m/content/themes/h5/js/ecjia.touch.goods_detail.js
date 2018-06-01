@@ -106,7 +106,7 @@
 				},
 				//无限滚动
 				slidesPerView: 1,
-				loop: true,
+				loop: false,
 			});
 		},
 	};

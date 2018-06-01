@@ -105,6 +105,7 @@ class user_privilege_controller {
                 ecjia_front::$controller->assign('sns_qq', 1);
             }
         }
+
         ecjia_front::$controller->display('user_login.dwt', $cache_id);
     }
     
@@ -241,7 +242,7 @@ class user_privilege_controller {
         	} else {
         		$url = RC_Uri::url('touch/my/init');
         		$referer_url = !empty($_POST['referer_url']) ? urldecode($_POST['referer_url']) : urldecode($_SESSION['user_temp']['referer_url']);
-        		if (!empty($referer_url) && $referer_url != RC_Uri::url('user/privilege/login')) {
+        		if (!empty($referer_url) && $referer_url != RC_Uri::url('user/privilege/login') && $referer_url != undefined) {
         			$url = $referer_url;
         		}
         		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
@@ -268,7 +269,7 @@ class user_privilege_controller {
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/privilege/captcha_validate')));
     }
     
-    //身份验证
+    //图形验证码
     public static function captcha_validate() {
     	$mobile_phone = $_SESSION['user_temp']['mobile'];
     	
@@ -284,8 +285,8 @@ class user_privilege_controller {
 
     	ecjia_front::$controller->assign('captcha_image', $res['base64']);
     	
-    	ecjia_front::$controller->assign('title', '身份验证');
-    	ecjia_front::$controller->assign_title('身份验证');
+    	ecjia_front::$controller->assign('title', '图形验证码');
+    	ecjia_front::$controller->assign_title('图形验证码');
     	ecjia_front::$controller->assign_lang();
     	ecjia_front::$controller->assign('url', RC_Uri::url('user/privilege/captcha_check'));
     	ecjia_front::$controller->assign('refresh_url', RC_Uri::url('user/privilege/captcha_refresh'));
@@ -402,7 +403,7 @@ class user_privilege_controller {
     		
     		$url = RC_Uri::url('touch/my/init');
     		$referer_url = !empty($_POST['referer_url']) ? urldecode($_POST['referer_url']) : urldecode($_SESSION['user_temp']['referer_url']);
-    		if (!empty($referer_url)) {
+    		if (!empty($referer_url) && $referer_url != undefined) {
     			$url = $referer_url;
     		}
     		unset($_SESSION['user_temp']);
@@ -411,11 +412,24 @@ class user_privilege_controller {
     		if (is_ecjia_error($data)) {
     			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
-    		
     		//未注册 走注册接口 
     		$url = RC_Uri::url('user/privilege/set_password');
     		$_SESSION['user_temp']['mobile'] = $mobile;
     		$_SESSION['user_temp']['register_status'] = 'succeed';
+
+            $res = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNUP)->data(array('name' => $username, 'mobile' => $mobile, 'password' => ''))->run();
+            if (!is_ecjia_error($res)) {
+                $url = RC_Uri::url('touch/my/init');
+                if (!empty($_SESSION['user_temp']['referer_url']) && $_SESSION['user_temp']['referer_url'] != undefined) {
+                    $url = urldecode($_SESSION['user_temp']['referer_url']);
+                }
+                unset($_SESSION['user_temp']);
+                
+                ecjia_touch_user::singleton()->signin('smslogin', $res['user']['name'], $password);
+                return ecjia_front::$controller->showmessage(__('恭喜您，注册成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
+            } else {
+                return ecjia_front::$controller->showmessage(__($res->get_error_message()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
     	}
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
     }
@@ -511,7 +525,7 @@ class user_privilege_controller {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNUP)->data(array('name' => $username, 'mobile' => $mobile, 'password' => $password, 'invite_code' => $verification))->run();
             if (!is_ecjia_error($data)) {
             	$url = RC_Uri::url('touch/my/init');
-            	if (!empty($_SESSION['user_temp']['referer_url'])) {
+            	if (!empty($_SESSION['user_temp']['referer_url']) && $_SESSION['user_temp']['referer_url'] != undefined) {
             		$url = urldecode($_SESSION['user_temp']['referer_url']);
             	}
                 unset($_SESSION['user_temp']);

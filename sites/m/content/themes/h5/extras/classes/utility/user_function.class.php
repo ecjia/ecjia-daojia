@@ -161,6 +161,52 @@ class user_function {
 		}
 		return $str;
 	}
+
+	public static function is_change_payment($pay_code = '', $manage_mode = '') {
+		$pay = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_PAYMENT)->run();
+        $pay = is_ecjia_error($pay) ? array() : $pay;
+        
+        $open_id = '';
+        /*根据浏览器过滤支付方式，微信自带浏览器过滤掉支付宝支付，其他浏览器过滤掉微信支付*/
+        if (!empty($pay['payment'])) {
+            if (cart_function::is_weixin() == true) {
+                foreach ($pay['payment'] as $key => $val) {
+                    if ($val['pay_code'] == 'pay_alipay') {
+                        unset($pay['payment'][$key]);
+                    }
+                	if ($val['pay_code'] == 'pay_wxpay') {
+                        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
+                        $open_id = $handler->getWechatOpenId();
+                        $_SESSION['wxpay_open_id'] = $open_id;
+                    }
+                	//非自营过滤货到付款
+	                if ($manage_mode != 'self' && $val['pay_code'] == 'pay_cod') {
+	                    unset($pay['payment'][$key]);
+	                }
+                }
+            } else {
+                foreach ($pay['payment'] as $key => $val) {
+                    if ($val['pay_code'] == 'pay_wxpay') {
+                        unset($pay['payment'][$key]);
+					}
+					//非自营过滤货到付款
+	                if ($manage_mode != 'self' && $val['pay_code'] == 'pay_cod') {
+	                    unset($pay['payment'][$key]);
+	                }
+                }
+            }
+        }
+
+        $change_payment = true;
+        if (!empty($pay['payment'])) {
+        	foreach ($pay['payment'] as $key => $value) {
+        		if ($value['pay_code'] == $pay_code) {
+        			$change_payment = false;
+        		}
+        	}
+        }
+        return array('change' => $change_payment, 'payment' => $pay['payment'], 'open_id' => $open_id);
+	}
 }
 
 //end

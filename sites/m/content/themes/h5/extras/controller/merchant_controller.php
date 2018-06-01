@@ -557,7 +557,7 @@ class merchant_controller {
 		ecjia_front::$controller->assign_title($store_info['seller_name'].'在线买单');
 		ecjia_front::$controller->assign('title', $store_info['seller_name'].'在线买单');
 		
-		if (cart_function::is_weixin()) {
+		if (empty($_SESSION['wxpay_open_id']) && cart_function::is_weixin()) {
 			//提前获取微信支付wxpay_open_id
 			$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel('pay_wxpay');
 			$open_id = $handler->getWechatOpenId();

@@ -51,11 +51,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 RC_Loader::load_app_class('integrate', 'user', false);
 class user_controller {
-    
-    private static function avatar_img($user_id) {
-        $default_headerimg = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
-    }
-    
     /**
      * 会员中心欢迎页
      */
@@ -70,11 +65,6 @@ class user_controller {
     		$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
     		$user = is_ecjia_error($user) ? array() : $user;
     		if ($user) {
-    			//判断是否第三方登录，同步头像
-    			/* 获取远程用户头像信息*/
-    			//@todo 没有获取到头像，再次获取头像
-//     			user_controller::sync_avatar($user['id']);
-    				 
     			if (!empty($user['avatar_img'])) {
     				$user_img = $user['avatar_img'];
     			}
