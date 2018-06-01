@@ -20,93 +20,96 @@ return array(
         'ClassLoader'          => 'Royalcms\Component\Support\ClassLoader',
         'ClassManager'         => 'Royalcms\Component\ClassLoader\ClassManager',
     
-    
+        // Support Facades
         'URL'                  => 'Royalcms\Component\Support\Facades\URL',
-    
         'Route'                => 'Royalcms\Component\Support\Facades\Route',
-    
         'File'                 => 'Royalcms\Component\Support\Facades\File',
+        
         'RC_File'              => 'Royalcms\Component\Support\Facades\File',
-    
         'RC_Error'             => 'Royalcms\Component\Support\Facades\Error',
         'RC_View'              => 'Royalcms\Component\Support\Facades\View',
         'RC_Validator'         => 'Royalcms\Component\Support\Facades\Validator',
         'RC_Redirect'          => 'Royalcms\Component\Support\Facades\Redirect',
-        'RC_Debugbar'          => 'Royalcms\Component\Debugbar\Facades\Debugbar',
-        'RC_Controller'        => 'Royalcms\Component\Routing\Controller',
         'RC_Request'           => 'Royalcms\Component\Support\Facades\Request',
         'RC_Response'          => 'Royalcms\Component\Support\Facades\Response',
         'RC_Cookie'            => 'Royalcms\Component\Support\Facades\Cookie',
         'RC_Lang'              => 'Royalcms\Component\Support\Facades\Lang',
-        'RC_String'            => 'Royalcms\Component\Support\Str',
         'RC_Crypt'             => 'Royalcms\Component\Support\Facades\Crypt',
         'RC_Log'               => 'Royalcms\Component\Support\Facades\Log',
         'RC_Logger'            => 'Royalcms\Component\Support\Facades\Logger',
-        'RC_LogViewer'         => 'Royalcms\Component\LogViewer\Facades\LogViewer',
         'RC_Config'            => 'Royalcms\Component\Support\Facades\Config',
-        'RC_Cache'             => 'Royalcms\Component\Foundation\Cache',
         'RC_Session'           => 'Royalcms\Component\Support\Facades\Session',
         'RC_DB'                => 'Royalcms\Component\Support\Facades\DB',
-        'RC_Eloquent'          => 'Royalcms\Component\Database\Eloquent\Model',
         'RC_Schema'            => 'Royalcms\Component\Support\Facades\Schema',
-        'RC_Seeder'            => 'Royalcms\Component\Database\Seeder',
         'RC_Queue'             => 'Royalcms\Component\Support\Facades\Queue',
         'RC_Paginator'         => 'Royalcms\Component\Support\Facades\Paginator',
-        'RC_Mail'              => 'Royalcms\Component\Support\Facades\Mail',
         'RC_Event'             => 'Royalcms\Component\Support\Facades\Event',
         'RC_Variable'          => 'Royalcms\Component\Support\Facades\Variable',
         'RC_Storage'           => 'Royalcms\Component\Storage\Facades\Storage',
         'RC_Filesystem'        => 'Royalcms\Component\Support\Facades\Storage',
-        'RC_Json'              => 'Royalcms\Component\Support\Json',
         'RC_Hook'              => 'Royalcms\Component\Support\Facades\Hook',
-        'RC_Ip'                => 'Royalcms\Component\IpAddress\Ip',
-        'RC_Upload'            => 'Royalcms\Component\Upload\Upload',
-        'RC_Time'              => 'Royalcms\Component\DateTime\Time',
-        'RC_Timer'             => 'Royalcms\Component\Timer\Facades\Timer',
-        'RC_Format'            => 'Royalcms\Component\Support\Format',
         'RC_Package'           => 'Royalcms\Component\Support\Facades\Package',
         'RC_ENV'               => 'Royalcms\Component\Support\Facades\Environment',
         'RC_Hash'              => 'Royalcms\Component\Support\Facades\Hash',
         'RC_Password'          => 'Royalcms\Component\Support\Facades\Password',
         'RC_Redis'             => 'Royalcms\Component\Support\Facades\Redis',
         'RC_Notification'      => 'Royalcms\Component\Support\Facades\Notification',
-    
-    
-        'RC_Object'            => 'Royalcms\Component\Foundation\RoyalcmsObject',
+        
+        
+        // Component Facades
+        'RC_Debugbar'          => 'Royalcms\Component\Debugbar\Facades\Debugbar',
+        'RC_LogViewer'         => 'Royalcms\Component\LogViewer\Facades\LogViewer',
+        'RC_Mail'              => 'Royalcms\Component\Mail\Facades\Mail',
+        'RC_Timer'             => 'Royalcms\Component\Timer\Facades\Timer',
+        
+        
+        //other
+        'RC_String'            => 'Royalcms\Component\Support\Str',
+        'RC_Json'              => 'Royalcms\Component\Support\Json',
+        'RC_Controller'        => 'Royalcms\Component\Routing\Controller',
+        'RC_Ip'                => 'Royalcms\Component\IpAddress\Ip',
+        'RC_Upload'            => 'Royalcms\Component\Upload\Upload',
+        'RC_Time'              => 'Royalcms\Component\DateTime\Time',
+        
         'RC_Model'             => 'Royalcms\Component\Model\ModelManage',
         'RC_Http'              => 'Royalcms\Component\HttpRequest\HttpRequest',
         'RC_Uuid'              => 'Royalcms\Component\Uuid\Uuid',
+        'RC_Eloquent'          => 'Royalcms\Component\Database\Eloquent\Model',
+        'RC_Seeder'            => 'Royalcms\Component\Database\Seeder',
+        'RC_Format'            => 'Royalcms\Component\Support\Format',
+        
     
-    
+        // Foundation
+        'RC_Object'            => 'Royalcms\Component\Foundation\RoyalcmsObject',
+        'RC_Array'             => 'Royalcms\Component\Foundation\ArrayHelper',
+        'RC_Kses'              => 'Royalcms\Component\Foundation\Kses',
+        'RC_Loader'            => 'Royalcms\Component\Foundation\Loader',
+        'RC_Route'             => 'Royalcms\Component\Foundation\Route',
+        'RC_Api'               => 'Royalcms\Component\Foundation\Api',
+        'RC_App'               => 'Royalcms\Component\Foundation\App',
+        'RC_Plugin'            => 'Royalcms\Component\Foundation\Plugin',
+        'RC_Theme'             => 'Royalcms\Component\Foundation\Theme',
+        'RC_Token'             => 'Royalcms\Component\Foundation\Token',
+        'RC_Uri'               => 'Royalcms\Component\Foundation\Uri',
+        'RC_Validate'          => 'Royalcms\Component\Foundation\Validate',
+        'RC_Widget'            => 'Royalcms\Component\Foundation\Widget',
+        'RC_Xml'               => 'Royalcms\Component\Foundation\Xml',
+        'RC_Cache'             => 'Royalcms\Component\Foundation\Cache',
+        
+        
         //     'Form'            => 'Royalcms\Component\Support\Facades\Form',
-    
+        
         //     'HTML'            => 'Royalcms\Component\Support\Facades\HTML',
         //     'Input'           => 'Royalcms\Component\Support\Facades\Input',
-    
-    //         'SSH'             => 'Royalcms\Component\Support\Facades\SSH',
-    
-    
-    
-    
-    
-        'RC_Array'          => 'Royalcms\Component\Foundation\ArrayHelper',
-        'RC_Kses'           => 'Royalcms\Component\Foundation\Kses',
-        'RC_Loader'         => 'Royalcms\Component\Foundation\Loader',
-        'RC_Route'          => 'Royalcms\Component\Foundation\Route',
-        'RC_Api'            => 'Royalcms\Component\Foundation\Api',
-        'RC_App'            => 'Royalcms\Component\Foundation\App',
-        'RC_Plugin'         => 'Royalcms\Component\Foundation\Plugin',
-        'RC_Theme'          => 'Royalcms\Component\Foundation\Theme',
-        'RC_Token'          => 'Royalcms\Component\Foundation\Token',
-        'RC_Uri'            => 'Royalcms\Component\Foundation\Uri',
-        'RC_Validate'       => 'Royalcms\Component\Foundation\Validate',
-        'RC_Widget'         => 'Royalcms\Component\Foundation\Widget',
-        'RC_Xml'            => 'Royalcms\Component\Foundation\Xml',
+        
+        
+        //custome self loading
+        // 'RC_SSH'             => 'Royalcms\Component\Remote\Facades\SSH',
     
     ),
     
     /*
-     |--------------------------------------------------------------------------
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

@@ -68,7 +68,7 @@ class QueueManager {
 		{
 			$this->connections[$name] = $this->resolve($name);
 
-			$this->connections[$name]->setContainer($this->app);
+			$this->connections[$name]->setContainer($this->royalcms);
 		}
 
 		return $this->connections[$name];

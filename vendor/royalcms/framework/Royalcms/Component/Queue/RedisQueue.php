@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Queue;
 
-use Royalcms\Component\Redis\Database;
+use Royalcms\Component\Redis\Contracts\Factory;
 use Royalcms\Component\Queue\Jobs\RedisJob;
 
 class RedisQueue extends Queue implements QueueInterface {
@@ -8,7 +8,7 @@ class RedisQueue extends Queue implements QueueInterface {
 	/**
 	* The Redis database instance.
 	*
-	 * @var \Royalcms\Component\Redis\Database
+	 * @var \Royalcms\Component\Redis\Contracts\Factory
 	 */
 	protected $redis;
 
@@ -29,12 +29,12 @@ class RedisQueue extends Queue implements QueueInterface {
 	/**
 	 * Create a new Redis queue instance.
 	 *
-	 * @param  \Royalcms\Component\Redis\Database  $redis
+	 * @param  \Royalcms\Component\Redis\Contracts\Factory  $redis
 	 * @param  string  $default
 	 * @param  string  $connection
 	 * @return void
 	 */
-	public function __construct(Database $redis, $default = 'default', $connection = null)
+	public function __construct(Factory $redis, $default = 'default', $connection = null)
 	{
 		$this->redis = $redis;
 		$this->default = $default;
