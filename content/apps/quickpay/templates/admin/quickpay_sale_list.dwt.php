@@ -40,7 +40,7 @@
 
 <div class="row-fluid">
 	<div class="span12">
-		<div class="form-group choose_list sqq">
+		<div class="form-group choose_list">
 			<form class="form-inline" action="{$search_action}" method="post" name="searchForm">
 				<span>按照年份查：</span>
 		        {html_select_date prefix="year_begin" class="no_search w110" time=$filter.start_date start_year="-10" reverse_years=true display_months=false display_days=false }

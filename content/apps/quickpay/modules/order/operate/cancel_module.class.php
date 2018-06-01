@@ -92,6 +92,40 @@ class cancel_module extends api_front implements api_interface {
 		
 		RC_DB::table('quickpay_orders')->where('order_id', $order_id)->update($arr);
 		
+		/*退还用户余额、积分、红包 */
+		/*有使用余额，退还余额*/
+		if ($order_info['user_id'] > 0 && $order_info['surplus'] > 0) {
+			$options = array(
+					'user_id'		=> $order_info['user_id'],
+					'user_money'	=> $order_info['surplus'],
+					'change_desc'	=> sprintf(RC_Lang::get('orders::order.return_surplus_on_cancel'), $order_info['order_sn'])
+			);
+			$result = RC_Api::api('user', 'account_change_log',$options);
+			if (is_ecjia_error($result)) {
+				return $result;
+			}
+		}
+		/*有使用积分，退还积分*/
+		if ($order_info['user_id'] > 0 && $order_info['integral'] > 0) {
+			$options = array(
+					'user_id'		=> $order_info['user_id'],
+					'pay_points'	=> $order_info['integral'],
+					'change_desc'	=> sprintf(RC_Lang::get('orders::order.return_integral_order_cancel'), $order_info['order_sn']),
+					'from_type'		=> 'ordercancel_back_integral',
+					'from_value'	=> $order_info['order_sn']
+			);
+			$result = RC_Api::api('user', 'account_change_log', $options);
+			if (is_ecjia_error($result)) {
+				return $result;
+			}
+		}
+		
+		/*有使用红包，退还红包*/
+		if ($order_info['user_id'] > 0 && $order_info['bonus_id'] > 0) {
+			RC_Loader::load_app_func('admin_bonus', 'bonus');
+			change_user_bonus($order_info['bonus_id'], $order_info['order_id'], false);
+		}
+		
 		/* 记录log */
 		RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
 		$data = array(

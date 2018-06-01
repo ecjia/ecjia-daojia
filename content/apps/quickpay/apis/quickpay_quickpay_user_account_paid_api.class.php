@@ -229,10 +229,7 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		
 		/* 客户付款通知（默认通知店长）*/
 		/* 获取店长的记录*/
-// 		$devic_info = $staff_user = array();
-// 		$staff_user = RC_DB::table('staff_user')->where('store_id', $order_info['store_id'])->where('parent_id', 0)->first();
 		if (!empty($staff_user)) {
-// 			$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $staff_user['user_id']));
 			$options = array(
 				'user_id'   => $staff_user['user_id'],
 				'user_type' => 'merchant',
@@ -251,43 +248,28 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 			RC_Api::api('push', 'push_event_send', $options);
 		}
 		
-// 		if (!is_ecjia_error($devic_info) && !empty($devic_info)) {
-// 			$push_event = RC_Model::model('push/push_event_viewmodel')->where(array('event_code' => 'order_pay', 'is_open' => 1, 'status' => 1, 'mm.app_id is not null', 'mt.template_id is not null', 'device_code' => $devic_info['device_code'], 'device_client' => $devic_info['device_client']))->find();
-			 
-// 			if (!empty($push_event)) {
-// 				/* 通知记录*/
-				$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
-				$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
-				
-				$order_data = array(
-					'title'	=> '客户付款',
-					'body'	=> '您有一笔新订单，订单号为：'.$order_info['order_sn'],
-					'data'	=> array(
-						'order_id'		=> $order_info['order_id'],
-						'order_sn'		=> $order_info['order_sn'],
-						'order_amount'	=> $order_info['order_amount'],
-						'formatted_order_amount' => price_format($order_info['order_amount']),
-						'consignee'		=> $order_info['consignee'],
-						'mobile'		=> $order_info['mobile'],
-						'address'		=> $order_info['address'],
-						'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order_info['add_time']),
-					),
-				);
-				 
-				$push_order_pay = new OrderPay($order_data);
-				RC_Notification::send($staff_user_ob, $push_order_pay);
-
-// 				RC_Loader::load_app_class('push_send', 'push', false);
-// 				ecjia_admin::$controller->assign('order', $order_info);
-// 				$content = ecjia_admin::$controller->fetch_string($push_event['template_content']);
+		/* 通知记录*/
+		$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
+		$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
 		
-// 				if ($devic_info['device_client'] == 'android') {
-// 					$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_ANDROID)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-// 				} elseif ($devic_info['device_client'] == 'iphone') {
-// 					$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_IPHONE)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-// 				}
-// 			}
-// 		}
+		$order_data = array(
+			'title'	=> '客户付款',
+			'body'	=> '您有一笔新订单，订单号为：'.$order_info['order_sn'],
+			'data'	=> array(
+				'order_id'		=> $order_info['order_id'],
+				'order_sn'		=> $order_info['order_sn'],
+				'order_amount'	=> $order_info['order_amount'],
+				'formatted_order_amount' => price_format($order_info['order_amount']),
+				'consignee'		=> $order_info['consignee'],
+				'mobile'		=> $order_info['mobile'],
+				'address'		=> $order_info['address'],
+				'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order_info['add_time']),
+			),
+		);
+		 
+		$push_order_pay = new OrderPay($order_data);
+		RC_Notification::send($staff_user_ob, $push_order_pay);
+
 		return true;
     }
 }

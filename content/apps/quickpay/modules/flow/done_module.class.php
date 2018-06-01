@@ -272,7 +272,9 @@ class done_module extends api_front implements api_interface {
     		$params = array(
     				'user_id'		=> $order['user_id'],
     				'pay_points'	=> $order['integral'] * (- 1),
-    				'change_desc'	=> sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn'])
+    				'change_desc'	=> sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn']),
+    				'from_type'		=> 'order_use_integral',
+    				'from_value'	=> $order['order_sn']
     		);
     		$result = RC_Api::api('user', 'account_change_log', $params);
     		if (is_ecjia_error($result)) {
