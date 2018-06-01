@@ -212,7 +212,7 @@
 		            cropper = $('.imageBox').cropbox(options);
 		        }
 		        reader.readAsDataURL(this.files[0]);
-		        this.files = [];
+		        // this.files = [];
 		    })
 	    
 		    $('#btnCrop').on('click', function () {
@@ -231,20 +231,22 @@
 		    })
  
 		    $('#btnSubmit').on('click', function() {
-                var img = cropper.getDataURL().replace('data:image/png;base64,', '');
 		        var url = $(this).attr('data-url');
-		        var data = {
-		        	img: img
-		        };
-		        $.ajax(url, {
+				var img = cropper.getBlob();
+		        var formdata = new FormData();
+		        formdata.append("avatar", img, "image.png");
+
+		        $.ajax({
+		        	url: url,
+		        	data: formdata,
 		            type: 'post',
-		            data: data,
+		          	contentType: false,    
+            		processData: false,  
 		            success: function (data) {
-		            	top.location.reload();
 		            	ecjia.merchant.showmessage(data);
 		            }
 		        });
-		    })	
+		    })
         }
     }
     

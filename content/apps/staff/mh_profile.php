@@ -344,19 +344,33 @@ class mh_profile extends ecjia_merchant
      */
     public function avatar_update()
     {
-        $img      = $_POST['img'];
         $staff_id = $_SESSION['staff_id'];
         $store_id = $_SESSION['store_id'];
 
-        $path          = RC_Upload::upload_path('merchant/' . $store_id . '/data/avatar');
-        $filename_path = $path . '/' . $staff_id . "_" . 'avatar.png';
-        RC_Filesystem::mkdir($path, 0777, true, true);
-        $img = base64_decode($img);
-        file_put_contents($filename_path, $img);
-        $file_url = 'merchant/' . $store_id . '/data/avatar/' . $staff_id . "_" . 'avatar.png';
-        $data     = array(
-            'avatar' => $file_url,
+        $upload = RC_Upload::uploader('image', array('save_path' => 'merchant/' . $store_id . '/data/avatar', 'auto_sub_dirs' => false));
+        if (!empty($_FILES['avatar']['name'])) {
+            if (isset($_FILES['avatar']['error']) && $_FILES['avatar']['error'] == 0 || ! isset($_FILES['avatar']['error']) && isset($_FILES['avatar']['tmp_name']) && $_FILES['avatar']['tmp_name'] != 'none') {
+                $image_info = $upload->upload($_FILES['avatar']);
+                if (!empty($image_info)) {
+                    $avatar = $upload->get_position($image_info);
+                } else {
+                    return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                }
+            }
+        } else {
+            return $this->showmessage('请上传图像', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        $data = array(
+            'avatar' => $avatar,
         );
+
+        //删除旧头像
+        $old_avatar = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('avatar');
+        if (!empty($old_avatar)) {
+            $upload->remove($old_avatar);
+        }
+
+        //更新
         RC_DB::table('staff_user')->where('user_id', $staff_id)->update($data);
         return $this->showmessage('上传新头像成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/avatar')));
     }

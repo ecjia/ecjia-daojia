@@ -44,7 +44,7 @@
 					                <a href="javascript:void(0)" class="upload-img">
 					                    <label for="upload-file">选择图像</label>
 					                </a>
-					                <input type="file" class="" name="upload-file" id="upload-file" />
+					                <input type="file" class="" name="avatar" id="upload-file" />
 					            </div>
 					            <input type="button" id="btnSubmit" class="Btnsty_peyton" data-url="{$form_action}" value="上传" />
 					            <input type="button" id="btnCrop" class="Btnsty_peyton" value="裁切" />

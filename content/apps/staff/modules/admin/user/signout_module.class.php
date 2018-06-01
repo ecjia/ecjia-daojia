@@ -53,8 +53,20 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class signout_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
-		
-		RC_Session::destroy();
+    	RC_Session::destroy();
+    	
+		//修改关联设备号用户id为0
+		$result = ecjia_app::validate_application('mobile');
+		if (!is_ecjia_error($result)) {
+			$device		= $this->device;
+			if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
+				RC_DB::table('mobile_device')
+						->where('device_udid', $device['udid'])
+						->where('device_client', $device['client'])
+						->where('device_code', $device['code'])
+						->where('user_type', 'merchant')->update(array('user_id' => 0));
+			}
+		}
 		
 		return array();
 	}
