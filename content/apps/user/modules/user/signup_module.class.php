@@ -64,7 +64,8 @@ class signup_module extends api_front implements api_interface
 		$mobile		   = $this->requestData('mobile');
 		$device_client = isset($device['client']) ? $device['client'] : '';
 		$invite_code   = $this->requestData('invite_code');
-		
+		$api_version   = $this->request->header('api-version');
+	
 		$other		   = array();
 		$filelds	   = array();
 		
@@ -84,15 +85,40 @@ class signup_module extends api_front implements api_interface
 		for ($i = 0; $i < 6; $i++) {
 			$code .= $charset[rand(1, $charset_len)];
 		}
-		/* 判断是否为手机*/
-		if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
-			/* 设置用户手机号*/
-			$other['mobile_phone'] = $username;
-			
-			$username = $device_client.'_'.$code;
-			$user = integrate::init_users();
-			if ($user->check_user($username)) {
-				$username = $username. rand(0,9);
+		
+		if (version_compare($api_version, '1.17', '>=')) {
+			if (empty($username) && empty($mobile)) {
+				return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			}
+			if (!empty($username) && empty($mobile)) {
+				/* 判断是否为手机*/
+				if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
+					/* 设置用户手机号*/
+					$other['mobile_phone'] = $username;
+					$username = substr_replace($username,'****',3,4);
+					$user = integrate::init_users();
+				}
+			}elseif (empty($username) && !empty($mobile)) {
+				/* 判断是否为手机*/
+				if (is_numeric($mobile) && strlen($mobile) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $mobile)) {
+					/* 设置用户手机号*/
+					$other['mobile_phone'] = $mobile;
+				
+					$username = substr_replace($mobile,'****',3,4);
+					$user = integrate::init_users();
+				}
+			}
+		} else {
+			/* 判断是否为手机*/
+			if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
+				/* 设置用户手机号*/
+				$other['mobile_phone'] = $username;
+					
+				$username = $device_client.'_'.$code;
+				$user = integrate::init_users();
+				if ($user->check_user($username)) {
+					$username = $username. rand(0,9);
+				}
 			}
 		}
 		
@@ -112,7 +138,12 @@ class signup_module extends api_front implements api_interface
 		}
 		
 		$other['last_login'] = RC_Time::gmtime();
-		$result = register($username, $password, $email, $other);
+		if (version_compare($api_version, '1.17', '>=')) {
+			$result = register($username, $password, $email, $other, $api_version);
+		} else {
+			$result = register($username, $password, $email, $other);
+		}
+		
 		if (is_ecjia_error($result)) {
 			return $result;
 		} else {
@@ -237,7 +268,7 @@ class signup_module extends api_front implements api_interface
  *            
  * @return bool $bool
  */
-function register($username, $password, $email, $other = array())
+function register($username, $password, $email, $other = array(), $api_version)
 {
     $db_user = RC_Loader::load_app_model('users_model', 'user');
 
@@ -245,15 +276,27 @@ function register($username, $password, $email, $other = array())
     if (ecjia::config('shop_reg_closed')) {
     	return new ecjia_error('shop_reg_closed', '会员注册关闭');
     }
-    /* 检查username */
-    if (empty($username)) {
-    	return new ecjia_error('username_not_empty', '用户名不能为空！');
+    
+    if (!empty($api_version)) {
+    	/* 检查username */
+    	if (empty($username)) {
+    		return new ecjia_error('username_not_empty', '用户名不能为空！');
+    	} else {
+    		if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\\"\\s\\t\\<\\>\\&\'\\\\]/', $username)) {
+    			return new ecjia_error('username_error', '用户名有敏感字符');
+    		}
+    	}
     } else {
-        if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', $username)) {
-        	return new ecjia_error('username_error', '用户名有敏感字符');
-        }
+    	/* 检查username */
+    	if (empty($username)) {
+    		return new ecjia_error('username_not_empty', '用户名不能为空！');
+    	} else {
+    		if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', $username)) {
+    			return new ecjia_error('username_error', '用户名有敏感字符');
+    		}
+    	}
     }
-
+    
     if (admin_registered($username)) {
     	return new ecjia_error('user_exists', RC_Lang::get('user::users.username_exists'));
     }

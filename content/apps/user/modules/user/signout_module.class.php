@@ -51,9 +51,22 @@ class signout_module extends api_front implements api_interface {
     	
 		RC_Loader::load_app_class('integrate', 'user', false);
 		$user = integrate::init_users();
-		$user->logout();
+		$device		= $this->device;
 		
+		$user->logout();
 		RC_Session::destroy();
+		
+		//修改关联设备号用户id为0
+		$result = ecjia_app::validate_application('mobile');
+		if (!is_ecjia_error($result)) {
+			if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
+				RC_DB::table('mobile_device')
+						->where('device_udid', $device['udid'])
+						->where('device_client', $device['client'])
+						->where('device_code', $device['code'])
+						->where('user_type', 'user')->update(array('user_id' => 0));
+			}
+		}
 		
 		return array();
 	}

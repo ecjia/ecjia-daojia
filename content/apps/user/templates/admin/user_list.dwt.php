@@ -52,12 +52,12 @@
 						<th class="table_checkbox"><input type="checkbox" data-toggle="selectall" data-children=".checkbox"/></th>
 						<th class="w100">{lang key='user::users.label_user_name'}</th>
 						<th class="w150">{lang key='user::users.email'}</th>
-						<th class="w70">{lang key='user::users.mobile_phone'}</th>
+						<th class="w100">{lang key='user::users.mobile_phone'}</th>
 						<th class="w100">{lang key='user::users.user_money'}</th>
 						<th class="w100">{lang key='user::users.frozen_money'}</th>
 						<th class="w50">{lang key='user::users.rank_points'}</th>
 						<th class="w50">{lang key='user::users.pay_points'}</th>
-						<th class="w110">{lang key='user::users.reg_date'}</th>
+						<th class="w120">{lang key='user::users.reg_date'}</th>
 					</tr>
 				</thead>
 				<tbody>

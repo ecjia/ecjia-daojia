@@ -52,7 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class user_admin_menu_api extends Component_Event_Api {	
 	public function call(&$options) {
-		$menus = ecjia_admin::make_admin_menu('05_members', RC_Lang::get('user::users.user_manage'), '', 5);
+		$menus = ecjia_admin::make_admin_menu('06_members', RC_Lang::get('user::users.user_manage'), '', 6);
 		$submenus = array(
 				ecjia_admin::make_admin_menu('01_users_list', RC_Lang::get('user::users.user_list'), RC_Uri::url('user/admin/init'), 1)->add_purview('user_manage'),
 				ecjia_admin::make_admin_menu('02_users_add', RC_Lang::get('user::users.user_add'), RC_Uri::url('user/admin/add'), 2)->add_purview('user_update'),
