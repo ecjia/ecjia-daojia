@@ -113,8 +113,23 @@ class IOSNotification extends NotificationAbstract
 
 			$unicast->setPredefinedKeyValue("description",      $this->push_description);
 			$unicast->setPredefinedKeyValue("alert",            $this->push_content);
-			$unicast->setPredefinedKeyValue("badge", 1);
-			$unicast->setPredefinedKeyValue("sound", "chime");
+			
+			if ($this->getMutableContent()) {
+                $unicast->setPredefinedKeyValue("mutable-content",  $this->getMutableContent());
+			}
+			
+			if ($this->getBadge()) {
+			    $unicast->setPredefinedKeyValue("badge", $this->getBadge());
+			} else {
+			    $unicast->setPredefinedKeyValue("badge", 1);
+			}
+			
+			if ($this->getSound()) {
+			    $unicast->setPredefinedKeyValue("sound", $this->getSound());
+			} else {
+			    $unicast->setPredefinedKeyValue("sound", "chime");
+			}
+			
 			// Set 'production_mode' to 'true' if your app is under production mode
 		    if ($this->debug) {
 			    $unicast->setPredefinedKeyValue("production_mode", "false");

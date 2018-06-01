@@ -68,6 +68,4 @@ class OrderShipped extends EventAbstract
     ];
     
 
-
-
 }

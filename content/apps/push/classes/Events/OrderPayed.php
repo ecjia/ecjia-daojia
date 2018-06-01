@@ -67,5 +67,9 @@ class OrderPayed extends EventAbstract
     	'order_amount'  => '订单金额',
     	'service_phone' => '客服电话',
     ];
+    
+    protected $sound = 'new_order.mp3';
+    
+    protected $mutableContent = 1;
 
 }

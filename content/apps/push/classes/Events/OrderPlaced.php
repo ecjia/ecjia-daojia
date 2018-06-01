@@ -69,6 +69,8 @@ class OrderPlaced extends EventAbstract
     	'service_phone' => '客服电话',
     ];
 
-
+    protected $sound = 'new_order.mp3';
+    
+    protected $mutableContent = 1;
 
 }

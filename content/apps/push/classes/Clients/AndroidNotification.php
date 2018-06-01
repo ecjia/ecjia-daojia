@@ -126,6 +126,12 @@ class AndroidNotification extends NotificationAbstract
 			    $unicast->setPredefinedKeyValue("device_tokens",    implode(',', $this->device_tokens));
 			}
 			
+			if ($this->getSound()) {
+			    $unicast->setPredefinedKeyValue("sound", basename($this->getSound(), '.mp3'));
+			} else {
+			    $unicast->setPredefinedKeyValue("sound", "");
+			}
+			
 			// Set 'production_mode' to 'false' if it's a test device. 
 			// For how to register a test device, please see the developer doc.
 		    if ($this->debug) {

@@ -55,14 +55,15 @@ abstract class IOSNotification extends UmengNotification {
 													"alert"					=>  NULL
 													//"badge"				=>  xx,
 													//"sound"				=>	"xx",
-													//"content-available"	=>	xx	
+													//"content-available"	=>	xx,	
+													//"mutable-content"	   =>	1,	
 												)
 			        			//"key1"	=>	"value1",
 			        			//"key2"	=>	"value2"
 							);
 
 	// Keys can be set in the aps level
-	protected $APS_KEYS    = array("alert", "badge", "sound", "content-available");
+	protected $APS_KEYS    = array("alert", "badge", "sound", "content-available", "mutable-content");
 
 	function __construct() {
 		parent::__construct();

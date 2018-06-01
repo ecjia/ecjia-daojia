@@ -67,6 +67,10 @@ abstract class NotificationAbstract
 	protected $push_description;
 	protected $custom_fields    = array();
 	protected $device_tokens    = array();
+	
+	protected $sound;
+	protected $badge;
+	protected $mutableContent;
 
 	public function __construct() 
 	{
@@ -146,6 +150,47 @@ abstract class NotificationAbstract
 	    }
 	    
 	    return $this;
+	}
+	
+	
+	public function setSound($sound)
+	{
+	    $this->sound = $sound;
+	    
+	    return $this;
+	}
+	
+	
+	public function getSound()
+	{
+	    return $this->sound;
+	}
+	
+	
+	public function setBadge($badge)
+	{
+	    $this->badge = $badge;
+	    
+	    return $this;
+	}
+	
+	
+	public function getBadge()
+	{
+	    return $this->badge;
+	}
+	
+	public function setMutableContent($mutable)
+	{
+	    $this->mutableContent = $mutable;
+	
+	    return $this;
+	}
+	
+	
+	public function getMutableContent()
+	{
+	    return $this->mutableContent;
 	}
 
 	/**

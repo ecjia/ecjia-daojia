@@ -64,6 +64,10 @@ class ExpressGrab extends EventAbstract
     	'express_sn'   => '配送单号',
     	'service_phone'=> '客服电话',
     ];
+    
+    protected $sound = 'new_order.mp3';
+    
+    protected $mutableContent = 1;
 
 
 

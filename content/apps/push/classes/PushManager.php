@@ -175,6 +175,8 @@ class PushManager extends RC_Object
             $content->setTemplateVar($template_var);
             $content->setTemplateId($template['template_id']);
             $content->setSubject($template['template_subject']);
+            $content->setSound($this->event->getSound());
+            $content->setMutableContent($this->event->getMutableContent());
             
             $error = new ecjia_error();
             

@@ -49,6 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 发送消息的接口
  * @author royalwang
+ * @deprecated 2018-05-24 该API接口已经废弃
  */
 class push_push_send_api extends Component_Event_Api {
 	
@@ -62,7 +63,9 @@ class push_push_send_api extends Component_Event_Api {
      *          $options['description'] 推送消息描述
      * @return array
      */
-	public function call(&$options) {	    
+	public function call(&$options) {
+        _deprecated_file(basename( __FILE__ ), '1.17.0', 'push_push_event_send_api.php');
+	    
 	    // $user_id, $admin_id, $device_token, $device_client, $priority
 	    if (!is_array($options)) {
 	        return new ecjia_error('invalid_argument', __('无效参数'));
@@ -82,30 +85,7 @@ class push_push_send_api extends Component_Event_Api {
 	        $priority = 1;
 	    }
 
-	    RC_Loader::load_app_class('push_send', 'push', false);
-	    
-	    if (ecjia_config::has('push_order_placed_apps')) {
-	        $push_order_placed_apps = ecjia::config('push_order_placed_apps');
-	        $apps = explode(',', $push_order_placed_apps);
-	        foreach ($apps as $appid) {
-				$db_mobile_manage = RC_Model::model('mobile/mobile_manage_model');
-				$device_code = $db_mobile_manage->where(array('app_id' => $appid))->get_field('device_code');
-	        	if (!empty($options['admin_id'])) {
-	        		$device_info = RC_Api::api('mobile', 'device_info', array('admin_id' => $options['admin_id'], 'device_code' => $device_code));
-	        	} elseif (!empty($options['user_id'])) {
-	        		$device_info = RC_Api::api('mobile', 'device_info', array('user_id' => $options['user_id'], 'device_code' => $device_code));
-	        	}
-	        	
-	        	if (empty($device_info['device_client']) || empty($device_info['device_token'])) {
-	        		return new ecjia_error('device_token_not_found' ,__('未找到该用户的Device Token！'));
-	        	}
-	        	
-	            push_send::make($appid)->set_client($device_info['device_client'])->set_field($options['custom_fields'])->send($device_info['device_token'], $options['msg'], $options['msg'], $options['template_id'], $priority);
-	        }
-	        return true;
-	    } else {
-	        return false;
-	    }
+	    return false;
 	}
 }
 

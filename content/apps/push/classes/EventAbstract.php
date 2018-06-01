@@ -49,6 +49,22 @@ namespace Ecjia\App\Push;
 
 abstract class EventAbstract
 {
+    
+    protected $code;
+    
+    protected $name;
+    
+    protected $description;
+    
+    protected $template;
+    
+    protected $available_values = [];
+    
+    protected $sound = 'chime';
+    
+    protected $mutableContent = 0;
+    
+    
     public function getCode()
     {
         return $this->code;
@@ -97,6 +113,18 @@ abstract class EventAbstract
         {
             return false;
         }
+    }
+    
+    
+    public function getSound()
+    {
+        return $this->sound;
+    }
+    
+    
+    public function getMutableContent()
+    {
+        return $this->mutableContent;
     }
     
 }

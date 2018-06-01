@@ -64,6 +64,8 @@ class ExpressSystemAssign extends EventAbstract
     	'express_sn' => '配送单号',
     ];
 
-
+    protected $sound = 'new_order.mp3';
+    
+    protected $mutableContent = 1;
 
 }
