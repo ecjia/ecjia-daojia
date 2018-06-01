@@ -144,7 +144,7 @@ class InitMailTemplatesTableSeeder extends Seeder
                 'template_code'     => 'attention_list',
                 'is_html'           => '0',
                 'template_subject'  => '关注商品',
-                'template_content'  => "亲爱的{\$user_name}您好~\n\n您关注的商品 : {\$goods_name} 最近已经更新,请您查看最新的商品信息\n\n{\$goods_url}\r\n\r\n{$shop_name} \r\n{$send_date}",
+                'template_content'  => "亲爱的{\$user_name}您好~\n\n您关注的商品 : {\$goods_name} 最近已经更新,请您查看最新的商品信息\n\n{\$goods_url}\r\n\r\n{\$shop_name} \r\n{\$send_date}",
                 'last_modify'       => '1183851073',
                 'last_send'         => '0',
                 'type'              => 'template'
