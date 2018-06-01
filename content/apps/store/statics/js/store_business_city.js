@@ -34,6 +34,7 @@
 	                var url = $this.attr('add-business-city-url');
 	                $.post(url, function (data) {
 	                	$('.add-business-city').html(data.data);
+	                	$("select").not(".noselect").chosen();
 	                	app.store_business_city.submit_form();
 	                }, 'json');
 				})
@@ -46,6 +47,7 @@
 	                var url = $this.attr('edit-business-city-url');
 	                $.post(url, function (data) {
 	                	$('.edit-business-city').html(data.data);
+	                	$("select").not(".noselect").chosen();
 	                	app.store_business_city.submit_form();
 	                }, 'json');
 				})
@@ -61,6 +63,7 @@
 	                $.post(url, function (data) {
 	                	$(href).modal('show');
 	                	$('.add-business-district').html(data.data)
+	                	$("select").not(".noselect").chosen();
 	                	$('.modal-body').find('input[type="checkbox"]').uniform();
 	                	app.store_business_city.submit_form();
 	                }, 'json');

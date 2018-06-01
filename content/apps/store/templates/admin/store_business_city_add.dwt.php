@@ -3,7 +3,7 @@
 	<button class="close" data-dismiss="modal">×</button>
 	<h3>当前操作：<span class="action_title">添加经营城市</span></h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" style="height:350px;">
 	<form class="form-horizontal" name="Form"  method="post" action="{url path='store/admin_store_business_city/insert'}">
 		<div class="control-group formSep">
 			<label class="control-label control-label-new">选择经营城市：</label>

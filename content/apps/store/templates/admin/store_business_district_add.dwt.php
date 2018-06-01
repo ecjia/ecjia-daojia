@@ -4,7 +4,7 @@
 	<h3>当前操作：<span class="action_title">添加经营地区</span></h3>
 </div>
 
-<div class="modal-body">
+<div class="modal-body" style="height:350px;">
 	<form class="form-horizontal" method="post" action="{url path='store/admin_store_business_city/insert_district'}" name="Form">
 		<fieldset>
 			<div class="row-fluid priv_list">

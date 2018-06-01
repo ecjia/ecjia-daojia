@@ -85,6 +85,7 @@ return array(
 	'store_preaudit_list'	=>	'待审核入驻商列表',
 	'check'					=>	'审核',
 	'check_view'		    =>	'审核商家',
+	'store_preaudit_update' => 	'待审核入驻商更新',
 
 	//通用
 	'sub_update' =>'更新',
