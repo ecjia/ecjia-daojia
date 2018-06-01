@@ -444,20 +444,35 @@ return array(
 	
     'admin/shop/captcha/sms/checkcode' => 'captcha::captcha/admin/checkcode',    //1.14掌柜验证图形验证码并发送短信
 
-	'admin/express/task'             	=> 'express::admin/express/task',           	//掌柜配送任务列表
-	'admin/express/staff/location'   	=> 'express::admin/express/location',       	//掌柜查看配送订单配送员位置
-	'admin/express/finished'         	=> 'express::express/finished',             	//配送员app中配送员完成配送单
-	'admin/express/staff/detail'     	=> 'express::admin/express/staff/detail',   	//掌柜查看配送员详情
-	'admin/express/staff/list'       	=> 'express::admin/express/staff/list',     	//掌柜查看配送员列表
-	'admin/express/staff/add/validate'	=> 'express::admin/express/staff/validate',		//掌柜添加配送员验证
-	'admin/express/staff/add'			=> 'express::admin/express/staff/add',	    	//掌柜添加配送员
-	'admin/express/staff/update'		=> 'express::admin/express/staff/update',		//掌柜编辑配送员
-	'admin/express/assignOrder'			=> 'express::admin/express/staff/assignOrder',	//掌柜指派订单给配送员
-	'admin/express/staff/online'		=> 'express::admin/express/staff/online',		//掌柜指派订单获取在线配送员
+	'admin/express/task'             	=> 'express::admin/shopkeeper/express/task',           		//掌柜配送任务列表
+	'admin/express/staff/location'   	=> 'express::admin/shopkeeper/express/location',       		//掌柜查看配送订单配送员位置
+	'admin/express/finished'         	=> 'express::express/finished',             				//配送员app中配送员完成配送单
+	'admin/express/staff/detail'     	=> 'express::admin/shopkeeper/express/staff/detail',   		//掌柜查看配送员详情
+	'admin/express/staff/list'       	=> 'express::admin/shopkeeper/express/staff/list',     		//掌柜查看配送员列表
+	'admin/express/staff/add/validate'	=> 'express::admin/shopkeeper/express/staff/validate',		//掌柜添加配送员验证
+	'admin/express/staff/add'			=> 'express::admin/shopkeeper/express/staff/add',	    	//掌柜添加配送员
+	'admin/express/staff/update'		=> 'express::admin/shopkeeper/express/staff/update',		//掌柜编辑配送员
+	'admin/express/assignOrder'			=> 'express::admin/shopkeeper/express/staff/assignOrder',	//掌柜指派订单给配送员
+	'admin/express/staff/online'		=> 'express::admin/shopkeeper/express/staff/online',		//掌柜指派订单获取在线配送员
 	
 	'storepickup/flow/checkOrder'  		=> 'cart::storepickup/flow/checkOrder',			//门店提货购物流检查订单
 	'storepickup/flow/done'        		=> 'cart::storepickup/flow/done',				//门店提货购物流结算
 	'store/business/city'        		=> 'store::business/city',						//经营城市列表
+	
+		
+	'admin/express/list'			=> 'express::admin/express/express/list',              //1.17废弃
+	'admin/express/express/list'	=> 'express::admin/express/express/list',              //1.17新增
+		
+	'admin/shopkeeper/crowdsource/express/task'        => 'express::admin/shopkeeper/crowdsource/express/task',		//掌柜查看平台配送任务列表
+	'admin/shopkeeper/crowdsource/express/pickup'      => 'express::admin/shopkeeper/crowdsource/express/pickup',	//掌柜操作平台配送单为已取货
+	'admin/shopkeeper/crowdsource/express/remind'	   => 'express::admin/shopkeeper/crowdsource/express/remind',	//商家提醒平台派单
+	'admin/shopkeeper/express/pickup'	   			   => 'express::admin/shopkeeper/express/pickup',				//掌柜操作商家配送单为已取货
+	'admin/shopkeeper/shop/boss/sms'		   		   => 'merchant::admin/shopkeeper/shop/boss/sms',				//掌柜切换店铺上下线给店长发送短信验证码
+	'admin/shopkeeper/merchant/online'		   		   => 'merchant::admin/shopkeeper/merchant/online',				//掌柜设置店铺上线
+	'admin/shopkeeper/merchant/offline'		   		   => 'merchant::admin/shopkeeper/merchant/offline',			//掌柜设置店铺下线
+	'admin/shopkeeper/order/checking/detail'		   => 'orders::admin/shopkeeper/order/checking/detail',			//掌柜查看验单详情				
+	'admin/shopkeeper/order/checking/record'		   => 'orders::admin/shopkeeper/order/checking/record',			//掌柜查看验单记录
+	'admin/shopkeeper/order/checking/confirm'		   => 'orders::admin/shopkeeper/order/checking/confirm',		//掌柜确认验单操作	
 	
 	
     /** 1.0 已经废弃
