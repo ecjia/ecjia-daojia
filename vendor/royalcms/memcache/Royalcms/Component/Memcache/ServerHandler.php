@@ -37,13 +37,13 @@ class ServerHandler implements CommandInterface
         /* Variables */
         $buffer = '';
         $handle = null;
-
+        
         /* Socket Opening */
         if (!($handle = @fsockopen($server, $port, $errno, $errstr, self::$_ini['connection_timeout'])))
         {
             /* Adding error to log */
             self::$_log = utf8_encode($errstr);
-            
+            royalcms('memcache')->getDataError()->add(utf8_encode($errstr));
             return false;
         }
         
@@ -290,10 +290,10 @@ class ServerHandler implements CommandInterface
     {
         /* Initializing */
         $items = false;
-
+        
         /* Executing command : stats cachedump */
         $result = $this->exec('stats cachedump ' . $slab . ' ' . self::$_ini['max_item_dump'], $server, $port);
-        if($result)
+        if ($result)
         {
             /* Parsing result */
             $items = $this->parse($result, false);

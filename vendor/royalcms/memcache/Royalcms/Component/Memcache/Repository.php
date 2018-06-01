@@ -27,6 +27,9 @@ class Repository implements ArrayAccess {
 	 * @var array
 	 */
 	protected $macros = array();
+	
+	
+	protected $error;
 
 	/**
 	 * Create a new memcache repository.
@@ -56,6 +59,8 @@ class Repository implements ArrayAccess {
 	            $this->driver = 'Server';
 	        }
 	    }
+	    
+	    $this->error = new DataError();
 	    
 	    return $this;
 	}
@@ -296,6 +301,12 @@ class Repository implements ArrayAccess {
 	public function getResultMessage()
 	{
 	    return CommandFactory::api($this->driver)->getResultMessage();
+	}
+	
+	
+	public function getDataError()
+	{
+	    return $this->error;
 	}
 
 
