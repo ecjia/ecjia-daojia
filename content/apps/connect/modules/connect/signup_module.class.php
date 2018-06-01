@@ -58,17 +58,25 @@ class signup_module extends api_front implements api_interface {
 		$invite_code  = $this->requestData('invite_code');
 		$code		  = $this->requestData('validate_code');
 		$profile	  = $this->requestData('profile');
-
+		$api_version   = $this->request->header('api-version');
+		
+		/*兼容1.17版本*/
+		if (version_compare($api_version, '1.17', '>=')) {
+			if (empty($open_id) || empty($connect_code) || (empty($username) && empty($mobile))) {
+				return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			}
+		} else {
+			if (empty($open_id) || empty($password) || empty($connect_code)) {
+				return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			}
+		}
+		
 // 		RC_Loader::load_app_class('connect_user', 'connect', false);
 		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
 		if ($connect_user->checkUser()) {
 			return new ecjia_error('connect_userbind', '您已绑定过会员用户！');
 		}
-
-		if (empty($open_id) || empty($password) || empty($connect_code)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}
-
+		
 		//判断校验码是否过期
 		if (!empty($mobile) && (!isset($_SESSION['bindcode_lifetime']) || $_SESSION['bindcode_lifetime'] + 180 < RC_Time::gmtime())) {
 			//过期
@@ -97,11 +105,32 @@ class signup_module extends api_front implements api_interface {
 				return new ecjia_error('mobile_exists', '您的手机号已使用');
 			}
 		}
+		
 		RC_Loader::load_app_class('integrate', 'user', false);
 		$user = integrate::init_users();
-		if ($user->check_user($username)) {
-			$username = $username . rc_random(4, 'abcdefghijklmnopqrstuvwxyz0123456789');
+		
+		/*兼容1.17*/
+		if (version_compare($api_version, '1.17', '>=')) {
+			if (!empty($username) && empty($mobile)) {
+				/* 判断是否为手机号*/
+				if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
+					/* 生成用户名*/
+					$mobile = $username;
+					$username = substr_replace($username,'****',3,4);
+				}
+			} elseif (!empty($mobile) && empty($username)) {
+				/* 判断是否为手机号*/
+				if (is_numeric($mobile) && strlen($mobile) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $mobile)) {
+					/* 生成用户名*/
+					$username = substr_replace($mobile,'****',3,4);
+				}
+			}
+		} else {
+			if ($user->check_user($username)) {
+				$username = $username . rc_random(4, 'abcdefghijklmnopqrstuvwxyz0123456789');
+			}
 		}
+		
 		//新用户注册并登录
 		$email = rc_random(8, 'abcdefghijklmnopqrstuvwxyz0123456789').'@'.$connect_code.'.com';
 
