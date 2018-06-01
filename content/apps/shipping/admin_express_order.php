@@ -148,10 +148,10 @@ class admin_express_order extends ecjia_admin
 
         /* 取得区域名 */
         $region = RC_DB::table('express_order as eo')
-            ->leftJoin('region as c', RC_DB::raw('eo.country'), '=', RC_DB::raw('c.region_id'))
-            ->leftJoin('region as p', RC_DB::raw('eo.province'), '=', RC_DB::raw('p.region_id'))
-            ->leftJoin('region as t', RC_DB::raw('eo.city'), '=', RC_DB::raw('t.region_id'))
-            ->leftJoin('region as d', RC_DB::raw('eo.district'), '=', RC_DB::raw('d.region_id'))
+            ->leftJoin('regions as c', RC_DB::raw('eo.country'), '=', RC_DB::raw('c.region_id'))
+            ->leftJoin('regions as p', RC_DB::raw('eo.province'), '=', RC_DB::raw('p.region_id'))
+            ->leftJoin('regions as t', RC_DB::raw('eo.city'), '=', RC_DB::raw('t.region_id'))
+            ->leftJoin('regions as d', RC_DB::raw('eo.district'), '=', RC_DB::raw('d.region_id'))
             ->select(RC_DB::raw("concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''),'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region"))
             ->where(RC_DB::raw('eo.express_id'), $express_id)
             ->first();

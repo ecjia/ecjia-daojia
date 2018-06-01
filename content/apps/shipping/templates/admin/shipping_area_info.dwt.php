@@ -117,7 +117,7 @@
 				<!--{/if}-->
 				
 				
-				<!-- {if $shipping_area.shipping_code eq 'ship_o2o_express'} -->
+				<!-- {if ($shipping_area.shipping_code eq 'ship_o2o_express') || ($shipping_area.shipping_code eq 'ship_ecjia_express')} -->
 					<div class="control-group formSep" id="ship_days">
 						<label class="control-label">下单后几天内配送：</label>
 						<div class="controls">

@@ -215,7 +215,7 @@ class admin_area extends ecjia_admin
 
             $count = count($config);
             
-            if ($shipping_data['shipping_code'] == 'ship_o2o_express') {
+            if ($shipping_data['shipping_code'] == 'ship_o2o_express' || $shipping_data['shipping_code'] == 'ship_ecjia_express') {
                 $time = array();
                 foreach ($_POST['start_ship_time'] as $k => $v) {
                     $time[$k]['start'] = $v;
@@ -299,7 +299,7 @@ class admin_area extends ecjia_admin
         
         if (!empty($config)) {
         	foreach ($config as $key => $val) {
-        		if ($shipping_data['shipping_code'] == 'ship_o2o_express' && (in_array($key, array('ship_days', 'last_order_time', 'ship_time')))) {
+        		if (($shipping_data['shipping_code'] == 'ship_o2o_express' || $shipping_data['shipping_code'] == 'ship_ecjia_express') && (in_array($key, array('ship_days', 'last_order_time', 'ship_time')))) {
         			if ($key == 'ship_time') {
         				$o2o_shipping_time = array();
         				foreach ($val as $v) {
@@ -405,7 +405,7 @@ class admin_area extends ecjia_admin
 
             $count = count($config);
 
-            if ($shipping_data['shipping_code'] == 'ship_o2o_express') {
+            if ($shipping_data['shipping_code'] == 'ship_o2o_express' || $shipping_data['shipping_code'] == 'ship_ecjia_express') {
                 $time = array();
                 foreach ($_POST['start_ship_time'] as $k => $v) {
                     $time[$k]['start'] = $v;
