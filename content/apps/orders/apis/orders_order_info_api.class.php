@@ -175,8 +175,12 @@ class orders_order_info_api extends Component_Event_Api {
 	        $order['user_name'] = $_SESSION['user_name'];
 	        
 	        /* 无配送时的处理 */
-	        $order['shipping_id'] == - 1 and $order['shipping_name'] = RC_Lang::get('orders::order.shipping_not_need');
-	        
+	        if (empty($order['shipping_id'])) {
+	        	//$order['shipping_id'] == - 1 and $order['shipping_name'] = RC_Lang::get('orders::order.shipping_not_need');
+	        	$order['shipping_id'] = 0;
+	        	$order['shipping_name'] = RC_Lang::get('orders::order.shipping_not_need');
+	        }
+	       
 	        /* 其他信息初始化 */
 	        $order['how_oos_name'] = $order['how_oos'];
 	        $order['how_surplus_name'] = $order['how_surplus'];

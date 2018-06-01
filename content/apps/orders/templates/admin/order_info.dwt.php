@@ -70,12 +70,14 @@
 			<div class="{if $time_key eq '3'}step-cur{elseif $time_key gt '3'}step-done{/if}">
 				<div class="step-no">{if $time_key lt '4'}3{/if}</div>
 				<div class="m_t5">{lang key='orders::order.merchant_shipping'}</div>
+				<div class="m_t5 ecjiafc-blue">{$order.format_shipping_time}</div>
 			</div>
 		</li>
 		<li class="step-last">
 			<div class="{if $time_key eq '4'}step-cur{elseif $time_key gt '4'}step-done{/if}">
 				<div class="step-no">{if $time_key lt '5'}4{/if}</div>
 				<div class="m_t5">{lang key='orders::order.confirm_receipt'}</div>
+				<div class="m_t5 ecjiafc-blue">{if $time_key lt '5'}{if $order.unformat_status eq '1'}{$order.format_confirm_time}{elseif $order.unformat_status eq '0'}未确认{/if}{/if}</div>
 			</div>
 		</li>
 	</ul>

@@ -105,18 +105,40 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			return new ecjia_error('balance_less', RC_Lang::get('orders::order.not_enough_balance'));
 		}
 		
-		/* 更新订单表支付后信息 */
-		$data = array(
-			'order_status'    => OS_CONFIRMED,
-			'confirm_time'    => RC_Time::gmtime(),
-			'pay_status'      => PS_PAYED,
-			'pay_time'        => RC_Time::gmtime(),
-			'order_amount'    => 0,
-			'surplus'         => $order_info['order_amount'],
-		);
+		//判断订单类型，到店付款订单修改订单状态和发货状态
+		if (in_array($order_info['extension_code'], array('storebuy', 'cashdesk'))) {
+		    /* 修改订单状态为已完成 */
+		    $data = array(
+		        'order_status' => OS_CONFIRMED,
+		        'confirm_time' => RC_Time::gmtime(),
+		        'pay_status'   => PS_PAYED,
+		        'pay_time'     => RC_Time::gmtime(),
+		        'order_amount' => 0,
+		        'surplus'      => $order_info['order_amount'],
+		    );
 		
-		/*更新订单状态及信息*/
-		update_order($order_info['order_id'], $data);
+		    /*更新订单状态及信息*/
+		    update_order($order_info['order_id'], $data);
+		    /* 记录订单操作记录 */
+		    order_action($order_info['order_sn'], OS_CONFIRMED, SS_SHIPPED_ING, PS_PAYED, '', RC_Lang::get('orders::order.buyers'));
+		    $order_operate = RC_Loader::load_app_class('order_operate', 'orders');
+		     
+		    $order_operate->operate($order_info, 'receive', array('action_note' => '系统操作'));
+		} else {
+		    /* 更新订单表支付后信息 */
+		    $data = array(
+		        'order_status'    => OS_CONFIRMED,
+		        'confirm_time'    => RC_Time::gmtime(),
+		        'pay_status'      => PS_PAYED,
+		        'pay_time'        => RC_Time::gmtime(),
+		        'order_amount'    => 0,
+		        'surplus'         => $order_info['order_amount'],
+		    );
+		    
+		    /*更新订单状态及信息*/
+		    update_order($order_info['order_id'], $data);
+		    order_action($order_info['order_sn'], OS_CONFIRMED, SS_UNSHIPPED, PS_PAYED, '', RC_Lang::get('orders::order.buyers'));
+		}
 		
 		
 		/* 处理余额变动信息 */
@@ -129,8 +151,6 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			RC_Api::api('user', 'account_change_log', $options);
 		}
 		
-		order_action($order_info['order_sn'], OS_CONFIRMED, SS_UNSHIPPED, PS_PAYED, '', RC_Lang::get('orders::order.buyers'));
-		
 		RC_Api::api('affiliate', 'invite_reward', array('user_id' => $order_info['user_id'], 'invite_type' => 'orderpay'));
 		
 		$data = array(
@@ -140,7 +160,6 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			'add_time'		=> RC_Time::gmtime(),
 		);
 		RC_DB::table('order_status_log')->insert($data);
-		
 		
 		RC_DB::table('order_status_log')->insert(array(
 			'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),

@@ -4,6 +4,7 @@ namespace Ecjia\App\Orders;
 
 use RC_Lang;
 use RC_Loader;
+use RC_DB;
 
 class OrderStatus
 {
@@ -129,10 +130,20 @@ class OrderStatus
     /* 待付款订单 */
     public static function queryOrderAwaitPay() 
     {
-    	return function ($query) {
-    		$query->whereIn('order_info.order_status', array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED))
-    		      ->where('order_info.pay_status', PS_UNPAYED);
-    	};
+    	/*货到付款订单不在待付款里显示*/
+    	$pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+    	if (!empty($pay_cod_id)) {
+    		return function ($query) use ($pay_cod_id) {
+    			$query->whereIn('order_info.order_status', array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED))
+    			->where('order_info.pay_status', PS_UNPAYED)
+    			->where('order_info.pay_id', '<>', $pay_cod_id);
+    		};
+    	} else {
+    		return function ($query) {
+    			$query->whereIn('order_info.order_status', array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED))
+    			->where('order_info.pay_status', PS_UNPAYED);
+    		};
+    	}
     }
     
     

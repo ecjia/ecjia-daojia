@@ -224,7 +224,7 @@ class mh_delivery extends ecjia_merchant {
 			$this->assign('expect_shipping_time', $order['expect_shipping_time']);
 		}
 		
-		//获取shopping_code
+		/*配送方式为o2o速递或众包配送时，自动生成运单号*/
 		if(empty($delivery_order['invoice_no'])) {
 		    $shipping_id = $delivery_order['shipping_id'];
 		    $shipping_info = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->first();
@@ -502,14 +502,17 @@ class mh_delivery extends ecjia_merchant {
 				$express_id = RC_DB::table('express_order')->insertGetId($express_data);
 			}
 			
-			$params = array(
-					'express_id' => $express_id,
-			);
-				
-			/*配送单生成后，自动派单。只有订单配送方式是众包配送时才去自动派单*/
+			/*配送单生成后，自动派单。只有订单配送方式是众包配送和商家配送时才去自动派单*/
 			if ($shipping_info['shipping_code'] == 'ship_ecjia_express' && empty($staff_id)) {
+				$params = array(
+						'express_id' => $express_id,
+				);
 				$result = RC_Api::api('express', 'ecjiaauto_assign_expressOrder', $params);
 			} elseif ($shipping_info['shipping_code'] == 'ship_o2o_express' && empty($staff_id)) {
+				$params = array(
+						'express_id' => $express_id,
+						'store_id'	 => $_SESSION['store_id']
+				);
 				$result = RC_Api::api('express', 'o2oauto_assign_expressOrder', $params);
 			}
 			
@@ -589,22 +592,6 @@ class mh_delivery extends ecjia_merchant {
 			    $express_assign = new ExpressAssign($notification_express_data);
 			    RC_Notification::send($user, $express_assign);
 			    
-				
-// 				$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $staff_id));
-// 				if (!is_ecjia_error($devic_info) && !empty($devic_info)) {
-// 					$push_event = RC_Model::model('push/push_event_viewmodel')->where(array('event_code' => 'system_express_assign', 'is_open' => 1, 'status' => 1, 'mm.app_id is not null', 'mt.template_id is not null', 'device_code' => $devic_info['device_code'], 'device_client' => $devic_info['device_client']))->find();
-// 					if (!empty($push_event)) {
-// 						RC_Loader::load_app_class('push_send', 'push', false);
-// 						ecjia_admin::$controller->assign('express_info', $express_order_info);
-// 						$content = ecjia_admin::$controller->fetch_string($push_event['template_content']);
-		
-// 						if ($devic_info['device_client'] == 'android') {
-// 							$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_ANDROID)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-// 						} elseif ($devic_info['device_client'] == 'iphone') {
-// 							$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_IPHONE)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-// 						}
-// 					}
-// 				}
 			}
 
 			/* 如果是o2o速递则在 ecjia_express_track_record表内更新一条记录*/
@@ -627,10 +614,12 @@ class mh_delivery extends ecjia_merchant {
 				$integral = integral_to_give($order);
 
 				$options = array(
-					'user_id'		=> $order['user_id'],
-					'rank_points'	=> intval($integral['rank_points']),
-					'pay_points'	=> intval($integral['custom_points']),
-					'change_desc'	=> sprintf(RC_Lang::get('orders::order.order_gift_integral'), $order['order_sn'])
+					'user_id'			=> $order['user_id'],
+					'rank_points'		=> intval($integral['rank_points']),
+					'pay_points'		=> intval($integral['custom_points']),
+					'change_desc'		=> sprintf(RC_Lang::get('orders::order.order_gift_integral'), $order['order_sn']),
+					'from_type'			=> 'order_give_integral',
+					'from_value'		=> $order['order_sn']
 				);
 				RC_Api::api('user', 'account_change_log',$options);
 				/* 发放红包 */
@@ -720,24 +709,6 @@ class mh_delivery extends ecjia_merchant {
 		
 		$push_order_shipped = new OrderShipped($order_data);
 		RC_Notification::send($user_ob, $push_order_shipped);
-		/* 发货通知*/
-// 		$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'user', 'user_id' => $order['user_id']));
-// 		if (!is_ecjia_error($devic_info) && !empty($devic_info)) {
-// 			$push_event = RC_Model::model('push/push_event_viewmodel')->where(array('event_code' => 'order_shipped', 'is_open' => 1, 'status' => 1, 'mm.app_id is not null', 'mt.template_id is not null', 'device_code' => $devic_info['device_code'], 'device_client' => $devic_info['device_client']))->find();
-				
-// 			if (!empty($push_event)) {
-		
-// 				RC_Loader::load_app_class('push_send', 'push', false);
-// 				ecjia_admin::$controller->assign('order', $order);
-// 				$content = ecjia_admin::$controller->fetch_string($push_event['template_content']);
-					
-// 				if ($devic_info['device_client'] == 'android') {
-// 					$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_ANDROID)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-// 				} elseif ($devic_info['device_client'] == 'iphone') {
-// 					$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_IPHONE)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-// 				}
-// 			}
-// 		}
 
 
 		/* 操作成功 */

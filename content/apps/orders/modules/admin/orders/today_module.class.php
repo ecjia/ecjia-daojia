@@ -96,7 +96,7 @@ class today_module extends api_admin implements api_interface
 		
 			$payment_id = empty($payment_id) ? 0 : $payment_id;
 
-			$where1[] = "(oi.pay_time >= ".$last_refresh_time." AND oi.pay_time <= ".$time.") OR oi.pay_id in (" . $payment_id . ")";
+			$where1[] = "((oi.pay_time >= ".$last_refresh_time." AND oi.pay_time <= ".$time.") OR oi.pay_id in (" . $payment_id . "))";
 		}
 		
 		if (!empty($type)) {
@@ -125,8 +125,10 @@ class today_module extends api_admin implements api_interface
 			}
 		}
 		
-		if (!empty($where1)) {
-			$where = array_merge($where1, $where);
+		if (!empty($last_refresh_time) && $type == 'payed') {
+			if (!empty($where1)) {
+				$where = array_merge($where1, $where);
+			}
 		}
 		
 		$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";

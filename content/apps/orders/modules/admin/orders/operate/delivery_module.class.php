@@ -90,9 +90,9 @@ class delivery_module extends api_admin implements api_interface {
 			return new ecjia_error('invalid_parameter', '参数错误');
 		}
 		
-		/*配送方式为o2o速递时，自动生成运单号*/
+		/*配送方式为o2o速递或众包配送时，自动生成运单号*/
 		$shipping_info = RC_DB::table('shipping')->where('shipping_id', $order_info['shipping_id'])->first();
-		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+		if ($shipping_info['shipping_code'] == 'ship_o2o_express' || $shipping_info['shipping_code'] == 'ship_ecjia_express') {
 			$rand1 = mt_rand(100000,999999);
 			$rand2 = mt_rand(1000000,9999999);
 			$invoice_no = $rand1.$rand2;
@@ -590,10 +590,12 @@ function delivery_order($delivery_id, $order) {
 			/* 计算并发放积分 */
 			$integral = integral_to_give($order);
 			$options = array(
-					'user_id'		=> $order['user_id'],
-					'rank_points'	=> intval($integral['rank_points']),
-					'pay_points'	=> intval($integral['custom_points']),
-					'change_desc'	=> sprintf('订单 %s 赠送的积分', $order['order_sn'])
+					'user_id'			=> $order['user_id'],
+					'rank_points'		=> intval($integral['rank_points']),
+					'pay_points'		=> intval($integral['custom_points']),
+					'change_desc'		=> sprintf('订单 %s 赠送的积分', $order['order_sn']),
+					'from_type'			=> 'order_give_integral',
+					'from_value'		=> $order['order_sn']
 			);
 			RC_Api::api('user', 'account_change_log',$options);
 			/* 发放红包 */
@@ -715,9 +717,17 @@ function create_express_order($delivery_id) {
         $params = array(
         		'express_id' => $express_id,
         );
+        /*配送单生成后，自动派单。只有订单配送方式是众包配送和商家配送时才去自动派单*/
         if ($shipping_info['shipping_code'] == 'ship_ecjia_express' && empty($staff_id)) {
+        	$params = array(
+        			'express_id' => $express_id,
+        	);
         	$result = RC_Api::api('express', 'ecjiaauto_assign_expressOrder', $params);
         } elseif ($shipping_info['shipping_code'] == 'ship_o2o_express' && empty($staff_id)) {
+        	$params = array(
+        			'express_id' => $express_id,
+        			'store_id'	 => $_SESSION['store_id']
+        	);
         	$result = RC_Api::api('express', 'o2oauto_assign_expressOrder', $params);
         }
     }

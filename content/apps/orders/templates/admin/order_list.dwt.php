@@ -106,7 +106,7 @@
 						<td align="center" valign="top" nowrap="nowrap">{$os[$order.order_status]},{$ps[$order.pay_status]},{$ss[$order.shipping_status]}</td>
 					</tr>
 					<!-- {foreachelse}-->
-					<tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>
+					<tr><td class="no-records" colspan="9">{lang key='system::system.no_records'}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

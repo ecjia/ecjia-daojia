@@ -268,6 +268,10 @@ class OrderPrint
             foreach ($data as $key => $row) {
                 $row['formated_subtotal']    = price_format($row['goods_price'] * $row['goods_number']);
                 $row['formated_goods_price'] = price_format($row['goods_price']);
+                if (!empty($row['goods_attr'])) {
+                    $row['goods_attr'] = trim($row['goods_attr']);
+                    $row['goods_name'] .= '【'.$row['goods_attr'].'】';
+                }
                 $goods_list[]                = array(
                     'goods_name'   => $row['goods_name'],
                     'goods_number' => $row['goods_number'],

@@ -212,7 +212,7 @@ class detail_module extends api_front implements api_interface {
 // 		$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 		$shipping_info = ecjia_shipping::pluginData($order['shipping_id']);
 		$order['shipping_code'] = $shipping_info['shipping_code'];
-		if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+		if ($shipping_info['shipping_code'] == 'ship_o2o_express' || $shipping_info['shipping_code'] == 'ship_ecjia_express') {
 			$express_info = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
 			$order['express_user'] = $express_info['express_user'];
 			$order['express_id'] = $express_info['express_id'];

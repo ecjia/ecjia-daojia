@@ -139,7 +139,9 @@ function cancel_order ($order_id, $user_id = 0) {
             $options = array(
             	'user_id'		=> $order['user_id'],
             	'pay_points'	=> $order['integral'],
-            	'change_desc'	=> sprintf(RC_Lang::get('orders::order.return_integral_on_cancel'), $order['order_sn'])
+            	'change_desc'	=> sprintf(RC_Lang::get('orders::order.return_integral_order_cancel'), $order['order_sn']),
+            	'from_type'		=> 'ordercancel_back_integral',
+            	'from_value'	=> $order['order_sn']
             );
             $result = RC_Api::api('user', 'account_change_log', $options);
             if (is_ecjia_error($result)) {

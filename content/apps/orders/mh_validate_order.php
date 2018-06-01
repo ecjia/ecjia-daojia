@@ -164,6 +164,19 @@ class mh_validate_order extends ecjia_merchant {
 		/* 查询订单信息 */
 		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
 		
+		if ($order_info['pay_status'] != PS_PAYED) {
+			return $this->showmessage('该订单还未付款！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		if ($order_info['store_id'] != $_SESSION['store_id']) {
+			return $this->showmessage('订单不属于当前商家！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
+		/* 判断发货情况*/
+		if ($order_info['shipping_status'] > SS_UNSHIPPED) {
+			return $this->showmessage('订单已发货！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+		
 		/* 进行确认*/
 		//RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'confirm', 'note' => array('action_note' => '')));
 		/* 进行付款*/
