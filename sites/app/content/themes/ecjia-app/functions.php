@@ -82,8 +82,13 @@ RC_Hook::add_action('intro/index/init', function () {
         // 下载二维码
         $mobile_android_qrcode 		= ecjia::config('mobile_android_qrcode');
         $mobile_iphone_qrcode 		= ecjia::config('mobile_iphone_qrcode');
-        $mobile_android_qrcode 		= !empty($mobile_android_qrcode)? RC_Upload::upload_url().'/'.$mobile_android_qrcode : '';
+        $mobile_android_qrcode 		= !empty($mobile_android_qrcode) ? RC_Upload::upload_url().'/'.$mobile_android_qrcode : '';
         $mobile_iphone_qrcode 		= !empty($mobile_iphone_qrcode)? RC_Upload::upload_url().'/'.$mobile_iphone_qrcode : '';
+
+        $street_qrcode       = Ecjia\App\Mobile\Qrcode\GenerateStreet::singleton()->getQrcodeUrl();
+        $street_qrcode       = !empty($street_qrcode) ? $street_qrcode : '';
+        ecjia_front::$controller->assign('street_qrcode', $street_qrcode);
+
         $shop_logo 					= ecjia::config('shop_logo');
         $shop_wechat_qrcode 		= ecjia::config('shop_wechat_qrcode');
         $shop_logo 					= !empty($shop_logo)? RC_Upload::upload_url().'/'.$shop_logo : '';
@@ -133,6 +138,12 @@ RC_Hook::add_action('intro/index/init', function () {
         ecjia_front::$controller->assign('shop_logo', 				$shop_logo);
         ecjia_front::$controller->assign('shop_wechat_qrcode', 	$shop_wechat_qrcode);
         ecjia_front::$controller->assign('powered', 	'Powered&nbsp;by&nbsp;<a href="https:\/\/ecjia.com" target="_blank">ECJia</a>');
+
+        RC_Loader::load_app_class('platform_account', 'platform', false);
+        $platform_list = platform_account::getAccountList('weapp');
+        if (!empty($platform_list)) {
+            ecjia_front::$controller->assign('has_weapp', true);
+        }
     }
     
     ecjia_front::$controller->display('index.dwt', $cache_id);

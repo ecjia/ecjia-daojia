@@ -28,102 +28,167 @@
         </div>
         <div class="ecjia-container">
             <div class="ecjia-content">
-                <div class="ecjia-fl wt-phone">
-                    <div class="project-view ecjia-fl m-t-50">
-                    {if $mobile_touch_url}
-                        <iframe src="{$mobile_touch_url}" frameborder="0" scrolling="auto"></iframe>
-                        <div class="ecjia-fl phone-tips">鼠标点击手机体验</div>
-                    {else} 
-                    <!-- 62 77 -->
-                        <div class="swiper-container-phone">
-                            <div class="swiper-wrapper">
-                                {if $mobile_app_privew1}
-                                <div class="swiper-slide">
-                                    <img src="{$mobile_app_privew1}" alt="" width="320" height="567">
-                                </div>
-                                {/if}
-                                {if $mobile_app_privew2}
-                                <div class="swiper-slide">
-                                    <img src="{$mobile_app_privew2}" alt="" width="320" height="567">
-                                </div>
-                                {/if}
-                            </div>
-                            <div class="swiper-pagination"></div>
+                <div class="ecjia-fl wt-introduce">
+                    <p class="title">{$mobile_app_name}</p>
+                    <p class="title"><!-- #BeginLibraryItem "/library/shop_subtitle.lbi" --><!-- #EndLibraryItem --></p>
+                    <p class="title-notice"><!-- #BeginLibraryItem "/library/brief_intro.lbi" --><!-- #EndLibraryItem --></p>
+                    <div class="qrcode">
+                        {if $has_weapp}
+                        <div class="qrcode-item">
+                            <div class="img"><img src="{RC_Uri::url('weapp/wxacode/init')}" width="200" height="200" /></div>
+                            <p>扫码体验小程序</p>
                         </div>
-                        <script type="text/javascript">
-                            var swiper = new Swiper('.swiper-container-phone', {
-                            	autoplay: 3000,
-                                slidesPerView: 1,
-                                paginationClickable: true,
-                                spaceBetween: 30,
-                                pagination: '.swiper-pagination',
-                               /*  nextButton: '.swiper-button-next',
-                                prevButton: '.swiper-button-prev', */
-                                loop: true
-                            });
-                        </script>
-                    {/if}
+                        {/if}
+                        <div class="qrcode-item {if $has_weapp}last{/if}">
+                            <div class="img"><img src="{$touch_qrcode}" width="200" height="200" /></div>
+                            <p>扫码体验H5</p>
+                        </div>
                     </div>
+
                 </div>
-                <div class="ecjia-fl wt-135">
-                    <div class="ecjia-desc">
-                        <span class="ecjia-text-name fsize-36">{$mobile_app_name}</span>
-						<span class="arrow-left edition-icon"></span>
-                        <span class="ecjia-edition">{if $mobile_app_version}{$mobile_app_version}{else}1.0.0{/if}</span>
-                        <h2 class="fsize-48 ecjia-truncate"><!-- #BeginLibraryItem "/library/shop_subtitle.lbi" --><!-- #EndLibraryItem --></h2>
-                        <p class="fsize-24 ecjia-truncate"><!-- #BeginLibraryItem "/library/brief_intro.lbi" --><!-- #EndLibraryItem --></p>
-                        <div class="two-btn wt-30">
-                            {if $mobile_iphone_download}<a class="ecjia-btn icon-btn" href="{$mobile_iphone_download}" target="_blank"><i class="iphone icon"></i><span>iPhone端下载</span></a>{/if}
-                            {if $mobile_android_download}<a class="ecjia-btn icon-btn" href="{$mobile_android_download}" target="_blank"><i class="android icon"></i><span>Android端下载</span></a>{/if}
-                        </div>
-                        <div class="ecjia-code wt-50">
-                            {if $mobile_iphone_qrcode}
-                            <span class="mr-20">
-                                <img src="{$mobile_iphone_qrcode}" alt="" width="200" height="200">扫一扫，体验APP
-                            </span>
-                            {/if}
-                            {if $touch_qrcode}
-                            <span style="margin-right:32px;">
-                                <img src="{$touch_qrcode}" alt="" width="200" height="200">扫一扫，体验微信H5界面
-                            </span>
-                            {/if}
-                        </div>
+                <div class="ecjia-fr wt-phone">
+                    <div class="project-view ecjia-fl m-t-50">
+                        <iframe src="{$mobile_touch_url}" frameborder="0" scrolling="auto"></iframe>
                     </div>
                 </div>
             </div>
 
             <div class="ecjia-content">
-                <div class="ecjia-title wt-80">
-                    <h1 class="fsize-36">{$mobile_app_name}简介</h1>
-                    <p class="wt-30">{$mobile_app_description}</p>
+                <div class="ecjia-title">
+                    <h1 class="fsize-36">商家和配送员可使用原生APP</h1>
+                    <p class="top-title">与商城完美对接的原生APP，下载并安装成功后，商家可通过手机掌柜</p>
+                    <p class="bottom-title">随时随地管理店铺、商城配送员可通过配送员APP在线抢单、送单并获得相应的配送费用</p>
                 </div>
 
-				{if $mobile_app_video}
-				<div class="cly-title">应用视频介绍</div>
-				<div class="video wt-30">
-					<video width="900px" controls="controls">
-						<source src="{$mobile_app_video}" type="video/mp4"></source>
-						<source src="public/video/test.ogg" type="video/ogg"></source>
-					</video>
-				</div>
-				{/if}
-                <div class="clyimges">
-                    {if $screenshots}
-                    <div class="cly-title wt-30">界面精彩截图</div>
-                    <div class="wt-30">
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <!-- {foreach from=$screenshots item=val} -->
-                                <div class="swiper-slide">
-                                    <img src="{$val.img_url}" alt="">
-                                    <p>{$val.img_desc}</p>
-                                </div>
-                                <!-- {/foreach} -->
-                            </div>
+				<div class="content-item">
+                    <div class="left-side ecjia-fl"><img src="{$theme_url}images/shopkeeper.png" /></div>
+                    <div class="right-side ecjia-fr p_r0">
+                        <p class="title"><span class="num">1</span>ECJia掌柜</p>
+                        <p class="notice">与我们商城后台完美同步，下载此APP后，可使用入驻商家账号直接登录，使用手机随时随地高效管理自己的店铺、商品、订单等。</p>
+                        <div class="button-item">
+                            <a class="ecjia-btn icon-btn green" href="https://itunes.apple.com/cn/app/ec-%E6%8E%8C%E6%9F%9C/id1015857619?mt=8" target="_blank"><i class="iphone icon"></i>iPhone端下载</a>
+                            <a class="ecjia-btn icon-btn blue" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ecjia.shopkeeper" target="_blank"><i class="android icon"></i>Android端下载</a>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="content-item">
+                    <div class="right-side ecjia-fl">
+                        <p class="title"><span class="num">2</span>ECJia配送员</p>
+                        <p class="notice w91">适用于商城配送员使用，如果您已成为我们的配送员，你可下载安装此APP，获取周边商家的订单，随时随地在线抢单、取货、配送等。</p>
+                        <div class="button-item">
+                            <a class="ecjia-btn icon-btn green" href="https://itunes.apple.com/cn/app/ec-%E9%85%8D%E9%80%81%E5%91%98/id1198119772?mt=8" target="_blank"><i class="iphone icon"></i>iPhone端下载</a>
+                            <a class="ecjia-btn icon-btn blue" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ecjia.express" target="_blank"><i class="android icon"></i>Android端下载</a>
+                        </div>
+                    </div>
+                    <div class="left-side ecjia-fr"><img class="ecjia-fr" src="{$theme_url}images/distributor.png" /></div>
+                </div>
+
+                <div class="teach-item">
+                    <div class="teach-item-content">
+                        <div class="title">三步教你如何使用APP</div>
+                        <div class="content">
+                            <img class="background" src="{$theme_url}images/casing.png" />
+                            <img class="inner" src="{$street_qrcode}" />
+                            <p>扫店铺二维码</p>
+                            <img class="bottom" src="{$theme_url}images/arrow.png" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-item-content">
+                        <div class="step-item-li">
+                            <div class="img"><img class="inner" src="{$theme_url}images/step_1.png" /></div>
+                            <div class="right">
+                                <p class="step">第一步</p>
+                                <p>打开已下载的APP</p>
+                            </div>
+                        </div>
+                        <div class="step-item-li">
+                            <div class="img"><img class="inner" src="{$theme_url}images/step_2.png" /></div>
+                            <div class="right">
+                                <p class="step">第二步</p>
+                                <p>扫描店铺二维码</p>
+                            </div>
+                        </div>
+                        <div class="step-item-li">
+                            <div class="img"><img class="inner" src="{$theme_url}images/step_3.png" /></div>
+                            <div class="right">
+                                <p class="step">第三步</p>
+                                <p>输登录账号即可使用</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="clyimges">
+                    <div class="cly-title">界面精彩截图</div>
+                    <div class="cly-tab">
+                        <div class="cly-tab-content">
+                            <div class="tab-li active" data-tab="shopkeeper">到家掌柜</div>
+                            <div class="tab-li" data-tab="distributor">到家配送员</div>
+                        </div>
+                    </div>
+                    <div class="wt-30">
+                        <div class="swiper-container" id="shopkeeper-swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/shopkeeper/1.png" alt="">
+                                    <p>掌柜主页</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/shopkeeper/2.png" alt="">
+                                    <p>商品列表</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/shopkeeper/3.png" alt="">
+                                    <p>发货列表</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/shopkeeper/4.png" alt="">
+                                    <p>派单列表</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/shopkeeper/5.png" alt="">
+                                    <p>活动列表</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/shopkeeper/6.png" alt="">
+                                    <p>店铺设置</p>
+                                </div>
+                            </div>
                             <div class="swiper-button-next"></div>
                             <div class="swiper-button-prev"></div>
                         </div>
+
+                        <div class="swiper-container" id="distributor-swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/distributor/1.png" alt="">
+                                    <p>配送员主页</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/distributor/2.png" alt="">
+                                    <p>待取货</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/distributor/3.png" alt="">
+                                    <p>历史配送</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/distributor/4.png" alt="">
+                                    <p>消息</p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{$theme_url}images/distributor/5.png" alt="">
+                                    <p>用户中心</p>
+                                </div>
+                            </div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+
                         <script type="text/javascript">
                             var swiper = new Swiper('.swiper-container', {
                                 slidesPerView: 3,
@@ -133,7 +198,6 @@
                                 prevButton: '.swiper-button-prev',
                                 loop: true
                             });
-
                     		$(window).scroll(function(){
                     			if ($(window).scrollTop() > 0) {
                     				$('.ecjia-header').addClass('navbar-transparent');
@@ -141,14 +205,20 @@
                     				$('.ecjia-header').removeClass('navbar-transparent');
                     			}
                     		});
+                            $('.tab-li').off('click').on('click', function() {
+                                var tab = $(this).attr('data-tab');
+                                $(this).addClass('active').siblings('div').removeClass('active');
+                                $('#'+tab+'-swiper').css('display', 'block').siblings('div').css('display', 'none');
+                                var swiper = new Swiper('#'+tab+'-swiper', {
+                                    slidesPerView: 3,
+                                    paginationClickable: true,
+                                    spaceBetween: 30,
+                                    nextButton: '.swiper-button-next',
+                                    prevButton: '.swiper-button-prev',
+                                    loop: true
+                                });
+                            });
                         </script>
-                    </div>
-                    {/if}
-                    <div class="wt-50 download">
-                        <div class="two-btn wt-30">
-                            {if $mobile_iphone_download}<a class="ecjia-btn icon-btn blue" href="{$mobile_iphone_download}" target="_blank"><i class="iphone icon"></i>iPhone端下载</a>{/if}
-                            {if $mobile_android_download}<a class="ecjia-btn icon-btn green" href="{$mobile_android_download}" target="_blank"><i class="android icon"></i>Android端下载</a>{/if}
-                        </div>
                     </div>
                 </div>
             </div>
