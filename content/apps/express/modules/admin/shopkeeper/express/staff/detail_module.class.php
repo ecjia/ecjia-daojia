@@ -121,11 +121,11 @@ class detail_module extends api_admin implements api_interface {
     	$express_userinfo = array(
     			'store_id' 				=> intval($express_user_info['store_id']),
     			'staff_id' 				=> intval($express_user_info['user_id']),
-    			'avatar_img' 			=> !empty($express_user_info['avatar_img']) ?  RC_Upload::upload_url($express_user_info['avatar']) : '',
+    			'avatar_img' 			=> !empty($express_user_info['avatar']) ?  RC_Upload::upload_url($express_user_info['avatar']) : '',
     			'staff_name'			=> $express_user_info['name'],
     			'nickname'				=> empty($express_user_info['nickname']) ? '' : $express_user_info['nickname'],
     			'user_ident'			=> empty($express_user_info['user_ident']) ? '' : $express_user_info['user_ident'],
-    			'introduction'			=> empty($express_user_info['introduction']) ? '' : $express_user_info['introduction'],
+    			'introduction'			=> empty($express_user_info['todolist']) ? '' : $express_user_info['todolist'],
     			'mobile'  				=> $express_user_info['mobile'],
     			'email'  				=> $express_user_info['email'],
     			'online_status' 		=> $online_status,

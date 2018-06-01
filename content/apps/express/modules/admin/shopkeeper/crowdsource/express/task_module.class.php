@@ -85,7 +85,7 @@ class task_module extends api_admin implements api_interface {
 							->leftJoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'));
 		
 		$dbview->where(RC_DB::raw('eo.store_id'), $_SESSION['store_id']);
-		$dbview->where(RC_DB::raw('eo.shipping_code'), 'ship_o2o_express');
+		$dbview->where(RC_DB::raw('eo.shipping_code'), 'ship_ecjia_express');
 		
 		if (!empty($express_type)) {
 			if ($express_type == 'wait_assign') {
@@ -109,11 +109,11 @@ class task_module extends api_admin implements api_interface {
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
 		$field = 'eo.*, oi.expect_shipping_time, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.longitude as sf_longitude, sf.latitude as sf_latitude, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
-		$express_order_result = $dbview->selectRaw($field)->orderBy('add_time', 'desc')->get();
+		
 		if ($express_type == 'wait_assign') {
-			$express_order_result = $dbview->selectRaw($field)->orderBy('add_time', 'desc')->get();
+			$express_order_result = $dbview->take($size)->skip($page_row->start_id - 1)->selectRaw($field)->orderBy('add_time', 'desc')->get();
 		} else {
-			$express_order_result = $dbview->selectRaw($field)->orderBy('receive_time', 'desc')->get();
+			$express_order_result = $dbview->take($size)->skip($page_row->start_id - 1)->selectRaw($field)->orderBy('receive_time', 'desc')->get();
 		}
 		
 		$express_order_list = array();
@@ -174,13 +174,13 @@ class task_module extends api_admin implements api_interface {
 					'express_mobile'		 => $val['express_mobile'],
 					'express_status'		 => $status,
 					'label_express_status'	 => $label_express_status,
-					'express_from_address'	 => '【'.$val['merchants_name'].'】'. $sf_district_name. $sf_street_name. $val['merchant_address'],
+					'express_from_address'	 => '【'.$val['merchants_name'].'】'.$sf_district_name. $sf_street_name. $val['merchant_address'],
 					'express_to_address'	 => $district_name. $street_name. $val['address'],
 					'express_from_location'	 => $express_from_location,
 					'express_to_location'	 => $express_to_location,
 					'distance'				 => $distance,
-					'shipping_fee'			 => !empty($val['shipping_fee']) ? $val['shipping_fee'] : '0.00',	
-					'format_shipping_fee'	 => price_format($val['shipping_fee']),
+					'shipping_fee'			 => $val['status'] > 0 ? $val['commision'] : $val['shipping_fee'],
+					'format_shipping_fee'	 => $val['status'] > 0 ? price_format($val['commision']) : price_format($val['shipping_fee']),
 					'format_best_time'		 => empty($val['expect_shipping_time']) ? '' : $val['expect_shipping_time'],
 					'express_status' 		 => $status,
 					'label_express_status'	 => $label_express_status,

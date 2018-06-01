@@ -1,3 +1,6 @@
+.auto-refresh{
+	margin-right:10px;
+}
 .main_content .row-fluid + .row-fluid-new{
 	margin-top:5px;
 }
@@ -16,7 +19,12 @@
 .express-task .editpage-rightbar .left-bar1 .left-bar{
 	width:24%;
 }
-
+.order-border-first{
+  border:1px solid #009acd;
+}
+.order-border-other{
+  border:1px solid #dcdcdc;
+}
 .express-task .editpage-rightbar .left-bar .accordion-toggle{
 	background-image:url();
 }
@@ -26,18 +34,21 @@
 }
 
 .express-task .editpage-rightbar .middle-bar{
+	width:49%;
+	margin-left:1%;
+	margin-right:1%;
 	border: 1px solid #dcdcdc;
 	border-radius:4px;
-	height:582px;
+	height:580px;
 	float:left;
 }
 
 .express-task .editpage-rightbar .right-bar{
+	width:24.579%;
+	margin-right:0;
 	height:580px;
 	border:1px solid #dcdcdc;
 	border-radius:4px;
-	width:24%;
-	margin-right:0;
 }
 .express-task .editpage-rightbar .right-bar .foldable-list .accordion-group{
 	border:none;
@@ -54,7 +65,7 @@
     margin-bottom: 13px;
 }
 .btn-a{
-	 margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 .border-bottom-line{
 	border-bottom: 1px dashed #dcdcdc;
@@ -73,7 +84,7 @@
 
 .sending{
 	background: url("../images/send.png") no-repeat;
-	position: relative;
+	position: absolute;
 	background-origin: content-box;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -89,7 +100,7 @@
 	border-top:none;
 }
 .triangle{
-	background: url(../images/tran_1.png) no-repeat -2px 2px;
+	background: url(../images/tran_1.png) no-repeat -2px 4px;
     position: relative;
     background-origin: content-box;
     background-repeat: no-repeat;
@@ -114,7 +125,7 @@
 	margin-bottom:-2px;
 }
 .triangle2{
-	background: url(../images/tran_1.png) no-repeat -2px 2px;
+	background: url(../images/tran_1.png) no-repeat -2px 3px;
     position: relative;
     background-origin: content-box;
     background-repeat: no-repeat;
@@ -132,15 +143,15 @@
     margin-top: 7px;
     margin-bottom: 7px;
 	border: 1px solid #dcdcdc;
-	height:145px;
-	width:100%;
+	height:140px;
+	width:97%;
 }
 .express-user-info .express-img{
 	float:left;
 	clear:both;
 	position:relative;
 	width:35%;
-	margin-left:5px;
+	margin-left:4%;
 }
 .express-user-info .express-img img{
 	width:60px;
@@ -152,8 +163,8 @@
 	float: right;
     margin-right: 8%;
     height: 44px;
-    line-height: 41px;
-    margin-top: 15px;
+    line-height: 22px;
+    padding-top: 25px;
 	width:52%;
 }
 .express-order-div{
@@ -164,31 +175,24 @@
 	clear:both;
 }
 .express-order-div .waitfor-pickup{
-	margin-left: 5px;
+	padding-left: 6.99999%;
+    width: 45%;
     float: left;
 }
 .express-order-div .waitfor-pickup span{
 	color:#c62626;
 	display:inline-block;
-	margin-left:3px;
-}
-.express-order-div .wait-sending-list{
-    margin-left: 30px;
-    float: left;
-}
-.express-order-div .wait-sending-list span{
-	color:#c62626;
-	display:inline-block;
-	margin-left:3px;
+	margin-left:8px;
 }
 .express-order-div .wait-sending{
-    margin-left: 13px;
-    float: left;
+	width: 44%;
+    padding-right: 4%;
+    float: right;
 }
 .express-order-div .wait-sending span{
 	color:#c62626;
 	display:inline-block;
-	margin-left:3px;
+	margin-left:8px;
 }
 
 .express-user-info .assign-div{
@@ -197,7 +201,7 @@
 	margin-top: 0px;
     margin-bottom: 7px;
 	clear:both;
-	margin-left:5px;
+	margin-left:15px;
 }
 .press-list{
 	border:1px solid #fff;
@@ -210,11 +214,11 @@
 	overflow:auto;
 }
 .margin-icon{
-	margin-left:3px;
+	margin-left:25px;
 }
 .norecord{
 	text-align: center;
-    margin-top: 80px;
+    margin-top: 290px;
 }
 .map-change-remark{
 	float:left;
@@ -225,15 +229,17 @@
 	color:#c62626;
 	margin-right:6px;
 }
-
+.fresh{
+	float:left;
+	width:40%;
+}
 .countdown{
 	height:32px;
 	float:left;
 	margin-top:8px;
 }
-.express-task .mark{
+.mark{
 	color:#c62626;
-	background-color:#f5f5f5;
 }
 .map-exp-order{
 	display:block;
@@ -243,38 +249,30 @@
 }
 
 /*配送订单详情*/
+.wait-grab-order-detail .modal {
+   width: 930px;
+   margin-left: -350px;
+   margin-top: 10px;
+}
 .order-wait-grab-detail .modal-body {
     max-height: 800px;
 }
 
 .express_content{
-	height:500px;
+	height:515px;
 	overflow:auto;
 }
 .express_order{
 	height:35px;
-	font-size: 16px;
 	border-bottom: 1px solid #dcdcdc;
 }
 .express_order span{
-	margin-right:35px;
+	font-size: 16px;
+	margin-right: 35px;
 }
-.express_title{
-	font-size: 18px;
-	font-weight:bold;
-}
-.express_content ul {
-	padding:15px;
-}
-.express_content li {
-	font-size: 14px;
-	list-style: none;
-	padding:5px;
-}
-
 .pickup_info{
-	width:415px;
-	height:190px;
+	width:435px;
+	height:168px;
 	background-color: #f9fafa;
 	border: 1px solid #f9fafa;
     border-radius: 5px;
@@ -282,8 +280,8 @@
 	float:left;
 }
 .delivery_info{
-	width:415px;
-	height:190px;
+	width:435px;
+	height:168px;
 	background-color: #f9fafa;
 	border: 1px solid #f9fafa;
     border-radius: 5px;
@@ -292,27 +290,21 @@
 }
 
 .shipping_info{
-	width:415px;
-	height:160px;
+	width:435px;
+	height:138px;
 	background-color: #f9fafa;
 	border: 1px solid #f9fafa;
     border-radius: 5px;
     margin-top: 20px;
 	float:left;
 }
-
-.shipping_info_over{
-	width:415px;
-	height:190px;
-	background-color: #f9fafa;
-	border: 1px solid #f9fafa;
-    border-radius: 5px;
-    margin-top: 20px;
-	float:left;
+.express_content li {
+	list-style: none;
+	margin-top: 5px;
 }
 
 .order_goods{
-	width:851px;
+	width:881px;
 	background-color: #f9fafa;
 	border: 1px solid #f9fafa;
     margin-top: 20px;
@@ -329,22 +321,21 @@
 }
 
 .info-right{
-	margin-left: 70px;
+	 margin-left: 70px;
 }
 .goods_number{
 	margin-left:60px;
 }
 .order_desc{
-	width:851px;
+	width:881px;
 	background-color: #f9fafa;
 	border: 1px solid #f9fafa;
 	float:left;
 	border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 5px;
 }
-
 .order_info{
-	width:851px;
+	width:881px;
 	background-color: #f9fafa;
 	border: 1px solid #f9fafa;
 	float:left;
@@ -356,11 +347,14 @@
 .order_info .order{
 	width:50%;
 	float:right;
-	height:42px;
+	height:35px;
 }
 
 /*查看当前位置*/
-
+.express-location-modal{
+	height:580px;
+	width:950px;
+}
 .currnt-location-detail .modal {
    width: 950px;
    margin-left: -350px;
@@ -384,16 +378,23 @@
 	height:580px;
 	width:950px;
 }
+.assign-order-detail .modal {
+   width: 995px;
+   margin-left: -395px;
+   margin-top: 10px;
+}
 .assign-detail .modal-body {
     max-height: 800px;
 	padding:10px 10px;
 }
 .express_reassign{
-	height:600px;
+	height:650px;
+	overflow:auto;
 }
 .map-reassign{
 	float: left;
-    width: 73%;
+    height: 523px;
+    width: 72%;
 }
 .express_reassign .right-bar{
 	/*border: 1px solid #dcdcdc;*/
@@ -401,7 +402,7 @@
     float: right;
     height: 523px;
     margin-right: 0;
-    width: 26%;
+    width: 27%;
 }
 .express_reassign .right-bar .accordion-toggle{
 	background-image:url();
@@ -413,22 +414,10 @@
 	text-align:center;
 }
 .express_reassign .right-scroll{
-	height: 560px;
+	height: 468px;
     overflow: auto;
 }
-.express_reassign .accordion-group{
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-}
-.express_reassign .accordion-toggle{
-	background-color: #f5f5f5;
-	background-repeat:no-repeat;
-	color:#222;
-	text-decoration:none;
-	display:block;
-	padding:8px 15px;
-	transition:background-color 0.2s ease-in-out 0s;
-}
+
 /*重新指派弹框页指派操作*/
 .re-assign-model{
 	display:none;
@@ -449,60 +438,20 @@
 	text-align:center;
 }
 
-.express-task .accordion-group{
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-}
-.express-task .accordion-heading{
- 	border-bottom: 0 none;
-}
-.express-task .accordion-toggle{
-	background-color: #f5f5f5;
-	background-repeat:no-repeat;
-	color:#222;
-	text-decoration:none;
-	display:block;
-	padding:8px 15px;
-	transition:background-color 0.2s ease-in-out 0s;
+.middle-bar .foldable-list .accordion-heading .accordion-toggle{
+	background-image:url();
 }
 
-.express-search-input{
-	 margin-left: -20px;
-}
-.express-search-btn{
-	 margin-left: -25px;
-}
-
-
-
-/* 
- * 配送员管理-查看当前位置
- */
-.modal {
-	margin-top:100px;
-}
-.modal-content{
-	width:900px;
-	margin-left: -150px;
-}
-
-#allmap {
-	height:600px;
-}
-
-.order-border-first{
-  border:1px solid #009acd;
-}
-
-.order-border-other{
-  border:1px solid #dcdcdc;
-}
-
-
-
-.modal{
-	z-index: 999;
-}
-.modal-backdrop {
-	z-index: 998;
+.map-change-icon {
+    background: url(../images/shrink.png) no-repeat;
+    /*position: absolute;*/
+    background-origin: content-box;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-top: -2px;
+	float:right;
+	font-family: FontAwesome;
 }

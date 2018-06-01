@@ -59,7 +59,7 @@ class list_module extends api_admin implements api_interface {
 		
 		$express_type = $this->requestData('express_type');
 		$type = $this->requestData('type');
-		$order_sn = $this->requestData('order_sn');
+		$order_sn = $this->requestData('order_sn');//配送单号
 		$size     = $this->requestData('pagination.count', 15);
 		$page     = $this->requestData('pagination.page', 1);
 		
@@ -77,7 +77,7 @@ class list_module extends api_admin implements api_interface {
 				break;
 			default : 
 				if (!empty($order_sn)) {
-					$where['eo.order_sn'] = array('like' => '%'.$order_sn.'%');
+					$where['eo.express_sn'] = array('like' => '%'.$order_sn.'%');
 				} else {
 					return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 				}
@@ -114,6 +114,9 @@ class list_module extends api_admin implements api_interface {
 				$sf_street_name = ecjia_region::getRegionName($val['sf_street']);
 				$district_name = ecjia_region::getRegionName($val['district']);
 				$street_name = ecjia_region::getRegionName($val['street']);
+			
+				/*店铺电话*/
+				$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $val['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
 				
 				$express_order_list[] = array(
 					'express_id'	         => $val['express_id'],
@@ -122,7 +125,9 @@ class list_module extends api_admin implements api_interface {
 					'label_express_type'	 => $val['from'] == 'assign' ? '系统派单' : '抢单',
 					'order_sn'		         => $val['order_sn'],
 					'payment_name'	         => $val['pay_name'],
-					'express_from_address'	 => '【'.$val['merchants_name'].'】'. $sf_district_name. $sf_street_name. $val['merchant_address'],
+					'store_name'			 => $val['merchants_name'],
+					'shop_kf_mobile'		 => empty($shop_kf_mobile) ? '' : $shop_kf_mobile,
+					'express_from_address'	 => $sf_district_name. $sf_street_name. $val['merchant_address'],
 					'express_from_location'	 => array(
 						'longitude' => $val['merchant_longitude'],
 						'latitude'	=> $val['merchant_latitude'],
@@ -142,7 +147,7 @@ class list_module extends api_admin implements api_interface {
 					'pay_time'		=> empty($val['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
 					'signed_time'	=> $val['signed_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $val['signed_time']) : '',
 					'best_time'		=> $val['expect_shipping_time'],
-					'shipping_fee'	=> $val['shipping_fee'],
+					'shipping_fee'	=> $val['commision'],
 					'order_amount'	=> $val['order_amount'],
 				);
 			}

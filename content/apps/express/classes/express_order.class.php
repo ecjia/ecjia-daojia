@@ -44,25 +44,31 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Express;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use ecjia_admin_log;
-use RC_Lang;
+/**
+ * 配送单类
+ */
+class express_order {
+	
+	/**
+	 * 配送单信息
+	 */
+	public static function express_order_info($options){
+		$express_order_info = array();
+		if (empty($options['express_id']) && empty($options['express_sn'])) {
+			return $express_order_info;
+		}
+		 
+		if (!empty($options['express_id'])) {
+			$express_order_info = RC_DB::table('express_order')->where('express_id', $options['express_id'])->first();
+		} elseif (!empty($options['express_sn'])) {
+			$express_order_info = RC_DB::table('express_order')->where('express_sn', $options['express_sn'])->first();
+		}
+		return $express_order_info;
+	}
 
-class Helper
-{
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content()
-    {
-    	ecjia_admin_log::instance()->add_action('assign', '指派');
-    	ecjia_admin_log::instance()->add_action('pickup', '取货');
-    	
-        ecjia_admin_log::instance()->add_object('express_user', '配送员');
-        ecjia_admin_log::instance()->add_object('express_user_profile', '配送员资料');
-        ecjia_admin_log::instance()->add_object('express_order', '配送单');
-    }
-}
+}	
+
 
 // end

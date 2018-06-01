@@ -50,37 +50,36 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 历史配送订单管理
  * @author songqianqian
  */
-class mh_history extends ecjia_merchant {
+class admin_history extends ecjia_admin {
 	
 	public function __construct() {
 		parent::__construct();
 		
+		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
 		RC_Script::enqueue_script('smoke');
+		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'), array(), false, false);
+		RC_Style::enqueue_style('bootstrap-editable',RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'), array(), false, false);
+		RC_Style::enqueue_style('chosen');
 		RC_Style::enqueue_style('uniform-aristo');
+		RC_Script::enqueue_script('jquery-uniform');
+		RC_Script::enqueue_script('jquery-chosen');
+		RC_Script::enqueue_script('ecjia-region');
 		
-		RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
-		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
-		
-		//时间控件
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		
-		RC_Script::enqueue_script('mh_history', RC_App::apps_url('statics/js/mh_history.js', __FILE__));
-		RC_Style::enqueue_style('mh_express', RC_App::apps_url('statics/css/mh_express.css', __FILE__));
+		RC_Script::enqueue_script('admin_history', RC_App::apps_url('statics/js/admin_history.js', __FILE__));
+		RC_Style::enqueue_style('admin_express', RC_App::apps_url('statics/css/admin_express.css', __FILE__));
 		
-		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送管理', RC_Uri::url('shipping/mh_shipping/shipping_template')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('历史配送', RC_Uri::url('express/mh_history/init')));
-		ecjia_merchant_screen::get_current_screen()->set_parentage('express', 'express/mh_history.php');
-		
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('历史配送', RC_Uri::url('express/admin_history/init')));
 	}
 	
 	/**
 	 * 历史配送订单列表加载
 	 */
 	public function init() {
-		$this->admin_priv('mh_express_history_manage');
+		$this->admin_priv('express_history_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('历史配送'));
@@ -89,9 +88,8 @@ class mh_history extends ecjia_merchant {
 		$data = $this->get_history_list();
 		$this->assign('data', $data);
 		
-		$this->assign('express_detail', RC_Uri::url('express/mh_history/detail'));
-		
-		$this->assign('search_action', RC_Uri::url('express/mh_history/init'));
+		$this->assign('express_detail', RC_Uri::url('express/admin_history/detail'));
+		$this->assign('search_action', RC_Uri::url('express/admin_history/init'));
 
 		$this->display('express_history_list.dwt');
 	}
@@ -101,7 +99,7 @@ class mh_history extends ecjia_merchant {
 	 * 查看详情
 	 */
 	public function detail() {
-		$this->admin_priv('mh_express_history_manage');
+		$this->admin_priv('express_history_manage');
 	
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送详情'));
 		$this->assign('ur_here', '配送详情');
@@ -116,8 +114,8 @@ class mh_history extends ecjia_merchant {
 		
 		foreach ($goods_list as $key => $val) {
 			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
-			$goods_list[$key]['goods_price']  			= RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->where('goods_id', $val['goods_id'])->pluck('goods_price');
-			$goods_list[$key]['formated_goods_price'] 	= price_format($goods_list[$key]['goods_price']);
+			$goods_list[$key]['goods_price']			= RC_DB::table('order_goods')->where('goods_id', $val['goods_id'])->where('order_id', $express_info['order_id'])->pluck('goods_price');
+			$goods_list[$key]['formated_goods_price']	= price_format($goods_list[$key]['goods_price']);
 		}
 		$disk = RC_Filesystem::disk();
 		foreach ($goods_list as $key => $val) {
@@ -134,23 +132,30 @@ class mh_history extends ecjia_merchant {
 		$content['eostreet']      = ecjia_region::getRegionName($content['eostreet']);
 		$content['add_time']  = RC_Time::local_date('Y-m-d H:i:s', $content['add_time']);
 		$content['signed_time']  = RC_Time::local_date('Y-m-d H:i:s', $content['signed_time']);
+		$content['expect_shipping_time']  = RC_Time::local_date('Y-m-d H:i:s', $content['expect_shipping_time']);
 		$content['all_address'] = $content['district'].$content['street'];
 		$content['express_all_address'] = $content['eodistrict'].$content['eostreet'];
-		$content['commision'] = price_format($content['commision']);
+		
+		if($content['from'] == 'grab') {
+			$content['from'] ='抢单';
+		} else {
+			$content['from'] ='派单';
+		}
+	
 		$this->assign('content', $content);
 		$this->assign('goods_list', $goods_list);
 		
 		$data = $this->fetch('express_history_detail.dwt');
-		
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $data));
 	}
 	
 	private function get_history_list() {
-		$db_data = RC_DB::table('express_order');
+		$db_data = RC_DB::table('express_order as eo')
+		->leftJoin('users as user', RC_DB::raw('eo.user_id'), '=', RC_DB::raw('user.user_id'))
+		->leftJoin('store_franchisee as sf', RC_DB::raw('eo.store_id'), '=', RC_DB::raw('sf.store_id'));
 		
-		$db_data->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
-		$db_data->where(RC_DB::raw('status'), 5);
-		$db_data->where(RC_DB::raw('shipping_code'), 'ship_o2o_express');
+		$db_data->where(RC_DB::raw('eo.status'), 5);
+		$db_data->where(RC_DB::raw('eo.shipping_code'), 'ship_ecjia_express');
 		
 		if($_GET['start_date'] && $_GET['end_date']) {
 			$start_date = RC_Time::local_strtotime($_GET['start_date']);
@@ -159,17 +164,23 @@ class mh_history extends ecjia_merchant {
 			$db_data->where('signed_time', '<', $end_date + 86400);
 		}
 		
+		$filter['work_type'] = trim($_GET['work_type']);
 		$filter['keyword']	 = trim($_GET['keyword']);
+		
 		if ($filter['keyword']) {
-			$db_data ->whereRaw('(express_user  like  "%'.mysql_like_quote($filter['keyword']).'%"  or express_sn like "%'.mysql_like_quote($filter['keyword']).'%")');
+			$db_data ->whereRaw('(eo.express_user  like  "%'.mysql_like_quote($filter['keyword']).'%"  or eo.express_sn like "%'.mysql_like_quote($filter['keyword']).'%")');
+		}
+		
+		if ($filter['work_type']) {
+			$db_data ->where('from', $filter['work_type']);
 		}
 		
 		$count = $db_data->count();
-		$page = new ecjia_merchant_page($count, 10, 5);
+		$page = new ecjia_page($count, 10, 5);
 		
 		$data = $db_data
-		->selectRaw('express_id,order_sn,express_sn,express_user,express_mobile,signed_time,status,consignee,mobile,district,street,address')
-		->orderby(RC_DB::raw('signed_time'), 'desc')
+		->selectRaw('eo.express_id,eo.order_sn,eo.express_sn,eo.from,eo.express_user,eo.express_mobile,eo.signed_time,eo.status,eo.consignee,eo.mobile,eo.district as eodistrict,eo.street as eostreet,eo.address as eoaddress,sf.district,sf.street,sf.address')
+		->orderby(RC_DB::raw('eo.signed_time'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)
 		->get();
@@ -177,9 +188,11 @@ class mh_history extends ecjia_merchant {
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
-				$row['signed_time']   = RC_Time::local_date('Y-m-d H:i:s', $row['signed_time']);
+				$row['signed_time']  = RC_Time::local_date('Y-m-d H:i:s', $row['signed_time']);
 				$row['district']      = ecjia_region::getRegionName($row['district']);
 				$row['street']        = ecjia_region::getRegionName($row['street']);
+				$row['eodistrict']    = ecjia_region::getRegionName($row['eodistrict']);
+				$row['eostreet']      = ecjia_region::getRegionName($row['eostreet']);
 				$list[] = $row;
 			}
 		}

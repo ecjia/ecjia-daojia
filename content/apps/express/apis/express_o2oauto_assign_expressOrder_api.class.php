@@ -59,12 +59,13 @@ class express_o2oauto_assign_expressOrder_api extends Component_Event_Api {
 	public function call(&$options) {
 		$express_id = $options['express_id'];
 		
-		if (empty($express_id)) {
+		if (empty($express_id) || empty($options['store_id'])) {
 			return array();
 		}
 		
 		$pra = array(
 				'online_status' => 1,
+				'store_id'		=> $options['store_id']
 		);
 		
 		//获取配送员列表
@@ -236,7 +237,7 @@ class express_o2oauto_assign_expressOrder_api extends Component_Event_Api {
 	 */
 	public function get_express_user_list($pra){
 		$db = RC_DB::table('staff_user as su')->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'));
-		$db->where(RC_DB::raw('su.store_id'), '>', 0);
+		$db->where(RC_DB::raw('su.store_id'), $pra['store_id']);
 		$db->where(RC_DB::raw('eu.work_type'), 1);
 		
 		if (!empty($pra['online_status'])) {

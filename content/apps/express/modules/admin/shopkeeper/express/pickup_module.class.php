@@ -49,17 +49,17 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 
 /**
- * 配送取货
- * @author will.chen
+ * 掌柜操作商家配送单为已取货
+ * @author zrl
  */
 class pickup_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
-    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+    	
+    	if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
-		
-        $location	 = $this->requestData('location', array());
+        
         $delivery_sn = $this->requestData('delivery_sn');
         
 		if (empty($delivery_sn)) {
@@ -67,7 +67,7 @@ class pickup_module extends api_admin implements api_interface {
     	}
     	$express_order         = array();
     	$express_order_db      = RC_Model::model('express/express_order_viewmodel');
-    	$where                 = array('staff_id' => $_SESSION['staff_id'], 'eo.delivery_sn' => $delivery_sn, 'eo.status' => 1);
+    	$where                 = array('eo.store_id' => $_SESSION['store_id'], 'eo.delivery_sn' => $delivery_sn, 'eo.status' => 1, 'eo.shipping_code' => 'ship_o2o_express');
     	$field                 = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
     	$express_order_info    = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
 		
@@ -75,11 +75,18 @@ class pickup_module extends api_admin implements api_interface {
     		return new ecjia_error('express_no_exists_error', '此配送单不存在！');
     	} elseif ($express_order_info['status'] > 1) {
     		return new ecjia_error('express_already_pickup','此单已被取走！');
+    	} elseif ($express_order_info['store_id'] != $_SESSION['store_id']) {
+    		return new ecjia_error('express_order_error','此配送单不属于当前商家！');
+    	} elseif (empty($express_order_info['staff_id']) || $express_order_info['status'] == '0') {
+    		return new ecjia_error('express_staffinfo_error','此配送单并未有配送员接单！');
     	}
     	
-    	$where = array('staff_id' => $_SESSION['staff_id'], 'delivery_sn' => $delivery_sn);
+    	$where = array('store_id' => $_SESSION['store_id'], 'staff_id' => $express_order_info['staff_id'], 'delivery_sn' => $delivery_sn);
     	RC_Model::model('express/express_order_model')->where($where)->update(array('status' => 2, 'express_time' => RC_Time::gmtime()));
     	
+    	//记录管理员操作log
+    	Ecjia\App\Express\Helper::assign_adminlog_content();
+    	RC_Api::api('merchant', 'admin_log', array('text'=> $_SESSION['staff_name'].'操作配送单'.$express_order_info['express_sn'].'为已取货'.'【来源掌柜】', 'action'=>'pickup', 'object'=>'express_order'));
     	
     	//消息通知
     	$express_from_address = ecjia_region::getRegionName($express_order_info['sf_district']).ecjia_region::getRegionName($express_order_info['sf_street']).$express_order_info['merchant_address'];

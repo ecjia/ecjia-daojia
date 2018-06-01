@@ -1,5 +1,5 @@
 /* 
- * ÅäËÍÔ±¹ÜÀí-²é¿´ÏêÇé
+ * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½-ï¿½é¿´ï¿½ï¿½ï¿½ï¿½
  */
 .w480 {
 	width: 480px;
@@ -11,7 +11,7 @@
 
 
 /* 
- * ÅäËÍÔ±¹ÜÀí-²é¿´µ±Ç°Î»ÖÃ
+ * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½-ï¿½é¿´ï¿½ï¿½Ç°Î»ï¿½ï¿½
  */
 .modal {
 	margin-top:100px;
@@ -27,7 +27,7 @@
 
 
 /* 
- * ÅäËÍÔ±¹ÜÀí-²é¿´ÕËÄ¿Ã÷Ï¸
+ * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½-ï¿½é¿´ï¿½ï¿½Ä¿ï¿½ï¿½Ï¸
  */
 .all{
    height:100px;
@@ -42,7 +42,7 @@
 
 
 /* 
- * ×Ê½ğ¶ÔÕË-¶ÔÕËÏêÇé
+ * ï¿½Ê½ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 ul.list-mod-briefing {
 	margin: 30px 0;
@@ -99,7 +99,7 @@ ul.list-mod-briefing li:nth-of-type(4n) .ft {
 
 
 /* 
- * ÀúÊ·ÅäËÍ-²é¿´ÏêÇé
+ * ï¿½ï¿½Ê·ï¿½ï¿½ï¿½ï¿½-ï¿½é¿´ï¿½ï¿½ï¿½ï¿½
  */
 .express_content{
 	height:600px;
@@ -199,4 +199,20 @@ ul.list-mod-briefing li:nth-of-type(4n) .ft {
 	float:left;
 	border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 5px;
+}
+
+.order_info{
+	width:851px;
+	background-color: #f9fafa;
+	border: 1px solid #f9fafa;
+	float:left;
+	margin-top: 20px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.order_info .order{
+	width:50%;
+	float:right;
+	height:42px;
 }

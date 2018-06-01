@@ -136,7 +136,9 @@ class detail_module extends api_admin implements api_interface {
     		'pay_time'		=> empty($express_order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $express_order_info['pay_time']),
     		'best_time'		=> $express_order_info['expect_shipping_time'],
     		'signed_time'	=> $express_order_info['signed_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_order_info['signed_time']) : '',
-    		'shipping_fee'	=> $express_order_info['shipping_fee'],
+    		'shipping_fee'	=> $express_order_info['status'] > 0 ? $express_order_info['commision'] : $express_order_info['shipping_fee'],
+    		'format_shipping_fee' => $express_order_info['status'] > 0 ? price_format($express_order_info['commision']) : price_format($express_order_info['shipping_fee']),
+    		'shipping_code'	=> empty($express_order_info['shipping_code']) ? '' : $express_order_info['shipping_code'],
     		'order_amount'	=> $express_order_info['order_amount'],
     		'staff_id'		=> $express_order_info['staff_id'],
     		'express_user'	=> $express_order_info['express_user'],
@@ -146,6 +148,7 @@ class detail_module extends api_admin implements api_interface {
     		'label_express_status' => $label_express_status,
     		'goods_items'	=> array(),
     		'pickup_qrcode_sn'	=> 'ecjiaopen://app?open_type=express_pickup&delivery_sn='. $express_order_info['delivery_sn'],
+    		'delivery_sn'		=> $express_order_info['delivery_sn']
     	);
     	
     	$goods_items = RC_DB::table('delivery_goods as dg')

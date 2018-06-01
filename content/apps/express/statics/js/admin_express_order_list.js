@@ -1,6 +1,6 @@
 // JavaScript Document
 ;(function (app, $) {
-    app.mh_express_order_list = {
+    app.admin_express_order_list = {
             init: function () {
                 $('.online-triangle').off('click').on('click', function(e) {
                 	var div = ($(".express-user-list").hasClass("in"));
@@ -28,14 +28,13 @@
                 	}
     			});
                 
-              app.mh_express_order_list.search_express_user();
-              app.mh_express_order_list.order_list_search();
-              app.mh_express_order_list.express_order_detail();
-              app.mh_express_order_list.order_current_location();
-              app.mh_express_order_list.order_reassign_detail();
-              app.mh_express_order_list.ajaxassign();
-              app.mh_express_order_list.assign();
-              app.mh_express_order_list.click_exuser();
+              app.admin_express_order_list.search_express_user();
+              app.admin_express_order_list.order_list_search();
+              app.admin_express_order_list.express_order_detail();
+              app.admin_express_order_list.order_current_location();
+              app.admin_express_order_list.order_reassign_detail();
+              app.admin_express_order_list.assign();
+              app.admin_express_order_list.click_exuser();
             },
             
             search_express_user: function () {
@@ -54,31 +53,7 @@
                     }, 'json');
                 });
 		    },
-		    
-	        ajaxassign: function () {
-	            $('[data-toggle="ajax_assign"]').off('click').on('click', function (e) {
-	                e.preventDefault();
-	                var $this = $(this),
-	                    url = $this.attr('data-href') || $this.attr('href'),
-	                    msg = $this.attr('data-msg') || '您确定进行该操作吗？';
-	                var exp_id = $('.selected-express-id').val();
-	                if (!url) {
-	                    smoke.alert('参数错误！');
-	                    return false;
-	                }
-	                smoke.confirm(msg, function (e) {
-	                    if (e) {
-	                        $.post(url, {'express_id':exp_id}, function (data) {
-	                        	$('#myModal2').modal('hide');
-	                    		$(".modal-backdrop").remove();
-								$("body").removeClass('modal-open');
-	                        	ecjia.merchant.showmessage(data);
-	                        }, 'json');
-	                    }
-	                }, { ok: "确定", cancel: "取消"});
-	            });
-	        },
-	        
+            
 		    assign : function(url){
 				$(".assign").off('click').on('click', function() {	
 					$('.re-assign-model').css('display', 'block');
@@ -87,6 +62,7 @@
 					$('.notice-message').html(message);
 					var url = $this.attr('assign-url');
 					var exp_id = $('.selected-express-id').val();
+					
 					if (message != undefined) {
 						$('.cancel-btn').off('click').on('click', function() {
 							$('.re-assign-model').css('display', 'none');
@@ -96,7 +72,7 @@
 							$('.re-assign-model').css('display', 'none');
 							$.post(url,{'express_id':exp_id}, function(data){
 								if (data.state == 'success') {
-									ecjia.merchant.showmessage(data);
+									ecjia.admin.showmessage(data);
 								}
 							})
 						});
@@ -129,7 +105,6 @@
                 var url = $this.attr('express-order-url');
                 $.post(url, {'express_id': express_id}, function (data) {
                 	$('.order-detail').html(data.data);
-                    app.mh_express_order_list.toggleState();
                 }, 'json');
 			})
         },
@@ -141,30 +116,25 @@
 				  var online_status = $this.attr('online_status');
 				  if (online_status == 1) {
 					  var staff_user_id = $this.attr('staff_user_id');
-	                  var express_userid  = $('.ex-u-id').val();
-	                 
-	                  //选中配送员边框变色start
-	                  var current_click_user = 'ex-user-div'+ staff_user_id;
-	                  
-	                  if (express_userid == '') {
-	                	  $this.css("border","1px solid #009ACD");
-	               	  	  $('.ex-u-id').val(staff_user_id);
-	                  } else {
-	               	  	 var last_click_user = 'ex-user-div'+ express_userid;
-	               	  	 $('.' + last_click_user).css("border","1px solid #dcdcdc");
-	               	     $this.css("border","1px solid #009ACD");
-	               	  	 $('.ex-u-id').val(staff_user_id);
-	                 }
-	                //选中配送员边框变色end
+		              var express_userid  = $('.ex-u-id').val();
+		             
+		              //选中配送员边框变色start
+		              var current_click_user = 'ex-user-div'+ staff_user_id;
+		              
+		              if (express_userid == '') {
+		            	  $this.css("border","1px solid #009ACD");
+		           	  	  $('.ex-u-id').val(staff_user_id);
+		              } else {
+		           	  	 var last_click_user = 'ex-user-div'+ express_userid;
+		           	  	 $('.' + last_click_user).css("border","1px solid #dcdcdc");
+		           	   $this.css("border","1px solid #009ACD");
+		           	  	 $('.ex-u-id').val(staff_user_id);
+		             }
+		            //选中配送员边框变色end
 				  }
 			  });
 			  $(".exuser_div").off('click').on('click', function (e) {
 	            e.preventDefault();
-
-	            var home_url = $("input[name='home_url']").val();
-	            var ex_user_img =  home_url + "/content/apps/express/statics/images/ex_user.png";
-	            var lable_text_img =  home_url + "/content/apps/express/statics/images/lable_text.png";
-	            
 	            var $this = $(this);
 	            var ex_lng = $this.attr('longitude');
 	            var ex_lat = $this.attr('latitude');
@@ -176,7 +146,7 @@
 	         	var latLng = new qq.maps.LatLng(ex_lat, ex_lng);
 	         	var map = new qq.maps.Map(document.getElementById("allmap"),{
 	         	    center: latLng,
-	         	    zoom: 18
+	         	    zoom: 15
 	         	});
 	         	
 	     		//创建一个Marker(自定义图片)
@@ -190,7 +160,7 @@
 	                size   = new qq.maps.Size(50,50),
 	                origin = new qq.maps.Point(0, 0),
 	                icon   = new qq.maps.MarkerImage(
-	                	ex_user_img,
+	                    "content/apps/express/statics/images/ex_user.png",
 	                    size,
 	                    origin,
 	                    anchor
@@ -207,7 +177,7 @@
 	            Label.prototype.construct = function() {
 	                 this.dom = document.createElement('div');
 	                 this.dom.style.cssText =
-	                	  'background:url("'+ lable_text_img +'") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;' +
+	                      'background:url("content/apps/express/statics/images/lable_text.png") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;' +
 	                      'text-align:left;color:white;padding-left:25px;padding-top:8px;';
 	                 this.dom.innerHTML = ex_name +'<br>'+ex_mobile;
 	                 //将dom添加到覆盖物层，overlayLayer的顺序为容器 1，此容器中包含Polyline、Polygon、GroundOverlay等
@@ -247,7 +217,7 @@
                  var url = $this.attr('express-location-url');
                  $.post(url, {'express_id': express_id}, function (data) {
                  	$('.express-location-modal').html(data.data);
-                 	app.mh_express_order_list.map();
+                 	app.admin_express_order_list.map();
                  }, 'json');
  			})
         },
@@ -257,22 +227,17 @@
             	e.preventDefault();
                 var $this = $(this);
                 var express_id = $this.attr('express-id');
+                //express_id替换；供指派使用
                 $(".selected-express-id").val(express_id);
                 var url = $this.attr('express-reassign-url');
                 $.post(url, {'express_id': express_id}, function (data) {
                 	$('.express-reassign-modal').html(data.data);
-                	app.mh_express_order_list.map();
+                	app.admin_express_order_list.map();
                 }, 'json');
 			})
        },
         
         map: function () {
-        	
-        	var home_url = $("input[name='home_url']").val();
-        	var ex_user_img =  home_url + "/content/apps/express/statics/images/ex_user.png";
-        	var lable_text_img =  home_url + "/content/apps/express/statics/images/lable_text.png";
-        	var busmarker =  home_url + "/content/apps/express/statics/images/busmarker.png";
-        	
 	        var map, 
 	        directionsService = new qq.maps.DrivingService({
 	            complete : function(response){
@@ -282,13 +247,13 @@
 	                var anchor = new qq.maps.Point(6, 6),
 	                    size = new qq.maps.Size(24, 36),
 	                    start_icon = new qq.maps.MarkerImage(
-	                    	busmarker, 
+	                        'content/apps/express/statics/images/busmarker.png', 
 	                        size, 
 	                        new qq.maps.Point(0, 0),
 	                        anchor
 	                    ),
 	                    end_icon = new qq.maps.MarkerImage(
-	                    	busmarker, 
+	                        'content/apps/express/statics/images/busmarker.png', 
 	                        size, 
 	                        new qq.maps.Point(24, 0),
 	                        anchor
@@ -374,12 +339,14 @@
 	        var ex_lat_cen 			= $('.nearest_exuser_lat').val();
 	        var cen_latLng = new qq.maps.LatLng(ex_lat_cen, ex_lng_cen);
 	        
+//	    function map_init() {
         map = new qq.maps.Map(document.getElementById("allmap"), {
             // 地图的中心地理坐标。
         	center: cen_latLng,
-            zoom: 18
+            zoom: 15
         });
         calcRoute();
+//	    }
 	    function calcRoute() {
 	        var start_name = document.getElementById("start").value.split(",");
 	        var end_name = document.getElementById("end").value.split(",");
@@ -429,7 +396,7 @@
             size   = new qq.maps.Size(50,50),
             origin = new qq.maps.Point(0, 0),
             icon   = new qq.maps.MarkerImage(
-            	ex_user_img,
+                "content/apps/express/statics/images/ex_user.png",
                 size,
                 origin,
                 ex_user_anchor
@@ -446,7 +413,7 @@
         Label.prototype.construct = function() {
              this.dom = document.createElement('div');
              this.dom.style.cssText =
-            	  'background:url("'+ lable_text_img +'") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;z-index:1;' +
+                  'background:url("content/apps/express/statics/images/lable_text.png") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;z-index:1;' +
                   'text-align:left;color:white;padding-left:25px;padding-top:8px;';
              this.dom.innerHTML = ex_name +'<br>'+ex_mobile;
              //将dom添加到覆盖物层，overlayLayer的顺序为容器 1，此容器中包含Polyline、Polygon、GroundOverlay等
@@ -478,35 +445,7 @@
         });
         //配送员位置end
 	 },
-
-        toggleState: function () {
-        	$('[data-toggle="toggleState"]').off('click').on('click', function (e) {
-        		e.preventDefault();
-        		var $this = $(this),
-        			url = $this.attr('data-url'),
-        			sn = $this.attr('data-sn');
-        		var info = {
-        			sn: sn
-        		};
-                smoke.confirm('您确定订单商品已被配送员取走？如未完成就操作，您将会被用户投诉', function (e) {
-                    if (e) {
-                        $.post(url, info, function (data) {
-                            $('#myModal1').modal('hide');
-                            $(".modal-backdrop").remove();
-                            $("body").removeClass('modal-open');
-                            ecjia.merchant.showmessage(data);
-                        })
-                    }
-                }, {
-                    ok: '确定',
-                    cancel: '取消'
-                });
-        	});
-        }
   }
-    
-    
-    //加载二
     app.serach_user_list = {
 		 init : function() {
 		    $('.online-click').off('click').on('click', function(e) {
@@ -574,7 +513,7 @@
 						$('.after-search-re-assign-model').css('display', 'none');
 						$.post(url,{'express_id':exp_id}, function(data){
 							if (data.state == 'success') {
-								ecjia.merchant.showmessage(data);
+								ecjia.admin.showmessage(data);
 							}
 						})
 					});
@@ -589,43 +528,37 @@
 				  var online_status = $this.attr('online_status');
 				  if (online_status == 1) {
 					  var staff_user_id = $this.attr('staff_user_id');
-	                  var express_userid  = $('.ex-u-id').val();
-	                 
-	                  //选中配送员边框变色start
-	                  var current_click_user = 'ex-user-div'+ staff_user_id;
-	                  
-	                  if (express_userid == '') {
-	                	  $this.css("border","1px solid #009ACD");
-	               	  	  $('.ex-u-id').val(staff_user_id);
-	                  } else {
-	               	  	 var last_click_user = 'ex-user-div'+ express_userid;
-	               	  	 $('.' + last_click_user).css("border","1px solid #dcdcdc");
-	               	     $this.css("border","1px solid #009ACD");
-	               	  	 $('.ex-u-id').val(staff_user_id);
-	                 }
-	                //选中配送员边框变色end
+		              var express_userid  = $('.ex-u-id').val();
+		             
+		              //选中配送员边框变色start
+		              var current_click_user = 'ex-user-div'+ staff_user_id;
+		              
+		              if (express_userid == '') {
+		            	  $this.css("border","1px solid #009ACD");
+		           	  	  $('.ex-u-id').val(staff_user_id);
+		              } else {
+		           	  	 var last_click_user = 'ex-user-div'+ express_userid;
+		           	  	 $('.' + last_click_user).css("border","1px solid #dcdcdc");
+		           	   $this.css("border","1px solid #009ACD");
+		           	  	 $('.ex-u-id').val(staff_user_id);
+		             }
+		            //选中配送员边框变色end
 				  }
 			  });
 			  $(".reassign_exuser_div").off('click').on('click', function (e) {
-				  
 	            e.preventDefault();
 	            var $this = $(this);
 	            var ex_lng = $this.attr('longitude');
 	            var ex_lat = $this.attr('latitude');
 	            var ex_name = $this.attr('name');
 	            var ex_mobile = $this.attr('mobile');
-	            
-	            
-	            var home_url = $("input[name='home_url']").val();
-	            var ex_user_img =  home_url + "/content/apps/express/statics/images/ex_user.png";
-	            var lable_text_img =  home_url + "/content/apps/express/statics/images/lable_text.png";
-	            
+	             
 	         	//腾讯地图加载
 	         	var map, markersArray = [];
 	         	var latLng = new qq.maps.LatLng(ex_lat, ex_lng);
 	         	var map = new qq.maps.Map(document.getElementById("allmap"),{
 	         	    center: latLng,
-	         	    zoom: 18
+	         	    zoom: 15
 	         	});
 	         	
 	     		//创建一个Marker(自定义图片)
@@ -639,7 +572,7 @@
 	                size   = new qq.maps.Size(50,50),
 	                origin = new qq.maps.Point(0, 0),
 	                icon   = new qq.maps.MarkerImage(
-	                	ex_user_img,
+	                    "content/apps/express/statics/images/ex_user.png",
 	                    size,
 	                    origin,
 	                    anchor
@@ -656,7 +589,7 @@
 	            Label.prototype.construct = function() {
 	                 this.dom = document.createElement('div');
 	                 this.dom.style.cssText =
-	                	  'background:url("'+ lable_text_img +'") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;' +
+	                      'background:url("content/apps/express/statics/images/lable_text.png") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;' +
 	                      'text-align:left;color:white;padding-left:25px;padding-top:8px;';
 	                 this.dom.innerHTML = ex_name +'<br>'+ex_mobile;
 	                 //将dom添加到覆盖物层，overlayLayer的顺序为容器 1，此容器中包含Polyline、Polygon、GroundOverlay等
@@ -689,6 +622,6 @@
 		 },
     };
     
-})(ecjia.merchant, jQuery);
+})(ecjia.admin, jQuery);
  
 // end

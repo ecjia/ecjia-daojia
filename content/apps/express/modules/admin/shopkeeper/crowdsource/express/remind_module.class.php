@@ -46,34 +46,84 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+
 /**
- * 配送基本信息
- * @author will.chen
+ * 商家提醒平台派单（配送单属于平台配送的）
+ * @author zrl
  */
-class basicinfo_module extends api_admin implements api_interface {
+class remind_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
     	if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
-        
-        if (!empty($_SESSION['store_id'])) {
-        	/*商家配送员*/
-        	$sum_express_grab       = RC_DB::table('express_order')->where('store_id', $_SESSION['store_id'])->where('staff_id', 0)->where('status', 0)->count();
-        	$sum_express_wait_pick  = RC_DB::table('express_order')->where('store_id', $_SESSION['store_id'])->where('staff_id',$_SESSION['staff_id'])->where('status', 1)->count();
-        	$sum_express_shipping   = RC_DB::table('express_order')->where('store_id', $_SESSION['store_id'])->where('staff_id', $_SESSION['staff_id'])->where('status', 2)->count();
-        } else {
-        	/*平台配送员*/
-        	$sum_express_grab       = RC_DB::table('express_order')->where('staff_id', 0)->where('status', 0)->count();
-        	$sum_express_wait_pick  = RC_DB::table('express_order')->where('staff_id',$_SESSION['staff_id'])->where('status', 1)->count();
-        	$sum_express_shipping   = RC_DB::table('express_order')->where('staff_id', $_SESSION['staff_id'])->where('status', 2)->count();
+		
+        $express_id = $this->requestData('express_id', 0);
+        if (empty($express_id)) {
+        	return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
         }
-      
-		return array(
-			'sum_express_grab'		=> $sum_express_grab,
-			'sum_express_wait_pick'	=> $sum_express_wait_pick,
-			'sum_express_shipping'	=> $sum_express_shipping,
-		);
+        
+		RC_Loader::load_app_class('express_order', 'express', false);
+        /*配送单详情*/
+		$express_order_info = express_order::express_order_info(array('express_id' => $express_id));
+		
+		$store_name = RC_DB::table('store_franchisee')->where('store_id', $express_order_info['store_id'])->pluck('merchants_name');
+		
+		if (empty($express_order_info)) {
+			return new ecjia_error('express_order_not_exist', '此配送单不存在！');
+		} elseif ($express_order_info['store_id'] != $_SESSION['store_id']) {
+			return new ecjia_error('express_order_error', '此配送单不属于当前商家！');
+		} elseif ($express_order_info['status'] > 0) {
+        	return new ecjia_error('express_order_assigned', '此订单已指派给了配送员，请耐心等待...');
+        } elseif ($express_order_info['shipping_code'] != 'ship_ecjia_express') {
+        	return new ecjia_error('express_order_error', '此配送单不属于平台配送！');
+        }
+         
+        $time = RC_Time::gmtime();
+        $reminder_info = RC_DB::table('express_order_reminder')->where('express_id', $express_id)->first();
+        if (empty($reminder_info)) {
+        	$data = array(
+        			'express_id' 	=> $express_id,
+        			'message'  		=> '商家【'.$store_name.'】'.'正在进行派单提醒,配送单号:'.$express_order_info['express_sn'].'，请赶快派单吧！',
+        			'status'   		=> 0,
+        			'create_time' 	=> $time,
+        	);
+        	RC_DB::table('express_order_reminder')->insert($data);
+        	
+        	$event_status = RC_DB::table('notification_events')->where('event_code', 'sms_express_order_reminder')->where('channel_type', 'sms')->pluck('status'); 
+
+        	if (!empty($event_status)) {
+        		if ($event_status == 'open') {
+        			$sms_shop_mobile = ecjia::config('sms_shop_mobile');
+        			if (!empty($sms_shop_mobile)) {
+        				$options = array(
+        						'mobile' => $sms_shop_mobile,
+        						'event'	 => 'sms_express_order_reminder',
+        						'value'  =>array(
+        								'express_sn'  => $express_order_info['express_sn'],
+        								'store_name'  => $store_name
+        						),
+        				);
+        				 
+        				$response = RC_Api::api('sms', 'send_event_sms', $options);
+        				 
+        				return array();
+        			} else {
+        					return new ecjia_error('mobile_error', '平台短信通知电话还未填写！');
+        			}
+        		} else {
+        			return new ecjia_error('sms_event_error', '派单提醒短信事件未开启！');
+        		}
+        	} else {
+        		return new ecjia_error('sms_event_error', '派单提醒短信事件未开启！');
+        	}
+        } else {
+        	if ($time > $reminder_info['create_time'] + 60*60) {
+        		return array();
+        	} else {
+        		return new ecjia_error('remind_repeat', '请勿反复提醒！');
+        	}
+        }
 	 }	
 }
 

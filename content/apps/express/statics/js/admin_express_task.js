@@ -1,8 +1,8 @@
 // JavaScript Document
 ;(function (app, $) {
-    app.mh_express_task = {
-    		init: function () {
-    			
+    app.admin_express_task = {
+            init: function () {
+            	
                 //缩展地图
                 $(".order-map-change").off('click').on('click', function(){
                 	 var $this = $(this);
@@ -15,26 +15,26 @@
                         $this.removeClass('fa fa-compress').addClass('fa fa-expand');
                         $(".left-bar1").show();
                      	$(".right-bar").show();
-                     	$('.middle-bar').attr('style','width:50%;margin-left:1%;margin-right:1%;');
+                     	$('.middle-bar').attr('style','width:49%;margin-left:1%;margin-right:0.5%;');
                      }
                 });
                 
                 $(".user-map-change").off('click').on('click', function(){
-               	 var $this = $(this);
-               	 if ($this.hasClass('fa fa-expand')) {
-                        $this.removeClass('fa fa-expand').addClass('fa fa-compress');
-                        $(".left-bar1").hide();
-                    	$(".right-bar").hide();
-                    	$('.middle-bar').attr('style','width:100%;margin-left:0%;margin-right:0%;');
-                    } else {
-                        $this.removeClass('fa fa-compress').addClass('fa fa-expand');
-                        $(".left-bar1").show();
-                    	$(".right-bar").show();
-                    	$('.middle-bar').attr('style','width:50%;margin-left:1%;margin-right:1%;');
-                    }
-               });
-                
-                
+                  	 var $this = $(this);
+                  	 if ($this.hasClass('fa fa-expand')) {
+                           $this.removeClass('fa fa-expand').addClass('fa fa-compress');
+                           $(".left-bar1").hide();
+                       	$(".right-bar").hide();
+                       	$('.middle-bar').attr('style','width:100%;margin-left:0%;margin-right:0%;');
+                       } else {
+                           $this.removeClass('fa fa-compress').addClass('fa fa-expand');
+                           $(".left-bar1").show();
+                       	$(".right-bar").show();
+                       	$('.middle-bar').attr('style','width:49%;margin-left:1%;margin-right:0.5%;');
+                       }
+                  });
+            	
+                //在线配送员缩展
                 $('.online-triangle').off('click').on('click', function(e) {
                 	var div = ($(".express-user-list").hasClass("in"));
                 	if (div) {
@@ -47,9 +47,10 @@
                 		$(".on-tran").removeClass("triangle1");
                 	}
     			});
-                
+              //离线配送员缩展
                 $('.leave-trangle').off('click').on('click', function(e) {
                 	var div = ($(".express-user-list-leave").hasClass("in"));
+                	
                 	if (div) {
                 		$(".leaveline").addClass("triangle1");
                 		$(".leaveline").removeClass("triangle");
@@ -60,14 +61,13 @@
                 		$(".leaveline").removeClass("triangle1");
                 	}
     			});
-                
-                app.mh_express_task.search_express_user();
-                app.mh_express_task.map();
-                app.mh_express_task.click_order();
-                app.mh_express_task.click_exuser();
-                app.mh_express_task.assign();
-                app.mh_express_task.express_order_detail();
-                app.mh_express_task.hide_sidebar();
+              app.admin_express_task.search_express_user();
+              app.admin_express_task.map();
+              app.admin_express_task.click_order();
+              app.admin_express_task.click_exuser();
+              app.admin_express_task.assign();
+              app.admin_express_task.express_order_detail();
+              app.admin_express_task.hide_sidebar();
             },
     
             search_express_user: function () {
@@ -79,6 +79,7 @@
                     if (keyword != '') {
                     	url += '&keywords=' + keyword;
                     }
+                    //ecjia.pjax(url);
                     $.post(url, {'express_id': 1}, function (data) {
                        	$('.original-user-list').css("display","none");
                        	$('.new-user-list').html(data.data);
@@ -102,12 +103,6 @@
 		    },
 		    
 		    map: function () {
-		    	
-		    	var home_url = $("input[name='home_url']").val();
-		    	var ex_user_img =  home_url + "/content/apps/express/statics/images/ex_user.png";
-		    	var lable_text_img =  home_url + "/content/apps/express/statics/images/lable_text.png";
-		    	var busmarker =  home_url + "/content/apps/express/statics/images/busmarker.png";
-		    	
 		        var map, 
 		        directionsService = new qq.maps.DrivingService({
 		            complete : function(response){
@@ -117,13 +112,13 @@
 		                var anchor = new qq.maps.Point(6, 6),
 		                    size = new qq.maps.Size(24, 36),
 		                    start_icon = new qq.maps.MarkerImage(
-		                    	busmarker, 
+		                        'content/apps/express/statics/images/busmarker.png', 
 		                        size, 
 		                        new qq.maps.Point(0, 0),
 		                        anchor
 		                    ),
 		                    end_icon = new qq.maps.MarkerImage(
-		                    	busmarker, 
+		                        'content/apps/express/statics/images/busmarker.png', 
 		                        size, 
 		                        new qq.maps.Point(24, 0),
 		                        anchor
@@ -206,13 +201,15 @@
 		        route_steps = [];
 		        var start_latLng = document.getElementById("start").value.split(",");
 		        var center_latLng = new qq.maps.LatLng(start_latLng[0], start_latLng[1]);
+//		    function map_init() {
 	        map = new qq.maps.Map(document.getElementById("allmap"), {
 	            // 地图的中心地理坐标。
 	            center: center_latLng,
-	            zoom: 18
+	            zoom: 15
 	        });
 	        
 	        calcRoute();
+//		    }
 		    function calcRoute() {
 		        var start_name = document.getElementById("start").value.split(",");
 		        var end_name = document.getElementById("end").value.split(",");
@@ -265,7 +262,7 @@
 		                size   = new qq.maps.Size(50,50),
 		                origin = new qq.maps.Point(0, 0),
 		                icon   = new qq.maps.MarkerImage(
-		                	ex_user_img,
+		                    "content/apps/express/statics/images/ex_user.png",
 		                    size,
 		                    origin,
 		                    ex_user_anchor
@@ -282,7 +279,7 @@
 		            Label.prototype.construct = function() {
 		                 this.dom = document.createElement('div');
 		                 this.dom.style.cssText =
-		                	  'background:url("'+ lable_text_img +'") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;z-index:1;' +
+		                      'background:url("content/apps/express/statics/images/lable_text.png") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;z-index:1;' +
 		                      'text-align:left;color:white;padding-left:25px;padding-top:8px;';
 		                 this.dom.innerHTML = ex_name +'<br>'+ex_mobile;
 		                 //将dom添加到覆盖物层，overlayLayer的顺序为容器 1，此容器中包含Polyline、Polygon、GroundOverlay等
@@ -364,9 +361,9 @@
                   		 $('.nearest_exuser_lng').val(data.express_info.longitude);
                   		 $('.nearest_exuser_lat').val(data.express_info.latitude);
                   		 $('.hasstaff').val(data.express_info.has_staff);
-                  		app.mh_express_task.map();
+                  		app.admin_express_task.map();
                   	 } else {
-                  		app.mh_express_task.map(); 
+                  		app.admin_express_task.map(); 
                   	 }
                    }, 'json');
               });
@@ -396,7 +393,6 @@
 	                //选中配送员边框变色end
 				  }
 			  });
-			  
 			  $(".exuser_div").off('click').on('click', function (e) {
                  e.preventDefault();
                  
@@ -406,10 +402,7 @@
                  var ex_name = $this.attr('name');
                  var ex_mobile = $this.attr('mobile');
                
-		   	   	 var home_url = $("input[name='home_url']").val();
-		   	   	 var ex_user_img =  home_url + "/content/apps/express/statics/images/ex_user.png";
-		   	   	 var lable_text_img =  home_url + "/content/apps/express/statics/images/lable_text.png";
-		   	   	  	
+                 
                  //顶部地图变化提示
                  $('.map-exp-order').css("display","none");
                  $('.map-exp-user').css("display","block");
@@ -420,7 +413,7 @@
               	var latLng = new qq.maps.LatLng(ex_lat, ex_lng);
               	var map = new qq.maps.Map(document.getElementById("allmap"),{
               	    center: latLng,
-              	    zoom: 18
+              	    zoom: 15
               	});
               	
           		//创建一个Marker(自定义图片)
@@ -434,7 +427,7 @@
                      size   = new qq.maps.Size(50,50),
                      origin = new qq.maps.Point(0, 0),
                      icon   = new qq.maps.MarkerImage(
-                    	 ex_user_img,
+                         "content/apps/express/statics/images/ex_user.png",
                          size,
                          origin,
                          anchor
@@ -451,7 +444,7 @@
                  Label.prototype.construct = function() {
                       this.dom = document.createElement('div');
                       this.dom.style.cssText =
-                    	   'background:url("'+ lable_text_img +'") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;' +
+                           'background:url("content/apps/express/statics/images/lable_text.png") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;' +
                            'text-align:left;color:white;padding-left:25px;padding-top:8px;';
                       this.dom.innerHTML = ex_name +'<br>'+ex_mobile;
                       //将dom添加到覆盖物层，overlayLayer的顺序为容器 1，此容器中包含Polyline、Polygon、GroundOverlay等
@@ -481,6 +474,8 @@
  	                 position: latLng
  	            });
              });
+			  
+			  
 		 },
 		 
 		assign : function(url){
@@ -494,7 +489,7 @@
 						if (e) {
 							$.post(url,{'express_id':exp_id}, function(data){
 								 if (data.state == 'success') {
-									ecjia.merchant.showmessage(data);
+									ecjia.admin.showmessage(data);
 								 }
 							})
 						}
@@ -514,9 +509,8 @@
                 }, 'json');
 			})
         },
-    }
+      }
     
-    //加载二
     app.task_list_fresh = {
 		 init : function() {
 			 var InterValObj; 	//timer变量，控制时间
@@ -540,8 +534,6 @@
 		 },	
     }
     
-    
-    //加载三
     app.serachuser_list = {
    		 init : function() {
    		    $('.online-click').off('click').on('click', function(e) {
@@ -556,22 +548,22 @@
                		$(".on-tri").removeClass("triangle1");
                	}
    			});
-	        $('.offline-click').off('click').on('click', function(e) {
-	           	var div = ($(".express-user-list-off").hasClass("in"));
-	           	
-	           	if (div) {
-	           		$(".off-tri").addClass("triangle1");
-	           		$(".off-tri").removeClass("triangle");
-	           		$(".off-tri").removeClass("triangle2");
-	           	} else {
-	           		$(".off-tri").addClass("triangle2");
-	           		$(".off-tri").removeClass("triangle");
-	           		$(".off-tri").removeClass("triangle1");
-	           	}
-			});
-            app.serachuser_list.search_user();
-            app.serachuser_list.click_reassign_exuser();
-            app.serachuser_list.re_assign();
+               $('.offline-click').off('click').on('click', function(e) {
+               	var div = ($(".express-user-list-off").hasClass("in"));
+               	
+               	if (div) {
+               		$(".off-tri").addClass("triangle1");
+               		$(".off-tri").removeClass("triangle");
+               		$(".off-tri").removeClass("triangle2");
+               	} else {
+               		$(".off-tri").addClass("triangle2");
+               		$(".off-tri").removeClass("triangle");
+               		$(".off-tri").removeClass("triangle1");
+               	}
+   			});
+               app.serachuser_list.search_user();
+               app.serachuser_list.click_reassign_exuser();
+               app.serachuser_list.re_assign();
    		 },
        		
    		 search_user: function () {
@@ -603,7 +595,7 @@
    						if (e) {
    							$.post(url,{'express_id':exp_id}, function(data){
    								if (data.state == 'success') {
-   									ecjia.merchant.showmessage(data);
+   									ecjia.admin.showmessage(data);
    								}
    							})
    						}
@@ -615,6 +607,7 @@
    		 click_reassign_exuser: function () {
 	   		  $(".express-user-info").off('click').on('click', function(e) {
 				  e.preventDefault();
+				  
 				  var $this = $(this);
 				  var online_status = $this.attr('online_status');
 				  if (online_status == 1) {
@@ -636,88 +629,84 @@
 		            //选中配送员边框变色end
 				  }
 			  });
-	   		  
    			  $(".reassign_exuser_div").off('click').on('click', function (e) {
-   				  	e.preventDefault();
-   				  	
-		   	   	  	var home_url = $("input[name='home_url']").val();
-		   	   	  	var ex_user_img =  home_url + "/content/apps/express/statics/images/ex_user.png";
-		   	   	  	var lable_text_img =  home_url + "/content/apps/express/statics/images/lable_text.png";
-	      
-	   	            var $this = $(this);
-	   	            var ex_lng = $this.attr('longitude');
-	   	            var ex_lat = $this.attr('latitude');
-	   	            var ex_name = $this.attr('name');
-	   	            var ex_mobile = $this.attr('mobile');
-	   	             
-	   	         	//腾讯地图加载
-	   	         	var map, markersArray = [];
-	   	         	var latLng = new qq.maps.LatLng(ex_lat, ex_lng);
-	   	         	var map = new qq.maps.Map(document.getElementById("allmap"),{
-	   	         	    center: latLng,
-	   	         	    zoom: 18
-	   	         	});
-	   	         	
-	   	     		//创建一个Marker(自定义图片)
-	   	     	    var marker = new qq.maps.Marker({
-	   	     	        position: latLng, 
-	   	     	        map: map
-	   	     	    });
-	   	     	    
-	   	     	    //设置Marker自定义图标的属性，size是图标尺寸，该尺寸为显示图标的实际尺寸，origin是切图坐标，该坐标是相对于图片左上角默认为（0,0）的相对像素坐标，anchor是锚点坐标，描述经纬度点对应图标中的位置
-	   	            var anchor = new qq.maps.Point(0, 39),
-	   	                size   = new qq.maps.Size(50,50),
-	   	                origin = new qq.maps.Point(0, 0),
-	   	                icon   = new qq.maps.MarkerImage(
-	   	                	ex_user_img,
-	   	                    size,
-	   	                    origin,
-	   	                    anchor
-	   	                );
-	   	            marker.setIcon(icon);
-	   	
-	   	            //创建描述框
-	   	         	var Label = function(opts) {
-	   	                qq.maps.Overlay.call(this, opts);
-	   	           	}
-	   	           	//继承Overlay基类
-	   	            Label.prototype = new qq.maps.Overlay();
-	   	            //定义construct,实现这个接口来初始化自定义的Dom元素
-	   	            Label.prototype.construct = function() {
-	   	                 this.dom = document.createElement('div');
-	   	                 this.dom.style.cssText =
-	   	                	'background:url("'+ lable_text_img +'") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;' +
-	   	                    'text-align:left;color:white;padding-left:25px;padding-top:8px;';
-	   	                 this.dom.innerHTML = ex_name +'<br>'+ex_mobile;
-	   	                 //将dom添加到覆盖物层，overlayLayer的顺序为容器 1，此容器中包含Polyline、Polygon、GroundOverlay等
-	   	                 this.getPanes().overlayLayer.appendChild(this.dom);
-	   	
-	   	            }
-	   	            //绘制和更新自定义的dom元素
-	   	            Label.prototype.draw = function() {
-	   	                //获取地理经纬度坐标
-	   	                var position = this.get('position');
-	   	                if (position) {
-	   	                    //根据经纬度坐标计算相对于地图外部容器左上角的相对像素坐标
-	   	                    //var pixel = this.getProjection().fromLatLngToContainerPixel(position);
-	   	                    //根据经纬度坐标计算相对于地图内部容器原点的相对像素坐标
-	   	                    var pixel = this.getProjection().fromLatLngToDivPixel(position);
-	   	                    this.dom.style.left = pixel.getX() + 'px';
-	   	                    this.dom.style.top = pixel.getY() + 'px';
-	   	                }
-	   	            }
-	   	
-	   	            Label.prototype.destroy = function() {
-	   	                //移除dom
-	   	                this.dom.parentNode.removeChild(this.dom);
-	   	            }
-	   	            var label = new Label({
-	   	                 map: map,
-	   	                 position: latLng
-	   	            });
+   	            e.preventDefault();
+   	            var $this = $(this);
+   	            var ex_lng = $this.attr('longitude');
+   	            var ex_lat = $this.attr('latitude');
+   	            var ex_name = $this.attr('name');
+   	            var ex_mobile = $this.attr('mobile');
+   	             
+   	         	//腾讯地图加载
+   	         	var map, markersArray = [];
+   	         	var latLng = new qq.maps.LatLng(ex_lat, ex_lng);
+   	         	var map = new qq.maps.Map(document.getElementById("allmap"),{
+   	         	    center: latLng,
+   	         	    zoom: 15
+   	         	});
+   	         	
+   	     		//创建一个Marker(自定义图片)
+   	     	    var marker = new qq.maps.Marker({
+   	     	        position: latLng, 
+   	     	        map: map
+   	     	    });
+   	     	    
+   	     	    //设置Marker自定义图标的属性，size是图标尺寸，该尺寸为显示图标的实际尺寸，origin是切图坐标，该坐标是相对于图片左上角默认为（0,0）的相对像素坐标，anchor是锚点坐标，描述经纬度点对应图标中的位置
+   	            var anchor = new qq.maps.Point(0, 39),
+   	                size   = new qq.maps.Size(50,50),
+   	                origin = new qq.maps.Point(0, 0),
+   	                icon   = new qq.maps.MarkerImage(
+   	                    "content/apps/express/statics/images/ex_user.png",
+   	                    size,
+   	                    origin,
+   	                    anchor
+   	                );
+   	            marker.setIcon(icon);
+   	
+   	            //创建描述框
+   	         	var Label = function(opts) {
+   	                qq.maps.Overlay.call(this, opts);
+   	           	}
+   	           	//继承Overlay基类
+   	            Label.prototype = new qq.maps.Overlay();
+   	            //定义construct,实现这个接口来初始化自定义的Dom元素
+   	            Label.prototype.construct = function() {
+   	                 this.dom = document.createElement('div');
+   	                 this.dom.style.cssText =
+   	                      'background:url("content/apps/express/statics/images/lable_text.png") no-repeat;width:130px;height:60px;margin-top:-98px;margin-left:-38px;position:absolute;' +
+   	                      'text-align:left;color:white;padding-left:25px;padding-top:8px;';
+   	                 this.dom.innerHTML = ex_name +'<br>'+ex_mobile;
+   	                 //将dom添加到覆盖物层，overlayLayer的顺序为容器 1，此容器中包含Polyline、Polygon、GroundOverlay等
+   	                 this.getPanes().overlayLayer.appendChild(this.dom);
+   	
+   	            }
+   	            //绘制和更新自定义的dom元素
+   	            Label.prototype.draw = function() {
+   	                //获取地理经纬度坐标
+   	                var position = this.get('position');
+   	                if (position) {
+   	                    //根据经纬度坐标计算相对于地图外部容器左上角的相对像素坐标
+   	                    //var pixel = this.getProjection().fromLatLngToContainerPixel(position);
+   	                    //根据经纬度坐标计算相对于地图内部容器原点的相对像素坐标
+   	                    var pixel = this.getProjection().fromLatLngToDivPixel(position);
+   	                    this.dom.style.left = pixel.getX() + 'px';
+   	                    this.dom.style.top = pixel.getY() + 'px';
+   	                }
+   	            }
+   	
+   	            Label.prototype.destroy = function() {
+   	                //移除dom
+   	                this.dom.parentNode.removeChild(this.dom);
+   	            }
+   	            var label = new Label({
+   	                 map: map,
+   	                 position: latLng
+   	            });
    	        });
    		 },
+	
     };
-})(ecjia.merchant, jQuery);
+    
+})(ecjia.admin, jQuery);
  
 // end

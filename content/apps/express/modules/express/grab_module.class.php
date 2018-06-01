@@ -134,21 +134,6 @@ class grab_module extends api_admin implements api_interface {
 			RC_Notification::send($user, $express_grab);
 			
 			/*推送消息*/
-// 			$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $_SESSION['staff_id']));
-// 			if (!is_ecjia_error($devic_info) && !empty($devic_info)) {
-// 				$push_event = RC_Model::model('push/push_event_viewmodel')->where(array('event_code' => 'express_grab', 'is_open' => 1, 'status' => 1, 'mm.app_id is not null', 'mt.template_id is not null', 'device_code' => $devic_info['device_code'], 'device_client' => $devic_info['device_client']))->find();
-// 				if (!empty($push_event)) {
-// 					RC_Loader::load_app_class('push_send', 'push', false);
-// 					ecjia_admin::$controller->assign('express_info', $express_order_info);
-// 					$content = ecjia_admin::$controller->fetch_string($push_event['template_content']);
-			
-// 					if ($devic_info['device_client'] == 'android') {
-// 						$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_ANDROID)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-// 					} elseif ($devic_info['device_client'] == 'iphone') {
-// 						$result = push_send::make($push_event['app_id'])->set_client(push_send::CLIENT_IPHONE)->set_field(array('open_type' => 'admin_message'))->send($devic_info['device_token'], $push_event['template_subject'], $content, 0, 1);
-// 					}
-// 				}
-// 			}
 
 			//推送消息
 			$options = array(

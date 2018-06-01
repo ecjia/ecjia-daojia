@@ -44,24 +44,33 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Express;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use ecjia_admin_log;
-use RC_Lang;
+/**
+ * 后台配送菜单API
+ * @author 
+ */
+class express_admin_menu_api extends Component_Event_Api {
 
-class Helper
-{
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content()
-    {
-    	ecjia_admin_log::instance()->add_action('assign', '指派');
-    	ecjia_admin_log::instance()->add_action('pickup', '取货');
-    	
-        ecjia_admin_log::instance()->add_object('express_user', '配送员');
-        ecjia_admin_log::instance()->add_object('express_user_profile', '配送员资料');
-        ecjia_admin_log::instance()->add_object('express_order', '配送单');
+    public function call(&$options) {
+        $menus = ecjia_admin::make_admin_menu('05_content', '配送调度', '', 5);
+        
+        $submenus = array(
+            ecjia_admin::make_admin_menu('01_task_list', '任务中心', RC_Uri::url('express/admin/init', array('type' => 'wait_grab')), 1)->add_purview('express_task_manage'),
+        	ecjia_admin::make_admin_menu('02_express_list', '配送员管理', RC_Uri::url('express/admin_express/init'), 2)->add_purview('express_manage'),
+        	ecjia_admin::make_admin_menu('03_merchant_list', '商家管理', RC_Uri::url('express/admin_merchant/init'), 3)->add_purview('express_merchant_manage'),
+        	ecjia_admin::make_admin_menu('04_match_list', '资金对账', RC_Uri::url('express/admin_match/init'), 4)->add_purview('express_match_manage'),
+        	ecjia_admin::make_admin_menu('05_history_list', '历史配送', RC_Uri::url('express/admin_history/init'), 5)->add_purview('express_history_manage'),
+            ecjia_admin::make_admin_menu('06_history_list', '派单提醒', RC_Uri::url('express/admin_reminder/init'), 6)->add_purview('express_reminder_manage'),
+        );
+        
+        $menus->add_submenu($submenus);
+        $menus = RC_Hook::apply_filters('express_admin_menu_api', $menus);
+        
+		if ($menus->has_submenus()) {
+		    return $menus;
+		}
+		return false;
     }
 }
 
