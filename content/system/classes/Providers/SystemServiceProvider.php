@@ -78,6 +78,8 @@ class SystemServiceProvider extends ServiceProvider {
 	{
 	    $this->registerTestLogCommand();
 	    
+	    $this->registerFileHashCommand();
+	    
 	    $this->registerPluginManager();
 	    
 	    $this->registerThemeManager();
@@ -174,6 +176,17 @@ class SystemServiceProvider extends ServiceProvider {
 	    });
 	    $this->commands('command.test.log');
 	}
+	
+	
+	public function registerFileHashCommand()
+	{
+	    $this->royalcms->bindShared('command.ecjia.filehash', function($royalcms)
+	    {
+	        return new \Ecjia\System\Console\FileHashCommand();
+	    });
+	    $this->commands('command.ecjia.filehash');
+	}
+	
 	
 	/**
 	 * Load the alias = One less install step for the user

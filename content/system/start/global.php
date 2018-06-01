@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 use Royalcms\Component\Support\Facades\Royalcms;
+use GuzzleHttp\json_encode;
 
 // Load the default text localization domain.
 RC_Locale::loadDefaultTextdomain();
@@ -143,7 +144,9 @@ RC_Event::listen('royalcms.query', function($query, $bindings, $time) {
     if (royalcms('config')->get('system.debug')) {
         $query = str_replace('?', '"'.'%s'.'"', $query);
         $sql = vsprintf($query, $bindings);
-        RC_Logger::getLogger(RC_Logger::LOG_SQL)->info($sql);
+        RC_Logger::getLogger(RC_Logger::LOG_SQL)->info('query:'.$query);
+        RC_Logger::getLogger(RC_Logger::LOG_SQL)->info('bindings:'.json_encode($bindings));
+        RC_Logger::getLogger(RC_Logger::LOG_SQL)->info('sql:'.$sql);
     }
 });
 

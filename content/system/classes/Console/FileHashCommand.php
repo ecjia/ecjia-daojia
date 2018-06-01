@@ -46,33 +46,31 @@
 //
 namespace Ecjia\System\Console;
 
-use Royalcms\Component\Console\Scheduling\Schedule;
-use Royalcms\Component\Console\Royalcmd as ConsoleKernel;
+use Royalcms\Component\Console\Command;
+use Royalcms\Component\Support\Facades\File;
 
-class Kernel extends ConsoleKernel
+class FileHashCommand extends Command
 {
-    /**
-     * 应用程序提供的 Royalcmd 命令。
-     *
-     * @var array
-     */
-    protected $commands = array(
-        'test.log',
-        'ecjia.filehash',
-    );
+    // 命令名称
+    protected $name = 'ecjia:filehash';
 
-    /**
-     * 定义应用程序的命令调度。
-     *
-     * @param  \Royalcms\Component\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
-    protected function schedule(Schedule $schedule)
+    // 说明文字
+    protected $description = 'make all file\'s md5 hash.';
+
+    public function __construct()
     {
-//         $schedule->call(function () {
-           
-//         })->daily();
+        parent::__construct();
+    }
+
+    // Console 执行的程序
+    public function fire()
+    {
+        $this->info('starting generate file...');
         
-        $schedule->command('test:log')->everyOneMinutes();
+        
+        
+        $this->info('end generate file.');
     }
 }
+
+// end
