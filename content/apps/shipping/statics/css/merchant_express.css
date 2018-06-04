@@ -76,4 +76,4 @@
 #addShipping .col-lg-6.help-block, #addShipping .col-lg-10.help-block{padding-left:0;margin-bottom:0;}
 #addShipping .staticalert {width:98%;margin:10px auto;}
 #addShipping .modal-dialog{width:1000px;min-height:551px;}
-#addShipping .modal-body {width:998px;min-height:482px;}
+#addShipping .modal-body {width:998px;min-height:482px;max-height:550px;overflow-y:auto;}

@@ -1,12 +1,12 @@
-{if $shipping_area.shipping_code != 'ship_cac'}
+{if $shipping_data.shipping_code != 'ship_cac'}
 <!-- {foreach from=$fields item=field} -->
 	{if $in && $field.name == 'fee_compute_mode'}
 		<div class="form-group" id="{$field.name}">
 			<label class="control-label col-lg-4">{$field.label}</label>
 			<div class="controls col-lg-6">
-				<input type="radio" id="fee_compute_mode_by_weight" name="fee_compute_mode" {if $field.value eq 'by_weight'}checked{/if} value="by_weight" data-code="{$shipping_area.shipping_code}"/>
+				<input type="radio" id="fee_compute_mode_by_weight" name="fee_compute_mode" {if $field.value eq 'by_weight'}checked{/if} value="by_weight" data-code="{$shipping_data.shipping_code}"/>
 				<label for="fee_compute_mode_by_weight">按重量</label>
-				<input type="radio" id="fee_compute_mode_by_number" name="fee_compute_mode" {if $field.value eq 'by_number'}checked{/if} value="by_number" data-code="{$shipping_area.shipping_code}"/>
+				<input type="radio" id="fee_compute_mode_by_number" name="fee_compute_mode" {if $field.value eq 'by_number'}checked{/if} value="by_number" data-code="{$shipping_data.shipping_code}"/>
 				<label for="fee_compute_mode_by_number">按件数</label>
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 				<span class="input-must">*</span>
 			</div>
 		{else if $field.name != 'fee_compute_mode'}
-			<div class="form-group" id="{$field.name}" style="display:none;">
+			<div class="form-group" id="{$field.name}">
 				<label class="control-label col-lg-4">{$field.label}</label>
 				<div class="controls col-lg-6">
 					<input class="form-control" name="{$field.name}" type="text" value="{if $config.value}{$config.value}{else}{if $field.value}{$field.value}{else}0{/if}{/if}"/>
@@ -31,7 +31,7 @@
 			</div>
 		{/if}
 	{else}
-		{if $field.name != 'item_fee' && $field.name != 'fee_compute_mode'}
+		{if $field.name != 'item_fee' && $field.name != 'fee_compute_mode' && $field.name != 'pay_fee'}
 			<div class="form-group" id="{$field.name}">
 				<label class="control-label col-lg-4">{$field.label}</label>
 				<div class="controls col-lg-6">
@@ -40,19 +40,26 @@
 				<span class="input-must">*</span>
 			</div>
 		{else if $field.name == 'item_fee'}
-			<div class="form-group" id="{$field.name}" style="display:none;">
+			<div class="form-group" id="{$field.name}">
 				<label class="control-label col-lg-4">{$field.label}</label>
 				<div class="controls col-lg-6">
 					<input class="form-control" name="{$field.name}" type="text" value="{if $config.value}{$config.value}{else}{if $field.value}{$field.value}{else}0{/if}{/if}"/>
 				</div>
 				<span class="input-must">*</span>
 			</div>
+		{else if $field.name == 'pay_fee' && $shipping_data.support_cod eq 1}
+			<div class="form-group" id="{$field.name}">
+				<label class="control-label col-lg-4">{$field.label}</label>
+				<div class="controls col-lg-6">
+					<input class="form-control" name="{$field.name}" type="text" value="{if $config.value}{$config.value}{else}{if $field.value}{$field.value}{else}0{/if}{/if}"/>
+				</div>
+			</div>	
 		{/if}
 	{/if}
 <!-- {/foreach} -->
 {/if}
 
-{if $shipping_area.shipping_code eq 'ship_o2o_express' || $shipping_area.shipping_code eq 'ship_ecjia_express'}
+{if $shipping_data.shipping_code eq 'ship_o2o_express' || $shipping_data.shipping_code eq 'ship_ecjia_express'}
 	<div class="form-group" id="ship_days">
 		<label class="control-label col-lg-4">下单后几天内配送：</label>
 		<div class="controls col-lg-6">
@@ -123,7 +130,7 @@
 		</div>
 	</div>
 {/if}
-{if $shipping_area.shipping_code eq 'ship_cac'}
+{if $shipping_data.shipping_code eq 'ship_cac'}
 	<div class="form-group" id="pickup_days">
 		<label class="control-label col-lg-4">下单后几天内取货：</label>
 		<div class="controls col-lg-4">

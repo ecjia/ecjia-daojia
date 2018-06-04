@@ -452,6 +452,7 @@
 	        };
             $(".tp_1").datetimepicker({
 				format: "hh:ii",
+				language: 'zh',
                 weekStart: 1,
                 todayBtn: 1,
                 autoclose: 1,
@@ -463,19 +464,10 @@
         },
         
         tpicker: function () {
-			$('.fontello-icon-plus').click(function(e) {
+			$('.fontello-icon-plus').off('click').on('click', function(e) {
 				setTimeout(function () { 
-					$(".tp_1").datetimepicker({
-						format: "hh:ii",
-		                weekStart: 1,
-		                todayBtn: 1,
-		                autoclose: 1,
-		                todayHighlight: 1,
-		                startView: 1,
-		                forceParse: 0,
-		                minuteStep: 5
-					});
-			    }, 1000);
+					app.express.datepicker();
+			    });
 			});
 		},
 		
