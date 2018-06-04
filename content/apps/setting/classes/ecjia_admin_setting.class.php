@@ -55,14 +55,17 @@ class ecjia_admin_setting extends RC_Object {
     
     public function load_groups() {
         $menus = array(
-            ecjia_admin::make_admin_menu('shop_info', $this->cfg_name_langs('shop_info'), RC_Uri::url('setting/shop_config/init', array('code' => 'shop_info')), 2)->add_purview('shop_config')->add_icon('fontello-icon-wrench'),
-            ecjia_admin::make_admin_menu('basic', $this->cfg_name_langs('basic'), RC_Uri::url('setting/shop_config/init', array('code' => 'basic')), 1)->add_purview('shop_config')->add_icon('fontello-icon-info'),
+            ecjia_admin::make_admin_menu('shop_info', $this->cfg_name_langs('shop_info'), RC_Uri::url('setting/shop_config/init', array('code' => 'shop_info')), 1)->add_purview('shop_config')->add_icon('fontello-icon-wrench'),
+            ecjia_admin::make_admin_menu('basic', $this->cfg_name_langs('basic'), RC_Uri::url('setting/shop_config/init', array('code' => 'basic')), 2)->add_purview('shop_config')->add_icon('fontello-icon-info'),
             ecjia_admin::make_admin_menu('display', $this->cfg_name_langs('display'), RC_Uri::url('setting/shop_config/init', array('code' => 'display')), 3)->add_purview('shop_config')->add_icon('fontello-icon-desktop'),
             ecjia_admin::make_admin_menu('shopping_flow', $this->cfg_name_langs('shopping_flow'), RC_Uri::url('setting/shop_config/init', array('code' => 'shopping_flow')), 4)->add_purview('shop_config')->add_icon('fontello-icon-truck'),
             ecjia_admin::make_admin_menu('goods', $this->cfg_name_langs('goods'), RC_Uri::url('setting/shop_config/init', array('code' => 'goods')), 5)->add_purview('shop_config')->add_icon('fontello-icon-gift'),
         );
         
         $menus = RC_Hook::apply_filters('append_admin_setting_group', $menus);
+        
+        usort($menus, array('ecjia_utility', 'admin_menu_by_sort'));
+        
         return $menus;
     }
     
