@@ -51,8 +51,8 @@ class comment_admin_hooks {
    public static function append_admin_setting_group($menus) {
        $setting = ecjia_admin_setting::singleton();
        
-       $menus[] = ecjia_admin::make_admin_menu('nav-header', '评论', '', 10)->add_purview(array('shop_config'));
-       $menus[] = ecjia_admin::make_admin_menu('comment', $setting->cfg_name_langs('comment'), RC_Uri::url('comment/admin_config/init'), 6)->add_purview('shop_config')->add_icon('fontello-icon-chat-empty');
+       $menus[] = ecjia_admin::make_admin_menu('nav-header', '评论', '', 110)->add_purview(array('shop_config'));
+       $menus[] = ecjia_admin::make_admin_menu('comment', $setting->cfg_name_langs('comment'), RC_Uri::url('comment/admin_config/init'), 111)->add_purview('shop_config')->add_icon('fontello-icon-chat-empty');
        
        return $menus;
    }

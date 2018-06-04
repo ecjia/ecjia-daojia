@@ -85,8 +85,8 @@ class store_admin_hooks {
 	{
 	    $setting = ecjia_admin_setting::singleton();
 	     
-	    $menus[] = ecjia_admin::make_admin_menu('nav-header', '入驻商', '', 20)->add_purview(array('mobile_config_manage'));
-	    $menus[] = ecjia_admin::make_admin_menu('store', '商家设置', RC_Uri::url('store/admin_config/init'), 21)->add_purview('store_config_manage');
+	    $menus[] = ecjia_admin::make_admin_menu('nav-header', '入驻商', '', 90)->add_purview(array('mobile_config_manage'));
+	    $menus[] = ecjia_admin::make_admin_menu('store', '商家设置', RC_Uri::url('store/admin_config/init'), 91)->add_purview('store_config_manage');
 	     
 	    return $menus;
 	}

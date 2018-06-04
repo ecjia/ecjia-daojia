@@ -51,8 +51,8 @@ class cron_admin_hooks {
 	public static function append_admin_setting_group($menus) {
 		$setting = ecjia_admin_setting::singleton();
 		 
-		$menus[] = ecjia_admin::make_admin_menu('nav-header', '计划任务', '', 24)->add_purview(array('cron_config_manage'));
-		$menus[] = ecjia_admin::make_admin_menu('cron', '计划任务', RC_Uri::url('cron/admin_config/init'), 25)->add_purview('cron_config_manage');
+		$menus[] = ecjia_admin::make_admin_menu('nav-header', '计划任务', '', 120)->add_purview(array('cron_config_manage'));
+		$menus[] = ecjia_admin::make_admin_menu('cron', '计划任务', RC_Uri::url('cron/admin_config/init'), 121)->add_purview('cron_config_manage');
 		 
 		return $menus;
 	}
