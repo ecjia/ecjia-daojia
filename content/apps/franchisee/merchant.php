@@ -224,6 +224,10 @@ class merchant extends ecjia_merchant {
 			$browser_warning = '您当前的浏览器版本过低，建议升级您的浏览器或使用chrome内核浏览器！如：360极速浏览器、360安全浏览器（极速模式）、火狐浏览器、谷歌浏览器。';
 			$this->assign('browser_warning', $browser_warning);
 		}
+		
+		if (ecjia_config::has('captcha_style') && intval(ecjia::config('captcha')) && RC_ENV::gd_version() > 0) {
+			$this->assign('check_captcha', true);
+		}
 		$this->display('franchisee.dwt');
 	}
 	
@@ -260,7 +264,7 @@ class merchant extends ecjia_merchant {
 		
 		$_SESSION['temp_mobile']	= $mobile;
 		$_SESSION['temp_code'] 		= $code;
-		$_SESSION['temp_code_time'] = RC_Time::gmtime();
+		$_SESSION['temp_code_time'] = RC_Time::gmtime() + 300;//5分钟有效
 		
 		if (is_ecjia_error($response)) {
 			return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -287,7 +291,7 @@ class merchant extends ecjia_merchant {
 				$message = '请输入法定代表人姓名';
 			}
 			
-			$time = RC_Time::gmtime() - 6000*3;
+			$time = RC_Time::gmtime();
 			if (empty($email)) {
 				return $this->showmessage('请输入电子邮箱', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
@@ -307,7 +311,7 @@ class merchant extends ecjia_merchant {
 				}
 			} else {
 				if (empty($code) || $code != $_SESSION['temp_code'] || $time >= $_SESSION['temp_code_time'] || $mobile != $_SESSION['temp_mobile']) {
-					return $this->showmessage('请输入正确的手机验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage('请输入正确的短信验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 				//查询预审核表手机号是否已存在
 				$count_preaudit = RC_DB::table('store_preaudit')->where('contact_mobile', $mobile)->count();
@@ -606,6 +610,10 @@ class merchant extends ecjia_merchant {
 		$this->assign('step', $step);
 		$this->assign('form_action', RC_Uri::url('franchisee/merchant/view_post', array('step' => $step, 'mobile' => $mobile)));
 		
+		if (ecjia_config::has('captcha_style') && intval(ecjia::config('captcha')) && RC_ENV::gd_version() > 0) {
+			$this->assign('check_captcha', true);
+		}
+		
 		$this->display('franchisee_view.dwt');
 	}
 	
@@ -615,7 +623,7 @@ class merchant extends ecjia_merchant {
 			$code 	= !empty($_POST['code']) ? $_POST['code'] : '';
 			$mobile = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
 				
-			$time = RC_Time::gmtime() - 6000*3;
+			$time = RC_Time::gmtime();
 			if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time'] && $mobile == $_SESSION['temp_mobile']) {
 				//判断该手机号是否已申请
 				$count_preaudit_info   = RC_DB::table('store_preaudit')->where('contact_mobile', $mobile)->first();

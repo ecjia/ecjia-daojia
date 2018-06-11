@@ -118,21 +118,25 @@
 					  	<div class="controls col-lg-6">
 					      	<input class="form-control" name="mobile" id="mobile" placeholder="请输入手机号码" type="text" value="{$info.contact_mobile}" {if $type eq 'edit_apply'}readonly{/if}/>
 					  	</div>
+					  	{if $type neq 'edit_apply' && !$check_captcha}
+					  	<a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
+					  	{/if}
 					</div>
 					
 					{if $type neq 'edit_apply'}
-					<div class="form-group">
-					  	<label class="control-label col-lg-2">图形验证码：</label>
-					    <!-- {ecjia:hook id=merchant_join_captcha} -->
-					 	<a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
-					</div>
-					
-					<div class="form-group">
-					  	<label class="control-label col-lg-2">{t}短信验证码：{/t}</label>
-					  	<div class="col-lg-6">
-					      	<input class="form-control" name="code" placeholder="请输入手机短信验证码" type="text" />
-					  	</div>
-					</div>
+						{if $check_captcha}
+						<div class="form-group">
+						  	<label class="control-label col-lg-2">图形验证码：</label>
+						    <!-- {ecjia:hook id=merchant_join_captcha} -->
+						    <a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
+						</div>
+						{/if}
+						<div class="form-group">
+						  	<label class="control-label col-lg-2">{t}短信验证码：{/t}</label>
+						  	<div class="col-lg-6">
+						      	<input class="form-control" name="code" placeholder="请输入手机短信验证码" type="text" />
+						  	</div>
+						</div>
 					{/if}
 					
 					<div class="form-group">
