@@ -107,9 +107,9 @@ class list_module extends api_front implements api_interface {
 					if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
 						$shop_closed = 1;
 					} else {
-						$current_time = RC_Time::gmtime();
-						$start_time = RC_Time::local_strtotime($shop_trade_time['start']);
-	                    $end_time = RC_Time::local_strtotime($shop_trade_time['end']);
+						$current_time = time();
+						$start_time = strtotime($shop_trade_time['start']);
+	                    $end_time = strtotime($shop_trade_time['end']);
 						//处理营业时间格式例：7:00--次日5:30
 	                    $start = $shop_trade_time['start'];
 	                    $end = explode(':', $shop_trade_time['end']);
@@ -117,7 +117,7 @@ class list_module extends api_front implements api_interface {
 	                        $hour = $end[0] - 24;
 	                    	$end[0] = '次日'. ($hour);
 	                        $end_str = $hour. ':' . $end[1];
-	                        $end_time = RC_Time::local_strtotime($end_str) + 24*3600;
+	                        $end_time = strtotime($end_str) + 24*3600;
 	                    }
 	                    if ($start_time < $current_time && $current_time < $end_time) {
 	                        $shop_closed = 0;

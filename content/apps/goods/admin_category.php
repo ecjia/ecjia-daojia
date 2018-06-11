@@ -582,7 +582,11 @@ class admin_category extends ecjia_admin {
 			$cache_key = sprintf('%X', crc32('category-'. $info['parent_id']));
 			$category_db->delete_cache_item($cache_key);
 			
-			return $this->showmessage(RC_Lang::get('goods::category.sort_edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_category/init')));
+			$pjaxurl = RC_Uri::url('goods/admin_category/init');
+			if (!empty($info['parent_id'])) {
+				$pjaxurl = RC_Uri::url('goods/admin_category/init', array('cat_id' => $info['parent_id']));
+			}
+			return $this->showmessage(RC_Lang::get('goods::category.sort_edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 		} else {
 			return $this->showmessage(RC_Lang::get('goods::category.sort_edit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -611,13 +615,12 @@ class admin_category extends ecjia_admin {
 		$this->admin_priv('category_update', ecjia::MSGTYPE_JSON);
 		
 		$id = intval($_POST['pk']);
-		$val = !empty($_POST['val']) ? intval($_POST['value']) : 0;
+		$val = !empty($_POST['value']) ? intval($_POST['value']) : 0;
 
 		if ($val > 10 || $val < 0) {
 			/* 价格区间数超过范围 */
 			return $this->showmessage(RC_Lang::get('goods::category.grade_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-
 		if (cat_update($id, array('grade' => $val))) {
 			return $this->showmessage(RC_Lang::get('goods::category.grade_edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
 		} else {
