@@ -3676,7 +3676,7 @@ footer {
 
 .ecjia .ecjia-checkout .checklist.line {
     line-height: 1.5em;
-    padding: .5em 1em;
+    padding: 1em;
 }
 
 .ecjia .ecjia-checkout .checklist.line .icon-shop-time {
@@ -3769,19 +3769,57 @@ footer {
     transform: translateY(-50%)
 }
 
+.ecjia .ecjia-checkout .checklist .ecjia-select-pay .iconfont {
+/*    position: relative;
+    top: 0;
+    right: 0;
+    transform: inherit;*/
+    top: 46%;
+}
+
 .ecjia .ecjia-checkout .checklist a {
     display: inline-block;
-    width: 100%
+    width: 100%;
+
+}
+
+.ecjia .ecjia-checkout .checklist.flex a {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
 }
 
 .ecjia .ecjia-checkout .checklist .pay_title {
-    position: absolute;
-    top: 20%;
+    /*position: absolute;*/
+    /*top: 20%;*/
+}
+
+.ecjia .ecjia-checkout .checklist .ecjia-select-pay {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
 }
 
 .ecjia-checkout .checklist .select_nav {
     margin-right: 2em;
-    width: 70%;
     text-align: right
 }
 

@@ -416,7 +416,7 @@ class user_order_controller {
         
         $order_id 		= isset($_POST['order_id']) 		? intval($_POST['order_id']) 			: 0;
         $rec_id 		= isset($_POST['rec_id']) 			? intval($_POST['rec_id']) 				: '';
-        $content 		= !empty($_POST['note']) 			? $_POST['note'] 						: '商品质量俱佳，强烈推荐！';
+        $content 		= !empty($_POST['note']) 			? trim(htmlspecialchars($_POST['note'])) : '商品质量俱佳，强烈推荐！';
         $rank 			= isset($_POST['score']) 			? intval($_POST['score']) 				: 0;
         $is_anonymous 	= isset($_POST['anonymity_status']) ? intval($_POST['anonymity_status']) 	: '';
        
@@ -599,7 +599,7 @@ class user_order_controller {
     	$order_id 			= !empty($_POST['order_id']) 		? intval($_POST['order_id']) 		: 0;
     	$reason_id 			= !empty($_POST['reason_id']) 		? intval($_POST['reason_id']) 		: 0;
     	$refund_type 		= !empty($_POST['refund_type']) 	? trim($_POST['refund_type']) 		: '';
-    	$refund_description = !empty($_POST['question_desc']) 	? trim($_POST['question_desc']) 	: '';
+    	$refund_description = !empty($_POST['question_desc']) 	? trim(htmlspecialchars($_POST['question_desc'])) : '';
     	$refund_sn 			= !empty($_POST['refund_sn']) 		? trim($_POST['refund_sn']) 		: '';
 
     	if (empty($order_id)) {

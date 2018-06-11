@@ -197,7 +197,7 @@ class article_controller {
     	
     	if (empty($type)) {
     		$article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
-    		$content = !empty($_POST['val']) ? trim($_POST['val']) : '';
+    		$content = !empty($_POST['val']) ? trim(htmlspecialchars($_POST['val'])) : '';
     		if (empty($content)) {
     			return ecjia_front::$controller->showmessage('请输入评论内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}

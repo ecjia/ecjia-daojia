@@ -23,12 +23,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-checkout ecjia-padding-b">
 	{if $show_storepickup}
 	<div class="ecjia-checkout-tab">
-		<a href="{if $shipping_type eq 'default_shipping'}javascript:;{else}{RC_Uri::url('cart/flow/checkout')}&store_id={$store_id}&rec_id={$rec_id}{/if}"><span class="tab tab-left {if $shipping_type eq 'default_shipping'}active{/if}">配送上门</span></a><a href="{if $shipping_type eq 'storepickup'}javascript:;{else}{RC_Uri::url('cart/flow/storepickup_checkout')}&store_id={$store_id}&rec_id={$rec_id}{/if}"><span class="tab tab-right {if $shipping_type eq 'storepickup'}active{/if}">门店提货</span></a>
+		<a href="{if $shipping_type eq 'default'}javascript:;{else}{RC_Uri::url('cart/flow/checkout')}&store_id={$store_id}&rec_id={$rec_id}{/if}"><span class="tab tab-left {if $shipping_type eq 'default' || $shipping_type eq 'default_storepickup'}active{/if}">配送上门</span></a><a href="{if $shipping_type eq 'storepickup'}javascript:;{else}{RC_Uri::url('cart/flow/storepickup_checkout')}&store_id={$store_id}&rec_id={$rec_id}{/if}"><span class="tab tab-right {if $shipping_type eq 'storepickup'}active{/if}">门店提货</span></a>
 	</div>
 	{/if}
 	<form id="theForm" name="checkForm" action="{$done_url}" method="post">
 		
-		{if $shipping_type eq 'default_shipping'}
+		{if $shipping_type eq 'default' || $shipping_type eq 'default_storepickup'}
 		<a class="ecjia-default-shipping" href="{if !$address_list && !$address_id}{RC_Uri::url('user/address/add_address')}&clear=1{else}{RC_Uri::url('user/address/address_list')}&store_id={$store_id}&rec_id={$rec_id}&type=choose{/if}">
 			<div class="flow-address ecjia-margin-b {if !$data.consignee}choose-address{/if}">
 				<label class="ecjiaf-fl"><i class="icon-position"></i></label>
@@ -48,21 +48,25 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<i class="iconfont icon-jiantou-right"></i>
 			</div>
 		</a>
-		<section class="checklist line">
+		<section class="checklist line flex">
 			<a class="check_address" href='{url path="cart/flow/pay_shipping" args="address_id={$address_id}&rec_id={$rec_id}"}'>
 				<span class="pay_title">支付配送</span>
-				<i class="iconfont icon-jiantou-right"></i>
-				<span class="ecjiaf-fr select_nav ecjia-truncate">{$selected_payment.pay_name}</span>
-				<input type="hidden" name="pay_id" value="{$selected_payment.pay_id}" />
 				
-				<span class="ecjiaf-fr select_nav ecjia-truncate">{$selected_shipping.shipping_name}</span>
-				<input type="hidden" name="shipping_id" value="{$selected_shipping.shipping_id}" />
-				
-				{if $selected_shipping.shipping_date_enable && $selected_shipping.shipping_date}
-				<span class="ecjiaf-fr select_nav ecjia-truncate">{if !$selected_shipping.shipping_date}<span class="ecjia-color-999">暂无可选时间</span>{elseif $temp.shipping_date && $temp.shipping_time}{$temp.shipping_date} {$temp.shipping_time}{/if}</span>
-				<input type="hidden" name="shipping_date" value="{$temp.shipping_date}" />
-				<input type="hidden" name="shipping_time" value="{$temp.shipping_time}" />
-				{/if}
+				<div class="ecjia-select-pay">
+					<div class="select-pay-left">
+						<span class="select_nav ecjia-truncate">{$selected_payment.pay_name}</span>
+						<span class="select_nav ecjia-truncate">{$selected_shipping.shipping_name}</span>
+						
+						{if $selected_shipping.shipping_date_enable && $selected_shipping.shipping_date}
+						<span class="select_nav ecjia-truncate">{if !$selected_shipping.shipping_date}<span class="ecjia-color-999">暂无可选时间</span>{elseif $temp.shipping_date && $temp.shipping_time}{$temp.shipping_date} {$temp.shipping_time}{/if}</span>
+						<input type="hidden" name="shipping_date" value="{$temp.shipping_date}" />
+						<input type="hidden" name="shipping_time" value="{$temp.shipping_time}" />
+						{/if}
+					</div>
+					<i class="iconfont icon-jiantou-right"></i>
+					<input type="hidden" name="shipping_id" value="{$selected_shipping.shipping_id}" />
+					<input type="hidden" name="pay_id" value="{$selected_payment.pay_id}" />
+				</div>
 			</a>
 		</section>
 		{/if}
@@ -79,21 +83,25 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<a class="nopjax external" href="{$location_url}"><i class="icon-shopguide"></i></a>
 			</div>
 		</div>
-		<section class="checklist line border-top-none">
+		<section class="checklist line border-top-none flex">
 			<a class="check_address" href='{url path="cart/flow/pay_pickup" args="address_id={$address_id}&rec_id={$rec_id}"}'>
 				<span class="pay_title">支付提货</span>
-				<i class="iconfont icon-jiantou-right"></i>
-				<span class="ecjiaf-fr select_nav ecjia-truncate">{$selected_payment.pay_name}</span>
-				<input type="hidden" name="pay_id" value="{$selected_payment.pay_id}" />
-				
-				<span class="ecjiaf-fr select_nav ecjia-truncate">提货时间</span>
-				<input type="hidden" name="shipping_id" value="{$selected_shipping.shipping_id}" />
-				
-				{if $temp.pickup_date && $temp.pickup_date}
-				<span class="ecjiaf-fr select_nav ecjia-truncate">{if $temp.pickup_date && $temp.pickup_time}{$temp.pickup_date} {$temp.pickup_time}{/if}</span>
-				<input type="hidden" name="pickup_date" value="{$temp.pickup_date}" />
-				<input type="hidden" name="pickup_time" value="{$temp.pickup_time}" />
-				{/if}
+				<div class="ecjia-select-pay">
+					<div class="select-pay-left">
+						<span class="select_nav ecjia-truncate">{$selected_payment.pay_name}</span>
+						<span class="select_nav ecjia-truncate">提货时间</span>
+						
+						{if $temp.pickup_date && $temp.pickup_date}
+						<span class="select_nav ecjia-truncate">{if $temp.pickup_date && $temp.pickup_time}{$temp.pickup_date} {$temp.pickup_time}{/if}</span>
+						<input type="hidden" name="pickup_date" value="{$temp.pickup_date}" />
+						<input type="hidden" name="pickup_time" value="{$temp.pickup_time}" />
+						{/if}
+					</div>
+					<i class="iconfont icon-jiantou-right"></i>
+					<input type="hidden" name="pay_id" value="{$selected_payment.pay_id}" />
+					<input type="hidden" name="shipping_id" value="{$selected_shipping.shipping_id}" />
+					
+				</div>
 			</a>
 		</section>
 		{/if}
