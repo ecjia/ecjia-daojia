@@ -119,7 +119,13 @@ class store_bill_detail_model extends Component_Model_Model {
         if($data['order_type'] == 'quickpay') {
             $data['order_amount'] = $order_info['order_amount'];
         } else {
-            $data['order_amount'] = $order_info['money_paid'] + $order_info['surplus'] + $order_info['integral_money'];
+            //众包配送，运费不参与商家结算 @update 20180606
+            if($order_info['shipping_code'] == 'ship_ecjia_express') {
+                $data['order_amount'] = $order_info['money_paid'] + $order_info['surplus'] + $order_info['integral_money'] - $order_info['shipping_fee'];
+            } else {
+                $data['order_amount'] = $order_info['money_paid'] + $order_info['surplus'] + $order_info['integral_money'];
+            }
+            
         }
         if ($data['order_type'] == 'buy') {
             $data['percent_value'] = RC_Model::model('commission/store_franchisee_model')->get_store_commission_percent($data['store_id']);
@@ -175,28 +181,34 @@ class store_bill_detail_model extends Component_Model_Model {
 
         $data['add_time'] = RC_Time::gmtime();
 //         RC_Logger::getLogger('info')->info($data);
-        $datail_id = RC_DB::table('store_bill_detail')->insertGetId($data);
-	    if($datail_id) {
-	        //TODO每成功后结算一次
-	        RC_Loader::load_app_class('store_account', 'commission');
-	        $account = array(
-	            'store_id' => $data['store_id'],
-	            'amount' => $data['brokerage_amount'],
-	            'bill_order_type' => $data['order_type'],
-	            'bill_order_id' => $data['order_id'],
-	            'bill_order_sn' => $data['order_sn'],
-	            'platform_profit' => $data['platform_profit'],
-	        );
-	        $rs_account = store_account::bill($account);
-	        if ($rs_account && !is_ecjia_error($rs_account)) {
-	            RC_DB::table('store_bill_detail')->where('detail_id', $datail_id)->update(array('bill_status' => 1, 'bill_time' => RC_Time::gmtime()));
-	            //删除队列表数据
-	            RC_DB::table('store_bill_queue')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])->delete();
-	        }
-	        return true;
-	    }
-	    return false;
-	    
+
+        $status = false;
+        RC_DB::transaction(function () use ($data, &$status){
+            
+            $datail_id = RC_DB::table('store_bill_detail')->insertGetId($data);
+            if($datail_id) {
+                //TODO每成功后结算一次
+                RC_Loader::load_app_class('store_account', 'commission');
+                $account = array(
+                    'store_id' => $data['store_id'],
+                    'amount' => $data['brokerage_amount'],
+                    'bill_order_type' => $data['order_type'],
+                    'bill_order_id' => $data['order_id'],
+                    'bill_order_sn' => $data['order_sn'],
+                    'platform_profit' => $data['platform_profit'],
+                );
+                $rs_account = store_account::bill($account);
+                if ($rs_account && !is_ecjia_error($rs_account)) {
+                    RC_DB::table('store_bill_detail')->where('detail_id', $datail_id)->update(array('bill_status' => 1, 'bill_time' => RC_Time::gmtime()));
+                    //删除队列表数据
+                    RC_DB::table('store_bill_queue')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])->delete();
+                }
+                $status = true;
+            }
+            $status = false;
+        });
+        
+	    return $status;
 	}
 
 	//计算日账单,分批处理数据
