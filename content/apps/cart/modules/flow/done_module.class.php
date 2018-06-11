@@ -143,7 +143,7 @@ class done_module extends api_front implements api_interface {
     	    return new ecjia_error('empty_payment', '请选择支付方式');
     	}
     	if (empty($order['shipping_id'])) {
-    	    return new ecjia_error('empty_shipping', '请选择配送方式');
+    	    return new ecjia_error('empty_shipping', '当前收货地址暂无可用配送方式，请重新更换其他的收货地址！');
     	}
     	
     	$result = RC_Api::api('cart', 'flow_done', array('cart_id' => $cart_id, 'order' => $order, 'address_id' => $address_id, 'flow_type' => $flow_type, 'bonus_sn' => $this->requestData('bonus_sn'), 'location' => $location, 'device' => $this->device));

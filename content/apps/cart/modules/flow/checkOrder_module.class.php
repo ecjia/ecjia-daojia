@@ -393,7 +393,42 @@ class checkOrder_module extends api_front implements api_interface {
 		$out['consignee']		= $consignee;//收货地址
 		$out['shipping_list']	= $shipping_list;//快递信息
 		$out['payment_list']	= $payment_list;//支付信息
-		$out['checkorder_mode']	= 'default';
+		
+		//根据店铺id，店铺有没设置运费模板，查找店铺设置的运费模板关联的快递
+		$shipping_area_list = RC_DB::table('shipping_area')->selectRaw('shipping_id')->where('store_id', $store_id)->groupBy('shipping_id')->get();
+		if (!empty($shipping_area_list)) {
+			foreach ($shipping_area_list as $key => $val) {
+				//$shipping_area_list[$key]['shipping_code'] = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
+				$shipping_code[] =  RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
+			}
+
+			$count = count($shipping_code);
+			if ($count > 1) {
+				//foreach ($shipping_area_list as $k => $v) {
+				//	if ($v['shipping_code'] == 'ship_cac') {
+				//		$out['checkorder_mode']	= 'default_storepickup';//运费模板关联的快递有配送上门也有上门取货
+				//	} else {
+				//		$out['checkorder_mode']	= 'default';
+				//	}
+				//}
+				if (in_array('ship_cac', $shipping_code)) {
+					$out['checkorder_mode']	= 'default_storepickup';//运费模板关联的快递有配送上门也有上门取货
+				} else {
+					$out['checkorder_mode']	= 'default';
+				}
+			} elseif ($count == 1) {
+				if ($shipping_area_list['0']['shipping_code'] == 'ship_cac') {
+					$out['checkorder_mode']	= 'storepickup'; //运费模板关联的快递只有一个且是上门取货
+					$ship_id = $shipping_area_list['0']['shipping_id'];
+				} else {
+					$out['checkorder_mode']	= 'default';//运费模板关联的快递只有一个且是配送上门
+				}
+			}
+		} else {
+			$out['shipping_list'] = array();
+			$out['checkorder_mode']	= 'default';  //没有任何配送方式，订单结算模式只有配送上门
+		}
+		
 		/* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
 		if ((ecjia_config::has('use_integral') || ecjia::config('use_integral') == '1')
 				&& $_SESSION['user_id'] > 0
@@ -553,91 +588,95 @@ class checkOrder_module extends api_front implements api_interface {
 			$out['inv_type_list'] = $temp;
 		}
 
-		/*商家配送方式只有一个，且此配送方式为上门取货时，返回值结构处理同门店提货接口storepickup/flow/checkOrder一样*/
-		if (!empty($out['shipping_list'])) {
-			$count_ship_list = count($out['shipping_list']);
-			if ($count_ship_list == 1 && $out['shipping_list']['0']['shipping_code'] == 'ship_cac') {
-				$out_new = array();
-				$out_new['user_info'] 		= array();
-				$out_new['goods_list']  	= array();
-				$out_new['store_info']  	= array();
-				$out_new['bonus']			= array();
-				$out_new['checkorder_mode']	= 'storepickup';
-				if (!empty($user_info)) {
-					$out_new['user_info'] = array(
-							'user_id'	=> intval($user_info['user_id']),
-							'user_name'	=> empty($user_info['user_name']) ? '' : $user_info['user_name'],
-							'mobile'	=> empty($user_info['mobile_phone']) ? '' : $user_info['mobile_phone'],
-							'integral'	=> $user_info['pay_points'] > 0 ? intval($user_info['pay_points']) : 0,
+		/*商家运费模板关联的配送方式只有一个，且此配送方式为上门取货时，返回值结构处理同门店提货接口storepickup/flow/checkOrder一样*/
+		if ($out['checkorder_mode'] == 'storepickup') {
+			$out_new = array();
+			$out_new['user_info'] 		= array();
+			$out_new['goods_list']  	= array();
+			$out_new['store_info']  	= array();
+			$out_new['bonus']			= array();
+			$out_new['checkorder_mode']	= 'storepickup';
+			if (!empty($user_info)) {
+				$out_new['user_info'] = array(
+						'user_id'	=> intval($user_info['user_id']),
+						'user_name'	=> empty($user_info['user_name']) ? '' : $user_info['user_name'],
+						'mobile'	=> empty($user_info['mobile_phone']) ? '' : $user_info['mobile_phone'],
+						'integral'	=> $user_info['pay_points'] > 0 ? intval($user_info['pay_points']) : 0,
+				);
+			}
+			
+			if (!empty($out['goods_list'])) {
+				foreach ($out['goods_list'] as $row) {
+					$out_new['goods_list'][] = array(
+							'store_id' 				=> $row['seller_id'],
+							'store_name'			=> $row['seller_name'],
+							'rec_id'				=> $row['rec_id'],
+							'goods_id'				=> $row['goods_id'],
+							'goods_name'			=> $row['goods_name'],
+							'goods_sn'				=> $row['goods_sn'],
+							'goods_number'			=> $row['goods_number'],
+							'market_price'			=> $row['market_price'],
+							'goods_price'			=> $row['goods_price'],
+							'goods_attr'			=> $row['goods_attr'],
+							'is_real'				=> $row['is_real'],
+							'subtotal'				=> $row['subtotal'],
+							'goods_attr_id'			=> $row['goods_attr_id'],
+							'attr'					=> $row['attr'],
+							'is_real'				=> $row['is_real'],
+							'formated_market_price'	=> $row['formated_market_price'],
+							'formated_goods_price'	=> $row['formated_goods_price'],
+							'formated_subtotal'		=> price_format($row['subtotal'], false),
+							'img'					=> $row['img'],
 					);
 				}
-				
-				if (!empty($out['goods_list'])) {
-					foreach ($out['goods_list'] as $row) {
-						$out_new['goods_list'][] = array(
-								'store_id' 				=> $row['seller_id'],
-								'store_name'			=> $row['seller_name'],
-								'rec_id'				=> $row['rec_id'],
-								'goods_id'				=> $row['goods_id'],
-								'goods_name'			=> $row['goods_name'],
-								'goods_sn'				=> $row['goods_sn'],
-								'goods_number'			=> $row['goods_number'],
-								'market_price'			=> $row['market_price'],
-								'goods_price'			=> $row['goods_price'],
-								'goods_attr'			=> $row['goods_attr'],
-								'is_real'				=> $row['is_real'],
-								'subtotal'				=> $row['subtotal'],
-								'goods_attr_id'			=> $row['goods_attr_id'],
-								'attr'					=> $row['attr'],
-								'is_real'				=> $row['is_real'],
-								'formated_market_price'	=> $row['formated_market_price'],
-								'formated_goods_price'	=> $row['formated_goods_price'],
-								'formated_subtotal'		=> price_format($row['subtotal'], false),
-								'img'					=> $row['img'],
-						);
-					}
+			}
+			
+			/*店铺信息*/
+			$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->pluck('value');
+			$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->selectRaw('merchants_name, province, city, district, street, address, longitude, latitude')->first();
+			$store_address = ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
+			$out_new['store_info'] = array('store_name' => $store_info['merchants_name'], 'store_address' => $store_address, 'shop_kf_mobile' => $shop_kf_mobile, 'location' => array('longitude' => $store_info['longitude'], 'latitude' => $store_info['latitude']));
+			
+			$out_new['payment_list']		= $out['payment_list'];//支付信息
+			$out_new['allow_use_integral'] 	= $out['allow_use_integral'];//积分 是否使用积分
+			$out_new['order_max_integral'] 	= $out['order_max_integral'];//订单最大可使用积分
+			$out_new['allow_use_bonus']		= $out['allow_use_bonus'];//是否使用红包
+			
+			if (!empty($out['bonus'])) {
+				foreach ($out['bonus'] as $res ) {
+					$out_new['bonus'][] = array(
+							'bonus_id' 					=> $res['bonus_id'],
+							'bonus_name' 				=> $res['bonus_name'],
+							'bonus_amount' 				=> $res['bonus_amount'],
+							'formatted_bonus_amount' 	=> $res['formatted_bonus_amount'],
+							'start_date' 				=> $res['start_date'],
+							'end_date' 					=> $res['end_date'],
+							'formatted_start_date' 		=> $res['formatted_start_date'],
+							'formatted_end_date' 		=> $res['formatted_end_date'],
+							'request_amount' 			=> $res['request_amount'],
+							'formatted_request_amount' 	=> $res['formatted_request_amount'],
+							'label_min_amount' 			=> '满'.$res['request_amount'].'可使用',
+					);
 				}
-				
-				/*店铺信息*/
-				$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->pluck('value');
-				$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->selectRaw('merchants_name, province, city, district, street, address, longitude, latitude')->first();
-				$store_address = ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
-				$out_new['store_info'] = array('store_name' => $store_info['merchants_name'], 'store_address' => $store_address, 'shop_kf_mobile' => $shop_kf_mobile, 'location' => array('longitude' => $store_info['longitude'], 'latitude' => $store_info['latitude']));
-				
-				$out_new['payment_list']		= $out['payment_list'];//支付信息
-				$out_new['allow_use_integral'] 	= $out['allow_use_integral'];//积分 是否使用积分
-				$out_new['order_max_integral'] 	= $out['order_max_integral'];//订单最大可使用积分
-				$out_new['allow_use_bonus']		= $out['allow_use_bonus'];//是否使用红包
-				
-				if (!empty($out['bonus'])) {
-					foreach ($out['bonus'] as $res ) {
-						$out_new['bonus'][] = array(
-								'bonus_id' 					=> $res['bonus_id'],
-								'bonus_name' 				=> $res['bonus_name'],
-								'bonus_amount' 				=> $res['bonus_amount'],
-								'formatted_bonus_amount' 	=> $res['formatted_bonus_amount'],
-								'start_date' 				=> $res['start_date'],
-								'end_date' 					=> $res['end_date'],
-								'formatted_start_date' 		=> $res['formatted_start_date'],
-								'formatted_end_date' 		=> $res['formatted_end_date'],
-								'request_amount' 			=> $res['request_amount'],
-								'formatted_request_amount' 	=> $res['formatted_request_amount'],
-								'label_min_amount' 			=> '满'.$res['request_amount'].'可使用',
-						);
-					}
-				}
-				
-				$out_new['allow_can_invoice']	= ecjia::config('can_invoice');//能否开发票
-				$out_new['inv_content_list']	= empty($out['inv_content_list']) ? array() : $out['inv_content_list'];//发票内容项
-				$out_new['inv_type_list']		= empty($out['inv_type_list']) 	  ? array() : $out['inv_type_list'];
-				$out_new['your_integral']		= $out['your_integral'];
-				$out_new['discount']			= $out['discount'];
-				$out_new['discount_formated']	= $out['discount_formated'];
-				
-				if (empty($out['shipping_list']['0'])) {
+			}
+			
+			$out_new['allow_can_invoice']	= ecjia::config('can_invoice');//能否开发票
+			$out_new['inv_content_list']	= empty($out['inv_content_list']) ? array() : $out['inv_content_list'];//发票内容项
+			$out_new['inv_type_list']		= empty($out['inv_type_list']) 	  ? array() : $out['inv_type_list'];
+			$out_new['your_integral']		= $out['your_integral'];
+			$out_new['discount']			= $out['discount'];
+			$out_new['discount_formated']	= $out['discount_formated'];
+			
+			$shipping_area_list = RC_DB::table('shipping_area')->where('store_id', $store_id)->where('shipping_id', $ship_id)->get();
+			
+			if (empty($shipping_area_list)) {
+				$expect_pickup_date = array();
+			} else {
+				$shipping_cfg = $shipping_area_list['0']['configure'];
+				$shipping_cfg = ecjia_shipping::unserializeConfig($shipping_cfg);
+				if (empty($shipping_cfg)) {
 					$expect_pickup_date = array();
 				} else {
-					$shipping_cfg = ecjia_shipping::unserializeConfig($out['shipping_list']['0']['configure']);
 					if (!empty($shipping_cfg['pickup_time'])) {
 						/* 获取最后可取货的时间（当前时间）*/
 						$time = RC_Time::local_date('H:i', RC_Time::gmtime());
@@ -651,16 +690,16 @@ class checkOrder_module extends api_front implements api_interface {
 						}
 						while ($shipping_cfg['pickup_days']) {
 							$pickup = [];
-				
+								
 							foreach ($shipping_cfg['pickup_time'] as $k => $v) {
 								if ($v['end'] > $time || $pickup_date > 0) {
-				
+										
 									$pickup['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$pickup_date.' day'));
 									$pickup['time'][] = array(
 											'start_time' 	=> $v['start'],
 											'end_time'		=> $v['end'],
 									);
-				
+										
 								}
 							}
 							if (!empty($pickup['date']) && !empty($pickup['time'])) {
@@ -674,9 +713,10 @@ class checkOrder_module extends api_front implements api_interface {
 						}
 					}
 				}
-				$out_new['expect_pickup_date'] = array_merge($expect_pickup_date);
-				return $out_new;
 			}
+			
+			$out_new['expect_pickup_date'] = array_merge($expect_pickup_date);
+			return $out_new;
 		} 
 		//去掉系统使用的字段
 		if (!empty($out['shipping_list'])) {
