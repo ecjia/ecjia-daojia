@@ -56,6 +56,7 @@ return array(
     'Royalcms\\Component\\Websocket\\' => array($vendorDir . '/royalcms/websocket'),
     'Royalcms\\Component\\Scheduler\\' => array($vendorDir . '/royalcms/scheduler'),
     'Royalcms\\Component\\Mail\\' => array($vendorDir . '/royalcms/mail'),
+    'Royalcms\\Component\\Rememberable\\' => array($vendorDir . '/royalcms/rememberable'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'DebugBar' => array($vendorDir . '/maximebf/debugbar/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
