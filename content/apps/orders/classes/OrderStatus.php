@@ -121,7 +121,7 @@ class OrderStatus
     {
     	return function ($query) {
     		$query->whereIn('order_info.order_status', array(OS_CONFIRMED, OS_SPLITED))
-    		      ->whereIn('order_info.shipping_status', array(SS_SHIPPED, SS_RECEIVED))
+    		      ->whereIn('order_info.shipping_status', array(SS_RECEIVED))
     		      ->whereIn('order_info.pay_status', array(PS_PAYED, PS_PAYING));
     	};
         
