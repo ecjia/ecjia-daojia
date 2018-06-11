@@ -125,10 +125,10 @@ class merchant_function {
                 //判断营业时间
                 $outward['trade_time'] = $val['value'];
                 $shop_hours = unserialize($outward['trade_time']);
-                $now_time = RC_Time::gmtime();
+                $now_time = time();
                 if (!empty($shop_hours)) {
-                    $start_time = RC_Time::local_strtotime($shop_hours['start']);
-                    $end_time = RC_Time::local_strtotime($shop_hours['end']);
+                    $start_time = strtotime($shop_hours['start']);
+                    $end_time = strtotime($shop_hours['end']);
                     //处理营业时间格式例：7:00--次日5:30
                     $start = $shop_hours['start'];
                     $end = explode(':', $shop_hours['end']);
@@ -136,7 +136,7 @@ class merchant_function {
                         $hour = $end[0] - 24;
                     	$end[0] = '次日'. ($hour);
                         $end_time = $hour. ':' . $end[1];
-                        $end_time = RC_Time::local_strtotime($end_time) + 24*3600;
+                        $end_time = strtotime($end_time) + 24*3600;
                     }
                     $shop_hours = $start . '--' . $end[0] . ':' . $end[1];
                     //0为不营业，1为营业
