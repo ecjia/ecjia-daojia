@@ -81,10 +81,10 @@ class info_module extends api_admin implements api_interface {
 					$shop_closed =1;
 				}
 			
-				$current_time = RC_Time::gmtime();
+				$current_time = time();
 				if (!empty($trade_time)) {
-					$start_time = RC_Time::local_strtotime($trade_time['start']);
-					$end_time = RC_Time::local_strtotime($trade_time['end']);
+					$start_time = strtotime($trade_time['start']);
+					$end_time = strtotime($trade_time['end']);
 					 
 					//处理营业时间格式例：7:00--次日5:30
 					$start = $trade_time['start'];
@@ -93,7 +93,7 @@ class info_module extends api_admin implements api_interface {
 						$hour = $end[0] - 24;
 						$end[0] = '次日'. ($hour);
 						$end_time = $hour. ':' . $end[1];
-						$end_time = RC_Time::local_strtotime($end_time) + 24*3600;
+						$end_time = strtotime($end_time) + 24*3600;
 					}
 					$shop_hours = $start . '--' . $end[0] . ':' . $end[1];
 					//1为不营业，0为营业
