@@ -236,9 +236,13 @@ class merchant extends ecjia_merchant {
 		if (empty($mobile)) {
 			return $this->showmessage('请输入手机号码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		$chars = "/^1(3|4|5|6|7|8)\d{9}$/";
-		if (!preg_match($chars, $mobile)) {
-			return $this->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+// 		$chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
+// 		if (!preg_match($chars, $mobile)) {
+// 			return $this->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+// 		}
+		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+		if (is_ecjia_error($check_mobile)) {
+		    return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$captcha = isset($_GET['captcha']) ? $_GET['captcha'] : '';
