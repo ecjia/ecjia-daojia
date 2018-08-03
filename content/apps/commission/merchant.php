@@ -82,7 +82,7 @@ class merchant extends ecjia_merchant {
         RC_Script::enqueue_script('mh_fund', RC_App::apps_url('statics/js/mh_fund.js',__FILE__), array('ecjia-merchant'), false, 1);
         RC_Style::enqueue_style('mh_fund', RC_App::apps_url('statics/css/mh_fund.css',__FILE__));
         
-        ecjia_merchant_screen::get_current_screen()->set_parentage('commission');
+        ecjia_merchant_screen::get_current_screen()->set_parentage('commission', 'commission/merchant.php');
 	}
 	
 	/**
