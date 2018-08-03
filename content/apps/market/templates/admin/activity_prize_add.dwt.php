@@ -77,6 +77,15 @@
 						<input class="w350" name="prize_value_other" type="text" value="{if $activity_prize.prize_type eq 2 || $activity_prize.prize_type eq 3 || $activity_prize.prize_type eq 6}{$activity_prize.prize_value}{/if}"
 									/>
 						<span class="input-must">*</span>
+						<span class="help-block">
+						{if $activity_prize.prize_type eq 2}
+						填写中奖的实物奖品，如iPhone X或iPad Pro 2
+						{else if $activity_prize.prize_type eq 3}
+						填写中奖后发放的消费积分数量
+						{else if $activity_prize.prize_type eq 6}
+						填写中奖后发放的现金红包金额，中奖后直接发放到用户帐户余额
+						{/if}
+						</span>
 					</div>
 				</div>
 				
@@ -93,6 +102,7 @@
 					<div class="controls">
 						<input class="w350" name="prize_prob" type="text" value="{$activity_prize.prize_prob}"/>
 						<span class="input-must">*</span>
+						<span class="help-block">单位%</span>
 					</div>
 				</div>
 			
@@ -106,7 +116,6 @@
 							<input type="submit" class="btn btn-gebo" value="确定" />
 						{/if}
 					</div>
-					
 				</div>
 			</fieldset>
 		</form>

@@ -321,7 +321,7 @@ class platform extends ecjia_platform
         $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', $_SESSION['store_id'])->where('wechat_id', $wechat_id)->pluck('activity_id');
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.prize_pool')));
 
-        $prize_type = Ecjia\App\Market\Prize\PrizeType::getPrizeTypes();
+        $prize_type = Ecjia\App\Market\Prize\PrizeType::getPrizeTypes($this->platformAccount->getStoreId());
         $this->assign('prize_type', $prize_type);
 
         $time = RC_Time::gmtime();
