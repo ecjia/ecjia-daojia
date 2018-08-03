@@ -66,108 +66,288 @@ class mp_dzp_init_action implements platform_interface {
     		exit();
     	}
     	
-    	$ext_config  = $platform_config_db->where(array('account_id' => $wechat_id,'ext_code'=>'mp_dzp'))->get_field('ext_config');
-    	$config = array();
-    	$config = unserialize($ext_config);
-    	foreach ($config as $k => $v) {
-    		if ($v['name'] == 'starttime') {
-    			$starttime = strtotime($v['value']);
-    		}
-    		if ($v['name'] == 'endtime') {
-    			$endtime = strtotime($v['value']);
-    		}
-    		if ($v['name'] == 'prize_num') {
-    			$prize_num = $v['value'];
-    		}    		
-    		if ($v['name'] == 'list') {
-    			$list = explode("\n",$v['value']);
-    			foreach ($list as $k => $v){
-    				$prize[] = explode(",",$v);
-    			}
-    		}
-    	}
-    	
-    	if (time() < $starttime) {
-    		$rs['status'] = 2;
-    		$rs['msg'] = '大转盘活动还未开始';
-    		echo json_encode($rs);
-    		exit();
-    	}
-    	if (time() > $endtime) {
-    		$rs['status'] = 2;
-    		$rs['msg'] = '大转盘活动已经结束';
-    		echo json_encode($rs);
-    		exit();
-    	}
-    	// 超过次数
-    	if (!empty($openid)) {
-    		$num = $wechat_prize_db->where('openid = "' . $openid . '"  and activity_type = "mp_dzp" and dateline between "' . $starttime . '" and "' . $endtime . '"')->count();
-    		if ($num <= 0) {
-    			$num = 1;
-    		} else {
-    			$num = $num + 1;
-    		}
-    	} else {
-    		$num = 1;
-    	}
-    	if ($num > $prize_num) {
-    		$rs['status'] = 2;
-    		$rs['msg'] = '抱歉，抽奖次数已用光';
-    		echo json_encode($rs);
-    		exit();
-    	}
-    	if (!empty($prize)) {
-    		$arr = array();
-    		$prize_name = array();
-    		$prob = 0;
-    		
-    		foreach ($prize as $key => $val) {
-    			// 删除数量不足的奖品
-    			$count = $wechat_prize_db->where(array('prize_name' => $val[1],'activity_type'=>'mp_dzp','wechat_id'=>$wechat_id))->count();
-    			if ($count >= $val[2]) {
-    				unset($prize[$key]);
-    			} else {
-    				$arr[$val[0]] = $val[3];
-    				$prize_name[$val[0]] = $val[1];
-    			}
-    			//添加项的总概率
-    			 $prob = $prob + $val[3];
-    		}
-    		
-    		//未中奖的概率项
-    		if($prob < 100){
-    			$prob = 100 - $prob;
-    			$arr['not'] = $prob;
-    		}
-    		//抽奖
-    		$level = $this->get_rand($arr);
-    		if($level == 'not'){
-    			$data['prize_type'] = 0;
-    			$rs['msg'] = '没有中奖';
-    			$rs['status'] = 0;
-    		}
-    		else{
-    			$data['prize_type'] = 1;
-    			$rs['msg'] = $prize_name[$level];
-    			$rs['status'] = 1;
-    			$rs['level'] = $level;
-    		}
-    		
-    		
-    		$rs['num'] = $prize_num - $num > 0 ? $prize_num - $num : 0;
-    		// 抽奖记录
-    		$data['wechat_id'] = $wechat_id;
-    		$data['openid'] = $openid;
-    		$data['prize_name'] = $prize_name[$level];
-    		$data['dateline'] = time();
-    		$data['activity_type'] = 'mp_dzp';
-    		$id = $wechat_prize_db->insert($data);
-    		if ($level != 'not' && !empty($id)) {
-    		    // 获奖链接
-    		    $rs['link'] = RC_Uri::url('platform/plugin/show', array('handle' => 'mp_dzp/user', 'name' => 'mp_dzp', 'id' => $id,'openid' => $openid,'uuid' => $uuid));
-    		}
+//    	$ext_config  = $platform_config_db->where(array('account_id' => $wechat_id,'ext_code'=>'mp_dzp'))->get_field('ext_config');
+//    	$config = array();
+//    	$config = unserialize($ext_config);
+//    	foreach ($config as $k => $v) {
+//    		if ($v['name'] == 'starttime') {
+//    			$starttime = strtotime($v['value']);
+//    		}
+//    		if ($v['name'] == 'endtime') {
+//    			$endtime = strtotime($v['value']);
+//    		}
+//    		if ($v['name'] == 'prize_num') {
+//    			$prize_num = $v['value'];
+//    		}
+//    		if ($v['name'] == 'list') {
+//    			$list = explode("\n",$v['value']);
+//    			foreach ($list as $k => $v){
+//    				$prize[] = explode(",",$v);
+//    			}
+//    		}
+//    	}
+//
+//    	if (time() < $starttime) {
+//    		$rs['status'] = 2;
+//    		$rs['msg'] = '大转盘活动还未开始';
+//    		echo json_encode($rs);
+//    		exit();
+//    	}
+//    	if (time() > $endtime) {
+//    		$rs['status'] = 2;
+//    		$rs['msg'] = '大转盘活动已经结束';
+//    		echo json_encode($rs);
+//    		exit();
+//    	}
+//    	// 超过次数
+//    	if (!empty($openid)) {
+//    		$num = $wechat_prize_db->where('openid = "' . $openid . '"  and activity_type = "mp_dzp" and dateline between "' . $starttime . '" and "' . $endtime . '"')->count();
+//    		if ($num <= 0) {
+//    			$num = 1;
+//    		} else {
+//    			$num = $num + 1;
+//    		}
+//    	} else {
+//    		$num = 1;
+//    	}
+//    	if ($num > $prize_num) {
+//    		$rs['status'] = 2;
+//    		$rs['msg'] = '抱歉，抽奖次数已用光';
+//    		echo json_encode($rs);
+//    		exit();
+//    	}
+//    	if (!empty($prize)) {
+//    		$arr = array();
+//    		$prize_name = array();
+//    		$prob = 0;
+//
+//    		foreach ($prize as $key => $val) {
+//    			// 删除数量不足的奖品
+//    			$count = $wechat_prize_db->where(array('prize_name' => $val[1],'activity_type'=>'mp_dzp','wechat_id'=>$wechat_id))->count();
+//    			if ($count >= $val[2]) {
+//    				unset($prize[$key]);
+//    			} else {
+//    				$arr[$val[0]] = $val[3];
+//    				$prize_name[$val[0]] = $val[1];
+//    			}
+//    			//添加项的总概率
+//    			 $prob = $prob + $val[3];
+//    		}
+//
+//    		//未中奖的概率项
+//    		if($prob < 100){
+//    			$prob = 100 - $prob;
+//    			$arr['not'] = $prob;
+//    		}
+//    		//抽奖
+//    		$level = $this->get_rand($arr);
+//    		if($level == 'not'){
+//    			$data['prize_type'] = 0;
+//    			$rs['msg'] = '没有中奖';
+//    			$rs['status'] = 0;
+//    		}
+//    		else{
+//    			$data['prize_type'] = 1;
+//    			$rs['msg'] = $prize_name[$level];
+//    			$rs['status'] = 1;
+//    			$rs['level'] = $level;
+//    		}
+//
+//
+//    		$rs['num'] = $prize_num - $num > 0 ? $prize_num - $num : 0;
+//    		// 抽奖记录
+//    		$data['wechat_id'] = $wechat_id;
+//    		$data['openid'] = $openid;
+//    		$data['prize_name'] = $prize_name[$level];
+//    		$data['dateline'] = time();
+//    		$data['activity_type'] = 'mp_dzp';
+//    		$id = $wechat_prize_db->insert($data);
+//    		if ($level != 'not' && !empty($id)) {
+//    		    // 获奖链接
+//    		    $rs['link'] = RC_Uri::url('platform/plugin/show', array('handle' => 'mp_dzp/user', 'name' => 'mp_dzp', 'id' => $id,'openid' => $openid,'uuid' => $uuid));
+//    		}
+//
+//    	}
 
-    	}
+
+        $store_id = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('shop_id');
+        $market_activity = RC_DB::table('market_activity')->where('store_id', $store_id)->where('wechat_id', $wechat_id)->where('activity_group', 'wechat_dazhuangpan')->first();
+        $starttime = $market_activity['start_time'];
+        $endtime   = $market_activity['end_time'];
+        $time	   = RC_Time::gmtime();
+        // 判断大转盘时间时间是否开始
+        if ($time < $starttime) {
+            $rs['status'] = 2;
+            $rs['msg'] = '大转盘活动还未开始';
+            echo json_encode($rs);
+            exit();
+        }
+        //判断大转盘时间时间是否结束
+        if ($time > $endtime) {
+            $rs['status'] = 2;
+            $rs['msg'] = '大转盘活动已经结束';
+            echo json_encode($rs);
+            exit();
+        }
+        // 超过次数
+        if ($market_activity['limit_num'] > 0) {
+            //$db_activity_log = RC_DB::table('market_activity_log');
+            //$db_activity_log->where('activity_id', $market_activity['activity_id'])->where('user_id', $openid);//openid
+            $db_market_activity_lottery = RC_DB::table('market_activity_lottery');
+            if ($market_activity['limit_time'] > 0) {
+                $time_limit = $time - $market_activity['limit_time']*60*60;
+                $db_market_activity_lottery->where('update_time', '<=', $time)->where('add_time', '>=', $time_limit);
+            }
+            $market_activity_lottery_info = RC_DB::table('market_activity_lottery')->where('activity_id', $market_activity['activity_id'])->where('user_id', $openid)->first();
+
+            $limit_count = $market_activity_lottery_info['lottery_num'];
+
+            //当前时间 -上次抽奖添加时间大于限制时间时；重置抽奖时间和抽奖次数；
+            if ($time - $market_activity_lottery_info['add_time'] >= $market_activity['limit_time']*60*60) {
+                RC_DB::table('market_activity_lottery')
+                    ->where('activity_id', $market_activity['activity_id'])
+                    ->where('user_id', $_SESSION['user_id'])
+                    ->update(array('add_time' => $time, 'update_time' => $time, 'lottery_num' => 1));
+            }
+
+            //限定时间已抽取的次数
+            $has_used_count = $limit_count;
+            $unused_num = $market_activity['limit_num'] - $has_used_count;//剩余可抽取的次数
+
+            if ($unused_num <= 0) {
+                $rs['status'] = 2;
+                $rs['msg'] = '活动次数太频繁，请稍后再来！';
+                echo json_encode($rs);
+                exit();
+            } else {
+                if (empty($market_activity_lottery_info)) {
+                    //第一次参与抽奖此活动
+                    $data = array(
+                        'activity_id' => $market_activity['activity_id'],
+                        'user_id'	  => $openid,
+                        'user_type'	  => 'wechat',
+                        'lottery_num' => 1,
+                        'add_time'    => $time,
+                        'update_time' => $time
+                    );
+                    RC_DB::table('market_activity_lottery')->insertGetId($data);
+                } else {
+                    //规定时间未超出设定的次数；更新抽奖次数，更新抽奖时间
+                    $limit_count_new = $limit_count + 1;
+                    RC_DB::table('market_activity_lottery')->where('activity_id', $market_activity['activity_id'])->where('user_id', $openid)->update(array('update_time' => $time, 'lottery_num' => $limit_count_new));
+                }
+            }
+
+
+        } else {
+            $unused_num = '无限次';
+        }
+
+        $market_activity_prize = RC_DB::table('market_activity_prize')
+            ->where('activity_id', $market_activity['activity_id'])
+            ->where('prize_number', '>', 0)
+            ->selectRaw('prize_id, activity_id, prize_level, prize_name, prize_type, prize_value, prize_number, prize_prob')->get();
+        /*
+         * 每次前端页面的请求，PHP循环奖项设置数组，
+        * 通过概率计算函数get_rand获取抽中的奖项id。
+        * 最后输出json个数数据给前端页面。
+        */
+
+        if (!empty($market_activity_prize)) {
+            $prize_arr = array();
+            $market_activity_prize_new = array();
+            foreach ($market_activity_prize as $k => $v) {
+                $prize_arr[$v['prize_id']] = $v['prize_prob'];
+                $market_activity_prize_new[$v['prize_id']] = $v;
+            }
+        }
+
+        $rid = $this->get_rand($prize_arr);
+        /* 获取中奖*/
+        $prize_info = $market_activity_prize_new[$rid];
+        if (empty($prize_info)) {
+            $rs['status'] = 2;
+            $rs['msg'] = '很遗憾，未中奖！';
+            echo json_encode($rs);
+            exit();
+        }
+
+        $user_id = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('open_id', $openid)->pluck('user_id');
+        if ($prize_info['prize_type'] == '1') {
+            $bonus_info = RC_DB::table('bonus_type')->where('type_id', $prize_info['prize_value'])->first();
+            if ($bonus_info['send_start_date'] <= $time && $bonus_info['send_end_date'] >= $time) {
+                /*减奖品数量*/
+                RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
+                /*发放奖品至用户，发放红包*/
+                if (!empty($user_id)) {
+                    $data = array(
+                        'bonus_type_id' => $prize_info['prize_value'],
+                        'user_id'		=> $user_id
+                    );
+                }
+                RC_DB::table('user_bonus')->insert($data);
+            }
+            /*else {
+                $rs['status'] = 2;
+                $rs['msg'] = '很遗憾，您未中奖！';
+                echo json_encode($rs);
+                exit();
+            }*/
+        } elseif ($prize_info['prize_type'] == '3') {
+            /*减奖品数量*/
+            RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
+            /*发放奖品至用户，赠送积分给用户*/
+            if (!empty($user_id)) {
+                $options = array(
+                    'user_id'		=> $user_id,
+                    'pay_points'	=> intval($prize_info['prize_value']),
+                    'change_desc'	=> '微信营销活动参与赠送'
+                );
+                RC_Api::api('user', 'account_change_log',$options);
+            }
+        }
+
+        if (in_array($prize_info['prize_type'], array(2))) {
+            $rs['status'] = 1;
+        } else {
+            $rs['status'] = 0;
+        }
+        $rs['msg'] = $prize_info['prize_name'];
+        if ($market_activity['limit_num'] > 0) {
+            $rs['num'] = $unused_num - 1;
+        } else {
+            $rs['num'] = $unused_num;
+        }
+
+        $name = RC_DB::table('wechat_user')->where('openid', $openid)->pluck('nickname');
+        if (in_array($prize_info['prize_type'], array(1,2,3))) {
+            if ($prize_info['prize_type'] == 2) {
+                $issue_status = 0;
+                $issue_time = 0;
+            } else {
+                $issue_status = 1;
+                $issue_time = $time;
+            }
+            $data = array(
+                'activity_id' 	=> $market_activity['activity_id'],
+                'user_id'		=> $openid,
+                'user_type'		=> 'wechat',
+                'user_name'		=> empty($name) ? '' : $name,
+                'prize_id'		=> $prize_info['prize_id'],
+                'prize_name'	=> $prize_info['prize_name'],
+                'add_time'		=> RC_Time::gmtime(),
+                'source'		=> 'wechat',
+                'issue_status'	=> $issue_status,
+                'issue_time'	=> $issue_time
+            );
+            $id = RC_DB::table('market_activity_log')->insertGetId($data);
+        }
+
+        //奖品类型为红包或积分为中奖
+        if (in_array($prize_info['prize_type'], array(2)) && !empty($id)) {
+            // 获奖链接
+            $rs['link'] = RC_Uri::url('platform/plugin/show', array('handle' => 'mp_dzp/user', 'name' => 'mp_dzp', 'id' => $id,'openid' => $openid,'uuid' => $uuid));
+        }
     	echo json_encode($rs);
     	exit();
 	}
