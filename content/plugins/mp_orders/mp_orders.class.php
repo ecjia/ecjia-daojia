@@ -49,151 +49,104 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('platform_abstract', 'platform', false);
-class mp_orders extends platform_abstract
+use Ecjia\App\Platform\Plugin\PlatformAbstract;
+use Ecjia\App\Wechat\WechatRecord;
+use Ecjia\App\Wechat\WechatUser;
+
+class mp_orders extends PlatformAbstract
 {    
 
-	/**
-	 * 获取插件配置信息
-	 */
-	public function local_config() {
-		$config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-		if (is_array($config)) {
-			return $config;
-		}
-		return array();
-	}
-	
-    public function event_reply() {
-    	$orders_db = RC_Loader::load_app_model('order_info_model','orders');
-    	$connect_db = RC_Loader::load_app_model('connect_user_model', 'connect');
-    	RC_Loader::load_app_func('admin_order','orders');
-    	RC_Loader::load_app_class('platform_account', 'platform', false);
-    	RC_Loader::load_app_class('wechat_user', 'wechat', false);
-    	
-    	$time = RC_Time::gmtime();
-    	$openid = $this->from_username;
-    	$uuid = trim($_GET['uuid']);
-    	$account = platform_account::make($uuid);
-    	$wechat_id = $account->getAccountID();
-    	$wechat_user = new wechat_user($wechat_id, $openid);
+    /**
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
+     */
+    public function getCode()
+    {
+        return $this->loadConfig('ext_code');
+    }
     
-    	$ect_uid = $wechat_user->getUserId();
-    	$unionid = $wechat_user->getUnionid();
-    	
-    	$connect_user = new \Ecjia\App\Connect\ConnectUser('sns_wechat', $unionid, 'user');
-    	$getUserId = $connect_user->getUserId();
-    	
-    	if (!$connect_user->checkUser()) {
-    		//合并ect_uid旧的数据处理
-    		if(!empty($ect_uid)){
-    			$query = $connect_db->where(array('open_id'=>$unionid, 'connect_code'=>'sns_wechat'))->count();
-    			if($query > 0){
-    				$connect_db->where(array('open_id' => $unionid, 'connect_code'=>'sns_wechat'))->update(array('user_id' => $ect_uid));
-    			}else{
-    				$data['connect_code'] = 'sns_wechat';
-    				$data['user_id'] = $ect_uid;
-    				$data['is_admin'] = 0;
-    				$data['open_id'] = $unionid;
-    				$data['create_at'] = $time;
-    				$connect_db->insert($data);
-    			}
-    		}
-    		//组合类似模板信息
-    		$articles = array();
-    		$articles[0]['Title'] = '未绑定';
-    		$articles[0]['PicUrl'] = '';
-    		$articles[0]['Description'] = '抱歉，目前您还未进行账号绑定，需点击该链接进行绑定操作';
-    		$articles[0]['Url'] = RC_Uri::url('wechat/mobile_userbind/init',array('openid' => $openid, 'uuid' => $uuid));
-    		$count = count($articles);
-    		$content = array(
-    			'ToUserName'    => $this->from_username,
-    			'FromUserName'  => $this->to_username,
-    			'CreateTime'    => SYS_TIME,
-    			'MsgType'       => 'news',
-    			'ArticleCount'	=> $count,
-    			'Articles'		=> $articles
-    		);
-    	} else {
-    		$order_id  = $orders_db->where(array('user_id' => $getUserId))->order('add_time desc')->get_field('order_id');//获取会员当前订单
-    		
-    		if (!empty($order_id)) {
-    			$order	= order_info($order_id);//取得订单信息
-    			$order_goods = order_goods($order_id);//去的订单商品简单信息
-    			$goods = '';
-    			if(!empty($order_goods)){
-    				foreach($order_goods as $key=>$val){
-    					$goods .= $val['goods_name'].'('.$val['goods_attr'].')('.$val['goods_number'].'), ';
-    				}
-    			}
-    			// 	作何操作0,未确认, 1已确认; 2已取消; 3无效; 4退货
-    			if ($order['order_status'] ==1) {
-    				$order_status = '未确认';
-    			} elseif($order['order_status'] ==2){
-    				$order_status = '未确认';
-    			} elseif ($order['order_status'] ==3) {
-    				$order_status = '未确认';
-    			} elseif ($order['order_status'] ==4) {
-    				$order_status = '退货';
-    			} else {
-    				$order_status = '未确认';
-    			}
-    			 
-    			 
-    			//发货状态; 0未发货; 1已发货  2已取消  3备货中
-    			if ($order['shipping_status'] ==1) {
-    				$shipping_status = '已发货';
-    			} elseif($order['shipping_status'] ==2){
-    				$shipping_status = '已取消';
-    			} elseif ($order['shipping_status'] ==3) {
-    				$shipping_status = '备货中';
-    			} else {
-    				$shipping_status = '未发货';
-    			}
-    			 
-    			//支付状态 0未付款;  1已付款中;  2已付款
-    			if ($order['pay_status'] ==1) {
-    				$pay_status = '已付款中';
-    			} elseif($order['pay_status'] ==2){
-    				$pay_status = '已付款';
-    			} else {
-    				$pay_status = '未付款';
-    			}
-    			 
-    			$articles = array();
-    			$articles[0]['Title'] = '订单号：'.$order['order_sn'];
-    			$articles[0]['PicUrl'] = '';
-    			$articles[0]['Description'] = '商品信息：'. $goods ."\r\n". '总金额：'. $order['total_fee'] ."\r\n". '订单状态：'. $order_status . $shipping_status . $pay_status ."\r\n". '快递公司：'. $order['shipping_name'] ."\r\n". '物流单号：' . $order['invoice_no'];
-    			$home_url =  RC_Uri::home_url();
-    			if (strpos($home_url, 'sites')) {
-    				$url = substr($home_url, 0, strpos($home_url, 'sites'));
-    				$articles[0]['Url'] = $url.'sites/m/index.php?m=user&c=order&a=order_detail&order_id='.$order_id;
-    			} else {
-    				$articles[0]['Url'] = $home_url.'/sites/m/index.php?m=user&c=order&a=order_detail&order_id='.$order_id;
-    			}
+    /**
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
+     */
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
+    }
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+        
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
+    }
+    
+	/**
+     * 获取iconUrl
+     * {@inheritDoc}
+     * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::getPluginIconUrl()
+     */
+    public function getPluginIconUrl()
+    {
+        if ($this->loadConfig('ext_icon')) {
+            return RC_Plugin::plugin_dir_url(__FILE__) . $this->loadConfig('ext_icon');
+        }
+        return '';
+    }
+	
+    /**
+     * 事件回复
+     * {@inheritDoc}
+     * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::eventReply()
+     */
+    public function eventReply() {
 
-    			$count = count($articles);
-    			$content = array(
-    				'ToUserName'    => $this->from_username,
-    				'FromUserName'  => $this->to_username,
-    				'CreateTime'    => SYS_TIME,
-    				'MsgType'       => 'news',
-    				'ArticleCount'	=> $count,
-    				'Articles'		=> $articles
-    			);
-    		} else {
-    			$content = array(
-    				'ToUserName'    => $this->from_username,
-    				'FromUserName'  => $this->to_username,
-    				'CreateTime'    => SYS_TIME,
-    				'MsgType'       => 'text',
-    				'Content'		=> '您当前还未产生任何订单'
-    			);
-    		}
-    	}
-    	
-    	
-        return $content;
+        if (! $this->hasBindUser()) {
+            return $this->forwardCommand('mp_userbind');
+        } else {
+            $wechatUUID = new \Ecjia\App\Wechat\WechatUUID();
+            $wechat_id = $wechatUUID->getWechatID();
+            $openid = $this->getMessage()->get('FromUserName');
+            $wechat_user = new WechatUser($wechat_id, $openid);
+            $userid = $wechat_user->getEcjiaUserId();
+
+            $store_id = $this->getStoreId();
+
+            $orders = RC_Api::api('orders', 'order_list', ['user_id' => $userid, 'size' => 8, 'store_id' => $store_id]);
+
+            if (empty($orders)){
+                $articles = [
+                    'Title' => '订单查询',
+                    'Description' => '您目前还没有消费过哦',
+                    'Url'           => '',
+                    'PicUrl' => '',
+                ];
+                return WechatRecord::News_reply($this->getMessage(), $articles['Title'], $articles['Description'], $articles['Url'], $articles['PicUrl']);
+            }
+
+            foreach ($orders['order_list'] as $key => $orderinfo) {
+                //订单祥情
+                //https://cityo2o.ecjia.com/sites/m/index.php?m=user&c=order&a=order_detail&order_id=55347&type=detail
+
+                $article = [
+                    'Title' => sprintf("【%s】订单号：%s", $orderinfo['label_order_status'], $orderinfo['order_sn']),
+                    'Url' => str_replace('sites/platform/', 'sites/m/', RC_Uri::url('user/order/order_detail', array('order_id' => $orderinfo['order_id'], 'type' => detail))),
+                    'PicUrl' => $orderinfo['goods_list'][0]['img']['small'],
+                ];
+
+                $articles[$key] = WechatRecord::News_reply($this->getMessage(), $article['Title'],'', $article['Url'], $article['PicUrl']);
+            }
+
+            return $articles;
+        }
+
     }
     
 }
