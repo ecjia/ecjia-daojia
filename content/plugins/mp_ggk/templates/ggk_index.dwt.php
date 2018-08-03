@@ -62,7 +62,7 @@
                     {if $list}
                     <div class="content">
                         <!-- {foreach from=$list item=val}-->
-                        <p> {$val.user_name} 获得奖品 ：{$val.prize_name}{if $val.prize_type eq '1' || $val.prize_type eq '3'}（{$val.prize_value}）{/if}</p>
+                        <p> {$val.user_name} 获得奖品 ：{$val.prize_name}（{$val.prize_value}）</p>
                         <!-- {/foreach} -->
                     </div>
                     {else}
@@ -91,13 +91,14 @@
         // }
         var isLucky = false, level = "谢谢参与";
         $.getJSON('{$form_action}', { act:'draw' }, function(result){
+            console.log(result);
             if(result.status == 2){
                 $('#num').text(0);
                 $("#scratchpad").wScratchPad('enabled');
                 alert(result.msg);
                 return false;
             }
-            else if(result.status == 1){
+            else if(result.status == 1 || result.status == 0){
                 isLucky = true;
                 level = result.msg;
                 $("#prize").html(level);
@@ -125,6 +126,11 @@
                                     return false;
                                 }
                             }else if(data.status == 0){
+                                var msg = "恭喜中了" + result.msg + "\r\n" + "快去领奖吧";
+                                confirm(msg);
+                                    location.reload();
+                                    return false;
+                            }else {
                                 if(confirm(result.msg + "\r\n再来一次")){
                                     location.reload();
                                     return false;
