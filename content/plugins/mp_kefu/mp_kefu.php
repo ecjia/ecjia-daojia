@@ -49,7 +49,7 @@ Plugin Name: 多客服转接
 Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_kefu/
 Description: 使用插件可以玩转客服。
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.18.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
 */
@@ -69,15 +69,32 @@ class plugin_mp_kefu {
         return RC_Api::api('platform', 'plugin_uninstall', $param);
     }
 
-
-    public static function adapter_instance($instance, $config) {
-        require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_kefu.class.php';
-        $wechat = new mp_kefu($config);
-        return $wechat;
-    }
 }
+
+Ecjia_PluginManager::extend('mp_kefu', function() {
+    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_kefu.class.php';
+    return new mp_kefu();
+});
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_mp_kefu', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_mp_kefu', 'uninstall'));
-RC_Hook::add_filter('platform_factory_adapter_instance', array( 'plugin_mp_kefu', 'adapter_instance' ), 10, 2);
+
+//修改插件配置表单select选择
+RC_Hook::add_filter('plugin_form_mp_kefu', function($data) {
+
+    if (! $data[1]['range']) {
+        $wechat_id = ecjia_platform::$controller->getPlatformAccount()->getAccountID();
+        $result = \Ecjia\App\Wechat\Models\WechatCustomerModel::where('wechat_id', $wechat_id)->where('status', 1)->get();
+
+        $newdResult = $result->map(function($item) {
+            return [$item->kf_account => $item->kf_nick];
+        })->collapse()->toArray();
+
+        $newdResult = ['0' => '默认自动转接'] + $newdResult;
+        $data[1]['range'] = $newdResult;
+    }
+
+    return $data;
+});
+
 // end

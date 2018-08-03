@@ -49,13 +49,10 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-$LANG['kefu_status'] 			= '状态：';
-$LANG['kefu_status_range'][0] 	= '关闭';
-$LANG['kefu_status_range'][1] 	= '开启';
-
-$LANG['kefu_value'] 			= '转到客服：';
-
-
-
+return array(
+	'kefu_status' => '状态：',
+	'kefu_status_range' => array('关闭', '开启'),
+	'kefu_value' => '转到客服：'
+);
 
 // end
