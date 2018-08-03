@@ -63,49 +63,104 @@ class mp_ggk_init implements platform_interface {
     	$platform_config_db = RC_Loader::load_app_model('platform_config_model','platform');
     	$wechat_prize_db = RC_Loader::load_app_model('wechat_prize_model','wechat');
     	$wechat_prize_view_db = RC_Loader::load_app_model('wechat_prize_viewmodel','wechat');
-    	
-    	$openid = trim($_GET['openid']);
-    	$uuid = trim($_GET['uuid']);
-    	$account = platform_account::make($uuid);
-    	$wechat_id = $account->getAccountID();
-    	$ext_config  = $platform_config_db->where(array('account_id' => $wechat_id,'ext_code'=>'mp_ggk'))->get_field('ext_config');
-    	$config = array();
-    	$config = unserialize($ext_config);
-    	
-    	foreach ($config as $k => $v) {
-    		if ($v['name'] == 'starttime') {
-    			$starttime = $v['value'];
-    		}
-    		if ($v['name'] == 'endtime') {
-    			$endtime = $v['value'];
-    		}
-    		if ($v['name'] == 'prize_num') {
-    			$prize_num = $v['value'];
-    		}
-    		if ($v['name'] == 'description') {
-    			$description = $v['value'];
-    		}
-    		if ($v['name'] == 'list') {
-    			$list = explode("\n",$v['value']);
-    			foreach ($list as $k => $v){
-    				$prize[] = explode(",",$v);
-    			}
-    		}
-    	}
-    	    	
-    	$starttime = strtotime($starttime);
-    	$endtime   = strtotime($endtime);
-    	$count = $wechat_prize_db->where('openid = "' . $openid . '"  and wechat_id = "' . $wechat_id . '"  and activity_type = "mp_ggk" and dateline between "' . $starttime . '" and "' . $endtime . '"')->count();
-    	$prize_num = ($prize_num - $count) < 0 ? 0 : $prize_num - $count;
-    	$list = $wechat_prize_view_db->where('p.wechat_id = "' . $wechat_id . '" and p.prize_type = 1  and p.activity_type = "mp_ggk" and dateline between "' . $starttime . '" and "' . $endtime . '"')->order('dateline desc')->limit(10)->select();
-    	 
-    	
-    	ecjia_front::$controller->assign('form_action',RC_Uri::url('platform/plugin/show', array('handle' => 'mp_ggk/init_action', 'openid' => $openid, 'uuid' => $uuid, 'name' => 'mp_ggk')));
-    	ecjia_front::$controller->assign('prize',$prize);
-    	ecjia_front::$controller->assign('list',$list);
-    	ecjia_front::$controller->assign('prize_num',$prize_num);
-    	ecjia_front::$controller->assign('description',$description);
-    	
+
+        $openid = trim($_GET['openid']);
+        $uuid   = trim($_GET['uuid']);
+
+        $account        = platform_account::make($uuid);
+        $wechat_id      = $account->getAccountID();
+//    	$ext_config  = $platform_config_db->where(array('account_id' => $wechat_id,'ext_code'=>'mp_ggk'))->get_field('ext_config');
+//    	$config = array();
+//    	$config = unserialize($ext_config);
+//
+//    	foreach ($config as $k => $v) {
+//    		if ($v['name'] == 'starttime') {
+//    			$starttime = $v['value'];
+//    		}
+//    		if ($v['name'] == 'endtime') {
+//    			$endtime = $v['value'];
+//    		}
+//    		if ($v['name'] == 'prize_num') {
+//    			$prize_num = $v['value'];
+//    		}
+//    		if ($v['name'] == 'description') {
+//    			$description = $v['value'];
+//    		}
+//    		if ($v['name'] == 'list') {
+//    			$list = explode("\n",$v['value']);
+//    			foreach ($list as $k => $v){
+//    				$prize[] = explode(",",$v);
+//    			}
+//    		}
+//    	}
+//
+//    	$starttime = strtotime($starttime);
+//    	$endtime   = strtotime($endtime);
+//    	$count = $wechat_prize_db->where('openid = "' . $openid . '"  and wechat_id = "' . $wechat_id . '"  and activity_type = "mp_ggk" and dateline between "' . $starttime . '" and "' . $endtime . '"')->count();
+//    	$prize_num = ($prize_num - $count) < 0 ? 0 : $prize_num - $count;
+//    	$list = $wechat_prize_view_db->where('p.wechat_id = "' . $wechat_id . '" and p.prize_type = 1  and p.activity_type = "mp_ggk" and dateline between "' . $starttime . '" and "' . $endtime . '"')->order('dateline desc')->limit(10)->select();
+//
+        $store_id = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('shop_id');
+        $market_activity = RC_DB::table('market_activity')->where('store_id', $store_id)->where('activity_group', 'wechat_guaguale')->where('wechat_id', $wechat_id)->first();
+
+        $starttime = $market_activity['start_time'];
+        $endtime   = $market_activity['end_time'];
+        $time	   = RC_Time::gmtime();
+
+        /* 判断活动有无限定次数*/
+        if ($market_activity['limit_num'] > 0) {
+            $db_market_activity_lottery = RC_DB::table('market_activity_lottery');
+            if ($market_activity['limit_time'] > 0) {
+                $time_limit = $time - $market_activity['limit_time']*60;
+                $db_market_activity_lottery->where('update_time', '<=', $time)->where('add_time', '>=', $time_limit);
+            }
+            $market_activity_lottery_info = RC_DB::table('market_activity_lottery')->where('activity_id', $market_activity['activity_id'])->where('user_id', $openid)->first();
+
+            $limit_count = $market_activity_lottery_info['lottery_num'];
+            //限定时间已抽取的次数
+            $has_used_count = $limit_count;
+            $prize_num = $market_activity['limit_num'] - $has_used_count;//剩余可抽取的次数
+        } else {
+            $prize_num = '无限次';
+        }
+        $description = $market_activity['activity_desc'];
+        $prize_list = RC_DB::table('market_activity_prize')->where('activity_id', $market_activity['activity_id'])->orderBy('prize_level', 'asc')->get();
+
+        if (!empty($prize_list)) {
+            foreach ($prize_list as $k => $v) {
+                if ($v['prize_type'] == '1') {
+                    $prize_value = RC_DB::table('bonus_type')->where('type_id', $v['prize_value'])->pluck('type_money');
+                    $prize_list[$k]['prize_value'] = price_format($prize_value, false);
+                }
+            }
+        }
+        //当前活动的奖品类型为红包和积分的奖品
+        $prize_ids = RC_DB::table('market_activity_prize')->where('activity_id', $market_activity['activity_id'])->whereIn('prize_type', array(1,2,3))->lists('prize_id');
+        $winning_list = [];
+        if (!empty($prize_ids)) {
+            $winning_list = RC_DB::table('market_activity_log')->where('activity_id', $market_activity['activity_id'])->whereIn('prize_id', $prize_ids)->take(10)->get();
+        }
+
+        if (!empty($winning_list)) {
+            foreach ($winning_list as $row) {
+                $prize_info = RC_DB::table('market_activity_prize')->where('prize_id', $row['prize_id'])->first();
+                if ($prize_info['prize_type'] == '1') {
+                    $prize_value = RC_DB::table('bonus_type')->where('type_id', $prize_info['prize_value'])->pluck('type_money');
+                    $prize_value = price_format($prize_value, false);
+                } else {
+                    $prize_value = $prize_info['prize_value'];
+                }
+                $row['prize_value'] = $prize_value;
+                $row['prize_type'] = $prize_info['prize_type'];
+                $list[] = $row;
+            }
+        }
+
+        ecjia_front::$controller->assign('form_action',RC_Uri::url('platform/plugin/show', array('handle' => 'mp_ggk/init_action', 'openid' => $openid, 'uuid' => $uuid, 'name' => 'mp_ggk')));
+        ecjia_front::$controller->assign('prize',$prize_list);
+        ecjia_front::$controller->assign('list',$list);
+        ecjia_front::$controller->assign('prize_num',$prize_num);
+        ecjia_front::$controller->assign('description',$description);
         ecjia_front::$controller->assign_lang();
         ecjia_front::$controller->display($tplpath);
 	}
