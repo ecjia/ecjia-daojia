@@ -631,7 +631,7 @@ class admin extends ecjia_admin {
 	 * @access  public
 	 * @return  array
 	 */
-	private function get_comment_list($store_id) {
+	private function get_comment_list($store_id = 0) {
 		/* 查询条件 */
 		$filter['keywords'] = empty($_GET['keywords']) ? '' : stripslashes(trim($_GET['keywords']));
 	
