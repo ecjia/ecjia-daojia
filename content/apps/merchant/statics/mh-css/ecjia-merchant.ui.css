@@ -3430,8 +3430,8 @@ table tr td.dataTables_empty {cursor:default;height:100px;line-height:100px;back
 }
 .priv_list .choose{
     float: left;
-    padding-left: 30px;
-    width: 150px;
+    padding-left: 20px;
+    width: 180px;
     border-left: 1px solid #eee;
     overflow: hidden;
 }

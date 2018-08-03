@@ -44,71 +44,50 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Merchant\Models;
 
-/**
- * 掌柜切换店铺上下线给店长发送短信验证码
- * @author zrl
- *
- */
-class sms_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	$this->authadminSession();
-    	if ($_SESSION['staff_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	if (RC_Time::gmtime() - $_SESSION['captcha']['sms']['sendtime'] < 60) {
-    		return new ecjia_error('send_error', '发送频率过高，请一分钟后再试');
-    	}
-    	
-    	/*店长信息获取*/
-    	$staff_info = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->first();
-		if (empty($staff_info)) {
-			return new ecjia_error('shopkeeper_info_error', '店长信息不存在！');
-		}
-    	
-    	if (empty($staff_info['mobile'])) {
-    		return new ecjia_error('shopkeeper_mobile_error', '当前店铺店长手机号码并未填写！');
-    	}
-    	
-		$code = rand(100001, 999999);
-// 	    $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/s";
-// 	    if (!preg_match($chars, $staff_info['mobile'])) {
-// 	        return new ecjia_error('mobile_error', '手机号码格式错误');
-// 	    }
-		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($staff_info['mobile']);
-		if (is_ecjia_error($check_mobile)) {
-		    return $check_mobile;
-		}
-	    
-	    //发送短信
-	    $options = array(
-    		'mobile' => $staff_info['mobile'],
-    		'event'	 => 'sms_get_validate',
-    		'value'  =>array(
-    			'code' 			=> $code,
-    			'service_phone' => ecjia::config('service_phone'),
-    		),
-	    );
-	    
-	    $_SESSION['captcha']['sms']['toboss'] = array(
-    		'value' => $staff_info['mobile'],
-    		'code' => $code,
-    		'lifetime' => RC_Time::gmtime() + 1800,
-    		'sendtime' => RC_Time::gmtime(),
-	    	'is_used'  => 0,
-	    );
-	    $_SESSION['captcha']['sms']['sendtime'] = RC_Time::gmtime();
-	    
-	    $response = RC_Api::api('sms', 'send_event_sms', $options);
-	    if (is_ecjia_error($response)) {
-	    	return new ecjia_error('sms_error', '短信发送失败！');//$response['description']
-	    } else {
-			return array();
-	    }
-	}
+use Royalcms\Component\Database\Eloquent\Model;
+
+class StaffUserModel extends Model 
+{
+	protected $table = 'staff_user';
+	
+	protected $primaryKey = 'user_id';
+	
+	/**
+	 * 可以被批量赋值的属性。
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+	    'mobile',
+	    'store_id',
+	    'name',
+	    'nick_name',
+	    'user_ident',
+	    'email',
+	    'password',
+	    'salt',
+	    'add_time',
+	    'last_login',
+	    'last_ip',
+	    'action_list',
+	    'todolist',
+	    'group_id',
+	    'parent_id',
+	    'avatar',
+	    'introduction',
+	    'online_status',
+	];
+	
+	/**
+	 * 该模型是否被自动维护时间戳
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
+	
+
 }
-
 
 // end

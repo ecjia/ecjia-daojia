@@ -118,6 +118,7 @@ class suggestlist_module extends api_front implements api_interface {
 				$properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
 				$data['list'][] = array(
 						'id' 						=> $val['goods_id'],
+						'goods_sn' 					=> $val['goods_sn'],
 						'name' 						=> $val['name'],
 						'market_price' 				=> $val['market_price'],
 				        'unformatted_market_price' 	=> $val['unformatted_market_price'],

@@ -130,7 +130,7 @@ class mh_franchisee extends ecjia_merchant {
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('收款账号', RC_Uri::url('merchant/mh_franchisee/init')));
         $this->assign('ur_here', '收款账号');
-        $data = RC_DB::TABLE('store_franchisee')->where('store_id', $_SESSION['store_id'])->select('bank_name', 'bank_branch_name', 'bank_account_name', 'bank_account_number','bank_address')->first();
+        $data = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->select('bank_name', 'bank_branch_name', 'bank_account_name', 'bank_account_number','bank_address')->first();
         $this->assign('data',$data);
         $this->display('merchant_receipt.dwt');
     }
@@ -143,7 +143,7 @@ class mh_franchisee extends ecjia_merchant {
 
         $this->assign('ur_here', '编辑收款账号');
         $this->assign('action_link', array('href' => RC_Uri::url('merchant/mh_franchisee/receipt'), 'text' => '收款账号'));
-        $data = RC_DB::TABLE('store_franchisee')->where('store_id', $_SESSION['store_id'])->select('bank_name', 'bank_branch_name', 'bank_account_name', 'bank_account_number','bank_address')->first();
+        $data = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->select('bank_name', 'bank_branch_name', 'bank_account_name', 'bank_account_number','bank_address')->first();
         $this->assign('data',$data);
         $form_action = RC_Uri::url('merchant/mh_franchisee/receipt_update');
         $this->assign('form_action',$form_action);

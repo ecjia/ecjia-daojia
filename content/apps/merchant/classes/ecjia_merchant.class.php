@@ -71,12 +71,6 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		// Clears file status cache
 		clearstatcache();
 
-		// load Lang file
-		RC_Lang::load(array('system/system', 'system/log_action'));
-		if (ROUTE_M == RC_Config::get('system.admin_entrance')) {
-			RC_Lang::load('system/' . ROUTE_C);
-		}
-
 		// Catch plugins that include admin-header.php before admin.php completes.
 		if ( empty( ecjia_merchant_screen::$current_screen ) ) {
 		    ecjia_merchant_screen::set_current_screen();
@@ -117,11 +111,17 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		    RC_Session::destroy();
 		    if (is_pjax()) {
 		        ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
-		        return $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录'), 'href' => RC_Uri::url('staff/privilege/login')))));
+		        $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录'), 'href' => RC_Uri::url('staff/privilege/login')))));
+                royalcms('response')->send();
+		        exit();
 		    } elseif (is_ajax()) {
-		        return $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		        $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                royalcms('response')->send();
+		        exit();
 		    } else {
-		        return $this->redirect(RC_Uri::url('staff/privilege/login'));
+		        $this->redirect(RC_Uri::url('staff/privilege/login'));
+                royalcms('response')->send();
+		        exit();
 		    }
 		}
 
@@ -313,7 +313,7 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 
 		if (!empty($staff_id) && !empty($staff_pass)) {
 			// 找到了cookie, 验证cookie信息
-			$row = RC_DB::TABLE('staff_user')->where('user_id', intval($staff_id))->select('user_id', 'name', 'password', 'action_list', 'last_login')->get();
+			$row = RC_DB::table('staff_user')->where('user_id', intval($staff_id))->select('user_id', 'name', 'password', 'action_list', 'last_login')->get();
 			if (!empty($row)) {
 				// 检查密码是否正确
 				if (md5($row['password'] . ecjia::config('hash_code')) == $staff_pass) {
@@ -474,10 +474,14 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		} else {
 		    if ($msg_output) {
 		        if ($msg_type == ecjia::MSGTYPE_JSON && is_ajax() && !is_pjax()) {
-		            return $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		            $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    royalcms('response')->send();
+                    die();
 		        } else {
 		            ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
-		            return $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+		            $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+                    royalcms('response')->send();
+                    die();
 		        }
 		    } else {
 		        return false;

@@ -83,7 +83,7 @@ class list_module extends api_front implements api_interface {
 				$order_by = array('is_hot' => 'desc', 'click_count' => 'desc', 'g.sort_order' => 'asc');
 				break;
 			default :
-				$order_by = array('g.sort_order' => 'asc', 'goods_id' => 'desc');
+				$order_by = array('g.store_sort_order' => 'asc');
 				break;
 		}
 		
