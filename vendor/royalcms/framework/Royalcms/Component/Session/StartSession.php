@@ -85,7 +85,7 @@ class StartSession {
         }
         */
         
-        ini_set('session.save_handler', 'user');
+        //ini_set('session.save_handler', 'user');
             
         session_set_save_handler(
             array(& $handler, 'open'),
