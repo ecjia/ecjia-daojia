@@ -127,19 +127,25 @@ class ecjia_purview extends RC_Object {
      * @param string $app_dir
      */
     protected function loadAppPurview($app_dir) {
-        $res = $this->requestPurviewApi($app_dir);
-
-        if ($res) {
-            $appinfo = RC_App::get_app_package($app_dir);
-            $app_name = $appinfo['format_name'] ? $appinfo['format_name'] : $appinfo['_name'];
-            $app_priv_group = array(
-                'group_name' => $app_name,
-                'group_code' => $app_dir,
-                'group_purview' => $res
-            );
-            return $app_priv_group;
+        try {
+            if (! RC_App::hasAlias($app_dir)) return false;
+            
+            $res = $this->requestPurviewApi($app_dir);
+    
+            if ($res) {
+                $appinfo = RC_App::driver($app_dir);
+                $app_name = $appinfo->getPackage('format_name') ?: $appinfo->getPackage('name');
+                $app_priv_group = array(
+                    'group_name' => $app_name,
+                    'group_code' => $app_dir,
+                    'group_purview' => $res
+                );
+                return $app_priv_group;
+            }
+            return false;
+        } catch (InvalidArgumentException $e) {
+            ecjia_log_notice($e);
         }
-        return false;
     }
     
     /**

@@ -44,8 +44,6 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\Foundation\Royalcms;
-use RC_Object;
 
 /**
  * ECJia 后台菜单管理

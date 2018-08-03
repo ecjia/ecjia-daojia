@@ -47,6 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 use Ecjia\System\Admins\Plugin\ConfigMenu;
+use Ecjia\System\Admins\Privilege\PrivilegeMenu;
 
 class admin_system_hooks {
 		
@@ -305,6 +306,33 @@ EOF;
 	    echo '</div>'.PHP_EOL;
 	}
 	
+	
+	public static function display_admin_privilege_menus() {
+	    $screen = ecjia_screen::get_current_screen();
+	    $code = $screen->get_option('current_code');
+	    
+	    $menus = with(new PrivilegeMenu())->authMenus();
+	    
+	    echo '<ul class="nav nav-tabs">' . PHP_EOL;
+	    
+	    foreach ($menus as $key => $group) {
+	        if ($group->action == 'divider') {
+	        } elseif ($group->action == 'nav-header') {
+	        } else {
+	            echo '<li'; 
+	            
+	            if ($code == $group->action) {
+	                echo ' class="active"';
+	            }
+	            echo '>';
+	            
+	            echo '<a class="data-pjax" href="' . $group->link . '">' . $group->name . '</a></li>'.PHP_EOL;//data-pjax
+	        }
+	    }
+	    
+	    echo '</ul>'.PHP_EOL;
+	}
+	
 }
 
 RC_Hook::add_action( 'display_admin_plugin_menus', array('admin_system_hooks', 'display_admin_plugin_menus') );
@@ -312,6 +340,8 @@ RC_Hook::add_action( 'admin_sidebar_info', array('admin_system_hooks', 'admin_si
 RC_Hook::add_action( 'admin_dashboard_left', array('admin_system_hooks', 'admin_dashboard_left_1') );
 RC_Hook::add_action( 'admin_dashboard_right', array('admin_system_hooks', 'admin_dashboard_right_1') );
 RC_Hook::add_action( 'admin_dashboard_right', array('admin_system_hooks', 'admin_dashboard_right_2') );
+
+RC_Hook::add_action( 'display_admin_privilege_menus', array('admin_system_hooks', 'display_admin_privilege_menus') );
 
 // RC_Hook::add_action( 'admin_dashboard_header_links', array('admin_system_hooks', 'admin_dashboard_header_links') );
 

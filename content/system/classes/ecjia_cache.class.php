@@ -90,9 +90,9 @@ class ecjia_cache {
     protected function load_app_cache($app_dir) {
         $res = RC_Api::api($app_dir, 'admin_cache');
         if ($res) {
-            $appinfo = RC_App::get_app_package($app_dir);
-            $app_name = $appinfo['format_name'] ? $appinfo['format_name'] : $appinfo['_name'];
-            return $this->build_group_data($app_dir, $app_name, $res);;
+            $appinfo = RC_App::driver($app_dir);
+            $app_name = $appinfo->getPackage('format_name') ?: $appinfo->getPackage('name');
+            return $this->build_group_data($app_dir, $app_name, $res);
         }
         return false;
     }

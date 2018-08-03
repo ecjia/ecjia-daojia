@@ -246,6 +246,8 @@ class ecjia_screen {
 	public static $hook_suffix;
 
 	private $_sidebar_display = true;
+	
+	protected $subject;
 
 	/**
 	 * Fetches a screen object.
@@ -586,6 +588,15 @@ class ecjia_screen {
 			return null;
 		}
 		return $this->_options[ $option ];
+	}
+	
+	public function set_subject($subject) {
+	    $this->subject = $subject;
+	}
+	
+	public function get_subject()
+	{
+	    return $this->subject;
 	}
 
 	/**

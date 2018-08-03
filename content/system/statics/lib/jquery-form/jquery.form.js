@@ -94,6 +94,11 @@ $.fn.ajaxSubmit = function(options) {
     var $input_gebo = $(this).find('.btn-gebo'),
         input_gebo_text = $input_gebo.eq(0).text();
     $input_gebo.addClass('disabled').text('请稍候…');
+
+    var $input_info = $(this).find('.btn-info'),
+        input_info_text = $input_info.eq(0).text();
+    $input_info.addClass('disabled').text('请稍候…');
+
     /*jshint scripturl:true */
 
     // fast fail if nothing selected (http://dev.jquery.com/ticket/2752)
@@ -206,6 +211,7 @@ $.fn.ajaxSubmit = function(options) {
 
     options.success = function(data, status, xhr) { // jQuery 1.4+ passes xhr as 3rd arg
         $input_gebo.removeClass('disabled').text(input_gebo_text);
+        $input_info.removeClass('disabled').text(input_info_text);
         var context = options.context || this ;    // jQuery 1.4+ supports scope context
         for (var i=0, max=callbacks.length; i < max; i++) {
             callbacks[i].apply(context, [data, status, xhr || $form, $form]);

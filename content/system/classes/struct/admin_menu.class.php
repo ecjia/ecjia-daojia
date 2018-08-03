@@ -61,7 +61,7 @@ class admin_menu {
 	private $target;
 	
 	private $submenus		= null;
-	private $purview       = null;
+	private $purview       = [];
 	
 	private $has_submenus	= false;
 	
@@ -143,8 +143,12 @@ class admin_menu {
 	 * 添加使用该菜单的权限
 	 */
 	public function add_purview($priv) {
-	    $this->purview = $priv;
-	    
+	    if (is_string($priv)) {
+            $this->purview[] = $priv;
+        } else {
+            $this->purview = $priv;
+        }
+
 	    return $this;
 	}
 	

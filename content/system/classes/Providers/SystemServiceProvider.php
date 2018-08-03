@@ -46,8 +46,8 @@
 //
 namespace Ecjia\System\Providers;
 
-use Royalcms\Component\Support\ServiceProvider;
-use Royalcms\Component\Support\Facades\Lang;
+use ReflectionClass;
+use Royalcms\Component\App\AppParentServiceProvider;
 use Ecjia\System\Console\TestLogCommand;
 use Ecjia\System\Plugin\PluginManager;
 use Ecjia\System\Theme\ThemeManager;
@@ -57,16 +57,27 @@ use Ecjia\System\Config\Config;
 use Ecjia\System\Config\ConfigModel;
 use Ecjia\System\Config\DatabaseConfigRepository;
 
-class SystemServiceProvider extends ServiceProvider {
+class SystemServiceProvider extends AppParentServiceProvider 
+{
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
     public function boot() {
-        $namespace = 'system';
-        $path = rtrim(SITE_SYSTEM_PATH, '/\\').'/languages';
-        Lang::addNamespace($namespace, $path);
+        $this->package('ecjia/system');
+    }
+    
+    /**
+     * Guess the package path for the provider.
+     *
+     * @return string
+     */
+    public function guessPackagePath()
+    {
+        $path = with(new ReflectionClass($this))->getFileName();
+        
+        return realpath(dirname($path).'/../../');
     }
 
 	/**

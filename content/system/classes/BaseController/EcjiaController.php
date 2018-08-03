@@ -47,19 +47,21 @@
 
 namespace Ecjia\System\BaseController;
 
-use \ecjia;
-use \ecjia_utility;
-use \RC_Lang;
-use \RC_Redirect;
-use Royalcms\Component\Routing\Controller;
-use Royalcms\Component\Support\Facades\Response as RC_Response;
+use ecjia;
+use ecjia_utility;
+use RC_Lang;
+use RC_Redirect;
+use RC_Response;
+use RC_Package;
+use Royalcms\Component\Routing\Controller as RoyalcmsController;
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * ECJIA 控制器基础类
  */
-abstract class EcjiaController extends Controller {
+abstract class EcjiaController extends RoyalcmsController
+{
     /**
      * 模板视图对象
      *
@@ -73,7 +75,17 @@ abstract class EcjiaController extends Controller {
      */
     protected $request;
 
+    /**
+     * 模板视图对象静态属性
+     *
+     * @var view
+     */
     public static $view_object;
+
+    /**
+     * 控制器对象静态属性
+     * @var
+     */
     public static $controller;
 
 
@@ -108,6 +120,11 @@ abstract class EcjiaController extends Controller {
         return parent::__call($method, $parameters);
     }
 
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
     /**
      * Ajax输出
      *
@@ -120,7 +137,7 @@ abstract class EcjiaController extends Controller {
         switch ($type) {
         	case ecjia::DATATYPE_HTML:
         	case ecjia::DATATYPE_TEXT:
-        	    return royalcms('response')->setContent($data)->send();
+                return royalcms('response')->setContent($data); //直接返回response对象，不再send
         	    break;
 
         	// XML处理
@@ -148,7 +165,10 @@ abstract class EcjiaController extends Controller {
         {
             $response->withCookie($cookie);
         }
-        return $response->send();
+
+        royalcms()->instance('response', $response);
+
+        return $response; //直接返回response对象，不再send
     }
     
     /**
@@ -164,7 +184,10 @@ abstract class EcjiaController extends Controller {
         {
             $response->withCookie($cookie);
         }
-        return $response->send();
+
+        royalcms()->instance('response', $response);
+
+        return $response; //直接返回response对象，不再send
     }
 
     /**
@@ -173,7 +196,7 @@ abstract class EcjiaController extends Controller {
      * @param string $url
      * @param int $code
      */
-    protected function redirect($url, $code = 302)
+    public function redirect($url, $code = 302)
     {
         $cookies = royalcms('response')->headers->getCookies();
         $response = RC_Redirect::away($url, $code);
@@ -181,8 +204,10 @@ abstract class EcjiaController extends Controller {
         {
             $response->withCookie($cookie);
         }
-        
-        return $response->send();
+
+        royalcms()->instance('response', $response);
+
+        return $response;  //直接返回response对象，不再send
     }
 
     /**
@@ -194,16 +219,7 @@ abstract class EcjiaController extends Controller {
      */
     protected function header($key, $value, $replace = true)
     {
-//         $string = str_replace(array("\r", "\n"), array('', ''), $string);
-
-//         if (preg_match('/^\s*location:/is', $string)) {
-//             header($string . "\n", $replace);
-//         }  else {
-//             header($string, $replace, $http_response_code);
-//         }
-//         exit(0);
-        
-        return RC_Response::header($key, $value, $replace);
+        RC_Response::header($key, $value, $replace);
     }
 
     /**
@@ -234,7 +250,10 @@ abstract class EcjiaController extends Controller {
         {
             $response->withCookie($cookie);
         }
-        return $response->send();
+
+        royalcms()->instance('response', $response);
+
+        return $response; //直接返回response对象，不再send
     }
 
     /**
@@ -256,13 +275,55 @@ abstract class EcjiaController extends Controller {
 	    {
 	        $response->withCookie($cookie);
 	    }
-	    return $response->send();
+
+        royalcms()->instance('response', $response);
+
+        return $response; //直接返回response对象，不再send
+    }
+
+    /**
+     * 输出内容
+     *
+     * @param string $msg 显示内容
+     */
+    protected function displayContent($content, $content_type = null)
+    {
+        $response = royalcms('response');
+        if ($content_type) {
+            $response->header('Content-Type', $content_type);
+        }
+
+        $response->setContent($content);
+
+        return $response;
+    }
+
+    /**
+     * 显示视图
+     *
+     * @param string   $app            应用目录
+     * @param string   $tpl_file       模板文件
+     * @param null     $cache_id       缓存id
+     * @param string   $cache_path     缓存目录
+     * @param bool     $stat           是否返回解析结果
+     * @param string   $content_type   文件类型
+     * @param string   $charset        字符集
+     * @param bool     $show           是否显示
+     * @return mixed $stat = false, $content_type = 'text/html', $charset = ''
+     */
+    public function displayAppTemplate($app, $resource_name, $cache_id = null, $show = true, $options = array())
+    {
+        $resource_name = RC_Package::package('app::'.$app)->loadTemplate($resource_name, true);
+        return $this->display($resource_name, $cache_id, $show, $options);
     }
     
     /**
      * 载入项目常量
      */
-    public function load_constants() {}
+    public function load_constants()
+    {
+        //default not used
+    }
 
 
     /**
@@ -271,7 +332,7 @@ abstract class EcjiaController extends Controller {
      * @param       string      $message      	消息内容
      * @param       int         $type        	消息类型， (0:html, 1:alert, 2:json, 3:xml)(0:错误，1:成功，2:消息, 3:询问)
      * @param		array		$options		消息可选参数
-     * @return      void
+     * @return      string | \Royalcms\Component\HttpKernel\Response
      */
     public function showmessage($message, $type = ecjia::MSGTYPE_HTML, $options = array()) {
         $state = $type & 0x0F;
@@ -342,8 +403,8 @@ abstract class EcjiaController extends Controller {
         elseif ($type === ecjia::MSGTYPE_XML) {
             return $this->ajax($message, 'xml');
         }
-             
-    	exit(0);
+
+        return royalcms('response');
     }
 
     /**

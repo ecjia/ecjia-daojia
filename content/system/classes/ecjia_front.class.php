@@ -49,7 +49,7 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-abstract class ecjia_front extends ecjia_base implements ecjia_template_fileloader {
+abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController implements ecjia_template_fileloader {
     
 	public function __construct() {
 		parent::__construct();
@@ -252,13 +252,36 @@ abstract class ecjia_front extends ecjia_base implements ecjia_template_fileload
 	    $purge = royalcms('request')->query('purge', 0);
 	    $purge = intval($purge);
 	    if ($is_cached && $purge === 1) {
-	        parent::clear_cache($tpl_file, $cache_id, $options);
-	        return false;
+            $this->clear_cache($tpl_file, $cache_id, $options);
+            return false;
 	    }
 	    return $is_cached;
 	}
-	
-	/**
+
+    /**
+     * 清除单个模板缓存
+     *
+     * @access  public
+     * @param   string     $tpl_file
+     * @param   sting      $cache_id
+     *
+     * @return  bool
+     */
+    public function clear_cache($tpl_file, $cache_id = null, $options = array())
+    {
+        if (strpos($tpl_file, 'string:') !== 0) {
+            if (RC_File::file_suffix($tpl_file) !== 'php') {
+                $tpl_file = $tpl_file . '.php';
+            }
+            if (RC_Config::get('system.tpl_usedfront')) {
+                $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
+            }
+        }
+
+        return parent::clear_cache($tpl_file, $cache_id, $options);
+    }
+
+    /**
 	 * 信息提示
 	 *
 	 * @param string $msg

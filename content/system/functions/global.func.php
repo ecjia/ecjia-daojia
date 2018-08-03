@@ -769,4 +769,149 @@ if ( ! function_exists('is_ecjia_error'))
     }
 }
 
+if ( ! function_exists('ecjia_log_info'))
+{
+    /**
+     * Write some information to the log.
+     *
+     * @param  string  $message
+     * @param  array   $context
+     * @return void
+     */
+    function ecjia_log_info($message, $context = array())
+    {
+        return RC_Logger::getLogger('ecjia')->info($message, $context);
+    }
+}
+
+if ( ! function_exists('ecjia_log_error'))
+{
+    /**
+     * Write some information to the log.
+     *
+     * @param  string  $message
+     * @param  array   $context
+     * @return void
+     */
+    function ecjia_log_error($message, $context = array())
+    {
+        return RC_Logger::getLogger('ecjia')->error($message, $context);
+    }
+}
+
+if ( ! function_exists('ecjia_log_debug'))
+{
+    /**
+     * Write some information to the log.
+     *
+     * @param  string  $message
+     * @param  array   $context
+     * @return void
+     */
+    function ecjia_log_debug($message, $context = array())
+    {
+        return RC_Logger::getLogger('ecjia')->debug($message, $context);
+    }
+}
+
+if ( ! function_exists('ecjia_log_warning'))
+{
+    /**
+     * Write some information to the log.
+     *
+     * @param  string  $message
+     * @param  array   $context
+     * @return void
+     */
+    function ecjia_log_warning($message, $context = array())
+    {
+        return RC_Logger::getLogger('ecjia')->warning($message, $context);
+    }
+}
+
+if ( ! function_exists('ecjia_log_notice'))
+{
+    /**
+     * Write some information to the log.
+     *
+     * @param  string  $message
+     * @param  array   $context
+     * @return void
+     */
+    function ecjia_log_notice($message, $context = array())
+    {
+        return RC_Logger::getLogger('ecjia')->notice($message, $context);
+    }
+}
+
+if (! function_exists('ecjia_cache'))
+{
+    /**
+     * APP缓存对象获取
+     * @param string $app
+     * @return \Ecjia\System\Frameworks\Component\Cache
+     */
+    function ecjia_cache($app, $driver = null)
+    {
+        return Ecjia\System\Frameworks\Component\Cache::singleton()->app($app, $driver);
+    }
+}
+
+if (! function_exists('ecjia_compare_urls'))
+{
+    function ecjia_compare_urls($urlA, $urlB) {
+        $urlA_arr = parse_url($urlA, PHP_URL_HOST | PHP_URL_QUERY);
+        $urlB_arr = parse_url($urlB, PHP_URL_HOST | PHP_URL_QUERY);
+        
+        if ($urlA_arr['host'] != $urlB_arr['host']) {
+            return true;
+        }
+        
+        return ecjia_compare_arrays($urlA_arr['query'], $urlB_arr['query']);
+    }
+}
+
+if (! function_exists('ecjia_compare_arrays'))
+{
+    function ecjia_compare_arrays( $arrayA , $arrayB ) {
+        
+        sort( $arrayA );
+        sort( $arrayB );
+        
+        return $arrayA == $arrayB;
+    } 
+}
+
+
+if (! function_exists('ecjia_db_create_in'))
+{
+    /**
+     * 创建像这样的查询: "IN('a','b')";
+     */
+    function ecjia_db_create_in($item_list, $field_name = '') {
+        if (empty ( $item_list )) {
+            return $field_name . " IN ('') ";
+        } else {
+            if (! is_array ( $item_list )) {
+                $item_list = explode ( ',', $item_list );
+            }
+
+            $item_list = array_unique ( $item_list );
+            $item_list_tmp = '';
+
+            foreach ( $item_list as $item ) {
+                if ($item !== '') {
+                    $item_list_tmp .= $item_list_tmp ? ",'$item'" : "'$item'";
+                }
+            }
+
+            if (empty ( $item_list_tmp )) {
+                return $field_name . " IN ('') ";
+            } else {
+                return $field_name . ' IN (' . $item_list_tmp . ') ';
+            }
+        }
+    }
+}
+
 // end

@@ -193,6 +193,9 @@ define('ACT_SAVING',                0);     // 帐户冲值
 define('ACT_DRAWING',               1);     // 帐户提款
 define('ACT_ADJUSTING',             2);     // 调节帐户
 define('ACT_REFUND',                3);     // 退款
+define('ACT_PAY_POINT_SAVING',     11);     // 消费积分充入
+define('ACT_PAY_POINT_DEDUCTION',  12);     // 消费积分抵扣
+define('ACT_RANK_POINT_SAVING',    21);     // 成长值充入
 define('ACT_OTHER',                99);     // 其他类型
 
 /* 密码加密方法 */

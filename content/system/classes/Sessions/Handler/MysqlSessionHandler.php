@@ -183,6 +183,14 @@ class MysqlSessionHandler implements \SessionHandlerInterface, EcjiaSessionInter
         $encoded = $data;
         
         $sessionData = \Royalcms\Component\Session\Serialize::unserialize($data);
+
+        if (! isset($sessionData['session_user_id'])) {
+            $sessionData['session_user_id'] = '';
+        }
+
+        if (! isset($sessionData['session_user_type'])) {
+            $sessionData['session_user_type'] = '';
+        }
         
         try {
             // We use a single MERGE SQL query when supported by the database.

@@ -53,7 +53,6 @@ class admin_application extends ecjia_admin {
 
 	public function __construct() {
 		parent::__construct();
-		RC_Lang::load('application');
 
 		RC_Style::enqueue_style('jquery-stepy');
 
@@ -134,7 +133,6 @@ class admin_application extends ecjia_admin {
 		$application_core_num = 0;
 
 		foreach ($applications as $_key => $_value) {
-			RC_Lang::load($_value['directory'] . '/package');
 			if (in_array($_value['directory'], $apps_list) ) {
 				$core_list[$_key] = RC_App::get_app_package($_value['directory']);
 					$application_core_num++;

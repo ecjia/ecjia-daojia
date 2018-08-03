@@ -47,7 +47,6 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 use Royalcms\Component\Support\Facades\Hook as RC_Hook;
-use Royalcms\Component\Foundation\Cache as RC_Cache;
 use Royalcms\Component\Support\Format as RC_Format;
 
 /**

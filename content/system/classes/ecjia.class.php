@@ -50,8 +50,8 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 define('APPNAME', 'ECJIA');
-define('VERSION', '1.31');
-define('RELEASE', '20180530'); 
+define('VERSION', '1.32');
+define('RELEASE', '20180803');
 
 class ecjia {
 	
@@ -382,8 +382,12 @@ class ecjia {
     
 }
 
-RC_Hook::add_action('init', array('ecjia', 'manual_load_classes'), 0);
-RC_Hook::add_action('init', array('ecjia', 'autoload_register'), 0);
+//类的自动加载
+ecjia::autoload_register();
+ecjia::manual_load_classes();
+
+// RC_Hook::add_action('init', array('ecjia', 'manual_load_classes'), 0);
+// RC_Hook::add_action('init', array('ecjia', 'autoload_register'), 0);
 RC_Hook::add_action('init', array('ecjia', 'init_load'), 1);
 RC_Hook::add_action('init', array('ecjia', 'load_lang'), 3);
 // RC_Hook::add_action('init', array('RC_Cache', 'memory_cache_init'), 1);

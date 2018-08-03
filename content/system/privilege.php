@@ -309,7 +309,15 @@ class privilege extends ecjia_admin {
 
 		if ($row) {
 			// 登录成功
-			$this->admin_session($row['user_id'], $row['user_name'], $row['action_list'], $row['last_login']);
+		    $user = new Ecjia\System\Admins\Users\AdminUser($row['user_id']);
+		    $user_name = $user->getUserName();
+		    if ($row['action_list'] == 'all') {
+		        $action_list = 'all';
+		    } else {
+                $action_list = $user->getActionList();
+		    }
+		    
+		    $this->admin_session($row['user_id'], $user_name, $action_list, $row['last_login']);
 			$_SESSION['suppliers_id'] = $row['suppliers_id'];
 			if (empty($row['ec_salt']) && $this->db_admin_user->field_exists('ec_salt')) {
 				$ec_salt = rand(1, 9999);
@@ -344,11 +352,12 @@ class privilege extends ecjia_admin {
 			}
 			RC_Hook::do_action('ecjia_admin_login_after', $row);
 			
-			if(array_get($_SESSION, 'shop_guide')) {
+			if (array_get($_SESSION, 'shop_guide')) {
 				$back_url = RC_Uri::url('shopguide/admin/init');
-			}else{
-				if (RC_Cookie::get('admin_login_referer')) {
-					$back_url = RC_Cookie::get('admin_login_referer');
+			} else {
+			    $back_url = RC_Cookie::get('admin_login_referer');
+			    
+			    if ($back_url && ! ecjia_compare_urls($back_url, RC_Uri::url('@privilege/login'))) {
 					RC_Cookie::delete('admin_login_referer');
 				} else {
 					$back_url = RC_Uri::url('@index/init');
@@ -721,7 +730,6 @@ class privilege extends ecjia_admin {
 		'<p><strong>' . __('更多信息：') . '</strong></p>' .
 		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置" target="_blank">关于编辑个人资料帮助文档</a>') . '</p>'
 		);
-		
 
 		$user_info = $this->db_admin_user->field('user_id, user_name, email')->find('user_id = "'.$_SESSION['admin_id'].'"');
 
@@ -750,27 +758,29 @@ class privilege extends ecjia_admin {
 	 */
 	public function allot() {
 		$this->admin_priv('allot_priv');
-		if ($_SESSION['admin_id'] == $_GET['id']) {
+		
+		$userid = $this->request->query('id');
+		if ($_SESSION['admin_id'] == $userid) {
 			$this->admin_priv('all');
 		}
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('分派权限')));
+		ecjia_screen::get_current_screen()->add_option('current_code', 'admin_privilege_menu');
 		
-		/* 获得该管理员的权限 */
-		$priv_row = $this->db_admin_user->field('user_name, action_list')->find('user_id = '.$_GET['id'].'');
-		$user_name = $priv_row['user_name'];
-		$priv_str = $priv_row['action_list'];
-	
+		$user = new Ecjia\System\Admins\Users\AdminUser($userid);
+		$user_name = $user->getUserName();
+		$priv_str = $user->getActionList();
+		
 		/* 如果被编辑的管理员拥有了all这个权限，将不能编辑 */
 		if ($priv_str == 'all') {
 			$link[] = array('text' => __('返回管理员列表'), 'href' => RC_Uri::url('@privilege/init'));
-			return $this->showmessage(__('您不能对此管理员的权限进行任何操作！'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您不能对此管理员的权限进行任何操作！'),ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
 		}
 
 		$priv_group = ecjia_purview::load_purview($priv_str);
 		
 		/* 赋值 */
-		$this->assign('ur_here',		sprintf(__('分派权限 [ %s ] '), $user_name));
+		$this->assign('ur_here',		sprintf(__('分派平台权限 [ %s ] '), $user_name));
 		$this->assign('action_link',	array('href'=>RC_Uri::url('@privilege/init'), 'text' => __('管理员列表')));
 		$this->assign('priv_group',		$priv_group);
 		$this->assign('user_id',		$_GET['id']);
@@ -786,32 +796,31 @@ class privilege extends ecjia_admin {
 	 */
 	public function update_allot() {
 		$this->admin_priv('admin_manage');
+		
+		$userid = $this->request->input('id');
+		
 		/* 取得当前管理员用户名 */
-		$admin_name = $this->db_admin_user->field('user_name')->find('user_id = '.$_POST['id'].'');
+		$user = new Ecjia\System\Admins\Users\AdminUser($userid);
+		$admin_name = $user->getUserName();
 		
 		/* 更新管理员的权限 */
 		$act_list = join(',', $_POST['action_code']);
-		$data = array(
-				'action_list'	=> $act_list,
-				'role_id'		=> '',
-		);
-		$this->db_admin_user->where(array('user_id' => $_POST['id']))->update($data);
+		$user->setActionList($act_list);
 		
 		/* 动态更新管理员的SESSION */
-		if ($_SESSION['admin_id'] == $_POST['id']) {
+		if ($_SESSION['admin_id'] == $userid) {
 			$_SESSION['action_list'] = $act_list;
 		}
 		
 		/* 记录管理员操作 */
-		ecjia_admin::admin_log(addslashes($admin_name['user_name']), 'edit', 'privilege');
+		ecjia_admin::admin_log(addslashes($admin_name), 'edit', 'privilege');
 		/* 提示信息 */
 		$link[] = array(
 			'text'	=> __('返回管理员列表'), 
 			'href'	=> RC_Uri::url('@privilege/init')
 		);
-		return $this->showmessage(sprintf(__('编辑 %s 操作成功！'), $admin_name['user_name']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('link'	=> $link));
+		return $this->showmessage(sprintf(__('编辑 %s 操作成功！'), $admin_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('link'	=> $link));
 	}
-	
 	
 	/**
 	 * 删除一个管理员

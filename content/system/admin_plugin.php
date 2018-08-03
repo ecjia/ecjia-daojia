@@ -215,7 +215,7 @@ class admin_plugin extends ecjia_admin {
 		if (!empty($menus)) {
 		    $menu = array_shift($menus);
 		    if ($menu->action != 'divider' && $menu->action != 'nav-header') {
-		        $this->redirect($menu->link);
+                return $this->redirect($menu->link);
 		    }
 		}
 

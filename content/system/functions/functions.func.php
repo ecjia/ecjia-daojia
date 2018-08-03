@@ -53,7 +53,7 @@ RC_Package::package('system')->loadClass('ecjia', false);
 if (royalcms('request')->query('m') != 'installer') {
     RC_Hook::add_action('init', 'load_theme_function');
     RC_Hook::add_filter('app_scan_bundles', 'app_scan_bundles');
-    RC_Hook::add_action('ecjia_controller', function ($arg) {
+    RC_Hook::add_action('royalcms_default_controller', function ($arg) {
         new ecjia_controller();
     });
 }
@@ -81,8 +81,11 @@ function load_theme_function() {
 
 function app_scan_bundles() {
     $builtin_bundles = ecjia_app::builtin_bundles();
-    $extend_bundles = ecjia_app::extend_bundles();
-    return array_merge($builtin_bundles, $extend_bundles);
+    if (defined('ROUTE_M') && ROUTE_M != 'installer') {
+        $extend_bundles = ecjia_app::extend_bundles();
+        return array_merge($builtin_bundles, $extend_bundles);
+    }
+    return $builtin_bundles;
 }
 
 function ecjia_front_access_session() {

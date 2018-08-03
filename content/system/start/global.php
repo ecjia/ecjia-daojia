@@ -118,6 +118,34 @@ Royalcms::fatal(function(Exception $exception)
     RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
     royalcms('sentry')->captureException($exception);
 });
+Royalcms::error(function(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception)
+{
+    $err = array(
+        'file'      => $exception->getFile(),
+        'line'      => $exception->getLine(),
+        'code'      => $exception->getCode(),
+        'url'       => RC_Request::fullUrl(),
+    );
+    RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
+    royalcms('sentry')->captureException($exception);
+    //404 tips
+    _404($exception->getMessage());
+});
+Royalcms::error(function(\Symfony\Component\HttpKernel\Exception\HttpException $exception)
+{
+    $err = array(
+        'file'      => $exception->getFile(),
+        'line'      => $exception->getLine(),
+        'code'      => $exception->getCode(),
+        'url'       => RC_Request::fullUrl(),
+    );
+    
+    RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
+    royalcms('sentry')->captureException($exception);
+    //404 tips
+    _404($exception->getMessage());
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -140,8 +168,16 @@ Royalcms::missing(function($exception)
     return RC_Response::make('404 Not Found', 404);
 });
 
+if (config('system.admin_enable') === true) {
+    $systemBundle = function() {
+        return new \Royalcms\Component\App\Bundles\SystemBundle();
+    };
+    RC_App::extend('admincp', $systemBundle);
+    RC_App::extend('system', $systemBundle);
+}
+
 RC_Event::listen('royalcms.query', function($query, $bindings, $time) {
-    if (royalcms('config')->get('system.debug')) {
+    if (config('system.debug')) {
         $query = str_replace('?', '"'.'%s'.'"', $query);
         $sql = vsprintf($query, $bindings);
         RC_Logger::getLogger(RC_Logger::LOG_SQL)->info('query:'.$query);
@@ -151,7 +187,7 @@ RC_Event::listen('royalcms.query', function($query, $bindings, $time) {
 });
 
 RC_Event::listen('royalcms.warning.exception', function($exception) {
-    if (royalcms('config')->get('system.debug')) {
+    if (config('system.debug')) {
         $err = array(
 		            'file'      => $exception->getFile(),
 		            'line'      => $exception->getLine(),
@@ -161,7 +197,7 @@ RC_Event::listen('royalcms.warning.exception', function($exception) {
         RC_Logger::getLogger(RC_Logger::LOG_WARNING)->info($exception->getMessage(), $err);
     }
 });
-
+    
 /**
  * 检测是否安装
  */

@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 //定义在后台
 define('IN_ADMIN', true);
 
-abstract class ecjia_admin extends ecjia_base implements ecjia_template_fileloader {	
+abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController implements ecjia_template_fileloader {
 
 	private $public_route;
 	
@@ -71,12 +71,6 @@ abstract class ecjia_admin extends ecjia_base implements ecjia_template_fileload
 		// Clears file status cache
 		clearstatcache();
 
-		// load Lang file
-		RC_Lang::load(array('system/system', 'system/log_action'));
-		if (ROUTE_M == RC_Config::get('system.admin_entrance')) {
-			RC_Lang::load('system/' . ROUTE_C);
-		}
-		
 		// Catch plugins that include admin-header.php before admin.php completes.
 		if ( empty( ecjia_screen::$current_screen ) ) {
 		    ecjia_screen::set_current_screen();
@@ -99,12 +93,19 @@ abstract class ecjia_admin extends ecjia_base implements ecjia_template_fileload
 		    RC_Session::destroy();
 		    if (is_pjax()) {
 		        ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
-		        return $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录'), 'href' => RC_Uri::url('@privilege/login')))));
+		        $response = $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录'), 'href' => RC_Uri::url('@privilege/login')))));
+		        royalcms('response')->send();
+		        exit();
 		    } elseif (is_ajax()) {
-		        return $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		        $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                royalcms('response')->send();
+                exit();
 		    } else {
+
 		        RC_Cookie::set('admin_login_referer', RC_Uri::current_url());
-		        return  $this->redirect(RC_Uri::url('@privilege/login'));
+                $this->redirect(RC_Uri::url('@privilege/login'));
+                royalcms('response')->send();
+                exit();
 		    }
 		}
         
@@ -387,12 +388,16 @@ abstract class ecjia_admin extends ecjia_base implements ecjia_template_fileload
 		} else {
 		    if ($msg_output) {
 		        if ($msg_type == ecjia::MSGTYPE_JSON && is_ajax() && !is_pjax()) {
-		            $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		            die();
+                    $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    //没有权限，强制中断响应
+                    royalcms('response')->send();
+                    die();
 		        } else {
 		            ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
-		            $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
-		            die();
+                    $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+		            //没有权限，强制中断响应
+                    royalcms('response')->send();
+                    die();
 		        }
 		    } else {
 		        return false;

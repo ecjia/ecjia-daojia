@@ -47,11 +47,10 @@
 namespace Ecjia\System\Api;
 
 use ecjia_error;
-use UnexpectedValueException;
 use Royalcms\Component\Support\Facades\Error as RC_Error;
 use Royalcms\Component\Support\Facades\Session as RC_Session;
-use Royalcms\Component\Foundation\Cache as RC_Cache;
 use Royalcms\Component\Foundation\RoyalcmsObject as RC_Object;
+use RC_Cache;
 
 abstract class ApiManager extends RC_Object
 {    

@@ -54,14 +54,14 @@ class ecjia_app {
      */
     public static function app_floders() 
     {
-        $applications = RC_App::get_apps();
-        $app_floders = array();
-
-        foreach ($applications as $app_info) {
-            $app_floders[] = $app_info['directory'];
+        $applications = RC_App::getDrivers();
+        $app_folders = array();
+        
+        foreach ($applications as $app) {
+            $app_folders[] = $app->getDirectory();
         }
-
-        return $app_floders;
+        
+        return $app_folders;
     }
     
     /**
@@ -87,23 +87,23 @@ class ecjia_app {
      */
     public static function installed_apps()
     {
-        $applications = RC_App::get_apps();
+        $applications = RC_App::getDrivers();
         
         $installed_app_floders = self::installed_app_floders();
         
         $installed_apps = array();
          
         foreach ($applications as $_key => $_value) {
-            if (in_array($_value['directory'], $installed_app_floders) ) 
+            if (in_array($_value->getDirectory(), $installed_app_floders) ) 
             {
-                $installed_apps[$_value['directory']] = RC_App::get_app_package($_value['directory']);
+                $installed_apps[$_value->getDirectory()] = $_value->getPackage();
             } 
             else 
             {
                 unset($applications[$_key]);
             }
         }
-
+        
         return $installed_apps;
     }
     

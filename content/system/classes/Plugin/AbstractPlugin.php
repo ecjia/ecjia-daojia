@@ -46,6 +46,8 @@
 //
 namespace Ecjia\System\Plugin;
 
+use RC_Hook;
+
 abstract class AbstractPlugin implements PluginInterface
 {
     /**
@@ -66,9 +68,9 @@ abstract class AbstractPlugin implements PluginInterface
     }
     
     
-    public function getConfig()
+    public function getConfig($key = null, $default = null)
     {
-        return $this->config;
+        return array_get($this->config, $key, $default);
     }
     
     /**
@@ -110,6 +112,8 @@ abstract class AbstractPlugin implements PluginInterface
 
         	$data[$_key] = $input;
         }
+
+        $data = RC_Hook::apply_filters(sprintf("plugin_form_%s", $this->getCode()), $data);
         
         return $data;
     }
