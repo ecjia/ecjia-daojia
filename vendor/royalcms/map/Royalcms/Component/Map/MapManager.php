@@ -18,7 +18,7 @@ class MapManager extends Manager
      * Get a filesystem instance.
      *
      * @param  string  $name
-     * @return \Royalcms\Component\Cache\StoreInterface
+     * @return 
      */
     public function drive($name = null)
     {
@@ -31,7 +31,7 @@ class MapManager extends Manager
      * Attempt to get the pool from the file cache.
      *
      * @param  string  $name
-     * @return \Royalcms\Component\Cache\StoreInterface
+     * @return 
      */
     protected function get($name)
     {
@@ -42,7 +42,7 @@ class MapManager extends Manager
      * Resolve the given pool.
      *
      * @param  string  $name
-     * @return \Royalcms\Component\Cache\StoreInterface
+     * @return 
      */
     protected function resolve($name)
     {
@@ -59,7 +59,7 @@ class MapManager extends Manager
     /**
      * Create an instance of the amap map driver.
      *
-     * @return \Royalcms\Component\Cache\WinCacheStore
+     * @return 
      */
     protected function createAmapDriver(array $config)
     {
@@ -69,7 +69,7 @@ class MapManager extends Manager
     /**
      * Create an instance of the baidu map driver.
      *
-     * @return \Royalcms\Component\Cache\WinCacheStore
+     * @return 
      */
     protected function createBaiduDriver(array $config)
     {
@@ -79,7 +79,7 @@ class MapManager extends Manager
     /**
      * Create an instance of the qq map driver.
      *
-     * @return \Royalcms\Component\Cache\WinCacheStore
+     * @return 
      */
     protected function createQqDriver(array $config)
     {
