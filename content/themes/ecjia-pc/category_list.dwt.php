@@ -103,7 +103,7 @@
                     {if $val.value}
         				<div class="advertisement">
         				    <img src="{$theme_url}images/bugle_50.png"/>
-        					<div class="goods-price">{$val.value}</div>
+        					<div class="goods-price">{$val.shop_notice}</div>
         				</div>
     				{/if}
     				{if $val.activity}

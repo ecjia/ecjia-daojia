@@ -17,7 +17,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<div class="content-position">
 				<div class="guess-position">当前定位城市</div>
 				<div class="position">
-					<li class="position-li active" data-id="{$info.location_id}"><i class="icon-position"></i>{$info.location_address}</i>
+					<li class="position-li select-city-li active" data-id="{$info.location_id}"><i class="icon-position"></i>{$info.location_address}</i>
 				</div>
 			</div>
 			{/if}

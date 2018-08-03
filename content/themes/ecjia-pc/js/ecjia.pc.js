@@ -247,7 +247,6 @@
                 var $this = $(this);
                 var id = $this.attr('data-id');
                 var city_name = $this.text();
-                var address_id = $('input[name="address_id"]').val();
                 var url = $("#cityall").attr('data-url');
                 var date = new Date();
                 date.setTime(date.getTime() + (30 * 60 * 1000));
