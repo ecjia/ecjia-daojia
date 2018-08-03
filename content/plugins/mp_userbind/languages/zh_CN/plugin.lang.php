@@ -44,38 +44,30 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-/*
-Plugin Name: 用户绑定
-Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_userbind/
-Description: 使用插件可以将微信公众平台用户绑定到本站会员上。
-Author: ECJIA TEAM
-Version: 1.18.0
-Author URI: http://www.ecjia.com/
-Plugin App: platform
-*/
+/**
+ * 用户绑定语言文件
+ */
 defined('IN_ECJIA') or exit('No permission resources.');
-class plugin_mp_userbind {
 
-    public static function install() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-        $param = array('file' => __FILE__, 'config' => $config);
-        return RC_Api::api('platform', 'plugin_install', $param);
-    }
+return array(
+	'point_status' => '积分赠送：',
+	'point_status_range' => array('关闭', '开启'),
 
+	'point_value' => '积分值：',
+	'point_num' => '有效次数：',
+	'point_interval' => '时间间隔：',
 
-    public static function uninstall() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-        $param = array('file' => __FILE__, 'config' => $config);
-        return RC_Api::api('platform', 'plugin_uninstall', $param);
-    }
+	'point_interval_range' => array(
+		'86400'	=> '24小时',
+		'3600'	=> '1小时',
+		'60'	=> '1分钟'
+	),
+	'media_id' => '素材信息：',
+	
+	'bonus_status' => '红包赠送：',
+	'bonus_status_range' => array('关闭', '开启'),
+	'bonus_id' => '红包ID：',
+	'bonus_id_desc' => '请先添加红包，然后在此输入红包ID即可'
+);
 
-}
-
-Ecjia_PluginManager::extend('mp_userbind', function() {
-    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_userbind.class.php';
-    return new mp_userbind();
-});
-
-RC_Plugin::register_activation_hook(__FILE__, array('plugin_mp_userbind', 'install'));
-RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_mp_userbind', 'uninstall'));
 // end
