@@ -23,6 +23,8 @@ class CustomizeOrderList
                 'order_id'          => $item->order_id,
                 'order_sn'          => $item->order_sn,
                 //'order_mode'        => in_array($item->extension_code, array('storebuy', 'cashdesk')) ? 'storebuy' : 'default',
+                'extension_code'	=> empty($item->extension_code) ? null : $item->extension_code,
+                'extension_id'		=> empty($item->extension_id) ? 0 : $item->extension_id,
                 'order_amount'      => $item->order_amount,
                 'order_status'      => $item->order_status,
                 'shipping_status'   => $item->shipping_status,
@@ -55,6 +57,9 @@ class CustomizeOrderList
             } elseif ($item->extension_code == 'storepickup') {
             	$data['order_mode'] = 'storepickup';
             	$data['label_order_mode'] = '自提';
+            } elseif ($item->extension_code == 'group_buy') {
+            	$data['order_mode'] = 'groupbuy';
+            	$data['label_order_mode'] = '团购';
             } else {
             	$data['order_mode'] = 'default';
             	$data['label_order_mode'] = '配送';

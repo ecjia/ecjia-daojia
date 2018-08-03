@@ -223,3 +223,11 @@
 .order-status-base .step-last .step-cur .step-no {
 	background-position: 50% -68px;
 }
+
+.groupbuy-icon {
+	background-color: #E95454;
+    color: #fff;
+    padding: 2px;
+    border-radius: 4px;
+    margin-left: 2px;
+}

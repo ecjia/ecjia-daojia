@@ -694,7 +694,7 @@ function delivery_ship($order_id, $delivery_id) {
 		}
 	}
 
-	$user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+	$user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
 
 	/*商家发货 推送消息*/
 	$options = array(

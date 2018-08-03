@@ -69,11 +69,10 @@ class mh_sale_order extends ecjia_merchant {
 		/*自定义js*/
 		RC_Script::enqueue_script('sale_order',RC_App::apps_url('statics/js/merchant_sale_order.js',__FILE__), array('ecjia-merchant'), false, 1);
 		
-		RC_Lang::load('statistic');
 		RC_Loader::load_app_func('global','orders');
 		$this->db_order_goods_view = RC_Loader::load_app_model('order_goods_viewmodel','orders');
 		
-		ecjia_merchant_screen::get_current_screen()->set_parentage('stats');
+		ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'stats/mh_sale_order.php');
 	}
 	
 	public function init() {

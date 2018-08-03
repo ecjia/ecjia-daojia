@@ -51,9 +51,9 @@ class order_stork {
     /* 发货警告库存发送短信 */
     public static function sms_goods_stock_warning($goods_id = 0) {
     	
-    	$goods_info  = RC_DB::TABLE('goods')->where('goods_id', $goods_id)->select('goods_name', 'goods_number', 'warn_number', 'store_id')->first();
+    	$goods_info  = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_name', 'goods_number', 'warn_number', 'store_id')->first();
     	$mobile      = RC_DB::table('staff_user')->where('store_id', $goods_info['store_id'])->where('parent_id', 0)->pluck('mobile');
-    	$store_name  = RC_DB::TABLE('store_franchisee')->where('store_id', $goods_info['store_id'])->pluck('merchants_name');
+    	$store_name  = RC_DB::table('store_franchisee')->where('store_id', $goods_info['store_id'])->pluck('merchants_name');
     	
     	//发货警告库存发送短信
     	$send_time = RC_Cache::app_cache_get('sms_goods_stock_warning_sendtime', 'orders');

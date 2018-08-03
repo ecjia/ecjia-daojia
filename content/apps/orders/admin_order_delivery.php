@@ -748,7 +748,7 @@ class admin_order_delivery extends ecjia_admin {
             if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
                 //腾讯地图api距离计算
               	$key = ecjia::config('map_qq_key');
-		        $url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$delivery_order['latitude'].",".$delivery_order['longitude']."&key=".$key;
+		        $url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$delivery_order['latitude'].",".$delivery_order['longitude']."&key=".$key;
 		        $distance_json = file_get_contents($url);
 		     	$distance_info = json_decode($distance_json, true);
 		     	$express_data['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;

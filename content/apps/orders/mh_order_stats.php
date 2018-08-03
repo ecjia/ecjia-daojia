@@ -72,14 +72,13 @@ class mh_order_stats extends ecjia_merchant {
         RC_Script::enqueue_script('order_stats_chart', RC_App::apps_url('statics/js/merchant_order_stats_chart.js', __FILE__), array('ecjia-merchant'), false, 1);
         RC_Style::enqueue_style('orders-css', RC_App::apps_url('statics/css/merchant_orders.css', __FILE__));
         RC_Style::enqueue_style('stats-css', RC_App::apps_url('statics/css/merchant_stats.css', __FILE__));
-        RC_Lang::load('statistic');
         RC_Loader::load_app_func('global', 'orders');
         $this->db_order_info = RC_Loader::load_app_model('order_info_model', 'orders');
         $this->db_goods = RC_Loader::load_app_model('goods_model', 'orders');
         $this->db_payment_view = RC_Loader::load_app_model('payment_viewmodel', 'orders');
         $this->db_shipping_view = RC_Loader::load_app_model('shipping_viewmodel', 'orders');
         $this->db_orderinfo_view = RC_Loader::load_app_model('order_order_infogoods_viewmodel', 'orders');
-        ecjia_merchant_screen::get_current_screen()->set_parentage('stats');
+        ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'orders/mh_order_stats.php');
     }
     /**
      * 订单统计

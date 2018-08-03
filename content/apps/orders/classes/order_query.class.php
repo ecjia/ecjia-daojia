@@ -397,7 +397,13 @@ class order_query extends order {
         $page = new ecjia_page($count, $pagesize, 6);
         $filter['record_count'] = $count;
 
-        $fields = "o.order_id, o.store_id, o.order_sn, o.add_time, o.order_status, o.shipping_status, o.order_amount, o.money_paid, o.pay_status, o.consignee, o.address, o.email, o.tel, o.mobile, o.extension_code, o.extension_id ,(" . $this->order_amount_field('o.') . ") AS total_fee, s.merchants_name, u.user_name";
+		$fields = "o.order_id, o.store_id, o.order_sn, 
+		o.add_time, o.order_status, o.shipping_status, 
+		o.order_amount, o.money_paid, o.pay_status, 
+		o.consignee, o.address, o.email, o.tel, o.mobile, 
+		o.extension_code, o.extension_id ,(" . $this->order_amount_field('o.') . ") AS total_fee, 
+		o.surplus, o.integral_money, o.bonus, 
+		s.merchants_name, u.user_name";
     	
     	$row = $db_order_info
     		->leftJoin('order_goods as og', RC_DB::raw('o.order_id'), '=', RC_DB::raw('og.order_id'))
@@ -413,11 +419,14 @@ class order_query extends order {
         }
 		RC_Loader::load_app_func('global', 'goods');
 		
+		RC_Loader::load_app_func('admin_goods', 'goods');
+		$order_deposit = 0;
+
 		$order = array();
         /* 格式话数据 */
 	    if (!empty($row)) {
 	        foreach ($row AS $key => $value) {
-	            $order[$value['order_id']]['formated_order_amount'] = price_format($value['order_amount']);
+	            $order[$value['order_id']]['formated_order_amount'] = $value['extension_code'] == 'group_buy' ? price_format($value['total_fee']-$value['money_paid']-$value['surplus']-$value['integral_money']-$value['bonus']) : price_format($value['order_amount']);
 				$order[$value['order_id']]['formated_money_paid'] 	= price_format($value['money_paid']);
 				$order[$value['order_id']]['formated_total_fee'] 	= price_format($value['total_fee']);
 	            $order[$value['order_id']]['short_order_time']		= RC_Time::local_date('Y-m-d H:i', $value['add_time']);
@@ -438,7 +447,13 @@ class order_query extends order {
                 $order[$value['order_id']]['extension_id']         	= $value['extension_id'];
                 $order[$value['order_id']]['total_fee']         	= $value['total_fee'];
                 $order[$value['order_id']]['merchants_name']        = $value['merchants_name'];
-             
+			 
+				$group_buy = group_buy_info($value['extension_id']);
+				if ($group_buy['deposit'] > 0) {
+					$order_deposit = price_format($value['goods_number']*$group_buy['deposit']);
+				}
+				$order[$value['order_id']]['formated_bond'] = $order_deposit;
+
 	            if ($value['order_status'] == OS_INVALID || $value['order_status'] == OS_CANCELED) {
 	                /* 如果该订单为无效或取消则显示删除链接 */
 	                $order[$value['order_id']]['can_remove'] = 1;

@@ -151,7 +151,7 @@ class list_module extends api_admin implements api_interface {
 				$consignee['latitude'] = $shop_point['result']['location']['lat'];
 				$consignee['longitude'] = $shop_point['result']['location']['lng'];
 			}
-			$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$map_qq_key;
+			$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$map_qq_key;
 			$distance_json = file_get_contents($url);
 			$distance_info = json_decode($distance_json, true);
 			$distance = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;

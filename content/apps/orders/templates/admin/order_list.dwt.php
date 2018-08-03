@@ -114,4 +114,5 @@
 		</div>
 	</div>
 </div>
+<form action="{$form_action}" name="orderpostForm" id="listForm" data-pjax-url="{$search_action}" method="post"></form>
 <!-- {/block} -->

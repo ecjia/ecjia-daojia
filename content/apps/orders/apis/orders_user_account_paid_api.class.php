@@ -132,7 +132,7 @@ class orders_user_account_paid_api extends Component_Event_Api {
 		        'pay_status'      => PS_PAYED,
 		        'pay_time'        => RC_Time::gmtime(),
 		        'order_amount'    => 0,
-		        'surplus'         => $order_info['order_amount'],
+		        'surplus'         => $order_info['order_amount'] + $order_info['surplus'],
 		    );
 		    
 		    /*更新订单状态及信息*/
@@ -153,20 +153,51 @@ class orders_user_account_paid_api extends Component_Event_Api {
 		
 		RC_Api::api('affiliate', 'invite_reward', array('user_id' => $order_info['user_id'], 'invite_type' => 'orderpay'));
 		
-		$data = array(
-			'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
-			'order_id'		=> $order_info['order_id'],
-			'message'		=> RC_Lang::get('orders::order.notice_merchant_message'),
-			'add_time'		=> RC_Time::gmtime(),
-		);
-		RC_DB::table('order_status_log')->insert($data);
-		
-		RC_DB::table('order_status_log')->insert(array(
-			'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
-			'order_id'		=> $order_info['order_id'],
-			'message'		=> '订单已通知商家，等待商家处理',
-			'add_time'		=> RC_Time::gmtime(),
-		));
+		//团购活动，有保证金的；订单order_status_log区分
+		if ($order_info['extension_code'] == 'group_buy' && $order_info['extension_id'] > 0) {
+			RC_Loader::load_app_func('admin_goods', 'goods');
+			$group_buy = group_buy_info($order_info['extension_id']);
+			if ($group_buy['deposit'] > 0 && empty($order_info['surplus'])) {
+				$message = '保证金支付成功，等活动成功结束后尽快支付商品部分余款！';
+				$data = array(
+						'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
+						'order_id'		=> $order_info['order_id'],
+						'message'		=> $message,
+						'add_time'		=> RC_Time::gmtime(),
+				);
+				RC_DB::table('order_status_log')->insert($data);
+			} else {
+				$data = array(
+						'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
+						'order_id'		=> $order_info['order_id'],
+						'message'		=> RC_Lang::get('orders::order.notice_merchant_message'),
+						'add_time'		=> RC_Time::gmtime(),
+				);
+				RC_DB::table('order_status_log')->insert($data);
+					
+				RC_DB::table('order_status_log')->insert(array(
+					'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
+					'order_id'		=> $order_info['order_id'],
+					'message'		=> '订单已通知商家，等待商家处理',
+					'add_time'		=> RC_Time::gmtime(),
+				));
+			}
+		} else {
+			$data = array(
+					'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
+					'order_id'		=> $order_info['order_id'],
+					'message'		=> RC_Lang::get('orders::order.notice_merchant_message'),
+					'add_time'		=> RC_Time::gmtime(),
+			);
+			RC_DB::table('order_status_log')->insert($data);
+			
+			RC_DB::table('order_status_log')->insert(array(
+				'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
+				'order_id'		=> $order_info['order_id'],
+				'message'		=> '订单已通知商家，等待商家处理',
+				'add_time'		=> RC_Time::gmtime(),
+			));
+		}
 		
 		/*门店自提，时发送提货验证码；*/
 		if ($order_info['shipping_id'] > 0) {

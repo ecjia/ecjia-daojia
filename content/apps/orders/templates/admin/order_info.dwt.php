@@ -504,7 +504,8 @@
 						</table>
 					</div>
 				</div>
-				{if !$invalid_order}
+				
+				{if !$invalid_order && $order.extension_code neq 'group_buy'}
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseSeven"><strong>{lang key='orders::order.order_operate_list'}</strong></a>
@@ -570,6 +571,8 @@
 						</table>
 					</div>
 				</div>
+				
+				
 				{/if}
 			</div>
 		</form>

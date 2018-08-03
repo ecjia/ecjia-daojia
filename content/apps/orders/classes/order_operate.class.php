@@ -80,9 +80,9 @@ class order_operate {
 			$tpl_name = 'order_confirm';
 			$tpl = RC_Api::api('mail', 'mail_template', $tpl_name);
 		
-			ecjia_admin::$view_object->assign('order', 		$order);
-			ecjia_admin::$view_object->assign('shop_name', 	ecjia::config('shop_name'));
-			ecjia_admin::$view_object->assign('send_date', 	RC_Time::local_date(ecjia::config('date_format')));
+			ecjia_admin::$controller->assign('order', 		$order);
+			ecjia_admin::$controller->assign('shop_name', 	ecjia::config('shop_name'));
+			ecjia_admin::$controller->assign('send_date', 	RC_Time::local_date(ecjia::config('date_format')));
 		
 			$content = ecjia_admin::$controller->fetch_string($tpl['template_content']);
 		
@@ -412,10 +412,11 @@ class order_operate {
 			/* 更新订单的非虚拟商品信息 即：商品（实货）（货品）、商品（超值礼包）*/
 			update_order_goods($order_id, $_sended, $_goods['goods_list']);
 	
-			/* 标记订单为已确认 “发货中” */
+			/* 标记订单为已确认 “发货中，已发货” */
 			/* 更新发货时间 */
 			$order_finish = get_order_finish($order_id);
-			$shipping_status = SS_SHIPPED_ING;
+			//$shipping_status = SS_SHIPPED_ING;
+			$shipping_status = $order_finish ? SS_SHIPPED : SS_SHIPPED_ING; // 已发货、发货中
 			if ($order['order_status'] != OS_CONFIRMED && $order['order_status'] != OS_SPLITED && $order['order_status'] != OS_SPLITING_PART) {
 				$arr['order_status']	= OS_CONFIRMED;
 				$arr['confirm_time']	= GMTIME_UTC;

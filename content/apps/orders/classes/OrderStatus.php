@@ -61,7 +61,7 @@ class OrderStatus
     ];
 
     
-    public static function getOrderStatusLabel($order_status, $shipping_status, $pay_status, $is_cod, $refund_info) 
+    public static function getOrderStatusLabel($order_status, $shipping_status, $pay_status, $is_cod) 
     {
         if (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED)) &&
             in_array($shipping_status, array(SS_RECEIVED)) &&

@@ -122,12 +122,24 @@ class OrdersRepository extends AbstractRepository
      * @param   callable    $callback       查询结果回调处理
      * @return  array       $order_list     订单列表
      */
-    public function getUserOrdersList($user_id, $type = null, $page = 1, $size = 15, $keywords = null, $store_id = null, $with = null, callable $callback = null)
+    public function getUserOrdersList($user_id, $type = null, $page = 1, $size = 15, $keywords = null, $store_id = null, $with = null, callable $callback = null, $extension_code = null)
     {
         $where = [
         	'order_info.is_delete' => 0,
         ];
         
+        if (!empty($extension_code)) {
+        	if ($extension_code == 'group_buy') {
+        		$where = [
+        			'order_info.extension_code' => 'group_buy'
+        		];
+        	}
+        } else {
+        	$where = [
+        		'order_info.extension_id' => 0
+        	];
+        }
+       
         if ($user_id > 0) {
             $where['order_info.user_id'] = $user_id;
         }
@@ -135,7 +147,7 @@ class OrdersRepository extends AbstractRepository
         if ($store_id > 0) {
             $where['order_info.store_id'] = $store_id;
         }
-
+        
         $field = [
         	'order_info.order_id',
         	'order_info.order_sn',
@@ -157,6 +169,7 @@ class OrdersRepository extends AbstractRepository
         	'order_info.order_amount',
         	'order_info.store_id',
             'order_info.extension_code',
+            'order_info.extension_id',
         ];
         
         if (!empty($keywords)) {

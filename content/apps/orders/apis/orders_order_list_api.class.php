@@ -61,20 +61,21 @@ class orders_order_list_api extends Component_Event_Api {
             return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
         }
 
-        $user_id = $_SESSION['user_id'];
-        $type = !empty($options['type']) ? $options['type'] : '';
+        $user_id = array_get($options, 'user_id', $_SESSION['user_id']);
+        $type = array_get($options, 'type');
 
-        $size = $options['size'];
-        $page = $options['page'];
+        $size = array_get($options, 'size', 15);
+        $page = array_get($options, 'page', 1);
         $keywords = $options['keywords'];
         $store_id = $options['store_id'];
+        $extension_code = empty($options['extension_code']) ? null : $options['extension_code'];
         
 //         $orders = $this->user_orders_list($user_id, $type, $page, $size, $keywords, $store_id);
         $with = ['orderGoods', 'orderGoods.goods', 'store', 'payment', 'orderGoods.comment' => function ($query) {
                 $query->select('comment_id', 'has_image')->where('comment_type', 0)->where('parent_id', 0);
             }];
         $orders = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
-                    ->getUserOrdersList($user_id, $type, $page, $size, $keywords, $store_id, $with, ['Ecjia\App\Orders\CustomizeOrderList', 'exportOrderListApi']);
+                    ->getUserOrdersList($user_id, $type, $page, $size, $keywords, $store_id, $with, ['Ecjia\App\Orders\CustomizeOrderList', 'exportOrderListApi'], $extension_code);
 
         return $orders;
     }
@@ -161,7 +162,6 @@ class orders_order_list_api extends Component_Event_Api {
         $field = 'oi.order_id, oi.order_sn, oi.order_status, oi.shipping_status, oi.pay_status, oi.add_time, (oi.goods_amount + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee + oi.tax - oi.integral_money - oi.bonus - oi.discount) AS total_fee, oi.discount, oi.integral_money, oi.bonus, oi.shipping_fee, oi.pay_id, oi.order_amount'.
         ', og.goods_id, og.goods_name, og.goods_attr, og.goods_attr_id, og.goods_price, og.goods_number, og.goods_price * og.goods_number AS subtotal, g.goods_thumb, g.original_img, g.goods_img, ssi.store_id, ssi.merchants_name, ssi.manage_mode, c.comment_id, c.has_image';
         $res = $dbview_order_info->join(array('order_goods', 'goods', 'store_franchisee', 'comment'))->field($field)->where($where)->order(array('oi.order_id' => 'desc'))->limit($page_row->limit())->select();
-        RC_Lang::load('orders/order');
 
 //         _dump($dbview_order_info->last_sql());
 //         _dump($res,1);

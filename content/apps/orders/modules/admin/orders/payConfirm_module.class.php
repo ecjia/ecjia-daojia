@@ -248,7 +248,6 @@ function delivery_ship($order_id, $delivery_id, $invoice_no, $action_note) {
 	$db_delivery_order		= RC_Loader::load_app_model('delivery_order_model','orders');
 	$db_goods				= RC_Loader::load_app_model('goods_model','goods');
 	$db_products			= RC_Loader::load_app_model('products_model','goods');
-	RC_Lang::load('order');
 	/* 定义当前时间 */
 // 	define('GMTIME_UTC', RC_Time::gmtime()); // 获取 UTC 时间戳
 	/* 取得参数 */

@@ -53,7 +53,6 @@ class admin_order_back extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
 
-        RC_Lang::load('order');
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('global', 'goods');
 		Ecjia\App\Orders\Helper::assign_adminlog_content();

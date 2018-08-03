@@ -217,9 +217,6 @@ class today_module extends api_admin implements api_interface
 			}
 		}
 
-		
-		RC_Lang::load('orders/order');
-
 		$order_list = array();
 		if (!empty($data)) {
 			$order_id = $goods_number = 0;

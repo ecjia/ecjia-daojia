@@ -342,7 +342,12 @@
 						<tr class="{if $val.default_address}info{/if}">
 							<td><input type="radio" name='user_address' value="{$val.address_id}"/></td>
 							<td>{$val.consignee|escape}<br>{if $val.default_address}{lang key='orders::order.default_shipping_address'}{/if}</td>
-							<td>{$val.country_name} {$val.province_name} {$val.city_name} {$val.district_name}</td>
+							<td>
+								{if $val.province}{ecjia_region::getRegionName($val.province)} {/if}
+								{if $val.city}{ecjia_region::getRegionName($val.city)} {/if}
+								{if $val.district}{ecjia_region::getRegionName($val.district)} {/if}
+								{if $val.street}{ecjia_region::getRegionName($val.street)} {/if}
+							</td>
 							<td>{$val.address|escape}{$val.address_info|escape}</td>
 							<td>{$val.zipcode|escape}</td>
 							<td>{lang key='orders::order.label_tel'}{$val.tel}<br/>
@@ -543,6 +548,10 @@
 							<p>
 								<label class="label-title">{lang key='orders::order.label_inv_payee'}</label>
 								<input name="inv_payee" class="span8" value="{$order.inv_payee}" type="text" />
+								<span class="help-block">	
+									<label class="label-title"></label>
+									发票抬头及发票识别码，请用英文逗号（“,”）隔开，例：抬头,识别码。如没有英文逗号，则默认为发票抬头。
+								</span>
 							</p>
 							<p>
 								<label class="label-title">{lang key='orders::order.label_inv_content'}</label>

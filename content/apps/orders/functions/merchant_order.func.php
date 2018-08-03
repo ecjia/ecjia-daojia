@@ -243,15 +243,15 @@ function merchant_operable_list($order) {
     if (!empty($list['split'])) {
         /* 如果是团购活动且未处理成功，不能发货 */
         if ($order['extension_code'] == 'group_buy') {
-            unset($list['split']);
-            unset($list['to_delivery']);
-            // 			TODO:团购活动暂时注释，直接不给予发货等操作
-            // 			RC_Loader::load_app_func('admin_goods', 'goods');
-            // 			$group_buy = group_buy_info(intval($order['extension_id']));
-            // 			if ($group_buy['status'] != GBS_SUCCEED) {
-            // 				unset($list['split']);
-            // 				unset($list['to_delivery']);
-            // 			}
+            // unset($list['split']);
+            // unset($list['to_delivery']);
+            			// TODO:团购活动暂时注释，直接不给予发货等操作
+            			RC_Loader::load_app_func('admin_goods', 'goods');
+            			$group_buy = group_buy_info(intval($order['extension_id']));
+            			if ($group_buy['status'] != GBS_SUCCEED) {
+            				unset($list['split']);
+            				unset($list['to_delivery']);
+            			}
         }
         /* 如果部分发货 不允许 取消 订单 */
         if (order_deliveryed($order['order_id'])) {

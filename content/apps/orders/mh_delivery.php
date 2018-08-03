@@ -64,8 +64,6 @@ class mh_delivery extends ecjia_merchant {
 	public function __construct() {
 		parent::__construct();
 
-		RC_Lang::load('order');
-
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('merchant_order', 'orders');
 		RC_Loader::load_app_func('global', 'goods');
@@ -486,7 +484,7 @@ class mh_delivery extends ecjia_merchant {
 			if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
 				//腾讯地图api距离计算
               	$key = ecjia::config('map_qq_key');
-		        $url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$delivery_order['latitude'].",".$delivery_order['longitude']."&key=".$key;
+		        $url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$delivery_order['latitude'].",".$delivery_order['longitude']."&key=".$key;
 		        $distance_json = file_get_contents($url);
 		     	$distance_info = json_decode($distance_json, true);
 		     	$express_data['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
@@ -666,7 +664,7 @@ class mh_delivery extends ecjia_merchant {
 			}
 		}
 		
-		$user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+		$user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
 		
 		/*商家发货 推送消息*/
 		$options = array(

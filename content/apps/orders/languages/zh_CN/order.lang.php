@@ -141,13 +141,14 @@ return array(
 	/* 订单列表 */
 	'order_amount' 			=> '应付金额',
 	'total_fee' 			=> '总金额',
+	'bond'					=> '保证金',
 	'shipping_name' 		=> '配送方式',
 	'pay_name' 				=> '支付方式',
 	'address' 				=> '地址',
 	'order_time' 			=> '下单时间',
 	'detail' 				=> '查看',
 	'phone' 				=> '电话',
-	'group_buy' 			=> '（团购）',
+	'group_buy' 			=> '<span class="groupbuy-icon">团</span>',
 	'error_get_goods_info' 	=> '获取订单商品信息错误',
 	'exchange_goods' 		=> '（积分兑换）',
 		

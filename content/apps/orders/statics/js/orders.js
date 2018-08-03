@@ -3,7 +3,6 @@
 ;(function(app, $) {
 	app.order = {
 		init : function() {
-			var html = $(".modal-header").children("h3").html();
 			app.order.screen();
 			app.order.searchform();
 			app.order.batch_print();
@@ -172,6 +171,7 @@
             arr['return']   = js_lang.return_goods;
             arr['refund']   = js_lang.refund;
 
+			var html = $(".modal-header").children("h3").html();
 			$("#operate .modal-header").children("h3").html(html+arr[operatetype]);
 			if (data != '') {
 				if(data.show_cancel_note) {

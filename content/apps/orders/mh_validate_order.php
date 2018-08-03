@@ -57,8 +57,6 @@ class mh_validate_order extends ecjia_merchant {
 	public function __construct() {
 		parent::__construct();
  
-// 		RC_Lang::load('order');
-
 		RC_Loader::load_app_func('admin_order', 'orders');
 		RC_Loader::load_app_func('merchant_order', 'orders');
 		RC_Loader::load_app_func('global', 'orders');
@@ -224,8 +222,7 @@ class mh_validate_order extends ecjia_merchant {
 		$db_delivery_order		= RC_Loader::load_app_model('delivery_order_model','orders');
 		$db_goods				= RC_Loader::load_app_model('goods_model','goods');
 		//$db_products			= RC_Loader::load_app_model('products_model','goods');
-		//RC_Lang::load('order');
-	
+
 		/* 取得参数 */
 		$delivery				= array();
 		$order_id				= intval($order_id);			// 订单id
@@ -439,7 +436,7 @@ class mh_validate_order extends ecjia_merchant {
 			}
 		}
 	
-		$user_name = RC_DB::TABLE('users')->where('user_id', $order['user_id'])->pluck('user_name');
+		$user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
 		
 		/*商家发货 推送消息*/
 		$options = array(
