@@ -254,8 +254,16 @@ return array(
     'AlterPointsForUsersTable' => $contentDir . '/database/migrations/2018_05_28_104402_alter_points_for_users_table.php',
     'AlterBrokerageAmountForStoreBillDayTable' => $contentDir . '/database/migrations/2018_05_28_104440_alter_brokerage_amount_for_store_bill_day_table.php',
     'AlterBrokerageAmountForStoreBillDetailTable' => $contentDir . '/database/migrations/2018_05_28_104459_alter_brokerage_amount_for_store_bill_detail_table.php',
-    'AddFromTypeForAccountLogTable' => $contentDir . '/database/migrations/2018_05_28_104546_add_from_type_for_account_log_table.php',
-     
+    'AddFromTypeForAccountLogTable' => $contentDir . '/database/migrations/2018_07_13_165535_alter_scene_id_to_wechat_qrcode.php',
+    'AlterSceneIdToWechatQrcode' => $contentDir . '/database/migrations/2018_07_13_165621_add_qr_scene_and_location_to_wechat_user.php',
+    'AddQrSceneAndLocationToWechatUser' => $contentDir . '/database/migrations/2018_05_28_104546_add_from_type_for_account_log_table.php',
+    'RenameColumnModelAttrToMarkChangedForWechatUser' => $contentDir . '/database/migrations/2018_07_16_140419_rename_column_model_attr_to_mark_changed_for_wechat_user.php',
+    'AddWaitUploadArticleToWechatMedia' => $contentDir . '/database/migrations/2018_07_20_153121_add_wait_upload_article_to_wechat_media.php',
+    'AddTypeAndMediaContentToWechatCustomMessage' => $contentDir . '/database/migrations/2018_07_20_154124_add_type_and_media_content_to_wechat_custom_message.php',
+    'AddMediaContentToWechatMassHistory' => $contentDir . '/database/migrations/2018_07_25_165243_add_media_content_to_wechat_mass_history.php',
+    'AddStatusToWechatCustomerSession' => $contentDir . '/database/migrations/2018_07_31_091457_add_status_to_wechat_customer_session.php',
+    'CreateWechatCustomerRecordTable' => $contentDir . '/database/migrations/2018_07_31_171302_create_wechat_customer_record_table.php',
+
     
     // seeder
     'DatabaseSeeder' => $contentDir . '/database/seeds/DatabaseSeeder.php',
@@ -274,8 +282,6 @@ return array(
     'InitStoreCategoryTableSeeder' => $contentDir . '/database/seeds/InitStoreCategoryTableSeeder.php',
     'InitStorePercentTableSeeder' => $contentDir . '/database/seeds/InitStorePercentTableSeeder.php',
     'InitUserRankTableSeeder' => $contentDir . '/database/seeds/InitUserRankTableSeeder.php',
-    'InitWechatMediaTableSeeder' => $contentDir . '/database/seeds/InitWechatMediaTableSeeder.php',
-    'InitWechatReplyTableSeeder' => $contentDir . '/database/seeds/InitWechatReplyTableSeeder.php',
     'InitStoreBusinessCityTableSeeder' => $contentDir . '/database/seeds/InitStoreBusinessCityTableSeeder.php',
     
     
@@ -294,7 +300,6 @@ return array(
     'DemoAttributeTableSeeder' => $contentDir . '/database/seeds/DemoAttributeTableSeeder.php',
     'DemoTermMetaTableSeeder' => $contentDir . '/database/seeds/DemoTermMetaTableSeeder.php',
     'DemoArticleCatTableSeeder' => $contentDir . '/database/seeds/DemoArticleCatTableSeeder.php',
-    'DemoArticleTableSeeder' => $contentDir . '/database/seeds/DemoArticleTableSeeder.php',
     'DemoArticleTableSeeder' => $contentDir . '/database/seeds/DemoArticleTableSeeder.php',
     'DemoGoodsArticleTableSeeder' => $contentDir . '/database/seeds/DemoGoodsArticleTableSeeder.php',
     'DemoFriendLinkTableSeeder' => $contentDir . '/database/seeds/DemoFriendLinkTableSeeder.php',
