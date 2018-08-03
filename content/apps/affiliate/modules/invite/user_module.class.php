@@ -66,13 +66,20 @@ class user_module extends api_front implements api_interface {
 			$this->assign('shop_name', ecjia::config('shop_name'));
 			$invite_template = $this->fetch_string($tpl);
 		}
+		if (ecjia::config('mobile_touch_url') != '') {
+			$invite_url = ecjia::config('mobile_touch_url').'index.php?m=affiliate&c=index&a=init&invite_code='. $user_invite_code;
+		} else {
+			$invite_url = RC_Uri::site_url().'/index.php?m=affiliate&c=mobile&a=init&invite_code='. $user_invite_code;
+		}
 		$invite_info = array(
 			'invite_code'			=> $user_invite_code,
 			'invite_qrcode_image'	=> RC_Uri::site_url().'/index.php?m=affiliate&c=mobile&a=qrcode&invite_code='. $user_invite_code,
 			'invite_template'		=> $invite_template,
 			'invite_explain'		=> ecjia::config('invite_explain'),
-			'invite_url'			=> RC_Uri::site_url().'/index.php?m=affiliate&c=mobile&a=init&invite_code='. $user_invite_code
+			//'invite_url'			=> RC_Uri::site_url().'/index.php?m=affiliate&c=mobile&a=init&invite_code='. $user_invite_code
+			'invite_url'			=> $invite_url
 		);
+		
 		return $invite_info;
 	}
 }

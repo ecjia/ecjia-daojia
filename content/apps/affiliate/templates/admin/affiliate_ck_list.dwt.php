@@ -27,7 +27,7 @@
 		
 		<div class="top_right f_r" >
 			<input type="text" name="order_sn" value="{$smarty.get.order_sn}" placeholder="{lang key='affiliate::affiliate_ck.order_sn_empty'}">
-			<input type="submit" value="{lang key='system::system.button_search'}" class="btn">
+			<input type="button" value="{lang key='system::system.button_search'}" class="btn search_order">
 		</div>
 	</form>
 </div>

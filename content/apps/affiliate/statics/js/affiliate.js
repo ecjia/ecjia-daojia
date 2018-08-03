@@ -46,6 +46,38 @@
         		});
         	});
 			app.affiliate.submit_form();
+
+            $('.screen-btn').off('click').on('click', function (e) {
+                e.preventDefault();
+                var url = $("form[name='search_from']").attr('action');
+                var status = $("select[name='status']").val();
+                if (status != '') {
+                    url += '&status=' + status; 
+                }
+
+                var order_sn = $("input[name='order_sn']").val();
+                if (order_sn != '') {
+                    url += '&order_sn=' + order_sn; 
+                }
+
+                ecjia.pjax(url);
+            });
+
+            $('.search_order').off('click').on('click', function (e) {
+                e.preventDefault();
+                var url = $("form[name='search_from']").attr('action');
+                var status = $("select[name='status']").val();
+                if (status != '') {
+                    url += '&status=' + status; 
+                }
+                
+                var order_sn = $("input[name='order_sn']").val();
+                if (order_sn != '') {
+                    url += '&order_sn=' + order_sn; 
+                }
+                ecjia.pjax(url);
+            });
+
 		},
 		
         submit_form: function (formobj) {
@@ -63,7 +95,7 @@
             var options = $.extend(ecjia.admin.defaultOptions.validate, option);
             $form.validate(options);
         },
-		
+
         info : function () {
             app.affiliate.percent_form();
         },
