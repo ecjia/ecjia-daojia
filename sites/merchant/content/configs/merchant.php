@@ -49,45 +49,51 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'apps' => array(
         /* 商户 */
-        'merchant' => 'merchant',
+        'merchant'      => 'merchant',
         /* 员工 */
-        'staff' => 'staff',
+        'staff'         => 'staff',
     	/*验证码  */
-    	'captcha' => 'captcha',
+    	'captcha'       => 'captcha',
         /* 商品 */
-        'goods' => 'goods',
+        'goods'         => 'goods',
+        /* 团购 */
+        'groupbuy'      => 'groupbuy',
         /* 订单 */
-        'orders' => 'orders',
+        'orders'        => 'orders',
         /* 促销 */
-        'promotion' => 'promotion',
+        'promotion'     => 'promotion',
+    	/* 公众平台 */
+    	'platform'      => 'platform',
         /* 红包 */
-        'bonus' => 'bonus',
+        'bonus'         => 'bonus',
         /* 优惠活动 */
-        'favourable' => 'favourable',
+        'favourable'    => 'favourable',
     	/* 闪惠  */
-    	'quickpay'   => 'quickpay',
+    	'quickpay'      => 'quickpay',
         /* 结算 */
-        'commission' => 'commission',
+        'commission'    => 'commission',
         /* 报表统计*/
-        'stats' => 'stats',
+        'stats'         => 'stats',
     	/* 我的配送  */
-    	'shipping' => 'shipping',
+    	'shipping'      => 'shipping',
     	/* 店铺向导  */
-    	'shopguide' => 'shopguide',
+    	'shopguide'     => 'shopguide',
     	/* 配送信息  */
-    	'express'	=> 'express',
+    	'express'	    => 'express',
     	/* 评论管理  */
-    	'comment'	=> 'comment',
+    	'comment'	    => 'comment',
         /* 文章管理  */
-        'article'   => 'article',
+        'article'       => 'article',
         /* 广告管理  */
-        'adsense'   => 'adsense',
+        'adsense'       => 'adsense',
         /* 微商城  */
-        'touch'   => 'touch',
+        'touch'         => 'touch',
         /* 小票打印  */
-        'printer'   => 'printer',
+        'printer'       => 'printer',
     	/* 退款退货  */
-    	'refund'   => 'refund',
+    	'refund'        => 'refund',
+    	/* 微信公众平台  */
+    	'wechat'        => 'wechat',
     ),
 );
 
