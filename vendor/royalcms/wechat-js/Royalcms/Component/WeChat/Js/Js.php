@@ -169,7 +169,7 @@ class Js extends AbstractAPI
     /**
      * Set cache manager.
      *
-     * @param \Royalcms\Component\Cache\StoreInterface $cache
+     * @param \Royalcms\Component\Cache\Contracts\Store $cache
      *
      * @return $this
      */
@@ -183,7 +183,7 @@ class Js extends AbstractAPI
     /**
      * Return cache manager.
      *
-     * @return \Royalcms\Component\Cache\StoreInterface
+     * @return \Royalcms\Component\Cache\Contracts\Store
      */
     public function getCache()
     {
