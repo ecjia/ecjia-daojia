@@ -53,7 +53,7 @@ class signup_module extends api_front implements api_interface {
 		$connect_code = $this->requestData('code');
 		$username	  = $this->requestData('username');
 		$mobile		  = $this->requestData('mobile');
-		$password	  = $this->requestData('password');
+		$password	  = $this->requestData('password', '');
 		$device       = $this->device;
 		$invite_code  = $this->requestData('invite_code');
 		$code		  = $this->requestData('validate_code');
@@ -113,14 +113,18 @@ class signup_module extends api_front implements api_interface {
 		if (version_compare($api_version, '1.17', '>=')) {
 			if (!empty($username) && empty($mobile)) {
 				/* 判断是否为手机号*/
-				if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
+			    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
+			    if($check_mobile === true) {
+// 				if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
 					/* 生成用户名*/
 					$mobile = $username;
 					$username = substr_replace($username,'****',3,4);
 				}
 			} elseif (!empty($mobile) && empty($username)) {
 				/* 判断是否为手机号*/
-				if (is_numeric($mobile) && strlen($mobile) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $mobile)) {
+			    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+			    if($check_mobile === true) {
+// 				if (is_numeric($mobile) && strlen($mobile) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $mobile)) {
 					/* 生成用户名*/
 					$username = substr_replace($mobile,'****',3,4);
 				}

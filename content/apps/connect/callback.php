@@ -67,19 +67,20 @@ class callback extends ecjia_front {
         }
         
         $user_type = $this->request->query('user_type', 'user');
+        $templateStr = null;
         
         $connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
         $connect_user = $connect_handle->callback($user_type);
         if (is_ecjia_error($connect_user)) {
         	RC_Logger::getlogger('wechat')->error($connect_user->get_error_message());
             $result['connect_user'] = $connect_user;
+
             $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $user_type), $templateStr, $result);
-            //echo 内容
-            return $this->displayContent($this->fetch_string($templateStr));
+
         } else { 
             RC_Logger::getlogger('wechat')->info('callback connect_user user_id:'.$connect_user->getUserId());
             if ($connect_user->checkUser()) {
-                $this->userBindedProcessHandle($user_type, $connect_user);
+                return $this->userBindedProcessHandle($user_type, $connect_user);
             } else {
                 //绑定账号
                 $result['bind_url']  = RC_Uri::url('connect/callback/bind_login', array('connect_code' => $connect_code, 'open_id' => $connect_user->getOpenId()));
@@ -91,10 +92,21 @@ class callback extends ecjia_front {
                 RC_Logger::getlogger('wechat')->error($result);
                 
                 $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $connect_user->getUserType()), $templateStr, $result);
-                //echo 内容
-                return $this->displayContent($this->fetch_string($templateStr));
+
             } 
         }
+
+        if ( $templateStr instanceof SymfonyResponse) {
+            return $templateStr;
+        }
+
+        if (empty($templateStr)) {
+            $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
+            return $this->showmessage(sprintf("模板文件%s未找到", sprintf("connect_callback_%s_template", $user_type)), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+        }
+
+        //echo 内容
+        return $this->displayContent($this->fetch_string($templateStr));
     }
     
     /**
@@ -179,13 +191,13 @@ class callback extends ecjia_front {
     /**
      * 判断已绑定授权登录用户 直接登录
      */
-    protected function userBindedProcessHandle($user_type, $user_id, $connect_user)
+    protected function userBindedProcessHandle($user_type, $connect_user)
     {
         /**
          * 用户登录
          * hook名称有三个：connect_callback_user_signin、connect_callback_merchant_signin、connect_callback_admin_signin
          */
-        RC_Hook::do_action(sprintf("connect_callback_%s_signin", $user_type), $user_id, $connect_user);
+        RC_Hook::do_action(sprintf("connect_callback_%s_signin", $user_type), $connect_user);
     }
 }
 

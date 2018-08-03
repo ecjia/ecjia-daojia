@@ -98,7 +98,9 @@ class bind_module extends api_front implements api_interface {
 		
 		if (version_compare($api_version, '1.14', '<')) {
 			/* 判断是否为手机号*/
-			if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $username)) {
+		    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
+		    if($check_mobile === true) {
+// 			if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $username)) {
 				$db_user     = RC_Model::model('user/users_model');
 				$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
 				if ($user_count > 1) {
@@ -121,7 +123,9 @@ class bind_module extends api_front implements api_interface {
 			}
 		} else {
 			/* 判断是否为手机号*/
-			if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $username)) {
+		    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
+		    if($check_mobile === true) {
+// 			if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $username)) {
 				$db_user     = RC_Model::model('user/users_model');
 				$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
 				if ($user_count > 1) {
