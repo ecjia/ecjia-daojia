@@ -4288,14 +4288,15 @@ footer {
 }
 
 .ecjia-user .user-img-text img {
-	right: 4%;
-	position: absolute;
-	top:15px;
+	right: 3%;
+    position: absolute;
+    top: 33%;
 }
 
 .ecjia-login .wechat-user-img-left img {
-	position: absolute;
-	margin-top:5px;
+    position: absolute;
+    margin-top: .5em;
+    margin-left: .2em;
 }
 
 .ecjia-user.user-new-info {
@@ -9959,4 +9960,52 @@ footer {
     color: #fff;
     font-size: 10px;
     background: #ff3434;
+}
+
+.ecjia-login.ecjia-form .form-group .roaming {
+    position: absolute;
+    top: .5em;
+    left: 0;
+    border-right: 1px solid #aaa;
+    padding-right: 1em;
+	line-height: 1.42857143;
+}
+
+.ecjia-form .form-group .input input.mobile_phone {
+    padding-left: 4em;
+}
+
+#payPassword_container {
+    margin-bottom: 1em;
+    position: relative;
+}
+
+#payPassword_container .pass_container {
+    width: 320px;
+    height: 50px;
+    margin: 0 auto;
+}
+
+#payPassword_container .pass_container input {
+    width: 45px;
+    float: left;
+    border: 1px solid #aaa;
+    height: 50px;
+    border-radius: 4px;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 2em;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    line-height: 50px;
+	box-sizing: border-box;
+}
+
+#payPassword_container .franchisee_pass_container input:last-child, #payPassword_container .pass_container input:last-child {
+    margin-right: 0;
+}
+
+.ecjiaf-tac.blue {
+    color: #378FCB;
+    cursor: pointer;
 }

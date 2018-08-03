@@ -46,20 +46,31 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class wechat_admin_plugin {
-    
-	public static function api_request_record($api_name) {
-	    RC_Loader::load_app_class('wechat_request_times', 'wechat', false);
-	    
-	    $platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
-	    $wechat_id = $platform_account->getAccountID();
-	    if ($wechat_id) {
-	       $request_times = new wechat_request_times($wechat_id);
-	       $request_times->record($api_name);
-	    }
-	}
+class wechat_admin_plugin
+{
+
+    public static function api_request_record($api_name)
+    {
+        RC_Loader::load_app_class('wechat_request_times', 'wechat', false);
+
+        $platform_account = platform_account::make(platform_account::getCurrentUUID('wechat'));
+        $wechat_id = $platform_account->getAccountID();
+        if ($wechat_id) {
+            $request_times = new wechat_request_times($wechat_id);
+            $request_times->record($api_name);
+        }
+    }
+
+
+    public static function add_maintain_command($factories)
+    {
+        $factories['wechat_user_avatar_change_https'] = 'Ecjia\App\Wechat\Maintains\WechatUserAvatarChangeHTTPS';
+        return $factories;
+    }
+
 }
 
-RC_Hook::add_action( 'wechat_api_request_record', array('wechat_admin_plugin', 'api_request_record') );
+RC_Hook::add_action('wechat_api_request_record', array('wechat_admin_plugin', 'api_request_record'));
+RC_Hook::add_action('ecjia_maintain_command_filter', array('wechat_admin_plugin', 'add_maintain_command'));
 
 // end

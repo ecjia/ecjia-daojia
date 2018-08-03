@@ -99,7 +99,7 @@ return array(
 		'api'   => 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info'
 	),
 		
-	/*用户管理*/
+	/*粉丝管理*/
     'groups/create' => array(
     	'title' => RC_Lang::get('wechat::wechat.add_user_group'),
         'times' => '1000',

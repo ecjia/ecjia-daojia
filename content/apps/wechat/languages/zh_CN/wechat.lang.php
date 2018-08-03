@@ -65,7 +65,7 @@ return array(
 		
 	/*API*/
 	'weixin_notice'	        => '微信公众平台',
-	'user_manage'	        => '用户管理',
+	'user_manage'	        => '粉丝管理',
 	'message_manage'	    => '消息管理',
 	'remind_set'	        => '提醒设置',
 	
@@ -74,10 +74,11 @@ return array(
 	'auto_reply'	        => '自动回复',
 	'reply_keyword'	        => '关键词回复',
 	
-	'service_record'	    => '客服会话记录',
+	'service_record'	    => '客服聊天记录',
 	
 	'channel_code'	        => '渠道二维码',
-	'sweep_recommend'	    => '扫码引荐',
+	'channel_code_list'	    => '渠道二维码列表',
+	'sweep_recommend'	    => '推荐二维码',
 	'accredit_login'	    => '授权登录',
 	'draw_record'	        => '抽奖记录',
 	'api_request'	        => 'Api请求统计',
@@ -118,7 +119,7 @@ return array(
 	'service_add'	        => '客服添加',
 	'service_edit'	        => '客服编辑',
 	'service_del'	        => '客服删除',
-	'service_record_manage'	=> '客服会话记录管理',
+	'service_record_manage'	=> '客服聊天记录管理',
 	
 	'api_request_manage'	=> 'Api请求统计管理',
 		
@@ -303,10 +304,10 @@ return array(
 	'label_message_topic'		=> '消息主题：',
 	'label_message_content'		=> '消息内容：',
 	
-	//用户管理
-	'subscribe_manage'			=> '用户管理',
-	'subscribe_manage_content' 	=> '欢迎访问ECJia智能后台用户管理页面，当前公众号的所有用户都会显示在此列表中。',
-	'subscribe_manage_help'		=> '关于用户管理帮助文档',
+	//粉丝管理
+	'subscribe_manage'			=> '粉丝管理',
+	'subscribe_manage_content' 	=> '欢迎访问ECJia智能后台粉丝管理页面，当前公众号的所有用户都会显示在此列表中。',
+	'subscribe_manage_help'		=> '关于粉丝管理帮助文档',
 	'tag_name_required'			=> '请输入标签名称',
 	'tag_name_exist'			=> '该标签名字已存在，请重新输入',
 	'up_tag_info'				=> '最多只能创建100个标签',
@@ -335,7 +336,7 @@ return array(
 	'remove_blacklist_confirm'	=> '您确定要将该用户移出黑名单吗？',
 	
 	'unionid_error_info'		=> '无法获取unionid字段，若需获取该字段，请将公众号绑定到微信开放平台帐号。',
-	'user_manage_synchro'		=> '用户管理同步操作',
+	'user_manage_synchro'		=> '粉丝管理同步操作',
 	'get_user_tag_notice'		=> '通过点击该按钮可以获取微信端用户标签到本地。',
 	'get_user_info_notice'		=> '通过点击该按钮可以获取微信端用户信息到本地。',
 	'set_tag'					=> '打标签',
@@ -360,13 +361,13 @@ return array(
 	'label_new_tag_name'		=> '新标签名：',
 	'label_tag_name'			=> '标签名称：',
 	
-	//扫码引荐
-	'scan_code'					=> '扫码引荐',
-	'scan_code_list'			=> '扫码引荐列表',
+	//推荐二维码
+	'scan_code'					=> '推荐二维码',
+	'scan_code_list'			=> '推荐二维码列表',
 	'add_qr_code'				=> '添加二维码',
 	'recommended_person'		=> '推荐人是%s',
-	'add_scan_code_success'		=> '添加扫码引荐成功',
-	'remove_scan_code_success'	=> '删除扫码引荐成功',
+	'add_scan_code_success'		=> '添加推荐二维码成功',
+	'remove_scan_code_success'	=> '删除推荐二维码成功',
 	'qrcode_sort_numeric'		=> '请输入排序数值',
 	'edit_sort_success'			=> '编辑排序成功',
 	'qrcode_sort_required'		=> '二维码排序不能为空',
@@ -385,7 +386,7 @@ return array(
 	'expire_seconds_help'		=> '以秒为单位，最大不超过1800，默认1800（永久二维码无效）',
 	'label_functions'			=> '功能：',
 	'label_scene_id'			=> '应用场景值：',
-	'scene_id_help'				=> '临时二维码时为32位非0整型，永久二维码时最大值为100000（目前参数只支持1--100000）',
+	'scene_id_help'				=> '整型：临时二维码时为32位非0整型（100001-4294967295），永久二维码时最大值为100000（目前参数只支持1--100000）。<br>字符串类型：场景值ID（字符串形式的ID），长度限制为1到64',
 	'enable'					=> '启用',
 	'disable'					=> '禁用',	
 	'label_sort'				=> '排序：',
@@ -412,7 +413,7 @@ return array(
 	'batch_operate'				=> '批量操作',
 	'select_operate_qrcode'		=> '请先选中要删除的二维码',
 	'remove_qrcode'				=> '删除二维码',
-	'qrcode_search_placeholder'	=> '请输入有关二维码功能关键字',
+	'qrcode_search_placeholder'	=> '请输入功能关键字',
 	'application_adsense'		=> '应用场景',
 	'qrcode_type'				=> '二维码类型',
 	
@@ -467,6 +468,7 @@ return array(
 		'qrcode_scene_id_required'	=> '请填写推荐人ID',
 		'qrcode_funcions_required'	=> '请填写功能',
 		'application_adsense_required' => '请填写应用场景',
+		'qrcode_funcions_empty'	   => '请选择或填写关键词',
 		
 		'select_material'       => '请先选择素材！',
 		'unfind_any_recode' 	=> '没有找到任何记录',
@@ -479,7 +481,7 @@ return array(
 		'Monday'                => '星期日',
 		'num'                  	=> '次',
 		'num_time'              => '次数',
-		'get_message_record'	=> '获取客服会话记录',
+		'get_message_record'	=> '获取客服聊天记录',
 		
 		'menu_name_required'	=> '请填写菜单名称',
 		'menu_url_required'		=> '请输入外链URL',
@@ -512,6 +514,7 @@ return array(
 	'picture_material'	    => '图片素材',
 	'voice_material'	    => '语音素材',
 	'video_material'	    => '视频素材',
+	'thumb_material'	    => '缩略图素材',
 	'attention_auto_reply'	=> '关注自动回复',
 	'message_auto_reply'	=> '消息自动回复',
 	'keyword_auto_reply'	=> '关键词自动回复规则',
@@ -537,6 +540,7 @@ return array(
     'add_accounts_again'        => '添加失败，请先添加公众号，再进行后续操作',
     'del_accounts_again'        => '删除失败，请先添加公众号，再进行后续操作',
     'rule_name_exists'          => '规则名称  %s 已存在',
+    'keyword_exists'            => '关键词  %s 已存在',
     'keyword_repeat'            => '关键词  %s 重复',
     'keyword_reply'             => '返回关键词回复',
     'add_keyword'               => '继续添加规则',
@@ -545,6 +549,7 @@ return array(
     'picture'                   => '图片',
     'voice'                     => '语音',
     'video'                     => '视频',
+    'thumb'                     => '缩略图',
     'input_keyword'             => '请输入关键字',
     'rule_name'                 => '规则名称',
     'keyword'                   => '关键字',
@@ -554,7 +559,7 @@ return array(
     'remove'                    => '移除',
     'label_rule_name'           => '规则名称：',
     'rule_name_max'             => '规则名最多60个字',
-    'more_keywords_split'       => '添加多个关键字，用","隔开（建议在一个规则里设置一个关键字，以便粉丝获得想要的答案。）',
+    'more_keywords_split'       => '添加多个关键字，用","隔开（建议在一个规则里设置一个关键字，以便粉丝获得想要的答案）。',
     'lable_reply'               => '回复：',
     'add'                       => '添加',
     
@@ -625,13 +630,13 @@ return array(
 	'pwd_rand_help'			=> '密码前缀+随机密码 生成：ecmoban231。不填写则默认为3位',
 	'register_remind_help'	=> '例：默认用户名：[$username]，默认密码：[$password]，变量请用示例中的。微信中换行用 \r\n',
 	
-	//客服会话记录
-	'customer_chat_record'		=> '客服会话记录',
+	//客服聊天记录
+	'customer_chat_record'		=> '客服聊天记录',
 	'customer_message_record'	=> '客服消息记录',
-	'get_message_record_success'=> '获取客服会话记录成功',
-	'chat_record_synchro'		=> '会话记录同步操作',
-	'get_message_record'		=> '获取客服会话记录',
-	'get_message_record_notice' => '通过点击该按钮可以获取客服最近5天的会话记录到本地。',
+	'get_message_record_success'=> '获取客服聊天记录成功',
+	'chat_record_synchro'		=> '客服聊天记录同步操作',
+	'get_message_record'		=> '获取客服聊天记录',
+	'get_message_record_notice' => '通过点击该按钮可以获取客服最近5天的聊天记录到本地。',
 	'last_five_days'			=> '最近五天',	
 	'today'						=> '今天',
 	'yesterday'					=> '昨天',
@@ -683,6 +688,7 @@ return array(
 	'edit_video_help'       => '关于编辑视频素材帮助文档',
 	'edit_video'            => '编辑视频',
 	'video_used'            => '该视频正在被使用，不能删除',
+	'thumb_used'            => '该缩略图正在被使用，不能删除',
 	'enter_filename'        => '请输入文件名称！',
 	'nosearch_record'       => '没有找到相应记录,请重新搜索',
 	'reply'					=> '回复',
@@ -907,6 +913,10 @@ return array(
     'refresh_page_access_token'  => '刷新网页授权access_token',
     'page_access_user_info'    => '网页授权获取用户信息',
     'check_access_token'       => '检验授权凭证（access_token）是否有效',
+    
+    'extend_manage'			   => '插件管理',
+    'material_type_title'	   => '选择%s素材',
+    'news'					   => '图文',
 );		
 
 // end

@@ -68,7 +68,8 @@ class Helper
 		ecjia_admin_log::instance()->add_object('picture_material', RC_Lang::get('wechat::wechat.picture_material'));
 		ecjia_admin_log::instance()->add_object('voice_material', RC_Lang::get('wechat::wechat.voice_material'));
 		ecjia_admin_log::instance()->add_object('video_material', RC_Lang::get('wechat::wechat.video_material'));
-		
+		ecjia_admin_log::instance()->add_object('thumb_material', RC_Lang::get('wechat::wechat.thumb_material'));
+
 		ecjia_admin_log::instance()->add_object('reply_subscribe', RC_Lang::get('wechat::wechat.attention_auto_reply'));
 		ecjia_admin_log::instance()->add_object('reply_msg', RC_Lang::get('wechat::wechat.message_auto_reply'));
 		ecjia_admin_log::instance()->add_object('reply_keywords_rule', RC_Lang::get('wechat::wechat.keyword_auto_reply'));

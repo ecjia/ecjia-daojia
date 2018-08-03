@@ -47,38 +47,54 @@
 
 namespace Ecjia\App\Wechat;
 
-use RC_WeChat;
-use RC_Loader;
-use platform_account;
+use Ecjia\App\Platform\Frameworks\Platform\Account;
 
 class WechatUUID {
     
     protected $uuid;
     
-    public function __construct($uuid) {
-        $this->uuid = trim($uuid);   
+    protected $account;
+    
+    public function __construct($uuid = null) 
+    {
+        if (is_null($uuid)) {
+            
+            if (royalcms('request')->input('uuid')) {
+                $this->uuid = royalcms('request')->input('uuid');
+            } else if (session('uuid')) {
+                $this->uuid = session('uuid');
+            }
+            
+        } else {
+            $this->uuid = trim($uuid);   
+        }
         
-        RC_Loader::load_app_class('platform_account', 'platform', false);
+        $this->account = new Account($this->uuid);
     }
     
     
-    public function getWechatInstance() {
-        $platform_account = platform_account::make($this->uuid);
-        $platform         = $platform_account->getPlatform();
-        $account          = $platform_account->getAccount();
+    public function getWechatInstance() 
+    {
+        
+        $platform         = $this->account->getPlatform();
         
         if ($platform == 'wechat') {
             
             $config = array(
-                'app_id'     => $account['appid'],
-                'app_secret' => $account['appsecret'],
+                'app_id'     => $this->account->getAppId(),
+                'app_secret' => $this->account->getAppSecret(),
             );
-            RC_WeChat::init($config);
+            royalcms('wechat')->init($config);
             
             return royalcms('wechat');
         }
         
         return null;
+    }
+    
+    public function getAccount()
+    {
+        return $this->account;
     }
     
     /**
@@ -87,9 +103,7 @@ class WechatUUID {
      */
     public function getWechatID()
     {
-        $account = platform_account::make($this->uuid);
-        $wechat_id = $account->getAccountID();
-        return $wechat_id;
+        return $this->account->getAccountID();
     }
     
     /**
