@@ -6,9 +6,23 @@ return array(
     //网站时区（只对php 5.1以上版本有效），Etc/GMT-8 实际表示的是 GMT+8 timezone
     'timezone' 						=> 'Etc/GMT-8', 		
     //是否Gzip压缩后输出
-    'gzip' 							=> 0, 					
-    //密钥
-    'auth_key' 						=> '', 
+    'gzip' 							=> 0,
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Encryption Key
+    |--------------------------------------------------------------------------
+    |
+    | This key is used by the Illuminate encrypter service and should be set
+    | to a random, 32 character string, otherwise these encrypted strings
+    | will not be safe. Please do this before deploying an application!
+    |
+    */
+    'auth_key' 						=> env('AUTH_KEY', 'SomeRandomString'),
+    'cipher'                        => 'AES-256-CBC',
+    
+    
     //调试显示
     'debug_display'                 => false, 
     'debug'                         => false,

@@ -16,48 +16,6 @@ return array(
     
     'default' => 'file',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Database Cache Connection
-	|--------------------------------------------------------------------------
-	|
-	| When using the "database" cache driver you may specify the connection
-	| that should be used to store the cached items. When this option is
-	| null the default database connection will be utilized for cache.
-	|
-	*/
-
-	'connection' => null,
-
-	/*
-	|--------------------------------------------------------------------------
-	| Database Cache Table
-	|--------------------------------------------------------------------------
-	|
-	| When using the "database" cache driver we need to know the table that
-	| should be used to store the cached items. A default table name has
-	| been provided but you're free to change it however you deem fit.
-	|
-	*/
-
-	'table' => 'cache',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Memcached Servers
-	|--------------------------------------------------------------------------
-	|
-	| Now you may specify an array of your Memcached servers that should be
-	| used when utilizing the Memcached cache driver. All of the servers
-	| should contain a value for "host", "port", and "weight" options.
-	|
-	*/
-
-	'memcached' => array(
-
-		array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
-
-	),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -72,23 +30,52 @@ return array(
 
 	'prefix' => 'royalcms',
     
+	/*
+	 |--------------------------------------------------------------------------
+	 | Cache Stores
+	 |--------------------------------------------------------------------------
+	 |
+	 | Here you may define all of the cache "stores" for your application as
+	 | well as their drivers. You may even define multiple stores for the
+	 | same cache driver to group types of items stored in your caches.
+	 |
+	 */
     
-    /*
-    |--------------------------------------------------------------------------
-    | Cache Drivers
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure as many filesystem "drivers" as you wish, and you
-    | may even configure multiple disks of the same driver. Defaults have
-    | been setup for each driver as an example of the required options.
-    |
-    */
-    'drivers' => array(
-    	'file' => array(
-    	    'driver'   => 'file',
-    	    'path'     => storage_path().'/cache',
-    	    'expire'   => 60, //分钟
-    	),
+    'stores' => [
+        
+        'apc' => [
+            'driver' => 'apc'
+        ],
+        
+        'array' => [
+            'driver' => 'array'
+        ],
+        
+        'database' => [
+            'driver' => 'database',
+            'table'  => 'cache',
+            'connection' => null,
+        ],
+        
+        'file' => [
+            'driver' => 'file',
+            'path'   => storage_path().'/cache',
+            'expire'   => 60, //分钟
+        ],
+        
+        'memcached' => [
+            'driver'  => 'memcached',
+            'servers' => [
+                [
+                    'host' => '127.0.0.1', 'port' => 11211, 'weight' => 100
+                ],
+            ],
+        ],
+        
+        'redis' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+        ],
         
         /**
          * 数据表缓存
@@ -116,62 +103,7 @@ return array(
             'path'      => storage_path().'/temp/query_caches',
             'expire'    => 60, //分钟
         ),
-    ),
+        
+    ],
     
-    
-    
-    /**
-     * Memcache缓存配置参考
-     *
-     * @param
-     *            expire 有效期(单位为秒)
-     * @param
-     *            server 多个服务器设置二维数组
-     *            hostname 主机
-     *            port 端口
-     *            timeout 超时时间(单位为秒)
-     *            pconnect 持久连接
-     *            weight 权重
-     */
-    'memcache' => array(
-            'driver' => 'memcache',
-            'expire' => 3600,
-            'server' => array(
-                'hostname' => '127.0.0.1',
-                'port' => 11211,
-                'timeout' => 0,
-                'pconnect' => 0,
-                'weight' => 1
-            ),
-            'debug' => true
-        ),
-    
-    /**
-     * Redis缓存配置参考
-     *
-     * @param
-     *            expire 有效期(单位为秒)
-     * @param
-     *            server 多个服务器设置二维数组
-     *            host 主机
-     *            port 端口
-     *            password 密码
-     *            timeout 超时时间
-     *            db 数据库
-     *            pconnect 持久连接
-     */
-    'redis' => array(
-            'driver' => 'redis',
-            'expire' => 3600,
-            'server' => array(
-                'host' => '127.0.0.1',
-                'port' => 6379,
-                'password' => '',
-                'timeout' => 0,
-                'db' => 0,
-                'pconnect' => 0
-            ),
-            'debug' => true
-        ),
-
 );

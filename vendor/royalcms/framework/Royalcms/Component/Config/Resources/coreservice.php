@@ -22,39 +22,40 @@ return array(
     
         // Support Facades
         'URL'                  => 'Royalcms\Component\Support\Facades\URL',
-        'Route'                => 'Royalcms\Component\Support\Facades\Route',
         'File'                 => 'Royalcms\Component\Support\Facades\File',
-        
-        'RC_File'              => 'Royalcms\Component\Support\Facades\File',
+
+        'RC_Cache'             => 'Royalcms\Component\Support\Facades\Cache',
+        'RC_Cookie'            => 'Royalcms\Component\Support\Facades\Cookie',
+        'RC_Crypt'             => 'Royalcms\Component\Support\Facades\Crypt',
+        'RC_Config'            => 'Royalcms\Component\Support\Facades\Config',
         'RC_Error'             => 'Royalcms\Component\Support\Facades\Error',
-        'RC_View'              => 'Royalcms\Component\Support\Facades\View',
-        'RC_Validator'         => 'Royalcms\Component\Support\Facades\Validator',
+        'RC_ENV'               => 'Royalcms\Component\Support\Facades\Environment',
+        'RC_Event'             => 'Royalcms\Component\Support\Facades\Event',
+        'RC_File'              => 'Royalcms\Component\Support\Facades\File',
+        'RC_Filesystem'        => 'Royalcms\Component\Support\Facades\Storage',
+        'RC_DB'                => 'Royalcms\Component\Support\Facades\DB',
+        'RC_Hash'              => 'Royalcms\Component\Support\Facades\Hash',
+        'RC_Hook'              => 'Royalcms\Component\Support\Facades\Hook',
+        'RC_Lang'              => 'Royalcms\Component\Support\Facades\Lang',
+        'RC_Log'               => 'Royalcms\Component\Support\Facades\Log',
+        'RC_Logger'            => 'Royalcms\Component\Support\Facades\Logger',
+        'RC_Notification'      => 'Royalcms\Component\Support\Facades\Notification',
+        'RC_Paginator'         => 'Royalcms\Component\Support\Facades\Paginator',
+        'RC_Package'           => 'Royalcms\Component\Support\Facades\Package',
         'RC_Redirect'          => 'Royalcms\Component\Support\Facades\Redirect',
         'RC_Request'           => 'Royalcms\Component\Support\Facades\Request',
         'RC_Response'          => 'Royalcms\Component\Support\Facades\Response',
-        'RC_Cookie'            => 'Royalcms\Component\Support\Facades\Cookie',
-        'RC_Lang'              => 'Royalcms\Component\Support\Facades\Lang',
-        'RC_Crypt'             => 'Royalcms\Component\Support\Facades\Crypt',
-        'RC_Log'               => 'Royalcms\Component\Support\Facades\Log',
-        'RC_Logger'            => 'Royalcms\Component\Support\Facades\Logger',
-        'RC_Config'            => 'Royalcms\Component\Support\Facades\Config',
         'RC_Session'           => 'Royalcms\Component\Support\Facades\Session',
-        'RC_DB'                => 'Royalcms\Component\Support\Facades\DB',
         'RC_Schema'            => 'Royalcms\Component\Support\Facades\Schema',
         'RC_Queue'             => 'Royalcms\Component\Support\Facades\Queue',
-        'RC_Paginator'         => 'Royalcms\Component\Support\Facades\Paginator',
-        'RC_Event'             => 'Royalcms\Component\Support\Facades\Event',
-        'RC_Variable'          => 'Royalcms\Component\Support\Facades\Variable',
-        'RC_Storage'           => 'Royalcms\Component\Storage\Facades\Storage',
-        'RC_Filesystem'        => 'Royalcms\Component\Support\Facades\Storage',
-        'RC_Hook'              => 'Royalcms\Component\Support\Facades\Hook',
-        'RC_Package'           => 'Royalcms\Component\Support\Facades\Package',
-        'RC_ENV'               => 'Royalcms\Component\Support\Facades\Environment',
-        'RC_Hash'              => 'Royalcms\Component\Support\Facades\Hash',
         'RC_Password'          => 'Royalcms\Component\Support\Facades\Password',
         'RC_Redis'             => 'Royalcms\Component\Support\Facades\Redis',
-        'RC_Notification'      => 'Royalcms\Component\Support\Facades\Notification',
-        
+        'RC_Route'             => 'Royalcms\Component\Support\Facades\Route',
+        'RC_Storage'           => 'Royalcms\Component\Storage\Facades\Storage',
+        'RC_Validator'         => 'Royalcms\Component\Support\Facades\Validator',
+        'RC_View'              => 'Royalcms\Component\Support\Facades\View',
+        'RC_Variable'          => 'Royalcms\Component\Support\Facades\Variable',
+
         
         // Component Facades
         'RC_Debugbar'          => 'Royalcms\Component\Debugbar\Facades\Debugbar',
@@ -84,9 +85,9 @@ return array(
         'RC_Array'             => 'Royalcms\Component\Foundation\ArrayHelper',
         'RC_Kses'              => 'Royalcms\Component\Foundation\Kses',
         'RC_Loader'            => 'Royalcms\Component\Foundation\Loader',
-        'RC_Route'             => 'Royalcms\Component\Foundation\Route',
+        //         'RC_Route'             => 'Royalcms\Component\Foundation\Route', //disuse
         'RC_Api'               => 'Royalcms\Component\Foundation\Api',
-        'RC_App'               => 'Royalcms\Component\Foundation\App',
+        'RC_App'               => 'Royalcms\Component\App\Facades\App',
         'RC_Plugin'            => 'Royalcms\Component\Foundation\Plugin',
         'RC_Theme'             => 'Royalcms\Component\Foundation\Theme',
         'RC_Token'             => 'Royalcms\Component\Foundation\Token',
@@ -94,7 +95,7 @@ return array(
         'RC_Validate'          => 'Royalcms\Component\Foundation\Validate',
         'RC_Widget'            => 'Royalcms\Component\Foundation\Widget',
         'RC_Xml'               => 'Royalcms\Component\Foundation\Xml',
-        'RC_Cache'             => 'Royalcms\Component\Foundation\Cache',
+        
         
         
         //     'Form'            => 'Royalcms\Component\Support\Facades\Form',
@@ -150,6 +151,8 @@ return array(
         'Royalcms\Component\LogViewer\LogViewerServiceProvider',
         'Royalcms\Component\Storage\StorageServiceProvider',
         'Royalcms\Component\Gettext\GettextServiceProvider',
+        'Royalcms\Component\App\AppServiceProvider',
+//         'Royalcms\Component\DefaultRoute\DefaultRouteServiceProvider',
     
     
     
