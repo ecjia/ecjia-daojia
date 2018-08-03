@@ -49,15 +49,17 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-$LANG['point_status'] 			= '积分赠送：';
-$LANG['point_status_range'][0] 	= '关闭';
-$LANG['point_status_range'][1] 	= '开启';
-		
-$LANG['point_value'] 		    = '积分值：';
-$LANG['point_num'] 		        = '有效次数：';
-$LANG['point_interval'] 		= '时间间隔：';
-$LANG['point_interval_range'][86400] 	= '24小时';
-$LANG['point_interval_range'][3600] 	= '1小时';
-$LANG['point_interval_range'][60] 		= '1分钟';
+return array(
+	'point_status' => '积分赠送：',
+	'point_status_range' => array('关闭', '开启'),
+	'point_value' => '积分值：',
+	'point_num' => '有效次数：',
+	'point_interval' => '时间间隔：',
+	'point_interval_range' => array(
+		'86400' => '24小时',
+		'3600' => '1小时',
+		'60' => '1分钟'
+	)
+);
 
 // end

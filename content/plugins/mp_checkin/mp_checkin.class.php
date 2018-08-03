@@ -45,209 +45,153 @@
 //  ---------------------------------------------------------------------------------
 //
 /**
- * 微信登录
+ * 微信签到
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('platform_abstract', 'platform', false);
-class mp_checkin extends platform_abstract
-{    
+use Ecjia\App\Platform\Plugin\PlatformAbstract;
+use Ecjia\App\Wechat\WechatRecord;
 
-	/**
-	 * 获取插件配置信息
-	 */
-	public function local_config() {
-		$config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-		if (is_array($config)) {
-			return $config;
-		}
-		return array();
-	}
-	
-    public function event_reply() {
-    	
-    	$wechat_point_db = RC_Loader::load_app_model('wechat_point_model','wechat');
-    	$platform_config = RC_Loader::load_app_model('platform_config_model','platform');
-    	$users_db 			= RC_Loader::load_app_model('users_model','user');
-    	$connect_db = RC_Loader::load_app_model('connect_user_model', 'connect');
-    	
-    	RC_Loader::load_app_class('platform_account', 'platform', false);
-    	RC_Loader::load_app_class('wechat_user', 'wechat', false);
-    
-    	$time = RC_Time::gmtime();
-    	$openid = $this->from_username;
-    	$uuid = trim($_GET['uuid']);
-    	$account = platform_account::make($uuid);
-    	$wechat_id = $account->getAccountID();
-    	$wechat_user = new wechat_user($wechat_id, $openid);
-    
-    	$ect_uid = $wechat_user->getUserId();
-    	$unionid = $wechat_user->getUnionid();
-    	
-    	$connect_user = new \Ecjia\App\Connect\ConnectUser('sns_wechat', $unionid, 'user');
-    	$getUserId = $connect_user->getUserId();
-    	if (!$connect_user->checkUser()) {
-    		//合并ect_uid旧的数据处理
-    		if(!empty($ect_uid)){
-    			$query = $connect_db->where(array('open_id'=>$unionid, 'connect_code'=>'sns_wechat'))->count();
-    			if($query > 0){
-    				$connect_db->where(array('open_id' => $unionid, 'connect_code'=>'sns_wechat'))->update(array('user_id' => $ect_uid));
-    			}else{
-    				$data['connect_code'] = 'sns_wechat';
-    				$data['user_id'] = $ect_uid;
-    				$data['is_admin'] = 0;
-    				$data['open_id'] = $unionid;
-    				$data['create_at'] = $time;
-    				$connect_db->insert($data);
-    			}
-    		}
-        	//组合类似模板信息
-    		$articles = array();
-    		$articles[0]['Title'] = '未绑定';
-    		$articles[0]['PicUrl'] = '';
-    		$articles[0]['Description'] = '抱歉，目前您还未进行账号绑定，需点击该链接进行绑定操作';
-    		$articles[0]['Url'] = RC_Uri::url('wechat/mobile_userbind/init',array('openid' => $openid, 'uuid' => $uuid));
-    		
-    		$count = count($articles);
-    		$content = array(
-    			'ToUserName'    => $this->from_username,
-    			'FromUserName'  => $this->to_username,
-    			'CreateTime'    => SYS_TIME,
-    			'MsgType'       => 'news',
-    			'ArticleCount'	=> $count,
-    			'Articles'		=> $articles
-    		);
-    	} else {
-    		$info = $platform_config->find(array('account_id' => $wechat_id, 'ext_code'=>'mp_checkin'));
-    		$ext_config  = $platform_config->where(array('account_id' => $wechat_id, 'ext_code' => $info['ext_code']))->get_field('ext_config');
-    		
-    		$config = array();
-    		$config = unserialize($ext_config);
-    		foreach ($config as $k => $v) {
-    			if ($v['name'] == 'point_status') {
-    				$point_status = $v['value'];
-    			}
-    			if ($v['name'] == 'point_interval') {
-    				$point_interval = $v['value'];
-    			}
-    			if ($v['name'] == 'point_num') {
-    				$point_num = $v['value'];
-    			}
-    			if ($v['name'] == 'point_value') {
-    				$point_value = $v['value'];
-    			}
-    		}
-    			
-    		if (isset($point_status) && $point_status == 1) {
-    			$oldpoints = $users_db->where(array('user_id' => $getUserId))->get_field('rank_points');
-    			$rank_points = intval($oldpoints) + intval($point_value);
-    		
-    			$where = 'openid = "' . $openid . '" and createtime > (UNIX_TIMESTAMP(NOW())- ' .$point_interval . ') and keywords = "'.$info['ext_code'].'"';
-    			$num = $wechat_point_db->where($where)->count('*');
-    			 
-    			if ($num < $point_num) {
-    				// 积分赠送
-    				$this->give_point($openid, $info, $getUserId);
-    				$content = array(
-    					'ToUserName' => $this->from_username,
-    					'FromUserName' => $this->to_username,
-    					'CreateTime' => SYS_TIME,
-    					'MsgType' => 'text',
-    					'Content' => '签到成功，您已获得'.$point_value.'积分，当前总积分为'.$rank_points.'分。'
-    				);
-    			} else {
-    				$content = array(
-    					'ToUserName' => $this->from_username,
-    					'FromUserName' => $this->to_username,
-    					'CreateTime' => SYS_TIME,
-    					'MsgType' => 'text',
-    					'Content' => '签到次数已用完'
-    				);
-    			}
-    		} else {
-    			$content = array(
-    					'ToUserName' => $this->from_username,
-    					'FromUserName' => $this->to_username,
-    					'CreateTime' => SYS_TIME,
-    					'MsgType' => 'text',
-    					'Content' => '未启用签到送积分'
-    			);
-    		}
-    	}
-    	return $content;
+class mp_checkin extends PlatformAbstract
+{
+    /**
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
+     */
+    public function getCode()
+    {
+        return $this->loadConfig('ext_code');
     }
-    
+
+    /**
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
+     */
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
+    }
+
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
+    }
+
+    /**
+     * 获取iconUrl
+     * {@inheritDoc}
+     * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::getPluginIconUrl()
+     */
+    public function getPluginIconUrl()
+    {
+        if ($this->loadConfig('ext_icon')) {
+            return RC_Plugin::plugin_dir_url(__FILE__) . $this->loadConfig('ext_icon');
+        }
+        return '';
+    }
+
+    /**
+     * 事件回复
+     * {@inheritDoc}
+     * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::eventReply()
+     */
+    public function eventReply() {
+        $point_status = $this->getConfig('point_status');
+
+        if (empty($point_status)) {
+            return null;
+        }
+
+        $openid = $this->getMessage()->get('FromUserName');
+        $wechatUUID = new \Ecjia\App\Wechat\WechatUUID();
+        $uuid   = $wechatUUID->getUUID();
+
+        if (! $this->hasBindUser()) {
+
+            return $this->forwardCommand('mp_userbind');
+
+        } else {
+
+            $point_value = $this->getConfig('point_value');
+
+            // 积分赠送
+            $bool = $this->give_point($openid, $point_value);
+
+            if ($bool) {
+                $articles = array(
+                    'Title'         => '签到成功',
+                    'Description'   => sprintf("获取%s积分~~", $point_value),
+                    'Url'           => RC_Uri::url('platform/plugin/show', array('handle' => 'mp_jfcx/init', 'openid' => $openid, 'uuid' => $uuid)),
+                    'PicUrl'        => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_pic_success.png',
+                );
+            } else {
+                $articles = array(
+                    'Title'         => '签到次数已完',
+                    'Description'   => '明天再来签到吧~~',
+                    'Url'           => RC_Uri::url('platform/plugin/show', array('handle' => 'mp_jfcx/init', 'openid' => $openid, 'uuid' => $uuid)),
+                    'PicUrl'        => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_pic.png',
+                );
+            }
+        }
+
+        return WechatRecord::News_reply($this->getMessage(), $articles['Title'], $articles['Description'], $articles['Url'], $articles['PicUrl']);
+    }
+
     /**
      * 积分赠送
      */
-    public function give_point($openid, $info, $getUserId) {
-    	$wechat_point_db = RC_Loader::load_app_model('wechat_point_model','wechat');
-    	if (!empty($info)) {
-    		// 配置信息
-    		$config = array();
-    		$config = unserialize($info['ext_config']);
-    		
-    		foreach ($config as $k => $v) {
-    			if ($v['name'] == 'point_status') {
-    				$point_status = $v['value'];
-    			}
-    			if ($v['name'] == 'point_interval') {
-    				$point_interval = $v['value'];
-    			}
-    			if ($v['name'] == 'point_num') {
-    				$point_num = $v['value'];
-    			}
-    			if ($v['name'] == 'point_value') {
-    				$point_value = $v['value'];
-    			}
-    		}
-    		// 开启积分赠送
-    		if (isset($point_status) && $point_status == 1) {
-    			$where = 'openid = "' . $openid . '" and createtime > (UNIX_TIMESTAMP(NOW())- ' .$point_interval . ') and keywords = "'.$info['ext_code'].'"';
-	            $num = $wechat_point_db->where($where)->count('*');
-    			if ($num < $point_num) {
-    				$this->do_point($openid, $info, $point_value, $getUserId);
-    			}
-    		}
-    	}
+    private function give_point($openid, $point_value) {
+
+        $point_interval = $this->getConfig('point_interval');
+        $point_num = $this->getConfig('point_num');
+        $point_value = $this->getConfig('point_value');
+
+        $count = \Ecjia\App\Wechat\Models\WechatPointModel::where('openid', $openid)->where('keywords', $this->getConfig('ext_code'))
+            ->where('createtime', '>', RC_DB::raw('(UNIX_TIMESTAMP(NOW())- ' .$point_interval . ')'))
+            ->count();
+
+        if ($count < $point_num) {
+            return $this->do_point($openid, $point_value);
+        } else {
+            return false;
+        }
     }
-    
+
     /**
      * 执行赠送积分
      */
-    public function do_point($openid, $info, $point_value, $getUserId) {
-    	$users_db 			= RC_Loader::load_app_model('users_model','user');
-    	$account_log_db 	= RC_Loader::load_app_model('account_log_model','user');
-    	$wechat_point_db	= RC_Loader::load_app_model('wechat_point_model','wechat');
-    	
-    	$time = RC_Time::gmtime();
-    	$rank_points = $users_db->where(array('user_id' => $getUserId))->get_field('rank_points');
-    	
-    	$point = array(
-    		'rank_points' => intval($rank_points) + intval($point_value)
-    	);
-    	
-    	$users_db->where(array('user_id' => $getUserId))->update($point);
-        	
-    	// 积分记录
-    	$data['user_id'] = $getUserId;
-    	$data['user_money'] = 0;
-    	$data['frozen_money'] = 0;
-    	$data['rank_points'] = $point_value;
-    	$data['pay_points'] = 0;
-    	$data['change_time'] = $time;
-    	$data['change_desc'] = '积分赠送';
-    	$data['change_type'] = ACT_OTHER;
-    	
-    	$log_id = $account_log_db->insert($data);
-    	
-    	// 从表记录
-    	$data1['log_id'] = $log_id;
-    	$data1['openid'] = $openid;
-    	$data1['keywords'] = $info['ext_code'];
-    	$data1['createtime'] = $time;
-    	
-    	$log_id = $wechat_point_db->insert($data1);
+    private function do_point($openid, $point_value) {
+
+        $user_id = $this->getEcjiaUserId();
+
+    	$log_id = RC_Api::api('finance', 'pay_points_change', [
+    	    'user_id' => $user_id,
+    	    'point' => $point_value,
+    	    'change_desc' => '积分赠送-微信签到',
+        ]);
+
+    	if (! is_ecjia_error($log_id)) {
+            $data = [
+                'log_id' => $log_id,
+                'openid' => $openid,
+                'keywords' => $this->getConfig('ext_code'),
+                'createtime' => RC_Time::gmtime(),
+            ];
+            \Ecjia\App\Wechat\Models\WechatPointModel::insert($data);
+
+            return true;
+        } else {
+    	    return false;
+        }
     }
 }
 
