@@ -82,8 +82,19 @@ class done_module extends api_front implements api_interface {
 //     	    'longitude' => '121.41641998291016',
 //     	);
     	/* 取得购物类型 */
-    	$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
-    	
+    	//$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
+    	$rec_type = RC_DB::table('cart')->whereIn('rec_id', $cart_id)->lists('rec_type');
+    	$rec_type = array_unique($rec_type);
+    	if (count($rec_type) > 1) {
+    		return new ecjia_error( 'error_rec_type', '购物车类型不一致！');
+    	} else {
+    		$rec_type = $rec_type['0'];
+    		if ($rec_type == 1) {
+    			$flow_type = CART_GROUP_BUY_GOODS;
+    		} else {
+    			$flow_type = CART_GENERAL_GOODS;
+    		}
+    	}
     	/* 获取收货信息*/
     	$address_id = $this->requestData('address_id', 0);
     	if (empty($address_id)) {

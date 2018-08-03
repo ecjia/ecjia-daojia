@@ -155,7 +155,7 @@ class checkOrder_module extends api_front implements api_interface {
 		if ((ecjia::config('use_bonus', ecjia::CONFIG_CHECK) || ecjia::config('use_bonus') == '1')
 				&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS)){
 			// 取得用户可用红包
-			$user_bonus = user_bonus($_SESSION['user_id'], $total['goods_price'], array(), $_SESSION['store_id']);
+			$user_bonus = user_bonus($_SESSION['user_id'], $total['goods_price'], array(), $store_id);
 			if (!empty($user_bonus)) {
 				foreach ($user_bonus AS $key => $val) {
 					$user_bonus[$key]['bonus_money_formated'] = price_format($val['type_money'], false);//use_start_date  use_end_date

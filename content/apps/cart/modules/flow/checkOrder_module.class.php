@@ -73,17 +73,30 @@ class checkOrder_module extends api_front implements api_interface {
 		RC_Loader::load_app_class('cart', 'cart', false);
 
 		/* 取得购物类型 */
-		$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
-
+		//$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
+		$rec_type = RC_DB::table('cart')->whereIn('rec_id', $cart_id)->lists('rec_type');
+		$rec_type = array_unique($rec_type);
+		if (count($rec_type) > 1) {
+			return new ecjia_error( 'error_rec_type', '购物车类型不一致！');
+		} else {
+			$rec_type = $rec_type['0'];
+			if ($rec_type == 1) {
+				$flow_type = CART_GROUP_BUY_GOODS;
+			} else {
+				$flow_type = CART_GENERAL_GOODS;
+			}
+		}
 		/* 团购标志 */
 		if ($flow_type == CART_GROUP_BUY_GOODS) {
 			$is_group_buy = 1;
+			$order_activity_type = 'group_buy';
 		} elseif ($flow_type == CART_EXCHANGE_GOODS) {
 			/* 积分兑换商品 */
 			$is_exchange_goods = 1;
 		} else {
 			//正常购物流程  清空其他购物流程情况
 			$_SESSION['flow_order']['extension_code'] = '';
+			$order_activity_type = 'default';
 		}
 		
 		/* 检查购物车中是否有商品 */
@@ -251,7 +264,7 @@ class checkOrder_module extends api_front implements api_interface {
 		    if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
 		    	//腾讯地图api距离计算
 		    	$key = ecjia::config('map_qq_key');
-		    	$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$key;
+		    	$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$key;
 		    	$distance_json = file_get_contents($url);
 		    	$distance_info = json_decode($distance_json, true);
 		    	$distance = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
@@ -429,6 +442,12 @@ class checkOrder_module extends api_front implements api_interface {
 			$out['checkorder_mode']	= 'default';  //没有任何配送方式，订单结算模式只有配送上门
 		}
 		
+		if ($order_activity_type == 'group_buy') {
+			if ($out['checkorder_mode'] == 'storepickup' || $out['checkorder_mode'] == 'default_storepickup') {
+				$out['checkorder_mode']	= 'default';
+			}
+		} 
+		
 		/* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
 		if ((ecjia_config::has('use_integral') || ecjia::config('use_integral') == '1')
 				&& $_SESSION['user_id'] > 0
@@ -511,7 +530,7 @@ class checkOrder_module extends api_front implements api_interface {
 			$allow_use_bonus = 0;
 		}
 		$out['allow_use_bonus']		= $allow_use_bonus;//是否使用红包
-		$out['bonus']				= $bonus_list;//红包
+		$out['bonus']				= !empty($bonus_list) ? $bonus_list : array();//红包
 		$out['allow_can_invoice']	= ecjia::config('can_invoice');//能否开发票
 		/* 如果能开发票，取得发票内容列表 */
 		if ((ecjia_config::has('can_invoice') || ecjia::config('can_invoice') == '1')

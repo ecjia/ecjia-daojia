@@ -484,7 +484,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
 			"g.is_xiangou, g.xiangou_start_date, g.xiangou_end_date, g.xiangou_num, ".
 // 			"wg.w_id, wg.warehouse_price, wg.warehouse_promote_price, wg.region_number as wg_number, wag.region_price, wag.region_promote_price, wag.region_number as wag_number, ".
 // 			"IF(g.model_price < 1, g.shop_price, IF(g.model_price < 2, wg.warehouse_price, wag.region_price)) AS org_price,  ".
-			"g.model_price, g.model_attr,g.market_price, ".
+			"g.model_price, g.market_price, ".
 			"g.promote_price as promote_price, ".
 			" g.promote_start_date, g.promote_end_date, g.goods_weight, g.integral, g.extension_code, g.goods_number, g.is_alone_sale, g.is_shipping, ".
 			"IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price ";
@@ -590,7 +590,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
         'user_id'       => $_SESSION['user_id'],
         'session_id'    => SESS_ID,
         'goods_id'      => $goods_id,
-        'goods_sn'      => addslashes($goods['goods_sn']),
+        'goods_sn'      => $product_info['product_id'] > 0 ? addslashes($product_info['product_sn']) : addslashes($goods['goods_sn']),
         'product_id'    => $product_info['product_id'],
         'goods_name'    => addslashes($goods['goods_name']),
         'market_price'  => $goods['market_price'],
@@ -602,7 +602,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
         'is_shipping'   => $goods['is_shipping'],
         'rec_type'      => $rec_type,
     	'store_id'		=> $goods['store_id'],
-    	'model_attr'  	=> $goods['model_attr'], 	//属性方式
+//     	'model_attr'  	=> $goods['model_attr'], 	//属性方式
 //         'warehouse_id'  => $warehouse_id,  			//仓库
         //'area_id'  		=> $area_id, 				// 仓库地区
         'add_time'      => RC_Time::gmtime()
@@ -831,48 +831,82 @@ function flow_cart_stock($arr) {
  * 如果商品有促销，价格不变
  * @access public
  * @return void
+ * @update 180719 选择性更新内容
  */
 function recalculate_price($device = array()) {
-	// 链接数据库
 	$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
 	$dbview = RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
 	$codes = array('8001', '8011');
-	if (in_array($device['code'], $codes)) {
-		$rec_type = CART_CASHDESK_GOODS;
+	if (!empty($device)) {
+		if (in_array($device['code'], $codes)) {
+			$rec_type = CART_CASHDESK_GOODS;
+		}
 	} else {
 		$rec_type = CART_GENERAL_GOODS;
 	}
 	
+	$discount = $_SESSION['discount'];
+	$user_rank = $_SESSION['user_rank'];
+	
+	$db = RC_DB::table('cart as c')
+			->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
+			->leftJoin('member_price as mp', function($join) {
+				$join->where(RC_DB::raw('mp.goods_id'), '=', RC_DB::raw('g.goods_id'))
+				->where(RC_DB::raw('mp.user_rank'), '=', $user_rank);
+			})
+			->selectRaw("c.rec_id, c.goods_id, c.goods_attr_id, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * $discount) AS member_price");
+			
 	/* 取得有可能改变价格的商品：除配件和赠品之外的商品 */
+	// @update 180719 选择性更新内容mark_changed=1
 	if ($_SESSION['user_id']) {
-		$res = $dbview->join(array(
-			'goods',
-			'member_price'
-		))
-		->where('c.user_id = "' . $_SESSION['user_id'] . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" AND c.extension_code <> "package_buy"')
-		->select();
+// 		$res = $dbview->join(array(
+// 			'goods',
+// 			'member_price'
+// 		))
+// 		->where('c.mark_changed =1 AND c.user_id = "' . $_SESSION['user_id'] . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" ')
+// 		->select();
+		
+		
+		$res = $db
+			->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])
+			->where(RC_DB::raw('c.parent_id'), 0)
+			->where(RC_DB::raw('c.is_gift'), 0)
+			->where(RC_DB::raw('c.goods_id'), '>', 0)
+			->where(RC_DB::raw('c.rec_type'), $rec_type)
+			->get();
+		
 	} else {
-		$res = $dbview->join(array(
-			'goods',
-			'member_price'
-		))
-		->where('c.session_id = "' . SESS_ID . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" AND c.extension_code <> "package_buy"')
-		->select();
+// 		$res = $dbview->join(array(
+// 			'goods',
+// 			'member_price'
+// 		))
+// 		->where('c.mark_changed =1 AND c.session_id = "' . SESS_ID . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" ')
+// 		->select();
+		
+		$res = $db
+			->where(RC_DB::raw('c.session_id'), SESS_ID)
+			->where(RC_DB::raw('c.parent_id'), 0)
+			->where(RC_DB::raw('c.is_gift'), 0)
+			->where(RC_DB::raw('c.goods_id'), '>', 0)
+			->where(RC_DB::raw('c.rec_type'), $rec_type)
+			->get();
 	}
-
+	
+	
 	if (! empty($res)) {
 		RC_Loader::load_app_func('global', 'goods');
 		foreach ($res as $row) {
-			$attr_id = empty($row['goods_attr_id']) ? array() : explode(',', $row['goods_attr_id']);
-			$goods_price = get_final_price($row['goods_id'], $row['goods_number'], true, $attr_id);
-			$data = array(
-					'goods_price' => $goods_price
-			);
-			if ($_SESSION['user_id']) {
-				$db_cart->where('goods_id = ' . $row['goods_id'] . ' AND user_id = "' . $_SESSION['user_id'] . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
-			} else {
-				$db_cart->where('goods_id = ' . $row['goods_id'] . ' AND session_id = "' . SESS_ID . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
-			}
+	        $attr_id = empty($row['goods_attr_id']) ? array() : explode(',', $row['goods_attr_id']);
+	        $goods_price = get_final_price($row['goods_id'], $row['goods_number'], true, $attr_id);
+	        $data = array(
+	            'goods_price' => $goods_price,
+	            'mark_changed' => 0
+	        );
+	        if ($_SESSION['user_id']) {
+	            $db_cart->where('goods_id = ' . $row['goods_id'] . ' AND user_id = "' . $_SESSION['user_id'] . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
+	        } else {
+	            $db_cart->where('goods_id = ' . $row['goods_id'] . ' AND session_id = "' . SESS_ID . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
+	        }
 		}
 	}
 	/* 删除赠品，重新选择 */
@@ -1328,7 +1362,7 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 		$total_amount = 0;
 		if ($favourable['act_range'] == FAR_ALL) {
 			foreach ($goods_list as $goods) {
-				if ($use_type == 1) {
+				if ($user_type == 1) {
 					if($favourable['store_id'] == $goods['store_id']){
 						$total_amount += $goods['subtotal'];
 					}
@@ -1336,7 +1370,7 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 					if (isset($favourable['userFav_type']) && $favourable['userFav_type'] == 1) {
 						$total_amount += $goods['subtotal'];
 					} else {
-						if($favourable['store_id'] == $goods['store_id']){
+					    if(isset($goods['store_id']) && $favourable['store_id'] == $goods['store_id']){
 							$total_amount += $goods['subtotal'];
 						}
 					}
@@ -1353,7 +1387,7 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $ids . ',', ',' . $goods['cat_id'] . ',') !== false) {
-					if ($use_type == 1) {
+					if ($user_type == 1) {
 						if ($favourable['store_id'] == $goods['store_id'] && $favourable['userFav_type'] == 0) {
 							$total_amount += $goods['subtotal'];
 						}
@@ -1371,7 +1405,7 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 		} elseif ($favourable['act_range'] == FAR_BRAND) {
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $favourable['act_range_ext'] . ',', ',' . $goods['brand_id'] . ',') !== false) {
-					if ($use_type == 1) {
+					if ($user_type == 1) {
 						if ($favourable['store_id'] == $goods['store_id']) {
 							$total_amount += $goods['subtotal'];
 						}
@@ -1390,7 +1424,7 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
 		} elseif ($favourable['act_range'] == FAR_GOODS) {
 			foreach ($goods_list as $goods) {
 				if (strpos(',' . $favourable['act_range_ext'] . ',', ',' . $goods['goods_id'] . ',') !== false) {
-					if ($use_type == 1) {
+					if ($user_type == 1) {
 						if ($favourable['store_id'] == $goods['store_id']) {
 							$total_amount += $goods['subtotal'];
 						}
@@ -1633,8 +1667,7 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
     if (is_ecjia_error($cart_result)) {
         return $cart_result;
     }
-    recalculate_price();
-    unset($_SESSION['flow_type']);
+    //unset($_SESSION['flow_type']);
     $cart_goods = array('cart_list' => array(), 'total' => $cart_result['total']);
     
     if (!empty($cart_result['goods_list'])) {

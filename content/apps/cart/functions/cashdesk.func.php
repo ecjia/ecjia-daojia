@@ -56,7 +56,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @param   bool    $is_gb_deposit  是否团购保证金（如果是，应付款金额只计算商品总额和支付费用，可以获得的积分取 $gift_integral）
  * @return  array
  */
-function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id) {
+function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = array()) {
 	
     RC_Loader::load_app_func('global','goods');
     RC_Loader::load_app_func('cart','cart');

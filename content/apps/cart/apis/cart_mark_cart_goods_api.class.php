@@ -47,17 +47,35 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * API入口应用
+ * 商品更新 购物车标记
+ * @author hyy
  */
-return array(
-	'identifier'  => 'ecjia.cart',
-	'directory'   => 'cart',
-	'name'        => 'cart',
-	'description' => 'cart_desc',				/* 描述对应的语言项 */
-	'author'      => 'ECJIA TEAM',				/* 作者 */
-	'website'     => 'http://www.ecjia.com',	/* 网址 */
-	'version'     => '1.17.1',					/* 版本号 */
-	'copyright'   => 'ECJIA Copyright 2014.' 
-);
+ 
+class cart_mark_cart_goods_api extends Component_Event_Api {
+
+    /**
+     * @param
+     *
+     * @return bool
+     */
+    public function call(&$options) {
+
+        if (!isset($options['goods_id']) && !isset($options['user_id'])) {
+            return new ecjia_error('invalid_parameter', '参数无效');
+        }
+        
+        $data = array('mark_changed' => 1);
+        if (isset($options['goods_id']) && !empty($options['goods_id'])) {
+            RC_DB::table('cart')->where('goods_id', $options['goods_id'])->update($data);
+        }
+        
+        if (isset($options['user_id']) && !empty($options['user_id'])) {
+            RC_DB::table('cart')->where('user_id', $options['user_id'])->update($data);
+        }
+        
+        return true;
+    }
+
+}
 
 // end

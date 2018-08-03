@@ -47,9 +47,18 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * API入口应用
  */
-$LANG['cart'] 		= '购物车';
-$LANG['cart_desc']	= '在种类繁多的商城中，顾客用于暂时或长期存放所选商品，可以在商品浏览、收藏、订阅等多种方式添加，顾客可以随心所欲对购物车内商品进行、增、删、改、查操作，并集成购物流程和订单结算（可选自定义支付方式、收货地址、配送方式等）。';
+return array(
+	'identifier'  => 'ecjia.cart',
+	'directory'   => 'cart',
+	'name'        => 'cart',
+	'description' => 'cart_desc',				/* 描述对应的语言项 */
+	'author'      => 'ECJIA TEAM',				/* 作者 */
+	'website'     => 'http://www.ecjia.com',	/* 网址 */
+	'version'     => '1.18.0',					/* 版本号 */
+	'copyright'   => 'ECJIA Copyright 2014 ~ 2018.',
+    'namespace'   => 'Ecjia\App\Cart',
+);
 
 // end

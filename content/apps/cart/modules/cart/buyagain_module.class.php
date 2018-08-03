@@ -47,10 +47,10 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 添加到购物车
- * @author royalwang
+ * 再次购买，商品货品加入购物车 并选中
+ * @author huangyuyuan@ecmoban.com
  */
-class create_module extends api_front implements api_interface {
+class buyagain_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();
@@ -58,28 +58,15 @@ class create_module extends api_front implements api_interface {
     		return new ecjia_error(100, 'Invalid session');
     	}
 
-	    $goods_id		= $this->requestData('goods_id', 0);
-	    $goods_number	= $this->requestData('number', 1);
+    	$order_id = $this->requestData('order_id', 0);
+    	if ($order_id <= 0 ) {
+    	    return new ecjia_error('invalid_parameter', '参数错误');
+    	}
 	    $location		= $this->requestData('location', array());
-	    $seller_id		= $this->requestData('seller_id', 0);
 	    $city_id		= $this->requestData('city_id', '');
-	    if (!$goods_id) {
-	        return new ecjia_error(101, '参数错误');
-	    }
-	    $goods_spec		= $this->requestData('spec', array());
-	    
-	    $rec_type		= trim($this->requestData('rec_type', 'GENERAL_GOODS')); 
-	    $object_id 		= $this->requestData('goods_activity_id', 0);
-
-	    RC_Loader::load_app_func('cart', 'cart');
 
 	    unset($_SESSION['flow_type']);
-	    unset($_SESSION['extension_code']);
-	    unset($_SESSION['extension_id']);
-	    
-    	if (!$goods_id) {
-    		return new ecjia_error('not_found_goods', '请选择您所需要购买的商品！');
-    	}
+    	
     	$store_id_group = array();
     	/* 根据经纬度查询附近店铺id*/
     	if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
@@ -90,37 +77,41 @@ class create_module extends api_front implements api_interface {
     		return new ecjia_error('location_error', '请定位您当前所在地址！');
     	}
     	
+    	RC_Loader::load_app_func('cart', 'cart');
+    	RC_Loader::load_app_func('admin_order', 'orders');
+    	$order = order_info($order_id, '', 'front');
+    	if (empty($order)) {
+    	    return new ecjia_error('error_order', '订单信息异常');
+    	}
+    	$seller_id = $order['store_id'];
+    	if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
+    	    // return new ecjia_error('location_beyond', '店铺距离过远！');
+    	} elseif (!empty($seller_id)) {
+    	    $store_id_group = array($seller_id);
+    	}
+    	
     	if (empty($store_id_group)) {
     		$store_id_group = array(0);
     	}
-
-    	if ($rec_type == 'GROUPBUY_GOODS') {
-    		$flow_type = CART_GROUP_BUY_GOODS;
-    		$result = RC_Api::api('cart', 'cart_groupbuy_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, 'goods_activity_id' => $object_id));
-    	} else {
-    		$flow_type = CART_GENERAL_GOODS;
-    		$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group));
+    	
+    	$goods_list = array();
+    	$goods_list = EM_order_goods($order_id);
+    	if($goods_list) {
+    	    foreach ($goods_list as $goods) {
+    	        $goods_spec = explode(',', $goods['goods_attr_id']);
+    	        $goods_spec = !empty($goods_spec) ? $goods_spec : array();
+    	        $result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods['goods_id'], 'goods_number' => $goods['goods_number'], 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group));
+    	        
+    	        // 更新：添加到购物车
+    	        if (is_ecjia_error($result)){
+    	            return $result;
+    	        } 
+    	    }
     	}
     	
-	    // 更新：添加到购物车
-	    if (is_ecjia_error($result)){
-	        return $result;
-	    } 
-	    if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
-	        $geohash        = RC_Loader::load_app_class('geohash', 'store');
-	        $geohash_code   = $geohash->encode($location['latitude'] , $location['longitude']);
-	        $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
-	        if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
-	            // return new ecjia_error('location_beyond', '店铺距离过远！');
-	        } elseif (!empty($seller_id)) {
-	            $store_id_group = array($seller_id);
-	        }
-	    } else {
-	        return new ecjia_error('location_error', '请定位您当前所在地址！');
-	    }
-
-	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => $flow_type));
-	    
+	     
+	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));
+	     
 	    return formated_cart_list($cart_result, $store_id_group);
 	}
 }

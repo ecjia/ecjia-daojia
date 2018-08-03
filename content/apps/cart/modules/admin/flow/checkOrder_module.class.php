@@ -200,7 +200,7 @@ class checkOrder_module extends api_admin implements api_interface {
 			$favour_name = empty($discount['name']) ? '' : join(',', $discount['name']);
 		}
 		/* 计算订单的费用 */
-		$total = cashdesk_order_fee($order, $cart_goods, $consignee);
+		$total = cashdesk_order_fee($order, $cart_goods);
 	
 // 		/* 取得支付列表 */
 // 		$cod_fee    = 0;

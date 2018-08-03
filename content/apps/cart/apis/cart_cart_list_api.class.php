@@ -57,6 +57,8 @@ class cart_cart_list_api extends Component_Event_Api {
      * @return array
      */
 	public function call(&$options) {
+	    RC_Loader::load_app_func('cart', 'cart');
+	    recalculate_price();
 		return $this->get_cart_goods($options['cart_id'], $options['flow_type'], $options['store_group']);
 	}
 
@@ -70,7 +72,6 @@ class cart_cart_list_api extends Component_Event_Api {
 		$dbview_cart = RC_DB::table('cart as c')
 					   ->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
 					   ->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('c.store_id'));
-// 		$db_goods_attr = RC_DB::table('goods_attr');
 
 		/* 初始化 */
 		$goods_list = array();
@@ -99,7 +100,7 @@ class cart_cart_list_api extends Component_Event_Api {
 		} else {
 			$dbview_cart->where(RC_DB::raw('c.session_id'), RC_Session::session()->getSessionKey());
 		}
-
+		
 		/* 循环、统计 */
 		$data = $dbview_cart
 			->selectRaw("c.*,IF(c.parent_id, c.parent_id, c.goods_id) AS pid, g.goods_thumb, g.goods_img, g.original_img, g.goods_number as g_goods_number, g.is_on_sale, g.is_delete, s.merchants_name as store_name, manage_mode")

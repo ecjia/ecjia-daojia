@@ -47,10 +47,10 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * @author will.chen
+ * @author zrl
  */
  
-class cart_cart_manage_api extends Component_Event_Api {
+class cart_cart_groupbuy_manage_api extends Component_Event_Api {
 
     /**
      * @param
@@ -67,7 +67,7 @@ class cart_cart_manage_api extends Component_Event_Api {
             return new ecjia_error('not_found_goods', '请选择您所需要的商品！');
         }
 
-        return $this->addto_cart($options['goods_id'], $options['goods_number'], $options['goods_spec'], $options['parent_id'], $options['store_group']);
+        return $this->addto_cart_groupbuy($options['goods_activity_id'], $options['goods_number'], $options['goods_spec'], $options['parent_id'], $options['store_group']);
     }
 
     /**
@@ -80,7 +80,7 @@ class cart_cart_manage_api extends Component_Event_Api {
      * @param   integer $parent     基本件
      * @return  boolean
      */
-    private function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $store_group = array()) {
+    private function addto_cart_groupbuy_old($goods_id, $num = 1, $spec = array(), $parent = 0, $store_group = array()) {
         $_parent_id     = $parent;
         if (is_array($spec)) {
             sort($spec);
@@ -240,7 +240,7 @@ class cart_cart_manage_api extends Component_Event_Api {
             $data = $db_cart_bisic
                     ->where('user_id', $_SESSION['user_id'])
                     ->where('parent_id', 0)
-                    //->where('extension_code', '<>', 'package_buy')
+                    ->where('extension_code', '<>', 'package_buy')
                     ->whereIn('goods_id', array_keys($basic_list))
                     ->orderBy('goods_id', 'asc')
                     ->get();
@@ -265,7 +265,7 @@ class cart_cart_manage_api extends Component_Event_Api {
                     ->select('parent_id', 'SUM(goods_number) as count')
                     ->where('user_id', $_SESSION['user_id'])
                     ->where('goods_id', $goods_id)
-                    //->where('extension_code', '<>', 'package_buy')
+                    ->where('extension_code', '<>', 'package_buy')
                     ->whereIn('parent_id', array_keys($basic_count_list))
                     ->get();
             if(!empty($data)) {
@@ -318,12 +318,12 @@ class cart_cart_manage_api extends Component_Event_Api {
                 ->selectRaw('rec_id, goods_number')
                 ->where('user_id', $_SESSION['user_id'])
                 ->where('goods_id', $goods_id)
-                ->where('parent_id', 0)
-                //->where('extension_code', '!=', 'package_buy')
+                ->where('parent_id', $parent_id)
+                ->where('extension_code', '<>', 'package_buy')
                 ->where('rec_type', '=', $rec_type)
                 ->where('goods_attr_id', $goods_attr_id)
                 ->first();
-          
+
             if($row) {
                 //如果购物车已经有此物品，则更新
                 $num += $row['goods_number'];
@@ -342,8 +342,8 @@ class cart_cart_manage_api extends Component_Event_Api {
                     RC_DB::table('cart')
                     				->where('user_id', $_SESSION['user_id'])
                     				->where('goods_id', $goods_id)
-                    				->where('parent_id', 0)
-                    				//->where('extension_code', '<>', 'package_buy')
+                    				->where('parent_id', $parent_id)
+                    				->where('extension_code', '<>', 'package_buy')
                     				->where('rec_type', $rec_type)
                     				->where('goods_attr_id', $goods_attr_id)
                     				->update($data);
@@ -375,6 +375,130 @@ class cart_cart_manage_api extends Component_Event_Api {
 
         $db_delete_w->delete();
         return $cart_id;
+    }
+    
+    
+    private function addto_cart_groupbuy($act_id, $number = 1, $spec = array(), $parent = 0, $store_group = array())
+    {
+    	$_parent_id     = $parent;
+    	if (is_array($spec)) {
+    		sort($spec);
+    	}
+    	
+    	RC_Loader::load_app_class('goods_info', 'goods', false);
+    	
+    	/* 查询：取得团购活动信息 */
+    	RC_Loader::load_app_func('admin_goods', 'goods');
+    	$group_buy = group_buy_info($act_id, $number);
+    	if (empty($group_buy)) {
+    		return new ecjia_error('gb_error', __('对不起，该团购活动不存在！'));
+    	}
+    
+    	/* 查询：检查团购活动是否是进行中 */
+    	$now = RC_Time::gmtime();
+    	if ($now < $group_buy['start_date'] || $now > $group_buy['end_date']) {
+    		return new ecjia_error('gb_error_status', __('对不起，该团购活动已经结束或尚未开始，现在不能参加！'));
+    	}
+    
+    	/* 查询：取得团购商品信息 */
+    	$goods = RC_DB::table('goods')
+    				->where('goods_id', $group_buy['goods_id'])
+    				->where('review_status', '>', 2)
+    				->where('is_on_sale', 1)
+    				->where('is_alone_sale', 1)
+    				->where('is_delete', 0)->first();
+    	
+    	if (empty($goods)) {
+    		return new ecjia_error('goods_error', __('对不起，团购商品不存在！'));
+    	}
+    	
+    	$count = RC_DB::table('store_franchisee')->where('shop_close', '0')->where('store_id', $goods['store_id'])->count();
+    	if(empty($count)){
+    		return new ecjia_error('no_goods', __('对不起，该商品所属的店铺已经下线！'));
+    	}
+		
+		/* 如果商品有规格则取规格商品信息 配件除外 */
+		$prod = RC_DB::table('products')->where('goods_id', $group_buy['goods_id'])->first();
+		
+		//商品存在规格 是货品 检查该货品库存
+		if (goods_info::is_spec($spec) && !empty($prod)) {
+			$product_info = goods_info::get_products_info($group_buy['goods_id'], $spec);
+			$is_spec = true;
+		} else {
+			$is_spec = false;
+		}
+		if (!isset($product_info) || empty($product_info)) {
+			$product_info = array('product_number' => 0, 'product_id' => 0 , 'goods_attr'=>'');
+		}
+		
+		/* 检查：库存 */
+		if (ecjia::config('use_storage') == 1) {
+			//检查：商品购买数量是否大于总库存
+			if ($number > $goods['goods_number']) {
+				return new ecjia_error('low_stocks', __('库存不足'));
+			}
+			//商品存在规格 是货品 检查该货品库存
+			if ($is_spec) {
+				if (!empty($spec)) {
+					/* 取规格的货品库存 */
+					if ($number > $product_info['product_number']) {
+						return new ecjia_error('low_stocks', __('库存不足'));
+					}
+				}
+			}
+		}
+
+    	/*团购限购，看剩余数量是否足够*/
+    	if ($group_buy['restrict_amount'] > 0) {
+    		//限购判断
+    		if ($number > $group_buy['left_num']) {
+    			return new ecjia_error('error_groupbuygoods_restricted', __('对不起，超出团购商品限购数量，请您修改数量！'));
+    		}
+    	}
+    		
+    	$goods_attr_id = 0;
+    	if (!empty($spec)) {
+    		$spec_price             = goods_info::spec_price($spec);
+    		$goods_price            = goods_info::get_final_price($group_buy['goods_id'], $number, true, $spec);
+    		$goods['market_price'] += $spec_price;
+    		$goods_attr             = goods_info::get_goods_attr_info($spec, 'no');
+    		$goods_attr_id          = join(',', $spec);
+    	}
+    	$goods_attr_id = empty($goods_attr_id) ? 0 : $goods_attr_id;
+    	
+    	/* 更新：清空购物车中所有团购商品 */
+    	clear_cart(CART_GROUP_BUY_GOODS);
+    
+    	/* 更新：加入购物车 */
+    	$goods_price = $group_buy['deposit'] > 0 ? $group_buy['deposit'] : $group_buy['cur_price'];
+    	$cart = array(
+    			'user_id'        => $_SESSION['user_id'],
+    			'goods_id'       => $group_buy['goods_id'],
+    			'product_id'     => $product_info['product_id'],
+    			'goods_sn'       => addslashes($goods['goods_sn']),
+    			'goods_name'     => addslashes($goods['goods_name']),
+    			'market_price'   => $goods['market_price'],
+    			'goods_price'    => $goods_price,
+    			'goods_number'   => $number,
+    			'goods_attr'     => addslashes($goods_attr),
+    			'goods_attr_id'  => $goods_attr_id,
+    			'store_id'		 => $goods['store_id'],
+    			'is_real'        => $goods['is_real'],
+    			'extension_code' => 'group_buy',
+    			'parent_id'      => 0,
+    			'rec_type'       => CART_GROUP_BUY_GOODS,
+    			'is_gift'        => 0,
+    			'is_shipping'    => $goods['is_shipping'],
+    			'add_time'		 => RC_Time::gmtime()
+    	);
+    
+    	$result = RC_DB::table('cart')->insertGetId($cart);
+    
+    	/* 更新：记录购物流程类型：团购 */
+    	$_SESSION['flow_type'] = CART_GROUP_BUY_GOODS;
+    	$_SESSION['extension_code'] = 'group_buy';
+    	$_SESSION['extension_id'] = $act_id;
+    	return $result;
     }
 }
 

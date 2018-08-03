@@ -89,7 +89,6 @@ function em_favourable_list($user_rank) {
     );
     
 	$data = $db_favourable_activity->where($where)->order('sort_order asc')->select();
-    RC_Lang::load('cart/shopping_flow');
     foreach ($data as $favourable) {
         $favourable['formated_start_time'] = RC_Time::local_date(ecjia::config('time_format'), $favourable['start_time']);
         $favourable['formated_end_time']   = RC_Time::local_date(ecjia::config('time_format'), $favourable['end_time']);
