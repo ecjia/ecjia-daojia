@@ -44,20 +44,78 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Mobile\Controllers;
 
-/**
- * API入口应用
- */
-return array(
-    'identifier'    => 'ecjia.mobile',
-    'directory'     => 'mobile',
-    'name'          => 'mobile',
-    'description'   => 'mobile_desc',			/* 描述对应的语言项 */
-	'author'        => 'ECJIA TEAM',			/* 作者 */
-	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '1.17.0',					/* 版本号 */
-	'copyright'     => 'ECJIA Copyright 2014.'
-);
+use ecjia;
+use ecjia_front;
+use ecjia_open;
+use BadMethodCallException;
+use RC_Hook;
+use RC_Uri;
+
+class RedirectController extends ecjia_front
+{
+    
+    public function __construct() {
+        parent::__construct();	
+    }
+    
+    
+    public function init() {
+        
+        $handle = $this->request->query('handle');
+        
+        if ($handle != 'ecjiaopen') {
+            return $this->showmessage('Invalid parameter', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+        }
+        
+        $gets = $this->request->query();
+        unset($gets['m'], $gets['a'], $gets['c'], $gets['handle']);
+        
+        try {
+            $ecjiaopen = 'ecjiaopen://app?'.http_build_query($gets);
+            $url = with(new ecjia_open($ecjiaopen))->toHttpUrl();
+
+        } catch (BadMethodCallException $e) {
+            
+            $ecjiaopen_handle = RC_Hook::apply_filters('ecjia_open_url_parse', [&$this, 'ecjiaopen_handler']);
+            $url = $ecjiaopen_handle($ecjiaopen);
+
+        }
+        
+        if (strpos($url, 'ecjiaopen://') === 0) {
+            //如果还未解析返回错误信息
+            return $this->showmessage('Invalid parameter', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+        }
+
+        return $this->redirect($url);
+    }
+    
+    
+    protected function ecjiaopen_handler($ecjiaopen)
+    {
+        // 商品祥情跳转
+        ecjia_open::macro('goods_detail', function($querys) {
+            $url = RC_Uri::url('goods/index/show', array('goods_id' => $querys['goods_id']));
+            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
+            return $url;
+        });
+        // 商家主页跳转
+        ecjia_open::macro('merchant', function($querys) {
+            $url = RC_Uri::url('merchant/index/init', array('store_id' => $querys['merchant_id']));
+            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
+            return $url;
+        });
+        // 商家收款码跳转
+        ecjia_open::macro('collectmoney', function($querys) {
+            $url = RC_Uri::url('merchant/quickpay/collectmoney', array('store_id' => $querys['merchant_id']));
+            $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url);
+            return $url;
+        });
+     
+        return with(new ecjia_open($ecjiaopen))->toHttpUrl();
+    }
+    
+}
 
 // end

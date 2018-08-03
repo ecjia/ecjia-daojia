@@ -44,15 +44,21 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+defined('IN_ECJIA') or exit('No permission resources.');
 
-class redirect extends ecjia_front
-{
-    
-    public function __construct() {
-        parent::__construct();	
-    }
-    
-    
-}
+/**
+ * API入口应用
+ */
+return array(
+    'identifier'    => 'ecjia.mobile',
+    'directory'     => 'mobile',
+    'name'          => 'mobile',
+    'description'   => 'mobile_desc',			/* 描述对应的语言项 */
+	'author'        => 'ECJIA TEAM',			/* 作者 */
+	'website'       => 'http://www.ecjia.com',	/* 网址 */
+	'version'       => '1.18.0',					/* 版本号 */
+	'copyright'     => 'ECJIA Copyright 2014 ~ 2018.',
+    'namespace'     => 'Ecjia\App\Mobile',
+);
 
 // end

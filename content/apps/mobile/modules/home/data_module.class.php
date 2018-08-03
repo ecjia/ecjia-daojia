@@ -58,7 +58,7 @@ class data_module extends api_front implements api_interface {
 		$location	= $this->requestData('location', array());
 		$city_id	= $this->requestData('city_id');
 
-		$request = null;
+		$request = [];
 		
 		if (is_array($location) && isset($location['latitude']) && isset($location['longitude'])) {
 			$request                     = array('location' => $location);
@@ -299,7 +299,78 @@ function mobile_home_adsense_group($response, $request) {
 }
 
 function group_goods_data($response, $request) {
-	$response['group_goods'] = array();
+	$api_version = royalcms('request')->header('api-version');
+	
+	if (version_compare($api_version, '1.18', '>=')) {
+		$store_id_arr = $request['store_id_group'];
+		
+		$db_goods_activity = RC_DB::table('goods_activity as ga')
+		->leftJoin('goods as g', RC_DB::raw('ga.goods_id'), '=', RC_DB::raw('g.goods_id'));
+		
+		$db_goods_activity
+		->where(RC_DB::raw('ga.act_type'),GAT_GROUP_BUY)
+		->where(RC_DB::raw('ga.start_time'),'<=', RC_Time::gmtime())
+		->where(RC_DB::raw('ga.end_time'),'>=', RC_Time::gmtime())
+		->whereRaw('g.goods_id is not null')
+		->where(RC_DB::raw('g.is_delete'),0)
+		->where(RC_DB::raw('g.is_on_sale'),1)
+		->where(RC_DB::raw('g.is_alone_sale'),1);
+		
+		if (is_array($store_id_arr) && !empty($store_id_arr)) {
+			$db_goods_activity->whereIn(RC_DB::raw('g.store_id'), $store_id_arr);
+		} else {
+			$response['group_goods'] = array();
+			return $response;
+		}
+		
+		if (ecjia::config('review_goods') == 1) {
+			$db_goods_activity->where(RC_DB::raw('g.review_status'), '>', 2);
+		}
+		$res = $db_goods_activity
+		->selectRaw('ga.*,g.shop_price, g.market_price, g.goods_brief, g.goods_thumb, g.goods_img, g.original_img')
+		->take(6)->orderBy(RC_DB::raw('ga.act_id'),'desc')
+		->get();
+		
+		$group_goods_data = array();
+		if (!empty($res)) {
+			foreach ($res as $val) {
+				$ext_info = unserialize($val['ext_info']);
+				$price_ladder = $ext_info['price_ladder'];
+				if (!is_array($price_ladder) || empty($price_ladder)) {
+					$price_ladder = array(array('amount' => 0, 'price' => 0));
+				} else {
+					foreach ($price_ladder AS $key => $amount_price) {
+						$price_ladder[$key]['formated_price'] = price_format($amount_price['price']);
+					}
+				}
+		
+				$cur_price  = $price_ladder[0]['price'];    // 初始化
+				$group_goods_data[] = array(
+						'id'						=> $val['goods_id'],
+						'name'						=> $val['goods_name'],
+						'market_price'				=> $val['market_price'],
+						'formated_market_price'		=> price_format($val['market_price'], false),
+						'shop_price'				=> $val['market_price'],
+						'formated_shop_price'		=> price_format($val['market_price'], false),
+						'promote_price'				=> $cur_price,
+						'formated_promote_price'	=> price_format($cur_price, false),
+						'promote_start_date'		=> RC_Time::local_date('Y/m/d H:i:s', $val['start_time']),
+						'promote_end_date'			=> RC_Time::local_date('Y/m/d H:i:s', $val['end_time']),
+						'img'						=> array(
+								'small'	=> empty($val['goods_thumb']) ? '' : RC_Upload::upload_url($val['goods_thumb']),
+								'thumb'	=> empty($val['goods_img']) ? '' 	: RC_Upload::upload_url($val['goods_img']),
+								'url'	=> empty($val['original_img']) ? '' : RC_Upload::upload_url($val['original_img'])
+						),
+						'goods_activity_id'			=> $val['act_id'],
+						'activity_type'				=> 'GROUPBUY_GOODS'
+								);
+			}
+		}
+	} else {
+		$group_goods_data = array();
+	}
+	
+	$response['group_goods'] = $group_goods_data;
 	return $response;
 }
 
@@ -325,13 +396,13 @@ function mobile_toutiao_data($response, $request) {
 
 
 RC_Hook::add_filter('api_home_data_runloop', 'cycleimage_data', 10, 2);
-RC_Hook::add_filter('api_home_data_runloop', 'mobile_menu_data', 10, 2);
-RC_Hook::add_filter('api_home_data_runloop', 'promote_goods_data', 10, 2);
-RC_Hook::add_filter('api_home_data_runloop', 'new_goods_data', 10, 2);
-RC_Hook::add_filter('api_home_data_runloop', 'best_goods_data', 10, 2);
-RC_Hook::add_filter('api_home_data_runloop', 'mobile_home_adsense_group', 10, 2);
-RC_Hook::add_filter('api_home_data_runloop', 'group_goods_data', 10, 2);
+RC_Hook::add_filter('api_home_data_runloop', 'mobile_menu_data', 20, 2);
+RC_Hook::add_filter('api_home_data_runloop', 'promote_goods_data', 30, 2);
+RC_Hook::add_filter('api_home_data_runloop', 'new_goods_data', 40, 2);
+RC_Hook::add_filter('api_home_data_runloop', 'best_goods_data', 50, 2);
+RC_Hook::add_filter('api_home_data_runloop', 'mobile_home_adsense_group', 60, 2);
+RC_Hook::add_filter('api_home_data_runloop', 'group_goods_data', 70, 2);
 //RC_Hook::add_filter('api_home_data_runloop', 'mobilebuy_goods_data', 10, 2);
-RC_Hook::add_filter('api_home_data_runloop', 'topic_data', 10, 2);
+RC_Hook::add_filter('api_home_data_runloop', 'topic_data', 80, 2);
 
 // end
