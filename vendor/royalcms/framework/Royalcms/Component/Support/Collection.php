@@ -183,12 +183,7 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	 */
 	public function set($key, $value)
 	{
-	    if (array_key_exists($key, $this->items))
-	    {
-	        $this->items[$key] = $value;
-	    }
-	
-	    return $this;
+        Arr::set($this->items, $key, $value);
 	}
 
 	/**
@@ -421,6 +416,31 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	        return is_null($result) || $value < $result ? $value : $result;
 	    });
 	}
+
+    /**
+     * Get the items with the specified keys.
+     *
+     * @param  mixed  $keys
+     * @return static
+     */
+    public function only($keys)
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        return new static(Arr::only($this->items, $keys));
+    }
+
+    /**
+     * "Paginate" the collection by slicing it into a smaller collection.
+     *
+     * @param  int  $page
+     * @param  int  $perPage
+     * @return static
+     */
+    public function forPage($page, $perPage)
+    {
+        return $this->slice(($page - 1) * $perPage, $perPage);
+    }
 
 	/**
 	 * Get and remove the last item from the collection.
@@ -779,6 +799,78 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	public function count()
 	{
 		return count($this->items);
+	}
+	
+	/**
+	 * (PHP 5 &gt;= 5.1.0)<br/>
+	 * Constructs the object.
+	 *
+	 * @see  http://php.net/manual/en/serializable.unserialize.php
+	 *
+	 * @param string $serialized <p>
+	 *                           The string representation of the object.
+	 *                           </p>
+	 *
+	 * @return mixed|void
+	 */
+	public function unserialize($serialized)
+	{
+	    return $this->items = unserialize($serialized);
+	}
+	
+	/**
+	 * Get a data by key.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function __get($key)
+	{
+	    return $this->get($key);
+	}
+	
+	/**
+	 * Assigns a value to the specified data.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 */
+	public function __set($key, $value)
+	{
+	    $this->set($key, $value);
+	}
+	
+	/**
+	 * Whether or not an data exists by key.
+	 *
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function __isset($key)
+	{
+	    return $this->has($key);
+	}
+	
+	/**
+	 * Unsets an data by key.
+	 *
+	 * @param string $key
+	 */
+	public function __unset($key)
+	{
+	    $this->forget($key);
+	}
+	
+	/**
+	 * var_export.
+	 *
+	 * @return array
+	 */
+	public function __set_state()
+	{
+	    return $this->all();
 	}
 
 	/**
