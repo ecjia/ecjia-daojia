@@ -80,7 +80,8 @@ class ueditor extends Component_Editor_Editor {
 					RC_Hook::add_action('admin_footer', array(&$this, 'editor_js'), 50);
 					RC_Hook::add_action('admin_footer', array(&$this, 'enqueue_scripts'), 1);
 				}
-			} elseif (defined('IN_MERCHANT') && IN_MERCHANT) {
+			}
+			elseif (defined('IN_MERCHANT') && IN_MERCHANT) {
 			    if (is_pjax()) {
 			        RC_Hook::add_action('merchant_pjax_footer', array(&$this, 'editor_js'), 50);
 			        RC_Hook::add_action('merchnat_pjax_footer', array(&$this, 'enqueue_scripts'), 1);
@@ -88,7 +89,17 @@ class ueditor extends Component_Editor_Editor {
 			        RC_Hook::add_action('merchant_footer', array(&$this, 'editor_js'), 50);
 			        RC_Hook::add_action('merchant_footer', array(&$this, 'enqueue_scripts'), 1);
 			    }
-			} else {
+			}
+			elseif (defined('IN_PLATFORM') && IN_PLATFORM) {
+			    if (is_pjax()) {
+			        RC_Hook::add_action('platform_pjax_footer', array(&$this, 'editor_js'), 50);
+			        RC_Hook::add_action('platform_pjax_footer', array(&$this, 'enqueue_scripts'), 1);
+			    } else {
+			        RC_Hook::add_action('platform_footer', array(&$this, 'editor_js'), 50);
+			        RC_Hook::add_action('platform_footer', array(&$this, 'enqueue_scripts'), 1);
+			    }
+			}
+			else {
 				RC_Hook::add_action('front_print_footer_scripts', array(&$this, 'editor_js'), 50);
 				RC_Hook::add_action('front_print_footer_scripts', array(&$this, 'enqueue_scripts'), 1);
 			}
