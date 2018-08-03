@@ -1,0 +1,15 @@
+.time-picker {
+	margin-bottom: 5px;
+}
+
+.time-picker .form-control {
+	display: inline-block;
+}
+
+.groupbuy-icon {
+	background-color: #E95454;
+    color: #fff;
+    padding: 2px;
+    border-radius: 4px;
+    margin-left: 2px;
+}
