@@ -4,6 +4,90 @@
  * @package Royalcms
  */
 
+if ( ! function_exists('callable_type'))
+{
+    /**
+     * The callable types and normalizations are given in the table below:
+     *
+     *  Callable                        | Normalization                   | Type
+     * ---------------------------------+---------------------------------+--------------
+     *  function (...) use (...) {...}  | function (...) use (...) {...}  | 'closure'
+     *  $object                         | $object                         | 'invocable'
+     *  "function"                      | "function"                      | 'function'
+     *  "class::method"                 | ["class", "method"]             | 'static'
+     *  ["class", "parent::method"]     | ["parent of class", "method"]   | 'static'
+     *  ["class", "self::method"]       | ["class", "method"]             | 'static'
+     *  ["class", "method"]             | ["class", "method"]             | 'static'
+     *  [$object, "parent::method"]     | [$object, "parent::method"]     | 'object'
+     *  [$object, "self::method"]       | [$object, "method"]             | 'object'
+     *  [$object, "method"]             | [$object, "method"]             | 'object'
+     * ---------------------------------+---------------------------------+--------------
+     *  other callable                  | idem                            | 'unknown'
+     * ---------------------------------+---------------------------------+--------------
+     *  not a callable                  | null                            | false
+     *
+     * If the "strict" parameter is set to true, additional checks are
+     * performed, in particular:
+     *  - when a callable string of the form "class::method" or a callable array
+     *    of the form ["class", "method"] is given, the method must be a static one,
+     *  - when a callable array of the form [$object, "method"] is given, the
+     *    method must be a non-static one.
+     *
+     */
+    function callable_type($callable, $strict = true, callable& $norm = null) {
+        if (!is_callable($callable)) {
+            switch (true) {
+                case is_object($callable):
+                    $norm = $callable;
+                    return 'Closure' === get_class($callable) ? 'closure' : 'invocable';
+                case is_string($callable):
+                    $m    = null;
+                    if (preg_match('~^(?<class>[a-z_][a-z0-9_]*)::(?<method>[a-z_][a-z0-9_]*)$~i', $callable, $m)) {
+                        list($left, $right) = [$m['class'], $m['method']];
+                        if (!$strict || (new \ReflectionMethod($left, $right))->isStatic()) {
+                            $norm = [$left, $right];
+                            return 'static';
+                        }
+                    } else {
+                        $norm = $callable;
+                        return 'function';
+                    }
+                    break;
+                case is_array($callable):
+                    $m = null;
+                    if (preg_match('~^(:?(?<reference>self|parent)::)?(?<method>[a-z_][a-z0-9_]*)$~i', $callable[1], $m)) {
+                        if (is_string($callable[0])) {
+                            if ('parent' === strtolower($m['reference'])) {
+                                list($left, $right) = [get_parent_class($callable[0]), $m['method']];
+                            } else {
+                                list($left, $right) = [$callable[0], $m['method']];
+                            }
+                            if (!$strict || (new \ReflectionMethod($left, $right))->isStatic()) {
+                                $norm = [$left, $right];
+                                return 'static';
+                            }
+                        } else {
+                            if ('self' === strtolower($m['reference'])) {
+                                list($left, $right) = [$callable[0], $m['method']];
+                            } else {
+                                list($left, $right) = $callable;
+                            }
+                            if (!$strict || !(new \ReflectionMethod($left, $right))->isStatic()) {
+                                $norm = [$left, $right];
+                                return 'object';
+                            }
+                        }
+                    }
+                    break;
+            }
+            $norm = $callable;
+            return 'unknown';
+        }
+        $norm = null;
+        return false;
+    }
+}
+
 if ( ! function_exists('rc_addslashes'))
 {
     /**
@@ -3632,6 +3716,240 @@ if (! function_exists('base64url_decode')) {
      */
     function base64url_decode($data) {   
         return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT)); 
+    }
+}
+
+if ( ! function_exists('abort'))
+{
+    /**
+     * Throw an HttpException with the given data.
+     *
+     * @param  int     $code
+     * @param  string  $message
+     * @param  array   $headers
+     * @return void
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    function abort($code, $message = '', array $headers = array())
+    {
+        return royalcms()->abort($code, $message, $headers);
+    }
+}
+
+if ( ! function_exists('action'))
+{
+    /**
+     * Generate a URL to a controller action.
+     *
+     * @param  string  $name
+     * @param  array   $parameters
+     * @param  bool    $absolute
+     * @return string
+     */
+    function action($name, $parameters = array(), $absolute = true)
+    {
+        return royalcms('url')->action($name, $parameters, $absolute);
+    }
+}
+
+if ( ! function_exists('back'))
+{
+    /**
+     * Create a new redirect response to the previous location.
+     *
+     * @param  int    $status
+     * @param  array  $headers
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    function back($status = 302, $headers = array())
+    {
+        return royalcms('redirect')->back($status, $headers);
+    }
+}
+
+if ( ! function_exists('cookie'))
+{
+    /**
+     * Create a new cookie instance.
+     *
+     * @param  string  $name
+     * @param  string  $value
+     * @param  int     $minutes
+     * @param  string  $path
+     * @param  string  $domain
+     * @param  bool    $secure
+     * @param  bool    $httpOnly
+     * @return \Symfony\Component\HttpFoundation\Cookie
+     */
+    function cookie($name = null, $value = null, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = true)
+    {
+        $cookie = royalcms('Royalcms\Component\Cookie\Contracts\Factory');
+        
+        if (is_null($name))
+        {
+            return $cookie;
+        }
+        
+        return $cookie->make($name, $value, $minutes, $path, $domain, $secure, $httpOnly);
+    }
+}
+
+if ( ! function_exists('csrf_token'))
+{
+    /**
+     * Get the CSRF token value.
+     *
+     * @return string
+     *
+     * @throws RuntimeException
+     */
+    function csrf_token()
+    {
+        $session = royalcms('session');
+        
+        if (isset($session))
+        {
+            return $session->getToken();
+        }
+        
+        throw new RuntimeException("Application session store not set.");
+    }
+}
+
+if ( ! function_exists('redirect'))
+{
+    /**
+     * Get an instance of the redirector.
+     *
+     * @param  string|null  $to
+     * @param  int     $status
+     * @param  array   $headers
+     * @param  bool    $secure
+     * @return \Royalcms\Component\Routing\Redirector|\Royalcms\Component\Http\RedirectResponse
+     */
+    function redirect($to = null, $status = 302, $headers = array(), $secure = null)
+    {
+        if (is_null($to)) return royalcms('redirect');
+        
+        return royalcms('redirect')->to($to, $status, $headers, $secure);
+    }
+}
+
+if ( ! function_exists('response'))
+{
+    /**
+     * Return a new response from the application.
+     *
+     * @param  string  $content
+     * @param  int     $status
+     * @param  array   $headers
+     * @return \Symfony\Component\HttpFoundation\Response|\Royalcms\Component\Routing\Contracts\ResponseFactory
+     */
+    function response($content = '', $status = 200, array $headers = array())
+    {
+        $factory = royalcms('Royalcms\Component\Routing\Contracts\ResponseFactory');
+        
+        if (func_num_args() === 0)
+        {
+            return $factory;
+        }
+        
+        return $factory->make($content, $status, $headers);
+    }
+}
+
+if ( ! function_exists('route'))
+{
+    /**
+     * Generate a URL to a named route.
+     *
+     * @param  string  $name
+     * @param  array   $parameters
+     * @param  bool    $absolute
+     * @param  \Royalcms\Component\Routing\Route  $route
+     * @return string
+     */
+    function route($name, $parameters = array(), $absolute = true, $route = null)
+    {
+        return royalcms('url')->route($name, $parameters, $absolute, $route);
+    }
+}
+
+if ( ! function_exists('session'))
+{
+    /**
+     * Get / set the specified session value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @param  array|string  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    function session($key = null, $default = null)
+    {
+        if (is_null($key)) return royalcms('session');
+        
+        if (is_array($key)) return royalcms('session')->put($key);
+        
+        return royalcms('session')->get($key, $default);
+    }
+}
+
+if ( ! function_exists('url'))
+{
+    /**
+     * Generate a url for the application.
+     *
+     * @param  string  $path
+     * @param  mixed   $parameters
+     * @param  bool    $secure
+     * @return string
+     */
+    function url($path = null, $parameters = array(), $secure = null)
+    {
+        return royalcms('Royalcms\Component\Routing\Contracts\UrlGenerator')->to($path, $parameters, $secure);
+    }
+}
+
+if ( ! function_exists('event'))
+{
+    /**
+     * Fire an event and call the listeners.
+     *
+     * @param  string  $event
+     * @param  mixed   $payload
+     * @param  bool    $halt
+     * @return array|null
+     */
+    function event($event, $payload = array(), $halt = false)
+    {
+        return royalcms('events')->fire($event, $payload, $halt);
+    }
+}
+
+if ( ! function_exists('view'))
+{
+    /**
+     * Get the evaluated view contents for the given view.
+     *
+     * @param  string  $view
+     * @param  array   $data
+     * @param  array   $mergeData
+     * @return \Royalcms\Component\View\View
+     */
+    function view($view = null, $data = array(), $mergeData = array())
+    {
+        $factory = royalcms('Royalcms\Component\View\Contracts\Factory');
+        
+        if (func_num_args() === 0)
+        {
+            return $factory;
+        }
+        
+        return $factory->make($view, $data, $mergeData);
     }
 }
 
