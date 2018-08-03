@@ -2,9 +2,9 @@
  * 后台综合js文件
  */
 ;
-(function(ecjia, $) {
+(function (ecjia, $) {
 	ecjia.touch.index = {
-		init: function() {
+		init: function () {
 			this.removeItem();
 			this.substr();
 			this.init_swiper();
@@ -18,16 +18,16 @@
 			this.discover_init();
 			this.article_cat_click();
 		},
-		
-		removeItem: function() {
-			sessionStorage.removeItem('swiper');				//首页轮播图
-			
-			sessionStorage.removeItem('discover_swiper');		//发现页滚动图标
-			sessionStorage.removeItem('discover_cycleimage');	//发现页轮播图
-			sessionStorage.removeItem('discover_cat');			//发现页滚动分类
+
+		removeItem: function () {
+			sessionStorage.removeItem('swiper'); //首页轮播图
+
+			sessionStorage.removeItem('discover_swiper'); //发现页滚动图标
+			sessionStorage.removeItem('discover_cycleimage'); //发现页轮播图
+			sessionStorage.removeItem('discover_cat'); //发现页滚动分类
 		},
 
-		substr: function() {
+		substr: function () {
 			var str = $(".address-text").html();
 			if (str) {
 				str = str.length > 20 ? str.substring(0, 20) + '...' : str;
@@ -35,7 +35,7 @@
 			}
 		},
 
-		init_swiper: function() {
+		init_swiper: function () {
 			if ($.find('.ecjia-mod-cycleimage').length != 0) {
 				var width = $('.ecjia-mod-cycleimage').find('.swiper-slide ').width();
 				$('.ecjia-mod-cycleimage').find('.swiper-slide').css('height', width * 2 / 5 + 'px');
@@ -65,11 +65,11 @@
 			});
 			sessionStorage.setItem("swiper", 1);
 
-			$('.ecjia-zx').off('click').on('click', function() {
+			$('.ecjia-zx').off('click').on('click', function () {
 				sessionStorage.removeItem('swiper');
 			});
 		},
-		swiper_promotion: function() {
+		swiper_promotion: function () {
 			var swiper = new Swiper('.swiper-promotion', {
 				slidesPerView: 2.5,
 				spaceBetween: 10,
@@ -77,15 +77,15 @@
 				freeModeMomentumVelocityRatio: 5,
 			});
 		},
-		promote_time: function() {
+		promote_time: function () {
 			var serverTime = Math.round(new Date().getTime() / 1000) * 1000; //服务器时间，毫秒数 
 			var dateTime = new Date();
 			var difference = dateTime.getTime() - serverTime; //客户端与服务器时间偏移量 
 			var InterValObj;
 			clearInterval(InterValObj);
 
-			InterValObj = setInterval(function() {
-				$(".promote-time").each(function() {
+			InterValObj = setInterval(function () {
+				$(".promote-time").each(function () {
 					var obj = $(this);
 					var endTime = new Date((parseInt(obj.attr('value')) + 8 * 3600) * 1000);
 					var nowTime = new Date();
@@ -104,6 +104,9 @@
 						if (type == 1) {
 							msg = '距离活动结束还有';
 							var str = msg + myD + '天 &nbsp;&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
+						} else if (type == 2) {
+							msg = '距结束  ';
+							var str = msg + myD + "天" + hh + ":" + mm + ":" + ss;
 						} else {
 							msg = '剩余';
 							var str = msg + myD + "天&nbsp;" + hh + ":" + mm + ":" + ss;
@@ -116,14 +119,14 @@
 			}, 1000); //每隔1秒执行一次 
 		},
 
-		close_bottom_banner: function() {
+		close_bottom_banner: function () {
 			$.cookie('hide_bottom_banner', 1, {
 				expires: 7
 			});
 			$('.bottom-banner').remove();
 		},
 
-		click_header: function() {
+		click_header: function () {
 			$('.ecjia-header.ecjia-header-index').removeClass('active');
 			$('.search-header.index-header').addClass('active');
 			$('.search_fixed_mask').toggleClass('active');
@@ -136,8 +139,8 @@
 			}
 		},
 
-		change_index: function() {
-			$('[data-toggle="change_index"]').on('click', function() {
+		change_index: function () {
+			$('[data-toggle="change_index"]').on('click', function () {
 				$('.ecjia-header.ecjia-header-index').addClass('active');
 				$('.search-header.index-header').removeClass('active');
 				$('.search_fixed_mask').toggleClass('active');
@@ -149,17 +152,17 @@
 				}
 			})
 		},
-		close_download: function() {
-			$('.close_tip').on('click', function() {
+		close_download: function () {
+			$('.close_tip').on('click', function () {
 				$.cookie('close_download', true, {
 					expires: 7
 				});
 				$('.ecjia-download').remove();
 			})
 		},
-		
+
 		//发现页顶部滚动图标
-		discover_swiper: function() {
+		discover_swiper: function () {
 			var index = 0;
 			if (sessionStorage.getItem("discover_swiper")) {
 				index = sessionStorage.getItem("discover_swiper");
@@ -170,8 +173,8 @@
 				initialSlide: index,
 				spaceBetween: 0,
 			});
-			
-			$('#swiper-discover-icon .swiper-slide').find('a').off('click').on('click', function(e) {
+
+			$('#swiper-discover-icon .swiper-slide').find('a').off('click').on('click', function (e) {
 				e.preventDefault();
 				var $this = $(this),
 					url = $this.attr('href');
@@ -180,9 +183,9 @@
 				ecjia.pjax(url);
 			});
 		},
-		
+
 		//发现页轮播图
-		discover_cycleimage: function() {
+		discover_cycleimage: function () {
 			if ($.find('.ecjia-discover-cycleimage').length != 0) {
 				var width = $('.ecjia-discover-cycleimage').find('.swiper-slide ').width();
 				$('.ecjia-discover-cycleimage').find('.swiper-slide').css('height', width * 2 / 5 + 'px');
@@ -212,9 +215,9 @@
 			});
 			sessionStorage.setItem("discover_cycleimage", 1);
 		},
-		
+
 		//发现页分类滚动
-		discover_cat: function() {
+		discover_cat: function () {
 			var index = 0;
 			if (sessionStorage.getItem("discover_cat")) {
 				index = sessionStorage.getItem("discover_cat");
@@ -225,31 +228,31 @@
 				initialSlide: index,
 				spaceBetween: 0,
 			});
-			
-			$('.navi-list li').off('click').on('click', function() {
+
+			$('.navi-list li').off('click').on('click', function () {
 				var cat_id = $(this).attr('data-id');
 				$(this).addClass('active').siblings('li').removeClass('active');
-				$(".ecjia-discover-article .swiper-slide[data-type='"+cat_id+"']").trigger('click').addClass('active');
+				$(".ecjia-discover-article .swiper-slide[data-type='" + cat_id + "']").trigger('click').addClass('active');
 				$('.ecjia-discover').css('display', 'block');
 				$('.ecjia-down-navi').css('display', 'none');
 				var index = $(this).index();
-				swiper.slideTo(index, 1000, false);//切换到制定slide，速度为1秒
-				
+				swiper.slideTo(index, 1000, false); //切换到制定slide，速度为1秒
+
 				$('.ecjia-discover .article-add').children('i').removeClass('expanded');
 				$('.ecjia-down-navi').removeClass('show');
 				$('.ecjia-down-navi').off('touchmove');
 				$('.ecjia-down-navi').css('height', 0);
 			});
 		},
-		
-		discover_init: function() {
-			$('.ecjia-discover .article-add').off('click').on('click', function() {
+
+		discover_init: function () {
+			$('.ecjia-discover .article-add').off('click').on('click', function () {
 				var $this = $(this);
-					children = $this.children('i');
-					
+				children = $this.children('i');
+
 				if ($this.hasClass('disabled')) {
 					return false;
-				}	
+				}
 				if (children.hasClass('expanded')) {
 					children.removeClass('expanded');
 					$('.ecjia-down-navi').removeClass('show');
@@ -264,20 +267,20 @@
 					}
 					$('.ecjia-down-navi').css('height', height);
 					//阻止浏览器下拉事件
-					$('.ecjia-down-navi').on('touchmove', function(event) {
+					$('.ecjia-down-navi').on('touchmove', function (event) {
 						event.preventDefault;
 					}, false);
 				}
 			});
-			
-			$('.article-appreciate').off('click').on('click', function() {
+
+			$('.article-appreciate').off('click').on('click', function () {
 				var $this = $(this);
 				if ($this.hasClass('disabled')) {
 					return false;
 				}
 				var val = parseInt($this.find('span').text());
 				$this.addClass('disabled');
-				
+
 				var type = 'add';
 				if ($this.hasClass('active')) {
 					type = 'cancel';
@@ -286,7 +289,7 @@
 					'type': type,
 				}
 				var url = $('input[name="like_article"]').val();
-				$.post(url, info, function(data) {
+				$.post(url, info, function (data) {
 					if (data.state == 'success') {
 						if (type == 'cancel') {
 							$this.removeClass('active');
@@ -294,7 +297,7 @@
 							iosOverlay({
 								text: '取消点赞',
 								duration: 2e3,
-								onhide: function() {
+								onhide: function () {
 									$this.removeClass('disabled');
 								},
 							});
@@ -304,7 +307,7 @@
 							iosOverlay({
 								text: '点赞成功！',
 								duration: 2e3,
-								onhide: function() {
+								onhide: function () {
 									$this.removeClass('disabled');
 								},
 							});
@@ -319,16 +322,16 @@
 					}
 				});
 			});
-			
-			$('.article-bianji').off('click').on('click', function(e) {
+
+			$('.article-bianji').off('click').on('click', function (e) {
 				e.preventDefault();
 				var $this = $(this);
 				var url = $('input[name="add_comment"]').val();
-				
+
 				var info = {
 					'type': 'check',
 				}
-				$.post(url, info, function(data) {
+				$.post(url, info, function (data) {
 					if (data.state == 'success') {
 						$('.nav-bt-fix').hide();
 						$('.ecjia-discover-detail .box_overlay').show();
@@ -342,8 +345,8 @@
 					}
 				});
 			});
-			
-			$('.send-btn').off('click').on('click', function(e) {
+
+			$('.send-btn').off('click').on('click', function (e) {
 				e.preventDefault();
 				var textarea = $('.textarea-box').find('textarea');
 				var length = textarea.val().length;
@@ -351,12 +354,12 @@
 					textarea.focus();
 					return false;
 				}
-				
+
 				var url = $('input[name="add_comment"]').val();
 				var info = {
 					val: textarea.val(),
 				}
-				$.post(url, info, function(data) {
+				$.post(url, info, function (data) {
 					if (data.state == 'success') {
 						iosOverlay({
 							text: '发表成功！',
@@ -373,39 +376,39 @@
 					}
 				});
 			});
-			
-			$('.box_overlay').off('click').on('click', function() {
+
+			$('.box_overlay').off('click').on('click', function () {
 				ecjia.touch.index.hide_box();
 			});
 		},
-		
-		hide_box: function() {
+
+		hide_box: function () {
 			$('.nav-bt-fix').show();
 			$('.send-box').hide();
 			$('.ecjia-discover-detail .box_overlay').hide();
 		},
-		
-		article_cat_click: function() {
+
+		article_cat_click: function () {
 			var bool = isSupportSticky();
 			if (!bool) {
-			    function onScroll(e) {
-			        $(window).scrollTop() >= 300 ? $('.ecjia-discover-article').addClass('fixed') : $('.ecjia-discover-article').removeClass('fixed'); 
-			    }
-			    window.addEventListener('scroll', onScroll);
+				function onScroll(e) {
+					$(window).scrollTop() >= 300 ? $('.ecjia-discover-article').addClass('fixed') : $('.ecjia-discover-article').removeClass('fixed');
+				}
+				window.addEventListener('scroll', onScroll);
 			}
 
-			$('.ecjia-discover-article .swiper-slide').off('click').on('click', function() {
+			$('.ecjia-discover-article .swiper-slide').off('click').on('click', function () {
 				$('.ecjia-discover .article-add').children('i').removeClass('expanded');
 				$('.ecjia-down-navi').removeClass('show');
 				$('.ecjia-down-navi').off('touchmove');
 				$('.ecjia-down-navi').css('height', 0);
-				
+
 				var $this = $(this),
 					url = $this.attr('data-url'),
 					type = $this.attr('data-type');
 
 				$('li.navi').removeClass('active');
-				$('li.navi').each(function() {
+				$('li.navi').each(function () {
 					if ($(this).attr('data-id') == type) {
 						$(this).addClass('active');
 					}
@@ -418,16 +421,16 @@
 				} else {
 					$this.addClass('active').siblings('div').removeClass('active');
 					$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>'); //加载动画
-					$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+					$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 						event.preventDefault;
 					}, false);
 					$('.ecjia-discover .article-add').addClass('disabled');
 					$('.ecjia-discover-article .swiper-slide').addClass('disabled'); //禁止切换
 
-					$.get(url, function(data) {
+					$.get(url, function (data) {
 						$('body').scrollTop(0);
 						$('.ecjia-discover .article-add').removeClass('disabled');
-						
+
 						$loader = $('<a class="load-list" href="javascript:;"><div class="loaders"><div class="loader"><div class="loader-inner ball-pulse"><div></div><div></div><div></div></div></div></div></a>');
 						var load_list = $('#discover-article-' + type).parent().find('.load-list');
 						if (load_list.length == 0) {
@@ -455,11 +458,11 @@
 				}
 			});
 		},
-		
-		show_login_message: function(referer_url) {
+
+		show_login_message: function (referer_url) {
 			var myApp = new Framework7();
 			//禁用滚动条
-			$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+			$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 				event.preventDefault;
 			}, false);
 
@@ -468,13 +471,13 @@
 				text: '您还没有登录',
 				buttons: [{
 					text: '取消',
-					onClick: function() {
+					onClick: function () {
 						$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
 						return false;
 					}
 				}, {
 					text: '去登录',
-					onClick: function() {
+					onClick: function () {
 						$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
 						location.href = referer_url;
 						return false;
@@ -493,22 +496,22 @@
 	}
 
 	function isSupportSticky() {
-	    var prefixTestList = ['', '-webkit-', '-ms-', '-moz-', '-o-'];
-	    var stickyText = '';
-	    for (var i = 0; i < prefixTestList.length; i++ ) {
-	        stickyText += 'position:' + prefixTestList[i] + 'sticky;';
-	    }
-	    // 创建一个dom来检查
-	    var div = document.createElement('div');
-	    var body = document.body;
-	    div.style.cssText = 'display:none;' + stickyText;
-	    body.appendChild(div);
-	    var isSupport = /sticky/i.test(window.getComputedStyle(div).position);
-	    body.removeChild(div);
-	    div = null;
-	    return isSupport;
+		var prefixTestList = ['', '-webkit-', '-ms-', '-moz-', '-o-'];
+		var stickyText = '';
+		for (var i = 0; i < prefixTestList.length; i++) {
+			stickyText += 'position:' + prefixTestList[i] + 'sticky;';
+		}
+		// 创建一个dom来检查
+		var div = document.createElement('div');
+		var body = document.body;
+		div.style.cssText = 'display:none;' + stickyText;
+		body.appendChild(div);
+		var isSupport = /sticky/i.test(window.getComputedStyle(div).position);
+		body.removeChild(div);
+		div = null;
+		return isSupport;
 	}
-	
+
 })(ecjia, jQuery);
 
 //end

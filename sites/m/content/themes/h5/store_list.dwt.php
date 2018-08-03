@@ -232,7 +232,7 @@ var releated_goods = {$releated_goods};
 						</table>
 						<div class="box" id="goods_cart_{$cart.goods_id}">
 							<span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="remove-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
-							<lable class="a5x" data-toggle="change-number" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}" goods_num="{$cart.goods_number}">{$cart.goods_number}</lable>
+							<lable class="a5x" {if $cart.is_disabled neq 1}data-toggle="change-number"{/if} rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}" goods_num="{$cart.goods_number}">{$cart.goods_number}</lable>
 							<span class="a5v {if $cart.is_disabled eq 1}disabled{/if}" data-toggle="add-to-cart" rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
 						</div>
 					</li>

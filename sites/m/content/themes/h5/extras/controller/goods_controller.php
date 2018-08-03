@@ -140,10 +140,15 @@ class goods_controller {
 	    	'rec_type' => $rec_type,
 	    	'object_id'=> $object_id,
 	    );
+	    
+	    $goods_activity_id = intval($_GET['act_id']);
+	    if (!empty($goods_activity_id)) {
+	    	$par['goods_activity_id'] = $goods_activity_id;
+	    }
 	    /*商品基本信息*/
 	    $goods_info = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_DETAIL)->data($par)->run();
 
-	    if (is_ecjia_error($goods_info)) {
+		if (is_ecjia_error($goods_info)) {
 	    	ecjia_front::$controller->assign('no_goods_info', 1);
 	    	$goods_info = array();
 	    } else {
@@ -153,7 +158,7 @@ class goods_controller {
 	    	
 	    	$token = ecjia_touch_user::singleton()->getToken();
 	    	$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
-	    	if (!is_ecjia_error($user)) {
+	    	if (!is_ecjia_error($user) && $goods_info['promote_price'] == 0) {
 	    		if (!empty($goods_info['rank_prices'])) {
 	    			foreach ($goods_info['rank_prices'] as $k => $v) {
 	    				if ($v['id'] == $user['rank_id'] && $goods_info['promote_price'] > $v['unformatted_price']) {
@@ -189,7 +194,7 @@ class goods_controller {
 		    	
 		    	$cart_goods = array();
 		    	//店铺购物车商品
-		    	if (ecjia_touch_user::singleton()->isSignin()) {
+		    	if (ecjia_touch_user::singleton()->isSignin() && empty($goods_activity_id)) {
 	
 		    		$cart_goods = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_LIST)->data($options)->run();
 		    		if (!is_ecjia_error($cart_goods)) {
@@ -384,6 +389,14 @@ class goods_controller {
     }
 
     /**
+     * 团购商品
+     */
+    public static function groupbuy() {
+    	ecjia_front::$controller->assign_title('团购商品');
+    	ecjia_front::$controller->display('goods_groupbuy.dwt');
+    }
+    
+    /**
      * ajax获取促销商品
      */
     public static function ajax_goods() {
@@ -400,13 +413,17 @@ class goods_controller {
             'city_id'       => $_COOKIE['city_id']
         );
         
+        $api = ecjia_touch_api::GOODS_SUGGESTLIST;
         if ($type == 'promotion') {
         	$dwt = 'goods_promotion.dwt';
         } elseif ($type == 'new') {
         	$dwt = 'goods_new.dwt';
+        } elseif ($type == 'groupbuy') {
+        	$dwt = 'goods_groupbuy.dwt';
+        	$api = ecjia_touch_api::GROUPBUY_GOODS_LIST;
         }
         
-        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_SUGGESTLIST)->data($paramater)->hasPage()->run();
+        $response = ecjia_touch_manager::make()->api($api)->data($paramater)->hasPage()->run();
         if (!is_ecjia_error($response)) {
         	list($goods_list, $page) = $response;
         	
@@ -461,6 +478,7 @@ class goods_controller {
     	$store_info = is_ecjia_error($store_info) ? array() : $store_info;
     	ecjia_front::$controller->assign('store_info', $store_info);
     	
+    	$cache_id = sprintf('%X', crc32($limit.'-'.$pages.'-'.$_COOKIE['longitude'].'-'.$_COOKIE['latitude'].'-'.$_COOKIE['city_id']));
     	$arr_list = array();
     	if ($keywords !== '') {
     		if (!empty($store_id)) {
@@ -581,7 +599,7 @@ class goods_controller {
     				if ($type == 'ajax_get') {
     					$arr_list = merchant_function::format_distance($arr_list);
     					ecjia_front::$controller->assign('data', $arr_list);
-    					$say_list = ecjia_front::$controller->fetch('library/store_list.lbi');
+    					$say_list = ecjia_front::$controller->fetch('library/store_list.lbi', $cache_id);
     				} else {
     					user_function::insert_search($keywords, $store_id);//记录搜索
     				}
@@ -599,7 +617,7 @@ class goods_controller {
     			if ($type == 'ajax_get') {
     				$arr_list = merchant_function::format_distance($arr_list);
     				ecjia_front::$controller->assign('data', $arr_list);
-    				$say_list = ecjia_front::$controller->fetch('library/store_list.lbi');
+    				$say_list = ecjia_front::$controller->fetch('library/store_list.lbi', $cache_id);
     			}
     		}
     	}

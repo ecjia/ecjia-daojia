@@ -81,7 +81,7 @@ class ecjia_location
         $longitude = $_COOKIE['position_longitude'];
         $city_name = urlencode($_COOKIE['position_city_name']);
         
-        $nearByUrl = "http://apis.map.qq.com/ws/place/v1/search?boundary=nearby(%s,%s,1000)&page_size=20&page_index=1&keyword=%s&orderby=_distance&key=%s";
+        $nearByUrl = "https://apis.map.qq.com/ws/place/v1/search?boundary=nearby(%s,%s,1000)&page_size=20&page_index=1&keyword=%s&orderby=_distance&key=%s";
         $nearByUrl = sprintf($nearByUrl, $latitude, $longitude, $city_name, $this->mapKey);
         
         $response = RC_Http::remote_get($nearByUrl);
@@ -104,7 +104,7 @@ class ecjia_location
         $city_name = urlencode($_COOKIE['position_city_name']);
         $position_name = urlencode($_COOKIE['position_name']);
         
-        $regionUrl = "http://apis.map.qq.com/ws/place/v1/search?boundary=region(%s,0)&page_size=20&page_index=1&keyword=%s&orderby=_distance&key=%s";
+        $regionUrl = "https://apis.map.qq.com/ws/place/v1/search?boundary=region(%s,0)&page_size=20&page_index=1&keyword=%s&orderby=_distance&key=%s";
         $regionUrl = sprintf($regionUrl, $city_name, $position_name, $this->mapKey);
         $response = RC_Http::remote_get($regionUrl);
         if (is_ecjia_error($response)) return $response;
@@ -119,7 +119,7 @@ class ecjia_location
         $region   = urlencode($region);
         $keywords = urlencode($keywords);
         
-        $url      = "http://apis.map.qq.com/ws/place/v1/suggestion/?&region_fix=1&region=%s&keyword=%s&key=%s";
+        $url      = "https://apis.map.qq.com/ws/place/v1/suggestion/?&region_fix=1&region=%s&keyword=%s&key=%s";
         $url      = sprintf($url, $region, $keywords, $this->mapKey);
         
         $response 	= RC_Http::remote_get($url);

@@ -70,9 +70,13 @@ class user_get_password_controller {
     		return ecjia_front::$controller->showmessage('请输入手机号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	 
-    	$chars = "/^1(3|4|5|6|7|8)\d{9}$/";
-    	if (!preg_match($chars, $mobile_phone)) {
-    		return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//     	$chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
+//     	if (!preg_match($chars, $mobile_phone)) {
+//     		return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//     	}
+    	$check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile_phone);
+    	if (is_ecjia_error($check_mobile)) {
+    	    return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$_SESSION['user_temp']['mobile'] = $mobile_phone;
     	 
@@ -87,8 +91,7 @@ class user_get_password_controller {
     		ecjia_front::$controller->redirect(RC_Uri::url('user/get_password/init'));
     	}
     	
-        $token = touch_function::get_token();
-    	$_SESSION['user_temp']['token'] = $token;
+        $token = touch_function::get_admin_token();
     	
 		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 		$res = !is_ecjia_error($res) ? $res : array();
@@ -118,14 +121,15 @@ class user_get_password_controller {
     	if (empty($code_captcha)) {
     		return ecjia_front::$controller->showmessage('请输入验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
-    	if (RC_Time::gmtime() < $_SESSION['user_temp']['resend_sms_time'] + 180) {
-    		return ecjia_front::$controller->showmessage('规定时间以外，可重新发送验证码（1分钟）', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	if (RC_Time::gmtime() < $_SESSION['user_temp']['resend_sms_time'] + 60) {
+    		return ecjia_front::$controller->showmessage('规定时间1分钟以外，可重新发送验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$param = array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'captcha_code' => $code_captcha);
     	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_FORGET_PASSWORD)->data($param)->run();
     	if (is_ecjia_error($data)) {
     		return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
+    	$_SESSION['user_temp']['captcha_code'] = $code_captcha;
     	$_SESSION['user_temp']['mobile'] = $mobile;
     	$_SESSION['user_temp']['code_status'] = 'succeed';
     	$_SESSION['user_temp']['resend_sms_time'] = RC_Time::gmtime();
@@ -166,7 +170,7 @@ class user_get_password_controller {
     	$token = $_SESSION['user_temp']['token'];
     	$mobile = $_SESSION['user_temp']['mobile'];
     	$code = trim($_POST['password']);
-        $token = touch_function::get_token();
+        $token = touch_function::get_admin_token();
 
     	$param = array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'code' => $code, 'token' => $token);
     	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_FORGET_PASSWORD)->data($param)->run();
@@ -201,7 +205,7 @@ class user_get_password_controller {
         		return ecjia_front::$controller->showmessage(__('两次密码输入不一致'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         	}
         
-        	$token = touch_function::get_token();
+        	$token = touch_function::get_admin_token();
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_RESET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'password' => $passwordf))->run();
             if (!is_ecjia_error($data)) {
                 unset($_SESSION['user_temp']['mobile']);

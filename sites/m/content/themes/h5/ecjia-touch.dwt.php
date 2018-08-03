@@ -40,7 +40,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<!-- {ecjia:hook id=front_head} -->
 </head>
 <body>
-	<div class="ecjia" id="get_location" data-url="{url path='location/index/get_location_msg'}">
+	<div class="ecjia" id="get_location" data-url="{url path='touch/location/get_location_msg'}">
 		<input type="hidden" name="key" value="{$key}"/>
 		<input type="hidden" name="referer" value="{$referer}"/>
 		{if $is_weixin}<input type="hidden" name="wxconfig_url" value="{url path='user/index/wxconfig'}"/>{/if}
@@ -52,49 +52,52 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
 	<!-- {block name="ready_footer"} --><!-- {/block} -->
 	<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
-	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.min.js" ></script>
-	<script type="text/javascript" src="{$theme_url}lib/multi-select/js/jquery.quicksearch.js" ></script>
-	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.pjax.js" ></script>
-	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.cookie.js" ></script>
-	<script type="text/javascript" src="{$theme_url}lib/iscroll/js/iscroll.js" ></script>
-	<script type="text/javascript" src="{$theme_url}lib/bootstrap3/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="{$theme_url}lib/multi-select/js/jquery.quicksearch.js"></script>
+	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.pjax.js"></script>
+	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" src="{$theme_url}lib/iscroll/js/iscroll.js"></script>
+	<script type="text/javascript" src="{$theme_url}lib/bootstrap3/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="{$theme_url}lib/ecjiaUI/ecjia.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/jquery-form/jquery.form.min.js" ></script>	
-	<script type="text/javascript" src="{$theme_url}lib/clipboard/js/clipboard.min.js" ></script>	
+	<script type="text/javascript" src="{$theme_url}lib/jquery-form/jquery.form.min.js"></script>
+	<script type="text/javascript" src="{$theme_url}lib/clipboard/js/clipboard.min.js"></script>
 	<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
-	
-	<script type="text/javascript" src="{$theme_url}lib/jquery-localstorage/jquery.localstorage.js" ></script>	
+
+	<script type="text/javascript" src="{$theme_url}lib/jquery-localstorage/jquery.localstorage.js"></script>
 	<!-- 图片预览 -->
 	<script type="text/javascript" src="{$theme_url}lib/photoswipe/js/photoswipe.min.js"></script>
 	<script type="text/javascript" src="{$theme_url}lib/photoswipe/js/photoswipe-ui-default.min.js"></script>
 
 	<!-- {block name="meta"} --><!-- {/block} -->
-	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.koala.js" ></script>
-	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.others.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.goods.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.user.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.flow.js" ></script>
+	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.koala.js"></script>
+	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.others.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.goods.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.user.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.flow.js"></script>
 
     <script type="text/javascript">var theme_url = "{$theme_url}";</script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.goods_detail.js" ></script>
-    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
- 	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.spread.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.user_account.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.franchisee.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.comment.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.raty.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.fly.js" ></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.quickpay.js" ></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.goods_detail.js"></script>
+	{if $is_weixin}
+	<script type="text/javascript" src="{$theme_url}js/jweixin-1.2.0.js"></script>
+	{/if}
+ 	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.spread.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.user_account.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.franchisee.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.comment.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.raty.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.fly.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.quickpay.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.share.js"></script>
     <!-- 弹窗 -->
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.intro.min.js" ></script>
+    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.intro.min.js"></script>
 	<script type="text/javascript" src="{$theme_url}lib/Validform/Validform_v5.3.2_min.js"></script>
 
 	<script type="text/javascript" src="{$theme_url}lib/swiper/js/swiper.min.js"></script>
     <script type="text/javascript" src="{$theme_url}lib/datePicker/js/datePicker.min.js"></script>
     <script type="text/javascript" src="{$theme_url}lib/winderCheck/js/winderCheck.min.js"></script>
     <script type="text/javascript" src="{$theme_url}js/greenCheck.js"></script>
-    
+
     <script type="text/javascript" src="{$theme_url}lib/iOSOverlay/js/iosOverlay.js"></script>
     <script type="text/javascript" src="{$theme_url}lib/iOSOverlay/js/prettify.js"></script>
 	<!-- {block name="footer"} --><!-- {/block} -->

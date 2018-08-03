@@ -17,7 +17,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 
-<form class="ecjia-form" name="payForm" action="{url path='pay/index/pay_order'}" method="post">
+<form class="ecjia-form" name="payForm" action="{url path='payment/pay/pay_order'}" method="post">
     <div class="ecjia-flow-done ecjia-pay">
         <p class="ecjia-payment-notice">当前订单不支持原有支付方式，请切换新的支付方式继续支付。</p>
 

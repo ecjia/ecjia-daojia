@@ -211,7 +211,7 @@ class user_address_controller {
     	$adcode = '';
     	$regions = array();
     	if (!empty($latng)) {
-    		$res = RC_Http::remote_get("http://apis.map.qq.com/ws/geocoder/v1/?location=".$latng."&key=".$key);
+    		$res = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?location=".$latng."&key=".$key);
     		$res = json_decode($res['body'], true);
     		if ($res['status'] == 0 && isset($res['result']['ad_info'])) {
     			$adcode = $res['result']['ad_info']['adcode'];
@@ -318,11 +318,11 @@ class user_address_controller {
                 'mobile'    	=> htmlspecialchars($_POST['mobile']),
             )
         );
-        $chars = "/^1(3|4|5|6|7|8)\d{9}$/";
         $mobile = $params['address']['mobile'];
         
-        if (!preg_match($chars, $mobile)) {
-            return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+        if (is_ecjia_error($check_mobile)) {
+            return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_ADD)->data($params)->run();
         if (is_ecjia_error($rs)) {
@@ -420,7 +420,7 @@ class user_address_controller {
     	$adcode = '';
     	$regions = array();
     	if (!empty($latng)) {
-    		$res = RC_Http::remote_get("http://apis.map.qq.com/ws/geocoder/v1/?location=".$latng."&key=".$key);
+    		$res = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?location=".$latng."&key=".$key);
     		$res = json_decode($res['body'], true);
     		if ($res['status'] == 0 && isset($res['result']['ad_info'])) {
     			$adcode = $res['result']['ad_info']['adcode'];
@@ -529,11 +529,15 @@ class user_address_controller {
                 'mobile'    	=> htmlspecialchars($_POST['mobile']),
             )
         );
-        $chars = "/^1(3|4|5|6|7|8)\d{9}$/";
+//         $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
         $mobile = $params['address']['mobile'];
         
-        if (!preg_match($chars, $mobile)) {
-            return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//         if (!preg_match($chars, $mobile)) {
+//             return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//         }
+        $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+        if (is_ecjia_error($check_mobile)) {
+            return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_UPDATE)->data($params)->run();
         

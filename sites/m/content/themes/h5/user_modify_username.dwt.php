@@ -21,7 +21,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     			<input class="ecjia-login-pa-left" id="username-modify" {if $limit_time}disabled="true"{/if}name="username" type="text" placeholder="请输入用户名"  value="{$user.name}">
     		</label>
     	</div>
-    	<p class="ecjia-margin-l ecjia-margin-t">4-20个字符，可由中英文、数字、"——"、"-"组成</p>
+    	<p class="ecjia-margin-l ecjia-margin-t">4-20个字符，可由中英文、数字、"_"、"-"组成</p>
     	<p class="modify-username-info" id="modify-username-info">{if $user.update_username_time eq ''}{'注：用户名一个月只能修改一次'}{else}注：用户名一个月只能修改一次，上次修改时间为：{$update_username_time}{/if}</p>
     	<div class="ecjia-login-b ecjia-button-top-list">
     	    <div class="p-top3">

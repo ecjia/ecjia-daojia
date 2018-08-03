@@ -783,6 +783,129 @@ class user_order_controller {
     		return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     }
+    
+    /**
+     * 团购订单列表
+     */
+    public static function groupbuy_order() {
+    	$token = ecjia_touch_user::singleton()->getToken();
+    
+    	$params_order = array('token' => $token, 'pagination' => array('count' => 10, 'page' => 1));
+    	if (!empty($_GET['keywords'])) {
+    		$params_order['keywords'] = $_GET['keywords'];
+    		ecjia_front::$controller->assign('keywords', $params_order['keywords']);
+    	}
+    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::GROUPBUY_ORDER_LIST)->data($params_order)->run();
+    	$data = is_ecjia_error($data) ? array() : $data;
+    	
+    	ecjia_front::$controller->assign('type', $type);
+    	ecjia_front::$controller->assign('order_list', $data);
+    	
+    	$title = '我的团购';
+    	ecjia_front::$controller->assign_title($title);
+    	ecjia_front::$controller->assign('title', $title);
+    	
+    	ecjia_front::$controller->assign_lang();
+    	ecjia_front::$controller->display('user_groupbuy_order_list.dwt');    		
+    }
+    
+    /**
+     * ajax获取团购订单
+     */
+    public static function async_groupbuy_order() {
+    	$size = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+    	$pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
+    
+    	$params_order = array('token' => ecjia_touch_user::singleton()->getToken(), 'pagination' => array('count' => $size, 'page' => $pages));
+    	if (!empty($_GET['keywords'])) {
+    		$params_order['keywords'] = $_GET['keywords'];
+    	}
+    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::GROUPBUY_ORDER_LIST)->data($params_order)->hasPage()->run();
+    	if (!is_ecjia_error($data)) {
+    		list($orders, $page) = $data;
+    		if (isset($page['more']) && $page['more'] == 0) $is_last = 1;
+    		$say_list = '';
+    		if (!empty($orders)) {
+    			ecjia_front::$controller->assign('order_list', $orders);
+    			ecjia_front::$controller->assign_lang();
+    			$say_list = ecjia_front::$controller->fetch('user_groupbuy_order_list.dwt');
+    		}
+    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+    	}
+    }
+    
+    /**
+     * 团购订单详情
+     */
+    public static function groupbuy_detail() {
+    	$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+    	$type = !empty($_GET['type']) ? $_GET['type'] : 'detail';
+    	if (empty($order_id)) {
+    		return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/order/order_list')));
+    	}
+    
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$user_info = ecjia_touch_user::singleton()->getUserinfo();
+    	$params_order = array('token' => $token, 'order_id' => $order_id);
+    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::GROUPBUY_ORDER_DETAIL)->data($params_order)->run();
+    	$data = is_ecjia_error($data) ? array() : $data;
+    	if (empty($data)) {
+    		return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('user/order/order_list')));
+    	}
+    	$cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name']
+    	.'-'.$data['order_status'].'-'.$data['shipping_status'].'-'.$data['pay_status'];
+    	$cache_id = sprintf('%X', crc32($cache_id));
+    
+    	if ($type == 'detail') {
+    		if (!ecjia_front::$controller->is_cached('user_order_detail.dwt', $cache_id)) {
+    			ecjia_front::$controller->assign('order', $data);
+    			ecjia_front::$controller->assign('headInfo', $data['order_status_log'][0]);
+    			if (($data['shipping_code'] == 'ship_o2o_express' || $data['shipping_code'] == 'ship_ecjia_express') && !empty($data['express_id'])) {
+    				ecjia_front::$controller->assign('express_url', RC_Uri::url('user/order/express_position', array('code' => $data['shipping_code'], 'express_id' => $data['express_id'], 'order_id' => $data['order_id'], 'store_id' => $data['store_id'])));
+    			}
+    			ecjia_front::$controller->assign('title', '订单详情');
+    			ecjia_front::$controller->assign_title('订单详情');
+    			ecjia_front::$controller->assign_lang();
+    
+    			if (!empty($data['order_status_code'])) {
+    				$params = array('token' => $token, 'type' => $data['order_status_code']);
+    				$reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_RESIONS)->data($params)->run();
+    				$reason_list = !is_ecjia_error($reason_list) ? $reason_list : array();
+    
+    				ecjia_front::$controller->assign('reason_list', json_encode($reason_list));
+    				ecjia_front::$controller->assign('refund_type', 'refund');
+    			}
+    		}
+    		if ($data['order_mode'] == 'storebuy') {
+    			ecjia_front::$controller->display('user_order_storebuy_detail.dwt', $cache_id);
+    		} else {
+    			//店铺信息
+    			$parameter_list = array(
+    					'seller_id' => $data['store_id'],
+    					'city_id' => $_COOKIE['city_id']
+    			);
+    			$store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
+    			$store_info = is_ecjia_error($store_info) ? array() : $store_info;
+    
+    			if (!empty($store_info)) {
+    				$map_url = 'https://3gimg.qq.com/lightmap/v1/marker/index.html?type=0&marker=coord:';
+    				$url_param = ''.$store_info['location']['latitude'].','.$store_info['location']['longitude'].';title:'.$store_info['seller_name'].';addr:'.$store_info['shop_address'];
+    				$url_param = urlencode($url_param);
+    				$map_url .= $url_param;
+    				ecjia_front::$controller->assign('location_url', $map_url);
+    			}
+    			ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
+    		}
+    	} else {
+    		if (!ecjia_front::$controller->is_cached('user_order_status.dwt', $cache_id)) {
+    			ecjia_front::$controller->assign('order', $data);
+    			ecjia_front::$controller->assign('title', '订单状态');
+    			ecjia_front::$controller->assign_title('订单状态');
+    			ecjia_front::$controller->assign_lang();
+    		}
+    		ecjia_front::$controller->display('user_order_status.dwt', $cache_id);
+    	}
+    }
 }
 
 // end

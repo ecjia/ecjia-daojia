@@ -29,9 +29,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 {else if $smarty.get.type eq 'editcity'}
 <div class="cityall" id="cityall" data-url="{url path='user/address/edit_address'}">
 {else if $smarty.get.type eq 'search'}
-<div class="cityall" id="cityall" data-url="{url path='location/index/select_location'}">
+<div class="cityall" id="cityall" data-url="{url path='touch/location/select_location'}">
 {else}
-<div class="cityall" id="cityall" data-url="{url path='location/index/select_location'}">
+<div class="cityall" id="cityall" data-url="{url path='touch/location/select_location'}">
 {/if}
 	<input type="hidden" name="address_id" value="{$smarty.get.address_id}">
 

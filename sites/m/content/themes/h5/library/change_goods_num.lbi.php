@@ -8,7 +8,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 {nocache}
 
 <div class="ecjia-num-content">
-    <form name="numForm" method="post" action="{RC_Uri::url('')}">
+    <form name="numForm" method="post">
         <div class="ecjia-num-view-screen"></div>
         <div class="ecjia-num-view">
             <div class="num-content">

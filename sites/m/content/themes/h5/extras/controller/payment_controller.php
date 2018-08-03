@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 支付控制器代码
  */
-class pay_controller
+class payment_controller
 {
     public static function init()
     {
@@ -58,6 +58,9 @@ class pay_controller
         $pay_code = !empty($_GET['pay_code']) ? trim($_GET['pay_code']) : '';
         $tips_show = !empty($_GET['tips_show']) ? trim($_GET['tips_show']) : 0;
 
+        //团购订单
+        $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
+        
         if (empty($order_id)) {
             return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
@@ -78,7 +81,24 @@ class pay_controller
 
         /*获取订单信息*/
         $params_order = array('token' => $token, 'order_id' => $order_id);
-        $detail = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_DETAIL)->data($params_order)->run();
+
+        $api_detail = ecjia_touch_api::ORDER_DETAIL;
+        if ($type == 'group_buy') {
+            $api_detail = ecjia_touch_api::GROUPBUY_ORDER_DETAIL;
+        }
+        $detail = ecjia_touch_manager::make()->api($api_detail)->data($params_order)->run();
+        
+        if ($detail['extension_code'] == 'group_buy') {
+            if ($detail['order_status_code'] == 'await_pay') {
+                $detail['formated_pay_money'] = $detail['formated_order_amount']; 
+            } else {
+                //支付余额
+                $total_money =  $detail['money_paid'] + $detail['surplus'] + $detail['integral_money'] + $detail['bonus'] + $detail['order_deposit'];
+                $has_paid = $detail['goods_amount'] + $detail['shipping_fee'] + $detail['insure_fee'] + $detail['pay_fee'] + $detail['pack_fee'] + $detail['card_fee'] + $detail['tax'];
+                $detail['formated_pay_money'] = price_format($total_money - $has_paid);
+            }
+        }
+
         if (is_ecjia_error($detail)) {
             return ecjia_front::$controller->showmessage($detail->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
@@ -106,8 +126,11 @@ class pay_controller
         } elseif (!empty($change_result['open_id'])) {
             $params['wxpay_open_id'] = $change_result['open_id'];
         }
-
-        $rs_pay = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_PAY)->data($params)->run();
+		$api = ecjia_touch_api::ORDER_PAY;
+		if ($detail['extension_code'] == 'group_buy') {
+			$api = ecjia_touch_api::GROUPBUY_ORDER_PAY;
+		}
+        $rs_pay = ecjia_touch_manager::make()->api($api)->data($params)->run();
         if (is_ecjia_error($rs_pay)) {
             return ecjia_front::$controller->showmessage($rs_pay->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
@@ -185,9 +208,14 @@ class pay_controller
         ecjia_front::$controller->assign('pay_online', $order['pay_online']);
         ecjia_front::$controller->assign('tips_show', $tips_show);
 
+        $url = RC_Uri::url('user/order/order_detail', array('order_id' => $order_id, 'type' => 'detail'));
+        if ($detail['extension_code'] == 'group_buy') {
+			$url = RC_Uri::url('user/order/groupbuy_detail', array('order_id' => $order_id));
+        }
+        
         //生成返回url cookie
         RC_Cookie::set('pay_response_index', RC_Uri::url('touch/index/init'));
-        RC_Cookie::set('pay_response_order', RC_Uri::url('user/order/order_detail', array('order_id' => $order_id, 'type' => 'detail')));
+        RC_Cookie::set('pay_response_order', $url);
 
         ecjia_front::$controller->display('pay.dwt');
     }
@@ -202,7 +230,7 @@ class pay_controller
 
         $url = array(
             'index' => RC_Cookie::get('pay_response_index') ? RC_Cookie::get('pay_response_index') : str_replace('notify/', '', RC_Uri::url('touch/index/init')),
-            'order' => RC_Cookie::get('pay_response_order') ? RC_Cookie::get('pay_response_order') : str_replace('notify/', '', RC_Uri::url('touch/user/order_list')),
+            'order' => RC_Cookie::get('pay_response_order') ? RC_Cookie::get('pay_response_order') : str_replace('notify/', '', RC_Uri::url('user/order/order_list')),
         );
         ecjia_front::$controller->assign('url', $url);
         ecjia_front::$controller->assign('order_type', $order_type);
@@ -247,7 +275,7 @@ class pay_controller
             if (isset($rs_pay) && $rs_pay['payment']['error_message']) {
                 return ecjia_front::$controller->showmessage($rs_pay['payment']['error_message'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
-            $notify_url = RC_Uri::url('pay/index/notify', array('order_id' => $order_id));
+            $notify_url = RC_Uri::url('payment/pay/notify', array('order_id' => $order_id));
             //生成返回url cookie
             RC_Cookie::set('pay_response_index', RC_Uri::url('touch/index/init'));
             RC_Cookie::set('pay_response_order', RC_Uri::url('user/order/order_detail', array('order_id' => $order_id, 'type' => 'detail')));

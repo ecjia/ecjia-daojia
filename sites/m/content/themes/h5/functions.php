@@ -118,18 +118,19 @@ RC_Hook::add_filter('connect_callback_user_template', function($templateStr, $da
         $wechat_auto_register = royalcms('request')->cookie('wechat_auto_register', 0);
         if ($wechat_auto_register) {
             RC_Cookie::delete('wechat_auto_register');
-        
+
             RC_Loader::load_theme('extras/controller/connect_controller.php');
             return connect_controller::callback_template($data);
         
         } else {
+
             RC_Cookie::set('wechat_not_login', 1);
             //结合cookie判断返回来源url
             $back_url = RC_Cookie::get('referer', RC_Uri::url('touch/index/init'));
-            ecjia_front::$controller->redirect($back_url);
+            return ecjia_front::$controller->redirect($back_url);
         }
     } else {
-        
+
         RC_Loader::load_theme('extras/controller/connect_controller.php');
         return connect_controller::callback_template($data);
         
@@ -327,9 +328,9 @@ ecjia_open::macro('goods_list', function($querys) {
 //店铺列表
 ecjia_open::macro('seller', function($querys) {
 	if (!empty($querys['category_id'])) {
-		return RC_Uri::url('seller/category/list', array('cid' => $querys['category_id']));
+		return RC_Uri::url('merchant/category/list', array('cid' => $querys['category_id']));
 	} else {
-		return RC_Uri::url('seller/category/list');
+		return RC_Uri::url('merchant/category/list');
 	}
 });
 //我的红包
@@ -346,7 +347,7 @@ ecjia_open::macro('collectmoney', function($querys) {
 });
 //历史记录
 ecjia_open::macro('history', function($querys) {
-	return RC_Uri::url('touch/index/history');
+	return RC_Uri::url('touch/index/search');
 });
 //店铺首页
 ecjia_open::macro('merchant', function($querys) {

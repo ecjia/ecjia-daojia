@@ -58,10 +58,10 @@ return [
     'touch/index/clear_cache'			=> 'touch_controller@clear_cache', //清除缓存
     
     //定位
-    'location/index/select_location'    => 'location_controller@select_location',
-    'location/index/search_list'        => 'location_controller@search_list',
-    'location/index/select_city'        => 'location_controller@select_city',
-    'location/index/get_location_msg'   => 'location_controller@get_location_msg',
+    'touch/location/select_location'    => 'touch_controller@select_location',
+    'touch/location/search_list'        => 'touch_controller@search_list',
+    'touch/location/select_city'        => 'touch_controller@select_city',
+    'touch/location/get_location_msg'   => 'touch_controller@get_location_msg',
     
     //商品
     'goods/category/init'               => 'goods_controller@init',
@@ -71,6 +71,7 @@ return [
     'goods/index/ajax_goods'            => 'goods_controller@ajax_goods',
     'goods/index/new'                   => 'goods_controller@goods_new',
     'goods/index/ajax_goods_comment'    => 'goods_controller@ajax_goods_comment', //获取商品评论
+    'goods/index/groupbuy'    		    => 'goods_controller@groupbuy', //团购商品列表
     
     //店铺
     'merchant/index/init'               => 'merchant_controller@init',
@@ -78,7 +79,7 @@ return [
     'merchant/index/position'           => 'merchant_controller@position',
     'merchant/index/ajax_store_comment' => 'merchant_controller@ajax_store_comment',
     'merchant/quickpay/collectmoney'    => 'merchant_controller@collectmoney',
-    'seller/category/list'              => 'merchant_controller@seller_list',
+    'merchant/category/list'            => 'merchant_controller@seller_list',
     
     //文章
     'article/help/init'                 => 'article_controller@init',
@@ -110,11 +111,12 @@ return [
     'cart/flow/storepickup_checkout'    => 'cart_controller@storepickup_checkout',
     'cart/flow/storepickup_done'        => 'cart_controller@storepickup_done',
     'cart/flow/pay_pickup'            	=> 'cart_controller@pay_pickup',
+    'cart/flow/add_groupbuy'            => 'cart_controller@add_groupbuy',
     
     //支付
-    'pay/index/init'                    => 'pay_controller@init',
-    'pay/index/notify'                  => 'pay_controller@notify',
-    'pay/index/pay_order'               => 'pay_controller@pay_order',
+    'payment/pay/init'                  => 'payment_controller@init',
+    'payment/pay/notify'                => 'payment_controller@notify',
+    'payment/pay/pay_order'             => 'payment_controller@pay_order',
 
     //会员
     'touch/my/init'                     => 'user_controller@init',
@@ -234,6 +236,11 @@ return [
     'user/order/return_way_list'        => 'user_order_controller@return_way_list',
     'user/order/return_way'             => 'user_order_controller@return_way',
     'user/order/add_return_way'         => 'user_order_controller@add_return_way',
+    
+    //团购订单
+    'user/order/groupbuy_order'         => 'user_order_controller@groupbuy_order',
+    'user/order/async_groupbuy_order'   => 'user_order_controller@async_groupbuy_order',
+    'user/order/groupbuy_detail'   		=> 'user_order_controller@groupbuy_detail',
     
     //用户资料
     'user/profile/init'                 => 'user_profile_controller@init',

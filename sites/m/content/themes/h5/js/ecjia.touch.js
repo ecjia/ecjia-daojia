@@ -31,7 +31,9 @@
                 };
                 var date = new Date();
                 date.setTime(date.getTime() + (30 * 60 * 1000));
-                $.cookie('h5_index', 'first', {expires: date});
+                $.cookie('h5_index', 'first', {
+                    expires: date
+                });
             }
 
             ecjia.touch.setpjax();
@@ -45,7 +47,6 @@
             ecjia.touch.close_app_download();
             ecjia.touch.search_header();
             ecjia.touch.del_history();
-            ecjia.touch.share_spread();
             ecjia.touch.copy_btn();
             ecjia.touch.clear_cache();
             ecjia.touch.select_city();
@@ -99,8 +100,7 @@
                     for (var i = 0; i < data.length; i++) {
                         var opt = '<li data-lng="' + data[i].location.lng + '" data-lat="' + data[i].location.lat + '"><p class="list_wrapper a1"><span class="ecjia-list_title ecjia-location-list-title">' + data[i].title + '</span><span class="ecjia-list_title ecjia-location-list-address">' + data[i].address + '</span></p></li>'
                         $('.ecjia-location-list-wrap.location-search-result').append(opt);
-                    }
-                    ;
+                    };
                 }
             }
             ecjia.touch.add_link();
@@ -169,97 +169,6 @@
         },
         //搜索关键词定位结束
 
-        share_spread: function () {
-            var info = {
-                'url': location.href.split('#')[0]
-            };
-            
-            var spread_url = $('input[name="spread_url"]').val();
-            if (spread_url != undefined) {
-                return false;
-            }
-            var wxconfig_url = $('input[name="wxconfig_url"]').val();
-            if (wxconfig_url == undefined) {
-                return false;
-            }
-
-            var title = $('input[name="share_title"]').val() == undefined ? document.title : $('input[name="share_title"]').val();
-            var image = $('input[name="share_image"]').val() == undefined ? $.cookie('wap_logo') : $('input[name="share_image"]').val();
-            var desc = $('input[name="share_desc"]').val() == undefined ? document.title : $('input[name="share_desc"]').val();
-            var link = location.href.split('#')[0];
-
-            $.post(wxconfig_url, info, function (response) {
-                if (response == '' || response.data == undefined) {
-                    return false;
-                }
-                var data = response.data;
-                if (data != undefined && data.appId != '') {
-                    wx.config({
-                        debug: false,
-                        appId: data.appId,
-                        timestamp: data.timestamp,
-                        nonceStr: data.nonceStr,
-                        signature: data.signature,
-                        jsApiList: [
-                            'onMenuShareTimeline',
-                            'onMenuShareAppMessage',
-                            'onMenuShareQQ',
-                        ]
-                    });
-                    wx.error(function (res) {
-                        // console.log(res);
-                        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-                    });
-//	        		wx.ready(function () {
-                    //分享到朋友圈
-                    wx.onMenuShareTimeline({
-                        title: title, 					// 分享标题【必填】
-                        link: link, 					// 分享链接【必填】
-                        imgUrl: image, 					// 分享图标【必填】
-                        img_url: image,
-                        success: function () {
-                            // 用户确认分享后执行的回调函数
-                        },
-                        cancel: function () {
-                            // 用户取消分享后执行的回调函数
-                        }
-                    });
-
-                    //分享给朋友
-                    wx.onMenuShareAppMessage({
-                        title: title, 					// 分享标题【必填】
-                        desc: desc,	 					// 分享描述【必填】
-                        link: link, 					// 分享链接【必填】
-                        imgUrl: image, 					// 分享图标【必填】
-                        type: 'link', 					// 分享类型,music、video或link，不填默认为link【必填】
-                        img_url: image,
-                        success: function () {
-                            // 用户确认分享后执行的回调函数
-                        },
-                        cancel: function () {
-                            // 用户取消分享后执行的回调函数
-                        }
-                    });
-
-                    //分享到QQ
-                    wx.onMenuShareQQ({
-                        title: title, 					// 分享标题
-                        desc: desc, 					// 分享描述
-                        link: link, 					// 分享链接
-                        imgUrl: image, 					// 分享图标
-                        img_url: image,
-                        success: function () {
-                            // 用户确认分享后执行的回调函数
-                        },
-                        cancel: function () {
-                            // 用户取消分享后执行的回调函数
-                        }
-                    });
-//	        		});	
-                }
-            });
-        },
-
         copy_btn: function () {
             var clipboard = new Clipboard('.copy-btn');
             clipboard.on('success', function (e) {
@@ -309,7 +218,7 @@
                 history_city = JSON.parse(history_city);
                 var html = '<h2 class="history-city-title"><span>历史访问城市</span></h2><ul class="history-city-list">';
                 for (var i = history_city.length - 1; i >= 0; i--) {
-                    html += '<li class="data-li"><p class="select-city-li" data-id='+ history_city[i].id +'>'+ history_city[i].city_name +'</p></li>';         
+                    html += '<li class="data-li"><p class="select-city-li" data-id=' + history_city[i].id + '>' + history_city[i].city_name + '</p></li>';
                 }
                 html += '</ul>';
                 $('.ecjia-history-city').html(html);
@@ -330,7 +239,10 @@
                 var date = new Date();
                 date.setTime(date.getTime() + (30 * 60 * 1000));
 
-                var city = {id: id, city_name: city_name};
+                var city = {
+                    id: id,
+                    city_name: city_name
+                };
                 var history_city = $.localStorage('history_city');
                 var push = 1;
 
@@ -406,10 +318,13 @@
             /* PJAX基础配置项 */
             ecjia.pjaxoption = {
                 timeout: 10000,
-                container: '.ecjia', /* 内容替换的容器 */
-                cache: false, /* 是否使用缓存 */
-                storage: false, /* 是否使用本地存储 */
-                titleSuffix: '.pjax'    /* 标题后缀 */
+                container: '.ecjia',
+                /* 内容替换的容器 */
+                cache: false,
+                /* 是否使用缓存 */
+                storage: false,
+                /* 是否使用本地存储 */
+                titleSuffix: '.pjax' /* 标题后缀 */
             };
 
             /* ecjia.pjax */
@@ -418,7 +333,7 @@
                     var option = $.extend(ecjia.pjaxoption, {
                         url: url,
                         callback: function () {
-                            if (typeof(callback) === 'function') callback();
+                            if (typeof (callback) === 'function') callback();
                         }
                     });
                     $.pjax(option);
@@ -447,12 +362,17 @@
          */
         showmessage: function (options) {
             var defaults = {
-                message: false, /* message 提示信息 */
-                is_show: true, /* message 提示信息 */
-                state: 'success', /* state 信息状态 */
-                links: false, /* links 链接对象 */
-                close: true, /* close 是否可以关闭 */
-                pjaxurl: ''        /* pjax刷新页面后显示message的时候传递的pjaxURL参数 */
+                message: false,
+                /* message 提示信息 */
+                is_show: true,
+                /* message 提示信息 */
+                state: 'success',
+                /* state 信息状态 */
+                links: false,
+                /* links 链接对象 */
+                close: true,
+                /* close 是否可以关闭 */
+                pjaxurl: '' /* pjax刷新页面后显示message的时候传递的pjaxURL参数 */
             };
 
             var options = $.extend({}, defaults, options);
@@ -498,16 +418,16 @@
             $('.is-last').remove();
             $(window).scrollTop(0);
             var defaults = {
-                    url: false, 				//url 			请求地址
-                    page: 1, 					//page			分页
-                    size: 10, 					//size			分页数量
-                    areaSelect: '#J_ItemList', 	//areaSelect	模块select
-                    areaClass: '', 				//areaClass		模块class
-                    scroll: true, 				//scroll		滑动加载
-                    offset: 100, 				//offset		滑动预留
-                    trigger: '.load-list', 		//trigger		点击的触发器
-                    lock: false, 				//lock			锁
-                    type: '',  					//type			类型
+                    url: false, //url 			请求地址
+                    page: 1, //page			分页
+                    size: 10, //size			分页数量
+                    areaSelect: '#J_ItemList', //areaSelect	模块select
+                    areaClass: '', //areaClass		模块class
+                    scroll: true, //scroll		滑动加载
+                    offset: 100, //offset		滑动预留
+                    trigger: '.load-list', //trigger		点击的触发器
+                    lock: false, //lock			锁
+                    type: '', //type			类型
                 },
                 options = $.extend({}, defaults, options),
                 scroll_list = function () {
@@ -530,6 +450,9 @@
                     scroll_list();
                 };
                 $('.wd').scroll(function () {
+                    if ($(this).find('.is-last').length != 0) {
+                        return false;
+                    }
                     scroll_list();
                 });
                 $('.store-container').scroll(function () {
@@ -644,10 +567,10 @@
         touch_slide: function () {
             TouchSlide({
                 slideCell: "#picScroll",
-                titCell: ".hd ul", 	//开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
-                autoPage: "true", 	//自动分页
-                pnLoop: "false", 	// 前后按钮不循环
-                switchLoad: "_src" 	//切换加载，真实图片路径为"_src"
+                titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                autoPage: "true", //自动分页
+                pnLoop: "false", // 前后按钮不循环
+                switchLoad: "_src" //切换加载，真实图片路径为"_src"
             });
         },
 
@@ -756,7 +679,8 @@
                     bottom_start = $("#ecjia-menu").css("bottom");
                     top_start = $("#ecjia-menu").offset().top - $("body").scrollTop();
                     //阻止浏览器下拉事件
-                    $('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
+                    $('body').css('overflow-y', 'hidden');
+                    window.addEventListener('touchmove', function (event) {
                         event.preventDefault;
                     }, false);
                 });
@@ -844,8 +768,7 @@
             $(document).on('click', '.close-banner', function () {
                 $('.bottom-banner img').slideUp();
                 var url = $(this).attr('data-url');
-                $.get(url, function () {
-                });
+                $.get(url, function () {});
             });
         },
 
@@ -861,7 +784,7 @@
                 var is_order_list = $('input[name="keywords"]').attr("data-type");
                 if (is_order_list) {
                     if (!val) {
-//						ecjia.pjax(url);
+                        //						ecjia.pjax(url);
                         return false;
                     } else {
                         ecjia.pjax(url + '&keywords=' + val);
@@ -883,8 +806,7 @@
                     keywords = $this.attr('data-val');
                 if (keywords && keywords != undefined) {
                     url += '&keywords=' + keywords;
-                }
-                ;
+                };
                 ecjia.pjax(url);
             });
         },
@@ -936,8 +858,7 @@
 
                 var html = '<i class="icon-goods-hot"></i>' + time + ' 热门推荐已更新';
                 $('.ecjia-new-goods').find('.goods-index-title').html(html);
-            }
-            ;
+            };
         },
     };
 
@@ -974,7 +895,7 @@
 
     //PJAX历史和跳转都会执行的方法
     $(document).on('pjax:end', function () {
-        if (typeof(releated_goods) != "undefined") {
+        if (typeof (releated_goods) != "undefined") {
             if (releated_goods.length != 0) {
                 window.releated_goods = $.extend({}, releated_goods, window.releated);
             }
@@ -995,7 +916,6 @@
         ecjia.touch.region_change();
         ecjia.touch.goods_detail.change();
         ecjia.touch.index.init_swiper();
-        ecjia.touch.share_spread();
         ecjia.touch.clear_cache();
 
         var ua = navigator.userAgent.toLowerCase();

@@ -258,6 +258,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         	</a>
 		</li>
 		<li>
+			<a href="{if $user}{url path='user/order/groupbuy_order'}{else}{$login_url}{/if}">
+        		<div class="icon-address-list"><img src="{$theme_url}images/user_center/groupbuy.png"></div>
+        		<span class="icon-name">我的团购</span>
+        		<i class="iconfont icon-jiantou-right"></i>
+        	</a>
+		</li>
+		<li>
 			<a href="{url path='user/address/address_list'}">
         		<div class="icon-address-list"><img src="{$theme_url}images/user_center/75x75_3.png"></div>
         		<span class="icon-name">收货地址</span>

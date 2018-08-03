@@ -112,6 +112,7 @@ class cart_controller {
     	$checked	= isset($_POST['checked']) 	? $_POST['checked'] : '';
     	$response   = isset($_POST['response']) ? true : false;
     	$spec     	= isset($_POST['spec'])    	? $_POST['spec'] 	: '';
+    	$goods_activity_id = isset($_POST['act_id']) ? $_POST['act_id'] : '';
 
     	$token = ecjia_touch_user::singleton()->getToken();
     	$arr = array(
@@ -162,7 +163,10 @@ class cart_controller {
     					if ($spec != 'false' && !empty($spec)) {
     						$arr['spec'] = $spec;
     					}
-    					$data = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_CREATE)->data($arr)->data($arr)->run();
+    					if (!empty($goods_activity_id)) {
+    						$arr['goods_activity_id'] = $goods_activity_id;
+    					}
+    					$data = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_CREATE)->data($arr)->run();
     				}
     			} else {
     				if (!empty($rec_id)) {
@@ -225,10 +229,9 @@ class cart_controller {
     		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('count' => $cart_count, 'response' => $response, 'data_rec' => $data_rec));
     	}
     	$sayList = '';
-    	if ($_POST['checked'] === '') {
-    		ecjia_front::$controller->assign('list', $cart_goods_list);
-    		$sayList = ecjia_front::$controller->fetch('merchant.dwt');
-    	}
+    	ecjia_front::$controller->assign('list', $cart_goods_list);
+    	$sayList = ecjia_front::$controller->fetch('merchant.dwt');
+    		
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
     }
     
@@ -385,7 +388,8 @@ class cart_controller {
         }
         ecjia_front::$controller->assign('data', $rs);
 
-        if ($rs['checkorder_mode'] == 'default_storepickup') {
+		$order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : '';
+        if ($rs['checkorder_mode'] == 'default_storepickup' && empty($order_type)) {
             $show_storepickup = true;
         }
         ecjia_front::$controller->assign('show_storepickup', $show_storepickup);
@@ -976,7 +980,7 @@ class cart_controller {
    		//释放session
    		unset($_SESSION['cart']);
    		
-   		$url = RC_Uri::url('pay/index/init', array('order_id' => $order_id, 'tips_show' => 1));
+   		$url = RC_Uri::url('payment/pay/init', array('order_id' => $order_id, 'tips_show' => 1));
    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
     }
     
@@ -1052,7 +1056,7 @@ class cart_controller {
     	//释放session
     	unset($_SESSION['cart']);
     	 
-    	$url = RC_Uri::url('pay/index/init', array('order_id' => $order_id, 'tips_show' => 1));
+    	$url = RC_Uri::url('payment/pay/init', array('order_id' => $order_id, 'tips_show' => 1));
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
     }
 
@@ -1453,6 +1457,76 @@ class cart_controller {
         ecjia_front::$controller->assign_title('使用积分');
         
         ecjia_front::$controller->display('flow_integral.dwt');
+    }
+    
+    /**
+     * 购买团购商品
+     */
+    public static function add_groupbuy() {
+    	$url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+    	$login_str = user_function::return_login_str();
+    	
+    	$referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
+    	if (!ecjia_touch_user::singleton()->isSignin()) {
+    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+    	}
+
+    	$number 	= intval($_POST['number']);
+    	$store_id 	= intval($_POST['store_id']);
+    	$goods_id   = intval($_POST['goods_id']);
+    	$goods_activity_id = isset($_POST['goods_activity_id']) ? $_POST['goods_activity_id'] : 0;
+    	
+    	$token = ecjia_touch_user::singleton()->getToken();
+    	$arr = array(
+    		'token' 	=> $token,
+    		'location' 	=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+    		'city_id'   => $_COOKIE['city_id']
+    	);
+    	if (!empty($store_id)) {
+    		$arr['seller_id'] = $store_id;
+    	}
+    	
+    	RC_Cache::app_cache_delete('cart_goods'.$token.$store_id.$_COOKIE['longitude'].$_COOKIE['latitude'].$_COOKIE['city_id'], 'cart');
+
+    	//添加商品到购物车
+    	$arr['goods_id'] = $goods_id;
+    	$arr['number'] = $number;
+    	if (!empty($goods_activity_id)) {
+    		$arr['goods_activity_id'] = $goods_activity_id;
+    	}
+    	$arr['rec_type'] = "GROUPBUY_GOODS";
+    	
+    	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_CREATE)->data($arr)->run();
+    	if (is_ecjia_error($data)) {
+    		if ($data->get_error_message() == 'Invalid session') {
+    			return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+    		}
+    		return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	
+    	$cart_list = array();
+    	if (!is_ecjia_error($data) && !empty($data['cart_list'])) {
+    		foreach ($data['cart_list'] as $k => $v) {
+    			if ($v['seller_id'] == $store_id) {
+    				$cart_list['cart_list'][0] = $v;
+    				$cart_list['total'] = $v['total'];
+    			}
+    		}
+    	}
+    	
+    	RC_Cache::app_cache_set('cart_goods'.$token.$store_id.$_COOKIE['longitude'].$_COOKIE['latitude'].$_COOKIE['city_id'], $cart_list, 'cart');
+    	$cart_goods_list = $cart_list['cart_list'][0]['goods_list'];
+    	
+    	$rec_id = 0;
+    	if (!empty($cart_goods_list)) {
+    		foreach ($cart_goods_list as $k => $v) {
+				if ($goods_id == $v['goods_id']) {
+					$rec_id = $v['rec_id'];
+				}
+    		}
+    	}
+    	
+    	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('cart/flow/checkout', array('rec_id' => $rec_id, 'order_type' => 'group_buy'))));
     }
 }
 

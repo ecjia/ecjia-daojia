@@ -1,22 +1,22 @@
 ;
-(function($) {
-	var greenCheck = function() {
+(function ($) {
+	var greenCheck = function () {
 		var check = {
 			//执行初始化
-			init: function() {
+			init: function () {
 				this.init_checkbox();
 				this.init_radio();
 			},
 
 			//初始化复选框
-			init_checkbox: function() {},
+			init_checkbox: function () {},
 
 			//初始化单选框
-			init_radio: function() {
+			init_radio: function () {
 				var obj_input = $('label>input[type="radio"]');
 				//todo 无选中时默认第一个
 
-				obj_input.on('change', function() {
+				obj_input.on('change', function () {
 					var obj_iname = $(this).attr('name'),
 						objall_i = $('input[name="' + obj_iname + '"]').parent('label'),
 						tmpobj_i = $(this).parent('label');

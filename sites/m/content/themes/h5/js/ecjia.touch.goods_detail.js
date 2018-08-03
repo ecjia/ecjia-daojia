@@ -2,18 +2,18 @@
  * 后台综合js文件
  */
 ;
-(function(ecjia, $) {
+(function (ecjia, $) {
 	ecjia.touch.goods_detail = {
-		init: function() {
+		init: function () {
 			ecjia.touch.goods_detail.change();
 			ecjia.touch.goods_detail.promote_time();
 			ecjia.touch.goods_detail.goods_img();
 		},
-		change: function() {
+		change: function () {
 			$('.tab2').css("border-bottom", "none");
 			$('.tab3').css("border-bottom", "none");
 
-			$('.goods-tab').off('click').on('click', function(e) {
+			$('.goods-tab').off('click').on('click', function (e) {
 				var id = $(this).attr('data-type');
 				if (id == 1) {
 					$(".tab1").css("border-bottom", "4px solid #fff")
@@ -39,7 +39,7 @@
 				}
 				$(window).scrollTop(0);
 			});
-			$('.goods-desc-li-info').off('click').on('click', function(e) {
+			$('.goods-desc-li-info').off('click').on('click', function (e) {
 				var type = $(this).attr('data-id');
 				if (type == 1) {
 					$('#one-info').show();
@@ -54,15 +54,15 @@
 				}
 			});
 		},
-		promote_time: function() {
+		promote_time: function () {
 			var serverTime = Math.round(new Date().getTime() / 1000) * 1000; //服务器时间，毫秒数 
 			var dateTime = new Date();
 			var difference = dateTime.getTime() - serverTime; //客户端与服务器时间偏移量 
 			var InterValObj;
 			clearInterval(InterValObj);
 
-			InterValObj = setInterval(function() {
-				$(".goods-detail-promote").each(function() {
+			InterValObj = setInterval(function () {
+				$(".goods-detail-promote").each(function () {
 					var obj = $(this);
 					var endTime = new Date((parseInt(obj.attr('value')) + 8 * 3600) * 1000);
 					var nowTime = new Date();
@@ -92,7 +92,7 @@
 				});
 			}, 1000); //每隔1秒执行一次 
 		},
-		goods_img: function() {
+		goods_img: function () {
 			var swiper = new Swiper('.swiper-goods-img', {
 				pagination: '.swiper-pagination',
 				grabCursor: true,

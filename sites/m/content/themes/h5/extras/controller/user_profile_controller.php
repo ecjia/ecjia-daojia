@@ -117,15 +117,15 @@ class user_profile_controller {
     /* 处理用户中心编辑用户名称 */
     public static function modify_username_account() {
         $name = !empty($_POST['username']) ? $_POST['username'] :'';
-        if (strlen($name) > 20 || strlen($name) < 4) {
-              return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('msg' => '修改失败，请输入4-20个字符'));
+        if (strlen($name) > 20 || strlen($name) < 4 || !preg_match('/^[A-Za-z0-9_\-\x{4e00}-\x{9fa5}]+$/u', $name)) {
+              return ecjia_front::$controller->showmessage('修改失败，请输入正确的用户名格式', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (!empty($name)) {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_UPDATE)->data(array('user_name' => $name))->run();
             if (!is_ecjia_error($data)) {
-                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('msg' => RC_Uri::url('user/profile/init')));
+                return ecjia_front::$controller->showmessage('修改成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/profile/init')));
             } else {
-                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('msg' => $data->get_error_message()));
+                return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
     }
@@ -297,7 +297,7 @@ class user_profile_controller {
         $value = !empty($_POST['mobile']) ? trim($_POST['mobile']) : trim($_POST['email']);
         $code = !empty($_POST['code']) ? trim($_POST['code']) : '';
         $type = !empty($_POST['type']) ? $_POST['type'] : '';
-        $token = touch_function::get_token();
+        $token = ecjia_touch_user::singleton()->getToken();
         
         if (!empty($code) && !empty($type)) {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BIND)->data(array('type' => $type, 'value' => $value, 'code' => $code, 'token' => $token))->run();

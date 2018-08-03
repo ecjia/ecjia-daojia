@@ -178,7 +178,8 @@ class article_controller {
     		ecjia_front::$controller->assign('data', $data);
     	}
     	ecjia_front::$controller->assign('article_id', $article_id);
-    	    	
+
+    	ecjia_front::$controller->assign_title('文章详情');
     	ecjia_front::$controller->display('discover_article.dwt');
     }
     

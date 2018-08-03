@@ -51,7 +51,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class affiliate_controller {
 	public static function init() {
-		$token = touch_function::get_affiliate_token();
+		unset($_SESSION['affiliate_temp']);
+		$token = touch_function::get_admin_token();
 		
 		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 		$res = !is_ecjia_error($res) ? $res : array();
@@ -77,7 +78,7 @@ class affiliate_controller {
 			return ecjia_front::$controller->showmessage('请输入验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$token = touch_function::get_affiliate_token();
+		$token = touch_function::get_admin_token();
 		$param = array(
 			'token'	=> $token,
 			'type'	=> 'mobile',
@@ -102,7 +103,7 @@ class affiliate_controller {
 	
 	//刷新图形验证码
 	public static function refresh() {
-		$token = touch_function::get_affiliate_token();
+		$token = touch_function::get_admin_token();
 		
 		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 		if (is_ecjia_error($res)) {
@@ -124,7 +125,7 @@ class affiliate_controller {
 			return ecjia_front::$controller->showmessage('请输入短信验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$token = touch_function::get_affiliate_token();
+		$token = touch_function::get_admin_token();
 		
 		$param = array(
 			'token'			=> $token,

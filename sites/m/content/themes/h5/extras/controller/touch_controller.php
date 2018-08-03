@@ -127,6 +127,9 @@ class touch_controller {
             //首页促销商品
             ecjia_front::$controller->assign('promotion_goods', $data['promote_goods']);
             
+            //首页团购
+            ecjia_front::$controller->assign('groupbuy_goods', $data['group_goods']);
+            
             //新品首发
             ecjia_front::$controller->assign('new_goods', $data['new_goods']);
             
@@ -284,6 +287,235 @@ class touch_controller {
     	
     	$url = RC_Uri::url('touch/my/init');
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
+    }
+    
+    public static function choose_store() {
+    	$url = RC_Uri::url('touch/index/init');
+    	touch_function::redirect_referer_url($url);
+    		//周边店铺
+		$paramater = array(
+			'pagination' 	=> array('count' => 10, 'page' => 1),
+			'location' 		=> array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+			// 'city_id'       => $_COOKIE['city_id']
+		);
+		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
+		if (!is_ecjia_error($response)) {
+			list($data, $paginated) = $response;
+			$data = merchant_function::format_distance($data);
+			if (isset($paginated['more']) && $paginated['more'] == 0) $is_last = 1;
+			ecjia_front::$controller->assign('data', $data);
+			ecjia_front::$controller->assign('is_last', $is_last);
+		}
+		ecjia_front::$controller->assign_title('选择门店');
+		
+    	ecjia_front::$controller->display('choose_store.dwt');
+	}
+	
+	public static function about_us() {
+    	$cache_id = $_SERVER['QUERY_STRING'];
+    	$cache_id = sprintf('%X', crc32($cache_id));
+		if (!ecjia_front::$controller->is_cached('about_us.dwt', $cache_id)) {
+	
+			$shop = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO)->run();
+			$shop = is_ecjia_error($shop) ? array() : $shop;
+			ecjia_front::$controller->assign('shop', $shop);
+
+			$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+			$shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
+			ecjia_front::$controller->assign('shop_config', $shop_config);
+
+    		ecjia_front::$controller->assign_title('关于我们');
+    	}
+    	ecjia_front::$controller->display('about_us.dwt', $cache_id);
+	}
+
+	//首页定位触发进入页面
+    //1、获取当前位置2、搜索位置  最终返回首页顶部定位更换信息
+    public static function select_location()
+    {
+        ecjia_front::$controller->assign('title', '定位');
+        ecjia_front::$controller->assign_title('定位');
+
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
+        if (ecjia_touch_user::singleton()->isSignin()) {
+            ecjia_front::$controller->assign('login', 1);
+            $token = ecjia_touch_user::singleton()->getToken();
+            $user_info = ecjia_touch_user::singleton()->getUserinfo();
+
+            $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
+            $cache_id = sprintf('%X', crc32($cache_id));
+
+            if (!ecjia_front::$controller->is_cached('select_location.dwt', $cache_id)) {
+                $address_list = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_LIST)->data(array('token' => $token))->run();
+                if (!is_ecjia_error($address_list) && !empty($address_list)) {
+                    ecjia_front::$controller->assign('address_list', $address_list);
+                }
+            }
+            $location_url = RC_Uri::url('touch/location/select_location');
+            ecjia_front::$controller->assign('location_url', urlencode($location_url));
+        }
+
+        if (!ecjia_front::$controller->is_cached('select_location.dwt', $cache_id)) {
+            $referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
+
+            if (!empty($referer_url)) {
+                ecjia_front::$controller->assign('referer_url', $referer_url);
+                $backurl = $referer_url;
+            } else {
+                $backurl = RC_Uri::url('touch/index/init');
+            }
+
+            // 获取当前定位地址
+            $ecjia_location = new ecjia_location();
+            $my_location = $ecjia_location->getLocationUrl($backurl);
+            ecjia_front::$controller->assign('my_location', $my_location);
+
+            // 获取周边数据
+            $content = $ecjia_location->getNearByBoundary();
+            $content = !is_ecjia_error($content) ? $content : array();
+            ecjia_front::$controller->assign('content', $content['data']);
+        }
+
+        ecjia_front::$controller->display('select_location.dwt', $cache_id);
+    }
+
+    //请求接口返回数据
+    public static function search_list()
+    {
+        $region = $_GET['region'];
+        $keywords = $_GET['keywords'];
+
+        $content = with(new ecjia_location())->getSuggestionRegion($region, $keywords);
+        $content = !is_ecjia_error($content) ? $content : array();
+        
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $content));
+    }
+
+    //选择城市
+    public static function select_city()
+    {
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
+        $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::STORE_BUSINESS_CITY)->run();
+        if (is_ecjia_error($rs)) {
+            return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+        }
+
+        $arr = [];
+        if (!empty($rs)) {
+            foreach ($rs as $key => $value) {
+                $value['business_district_list'] = '';
+                $arr[$value['index_letter']][] = $value;
+            }
+        }
+        ecjia_front::$controller->assign('rs', $arr);
+            
+        if (!ecjia_front::$controller->is_cached('select_location_city.dwt', $cache_id)) {
+            $referer_url = !empty($_GET['referer_url']) ? $_GET['referer_url'] : '';
+            if (!empty($referer_url)) {
+                ecjia_front::$controller->assign('referer_url', urlencode($referer_url));
+            }
+
+            $city_id = !empty($_GET['city_id']) ? trim($_GET['city_id']) : '';
+            ecjia_front::$controller->assign('city_id', $city_id);
+
+            ecjia_front::$controller->assign_title('选择城市');
+            ecjia_front::$controller->assign_lang();
+        }
+        ecjia_front::$controller->display('select_location_city.dwt', $cache_id);
+    }
+
+
+    //请求接口返回数据
+    public static function get_location_msg()
+    {
+        $content = with(new ecjia_location())->getGeoCoder($_GET['lat'], $_GET['lng']);
+        $content = !is_ecjia_error($content) ? $content : array();
+        
+        $location_content = $content['result']['pois'][0];
+        $location_name = $location_content['title'];
+        $location_address = $location_content['address'];
+        $latng = $location_content['location'];
+        $longitude = $latng['lng'];
+        $latitude = $latng['lat'];
+
+        $ad_info = $location_content['ad_info'];
+        $city_name = $ad_info['district'];
+        $adcode = !empty($ad_info['adcode']) ? substr($ad_info['adcode'], 0, 4) : '';
+
+        $params = array(
+            'token' => ecjia_touch_user::singleton()->getToken(),
+            'city_id' => $adcode,
+        );
+        $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+        if (is_ecjia_error($rs)) {
+            return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+        } else {
+            $city_id = !empty($rs['region_id']) ? $rs['region_id'] : '';
+        }
+        $referer_url = RC_Uri::url('touch/index/init');
+        setcookie("referer_url", $referer_url, RC_Time::gmtime() + 3600 * 24 * 7);
+
+        $href_url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+
+        $str1 = 'm=touch&c=location&a=select_location';
+        if (strpos($href_url, $str1)) {
+            $href_url = RC_Uri::url('touch/index/init');
+        }
+
+        //写入cookie
+        setcookie("location_address_id", 0, time() + 1800);
+        setcookie("location_address", $location_address, time() + 1800);
+        setcookie("location_name", $location_name, time() + 1800);
+        setcookie("longitude", $longitude, time() + 1800);
+        setcookie("latitude", $latitude, time() + 1800);
+
+        setcookie("city_id", $city_id, time() + 1800);
+        setcookie("city_name", $rs['region_name'], time() + 1800);
+
+        //自动定位的城市id name 经纬度
+        setcookie("position_city_id", $city_id, time() + 1800);
+        setcookie("position_city_name", $rs['region_name'], time() + 1800);
+        setcookie("position_name", $location_name, time() + 1800);
+        setcookie("position_longitude", $longitude, time() + 1800);
+        setcookie("position_latitude", $latitude, time() + 1800);
+
+        $store_id = $_COOKIE['current_store_id'];
+        if (empty($store_id)) {
+            //周边店铺
+            $paramater = array(
+                'pagination' => array('count' => 10, 'page' => 1),
+                'location' => array('longitude' => $longitude, 'latitude' => $latitude),
+                'city_id' => $city_id
+            );
+            $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
+            if (!is_ecjia_error($response)) {
+                list($data, $paginated) = $response;
+                if (!empty($data)) {
+                    $store_id = $data[0]['id'];
+                }
+            }
+        }
+        setcookie("current_store_id", $store_id, time() + 3600 * 24);
+        if (empty($store_id)) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('touch/location/select_city')));
+        }
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $href_url));
+    }
+
+    public static function get_location_info()
+    {
+        $location_msg = array();
+
+        $location_msg['location_address_id'] = $_COOKIE['location_address_id'];
+        $location_msg['location_address'] = $_COOKIE['location_address'];
+        $location_msg['location_name'] = $_COOKIE['location_name'];
+        $location_msg['longitude'] = $_COOKIE['longitude'];
+        $location_msg['latitude'] = $_COOKIE['latitude'];
+
+        return $location_msg;
     }
 }
 

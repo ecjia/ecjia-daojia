@@ -2,9 +2,9 @@
  * 后台综合js文件
  */
 ;
-(function(ecjia, $) {
+(function (ecjia, $) {
 	ecjia.touch.category = {
-		init: function() {
+		init: function () {
 			ecjia.touch.category.openSelection();
 			ecjia.touch.category.selectionValue();
 			ecjia.touch.category.clear_filter();
@@ -27,8 +27,12 @@
 			ecjia.touch.category.promotion_scroll();
 			ecjia.touch.category.image_preview();
 
+			ecjia.touch.category.add_goods();
+			ecjia.touch.category.remove_goods();
+			ecjia.touch.category.check_groupbuy_cart();
+
 			//分类列表 点击分类切换 滚动到顶部
-			$('.category_left li').on('click', function() {
+			$('.category_left li').on('click', function () {
 				$(window).scrollTop(0);
 			});
 			$('body').css('overflow-y', 'auto').off("touchmove").off('click'); //启用滚动条
@@ -38,8 +42,8 @@
 		},
 
 		//加入购物车
-		add_tocart: function() {
-			$("[data-toggle='add-to-cart']").off('click').on('click', function(ev) {
+		add_tocart: function () {
+			$("[data-toggle='add-to-cart']").off('click').on('click', function (ev) {
 				var $this = $(this);
 				if ($this.hasClass('disabled') || $this.parents('.item-goods').hasClass('disabled') || $this.hasClass('limit_click')) {
 					return false;
@@ -52,7 +56,7 @@
 				//选择商品规格
 				if ($this.hasClass('add_spec')) {
 					var spec = [];
-					$this.parents('.ecjia-attr-modal').find('.goods-attr-list').find('li.active').each(function() {
+					$this.parents('.ecjia-attr-modal').find('.goods-attr-list').find('li.active').each(function () {
 						spec.push($(this).attr('data-attr'));
 					});
 					$this.parents('.ecjia-attr-modal').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
@@ -122,7 +126,7 @@
 									height: 0,
 								},
 								vertex_Rtop: 50,
-								onEnd: function() { // 回调方法
+								onEnd: function () { // 回调方法
 									!$('.store-add-cart').hasClass('active') && $('.store-add-cart').addClass('active');
 									$('img.u-flyer').remove();
 								}
@@ -142,14 +146,88 @@
 							$('.may_like_' + goods_id).attr('data-num', val);
 						}
 					}
-					ecjia.touch.category.update_cart(rec_id, val, goods_id, '', true, bool_spec, 'add');
+					var goods_activity_id = $this.attr('act_id');
+					ecjia.touch.category.update_cart(rec_id, val, goods_id, '', true, bool_spec, 'add', '', goods_activity_id);
 				}
 			});
 		},
 
+		//加按钮点击
+		add_goods: function () {
+			$("[data-toggle='add-goods']").off('click').on('click', function (ev) {
+				var $this = $(this);
+				$('.check_groupbuy_cart').removeClass('disabled');
+
+				$('.check_groupbuy_cart').attr('data-num', 1);
+				if ($this.hasClass('detail-add')) {
+					var val = parseInt($this.parent().children('label').html());
+					val += 1;
+					$('.check_groupbuy_cart').attr('data-num', val);
+					$this.parent().children('label').html(val);
+				} else {
+					var box = $this.siblings('.box');
+					box.removeClass('hide');
+					$this.addClass('hide');
+				}
+
+				//显示价格
+				var goods_id = $('.goods-add-cart').attr('goods_id');
+				var deposit = $('.goods-price-new').attr('data-deposit');
+				var price = $('.goods-price-new').attr('data-price');
+				var formated_price = '';
+				var num = val;
+				if (val == 0 || val == undefined) {
+					num = 1;
+				}
+				if (deposit != 0 && deposit != undefined) {
+					formated_price = '￥' + (deposit * num).toFixed(2);
+				} else {
+					formated_price = '￥' + (price * num).toFixed(2);
+				}
+				$('.a4z').addClass('m_l1').html('<div>' + formated_price + '</div>');
+			});
+		},
+
+		remove_goods: function () {
+			$("[data-toggle='remove-goods']").off('click').on('click', function (ev) {
+				var $this = $(this);
+				var val = parseInt($this.parent().children('label').html());
+				val -= 1;
+
+				$('.check_groupbuy_cart').attr('data-num', val);
+				if (val != 0) {
+					$this.parent().children('label').html(val);
+				} else {
+					$this.parent().children('label').html(1);
+					$('.check_groupbuy_cart').addClass('disabled');
+					$this.parent().addClass('hide');
+					$('.goods-add-cart').removeClass('hide');
+
+					$('.a4z').removeClass('m_l1').html('');
+					return false;
+				}
+
+				//显示价格
+				var goods_id = $('.goods-add-cart').attr('goods_id');
+				var deposit = $('.goods-price-new').attr('data-deposit');
+				var price = $('.goods-price-new').attr('data-price');
+				var formated_price = '';
+				var num = val;
+				if (val == 0 || val == undefined) {
+					num = 1;
+				}
+				if (deposit != 0 && deposit != undefined) {
+					formated_price = '￥' + (deposit * num).toFixed(2);
+				} else {
+					formated_price = '￥' + (price * num).toFixed(2);
+				}
+				$('.a4z').addClass('m_l1').html('<div>' + formated_price + '</div>');
+			});
+		},
+
 		//购物车中移出商品
-		remove_tocart: function() {
-			$("[data-toggle='remove-to-cart']").off('click').on('click', function(ev) {
+		remove_tocart: function () {
+			$("[data-toggle='remove-to-cart']").off('click').on('click', function (ev) {
 				var $this = $(this);
 				if ($this.hasClass('disabled') || $this.parents('.item-goods').hasClass('disabled') || $this.hasClass('limit_click')) {
 					return false;
@@ -161,7 +239,7 @@
 				//选择商品规格
 				if ($this.hasClass('remove_spec')) {
 					var spec = [];
-					$this.parents('.ecjia-attr-modal').find('.goods-attr-list').find('li.active').each(function() {
+					$this.parents('.ecjia-attr-modal').find('.goods-attr-list').find('li.active').each(function () {
 						spec.push($(this).attr('data-attr'));
 					});
 					$this.parents('.ecjia-attr-modal').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
@@ -241,7 +319,7 @@
 			});
 		},
 
-		change_num: function() {
+		change_num: function () {
 			$("[data-toggle='change-number']").off('click').on('click', function (e) {
 				var $this = $(this),
 					val = $this.attr('goods_num'),
@@ -300,8 +378,8 @@
 		},
 
 		//切换购物车 弹出/隐藏 效果
-		toggle_cart: function() {
-			$('.show_cart').off('click').on('click', function(e) {
+		toggle_cart: function () {
+			$('.show_cart').off('click').on('click', function (e) {
 				e.preventDefault();
 				if ($(this).hasClass('disabled')) {
 					return false;
@@ -320,7 +398,7 @@
 				}
 			});
 
-			$('.a53').off('click').on('click', function(e) {
+			$('.a53').off('click').on('click', function (e) {
 				e.preventDefault();
 				ecjia.touch.category.hide_cart();
 			});
@@ -334,7 +412,7 @@
 		//spec 商品规格
 		//type 加/减
 		//div 删除指定div
-		update_cart: function(rec_id, val, goods_id, checked, store, spec, type, div) {
+		update_cart: function (rec_id, val, goods_id, checked, store, spec, type = '', div = '', act_id = 0) {
 			var url = $('input[name="update_cart_url"]').val();
 			var store_id = $('input[name="store_id"]').val();
 
@@ -351,10 +429,11 @@
 				'checked': checked == undefined ? '' : checked,
 				'response': response,
 				'spec': spec,
+				'act_id': act_id
 			};
 
 			//更新购物车中商品
-			$.post(url, info, function(data) {
+			$.post(url, info, function (data) {
 				$('.la-ball-atom').remove();
 				$('.box').children('span').addClass('limit_click'); //禁止其他加减按钮点击
 				$('[data-toggle="toggle_checkbox"]').removeClass('limit_click'); //店铺首页 允许其他单选框点击
@@ -373,7 +452,7 @@
 							overflow: "hidden"
 						}); //禁用滚动条
 						//禁用滚动条
-						$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+						$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 							event.preventDefault;
 						}, false);
 
@@ -382,7 +461,7 @@
 							text: '您还没有登录',
 							buttons: [{
 								text: '取消',
-								onClick: function() {
+								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
 									$(".ecjia-store-goods .a1n .a1x").css({
@@ -393,7 +472,7 @@
 								}
 							}, {
 								text: '去登录',
-								onClick: function() {
+								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
 									$(".ecjia-store-goods .a1n .a1x").css({
@@ -419,8 +498,8 @@
 					$('#goods_' + goods_id).siblings('span').removeClass('hide').attr('rec_id', '')
 					$('#setion_' + goods_id).remove();
 				}
-				
-				if (div != undefined) {
+
+				if (div != undefined && div != '') {
 					if (div.hasClass('other_place')) {
 						if (div.parent().find('.other_place').length == 1) {
 							$('.a4u.a4u-gray').remove();
@@ -500,6 +579,7 @@
 					$('.ecjia-attr-modal').find('#goods_' + goods_id).children('label').html(val);
 				}
 
+				var text = $('.a51').attr('data-text') == undefined ? '去结算' : $('.a51').attr('data-text');
 				if (data.count == null) {
 					ecjia.touch.category.hide_cart(true);
 				} else {
@@ -540,7 +620,7 @@
 					}
 
 					if (data.count.goods_number == 0) {
-						$('.a51').addClass('disabled').html('去结算');
+						$('.a51').addClass('disabled').html(text);
 					} else {
 						$('.a51').removeClass('disabled');
 						//隐藏加入购物车按钮 显示加减按钮
@@ -582,33 +662,34 @@
 					$('.ecjia-num-content').removeClass('show');
 				}
 				ecjia.touch.category.check_all();
-				
+
 				if (data.count != undefined) {
 					var count = data.count;
 					if (count.meet_min_amount == 1 || !count.label_short_amount) {
 						if (count.real_goods_count > 0) {
-							$('.check_cart').removeClass('disabled').html('去结算');
+							$('.check_cart').removeClass('disabled').html(text);
 						} else {
-							$('.check_cart').html('去结算');
+							$('.check_cart').html(text);
 						}
 					} else {
-						$('.check_cart').addClass('disabled').html('还差'+ count.label_short_amount +'起送');
+						$('.check_cart').addClass('disabled').html('还差' + count.label_short_amount + '起送');
 					}
 				}
 			});
 		},
 
 		//显示购物车
-		show_cart: function(bool) {
+		show_cart: function (bool) {
 			if (bool) {
 				$('.store-add-cart').children('.a4x').addClass('light').removeClass('disabled');
 				$('.store-add-cart').children('.a51').removeClass('disabled');
 			} else {
+				$('.a57').css('display', 'block');
 				//禁用滚动条
-				$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+				$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 					event.preventDefault;
 				}, false);
-				$('.minicart-content').on('touchmove', function(e) {
+				$('.minicart-content').on('touchmove', function (e) {
 					e.stopPropagation();
 				});
 				$('.a53').css('display', 'block');
@@ -620,7 +701,7 @@
 		},
 
 		//隐藏购物车
-		hide_cart: function(bool) {
+		hide_cart: function (bool) {
 			//启用滚动条
 			$('body').css('overflow-y', 'auto').off("touchmove");
 
@@ -631,14 +712,16 @@
 			$('.minicart-content').children('.a4x').removeClass('show').attr('show', false);
 			$('.store-add-cart').children('.a4x').addClass('show').attr('show', false);
 
+			var text = $('.a51').attr('data-text') == undefined ? '去结算' : $('.a51').attr('data-text');
 			//购物车完全清空
 			if (bool == true) {
+				$('.a57').css('display', 'none');
 				$('.store-add-cart').removeClass('active');
 				$('.a4y').remove();
 				$('.store-add-cart').children('.a4x').addClass('disabled').addClass('outcartcontent').removeClass('light').removeClass('incartcontent');
 				$('.minicart-content').children('.a4x').removeClass('light').addClass('disabled');
 				$('.store-add-cart').children('.a4z').children('div').addClass('a50').html('购物车是空的');
-				$('.store-add-cart').children('.a51').addClass('disabled').html('去结算');;
+				$('.store-add-cart').children('.a51').addClass('disabled').html(text);;
 				$('.minicart-goods-list').html('');
 			}
 			//启用用滚动条
@@ -648,8 +731,8 @@
 		},
 
 		//店铺首页切换分类
-		toggle_category: function() {
-			$('[data-toggle="toggle-category"]').off('click').on('click', function(e) {
+		toggle_category: function () {
+			$('[data-toggle="toggle-category"]').off('click').on('click', function (e) {
 				var $this = $(this),
 					url = $this.attr('data-href'),
 					name = $this.html().trim(),
@@ -709,7 +792,7 @@
 					if (load_list.length == 0) {
 						$('.store_goods_' + type).after($loader);
 					}
-					$.get(url, info, function(data) {
+					$.get(url, info, function (data) {
 						$('.wd').find('[data-toggle="asynclist"]').html(''); //清空
 
 						$('.la-ball-atom').remove(); //移出加载动画
@@ -736,7 +819,7 @@
 				}
 			});
 
-			$('.store-option dl').off('click').on('click', function() {
+			$('.store-option dl').off('click').on('click', function () {
 				$('.ecjia-store-comment .store-container').css('padding-bottom', 0);
 
 				var $this = $(this),
@@ -751,12 +834,12 @@
 				} else {
 					$this.addClass('active').siblings('dl').removeClass('active');
 					$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>'); //加载动画
-					$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+					$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 						event.preventDefault;
 					}, false);
 					$('.store-option dl').addClass('disabled'); //禁止切换
 
-					$.get(url, function(data) {
+					$.get(url, function (data) {
 						$('.store-container').scrollTop(0);
 						$loader = $('<a class="load-list" href="javascript:;"><div class="loaders"><div class="loader"><div class="loader-inner ball-pulse"><div></div><div></div><div></div></div></div></div></a>');
 						var load_list = $('#store-comment-' + type).parent().find('.load-list');
@@ -778,10 +861,10 @@
 							$('.ecjia-store-comment .store-container').css('padding-bottom', '7em');
 						}
 						//商品详情评分
-						$('.score-goods').each(function() {
+						$('.score-goods').each(function () {
 							$(this).raty({
 								readOnly: true,
-								score: function() {
+								score: function () {
 									return $(this).attr('data-val');
 								},
 							});
@@ -800,16 +883,16 @@
 			});
 		},
 
-		scroll: function() {
+		scroll: function () {
 			var mybody = document.getElementById('wd_list');
 			if (mybody != null) {
 				//滑动处理
 				var startX, startY, moveEndX, moveEndY, X, Y;
-				mybody.addEventListener('touchstart', function(e) {
+				mybody.addEventListener('touchstart', function (e) {
 					startX = e.touches[0].pageX;
 					startY = e.touches[0].pageY;
 				});
-				mybody.addEventListener('touchmove', function(e) {
+				mybody.addEventListener('touchmove', function (e) {
 					var position = $('.wd').find('ul li:first').position();
 					if (position != undefined) {
 						var top = position.top;
@@ -830,11 +913,11 @@
 			if (comment_body != null) {
 				//滑动处理
 				var startX, startY, moveEndX, moveEndY, X, Y;
-				comment_body.addEventListener('touchstart', function(e) {
+				comment_body.addEventListener('touchstart', function (e) {
 					startX = e.touches[0].pageX;
 					startY = e.touches[0].pageY;
 				});
-				comment_body.addEventListener('touchmove', function(e) {
+				comment_body.addEventListener('touchmove', function (e) {
 					moveEndX = e.changedTouches[0].pageX;
 					moveEndY = e.changedTouches[0].pageY;
 					X = moveEndX - startX;
@@ -851,11 +934,11 @@
 			if (store_seller != null) {
 				//滑动处理
 				var startX, startY, moveEndX, moveEndY, X, Y;
-				store_seller.addEventListener('touchstart', function(e) {
+				store_seller.addEventListener('touchstart', function (e) {
 					startX = e.touches[0].pageX;
 					startY = e.touches[0].pageY;
 				});
-				store_seller.addEventListener('touchmove', function(e) {
+				store_seller.addEventListener('touchmove', function (e) {
 					//var top = $('#store-seller').find('div:first').position().top;
 					moveEndX = e.changedTouches[0].pageX;
 					moveEndY = e.changedTouches[0].pageY;
@@ -870,7 +953,7 @@
 			};
 		},
 
-		scroll_show_hide: function(e) {
+		scroll_show_hide: function (e) {
 			if (e == true) {
 				$('.ecjia-store-banner').css('display', 'none');
 
@@ -894,8 +977,8 @@
 		},
 
 		//店铺首页 商品详情 店铺内搜索 清空购物车
-		deleteall: function() {
-			$('[data-toggle="deleteall"]').off('click').on('click', function(e) {
+		deleteall: function () {
+			$('[data-toggle="deleteall"]').off('click').on('click', function (e) {
 				e.preventDefault();
 				var url = $(this).attr('data-url');
 				var myApp = new Framework7();
@@ -903,31 +986,31 @@
 					title: '清空购物车中所有商品？',
 					buttons: [{
 						text: '取消',
-						onClick: function() {
+						onClick: function () {
 							$('.modal').remove();
 							$('.modal-overlay').remove();
 							return false;
 						}
 					}, {
 						text: '确定',
-						onClick: function() {
+						onClick: function () {
 							$('.modal').remove();
 							$('.modal-overlay').remove();
 							var rec_id = [];
 							var store_id = $('input[name="store_id"]').val();
 
-							$('input[name="rec_id"]').each(function() {
+							$('input[name="rec_id"]').each(function () {
 								rec_id.push($(this).val());
 							});
 							var info = {
 								'store_id': store_id,
 								'rec_id': rec_id,
 							};
-							$.post(url, info, function(data) {
+							$.post(url, info, function (data) {
 								if (data.state == 'success') {
 									ecjia.touch.category.hide_cart(true);
 									if ($.find('.box').length != 0) {
-										$('.box').each(function() {
+										$('.box').each(function () {
 											if ($(this).parent().find('.goods-add-cart').length != 0) {
 												$(this).removeClass('show').addClass('hide');
 												$(this).children('label').html('1');
@@ -974,7 +1057,7 @@
 			var start;
 			// 网页在移动端运行时的监听
 			for (var i = 0; i < len; ++i) {
-				lines[i].addEventListener('touchstart', function(e) {
+				lines[i].addEventListener('touchstart', function (e) {
 					lastXForMobile = e.changedTouches[0].pageX;
 					pressedObj = this; // 记录被按下的对象 
 
@@ -987,7 +1070,7 @@
 					};
 				});
 
-				lines[i].addEventListener('touchmove', function(e) {
+				lines[i].addEventListener('touchmove', function (e) {
 					// 计算划动过程中x和y的变化量
 					var touches = e.touches[0];
 					delta = {
@@ -1000,7 +1083,7 @@
 					}
 				});
 
-				lines[i].addEventListener('touchend', function(e) {
+				lines[i].addEventListener('touchend', function (e) {
 					var diffX = e.changedTouches[0].pageX - lastXForMobile;
 					if (diffX < -110) {
 						$(pressedObj).find('.a4x').animate({
@@ -1033,8 +1116,8 @@
 		},
 
 		//店铺首页 单选
-		toggle_checkbox: function() {
-			$('[data-toggle="toggle_checkbox"]').off('click').on('click', function(e) {
+		toggle_checkbox: function () {
+			$('[data-toggle="toggle_checkbox"]').off('click').on('click', function (e) {
 				var $this = $(this);
 				if ($this.hasClass('disabled') || $this.hasClass('limit_click')) {
 					return false;
@@ -1067,7 +1150,7 @@
 						checked = 1;
 					}
 					var rec_id = [];
-					$('.minicart-goods-list .checkbox').each(function() {
+					$('.minicart-goods-list .checkbox').each(function () {
 						rec_id.push($(this).attr('rec_id'));
 					});
 				} else {
@@ -1077,13 +1160,13 @@
 				ecjia.touch.category.update_cart(rec_id, 0, 0, checked, true);
 			});
 
-			$('.ecjia-number-contro').off('focus').on('focus', function() {
+			$('.ecjia-number-contro').off('focus').on('focus', function () {
 				if ($(this).hasClass('disabled')) {
 					return false;
 				}
 				var v = $(this).val();
 
-				$(this).off('blur').on('blur', function() {
+				$(this).off('blur').on('blur', function () {
 					var $this = $(this),
 						val = $this.val(),
 						rec_id = $this.attr('rec_id'),
@@ -1096,10 +1179,10 @@
 					if (val <= 0 || !ex.test(val)) {
 						var myApp = new Framework7();
 						myApp.modal({
-							title: '修改数量失败请重试',
+							title: '请输入数值大于0的整数',
 							buttons: [{
 								text: '确定',
-								onClick: function() {
+								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
 									ecjia.pjax(window.location.href);
@@ -1117,10 +1200,10 @@
 		},
 
 		//店铺首页全选
-		check_all: function() {
+		check_all: function () {
 			var chknum = $(".minicart-goods-list .checkbox").size(); //选项总个数 
 			var chk = 0;
-			$(".minicart-goods-list .checkbox").each(function() {
+			$(".minicart-goods-list .checkbox").each(function () {
 				if ($(this).hasClass("checked") == true) {
 					chk++;
 				}
@@ -1133,8 +1216,8 @@
 		},
 
 		//店铺首页 去结算 购物车列表列表编辑
-		check_cart: function() {
-			$('.check_cart, .w4').off('click').on('click', function(e) {
+		check_cart: function () {
+			$('.check_cart, .w4').off('click').on('click', function (e) {
 				e.stopPropagation();
 				var $this = $(this),
 					url = $this.attr('data-href'),
@@ -1145,7 +1228,7 @@
 				var myApp = new Framework7();
 				if ($this.hasClass('remove_all')) {
 					//禁用滚动条
-					$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+					$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 						event.preventDefault;
 					}, false);
 
@@ -1153,7 +1236,7 @@
 						title: '确定删除该店铺下全部商品？',
 						buttons: [{
 							text: '取消',
-							onClick: function() {
+							onClick: function () {
 								$('.modal').remove();
 								$('.modal-overlay').remove();
 								$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
@@ -1161,7 +1244,7 @@
 							}
 						}, {
 							text: '确定',
-							onClick: function() {
+							onClick: function () {
 								$('.modal').remove();
 								$('.modal-overlay').remove();
 								$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
@@ -1169,7 +1252,7 @@
 
 								var rec_id = [];
 								var div = $this.parent('.a4w');
-								div.find('li').each(function() {
+								div.find('li').each(function () {
 									rec_id.push($(this).attr('data-rec'));
 								});
 
@@ -1186,22 +1269,102 @@
 					url += '&store_id=' + store_id;
 				}
 
-				if (rec_id != undefined) {
+				if (rec_id != undefined && rec_id != '') {
 					url += '&rec_id=' + rec_id;
 				}
 				ecjia.pjax(url);
 			});
-			$('.modal-inner').click(function(e) {
+			$('.modal-inner').click(function (e) {
 				e.stopPropagation(); //阻止事件向上冒泡
 			});
-			$('.modal-buttons').click(function(e) {
+			$('.modal-buttons').click(function (e) {
 				e.stopPropagation(); //阻止事件向上冒泡
 			});
 		},
 
+		check_groupbuy_cart: function () {
+			$('.check_groupbuy_cart').off('click').on('click', function (e) {
+				e.preventDefault();
+				var $this = $(this),
+					url = $this.attr('data-href'),
+					store_id = $this.attr('data-store'),
+					address_id = $this.attr('data-address'),
+					goods_id = $this.attr('data-goods'),
+					number = $this.attr('data-num'),
+					goods_activity_id = $this.attr('data-act');
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+
+				var info = {
+					goods_id: goods_id,
+					number: number,
+					store_id: store_id,
+					goods_activity_id: goods_activity_id
+				}
+				$.post(url, info, function (data) {
+					if (data.state == 'error') {
+						var myApp = new Framework7();
+
+						$('.la-ball-atom').remove();
+						if (data.referer_url || data.message == 'Invalid session') {
+							$(".ecjia-store-goods .a1n .a1x").css({
+								overflow: "hidden"
+							}); //禁用滚动条
+							//禁用滚动条
+							$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
+								event.preventDefault;
+							}, false);
+
+							myApp.modal({
+								title: '温馨提示',
+								text: '您还没有登录',
+								buttons: [{
+									text: '取消',
+									onClick: function () {
+										$('.modal').remove();
+										$('.modal-overlay').remove();
+										$(".ecjia-store-goods .a1n .a1x").css({
+											overflow: "auto"
+										}); //启用滚动条
+										$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
+										return false;
+									}
+								}, {
+									text: '去登录',
+									onClick: function () {
+										$('.modal').remove();
+										$('.modal-overlay').remove();
+										$(".ecjia-store-goods .a1n .a1x").css({
+											overflow: "auto"
+										}); //启用滚动条
+										$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
+										location.href = data.referer_url;
+										return false;
+									}
+								}, ]
+							});
+							return false;
+						} else {
+							alert(data.message);
+							return false;
+						}
+					}
+					var redirect_url = data.url;
+					if (address_id != undefined && address_id != 0) {
+						redirect_url += '&address_id=' + address_id;
+					}
+					if (store_id != undefined && store_id != 0) {
+						redirect_url += '&store_id=' + store_id;
+					}
+					location.href = redirect_url;
+				});
+			});
+		},
+
 		//购物车列表 单选多选切换
-		check_goods: function() {
-			$('.cart-checkbox').off('click').on('click', function() {
+		check_goods: function () {
+			$('.cart-checkbox').off('click').on('click', function () {
 				var $this = $(this),
 					store_id = $this.attr('data-store'),
 					checked, rec_id = [];
@@ -1211,7 +1374,7 @@
 					//全部删除
 					if ($this.hasClass('check_all')) {
 						//禁用滚动条
-						$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+						$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 							event.preventDefault;
 						}, false);
 
@@ -1221,7 +1384,7 @@
 							title: '确定删除该店铺下全部商品？',
 							buttons: [{
 								text: '取消',
-								onClick: function() {
+								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
 
@@ -1230,7 +1393,7 @@
 								}
 							}, {
 								text: '确定',
-								onClick: function() {
+								onClick: function () {
 									$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
 									ecjia.touch.category.update_cart(rec_id, 0, 0, '', store_id);
 									var li = $this.parents('.cart-single');
@@ -1268,7 +1431,7 @@
 
 					var chknum = $(".checkbox_" + store_id).size(); //选项总个数 
 					var chk = 0;
-					$(".checkbox_" + store_id).each(function() {
+					$(".checkbox_" + store_id).each(function () {
 						if ($(this).hasClass("checked")) {
 							chk++;
 						}
@@ -1297,8 +1460,8 @@
 		},
 
 		//购物车列表 编辑
-		cart_edit: function() {
-			$('.shop-edit').off('click').on('click', function() {
+		cart_edit: function () {
+			$('.shop-edit').off('click').on('click', function () {
 				var $this = $(this),
 					store_id = $this.attr('data-store'),
 					type = $this.attr('data-type'),
@@ -1324,12 +1487,12 @@
 			});
 		},
 
-		openSelection: function() { /*商品列表页面点击显示筛选*/
-			$('[data-toggle="openSelection"]').on('click', function(e) {
+		openSelection: function () { /*商品列表页面点击显示筛选*/
+			$('[data-toggle="openSelection"]').on('click', function (e) {
 				e.preventDefault();
 				$(".goods-filter-box").toggleClass("show");
 			}); /*商品列表页面点击隐藏筛选*/
-			$('[data-toggle="closeSelection"]').on('click', function(e) {
+			$('[data-toggle="closeSelection"]').on('click', function (e) {
 				e.preventDefault();
 				if ($(".goods-filter-box").hasClass("show")) {
 					$(".goods-filter-box").removeClass("show");
@@ -1340,8 +1503,8 @@
 		},
 
 		/*筛选的属性下拉*/
-		selectionValue: function() {
-			$('.goods-filter .title').on('click', function(e) {
+		selectionValue: function () {
+			$('.goods-filter .title').on('click', function (e) {
 				e.preventDefault();
 				var _find = $(this).find(".icon-jiantou-bottom");
 				var _next = $(this).next("ul");
@@ -1355,7 +1518,7 @@
 			});
 
 			/*商品列表页面点击隐藏下拉*/
-			$('.goods-filter .goods-filter-box-content .goods-filter-box-listtype ul li a').on('click', function(e) {
+			$('.goods-filter .goods-filter-box-content .goods-filter-box-listtype ul li a').on('click', function (e) {
 				e.preventDefault();
 				var click_id = $(this).parent("li").parent("ul").prev(".title").attr("id");
 				var str = $(this).attr("value");
@@ -1371,22 +1534,22 @@
 				$(this).parent("li").parent("ul").removeClass("show");
 				$(this).parent("li").parent("ul").prev(".title").children("i").removeClass("down");
 			});
-			$(".goods-filter .goods-filter-box-content .btns .btn-default").on("click", function(e) {
+			$(".goods-filter .goods-filter-box-content .btns .btn-default").on("click", function (e) {
 				e.preventDefault();
-				$(".goods-filter .goods-filter-box-content .goods-filter-box-listtype .title").each(function(i) {
+				$(".goods-filter .goods-filter-box-content .goods-filter-box-listtype .title").each(function (i) {
 					$(this).children(".range").text("全部");
 				});
 			});
 		},
 
-		clear_filter: function() {
-			$('[data-toggle="clear_filter"]').on('click', function(e) {
+		clear_filter: function () {
+			$('[data-toggle="clear_filter"]').on('click', function (e) {
 				e.preventDefault();
 				$("input[name='price_min']").val('');
 				$("input[name='price_max']").val('');
 				$("input[name='brand']").val('');
 				$(".touchweb-com_listType .range").text("全部");
-				$(".touchweb-com_listType input").each(function() {
+				$(".touchweb-com_listType input").each(function () {
 					if ($(this).attr('class') != 'cat') {
 						$(this).val("");
 					}
@@ -1394,9 +1557,9 @@
 			});
 		},
 
-		goods_show: function() {
+		goods_show: function () {
 			$(document).off('click', '.view-more');
-			$(document).on('click', '.view-more', function(e) {
+			$(document).on('click', '.view-more', function (e) {
 				e.preventDefault();
 				var $this = $(this);
 
@@ -1408,7 +1571,7 @@
 				$this.addClass('hide').siblings('.goods-info').removeClass('hide');
 			});
 
-			$('.category_left li').off('click').on('click', function() {
+			$('.category_left li').off('click').on('click', function () {
 				$('.ecjia-category-list').removeClass('show');
 				var $this = $(this)
 				cat_id = $this.children('a').attr('data-val');
@@ -1417,13 +1580,13 @@
 			});
 		},
 
-		store_toggle: function() {
-			$('li.favourable_notice, .store-description').off('click').on('click', function() {
+		store_toggle: function () {
+			$('li.favourable_notice, .store-description').off('click').on('click', function () {
 				var $this = $(this);
 
 				var myApp = new Framework7();
 				//禁用滚动条
-				$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+				$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 					event.preventDefault;
 				}, false);
 
@@ -1446,18 +1609,18 @@
 				myApp.openModal('.ecjia-store-modal');
 				$('.modal-overlay').remove();
 
-				$('.ecjia-close-modal-icon').on('click', function() {
+				$('.ecjia-close-modal-icon').on('click', function () {
 					$('.ecjia-store-modal').hide();
 					$('.ecjia-store-modal-overlay').hide();
 					$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
 				});
 				return false;
 			});
-			$('.modal-inners').click(function(e) {
+			$('.modal-inners').click(function (e) {
 				e.stopPropagation(); //阻止事件向上冒泡
 			});
 
-			$('.ecjia-store-li').off('click').on('click', function() {
+			$('.ecjia-store-li').off('click').on('click', function () {
 				var $this = $(this),
 					url = $this.attr('data-url');
 
@@ -1485,10 +1648,10 @@
 
 			//商品详情评分
 			if ($.find($('.score-goods')).length >= 0) {
-				$('.score-goods').each(function() {
+				$('.score-goods').each(function () {
 					$(this).raty({
 						readOnly: true,
-						score: function() {
+						score: function () {
 							return $(this).attr('data-val');
 						},
 					});
@@ -1500,7 +1663,7 @@
 			if ($.find($('.score-val')).length >= 0) {
 				$('.score-val').raty({
 					readOnly: true,
-					score: function() {
+					score: function () {
 						$('.score-val').html('');
 						if ($('.score-val').find('img').length == 0) {
 							return $(this).attr('data-val') * 5;
@@ -1509,7 +1672,7 @@
 				});
 			}
 
-			$('.choose_attr').off('click').on('click', function() {
+			$('.choose_attr').off('click').on('click', function () {
 				var $this = $(this);
 				var myApp = new Framework7();
 				var goods_id = $this.attr('goods_id');
@@ -1550,17 +1713,17 @@
 									var t = s.value[k];
 									if (spec_arr != undefined) {
 										if ($.inArray(t.id, spec_arr) != -1) {
-											html += '<li class="active '+ multi +'" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
+											html += '<li class="active ' + multi + '" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										} else {
-											html += '<li class="'+ multi +'" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
+											html += '<li class="' + multi + '" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										}
 									} else {
 										if (k == 0 && multi == '') {
 											html += '<li class="active" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										} else if (multi != '') {
-											html += '<li class="'+ multi +'" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
+											html += '<li class="' + multi + '" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										} else {
-											html += '<li class="'+ multi +'" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
+											html += '<li class="' + multi + '" data-attr=' + t.id + ' data-price=' + t.price + '>' + t.label + '</li>';
 										}
 									}
 								}
@@ -1581,7 +1744,7 @@
 								url: url,
 								data: info,
 								async: false,
-								success: function(data) {
+								success: function (data) {
 									if (data.state == 'error') {
 										error = 1;
 										if (data.referer_url || data.message == 'Invalid session') {
@@ -1589,7 +1752,7 @@
 												overflow: "hidden"
 											}); //禁用滚动条
 											//禁用滚动条
-											$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+											$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 												event.preventDefault;
 											}, false);
 
@@ -1598,7 +1761,7 @@
 												text: '您还没有登录',
 												buttons: [{
 													text: '取消',
-													onClick: function() {
+													onClick: function () {
 														$('.modal').remove();
 														$('.modal-overlay').remove();
 														$(".ecjia-store-goods .a1n .a1x").css({
@@ -1609,7 +1772,7 @@
 													}
 												}, {
 													text: '去登录',
-													onClick: function() {
+													onClick: function () {
 														$('.modal').remove();
 														$('.modal-overlay').remove();
 														$(".ecjia-store-goods .a1n .a1x").css({
@@ -1662,7 +1825,7 @@
 				$(overlay).show();
 
 				//禁用滚动条
-				$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+				$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 					event.preventDefault();
 				}, false);
 				$(".ecjia-store-goods .a1n .a1x").css({
@@ -1672,7 +1835,7 @@
 				myApp.openModal(modal);
 				$('.modal-overlay').remove();
 
-				$('.ecjia-close-modal-icon').on('click', function() {
+				$('.ecjia-close-modal-icon').on('click', function () {
 					$(modal).hide();
 					$(overlay).hide();
 					$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
@@ -1681,7 +1844,7 @@
 					}); //启用滚动条
 				});
 
-				$(overlay).off('click').on('click', function(e) {
+				$(overlay).off('click').on('click', function (e) {
 					$(modal).hide();
 					$(overlay).hide();
 					$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
@@ -1694,15 +1857,15 @@
 				ecjia.touch.category.add_tocart();
 				ecjia.touch.category.remove_tocart();
 
-				$('.goods-attr-list').on('touchmove', function(e) {
+				$('.goods-attr-list').on('touchmove', function (e) {
 					e.stopPropagation();
 				});
 			});
 		},
 
-		toggle_spec: function(modal) {
+		toggle_spec: function (modal) {
 			//切换属性
-			$('.goods-attr-list .goods-attr li').off('click').on('click', function() {
+			$('.goods-attr-list .goods-attr li').off('click').on('click', function () {
 				var $this = $(this);
 
 				if (!$this.hasClass('multi-select')) {
@@ -1719,7 +1882,7 @@
 				$spec_price = parseFloat($(modal).find('input[name="goods_price"]').val());
 				var spec = [];
 
-				$(modal).find('.goods-attr-list').find('li.active').each(function(n, j) {
+				$(modal).find('.goods-attr-list').find('li.active').each(function (n, j) {
 					spec.push($(this).attr('data-attr'));
 					if (n == 0) {
 						$spec_html += $(this).html();
@@ -1752,7 +1915,7 @@
 					'spec': spec,
 					'goods_id': goods_id,
 				}
-				$.post(url, info, function(data) {
+				$.post(url, info, function (data) {
 					if (data.state == 'error') {
 						var myApp = new Framework7();
 						if (data.referer_url || data.message == 'Invalid session') {
@@ -1760,7 +1923,7 @@
 								overflow: "hidden"
 							}); //禁用滚动条
 							//禁用滚动条
-							$('body').css('overflow-y', 'hidden').on('touchmove', function(event) {
+							$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
 								event.preventDefault;
 							}, false);
 
@@ -1769,7 +1932,7 @@
 								text: '您还没有登录',
 								buttons: [{
 									text: '取消',
-									onClick: function() {
+									onClick: function () {
 										$(".ecjia-store-goods .a1n .a1x").css({
 											overflow: "auto"
 										}); //启用滚动条
@@ -1778,7 +1941,7 @@
 									}
 								}, {
 									text: '去登录',
-									onClick: function() {
+									onClick: function () {
 										$(".ecjia-store-goods .a1n .a1x").css({
 											overflow: "auto"
 										}); //启用滚动条
@@ -1807,10 +1970,10 @@
 			});
 		},
 
-		promotion_scroll: function() {
+		promotion_scroll: function () {
 			window.doscroll;
 			window.clearInterval(window.doscroll);
-			doscroll = window.setInterval(function() {
+			doscroll = window.setInterval(function () {
 				var $parent = $('#promotion-scroll');
 				var length = $parent.find('li.promotion').length;
 				if (length > 1) {
@@ -1818,171 +1981,171 @@
 					var height = $first.height();
 					$first.animate({
 						marginTop: -height + 'px'
-					}, 600, function() {
+					}, 600, function () {
 						$first.css('margin-top', 0).appendTo($parent);
 					});
 				}
 			}, 3000);
 		},
 
-		image_preview: function() {
-			var initPhotoSwipeFromDOM = function(gallerySelector) {
-					var parseThumbnailElements = function(el) {
-						var thumbElements = el.childNodes,
-							numNodes = thumbElements.length,
-							items = [],
-							figureEl, linkEl, size, item, divEl;
-						for (var i = 0; i < numNodes; i++) {
-							figureEl = thumbElements[i];
-							if (figureEl.nodeType !== 1) {
-								continue
-							}
-							divEl = figureEl.children[0];
-							linkEl = divEl.children[0];
-							//			            size = linkEl.getAttribute('data-size').split('x');
-							size = [linkEl.children[0].naturalWidth, linkEl.children[0].naturalHeight];
-							item = {
-								src: linkEl.getAttribute('href'),
-								w: parseInt(size[0], 10),
-								h: parseInt(size[1], 10)
-							};
-							if (figureEl.children.length > 1) {
-								item.title = figureEl.children[1].innerHTML
-							}
-							if (linkEl.children.length > 0) {
-								item.msrc = linkEl.children[0].getAttribute('src')
-							}
-							item.el = figureEl;
-							items.push(item)
+		image_preview: function () {
+			var initPhotoSwipeFromDOM = function (gallerySelector) {
+				var parseThumbnailElements = function (el) {
+					var thumbElements = el.childNodes,
+						numNodes = thumbElements.length,
+						items = [],
+						figureEl, linkEl, size, item, divEl;
+					for (var i = 0; i < numNodes; i++) {
+						figureEl = thumbElements[i];
+						if (figureEl.nodeType !== 1) {
+							continue
 						}
-						return items
-					};
-					var closest = function closest(el, fn) {
-						return el && (fn(el) ? el : closest(el.parentNode, fn))
-					};
-					var onThumbnailsClick = function(e) {
-						e = e || window.event;
-						e.preventDefault ? e.preventDefault() : e.returnValue = false;
-						var eTarget = e.target || e.srcElement;
-						var clickedListItem = closest(eTarget, function(el) {
-							return (el.tagName && el.tagName.toUpperCase() === 'FIGURE')
-						});
-						if (!clickedListItem) {
-							return
-						}
-						var clickedGallery = clickedListItem.parentNode,
-							childNodes = clickedListItem.parentNode.childNodes,
-							numChildNodes = childNodes.length,
-							nodeIndex = 0,
-							index;
-						for (var i = 0; i < numChildNodes; i++) {
-							if (childNodes[i].nodeType !== 1) {
-								continue
-							}
-							if (childNodes[i] === clickedListItem) {
-								index = nodeIndex;
-								break
-							}
-							nodeIndex++
-						}
-						if (index >= 0) {
-							openPhotoSwipe(index, clickedGallery)
-						}
-						return false
-					};
-					var photoswipeParseHash = function() {
-						var hash = window.location.hash.substring(1),
-							params = {};
-						if (hash.length < 5) {
-							return params
-						}
-						var vars = hash.split('&');
-						for (var i = 0; i < vars.length; i++) {
-							if (!vars[i]) {
-								continue
-							}
-							var pair = vars[i].split('=');
-							if (pair.length < 2) {
-								continue
-							}
-							params[pair[0]] = pair[1]
-						}
-						if (params.gid) {
-							params.gid = parseInt(params.gid, 10)
-						}
-						return params
-					};
-					var openPhotoSwipe = function(index, galleryElement, disableAnimation, fromURL) {
-						var pswpElement = document.querySelectorAll('.pswp')[0],
-							gallery, options, items;
-						items = parseThumbnailElements(galleryElement);
-						options = {
-							barsSize: {
-								top: 100,
-								bottom: 100
-							},
-							fullscreenEl: false,
-							shareButtons: [{
-								id: 'wechat',
-								label: '分享微信',
-								url: '#'
-							}, {
-								id: 'weibo',
-								label: '新浪微博',
-								url: '#'
-							}, {
-								id: 'download',
-								label: '保存图片',
-								url: '{ { raw_image_url } }',
-								download: true
-							}],
-							galleryUID: galleryElement.getAttribute('data-pswp-uid'),
-							getThumbBoundsFn: function(index) {
-								var thumbnail = items[index].el.getElementsByTagName('img')[0],
-									pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
-									rect = thumbnail.getBoundingClientRect();
-								return {
-									x: rect.left,
-									y: rect.top + pageYScroll,
-									w: rect.width
-								}
-							}
+						divEl = figureEl.children[0];
+						linkEl = divEl.children[0];
+						//			            size = linkEl.getAttribute('data-size').split('x');
+						size = [linkEl.children[0].naturalWidth, linkEl.children[0].naturalHeight];
+						item = {
+							src: linkEl.getAttribute('href'),
+							w: parseInt(size[0], 10),
+							h: parseInt(size[1], 10)
 						};
-						if (fromURL) {
-							if (options.galleryPIDs) {
-								for (var j = 0; j < items.length; j++) {
-									if (items[j].pid == index) {
-										options.index = j;
-										break
-									}
+						if (figureEl.children.length > 1) {
+							item.title = figureEl.children[1].innerHTML
+						}
+						if (linkEl.children.length > 0) {
+							item.msrc = linkEl.children[0].getAttribute('src')
+						}
+						item.el = figureEl;
+						items.push(item)
+					}
+					return items
+				};
+				var closest = function closest(el, fn) {
+					return el && (fn(el) ? el : closest(el.parentNode, fn))
+				};
+				var onThumbnailsClick = function (e) {
+					e = e || window.event;
+					e.preventDefault ? e.preventDefault() : e.returnValue = false;
+					var eTarget = e.target || e.srcElement;
+					var clickedListItem = closest(eTarget, function (el) {
+						return (el.tagName && el.tagName.toUpperCase() === 'FIGURE')
+					});
+					if (!clickedListItem) {
+						return
+					}
+					var clickedGallery = clickedListItem.parentNode,
+						childNodes = clickedListItem.parentNode.childNodes,
+						numChildNodes = childNodes.length,
+						nodeIndex = 0,
+						index;
+					for (var i = 0; i < numChildNodes; i++) {
+						if (childNodes[i].nodeType !== 1) {
+							continue
+						}
+						if (childNodes[i] === clickedListItem) {
+							index = nodeIndex;
+							break
+						}
+						nodeIndex++
+					}
+					if (index >= 0) {
+						openPhotoSwipe(index, clickedGallery)
+					}
+					return false
+				};
+				var photoswipeParseHash = function () {
+					var hash = window.location.hash.substring(1),
+						params = {};
+					if (hash.length < 5) {
+						return params
+					}
+					var vars = hash.split('&');
+					for (var i = 0; i < vars.length; i++) {
+						if (!vars[i]) {
+							continue
+						}
+						var pair = vars[i].split('=');
+						if (pair.length < 2) {
+							continue
+						}
+						params[pair[0]] = pair[1]
+					}
+					if (params.gid) {
+						params.gid = parseInt(params.gid, 10)
+					}
+					return params
+				};
+				var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
+					var pswpElement = document.querySelectorAll('.pswp')[0],
+						gallery, options, items;
+					items = parseThumbnailElements(galleryElement);
+					options = {
+						barsSize: {
+							top: 100,
+							bottom: 100
+						},
+						fullscreenEl: false,
+						shareButtons: [{
+							id: 'wechat',
+							label: '分享微信',
+							url: '#'
+						}, {
+							id: 'weibo',
+							label: '新浪微博',
+							url: '#'
+						}, {
+							id: 'download',
+							label: '保存图片',
+							url: '{ { raw_image_url } }',
+							download: true
+						}],
+						galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+						getThumbBoundsFn: function (index) {
+							var thumbnail = items[index].el.getElementsByTagName('img')[0],
+								pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+								rect = thumbnail.getBoundingClientRect();
+							return {
+								x: rect.left,
+								y: rect.top + pageYScroll,
+								w: rect.width
+							}
+						}
+					};
+					if (fromURL) {
+						if (options.galleryPIDs) {
+							for (var j = 0; j < items.length; j++) {
+								if (items[j].pid == index) {
+									options.index = j;
+									break
 								}
-							} else {
-								options.index = parseInt(index, 10) - 1
 							}
 						} else {
-							options.index = parseInt(index, 10)
+							options.index = parseInt(index, 10) - 1
 						}
-						if (isNaN(options.index)) {
-							return
-						}
-						if (disableAnimation) {
-							options.showAnimationDuration = 0
-						}
-						gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-						gallery.init()
-					};
-					var galleryElements = document.querySelectorAll(gallerySelector);
-					for (var i = 0, l = galleryElements.length; i < l; i++) {
-						galleryElements[i].setAttribute('data-pswp-uid', i + 1);
-						galleryElements[i].onclick = onThumbnailsClick
+					} else {
+						options.index = parseInt(index, 10)
 					}
-					var hashData = photoswipeParseHash();
-					if (hashData.pid && hashData.gid) {
-						openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true)
+					if (isNaN(options.index)) {
+						return
 					}
+					if (disableAnimation) {
+						options.showAnimationDuration = 0
+					}
+					gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+					gallery.init()
 				};
+				var galleryElements = document.querySelectorAll(gallerySelector);
+				for (var i = 0, l = galleryElements.length; i < l; i++) {
+					galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+					galleryElements[i].onclick = onThumbnailsClick
+				}
+				var hashData = photoswipeParseHash();
+				if (hashData.pid && hashData.gid) {
+					openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true)
+				}
+			};
 			initPhotoSwipeFromDOM('.img-pwsp-list');
-			$(".my-gallery>figure>div").each(function() {
+			$(".my-gallery>figure>div").each(function () {
 				$(this).height($(this).width())
 			});
 
@@ -2001,20 +2164,20 @@
 	};
 
 	ecjia.touch.comment = {
-		init: function() {
+		init: function () {
 			ecjia.touch.comment.level_change();
 		},
 
-		level_change: function() {
+		level_change: function () {
 			$('input[name="level-hide"]').val('');
 			$('input[name="email"]').val('');
 			$('textarea').val('');
-			$('.comment-level span').on('mouseover', function() {
+			$('.comment-level span').on('mouseover', function () {
 				var $this = $(this),
 					level = $(this).attr('data-level'),
 					hide_level = $('input[name="level-hide"]');
 				$this.parent('span').attr('class', 'comment-level rating rating' + level);
-				$this.on('click', function() {
+				$this.on('click', function () {
 					hide_level.val($this.attr('data-level'));
 				});
 			});
@@ -2025,7 +2188,7 @@
 	function spec_html(modal) {
 		$spec_html = '(';
 		$spec_price = parseFloat($(modal).find($('input[name="goods_price"]')).val());
-		$(modal).find('.goods-attr-list').find('li.active').each(function(n, j) {
+		$(modal).find('.goods-attr-list').find('li.active').each(function (n, j) {
 			if (n == 0) {
 				$spec_html += $(this).html();
 			} else {

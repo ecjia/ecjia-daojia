@@ -2,31 +2,39 @@
 /*==============  Add By Xwb   ================*/
 
 /*============== 帮助中心  ================*/
+
 .ecjia-border-t {
-	border-top:1px solid #eee;
+	border-top: 1px solid #eee;
 }
+
 .ecjia-article {
 	padding-top: 1em;
 }
+
 .ecjia-article.m_p_0 {
 	margin-top: 0;
 	padding-top: 0;
 }
+
 .ecjia-article.article-info {
 	padding-left: 1em;
 	padding-right: 1em;
 	background-color: #FFF;
 }
-.ecjia-article.article-info img{
+
+.ecjia-article.article-info img {
 	width: 100%;
 	max-width: 100%;
 }
+
 .ecjia-article .ecjia-list {
 	margin-top: 0;
 }
+
 .ecjia-article ul {
-	background-color: #EFEFEF;	
+	background-color: #EFEFEF;
 }
+
 .ecjia-article ul>.pf {
 	font-size: 1.1em;
 	font-weight: bold;
@@ -37,8 +45,9 @@
 	font-family: '黑体';
 	position: relative;
 	width: 100%;
-	max-width: 640px;	
+	max-width: 640px;
 }
+
 .ecjia-article ul>.df {
 	font-size: 1.1em;
 	font-weight: bold;
@@ -50,19 +59,22 @@
 	position: fixed;
 	width: 100%;
 	max-width: 640px;
-	top:0;
+	top: 0;
 	z-index: 9;
 }
+
 .ecjia-article .list-one li {
 	height: 3em;
 	padding: .4em 1em;
 	line-height: 3em;
 }
+
 .ecjia-article .ecjia-list.list-short li a {
-    display: block;
-    line-height: 2.3em;
+	display: block;
+	line-height: 2.3em;
 }
-.ecjia-article .ecjia-list.list-short li+li::before{
+
+.ecjia-article .ecjia-list.list-short li+li::before {
 	content: '';
 	position: absolute;
 	display: block;
@@ -71,65 +83,79 @@
 	top: 0;
 	border-bottom: 1px solid #eee;
 }
+
 .ecjia-article .list-one li .form-group-text span {
 	margin-left: 0;
 	font-size: 1.1em;
 	font-family: '黑体';
 	font-weight: normal;
 }
+
 .ecjia-article .list-one li .form-group-text i.icon-jiantou-right {
 	font-size: 1.5em;
 	right: 1%;
 	line-height: 2.3em;
 	top: -0.2em;
 }
-.ecjia-article .float{ position:fixed; z-index:999999; top:0px;} 
-.ecjia-article.article-info h2{
-	font-size: 28px;
-	text-align: center;
-    font-weight: 400;
+
+.ecjia-article .float {
+	position: fixed;
+	z-index: 999999;
+	top: 0px;
 }
 
-.ecjia-article.article-info .article-img{
-    text-align: center;
-    vertical-align: middle;
+.ecjia-article.article-info h2 {
+	font-size: 28px;
+	text-align: center;
+	font-weight: 400;
+}
+
+.ecjia-article.article-info .article-img {
+	text-align: center;
+	vertical-align: middle;
 	width: 100%;
 	height: 100%;
 }
 
 /*============== 地址列表  ================*/
+
 .ecjia-address-list {
 	padding-top: 1em;
 }
-.ecjia-address-list .ecjia-nolist{
-    min-height: 306px;
-    font-size: 15px;
-    color: #888;
-    text-align: center;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    top: 0;
-    right: 0;
+
+.ecjia-address-list .ecjia-nolist {
+	min-height: 306px;
+	font-size: 15px;
+	color: #888;
+	text-align: center;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	top: 0;
+	right: 0;
 	max-width: 640px;
 	margin: 0 auto;
 }
+
 .ecjia-address-list .ecjia-nolist img {
-    width: 10em;
-    height: 10em;
+	width: 10em;
+	height: 10em;
 }
+
 .ecjia-address-list li {
-	border-top:1px solid #eee;
+	border-top: 1px solid #eee;
 	position: relative;
 	overflow: hidden;
-	height:auto;
+	height: auto;
 }
+
 .ecjia-address-list .form-group .input label {
 	position: absolute;
 	right: 0;
 	top: 0;
 	line-height: 2.4em;
 }
+
 .ecjia-address-list .user-address-list .form-group-text span {
 	padding-left: 1.5em;
 	position: relative;
@@ -137,11 +163,13 @@
 	font-size: 1em;
 	color: #b2b2b2;
 }
+
 .ecjia-address-list .user-address-list .form-group-text p {
 	padding-left: 1.5em;
 	position: relative;
 	font-size: 1em;
 }
+
 .ecjia-address-list .address-backgroundw {
 	background-color: #FFF;
 	vertical-align: middle;
@@ -149,29 +177,35 @@
 	line-height: 3em;
 	padding-left: 1em;
 }
+
 .ecjia-address-list .address-backgroundw span {
-	color: #000;	
+	color: #000;
 }
+
 .ecjia-address-list .list-one .address-backgroundw>span {
 	color: #C1C1C1;
 }
+
 .ecjia-address-list .address-background-mylocation {
 	width: 100%;
 	background-color: #FFF;
-	border-bottom:  1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 	position: relative;
 	line-height: 3em;
 	text-align: center;
 }
+
 .ecjia-address-list .nav-header {
 	height: 3.2em;
 	padding-top: 0.8em;
 	border-top: 1px solid #eee;
 	z-index: 2;
 }
+
 .ecjia-address-list .address-backgroundw i.icon-jiantou-bottom {
 	position: relative;
 }
+
 .ecjia-address-list .address-backgroundw input {
 	position: absolute;
 	left: 5.5em;
@@ -182,6 +216,7 @@
 	padding-left: 2em;
 	border: 1px solid #eee;
 }
+
 .ecjia-address-list .address-background-mylocation input {
 	position: relative;
 	height: 2em;
@@ -192,6 +227,7 @@
 	text-align: center;
 	background-color: #F0F0F0;
 }
+
 .ecjia-address-list .nav-header input {
 	position: absolute;
 	top: 0.4em;
@@ -202,17 +238,21 @@
 	left: 2.5%;
 	border: 1px solid #eee;
 }
+
 .ecjia-address-list .address-icons {
-    position: relative;
-    left: 1em;
+	position: relative;
+	left: 1em;
 }
+
 .ecjia-address-list .list {
 	padding-left: 2em;
 	margin-top: 0em;
 }
+
 .ecjia-address-list .list .ecjia-margin-top {
 	margin-top: 0.2em;
 }
+
 .ecjia-address-list .address-list-center {
 	text-align: center;
 	padding: 1em .5em;
@@ -220,24 +260,30 @@
 	background: #fff;
 	color: #333;
 	position: relative;
-	border-bottom:1px solid #eee;	
+	border-bottom: 1px solid #eee;
 }
+
 .ecjia-address-mobile {
-	margin-left:3em;
+	margin-left: 3em;
 }
+
 .ecjia-address-list .form-group {
 	overflow: hidden;
 	border-bottom: 1px solid #eee;
 	width: 100%;
 }
-.ecjia-address-list hr {    
+
+.ecjia-address-list hr {
 	margin-top: 10px;
-    margin-bottom: 10px;
-    border: 0;
-    border-top: 1px dashed #eee;}
+	margin-bottom: 10px;
+	border: 0;
+	border-top: 1px dashed #eee;
+}
+
 .ecjia-address-list .margin-bottom0 {
 	margin-bottom: 0;
 }
+
 .ecjia-address-list .form-group .input {
 	display: block;
 	position: relative;
@@ -246,6 +292,7 @@
 	margin: 0;
 	font-weight: normal;
 }
+
 .ecjia-address-list .form-group .input i {
 	position: absolute;
 	right: 0.3em;
@@ -254,6 +301,7 @@
 	font-weight: normal;
 	font-size: 1.5em;
 }
+
 .ecjia-address-list .form-group input {
 	display: block;
 	width: 100%;
@@ -267,10 +315,12 @@
 	box-sizing: border-box;
 	outline: 0 none;
 }
+
 .ecjia-address-list .form-group .input input {
 	padding-left: 3em;
 	width: 100%;
 }
+
 .ecjia-address-list .form-group-text .input span {
 	position: absolute;
 	left: 1em;
@@ -280,11 +330,12 @@
 	line-height: 3.2em;
 	overflow: hidden;
 }
+
 .ecjia-address-list .form-group-text .input input {
 	padding-left: 7em;
-    padding-right: 3.5em;
+	padding-right: 3.5em;
 	height: 3.2em;
-    text-overflow: ellipsis
+	text-overflow: ellipsis
 }
 
 /*
@@ -292,115 +343,128 @@
  */
 
 .ecjia-address-list .nav-header a>i {
-    left: 2%;
+	left: 2%;
 }
 
-.ecjia-address-list .nav-header a .icon-add-address  {
+.ecjia-address-list .nav-header a .icon-add-address {
 	width: 24px;
 	height: 24px;
-    background: url('../images/address_list/50x50_4.png') no-repeat;
-    background-size: 100%;
-    float: left;
+	background: url('../images/address_list/50x50_4.png') no-repeat;
+	background-size: 100%;
+	float: left;
 }
+
 .ecjia-address-list .ecjia-list li a {
-	height:20px;
-	line-height:20px;
+	height: 20px;
+	line-height: 20px;
 }
-.ecjia-address-list .ecjia-list li .icon-is-default  {
+
+.ecjia-address-list .ecjia-list li .icon-is-default {
 	width: 20px;
 	height: 20px;
-	margin-top: 0.3%;	
-    background: url('../images/address_list/50x50_2.png') no-repeat;
-    background-size: 100%;
-    float: left;
+	margin-top: 0.3%;
+	background: url('../images/address_list/50x50_2.png') no-repeat;
+	background-size: 100%;
+	float: left;
 }
-.ecjia-address-list .ecjia-list li .icon-not-default  {
+
+.ecjia-address-list .ecjia-list li .icon-not-default {
 	width: 20px;
 	height: 20px;
-    background: url('../images/address_list/50x50_3.png') no-repeat center;
-    background-size: 100%;
-    float: left;
+	background: url('../images/address_list/50x50_3.png') no-repeat center;
+	background-size: 100%;
+	float: left;
 }
-.ecjia-address-list .ecjia-list li .icon-edit-address  {
+
+.ecjia-address-list .ecjia-list li .icon-edit-address {
 	width: 20px;
 	height: 20px;
-    background: url('../images/address_list/50x50_5.png') no-repeat center;
-    background-size: 100%;
-    float: left;
+	background: url('../images/address_list/50x50_5.png') no-repeat center;
+	background-size: 100%;
+	float: left;
 }
-.ecjia-address-list .ecjia-list li .icon-delete-address  {
+
+.ecjia-address-list .ecjia-list li .icon-delete-address {
 	width: 20px;
 	height: 20px;
-    background: url('../images/address_list/50x50_6.png') no-repeat center;
-    background-size: 100%;
-    float: left;
+	background: url('../images/address_list/50x50_6.png') no-repeat center;
+	background-size: 100%;
+	float: left;
 }
+
 .ecjia-address-list .nav-header .img-search {
 	position: absolute;
 	width: 28px;
 	height: 28px;
 	margin-left: 1%;
-    background: url('../images/address_list/search200x200.png') no-repeat;
-    background-size: 100%;
+	background: url('../images/address_list/search200x200.png') no-repeat;
+	background-size: 100%;
 	z-index: 99;
 }
+
 .ecjia-address-list .nav-header a div.position {
 	width: 25px;
 	height: 25px;
 	margin-left: 1%;
-    background: url('../images/address_list/50x50_1.png') no-repeat;
-    background-size: 100%;
+	background: url('../images/address_list/50x50_1.png') no-repeat;
+	background-size: 100%;
 	float: left;
 }
+
 .ecjia-address-list .list-one li .circle {
 	width: 22px;
 	height: 22px;
 	margin-top: 3%;
 	margin-left: -0.5%;
-    background: url('../images/address_list/50x50_3.png') no-repeat;
-    background-size: 100%;
+	background: url('../images/address_list/50x50_3.png') no-repeat;
+	background-size: 100%;
 	float: left;
 }
+
 .ecjia-address-list .address-backgroundw>.img-search {
 	position: absolute;
 	width: 28px;
 	height: 28px;
 	margin-left: 1%;
 	margin-top: 1.8%;
-    background: url('../images/address_list/search200x200.png') no-repeat;
-    background-size: 100%;
+	background: url('../images/address_list/search200x200.png') no-repeat;
+	background-size: 100%;
 	z-index: 99;
 }
+
 .ecjia-address-list .user-address-list li .form-group-text .location {
 	position: absolute;
 	width: 22px;
 	height: 22px;
-    background: url('../images/address_list/location40x40_2.png') no-repeat;
-    background-size: 100%;
+	background: url('../images/address_list/location40x40_2.png') no-repeat;
+	background-size: 100%;
 	z-index: 99;
 }
+
 .ecjia-address-list .form-group .input a .position {
-    width: 4em;
-    height: 3.2em;
-    padding: 0 1em;
-    margin-top: -3.2em;
-    background: url(../images/address_list/50x50_1.png) no-repeat center;
-    background-size: 32px;
-    float: right;
+	width: 4em;
+	height: 3.2em;
+	padding: 0 1em;
+	margin-top: -3.2em;
+	background: url(../images/address_list/50x50_1.png) no-repeat center;
+	background-size: 32px;
+	float: right;
 }
+
 .ecjia-address-list .address-background-mylocation .icon-search {
 	position: absolute;
 	z-index: 8;
 	top: 1em;
 	left: 40%;
 }
+
 .ecjia-address-list .address-background-mylocation>span {
 	position: absolute;
 	z-index: 8;
 	left: 45%;
 	top: 1%;
 }
-.ecjia-address-list .form-group .input input[type=text] {
-    border-radius: 0;
-}
 
+.ecjia-address-list .form-group .input input[type=text] {
+	border-radius: 0;
+}

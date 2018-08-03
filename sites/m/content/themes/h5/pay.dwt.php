@@ -22,6 +22,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     {/if}
     <ul class="ecjia-list ecjia-margin-t">
         <li>订单金额：<span class="ecjiaf-fr">{$detail.formated_total_fee}</span></li>
+        
+        {if $detail.extension_code eq 'group_buy' && $detail.formated_pay_money neq ''}
+        <li>支付余额：<span class="ecjiaf-fr">{$detail.formated_pay_money}</span></li>
+        {/if}
+
         <li>支付方式：<span class="ecjiaf-fr flow-msg">{if $data.pay_name}{$data.pay_name}{else}{$detail.pay_name}{/if}</span></li>
     </ul>
     <div class="ecjia-margin-t ecjia-margin-b flow-msg">{if $data.pay_status eq 'success'}支付成功！{else}{$pay_error}{/if}</div>
@@ -34,7 +39,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <ul class="ecjia-list list-short payment-list">
     <!-- {foreach from=$payment_list item=list} -->
         <li>
-            <span class="icon-name {$list.pay_code}" data-code="{$list.pay_code}"><a href='{url path="pay/index/init" args="order_id={$data.order_id}&pay_id={$list.pay_id}&pay_code={$list.pay_code}"}'>{$list.pay_name}</a></span>
+            <span class="icon-name {$list.pay_code}" data-code="{$list.pay_code}"><a href='{url path="payment/pay/init" args="order_id={$data.order_id}&pay_id={$list.pay_id}&pay_code={$list.pay_code}"}'>{$list.pay_name}</a></span>
         </li>
     <!-- {/foreach} -->
     </ul>
@@ -59,7 +64,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     {if $data.pay_status eq 'success' || $data.pay_code eq 'pay_cod'}
     <div class="ecjia-margin-t ecjia-margin-b two-btn">
         <a class="btn" href='{url path="touch/index/init"}'>去购物</a>
-        <a class="btn" href='{url path="user/order/order_detail" args="order_id={$data.order_id}&type=detail"}'>查看订单</a>
+        <a class="btn" href='{if $detail.extension_code eq "group_buy"}{url path="user/order/groupbuy_detail" args="order_id={$data.order_id}"}{else}{url path="user/order/order_detail" args="order_id={$data.order_id}&type=detail"}{/if}'>查看订单</a>
     </div>
     {/if}
 </div>

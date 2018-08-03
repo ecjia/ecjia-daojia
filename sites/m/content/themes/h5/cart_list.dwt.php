@@ -18,7 +18,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="flow-no-pro">
 		<div class="ecjia-nolist">
 			您还没有登录
-			<a class="btn btn-small" type="button" href="{url path='user/user_privilege/login'}{if $referer_url}&referer_url={$referer_url}{/if}">{t}点击登录{/t}</a>
+			<a class="btn btn-small" type="button" href="{url path='user/privilege/login'}{if $referer_url}&referer_url={$referer_url}{/if}">{t}点击登录{/t}</a>
 		</div>
 	</div>
 	<!-- {else} -->

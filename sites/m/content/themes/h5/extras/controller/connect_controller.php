@@ -139,7 +139,7 @@ class connect_controller {
             return ecjia_front::$controller->showmessage('邀请码格式不正确', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     
-        $token = touch_function::get_token();
+        $token = touch_function::get_admin_token();
 
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $code, 'token' => $token))->run();
         if (is_ecjia_error($response)) {
@@ -281,12 +281,12 @@ class connect_controller {
     		return ecjia_front::$controller->showmessage('请输入手机号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	 
-    	$chars = "/^1(3|4|5|6|7|8)\d{9}$/";
-    	if (!preg_match($chars, $mobile_phone)) {
-    		return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	$check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile_phone);
+    	if (is_ecjia_error($check_mobile)) {
+    	    return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$_SESSION['user_temp']['mobile'] = $mobile_phone;
-    	 
+    	
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('connect/index/captcha_validate')));
     }
     
@@ -299,8 +299,7 @@ class connect_controller {
     		ecjia_front::$controller->redirect(RC_Uri::url($login_str));
     	}
     	 
-    	$token = touch_function::get_token();
-    	$_SESSION['user_temp']['token'] = $token;
+    	$token = touch_function::get_admin_token();
     	 
         $res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
         $res = !is_ecjia_error($res) ? $res : array();
@@ -341,8 +340,8 @@ class connect_controller {
     	if (empty($code_captcha)) {
     		return ecjia_front::$controller->showmessage('请输入验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
-    	if (RC_Time::gmtime() < $_SESSION['user_temp']['resend_sms_time'] + 180) {
-    		return ecjia_front::$controller->showmessage('规定时间以外，可重新发送验证码（1分钟）', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	if (RC_Time::gmtime() < $_SESSION['user_temp']['resend_sms_time'] + 60) {
+    		return ecjia_front::$controller->showmessage('规定时间1分钟以外，可重新发送验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$param = array(
     		'token'	=> $token,
@@ -414,19 +413,21 @@ class connect_controller {
     	 
     	$registered = $_SESSION['user_temp']['registered'];
     	$invited = $_SESSION['user_temp']['invited'];
-    
+    	$connect_code = $_SESSION['user_temp']['connect_code'];
+    	$open_id = $_SESSION['user_temp']['open_id'];
+    	
+    	$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id);
+
     	//已经注册 走登录接口
     	if ($registered == 1) {
     		$data = ecjia_touch_user::singleton()->signin($type, $mobile, $password);
     		if (is_ecjia_error($data)) {
     			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
-    		
-    		$connect_code = $_SESSION['user_temp']['connect_code'];
-    		$open_id = $_SESSION['user_temp']['open_id'];
-    		
-    		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id);
 
+    		/*获取远程用户头像信息*/
+    		user_controller::sync_avatar($connect_user);
+    		
     		if ($data['id']) {
     			$result = $connect_user->bindUser($data['id']);
     		} else {
@@ -435,8 +436,11 @@ class connect_controller {
 
 			$url = RC_Uri::url('touch/my/init', array('connect_code' => $connect_code, 'open_id' => $open_id));
 			$referer_url = !empty($_POST['referer_url']) ? urldecode($_POST['referer_url']) : urldecode($_SESSION['user_temp']['referer_url']);
- 			if (!empty($referer_url)) {
+			if (!empty($referer_url) && $referer_url != 'undefined' && !strpos($referer_url, 'user')) {
     			$url = $referer_url;
+			}
+			if ($url == 'undefined') {
+				$url = RC_Uri::url('touch/my/init');
 			}
     		if ($result) {
     			return ecjia_front::$controller->showmessage('关联成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
@@ -444,19 +448,46 @@ class connect_controller {
     			return ecjia_front::$controller->showmessage('授权用户信息关联失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
     	} else {
-    		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password, 'token' => $token))->run();
-    		if (is_ecjia_error($data)) {
-    			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}
+//     		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password, 'token' => $token))->run();
+//     		if (is_ecjia_error($data)) {
+//     			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//     		}
     		if ($data['registered'] == 1) {
     			return ecjia_front::$controller->showmessage('该手机号已注册', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
     
     		//未注册 走注册接口
-    		$url = RC_Uri::url('connect/index/set_password');
     		$_SESSION['user_temp']['mobile'] = $mobile;
     		$_SESSION['user_temp']['register_status'] = 'succeed';
     		$_SESSION['user_temp']['code'] = $password;
+    		
+    		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNUP)->data(array('name' => '', 'mobile' => $mobile, 'password' => ''))->run();
+    		if (!is_ecjia_error($res)) {
+    			$url = RC_Uri::url('touch/my/init');
+    		
+    			$referer_url = isset($_SESSION['user_temp']['referer_url']) ? urldecode($_SESSION['user_temp']['referer_url']) : '';
+    			if (!empty($referer_url) && $referer_url != 'undefined' && !strpos($referer_url, 'user')) {
+    				$url = $referer_url;
+    			}
+    		
+    			unset($_SESSION['user_temp']);
+    		
+    			ecjia_touch_user::singleton()->signin('smslogin', $mobile, $password);
+    			
+    			if ($res['user']['id']) {
+    				$connect_user->bindUser($res['user']['id']);
+    			}
+
+    			/*获取远程用户头像信息*/
+    			user_controller::sync_avatar($connect_user);
+    			
+    			if ($url == 'undefined') {
+    				$url = RC_Uri::url('touch/my/init');
+    			}
+    			return ecjia_front::$controller->showmessage(__('恭喜您，注册成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
+    		} else {
+    			return ecjia_front::$controller->showmessage(__($res->get_error_message()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		}
     	}
     	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
     }
@@ -509,6 +540,9 @@ class connect_controller {
     			$result = $connect_user->bindUser($user_id);
     		}
     		if ($result) {
+    			/*获取远程用户头像信息*/
+    			user_controller::sync_avatar($connect_user);
+    			
     			$url = RC_Uri::url('touch/my/init');
     			if (!empty($_SESSION['user_temp']['referer_url'])) {
     				$url = urldecode($_SESSION['user_temp']['referer_url']);
@@ -516,7 +550,7 @@ class connect_controller {
     			unset($_SESSION['user_temp']);
     
     			ecjia_touch_user::singleton()->signin('password', $username, $password);
-    			return ecjia_front::$controller->showmessage(__('恭喜您，绑定注册成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
+    			return ecjia_front::$controller->showmessage(__('恭喜您，绑定注册成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
     		} else {
     			return ecjia_front::$controller->showmessage('授权用户信息关联失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}

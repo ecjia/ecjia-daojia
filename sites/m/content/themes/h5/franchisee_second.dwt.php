@@ -28,9 +28,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<label class="input">
 			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_category.png" width="30" height="30"></span>
 			<i class="iconfont  icon-jiantou-right"></i>
-			<input class="ecjia-franchisee-category" style="padding-left: 3.5em;" name="seller_category" placeholder="{t}请选择店铺分类{/t}" type="text"  {if $smarty.cookies.franchisee_seller neq ''} value="{$smarty.cookies.franchisee_seller}" {else} value="{$second_show.seller}" {/if}/>
+			<input class="ecjia-franchisee-category" style="padding-left: 3.5em;" name="seller_category_name" placeholder="{t}请选择店铺分类{/t}" type="text"  {if $smarty.cookies.franchisee_seller_category neq ''} value="{$smarty.cookies.franchisee_seller_category}" {else} value="{$second_show.seller}" {/if}/>
 		    <input name="category" type="hidden" value={$category} />
-		    <input name="seller_category_id" type="hidden" value="{if $smarty.cookies.franchisee_seller_category_id}{$smarty.cookies.franchisee_seller_category_id}{else}{$category_arr.data.0.id}{/if}" />
+		    <input name="seller_category" type="hidden" value="{if $smarty.cookies.franchisee_seller_category_id}{$smarty.cookies.franchisee_seller_category_id}{else}{$category_arr.data.0.id}{/if}" />
 		</label>
 		<label class="input">
 			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_type.png" width="30" height="30"></span>
