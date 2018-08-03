@@ -149,9 +149,10 @@ class merchant extends ecjia_merchant
                                     $data[$k]['shipping_area'] = implode(' | ', $region_name);
                                 }
                             }
-                            $shipping_name .= RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_name') . '、';
+                            $shipping_name .= RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_name');
+                            $shipping_name = $shipping_name. ', ';
                         }
-                        $data[$k]['shipping_name'] = rtrim($shipping_name, '、');
+                        $data[$k]['shipping_name'] = rtrim($shipping_name, ', ');
                     }
                 }
             }
