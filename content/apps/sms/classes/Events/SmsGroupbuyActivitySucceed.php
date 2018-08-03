@@ -44,57 +44,25 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Sms;
 
-use ecjia_admin_log;
-use RC_Lang;
-use RC_Hook;
-use ecjia_error;
+namespace Ecjia\App\Sms\Events;
 
-class Helper
+use Ecjia\App\Sms\EventAbstract;
+
+class SmsGroupbuyActivitySucceed extends EventAbstract
 {
     
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content()
-    {
-        ecjia_admin_log::instance()->add_object('sms_template', RC_Lang::get('sms::sms.sms_template'));
-        ecjia_admin_log::instance()->add_object('sms_config', RC_Lang::get('sms::sms.sms_config'));
-        ecjia_admin_log::instance()->add_object('sms_record', RC_Lang::get('sms::sms.sms_record'));
-        ecjia_admin_log::instance()->add_object('sms_channel', RC_Lang::get('sms::sms.sms_channel'));
-        ecjia_admin_log::instance()->add_object('sms_channel_sort', RC_Lang::get('sms::sms.sms_channel_sort'));
-        ecjia_admin_log::instance()->add_object('sms', RC_Lang::get('sms::sms.sms'));
-        ecjia_admin_log::instance()->add_object('sms_events', '短信事件');
-        
-        ecjia_admin_log::instance()->add_action('batch_setup', RC_Lang::get('sms::sms.batch_setup'));
-        ecjia_admin_log::instance()->add_action('close', '关闭');
-    }
+    protected $code = 'sms_groupbuy_activity_succeed';
     
-    public static function check_mobile($mobile, $callback = null) {
-        if (is_null($callback)) {
-            $callback = array(__CLASS__, 'check_china_mobile_filter');
-        }
-        
-        $callback = RC_Hook::apply_filters('filter_check_mobile_rule', $callback);
-        
-        return call_user_func_array($callback, [$mobile]);
-    }
+    protected $name = '团购活动成功结束';
     
-    //RC_Hook::add_filter('filter_check_mobile_rule', function($callback){ return function($mobile) {return true;} });
-    public static function check_china_mobile_filter($mobile)
-    {
-        if (empty($mobile)) {
-            return new ecjia_error('empty_mobile', '手机号不能为空');
-        }
-        $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
-        if (!preg_match($chars, $mobile)) {
-            return new ecjia_error('error_mobile', '手机号码格式错误');
-        }
-        
-        return true;
-    }
+    protected $description = '通知用户支付有保证金团购订单的余款';
+    
+    protected $template = '亲爱的${user_name}，您在${store_name}店铺参加了商品${goods_name}的团购活动，活动现已结束， 请尽快支付订单剩余余款，方便及时给您发货。';
 
+    protected $available_values = [
+    	'user_name' 	=> '用户名称',
+    	'store_name'	=> '店铺名称',
+    	'goods_name'    => '商品名称'
+    ];  
 }
-
-// end

@@ -140,7 +140,7 @@ class admin_template extends ecjia_admin
         $this->assign('action_link', array('href' => RC_Uri::url('sms/admin_template/init', array('channel_code' => $_GET['channel_code'])), 'text' => RC_Lang::get('sms::sms.sms_template_list')));
 
         $template_code_list = $this->template_code_list();
-        $existed            = RC_DB::TABLE('notification_templates')->where('channel_code', $_GET['channel_code'])->select('template_code', 'template_subject')->get();
+        $existed            = RC_DB::table('notification_templates')->where('channel_code', $_GET['channel_code'])->select('template_code', 'template_subject')->get();
         if (!empty($existed)) {
             foreach ($existed as $value) {
                 $existed_list[$value['template_code']] = $value['template_subject'] . ' [' . $value['template_code'] . ']';
@@ -257,7 +257,7 @@ class admin_template extends ecjia_admin
         $this->assign('action_link', array('href' => RC_Uri::url('sms/admin_template/init', array('channel_code' => $_GET['channel_code'])), 'text' => RC_Lang::get('sms::sms.sms_template_list')));
 
         $template_code_list = $this->template_code_list();
-        $existed            = RC_DB::TABLE('notification_templates')->where('channel_code', $_GET['channel_code'])->where('template_code', '!=', $_GET['event_code'])->select('template_code', 'template_subject')->get();
+        $existed            = RC_DB::table('notification_templates')->where('channel_code', $_GET['channel_code'])->where('template_code', '!=', $_GET['event_code'])->select('template_code', 'template_subject')->get();
         if (!empty($existed)) {
             foreach ($existed as $value) {
                 $existed_list[$value['template_code']] = $value['template_subject'] . ' [' . $value['template_code'] . ']';
@@ -401,7 +401,7 @@ class admin_template extends ecjia_admin
 
         $id = intval($_GET['id']);
 
-        $info = RC_DB::TABLE('notification_templates')->where('id', $id)->select('template_subject')->first();
+        $info = RC_DB::table('notification_templates')->where('id', $id)->select('template_subject')->first();
         RC_DB::table('notification_templates')->where('id', $id)->delete();
 
         ecjia_admin::admin_log(sprintf(RC_Lang::get('sms::sms.template_code_is'), $info['template_subject']) . '，' . sprintf(RC_Lang::get('sms::sms.template_subject_is'), $info['template_subject']), 'remove', 'sms_template');

@@ -101,20 +101,21 @@ class SmsManager extends RC_Object
     {
         //发送前处理...
         //验证数据
-        $messages = [
-            'required'  => __('手机号不能为空'),
-            'regex'     => __('必须输入合法的手机号'),
-        ];
-        $validator = RC_Validator::make(array('mobile' => $mobile), [
-            'mobile'     => 'required|regex:/^1[3456789][0-9]{9}$/',
-        ], $messages);
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            $error = $errors->first('mobile');
-            return new ecjia_error('sms_failed_to_before_send', $error);
-        }
+//         $messages = [
+//             'required'  => __('手机号不能为空'),
+//             'regex'     => __('必须输入合法的手机号'),
+//         ];
+//         $validator = RC_Validator::make(array('mobile' => $mobile), [
+//             'mobile'     => 'required|regex:/^1[3456789][0-9]{9}$/',
+//         ], $messages);
+//         if ($validator->fails()) {
+//             $errors = $validator->errors();
+//             $error = $errors->first('mobile');
+//             return new ecjia_error('sms_failed_to_before_send', $error);
+//         }
 
-        return true;
+//         return true;
+        return Helper::check_mobile($mobile);
     }
     
     /** 发送短消息

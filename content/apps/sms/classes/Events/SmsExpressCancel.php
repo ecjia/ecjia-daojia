@@ -44,57 +44,24 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Sms;
 
-use ecjia_admin_log;
-use RC_Lang;
-use RC_Hook;
-use ecjia_error;
+namespace Ecjia\App\Sms\Events;
 
-class Helper
+use Ecjia\App\Sms\EventAbstract;
+
+class SmsExpressCancel extends EventAbstract
 {
-    
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content()
-    {
-        ecjia_admin_log::instance()->add_object('sms_template', RC_Lang::get('sms::sms.sms_template'));
-        ecjia_admin_log::instance()->add_object('sms_config', RC_Lang::get('sms::sms.sms_config'));
-        ecjia_admin_log::instance()->add_object('sms_record', RC_Lang::get('sms::sms.sms_record'));
-        ecjia_admin_log::instance()->add_object('sms_channel', RC_Lang::get('sms::sms.sms_channel'));
-        ecjia_admin_log::instance()->add_object('sms_channel_sort', RC_Lang::get('sms::sms.sms_channel_sort'));
-        ecjia_admin_log::instance()->add_object('sms', RC_Lang::get('sms::sms.sms'));
-        ecjia_admin_log::instance()->add_object('sms_events', '短信事件');
-        
-        ecjia_admin_log::instance()->add_action('batch_setup', RC_Lang::get('sms::sms.batch_setup'));
-        ecjia_admin_log::instance()->add_action('close', '关闭');
-    }
-    
-    public static function check_mobile($mobile, $callback = null) {
-        if (is_null($callback)) {
-            $callback = array(__CLASS__, 'check_china_mobile_filter');
-        }
-        
-        $callback = RC_Hook::apply_filters('filter_check_mobile_rule', $callback);
-        
-        return call_user_func_array($callback, [$mobile]);
-    }
-    
-    //RC_Hook::add_filter('filter_check_mobile_rule', function($callback){ return function($mobile) {return true;} });
-    public static function check_china_mobile_filter($mobile)
-    {
-        if (empty($mobile)) {
-            return new ecjia_error('empty_mobile', '手机号不能为空');
-        }
-        $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
-        if (!preg_match($chars, $mobile)) {
-            return new ecjia_error('error_mobile', '手机号码格式错误');
-        }
-        
-        return true;
-    }
+
+    protected $code = 'sms_express_cancel';
+
+    protected $name = '配送单撤销配送';
+
+    protected $description = '商家同意用户退款申请时通知配送员撤销配送';
+
+    protected $template = '您的配送单${express_sn}已撤销配送，您无需继续配送，如已取货请将商品返还给商家。';
+
+    protected $available_values = [
+    	'express_sn' 	=> '配送单号'
+    ];
 
 }
-
-// end
