@@ -45,19 +45,44 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * 配送应用
+ * 订单申请退款，商家同意时，如果是商家或众包配送的话，将对应的配送单状态更改为撤销配送
+ * @author zrl
+ *
  */
-return array(
-    'identifier'    => 'ecjia.express',
-    'directory'     => 'express',
-    'name'          => 'express',
-    'description'   => 'express_desc',			  /* 描述对应的语言项 */
-	'author'        => 'ECJIA TEAM',			  /* 作者 */
-	'website'       => 'http://www.ecjia.com',	  /* 网址 */
-	'version'       => '1.17.0',					  /* 版本号 */
-	'copyright'     => 'ECJIA Copyright 2014.'
-);
+class express_cancel_express_api extends Component_Event_Api {
+    /**
+     * @param  array 
+     * @return array
+     */
+	public function call(&$options) {
+		
+		if (empty($options) || !is_array($options)) {
+			return array();
+		}
+		
+		if (!empty($options)) {
+			foreach ($options as $row) {
+				RC_DB::table('express_order')->where('express_id', $row['express_id'])->update(array('status' => 7));
+				/*配送单已接单的，给配送员发短信*/
+				if (!empty($row['staff_id'])) {
+					/* 订单取消给配送员发短信 */
+					if (!empty($row['express_mobile'])) {
+						$options = array(
+								'mobile' => $row['express_mobile'],
+								'event'	 => 'sms_express_cancel',
+								'value'  =>array(
+										'express_sn'	=> $row['express_sn'],
+								),
+						);
+						RC_Api::api('sms', 'send_event_sms', $options);
+					}
+				}
+			}
+		}
+		
+		return array();
+	}
+}
 
 // end

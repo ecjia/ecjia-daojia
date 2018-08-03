@@ -90,23 +90,18 @@ class detail_module extends api_admin implements api_interface {
 		
 		$app_url =  RC_App::apps_url('statics/images', __FILE__);
 		
-		switch ($express_order_info['status']) {
-			case '0' :
-				$status = 'wait_assign';
-				$label_express_status = '待指派';
-				break;
-			case '1' :
-				$status = 'wait_pickup';
-				$label_express_status = '待取货';
-				break;
-			case '2' :
-				$status = 'sending';
-				$label_express_status = '配送中';
-				break;
-			case '5' :
-				$status = 'finished';
-				$label_express_status = '已完成';
-				break;
+		if ($express_order_info['status'] == '0') {
+			$status = 'wait_assign';
+			$label_express_status = '待指派';
+		} elseif ($express_order_info['status'] == '1') {
+			$status = 'wait_pickup';
+			$label_express_status = '待取货';
+		} elseif ($express_order_info['status'] == '2') {
+			$status = 'sending';
+			$label_express_status = '配送中';
+		} elseif ($express_order_info['status'] == '5' || $express_order_info['status'] == '7') {
+			$status = 'finished';
+			$label_express_status = '已完成';
 		}
 		
     	$express_order = array(

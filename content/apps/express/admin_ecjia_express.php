@@ -151,7 +151,7 @@ class admin_ecjia_express extends ecjia_admin
     	 
     	$shipping_data = RC_DB::table('shipping')
     		->where('shipping_code', 'ship_ecjia_express')
-    		->select('shipping_name', 'shipping_code', 'support_cod')
+    		->select('shipping_name', 'shipping_code', 'support_cod', 'shipping_id')
     		->first();
     	
     	$config = array();
@@ -207,9 +207,9 @@ class admin_ecjia_express extends ecjia_admin
     		$config[$count]['value']    = empty($express) ? '' : $express;
     	}
     	ecjia_config::instance()->write_config('plugin_ship_ecjia_express', serialize($config));
-
+		RC_DB::table('shipping_area')->where('shipping_id', $shipping_data['shipping_id'])->update(array('configure' => serialize($config)));
+		
     	$url = RC_Uri::url('express/admin_ecjia_express/init');
-
     	return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
     }
 

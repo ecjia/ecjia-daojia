@@ -59,7 +59,7 @@ class mh_express extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 		RC_Style::enqueue_style('uniform-aristo');
 		
-		RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
+		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
 		
@@ -159,9 +159,9 @@ class mh_express extends ecjia_merchant {
 		$this->assign('express_info', $express_info);
 
 		//配送情况
-		$order_number['assign'] = RC_DB::TABLE('express_order')->where('from', 'assign')->where('staff_id', $user_id)->count();
-		$order_number['undone']	= RC_DB::TABLE('express_order')->where('status', '<>', 5)->where('staff_id', $user_id)->count();
-		$order_number['finish'] = RC_DB::TABLE('express_order')->where('status', 5)->where('staff_id', $user_id)->count();
+		$order_number['assign'] = RC_DB::table('express_order')->where('from', 'assign')->where('staff_id', $user_id)->count();
+		$order_number['undone']	= RC_DB::table('express_order')->where('status', '<>', 5)->where('staff_id', $user_id)->count();
+		$order_number['finish'] = RC_DB::table('express_order')->where('status', 5)->where('staff_id', $user_id)->count();
 		$this->assign('order_number', $order_number);
 
 		//配送记录
@@ -203,8 +203,8 @@ class mh_express extends ecjia_merchant {
 		$this->assign('action_link', array('text' => '配送员列表', 'href' => RC_Uri::url('express/mh_express/init')));
 	
 		$user_id = intval($_GET['user_id']);
-		$user_money = RC_DB::TABLE('express_user')->where('user_id', $user_id)->pluck('user_money');
-		$name = RC_DB::TABLE('staff_user')->where('user_id', $user_id)->pluck('name');
+		$user_money = RC_DB::table('express_user')->where('user_id', $user_id)->pluck('user_money');
+		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->pluck('name');
 		$this->assign('user_money', price_format($user_money));
 		$this->assign('name', $name);
 		$this->assign('user_id', $user_id);

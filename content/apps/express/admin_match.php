@@ -101,7 +101,7 @@ class admin_match extends ecjia_admin {
 		$this->assign('ur_here', '对账详情');
 	
 		$user_id = intval($_GET['user_id']);
-		$name = RC_DB::TABLE('staff_user')->where('user_id', $user_id)->pluck('name');
+		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->pluck('name');
 		$this->assign('name', $name);
 		$this->assign('user_id', $user_id);
 		
@@ -183,8 +183,8 @@ class admin_match extends ecjia_admin {
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
-				$row['order_number'] = RC_DB::TABLE('express_order')->where('staff_id', $row['user_id'])->count();
-				$money_stats = RC_DB::TABLE('express_order')->where('staff_id', $row['user_id'])->select(RC_DB::raw('sum(shipping_fee) as all_money'),RC_DB::raw('sum(commision) as express_money'),RC_DB::raw('sum(shipping_fee-commision) as store_money'))->first();
+				$row['order_number'] = RC_DB::table('express_order')->where('staff_id', $row['user_id'])->count();
+				$money_stats = RC_DB::table('express_order')->where('staff_id', $row['user_id'])->select(RC_DB::raw('sum(shipping_fee) as all_money'),RC_DB::raw('sum(commision) as express_money'),RC_DB::raw('sum(shipping_fee-commision) as store_money'))->first();
 				$money_stats['all_money'] = price_format($money_stats['all_money']);
 				$money_stats['express_money'] = price_format($money_stats['express_money']);
 				$money_stats['store_money'] = price_format($money_stats['store_money']);

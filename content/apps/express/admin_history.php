@@ -108,7 +108,7 @@ class admin_history extends ecjia_admin {
 		$express_info = RC_DB::table('express_order')->where('express_id', $express_id)->select('store_id','order_id', 'order_sn', 'delivery_id', 'delivery_sn','mobile','consignee','user_id','express_sn', 'distance','commision','express_user','express_mobile','from','signed_time','district as eodistrict','street as eostreet','address as eoaddress')->first();
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $express_info['store_id'])->select('merchants_name','contact_mobile','district','street','address')->first();
 		$order_info = RC_DB::table('order_info')->where('order_id', $express_info['order_id'])->select('add_time','expect_shipping_time','postscript')->first();
-		//$goods_list = RC_DB::TABLE('order_goods')->where('order_id', $express_info['order_id'])->select('goods_id', 'goods_name' ,'goods_price','goods_number')->get();
+		//$goods_list = RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->select('goods_id', 'goods_name' ,'goods_price','goods_number')->get();
 		/*配送单对应的发货单商品*/
 		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->selectRaw('goods_id, goods_name, send_number')->get();
 		
@@ -154,7 +154,7 @@ class admin_history extends ecjia_admin {
 		->leftJoin('users as user', RC_DB::raw('eo.user_id'), '=', RC_DB::raw('user.user_id'))
 		->leftJoin('store_franchisee as sf', RC_DB::raw('eo.store_id'), '=', RC_DB::raw('sf.store_id'));
 		
-		$db_data->where(RC_DB::raw('eo.status'), 5);
+		$db_data->whereIn(RC_DB::raw('eo.status'), array(5, 7));
 		$db_data->where(RC_DB::raw('eo.shipping_code'), 'ship_ecjia_express');
 		
 		if($_GET['start_date'] && $_GET['end_date']) {

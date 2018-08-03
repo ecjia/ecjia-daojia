@@ -113,7 +113,7 @@ class admin extends ecjia_admin {
 					if (!empty($first_express_order['sf_latitude']) && !empty($first_express_order['sf_longitude'])) {
 						//腾讯地图api距离计算
 						$keys = ecjia::config('map_qq_key');
-						$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$first_express_order['sf_latitude'].",".$first_express_order['sf_longitude']."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
+						$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$first_express_order['sf_latitude'].",".$first_express_order['sf_longitude']."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
 						$distance_json = file_get_contents($url);
 						$distance_info = json_decode($distance_json, true);
 						$v['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
@@ -183,7 +183,7 @@ class admin extends ecjia_admin {
 					if (!empty($sf_lat) && !empty($sf_lng)) {
 						//腾讯地图api距离计算
 						$keys = ecjia::config('map_qq_key');
-						$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$sf_lat.",".$sf_lng."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
+						$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$sf_lat.",".$sf_lng."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
 						$distance_json = file_get_contents($url);
 						$distance_info = json_decode($distance_json, true);
 						$v['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
@@ -566,7 +566,7 @@ class admin extends ecjia_admin {
 	/**
 	 * 待抢单列表
 	 */
-	private function get_wait_grab_list($type){
+	private function get_wait_grab_list($type =''){
 		$dbview = RC_DB::table('express_order as eo')
 					//->leftJoin('users as u', RC_DB::raw('eo.user_id'), '=', RC_DB::raw('u.user_id'))
 					->leftJoin('store_franchisee as sf', RC_DB::raw('eo.store_id'), '=', RC_DB::raw('sf.store_id'));
@@ -641,7 +641,7 @@ class admin extends ecjia_admin {
 	/**
 	 * 配送员列表
 	 */
-	private function get_express_user_list($type, $keywords) {
+	private function get_express_user_list($type='', $keywords ='') {
 		$keywords = $_GET['keywords'];
 		$express_user_view =  RC_DB::table('staff_user as su')
 		->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'));

@@ -407,7 +407,7 @@ class admin_reminder extends ecjia_admin
     /**
      * 配送员列表
      */
-    private function get_express_user_list($type, $keywords)
+    private function get_express_user_list($type ='', $keywords ='')
     {
         $keywords = $_GET['keywords'];
         $express_user_view = RC_DB::table('staff_user as su')

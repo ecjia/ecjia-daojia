@@ -73,7 +73,7 @@ class list_module extends api_admin implements api_interface {
 				$where['eo.status'] = 2;
 				break;
 			case 'finished' :
-				$where['eo.status'] = 5;
+				$where['eo.status'] = array(5,7);
 				break;
 			default : 
 				if (!empty($order_sn)) {
@@ -99,16 +99,16 @@ class list_module extends api_admin implements api_interface {
 		$express_order_list = array();
 		if (!empty($express_order_result)) {
 			foreach ($express_order_result as $val) {
-				switch ($val['status']) {
-					case '1' :
-						$status = 'wait_pickup';
-						break;
-					case '2' :
-						$status = 'wait_shipping';
-						break;
-					case '5' :
-						$status = 'finished';
-						break;
+				
+				if ($val['status'] == '1') {
+					$status = 'wait_pickup';
+					$label_express_status = '待取货';
+				} elseif ($val['status'] == '2') {
+					$status = 'wait_shipping';
+					$label_express_status = '配送中';
+				} elseif ($val['status'] == '5' || $val['status'] == '7') {
+					$status = 'finished';
+					$label_express_status = '已完成';
 				}
 				$sf_district_name = ecjia_region::getRegionName($val['sf_district']);
 				$sf_street_name = ecjia_region::getRegionName($val['sf_street']);
@@ -138,6 +138,7 @@ class list_module extends api_admin implements api_interface {
 						'latitude'	=> $val['latitude'],
 					),
 					'express_status' => $status,
+					'label_express_status' => $label_express_status,
 					'distance'		=> $val['distance'],
 					'consignee'		=> $val['consignee'],
 					'mobile'		=> $val['mobile'],

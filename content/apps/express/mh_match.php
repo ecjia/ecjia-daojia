@@ -59,7 +59,7 @@ class mh_match extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 		RC_Style::enqueue_style('uniform-aristo');
 		
-		RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
+		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
 		
@@ -104,7 +104,7 @@ class mh_match extends ecjia_merchant {
 		$this->assign('ur_here', '对账详情');
 	
 		$user_id = intval($_GET['user_id']);
-		$name = RC_DB::TABLE('staff_user')->where('user_id', $user_id)->pluck('name');
+		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->pluck('name');
 		$this->assign('name', $name);
 		$this->assign('user_id', $user_id);
 		
@@ -150,7 +150,7 @@ class mh_match extends ecjia_merchant {
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
-				$row['from'] = RC_DB::TABLE('express_order')->where('staff_id', $row['staff_id'])->pluck('from');
+				$row['from'] = RC_DB::table('express_order')->where('staff_id', $row['staff_id'])->pluck('from');
 				$row['receive_time']  = RC_Time::local_date('Y-m-d', $row['receive_time']);
 				$list[] = $row;
 			}
@@ -184,8 +184,8 @@ class mh_match extends ecjia_merchant {
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
-				$row['order_number'] = RC_DB::TABLE('express_order')->where('staff_id', $row['user_id'])->count();
-				$money_stats = RC_DB::TABLE('express_order')->where('staff_id', $row['user_id'])->select(RC_DB::raw('sum(shipping_fee) as all_money'),RC_DB::raw('sum(commision) as express_money'))->first();
+				$row['order_number'] = RC_DB::table('express_order')->where('staff_id', $row['user_id'])->count();
+				$money_stats = RC_DB::table('express_order')->where('staff_id', $row['user_id'])->select(RC_DB::raw('sum(shipping_fee) as all_money'),RC_DB::raw('sum(commision) as express_money'))->first();
 				$money_stats['all_money'] 		= price_format($money_stats['all_money']);
 				$money_stats['express_money'] 	= price_format($money_stats['express_money']);
 				$row['money'] = $money_stats;

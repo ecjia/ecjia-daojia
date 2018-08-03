@@ -105,10 +105,15 @@ class express_ecjiaauto_assign_expressOrder_api extends Component_Event_Api {
 				if (!empty($express_order_info['sf_latitude']) && !empty($express_order_info['sf_longitude'])) {
 					//腾讯地图api距离计算
 					$keys = ecjia::config('map_qq_key');
-					$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$express_order_info['sf_latitude'].",".$express_order_info['sf_longitude']."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
+					$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$express_order_info['sf_latitude'].",".$express_order_info['sf_longitude']."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
 					$distance_json = file_get_contents($url);
 					$distance_info = json_decode($distance_json, true);
-					$v['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+					if ($distance_info['status'] == 0) {
+						$v['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+					} else {
+						//距离超远或者请求距离计算返回错误；均过滤
+						$v['distance']  =  5999;
+					}
 					$express_user_data[] = $v;
 				}
 			}

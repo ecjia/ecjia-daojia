@@ -129,9 +129,13 @@ class admin_express extends ecjia_admin {
 		$address   = trim($_POST['address']);
 		$password  = empty($_POST['password']) ? ''	: trim($_POST['password']);
 		
-		if (!preg_match('/^1(3|4|5|7|8)\d{9}$/', $mobile)) {
-			return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
-		} 
+// 		if (!preg_match('/^1(3|4|5|6|7|8)\d{9}$/s', $mobile)) {
+// 			return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+// 		} 
+		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+		if (is_ecjia_error($check_mobile)) {
+		    return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
 	   	$is_exist_mobile = RC_DB::table('staff_user')->where('mobile', $mobile)->get();
         if ($is_exist_mobile) {
             return $this->showmessage('手机号已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -240,9 +244,13 @@ class admin_express extends ecjia_admin {
 		$address   = trim($_POST['address']);
 		$newpassword = trim($_POST['newpassword']);
 		
-		if (!preg_match('/^1(3|4|5|7|8)\d{9}$/', $mobile)) {
-			return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
-		} 
+// 		if (!preg_match('/^1(3|4|5|6|7|8)\d{9}$/s', $mobile)) {
+// 			return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+// 		} 
+		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+		if (is_ecjia_error($check_mobile)) {
+		    return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
 	   	$is_exist_mobile = RC_DB::table('staff_user')->where('user_id', '<>', $user_id)->where('mobile', $mobile)->get();
         if ($is_exist_mobile) {
             return $this->showmessage('手机号已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -340,9 +348,9 @@ class admin_express extends ecjia_admin {
 		$express_info['street']    = ecjia_region::getRegionName($express_info['street']);
 		$this->assign('express_info', $express_info);
 
-		$order_number['finish'] = RC_DB::TABLE('express_order')->where('status', 5)->where('staff_id', $user_id)->count();
-		$order_number['grab']	= RC_DB::TABLE('express_order')->where('from', 'grab')->where('staff_id', $user_id)->count();
-		$order_number['assign'] = RC_DB::TABLE('express_order')->where('from', 'assign')->where('staff_id', $user_id)->count();
+		$order_number['finish'] = RC_DB::table('express_order')->where('status', 5)->where('staff_id', $user_id)->count();
+		$order_number['grab']	= RC_DB::table('express_order')->where('from', 'grab')->where('staff_id', $user_id)->count();
+		$order_number['assign'] = RC_DB::table('express_order')->where('from', 'assign')->where('staff_id', $user_id)->count();
 		$this->assign('order_number', $order_number);
 
 		$db_order = RC_DB::table('express_order as eo')
@@ -385,8 +393,8 @@ class admin_express extends ecjia_admin {
 		$this->assign('action_link', array('text' => '配送员列表', 'href' => RC_Uri::url('express/admin_express/init')));
 	
 		$user_id = intval($_GET['user_id']);
-		$user_money = RC_DB::TABLE('express_user')->where('user_id', $user_id)->pluck('user_money');
-		$name = RC_DB::TABLE('staff_user')->where('user_id', $user_id)->pluck('name');
+		$user_money = RC_DB::table('express_user')->where('user_id', $user_id)->pluck('user_money');
+		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->pluck('name');
 		$this->assign('user_money', $user_money);
 		$this->assign('name', $name);
 		$this->assign('user_id', $user_id);

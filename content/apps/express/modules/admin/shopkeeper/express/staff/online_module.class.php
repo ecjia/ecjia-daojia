@@ -98,7 +98,7 @@ class online_module extends api_admin implements api_interface {
 				if (!empty($location['longitude']) && !empty($location['latitude']) && !empty($row['latitude']) && !empty($row['longitude'])) {
 					//腾讯地图api距离计算
 					$keys = ecjia::config('map_qq_key');
-					$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$row['latitude'].",".$row['longitude']."&to=".$location['latitude'].",".$location['longitude']."&key=".$keys;
+					$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$row['latitude'].",".$row['longitude']."&to=".$location['latitude'].",".$location['longitude']."&key=".$keys;
 					$distance_json = file_get_contents($url);
 					$distance_info = json_decode($distance_json, true);
 					$row['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;

@@ -82,6 +82,11 @@ class finished_module extends api_admin implements api_interface {
 		
 		$update = RC_DB::table('order_info')->where('order_id', $express_order_info['order_id'])->update($data);
 		
+		//订单分成
+		RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'buy', 'order_id' => $express_order_info['order_id']));
+		RC_Api::api('goods', 'update_goods_sales', array('order_id' => $express_order_info['order_id']));
+		
+		
 // 		if ($update) {
 			$db_order_status_log = RC_DB::table('order_status_log');
 							   

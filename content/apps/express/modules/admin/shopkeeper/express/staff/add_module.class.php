@@ -140,7 +140,7 @@ class add_module extends api_admin implements api_interface {
     						'user_name'	 => $name,
     						'store_name' => $store_name,
     						'account'	 => $mobile,
-    						'password'	 => $password_last,
+    						'password'	 => $password,
     				),
     		);
     		$response = RC_Api::api('sms', 'send_event_sms', $options);

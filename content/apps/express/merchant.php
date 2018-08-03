@@ -61,7 +61,7 @@ class merchant extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 		RC_Style::enqueue_style('uniform-aristo');
 		
-		RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
+		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		
 		//时间控件
@@ -119,7 +119,7 @@ class merchant extends ecjia_merchant {
 					if (!empty($first_express_order['sf_latitude']) && !empty($first_express_order['sf_longitude'])) {
 						//腾讯地图api距离计算
 						$keys = ecjia::config('map_qq_key');
-						$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$first_express_order['sf_latitude'].",".$first_express_order['sf_longitude']."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
+						$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$first_express_order['sf_latitude'].",".$first_express_order['sf_longitude']."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
 						$distance_json = file_get_contents($url);
 						$distance_info = json_decode($distance_json, true);
 						$v['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
@@ -193,7 +193,7 @@ class merchant extends ecjia_merchant {
 					if (!empty($sf_lat) && !empty($sf_lng)) {
 						//腾讯地图api距离计算
 						$keys = ecjia::config('map_qq_key');
-						$url = "http://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$sf_lat.",".$sf_lng."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
+						$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$sf_lat.",".$sf_lng."&to=".$v['latitude'].",".$v['longitude']."&key=".$keys;
 						$distance_json = file_get_contents($url);
 						$distance_info = json_decode($distance_json, true);
 						$v['distance'] = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
@@ -280,7 +280,7 @@ class merchant extends ecjia_merchant {
 			/* 消息插入 */
 			$orm_staff_user_db = RC_Model::model('orders/orm_staff_user_model');
 			$user = $orm_staff_user_db->find($staff_id);
-			$express_mobile = RC_DB::TABLE('express_order')->where('staff_id', $staff_id)->pluck('express_mobile');
+			$express_mobile = RC_DB::table('express_order')->where('staff_id', $staff_id)->pluck('express_mobile');
 			/* 派单发短信 */
 			if (!empty($express_mobile)) {
 				$options = array(
@@ -372,7 +372,7 @@ class merchant extends ecjia_merchant {
 		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->selectRaw('goods_id, goods_name, send_number')->get();
 		
 		foreach ($goods_list as $key => $val) {
-			$goods_list[$key]['image']  				= RC_DB::TABLE('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
+			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
 			$goods_list[$key]['goods_price']			= RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->where('goods_id', $val['goods_id'])->pluck('goods_price');
 			$goods_list[$key]['formated_goods_price']	= price_format($goods_list[$key]['goods_price']);
 		}
@@ -609,7 +609,7 @@ class merchant extends ecjia_merchant {
 	/**
 	 * 待派单列表
 	 */
-	private function get_wait_grab_list($type){
+	private function get_wait_grab_list($type =''){
 		$dbview = RC_DB::table('express_order as eo')
 					->leftJoin('store_franchisee as sf', RC_DB::raw('eo.store_id'), '=', RC_DB::raw('sf.store_id'));
 		
@@ -685,7 +685,7 @@ class merchant extends ecjia_merchant {
 	/**
 	 * 配送员列表
 	 */
-	private function get_express_user_list($type, $keywords) {
+	private function get_express_user_list($type ='', $keywords ='') {
 		$express_user_view =  RC_DB::table('staff_user as su')
 		->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'));
 		$express_user_view->where(RC_DB::raw('su.store_id'), $_SESSION['store_id']);
