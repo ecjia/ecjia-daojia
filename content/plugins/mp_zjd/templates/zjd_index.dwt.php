@@ -30,7 +30,7 @@
 		<div class="block">
 			<div class="title">剩余次数</div>
 			<div class="content">
-				<p>您当前还剩余<span style="font-size: 16px;"> {$prize_num} </span>次抽奖机会</p>
+				<p>您当前还剩余<span style="font-size: 16px;"> {if $prize_num lt 0} 0 {else} {$prize_num} {/if} </span>次抽奖机会</p>
 			</div>
 		</div>
 		<div class="block">
