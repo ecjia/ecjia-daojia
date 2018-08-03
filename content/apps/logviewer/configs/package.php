@@ -47,9 +47,18 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * 日志查看
  */
-$LANG['logviewer']      = '日志查看';
-$LANG['logviewer_desc'] = '无需在再一级一级找到日志文件打开进行查看了，该应用把所有的日志文件分类详细的排列出来，方便用户查看。';
+return array(
+    'identifier'  => 'ecjia.logviewer',
+    'directory'   => 'logviewer',
+    'name'        => 'logviewer',
+    'description' => 'logviewer_desc', 			/* 描述对应的语言项 */
+    'author' 	  => 'ECJIA TEAM', 				/* 作者 */
+    'website' 	  => 'http://www.ecjia.com', 	/* 网址 */
+    'version' 	  => '1.18.0', 					/* 版本号 */
+    'copyright'   => 'ECJIA Copyright 2016 ~ 2018.',
+    'namespace'   => 'Ecjia\App\Logviewer',
+);
 
 // end
