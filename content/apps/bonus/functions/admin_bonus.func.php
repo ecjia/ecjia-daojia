@@ -232,7 +232,7 @@ function user_bonus($user_id, $goods_amount = 0, $cart_id = array(), $store_id =
 		if (!empty($store_id)) {
 			$dbview->whereIn(RC_DB::raw('bt.store_id'), array($store_id, 0));
 		}
-		$row = $dbview->selectRaw('bt.type_id, bt.type_name, bt.type_money, ub.bonus_id, bt.usebonus_type,bt.min_goods_amount,bt.use_start_date,bt.use_end_date')
+		$row = $dbview->selectRaw('bt.type_id, bt.store_id, bt.type_name, bt.type_money, ub.bonus_id, bt.usebonus_type,bt.min_goods_amount,bt.use_start_date,bt.use_end_date')
 		->where(RC_DB::raw('bt.use_start_date'), '<=', $today)
 		->where(RC_DB::raw('bt.use_end_date'), '>=', $today)
 		->where(RC_DB::raw('bt.min_goods_amount'), '<=', $goods_amount)

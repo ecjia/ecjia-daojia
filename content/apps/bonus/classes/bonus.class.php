@@ -110,8 +110,6 @@ class bonus {
      * @return void
      */
     public static function get_bonus_list() {
-    	RC_Lang::load('bonus');
-    
     	/* 查询条件 */
     	$filter ['sort_by']    = empty($_REQUEST['sort_by']) 	? 'user_bonus.bonus_id'	: trim($_REQUEST['sort_by']);
     	$filter ['sort_order'] = empty($_REQUEST['sort_order'])	? 'DESC'				: trim($_REQUEST['sort_order']);
