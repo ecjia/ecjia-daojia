@@ -1,10 +1,13 @@
-<?php namespace Royalcms\Component\Validation;
+<?php 
+
+namespace Royalcms\Component\Validation;
 
 use Closure;
-use Royalcms\Component\Container\Container;
+use Royalcms\Component\Container\Contracts\Container;
 use Symfony\Component\Translation\TranslatorInterface;
+use Royalcms\Component\Validation\Contracts\Factory as FactoryContract;
 
-class Factory {
+class Factory implements FactoryContract {
 
 	/**
 	 * The Translator implementation.
@@ -23,7 +26,7 @@ class Factory {
 	/**
 	 * The IoC container instance.
 	 *
-	 * @var \Royalcms\Component\Container\Container
+	 * @var \Royalcms\Component\Container\Contracts\Container
 	 */
 	protected $container;
 
@@ -66,7 +69,7 @@ class Factory {
 	 * Create a new Validator factory instance.
 	 *
 	 * @param  \Symfony\Component\Translation\TranslatorInterface  $translator
-	 * @param  \Royalcms\Component\Container\Container  $container
+	 * @param  \Royalcms\Component\Container\Contracts\Container  $container
 	 * @return void
 	 */
 	public function __construct(TranslatorInterface $translator, Container $container = null)
@@ -146,10 +149,8 @@ class Factory {
 		{
 			return new Validator($this->translator, $data, $rules, $messages, $customAttributes);
 		}
-		else
-		{
-			return call_user_func($this->resolver, $this->translator, $data, $rules, $messages, $customAttributes);
-		}
+
+		return call_user_func($this->resolver, $this->translator, $data, $rules, $messages, $customAttributes);
 	}
 
 	/**
@@ -197,7 +198,7 @@ class Factory {
 	/**
 	 * Set the Validator instance resolver.
 	 *
-	 * @param  Closure  $resolver
+	 * @param  \Closure  $resolver
 	 * @return void
 	 */
 	public function resolver(Closure $resolver)
@@ -225,7 +226,7 @@ class Factory {
 		return $this->verifier;
 	}
 
-	/** 
+	/**
 	 * Set the Presence Verifier implementation.
 	 *
 	 * @param  \Royalcms\Component\Validation\PresenceVerifierInterface  $presenceVerifier

@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Validation;
+<?php 
+
+namespace Royalcms\Component\Validation;
 
 use Royalcms\Component\Database\ConnectionResolverInterface;
 
@@ -7,7 +9,7 @@ class DatabasePresenceVerifier implements PresenceVerifierInterface {
 	/**
 	 * The database connection instance.
 	 *
-	 * @var  \Royalcms\Component\Database\ConnectionResolverInterface
+	 * @var \Royalcms\Component\Database\ConnectionResolverInterface
 	 */
 	protected $db;
 
@@ -105,7 +107,7 @@ class DatabasePresenceVerifier implements PresenceVerifierInterface {
 	/**
 	 * Get a query builder for the given table.
 	 *
-	 * @param  string  $table 
+	 * @param  string  $table
 	 * @return \Royalcms\Component\Database\Query\Builder
 	 */
 	protected function table($table)

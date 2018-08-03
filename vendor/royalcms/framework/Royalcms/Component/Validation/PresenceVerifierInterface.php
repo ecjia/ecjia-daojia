@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Validation;
+<?php 
+
+namespace Royalcms\Component\Validation;
 
 interface PresenceVerifierInterface {
 

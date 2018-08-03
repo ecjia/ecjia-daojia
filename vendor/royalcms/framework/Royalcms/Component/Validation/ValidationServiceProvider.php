@@ -1,15 +1,11 @@
-<?php namespace Royalcms\Component\Validation;
+<?php 
+
+namespace Royalcms\Component\Validation;
 
 use Royalcms\Component\Support\ServiceProvider;
+use Royalcms\Component\Validation\Contracts\ValidatesWhenResolved;
 
 class ValidationServiceProvider extends ServiceProvider {
-
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
 
 	/**
 	 * Register the service provider.
@@ -18,18 +14,43 @@ class ValidationServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->registerValidationResolverHook();
+
 		$this->registerPresenceVerifier();
 
-		$this->royalcms->bindShared('validator', function($royalcms)
+		$this->registerValidationFactory();
+	}
+
+	/**
+	 * Register the "ValidatesWhenResolved" container hook.
+	 *
+	 * @return void
+	 */
+	protected function registerValidationResolverHook()
+	{
+		$this->royalcms->afterResolving(function(ValidatesWhenResolved $resolved)
 		{
-			$validator = new Factory($royalcms['translator'], $royalcms);
+			$resolved->validate();
+		});
+	}
+
+	/**
+	 * Register the validation factory.
+	 *
+	 * @return void
+	 */
+	protected function registerValidationFactory()
+	{
+		$this->royalcms->singleton('validator', function($royalcms)
+		{
+		    $validator = new Factory($royalcms['translator'], $royalcms);
 
 			// The validation presence verifier is responsible for determining the existence
 			// of values in a given data collection, typically a relational database or
 			// other persistent data stores. And it is used to check for uniqueness.
-			if (isset($royalcms['validation.presence']))
+		    if (isset($royalcms['validation.presence']))
 			{
-				$validator->setPresenceVerifier($royalcms['validation.presence']);
+			    $validator->setPresenceVerifier($royalcms['validation.presence']);
 			}
 
 			return $validator;
@@ -43,20 +64,10 @@ class ValidationServiceProvider extends ServiceProvider {
 	 */
 	protected function registerPresenceVerifier()
 	{
-		$this->royalcms->bindShared('validation.presence', function($royalcms)
+	    $this->royalcms->singleton('validation.presence', function($royalcms)
 		{
-			return new DatabasePresenceVerifier($royalcms['db']);
+		    return new DatabasePresenceVerifier($royalcms['db']);
 		});
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('validator', 'validation.presence');
 	}
 
 }
