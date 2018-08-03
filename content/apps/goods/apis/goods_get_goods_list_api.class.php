@@ -114,6 +114,9 @@ class goods_get_goods_list_api extends Component_Event_Api {
 		if (isset($filter['stock_warning'])) {
 			$where[] = 'goods_number <= warn_number';
 		}
+		if (isset($filter['is_on_sale'])) {
+			$where['is_on_sale'] = $filter['is_on_sale'];
+		}
 		
 		/* 取得数据 */
 		$row = $db->field('goods_id, goods_name, shop_price')->where($where)->limit(50)->select();

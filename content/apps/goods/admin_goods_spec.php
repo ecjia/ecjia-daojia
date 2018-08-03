@@ -138,8 +138,8 @@ class admin_goods_spec extends ecjia_admin {
 		$goods_type['cat_name']		= RC_String::sub_str($_POST['cat_name'], 60);
 		$goods_type['attr_group']	= RC_String::sub_str($_POST['attr_group'], 255);
 		$goods_type['enabled']		= intval($_POST['enabled']);
-		
-		$count = RC_DB::table('goods_type')->where('cat_name', $goods_type['cat_name'])->count();
+		$goods_type['store_id']     = 0;
+		$count = RC_DB::table('goods_type')->where('cat_name', $goods_type['cat_name'])->where('store_id', 0)->count();
 		if ($count > 0 ){
 			return $this->showmessage(RC_Lang::get('goods::goods_spec.repeat_type_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
@@ -193,7 +193,7 @@ class admin_goods_spec extends ecjia_admin {
 		$cat_id						= intval($_POST['cat_id']);
 		$old_groups					= get_attr_groups($cat_id);
 		
-		$count = RC_DB::table('goods_type')->where('cat_name', $goods_type['cat_name'])->where('cat_id', '!=', $cat_id)->count();
+		$count = RC_DB::table('goods_type')->where('cat_name', $goods_type['cat_name'])->where('cat_id', '!=', $cat_id)->where('store_id', 0)->count();
 
 		if (empty($count)) {
 			RC_DB::table('goods_type')->where('cat_id', $cat_id)->update($goods_type);
@@ -253,7 +253,7 @@ class admin_goods_spec extends ecjia_admin {
 
 		/* 检查名称是否重复 */
 		if(!empty($type_name)) {
-			$is_only = RC_DB::table('goods_type')->where('cat_name', $type_name)->count();
+			$is_only = RC_DB::table('goods_type')->where('cat_name', $type_name)->where('store_id', 0)->count();
 			if ($is_only == 0) {
 				RC_DB::table('goods_type')->where('cat_id', $type_id)->update(array('cat_name' => $type_name));
 				

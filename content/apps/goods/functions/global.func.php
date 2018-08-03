@@ -1200,7 +1200,8 @@ function get_cat_attr_list($cat_id, $goods_id = 0) {
 	);
 	$row = $dbview
 		->where('a.cat_id = "' . intval($cat_id) . '"')
-		->order(array('a.sort_order' => 'asc', 'a.attr_type' => 'asc', 'a.attr_id' => 'asc', 'v.attr_price' => 'asc', 'v.goods_attr_id' => 'asc'))
+		// ->order(array('a.sort_order' => 'asc', 'a.attr_type' => 'asc', 'a.attr_id' => 'asc', 'v.attr_price' => 'asc', 'v.goods_attr_id' => 'asc'))
+		->order(array('a.sort_order' => 'asc', 'a.attr_type' => 'asc', 'a.attr_id' => 'asc', 'v.goods_attr_id' => 'asc'))
 		->select();
 	return $row;
 }

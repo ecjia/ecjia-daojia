@@ -614,6 +614,8 @@ class admin extends ecjia_admin {
 		RC_DB::table('goods')->where('goods_id', $goods_id)->update($data);
 		/* 记录日志 */
 		ecjia_admin::admin_log($_POST['goods_name'], 'edit', 'goods');
+		//为更新用户购物车数据加标记
+		RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
 
 		/* 处理会员价格 */
 		if (isset($_POST['user_rank']) && isset($_POST['user_price'])) {
@@ -995,6 +997,8 @@ class admin extends ecjia_admin {
 			return $this->showmessage(RC_Lang::get('goods::goods.shop_price_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			RC_DB::table('goods')->where('goods_id', $goods_id)->update($data);
+			//为更新用户购物车数据加标记
+			RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
 			/* 释放app缓存*/
 			$goods_db = RC_Model::model('goods/orm_goods_model');
 			$goods_cache_array = $goods_db->get_cache_item('goods_list_cache_key_array');
@@ -1678,7 +1682,7 @@ class admin extends ecjia_admin {
 			$href = RC_Uri::url('goods/admin/init', array('extension_code' => $code));
 		}
 		$this->assign('action_link', array('href' => $href, 'text' => RC_Lang::get('system::system.01_goods_list')));
-		$this->assign('goods_type_list', goods_type_list($goods['goods_type'], $goods['store_id']));
+		$this->assign('goods_type_list', goods_type_list($goods['goods_type'], $goods['store_id'], true));
 		
 		$this->assign('goods_attr_html', build_attr_html($goods['goods_type'], $goods_id));
 		$this->assign('ur_here', RC_Lang::get('goods::goods.edit_goods_attr'));
@@ -1785,6 +1789,8 @@ class admin extends ecjia_admin {
 				}
 			}
 			$this->db_goods_attr->batch_insert($data_insert);
+			//为更新用户购物车数据加标记
+			RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
 			/*释放商品的规格和属性缓存*/
 			$cache_goods_properties_key = 'goods_properties_'.$goods_id;
             $cache_goods_properties_id = sprintf('%X', crc32($cache_goods_properties_key));

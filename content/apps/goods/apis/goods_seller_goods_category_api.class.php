@@ -99,7 +99,7 @@ class goods_seller_goods_category_api extends Component_Event_Api {
 	 *        	如果为true显示所有分类，如果为false隐藏不可见分类。
 	 * @return mix
 	 */
-	function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_show_all = true, $seller_id, $type='', $keywords) {
+	function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_show_all = true, $seller_id, $type='', $keywords = '') {
 		// 加载方法
 		RC_Loader::load_app_func('global', 'goods');
 		static $res = NULL;

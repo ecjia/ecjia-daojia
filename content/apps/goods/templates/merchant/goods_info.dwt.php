@@ -405,22 +405,6 @@
 					                <div id="collapseNine" class="panel-collapse collapse">
 				              			<div class="panel-body mt_15">
 	                                        <div class="form-group">
-					              				<label class="control-label col-lg-5">{lang key='goods::goods.lab_give_integral'}</label>
-					              				<div class="col-lg-6">
-					                            	<input class="form-control" type="text" name="give_integral" value="{$goods.give_integral}" size="20" data-toggle="parseint_input" />
-					                          	</div>
-					              			</div>
-					              			<p class="help-block">{lang key='goods::goods.notice_give_integral'}</p>
-					              			
-					              			<div class="form-group">
-					              				<label class="control-label col-lg-5">{lang key='goods::goods.lab_rank_integral'}</label>
-					              				<div class="col-lg-6">
-					                          		<input class="form-control" type="text" name="rank_integral" value="{$goods.rank_integral}" size="20" data-toggle="parseint_input" />
-					                          	</div>
-					              			</div>
-					              			<p class="help-block">{lang key='goods::goods.notice_rank_integral'}</p>
-	              			
-	                                        <div class="form-group">
 					              				<label class="control-label col-lg-5">{lang key='goods::goods.lab_integral'}</label>
 					              				<div class="col-lg-6">
 					                          		<input class="form-control" type="text" name="integral" value="{$goods.integral}" size="20" data-toggle="parseint_input" />

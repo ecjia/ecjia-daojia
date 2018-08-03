@@ -525,8 +525,8 @@ class merchant extends ecjia_merchant {
 		$warn_number 	= !empty($_POST['warn_number'])		? $_POST['warn_number'] 	: 0;
 		$goods_type 	= !empty($_POST['goods_type']) 		? $_POST['goods_type'] 		: 0;
 
-		$give_integral 	= !empty($_POST['give_integral']) 	? intval($_POST['give_integral']) 	: '-1';
-		$rank_integral 	= !empty($_POST['rank_integral']) 	? intval($_POST['rank_integral']) 	: '-1';
+// 		$give_integral 	= !empty($_POST['give_integral']) 	? intval($_POST['give_integral']) 	: '-1';
+// 		$rank_integral 	= !empty($_POST['rank_integral']) 	? intval($_POST['rank_integral']) 	: '-1';
 		$suppliers_id 	= !empty($_POST['suppliers_id']) 	? intval($_POST['suppliers_id']) 	: '0';
 
 		$goods_name 		= isset($_POST['goods_name']) 		? htmlspecialchars($_POST['goods_name']) 		: '';
@@ -568,7 +568,7 @@ class merchant extends ecjia_merchant {
 			'goods_number'          => $goods_number,
 			'warn_number'           => $warn_number,
 			'integral'              => $_POST['integral'],
-			'give_integral'         => $give_integral,
+			//'give_integral'         => 0,//商家不可设置赠送积分
 			'store_best'            => $is_best,
 			'store_new'             => $is_new,
 			'store_hot'             => $is_hot,
@@ -578,7 +578,7 @@ class merchant extends ecjia_merchant {
 			'add_time'              => RC_Time::gmtime(),
 			'last_update'           => RC_Time::gmtime(),
 			'goods_type'            => $goods_type,
-			'rank_integral'         => $rank_integral,
+			//'rank_integral'         => 0,//商家不可设置赠送积分
 			'suppliers_id'          => $suppliers_id,
 		    'review_status'         => get_merchant_review_status(),
 			'store_id'				=> $_SESSION['store_id'],
@@ -906,8 +906,8 @@ class merchant extends ecjia_merchant {
 		$warn_number 	= isset($_POST['warn_number']) 		? $_POST['warn_number'] 	: 0;
 		
 // 		$goods_type 	= isset($_POST['goods_type']) 		? $_POST['goods_type'] 				: 0;
-		$give_integral	= isset($_POST['give_integral']) 	? intval($_POST['give_integral']) 	: '-1';
-		$rank_integral 	= isset($_POST['rank_integral']) 	? intval($_POST['rank_integral']) 	: '-1';
+// 		$give_integral	= isset($_POST['give_integral']) 	? intval($_POST['give_integral']) 	: '-1';
+// 		$rank_integral 	= isset($_POST['rank_integral']) 	? intval($_POST['rank_integral']) 	: '-1';
 		$suppliers_id 	= isset($_POST['suppliers_id']) 	? intval($_POST['suppliers_id']) 	: '0';
 
 // 		$goods_name_style 	= $_POST['goods_name_color'] . '+' . $_POST['goods_name_style'];
@@ -953,8 +953,8 @@ class merchant extends ecjia_merchant {
 		  	'goods_number'		  		=> $goods_number,
 		  	'warn_number'		   		=> $warn_number,
 		  	'integral'			  		=> $_POST['integral'],
-		  	'give_integral'		 		=> $give_integral,
-		  	'rank_integral'		 		=> $rank_integral,
+		  	//'give_integral'		 		=> 0,//商家不可设置赠送积分
+		  	//'rank_integral'		 		=> 0,//商家不可设置赠送积分
 		  	'store_best'			   	=> $is_best,
 		  	'store_new'					=> $is_new,
 		  	'store_hot'					=> $is_hot,
@@ -967,6 +967,8 @@ class merchant extends ecjia_merchant {
 		
 		/* 记录日志 */
 		ecjia_merchant::admin_log($_POST['goods_name'], 'edit', 'goods');
+		//为更新用户购物车数据加标记
+		RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
 
 		/* 处理会员价格 */
 		if (isset($_POST['user_rank']) && isset($_POST['user_price'])) {
@@ -1385,7 +1387,8 @@ class merchant extends ecjia_merchant {
 			return $this->showmessage(RC_Lang::get('goods::goods.shop_price_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update($data);
-			
+			//为更新用户购物车数据加标记
+			RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
 			/* 释放app缓存*/
 			$orm_goods_db = RC_Model::model('goods/orm_goods_model');
 			$goods_cache_array = $orm_goods_db->get_cache_item('goods_list_cache_key_array');
@@ -2209,6 +2212,8 @@ class merchant extends ecjia_merchant {
 				}
 			}
 			$this->db_goods_attr->batch_insert($data_insert);
+			//为更新用户购物车数据加标记
+			RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
 			
 			/*释放商品的规格和属性缓存*/
 			$cache_goods_properties_key = 'goods_properties_'.$goods_id;
