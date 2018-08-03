@@ -138,7 +138,7 @@ class admin_plugin extends ecjia_admin {
 	
 		//获取插件信息
 		$code = trim($_GET['code']);
-		$cron= RC_DB::TABLE('crons')->where('cron_code', $code)->first();
+		$cron= RC_DB::table('crons')->where('cron_code', $code)->first();
 		
 		
 		$cron_config = unserialize($cron['cron_config']);
@@ -269,7 +269,7 @@ class admin_plugin extends ecjia_admin {
 		RC_DB::table('crons')->where('cron_id', $_POST['cron_id'])->update($data);
 	
 		ecjia_admin::admin_log($cron_name, 'edit', 'cron');
-		$this->showmessage('编辑计划任务成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/edit', array('code' => $code))));
+		return $this->showmessage('编辑计划任务成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/edit', array('code' => $code))));
 	}
 
 	/**
@@ -284,7 +284,7 @@ class admin_plugin extends ecjia_admin {
 		);
 
 		RC_DB::table('crons')->where('cron_code', $code)->update($data);
-		$cron_name = RC_DB::TABLE('crons')->where('cron_code', $code)->pluck('cron_name');
+		$cron_name = RC_DB::table('crons')->where('cron_code', $code)->pluck('cron_name');
 	
 		ecjia_admin::admin_log($cron_name, 'disable', 'cron');
 		return $this->showmessage(RC_Lang::get('cron::cron.cron_disabled'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/init')));
@@ -302,7 +302,7 @@ class admin_plugin extends ecjia_admin {
 		);
 		
 		RC_DB::table('crons')->where('cron_code', $code)->update($data);
-		$cron_name = RC_DB::TABLE('crons')->where('cron_code', $code)->pluck('cron_name');
+		$cron_name = RC_DB::table('crons')->where('cron_code', $code)->pluck('cron_name');
 
 		ecjia_admin::admin_log($cron_name, 'enabled', 'cron');
 	
@@ -319,7 +319,7 @@ class admin_plugin extends ecjia_admin {
 		set_time_limit(0);
 		
 		$code = trim($_GET['code']);
-		$cron = RC_DB::TABLE('crons')->where('cron_code', $code)->first();
+		$cron = RC_DB::table('crons')->where('cron_code', $code)->first();
 		if (empty($cron)) {
 		    return $this->showmessage('Cron script not found.', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
