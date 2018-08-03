@@ -107,7 +107,7 @@ class get_password extends ecjia_merchant {
 		$admin_email    = trim($_POST['email']);
 	
 		/* 管理员用户名和邮件地址是否匹配，并取得原密码 */
-		$admin_info = RC_DB::TABLE('staff_user')->where('name', $admin_name)->where('email', $admin_email)->select('user_id', 'password','name')->first();//多个
+		$admin_info = RC_DB::table('staff_user')->where('name', $admin_name)->where('email', $admin_email)->select('user_id', 'password','name')->first();//多个
 		
 		if (!empty($admin_info)) {
 			/* 生成验证的code */
@@ -153,7 +153,7 @@ class get_password extends ecjia_merchant {
 		}
 	
 		/* 以用户的原密码，与code的值匹配 */
-		$password = RC_DB::TABLE('staff_user')->where('user_id', $adminid)->pluck('password');
+		$password = RC_DB::table('staff_user')->where('user_id', $adminid)->pluck('password');
 		if (md5($adminid . $password) != $code) {
 			// 此链接不合法
 			$link[0]['text'] =  __('返回');
@@ -185,7 +185,7 @@ class get_password extends ecjia_merchant {
 
 
 		/* 以用户的原密码，与code的值匹配 */
-		$password = RC_DB::TABLE('staff_user')->where('user_id', $adminid)->pluck('password');
+		$password = RC_DB::table('staff_user')->where('user_id', $adminid)->pluck('password');
 	
 		if (md5($adminid . $password) != $code) {
 			// 此链接不合法
@@ -256,7 +256,7 @@ class get_password extends ecjia_merchant {
 	
 	public function get_code_value() {
 		$mobile = $_GET['mobile'];
-		$user_id = RC_DB::TABLE('staff_user')->where('mobile', $mobile)->pluck('user_id');
+		$user_id = RC_DB::table('staff_user')->where('mobile', $mobile)->pluck('user_id');
 		$code = rand(100000, 999999);
 		$options = array(
 			'mobile' => $mobile,

@@ -89,7 +89,7 @@ class mh_group extends ecjia_merchant
         $Manager['add_time']   = RC_Time::local_date('Y-m-d', $Manager['add_time']);
         $this->assign('Manager', $Manager);
 
-        $parent_id = RC_DB::TABLE('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('parent_id');
+        $parent_id = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('parent_id');
         $this->assign('parent_id', $parent_id);
 
         $staff_group_list = $this->staff_group_list($_SESSION['store_id']);

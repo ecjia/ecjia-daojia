@@ -62,13 +62,18 @@ class forget_request_module extends api_admin implements api_interface {
 		    return  new ecjia_error('empty_error', __('请填写用户相关信息！'));
 		}
 		if ($type == "email") {
-		    if (RC_Validate::_email('mail',$type_info) !== true) {
+	        $preg = '/^([a-zA-Z0-9_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/i';
+	        if (!preg_match($preg, $type_info)) {
 		        return new ecjia_error('email_error', __('邮箱格式不正确！'));
 		    }
 		}
 		if ($type == "mobile") {
-		    if(! preg_match('/^1[345678]{1}\d{9}$/', $type_info)){
-		        return new ecjia_error('mobile_error', __('手机号格式不正确！'));
+// 		    if(! preg_match('/^1[345678]{1}\d{9}$/', $type_info)){
+// 		        return new ecjia_error('mobile_error', __('手机号格式不正确！'));
+// 		    }
+		    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($type_info);
+		    if (is_ecjia_error($check_mobile)) {
+		        return $check_mobile;
 		    }
 		}
 		

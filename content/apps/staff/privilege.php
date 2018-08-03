@@ -104,9 +104,9 @@ class privilege extends ecjia_merchant {
 		}
 		RC_Hook::do_action('ecjia_merchant_login_before', $row);
 		if ($row) {
-			$status = RC_DB::TABLE('store_franchisee')->where('store_id', $row['store_id'])->pluck('status');
+			$status = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('status');
 			if ($status == 1) {
-				$row['merchants_name'] = RC_DB::TABLE('store_franchisee')->where('store_id', $row['store_id'])->pluck('merchants_name');
+				$row['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('merchants_name');
 				$this->admin_session($row['store_id'], $row['merchants_name'], $row['user_id'], $row['mobile'], $row['name'], $row['action_list'], $row['last_login']);
 				if (empty($row['salt'])) {
 					$salt = rand(1, 9999);
@@ -193,9 +193,9 @@ class privilege extends ecjia_merchant {
 					if ($session_id == $ecjia_admin_token) {
 						$session_data = RC_Session::session()->getSessionData($session_id);
 						if ($session_data['action_list'] == 'all') {
-							$staff_info = RC_DB::TABLE('staff_user')->where('store_id', $store_id)->where('parent_id', 0)->where('action_list', 'all')->first();
+							$staff_info = RC_DB::table('staff_user')->where('store_id', $store_id)->where('parent_id', 0)->where('action_list', 'all')->first();
 							if (!empty($staff_info)) {
-								$merchants_name = RC_DB::TABLE('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+								$merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
 								$_SESSION = array();
 								$this->admin_session($store_id, $merchants_name, $staff_info['user_id'], $staff_info['mobile'], $staff_info['name'], $staff_info['action_list'], $staff_info['last_login']);
 								return $this->redirect(RC_Uri::url('merchant/dashboard/init'));

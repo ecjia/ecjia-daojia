@@ -3,7 +3,7 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-ecjia.merchant.staff_info.init();
+	ecjia.merchant.staff_info.theForm();
 </script>
 <!-- {/block} -->
 <!-- {block name="home-content"} -->
@@ -19,7 +19,6 @@ ecjia.merchant.staff_info.init();
     padding-left: 30px;
     width: 150px;
 }
-
 .priv_list .group_children{
    overflow: hidden;
 }
@@ -40,6 +39,7 @@ ecjia.merchant.staff_info.init();
   <div class="col-lg-12">
       <section class="panel">
           <div class="panel-body">
+    		  <!-- {ecjia:hook id=display_merchant_privilege_menus} -->
               <div class="form">
                   <form class="cmxform form-horizontal tasi-form" name="theForm" method="post" action="{$form_action}">
 					  <div class="row priv_list">

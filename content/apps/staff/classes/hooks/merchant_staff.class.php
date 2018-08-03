@@ -282,6 +282,34 @@ class merchant_staff_hooks {
 		}
 		return $logo;
 	}
+	
+	public static function display_merchant_privilege_menus() {
+	    $screen = ecjia_screen::get_current_screen();
+	    $code = $screen->get_option('current_code');
+	    
+	    $menus = with(new \Ecjia\App\Merchant\Frameworks\Privilege\PrivilegeMenu())->authMenus();
+	    
+	    if (!empty($menus)) {
+    	    echo '<ul id="myTab" class="nav nav-tabs m_b20">' . PHP_EOL;
+    	    
+    	    foreach ($menus as $key => $group) {
+    	        if ($group->action == 'divider') {
+    	        } elseif ($group->action == 'nav-header') {
+    	        } else {
+    	            echo '<li';
+    	            
+    	            if ($code == $group->action) {
+    	                echo ' class="active"';
+    	            }
+    	            echo '>';
+    	            
+    	            echo '<a class="data-pjax" href="' . $group->link . '">' . $group->name . '</a></li>'.PHP_EOL;//data-pjax
+    	        }
+    	    }
+    	    
+    	    echo '</ul>'.PHP_EOL;
+	    }
+	}
 }
 
 RC_Hook::add_action('merchant_dashboard_top', array('merchant_staff_hooks', 'merchant_dashboard_information'));
@@ -294,5 +322,7 @@ RC_Hook::add_action('merchant_dashboard_right4', array('merchant_staff_hooks', '
 RC_Hook::add_action('merchant_dashboard_right4', array('merchant_staff_hooks', 'merchant_dashboard_right_4_3'), 4);
 
 RC_Hook::add_action('ecjia_admin_logo_display', array('merchant_staff_hooks', 'set_admin_login_logo'));
+
+RC_Hook::add_action( 'display_merchant_privilege_menus', array('merchant_staff_hooks', 'display_merchant_privilege_menus') );
 
 // end
