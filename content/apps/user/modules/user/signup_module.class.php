@@ -50,14 +50,15 @@ class signup_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-		if (ecjia::config('shop_reg_closed')) {
+    	$shop_reg_closed = ecjia::config('shop_reg_closed');
+		if ($shop_reg_closed == '1') {
 			return new ecjia_error('shop_reg_closed', '会员注册关闭');
 		}
 		
 		RC_Loader::load_app_class('integrate', 'user', false);
 		
 		$username	   = $this->requestData('name');
-		$password	   = $this->requestData('password');
+		$password	   = $this->requestData('password', '');
 		$email		   = $this->requestData('email');
 		$fileld		   = $this->requestData('field', array());
 		$device		   = $this->device;
@@ -92,15 +93,21 @@ class signup_module extends api_front implements api_interface
 			}
 			if (!empty($username) && empty($mobile)) {
 				/* 判断是否为手机*/
-				if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
+			    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
+			    if($check_mobile === true) {
+// 				if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
 					/* 设置用户手机号*/
 					$other['mobile_phone'] = $username;
+					$mobile = $username;
 					$username = substr_replace($username,'****',3,4);
 					$user = integrate::init_users();
+					
 				}
 			}elseif (empty($username) && !empty($mobile)) {
 				/* 判断是否为手机*/
-				if (is_numeric($mobile) && strlen($mobile) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $mobile)) {
+			    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+			    if($check_mobile === true) {
+// 				if (is_numeric($mobile) && strlen($mobile) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $mobile)) {
 					/* 设置用户手机号*/
 					$other['mobile_phone'] = $mobile;
 				
@@ -110,10 +117,12 @@ class signup_module extends api_front implements api_interface
 			}
 		} else {
 			/* 判断是否为手机*/
-			if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
+		    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
+		    if($check_mobile === true) {
+// 			if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
 				/* 设置用户手机号*/
 				$other['mobile_phone'] = $username;
-					
+				$mobile = $username;
 				$username = $device_client.'_'.$code;
 				$user = integrate::init_users();
 				if ($user->check_user($username)) {
@@ -127,7 +136,9 @@ class signup_module extends api_front implements api_interface
 		}
 		
 		$other['mobile_phone'] = empty($mobile) ? $other['mobile_phone'] : $mobile;
-		if (is_numeric($other['mobile_phone']) && strlen($other['mobile_phone']) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $other['mobile_phone'])) {
+// 		if (is_numeric($other['mobile_phone']) && strlen($other['mobile_phone']) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $other['mobile_phone'])) {
+	    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($other['mobile_phone']);
+	    if($check_mobile === true) {
 			$db_user      = RC_Loader::load_app_model('users_model', 'user');
 			$mobile_count = $db_user->where(array('mobile_phone' => $other['mobile_phone']))->count();
 			if ($mobile_count > 0 ) {
@@ -268,16 +279,17 @@ class signup_module extends api_front implements api_interface
  *            
  * @return bool $bool
  */
-function register($username, $password, $email, $other = array(), $api_version)
+function register($username, $password = null, $email, $other = array(), $api_version = '')
 {
     $db_user = RC_Loader::load_app_model('users_model', 'user');
 
     /* 检查注册是否关闭 */
-    if (ecjia::config('shop_reg_closed')) {
-    	return new ecjia_error('shop_reg_closed', '会员注册关闭');
-    }
+	$shop_reg_closed = ecjia::config('shop_reg_closed');
+	if ($shop_reg_closed == '1') {
+		return new ecjia_error('shop_reg_closed', '会员注册关闭');
+	}
     
-    if (!empty($api_version)) {
+	if (version_compare($api_version, '1.17', '>=')) {
     	/* 检查username */
     	if (empty($username)) {
     		return new ecjia_error('username_not_empty', '用户名不能为空！');

@@ -85,7 +85,7 @@ class user_update_user_avatar_api extends Component_Event_Api {
 			$fp = @fopen($avatar_path,"w");
 			@fwrite($fp, $get_file);
 			@fclose($fp);
-			$rs = RC_DB::TABLE('users')->where('user_id', $user_id)->update(array('avatar_img' => 'data/avatar'.'/'.$filename.'.jpg'));
+			$rs = RC_DB::table('users')->where('user_id', $user_id)->update(array('avatar_img' => 'data/avatar'.'/'.$filename.'.jpg'));
 		}
         return true;
     }

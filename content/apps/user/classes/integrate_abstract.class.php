@@ -157,7 +157,7 @@ abstract class integrate_abstract
      *
      * @return void
      */
-    public function login($username, $password, $remember = null)
+    public function login($username, $password = null, $remember = null)
     {
         if ($this->check_user($username, $password) > 0) {
             if ($this->need_sync) {
@@ -194,7 +194,7 @@ abstract class integrate_abstract
      *
      * @return int
      */
-    public function add_user($username, $password, $email, $gender = -1, $bday = 0, $reg_date = 0, $md5password = '')
+    public function add_user($username, $password = null, $email, $gender = -1, $bday = 0, $reg_date = 0, $md5password = '')
     {
     	/* 将用户添加到整合方 */
         if ($this->check_user($username) > 0) {
@@ -531,9 +531,12 @@ abstract class integrate_abstract
         } else {
         	$row = $this->db->field('user_id, password, email')->find(array('user_name' => $username));
             if ($row) {
-//                 $_SESSION['user_id']   = $row['user_id'];
-//                 $_SESSION['user_name'] = $username;
-//                 $_SESSION['email']     = $row['email'];
+                //$_SESSION['user_id']   			= $row['user_id'];
+                //$_SESSION['user_name'] 			= $username;
+                //$_SESSION['session_user_id']    = $row['user_id'];
+                //$_SESSION['session_user_type']  = $row['user'];
+                //$_SESSION['email']     			= $row['email'];
+                //$_SESSION['ip']     			= RC_Ip::client_ip();
                 
                 RC_Session::set('user_id', $row['user_id']);
                 RC_Session::set('user_name', $username);

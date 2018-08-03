@@ -126,9 +126,7 @@ abstract class ecjia_user extends ecjia {
 	}
 	
 	private function verify() {
-		/* 载入语言文件 */
-// 		RC_Lang::load('user/user');
-		
+
 		$user_id = $_SESSION['user_id'];
 // 		$action  = ROUTE_A;
 	

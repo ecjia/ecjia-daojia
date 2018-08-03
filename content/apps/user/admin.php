@@ -499,6 +499,8 @@ class admin extends ecjia_admin {
 		
 		/* 记录管理员操作 */
 		ecjia_admin::admin_log($username, 'edit', 'users');
+		//为更新用户购物车数据加标记
+	    RC_Api::api('cart', 'mark_cart_goods', array('user_id' => $user_id));
 
 		/* 提示信息 */
 		$links[0]['text']	= RC_Lang::get('user::users.back_user_list');

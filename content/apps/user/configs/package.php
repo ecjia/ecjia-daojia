@@ -56,8 +56,9 @@ return array(
 	'description' 	=> 'user_desc',				/* 描述对应的语言项 */
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.17.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2014.',
+	'version' 		=> '1.18.0',					/* 版本号 */
+	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
+    'namespace'     => 'Ecjia\App\User',
 );
 
 // end

@@ -529,7 +529,7 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 		'user_id'		=> $user_id,
 		'user_money'	=> $user_money,
 		'frozen_money'	=> $frozen_money,
-		'rank_points'	=> $rank_points,
+		'rank_points'	=> 0,
 		'pay_points'	=> $pay_points,
 		'change_time'	=> RC_Time::gmtime(),
 		'change_desc'	=> $change_desc,
@@ -540,12 +540,22 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 
 	/* 更新用户信息 */
 	$step = $user_money.", frozen_money = frozen_money + ('$frozen_money')," .
-	" rank_points = rank_points + ('$rank_points')," .
+// 	" rank_points = rank_points + ('$rank_points')," .
 	" pay_points = pay_points + ('$pay_points')";
 
 	RC_DB::table('users')
 			->where('user_id', $user_id)
 			->increment('user_money', $step);
+	
+	if ($rank_points) {
+	    $data = array (
+	        'user_id'			=> $user_id,
+	        'rank_points'		=> $rank_points,
+	        'change_desc'		=> $change_desc,
+	        'change_type'		=> $change_type,
+	    );
+	    RC_Api::api('user', 'rank_points_change_log', $data);
+	}
 
 }
 
@@ -713,13 +723,20 @@ function EM_user_info($user_id, $mobile = '') {
 	//$allow_comment_count = $db_orderinfo_view->join(array('order_goods', 'goods', 'comment'))->where(array('oi.user_id' => $user_id, 'oi.shipping_status' => SS_RECEIVED, 'oi.order_status' => array(OS_CONFIRMED, OS_SPLITED), 'oi.pay_status' => array(PS_PAYED, PS_PAYING), 'c.comment_id is null'))->count('DISTINCT oi.order_id');
 	
 	$collection_num = RC_DB::table('collect_goods')->where('user_id', $user_id)->orderBy('add_time', 'desc')->count();
-	$await_pay =  RC_DB::table('order_info')->where('user_id', $user_id)->where('pay_status', PS_UNPAYED)->whereIn('order_status', array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED))->count();
-	$await_ship = RC_DB::table('order_info')->where('user_id', $user_id)->whereRaw(EM_order_query_sql('await_ship', ''))->count();
-	$shipped =  RC_DB::table('order_info')->where('user_id', $user_id)->whereRaw(EM_order_query_sql('shipped', ''))->count();
+	$db1 = RC_DB::table('order_info');
+	/*货到付款订单不在待付款里显示*/
+	$pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+	if (!empty($pay_cod_id)) {
+		$db1->where('pay_id', '!=', $pay_cod_id);
+	}
+	$await_pay =  $db1->where('user_id', $user_id)->where('extension_code', '!=', "group_buy")->where('pay_status', PS_UNPAYED)->whereIn('order_status', array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED))->count();
+	$await_ship = RC_DB::table('order_info')->where('user_id', $user_id)->where('extension_code', '!=', "group_buy")->whereRaw(EM_order_query_sql('await_ship', ''))->count();
+	$shipped =  RC_DB::table('order_info')->where('user_id', $user_id)->where('extension_code', "!=", "group_buy")->whereRaw(EM_order_query_sql('shipped', ''))->count();
 	//$finished = RC_DB::table('order_info')->where('user_id', $user_id)->whereRaw(EM_order_query_sql('finished', 'oi.'))-count();
 	$finished = RC_DB::table('order_info')->where('user_id', $user_id)->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
 						->whereIn('shipping_status', array(SS_SHIPPED, SS_RECEIVED))
 						->whereIn('pay_status', array(PS_PAYED, PS_PAYING))
+						->where('extension_code', "!=", "group_buy")
 						->count();
 	
 	$db_allow_comment = RC_DB::table('order_info as oi')
@@ -735,6 +752,7 @@ function EM_user_info($user_id, $mobile = '') {
 	
 	$allow_comment_count = $db_allow_comment
 	->where(RC_DB::raw('oi.user_id'), $user_id)
+	->where(RC_DB::raw('oi.extension_code'), "!=", "group_buy")
 	->where(RC_DB::raw('oi.shipping_status'), SS_RECEIVED)
 	->whereIn(RC_DB::raw('oi.order_status'), array(OS_CONFIRMED, OS_SPLITED))
 	->whereIn(RC_DB::raw('oi.pay_status'), array(PS_PAYED, PS_PAYING))
@@ -753,7 +771,7 @@ function EM_user_info($user_id, $mobile = '') {
 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0 , 'min_points' => array('elt' => intval($user_info['rank_points'])) , 'max_points' => array('gt' => intval($user_info['rank_points']))));
 	} else {
 		// 特殊等级
-		$row = $db_user_rank->field('rank_id, rank_name')->find(array('rank_id' => $user_info[user_rank]));
+		$row = $db_user_rank->field('rank_id, rank_name')->find(array('rank_id' => $user_info['user_rank']));
 	}
 
 	if (!empty($row)) {

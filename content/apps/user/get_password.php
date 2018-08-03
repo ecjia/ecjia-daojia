@@ -316,7 +316,6 @@ class get_password extends ecjia_front {
 	/* 密码找回（方式二）-->根据注册用户名取得密码提示问题界面 */
 	public function reset_pwd_question(){
 		$this->assign('action', 'reset_pwd_question');
-		RC_Lang::load('user');
 		$this->assign('passwd_question', RC_Lang::get('user::user.passwd_questions.'.$_SESSION['temp_passwd_question']));
 	
 		$this->display('forget_password.dwt');
@@ -336,7 +335,6 @@ class get_password extends ecjia_front {
 		} else {
 			$this->assign('error_msg', __("问题答案错误！"));
 			$this->assign('action', 'reset_pwd_question');
-			RC_Lang::load('user');
 			$this->assign('passwd_question', RC_Lang::get('user::user.passwd_questions.'.$_SESSION['temp_passwd_question']));
 			$this->display('forget_password.dwt');
 		}

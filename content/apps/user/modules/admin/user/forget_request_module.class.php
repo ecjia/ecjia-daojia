@@ -63,8 +63,9 @@ class forget_request_module extends api_admin implements api_interface {
 			return $result;
 		}
 		if ($type == "email") {
-			if (RC_Validate::_email('mail',$type_info) !== true) {
-				$result = new ecjia_error('email_error', __('邮箱格式不正确！'));
+		    $preg = '/^([a-zA-Z0-9_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/i';
+		    if (!preg_match($preg, $type_info)) {
+			    $result = new ecjia_error('email_error', __('邮箱格式不正确！'));
 				return $result;
 			}
 			$db = RC_Model::model('user/admin_user_model');
