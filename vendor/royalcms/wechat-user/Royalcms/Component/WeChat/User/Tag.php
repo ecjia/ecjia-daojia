@@ -17,6 +17,9 @@ class Tag extends AbstractAPI
     const API_MEMBER_BATCH_TAG = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging';
     const API_MEMBER_BATCH_UNTAG = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging';
     const API_USERS_OF_TAG = 'https://api.weixin.qq.com/cgi-bin/user/tag/get';
+    const API_USER_OF_BLACK = 'https://api.weixin.qq.com/cgi-bin/tags/members/getblacklist';
+    const API_MEMBER_BATCH_BLACK = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchblacklist';
+    const API_MEMBER_BATCH_UNBLACK = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchunblacklist';
 
     /**
      * Create tag.
@@ -143,5 +146,51 @@ class Tag extends AbstractAPI
                   ];
 
         return $this->parseJSON('json', [self::API_MEMBER_BATCH_UNTAG, $params]);
+    }
+
+    /**
+     * Get users from a black.
+     *
+     * @param string $nextOpenId
+     *
+     * @return int
+     */
+    public function usersOfBlack($nextOpenId = '')
+    {
+        $params = ['begin_openid' => $nextOpenId];
+
+        return $this->parseJSON('json', [self::API_USER_OF_BLACK, $params]);
+    }
+
+    /**
+     * Batch black users.
+     *
+     * @param array $openIds
+     *
+     * @return bool
+     */
+    public function batchBlackUsers(array $openIds)
+    {
+        $params = [
+            'openid_list' => $openIds,
+        ];
+
+        return $this->parseJSON('json', [self::API_MEMBER_BATCH_BLACK, $params]);
+    }
+
+    /**
+     * Batch unblack users.
+     *
+     * @param array $openIds
+     *
+     * @return bool
+     */
+    public function batchUnblackUsers(array $openIds)
+    {
+        $params = [
+            'openid_list' => $openIds,
+        ];
+
+        return $this->parseJSON('json', [self::API_MEMBER_BATCH_UNBLACK, $params]);
     }
 }
