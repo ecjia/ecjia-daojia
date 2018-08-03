@@ -44,47 +44,191 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Ecjia\App\Platform\Plugin\PlatformAbstract;
+use Ecjia\App\Wechat\WechatRecord;
+
 /**
  * 微信登录
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-RC_Loader::load_app_class('platform_abstract', 'platform', false);
-class mp_goods extends platform_abstract
+
+class mp_goods extends PlatformAbstract
 {   
+    /**
+     * 获取插件代号
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
+     */
+    public function getCode()
+    {
+        return $this->loadConfig('ext_code');
+    }
+    
+    /**
+     * 加载配置文件
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
+     */
+    public function loadConfig($key = null, $default = null)
+    {
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
+    }
+    
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        $locale = RC_Config::get('system.locale');
+        
+        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
+    }
 	
-	/**
-	 * 获取插件配置信息
-	 */
-	public function local_config() {
-		$config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
-		if (is_array($config)) {
-			return $config;
-		}
-		return array();
-	}
+    /**
+     * 获取iconUrl
+     * {@inheritDoc}
+     * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::getPluginIconUrl()
+     */
+    public function getPluginIconUrl()
+    {
+        if ($this->loadConfig('ext_icon')) {
+            return RC_Plugin::plugin_dir_url(__FILE__) . $this->loadConfig('ext_icon');
+        }
+        return '';
+    }
 	
-    public function event_reply() {
-    	$goods_db = RC_Loader::load_app_model('goods_model','goods');
-    	$data = $goods_db->where(array('is_delete'=>0))->order('sort_order ASC')->limit(5)->select();
-    	
-    	$articles = array();
-    	foreach ($data as $key => $val) {
-    		$articles[$key]['Title'] = $val['goods_name'];
-    		$articles[$key]['Description'] = '';
-    		$articles[$key]['PicUrl'] = RC_Upload::upload_url($val['goods_img']);
-    		$articles[$key]['Url'] = RC_Uri::home_url().'/sites/m/index.php?m=goods&c=index&a=show&goods_id='.$val['goods_id'];
-    	}
-    	$count = count($articles);
-    	$content = array(
-    		'ToUserName' => $this->from_username,
-    		'FromUserName' => $this->to_username,
-    		'CreateTime' => SYS_TIME,
-    		'MsgType' => 'news',
-    		'ArticleCount'=>$count,
-    		'Articles'=>$articles
-    	);
-        return $content;
+    /**
+     * 事件回复
+     * {@inheritDoc}
+     * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::eventReply()
+     */
+    public function eventReply() {
+        
+        $commandInstance = $this->getCommandInstance();
+        return $commandInstance->handleEventReply();
+    }
+    
+    /**
+     * 查询商品
+     * @param unknown $type
+     */
+    protected function getQueryGoods($type)
+    {
+        if ($type == self::TypeAdmin) {
+            $data = RC_DB::table('goods')
+            ->where('is_delete', 0)
+            ->where('is_real', 1)
+            ->where('is_on_sale', 1)
+            ->where('is_alone_sale', 1)
+            ->where('review_status', '>', 2)
+            ->orderBy('sort_order', 'ASC')->take(5)->get();
+        }
+        else if ($type == self::TypeMerchant) {
+            $data = RC_DB::table('goods')
+            ->where('is_delete', 0)
+            ->where('is_real', 1)
+            ->where('is_on_sale', 1)
+            ->where('is_alone_sale', 1)
+            ->where('review_status', '>', 2)  
+            ->where('store_id', $this->getStoreId())
+            ->orderBy('sort_order', 'ASC')->take(5)->get();
+        }
+        
+        return $data;
+    }
+    
+    /**
+     * 获取普通商品
+     * @return string[]|array[]|NULL[]|number[]
+     */
+    protected function handleEventReply()
+    {
+        $articles = array();
+        
+        $data = $this->getQueryGoods($this->getStoreType());
+        
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                $url = RC_Uri::home_url().'/sites/m/index.php?m=goods&c=index&a=show&goods_id='.$val['goods_id'];
+                $image = RC_Upload::upload_url($val['goods_img']);
+                $articles[$key] = WechatRecord::News_reply($this->getMessage(), $val['goods_name'], '', $url, $image);
+            }
+            
+            return $articles;
+        }
+        //数据为空回复
+        else {
+            return $this->defaultEmptyReply();
+        }
+    }
+    
+    
+    protected function defaultEmptyReply()
+    {
+        return WechatRecord::Text_reply($this->getMessage(), '暂无商品');
+    }
+    
+    protected function getCommandInstance()
+    {
+        if ($this->getSubCodeCommand()) {
+            switch ($this->getSubCodeCommand()) {
+                case 'best':
+                    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_best.class.php';
+                    $subCommand = new mp_goods_best();
+                    $subCommand->setMessage($this->getMessage());
+                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
+                    $subCommand->setStoreId($this->getStoreId());
+                    $subCommand->setStoreType($this->getStoreType());
+                    break;
+                    
+                case 'hot':
+                    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_hot.class.php';
+                    $subCommand = new mp_goods_hot();
+                    $subCommand->setMessage($this->getMessage());
+                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
+                    $subCommand->setStoreId($this->getStoreId());
+                    $subCommand->setStoreType($this->getStoreType());
+                    break;
+                    
+                case 'new':
+                    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_new.class.php';
+                    $subCommand = new mp_goods_new();
+                    $subCommand->setMessage($this->getMessage());
+                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
+                    $subCommand->setStoreId($this->getStoreId());
+                    $subCommand->setStoreType($this->getStoreType());
+                    break;
+                    
+                case 'recommend':
+                    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_recommend.class.php';
+                    $subCommand = new mp_goods_recommend();
+                    $subCommand->setMessage($this->getMessage());
+                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
+                    $subCommand->setStoreId($this->getStoreId());
+                    $subCommand->setStoreType($this->getStoreType());
+                    break;
+                    
+                case 'promotion':
+                    require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_promotion.class.php';
+                    $subCommand = new mp_goods_promotion();
+                    $subCommand->setMessage($this->getMessage());
+                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
+                    $subCommand->setStoreId($this->getStoreId());
+                    $subCommand->setStoreType($this->getStoreType());
+                    break;
+                    
+                default:
+                    $subCommand = $this;
+                    break;
+            }
+            
+            return $subCommand;
+        } else {
+            return $this;
+        }
     }
 }
 
