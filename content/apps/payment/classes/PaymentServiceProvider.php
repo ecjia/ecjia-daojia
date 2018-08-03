@@ -46,15 +46,18 @@
 //
 namespace Ecjia\App\Payment;
 
-use Royalcms\Component\Support\ServiceProvider;
+use Royalcms\Component\App\AppParentServiceProvider;
 
-class PaymentServiceProvider extends ServiceProvider {
+class PaymentServiceProvider extends AppParentServiceProvider 
+{
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot() {
+    public function boot() 
+    {
+        $this->package('ecjia/app-payment');
     }
 
 	/**

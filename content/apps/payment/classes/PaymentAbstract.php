@@ -49,7 +49,6 @@ namespace Ecjia\App\Payment;
 use Ecjia\System\Plugin\AbstractPlugin;
 use Ecjia\App\Payment\Repositories\PaymentRecordRepository;
 use ecjia_error;
-use RC_Lang;
 use RC_Api;
 use RC_Hook;
 
