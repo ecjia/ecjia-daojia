@@ -200,7 +200,7 @@ class Repository implements ArrayAccess {
 	 *
 	 * @return String
 	 */
-	public function add($server, $port, $key, $value, $duration)
+	public function add($key, $value, $duration = 2592000)
 	{
 	   return CommandFactory::api($this->driver)->add($this->hostname, $this->port, $key, $value, $duration);
 	}
@@ -217,7 +217,7 @@ class Repository implements ArrayAccess {
 	 *
 	 * @return String
 	 */
-	public function replace($server, $port, $key, $value, $duration)
+	public function replace($key, $value, $duration = 2592000)
 	{
 	    return CommandFactory::api($this->driver)->replace($this->hostname, $this->port, $key, $value, $duration);
 	}
