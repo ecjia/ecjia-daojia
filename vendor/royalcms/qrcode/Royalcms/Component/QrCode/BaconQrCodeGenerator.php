@@ -200,7 +200,7 @@ class BaconQrCodeGenerator implements QrCodeInterface {
      */
     public function errorCorrection($level)
     {
-        $this->errorCorrection = constant("Royalcms\Component\Common\ErrorCorrectionLevel::$level");
+        $this->errorCorrection = constant("BaconQrCode\Common\ErrorCorrectionLevel::$level");
         return $this;
     }
 
@@ -248,7 +248,7 @@ class BaconQrCodeGenerator implements QrCodeInterface {
      * Creates a new DataType class dynamically.
      *
      * @param string $method
-     * @return Royalcms\Component\QrCode\DataTypes\DataTypeInterface
+     * @return \Royalcms\Component\QrCode\DataTypes\DataTypeInterface
      */
     private function createClass($method)
     {
