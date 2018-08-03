@@ -50,6 +50,7 @@ return array(
 	'shop_type'					=> 'cityo2o',
     
     'site_name'                 => 'EC+到家',
+    
 );
 
 // end
