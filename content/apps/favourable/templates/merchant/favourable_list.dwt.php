@@ -31,7 +31,7 @@
             </div>
             <div class="panel-body panel-body-small">
         		<div class="btn-group">
-        			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {lang key='favourable::favourable.batch_operation'}<span class="caret"></span></button>
+        			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {lang key='favourable::favourable.batch_operation'} <span class="caret"></span></button>
         			<ul class="dropdown-menu">
                         <li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='favourable/merchant/batch'}" data-msg="{lang key='favourable::favourable.batch_drop_confirm'}" data-noSelectMsg="{lang key='favourable::favourable.no_favourable_select'}" data-name="act_id" href="javascript:;"> <i class="fa fa-trash-o"></i> {lang key='favourable::favourable.remove_favourable'}</a></li>
                    	</ul>
