@@ -396,7 +396,7 @@ class admin extends ecjia_admin {
 	 * 获取产品
 	 */
 	private function get_product_device_list() {
-		$product_device_list = RC_DB::TABLE('mobile_manage')->select('app_name', 'device_client', 'platform', 'device_code')->get();
+		$product_device_list = RC_DB::table('mobile_manage')->select('app_name', 'device_client', 'platform', 'device_code')->get();
 
 		$android_img = RC_App::apps_url('statics/images/android.png', __FILE__);
 		$iphone_img = RC_App::apps_url('statics/images/iphone.png', __FILE__);
@@ -437,7 +437,7 @@ class admin extends ecjia_admin {
 		$admin_list = array();
         $admin_keywords = trim($_POST['admin_keywords']);
         if(!empty($admin_keywords)) {
-        	$list = RC_DB::TABLE('admin_user')->where('user_name', 'like', '%'.mysql_like_quote($admin_keywords).'%')->select('user_id', 'user_name')->get();
+        	$list = RC_DB::table('admin_user')->where('user_name', 'like', '%'.mysql_like_quote($admin_keywords).'%')->select('user_id', 'user_name')->get();
         	if (!empty($list)) {
         		foreach ($list AS $key => $val) {
         			$admin_list[] = array(
@@ -459,7 +459,7 @@ class admin extends ecjia_admin {
 		$user_list = array();
 		$user_keywords = trim($_POST['user_keywords']);
 		if(!empty($user_keywords)) {
-			$list = RC_DB::TABLE('users')->where('mobile_phone', 'like', '%'.mysql_like_quote($user_keywords).'%')->select('user_id', 'user_name')->get();
+			$list = RC_DB::table('users')->where('mobile_phone', 'like', '%'.mysql_like_quote($user_keywords).'%')->select('user_id', 'user_name')->get();
 			if (!empty($list)) {
 				foreach ($list AS $key => $val) {
 					$user_list[] = array(
@@ -481,7 +481,7 @@ class admin extends ecjia_admin {
 		$mer_user_list = array();
 		$mer_keywords = trim($_POST['mer_keywords']);
 		if(!empty($mer_keywords)) {
-			$list = RC_DB::TABLE('staff_user')->where('mobile', 'like', '%'.mysql_like_quote($mer_keywords).'%')->select('user_id', 'name')->get();
+			$list = RC_DB::table('staff_user')->where('mobile', 'like', '%'.mysql_like_quote($mer_keywords).'%')->select('user_id', 'name')->get();
 			if (!empty($list)) {
 				foreach ($list AS $key => $val) {
 					$mer_user_list[] = array(
