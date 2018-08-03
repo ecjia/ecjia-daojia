@@ -127,6 +127,9 @@ class ecjia_touch_api
  	const ORDER_UPDATE	       = 'order/update';//订单更新
  	const ORDER_EXPRESS        = 'order/express';//订单快递
  	const EXPRESS_USER_LOCATION = 'express/user/location';
+ 	const GROUPBUY_ORDER_PAY   = 'groupbuy/order/pay';//团购订单支付
+ 	const GROUPBUY_ORDER_LIST  = 'groupbuy/order/list';//团购订单列表
+ 	const GROUPBUY_ORDER_DETAIL = 'groupbuy/order/detail';//团购订单列表
  	
  	//==============================================
  	// 用户
@@ -259,6 +262,8 @@ class ecjia_touch_api
  	const CAPTCHA_IMAGE = 'captcha/image';
  	const AFFILIATE_USER_INVITE = 'affiliate/user/invite';
  	
+ 	const GROUPBUY_GOODS_LIST = 'groupbuy/goods/list';
+ 	const MERCHANT_GROUPBUY_GOODS_LIST = 'merchant/groupbuy/goods/list';
 }
 
 // end

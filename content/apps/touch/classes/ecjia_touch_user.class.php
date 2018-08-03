@@ -69,6 +69,7 @@ class ecjia_touch_user extends RC_Object {
         
         return array_get($res, 'user');
     }
+    
     public function setUserinfo($res) {
         $sid = array_get($res, 'session.sid');
         
@@ -81,13 +82,13 @@ class ecjia_touch_user extends RC_Object {
     protected function cacheUserinfo($cookieid, $user) {
         $cache_key = 'api_request_user_info::' . $cookieid;
         
-        RC_Cache::app_cache_set($cache_key, $user, 'touch', 60*24*7);
+        ecjia_cache('touch', config('touch.cache_driver'))->put($cache_key, $user, 60*24*7);
     }
     
     protected function getCacheUserinfo() {
         $cache_key = 'api_request_user_info::' . RC_Cookie::get(self::API_USER_COOKIE);
         
-        $data = RC_Cache::app_cache_get($cache_key, 'touch');
+        $data = ecjia_cache('touch', config('touch.cache_driver'))->get($cache_key);
         
         return $data ?: array();
     }
@@ -95,7 +96,7 @@ class ecjia_touch_user extends RC_Object {
     protected function removeCacheUserinfo() {
         $cache_key = 'api_request_user_info::' . RC_Cookie::get(self::API_USER_COOKIE);
         
-        RC_Cache::app_cache_delete($cache_key, 'touch');
+        ecjia_cache('touch', config('touch.cache_driver'))->forget($cache_key);
     }
     
     /**

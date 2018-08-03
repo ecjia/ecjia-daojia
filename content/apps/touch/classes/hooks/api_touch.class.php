@@ -50,9 +50,9 @@ class api_touch_hooks {
 	
     public static function wxpay_callback_url($callback_url, $order_info) {
         if ($order_info['order_type'] == 'user_account') {
-            $callback_url = RC_Uri::url('pay/index/notify', array('order_type' => 'user_account'));
+            $callback_url = RC_Uri::url('payment/pay/notify', array('order_type' => 'user_account'));
         } else {
-            $callback_url = RC_Uri::url('pay/index/notify');
+            $callback_url = RC_Uri::url('payment/pay/notify');
         }
         
         $callback_url = str_replace('sites/api/', 'sites/m/', $callback_url);

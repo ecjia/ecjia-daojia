@@ -56,8 +56,6 @@ class admin_shop_config extends ecjia_admin {
 
 		$this->db = RC_Loader::load_model('shop_config_model');
 
-		RC_Lang::load('shop_config');
-
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
 		RC_Script::enqueue_script('bootstrap-placeholder');
