@@ -13,7 +13,7 @@ class EventServiceProvider extends ServiceProvider {
 	{
 		$this->royalcms->singleton('events', function($royalcms)
 		{
-			return (new Dispatcher($royalcms))->setQueueResolver(function() use ($royalcms)
+			return with(new Dispatcher($royalcms))->setQueueResolver(function() use ($royalcms)
 			{
 				return $royalcms->make('Royalcms\Component\Contracts\Queue\Queue');
 			});

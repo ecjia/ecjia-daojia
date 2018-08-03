@@ -145,7 +145,7 @@ class Kernel implements KernelContract
 
         $this->bootstrap();
 
-        return (new Pipeline($this->royalcms))
+        return with(new Pipeline($this->royalcms))
                     ->send($request)
                     ->through($this->royalcms->shouldSkipMiddleware() ? [] : $this->middleware)
                     ->then($this->dispatchToRouter());

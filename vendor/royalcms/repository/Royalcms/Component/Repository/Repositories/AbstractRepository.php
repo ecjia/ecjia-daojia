@@ -193,7 +193,7 @@ abstract class AbstractRepository implements RepositoryContract
             return $result;
         }
 
-        throw (new ModelNotFoundException)->setModel($this->model);
+        throw with(new ModelNotFoundException)->setModel($this->model);
     }
 
     /**

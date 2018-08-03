@@ -351,7 +351,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 
         $content = $request->content;
 
-        $request = (new static)->duplicate(
+        $request = with(new static)->duplicate(
             $request->query->all(), $request->request->all(), $request->attributes->all(),
             $request->cookies->all(), $request->files->all(), $request->server->all()
         );

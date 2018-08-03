@@ -44,7 +44,7 @@ if ( ! function_exists('callable_type'))
                     $m    = null;
                     if (preg_match('~^(?<class>[a-z_][a-z0-9_]*)::(?<method>[a-z_][a-z0-9_]*)$~i', $callable, $m)) {
                         list($left, $right) = [$m['class'], $m['method']];
-                        if (!$strict || (new \ReflectionMethod($left, $right))->isStatic()) {
+                        if (!$strict || with(new \ReflectionMethod($left, $right))->isStatic()) {
                             $norm = [$left, $right];
                             return 'static';
                         }
@@ -62,7 +62,7 @@ if ( ! function_exists('callable_type'))
                             } else {
                                 list($left, $right) = [$callable[0], $m['method']];
                             }
-                            if (!$strict || (new \ReflectionMethod($left, $right))->isStatic()) {
+                            if (!$strict || with(new \ReflectionMethod($left, $right))->isStatic()) {
                                 $norm = [$left, $right];
                                 return 'static';
                             }
@@ -72,7 +72,7 @@ if ( ! function_exists('callable_type'))
                             } else {
                                 list($left, $right) = $callable;
                             }
-                            if (!$strict || !(new \ReflectionMethod($left, $right))->isStatic()) {
+                            if (!$strict || ! with(new \ReflectionMethod($left, $right))->isStatic()) {
                                 $norm = [$left, $right];
                                 return 'object';
                             }
@@ -2564,7 +2564,7 @@ if ( ! function_exists('dd'))
     function dd()
     {
         array_map(function ($x) {
-            (new \Royalcms\Component\Support\Debug\Dumper)->dump($x);
+            with(new \Royalcms\Component\Support\Debug\Dumper)->dump($x);
         }, func_get_args());
 
         die(1);

@@ -112,7 +112,7 @@ class RoyalcmsSwoole extends Server
         $rawGlobals = $this->royalcms->getRawGlobals();
         $server = isset($rawGlobals['_SERVER']) ? $rawGlobals['_SERVER'] : [];
         $env = isset($rawGlobals['_ENV']) ? $rawGlobals['_ENV'] : [];
-        return (new Request($request))->toRoyalcmsRequest($server, $env);
+        return with(new Request($request))->toRoyalcmsRequest($server, $env);
     }
 
     public function onRequest(SwooleRequest $request, SwooleResponse $response)

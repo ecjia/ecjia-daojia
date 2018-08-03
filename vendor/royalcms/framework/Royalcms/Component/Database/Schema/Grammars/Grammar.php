@@ -303,7 +303,7 @@ abstract class Grammar extends BaseGrammar {
 	{
 	    $table = $schema->listTableDetails($this->getTablePrefix().$blueprint->getTable());
 	
-	    return (new Comparator)->diffTable($table, $this->getTableWithColumnChanges($blueprint, $table));
+	    return with(new Comparator)->diffTable($table, $this->getTableWithColumnChanges($blueprint, $table));
 	}
 	
 	

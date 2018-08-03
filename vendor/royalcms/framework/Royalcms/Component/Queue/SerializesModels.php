@@ -16,7 +16,7 @@ trait SerializesModels
      */
     public function __sleep()
     {
-        $properties = (new ReflectionClass($this))->getProperties();
+        $properties = with(new ReflectionClass($this))->getProperties();
 
         foreach ($properties as $property) {
             $property->setValue($this, $this->getSerializedPropertyValue(

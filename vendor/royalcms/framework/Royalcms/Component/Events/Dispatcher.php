@@ -372,7 +372,7 @@ class Dispatcher implements DispatcherContract {
 	{
 		try
 		{
-			return (new ReflectionClass($class))->implementsInterface(
+			return with(new ReflectionClass($class))->implementsInterface(
 				'Royalcms\Component\Contracts\Queue\ShouldBeQueued'
 			);
 		}
@@ -429,7 +429,7 @@ class Dispatcher implements DispatcherContract {
 	 */
 	protected function callQueueMethodOnHandler($class, $method, $arguments)
 	{
-		$handler = (new ReflectionClass($class))->newInstanceWithoutConstructor();
+		$handler = with(new ReflectionClass($class))->newInstanceWithoutConstructor();
 
 		$handler->queue($this->resolveQueue(), 'Royalcms\Component\Events\CallQueuedHandler@call', [
 			'class' => $class, 'method' => $method, 'data' => serialize($arguments),
