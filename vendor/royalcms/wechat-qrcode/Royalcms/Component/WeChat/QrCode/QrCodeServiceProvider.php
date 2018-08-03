@@ -23,7 +23,7 @@ class QrCodeServiceProvider extends ServiceProvider
         
         $wechat->bindShared('qrcode', function($wechat)
         {
-            return new QRCode($wechat['access_token']);
+            return new QrCode($wechat['access_token']);
         });
     }
 }
