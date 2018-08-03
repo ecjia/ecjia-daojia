@@ -66,6 +66,7 @@ return array(
     'cart/delete'           => 'cart::cart/delete',
     'cart/list'             => 'cart::cart/list',
     'cart/update'           => 'cart::cart/update',
+    'cart/buyagain'         => 'cart::cart/buyagain',
     'flow/checkOrder'       => 'cart::flow/checkOrder',
     'flow/done'             => 'cart::flow/done',
 
@@ -474,6 +475,16 @@ return array(
 	'admin/shopkeeper/order/checking/record'		   => 'orders::admin/shopkeeper/order/checking/record',			//掌柜查看验单记录
 	'admin/shopkeeper/order/checking/confirm'		   => 'orders::admin/shopkeeper/order/checking/confirm',		//掌柜确认验单操作	
 	
+	//1.18
+	'merchant/groupbuy/goods/list'                     => 'merchant::merchant/groupbuy/goods/list',					//店铺团购商品列表
+	'groupbuy/goods/list'                          	   => 'groupbuy::groupbuy/goods/list',							//团购商品列表
+	'groupbuy/order/list'                              => 'groupbuy::groupbuy/order/list',							//用户团购订单列表
+	'groupbuy/order/detail'                            => 'groupbuy::groupbuy/order/detail',						//团购订单详情
+	'groupbuy/order/pay'                               => 'groupbuy::groupbuy/order/pay',							//团购订单支付
+		
+	'express/list'									   => 'express::admin/express/express/list',              		//接口升级兼容
+	'shop/token/validate'           				   => 'setting::shop/token/validate',							//用户端验证token
+	'admin/shop/token/validate'           			   => 'setting::admin/shop/token/validate',						//后台验证token
 	
     /** 1.0 已经废弃
      * article 
