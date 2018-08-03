@@ -59,15 +59,15 @@ class market_platform_menu_api extends Component_Event_Api
                 ecjia_platform::make_admin_menu('market_activity_manage', '营销中心', RC_Uri::url('market/platform/init'), 301)->add_icon('icon-star')->add_purview('market_activity_manage')->add_base('market'),
                 ecjia_admin::make_admin_menu('activity_record_manage', '抽奖记录', RC_Uri::url('market/platform_prize/init'), 302)->add_icon('icon-list')->add_purview('activity_record_manage')->add_base('market'),
             )
-        );;
+        );
 
 //        $prize_menus = ecjia_admin::make_admin_menu('17_wechat', RC_Lang::get('wechat::wechat.draw_record'), '', 29)->add_icon('icon-list')->add_purview('wechat_prize_manage')->add_submenu(
-//            array(
-//                ecjia_admin::make_admin_menu('14_wechat', '砸金蛋', RC_Uri::url('wechat/platform_prize/init', ['type' => 'mp_zjd']), 14)->add_purview('wechat_prize_manage'),
-//                ecjia_admin::make_admin_menu('15_wechat', '大转盘', RC_Uri::url('wechat/platform_prize/init', ['type' => 'mp_dzp']), 15)->add_purview('wechat_prize_manage'),
-//                ecjia_admin::make_admin_menu('15_wechat', '刮刮乐', RC_Uri::url('wechat/platform_prize/init', ['type' => 'mp_ggl']), 15)->add_purview('wechat_prize_manage'),
-//            )
-//        );
+        //            array(
+        //                ecjia_admin::make_admin_menu('14_wechat', '砸金蛋', RC_Uri::url('wechat/platform_prize/init', ['type' => 'mp_zjd']), 14)->add_purview('wechat_prize_manage'),
+        //                ecjia_admin::make_admin_menu('15_wechat', '大转盘', RC_Uri::url('wechat/platform_prize/init', ['type' => 'mp_dzp']), 15)->add_purview('wechat_prize_manage'),
+        //                ecjia_admin::make_admin_menu('15_wechat', '刮刮乐', RC_Uri::url('wechat/platform_prize/init', ['type' => 'mp_ggl']), 15)->add_purview('wechat_prize_manage'),
+        //            )
+        //        );
 
         return $menus;
     }

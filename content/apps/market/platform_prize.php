@@ -57,7 +57,7 @@ class platform_prize extends ecjia_platform
         parent::__construct();
 
         //Ecjia\App\Market\Helper::assign_adminlog_content();
-        
+
         /* 加载全局 js/css */
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-uniform');
@@ -66,13 +66,13 @@ class platform_prize extends ecjia_platform
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('smoke');
         RC_Script::enqueue_script('bootstrap-placeholder');
-		
-  		RC_Style::enqueue_style('platform_market_activity', RC_App::apps_url('statics/platform-css/platform_market_activity.css', __FILE__));
+
+        RC_Style::enqueue_style('activity', RC_App::apps_url('statics/platform-css/activity.css', __FILE__));
         RC_Style::enqueue_style('prize', RC_App::apps_url('statics/platform-css/prize.css', __FILE__));
-        
+
         RC_Script::enqueue_script('platform_activity', RC_App::apps_url('statics/platform-js/platform_activity.js', __FILE__), array(), false, true);
         RC_Script::localize_script('platform_activity', 'js_lang', RC_Lang::get('market::market.js_lang'));
-        
+
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('抽奖记录', RC_Uri::url('market/platform_prize/init')));
         ecjia_platform_screen::get_current_screen()->set_subject('抽奖记录');
     }
@@ -86,31 +86,31 @@ class platform_prize extends ecjia_platform
 
         $wechat_id = $this->platformAccount->getAccountID();
         $store_id = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('shop_id');
-        
+
         $this->assign('ur_here', '抽奖记录');
 
         $list = [];
         $code_list = [];
         $activity_code = '';
-        
+
         if (!empty($_GET['code'])) {
-        	$activity_code = trim($_GET['code']);
+            $activity_code = trim($_GET['code']);
         } else {
-        	$menus = with(new Ecjia\App\Market\MarketPrizeMenu($store_id, $wechat_id))->getMenus();
-        	if (!empty($menus)) {
-        		foreach ($menus as $k => $menu) {
-        			$code_list[$k]['code'] = $menu->action;
-        		}
-        		$default_code = $code_list['0']['code'];
-        		$activity_code = $default_code;
-        	}
+            $menus = with(new Ecjia\App\Market\MarketPrizeMenu($store_id, $wechat_id))->getMenus();
+            if (!empty($menus)) {
+                foreach ($menus as $k => $menu) {
+                    $code_list[$k]['code'] = $menu->action;
+                }
+                $default_code = $code_list['0']['code'];
+                $activity_code = $default_code;
+            }
         }
-        
+
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('抽奖记录'));
         ecjia_platform_screen::get_current_screen()->add_option('current_code', $activity_code);
         $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => RC_Lang::get('market::market.back_activity_info')));
-        
+
         if (!empty($activity_code)) {
             $factory = new Ecjia\App\Market\Factory();
             $activity_info = $factory->driver($activity_code);
@@ -122,7 +122,7 @@ class platform_prize extends ecjia_platform
             $info = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', $_SESSION['store_id'])->where('wechat_id', $wechat_id)->where('enabled', 1)->first();
             if (!empty($info)) {
                 $info['start_time'] = RC_Time::local_date('Y-m-d H:i', $info['start_time']);
-                $info['end_time']   = RC_Time::local_date('Y-m-d H:i', $info['end_time']);
+                $info['end_time'] = RC_Time::local_date('Y-m-d H:i', $info['end_time']);
                 $this->assign('info', $info);
             }
         }
@@ -130,34 +130,35 @@ class platform_prize extends ecjia_platform
 
         $this->assign('activity_record_list', $list);
         $this->assign('code', $activity_code);
-       
+
         $this->display('prize_record.dwt');
     }
-	
-	/**
-	 * 获取活动抽奖记录
-	 * @return array
-	 */
-	private function get_activity_record_list($activity_id = 0) {
-		$db_activity_log = RC_DB::table('market_activity_log');
-	
-		if (!empty($activity_id)) {
-			$db_activity_log->where('activity_id', $activity_id);
-		}
-	
-		$count = $db_activity_log->count();
-		$page = new ecjia_platform_page($count, 15, 5);
-		$res   = $db_activity_log->where('activity_id', $activity_id)->orderBy('add_time', 'desc')->take(15)->skip($page->start_id-1)->get();
-	
-		if (!empty($res)) {
-			foreach ($res as $key => $val) {
-				$res[$key]['issue_time']  	= RC_Time::local_date('Y-m-d H:i:s', $res[$key]['issue_time']);
-				$res[$key]['add_time']    	= RC_Time::local_date('Y-m-d H:i:s', $res[$key]['add_time']);
-				$res[$key]['prize_type']	= RC_DB::table('market_activity_prize')->where('prize_id', $val['prize_type'])->pluck('prize_type');
-			}
-		}
-		return array('item' => $res, 'page' => $page->show(), 'desc' => $page->page_desc(), 'current_page' => $page->current_page);
-	}
+
+    /**
+     * 获取活动抽奖记录
+     * @return array
+     */
+    private function get_activity_record_list($activity_id = 0)
+    {
+        $db_activity_log = RC_DB::table('market_activity_log');
+
+        if (!empty($activity_id)) {
+            $db_activity_log->where('activity_id', $activity_id);
+        }
+
+        $count = $db_activity_log->count();
+        $page = new ecjia_platform_page($count, 15, 5);
+        $res = $db_activity_log->where('activity_id', $activity_id)->orderBy('add_time', 'desc')->take(15)->skip($page->start_id - 1)->get();
+
+        if (!empty($res)) {
+            foreach ($res as $key => $val) {
+                $res[$key]['issue_time'] = RC_Time::local_date('Y-m-d H:i:s', $res[$key]['issue_time']);
+                $res[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $res[$key]['add_time']);
+                $res[$key]['prize_type'] = RC_DB::table('market_activity_prize')->where('prize_id', $val['prize_type'])->pluck('prize_type');
+            }
+        }
+        return array('item' => $res, 'page' => $page->show(), 'desc' => $page->page_desc(), 'current_page' => $page->current_page);
+    }
 }
 
 //end

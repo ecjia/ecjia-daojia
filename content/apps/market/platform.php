@@ -64,16 +64,16 @@ class platform extends ecjia_platform
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('bootstrap-placeholder');
 
-        RC_Style::enqueue_style('platform_market_activity', RC_App::apps_url('statics/platform-css/platform_market_activity.css', __FILE__));
+        RC_Style::enqueue_style('activity', RC_App::apps_url('statics/platform-css/activity.css', __FILE__));
         RC_Style::enqueue_style('prize', RC_App::apps_url('statics/platform-css/prize.css', __FILE__));
-        
+
         //时间控件
         RC_Script::enqueue_script('bootstrap-datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.js'));
         RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
 
         RC_Script::enqueue_script('platform_activity', RC_App::apps_url('statics/platform-js/platform_activity.js', __FILE__), array(), false, true);
         RC_Script::localize_script('platform_activity', 'js_lang', RC_Lang::get('market::market.js_lang'));
-        
+
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.activity_list'), RC_Uri::url('market/platform/init')));
         ecjia_platform_screen::get_current_screen()->set_subject('营销活动');
     }
@@ -280,8 +280,8 @@ class platform extends ecjia_platform
 
         $count = RC_DB::table('market_activity_prize')->where('activity_id', $id)->count();
         $page = new ecjia_platform_page($count, 15, 5);
-        
-        $prize_list = RC_DB::table('market_activity_prize')->where('activity_id', $id)->take(15)->skip($page->start_id-1)->orderby('prize_level', 'asc')->get();
+
+        $prize_list = RC_DB::table('market_activity_prize')->where('activity_id', $id)->take(15)->skip($page->start_id - 1)->orderby('prize_level', 'asc')->get();
         if (!empty($prize_list)) {
             foreach ($prize_list as $k => $v) {
                 if ($v['prize_type'] == '1') {
@@ -507,18 +507,18 @@ class platform extends ecjia_platform
      */
     public function activity_prize_remove()
     {
-    	$this->admin_priv('market_activity_delete', ecjia::MSGTYPE_JSON);
-    
-    	$wechat_id = $this->platformAccount->getAccountID();
+        $this->admin_priv('market_activity_delete', ecjia::MSGTYPE_JSON);
+
+        $wechat_id = $this->platformAccount->getAccountID();
         $activity_code = trim($_GET['code']);
         $p_id = intval($_GET['p_id']);
-        
-    	$activity_id_list = RC_DB::table('market_activity')->where('wechat_id', $wechat_id)->where('store_id', $_SESSION['store_id'])->lists('activity_id');
-    	RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->whereIn('activity_id', $activity_id_list)->delete();
-    	
-    	return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+
+        $activity_id_list = RC_DB::table('market_activity')->where('wechat_id', $wechat_id)->where('store_id', $_SESSION['store_id'])->lists('activity_id');
+        RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->whereIn('activity_id', $activity_id_list)->delete();
+
+        return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
-    
+
     /**
      * 活动记录列表
      */

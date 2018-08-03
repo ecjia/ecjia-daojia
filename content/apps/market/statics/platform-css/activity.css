@@ -1,6 +1,7 @@
 .market_activity input[type="text"] {
-	margin-bottom : 0px;
+	margin-bottom: 0px;
 }
+
 .outline {
 	background-color: #efefef;
 	border-radius: 5px;
@@ -39,72 +40,72 @@
 
 .outline .added {
 	position: absolute;
-    right: 10px;
-    top: 10px;
+	right: 10px;
+	top: 10px;
 }
 
 .no-records {
 	height: 120px;
-    line-height: 120px;
-    text-align: center;
+	line-height: 120px;
+	text-align: center;
 	margin-bottom: 20px;
 }
 
 .highlight_box.global {
-    /*margin: 0 30px 40px;*/
-    border-top-width: 0;
+	/*margin: 0 30px 40px;*/
+	border-top-width: 0;
 }
 
 .highlight_box.icon_wrap {
-    padding-top: 14px;
-    padding-bottom: 14px;
-    overflow: hidden;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	overflow: hidden;
 }
 
 .highlight_box {
-    position: relative;
-    padding: 9px 30px;
-    background-color: #EEEEEE;
-    margin-bottom: 20px;
-    line-height: 1.6;
+	position: relative;
+	padding: 9px 30px;
+	background-color: #EEEEEE;
+	margin-bottom: 20px;
+	line-height: 1.6;
 }
 
 .highlight_box .title {
-    font-weight: 400;
-    font-style: normal;
+	font-weight: 400;
+	font-style: normal;
 	padding-top: 5px;
 }
 
 .highlight_box .fonticon-wrap .icon-extend {
 	width: 60px;
-    height: 60px;
+	height: 60px;
 }
 
 .highlight_box.icon_wrap .icon {
-    background: url(/mpres/zh_CN/htmledition/comm_htmledition/style/page/cardticket/card_apply_enter_z3a7b39.png) 0 -261px no-repeat;
+	background: url(/mpres/zh_CN/htmledition/comm_htmledition/style/page/cardticket/card_apply_enter_z3a7b39.png) 0 -261px no-repeat;
 }
 
 .highlight_box.icon_wrap .icon_profile {
-    width: 48px;
-    height: 48px;
+	width: 48px;
+	height: 48px;
 }
 
 .highlight_box.icon_wrap .icon {
-    float: left;
-    margin-right: 15px;
+	float: left;
+	margin-right: 15px;
 }
 
 .highlight_box .desc {
-    color: #8d8d8d;
-    overflow: hidden;
+	color: #8d8d8d;
+	overflow: hidden;
 }
 
 .highlight_box {
-    position: relative;
-    padding: 9px 30px;
-    background-color: #EEEEEE;
-    margin-bottom: 20px;
-    line-height: 1.6;
+	position: relative;
+	padding: 9px 30px;
+	background-color: #EEEEEE;
+	margin-bottom: 20px;
+	line-height: 1.6;
 }
 
 .intro dd {
@@ -112,19 +113,19 @@
 	padding: 0 40px;
 }
 
-
-.highlight_box .fonticon-container > .fonticon-wrap {
+.highlight_box .fonticon-container>.fonticon-wrap {
 	margin-bottom: 0;
 }
 
-.span-font{
+.span-font {
 	font-weight: bold;
-	margin-left:5px;
-	margin-right:5px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
-.cannotedit-info{
+
+.cannotedit-info {
 	background-color: #EEEEEE;
-	padding-top:10px;
-	margin-bottom:5px;
+	padding-top: 10px;
+	margin-bottom: 5px;
 	border-radius: 10px;
 }
