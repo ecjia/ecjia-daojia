@@ -1,6 +1,9 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
 
-class RedisTaggedCache extends TaggedCache {
+namespace Royalcms\Component\Cache;
+
+class RedisTaggedCache extends TaggedCache 
+{
 
 	/**
 	 * Store an item in the cache indefinitely.
@@ -11,9 +14,9 @@ class RedisTaggedCache extends TaggedCache {
 	 */
 	public function forever($key, $value)
 	{
-		$this->pushForeverKeys($namespace = $this->tags->getNamespace(), $key);
-
-		$this->store->forever($this->getPrefix().sha1($namespace).':'.$key, $value);
+	    $this->pushForeverKeys($namespace = $this->tags->getNamespace(), $key);
+	    
+	    $this->store->forever(sha1($namespace).':'.$key, $value);
 	}
 
 	/**

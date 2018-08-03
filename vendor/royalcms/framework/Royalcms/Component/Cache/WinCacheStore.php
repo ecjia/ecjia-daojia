@@ -1,6 +1,11 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
 
-class WinCacheStore extends TaggableStore implements StoreInterface {
+namespace Royalcms\Component\Cache;
+
+use Royalcms\Component\Cache\Contracts\Store;
+
+class WinCacheStore extends TaggableStore implements Store
+{
 
 	/**
 	 * A string that should be prepended to keys.
@@ -93,7 +98,7 @@ class WinCacheStore extends TaggableStore implements StoreInterface {
 	 */
 	public function forget($key)
 	{
-		wincache_ucache_delete($this->prefix.$key);
+	    return wincache_ucache_delete($this->prefix.$key);
 	}
 
 	/**

@@ -1,13 +1,19 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
 
 use Closure;
+use DateTime;
+use Royalcms\Component\DateTime\Carbon;
+use Royalcms\Component\Cache\Contracts\Store;
 
-class TaggedCache implements StoreInterface {
+class TaggedCache implements Store
+{
 
 	/**
 	 * The cache store implementation.
 	 *
-	 * @var \Royalcms\Component\Cache\StoreInterface
+	 * @var \Royalcms\Component\Cache\Contracts\Store
 	 */
 	protected $store;
 
@@ -21,11 +27,11 @@ class TaggedCache implements StoreInterface {
 	/**
 	 * Create a new tagged cache instance.
 	 *
-	 * @param  \Royalcms\Component\Cache\StoreInterface  $store
+	 * @param  \Royalcms\Component\Cache\Contracts\Store  $store
 	 * @param  \Royalcms\Component\Cache\TagSet  $tags
 	 * @return void
 	 */
-	public function __construct(StoreInterface $store, TagSet $tags)
+	public function __construct(Store $store, TagSet $tags)
 	{
 		$this->tags = $tags;
 		$this->store = $store;
@@ -66,7 +72,12 @@ class TaggedCache implements StoreInterface {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		return $this->store->put($this->taggedItemKey($key), $value, $minutes);
+	    $minutes = $this->getMinutes($minutes);
+	    
+	    if ( ! is_null($minutes))
+	    {
+	        $this->store->put($this->taggedItemKey($key), $value, $minutes);
+	    }
 	}
 
 	/**
@@ -81,7 +92,9 @@ class TaggedCache implements StoreInterface {
 	{
 		if (is_null($this->get($key)))
 		{
-			$this->put($key, $value, $minutes); return true;
+			$this->put($key, $value, $minutes); 
+			
+			return true;
 		}
 
 		return false;
@@ -131,7 +144,7 @@ class TaggedCache implements StoreInterface {
 	 */
 	public function forget($key)
 	{
-		$this->store->forget($this->taggedItemKey($key));
+	    return $this->store->forget($this->taggedItemKey($key));
 	}
 
 	/**
@@ -157,7 +170,7 @@ class TaggedCache implements StoreInterface {
 		// If the item exists in the cache we will just return this immediately
 		// otherwise we will execute the given Closure and cache the result
 		// of that execution for the given number of minutes in storage.
-		if ($this->has($key)) return $this->get($key);
+	    if ( ! is_null($value = $this->get($key))) return $value;
 
 		$this->put($key, $value = $callback(), $minutes);
 
@@ -188,7 +201,7 @@ class TaggedCache implements StoreInterface {
 		// If the item exists in the cache we will just return this immediately
 		// otherwise we will execute the given Closure and cache the result
 		// of that execution for the given number of minutes. It's easy.
-		if ($this->has($key)) return $this->get($key);
+	    if ( ! is_null($value = $this->get($key))) return $value;
 
 		$this->forever($key, $value = $callback());
 
@@ -203,7 +216,7 @@ class TaggedCache implements StoreInterface {
 	 */
 	public function taggedItemKey($key)
 	{
-		return $this->getPrefix().sha1($this->tags->getNamespace()).':'.$key;
+	    return sha1($this->tags->getNamespace()).':'.$key;
 	}
 
 	/**
@@ -214,6 +227,24 @@ class TaggedCache implements StoreInterface {
 	public function getPrefix()
 	{
 		return $this->store->getPrefix();
+	}
+	
+	/**
+	 * Calculate the number of minutes with the given duration.
+	 *
+	 * @param  \DateTime|int  $duration
+	 * @return int|null
+	 */
+	protected function getMinutes($duration)
+	{
+	    if ($duration instanceof DateTime)
+	    {
+	        $fromNow = Carbon::instance($duration)->diffInMinutes();
+	        
+	        return $fromNow > 0 ? $fromNow : null;
+	    }
+	    
+	    return is_string($duration) ? (int) $duration : $duration;
 	}
 
 }

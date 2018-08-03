@@ -1,8 +1,11 @@
-<?php namespace Royalcms\Component\Cache\Console;
+<?php 
+
+namespace Royalcms\Component\Cache\Console;
 
 use Royalcms\Component\Console\Command;
 use Royalcms\Component\Cache\CacheManager;
 use Royalcms\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputArgument;
 
 class ClearCommand extends Command {
 
@@ -56,11 +59,30 @@ class ClearCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->cache->flush();
+	    $storeName = $this->argument('store');
+	    
+	    $this->royalcms['events']->fire('cache:clearing', [$storeName]);
+	    
+	    $this->cache->store($storeName)->flush();
+	    
+	    $this->royalcms['events']->fire('cache:cleared', [$storeName]);
+	    
         //@TODO:
 		$this->files->delete($this->royalcms['config']['system.manifest'].'/services.json');
 
 		$this->info('Application cache cleared!');
+	}
+	
+	/**
+	 * Get the console command arguments.
+	 *
+	 * @return array
+	 */
+	protected function getArguments()
+	{
+	    return [
+	        ['store', InputArgument::OPTIONAL, 'The name of the store you would like to clear.'],
+	    ];
 	}
 
 }

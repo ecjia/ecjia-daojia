@@ -1,6 +1,11 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
 
-class ArrayStore extends TaggableStore implements StoreInterface {
+namespace Royalcms\Component\Cache;
+
+use Royalcms\Component\Cache\Contracts\Store;
+
+class ArrayStore extends TaggableStore implements Store
+{
 
 	/**
 	 * The array of stored values.
@@ -85,6 +90,8 @@ class ArrayStore extends TaggableStore implements StoreInterface {
 	public function forget($key)
 	{
 		unset($this->storage[$key]);
+		
+		return true;
 	}
 
 	/**

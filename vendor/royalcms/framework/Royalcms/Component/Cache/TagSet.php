@@ -1,11 +1,15 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
+
+use Royalcms\Component\Cache\Contracts\Store;
 
 class TagSet {
 
 	/**
 	 * The cache store implementation.
 	 *
-	 * @var \Royalcms\Component\Cache\StoreInterface
+	 * @var \Royalcms\Component\Cache\Contracts\Store
 	 */
 	protected $store;
 
@@ -19,11 +23,11 @@ class TagSet {
 	/**
 	 * Create a new TagSet instance.
 	 *
-	 * @param  \Royalcms\Component\Cache\StoreInterface  $store
+	 * @param  \Royalcms\Component\Cache\Contracts\Store  $store
 	 * @param  array  $names
 	 * @return void
 	 */
-	public function __construct(StoreInterface $store, array $names = array())
+	public function __construct(Store $store, array $names = array())
 	{
 		$this->store = $store;
 		$this->names = $names;

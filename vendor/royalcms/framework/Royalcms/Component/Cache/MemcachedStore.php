@@ -1,8 +1,12 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
 
 use Memcached;
+use Royalcms\Component\Cache\Contracts\Store;
 
-class MemcachedStore extends TaggableStore implements StoreInterface {
+class MemcachedStore extends TaggableStore implements Store
+{
 
 	/**
 	 * The Memcached instance.
@@ -104,7 +108,7 @@ class MemcachedStore extends TaggableStore implements StoreInterface {
 	 */
 	public function forget($key)
 	{
-		$this->memcached->delete($this->prefix.$key);
+	    return $this->memcached->delete($this->prefix.$key);
 	}
 
 	/**

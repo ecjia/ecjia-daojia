@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
 
 class ApcWrapper {
 

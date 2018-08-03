@@ -4,26 +4,15 @@ namespace Royalcms\Component\Cache;
 
 use Royalcms\Component\Cache\Contracts\Store;
 
-class XCacheStore extends TaggableStore implements Store
+class NullStore extends TaggableStore implements Store 
 {
 
 	/**
-	 * A string that should be prepended to keys.
+	 * The array of stored values.
 	 *
-	 * @var string
+	 * @var array
 	 */
-	protected $prefix;
-
-	/**
-	 * Create a new WinCache store.
-	 *
-	 * @param  string     $prefix
-	 * @return void
-	 */
-	public function __construct($prefix = '')
-	{
-		$this->prefix = $prefix;
-	}
+	protected $storage = array();
 
 	/**
 	 * Retrieve an item from the cache by key.
@@ -33,12 +22,7 @@ class XCacheStore extends TaggableStore implements Store
 	 */
 	public function get($key)
 	{
-		$value = xcache_get($this->prefix.$key);
-
-		if (isset($value))
-		{
-			return $value;
-		}
+		//
 	}
 
 	/**
@@ -51,7 +35,7 @@ class XCacheStore extends TaggableStore implements Store
 	 */
 	public function put($key, $value, $minutes)
 	{
-		xcache_set($this->prefix.$key, $value, $minutes * 60);
+		//
 	}
 
 	/**
@@ -59,11 +43,11 @@ class XCacheStore extends TaggableStore implements Store
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
-	 * @return void
+	 * @return int
 	 */
 	public function increment($key, $value = 1)
 	{
-		return xcache_inc($this->prefix.$key, $value);
+		//
 	}
 
 	/**
@@ -71,11 +55,11 @@ class XCacheStore extends TaggableStore implements Store
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
-	 * @return void
+	 * @return int
 	 */
 	public function decrement($key, $value = 1)
 	{
-		return xcache_dec($this->prefix.$key, $value);
+		//
 	}
 
 	/**
@@ -87,7 +71,7 @@ class XCacheStore extends TaggableStore implements Store
 	 */
 	public function forever($key, $value)
 	{
-		return $this->put($key, $value, 0);
+		//
 	}
 
 	/**
@@ -98,7 +82,7 @@ class XCacheStore extends TaggableStore implements Store
 	 */
 	public function forget($key)
 	{
-	    return xcache_unset($this->prefix.$key);
+		//
 	}
 
 	/**
@@ -108,7 +92,7 @@ class XCacheStore extends TaggableStore implements Store
 	 */
 	public function flush()
 	{
-		xcache_clear_cache(XC_TYPE_VAR);
+		//
 	}
 
 	/**
@@ -118,7 +102,7 @@ class XCacheStore extends TaggableStore implements Store
 	 */
 	public function getPrefix()
 	{
-		return $this->prefix;
+		return '';
 	}
 
 }

@@ -1,8 +1,12 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
 
 use Royalcms\Component\Filesystem\Filesystem;
+use Royalcms\Component\Cache\Contracts\Store;
 
-class FileStore implements StoreInterface {
+class FileStore implements Store
+{
 
 	/**
 	 * The Royalcms Filesystem instance.
@@ -39,34 +43,49 @@ class FileStore implements StoreInterface {
 	 */
 	public function get($key)
 	{
-		$path = $this->path($key);
-
-		// If the file doesn't exists, we obviously can't return the cache so we will
-		// just return null. Otherwise, we'll get the contents of the file and get
-		// the expiration UNIX timestamps from the start of the file's contents.
-		if ( ! $this->files->exists($path))
-		{
-			return null;
-		}
-
-		try
-		{
-			$expire = substr($contents = $this->files->get($path), 0, 10);
-		}
-		catch (\Exception $e)
-		{
-			return null;
-		}
-
-		// If the current time is greater than expiration timestamps we will delete
-		// the file and return null. This helps clean up the old files and keeps
-		// this directory much cleaner for us as old files aren't hanging out.
-		if (time() >= $expire)
-		{
-			return $this->forget($key);
-		}
-
-		return unserialize(substr($contents, 10));
+	    return array_get($this->getPayload($key), 'data');
+	}
+	
+	/**
+	 * Retrieve an item and expiry time from the cache by key.
+	 *
+	 * @param  string  $key
+	 * @return array
+	 */
+	protected function getPayload($key)
+	{
+	    $path = $this->path($key);
+	    
+	    // If the file doesn't exists, we obviously can't return the cache so we will
+	    // just return null. Otherwise, we'll get the contents of the file and get
+	    // the expiration UNIX timestamps from the start of the file's contents.
+	    try
+	    {
+	        $expire = substr($contents = $this->files->get($path), 0, 10);
+	    }
+	    catch (\Exception $e)
+	    {
+	        return array('data' => null, 'time' => null);
+	    }
+	    
+	    // If the current time is greater than expiration timestamps we will delete
+	    // the file and return null. This helps clean up the old files and keeps
+	    // this directory much cleaner for us as old files aren't hanging out.
+	    if (time() >= $expire)
+	    {
+	        $this->forget($key);
+	        
+	        return array('data' => null, 'time' => null);
+	    }
+	    
+	    $data = unserialize(substr($contents, 10));
+	    
+	    // Next, we'll extract the number of minutes that are remaining for a cache
+	    // so that we can properly retain the time for things like the increment
+	    // operation that may be performed on the cache. We'll round this out.
+	    $time = ceil(($expire - time()) / 60);
+	    
+	    return compact('data', 'time');
 	}
 
 	/**
@@ -115,7 +134,13 @@ class FileStore implements StoreInterface {
 	 */
 	public function increment($key, $value = 1)
 	{
-		throw new \LogicException("Increment operations not supported by this driver.");
+	    $raw = $this->getPayload($key);
+	    
+	    $int = ((int) $raw['data']) + $value;
+	    
+	    $this->put($key, $int, (int) $raw['time']);
+	    
+	    return $int;
 	}
 
 	/**
@@ -129,7 +154,7 @@ class FileStore implements StoreInterface {
 	 */
 	public function decrement($key, $value = 1)
 	{
-		throw new \LogicException("Decrement operations not supported by this driver.");
+	    return $this->increment($key, $value * -1);
 	}
 
 	/**
@@ -158,6 +183,8 @@ class FileStore implements StoreInterface {
 		{
 			$this->files->delete($file);
 		}
+		
+		return false;
 	}
 
 	/**
@@ -167,10 +194,13 @@ class FileStore implements StoreInterface {
 	 */
 	public function flush()
 	{
-		foreach ($this->files->directories($this->directory) as $directory)
-		{
-			$this->files->deleteDirectory($directory);
-		}
+	    if ($this->files->isDirectory($this->directory))
+	    {
+	        foreach ($this->files->directories($this->directory) as $directory)
+	        {
+	            $this->files->deleteDirectory($directory);
+	        }
+	    }
 	}
 
 	/**

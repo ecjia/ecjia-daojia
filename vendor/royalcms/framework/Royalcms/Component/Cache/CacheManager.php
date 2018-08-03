@@ -1,27 +1,75 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
 
-use Royalcms\Component\Support\Manager;
+namespace Royalcms\Component\Cache;
 
-class CacheManager extends Manager {
+use Closure;
+use InvalidArgumentException;
+use Royalcms\Component\Cache\Contracts\Store;
+use Royalcms\Component\Cache\Contracts\Factory as FactoryContract;
+
+class CacheManager implements FactoryContract
+{
+    /**
+     * The royalcms instance.
+     *
+     * @var \Royalcms\Component\Foundation\Royalcms
+     */
+    protected $royalcms;
     
     /**
-     * Get a filesystem instance.
+     * The array of resolved cache stores.
      *
-     * @param  string  $name
-     * @return \Royalcms\Component\Cache\StoreInterface
+     * @var array
      */
-    public function drive($name = null)
+    protected $stores = [];
+    
+    /**
+     * The registered custom driver creators.
+     *
+     * @var array
+     */
+    protected $customCreators = [];
+    
+    /**
+     * Create a new Cache manager instance.
+     *
+     * @param  \Royalcms\Component\Foundation\Royalcms $royalcms
+     * @return void
+     */
+    public function __construct($royalcms)
+    {
+        $this->royalcms = $royalcms;
+    }
+    
+    /**
+     * Get a cache store instance by name.
+     *
+     * @param  string|null  $name
+     * @return mixed
+     */
+    public function store($name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
         
-        return $this->drivers[$name] = $this->get($name);
+        return $this->stores[$name] = $this->get($name);
     }
+    
+    /**
+	 * Get a cache driver instance.
+	 *
+	 * @param  string  $driver
+	 * @return mixed
+	 */
+	public function driver($driver = null)
+	{
+		return $this->store($driver);
+	}
     
     /**
      * Attempt to get the pool from the file cache.
      *
      * @param  string  $name
-     * @return \Royalcms\Component\Cache\StoreInterface
+     * @return \Royalcms\Component\Cache\Contracts\Repository
      */
     protected function get($name)
     {
@@ -32,11 +80,16 @@ class CacheManager extends Manager {
      * Resolve the given pool.
      *
      * @param  string  $name
-     * @return \Royalcms\Component\Cache\StoreInterface
+     * @return \Royalcms\Component\Cache\Contracts\Repository
      */
     protected function resolve($name)
     {
         $config = $this->getConfig($name);
+        
+        if (is_null($config))
+        {
+            throw new InvalidArgumentException("Cache store [{$name}] is not defined.");
+        }
         
         if (isset($this->customCreators[$config['driver']]))
         {
@@ -44,6 +97,17 @@ class CacheManager extends Manager {
         }
     
         return $this->{"create".ucfirst($config['driver'])."Driver"}($config);
+    }
+    
+    /**
+     * Call a custom driver creator.
+     *
+     * @param  array  $config
+     * @return mixed
+     */
+    protected function callCustomCreator(array $config)
+    {
+        return $this->customCreators[$config['driver']]($this->app, $config);
     }
 
 	/**
@@ -53,7 +117,9 @@ class CacheManager extends Manager {
 	 */
 	protected function createApcDriver(array $config)
 	{
-		return $this->repository(new ApcStore(new ApcWrapper, $this->getPrefix()));
+	    $prefix = $this->getPrefix($config);
+	    
+	    return $this->repository(new ApcStore(new ApcWrapper, $prefix));
 	}
 
 	/**
@@ -85,11 +151,21 @@ class CacheManager extends Manager {
 	 */
 	protected function createMemcachedDriver(array $config)
 	{
-		$servers = $this->royalcms['config']['cache.memcached'];
+	    $prefix = $this->getPrefix($config);
 
-		$memcached = $this->royalcms['memcached.connector']->connect($servers);
+	    $memcached = $this->royalcms['memcached.connector']->connect($config['servers']);
 
-		return $this->repository(new MemcachedStore($memcached, $this->getPrefix()));
+	    return $this->repository(new MemcachedStore($memcached, $prefix));
+	}
+	
+	/**
+	 * Create an instance of the Null cache driver.
+	 *
+	 * @return \Royalcms\Component\Cache\NullStore
+	 */
+	protected function createNullDriver()
+	{
+	    return $this->repository(new NullStore);
 	}
 
 	/**
@@ -99,7 +175,7 @@ class CacheManager extends Manager {
 	 */
 	protected function createWincacheDriver(array $config)
 	{
-		return $this->repository(new WinCacheStore($this->getPrefix()));
+	    return $this->repository(new WinCacheStore($this->getPrefix($config)));
 	}
 
 	/**
@@ -109,7 +185,7 @@ class CacheManager extends Manager {
 	 */
 	protected function createXcacheDriver(array $config)
 	{
-		return $this->repository(new XCacheStore($this->getPrefix()));
+	    return $this->repository(new XCacheStore($this->getPrefix($config)));
 	}
 
 	/**
@@ -120,8 +196,10 @@ class CacheManager extends Manager {
 	protected function createRedisDriver(array $config)
 	{
 		$redis = $this->royalcms['redis'];
+		
+		$connection = array_get($config, 'connection', 'default') ?: 'default';
 
-		return $this->repository(new RedisStore($redis, $this->getPrefix()));
+		return $this->repository(new RedisStore($redis, $this->getPrefix($config), $connection));
 	}
 
 	/**
@@ -131,30 +209,38 @@ class CacheManager extends Manager {
 	 */
 	protected function createDatabaseDriver(array $config)
 	{
-		$connection = $this->getDatabaseConnection();
+	    $connection = $this->royalcms['db']->connection(array_get($config, 'connection'));
 
 		$encrypter = $this->royalcms['encrypter'];
 
 		// We allow the developer to specify which connection and table should be used
 		// to store the cached items. We also need to grab a prefix in case a table
 		// is being used by multiple applications although this is very unlikely.
-		$table = $this->royalcms['config']['cache.table'];
+		$table = $config['table'];
 
-		$prefix = $this->getPrefix();
+		$prefix = $this->getPrefix($config);
 
 		return $this->repository(new DatabaseStore($connection, $encrypter, $table, $prefix));
 	}
-
+	
 	/**
-	 * Get the database connection for the database driver.
+	 * Create a new cache repository with the given implementation.
 	 *
-	 * @return \Royalcms\Component\Database\Connection
+	 * @param  \Royalcms\Component\Cache\Contracts\Store  $store
+	 * @return \Royalcms\Component\Cache\Repository
 	 */
-	protected function getDatabaseConnection()
+	public function repository(Store $store)
 	{
-		$connection = $this->royalcms['config']['cache.connection'];
-
-		return $this->royalcms['db']->connection($connection);
+	    $repository = new Repository($store);
+	    
+	    if ($this->royalcms->bound('Royalcms\Component\Events\Contracts\Dispatcher'))
+	    {
+	        $repository->setEventDispatcher(
+	            $this->royalcms['Royalcms\Component\Events\Contracts\Dispatcher']
+	            );
+	    }
+	    
+	    return $repository;
 	}
 
 	/**
@@ -162,9 +248,9 @@ class CacheManager extends Manager {
 	 *
 	 * @return string
 	 */
-	public function getPrefix()
+	public function getPrefix(array $config)
 	{
-		return $this->royalcms['config']['cache.prefix'];
+	    return array_get($config, 'prefix') ?: $this->royalcms['config']['cache.prefix'];
 	}
 
 	/**
@@ -179,17 +265,6 @@ class CacheManager extends Manager {
 	}
 
 	/**
-	 * Create a new cache repository with the given implementation.
-	 *
-	 * @param  \Royalcms\Component\Cache\StoreInterface  $store
-	 * @return \Royalcms\Component\Cache\Repository
-	 */
-	protected function repository(StoreInterface $store)
-	{
-		return new Repository($store);
-	}
-	
-	/**
 	 * Get the filesystem connection configuration.
 	 *
 	 * @param  string  $name
@@ -197,7 +272,7 @@ class CacheManager extends Manager {
 	 */
 	protected function getConfig($name)
 	{
-	    return $this->royalcms['config']["cache.drivers.{$name}"];
+	    return $this->royalcms['config']["cache.stores.{$name}"];
 	}
 
 	/**
@@ -222,6 +297,20 @@ class CacheManager extends Manager {
 	}
 	
 	/**
+	 * Register a custom driver creator Closure.
+	 *
+	 * @param  string    $driver
+	 * @param  \Closure  $callback
+	 * @return $this
+	 */
+	public function extend($driver, Closure $callback)
+	{
+	    $this->customCreators[$driver] = $callback;
+	    
+	    return $this;
+	}
+	
+	/**
 	 * Dynamically call the default driver instance.
 	 *
 	 * @param  string  $method
@@ -230,7 +319,7 @@ class CacheManager extends Manager {
 	 */
 	public function __call($method, $parameters)
 	{
-	    return call_user_func_array(array($this->drive(), $method), $parameters);
+	    return call_user_func_array(array($this->store(), $method), $parameters);
 	}
 
 }

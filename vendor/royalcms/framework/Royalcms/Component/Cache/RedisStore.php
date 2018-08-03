@@ -1,8 +1,12 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
 
 use Royalcms\Component\Redis\Database as Redis;
+use Royalcms\Component\Cache\Contracts\Store;
 
-class RedisStore extends TaggableStore implements StoreInterface {
+class RedisStore extends TaggableStore implements Store
+{
 
 	/**
 	 * The Redis database connection.
@@ -64,11 +68,11 @@ class RedisStore extends TaggableStore implements StoreInterface {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$value = is_numeric($value) ? $value : serialize($value);
-
-		$this->connection()->set($this->prefix.$key, $value);
-
-		$this->connection()->expire($this->prefix.$key, $minutes * 60);
+	    $value = is_numeric($value) ? $value : serialize($value);
+	    
+	    $minutes = max(1, $minutes);
+	    
+	    $this->connection()->setex($this->prefix.$key, $minutes * 60, $value);
 	}
 
 	/**
@@ -117,7 +121,7 @@ class RedisStore extends TaggableStore implements StoreInterface {
 	 */
 	public function forget($key)
 	{
-		$this->connection()->del($this->prefix.$key);
+	    return (bool) $this->connection()->del($this->prefix.$key);
 	}
 
 	/**

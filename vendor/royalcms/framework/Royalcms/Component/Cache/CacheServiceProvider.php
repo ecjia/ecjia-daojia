@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
 
 use Royalcms\Component\Support\ServiceProvider;
 
@@ -18,17 +20,17 @@ class CacheServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->royalcms->bindShared('cache', function($royalcms)
+	    $this->royalcms->singleton('cache', function($royalcms)
 		{
 			return new CacheManager($royalcms);
 		});
 
-		$this->royalcms->bindShared('cache.store', function($royalcms)
+	    $this->royalcms->singleton('cache.store', function($royalcms)
 		{
 			return $royalcms['cache']->driver();
 		});
 
-		$this->royalcms->bindShared('memcached.connector', function()
+	    $this->royalcms->singleton('memcached.connector', function()
 		{
 			return new MemcachedConnector;
 		});
@@ -43,12 +45,17 @@ class CacheServiceProvider extends ServiceProvider {
 	 */
 	public function registerCommands()
 	{
-		$this->royalcms->bindShared('command.cache.clear', function($royalcms)
+	    $this->royalcms->singleton('command.cache.clear', function($royalcms)
 		{
 			return new Console\ClearCommand($royalcms['cache'], $royalcms['files']);
 		});
+	    
+	    $this->royalcms->singleton('command.cache.table', function($royalcms)
+	    {
+	        return new Console\CacheTableCommand($royalcms['files'], $royalcms['composer']);
+	    });
 
-		$this->commands('command.cache.clear');
+	    $this->commands('command.cache.clear', 'command.cache.table');
 	}
 
 	/**
@@ -58,7 +65,7 @@ class CacheServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('cache', 'cache.store', 'memcached.connector', 'command.cache.clear');
+		return array('cache', 'cache.store', 'memcached.connector', 'command.cache.clear', 'command.cache.table');
 	}
 
 }

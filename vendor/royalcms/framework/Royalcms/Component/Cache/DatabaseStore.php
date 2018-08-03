@@ -1,9 +1,12 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
 
 use Royalcms\Component\Database\Connection;
 use Royalcms\Component\Encryption\Encrypter;
+use Royalcms\Component\Cache\Contracts\Store;
 
-class DatabaseStore implements StoreInterface {
+class DatabaseStore implements Store {
 
 	/**
 	 * The database connection instance.
@@ -71,7 +74,9 @@ class DatabaseStore implements StoreInterface {
 
 			if (time() >= $cache->expiration)
 			{
-				return $this->forget($key);
+				$this->forget($key);
+				
+				return;
 			}
 
 			return $this->encrypter->decrypt($cache->value);

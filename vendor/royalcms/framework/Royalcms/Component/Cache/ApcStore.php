@@ -1,6 +1,11 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
 
-class ApcStore extends TaggableStore implements StoreInterface {
+namespace Royalcms\Component\Cache;
+
+use Royalcms\Component\Cache\Contracts\Store;
+
+class ApcStore extends TaggableStore implements Store
+{
 
 	/**
 	 * The APC wrapper instance.
@@ -102,7 +107,7 @@ class ApcStore extends TaggableStore implements StoreInterface {
 	 */
 	public function forget($key)
 	{
-		$this->apc->delete($this->prefix.$key);
+		return $this->apc->delete($this->prefix.$key);
 	}
 
 	/**

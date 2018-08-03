@@ -1,16 +1,20 @@
-<?php namespace Royalcms\Component\Cache;
+<?php 
+
+namespace Royalcms\Component\Cache;
 
 use Closure;
 use DateTime;
 use ArrayAccess;
 use Royalcms\Component\DateTime\Carbon;
+use Royalcms\Component\Events\Contracts\Dispatcher;
+use Royalcms\Component\Cache\Contracts\Store;
 
 class Repository implements ArrayAccess {
 
 	/**
 	 * The cache store implementation.
 	 *
-	 * @var \Royalcms\Component\Cache\StoreInterface
+	 * @var \Royalcms\Component\Cache\Contracts\Store
 	 */
 	protected $store;
 
@@ -20,6 +24,13 @@ class Repository implements ArrayAccess {
 	 * @var int
 	 */
 	protected $default = 60;
+	
+	/**
+	 * The event dispatcher implementation.
+	 *
+	 * @var \Royalcms\Component\Events\Contracts\Dispatcher
+	 */
+	protected $events;
 
 	/**
 	 * An array of registered Cache macros.
@@ -31,11 +42,37 @@ class Repository implements ArrayAccess {
 	/**
 	 * Create a new cache repository instance.
 	 *
-	 * @param  \Royalcms\Component\Cache\StoreInterface  $store
+	 * @param  \Royalcms\Component\Cache\Contracts\Store  $store
 	 */
-	public function __construct(StoreInterface $store)
+	public function __construct(Store $store)
 	{
 		$this->store = $store;
+	}
+	
+	/**
+	 * Set the event dispatcher instance.
+	 *
+	 * @param  \Royalcms\Component\Events\Contracts\Dispatcher
+	 * @return void
+	 */
+	public function setEventDispatcher(Dispatcher $events)
+	{
+	    $this->events = $events;
+	}
+	
+	/**
+	 * Fire an event for this cache instance.
+	 *
+	 * @param  string  $event
+	 * @param  array  $payload
+	 * @return void
+	 */
+	protected function fireCacheEvent($event, $payload)
+	{
+	    if (isset($this->events))
+	    {
+	        $this->events->fire('cache.'.$event, $payload);
+	    }
 	}
 
 	/**
@@ -60,7 +97,34 @@ class Repository implements ArrayAccess {
 	{
 		$value = $this->store->get($key);
 
-		return ! is_null($value) ? $value : value($default);
+		if (is_null($value))
+		{
+		    $this->fireCacheEvent('missed', [$key]);
+		    
+		    $value = value($default);
+		}
+		else
+		{
+		    $this->fireCacheEvent('hit', [$key, $value]);
+		}
+		
+		return $value;
+	}
+	
+	/**
+	 * Retrieve an item from the cache and delete it.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return mixed
+	 */
+	public function pull($key, $default = null)
+	{
+	    $value = $this->get($key, $default);
+	    
+	    $this->forget($key);
+	    
+	    return $value;
 	}
 
 	/**
@@ -73,9 +137,14 @@ class Repository implements ArrayAccess {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$minutes = $this->getMinutes($minutes);
-
-		$this->store->put($key, $value, $minutes);
+	    $minutes = $this->getMinutes($minutes);
+	    
+	    if ( ! is_null($minutes))
+	    {
+	        $this->store->put($key, $value, $minutes);
+	        
+	        $this->fireCacheEvent('write', [$key, $value, $minutes]);
+	    }
 	}
 
 	/**
@@ -88,12 +157,33 @@ class Repository implements ArrayAccess {
 	 */
 	public function add($key, $value, $minutes)
 	{
-		if (is_null($this->get($key)))
-		{
-			$this->put($key, $value, $minutes); return true;
-		}
-
-		return false;
+	    if (method_exists($this->store, 'add'))
+	    {
+	        return $this->store->add($key, $value, $minutes);
+	    }
+	    
+	    if (is_null($this->get($key)))
+	    {
+	        $this->put($key, $value, $minutes);
+	        
+	        return true;
+	    }
+	    
+	    return false;
+	}
+	
+	/**
+	 * Store an item in the cache indefinitely.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public function forever($key, $value)
+	{
+	    $this->store->forever($key, $value);
+	    
+	    $this->fireCacheEvent('write', [$key, $value, 0]);
 	}
 
 	/**
@@ -152,6 +242,21 @@ class Repository implements ArrayAccess {
 
 		return $value;
 	}
+	
+	/**
+	 * Remove an item from the cache.
+	 *
+	 * @param  string $key
+	 * @return bool
+	 */
+	public function forget($key)
+	{
+	    $success = $this->store->forget($key);
+	    
+	    $this->fireCacheEvent('delete', [$key]);
+	    
+	    return $success;
+	}
 
 	/**
 	 * Get the default cache time.
@@ -177,7 +282,7 @@ class Repository implements ArrayAccess {
 	/**
 	 * Get the cache store implementation.
 	 *
-	 * @return \Royalcms\Component\Cache\StoreInterface
+	 * @return \Royalcms\Component\Cache\Contracts\Store
 	 */
 	public function getStore()
 	{
