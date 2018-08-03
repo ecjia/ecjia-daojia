@@ -21,7 +21,7 @@ class Transformer
     public function transform($message)
     {
         if (is_array($message)) {
-            $class = News::class;
+            $class = 'Royalcms\Component\WeChat\Message\News';
         } else {
             if (is_string($message)) {
                 $message = new Text(['content' => $message]);

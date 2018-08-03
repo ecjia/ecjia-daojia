@@ -271,11 +271,15 @@ class Guard
 
         if (!$this->isMessage($message)) {
             $messageType = gettype($message);
+            
             throw new InvalidArgumentException("Invalid Message type .'{$messageType}'");
         }
 
         $response = $this->buildReply($to, $from, $message);
-
+        
+        //微信请求日志
+        Log::info('Reply Message: ' . $response);
+        
         if ($this->isSafeMode()) {
             Log::debug('Message safe mode is enable.');
             $response = $this->encryptor->encryptMsg(
@@ -340,6 +344,12 @@ class Guard
     {
         $message = $this->getMessage();
         $response = $this->handleMessage($message);
+        
+        $messageType = isset($message['msg_type']) ? $message['msg_type'] : $message['MsgType'];
+        if ('device_text' === $messageType) {
+            $message['FromUserName'] = '';
+            $message['ToUserName'] = '';
+        }
 
         return [
             'to' => $message['FromUserName'],
@@ -368,8 +378,10 @@ class Guard
         Log::debug('Message detail:', $message);
 
         $message = new Collection($message);
+        
+        $messageType = $message->get('msg_type', $message->get('MsgType'));
 
-        $type = $this->messageTypeMapping[$message->get('MsgType')];
+        $type = $this->messageTypeMapping[$messageType];
 
         $response = null;
 
@@ -430,6 +442,13 @@ class Guard
     protected function parseMessageFromRequest($content)
     {
         $content = strval($content);
+        
+        $dataSet = json_decode($content, true);
+        if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
+            // For mini-program JSON formats.
+            // Convert to XML if the given string can be decode into a data array.
+            $content = XML::build($dataSet);
+        }
 
         if ($this->isSafeMode()) {
             if (!$this->encryptor) {
@@ -456,6 +475,6 @@ class Guard
      */
     private function isSafeMode()
     {
-        return $this->request->get('encrypt_type') && $this->request->get('encrypt_type') === 'aes';
+        return $this->request->get('encrypt_type') && 'aes' === $this->request->get('encrypt_type');
     }
 }
