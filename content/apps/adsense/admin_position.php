@@ -144,7 +144,8 @@ class admin_position extends ecjia_admin {
 		$this->assign('ur_here', RC_Lang::get('adsense::adsense.position_add'));
 		$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_position/init'), 'text' => '广告位列表'));
 		
-		$city_list = $this->get_select_city();
+		//$city_list = $this->get_business_city();
+		$city_list	 = $this->get_business_city();
 		$this->assign('city_list', $city_list);
 		
 		$this->assign('action', 'insert');
@@ -218,7 +219,8 @@ class admin_position extends ecjia_admin {
 		
 		$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_position/init', array('city_id' => $data['city_id'])), 'text' => '广告位列表'));
 		 
-		$city_list = $this->get_select_city();
+		//$city_list = $this->get_select_city();
+		$city_list	 = $this->get_business_city();
 		$this->assign('city_list', $city_list);
 		
 		$this->assign('form_action', RC_Uri::url('adsense/admin_position/update'));
@@ -297,7 +299,7 @@ class admin_position extends ecjia_admin {
 		$this->admin_priv('ad_position_update');
 		
 		$position_id = intval($_GET['position_id']);
-		$position_code = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->pluck('position_code');
+		$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_code');
 		 
 		$position_name = trim($_GET['position_name']);
 		$position_desc = $_GET['position_desc'];
@@ -424,10 +426,24 @@ class admin_position extends ecjia_admin {
 		return $regions;
 	}
 	
+	/**
+	 * 获取经营城市
+	 */
+	private function get_business_city() {
+		$data = RC_DB::table('store_business_city')->orderBy(RC_DB::raw('index_letter'), 'asc')->get();
+		$regions = [];
+		if (!empty($data)) {
+			foreach ($data as $row) {
+				$regions[$row['business_city']] = addslashes($row['business_city_name']);
+			}
+		}
+		return $regions;
+	}
+	
 	private function get_city_list() {
-		$city_list = RC_DB::TABLE('ad_position')->where('type', 'adsense')->selectRaw('distinct city_id,city_name')->orderBy('city_id', 'asc')->get();
+		$city_list = RC_DB::table('ad_position')->where('type', 'adsense')->selectRaw('distinct city_id,city_name')->orderBy('city_id', 'asc')->get();
 		foreach ($city_list as $key => $val) {
-			$count = RC_DB::TABLE('ad_position')->where('type', 'adsense')->where('city_id', $val['city_id'])->count();
+			$count = RC_DB::table('ad_position')->where('type', 'adsense')->where('city_id', $val['city_id'])->count();
 			$city_list[$key]['count']=$count;
 		}
 		return $city_list;

@@ -151,7 +151,7 @@ class admin_shortcut extends ecjia_admin {
     	    $shortcut_list = $ad->getSpecialAds($position_id, $show_client);
             $this->assign('shortcut_list', $shortcut_list);
             
-            $position_code = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->pluck('position_code');
+            $position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_code');
 		}
 		
 		$this->assign('position_code', $position_code);
@@ -285,14 +285,14 @@ class admin_shortcut extends ecjia_admin {
     	$this->admin_priv('shortcut_delete');
     	
     	$position_id = intval($_GET['position_id']);
-    	$position_name = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->pluck('position_name');
+    	$position_name = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_name');
     	$city_id = trim($_GET['city_id']);
     	if (RC_DB::table('ad')->where('position_id', $position_id)->count() > 0) {
     		return $this->showmessage('该菜单组已存在快捷菜单，暂不能删除！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
     		RC_DB::table('ad_position')->where('position_id', $position_id)->delete();
     		ecjia_admin::admin_log($position_name, 'remove', 'group_shortcut');
-    		$count = RC_DB::TABLE('ad_position')->where('type', 'shortcut')->where('city_id', $city_id)->count();
+    		$count = RC_DB::table('ad_position')->where('type', 'shortcut')->where('city_id', $city_id)->count();
     		if (!$count) {
     			return $this->showmessage('成功删除菜单组', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init')));
     		} else {
@@ -305,7 +305,7 @@ class admin_shortcut extends ecjia_admin {
     	$this->admin_priv('shortcut_update');
     	 
     	$position_id = intval($_GET['position_id']);
-    	$position_code = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->pluck('position_code');
+    	$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_code');
     	
     	$position_name = trim($_GET['position_name']);
     	$position_desc = $_GET['position_desc'];
@@ -385,7 +385,7 @@ class admin_shortcut extends ecjia_admin {
     	$this->assign('ur_here', '添加快捷菜单');
     	$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_shortcut/init',array('position_id' => $position_id, 'city_id' => $city_id)), 'text' => '快捷菜单列表'));
 
-    	$info = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
+    	$info = RC_DB::table('ad_position')->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] = $info['ad_width'];
     	$data['ad_height'] = $info['ad_height'];
     	$data['enabled'] = 1;
@@ -451,7 +451,7 @@ class admin_shortcut extends ecjia_admin {
     	$id = intval($_GET['id']);
     	$data = RC_DB::table('ad')->where('ad_id', $id)->first();
     	
-    	$info = RC_DB::TABLE('ad_position')->where('position_id', $data['position_id'])->select('ad_width', 'ad_height')->first();
+    	$info = RC_DB::table('ad_position')->where('position_id', $data['position_id'])->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] = $info['ad_width'];
     	$data['ad_height'] = $info['ad_height'];
     	
@@ -480,7 +480,7 @@ class admin_shortcut extends ecjia_admin {
     	$ad_name	= !empty($_POST['ad_name']) 	? trim($_POST['ad_name']) 		: '';
     	$sort_order = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	
-    	$old_pic = RC_DB::TABLE('ad')->where('ad_id', $id)->pluck('ad_code');
+    	$old_pic = RC_DB::table('ad')->where('ad_id', $id)->pluck('ad_code');
     	if (isset($_FILES['ad_code']['error']) && $_FILES['ad_code']['error'] == 0 || ! isset($_FILES['ad_code']['error']) && isset($_FILES['ad_code']['tmp_name']) && $_FILES['ad_code']['tmp_name'] != 'none') {
     		$upload = RC_Upload::uploader('image', array('save_path' => 'data/shortcut', 'auto_sub_dirs' => false));
     		$image_info = $upload->upload($_FILES['ad_code']);
@@ -521,7 +521,7 @@ class admin_shortcut extends ecjia_admin {
     	$this->admin_priv('shortcut_delete');
     	
     	$id = intval($_GET['id']);
-    	$data = RC_DB::TABLE('ad')->where('ad_id', $id)->select('ad_name', 'ad_code')->first();
+    	$data = RC_DB::table('ad')->where('ad_id', $id)->select('ad_name', 'ad_code')->first();
     	$disk = RC_Filesystem::disk();
     	$disk->delete(RC_Upload::upload_path() . $data['ad_code']);
     	RC_DB::table('ad')->where('ad_id', $id)->delete();

@@ -38,6 +38,7 @@
 							<h2 class="page-header">
 								{if $ur_here}{$ur_here}{/if}{if $position_code}（{$position_code}）{/if}
 								<div class="pull-right">
+								 		<a href='{RC_Uri::url("adsense/mh_shortcut/edit_group","position_id={$position_id}")}' class="btn btn-primary data-pjax" title="编辑"><i class="fa fa-edit"></i> 编辑菜单组</a>
 									{if $cycimage_config}
 										<a id="ajaxstart" href='{RC_Uri::url("adsense/mh_shortcut/insert_group")}' class="btn btn-primary" title="启用"><i class="fa fa-check-square-o"></i> 启用菜单组</a>
 									{else}
@@ -45,7 +46,7 @@
 									{/if}
 								</div>
 							</h2>
-							
+
 							<!-- {if $available_clients} -->
 							<ul class="nav nav-pills pull-left">
 						 		<!-- {foreach from=$available_clients key=key item=val} -->

@@ -210,7 +210,7 @@ class admin_group extends ecjia_admin {
 		$this->admin_priv('ad_group_update');
 	
 		$position_id = intval($_GET['position_id']);
-		$position_code = RC_DB::TABLE('ad_position')->where('position_id', $position_id)->pluck('position_code');
+		$position_code = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_code');
 		$position_name = trim($_GET['position_name']);
 		$position_desc = $_GET['position_desc'];
 		$sort_order    = intval($_GET['sort_order']);
@@ -280,7 +280,7 @@ class admin_group extends ecjia_admin {
 		$this->assign('position_data', $position_data);
 
 		//指定地区下面的广告位列表-左边
-		$arr =RC_DB::TABLE('ad_position')->where('city_id', $city_id)->where('type', 'adsense')->select('position_name', 'position_id', 'sort_order')->get();
+		$arr =RC_DB::table('ad_position')->where('city_id', $city_id)->where('type', 'adsense')->select('position_name', 'position_id', 'sort_order')->get();
 		$optarray = array();
 		if (!empty($arr)) {
 			foreach ($arr AS $key => $val) {
@@ -311,7 +311,7 @@ class admin_group extends ecjia_admin {
 		$city_id = trim($_GET['city_id']);
 		
 		$group_position_id	= intval($_GET['position_id']);//广告组id
-		$position_name = RC_DB::TABLE('ad_position')->where('position_id', $group_position_id)->pluck('position_name');
+		$position_name = RC_DB::table('ad_position')->where('position_id', $group_position_id)->pluck('position_name');
 		$data = array('group_id' => 0);
 		RC_DB::table('ad_position')->where('group_id', $group_position_id)->update($data);
 		

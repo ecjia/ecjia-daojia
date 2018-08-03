@@ -126,10 +126,10 @@ class admin extends ecjia_admin {
 		if ($media_type >= 0) {
 			$ad_db->where('media_type', '=', $media_type);
 			$filter = ['media_type' => $media_type];
-			$show_client_number = RC_DB::TABLE('ad')->where('position_id', $position_id)->where('show_client', 0)->where('media_type', $media_type)->count();
+			$show_client_number = RC_DB::table('ad')->where('position_id', $position_id)->where('show_client', 0)->where('media_type', $media_type)->count();
 		} else {
 		    $filter = [];
-			$show_client_number = RC_DB::TABLE('ad')->where('position_id', $position_id)->where('show_client', 0)->count();
+			$show_client_number = RC_DB::table('ad')->where('position_id', $position_id)->where('show_client', 0)->count();
 		}
 			
 		$available_clients = $ad->getAdClients($position_id, $filter);
@@ -434,7 +434,7 @@ class admin extends ecjia_admin {
 		
 		$show_client_value = intval($_POST['show_client_value']);
 	
-		$old_enabled = RC_DB::TABLE('ad')->where('ad_id', $id)->pluck('enabled');
+		$old_enabled = RC_DB::table('ad')->where('ad_id', $id)->pluck('enabled');
 		$now_end_time = $_POST['end_time'];
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 	
@@ -549,7 +549,7 @@ class admin extends ecjia_admin {
 		$position_id  = intval($_GET['position_id']);
 		$show_client  = intval($_GET['show_client']);
 		
-		$end_time = RC_Time::local_date('Y-m-d', RC_DB::TABLE('ad')->where('ad_id', $id)->pluck('end_time'));
+		$end_time = RC_Time::local_date('Y-m-d', RC_DB::table('ad')->where('ad_id', $id)->pluck('end_time'));
 		$now = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 		if ($now > $end_time) {
 			return $this->showmessage('该广告已过期暂无法进行开启/关闭操作', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

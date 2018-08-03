@@ -58,7 +58,7 @@ class mh_shortcut extends ecjia_merchant {
 		RC_Script::enqueue_script('ecjia-mh-editable-js');
 		RC_Style::enqueue_style('ecjia-mh-editable-css');
 
-		RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
+		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		
 		RC_Script::enqueue_script('mh_shortcut', RC_App::apps_url('statics/js/mh_shortcut.js', __FILE__));
@@ -109,7 +109,7 @@ class mh_shortcut extends ecjia_merchant {
     		$shortcut_list = $ad->getSpecialAds($position_id, $show_client);
     		$this->assign('shortcut_list', $shortcut_list);
     	
-    		$position_code = RC_DB::TABLE('merchants_ad_position')->where('position_id', $position_id)->pluck('position_code');
+    		$position_code = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->pluck('position_code');
     	}
     	
     	$this->assign('position_code', $position_code);
@@ -165,58 +165,58 @@ class mh_shortcut extends ecjia_merchant {
     	$this->admin_priv('mh_shortcut_delete');
     	 
     	$position_id = intval($_GET['position_id']);
-    	$position_name = RC_DB::TABLE('merchants_ad_position')->where('position_id', $position_id)->pluck('position_name');
-    	if (RC_DB::table('merchants_ad')->where('position_id', $position_id)->count() > 0) {
+    	$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->pluck('position_name');
+    	if (RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->count() > 0) {
     		return $this->showmessage('该菜单组已存在菜单，暂不能关闭！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
-    		RC_DB::table('merchants_ad_position')->where('position_id', $position_id)->delete();
+    		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->delete();
     		ecjia_merchant::admin_log($position_name, 'remove', 'group_shortcut');
     		return $this->showmessage('成功关闭菜单组', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_shortcut/init')));
     	}
     }
 
-//     public function edit_group() {
-//     	$this->admin_priv('mh_shortcut_update');
+    public function edit_group() {
+    	$this->admin_priv('mh_shortcut_update');
     	
-//     	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑菜单组'));
-//     	$this->assign('ur_here', '编辑菜单组');
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑菜单组'));
+    	$this->assign('ur_here', '编辑菜单组');
     	
-//     	$position_id = intval($_GET['position_id']);
-//     	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_shortcut/init',array('position_id' => $position_id)), 'text' => '菜单设置'));
-//     	$this->assign('position_id', $position_id);
+    	$position_id = intval($_GET['position_id']);
+    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_shortcut/init',array('position_id' => $position_id)), 'text' => '菜单设置'));
+    	$this->assign('position_id', $position_id);
    
-//     	$data = RC_DB::table('merchants_ad_position')->where('position_id', $position_id)->first();
-//     	$this->assign('data', $data);
+    	$data = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->first();
+    	$this->assign('data', $data);
     	
-//     	$this->assign('form_action', RC_Uri::url('adsense/mh_shortcut/update_group'));
+    	$this->assign('form_action', RC_Uri::url('adsense/mh_shortcut/update_group'));
     	 
-//     	$this->display('mh_shortcut_group_info.dwt');
-//     }
+    	$this->display('mh_shortcut_group_info.dwt');
+    }
     
-//     public function update_group() {
-//     	$this->admin_priv('mh_shortcut_update');
+    public function update_group() {
+    	$this->admin_priv('mh_shortcut_update');
     	
-//     	$position_id   = intval($_POST['position_id']);
-//     	$position_name = !empty($_POST['position_name']) ? trim($_POST['position_name']) : '';
-//     	$position_desc = !empty($_POST['position_desc']) ? nl2br(htmlspecialchars($_POST['position_desc'])) : '';
-//     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
-//     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
-//     	$ad_width      = !empty($_POST['ad_width']) ? intval($_POST['ad_width']) : 0;
-//     	$ad_height     = !empty($_POST['ad_height']) ? intval($_POST['ad_height']) : 0;
+    	$position_id   = intval($_POST['position_id']);
+    	$position_name = !empty($_POST['position_name']) ? trim($_POST['position_name']) : '';
+    	$position_desc = !empty($_POST['position_desc']) ? nl2br(htmlspecialchars($_POST['position_desc'])) : '';
+    	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
+    	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
+    	$ad_width      = !empty($_POST['ad_width']) ? intval($_POST['ad_width']) : 0;
+    	$ad_height     = !empty($_POST['ad_height']) ? intval($_POST['ad_height']) : 0;
     
-//     	$data = array(
-//     		'position_name' => $position_name,
-//     		'position_desc' => $position_desc,
-//     		'max_number'    => $max_number,
-//     		'sort_order' 	=> $sort_order,
-//     		'ad_width'      => $ad_width,
-//     		'ad_height'     => $ad_height,
-//     	);
+    	$data = array(
+    		'position_name' => $position_name,
+    		'position_desc' => $position_desc,
+    		'max_number'    => $max_number,
+    		'sort_order' 	=> $sort_order,
+    		'ad_width'      => $ad_width,
+    		'ad_height'     => $ad_height,
+    	);
     	
-//     	RC_DB::table('merchants_ad_position')->where('position_id', $position_id)->update($data);
-//     	ecjia_merchant::admin_log($position_name, 'edit', 'group_shortcut');
-//     	return $this->showmessage('编辑菜单组成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_shortcut/edit_group', array('position_id' => $position_id))));
-//     }
+    	RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->update($data);
+    	ecjia_merchant::admin_log($position_name, 'edit', 'group_shortcut');
+    	return $this->showmessage('编辑菜单组成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_shortcut/edit_group', array('position_id' => $position_id))));
+    }
     
    
 
@@ -234,7 +234,7 @@ class mh_shortcut extends ecjia_merchant {
     	$this->assign('ur_here', '添加菜单');
     	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_shortcut/init',array('position_id' => $position_id)), 'text' => '菜单列表'));
     
-    	$info = RC_DB::TABLE('merchants_ad_position')->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
+    	$info = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] = $info['ad_width'];
     	$data['ad_height'] = $info['ad_height'];
     	$data['enabled'] = 1;
@@ -250,7 +250,7 @@ class mh_shortcut extends ecjia_merchant {
     }
     
     public function insert() {
-    	$this->admin_priv('mh_shortcut_update');
+    	$this->admin_priv('mh_shortcut_update', ecjia::MSGTYPE_JSON);
     	 
     	$position_id   = !empty($_POST['position_id']) ? intval($_POST['position_id']) : 0;
     	$ad_name       = !empty($_POST['ad_name']) ? trim($_POST['ad_name']) : '';
@@ -298,9 +298,9 @@ class mh_shortcut extends ecjia_merchant {
     	$this->assign('ur_here', '编辑菜单');
     
     	$id = intval($_GET['id']);
-    	$data = RC_DB::table('merchants_ad')->where('ad_id', $id)->first();
+    	$data = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->first();
     	 
-    	$info = RC_DB::TABLE('merchants_ad_position')->where('position_id', $data['position_id'])->select('ad_width', 'ad_height')->first();
+    	$info = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $data['position_id'])->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] 	= $info['ad_width'];
     	$data['ad_height']  = $info['ad_height'];
     	 
@@ -321,13 +321,13 @@ class mh_shortcut extends ecjia_merchant {
     }
     
     public function update() {
-    	$this->admin_priv('mh_shortcut_update');
+    	$this->admin_priv('mh_shortcut_update', ecjia::MSGTYPE_JSON);
     	 
     	$id 		= intval($_POST['id']);
     	$ad_name	= !empty($_POST['ad_name']) 	? trim($_POST['ad_name']) 		: '';
     	$sort_order = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	 
-    	$old_pic = RC_DB::TABLE('merchants_ad')->where('ad_id', $id)->pluck('ad_code');
+    	$old_pic = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->pluck('ad_code');
     	if (isset($_FILES['ad_code']['error']) && $_FILES['ad_code']['error'] == 0 || ! isset($_FILES['ad_code']['error']) && isset($_FILES['ad_code']['tmp_name']) && $_FILES['ad_code']['tmp_name'] != 'none') {
     		$save_path = 'merchant/' . $_SESSION['store_id'] . '/data/shortcut';
     		$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
@@ -356,7 +356,7 @@ class mh_shortcut extends ecjia_merchant {
     		'enabled' 		=> intval($_POST['enabled']),
     		'sort_order' 	=> $sort_order,
     	);
-    	RC_DB::table('merchants_ad')->where('ad_id', $id)->update($data);
+    	RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->update($data);
     	ecjia_merchant::admin_log($ad_name, 'edit', 'shortcut');
     	$show_client = intval($_POST['show_client_value']);
     	return $this->showmessage('编辑菜单成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_shortcut/edit', array('id' => $id, 'show_client' => $show_client))));
@@ -366,10 +366,10 @@ class mh_shortcut extends ecjia_merchant {
     	$this->admin_priv('merchant_shortcut_delete');
     	 
     	$id = intval($_GET['id']);
-    	$data = RC_DB::TABLE('merchants_ad')->where('ad_id', $id)->select('ad_name', 'ad_code')->first();
+    	$data = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->select('ad_name', 'ad_code')->first();
     	$disk = RC_Filesystem::disk();
     	$disk->delete(RC_Upload::upload_path() . $data['ad_code']);
-    	RC_DB::table('merchants_ad')->where('ad_id', $id)->delete();
+    	RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->delete();
     	 
     	ecjia_merchant::admin_log($data['ad_name'], 'remove', 'shortcut');
     	return $this->showmessage('成功删除菜单', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -386,7 +386,7 @@ class mh_shortcut extends ecjia_merchant {
     	$position_id  = intval($_GET['position_id']);
     	$show_client  = intval($_GET['show_client']);
     	 
-    	RC_DB::table('merchants_ad')->where('ad_id', $id)->update(array('enabled'=> $val));
+    	RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->update(array('enabled'=> $val));
     	return $this->showmessage('切换成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_shortcut/init', array('position_id' => $position_id, 'show_client' => $show_client))));
     }
     
@@ -401,7 +401,7 @@ class mh_shortcut extends ecjia_merchant {
     	$position_id  = intval($_GET['position_id']);
     	$show_client  = intval($_GET['show_client']);
     	 
-    	RC_DB::table('merchants_ad')->where('ad_id', $id)->update(array('sort_order'=> $sort_order));
+    	RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->update(array('sort_order'=> $sort_order));
     	return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_shortcut/init', array('position_id' => $position_id, 'show_client' => $show_client))));
     }
     

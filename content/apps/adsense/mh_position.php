@@ -58,7 +58,7 @@ class mh_position extends ecjia_merchant {
 		RC_Script::enqueue_script('ecjia-mh-editable-js');
 		RC_Style::enqueue_style('ecjia-mh-editable-css');
 
-		RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
+		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		
 		RC_Script::enqueue_script('mh_ad_position', RC_App::apps_url('statics/js/mh_ad_position.js', __FILE__));
@@ -147,7 +147,7 @@ class mh_position extends ecjia_merchant {
     	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_position/init'), 'text' => '广告位列表'));
     	
     	$position_id = intval($_GET['position_id']);
-    	$data = RC_DB::table('merchants_ad_position')->where('position_id', $position_id)->first();
+    	$data = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->first();
     	$this->assign('data', $data);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/mh_position/update'));
@@ -175,7 +175,7 @@ class mh_position extends ecjia_merchant {
     		'ad_height'     => $ad_height,
     	);
     	
-    	RC_DB::table('merchants_ad_position')->where('position_id', $position_id)->update($data);
+    	RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->update($data);
     	
     	ecjia_merchant::admin_log($position_name, 'edit', 'ads_position');
     	return $this->showmessage('编辑广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/edit', array('position_id' => $position_id))));
@@ -185,12 +185,12 @@ class mh_position extends ecjia_merchant {
     	$this->admin_priv('ad_position_delete');
     
     	$id = intval($_GET['id']);
-    	if (RC_DB::table('merchants_ad')->where('position_id', $id)->count() != 0) {
+    	if (RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->count() != 0) {
     		return $this->showmessage('该广告位已经有广告存在，不能删除！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
-    		$position_name = RC_DB::table('merchants_ad_position')->where('position_id', $id)->pluck('position_name');
+    		$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->pluck('position_name');
     		ecjia_merchant::admin_log($position_name, 'remove', 'ads_position');
-    		RC_DB::table('merchants_ad_position')->where('position_id', $id)->delete();
+    		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->delete();
     		return $this->showmessage('删除广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/init')));
     	}
     }
@@ -206,7 +206,7 @@ class mh_position extends ecjia_merchant {
     	$position_name = trim($_POST['value']);
     	if (!empty($position_name)) {
     		$data = array('position_name' => $position_name);
-    		RC_DB::table('merchants_ad_position')->where('position_id', $id)->update($data);
+    		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->update($data);
     		ecjia_admin::admin_log($position_name, 'edit', 'ads_position');
     		return $this->showmessage('编辑广告位名称成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/init')));
     	} else {
@@ -222,7 +222,7 @@ class mh_position extends ecjia_merchant {
     
     	$id    = intval($_POST['pk']);
     	$sort_order   = intval($_POST['value']);
-    	RC_DB::table('merchants_ad_position')->where('position_id', $id)->update(array('sort_order'=> $sort_order));
+    	RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->update(array('sort_order'=> $sort_order));
     	
     	$group_position_id  = intval($_GET['group_position_id']);
     	if ($group_position_id) {
