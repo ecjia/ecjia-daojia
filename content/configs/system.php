@@ -57,7 +57,8 @@ return array(
     //是否Gzip压缩后输出
     'gzip' 							=> 0, 					
     //密钥
-    'auth_key' 						=> env('AUTH_KEY', 'UbGuq4G8uqk9yRKHhiRnUbGuq4G8uqk9'), 
+    'auth_key' 						=> env('AUTH_KEY', 'UbGuq4G8uqk9yRKHhiRnUbGuq4G8uqk9'),
+    'cipher'                        => 'AES-256-CBC',
 
     //调试开关
     'debug'                         => env('DEBUG', false), 
