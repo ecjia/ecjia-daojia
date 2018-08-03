@@ -52,115 +52,112 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ROUTE_M => floderName
  */
 return array(
-    /* 主页 */
-	'main' => 'main',	
-    /* 设置 */
-	'setting' => 'setting',	
-    /* api */
-    'api' => 'api',
-	/* 购物车 */
-	'cart' => 'cart',
-	/*广告管理*/
-	'adsense' => 'adsense',
-		
-    /* 会员 */
-	'user' => 'user',			
-    /* 商品 */
-	'goods' => 'goods',		
-    /* 订单 */
-	'orders' => 'orders',		 
-    /* 文章 */
-	'article' => 'article',	
-		    
-    /* 支付方式 */
-	'payment' => 'payment',	
-    /* 配送方式 */
-	'shipping' => 'shipping',		        
-    /* 验证码 */
-	'captcha' => 'captcha',	
-    /* 邮件管理 */
-    'mail' => 'mail',
-    /* 计划任务 */
-    'cron' => 'cron',
-
-    /* 促销 */
-	'promotion' => 'promotion',
-    /* 红包 */
-    'bonus' => 'bonus',	
-    /* 优惠活动 */
-	'favourable' => 'favourable',
-	/* 闪惠活动 */
-	'quickpay' => 'quickpay',
-
-	/* 超值礼包活动 */
-	'package' => 'package',
-	/* 主题活动 */
-	'topic' => 'topic',
-    /* 报表统计 */
-    'stats' => 'stats',
-    
-    /* 商家入驻 */
-    'store' => 'store',
-    /* 结算 */
-    'commission' => 'commission',
-
-    /* 商户 */
-    'merchant' => 'merchant',
-    /* 员工 */
-    'staff' => 'staff',
-    /* 优惠券 */
-    'coupon' => 'coupon',
-    
-    /* 开店向导 */
-    'shopguide' => 'shopguide',
-    
-    /* 通知  */
-    'notification' => 'notification',
-    //商家入驻
-    'franchisee' => 'franchisee',
-    //配送中心
-    'express' => 'express',
-    //安装器
-    'installer' => 'installer',
-    //升级器
-    'upgrade' => 'upgrade',
-    //评论
-    'comment' => 'comment',
+    /*广告管理*/
+    'adsense'       => 'adsense',
     //推荐分成
-    'affiliate' => 'affiliate',
+    'affiliate'     => 'affiliate',
+    /* api */
+    'api'           => 'api',
+    /* 文章 */
+    'article'       => 'article',
+    /* 红包 */
+    'bonus'         => 'bonus',
+    /* 验证码 */
+    'captcha'       => 'captcha',
+    /* 购物车 */
+    'cart'          => 'cart',
+    //评论
+    'comment'       => 'comment',
+    /* 结算 */
+    'commission'    => 'commission',
     //帐号连接
-    'connect' => 'connect',
-    //移动应用
-    'mobile' => 'mobile',
-    //公众平台
-    'platform' => 'platform',
-    //消息推送
-    'push' => 'push',
-    //短信
-    'sms' => 'sms',
-    //微商城
-    'touch' => 'touch',
-    //微信公众平台
-    'wechat' => 'wechat',
-    //小程序
-    'weapp' => 'weapp',
-    //APP介绍
-    'intro' => 'intro',
+    'connect'       => 'connect',
+    /* 计划任务 */
+    'cron'          => 'cron',
+    //配送中心
+    'express'       => 'express',
+    /* 优惠活动 */
+    'favourable'    => 'favourable',
     //财务
-    'finance' => 'finance',
-    
-    //主题管理
-    'theme' => 'theme',
+    'finance'       => 'finance',
+    //商家入驻
+    'franchisee'    => 'franchisee',
+    /* 商品 */
+    'goods'         => 'goods',
+    /* 团购 */
+    'groupbuy'      => 'groupbuy',
+    //安装器
+    'installer'     => 'installer',
+    //APP介绍
+    'intro'         => 'intro',
+    /* 邮件管理 */
+    'mail'          => 'mail',
+    /* 主页 */
+    'main'          => 'main',
     //工具管理
-    'maintain' => 'maintain',
+    'maintain'      => 'maintain',
     //营销活动
-    'market' => 'market',
+    'market'        => 'market',
+    /* 商户 */
+    'merchant'      => 'merchant',
+    //移动应用
+    'mobile'        => 'mobile',
+    /* 通知  */
+    'notification'  => 'notification',
+    /* 订单 */
+    'orders'        => 'orders',
+    /* 支付方式 */
+    'payment'       => 'payment',
+    //公众平台
+    'platform'      => 'platform',
     //打印机管理
-    'printer' => 'printer',
+    'printer'       => 'printer',
+    /* 促销 */
+    'promotion'     => 'promotion',
+    //消息推送
+    'push'          => 'push',
+    /* 闪惠活动 */
+    'quickpay'      => 'quickpay',
     //退货退款管理
-    'refund' => 'refund',
+    'refund'        => 'refund',
+    /* 设置 */
+	'setting'       => 'setting',
+	/* 配送方式 */
+    'shipping'      => 'shipping',
+    /* 开店向导 */
+    'shopguide'     => 'shopguide',
+    //短信
+    'sms'           => 'sms',
+    /* 员工 */
+    'staff'         => 'staff',
+    /* 报表统计 */
+    'stats'         => 'stats',
+    /* 商家入驻 */
+    'store'         => 'store',
+    //主题管理
+    'theme'         => 'theme',
+    //模板消息
+    'tmplmsg'       => 'tmplmsg',
+    //微商城
+    'touch'         => 'touch',
     //Ucenter
-    'ucenter' => 'ucenter'
+    'ucenter'       => 'ucenter',
+    //升级器
+    'upgrade'       => 'upgrade',
+    /* 会员 */
+	'user'          => 'user',
+	//小程序
+    'weapp'         => 'weapp',
+    //微信公众平台
+    'wechat'        => 'wechat',
+    //日志
+    'logviewer'     => 'logviewer',
+	/* 主题活动 */
+	'topic'         => 'topic',
+    /* 优惠券 */
+    'coupon'        => 'coupon',
+    /* 客户 */
+    'customer'      => 'customer',
 );
 
 // end
