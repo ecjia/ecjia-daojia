@@ -69,8 +69,6 @@ class InitDatabaseSeeder extends Seeder
         $this->call('InitStoreCategoryTableSeeder');
         $this->call('InitStorePercentTableSeeder');
         $this->call('InitUserRankTableSeeder');
-        $this->call('InitWechatMediaTableSeeder');
-        $this->call('InitWechatReplyTableSeeder');
         $this->call('InitStoreBusinessCityTableSeeder');
     }
 }

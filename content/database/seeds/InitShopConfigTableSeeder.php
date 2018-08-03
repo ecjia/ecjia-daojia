@@ -355,6 +355,8 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'merchant_join_close', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
             //v1.15.0新增
             ['code' => 'store_deposit', 'value' => '0', 'options' => ['type' => 'hidden']],
+            //v1.17.1新增
+            ['code' => 'plugin_ship_ecjia_express', 'value' => '', 'options' => ['type' => 'text']],
         ];
         
         $this->add_config($group, $data);
@@ -474,7 +476,7 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'addon_widget_brand_goods', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_widget_ad_position', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_user_integrate_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_mobile_payment_plugins', 'value' => 'a:3:{s:11:"pay_balance";s:27:"pay_balance/pay_balance.php";s:10:"pay_alipay";s:25:"pay_alipay/pay_alipay.php";s:7:"pay_cod";s:19:"pay_cod/pay_cod.php";}', 'options' => ['type' => 'hidden']],
+            ['code' => 'addon_mobile_payment_plugins', 'value' => 'a:2:{s:11:"pay_balance";s:27:"pay_balance/pay_balance.php";s:10:"pay_alipay";s:25:"pay_alipay/pay_alipay.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_shipping_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_captcha_plugins', 'value' => 'a:1:{s:16:"captcha_royalcms";s:37:"captcha_royalcms/captcha_royalcms.php";}', 'options' => ['type' => 'hidden']],
             ['code' => 'addon_platform_plugins', 'value' => 'a:9:{s:7:"mp_jfcx";s:19:"mp_jfcx/mp_jfcx.php";s:9:"mp_orders";s:23:"mp_orders/mp_orders.php";s:6:"mp_ggk";s:17:"mp_ggk/mp_ggk.php";s:10:"mp_checkin";s:25:"mp_checkin/mp_checkin.php";s:6:"mp_dzp";s:17:"mp_dzp/mp_dzp.php";s:6:"mp_zjd";s:17:"mp_zjd/mp_zjd.php";s:7:"mp_kefu";s:19:"mp_kefu/mp_kefu.php";s:11:"mp_userbind";s:27:"mp_userbind/mp_userbind.php";s:8:"mp_goods";s:21:"mp_goods/mp_goods.php";}', 'options' => ['type' => 'hidden']],

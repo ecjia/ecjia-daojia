@@ -83,42 +83,6 @@ class InitPaymentTableSeeder extends Seeder
                 'is_cod'      => '0',
                 'is_online'   => '1'
             ),
-            array(
-                'pay_id'      => '11',
-                'pay_code'    => 'pay_cod',
-                'pay_name'    => '货到付款',
-                'pay_fee'     => '0',
-                'pay_desc'    => '开通城市：×××货到付款区域：××× <cite>By ECJIA TEAM.</cite>',
-                'pay_order'   => '0',
-                'pay_config'  => 'a:0:{}',
-                'enabled'     => '1',
-                'is_cod'      => '1',
-                'is_online'   => '0'
-            ),
-            array(
-                'pay_id'      => '12',
-                'pay_code'    => 'pay_cash',
-                'pay_name'    => '现金支付',
-                'pay_fee'     => '0',
-                'pay_desc'    => '现金支付 <cite>By ECJIA TEAM.</cite>',
-                'pay_order'   => '0',
-                'pay_config'  => 'a:0:{}',
-                'enabled'     => '1',
-                'is_cod'      => '1',
-                'is_online'   => '0'
-            ),
-            array(
-                'pay_id'      => '15',
-                'pay_code'    => 'pay_bank',
-                'pay_name'    => '银行转帐',
-                'pay_fee'     => '0',
-                'pay_desc'    => '银行名称收款人信息：全称 ××× ；帐号或地址 ××× ；开户行 ×××。注意事项：办理电汇时，请在电汇单“汇款用途”一栏处注明您的订单号。 <cite>By ECJIA TEAM.</cite>',
-                'pay_order'   => '0',
-                'pay_config'  => 'a:1:{i:0;a:3:{s:4:"name";s:17:"bank_account_info";s:4:"type";s:8:"textarea";s:5:"value";s:0:"";}}',
-                'enabled'     => '1',
-                'is_cod'      => '0',
-                'is_online'   => '0'
-            ),
         );
 
         RC_DB::table('payment')->truncate();
