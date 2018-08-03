@@ -1,4 +1,5 @@
 <?php
+use Ecjia\App\Wechat\WechatUser;
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -44,21 +45,64 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+RC_Loader::load_app_class('platform_interface', 'platform', false);
+class mp_jfcx_init implements platform_interface {
+    
+    public function action() {
 
-return array(
-    'ext_code'      => 'mp_jfcx',
+        $wechatUUID = new \Ecjia\App\Wechat\WechatUUID();
 
-    'ext_icon'      => 'images/icon_jfcx.png',
+        $wechat_id = $wechatUUID->getWechatID();
+        // 获取GET请求数据
+        $openid = trim($_GET['openid']);
+        $uuid   = trim($_GET['uuid']);
 
-    'support_platform' => 'wechat', //仅支持微信公众平台
+        $wechat_user = new WechatUser($wechat_id, $openid);
 
-    'support_platform_type' => ['service', 'unauthorized', 'subscribe', 'test'], //支持微信公众号类型
+        $userid = $wechat_user->getEcjiaUserId();
 
-    'support_type'  => Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin,
+        $pay_points = RC_DB::table('users')->where('user_id', '=', $userid)->pluck('pay_points');
+        $points_info = RC_DB::table('account_log')->where('user_id', '=', $userid)->orderBy('change_time', 'desc')->get();
 
-    'forms' => array(
-    ),
-);
+        $count = 0;
+        foreach ($points_info as $key => $value)
+        {
+            // 计算签到次数
+            if ($value['change_type'] == 11) { ++$count;}
+            $new_points_info[$key] = $value;
+            // 时间使用RC_TIME
+            $new_points_info[$key]['change_time'] = RC_Time::local_date('Y-m-d H:i:s', $new_points_info[$key]['change_time']);
+        }
+
+        $today = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+
+        // 最近一次签到时间
+        $lastCheckinDay = RC_DB::table('account_log')->where('user_id', '=', $userid)
+            ->orderBy('change_time', 'desc')
+            ->pluck('change_time');
+        $lastCheckinDay =  RC_Time::local_date('Y-m-d', $lastCheckinDay);
+
+        $css1_url = RC_Plugin::plugins_url('css/animate.css', __FILE__);
+        $css2_url = RC_Plugin::plugins_url('css/jquery.toast.min.css', __FILE__);
+        $css3_url = RC_Plugin::plugins_url('css/details.min.css', __FILE__);
+        $image1_url = RC_Plugin::plugins_url('images/icon_jf.png', __FILE__);
+        $jq_url = RC_Plugin::plugins_url('js/jquery.js', __FILE__);
+
+    	ecjia_front::$controller->assign('jq_url',$jq_url);
+    	ecjia_front::$controller->assign('css1_url',$css1_url);
+        ecjia_front::$controller->assign('css2_url',$css2_url);
+        ecjia_front::$controller->assign('css3_url',$css3_url);
+        ecjia_front::$controller->assign('pay_points',$pay_points);
+        ecjia_front::$controller->assign('new_points_info',$new_points_info);
+        ecjia_front::$controller->assign('count',$count);
+        ecjia_front::$controller->assign('today',$today);
+        ecjia_front::$controller->assign('lastCheckinDay',$lastCheckinDay);
+
+
+
+        $tplpath = RC_Plugin::plugin_dir_path(__FILE__) . 'templates/jfcx_index.dwt.php';
+        ecjia_front::$controller->display($tplpath);
+	}
+}
 
 // end
