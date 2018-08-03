@@ -78,26 +78,60 @@ class shake_module extends api_front implements api_interface {
 		*/
 		$time = RC_Time::gmtime();
 		$market_activity = RC_DB::table('market_activity')
-							->where('activity_group', 1)
-							->where('activity_object', 1)
+							->where('activity_group', 'mobile_shake')
+							->where('activity_object', 'app')
+							->where('store_id', 0)
+							->where('wechat_id', 0)
 							->where('start_time', '<=', $time)
 							->where('end_time', '>=', $time)
 							->where('enabled', 1)
 							->first();
+	
+		if (empty($market_activity)) {
+			return new ecjia_error('activity_error', '活动未开始或已结束！');
+		}
 		
 		/* 判断活动有无限定次数*/
 		if ($market_activity['limit_num'] > 0) {
-			$db_activity_log = RC_DB::table('market_activity_log');
-			$db_activity_log->where('activity_id', $market_activity['activity_id'])->where('user_id', $_SESSION['user_id']);
-			
+			//$db_activity_log = RC_DB::table('market_activity_log');
+			//$db_activity_log->where('activity_id', $market_activity['activity_id'])->where('user_id', $_SESSION['user_id'])->where('wechat_id', 0);
+			$db_market_activity_lottery = RC_DB::table('market_activity_lottery');
 			if ($market_activity['limit_time'] > 0) {
-				$time_limit = $time - $market_activity['limit_time']*60;
-				$db_activity_log->where('add_time', '<=', $time)->where('add_time', '>=', $time_limit);
+				$time_limit = $time - $market_activity['limit_time']*60*60;
+				$db_market_activity_lottery->where('update_time', '<=', $time)->where('add_time', '>=', $time_limit);
 			}
-			$limit_count = $db_activity_log->count('id');
+			$market_activity_lottery_info = RC_DB::table('market_activity_lottery')->where('activity_id', $market_activity['activity_id'])->where('user_id', $_SESSION['user_id'])->first();
 			
+			$limit_count = $market_activity_lottery_info['lottery_num'];
+			
+			//当前时间 -上次抽奖更新时间大于限制时间时；重置抽奖时间和抽奖次数；
+			if ($time - $market_activity_lottery_info['add_time'] >= $market_activity['limit_time']*60*60) {
+				RC_DB::table('market_activity_lottery')
+				->where('activity_id', $market_activity['activity_id'])
+				->where('user_id', $_SESSION['user_id'])
+				->update(array('add_time' => $time, 'update_time' => $time, 'lottery_num' => 1));
+			}
+
 			if ($market_activity['limit_num'] <= $limit_count) {
-				return new ecjia_error('activity_limit', '活动次数太频繁，请稍微再来！');
+				//规定时间抽奖次数超过设定的次数;
+				return new ecjia_error('activity_limit', '活动次数太频繁，请稍后再来！');
+			} else {
+				if (empty($market_activity_lottery_info)) {
+					//第一次参与抽奖此活动
+					$data = array(
+							'activity_id' => $market_activity['activity_id'],
+							'user_id'	  => $_SESSION['user_id'],
+							'user_type'	  => 'user',
+							'lottery_num' => 1,
+							'add_time'    => $time,
+							'update_time' => $time
+					);
+					RC_DB::table('market_activity_lottery')->insertGetId($data);
+				} else {
+					//规定时间未超出设定的次数；更新抽奖次数，更新抽奖时间
+					$limit_count_new = $limit_count + 1;
+					RC_DB::table('market_activity_lottery')->where('activity_id', $market_activity['activity_id'])->where('user_id', $_SESSION['user_id'])->update(array('update_time' => $time, 'lottery_num' => $limit_count_new));
+				}
 			}
 		}
 		
@@ -182,8 +216,9 @@ class shake_module extends api_front implements api_interface {
 					'is_on_sale'	=> 1,
 					'is_alone_sale' => 1,
 					'is_delete'		=> 0,
-					'review_status'	=> 3,
+					//'review_status'	=> 3,
 			);
+			$where['review_status'] = array('gt' => 3);
 			$goods_info = RC_Model::model('goods/goods_model')->where($where)->order('Rand()')->find();
 			RC_Loader::load_app_func('admin_goods', 'goods');
 			if ($goods_info['promote_price'] > 0) {
@@ -261,18 +296,27 @@ class shake_module extends api_front implements api_interface {
 			);
 		}
 		if (!empty($prize_info)) {
-			$log = array(
-					'activity_id'	=> $prize_info['activity_id'],
-					'user_id'		=> $_SESSION['user_id'],
-					'username'		=> $_SESSION['user_name'],
-					'prize_id'		=> $prize_info['prize_id'],
-					'prize_name'	=> $prize_info['prize_name'],
-					'issue_status'	=> 1,
-					'issue_time'	=> $time,
-					'add_time'		=> $time,
-					'source'		=> 'app'
-			);
-			RC_DB::table('market_activity_log')->insert($log);
+			if ($prize_info['prize_type'] == 2) {
+				$issue_status = 0;
+				$issue_time = 0;
+			} else {
+				$issue_status = 1;
+				$issue_time = $time;
+			}
+			if (in_array($prize_info['prize_type'], array(1,2,3))) {
+				$log = array(
+						'activity_id'	=> $prize_info['activity_id'],
+						'user_id'		=> $_SESSION['user_id'],
+						'user_name'		=> $_SESSION['user_name'],
+						'prize_id'		=> $prize_info['prize_id'],
+						'prize_name'	=> $prize_info['prize_name'],
+						'issue_status'	=> $issue_status,
+						'issue_time'	=> $issue_time,
+						'add_time'		=> $time,
+						'source'		=> 'app'
+				);
+				RC_DB::table('market_activity_log')->insert($log);
+			}
 		}
 
 		return $result;

@@ -2,7 +2,9 @@
 <!-- {extends file="ecjia.dwt.php"} -->
 
 <!-- {block name="footer"} -->
-
+<script type="text/javascript">
+	ecjia.admin.activity.init();
+</script>
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
@@ -17,15 +19,8 @@
 
 <div class="row-fluid">
 	<div class="span12">
-		<div class="tabbable">
-			<ul class="nav nav-tabs">
-				<!-- {foreach from=$tags item=tag} -->
-					<li{if $tag.active} class="active"{/if}><a{if $tag.active} href="javascript:;"{else}{if $tag.pjax} class="data-pjax"{/if} href='{$tag.href}'{/if}><!-- {$tag.name} --></a></li>
-				<!-- {/foreach} -->
-			</ul>
-		</div>
 		<form method="post" action="{$form_action}" name="listForm" data-edit-url="{RC_Uri::url('bonus/admin/bonus_list')}">
-			<table class="table table-striped smpl_tbl">
+			<table class="table table-striped smpl_tbl table-hide-edit">
 				<thead>
 					<tr>
 						<th>{lang key='market::market.member_name'}</th>
@@ -39,10 +34,17 @@
 				<tbody>
 					<!--{foreach from=$activity_record_list.item item=record} -->
 					<tr>
-						<td>{if $record.username}<a href='{RC_Uri::url("user/admin/info", "id={$record.user_id}")}' target="_blank">{$record.username}</a>{else}{$record.username}{/if}</td>
+						<td>{if $record.user_name}<a href='{RC_Uri::url("user/admin/info", "id={$record.user_id}")}' target="_blank">{$record.user_name}</a>{else}{$record.user_name}{/if}</td>
 						<td>{$record.prize_name}</td>
-						<td>
+						<td  class="hide-edit-area">
 							{if $record.issue_status eq '0'}{lang key='market::market.unreleased'}{else}{lang key='market::market.issued'}{/if}
+							{if $record.prize_type eq '2' && $record.issue_status eq '0'}
+								<div class="edit-list">
+									<a class="toggle_view" href='{url path="market/admin/issue_prize" args="id={$record.id}"}' data-val="allow" data-status="1">
+										发放奖品
+									</a>
+								</div>
+							{/if}
 						</td>
 						<td>{$record.source}</td>
 						<td>{$record.issue_time}</td>

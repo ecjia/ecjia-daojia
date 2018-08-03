@@ -54,10 +54,10 @@ return array(
 	'app_activity_list'			=> 'APP活动列表',
 	'activity_manage'			=> '活动管理',
 	'activity_delete'			=> '删除管理',
-	'edit_activity'				=> '更新活动',
-	'activity_list'				=> '活动列表',
+	'edit_activity'				=> '编辑营销活动',
+	'activity_list'				=> '营销活动',
 	'add_activity'				=> '添加活动',
-	'back_activity_list'		=> '返回活动列表',
+	'back_activity_list'		=> '返回营销活动',
 	'activity_exist'			=> '此活动名已存在！',
 	'add_success'				=> '添加活动成功',
 	'edit_success'				=> '编辑活动成功',
@@ -88,7 +88,7 @@ return array(
 	'join_platform'				=> '活动参与平台：',
 	'restrict_num_tips'			=> '每人可参与活动的次数，0表示不限制',
 	'activity_time_restrict'	=> '活动时间限制',
-	'time_restrict_tips'		=> '单位为分钟，如45；参与次数在此时间内将被限制，0代表整个活动时间内',
+	'time_restrict_tips'		=> '单位为小时，参与次数在此时间内将被限制，0代表整个活动时间内',
 	'rule_desc'					=> '规则描述：',
 	'prize_level'				=> '奖品等级',
 	'prize_name'				=> '奖品名称',
@@ -132,6 +132,19 @@ return array(
 	'time_error'					=> '活动开始时间不能大于结束时间',
 	'market_manage'					=> '营销管理',
 	'store_info'					=> '店铺信息',
+	'activity_detail'				=> '活动详情',
+	'close_success'					=> '成功关闭营销活动',
+	'open_success'					=> '成功开启营销活动',
+	'back_activity_info'			=> '返回活动详情',
+	
+	//js
+	'js_lang'	=> array(
+			'fill_activity_name'		=> '请输入活动名称',
+			'fill_start_time' 			=> '请输入活动开始时间',
+			'fill_end_time' 			=> '请输入活动结束时间',
+			'ok'						=> '确定',
+			'cancel'					=> '取消',
+	),
 );
 
 // end

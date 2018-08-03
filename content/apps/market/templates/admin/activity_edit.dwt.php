@@ -19,48 +19,30 @@
 <div class="row-fluid edit-page">
 	<div class="span12">
 	    <div class="tabbable">
-	    	<!-- {if $action eq 'edit'} -->
-	    	<ul class="nav nav-tabs">
-				<!-- {foreach from=$tags item=tag} -->
-				<li{if $tag.active} class="active"{/if}><a{if $tag.active} href="javascript:;"{else}{if $tag.pjax} class="data-pjax"{/if} href='{$tag.href}'{/if}><!-- {$tag.name} --></a></li>
-				<!-- {/foreach} -->
-			</ul>
-			<!-- {/if} -->
 	  		<form class="form-horizontal" id="form-privilege" name="theForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
 			<fieldset>
-				<div class="control-group formSep">
-					<label class="control-label">{lang key='market::market.label_activity_name'}</label>
-					<div class="controls">
-						<input class="span4" name="activity_name" type="text" value="{$activity_info.activity_name}" size="40" />
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+				
+                <div class="cannotedit-info">
+	                <div class="control-group ">
+						<label class="control-label">{lang key='market::market.label_activity_name'}</label>
+						<div class="controls l_h30">
+							{$activity_info.activity_name}
+						</div>
 					</div>
-				</div>
-				<div class="control-group formSep" >
-					<label class="control-label">{lang key='market::market.label_activity_way'}</label>
-				     <div class="controls chk_radio">
-                           <input type="radio" name="activity_group"  value="1" {if $activity_info.activity_group eq 1 || !$activity_info} checked="true" {/if} />
-                           <span>{lang key='market::market.shake'}</span>
-                     </div>
-				</div>
-				<div class="control-group formSep">
-                    <label class="control-label">{lang key='market::market.join_platform'}</label>
-                    <div class="controls chk_radio">
-                         <input type="radio" name="activity_object" value="1" {if $activity_info.activity_object eq 1 || !$activity_info} checked="true" {/if} />
-                         <span>APP</span>
-                         <input type="radio" name="activity_object"  value="2" {if $activity_info.activity_object eq 2} checked="true" {/if} />
-                         <span>PC</span>
-                         <input type="radio" name="activity_object"  value="3" {if $activity_info.activity_object eq 3} checked="true" {/if} />
-                         <span>Touch</span>
-                    </div>
+					<div class="control-group " >
+						<label class="control-label">{lang key='market::market.label_activity_way'}</label>
+					     <div class="controls l_h30">
+	                           {$activity_info.activity_group}
+	                     </div>
+					</div>
+					<div class="control-group ">
+	                    <label class="control-label">{lang key='market::market.join_platform'}</label>
+	                    <div class="controls l_h30">
+		                    <span>{$activity_info.activity_object}</span>
+	                    </div>
+	                </div>
+                
                 </div>
-                <div class="control-group formSep" >
-					<label class="control-label">{lang key='market::market.label_is_open'}</label>
-				   	<div class="controls">
-			            <div id="info-toggle-button">
-			                <input class="nouniform" name="enabled" type="checkbox"  {if $activity_info.enabled eq 1}checked="checked"{/if}  value="1"/>
-			            </div>
-			        </div>
-				</div>
                 <div class="control-group formSep">
 					<label class="control-label">{lang key='market::market.label_activity_restrict_num'}</label>
 					<div class="controls">
@@ -68,13 +50,23 @@
 						<span class="help-block">{lang key='market::market.restrict_num_tips'}</span>
 					</div>
 				</div>
+								
 				<div class="control-group formSep">
 					<label class="control-label">{lang key='market::market.label_activity_time_restrict'}</label>
 					<div class="controls">
-						<input class="" name="limit_time" type="text" value="{$activity_info.limit_time|default:0}" placeholder="" maxlength="4"/>
-						<span class="help-block">{lang key='market::market.time_restrict_tips'}</span>
+						<select name='limit_time'>
+							<option value="">请选择...</option>
+							<option value="0" {if $activity_info.limit_time eq '0'}selected{/if}>0</option>
+							<option value="1" {if $activity_info.limit_time eq 1}selected{/if}>1小时</option>
+							<option value="6" {if $activity_info.limit_time eq 6}selected{/if}>6小时</option>
+							<option value="12" {if $activity_info.limit_time eq 12}selected{/if}>12小时</option>
+							<option value="24" {if $activity_info.limit_time eq 24}selected{/if}>24小时</option>
+							<option value="48" {if $activity_info.limit_time eq 48}selected{/if}>48小时</option>
+						</select>	
+						<span class="help-block">{lang key='market::market.time_restrict_tips'}</span>					
 					</div>
 				</div>
+				
 				<div class="control-group formSep">
 					<label class="control-label">{lang key='market::market.label_start_date'}</label>
 					<div class="controls">
@@ -99,11 +91,8 @@
 				<div class="control-group">
 					<div class="controls">
 						<input type="hidden" name="id" value="{$activity_info.activity_id}" />
-						{if $activity_info.activity_id eq ''}
-						<input type="submit" class="btn btn-gebo" value="{lang key='system::system.button_submit'}" />
-						{else}
+						<input type="hidden" name="activity_code" value="{$activity_info.activity_group}" />
 						<input type="submit" class="btn btn-gebo" value="{lang key='market::market.update'}" />
-						{/if}
 					</div>
 				</div>
 			</fieldset>

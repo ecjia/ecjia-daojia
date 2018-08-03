@@ -47,21 +47,20 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台菜单API
- * @author wutifang
+ * 后台权限API
+ * @author royalwang
  */
-class market_admin_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {
-		$menus = ecjia_admin::make_admin_menu('06_market', RC_Lang::get('market::market.market_manage'), '', 6);
-		
-		$submenus = array(
-			ecjia_admin::make_admin_menu('market', '营销中心', RC_Uri::url('market/admin/init'), 1)->add_purview('market_activity_manage'),
-			ecjia_admin::make_admin_menu('market', '抽奖记录', RC_Uri::url('market/admin/activity_record', array('code' => 'mobile_shake')), 2)->add_purview('market_activity_manage'),
-		);
-		$menus->add_submenu($submenus);
-		return $menus;
-	}
+class market_platform_purview_api extends Component_Event_Api {
+    
+    public function call(&$options) {
+        $purviews = array(        		
+        	array('action_name' => '营销活动管理', 'action_code' => 'market_activity_manage', 'relevance'   => ''),
+        	array('action_name' => '营销活动更新', 'action_code' => 'market_activity_update', 'relevance'   => ''),
+        	array('action_name' => '营销活动删除', 'action_code' => 'market_activity_delete', 'relevance'   => ''),
+        	array('action_name' => '中奖记录管理', 'action_code' => 'activity_record_manage', 'relevance'   => ''),
+        );
+        return $purviews;
+    }
 }
 
 // end

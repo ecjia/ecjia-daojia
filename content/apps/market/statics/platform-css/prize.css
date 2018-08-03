@@ -1,0 +1,114 @@
+.wookmark .thumbnail {
+    width: 30.666666%;
+}
+
+.wookmark.warehouse .more {
+    height: 155px;
+}
+
+.wookmark .bd_new {
+    line-height: none;
+}
+
+.wookmark.media_captcha .thumbnail .input {
+    opacity: 1;
+}
+
+.wookmark.warehouse .thumbnail .input {
+    opacity: 1;
+    cursor: auto;
+}
+
+.wookmark .thumbnail {
+    margin-right: 4%;
+    border-radius: 15px;
+}
+
+.wookmark.warehouse .more i {
+    top: 25%;
+}
+
+.wookmark .thumbnail:nth-child(4n) {
+    margin-right: 4%;
+}
+
+.wookmark ul.wookmark-ul {
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    -webkit-padding-start: 0;
+}
+
+.wookmark .thumbnail:nth-child(3n) {
+    margin-right: 0;
+}
+
+.prize_level_div {
+    height: 155px;
+}
+
+.prize_level {
+    background-color: #91cde4;
+    font-size: 16px;
+    text-align: left;
+}
+
+.prize_level .model-title {
+    padding-left: 20px;
+    height: 80px;
+    padding-top: 20px;
+}
+
+.prize_level .model-title span {
+    color: #fff;
+}
+
+.prize_level.prize_level_0 {
+    background-color: #e14355;
+}
+
+.prize_level.prize_level_1 {
+    background-color: #f6b751;
+}
+
+.prize_level.prize_level_2 {
+    background-color: #2fade3;
+}
+
+.prize_level.prize_level_3 {
+    background-color: #3ab391;
+}
+
+.prize_level .model-inner {
+    margin-top: 10px;
+    background-color: rgba(4, 0, 0, 0.1);
+    font-size: 14px;
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+}
+
+.prize_level .input {
+    background-color: #efefef;
+}
+
+.wookmark-ul .p_l20 {
+	padding-left: 20px;
+}
+
+.wookmark-ul .p_l10 {
+	padding-left: 10px;
+}
+
+i.ft-trash-2 {
+	color: #c62626;
+}
+
+.wookmark-ul .prize-used {
+	float: right;
+	color: #373a3c;
+    padding-right: 20px;
+	font-weight: 500;
+    font-size: 1rem;
+}

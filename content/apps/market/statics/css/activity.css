@@ -1,3 +1,91 @@
 .market_activity input[type="text"] {
 	margin-bottom : 0px;
 }
+
+/*活动列表*/
+.outline{
+    background-color: #efefef;
+    border-radius: 5px;
+    color: #000000;
+	width:30%;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	display: inline-block;
+	vertical-align: top;
+}
+.outline-right{
+    margin-top: 6px;
+}
+
+.outline a{
+	color:#000000;
+	text-decoration:none;
+}
+.outline a:hover {
+    color:#08c;
+	text-decoration:none;
+}
+
+/*活动详情*/
+.detail{
+	background-color: #EEEEEE;
+    height: 150px;
+    margin: 9px 30px 0px;
+}
+.func-detail-margin{
+	padding: 0px 30px 9px;
+	height: 100px;
+}
+.title-size{
+	font-size:17px;
+}
+.fonticon-img-wrap{
+	float: left;
+	width: 60px;
+	height: 60px;
+	line-height: 4.8rem;
+	text-align: center;
+	border-radius: 0.1875rem;
+	margin-right: 1rem;
+}
+.activity-icon{
+	width: 60px;
+	height: 60px;
+}
+.activity-open-btn{
+	width:70px;
+	margin-top:5px;
+}
+.literal-wrap{
+	padding-top: 10px;
+}
+.desc{
+	color: #8d8d8d;
+	overflow: hidden;
+	margin-top: 5px;
+}
+.title{
+	font-weight: 400;
+	font-style: normal;
+	padding-top: 5px;
+}
+.intrduction{
+	padding: 10px 30px;
+	color: #8d8d8d;
+}
+.time-margin{
+	margin-left:50px;
+}
+.span-font{
+	font-weight: bold;
+	margin-left:5px;
+	margin-right:5px;
+}
+
+.cannotedit-info{
+	background-color: #EEEEEE;
+	padding-top:10px;
+	margin-bottom:5px;
+	border-radius: 10px;
+}
+

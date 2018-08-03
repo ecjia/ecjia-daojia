@@ -44,24 +44,44 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Market;
 
-/**
- * 后台菜单API
- * @author wutifang
- */
-class market_admin_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {
-		$menus = ecjia_admin::make_admin_menu('06_market', RC_Lang::get('market::market.market_manage'), '', 6);
-		
-		$submenus = array(
-			ecjia_admin::make_admin_menu('market', '营销中心', RC_Uri::url('market/admin/init'), 1)->add_purview('market_activity_manage'),
-			ecjia_admin::make_admin_menu('market', '抽奖记录', RC_Uri::url('market/admin/activity_record', array('code' => 'mobile_shake')), 2)->add_purview('market_activity_manage'),
-		);
-		$menus->add_submenu($submenus);
-		return $menus;
-	}
+use Ecjia\App\Market\Models\MarketActivityModel;
+use ecjia_platform;
+use RC_Uri;
+use RC_Hook;
+
+class MarketPrizeMenu
+{
+
+    protected $store_id;
+
+    protected $wechat_id;
+
+    public function __construct($store_id, $wechat_id = 0)
+    {
+        $this->store_id = $store_id;
+        $this->wechat_id = $wechat_id;
+    }
+
+    public function getMenus()
+    {
+        $data = $this->getMarketActivities();
+        $menus = $data->map(function ($item) {
+            return ecjia_platform::make_admin_menu($item['activity_group'], $item['activity_name'], RC_Uri::url('market/platform_prize/init', ['code' => $item['activity_group']]), 14)->add_purview('wechat_prize_manage');
+        });
+
+        $menus = RC_Hook::apply_filters('ecjia_market_activity_prize_menu', $menus);
+
+        return $menus->all();
+    }
+
+    public function getMarketActivities()
+    {
+        $data = MarketActivityModel::where('wechat_id', $this->wechat_id)->where('store_id', $this->store_id)->get();
+
+        return $data;
+    }
+
+
 }
-
-// end

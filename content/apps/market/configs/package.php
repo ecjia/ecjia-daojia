@@ -47,21 +47,18 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台菜单API
- * @author wutifang
+ * 营销活动应用
  */
-class market_admin_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {
-		$menus = ecjia_admin::make_admin_menu('06_market', RC_Lang::get('market::market.market_manage'), '', 6);
-		
-		$submenus = array(
-			ecjia_admin::make_admin_menu('market', '营销中心', RC_Uri::url('market/admin/init'), 1)->add_purview('market_activity_manage'),
-			ecjia_admin::make_admin_menu('market', '抽奖记录', RC_Uri::url('market/admin/activity_record', array('code' => 'mobile_shake')), 2)->add_purview('market_activity_manage'),
-		);
-		$menus->add_submenu($submenus);
-		return $menus;
-	}
-}
+return array(
+	'identifier' 	=> 'ecjia.market',
+	'directory' 	=> 'market',
+	'name'			=> 'market',
+	'description' 	=> 'market_desc',			/* 描述对应的语言项 */
+	'author' 		=> 'ECJIA TEAM',			/* 作者 */
+	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
+	'version' 		=> '1.18.0',					/* 版本号 */
+	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
+    'namespace'     => 'Ecjia\App\Market',
+);
 
 // end

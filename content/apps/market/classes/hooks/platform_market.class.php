@@ -46,18 +46,44 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 营销活动应用
- */
-return array(
-	'identifier' 	=> 'ecjia.market',
-	'directory' 	=> 'market',
-	'name'			=> 'market',
-	'description' 	=> 'market_desc',			/* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.17.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2014.'
-);
+class platform_market_hooks {
+
+
+    public static function display_ecjia_platform_market_prize_menu() {
+
+        $store_id = ecjia_platform::$controller->getPlatformAccount()->getStoreId();
+        $wechat_id = ecjia_platform::$controller->getPlatformAccount()->getAccountID();
+
+        $menus = with(new Ecjia\App\Market\MarketPrizeMenu($store_id, $wechat_id))->getMenus();
+
+        $current_code = ecjia_platform_screen::get_current_screen()->get_option('current_code');
+		
+        $content = '';
+		
+        if (!empty($menus)) {
+            $content .= '<ul class="nav nav-tabs nav-left flex-column">' . PHP_EOL;
+            foreach ($menus as $key => $menu) {
+                $key = $key+1;
+                $content .= '<li class="nav-item">' . PHP_EOL;
+                $content .= '    <a ';
+
+                if ($current_code == $menu->action) {
+                    $content .= 'class="nav-link active" ';
+                } else {
+                    $content .= 'class="nav-link" ';
+                }
+
+                $content .= 'id="baseVerticalLeft-tab'.$key.'"aria-controls="tabVerticalLeft'.$key.'" href="'.$menu->link.'" aria-expanded="true">'.$menu->name.'</a>' . PHP_EOL;
+                $content .= '</li>' . PHP_EOL;
+            }
+            $content .= '</ul>' . PHP_EOL;
+        }
+
+        echo $content;
+    }
+    
+}
+
+ RC_Hook::add_action( 'display_ecjia_platform_market_prize_menu', array('platform_market_hooks', 'display_ecjia_platform_market_prize_menu') );
 
 // end
