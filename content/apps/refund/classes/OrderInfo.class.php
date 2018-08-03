@@ -109,10 +109,10 @@ class OrderInfo
 	 */
 	public static function get_goods_list($order_id){
 		if (!empty($order_id)) {
-			$goods_list = RC_DB::TABLE('order_goods')->where('order_id', $order_id)->select('goods_id', 'goods_name' ,'goods_price','goods_number')->get();
+			$goods_list = RC_DB::table('order_goods')->where('order_id', $order_id)->select('goods_id', 'goods_name' ,'goods_price','goods_number')->get();
 			foreach ($goods_list as $key => $val) {
 				$goods_list[$key]['goods_price']  = price_format($val['goods_price']);
-				$goods_list[$key]['image']  = RC_DB::TABLE('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
+				$goods_list[$key]['image']  = RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
 			}
 			$disk = RC_Filesystem::disk();
 			foreach ($goods_list as $key => $val) {
