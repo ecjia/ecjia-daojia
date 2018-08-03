@@ -59,7 +59,7 @@ class merchant extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 		RC_Style::enqueue_style('uniform-aristo');
 		
-		RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
+		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		
 		//时间控件
@@ -457,7 +457,7 @@ class merchant extends ecjia_merchant {
     	$this->admin_priv('mh_quickpay_delete');
     	 
     	$id = intval($_GET['id']);
-    	$title = RC_DB::TABLE('quickpay_activity')->where('id', $id)->pluck('title');
+    	$title = RC_DB::table('quickpay_activity')->where('id', $id)->pluck('title');
     	
     	RC_DB::table('quickpay_activity')->where('id', $id)->delete();
     	

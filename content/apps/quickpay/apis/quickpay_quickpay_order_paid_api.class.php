@@ -204,7 +204,7 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    $push_order_pay = new OrderPay($order_data);
 	    RC_Notification::send($staff_user_ob, $push_order_pay);
 	    
-	    $store_name = RC_DB::TABLE('store_franchisee')->where('store_id', $order['store_id'])->pluck('merchants_name');
+	    $store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('merchants_name');
         /* 客户付款短信提醒 */
         if (!empty($staff_user['mobile'])) {
             $options = array(

@@ -59,7 +59,7 @@ class mh_order extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 		RC_Style::enqueue_style('uniform-aristo');
 		
-		RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
+		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		
 		//时间控件
@@ -194,7 +194,7 @@ class mh_order extends ecjia_merchant {
 		);
 		RC_DB::table('quickpay_order_action')->insertGetId($data_action);
 		
-// 		$order_amount = RC_DB::TABLE('quickpay_orders')->where('order_id', $order_id)->pluck('order_amount');
+// 		$order_amount = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->pluck('order_amount');
 // 		$percent_value = 100-ecjia::config('quickpay_fee');
 // 		$brokerage_amount = $order_amount * $percent_value / 100;
 // 		$data_bill = array(
@@ -210,7 +210,7 @@ class mh_order extends ecjia_merchant {
 // 		RC_Api::api('commission', 'add_bill_detail', array('store_id' => $_SESSION['store_id'], 'order_type' => 'quickpay', 'order_id' => $order_id,));
 		RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'quickpay', 'order_id' => $order_id));
 		
-		$order_sn = RC_DB::TABLE('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
+		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
 		ecjia_merchant::admin_log($order_sn, 'check', 'quickpay_order');
 		
 		if ($_POST['type_info']) {
@@ -250,7 +250,7 @@ class mh_order extends ecjia_merchant {
 		);
 		RC_DB::table('quickpay_order_action')->insertGetId($data_action);
 		
-		$order_sn = RC_DB::TABLE('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
+		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
 		ecjia_merchant::admin_log($order_sn, 'cancel', 'quickpay_order');
 		
 		if ($_POST['type_info']) {
@@ -267,7 +267,7 @@ class mh_order extends ecjia_merchant {
 		$this->admin_priv('mh_quickpay_order_delete');
 	
 		$order_id = intval($_GET['order_id']);
-		$order_sn = RC_DB::TABLE('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
+		$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->pluck('order_sn');
 		
 		$data = array(
 			'order_status' => 99,
@@ -290,8 +290,8 @@ class mh_order extends ecjia_merchant {
 			if ($_GET['operation'] == 'remove') {
 				$this->admin_priv('mh_quickpay_order_delete');
 				foreach($ids as $val){
-					$pay_status = RC_DB::TABLE('quickpay_orders')->where('order_id', $val)->pluck('order_status');
-					$order_sn = RC_DB::TABLE('quickpay_orders')->where('order_id', $val)->pluck('order_sn');
+					$pay_status = RC_DB::table('quickpay_orders')->where('order_id', $val)->pluck('order_status');
+					$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $val)->pluck('order_sn');
 					if($pay_status == 9){
 						$data = array(
 							'order_status' => 99,
@@ -303,8 +303,8 @@ class mh_order extends ecjia_merchant {
 			} else {
 				$this->admin_priv('mh_quickpay_order_update');
 				foreach($ids as $val){
-					$status = RC_DB::TABLE('quickpay_orders')->where('order_id', $val)->select('order_status', 'pay_status', 'verification_status')->first();
-					$order_sn = RC_DB::TABLE('quickpay_orders')->where('order_id', $val)->pluck('order_sn');
+					$status = RC_DB::table('quickpay_orders')->where('order_id', $val)->select('order_status', 'pay_status', 'verification_status')->first();
+					$order_sn = RC_DB::table('quickpay_orders')->where('order_id', $val)->pluck('order_sn');
 					if($status['order_status'] == 0 && $status['pay_status'] ==0 && $status['verification_status']==0){
 						$data = array(
 							'order_status' => 9,
