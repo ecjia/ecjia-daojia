@@ -46,15 +46,18 @@
 //
 namespace Ecjia\App\Shipping;
 
-use Royalcms\Component\Support\ServiceProvider;
+use Royalcms\Component\App\AppParentServiceProvider;
 
-class ShippingServiceProvider extends ServiceProvider {
+class ShippingServiceProvider extends AppParentServiceProvider
+{
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot() {
+    public function boot() 
+    {
+        $this->package('ecjia/app-shipping');
     }
 
 	/**

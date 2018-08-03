@@ -55,8 +55,6 @@ class admin_area_plugin extends ecjia_admin
     {
         parent::__construct();
 
-        RC_Lang::load('shipping');
-        RC_Lang::load('shipping_area');
         RC_Loader::load_app_func('global');
 
         /* 加载全局 js/css */

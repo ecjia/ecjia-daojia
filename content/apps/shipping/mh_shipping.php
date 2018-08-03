@@ -429,8 +429,8 @@ class mh_shipping extends ecjia_merchant
         			if (empty($express_distance)) {
         				return $this->showmessage('配送距离只能为数值且不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
-        			$express_money = floatval($_POST['express_money'][$k]);
-        			if (empty($express_money)) {
+        			$express_money = is_numeric($_POST['express_money'][$k]) ? floatval($_POST['express_money'][$k]) : '';
+        			if ($express_money === '') {
         				return $this->showmessage('配送费只能为数值且不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			$express[$k]['express_distance'] = $v;
