@@ -554,7 +554,7 @@ if ( ! function_exists('_404'))
         if (RC_Hook::has_action('handle_404_error')) {
             RC_Hook::do_action('handle_404_error');
         } else {
-            Component_Error_ErrorDisplay::http_error(404, $msg);
+            Royalcms\Component\Error\ErrorDisplay::http_error(404, $msg);
         }
     }
 }
@@ -574,7 +574,7 @@ if ( ! function_exists('_500'))
         if (RC_Hook::has_action('handle_500_error')) {
             RC_Hook::do_action('handle_500_error');
         } else {
-            Component_Error_ErrorDisplay::http_error(500, $msg);
+            Royalcms\Component\Error\ErrorDisplay::http_error(500, $msg);
         }
     }
 }

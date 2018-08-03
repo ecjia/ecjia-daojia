@@ -61,6 +61,9 @@ class AliasManager
         'Component_Widget_Control'              => 'Royalcms\Component\Widget\Control',
         'Component_Widget_Factory'              => 'Royalcms\Component\Widget\Factory',
         'Component_Widget_Widget'               => 'Royalcms\Component\Widget\Widget',
+
+        'Component_Error_ErrorDisplay'          => 'Royalcms\Component\Error\ErrorDisplay',
+
     );
 }
 

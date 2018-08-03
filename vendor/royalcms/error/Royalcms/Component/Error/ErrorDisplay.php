@@ -1,7 +1,8 @@
 <?php
-defined('IN_ROYALCMS') or exit('No permission resources.');
 
-class Component_Error_ErrorDisplay
+namespace Royalcms\Component\Error;
+
+class ErrorDisplay
 {
 
     /**
