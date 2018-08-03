@@ -79,6 +79,7 @@ class Transformer
                 'media_id' => $message,
             ],
             'msgtype' => 'mpnews',
+            'send_ignore_reprint' => 0,
         ];
     }
 

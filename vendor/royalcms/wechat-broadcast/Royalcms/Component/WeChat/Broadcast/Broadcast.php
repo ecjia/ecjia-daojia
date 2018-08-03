@@ -37,7 +37,7 @@ class Broadcast extends AbstractAPI
      */
     public function send($msgType, $message, $to = null)
     {
-        $message = (new MessageBuilder())->msgType($msgType)->message($message)->to($to)->build();
+        $message = with(new MessageBuilder())->msgType($msgType)->message($message)->to($to)->build();
 
         $api = is_array($to) ? self::API_SEND_BY_OPENID : self::API_SEND_BY_GROUP;
 
@@ -134,7 +134,7 @@ class Broadcast extends AbstractAPI
      */
     public function preview($msgType, $message, $to, $by = self::PREVIEW_BY_OPENID)
     {
-        $message = (new MessageBuilder())->msgType($msgType)->message($message)->to($to)->buildPreview($by);
+        $message = with(new MessageBuilder())->msgType($msgType)->message($message)->to($to)->buildPreview($by);
 
         return $this->post(self::API_PREVIEW, $message);
     }
