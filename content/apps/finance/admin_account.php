@@ -408,7 +408,7 @@ class admin_account extends ecjia_admin {
 		}
 		
 		$links[0]['href'] = RC_Uri::url('finance/admin_account/init', array('type' => $_POST['type']));
-		return $this->showmessage(RC_Lang::get('user::user_account.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
+		return $this->showmessage(RC_Lang::get('user::user_account.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('finance/admin_account/info', array('id' => $id, 'type' => $type))));
 	}
 	
 	/**
@@ -513,7 +513,7 @@ class admin_account extends ecjia_admin {
 		}
 		
 		$links[0]['href'] = RC_Uri::url('finance/admin_account/init', array('type'=> $type));
-		return $this->showmessage(RC_Lang::get('user::user_account.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
+		return $this->showmessage(RC_Lang::get('user::user_account.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('finance/admin_account/info', array('id' => $id, 'type' => $type))));
 	}
 	
 	/**
