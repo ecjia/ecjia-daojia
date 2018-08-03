@@ -1371,7 +1371,7 @@ function deleteRepeat ($array)
  * @param   int     $order_id   订单id
  * @return  array   订单商品数组
  */
-function EM_order_goods($order_id , $page = 1 , $pagesize = 10)
+function EM_order_goods($order_id)
 {
 	$dbview = RC_Loader::load_app_model('order_goods_goods_viewmodel', 'orders');
 	$res = $dbview->join('goods')->where(array('o.order_id' => $order_id))->limit(($page-1)*$pagesize,$pagesize)->select();

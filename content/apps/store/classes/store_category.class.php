@@ -100,7 +100,7 @@ class store_category {
 		}
 	}
 
-	public static function get_child_tree($tree_id = 0, $geohash) {
+	public static function get_child_tree($tree_id = 0, $geohash = '') {
 		$db_category = RC_Model::model('store/store_category_model');
 		$three_arr = array ();
 

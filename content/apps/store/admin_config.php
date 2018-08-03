@@ -165,17 +165,17 @@ class admin_config extends ecjia_admin {
 		} elseif ($store_model == 1) {
 			$store_id = !empty($_POST['store']) ? intval($_POST['store']) : 0;
 			if (empty($store_id)) {
-				$this->showmessage('请搜索后选择店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage('请搜索后选择店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}	
 			$store_model = $store_id;
 		//多门店
 		} elseif ($store_model == 2) {
 			$store_id = !empty($_POST['store_id']) ? $_POST['store_id'] : '';
 			if (empty($store_id)) {
-				$this->showmessage('请搜索后选择店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage('请搜索后选择店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			if (count($store_id) < 2) {
-				$this->showmessage('请至少选择两个店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage('请至少选择两个店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			$store_model = implode(',', $store_id);
 		}

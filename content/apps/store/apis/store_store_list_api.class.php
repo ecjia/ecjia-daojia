@@ -116,8 +116,40 @@ class store_store_list_api extends Component_Event_Api {
 
 		/* 关键字*/
 		if (!empty($filter['keywords'])) {
+			$keyword = $filter['keywords'];
 			$cache_key .= '-keywords-' . $filter['keywords'];
-			$where[]    = '(merchants_name like "%'.$filter['keywords'].'%" or goods_name like "%'.$filter['keywords'].'%")';
+			//$where[]    = '(merchants_name like "%'.$filter['keywords'].'%" or goods_name like "%'.$filter['keywords'].'%")';
+			$arr = array();
+			if (stristr($keyword, ' AND ') !== false) {
+				/* 检查关键字中是否有AND，如果存在就是并 */
+				$arr = explode('AND', $keyword);
+				$operator = " AND ";
+			} elseif (stristr($keyword, ' OR ') !== false) {
+				/* 检查关键字中是否有OR，如果存在就是或 */
+				$arr = explode('OR', $keyword);
+				$operator = " OR ";
+			} elseif (stristr($keyword, ' + ') !== false) {
+				/* 检查关键字中是否有加号，如果存在就是或 */
+				$arr = explode('+', $keyword);
+				$operator = " OR ";
+			} else {
+				/* 检查关键字中是否有空格，如果存在就是并 */
+				$arr = explode(' ', $keyword);
+				$operator = " AND ";
+			}
+			$keywords = '(';
+			$goods_ids = array();
+			if (!empty($arr)) {
+				foreach ($arr as $key => $val) {
+					if ($key > 0 && $key < count($arr) && count($arr) > 1) {
+						$keywords .= $operator;
+					}
+					$val = mysql_like_quote(trim($val));
+					$keywords .= "(merchants_name LIKE '%$val%' OR goods_name LIKE '%$val%')";
+				}
+			}
+			$keywords .= ')';
+			$where[] = $keywords;
 		}
 		
 		if (!empty($filter['district_id'])) {
