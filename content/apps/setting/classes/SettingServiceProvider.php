@@ -46,15 +46,18 @@
 //
 namespace Ecjia\App\Setting;
 
-use Royalcms\Component\Support\ServiceProvider;
+use Royalcms\Component\App\AppParentServiceProvider;
 
-class SettingServiceProvider extends ServiceProvider {
+class SettingServiceProvider extends AppParentServiceProvider
+{
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot() {
+    public function boot() 
+    {
+        $this->package('ecjia/app-setting');
     }
 
 	/**

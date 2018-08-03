@@ -47,16 +47,19 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台工具菜单API
- * @author songqian
+ * 验证用户端token
+ * @author royalwang
  */
-class setting_setting_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {	
-		$shop_manage 	 = ecjia_admin::make_admin_menu('01_setting_shop_manage', __('商店设置'), RC_Uri::url('setting/shop_config/init',array('code' => 'shop_info')), 1)->add_purview('shop_config');
-		$region_manage = ecjia_admin::make_admin_menu('03_setting_region_manage', __('地区管理'), RC_Uri::url('setting/admin_region/init'), 3)->add_purview('region_manage');
-		
-		return array($shop_manage, $region_manage);
+class validate_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    		
+    	$this->authSession();	
+ 		
+ 		if (empty($_SESSION['user_id'])) {
+ 		    return new ecjia_error(100, 'Invalid session' );
+ 		}
+
+		return array();
 	}
 }
 
