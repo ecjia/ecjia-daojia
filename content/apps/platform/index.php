@@ -1,4 +1,7 @@
 <?php
+use Ecjia\App\Platform\Frameworks\Exceptions\AccountException;
+use Symfony\Component\HttpFoundation\Response;
+
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -46,27 +49,45 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class index extends ecjia_api {
-	public function __construct() {
-		parent::__construct();
-	}
+class index extends ecjia_api
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	/**
-	 * 首页信息
-	 */
-	public function init() {
-	   $request = royalcms('request');
-       $uuid = $request->get('uuid');
+    /**
+     * 首页信息
+     */
+    public function init()
+    {
+        $request = royalcms('request');
+        $uuid = $request->get('uuid');
 
-       RC_Loader::load_app_class('platform_account', 'platform', false);
-       $platform_account = platform_account::make($uuid);
-       $platform = $platform_account->getPlatform();
-       if (!is_ecjia_error($platform)) {
-           Royalcms\Component\Foundation\Api::api($platform, 'platform_response', $platform_account->getAccount());           
-       } else {
-           echo 'NO ACCESS';
-       }
-	}
+        if (empty($uuid)) {
+            return $this->displayContent('NO ACCESS');
+        }
+
+        try {
+
+            $platform_account = new Ecjia\App\Platform\Frameworks\Platform\Account($uuid);
+            $platform = $platform_account->getPlatform();
+            $response = RC_Api::api($platform, 'platform_response', $platform_account);
+            if ($response instanceof Symfony\Component\HttpFoundation\Response) {
+                return $response;
+            } else if (is_ecjia_error($response)) {
+                ecjia_log_error($response->get_error_message());
+                return $this->displayContent($response->get_error_message());
+            } else {
+                return $this->displayContent($response);
+            }
+
+        } catch (Ecjia\App\Platform\Frameworks\Exceptions\AccountException $e) {
+            ecjia_log_error($e->getMessage());
+            return $this->displayContent('NO ACCESS');
+        }
+
+    }
 }
 
 // end

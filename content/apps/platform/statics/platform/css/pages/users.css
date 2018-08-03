@@ -1,0 +1,25 @@
+.profile-card-with-stats .btn-float {
+  padding: 8px 14px 4px 14px; }
+
+.profile-card-with-cover .card-profile-image {
+  position: absolute;
+  top: 130px;
+  width: 100%;
+  text-align: center; }
+  .profile-card-with-cover .card-profile-image img.img-border {
+    border: 5px solid #fff; }
+
+.profile-card-with-cover .profile-card-with-cover-content {
+  padding-top: 4rem; }
+
+#user-profile .profile-with-cover .profil-cover-details {
+  position: absolute;
+  margin-top: 210px; }
+  #user-profile .profile-with-cover .profil-cover-details .profile-image img.img-border {
+    border: 5px solid #fff; }
+  #user-profile .profile-with-cover .profil-cover-details .card-title {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 4px #373a3c; }
+
+#user-profile .navbar-profile {
+  margin-left: 130px; }

@@ -9,6 +9,16 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+
+<div class="staticalert alert alert-info alert-dismissable ui_showmessage panel"><a class="close" data-dismiss="alert">×</a>
+	<p><h3>操作提示</h3></p>
+	<p>一、配置前先需要申请一个微信服务号，并且通过微信认证。（认证服务号需要注意每年微信官方都需要重新认证，如果认证过期，接口功能将无法使用，具体请登录微信公众号平台了解详情）
+	<p>二、网站域名 需要通过ICP备案并正确解析到空间服务器，临时域名与IP地址无法配置。
+	<p>三、登录 <a href="https://mp.weixin.qq.com/" target="__blank">微信公众号平台 </a>，获取且依次填写好 公众号名称，公众号原始ID，Appid，Appsecret，token值。
+	<p>四、自定义Token值，必须为英文或数字（长度为3-32字符），如 weixintoken，并保持后台与公众号平台填写的一致。
+	<p>五、复制接口地址，填写到微信公众号平台 开发=> 基本配置，服务器配置下的 URL地址，验证提交通过后，并启用。（注意仅支持80端口）
+</div>
+
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
@@ -26,7 +36,7 @@
 					<fieldset>
 						<div class="row-fluid edit-page">
 							{if $wechat.id neq ''}
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">UUID：</label>
 								<div class="controls l_h30">
 									{$wechat.uuid}<br>
@@ -34,18 +44,19 @@
 								</div>
 							</div>
 							
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{lang key='platform::platform.lable_external_address'}</label>
 								<div class="controls l_h30">
-									{$url}
+									<input class="w600" type="text" readonly value="{$url}" id="external_address" />&nbsp;&nbsp;
+									<a class="btn copy-url-btn" href='javascript:;' data-clipboard-action="copy" data-clipboard-target="#external_address">复制URL</a>
 								</div>
 							</div>
 							{/if}
 							
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{lang key='platform::platform.lable_terrace'}</label>
-								<div class="controls w300">
-									<select name="platform" class="form-control">
+								<div class="controls">
+									<select name="platform" class="form-control w350">
 										<option value="" {if $wechat.platform eq ''}selected="selected"{/if}>{lang key='platform::platform.select_terrace'}</option>
 										<option value="wechat" {if $wechat.platform eq 'wechat'}selected="selected"{/if}>{lang key='platform::platform.weixin'}</option>
 									</select>
@@ -53,10 +64,10 @@
 								</div>
 							</div>
 						
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{lang key='platform::platform.lable_platform_num_type'}</label>
-								<div class="controls w300">
-									<select name="type" class="form-control">
+								<div class="controls">
+									<select name="type" class="form-control w350">
 										<option value="0" {if $wechat.type eq 0}selected="selected"{/if}>{lang key='platform::platform.un_platform_num'}</option>
 										<option value="1" {if $wechat.type eq 1}selected="selected"{/if}>{lang key='platform::platform.subscription_num'}</option>
 										<option value="2" {if $wechat.type eq 2}selected="selected"{/if}>{lang key='platform::platform.server_num'}</option>
@@ -66,10 +77,10 @@
 								</div>
 							</div>
 							
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{lang key='platform::platform.lable_platform_name'}</label>
 								<div class="controls">
-									<input type="text" name="name" id="name" value="{$wechat.name}" />
+									<input class="w350" type="text" name="name" id="name" value="{$wechat.name}" />
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 								</div>
 							</div>
@@ -93,40 +104,41 @@
 								</div>
 							</div>		
 							
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{t}Token：{/t}</label>
 								<div class="controls">
-									<input class="generate_token" type="text" name="token" id="token" value="{$wechat.token}" />&nbsp;&nbsp;
-									<a class="toggle_view btn filter-btn" href='{url path="platform/admin/generate_token"}'  data-val="allow" >生成Token</a>
+									<input class="generate_token w350" type="text" name="token" id="token" value="{$wechat.token}" />&nbsp;&nbsp;
+									<a class="toggle_view btn filter-btn" href='{url path="platform/admin/generate_token"}'  data-val="allow">生成Token</a>&nbsp;&nbsp;
+									<a class="btn copy-token-btn" href='javascript:;' data-clipboard-action="copy" data-clipboard-target="#token">复制Token</a>
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 									<span class="help-block">自定义的Token值，或者点击生成Token创建一个，复制到微信公众平台配置中</span>
 								</div>
 							</div>
 							
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{lang key='platform::platform.lable_appid'}</label>
 								<div class="controls">
-									<input type="text" name="appid" id="appid" value="{$wechat.appid}" />
+									<input class="w350" type="text" name="appid" id="appid" value="{$wechat.appid}" />
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 								</div>
 							</div>
 							
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{t}AppSecret：{/t}</label>
 								<div class="controls">
-									<input type="text" name="appsecret" id="appsecret" value="{$wechat.appsecret}" />
+									<input class="w350" type="text" name="appsecret" id="appsecret" value="{$wechat.appsecret}" />
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 								</div>
 							</div>
 							
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{t}EncodingAESKey：{/t}</label>
 								<div class="controls">
-									<input type="text" name="aeskey" id="aeskey" value="{$wechat.aeskey}" />
+									<input class="w350" type="text" name="aeskey" id="aeskey" value="{$wechat.aeskey}" />
 								</div>
 							</div>
 							
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{lang key='platform::platform.lable_status'}</label>
 								<div class="controls chk_radio">
 									<input type="radio" name="status" value="1" {if $wechat.status eq 1}checked{/if}><span>{lang key='platform::platform.open'}</span>
@@ -134,10 +146,10 @@
 								</div>
 							</div>
 								
-							<div class="control-group formSep" >
+							<div class="control-group formSep">
 								<label class="control-label">{lang key='platform::platform.lable_sort'}</label>
 								<div class="controls">
-									<input type="text" name="sort" id="sort" value="{$wechat.sort|default:0}" />
+									<input class="w350" type="text" name="sort" id="sort" value="{$wechat.sort|default:0}" />
 								</div>
 							</div>
 							

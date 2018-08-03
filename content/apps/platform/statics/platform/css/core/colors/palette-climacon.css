@@ -1,0 +1,1091 @@
+.climacon-white .climacon_component-stroke {
+  fill: #FFFFFF; }
+
+.climacon-black .climacon_component-stroke {
+  fill: #000000; }
+
+.climacon-primary.climacon-lighten-5 .climacon_component-stroke {
+  fill: #F1EBFF; }
+
+.climacon-primary.climacon-lighten-4 .climacon_component-stroke {
+  fill: #E9E3F8; }
+
+.climacon-primary.climacon-lighten-3 .climacon_component-stroke {
+  fill: #BCAAE9; }
+
+.climacon-primary.climacon-lighten-2 .climacon_component-stroke {
+  fill: #AC92EC; }
+
+.climacon-primary.climacon-lighten-1 .climacon_component-stroke {
+  fill: #A992E2; }
+
+.climacon-primary .climacon_component-stroke {
+  fill: #967ADC; }
+
+.climacon-primary .climacon_component-fill {
+  fill: #E9E3F8; }
+
+.climacon-primary.climacon-darken-1 .climacon_component-stroke {
+  fill: #8362D6; }
+
+.climacon-primary.climacon-darken-2 .climacon_component-stroke {
+  fill: #704ACF; }
+
+.climacon-primary.climacon-darken-3 .climacon_component-stroke {
+  fill: #5E34C6; }
+
+.climacon-primary.climacon-darken-4 .climacon_component-stroke {
+  fill: #522EAE; }
+
+.climacon-primary.climacon-accent-1 .climacon_component-stroke {
+  fill: #9e77fd; }
+
+.climacon-primary.climacon-accent-2 .climacon_component-stroke {
+  fill: #9067f5; }
+
+.climacon-primary.climacon-accent-3 .climacon_component-stroke {
+  fill: #845de2; }
+
+.climacon-primary.climacon-accent-4 .climacon_component-stroke {
+  fill: #7452c7; }
+
+.climacon-success.climacon-lighten-5 .climacon_component-stroke {
+  fill: #C2EDE3; }
+
+.climacon-success.climacon-lighten-4 .climacon_component-stroke {
+  fill: #97E1CE; }
+
+.climacon-success.climacon-lighten-3 .climacon_component-stroke {
+  fill: #60D0B4; }
+
+.climacon-success.climacon-lighten-2 .climacon_component-stroke {
+  fill: #48CFAD; }
+
+.climacon-success.climacon-lighten-1 .climacon_component-stroke {
+  fill: #48C9A9; }
+
+.climacon-success .climacon_component-stroke {
+  fill: #37BC9B; }
+
+.climacon-success .climacon_component-fill {
+  fill: #97E1CE; }
+
+.climacon-success.climacon-darken-1 .climacon_component-stroke {
+  fill: #30A487; }
+
+.climacon-success.climacon-darken-2 .climacon_component-stroke {
+  fill: #298D74; }
+
+.climacon-success.climacon-darken-3 .climacon_component-stroke {
+  fill: #227560; }
+
+.climacon-success.climacon-darken-4 .climacon_component-stroke {
+  fill: #1B5D4D; }
+
+.climacon-success.climacon-accent-1 .climacon_component-stroke {
+  fill: #D8F7F0; }
+
+.climacon-success.climacon-accent-2 .climacon_component-stroke {
+  fill: #C2EDE3; }
+
+.climacon-success.climacon-accent-3 .climacon_component-stroke {
+  fill: #3EC3A2; }
+
+.climacon-success.climacon-accent-4 .climacon_component-stroke {
+  fill: #298D74; }
+
+.climacon-info.climacon-lighten-5 .climacon_component-stroke {
+  fill: #DAF0F8; }
+
+.climacon-info.climacon-lighten-4 .climacon_component-stroke {
+  fill: #ABDDEF; }
+
+.climacon-info.climacon-lighten-3 .climacon_component-stroke {
+  fill: #6EC4E4; }
+
+.climacon-info.climacon-lighten-2 .climacon_component-stroke {
+  fill: #4FC1E9; }
+
+.climacon-info.climacon-lighten-1 .climacon_component-stroke {
+  fill: #55B9DF; }
+
+.climacon-info .climacon_component-stroke {
+  fill: #3BAFDA; }
+
+.climacon-info .climacon_component-fill {
+  fill: #ABDDEF; }
+
+.climacon-info.climacon-darken-1 .climacon_component-stroke {
+  fill: #27A2CF; }
+
+.climacon-info.climacon-darken-2 .climacon_component-stroke {
+  fill: #228EB6; }
+
+.climacon-info.climacon-darken-3 .climacon_component-stroke {
+  fill: #1D7A9C; }
+
+.climacon-info.climacon-darken-4 .climacon_component-stroke {
+  fill: #196682; }
+
+.climacon-info.climacon-accent-1 .climacon_component-stroke {
+  fill: #80D2EF; }
+
+.climacon-info.climacon-accent-2 .climacon_component-stroke {
+  fill: #25B1E4; }
+
+.climacon-info.climacon-accent-3 .climacon_component-stroke {
+  fill: #168BB6; }
+
+.climacon-info.climacon-accent-4 .climacon_component-stroke {
+  fill: #126F91; }
+
+.climacon-warning.climacon-lighten-5 .climacon_component-stroke {
+  fill: #FFFCF6; }
+
+.climacon-warning.climacon-lighten-4 .climacon_component-stroke {
+  fill: #FCE9C1; }
+
+.climacon-warning.climacon-lighten-3 .climacon_component-stroke {
+  fill: #F9D07C; }
+
+.climacon-warning.climacon-lighten-2 .climacon_component-stroke {
+  fill: #FFCE54; }
+
+.climacon-warning.climacon-lighten-1 .climacon_component-stroke {
+  fill: #F7C55F; }
+
+.climacon-warning .climacon_component-stroke {
+  fill: #F6BB42; }
+
+.climacon-warning .climacon_component-fill {
+  fill: #FCE9C1; }
+
+.climacon-warning.climacon-darken-1 .climacon_component-stroke {
+  fill: #F5B025; }
+
+.climacon-warning.climacon-darken-2 .climacon_component-stroke {
+  fill: #EFA50B; }
+
+.climacon-warning.climacon-darken-3 .climacon_component-stroke {
+  fill: #D2910A; }
+
+.climacon-warning.climacon-darken-4 .climacon_component-stroke {
+  fill: #B57C09; }
+
+.climacon-warning.climacon-accent-1 .climacon_component-stroke {
+  fill: #fddea1; }
+
+.climacon-warning.climacon-accent-2 .climacon_component-stroke {
+  fill: #f9d07d; }
+
+.climacon-warning.climacon-accent-3 .climacon_component-stroke {
+  fill: #FDA85C; }
+
+.climacon-warning.climacon-accent-4 .climacon_component-stroke {
+  fill: #F5A90B; }
+
+.climacon-danger.climacon-lighten-5 .climacon_component-stroke {
+  fill: #F9E1E4; }
+
+.climacon-danger.climacon-lighten-4 .climacon_component-stroke {
+  fill: #F0B3B9; }
+
+.climacon-danger.climacon-lighten-3 .climacon_component-stroke {
+  fill: #E47782; }
+
+.climacon-danger.climacon-lighten-2 .climacon_component-stroke {
+  fill: #ED5565; }
+
+.climacon-danger.climacon-lighten-1 .climacon_component-stroke {
+  fill: #DF5E6A; }
+
+.climacon-danger .climacon_component-stroke {
+  fill: #DA4453; }
+
+.climacon-danger .climacon_component-fill {
+  fill: #F0B3B9; }
+
+.climacon-danger.climacon-darken-1 .climacon_component-stroke {
+  fill: #D52A3B; }
+
+.climacon-danger.climacon-darken-2 .climacon_component-stroke {
+  fill: #BC2534; }
+
+.climacon-danger.climacon-darken-3 .climacon_component-stroke {
+  fill: #A2202D; }
+
+.climacon-danger.climacon-darken-4 .climacon_component-stroke {
+  fill: #891B26; }
+
+.climacon-danger.climacon-accent-1 .climacon_component-stroke {
+  fill: #F9E1E4; }
+
+.climacon-danger.climacon-accent-2 .climacon_component-stroke {
+  fill: #EA7983; }
+
+.climacon-danger.climacon-accent-3 .climacon_component-stroke {
+  fill: #DF5E6A; }
+
+.climacon-danger.climacon-accent-4 .climacon_component-stroke {
+  fill: #CC2F3E; }
+
+.climacon-red.climacon-lighten-5 .climacon_component-stroke {
+  fill: #FFEBEE; }
+
+.climacon-red.climacon-lighten-4 .climacon_component-stroke {
+  fill: #FFCDD2; }
+
+.climacon-red.climacon-lighten-3 .climacon_component-stroke {
+  fill: #EF9A9A; }
+
+.climacon-red.climacon-lighten-2 .climacon_component-stroke {
+  fill: #E57373; }
+
+.climacon-red.climacon-lighten-1 .climacon_component-stroke {
+  fill: #EF5350; }
+
+.climacon-red .climacon_component-stroke {
+  fill: #F44336; }
+
+.climacon-red .climacon_component-fill {
+  fill: #FFCDD2; }
+
+.climacon-red.climacon-darken-1 .climacon_component-stroke {
+  fill: #E53935; }
+
+.climacon-red.climacon-darken-2 .climacon_component-stroke {
+  fill: #D32F2F; }
+
+.climacon-red.climacon-darken-3 .climacon_component-stroke {
+  fill: #C62828; }
+
+.climacon-red.climacon-darken-4 .climacon_component-stroke {
+  fill: #B71C1C; }
+
+.climacon-red.climacon-accent-1 .climacon_component-stroke {
+  fill: #FF8A80; }
+
+.climacon-red.climacon-accent-2 .climacon_component-stroke {
+  fill: #FF5252; }
+
+.climacon-red.climacon-accent-3 .climacon_component-stroke {
+  fill: #FF1744; }
+
+.climacon-red.climacon-accent-4 .climacon_component-stroke {
+  fill: #D50000; }
+
+.climacon-pink.climacon-lighten-5 .climacon_component-stroke {
+  fill: #FCE4EC; }
+
+.climacon-pink.climacon-lighten-4 .climacon_component-stroke {
+  fill: #F8BBD0; }
+
+.climacon-pink.climacon-lighten-3 .climacon_component-stroke {
+  fill: #F48FB1; }
+
+.climacon-pink.climacon-lighten-2 .climacon_component-stroke {
+  fill: #F06292; }
+
+.climacon-pink.climacon-lighten-1 .climacon_component-stroke {
+  fill: #EC407A; }
+
+.climacon-pink .climacon_component-stroke {
+  fill: #E91E63; }
+
+.climacon-pink .climacon_component-fill {
+  fill: #F8BBD0; }
+
+.climacon-pink.climacon-darken-1 .climacon_component-stroke {
+  fill: #D81B60; }
+
+.climacon-pink.climacon-darken-2 .climacon_component-stroke {
+  fill: #C2185B; }
+
+.climacon-pink.climacon-darken-3 .climacon_component-stroke {
+  fill: #AD1457; }
+
+.climacon-pink.climacon-darken-4 .climacon_component-stroke {
+  fill: #880E4F; }
+
+.climacon-pink.climacon-accent-1 .climacon_component-stroke {
+  fill: #FF80AB; }
+
+.climacon-pink.climacon-accent-2 .climacon_component-stroke {
+  fill: #FF4081; }
+
+.climacon-pink.climacon-accent-3 .climacon_component-stroke {
+  fill: #F50057; }
+
+.climacon-pink.climacon-accent-4 .climacon_component-stroke {
+  fill: #C51162; }
+
+.climacon-purple.climacon-lighten-5 .climacon_component-stroke {
+  fill: #F3E5F5; }
+
+.climacon-purple.climacon-lighten-4 .climacon_component-stroke {
+  fill: #E1BEE7; }
+
+.climacon-purple.climacon-lighten-3 .climacon_component-stroke {
+  fill: #CE93D8; }
+
+.climacon-purple.climacon-lighten-2 .climacon_component-stroke {
+  fill: #BA68C8; }
+
+.climacon-purple.climacon-lighten-1 .climacon_component-stroke {
+  fill: #AB47BC; }
+
+.climacon-purple .climacon_component-stroke {
+  fill: #9C27B0; }
+
+.climacon-purple .climacon_component-fill {
+  fill: #E1BEE7; }
+
+.climacon-purple.climacon-darken-1 .climacon_component-stroke {
+  fill: #8E24AA; }
+
+.climacon-purple.climacon-darken-2 .climacon_component-stroke {
+  fill: #7B1FA2; }
+
+.climacon-purple.climacon-darken-3 .climacon_component-stroke {
+  fill: #6A1B9A; }
+
+.climacon-purple.climacon-darken-4 .climacon_component-stroke {
+  fill: #4A148C; }
+
+.climacon-purple.climacon-accent-1 .climacon_component-stroke {
+  fill: #EA80FC; }
+
+.climacon-purple.climacon-accent-2 .climacon_component-stroke {
+  fill: #E040FB; }
+
+.climacon-purple.climacon-accent-3 .climacon_component-stroke {
+  fill: #D500F9; }
+
+.climacon-purple.climacon-accent-4 .climacon_component-stroke {
+  fill: #DD00FF; }
+
+.climacon-deep-purple.climacon-lighten-5 .climacon_component-stroke {
+  fill: #EDE7F6; }
+
+.climacon-deep-purple.climacon-lighten-4 .climacon_component-stroke {
+  fill: #D1C4E9; }
+
+.climacon-deep-purple.climacon-lighten-3 .climacon_component-stroke {
+  fill: #B39DDB; }
+
+.climacon-deep-purple.climacon-lighten-2 .climacon_component-stroke {
+  fill: #9575CD; }
+
+.climacon-deep-purple.climacon-lighten-1 .climacon_component-stroke {
+  fill: #7E57C2; }
+
+.climacon-deep-purple .climacon_component-stroke {
+  fill: #673AB7; }
+
+.climacon-deep-purple .climacon_component-fill {
+  fill: #D1C4E9; }
+
+.climacon-deep-purple.climacon-darken-1 .climacon_component-stroke {
+  fill: #5E35B1; }
+
+.climacon-deep-purple.climacon-darken-2 .climacon_component-stroke {
+  fill: #512DA8; }
+
+.climacon-deep-purple.climacon-darken-3 .climacon_component-stroke {
+  fill: #4527A0; }
+
+.climacon-deep-purple.climacon-darken-4 .climacon_component-stroke {
+  fill: #311B92; }
+
+.climacon-deep-purple.climacon-accent-1 .climacon_component-stroke {
+  fill: #B388FF; }
+
+.climacon-deep-purple.climacon-accent-2 .climacon_component-stroke {
+  fill: #7C4DFF; }
+
+.climacon-deep-purple.climacon-accent-3 .climacon_component-stroke {
+  fill: #651FFF; }
+
+.climacon-deep-purple.climacon-accent-4 .climacon_component-stroke {
+  fill: #6200EA; }
+
+.climacon-indigo.climacon-lighten-5 .climacon_component-stroke {
+  fill: #E8EAF6; }
+
+.climacon-indigo.climacon-lighten-4 .climacon_component-stroke {
+  fill: #C5CAE9; }
+
+.climacon-indigo.climacon-lighten-3 .climacon_component-stroke {
+  fill: #9FA8DA; }
+
+.climacon-indigo.climacon-lighten-2 .climacon_component-stroke {
+  fill: #7986CB; }
+
+.climacon-indigo.climacon-lighten-1 .climacon_component-stroke {
+  fill: #5C6BC0; }
+
+.climacon-indigo .climacon_component-stroke {
+  fill: #3F51B5; }
+
+.climacon-indigo .climacon_component-fill {
+  fill: #C5CAE9; }
+
+.climacon-indigo.climacon-darken-1 .climacon_component-stroke {
+  fill: #3949AB; }
+
+.climacon-indigo.climacon-darken-2 .climacon_component-stroke {
+  fill: #303F9F; }
+
+.climacon-indigo.climacon-darken-3 .climacon_component-stroke {
+  fill: #283593; }
+
+.climacon-indigo.climacon-darken-4 .climacon_component-stroke {
+  fill: #1A237E; }
+
+.climacon-indigo.climacon-accent-1 .climacon_component-stroke {
+  fill: #8C9EFF; }
+
+.climacon-indigo.climacon-accent-2 .climacon_component-stroke {
+  fill: #536DFE; }
+
+.climacon-indigo.climacon-accent-3 .climacon_component-stroke {
+  fill: #3D5AFE; }
+
+.climacon-indigo.climacon-accent-4 .climacon_component-stroke {
+  fill: #304FFE; }
+
+.climacon-blue.climacon-lighten-5 .climacon_component-stroke {
+  fill: #E3F2FD; }
+
+.climacon-blue.climacon-lighten-4 .climacon_component-stroke {
+  fill: #BBDEFB; }
+
+.climacon-blue.climacon-lighten-3 .climacon_component-stroke {
+  fill: #90CAF9; }
+
+.climacon-blue.climacon-lighten-2 .climacon_component-stroke {
+  fill: #64B5F6; }
+
+.climacon-blue.climacon-lighten-1 .climacon_component-stroke {
+  fill: #42A5F5; }
+
+.climacon-blue .climacon_component-stroke {
+  fill: #2196F3; }
+
+.climacon-blue .climacon_component-fill {
+  fill: #BBDEFB; }
+
+.climacon-blue.climacon-darken-1 .climacon_component-stroke {
+  fill: #1E88E5; }
+
+.climacon-blue.climacon-darken-2 .climacon_component-stroke {
+  fill: #1976D2; }
+
+.climacon-blue.climacon-darken-3 .climacon_component-stroke {
+  fill: #1565C0; }
+
+.climacon-blue.climacon-darken-4 .climacon_component-stroke {
+  fill: #0D47A1; }
+
+.climacon-blue.climacon-accent-1 .climacon_component-stroke {
+  fill: #82B1FF; }
+
+.climacon-blue.climacon-accent-2 .climacon_component-stroke {
+  fill: #448AFF; }
+
+.climacon-blue.climacon-accent-3 .climacon_component-stroke {
+  fill: #2979FF; }
+
+.climacon-blue.climacon-accent-4 .climacon_component-stroke {
+  fill: #2962FF; }
+
+.climacon-light-blue.climacon-lighten-5 .climacon_component-stroke {
+  fill: #E1F5FE; }
+
+.climacon-light-blue.climacon-lighten-4 .climacon_component-stroke {
+  fill: #B3E5FC; }
+
+.climacon-light-blue.climacon-lighten-3 .climacon_component-stroke {
+  fill: #81D4FA; }
+
+.climacon-light-blue.climacon-lighten-2 .climacon_component-stroke {
+  fill: #4FC3F7; }
+
+.climacon-light-blue.climacon-lighten-1 .climacon_component-stroke {
+  fill: #29B6F6; }
+
+.climacon-light-blue .climacon_component-stroke {
+  fill: #03A9F4; }
+
+.climacon-light-blue .climacon_component-fill {
+  fill: #B3E5FC; }
+
+.climacon-light-blue.climacon-darken-1 .climacon_component-stroke {
+  fill: #039BE5; }
+
+.climacon-light-blue.climacon-darken-2 .climacon_component-stroke {
+  fill: #0288D1; }
+
+.climacon-light-blue.climacon-darken-3 .climacon_component-stroke {
+  fill: #0277BD; }
+
+.climacon-light-blue.climacon-darken-4 .climacon_component-stroke {
+  fill: #01579B; }
+
+.climacon-light-blue.climacon-accent-1 .climacon_component-stroke {
+  fill: #80D8FF; }
+
+.climacon-light-blue.climacon-accent-2 .climacon_component-stroke {
+  fill: #40C4FF; }
+
+.climacon-light-blue.climacon-accent-3 .climacon_component-stroke {
+  fill: #00B0FF; }
+
+.climacon-light-blue.climacon-accent-4 .climacon_component-stroke {
+  fill: #0091EA; }
+
+.climacon-cyan.climacon-lighten-5 .climacon_component-stroke {
+  fill: #E0F7FA; }
+
+.climacon-cyan.climacon-lighten-4 .climacon_component-stroke {
+  fill: #B2EBF2; }
+
+.climacon-cyan.climacon-lighten-3 .climacon_component-stroke {
+  fill: #80DEEA; }
+
+.climacon-cyan.climacon-lighten-2 .climacon_component-stroke {
+  fill: #4DD0E1; }
+
+.climacon-cyan.climacon-lighten-1 .climacon_component-stroke {
+  fill: #26C6DA; }
+
+.climacon-cyan .climacon_component-stroke {
+  fill: #00BCD4; }
+
+.climacon-cyan .climacon_component-fill {
+  fill: #B2EBF2; }
+
+.climacon-cyan.climacon-darken-1 .climacon_component-stroke {
+  fill: #00ACC1; }
+
+.climacon-cyan.climacon-darken-2 .climacon_component-stroke {
+  fill: #0097A7; }
+
+.climacon-cyan.climacon-darken-3 .climacon_component-stroke {
+  fill: #00838F; }
+
+.climacon-cyan.climacon-darken-4 .climacon_component-stroke {
+  fill: #006064; }
+
+.climacon-cyan.climacon-accent-1 .climacon_component-stroke {
+  fill: #84FFFF; }
+
+.climacon-cyan.climacon-accent-2 .climacon_component-stroke {
+  fill: #18FFFF; }
+
+.climacon-cyan.climacon-accent-3 .climacon_component-stroke {
+  fill: #00E5FF; }
+
+.climacon-cyan.climacon-accent-4 .climacon_component-stroke {
+  fill: #00B8D4; }
+
+.climacon-teal.climacon-lighten-5 .climacon_component-stroke {
+  fill: #E0F2F1; }
+
+.climacon-teal.climacon-lighten-4 .climacon_component-stroke {
+  fill: #B2DFDB; }
+
+.climacon-teal.climacon-lighten-3 .climacon_component-stroke {
+  fill: #80CBC4; }
+
+.climacon-teal.climacon-lighten-2 .climacon_component-stroke {
+  fill: #4DB6AC; }
+
+.climacon-teal.climacon-lighten-1 .climacon_component-stroke {
+  fill: #26A69A; }
+
+.climacon-teal .climacon_component-stroke {
+  fill: #009688; }
+
+.climacon-teal .climacon_component-fill {
+  fill: #B2DFDB; }
+
+.climacon-teal.climacon-darken-1 .climacon_component-stroke {
+  fill: #00897B; }
+
+.climacon-teal.climacon-darken-2 .climacon_component-stroke {
+  fill: #00796B; }
+
+.climacon-teal.climacon-darken-3 .climacon_component-stroke {
+  fill: #00695C; }
+
+.climacon-teal.climacon-darken-4 .climacon_component-stroke {
+  fill: #004D40; }
+
+.climacon-teal.climacon-accent-1 .climacon_component-stroke {
+  fill: #A7FFEB; }
+
+.climacon-teal.climacon-accent-2 .climacon_component-stroke {
+  fill: #64FFDA; }
+
+.climacon-teal.climacon-accent-3 .climacon_component-stroke {
+  fill: #1DE9B6; }
+
+.climacon-teal.climacon-accent-4 .climacon_component-stroke {
+  fill: #00BFA5; }
+
+.climacon-green.climacon-lighten-5 .climacon_component-stroke {
+  fill: #E8F5E9; }
+
+.climacon-green.climacon-lighten-4 .climacon_component-stroke {
+  fill: #C8E6C9; }
+
+.climacon-green.climacon-lighten-3 .climacon_component-stroke {
+  fill: #A5D6A7; }
+
+.climacon-green.climacon-lighten-2 .climacon_component-stroke {
+  fill: #81C784; }
+
+.climacon-green.climacon-lighten-1 .climacon_component-stroke {
+  fill: #66BB6A; }
+
+.climacon-green .climacon_component-stroke {
+  fill: #4CAF50; }
+
+.climacon-green .climacon_component-fill {
+  fill: #C8E6C9; }
+
+.climacon-green.climacon-darken-1 .climacon_component-stroke {
+  fill: #43A047; }
+
+.climacon-green.climacon-darken-2 .climacon_component-stroke {
+  fill: #388E3C; }
+
+.climacon-green.climacon-darken-3 .climacon_component-stroke {
+  fill: #2E7D32; }
+
+.climacon-green.climacon-darken-4 .climacon_component-stroke {
+  fill: #1B5E20; }
+
+.climacon-green.climacon-accent-1 .climacon_component-stroke {
+  fill: #B9F6CA; }
+
+.climacon-green.climacon-accent-2 .climacon_component-stroke {
+  fill: #69F0AE; }
+
+.climacon-green.climacon-accent-3 .climacon_component-stroke {
+  fill: #00E676; }
+
+.climacon-green.climacon-accent-4 .climacon_component-stroke {
+  fill: #00C853; }
+
+.climacon-light-green.climacon-lighten-5 .climacon_component-stroke {
+  fill: #F1F8A9; }
+
+.climacon-light-green.climacon-lighten-4 .climacon_component-stroke {
+  fill: #DCEDC8; }
+
+.climacon-light-green.climacon-lighten-3 .climacon_component-stroke {
+  fill: #C5E1A5; }
+
+.climacon-light-green.climacon-lighten-2 .climacon_component-stroke {
+  fill: #AED581; }
+
+.climacon-light-green.climacon-lighten-1 .climacon_component-stroke {
+  fill: #9CCC65; }
+
+.climacon-light-green .climacon_component-stroke {
+  fill: #8BC34A; }
+
+.climacon-light-green .climacon_component-fill {
+  fill: #DCEDC8; }
+
+.climacon-light-green.climacon-darken-1 .climacon_component-stroke {
+  fill: #7CB342; }
+
+.climacon-light-green.climacon-darken-2 .climacon_component-stroke {
+  fill: #689F38; }
+
+.climacon-light-green.climacon-darken-3 .climacon_component-stroke {
+  fill: #558B2F; }
+
+.climacon-light-green.climacon-darken-4 .climacon_component-stroke {
+  fill: #33691E; }
+
+.climacon-light-green.climacon-accent-1 .climacon_component-stroke {
+  fill: #CCFF90; }
+
+.climacon-light-green.climacon-accent-2 .climacon_component-stroke {
+  fill: #B2FF59; }
+
+.climacon-light-green.climacon-accent-3 .climacon_component-stroke {
+  fill: #76FF03; }
+
+.climacon-light-green.climacon-accent-4 .climacon_component-stroke {
+  fill: #64DD17; }
+
+.climacon-lime.climacon-lighten-5 .climacon_component-stroke {
+  fill: #F9FBE7; }
+
+.climacon-lime.climacon-lighten-4 .climacon_component-stroke {
+  fill: #F0F4C3; }
+
+.climacon-lime.climacon-lighten-3 .climacon_component-stroke {
+  fill: #E6EE9C; }
+
+.climacon-lime.climacon-lighten-2 .climacon_component-stroke {
+  fill: #DCE775; }
+
+.climacon-lime.climacon-lighten-1 .climacon_component-stroke {
+  fill: #D4E157; }
+
+.climacon-lime .climacon_component-stroke {
+  fill: #CDDC39; }
+
+.climacon-lime .climacon_component-fill {
+  fill: #F0F4C3; }
+
+.climacon-lime.climacon-darken-1 .climacon_component-stroke {
+  fill: #C0CA33; }
+
+.climacon-lime.climacon-darken-2 .climacon_component-stroke {
+  fill: #AFB42B; }
+
+.climacon-lime.climacon-darken-3 .climacon_component-stroke {
+  fill: #9E9D24; }
+
+.climacon-lime.climacon-darken-4 .climacon_component-stroke {
+  fill: #827717; }
+
+.climacon-lime.climacon-accent-1 .climacon_component-stroke {
+  fill: #F4FF81; }
+
+.climacon-lime.climacon-accent-2 .climacon_component-stroke {
+  fill: #EEFF41; }
+
+.climacon-lime.climacon-accent-3 .climacon_component-stroke {
+  fill: #C6FF00; }
+
+.climacon-lime.climacon-accent-4 .climacon_component-stroke {
+  fill: #AEEA00; }
+
+.climacon-yellow.climacon-lighten-5 .climacon_component-stroke {
+  fill: #FFFDE7; }
+
+.climacon-yellow.climacon-lighten-4 .climacon_component-stroke {
+  fill: #FFF9C4; }
+
+.climacon-yellow.climacon-lighten-3 .climacon_component-stroke {
+  fill: #FFF59D; }
+
+.climacon-yellow.climacon-lighten-2 .climacon_component-stroke {
+  fill: #FFF176; }
+
+.climacon-yellow.climacon-lighten-1 .climacon_component-stroke {
+  fill: #FFEE58; }
+
+.climacon-yellow .climacon_component-stroke {
+  fill: #FFEB3B; }
+
+.climacon-yellow .climacon_component-fill {
+  fill: #FFF9C4; }
+
+.climacon-yellow.climacon-darken-1 .climacon_component-stroke {
+  fill: #FDD835; }
+
+.climacon-yellow.climacon-darken-2 .climacon_component-stroke {
+  fill: #FBC02D; }
+
+.climacon-yellow.climacon-darken-3 .climacon_component-stroke {
+  fill: #F9A825; }
+
+.climacon-yellow.climacon-darken-4 .climacon_component-stroke {
+  fill: #F57F17; }
+
+.climacon-yellow.climacon-accent-1 .climacon_component-stroke {
+  fill: #FFFF8D; }
+
+.climacon-yellow.climacon-accent-2 .climacon_component-stroke {
+  fill: #FFFF00; }
+
+.climacon-yellow.climacon-accent-3 .climacon_component-stroke {
+  fill: #FFEA00; }
+
+.climacon-yellow.climacon-accent-4 .climacon_component-stroke {
+  fill: #FFD600; }
+
+.climacon-amber.climacon-lighten-5 .climacon_component-stroke {
+  fill: #FFF8E1; }
+
+.climacon-amber.climacon-lighten-4 .climacon_component-stroke {
+  fill: #FFECB3; }
+
+.climacon-amber.climacon-lighten-3 .climacon_component-stroke {
+  fill: #FFE082; }
+
+.climacon-amber.climacon-lighten-2 .climacon_component-stroke {
+  fill: #FFD54F; }
+
+.climacon-amber.climacon-lighten-1 .climacon_component-stroke {
+  fill: #FFCA28; }
+
+.climacon-amber .climacon_component-stroke {
+  fill: #FFC107; }
+
+.climacon-amber .climacon_component-fill {
+  fill: #FFECB3; }
+
+.climacon-amber.climacon-darken-1 .climacon_component-stroke {
+  fill: #FFB300; }
+
+.climacon-amber.climacon-darken-2 .climacon_component-stroke {
+  fill: #FFA000; }
+
+.climacon-amber.climacon-darken-3 .climacon_component-stroke {
+  fill: #FF8F00; }
+
+.climacon-amber.climacon-darken-4 .climacon_component-stroke {
+  fill: #FF6F00; }
+
+.climacon-amber.climacon-accent-1 .climacon_component-stroke {
+  fill: #FFE57F; }
+
+.climacon-amber.climacon-accent-2 .climacon_component-stroke {
+  fill: #FFD740; }
+
+.climacon-amber.climacon-accent-3 .climacon_component-stroke {
+  fill: #FFC400; }
+
+.climacon-amber.climacon-accent-4 .climacon_component-stroke {
+  fill: #FFAB00; }
+
+.climacon-orange.climacon-lighten-5 .climacon_component-stroke {
+  fill: #FFF3E0; }
+
+.climacon-orange.climacon-lighten-4 .climacon_component-stroke {
+  fill: #FFE0B2; }
+
+.climacon-orange.climacon-lighten-3 .climacon_component-stroke {
+  fill: #FFCC80; }
+
+.climacon-orange.climacon-lighten-2 .climacon_component-stroke {
+  fill: #FFB74D; }
+
+.climacon-orange.climacon-lighten-1 .climacon_component-stroke {
+  fill: #FFA726; }
+
+.climacon-orange .climacon_component-stroke {
+  fill: #FF9800; }
+
+.climacon-orange .climacon_component-fill {
+  fill: #FFE0B2; }
+
+.climacon-orange.climacon-darken-1 .climacon_component-stroke {
+  fill: #FB8C00; }
+
+.climacon-orange.climacon-darken-2 .climacon_component-stroke {
+  fill: #F57C00; }
+
+.climacon-orange.climacon-darken-3 .climacon_component-stroke {
+  fill: #EF6C00; }
+
+.climacon-orange.climacon-darken-4 .climacon_component-stroke {
+  fill: #E65100; }
+
+.climacon-orange.climacon-accent-1 .climacon_component-stroke {
+  fill: #FFD180; }
+
+.climacon-orange.climacon-accent-2 .climacon_component-stroke {
+  fill: #FFAB40; }
+
+.climacon-orange.climacon-accent-3 .climacon_component-stroke {
+  fill: #FF9100; }
+
+.climacon-orange.climacon-accent-4 .climacon_component-stroke {
+  fill: #FF6D00; }
+
+.climacon-deep-orange.climacon-lighten-5 .climacon_component-stroke {
+  fill: #FbE9E7; }
+
+.climacon-deep-orange.climacon-lighten-4 .climacon_component-stroke {
+  fill: #FFCCBC; }
+
+.climacon-deep-orange.climacon-lighten-3 .climacon_component-stroke {
+  fill: #FFAB91; }
+
+.climacon-deep-orange.climacon-lighten-2 .climacon_component-stroke {
+  fill: #FF8A65; }
+
+.climacon-deep-orange.climacon-lighten-1 .climacon_component-stroke {
+  fill: #FF7043; }
+
+.climacon-deep-orange .climacon_component-stroke {
+  fill: #FF5722; }
+
+.climacon-deep-orange .climacon_component-fill {
+  fill: #FFCCBC; }
+
+.climacon-deep-orange.climacon-darken-1 .climacon_component-stroke {
+  fill: #F4511E; }
+
+.climacon-deep-orange.climacon-darken-2 .climacon_component-stroke {
+  fill: #E64A19; }
+
+.climacon-deep-orange.climacon-darken-3 .climacon_component-stroke {
+  fill: #D84315; }
+
+.climacon-deep-orange.climacon-darken-4 .climacon_component-stroke {
+  fill: #BF360C; }
+
+.climacon-deep-orange.climacon-accent-1 .climacon_component-stroke {
+  fill: #FF9E80; }
+
+.climacon-deep-orange.climacon-accent-2 .climacon_component-stroke {
+  fill: #FF6E40; }
+
+.climacon-deep-orange.climacon-accent-3 .climacon_component-stroke {
+  fill: #FF3D00; }
+
+.climacon-deep-orange.climacon-accent-4 .climacon_component-stroke {
+  fill: #DD2C00; }
+
+.climacon-brown.climacon-lighten-5 .climacon_component-stroke {
+  fill: #EFEBE9; }
+
+.climacon-brown.climacon-lighten-4 .climacon_component-stroke {
+  fill: #D7CCC8; }
+
+.climacon-brown.climacon-lighten-3 .climacon_component-stroke {
+  fill: #BCAAA4; }
+
+.climacon-brown.climacon-lighten-2 .climacon_component-stroke {
+  fill: #A1887F; }
+
+.climacon-brown.climacon-lighten-1 .climacon_component-stroke {
+  fill: #8D6E63; }
+
+.climacon-brown .climacon_component-stroke {
+  fill: #795548; }
+
+.climacon-brown .climacon_component-fill {
+  fill: #D7CCC8; }
+
+.climacon-brown.climacon-darken-1 .climacon_component-stroke {
+  fill: #6D4C41; }
+
+.climacon-brown.climacon-darken-2 .climacon_component-stroke {
+  fill: #5D4037; }
+
+.climacon-brown.climacon-darken-3 .climacon_component-stroke {
+  fill: #4E342E; }
+
+.climacon-brown.climacon-darken-4 .climacon_component-stroke {
+  fill: #3E2723; }
+
+.climacon-blue-grey.climacon-lighten-5 .climacon_component-stroke {
+  fill: #ECEFF1; }
+
+.climacon-blue-grey.climacon-lighten-4 .climacon_component-stroke {
+  fill: #CFD8DC; }
+
+.climacon-blue-grey.climacon-lighten-3 .climacon_component-stroke {
+  fill: #B0BEC5; }
+
+.climacon-blue-grey.climacon-lighten-2 .climacon_component-stroke {
+  fill: #90A4AE; }
+
+.climacon-blue-grey.climacon-lighten-1 .climacon_component-stroke {
+  fill: #78909C; }
+
+.climacon-blue-grey .climacon_component-stroke {
+  fill: #607D8B; }
+
+.climacon-blue-grey .climacon_component-fill {
+  fill: #CFD8DC; }
+
+.climacon-blue-grey.climacon-darken-1 .climacon_component-stroke {
+  fill: #546E7A; }
+
+.climacon-blue-grey.climacon-darken-2 .climacon_component-stroke {
+  fill: #455A64; }
+
+.climacon-blue-grey.climacon-darken-3 .climacon_component-stroke {
+  fill: #37474F; }
+
+.climacon-blue-grey.climacon-darken-4 .climacon_component-stroke {
+  fill: #263238; }
+
+.climacon-grey.climacon-lighten-5 .climacon_component-stroke {
+  fill: #FAFAFA; }
+
+.climacon-grey.climacon-lighten-4 .climacon_component-stroke {
+  fill: #F5F5F5; }
+
+.climacon-grey.climacon-lighten-3 .climacon_component-stroke {
+  fill: #EEEEEE; }
+
+.climacon-grey.climacon-lighten-2 .climacon_component-stroke {
+  fill: #E0E0E0; }
+
+.climacon-grey.climacon-lighten-1 .climacon_component-stroke {
+  fill: #BDBDBD; }
+
+.climacon-grey .climacon_component-stroke {
+  fill: #9E9E9E; }
+
+.climacon-grey .climacon_component-fill {
+  fill: #F5F5F5; }
+
+.climacon-grey.climacon-darken-1 .climacon_component-stroke {
+  fill: #757575; }
+
+.climacon-grey.climacon-darken-2 .climacon_component-stroke {
+  fill: #616161; }
+
+.climacon-grey.climacon-darken-3 .climacon_component-stroke {
+  fill: #424242; }
+
+.climacon-grey.climacon-darken-4 .climacon_component-stroke {
+  fill: #212121; }
+
+.climacon-grey-blue.climacon-lighten-5 .climacon_component-stroke {
+  fill: #ECEFF1; }
+
+.climacon-grey-blue.climacon-lighten-4 .climacon_component-stroke {
+  fill: #CFD8DC; }
+
+.climacon-grey-blue.climacon-lighten-3 .climacon_component-stroke {
+  fill: #B0BEC5; }
+
+.climacon-grey-blue.climacon-lighten-2 .climacon_component-stroke {
+  fill: #6F85AD; }
+
+.climacon-grey-blue.climacon-lighten-1 .climacon_component-stroke {
+  fill: #78909C; }
+
+.climacon-grey-blue .climacon_component-stroke {
+  fill: #1B2942; }
+
+.climacon-grey-blue .climacon_component-fill {
+  fill: #CFD8DC; }
+
+.climacon-grey-blue.climacon-darken-1 .climacon_component-stroke {
+  fill: #546E7A; }
+
+.climacon-grey-blue.climacon-darken-2 .climacon_component-stroke {
+  fill: #2C303B; }
+
+.climacon-grey-blue.climacon-darken-3 .climacon_component-stroke {
+  fill: #37474F; }
+
+.climacon-grey-blue.climacon-darken-4 .climacon_component-stroke {
+  fill: #263238; }
+
+.climacon-shades.climacon-black .climacon_component-stroke {
+  fill: #000000; }
+
+.climacon-shades.climacon-white .climacon_component-stroke {
+  fill: #FFFFFF; }
+
+.climacon-shades.climacon-transparent .climacon_component-stroke {
+  fill: transparent; }

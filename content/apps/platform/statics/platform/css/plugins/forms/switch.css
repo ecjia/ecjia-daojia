@@ -1,0 +1,59 @@
+/* Toggle */
+input[type="checkbox"].switch,
+input[type="radio"].switch {
+  opacity: 0; }
+
+/* Switchery */
+.switchery {
+  bottom: 4px;
+  margin-top: 5px; }
+
+.float-right .switchery, .switchery-large.switchery {
+  margin-bottom: 0.35rem; }
+
+.switchery-xsmall.switchery {
+  height: 16px;
+  width: 28px; }
+
+.switchery-xsmall.switchery > small {
+  height: 16px;
+  width: 16px; }
+
+.switch ~ .btn-group a.btn {
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5); }
+  .switch ~ .btn-group a.btn.active {
+    -moz-box-shadow: inset 0px 1px 5px -1px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0px 1px 5px -1px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0px 1px 5px -1px rgba(0, 0, 0, 0.5);
+    color: #FFFFFF; }
+    .switch ~ .btn-group a.btn.active:not(.dropdown-toggle) {
+      border-bottom-right-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem; }
+  .switch ~ .btn-group a.btn:hover {
+    z-index: 1; }
+
+.switch ~ .btn-group:focus {
+  outline: none; }
+
+.switch ~ .btn-group.btn-group-vertical .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0.25rem;
+  border-top-left-radius: 0.25rem; }
+
+.switch ~ .btn-group.btn-group-vertical .btn:last-child:not(:first-child):not(.dropdown-toggle) {
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem; }
+
+.bootstrap-switch.bootstrap-switch-animate.bootstrap-switch-on .bootstrap-switch-label,
+.bootstrap-switch.bootstrap-switch-animate.bootstrap-switch-on .bootstrap-switch-handle-off,
+.bootstrap-switch.bootstrap-switch-animate.bootstrap-switch-on .bootstrap-switch-handle-on, .bootstrap-switch.bootstrap-switch-animate.bootstrap-switch-off .bootstrap-switch-label,
+.bootstrap-switch.bootstrap-switch-animate.bootstrap-switch-off .bootstrap-switch-handle-off,
+.bootstrap-switch.bootstrap-switch-animate.bootstrap-switch-off .bootstrap-switch-handle-on, .bootstrap-switch.bootstrap-switch-inverse.bootstrap-switch-on .bootstrap-switch-label,
+.bootstrap-switch.bootstrap-switch-inverse.bootstrap-switch-on .bootstrap-switch-handle-off,
+.bootstrap-switch.bootstrap-switch-inverse.bootstrap-switch-on .bootstrap-switch-handle-on, .bootstrap-switch.bootstrap-switch-inverse.bootstrap-switch-off .bootstrap-switch-label,
+.bootstrap-switch.bootstrap-switch-inverse.bootstrap-switch-off .bootstrap-switch-handle-off,
+.bootstrap-switch.bootstrap-switch-inverse.bootstrap-switch-off .bootstrap-switch-handle-on {
+  padding: 5px 10px; }

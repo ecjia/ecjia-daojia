@@ -1,0 +1,9 @@
+.bootstrap-duallistbox-container select option {
+  padding: 0.35rem 0.7rem; }
+
+.bootstrap-duallistbox-container .info {
+  font-size: 13px !important;
+  margin-bottom: 0.5rem !important; }
+
+.bootstrap-duallistbox-container .clear1 {
+  font-size: 11px !important; }

@@ -1,0 +1,115 @@
+.outline {
+	background-color: #efefef;
+	border-radius: 5px;
+	color: #000;
+	width: 33%;
+	margin-bottom: 20px;
+	margin-right: .5%;
+	display: block;
+	vertical-align: top;
+	float: left;
+	position: relative;
+}
+
+.outline:nth-child(3n) {
+	margin-right: 0
+}
+
+.outline-right {
+	margin-top: 6px
+}
+
+.outline a {
+	color: #000;
+	text-decoration: none
+}
+
+.outline a:hover {
+	color: #08c;
+	text-decoration: none
+}
+
+.outline p {
+	font-size: 18px;
+	margin-bottom: 5px;
+}
+
+.outline .added {
+	position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.no-records {
+	height: 120px;
+    line-height: 120px;
+    text-align: center;
+	margin-bottom: 20px;
+}
+
+.highlight_box.global {
+    margin: 0 30px 40px;
+    border-top-width: 0;
+}
+
+.highlight_box.icon_wrap {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    overflow: hidden;
+}
+
+.highlight_box {
+    position: relative;
+    padding: 9px 30px;
+    background-color: #EEEEEE;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.highlight_box .title {
+    font-weight: 400;
+    font-style: normal;
+	padding-top: 5px;
+}
+
+.highlight_box .fonticon-wrap .icon-extend {
+	width: 60px;
+    height: 60px;
+}
+
+.highlight_box.icon_wrap .icon {
+    background: url(/mpres/zh_CN/htmledition/comm_htmledition/style/page/cardticket/card_apply_enter_z3a7b39.png) 0 -261px no-repeat;
+}
+
+.highlight_box.icon_wrap .icon_profile {
+    width: 48px;
+    height: 48px;
+}
+
+.highlight_box.icon_wrap .icon {
+    float: left;
+    margin-right: 15px;
+}
+
+.highlight_box .desc {
+    color: #8d8d8d;
+    overflow: hidden;
+}
+
+.highlight_box {
+    position: relative;
+    padding: 9px 30px;
+    background-color: #EEEEEE;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.intro dd {
+	color: #8d8d8d;
+	padding: 0 40px;
+}
+
+
+.highlight_box .fonticon-container > .fonticon-wrap {
+	margin-bottom: 0;
+}

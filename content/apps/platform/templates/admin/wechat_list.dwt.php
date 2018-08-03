@@ -68,8 +68,8 @@
 						{$val.name}<br>
 						{$val.uuid}
 						<div class="edit-list">
-							<a class="data-pjax" href='{RC_Uri::url("platform/admin/wechat_extend","id={$val.id}")}' title="{lang key='platform::platform.function_extend'}">{lang key='platform::platform.function_extend'}</a>&nbsp;|&nbsp;
-					      	<a class="data-pjax" href='{RC_Uri::url("platform/admin/edit", "id={$val.id}")}' title="{lang key='system::system.edit'}">{lang key='platform::platform.edit'}</a>	&nbsp;|&nbsp;
+							<a target="__blank" href='{RC_Uri::url("platform/admin/autologin","id={$val.id}")}' title="进入管理">进入管理</a> &nbsp;|&nbsp;
+					      	<a class="data-pjax" href='{RC_Uri::url("platform/admin/edit", "id={$val.id}")}' title="{lang key='system::system.edit'}">{lang key='platform::platform.edit'}</a> &nbsp;|&nbsp;
 					     	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t}您确定要删除公众号[{$val.name}]吗？{/t}" href='{RC_Uri::url("platform/admin/remove","id={$val.id}")}' title="{lang key='platform::platform.delete'}">{lang key='platform::platform.delete'}</a>
 				     	</div>
 					</td>
@@ -93,7 +93,9 @@
 				        <i class="{if $val.status eq 1}fontello-icon-ok{else}fontello-icon-cancel{/if} cursor_pointer" data-trigger="toggleState" data-url="{RC_Uri::url('platform/admin/toggle_show')}" data-id="{$val.id}" ></i>
 					</td>
 					<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('platform/admin/edit_sort')}" data-name="sort" data-pk="{$val.id}"  data-title="{lang key='platform::platform.edit_plat_sort'}">{$val.sort}</span></td>
-					<td>{$val.add_time}</td>
+					<td>
+						{$val.add_time}
+					</td>
 				</tr>
 				<!--  {foreachelse} -->
 				<tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>

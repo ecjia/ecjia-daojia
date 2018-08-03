@@ -1,0 +1,129 @@
+.d3-axis path {
+  fill: none;
+  stroke: #999999;
+  shape-rendering: crispEdges;
+}
+.d3-axis line {
+  stroke: #eeeeee;
+  shape-rendering: crispEdges;
+}
+.d3-axis .tick,
+.d3-axis .tick text {
+  font-size: 12px;
+  fill: #333333;
+}
+.d3-tip {
+  position: absolute;
+  padding: 8px 15px;
+  border-radius: 3px;
+  background-color: #333;
+  color: #fff;
+  margin-bottom: -3px;
+  font-size: 12px;
+  z-index: 1070;
+}
+.venntooltip {
+  position: absolute;
+  text-align: center;
+  min-width: 60px;
+  white-space: nowrap;
+  background-color: #333;
+  color: #fff;
+  padding: 7px 12px;
+  border-radius: 3px;
+  display: none;
+}
+
+.d3-line {
+  fill: none;
+}
+.d3-line-thin {
+  stroke-width: 1px;
+}
+.d3-line-medium {
+  stroke-width: 1.5px;
+}
+.d3-line-strong {
+  stroke-width: 2px;
+}
+.d3-line-circle {
+  fill: none;
+  cursor: pointer;
+}
+.d3-line-circle-thin {
+  stroke-width: 1px;
+}
+.d3-line-circle-medium {
+  stroke-width: 1.5px;
+}
+.d3-line-circle-strong {
+  stroke-width: 2px;
+}
+.d3-grid .tick line {
+  stroke-width: 1px;
+  stroke: #e5e5e5;
+  shape-rendering: crispEdges;
+}
+.d3-grid .tick text {
+  fill: #333333;
+  stroke: none;
+}
+.d3-grid-dashed .tick {
+  stroke-dasharray: 4,2;
+  stroke-width: 1px;
+  stroke: #e5e5e5;
+  shape-rendering: crispEdges;
+}
+.d3-grid-dashed path {
+  stroke-width: 0;
+}
+.d3-crosshair-overlay {
+  fill: none;
+  pointer-events: all;
+}
+.d3-bar--positive {
+  fill: #1DE9B6;
+}
+
+.d3-bar--negative {
+  fill: #E91E63;
+}
+.d3-bar.total rect {
+  fill: #651FFF;
+}
+
+.d3-bar.positive rect {
+  fill: #1DE9B6;
+}
+.d3-bar.negative rect {
+  fill: #E91E63;
+}
+.d3-bar line.d3-connector {
+  stroke: #2A363B;
+  stroke-dasharray: 3;
+}
+.center-svg svg{
+  margin: 0 auto;
+  display: block;
+}
+.inline-svg svg{
+  display: inline-block;
+}
+.gantt-bar{
+  fill: #37BC9B;
+}
+.gantt-bar-failed{
+  fill: #DA4453;
+}
+.gantt-bar-running{
+  fill: #3BAFDA;
+}
+.gantt-bar-killed{
+  fill: #F6BB42;
+}
+.counter-icon {
+  font-size: 32px;
+  position: absolute;
+  left: 50%;
+  margin-left: -16px;
+}

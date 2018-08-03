@@ -143,7 +143,7 @@ return array(
     'lable_sort'             => '排序：',
     'sort'                   => '排序',
     'open'                   => '开启',
-    'close'                  => '取消',
+    'close'                  => '关闭',
     'confirm'                => '确定',
     'update'                 => '更新',
     'remove'                 => '移除',
@@ -241,7 +241,10 @@ return array(
         'fun_plug_name'      => '请输入功能扩展名称',
         'fun_plug_info'      => '请输入功能扩展描述',
         'search_no_plugin'	 => '未搜索到扩展信息',
-    )
+    ),
+    
+    'extend_name'	=> '插件名称',
+    
 );
 
 // end

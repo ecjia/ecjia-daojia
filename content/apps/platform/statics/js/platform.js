@@ -10,11 +10,12 @@
 			ecjia.admin.platform.command_edit();
 			ecjia.admin.platform.editForm();
 			ecjia.admin.platform.extend();
+			ecjia.admin.platform.copy();
 		},
 		
 		//公众号列表 搜索/筛选
 		search : function() {
-			$('.screen-btn').on('click', function(e){
+			$('.screen-btn').off('click').on('click', function(e){
 				e.preventDefault();
 				var url = $("form[name='searchForm']").attr('action')
 				var platform = $("select[name='platform'] option:selected").val();
@@ -68,7 +69,7 @@
 		
 		//命令速查
 		quick_search : function() {
-			$('.search_command').on('click', function(e){
+			$('.search_command').off('click').on('click', function(e){
 				e.preventDefault();
 				var url = $("form[name='searchForm']").attr('action');
 				
@@ -78,7 +79,7 @@
 				ecjia.pjax(url);
 			});
 			
-			$('.select-btn').on('click', function(e){
+			$('.select-btn').off('click').on('click', function(e){
 				e.preventDefault();
 				var url = $("form[name='searchForm']").attr('action')
 				var keywords = $("input[name='keyword']").val();
@@ -206,12 +207,12 @@
 				$('.btn-gebo').show();
 			}
 			
-			$('.command_icon.fontello-icon-edit').on('click', function(e){
+			$('.command_icon.fontello-icon-edit').off('click').on('click', function(e){
 				var url = $(this).parent().attr('data-href'); 
 				ecjia.pjax(url);
 			});
 			
-			$('.command_icon.fontello-icon-ok').on('click', function(e){
+			$('.command_icon.fontello-icon-ok').off('click').on('click', function(e){
 				var url = $(this).parent().attr('data-href'); 
 				var cmd_word = $("input[name='cmd_word']").val();
 				var sub_code = $("input[name='sub_code']").val();
@@ -259,7 +260,7 @@
 		},
 		
 		extend : function () {
-            $(".ajaxall").on('click', function (e) {
+            $(".ajaxall").off('click').on('click', function (e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
                 $.get(url, function (data) {
@@ -267,6 +268,36 @@
                 }, 'json');
             });
 		},
+		
+		copy: function() {
+			$(".copy-url-btn").off('click').on('click', function (e) {
+	        	var url_clipboard = new ClipboardJS('.copy-url-btn');
+	        	url_clipboard.on('success', function(e) {
+	        		smoke.alert('复制成功', {ok: '确定'});
+	        		e.clearSelection();
+	        		url_clipboard.destroy();
+	 		    });
+	        	url_clipboard.on('error', function(e) {
+	 		    	smoke.alert('复制失败，请手动复制', {ok: '确定'});
+	 		    	e.clearSelection();
+	 		    	url_clipboard.destroy();
+	 		    });
+			});
+        	
+			$(".copy-token-btn").off('click').on('click', function (e) {
+	        	var token_clipboard = new ClipboardJS('.copy-token-btn');
+	        	token_clipboard.on('success', function(e) {
+	        		smoke.alert('复制成功', {ok: '确定'});
+	        		e.clearSelection();
+	        		token_clipboard.destroy();
+	 		    });
+	        	token_clipboard.on('error', function(e) {
+	 		    	smoke.alert('复制失败，请手动复制', {ok: '确定'});
+	 		    	e.clearSelection();
+	 		    	token_clipboard.destroy();
+	 		    });
+			});
+		}
 	};
 })(ecjia.admin, jQuery);
 

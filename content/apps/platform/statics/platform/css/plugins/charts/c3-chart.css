@@ -1,0 +1,150 @@
+/* ------------------------------------------------------------------------------
+*
+*  # C3 charts
+*
+*  Styles for C3.js visualization library
+*
+* ---------------------------------------------------------------------------- */
+.c3 svg {
+  font-size: 12px; }
+
+.c3 path, .c3 line {
+  fill: none;
+  stroke: #999999; }
+
+.c3 path.domain {
+  shape-rendering: crispEdges; }
+
+.c3 text {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+.c3-legend-item-tile,
+.c3-xgrid-focus,
+.c3-ygrid,
+.c3-event-rect,
+.c3-bars path {
+  shape-rendering: crispEdges; }
+
+.c3-chart-arc path {
+  stroke: #fff; }
+
+.c3-chart-arc text {
+  fill: #fff;
+  font-size: 13px; }
+
+.c3-grid line {
+  stroke: #aaa; }
+
+.c3-grid text {
+  fill: #aaa; }
+
+.c3-xgrid,
+.c3-ygrid {
+  stroke-dasharray: 3 3; }
+
+.c3-text {
+  font-weight: 500; }
+
+.c3-text.c3-empty {
+  fill: #808080;
+  font-size: 2em; }
+
+.c3-line {
+  stroke-width: 2px; }
+
+.c3-area {
+  stroke-width: 0;
+  opacity: 0.4;
+  filter: alpha(opacity=40); }
+
+.c3-circle._expanded_ {
+  stroke-width: 1.5px;
+  stroke: #fff; }
+
+.c3-selected-circle {
+  fill: #fff;
+  stroke-width: 2px; }
+
+.c3-bar {
+  stroke-width: 0; }
+
+.c3-bar._expanded_ {
+  fill-opacity: 0.75; }
+
+.c3-chart-arcs-title {
+  font-size: 1.3em; }
+
+.c3-chart-arcs .c3-chart-arcs-background {
+  fill: #e0e0e0;
+  stroke: none; }
+
+.c3-chart-arcs .c3-chart-arcs-gauge-unit {
+  fill: #333333;
+  font-size: 15px; }
+
+.c3-chart-arcs .c3-chart-arcs-gauge-max,
+.c3-chart-arcs .c3-chart-arcs-gauge-min {
+  fill: #999999; }
+
+.c3-chart-arc .c3-gauge-value {
+  fill: #333333;
+  font-size: 28px; }
+
+.c3-target.c3-focused {
+  opacity: 1;
+  filter: alpha(opacity=100); }
+
+.c3-target.c3-focused path.c3-line,
+.c3-target.c3-focused path.c3-step {
+  stroke-width: 2px; }
+
+.c3-target.c3-defocused {
+  opacity: 0.3 !important;
+  filter: alpha(opacity=30) !important; }
+
+.c3-region {
+  fill: #546E7A;
+  fill-opacity: .1; }
+
+.c3-brush .extent {
+  fill-opacity: .1; }
+
+.c3-legend-item {
+  font-size: 12px; }
+
+.c3-legend-background {
+  fill: #fff;
+  stroke: lightgray;
+  stroke-width: 1;
+  opacity: 0.75;
+  filter: alpha(opacity=75); }
+
+.c3-tooltip {
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: #fff;
+  empty-cells: show;
+  opacity: 0.95;
+  filter: alpha(opacity=95); }
+  .c3-tooltip th {
+    background-color: #333;
+    padding: 4px 10px;
+    text-align: center;
+    color: #fff;
+    border: 1px solid #333;
+    font-weight: 500; }
+  .c3-tooltip td {
+    font-size: 12px;
+    padding: 6px 10px;
+    background-color: #fff;
+    border: 1px solid #ddd; }
+    .c3-tooltip td > span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 6px; }
+    .c3-tooltip td.value {
+      text-align: right; }

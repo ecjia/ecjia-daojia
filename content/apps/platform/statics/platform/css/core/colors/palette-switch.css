@@ -1,0 +1,99 @@
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-primary, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-primary {
+  background-image: linear-gradient(to bottom, #704ACF 0%, #A992E2 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-success, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-success {
+  background-image: linear-gradient(to bottom, #298D74 0%, #48C9A9 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-info, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-info {
+  background-image: linear-gradient(to bottom, #228EB6 0%, #55B9DF 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-warning, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-warning {
+  background-image: linear-gradient(to bottom, #EFA50B 0%, #F7C55F 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-danger, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-danger {
+  background-image: linear-gradient(to bottom, #BC2534 0%, #DF5E6A 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-red, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-red {
+  background-image: linear-gradient(to bottom, #D32F2F 0%, #EF5350 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-pink, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-pink {
+  background-image: linear-gradient(to bottom, #C2185B 0%, #EC407A 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-purple, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-purple {
+  background-image: linear-gradient(to bottom, #7B1FA2 0%, #AB47BC 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-deep-purple, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-deep-purple {
+  background-image: linear-gradient(to bottom, #512DA8 0%, #7E57C2 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-indigo, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-indigo {
+  background-image: linear-gradient(to bottom, #303F9F 0%, #5C6BC0 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-blue, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-blue {
+  background-image: linear-gradient(to bottom, #1976D2 0%, #42A5F5 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-light-blue, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-light-blue {
+  background-image: linear-gradient(to bottom, #0288D1 0%, #29B6F6 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-cyan, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-cyan {
+  background-image: linear-gradient(to bottom, #0097A7 0%, #26C6DA 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-teal, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-teal {
+  background-image: linear-gradient(to bottom, #00796B 0%, #26A69A 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-green, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-green {
+  background-image: linear-gradient(to bottom, #388E3C 0%, #66BB6A 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-light-green, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-light-green {
+  background-image: linear-gradient(to bottom, #689F38 0%, #9CCC65 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-lime, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-lime {
+  background-image: linear-gradient(to bottom, #AFB42B 0%, #D4E157 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-yellow, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-yellow {
+  background-image: linear-gradient(to bottom, #FBC02D 0%, #FFEE58 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-amber, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-amber {
+  background-image: linear-gradient(to bottom, #FFA000 0%, #FFCA28 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-orange, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-orange {
+  background-image: linear-gradient(to bottom, #F57C00 0%, #FFA726 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-deep-orange, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-deep-orange {
+  background-image: linear-gradient(to bottom, #E64A19 0%, #FF7043 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-brown, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-brown {
+  background-image: linear-gradient(to bottom, #5D4037 0%, #8D6E63 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-blue-grey, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-blue-grey {
+  background-image: linear-gradient(to bottom, #455A64 0%, #78909C 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-grey, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-grey {
+  background-image: linear-gradient(to bottom, #616161 0%, #BDBDBD 100%);
+  background-repeat: repeat-x; }
+
+.bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-on.bootstrap-switch-grey-blue, .bootstrap-switch .bootstrap-switch-container .bootstrap-switch-handle-off.bootstrap-switch-grey-blue {
+  background-image: linear-gradient(to bottom, #2C303B 0%, #78909C 100%);
+  background-repeat: repeat-x; }

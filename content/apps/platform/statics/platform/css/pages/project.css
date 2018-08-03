@@ -1,0 +1,34 @@
+#project-info {
+  overflow: hidden; }
+  #project-info .project-info-count {
+    text-align: center;
+    vertical-align: top; }
+    #project-info .project-info-count .project-info-icon {
+      border: 3px solid #ececec;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto;
+      padding: 37px 0;
+      position: relative;
+      width: 110px;
+      height: 110px; }
+    #project-info .project-info-count .project-info-text {
+      display: block;
+      margin-top: 20px;
+      left: 0;
+      position: relative;
+      top: 0;
+      width: 99.8%; }
+    #project-info .project-info-count .project-info-sub-icon {
+      position: relative;
+      border-radius: 65px;
+      border: 1px solid #adadad;
+      background: #fff;
+      bottom: -5px;
+      left: 34px;
+      width: 40px;
+      height: 40px; }
+      #project-info .project-info-count .project-info-sub-icon span {
+        font-size: 1.2rem;
+        top: 10px;
+        position: relative; }

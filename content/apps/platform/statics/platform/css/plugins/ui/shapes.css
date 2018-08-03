@@ -1,0 +1,341 @@
+/*
+Square Shape
+*/
+.square-shape {
+  width: 100px;
+  height: 100px;
+  background: #967ADC; }
+
+/*
+Rectangle Shape
+*/
+.rectangle-shape {
+  width: 200px;
+  height: 100px;
+  background: #967ADC; }
+
+/*
+Circle Shape
+*/
+.circle-shape {
+  width: 100px;
+  height: 100px;
+  background: #967ADC;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px; }
+
+/*
+Oval Shape
+*/
+.oval-shape {
+  width: 200px;
+  height: 100px;
+  background: #967ADC;
+  -moz-border-radius: 100px / 50px;
+  -webkit-border-radius: 100px / 50px;
+  border-radius: 100px / 50px; }
+
+/*
+Triangle Up
+*/
+.triangle-up-shape {
+  width: 100px;
+  height: 100px;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid #967ADC; }
+
+/*
+Triangle Down
+*/
+.triangle-down-shape {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 100px solid #967ADC; }
+
+/*
+Triangle Left
+*/
+.triangle-left-shape {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-right: 100px solid #967ADC;
+  border-bottom: 50px solid transparent; }
+
+/*
+Triangle Right
+*/
+.triangle-right-shape {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-left: 100px solid #967ADC;
+  border-bottom: 50px solid transparent; }
+
+/*
+Triangle Top Left
+*/
+.triangle-topleft-shape {
+  width: 0;
+  height: 0;
+  border-top: 100px solid #967ADC;
+  border-right: 100px solid transparent; }
+
+/*
+Triangle Top Right
+*/
+.triangle-topright-shape {
+  width: 0;
+  height: 0;
+  border-top: 100px solid #967ADC;
+  border-left: 100px solid transparent; }
+
+/*
+Triangle Bottom Left
+*/
+.triangle-bottomleft-shape {
+  width: 0;
+  height: 0;
+  border-bottom: 100px solid #967ADC;
+  border-right: 100px solid transparent; }
+
+/*
+Triangle Bottom Right
+*/
+.triangle-bottomright-shape {
+  width: 0;
+  height: 0;
+  border-bottom: 100px solid #967ADC;
+  border-left: 100px solid transparent; }
+
+/*
+Star Shape
+*/
+.star-shape {
+  margin: 50px 0;
+  position: relative;
+  display: block;
+  color: #967ADC;
+  width: 0px;
+  height: 0px;
+  border-right: 100px solid transparent;
+  border-bottom: 70px solid #967ADC;
+  border-left: 100px solid transparent;
+  transform: rotate(35deg); }
+  .star-shape:before {
+    border-bottom: 80px solid #967ADC;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -45px;
+    left: -65px;
+    display: block;
+    content: '';
+    transform: rotate(-35deg); }
+  .star-shape:after {
+    position: absolute;
+    display: block;
+    color: #967ADC;
+    top: 3px;
+    left: -105px;
+    width: 0px;
+    height: 0px;
+    border-right: 100px solid transparent;
+    border-bottom: 70px solid #967ADC;
+    border-left: 100px solid transparent;
+    transform: rotate(-70deg);
+    content: ''; }
+
+/*
+Pentagon
+*/
+.pentagon-shape {
+  position: relative;
+  width: 54px;
+  border-width: 50px 18px 0;
+  border-style: solid;
+  border-color: #967ADC transparent; }
+  .pentagon-shape:before {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -85px;
+    left: -18px;
+    border-width: 0 45px 35px;
+    border-style: solid;
+    border-color: transparent transparent #967ADC; }
+
+/*
+Hexagon
+*/
+.hexagon-shape {
+  width: 100px;
+  height: 55px;
+  background: #967ADC;
+  position: relative; }
+  .hexagon-shape:before {
+    content: "";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 25px solid #967ADC; }
+  .hexagon-shape:after {
+    content: "";
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 25px solid #967ADC; }
+
+/*
+Octagon
+*/
+.octagon-shape {
+  width: 100px;
+  height: 100px;
+  background: #967ADC;
+  position: relative; }
+  .octagon-shape:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 29px solid #967ADC;
+    border-left: 29px solid #eee;
+    border-right: 29px solid #eee;
+    width: 42px;
+    height: 0; }
+  .octagon-shape:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 29px solid #967ADC;
+    border-left: 29px solid #eee;
+    border-right: 29px solid #eee;
+    width: 42px;
+    height: 0; }
+
+/*
+Heart Shape
+*/
+.heart-shape {
+  position: relative;
+  width: 100px;
+  height: 90px; }
+  .heart-shape:before {
+    position: absolute;
+    content: "";
+    left: 50px;
+    top: 0;
+    width: 50px;
+    height: 80px;
+    background: #967ADC;
+    -moz-border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%; }
+  .heart-shape:after {
+    position: absolute;
+    content: "";
+    left: 50px;
+    top: 0;
+    width: 50px;
+    height: 80px;
+    background: #967ADC;
+    -moz-border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%; }
+
+/*
+Diamond
+*/
+.cut-diamond-shape {
+  border-style: solid;
+  border-color: transparent transparent #967ADC transparent;
+  border-width: 0 25px 25px 25px;
+  height: 0;
+  width: 50px;
+  position: relative;
+  margin: 20px 0 50px 0; }
+  .cut-diamond-shape:after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: -25px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: #967ADC transparent transparent transparent;
+    border-width: 70px 50px 0 50px; }
+
+/*
+Diamond Square
+*/
+.diamond-shape {
+  width: 0;
+  height: 0;
+  border: 50px solid transparent;
+  border-bottom-color: #967ADC;
+  position: relative;
+  top: -50px; }
+  .diamond-shape:after {
+    content: '';
+    position: absolute;
+    left: -50px;
+    top: 50px;
+    width: 0;
+    height: 0;
+    border: 50px solid transparent;
+    border-top-color: #967ADC; }
+
+/*
+Egg Shape
+*/
+.egg-shape {
+  display: block;
+  width: 126px;
+  height: 180px;
+  background-color: #967ADC;
+  -webkit-border-radius: 63px 63px 63px 63px / 108px 108px 72px 72px;
+  border-radius: 50%  50%  50%  50%  / 60%   60%   40%  40%; }
+
+.app-shape {
+  position: relative;
+  color: #FFF;
+  vertical-align: middle;
+  margin: auto;
+  z-index: 10; }
+  .app-shape span {
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    margin-top: -10px;
+    left: 0;
+    right: 0;
+    z-index: 11; }
+
+.heart-shape span {
+  margin-top: -20px; }
+
+@media (min-width: 768px) {
+  .jqueryui-ele-container .app-shape {
+    display: inline-block; } }

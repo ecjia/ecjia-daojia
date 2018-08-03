@@ -1,0 +1,136 @@
+.jqvmap-label
+{
+	position: absolute;
+	display: none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #292929;
+	color: white;
+	font-family: sans-serif, Verdana;
+	font-size: smaller;
+	padding: 3px;
+ 	pointer-events:none;
+}
+.jqvmap-pin {
+  pointer-events:none;
+}
+.jqvmap-zoomin, .jqvmap-zoomout
+{
+	position: absolute;
+	left: 10px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #000000;
+	padding: 3px;
+	color: white;
+	width: 17px;
+	height: 17px;
+	cursor: pointer;
+	line-height: 10px;
+	text-align: center;
+}
+.jqvmap-zoomin
+{
+	top: 10px;
+}
+.jqvmap-zoomout
+{
+	top: 30px;
+}
+.jqvmap-region
+{
+  cursor: pointer;
+}
+.jqvmap-ajax_response
+{
+  width: 100%;
+  height: 500px;
+}
+.jqvmap-area{
+	width: 100%;
+	height: 100%;
+}
+
+/* Continents*/
+#continents{
+	position: relative;
+	width:100%;
+    height: 100%;
+}
+.continent-map {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 35px;
+    width:100%;
+    height: 90%;
+}
+
+h4.continent-tab {
+	background: none repeat scroll 0 0 #F2F5F8;
+	border: 1px solid #aaaaaa;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	float: left;
+	padding: 5px;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+h4.continent-tab.tab-selected {
+	background: #cccccc;
+	border: 1px solid #000000;
+}
+
+/* Custom Pins*/
+.jqvmap-region {
+	cursor: default !important;
+}
+
+.map-pin {
+	width: 64px;
+	height: 50px;
+	position: absolute;
+	top: -25px;
+	left: -32px;
+	background-size: 32px 32px;
+	background-repeat: no-repeat;
+	text-align: center;
+	background-position: top center;
+	color: #888;
+	font-weight: 500;
+	font-size: 14px;
+}
+
+.map-pin span {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	left: 0;
+}
+
+.red {
+	background-image: url('../../../images/jvqmap/marker/red.png');
+}
+
+.blue {
+	background-image: url('../../../images/jvqmap/marker/blue.png');
+}
+
+.purple {
+	background-image: url('../../../images/jvqmap/marker/purple.png');
+}
+
+/* Setup basic CSS for Label */
+.jqvmap-pin {
+	cursor: default;
+}
+
+/* Reposition Labels that are not quite right ( labels are centered in shape, and sometimes need tweaking ) */
+
+#jqvmap1_fl_pin {
+	margin-left: 5%;
+}

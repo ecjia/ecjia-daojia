@@ -1,0 +1,74 @@
+.email-application .email-app-menu {
+  border-right: 1px solid #E4E7ED;
+  height: 100%; }
+  .email-application .email-app-menu .form-group-compose {
+    border-bottom: 1px solid #E4E7ED; }
+  .email-application .email-app-menu .list-group-messages {
+    border-bottom: 1px solid #E4E7ED; }
+    .email-application .email-app-menu .list-group-messages a {
+      padding: 0.85rem 1rem;
+      font-size: 1.1rem; }
+
+.email-application .email-app-list #users-list {
+  position: fixed;
+  height: 100%;
+  overflow: scroll;
+  width: 291px;
+  background: #FFFFFF; }
+
+.email-application .email-app-details {
+  overflow-y: scroll;
+  height: calc(100% - 30px); }
+  .email-application .email-app-details .email-app-options, .email-application .email-app-details .email-app-title {
+    border-bottom: 1px solid #E4E7ED; }
+
+.email-application .sidebar {
+  width: 499px;
+  display: table;
+  height: 100%; }
+  .email-application .sidebar .email-app-sidebar {
+    display: table;
+    height: 100%; }
+
+.email-application .content-right {
+  width: calc(100% - 500px); }
+
+.email-application .app-content, .email-application .content-right, .email-application .content-wrapper, .email-application .content-body {
+  height: 100%; }
+
+.email-application .content-wrapper {
+  padding: 0 !important; }
+
+.email-application .sidebar-left {
+  border-right: 1px solid #E4E7ED;
+  z-index: 999;
+  display: table;
+  height: 100%; }
+
+.email-application .chat-fixed-search {
+  position: fixed;
+  z-index: 999;
+  background: #FFFFFF;
+  width: 291px;
+  padding: 1rem; }
+  .email-application .chat-fixed-search fieldset {
+    border-bottom: 1px solid #E4E7ED; }
+
+.email-application .users-list-padding {
+  padding-top: 83px;
+  padding-bottom: 60px; }
+
+@media (max-width: 991.98px) {
+  .email-application .chat-fixed-search,
+  .email-application .email-app-list #users-list {
+    width: calc(100% - 60px); } }
+
+@media (max-width: 767.98px) {
+  .email-application .chat-fixed-search,
+  .email-application .email-app-list #users-list {
+    width: 100%; } }
+
+.horizontal-layout.email-application .app-content {
+  height: calc(100% - 144px) !important;
+  min-height: calc(100% - 144px) !important;
+  margin-top: 0 !important; }

@@ -1,0 +1,30 @@
+.long-press-popup {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	background: rgba(0, 0, 0, .8);
+	padding-top: 20px;
+	margin:0;
+	font-size: 60px;
+	z-index: 9999
+}
+.long-press-popup li {
+	display:inline-block;
+	list-style: none;
+	padding: 10px 34px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	background: #000000;
+	cursor:pointer;
+	color: white;
+	border: solid 4px black;
+	border-radius: 12px;
+}
+.long-press-popup .selected {
+	border-color: white;
+	-webkit-box-shadow: 0 0 18px rgba(255, 255, 255, 0.75);
+	-moz-box-shadow:    0 0 18px rgba(255, 255, 255, 0.75);
+	box-shadow:         0 0 18px rgba(255, 255, 255, 0.75);
+}

@@ -1,0 +1,10 @@
+#search-nav .nav {
+  border-bottom: 2px solid #e0e0e0; }
+
+#search-nav .nav-link.active {
+  padding-bottom: 9px;
+  border-bottom: 2px solid #3BAFDA;
+  margin-bottom: -2px; }
+
+#search-results .media-search {
+  padding-top: 5px; }

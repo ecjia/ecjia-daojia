@@ -1,0 +1,34 @@
+/*========== Coming Soon Background Image =========*/
+.comingsoonVideo .app-content .coming-soon-content {
+  z-index: 99; }
+
+.clockCard {
+  float: left;
+  border-radius: .50rem; }
+
+.comingsoonOne {
+  background-image: url("../../images/backgrounds/bg-12.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.getting-started {
+  font-size: 2.4rem;
+  border-radius: 60px;
+  min-width: 360px; }
+
+.countdownFormat {
+  font-size: 16px;
+  padding-bottom: 0px; }
+
+.socialIcon i {
+  font-size: 28px;
+  padding: 5px; }
+
+/*========== Coming Soon Flat Design =========*/
+.clockFormat {
+  border-radius: 60px; }
+
+.comingsoonFlat {
+  background-image: url("../../images/backgrounds/bg-14.jpg.png");
+  background-repeat: no-repeat;
+  background-size: cover; }

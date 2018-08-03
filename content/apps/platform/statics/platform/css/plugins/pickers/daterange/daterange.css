@@ -1,0 +1,18 @@
+.range_inputs button {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem; }
+
+.picker__nav--prev:before,
+.picker__nav--next:before,
+.picker__button--close:before {
+  font-family: 'FontAwesome' !important; }
+
+.picker__nav--next:before {
+  content: '\f105'; }
+
+.picker__nav--prev:before {
+  content: '\f104'; }
+
+.picker__button--close:before {
+  content: '\f00d'; }

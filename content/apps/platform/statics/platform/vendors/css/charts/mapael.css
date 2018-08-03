@@ -1,0 +1,63 @@
+.mapael .map {
+    position: relative;
+}
+
+.mapael-container{
+    max-width: 800px;
+    margin: auto;
+}
+.mapael .mapTooltip {
+    position: absolute;
+    background-color: #474c4b;
+    moz-opacity: 0.80;
+    opacity: 0.80;
+    filter: alpha(opacity=80);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1000;
+    max-width: 200px;
+    display: none;
+    color: #fff;
+}
+
+.mapael .areaLegend {
+    margin-bottom: 20px;
+}
+
+/* For all zoom buttons */
+.mapael-vector-map .zoomButton {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #000;
+    width: 25px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    font-weight: bold;
+    left: 10px;
+
+    -webkit-user-select: none;
+    -khtml-user-select : none;
+    -moz-user-select: none;
+    -o-user-select : none;
+    user-select: none;
+}
+
+/* Reset Zoom button first */
+.mapael-vector-map .zoomReset {
+    top: 10px;
+}
+
+/* Then Zoom In button */
+.mapael-vector-map .zoomIn {
+    top: 45px;
+}
+
+/* Then Zoom Out button */
+.mapael-vector-map .zoomOut {
+    top: 80px;
+}

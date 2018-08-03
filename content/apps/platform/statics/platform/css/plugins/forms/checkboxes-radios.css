@@ -1,0 +1,40 @@
+.right-checkbox input[type="checkbox"],
+.right-checkbox .custom-control-indicator,
+.right-checkbox input[type="radio"], .right-radio input[type="checkbox"],
+.right-radio .custom-control-indicator,
+.right-radio input[type="radio"] {
+  left: auto;
+  top: auto;
+  position: absolute; }
+
+.right-checkbox input[type="checkbox"],
+.right-checkbox .custom-control-label::before,
+.right-checkbox .custom-control-label::after,
+.right-checkbox input[type="radio"], .right-radio input[type="checkbox"],
+.right-radio .custom-control-label::before,
+.right-radio .custom-control-label::after,
+.right-radio input[type="radio"] {
+  left: auto;
+  right: 2%; }
+
+.radio.right-radio label {
+  padding-left: 0; }
+
+/* iCheck */
+.skin [class*="icheckbox_"],
+.skin [class*="iradio_"], .icheck_square [class*="icheckbox_"],
+.icheck_square [class*="iradio_"] {
+  margin-right: 0.6rem; }
+
+.skin [class*="icheckbox_line"],
+.skin [class*="iradio_line"] {
+  margin-bottom: 0.6rem; }
+
+.state[class*="icheckbox_"]:hover, .state[class*="iradio_"]:hover {
+  cursor: default; }
+
+/* Image Checkbox selected*/
+input[type="checkbox"]:checked + img.img-thumbnail {
+  background-color: #967ADC;
+  color: #996;
+  border-color: #967ADC; }

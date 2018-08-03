@@ -1,0 +1,35 @@
+/* Typeahead Starts */
+.typeahead .twitter-typeahead {
+  width: 100%; }
+  .typeahead .twitter-typeahead .tt-menu {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding: 0.75rem 0; }
+    .typeahead .twitter-typeahead .tt-menu .tt-suggestion {
+      padding: 0.25rem 0.75rem;
+      cursor: pointer; }
+      .typeahead .twitter-typeahead .tt-menu .tt-suggestion:hover {
+        background-color: #967ADC;
+        color: #fff; }
+  .typeahead .twitter-typeahead .empty-message {
+    padding: 5px 10px;
+    text-align: center; }
+  .typeahead .twitter-typeahead .rtl-typeahead .tt-menu {
+    text-align: right; }
+  .typeahead .twitter-typeahead .league-name {
+    margin: 0 10px 5px 10px;
+    padding: 7px 5px 10px;
+    border-bottom: 1px solid #ccc; }
+
+.typeahead .scrollable-dropdown .twitter-typeahead .tt-menu {
+  max-height: 150px;
+  overflow-y: auto; }
+
+/* Typeahead Ends */
+/* MaxLength Starts */
+.bootstrap-maxlength {
+  margin-top: 0.5rem; }
+
+/* MaxLength Ends */

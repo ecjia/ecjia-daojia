@@ -1,0 +1,72 @@
+.clndr {
+  width: 100%;
+  background-color: #F3F3F3;
+  -moz-box-shadow: 0px 4px 0 #272727;
+  -webkit-box-shadow: 0px 4px 0 #272727;
+  box-shadow: 0px 4px 0 #272727; }
+  .clndr .clndr-controls {
+    padding: 14px;
+    background-color: #37BC9B;
+    color: white;
+    text-align: center; }
+    .clndr .clndr-controls .clndr-previous-button {
+      float: left;
+      text-align: left; }
+    .clndr .clndr-controls .clndr-next-button {
+      float: right;
+      text-align: right; }
+    .clndr .clndr-controls .clndr-previous-button, .clndr .clndr-controls .clndr-next-button {
+      width: 30px;
+      cursor: pointer; }
+    .clndr .clndr-controls .clndr-previous-button:hover, .clndr .clndr-controls .clndr-next-button:hover {
+      opacity: 0.5; }
+  .clndr .clndr-grid {
+    float: left;
+    width: 65%;
+    background-color: #FFFFFF; }
+    .clndr .clndr-grid .days-of-the-week {
+      width: 100%;
+      background-color: #F6BB42; }
+      .clndr .clndr-grid .days-of-the-week .header-day {
+        float: left;
+        width: 14.2857%;
+        padding: 14px;
+        text-align: center;
+        color: white; }
+    .clndr .clndr-grid .days {
+      width: 100%; }
+      .clndr .clndr-grid .days .day, .clndr .clndr-grid .days .empty {
+        float: left;
+        width: 14.2857%;
+        padding: 12px 0;
+        text-align: center;
+        color: #4f4f4f; }
+      .clndr .clndr-grid .days .day.event .day-number, .clndr .clndr-grid .days .empty.event .day-number {
+        border: 1px solid #F6BB42;
+        border-radius: 50%;
+        padding: 6px 9px; }
+      .clndr .clndr-grid .days .day.adjacent-month .day-number, .clndr .clndr-grid .days .day.inactive .day-number, .clndr .clndr-grid .days .empty.adjacent-month .day-number {
+        opacity: 0.3;
+        cursor: pointer; }
+      .clndr .clndr-grid .days .day.selected {
+        background-color: #DA4453;
+        color: white; }
+      .clndr .clndr-grid .days .today {
+        background-color: #37BC9B;
+        color: white;
+        background-image: none; }
+  .clndr .event-listing {
+    float: left;
+    width: 35%; }
+    .clndr .event-listing .event-listing-title {
+      padding: 15.5px;
+      font-size: 0.88rem;
+      background-color: #f4a911;
+      text-align: center;
+      color: white;
+      letter-spacing: 1px; }
+    .clndr .event-listing .event-item {
+      padding: 6px 14px;
+      color: #4f4f4f; }
+    .clndr .event-listing .event-item-location {
+      font-weight: 400; }

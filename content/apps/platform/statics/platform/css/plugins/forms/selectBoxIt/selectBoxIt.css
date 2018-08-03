@@ -1,0 +1,90 @@
+.selectboxit-container {
+  width: 100%; }
+
+.selectboxit-optgroup-option .selectboxit-option-anchor {
+  padding-left: 1.2rem !important; }
+
+.selectboxit-container .selectboxit-options {
+  max-height: 240px; }
+
+.selectboxit-container .selectboxit-btn {
+  background-image: none;
+  border: 1px solid #cccccc; }
+
+.selectboxit-container .selectboxit-option-icon.selectboxit-container {
+  margin: 0.45rem 0 0 0; }
+
+.selectboxit.selectBox-right-icon .selectboxit-arrow-container .selectboxit-arrow {
+  top: 25%; }
+
+.selectboxit.custom-bootstrap-icon .selectboxit-arrow-container .selectboxit-arrow {
+  top: 30%; }
+
+.selectboxit-list > .selectboxit-focus > .selectboxit-option-anchor {
+  background-image: none !important;
+  background-color: #E0E0E0 !important;
+  color: #424242 !important; }
+
+.input-group-addon + .selectBox + .selectboxit-container .selectboxit {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
+
+.selectBox + .selectboxit-container + .input-group-btn .btn {
+  padding: 0.225rem 1rem; }
+
+/* # Sizing
+-------------------------------------------------- */
+.selectBox-fixed + .selectboxit-container,
+.selectBox-fixed + .selectboxit-options {
+  width: 260px; }
+
+.selectboxit.selectBox.selectBox-auto, .selectBox-auto + .selectboxit-container,
+.selectBox-auto + .selectboxit-options {
+  width: auto; }
+
+.selectboxit.selectBox.selectBox-auto, .selectBox-auto + .selectboxit-container {
+  display: inline-block; }
+
+.selectboxit.selectBox.selectBox-auto {
+  padding-right: 2rem; }
+
+.selectBox-xl + .selectboxit-container .selectboxit {
+  padding: 9px 5px;
+  padding-right: 0px;
+  height: 40px;
+  font-size: 1.25rem; }
+
+.selectBox-xl + .selectboxit-container span {
+  line-height: 20px;
+  height: auto; }
+
+.selectBox-lg + .selectboxit-container .selectboxit {
+  padding: 7px 5px;
+  padding-right: 22px;
+  height: 34px;
+  font-size: 1.1rem; }
+
+.selectBox-lg + .selectboxit-container span {
+  line-height: 17px;
+  height: auto; }
+
+.selectBox-xl ~ .selectboxit-container .selectboxit-arrow-container, .selectBox-lg ~ .selectboxit-container .selectboxit-arrow-container, .selectBox-sm ~ .selectboxit-container .selectboxit-arrow-container {
+  top: 45%; }
+
+.selectBox-sm + .selectboxit-container .selectboxit {
+  padding: 6px 5px;
+  padding-right: 25px;
+  height: 28px;
+  font-size: 0.85rem;
+  line-height: 1.6666667; }
+
+.selectBox-sm + .selectboxit-container span {
+  line-height: 14px;
+  height: auto; }
+
+.selectboxit-btn {
+  background-color: #ffffff !important; }
+  .selectboxit-btn[class*='bg-'] {
+    background-image: none; }
+  .selectboxit-btn.selectboxit-enabled:hover, .selectboxit-btn.selectboxit-enabled:focus {
+    background-position: 0 0 !important; }

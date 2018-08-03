@@ -1,0 +1,1403 @@
+.loader-white div {
+  background-color: #FFFFFF !important; }
+
+.loader-white.ball-clip-rotate div {
+  border-color: #FFFFFF !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-white.ball-clip-rotate-pulse div:first-child {
+  background: #FFFFFF !important; }
+
+.loader-white.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #FFFFFF transparent #FFFFFF transparent !important; }
+
+.loader-white.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #FFFFFF transparent #FFFFFF !important; }
+
+.loader-white.ball-rotate div:before, .loader-white.ball-rotate div:after {
+  background-color: #FFFFFF !important; }
+
+.loader-white.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #FFFFFF !important; }
+
+.loader-white.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #FFFFFF !important; }
+
+.loader-white.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #FFFFFF !important; }
+
+.loader-white.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #FFFFFF !important; }
+
+.loader-white.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #FFFFFF 30%, #FFFFFF 100%);
+  background-color: transparent !important; }
+
+.loader-white.fading-circle div {
+  background-color: transparent !important; }
+  .loader-white.fading-circle div:before {
+    background-color: #FFFFFF !important; }
+
+.loader-white.folding-cube div {
+  background-color: transparent !important; }
+  .loader-white.folding-cube div:before {
+    background-color: #FFFFFF !important; }
+
+.loader-black div {
+  background-color: #000000 !important; }
+
+.loader-black.ball-clip-rotate div {
+  border-color: #000000 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-black.ball-clip-rotate-pulse div:first-child {
+  background: #000000 !important; }
+
+.loader-black.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #000000 transparent #000000 transparent !important; }
+
+.loader-black.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #000000 transparent #000000 !important; }
+
+.loader-black.ball-rotate div:before, .loader-black.ball-rotate div:after {
+  background-color: #000000 !important; }
+
+.loader-black.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #000000 !important; }
+
+.loader-black.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #000000 !important; }
+
+.loader-black.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #000000 !important; }
+
+.loader-black.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #000000 !important; }
+
+.loader-black.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #000000 30%, #000000 100%);
+  background-color: transparent !important; }
+
+.loader-black.fading-circle div {
+  background-color: transparent !important; }
+  .loader-black.fading-circle div:before {
+    background-color: #000000 !important; }
+
+.loader-black.folding-cube div {
+  background-color: transparent !important; }
+  .loader-black.folding-cube div:before {
+    background-color: #000000 !important; }
+
+.loader-primary div {
+  background-color: #967ADC !important; }
+
+.loader-primary.ball-clip-rotate div {
+  border-color: #967ADC !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-primary.ball-clip-rotate-pulse div:first-child {
+  background: #967ADC !important; }
+
+.loader-primary.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #967ADC transparent #967ADC transparent !important; }
+
+.loader-primary.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #967ADC transparent #967ADC !important; }
+
+.loader-primary.ball-rotate div:before, .loader-primary.ball-rotate div:after {
+  background-color: #967ADC !important; }
+
+.loader-primary.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #967ADC !important; }
+
+.loader-primary.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #967ADC !important; }
+
+.loader-primary.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #967ADC !important; }
+
+.loader-primary.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #967ADC !important; }
+
+.loader-primary.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #967ADC 30%, #967ADC 100%);
+  background-color: transparent !important; }
+
+.loader-primary.fading-circle div {
+  background-color: transparent !important; }
+  .loader-primary.fading-circle div:before {
+    background-color: #967ADC !important; }
+
+.loader-primary.folding-cube div {
+  background-color: transparent !important; }
+  .loader-primary.folding-cube div:before {
+    background-color: #967ADC !important; }
+
+.loader-success div {
+  background-color: #37BC9B !important; }
+
+.loader-success.ball-clip-rotate div {
+  border-color: #37BC9B !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-success.ball-clip-rotate-pulse div:first-child {
+  background: #37BC9B !important; }
+
+.loader-success.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #37BC9B transparent #37BC9B transparent !important; }
+
+.loader-success.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #37BC9B transparent #37BC9B !important; }
+
+.loader-success.ball-rotate div:before, .loader-success.ball-rotate div:after {
+  background-color: #37BC9B !important; }
+
+.loader-success.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #37BC9B !important; }
+
+.loader-success.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #37BC9B !important; }
+
+.loader-success.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #37BC9B !important; }
+
+.loader-success.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #37BC9B !important; }
+
+.loader-success.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #37BC9B 30%, #37BC9B 100%);
+  background-color: transparent !important; }
+
+.loader-success.fading-circle div {
+  background-color: transparent !important; }
+  .loader-success.fading-circle div:before {
+    background-color: #37BC9B !important; }
+
+.loader-success.folding-cube div {
+  background-color: transparent !important; }
+  .loader-success.folding-cube div:before {
+    background-color: #37BC9B !important; }
+
+.loader-info div {
+  background-color: #3BAFDA !important; }
+
+.loader-info.ball-clip-rotate div {
+  border-color: #3BAFDA !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-info.ball-clip-rotate-pulse div:first-child {
+  background: #3BAFDA !important; }
+
+.loader-info.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #3BAFDA transparent #3BAFDA transparent !important; }
+
+.loader-info.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #3BAFDA transparent #3BAFDA !important; }
+
+.loader-info.ball-rotate div:before, .loader-info.ball-rotate div:after {
+  background-color: #3BAFDA !important; }
+
+.loader-info.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #3BAFDA !important; }
+
+.loader-info.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #3BAFDA !important; }
+
+.loader-info.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #3BAFDA !important; }
+
+.loader-info.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #3BAFDA !important; }
+
+.loader-info.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #3BAFDA 30%, #3BAFDA 100%);
+  background-color: transparent !important; }
+
+.loader-info.fading-circle div {
+  background-color: transparent !important; }
+  .loader-info.fading-circle div:before {
+    background-color: #3BAFDA !important; }
+
+.loader-info.folding-cube div {
+  background-color: transparent !important; }
+  .loader-info.folding-cube div:before {
+    background-color: #3BAFDA !important; }
+
+.loader-warning div {
+  background-color: #F6BB42 !important; }
+
+.loader-warning.ball-clip-rotate div {
+  border-color: #F6BB42 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-warning.ball-clip-rotate-pulse div:first-child {
+  background: #F6BB42 !important; }
+
+.loader-warning.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #F6BB42 transparent #F6BB42 transparent !important; }
+
+.loader-warning.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #F6BB42 transparent #F6BB42 !important; }
+
+.loader-warning.ball-rotate div:before, .loader-warning.ball-rotate div:after {
+  background-color: #F6BB42 !important; }
+
+.loader-warning.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #F6BB42 !important; }
+
+.loader-warning.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #F6BB42 !important; }
+
+.loader-warning.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #F6BB42 !important; }
+
+.loader-warning.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #F6BB42 !important; }
+
+.loader-warning.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #F6BB42 30%, #F6BB42 100%);
+  background-color: transparent !important; }
+
+.loader-warning.fading-circle div {
+  background-color: transparent !important; }
+  .loader-warning.fading-circle div:before {
+    background-color: #F6BB42 !important; }
+
+.loader-warning.folding-cube div {
+  background-color: transparent !important; }
+  .loader-warning.folding-cube div:before {
+    background-color: #F6BB42 !important; }
+
+.loader-danger div {
+  background-color: #DA4453 !important; }
+
+.loader-danger.ball-clip-rotate div {
+  border-color: #DA4453 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-danger.ball-clip-rotate-pulse div:first-child {
+  background: #DA4453 !important; }
+
+.loader-danger.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #DA4453 transparent #DA4453 transparent !important; }
+
+.loader-danger.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #DA4453 transparent #DA4453 !important; }
+
+.loader-danger.ball-rotate div:before, .loader-danger.ball-rotate div:after {
+  background-color: #DA4453 !important; }
+
+.loader-danger.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #DA4453 !important; }
+
+.loader-danger.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #DA4453 !important; }
+
+.loader-danger.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #DA4453 !important; }
+
+.loader-danger.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #DA4453 !important; }
+
+.loader-danger.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #DA4453 30%, #DA4453 100%);
+  background-color: transparent !important; }
+
+.loader-danger.fading-circle div {
+  background-color: transparent !important; }
+  .loader-danger.fading-circle div:before {
+    background-color: #DA4453 !important; }
+
+.loader-danger.folding-cube div {
+  background-color: transparent !important; }
+  .loader-danger.folding-cube div:before {
+    background-color: #DA4453 !important; }
+
+.loader-red div {
+  background-color: #F44336 !important; }
+
+.loader-red.ball-clip-rotate div {
+  border-color: #F44336 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-red.ball-clip-rotate-pulse div:first-child {
+  background: #F44336 !important; }
+
+.loader-red.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #F44336 transparent #F44336 transparent !important; }
+
+.loader-red.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #F44336 transparent #F44336 !important; }
+
+.loader-red.ball-rotate div:before, .loader-red.ball-rotate div:after {
+  background-color: #F44336 !important; }
+
+.loader-red.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #F44336 !important; }
+
+.loader-red.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #F44336 !important; }
+
+.loader-red.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #F44336 !important; }
+
+.loader-red.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #F44336 !important; }
+
+.loader-red.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #F44336 30%, #F44336 100%);
+  background-color: transparent !important; }
+
+.loader-red.fading-circle div {
+  background-color: transparent !important; }
+  .loader-red.fading-circle div:before {
+    background-color: #F44336 !important; }
+
+.loader-red.folding-cube div {
+  background-color: transparent !important; }
+  .loader-red.folding-cube div:before {
+    background-color: #F44336 !important; }
+
+.loader-pink div {
+  background-color: #E91E63 !important; }
+
+.loader-pink.ball-clip-rotate div {
+  border-color: #E91E63 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-pink.ball-clip-rotate-pulse div:first-child {
+  background: #E91E63 !important; }
+
+.loader-pink.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #E91E63 transparent #E91E63 transparent !important; }
+
+.loader-pink.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #E91E63 transparent #E91E63 !important; }
+
+.loader-pink.ball-rotate div:before, .loader-pink.ball-rotate div:after {
+  background-color: #E91E63 !important; }
+
+.loader-pink.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #E91E63 !important; }
+
+.loader-pink.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #E91E63 !important; }
+
+.loader-pink.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #E91E63 !important; }
+
+.loader-pink.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #E91E63 !important; }
+
+.loader-pink.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #E91E63 30%, #E91E63 100%);
+  background-color: transparent !important; }
+
+.loader-pink.fading-circle div {
+  background-color: transparent !important; }
+  .loader-pink.fading-circle div:before {
+    background-color: #E91E63 !important; }
+
+.loader-pink.folding-cube div {
+  background-color: transparent !important; }
+  .loader-pink.folding-cube div:before {
+    background-color: #E91E63 !important; }
+
+.loader-purple div {
+  background-color: #9C27B0 !important; }
+
+.loader-purple.ball-clip-rotate div {
+  border-color: #9C27B0 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-purple.ball-clip-rotate-pulse div:first-child {
+  background: #9C27B0 !important; }
+
+.loader-purple.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #9C27B0 transparent #9C27B0 transparent !important; }
+
+.loader-purple.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #9C27B0 transparent #9C27B0 !important; }
+
+.loader-purple.ball-rotate div:before, .loader-purple.ball-rotate div:after {
+  background-color: #9C27B0 !important; }
+
+.loader-purple.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #9C27B0 !important; }
+
+.loader-purple.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #9C27B0 !important; }
+
+.loader-purple.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #9C27B0 !important; }
+
+.loader-purple.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #9C27B0 !important; }
+
+.loader-purple.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #9C27B0 30%, #9C27B0 100%);
+  background-color: transparent !important; }
+
+.loader-purple.fading-circle div {
+  background-color: transparent !important; }
+  .loader-purple.fading-circle div:before {
+    background-color: #9C27B0 !important; }
+
+.loader-purple.folding-cube div {
+  background-color: transparent !important; }
+  .loader-purple.folding-cube div:before {
+    background-color: #9C27B0 !important; }
+
+.loader-deep-purple div {
+  background-color: #673AB7 !important; }
+
+.loader-deep-purple.ball-clip-rotate div {
+  border-color: #673AB7 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-deep-purple.ball-clip-rotate-pulse div:first-child {
+  background: #673AB7 !important; }
+
+.loader-deep-purple.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #673AB7 transparent #673AB7 transparent !important; }
+
+.loader-deep-purple.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #673AB7 transparent #673AB7 !important; }
+
+.loader-deep-purple.ball-rotate div:before, .loader-deep-purple.ball-rotate div:after {
+  background-color: #673AB7 !important; }
+
+.loader-deep-purple.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #673AB7 !important; }
+
+.loader-deep-purple.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #673AB7 !important; }
+
+.loader-deep-purple.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #673AB7 !important; }
+
+.loader-deep-purple.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #673AB7 !important; }
+
+.loader-deep-purple.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #673AB7 30%, #673AB7 100%);
+  background-color: transparent !important; }
+
+.loader-deep-purple.fading-circle div {
+  background-color: transparent !important; }
+  .loader-deep-purple.fading-circle div:before {
+    background-color: #673AB7 !important; }
+
+.loader-deep-purple.folding-cube div {
+  background-color: transparent !important; }
+  .loader-deep-purple.folding-cube div:before {
+    background-color: #673AB7 !important; }
+
+.loader-indigo div {
+  background-color: #3F51B5 !important; }
+
+.loader-indigo.ball-clip-rotate div {
+  border-color: #3F51B5 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-indigo.ball-clip-rotate-pulse div:first-child {
+  background: #3F51B5 !important; }
+
+.loader-indigo.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #3F51B5 transparent #3F51B5 transparent !important; }
+
+.loader-indigo.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #3F51B5 transparent #3F51B5 !important; }
+
+.loader-indigo.ball-rotate div:before, .loader-indigo.ball-rotate div:after {
+  background-color: #3F51B5 !important; }
+
+.loader-indigo.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #3F51B5 !important; }
+
+.loader-indigo.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #3F51B5 !important; }
+
+.loader-indigo.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #3F51B5 !important; }
+
+.loader-indigo.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #3F51B5 !important; }
+
+.loader-indigo.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #3F51B5 30%, #3F51B5 100%);
+  background-color: transparent !important; }
+
+.loader-indigo.fading-circle div {
+  background-color: transparent !important; }
+  .loader-indigo.fading-circle div:before {
+    background-color: #3F51B5 !important; }
+
+.loader-indigo.folding-cube div {
+  background-color: transparent !important; }
+  .loader-indigo.folding-cube div:before {
+    background-color: #3F51B5 !important; }
+
+.loader-blue div {
+  background-color: #2196F3 !important; }
+
+.loader-blue.ball-clip-rotate div {
+  border-color: #2196F3 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-blue.ball-clip-rotate-pulse div:first-child {
+  background: #2196F3 !important; }
+
+.loader-blue.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #2196F3 transparent #2196F3 transparent !important; }
+
+.loader-blue.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #2196F3 transparent #2196F3 !important; }
+
+.loader-blue.ball-rotate div:before, .loader-blue.ball-rotate div:after {
+  background-color: #2196F3 !important; }
+
+.loader-blue.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #2196F3 !important; }
+
+.loader-blue.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #2196F3 !important; }
+
+.loader-blue.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #2196F3 !important; }
+
+.loader-blue.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #2196F3 !important; }
+
+.loader-blue.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #2196F3 30%, #2196F3 100%);
+  background-color: transparent !important; }
+
+.loader-blue.fading-circle div {
+  background-color: transparent !important; }
+  .loader-blue.fading-circle div:before {
+    background-color: #2196F3 !important; }
+
+.loader-blue.folding-cube div {
+  background-color: transparent !important; }
+  .loader-blue.folding-cube div:before {
+    background-color: #2196F3 !important; }
+
+.loader-light-blue div {
+  background-color: #03A9F4 !important; }
+
+.loader-light-blue.ball-clip-rotate div {
+  border-color: #03A9F4 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-light-blue.ball-clip-rotate-pulse div:first-child {
+  background: #03A9F4 !important; }
+
+.loader-light-blue.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #03A9F4 transparent #03A9F4 transparent !important; }
+
+.loader-light-blue.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #03A9F4 transparent #03A9F4 !important; }
+
+.loader-light-blue.ball-rotate div:before, .loader-light-blue.ball-rotate div:after {
+  background-color: #03A9F4 !important; }
+
+.loader-light-blue.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #03A9F4 !important; }
+
+.loader-light-blue.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #03A9F4 !important; }
+
+.loader-light-blue.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #03A9F4 !important; }
+
+.loader-light-blue.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #03A9F4 !important; }
+
+.loader-light-blue.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #03A9F4 30%, #03A9F4 100%);
+  background-color: transparent !important; }
+
+.loader-light-blue.fading-circle div {
+  background-color: transparent !important; }
+  .loader-light-blue.fading-circle div:before {
+    background-color: #03A9F4 !important; }
+
+.loader-light-blue.folding-cube div {
+  background-color: transparent !important; }
+  .loader-light-blue.folding-cube div:before {
+    background-color: #03A9F4 !important; }
+
+.loader-cyan div {
+  background-color: #00BCD4 !important; }
+
+.loader-cyan.ball-clip-rotate div {
+  border-color: #00BCD4 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-cyan.ball-clip-rotate-pulse div:first-child {
+  background: #00BCD4 !important; }
+
+.loader-cyan.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #00BCD4 transparent #00BCD4 transparent !important; }
+
+.loader-cyan.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #00BCD4 transparent #00BCD4 !important; }
+
+.loader-cyan.ball-rotate div:before, .loader-cyan.ball-rotate div:after {
+  background-color: #00BCD4 !important; }
+
+.loader-cyan.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #00BCD4 !important; }
+
+.loader-cyan.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #00BCD4 !important; }
+
+.loader-cyan.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #00BCD4 !important; }
+
+.loader-cyan.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #00BCD4 !important; }
+
+.loader-cyan.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #00BCD4 30%, #00BCD4 100%);
+  background-color: transparent !important; }
+
+.loader-cyan.fading-circle div {
+  background-color: transparent !important; }
+  .loader-cyan.fading-circle div:before {
+    background-color: #00BCD4 !important; }
+
+.loader-cyan.folding-cube div {
+  background-color: transparent !important; }
+  .loader-cyan.folding-cube div:before {
+    background-color: #00BCD4 !important; }
+
+.loader-teal div {
+  background-color: #009688 !important; }
+
+.loader-teal.ball-clip-rotate div {
+  border-color: #009688 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-teal.ball-clip-rotate-pulse div:first-child {
+  background: #009688 !important; }
+
+.loader-teal.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #009688 transparent #009688 transparent !important; }
+
+.loader-teal.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #009688 transparent #009688 !important; }
+
+.loader-teal.ball-rotate div:before, .loader-teal.ball-rotate div:after {
+  background-color: #009688 !important; }
+
+.loader-teal.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #009688 !important; }
+
+.loader-teal.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #009688 !important; }
+
+.loader-teal.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #009688 !important; }
+
+.loader-teal.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #009688 !important; }
+
+.loader-teal.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #009688 30%, #009688 100%);
+  background-color: transparent !important; }
+
+.loader-teal.fading-circle div {
+  background-color: transparent !important; }
+  .loader-teal.fading-circle div:before {
+    background-color: #009688 !important; }
+
+.loader-teal.folding-cube div {
+  background-color: transparent !important; }
+  .loader-teal.folding-cube div:before {
+    background-color: #009688 !important; }
+
+.loader-green div {
+  background-color: #4CAF50 !important; }
+
+.loader-green.ball-clip-rotate div {
+  border-color: #4CAF50 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-green.ball-clip-rotate-pulse div:first-child {
+  background: #4CAF50 !important; }
+
+.loader-green.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #4CAF50 transparent #4CAF50 transparent !important; }
+
+.loader-green.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #4CAF50 transparent #4CAF50 !important; }
+
+.loader-green.ball-rotate div:before, .loader-green.ball-rotate div:after {
+  background-color: #4CAF50 !important; }
+
+.loader-green.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #4CAF50 !important; }
+
+.loader-green.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #4CAF50 !important; }
+
+.loader-green.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #4CAF50 !important; }
+
+.loader-green.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #4CAF50 !important; }
+
+.loader-green.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #4CAF50 30%, #4CAF50 100%);
+  background-color: transparent !important; }
+
+.loader-green.fading-circle div {
+  background-color: transparent !important; }
+  .loader-green.fading-circle div:before {
+    background-color: #4CAF50 !important; }
+
+.loader-green.folding-cube div {
+  background-color: transparent !important; }
+  .loader-green.folding-cube div:before {
+    background-color: #4CAF50 !important; }
+
+.loader-light-green div {
+  background-color: #8BC34A !important; }
+
+.loader-light-green.ball-clip-rotate div {
+  border-color: #8BC34A !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-light-green.ball-clip-rotate-pulse div:first-child {
+  background: #8BC34A !important; }
+
+.loader-light-green.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #8BC34A transparent #8BC34A transparent !important; }
+
+.loader-light-green.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #8BC34A transparent #8BC34A !important; }
+
+.loader-light-green.ball-rotate div:before, .loader-light-green.ball-rotate div:after {
+  background-color: #8BC34A !important; }
+
+.loader-light-green.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #8BC34A !important; }
+
+.loader-light-green.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #8BC34A !important; }
+
+.loader-light-green.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #8BC34A !important; }
+
+.loader-light-green.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #8BC34A !important; }
+
+.loader-light-green.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #8BC34A 30%, #8BC34A 100%);
+  background-color: transparent !important; }
+
+.loader-light-green.fading-circle div {
+  background-color: transparent !important; }
+  .loader-light-green.fading-circle div:before {
+    background-color: #8BC34A !important; }
+
+.loader-light-green.folding-cube div {
+  background-color: transparent !important; }
+  .loader-light-green.folding-cube div:before {
+    background-color: #8BC34A !important; }
+
+.loader-lime div {
+  background-color: #CDDC39 !important; }
+
+.loader-lime.ball-clip-rotate div {
+  border-color: #CDDC39 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-lime.ball-clip-rotate-pulse div:first-child {
+  background: #CDDC39 !important; }
+
+.loader-lime.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #CDDC39 transparent #CDDC39 transparent !important; }
+
+.loader-lime.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #CDDC39 transparent #CDDC39 !important; }
+
+.loader-lime.ball-rotate div:before, .loader-lime.ball-rotate div:after {
+  background-color: #CDDC39 !important; }
+
+.loader-lime.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #CDDC39 !important; }
+
+.loader-lime.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #CDDC39 !important; }
+
+.loader-lime.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #CDDC39 !important; }
+
+.loader-lime.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #CDDC39 !important; }
+
+.loader-lime.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #CDDC39 30%, #CDDC39 100%);
+  background-color: transparent !important; }
+
+.loader-lime.fading-circle div {
+  background-color: transparent !important; }
+  .loader-lime.fading-circle div:before {
+    background-color: #CDDC39 !important; }
+
+.loader-lime.folding-cube div {
+  background-color: transparent !important; }
+  .loader-lime.folding-cube div:before {
+    background-color: #CDDC39 !important; }
+
+.loader-yellow div {
+  background-color: #FFEB3B !important; }
+
+.loader-yellow.ball-clip-rotate div {
+  border-color: #FFEB3B !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-yellow.ball-clip-rotate-pulse div:first-child {
+  background: #FFEB3B !important; }
+
+.loader-yellow.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #FFEB3B transparent #FFEB3B transparent !important; }
+
+.loader-yellow.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #FFEB3B transparent #FFEB3B !important; }
+
+.loader-yellow.ball-rotate div:before, .loader-yellow.ball-rotate div:after {
+  background-color: #FFEB3B !important; }
+
+.loader-yellow.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #FFEB3B !important; }
+
+.loader-yellow.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #FFEB3B !important; }
+
+.loader-yellow.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #FFEB3B !important; }
+
+.loader-yellow.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #FFEB3B !important; }
+
+.loader-yellow.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #FFEB3B 30%, #FFEB3B 100%);
+  background-color: transparent !important; }
+
+.loader-yellow.fading-circle div {
+  background-color: transparent !important; }
+  .loader-yellow.fading-circle div:before {
+    background-color: #FFEB3B !important; }
+
+.loader-yellow.folding-cube div {
+  background-color: transparent !important; }
+  .loader-yellow.folding-cube div:before {
+    background-color: #FFEB3B !important; }
+
+.loader-amber div {
+  background-color: #FFC107 !important; }
+
+.loader-amber.ball-clip-rotate div {
+  border-color: #FFC107 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-amber.ball-clip-rotate-pulse div:first-child {
+  background: #FFC107 !important; }
+
+.loader-amber.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #FFC107 transparent #FFC107 transparent !important; }
+
+.loader-amber.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #FFC107 transparent #FFC107 !important; }
+
+.loader-amber.ball-rotate div:before, .loader-amber.ball-rotate div:after {
+  background-color: #FFC107 !important; }
+
+.loader-amber.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #FFC107 !important; }
+
+.loader-amber.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #FFC107 !important; }
+
+.loader-amber.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #FFC107 !important; }
+
+.loader-amber.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #FFC107 !important; }
+
+.loader-amber.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #FFC107 30%, #FFC107 100%);
+  background-color: transparent !important; }
+
+.loader-amber.fading-circle div {
+  background-color: transparent !important; }
+  .loader-amber.fading-circle div:before {
+    background-color: #FFC107 !important; }
+
+.loader-amber.folding-cube div {
+  background-color: transparent !important; }
+  .loader-amber.folding-cube div:before {
+    background-color: #FFC107 !important; }
+
+.loader-orange div {
+  background-color: #FF9800 !important; }
+
+.loader-orange.ball-clip-rotate div {
+  border-color: #FF9800 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-orange.ball-clip-rotate-pulse div:first-child {
+  background: #FF9800 !important; }
+
+.loader-orange.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #FF9800 transparent #FF9800 transparent !important; }
+
+.loader-orange.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #FF9800 transparent #FF9800 !important; }
+
+.loader-orange.ball-rotate div:before, .loader-orange.ball-rotate div:after {
+  background-color: #FF9800 !important; }
+
+.loader-orange.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #FF9800 !important; }
+
+.loader-orange.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #FF9800 !important; }
+
+.loader-orange.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #FF9800 !important; }
+
+.loader-orange.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #FF9800 !important; }
+
+.loader-orange.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #FF9800 30%, #FF9800 100%);
+  background-color: transparent !important; }
+
+.loader-orange.fading-circle div {
+  background-color: transparent !important; }
+  .loader-orange.fading-circle div:before {
+    background-color: #FF9800 !important; }
+
+.loader-orange.folding-cube div {
+  background-color: transparent !important; }
+  .loader-orange.folding-cube div:before {
+    background-color: #FF9800 !important; }
+
+.loader-deep-orange div {
+  background-color: #FF5722 !important; }
+
+.loader-deep-orange.ball-clip-rotate div {
+  border-color: #FF5722 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-deep-orange.ball-clip-rotate-pulse div:first-child {
+  background: #FF5722 !important; }
+
+.loader-deep-orange.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #FF5722 transparent #FF5722 transparent !important; }
+
+.loader-deep-orange.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #FF5722 transparent #FF5722 !important; }
+
+.loader-deep-orange.ball-rotate div:before, .loader-deep-orange.ball-rotate div:after {
+  background-color: #FF5722 !important; }
+
+.loader-deep-orange.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #FF5722 !important; }
+
+.loader-deep-orange.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #FF5722 !important; }
+
+.loader-deep-orange.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #FF5722 !important; }
+
+.loader-deep-orange.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #FF5722 !important; }
+
+.loader-deep-orange.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #FF5722 30%, #FF5722 100%);
+  background-color: transparent !important; }
+
+.loader-deep-orange.fading-circle div {
+  background-color: transparent !important; }
+  .loader-deep-orange.fading-circle div:before {
+    background-color: #FF5722 !important; }
+
+.loader-deep-orange.folding-cube div {
+  background-color: transparent !important; }
+  .loader-deep-orange.folding-cube div:before {
+    background-color: #FF5722 !important; }
+
+.loader-brown div {
+  background-color: #795548 !important; }
+
+.loader-brown.ball-clip-rotate div {
+  border-color: #795548 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-brown.ball-clip-rotate-pulse div:first-child {
+  background: #795548 !important; }
+
+.loader-brown.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #795548 transparent #795548 transparent !important; }
+
+.loader-brown.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #795548 transparent #795548 !important; }
+
+.loader-brown.ball-rotate div:before, .loader-brown.ball-rotate div:after {
+  background-color: #795548 !important; }
+
+.loader-brown.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #795548 !important; }
+
+.loader-brown.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #795548 !important; }
+
+.loader-brown.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #795548 !important; }
+
+.loader-brown.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #795548 !important; }
+
+.loader-brown.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #795548 30%, #795548 100%);
+  background-color: transparent !important; }
+
+.loader-brown.fading-circle div {
+  background-color: transparent !important; }
+  .loader-brown.fading-circle div:before {
+    background-color: #795548 !important; }
+
+.loader-brown.folding-cube div {
+  background-color: transparent !important; }
+  .loader-brown.folding-cube div:before {
+    background-color: #795548 !important; }
+
+.loader-blue-grey div {
+  background-color: #607D8B !important; }
+
+.loader-blue-grey.ball-clip-rotate div {
+  border-color: #607D8B !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-blue-grey.ball-clip-rotate-pulse div:first-child {
+  background: #607D8B !important; }
+
+.loader-blue-grey.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #607D8B transparent #607D8B transparent !important; }
+
+.loader-blue-grey.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #607D8B transparent #607D8B !important; }
+
+.loader-blue-grey.ball-rotate div:before, .loader-blue-grey.ball-rotate div:after {
+  background-color: #607D8B !important; }
+
+.loader-blue-grey.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #607D8B !important; }
+
+.loader-blue-grey.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #607D8B !important; }
+
+.loader-blue-grey.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #607D8B !important; }
+
+.loader-blue-grey.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #607D8B !important; }
+
+.loader-blue-grey.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #607D8B 30%, #607D8B 100%);
+  background-color: transparent !important; }
+
+.loader-blue-grey.fading-circle div {
+  background-color: transparent !important; }
+  .loader-blue-grey.fading-circle div:before {
+    background-color: #607D8B !important; }
+
+.loader-blue-grey.folding-cube div {
+  background-color: transparent !important; }
+  .loader-blue-grey.folding-cube div:before {
+    background-color: #607D8B !important; }
+
+.loader-grey div {
+  background-color: #9E9E9E !important; }
+
+.loader-grey.ball-clip-rotate div {
+  border-color: #9E9E9E !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-grey.ball-clip-rotate-pulse div:first-child {
+  background: #9E9E9E !important; }
+
+.loader-grey.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #9E9E9E transparent #9E9E9E transparent !important; }
+
+.loader-grey.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #9E9E9E transparent #9E9E9E !important; }
+
+.loader-grey.ball-rotate div:before, .loader-grey.ball-rotate div:after {
+  background-color: #9E9E9E !important; }
+
+.loader-grey.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #9E9E9E !important; }
+
+.loader-grey.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #9E9E9E !important; }
+
+.loader-grey.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #9E9E9E !important; }
+
+.loader-grey.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #9E9E9E !important; }
+
+.loader-grey.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #9E9E9E 30%, #9E9E9E 100%);
+  background-color: transparent !important; }
+
+.loader-grey.fading-circle div {
+  background-color: transparent !important; }
+  .loader-grey.fading-circle div:before {
+    background-color: #9E9E9E !important; }
+
+.loader-grey.folding-cube div {
+  background-color: transparent !important; }
+  .loader-grey.folding-cube div:before {
+    background-color: #9E9E9E !important; }
+
+.loader-grey-blue div {
+  background-color: #1B2942 !important; }
+
+.loader-grey-blue.ball-clip-rotate div {
+  border-color: #1B2942 !important;
+  border-bottom-color: transparent !important;
+  background-color: transparent !important; }
+
+.loader-grey-blue.ball-clip-rotate-pulse div:first-child {
+  background: #1B2942 !important; }
+
+.loader-grey-blue.ball-clip-rotate-pulse div:last-child {
+  background: transparent !important;
+  border-color: #1B2942 transparent #1B2942 transparent !important; }
+
+.loader-grey-blue.ball-clip-rotate-multiple div {
+  background-color: transparent !important;
+  border-color: transparent #1B2942 transparent #1B2942 !important; }
+
+.loader-grey-blue.ball-rotate div:before, .loader-grey-blue.ball-rotate div:after {
+  background-color: #1B2942 !important; }
+
+.loader-grey-blue.ball-triangle-path div {
+  background-color: transparent !important;
+  border-color: #1B2942 !important; }
+
+.loader-grey-blue.ball-scale-ripple div {
+  background-color: transparent !important;
+  border-color: #1B2942 !important; }
+
+.loader-grey-blue.ball-scale-ripple-multiple div {
+  background-color: transparent !important;
+  border-color: #1B2942 !important; }
+
+.loader-grey-blue.triangle-skew-spin div {
+  background-color: transparent !important;
+  border-bottom-color: #1B2942 !important; }
+
+.loader-grey-blue.semi-circle-spin div {
+  background-image: linear-gradient(transparent 0%, transparent 70%, #1B2942 30%, #1B2942 100%);
+  background-color: transparent !important; }
+
+.loader-grey-blue.fading-circle div {
+  background-color: transparent !important; }
+  .loader-grey-blue.fading-circle div:before {
+    background-color: #1B2942 !important; }
+
+.loader-grey-blue.folding-cube div {
+  background-color: transparent !important; }
+  .loader-grey-blue.folding-cube div:before {
+    background-color: #1B2942 !important; }

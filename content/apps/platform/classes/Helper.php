@@ -64,6 +64,8 @@ class Helper
 		
 		ecjia_admin_log::instance()->add_action('batch_insert', RC_Lang::get('platform::platform.bulk_add'));
 		
+		ecjia_admin_log::instance()->add_action('keyword', RC_Lang::get('platform::platform.keyword'));
+		
 		ecjia_admin_log::instance()->add_object('platform', RC_Lang::get('platform::platform.platform_plug'));
     }
     
