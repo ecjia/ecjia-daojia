@@ -62,11 +62,15 @@ class checkcode_module extends api_admin implements api_interface {
 		}
 		
 		//手机号码格式判断
-		if (!empty($mobile)) {
-			$str = '/^1[345678]{1}\d{9}$/';
-			if(!preg_match($str, $mobile)){
-				new ecjia_error('mobile_wrong', '手机号码格式不正确！');
-			}
+// 		if (!empty($mobile)) {
+// 			$str = '/^1[345678]{1}\d{9}$/';
+// 			if(!preg_match($str, $mobile)){
+// 				new ecjia_error('mobile_wrong', '手机号码格式不正确！');
+// 			}
+// 		}
+		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+		if (is_ecjia_error($check_mobile)) {
+		    return $check_mobile;
 		}
 		//判断验证码是否正确
 		if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
