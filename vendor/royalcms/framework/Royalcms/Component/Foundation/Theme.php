@@ -2,8 +2,10 @@
 
 use Royalcms\Component\Support\Facades\Config;
 use Royalcms\Component\Support\Facades\Hook;
+use Royalcms\Component\Support\Facades\Cache as RC_Cache;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Support\Facades\File as RC_File;
+use RC_Locale;
 
 class Theme extends RoyalcmsObject
 {
@@ -112,14 +114,14 @@ class Theme extends RoyalcmsObject
         if ( $translate ) {
             if ( ($textdomain = $theme_data['TextDomain']) == true ) {
                 if ( $theme_data['DomainPath'] ) {
-                    Locale::load_plugin_textdomain( $textdomain, false, dirname( $theme_file ) . $theme_data['DomainPath'] );
+                    RC_Locale::load_plugin_textdomain( $textdomain, false, dirname( $theme_file ) . $theme_data['DomainPath'] );
                 } else {
-                    Locale::load_plugin_textdomain( $textdomain, false, dirname( $theme_file ) );
+                    RC_Locale::load_plugin_textdomain( $textdomain, false, dirname( $theme_file ) );
                 }
             } 
             if ( $textdomain ) {
                 foreach ( array( 'Name', 'TemplateURI', 'Description', 'Author', 'AuthorURI', 'Version' ) as $field ) {
-                    $theme_data[ $field ] = Locale::translate( $theme_data[ $field ], $textdomain );
+                    $theme_data[ $field ] = RC_Locale::translate( $theme_data[ $field ], $textdomain );
                 }
             }
         }
@@ -285,10 +287,10 @@ class Theme extends RoyalcmsObject
             return '/themes';
         }  
         
-        $theme_roots = Cache::app_cache_get('theme_roots', 'system');
+        $theme_roots = RC_Cache::app_cache_get('theme_roots', 'system');
         if (false === $theme_roots) {
             self::search_theme_directories(true); // Regenerate the transient.
-            $theme_roots = Cache::app_cache_get('theme_roots', 'system');
+            $theme_roots = RC_Cache::app_cache_get('theme_roots', 'system');
         }
         
         return $theme_roots;
@@ -470,7 +472,7 @@ class Theme extends RoyalcmsObject
             $theme_roots[$theme_dir] = $relative_theme_roots[$theme_data['theme_root']]; // Convert absolute to relative.
         }
         
-        Cache::app_cache_set('theme_roots', $theme_roots, 'system');
+        RC_Cache::app_cache_set('theme_roots', $theme_roots, 'system');
         
         return $found_themes;
     }

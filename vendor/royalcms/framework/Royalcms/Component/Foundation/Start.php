@@ -31,6 +31,14 @@ if ( ! extension_loaded('mcrypt') && version_compare(PHP_VERSION, '7.2', '<'))
 	exit(1);
 }
 
+// php >= 7.0
+if ( ! interface_exists('Throwable')) {
+    class_alias('\Royalcms\Component\Foundation\Compatible\Throwable', 'Throwable');
+}
+if ( ! class_exists('Error')) {
+    class_alias('\Royalcms\Component\Foundation\Compatible\Error', 'Error');
+}
+
 /*
 |--------------------------------------------------------------------------
 | Register Class Imports
@@ -350,16 +358,17 @@ $royalcms->booted(function() use ($royalcms, $env)
         RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
     }
     
-    Route::any('{url}', function($url)
+    RC_Route::pattern('url', '.+');
+    RC_Route::any('{url}', function($url)
     {
-        $app = new \Royalcms\Component\App\App();
-        $app->init();
+        $app = new \Royalcms\Component\App\AppControllerDispatcher();
+        return $app->dispatch();
     });
     
-    Route::any('/', function()
+    RC_Route::any('/', function()
     {
-        $app = new \Royalcms\Component\App\App();
-        $app->init();
+        $app = new \Royalcms\Component\App\AppControllerDispatcher();
+        return $app->dispatch();
     });
 
 });

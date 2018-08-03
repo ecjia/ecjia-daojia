@@ -3,6 +3,8 @@
 use Royalcms\Component\Support\Facades\Hook;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Support\Facades\File;
+use RC_Cache;
+use RC_Locale;
 
 class Plugin extends RoyalcmsObject
 {
@@ -28,7 +30,7 @@ class Plugin extends RoyalcmsObject
      * @return array Key is the plugin file path and the value is an array of the plugin data.
      */
     public static function get_plugins($plugin_folder = '') {
-        if ( ! $cache_plugins = Cache::app_cache_get('plugins', 'system') ) {
+        if ( ! $cache_plugins = RC_Cache::app_cache_get('plugins', 'system') ) {
             $cache_plugins = array();
         }
     
@@ -100,7 +102,7 @@ class Plugin extends RoyalcmsObject
         }
         
         $cache_plugins[ $plugin_folder ] = $rc_plugins;
-        Cache::app_cache_set('plugins', $cache_plugins, 'system');
+        RC_Cache::app_cache_set('plugins', $cache_plugins, 'system');
     
         return $rc_plugins;
     }
@@ -224,16 +226,16 @@ class Plugin extends RoyalcmsObject
         if ( $translate ) {
             if ( ($textdomain = $plugin_data['TextDomain']) == true ) {
                 if ( $plugin_data['DomainPath'] ) {
-                    Locale::load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) . $plugin_data['DomainPath'] );
+                    RC_Locale::load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) . $plugin_data['DomainPath'] );
                 } else {
-                    Locale::load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) );
+                    RC_Locale::load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) );
                 }
             } elseif ( in_array( basename( $plugin_file ), array( 'hello.php', 'akismet.php' ) ) ) {
                 $textdomain = 'default';
             }
             if ( $textdomain ) {
                 foreach ( array( 'Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version' ) as $field ) {
-                    $plugin_data[ $field ] = Locale::translate( $plugin_data[ $field ], $textdomain );
+                    $plugin_data[ $field ] = RC_Locale::translate( $plugin_data[ $field ], $textdomain );
                 } 
             }
         }
@@ -296,7 +298,7 @@ class Plugin extends RoyalcmsObject
         if ( $clear_update_cache ) {
         }
         
-        Cache::app_cache_delete('plugins', 'system');
+        RC_Cache::app_cache_delete('plugins', 'system');
     }
     
 

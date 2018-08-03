@@ -88,7 +88,7 @@ abstract class RoyalcmsObject
     
     public static function __callstatic($name, $params)
     {
-        throw new BadMethodCallException('Calling unknown method: ' . get_class($this) . "::{$name}()");
+        throw new BadMethodCallException('Calling unknown method: ' . __CLASS__ . "::{$name}()");
     }
 }
 

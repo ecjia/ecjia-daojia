@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Foundation;
+<?php 
+
+namespace Royalcms\Component\Foundation;
 
 use Closure;
 use Royalcms\Component\HttpKernel\Request;
@@ -21,21 +23,22 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface {
+class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface 
+{
 
 	/**
 	 * The Royalcms framework version.
 	 *
 	 * @var string
 	 */
-	const VERSION = '4.12.0';
+	const VERSION = '4.13.0';
 	
 	/**
 	 * The Royalcms framework release.
 	 *
 	 * @var string
 	 */
-	const RELEASE = '2018-05-30';
+	const RELEASE = '2018-08-03';
 	
 	/**
 	 * The Royalcms framework minimum PHP version requirements.
@@ -507,7 +510,7 @@ class Royalcms extends Container implements HttpKernelInterface, TerminableInter
 	 * @param  array   $parameters
 	 * @return mixed
 	 */
-	public function make($abstract, $parameters = array())
+	public function make($abstract, array $parameters = array())
 	{
 		$abstract = $this->getAlias($abstract);
 
