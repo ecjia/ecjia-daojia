@@ -538,7 +538,7 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 		'user_id'		=> $user_id,
 		'user_money'	=> $user_money,
 		'frozen_money'	=> $frozen_money,
-		'rank_points'	=> $rank_points,
+		'rank_points'	=> 0,
 		'pay_points'	=> $pay_points,
 		'change_time'	=> RC_Time::gmtime(),
 		'change_desc'	=> $change_desc,
@@ -549,12 +549,22 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 
 	/* 更新用户信息 */
 	$step = $user_money.", frozen_money = frozen_money + ('$frozen_money')," .
-	" rank_points = rank_points + ('$rank_points')," .
+// 	" rank_points = rank_points + ('$rank_points')," .
 	" pay_points = pay_points + ('$pay_points')";
 
 	RC_DB::table('users')
 			->where('user_id', $user_id)
 			->increment('user_money', $step);
+	
+	if ($rank_points) {
+	    $data = array (
+	        'user_id'			=> $user_id,
+	        'rank_points'		=> $rank_points,
+	        'change_desc'		=> $change_desc,
+	        'change_type'		=> $change_type,
+	    );
+	    RC_Api::api('user', 'rank_points_change_log', $data);
+	}
 }
 
 // TODO:以下从api移入

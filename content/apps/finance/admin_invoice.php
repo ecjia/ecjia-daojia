@@ -100,7 +100,7 @@ class admin_invoice extends ecjia_admin {
 		$invoice_info = RC_DB::table('finance_invoice')->where('id', $id)->first();
 		$invoice_info['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $invoice_info['add_time']);
 		$invoice_info['update_time'] = RC_Time::local_date(ecjia::config('time_format'), $invoice_info['update_time']);
-		$invoice_info['user_name'] = RC_DB::TABLE('users')->where('user_id', $invoice_info['user_id'])->pluck('user_name');
+		$invoice_info['user_name'] = RC_DB::table('users')->where('user_id', $invoice_info['user_id'])->pluck('user_name');
 	    $this->assign('invoice_info',$invoice_info);
 		
 		$this->display('admin_invoice_info.dwt');
@@ -134,7 +134,7 @@ class admin_invoice extends ecjia_admin {
 				}elseif ($row['title_type'] == 'CORPORATION'){
 					$row['title_type_name'] = '单位';
 				}
-				$row['user_name'] = RC_DB::TABLE('users')->where('user_id', $row['user_id'])->pluck('user_name');
+				$row['user_name'] = RC_DB::table('users')->where('user_id', $row['user_id'])->pluck('user_name');
 				$row['add_time']  = RC_Time::local_date('Y-m-d H:i', $row['add_time']);
 				$list[] = $row;
 			}
