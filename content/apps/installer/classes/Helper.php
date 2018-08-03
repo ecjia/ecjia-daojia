@@ -44,14 +44,30 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
+namespace Ecjia\App\Installer;
+
 use Royalcms\Component\Database\Connection;
 use Royalcms\Component\Database\QueryException;
 use Royalcms\Component\Exception\RecoverableErrorException;
 use Ecjia\System\Database\Seeder;
 use Ecjia\System\Database\Migrate;
+use RC_Package;
+use RC_Lang;
+use RC_Time;
+use RC_DB;
+use RC_File;
+use RC_Config;
+use RC_Uri;
+use RC_Ip;
+use RC_Upload;
+use PDO;
+use PDOException;
+use Exception;
+use ecjia_error;
+use ecjia_cloud;
 
-defined('IN_ECJIA') or exit('No permission resources.');
-class install_utility 
+class Helper
 {
     
     const DB_CHARSET = 'utf8mb4';
@@ -99,6 +115,39 @@ class install_utility
         $r = $conn->select("SHOW DATABASES");
         return collect($r)->lists('Database');
     }
+
+
+    /**
+     * 检测目录权限
+     */
+    public static function getCheckDirPermission()
+    {
+        $dirs = [
+            '/'                 => '',
+            'content/configs'   => str_replace(SITE_ROOT, '', SITE_CONTENT_PATH) . 'configs',
+            'content/uploads'   => str_replace(SITE_ROOT, '', RC_Upload::upload_path()),
+            'content/storages'  => str_replace(SITE_ROOT, '', storage_path()),
+            'content/themes'  => str_replace(SITE_ROOT, '', SITE_THEME_PATH),
+        ];
+
+        $list = array();
+
+        /* 检查目录 */
+        foreach ($dirs AS $key => $val) {
+            $mark = RC_File::file_mode_info(SITE_ROOT . $val);
+
+            $list[] = array(
+                'item'  => $key . __('目录'),
+                'mark'  => $mark,
+                'r'     => $mark & 1,
+                'w'     => $mark & 2,
+                'm'     => $mark & 4
+            );
+
+        }
+
+        return $list;
+    }
     
     /**
      * 创建数据库连接
@@ -108,7 +157,7 @@ class install_utility
      * @param   string      $port        端口号
      * @param   string      $user        用户名
      * @param   string      $pass        密码
-     * @return  Royalcms\Component\Database\Connection       成功返回数据库连接对象，失败返回false
+     * @return  \Royalcms\Component\Database\Connection | ecjia_error      成功返回数据库连接对象，失败返回false
      */
     public static function createDatabaseConnection($host, $port, $user, $pass, $database = null)
     {
@@ -137,7 +186,7 @@ class install_utility
      * @param   string      $user        用户名
      * @param   string      $pass        密码
      * @param   string      $database    数据库名
-     * @return  boolean     成功返回true，失败返回false
+     * @return  boolean | ecjia_error    成功返回true，失败返回false
      */
     public static function createDatabase($host, $port, $user, $pass, $database) 
     {
@@ -183,7 +232,7 @@ class install_utility
      * @param   string      $admin_password
      * @param   string      $admin_password2
      * @param   string      $admin_email
-     * @return  boolean     成功返回true，失败返回false
+     * @return  boolean | ecjia_error    成功返回true，失败返回false
      */
     public static function createAdminPassport($admin_name, $admin_password, $admin_email) 
     {
@@ -225,7 +274,7 @@ class install_utility
     /**
      * 修改.env文件
      * @param array $data
-     * @return string|unknown|ecjia_error
+     * @return string | null | ecjia_error
      */
     public static function modifyEnv(array $data) 
     {
@@ -296,25 +345,42 @@ class install_utility
     /**
      * 安装数据库结构
      * 
-     * @return  boolean    成功返回true，失败返回ecjia_error
+     * @return  boolean | ecjia_error   成功返回true，失败返回ecjia_error
      */
-    public static function installStructure()
+    public static function installStructure($limit = 20)
     {
         try {
             $migrate = new Migrate();
             
-            return $migrate->fire();
+            return $migrate->fire($limit);
         } 
         catch (QueryException $e) {
             
             return new ecjia_error($e->getCode(), $e->getMessage());
         }
     }
+
+    /**
+     * 获取将要安装的脚本数量
+     */
+    public static function getWillMigrationFilesCount()
+    {
+        try {
+            $migrate = new Migrate();
+
+            return $migrate->getWillMigrationFilesCount();
+        }
+        catch (QueryException $e) {
+
+            return new ecjia_error($e->getCode(), $e->getMessage());
+        }
+    }
+
     
     /**
      * 填充数据表基础数据
      *
-     * @return  boolean    成功返回true，失败返回ecjia_error
+     * @return  boolean | ecjia_error    成功返回true，失败返回ecjia_error
      */
     public static function installBaseData()
     {
@@ -338,7 +404,7 @@ class install_utility
     /**
      * 填充数据表演示数据
      *
-     * @return  boolean    成功返回true，失败返回ecjia_error
+     * @return  boolean | ecjia_error   成功返回true，失败返回ecjia_error
      */
     public static function installDemoData()
     {
@@ -362,7 +428,7 @@ class install_utility
     
     /**
      * 更新 ECJIA 安装日期
-     * @return ecjia_error
+     * @return array | ecjia_error
      */
     public static function updateInstallDate()
     {

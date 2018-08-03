@@ -304,7 +304,7 @@
 				ErrorMsg(result.message);
 			} else {
 				SuccessMsg();
-				progress(20);
+				progress(result.percent);
 				if (is_create == 1) {
 					createDatabase();
 				} else {
@@ -330,7 +330,7 @@
 				ErrorMsg(result.message);
 			} else {
 				SuccessMsg();
-				progress(40);
+				progress(result.percent);
 				installStructure();
 			}
 		});
@@ -368,9 +368,35 @@
 			if (result.state == 'error') {
 				ErrorMsg(result.message);
 			} else {
-				progress(60);
-				SuccessMsg();
-				installBaseData();
+				progress(result.percent);
+				if (result.more > 0) {
+					notice_text = "<span class='install_correct' id='numtips'>剩余"+ result.more +"个 </span>" ;
+					$('#js-notice').append(notice_text);
+					installStructureMore();
+				} else {
+					SuccessMsg();
+					installBaseData();
+				}
+			}
+		});
+	}
+	
+	function installStructureMore() {
+		var url = $('input[name="install_structure"]').val();
+		$.post(url, '', function(result) {
+			if (result.state == 'error') {
+				ErrorMsg(result.message);
+			} else {
+				progress(result.percent);
+				if (result.more > 0) {
+					var notice_text = "剩余"+ result.more +"个 " ;
+					$('#numtips').text(notice_text);
+					installStructureMore();
+				} else {
+					$('#numtips').remove();
+					SuccessMsg();
+					installBaseData();
+				}
 			}
 		});
 	}
@@ -385,7 +411,7 @@
 			if (result.state == 'error') {
 				ErrorMsg(result.message);
 			} else {
-				progress(80);
+				progress(result.percent);
 				SuccessMsg();
 				if ($("input[name='js-install-demo']").attr("checked")) {
 					installDemoData();
@@ -407,7 +433,7 @@
 			if (result.state == 'error') {
 				ErrorMsg(result.message);
 			} else {
-				progress(90);
+				progress(result.percent);
 				SuccessMsg();
 				createAdminPassport();
 			}
