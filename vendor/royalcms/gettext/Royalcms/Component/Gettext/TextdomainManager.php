@@ -248,7 +248,7 @@ class TextdomainManager
         }
     
         // Otherwise, load from the languages directory
-        $mofile = RC_LANG_PATH . "themes/{$domain}-{$locale}.mo";
+        $mofile = SITE_LANG_PATH . "themes/{$domain}-{$locale}.mo";
         return $this->loadTextdomain($domain, $mofile);
     }
     
@@ -285,7 +285,7 @@ class TextdomainManager
      * @since 3.2.0
      *
      * @param string $domain            Unique identifier for retrieving translated strings
-     * @param string $app_rel_path      Optional. Relative path to RC_APP_PATH where the .mo file resides.
+     * @param string $app_rel_path      Optional. Relative path to SITE_APP_PATH where the .mo file resides.
      */
     public function loadAppTextdomain($domain, $app_rel_path = false)
     {
@@ -301,9 +301,9 @@ class TextdomainManager
         $locale = RC_Hook::apply_filters('app_locale', $locale, $domain);
     
         if (false !== $app_rel_path) {
-            $path = RC_APP_PATH . trim($app_rel_path, '/');
+            $path = SITE_APP_PATH . trim($app_rel_path, '/');
         } else {
-            $path = trim(RC_APP_PATH, '/');
+            $path = trim(SITE_APP_PATH, '/');
         }
         
         // Load the textdomain according to the app first
@@ -314,7 +314,7 @@ class TextdomainManager
         }
 
         // Otherwise, load from the languages directory
-        $mofile = RC_LANG_PATH . '/apps/' . $domain . '-' . $locale . '.mo';
+        $mofile = SITE_LANG_PATH . '/apps/' . $domain . '-' . $locale . '.mo';
         return $this->loadTextdomain($domain, $mofile);
     }
     
@@ -329,7 +329,7 @@ class TextdomainManager
      * @since 3.2.0
      *
      * @param string $domain Unique identifier for retrieving translated strings
-     * @param string $plugin_rel_path Optional. Relative path to RC_PLUGIN_PATH where the .mo file resides.
+     * @param string $plugin_rel_path Optional. Relative path to SITE_PLUGIN_PATH where the .mo file resides.
      */
     public function loadPluginTextdomain($domain, $plugin_rel_path = false)
     {
@@ -347,9 +347,9 @@ class TextdomainManager
         $locale = RC_Hook::apply_filters('plugin_locale', $locale, $domain);
     
         if (false !== $plugin_rel_path) {
-            $path = RC_PLUGIN_PATH . trim($plugin_rel_path, '/');
+            $path = SITE_PLUGIN_PATH . trim($plugin_rel_path, '/');
         } else {
-            $path = trim(RC_PLUGIN_PATH, '/');
+            $path = trim(SITE_PLUGIN_PATH, '/');
         }
         
         // Load the textdomain according to the plugin first
@@ -360,7 +360,7 @@ class TextdomainManager
         }
 
         // Otherwise, load from the languages directory
-        $mofile = RC_LANG_PATH . '/plugins/' . $domain . '-' . $locale . '.mo';
+        $mofile = SITE_LANG_PATH . '/plugins/' . $domain . '-' . $locale . '.mo';
         return $this->loadTextdomain($domain, $mofile);
     }
     
@@ -368,19 +368,19 @@ class TextdomainManager
     /**
      * Get all available languages based on the presence of *.mo files in a given directory.
      *
-     * The default directory is RC_LANG_PATH.
+     * The default directory is SITE_LANG_PATH.
      *
      * @since 3.0.0
      *
      * @param string $dir A directory to search for language files.
-     *            Default RC_LANG_PATH.
+     *            Default SITE_LANG_PATH.
      * @return array An array of language codes or an empty array if no languages are present. Language codes are formed by stripping the .mo extension from the language file names.
      */
     public function getAvailableLanguages($dir = null)
     {
         $languages = array();
     
-        foreach ((array) glob((is_null($dir) ? RC_LANG_PATH : $dir) . '/*.mo') as $lang_file) {
+        foreach ((array) glob((is_null($dir) ? SITE_LANG_PATH : $dir) . '/*.mo') as $lang_file) {
             $lang_file = basename($lang_file, '.mo');
             if (0 !== strpos($lang_file, 'continents-cities') && 0 !== strpos($lang_file, 'ms-') && 0 !== strpos($lang_file, 'admin-')) {
                 $languages[] = $lang_file;
@@ -409,15 +409,15 @@ class TextdomainManager
     
         $dir = 'core' === $type ? '' : "/$type";
     
-        if (! is_dir(RC_LANG_PATH)) {
+        if (! is_dir(SITE_LANG_PATH)) {
             return array();
         }
     
-        if ($dir && ! is_dir(RC_LANG_PATH . $dir)) {
+        if ($dir && ! is_dir(SITE_LANG_PATH . $dir)) {
             return array();
         }
     
-        $files = scandir(RC_LANG_PATH . $dir);
+        $files = scandir(SITE_LANG_PATH . $dir);
         if (! $files) {
             return array();
         }
@@ -442,7 +442,7 @@ class TextdomainManager
                 $textdomain = 'default';
             }
     
-            $language_data[$textdomain][$language] = $this->getPomoFileData(RC_LANG_PATH . "$dir/$file");
+            $language_data[$textdomain][$language] = $this->getPomoFileData(SITE_LANG_PATH . "$dir/$file");
         }
         return $language_data;
     }
