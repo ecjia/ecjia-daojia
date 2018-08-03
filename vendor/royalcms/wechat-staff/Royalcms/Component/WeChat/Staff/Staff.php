@@ -18,7 +18,7 @@ class Staff extends AbstractAPI
     const API_INVITE_BIND = 'https://api.weixin.qq.com/customservice/kfaccount/inviteworker';
     const API_MESSAGE_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
     const API_AVATAR_UPLOAD = 'https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
-    const API_RECORDS = 'https://api.weixin.qq.com/customservice/msgrecord/getrecord';
+    const API_RECORDS = 'https://api.weixin.qq.com/customservice/msgrecord/getmsglist';
 
     /**
      * List all staffs.
@@ -169,13 +169,13 @@ class Staff extends AbstractAPI
      *
      * @return \Royalcms\Component\Support\Collection
      */
-    public function records($startTime, $endTime, $page = 1, $pageSize = 10)
+    public function records($startTime, $endTime, $page = 1, $pageSize = 1000)
     {
         $params = [
                    'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
                    'endtime' => is_numeric($endTime) ? $endTime : strtotime($endTime),
-                   'pageindex' => $page,
-                   'pagesize' => $pageSize,
+                   'msgid' => $page,
+                   'number' => min(10000, $pageSize),
                   ];
 
         return $this->parseJSON('json', [self::API_RECORDS, $params]);
