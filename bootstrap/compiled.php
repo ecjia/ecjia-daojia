@@ -55,23 +55,42 @@ namespace Royalcms\Component\Container;
 use Closure;
 use ArrayAccess;
 use ReflectionClass;
+use ReflectionMethod;
+use ReflectionFunction;
 use ReflectionParameter;
-class Container implements ArrayAccess
+use InvalidArgumentException;
+use Royalcms\Component\Container\Contracts\Container as ContainerContract;
+class Container implements ArrayAccess, ContainerContract
 {
+    protected static $instance;
     protected $resolved = array();
     protected $bindings = array();
     protected $instances = array();
     protected $aliases = array();
+    protected $extenders = array();
+    protected $tags = array();
+    protected $buildStack = array();
+    public $contextual = array();
     protected $reboundCallbacks = array();
-    protected $resolvingCallbacks = array();
     protected $globalResolvingCallbacks = array();
+    protected $globalAfterResolvingCallbacks = array();
+    protected $resolvingCallbacks = array();
+    protected $afterResolvingCallbacks = array();
+    public function when($concrete)
+    {
+        return new ContextualBindingBuilder($this, $concrete);
+    }
     protected function resolvable($abstract)
     {
-        return $this->bound($abstract) || $this->isAlias($abstract);
+        return $this->bound($abstract);
     }
     public function bound($abstract)
     {
-        return isset($this[$abstract]) || isset($this->instances[$abstract]);
+        return isset($this->bindings[$abstract]) || isset($this->instances[$abstract]) || $this->isAlias($abstract);
+    }
+    public function resolved($abstract)
+    {
+        return isset($this->resolved[$abstract]) || isset($this->instances[$abstract]);
     }
     public function isAlias($name)
     {
@@ -90,9 +109,8 @@ class Container implements ArrayAccess
         if (!$concrete instanceof Closure) {
             $concrete = $this->getClosure($abstract, $concrete);
         }
-        $bound = $this->bound($abstract);
         $this->bindings[$abstract] = compact('concrete', 'shared');
-        if ($bound) {
+        if ($this->resolved($abstract)) {
             $this->rebound($abstract);
         }
     }
@@ -102,6 +120,10 @@ class Container implements ArrayAccess
             $method = $abstract == $concrete ? 'build' : 'make';
             return $c->{$method}($concrete, $parameters);
         };
+    }
+    public function addContextualBinding($concrete, $abstract, $implementation)
+    {
+        $this->contextual[$concrete][$abstract] = $implementation;
     }
     public function bindIf($abstract, $concrete = null, $shared = false)
     {
@@ -129,23 +151,12 @@ class Container implements ArrayAccess
     }
     public function extend($abstract, Closure $closure)
     {
-        if (!isset($this->bindings[$abstract])) {
-            throw new \InvalidArgumentException("Type {$abstract} is not bound.");
-        }
         if (isset($this->instances[$abstract])) {
             $this->instances[$abstract] = $closure($this->instances[$abstract], $this);
             $this->rebound($abstract);
         } else {
-            $extender = $this->getExtender($abstract, $closure);
-            $this->bind($abstract, $extender, $this->isShared($abstract));
+            $this->extenders[$abstract][] = $closure;
         }
-    }
-    protected function getExtender($abstract, Closure $closure)
-    {
-        $resolver = $this->bindings[$abstract]['concrete'];
-        return function ($container) use($resolver, $closure) {
-            return $closure($resolver($container), $container);
-        };
     }
     public function instance($abstract, $instance)
     {
@@ -159,6 +170,28 @@ class Container implements ArrayAccess
         if ($bound) {
             $this->rebound($abstract);
         }
+    }
+    public function tag($abstracts, $tags)
+    {
+        $tags = is_array($tags) ? $tags : array_slice(func_get_args(), 1);
+        foreach ($tags as $tag) {
+            if (!isset($this->tags[$tag])) {
+                $this->tags[$tag] = array();
+            }
+            foreach ((array) $abstracts as $abstract) {
+                $this->tags[$tag][] = $abstract;
+            }
+        }
+    }
+    public function tagged($tag)
+    {
+        $results = array();
+        if (isset($this->tags[$tag])) {
+            foreach ($this->tags[$tag] as $abstract) {
+                $results[] = $this->make($abstract);
+            }
+        }
+        return $results;
     }
     public function alias($abstract, $alias)
     {
@@ -192,14 +225,71 @@ class Container implements ArrayAccess
     {
         if (isset($this->reboundCallbacks[$abstract])) {
             return $this->reboundCallbacks[$abstract];
-        } else {
-            return array();
+        }
+        return array();
+    }
+    public function wrap(Closure $callback, array $parameters = array())
+    {
+        return function () use($callback, $parameters) {
+            return $this->call($callback, $parameters);
+        };
+    }
+    public function call($callback, array $parameters = array(), $defaultMethod = null)
+    {
+        if ($this->isCallableWithAtSign($callback) || $defaultMethod) {
+            return $this->callClass($callback, $parameters, $defaultMethod);
+        }
+        $dependencies = $this->getMethodDependencies($callback, $parameters);
+        return call_user_func_array($callback, $dependencies);
+    }
+    protected function isCallableWithAtSign($callback)
+    {
+        if (!is_string($callback)) {
+            return false;
+        }
+        return strpos($callback, '@') !== false;
+    }
+    protected function getMethodDependencies($callback, $parameters = array())
+    {
+        $dependencies = array();
+        foreach ($this->getCallReflector($callback)->getParameters() as $key => $parameter) {
+            $this->addDependencyForCallParameter($parameter, $parameters, $dependencies);
+        }
+        return array_merge($dependencies, $parameters);
+    }
+    protected function getCallReflector($callback)
+    {
+        if (is_string($callback) && strpos($callback, '::') !== false) {
+            $callback = explode('::', $callback);
+        }
+        if (is_array($callback)) {
+            return new ReflectionMethod($callback[0], $callback[1]);
+        }
+        return new ReflectionFunction($callback);
+    }
+    protected function addDependencyForCallParameter(ReflectionParameter $parameter, array &$parameters, &$dependencies)
+    {
+        if (array_key_exists($parameter->name, $parameters)) {
+            $dependencies[] = $parameters[$parameter->name];
+            unset($parameters[$parameter->name]);
+        } elseif ($parameter->getClass()) {
+            $dependencies[] = $this->make($parameter->getClass()->name);
+        } elseif ($parameter->isDefaultValueAvailable()) {
+            $dependencies[] = $parameter->getDefaultValue();
         }
     }
-    public function make($abstract, $parameters = array())
+    protected function callClass($target, array $parameters = array(), $defaultMethod = null)
+    {
+        $segments = explode('@', $target);
+        $method = count($segments) == 2 ? $segments[1] : $defaultMethod;
+        if (is_null($method)) {
+            throw new InvalidArgumentException('Method not provided.');
+        }
+        return $this->call(array($this->make($segments[0]), $method), $parameters);
+    }
+    public function make($abstract, array $parameters = array())
     {
         $abstract = $this->getAlias($abstract);
-        $this->resolved[$abstract] = true;
         if (isset($this->instances[$abstract])) {
             return $this->instances[$abstract];
         }
@@ -209,26 +299,45 @@ class Container implements ArrayAccess
         } else {
             $object = $this->make($concrete, $parameters);
         }
+        foreach ($this->getExtenders($abstract) as $extender) {
+            $object = $extender($object, $this);
+        }
         if ($this->isShared($abstract)) {
             $this->instances[$abstract] = $object;
         }
         $this->fireResolvingCallbacks($abstract, $object);
+        $this->resolved[$abstract] = true;
         return $object;
     }
     protected function getConcrete($abstract)
     {
+        if (!is_null($concrete = $this->getContextualConcrete($abstract))) {
+            return $concrete;
+        }
         if (!isset($this->bindings[$abstract])) {
             if ($this->missingLeadingSlash($abstract) && isset($this->bindings['\\' . $abstract])) {
                 $abstract = '\\' . $abstract;
             }
             return $abstract;
-        } else {
-            return $this->bindings[$abstract]['concrete'];
+        }
+        return $this->bindings[$abstract]['concrete'];
+    }
+    protected function getContextualConcrete($abstract)
+    {
+        if (isset($this->contextual[end($this->buildStack)][$abstract])) {
+            return $this->contextual[end($this->buildStack)][$abstract];
         }
     }
     protected function missingLeadingSlash($abstract)
     {
         return is_string($abstract) && strpos($abstract, '\\') !== 0;
+    }
+    protected function getExtenders($abstract)
+    {
+        if (isset($this->extenders[$abstract])) {
+            return $this->extenders[$abstract];
+        }
+        return array();
     }
     public function build($concrete, $parameters = array())
     {
@@ -240,13 +349,16 @@ class Container implements ArrayAccess
             $message = "Target [{$concrete}] is not instantiable.";
             throw new BindingResolutionException($message);
         }
+        $this->buildStack[] = $concrete;
         $constructor = $reflector->getConstructor();
         if (is_null($constructor)) {
+            array_pop($this->buildStack);
             return new $concrete();
         }
         $dependencies = $constructor->getParameters();
         $parameters = $this->keyParametersByArgument($dependencies, $parameters);
         $instances = $this->getDependencies($dependencies, $parameters);
+        array_pop($this->buildStack);
         return $reflector->newInstanceArgs($instances);
     }
     protected function getDependencies($parameters, array $primitives = array())
@@ -269,7 +381,7 @@ class Container implements ArrayAccess
         if ($parameter->isDefaultValueAvailable()) {
             return $parameter->getDefaultValue();
         } else {
-            $message = "Unresolvable dependency resolving [{$parameter}].";
+            $message = "Unresolvable dependency resolving [{$parameter}] in class {$parameter->getDeclaringClass()->getName()}";
             throw new BindingResolutionException($message);
         }
     }
@@ -295,9 +407,51 @@ class Container implements ArrayAccess
         }
         return $parameters;
     }
-    public function resolving($abstract, Closure $callback)
+    public function resolving($abstract, Closure $callback = null)
     {
-        $this->resolvingCallbacks[$abstract][] = $callback;
+        if ($callback === null && $abstract instanceof Closure) {
+            $this->resolvingCallback($abstract);
+        } else {
+            $this->resolvingCallbacks[$abstract][] = $callback;
+        }
+    }
+    public function afterResolving($abstract, Closure $callback = null)
+    {
+        if ($abstract instanceof Closure && $callback === null) {
+            $this->afterResolvingCallback($abstract);
+        } else {
+            $this->afterResolvingCallbacks[$abstract][] = $callback;
+        }
+    }
+    protected function resolvingCallback(Closure $callback)
+    {
+        $abstract = $this->getFunctionHint($callback);
+        if ($abstract) {
+            $this->resolvingCallbacks[$abstract][] = $callback;
+        } else {
+            $this->globalResolvingCallbacks[] = $callback;
+        }
+    }
+    protected function afterResolvingCallback(Closure $callback)
+    {
+        $abstract = $this->getFunctionHint($callback);
+        if ($abstract) {
+            $this->afterResolvingCallbacks[$abstract][] = $callback;
+        } else {
+            $this->globalAfterResolvingCallbacks[] = $callback;
+        }
+    }
+    protected function getFunctionHint(Closure $callback)
+    {
+        $function = new ReflectionFunction($callback);
+        if ($function->getNumberOfParameters() == 0) {
+            return;
+        }
+        $expected = $function->getParameters()[0];
+        if (!$expected->getClass()) {
+            return;
+        }
+        return $expected->getClass()->name;
     }
     public function resolvingAny(Closure $callback)
     {
@@ -305,10 +459,20 @@ class Container implements ArrayAccess
     }
     protected function fireResolvingCallbacks($abstract, $object)
     {
-        if (isset($this->resolvingCallbacks[$abstract])) {
-            $this->fireCallbackArray($object, $this->resolvingCallbacks[$abstract]);
-        }
         $this->fireCallbackArray($object, $this->globalResolvingCallbacks);
+        $this->fireCallbackArray($object, $this->getCallbacksForType($abstract, $object, $this->resolvingCallbacks));
+        $this->fireCallbackArray($object, $this->globalAfterResolvingCallbacks);
+        $this->fireCallbackArray($object, $this->getCallbacksForType($abstract, $object, $this->afterResolvingCallbacks));
+    }
+    protected function getCallbacksForType($abstract, $object, array $callbacksPerType)
+    {
+        $results = array();
+        foreach ($callbacksPerType as $type => $callbacks) {
+            if ($type === $abstract || $object instanceof $type) {
+                $results = array_merge($results, $callbacks);
+            }
+        }
+        return $results;
     }
     protected function fireCallbackArray($object, array $callbacks)
     {
@@ -350,6 +514,21 @@ class Container implements ArrayAccess
     {
         $this->instances = array();
     }
+    public function flush()
+    {
+        $this->aliases = array();
+        $this->resolved = array();
+        $this->bindings = array();
+        $this->instances = array();
+    }
+    public static function getInstance()
+    {
+        return static::$instance;
+    }
+    public static function setInstance(ContainerContract $container)
+    {
+        static::$instance = $container;
+    }
     public function offsetExists($key)
     {
         return isset($this->bindings[$key]);
@@ -371,6 +550,15 @@ class Container implements ArrayAccess
     {
         unset($this->bindings[$key]);
         unset($this->instances[$key]);
+        unset($this->resolved[$key]);
+    }
+    public function __get($key)
+    {
+        return $this[$key];
+    }
+    public function __set($key, $value)
+    {
+        $this[$key] = $value;
     }
 }
 namespace Symfony\Component\HttpKernel;
@@ -422,8 +610,8 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Royalcms extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.12.0';
-    const RELEASE = '2018-05-30';
+    const VERSION = '4.13.0';
+    const RELEASE = '2018-08-03';
     const PHP_REQUIRED = '5.4.0';
     protected $booted = false;
     protected $bootingCallbacks = array();
@@ -592,7 +780,7 @@ class Royalcms extends Container implements HttpKernelInterface, TerminableInter
             });
         }
     }
-    public function make($abstract, $parameters = array())
+    public function make($abstract, array $parameters = array())
     {
         $abstract = $this->getAlias($abstract);
         if (isset($this->deferredServices[$abstract])) {
@@ -919,6 +1107,11 @@ class Request extends SymfonyRequest
 {
     protected $json;
     protected $sessionStore;
+    public static function capture()
+    {
+        static::enableHttpMethodParameterOverride();
+        return static::createFromBase(SymfonyRequest::createFromGlobals());
+    }
     public function instance()
     {
         return $this;
@@ -4187,13 +4380,18 @@ class DatabaseServiceProvider extends ServiceProvider
 }
 namespace Royalcms\Component\Encryption;
 
+use Royalcms\Component\Support\Str;
 use Royalcms\Component\Support\ServiceProvider;
 class EncryptionServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->royalcms->bindShared('encrypter', function ($royalcms) {
-            return new Encrypter($royalcms['config']['system.auth_key']);
+        $this->royalcms->singleton('encrypter', function ($royalcms) {
+            $config = $royalcms->make('config')->get('system');
+            if (Str::startsWith($key = $config['auth_key'], 'base64:')) {
+                $key = base64_decode(substr($key, 7));
+            }
+            return new Encrypter($key, $config['cipher']);
         });
     }
 }
@@ -4355,22 +4553,6 @@ class ViewServiceProvider extends ServiceProvider
         if (isset($royalcms['session.store']) && !is_null($config['driver'])) {
             return $royalcms['session.store']->has('errors');
         }
-    }
-}
-namespace Royalcms\Component\Hook;
-
-use Royalcms\Component\Support\ServiceProvider;
-class HookServiceProvider extends ServiceProvider
-{
-    public function register()
-    {
-        $this->registerHookService();
-    }
-    protected function registerHookService()
-    {
-        $this->royalcms->singleton('hook', function ($royalcms) {
-            return new Hooks();
-        });
     }
 }
 namespace Royalcms\Component\Error;
@@ -8942,111 +9124,92 @@ class Queue implements HttpKernelInterface
 }
 namespace Royalcms\Component\Encryption;
 
-use Symfony\Component\Security\Core\Util\StringUtils;
-use Symfony\Component\Security\Core\Util\SecureRandom;
-class DecryptException extends \RuntimeException
-{
-    
-}
-class Encrypter
+use RuntimeException;
+use Royalcms\Component\Encryption\Contracts\DecryptException;
+use Royalcms\Component\Encryption\Contracts\EncryptException;
+use Royalcms\Component\Encryption\Contracts\Encrypter as EncrypterContract;
+class Encrypter implements EncrypterContract
 {
     protected $key;
-    protected $cipher = 'rijndael-256';
-    protected $mode = 'cbc';
-    protected $block = 32;
-    public function __construct($key)
+    protected $cipher;
+    public function __construct($key, $cipher = 'AES-128-CBC')
     {
-        $this->key = $key;
+        $key = (string) $key;
+        if (static::supported($key, $cipher)) {
+            $this->key = $key;
+            $this->cipher = $cipher;
+        } else {
+            throw new RuntimeException('The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths.');
+        }
     }
-    public function encrypt($value)
+    public static function supported($key, $cipher)
     {
-        $iv = mcrypt_create_iv($this->getIvSize(), $this->getRandomizer());
-        $value = base64_encode($this->padAndMcrypt($value, $iv));
+        $length = mb_strlen($key, '8bit');
+        return $cipher === 'AES-128-CBC' && $length === 16 || $cipher === 'AES-256-CBC' && $length === 32;
+    }
+    public function encrypt($value, $serialize = true)
+    {
+        $iv = random_bytes(16);
+        $value = \openssl_encrypt($serialize ? serialize($value) : $value, $this->cipher, $this->key, 0, $iv);
+        if ($value === false) {
+            throw new EncryptException('Could not encrypt the data.');
+        }
         $mac = $this->hash($iv = base64_encode($iv), $value);
-        return base64_encode(json_encode(compact('iv', 'value', 'mac')));
+        $json = json_encode(compact('iv', 'value', 'mac'));
+        if (!is_string($json)) {
+            throw new EncryptException('Could not encrypt the data.');
+        }
+        return base64_encode($json);
     }
-    protected function padAndMcrypt($value, $iv)
+    public function encryptString($value)
     {
-        $value = $this->addPadding(serialize($value));
-        return mcrypt_encrypt($this->cipher, $this->key, $value, $this->mode, $iv);
+        return $this->encrypt($value, false);
     }
-    public function decrypt($payload)
+    public function decrypt($payload, $unserialize = true)
     {
         $payload = $this->getJsonPayload($payload);
-        $value = base64_decode($payload['value']);
         $iv = base64_decode($payload['iv']);
-        return unserialize($this->stripPadding($this->mcryptDecrypt($value, $iv)));
-    }
-    protected function mcryptDecrypt($value, $iv)
-    {
-        return mcrypt_decrypt($this->cipher, $this->key, $value, $this->mode, $iv);
-    }
-    protected function getJsonPayload($payload)
-    {
-        $payload = json_decode(base64_decode($payload), true);
-        if (!$payload || $this->invalidPayload($payload)) {
-            throw new DecryptException('Invalid data.');
+        $decrypted = \openssl_decrypt($payload['value'], $this->cipher, $this->key, 0, $iv);
+        if ($decrypted === false) {
+            throw new DecryptException('Could not decrypt the data.');
         }
-        if (!$this->validMac($payload)) {
-            throw new DecryptException('MAC is invalid.');
-        }
-        return $payload;
+        return $unserialize ? unserialize($decrypted) : $decrypted;
     }
-    protected function validMac(array $payload)
+    public function decryptString($payload)
     {
-        $bytes = with(new SecureRandom())->nextBytes(16);
-        $calcMac = hash_hmac('sha256', $this->hash($payload['iv'], $payload['value']), $bytes, true);
-        return StringUtils::equals(hash_hmac('sha256', $payload['mac'], $bytes, true), $calcMac);
+        return $this->decrypt($payload, false);
     }
     protected function hash($iv, $value)
     {
         return hash_hmac('sha256', $iv . $value, $this->key);
     }
-    protected function addPadding($value)
+    protected function getJsonPayload($payload)
     {
-        $pad = $this->block - strlen($value) % $this->block;
-        return $value . str_repeat(chr($pad), $pad);
-    }
-    protected function stripPadding($value)
-    {
-        $pad = ord($value[($len = strlen($value)) - 1]);
-        return $this->paddingIsValid($pad, $value) ? substr($value, 0, $len - $pad) : $value;
-    }
-    protected function paddingIsValid($pad, $value)
-    {
-        $beforePad = strlen($value) - $pad;
-        return substr($value, $beforePad) == str_repeat(substr($value, -1), $pad);
-    }
-    protected function invalidPayload($data)
-    {
-        return !is_array($data) || !isset($data['iv']) || !isset($data['value']) || !isset($data['mac']);
-    }
-    protected function getIvSize()
-    {
-        return mcrypt_get_iv_size($this->cipher, $this->mode);
-    }
-    protected function getRandomizer()
-    {
-        if (defined('MCRYPT_DEV_URANDOM')) {
-            return MCRYPT_DEV_URANDOM;
+        $payload = json_decode(base64_decode($payload), true);
+        if (!$this->validPayload($payload)) {
+            throw new DecryptException('The payload is invalid.');
         }
-        if (defined('MCRYPT_DEV_RANDOM')) {
-            return MCRYPT_DEV_RANDOM;
+        if (!$this->validMac($payload)) {
+            throw new DecryptException('The MAC is invalid.');
         }
-        mt_srand();
-        return MCRYPT_RAND;
+        return $payload;
     }
-    public function setKey($key)
+    protected function validPayload($payload)
     {
-        $this->key = $key;
+        return is_array($payload) && isset($payload['iv'], $payload['value'], $payload['mac']);
     }
-    public function setCipher($cipher)
+    protected function validMac(array $payload)
     {
-        $this->cipher = $cipher;
+        $calculated = $this->calculateMac($payload, $bytes = random_bytes(16));
+        return hash_equals(hash_hmac('sha256', $payload['mac'], $bytes, true), $calculated);
     }
-    public function setMode($mode)
+    protected function calculateMac($payload, $bytes)
     {
-        $this->mode = $mode;
+        return hash_hmac('sha256', $this->hash($payload['iv'], $payload['value']), $bytes, true);
+    }
+    public function getKey()
+    {
+        return $this->key;
     }
 }
 namespace Royalcms\Component\Support\Facades;
@@ -10452,8 +10615,14 @@ class Variable extends Facade
 }
 namespace Royalcms\Component\Support\Facades;
 
+use Royalcms\Component\Cache\SpecialStores\AppCache;
+use Royalcms\Component\Cache\SpecialStores\UserDataCache;
+use Royalcms\Component\Cache\SpecialStores\TableCache;
+use Royalcms\Component\Cache\SpecialStores\QueryCache;
+use Royalcms\Component\Cache\SpecialStores\MemoryCache;
 class Cache extends Facade
 {
+    use AppCache, UserDataCache, TableCache, QueryCache, MemoryCache;
     protected static function getFacadeAccessor()
     {
         return 'cache';
@@ -10476,38 +10645,90 @@ class CacheServiceProvider extends ServiceProvider
     protected $defer = true;
     public function register()
     {
-        $this->royalcms->bindShared('cache', function ($royalcms) {
+        $this->royalcms->singleton('cache', function ($royalcms) {
             return new CacheManager($royalcms);
         });
-        $this->royalcms->bindShared('cache.store', function ($royalcms) {
+        $this->royalcms->singleton('cache.store', function ($royalcms) {
             return $royalcms['cache']->driver();
         });
-        $this->royalcms->bindShared('memcached.connector', function () {
+        $this->royalcms->singleton('memcached.connector', function () {
             return new MemcachedConnector();
         });
         $this->registerCommands();
     }
     public function registerCommands()
     {
-        $this->royalcms->bindShared('command.cache.clear', function ($royalcms) {
+        $this->royalcms->singleton('command.cache.clear', function ($royalcms) {
             return new Console\ClearCommand($royalcms['cache'], $royalcms['files']);
         });
-        $this->commands('command.cache.clear');
+        $this->royalcms->singleton('command.cache.table', function ($royalcms) {
+            return new Console\CacheTableCommand($royalcms['files'], $royalcms['composer']);
+        });
+        $this->commands('command.cache.clear', 'command.cache.table');
     }
     public function provides()
     {
-        return array('cache', 'cache.store', 'memcached.connector', 'command.cache.clear');
+        return array('cache', 'cache.store', 'memcached.connector', 'command.cache.clear', 'command.cache.table');
     }
+}
+namespace Royalcms\Component\Cache\Contracts;
+
+interface Factory
+{
+    public function store($name = null);
+}
+namespace Royalcms\Component\Cache\Contracts;
+
+use Closure;
+interface Repository
+{
+    public function has($key);
+    public function get($key, $default = null);
+    public function pull($key, $default = null);
+    public function put($key, $value, $minutes);
+    public function add($key, $value, $minutes);
+    public function forever($key, $value);
+    public function remember($key, $minutes, Closure $callback);
+    public function sear($key, Closure $callback);
+    public function rememberForever($key, Closure $callback);
+    public function forget($key);
+}
+namespace Royalcms\Component\Cache\Contracts;
+
+interface Store
+{
+    public function get($key);
+    public function put($key, $value, $minutes);
+    public function increment($key, $value = 1);
+    public function decrement($key, $value = 1);
+    public function forever($key, $value);
+    public function forget($key);
+    public function flush();
+    public function getPrefix();
 }
 namespace Royalcms\Component\Cache;
 
-use Royalcms\Component\Support\Manager;
-class CacheManager extends Manager
+use Closure;
+use InvalidArgumentException;
+use Royalcms\Component\Cache\Contracts\Store;
+use Royalcms\Component\Cache\Contracts\Factory as FactoryContract;
+class CacheManager implements FactoryContract
 {
-    public function drive($name = null)
+    protected $royalcms;
+    protected $stores = array();
+    protected $customCreators = array();
+    public function __construct($royalcms)
+    {
+        $this->royalcms = $royalcms;
+    }
+    public function store($name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
-        return $this->drivers[$name] = $this->get($name);
+        return $this->stores[$name] = $this->get($name);
+    }
+    public function driver($driver = null)
+    {
+        return $this->store($driver);
     }
     protected function get($name)
     {
@@ -10516,14 +10737,22 @@ class CacheManager extends Manager
     protected function resolve($name)
     {
         $config = $this->getConfig($name);
+        if (is_null($config)) {
+            throw new InvalidArgumentException("Cache store [{$name}] is not defined.");
+        }
         if (isset($this->customCreators[$config['driver']])) {
             return $this->callCustomCreator($config);
         }
         return $this->{'create' . ucfirst($config['driver']) . 'Driver'}($config);
     }
+    protected function callCustomCreator(array $config)
+    {
+        return $this->customCreators[$config['driver']]($this->app, $config);
+    }
     protected function createApcDriver(array $config)
     {
-        return $this->repository(new ApcStore(new ApcWrapper(), $this->getPrefix()));
+        $prefix = $this->getPrefix($config);
+        return $this->repository(new ApcStore(new ApcWrapper(), $prefix));
     }
     protected function createArrayDriver(array $config)
     {
@@ -10536,51 +10765,55 @@ class CacheManager extends Manager
     }
     protected function createMemcachedDriver(array $config)
     {
-        $servers = $this->royalcms['config']['cache.memcached'];
-        $memcached = $this->royalcms['memcached.connector']->connect($servers);
-        return $this->repository(new MemcachedStore($memcached, $this->getPrefix()));
+        $prefix = $this->getPrefix($config);
+        $memcached = $this->royalcms['memcached.connector']->connect($config['servers']);
+        return $this->repository(new MemcachedStore($memcached, $prefix));
+    }
+    protected function createNullDriver()
+    {
+        return $this->repository(new NullStore());
     }
     protected function createWincacheDriver(array $config)
     {
-        return $this->repository(new WinCacheStore($this->getPrefix()));
+        return $this->repository(new WinCacheStore($this->getPrefix($config)));
     }
     protected function createXcacheDriver(array $config)
     {
-        return $this->repository(new XCacheStore($this->getPrefix()));
+        return $this->repository(new XCacheStore($this->getPrefix($config)));
     }
     protected function createRedisDriver(array $config)
     {
         $redis = $this->royalcms['redis'];
-        return $this->repository(new RedisStore($redis, $this->getPrefix()));
+        $connection = array_get($config, 'connection', 'default') ?: 'default';
+        return $this->repository(new RedisStore($redis, $this->getPrefix($config), $connection));
     }
     protected function createDatabaseDriver(array $config)
     {
-        $connection = $this->getDatabaseConnection();
+        $connection = $this->royalcms['db']->connection(array_get($config, 'connection'));
         $encrypter = $this->royalcms['encrypter'];
-        $table = $this->royalcms['config']['cache.table'];
-        $prefix = $this->getPrefix();
+        $table = $config['table'];
+        $prefix = $this->getPrefix($config);
         return $this->repository(new DatabaseStore($connection, $encrypter, $table, $prefix));
     }
-    protected function getDatabaseConnection()
+    public function repository(Store $store)
     {
-        $connection = $this->royalcms['config']['cache.connection'];
-        return $this->royalcms['db']->connection($connection);
+        $repository = new Repository($store);
+        if ($this->royalcms->bound('Royalcms\\Component\\Events\\Contracts\\Dispatcher')) {
+            $repository->setEventDispatcher($this->royalcms['Royalcms\\Component\\Events\\Contracts\\Dispatcher']);
+        }
+        return $repository;
     }
-    public function getPrefix()
+    public function getPrefix(array $config)
     {
-        return $this->royalcms['config']['cache.prefix'];
+        return array_get($config, 'prefix') ?: $this->royalcms['config']['cache.prefix'];
     }
     public function setPrefix($name)
     {
         $this->royalcms['config']['cache.prefix'] = $name;
     }
-    protected function repository(StoreInterface $store)
-    {
-        return new Repository($store);
-    }
     protected function getConfig($name)
     {
-        return $this->royalcms['config']["cache.drivers.{$name}"];
+        return $this->royalcms['config']["cache.stores.{$name}"];
     }
     public function getDefaultDriver()
     {
@@ -10590,15 +10823,21 @@ class CacheManager extends Manager
     {
         $this->royalcms['config']['cache.default'] = $name;
     }
+    public function extend($driver, Closure $callback)
+    {
+        $this->customCreators[$driver] = $callback;
+        return $this;
+    }
     public function __call($method, $parameters)
     {
-        return call_user_func_array(array($this->drive(), $method), $parameters);
+        return call_user_func_array(array($this->store(), $method), $parameters);
     }
 }
 namespace Royalcms\Component\Cache;
 
 use Royalcms\Component\Filesystem\Filesystem;
-class FileStore implements StoreInterface
+use Royalcms\Component\Cache\Contracts\Store;
+class FileStore implements Store
 {
     protected $files;
     protected $directory;
@@ -10609,19 +10848,23 @@ class FileStore implements StoreInterface
     }
     public function get($key)
     {
+        return array_get($this->getPayload($key), 'data');
+    }
+    protected function getPayload($key)
+    {
         $path = $this->path($key);
-        if (!$this->files->exists($path)) {
-            return null;
-        }
         try {
             $expire = substr($contents = $this->files->get($path), 0, 10);
         } catch (\Exception $e) {
-            return null;
+            return array('data' => null, 'time' => null);
         }
         if (time() >= $expire) {
-            return $this->forget($key);
+            $this->forget($key);
+            return array('data' => null, 'time' => null);
         }
-        return unserialize(substr($contents, 10));
+        $data = unserialize(substr($contents, 10));
+        $time = ceil(($expire - time()) / 60);
+        return compact('data', 'time');
     }
     public function put($key, $value, $minutes)
     {
@@ -10639,11 +10882,14 @@ class FileStore implements StoreInterface
     }
     public function increment($key, $value = 1)
     {
-        throw new \LogicException('Increment operations not supported by this driver.');
+        $raw = $this->getPayload($key);
+        $int = (int) $raw['data'] + $value;
+        $this->put($key, $int, (int) $raw['time']);
+        return $int;
     }
     public function decrement($key, $value = 1)
     {
-        throw new \LogicException('Decrement operations not supported by this driver.');
+        return $this->increment($key, $value * -1);
     }
     public function forever($key, $value)
     {
@@ -10655,11 +10901,14 @@ class FileStore implements StoreInterface
         if ($this->files->exists($file)) {
             $this->files->delete($file);
         }
+        return false;
     }
     public function flush()
     {
-        foreach ($this->files->directories($this->directory) as $directory) {
-            $this->files->deleteDirectory($directory);
+        if ($this->files->isDirectory($this->directory)) {
+            foreach ($this->files->directories($this->directory) as $directory) {
+                $this->files->deleteDirectory($directory);
+            }
         }
     }
     protected function path($key)
@@ -10689,31 +10938,31 @@ class FileStore implements StoreInterface
 }
 namespace Royalcms\Component\Cache;
 
-interface StoreInterface
-{
-    public function get($key);
-    public function put($key, $value, $minutes);
-    public function increment($key, $value = 1);
-    public function decrement($key, $value = 1);
-    public function forever($key, $value);
-    public function forget($key);
-    public function flush();
-    public function getPrefix();
-}
-namespace Royalcms\Component\Cache;
-
 use Closure;
 use DateTime;
 use ArrayAccess;
 use Royalcms\Component\DateTime\Carbon;
+use Royalcms\Component\Events\Contracts\Dispatcher;
+use Royalcms\Component\Cache\Contracts\Store;
 class Repository implements ArrayAccess
 {
     protected $store;
     protected $default = 60;
+    protected $events;
     protected $macros = array();
-    public function __construct(StoreInterface $store)
+    public function __construct(Store $store)
     {
         $this->store = $store;
+    }
+    public function setEventDispatcher(Dispatcher $events)
+    {
+        $this->events = $events;
+    }
+    protected function fireCacheEvent($event, $payload)
+    {
+        if (isset($this->events)) {
+            $this->events->fire('cache.' . $event, $payload);
+        }
     }
     public function has($key)
     {
@@ -10722,20 +10971,43 @@ class Repository implements ArrayAccess
     public function get($key, $default = null)
     {
         $value = $this->store->get($key);
-        return !is_null($value) ? $value : value($default);
+        if (is_null($value)) {
+            $this->fireCacheEvent('missed', array($key));
+            $value = value($default);
+        } else {
+            $this->fireCacheEvent('hit', array($key, $value));
+        }
+        return $value;
+    }
+    public function pull($key, $default = null)
+    {
+        $value = $this->get($key, $default);
+        $this->forget($key);
+        return $value;
     }
     public function put($key, $value, $minutes)
     {
         $minutes = $this->getMinutes($minutes);
-        $this->store->put($key, $value, $minutes);
+        if (!is_null($minutes)) {
+            $this->store->put($key, $value, $minutes);
+            $this->fireCacheEvent('write', array($key, $value, $minutes));
+        }
     }
     public function add($key, $value, $minutes)
     {
+        if (method_exists($this->store, 'add')) {
+            return $this->store->add($key, $value, $minutes);
+        }
         if (is_null($this->get($key))) {
             $this->put($key, $value, $minutes);
             return true;
         }
         return false;
+    }
+    public function forever($key, $value)
+    {
+        $this->store->forever($key, $value);
+        $this->fireCacheEvent('write', array($key, $value, 0));
     }
     public function remember($key, $minutes, Closure $callback)
     {
@@ -10756,6 +11028,12 @@ class Repository implements ArrayAccess
         }
         $this->forever($key, $value = $callback());
         return $value;
+    }
+    public function forget($key)
+    {
+        $success = $this->store->forget($key);
+        $this->fireCacheEvent('delete', array($key));
+        return $success;
     }
     public function getDefaultCacheTime()
     {
@@ -10805,204 +11083,6 @@ class Repository implements ArrayAccess
         } else {
             return call_user_func_array(array($this->store, $method), $parameters);
         }
-    }
-}
-namespace Royalcms\Component\Cache;
-
-class Memory
-{
-    private $cache = array();
-    private $cache_hits = 0;
-    public $cache_misses = 0;
-    protected $global_groups = array();
-    private $site_prefix;
-    public function __get($name)
-    {
-        return $this->{$name};
-    }
-    public function __set($name, $value)
-    {
-        return $this->{$name} = $value;
-    }
-    public function __isset($name)
-    {
-        return isset($this->{$name});
-    }
-    public function __unset($name)
-    {
-        unset($this->{$name});
-    }
-    public function add($key, $data, $group = 'default', $expire = 0)
-    {
-        if (rc_suspend_cache_addition()) {
-            return false;
-        }
-        if (empty($group)) {
-            $group = 'default';
-        }
-        $id = $key;
-        if ($this->multisite && !isset($this->global_groups[$group])) {
-            $id = $this->site_prefix . $key;
-        }
-        if ($this->_exists($id, $group)) {
-            return false;
-        }
-        return $this->set($key, $data, $group, (int) $expire);
-    }
-    public function add_global_groups($groups)
-    {
-        $groups = (array) $groups;
-        $groups = array_fill_keys($groups, true);
-        $this->global_groups = array_merge($this->global_groups, $groups);
-    }
-    public function decr($key, $offset = 1, $group = 'default')
-    {
-        if (empty($group)) {
-            $group = 'default';
-        }
-        if ($this->multisite && !isset($this->global_groups[$group])) {
-            $key = $this->site_prefix . $key;
-        }
-        if (!$this->_exists($key, $group)) {
-            return false;
-        }
-        if (!is_numeric($this->cache[$group][$key])) {
-            $this->cache[$group][$key] = 0;
-        }
-        $offset = (int) $offset;
-        $this->cache[$group][$key] -= $offset;
-        if ($this->cache[$group][$key] < 0) {
-            $this->cache[$group][$key] = 0;
-        }
-        return $this->cache[$group][$key];
-    }
-    public function delete($key, $group = 'default', $deprecated = false)
-    {
-        if (empty($group)) {
-            $group = 'default';
-        }
-        if ($this->multisite && !isset($this->global_groups[$group])) {
-            $key = $this->site_prefix . $key;
-        }
-        if (!$this->_exists($key, $group)) {
-            return false;
-        }
-        unset($this->cache[$group][$key]);
-        return true;
-    }
-    public function flush()
-    {
-        $this->cache = array();
-        return true;
-    }
-    public function get($key, $group = 'default', $force = false, &$found = null)
-    {
-        if (empty($group)) {
-            $group = 'default';
-        }
-        if ($this->multisite && !isset($this->global_groups[$group])) {
-            $key = $this->site_prefix . $key;
-        }
-        if ($this->_exists($key, $group)) {
-            $found = true;
-            $this->cache_hits += 1;
-            if (is_object($this->cache[$group][$key])) {
-                return clone $this->cache[$group][$key];
-            } else {
-                return $this->cache[$group][$key];
-            }
-        }
-        $found = false;
-        $this->cache_misses += 1;
-        return false;
-    }
-    public function incr($key, $offset = 1, $group = 'default')
-    {
-        if (empty($group)) {
-            $group = 'default';
-        }
-        if ($this->multisite && !isset($this->global_groups[$group])) {
-            $key = $this->site_prefix . $key;
-        }
-        if (!$this->_exists($key, $group)) {
-            return false;
-        }
-        if (!is_numeric($this->cache[$group][$key])) {
-            $this->cache[$group][$key] = 0;
-        }
-        $offset = (int) $offset;
-        $this->cache[$group][$key] += $offset;
-        if ($this->cache[$group][$key] < 0) {
-            $this->cache[$group][$key] = 0;
-        }
-        return $this->cache[$group][$key];
-    }
-    public function replace($key, $data, $group = 'default', $expire = 0)
-    {
-        if (empty($group)) {
-            $group = 'default';
-        }
-        $id = $key;
-        if ($this->multisite && !isset($this->global_groups[$group])) {
-            $id = $this->site_prefix . $key;
-        }
-        if (!$this->_exists($id, $group)) {
-            return false;
-        }
-        return $this->set($key, $data, $group, (int) $expire);
-    }
-    public function reset()
-    {
-        foreach (array_keys($this->cache) as $group) {
-            if (!isset($this->global_groups[$group])) {
-                unset($this->cache[$group]);
-            }
-        }
-    }
-    public function set($key, $data, $group = 'default', $expire = 0)
-    {
-        if (empty($group)) {
-            $group = 'default';
-        }
-        if ($this->multisite && !isset($this->global_groups[$group])) {
-            $key = $this->site_prefix . $key;
-        }
-        if (is_object($data)) {
-            $data = clone $data;
-        }
-        $this->cache[$group][$key] = $data;
-        return true;
-    }
-    public function stats()
-    {
-        echo '<p>';
-        echo "<strong>Cache Hits:</strong> {$this->cache_hits}<br />";
-        echo "<strong>Cache Misses:</strong> {$this->cache_misses}<br />";
-        echo '</p>';
-        echo '<ul>';
-        foreach ($this->cache as $group => $cache) {
-            echo "<li><strong>Group:</strong> {$group} - ( " . number_format(strlen(serialize($cache)) / 1024, 2) . 'k )</li>';
-        }
-        echo '</ul>';
-    }
-    public function switch_to_site($site_name)
-    {
-        $site_name = (string) $site_name;
-        $this->site_prefix = $this->multisite ? $site_name . ':' : '';
-    }
-    protected function _exists($key, $group)
-    {
-        return isset($this->cache[$group]) && (isset($this->cache[$group][$key]) || array_key_exists($key, $this->cache[$group]));
-    }
-    public function __construct()
-    {
-        $this->multisite = defined('RC_SITE');
-        $this->site_prefix = $this->multisite ? RC_SITE . ':' : '';
-        register_shutdown_function(array($this, '__destruct'));
-    }
-    public function __destruct()
-    {
-        return true;
     }
 }
 namespace Royalcms\Component\Exception;
@@ -11091,7 +11171,7 @@ class ExceptionServiceProvider extends ServiceProvider
     }
     protected function getResourcePath()
     {
-        return SITE_ROOT . 'vendor/royalcms/framework/Royalcms/Component/Exception' . '/resources';
+        return SITE_ROOT . 'vendor/royalcms/exception/Royalcms/Component/Exception' . '/resources';
     }
 }
 namespace Royalcms\Component\Exception;
@@ -11119,7 +11199,7 @@ class PrettyPageHandler extends WhoopsHandler
             return WhoopsHandler::DONE;
         }
         if (!($resources = $this->getResourcesPath())) {
-            $resources = SITE_ROOT . 'vendor/royalcms/framework/Royalcms/Component/Exception' . '/../Resources';
+            $resources = SITE_ROOT . 'vendor/royalcms/exception/Royalcms/Component/Exception' . '/../Resources';
         }
         $templateFile = "{$resources}/pretty-template.php";
         $cssFile = "{$resources}/pretty-page.css";
@@ -11278,7 +11358,7 @@ class PlainDisplayer implements ExceptionDisplayerInterface
     {
         $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
         $headers = $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : array();
-        include SITE_ROOT . 'vendor/royalcms/framework/Royalcms/Component/Exception' . '/resources/plain.php';
+        include SITE_ROOT . 'vendor/royalcms/exception/Royalcms/Component/Exception' . '/resources/plain.php';
         return new Response(null, $status, $headers);
     }
 }
@@ -12536,311 +12616,6 @@ class Translator extends NamespacedItemResolver implements TranslatorInterface
     public function setFallback($fallback)
     {
         $this->fallback = $fallback;
-    }
-}
-namespace Royalcms\Component\Hook;
-
-class Hooks
-{
-    public $filters = array();
-    public $merged_filters = array();
-    public $actions = array();
-    public $current_filter = array();
-    public function __construct($args = null)
-    {
-        $this->filters = array();
-        $this->merged_filters = array();
-        $this->actions = array();
-        $this->current_filter = array();
-    }
-    public function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1)
-    {
-        $idx = $this->_filter_build_unique_id($tag, $function_to_add, $priority);
-        $this->filters[$tag][$priority][$idx] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
-        unset($this->merged_filters[$tag]);
-        return true;
-    }
-    public function remove_filter($tag, $function_to_remove, $priority = 10)
-    {
-        $function_to_remove = $this->_filter_build_unique_id($tag, $function_to_remove, $priority);
-        $r = isset($this->filters[$tag][$priority][$function_to_remove]);
-        if (true === $r) {
-            unset($this->filters[$tag][$priority][$function_to_remove]);
-            if (empty($this->filters[$tag][$priority])) {
-                unset($this->filters[$tag][$priority]);
-            }
-            unset($this->merged_filters[$tag]);
-        }
-        return $r;
-    }
-    public function remove_all_filters($tag, $priority = false)
-    {
-        if (isset($this->filters[$tag])) {
-            if (false !== $priority && isset($this->filters[$tag][$priority])) {
-                unset($this->filters[$tag][$priority]);
-            } else {
-                unset($this->filters[$tag]);
-            }
-        }
-        if (isset($this->merged_filters[$tag])) {
-            unset($this->merged_filters[$tag]);
-        }
-        return true;
-    }
-    public function has_filter($tag, $function_to_check = false)
-    {
-        $has = !empty($this->filters[$tag]);
-        if (false === $function_to_check || false == $has) {
-            return $has;
-        }
-        if (!($idx = $this->_filter_build_unique_id($tag, $function_to_check, false))) {
-            return false;
-        }
-        foreach ((array) array_keys($this->filters[$tag]) as $priority) {
-            if (isset($this->filters[$tag][$priority][$idx])) {
-                return $priority;
-            }
-        }
-        return false;
-    }
-    public function apply_filters($tag, $value)
-    {
-        $args = array();
-        if (isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-            $args = func_get_args();
-            $this->_call_all_hook($args);
-        }
-        if (!isset($this->filters[$tag])) {
-            if (isset($this->filters['all'])) {
-                array_pop($this->current_filter);
-            }
-            return $value;
-        }
-        if (!isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-        }
-        if (!isset($this->merged_filters[$tag])) {
-            ksort($this->filters[$tag]);
-            $this->merged_filters[$tag] = true;
-        }
-        reset($this->filters[$tag]);
-        if (empty($args)) {
-            $args = func_get_args();
-        }
-        do {
-            foreach ((array) current($this->filters[$tag]) as $the_) {
-                if (!is_null($the_['function'])) {
-                    $args[1] = $value;
-                    $value = call_user_func_array($the_['function'], array_slice($args, 1, (int) $the_['accepted_args']));
-                }
-            }
-        } while (next($this->filters[$tag]) !== false);
-        array_pop($this->current_filter);
-        return $value;
-    }
-    public function apply_filters_ref_array($tag, $args)
-    {
-        if (isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-            $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
-        }
-        if (!isset($this->filters[$tag])) {
-            if (isset($this->filters['all'])) {
-                array_pop($this->current_filter);
-            }
-            return $args[0];
-        }
-        if (!isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-        }
-        if (!isset($this->merged_filters[$tag])) {
-            ksort($this->filters[$tag]);
-            $this->merged_filters[$tag] = true;
-        }
-        reset($this->filters[$tag]);
-        do {
-            foreach ((array) current($this->filters[$tag]) as $the_) {
-                if (!is_null($the_['function'])) {
-                    $args[0] = call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
-                }
-            }
-        } while (next($this->filters[$tag]) !== false);
-        array_pop($this->current_filter);
-        return $args[0];
-    }
-    public function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1)
-    {
-        return $this->add_filter($tag, $function_to_add, $priority, $accepted_args);
-    }
-    public function has_action($tag, $function_to_check = false)
-    {
-        return $this->has_filter($tag, $function_to_check);
-    }
-    public function remove_action($tag, $function_to_remove, $priority = 10)
-    {
-        return $this->remove_filter($tag, $function_to_remove, $priority);
-    }
-    public function remove_all_actions($tag, $priority = false)
-    {
-        return $this->remove_all_filters($tag, $priority);
-    }
-    public function do_action($tag, $arg = '')
-    {
-        if (!isset($this->actions)) {
-            $this->actions = array();
-        }
-        if (!isset($this->actions[$tag])) {
-            $this->actions[$tag] = 1;
-        } else {
-            ++$this->actions[$tag];
-        }
-        if (isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-            $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
-        }
-        if (!isset($this->filters[$tag])) {
-            if (isset($this->filters['all'])) {
-                array_pop($this->current_filter);
-            }
-            return;
-        }
-        if (!isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-        }
-        $args = array();
-        if (is_array($arg) && 1 == count($arg) && isset($arg[0]) && is_object($arg[0])) {
-            $args[] =& $arg[0];
-        } else {
-            $args[] = $arg;
-        }
-        for ($a = 2; $a < func_num_args(); $a++) {
-            $args[] = func_get_arg($a);
-        }
-        if (!isset($this->merged_filters[$tag])) {
-            ksort($this->filters[$tag]);
-            $this->merged_filters[$tag] = true;
-        }
-        reset($this->filters[$tag]);
-        do {
-            foreach ((array) current($this->filters[$tag]) as $the_) {
-                if (!is_null($the_['function'])) {
-                    call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
-                }
-            }
-        } while (next($this->filters[$tag]) !== false);
-        array_pop($this->current_filter);
-    }
-    public function do_action_ref_array($tag, $args)
-    {
-        if (!isset($this->actions)) {
-            $this->actions = array();
-        }
-        if (!isset($this->actions[$tag])) {
-            $this->actions[$tag] = 1;
-        } else {
-            ++$this->actions[$tag];
-        }
-        if (isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-            $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
-        }
-        if (!isset($this->filters[$tag])) {
-            if (isset($this->filters['all'])) {
-                array_pop($this->current_filter);
-            }
-            return;
-        }
-        if (!isset($this->filters['all'])) {
-            $this->current_filter[] = $tag;
-        }
-        if (!isset($merged_filters[$tag])) {
-            ksort($this->filters[$tag]);
-            $merged_filters[$tag] = true;
-        }
-        reset($this->filters[$tag]);
-        do {
-            foreach ((array) current($this->filters[$tag]) as $the_) {
-                if (!is_null($the_['function'])) {
-                    call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
-                }
-            }
-        } while (next($this->filters[$tag]) !== false);
-        array_pop($this->current_filter);
-    }
-    public function did_action($tag)
-    {
-        if (!isset($this->actions) || !isset($this->actions[$tag])) {
-            return 0;
-        }
-        return $this->actions[$tag];
-    }
-    public function current_filter()
-    {
-        return end($this->current_filter);
-    }
-    public function current_action()
-    {
-        return $this->current_filter();
-    }
-    public function doing_filter($filter = null)
-    {
-        if (null === $filter) {
-            return !empty($this->current_filter);
-        }
-        return in_array($filter, $this->current_filter);
-    }
-    public function doing_action($action = null)
-    {
-        return $this->doing_filter($action);
-    }
-    private function _filter_build_unique_id($tag, $function, $priority)
-    {
-        static $filter_id_count = 0;
-        if (is_string($function)) {
-            return $function;
-        }
-        if (is_object($function)) {
-            $function = array($function, '');
-        } else {
-            $function = (array) $function;
-        }
-        if (is_object($function[0])) {
-            if (function_exists('spl_object_hash')) {
-                return spl_object_hash($function[0]) . $function[1];
-            } else {
-                $obj_idx = get_class($function[0]) . $function[1];
-                if (!isset($function[0]->filter_id)) {
-                    if (false === $priority) {
-                        return false;
-                    }
-                    $obj_idx .= isset($this->filters[$tag][$priority]) ? count((array) ${$this}->filters[$tag][$priority]) : $filter_id_count;
-                    $function[0]->filter_id = $filter_id_count;
-                    ++$filter_id_count;
-                } else {
-                    $obj_idx .= $function[0]->filter_id;
-                }
-                return $obj_idx;
-            }
-        } else {
-            if (is_string($function[0])) {
-                return $function[0] . $function[1];
-            }
-        }
-    }
-    public function __call_all_hook($args)
-    {
-        reset($this->filters['all']);
-        do {
-            foreach ((array) current($this->filters['all']) as $the_) {
-                if (!is_null($the_['function'])) {
-                    call_user_func_array($the_['function'], $args);
-                }
-            }
-        } while (next($this->filters['all']) !== false);
     }
 }
 namespace Symfony\Component\HttpFoundation;
