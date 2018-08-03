@@ -44,56 +44,35 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-RC_Loader::load_app_class('platform_interface', 'platform', false);
-class mp_zjd_user implements platform_interface {
-    
-    public function action() {
-    	$css_url = RC_Plugin::plugins_url('css/bootstrap.min.css', __FILE__);
-    	$js_url = RC_Plugin::plugins_url('js/bootstrap.min.js', __FILE__);
-    	$jq_url = RC_Plugin::plugins_url('js/jquery.js', __FILE__);
-        ecjia_front::$controller->assign('css_url',$css_url);
-        ecjia_front::$controller->assign('js_url',$js_url);
-        ecjia_front::$controller->assign('jq_url',$jq_url);
-    	$tplpath = RC_Plugin::plugin_dir_path(__FILE__) . 'templates/zjd_user_info.dwt.php';
-    	$zjdpath = RC_Plugin::plugin_dir_path(__FILE__) . 'templates/zjd_index.dwt.php';
-    	$wechat_prize_db = RC_Loader::load_app_model('wechat_prize_model','wechat');
-    	$openid = trim($_GET['openid']);
-    	$uuid = trim($_GET['uuid']);
-    	
-    	if (!empty($_GET['id'])) {
-    		$id = trim($_GET['id']);
-    		//$rs = $wechat_prize_db->where(array('openid' => $openid,'id' => $id))->get_field('winner');
-    		$rs = RC_DB::table('market_activity_log')->where('user_id', $openid)->where('id', $id)->pluck('issue_extend');
-    		if (!empty($rs)) {
-    			ecjia_front::$controller->showmessage('已经领取', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}
-    		ecjia_front::$controller->assign('id',$id);
-    		ecjia_front::$controller->assign_lang();
-       		ecjia_front::$controller->display($tplpath);
-    	}
-    	
-    	if ($_POST) {
-    		$id = trim($_POST['id']);
-    		$data = $_POST['data'];
-    		
-    		if (empty($id)) {
-    			ecjia_front::$controller->showmessage('请选择中奖的奖品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}
-    		if (empty($data['name'])) {
-    			ecjia_front::$controller->showmessage('请填写姓名', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}
-    		if (empty($data['phone'])) {
-    			ecjia_front::$controller->showmessage('请填写手机号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}
-    		if (empty($data['address'])) {
-    			ecjia_front::$controller->showmessage('请填写详细地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}
-    		$winner['issue_extend'] = serialize($data);
-    		//$wechat_prize_db->where(array('id' => $id))->update($winner);
-    		RC_DB::table('market_activity_log')->where('id', $id)->update($winner);
-    		ecjia_front::$controller->showmessage('资料提交成功，请等待发放奖品,可以继续砸金蛋哦', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('platform/plugin/show', array('handle' => 'mp_zjd/init', 'openid' => $openid, 'uuid' => $uuid))));
-    	}       
-	}
-}
+/**
+ * 砸金蛋语言文件
+ */
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+	'point_status' => '积分赠送：',
+	'point_status_range' => array('关闭', '开启'),
+
+	'point_value' => '积分值：',
+	'point_num' => '有效次数：',
+	'point_interval' => '时间间隔：',
+
+	'point_interval_range' => array(
+			'86400'	=> '24小时',
+			'3600'	=> '1小时',
+			'60'	=> '1分钟'
+	),
+	'prize_num' => '抽奖次数：',
+	'starttime' => '开始时间：',
+	'endtime' => '结束时间：',
+	'list' => '奖品列表：',
+	'description' => '活动规则：',
+	'media_id' => '素材信息：',
+
+	'starttime_desc' => '请输入开始时间，例如：2016-01-12',
+	'endtime_desc' => '请输入结束时间，例如：2016-01-15',
+	'list_desc' => '依次按照“奖项”，“奖品”，“数量”，“概率（总数为100%）”四项顺序以逗号隔开形式进行输入。若设置多个奖品则回车再此进行设置即可。',
+	'media_id_desc' => '请先添加素材，然后在此输入素材ID即可',
+);
 
 // end

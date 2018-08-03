@@ -44,9 +44,26 @@
 			{if $prize}
 			<div class="content">
 				<!-- {foreach from=$prize item=val }-->
-				 <p>{$val.0}:{$val.1}(奖品数量：{$val.2})</p>
+				 	
+				  	<p>
+				  	{if $val.prize_level eq '0'}
+				  		特等奖：
+				  	{elseif $val.prize_level eq '1'}
+				  		一等奖：
+				  	{elseif $val.prize_level eq '2'}
+				  		二等奖：
+				  	{elseif $val.prize_level eq '3'}
+				  		三等奖：
+				  	{elseif $val.prize_level eq '4'}
+				  		四等奖：
+				  	{elseif $val.prize_level eq '5'}
+				  		五等奖：
+				  	{/if}
+				  	{$val.prize_name}{if $val.prize_type eq '1' || $val.prize_type eq '3'}{$val.prize_value}(剩余奖品数量：{$val.prize_number}){/if}</p>
 			 	<!-- {/foreach} -->
 			</div>
+			{else}
+			 	 <p>暂无设置</p>
 			{/if}
 		</div>
 		<div class="block">
@@ -54,7 +71,7 @@
 			{if $list}
 			<div class="content">
 				 <!-- {foreach from=$list item=val}-->
-				  <p> {$val['nickname']} 获得奖品 ：{$val['prize_name']}</p>
+				   <p> {$val.user_name} 获得奖品 ：{$val.prize_name}{if $val.prize_type eq '1' || $val.prize_type eq '3'}（{$val.prize_value}）{/if}</p>
 				 <!-- {/foreach} -->
 			</div>	 
 			{else}

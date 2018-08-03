@@ -5,6 +5,7 @@
 	<title>获奖用户资料</title>
 
 	<link rel="stylesheet" type="text/css" href="{$css_url}">
+	<link rel="stylesheet" type="text/css" href="{$css_prize_url}">
 	<script type="text/javascript" src="{$jq_url}"></script>
 	<script type="text/javascript" src="{$js_url}"></script>
 </head>
