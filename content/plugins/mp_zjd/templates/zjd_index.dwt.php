@@ -59,7 +59,7 @@
 				  	{elseif $val.prize_level eq '5'}
 				  		五等奖：
 				  	{/if}
-				  	{$val.prize_name}{if $val.prize_type eq '1' || $val.prize_type eq '3'}{$val.prize_value}(剩余奖品数量：{$val.prize_number}){/if}</p>
+				  	{$val.prize_name}{$val.prize_value}(剩余奖品数量：{$val.prize_number})</p>
 			 	<!-- {/foreach} -->
 			</div>
 			{else}
@@ -185,7 +185,8 @@
                 	$("#dialog").attr("class",'yes').show();
                 }
                 else if(data.status == 0){
-                	$("#content").html(data.msg);
+                    var success= '撒花，恭喜您获得'+'"'+data.msg+'"';
+                    $("#content").html(success);
                     $(".num").html(data.num);
                 	$("#dialog").attr("class",'no').show();
                 }
