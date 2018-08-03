@@ -20,6 +20,18 @@ class Request extends SymfonyRequest {
 	protected $sessionStore;
 
 	/**
+	 * Create a new Illuminate HTTP request from server variables.
+	 *
+	 * @return static
+	 */
+	public static function capture()
+	{
+	    static::enableHttpMethodParameterOverride();
+	
+	    return static::createFromBase(SymfonyRequest::createFromGlobals());
+	}
+	
+	/**
 	 * Return the Request instance.
 	 *
 	 * @return \Royalcms\Component\HttpKernel\Request
