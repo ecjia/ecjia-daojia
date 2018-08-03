@@ -59,7 +59,10 @@ class wxacode extends ecjia_front
         $storeid = trim($this->request->query('storeid'));
         
 		$qrimg = with(new Ecjia\App\Weapp\WxaCode())->getStoreWxaCode($storeid);
-		
+		if (is_ecjia_error($qrimg)) {
+			ecjia_log_error($qrimg->get_error_message());
+			$qrimg = '';
+		}
 		$this->displayContent($qrimg, 'image/png');
     }
     

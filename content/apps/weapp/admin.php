@@ -400,10 +400,7 @@ class admin extends ecjia_admin {
 	 */
 	public function edit_tag() {
 		$this->admin_priv('update_user_tag', ecjia::MSGTYPE_JSON);
-		
-		//$uuid = platform_account::getCurrentUUID('weapp');		
-		//$wechat = wechat_method::wechat_instance($uuid);
-		
+
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('weapp'));
 		$wechat_id = $platform_account->getAccountID();
 	
@@ -423,13 +420,7 @@ class admin extends ecjia_admin {
 				return $this->showmessage(RC_Lang::get('weapp::weapp.tag_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 				
-			//$tag_id = $this->wechat_tag->where(array('id' => $id))->get_field('tag_id');
-			//微信端更新
-			//$rs = $wechat->setTag($tag_id, $name);
-			//if (RC_Error::is_error($rs)) {
-			//	return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			//}
-				
+
 			//本地更新
 			$update = RC_DB::table('wechat_tag')->where(RC_DB::raw('id'), $id)->where(RC_DB::raw('wechat_id'), $wechat_id)->update($data);
 			
@@ -451,13 +442,7 @@ class admin extends ecjia_admin {
 				return $this->showmessage(RC_Lang::get('weapp::weapp.tag_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 				
-			//微信端添加
-			//$rs = $wechat->addTag($name);
-			//if (RC_Error::is_error($rs)) {
-			//	return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			//}
-			//$tag_id = $rs['tag']['id'];
-			
+
 			//生成tag_id
 			$max_tag_id= RC_DB::table('wechat_tag')->where(RC_DB::raw('wechat_id'), $wechat_id)->max('tag_id');
 			$tag_id = $max_tag_id > 100 ? ($max_tag_id + 1) : 101;
@@ -513,21 +498,13 @@ class admin extends ecjia_admin {
 		$tag_id = !empty($_GET['tag_id']) ? intval($_GET['tag_id']) : 0;
 		$id     = !empty($_GET['id'])     ? intval($_GET['id'])     : 0;
 	
-		//$uuid = platform_account::getCurrentUUID('wechat');
-		//$wechat = wechat_method::wechat_instance($uuid);
-	
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('weapp'));
 		$wechat_id = $platform_account->getAccountID();
 	
 		if (is_ecjia_error($wechat_id)) {
 			return $this->showmessage(RC_Lang::get('weapp::weapp.add_weapp_first'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		//微信端删除
-		//$rs = $wechat->deleteTag($tag_id);
-		//if (RC_Error::is_error($rs)) {
-		//	return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		//}
-	
+
 		//本地删除
 		$name = RC_DB::table('wechat_tag')->where(RC_DB::raw('id'), $id)->pluck('name');
 		$delete = RC_DB::table('wechat_tag')->where(RC_DB::raw('id'), $id)->where(RC_DB::raw('tag_id'), $tag_id)->delete();
@@ -586,11 +563,7 @@ class admin extends ecjia_admin {
 			//添加用户标签
 			if (!empty($tag_id)) {
 				foreach ($tag_id as $v) {
-					//$rs = $wechat->setBatchTag($openids_no_tag['openid'], $v);
-					//if (RC_Error::is_error($rs)) {
-					//	return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-					//}
-					
+
 					foreach ($openids_no_tag['uid'] as $val) {
 						//$this->wechat_user_tag->insert(array('userid' => $val, 'tagid' => $v));
 						RC_DB::table('wechat_user_tag')->insertGetId(array('userid' => $val, 'tagid' => $v));
@@ -604,12 +577,6 @@ class admin extends ecjia_admin {
 		//取消用户标签
 		if (!empty($openids_tag)) {
 			foreach ($openids_tag as $k => $v) {
-				//foreach ($v as $val) {
-				//	$rs = $wechat->setBatchunTag($val['openid'], $val['tagid']);
-				//	if (RC_Error::is_error($rs)) {
-				//		return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-				//	}
-				//}
 				RC_DB::table('wechat_user_tag')->where(RC_DB::raw('userid'), $k)->delete();
 				foreach ($v as $val) {
 					//更新wechat_tag表中的count
@@ -625,10 +592,6 @@ class admin extends ecjia_admin {
 			}
 			if (!empty($tag_id)) {
 				foreach ($tag_id as $v) {
-					//$rs = $wechat->setBatchTag($openid_unique, $v);
-					//if (RC_Error::is_error($rs)) {
-					//	return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-					//}
 					foreach ($new_uid as $val) {
 						RC_DB::table('wechat_user_tag')->insertGetId(array('userid' => $val, 'tagid' => $v));
 						//更新wechat_tag表中的count
@@ -704,8 +667,6 @@ class admin extends ecjia_admin {
 	public function edit_remark() {
 		$this->admin_priv('update_usersinfo', ecjia::MSGTYPE_JSON);
 	
-		//$uuid = platform_account::getCurrentUUID('wechat');
-		//$wechat = wechat_method::wechat_instance($uuid);
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('weapp'));
 		$wechat_id = $platform_account->getAccountID();
 		
@@ -721,11 +682,6 @@ class admin extends ecjia_admin {
 		if (strlen($remark) > 30) {
 			return $this->showmessage(RC_Lang::get('weapp::weapp.up_remark_count'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		//微信端更新
-		//$rs = $wechat->setUserRemark($openid, $remark);
-		//if (RC_Error::is_error($rs)) {
-		//	return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		//}
 		$info = RC_DB::table('wechat_user')->where(RC_DB::raw('openid'), $openid)->first();
 		$data = array('remark' => $remark);
 		$update = RC_DB::table('wechat_user')->where(RC_DB::raw('openid'), $openid)->where(RC_DB::raw('wechat_id'), $wechat_id)->update($data);
@@ -743,8 +699,6 @@ class admin extends ecjia_admin {
 	public function backlist() {
 		$this->admin_priv('update_usersinfo', ecjia::MSGTYPE_JSON);
 	
-		//$uuid = platform_account::getCurrentUUID('wechat');
-		//$wechat = wechat_method::wechat_instance($uuid);
 		$platform_account = platform_account::make(platform_account::getCurrentUUID('weapp'));
 		$wechat_id = $platform_account->getAccountID();
 	
@@ -771,11 +725,6 @@ class admin extends ecjia_admin {
 			$error_msg         = RC_Lang::get('weapp::weapp.add_blacklist_error');
 		}
 	
-		//微信端更新
-		//$rs = $wechat->setUserGroup($openid, $data['group_id']);
-		//if (RC_Error::is_error($rs)) {
-		//	return $this->showmessage(wechat_method::wechat_error($rs->get_error_code()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		//}
 		ecjia_admin::admin_log($sn, 'setup', 'users_info');
 		$update = RC_DB::table('wechat_user')->where(RC_DB::raw('uid'), $uid)->update($data);
 	
