@@ -33,6 +33,8 @@ class WeChat extends Container
         }
 
         Log::debug('Current config:', $config);
+
+        $this->registerProvider();
     }
 
 
@@ -77,6 +79,14 @@ class WeChat extends Container
                 $this['cache']
             );
         };
+    }
+
+    private function registerProvider()
+    {
+        $royalcms = royalcms();
+        collect(config('wechat::provider', []))->map(function($provider) use ($royalcms) {
+            if (class_exists($provider)) $royalcms->register($provider);
+        });
     }
 
 }

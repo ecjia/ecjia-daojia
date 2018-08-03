@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\WeChat\Core;
 
-use Royalcms\Component\Cache\StoreInterface as Cache;
+use Royalcms\Component\Cache\Contracts\Store as Cache;
 use Royalcms\Component\WeChat\Core\Exceptions\HttpException;
 
 /**
@@ -72,7 +72,7 @@ class AccessToken
      *
      * @param string                       $appId
      * @param string                       $secret
-     * @param \Royalcms\Component\Cache\StoreInterface $cache
+     * @param \Royalcms\Component\Cache\Contracts\Store $cache
      */
     public function __construct($appId, $secret, $cache = null)
     {
