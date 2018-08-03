@@ -204,10 +204,20 @@ class admin extends ecjia_admin {
 		if (($article_type == 'article') && empty($content)) {
 			return $this->showmessage('文章类型为普通文章时，文章内容不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 		}
-		if (($article_type == 'redirect') && (strstr($link_url, 7) == false)) {
+		if (($article_type == 'redirect') && (empty($link_url))) {
 			return $this->showmessage('文章类型为跳转链接时，外部链接不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 		}
-			
+
+		if (!empty($link_url) && $article_type == 'redirect') {
+			if (strpos($link_url, 'http') === false) {
+				$linkurl = 'http://'.$link_url;
+			} elseif (strlen($link_url) > 7 && strpos($link_url, 'http') === 0) {
+				$linkurl = $link_url;
+			}
+		} else {
+			$linkurl = '';
+		}
+		
 		$is_only = RC_DB::table('article')->where('title', $title)->count();
 		if ($is_only > 0) {
 			return $this->showmessage(sprintf(RC_Lang::get('article::article.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
@@ -260,7 +270,7 @@ class admin extends ecjia_admin {
 				'add_time'     		=> RC_Time::gmtime(),
 				'file_url'     		=> $file_name,
 				'cover_image'  		=> $cover_image,
-				'link'         		=> $link_url,
+				'link'         		=> empty($linkurl) ? '' : $linkurl,
 				'description'  		=> $description,
 				'suggest_type'		=> $suggest_type
 			);
@@ -479,10 +489,20 @@ class admin extends ecjia_admin {
 		if (($article_type == 'article') && empty($content)) {
 			return $this->showmessage('文章类型为普通文章时，文章内容不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 		}
-		if (($article_type == 'redirect') && (strstr($link_url, 7) == false)) {
+		if (($article_type == 'redirect') && (empty($link_url))) {
 			return $this->showmessage('文章类型为跳转链接时，外部链接不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 		}
 		
+		if (!empty($link_url) && $article_type == 'redirect') {
+			if (strpos($link_url, 'http') === false) {
+				$linkurl = 'http://'.$link_url;
+			} elseif (strlen($link_url) > 7 && strpos($link_url, 'http') === 0) {
+				$linkurl = $link_url;
+			}
+		} else {
+			$linkurl = '';
+		}
+
 		$is_only = RC_DB::table('article')->where('title', $title)->where('article_id', '!=', $id)->count();
 		
 		if ($is_only != 0) {
@@ -521,7 +541,7 @@ class admin extends ecjia_admin {
 			//}
 			
 			/*文章封面*/
-			$old_pic = RC_DB::TABLE('article')->where('article_id', $id)->pluck('cover_image');
+			$old_pic = RC_DB::table('article')->where('article_id', $id)->pluck('cover_image');
 			if (isset($_FILES['cover_image']['error']) && $_FILES['cover_image']['error'] == 0 || ! isset($_FILES['cover_image']['error']) && isset($_FILES['cover_image']['tmp_name']) && $_FILES['cover_image']['tmp_name'] != 'none') {
 				$upload = RC_Upload::uploader('image', array('save_path' => 'data/article', 'auto_sub_dirs' => false));
 				$image_info = $upload->upload($_FILES['cover_image']);
@@ -551,7 +571,7 @@ class admin extends ecjia_admin {
 				'keywords'     		=> $keywords,
 				'content'      		=> $content,
 				'file_url'     		=> $file_name,
-				'link'         		=> $link_url,
+				'link'         		=> empty($linkurl) ? '' : $linkurl,
 				'cover_image'		=> $cover_image,
 				'description'  		=> $description,
 				'suggest_type'		=> $suggest_type,
@@ -1371,7 +1391,7 @@ class admin extends ecjia_admin {
 	/**
 	 * 获取文章评论列表
 	 */
-	public function get_comment_list($article_id) {
+	public function get_comment_list($article_id = 0) {
 		$filter = array();
 		$filter['keywords']   = empty($_GET['keywords'])      ? ''                : trim($_GET['keywords']);
 		$filter['cat_id']     = empty($_GET['cat_id'])        ? 0                 : intval($_GET['cat_id']);

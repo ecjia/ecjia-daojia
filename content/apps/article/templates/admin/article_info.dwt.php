@@ -44,7 +44,7 @@
 									<div class="control-group" >
 									 	<label>{lang key='article::article.external_links'}</label>
 										<div>
-											<input type="text" name="link_url" class="span10" value="{if $article.link neq ''}{$article.link|escape}{else}http://{/if}" />
+											<input type="text" name="link_url" class="span10" value="{if $article.link neq ''}{$article.link|escape}{/if}" />
 											<span class="help-block">{lang key='article::article.links_help_block'}</span>
 										</div>
 									</div>

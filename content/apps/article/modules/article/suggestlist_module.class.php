@@ -91,7 +91,7 @@ class suggestlist_module extends api_front implements api_interface {
 						'click_count'		=> $rows['click_count'],
 						'cover_image'		=> !empty($rows['cover_image']) ? RC_Upload::upload_url($rows['cover_image']) : '',
 						'file_url'			=> !empty($rows['file_url']) ? RC_Upload::upload_url($rows['file_url']) : '',
-						'link_url'			=> !empty($rows['link_url']) ? $rows['link_url'] : '',
+						'link_url'			=> !empty($rows['link']) ? $rows['link'] : '',
 						'store_info'		=> array(
 													'store_id' 		=> $rows['store_id'] > 0 ? $rows['store_id'] : 0,
 													'store_name' 	=> $rows['store_id'] > 0 ? $store_name : '小编推荐',

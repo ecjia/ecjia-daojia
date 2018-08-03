@@ -1136,7 +1136,7 @@ class merchant extends ecjia_merchant {
 		
 		if (!empty($_GET['sort_by'])) {
 			if ($_GET['sort_by'] == 'like_count') {
-				$filter['sort_by'] = 'a.like_value';
+				$filter['sort_by'] = 'a.like_count';
 			}
 			if ($_GET['sort_by'] == 'comment_count') {
 				$filter['sort_by'] = 'a.comment_count';
