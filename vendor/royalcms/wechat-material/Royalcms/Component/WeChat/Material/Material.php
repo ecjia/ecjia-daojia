@@ -3,6 +3,7 @@
 use Royalcms\Component\WeChat\Core\AbstractAPI;
 use Royalcms\Component\WeChat\Core\Exceptions\InvalidArgumentException;
 use Royalcms\Component\WeChat\Message\Article;
+use Royalcms\Component\Support\Facades\File as RC_File;
 
 /**
  * Class Material.
@@ -101,7 +102,7 @@ class Material extends AbstractAPI
                 return $article->only([
                     'title', 'thumb_media_id', 'author', 'digest',
                     'show_cover_pic', 'content', 'content_source_url',
-                    ]);
+                    ])->toArray();
             }
 
             return $article;
@@ -114,19 +115,28 @@ class Material extends AbstractAPI
      * Update article.
      *
      * @param string $mediaId
-     * @param array  $article
+     * @param array|Article $article
      * @param int    $index
      *
      * @return bool
      */
     public function updateArticle($mediaId, $article, $index = 0)
     {
+        if ($article instanceof Article) {
+            $articles = $article->only([
+                'title', 'thumb_media_id', 'author', 'digest',
+                'show_cover_pic', 'content', 'content_source_url',
+            ])->toArray();
+        } else {
+            $articles = isset($article['title']) ? $article : [];
+        }
+
         $params = [
             'media_id' => $mediaId,
             'index' => $index,
-            'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : []),
+            'articles' => $articles,
         ];
-
+        
         return $this->parseJSON('json', [self::API_NEWS_UPDATE, $params]);
     }
 
@@ -267,5 +277,35 @@ class Material extends AbstractAPI
         }
 
         return $api;
+    }
+
+    /**
+     * Download temporary material.
+     *
+     * @param string $mediaId
+     * @param string $directory
+     * @param string $filename
+     *
+     * @return string
+     *
+     * @throws InvalidArgumentException
+     */
+    public function download($mediaId, $directory, $filename = '', $addext = false)
+    {
+        if (!is_dir($directory) || !is_writable($directory)) {
+            throw new InvalidArgumentException("Directory does not exist or is not writable: '$directory'.");
+        }
+
+        $filename = $filename ?: $mediaId;
+
+        $stream = $this->get($mediaId);
+
+        if ($addext) {
+            $filename .= RC_File::getStreamExt($stream);
+        }
+
+        file_put_contents($directory.'/'.$filename, $stream);
+
+        return $filename;
     }
 }
