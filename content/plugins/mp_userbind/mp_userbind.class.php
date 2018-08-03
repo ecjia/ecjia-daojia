@@ -198,6 +198,8 @@ class mp_userbind extends PlatformAbstract
                 'image' => '',
             ];
         }
+
+        return $content;
     }
 
     /**

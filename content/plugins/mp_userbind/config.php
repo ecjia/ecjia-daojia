@@ -57,12 +57,12 @@ return array(
     'support_type'  => Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin | Ecjia\App\Platform\Plugin\PlatformAbstract::TypeMerchant,
 			
 	'forms' => array(
-	    array('name' => 'point_status',       'type' => 'radiobox',    'value' => ''),
-	    array('name' => 'point_value',        'type' => 'text',        'value' => ''),
-	    array('name' => 'point_num',          'type' => 'text',        'value' => ''),
-	    array('name' => 'point_interval',     'type' => 'select',      'value' => ''),
-		array('name' => 'bonus_status',       'type' => 'select',      'value' => ''),
-		array('name' => 'bonus_id',     	  'type' => 'text',        'value' => ''),
+//	    array('name' => 'point_status',       'type' => 'radiobox',    'value' => ''),
+//	    array('name' => 'point_value',        'type' => 'text',        'value' => ''),
+//	    array('name' => 'point_num',          'type' => 'text',        'value' => ''),
+//	    array('name' => 'point_interval',     'type' => 'select',      'value' => ''),
+//		array('name' => 'bonus_status',       'type' => 'radiobox',      'value' => ''),
+//		array('name' => 'bonus_id',     	  'type' => 'text',        'value' => ''),
 	),
 );
 
