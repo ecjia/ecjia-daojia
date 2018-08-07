@@ -47,78 +47,78 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 会员消费积分 变动日志记录接口
- * @author 
+ * 会员帐号资金变动日志记录接口
+ * @author royalwang
  */
-class finance_pay_points_change_api extends Component_Event_Api {
+class finance_account_balance_change_api extends Component_Event_Api {
 
     /**
      * @param integer user_id       必填，用户ID
-     * @param integer point         必填，变动积分
-     * @param string  change_desc   必填，变动积分日志
+     * @param float   user_money    必填，变动金额
+     * @param string  change_desc   必填，变动余额日志
      * @param string  from_type     选填，变动来源类型
      * @param string  from_value    选填，变动来源内容
      *
-     * @return ecjia_error|integer
+     * @return ecjia_error|void
      */
-    public function call(& $options)
-    {
-        if (!array_get($options, 'point') || !array_get($options, 'change_desc') || !array_get($options, 'user_id')) {
-            return new ecjia_error('invalid_parameter', '请求接口finance_pay_points_change_api参数无效');
+    public function call(&$options) {
+        if (!array_get($options, 'user_id') ||  !array_get($options, 'user_money') || !array_get($options, 'change_desc')) {
+            return new ecjia_error('invalid_parameter', '请求接口user_account_balance_change_api参数无效');
         }
         
         $user_id 			= array_get($options, 'user_id');
-        $point 			    = array_get($options, 'point');
+        $user_money 		= array_get($options, 'user_money');
+        $frozen_money 		= array_get($options, 'frozen_money', 0);
         $change_desc 		= array_get($options, 'change_desc');
-        $from_type 		    = array_get($options, 'from_type', '');
-        $from_value 		= array_get($options, 'from_value', '');
-
-        if ($point > 0) {
-            $change_type =  ACT_PAY_POINT_SAVING;
-        } else if ($point < 0) {
-            $change_type =  ACT_PAY_POINT_DEDUCTION;
-        }
-
-        return $this->log_account_change($user_id, $point, $change_desc, $change_type, $from_type, $from_value);
+        $change_type 		= array_get($options, 'change_type', ACT_ACTIVITY);
+        $from_type			= array_get($options, 'from_type', '');
+        $from_value			= array_get($options, 'from_value', '');
+        
+        return $this->log_account_change($user_id, $user_money, $frozen_money, $change_desc, $change_type, $from_type, $from_value);
     }
     
     
     /**
      * 记录帐户变动
      *
-     * @param int $user_id 用户id
-     * @param int $point 消费积分变动
-     * @param string $change_desc 变动说明
-     * @param int $change_type 变动类型：参见常量文件
+     * @param int $user_id          用户id
+     * @param float $user_money     可用余额变动
+     * @param float $frozen_money   冻结余额变动
+     * @param int $rank_points      等级积分变动
+     * @param int $pay_points       消费积分变动
+     * @param string $change_desc   变动说明
+     * @param int $change_type      变动类型：参见常量文件
      * @return void
      */
-    private function log_account_change($user_id, $point = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type = '', $from_value = '')
+    private function log_account_change($user_id, $user_money = 0, $frozen_money = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type = '', $from_value = '')
     {
-        /* 插入帐户变动记录 */
+    	/* 插入帐户变动记录 */
         $account_log = array (
             'user_id'			=> $user_id,
-            'user_money'		=> 0,
-            'frozen_money'		=> 0,
+            'user_money'		=> $user_money,
+            'frozen_money'		=> $frozen_money,
             'rank_points'		=> 0,
-            'pay_points'		=> $point,
+            'pay_points'		=> 0,
             'change_time'		=> RC_Time::gmtime(),
             'change_desc'		=> $change_desc,
             'change_type'		=> $change_type,
-            'from_type'			=> empty($from_type) ? '' : $from_type,
-            'from_value'		=> empty($from_value) ? '' : $from_value
+        	'from_type'			=> $from_type,
+        	'from_value'		=> $from_value
         );
+
 
         return RC_DB::transaction(function () use ($account_log, $user_id) {
 
             $log_id = RC_DB::table('account_log')->insertGetId($account_log);
 
             /* 更新用户信息 */
-            RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', $account_log['pay_points']);
+            $step = $account_log['user_money'] . ", frozen_money = frozen_money + ('" . $account_log['frozen_money'] . "')";
+            RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $step);
 
             return $log_id;
         });
+
     }
-    
 }
 
 // end
