@@ -68,6 +68,8 @@ class mp_jfcx_init extends PluginPageController implements PluginPageInterface
         //初始化资源URL加载
         $this->init();
 
+        // 获取GET请求数据
+        $openid = trim($_GET['openid']);
         $uuid = trim($_GET['uuid']);
 
         $platform_account = new Ecjia\App\Platform\Frameworks\Platform\Account($uuid);
@@ -79,11 +81,9 @@ class mp_jfcx_init extends PluginPageController implements PluginPageInterface
         $pay_points = RC_DB::table('users')->where('user_id', '=', $wechat_id)->pluck('pay_points');
         $points_info = RC_DB::table('account_log')->where('user_id', '=', $wechat_id)->orderBy('change_time', 'desc')->get();
 
-        $count = 0;
         foreach ($points_info as $key => $value)
         {
-            // 计算签到次数
-            if ($value['change_type'] == 11) { ++$count;}
+
             $new_points_info[$key] = $value;
             // 时间使用RC_TIME
             $new_points_info[$key]['change_time'] = RC_Time::local_date('Y-m-d H:i:s', $new_points_info[$key]['change_time']);
@@ -92,10 +92,12 @@ class mp_jfcx_init extends PluginPageController implements PluginPageInterface
         $today = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
 
         // 最近一次签到时间
-        $lastCheckinDay = RC_DB::table('account_log')->where('user_id', '=', $wechat_id)
-            ->orderBy('change_time', 'desc')
-            ->pluck('change_time');
+        $lastCheckinDay = RC_DB::table('wechat_point')->where('openid', '=', $openid)
+            ->orderBy('createtime', 'desc')
+            ->pluck('createtime');
         $lastCheckinDay =  RC_Time::local_date('Y-m-d', $lastCheckinDay);
+
+        $count = RC_DB::table('wechat_point')->where('openid', '=', $openid)->where('keywords', '=', 'mp_checkin')->count();
 
         ecjia_front::$controller->assign('pay_points',$pay_points);
         ecjia_front::$controller->assign('new_points_info',$new_points_info);
