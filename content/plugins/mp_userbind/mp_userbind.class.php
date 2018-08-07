@@ -129,11 +129,19 @@ class mp_userbind extends PlatformAbstract
         $uuid   = $wechatUUID->getUUID();
         $openid = $this->getMessage()->get('FromUserName');
 
-        $wechat_user = new WechatUser($wechat_id, $openid);
-
         //已经绑定用户
         if ($this->hasBindUser()) {
-            $userid = $wechat_user->getEcjiaUserId();
+            $wechat_user = new WechatUser($wechat_id, $openid);
+
+            if ($wechat_user->getEcjiaUserId()) {
+                $userid = $wechat_user->getEcjiaUserId();
+            } else {
+                $connect_user = $wechat_user->getConnectUser();
+                $userid = $connect_user->getUserId();
+                //更新wechat_user里的ect_id
+                $wechat_user->setEcjiaUserId($userid);
+            }
+
             //获取用户名
             $username = RC_DB::TABLE('users')->where('user_id', $userid)->pluck('user_name');
 
@@ -141,7 +149,7 @@ class mp_userbind extends PlatformAbstract
                 'title' => '已绑定',
                 'description' => '您已拥有帐号，用户名为【'.$username.'】点击该链接可进入用户中心哦',
                 'url' => RC_Uri::url('wechat/mobile_profile/init', array('openid' => $openid, 'uuid' => $uuid)),
-                'image' => '',
+                'image' => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_userbind.png',
             ];
         }
         //未绑定用户
@@ -150,7 +158,7 @@ class mp_userbind extends PlatformAbstract
                 'title' => '未绑定',
                 'description' => '抱歉，目前您还未进行账号绑定，需点击该链接进行绑定操作',
                 'url' => RC_Uri::url('wechat/mobile_userbind/init',array('openid' => $openid, 'uuid' => $uuid)),
-                'image' => '',
+                'image' => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_userbind.png',
             ];
 
         }
@@ -169,16 +177,23 @@ class mp_userbind extends PlatformAbstract
         $uuid   = $wechatUUID->getUUID();
         $openid = $this->getMessage()->get('FromUserName');
 
-        $wechat_user = new WechatUser($wechat_id, $openid);
-        $unionid = $wechat_user->getUnionid();
-
-        $UnionidUser = $wechat_user->findUnionidUser($unionid);
-        $connect_user = $wechat_user->getConnectUser();
-        $userid = $connect_user->getUserId();
-
         //如果已经有了公众号用户且绑定了同一个开放平台，自动关联原有的用户ID
-        if (!empty($UnionidUser)) {
-            $wechat_user->setEcjiaUserId($UnionidUser->ect_uid);
+        if ($this->hasBindUser()) {
+            $wechat_user = new WechatUser($wechat_id, $openid);
+            $unionid = $wechat_user->getUnionid();
+
+            $userid = $wechat_user->getEcjiaUserId();
+
+            if (! $userid) {
+                if ($unionid) {
+                    $UnionidUser = $wechat_user->findUnionidUser($unionid);
+                    $wechat_user->setEcjiaUserId($UnionidUser->ect_uid);
+                } else {
+                    $connect_user = $wechat_user->getConnectUser();
+                    $userid = $connect_user->getUserId();
+                    $wechat_user->setEcjiaUserId($userid);
+                }
+            }
 
             //获取用户名
             $username = RC_DB::TABLE('users')->where('user_id', $userid)->pluck('user_name');
@@ -186,7 +201,7 @@ class mp_userbind extends PlatformAbstract
                 'title' => '已绑定',
                 'description' => '您已拥有帐号，用户名为【'.$username.'】点击该链接可进入用户中心哦',
                 'url' => RC_Uri::url('wechat/mobile_profile/init', array('openid' => $openid, 'uuid' => $uuid)),
-                'image' => '',
+                'image' => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_userbind.png',
             ];
         }
         //未绑定用户
@@ -195,28 +210,11 @@ class mp_userbind extends PlatformAbstract
                 'title' => '未绑定',
                 'description' => '抱歉，目前您还未进行账号绑定，需点击该链接进行绑定操作',
                 'url' => RC_Uri::url('wechat/mobile_userbind/init',array('openid' => $openid, 'uuid' => $uuid)),
-                'image' => '',
+                'image' => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_userbind.png',
             ];
         }
 
         return $content;
-    }
-
-    /**
-     * 生成授权网址
-     */
-    public function authorize_url() {
-        $callback_url = '';
-        $state = md5(uniqid(rand(), TRUE));
-        $params = array(
-            'redirect_uri'  => $callback_url,
-            'scope'         => 'snsapi_userinfo',
-            'state'         => $state,
-        );
-        $_SESSION['wechat_login_state'] = $state;
-        $code_url = $this->oauth->getQRConnectCodeUrl($params);
-    
-        return $code_url;
     }
     
 }

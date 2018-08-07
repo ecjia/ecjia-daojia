@@ -50,9 +50,11 @@ return array(
     
     'ext_icon'      => 'images/icon_userbind.png',
 
+    'commands'      => ['bd', '绑定'],
+
     'support_platform' => 'wechat', //仅支持微信公众平台
 
-    'support_platform_type' => ['service', 'unauthorized', 'subscribe', 'test'], //支持微信所有类型公众号
+    'support_platform_type' => ['service', 'subscribe', 'test'], //支持微信所有类型公众号
 
     'support_type'  => Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin | Ecjia\App\Platform\Plugin\PlatformAbstract::TypeMerchant,
 			
