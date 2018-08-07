@@ -1,0 +1,1201 @@
+/*
+Template Name: ECJiaTouch B2B2C Default
+Template URI: http://www.ecjia.com/
+Description: 默认模板.
+Version: 1.0
+Author: ECJia Team
+Author URI: http://www.ecjia.com/
+Logo filename: logo.gif
+Template Type: type_0
+*/
+
+
+/*==================================================
+	ECJia css reset
+  ==================================================*/
+html,
+body {font-family: Helvetica, '宋体', Arial, sans-serif; background: #efeff4; color: #555;height:100%;}
+body,
+ul,
+ol,
+li,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+table,
+td,
+img,
+div,
+dl,
+dt,
+dd { margin: 0; padding: 0; border: 0; }
+body { font-size: 18px; margin: 0 auto; max-width: 640px; }
+a,
+a:link,
+a:active,
+a:hover,
+a:visited { text-decoration: none;color: #555; }
+input[type=text],
+input[type=number],
+textarea { border-radius: 5px;  -webkit-appearance: none; padding: 0 0.5em; box-shadow:none; }
+@media only screen and (max-width:310px) and (min-width:300px) {
+body { font-size: 10px }
+}
+@media only screen and (max-width:320px) and (min-width:310px) {
+body { font-size: 10px }
+}
+@media only screen and (max-width:360px) and (min-width:320px) {
+body { font-size: 12px }
+}
+@media only screen and (max-width:360px) and (min-width:350px) {
+body { font-size: 12px }
+}
+@media only screen and (max-width:480px) and (min-width:360px) {
+body { font-size: 14px }
+}
+@media only screen and (max-width:480px) and (min-width:470px) {
+body { font-size: 14px }
+}
+@media only screen and (max-width:560px) and (min-width:480px) {
+body { font-size: 16px }
+}
+@media only screen and (max-width:570px) and (min-width:560px) {
+body { font-size: 16px }
+}
+@media only screen and (max-width:640px) and (min-width:570px) {
+body { font-size: 18px }
+}
+@media only screen and (max-width:640px) and (min-width:630px) {
+body { font-size: 18px }
+}
+ul,
+li,
+dl,
+dt,
+dd,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+form,
+img,
+div { margin: 0; padding: 0; list-style: none; border: 0 none; }
+.con { overflow: hidden; }
+
+.h4-list { font-size: 1.4em; padding: 0.6em; }
+.star { width: 7em; height: auto; }
+a,
+a:link,
+a:active,
+a:hover,
+a:visited { text-decoration: none; }
+input[type=text],
+textarea{
+	border: 1px solid #ccc;
+}
+h1,
+.h1,
+h2,
+.h2 { font-size: 1.4em; }
+del { color: #bbb; }
+.con { background: #efeff4; }
+.ecjiaf-bt{border-top-color:#ddd;}
+a[type=button] { color: #fff !important; }
+a,
+a:link,
+a:active,
+a:hover,
+a:visited { text-decoration: none; }
+input[type=text],
+textarea{
+	border:1px solid #ccc;
+	background: #fff;
+}
+
+/*==================================================*/
+/*= ECJia model css */
+/*==================================================*/
+
+/*==================== 功能CSS ====================*/
+/**
+ * function
+ * 功能（function）（.ecjiaf-）
+ */
+.ecjiaf-cb:after,.ecjiaf-cbli li:after{display:block;clear:both;visibility:hidden;height:0;overflow:hidden;content:".ecjia";}
+.ecjiaf-cb,.ecjiaf-cbli li{zoom:1;}
+.ecjiaf-ib{display:inline-block;*display:inline;*zoom:1;}
+.ecjiaf-dn{display:none;}
+.ecjiaf-db{display:block;}
+.ecjiaf-fl{float:left;}
+.ecjiaf-fr{float:right;}
+.ecjiaf-fn{float:none;}
+.ecjiaf-pr{position:relative;}
+.ecjiaf-prz{position:relative;zoom:1;}
+.ecjiaf-oh{overflow:hidden;}
+.ecjiaf-ff0{font-family:arial,\5b8b\4f53;}
+.ecjiaf-ff1{font-family:"Microsoft YaHei",\5fae\8f6f\96c5\9ed1,arial,\5b8b\4f53;}
+.ecjiaf-fs1{font-size:12px;}
+.ecjiaf-fs2{font-size:14px;}
+.ecjiaf-fwn{font-weight:normal;}
+.ecjiaf-fwb{font-weight:bold;}
+.ecjiaf-tal{text-align:left;}
+.ecjiaf-tac{text-align:center;}
+.ecjiaf-tar{text-align:right;}
+.ecjiaf-taj{text-align:justify;text-justify:inter-ideograph;}
+.ecjiaf-vam,.ecjiaf-vama *{vertical-align:middle;}
+.ecjiaf-wsn{word-wrap:normal;white-space:nowrap;}
+.ecjiaf-pre{overflow:hidden;text-align:left;white-space:pre-wrap;word-wrap:break-word;word-break:break-all;}
+.ecjiaf-wwb{white-space:normal;word-wrap:break-word;word-break:break-all;}
+.ecjiaf-ti{overflow:hidden;text-indent:-30000px;}
+.ecjiaf-ti2{text-indent:2em;}
+.ecjiaf-lhn{line-height:normal;}
+.ecjiaf-tdu,.ecjiaf-tdu:hover{text-decoration:underline;}
+.ecjiaf-tdn,.ecjiaf-tdn:hover{text-decoration:none;}
+.ecjiaf-toe{overflow:hidden;word-wrap:normal;white-space:nowrap;text-overflow:ellipsis;}
+.ecjiaf-csp{cursor:pointer;}
+.ecjiaf-csd{cursor:default;}
+.ecjiaf-csh{cursor:help;}
+.ecjiaf-csm{cursor:move;}
+.ecjiaf-usn{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none;}
+.ecjiaf-border{border:none;}
+.ecjiaf-bt{border-top:1px solid #ddd}
+
+/**
+ * ecjia-margin-(t/b/l/r)
+ * 全局元素间距
+ */
+.ecjia-margin-t {
+	margin-top: 1em;
+}
+.ecjia-margin-b {
+	margin-bottom: 1em;
+}
+.ecjia-margin-l {
+	margin-left: 1em;
+}
+.ecjia-margin-r {
+	margin-right: 1em;
+}
+
+/**
+ * ecjia-margin-(t/b/l/r)
+ * 全局字体大小
+ */
+.ecjia-fz-big {
+    font-size: 1.2em;
+}
+.ecjia-fz-all {
+    font-size: 1em;
+}
+.ecjia-fz-small {
+    font-size: 0.8em;
+}
+
+/**
+ * toast提示框样式
+ */
+.ecjia-toast {
+    display: block;
+    position: fixed;
+    top: 50%;
+    width: 100%;
+    z-index: 999;
+}
+.ecjia-toast>div {
+    padding: 1em;
+    margin: 0 auto;
+    margin-top: -25%;
+    vertical-align: middle;
+    color: #fff;
+    max-width: 60%;
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+    border-radius: 3em;
+}
+
+
+/*==================== 列表CSS ====================*/
+/**
+ * ecjia-list
+ * 全局列表样式
+ */
+.ecjia-list {
+	overflow: hidden;
+}
+.ecjia-list li label {
+    display: block;
+    margin: 0;
+    font-weight: 400;
+}
+.ecjia-list li {
+	background: #fff;
+	padding: 1em;
+	border-bottom-color: #ddd;
+	border-bottom:  1px solid #ddd;
+}
+/* 全局短列表 */
+.ecjia-list.list-short{
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.ecjia-list.list-short li {
+	border-bottom: 0;
+	position: relative;
+}
+.ecjia-list.list-short li span{
+	display: block;
+	width: 90%;
+	margin: 0 0 0 10%;
+}
+.ecjia-list.list-short li+li::before{
+	content: '';
+	position: absolute;
+	display: block;
+	width: 90%;
+	left: 10%;
+	top: 0;
+	border-bottom: 1px solid #ddd;
+}
+.ecjia-list.list-short li i {
+	position: absolute;
+	font-size: 2.5em;
+	line-height: 1.3em;
+	color: #999;
+	font-weight: normal;
+}
+.ecjia-list.list-short li i:nth-of-type(2n){
+	right: 1%;
+	font-size: 1.5em;
+	line-height: 2em;
+}
+/*列表中的数字图标扩展*/
+.ecjia-icon {
+	position: relative;
+}
+.ecjia-icon .ecjia-icon-num {
+	position: absolute;
+	top:  -.5em;
+    width: auto;
+    right: -.5em;
+    text-align: center;
+    border-radius: 2em;
+    min-width: 1.5em;
+    max-width: 3em;
+    line-height: 1.5em;
+    height: 1.5em;
+    color: #fff;
+    background: #ef3030;
+}
+
+.ecjia-list .ecjia-icon-num {
+	color: #fff;
+	background: #ef3030;
+}
+.ecjia-list.list-page.list-page-one .list-page-box {
+	float:right
+}
+/*
+* list-one
+ * 全局一栏列表样式
+ * 依赖:ecjia-list
+ */
+.ecjia-list.list-one li {
+	padding: 1em;
+}
+/**
+ * ecjia-list-two
+ * 全局两栏列表样式
+ * 依赖:ecjia-list
+ */
+.ecjia-list-two li {
+	float: left;
+	width: 50%;
+	padding: 0;
+	text-align: center;
+	border-bottom: none;
+}
+.ecjia-list-two li:nth-of-type(2n) {
+	margin-right: 0;
+	border-left: 1px solid #ddd;
+}
+.goods-describe{
+	display: none
+}
+.goods-describe.active{
+	display: block;
+}
+/**
+ * ecjia-list-two
+ * 全局三栏列表样式
+ * 依赖:ecjia-list
+ */
+.ecjia-list-three li {
+	float: left;
+	width: 33.3%;
+	border-bottom: 0;
+	text-align: center;
+	padding: 0;
+}
+
+/**
+ * ecjia-list-four
+ * 全局四栏列表样式
+ * 依赖:ecjia-list
+ */
+.ecjia-list-four li {
+	float: left;
+	width: 25%;
+	border-bottom: 0;
+	text-align: center;
+	padding: 0;
+}
+/**
+ * ecjia-nav
+ * 扩展列表nav下划线
+ * 依赖:ecjia-list、ecjia-list-three（+）
+ */
+
+.ecjia-nav li a {
+	display: block;
+	width: 100%;
+	height: 3.4em;
+	line-height: 3.4em;
+	font-size: 1em;
+}
+.ecjia-nav li.active {
+	border-bottom: 2px solid #ddd;
+}
+/**
+ * ecjia-nolist
+ * 列表为空时现实的提示信息
+ */
+.ecjia-nolist {
+	font-size: 1.4em;
+    padding: 5em 0;
+    text-align: center;
+}
+
+.ecjia-nolist i {
+	width: 1.5em;
+	height: 1.5em;
+	line-height: 1.5em;
+	text-align: center;
+	border-radius: 1em;
+	font-size: 4em;
+	overflow: hidden;
+}
+.ecjia-nolist p {
+	margin-top: 0.5em;
+}
+/**
+ * 单选框
+ */
+[type="radio"],
+[type="checkbox"]{
+	display: none;
+}
+[type="radio"]:not(:checked) + label:before {
+	border-radius: 50%;
+	border: 2px solid #ddd;
+}
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label {
+	position: relative;
+	padding-left: 1.3em;
+	cursor: pointer;
+	display: inline-block;
+	height: 0.9em;
+	line-height: 1em;
+	font-size: 1.2em;
+	font-weight:400;
+	-webkit-transition: .28s ease;
+	-moz-transition: .28s ease;
+	-o-transition: .28s ease;
+	-ms-transition: .28s ease;
+	transition: .28s ease;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-ms-user-select: none;
+}
+[type="radio"] + label:before, [type="radio"] + label:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 4px;
+	width: 0.9em;
+	height: 0.9em;
+	z-index: 0;
+	-webkit-transition: .28s ease;
+	-moz-transition: .28s ease;
+	-o-transition: .28s ease;
+	-ms-transition: .28s ease;
+	transition: .28s ease;
+}
+[type="radio"]:not(:checked) + label:after {
+	border-radius: 50%;
+	border: 2px solid #5a5a5a;
+	z-index: -1;
+	-webkit-transform: scale(0);
+	-moz-transform: scale(0);
+	-ms-transform: scale(0);
+	-o-transform: scale(0);
+	transform: scale(0);
+}
+[type="radio"]:checked + label:before {
+	border-radius: 50%;
+	border: 2px solid #3498db;
+}
+[type="radio"]:checked + label:after {
+	border-radius: 50%;
+	border: 2px solid #3498db;
+	background-color: #3498db;
+	z-index: 0;
+	-webkit-transform: scale(.5);
+	-moz-transform: scale(.5);
+	-ms-transform: scale(.5);
+	-o-transform: scale(.5);
+	transform: scale(.5);
+}
+/**
+ * 复选框
+ */
+[type="checkbox"] + label {
+	position: relative;
+	padding-left: 1.3em;
+	cursor: pointer;
+	display: inline-block;
+	height: 1em;
+	line-height: 1em;
+	font-size: 1.1em;
+	font-weight:400;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-ms-user-select: none;
+}
+[type="checkbox"] + label:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1em;
+	height: 1em;
+	z-index: 0;
+	border: 2px solid #5a5a5a;
+	border-radius: 1px;
+	margin-top: 2px;
+	-webkit-transition: 0.2s;
+	-moz-transition: 0.2s;
+	-o-transition: 0.2s;
+	-ms-transition: 0.2s;
+	transition: 0.2s;
+}
+[type="checkbox"]:checked.fild-item + label:before {
+	top: -4px;
+	left: -3px;
+	width: 1em;
+	height: 1em;
+	border-top: 2px solid transparent;
+	border-left: 2px solid transparent;
+	border-right: 2px solid #3498db;
+	border-bottom: 2px solid #3498db;
+	-webkit-transform: rotate(40deg);
+	-moz-transform: rotate(40deg);
+	-ms-transform: rotate(40deg);
+	-o-transform: rotate(40deg);
+	transform: rotate(40deg);
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-origin: 100% 100%;
+	-moz-transform-origin: 100% 100%;
+	-ms-transform-origin: 100% 100%;
+	-o-transform-origin: 100% 100%;
+	transform-origin: 100% 100%;
+}
+[type="checkbox"]:checked + label:before {
+	width: .4em;
+	height: .6em;
+	border-top: 2px solid transparent;
+	border-left: 2px solid transparent;
+	border-right: 2px solid #fff;
+	border-bottom: 2px solid #fff;
+	-webkit-transform: rotateZ(37deg);
+	transform: rotateZ(37deg);
+	-webkit-transform-origin: 100% 100%;
+	transform-origin: 100% 100%;
+}
+[type="checkbox"]:checked + label:after {
+	width: .9em;
+	height: .9em;
+	border: 2px solid #3498db;
+	background-color: #3498db;
+	z-index: 0;
+}
+[type="checkbox"] + label:before,
+[type="checkbox"] + label:after {
+	content: '';
+	left: 0;
+	position: absolute;
+	transition: border .25s, background-color .25s, width .2s .1s, height .2s .1s, top .2s .1s, left .2s .1s;
+	z-index: 1;
+}
+[type="checkbox"]:not(:checked) + label:before {
+	width: 0;
+	height: 0;
+	border: 3px solid transparent;
+	left: 6px;top: 10px;-webkit-transform: rotateZ(37deg);
+	transform: rotateZ(37deg);
+	-webkit-transform-origin: 20% 40%;
+	transform-origin: 100% 100%;
+}
+[type="checkbox"]:not(:checked) + label:after {
+	width: .9em;
+	height: .9em;
+	background-color: transparent;
+	border: 2px solid #ccc;
+	z-index: 0;
+}
+
+/*==================== 表单CSS ====================*/
+/**
+ * ecjia-form
+ * 全局表单
+ */
+input:focus, textarea:focus {
+    outline: none;
+}
+select, input, textarea {
+    font: 100% sans-serif;
+}
+.ecjia-form .form-group {
+	padding: 0.5em 1em;
+	margin-right: 1em;
+	margin-left: 1em;
+	overflow: hidden;
+	margin-bottom: 0;
+	border-radius: 5px;
+	border-bottom: 1px solid #ddd;
+}
+.ecjia-form .form-group .input,
+.ecjia-form .form-group .form-label,
+.ecjia-form .form-group .textarea {
+	display: block;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	margin: 0;
+}
+.ecjia-form .form-group .input i {
+	position: absolute;
+	left: 0;
+	top: 0;
+	color: #ddd;
+	font-weight: normal;
+	line-height: 1.3em;
+	font-size: 1.7em;
+	text-align: center;
+}
+.ecjia-form .form-group .input .icon-left{
+	left: 90%;
+}
+.ecjia-form .form-group .input .icon-left + input{
+	padding-right: 3em;
+}
+.ecjia-form .form-group input,
+.ecjia-form .form-group textarea,
+.ecjia-form select {
+	display: block;
+	width: 100%;
+	height: 2.4em;
+	border: none;
+	box-shadow: none;
+	font-weight: normal;
+	appearance: normal;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	box-sizing: border-box;
+	outline: 0 none;
+}
+.ecjia-form .form-group .input input {
+	padding-left: 2em;
+	width: 100%;
+}
+.ecjia-form .form-group .form-label input,
+.ecjia-form .form-group .form-label .select,
+.ecjia-form .form-group .form-label select,
+.ecjia-form .form-group .textarea textarea,
+.ecjia-form .form-group .form-label textarea {
+	width: 100%;
+}
+.ecjia-form {
+	position: relative;
+}
+.ecjia-form .select {
+	position: relative;
+	width: auto;
+	display: inline-table;
+	border-radius: 4px;
+	overflow: hidden;
+	vertical-align: middle;
+	left: auto;
+	margin-right: 0.2em;
+}
+.ecjia-form .select select {
+	position: relative;
+	width: auto;
+	padding: 0 1.6em 0 0.5em;
+	height: 2em;
+	z-index: 1;
+	background: none;
+	border: 1px solid #ddd;
+}
+.ecjia-form .select i {
+	position: absolute;
+	right: 0.4em;
+	top: 50%;
+	width: 1em;
+	height: 1em;
+	margin-top: -0.5em;
+}
+.ecjia-form .select i:before {
+	z-index: -1;
+	content: "\e6a9";
+}
+
+.ecjia-form .form-group-text .input span {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 2.4em;
+	width: 6em;
+	line-height: 2.4em;
+	overflow: hidden;
+}
+.ecjia-form .form-group-text .input input {
+	padding-left: 6em;
+}
+.ecjia-form .form-group .captcha-img img {
+	position: absolute;
+	top: 0;
+	right: 0;
+	max-width: 8em;
+	max-height: 2.4em;
+}
+.ecjia-form .checkbox {
+	margin: 0 0.2em 0 0.8em;
+}
+
+/*表单验证显示的样式扩展*/
+.ecjia-form .Validform_checktip {
+	display: none;
+}
+.tag_list .add_tags .ecjia-form .Validform_checktip.Validform_wrong {
+	display: block;
+	color: #a94442;
+}
+.ecjia-form label .Validform_checktip {
+	display: block;
+	font-size: 1em;
+	font-weight: normal;
+}
+.ecjia-form label .Validform_checktip.Validform_wrong  {
+	padding: 0.4em 0 0;
+    position: inherit;
+    height: 1.5em;
+    line-height: 1em;
+    width: 100%;
+}
+.ecjia-form label .Validform_checktip.Validform_right {
+	display: none;
+}
+
+
+/*==================== 输入框CSS ====================*/
+/**
+ * ecjia-input-number
+ * ecjia数字输入框类
+ */
+.ecjia-input-number {
+	display: block;
+	width: 8.7em;
+	height: 2.2em;
+	overflow: hidden;
+	border: 1px solid #ddd;
+	border-radius: .2em;
+}
+.ecjia-input-number .ecjia-number-group-addon {
+	font-size: 1.5em;
+	float: left;
+	width: 1.5em;
+	height: 1.5em;
+	line-height: 1.5em;
+	text-align: center;
+	cursor: pointer;
+}
+.ecjia-input-number .ecjia-number-contro {
+	float: left;
+	width: 4em;
+	height: 2em;
+	line-height: 2em;
+	text-align: center;
+	border: 0;
+	border-radius: 0;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+/**
+ * ecjia-input-number-small
+ * ecjia数字输入框扩展
+ * 依赖:ecjia-input-number
+ */
+.ecjia-input-number-small {
+	width: 6em;
+	height: 1.5em;
+}
+.ecjia-input-number-small .ecjia-number-group-addon {
+	font-size: 1em;
+	line-height: 1.5em;
+}
+.ecjia-input-number-small .ecjia-number-contro {
+	height: 1.5em;
+    line-height: 1.5em;
+    width: 3em;
+}
+
+/*==================== 按钮CSS ====================*/
+.btn-loginout,
+.btn-loginout:link,
+.btn-loginout:hover,
+.btn-loginout:active,
+.btn-loginout:visited {
+	border: 1px solid #ddd;
+}
+.btn.focus,
+.btn:focus,
+.btn:hover {
+	color: #fff;
+}
+
+/**
+ * two-btn
+ * 按钮组--两个按钮
+ */
+.two-btn {
+	overflow: hidden;
+	padding: 0 1em;
+    text-align: center;
+}
+.two-btn .btn,
+.two-btn .btn:link,
+.two-btn .btn:hover,
+.two-btn .btn:active,
+.two-btn .btn:visited {
+	display:inline-block;
+	font-size: 1.2em;
+	line-height: 1.4em;
+	width: 47%;
+	margin: 0;
+	margin: 0 1%;
+	text-align:center;
+}
+.two-btn .btn:nth-of-type(2) {
+	margin-right: 0;
+}
+.btn.btn-recharge,
+.btn.btn-recharge:hover,
+.btn.btn-recharge:after,
+.btn.btn-recharge:before {
+	border: 1px solid #49b9ee;
+}
+.btn.btn-withdrawals,
+.btn.btn-withdrawals:hover,
+.btn.btn-withdrawals:after,
+.btn.btn-withdrawals:before {
+	border: 1px solid #9ecc17;
+}
+/**
+ * btn
+ * 按钮基础类
+ */
+.btn,
+.btn:link,
+.btn:hover,
+.btn:active,
+.btn:visited {
+	font-size: 1.2em;
+	margin: 0 4%;
+	width: 92%;
+	line-height: 2em;
+}
+/**
+ * btn
+ * 小按钮
+ */
+.btn.btn-small,
+.btn.btn-small:link,
+.btn.btn-small:hover,
+.btn.btn-small:active,
+.btn.btn-small:visited {
+	font-size: 1em;
+	margin: 0 37.5%;
+	width: 25%;
+	line-height: 1.2em;
+}
+.btn.go-shop {
+	border-color: #ef3030;
+	background-color: #ef3030 !important;
+}
+
+/**
+ * btn-nomargin
+ * 按钮去除边距
+ */
+.btn-nomargin {
+	margin: 0;
+	width: 100%;
+}
+
+
+/**
+ * btn-withdrawals
+ * 提现按钮样式
+ * 依赖:btn
+ */
+
+.input-group-btn .btn {
+	font-size: 14px;
+	line-height: inherit;
+	width: auto;
+}
+
+/**
+ * ecjia-header
+ * 全局顶条样式
+ */
+.ecjia-header {
+	height: 3.5em;
+	line-height: 3.5em;
+	position: relative;
+	text-align: center;
+}
+.ecjia-header .ecjia-header-title {
+	position: absolute;
+	top: 0;
+	left: 4em;
+	right: 4em;
+	bottom: 0;
+	font-size: 1.4em;
+}
+.ecjia-header .ecjia-header-left a,
+.ecjia-header .ecjia-header-right a {
+	display: block;
+	width: 4em;
+	height: 3.5em;
+	/*padding: 1em 0;*/
+	line-height: 3.5em;
+}
+.ecjia-header .ecjia-header-left a.ecjia-header-logo {
+	width: 5em;
+	text-align: right;
+}
+.ecjia-header .ecjia-header-left a span,
+.ecjia-header .ecjia-header-right a span {
+	font-size: 1.2em;
+}
+.ecjia-header .ecjia-header-left a i,
+.ecjia-header .ecjia-header-right a i {
+	font-size: 2em;
+	line-height: 1.7;
+}
+.ecjia-header .ecjia-header-left {
+	float: left;
+}
+.ecjia-header .ecjia-header-right {
+	float: right;
+}
+/**
+ * ecjia-header-index
+ * 顶部搜索列表
+ * 依赖:ecjia-header
+ */
+
+.ecjia-header-index .ecjia-header-logo img {
+	max-width: 100%;
+	max-height: 2em;
+}
+/*.ecjia-header-index .ecjia-header-title {
+	font-size: 1em;
+	margin-top: 0.7em;
+	left: 6em;
+}
+.ecjia-header-index .ecjia-header-title .ecjia-search {
+	display: block;
+	height: 2em;
+	line-height: 2em;
+	padding: 0 1em;
+	border-radius: 2em;
+	text-align: left;
+	border: 1px solid #ddd;
+	color: silver;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ecjia-header-index .ecjia-header-title .ecjia-search i {
+	position: relative;
+	top: 0.15em;
+}*/
+
+/*==================== 悬浮导航栏CSS ====================*/
+.ecjia-menu {
+	background-image: url("../images/menu.png");
+	background-position: -45px -230px;
+	background-size: 85px 323px;
+	bottom: 8em;
+	position: fixed;
+	right: .5em;
+	width: 40px;
+	z-index: 10;
+}
+.ecjia-menu ul {
+	display: none;
+	height: 230px;
+}
+.ecjia-menu ul li a {
+	display: block;
+	width: 100%;
+	font-size: 24px;
+	height: 45px;
+	line-height: 45px;
+	text-align: center;
+}
+.ecjia-menu .main a {
+	display: block;
+	font-size: 24px;
+	height: 45px;
+	line-height: 45px;
+	text-align: center;
+}
+.ecjia-menu.active {
+	background-position: 0 0;
+}
+.ecjia-menu.active ul {
+	display: block;
+}
+
+/*==================== 悬浮导航栏CSS ====================*/
+.ecjia-page {
+	position: relative;
+	overflow: hidden;
+}
+.ecjia-page .btn-pre {
+	float: left;
+	width: 30%;
+	border: 1px solid #ccc;
+	font-size: 1em;
+}
+.ecjia-page .now-page {
+	position: absolute;
+	left: 35%;
+	right: 35%;
+	border: 1px solid #ccc;
+	padding: 6px 12px;
+	line-height: 2em;
+	border-radius: 4px;
+	text-align: center;
+}
+.ecjia-page .btn-next {
+	float: right;
+	width: 30%;
+	border: 1px solid #ccc;
+	font-size: 1em;
+}
+
+/*==================== 轮播模块CSS ====================*/
+.swiper-container .swiper-slide {
+	position: relative;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+.swiper-container .swiper-slide a, .swiper-container .swiper-slide img {
+   	width: 100%;
+	display: block;
+}
+.ecjia-mod .swiper-container-horizontal>.swiper-pagination {
+	bottom: 0;
+}
+.goods-img .swiper-container .swiper-slide {
+	height: 0;
+	min-height: auto;
+    padding-bottom: 100%;
+}
+/**
+ * 加载数据的gif css
+ */
+a.load-list{
+	display: block;
+	text-align: center;
+	padding: 1em 0;
+	width: 100%;
+}
+
+
+/*==================== 评价星级CSS ====================*/
+.rating{unicode-bidi:bidi-override;direction:rtl;cursor:default;}
+.rating .star{font-family:"iconfont" !important;font-style:normal;-webkit-font-smoothing: antialiased;font-weight:normal;display:inline-block;width:auto;}
+.rating .star:before{content:"\e60b";}
+
+
+/*==================== 面包屑CSS ====================*/
+.breadcrumbs {
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.breadcrumbs ul {
+	list-style: none;
+	height: 3.5em;
+	overflow: hidden;
+}
+.breadcrumbs ul:before,
+.breadcrumbs ul:after {
+	content: ' ';
+	display: table;
+}
+.breadcrumbs ul:after {
+	clear: both;
+}
+
+.breadcrumbs li {
+	float: left;
+	width: 20%;
+}
+.breadcrumbs li.active {
+	width: 40%;
+}
+
+.breadcrumbs a {
+	position: relative;
+	display: block;
+	padding: 0.5em;
+	padding-left: 1em;
+	padding-right: 0;
+	font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+}
+.breadcrumbs li:first-child a {
+	padding-left: 0;
+}
+.breadcrumbs li.active a {
+	padding-left: 1em;
+	cursor: default;
+}
+
+.breadcrumbs a span:first-child {
+	display: inline-block;
+    font-size: 1.2em;
+	width: 2em;
+	height: 2em;
+	line-height: 2em;
+	border-radius: 50%;
+}
+.breadcrumbs li.active a span:first-child {
+    margin-right: 0.5em;
+}
+
+.breadcrumbs a:before,
+.breadcrumbs a:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 100%;
+	z-index: 1;
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 2em solid transparent;
+	border-bottom: 2em solid transparent;
+	border-left: 1em solid transparent;
+}
+
+.breadcrumbs a:before {
+	margin-left: 1px;
+}
+
+.breadcrumbs li:last-child a:before,
+.breadcrumbs li:last-child a:after {
+	display: none;
+}
+.breadcrumbs a:before,
+.breadcrumbs a:after {
+	border-top-width: 1.8em;
+	border-bottom-width: 1.8em;
+	border-left-width: 0.9em;
+}
+
+.breadcrumbs li a span:last-child {
+	display: none;
+}
+.breadcrumbs li.active a span:last-child {
+	display: inline-block;
+}
+
+/*用户头像*/
+.user-img img {
+    border-radius: 100%;
+    background: #9BDCF6;
+}
+
+/*PJAX切换页面动画*/
+.con.animated{-webkit-animation-duration:.3s;animation-duration:.3s;-webkit-animation-fill-mode:both;animation-fill-mode:both}
+@-webkit-keyframes pjaxAnimationOut{from{opacity:1}to{opacity:0;-webkit-transform:translate3d(-100%, 0, 0);transform:translate3d(-100%, 0, 0)}}
+@keyframes pjaxAnimationOut{from{opacity:1}to{opacity:0;-webkit-transform:translate3d(-100%, 0, 0);transform:translate3d(-100%, 0, 0)}}
+@-webkit-keyframes pjaxAnimationIn{from{opacity:0;-webkit-transform:translate3d(100%, 0, 0);transform:translate3d(100%, 0, 0)}to{opacity:1;-webkit-transform:none;transform:none}}
+@keyframes pjaxAnimationIn{from{opacity:0;-webkit-transform:translate3d(100%, 0, 0);transform:translate3d(100%, 0, 0)}to{opacity:1;-webkit-transform:none;transform:none}}
+.pjaxAnimationIn{-webkit-animation-name:pjaxAnimationIn;animation-name:pjaxAnimationIn}
+.pjaxAnimationOut{-webkit-animation-name:pjaxAnimationOut;animation-name:pjaxAnimationOut}
+
+/*加载动画*/
+.la-ball-atom,.la-ball-atom>div{position:relative;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+.la-ball-atom{display:block;position:fixed;left:50%;top:50%;margin-left:-1.5em;margin-top:-1.5em;font-size:0;-webkit-animation:ball-atom-color 10s infinite linear;-moz-animation:ball-atom-color 10s infinite linear;-o-animation:ball-atom-color 10s infinite linear;animation:ball-atom-color 10s infinite linear;z-index: 999}
+.la-ball-atom>div{display:inline-block;float:none;background-color:currentColor;border:0 solid currentColor}
+.la-ball-atom{font-size:14px;width:3em;height:3em}
+.la-ball-atom>div:nth-child(1){position:absolute;top:50%;left:50%;z-index:1;width:60%;height:60%;border-radius:100%;-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);-o-transform:translate(-50%,-50%);transform:translate(-50%,-50%);-webkit-animation:ball-atom-shrink 4.5s infinite linear;-moz-animation:ball-atom-shrink 4.5s infinite linear;-o-animation:ball-atom-shrink 4.5s infinite linear;animation:ball-atom-shrink 4.5s infinite linear}
+.la-ball-atom>div:not(:nth-child(1)){position:absolute;left:0;z-index:0;width:100%;height:100%;background:0;-webkit-animation:ball-atom-zindex 1.5s 0s infinite steps(2,end);-moz-animation:ball-atom-zindex 1.5s 0s infinite steps(2,end);-o-animation:ball-atom-zindex 1.5s 0s infinite steps(2,end);animation:ball-atom-zindex 1.5s 0s infinite steps(2,end)}
+.la-ball-atom>div:not(:nth-child(1)):before{position:absolute;top:0;left:0;width:1em;height:1em;margin-top:-0.5em;margin-left:-0.5em;content:"";background:currentColor;border-radius:50%;opacity:.75;-webkit-animation:ball-atom-position 1.5s 0s infinite ease,ball-atom-size 1.5s 0s infinite ease;-moz-animation:ball-atom-position 1.5s 0s infinite ease,ball-atom-size 1.5s 0s infinite ease;-o-animation:ball-atom-position 1.5s 0s infinite ease,ball-atom-size 1.5s 0s infinite ease;animation:ball-atom-position 1.5s 0s infinite ease,ball-atom-size 1.5s 0s infinite ease}
+.la-ball-atom>div:nth-child(2){-webkit-animation-delay:.75s;-moz-animation-delay:.75s;-o-animation-delay:.75s;animation-delay:.75s}
+.la-ball-atom>div:nth-child(2):before{-webkit-animation-delay:0s,-1.125s;-moz-animation-delay:0s,-1.125s;-o-animation-delay:0s,-1.125s;animation-delay:0s,-1.125s}
+.la-ball-atom>div:nth-child(3){-webkit-transform:rotate(120deg);-moz-transform:rotate(120deg);-ms-transform:rotate(120deg);-o-transform:rotate(120deg);transform:rotate(120deg);-webkit-animation-delay:-.25s;-moz-animation-delay:-.25s;-o-animation-delay:-.25s;animation-delay:-.25s}
+.la-ball-atom>div:nth-child(3):before{-webkit-animation-delay:-1s,-.75s;-moz-animation-delay:-1s,-.75s;-o-animation-delay:-1s,-.75s;animation-delay:-1s,-.75s}
+.la-ball-atom>div:nth-child(4){-webkit-transform:rotate(240deg);-moz-transform:rotate(240deg);-ms-transform:rotate(240deg);-o-transform:rotate(240deg);transform:rotate(240deg);-webkit-animation-delay:.25s;-moz-animation-delay:.25s;-o-animation-delay:.25s;animation-delay:.25s}
+.la-ball-atom>div:nth-child(4):before{-webkit-animation-delay:-.5s,-.125s;-moz-animation-delay:-.5s,-.125s;-o-animation-delay:-.5s,-.125s;animation-delay:-.5s,-.125s}
+@-webkit-keyframes ball-atom-position{50%{top:100%;left:100%}}
+@-moz-keyframes ball-atom-position{50%{top:100%;left:100%}}
+@-o-keyframes ball-atom-position{50%{top:100%;left:100%}}
+@keyframes ball-atom-position{50%{top:100%;left:100%}}
+@-webkit-keyframes ball-atom-size{50%{-webkit-transform:scale(.5,.5);transform:scale(.5,.5)}}
+@-moz-keyframes ball-atom-size{50%{-moz-transform:scale(.5,.5);transform:scale(.5,.5)}}
+@-o-keyframes ball-atom-size{50%{-o-transform:scale(.5,.5);transform:scale(.5,.5)}}
+@keyframes ball-atom-size{50%{-webkit-transform:scale(.5,.5);-moz-transform:scale(.5,.5);-o-transform:scale(.5,.5);transform:scale(.5,.5)}}
+@-webkit-keyframes ball-atom-zindex{50%{z-index:10}}
+@-moz-keyframes ball-atom-zindex{50%{z-index:10}}
+@-o-keyframes ball-atom-zindex{50%{z-index:10}}
+@keyframes ball-atom-zindex{50%{z-index:10}}
+@-webkit-keyframes ball-atom-shrink{50%{-webkit-transform:translate(-50%,-50%) scale(.8,.8);transform:translate(-50%,-50%) scale(.8,.8)}}
+@-moz-keyframes ball-atom-shrink{50%{-moz-transform:translate(-50%,-50%) scale(.8,.8);transform:translate(-50%,-50%) scale(.8,.8)}}
+@-o-keyframes ball-atom-shrink{50%{-o-transform:translate(-50%,-50%) scale(.8,.8);transform:translate(-50%,-50%) scale(.8,.8)}}
+@keyframes ball-atom-shrink{50%{-webkit-transform:translate(-50%,-50%) scale(.8,.8);-moz-transform:translate(-50%,-50%) scale(.8,.8);-o-transform:translate(-50%,-50%) scale(.8,.8);transform:translate(-50%,-50%) scale(.8,.8)}}
+
+/* 不换行文本样式 */
+.ecjia-truncate {display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+.ecjia-truncate2 {overflow: hidden;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}

@@ -118,5 +118,34 @@ class PrizeType
         return self::$typeNames;
     }
 
+    /**
+     * 获取能中奖的奖品类型
+     * @return array
+     */
+    public static function getCanPrizeType()
+    {
+        return [
+            self::TYPE_BONUS,
+            self::TYPE_REAL,
+            self::TYPE_INTEGRAL,
+            self::TYPE_BALANCE,
+        ];
+    }
+
+    /**
+     * 获取奖品的中奖状态
+     * @param $type
+     * @return bool
+     */
+    public static function getPrizeStatus($type) {
+        $prize_type = self::getCanPrizeType();
+        if (in_array($type, $prize_type)) {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
+        return $status;
+    }
 
 }

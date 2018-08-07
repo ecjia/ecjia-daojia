@@ -47,6 +47,7 @@
 namespace Ecjia\App\Market\Models;
 
 use Royalcms\Component\Database\Eloquent\Model;
+use Ecjia\App\Market\Prize\PrizeType;
 
 /**
  * Class WechatCustomMessage
@@ -54,6 +55,8 @@ use Royalcms\Component\Database\Eloquent\Model;
 class MarketActivityPrizeModel extends Model
 {
     protected $table = 'market_activity_prize';
+
+    protected $primaryKey = 'prize_id';
 
     public $timestamps = false;
 
@@ -69,6 +72,14 @@ class MarketActivityPrizeModel extends Model
 
     protected $guarded = [];
 
-    
+
+    public function BonusType()
+    {
+        if ($this->prize_type == PrizeType::TYPE_BONUS) {
+            return $this->belongsTo('Ecjia\App\Market\Models\BonusTypeModel', 'prize_value', 'type_id');
+        } else {
+            return null;
+        }
+    }
 
 }

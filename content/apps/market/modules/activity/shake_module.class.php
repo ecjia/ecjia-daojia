@@ -93,19 +93,17 @@ class shake_module extends api_front implements api_interface {
 		
 		/* 判断活动有无限定次数*/
 		if ($market_activity['limit_num'] > 0) {
-			//$db_activity_log = RC_DB::table('market_activity_log');
-			//$db_activity_log->where('activity_id', $market_activity['activity_id'])->where('user_id', $_SESSION['user_id'])->where('wechat_id', 0);
 			$db_market_activity_lottery = RC_DB::table('market_activity_lottery');
 			if ($market_activity['limit_time'] > 0) {
-				$time_limit = $time - $market_activity['limit_time']*60*60;
+				$time_limit = $time - $market_activity['limit_time']*60;
 				$db_market_activity_lottery->where('update_time', '<=', $time)->where('add_time', '>=', $time_limit);
 			}
-			$market_activity_lottery_info = RC_DB::table('market_activity_lottery')->where('activity_id', $market_activity['activity_id'])->where('user_id', $_SESSION['user_id'])->first();
+			$market_activity_lottery_info = $db_market_activity_lottery->where('activity_id', $market_activity['activity_id'])->where('user_id', $_SESSION['user_id'])->first();
 			
 			$limit_count = $market_activity_lottery_info['lottery_num'];
 			
 			//当前时间 -上次抽奖更新时间大于限制时间时；重置抽奖时间和抽奖次数；
-			if ($time - $market_activity_lottery_info['add_time'] >= $market_activity['limit_time']*60*60) {
+			if ($time - $market_activity_lottery_info['add_time'] >= $market_activity['limit_time']*60) {
 				RC_DB::table('market_activity_lottery')
 				->where('activity_id', $market_activity['activity_id'])
 				->where('user_id', $_SESSION['user_id'])
@@ -159,7 +157,7 @@ class shake_module extends api_front implements api_interface {
 		
 		/* 获取中奖*/
 		$prize_info = $market_activity_prize_new[$rid];
-		if ($prize_info['prize_type'] == '1') {
+		if ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
 			$bonus_info = RC_DB::table('bonus_type')->where('type_id', $prize_info['prize_value'])->first();
 			if ($bonus_info['send_start_date'] <= $time && $bonus_info['send_end_date'] >= $time) {
 				/*减奖品数量*/
@@ -194,7 +192,7 @@ class shake_module extends api_front implements api_interface {
 						)
 				);
 			}
-		} elseif ($prize_info['prize_type'] == '3') {
+		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_INTEGRAL) {
 			/*减奖品数量*/
 			RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
 			/*发放奖品至用户，赠送积分给用户*/
@@ -203,7 +201,8 @@ class shake_module extends api_front implements api_interface {
 					'pay_points'	=> intval($prize_info['prize_value']),
 					'change_desc'	=> '摇一摇活动抽奖赠送'
 			);
-			RC_Api::api('user', 'account_change_log',$options);
+			//RC_Api::api('user', 'account_change_log',$options);
+			RC_Api::api('finance', 'pay_points_change',$options);
 			
 			$result = array(
 					'type' => 'integral',
@@ -211,7 +210,7 @@ class shake_module extends api_front implements api_interface {
 							'integral' => intval($prize_info['prize_value']),
 					)
 			);
-		} elseif ($prize_info['prize_type'] == '4') {
+		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_GOODS) {
 			$where = array(
 					'is_on_sale'	=> 1,
 					'is_alone_sale' => 1,
@@ -243,7 +242,7 @@ class shake_module extends api_front implements api_interface {
 						)
 					)
 			);
-		} elseif ($prize_info['prize_type'] == '5') {
+		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_STORE) {
 			/*经纬度判断*/
 			$options = array();
 			if ((is_array($location) || !empty($location['longitude']) || !empty($location['latitude']))) {
@@ -287,7 +286,23 @@ class shake_module extends api_front implements api_interface {
 					'type' => 'store',
 					'store' => $store_info_new
 			);
-		} else {
+		} 
+		/*elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) { //现金红包类型接口暂时不加，以免影响客户端20180806
+			RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');//减奖品数量
+			//发放现金红包；更新用户账户余额
+			$options = array(
+					'user_id'		=> $_SESSION['user_id'],
+					'user_money'	=> intval($prize_info['prize_value']),
+					'change_desc'	=> '摇一摇活动抽奖赠送'
+			);
+			RC_Api::api('user', 'account_change_log',$options);
+			$result = array(
+					'type' => 'cash_bonus',
+					'cash_bonus' => array(
+							'cash_bonus' => intval($prize_info['prize_value']),
+					)
+			);
+		}*/ else {
 			$result = array(
 				'type' => 'nothing',
 				'nothing' => array(
@@ -296,14 +311,21 @@ class shake_module extends api_front implements api_interface {
 			);
 		}
 		if (!empty($prize_info)) {
-			if ($prize_info['prize_type'] == 2) {
+			if ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_REAL) {
 				$issue_status = 0;
 				$issue_time = 0;
 			} else {
 				$issue_status = 1;
 				$issue_time = $time;
 			}
-			if (in_array($prize_info['prize_type'], array(1,2,3))) {
+			$prize_type = array(
+					Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS,
+					Ecjia\App\Market\Prize\PrizeType::TYPE_REAL,
+					Ecjia\App\Market\Prize\PrizeType::TYPE_INTEGRAL,
+					Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE,
+			);
+			
+			if (in_array($prize_info['prize_type'], $prize_type)) {
 				$log = array(
 						'activity_id'	=> $prize_info['activity_id'],
 						'user_id'		=> $_SESSION['user_id'],

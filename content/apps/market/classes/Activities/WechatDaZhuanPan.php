@@ -62,7 +62,7 @@ class WechatDaZhuanPan extends MarketAbstract
      * 代号标识
      * @var string
      */
-    protected $code = 'wechat_dazhuangpan';
+    protected $code = 'wechat_dazhuanpan';
 
     /**
      * 名称

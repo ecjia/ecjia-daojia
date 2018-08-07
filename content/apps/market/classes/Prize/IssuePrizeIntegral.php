@@ -53,21 +53,43 @@
 
 namespace Ecjia\App\Market\Prize;
 
+use Ecjia\App\Market\Models\MarketActivityPrizeModel;
+use Ecjia\App\Wechat\WechatUser;
+use RC_Api;
 
 class IssuePrizeIntegral
 {
 
-    public function __construct()
-    {
+    protected $prize;
 
+    protected $wechat_id;
+
+    public function __construct($wechat_id, MarketActivityPrizeModel $prize)
+    {
+        $this->wechat_id = $wechat_id;
+        $this->prize = $prize;
     }
 
     /**
-     * 颁发奖品
+     * 颁发奖品，赠送积分给用户
      */
-    public function issue()
+    public function issue($openid)
     {
+        $wechat_user = new WechatUser($this->wechat_id, $openid);
 
+        $user_id = $wechat_user->getEcjiaUserId();
+
+        if (! empty($user_id)) {
+
+            $options = array(
+                'user_id'       => $user_id,
+                'point'         => intval($this->prize->prize_value),
+                'change_desc'   => '微信营销活动参与赠送',
+            );
+            return RC_Api::api('finance', 'pay_points_change', $options);
+        } else {
+            return false;
+        }
     }
 
 }

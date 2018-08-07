@@ -51,7 +51,7 @@
 						<select name='prize_type' class="w350">
 							<option value="">请选择...</option>
 							<!-- {foreach from=$prize_type key=key item=val} -->
-							<option value="{$key}" {if $activity_prize.prize_type === $key}selected{/if}>{$val}</option>
+							<option value="{$key}" {if $activity_prize.prize_type eq $key}selected{/if}>{$val}</option>
 							<!-- {/foreach} -->
 						</select>
 						<span class="input-must">*</span>

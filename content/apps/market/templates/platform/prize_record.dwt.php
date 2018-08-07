@@ -3,7 +3,7 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	//ecjia.platform.prize_list.init();
+	ecjia.platform.prize_list.init();
 </script>
 <!-- {/block} -->
 
@@ -28,9 +28,9 @@
 									<table class="table table-hide-edit">
 										<thead>
 											<tr>
-												<th>{lang key='market::market.member_name'}</th>
-												<th>{lang key='market::market.prize_name'}</th>
-												<th>{lang key='market::market.assign_status'}</th>
+												<th class="w150">{lang key='market::market.member_name'}</th>
+												<th class="w70">{lang key='market::market.prize_name'}</th>
+												<th class="w50">{lang key='market::market.assign_status'}</th>
 												<th>{lang key='market::market.source'}</th>
 												<th>{lang key='market::market.assign_time'}</th>
 												<th>{lang key='market::market.draw_time'}</th>
@@ -41,8 +41,15 @@
 											<tr>
 												<td>{$record.user_name}</td>
 												<td>{$record.prize_name}</td>
-												<td>
+												<td  class="hide-edit-area">
 													{if $record.issue_status eq '0'}{lang key='market::market.unreleased'}{else}{lang key='market::market.issued'}{/if}
+													{if $record.prize_type eq '2' && $record.issue_status eq '0'}
+														<div class="edit-list">
+															<a class="toggle_view" href='{url path="market/platform_prize/issue_prize" args="id={$record.id}"}' data-val="allow" data-status="1">
+																发放奖品
+															</a>
+														</div>
+													{/if}
 												</td>
 												<td>{$record.source}</td>
 												<td>{$record.issue_time}</td>

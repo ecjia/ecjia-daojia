@@ -55,6 +55,8 @@ class MarketActivityLotteryModel extends Model
 {
     protected $table = 'market_activity_lottery';
 
+    protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -68,6 +70,5 @@ class MarketActivityLotteryModel extends Model
 
     protected $guarded = [];
 
-    
 
 }

@@ -84,7 +84,12 @@
 						<div class="control-group formSep">
 							<label class="control-label">{t}活动时间段：{/t}</label>
 							<div class="controls l_h30">
-								{$activity_info.start_time} ~ {$activity_info.end_time}
+								{if $activity_info.formated_start_time neq '' && $activity_info.end_time.formated_end_time neq ''}
+									{$activity_info.formated_start_time} ~ {$activity_info.formated_end_time}
+								{else}
+									暂未设置
+								{/if}
+								
 							</div>
 						</div>
 						

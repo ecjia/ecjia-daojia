@@ -55,13 +55,14 @@ namespace Ecjia\App\Market\Prize;
 
 use Ecjia\App\Market\MarketAbstract;
 use Ecjia\App\Market\Models\MarketActivityPrizeModel;
+use Ecjia\App\Market\Models\MarketActivityModel;
 
 class ActivityPrize
 {
 
     protected $activity;
 
-    public function __construct(MarketAbstract $activity)
+    public function __construct(MarketActivityModel $activity)
     {
         $this->activity = $activity;
     }
@@ -69,10 +70,57 @@ class ActivityPrize
 
     public function getPrizes()
     {
-        MarketActivityPrizeModel::where('activity_id', $this->activity->getActivityId());
+        $data = MarketActivityPrizeModel::where('activity_id', $this->activity->activity_id)->where('prize_number', '>', 0)->orderBy('prize_level', 'asc')->get();
+
+        $newdata = $data->map(function ($item) {
+            //奖品为红包的时候，查询红包信息
+            if ($item->prize_type == PrizeType::TYPE_BONUS) {
+                $bonus = $item->BonusType;
+                $prize_value = $bonus->type_money;
+                $prize_value = ecjia_price_format($prize_value, false);
+                $item->prize_value = $prize_value;
+            }
+            return $item;
+        });
+
+        return $newdata;
     }
 
 
+    public function getCanWinningPrizes()
+    {
+        $types = PrizeType::getCanPrizeType();
+
+        $data = $this->getPrizes();
+
+        $newdata = $data->map(function ($item) use ($types) {
+            if (in_array($item->prize_type, $types)) {
+                return $item->prize_id;
+            } else {
+                return null;
+            }
+        })->filter(function ($item) {
+            return !is_null($item);
+        })->values()->toArray();
+
+        return $newdata;
+    }
+
+
+    public function getPrizeId($type)
+    {
+        $data = $this->getPrizes();
+
+        $newdata = $data->filter(function ($item) use ($type) {
+            if ($item->prize_type == $type) {
+                return true;
+            } else {
+                return false;
+            }
+        })->first();
+
+        return $newdata->prize_id;
+    }
 
 
 }

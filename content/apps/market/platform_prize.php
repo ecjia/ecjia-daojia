@@ -70,7 +70,7 @@ class platform_prize extends ecjia_platform
         RC_Style::enqueue_style('activity', RC_App::apps_url('statics/platform-css/activity.css', __FILE__));
         RC_Style::enqueue_style('prize', RC_App::apps_url('statics/platform-css/prize.css', __FILE__));
 
-        RC_Script::enqueue_script('platform_activity', RC_App::apps_url('statics/platform-js/platform_activity.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('prize_list', RC_App::apps_url('statics/platform-js/prize_list.js', __FILE__), array(), false, true);
         RC_Script::localize_script('platform_activity', 'js_lang', RC_Lang::get('market::market.js_lang'));
 
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('抽奖记录', RC_Uri::url('market/platform_prize/init')));
@@ -127,11 +127,30 @@ class platform_prize extends ecjia_platform
             }
         }
         $list = $this->get_activity_record_list($info['activity_id']);
-
+        
         $this->assign('activity_record_list', $list);
         $this->assign('code', $activity_code);
 
         $this->display('prize_record.dwt');
+    }
+    
+    /**
+     * 发放奖品（实物奖品）
+     */
+    public function issue_prize()
+    {
+    	$this->admin_priv('market_activity_update', ecjia::MSGTYPE_JSON);
+    	$id = trim($_GET['id']);
+    
+    	if (!empty($id)) {
+    		$info = RC_DB::table('market_activity_log')->where('id', $id)->first();
+    		$code = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->pluck('activity_group');
+    		RC_DB::table('market_activity_log')->where('id', $id)->update(array('issue_status' => 1, 'issue_time' => RC_Time::gmtime()));
+    
+    		return $this->showmessage('发放奖品成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform_prize/init', array('code' => $code))));
+    	} else {
+    		return $this->showmessage(RC_Lang::get('market::market.wrong_parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
     }
 
     /**
@@ -149,12 +168,12 @@ class platform_prize extends ecjia_platform
         $count = $db_activity_log->count();
         $page = new ecjia_platform_page($count, 15, 5);
         $res = $db_activity_log->where('activity_id', $activity_id)->orderBy('add_time', 'desc')->take(15)->skip($page->start_id - 1)->get();
-
+		
         if (!empty($res)) {
             foreach ($res as $key => $val) {
                 $res[$key]['issue_time'] = RC_Time::local_date('Y-m-d H:i:s', $res[$key]['issue_time']);
                 $res[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $res[$key]['add_time']);
-                $res[$key]['prize_type'] = RC_DB::table('market_activity_prize')->where('prize_id', $val['prize_type'])->pluck('prize_type');
+                $res[$key]['prize_type'] = RC_DB::table('market_activity_prize')->where('prize_id', $val['prize_id'])->pluck('prize_type');
             }
         }
         return array('item' => $res, 'page' => $page->show(), 'desc' => $page->page_desc(), 'current_page' => $page->current_page);

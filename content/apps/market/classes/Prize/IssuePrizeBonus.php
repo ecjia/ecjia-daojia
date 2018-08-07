@@ -53,21 +53,47 @@
 
 namespace Ecjia\App\Market\Prize;
 
+use Ecjia\App\Market\Models\MarketActivityPrizeModel;
+use Ecjia\App\Wechat\WechatUser;
+use RC_Api;
 
 class IssuePrizeBonus
 {
 
-    public function __construct()
-    {
+    protected $prize;
 
+    protected $wechat_id;
+
+    public function __construct($wechat_id, MarketActivityPrizeModel $prize)
+    {
+        $this->wechat_id = $wechat_id;
+        $this->prize = $prize;
     }
 
     /**
-     * 颁发奖品
+     * 颁发奖品，发放红包至用户
      */
-    public function issue()
+    public function issue($openid)
     {
+        $wechat_user = new WechatUser($this->wechat_id, $openid);
 
+        $user_id = $wechat_user->getEcjiaUserId();
+
+        if (! empty($user_id)) {
+
+            $result =  RC_Api::api('bonus', 'send_user_bonus', [
+                'type_id' => $this->prize->prize_value,
+                'user_id' => $user_id,
+            ]);
+
+            if (is_ecjia_error($result)) {
+                return false;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
     }
 
 }
