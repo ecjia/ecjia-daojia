@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10,IE=11"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>积分查看</title>
-    <link rel="stylesheet" type="text/css" href="{$css1_url}">
-    <link rel="stylesheet" type="text/css" href="{$css2_url}">
-    <link rel="stylesheet" type="text/css" href="{$css3_url}">
+    <title>{$title}</title>
+    <link rel="stylesheet" type="text/css" href="{$animate_css}">
+    <link rel="stylesheet" type="text/css" href="{$jquery_toast_min_css}">
+    <link rel="stylesheet" type="text/css" href="{$details_min_css}">
 
 </head>
 <body>
@@ -78,7 +78,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{$jq_url}"></script>
+<script type="text/javascript" src="{$jquery_js}"></script>
 
 
 </body>

@@ -55,7 +55,7 @@ return array(
 
     'support_platform_type' => ['service', 'unauthorized', 'subscribe', 'test'], //支持微信公众号类型
 
-    'support_type'  => Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin,
+    'support_type' => Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin | Ecjia\App\Platform\Plugin\PlatformAbstract::TypeMerchant,
 
     'forms' => array(
     ),
