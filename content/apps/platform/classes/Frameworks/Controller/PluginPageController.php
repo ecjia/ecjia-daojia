@@ -49,6 +49,15 @@ class PluginPageController
         return RC_Plugin::plugin_dir_path($this->__FILE__) . $path;
     }
 
+    /**
+     * 错误消息模板
+     */
+    public function showErrorMessage($msg = null)
+    {
+        ecjia_front::$controller->assign('msg', $msg);
+        return ecjia_front::$controller->displayAppTemplate('platform', 'front/plugin_page_showerror.dwt');
+    }
+
 
     /**
      * 跳转
