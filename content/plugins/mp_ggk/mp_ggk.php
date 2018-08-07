@@ -52,30 +52,33 @@ Author: ECJIA TEAM
 Version: 1.18.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
-*/
-defined('IN_ECJIA') or exit('No permission resources.');
-class plugin_mp_ggk {
+ */
 
-    public static function install() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
+defined('IN_ECJIA') or exit('No permission resources.');
+
+class plugin_mp_ggk {
+    public static function install()
+    {
+        $config = include RC_Plugin::plugin_dir_path(__FILE__) . 'config.php';
         $param = array('file' => __FILE__, 'config' => $config);
         return RC_Api::api('platform', 'plugin_install', $param);
     }
 
-
-    public static function uninstall() {
-        $config = include(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php');
+    public static function uninstall()
+    {
+        $config = include RC_Plugin::plugin_dir_path(__FILE__) . 'config.php';
         $param = array('file' => __FILE__, 'config' => $config);
         return RC_Api::api('platform', 'plugin_uninstall', $param);
     }
 
 }
 
-Ecjia_PluginManager::extend('mp_ggk', function() {
+Ecjia_PluginManager::extend('mp_ggk', function () {
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_ggk.class.php';
     return new mp_ggk();
 });
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_mp_ggk', 'install'));
 RC_Plugin::register_deactivation_hook(__FILE__, array('plugin_mp_ggk', 'uninstall'));
+
 // end
