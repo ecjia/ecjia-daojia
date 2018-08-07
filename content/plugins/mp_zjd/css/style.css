@@ -36,7 +36,10 @@ body {
 	margin-right: 20px;
 }
 
-#banner dl,#banner dt,#banner dd,#banner a {
+#banner dl,
+#banner dt,
+#banner dd,
+#banner a {
 	float: left;
 }
 
@@ -71,6 +74,7 @@ body {
 	-webkit-background-size: 105px auto;
 	background-size: 105px auto;
 }
+
 .block .content {
 	margin-top: 10px;
 }
@@ -83,7 +87,7 @@ body {
 
 #hammer {
 	position: absolute;
-	top:11em;
+	top: 11em;
 	left: -74px;
 	height: 87px;
 	width: 74px;
@@ -117,7 +121,7 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: 5;
-	background: rgba(0,0,0,.4);
+	background: rgba(0, 0, 0, .4);
 	display: none;
 }
 
@@ -165,7 +169,8 @@ body {
 	color: #fff;
 }
 
-#dialog button,#dialog a {
+#dialog button,
+#dialog a {
 	display: none;
 	font-size: 14px;
 	position: absolute;
@@ -179,5 +184,16 @@ body {
 	border: none;
 	color: #9f000d;
 	text-align: center;
-	font-weight:bold;
+	font-weight: bold;
+}
+
+.prize-btn {
+	margin: 0 auto;
+	text-align: center;
+	max-width: 640px;
+	padding-bottom: 20px;
+}
+
+.font-size16 {
+	font-size: 16px;
 }

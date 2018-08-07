@@ -50,29 +50,29 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
-	'point_status' => '积分赠送：',
-	'point_status_range' => array('关闭', '开启'),
+    'point_status' => '积分赠送：',
+    'point_status_range' => array('关闭', '开启'),
 
-	'point_value' => '积分值：',
-	'point_num' => '有效次数：',
-	'point_interval' => '时间间隔：',
+    'point_value' => '积分值：',
+    'point_num' => '有效次数：',
+    'point_interval' => '时间间隔：',
 
-	'point_interval_range' => array(
-			'86400'	=> '24小时',
-			'3600'	=> '1小时',
-			'60'	=> '1分钟'
-	),
-	'prize_num' => '抽奖次数：',
-	'starttime' => '开始时间：',
-	'endtime' => '结束时间：',
-	'list' => '奖品列表：',
-	'description' => '活动规则：',
-	'media_id' => '素材信息：',
+    'point_interval_range' => array(
+        '86400' => '24小时',
+        '3600' => '1小时',
+        '60' => '1分钟',
+    ),
+    'prize_num' => '抽奖次数：',
+    'starttime' => '开始时间：',
+    'endtime' => '结束时间：',
+    'list' => '奖品列表：',
+    'description' => '活动规则：',
+    'media_id' => '素材信息：',
 
-	'starttime_desc' => '请输入开始时间，例如：2016-01-12',
-	'endtime_desc' => '请输入结束时间，例如：2016-01-15',
-	'list_desc' => '依次按照“奖项”，“奖品”，“数量”，“概率（总数为100%）”四项顺序以逗号隔开形式进行输入。若设置多个奖品则回车再此进行设置即可。',
-	'media_id_desc' => '请先添加素材，然后在此输入素材ID即可',
+    'starttime_desc' => '请输入开始时间，例如：2016-01-12',
+    'endtime_desc' => '请输入结束时间，例如：2016-01-15',
+    'list_desc' => '依次按照“奖项”，“奖品”，“数量”，“概率（总数为100%）”四项顺序以逗号隔开形式进行输入。若设置多个奖品则回车再此进行设置即可。',
+    'media_id_desc' => '请先添加素材，然后在此输入素材ID即可',
 );
 
 // end

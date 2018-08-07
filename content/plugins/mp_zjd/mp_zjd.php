@@ -54,6 +54,7 @@ Author URI: http://www.ecjia.com/
 Plugin App: platform
 */
 defined('IN_ECJIA') or exit('No permission resources.');
+
 class plugin_mp_zjd {
 
     public static function install() {
