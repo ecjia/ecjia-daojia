@@ -681,7 +681,7 @@ class Builder {
 	 * @param  string  $relation
 	 * @param  string  $boolean
 	 * @param  \Closure|null  $callback
-	 * @return \Illuminate\Database\Eloquent\Builder|static
+	 * @return \Royalcms\Component\Database\Eloquent\Builder|static
 	 */
 	public function doesntHave($relation, $boolean = 'and', Closure $callback = null)
 	{
