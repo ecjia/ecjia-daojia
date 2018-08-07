@@ -196,6 +196,7 @@ define('ACT_REFUND',                3);     // 退款
 define('ACT_PAY_POINT_SAVING',     11);     // 消费积分充入
 define('ACT_PAY_POINT_DEDUCTION',  12);     // 消费积分抵扣
 define('ACT_RANK_POINT_SAVING',    21);     // 成长值充入
+define('ACT_ACTIVITY',             98);     // 活动奖励
 define('ACT_OTHER',                99);     // 其他类型
 
 /* 密码加密方法 */

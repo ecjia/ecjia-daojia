@@ -914,4 +914,20 @@ if (! function_exists('ecjia_db_create_in'))
     }
 }
 
+
+if (! function_exists('ecjia_is_weixin'))
+{
+    /**
+     * 判断是否是微信内置浏览器
+     * @return bool
+     */
+    function ecjia_is_weixin() {
+        if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+            return true;
+        }
+        return false;
+    }
+}
+
+
 // end
