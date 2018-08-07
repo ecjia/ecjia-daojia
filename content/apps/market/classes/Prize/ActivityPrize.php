@@ -67,10 +67,34 @@ class ActivityPrize
         $this->activity = $activity;
     }
 
-
-    public function getPrizes()
+    /**
+     * 获取可用奖品列表
+     */
+    public function getAvailablePrizes()
     {
         $data = MarketActivityPrizeModel::where('activity_id', $this->activity->activity_id)->where('prize_number', '>', 0)->orderBy('prize_level', 'asc')->get();
+
+        $newdata = $data->map(function ($item) {
+            //奖品为红包的时候，查询红包信息
+            if ($item->prize_type == PrizeType::TYPE_BONUS) {
+                $bonus = $item->BonusType;
+                $prize_value = $bonus->type_money;
+                $prize_value = ecjia_price_format($prize_value, false);
+                $item->prize_value = $prize_value;
+            }
+            return $item;
+        });
+
+        return $newdata;
+    }
+
+    /**
+     * 获取所有奖品列表
+     * @return mixed
+     */
+    public function getPrizes()
+    {
+        $data = MarketActivityPrizeModel::where('activity_id', $this->activity->activity_id)->orderBy('prize_level', 'asc')->get();
 
         $newdata = $data->map(function ($item) {
             //奖品为红包的时候，查询红包信息

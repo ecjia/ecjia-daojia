@@ -145,8 +145,22 @@ class platform_prize extends ecjia_platform
     	if (!empty($id)) {
     		$info = RC_DB::table('market_activity_log')->where('id', $id)->first();
     		$code = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->pluck('activity_group');
+    		
+    		$prize_info = RC_DB::table('market_activity_prize')->where('prize_id', $info['prize_id'])->first();
+    		if (empty($prize_info)) {
+    			return $this->showmessage('奖品信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		}
+    		
+    		if ($prize_info['prize_number'] == 0) {
+    			return $this->showmessage('奖品数量不足！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		}
+    		
     		RC_DB::table('market_activity_log')->where('id', $id)->update(array('issue_status' => 1, 'issue_time' => RC_Time::gmtime()));
-    
+    		if ($prize_info['prize_number'] > 0) {
+    			/*减奖品数量*/
+    			RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
+    		}
+    		
     		return $this->showmessage('发放奖品成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform_prize/init', array('code' => $code))));
     	} else {
     		return $this->showmessage(RC_Lang::get('market::market.wrong_parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

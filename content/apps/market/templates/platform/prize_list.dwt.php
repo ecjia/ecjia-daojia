@@ -2,6 +2,9 @@
 <!-- {extends file="ecjia-platform.dwt.php"} -->
 
 <!-- {block name="footer"} -->
+<script type="text/javascript">
+	ecjia.platform.platform_activity.init();
+</script>
 <!-- {/block} -->
 
 <!-- {block name="home-content"} -->

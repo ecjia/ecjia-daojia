@@ -372,7 +372,13 @@ class admin extends ecjia_admin
         $this->assign('prize_type', $prize_type);
 
         $time = RC_Time::gmtime();
-        $bonus_list = RC_DB::table('bonus_type')->where('store_id', 0)->where('use_start_date', '<=', $time)->where('use_end_date', '>=', $time)->select('type_id', 'type_name')->get();
+        $bonus_list = RC_DB::table('bonus_type')
+        				->where('store_id', 0)
+        				->where('use_start_date', '<=', $time)
+        				->where('use_end_date', '>=', $time)
+        				->whereIn('send_type', array(1,2))
+        				->select('type_id', 'type_name')
+        				->get();
         $this->assign('bonus_list', $bonus_list);
 
         $this->assign('ur_here', RC_Lang::get('market::market.prize_pool'));
@@ -435,7 +441,7 @@ class admin extends ecjia_admin
         if (empty($prize_number)) {
             return $this->showmessage('请填写奖品数量！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        if (empty($prize_prob)) {
+        if ($prize_prob <= 0) {
             return $this->showmessage('请填写获奖概率！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         //某个活动的所有奖品中奖概率不能大于100
@@ -486,7 +492,13 @@ class admin extends ecjia_admin
         $this->assign('prize_type', $prize_type);
 
         $time = RC_Time::gmtime();
-        $bonus_list = RC_DB::table('bonus_type')->where('store_id', $_SESSION['store_id'])->where('use_start_date', '<=', $time)->where('use_end_date', '>=', $time)->select('type_id', 'type_name')->get();
+        $bonus_list = RC_DB::table('bonus_type')
+        					->where('store_id', $_SESSION['store_id'])
+        					->where('use_start_date', '<=', $time)
+        					->where('use_end_date', '>=', $time)
+        					->whereIn('send_type', array(1,2))
+        					->select('type_id', 'type_name')
+        					->get();
         $this->assign('bonus_list', $bonus_list);
         $this->assign('activity_prize', $activity_prize);
 
@@ -550,11 +562,11 @@ class admin extends ecjia_admin
             $prize_value_final = $prize_value_other;
         }
 
-        if (empty($prize_number)) {
+        if (!isset($prize_number)) {
             return $this->showmessage('请填写奖品数量！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        if (empty($prize_prob)) {
+        if ($prize_prob <= 0) {
             return $this->showmessage('请填写获奖概率！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         //某个活动的所有奖品中奖概率不能大于100
@@ -613,7 +625,18 @@ class admin extends ecjia_admin
         if (!empty($id)) {
             $info = RC_DB::table('market_activity_log')->where('id', $id)->first();
             $code = RC_DB::table('market_activity')->where('activity_id', $info['activity_id'])->pluck('activity_group');
+            $prize_info = RC_DB::table('market_activity_prize')->where('prize_id', $info['prize_id'])->first();
+            if (empty($prize_info)) {
+            	return $this->showmessage('奖品信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if ($prize_info['prize_number'] == 0) {
+            	return $this->showmessage('奖品数量不足！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
             RC_DB::table('market_activity_log')->where('id', $id)->update(array('issue_status' => 1, 'issue_time' => RC_Time::gmtime()));
+			if ($prize_info['prize_number'] > 0) {
+				/*减奖品数量*/
+				RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
+			}
 
             ecjia_admin::admin_log('发放奖品' . $info['prize_name'] . '给' . $info['user_name'], 'issue', 'prize');
             return $this->showmessage('发放奖品成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/admin/activity_record', array('code' => $code))));

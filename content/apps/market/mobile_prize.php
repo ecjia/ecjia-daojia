@@ -47,6 +47,7 @@
 
 use Ecjia\App\Market\Controllers\EcjiaMarketActivityController;
 
+
 class mobile_prize extends EcjiaMarketActivityController
 {
 
@@ -79,18 +80,18 @@ class mobile_prize extends EcjiaMarketActivityController
  		
         if (!empty($prize_log_list)) {
         	foreach ($prize_log_list as $key => $val) {
-        		if ($val['prize_type'] == '2') {
+        		if ($val['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_REAL) {
         			$prize_log_list[$key]['icon'] = RC_App::apps_url('statics/front/images/shiwu.png', __FILE__);
         			$prize_log_list[$key]['prize_value_label'] = $val['prize_name'];
-        		} elseif ($val['prize_type'] == '3') {
+        		} elseif ($val['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_INTEGRAL) {
         			$prize_log_list[$key]['icon'] = RC_App::apps_url('statics/front/images/jifen.png', __FILE__);
         			$prize_log_list[$key]['prize_value_label'] = '+'.$val['prize_value'];
         		} else {
         			$prize_log_list[$key]['icon'] = RC_App::apps_url('statics/front/images/hongbao.png', __FILE__);
-        			if ($val['prize_type'] == '1') {
+        			if ($val['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
         				$prize_value = RC_DB::table('bonus_type')->where('type_id', $val['prize_value'])->pluck('type_money');
         				$prize_log_list[$key]['prize_value_label'] = price_format($prize_value, false);
-        			} elseif ($val['prize_type'] == '6') {
+        			} elseif ($val['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) {
         				$prize_log_list[$key]['prize_value_label'] = price_format($val['prize_value']);
         			}
         		}
@@ -119,6 +120,8 @@ class mobile_prize extends EcjiaMarketActivityController
         }
    	
         $this->assign('prize_log_list', $prize_log_list);
+        $this->assign('uuid',  $uuid );
+        $this->assign('openid',  $openid);
         
         $this->display(
             RC_Package::package('app::market')->loadTemplate('front/prize_list.dwt', true)
@@ -146,18 +149,18 @@ class mobile_prize extends EcjiaMarketActivityController
     	$prize_info['mobile'] 		= $issue_extend['mobile'];
     	$prize_info['address'] 		= $issue_extend['address'];
     	
-    	if ($prize_info['prize_type'] == '2') {
+    	if ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_REAL) {
     		$prize_info['prize_value_label'] = $prize_info['prize_name'];
     		$prize_info['icon'] = RC_App::apps_url('statics/front/images/shiwu.png', __FILE__);
-    	} elseif ($prize_info['prize_type'] == '3') {
+    	} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_INTEGRAL) {
     		$prize_info['prize_value_label'] = '+'.$prize_info['prize_value'];
     		$prize_info['icon'] = RC_App::apps_url('statics/front/images/jifen.png', __FILE__);
     	} else {
     		$prize_info['icon'] = RC_App::apps_url('statics/front/images/hongbao.png', __FILE__);
-    		if ($prize_info['prize_type'] == '1') {
+    		if ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
     			$prize_value = RC_DB::table('bonus_type')->where('type_id', $prize_info['prize_value'])->pluck('type_money');
     			$prize_info['prize_value_label'] = price_format($prize_value, false);
-    		} elseif ($prize_info['prize_type'] == '6') {
+    		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) {
     			$prize_info['prize_value_label'] = price_format($prize_info['prize_value']);
     		}
     	}
@@ -214,5 +217,45 @@ class mobile_prize extends EcjiaMarketActivityController
     	$winner['issue_extend'] = $data;
     	RC_DB::table('market_activity_log')->where('id', $log_id)->update($winner);
     	return ecjia_front::$controller->showmessage('资料提交成功，请等待发放奖品！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('market/mobile_prize/prize_init', array('openid' => $prize_log_info['user_id']))));
+    }
+    
+    //领取奖品
+    public function issue_prize()
+    {
+    	$openid					= trim($_GET['openid']);
+    	$log_id 				= intval($_GET['log_id']);
+    	$activity_id 			= intval($_GET['activity_id']);
+    	$activity_info  		= RC_DB::table('market_activity')->where('activity_id', $activity_id)->first();
+    	$time					= RC_Time::gmtime();
+    	
+    	if (empty($activity_info)) {
+    		return ecjia_front::$controller->showmessage('活动信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	
+    	$market_activity_log	= RC_DB::table('market_activity_log')->where('id', $log_id)->first();
+    	if (empty($market_activity_log)) {
+    		return ecjia_front::$controller->showmessage('抽奖信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	
+    	$prize_info = Ecjia\App\Market\Models\MarketActivityPrizeModel::where('activity_id', $activity_id)->find($market_activity_log['prize_id']);
+    	if (empty($prize_info)) {
+    		return ecjia_front::$controller->showmessage('奖品信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	
+    	$MarketActivity = new Ecjia\App\Market\Prize\MarketActivity($activity_info['activity_group'], $activity_info['store_id'], $activity_info['wechat_id']);
+    	//红包发放日期过期处理
+    	if ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
+    		$bonus_info = RC_DB::table('bonus_type')->where('type_id', $prize_info['prize_value'])->where('send_start_date', '<=', $time)->where('send_end_date', '>=', $time)->first();
+    		if (empty($bonus_info)) {
+    			return ecjia_front::$controller->showmessage('红包发放日期已过，请联系管理员发放！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		}
+    	}
+    	//发奖环节
+    	$res = $MarketActivity->issuePrize($activity_info['wechat_id'], $openid, $prize_info, $log_id);
+    	if ($res) {
+    		return ecjia_front::$controller->showmessage('兑换成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/mobile_prize/prize_init', array('openid' => $openid))));
+    	} else {
+    		return ecjia_front::$controller->showmessage('兑换失败！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
     }
 }

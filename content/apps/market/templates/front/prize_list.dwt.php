@@ -45,7 +45,7 @@
 										{if $prize.issue_status eq '1'}
 											<span class="issue_status">已兑换</span>
 										{else}
-											<span class="issue_status">未兑换</span>
+											<a href='{url path="market/mobile_prize/issue_prize" args="log_id={$prize.id}&activity_id={$prize.activity_id}&openid={$openid}"}' class="btn btn-prize">去兑换</a>
 										{/if}
 										
 									{/if}

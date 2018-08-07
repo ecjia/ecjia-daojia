@@ -44,44 +44,9 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-/**
- * Created by PhpStorm.
- * User: royalwang
- * Date: 2018/8/2
- * Time: 2:06 PM
- */
+namespace Ecjia\App\Market\Exceptions;
 
-namespace Ecjia\App\Market\Prize;
-
-use Ecjia\App\Market\Models\MarketActivityPrizeModel;
-use Ecjia\App\Wechat\WechatUser;
-
-class IssuePrizeStore
+class ActivityException extends \Exception
 {
-
-    protected $prize;
-
-    protected $wechat_id;
-
-    public function __construct($wechat_id, MarketActivityPrizeModel $prize)
-    {
-        $this->wechat_id = $wechat_id;
-        $this->prize = $prize;
-    }
-
-    /**
-     * 颁发奖品
-     */
-    public function issue($openid)
-    {
-        $wechat_user = new WechatUser($this->wechat_id, $openid);
-
-        $user_id = $wechat_user->getEcjiaUserId();
-
-        if (! empty($user_id)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    //
 }
