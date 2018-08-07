@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10,IE=11"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<head lang="zh-CN">
-		<title>输入手机号</title>
+		<title>绑定手机号</title>
 		<link rel="stylesheet" type="text/css" href="{$front_url}/css/touch.css" />
 		<link rel="stylesheet" type="text/css" href="{$front_url}/css/style.css" />
 	</head>
@@ -13,7 +13,7 @@
 	<header class="ecjia-header">
 		<div class="ecjia-header-left">
 		</div>
-		<div class="ecjia-header-title">输入手机号</div>
+		<div class="ecjia-header-title">绑定手机号</div>
 	</header>
 	<body>
 		<div class="ecjia-form  ecjia-login">

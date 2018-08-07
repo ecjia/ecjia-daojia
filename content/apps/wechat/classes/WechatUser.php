@@ -3,6 +3,7 @@
 namespace Ecjia\App\Wechat;
 
 use Ecjia\App\Wechat\Models\WechatUserModel;
+use Ecjia\App\Wechat\Exceptions\WechatUserNotFoundException;
 
 /**
  * 微信用户类
@@ -33,6 +34,10 @@ class WechatUser
     protected function findOpenidUser()
     {
         $user = WechatUserModel::wechat($this->wechat_id)->openid($this->open_id)->first();
+        if (empty($user)) {
+            throw  new WechatUserNotFoundException('Wechat user openid不存在或用户未关注。');
+        }
+
         return $user;
     }
     
@@ -58,16 +63,8 @@ class WechatUser
         return $connect_user;
     }
     
-    /**
-     * 获取EcjiaUser用户数据模型
-     * @return \Royalcms\Component\Database\Eloquent\Model|\Royalcms\Component\Database\Eloquent\Collection|\Ecjia\App\User\Models\UsersModel
-     */
-    public function getEcjiaUser()
-    {
-        return \Ecjia\App\User\Models\UsersModel::find($this->getEcjiaUserId());
-    }
-    
-    public function getUnionid() 
+
+    public function getUnionid()
     {
         return $this->user->unionid;
     }
@@ -103,6 +100,15 @@ class WechatUser
     {
         $this->user->ect_uid = $userid;
         return $this->user->update(array('ect_uid' => $userid));
+    }
+
+    /**
+     * 获取EcjiaUser用户数据模型
+     * @return \Royalcms\Component\Database\Eloquent\Model|\Royalcms\Component\Database\Eloquent\Collection|\Ecjia\App\User\Models\UsersModel
+     */
+    public function getEcjiaUser()
+    {
+        return \Ecjia\App\User\Models\UsersModel::find($this->getEcjiaUserId());
     }
     
     /**
