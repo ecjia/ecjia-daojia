@@ -1,6 +1,6 @@
 <?php
 
-namespace royalcms\Component\WeChat\Notice;
+namespace Royalcms\Component\WeChat\Notice;
 
 use Royalcms\Component\Support\ServiceProvider;
 
