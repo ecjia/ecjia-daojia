@@ -47,10 +47,11 @@
 /**
  * 微信大转盘
  */
-defined('IN_ECJIA') or exit('No permission resources.');
 
 use Ecjia\App\Platform\Plugin\PlatformAbstract;
 use Ecjia\App\Wechat\WechatRecord;
+
+defined('IN_ECJIA') or exit('No permission resources.');
 
 class mp_dzp extends PlatformAbstract
 {    
