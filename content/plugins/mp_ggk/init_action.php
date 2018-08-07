@@ -85,13 +85,18 @@ class mp_ggk_init_action implements PluginPageInterface
         $openid = trim($_GET['openid']);
         $uuid = trim($_GET['uuid']);
 
+        $code = 'wechat_guaguale';
         $platform_account = new Ecjia\App\Platform\Frameworks\Platform\Account($uuid);
 
         $wechat_id = $platform_account->getAccountID();
         $store_id = $platform_account->getStoreId();
 
-        $code = 'wechat_guaguale';
-        $MarketActivity = new Ecjia\App\Market\Prize\MarketActivity($code, $store_id, $wechat_id);
+        try {
+            $MarketActivity = new Ecjia\App\Market\Prize\MarketActivity($code, $store_id, $wechat_id);
+        } catch (Ecjia\App\Market\Exceptions\ActivityException $e) {
+            return ecjia_front::$controller->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
         $starttime = $MarketActivity->getActivityStartTime();
         $endtime = $MarketActivity->getActivityEndTime();
         $time = RC_Time::gmtime();
@@ -142,7 +147,13 @@ class mp_ggk_init_action implements PluginPageInterface
         $store_id = $platform_account->getStoreId();
 
         $code = 'wechat_guaguale';
-        $MarketActivity = new Ecjia\App\Market\Prize\MarketActivity($code, $store_id, $wechat_id);
+
+        try {
+            $MarketActivity = new Ecjia\App\Market\Prize\MarketActivity($code, $store_id, $wechat_id);
+        } catch (Ecjia\App\Market\Exceptions\ActivityException $e) {
+            return ecjia_front::$controller->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
         $starttime = $MarketActivity->getActivityStartTime();
         $endtime = $MarketActivity->getActivityEndTime();
         $time = RC_Time::gmtime();
@@ -177,6 +188,8 @@ class mp_ggk_init_action implements PluginPageInterface
 
         $status = Ecjia\App\Market\Prize\PrizeType::getPrizeStatus($prize_info->prize_type);
         if (empty($status)) {
+            //扣减未中奖的奖品数量
+            $MarketActivity->subtractLotteryPrizeNum($prize_info);
             return ecjia_front::$controller->showmessage('很遗憾，再接再励！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 

@@ -13,77 +13,69 @@
     <link rel="stylesheet" type="text/css" href="{$models_css}">
 </head>
 
-<body>
-	<div class="activity-scratch-card-winning">
-	    <div class="main">
-	        <div class="cover">
-	        	<div class="cover-content">
-		            <img src="{$bannerbg_png}">
-		            <div id="prize"></div>
-		            <div id="scratchpad"></div>
-	            </div>
-	        </div>
-	        <div class="content">
-	            <div class="boxcontent boxwhite">
-	                <div class="box">
-	                    <div class="title-brown">奖项设置</div>
-	                    {if $prize}
-	                    <div class="Detail">
-	                        <!-- {foreach from=$prize item=val }-->
-	                        <p>
-	                            {if $val.prize_level eq '0'} 特等奖：
-	                            {elseif $val.prize_level eq '1'} 一等奖：
-	                            {elseif $val.prize_level eq '2'} 二等奖：
-	                            {elseif $val.prize_level eq '3'} 三等奖：
-	                            {elseif $val.prize_level eq '4'} 四等奖：
-	                            {elseif $val.prize_level eq '5'} 五等奖：
-	                            {/if}
-	                            {$val.prize_name}{if $val.prize_type eq '1' || $val.prize_type eq '3'}{$val.prize_value}（剩余奖品数量：{$val.prize_number}）{/if}
-	                        </p>
+<body class="activity-scratch-card-winning">
+    <div class="main">
+        <div class="cover">
+        	<div class="cover-content">
+	            <img src="{$bannerbg_png}">
+	            <div id="prize"></div>
+	            <div id="scratchpad"></div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="boxcontent boxwhite">
+                <div class="box">
+                    <div class="title-brown">奖项设置</div>
+                    {if $prize}
+                    <div class="Detail">
+                        <!-- {foreach from=$prize item=val }-->
+                            <p>
+                                {if $val.prize_level eq '0'} 特等奖： {elseif $val.prize_level eq '1'} 一等奖： {elseif $val.prize_level eq '2'} 二等奖： {elseif $val.prize_level
+                                eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{$val.prize_value}（剩余奖品数量：{$val.prize_number}）
+                            </p>
 	                        <!-- {/foreach} -->
-	                    </div>
-	                    {else}
-	                    <p class="Detail">暂无设置</p>
-	                    {/if}
-	                </div>
-	            </div>
-	            <div class="boxcontent boxwhite">
-	                <div class="box">
-	                    <div class="title-brown">活动说明</div>
-	                    <div class="Detail">
-	                        <p>剩余抽奖次数：
-	                            <span id="num">{if $prize_num lt 0} 0 {else} {$prize_num} {/if}</span>
-	                        </p>
-	                        <p>{$description}</p>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="boxcontent boxwhite">
-	                <div class="box">
-	                    <div class="title-brown">中奖记录</div>
-	                    <div class="Detail">
-	                        {if $list}
-	                        <div class="content">
-	                            <!-- {foreach from=$list item=val}-->
-	                            <p> {$val.user_name} 获得奖品 ：{$val.prize_name} {if $val.prize_type eq 2}（{$val.prize_value}）{/if}</p>
-	                            <!-- {/foreach} -->
-	                        </div>
-	                        {else}
-	                        <p>暂无获奖记录</p>
-	                        {/if}
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	
-	        <!-- 我的奖品 -->
-	        <div class="prize-btn">
-	            <a class="external" href="{$prize_url}">
-	                <img width="50%" src="{$my_prize_png}">
-	            </a>
-	        </div>
-	    </div>
-	</div>
+                    </div>
+                    {else}
+                    <p class="Detail">暂无设置</p>
+                    {/if}
+                </div>
+            </div>
+            <div class="boxcontent boxwhite">
+                <div class="box">
+                    <div class="title-brown">活动说明</div>
+                    <div class="Detail">
+                        <p>剩余抽奖次数：
+                            <span id="num">{if $prize_num lt 0} 0 {else} {$prize_num} {/if}</span>
+                        </p>
+                        <p>{$description}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="boxcontent boxwhite">
+                <div class="box">
+                    <div class="title-brown">中奖记录</div>
+                    <div class="Detail">
+                        {if $list}
+                        <div class="content">
+                            <!-- {foreach from=$list item=val}-->
+                            <p> {$val.user_name} 获得奖品 ：{$val.prize_name} {if $val.prize_type eq 2}（{$val.prize_value}）{/if}</p>
+                            <!-- {/foreach} -->
+                        </div>
+                        {else}
+                        <p>暂无获奖记录</p>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 我的奖品 -->
+        <div class="prize-btn">
+            <a class="external" href="{$prize_url}">
+                <img width="50%" src="{$my_prize_png}">
+            </a>
+        </div>
+    </div>
     <script type="text/javascript" src="{$jquery_min_js}"></script>
     <script type="text/javascript" src="{$wScratchPad_js}"></script>
     <script type="text/javascript" src="{$framework7_min_js}"></script>
