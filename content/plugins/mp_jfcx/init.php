@@ -46,6 +46,7 @@
 //
 use Ecjia\App\Platform\Frameworks\Contracts\PluginPageInterface;
 use Ecjia\App\Platform\Frameworks\Controller\PluginPageController;
+use Ecjia\App\Wechat\WechatUser;
 
 class mp_jfcx_init extends PluginPageController implements PluginPageInterface
 {
@@ -76,10 +77,13 @@ class mp_jfcx_init extends PluginPageController implements PluginPageInterface
 
         $wechat_id = $platform_account->getAccountID();
 
+        $wechat_user = new WechatUser($wechat_id, $openid);
+        $userid = $wechat_user->getEcjiaUserId();
+
         ecjia_front::$controller->assign('title', sprintf('%s - %s - %s', '积分查看', $platform_account->getAccountName(), ecjia::config('shop_name')));
 
-        $pay_points = RC_DB::table('users')->where('user_id', '=', $wechat_id)->pluck('pay_points');
-        $points_info = RC_DB::table('account_log')->where('user_id', '=', $wechat_id)->orderBy('change_time', 'desc')->get();
+        $pay_points = RC_DB::table('users')->where('user_id', '=', $userid)->pluck('pay_points');
+        $points_info = RC_DB::table('account_log')->where('user_id', '=', $userid)->orderBy('change_time', 'desc')->get();
 
         foreach ($points_info as $key => $value)
         {
