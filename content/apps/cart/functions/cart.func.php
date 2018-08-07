@@ -868,6 +868,7 @@ function recalculate_price($device = array()) {
 		
 		
 		$res = $db
+			->where(RC_DB::raw('c.mark_changed'), 1)
 			->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])
 			->where(RC_DB::raw('c.parent_id'), 0)
 			->where(RC_DB::raw('c.is_gift'), 0)
@@ -884,6 +885,7 @@ function recalculate_price($device = array()) {
 // 		->select();
 		
 		$res = $db
+			->where(RC_DB::raw('c.mark_changed'), 1)
 			->where(RC_DB::raw('c.session_id'), SESS_ID)
 			->where(RC_DB::raw('c.parent_id'), 0)
 			->where(RC_DB::raw('c.is_gift'), 0)
