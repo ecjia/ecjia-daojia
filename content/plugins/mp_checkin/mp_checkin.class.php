@@ -155,7 +155,8 @@ class mp_checkin extends PlatformAbstract
         $point_num = $this->getConfig('point_num');
         $point_value = $this->getConfig('point_value');
 
-        $count = \Ecjia\App\Wechat\Models\WechatPointModel::where('openid', $openid)->where('keywords', $this->getConfig('ext_code'))
+        $count = \Ecjia\App\Wechat\Models\WechatPointModel::where('openid', $openid)
+            ->where('keywords', $this->getConfig('ext_code'))
             ->where('createtime', '>', RC_DB::raw('(UNIX_TIMESTAMP(NOW())- ' .$point_interval . ')'))
             ->count();
 
