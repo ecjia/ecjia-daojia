@@ -44,8 +44,12 @@
                 <div>
                     {if $prize}
                     <!-- {foreach from=$prize item=val }-->
-                    <p>{$val.prize_name}:{$val.prize_value}(奖品数量：{$val.prize_number})</p>
-                    <!-- {/foreach} -->
+                    <p>
+                        {if $val.prize_level eq '0'} 特等奖： {elseif $val.prize_level eq '1'} 一等奖： {elseif $val.prize_level eq '2'} 二等奖： {elseif $val.prize_level
+                        eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{$val.prize_value}（剩余奖品数量：{$val.prize_number}）
+                    </p>                    <!-- {/foreach} -->
+                    {else}
+                    <p>暂无设置</p>
                     {/if}
                 </div>
             </div>
@@ -91,7 +95,6 @@
             $.get('{$form_action}', {
                 act: 'draw'
             }, function (result) {
-                console.log(result);
                 if (result.state == 'error') {
                     alert(result.message);
                     return false;
@@ -119,7 +122,6 @@
 
             $('.point-btn').click(function () {
                 var lucky_l = POINT_LEVEL[$('.lucky').data('count')];
-                console.log(lucky_l);
                 $.get('{$form_action}', {
                     act: 'do',
                 }, function (data) {
@@ -138,10 +140,13 @@
                             easing: $.easing.easeOutSine,
                             callback: function () {
                                 $(".point-btn").show();
-                                alert(msg + "\r\n快去领奖吧", function () {
+                                confirm(msg, function() {
                                     location.href = data.link;
                                     return false;
-                                });
+                                }, function() {
+                                    location.reload();
+                                    return false;
+                                })
                             }
                         });
                     }
@@ -167,7 +172,6 @@
                                     return false;
                                 });
                                 $(".point-btn").show();
-                                window.location.reload();
                             }
                         });
                     }
@@ -177,16 +181,16 @@
                 function alert(text, callback) {
                     var app = new Framework7({
                         modalButtonOk: "确定",
-                        modalTitle: ''
+                        modalTitle: '提示'
                     });
                     app.alert(text, '', callback);
                 }
 
                 function confirm(text, callbackOk, callbackCancel) {
                     var app = new Framework7({
-                        modalButtonOk: "确定",
-                        modalTitle: '',
-                        modalButtonCancel: '取消'
+                        modalButtonOk: "去领奖",
+                        modalTitle: '中奖啦',
+                        modalButtonCancel: '稍后再领'
                     });
                     app.confirm(text, '', callbackOk, callbackCancel);
                 }
@@ -202,7 +206,7 @@
 
         var POINT_LEVEL = {
             1: [30],
-            2: [30, 180],
+            2: [30, 150],
             3: [30, 150, 270],
             4: [30, 90, 210, 270],
             5: [30, 90, 150, 210, 270],
@@ -213,7 +217,7 @@
         };
         var LUCKY_POS = {
             1: [1],
-            2: [1, 3],
+            2: [1, 5],
             3: [1, 5, 9],
             4: [1, 3, 7, 9],
             5: [1, 3, 5, 7, 9],
