@@ -480,6 +480,7 @@ class admin_preaudit extends ecjia_admin {
 				}
 				$data = array(
 				    'merchants_name'            => $store['merchants_name'],
+				    'validate_type' 			=> $store['validate_type'],
 					'cat_id' 					=> $store['cat_id'],
 // 				    'identity_status'           => intval($_POST['identity_status']),
 					'shop_keyword'				=> $store['shop_keyword'],
@@ -668,7 +669,7 @@ class admin_preaudit extends ecjia_admin {
 		$data = $db_store_franchisee
         		->leftJoin('store_category as sc', RC_DB::raw('sp.cat_id'), '=', RC_DB::raw('sc.cat_id'))
         		->selectRaw('sp.id,sp.merchants_name,sp.merchants_name,sp.responsible_person,sp.apply_time,sp.company_name,sp.contact_mobile,sc.cat_name')
-        		->orderby('id', 'desc')
+        		->orderby('id', 'asc')//不可修改，先提交先审核，后提交后审核
         		->take($page->page_size)
         		->skip($page->start_id-1)
         		->get();

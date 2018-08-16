@@ -42,10 +42,7 @@
             	            <h4 class="alert-heading">温馨提示!</h4>
             	            <ul>
             	                <li>锁定店铺后，商家后台无法进行登录</li>
-            	                <li>所有商品即可下架</li>
-            	                <li>所有订单即可无效</li>
-            	                <li>所有员工有关及资金进行冻结</li>
-            	                <li>所有权限都暂无权限</li>
+            	                <li>所有商品即刻下架</li>
             	            </ul>
             	            <br>
             	            <button type="submit" class="btn"><i class="splashy-lock_small_locked"></i>锁定</button>
@@ -54,11 +51,8 @@
             	    	 <div class="alert alert-block alert-success fade in">
             	            <h4 class="alert-heading">温馨提示!</h4>
             	            <ul>
-            	                <li>锁定解锁后，商家后台可进行登录</li>
-            	               	<li>锁定解锁后，商家后台可进行登录</li>
-            	                <li>锁定解锁后，商家后台可进行登录</li>
-            	                <li>锁定解锁后，商家后台可进行登录</li>
-            	                <li>锁定解锁后，商家后台可进行登录</li>
+            	                <li>解锁店铺后，商家后台可进行登录</li>
+            	                <li>所有商品恢复上架</li>
             	            </ul>
             	            <br>
             	            <button type="submit" class="btn"><i class="splashy-lock_small_unlocked"></i>解锁</button>

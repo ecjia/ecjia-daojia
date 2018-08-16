@@ -92,8 +92,8 @@
 						<td><div align="right"><strong>所在地区：</strong></div></td>
 						<td>
 						{if $log_last.province || $log_last.city || $log_last.district}
-    						<div class="high_light h_info">{$log_last.province.original_data}&nbsp;{$log_last.city.original_data}&nbsp;{$log_last.district.original_data}</div><br>
-    						<div class="high_light h_success">{$log_last.province.new_data}&nbsp;{$log_last.city.new_data}&nbsp;{$log_last.district.new_data}</div>
+    						<div class="high_light h_info">{$log_last.province.original_data}&nbsp;{$log_last.city.original_data}&nbsp;{$log_last.district.original_data}&nbsp;{$log_last.street.original_data}</div><br>
+    						<div class="high_light h_success">{$log_last.province.new_data}&nbsp;{$log_last.city.new_data}&nbsp;{$log_last.district.new_data}&nbsp;{$log_last.street.new_data}</div>
 						{else}
     						{$store.province}&nbsp;{$store.city}&nbsp;{$store.district}&nbsp;{$store.street}
 						{/if}
