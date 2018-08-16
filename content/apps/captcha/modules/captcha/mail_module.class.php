@@ -89,13 +89,18 @@ class mail_module extends api_front implements api_interface {
 	    /* 判断是否发送成功*/
 	    if ($response === true) {
 	        $time = RC_Time::gmtime();
-	        $_SESSION['captcha']['mail'][$type] = array(
-	            'value' => $value,
-	            'code' => $code,
-	            'lifetime' => $time + 1800,
-	            'sendtime' => $time,
-	        );
-	        $_SESSION['captcha']['mail']['sendtime'] = $time;
+            $captcha = [
+                $type => [
+                    'value' => $value,
+                    'code' => $code,
+                    'lifetime' => $time + 1800,
+                    'sendtime' => $time,
+                ],
+                'sendtime' => $time,
+            ];
+            //存入session
+            RC_Session::set('captcha.mail', $captcha);
+
 	        return array('data' => '验证码发送成功！');
 	    } else {
 	        return new ecjia_error('send_code_error', __('验证码发送失败！'));
