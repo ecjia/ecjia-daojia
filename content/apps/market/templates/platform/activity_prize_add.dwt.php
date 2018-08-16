@@ -52,12 +52,23 @@
 							<div class="form-group row">
 								<label class="col-lg-2 label-control text-right">奖品类型：</label>
 								<div class="col-lg-8 controls">
-									<select name="prize_type" class="select2 form-control">
-										<option value="">请选择...</option>
-										<!-- {foreach from=$prize_type key=key item=val} -->
-										<option value="{$key}" {if $activity_prize.prize_type eq $key}selected{/if}>{$val}</option>
-										<!-- {/foreach} -->
-									</select>
+									{if $store_id gt 0}
+										<select name="prize_type" class="select2 form-control">
+											<option value="">请选择...</option>
+											<!-- {foreach from=$prize_type key=key item=val} -->
+											<!-- {if $key neq '3' && $key neq '6'}-->
+												<option value="{$key}" {if $activity_prize.prize_type eq $key}selected{/if}>{$val}</option>
+											<!-- {/if}-->
+											<!-- {/foreach} -->
+										</select>
+									{else}
+										<select name="prize_type" class="select2 form-control">
+											<option value="">请选择...</option>
+											<!-- {foreach from=$prize_type key=key item=val} -->
+												<option value="{$key}" {if $activity_prize.prize_type eq $key}selected{/if}>{$val}</option>
+											<!-- {/foreach} -->
+										</select>
+									{/if}
 								</div>
 								<span class="input-must">*</span>
 							</div>

@@ -89,8 +89,12 @@ class Factory
     }
     
     
-    public function getDrivers($supportType = MarketAbstract::DISPLAY_ADMIN | MarketAbstract::ACCOUNT_ADMIN)
+    public function getDrivers($supportType = null)
     {
+        if (is_null($supportType)) {
+            $supportType = MarketAbstract::DISPLAY_ADMIN | MarketAbstract::ACCOUNT_ADMIN;
+        }
+
         $events = [];
     
         foreach (self::$factories as $key => $value) {

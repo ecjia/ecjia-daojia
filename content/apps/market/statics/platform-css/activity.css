@@ -129,3 +129,39 @@
 	margin-bottom: 5px;
 	border-radius: 10px;
 }
+.row{
+	 display : -webkit-box;
+ 	 display : -webkit-flex;
+  	 display :    -moz-box;
+  	 display : -ms-flexbox;
+  	 display :         flex;
+  	 -webkit-box-align : center;
+  	 -webkit-align-items : center;
+     -moz-box-align : center;
+     -ms-flex-align : center;
+     align-items : center;
+}
+.col-lg-2{
+	 display : -webkit-box;
+ 	 display : -webkit-flex;
+  	 display :    -moz-box;
+  	 display : -ms-flexbox;
+  	 display :         flex;
+  	 -webkit-box-align : center;
+  	 -webkit-align-items : center;
+     -moz-box-align : center;
+     -ms-flex-align : center;
+     align-items : center;
+}
+.col-lg-8{
+	 display : -webkit-box;
+ 	 display : -webkit-flex;
+  	 display :    -moz-box;
+  	 display : -ms-flexbox;
+  	 display :         flex;
+  	 -webkit-box-align : center;
+  	 -webkit-align-items : center;
+     -moz-box-align : center;
+     -ms-flex-align : center;
+     align-items : center;
+}

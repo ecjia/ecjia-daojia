@@ -160,7 +160,8 @@ class platform extends ecjia_platform
 
         $this->assign('ur_here', RC_Lang::get('market::market.edit_activity'));
         $this->assign('form_action', RC_Uri::url('market/platform/update'));
-
+        $this->assign('store_id', $_SESSION['store_id']);
+        
         $this->assign('activity_info', $activity_info);
         $this->display('activity_edit.dwt');
     }
@@ -338,6 +339,7 @@ class platform extends ecjia_platform
 
         $this->assign('ur_here', RC_Lang::get('market::market.prize_pool'));
         $this->assign('code', $activity_code);
+        $this->assign('store_id', $_SESSION['store_id']);
         $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_prize', array('code' => $activity_code)), 'text' => RC_Lang::get('market::market.prize_pool')));
         $this->assign('form_action', RC_Uri::url('market/platform/activity_prize_insert', array('code' => $activity_code)));
 

@@ -172,6 +172,10 @@ class MarketActivity
 
             $time_limit = $time - $this->model->limit_time * 60;
 
+            if ($time_limit == $time) {
+                $time_limit = $starttime;
+            }
+
             $market_activity_lottery = $this->model->MarketActivityLottery()
                 ->where('user_id', $openid)
                 ->where('user_type', 'wechat')
@@ -193,6 +197,8 @@ class MarketActivity
 
             //剩余可抽取的次数
             $prize_num = $this->model->limit_num - $has_used_count;
+
+            $prize_num = max(0, $prize_num);
 
         } else {
             $prize_num = -1; //无限次
@@ -232,6 +238,10 @@ class MarketActivity
     public function getActivityWinningLog()
     {
         $types = $this->getCanWinningPrizes();
+
+        if ( empty($types)) {
+            return collect([]);
+        }
 
         $model = $this->model;
 

@@ -113,6 +113,7 @@ class PrizeType
     {
         if ($store_id > 0) {
             unset(self::$typeNames[self::TYPE_INTEGRAL]);
+            unset(self::$typeNames[self::TYPE_BALANCE]);
         }
 
         return self::$typeNames;
