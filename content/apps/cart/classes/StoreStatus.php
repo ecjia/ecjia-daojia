@@ -44,77 +44,46 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Cart;
+
+use RC_DB;
 
 /**
- * 到店购物添加到购物车
- * @author 
+ * 店铺状态
+ *
  */
-class create_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+class StoreStatus
+{
+	
+    /**
+     * 获取商品对应的店铺id
+     * @param int $goods_id
+     * @return integer
+     */
+    public static function GetStoreId($goods_id = 0) {
+    	$store_id = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('store_id');
+        return $store_id;
+    }
+    
 
-    	$this->authSession();
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-
-	    $goods_sn		= $this->requestData('goods_sn', '');
-	    $goods_number	= $this->requestData('number', 1);
-	    $store_id		= $this->requestData('store_id', 0);
-	    if (!$goods_sn) {
-	        return new ecjia_error(101, '参数错误');
-	    }
-	    
-	    $rec_type		= $this->requestData('rec_type', CART_STOREBUY_GOODS); //暂没用到
-	    $rec_type = CART_STOREBUY_GOODS;
-
-	    RC_Loader::load_app_func('cart', 'cart');
-
-	    unset($_SESSION['flow_type']);
-    	if (!$goods_sn) {
-    		return new ecjia_error('not_found_goods', '请选择您所需要购买的商品！');
-    	}
-
-        $products_db = RC_Loader::load_app_model('products_model', 'goods');
-		$goods_db = RC_Loader::load_app_model('goods_model', 'goods');
-		$goods_spec = array();
-		
-		$products_goods = $products_db->where(array('product_sn' => $goods_sn))->find();
-		if (!empty($products_goods)) {
-			$goods_spec = explode('|', $products_goods['goods_attr']);
-			$where = array('goods_id' => $products_goods['goods_id']);
-			if (isset($store_id) && $store_id > 0) {
-				$where['store_id'] = $store_id;
-			}
-		} else {
-			$where = array('goods_sn' => $goods_sn);
-		    if (isset($store_id) && $store_id > 0) {
-				$where['store_id'] = $store_id;
-			}
-		}
-		$goods = $goods_db->where($where)->find();
-		if (empty($goods)) {
-			return new ecjia_error('addgoods_error', '该商品不存在或已下架');
-		}
-		//商品对应的店铺是否被锁定
-		if (!empty($goods['store_id'])) {
-			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($goods['store_id']);
-			if ($store_status == '2') {
-				return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
-			}
-		}
-		
-		$result = addto_cart($goods['goods_id'], $goods_number, $goods_spec, 0, 0, 0, 0, 0, $rec_type);
-		
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
-	     
-		$store_id_group = array($goods['store_id']);
-	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => $store_id_group, 'flow_type' => CART_STOREBUY_GOODS));
-	     
-	    return formated_cart_list($cart_result, $store_id_group);
-	}
+    /**
+     * 返回店铺状态
+     * @param integer $store_id
+     * @return integer
+     */
+    public static function GetStoreStatus($store_id = 0) {
+    	$status = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('status');
+    	return $status;
+    }
+    
+    /**
+     * 获取购物车对应的商品id
+     * @param integer $goods_id
+     * @return integer
+     */
+    public static function GetGoodsId($rec_id = 0) {
+    	$goods_id = RC_DB::table('cart')->where('rec_id', $rec_id)->pluck('goods_id');
+    	return $goods_id;
+    }
+    
 }
-
-// end

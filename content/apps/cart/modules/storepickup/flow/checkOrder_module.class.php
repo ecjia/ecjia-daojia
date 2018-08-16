@@ -140,6 +140,14 @@ class checkOrder_module extends api_front implements api_interface {
 			$store_id = $store_group[0];
 		}
 		
+		//店铺是否被锁定
+		if (!empty($store_id)) {
+			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
+			if ($store_status == '2') {
+				return new ecjia_error('store_locked', '对不起，商品所属的店铺已锁定！');
+			}
+		}
+		
 		/*店铺信息*/
 		$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->pluck('value');
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->selectRaw('merchants_name, province, city, district, street, address, longitude, latitude')->first();

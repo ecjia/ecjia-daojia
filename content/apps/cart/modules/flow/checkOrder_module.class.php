@@ -409,28 +409,23 @@ class checkOrder_module extends api_front implements api_interface {
 		
 		//根据店铺id，店铺有没设置运费模板，查找店铺设置的运费模板关联的快递
 		$shipping_area_list = RC_DB::table('shipping_area')->selectRaw('shipping_id')->where('store_id', $store_id)->groupBy('shipping_id')->get();
+		
 		if (!empty($shipping_area_list)) {
 			foreach ($shipping_area_list as $key => $val) {
 				//$shipping_area_list[$key]['shipping_code'] = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
 				$shipping_code[] =  RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
 			}
-
+			
 			$count = count($shipping_code);
 			if ($count > 1) {
-				//foreach ($shipping_area_list as $k => $v) {
-				//	if ($v['shipping_code'] == 'ship_cac') {
-				//		$out['checkorder_mode']	= 'default_storepickup';//运费模板关联的快递有配送上门也有上门取货
-				//	} else {
-				//		$out['checkorder_mode']	= 'default';
-				//	}
-				//}
 				if (in_array('ship_cac', $shipping_code)) {
 					$out['checkorder_mode']	= 'default_storepickup';//运费模板关联的快递有配送上门也有上门取货
 				} else {
 					$out['checkorder_mode']	= 'default';
 				}
+				
 			} elseif ($count == 1) {
-				if ($shipping_area_list['0']['shipping_code'] == 'ship_cac') {
+				if ($shipping_code['0'] == 'ship_cac') {
 					$out['checkorder_mode']	= 'storepickup'; //运费模板关联的快递只有一个且是上门取货
 					$ship_id = $shipping_area_list['0']['shipping_id'];
 				} else {
