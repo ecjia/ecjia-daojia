@@ -11,7 +11,7 @@ class MySqlGrammar extends Grammar {
 	 *
 	 * @var array
 	 */
-	protected $modifiers = array('Unsigned', 'Nullable', 'Default', 'Increment', 'Comment', 'After');
+	protected $modifiers = array('Unsigned', 'Charset', 'Collate',  'Nullable', 'Default', 'Increment', 'Comment', 'After', 'First');
 
 	/**
 	 * The possible column serials
@@ -580,6 +580,34 @@ class MySqlGrammar extends Grammar {
 		if ($column->unsigned) return ' unsigned';
 	}
 
+    /**
+     * Get the SQL for a character set column modifier.
+     *
+     * @param  \Royalcms\Component\Database\Schema\Blueprint  $blueprint
+     * @param  \Royalcms\Component\Support\Fluent  $column
+     * @return string|null
+     */
+    protected function modifyCharset(Blueprint $blueprint, Fluent $column)
+    {
+        if (! is_null($column->charset)) {
+            return ' character set '.$column->charset;
+        }
+    }
+
+    /**
+     * Get the SQL for a collation column modifier.
+     *
+     * @param  \Royalcms\Component\Database\Schema\Blueprint  $blueprint
+     * @param  \Royalcms\Component\Support\Fluent  $column
+     * @return string|null
+     */
+    protected function modifyCollate(Blueprint $blueprint, Fluent $column)
+    {
+        if (! is_null($column->collation)) {
+            return ' collate '.$column->collation;
+        }
+    }
+
 	/**
 	 * Get the SQL for a nullable column modifier.
 	 *
@@ -621,6 +649,20 @@ class MySqlGrammar extends Grammar {
 			return ' auto_increment primary key';
 		}
 	}
+
+    /**
+     * Get the SQL for a "first" column modifier.
+     *
+     * @param  \Royalcms\Component\Database\Schema\Blueprint  $blueprint
+     * @param  \Royalcms\Component\Support\Fluent  $column
+     * @return string|null
+     */
+    protected function modifyFirst(Blueprint $blueprint, Fluent $column)
+    {
+        if (! is_null($column->first)) {
+            return ' first';
+        }
+    }
 
 	/**
 	 * Get the SQL for an "after" column modifier.
