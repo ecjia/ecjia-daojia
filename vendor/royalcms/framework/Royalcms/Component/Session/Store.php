@@ -220,7 +220,7 @@ class Store implements SessionInterface, StoreInterface
 		$this->addBagDataToSession();
 
 		$this->ageFlashData();
-        
+
 		$this->handler->write($this->getId(), serialize($this->attributes));
 
 		$this->started = false;

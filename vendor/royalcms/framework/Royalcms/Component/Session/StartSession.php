@@ -87,15 +87,17 @@ class StartSession {
         
         //ini_set('session.save_handler', 'user');
             
-        session_set_save_handler(
-            array(& $handler, 'open'),
-            array(& $handler, 'close'),
-            array(& $handler, 'read'),
-            array(& $handler, 'write'),
-            array(& $handler, 'destroy'),
-            array(& $handler, 'gc')
-        );
-        
+//        session_set_save_handler(
+//            array(& $handler, 'open'),
+//            array(& $handler, 'close'),
+//            array(& $handler, 'read'),
+//            array(& $handler, 'write'),
+//            array(& $handler, 'destroy'),
+//            array(& $handler, 'gc')
+//        );
+
+        session_set_save_handler($handler, true);
+
         register_shutdown_function('session_write_close');
     }
     
