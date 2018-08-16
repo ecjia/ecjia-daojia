@@ -140,21 +140,6 @@ class admin_plugin extends ecjia_admin
         $code = trim($_GET['code']);
         $bd = $this->db_extend->where(array('ext_code' => $code))->find();
 
-        if (!empty($bd)) {
-            /* 取得配置信息 */
-            if (is_string($bd['ext_config'])) {
-                $ext_config = unserialize($bd['ext_config']);
-                /* 取出已经设置属性的code */
-                $code_list = array();
-                if (!empty($ext_config)) {
-                    foreach ($ext_config as $key => $value) {
-                        $code_list[$value['name']] = $value['value'];
-                    }
-                }
-                $extend_handle = with(new Ecjia\App\Platform\Plugin\PlatformPlugin)->channel($code);
-                $bd['ext_config'] = $extend_handle->makeFormData($code_list);
-            }
-        }
         $this->assign('bd', $bd);
 
         $this->assign_lang();
@@ -172,18 +157,6 @@ class admin_plugin extends ecjia_admin
         $data['ext_desc'] = trim($_POST['ext_desc']);
         $ext_code = trim($_POST['ext_code']);
 
-        /* 取得配置信息 */
-        $ext_config = array();
-        if (isset($_POST['cfg_value']) && is_array($_POST['cfg_value'])) {
-            for ($i = 0; $i < count($_POST['cfg_value']); $i++) {
-                $ext_config[] = array(
-                    'name' => trim($_POST['cfg_name'][$i]),
-                    'type' => trim($_POST['cfg_type'][$i]),
-                    'value' => trim($_POST['cfg_value'][$i]),
-                );
-            }
-        }
-        $data['ext_config'] = serialize($ext_config);
         $this->db_extend->where(array('ext_code' => $ext_code))->update($data);
 
         ecjia_admin::admin_log($data['ext_name'], 'edit', 'platform_extend');

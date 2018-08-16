@@ -240,6 +240,20 @@ abstract class PlatformAbstract extends AbstractPlugin
         return $extend_handle->eventReply();
     }
 
+    /**
+     * 设置子命令参数
+     * @param $subCommand
+     */
+    public function subCommand($subCommand)
+    {
+        $subCommand->setMessage($this->getMessage());
+        $subCommand->setSubCodeCommand($this->getSubCodeCommand());
+        $subCommand->setStoreId($this->getStoreId());
+        $subCommand->setStoreType($this->getStoreType());
+
+        return $subCommand;
+    }
+
 
     public function getOpenId()
     {

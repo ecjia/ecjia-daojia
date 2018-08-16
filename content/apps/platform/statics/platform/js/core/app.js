@@ -84,7 +84,7 @@
             var menuHeight = $('.main-menu').height();
             var bodyHeight = $('.content-body').height();
             if(bodyHeight<menuHeight){
-                $('.content-body').css('height',menuHeight);
+                // $('.content-body').css('height',menuHeight);//修复pjax跳转页面高度不变 2018/08/13
             }
         }
 
