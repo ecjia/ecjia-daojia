@@ -293,7 +293,7 @@
 	  				<!-- 经营主体信息start -->
 	  				<header class="panel-heading">经营主体信息 <hr></header>
 					<div class="form-group">
-						<label class="control-label col-lg-2">{if $info.validate_type eq 1}负责人姓名：{elseif $info.validate_type eq 2}法定代表人姓名：{/if}</label>
+						<label class="control-label col-lg-2">负责人姓名：</label>
 						<div class="controls col-lg-6">
 							<input class="form-control" name="responsible_person" type="text" value="{$info.responsible_person}" readonly/>
 						</div>

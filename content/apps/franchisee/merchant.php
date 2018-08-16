@@ -287,13 +287,8 @@ class merchant extends ecjia_merchant {
 			$email  = !empty($_POST['email'])  ? trim($_POST['email'])	: '';
 			$validate_type = !empty($_POST['validate_type'])  ? intval($_POST['validate_type']) : 1;	//个人1  企业2
 			
-			if ($validate_type == 1) {
-				$responsible_person = !empty($_POST['responsible_person']) 	? trim($_POST['responsible_person'])	: '';	//负责人
-				$message = '请输入负责人姓名';
-			} elseif ($validate_type == 2) {
-				$responsible_person = !empty($_POST['company_responsible_person']) 	? trim($_POST['company_responsible_person'])	: '';	//法定代表人
-				$message = '请输入法定代表人姓名';
-			}
+			$responsible_person = !empty($_POST['responsible_person']) 	? trim($_POST['responsible_person'])	: '';	//负责人
+			$message = '请输入负责人姓名';
 			
 			$time = RC_Time::gmtime();
 			if (empty($email)) {
