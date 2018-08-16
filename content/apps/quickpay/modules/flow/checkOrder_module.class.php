@@ -79,6 +79,15 @@ class checkOrder_module extends api_front implements api_interface {
 		if (empty($store_id) || empty($goods_amount)) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
 		}
+		
+		//店铺有没锁定
+		if (!empty($store_id)) {
+			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
+			if ($store_status == '2') {
+				return new ecjia_error('store_locked', '对不起，该店铺已锁定！');
+			}
+		}
+		
 		/*商家买单功能是否开启*/
 		$quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->pluck('value');
 		if (empty($quickpay_enabled)) {
