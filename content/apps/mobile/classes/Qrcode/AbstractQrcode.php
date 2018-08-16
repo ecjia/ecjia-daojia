@@ -118,7 +118,7 @@ abstract class AbstractQrcode extends RC_Object
 
         RC_QrCode::format('png')->size($size)->margin(1)
                     ->merge($this->logo, 0.2, true)
-                    ->errorCorrection('H')
+                    ->errorCorrection('L')
                     ->generate($this->content(), $tempPath);
                     
         //上传临时文件到指定目录            
