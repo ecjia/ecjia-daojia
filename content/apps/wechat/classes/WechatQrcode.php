@@ -84,18 +84,16 @@ class WechatQrcode
             $username = $wechat_user->getNickname();
 
             $data = [
-                'type' => 1,
-                'scene_id' => $openid,
-                'username' => $username,
-                'function' => $function,
-                'status' => 1,
-                'wechat_id' => $wechat_id,
-                'endtime' => RC_Time::gmtime(),
-                'expire_seconds' => 0,
-
-                'ticket' => $ticket['ticket'],
-                'expire_seconds' => $ticket['expire_seconds'],
-                'qrcode_url' => "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . $ticket['ticket'],
+                'type'              => 1,
+                'scene_id'          => $openid,
+                'username'          => $username,
+                'function'          => $function,
+                'status'            => 1,
+                'wechat_id'         => $wechat_id,
+                'endtime'           => RC_Time::gmtime(),
+                'expire_seconds'    => 0,
+                'ticket'            => $ticket['ticket'],
+                'qrcode_url'        => "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . $ticket['ticket'],
             ];
             $model = WechatQrcodeModel::create($data);
         }

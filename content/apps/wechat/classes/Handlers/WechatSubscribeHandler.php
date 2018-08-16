@@ -102,7 +102,7 @@ class WechatSubscribeHandler
             $uid = $this->getPopularizeUid($wechat_id, $userinfo);
             
             //曾经关注过，再次关注，更新资料
-            $userModel = $wechat_user->getWechatUser();
+            $userModel = $wechat_user->getUserModel();
             if (! empty($userModel)) {
                 $userModel->subscribe       = 1;
                 $userModel->nickname        = $userinfo->get('nickname');
@@ -130,7 +130,7 @@ class WechatSubscribeHandler
                     $userModel->qr_scene_str    = $userinfo->get('qr_scene_str');
                 }
 
-                if (! $usrModel->popularize_uid && $uid) {
+                if (! $userModel->popularize_uid && $uid) {
                     $userModel->popularize_uid = $uid;
                 }
 
@@ -138,27 +138,7 @@ class WechatSubscribeHandler
             } 
             //新关注用户，插入资料
             else {
-                WechatUserModel::create([
-                    'wechat_id'         => $wechat_id,
-                    'group_id'          => $userinfo->get('groupid'),
-                    'subscribe'         => 1,
-                    'openid'            => $openid,
-                    'nickname'          => $userinfo->get('nickname'),
-                    'sex'               => $userinfo->get('sex'),
-                    'city'              => $userinfo->get('city'),
-                    'country'           => $userinfo->get('country'),
-                    'province'          => $userinfo->get('province'),
-                    'language'          => $userinfo->get('language'),
-                    'headimgurl'        => $userinfo->get('headimgurl'),
-                    'subscribe_time'    => $userinfo->get('subscribe_time'),
-                    'remark'            => $userinfo->get('remark'),
-                    'unionid'           => $userinfo->get('unionid'),
-                    'ect_uid'           => $ecjia_userid,
-                    'subscribe_scene'   => $userinfo->get('subscribe_scene'),
-                    'qr_scene'          => $userinfo->get('qr_scene'),
-                    'qr_scene_str'      => $userinfo->get('qr_scene_str'),
-                    'popularize_uid'    => $uid,
-                ]);
+                $userModel = $wechat_user->createWechatUser($ecjia_userid, $userinfo, $uid);
             }
 
             //如果关注时，有扫码事件，跳转到相应事件处理

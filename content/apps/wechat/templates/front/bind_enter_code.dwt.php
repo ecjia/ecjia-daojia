@@ -17,7 +17,7 @@
 	</header>
 	<body>
 		<div class="ecjia-form ecjia-login">
-			<p class="ecjiaf-tac ecjia-margin-b">验证码已发送至+{$mobile}</p>
+			<p class="ecjiaf-tac ecjia-margin-b">验证码已发送至+86 {$mobile}</p>
 			
 			<div id="payPassword_container">
 				<div class="pass_container">
