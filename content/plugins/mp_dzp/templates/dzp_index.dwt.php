@@ -35,7 +35,7 @@
             <div class="info-box-inner">
                 <h4>剩余次数</h4>
                 <div>您当前还剩余
-                    <span style="font-size: 16px;"> {if $prize_num lt 0} 0 {else} {$prize_num} {/if} </span>次抽奖机会</div>
+                    <span style="font-size: 16px;"> {$prize_num} </span>次抽奖机会</div>
             </div>
         </div>
         <div class="info-box">
@@ -46,7 +46,7 @@
                     <!-- {foreach from=$prize item=val }-->
                     <p>
                         {if $val.prize_level eq '0'} 特等奖： {elseif $val.prize_level eq '1'} 一等奖： {elseif $val.prize_level eq '2'} 二等奖： {elseif $val.prize_level
-                        eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{$val.prize_value}（剩余奖品数量：{$val.prize_number}）
+                        eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{if $val.prize_type eq 2}（{$val.prize_value}）{/if}（剩余奖品数量：{$val.prize_number}）
                     </p>                    <!-- {/foreach} -->
                     {else}
                     <p>暂无设置</p>
@@ -98,9 +98,6 @@
                 if (result.state == 'error') {
                     alert(result.message);
                     return false;
-                }
-                if (result.state == 'success') {
-                    $("#prize").html(result.prize_name);
                 }
             var dot_round = 0;
             var lucky_span = $(".lucky span");
