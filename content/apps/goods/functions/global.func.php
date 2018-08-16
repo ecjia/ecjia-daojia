@@ -1456,7 +1456,7 @@ function product_list($goods_id, $conditions = '') {
 		foreach ($row as $key => $value) {
 			$_goods_attr_array = explode('|', $value ['goods_attr']);
 			if (is_array($_goods_attr_array)) {
-				$_temp = '';
+				$_temp = [];
 				foreach ($_goods_attr_array as $_goods_attr_value) {
 					$_temp[] = $goods_attr [$_goods_attr_value];
 				}

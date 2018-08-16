@@ -1503,59 +1503,6 @@ function get_products_info($goods_id, $spec_goods_attr_id) {
 	return $return_array;
 }
 
-/**
- * 获得所有商品类型
- *
- * @access  public
- * @return  array
- */
-function get_goods_type() {
-	$filter['merchant_keywords']= !empty($_GET['merchant_keywords'])	? trim($_GET['merchant_keywords']) 	: '';
-	$filter['keywords'] 		= !empty($_GET['keywords']) 			? trim($_GET['keywords']) 			: '';
-
-	$db_goods_type = RC_DB::table('goods_type as gt')->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('gt.store_id'));
-
-	if (!empty($filter['merchant_keywords'])) {
-		$db_goods_type->where(RC_DB::raw('s.merchants_name'), 'like', '%'.mysql_like_quote($filter['merchant_keywords']).'%');
-	}
-
-	if (!empty($filter['keywords'])) {
-		$db_goods_type->where(RC_DB::raw('gt.cat_name'), 'like', '%'.mysql_like_quote($filter['keywords']).'%');
-	}
-
-	$filter_count = $db_goods_type
-		->select(RC_DB::raw('count(*) as count'), RC_DB::raw('SUM(IF(s.manage_mode = "self", 1, 0)) as self'))
-		->first();
-
-	$filter['count']	= $filter_count['count'] > 0 ? $filter_count['count'] : 0;
-	$filter['self'] 	= $filter_count['self'] > 0 ? $filter_count['self'] : 0;
-
-	$filter['type'] = isset($_GET['type']) ? $_GET['type'] : '';
-	if (!empty($filter['type'])) {
-		$db_goods_type->where(RC_DB::raw('s.manage_mode'), 'self');
-	}
-
-	$count = $db_goods_type->count();
-	$page = new ecjia_page($count, 15, 5);
-
-	$field = 'gt.*, count(a.cat_id) as attr_count, s.merchants_name';
-	$goods_type_list = $db_goods_type
-		->leftJoin('attribute as a', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('gt.cat_id'))
-		->selectRaw($field)
-		->groupBy(RC_DB::Raw('gt.cat_id'))
-		->orderby(RC_DB::Raw('gt.cat_id'), 'desc')
-		->take(15)
-		->skip($page->start_id-1)
-		->get();
-
-	if (!empty($goods_type_list)) {
-		foreach ($goods_type_list AS $key=>$val) {
-			$goods_type_list[$key]['attr_group'] = strtr($val['attr_group'], array("\r" => '', "\n" => ", "));
-			$goods_type_list[$key]['shop_name']  = $val['store_id'] == 0 ? '' : $val['merchants_name'];
-		}
-	}
-	return array('item' => $goods_type_list, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
-}
 
 /**
  * 获取属性列表
@@ -1590,18 +1537,6 @@ function get_attr_list() {
 		}
 	}
 	return array('item' => $row, 'page' => $page->show(5), 'desc' => $page->page_desc());
-}
-
-
-/**
- * 获得指定的商品类型的详情
- *
- * @param   integer     $cat_id 分类ID
- *
- * @return  array
- */
-function get_goods_type_info($cat_id) {
-	return RC_DB::table('goods_type')->where('cat_id', $cat_id)->first();
 }
 
 /**

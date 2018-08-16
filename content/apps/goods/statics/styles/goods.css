@@ -318,3 +318,5 @@
 	color: white;
 	background: #c62626;
 }
+
+#insertGoods .control-label {margin-right:10px;}

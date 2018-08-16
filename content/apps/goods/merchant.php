@@ -2091,9 +2091,6 @@ class merchant extends ecjia_merchant {
 		$this->assign('tags', $this->tags);
 		$href = RC_Uri::url('goods/merchant/init');
 		
-		if ($code) {
-			$href = RC_Uri::url('goods/merchant/init', array('extension_code' => $code));
-		}
 		$this->assign('action_link', array('href' => $href, 'text' => RC_Lang::get('system::system.01_goods_list')));
 		$this->assign('goods_type_list', goods_enable_type_list($goods['goods_type'], true, true));
 		$this->assign('goods_attr_html', build_merchant_attr_html($goods['goods_type'], $goods_id));

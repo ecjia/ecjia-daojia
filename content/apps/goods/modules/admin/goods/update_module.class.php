@@ -87,15 +87,15 @@ class update_module extends api_admin implements api_interface {
     	
     	/*新增商品信息入库*/
     	$rs = RC_Model::model('goods/goods_model')->where(array('goods_id' => $goods_id))->update(array(
-					    	'goods_name'         => $goods_name,
-					    	'store_id'            => isset($_SESSION['store_id']) ? $_SESSION['store_id'] : 0,
-					    	'cat_id'             => $category_id,
-    						'merchant_cat_id'	 => $merchant_category_id,
-					    	'shop_price'         => $goods_price,
-					    	'market_price'       => $goods_price * 1.1,
-					    	'goods_number'       => $stock,
-    	                    'review_status'      => get_review_status($_SESSION['store_id']),
-					    	'last_update'        => RC_Time::gmtime(),
+	    	'goods_name'         => $goods_name,
+	    	'store_id'           => isset($_SESSION['store_id']) ? $_SESSION['store_id'] : 0,
+	    	'cat_id'             => $category_id,
+			'merchant_cat_id'	 => $merchant_category_id,
+	    	'shop_price'         => $goods_price,
+            'market_price'       => $goods_price * ecjia::config('market_price_rate'),
+	    	'goods_number'       => $stock,
+            'review_status'      => get_review_status($_SESSION['store_id']),
+	    	'last_update'        => RC_Time::gmtime(),
     	));
     	
     	RC_Loader::load_app_class('goods_image_data', 'goods', false);
@@ -143,6 +143,9 @@ class update_module extends api_admin implements api_interface {
     	} else {
     	    ecjia_admin::admin_log(addslashes($goods_name).'【来源掌柜】', 'edit', 'goods'); // 记录日志
     	}
+    	
+    	//为更新用户购物车数据加标记
+    	RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
 		
     	$today = RC_Time::gmtime();
     	$field = '*, (promote_price > 0 AND promote_start_date <= ' . $today . ' AND promote_end_date >= ' . $today . ')|is_promote';
@@ -155,7 +158,7 @@ class update_module extends api_admin implements api_interface {
     	$category_name = $category_db->where(array('cat_id' => $row['cat_id']))->get_field('cat_name');
     		
     	if (ecjia::config('shop_touch_url', ecjia::CONFIG_EXISTS)) {
-    		$goods_desc_url = ecjia::config('shop_touch_url').'index.php?m=goods&c=index&a=init&id='.$id.'&hidenav=1&hidetab=1';
+    		$goods_desc_url = ecjia::config('shop_touch_url').'index.php?m=goods&c=index&a=init&id='.$goods_id.'&hidenav=1&hidetab=1';
     	} else {
     		$goods_desc_url = null;
     	}

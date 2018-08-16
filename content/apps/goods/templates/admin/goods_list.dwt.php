@@ -4,6 +4,9 @@
 <!-- {block name="footer"} -->
 <script type="text/javascript">
 	ecjia.admin.goods_list.init();
+	ecjia.admin.goods_info.integral_market_price();
+	ecjia.admin.goods_info.marketPriceSetted();
+	ecjia.admin.goods_info.priceSetted();
 </script>
 <!-- {/block} -->
 
@@ -29,6 +32,59 @@
 		</div>
 	</div>
 </div>
+
+<div class="modal fade fade" id="insertGoods">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal">×</button>
+		<h3 class="modal-title">导入商品</h3>
+	</div>
+	<div class="modal-body" style="height:auto;">
+		<form class="form-horizontal" action="{$form_action_insert}" method="post" name="insertForm">
+  			<div class="control-group control-group-small formSep">
+				<label class="control-label">商品名称</label>
+				<div class="controls">
+					<input class="form-control" name="goods_name" type="text" value="" />
+					<span class="input-must m_l15">{lang key='system::system.require_field'}</span>
+				</div>
+			</div>
+			<div class="control-group control-group-small formSep">
+				<label class="control-label">商品货号</label>
+				<div class="controls">
+					<input class="form-control" name="goods_sn" type="text" value="" />
+				</div>
+			</div>
+			<div class="control-group control-group-small formSep">
+				<label class="control-label">本店售价</label>
+				<div class="controls">
+					<input class="form-control" name="shop_price" type="text" value="" />
+					<a class="btn" data-toggle="marketPriceSetted">{lang key='goods::goods.compute_by_mp'}</a>
+					<span class="input-must">{lang key='system::system.require_field'}</span>
+				</div>
+			</div>
+			<div class="control-group control-group-small formSep">
+				<label class="control-label">市场售价</label>
+				<div class="controls">
+					<input class="form-control" name="market_price" type="text" value="" />
+					<a class="btn" data-toggle="integral_market_price">{lang key='goods::goods.integral_market_price'}</a>
+				</div>
+			</div>
+			<div class="control-group control-group-small formSep">
+				<label class="control-label">上架</label>
+				<div class="controls chk_radio">
+					<input type="checkbox" name="is_display" value="1" style="opacity: 0;" checked="checked">
+					<span>打勾表示商家可见此商品，并允许商家将此商品导入店铺</span>
+				</div>
+			</div>
+											
+          	<input type="hidden" name="goods_id" value="" />
+          	
+			<div class="form-group t_c">
+				<a class="btn btn-gebo insertSubmit" href="javascript:;">开始导入</a>
+			</div>
+		</form>
+   </div>
+</div>
+
 <div>
 	<h3 class="heading"> 
 		<!-- {if $ur_here}{$ur_here}{/if} --> 
@@ -239,6 +295,8 @@
 <!-- 							<a class="data-pjax" href='{url path="goods/admin/edit_link_parts" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.tab_groupgoods'}</a>&nbsp;|&nbsp; -->
 							<a target="_blank" href='{url path="goods/admin/preview" args="id={$goods.goods_id}"}'>{lang key='goods::goods.preview'}</a>&nbsp;|&nbsp;
 							{if $specifications[$goods.goods_type] neq ''}<a target="_blank" href='{url path="goods/admin/product_list" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.product_list'}</a>&nbsp;|&nbsp;{/if}
+							<a class="insert-goods-btn" href="javascript:;" data-href='{url path="goods/admin/insert_goodslib" args="goods_id={$goods.goods_id}"}' 
+										data-id="{$goods.goods_id}" data-name="{$goods.goods_name}" data-sn="{$goods.goods_sn}" data-shopprice="{$goods.shop_price}" data-marketprice="{$goods.market_price}">导入商品库</a>&nbsp;|&nbsp;
 							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.trash_goods_confirm'}" href='{url path="goods/admin/remove" args="id={$goods.goods_id}"}'>{lang key='system::system.drop'}</a>
 						</div>
 					</td>	

@@ -14,6 +14,7 @@
 			app.goods_list.batch_move_cat();
 			app.goods_list.review_static();
 			app.goods_list.toggle_on_sale();
+			app.goods_list.insertGoods();
 		},
 		review_static: function() {
 			$('.review_static').each(function() {
@@ -181,7 +182,6 @@
 				$("a[name=move_cat_ture]").attr("data-url", bath_url + '&target_cat=' + target_cat);
 			});
 		},
-
 		toggle_on_sale: function() {
 			$('[data-trigger="toggle_on_sale"]').on('click', function(e) {
 				e.preventDefault();
@@ -215,7 +215,101 @@
 					}
 				});
 			})
-		}
+		},
+		insertGoods: function() {
+			$(".insert-goods-btn").on('click', function(e) {
+				$("div.form-group").removeClass("error");
+				$("div.form-group").removeClass("f_error");
+				$("label.error").remove();
+				$(".insertSubmit").removeAttr('disabled');
+				$(".insertSubmit").html('开始导入');
+				
+				var $this = $(this);
+				var goods_id = $this.attr('data-id');
+				var goods_name = $this.attr('data-name');
+				var goods_sn = $this.attr('data-sn');
+				var shop_price = $this.attr('data-shopprice');
+				var market_price = $this.attr('data-marketprice');
+				
+				$("input[name=goods_id]").val(goods_id);
+				$("input[name=goods_name]").val(goods_name);
+				$("input[name=goods_sn]").val(goods_sn);
+				$("input[name=shop_price]").val(shop_price);
+				$("input[name=market_price]").val(market_price);
+				
+				$('#insertGoods').modal('show');
+			});
+			$(".insertSubmit").on('click', function(e) {
+				$(".insertSubmit").attr('disabled', true);
+				$(".insertSubmit").html('导入中 <i class="fontello-icon-spin6 animate-spin"></i>');
+				$("form[name='insertForm']").submit();
+				//$('#insertGoods').modal('hide');
+			});	
+			
+			$("form[name='insertForm']").on('submit', function(e) {
+				e.preventDefault();
+			});
+			
+			
+			var $this = $('form[name="insertForm"]');
+			var option = {
+				rules: {
+					goods_name: {
+						required: true
+					},
+					shop_price: {
+						required: true
+					},
+					goods_number: {
+						required: true
+					}
+				},
+				messages: {
+					goods_name: {
+						required: '请填写商品名称'
+					},
+					shop_price: {
+						required: '请填写价格'
+					},
+					goods_number: {
+						required: '请填写库存'
+					}
+				},
+				submitHandler: function() {
+					$this.ajaxSubmit({
+						dataType: "json",
+						success: function(data) {
+							if (data.state == 'error') {
+								smoke.alert(data.message);
+								$(".insertSubmit").removeAttr('disabled');
+								$(".insertSubmit").html('开始导入');
+								//ecjia.merchant.showmessage(data);
+								return false;
+							}
+							//成功界面
+							$('#insertGoods').modal('hide');
+							ecjia.pjax(data.url, function() {
+								ecjia.admin.showmessage(data);
+							})
+						},
+						error: function(data) {
+							$(".insertSubmit").removeAttr('disabled');
+							$(".insertSubmit").html('开始导入');
+						}
+					});
+				},
+				showErrors : function(errorMap, errorList) {
+					$(".insertSubmit").removeAttr('disabled');
+					$(".insertSubmit").html('开始导入');
+			        
+			        this.defaultShowErrors();
+			    },
+			}
+
+			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+			$this.validate(options);
+			
+		},
 	}
 
 	/* 编辑页 */

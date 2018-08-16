@@ -118,7 +118,7 @@ class updateprice_module extends api_admin implements api_interface {
 
     	$data = array(
     		'shop_price'			=> $shop_price,
-    		'market_price'			=> $market_price,
+    	    'market_price'			=> empty($market_price) ? $shop_price * ecjia::config('market_price_rate') : $market_price,
 //     		'promote_price'			=> $promote_price,
 //     		'promote_start_date' 	=> $promote_start_date,
 //     		'promote_end_date'		=> $promote_end_date,
@@ -151,6 +151,9 @@ class updateprice_module extends api_admin implements api_interface {
     		} else {
     		    ecjia_admin::admin_log($goods_name.'【来源掌柜】', 'edit', 'goods');
     		}
+    		
+    		//为更新用户购物车数据加标记
+    		RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
     		
     		return array();
     	}

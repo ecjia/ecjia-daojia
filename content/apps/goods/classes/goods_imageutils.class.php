@@ -136,8 +136,10 @@ class goods_imageutils {
 	
     /**
      * 复制图片
-     * @param string $source
-     * @param string $dest
+     * @param string $source_path
+     *            Path to the source file.
+     * @param string $dest_path
+     *            Path to the destination file.
      * @return boolean
      */
     public static function copyImage($source_path, $dest_path) {

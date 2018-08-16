@@ -49,6 +49,9 @@
 		<a href="{$action_link.href}" class="btn btn-primary data-pjax">
 			<i class="fa fa-plus"></i> {$action_link.text}
 		</a>
+		<a href="{url path='goodslib/merchant/init'}" class="btn btn-info">
+			<i class="fa fa-plus"></i> 一键导入
+		</a>
 		{/if}
   	</div>
   	<div class="clearfix"></div>
