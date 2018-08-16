@@ -120,8 +120,13 @@ class Store implements SessionInterface, StoreInterface
      */
     public function save()
     {
-        session_write_close();
+        //把 $this->attributes = $_SESSION 数据同步
+        $mergeData = array_merge($_SESSION, $this->session->all());
+        $this->replace($mergeData);
+
         $this->session->save();
+
+        session_write_close();
     }
 
     /**
@@ -132,7 +137,8 @@ class Store implements SessionInterface, StoreInterface
      */
     public function set($name, $value)
     {
-        $_SESSION[$name] = $value;
+        array_set($_SESSION, $name, $value);
+
         $this->session->set($name, $value);
     }
 
@@ -295,9 +301,6 @@ class Store implements SessionInterface, StoreInterface
     public function flush()
     {
         $this->clear();
-    
-        // 重置会话中的所有变量
-        $_SESSION = array();
     
         //PHP Native session unset
         session_unset();
