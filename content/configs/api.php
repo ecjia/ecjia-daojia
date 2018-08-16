@@ -486,6 +486,23 @@ return array(
 	'shop/token/validate'           				   => 'setting::shop/token/validate',							//用户端验证token
 	'admin/shop/token/validate'           			   => 'setting::admin/shop/token/validate',						//后台验证token
 	
+	//收银台接口20180717
+	'admin/cashier/pendorder/list'              => 'cashier::admin/cashier/pendorder/list',             //收银台挂单列表
+	'admin/cashier/pendorder/create'            => 'cashier::admin/cashier/pendorder/create',           //收银台创建挂单
+	'admin/cashier/pendorder/delete'            => 'cashier::admin/cashier/pendorder/delete',           //删除收银台挂单
+	'admin/cashier/flow/checkOrder'             => 'cashier::admin/cashier/flow/checkOrder',            //收银台购物流结算页
+	'admin/cashier/flow/done'             		=> 'cashier::admin/cashier/flow/done',            		//收银台购物流结算
+	'admin/merchant/user/list'               	=> 'user::admin/merchant/user/list',               		//后台管理员查看店铺会员列表
+	'admin/user/add'               				=> 'user::admin/user/add',               				//后台管理员添加会员
+	'admin/user/merchant/order/list'            => 'orders::admin/user/merchant/order/list',            //获取某个会员在某个店铺的订单列表
+	'admin/user/account/deposit'				=> 'user::admin/user/account/deposit',					//后台管理员给会员进行充值申请
+	'admin/user/account/pay'					=> 'user::admin/user/account/pay',						//后台管理员给会员充值支付
+	
+	//1.19
+	'bonus/validate'		=> 'bonus::bonus/validate',		//验证线下红包
+	'bonus/bind'			=> 'bonus::bonus/bind',			//兑换红包需要登录
+	
+	
     /** 1.0 已经废弃
      * article 
      * 'article'				=> 'article::article/detail',
