@@ -21,7 +21,16 @@ return array(
      * 兼容模式GET变量
      */
     'route'        => 'r',
-    
+
+    /**
+     * 页数变量名
+     */
+    'page'         => 'page',
+
+    /**
+     * 语言变量名
+     */
+    'lang'         => 'lang',
     
     
     /**

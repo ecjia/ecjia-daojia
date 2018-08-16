@@ -128,6 +128,7 @@ return array(
         'Royalcms\Component\Cookie\CookieServiceProvider',
         'Royalcms\Component\Session\SessionServiceProvider',
         'Royalcms\Component\Routing\RoutingServiceProvider',
+        'Royalcms\Component\DefaultRoute\DefaultRouteServiceProvider',
         'Royalcms\Component\Hook\HookServiceProvider',
         'Royalcms\Component\Timer\TimerServiceProvider',
         'Royalcms\Component\Script\ScriptServiceProvider',
@@ -152,8 +153,6 @@ return array(
         'Royalcms\Component\Storage\StorageServiceProvider',
         'Royalcms\Component\Gettext\GettextServiceProvider',
         'Royalcms\Component\App\AppServiceProvider',
-//         'Royalcms\Component\DefaultRoute\DefaultRouteServiceProvider',
-    
     
     
         // Command
