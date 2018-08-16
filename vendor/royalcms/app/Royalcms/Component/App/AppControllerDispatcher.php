@@ -23,12 +23,8 @@ class AppControllerDispatcher
     
     public function __construct()
     {
-        $this->route = new HttpQueryRoute;
-        
-        define('ROUTE_M', $this->route->getModule());
-        define('ROUTE_C', $this->route->getController());
-        define('ROUTE_A', $this->route->getAction());
-        
+        $this->route = royalcms('default-router');
+
         $this->manager = royalcms('app');
         
         $this->routePath = $this->route->getModule() . '/' . $this->route->getController() . '/' . $this->route->getAction();

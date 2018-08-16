@@ -27,8 +27,6 @@ class AppManager extends Manager
     {
         parent::__construct($royalcms);
         
-        $this->loadAppBundles();
-        
         $this->loadSiteApps();
     }
     
@@ -41,6 +39,10 @@ class AppManager extends Manager
     public function driver($name = null)
     {
         $bundle = parent::driver($name);
+
+        if (empty($this->alias)) {
+            $this->loadAppBundles();
+        }
         
         /**
          * load the Route app to the applications bundle info.
@@ -53,45 +55,7 @@ class AppManager extends Manager
         
         return $bundle;
     }
-    
-    
-    protected function loadAppBundles()
-    {
-        $bundles = array();
-        $alias = array();
-        
-        if (RC_Hook::has_filter('app_scan_bundles')) {
-            /**
-             * load the Route app to the applications bundle info.
-             *
-             * @since 3.1.0
-             *
-             * @param array $bundles
-             *                  多维数组，示例如下：
-             *                  array(
-             *                      array('alias' => '', 'identifier' => '', 'directory' => ''),
-             *                      array('alias' => '', 'identifier' => '', 'directory' => ''),
-             *                  )
-             */
-            $bundles = RC_Hook::apply_filters('app_scan_bundles', $bundles);
-            if ( !empty($bundles) ) {
-                foreach ($bundles as $bundle) {
-                    $alias[$bundle['alias']] = $bundle['directory'];
-                    if ($bundle['alias'] != $bundle['directory']) {
-                        $alias[$bundle['directory']] = $bundle['directory'];
-                    }
-                }
-            }
-        
-        }
-        else {
-            $alias = config('app');
-        }
-        
-        $this->alias = RC_Hook::apply_filters('app_alias_directory_handle', $alias);
-    }
-    
-    
+
     public function hasAlias($alias)
     {
         if (isset($this->alias[$alias])) {
@@ -129,6 +93,42 @@ class AppManager extends Manager
     public function getDefaultDriver()
     {
         return config('route.default.'.config('route.module'));
+    }
+
+    protected function loadAppBundles()
+    {
+        $bundles = array();
+        $alias = array();
+
+        if (RC_Hook::has_filter('app_scan_bundles')) {
+            /**
+             * load the Route app to the applications bundle info.
+             *
+             * @since 3.1.0
+             *
+             * @param array $bundles
+             *                  多维数组，示例如下：
+             *                  array(
+             *                      array('alias' => '', 'identifier' => '', 'directory' => ''),
+             *                      array('alias' => '', 'identifier' => '', 'directory' => ''),
+             *                  )
+             */
+            $bundles = RC_Hook::apply_filters('app_scan_bundles', $bundles);
+            if ( !empty($bundles) ) {
+                foreach ($bundles as $bundle) {
+                    $alias[$bundle['alias']] = $bundle['directory'];
+                    if ($bundle['alias'] != $bundle['directory']) {
+                        $alias[$bundle['directory']] = $bundle['directory'];
+                    }
+                }
+            }
+
+        }
+        else {
+            $alias = config('app');
+        }
+
+        $this->alias = RC_Hook::apply_filters('app_alias_directory_handle', $alias);
     }
 
     protected function loadSiteApps()
