@@ -79,7 +79,16 @@ class api_response {
     }
     
     public function send() {
-        RC_Response::json($this->responseData)->send();
+        $response = RC_Response::json($this->responseData);
+        $cookies = royalcms('response')->headers->getCookies();
+        foreach ($cookies as $cookie)
+        {
+            $response->withCookie($cookie);
+        }
+
+        royalcms()->instance('response', $response);
+
+        return $response->send();
     }
     
     protected function makeSucceedStatus() {
