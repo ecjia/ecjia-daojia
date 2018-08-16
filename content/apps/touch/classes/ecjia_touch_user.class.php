@@ -49,11 +49,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class ecjia_touch_user extends RC_Object {
     
     const API_USER_COOKIE = 'ecjia_api_token';
-    
+    const API_ADMIN_COOKIE = 'ecjia_admin_api_token';
+
     /**
      * 登录
      */
-    public function signin($type, $username, $password) {
+    public function signin($type, $username, $password)
+    {
         $data = array(
         	'type' => $type,
         	'name' => $username,
@@ -69,23 +71,46 @@ class ecjia_touch_user extends RC_Object {
         
         return array_get($res, 'user');
     }
-    
-    public function setUserinfo($res) {
-        $sid = array_get($res, 'session.sid');
-        
-        $response = royalcms('response');
-        $response->withCookie(RC_Cookie::forever(self::API_USER_COOKIE, $sid));
-        
-        $this->cacheUserinfo($sid, array_get($res, 'user'));
+
+    public function connectSignin($openid, $connect_code)
+    {
+        $data = [
+            'openid' => $openid,
+            'code' => $connect_code,
+        ];
+        $api = ecjia_touch_manager::make()->api(ecjia_touch_api::CONNECT_SIGNIN)->data($data);
+        $res = $api->run();
+        if (is_ecjia_error($res)) {
+            return $api->getError();
+        }
+
+        $this->setUserinfo($res);
+
+        return array_get($res, 'user');
     }
     
-    protected function cacheUserinfo($cookieid, $user) {
+    public function setUserinfo($res)
+    {
+        $token = array_get($res, 'session.sid');
+        if (empty($sid)) {
+            $token = array_get($res, 'token');
+        }
+        
+        $response = royalcms('response');
+        $response->withCookie(RC_Cookie::forever(self::API_USER_COOKIE, $token));
+        
+        $this->cacheUserinfo($token, array_get($res, 'user'));
+    }
+    
+    protected function cacheUserinfo($cookieid, $user)
+    {
         $cache_key = 'api_request_user_info::' . $cookieid;
         
         ecjia_cache('touch', config('touch.cache_driver'))->put($cache_key, $user, 60*24*7);
     }
     
-    protected function getCacheUserinfo() {
+    protected function getCacheUserinfo()
+    {
         $cache_key = 'api_request_user_info::' . RC_Cookie::get(self::API_USER_COOKIE);
         
         $data = ecjia_cache('touch', config('touch.cache_driver'))->get($cache_key);
@@ -93,7 +118,8 @@ class ecjia_touch_user extends RC_Object {
         return $data ?: array();
     }
     
-    protected function removeCacheUserinfo() {
+    protected function removeCacheUserinfo()
+    {
         $cache_key = 'api_request_user_info::' . RC_Cookie::get(self::API_USER_COOKIE);
         
         ecjia_cache('touch', config('touch.cache_driver'))->forget($cache_key);
@@ -102,7 +128,8 @@ class ecjia_touch_user extends RC_Object {
     /**
      * 检查是否登录
      */
-    public function isSignin() {
+    public function isSignin()
+    {
         $user = $this->getCacheUserinfo();
         if (array_get($user, 'id') > 0 && array_get($user, 'name')) {
             return true;
@@ -114,7 +141,8 @@ class ecjia_touch_user extends RC_Object {
     /**
      * 退出
      */
-    public function signout() {
+    public function signout()
+    {
         $data = array(
             'token' => $this->getToken(),
         );
@@ -131,12 +159,60 @@ class ecjia_touch_user extends RC_Object {
     /**
      * 获取用户登录凭证
      */
-    public function getToken() {
+    public function getToken()
+    {
         return RC_Cookie::get(self::API_USER_COOKIE);
     }
     
-    public function getUserinfo() {
+    public function getUserinfo()
+    {
         return $this->getCacheUserinfo();
+    }
+
+    /**
+     * 获取用户的token，该token不代表用户已经登录了
+     * @return string
+     */
+    public function getShopToken()
+    {
+        $token = RC_Cookie::get(self::API_USER_COOKIE);
+
+        if (empty($token)) {
+            $shop_token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
+            if (!is_ecjia_error($shop_token)) {
+                $token = $shop_token['access_token'];
+                $response = royalcms('response');
+                $response->withCookie(RC_Cookie::forever(self::SHOP_TOKEN, $token));
+            } else {
+                //API请求返回错误
+
+            }
+        }
+
+        return $token;
+    }
+
+    /**
+     * 获取商家的token，该token不代表用户已经登录了
+     * @return string
+     */
+    public function getAdminToken()
+    {
+        $token = RC_Cookie::get(self::API_ADMIN_COOKIE);
+
+        if (empty($token)) {
+            $admin_shop_token = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+            if (!is_ecjia_error($admin_shop_token)) {
+                $token = $admin_shop_token['access_token'];
+                $response = royalcms('response');
+                $response->withCookie(RC_Cookie::forever(self::API_ADMIN_COOKIE, $token));
+            } else {
+                //API请求返回错误
+
+            }
+        }
+
+        return $token;
     }
 }
 
