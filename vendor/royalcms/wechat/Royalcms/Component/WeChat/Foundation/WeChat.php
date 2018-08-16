@@ -89,4 +89,9 @@ class WeChat extends Container
         });
     }
 
+    public function log()
+    {
+        return Log::getLogger();
+    }
+
 }
