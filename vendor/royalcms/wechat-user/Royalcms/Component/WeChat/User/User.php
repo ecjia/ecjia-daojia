@@ -40,7 +40,7 @@ class User extends AbstractAPI
      * @param array  $openIds
      * @param string $lang
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Royalcms\Component\Support\Collection
      */
     public function batchGet(array $openIds, $lang = 'zh_CN')
     {
@@ -61,7 +61,7 @@ class User extends AbstractAPI
      *
      * @param string $nextOpenId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Royalcms\Component\Support\Collection
      */
     public function lists($nextOpenId = null)
     {
