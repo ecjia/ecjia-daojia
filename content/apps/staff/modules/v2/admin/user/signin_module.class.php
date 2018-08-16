@@ -60,7 +60,8 @@ class signin_module extends api_admin implements api_interface {
 		$api_version = $this->request->header('api-version');
 		$login_type = $this->requestData('type', 'password');
 		$login_type_array = array('smslogin', 'password');
-		//$device = array('code'=> '8001', 'udid' => 'bdc0525eebad246de659a7d0ac39fe834d198c5f', 'client' => 'android');
+		//$device = array('code'=> '8001', 'udid' => '4adbe6e37384dc8f085c908f5ae2c093f5bb694f', 'client' => 'android');
+		
 		if (empty($username) || empty($password)) {
 			$result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
 			return $result;
@@ -91,6 +92,13 @@ class signin_module extends api_admin implements api_interface {
 		//根据用户名判断是商家还是平台管理员
 		//如果商家员工表存在，以商家为准
 		$row_staff = RC_DB::table('staff_user')->where('mobile', $username)->first();
+		//员工所在店铺有没被锁定；锁定不可登录
+		if ($row_staff['store_id']) {
+			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($row_staff['store_id']);
+			if ($store_status == '2') {
+				return new ecjia_error('store_locked', '对不起，该店铺已锁定，请联系平台管理员！');
+			}
+		}
 		
 		if ($row_staff) {
 		    //商家
@@ -104,7 +112,7 @@ class signin_module extends api_admin implements api_interface {
 	}
 }
 
-function signin_merchant($username, $password, $device, $api_version, $login_type) {
+function signin_merchant($username, $password, $device, $api_version, $login_type = '') {
     /* 收银台请求判断处理*/
 	$codes = array('8001', '8011');
     if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
@@ -118,7 +126,7 @@ function signin_merchant($username, $password, $device, $api_version, $login_typ
     } else {
         $salt = RC_DB::table('staff_user')->where('mobile', $username)->pluck('salt');
     }
-    
+   
     /* 检查密码是否正确 */
     $db_staff_user = RC_DB::table('staff_user')->selectRaw('user_id, mobile, name, store_id, nick_name, email, last_login, last_ip, action_list, avatar, group_id, online_status');
     if (version_compare($api_version, '1.14', '>=')) {
@@ -140,7 +148,7 @@ function signin_merchant($username, $password, $device, $api_version, $login_typ
     }
    
     $row = $db_staff_user->first();
-    
+   
     if ($row) {
         // 登录成功
         /* 设置session信息 */
@@ -281,7 +289,7 @@ function signin_merchant($username, $password, $device, $api_version, $login_typ
             	}
             }
         }
-         
+     
         return $out;
     } else {
         return new ecjia_error('login_error', __('您输入的帐号信息不正确'));
