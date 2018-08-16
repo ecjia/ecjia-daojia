@@ -47,42 +47,54 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 取消申请
- * @author royalwang
+ * 用户账户类
  */
-class cancel_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
- 		$id = $this->requestData('account_id' , 0);
- 		$user_id = $_SESSION['user_id'];
- 		if ($id <= 0 || $user_id == 0) {
- 			return new ecjia_error( 'invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
- 		}
- 		
- 		RC_Loader::load_app_func('admin_user', 'user');
- 		RC_Loader::load_app_class('user_account', 'user', false);
- 		
- 		$account_info = RC_DB::table('user_account')->where('is_paid', 0)
- 		->where('id', $id)
- 		->where('user_id', $user_id)->first();
- 		
- 		$result = del_user_account($id, $user_id);
- 		if ($result) {
- 			if ($account_info['process_type'] == '1') {
- 				$frozen_money 		= $account_info['amount'];
- 				$user_money			= abs($account_info['amount']);
- 				
- 				user_account::change_user_money($user_id, $user_money);	 //返还余额
- 				user_account::change_frozen_money($user_id, $frozen_money); //减掉冻结金额
- 			}
- 			return array();
- 		} else {
- 			return new ecjia_error('cancel_fail', '取消失败');
- 		}
+class user_account {
+	/**
+	 * 获取用户账户余额
+	 * @return  float   用户账户余额
+	 */
+	
+	public static function get_user_money($user_id = 0) {
+		$user_money = '0.00';
+		if (!empty($user_id)) {
+			$user_money = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_money');
+		}
+		return $user_money;
+	}	
+	
+	/**
+	 * 获取用户冻结金额
+	 */
+	
+	public static function get_frozen_money($user_id = 0) {
+		$frozen_money = '0.00';
+		if (!empty($user_id)) {
+			$frozen_money = RC_DB::table('users')->where('user_id', $user_id)->pluck('frozen_money');
+		}
+		return $frozen_money;
 	}
-}
+	
+	/**
+	 * 用户账户余额更新
+	 */
+	
+	public static function change_user_money($user_id = 0, $amount) {
+		if (!empty($user_id)) {
+			RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $amount);
+		}
+	}
+	
+	/**
+	 * 用户冻结金额更新
+	 */
+	
+	public static function change_frozen_money($user_id = 0, $amount) {
+		if (!empty($user_id)) {
+			RC_DB::table('users')->where('user_id', $user_id)->increment('frozen_money', $amount);
+		}
+	}
+}	
+
 
 // end

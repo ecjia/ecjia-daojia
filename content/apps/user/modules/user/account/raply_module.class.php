@@ -79,10 +79,12 @@ class raply_module extends api_front implements api_interface {
  		
  		RC_Loader::load_app_func('admin_user', 'user');
  		/* 判断是否有足够的余额的进行退款的操作 */
- 		$sur_amount = get_user_surplus($user_id);
- 		if ($amount > $sur_amount) {
- 			$result = new ecjia_error('surplus_amount_error', __('您要申请提现的金额超过了您现有的余额，此操作将不可进行！'));
-//  			return $result;
+ 		//$sur_amount = get_user_surplus($user_id);
+ 		//会员可用余额 ，既 用户现有余额;
+ 		RC_Loader::load_app_class('user_account', 'user', false);
+ 		$user_current_money = user_account::get_user_money($user_id);
+ 		if ($amount > $user_current_money) {
+ 			return new ecjia_error('surplus_amount_error', __('您要申请提现的金额超过了您现有的余额，此操作将不可进行！'));
  		}
  		
  		//插入会员账目明细
@@ -100,22 +102,20 @@ class raply_module extends api_front implements api_interface {
      		    'trade_type'	 => 'withdraw',
  		    ]);
  		    
-//  			$db = RC_DB::table('payment_record');
-//  			$payment_record = $db->where('order_sn', $surplus['order_sn'])->first();
-//  			$payment_data = array(
-// 				'order_sn'		=> $surplus['order_sn'],
-// 				'trade_type'	=> 'withdraw',
-// 				'total_fee'		=> $amount,
-// 				'pay_status'	=> 0,
-//  			);
-//  			if (empty($payment_record)) {
-//  				$payment_data['create_time']	= RC_Time::gmtime();
-//  				$db->insertGetId($payment_data);
-//  			} elseif($payment_record['pay_status'] == 0 && $amount != $payment_record['total_fee']) {
-//  				$payment_data['update_time']	= RC_Time::gmtime();
-//  				$db->where('order_sn', $surplus['order_sn'])->update($payment_data);
-//  			}
- 			
+			//提现申请成功，记录account_log；从余额中冻结提现金额
+ 		    $frozen_money = $amount;
+ 		    $user_money = '-'.$amount;
+ 		    
+ 		    $options = array(
+ 		    		'user_id'		=> $_SESSION['user_id'],
+ 		    		'frozen_money'	=> $frozen_money,
+ 		    		'user_money'	=> $user_money,
+ 		    		'change_type'	=> ACT_DRAWING,
+ 		    		'change_desc'	=> '【申请提现】'
+ 		    );
+ 		    
+ 		    RC_Api::api('user', 'account_change_log',$options);
+ 		    
  			return array('data' => "您的提现申请已成功提交，请等待管理员的审核！");
  		} else {
  			$result = new ecjia_error('process_false', __('此次操作失败，请返回重试！'));

@@ -71,7 +71,7 @@ class bind_module extends api_front implements api_interface {
 		}
 		
 		$db_user = RC_Model::model('user/users_model');
-		
+
 		if ($type == 'mobile') {
 		    
 		    $mobile_phone = $db_user->find(array('mobile_phone' => $value, 'user_id' => array('neq' => $user_id)));
