@@ -177,51 +177,31 @@ class mp_goods extends PlatformAbstract
             switch ($this->getSubCodeCommand()) {
                 case 'best':
                     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_best.class.php';
-                    $subCommand = new mp_goods_best();
-                    $subCommand->setMessage($this->getMessage());
-                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
-                    $subCommand->setStoreId($this->getStoreId());
-                    $subCommand->setStoreType($this->getStoreType());
+                    $subCommand = $this->subCommand(new mp_goods_best());
                     break;
                     
                 case 'hot':
                     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_hot.class.php';
-                    $subCommand = new mp_goods_hot();
-                    $subCommand->setMessage($this->getMessage());
-                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
-                    $subCommand->setStoreId($this->getStoreId());
-                    $subCommand->setStoreType($this->getStoreType());
+                    $subCommand = $this->subCommand(new mp_goods_hot());
                     break;
                     
                 case 'new':
                     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_new.class.php';
-                    $subCommand = new mp_goods_new();
-                    $subCommand->setMessage($this->getMessage());
-                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
-                    $subCommand->setStoreId($this->getStoreId());
-                    $subCommand->setStoreType($this->getStoreType());
+                    $subCommand = $this->subCommand(new mp_goods_new());
                     break;
                     
                 case 'recommend':
                     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_recommend.class.php';
-                    $subCommand = new mp_goods_recommend();
-                    $subCommand->setMessage($this->getMessage());
-                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
-                    $subCommand->setStoreId($this->getStoreId());
-                    $subCommand->setStoreType($this->getStoreType());
+                    $subCommand = $this->subCommand(new mp_goods_recommend());
                     break;
                     
                 case 'promotion':
                     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_goods_promotion.class.php';
-                    $subCommand = new mp_goods_promotion();
-                    $subCommand->setMessage($this->getMessage());
-                    $subCommand->setSubCodeCommand($this->getSubCodeCommand());
-                    $subCommand->setStoreId($this->getStoreId());
-                    $subCommand->setStoreType($this->getStoreType());
+                    $subCommand = $this->subCommand(new mp_goods_promotion());
                     break;
                     
                 default:
-                    $subCommand = $this;
+                    $subCommand = $this->subCommand($this);
                     break;
             }
             
