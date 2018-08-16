@@ -215,6 +215,8 @@ return [
     'user/bonus/reward_detail'          => 'user_bonus_controller@reward_detail',
     'user/bonus/get_integral'           => 'user_bonus_controller@get_integral',
     'user/bonus/async_reward_detail'    => 'user_bonus_controller@async_reward_detail',
+    'user/bonus/add'                    => 'user_bonus_controller@add',
+    'user/bonus/add_bonus'              => 'user_bonus_controller@add_bonus',
     
     //订单
     'user/order/order_list'             => 'user_order_controller@order_list',

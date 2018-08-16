@@ -210,8 +210,10 @@ class user_privilege_controller {
      */
     public static function logout() {
         $status = !empty($_POST['status']) ? $_POST['status'] : '';
+        $token = ecjia_touch_user::singleton()->getToken();
+        
         if ($status == 'logout') {
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNOUT)->run();
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNOUT)->data(array('token' => $token))->run();
             $back_act = RC_Uri::url('touch/my/init');
             
             ecjia_touch_user::singleton()->signout();
@@ -281,7 +283,7 @@ class user_privilege_controller {
     		ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
     	}
     	
-    	$token = touch_function::get_admin_token();
+    	$token = ecjia_touch_user::singleton()->getShopToken();
     	
 		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 		$res = !is_ecjia_error($res) ? $res : array();
@@ -299,7 +301,7 @@ class user_privilege_controller {
     
     //刷新验证码
     public static function captcha_refresh() {
-    	$token = $_SESSION['user_temp']['token'];
+    	$token = ecjia_touch_user::singleton()->getShopToken();
     	
     	$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
     	if (is_ecjia_error($res)) {
@@ -310,7 +312,7 @@ class user_privilege_controller {
     
     //检查图形验证码
     public static function captcha_check() {
-    	$token = $_SESSION['user_temp']['token'];
+    	$token = ecjia_touch_user::singleton()->getShopToken();
     	$mobile = $_SESSION['user_temp']['mobile'];
     	
     	$type = trim($_POST['type']);
@@ -392,7 +394,7 @@ class user_privilege_controller {
     	$type = trim($_POST['type']);
     	$password = trim($_POST['password']);
     	$mobile = $_SESSION['user_temp']['mobile'];
-        $token = $_SESSION['user_temp']['token'];
+        $token = ecjia_touch_user::singleton()->getShopToken();
     	
     	$registered = $_SESSION['user_temp']['registered'];
     	$invited = $_SESSION['user_temp']['invited'];
@@ -445,8 +447,10 @@ class user_privilege_controller {
      */
     public static function register() {
         $mobile = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
+        $token = ecjia_touch_user::singleton()->getShopToken();
+
         if (!empty($mobile)) {
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_VALIDATE)->data(array('mobile' => $mobile))->run();
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_VALIDATE)->data(array('token' => $token, 'mobile' => $mobile))->run();
             $data = is_ecjia_error($data) ? array() : $data;
             $verification = $data['invite_code'];
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('verification' => $verification));
@@ -464,18 +468,13 @@ class user_privilege_controller {
      * 验证注册
      */
     public static function signup() {
-//         $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
         $mobile = !empty($_GET['mobile']) ? htmlspecialchars($_GET['mobile']) : '';
-        
-//         if (!preg_match($chars, $mobile)) {
-//         	return ecjia_front::$controller->showmessage(__('手机号码格式错误'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-//         }
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
         if (is_ecjia_error($check_mobile)) {
             return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_USERBIND)->data(array('type' => 'mobile', 'value' => $mobile))->run();
+        $token = ecjia_touch_user::singleton()->getShopToken();
+		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_USERBIND)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile))->run();
 		if (is_ecjia_error($data)) {
 			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -491,13 +490,15 @@ class user_privilege_controller {
     /*注册用户验证码接受*/
     public static function validate_code() {
         $verification = !empty($_POST['verification']) ? trim($_POST['verification']) : '';
+        $token = ecjia_touch_user::singleton()->getToken();
+        
         if (strlen($verification) > 6) {
             return ecjia_front::$controller->showmessage(__('邀请码格式不正确'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $_SESSION['user_temp']['verification'] = $verification;
         $code = !empty($_POST['code']) ? trim($_POST['code']) : '';
         $mobile = !empty($_POST['mobile']) ? htmlspecialchars($_POST['mobile']) : '';
-        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $code))->run();
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'code' => $code))->run();
         
         if (!is_ecjia_error($data)) {
             $_SESSION['user_temp']['register_status'] = 'succeed';

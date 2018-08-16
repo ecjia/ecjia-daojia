@@ -319,7 +319,11 @@ class cart_controller {
 
         //有收货地址id，检查该收货地址是否在店铺配送范围内
         if (!empty($address_id)) {
-        	$params_address = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $address_id, 'seller_id' => $store_id);
+        	$params_address = array(
+        	    'token' => ecjia_touch_user::singleton()->getToken(),
+                'address_id' => $address_id,
+                'seller_id' => $store_id
+            );
         	$address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params_address)->run();
         }
 
@@ -522,7 +526,10 @@ class cart_controller {
         $total['discount_integral'] = 0;
         if ($_SESSION['cart'][$cart_key]['temp']['integral']) {
             $integral_response = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_INTEGRAL)->data(
-                array('token' => $token, 'integral' => $_SESSION['cart'][$cart_key]['temp']['integral']))->run();
+                array(
+                    'token' => $token,
+                    'integral' => $_SESSION['cart'][$cart_key]['temp']['integral'])
+            )->run();
         	$total['discount_integral'] = !is_ecjia_error($integral_response) ? $integral_response['bonus'] : $_SESSION['cart'][$cart_key]['temp']['integral']/100;
         }
 
@@ -624,7 +631,11 @@ class cart_controller {
     
     	//有收货地址id，检查该收货地址是否在店铺配送范围内
     	if (!empty($address_id)) {
-    		$params_address = array('token' => ecjia_touch_user::singleton()->getToken(), 'address_id' => $address_id, 'seller_id' => $store_id);
+    		$params_address = array(
+    		    'token' => ecjia_touch_user::singleton()->getToken(),
+                'address_id' => $address_id,
+                'seller_id' => $store_id
+            );
     		$address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params_address)->run();
     	}
     

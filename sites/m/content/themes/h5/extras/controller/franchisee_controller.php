@@ -63,10 +63,8 @@ class franchisee_controller {
 	    		return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
 	    	}
 	    	
-			$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-			$data = !is_ecjia_error($data) ? $data : array();
-
-	    	$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $data['access_token']))->run();
+            $token = ecjia_touch_user::singleton()->getAdminToken();
+	    	$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 	    	if (is_ecjia_error($res)) {
 	    		return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGTYPE_JSON);
 	    	}
@@ -106,12 +104,10 @@ class franchisee_controller {
 		    return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
-
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 	    //验证code
 	    $params = array(
-	        'token' 		=> $data['access_token'],
+	        'token' 		=> $token,
 	        'type' 			=> 'mobile',
 	        'value' 		=> $mobile,
 	        'captcha_code' 	=> $code,
@@ -153,12 +149,10 @@ class franchisee_controller {
 	
 	//重新发送验证码
 	public static function resend_sms() {
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
-
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 		//验证code
 		$params = array(
-			'token' 		=> $data['access_token'],
+			'token' 		=> $token,
 			'type' 			=> 'mobile',
 			'value' 		=> $_SESSION['franchisee_add']['mobile'],
 			'captcha_code'  => $_SESSION['franchisee_add']['captcha_code'],
@@ -174,13 +168,11 @@ class franchisee_controller {
 	
 	//检查短信验证码是否正确
 	public static function validate_code() {
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
-
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 		//验证code
 		$value = trim($_POST['value']);
 		$params = array(
-			'token' 		=> $data['access_token'],
+			'token' 		=> $token,
 			'type' 			=> 'mobile',
 			'value' 		=> $_SESSION['franchisee_add']['mobile'],
 			'captcha_code'  => $_SESSION['franchisee_add']['captcha_code'],
@@ -201,12 +193,10 @@ class franchisee_controller {
 		$mobile    = !empty($_GET['mobile']) ? $_GET['mobile'] : '';
 		$type      = !empty($_GET['type']) ? $_GET['type'] : 'signup';
 
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
-
 		if (!empty($mobile)) {
+            $token = ecjia_touch_user::singleton()->getAdminToken();
 			$params = array(
-				'token' 		=> $data['access_token'],
+				'token' 		=> $token,
 				'type' 			=> 'mobile',
 				'value' 		=>  $mobile,
 				'validate_type' => $type		//process,signup
@@ -245,8 +235,7 @@ class franchisee_controller {
 	    	return ecjia_front::$controller->showmessage('请先填写基本信息', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
 	    }
 	    
-	    $data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 
         //重新修改入驻信息Get获取，正常入驻存session
         if (empty($_SESSION['franchisee_add']['mobile'])) {
@@ -261,7 +250,7 @@ class franchisee_controller {
         }
 
         //之前的入驻信息
-        $reaudit = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_MERCHANT_PREAUDIT)->data(array('token' => $data['access_token'], 'mobile' => $mobile, 'validate_code' => $code))->run();
+        $reaudit = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_MERCHANT_PREAUDIT)->data(array('token' => $token, 'mobile' => $mobile, 'validate_code' => $code))->run();
         if (is_ecjia_error($reaudit)) {
         	return ecjia_front::$controller->showmessage($reaudit->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
         }
@@ -392,9 +381,7 @@ class franchisee_controller {
 		if ($config['merchant_join_close'] == 1) {
 			return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		$token = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$token = !is_ecjia_error($token) ? $token : array();
-	    
+
 	    $responsible_person = !empty($_SESSION['franchisee_add']['name']) ? $_SESSION['franchisee_add']['name'] : '';
 	    $email 				= !empty($_SESSION['franchisee_add']['email']) ? $_SESSION['franchisee_add']['email'] : '';
 	    $mobile 			= !empty($_SESSION['franchisee_add']['mobile']) ? $_SESSION['franchisee_add']['mobile'] : '';
@@ -453,8 +440,9 @@ class franchisee_controller {
 	        return ecjia_front::$controller->showmessage('请填写详细地址', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
 	    }
 
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 	    $parameter = array(
-	        'token'              => $token['access_token'],
+	        'token'              => $token,
 	        'responsible_person' => $responsible_person,
 	        'email'              => $email,
 	        'mobile'             => $mobile,
@@ -493,10 +481,9 @@ class franchisee_controller {
 		unset($_SESSION['franchisee_add']);
 	    $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 	    
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 
-	    $res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $data['access_token']))->run();
+	    $res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 	    if (is_ecjia_error($res)) {
 	    	return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGTYPE_JSON);
 	    }
@@ -532,11 +519,9 @@ class franchisee_controller {
 		    return ecjia_front::$controller->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		 
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
-
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 		$params  = array(
-			'token' 		=> $data['access_token'],
+			'token' 		=> $token,
 			'value' 		=> $mobile,
 			'captcha_code'  => $code,
 			'validate_type' => 'process',
@@ -582,11 +567,9 @@ class franchisee_controller {
 			return ecjia_front::$controller->showmessage(__('验证码不能为空'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
-
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 		$params  = array(
-			'token' 		=> $data['access_token'],
+			'token' 		=> $token,
 			'mobile' 		=> $mobile,
 			'validate_code' => $code,
 		);
@@ -606,10 +589,7 @@ class franchisee_controller {
 			return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
-
-	    $token	= $data['access_token'];
+        $token = ecjia_touch_user::singleton()->getAdminToken();
         $mobile	= trim($_GET['mobile']);
         $code 	= trim($_GET['code']);
         $show  	= trim($_GET['show']);
@@ -693,10 +673,9 @@ class franchisee_controller {
 	
 	//刷新验证码
 	public static function captcha_refresh() {
-		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-		$data = !is_ecjia_error($data) ? $data : array();
+        $token = ecjia_touch_user::singleton()->getAdminToken();
 		
-		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $data['access_token']))->run();
+		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 		if (is_ecjia_error($res)) {
 			return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
 		}

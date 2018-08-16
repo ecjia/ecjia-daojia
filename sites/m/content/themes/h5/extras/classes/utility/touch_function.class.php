@@ -72,7 +72,7 @@ class touch_function {
 	    		'city' 	=> $city_name,
 	    	);
 	    	$header = array('api-version' => '1.9');//小于1.10 兼容新版本
-	    	$rs = ecjia_touch_manager::make()->header($header)->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
+	    	$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->header($header)->data($params)->run();
 	    	if (is_ecjia_error($rs)) {
 	    		return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
 	    	}
@@ -90,19 +90,6 @@ class touch_function {
     	}
     }
     
-    public static function get_admin_token() {
-    	$token = $_SESSION['affiliate_temp']['token'];
-    	if (empty($token)) {
-    		$rs_token = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-    		if (!is_ecjia_error($rs_token)) {
-    			$token = $rs_token['access_token'];
-    			$_SESSION['affiliate_temp']['token'] = $token;
-    		} else {
-    			return self::get_admin_token();
-    		}
-    	}
-    	return $token;
-    }
 }
 
 //end

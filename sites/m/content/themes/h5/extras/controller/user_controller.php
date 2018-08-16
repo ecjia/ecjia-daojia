@@ -50,125 +50,129 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 会员中心模块控制器代码
  */
 RC_Loader::load_app_class('integrate', 'user', false);
-class user_controller {
+class user_controller
+{
     /**
      * 会员中心欢迎页
      */
-    public static function init() {
-    	$user_img = RC_Theme::get_template_directory_uri().'/images/user_center/icon-login-in2x.png';
-    	$signin = ecjia_touch_user::singleton()->isSignin();
-    	
-    	$token = ecjia_touch_user::singleton()->getToken();
-    	$signup_reward_url =  RC_Uri::url('user/mobile_reward/init', array('token' => $token));
-    	
-    	if ($signin) {
-    		$user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
-    		$user = is_ecjia_error($user) ? array() : $user;
-    		if ($user) {
-    			if (!empty($user['avatar_img'])) {
-    				$user_img = $user['avatar_img'];
-    			}
-    			ecjia_front::$controller->assign('order_num', $user['order_num']);
-    			ecjia_front::$controller->assign('user', $user);
-    		} else {
-    			ecjia_touch_user::singleton()->signout();
-    		}
-    	}
-    	
-    	ecjia_front::$controller->assign('user_img', $user_img);
-    	ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
-    		
-    	//网店信息
-    	$shop = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO)->run();
-    	$shop = is_ecjia_error($shop) ? array() : $shop;
-    	$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-    	$shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
-    		
-    	ecjia_front::$controller->assign('shop', $shop);
-    	ecjia_front::$controller->assign('shop_config', $shop_config);
-    		
-    	$config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-    	if (!is_ecjia_error($config)) {
-    		ecjia_front::$controller->assign('merchant_join_close', $config['merchant_join_close']);
-    	}
-    		
-    	ecjia_front::$controller->assign('active', 'mine');
-    	ecjia_front::$controller->assign_title('个人中心');
-    	
-    	
+    public static function init()
+    {
+        $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
+        $signin = ecjia_touch_user::singleton()->isSignin();
+
+        $token = ecjia_touch_user::singleton()->getShopToken();
+        $signup_reward_url = RC_Uri::url('user/mobile_reward/init', array('token' => $token));
+
+        if ($signin) {
+            $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+            $user = is_ecjia_error($user) ? array() : $user;
+            if ($user) {
+                if (!empty($user['avatar_img'])) {
+                    $user_img = $user['avatar_img'];
+                }
+                ecjia_front::$controller->assign('order_num', $user['order_num']);
+                ecjia_front::$controller->assign('user', $user);
+            } else {
+                ecjia_touch_user::singleton()->signout();
+            }
+        }
+
+        ecjia_front::$controller->assign('user_img', $user_img);
+        ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
+
+        //网店信息
+        $shop = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO)->run();
+        $shop = is_ecjia_error($shop) ? array() : $shop;
+        $shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+        $shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
+
+        ecjia_front::$controller->assign('shop', $shop);
+        ecjia_front::$controller->assign('shop_config', $shop_config);
+
+        $config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+        if (!is_ecjia_error($config)) {
+            ecjia_front::$controller->assign('merchant_join_close', $config['merchant_join_close']);
+        }
+
+        ecjia_front::$controller->assign('active', 'mine');
+        ecjia_front::$controller->assign_title('个人中心');
+
         $login_str = user_function::return_login_str();
-		ecjia_front::$controller->assign('login_url', RC_Uri::url($login_str));
-        
-    	ecjia_front::$controller->display('user.dwt');
+        ecjia_front::$controller->assign('login_url', RC_Uri::url($login_str));
+
+        ecjia_front::$controller->display('user.dwt');
     }
-    
+
     /**
      * 推广页面
      */
-    public static function spread() {
-    	$token = ecjia_touch_user::singleton()->getToken();
-    	$user_info = ecjia_touch_user::singleton()->getUserinfo();
-    	
-    	$cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
-    	$cache_id = sprintf('%X', crc32($cache_id));
-    	
-    	if (!ecjia_front::$controller->is_cached('spread.dwt', $cache_id)) {
-	    	$name = trim($_GET['name']);
-	    	$invite_user_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_USER)->data(array('token' => $token))->run();
-	    	$invite_user_detail = is_ecjia_error($invite_user_detail) ? array() : $invite_user_detail;
-			
-			if (!empty($invite_user_detail['invite_explain'])) {
-				if (strpos($invite_user_detail['invite_explain'], '；')) {
-					$invite_user_detail['invite_explain_new'] = explode('；', $invite_user_detail['invite_explain']);
-				}
-			}
-			if (!empty($invite_user_detail['invite_explain_new'])) {
-				foreach ($invite_user_detail['invite_explain_new'] as $key => $val) {
-					if (empty($val)) {
-						unset($invite_user_detail[$key]);
-					}
-				}
-			}
-			$invite_user_detail['invite_url'] = RC_Uri::url('affiliate/index/init', array('invite_code' => $invite_user_detail['invite_code']));
-			ecjia_front::$controller->assign('share_title', $name.'推荐这个实用的App给你~');
-			ecjia_front::$controller->assign_title('我的推广');
-	    	ecjia_front::$controller->assign('invite_user', $invite_user_detail);
-	    	ecjia_front::$controller->assign('url', RC_Uri::url('user/index/wxconfig'));
-	
-	    	$image = ecjia::config('mobile_app_icon') != '' ? RC_Upload::upload_url(ecjia::config('mobile_app_icon')) : '';
-	    	ecjia_front::$controller->assign('image', $image);
-    	}
-    	ecjia_front::$controller->display('spread.dwt', $cache_id);
+    public static function spread()
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
+
+        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+
+        if (!ecjia_front::$controller->is_cached('spread.dwt', $cache_id)) {
+            $name = trim($_GET['name']);
+            $invite_user_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_USER)->data(array('token' => $token))->run();
+            $invite_user_detail = is_ecjia_error($invite_user_detail) ? array() : $invite_user_detail;
+
+            if (!empty($invite_user_detail['invite_explain'])) {
+                if (strpos($invite_user_detail['invite_explain'], '；')) {
+                    $invite_user_detail['invite_explain_new'] = explode('；', $invite_user_detail['invite_explain']);
+                }
+            }
+            if (!empty($invite_user_detail['invite_explain_new'])) {
+                foreach ($invite_user_detail['invite_explain_new'] as $key => $val) {
+                    if (empty($val)) {
+                        unset($invite_user_detail[$key]);
+                    }
+                }
+            }
+            $invite_user_detail['invite_url'] = RC_Uri::url('affiliate/index/init', array('invite_code' => $invite_user_detail['invite_code']));
+            ecjia_front::$controller->assign('share_title', $name . '推荐这个实用的App给你~');
+            ecjia_front::$controller->assign_title('我的推广');
+            ecjia_front::$controller->assign('invite_user', $invite_user_detail);
+            ecjia_front::$controller->assign('url', RC_Uri::url('user/index/wxconfig'));
+
+            $image = ecjia::config('mobile_app_icon') != '' ? RC_Upload::upload_url(ecjia::config('mobile_app_icon')) : '';
+            ecjia_front::$controller->assign('image', $image);
+        }
+        ecjia_front::$controller->display('spread.dwt', $cache_id);
     }
-	
-    public static function wxconfig() {
-    	$url = trim($_POST['url']);
-    	if (empty($url)) {
-    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    	}
-		RC_Loader::load_app_class('platform_account', 'platform', false);
-		$uuid = platform_account::getCurrentUUID('wechat');
-		$wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
-		
-		if (!empty($wechat)) {
-			$apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
-			$wechat->js->setUrl($url);
-			$config = $wechat->js->config($apis, false);
-			$config = json_decode($config, true);
-			
-			return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $config));
-		}
+
+    public static function wxconfig()
+    {
+        $url = trim($_POST['url']);
+        if (empty($url)) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        RC_Loader::load_app_class('platform_account', 'platform', false);
+        $uuid = platform_account::getCurrentUUID('wechat');
+        $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+
+        if (!empty($wechat)) {
+            $apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
+            $wechat->js->setUrl($url);
+            $config = $wechat->js->config($apis, false);
+            $config = json_decode($config, true);
+
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $config));
+        }
     }
-    
-    public static function sync_avatar($connect_user) {
+
+    public static function sync_avatar($connect_user)
+    {
         $user_id = $connect_user->getUserId();
         if (empty($user_id)) {
             return false;
         }
-        
+
         $token = ecjia_touch_user::singleton()->getToken();
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
-         
+
         $user = is_ecjia_error($user) ? array() : $user;
         if (array_get($user, 'avatar_img')) {
             return false;

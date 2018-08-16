@@ -8,6 +8,7 @@
 			ecjia.touch.user_account.wxpay_user_account();
 			ecjia.touch.user_account.btnflash();
 			ecjia.touch.user_account.btnpay();
+			ecjia.touch.user_account.add_bonus();
 		},
 
 		wxpay_user_account: function () {
@@ -134,6 +135,92 @@
 							callpay();
 						}
 					}
+				});
+			});
+		},
+
+		//添加红包
+		add_bonus: function () {
+			$('input[name="add_bonus"]').off('click').on('click', function (e) {
+				e.preventDefault();
+				var $this = $(this);
+				var bonus_number = $(".bonus_number_input").val();
+
+				if (bonus_number == '' || bonus_number == undefined || bonus_number == null) {
+					alert("请输入号码");
+					return false;
+				}
+				$('.bonus_number_input').blur();
+				$("input[name='bonus_number']").val(bonus_number);
+
+				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+				var html = $this.val();
+				$this.val("请求中...");
+				$this.attr("disabled", true);
+
+				var url = $("form[name='addBonusForm']").attr('action');
+				$("form[name='addBonusForm']").ajaxSubmit({
+					type: 'post',
+					url: url,
+					dataType: "json",
+					success: function (data) {
+						$this.removeAttr("disabled");
+						$this.val(html);
+						$('body').find('.la-ball-atom').remove();
+						$('.ecjia-add-bonus').append(data.data);
+						$('.ecjia-normal-modal').show();
+						$('.ecjia-normal-modal-overlay').show();
+						ecjia.touch.user_account.close_nomal_modal();
+						ecjia.touch.user_account.confirm_add_bonus();
+					}
+				});
+			});
+
+			$(document).keydown(function (event) {
+				if (event.keyCode == 13) {
+					$('input[name="add_bonus"]').trigger('click');
+				}
+			});
+		},
+
+		close_nomal_modal: function () {
+			$('.close-normal-btn').off('click').on('click', function (e) {
+				if ($(this).hasClass('success')) {
+					window.location.reload();
+					return false;
+				}
+				$('.ecjia-normal-modal').remove();
+				$('.ecjia-normal-modal-overlay').remove();
+			});
+		},
+
+		confirm_add_bonus: function () {
+			$('.confirm-add-btn').off('click').on('click', function (e) {
+				var $this = $(this),
+					url = $this.attr('data-href');
+				var bonus_number = $('input[name="bonus_number"]').val();
+				if (bonus_number == '' || bonus_number == undefined) {
+					alert('该红包不存在');
+					return false;
+				}
+				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+				var html = $this.html();
+				$this.val("请求中...");
+				$this.attr("disabled", true);
+
+				$.post(url, {
+					bonus_number: bonus_number,
+					action: 'bind'
+				}, function (data) {
+					$this.removeAttr("disabled");
+					$this.html(html);
+					$('body').find('.la-ball-atom').remove();
+					$('.ecjia-normal-modal').remove();
+					$('.ecjia-normal-modal-overlay').remove();
+					$('.ecjia-add-bonus').append(data.data);
+					$('.ecjia-normal-modal').show();
+					$('.ecjia-normal-modal-overlay').show();
+					ecjia.touch.user_account.close_nomal_modal();
 				});
 			});
 		},

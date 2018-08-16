@@ -49,107 +49,122 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 红包模块控制器代码
  */
-class user_bonus_controller {
+class user_bonus_controller
+{
     /**
      * 我的红包
      */
-    public static function init() {
-		$shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
-		$shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
-		ecjia_front::$controller->assign('bonus_readme_url', $shop_config['bonus_readme_url']);
-		ecjia_front::$controller->assign_title('我的红包');
+    public static function init()
+    {
+        $shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+        $shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
+        ecjia_front::$controller->assign('bonus_readme_url', $shop_config['bonus_readme_url']);
+        ecjia_front::$controller->assign_title('我的红包');
         ecjia_front::$controller->display('user_bonus.dwt');
     }
 
-
-    public static function async_allow_use() {
+    public static function async_allow_use()
+    {
         $pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
         $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
         $status = 'allow_use';
+        $token = ecjia_touch_user::singleton()->getToken();
 
-        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $pages, 'count' => $limit), 'bonus_type' => $status))->hasPage()->run();
+        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('token' => $token, 'pagination' => array('page' => $pages, 'count' => $limit), 'bonus_type' => $status))->hasPage()->run();
         if (!is_ecjia_error($bonus)) {
-        	list($data, $page) = $bonus;
-        	if (isset($page['more']) && $page['more'] == 0) $is_last = 1;
-        
-        	ecjia_front::$controller->assign('bonus', $data);
-        	$say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
-        	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+            list($data, $page) = $bonus;
+            if (isset($page['more']) && $page['more'] == 0) {
+                $is_last = 1;
+            }
+
+            ecjia_front::$controller->assign('bonus', $data);
+            $say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
     }
-    
-    public static function async_is_used() {
+
+    public static function async_is_used()
+    {
         $pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
         $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
         $status = 'is_used';
-        
-        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $pages, 'count' => $limit), 'bonus_type' => $status))->hasPage()->run();
+        $token = ecjia_touch_user::singleton()->getToken();
+
+        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('token' => $token, 'pagination' => array('page' => $pages, 'count' => $limit), 'bonus_type' => $status))->hasPage()->run();
 
         if (!is_ecjia_error($bonus)) {
-        	list($data, $page) = $bonus;
-        	if (isset($page['more']) && $page['more'] == 0) $is_last = 1;
-        
-        	ecjia_front::$controller->assign('bonus', $data);
-        	$say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
-        	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+            list($data, $page) = $bonus;
+            if (isset($page['more']) && $page['more'] == 0) {
+                $is_last = 1;
+            }
+
+            ecjia_front::$controller->assign('bonus', $data);
+            $say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
     }
-    
-    public static function async_expired() {
+
+    public static function async_expired()
+    {
         $pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
         $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
         $status = 'expired';
-        
-        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('pagination' => array('page' => $pages, 'count' => $limit), 'bonus_type' => $status))->hasPage()->run();
+        $token = ecjia_touch_user::singleton()->getToken();
+
+        $bonus = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BONUS)->data(array('token' => $token, 'pagination' => array('page' => $pages, 'count' => $limit), 'bonus_type' => $status))->hasPage()->run();
         if (!is_ecjia_error($bonus)) {
-        	list($data, $page) = $bonus;
-        	if (isset($page['more']) && $page['more'] == 0) $is_last = 1;
-        
-        	ecjia_front::$controller->assign('bonus', $data);
-        	$say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
-        	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+            list($data, $page) = $bonus;
+            if (isset($page['more']) && $page['more'] == 0) {
+                $is_last = 1;
+            }
+
+            ecjia_front::$controller->assign('bonus', $data);
+            $say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
     }
 
     /**
      * 我的奖励
      */
-    public static function my_reward() {
-    	$token = ecjia_touch_user::singleton()->getToken();
+    public static function my_reward()
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
         $user_info = ecjia_touch_user::singleton()->getUserinfo();
 
-        $cache_id = $_SERVER['QUERY_STRING'].'-'.$token.'-'.$user_info['id'].'-'.$user_info['name'];
+        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
         $cache_id = sprintf('%X', crc32($cache_id));
-    	
-    	if (!ecjia_front::$controller->is_cached('user_my_reward.dwt', $cache_id)) {
-    		$invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token))->run();
-    		$invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
-    		$intive_total = $invite_reward['invite_total'];
-    		
-    		ecjia_front::$controller->assign_title('我的奖励');
-    		ecjia_front::$controller->assign('intive_total', $intive_total);
-    	}
+
+        if (!ecjia_front::$controller->is_cached('user_my_reward.dwt', $cache_id)) {
+            $invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token))->run();
+            $invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
+            $intive_total = $invite_reward['invite_total'];
+
+            ecjia_front::$controller->assign_title('我的奖励');
+            ecjia_front::$controller->assign('intive_total', $intive_total);
+        }
         ecjia_front::$controller->display('user_my_reward.dwt', $cache_id);
     }
-    
+
     /**
      * 奖励明细
      */
-    public static function reward_detail() {
-    	$token = ecjia_touch_user::singleton()->getToken();
+    public static function reward_detail()
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
 
         $type = !empty($_GET['type']) ? $_GET['type'] : '';
         $invite_reward = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_REWARD)->data(array('token' => $token))->run();
         $invite_reward = is_ecjia_error($invite_reward) ? array() : $invite_reward;
         ecjia_front::$controller->assign('month', $invite_reward['invite_record']);
-         
+
         $max_key = array_keys($invite_reward['invite_record'], max($invite_reward['invite_record']));
         $max_month = $invite_reward['invite_record'][$max_key[0]]['invite_data'];
-        
+
         $arr = array(
-            'token'        => $token,
-            'pagination'   => array('page' => 1, 'count' => 10),
-            'date'         => $max_month
+            'token' => $token,
+            'pagination' => array('page' => 1, 'count' => 10),
+            'date' => $max_month,
         );
         $invite_record = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_RECORD)->data($arr)->run();
         $data = is_ecjia_error($invite_record) ? array() : $invite_record;
@@ -158,48 +173,96 @@ class user_bonus_controller {
         ecjia_front::$controller->assign('is_last', $data['paginated']['more']);
         ecjia_front::$controller->assign('max_month', $max_month);
         ecjia_front::$controller->assign_title('奖励明细');
-        
+
         ecjia_front::$controller->display('user_reward_detail.dwt');
     }
-    
+
     /**
      * 奖励明细异步加载
      */
-    public static function async_reward_detail() {
+    public static function async_reward_detail()
+    {
         $pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
         $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
-        
+
         $arr = array('token' => ecjia_touch_user::singleton()->getToken());
         $arr['date'] = $_GET['date'];
         $arr['pagination'] = array('page' => $pages, 'count' => $limit);
-        
+
         $data = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_RECORD)->data($arr)->hasPage()->run();
-        
+
         $res = array();
         if (!is_ecjia_error($data)) {
-        	list($reward, $page) = $data;
-        	if (isset($page['more']) && $page['more'] == 0) {
-        		$res['is_last'] = 1;
-        	} else {
-        		$res['data_toggle'] = 'asynclist';
-        		$res['url'] = RC_Uri::url('user/bonus/async_reward_detail', array('date' => $arr['date']));
-        	}
-        	ecjia_front::$controller->assign('data', $reward);
-        	$say_list = ecjia_front::$controller->fetch('user_reward_detail.dwt');
-        	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $res['is_last'], 'data' => $res));
+            list($reward, $page) = $data;
+            if (isset($page['more']) && $page['more'] == 0) {
+                $res['is_last'] = 1;
+            } else {
+                $res['data_toggle'] = 'asynclist';
+                $res['url'] = RC_Uri::url('user/bonus/async_reward_detail', array('date' => $arr['date']));
+            }
+            ecjia_front::$controller->assign('data', $reward);
+            $say_list = ecjia_front::$controller->fetch('user_reward_detail.dwt');
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $res['is_last'], 'data' => $res));
         }
     }
-    
+
     /**
      * 赚积分
      */
-    public static function get_integral() {
+    public static function get_integral()
+    {
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
-        
+
         if (!ecjia_front::$controller->is_cached('user_get_integral.dwt', $cache_id)) {
             ecjia_front::$controller->assign_title('赚积分');
         }
         ecjia_front::$controller->display('user_get_integral.dwt', $cache_id);
+    }
+
+    /**
+     * 添加红包
+     */
+    public static function add()
+    {
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
+        if (!ecjia_front::$controller->is_cached('user_add_bonus.dwt', $cache_id)) {
+            ecjia_front::$controller->assign_title('添加红包');
+        }
+        ecjia_front::$controller->display('user_add_bonus.dwt', $cache_id);
+    }
+
+    /**
+     * 添加红包处理
+     */
+    public static function add_bonus()
+    {
+    	$bonus_number = isset($_POST['bonus_number']) ? $_POST['bonus_number'] : '';
+    	$action = trim($_POST['action']);
+        $token = ecjia_touch_user::singleton()->getToken();
+    	
+    	if ($action == 'bind') {
+    		$type = 'success';
+    		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::BONUS_BIND)->data(array('token' => $token, 'bonus_sn' => $bonus_number))->run();
+    		if (is_ecjia_error($res)) {
+    			$type = 'error';
+    		}
+    	} else {
+    		$type = 'bonus_info';
+    		if (empty($bonus_number)) {
+    			$type = 'error';
+    		} else {
+    			$res = ecjia_touch_manager::make()->api(ecjia_touch_api::BONUS_VALIDATE)->data(array('token' => $token, 'bonus_sn' => $bonus_number))->run();
+    			if (is_ecjia_error($res)) {
+    				$type = 'error';
+    			}
+    		}
+    		ecjia_front::$controller->assign('bonus_info', $res);
+    	}
+        ecjia_front::$controller->assign('type', $type);
+       
+        $say_list = ecjia_front::$controller->fetch('library/ecjia_bonus_modal.lbi');
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $say_list));
     }
 }
 

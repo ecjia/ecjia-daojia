@@ -90,6 +90,7 @@ class user_function {
 	 * 获取单条地址信息
 	 */
 	public static function address_info($token, $address_id) {
+		$token = ecjia_touch_user::singleton()->getToken();
 		$address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data(array('token' => $token, 'address_id' => $address_id))->run();
 		if (!is_ecjia_error($address_info)) {
 			return $address_info;

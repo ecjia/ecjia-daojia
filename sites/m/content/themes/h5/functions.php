@@ -64,7 +64,7 @@ ecjia_extra::routeDispacth();
  * 这个方法在前台控制器加载后执行，这个时候环境初始化完毕，这里开始正式进入主题框架的流程
  */
 RC_Hook::add_action('ecjia_front_finish_launching', function ($arg) {
-    
+
     $key = ecjia::config('map_qq_key');
     $referer = ecjia::config('map_qq_referer');
     ecjia_front::$controller->assign('key', $key);
@@ -173,14 +173,18 @@ RC_Hook::add_action('connect_callback_user_signin', function($connect_user) {
     
     $user->set_session($user_info['name']);
     $user->set_cookie($user_info['name']);
-    $res = array(
-        'session' => array(
-            'sid' => RC_Session::session_id(),
-            'uid' => $_SESSION['user_id']
-        ),
-        'user' => $user_info
-    );
-    ecjia_touch_user::singleton()->setUserinfo($res);
+
+    //这里需要请求connect/signin更新token
+//    $res = array(
+//        'session' => array(
+//            'sid' => RC_Session::session_id(),
+//            'uid' => $_SESSION['user_id']
+//        ),
+//        'user' => $user_info
+//    );
+//    ecjia_touch_user::singleton()->setUserinfo($res);
+
+    ecjia_touch_user::singleton()->connectSignin($connect_user->getOpenId(), $connect_user->getConnectCode());
      
     update_user_info(); // 更新用户信息
     

@@ -91,8 +91,7 @@ class user_get_password_controller {
     		ecjia_front::$controller->redirect(RC_Uri::url('user/get_password/init'));
     	}
     	
-        $token = touch_function::get_admin_token();
-    	
+        $token = ecjia_touch_user::singleton()->getShopToken();
 		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 		$res = !is_ecjia_error($res) ? $res : array();
 		
@@ -109,7 +108,7 @@ class user_get_password_controller {
     
     //检查图形验证码
     public static function captcha_check() {
-    	$token = $_SESSION['user_temp']['token'];
+    	$token = ecjia_touch_user::singleton()->getShopToken();
     	$mobile = $_SESSION['user_temp']['mobile'];
     	 
     	$type = trim($_POST['type']);
@@ -167,12 +166,12 @@ class user_get_password_controller {
     
     //验证短信验证码
     public static function validate_forget_password() {
-    	$token = $_SESSION['user_temp']['token'];
+    	$token = ecjia_touch_user::singleton()->getShopToken();
     	$mobile = $_SESSION['user_temp']['mobile'];
     	$code = trim($_POST['password']);
-        $token = touch_function::get_admin_token();
+        $token = ecjia_touch_user::singleton()->getShopToken();
 
-    	$param = array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'code' => $code, 'token' => $token);
+    	$param = array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'code' => $code);
     	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_FORGET_PASSWORD)->data($param)->run();
 
     	if (!is_ecjia_error($data)) {
@@ -205,7 +204,7 @@ class user_get_password_controller {
         		return ecjia_front::$controller->showmessage(__('两次密码输入不一致'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         	}
         
-        	$token = touch_function::get_admin_token();
+        	$token = ecjia_touch_user::singleton()->getShopToken();
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_RESET_PASSWORD)->data(array('token' => $token, 'type' => 'mobile', 'value' => $mobile, 'password' => $passwordf))->run();
             if (!is_ecjia_error($data)) {
                 unset($_SESSION['user_temp']['mobile']);

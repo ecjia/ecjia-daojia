@@ -4359,6 +4359,16 @@ footer {
     float: left
 }
 
+.ecjia-user .img-add-bonus {
+    position: relative;
+    margin: .2em auto;
+    width: 1.5em;
+    height: 1.5em;
+    background: url(../images/wallet/6.png) no-repeat;
+    background-size: 100%;
+    float: left
+}
+
 .ecjia-user .img-integral {
     position: relative;
     margin: .2em auto;
@@ -13788,4 +13798,133 @@ body {
     right: 0;
     top: 0;
     margin: 0;
+}
+
+/* 添加红包 */
+
+.ecjia-add-bonus {
+    height: 100%;
+    background-color: #fff;
+    position: fixed;
+	max-width: 640px;
+}
+
+.ecjia-add-bonus .bonus_image img {
+    width: 100%;
+    padding: 0;
+}
+
+.ecjia-add-bonus .bonus_number_input {
+    font-size: 1.2em;
+    margin: 0 4%;
+    width: 92%;
+    line-height: 1.5em;
+    height: 1.5em;
+    margin-bottom: 1em;
+    padding: 1.5em .5em;
+}
+
+.ecjia-normal-modal {
+    width: 80%;
+    position: absolute;
+    z-index: 11000;
+    left: 10%;
+    margin-top: 0;
+    top: 20%;
+    text-align: center;
+    border-radius: 7px;
+    color: #000;
+    display: none;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.ecjia-normal-modal.bonus_info {
+    top: 15%;
+}
+
+.ecjia-normal-modal-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    padding: 2em 1em;
+}
+
+.ecjia-normal-modal-content .title {
+    font-size: 1.2em;
+    color: #ff3a6d;
+    line-height: 2em;
+    font-weight: 600;
+}
+
+.ecjia-normal-modal-content img {
+    width: 60%;
+    margin-bottom: 1em;
+}
+
+.ecjia-normal-modal-content .confirm-add-btn {
+    margin-bottom: 1em;
+}
+
+.ecjia-normal-modal-content .bonus_title {
+    font-size: 1.2em;
+    line-height: 2em;
+    margin-bottom: .5em;
+}
+
+.ecjia-normal-modal-content .bonus_item {
+    display: flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    line-height: 2em;
+}
+
+.ecjia-normal-modal-content .bonus_item .right.red_color {
+    color: #ff3a6d;
+}
+
+.ecjia-normal-modal-content .bonus_item.new_line {
+    display: block;
+    float: left;
+    margin-bottom: 2em;
+    line-height: 2em;
+}
+
+.ecjia-normal-modal-content .bonus_item.new_line .left {
+    text-align: left;
+}
+
+.ecjia-normal-modal-content .bonus_item.new_line .right {
+    float: left;
+    text-align: left;
+    line-height: 1.5em;
+}
+
+.ecjia-normal-modal-content .btn.gray {
+    background: #C0BFBE;
+    border-color: #C0BFBE;
+}
+
+.ecjia-normal-modal-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .6);
+    z-index: 10600;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    display: none
 }
