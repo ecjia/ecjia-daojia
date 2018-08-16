@@ -211,6 +211,15 @@ abstract class EcjiaController extends RoyalcmsController
     }
 
     /**
+     * 程序中断退出
+     */
+    public function exited()
+    {
+        royalcms('response')->send();
+        exit(0);
+    }
+
+    /**
      * 自定义header内容
      *
      * @param string $string 内容

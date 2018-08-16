@@ -3,7 +3,7 @@
 var smoke = {
   smoketimeout: [],
   init: false,
-  zindex: 1000,
+  zindex: 1100,
   i: 0,
 
 	bodyload: function(id){

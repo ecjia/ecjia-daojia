@@ -94,8 +94,8 @@ class MemcacheSessionHandler implements \SessionHandlerInterface, EcjiaSessionIn
                     $this->userUpdateKey($user_id, $user_type, $this->sessionId($sessionId));
             }
         }
-        
-        return $this->memcache->set($this->sessionId($sessionId), $data, 0, SYS_TIME + $this->ttl);
+
+        return $this->memcache->set($this->sessionId($sessionId), $data, SYS_TIME + $this->ttl);
     }
 
     /**
