@@ -47,56 +47,12 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
-    'apps' => array(
-        /* 商户 */
-        'merchant'      => 'merchant',
-        /* 员工 */
-        'staff'         => 'staff',
-    	/*验证码  */
-    	'captcha'       => 'captcha',
-        /* 商品 */
-        'goods'         => 'goods',
-        /* 商品库 */
-        'goodslib'      => 'goodslib',
-        /* 团购 */
-        'groupbuy'      => 'groupbuy',
-        /* 订单 */
-        'orders'        => 'orders',
-        /* 促销 */
-        'promotion'     => 'promotion',
-    	/* 公众平台 */
-    	'platform'      => 'platform',
-        /* 红包 */
-        'bonus'         => 'bonus',
-        /* 优惠活动 */
-        'favourable'    => 'favourable',
-    	/* 闪惠  */
-    	'quickpay'      => 'quickpay',
-        /* 结算 */
-        'commission'    => 'commission',
-        /* 报表统计*/
-        'stats'         => 'stats',
-    	/* 我的配送  */
-    	'shipping'      => 'shipping',
-    	/* 店铺向导  */
-    	'shopguide'     => 'shopguide',
-    	/* 配送信息  */
-    	'express'	    => 'express',
-    	/* 评论管理  */
-    	'comment'	    => 'comment',
-        /* 文章管理  */
-        'article'       => 'article',
-        /* 广告管理  */
-        'adsense'       => 'adsense',
-        /* 微商城  */
-        'touch'         => 'touch',
-        /* 小票打印  */
-        'printer'       => 'printer',
-    	/* 退款退货  */
-    	'refund'        => 'refund',
-    	/* 微信公众平台  */
-    	'wechat'        => 'wechat',
-    ),
+    
+    'session_name'          => 'ecjia_api_token',
+    'session_admin_name'    => 'ecjia_admin_api_token',
+    
+    'path'                  => '/sites/api',
+
 );
 
 // end

@@ -50,7 +50,7 @@ return array(
     
     'session_merchant_name' => 'ecjia_merchant_token',
     
-    'path'                  => '/sites/merchant/',
+    'path'                  => '/sites/merchant',
 
 );
 
