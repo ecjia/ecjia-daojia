@@ -52,7 +52,7 @@
             <div class="title">剩余次数</div>
             <div class="content">
                 <p>您当前还剩余
-                    <span class="font-size16"> {if $prize_num lt 0} 0 {else} {$prize_num} {/if} </span>次抽奖机会</p>
+                    <span class="font-size16"> {$prize_num} </span>次抽奖机会</p>
             </div>
         </div>
         <div class="block">
@@ -68,7 +68,7 @@
                 <!-- {foreach from=$prize item=val }-->
                 <p>
                     {if $val.prize_level eq '0'} 特等奖： {elseif $val.prize_level eq '1'} 一等奖： {elseif $val.prize_level eq '2'} 二等奖： {elseif $val.prize_level
-                    eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{$val.prize_value}（剩余奖品数量：{$val.prize_number}）
+                    eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{if $val.prize_type eq 2}（{$val.prize_value}）{/if}（剩余奖品数量：{$val.prize_number}）
                 </p>
                 <!-- {/foreach} -->
             </div>
@@ -172,6 +172,7 @@
                 $("#f").hide();
                 $("#hammer").css('left', '-74px').removeClass('hit');
                 wxch_start();
+                window.location.reload();
             });
 
             $("#close").click(function () {
@@ -183,15 +184,10 @@
                 var url = '{$form_action}';
                 $.get(url, function (data) {
                     $("#mask").show();
-//                     if (data.state == 'error') {
-//                         $("#content").html(data.message);
-//                         $("#dialog").attr("class", 'no').show();
-//                         return false;
-//                     }
+
 					if (data.state == 'success') {
 						var success = '撒花，恭喜您获得' + '"' + data.prize_name + '"';
                         $("#content").html(success);
-                        //$(".num").html(data.num);
                         $("#link").attr("href", data.link);
                         $("#dialog").attr("class", 'yes').show();
 					} else if (data.state == 'error') {
@@ -199,19 +195,6 @@
                         $("#dialog").attr("class", 'no').show();
                         return false;
                     }
-					
-//                     if (data.status == 1) {
-//                         var success = '撒花，恭喜您获得' + '"' + data.prize_name + '"';
-//                         $("#content").html(success);
-//                         $(".num").html(data.num);
-//                         $("#link").attr("href", data.link);
-//                         $("#dialog").attr("class", 'yes').show();
-//                     } else if (data.status == 0) {
-//                         var success = '撒花，恭喜您获得' + '"' + data.msg + '"';
-//                         $("#content").html(success);
-//                         $(".num").html(data.num);
-//                         $("#dialog").attr("class", 'no').show();
-//                     }
                 });
             }
         });

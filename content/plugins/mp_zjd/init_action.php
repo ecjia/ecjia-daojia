@@ -96,11 +96,11 @@ class mp_zjd_init_action implements PluginPageInterface
     
     	// 判断砸金蛋时间时间是否开始
     	if ($time < $starttime) {
-    		return ecjia_front::$controller->showmessage('刮刮卡活动还未开始', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage('砸金蛋活动还未开始', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	//判断砸金蛋时间时间是否结束
     	if ($time > $endtime) {
-    		return ecjia_front::$controller->showmessage('刮刮卡活动已经结束', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage('砸金蛋活动已经结束', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     
     	//获取用户剩余抽奖次数
@@ -115,7 +115,10 @@ class mp_zjd_init_action implements PluginPageInterface
     	* 通过概率计算函数get_rand获取抽中的奖项id。
     	* 最后输出json个数数据给前端页面。
     	*/
-    	$prize_info = $MarketActivity->randLotteryPrizeAction();
+        //填写参与记录
+        $MarketActivity->incrementLotteryCount($openid);
+
+        $prize_info = $MarketActivity->randLotteryPrizeAction();
     	
     	$prize_id = $prize_info['prize_id'];
     	
@@ -128,9 +131,7 @@ class mp_zjd_init_action implements PluginPageInterface
     		return ecjia_front::$controller->showmessage('很遗憾，未中奖！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
-    	//填写参与记录
-    	$MarketActivity->incrementLotteryCount($openid);
-    	
+
     	$status = Ecjia\App\Market\Prize\PrizeType::getPrizeStatus($prize_info->prize_type);
     	if (empty($status)) {
             //扣减未中奖的奖品数量
