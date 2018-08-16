@@ -78,7 +78,7 @@
 								{$list.goods_name}<br>
 								<div class="edit-list">
 								{assign var=edit_url value=RC_Uri::url('groupbuy/merchant/edit',"id={$list.act_id}")}
-								<a class="data-pjax" href="{$edit_url}" title="{t}编辑{/t}">{t}编辑{/t}</a>
+								<a class="data-pjax" href="{$edit_url}{if $smarty.get.page}&page={$smarty.get.page}{/if}" title="{t}编辑{/t}">{t}编辑{/t}</a>
 								&nbsp;|&nbsp;
 								<a href="{RC_Uri::url('orders/merchant/init')}&group_buy_id={$list.act_id}" title="{t}查看{/t}" target="__blank">{t}查看订单{/t}</a>
 								{if $list.status neq 0 && $list.status neq 1}

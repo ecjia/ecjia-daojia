@@ -51,13 +51,6 @@
 					</div>
 				</div>
 							
-				<div class="control-group formSep" >
-					<label class="control-label">{t}赠送积分数：{/t}</label>
-					<div class="controls">
-						<input class="w350" type="text" name="gift_integral" id="gift_integral" value="{$group_buy.gift_integral|default:0}" />
-					</div>
-				</div>
-							
 				<div class="control-group formSep">
 					<label class="control-label">{t}活动开始时间：{/t}</label>
 					<div class="controls">
@@ -81,7 +74,7 @@
 				</div>
 				
 				<div class="control-group">
-					<label class="control-label">市场售价：</label>
+					<label class="control-label">本店售价：</label>
 					<div class="controls l_h30">
 						{if $shop_price}{$shop_price}{else}0{/if}
 					</div>

@@ -60,13 +60,6 @@
 							<span class="help-block">{t}达到此数量，团购活动自动结束。0表示没有数量限制。{/t}</span>
 						</div>
 					</div>
-								
-					<div class="form-group" >
-						<label class="control-label col-lg-2">{t}赠送积分数：{/t}</label>
-						<div class="col-lg-6">
-							<input class="form-control" type="text" name="gift_integral" id="gift_integral" value="{$group_buy.gift_integral|default:0}" />
-						</div>
-					</div>
 					
 					<div class="form-group">
 						<label class="control-label col-lg-2">{t}活动开始时间：{/t}</label>
@@ -85,7 +78,7 @@
 					</div>
 					
 					<div class="form-group" >
-						<label class="control-label col-lg-2">{t}市场售价：{/t}</label>
+						<label class="control-label col-lg-2">{t}本店售价：{/t}</label>
 						<div class="col-lg-6 l_h30" id="shop_price">{if $shop_price}{$shop_price}{else}0{/if}</div>
 					</div>
 								
