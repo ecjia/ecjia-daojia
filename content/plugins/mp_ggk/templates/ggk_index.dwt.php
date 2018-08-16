@@ -31,7 +31,7 @@
                         <!-- {foreach from=$prize item=val }-->
                             <p>
                                 {if $val.prize_level eq '0'} 特等奖： {elseif $val.prize_level eq '1'} 一等奖： {elseif $val.prize_level eq '2'} 二等奖： {elseif $val.prize_level
-                                eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{$val.prize_value}（剩余奖品数量：{$val.prize_number}）
+                                eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{if $val.prize_type eq 2}（{$val.prize_value}）{/if}（剩余奖品数量：{$val.prize_number}）
                             </p>
 	                        <!-- {/foreach} -->
                     </div>
@@ -45,7 +45,7 @@
                     <div class="title-brown">活动说明</div>
                     <div class="Detail">
                         <p>剩余抽奖次数：
-                            <span id="num">{if $prize_num lt 0} 0 {else} {$prize_num} {/if}</span>
+                            <span id="num"> {$prize_num} </span>
                         </p>
                         <p>{$description}</p>
                     </div>

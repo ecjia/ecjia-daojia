@@ -126,6 +126,9 @@ class mp_ggk_init_action implements PluginPageInterface
         $rs['status'] = Ecjia\App\Market\Prize\PrizeType::getPrizeStatus($prize_info->prize_type);
 
         $rs['prize_name'] = $prize_info['prize_name'];
+        if (empty($rs['prize_name'])) {
+            $rs['prize_name'] ='未中奖';
+        }
 
         RC_Session::set(self::SESSION_ID, $prize_info['prize_id']);
 
@@ -173,6 +176,9 @@ class mp_ggk_init_action implements PluginPageInterface
             return ecjia_front::$controller->showmessage('活动次数太频繁，请稍后再来！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
+        //填写参与记录
+        $MarketActivity->incrementLotteryCount($openid);
+        
         $prize_id = RC_Session::get(self::SESSION_ID);
         if (empty($prize_id)) {
             return ecjia_front::$controller->showmessage('很遗憾，未中奖！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -182,9 +188,6 @@ class mp_ggk_init_action implements PluginPageInterface
         if (empty($prize_info)) {
             return ecjia_front::$controller->showmessage('很遗憾，未中奖！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-
-        //填写参与记录
-        $MarketActivity->incrementLotteryCount($openid);
 
         $status = Ecjia\App\Market\Prize\PrizeType::getPrizeStatus($prize_info->prize_type);
         if (empty($status)) {
