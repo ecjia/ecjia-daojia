@@ -59,6 +59,7 @@ return array(
     'city'                  => '市区',
     'address'               => '详细地址',
     'district'              => '县区',
+    'street'                => '街道',
     'identity_number'       => '证件号码',
     'business_licence'      => '营业执照注册号',
     'merchant_addres'       => '店铺精确位置',

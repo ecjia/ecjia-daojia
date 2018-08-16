@@ -140,8 +140,9 @@
 			tmpObj.find('[data-toggle="clone-obj"]')
 				.attr('data-toggle','remove-obj').on('click', function(){tmpObj.remove();})
 				.find('i').attr('class', 'fa fa-times ecjiafc-red');
-
-			(options.before == 'before') ? options.parentobj.before(tmpObj) : options.parentobj.after(tmpObj);
+//			(options.before == 'before') ? options.parentobj.before(tmpObj) : options.parentobj.after(tmpObj);
+			//追加到新clone的最后面 edit by wu 2018 08 16
+			(options.before == 'before') ? options.parentobj.before(tmpObj) : options.parentobj.parent().append(tmpObj);
 
 			tmpObj.find('.chzn-container').remove();
 			tmpObj.find('select').removeClass('chosen_hide').removeClass('chzn-done').attr({'id' : ''}).chosen();

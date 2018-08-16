@@ -318,7 +318,7 @@
                             </div>
                         </div>
 
-                        <!-- {if $data.validate_type eq 2} -->
+                        <!-- {if $data.validate_type eq 2 || $type eq 'company'} -->
                         <div class="form-group ">
                             <label class="control-label col-lg-2">{lang key='merchant::merchant.company_name'}：</label>
                             <div class="col-lg-6">
@@ -362,6 +362,7 @@
 
                         <div class="form-group ">
                             <div class="col-lg-6 col-md-offset-2">
+                            	<input type="hidden" name="type" value="{$type}">
                                 <!-- {if $step eq 1} --><input class="btn btn-info" type="submit" name="name" value="提交修改"> <!-- {/if} -->
                                 <!-- {if $step eq 2} --><a class="btn btn-primary nodisabled" disabled="false" data-toggle="ajax_remove" href="{url path='merchant/mh_franchisee/delete'}">撤销修改申请</a> <!-- {/if} -->
                             </div>
