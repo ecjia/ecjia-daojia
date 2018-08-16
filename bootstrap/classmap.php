@@ -263,6 +263,15 @@ return array(
     'AddMediaContentToWechatMassHistory' => $contentDir . '/database/migrations/2018_07_25_165243_add_media_content_to_wechat_mass_history.php',
     'AddStatusToWechatCustomerSession' => $contentDir . '/database/migrations/2018_07_31_091457_add_status_to_wechat_customer_session.php',
     'CreateWechatCustomerRecordTable' => $contentDir . '/database/migrations/2018_07_31_171302_create_wechat_customer_record_table.php',
+    'CreateMarketActivityLotteryTable' => $contentDir . '/database/migrations/2018_08_01_174727_create_market_activity_lottery_table.php',
+    'AddUserTypeToMarketActivityLog' => $contentDir . '/database/migrations/2018_08_01_175550_add_user_type_to_market_activity_log.php',
+    'AddWechatIdToMarketActivity' => $contentDir . '/database/migrations/2018_08_01_180520_add_wechat_id_to_market_activity.php',
+    'AddIdToMarketActivityLottery' => $contentDir . '/database/migrations/2018_08_09_145044_add_id_to_market_activity_lottery.php',
+    'CreateGoodslibTable' => $contentDir . '/database/migrations/2018_08_10_141349_create_goodslib_table.php',
+    'CreateGoodslibAttrTable' => $contentDir . '/database/migrations/2018_08_10_141411_create_goodslib_attr_table.php',
+    'CreateGoodslibGalleryTable' => $contentDir . '/database/migrations/2018_08_10_141443_create_goodslib_gallery_table.php',
+    'CreateGoodslibProductsTable' => $contentDir . '/database/migrations/2018_08_10_141509_create_goodslib_products_table.php',
+    'AddGoodslibIdToGoods' => $contentDir . '/database/migrations/2018_08_10_141644_add_goodslib_id_to_goods.php',
 
     
     // seeder
