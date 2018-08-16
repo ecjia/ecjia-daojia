@@ -75,6 +75,14 @@ class list_module extends api_admin implements api_interface {
 		$user_id	= $this->requestData('user_id', 0);
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
+		
+		$start_date = $this->requestData('start_date');
+		$end_date = $this->requestData('end_date');
+		
+		if (!empty($start_date) && !empty($end_date)) {
+			$start_date = RC_Time::local_strtotime($start_date);
+			$end_date = RC_Time::local_strtotime($end_date) + 86399;
+		}
 
 		$order_query = RC_Loader::load_app_class('order_query', 'orders');
 		$db = RC_Model::model('orders/order_info_model');
@@ -189,6 +197,10 @@ class list_module extends api_admin implements api_interface {
 			$db_cashier_record_view = RC_Model::model('orders/cashier_record_viewmodel');
 			$where['cr.mobile_device_id'] = $_SESSION['device_id'];
 			//$where['cr.mobile_device_id'] = 5558;
+			
+			if (!empty($start_date) && !empty($end_date)) {
+				$where['cr.create_at'] = array('egt' => $start_date, 'elt' => $end_date);
+			}
 			$where['cr.action'] = array('billing', 'receipt');
 			$join = array('order_info', 'order_goods', 'staff_user', 'goods');
 			
@@ -219,9 +231,12 @@ class list_module extends api_admin implements api_interface {
 			}
 			
 			if ($type == 'verify') {
-				$where['cr.action'] = 'check_order';
+				$where['cr.action'] = 'check_order';//验单
 				$join = array('order_info', 'order_goods', 'staff_user', 'goods', 'term_meta');
-			}
+			}elseif ($type == 'billing') {
+				$where['cr.action'] = 'billing'; //开单
+				$join = array('order_info', 'order_goods', 'adviser', 'goods');
+			} 
 			
 			//if ($type == 'verify') {
 			//    $where['cr.action'] = 'check_order';
@@ -236,6 +251,7 @@ class list_module extends api_admin implements api_interface {
 			//$order_id_group = $db_cashier_record_view->join(null)->where($where)->limit($page_row->limit())->order(array('create_at' => 'desc'))->get_field('order_id', true);
 			
 			//if ($type != 'verify') {
+				
 				if (is_array($where_query)) {
 					$where = array_merge($where, $where_query);
 				}
@@ -255,8 +271,9 @@ class list_module extends api_admin implements api_interface {
 			if (empty($order_id_groups)) {
 				$data = array();
 			} else {
+// 				$total_fee = goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount;
 				$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
-				$field = 'oi.order_id, oi.store_id, su.name, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time,og.goods_id, og.goods_number, og.goods_name, g.goods_thumb, g.goods_img, g.original_img';
+				$field = 'oi.order_id, oi.surplus, oi.money_paid, oi.order_amount, oi.store_id, su.name, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time,og.goods_id, og.goods_number, og.goods_name, g.goods_thumb, g.goods_img, g.original_img';
 				$field .= $type == 'verify' ? ', tm.meta_value' : '';
 				$where['cr.order_id'] =  $order_id_groups;
 				$where[] = "oi.order_id is not null";
