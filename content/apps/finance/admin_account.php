@@ -59,6 +59,8 @@ class admin_account extends ecjia_admin {
 
 		Ecjia\App\Finance\Helper::assign_adminlog_content();
 		
+		RC_Loader::load_app_class('user_account', 'user', false);
+		
 		/* 加载所需js */
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -206,7 +208,7 @@ class admin_account extends ecjia_admin {
 		$payment		= !empty($_POST['payment'])			? trim($_POST['payment'])			: '';
 		$payment		= !empty($_POST['payment'])			? trim($_POST['payment'])			: '';
 		$amount_count   = $amount;
-
+		
 		/* 验证参数有效性  */
 		if (!is_numeric($amount) || empty($amount) || $amount <= 0 || strpos($amount, '.') > 0) {
 			return $this->showmessage(RC_Lang::get('user::user_account.js_languages.deposit_amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -224,7 +226,8 @@ class admin_account extends ecjia_admin {
 		
 		/* 退款，检查余额是否足够 */
 		if ($process_type == 1) {
-			$user_account = get_user_surplus($user_info['user_id']);
+			//$user_account = get_user_surplus($user_info['user_id']);
+			$user_account = user_account::get_user_money($user_info['user_id']);
 			/* 如果扣除的余额多于此会员拥有的余额，提示 */
 			if ($amount > $user_account) {
 				return $this->showmessage(RC_Lang::get('user::user_account.surplus_amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -237,7 +240,7 @@ class admin_account extends ecjia_admin {
 		}
 		
 		/*金额必须为1元起*/
-		if ($amount < 1) {
+		if (abs($amount) < 1) {
 			return $this->showmessage(RC_Lang::get('user::user_account.min_amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	
@@ -259,34 +262,53 @@ class admin_account extends ecjia_admin {
 			$data['paid_time']		= RC_Time::gmtime();
 		}
 		
+		$accountid = RC_DB::table('user_account')->insertGetId($data);
 		
-		RC_DB::table('user_account')->insertGetId($data);
 		/* 更新会员余额数量 */
 		if ($is_paid == 1) {
 			$change_desc = $amount > 0 ? RC_Lang::get('user::user_account.surplus_type.0') : RC_Lang::get('user::user_account.surplus_type.1');
 			$change_type = $amount > 0 ? ACT_SAVING : ACT_DRAWING;
+			
 			change_account_log($user_info['user_id'] , $amount , 0 , 0 , 0 , $change_desc , $change_type);
+		} else {
+			//提现申请且到款状态为未确认状态时；且提现申请成功
+			if ($process_type == '1' && !empty($accountid) && $is_paid == '0') {
+				//提现申请成功，记录account_log；从余额中冻结提现金额
+				$frozen_money = abs($amount);
+				$user_money = $amount;
+				 
+				$options = array(
+						'user_id'		=> $user_info['user_id'],
+						'frozen_money'	=> $frozen_money,
+						'user_money'	=> $user_money,
+						'change_type'	=> ACT_DRAWING,
+						'change_desc'	=> '【申请提现】'
+				);
+				 
+				RC_Api::api('user', 'account_change_log',$options);
+			}
 		}
 		
 		/* 如果是预付款并且未确认，向pay_log插入一条记录 */
-		if ($process_type == 0 && $is_paid == 0) {
-			/* 取支付方式信息 */
-			$payment_info = array();
-			$payment_info = RC_DB::table('payment')->where('pay_name', $payment)->where('enabled', 1)->first();
-			RC_Loader::load_app_func('admin_order', 'orders');
-			/* 计算支付手续费用 */
-			$pay_fee	  = pay_fee($payment_info['pay_id'], $amount, 0);
-			$total_fee	  = $pay_fee + $amount;
+// 		if ($process_type == 0 && $is_paid == 0) {
+// 			/* 取支付方式信息 */
+// 			$payment_info = array();
+// 			$payment_info = RC_DB::table('payment')->where('pay_name', $payment)->where('enabled', 1)->first();
+// 			RC_Loader::load_app_func('admin_order', 'orders');
+// 			/* 计算支付手续费用 */
+// 			$pay_fee	  = pay_fee($payment_info['pay_id'], $amount, 0);
+// 			$total_fee	  = $pay_fee + $amount;
 		
-			/* 插入 pay_log */
-			$data = array(
-				'order_id'		=> $id,
-				'order_amount'	=> $total_fee,
-				'order_type'	=> PAY_SURPLUS,
-				'is_paid'		=> 0,
-			);
-			RC_DB::table('pay_log')->insertGetId($data);
-		}
+// 			/* 插入 pay_log */
+// 			$data = array(
+// 				'order_id'		=> $id,
+// 				'order_amount'	=> $total_fee,
+// 				'order_type'	=> PAY_SURPLUS,
+// 				'is_paid'		=> 0,
+// 			);
+// 			RC_DB::table('pay_log')->insertGetId($data);
+// 		}
+		
 		if ($process_type == 0) {
 			$account = RC_Lang::get('user::user_account.deposit');
 		} else {
@@ -469,22 +491,28 @@ class admin_account extends ecjia_admin {
 		$account	= array();
 		$account	= RC_DB::table('user_account')->where('id', $id)->first();
 		$amount		= $account['amount'];
+		$frozen_money = $account['amount'];
 		
 		/* 如果是退款申请, 并且已完成,更新此条记录,扣除相应的余额 */
 		if ($is_paid == '1') {
 			if ($account['process_type'] == '1') {
-				$user_account = get_user_surplus($account['user_id']);
+				//$user_account = get_user_surplus($account['user_id']);
+				$user_account = user_account::get_user_money($account['user_id']);
+				
 				$fmt_amount   = str_replace('-', '', $amount);
 				
 				/* 如果扣除的余额多于此会员拥有的余额，提示 */
-				if ($fmt_amount > $user_account) {
+				if ($fmt_amount > $user_account + $frozen_money) {
 					return $this->showmessage(RC_Lang::get('user::user_account.surplus_amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 				
 				update_user_account($id, $amount, $admin_note, 1);
 				
 				/* 更新会员余额数量 */
-				change_account_log($account['user_id'], $amount, 0, 0, 0, RC_Lang::get('user::user_account.surplus_type.1'), ACT_DRAWING);
+				//change_account_log($account['user_id'], $amount, 0, 0, 0, RC_Lang::get('user::user_account.surplus_type.1'), ACT_DRAWING);//提现申请时已记录
+				
+				//解冻提现时冻结的冻结金额
+				$user_account = user_account::change_frozen_money($account['user_id'], $frozen_money);
 			} else {
 				/* 如果是预付款，并且已完成, 更新此条记录，增加相应的余额 */
 				update_user_account($id, $amount, $admin_note, 1);
@@ -499,6 +527,12 @@ class admin_account extends ecjia_admin {
 				'admin_note'	=> $admin_note,
 				'is_paid'		=> $is_paid,
 			);
+			//如果是提现且取消；解冻提现时冻结的冻结金额；返还余额
+			if ($is_paid == '2' && $account['process_type'] == '1') {
+				user_account::change_frozen_money($account['user_id'], $frozen_money);//冻结金额解冻
+				user_account::change_user_money($account['user_id'], abs($account['amount']));//返还余额
+			}
+			
 			RC_DB::table('user_account')->where('id', $id)->update($data);
 		}
 		
@@ -525,10 +559,22 @@ class admin_account extends ecjia_admin {
 		$this->admin_priv('surplus_manage', ecjia::MSGTYPE_JSON);
 		
 		$id 		= intval($_GET['id']);
+		$type		= trim($_GET['type']);
 		
 		$user_account_info = RC_DB::table('user_account')->where('id', $id)->first();
-		$name = RC_DB::table('users')->where('user_id', $user_account_info['user_id'])->pluck('user_name');
-		
+		$userinfo = RC_DB::table('users')->where('user_id', $user_account_info['user_id'])->first();
+		$name = $userinfo['user_name'];
+		//提现申请记录删除；且到款状态是未确认时；解冻提现申请时冻结的资金
+		if ($type == 'withdraw' && $user_account_info['process_type'] == '1') {
+			if ($user_account_info['is_paid'] == '0') {
+				$frozen_money 		= $user_account_info['amount'];
+				$user_money			= abs($user_account_info['amount']);
+					
+				user_account::change_user_money($user_account_info['user_id'], $user_money);	 //返还余额
+				user_account::change_frozen_money($user_account_info['user_id'], $frozen_money); //减掉冻结金额
+			}
+		}
+	
 		$user_name 	= empty($name) ? RC_Lang::get('user::users.no_name') : $name;
 		
 		RC_DB::table('user_account')->where('id', $id)->delete();
@@ -549,17 +595,26 @@ class admin_account extends ecjia_admin {
 		
 		if (isset($_POST['checkboxes'])) {
 			$idArr = explode(',', $_POST['checkboxes']);
+
 			$count = count($idArr);
-			$data = RC_DB::table('user_account AS ua')
-				->leftJoin('users as u', RC_DB::raw('ua.user_id'), '=', RC_DB::raw('u.user_id'))
-				->select(RC_DB::raw('ua.*, u.user_name'))
-				->whereIn(RC_DB::raw('ua.id'), $idArr)
-				->get();
+// 			$data = RC_DB::table('user_account AS ua')
+// 				->leftJoin('users as u', RC_DB::raw('ua.user_id'), '=', RC_DB::raw('u.user_id'))
+// 				->select(RC_DB::raw('ua.*, u.user_name'))
+// 				->whereIn(RC_DB::raw('ua.id'), $idArr)
+// 				->get();
+			$data = RC_DB::table('user_account')->whereIn('id', $idArr)->get();
 			
 			if (RC_DB::table('user_account')->whereIn('id', $idArr)->delete()) {
 				foreach ($data as $v) {
 					if ($v['process_type'] == 1) {
 						$amount = (-1) * $v['amount'];
+						//提现且状态为未确认的；返还余额；解冻冻结金额
+						if ($v['is_paid'] == '0') {
+							$frozen_money 		= $v['amount'];
+							$user_money			= abs($v['amount']);
+							user_account::change_user_money($v['user_id'], $user_money);	 //返还余额
+							user_account::change_frozen_money($v['user_id'], $frozen_money); //减掉冻结金额
+						}
 						ecjia_admin::admin_log(sprintf(RC_Lang::get('user::user_account.user_name_is'), $v['user_name']).sprintf(RC_Lang::get('user::user_account.money_is'), price_format($amount)), 'batch_remove', 'withdraw_apply');
 					} else {
 						ecjia_admin::admin_log(sprintf(RC_Lang::get('user::user_account.user_name_is'), $v['user_name']).sprintf(RC_Lang::get('user::user_account.money_is'), price_format($v['amount'])), 'batch_remove', 'pay_apply');
