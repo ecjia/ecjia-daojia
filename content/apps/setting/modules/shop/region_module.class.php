@@ -69,23 +69,39 @@ class region_module extends api_front implements api_interface
 		    $result = ecjia_region::getRegionsByType($type);
 		}
 
-		$out = array();
-		if (!empty($result)) {
-			foreach ($result as $val) {
-				$out[] = array(
-					'id' 		=> $val['region_id'],
-					'name' 		=> $val['region_name'],
-					'parent_id' => $val['parent_id'],
-					'level'		=> $val['region_type']
-				);
-			}	
-		}
-		
+        $regions = array();
+
+        $api_version = $this->request->header('api-version');
+        // API版本大于1.9使用新接口返回数据
+        if (version_compare($api_version, '1.9', '>')) {
+            if (!empty($result)) {
+                foreach ($result as $val) {
+                    $regions[] = array(
+                        'id' 		=> $val['region_id'],
+                        'name' 		=> $val['region_name'],
+                        'parent_id' => $val['parent_id'],
+                        'level'		=> $val['region_type']
+                    );
+                }
+            }
+        } else {
+            if (!empty($result)) {
+                foreach ($result as $val) {
+                    $regions[] = array(
+                        'id' 		=> $val['region_id'],
+                        'name' 		=> str_replace('市', '', $val['region_name']),
+                        'parent_id' => $val['parent_id'],
+                        'level'		=> $val['region_type']
+                    );
+                }
+            }
+        }
+
 		$out = array(
-			'more' => intval(!empty($out)),
-			'regions' => $out
+			'more' => intval(!empty($regions)),
+			'regions' => $regions
 		);
-		
+
 		return $out;
 	}
 }

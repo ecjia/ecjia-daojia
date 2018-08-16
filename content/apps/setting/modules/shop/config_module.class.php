@@ -141,7 +141,17 @@ class config_module extends api_front implements api_interface
         $data['shop_type'] = !empty($shop_type) ? $shop_type : 'cityo2o';
         $data['wap_app_download_show'] = ecjia::config('wap_app_download_show');
         $data['wap_app_download_img'] = ecjia_config::has('wap_app_download_img') ? RC_Upload::upload_url() . '/' . ecjia::config('wap_app_download_img') : '';
-
+        $data['shop_mobile_logo'] = ecjia_config::has('mobile_app_icon') ? RC_Upload::upload_url(ecjia::config('mobile_app_icon')) : '';
+        
+        $client = Ecjia\App\Adsense\Client::H5;
+        $cycleimageDatas = RC_Api::api('adsense',  'cycleimage', [
+        		'code'     => 'home_cycleimage',
+        		'client'   => $client,
+        		'city'     => 0
+        ]);
+        
+        $data['shop_banner '] = empty($cycleimageDatas['0']['image']) ? '' : $cycleimageDatas['0']['image'];
+        
         return $data;
     }
 }
