@@ -64,10 +64,10 @@ abstract class Page implements Presenter
         $this->end_id = min($this->current_page * $this->page_size, $this->total_records); // 当前页结束ID
         $this->desc = $this->desc($desc);
 
-        $this->request = royalcms('request');
+//        $this->request = royalcms('request');
 
         // 配置url地址
-        $this->setUrl($custom_url);
+//        $this->setUrl($custom_url);
     }
 
 
