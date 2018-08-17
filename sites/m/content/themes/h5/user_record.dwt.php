@@ -30,7 +30,15 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="ajaxinfo"} -->
     <!-- {foreach from=$sur_amount key=key item=group} -->
-	<p class="record-time record-time-{$key}">{if $key eq $now_mon}{'本月'}{else}{$key}{'月'}{/if}</p>
+	<p class="record-time record-time-{substr($key, 0, 7)}">
+		{if $key eq $now_mon}
+			本月
+		{else if $now_year eq substr($key, 0, 4)}
+			{substr($key, 5, 2)}月
+		{else}
+			{substr($key, 0, 7)}月
+		{/if}
+	</p>
 	<div class="record-list account-record-list" >
 		<ul>
 		{foreach from=$group item=item}

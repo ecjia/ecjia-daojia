@@ -517,18 +517,16 @@
         },
 
         record_time: function () {
-            $('.record-time-12:first').show();
-            $('.record-time-11:first').show();
-            $('.record-time-10:first').show();
-            $('.record-time-09:first').show();
-            $('.record-time-08:first').show();
-            $('.record-time-07:first').show();
-            $('.record-time-06:first').show();
-            $('.record-time-05:first').show();
-            $('.record-time-04:first').show();
-            $('.record-time-03:first').show();
-            $('.record-time-02:first').show();
-            $('.record-time-01:first').show();
+            var date = new Date;
+            var year = date.getFullYear();
+            for (var i = 2017; i <= year; i++) {
+                for (var j=1; j<13; j++) {
+                    if (j<10) {
+                        j = '0' + j;
+                    }
+                    $('.record-time-'+ i + "-" + j +':first').show();
+                }
+            }
         },
 
         delete_list_click: function () {

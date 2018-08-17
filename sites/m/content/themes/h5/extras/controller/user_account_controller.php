@@ -261,25 +261,24 @@ class user_account_controller
         $account_list = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_RECORD)->data(array('token' => $token, 'pagination' => array('page' => $pages, 'count' => $limit), 'type' => $type))->hasPage()->run();
         if (!is_ecjia_error($account_list)) {
             list($data, $page) = $account_list;
-
-            $now_mon = substr(date('Y-m-d H:i:s', time()), 5, 2);
-            $now_day = substr(date('Y-m-d H:i:s', time()), 0, 10);
+      		$now_mon = RC_Time::local_date('Y-m', RC_Time::gmtime());
+            $now_day = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+            $now_year = RC_Time::local_date('Y', RC_Time::gmtime());
+            
             $time = '';
             foreach ($data as $key => $val) {
-                if ($time != substr($val['add_time'], 5, 2)) {
-                    $time = substr($val['add_time'], 5, 2);
+               	if ($time != substr($val['add_time'], 0, 7)) {
+                    $time = substr($val['add_time'], 0, 7);
                     $day = substr($val['add_time'], 8, 2);
                 }
                 $arr[$time][$key] = $data[$key];
                 $day = substr($val['add_time'], 0, 10);
+                
                 if ($day == $now_day) {
                     $arr[$time][$key]['add_time'] = '今天' . substr($val['add_time'], 11, 5);
                 } else {
                     $arr[$time][$key]['add_time'] = substr($val['add_time'], 5, 11);
                 }
-            }
-            foreach ($arr as $key => $val) {
-                ecjia_front::$controller->assign('key' . $key, $key);
             }
             $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
             $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
@@ -289,7 +288,7 @@ class user_account_controller
             ecjia_front::$controller->assign('user_img', $user_img);
             ecjia_front::$controller->assign('type', $type);
             ecjia_front::$controller->assign('now_mon', $now_mon);
-            ecjia_front::$controller->assign('now_day', $now_day);
+            ecjia_front::$controller->assign('now_year', $now_year);
             ecjia_front::$controller->assign('sur_amount', $arr);
             ecjia_front::$controller->assign_lang();
             $say_list = ecjia_front::$controller->fetch('user_record.dwt');
@@ -313,25 +312,24 @@ class user_account_controller
 
         if (!is_ecjia_error($account_list)) {
             list($data, $page) = $account_list;
+      		$now_mon = RC_Time::local_date('Y-m', RC_Time::gmtime());
+            $now_day = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+            $now_year = RC_Time::local_date('Y', RC_Time::gmtime());
 
-            $now_mon = substr(date('Y-m-d H:i:s', time()), 5, 2);
-            $now_day = substr(date('Y-m-d H:i:s', time()), 0, 10);
             $time = '';
             foreach ($data as $key => $val) {
-                if ($time != substr($val['add_time'], 5, 2)) {
-                    $time = substr($val['add_time'], 5, 2);
+                if ($time != substr($val['add_time'], 0, 7)) {
+                    $time = substr($val['add_time'], 0, 7);
                     $day = substr($val['add_time'], 8, 2);
                 }
                 $arr[$time][$key] = $data[$key];
                 $day = substr($val['add_time'], 0, 10);
+                
                 if ($day == $now_day) {
                     $arr[$time][$key]['add_time'] = '今天' . substr($val['add_time'], 11, 5);
                 } else {
                     $arr[$time][$key]['add_time'] = substr($val['add_time'], 5, 11);
                 }
-            }
-            foreach ($arr as $key => $val) {
-                ecjia_front::$controller->assign('key' . $key, $key);
             }
             $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
             $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
@@ -341,7 +339,7 @@ class user_account_controller
             ecjia_front::$controller->assign('user_img', $user_img);
             ecjia_front::$controller->assign('type', $type);
             ecjia_front::$controller->assign('now_mon', $now_mon);
-            ecjia_front::$controller->assign('now_day', $now_day);
+            ecjia_front::$controller->assign('now_year', $now_year);
             ecjia_front::$controller->assign('sur_amount', $arr);
             ecjia_front::$controller->assign_lang();
 
@@ -366,24 +364,24 @@ class user_account_controller
 
         if (!is_ecjia_error($account_list)) {
             list($data, $page) = $account_list;
-            $now_mon = substr(date('Y-m-d H:i:s', time()), 5, 2);
-            $now_day = substr(date('Y-m-d H:i:s', time()), 0, 10);
+      		$now_mon = RC_Time::local_date('Y-m', RC_Time::gmtime());
+            $now_day = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+            $now_year = RC_Time::local_date('Y', RC_Time::gmtime());
+            
             $time = '';
             foreach ($data as $key => $val) {
-                if ($time != substr($val['add_time'], 5, 2)) {
-                    $time = substr($val['add_time'], 5, 2);
+                if ($time != substr($val['add_time'], 0, 7)) {
+                    $time = substr($val['add_time'], 0, 7);
                     $day = substr($val['add_time'], 8, 2);
                 }
                 $arr[$time][$key] = $data[$key];
                 $day = substr($val['add_time'], 0, 10);
+                
                 if ($day == $now_day) {
                     $arr[$time][$key]['add_time'] = '今天' . substr($val['add_time'], 11, 5);
                 } else {
                     $arr[$time][$key]['add_time'] = substr($val['add_time'], 5, 11);
                 }
-            }
-            foreach ($arr as $key => $val) {
-                ecjia_front::$controller->assign('key' . $key, $key);
             }
             $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
             $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
@@ -393,7 +391,7 @@ class user_account_controller
             ecjia_front::$controller->assign('user_img', $user_img);
             ecjia_front::$controller->assign('type', $type);
             ecjia_front::$controller->assign('now_mon', $now_mon);
-            ecjia_front::$controller->assign('now_day', $now_day);
+            ecjia_front::$controller->assign('now_year', $now_year);
             ecjia_front::$controller->assign('sur_amount', $arr);
             ecjia_front::$controller->assign_lang();
             $say_list = ecjia_front::$controller->fetch('user_record.dwt');
