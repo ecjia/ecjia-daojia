@@ -183,7 +183,7 @@ class admin_account extends ecjia_admin {
 				
 		/* 获得支付方式列表, 不包括“货到付款” */
 		$payment = get_payment();
-		
+	
 		$this->assign('payment',		$payment);
 		$this->assign('type',		$_GET['type']);
 		$this->assign('form_action',	RC_Uri::url('finance/admin_account/insert'));
@@ -206,8 +206,8 @@ class admin_account extends ecjia_admin {
 		$admin_note		= !empty($_POST['admin_note'])		? trim($_POST['admin_note'])		: '';
 		$user_note		= !empty($_POST['user_note'])		? trim($_POST['user_note'])			: '';
 		$payment		= !empty($_POST['payment'])			? trim($_POST['payment'])			: '';
-		$payment		= !empty($_POST['payment'])			? trim($_POST['payment'])			: '';
 		$amount_count   = $amount;
+		
 		
 		/* 验证参数有效性  */
 		if (!is_numeric($amount) || empty($amount) || $amount <= 0 || strpos($amount, '.') > 0) {

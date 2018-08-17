@@ -46,7 +46,7 @@
 						<select class="w350" name="payment" {if $user_surplus.is_paid} disabled="disabled" {/if}>
 							<option value="">{lang key='user::user_account.please_select'}</option>
 							<!-- {foreach from=$payment item=item} -->
-							<option value="{$item.pay_name}" {if $user_surplus.payment eq $item.pay_name} selected="selected" {/if}>{$item.pay_name}</option> 
+							<option value="{$item.pay_code}" {if $user_surplus.payment eq $item.pay_name} selected="selected" {/if}>{$item.pay_name}</option> 
 							<!-- {/foreach} -->
 						</select>
 					</div>
