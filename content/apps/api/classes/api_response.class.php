@@ -88,7 +88,7 @@ class api_response {
 
         royalcms()->instance('response', $response);
 
-        return $response->send();
+        return $response;
     }
     
     protected function makeSucceedStatus() {

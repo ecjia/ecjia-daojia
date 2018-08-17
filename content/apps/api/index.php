@@ -65,13 +65,16 @@ class index {
         $url = $request->query('url');
 
         if (empty($url)) {
-            exit("NO ACCESS");
+//            exit("NO ACCESS");
+            return royalcms('response')->setContent("NO ACCESS");
         }
         
         $router = new api_router($url);
         if (! $router->hasKey()) {
-            echo 'Api Error: ' . $url . ' does not exist.';
-            exit(0);
+//            echo 'Api Error: ' . $url . ' does not exist.';
+//            exit(0);
+            return royalcms('response')->setContent('Api Error: ' . $url . ' does not exist.');
+
         }
         
         $router->parseKey();
@@ -84,10 +87,11 @@ class index {
         
         if ($handle && is_a($handle, $router->getClassName())) {
             $data = $handle->handleRequest($request);
-            with(new api_response($data))->send();
+            return with(new api_response($data))->send();
         } else {
-            echo 'Api Error: ' . $url . ' does not exist.';
-            exit(0);
+//            echo 'Api Error: ' . $url . ' does not exist.';
+//            exit(0);
+            return royalcms('response')->setContent('Api Error: ' . $url . ' does not exist.');
         }
     }
 }
