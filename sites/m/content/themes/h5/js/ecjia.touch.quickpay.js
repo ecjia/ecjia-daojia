@@ -137,8 +137,8 @@
 							});
 							return false;
 						}
-						if (data.status == 'error') {
-							alert(data.message);
+						if (data.state == 'error') {
+							ecjia.touch.showmessage(data);
 							return false;
 						}
 						if (direct_pay == 1) {

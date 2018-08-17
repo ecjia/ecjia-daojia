@@ -185,6 +185,11 @@ class quickpay_controller {
     		$_SESSION['quick_pay']['temp']['goods_amount'] = $order_money;
     		$_SESSION['quick_pay']['temp']['exclude_amount'] = $drop_out_money;
     		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::QUICKPAY_FLOW_CHECKORDER)->data($param)->run();
+    		if (is_ecjia_error($data)) {
+    			$_SESSION['quick_pay']['temp']['error'] = $data->get_error_message();
+    			return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		}
+    		unset($_SESSION['quick_pay']['temp']['error']);
     		if (!is_ecjia_error($data)) {
     			$_SESSION['quick_pay']['data'] = $data;
     			if (!empty($change_amount)) {
@@ -311,7 +316,7 @@ class quickpay_controller {
     	
     	$goods_amount = !empty($_POST['order_money']) ? $_POST['order_money'] : 0;
     	if (empty($goods_amount)) {
-    		return ecjia_front::$controller->showmessage('消费金额不能为空', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage('消费金额不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$exclude_amount = !empty($_POST['drop_out_money']) ? $_POST['drop_out_money'] : 0;
     	$activity_id = !empty($_POST['activity_id']) ? intval($_POST['activity_id']) : 0;
@@ -323,6 +328,9 @@ class quickpay_controller {
     		$exclude_amount = 0;
     	}
 		
+    	if (!empty($_SESSION['quick_pay']['temp']['error'])) {
+    		return ecjia_front::$controller->showmessage($_SESSION['quick_pay']['temp']['error'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
     	$params = array(
     		'token' 			=> $token, 
     		'store_id' 			=> $store_id, 
