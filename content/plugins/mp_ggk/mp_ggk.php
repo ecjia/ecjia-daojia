@@ -49,7 +49,7 @@ Plugin Name: 刮刮卡
 Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_ggk/
 Description: 使用插件可以让微信公众平台用户参加刮刮卡活动。
 Author: ECJIA TEAM
-Version: 1.18.0
+Version: 1.19.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
  */

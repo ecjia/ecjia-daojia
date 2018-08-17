@@ -49,7 +49,7 @@ Plugin Name: 大转盘
 Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_dzp/
 Description: 使用插件可以让微信公众平台用户参加大转盘活动。
 Author: ECJIA TEAM
-Version: 1.18.0
+Version: 1.19.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
 */

@@ -49,7 +49,7 @@ Plugin Name: 砸金蛋
 Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_zjd/
 Description: 使用插件可以让微信公众平台用户参加砸金蛋活动。
 Author: ECJIA TEAM
-Version: 1.18.0
+Version: 1.19.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
 */
