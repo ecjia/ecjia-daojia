@@ -91,21 +91,21 @@ class ecjia_touch_user extends RC_Object {
     
     public function setUserinfo($res)
     {
-        $token = array_get($res, 'session.sid');
-        if (empty($sid)) {
-            $token = array_get($res, 'token');
+        $token = array_get($res, 'token');
+        if (empty($token)) {
+            $token = array_get($res, 'session.sid');
         }
         
         $response = royalcms('response');
         $response->withCookie(RC_Cookie::forever(self::API_USER_COOKIE, $token));
-        
+
         $this->cacheUserinfo($token, array_get($res, 'user'));
     }
     
     protected function cacheUserinfo($cookieid, $user)
     {
         $cache_key = 'api_request_user_info::' . $cookieid;
-        
+
         ecjia_cache('touch', config('touch.cache_driver'))->put($cache_key, $user, 60*24*7);
     }
     
@@ -182,7 +182,7 @@ class ecjia_touch_user extends RC_Object {
             if (!is_ecjia_error($shop_token)) {
                 $token = $shop_token['access_token'];
                 $response = royalcms('response');
-                $response->withCookie(RC_Cookie::forever(self::SHOP_TOKEN, $token));
+                $response->withCookie(RC_Cookie::forever(self::API_USER_COOKIE, $token));
             } else {
                 //API请求返回错误
 
