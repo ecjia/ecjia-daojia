@@ -296,12 +296,20 @@ function get_account_log($user_id, $num, $start, $process_type = '') {
 // 		$payment_db = RC_Model::model('payment/payment_model');
 		foreach ($res as $key=>$rows) {
 			$db_payment = RC_DB::table('payment');
+			if ($rows['is_paid'] == '1') {
+				$pay_status = '已完成';
+			} elseif ($rows['is_paid'] == '2') {
+				$pay_status = '已取消';
+			} else {
+				$pay_status = '未确认';
+			}
 			$rows['add_time']         = RC_Time::local_date(ecjia::config('time_format'), $rows['add_time']);
 			$rows['admin_note']       = nl2br(htmlspecialchars($rows['admin_note']));
 			$rows['short_admin_note'] = ($rows['admin_note'] > '') ? RC_String::sub_str($rows['admin_note'], 30) : '暂无';
 			$rows['user_note']        = nl2br(htmlspecialchars($rows['user_note']));
 			$rows['short_user_note']  = ($rows['user_note'] > '') ? RC_String::sub_str($rows['user_note'], 30) : '暂无';
-			$rows['pay_status']       = ($rows['is_paid'] == 0) ? __('未确认') : __('已完成');
+			//$rows['pay_status']       = ($rows['is_paid'] == 0) ? __('未确认') : __('已完成');
+			$rows['pay_status']		  = $pay_status;
 			$rows['format_amount']    = price_format(abs($rows['amount']), false);
 			$rows['pay_code']		  = $rows['payment'];
 			
