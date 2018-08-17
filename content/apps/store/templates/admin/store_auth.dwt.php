@@ -188,9 +188,9 @@
                                 <td><div align="right"><strong>可执行操作：</strong></div></td>
                                 <td>
                                     <input type="hidden" name="store_id" value="{$store.store_id}" />
-                                    <button class="btn operatesubmit" type="submit" name="check_ing">认证中</button>&nbsp;
-                                    <button class="btn operatesubmit" type="submit" name="check_no">不通过</button>&nbsp;
-                                    <button class="btn operatesubmit" type="submit" name="check_yes">{lang key='store::store.check_yes'}</button>
+                                    {if $store.identity_status neq 1}<button class="btn operatesubmit " type="submit" name="check_ing">认证中</button>&nbsp;&nbsp;{/if}
+                                    {if $store.identity_status neq 3}<button class="btn operatesubmit btn-danger" type="submit" name="check_no">不通过</button>&nbsp;&nbsp;{/if}
+                                    {if $store.identity_status neq 2}<button class="btn operatesubmit btn-success" type="submit" name="check_yes">{lang key='store::store.check_yes'}</button>{/if}
                                     <!-- <button class="btn btn-gebo" type="submit">{lang key='store::store.sub_check'}</button> -->
                                 </td>
                             </tr>
