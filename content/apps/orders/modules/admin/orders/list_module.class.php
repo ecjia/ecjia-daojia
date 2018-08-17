@@ -235,7 +235,7 @@ class list_module extends api_admin implements api_interface {
 				$join = array('order_info', 'order_goods', 'staff_user', 'goods', 'term_meta');
 			}elseif ($type == 'billing') {
 				$where['cr.action'] = 'billing'; //开单
-				$join = array('order_info', 'order_goods', 'adviser', 'goods');
+				$join = array('order_info', 'order_goods', 'staff_user', 'goods');
 			} 
 			
 			//if ($type == 'verify') {
