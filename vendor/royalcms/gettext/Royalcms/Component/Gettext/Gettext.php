@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\Gettext;
 
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Hook;
 
 class Gettext
 {

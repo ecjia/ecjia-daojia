@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\Gettext;
 
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Hook;
 use Royalcms\Component\Foundation\Theme;
 use Royalcms\Component\Support\Facades\File;
 use Royalcms\Component\Gettext\Translations\NoopTranslations;
