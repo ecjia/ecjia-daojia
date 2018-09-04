@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\Debugbar\Controllers;
 
 use DebugBar\OpenHandler;
-use Royalcms\Component\HttpKernel\Response;
+use Royalcms\Component\Http\Response;
 
 class OpenHandlerController extends BaseController
 {

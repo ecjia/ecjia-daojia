@@ -215,7 +215,7 @@ class QueryCollector extends PDOCollector
                 }
 
                 return $this->normalizeFilename($file) . ':' . $line;
-            } elseif (isset($trace['function']) && $trace['function'] == 'Illuminate\Routing\{closure}') {
+            } elseif (isset($trace['function']) && $trace['function'] == 'Royalcms\Component\Routing\{closure}') {
                 return 'Route binding';
             }
         }

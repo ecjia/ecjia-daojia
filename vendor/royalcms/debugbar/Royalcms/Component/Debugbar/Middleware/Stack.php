@@ -33,7 +33,7 @@ class Stack implements HttpKernelInterface
         $debugbar = $this->royalcms['debugbar'];
 
         /** 
-         * @var \Royalcms\Component\HttpKernel\Response $response 
+         * @var \Royalcms\Component\Http\Response $response
          */
         $response = $this->kernel->handle($request, $type, $catch);
         

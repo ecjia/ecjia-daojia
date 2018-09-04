@@ -2,14 +2,14 @@
 
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
-use Royalcms\Component\HttpKernel\Request;
+use Royalcms\Component\Http\Request;
 use Royalcms\Component\Routing\Route;
 use Royalcms\Component\Routing\Router;
 use Royalcms\Component\Support\Facades\Config;
 
 /**
  * Based on Royalcms\Component\Foundation\Console\RoutesCommand for Taylor Otwell
- * https://github.com/laravel/framework/blob/master/src/Illuminate/Foundation/Console/RoutesCommand.php
+ * https://github.com/laravel/framework/blob/master/src/Royalcms/Component/Foundation/Console/RoutesCommand.php
  *
  */
 class RouteCollector extends DataCollector implements Renderable
@@ -100,7 +100,7 @@ class RouteCollector extends DataCollector implements Renderable
 
     /*
      * The following is copied/modified from the RoutesCommand from Laravel, by Taylor Otwell
-     * https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/Console/RoutesCommand.php
+     * https://github.com/laravel/framework/blob/4.1/src/Royalcms/Component/Foundation/Console/RoutesCommand.php
      *
      */
 

@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\Debugbar\DataCollector;
 
 use DebugBar\DataCollector\TimeDataCollector;
-use Royalcms\Component\Event\Dispatcher;
+use Royalcms\Component\Events\Dispatcher;
 use Royalcms\Component\Debugbar\DataCollector\Util\ValueExporter;
 
 class EventCollector extends TimeDataCollector
