@@ -3,7 +3,7 @@
 namespace Royalcms\Component\Image;
 
 use Royalcms\Component\Support\ServiceProvider;
-use Royalcms\Component\HttpKernel\Response as HttpResponse;
+use Royalcms\Component\Http\Response as HttpResponse;
 
 class ImageServiceProvider extends ServiceProvider
 {
