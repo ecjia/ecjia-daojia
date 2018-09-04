@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Storage;
+<?php
+
+namespace Royalcms\Component\Storage;
 
 use Royalcms\Component\Error\Error;
 use Royalcms\Component\Support\Format;
@@ -134,7 +136,7 @@ class Ssh2 extends FilesystemBase
         return true;
     }
     
-    public public function move_uploaded_file($filename, $destination) {
+    public function move_uploaded_file($filename, $destination) {
         return false;
     }
 

@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Storage;
+<?php
+
+namespace Royalcms\Component\Storage;
 
 /**
  * Royalcms Direct Filesystem.

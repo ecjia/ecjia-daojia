@@ -1,8 +1,10 @@
-<?php namespace Royalcms\Component\Storage;
+<?php
+
+namespace Royalcms\Component\Storage;
 
 use Closure;
 use BadMethodCallException;
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Error\Error;
 
@@ -183,7 +185,7 @@ class Filesystem {
          * @param string $method Filesystem method to return.
          * @param array  $args   An array of connection details for the method.
          */
-        return Hook::apply_filters( 'filesystem_method', $method, $args );
+        return RC_Hook::apply_filters( 'filesystem_method', $method, $args );
     }
     
     
@@ -223,7 +225,7 @@ class Filesystem {
          *                             being writable.
          * @param array  $extra_fields Extra POST fields.
          */
-        $req_cred = Hook::apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields );
+        $req_cred = RC_Hook::apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields );
         if ( '' !== $req_cred )
             return $req_cred;
     
@@ -315,7 +317,7 @@ class Filesystem {
              * @param string $context     Full path to the directory that is tested
              *                            for being writable.
             */
-            $types = Hook::apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );
+            $types = RC_Hook::apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );
     
             ?>
         <script type="text/javascript">

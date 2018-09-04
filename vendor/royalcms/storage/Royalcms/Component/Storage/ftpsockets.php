@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Storage;
+<?php
+
+namespace Royalcms\Component\Storage;
 
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Error\Error;
@@ -220,7 +222,7 @@ class Ftpsockets extends FilesystemBase
      * @param bool   $recursive Optional. If set True changes file owner recursivly. Defaults to False.
      * @return bool Returns true on success or false on failure.
      */
-    public public function chown( $file, $owner, $recursive = false ) {
+    public function chown( $file, $owner, $recursive = false ) {
         return false;
     }
 
@@ -254,7 +256,7 @@ class Ftpsockets extends FilesystemBase
         return $this->put_contents($destination, $content, $mode);
     }
 
-    public function move($source, $destination, $overwrite = false)
+    public function move($source, $destination, $overwrite = false, $mode = false)
     {
         return $this->ftp->rename($source, $destination);
     }

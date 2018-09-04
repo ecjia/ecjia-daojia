@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Storage;
+<?php
+
+namespace Royalcms\Component\Storage;
 
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Foundation\Theme;

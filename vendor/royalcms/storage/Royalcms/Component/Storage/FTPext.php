@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Storage;
+<?php
+
+namespace Royalcms\Component\Storage;
 
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Error\Error;
@@ -214,7 +216,7 @@ class Ftpext extends FilesystemBase
      * @param bool   $recursive Optional. If set True changes file owner recursivly. Defaults to False.
      * @return bool Returns true on success or false on failure.
      */
-    public public function chown( $file, $owner, $recursive = false ) {
+    public function chown( $file, $owner, $recursive = false ) {
         return false;
     }
 

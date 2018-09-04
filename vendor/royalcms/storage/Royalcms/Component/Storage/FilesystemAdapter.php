@@ -1,8 +1,10 @@
-<?php namespace Royalcms\Component\Storage;
+<?php
+
+namespace Royalcms\Component\Storage;
 
 use Closure;
 use BadMethodCallException;
-use Royalcms\Component\Support\Facades\Error;
+use Royalcms\Component\Error\Facades\Error as RC_Error;
 
 class FilesystemAdapter {
 
@@ -29,7 +31,7 @@ class FilesystemAdapter {
 		if ( ! defined('FS_TIMEOUT') )
 		    define('FS_TIMEOUT', 30);
 		
-		if ( Error::is_error($this->driver->errors) && $this->driver->errors->get_error_code() )
+		if ( RC_Error::is_error($this->driver->errors) && $this->driver->errors->get_error_code() )
 		    return false;
 		
 		if ( !$this->driver->connect() )

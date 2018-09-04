@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Storage\Facades;
+<?php
+
+namespace Royalcms\Component\Storage\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 
