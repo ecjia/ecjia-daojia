@@ -290,7 +290,7 @@ class platform_record extends ecjia_platform
                 $join_c->on(RC_DB::raw('c.kf_account'), '=', RC_DB::raw('cr.kf_account'))
                     ->on(RC_DB::raw('c.wechat_id'), '=', RC_DB::raw('cr.wechat_id'));
             })
-            ->selectRaw('max(cr.id) as id, wu.*')
+            ->select(RC_DB::raw('max(cr.id) as id'), RC_DB::raw('wu.*'))
             ->whereRaw($where)
             ->groupBy(RC_DB::raw('cr.openid'))
             ->orderBy(RC_DB::raw('cr.time'), 'desc')

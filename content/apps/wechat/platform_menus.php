@@ -326,9 +326,9 @@ class platform_menus extends ecjia_platform
         if (empty($name)) {
             return $this->showmessage('菜单名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        if (strlen($name) > 16) {
-            return $this->showmessage('字数不超过8个汉字或16个字母', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }
+//         if (strlen($name) > 16) {
+//             return $this->showmessage('字数不超过8个汉字或16个字母', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//         }
 
         if ($type == 'view') {
             if (empty($web_url)) {

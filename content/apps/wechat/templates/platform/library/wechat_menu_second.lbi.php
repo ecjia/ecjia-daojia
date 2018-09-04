@@ -12,7 +12,7 @@
 				字数超过上限
 			</p>
 			<p class="menu-tips">
-				字数不超过8个汉字或16个字母
+				字数不超过6个汉字或16个字母
 			</p>
 		</div>
 		<span class="input-must">*</span>

@@ -153,35 +153,35 @@ class platform_message extends ecjia_platform
 
         $filter['last_five_days'] = count(
             RC_DB::table('wechat_custom_message as m')->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-                ->selectRaw('max(m.id) as id')
+                ->select(RC_DB::raw('max(m.id) as id'))
                 ->whereRaw($where1)
                 ->groupBy(RC_DB::raw('m.uid'))
                 ->get()
         );
         $filter['today'] = count(
             RC_DB::table('wechat_custom_message as m')->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-                ->selectRaw('max(m.id) as id')
+                ->select(RC_DB::raw('max(m.id) as id'))
                 ->whereRaw($where2)
                 ->groupBy(RC_DB::raw('m.uid'))
                 ->get()
         );
         $filter['yesterday'] = count(
             RC_DB::table('wechat_custom_message as m')->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-                ->selectRaw('max(m.id) as id')
+                ->select(RC_DB::raw('max(m.id) as id'))
                 ->whereRaw($where3)
                 ->groupBy(RC_DB::raw('m.uid'))
                 ->get()
         );
         $filter['the_day_before_yesterday'] = count(
             RC_DB::table('wechat_custom_message as m')->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-                ->selectRaw('max(m.id) as id')
+                ->select(RC_DB::raw('max(m.id) as id'))
                 ->whereRaw($where4)
                 ->groupBy(RC_DB::raw('m.uid'))
                 ->get()
         );
         $filter['earlier'] = count(
             RC_DB::table('wechat_custom_message as m')->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-                ->selectRaw('max(m.id) as id')
+                ->select(RC_DB::raw('max(m.id) as id'))
                 ->whereRaw($where5)
                 ->groupBy(RC_DB::raw('m.uid'))
                 ->get()
@@ -189,7 +189,7 @@ class platform_message extends ecjia_platform
 
         $count = count(
             RC_DB::table('wechat_custom_message as m')->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-                ->selectRaw('max(m.id) as id')
+                ->select(RC_DB::raw('max(m.id) as id'))
                 ->whereRaw($where)
                 ->groupBy(RC_DB::raw('m.uid'))
                 ->get()
@@ -198,7 +198,7 @@ class platform_message extends ecjia_platform
 
         $list = RC_DB::table('wechat_custom_message as m')
             ->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-            ->selectRaw('max(m.id) as id, wu.uid, wu.nickname, wu.headimgurl')
+            ->select(RC_DB::raw('max(m.id) as id'), RC_DB::raw('wu.uid'), RC_DB::raw('wu.nickname'), RC_DB::raw('wu.headimgurl'))
             ->whereRaw($where)
             ->groupBy(RC_DB::raw('m.uid'))
             ->take(10)

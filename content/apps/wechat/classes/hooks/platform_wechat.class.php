@@ -63,7 +63,7 @@ class wechat_platform_hooks
 
         $list = RC_DB::table('wechat_custom_message as m')
             ->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-            ->selectRaw('max(m.id) as id, wu.uid, wu.nickname, wu.headimgurl')
+            ->select(RC_DB::raw('max(m.id) as id'), RC_DB::raw('wu.uid'), RC_DB::raw('wu.nickname'), RC_DB::raw('wu.headimgurl'))
             ->where(RC_DB::raw('wu.subscribe'), 1)
             ->where(RC_DB::raw('m.iswechat'), 0)
             ->where(RC_DB::raw('wu.wechat_id'), $wechat_id)
@@ -149,7 +149,7 @@ class wechat_platform_hooks
 
         $list = RC_DB::table('wechat_custom_message as m')
             ->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
-            ->selectRaw('max(m.id) as id, wu.uid, wu.nickname, wu.headimgurl')
+            ->select(RC_DB::raw('max(m.id) as id'), RC_DB::raw('wu.uid'), RC_DB::raw('wu.nickname'), RC_DB::raw('wu.headimgurl'))
             ->where(RC_DB::raw('wu.subscribe'), 1)
             ->where(RC_DB::raw('m.iswechat'), 0)
             ->where(RC_DB::raw('wu.wechat_id'), $wechat_id)
