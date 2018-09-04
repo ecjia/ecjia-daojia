@@ -128,7 +128,7 @@ class pickup_module extends api_admin implements api_interface {
     	
     	$goods_items = RC_DB::table('delivery_goods as dg')
     		->leftjoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
-        	->selectRaw('dg.*, g.goods_thumb, g.goods_img, g.original_img, g.shop_price')
+        	->select(RC_DB::raw('dg.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'), RC_DB::raw('g.shop_price'))
         	->where('delivery_id', $express_order_info['delivery_id'])
         	->get();
     	$express_order['goods_items'] = array();

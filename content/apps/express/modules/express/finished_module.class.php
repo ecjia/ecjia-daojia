@@ -69,7 +69,7 @@ class finished_module extends api_admin implements api_interface {
 		$dbview = RC_DB::table('express_order as eo')
 			->leftJoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
 			->leftJoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
-		$express_order_info	= $dbview->where(RC_DB::raw('eo.express_id'), $express_id)->selectRaw($field)->first();
+		$express_order_info	= $dbview->where(RC_DB::raw('eo.express_id'), $express_id)->select(RC_DB::raw('eo.*'), RC_DB::raw('oi.add_time as order_time'), RC_DB::raw('oi.pay_time'), RC_DB::raw('oi.order_status'), RC_DB::raw('oi.pay_status'), RC_DB::raw('oi.expect_shipping_time'), RC_DB::raw('oi.order_amount'), RC_DB::raw('oi.pay_name'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.district as sf_district'), RC_DB::raw('sf.street as sf_street'), RC_DB::raw('sf.address as merchant_address'), RC_DB::raw('sf.longitude as sf_longitude'), RC_DB::raw('sf.latitude as sf_latitude'))->first();
 		$data = array(
 				'order_status' 		=> OS_CONFIRMED,
 				'shipping_status'	=> SS_RECEIVED

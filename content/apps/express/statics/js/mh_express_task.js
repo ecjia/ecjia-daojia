@@ -204,6 +204,7 @@
 		        route_lines = [],
 		        step_line,
 		        route_steps = [];
+		        if (document.getElementById("start") == null) { return false; }
 		        var start_latLng = document.getElementById("start").value.split(",");
 		        var center_latLng = new qq.maps.LatLng(start_latLng[0], start_latLng[1]);
 	        map = new qq.maps.Map(document.getElementById("allmap"), {
@@ -328,6 +329,8 @@
                   var exp_id  = $this.attr('express_id');
                   var order_express_id  = $('.order_express_id').val();
                   
+                  $('#allmap').html('');
+                  
                   //选中订单边框变色start
                   if (order_express_id == '') {
                 	  $this.css("border","1px solid #009ACD");
@@ -337,6 +340,9 @@
                 	  $('.' + last_click_div).css("border","1px solid #dcdcdc");
                 	  $this.css("border","1px solid #009ACD");
                 	  $('.order_express_id').val(exp_id);
+                  }
+                  if ($this.hasClass('no-border')) {
+                	  $this.css("border", "none");
                   }
                  //选中订单边框变色end
                   

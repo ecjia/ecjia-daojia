@@ -32,15 +32,15 @@
 		<div class="panel">
 			<div class="panel-body panel-body-small">
 				<ul class="nav nav-pills pull-left">
-					<li class="{if $type eq 'wait_grab'}active{/if}"><a class="data-pjax" href='{url path="express/merchant/init" args="type=wait_grab"}'>待派单 <span class="badge badge-info">{if $express_order_count.wait_grab}{$express_order_count.wait_grab}{else}0{/if}</span> </a></li>
-					<li class="{if $type eq 'wait_pickup'}active{/if}"><a class="data-pjax" href='{url path="express/merchant/wait_pickup" args="type=wait_pickup{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>待取货 <span class="badge badge-info">{if $express_order_count.wait_pickup}{$express_order_count.wait_pickup}{else}0{/if}</span> </a></li>
-					<li class="{if $type eq 'sending'}active{/if}"><a class="data-pjax" href='{url path="express/merchant/wait_pickup" args="type=sending{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>配送中 <span class="badge badge-info">{if $express_order_count.sending}{$express_order_count.sending}{else}0{/if}</span> </a></li>
+					<li class="{if $type eq 'wait_grab'}active{/if}"><a class="data-pjax" href='{url path="express/merchant/init" args="type=wait_grab"}{if $platform}&platform=1{/if}'>待派单 <span class="badge badge-info">{if $express_order_count.wait_grab}{$express_order_count.wait_grab}{else}0{/if}</span> </a></li>
+					<li class="{if $type eq 'wait_pickup'}active{/if}"><a class="data-pjax" href='{url path="express/merchant/wait_pickup" args="type=wait_pickup{if $platform}&platform=1{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>待取货 <span class="badge badge-info">{if $express_order_count.wait_pickup}{$express_order_count.wait_pickup}{else}0{/if}</span> </a></li>
+					<li class="{if $type eq 'sending'}active{/if}"><a class="data-pjax" href='{url path="express/merchant/wait_pickup" args="type=sending{if $platform}&platform=1{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>配送中 <span class="badge badge-info">{if $express_order_count.sending}{$express_order_count.sending}{else}0{/if}</span> </a></li>
 				</ul>
 				<div class="clearfix"></div>
 			</div>
 			
 			<div class="panel-body panel-body-small">
-				<form class="form-inline" method="post" action="{$search_action}{if $filter.type}&type={$filter.type}{/if}" name="searchForm">
+				<form class="form-inline" method="post" action="{$search_action}{if $filter.type}&type={$filter.type}{/if}{if $platform}&platform=1{/if}" name="searchForm">
 					<div class="f_r form-group">
 						<input type="text" name="keywords" class="form-control" style="width:200px;" value="{$smarty.get.keywords}" placeholder="请输入配送员名或配送单号"/>
 						<button class="btn btn-primary search_express_order" type="submit">搜索</button>
@@ -68,9 +68,13 @@
 								{$wait_pickup.express_sn}
 					     	  	<div class="edit-list">
 								  	 <a class="express-order-modal" data-toggle="modal" data-backdrop="static" href="#myModal1" express-id="{$wait_pickup.express_id}" express-order-url='{url path="express/merchant/express_order_detail" args="express_id={$wait_pickup.express_id}{if $type}&type={$type}{/if}"}'  title="查看详情">查看详情</a>
-								  	 {if $type eq 'wait_pickup'}&nbsp;|&nbsp;<a class="express-reassign-click" data-toggle="modal" data-backdrop="static" href="#myModal2" express-id="{$wait_pickup.express_id}" express-reassign-url='{url path="express/merchant/express_reasign_detail" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title="重新指派">重新指派</a>{/if}
-								  	 {if $wait_pickup.online_status eq '1'}&nbsp;|&nbsp;<a class="express-location" data-toggle="modal" data-backdrop="static" href="#myModal3" express-id="{$wait_pickup.express_id}" express-location-url='{url path="express/merchant/express_location" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title="当前位置">当前位置</a>{/if}
-					    	  	</div>
+								  	 {if $platform eq 1 && $wait_pickup.online_status eq '1'}
+								  	 	&nbsp;|&nbsp;<a class="express-location" data-toggle="modal" data-backdrop="static" href="#myModal3" express-id="{$wait_pickup.express_id}" express-location-url='{url path="express/merchant/express_location" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title="查看路线">查看路线</a>
+								  	 {else}
+								  		{if $type eq 'wait_pickup'}&nbsp;|&nbsp;<a class="express-reassign-click" data-toggle="modal" data-backdrop="static" href="#myModal2" express-id="{$wait_pickup.express_id}" express-reassign-url='{url path="express/merchant/express_reasign_detail" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title="重新指派">重新指派</a>{/if}
+								  	 	{if $wait_pickup.online_status eq '1'}&nbsp;|&nbsp;<a class="express-location" data-toggle="modal" data-backdrop="static" href="#myModal3" express-id="{$wait_pickup.express_id}" express-location-url='{url path="express/merchant/express_location" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title="当前位置">当前位置</a>{/if}
+								  	 {/if}
+								</div>
 					      	</td>
 					      	<td>{$wait_pickup.express_user}</td>
 					      	<td>{$wait_pickup.consignee}<br>地址：{$wait_pickup.to_address}</td>

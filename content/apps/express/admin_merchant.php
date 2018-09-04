@@ -164,7 +164,7 @@ class admin_merchant extends ecjia_admin {
 		$page = new ecjia_page($count, 10, 5);
 		
 		$data = $db_data
-		->selectRaw('eo.express_id,eo.order_id,eo.express_sn,eo.commision,eo.status,eo.district, eo.street, eo.address, eo.consignee, eo.mobile,eo.express_user,eo.express_mobile')
+		->select(RC_DB::raw('eo.express_id'), RC_DB::raw('eo.order_id'), RC_DB::raw('eo.express_sn'), RC_DB::raw('eo.commision'), RC_DB::raw('eo.status'), RC_DB::raw('eo.district'), RC_DB::raw('eo.street'), RC_DB::raw('eo.address'), RC_DB::raw('eo.consignee'), RC_DB::raw('eo.mobile'), RC_DB::raw('eo.express_user'), RC_DB::raw('eo.express_mobile'))
 		->orderby(RC_DB::raw('eo.express_id'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)
@@ -198,7 +198,7 @@ class admin_merchant extends ecjia_admin {
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $express_info['store_id'])->select('merchants_name','contact_mobile','district','street','address')->first();
 		$order_info = RC_DB::table('order_info')->where('order_id', $express_info['order_id'])->select('add_time','expect_shipping_time','postscript')->first();
 		//$goods_list = RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->select('goods_id', 'goods_name' ,'goods_price','goods_number')->get();
-		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->selectRaw('goods_id, goods_name, send_number')->get();
+		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->select(RC_DB::raw('goods_id'), RC_DB::raw('goods_name'), RC_DB::raw('send_number'))->get();
 		
 		foreach ($goods_list as $key => $val) {
 			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
@@ -241,7 +241,7 @@ class admin_merchant extends ecjia_admin {
 		$db_data = RC_DB::table('express_order as eo')
 		->leftJoin('store_franchisee as sf', RC_DB::raw('eo.store_id'), '=', RC_DB::raw('sf.store_id'));
 		
-		$db_data->selectRaw('distinct eo.store_id,sf.merchants_name,sf.cat_id,sf.district,sf.street,sf.address')
+		$db_data->select(RC_DB::raw('distinct eo.store_id'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.cat_id'), RC_DB::raw('sf.district'), RC_DB::raw('sf.street'), RC_DB::raw('sf.address'))
 		->orderby(RC_DB::raw('sf.store_id'), 'desc')->get();
 		
 		$db_data->Where(function ($query) {
@@ -297,7 +297,7 @@ class admin_merchant extends ecjia_admin {
 		$db_data->Where(function ($query) {
 			$query->orwhere(RC_DB::raw('eo.status'), 0)->orwhere(RC_DB::raw('eo.status'), 1)->orwhere(RC_DB::raw('eo.status'),2);
 		});
-		$store_list = $db_data->selectRaw('distinct eo.store_id,sf.cat_id')->orderby(RC_DB::raw('sf.store_id'), 'desc')->get();
+		$store_list = $db_data->select(RC_DB::raw('distinct eo.store_id'), RC_DB::raw('sf.cat_id'))->orderby(RC_DB::raw('sf.store_id'), 'desc')->get();
 		
 		$cat_list =array();
 		foreach ($store_list as $k => $v) {
@@ -323,7 +323,7 @@ class admin_merchant extends ecjia_admin {
 			}
 			
 			$db_data ->whereRaw('(sf.merchants_name  like  "%'.mysql_like_quote($keyword).'%")');
-			$store_list = $db_data->selectRaw('distinct eo.store_id,sf.cat_id')->orderby(RC_DB::raw('sf.store_id'), 'desc')->get();
+			$store_list = $db_data->select(RC_DB::raw('distinct eo.store_id'), RC_DB::raw('sf.cat_id'))->orderby(RC_DB::raw('sf.store_id'), 'desc')->get();
 			
 			$cat_list_keyword =array();
 			foreach ($store_list as $k => $v) {

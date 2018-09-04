@@ -358,12 +358,15 @@ class admin_express extends ecjia_admin {
 		$db_order->where(RC_DB::raw('eo.staff_id'), $user_id);
 		$count = $db_order->count();
 		$page = new ecjia_page($count, 5, 5);
-		$data = $db_order
-		->selectRaw('eo.express_sn,eo.express_id,eo.district as eodistrict,eo.street as eostreet,eo.address as eoaddress,eo.receive_time,eo.from,eo.commision,eo.status,sf.merchants_name,sf.district,sf.street,sf.address')
-		->orderby(RC_DB::raw('eo.express_id'), 'desc')
-		->take(10)
-		->skip($page->start_id-1)
-		->get();
+		$data = $db_order->select(RC_DB::raw('eo.express_sn'), RC_DB::raw('eo.express_id'), RC_DB::raw('eo.district as eodistrict'), 
+			RC_DB::raw('eo.street as eostreet'), RC_DB::raw('eo.address as eoaddress'), RC_DB::raw('eo.receive_time'), 
+			RC_DB::raw('eo.from'), RC_DB::raw('eo.commision'), RC_DB::raw('eo.status'), RC_DB::raw('sf.merchants_name'), 
+			RC_DB::raw('sf.district'), RC_DB::raw('sf.street'), RC_DB::raw('sf.address'))
+			->orderby(RC_DB::raw('eo.express_id'), 'desc')
+			->take(10)
+			->skip($page->start_id-1)
+			->get();
+			
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {
@@ -416,7 +419,7 @@ class admin_express extends ecjia_admin {
 		$count = $log_db->count();
 		$page = new ecjia_page($count, 5, 5);
 		$data = $log_db
-		->selectRaw('staff_user_id,user_money,change_time,change_desc')
+		->select(RC_DB::raw('staff_user_id'), RC_DB::raw('user_money'), RC_DB::raw('change_time'), RC_DB::raw('change_desc'))
 		->orderby('log_id', 'desc')
 		->take(10)
 		->skip($page->start_id-1)
@@ -467,7 +470,7 @@ class admin_express extends ecjia_admin {
 		$page = new ecjia_page($count, 10, 5);
 		
 		$data = $db_data
-		->selectRaw('eu.*, su.user_id, su.name, su.mobile, su.add_time, su.online_status')
+		->select(RC_DB::raw('eu.*'), RC_DB::raw('su.user_id'), RC_DB::raw('su.name'), RC_DB::raw('su.mobile'), RC_DB::raw('su.add_time'), RC_DB::raw('su.online_status'))
 		->orderby(RC_DB::raw('su.user_id'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)

@@ -115,9 +115,9 @@ class task_module extends api_admin implements api_interface {
 		$field = 'eo.*, oi.expect_shipping_time, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.longitude as sf_longitude, sf.latitude as sf_latitude, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
 	
 		if ($express_type == 'wait_assign') {
-			$express_order_result = $dbview->take($size)->skip($page_row->start_id - 1)->selectRaw($field)->orderBy('add_time', 'desc')->get();
+			$express_order_result = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw($field))->orderBy('add_time', 'desc')->get();
 		} else {
-			$express_order_result = $dbview->take($size)->skip($page_row->start_id - 1)->selectRaw($field)->orderBy('receive_time', 'desc')->get();
+			$express_order_result = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw($field))->orderBy('receive_time', 'desc')->get();
 		}
 		
 		$express_order_list = array();

@@ -59,8 +59,9 @@ class express_merchant_hook {
 	
 	public static function express_shipping_merchant_menu_api($menus) {
 		$menu = array(
-			11 => ecjia_merchant::make_admin_menu('01_task_list','配送任务', RC_Uri::url('express/merchant/init', array('type' => 'wait_grab')), 2)->add_purview('express_manage')->add_icon('fa-tasks'), 
-			12 => ecjia_merchant::make_admin_menu('02_history_list','历史配送', RC_Uri::url('express/mh_history/init'), 3)->add_purview('express_match_manage')->add_icon('fa-history'), 
+			11 => ecjia_merchant::make_admin_menu('01_task_list', '平台配送', RC_Uri::url('express/merchant/init', array('type' => 'wait_grab', 'platform' => '1')), 2)->add_purview('express_manage')->add_icon('fa-tasks'),
+			12 => ecjia_merchant::make_admin_menu('02_task_list', '商家配送', RC_Uri::url('express/merchant/init', array('type' => 'wait_grab')), 3)->add_purview('express_manage')->add_icon('fa-tasks'),
+			13 => ecjia_merchant::make_admin_menu('03_history_list','历史配送', RC_Uri::url('express/mh_history/init'), 4)->add_purview('express_match_manage')->add_icon('fa-history'), 
 		);
 		$menus->add_submenu($menu);
 		return $menus;

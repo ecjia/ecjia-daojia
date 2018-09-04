@@ -91,12 +91,12 @@ class express_ecjiaauto_assign_expressOrder_api extends Component_Event_Api {
 		
 		/*计算每个配送员与订单之间的距离*/
 		if (!empty($data)) {
-			$field = 'eo.*, oi.add_time as order_time, oi.pay_time,  oi.expect_shipping_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as sf_longitude, sf.latitude as sf_latitude';
+			$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.expect_shipping_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as sf_longitude, sf.latitude as sf_latitude';
 			$dbview = RC_DB::table('express_order as eo')
 			->leftJoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
 			->leftJoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
 			
-			$express_order_info	= $dbview->where(RC_DB::raw('eo.express_id'), $express_id)->selectRaw($field)->first();
+			$express_order_info	= $dbview->where(RC_DB::raw('eo.express_id'), $express_id)->select(RC_DB::raw('eo.*'), RC_DB::raw('oi.add_time as order_time'), RC_DB::raw('oi.pay_time'), RC_DB::raw('oi.expect_shipping_time'), RC_DB::raw('oi.order_amount'), RC_DB::raw('oi.pay_name'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.district as sf_district'), RC_DB::raw('sf.street as sf_street'), RC_DB::raw('sf.address as merchant_address'), RC_DB::raw('sf.longitude as sf_longitude'), RC_DB::raw('sf.latitude as sf_latitude'))->first();
 			
 			
 			$express_user_data = array();
@@ -140,7 +140,7 @@ class express_ecjiaauto_assign_expressOrder_api extends Component_Event_Api {
 			if ($staff_id) {
 				$ex_u_info = RC_DB::table('staff_user as su')
 								->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'))
-								->selectRaw('su.*, eu.shippingfee_percent')
+								->select(RC_DB::raw('su.*'), RC_DB::raw('eu.shippingfee_percent'))
 								->where(RC_DB::raw('su.user_id'), $staff_id)->first();
 				
 				$commision = $ex_u_info['shippingfee_percent']/100*$express_order_info['shipping_fee'];
@@ -256,7 +256,7 @@ class express_ecjiaauto_assign_expressOrder_api extends Component_Event_Api {
 			$db->where(RC_DB::raw('su.online_status'), 1);
 		}
 		
-		$list = $db->selectRaw('eu.*, su.online_status')->get();
+		$list = $db->select(RC_DB::raw('eu.*'), RC_DB::raw('su.online_status'))->get();
 		
 		return $list;
 	}
@@ -270,7 +270,7 @@ class express_ecjiaauto_assign_expressOrder_api extends Component_Event_Api {
 		
 		$express_order_count = $db
 		->where('staff_id', $user_id)
-		->selectRaw('SUM(IF(status = 1, 1, 0)) as wait_pickup, SUM(IF(status = 2, 1, 0)) as sending')
+		->select(RC_DB::raw('SUM(IF(status = 1, 1, 0)) as wait_pickup'), RC_DB::raw('SUM(IF(status = 2, 1, 0)) as sending'))
 		->first();
 		
 		return $express_order_count;

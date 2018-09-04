@@ -142,7 +142,7 @@ class admin_match extends ecjia_admin {
 		$page = new ecjia_page($count, 10, 5);
 		
 		$data = $db_data
-		->selectRaw('express_id,express_sn,`from`,commision,shipping_fee,commision_status,receive_time,staff_id,shipping_fee-commision as store_money')
+		->select(RC_DB::raw('express_id'), RC_DB::raw('express_sn'), RC_DB::raw('`from`'), RC_DB::raw('commision'), RC_DB::raw('shipping_fee'), RC_DB::raw('commision_status'), RC_DB::raw('receive_time'), RC_DB::raw('staff_id'), RC_DB::raw('shipping_fee-commision as store_money'))
 		->orderby('express_id', 'desc')
 		->take(10)
 		->skip($page->start_id-1)
@@ -175,7 +175,7 @@ class admin_match extends ecjia_admin {
 		$page = new ecjia_page($count, 10, 5);
 		
 		$data = $db_data
-		->selectRaw('user_id, name, mobile')
+		->select(RC_DB::raw('user_id'), RC_DB::raw('name'), RC_DB::raw('mobile'))
 		->orderby(RC_DB::raw('user_id'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)

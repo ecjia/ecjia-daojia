@@ -88,6 +88,7 @@ class mh_history extends ecjia_merchant {
 		
 		$data = $this->get_history_list();
 		$this->assign('data', $data);
+		$this->assign('type_count', $data['type_count']);
 		
 		$this->assign('express_detail', RC_Uri::url('express/mh_history/detail'));
 		
@@ -112,7 +113,7 @@ class mh_history extends ecjia_merchant {
 		$order_info = RC_DB::table('order_info')->where('order_id', $express_info['order_id'])->select('add_time','expect_shipping_time','postscript')->first();
 		//$goods_list = RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->select('goods_id', 'goods_name' ,'goods_price','goods_number')->get();
 		/*配送单对应的发货单商品*/
-		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->selectRaw('goods_id, goods_name, send_number')->get();
+		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->select(RC_DB::raw('goods_id'), RC_DB::raw('goods_name'), RC_DB::raw('send_number'))->get();
 		
 		foreach ($goods_list as $key => $val) {
 			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
@@ -150,9 +151,10 @@ class mh_history extends ecjia_merchant {
 		
 		$db_data->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
 		$db_data->whereIn(RC_DB::raw('status'), array(5, 7));
-		$db_data->where(RC_DB::raw('shipping_code'), 'ship_o2o_express');
 		
-		if($_GET['start_date'] && $_GET['end_date']) {
+		$type = !empty($_GET['type']) ? trim($_GET['type']) : 'platform';
+		
+		if ($_GET['start_date'] && $_GET['end_date']) {
 			$start_date = RC_Time::local_strtotime($_GET['start_date']);
 			$end_date	= RC_Time::local_strtotime($_GET['end_date']);
 			$db_data->where('signed_time', '>=', $start_date);
@@ -164,11 +166,21 @@ class mh_history extends ecjia_merchant {
 			$db_data ->whereRaw('(express_user  like  "%'.mysql_like_quote($filter['keyword']).'%"  or express_sn like "%'.mysql_like_quote($filter['keyword']).'%")');
 		}
 		
+		$type_count = $db_data
+			->select(RC_DB::raw('SUM(IF(shipping_code = "ship_ecjia_express", 1, 0)) as platform'), RC_DB::raw('SUM(IF(shipping_code = "ship_o2o_express", 1, 0)) as merchant'))
+			->first();
+		
+		if ($type == 'platform') {
+			$db_data->where('shipping_code', 'ship_ecjia_express');
+		} elseif ($type == 'merchant') {
+			$db_data->where('shipping_code', 'ship_o2o_express');
+		}
+		
 		$count = $db_data->count();
 		$page = new ecjia_merchant_page($count, 10, 5);
 		
 		$data = $db_data
-		->selectRaw('express_id,order_sn,express_sn,express_user,express_mobile,signed_time,status,consignee,mobile,district,street,address')
+		->select(RC_DB::raw('express_id'), RC_DB::raw('order_sn'), RC_DB::raw('express_sn'), RC_DB::raw('express_user'), RC_DB::raw('express_mobile'), RC_DB::raw('signed_time'), RC_DB::raw('status'), RC_DB::raw('consignee'), RC_DB::raw('mobile'), RC_DB::raw('district'), RC_DB::raw('street'), RC_DB::raw('address'))
 		->orderby(RC_DB::raw('signed_time'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)
@@ -183,7 +195,7 @@ class mh_history extends ecjia_merchant {
 				$list[] = $row;
 			}
 		}
-		return array('list' => $list, 'filter' => $filter, 'page' => $page->show(5), 'desc' => $page->page_desc());
+		return array('list' => $list, 'filter' => $filter, 'page' => $page->show(5), 'desc' => $page->page_desc(), 'type_count' => $type_count);
 	}
 }
 

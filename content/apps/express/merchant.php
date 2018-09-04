@@ -48,7 +48,7 @@ use Ecjia\System\Notifications\ExpressAssign;
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 配送任务中心
+ * 商家配送中心
  * @author songqianqina
  */
 class merchant extends ecjia_merchant {
@@ -78,7 +78,7 @@ class merchant extends ecjia_merchant {
 		RC_Script::localize_script('express', 'js_lang', RC_Lang::get('express::express.js_lang'));
 		
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送管理', RC_Uri::url('shipping/mh_shipping/shipping_template')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送任务', RC_Uri::url('express/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家配送', RC_Uri::url('express/merchant/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('express', 'express/merhcant.php');
 	}
 	
@@ -88,16 +88,20 @@ class merchant extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('mh_express_task_manage');
 		
+		$platform = !empty($_GET['platform']) ? intval($_GET['platform']) : 0;
+		$this->assign('platform', $platform);
+		
+		$title = !empty($platform) ? '平台配送' : '商家配送';
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送任务'));
-		$this->assign('ur_here', '配送任务');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($title));
+		$this->assign('ur_here', $title);
 		
 		$type = empty($_GET['type']) ? 'wait_grab' : trim($_GET['type']);
 		$this->assign('type', $type);
 		
 		/*待派单列表*/
-		$wait_grab_list = $this->get_wait_grab_list($type);
-		
+		$wait_grab_list = $this->get_wait_grab_list($type, $platform);
+
 		/*第一个订单获取*/
 		$first_express_order = $wait_grab_list['list']['0'];
 		$first_express_order_id = $first_express_order['express_id'];
@@ -148,10 +152,10 @@ class merchant extends ecjia_merchant {
 		
 		if ($key) {
 			$express_info = RC_DB::table('express_user as eu')
-								->leftJoin('staff_user as su', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'))
-								->selectRaw('eu.*, su.mobile, su.name, su.avatar, su.online_status')
-								->where(RC_DB::raw('su.user_id'), $key)
-								->first();
+				->leftJoin('staff_user as su', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'))
+				->select(RC_DB::raw('eu.*'), RC_DB::raw('su.mobile'), RC_DB::raw('su.name'), RC_DB::raw('su.avatar'), RC_DB::raw('su.online_status'))
+				->where(RC_DB::raw('su.user_id'), $key)
+				->first();
 			
 			$this->assign('express_info', $express_info);
 			$this->assign('has_staff', 1);
@@ -225,7 +229,7 @@ class merchant extends ecjia_merchant {
 		if ($key) {
 			$express_info = RC_DB::table('express_user as eu')
 			->leftJoin('staff_user as su', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'))
-			->selectRaw('eu.*, su.mobile, su.name')
+			->select(RC_DB::raw('eu.*'), RC_DB::raw('su.mobile'), RC_DB::raw('su.name'))
 			->where(RC_DB::raw('su.user_id'), $key)
 			->first();
 			$express_info['has_staff'] = 1;
@@ -250,15 +254,15 @@ class merchant extends ecjia_merchant {
 		$staff_id = intval($_GET['staff_id']);
 		$type 	  = $_GET['type'];
 		
-		$field = 'eo.*, oi.add_time as order_time, oi.pay_time,  oi.expect_shipping_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as sf_longitude, sf.latitude as sf_latitude';
+		$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.expect_shipping_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as sf_longitude, sf.latitude as sf_latitude';
 			$dbview = RC_DB::table('express_order as eo')
 			->leftJoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
 			->leftJoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
 			
-		$express_order_info	= $dbview->where(RC_DB::raw('eo.express_id'), $express_id)->selectRaw($field)->first();
+		$express_order_info	= $dbview->where(RC_DB::raw('eo.express_id'), $express_id)->select(RC_DB::raw('eo.*'), RC_DB::raw('oi.add_time as order_time'), RC_DB::raw('oi.pay_time'), RC_DB::raw('oi.expect_shipping_time'), RC_DB::raw('oi.order_amount'), RC_DB::raw('oi.pay_name'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.district as sf_district'), RC_DB::raw('sf.street as sf_street'), RC_DB::raw('sf.address as merchant_address'), RC_DB::raw('sf.longitude as sf_longitude'), RC_DB::raw('sf.latitude as sf_latitude'))->first();
 		$staff_user_info = RC_DB::table('staff_user as su')->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'))
 							->where(RC_DB::raw('su.user_id'), $staff_id)
-							->selectRaw('su.name, su.mobile, su.store_id, eu.shippingfee_percent')->first();
+							->select(RC_DB::raw('su.name'), RC_DB::raw('su.mobile'), RC_DB::raw('su.store_id'), RC_DB::raw('eu.shippingfee_percent'))->first();
 
 		$commision = $staff_user_info['shippingfee_percent']/100 * $express_order_info['shipping_fee'];
 		$commision = sprintf("%.2f", $commision);
@@ -369,7 +373,7 @@ class merchant extends ecjia_merchant {
 		$order_info = RC_DB::table('order_info')->where('order_id', $express_info['order_id'])->select('add_time','expect_shipping_time','postscript')->first();
 		//$goods_list = RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->select('goods_id', 'goods_name' ,'goods_price','goods_number')->get();
 		/*配送单对应的发货单商品*/
-		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->selectRaw('goods_id, goods_name, send_number')->get();
+		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->select(RC_DB::raw('goods_id'), RC_DB::raw('goods_name'), RC_DB::raw('send_number'))->get();
 		
 		foreach ($goods_list as $key => $val) {
 			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
@@ -418,16 +422,20 @@ class merchant extends ecjia_merchant {
 	public function wait_pickup() {
 		$this->admin_priv('mh_express_task_manage');
 	
+		$platform = !empty($_GET['platform']) ? intval($_GET['platform']) : 0;
+		$this->assign('platform', $platform);
+		
+		$title = !empty($platform) ? '平台配送' : '商家配送';
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送任务'));
-		$this->assign('ur_here', '配送任务');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($title));
+		$this->assign('ur_here', $title);
 	
 		$type = empty($_GET['type']) ? 'wait_pickup' : trim($_GET['type']);
 		$keywords = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
 		$this->assign('type', $type);
 	
 		/*待取货列表*/
-		$wait_pickup_list = $this->get_wait_grab_list($type);
+		$wait_pickup_list = $this->get_wait_grab_list($type, $platform);
 		$this->assign('search_action', RC_Uri::url('express/merchant/wait_pickup'));
 		
 		$this->assign('express_order_count', $wait_pickup_list['express_order_count']);
@@ -451,10 +459,10 @@ class merchant extends ecjia_merchant {
 		$express_info = RC_DB::table('express_order as eo')
 							->leftJoin('express_user as eu', RC_DB::raw('eo.staff_id'), '=', RC_DB::raw('eu.user_id'))
 							->where(RC_DB::raw('eo.express_id'), $express_id)	
-							->selectRaw('eo.express_user, eo.express_mobile, eo.longitude as u_longitude, eo.latitude as u_latitude, eu.longitude as eu_longitude, eu.latitude as eu_latitude')
+							->select(RC_DB::raw('eo.express_user'), RC_DB::raw('eo.express_mobile'), RC_DB::raw('eo.longitude as u_longitude'), RC_DB::raw('eo.latitude as u_latitude'), RC_DB::raw('eu.longitude as eu_longitude'), RC_DB::raw('eu.latitude as eu_latitude'))
 							->first();
 		
-		$store_info =  RC_DB::table('store_franchisee')->where('store_id', $store_id)->selectRaw('longitude as sf_longitude, latitude as sf_latitude')->first();
+		$store_info =  RC_DB::table('store_franchisee')->where('store_id', $store_id)->select(RC_DB::raw('longitude as sf_longitude'), RC_DB::raw('latitude as sf_latitude'))->first();
 		
 		$content = array_merge($express_info, $store_info);
 		
@@ -481,10 +489,10 @@ class merchant extends ecjia_merchant {
 		$express_info = RC_DB::table('express_order as eo')
 		->leftJoin('express_user as eu', RC_DB::raw('eo.staff_id'), '=', RC_DB::raw('eu.user_id'))
 		->where(RC_DB::raw('eo.express_id'), $express_id)
-		->selectRaw('eo.express_user, eo.express_mobile, eo.longitude as u_longitude, eo.latitude as u_latitude, eu.longitude as eu_longitude, eu.latitude as eu_latitude')
+		->select(RC_DB::raw('eo.express_user'), RC_DB::raw('eo.express_mobile'), RC_DB::raw('eo.longitude as u_longitude'), RC_DB::raw('eo.latitude as u_latitude'), RC_DB::raw('eu.longitude as eu_longitude'), RC_DB::raw('eu.latitude as eu_latitude'))
 		->first();
 	
-		$store_info =  RC_DB::table('store_franchisee')->where('store_id', $store_id)->selectRaw('longitude as sf_longitude, latitude as sf_latitude')->first();
+		$store_info =  RC_DB::table('store_franchisee')->where('store_id', $store_id)->select(RC_DB::raw('longitude as sf_longitude'), RC_DB::raw('latitude as sf_latitude'))->first();
 	
 		$content = array_merge($express_info, $store_info);
 	
@@ -606,16 +614,41 @@ class merchant extends ecjia_merchant {
         return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/merchant/wait_pickup', array('type' => 'wait_pickup'))));
     }
 
+    //提醒指派
+    public function remind_assign() {
+    	$express_id = trim($_GET['id']);
+    	$express_sn = RC_DB::table('express_order')->where('express_id', $express_id)->where('store_id', $_SESSION['store_id'])->pluck('express_sn');
+    	if (empty($express_sn)) {
+    		return $this->showmessage('该配送单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	
+    	$count = RC_DB::table('express_order_reminder')->where('express_id', $express_id)->count();
+    	if ($count != 0) {
+    		return $this->showmessage('该配送单已提醒过平台派单，请勿重复提醒！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	$data = array(
+    		'express_id' 	=> $express_id,
+    		'message'  		=> '商家【'.$_SESSION['store_name'].'】'.'正在进行派单提醒,配送单号:'.$express_sn.'，请赶快派单吧！',
+    		'status'   		=> 0,
+    		'create_time' 	=> RC_Time::gmtime(),
+    	);
+    	RC_DB::table('express_order_reminder')->insert($data);
+    	
+    	return $this->showmessage('已提醒平台派单', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+    }
 	/**
 	 * 待派单列表
 	 */
-	private function get_wait_grab_list($type =''){
+	private function get_wait_grab_list($type = '', $platform = 0){
 		$dbview = RC_DB::table('express_order as eo')
 					->leftJoin('store_franchisee as sf', RC_DB::raw('eo.store_id'), '=', RC_DB::raw('sf.store_id'));
 		
 		$dbview->where(RC_DB::raw('eo.store_id'), $_SESSION['store_id']);
-		$dbview->where(RC_DB::raw('eo.shipping_code'), 'ship_o2o_express');
-		
+		if (!empty($platform)) {
+			$dbview->where(RC_DB::raw('eo.shipping_code'), 'ship_ecjia_express');
+		} else {
+			$dbview->where(RC_DB::raw('eo.shipping_code'), 'ship_o2o_express');
+		}
 		$field = 'eo.consignee, eo.mobile as consignee_mobile, eo.express_id, eo.store_id, eo.express_sn, eo.country, eo.province, eo.city, eo.district, eo.street, eo.address, eo.distance, eo.add_time, 
 				  eo.longitude, eo.latitude, eo.express_user, eo.express_mobile, eo.staff_id, eo.from, eo.receive_time, sf.province as sf_province, sf.city as sf_city, sf.longitude as sf_longitude, sf.latitude as sf_latitude, 
 				  sf.district as sf_district, sf.street as sf_street, sf.address as sf_address';
@@ -625,16 +658,23 @@ class merchant extends ecjia_merchant {
 		
 		$db = RC_DB::table('express_order');
 		$db->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
-		$db->where(RC_DB::raw('shipping_code'), 'ship_o2o_express');
+		if (!empty($platform)) {
+			$db->where('shipping_code', 'ship_ecjia_express');
+		} else {
+			$db->where('shipping_code', 'ship_o2o_express');
+		}
 		
+		$keywords = $filter['keywords'];
 		if ($type != 'wait_grab') {
 			if (!empty($filter['keywords'])) {
-				$db ->whereRaw('(express_user  like  "%'.mysql_like_quote($filter['keywords']).'%") or (express_sn like "%'.mysql_like_quote($filter['keywords']).'%")');
+				$db->where(function($query) use ($keywords) {
+					$query->where('express_user', 'like', '%'.mysql_like_quote($keywords).'%')->orWhere('express_sn', 'like', '%'.mysql_like_quote($keywords).'%');
+				});
 			}
 		}
 		
 		$express_order_count = $db
-		->selectRaw('count(*) as count, SUM(IF(status = 0, 1, 0)) as wait_grab, SUM(IF(status = 1, 1, 0)) as wait_pickup, SUM(IF(status = 2, 1, 0)) as sending')
+		->select(RC_DB::raw('count(*) as count'), RC_DB::raw('SUM(IF(status = 0, 1, 0)) as wait_grab'), RC_DB::raw('SUM(IF(status = 1, 1, 0)) as wait_pickup'), RC_DB::raw('SUM(IF(status = 2, 1, 0)) as sending'))
 		->first();
 	
 		if ($type == 'wait_grab') {
@@ -646,7 +686,6 @@ class merchant extends ecjia_merchant {
 		}
 		
 		if (!empty($filter['keywords'])) {
-			$keywords = $filter['keywords'];
 			$dbview->where(function($query) use ($keywords) {
 				$query->where(RC_DB::raw('eo.express_user'), 'like', '%'.mysql_like_quote($keywords).'%')->orWhere(RC_DB::raw('eo.express_sn'), 'like', '%'.mysql_like_quote($keywords).'%');
 			});
@@ -656,10 +695,10 @@ class merchant extends ecjia_merchant {
 		$page = new ecjia_merchant_page($count, 10, 5);
 		
 		$list = $dbview->select(RC_DB::raw($field))
-		->orderBy(RC_DB::raw('eo.add_time'), 'desc')
-		->take(10)
-		->skip($page->start_id-1)
-		->get();
+			->orderBy(RC_DB::raw('eo.add_time'), 'desc')
+			->take(10)
+			->skip($page->start_id-1)
+			->get();
 		
 		$data = array();
 		if (!empty($list)) {
@@ -720,7 +759,7 @@ class merchant extends ecjia_merchant {
 		->select(RC_DB::raw('count(*) as count'),RC_DB::raw('SUM(IF(su.online_status = 1, 1, 0)) as online'),RC_DB::raw('SUM(IF(su.online_status = 4, 1, 0)) as offline'))
 		->first();
 		
-		$list = $express_user_view->selectRaw('eu.*, su.mobile, su.name, su.avatar, su.online_status')->orderBy('online_status', 'asc')->get();
+		$list = $express_user_view->select(RC_DB::raw('eu.*'), RC_DB::raw('su.mobile'), RC_DB::raw('su.name'), RC_DB::raw('su.avatar'), RC_DB::raw('su.online_status'))->orderBy('online_status', 'asc')->get();
 		$data = array();
 		if (!empty($list)) {
 			foreach ($list as $row) {

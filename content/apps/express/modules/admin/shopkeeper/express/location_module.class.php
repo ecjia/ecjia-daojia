@@ -68,7 +68,7 @@ class location_module extends api_admin implements api_interface {
         
         $dbview->where(RC_DB::raw('su.user_id'), $staff_id);
         
-        $express_user_info = $dbview->selectRaw('eu.*, su.name, su.mobile, su.avatar')->first();
+        $express_user_info = $dbview->select(RC_DB::raw('eu.*'), RC_DB::raw('su.name'), RC_DB::raw('su.mobile'), RC_DB::raw('su.avatar'))->first();
         
         if (empty($express_user_info)) {
         	return new ecjia_error('not_exists_expressinfo', '配送员信息不存在');

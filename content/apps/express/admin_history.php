@@ -110,7 +110,7 @@ class admin_history extends ecjia_admin {
 		$order_info = RC_DB::table('order_info')->where('order_id', $express_info['order_id'])->select('add_time','expect_shipping_time','postscript')->first();
 		//$goods_list = RC_DB::table('order_goods')->where('order_id', $express_info['order_id'])->select('goods_id', 'goods_name' ,'goods_price','goods_number')->get();
 		/*配送单对应的发货单商品*/
-		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->selectRaw('goods_id, goods_name, send_number')->get();
+		$goods_list = RC_DB::table('delivery_goods')->where('delivery_id', $express_info['delivery_id'])->select(RC_DB::raw('goods_id'), RC_DB::raw('goods_name'), RC_DB::raw('send_number'))->get();
 		
 		foreach ($goods_list as $key => $val) {
 			$goods_list[$key]['image']  				= RC_DB::table('goods')->where('goods_id', $val['goods_id'])->pluck('goods_thumb');
@@ -179,7 +179,7 @@ class admin_history extends ecjia_admin {
 		$page = new ecjia_page($count, 10, 5);
 		
 		$data = $db_data
-		->selectRaw('eo.express_id,eo.order_sn,eo.express_sn,eo.from,eo.express_user,eo.express_mobile,eo.signed_time,eo.status,eo.consignee,eo.mobile,eo.district as eodistrict,eo.street as eostreet,eo.address as eoaddress,sf.district,sf.street,sf.address')
+		->select(RC_DB::raw('eo.express_id'), RC_DB::raw('eo.order_sn'), RC_DB::raw('eo.express_sn'), RC_DB::raw('eo.from'), RC_DB::raw('eo.express_user'), RC_DB::raw('eo.express_mobile'), RC_DB::raw('eo.signed_time'), RC_DB::raw('eo.status'), RC_DB::raw('eo.consignee'), RC_DB::raw('eo.mobile'), RC_DB::raw('eo.district as eodistrict'), RC_DB::raw('eo.street as eostreet'), RC_DB::raw('eo.address as eoaddress'), RC_DB::raw('sf.district'), RC_DB::raw('sf.street'), RC_DB::raw('sf.address'))
 		->orderby(RC_DB::raw('eo.signed_time'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)

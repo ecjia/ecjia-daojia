@@ -170,7 +170,7 @@ class mh_express extends ecjia_merchant {
 		$count = $db_order->count();
 		$page = new ecjia_merchant_page($count, 5, 5);
 		$data = $db_order
-		->selectRaw('express_id,express_sn,district,street,address,receive_time,commision,status')
+		->select(RC_DB::raw('express_id'), RC_DB::raw('express_sn'), RC_DB::raw('district'), RC_DB::raw('street'), RC_DB::raw('address'), RC_DB::raw('receive_time'), RC_DB::raw('commision'), RC_DB::raw('status'))
 		->orderby(RC_DB::raw('express_id'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)
@@ -226,7 +226,7 @@ class mh_express extends ecjia_merchant {
 		$count = $log_db->count();
 		$page = new ecjia_merchant_page($count, 5, 5);
 		$data = $log_db
-		->selectRaw('staff_user_id,user_money,change_time,change_desc')
+		->select(RC_DB::raw('staff_user_id'), RC_DB::raw('user_money'), RC_DB::raw('change_time'), RC_DB::raw('change_desc'))
 		->orderby('log_id', 'desc')
 		->take(10)
 		->skip($page->start_id-1)
@@ -275,7 +275,7 @@ class mh_express extends ecjia_merchant {
 		$page = new ecjia_merchant_page($count, 10, 5);
 		
 		$data = $db_data
-		->selectRaw('eu.*, su.user_id, su.name, su.mobile, su.add_time, su.online_status')
+		->select(RC_DB::raw('eu.*'), RC_DB::raw('su.user_id'), RC_DB::raw('su.name'), RC_DB::raw('su.mobile'), RC_DB::raw('su.add_time'), RC_DB::raw('su.online_status'))
 		->orderby(RC_DB::raw('su.user_id'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)
