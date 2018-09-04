@@ -196,7 +196,7 @@ class admin extends ecjia_admin {
 		}
 
 		if (!empty($password)) {
-			if (!preg_match("/^[A-Za-z0-9]+$/", $password)){
+			if (!preg_match("/^[A-Za-z0-9_\/|\~|\!|\@|\#|\\$|\%|\^|\&|\*|\(|\)|\_|\+|\{|\}|\:|\<|\>|\?|\[|\]|\,|\.|\/|\;|\'|\`|\-|\=|\\\|\|]+$/",$password)){
 				return $this->showmessage(RC_Lang::get('user::users.js_languages.chinese_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			if (empty($confirm_password)) {
@@ -421,9 +421,10 @@ class admin extends ecjia_admin {
 		if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/", $email)) {
 			return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+
 		/* 密码 */
 		if (!empty($password)) {
-			if (!preg_match("/^[A-Za-z0-9]+$/",$password)){
+			if (!preg_match("/^[A-Za-z0-9_\/|\~|\!|\@|\#|\\$|\%|\^|\&|\*|\(|\)|\_|\+|\{|\}|\:|\<|\>|\?|\[|\]|\,|\.|\/|\;|\'|\`|\-|\=|\\\|\|]+$/",$password)){
 				return $this->showmessage(RC_Lang::get('user::users.js_languages.chinese_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			if (empty($confirm_password)) {
@@ -594,7 +595,7 @@ class admin extends ecjia_admin {
 					->leftJoin('regions as s', RC_DB::raw('s.region_id'), '=', RC_DB::raw('ua.street'))
 					->where('user_id', $row['user_id'])
 					->orderBy('default_address', 'desc')
-					->selectRaw($field)
+					->select(RC_DB::raw($field))
 					->take(5)
 					->get();
 
@@ -604,7 +605,9 @@ class admin extends ecjia_admin {
 			if (!empty($order)) {
 				foreach ($order as $k => $v) {
 					$order[$k]['add_time']	 = RC_Time::local_date(ecjia::config('time_format'), $v['add_time']);
-					$order[$k]['status']	 = RC_Lang::get('orders::order.os.'.$v['order_status']) . ',' .RC_Lang::get('orders::order.ps.'.$v['pay_status']) . ',' . RC_Lang::get('orders::order.ss.'.$v['shipping_status']);
+					$is_cod = $v['pay_code'] == 'pay_cod' ? 1 : 0;
+					$label_status = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($v['order_status'], $v['shipping_status'], $v['pay_status'], $is_cod);
+					$order[$k]['status'] = $label_status[0];
 				}
 			}
 		}
@@ -769,7 +772,7 @@ class admin extends ecjia_admin {
 		if ($address_id) {
 			$db_user_address
 				->orderBy('default_address', 'desc')
-				->selectRaw("ua.*,IF(address_id=".$address_id['address_id'].",1,0) as default_address,IFNULL(c.region_name, '') as country_name, IFNULL(p.region_name, '') as province_name,IFNULL(t.region_name, '') as city_name,IFNULL(d.region_name, '') as district_name,IFNULL(s.region_name, '') as street_name");
+				->select(RC_DB::raw("ua.*, IF(address_id=".$address_id['address_id'].", 1, 0) as default_address, IFNULL(c.region_name, '') as country_name, IFNULL(p.region_name, '') as province_name, IFNULL(t.region_name, '') as city_name, IFNULL(d.region_name, '') as district_name, IFNULL(s.region_name, '') as street_name"));
 		} 
 		
 		$row = $db_user_address->where('user_id', $id)->get();

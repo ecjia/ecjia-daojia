@@ -47,23 +47,43 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 用户信息
- * @author royalwang
+ * 添加商家会员
  */
-class info_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-        //如果用户登录获取其session
-        $user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-		RC_Loader::load_app_func('admin_user', 'user');
-		$user_info = EM_user_info($user_id);
-		$user_info['signup_reward_url'] =  RC_Uri::url('market/mobile_reward/init', array('token' => RC_Session::session_id()));
-		return $user_info;
+class add_storeuser {
+	/**
+	 * 添加商家会员
+	 * 
+	 */
+	
+	public static function add_store_user($options) {
+		
+		if (!empty($options['store_id']) && !empty($options['user_id'])) {
+			$is_exist_store_user = RC_DB::table('store_users')->where('store_id', $options['store_id'])->where('user_id', $options['user_id'])->first();
+			if (empty($is_exist_store_user)) {
+				$store_name = self::get_store_name($options['store_id']);
+				$data = array(
+						'store_id' 		=> $options['store_id'],
+						'user_id'		=> $options['user_id'],
+						'store_name'	=> $store_name,
+						'jion_scene'	=> 'buy',
+						'add_time'		=> RC_Time::gmtime()
+				);
+				RC_DB::table('store_users')->insert($data);
+			} else {
+				RC_DB::table('store_users')->where('user_id', $options['user_id'])->where('store_id', $options['store_id'])->update(array('last_buy_time' => RC_Time::gmtime()));
+			}
+		}
 	}
-}
+
+	/**
+	 * @param int  $store_id
+	 */
+	public static function get_store_name($store_id = 0) {
+		$store_name = '';
+		$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+		return $store_name;
+	}
+}	
+
 
 // end

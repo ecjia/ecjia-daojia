@@ -118,7 +118,7 @@ class add_module extends api_front implements api_interface {
 			$address_data['city']		= $data['city'];
 			$address_data['district']	= $data['district'];
 			$address_data['street']		= $data['street'];
-		}	
+		}
 		
 		$result = RC_Api::api('user', 'address_manage', $address_data);
 	

@@ -309,9 +309,9 @@ function register($username, $password = null, $email, $other = array(), $api_ve
     	}
     }
     
-    if (admin_registered($username)) {
-    	return new ecjia_error('user_exists', RC_Lang::get('user::users.username_exists'));
-    }
+//     if (admin_registered($username)) {
+//     	return new ecjia_error('user_exists', RC_Lang::get('user::users.username_exists'));
+//     }
 
     RC_Loader::load_app_class('integrate', 'user', false);
     $user = integrate::init_users();

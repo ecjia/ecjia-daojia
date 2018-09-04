@@ -32,7 +32,7 @@ class user_store_user_list_api extends Component_Event_Api {
 		$page_row = new ecjia_page($count, $options['size'], 6, '', $options['page']);
     	
 		$rows = $user_db
-					->selectRaw('su.*, u.email, u.user_name, u.birthday, u.user_money, u.frozen_money, u.pay_points, u.rank_points, u.reg_time, u.user_rank, u.parent_id, u.qq, u.mobile_phone, u.avatar_img')
+					->select(RC_DB::raw('su.*, u.email, u.user_name, u.birthday, u.user_money, u.frozen_money, u.pay_points, u.rank_points, u.reg_time, u.user_rank, u.parent_id, u.qq, u.mobile_phone, u.avatar_img'))
 					->take($options['size'])
 					->skip($page_row->start_id - 1)->orderBy(RC_DB::raw('u.reg_time'), 'desc')->get();
 		

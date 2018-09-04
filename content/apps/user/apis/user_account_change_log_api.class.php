@@ -106,14 +106,9 @@ class user_account_change_log_api extends Component_Event_Api {
         );
         RC_DB::table('account_log')->insert($account_log);
     
-        /* 更新用户信息 */
-        // 	TODO: 暂时先恢复之前的写法
-    
-        $step = $user_money.", frozen_money = frozen_money + ('$frozen_money')," .
-//         " rank_points = rank_points + ('$rank_points')," .
-        " pay_points = pay_points + ('$pay_points')";
-    
-        RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $step);
+        RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $user_money);
+        RC_DB::table('users')->where('user_id', $user_id)->increment('frozen_money', $frozen_money);
+        RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', $pay_points);
         
         if ($rank_points) {
             $data = array (

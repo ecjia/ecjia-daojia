@@ -186,7 +186,7 @@
 										<i class="fontello-icon-phone ecjiafc-999"></i>：{$order.tel} <br>
 										{/if}
 									</td>
-									<td valign="top" nowrap="nowrap" align="right">{$order.goods_amount+$order.tax+$order.shipping_fee+$order.insure_fee+$order.pay_fee+$order.pack_fee+$order.card_fee-$order.discount}</td>
+									<td valign="top" nowrap="nowrap" align="right">{price_format($order.goods_amount + $order.tax + $order.shipping_fee + $order.insure_fee + $order.pay_fee + $order.pack_fee + $order.card_fee - $order.discount)}</td>
 									<td valign="top" nowrap="nowrap" align="center">{$order.status}</td>
 								</tr>
 							<!-- {foreachelse} -->
