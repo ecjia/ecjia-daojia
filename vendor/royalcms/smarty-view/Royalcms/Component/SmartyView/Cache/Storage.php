@@ -1,7 +1,9 @@
-<?php namespace Royalcms\Component\SmartyView\Cache;
+<?php
+
+namespace Royalcms\Component\SmartyView\Cache;
 
 use Smarty;
-use Royalcms\Component\Config\Repository as ConfigContract;
+use Royalcms\Component\Contracts\Config\Repository as ConfigContract;
 
 /**
  * Class Storage

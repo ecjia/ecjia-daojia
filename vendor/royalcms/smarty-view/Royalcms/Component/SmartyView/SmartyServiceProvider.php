@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\SmartyView;
+<?php
+
+namespace Royalcms\Component\SmartyView;
 
 use Smarty;
 use Royalcms\Component\Support\ServiceProvider;

@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\SmartyView;
+<?php
+
+namespace Royalcms\Component\SmartyView;
 
 use Royalcms\Component\Support\ServiceProvider;
 
@@ -20,19 +22,21 @@ class SmartyCompileServiceProvider extends ServiceProvider
      */
     public static function compiles()
     {
+        $dir = static::guessPackageClassPath('royalcms/smarty-view');
+
         return [
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/Cache/Memcached.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/Cache/Redis.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/Cache/Storage.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/Console/CacheClearCommand.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/Console/ClearCompiledCommand.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/Console/OptimizeCommand.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/SmartyFactory.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/Engines/SmartyEngine.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/SmartyServiceProvider.php',
-            base_path() . '/vendor/royalcms/smarty-view/Smarty/SmartyConsoleServiceProvider.php',
-            base_path() . '/vendor/smarty/smarty/libs/Smarty.class.php',
-            base_path() . '/vendor/smarty/smarty/libs/Autoloader.php',
+//            $dir . '/Cache/KeyValueStorage.php',
+//            $dir . '/Cache/Memcached.php',
+//            $dir . '/Cache/Redis.php',
+            $dir . '/Cache/Storage.php',
+            $dir . '/Console/CacheClearCommand.php',
+            $dir . '/Console/ClearCompiledCommand.php',
+            $dir . '/Console/OptimizeCommand.php',
+            $dir . '/SmartyFactory.php',
+            $dir . '/FileViewFinder.php',
+            $dir . '/Engines/SmartyEngine.php',
+            $dir . '/SmartyServiceProvider.php',
+            $dir . '/SmartyConsoleServiceProvider.php',
         ];
     }
 }

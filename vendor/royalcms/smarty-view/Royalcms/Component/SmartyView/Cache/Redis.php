@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\SmartyView\Cache;
+<?php
+
+namespace Royalcms\Component\SmartyView\Cache;
 
 use Predis\Client;
 

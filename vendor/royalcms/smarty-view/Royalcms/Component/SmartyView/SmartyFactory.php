@@ -1,14 +1,16 @@
-<?php namespace Royalcms\Component\SmartyView;
+<?php
+
+namespace Royalcms\Component\SmartyView;
 
 use Smarty;
 use ReflectionClass;
-use Royalcms\Component\View\Environment as Factory;
+use Royalcms\Component\View\Factory as Factory;
 use Royalcms\Component\View\ViewFinderInterface;
 use Royalcms\Component\View\Engines\EngineResolver;
 use Royalcms\Component\SmartyView\Cache\Storage;
 use Royalcms\Component\SmartyView\Exception\MethodNotFoundException;
 use Royalcms\Component\Config\Repository as ConfigContract;
-use Royalcms\Component\Event\Dispatcher as DispatcherContract;
+use Royalcms\Component\Events\Dispatcher as DispatcherContract;
 
 /**
  * Class SmartyManager

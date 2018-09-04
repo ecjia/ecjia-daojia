@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\SmartyView\Console;
+<?php
+
+namespace Royalcms\Component\SmartyView\Console;
 
 use Smarty;
 use Royalcms\Component\Console\Command;
@@ -15,14 +17,14 @@ class PackageInfoCommand extends Command
      *
      * @var string
      */
-    protected $name = 'ytake:smarty-package-info';
+    protected $name = 'view:smarty-view';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'information about ytake/laravel-smarty';
+    protected $description = 'information about royalcms/smarty-view';
 
     /**
      * Execute the console command.
@@ -32,6 +34,6 @@ class PackageInfoCommand extends Command
     public function fire()
     {
         $this->line('<info>Smarty</info> version <comment>' . Smarty::SMARTY_VERSION . '</comment>');
-        $this->line('<info>ytake/laravel-smarty</info> version <comment>' . SmartyFactory::VERSION . '</comment>');
+        $this->line('<info>royalcms/smarty-view</info> version <comment>' . SmartyFactory::VERSION . '</comment>');
     }
 }

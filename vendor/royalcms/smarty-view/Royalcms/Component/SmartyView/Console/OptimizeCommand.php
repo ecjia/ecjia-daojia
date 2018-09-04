@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\SmartyView\Console;
+<?php
+
+namespace Royalcms\Component\SmartyView\Console;
 
 use Smarty;
 use Royalcms\Component\Console\Command;
@@ -33,7 +35,7 @@ class OptimizeCommand extends Command
      *
      * @var string
      */
-    protected $name = 'smarty-optimize';
+    protected $name = 'smarty:optimize';
 
     /**
      * The console command description.

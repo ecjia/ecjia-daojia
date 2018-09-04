@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\SmartyView\Engines;
+<?php
+
+namespace Royalcms\Component\SmartyView\Engines;
 
 use Smarty;
 use Royalcms\Component\View\Engines\EngineInterface;

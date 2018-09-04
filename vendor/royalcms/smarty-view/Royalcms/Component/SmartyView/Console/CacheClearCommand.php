@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\SmartyView\Console;
+<?php
+
+namespace Royalcms\Component\SmartyView\Console;
 
 use Smarty;
 use Royalcms\Component\Console\Command;
@@ -27,7 +29,7 @@ class CacheClearCommand extends Command
      *
      * @var string
      */
-    protected $name = 'smarty-clear-cache';
+    protected $name = 'smarty:clear-cache';
 
     /**
      * The console command description.
