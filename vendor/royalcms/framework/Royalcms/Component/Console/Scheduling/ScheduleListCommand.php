@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Console\Scheduling;
+<?php
+
+namespace Royalcms\Component\Console\Scheduling;
 
 use Royalcms\Component\Console\Command;
 
@@ -44,27 +46,12 @@ class ScheduleListCommand extends Command {
      */
     public function fire()
     {        
-        if (version_compare(PHP_VERSION, '5.4', '<')) 
-        {
-            $events = array();
-            
-            foreach ($this->schedule->events() as $event) {
-                $events[] = array(
-                    'cron' => $event->expression,
-                    'command' => static::fixupCommand($event->command),
-                );
-            }
-        }
-        else 
-        {
-            // PHP5.3不支持回调函数中static此写法，此写法需在PHP5.4情况下可用
-            $events = array_map(function ($event) {
-                return array(
-                    'cron' => $event->expression,
-                    'command' => static::fixupCommand($event->command),
-                );
-            }, $this->schedule->events());
-        }
+        $events = array_map(function ($event) {
+            return array(
+                'cron' => $event->expression,
+                'command' => static::fixupCommand($event->command),
+            );
+        }, $this->schedule->events());
 
         $this->table(
             array('Cron', 'Command'),
@@ -81,7 +68,7 @@ class ScheduleListCommand extends Command {
     protected static function fixupCommand($command)
     {
         $parts = explode(' ', $command);
-        if (count($parts) > 2 && $parts[1] === "'royalcmd'") {
+        if (count($parts) > 2 && $parts[1] === "'royalcms'") {
             array_shift($parts);
         }
     
