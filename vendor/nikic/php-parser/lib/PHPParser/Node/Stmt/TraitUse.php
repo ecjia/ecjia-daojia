@@ -1,25 +1,31 @@
 <?php
 
-/**
- * @property PHPParser_Node_Name[]                    $traits      Traits
- * @property PHPParser_Node_Stmt_TraitUseAdaptation[] $adaptations Adaptations
- */
-class PHPParser_Node_Stmt_TraitUse extends PHPParser_Node_Stmt
+namespace PhpParser\Node\Stmt;
+
+use PhpParser\Node;
+
+
+class TraitUse extends Node\Stmt
 {
+    /** @var Node\Name[] Traits */
+    public $traits;
+    /** @var TraitUseAdaptation[] Adaptations */
+    public $adaptations;
+
     /**
      * Constructs a trait use node.
      *
-     * @param PHPParser_Node_Name[]                    $traits      Traits
-     * @param PHPParser_Node_Stmt_TraitUseAdaptation[] $adaptations Adaptations
-     * @param array                                    $attributes  Additional attributes
+     * @param Node\Name[]          $traits      Traits
+     * @param TraitUseAdaptation[] $adaptations Adaptations
+     * @param array                $attributes  Additional attributes
      */
     public function __construct(array $traits, array $adaptations = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'traits'      => $traits,
-                'adaptations' => $adaptations,
-            ),
-            $attributes
-        );
+        parent::__construct($attributes);
+        $this->traits = $traits;
+        $this->adaptations = $adaptations;
+    }
+
+    public function getSubNodeNames() {
+        return array('traits', 'adaptations');
     }
 }

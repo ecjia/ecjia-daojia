@@ -1,71 +1,101 @@
 <?php
 
-/**
- * @property int                    $type   Type
- * @property bool                   $byRef  Whether to return by reference
- * @property string                 $name   Name
- * @property PHPParser_Node_Param[] $params Parameters
- * @property PHPParser_Node[]       $stmts  Statements
- */
-class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
+namespace PhpParser\Node\Stmt;
+
+use PhpParser\Node;
+use PhpParser\Node\FunctionLike;
+use PhpParser\Error;
+
+class ClassMethod extends Node\Stmt implements FunctionLike
 {
+    /** @var int Type */
+    public $type;
+    /** @var bool Whether to return by reference */
+    public $byRef;
+    /** @var string Name */
+    public $name;
+    /** @var Node\Param[] Parameters */
+    public $params;
+    /** @var null|string|Node\Name Return type */
+    public $returnType;
+    /** @var Node[] Statements */
+    public $stmts;
 
     /**
      * Constructs a class method node.
      *
      * @param string      $name       Name
      * @param array       $subNodes   Array of the following optional subnodes:
-     *                                'type'   => MODIFIER_PUBLIC: Type
-     *                                'byRef'  => false          : Whether to return by reference
-     *                                'params' => array()        : Parameters
-     *                                'stmts'  => array()        : Statements
+     *                                'type'       => MODIFIER_PUBLIC: Type
+     *                                'byRef'      => false          : Whether to return by reference
+     *                                'params'     => array()        : Parameters
+     *                                'returnType' => null           : Return type
+     *                                'stmts'      => array()        : Statements
      * @param array       $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(
-            $subNodes + array(
-                'type'   => PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC,
-                'byRef'  => false,
-                'params' => array(),
-                'stmts'  => array(),
-            ),
-            $attributes
-        );
+        parent::__construct($attributes);
+        $this->type = isset($subNodes['type']) ? $subNodes['type'] : 0;
+        $this->byRef = isset($subNodes['byRef'])  ? $subNodes['byRef']  : false;
         $this->name = $name;
+        $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
+        $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : null;
+        $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array();
 
-        if ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC) {
+        if ($this->type & Class_::MODIFIER_STATIC) {
             switch (strtolower($this->name)) {
                 case '__construct':
-                    throw new PHPParser_Error(sprintf('Constructor %s() cannot be static', $this->name));
+                    throw new Error(sprintf('Constructor %s() cannot be static', $this->name));
                 case '__destruct':
-                    throw new PHPParser_Error(sprintf('Destructor %s() cannot be static', $this->name));
+                    throw new Error(sprintf('Destructor %s() cannot be static', $this->name));
                 case '__clone':
-                    throw new PHPParser_Error(sprintf('Clone method %s() cannot be static', $this->name));
+                    throw new Error(sprintf('Clone method %s() cannot be static', $this->name));
             }
         }
     }
 
+    public function getSubNodeNames() {
+        return array('type', 'byRef', 'name', 'params', 'returnType', 'stmts');
+    }
+
+    public function returnsByRef() {
+        return $this->byRef;
+    }
+
+    public function getParams() {
+        return $this->params;
+    }
+
+    public function getReturnType() {
+        return $this->returnType;
+    }
+
+    public function getStmts() {
+        return $this->stmts;
+    }
+
     public function isPublic() {
-        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC);
+        return ($this->type & Class_::MODIFIER_PUBLIC) !== 0
+            || ($this->type & Class_::VISIBILITY_MODIFER_MASK) === 0;
     }
 
     public function isProtected() {
-        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED);
+        return (bool) ($this->type & Class_::MODIFIER_PROTECTED);
     }
 
     public function isPrivate() {
-        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE);
+        return (bool) ($this->type & Class_::MODIFIER_PRIVATE);
     }
 
     public function isAbstract() {
-        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
+        return (bool) ($this->type & Class_::MODIFIER_ABSTRACT);
     }
 
     public function isFinal() {
-        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
+        return (bool) ($this->type & Class_::MODIFIER_FINAL);
     }
 
     public function isStatic() {
-        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
+        return (bool) ($this->type & Class_::MODIFIER_STATIC);
     }
 }

@@ -1,168 +1,138 @@
-Version 0.9.5 (23.07.2014)
+Version 2.1.1-dev
+-----------------
+
+Nothing yet.
+
+Version 2.1.0 (2016-04-19)
 --------------------------
 
-**This is the last release on the 0.9 branch.**
+### Fixed
 
-* Add `NodeTraverser::removeVisitor()` method, which removes a visitor from the node traverser. The method was not added
-  to the corresponding `NodeTraverserInterface` to avoid BC breaks with custom traversers (it is added in version 1.0).
+* Properly support `B""` strings (with uppercase `B`) in a number of places.
+* Fixed reformatting of indented parts in a certain non-standard comment style.
 
-* Deprecated `PHPParser_Template` and `PHPParser_TemplateLoader`. This functionality does not belong in the main project
-  and - as far as I know - nobody is using it.
+### Added
 
-* Fix alias resolution in `NameResolver`: Class names are now correctly handled as case-insensitive.
+* Added `dumpComments` option to node dumper, to enable dumping of comments associated with nodes.
+* Added `Stmt\Nop` node, that is used to collect comments located at the end of a block or at the
+  end of a file (without a following node with which they could otherwise be associated).
+* Added `kind` attribute to `Expr\Exit` to distinguish between `exit` and `die`.
+* Added `kind` attribute to `Scalar\LNumber` to distinguish between decimal, binary, octal and
+  hexadecimal numbers.
+* Added `kind` attribtue to `Expr\Array` to distinguish between `array()` and `[]`.
+* Added `kind` attribute to `Scalar\String` and `Scalar\Encapsed` to distinguish between
+  single-quoted, double-quoted, heredoc and nowdoc string.
+* Added `docLabel` attribute to `Scalar\String` and `Scalar\Encapsed`, if it is a heredoc or
+  nowdoc string.
+* Added start file offset information to `Comment` nodes.
+* Added `setReturnType()` method to function and method builders.
+* Added `-h` and `--help` options to `php-parse` script.
 
-* The undefined variable error, which is used in the lexer to reset the error state, will no longer interfere with
-  custom error handlers.
+### Changed
 
-* Make lexer compatible with `xdebug.scream`.
+* Invalid octal literals now throw a parse error in PHP 7 mode.
+* The pretty printer takes all the new attributes mentioned in the previous section into account.
+* The protected `AbstractPrettyPrinter::pComments()` method no longer returns a trailing newline.
+* The bundled autoloader supports library files being stored in a different directory than
+  `PhpParser` for easier downstream distribution.
 
-Version 0.9.4 (25.08.2013)
---------------------------
-* [PHP 5.5] Add support for `ClassName::class`. This is parsed as an `Expr_ClassConstFetch` with `'class'` being the
-  constant name.
+### Deprecated
 
-* Syntax errors now include information on expected tokens and mimic the format of PHP's own (pre 5.4) error messages.
-  Example:
+* The `Comment::setLine()` and `Comment::setText()` methods have been deprecated. Construct new
+  objects instead.
 
-        Old: Unexpected token T_STATIC on line 1
-        New: Syntax error, unexpected T_STATIC, expecting T_STRING or T_NS_SEPARATOR or '{'
+### Removed
 
-* `PHPParser_PrettyPrinter_Zend` was renamed to `PHPParser_PrettyPrinter_Default` as the default pretty printer only
-  very loosely applies the Zend Coding Standard. The class `PHPParser_PrettyPrinter_Zend` extends
-  `PHPParser_PrettyPrinter_Default` to maintain backwards compatibility.
+* The internal (but public) method `Scalar\LNumber::parse()` has been removed. A non-internal
+  `LNumber::fromString()` method has been added instead.
 
-* The pretty printer now prints namespaces in semicolon-style if possible (i.e. if the file does not contain a global
-  namespace declaration).
-
-* Added `prettyPrintFile(array $stmts)` method which will pretty print a file of statements including the opening
-  `<?php` tag if it is required. Use of this method will also eliminate the unnecessary `<?php ?>` at the start and end
-  of files using inline HTML.
-
-* There now is a builder for interfaces (`PHPParser_Builder_Interface`).
-
-* An interface for the node traversation has been added: `PHPParser_NodeTraverserInterface`
-
-* Fix pretty printing of `include` expressions (precedence information was missing).
-
-* Fix "undefined index" notices when generating the expected tokens for a syntax error.
-
-* Improve performance of `PrettyPrinter` construction by no longer using the `uniqid()` function.
-
-Version 0.9.3 (22.11.2012)
+Version 2.0.1 (2016-02-28)
 --------------------------
 
-* [BC] As `list()` in `foreach` is now supported the structure of list assignments changed:
+### Fixed
 
-   1. There is no longer a dedicated `AssignList` node; instead a normal `Assign` node is used with a `List` as  `var`.
-   2. Nested lists are now `List` nodes too, instead of just arrays.
+* `declare() {}` and `declare();` are not semantically equivalent and will now result in different
+  ASTs. The format case will have an empty `stmts` array, while the latter will set `stmts` to
+  `null`.
+* Magic constants are now supported as semi-reserved keywords.
+* A shebang line like `#!/usr/bin/env php` is now allowed at the start of a namespaced file.
+  Previously this generated an exception.
+* The `prettyPrintFile()` method will not strip a trailing `?>` from the raw data that follows a
+  `__halt_compiler()` statement.
+* The `prettyPrintFile()` method will not strip an opening `<?php` if the file starts with a
+  comment followed by InlineHTML.
 
-* [BC] As arbitrary expressions are allowed in `empty()` now its subnode was renamed from `var` to `expr`.
-
-* [BC] The protected `pSafe()` method in `PrettyPrinterAbstract` was renamed to `pNoIndent()`.
-
-* [PHP 5.5] Add support for arbitrary expressions in `empty()`.
-
-* [PHP 5.5] Add support for constant array / string dereferencing.
-  Examples: `"foo"[2]`, `[1, 2, 3][2]`
-
-* [PHP 5.5] Add support for `yield` expressions. This adds a new `Yield` expression type, with subnodes `key` and
-  `value`.
-
-* [PHP 5.5] Add support for `finally`. This adds a new `finallyStmts` subnode to the `TryCatch` node. If there is no
-  finally clause it will be `null`.
-
-* [PHP 5.5] Add support for `list()` destructuring of `foreach` values.
-  Example: `foreach ($coords as list($x, $y)) { ... }`
-
-* Improve pretty printing of expressions by printing less unnecessary parentheses. In particular concatenations are now
-  printed as `$a . $b . $c . $d . $e` rather than `$a . ($b . ($c . ($d . $e)))`. This is implemented by taking operator
-  associativity into account. New protected methods added to the pretty printer are `pPrec()`, `pInfixOp()`,
-  `pPrefixOp()` and `pPostfixOp()`. This also fixes an issue with extraneous parentheses in closure bodies.
-
-* Fix formatting of fall-through `case` statements in the Zend pretty printer.
-
-* Fix parsing of `$foo =& new Bar`. It is now properly parsed as `AssignRef` (instead of `Assign`).
-
-* Fix assignment of `$endAttributes`. Sometimes the attributes of the token right after the node were assigned, rather
-  than the attributes of the last token in the node.
-
-* `rebuildParser.php` is now designed to be run from the command line rather than from the browser.
-
-Version 0.9.2 (07.07.2012)
+Version 2.0.0 (2015-12-04)
 --------------------------
 
-* Add `Class->getMethods()` function, which returns all methods contained in the `stmts` array of the class node. This
-  does not take inherited methods into account.
+### Changed
 
-* Add `isPublic()`, `isProtected()`, `isPrivate()`. `isAbstract()`, `isFinal()` and `isStatic()` accessors to the
-  `ClassMethod`, `Property` and `Class` nodes. (`Property` and `Class` obviously only have the accessors relevant to
-  them.)
+* String parts of encapsed strings are now represented using `Scalar\EncapsStringPart` nodes.
+  Previously raw strings were used. This affects the `parts` child of `Scalar\Encaps` and
+  `Expr\ShellExec`. The change has been done to allow assignment of attributes to encapsed string
+  parts.
 
-* Fix parsing of new expressions in parentheses, e.g. `return(new Foo);`.
+Version 2.0.0-beta1 (2015-10-21)
+--------------------------------
 
-* [BC] Due to the below changes nodes now optionally accept an `$attributes` array as the
-  last parameter, instead of the previously used `$line` and `$docComment` parameters.
+### Fixed
 
-* Add mechanism for adding attributes to nodes in the lexer.
+* Fixed issue with too many newlines being stripped at the end of heredoc/nowdoc strings in some
+  cases. (#227)
 
-  The following attributes are now added by default:
+### Changed
 
-   * `startLine`: The line the node started in.
-   * `endLine`: The line the node ended in.
-   * `comments`: An array of comments. The comments are instances of `PHPParser_Comment`
-     (or `PHPParser_Comment_Doc` for doc comments).
+* Update group use support to be in line with recent PHP 7.0 builds.
+* Renamed `php-parse.php` to `php-parse` and registered it as a composer bin.
+* Use composer PSR-4 autoloader instead of custom autoloader.
+* Specify phpunit as a dev dependency.
 
-  The methods `getLine()` and `setLine()` still exist and function as before, but internally
-  operator on the `startLine` attribute.
+### Added
 
-  `getDocComment()` also continues to exist. It returns the last comment in the `comments`
-  attribute if it is a doc comment, otherwise `null`. As `getDocComment()` now returns a
-  comment object (which can be modified using `->setText()`) the `setDocComment()` method was
-  removed. Comment objects implement a `__toString()` method, so `getDocComment()` should
-  continue to work properly with old code.
+* Added `shortArraySyntax` option to pretty printer, to print all arrays using short syntax.
 
-* [BC] Use inject-once approach for lexer:
+Version 2.0.0-alpha1 (2015-07-14)
+---------------------------------
 
-  Now the lexer is injected only once when creating the parser. Instead of
+A more detailed description of backwards incompatible changes can be found in the
+[upgrading guide](UPGRADE-2.0.md).
 
-        $parser = new PHPParser_Parser;
-        $parser->parse(new PHPParser_Lexer($code));
-        $parser->parse(new PHPParser_Lexer($code2));
+### Removed
 
-  you write:
+* Removed support for running on PHP 5.4. It is however still possible to parse PHP 5.2 and PHP 5.3
+  code while running on a newer version.
+* Removed legacy class name aliases. This includes the old non-namespaced class names and the old
+  names for classes that were renamed for PHP 7 compatibility.
+* Removed support for legacy node format. All nodes must have a `getSubNodeNames()` method now.
 
-        $parser = new PHPParser_Parser(new PHPParser_Lexer);
-        $parser->parse($code);
-        $parser->parse($code2);
+### Added
 
-* Fix `NameResolver` visitor to also resolve class names in `catch` blocks.
+* Added support for remaining PHP 7 features that were not present in 1.x:
+  * Group use declarations. These are represented using `Stmt\GroupUse` nodes. Furthermore a `type`
+    attribute was added to `Stmt\UseUse` to handle mixed group use declarations.
+  * Uniform variable syntax.
+  * Generalized yield operator.
+  * Scalar type declarations. These are presented using `'bool'`, `'int'`, `'float'` and `'string'`
+    as the type. The PHP 5 parser also accepts these, however they'll be `Name` instances there.
+  * Unicode escape sequences.
+* Added `PhpParser\ParserFactory` class, which should be used to create parser instances.
+* Added `Name::concat()` which concatenates two names.
+* Added `Name->slice()` which takes a subslice of a name.
 
-Version 0.9.1 (24.04.2012)
---------------------------
+### Changed
 
-* Add ability to add attributes to nodes:
+* `PhpParser\Parser` is now an interface, implemented by `Parser\Php5`, `Parser\Php7` and
+  `Parser\Multiple`. The `Multiple` parser will try multiple parsers, until one succeeds.
+* Token constants are now defined on `PhpParser\Parser\Tokens` rather than `PhpParser\Parser`.
+* The `Name->set()`, `Name->append()`, `Name->prepend()` and `Name->setFirst()` methods are
+  deprecated in favor of `Name::concat()` and `Name->slice()`.
+* The `NodeTraverser` no longer clones nodes by default. The old behavior can be restored by
+  passing `true` to the constructor.
+* The constructor for `Scalar` nodes no longer has a default value. E.g. `new LNumber()` should now
+  be written as `new LNumber(0)`.
 
-  It is now possible to add attributes to a node using `$node->setAttribute('name', 'value')` and to retrieve them using
-  `$node->getAttribute('name' [, 'default'])`. Additionally the existance of an attribute can be checked with
-  `$node->hasAttribute('name')` and all attributes can be returned using `$node->getAttributes()`.
+---
 
-* Add code generation features: Builders and templates.
-
-  For more infos, see the [code generation documentation][1].
-
-* [BC] Don't traverse nodes merged by another visitor:
-
-  If a NodeVisitor returns an array of nodes to merge, these will no longer be traversed by all other visitors. This
-  behavior only caused problems.
-
-* Fix line numbers for some list structures.
-* Fix XML unserialization of empty nodes.
-* Fix parsing of integers that overflow into floats.
-* Fix emulation of NOWDOC and binary floats.
-
-Version 0.9.0 (05.01.2012)
---------------------------
-
-First version.
-
- [1]: https://github.com/nikic/PHP-Parser/blob/master/doc/3_Code_generation.markdown
+**This changelog only includes changes from the 2.0 series. For older changes see the
+[1.x series changelog](https://github.com/nikic/PHP-Parser/blob/1.x/CHANGELOG.md) and the
+[0.9 series changelog](https://github.com/nikic/PHP-Parser/blob/0.9/CHANGELOG.md).**

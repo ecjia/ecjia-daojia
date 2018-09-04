@@ -1,28 +1,35 @@
 <?php
 
-/**
- * @property PHPParser_Node_Name|PHPParser_Node_Expr $class Class name
- * @property string|PHPParser_Node_Expr              $name  Method name
- * @property PHPParser_Node_Arg[]                    $args  Arguments
- */
-class PHPParser_Node_Expr_StaticCall extends PHPParser_Node_Expr
+namespace PhpParser\Node\Expr;
+
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+
+class StaticCall extends Expr
 {
+    /** @var Node\Name|Expr Class name */
+    public $class;
+    /** @var string|Expr Method name */
+    public $name;
+    /** @var Node\Arg[] Arguments */
+    public $args;
+
     /**
      * Constructs a static method call node.
      *
-     * @param PHPParser_Node_Name|PHPParser_Node_Expr $class      Class name
-     * @param string|PHPParser_Node_Expr              $name       Method name
-     * @param PHPParser_Node_Arg[]                    $args       Arguments
-     * @param array                                   $attributes Additional attributes
+     * @param Node\Name|Expr $class      Class name
+     * @param string|Expr    $name       Method name
+     * @param Node\Arg[]     $args       Arguments
+     * @param array          $attributes Additional attributes
      */
     public function __construct($class, $name, array $args = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'class' => $class,
-                'name'  => $name,
-                'args'  => $args
-            ),
-            $attributes
-        );
+        parent::__construct($attributes);
+        $this->class = $class;
+        $this->name = $name;
+        $this->args = $args;
+    }
+
+    public function getSubNodeNames() {
+        return array('class', 'name', 'args');
     }
 }

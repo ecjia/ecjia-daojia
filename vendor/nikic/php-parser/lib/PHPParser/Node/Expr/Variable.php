@@ -1,22 +1,26 @@
 <?php
 
-/**
- * @property string|PHPParser_Node_Expr $name Name
- */
-class PHPParser_Node_Expr_Variable extends PHPParser_Node_Expr
+namespace PhpParser\Node\Expr;
+
+use PhpParser\Node\Expr;
+
+class Variable extends Expr
 {
+    /** @var string|Expr Name */
+    public $name;
+
     /**
      * Constructs a variable node.
      *
-     * @param string|PHPParser_Node_Expr $name       Name
+     * @param string|Expr $name       Name
      * @param array                      $attributes Additional attributes
      */
     public function __construct($name, array $attributes = array()) {
-        parent::__construct(
-            array(
-                 'name' => $name
-            ),
-            $attributes
-        );
+        parent::__construct($attributes);
+        $this->name = $name;
+    }
+
+    public function getSubNodeNames() {
+        return array('name');
     }
 }

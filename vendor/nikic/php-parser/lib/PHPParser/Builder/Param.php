@@ -1,12 +1,17 @@
 <?php
 
-class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
+namespace PhpParser\Builder;
+
+use PhpParser;
+use PhpParser\Node;
+
+class Param extends PhpParser\BuilderAbstract
 {
     protected $name;
 
-    protected $default;
-    protected $type;
-    protected $byRef;
+    protected $default = null;
+    protected $type = null;
+    protected $byRef = false;
 
     /**
      * Creates a parameter builder.
@@ -15,10 +20,6 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
      */
     public function __construct($name) {
         $this->name = $name;
-
-        $this->default = null;
-        $this->type = null;
-        $this->byRef = false;
     }
 
     /**
@@ -26,7 +27,7 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
      *
      * @param mixed $value Default value to use
      *
-     * @return PHPParser_Builder_Param The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function setDefault($value) {
         $this->default = $this->normalizeValue($value);
@@ -37,12 +38,12 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
     /**
      * Sets type hint for the parameter.
      *
-     * @param string|PHPParser_Node_Name $type Type hint to use
+     * @param string|Node\Name $type Type hint to use
      *
-     * @return PHPParser_Builder_Param The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function setTypeHint($type) {
-        if ($type === 'array' || $type === 'callable') {
+        if (in_array($type, array('array', 'callable', 'string', 'int', 'float', 'bool'))) {
             $this->type = $type;
         } else {
             $this->type = $this->normalizeName($type);
@@ -54,7 +55,7 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
     /**
      * Make the parameter accept the value by reference.
      *
-     * @return PHPParser_Builder_Param The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function makeByRef() {
         $this->byRef = true;
@@ -65,10 +66,10 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
     /**
      * Returns the built parameter node.
      *
-     * @return PHPParser_Node_Param The built parameter node
+     * @return Node\Param The built parameter node
      */
     public function getNode() {
-        return new PHPParser_Node_Param(
+        return new Node\Param(
             $this->name, $this->default, $this->type, $this->byRef
         );
     }

@@ -1,28 +1,35 @@
 <?php
 
-/**
- * @property PHPParser_Node_Expr        $var  Variable holding object
- * @property string|PHPParser_Node_Expr $name Method name
- * @property PHPParser_Node_Arg[]       $args Arguments
- */
-class PHPParser_Node_Expr_MethodCall extends PHPParser_Node_Expr
+namespace PhpParser\Node\Expr;
+
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
+
+class MethodCall extends Expr
 {
+    /** @var Expr Variable holding object */
+    public $var;
+    /** @var string|Expr Method name */
+    public $name;
+    /** @var Arg[] Arguments */
+    public $args;
+
     /**
      * Constructs a function call node.
      *
-     * @param PHPParser_Node_Expr        $var        Variable holding object
-     * @param string|PHPParser_Node_Expr $name       Method name
-     * @param PHPParser_Node_Arg[]       $args       Arguments
-     * @param array                      $attributes Additional attributes
+     * @param Expr        $var        Variable holding object
+     * @param string|Expr $name       Method name
+     * @param Arg[]       $args       Arguments
+     * @param array       $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $var, $name, array $args = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'var'  => $var,
-                'name' => $name,
-                'args' => $args
-            ),
-            $attributes
-        );
+    public function __construct(Expr $var, $name, array $args = array(), array $attributes = array()) {
+        parent::__construct($attributes);
+        $this->var = $var;
+        $this->name = $name;
+        $this->args = $args;
+    }
+
+    public function getSubNodeNames() {
+        return array('var', 'name', 'args');
     }
 }

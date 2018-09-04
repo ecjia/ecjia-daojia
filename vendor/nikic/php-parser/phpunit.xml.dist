@@ -9,7 +9,7 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="./lib/bootstrap.php">
+         bootstrap="./test/bootstrap.php">
     <testsuites>
         <testsuite name="PHPParser Test Suite">
             <directory>./test/</directory>
@@ -18,7 +18,7 @@
 
     <filter>
         <whitelist>
-            <directory suffix=".php">./lib/PHPParser/</directory>
+            <directory suffix=".php">./lib/PhpParser/</directory>
         </whitelist>
     </filter>
 </phpunit>

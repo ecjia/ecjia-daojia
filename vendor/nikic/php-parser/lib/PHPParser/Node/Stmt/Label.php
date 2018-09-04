@@ -1,10 +1,14 @@
 <?php
 
-/**
- * @property string $name Name
- */
-class PHPParser_Node_Stmt_Label extends PHPParser_Node_Stmt
+namespace PhpParser\Node\Stmt;
+
+use PhpParser\Node\Stmt;
+
+class Label extends Stmt
 {
+    /** @var string Name */
+    public $name;
+
     /**
      * Constructs a label node.
      *
@@ -12,11 +16,11 @@ class PHPParser_Node_Stmt_Label extends PHPParser_Node_Stmt
      * @param array  $attributes Additional attributes
      */
     public function __construct($name, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'name' => $name,
-            ),
-            $attributes
-        );
+        parent::__construct($attributes);
+        $this->name = $name;
+    }
+
+    public function getSubNodeNames() {
+        return array('name');
     }
 }

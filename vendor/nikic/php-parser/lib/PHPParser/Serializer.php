@@ -1,6 +1,8 @@
 <?php
 
-interface PHPParser_Serializer
+namespace PhpParser;
+
+interface Serializer
 {
     /**
      * Serializes statements into some string format.

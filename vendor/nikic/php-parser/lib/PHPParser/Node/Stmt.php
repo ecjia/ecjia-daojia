@@ -1,5 +1,9 @@
 <?php
 
-abstract class PHPParser_Node_Stmt extends PHPParser_NodeAbstract
+namespace PhpParser\Node;
+
+use PhpParser\NodeAbstract;
+
+abstract class Stmt extends NodeAbstract
 {
 }

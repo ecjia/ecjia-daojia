@@ -1,25 +1,31 @@
 <?php
 
-/**
- * @property PHPParser_Node_Name|PHPParser_Node_Expr $class Class name
- * @property string|PHPParser_Node_Expr              $name  Property name
- */
-class PHPParser_Node_Expr_StaticPropertyFetch extends PHPParser_Node_Expr
+namespace PhpParser\Node\Expr;
+
+use PhpParser\Node\Name;
+use PhpParser\Node\Expr;
+
+class StaticPropertyFetch extends Expr
 {
+    /** @var Name|Expr Class name */
+    public $class;
+    /** @var string|Expr Property name */
+    public $name;
+
     /**
      * Constructs a static property fetch node.
      *
-     * @param PHPParser_Node_Name|PHPParser_Node_Expr $class      Class name
-     * @param string|PHPParser_Node_Expr              $name       Property name
-     * @param array                                   $attributes Additional attributes
+     * @param Name|Expr   $class      Class name
+     * @param string|Expr $name       Property name
+     * @param array       $attributes Additional attributes
      */
     public function __construct($class, $name, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'class' => $class,
-                'name'  => $name
-            ),
-            $attributes
-        );
+        parent::__construct($attributes);
+        $this->class = $class;
+        $this->name = $name;
+    }
+
+    public function getSubNodeNames() {
+        return array('class', 'name');
     }
 }

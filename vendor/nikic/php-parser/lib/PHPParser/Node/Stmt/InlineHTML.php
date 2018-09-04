@@ -1,10 +1,14 @@
 <?php
 
-/**
- * @property string $value String
- */
-class PHPParser_Node_Stmt_InlineHTML extends PHPParser_Node_Stmt
+namespace PhpParser\Node\Stmt;
+
+use PhpParser\Node\Stmt;
+
+class InlineHTML extends Stmt
 {
+    /** @var string String */
+    public $value;
+
     /**
      * Constructs an inline HTML node.
      *
@@ -12,11 +16,11 @@ class PHPParser_Node_Stmt_InlineHTML extends PHPParser_Node_Stmt
      * @param array  $attributes Additional attributes
      */
     public function __construct($value, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'value' => $value,
-            ),
-            $attributes
-        );
+        parent::__construct($attributes);
+        $this->value = $value;
+    }
+
+    public function getSubNodeNames() {
+        return array('value');
     }
 }

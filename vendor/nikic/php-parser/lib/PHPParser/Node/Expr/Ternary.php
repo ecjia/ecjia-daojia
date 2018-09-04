@@ -1,28 +1,34 @@
 <?php
 
-/**
- * @property PHPParser_Node_Expr      $cond Condition
- * @property null|PHPParser_Node_Expr $if   Expression for true
- * @property PHPParser_Node_Expr      $else Expression for false
- */
-class PHPParser_Node_Expr_Ternary extends PHPParser_Node_Expr
+namespace PhpParser\Node\Expr;
+
+use PhpParser\Node\Expr;
+
+class Ternary extends Expr
 {
+    /** @var Expr Condition */
+    public $cond;
+    /** @var null|Expr Expression for true */
+    public $if;
+    /** @var Expr Expression for false */
+    public $else;
+
     /**
      * Constructs a ternary operator node.
      *
-     * @param PHPParser_Node_Expr      $cond       Condition
-     * @param null|PHPParser_Node_Expr $if         Expression for true
-     * @param PHPParser_Node_Expr      $else       Expression for false
+     * @param Expr      $cond       Condition
+     * @param null|Expr $if         Expression for true
+     * @param Expr      $else       Expression for false
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $cond, $if, PHPParser_Node_Expr $else, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'cond' => $cond,
-                'if'   => $if,
-                'else' => $else
-            ),
-            $attributes
-        );
+    public function __construct(Expr $cond, $if, Expr $else, array $attributes = array()) {
+        parent::__construct($attributes);
+        $this->cond = $cond;
+        $this->if = $if;
+        $this->else = $else;
+    }
+
+    public function getSubNodeNames() {
+        return array('cond', 'if', 'else');
     }
 }

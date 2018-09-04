@@ -1,22 +1,26 @@
 <?php
 
-/**
- * @property PHPParser_Node_Expr $var Variable
- */
-class PHPParser_Node_Expr_PreInc extends PHPParser_Node_Expr
+namespace PhpParser\Node\Expr;
+
+use PhpParser\Node\Expr;
+
+class PreInc extends Expr
 {
+    /** @var Expr Variable */
+    public $var;
+
     /**
      * Constructs a pre increment node.
      *
-     * @param PHPParser_Node_Expr $var        Variable
-     * @param array               $attributes Additional attributes
+     * @param Expr  $var        Variable
+     * @param array $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $var, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'var' => $var
-            ),
-            $attributes
-        );
+    public function __construct(Expr $var, array $attributes = array()) {
+        parent::__construct($attributes);
+        $this->var = $var;
+    }
+
+    public function getSubNodeNames() {
+        return array('var');
     }
 }

@@ -1,10 +1,14 @@
 <?php
 
-/**
- * @property array $parts Parts of the name
- */
-class PHPParser_Node_Name extends PHPParser_NodeAbstract
+namespace PhpParser\Node;
+
+use PhpParser\NodeAbstract;
+
+class Name extends NodeAbstract
 {
+    /** @var string[] Parts of the name */
+    public $parts;
+
     /**
      * Constructs a name node.
      *
@@ -16,12 +20,12 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
             $parts = explode('\\', $parts);
         }
 
-        parent::__construct(
-            array(
-                'parts' => $parts,
-            ),
-            $attributes
-        );
+        parent::__construct($attributes);
+        $this->parts = $parts;
+    }
+
+    public function getSubNodeNames() {
+        return array('parts');
     }
 
     /**
@@ -102,37 +106,45 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
     /**
      * Sets the whole name.
      *
+     * @deprecated Create a new Name instead, or manually modify the $parts property
+     *
      * @param string|array|self $name The name to set the whole name to
      */
     public function set($name) {
-        $this->parts = $this->prepareName($name);
+        $this->parts = self::prepareName($name);
     }
 
     /**
      * Prepends a name to this name.
      *
+     * @deprecated Use Name::concat($name1, $name2) instead
+     *
      * @param string|array|self $name Name to prepend
      */
     public function prepend($name) {
-        $this->parts = array_merge($this->prepareName($name), $this->parts);
+        $this->parts = array_merge(self::prepareName($name), $this->parts);
     }
 
     /**
      * Appends a name to this name.
      *
+     * @deprecated Use Name::concat($name1, $name2) instead
+     *
      * @param string|array|self $name Name to append
      */
     public function append($name) {
-        $this->parts = array_merge($this->parts, $this->prepareName($name));
+        $this->parts = array_merge($this->parts, self::prepareName($name));
     }
 
     /**
      * Sets the first part of the name.
      *
+     * @deprecated Use concat($first, $name->slice(1)) instead
+     *
      * @param string|array|self $name The name to set the first part to
      */
     public function setFirst($name) {
-        array_splice($this->parts, 0, 1, $this->prepareName($name));
+        array_splice($this->parts, 0, 1, self::prepareName($name));
     }
 
     /**
@@ -141,7 +153,47 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
      * @param string|array|self $name The name to set the last part to
      */
     public function setLast($name) {
-        array_splice($this->parts, -1, 1, $this->prepareName($name));
+        array_splice($this->parts, -1, 1, self::prepareName($name));
+    }
+
+    /**
+     * Gets a slice of a name (similar to array_slice).
+     *
+     * This method returns a new instance of the same type as the original and with the same
+     * attributes.
+     *
+     * If the slice is empty, a Name with an empty parts array is returned. While this is
+     * meaningless in itself, it works correctly in conjunction with concat().
+     *
+     * @param int $offset Offset to start the slice at
+     *
+     * @return static Sliced name
+     */
+    public function slice($offset) {
+        // TODO negative offset and length
+        if ($offset < 0 || $offset > count($this->parts)) {
+            throw new \OutOfBoundsException(sprintf('Offset %d is out of bounds', $offset));
+        }
+
+        return new static(array_slice($this->parts, $offset), $this->attributes);
+    }
+
+    /**
+     * Concatenate two names, yielding a new Name instance.
+     *
+     * The type of the generated instance depends on which class this method is called on, for
+     * example Name\FullyQualified::concat() will yield a Name\FullyQualified instance.
+     *
+     * @param string|array|self $name1      The first name
+     * @param string|array|self $name2      The second name
+     * @param array             $attributes Attributes to assign to concatenated name
+     *
+     * @return static Concatenated name
+     */
+    public static function concat($name1, $name2, array $attributes = []) {
+        return new static(
+            array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
+        );
     }
 
     /**
@@ -152,7 +204,7 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
      *
      * @return array Prepared name
      */
-    protected function prepareName($name) {
+    private static function prepareName($name) {
         if (is_string($name)) {
             return explode('\\', $name);
         } elseif (is_array($name)) {
@@ -161,7 +213,7 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
             return $name->parts;
         }
 
-        throw new InvalidArgumentException(
+        throw new \InvalidArgumentException(
             'When changing a name you need to pass either a string, an array or a Name node'
         );
     }
