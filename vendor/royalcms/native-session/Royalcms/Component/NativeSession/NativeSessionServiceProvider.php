@@ -56,5 +56,24 @@ class NativeSessionServiceProvider extends ServiceProvider
             return new StartSession($manager);
         });
     }
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/native-session');
+
+        return [
+            $dir . "/Store.php",
+            $dir . "/CompatibleTrait.php",
+            $dir . "/Serialize.php",
+            $dir . "/SessionManager.php",
+            $dir . "/StartSession.php",
+            $dir . "/NativeSessionServiceProvider.php",
+        ];
+    }
     
 }

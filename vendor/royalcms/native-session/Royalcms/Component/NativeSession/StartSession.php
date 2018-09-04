@@ -6,7 +6,7 @@ use Closure;
 use SessionHandlerInterface;
 use Royalcms\Component\DateTime\Carbon;
 use Symfony\Component\HttpFoundation\Request;
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Hook;
 use Royalcms\Component\Session\SessionInterface;
 
 class StartSession {

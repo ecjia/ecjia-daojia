@@ -64,7 +64,9 @@ class Store implements SessionInterface, StoreInterface
      */
     protected function generateSessionId()
     {
-        return $this->session->generateSessionId();
+        $sessionId = $this->session->generateSessionId();
+
+        return Hook::apply_filters('rc_session_generate_id', $sessionId);
     }
 
     /**
