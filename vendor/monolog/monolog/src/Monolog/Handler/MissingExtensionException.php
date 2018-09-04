@@ -11,16 +11,11 @@
 
 namespace Monolog\Handler;
 
-use Gelf\MessagePublisher;
-use Gelf\Message;
-
-class MockMessagePublisher extends MessagePublisher
+/**
+ * Exception can be thrown if an extension for an handler is missing
+ *
+ * @author  Christian Bergau <cbergau86@gmail.com>
+ */
+class MissingExtensionException extends \Exception
 {
-    public function publish(Message $message)
-    {
-        $this->lastMessage = $message;
-    }
-
-    public $lastMessage = null;
 }
-

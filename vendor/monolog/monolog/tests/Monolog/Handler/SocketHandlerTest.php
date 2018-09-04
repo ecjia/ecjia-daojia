@@ -70,6 +70,13 @@ class SocketHandlerTest extends TestCase
         $this->assertEquals(10.25, $this->handler->getTimeout());
     }
 
+    public function testSetWritingTimeout()
+    {
+        $this->createHandler('localhost:1234');
+        $this->handler->setWritingTimeout(10.25);
+        $this->assertEquals(10.25, $this->handler->getWritingTimeout());
+    }
+
     public function testSetConnectionString()
     {
         $this->createHandler('tcp://localhost:9090');
@@ -120,7 +127,7 @@ class SocketHandlerTest extends TestCase
     {
         $this->setMockHandler(array('fwrite'));
 
-        $callback = function($arg) {
+        $callback = function ($arg) {
             $map = array(
                 'Hello world' => 6,
                 'world' => false,
@@ -143,7 +150,7 @@ class SocketHandlerTest extends TestCase
     {
         $this->setMockHandler(array('fwrite', 'streamGetMetadata'));
 
-        $callback = function($arg) {
+        $callback = function ($arg) {
             $map = array(
                 'Hello world' => 6,
                 'world' => 5,
@@ -170,7 +177,7 @@ class SocketHandlerTest extends TestCase
         $this->setMockHandler(array('fwrite', 'streamGetMetadata'));
 
         $res = $this->res;
-        $callback = function($string) use ($res) {
+        $callback = function ($string) use ($res) {
             fclose($res);
 
             return strlen('Hello');
@@ -200,7 +207,7 @@ class SocketHandlerTest extends TestCase
     {
         $this->setMockHandler(array('fwrite'));
 
-        $callback = function($arg) {
+        $callback = function ($arg) {
             $map = array(
                 'Hello world' => 6,
                 'world' => 5,
@@ -233,6 +240,26 @@ class SocketHandlerTest extends TestCase
         $this->assertTrue(is_resource($this->res));
         $this->handler->close();
         $this->assertTrue(is_resource($this->res));
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testAvoidInfiniteLoopWhenNoDataIsWrittenForAWritingTimeoutSeconds()
+    {
+        $this->setMockHandler(array('fwrite', 'streamGetMetadata'));
+
+        $this->handler->expects($this->any())
+            ->method('fwrite')
+            ->will($this->returnValue(0));
+
+        $this->handler->expects($this->any())
+            ->method('streamGetMetadata')
+            ->will($this->returnValue(array('timed_out' => false)));
+
+        $this->handler->setWritingTimeout(1);
+
+        $this->writeRecord('Hello world');
     }
 
     private function createHandler($connectionString)
@@ -279,5 +306,4 @@ class SocketHandlerTest extends TestCase
 
         $this->handler->setFormatter($this->getIdentityFormatter());
     }
-
 }

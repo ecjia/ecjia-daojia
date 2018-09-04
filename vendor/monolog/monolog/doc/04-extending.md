@@ -1,10 +1,8 @@
-Extending Monolog
-=================
+# Extending Monolog
 
 Monolog is fully extensible, allowing you to adapt your logger to your needs.
 
-Writing your own handler
-------------------------
+## Writing your own handler
 
 Monolog provides many built-in handlers. But if the one you need does not
 exist, you can write it and use it in your logger. The only requirement is
@@ -65,7 +63,7 @@ You can now use this handler in your logger:
 ```php
 <?php
 
-$logger->pushHandler(new PDOHandler(new PDO('sqlite:logs.sqlite'));
+$logger->pushHandler(new PDOHandler(new PDO('sqlite:logs.sqlite')));
 
 // You can now use your logger
 $logger->addInfo('My logger is now ready');
@@ -74,3 +72,5 @@ $logger->addInfo('My logger is now ready');
 The `Monolog\Handler\AbstractProcessingHandler` class provides most of the
 logic needed for the handler, including the use of processors and the formatting
 of the record (which is why we use ``$record['formatted']`` instead of ``$record['message']``).
+
+&larr; [Utility classes](03-utilities.md)
