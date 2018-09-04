@@ -402,6 +402,7 @@ return array(
 	'best_goods_number'		=> '精品推荐数',
 	'hot_goods_number'		=> '热销商品数',
 	'promote_goods_numeber'	=> '促销商品数',
+	'wait_check_goods'		=> '待审核商品',
 	
 	'discard_changes'		=> '是否放弃本页面修改？',
 	'as_goods'				=> '作为商品',
