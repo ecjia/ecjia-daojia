@@ -1,11 +1,14 @@
-<?php namespace Royalcms\Component\Exception;
+<?php
+
+namespace Royalcms\Component\Exception;
 
 use Exception;
 use Royalcms\Component\Whoops\Run;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-class WhoopsDisplayer implements ExceptionDisplayerInterface {
+class WhoopsDisplayer implements ExceptionDisplayerInterface
+{
  
 	/**
 	 * The Whoops run instance.

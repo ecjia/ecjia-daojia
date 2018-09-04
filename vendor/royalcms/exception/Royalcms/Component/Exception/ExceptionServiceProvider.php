@@ -1,10 +1,13 @@
-<?php namespace Royalcms\Component\Exception;
+<?php
+
+namespace Royalcms\Component\Exception;
 
 use Royalcms\Component\Whoops\Run;
 use Royalcms\Component\Whoops\Handler\JsonResponseHandler;
 use Royalcms\Component\Support\ServiceProvider;
 
-class ExceptionServiceProvider extends ServiceProvider {
+class ExceptionServiceProvider extends ServiceProvider
+{
 
 	/**
 	 * Register the service provider.
@@ -39,8 +42,15 @@ class ExceptionServiceProvider extends ServiceProvider {
 	{
 		$this->royalcms['exception'] = $this->royalcms->share(function($royalcms)
 		{
-			return new Handler($royalcms, $royalcms['exception.plain'], $royalcms['exception.debug']);
+			return new HandlerExceptions($royalcms);
 		});
+
+        $this->royalcms['exception.display'] = $this->royalcms->share(function($royalcms)
+        {
+            return new HandleDisplayExceptions($royalcms['exception.plain'], $royalcms['exception.debug']);
+        });
+
+        $this->royalcms->alias('Royalcms\Component\Contracts\Debug\ExceptionHandler', 'exception.handler');
 	}
 
 	/**
@@ -114,7 +124,7 @@ class ExceptionServiceProvider extends ServiceProvider {
 		{
 			$this->royalcms['whoops.handler'] = $this->royalcms->share(function()
 			{
-					return new JsonResponseHandler;
+                return new JsonResponseHandler;
 			});
 		}
 		else
@@ -185,7 +195,45 @@ class ExceptionServiceProvider extends ServiceProvider {
 	 */
 	protected function getResourcePath()
 	{
-		return __DIR__.'/resources';
+	    $dir = static::guessPackageClassPath('royalcms/exception');
+		return $dir.'/resources';
 	}
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/exception');
+
+        return [
+            $dir . '/ExceptionServiceProvider.php',
+            $dir . '/PrettyPageHandler.php',
+            $dir . '/ExceptionDisplayerInterface.php',
+            $dir . '/SymfonyDisplayer.php',
+            $dir . '/WhoopsDisplayer.php',
+            $dir . '/PlainDisplayer.php',
+            $dir . '/PrettyPageHandler.php',
+            $dir . '/Handler.php',
+            $dir . '/HandleDisplayExceptions.php',
+            $dir . '/HandlerExceptions.php',
+            $dir . '/Exceptions/CompileErrorException.php',
+            $dir . '/Exceptions/CompileWarningException.php',
+            $dir . '/Exceptions/CoreErrorException.php',
+            $dir . '/Exceptions/CoreWarningException.php',
+            $dir . '/Exceptions/DeprecatedException.php',
+            $dir . '/Exceptions/NoticeException.php',
+            $dir . '/Exceptions/ParseException.php',
+            $dir . '/Exceptions/RecoverableErrorException.php',
+            $dir . '/Exceptions/StrictException.php',
+            $dir . '/Exceptions/UnknownException.php',
+            $dir . '/Exceptions/UserDeprecatedException.php',
+            $dir . '/Exceptions/UserErrorException.php',
+            $dir . '/Exceptions/UserNoticeException.php',
+            $dir . '/Exceptions/WarningException.php',
+        ];
+    }
 
 }

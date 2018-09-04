@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Exception;
+<?php
+
+namespace Royalcms\Component\Exception;
 
 use Royalcms\Component\Whoops\Handler\Handler as WhoopsHandler;
 use InvalidArgumentException;

@@ -1,10 +1,13 @@
-<?php namespace Royalcms\Component\Exception;
+<?php
+
+namespace Royalcms\Component\Exception;
 
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-class PlainDisplayer implements ExceptionDisplayerInterface {
+class PlainDisplayer implements ExceptionDisplayerInterface
+{
 
 	/**
 	 * Display the given exception to the user.

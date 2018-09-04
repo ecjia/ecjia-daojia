@@ -1,434 +1,343 @@
-<?php namespace Royalcms\Component\Exception;
+<?php
 
-use Closure;
-use ErrorException;
-use ReflectionFunction;
-use Royalcms\Component\Support\Contracts\ResponsePreparerInterface;
+namespace Royalcms\Component\Exception;
+
+use Exception;
+use Psr\Log\LoggerInterface;
+use Royalcms\Component\Http\Response;
+use Royalcms\Component\Auth\Access\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Royalcms\Component\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\Debug\Exception\FatalErrorException as FatalError;
-use Royalcms\Component\Support\Facades\Hook;
+use ReflectionFunction;
+use Closure;
 
-class Handler {
+class Handler implements ExceptionHandlerContract
+{
+    /**
+     * The log implementation.
+     *
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $log;
 
-	/**
-	 * The response preparer implementation. 
-	 *
-	 * @var \Royalcms\Component\Support\Contracts\ResponsePreparerInterface
-	 */
-	protected $responsePreparer;
+    /**
+     * A list of the exception types that should not be reported.
+     *
+     * @var array
+     */
+    protected $dontReport = [];
 
-	/**
-	 * The plain exception displayer.
-	 *
-	 * @var \Royalcms\Component\Exception\ExceptionDisplayerInterface
-	 */
-	protected $plainDisplayer;
+    /**
+     * All of the register exception handlers.
+     *
+     * @var array
+     */
+    protected $handlers = [];
 
-	/**
-	 * The debug exception displayer.
-	 *
-	 * @var \Royalcms\Component\Exception\ExceptionDisplayerInterface
-	 */
-	protected $debugDisplayer;
+    /**
+     * Create a new exception handler instance.
+     *
+     * @param  \Psr\Log\LoggerInterface  $log
+     * @return void
+     */
+    public function __construct(LoggerInterface $log)
+    {
+        $this->log = $log;
+    }
 
-	/**
-	 * Indicates if the application is in debug mode.
-	 *
-	 * @var bool
-	 */
-	protected $debug;
+    /**
+     * Report or log an exception.
+     *
+     * @param  \Exception  $e
+     * @return void
+     */
+    public function report(Exception $e)
+    {
+        if ($this->shouldReport($e)) {
+            $this->log->error($e);
+        }
+    }
 
-	/**
-	 * All of the register exception handlers.
-	 *
-	 * @var array
-	 */
-	protected $handlers = array();
+    /**
+     * Determine if the exception should be reported.
+     *
+     * @param  \Exception  $e
+     * @return bool
+     */
+    public function shouldReport(Exception $e)
+    {
+        return ! $this->shouldntReport($e);
+    }
 
-	/**
-	 * All of the handled error messages.
-	 *
-	 * @var array
-	 */
-	protected $handled = array();
+    /**
+     * Determine if the exception is in the "do not report" list.
+     *
+     * @param  \Exception  $e
+     * @return bool
+     */
+    protected function shouldntReport(Exception $e)
+    {
+        foreach ($this->dontReport as $type) {
+            if ($e instanceof $type) {
+                return true;
+            }
+        }
 
-	/**
-	 * Create a new error handler instance.
-	 *
-	 * @param  \Royalcms\Component\Support\Contracts\ResponsePreparerInterface  $responsePreparer
-	 * @param  \Royalcms\Component\Exception\ExceptionDisplayerInterface  $plainDisplayer
-	 * @param  \Royalcms\Component\Exception\ExceptionDisplayerInterface  $debugDisplayer
-	 * @return void
-	 */
-	public function __construct(ResponsePreparerInterface $responsePreparer,
-                                ExceptionDisplayerInterface $plainDisplayer,
-                                ExceptionDisplayerInterface $debugDisplayer,
-                                $debug = true)
-	{ 
-		$this->debug = $debug;
-		$this->plainDisplayer = $plainDisplayer;
-		$this->debugDisplayer = $debugDisplayer;
-		$this->responsePreparer = $responsePreparer;
-	}
+        return false;
+    }
 
-	/**
-	 * Register the exception / error handlers for the application.
-	 *
-	 * @param  string  $environment
-	 * @return void
-	 */
-	public function register($environment)
-	{
-		$this->registerErrorHandler();
+    /**
+     * Render an exception into a response.
+     *
+     * @param  \Royalcms\Component\Http\Request  $request
+     * @param  \Exception  $e
+     * @return \Royalcms\Component\Http\Response
+     */
+    public function render($request, Exception $e)
+    {
+        if ($this->isUnauthorizedException($e)) {
+            $e = new HttpException(403, $e->getMessage());
+        }
 
-		$this->registerExceptionHandler();
+        if ($this->isHttpException($e)) {
+            return $this->toRoyalcmsResponse($this->renderHttpException($e), $e);
+        } else {
+            return $this->toRoyalcmsResponse($this->convertExceptionToResponse($e), $e);
+        }
+    }
 
-		if ($environment != 'testing') $this->registerShutdownHandler();
-	}
+    /**
+     * Map exception into an Royalcms response.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
+     * @param  \Exception  $e
+     * @return \Royalcms\Component\Http\Response
+     */
+    protected function toRoyalcmsResponse($response, Exception $e)
+    {
+        $response = new Response($response->getContent(), $response->getStatusCode(), $response->headers->all());
 
-	/**
-	 * Register the PHP error handler.
-	 *
-	 * @return void
-	 */
-	protected function registerErrorHandler()
-	{
-		set_error_handler(array($this, 'handleError'));
-	}
+        $response->exception = $e;
 
-	/**
-	 * Register the PHP exception handler.
-	 *
-	 * @return void
-	 */
-	protected function registerExceptionHandler()
-	{
-		set_exception_handler(array($this, 'handleUncaughtException'));
-	}
+        return $response;
+    }
 
-	/**
-	 * Register the PHP shutdown handler.
-	 *
-	 * @return void
-	 */
-	protected function registerShutdownHandler()
-	{
-		register_shutdown_function(array($this, 'handleShutdown'));
-	}
+    /**
+     * Render an exception to the console.
+     *
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param  \Exception  $e
+     * @return void
+     */
+    public function renderForConsole($output, Exception $e)
+    {
+        (new ConsoleApplication)->renderException($e, $output);
+    }
 
-	/**
-	 * Handle a PHP error for the application.
-	 *
-	 * @param  int     $level
-	 * @param  string  $message
-	 * @param  string  $file
-	 * @param  int     $line
-	 * @param  array   $context
-	 *
-	 * @throws \ErrorException
-	 */
-	public function handleError($level, $message, $file = '', $line = 0, $context = array())
-	{
-		if (error_reporting() & $level)
-		{
-		    $exception = null;
-		    
-		    switch ($level) {
-		    	case E_ERROR:               throw new ErrorException($message, 0, $level, $file, $line); break;
-		    	case E_USER_ERROR:          throw new UserErrorException($message, 0, $level, $file, $line); break;
-		    	case E_PARSE:               throw new ParseException($message, 0, $level, $file, $line); break;
-		    	case E_CORE_ERROR:          throw new CoreErrorException($message, 0, $level, $file, $line); break;
-		    	case E_CORE_WARNING:        throw new CoreWarningException($message, 0, $level, $file, $line); break;
-		    	case E_COMPILE_ERROR:       throw new CompileErrorException($message, 0, $level, $file, $line); break;
-		    	case E_COMPILE_WARNING:     throw new CoreWarningException($message, 0, $level, $file, $line); break;
-		    	case E_STRICT:              throw new StrictException($message, 0, $level, $file, $line); break;
-		    	case E_RECOVERABLE_ERROR:   throw new RecoverableErrorException($message, 0, $level, $file, $line); break;
-		    	
-		    	case E_WARNING:             $exception = new WarningException($message, 0, $level, $file, $line); break;
-		    	case E_USER_WARNING:        $exception = new UserWarningException($message, 0, $level, $file, $line); break;
-		    	case E_NOTICE:              $exception = new NoticeException($message, 0, $level, $file, $line); break;
-		    	case E_USER_NOTICE:         $exception = new UserNoticeException($message, 0, $level, $file, $line); break;
-		    	case E_DEPRECATED:          $exception = new DeprecatedException($message, 0, $level, $file, $line); break;
-		    	case E_USER_DEPRECATED:     $exception = new UserDeprecatedException($message, 0, $level, $file, $line); break;
-		    	default:                    $exception = new UnknownException($message, 0, $level, $file, $line); break;
-		    }
-		    
-		    if ($exception instanceof ErrorException) {
-                royalcms('events')->fire('royalcms.warning.exception', array($exception));
-		    }
-		}
-	}
+    /**
+     * Render the given HttpException.
+     *
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+        $status = $e->getStatusCode();
 
-	/**
-	 * Handle an exception for the application.
-	 *
-	 * @param  \Exception  $exception
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function handleException($exception)
-	{
-		$response = $this->callCustomHandlers($exception);
+        if (view()->exists("errors.{$status}")) {
+            return response()->view("errors.{$status}", ['exception' => $e], $status);
+        }
+        else {
+            return $this->convertExceptionToResponse($e);
+        }
+    }
 
-		// If one of the custom error handlers returned a response, we will send that
-		// response back to the client after preparing it. This allows a specific
-		// type of exceptions to handled by a Closure giving great flexibility.
-		if ( ! is_null($response))
-		{
-			return $this->prepareResponse($response);
-		}
-		
-		// If no response was sent by this custom exception handler, we will call the
-		// default exception displayer for the current application context and let
-		// it show the exception to the user / developer based on the situation.
-		return $this->displayException($exception);
-	}
+    /**
+     * Convert the given exception into a Response instance.
+     *
+     * @param  \Exception  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        $royalcms = royalcms();
 
-	/**
-	 * Handle an uncaught exception.
-	 *
-	 * @param  \Exception  $exception
-	 * @return void
-	 */
-	public function handleUncaughtException($exception)
-	{
-	    $this->handleException($exception)->send(); 
-	}
+        $response = $this->callCustomHandlers($e);
 
-	/**
-	 * Handle the PHP shutdown event.
-	 *
-	 * @return void
-	 */
-	public function handleShutdown()
-	{
-		$error = error_get_last();
+        // If one of the custom error handlers returned a response, we will send that
+        // response back to the client after preparing it. This allows a specific
+        // type of exceptions to handled by a Closure giving great flexibility.
+        if ( ! is_null($response))
+        {
+            return $response;
+        }
 
-		// If an error has occurred that has not been displayed, we will create a fatal
-		// error exception instance and pass it into the regular exception handling
-		// code so it can be displayed back out to the developer for information.
-		if ( ! is_null($error))
-		{
-		    $message = $type = $file = $line = null;
-		    
-			extract($error);
+        if (isset($royalcms['exception.display'])) {
+            return $royalcms['exception.display']->displayException($e);
+        } else {
+            return (new SymfonyExceptionHandler(config('system.debug')))->createResponse($e);
+        }
+    }
 
-			if ( ! $this->isFatal($type)) return;
+    /**
+     * Determine if the given exception is an access unauthorized exception.
+     *
+     * @param  \Exception  $e
+     * @return bool
+     */
+    protected function isUnauthorizedException(Exception $e)
+    {
+        return $e instanceof UnauthorizedException;
+    }
 
-			$this->handleException(new FatalError($message, $type, 0, $file, $line))->send();
-		}
-		
-		/**
-		 * Fires just before PHP shuts down execution.
-		 *
-		 * @since 1.2.0
-		 */
-		Hook::do_action( 'shutdown' );
-	}
+    /**
+     * Determine if the given exception is an HTTP exception.
+     *
+     * @param  \Exception  $e
+     * @return bool
+     */
+    protected function isHttpException(Exception $e)
+    {
+        return $e instanceof HttpException;
+    }
 
-	/**
-	 * Determine if the error type is fatal.
-	 *
-	 * @param  int   $type
-	 * @return bool
-	 */
-	protected function isFatal($type)
-	{
-        return in_array($type, array(E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE));
-	}
+    /**
+     * Register an application error handler.
+     *
+     * @todo royalcms
+     * @param  Closure  $callback
+     * @return void
+     */
+    public function error(Closure $callback)
+    {
+        array_unshift($this->handlers, $callback);
+    }
 
-	/**
-	 * Handle a console exception.
-	 *
-	 * @param  \Exception  $exception
-	 * @return void
-	 */
-	public function handleConsole($exception)
-	{
-		return $this->callCustomHandlers($exception, true);
-	}
+    /**
+     * Register an application error handler at the bottom of the stack.
+     *
+     * @todo royalcms
+     * @param  Closure  $callback
+     * @return void
+     */
+    public function pushError(Closure $callback)
+    {
+        $this->handlers[] = $callback;
+    }
 
-	/**
-	 * Handle the given exception.
-	 *
-	 * @param  \Exception  $exception
-	 * @param  bool  $fromConsole
-	 * @return void
-	 */
-	protected function callCustomHandlers($exception, $fromConsole = false)
-	{
-		foreach ($this->handlers as $handler)
-		{
-			// If this exception handler does not handle the given exception, we will just
-			// go the next one. A handler may type-hint an exception that it handles so
-			//  we can have more granularity on the error handling for the developer.
-			if ( ! $this->handlesException($handler, $exception))
-			{
-				continue;
-			}
-			elseif ($exception instanceof HttpExceptionInterface)
-			{
-				$code = $exception->getStatusCode();
-			}
+    /**
+     * Handle the given exception.
+     *
+     * @param  \Exception  $exception
+     * @param  bool  $fromConsole
+     * @return void
+     */
+    protected function callCustomHandlers($exception, $fromConsole = false)
+    {
+        foreach ($this->handlers as $handler)
+        {
+            // If this exception handler does not handle the given exception, we will just
+            // go the next one. A handler may type-hint an exception that it handles so
+            //  we can have more granularity on the error handling for the developer.
+            if ( ! $this->handlesException($handler, $exception))
+            {
+                continue;
+            }
+            elseif ($exception instanceof HttpExceptionInterface)
+            {
+                $code = $exception->getStatusCode();
+            }
 
-			// If the exception doesn't implement the HttpExceptionInterface, we will just
-			// use the generic 500 error code for a server side error. If it implements
-			// the HttpException interfaces we'll grab the error code from the class.
-			else
-			{
-				$code = 500;
-			}
+            // If the exception doesn't implement the HttpExceptionInterface, we will just
+            // use the generic 500 error code for a server side error. If it implements
+            // the HttpException interfaces we'll grab the error code from the class.
+            else
+            {
+                $code = 500;
+            }
 
-			// We will wrap this handler in a try / catch and avoid white screens of death
-			// if any exceptions are thrown from a handler itself. This way we will get
-			// at least some errors, and avoid errors with no data or not log writes.
-			try
-			{
-				$response = $handler($exception, $code, $fromConsole);
-			}
-			catch (\Exception $e)
-			{
-				$response = $this->formatException($e);
-			}
+            // We will wrap this handler in a try / catch and avoid white screens of death
+            // if any exceptions are thrown from a handler itself. This way we will get
+            // at least some errors, and avoid errors with no data or not log writes.
+            try
+            {
+                $response = $handler($exception, $code, $fromConsole);
 
-			// If this handler returns a "non-null" response, we will return it so it will
-			// get sent back to the browsers. Once the handler returns a valid response
-			// we will cease iterating through them and calling these other handlers.
-			if (isset($response) && ! is_null($response))
-			{
-				return $response;
-			}
-		}
-	}
+            }
+            catch (\Exception $e)
+            {
+                $response = $this->formatException($e);
+            }
 
-	/**
-	 * Display the given exception to the user.
-	 *
-	 * @param  \Exception  $exception
-	 * @return void
-	 */
-	protected function displayException($exception)
-	{
-		$displayer = $this->debug ? $this->debugDisplayer : $this->plainDisplayer;
+            // If this handler returns a "non-null" response, we will return it so it will
+            // get sent back to the browsers. Once the handler returns a valid response
+            // we will cease iterating through them and calling these other handlers.
+            if (isset($response) && ! is_null($response))
+            {
+                return $response;
+            }
+        }
+    }
 
-		return $displayer->display($exception);
-	}
+    /**
+     * Determine if the given handler handles this exception.
+     *
+     * @param  Closure    $handler
+     * @param  \Exception  $exception
+     * @return bool
+     */
+    protected function handlesException(Closure $handler, $exception)
+    {
+        $reflection = new ReflectionFunction($handler);
 
-	/**
-	 * Determine if the given handler handles this exception.
-	 *
-	 * @param  Closure    $handler
-	 * @param  \Exception  $exception
-	 * @return bool
-	 */
-	protected function handlesException(Closure $handler, $exception)
-	{
-		$reflection = new ReflectionFunction($handler);
+        return $reflection->getNumberOfParameters() == 0 || $this->hints($reflection, $exception);
+    }
 
-		return $reflection->getNumberOfParameters() == 0 || $this->hints($reflection, $exception);
-	}
+    /**
+     * Determine if the given handler type hints the exception.
+     *
+     * @param  ReflectionFunction  $reflection
+     * @param  \Exception  $exception
+     * @return bool
+     */
+    protected function hints(ReflectionFunction $reflection, $exception)
+    {
+        $parameters = $reflection->getParameters();
 
-	/**
-	 * Determine if the given handler type hints the exception.
-	 *
-	 * @param  ReflectionFunction  $reflection
-	 * @param  \Exception  $exception
-	 * @return bool
-	 */
-	protected function hints(ReflectionFunction $reflection, $exception)
-	{
-		$parameters = $reflection->getParameters();
+        $expected = $parameters[0];
 
-		$expected = $parameters[0];
+        return ! $expected->getClass() || $expected->getClass()->isInstance($exception);
+    }
 
-		return ! $expected->getClass() || $expected->getClass()->isInstance($exception);
-	}
+    /**
+     * Format an exception thrown by a handler.
+     *
+     * @param  \Exception  $e
+     * @return string
+     */
+    protected function formatException(\Exception $e)
+    {
+        if (config('system.debug'))
+        {
+            $location = $e->getMessage().' in '.$e->getFile().':'.$e->getLine();
 
-	/**
-	 * Format an exception thrown by a handler.
-	 *
-	 * @param  \Exception  $e
-	 * @return string
-	 */
-	protected function formatException(\Exception $e)
-	{
-		if ($this->debug)
-		{
-			$location = $e->getMessage().' in '.$e->getFile().':'.$e->getLine();
+            return 'Error in exception handler: '.$location;
+        }
 
-			return rc_die('Error in exception handler: '.$location);
-		}
+        return 'Error in exception handler.';
+    }
 
-		return rc_die('Error in exception handler.');
-	}
-
-	/**
-	 * Register an application error handler.
-	 *
-	 * @param  Closure  $callback
-	 * @return void
-	 */
-	public function error(Closure $callback)
-	{
-		array_unshift($this->handlers, $callback);
-	}
-
-	/**
-	 * Register an application error handler at the bottom of the stack.
-	 *
-	 * @param  Closure  $callback
-	 * @return void
-	 */
-	public function pushError(Closure $callback)
-	{
-		$this->handlers[] = $callback;
-	}
-
-	/**
-	 * Prepare the given response.
-	 *
-	 * @param  mixed  $response
-	 * @return \Royalcms\Component\HttpKerrnel\Response
-	 */
-	protected function prepareResponse($response)
-	{
-		return $this->responsePreparer->prepareResponse($response);
-	}
-
-	/**
-	 * Determine if we are running in the console.
-	 *
-	 * @return bool
-	 */
-	public function runningInConsole()
-	{
-		return php_sapi_name() == 'cli';
-	}
-
-	/**
-	 * Set the debug level for the handler.
-	 *
-	 * @param  bool  $debug
-	 * @return void
-	 */
-	public function setDebug($debug)
-	{
-		$this->debug = $debug;
-	}
-
+    /**
+     * Handle a console exception.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function handleConsole($exception)
+    {
+        return $this->callCustomHandlers($exception, true);
+    }
 }
-
-class CompileErrorException extends ErrorException {}
-class CompileWarningException extends ErrorException {}
-class CoreErrorException extends ErrorException {}
-class CoreWarningException extends ErrorException {}
-class DeprecatedException extends ErrorException {}
-class NoticeException extends ErrorException {}
-class ParseException extends ErrorException {}
-class RecoverableErrorException extends ErrorException {}
-class StrictException extends ErrorException {}
-class UserDeprecatedException extends ErrorException {}
-class UserErrorException extends ErrorException {}
-class UserNoticeException extends ErrorException {}
-class UserWarningException extends ErrorException {}
-class WarningException extends ErrorException {}
-class UnknownException extends ErrorException {}

@@ -1,8 +1,11 @@
-<?php namespace Royalcms\Component\Exception;
+<?php
+
+namespace Royalcms\Component\Exception;
 
 use Exception;
 
-interface ExceptionDisplayerInterface {
+interface ExceptionDisplayerInterface
+{
 
 	/**
 	 * Display the given exception to the user.

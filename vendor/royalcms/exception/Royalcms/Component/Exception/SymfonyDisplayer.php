@@ -1,9 +1,12 @@
-<?php namespace Royalcms\Component\Exception;
+<?php
+
+namespace Royalcms\Component\Exception;
 
 use Exception;
 use Symfony\Component\Debug\ExceptionHandler;
 
-class SymfonyDisplayer implements ExceptionDisplayerInterface {
+class SymfonyDisplayer implements ExceptionDisplayerInterface
+{
 
 	/**
 	 * The Symfony exception handler.
