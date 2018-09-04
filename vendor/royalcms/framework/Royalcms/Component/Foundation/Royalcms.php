@@ -33,7 +33,7 @@ class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterfac
      *
      * @var string
      */
-    const RELEASE = '2018-08-30';
+    const RELEASE = '2018-09-04';
 
     /**
      * The base path for the Laravel installation.
