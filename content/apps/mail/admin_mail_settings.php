@@ -147,33 +147,27 @@ class admin_mail_settings extends ecjia_admin {
 	public function send_test_email() {
 		$this->admin_priv('mail_settings_manage', ecjia::MSGTYPE_JSON);
 
+		$mail_config = [
+            'smtp_host'     => $_POST['smtp_host'],
+            'smtp_port'     => $_POST['smtp_port'],
+            'smtp_mail'     => $_POST['reply_email'],
+            'shop_name'     => ecjia::config('shop_name'),
+            'smtp_user'     => $_POST['smtp_user'],
+            'smtp_pass'     => $_POST['smtp_pass'],
+            'mail_charset'  => $_POST['mail_charset'],
+            'smtp_ssl'      => $_POST['smtp_ssl'],
+            'mail_service'  => $_POST['mail_service'],
+        ];
+
 		/* 取得参数 */
-		RC_Hook::remove_action('reset_mail_config', 'ecjia_mail_config');
-		RC_Hook::add_action('reset_mail_config', function($config){
-			royalcms('config')->set('mail.host',        trim($_POST['smtp_host']));
-			royalcms('config')->set('mail.port',        trim($_POST['smtp_port']));
-			royalcms('config')->set('mail.from.address', trim($_POST['reply_email']));
-			royalcms('config')->set('mail.from.name',   ecjia::config('shop_name'));
-			royalcms('config')->set('mail.username',    trim($_POST['smtp_user']));
-			royalcms('config')->set('mail.password',    trim($_POST['smtp_pass']));
-			royalcms('config')->set('mail.charset',     trim($_POST['mail_charset']));
-	
-			if (intval($_POST['smtp_ssl']) === 1) {
-			    royalcms('config')->set('mail.encryption', 'ssl');
-			} else {
-			    royalcms('config')->set('mail.encryption', 'tcp');
-			}
-	
-			if (intval($_POST['mail_service']) === 1) {
-			    royalcms('config')->set('mail.driver', 'smtp');
-			} else {
-			    royalcms('config')->set('mail.driver', 'mail');
-			}
-		});
+		RC_Hook::remove_action('reset_mail_config', ['Ecjia\System\Frameworks\Component\Mailer', 'ecjia_mail_config']);
+		RC_Hook::add_action('reset_mail_config', function () use ($mail_config) {
+            Ecjia\System\Frameworks\Component\Mailer::ecjia_mail_config($mail_config);
+        });
 
 		$test_mail_address = trim($_POST['test_mail_address']);
 
-		$error = RC_Mail::send_mail('', $test_mail_address, __('测试邮件'), __('您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！'), 0);
+		$error = RC_Mail::send_mail($test_mail_address, $test_mail_address, __('测试邮件'), __('您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！'), 0);
 		if ( RC_Error::is_error($error) ) {
 			$this->showmessage(sprintf(__('测试邮件发送失败！%s'), $error->get_error_message()) , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
