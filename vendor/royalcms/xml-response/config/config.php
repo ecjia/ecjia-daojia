@@ -12,5 +12,5 @@ return array(
     |
     */
     'template' => '<root></root>',
-    'caseSensitive' => false
+    'caseSensitive' => false,
 );

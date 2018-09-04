@@ -9,14 +9,13 @@ use Royalcms\Component\Support\ServiceProvider;
  */
 class XmlResponseServiceProvider extends ServiceProvider
 {
-    public function register()
-    {
-        $this->loadConfig();
-        
-        Response::macro('xml', function ($value, $headerTemplate = array()) {
-            return with(new XmlResponse())->array2xml($value, false, $headerTemplate);
-        });
-    }
+
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
 
     /**
      * Perform post-registration booting of services.
@@ -25,15 +24,25 @@ class XmlResponseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->package('royalcms/xml-response');
     }
-    
-    /**
-     * Load the custom Config file
-     */
-    protected function loadConfig()
+
+    public function register()
     {
-        $this->royalcms['config']->package('royalcms/xml-response', __DIR__ . '/Config');
+        Response::macro('xml', function ($value, $headerTemplate = array()) {
+            return with(new XmlResponse())->array2xml($value, false, $headerTemplate);
+        });
+    }
+
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array('xml-response');
     }
 
 }

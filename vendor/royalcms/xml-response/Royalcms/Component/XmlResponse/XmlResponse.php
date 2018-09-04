@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\XmlResponse;
+<?php
+
+namespace Royalcms\Component\XmlResponse;
 
 use Royalcms\Component\Support\Facades\Response;
 use Royalcms\Component\XmlResponse\Exception\XmlResponseException;
