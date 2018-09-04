@@ -135,7 +135,7 @@ class goodslib {
         $filter ['count_not_sale'] 	= $filter_count['count_not_sale'] > 0 ? $filter_count['count_not_sale'] : 0;
         
         $db_goods
-        	->selectRaw('g.goods_id, g.goods_name, g.goods_type, g.goods_sn, g.shop_price, g.market_price, g.goods_weight, g.goods_thumb, g.sort_order, g.is_display')
+            ->select(RC_DB::raw('g.goods_id, g.goods_name, g.goods_type, g.goods_sn, g.shop_price, g.market_price, g.goods_weight, g.goods_thumb, g.sort_order, g.is_display'))
         	->orderBy($filter ['sort_by'], $filter['sort_order'])->orderBy('goods_id', 'desc');
         if($page_size) {
             $rows = $db_goods->take($page_size)
@@ -203,9 +203,9 @@ class goodslib {
         $filter ['record_count'] 	= $count;
         
         $db_goods
-        ->selectRaw('goods_id, g.goods_sn, g.goods_name, g.shop_price, g.market_price, g.goods_weight, 
+            ->select(RC_DB::raw('goods_id, g.goods_sn, g.goods_name, g.shop_price, g.market_price, g.goods_weight, 
             g.keywords, g.goods_brief, g.goods_desc, g.brand_id, g.cat_id, goods_type
-            ')
+            '))
         ->orderBy($filter['sort_by'], $filter['sort_order']);
         if($page_size) {
             $rows = $db_goods->take($page_size)

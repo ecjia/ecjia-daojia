@@ -85,7 +85,7 @@ function get_goods_type() {
 	$field = 'gt.*, count(a.cat_id) as attr_count';
 	$goods_type_list = $db_goods_type
 		->leftJoin('attribute as a', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('gt.cat_id'))
-		->selectRaw($field)
+		->select(RC_DB::raw($field))
 		->groupBy(RC_DB::Raw('gt.cat_id'))
 		->orderby(RC_DB::Raw('gt.cat_id'), 'desc')
 		->take(15)
@@ -126,12 +126,12 @@ function get_goodslib_specifications_list($goods_id) {
         return array(); // $goods_id不能为空
     }
     return RC_DB::table('goodslib_attr as ga')
-    ->leftJoin('attribute as a', RC_DB::raw('a.attr_id'), '=', RC_DB::raw('ga.attr_id'))
-    ->where('goods_id', $goods_id)
-    ->where(RC_DB::raw('a.attr_type'), 1)
-    ->selectRaw('ga.goods_attr_id, ga.attr_value, ga.attr_id, a.attr_name')
-    ->orderBy(RC_DB::raw('ga.attr_id'), 'asc')
-    ->get();
+        ->leftJoin('attribute as a', RC_DB::raw('a.attr_id'), '=', RC_DB::raw('ga.attr_id'))
+        ->where('goods_id', $goods_id)
+        ->where(RC_DB::raw('a.attr_type'), 1)
+        ->select(RC_DB::raw('ga.goods_attr_id, ga.attr_value, ga.attr_id, a.attr_name'))
+        ->orderBy(RC_DB::raw('ga.attr_id'), 'asc')
+        ->get();
 }
 
 /**
@@ -258,10 +258,10 @@ function goodslib_product_list($goods_id, $conditions = '') {
     $filter ['record_count'] = $count;
     
     $row = RC_DB::table('goodslib_products')
-    ->selectRaw('product_id, goods_id, goods_attr as goods_attr_str, goods_attr, product_sn')
-    ->whereRaw('goods_id = ' . $goods_id . $where)
-    ->orderBy($filter ['sort_by'], $filter['sort_order'])
-    ->get();
+        ->select(RC_DB::raw('product_id, goods_id, goods_attr as goods_attr_str, goods_attr, product_sn'))
+        ->whereRaw('goods_id = ' . $goods_id . $where)
+        ->orderBy($filter ['sort_by'], $filter['sort_order'])
+        ->get();
     
     /* 处理规格属性 */
     $goods_attr = product_goodslib_attr_list($goods_id);
@@ -467,13 +467,13 @@ function sort_goodslib_attr_id_array($goods_attr_id_array, $sort = 'asc') {
     }
     // 重新排序
     $row = RC_DB::table('attribute as a')
-    ->leftJoin('goodslib_attr as v', function($join){
-        $join->on(RC_DB::raw('v.attr_id'), '=', RC_DB::raw('a.attr_id'))->on(RC_DB::raw('a.attr_type'), '=', RC_DB::raw('1'));
-    })
-    ->selectRaw('a.attr_type, v.attr_value, v.goods_attr_id')
-    ->whereIn(RC_DB::raw('v.goods_attr_id'), $goods_attr_id_array)
-    ->orderby(RC_DB::raw('a.attr_id'), $sort)
-    ->get();
+        ->leftJoin('goodslib_attr as v', function($join){
+            $join->on(RC_DB::raw('v.attr_id'), '=', RC_DB::raw('a.attr_id'))->on(RC_DB::raw('a.attr_type'), '=', RC_DB::raw('1'));
+        })
+        ->select(RC_DB::raw('a.attr_type, v.attr_value, v.goods_attr_id'))
+        ->whereIn(RC_DB::raw('v.goods_attr_id'), $goods_attr_id_array)
+        ->orderby(RC_DB::raw('a.attr_id'), $sort)
+        ->get();
     
     $return_arr = array();
     if (! empty($row)) {
@@ -600,7 +600,7 @@ function get_goodslib_product_info($product_id, $field = '') {
     if (empty ($filed)) {
         $filed = '*';
     }
-    return RC_DB::table('goodslib_products')->selectRaw($field)->where('product_id', $product_id)->first();
+    return RC_DB::table('goodslib_products')->select(RC_DB::raw($field))->where('product_id', $product_id)->first();
 }
 
 /**
