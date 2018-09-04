@@ -1,147 +1,226 @@
-<?php namespace Royalcms\Component\Support\Facades;
+<?php
 
-abstract class Facade {
+namespace Royalcms\Component\Support\Facades;
 
-	/**
-	 * The application instance being facaded.
-	 *
-	 * @var \Royalcms\Component\Foundation\Royalcms
-	 */
-	protected static $royalcms;
+use Mockery;
+use RuntimeException;
+use Mockery\MockInterface;
 
-	/**
-	 * The resolved object instances.
-	 *
-	 * @var array
-	 */
-	protected static $resolvedInstance;
+abstract class Facade
+{
+    /**
+     * The royalcms instance being facaded.
+     *
+     * @var \Royalcms\Component\Contracts\Foundation\Royalcms
+     */
+    protected static $royalcms;
 
-	/**
-	 * Hotswap the underlying instance behind the facade.
-	 *
-	 * @param  mixed  $instance
-	 * @return void
-	 */
-	public static function swap($instance)
-	{
-		static::$resolvedInstance[static::getFacadeAccessor()] = $instance;
+    /**
+     * The resolved object instances.
+     *
+     * @var array
+     */
+    protected static $resolvedInstance;
 
-		static::$system->instance(static::getFacadeAccessor(), $instance);
-	}
+    /**
+     * Hotswap the underlying instance behind the facade.
+     *
+     * @param  mixed  $instance
+     * @return void
+     */
+    public static function swap($instance)
+    {
+        static::$resolvedInstance[static::getFacadeAccessor()] = $instance;
 
-	/**
-	 * Get the root object behind the facade.
-	 *
-	 * @return mixed
-	 */
-	public static function getFacadeRoot()
-	{
-		return static::resolveFacadeInstance(static::getFacadeAccessor());
-	}
+        static::$royalcms->instance(static::getFacadeAccessor(), $instance);
+    }
 
-	/**
-	 * Get the registered name of the component.
-	 *
-	 * @return string
-	 *
-	 * @throws \RuntimeException
-	 */
-	protected static function getFacadeAccessor()
-	{
-		throw new \RuntimeException("Facade does not implement getFacadeAccessor method.");
-	}
+    /**
+     * Initiate a mock expectation on the facade.
+     *
+     * @param  mixed
+     * @return \Mockery\Expectation
+     */
+    public static function shouldReceive()
+    {
+        $name = static::getFacadeAccessor();
 
-	/**
-	 * Resolve the facade root instance from the container.
-	 *
-	 * @param  string  $name
-	 * @return mixed
-	 */
-	protected static function resolveFacadeInstance($name)
-	{
-		if (is_object($name)) return $name;
+        if (static::isMock()) {
+            $mock = static::$resolvedInstance[$name];
+        } else {
+            $mock = static::createFreshMockInstance($name);
+        }
 
-		if (isset(static::$resolvedInstance[$name]))
-		{
-			return static::$resolvedInstance[$name];
-		}
+        return call_user_func_array([$mock, 'shouldReceive'], func_get_args());
+    }
 
-		return static::$resolvedInstance[$name] = static::$royalcms[$name];
-	}
+    /**
+     * Create a fresh mock instance for the given class.
+     *
+     * @param  string  $name
+     * @return \Mockery\Expectation
+     */
+    protected static function createFreshMockInstance($name)
+    {
+        static::$resolvedInstance[$name] = $mock = static::createMockByName($name);
 
-	/**
-	 * Clear a resolved facade instance.
-	 *
-	 * @param  string  $name
-	 * @return void
-	 */
-	public static function clearResolvedInstance($name)
-	{
-		unset(static::$resolvedInstance[$name]);
-	}
+        $mock->shouldAllowMockingProtectedMethods();
 
-	/**
-	 * Clear all of the resolved instances.
-	 *
-	 * @return void
-	 */
-	public static function clearResolvedInstances()
-	{
-		static::$resolvedInstance = array();
-	}
+        if (isset(static::$royalcms)) {
+            static::$royalcms->instance($name, $mock);
+        }
 
-	/**
-	 * Get the system instance behind the facade.
-	 *
-	 * @return \Royalcms\Component\Foundation\Royalcms
-	 */
-	public static function getFacadeRoyalcms()
-	{
-		return static::$royalcms;
-	}
+        return $mock;
+    }
 
-	/**
-	 * Set the system instance.
-	 *
-	 * @param  \Royalcms\Component\Foundation\Royalcms  $royalcms
-	 * @return void
-	 */
-	public static function setFacadeRoyalcms($royalcms)
-	{
-		static::$royalcms = $royalcms;
-	}
+    /**
+     * Create a fresh mock instance for the given class.
+     *
+     * @param  string  $name
+     * @return \Mockery\Expectation
+     */
+    protected static function createMockByName($name)
+    {
+        $class = static::getMockableClass($name);
 
-	/**
-	 * Handle dynamic, static calls to the object.
-	 *
-	 * @param  string  $method
-	 * @param  array   $args
-	 * @return mixed
-	 */
-	public static function __callStatic($method, $args)
-	{
-		$instance = static::getFacadeRoot();
+        return $class ? Mockery::mock($class) : Mockery::mock();
+    }
 
-		switch (count($args))
-		{
-			case 0:
-				return $instance->$method();
+    /**
+     * Determines whether a mock is set as the instance of the facade.
+     *
+     * @return bool
+     */
+    protected static function isMock()
+    {
+        $name = static::getFacadeAccessor();
 
-			case 1:
-				return $instance->$method($args[0]);
+        return isset(static::$resolvedInstance[$name]) && static::$resolvedInstance[$name] instanceof MockInterface;
+    }
 
-			case 2:
-				return $instance->$method($args[0], $args[1]);
+    /**
+     * Get the mockable class for the bound instance.
+     *
+     * @return string|null
+     */
+    protected static function getMockableClass()
+    {
+        if ($root = static::getFacadeRoot()) {
+            return get_class($root);
+        }
+    }
 
-			case 3:
-				return $instance->$method($args[0], $args[1], $args[2]);
+    /**
+     * Get the root object behind the facade.
+     *
+     * @return mixed
+     */
+    public static function getFacadeRoot()
+    {
+        return static::resolveFacadeInstance(static::getFacadeAccessor());
+    }
 
-			case 4:
-				return $instance->$method($args[0], $args[1], $args[2], $args[3]);
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    protected static function getFacadeAccessor()
+    {
+        throw new RuntimeException('Facade does not implement getFacadeAccessor method.');
+    }
 
-			default:
-				return call_user_func_array(array($instance, $method), $args);
-		}
-	}
+    /**
+     * Resolve the facade root instance from the container.
+     *
+     * @param  string|object  $name
+     * @return mixed
+     */
+    protected static function resolveFacadeInstance($name)
+    {
+        if (is_object($name)) {
+            return $name;
+        }
 
+        if (isset(static::$resolvedInstance[$name])) {
+            return static::$resolvedInstance[$name];
+        }
+
+        return static::$resolvedInstance[$name] = static::$royalcms[$name];
+    }
+
+    /**
+     * Clear a resolved facade instance.
+     *
+     * @param  string  $name
+     * @return void
+     */
+    public static function clearResolvedInstance($name)
+    {
+        unset(static::$resolvedInstance[$name]);
+    }
+
+    /**
+     * Clear all of the resolved instances.
+     *
+     * @return void
+     */
+    public static function clearResolvedInstances()
+    {
+        static::$resolvedInstance = [];
+    }
+
+    /**
+     * Get the application instance behind the facade.
+     *
+     * @return \Royalcms\Component\Contracts\Foundation\Royalcms
+     */
+    public static function getFacadeRoyalcms()
+    {
+        return static::$royalcms;
+    }
+
+    /**
+     * Set the application instance.
+     *
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
+     * @return void
+     */
+    public static function setFacadeRoyalcms($royalcms)
+    {
+        static::$royalcms = $royalcms;
+    }
+
+    /**
+     * Handle dynamic, static calls to the object.
+     *
+     * @param  string  $method
+     * @param  array   $args
+     * @return mixed
+     */
+    public static function __callStatic($method, $args)
+    {
+        $instance = static::getFacadeRoot();
+
+        if (! $instance) {
+            throw new RuntimeException('A facade root has not been set.');
+        }
+
+        switch (count($args)) {
+            case 0:
+                return $instance->$method();
+            case 1:
+                return $instance->$method($args[0]);
+            case 2:
+                return $instance->$method($args[0], $args[1]);
+            case 3:
+                return $instance->$method($args[0], $args[1], $args[2]);
+            case 4:
+                return $instance->$method($args[0], $args[1], $args[2], $args[3]);
+            default:
+                return call_user_func_array([$instance, $method], $args);
+        }
+    }
 }

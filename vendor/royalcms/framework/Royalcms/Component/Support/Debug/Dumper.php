@@ -15,7 +15,7 @@ class Dumper
      */
     public function dump($value)
     {
-        if (class_exists('\Symfony\Component\VarDumper\Dumper\CliDumper')) {
+        if (class_exists(CliDumper::class)) {
             $dumper = 'cli' === PHP_SAPI ? new CliDumper : new HtmlDumper;
 
             $dumper->dump((new VarCloner)->cloneVar($value));

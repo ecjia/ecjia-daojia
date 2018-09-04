@@ -19,6 +19,9 @@ class Logger extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'log.store'; }
+    protected static function getFacadeAccessor()
+    {
+        return 'log.store';
+    }
 
 }

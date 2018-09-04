@@ -1,29 +1,19 @@
-<?php namespace Royalcms\Component\Support\Facades;
+<?php
+
+namespace Royalcms\Component\Support\Facades;
 
 /**
- * @see \Royalcms\Component\HttpKernel\Request
+ * @see \Royalcms\Component\Http\Request
  */
-class Request extends Facade {
-
+class Request extends Facade
+{
     /**
-     * Get an item from the input data.
+     * Get the registered name of the component.
      *
-     * This method is used for all request verbs (GET, POST, PUT, and DELETE)
-     *
-     * @param  string $key
-     * @param  mixed  $default
-     * @return mixed
+     * @return string
      */
-    public static function get($key = null, $default = null)
+    protected static function getFacadeAccessor()
     {
-        return static::$royalcms['request']->input($key, $default);
+        return 'request';
     }
-    
-	/**
-	 * Get the registered name of the component.
-	 *
-	 * @return string
-	 */
-	protected static function getFacadeAccessor() { return 'request'; }
-
 }

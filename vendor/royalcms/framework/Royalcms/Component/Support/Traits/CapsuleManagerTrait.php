@@ -3,7 +3,7 @@
 namespace Royalcms\Component\Support\Traits;
 
 use Royalcms\Component\Support\Fluent;
-use Royalcms\Component\Container\Contracts\Container;
+use Royalcms\Component\Contracts\Container\Container;
 
 trait CapsuleManagerTrait
 {
@@ -17,14 +17,14 @@ trait CapsuleManagerTrait
     /**
      * The container instance.
      *
-     * @var \Royalcms\Component\Container\Contracts\Container
+     * @var \Royalcms\Component\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * Setup the IoC container instance.
      *
-     * @param  \Royalcms\Component\Container\Contracts\Container  $container
+     * @param  \Royalcms\Component\Contracts\Container\Container  $container
      * @return void
      */
     protected function setupContainer(Container $container)
@@ -49,7 +49,7 @@ trait CapsuleManagerTrait
     /**
      * Get the IoC container instance.
      *
-     * @return \Royalcms\Component\Container\Contracts\Container
+     * @return \Royalcms\Component\Contracts\Container\Container
      */
     public function getContainer()
     {
@@ -59,7 +59,7 @@ trait CapsuleManagerTrait
     /**
      * Set the IoC container instance.
      *
-     * @param  \Royalcms\Component\Container\Contracts\Container  $container
+     * @param  \Royalcms\Component\Contracts\Container\Container  $container
      * @return void
      */
     public function setContainer(Container $container)

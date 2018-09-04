@@ -3,11 +3,8 @@
 namespace Royalcms\Component\Support;
 
 use Countable;
-use Royalcms\Component\Support\Contracts\MessageBag as MessageBagContract;
+use Royalcms\Component\Contracts\Support\MessageBag as MessageBagContract;
 
-/**
- * @mixin \Royalcms\Component\Support\Contracts\MessageBag
- */
 class ViewErrorBag implements Countable
 {
     /**
@@ -32,7 +29,7 @@ class ViewErrorBag implements Countable
      * Get a MessageBag instance from the bags.
      *
      * @param  string  $key
-     * @return \Royalcms\Component\Support\Contracts\MessageBag
+     * @return \Royalcms\Component\Contracts\Support\MessageBag
      */
     public function getBag($key)
     {
@@ -53,7 +50,7 @@ class ViewErrorBag implements Countable
      * Add a new MessageBag instance to the bags.
      *
      * @param  string  $key
-     * @param  \Royalcms\Component\Support\Contracts\MessageBag  $bag
+     * @param  \Royalcms\Component\Contracts\Support\MessageBag  $bag
      * @return $this
      */
     public function put($key, MessageBagContract $bag)
@@ -64,23 +61,13 @@ class ViewErrorBag implements Countable
     }
 
     /**
-     * Determine if the default message bag has any messages.
-     *
-     * @return bool
-     */
-    public function any()
-    {
-        return $this->count() > 0;
-    }
-
-    /**
      * Get the number of messages in the default bag.
      *
      * @return int
      */
     public function count()
     {
-        return $this->getBag('default')->count();
+        return $this->default->count();
     }
 
     /**
@@ -92,15 +79,14 @@ class ViewErrorBag implements Countable
      */
     public function __call($method, $parameters)
     {
-        //@todo ...$parameters
-        return $this->getBag('default')->$method($parameters);
+        return call_user_func_array([$this->default, $method], $parameters);
     }
 
     /**
      * Dynamically access a view error bag.
      *
      * @param  string  $key
-     * @return \Royalcms\Component\Support\Contracts\MessageBag
+     * @return \Royalcms\Component\Contracts\Support\MessageBag
      */
     public function __get($key)
     {
@@ -111,7 +97,7 @@ class ViewErrorBag implements Countable
      * Dynamically set a view error bag.
      *
      * @param  string  $key
-     * @param  \Royalcms\Component\Support\Contracts\MessageBag  $value
+     * @param  \Royalcms\Component\Contracts\Support\MessageBag  $value
      * @return void
      */
     public function __set($key, $value)

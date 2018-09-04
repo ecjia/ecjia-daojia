@@ -1,9 +1,11 @@
-<?php namespace Royalcms\Component\Support;
+<?php
+
+namespace Royalcms\Component\Support;
 
 use Royalcms\Component\Support\Facades\Config;
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Facades\Lang;
-use Royalcms\Component\Foundation\Locale;
+use RC_Locale;
 
 class Format
 {
@@ -328,7 +330,7 @@ class Format
          * @param string $_context
          *            If 'display', replace ampersands and single quotes only.
          */
-        return Hook::apply_filters('clean_url', $good_protocol_url, $original_url, $_context);
+        return RC_Hook::apply_filters('clean_url', $good_protocol_url, $original_url, $_context);
     }
 
     /**
@@ -437,7 +439,7 @@ class Format
          * @param string $text
          *            The text prior to being escaped.
          */
-        return Hook::apply_filters('attribute_escape', $safe_text, $text);
+        return RC_Hook::apply_filters('attribute_escape', $safe_text, $text);
     }
 
     /**
@@ -473,7 +475,7 @@ class Format
          * @param string $text
          *            The text prior to being escaped.
          */
-        return Hook::apply_filters('js_escape', $safe_text, $text);
+        return RC_Hook::apply_filters('js_escape', $safe_text, $text);
     }
 
     /**
@@ -501,7 +503,7 @@ class Format
          * @param string $text
          *            The text prior to being escaped.
          */
-        return Hook::apply_filters('esc_html', $safe_text, $text);
+        return RC_Hook::apply_filters('esc_html', $safe_text, $text);
     }
 
     /**
@@ -525,7 +527,7 @@ class Format
          * @param string $text
          *            The text prior to being escaped.
          */
-        return Hook::apply_filters('esc_textarea', $safe_text, $text);
+        return RC_Hook::apply_filters('esc_textarea', $safe_text, $text);
     }
 
     /**
@@ -925,7 +927,7 @@ class Format
          *
          * @param array $default_no_texturize_tags An array of HTML element names.
          */
-        $no_texturize_tags = '(' . implode( '|', Hook::apply_filters( 'no_texturize_tags', $default_no_texturize_tags ) ) . ')';
+        $no_texturize_tags = '(' . implode( '|', RC_Hook::apply_filters( 'no_texturize_tags', $default_no_texturize_tags ) ) . ')';
         /**
          * Filter the list of shortcodes not to texturize.
          *
@@ -933,7 +935,7 @@ class Format
          *
          * @param array $default_no_texturize_shortcodes An array of shortcode names.
          */
-        $no_texturize_shortcodes = '(' . implode( '|', Hook::apply_filters( 'no_texturize_shortcodes', $default_no_texturize_shortcodes ) ) . ')';
+        $no_texturize_shortcodes = '(' . implode( '|', RC_Hook::apply_filters( 'no_texturize_shortcodes', $default_no_texturize_shortcodes ) ) . ')';
     
         $no_texturize_tags_stack = array();
         $no_texturize_shortcodes_stack = array();
@@ -1045,7 +1047,7 @@ class Format
          * @param string $raw_title The title prior to sanitization.
          * @param string $context   The context for which the title is being sanitized.
         */
-        $title = Hook::apply_filters( 'sanitize_title', $title, $raw_title, $context );
+        $title = RC_Hook::apply_filters( 'sanitize_title', $title, $raw_title, $context );
     
         if ( '' === $title || false === $title ) {
             $title = $fallback_title;
@@ -1079,7 +1081,7 @@ class Format
          * @param array  $special_chars Characters to remove.
          * @param string $filename_raw  Filename as it was passed into sanitize_file_name().
         */
-        $special_chars = Hook::apply_filters( 'sanitize_file_name_chars', $special_chars, $filename_raw );
+        $special_chars = RC_Hook::apply_filters( 'sanitize_file_name_chars', $special_chars, $filename_raw );
         $filename = preg_replace( "#\x{00a0}#siu", ' ', $filename );
         $filename = str_replace($special_chars, '', $filename);
         $filename = str_replace( array( '%20', '+' ), '-', $filename );
@@ -1099,7 +1101,7 @@ class Format
              * @param string $filename     Sanitized filename.
              * @param string $filename_raw The filename prior to sanitization.
              */
-            return Hook::apply_filters( 'sanitize_file_name', $filename, $filename_raw );
+            return RC_Hook::apply_filters( 'sanitize_file_name', $filename, $filename_raw );
         }
     
         // Process multiple extensions
@@ -1130,7 +1132,7 @@ class Format
         }
         $filename .= '.' . $extension;
         /** This filter is documented in wp-includes/formatting.php */
-        return Hook::apply_filters('sanitize_file_name', $filename, $filename_raw);
+        return RC_Hook::apply_filters('sanitize_file_name', $filename, $filename_raw);
     }
     
     
@@ -1327,7 +1329,7 @@ class Format
             );
     
             // Used for locale-specific rules
-            $locale = Locale::get_locale();
+            $locale = RC_Locale::get_locale();
     
             if ( 'de_DE' == $locale ) {
                 $chars[ chr(195).chr(132) ] = 'Ae';
@@ -1440,7 +1442,7 @@ class Format
          * @param string $class     HTML class before sanitization.
          * @param string $fallback  The fallback string.
          */
-        return Hook::apply_filters( 'sanitize_html_class', $sanitized, $class, $fallback );
+        return RC_Hook::apply_filters( 'sanitize_html_class', $sanitized, $class, $fallback );
     }
     
     
@@ -1482,7 +1484,7 @@ class Format
          * @param string $key     Sanitized key.
          * @param string $raw_key The key prior to sanitization.
         */
-        return Hook::apply_filters( 'sanitize_key', $key, $raw_key );
+        return RC_Hook::apply_filters( 'sanitize_key', $key, $raw_key );
     }
     
     /**
@@ -1509,13 +1511,13 @@ class Format
              * @param string $email   The email address, as provided to sanitize_email().
              * @param string $message A message to pass to the user.
              */
-            return Hook::apply_filters( 'sanitize_email', '', $email, 'email_too_short' );
+            return RC_Hook::apply_filters( 'sanitize_email', '', $email, 'email_too_short' );
         }
     
         // Test for an @ character after the first position
         if ( strpos( $email, '@', 1 ) === false ) {
             /** This filter is documented in wp-includes/formatting.php */
-            return Hook::apply_filters( 'sanitize_email', '', $email, 'email_no_at' );
+            return RC_Hook::apply_filters( 'sanitize_email', '', $email, 'email_no_at' );
         }
     
         // Split out the local and domain parts
@@ -1526,7 +1528,7 @@ class Format
         $local = preg_replace( '/[^a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]/', '', $local );
         if ( '' === $local ) {
             /** This filter is documented in wp-includes/formatting.php */
-            return Hook::apply_filters( 'sanitize_email', '', $email, 'local_invalid_chars' );
+            return RC_Hook::apply_filters( 'sanitize_email', '', $email, 'local_invalid_chars' );
         }
     
         // DOMAIN PART
@@ -1534,14 +1536,14 @@ class Format
         $domain = preg_replace( '/\.{2,}/', '', $domain );
         if ( '' === $domain ) {
             /** This filter is documented in wp-includes/formatting.php */
-            return Hook::apply_filters( 'sanitize_email', '', $email, 'domain_period_sequence' );
+            return RC_Hook::apply_filters( 'sanitize_email', '', $email, 'domain_period_sequence' );
         }
     
         // Test for leading and trailing periods and whitespace
         $domain = trim( $domain, " \t\n\r\0\x0B." );
         if ( '' === $domain ) {
             /** This filter is documented in wp-includes/formatting.php */
-            return Hook::apply_filters( 'sanitize_email', '', $email, 'domain_period_limits' );
+            return RC_Hook::apply_filters( 'sanitize_email', '', $email, 'domain_period_limits' );
         }
     
         // Split the domain into subs
@@ -1550,7 +1552,7 @@ class Format
         // Assume the domain will have at least two subs
         if ( 2 > count( $subs ) ) {
             /** This filter is documented in wp-includes/formatting.php */
-            return Hook::apply_filters( 'sanitize_email', '', $email, 'domain_no_periods' );
+            return RC_Hook::apply_filters( 'sanitize_email', '', $email, 'domain_no_periods' );
         }
     
         // Create an array that will contain valid subs
@@ -1573,7 +1575,7 @@ class Format
         // If there aren't 2 or more valid subs
         if ( 2 > count( $new_subs ) ) {
             /** This filter is documented in wp-includes/formatting.php */
-            return Hook::apply_filters( 'sanitize_email', '', $email, 'domain_no_valid_subs' );
+            return RC_Hook::apply_filters( 'sanitize_email', '', $email, 'domain_no_valid_subs' );
         }
     
         // Join valid subs into the new domain
@@ -1584,7 +1586,7 @@ class Format
     
         // Congratulations your email made it!
         /** This filter is documented in wp-includes/formatting.php */
-        return Hook::apply_filters( 'sanitize_email', $email, $email, null );
+        return RC_Hook::apply_filters( 'sanitize_email', $email, $email, null );
     }
     
     

@@ -3,9 +3,9 @@
 namespace Royalcms\Component\Support\Facades;
 
 /**
- * @see \Royalcms\Component\Validation\Factory
+ * @see \Royalcms\Component\Mail\Mailer
  */
-class Validator extends Facade
+class Mail extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -14,6 +14,6 @@ class Validator extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'validator';
+        return 'mailer';
     }
 }

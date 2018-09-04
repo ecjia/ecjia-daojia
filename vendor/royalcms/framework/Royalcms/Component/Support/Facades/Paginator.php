@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Support\Facades;
+<?php
+
+namespace Royalcms\Component\Support\Facades;
 
 /**
  * @see \Royalcms\Component\Pagination\Environment
@@ -10,6 +12,9 @@ class Paginator extends Facade {
 	 *
 	 * @return string
 	 */
-	protected static function getFacadeAccessor() { return 'paginator'; }
+	protected static function getFacadeAccessor()
+    {
+        return 'paginator';
+    }
 
 }
