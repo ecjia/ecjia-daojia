@@ -57,18 +57,6 @@ class HtmlDumper extends CliDumper
     /**
      * {@inheritdoc}
      */
-    public function setOutput($output)
-    {
-        if ($output !== $prev = parent::setOutput($output)) {
-            $this->headerIsDumped = false;
-        }
-
-        return $prev;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setStyles(array $styles)
     {
         $this->headerIsDumped = false;
@@ -78,7 +66,7 @@ class HtmlDumper extends CliDumper
     /**
      * Sets an HTML header that will be dumped once in the output stream.
      *
-     * @param string $header An HTML string.
+     * @param string $header An HTML string
      */
     public function setDumpHeader($header)
     {
@@ -88,8 +76,8 @@ class HtmlDumper extends CliDumper
     /**
      * Sets an HTML prefix and suffix that will encapse every single dump.
      *
-     * @param string $prefix The prepended HTML string.
-     * @param string $suffix The appended HTML string.
+     * @param string $prefix The prepended HTML string
+     * @param string $suffix The appended HTML string
      */
     public function setDumpBoundaries($prefix, $suffix)
     {
@@ -111,7 +99,7 @@ class HtmlDumper extends CliDumper
      */
     protected function getDumpHeader()
     {
-        $this->headerIsDumped = true;
+        $this->headerIsDumped = null !== $this->outputStream ? $this->outputStream : $this->lineDumper;
 
         if (null !== $this->dumpHeader) {
             return $this->dumpHeader;
@@ -374,7 +362,7 @@ EOHTML;
             return '';
         }
 
-        $v = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+        $v = esc($value);
 
         if ('ref' === $style) {
             if (empty($attr['count'])) {
@@ -385,18 +373,18 @@ EOHTML;
             return sprintf('<a class=sf-dump-ref href=#%s-ref%s title="%d occurrences">%s</a>', $this->dumpId, $r, 1 + $attr['count'], $v);
         }
 
-        if ('const' === $style && array_key_exists('value', $attr)) {
-            $style .= sprintf(' title="%s"', htmlspecialchars(json_encode($attr['value']), ENT_QUOTES, 'UTF-8'));
+        if ('const' === $style && isset($attr['value'])) {
+            $style .= sprintf(' title="%s"', esc(is_scalar($attr['value']) ? $attr['value'] : json_encode($attr['value'])));
         } elseif ('public' === $style) {
             $style .= sprintf(' title="%s"', empty($attr['dynamic']) ? 'Public property' : 'Runtime added dynamic property');
         } elseif ('str' === $style && 1 < $attr['length']) {
-            $style .= sprintf(' title="%s%s characters"', $attr['length'], $attr['binary'] ? ' binary or non-UTF-8' : '');
+            $style .= sprintf(' title="%d%s characters"', $attr['length'], $attr['binary'] ? ' binary or non-UTF-8' : '');
         } elseif ('note' === $style && false !== $c = strrpos($v, '\\')) {
             return sprintf('<abbr title="%s" class=sf-dump-%s>%s</abbr>', $v, $style, substr($v, $c + 1));
         } elseif ('protected' === $style) {
             $style .= ' title="Protected property"';
         } elseif ('private' === $style) {
-            $style .= sprintf(' title="Private property defined in class:&#10;`%s`"', $attr['class']);
+            $style .= sprintf(' title="Private property defined in class:&#10;`%s`"', esc($attr['class']));
         }
 
         $map = static::$controlCharsMap;
@@ -433,7 +421,7 @@ EOHTML;
         if (-1 === $this->lastDepth) {
             $this->line = sprintf($this->dumpPrefix, $this->dumpId, $this->indentPad).$this->line;
         }
-        if (!$this->headerIsDumped) {
+        if ($this->headerIsDumped !== (null !== $this->outputStream ? $this->outputStream : $this->lineDumper)) {
             $this->line = $this->getDumpHeader().$this->line;
         }
 
@@ -442,11 +430,39 @@ EOHTML;
         }
         $this->lastDepth = $depth;
 
-        $this->line = mb_convert_encoding($this->line, 'HTML-ENTITIES', 'UTF-8');
+        // Replaces non-ASCII UTF-8 chars by numeric HTML entities
+        $this->line = preg_replace_callback(
+            '/[\x80-\xFF]+/',
+            function ($m) {
+                $m = unpack('C*', $m[0]);
+                $i = 1;
+                $entities = '';
+
+                while (isset($m[$i])) {
+                    if (0xF0 <= $m[$i]) {
+                        $c = (($m[$i++] - 0xF0) << 18) + (($m[$i++] - 0x80) << 12) + (($m[$i++] - 0x80) << 6) + $m[$i++] - 0x80;
+                    } elseif (0xE0 <= $m[$i]) {
+                        $c = (($m[$i++] - 0xE0) << 12) + (($m[$i++] - 0x80) << 6) + $m[$i++]  - 0x80;
+                    } else {
+                        $c = (($m[$i++] - 0xC0) << 6) + $m[$i++] - 0x80;
+                    }
+
+                    $entities .= '&#'.$c.';';
+                }
+
+                return $entities;
+            },
+            $this->line
+        );
 
         if (-1 === $depth) {
             AbstractDumper::dumpLine(0);
         }
         AbstractDumper::dumpLine($depth);
     }
+}
+
+function esc($str)
+{
+    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }

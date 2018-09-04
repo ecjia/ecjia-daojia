@@ -16,11 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.9",
-        "symfony/polyfill-mbstring": "~1.0"
-    },
-    "require-dev": {
-        "twig/twig": "~1.20|~2.0"
+        "php": ">=5.3.9"
     },
     "suggest": {
         "ext-symfony_debug": ""
@@ -35,7 +31,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.8-dev"
+            "dev-master": "2.7-dev"
         }
     }
 }
