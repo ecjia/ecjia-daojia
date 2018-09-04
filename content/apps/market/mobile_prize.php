@@ -73,7 +73,7 @@ class mobile_prize extends EcjiaMarketActivityController
         //中奖类型的奖品id
         $prize_log_list = $dbview->where(RC_DB::raw('mal.user_id'), $openid)
         							->whereIn(RC_DB::raw('map.prize_type'), array(1,2,3,6))
-        							->selectRaw('mal.*, map.prize_type, map.prize_value')
+        							->select(RC_DB::raw('mal.*, map.prize_type, map.prize_value'))
         							->groupBy(RC_DB::raw('mal.id'))
         							->orderBy(RC_DB::raw('mal.add_time'), 'desc')
         							->get();

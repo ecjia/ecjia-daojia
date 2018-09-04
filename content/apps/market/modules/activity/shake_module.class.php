@@ -136,7 +136,7 @@ class shake_module extends api_front implements api_interface {
 		$market_activity_prize = RC_DB::table('market_activity_prize')
 									->where('activity_id', $market_activity['activity_id'])
 									->where('prize_number', '>', 0)
-									->selectRaw('prize_id, activity_id, prize_level, prize_name, prize_type, prize_value, prize_number, prize_prob')->get();
+									->select(RC_DB::raw('prize_id, activity_id, prize_level, prize_name, prize_type, prize_value, prize_number, prize_prob'))->get();
 		
 		/*
 		 * 每次前端页面的请求，PHP循环奖项设置数组，
