@@ -48,11 +48,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
 
-	'Royalcms\Component\Agent\AgentServiceProvider',
+    'Royalcms\Component\Agent\AgentServiceProvider',
     'Royalcms\Component\Excel\ExcelServiceProvider',
     'Royalcms\Component\Memcache\MemcacheServiceProvider',
     'Royalcms\Component\XmlResponse\XmlResponseServiceProvider',
-    'Royalcms\Component\UEditor\UEditorServiceProvider',
     'Royalcms\Component\QrCode\QrCodeServiceProvider',
     'Royalcms\Component\Repository\RepositoryServiceProvider',
     'Royalcms\Component\Sms\SmsServiceProvider',
@@ -67,9 +66,10 @@ return array(
     'Royalcms\Component\Ucenter\UcenterServiceProvider',
     'Royalcms\Component\WeChat\WeChatServiceProvider',
     'Royalcms\Component\WeApp\WeAppServiceProvider',
-    
+
     'Ecjia\System\Providers\SystemServiceProvider',
-    
+    'Ecjia\System\Providers\RouteServiceProvider',
+
     'Ecjia\App\Adsense\AdsenseServiceProvider',
     'Ecjia\App\Affiliate\AffiliateServiceProvider',
     'Ecjia\App\Api\ApiServiceProvider',
@@ -119,7 +119,7 @@ return array(
     'Ecjia\App\Stats\StatsServiceProvider',
     'Ecjia\App\Store\StoreServiceProvider',
     'Ecjia\App\Theme\ThemeServiceProvider',
-	'Ecjia\App\Tmplmsg\TmplmsgServiceProvider',
+    'Ecjia\App\Tmplmsg\TmplmsgServiceProvider',
     'Ecjia\App\Touch\TouchServiceProvider',
     'Ecjia\App\Ucenter\UcenterServiceProvider',
     'Ecjia\App\Upgrade\UpgradeServiceProvider',
