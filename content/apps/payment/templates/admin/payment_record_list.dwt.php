@@ -19,20 +19,28 @@
 </div>
 
 <div class="row-fluid batch" >
-	<form method="post" action='{url path="payment/admin_payment_record/init"}' name="searchForm">
-		<div class="top_right f_r" >
-			<input class="w130" type="text" name="order_sn" value="{$smarty.get.order_sn}" placeholder="{lang key='payment::payment.find_order_sn'}"/>
-			<input class="w200" type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入支付订单号或流水号"/>
-			<button class="btn m_l5" type="submit">{lang key='user::users.serach'}</button>
-		</div>
-		<div class="f_r m_r5">
-			<select class="w150" name="pay_status">
-				<option value="0">请选择交易状态</option>
-				<option value="1" {if $smarty.get.pay_status eq 1}selected{/if}>等待付款</option>
-				<option value="2" {if $smarty.get.pay_status eq 2}selected{/if}>付款成功</option>
-			</select>
-		</div>
-	</form>
+	<div class="choose_list span12">
+		<form class="f_l" name="searchdateForm" action='{url path="payment/admin_payment_record/init"}' method="post">
+			<input class="date f_l w100" name="start_date" type="text" value="{$smarty.get.start_date}" placeholder="开始日期">
+			<span class="f_l">至</span>
+			<input class="date f_l w100" name="end_date" type="text" value="{$smarty.get.end_date}" placeholder="结束日期">
+			<button class="btn select-button" type="button">筛选</button>
+		</form>
+		<form method="post" action='{url path="payment/admin_payment_record/init"}{if $filter.start_date}&start_date={$filter.start_date}{/if}{if $filter.end_date}&end_date={$filter.end_date}{/if}' name="searchForm">
+			<div class="top_right f_r" >
+				<input class="w130" type="text" name="order_sn" value="{$smarty.get.order_sn}" placeholder="{lang key='payment::payment.find_order_sn'}"/>
+				<input class="w200" type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入支付订单号或流水号"/>
+				<button class="btn m_l5" type="submit">{lang key='user::users.serach'}</button>
+			</div>
+			<div class="f_r m_r5">
+				<select class="w150" name="pay_status">
+					<option value="0">请选择交易状态</option>
+					<option value="1" {if $smarty.get.pay_status eq 1}selected{/if}>等待付款</option>
+					<option value="2" {if $smarty.get.pay_status eq 2}selected{/if}>付款成功</option>
+				</select>
+			</div>
+		</form>
+	</div>
 </div>
 
 <div class="row-fluid">

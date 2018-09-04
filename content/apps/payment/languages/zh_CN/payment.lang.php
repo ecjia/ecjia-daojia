@@ -88,6 +88,7 @@ return array(
 		'pay_name_minlength'	=> '支付名称长度不能小于3',
 		'pay_desc_required'		=> '请输入支付描述',
 		'pay_desc_minlength'	=> '支付描述长度不能小于6',
+		'check_time'			=> '开始日期不能大于结束日期',
 	),
 
 	'wait_for_payment'		=>	'等待付款',

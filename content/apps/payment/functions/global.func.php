@@ -122,6 +122,14 @@ function get_payment_record_list($args = array()) {
     $filter['order_sn']		= empty($args['order_sn'])		? ''		: trim($args['order_sn']);
     $filter['keywords']		= empty($args['keywords'])		? 0			: trim($args['keywords']);
     $filter['pay_status']	= $args['pay_status'];
+    $filter['start_date']	= $args['start_date'];
+    $filter['end_date']		= $args['end_date'];
+    
+    if (!empty($filter['start_date']) && !empty( $filter['end_date'])) {
+    	$start_time = RC_Time::local_strtotime($filter['start_date']);
+    	$end_time = RC_Time::local_strtotime($filter['end_date']);
+    	$db_payment_record->where('create_time', '>=', $start_time)->where('create_time', '<=', $end_time);
+    }
     
     if ($filter['order_sn']) {
         $db_payment_record->where('order_sn', 'LIKE', '%' . mysql_like_quote($filter['order_sn']) . '%');

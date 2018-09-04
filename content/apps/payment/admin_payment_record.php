@@ -64,11 +64,16 @@ class admin_payment_record extends ecjia_admin {
 		RC_Script::enqueue_script('payment_admin_record', RC_App::apps_url('statics/js/payment_admin_record.js',__FILE__),array(), false, true);
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
-
+	
 		RC_Style::enqueue_style('uniform-aristo');
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Style::enqueue_style('chosen');
 		RC_Script::enqueue_script('jquery-chosen');
+		//时间控件
+		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
+		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
+		
+		RC_Script::localize_script('payment_admin', 'js_lang', RC_Lang::get('payment::payment.js_lang'));
 
 	}
 
@@ -84,11 +89,14 @@ class admin_payment_record extends ecjia_admin {
 		$filter['order_sn']		= empty($_GET['order_sn'])		? ''		: trim($_GET['order_sn']);
 		$filter['keywords']		= empty($_GET['keywords'])		? 0			: trim($_GET['keywords']);
 		$filter['pay_status']	= empty($_GET['pay_status'])	? ''		: $_GET['pay_status'];
+		$filter['start_date']	= empty($_GET['start_date'])	? ''		: trim($_GET['start_date']);
+		$filter['end_date']		= empty($_GET['end_date'])		? ''		: trim($_GET['end_date']);
 		
 		RC_Loader::load_app_func('global');
 	    $db_payment_record = get_payment_record_list($filter);
 	    
 	    $this->assign('modules', $db_payment_record);
+	    $this->assign('filter', $db_payment_record['filter']);
 	    $this->assign('search_action', RC_Uri::url('payment/admin_payment_record/init'));
 		$this->assign('ur_here', RC_Lang::get('payment::payment.transaction_flow_record'));
 		

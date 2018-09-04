@@ -47,6 +47,9 @@
         },
 
         init: function () {
+        	$(".date").datepicker({
+				format: "yyyy-mm-dd"
+			});
             $("form[name='searchForm']").on('submit', function (e) {
                 e.preventDefault();
                 var url = $("form[name='searchForm']").attr('action');
@@ -63,6 +66,25 @@
                 if (keywords != '') {
                     url += '&keywords=' + keywords;
                 }
+                ecjia.pjax(url);
+            });
+            $(".select-button").click(function () {
+                var start_date = $("input[name='start_date']").val();
+                var end_date = $("input[name='end_date']").val();
+                
+                if (start_date > end_date && (start_date != '' && end_date != '')) {
+                    var data = {
+                        message: js_lang.check_time,
+                        state: "error",
+                    };
+                    ecjia.admin.showmessage(data);
+                    return false;
+                }
+                
+                var url = $("form[name='searchdateForm']").attr('action');
+                if (start_date != '') url += '&start_date=' + start_date;
+                if (end_date != '') url += '&end_date=' + end_date;
+ 
                 ecjia.pjax(url);
             });
         },
