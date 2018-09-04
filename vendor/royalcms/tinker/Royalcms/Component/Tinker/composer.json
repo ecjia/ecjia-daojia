@@ -1,0 +1,44 @@
+{
+    "name": "royalcms/tinker",
+    "description": "Powerful REPL for the Royalcms framework.",
+    "keywords": ["tinker", "repl", "psysh", "royalcms"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/console": "~5.0",
+        "royalcms/contracts": "~5.0",
+        "royalcms/support": "~5.0",
+        "psy/psysh": "0.7.*|0.8.*",
+        "symfony/var-dumper": "~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0|~5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Tinker\\": "Royalcms/Component/Thinker"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "suggest": {
+        "royalcms/database": "The Royalcms Database package (~5.0)."
+    }
+}
