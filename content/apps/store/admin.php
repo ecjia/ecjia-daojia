@@ -855,7 +855,7 @@ class admin extends ecjia_admin
 
         $data = $db_store_franchisee
             ->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'))
-            ->selectRaw('sf.store_id,sf.merchants_name,sf.manage_mode,sf.contact_mobile,sf.responsible_person,sf.confirm_time,sf.company_name,sf.sort_order,sc.cat_name,sf.status')
+            ->select(RC_DB::raw('sf.store_id,sf.merchants_name,sf.manage_mode,sf.contact_mobile,sf.responsible_person,sf.confirm_time,sf.company_name,sf.sort_order,sc.cat_name,sf.status'))
             ->orderby('store_id', 'asc')
             ->take($page->page_size)
             ->skip($page->start_id - 1)
@@ -925,7 +925,7 @@ class admin extends ecjia_admin
         $this->assign('keyword', $keyword);
         /* 查询IP地址列表 */
         $ip_list = array();
-        $data    = RC_DB::table('staff_log')->selectRaw('distinct ip_address')->get();
+        $data    = RC_DB::table('staff_log')->select(RC_DB::raw('distinct ip_address'))->get();
         if (!empty($data)) {
             foreach ($data as $row) {
                 $ip_list[] = $row['ip_address'];
@@ -1030,7 +1030,7 @@ class admin extends ecjia_admin
         $count = $db_staff_log->count();
         $page  = new ecjia_page($count, 15, 5);
         $data  = $db_staff_log
-            ->selectRaw('sl.log_id,sl.log_time,sl.log_info,sl.ip_address,sl.ip_location,su.name')
+            ->select(RC_DB::raw('sl.log_id,sl.log_time,sl.log_info,sl.ip_address,sl.ip_location,su.name'))
             ->orderby($filter['sort_by'], $filter['sort_order'])
             ->take(10)
             ->skip($page->start_id - 1)

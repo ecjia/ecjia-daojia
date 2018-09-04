@@ -291,7 +291,7 @@ class admin_commission extends ecjia_admin {
 		$info = RC_DB::table('store_commission as sc')
 				 ->leftJoin('store_franchisee as sf', RC_DB::raw('sc.store_id'), '=', RC_DB::raw('sf.store_id'))
 				 ->leftJoin('store_percent as sp', RC_DB::raw('sc.percent_id'), '=', RC_DB::raw('sp.percent_id'))
-				 ->selectRaw('sf.merchants_name, sp.percent_value')
+				 ->select(RC_DB::raw('sf.merchants_name, sp.percent_value'))
 		         ->get();
 
 		$server_delete = RC_DB::table('store_commission')->whereIn(RC_DB::raw('id'), $id_new)->delete();
@@ -446,7 +446,7 @@ class admin_commission extends ecjia_admin {
 				 ->leftJoin('store_percent as sp', RC_DB::raw('sc.percent_id'), '=', RC_DB::raw('sp.percent_id'));
 
 		$data =  $dbview
-				 ->selectRaw('sf.merchants_name, sf.contact_mobile, sf.store_id, sc.percent_id, sp.percent_value, sc.id')
+		         ->select(RC_DB::raw('sf.merchants_name, sf.contact_mobile, sf.store_id, sc.percent_id, sp.percent_value, sc.id'))
 				 ->orderBy($filter['sort_by'], $filter['sort_order'])
 				 ->groupBy(RC_DB::raw('sc.store_id'))
         		 ->take(10)
@@ -635,7 +635,7 @@ class admin_commission extends ecjia_admin {
 				->leftJoin('order_goods as og', RC_DB::raw('o.order_id'), '=', RC_DB::raw('og.order_id'))
 				->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('og.goods_id'));
 
-		$res	=  $dbview->selectRaw('o.order_id')->whereRaw($where)->groupBy(RC_DB::raw('o.order_id'))->get();
+				$res	=  $dbview->select(RC_DB::raw('o.order_id'))->whereRaw($where)->groupBy(RC_DB::raw('o.order_id'))->get();
 
 		$count = count($res);
 
@@ -722,7 +722,7 @@ class admin_commission extends ecjia_admin {
 		$db->where('store_id', $store_id);
 		$count = $db->count();
 		$page = new ecjia_page($count, 10, 5);
-		$data = $db->take(10)->skip($page->start_id - 1)->orderBy('change_time', 'desc')->get();
+		$data = $db->take(10)->skip($page->start_id - 1)->orderBy('change_time', 'desc')->orderBy('log_id', 'desc')->get();
 		if (!empty($data)) {
 			foreach ($data as $k => $v) {
 				$data[$k]['change_time'] = RC_Time::local_date('Y-m-d H:i:s', $v['change_time']);

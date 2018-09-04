@@ -123,7 +123,7 @@ function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_s
 			//$res = $db_category->join('seller_category')->group('c.cat_id')->order(array('c.parent_id' => 'asc', 'c.sort_order' => 'asc'))->select();
 			//$res2 = $db_shopinfo->field ( 'cat_id, COUNT(*)|store_num' )->group ('cat_id asc')->select();
 			$res = $db_store_category
-					->selectRaw('c.cat_id, c.cat_name, c.parent_id, c.is_show, c.sort_order, COUNT(s.cat_id) AS has_children')
+			        ->select(RC_DB::raw('c.cat_id, c.cat_name, c.parent_id, c.is_show, c.sort_order, COUNT(s.cat_id) AS has_children'))
 					->groupBy(RC_DB::raw('c.cat_id'))
 					->orderBy(RC_DB::raw('c.parent_id'), 'asc')
 					->orderBy(RC_DB::raw('c.sort_order', 'asc'))
