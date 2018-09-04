@@ -62,7 +62,7 @@
 				<!-- {/foreach} -->
 			</tbody>
 		</table>
-		<!-- {$list.page} -->
+		<!-- {$invoice_list.page} -->
 	</div>
 </div>
 <!-- {/block} -->

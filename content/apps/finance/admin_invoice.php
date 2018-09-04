@@ -120,7 +120,7 @@ class admin_invoice extends ecjia_admin {
 		$page = new ecjia_page($count, 10, 5);
 		
 		$data = $db_invoice
-		->selectRaw('id,user_id,title_name,title_type,user_mobile,tax_register_no,add_time')
+		->select('id','user_id','title_name','title_type','user_mobile','tax_register_no','add_time')
 		->orderby(RC_DB::Raw('id'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)

@@ -29,8 +29,8 @@
                 }
                 var url = $("form[name='searchForm']").attr('action');
  
-                if (process_type != '-1') url += '&process_type=' + process_type;
-                if (payment != '') url += '&payment=' + payment;
+                // if (process_type != '-1') url += '&process_type=' + process_type;
+                if (payment != '' && payment != undefined) url += '&payment=' + payment;
                 if (is_paid != '-1') url += '&is_paid=' + is_paid;
                 if (start_date != '') url += '&start_date=' + start_date;
                 if (end_date != '') url += '&end_date=' + end_date;

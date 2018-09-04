@@ -44,7 +44,7 @@
 			</select>
 			<select class="w80" name="is_paid">
 				<option value="-1">{lang key='user::user_account.status'}</option>
-				<option value="0" {if $list.filter.is_paid eq 0} selected="selected" {/if}>{lang key='user::user_account.unconfirm'}</option>
+				<option value="0" {if $smarty.get.is_paid eq 0} selected="selected" {/if}>{lang key='user::user_account.unconfirm'}</option>
 				<option value="1" {if $smarty.get.is_paid eq 1} selected="selected" {/if}>{lang key='user::user_account.confirm'}</option>
 				<option value="2" {if $smarty.get.is_paid eq 2} selected="selected" {/if}>{lang key='user::user_account.cancel'}</option>
 			</select>

@@ -44,6 +44,7 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Ecjia\App\Finance\Notifications\UserAccountChange;
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
@@ -141,6 +142,25 @@ class finance_account_change_log_api extends Component_Event_Api {
         	RC_Api::api('sms', 'send_event_sms', $options);
         }
         
+        //消息通知
+        $orm_user_db = RC_Model::model('orders/orm_users_model');
+        $user_ob = $orm_user_db->find($user_id);
+        	
+        $user_account_data = array(
+        		'title'	=> '充值到账',
+        		'body'	=> '尊敬的'.$user_info['user_name'].'，充值业务已受理成功，充值金额'.$user_money.'元资金已到账，目前可用资金'.$user_info['user_money'].'元。',
+        		'data'	=> array(
+        				'user_id'				=> $user_id,
+        				'user_name'				=> $user_info['user_name'],
+        				'amount'				=> $user_money,
+        				'formatted_amount' 		=> price_format($user_money),
+        				'user_money'			=> $user_info['user_money'],
+        				'formatted_user_money'	=> price_format($user_info['user_money'])
+        		),
+        );
+        	
+        $push_account_chenged = new UserAccountChange($user_account_data);
+        RC_Notification::send($user_ob, $push_account_chenged);
         
     }
 }

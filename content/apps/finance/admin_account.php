@@ -492,6 +492,7 @@ class admin_account extends ecjia_admin {
 		$account	= RC_DB::table('user_account')->where('id', $id)->first();
 		$amount		= $account['amount'];
 		$frozen_money = $account['amount'];
+		$user_frozen_money = user_account::get_frozen_money($account['user_id']);
 		
 		/* 如果是退款申请, 并且已完成,更新此条记录,扣除相应的余额 */
 		if ($is_paid == '1') {
@@ -501,8 +502,8 @@ class admin_account extends ecjia_admin {
 				
 				$fmt_amount   = str_replace('-', '', $amount);
 				
-				/* 如果扣除的余额多于此会员拥有的余额，提示 */
-				if ($fmt_amount > $user_account + $frozen_money) {
+				/* 如果扣除的余额多于此会员的总冻结金额，提示 */
+				if ($fmt_amount > $user_frozen_money) {
 					return $this->showmessage(RC_Lang::get('user::user_account.surplus_amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 				

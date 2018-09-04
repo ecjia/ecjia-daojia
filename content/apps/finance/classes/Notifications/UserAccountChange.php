@@ -44,83 +44,69 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Finance\Notifications;
+
+use Royalcms\Component\Bus\Queueable;
+use Royalcms\Component\Notifications\Notification;
+// use Royalcms\Component\Notifications\Messages\MailMessage;
 
 /**
- * 会员帐号资金变动日志记录接口
- * @author royalwang
+ * 用户充值到账
  */
-class finance_account_balance_change_api extends Component_Event_Api {
-
-    /**
-     * @param integer user_id       必填，用户ID
-     * @param float   user_money    必填，变动金额
-     * @param string  change_desc   必填，变动余额日志
-     * @param string  from_type     选填，变动来源类型
-     * @param string  from_value    选填，变动来源内容
-     *
-     * @return ecjia_error|void
-     */
-    public function call(&$options) {
-        if (!array_get($options, 'user_id') ||  !array_get($options, 'user_money') || !array_get($options, 'change_desc')) {
-            return new ecjia_error('invalid_parameter', '请求接口user_account_balance_change_api参数无效');
-        }
-        
-        $user_id 			= array_get($options, 'user_id');
-        $user_money 		= array_get($options, 'user_money');
-        $frozen_money 		= array_get($options, 'frozen_money', 0);
-        $change_desc 		= array_get($options, 'change_desc');
-        $change_type 		= array_get($options, 'change_type', ACT_ACTIVITY);
-        $from_type			= array_get($options, 'from_type', '');
-        $from_value			= array_get($options, 'from_value', '');
-        
-        return $this->log_account_change($user_id, $user_money, $frozen_money, $change_desc, $change_type, $from_type, $from_value);
-    }
+class UserAccountChange extends Notification
+{
+    use Queueable;
     
-    
+	private $notifiable_data;
     /**
-     * 记录帐户变动
+     * Create a new notification instance.
      *
-     * @param int $user_id          用户id
-     * @param float $user_money     可用余额变动
-     * @param float $frozen_money   冻结余额变动
-     * @param int $rank_points      等级积分变动
-     * @param int $pay_points       消费积分变动
-     * @param string $change_desc   变动说明
-     * @param int $change_type      变动类型：参见常量文件
      * @return void
      */
-    private function log_account_change($user_id, $user_money = 0, $frozen_money = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type = '', $from_value = '')
+    public function __construct($user_account_data)
     {
-    	/* 插入帐户变动记录 */
-        $account_log = array (
-            'user_id'			=> $user_id,
-            'user_money'		=> $user_money,
-            'frozen_money'		=> $frozen_money,
-            'rank_points'		=> 0,
-            'pay_points'		=> 0,
-            'change_time'		=> RC_Time::gmtime(),
-            'change_desc'		=> $change_desc,
-            'change_type'		=> $change_type,
-        	'from_type'			=> $from_type,
-        	'from_value'		=> $from_value
-        );
+        //
+        $this->notifiable_data = $user_account_data;
+    }
 
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return array('database');
+    }
 
-        return RC_DB::transaction(function () use ($account_log, $user_id) {
+//     /**
+//      * Get the mail representation of the notification.
+//      *
+//      * @param  mixed  $notifiable
+//      * @return \Royalcms\Component\Notifications\Messages\MailMessage
+//      */
+//     public function toMail($notifiable)
+//     {
+//         return with(new MailMessage)
+//                     ->line('The introduction to the notification.')
+//                     ->action('Notification Action', 'https://ecjia.com')
+//                     ->line('Thank you for using our application!');
+//     }
 
-            $log_id = RC_DB::table('account_log')->insertGetId($account_log);
-
-            /* 更新用户信息 */
-            // $step = $account_log['user_money'] . ", frozen_money = frozen_money + ('" . $account_log['frozen_money'] . "')";
-            // RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $step);
-
-            RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $account_log['user_money']);
-            RC_DB::table('users')->where('user_id', $user_id)->increment('frozen_money', $account_log['frozen_money']);
-            return $log_id;
-        });
-
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray()
+    {
+//         return array(
+//         	'user_name' => 'admin',
+//             'order_sn' => '12344421111233332',
+//             'goods_name' => 'test',
+//         );
+        return $this->notifiable_data;
     }
 }
-
-// end

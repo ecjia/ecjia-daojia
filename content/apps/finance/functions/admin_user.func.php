@@ -436,7 +436,7 @@ function get_user_order($args = array()) {
 
 	$count = RC_DB::table('order_info as o')
 		->leftJoin('users as u', RC_DB::raw('o.user_id'), '=', RC_DB::raw('u.user_id'))
-		->selectRaw('o.order_sn, o.is_separate, (o.goods_amount - o.discount) AS goods_amount, o.user_id')
+		->select(RC_DB::raw('o.order_sn, o.is_separate, (o.goods_amount - o.discount) AS goods_amount, o.user_id'))
 		->whereRaw($where)
 		->count();
 	
@@ -446,7 +446,7 @@ function get_user_order($args = array()) {
 		
 		$data = RC_DB::table('order_info as o')
 			->leftJoin('users as u', RC_DB::raw('o.user_id'), '=', RC_DB::raw('u.user_id'))
-			->selectRaw('o.order_id, o.order_sn, u.user_name, o.surplus, o.integral_money, o.add_time')
+			->select(RC_DB::raw('o.order_id, o.order_sn, u.user_name, o.surplus, o.integral_money, o.add_time'))
 			->whereRaw($where)
 			->orderBy($filter['sort_by'], $filter['sort_order'])
 			->take(15)
@@ -547,14 +547,13 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 
 	RC_DB::table('account_log')->insertGetId($account_log);
 
-	/* 更新用户信息 */
-	$step = $user_money.", frozen_money = frozen_money + ('$frozen_money')," .
-// 	" rank_points = rank_points + ('$rank_points')," .
-	" pay_points = pay_points + ('$pay_points')";
-
-	RC_DB::table('users')
-			->where('user_id', $user_id)
-			->increment('user_money', $step);
+    /* 更新用户信息 */
+    RC_DB::table('users')
+        ->where('user_id', $user_id)
+        ->increment( 'user_money', $user_money, [
+            'frozen_money'  => RC_DB::raw('`frozen_money` + '. $frozen_money ),
+            'pay_points'    => RC_DB::raw('`pay_points` + '. $pay_points ),
+        ]);
 	
 	if ($rank_points) {
 	    $data = array (
@@ -809,7 +808,7 @@ function EM_get_collection_goods($user_id, $num = 10, $start = 1, $rec_id = 0) {
 		$db_collect_goods->where(RC_DB::raw('c.rec_id'), '<=', $rec_id);
 	}
 	$res = $db_collect_goods
-    	->selectRaw("g.original_img, g.goods_id, g.goods_name, g.market_price, g.shop_price, g.goods_thumb, g.goods_img, g.original_img, g.goods_brief, g.goods_type AS org_price, IFNULL(mp.user_price, g.shop_price * '".$_SESSION['discount']."') AS shop_price, g.promote_price, g.promote_start_date, g.promote_end_date, c.rec_id, c.is_attention, g.click_count")
+    	->select(RC_DB::raw("g.original_img, g.goods_id, g.goods_name, g.market_price, g.shop_price, g.goods_thumb, g.goods_img, g.original_img, g.goods_brief, g.goods_type AS org_price, IFNULL(mp.user_price, g.shop_price * '".$_SESSION['discount']."') AS shop_price, g.promote_price, g.promote_start_date, g.promote_end_date, c.rec_id, c.is_attention, g.click_count"))
     	->orderby(RC_DB::raw('c.rec_id'), 'desc')
     	->take($num)
     	->skip(($start - 1) * $num)
