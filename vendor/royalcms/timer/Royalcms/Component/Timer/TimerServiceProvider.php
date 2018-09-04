@@ -41,5 +41,21 @@ class TimerServiceProvider extends ServiceProvider
 	        $loader->alias('RC_Timer', 'Royalcms\Component\Timer\Facades\Timer');
 	    });
 	}
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/timer');
+
+        return [
+            $dir . '/Timer.php',
+            $dir . '/Facades/Timer.php',
+            $dir . '/TimerServiceProvider.php',
+        ];
+    }
 	
 }
