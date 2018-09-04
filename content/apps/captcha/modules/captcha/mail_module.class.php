@@ -83,7 +83,7 @@ class mail_module extends api_front implements api_interface {
 	        $content  = ecjia_api::$controller->fetch_string($tpl['template_content']);
 	        $response = RC_Mail::send_mail(ecjia::config('shop_name'), $value, $tpl['template_subject'], $content, $tpl['is_html']);
 	    } else {
-	        return new ecjia_error('email_template_error', __('请检查短信模板send_validate'));
+	        return new ecjia_error('email_template_error', __('请检查邮件模板send_validate'));
 	    }
 	    
 	    /* 判断是否发送成功*/
