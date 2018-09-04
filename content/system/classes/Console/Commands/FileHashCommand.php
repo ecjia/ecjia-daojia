@@ -44,39 +44,33 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\System\Console;
+namespace Ecjia\System\Console\Commands;
 
 use Royalcms\Component\Console\Command;
 use Royalcms\Component\Support\Facades\File;
 
-class TestLogCommand extends Command
+class FileHashCommand extends Command
 {
-    // 命令名稱
-    protected $name = 'test:log';
+    // 命令名称
+    protected $name = 'ecjia:filehash';
 
-    // 說明文字
-    protected $description = 'Test Log record.';
+    // 说明文字
+    protected $description = 'make all file\'s md5 hash.';
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    // Console 執行的程式
+    // Console 执行的程序
     public function fire()
     {
-        // 檔案紀錄在 storage/test.log
-        $log_file_path = storage_path('logs/test.log');
-
-        // 記錄當時的時間
-        $log_info = array(
-            'date' => date('Y-m-d H:i:s')
-        );
-
-        // 記錄 JSON 字串
-        $log_info_json = json_encode($log_info) . "\r\n";
-
-        // 記錄 Log
-        File::append($log_file_path, $log_info_json);
+        $this->info('starting generate file...');
+        
+        
+        
+        $this->info('end generate file.');
     }
 }
+
+// end

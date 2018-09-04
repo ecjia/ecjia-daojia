@@ -82,7 +82,7 @@ class MemcacheSessionHandler implements \SessionHandlerInterface, EcjiaSessionIn
      */
     public function write($sessionId, $data)
     {
-        $sessionData = \Royalcms\Component\Session\Serialize::unserialize($data);
+        $sessionData = \Royalcms\Component\NativeSession\Serialize::unserialize($data);
         $user_type = array_get($sessionData, 'session_user_type');
         $user_id = array_get($sessionData, 'session_user_id');
         if ($user_type) {
@@ -104,7 +104,7 @@ class MemcacheSessionHandler implements \SessionHandlerInterface, EcjiaSessionIn
     public function destroy($sessionId)
     {
         $data = $this->memcache->get($this->sessionId($sessionId));
-        $sessionData = \Royalcms\Component\Session\Serialize::unserialize($data);
+        $sessionData = \Royalcms\Component\NativeSession\Serialize::unserialize($data);
         $user_type = array_get($sessionData, 'session_user_type');
         $user_id = array_get($sessionData, 'session_user_id');
         if ($user_type) {
@@ -209,7 +209,7 @@ class MemcacheSessionHandler implements \SessionHandlerInterface, EcjiaSessionIn
     public function getSessionData($sessionId)
     {
         $data = $this->memcache->get($this->sessionId($sessionId));
-        $sessionData = \Royalcms\Component\Session\Serialize::unserialize($data);
+        $sessionData = \Royalcms\Component\NativeSession\Serialize::unserialize($data);
         if (empty($sessionData)) {
             $session = array();
         }

@@ -253,28 +253,7 @@ function ecjia_set_header() {
 RC_Hook::add_action('ecjia_admin_finish_launching', 'ecjia_set_header');
 RC_Hook::add_action('ecjia_front_finish_launching', 'ecjia_set_header');
 
-function ecjia_mail_config($config) {    
-    royalcms('config')->set('mail.host',        ecjia::config('smtp_host'));
-    royalcms('config')->set('mail.port',        ecjia::config('smtp_port'));
-    royalcms('config')->set('mail.from.address', ecjia::config('smtp_mail'));
-    royalcms('config')->set('mail.from.name',   ecjia::config('shop_name'));
-    royalcms('config')->set('mail.username',    ecjia::config('smtp_user'));
-    royalcms('config')->set('mail.password',    ecjia::config('smtp_pass'));
-    royalcms('config')->set('mail.charset',     ecjia::config('mail_charset'));
-
-    if (intval(ecjia::config('smtp_ssl')) === 1) {
-        royalcms('config')->set('mail.encryption', 'ssl');
-    } else {
-        royalcms('config')->set('mail.encryption', 'tcp');
-    }
- 
-    if (intval(ecjia::config('mail_service')) === 1) {
-        royalcms('config')->set('mail.driver', 'smtp');
-    } else {
-        royalcms('config')->set('mail.driver', 'mail');
-    }
-}
-RC_Hook::add_action('reset_mail_config', 'ecjia_mail_config');
+RC_Hook::add_action('reset_mail_config', ['Ecjia\System\Frameworks\Component\Mailer', 'ecjia_mail_config']);
 
 function set_ecjia_config_filter($arr) {
     /* 对数值型设置处理 */

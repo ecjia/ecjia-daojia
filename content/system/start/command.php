@@ -47,20 +47,22 @@
 
 /*
 |--------------------------------------------------------------------------
-| Register The Royalcmd Commands
+| Register The Artisan Commands
 |--------------------------------------------------------------------------
 |
-| Each available Royalcmd command must be registered with the console so
+| Each available Artisan command must be registered with the console so
 | that it is available to be called. We'll register every command so
 | the console gets access to each of the command object instances.
 |
 */
 
-Royalcmd::add(new \Ecjia\System\Console\CronTestCommand);
+/**
+ * add hook to init
+ */
+RC_Hook::add_action('console_init', function () {
 
-$apps = ecjia_app::installed_app_floders();
-if (is_array($apps)) {
-    foreach ($apps as $app) {
+    collect(ecjia_app::installed_app_floders())->each(function($app) {
         RC_Loader::load_app_class('hooks.console_' . $app, $app, false);
-    }
-}
+    });
+});
+

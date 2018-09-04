@@ -82,7 +82,7 @@ class Seeder
     {
         $this->class = $class;
         $this->seeder = $this->getSeeder();
-        $this->database = RC_Config::get('database.defaultconnection');
+        $this->database = RC_Config::get('database.default');
         
         $this->resolver = royalcms('db');
     }

@@ -45,7 +45,6 @@
 //  ---------------------------------------------------------------------------------
 //
 use Royalcms\Component\Support\Facades\Royalcms;
-use GuzzleHttp\json_encode;
 
 // Load the default text localization domain.
 RC_Locale::loadDefaultTextdomain();
@@ -102,11 +101,11 @@ Royalcms::error(function(ErrorException $exception)
         'code'      => $exception->getCode(),
         'url'       => RC_Request::fullUrl(),
     );
-    
+
     RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
     royalcms('sentry')->captureException($exception);
 });
-Royalcms::fatal(function(Exception $exception)
+Royalcms::fatal(function(\Symfony\Component\Debug\Exception\FatalErrorException $exception)
 {
     $err = array(
         'file'      => $exception->getFile(),
@@ -114,7 +113,7 @@ Royalcms::fatal(function(Exception $exception)
         'code'      => $exception->getCode(),
         'url'       => RC_Request::fullUrl(),
     );
-    
+
     RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
     royalcms('sentry')->captureException($exception);
 });
@@ -139,7 +138,7 @@ Royalcms::error(function(\Symfony\Component\HttpKernel\Exception\HttpException $
         'code'      => $exception->getCode(),
         'url'       => RC_Request::fullUrl(),
     );
-    
+
     RC_Logger::getLogger(RC_Logger::LOG_ERROR)->error($exception->getMessage(), $err);
     royalcms('sentry')->captureException($exception);
     //404 tips
@@ -180,8 +179,6 @@ RC_Event::listen('royalcms.query', function($query, $bindings, $time) {
     if (config('system.debug')) {
         $query = str_replace('?', '"'.'%s'.'"', $query);
         $sql = vsprintf($query, $bindings);
-        RC_Logger::getLogger(RC_Logger::LOG_SQL)->info('query:'.$query);
-        RC_Logger::getLogger(RC_Logger::LOG_SQL)->info('bindings:'.json_encode($bindings));
         RC_Logger::getLogger(RC_Logger::LOG_SQL)->info('sql:'.$sql);
     }
 });
@@ -210,5 +207,12 @@ RC_Hook::add_action('init', function () {
         exit();
     }
 }, 2);
+
+
+RC_Hook::add_action('mail_init', function () {
+    RC_Mail::macro('send_mail', function ($name, $email, $subject, $content, $type = 0, $notification = false) {
+        return with(new Ecjia\System\Frameworks\Component\Mailer($this))->send_mail($name, $email, $subject, $content, $type, $notification);
+    });
+});
 
 // end

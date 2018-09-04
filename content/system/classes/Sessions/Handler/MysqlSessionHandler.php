@@ -4,6 +4,7 @@
 namespace Ecjia\System\Sessions\Handler;
 
 use Ecjia\System\Sessions\EcjiaSessionInterface;
+use \Royalcms\Component\NativeSession\Serialize;
 
 /**
  * Session handler using a PDO connection to read and write data.
@@ -182,7 +183,7 @@ class MysqlSessionHandler implements \SessionHandlerInterface, EcjiaSessionInter
     {
         $encoded = $data;
         
-        $sessionData = \Royalcms\Component\Session\Serialize::unserialize($data);
+        $sessionData = Serialize::unserialize($data);
 
         if (! isset($sessionData['session_user_id'])) {
             $sessionData['session_user_id'] = '';
@@ -328,7 +329,7 @@ class MysqlSessionHandler implements \SessionHandlerInterface, EcjiaSessionInter
     public function getSessionData($sessionId)
     {
         $data = $this->read($sessionId);
-        $sessionData = \Royalcms\Component\Session\Serialize::unserialize($data);
+        $sessionData = Serialize::unserialize($data);
         return $sessionData;
     }
 }

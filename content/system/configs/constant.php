@@ -117,11 +117,28 @@ define('PS_PAYING',                 1); // 付款中
 define('PS_PAYED',                  2); // 已付款
 
 /* 综合状态 */
+/* 旧状态
 define('CS_AWAIT_PAY',              100); // 待付款：货到付款且已发货且未付款，非货到付款且未付款
 define('CS_AWAIT_SHIP',             101); // 待发货：货到付款且未发货，非货到付款且已付款且未发货
 define('CS_FINISHED',               102); // 已完成：已确认、已付款、已发货
-define('CS_RECEIVED',               103); // 收货确认：已确认、已付款、已收货
 define('CS_SHIPPED',                104); // 已发货：全部发货的订单状态
+*/
+define('CS_RECEIVED',               103); // 收货确认：已确认、已付款、已收货
+
+// 新状态
+define('CS_AWAIT_PAY',              100); // 未付款：未接单、未付款、未发货
+define('CS_AWAIT_SHIP',             101); // 已接单：已接单、已付款、未发货
+define('CS_FINISHED',               102); // 交易完成：已分单、已付款、收货确认
+define('CS_SHIPPED',                104); // 已发货：已分单、已付款、已发货
+
+//新增
+define('CS_UNCONFIRMED', 			105); // 未接单：未接单、已付款、未发货
+define('CS_PREPARING', 				106); // 备货中：已接单、已付款、配货中
+define('CS_SHIPPED_ING', 			107); // 发货中：已分单、已付款、发货中
+define('CS_SHIPPED_PART', 			108); // 已发货(部分商品)：部分分单、已付款、已发货(部分商品)
+define('CS_CANCELED', 				109); // 已取消：取消、未付款、未发货
+define('CS_INVALID', 				110); // 无效：无效、未付款、未发货
+define('CS_REFUND', 				111); // 已申请退货：退货、已付款、未发货/已发货/收货确认/发货中
 
 /* 缺货处理 */
 define('OOS_WAIT',                  0); // 等待货物备齐后再发

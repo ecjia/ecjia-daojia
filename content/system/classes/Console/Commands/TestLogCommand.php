@@ -44,18 +44,18 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\System\Console;
+namespace Ecjia\System\Console\Commands;
 
 use Royalcms\Component\Console\Command;
 use Royalcms\Component\Support\Facades\File;
 
-class CronTestCommand extends Command
+class TestLogCommand extends Command
 {
     // 命令名稱
-    protected $name = 'cron:test';
+    protected $name = 'test:log';
 
     // 說明文字
-    protected $description = 'Cron Test Log record.';
+    protected $description = 'Test Log record.';
 
     public function __construct()
     {

@@ -44,33 +44,39 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\System\Console;
+namespace Ecjia\System\Console\Commands;
 
 use Royalcms\Component\Console\Command;
 use Royalcms\Component\Support\Facades\File;
 
-class FileHashCommand extends Command
+class CronTestCommand extends Command
 {
-    // 命令名称
-    protected $name = 'ecjia:filehash';
+    // 命令名稱
+    protected $name = 'cron:test';
 
-    // 说明文字
-    protected $description = 'make all file\'s md5 hash.';
+    // 說明文字
+    protected $description = 'Cron Test Log record.';
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    // Console 执行的程序
+    // Console 執行的程式
     public function fire()
     {
-        $this->info('starting generate file...');
-        
-        
-        
-        $this->info('end generate file.');
+        // 檔案紀錄在 storage/test.log
+        $log_file_path = storage_path('logs/test.log');
+
+        // 記錄當時的時間
+        $log_info = array(
+            'date' => date('Y-m-d H:i:s')
+        );
+
+        // 記錄 JSON 字串
+        $log_info_json = json_encode($log_info) . "\r\n";
+
+        // 記錄 Log
+        File::append($log_file_path, $log_info_json);
     }
 }
-
-// end

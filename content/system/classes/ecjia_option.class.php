@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Format as RC_Format;
 
 /**

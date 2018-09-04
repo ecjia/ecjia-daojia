@@ -85,7 +85,7 @@ class Theme
     protected function createLibraryBakDir()
     {
         if (! is_dir($this->library_bak_dir)) {
-            royalcms('files')->makeDirectory($this->library_bak_dir);
+            royalcms('files')->makeDirectory($this->library_bak_dir, 0755, true, true);
         }
     }
     

@@ -57,11 +57,6 @@ use Royalcms\Component\ClassLoader\ClassManager;
  |
  */
 
-ClassManager::addNamespaces(array(
-    'Ecjia\System' => SITE_SYSTEM_PATH . 'classes',
-    
-));
-
 if (is_dir(SITE_PLUGIN_PATH.'ueditor')) {
     ClassManager::addNamespaces(array(
         'Royalcms\Component\UEditor' => SITE_PLUGIN_PATH.'ueditor/Royalcms/Component/UEditor',
@@ -71,6 +66,8 @@ if (is_dir(SITE_PLUGIN_PATH.'ueditor')) {
         'Royalcms\Component\UEditor' => RC_PLUGIN_PATH.'ueditor/Royalcms/Component/UEditor',
     ));
 }
+
+royalcms()->forgeRegister('Royalcms\Component\UEditor\UEditorServiceProvider');
 
 //注册Session驱动
 RC_Session::extend('mysql', function ($royalcms) {
@@ -101,7 +98,7 @@ RC_Session::extend('mysql', function ($royalcms) {
 });
 RC_Session::extend('memcache', function () {
     $getMemcachePrefix = function () {
-        $defaultconnection = RC_Config::get('database.defaultconnection');
+        $defaultconnection = RC_Config::get('database.default');
         $connection = array_get(RC_Config::get('database.connections'), $defaultconnection);
         if (array_get($connection, 'database')) {
             $memcache_prefix = $connection['database'] . ':';

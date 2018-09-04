@@ -48,7 +48,6 @@ namespace Ecjia\System\Providers;
 
 use ReflectionClass;
 use Royalcms\Component\App\AppParentServiceProvider;
-use Ecjia\System\Console\TestLogCommand;
 use Ecjia\System\Plugin\PluginManager;
 use Ecjia\System\Theme\ThemeManager;
 use Ecjia\System\Site\SiteManager;
@@ -73,7 +72,7 @@ class SystemServiceProvider extends AppParentServiceProvider
      *
      * @return string
      */
-    public function guessPackagePath()
+    public function guessPackagePath($namespace = null)
     {
         $path = with(new ReflectionClass($this))->getFileName();
         
@@ -87,10 +86,6 @@ class SystemServiceProvider extends AppParentServiceProvider
 	 */
 	public function register()
 	{
-	    $this->registerTestLogCommand();
-	    
-	    $this->registerFileHashCommand();
-	    
 	    $this->registerPluginManager();
 	    
 	    $this->registerThemeManager();
@@ -104,6 +99,10 @@ class SystemServiceProvider extends AppParentServiceProvider
 	    $this->registerConfig();
 	    
 	    $this->loadAlias();
+
+        if ($this->royalcms->environment() == 'local') {
+            $this->royalcms->register('Royalcms\Component\Readme\ReadmeServiceProvider');
+        }
 	}
 	
 	/**
@@ -177,28 +176,7 @@ class SystemServiceProvider extends AppParentServiceProvider
 	        return new DatabaseConfigRepository(new ConfigModel());
 	    });
 	}
-	
-	
-	public function registerTestLogCommand() 
-	{
-	    $this->royalcms->bindShared('command.test.log', function($royalcms)
-	    {
-	        return new TestLogCommand();
-	    });
-	    $this->commands('command.test.log');
-	}
-	
-	
-	public function registerFileHashCommand()
-	{
-	    $this->royalcms->bindShared('command.ecjia.filehash', function($royalcms)
-	    {
-	        return new \Ecjia\System\Console\FileHashCommand();
-	    });
-	    $this->commands('command.ecjia.filehash');
-	}
-	
-	
+
 	/**
 	 * Load the alias = One less install step for the user
 	 */
@@ -224,8 +202,41 @@ class SystemServiceProvider extends AppParentServiceProvider
 	{
 	    return array(
 	        'ecjia.config',
-	        'command.test.log',
 	    );
 	}
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = __DIR__ . '/../';
+        return [
+            $dir . "/Http/Kernel.php",
+            $dir . "/Exceptions/Handler.php",
+            $dir . "/Sessions/Handler/MysqlSessionHandler.php",
+            $dir . "/Sessions/EcjiaSessionInterface.php",
+            $dir . "/Facades/Config.php",
+            $dir . "/Config/DatabaseConfigRepository.php",
+            $dir . "/Config/ConfigRepositoryInterface.php",
+            $dir . "/Config/ConfigModel.php",
+            $dir . "/Config/Config.php",
+            $dir . "/Config/CompatibleTrait.php",
+            $dir . "/BaseController/EcjiaController.php",
+            $dir . "/Facades/ThemeManager.php",
+            $dir . "/Theme/ThemeManager.php",
+            $dir . "/Theme/Theme.php",
+            $dir . "/Theme/ParseThemeStyle.php",
+            $dir . "/interface/ecjia_template_fileloader.class.php",
+
+
+            $dir . "/ecjia_view.class.php",
+            $dir . "/ecjia_notification.class.php",
+            $dir . "/ecjia_loader.class.php",
+            $dir . "/ecjia_screen.class.php",
+        ];
+    }
 
 }

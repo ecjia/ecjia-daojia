@@ -87,9 +87,9 @@ class Migrate
     {
         $this->migrator = royalcms('migrator');
         $this->repository = royalcms('migration.repository');
-        $this->database = RC_Config::get('database.defaultconnection');
+        $this->database = RC_Config::get('database.default');
 
-        $this->path = royalcms('path').'/database/migrations';
+        $this->path = royalcms('path.database').'/migrations';
     }
     
     

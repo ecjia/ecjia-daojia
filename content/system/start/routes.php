@@ -60,4 +60,27 @@ collect(RC_Config::get('app', []))->map(function ($app) {
     RC_Loader::load_app_class('hooks.route_' . $app, $app, false);
 });
 
+RC_Rewrite::add_rewrite_rule('^admincp/([^/]*)/([^/]*)/?', 'index.php?m=admincp&c=$matches[1]&a=$matches[2]', 'top');
+
+$rules = $royalcms['config']['route.rules'];
+collect($rules)->each(function ($item, $key) {
+    RC_Rewrite::add_rewrite_rule($key, $item, 'top');
+    return true;
+});
+
+
+// 使用mca URL querystring普通路由
+RC_Route::pattern('url', '.+');
+RC_Route::any('{url}', function($url)
+{
+    $app = new \Royalcms\Component\App\AppControllerDispatcher();
+    return $app->dispatch();
+});
+
+RC_Route::any('/', function()
+{
+    $app = new \Royalcms\Component\App\AppControllerDispatcher();
+    return $app->dispatch();
+});
+
 // end
