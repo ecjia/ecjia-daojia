@@ -1,13 +1,13 @@
 <?php namespace Royalcms\Component\Notifications\Events;
 
-use Royalcms\Component\Notifications\SerializesModels;
+use Royalcms\Component\Queue\SerializesModels;
 use Royalcms\Component\Notifications\Notification;
 use Royalcms\Component\Broadcasting\PrivateChannel;
 use Royalcms\Component\Contracts\Broadcasting\ShouldBroadcast;
 
-class BroadcastNotificationCreated extends SerializesModels implements ShouldBroadcast
+class BroadcastNotificationCreated implements ShouldBroadcast
 {
-//     use SerializesModels;
+     use SerializesModels;
 
     /**
      * The notifiable entity who received the notification.

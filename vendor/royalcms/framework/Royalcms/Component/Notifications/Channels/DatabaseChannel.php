@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Notifications\Channels;
+<?php
+
+namespace Royalcms\Component\Notifications\Channels;
 
 use RuntimeException;
 use Royalcms\Component\Notifications\Notification;
@@ -17,7 +19,7 @@ class DatabaseChannel
         return $notifiable->routeNotificationFor('database')->create(array(
             'id' => $notification->id,
             'type' => get_class($notification),
-            'data' => json_encode($this->getData($notifiable, $notification)),
+            'data' => $this->getData($notifiable, $notification),
             'read_at' => null,
         ));
     }

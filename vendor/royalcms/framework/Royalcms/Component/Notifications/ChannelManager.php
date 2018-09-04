@@ -1,18 +1,20 @@
-<?php namespace Royalcms\Component\Notifications;
+<?php
+
+namespace Royalcms\Component\Notifications;
 
 use Royalcms\Component\Uuid\Uuid;
 use InvalidArgumentException;
 use Royalcms\Component\Support\Manager;
-// use Nexmo\Client as NexmoClient;
+use Nexmo\Client as NexmoClient;
 use Royalcms\Component\Support\Collection;
 use Guzzle\Http\Client as HttpClient;
 use Royalcms\Component\Database\Eloquent\Model;
-// use Royalcms\Component\Queue\Contracts\ShouldQueue;
-// use Royalcms\Component\Contracts\Bus\Dispatcher as Bus;
-// use Nexmo\Client\Credentials\Basic as NexmoCredentials;
+use Royalcms\Component\Contracts\Queue\ShouldQueue;
+use Royalcms\Component\Contracts\Bus\Dispatcher as Bus;
+use Nexmo\Client\Credentials\Basic as NexmoCredentials;
 use Royalcms\Component\Database\Eloquent\Collection as ModelCollection;
-use Royalcms\Component\Notifications\Contracts\Factory as FactoryContract;
-use Royalcms\Component\Notifications\Contracts\Dispatcher as DispatcherContract;
+use Royalcms\Component\Contracts\Notifications\Factory as FactoryContract;
+use Royalcms\Component\Contracts\Notifications\Dispatcher as DispatcherContract;
 
 class ChannelManager extends Manager implements DispatcherContract, FactoryContract
 {
@@ -35,9 +37,9 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
         $notifiables = $this->formatNotifiables($notifiables);
 
         // 队列通知发送
-//         if ($notification instanceof ShouldQueue) {
-//             return $this->queueNotification($notifiables, $notification);
-//         }
+         if ($notification instanceof ShouldQueue) {
+             return $this->queueNotification($notifiables, $notification);
+         }
 
         return $this->sendNow($notifiables, $notification);
     }
@@ -97,30 +99,30 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
         ) !== false;
     }
 
-//     /**
-//      * Queue the given notification instances.
-//      *
-//      * @param  mixed  $notifiables
-//      * @param  array[\Royalcms\Component\Notifcations\Channels\Notification]  $notification
-//      * @return void
-//      */
-//     protected function queueNotification($notifiables, $notification)
-//     {
-//         $notifiables = $this->formatNotifiables($notifiables);
+     /**
+      * Queue the given notification instances.
+      *
+      * @param  mixed  $notifiables
+      * @param  array[\Royalcms\Component\Notifcations\Channels\Notification]  $notification
+      * @return void
+      */
+     protected function queueNotification($notifiables, $notification)
+     {
+         $notifiables = $this->formatNotifiables($notifiables);
 
-//         $bus = $this->royalcms->make(Bus::class);
+         $bus = $this->royalcms->make(Bus::class);
 
-//         foreach ($notifiables as $notifiable) {
-//             foreach ($notification->via($notifiable) as $channel) {
-//                 $bus->dispatch(
-//                     (new SendQueuedNotifications($this->formatNotifiables($notifiable), $notification, [$channel]))
-//                             ->onConnection($notification->connection)
-//                             ->onQueue($notification->queue)
-//                             ->delay($notification->delay)
-//                 );
-//             }
-//         }
-//     }
+         foreach ($notifiables as $notifiable) {
+             foreach ($notification->via($notifiable) as $channel) {
+                 $bus->dispatch(
+                     (new SendQueuedNotifications($this->formatNotifiables($notifiable), $notification, [$channel]))
+                             ->onConnection($notification->connection)
+                             ->onQueue($notification->queue)
+                             ->delay($notification->delay)
+                 );
+             }
+         }
+     }
 
     /**
      * Format the notifiables into a Collection / array if necessary.
@@ -179,21 +181,21 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
         return new Channels\MailChannel;
     }
 
-//     /**
-//      * Create an instance of the Nexmo driver.
-//      *
-//      * @return \Royalcms\Component\Notifications\Channels\NexmoSmsChannel
-//      */
-//     protected function createNexmoDriver()
-//     {
-//         return new Channels\NexmoSmsChannel(
-//             new NexmoClient(new NexmoCredentials(
-//                 $this->royalcms['config']['services.nexmo.key'],
-//                 $this->royalcms['config']['services.nexmo.secret']
-//             )),
-//             $this->royalcms['config']['services.nexmo.sms_from']
-//         );
-//     }
+     /**
+      * Create an instance of the Nexmo driver.
+      *
+      * @return \Royalcms\Component\Notifications\Channels\NexmoSmsChannel
+      */
+     protected function createNexmoDriver()
+     {
+         return new Channels\NexmoSmsChannel(
+             new NexmoClient(new NexmoCredentials(
+                 $this->royalcms['config']['services.nexmo.key'],
+                 $this->royalcms['config']['services.nexmo.secret']
+             )),
+             $this->royalcms['config']['services.nexmo.sms_from']
+         );
+     }
 
     /**
      * Create an instance of the Slack driver.

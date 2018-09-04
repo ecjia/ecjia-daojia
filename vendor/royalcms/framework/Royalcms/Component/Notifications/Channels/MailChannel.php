@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Notifications\Channels;
+<?php
+
+namespace Royalcms\Component\Notifications\Channels;
 
 use Royalcms\Component\Support\Str;
 use Royalcms\Component\Contracts\Mail\Mailer;

@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Notifications\Console;
+<?php
+
+namespace Royalcms\Component\Notifications\Console;
 
 use Royalcms\Component\Console\Command;
 use Royalcms\Component\Foundation\Composer;

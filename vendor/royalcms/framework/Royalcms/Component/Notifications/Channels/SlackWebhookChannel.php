@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Notifications\Channels;
+<?php
+
+namespace Royalcms\Component\Notifications\Channels;
 
 use GuzzleHttp\Client as HttpClient;
 use Royalcms\Component\Notifications\Notification;

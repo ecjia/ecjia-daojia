@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Notifications;
+<?php
+
+namespace Royalcms\Component\Notifications;
 
 use Royalcms\Component\Database\Eloquent\Collection;
 

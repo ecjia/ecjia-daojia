@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Notifications\Messages;
+<?php
+
+namespace Royalcms\Component\Notifications\Messages;
 
 class MailMessage extends SimpleMessage
 {

@@ -9,7 +9,7 @@ trait HasDatabaseNotifications
      */
     public function notifications()
     {
-        return $this->morphMany('\Royalcms\Component\Notifications\DatabaseNotification', 'notifiable')
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')
                             ->orderBy('created_at', 'desc');
     }
 
@@ -18,7 +18,7 @@ trait HasDatabaseNotifications
      */
     public function unreadNotifications()
     {
-        return $this->morphMany('\Royalcms\Component\Notifications\DatabaseNotification', 'notifiable')
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')
                             ->whereNull('read_at')
                             ->orderBy('created_at', 'desc');
     }

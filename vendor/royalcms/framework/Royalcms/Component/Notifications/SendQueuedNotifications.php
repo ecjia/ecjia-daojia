@@ -1,10 +1,12 @@
-<?php namespace Royalcms\Component\Notifications;
+<?php
+
+namespace Royalcms\Component\Notifications;
 
 use Royalcms\Component\Bus\Queueable;
-use Royalcms\Component\Queue\Contracts\ShouldQueue;
 use Royalcms\Component\Queue\SerializesModels;
+use Royalcms\Component\Contracts\Queue\ShouldQueue;
 
-class SendQueuedNotifications extends Queueable implements ShouldQueue
+class SendQueuedNotifications implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

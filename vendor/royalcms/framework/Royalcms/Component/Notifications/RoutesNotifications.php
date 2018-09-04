@@ -3,7 +3,7 @@
 namespace Royalcms\Component\Notifications;
 
 use Royalcms\Component\Support\Str;
-// use Royalcms\Component\Notifications\Contracts\Dispatcher;
+ use Royalcms\Component\Contracts\Notifications\Dispatcher;
 
 trait RoutesNotifications
 {
@@ -15,7 +15,7 @@ trait RoutesNotifications
      */
     public function notify($instance)
     {
-        royalcms('\Royalcms\Component\Notifications\Contracts\Dispatcher')->send($this, $instance);
+        royalcms(Dispatcher::class)->send($this, $instance);
     }
 
     /**
