@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Log;
+<?php
+
+namespace Royalcms\Component\Log;
 
 use Royalcms\Component\Filesystem\Filesystem;
 use Monolog\Logger as MonologLogger;

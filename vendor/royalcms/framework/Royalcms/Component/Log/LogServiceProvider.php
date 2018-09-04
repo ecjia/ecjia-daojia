@@ -1,6 +1,7 @@
-<?php namespace Royalcms\Component\Log;
+<?php
 
-use Monolog\Logger;
+namespace Royalcms\Component\Log;
+
 use Royalcms\Component\Support\ServiceProvider;
 
 class LogServiceProvider extends ServiceProvider {
@@ -19,24 +20,18 @@ class LogServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$logger = new Writer(
-			new Logger($this->royalcms['env']), $this->royalcms['events']
-		);
-
-		$this->royalcms->instance('log', $logger);
-		
-		$store = new FileStore(
-		    $this->royalcms['files'], storage_path().'/logs/'
-		);
-		
-		$this->royalcms->instance('log.store', $store);
+		$this->royalcms->bind('log.store', function($royalcms) {
+		    return new FileStore(
+                $royalcms['files'], storage_path().'/logs/'
+            );
+        });
 
 		// If the setup Closure has been bound in the container, we will resolve it
 		// and pass in the logger instance. This allows this to defer all of the
 		// logger class setup until the last possible second, improving speed.
 		if (isset($this->royalcms['log.setup']))
 		{
-			call_user_func($this->royalcms['log.setup'], $logger);
+			call_user_func($this->royalcms['log.setup'], $this->royalcms['log']);
 		}
 	}
 
@@ -47,7 +42,7 @@ class LogServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('log', 'log.store');
+		return array('log.store');
 	}
 
 }
