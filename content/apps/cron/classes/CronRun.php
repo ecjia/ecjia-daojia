@@ -53,7 +53,7 @@ use ecjia_config;
 use Exception;
 use InvalidArgumentException;
 
-class CronRun 
+class CronRun
 {
     private $plugin;
     
@@ -109,8 +109,8 @@ class CronRun
         
         // If no security key is set in the config, this route is disabled
         if (empty($cronkeyConfig)) {
-            \RC_Logger::getLogger('cron')->error('Cron route call with no configured security key');
-            \Royalcms::abort(404);
+            RC_Logger::getLogger('cron')->error('Cron route call with no configured security key');
+            \Artisan::abort(404);
         }
         
         // Get security key from request
@@ -123,15 +123,15 @@ class CronRun
         
         if ($validator->passes()) {
             if ($cronkeyConfig === $cronkeyRequest) {
-                \Royalcmd::call('cron:run', array());
+                \Artisan::call('cron:run', array());
             } else {
                 // Configured security key is not equals the sent security key
-                \RC_Logger::getLogger('cron')->error('Cron route call with wrong security key');
+                RC_Logger::getLogger('cron')->error('Cron route call with wrong security key');
                 \Royalcms::abort(404);
             }
         } else {
             // Validation not passed
-            \RC_Logger::getLogger('cron')->error('Cron route call with missing or no alphanumeric security key');
+            RC_Logger::getLogger('cron')->error('Cron route call with missing or no alphanumeric security key');
             \Royalcms::abort(404);
         }
     }

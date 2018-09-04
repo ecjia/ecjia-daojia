@@ -11,7 +11,7 @@ class CronServiceProvider extends ServiceProvider {
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     /**
      * Bootstrap the application events.
@@ -19,7 +19,8 @@ class CronServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        $this->package('royalcms/cron');
+        $path = $this->royalcms->appPath() . '/cron/classes';
+        $this->package('royalcms/cron', null, $path);
     }
 
     /**
@@ -59,7 +60,7 @@ class CronServiceProvider extends ServiceProvider {
      * @return array
      */
     public function provides() {
-        return array();
+        return array('cron');
     }
 
 }
