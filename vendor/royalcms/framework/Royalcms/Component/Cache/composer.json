@@ -1,0 +1,37 @@
+{
+    "name": "royalcms/cache",
+    "description": "The Royalcms Cache package.",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/contracts": "5.0.*",
+        "royalcms/support": "5.0.*",
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Cache\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0-dev"
+        }
+    },
+    "suggest": {
+        "royalcms/database": "Required to use the database cache driver (5.0.*).",
+        "royalcms/filesystem": "Required to use the file cache driver (5.0.*).",
+        "royalcms/redis": "Required to use the redis cache driver (5.0.*)."
+    },
+    "minimum-stability": "dev"
+}
