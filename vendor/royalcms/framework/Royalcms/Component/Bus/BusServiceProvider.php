@@ -20,17 +20,17 @@ class BusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Royalcms\Component\Bus\Dispatcher', function ($app) {
-            return new Dispatcher($app, function ($connection = null) use ($app) {
-                return $app['Royalcms\Component\Contracts\Queue\Factory']->connection($connection);
+        $this->royalcms->singleton('Royalcms\Component\Bus\Dispatcher', function ($royalcms) {
+            return new Dispatcher($royalcms, function () use ($royalcms) {
+                return $royalcms['Royalcms\Component\Contracts\Queue\Queue'];
             });
         });
 
-        $this->app->alias(
+        $this->royalcms->alias(
             'Royalcms\Component\Bus\Dispatcher', 'Royalcms\Component\Contracts\Bus\Dispatcher'
         );
 
-        $this->app->alias(
+        $this->royalcms->alias(
             'Royalcms\Component\Bus\Dispatcher', 'Royalcms\Component\Contracts\Bus\QueueingDispatcher'
         );
     }
