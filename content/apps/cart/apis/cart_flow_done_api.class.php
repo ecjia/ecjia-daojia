@@ -264,7 +264,7 @@ class cart_flow_done_api extends Component_Event_Api {
 			$order['pay_name'] = addslashes($payment['pay_name']);
 			//如果是货到付款，状态设置为已确认。
 			if($payment['pay_code'] == 'pay_cod') {
-				$order['order_status'] = 1;
+				//$order['order_status'] = 1;//调整为后台接单
 				$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_group[0])->first();
 				/* 货到付款判断是否是自营*/
 				if ($store_info['manage_mode'] != 'self') {
