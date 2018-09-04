@@ -217,7 +217,7 @@ EOF;
 		if (empty($remind)) {
 			$remind = array();
 			
-			/*注册用户*/
+			/*今日新增用户*/
 			$validate_app_user = ecjia_app::validate_application('user');
 			if (!is_ecjia_error($validate_app_user)) {
 				$remind_user = RC_Api::api('user', 'remind_user');
@@ -225,9 +225,9 @@ EOF;
 				$new_user_count = (!empty($remind_user['new_user_count']) && is_numeric($remind_user['new_user_count'])) ? $remind_user['new_user_count'] : 0;
 				
 				$remind[] = array(
-						'label' => __('新注册用户'),
-						'total' => $new_user_count,
-						'style' => 'danger',
+					'label' => __('今日新增用户'),
+					'total' => $new_user_count,
+					'style' => 'danger',
 				);
 			}
 			
@@ -239,13 +239,13 @@ EOF;
 				$message_count = (!empty($remind_message['message_count']) && is_numeric($remind_message['message_count'])) ? $remind_message['message_count'] : 0;
 				
 				$remind[] = array(
-						'label' => __('新手机咨询'),
-						'total' => $message_count,
-						'style' => 'warning',
+					'label' => __('新手机咨询'),
+					'total' => $message_count,
+					'style' => 'warning',
 				);
 			}
 			
-			/*订单*/
+			/*今日新增订单*/
 			$validate_app_order = ecjia_app::validate_application('orders');
 			if (!is_ecjia_error($validate_app_order)) {
 				$remind_order = RC_Api::api('orders', 'remind_order');
@@ -253,9 +253,9 @@ EOF;
 				$new_orders = (!empty($remind_order['new_orders']) && is_numeric($remind_order['new_orders'])) ? $remind_order['new_orders'] : 0;
 				
 				$remind[] = array(
-						'label' => __('新订单'),
-						'total' =>  $new_orders,
-						'style' => 'success',
+					'label' => __('今日新增订单'),
+					'total' =>  $new_orders,
+					'style' => 'success',
 				);
 			}
 			
