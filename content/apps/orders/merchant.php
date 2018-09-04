@@ -4545,7 +4545,6 @@ class merchant extends ecjia_merchant
         /* 判断配送方式是否是立即送*/
         $shipping_info = ecjia_shipping::pluginData(intval($delivery_order['shipping_id']));
         if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
-
             /* 获取正在派单的配送员*/
             $staff_list = RC_DB::table('staff_user')
                 ->where('store_id', $_SESSION['store_id'])
@@ -4553,7 +4552,6 @@ class merchant extends ecjia_merchant
                 ->get();
 
             $express_order = RC_DB::table('express_order')->where('delivery_id', $delivery_order['delivery_id'])->first();
-
             $order = RC_Api::api('orders', 'order_info', array('order_id' => $delivery_order['order_id']));
         }
 
@@ -4673,8 +4671,6 @@ class merchant extends ecjia_merchant
         }
 
         /* 修改发货单信息 */
-        $invoice_no = str_replace(',', '<br>', $delivery['invoice_no']);
-        $invoice_no = trim($invoice_no, '<br>');
         $_delivery['invoice_no'] = !empty($_POST['invoice_no']) ? trim($_POST['invoice_no']) : $invoice_no;
         $_delivery['status'] = 0; /* 0，为已发货 */
         $result = $this->db_delivery_order->where(array('delivery_id' => $delivery_id))->update($_delivery);
@@ -4699,8 +4695,8 @@ class merchant extends ecjia_merchant
         $shipping_status = ($order_finish == 1) ? SS_SHIPPED : SS_SHIPPED_PART;
         $arr['shipping_status'] = $shipping_status;
         $arr['shipping_time'] = GMTIME_UTC; // 发货时间
-        $arr['invoice_no'] = trim($order['invoice_no'] . '<br>' . $invoice_no, '<br>');
-
+        $arr['invoice_no'] = $invoice_no;
+        
         update_order($order_id, $arr);
         /* 记录日志 */
         ecjia_merchant::admin_log('发货，订单号是' . $order['order_sn'], 'setup', 'order');

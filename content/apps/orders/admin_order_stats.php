@@ -811,7 +811,6 @@ where s.shop_close = 0 and s.identity_status = 2";
         $data = RC_DB::select($sql);
         $count = count($data);
         $page = new ecjia_page($count, 15, 6);
-        $stats_data = RC_DB::select($sql);
 
         $sql .= " limit " . ($pagenum - 1) * 15 . "," . 15;
         $result = RC_DB::select($sql);
@@ -829,7 +828,7 @@ where s.shop_close = 0 and s.identity_status = 2";
                 $result = $this->array_sort($result, 'level', $sort_order);
             }
         }
-        return array('item' => $result, 'page' => $page->show(2), 'stats_data' => $stats_data);
+        return array('item' => $result, 'page' => $page->show(2), 'stats_data' => $level_data);
     }
 
     private function array_sort($arr, $keys, $type = 'asc')

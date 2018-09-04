@@ -50,25 +50,35 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 订单通知
  * @author will
  */
-class orders_remind_order_api extends Component_Event_Api {
-	
-	public function call(&$options) {
-		if (empty($_SESSION['last_check'])) {
-			$_SESSION['last_check'] = RC_Time::gmtime();
-			return array('new_orders' => 0, 'new_paid' => 0);
-		}
-		
-		$arr['new_orders'] = RC_DB::table('order_info')->where('add_time', '<=', $_SESSION['last_check'])->where('is_delete', 0)->count();
-		$arr['new_paid'] = RC_DB::table('order_info')->where('pay_time', '<=', $_SESSION['last_check'])->where('is_delete', 0)->count();
-		
-		$_SESSION['last_check'] = RC_Time::gmtime();
-		if (!(is_numeric($arr['new_orders']) && is_numeric($arr['new_paid']))) {
-			return array('new_orders' => 0, 'new_paid' => 0);
-		} else {
-			return array('new_orders' => $arr['new_orders'], 'new_paid' => $arr['new_paid']);
-		}
-	}
-}
+class orders_remind_order_api extends Component_Event_Api
+{
 
+    public function call(&$options)
+    {
+        $m = RC_Time::local_date('m');
+        $d = RC_Time::local_date('d');
+        $y = RC_Time::local_date('y');
+        $today_start_date = RC_Time::local_mktime(0, 0, 0, $m, $d, $y);
+
+        $arr['new_orders'] = RC_DB::table('order_info')
+            ->where('add_time', '>=', $today_start_date)
+            ->where('shipping_status', SS_RECEIVED)
+            ->whereIn('pay_status', array(PS_PAYED, PS_PAYING))
+            ->where('is_delete', 0)
+            ->count();
+
+        $arr['new_paid'] = RC_DB::table('order_info')
+            ->where('pay_time', '>=', $today_start_date)
+            ->where('pay_status', PS_PAYED)
+            ->where('is_delete', 0)
+            ->count();
+
+        if (!(is_numeric($arr['new_orders']) && is_numeric($arr['new_paid']))) {
+            return array('new_orders' => 0, 'new_paid' => 0);
+        } else {
+            return array('new_orders' => $arr['new_orders'], 'new_paid' => $arr['new_paid']);
+        }
+    }
+}
 
 // end

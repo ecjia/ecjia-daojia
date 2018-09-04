@@ -382,7 +382,7 @@ ecjia.merchant.order.info();
 								<td><div align="right"><strong>{lang key='orders::order.label_invoice_no'}</strong></div></td>
 								<td>
 									{if $order.shipping_id gt 0 and $order.shipping_status gt 0}
-										<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>&nbsp;
+										<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>
 									{/if}
 								</td>
 							</tr>
