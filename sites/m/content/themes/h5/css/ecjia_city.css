@@ -3871,7 +3871,7 @@ footer {
 
 .ecjia-checkout .checklist .select_nav_short {
     margin-right: 2em;
-    width: 50%;
+    width: 40%;
     text-align: right
 }
 
@@ -6141,8 +6141,7 @@ footer {
 
 .goods-info .ecjia-price-time .cart-plus-right {
     float: right;
-    height: 2.8em;
-    position: relative
+    height: 2em;
 }
 
 .goods-add-cart {
@@ -6175,8 +6174,8 @@ footer {
 }
 
 .goods-info .cart-plus-right .attr-number {
-    right: -.2em;
-    bottom: 2.6em
+    right: 0.2em;
+    bottom: 0.2em;
 }
 
 .add-cart-a span {
@@ -6899,7 +6898,6 @@ footer {
     float: right;
     margin: 0 0 0 4%;
     min-width: 47%;
-    width: auto;
 }
 
 .ecjia-order-list .order-ft span.two-btn .btn:nth-of-type(2) {
@@ -7443,7 +7441,7 @@ footer {
 }
 
 .order-log-item:first-child::after {
-    background: url(../images/icon/user_h_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/done_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
@@ -7456,90 +7454,128 @@ footer {
     height: 3em;
     top: 20%;
     padding: .5em;
-    background: url(../images/icon/user_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/done_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
+/*订单提交成功*/
 .order-log-item.place_order:first-child::after {
-    background: url(../images/icon/user_h_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/done_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
 .order-log-item.place_order::after {
-    background: url(../images/icon/user_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/done_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
-.order-log-item.payed:first-child::after,
+/*待付款*/
 .order-log-item.unpay:first-child::after {
-    background: url(../images/icon/money_h_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/wait_pay_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
-
-.order-log-item.payed::after,
 .order-log-item.unpay::after {
-    background: url(../images/icon/money_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/wait_pay_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
+/*已付款*/
 .order-log-item.payed:first-child::after {
-    background: url(../images/icon/money_h_circle_50.png) #F7F7F7 no-repeat center;
+	background: url(../images/order_status/paid_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
-
 .order-log-item.payed::after {
-    background: url(../images/icon/money_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/paid_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
-.order-log-item.merchant_process:first-child::after,
-.order-log-item.shipped:first-child::after,
+/*等待商家接单*/
+.order-log-item.merchant_process:first-child::after {
+	background: url(../images/order_status/wait_confirm_2.png) #F7F7F7 no-repeat center;
+    background-size: 60%
+}
+.order-log-item.merchant_process::after {
+	background: url(../images/order_status/wait_confirm_1.png) #F7F7F7 no-repeat center;
+    background-size: 60%
+}
+
+/*配货中*/
 .order-log-item.shipping:first-child::after {
-    background: url(../images/icon/shop_h_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/shipping_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
-
-.order-log-item.merchant_process::after,
-.order-log-item.shipped::after,
 .order-log-item.shipping::after {
-    background: url(../images/icon/shop_circle_50.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/shipping_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
-.order-log-item.pickup_success::after {
-    background: url(../images/icon/list_h_circle_50.png) #F7F7F7 no-repeat center;
+/*已发货*/
+.order-log-item.shipped:first-child::after {
+	background: url(../images/order_status/shipped_2.png) #F7F7F7 no-repeat center;
+    background-size: 60%
+}
+.order-log-item.shipped::after {
+	background: url(../images/order_status/shipped_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
-.order-log-item.express_user_pickup:first-child::after {
-    background: url(../images/icon/bike_h_circle_50.png) #F7F7F7 no-repeat center;
-    background-size: 60%
-}
-
-.order-log-item.express_user_pickup::after {
-    background: url(../images/icon/bike_circle_50.png) #F7F7F7 no-repeat center;
-    background-size: 60%
-}
-
-.order-log-item.cancel:first-child::after,
-.order-log-item.finished:first-child::after {
-    background: url(../images/icon/list_h_circle_50.png) no-repeat center;
-    background-size: 60%
-}
-
-.order-log-item.cancel::after,
-.order-log-item.finished::after {
-    background: url(../images/icon/shop_circle_50.png) no-repeat center;
-    background-size: 60%
-}
-
+/*已确认收货*/
 .order-log-item.confirm_receipt:first-child::after {
-    background: url(../images/icon/bag_h_circle_50.png) no-repeat center;
+    background: url(../images/order_status/finished_2.png) no-repeat center;
+    background-size: 60%
+}
+.order-log-item.confirm_receipt::after {
+    background: url(../images/order_status/finished_1.png) no-repeat center;
     background-size: 60%
 }
 
-.order-log-item.confirm_receipt::after {
-    background: url(../images/icon/bag_circle_50.png) no-repeat center;
+/*已完成*/
+.order-log-item.finished:first-child::after {
+    background: url(../images/order_status/finished_2.png) no-repeat center;
+    background-size: 60%
+}
+.order-log-item.finished::after {
+    background: url(../images/order_status/finished_1.png) no-repeat center;
+    background-size: 60%
+}
+
+/*已提货*/
+.order-log-item.pickup_success:first-child::after {
+    background: url(../images/order_status/finished_2.png) #F7F7F7 no-repeat center;
+    background-size: 60%
+}
+.order-log-item.pickup_success::after {
+    background: url(../images/order_status/finished_1.png) #F7F7F7 no-repeat center;
+    background-size: 60%
+}
+
+/*配送员已取货*/
+.order-log-item.express_user_pickup:first-child::after {
+    background: url(../images/order_status/expressed_2.png) #F7F7F7 no-repeat center;
+    background-size: 60%
+}
+.order-log-item.express_user_pickup::after {
+    background: url(../images/order_status/expressed_1.png) #F7F7F7 no-repeat center;
+    background-size: 60%
+}
+
+/*已取消*/
+.order-log-item.cancel:first-child::after {
+	background: url(../images/order_status/canceled_2.png) no-repeat center;
+    background-size: 60%
+}
+.order-log-item.cancel::after {
+	background: url(../images/order_status/canceled_1.png) no-repeat center;
+    background-size: 60%
+}
+
+/*商家已接单*/
+.order-log-item.merchant_confirmed:first-child::after {
+	background: url(../images/order_status/confirmed_2.png) no-repeat center;
+    background-size: 60%
+}
+.order-log-item.merchant_confirmed::after {
+	background: url(../images/order_status/confirmed_1.png) no-repeat center;
     background-size: 60%
 }
 
@@ -8861,8 +8897,8 @@ footer {
 }
 
 .ecjia-spread-detail .ecjia-list li {
-    padding: .7em 1em;
-    height: 4em
+    padding: 1em;
+    height: auto;
 }
 
 .ecjia-spread-detail .ecjia-list.list-short li span {
@@ -8931,24 +8967,21 @@ footer {
     color: #555;
     font-size: 1.1em;
     width: auto;
-    display: inline-block
+    margin-bottom: 5px;
 }
 
 .ecjia-spread-detail .ecjia-list.list-short li .record-time {
     color: #7b7b7b;
-    font-size: 13px;
+    font-size: 1em;
     width: auto;
-    position: absolute
 }
 
 .ecjia-spread-detail .ecjia-list.list-short li .icon-price-red {
-    position: absolute;
-    top: 30%;
-    font-size: 16px;
-    font-family: '黑体';
-    right: 2%;
-    display: inline-block;
-    width: auto
+    font-size: 1.1em;
+    width: auto;
+    float: none;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .ecjia-spread-detail .ecjia-list.list-short li+li::before {

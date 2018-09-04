@@ -418,12 +418,25 @@ class cart_controller {
         		$payment_id = $_SESSION['cart'][$cart_key]['temp']['pay_id'];
         	}
         }
-        
+
         if ($payment_id) {
         	$selected_payment = $_SESSION['cart'][$cart_key]['data']['payment_list'][$payment_id];
         } else {
         	$selected_payment = array();
         	if ($rs['payment_list']) {
+        		if (cart_function::is_weixin() == true) {
+        			foreach ($rs['payment_list'] as $key => $val) {
+        				if ($val['pay_code'] == 'pay_alipay') {
+        					unset($rs['payment_list'][$key]);
+        				}
+        			}
+        		} else {
+        			foreach ($rs['payment_list'] as $key => $val) {
+        				if ($val['pay_code'] == 'pay_wxpay') {
+        					unset($rs['payment_list'][$key]);
+        				}
+        			}
+        		}
         		$selected_payment = head($rs['payment_list']);
         		$_SESSION['cart'][$cart_key]['temp']['pay_id'] = $selected_payment['pay_id'];
         	}

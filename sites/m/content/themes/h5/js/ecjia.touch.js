@@ -5,7 +5,7 @@
 (function (ecjia, $) {
     ecjia.touch = {
         init: function () {
-            if ($.cookie('h5_index') === undefined) {
+            if ($.cookie('h5_index') === undefined || $.cookie('longitude') === undefined || $.cookie('latitude') === undefined) {
                 var key = $("input[name='key']").val();
                 var referer = $("input[name='referer']").val();
                 var geolocation = new qq.maps.Geolocation(key, referer);
