@@ -56,22 +56,16 @@ if (version_compare(PHP_VERSION, RoyalcmsConstant::PHP_REQUIRED, '<')) {
 }
 
 // 加载常量定义
-require_once ROYALCMS_PATH . 'bootstrap' . DIRECTORY_SEPARATOR . 'const.php';
+require_once ROYALCMS_PATH . 'Royalcms/Component/Foundation/Helpers/royalcms-const.php';
 
 /*
 |--------------------------------------------------------------------------
-| Include The Compiled Class File
+| loading helpers functions
 |--------------------------------------------------------------------------
-|
-| To dramatically increase your application's performance, you may use a
-| compiled class file which contains all of the classes commonly used
-| by a request. The Artisan "optimize" is used to create this file.
-|
 */
-
-if (file_exists($compiled = SITE_ROOT.'bootstrap/compiled.php'))
-{
-    require $compiled;
-}
+require ROYALCMS_PATH . 'Royalcms/Component/Foundation/Helpers/royalcms-helpers.php';
+require ROYALCMS_PATH . 'Royalcms/Component/Foundation/Helpers/foundation-helpers.php';
+require ROYALCMS_PATH . 'Royalcms/Component/Foundation/Helpers/compatible.php';
+require ROYALCMS_PATH . 'Royalcms/Component/Support/helpers.php';
 
 // end
