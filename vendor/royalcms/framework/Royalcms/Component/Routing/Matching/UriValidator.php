@@ -1,22 +1,23 @@
-<?php namespace Royalcms\Component\Routing\Matching;
+<?php
 
-use Royalcms\Component\HttpKernel\Request;
+namespace Royalcms\Component\Routing\Matching;
+
+use Royalcms\Component\Http\Request;
 use Royalcms\Component\Routing\Route;
 
-class UriValidator implements ValidatorInterface {
+class UriValidator implements ValidatorInterface
+{
+    /**
+     * Validate a given rule against a route and request.
+     *
+     * @param  \Royalcms\Component\Routing\Route  $route
+     * @param  \Royalcms\Component\Http\Request  $request
+     * @return bool
+     */
+    public function matches(Route $route, Request $request)
+    {
+        $path = $request->path() == '/' ? '/' : '/'.$request->path();
 
-	/**
-	 * Validate a given rule against a route and request.
-	 *
-	 * @param  \Royalcms\Component\Routing\Route  $route
-	 * @param  \Royalcms\Component\HttpKernel\Request  $request
-	 * @return bool
-	 */
-	public function matches(Route $route, Request $request)
-	{
-		$path = $request->path() == '/' ? '/' : '/'.$request->path();
-
-		return preg_match($route->getCompiled()->getRegex(), rawurldecode($path));
-	}
-
+        return preg_match($route->getCompiled()->getRegex(), rawurldecode($path));
+    }
 }

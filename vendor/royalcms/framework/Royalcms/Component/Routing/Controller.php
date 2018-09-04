@@ -1,271 +1,285 @@
-<?php namespace Royalcms\Component\Routing;
+<?php
+
+namespace Royalcms\Component\Routing;
 
 use Closure;
+use BadMethodCallException;
+use Royalcms\Component\Support\Str;
+use InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-abstract class Controller {
+abstract class Controller
+{
+    /**
+     * The middleware registered on the controller.
+     *
+     * @var array
+     */
+    protected $middleware = [];
 
-	/**
-	 * The "before" filters registered on the controller.
-	 *
-	 * @var array
-	 */
-	protected $beforeFilters = array();
+    /**
+     * The "before" filters registered on the controller.
+     *
+     * @var array
+     */
+    protected $beforeFilters = [];
 
-	/**
-	 * The "after" filters registered on the controller.
-	 *
-	 * @var array
-	 */
-	protected $afterFilters = array();
+    /**
+     * The "after" filters registered on the controller.
+     *
+     * @var array
+     */
+    protected $afterFilters = [];
 
-	/**
-	 * The route filterer implementation.
-	 *
-	 * @var \Royalcms\Component\Routing\RouteFiltererInterface
-	 */
-	protected static $filterer;
+    /**
+     * The router instance.
+     *
+     * @var \Royalcms\Component\Routing\Router
+     */
+    protected static $router;
 
-	/**
-	 * The layout used by the controller.
-	 *
-	 * @var \Royalcms\Component\View\View
-	 */
-	protected $layout;
+    /**
+     * Register middleware on the controller.
+     *
+     * @param  string  $middleware
+     * @param  array   $options
+     * @return void
+     */
+    public function middleware($middleware, array $options = [])
+    {
+        $this->middleware[$middleware] = $options;
+    }
 
-	/**
-	 * Register a "before" filter on the controller.
-	 *
-	 * @param  \Closure|string  $filter
-	 * @param  array  $options
-	 * @return void
-	 */
-	public function beforeFilter($filter, array $options = array())
-	{
-		$this->beforeFilters[] = $this->parseFilter($filter, $options);
-	}
+    /**
+     * Register a "before" filter on the controller.
+     *
+     * @param  \Closure|string  $filter
+     * @param  array  $options
+     * @return void
+     *
+     * @deprecated since version 5.1.
+     */
+    public function beforeFilter($filter, array $options = [])
+    {
+        $this->beforeFilters[] = $this->parseFilter($filter, $options);
+    }
 
-	/**
-	 * Register an "after" filter on the controller.
-	 *
-	 * @param  \Closure|string  $filter
-	 * @param  array  $options
-	 * @return void
-	 */
-	public function afterFilter($filter, array $options = array())
-	{
-		$this->afterFilters[] = $this->parseFilter($filter, $options);
-	}
+    /**
+     * Register an "after" filter on the controller.
+     *
+     * @param  \Closure|string  $filter
+     * @param  array  $options
+     * @return void
+     *
+     * @deprecated since version 5.1.
+     */
+    public function afterFilter($filter, array $options = [])
+    {
+        $this->afterFilters[] = $this->parseFilter($filter, $options);
+    }
 
-	/**
-	 * Parse the given filter and options.
-	 *
-	 * @param  \Closure|string  $filter
-	 * @param  array  $options
-	 * @return array
-	 */
-	protected function parseFilter($filter, array $options)
-	{
-		$parameters = array();
+    /**
+     * Parse the given filter and options.
+     *
+     * @param  \Closure|string  $filter
+     * @param  array  $options
+     * @return array
+     */
+    protected function parseFilter($filter, array $options)
+    {
+        $parameters = [];
 
-		$original = $filter;
+        $original = $filter;
 
-		if ($filter instanceof Closure)
-		{
-			$filter = $this->registerClosureFilter($filter);
-		}
-		elseif ($this->isInstanceFilter($filter))
-		{
-			$filter = $this->registerInstanceFilter($filter);
-		}
-		else
-		{
-			list($filter, $parameters) = Route::parseFilter($filter);
-		}
+        if ($filter instanceof Closure) {
+            $filter = $this->registerClosureFilter($filter);
+        } elseif ($this->isInstanceFilter($filter)) {
+            $filter = $this->registerInstanceFilter($filter);
+        } else {
+            list($filter, $parameters) = Route::parseFilter($filter);
+        }
 
-		return compact('original', 'filter', 'parameters', 'options');
-	}
+        return compact('original', 'filter', 'parameters', 'options');
+    }
 
-	/**
-	 * Register an anonymous controller filter Closure.
-	 *
-	 * @param  \Closure  $filter
-	 * @return string
-	 */
-	protected function registerClosureFilter(Closure $filter)
-	{
-		$this->getFilterer()->filter($name = spl_object_hash($filter), $filter);
+    /**
+     * Register an anonymous controller filter Closure.
+     *
+     * @param  \Closure  $filter
+     * @return string
+     */
+    protected function registerClosureFilter(Closure $filter)
+    {
+        $this->getRouter()->filter($name = spl_object_hash($filter), $filter);
 
-		return $name;
-	}
+        return $name;
+    }
 
-	/**
-	 * Register a controller instance method as a filter.
-	 *
-	 * @param  string  $filter
-	 * @return string
-	 */
-	protected function registerInstanceFilter($filter)
-	{
-		$this->getFilterer()->filter($filter, array($this, substr($filter, 1)));
+    /**
+     * Register a controller instance method as a filter.
+     *
+     * @param  string  $filter
+     * @return string
+     */
+    protected function registerInstanceFilter($filter)
+    {
+        $this->getRouter()->filter($filter, [$this, substr($filter, 1)]);
 
-		return $filter;
-	}
+        return $filter;
+    }
 
-	/**
-	 * Determine if a filter is a local method on the controller.
-	 *
-	 * @param  mixed  $filter
-	 * @return boolean
-	 *
-	 * @throws \InvalidArgumentException
-	 */
-	protected function isInstanceFilter($filter)
-	{
-		if (is_string($filter) && starts_with($filter, '@'))
-		{
-			if (method_exists($this, substr($filter, 1))) return true;
+    /**
+     * Determine if a filter is a local method on the controller.
+     *
+     * @param  mixed  $filter
+     * @return bool
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function isInstanceFilter($filter)
+    {
+        if (is_string($filter) && Str::startsWith($filter, '@')) {
+            if (method_exists($this, substr($filter, 1))) {
+                return true;
+            }
 
-			throw new \InvalidArgumentException("Filter method [$filter] does not exist.");
-		}
+            throw new InvalidArgumentException("Filter method [$filter] does not exist.");
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Remove the given before filter.
-	 *
-	 * @param  string  $filter
-	 * @return void
-	 */
-	public function forgetBeforeFilter($filter)
-	{
-		$this->beforeFilters = $this->removeFilter($filter, $this->getBeforeFilters());
-	}
+    /**
+     * Remove the given before filter.
+     *
+     * @param  string  $filter
+     * @return void
+     *
+     * @deprecated since version 5.1.
+     */
+    public function forgetBeforeFilter($filter)
+    {
+        $this->beforeFilters = $this->removeFilter($filter, $this->getBeforeFilters());
+    }
 
-	/**
-	 * Remove the given after filter.
-	 *
-	 * @param  string  $filter
-	 * @return void
-	 */
-	public function forgetAfterFilter($filter)
-	{
-		$this->afterFilters = $this->removeFilter($filter, $this->getAfterFilters());
-	}
+    /**
+     * Remove the given after filter.
+     *
+     * @param  string  $filter
+     * @return void
+     *
+     * @deprecated since version 5.1.
+     */
+    public function forgetAfterFilter($filter)
+    {
+        $this->afterFilters = $this->removeFilter($filter, $this->getAfterFilters());
+    }
 
-	/**
-	 * Remove the given controller filter from the provided filter array.
-	 *
-	 * @param  string  $removing
-	 * @param  array  $current
-	 * @return array
-	 */
-	protected function removeFilter($removing, $current)
-	{
-		return array_filter($current, function($filter) use ($removing)
-		{
-			return $filter['original'] != $removing;
-		});
-	}
+    /**
+     * Remove the given controller filter from the provided filter array.
+     *
+     * @param  string  $removing
+     * @param  array   $current
+     * @return array
+     */
+    protected function removeFilter($removing, $current)
+    {
+        return array_filter($current, function ($filter) use ($removing) {
+            return $filter['original'] != $removing;
+        });
+    }
 
-	/**
-	 * Get the registered "before" filters.
-	 *
-	 * @return array
-	 */
-	public function getBeforeFilters()
-	{
-		return $this->beforeFilters;
-	}
+    /**
+     * Get the middleware assigned to the controller.
+     *
+     * @return array
+     */
+    public function getMiddleware()
+    {
+        return $this->middleware;
+    }
 
-	/**
-	 * Get the registered "after" filters.
-	 *
-	 * @return array
-	 */
-	public function getAfterFilters()
-	{
-		return $this->afterFilters;
-	}
+    /**
+     * Get the registered "before" filters.
+     *
+     * @return array
+     *
+     * @deprecated since version 5.1.
+     */
+    public function getBeforeFilters()
+    {
+        return $this->beforeFilters;
+    }
 
-	/**
-	 * Get the route filterer implementation.
-	 *
-	 * @return \Royalcms\Component\Routing\RouteFiltererInterface
-	 */
-	public static function getFilterer()
-	{
-		return static::$filterer;
-	}
+    /**
+     * Get the registered "after" filters.
+     *
+     * @return array
+     *
+     * @deprecated since version 5.1.
+     */
+    public function getAfterFilters()
+    {
+        return $this->afterFilters;
+    }
 
-	/**
-	 * Set the route filterer implementation.
-	 *
-	 * @param  \Royalcms\Component\Routing\RouteFiltererInterface  $filterer
-	 * @return void
-	 */
-	public static function setFilterer(RouteFiltererInterface $filterer)
-	{
-		static::$filterer = $filterer;
-	}
+    /**
+     * Get the router instance.
+     *
+     * @return \Royalcms\Component\Routing\Router
+     */
+    public static function getRouter()
+    {
+        return static::$router;
+    }
 
-	/**
-	 * Create the layout used by the controller.
-	 *
-	 * @return void
-	 */
-	protected function setupLayout() {}
+    /**
+     * Set the router instance.
+     *
+     * @param  \Royalcms\Component\Routing\Router  $router
+     * @return void
+     */
+    public static function setRouter(Router $router)
+    {
+        static::$router = $router;
+    }
 
-	/**
-	 * Execute an action on the controller.
-	 *
-	 * @param string  $method
-	 * @param array   $parameters
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function callAction($method, $parameters)
-	{
-		$this->setupLayout();
+    /**
+     * Execute an action on the controller.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function callAction($method, $parameters)
+    {
+        return call_user_func_array([$this, $method], $parameters);
+    }
 
-		$response = call_user_func_array(array($this, $method), $parameters);
+    /**
+     * Handle calls to missing methods on the controller.
+     *
+     * @param  array   $parameters
+     * @return mixed
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function missingMethod($parameters = [])
+    {
+        throw new NotFoundHttpException('Controller method not found.');
+    }
 
-		// If no response is returned from the controller action and a layout is being
-		// used we will assume we want to just return the layout view as any nested
-		// views were probably bound on this view during this controller actions.
-		if (is_null($response) && ! is_null($this->layout))
-		{
-			$response = $this->layout;
-		}
-
-		return $response;
-	}
-
-	/**
-	 * Handle calls to missing methods on the controller.
-	 *
-	 * @param  array   $parameters
-	 * @return mixed
-	 *
-	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-	 */
-	public function missingMethod($parameters = array())
-	{
-		throw new NotFoundHttpException("Controller method not found.");
-	}
-
-	/**
-	 * Handle calls to missing methods on the controller.
-	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
-	 * @return mixed
-	 *
-	 * @throws \BadMethodCallException
-	 */
-	public function __call($method, $parameters)
-	{
-		throw new \BadMethodCallException("Method [$method] does not exist.");
-	}
-
+    /**
+     * Handle calls to missing methods on the controller.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     *
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
+    {
+        throw new BadMethodCallException("Method [$method] does not exist.");
+    }
 }

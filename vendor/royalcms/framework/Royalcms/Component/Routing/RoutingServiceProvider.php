@@ -1,105 +1,166 @@
-<?php namespace Royalcms\Component\Routing;
+<?php
+
+namespace Royalcms\Component\Routing;
 
 use Royalcms\Component\Support\ServiceProvider;
-use Royalcms\Component\Support\Facades\Response;
+use Zend\Diactoros\Response as PsrResponse;
+use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
-class RoutingServiceProvider extends ServiceProvider {
+class RoutingServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->registerRouter();
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->registerRouter();
-		
-		$this->registerResponse();
+        $this->registerUrlGenerator();
 
-		$this->registerUrlGenerator();
+        $this->registerRedirector();
 
-		$this->registerRedirector();
-	}
+        $this->registerPsrRequest();
 
-	/**
-	 * Register the router instance.
-	 *
-	 * @return void
-	 */
-	protected function registerRouter()
-	{
-		$this->royalcms['router'] = $this->royalcms->share(function($royalcms)
-		{
-			$router = new Router($royalcms['events'], $royalcms);
+        $this->registerPsrResponse();
 
-			// If the current application environment is "testing", we will disable the
-			// routing filters, since they can be tested independently of the routes
-			// and just get in the way of our typical controller testing concerns.
-			if ($royalcms['env'] == 'testing')
-			{
-				$router->disableFilters();
-			}
+        $this->registerResponseFactory();
 
-			return $router;
-		});
-	}
-	
-	/**
-	 * Register the router instance.
-	 *
-	 * @return void
-	 */
-	protected function registerResponse()
-	{
-	    $this->royalcms['response'] = $this->royalcms->share(function($royalcms)
-	    {
-	        $response = Response::make();
-	        return $response;
-	    });
-	}
+        $this->registerResponse();
+    }
 
-	/**
-	 * Register the URL generator service.
-	 *
-	 * @return void
-	 */
-	protected function registerUrlGenerator()
-	{
-		$this->royalcms['url'] = $this->royalcms->share(function($royalcms)
-		{
-			// The URL generator needs the route collection that exists on the router.
-			// Keep in mind this is an object, so we're passing by references here
-			// and all the registered routes will be available to the generator.
-			$routes = $royalcms['router']->getRoutes();
+    /**
+     * Register the router instance.
+     *
+     * @return void
+     */
+    protected function registerRouter()
+    {
+        $this->royalcms['router'] = $this->royalcms->share(function ($royalcms) {
+            return new Router($royalcms['events'], $royalcms);
+        });
+    }
 
-			return new UrlGenerator($routes, $royalcms->rebinding('request', function($royalcms, $request)
-			{
-				$royalcms['url']->setRequest($request);
-			}));
-		});
-	}
+    /**
+     * Register the URL generator service.
+     *
+     * @return void
+     */
+    protected function registerUrlGenerator()
+    {
+        $this->royalcms['url'] = $this->royalcms->share(function ($royalcms) {
+            $routes = $royalcms['router']->getRoutes();
 
-	/**
-	 * Register the Redirector service.
-	 *
-	 * @return void
-	 */
-	protected function registerRedirector()
-	{
-		$this->royalcms['redirect'] = $this->royalcms->share(function($royalcms)
-		{
-			$redirector = new Redirector($royalcms['url']);
+            // The URL generator needs the route collection that exists on the router.
+            // Keep in mind this is an object, so we're passing by references here
+            // and all the registered routes will be available to the generator.
+            $royalcms->instance('routes', $routes);
 
-			// If the session is set on the application instance, we'll inject it into
-			// the redirector instance. This allows the redirect responses to allow
-			// for the quite convenient "with" methods that flash to the session.
-			if (isset($royalcms['session.store']))
-			{
-				$redirector->setSession($royalcms['session.store']);
-			}
+            $url = new UrlGenerator(
+                $routes, $royalcms->rebinding(
+                    'request', $this->requestRebinder()
+                )
+            );
 
-			return $redirector;
-		});
-	}
+            $url->setSessionResolver(function () {
+                return $this->royalcms['session'];
+            });
 
+            // If the route collection is "rebound", for example, when the routes stay
+            // cached for the application, we will need to rebind the routes on the
+            // URL generator instance so it has the latest version of the routes.
+            $royalcms->rebinding('routes', function ($royalcms, $routes) {
+                $royalcms['url']->setRoutes($routes);
+            });
+
+            return $url;
+        });
+    }
+
+    /**
+     * Get the URL generator request rebinder.
+     *
+     * @return \Closure
+     */
+    protected function requestRebinder()
+    {
+        return function ($royalcms, $request) {
+            $royalcms['url']->setRequest($request);
+        };
+    }
+
+    /**
+     * Register the Redirector service.
+     *
+     * @return void
+     */
+    protected function registerRedirector()
+    {
+        $this->royalcms['redirect'] = $this->royalcms->share(function ($royalcms) {
+            $redirector = new Redirector($royalcms['url']);
+
+            // If the session is set on the application instance, we'll inject it into
+            // the redirector instance. This allows the redirect responses to allow
+            // for the quite convenient "with" methods that flash to the session.
+            // @todo 在调用的地方设置session
+            //if (isset($royalcms['session.store'])) {
+            //    $redirector->setSession($royalcms['session.store']);
+            //}
+
+            return $redirector;
+        });
+    }
+
+    /**
+     * Register a binding for the PSR-7 request implementation.
+     *
+     * @return void
+     */
+    protected function registerPsrRequest()
+    {
+        $this->royalcms->bind('Psr\Http\Message\ServerRequestInterface', function ($royalcms) {
+            return (new DiactorosFactory)->createRequest($royalcms->make('request'));
+        });
+    }
+
+    /**
+     * Register a binding for the PSR-7 response implementation.
+     *
+     * @return void
+     */
+    protected function registerPsrResponse()
+    {
+        $this->royalcms->bind('Psr\Http\Message\ResponseInterface', function ($royalcms) {
+            return new PsrResponse();
+        });
+    }
+
+    /**
+     * Register the response factory implementation.
+     *
+     * @return void
+     */
+    protected function registerResponseFactory()
+    {
+        $this->royalcms->singleton('Royalcms\Component\Contracts\Routing\ResponseFactory', function ($royalcms) {
+            return new ResponseFactory($royalcms['Royalcms\Component\Contracts\View\Factory'], $royalcms['redirect']);
+        });
+
+        //$this->royalcms->alias('response', 'Royalcms\Component\Contracts\Routing\ResponseFactory');
+    }
+
+    /**
+     * Register the router instance.
+     *
+     * @royalcms 5.0.0
+     * @return void
+     */
+    protected function registerResponse()
+    {
+        $this->royalcms['response'] = $this->royalcms->share(function($royalcms)
+        {
+            return new \Royalcms\Component\Http\Response();
+        });
+    }
 }
