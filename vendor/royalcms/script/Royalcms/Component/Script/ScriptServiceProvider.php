@@ -59,4 +59,24 @@ class ScriptServiceProvider extends ServiceProvider {
 	    });
 	}
 
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/script');
+
+        return [
+            $dir . '/Script.php',
+            $dir . '/HandleScripts.php',
+            $dir . '/Dependency.php',
+            $dir . '/Dependencies.php',
+            $dir . '/Style.php',
+            $dir . '/HandleStyles.php',
+            $dir . '/ScriptServiceProvider.php',
+        ];
+    }
+
 }

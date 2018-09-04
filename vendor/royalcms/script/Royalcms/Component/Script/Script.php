@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Script;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 
 final class Script
 {
@@ -50,7 +50,7 @@ final class Script
          *
          * @since 3.0.0
          */
-        Hook::do_action('rc_print_scripts');
+        RC_Hook::do_action('rc_print_scripts');
         // for rc_head
         if ('' === $handles) {
             $handles = false;

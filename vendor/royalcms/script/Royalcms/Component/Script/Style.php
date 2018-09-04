@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Script;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 
 final class Style
 {
@@ -54,7 +54,7 @@ final class Style
          * @since 3.0.0
          */
         if (! $handles) {
-            Hook::do_action('rc_print_styles');
+            RC_Hook::do_action('rc_print_styles');
         }
             
         // No need to instantiate if nothing is there.
