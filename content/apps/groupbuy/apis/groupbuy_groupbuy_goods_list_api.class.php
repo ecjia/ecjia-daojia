@@ -52,9 +52,9 @@ class groupbuy_groupbuy_goods_list_api extends Component_Event_Api {
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
 		$res = $db_goods_activity
-		->selectRaw('ga.*,g.shop_price, g.market_price, g.goods_brief, g.goods_thumb, g.goods_img, g.original_img')
-		->take($size)->skip($page_row->start_id - 1)->orderBy(RC_DB::raw('ga.act_id'),'desc')
-		->get();
+    		->select(RC_DB::raw('ga.*,g.shop_price, g.market_price, g.goods_brief, g.goods_thumb, g.goods_img, g.original_img'))
+    		->take($size)->skip($page_row->start_id - 1)->orderBy(RC_DB::raw('ga.act_id'),'desc')
+    		->get();
 		
 		$list = array();
 		if (!empty($res)) {

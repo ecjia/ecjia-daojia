@@ -253,7 +253,7 @@ class detail_module extends api_front implements api_interface {
 		$order['service_phone']	= RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
 		/*下单用户信息*/
 		if (!empty($order['user_id'])) {
-			$order_user_info = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+		    $order_user_info = RC_DB::table('users')->where('user_id', $order['user_id'])->select(RC_DB::raw('user_name, mobile_phone'))->first();
 			$order['order_user_info'] = array('user_name' => $order_user_info['user_name'], 'mobile_phone' => $order_user_info['mobile_phone']);
 		} else {
 			$order['order_user_info'] = array();
