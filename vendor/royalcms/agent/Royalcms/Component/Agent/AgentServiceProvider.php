@@ -9,7 +9,7 @@ class AgentServiceProvider extends ServiceProvider {
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     /**
      * Register the service provider.
@@ -35,6 +35,33 @@ class AgentServiceProvider extends ServiceProvider {
             $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
             $loader->alias('RC_Agent', 'Royalcms\Component\Agent\Facades\Agent');
         });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array('agent');
+    }
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/agent');
+
+        return [
+            $dir . "/Facades/Agent.php",
+            $dir . "/Agent.php",
+            $dir . "/MobileDetect.php",
+            $dir . "/AgentServiceProvider.php",
+        ];
     }
     
 }
