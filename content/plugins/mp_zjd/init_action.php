@@ -107,7 +107,7 @@ class mp_zjd_init_action implements PluginPageInterface
     	$prize_num = $MarketActivity->getLotteryOverCount($openid);
     	
     	if ($prize_num === 0) {
-    		return ecjia_front::$controller->showmessage('活动次数太频繁，请稍后再来！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage('活动次数已用完，请稍后再试！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	/*
