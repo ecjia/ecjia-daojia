@@ -105,7 +105,7 @@ class goods_goods_brand_list_api extends Component_Event_Api {
 		} else {
             $db = RC_Model::model('goods/brand_model');
 			/* 分页大小 */
-            $brand = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->selectRaw('distinct brand_id')->get();
+            $brand = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->select(RC_DB::raw('distinct brand_id'))->get();
             $brand = array_column($brand,'brand_id');
 
             if(!empty($brand)){

@@ -179,8 +179,11 @@ class merchant extends ecjia_merchant {
 // 		$get_list = !empty($_GET) ? $_GET : '';
 // 		$get_rul = $this->generate_url($get_list);
 // 		$this->assign('get_url', $get_rul);
+		$conditions = '';
+		$conditions .= " AND (g.extension_code is null or g.extension_code = '') ";
 		
-		$goods_list = goods::merchant_goods_list(0, 1);
+		$goods_list = goods::merchant_goods_list(0, 1, $conditions);
+		
 		$this->assign('goods_list', $goods_list);
 		$this->assign('filter', $goods_list['filter']);
 		
@@ -1803,7 +1806,7 @@ class merchant extends ecjia_merchant {
 		}
 
 		/* 取出商品信息 */
-		$goods = RC_DB::table('goods')->selectRaw('goods_sn, goods_name, goods_type, shop_price')->where('goods_id', $goods_id)->first();
+		$goods = RC_DB::table('goods')->select(RC_DB::raw('goods_sn, goods_name, goods_type, shop_price'))->where('goods_id', $goods_id)->first();
 		
 		if (empty($goods)) {
 			return $this->showmessage(RC_Lang::get('system::system.sys.wrong'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

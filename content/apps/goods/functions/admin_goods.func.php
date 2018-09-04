@@ -575,7 +575,7 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
     
     //评论信息
     $comment_info = RC_DB::table('comment')
-    	->selectRaw('IFNULL(AVG(comment_rank), 0) AS comment_rank')
+        ->select(RC_DB::raw('IFNULL(AVG(comment_rank), 0) AS comment_rank'))
     	->where('id_value', $goods_id)
     	->where('comment_type', 0)
     	->where('parent_id', 0)
@@ -593,7 +593,7 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 	    
     //会员价格信息
     $member_price_info = RC_DB::table('member_price')
-    	->selectRaw("IFNULL(user_price, $row[shop_price] * '$_SESSION[discount]') AS rank_price")
+        ->select(RC_DB::raw("IFNULL(user_price, $row[shop_price] * '$_SESSION[discount]') AS rank_price"))
     	->where('goods_id', $goods_id)
     	->where('user_rank', $_SESSION['user_rank'])
     	->first();
@@ -1044,7 +1044,7 @@ function group_buy_info($group_buy_id, $current_num = 0) {
 	/* 取得团购活动信息 */
 	$group_buy_id = intval ( $group_buy_id );
 	$db = RC_DB::table('goods_activity');
-	$group_buy = $db->where('act_id', $group_buy_id)->where('act_type',GAT_GROUP_BUY)->selectRaw('*,act_id as group_buy_id, act_desc as group_buy_desc, start_time as start_date, end_time as end_date')->first();
+	$group_buy = $db->where('act_id', $group_buy_id)->where('act_type',GAT_GROUP_BUY)->select(RC_DB::raw('*,act_id as group_buy_id, act_desc as group_buy_desc, start_time as start_date, end_time as end_date'))->first();
 
 	/* 如果为空，返回空数组 */
 	if (empty ( $group_buy )) {
@@ -1139,7 +1139,12 @@ function group_buy_info($group_buy_id, $current_num = 0) {
  */
 function group_buy_stat($group_buy_id, $deposit) {
         $group_buy_id = intval($group_buy_id);
-        $group_buy_goods_id = RC_DB::table('goods_activity')->where('store_id', $_SESSION['store_id'])->where('act_id', $group_buy_id)->where('act_type', GAT_GROUP_BUY)->pluck('goods_id');
+        $db_goods_activity = RC_DB::table('goods_activity');
+        if (!empty($_SESSION['store_id'])) {
+        	$db_goods_activity->where('store_id', $_SESSION['store_id']);
+        }
+        
+        $group_buy_goods_id = $db_goods_activity->where('act_id', $group_buy_id)->where('act_type', GAT_GROUP_BUY)->pluck('goods_id');
 
         /* 取得总订单数和总商品数 */
         $stat = RC_DB::table('order_info as o')->leftJoin('order_goods as g', RC_DB::raw('o.order_id'), '=', RC_DB::raw('g.order_id'))
@@ -1323,7 +1328,7 @@ function auction_status($auction) {
 function goods_info($goods_id) {
 	$row = RC_DB::table('goods as g')->leftJoin('brand as b', RC_DB::raw('g.brand_id'), '=', RC_DB::raw('b.brand_id'))
 		->where(RC_DB::raw('g.goods_id'), $goods_id)
-		->selectRaw('g.*, b.brand_name')
+		->select(RC_DB::raw('g.*, b.brand_name'))
 		->first();
 
 	if (! empty ( $row )) {
@@ -1526,7 +1531,7 @@ function get_attr_list() {
 
 	$row = $db_attribute
 		->leftJoin('goods_type as t', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('t.cat_id'))
-		->selectRaw('a.*, t.cat_name')
+		->select(RC_DB::raw('a.*, t.cat_name'))
 		->orderby($filter['sort_by'], $filter['sort_order'])
 		->take(15)->skip($page->start_id-1)->get();
 
@@ -1592,7 +1597,7 @@ function get_merchant_goods_type() {
 	$field = 'gt.*, count(a.cat_id) as attr_count, s.merchants_name';
 	$goods_type_list = $db_goods_type
 		->leftJoin('attribute as a', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('gt.cat_id'))
-		->selectRaw($field)
+		->select(RC_DB::raw($field))
 		->groupBy(RC_DB::Raw('gt.cat_id'))
 		->orderby(RC_DB::Raw('gt.cat_id'), 'desc')
 		->take(15)
@@ -1631,7 +1636,7 @@ function get_merchant_attr_list() {
 
 	$row = $db_attribute
 	->leftJoin('goods_type as t', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('t.cat_id'))
-	->selectRaw('a.*, t.cat_name')
+	->select(RC_DB::raw('a.*, t.cat_name'))
 	->orderby($filter['sort_by'], $filter['sort_order'])
 	->take(15)->skip($page->start_id-1)->get();
 

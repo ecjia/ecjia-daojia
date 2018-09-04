@@ -175,11 +175,14 @@ class goods {
             $where .= " AND is_real='$real_goods'";
         }
         
-        $db_goods = RC_DB::table('goods as g')
+        $db_goods1 = RC_DB::table('goods as g')
        		->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'));
         
         //筛选全部 已上架 未上架 商家
-        $filter_count = $db_goods
+        
+        $where .= $conditions;
+        
+        $filter_count = $db_goods1
        		->select(RC_DB::raw('count(*) as count_goods_num'), 
        			RC_DB::raw('SUM(IF(is_on_sale = 1, 1, 0)) as count_on_sale'), 
        			RC_DB::raw('SUM(IF(is_on_sale = 0, 1, 0)) as count_not_sale'),
@@ -201,12 +204,12 @@ class goods {
         if (!empty ($filter ['suppliers_id'])) {
             $where .= " AND (suppliers_id = '" . $filter ['suppliers_id'] . "')";
         }
-        $where .= $conditions;
+        //$where .= $conditions;
 
-        $db_goods = RC_DB::table('goods as g')
+        $db_goods2 = RC_DB::table('goods as g')
         	->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'));
         /* 记录总数 */
-        $count = $db_goods->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
+        $count = $db_goods2->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
         $page = new ecjia_page ($count, 10, 5);
         $filter ['record_count'] 	= $count;
         $filter ['count_goods_num'] = $filter_count['count_goods_num'] > 0 ? $filter_count['count_goods_num'] : 0;
@@ -214,8 +217,9 @@ class goods {
         $filter ['count_not_sale'] 	= $filter_count['count_not_sale'] > 0 ? $filter_count['count_not_sale'] : 0;
         $filter ['self'] 			= $filter_count['self'] > 0 ? $filter_count['self'] : 0;
         
-        $sql = $db_goods
-        	->selectRaw('g.goods_id, g.goods_name, g.goods_type, g.goods_sn, g.shop_price, g.market_price, g.goods_thumb, g.is_on_sale, g.is_best, g.is_new, g.is_hot, g.sort_order, g.goods_number, g.integral, (g.promote_price > 0 AND g.promote_start_date <= ' . $today . ' AND g.promote_end_date >= ' . $today . ') as is_promote, g.review_status, s.merchants_name')
+        $sql = $db_goods2
+            ->select(RC_DB::raw('g.goods_id, g.goods_name, g.goods_type, g.goods_sn, g.shop_price, g.market_price, g.goods_thumb, g.is_on_sale, g.is_best, g.is_new, g.is_hot, g.sort_order, g.goods_number, g.integral, (g.promote_price > 0 AND g.promote_start_date <= ' . $today . ' AND g.promote_end_date >= ' . $today . ') as is_promote, g.review_status, s.merchants_name'))
+            ->whereRaw('is_delete = ' . $is_delete . '' . $where)
         	->orderBy($filter ['sort_by'], $filter['sort_order'])
         	->take(10)
         	->skip($page->start_id-1)
@@ -330,12 +334,14 @@ class goods {
     		$where .= " AND is_real='$real_goods'";
     	}
     
-    	$db_goods = RC_DB::table('goods as g')
+    	$db_goods1 = RC_DB::table('goods as g')
     		->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
     		->where(RC_DB::raw('g.store_id'), $_SESSION['store_id']);
     
     	//筛选全部 已上架 未上架 商家
-    	$filter_count = $db_goods
+    	$where .= $conditions;
+    	
+    	$filter_count = $db_goods1
     	->select(RC_DB::raw('count(*) as count_goods_num'),
     			RC_DB::raw('SUM(IF(is_on_sale = 1, 1, 0)) as count_on_sale'),
     			RC_DB::raw('SUM(IF(is_on_sale = 0, 1, 0)) as count_not_sale'),
@@ -343,7 +349,7 @@ class goods {
     			RC_DB::raw('SUM(IF(g.store_id > 0, 1, 0)) as merchant'))
     			->whereRaw('is_delete = ' . $is_delete . '' . $where)
     			->first();
-    
+
     	/* 是否上架 */
     	if ($filter ['type'] == 1 || $filter ['type'] == 2) {
     		$is_on_sale = $filter ['type'];
@@ -359,12 +365,12 @@ class goods {
     	}
     	$where .= $conditions;
     
-    	$db_goods = RC_DB::table('goods as g')
+    	$db_goods2 = RC_DB::table('goods as g')
     	->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
     	->where(RC_DB::raw('g.store_id'), $_SESSION['store_id']);
     
     	/* 记录总数 */
-    	$count = $db_goods->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
+    	$count = $db_goods2->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
     	$page = new ecjia_merchant_page ($count, 10, 3);
     	$filter ['record_count'] 	= $count;
     	$filter ['count_goods_num'] = $filter_count['count_goods_num'] > 0 ? $filter_count['count_goods_num'] : 0;
@@ -372,13 +378,14 @@ class goods {
     	$filter ['count_not_sale'] 	= $filter_count['count_not_sale'] > 0 ? $filter_count['count_not_sale'] : 0;
     	$filter ['merchant'] 		= $filter_count['merchant'] > 0 ? $filter_count['merchant'] : 0;
     
-    	$sql = $db_goods
-	    	->selectRaw('g.goods_id, g.goods_name, g.goods_type, g.goods_sn, g.shop_price, g.goods_thumb, g.is_on_sale, g.store_best, g.store_new, g.store_hot, g.store_sort_order, g.goods_number, g.integral, (g.promote_price > 0 AND g.promote_start_date <= ' . $today . ' AND g.promote_end_date >= ' . $today . ') as is_promote, g.review_status, s.merchants_name')
-	    	->orderBy($filter ['sort_by'], $filter['sort_order'])
-	    	->orderBy('goods_id', 'desc')
-	    	->take(10)
-	    	->skip($page->start_id-1)
-	    	->get();
+    	$sql = $db_goods2
+    	    ->select(RC_DB::raw('g.goods_id, g.goods_name, g.goods_type, g.goods_sn, g.shop_price, g.goods_thumb, g.is_on_sale, g.store_best, g.store_new, g.store_hot, g.store_sort_order, g.goods_number, g.integral, (g.promote_price > 0 AND g.promote_start_date <= ' . $today . ' AND g.promote_end_date >= ' . $today . ') as is_promote, g.review_status, s.merchants_name'))
+    	    ->whereRaw('is_delete = ' . $is_delete . '' . $where)
+            ->orderBy($filter ['sort_by'], $filter['sort_order'])
+            ->orderBy('goods_id', 'desc')
+            ->take(10)
+            ->skip($page->start_id-1)
+            ->get();
     
     	$filter ['keyword'] = stripslashes($filter ['keyword']);
     	$filter ['count'] 	= $count;

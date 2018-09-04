@@ -85,14 +85,14 @@ function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_s
 		if ($data === false) {
 			$res = RC_DB::table('category as c')
 				->leftJoin('category as s', RC_DB::raw('c.cat_id'), '=', RC_DB::raw('s.parent_id'))
-				->selectRaw('c.cat_id, c.cat_name, c.measure_unit, c.parent_id, c.is_show, c.show_in_nav, c.grade, c.sort_order, COUNT(s.cat_id) AS has_children')
+				->select(RC_DB::raw('c.cat_id, c.cat_name, c.measure_unit, c.parent_id, c.is_show, c.show_in_nav, c.grade, c.sort_order, COUNT(s.cat_id) AS has_children'))
 				->groupBy(RC_DB::raw('c.cat_id'))
 				->orderBy(RC_DB::raw('c.parent_id'), 'asc')
 				->orderBy(RC_DB::raw('c.sort_order'), 'asc')
 				->get();
 				
 			$res2 = RC_DB::table('goods')
-				->selectRaw('cat_id, COUNT(*) as goods_num')
+			    ->select(RC_DB::raw('cat_id, COUNT(*) as goods_num'))
 				->where('is_delete', 0)
 				->where('is_on_sale', 1)
 				->groupBy('cat_id')

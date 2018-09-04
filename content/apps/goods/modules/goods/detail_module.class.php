@@ -168,7 +168,7 @@ class detail_module extends api_front implements api_interface {
         $user_rank_prices = $orm_member_price_db->get_cache_item($cache_user_rank_prices_id);
         if (empty($user_rank_prices)) {
         	$user_rank_prices = get_user_rank_prices($goods_id, $shop_price);
-        	$orm_member_price_db->set_cache_item($cache_goods_properties_id, $user_rank_prices);      	
+        	$orm_member_price_db->set_cache_item($cache_user_rank_prices_id, $user_rank_prices);      	
         }
         
         /*给商品的相册增加缓存*/
@@ -372,16 +372,14 @@ class detail_module extends api_front implements api_interface {
 				$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
 				 /* 计算节约价格*/
 				$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
-
-				
 				/*增加商品的规格和属性缓存*/
-				$cache_goods_properties_key = 'goods_properties_'.$val['goods_id'];
-				$cache_goods_properties_id = sprintf('%X', crc32($cache_goods_properties_key));
+				$cache_related_goods_properties_key = 'goods_related_properties_'.$val['goods_id'];
+				$cache_related_goods_properties_id = sprintf('%X', crc32($cache_related_goods_properties_key));
 				$goods_type_db = RC_Model::model('goods/orm_goods_type_model');
-				$properties = $goods_type_db->get_cache_item($cache_goods_properties_id);
+				$properties = $goods_type_db->get_cache_item($cache_related_goods_properties_id);
 				if (empty($properties)) {
 				    $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
-				    $goods_type_db->set_cache_item($cache_goods_properties_id, $properties);
+				    $goods_type_db->set_cache_item($cache_related_goods_properties_id, $properties);
 				}
 				
 				$data['related_goods'][] = array(

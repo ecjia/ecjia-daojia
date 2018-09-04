@@ -87,7 +87,7 @@ function goods_file_upload_info($path, $code, $old_images)
 function get_category_attr_list() {
 	$arr = RC_DB::table('attribute as a')
 		->leftJoin('goods_type as gt', RC_DB::raw('a.cat_id'), '=', RC_DB::raw('gt.cat_id'))
-		->selectRaw('a.attr_id')
+		->select(RC_DB::raw('a.attr_id'))
 		->where(RC_DB::raw('gt.enabled'), 1)
 		->orderBy(RC_DB::raw('a.cat_id'), 'asc')
 		->orderBy(RC_DB::raw('a.sort_order'), 'asc')
@@ -1305,7 +1305,7 @@ function build_merchant_attr_html($cat_id, $goods_id = 0) {
  * @return array
  */
 function get_goods_type_specifications() {
-	$row = RC_DB::table('attribute')->selectRaw('DISTINCT cat_id')->where('attr_type', 1)->get();
+    $row = RC_DB::table('attribute')->select(RC_DB::raw('DISTINCT cat_id'))->where('attr_type', 1)->get();
 	$return_arr = array();
 	if (!empty($row)) {
 		foreach ($row as $value) {
@@ -1445,7 +1445,7 @@ function product_list($goods_id, $conditions = '') {
 	$filter ['record_count'] = $count;
 
 	$row = RC_DB::table('products')
-		->selectRaw('product_id, goods_id, goods_attr as goods_attr_str, goods_attr, product_sn, product_number')
+	    ->select(RC_DB::raw('product_id, goods_id, goods_attr as goods_attr_str, goods_attr, product_sn, product_number'))
 		->whereRaw('goods_id = ' . $goods_id . $where)
 		->orderBy($filter ['sort_by'], $filter['sort_order'])
 		->get();
@@ -1488,7 +1488,7 @@ function get_goods_specifications_list($goods_id) {
 		->leftJoin('attribute as a', RC_DB::raw('a.attr_id'), '=', RC_DB::raw('ga.attr_id'))
 		->where('goods_id', $goods_id)
 		->where(RC_DB::raw('a.attr_type'), 1)
-		->selectRaw('ga.goods_attr_id, ga.attr_value, ga.attr_id, a.attr_name')
+		->select(RC_DB::raw('ga.goods_attr_id, ga.attr_value, ga.attr_id, a.attr_name'))
 		->orderBy(RC_DB::raw('ga.attr_id'), 'asc')
 		->get();
 }
@@ -1512,7 +1512,7 @@ function get_product_info($product_id, $field = '') {
 	if (empty ($filed)) {
 		$filed = '*';
 	}
-	return RC_DB::table('products')->selectRaw($field)->where('product_id', $product_id)->first();
+	return RC_DB::table('products')->select(RC_DB::raw($field))->where('product_id', $product_id)->first();
 }
 
 /**
@@ -1657,7 +1657,7 @@ function sort_goods_attr_id_array($goods_attr_id_array, $sort = 'asc') {
 		->leftJoin('goods_attr as v', function($join){
 			$join->on(RC_DB::raw('v.attr_id'), '=', RC_DB::raw('a.attr_id'))->on(RC_DB::raw('a.attr_type'), '=', RC_DB::raw('1'));
 		})
-		->selectRaw('a.attr_type, v.attr_value, v.goods_attr_id')
+		->select(RC_DB::raw('a.attr_type, v.attr_value, v.goods_attr_id'))
 		->whereIn(RC_DB::raw('v.goods_attr_id'), $goods_attr_id_array)
 		->orderby(RC_DB::raw('a.attr_id'), $sort)
 		->get();
@@ -1907,7 +1907,7 @@ function get_package_goods($package_id) {
 	$resource = RC_DB::table('package_goods as pg')
 		->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('pg.goods_id'))
 		->leftJoin('products as p', RC_DB::raw('pg.product_id'), '=', RC_DB::raw('p.product_id'))
-		->selectRaw('pg.goods_id, g.goods_name, pg.goods_number, p.goods_attr, p.product_number, p.product_id')
+		->select(RC_DB::raw('pg.goods_id, g.goods_name, pg.goods_number, p.goods_attr, p.product_number, p.product_id'))
 		->whereRaw('pg.package_id = '.$package_id.''.$where)
 		->get();
 

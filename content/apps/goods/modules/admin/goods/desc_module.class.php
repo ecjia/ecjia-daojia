@@ -115,7 +115,7 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 
 	//评论信息
 	$comment_info = RC_DB::table('comment')
-	->selectRaw('IFNULL(AVG(comment_rank), 0) AS comment_rank')
+	->select(RC_DB::raw('IFNULL(AVG(comment_rank), 0) AS comment_rank'))
 	->where('id_value', $goods_id)
 	->where('comment_type', 0)
 	->where('parent_id', 0)
@@ -133,7 +133,7 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 	 
 	//会员价格信息
 	$member_price_info = RC_DB::table('member_price')
-	->selectRaw("IFNULL(user_price, $row[shop_price] * '$_SESSION[discount]') AS rank_price")
+	->select(RC_DB::raw("IFNULL(user_price, $row[shop_price] * '$_SESSION[discount]') AS rank_price"))
 	->where('goods_id', $goods_id)
 	->where('user_rank', $_SESSION['user_rank'])
 	->first();

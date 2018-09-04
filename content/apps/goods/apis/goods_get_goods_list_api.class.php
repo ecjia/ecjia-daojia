@@ -80,6 +80,8 @@ class goods_get_goods_list_api extends Component_Event_Api {
 
 		$where = array();
 		$where['is_delete'] = (isset($filter['is_delete']) && $filter['is_delete'] == '1') ? 1 : 0;
+		$where[] = "(extension_code is null or extension_code='')";
+		
 		if (!empty($filter['store_id'])) {
 		    $where['store_id'] = $filter['store_id'];
 		}

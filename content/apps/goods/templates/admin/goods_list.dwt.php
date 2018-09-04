@@ -33,7 +33,7 @@
 	</div>
 </div>
 
-<div class="modal fade fade" id="insertGoods">
+<div class="modal hide fade" id="insertGoods">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">×</button>
 		<h3 class="modal-title">导入商品</h3>
