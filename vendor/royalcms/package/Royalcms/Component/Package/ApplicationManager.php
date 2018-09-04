@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Package;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 
 class ApplicationManager {
     
@@ -22,7 +22,7 @@ class ApplicationManager {
          *                      array('alias' => '', 'identifier' => '', 'directory' => ''),
          *                  )
         */
-        $bundles = Hook::apply_filters('app_scan_bundles', $bundles);
+        $bundles = RC_Hook::apply_filters('app_scan_bundles', $bundles);
         if (!empty($bundles)) {
             foreach ($bundles as $bundle) {
                 self::$alias_map[$bundle['alias']] = $bundle['identifier'];

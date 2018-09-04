@@ -33,4 +33,26 @@ class PackageServiceProvider extends ServiceProvider {
     {
         return array('package');
     }
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/package');
+
+        return [
+            $dir . "/PackageServiceProvider.php",
+            $dir . "/PackageManager.php",
+            $dir . "/FileLoader.php",
+            $dir . "/LoaderInterface.php",
+            $dir . "/SystemPackage.php",
+            $dir . "/Package.php",
+            $dir . "/PackageInterface.php",
+            $dir . "/ApplicationPackage.php",
+            $dir . "/Facades/Package.php",
+        ];
+    }
 }
