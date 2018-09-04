@@ -96,6 +96,8 @@ return array(
     	'refund'        => 'refund',
     	/* 微信公众平台  */
     	'wechat'        => 'wechat',
+    	/* 收银台  */
+    	'cashier'       => 'cashier',
     ),
 );
 
