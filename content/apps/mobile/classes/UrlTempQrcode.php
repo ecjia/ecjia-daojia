@@ -31,7 +31,7 @@ class UrlTempQrcode
         $qrcode = RC_Cache::app_cache_get($cacheKey, 'mobile');
         if (empty($qrcode)) {
             $qrcode = RC_QrCode::format('png')->size($size)->margin(1)
-                        ->errorCorrection('H')
+                        ->errorCorrection('L')
                         ->generate($this->url);
             $qrcode = base64_encode($qrcode);
             RC_Cache::app_cache_set($cacheKey, $qrcode, 'mobile');

@@ -327,9 +327,9 @@ function group_goods_data($response, $request) {
 			$db_goods_activity->where(RC_DB::raw('g.review_status'), '>', 2);
 		}
 		$res = $db_goods_activity
-		->selectRaw('ga.*,g.shop_price, g.market_price, g.goods_brief, g.goods_thumb, g.goods_img, g.original_img')
-		->take(6)->orderBy(RC_DB::raw('ga.act_id'),'desc')
-		->get();
+    		->select(RC_DB::raw('ga.*,g.shop_price, g.market_price, g.goods_brief, g.goods_thumb, g.goods_img, g.original_img'))
+    		->take(6)->orderBy(RC_DB::raw('ga.act_id'),'desc')
+    		->get();
 		
 		$group_goods_data = array();
 		if (!empty($res)) {
