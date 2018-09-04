@@ -63,7 +63,7 @@ class favourable_favourable_list_api extends Component_Event_Api {
     	/* 判断是否有store应用*/
     	$result = ecjia_app::validate_application('store');
     	if (!is_ecjia_error($result)) {
-    		$favourable_activity_dbview->leftJoin('store_franchisee as s', RC_DB::raw('fa.store_id'), '=', RC_DB::raw('s.store_id'))->selectRaw('fa.*, s.merchants_name');
+    		$favourable_activity_dbview->leftJoin('store_franchisee as s', RC_DB::raw('fa.store_id'), '=', RC_DB::raw('s.store_id'))->select(RC_DB::raw('fa.*, s.merchants_name'));
     	}
     	
     	if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
