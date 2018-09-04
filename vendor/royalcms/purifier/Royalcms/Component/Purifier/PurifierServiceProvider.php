@@ -10,7 +10,7 @@ class PurifierServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     /**
      * Boot the service provider.
@@ -20,8 +20,10 @@ class PurifierServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setupConfig();
+
+        $dir = static::guessPackageClassPath('royalcms/purifier');
         
-        require __DIR__ . '/helpers.php';
+        require $dir . '/helpers.php';
     }
 
     /**
