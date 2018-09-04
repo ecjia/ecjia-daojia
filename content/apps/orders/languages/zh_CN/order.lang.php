@@ -57,6 +57,7 @@ return array(
 	'all_status' 	=> '订单状态',
 	'thumb_img' 	=> '缩略图',
 		
+	/*
 	'cs' => array(
 		OS_UNCONFIRMED 	=> '待确认',
 		CS_AWAIT_PAY 	=> '待付款',
@@ -69,11 +70,27 @@ return array(
 		OS_RETURNED 	=> '退货',
 		OS_SHIPPED_PART => '部分发货',
 	),
+	*/
+		
+	'cs' => array(
+		CS_AWAIT_PAY 	=> '待付款',
+		CS_UNCONFIRMED 	=> '待接单',
+		CS_AWAIT_SHIP 	=> '待发货',
+// 		CS_PREPARING  	=> '备货中',
+// 		CS_SHIPPED_ING 	=> '发货中',
+		CS_SHIPPED		=> '已发货',
+// 		CS_SHIPPED_PART => '已发货（部分商品）',
+		CS_FINISHED 	=> '已完成',
+		CS_CANCELED 	=> '取消',
+// 		CS_INVALID 		=> '无效',
+		CS_REFUND 		=> '退货',
+		CS_SHIPPED_PART => '部分发货',
+	),
 		
 	/* 订单状态 */
 	'os' => array(
-		OS_UNCONFIRMED 		=> '未确认',
-		OS_CONFIRMED 		=> '已确认',
+		OS_UNCONFIRMED 		=> '未接单',
+		OS_CONFIRMED 		=> '已接单',
 		OS_CANCELED 		=> '<font color="red">取消</font>',
 		OS_INVALID 			=> '<font color="red">无效</font>',
 		OS_RETURNED 		=> '<font color="red">退货</font>',
@@ -98,6 +115,13 @@ return array(
 		
 	'ss_admin' => array(
 		SS_SHIPPED_ING => '发货中（前台状态：未发货）'
+	),
+	
+	'order_extension_code' => array(
+		'default' => '配送订单',
+		'storebuy' => '到店订单',
+		'storepickup' => '自提订单',
+		'group_buy' => '团购订单',
 	),
 				
 	/* 订单操作 */
@@ -302,7 +326,7 @@ return array(
 	'order_sn_not_null'					=> '请填写要合并的订单号',
 	'two_order_sn_same'					=> '要合并的两个订单号不能相同',
 	'order_not_exist' 					=> '订单 %s 不存在',
-	'os_not_unconfirmed_or_confirmed' 	=> '%s 的订单状态不是“未确认”或“已确认”',
+	'os_not_unconfirmed_or_confirmed' 	=> '%s 的订单状态不是“未接单”或“已接单”',
 	'ps_not_unpayed' 					=> '订单 %s 的付款状态不是“未付款”',
 	'ss_not_unshipped' 					=> '订单 %s 的发货状态不是“未发货”',
 	'order_user_not_same' 				=> '要合并的两个订单不是同一个用户下的',
@@ -555,6 +579,9 @@ return array(
 	'label_canceled'				=> '已取消',
 	'label_shipped_part'			=> '部分发货',
 	'label_refunded'				=> '退款',
+	'label_preparing'				=> '备货中',
+	'label_shipped_ing'				=> '发货中',
+	'label_unpay'					=> '未付款',
 	
 	'order_back_list'				=>	'退货单列表',
 	'return_look'					=>	'退货单操作：查看',
@@ -780,7 +807,7 @@ return array(
     'order_operatio'		=> '订单操作：退款',
     
     'not_shipping_orders'	=> '待发货订单',
-    'unconfirmed_orders'	=> '未确认订单',
+    'unconfirmed_orders'	=> '未接单订单',
     'unpaid_orders'			=> '待支付订单',
     'finished_orders'		=> '已成交订单数',
     'booking'				=> '新缺货登记',
@@ -823,6 +850,8 @@ return array(
     'merchant_process'			=> '等待商家接单',
     'express_user_pickup'		=> '配送员已取货',
     'order_pickup_success'		=> '已提货',
+    'merchant_confirmed'		=> '商家已接单',
+    'merchant_unconfirmed'		=> '无法接单',
     
     'submit_order'				=> '提交订单',
     'pay_for_order'				=> '支付订单',
@@ -838,7 +867,7 @@ return array(
     
     'current_ss_not_cancel' 		=> '只有在未发货状态下才能取消，你可以与店主联系。',
     'current_ps_not_cancel' 		=> '只有未付款状态才能取消，要取消请联系店主。',
-    'current_os_not_unconfirmed' 	=> '当前订单状态不是“未确认”。',
+    'current_os_not_unconfirmed' 	=> '当前订单状态不是“未接单”。',
     'current_os_already_confirmed' 	=> '当前订单已经被确认，无法取消，请与店主联系。',
     'return_surplus_on_cancel' 		=> '取消订单 %s，退回支付订单时使用的预付款',
     'return_integral_on_cancel' 	=> '取消订单 %s，退回支付订单时使用的积分',

@@ -85,7 +85,13 @@ class merchant_order_list {
 		 
 		$row = $this->db_order_info
 			->leftJoin('order_goods as og', RC_DB::raw('o.order_id'), '=', RC_DB::raw('og.order_id'))
-			->selectRaw($fields)
+			->select(RC_DB::raw('o.order_id'), RC_DB::raw('o.store_id'), RC_DB::raw('o.order_sn'), RC_DB::raw('
+		o.add_time'), RC_DB::raw('o.order_status'), RC_DB::raw('o.shipping_status'), RC_DB::raw('
+		o.order_amount'), RC_DB::raw('o.money_paid'), RC_DB::raw('o.pay_status'), RC_DB::raw('
+		o.consignee'), RC_DB::raw('o.address'), RC_DB::raw('o.email'), RC_DB::raw('o.tel'), RC_DB::raw('o.mobile'), RC_DB::raw('
+		o.extension_code'), RC_DB::raw('o.extension_id '), RC_DB::raw("(" . $this->order_amount_field('o.') . ") AS total_fee"), RC_DB::raw('
+		o.surplus'), RC_DB::raw('o.integral_money'), RC_DB::raw('o.bonus'), RC_DB::raw('
+		s.merchants_name'), RC_DB::raw('u.user_name'), RC_DB::raw('og.goods_number'))
 			->take($pagesize)
 			->skip($page->start_id-1)
 			->groupby(RC_DB::raw('o.order_id'))
@@ -216,13 +222,13 @@ class merchant_order_list {
 			$this->db_order_info->where(RC_DB::raw('o.add_time'), '>=', $start_time);
 		}
 		if ($filter['end_time']) {
-			$end_time = RC_Time::local_strtotime($filter['end_time']) + 86399;
+			$end_time = RC_Time::local_strtotime($filter['end_time']);
 			$this->db_order_info->where(RC_DB::raw('o.add_time'), '<=', $end_time);
 		}
 		
 		if ($filter['date'] == 'today') {
-			$start_time = RC_Time::local_mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-			$end_time = RC_Time::local_mktime(0, 0, 0, date('m'), date('d')+1, date('Y'))-1;
+			$start_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), RC_Time::local_date('d'), RC_Time::local_date('Y'));
+			$end_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), RC_Time::local_date('d')+1, RC_Time::local_date('Y'))-1;
 			$this->db_order_info->where(RC_DB::raw('o.add_time'), '>=', $start_time)->where(RC_DB::raw('o.add_time'), '<=', $end_time);
 		}
 		

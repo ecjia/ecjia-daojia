@@ -102,7 +102,7 @@ class detail_module extends api_admin implements api_interface {
         		return new ecjia_error('vinvalid_order', '验证码对应的订单已取消或是无效订单！');
         	}
         	
-        	$user_info = RC_DB::table('users')->where('user_id', $order_info['user_id'])->selectRaw('user_name, mobile_phone')->first();
+        	$user_info = RC_DB::table('users')->where('user_id', $order_info['user_id'])->select('user_name', 'mobile_phone')->first();
         	$total_fee =  $order_info['goods_amount'] 
         					+ $order_info['tax'] 
         					+ $order_info['shipping_fee'] 
@@ -118,7 +118,7 @@ class detail_module extends api_admin implements api_interface {
         	$goods_list = array();
         	$goods_item = RC_DB::table('order_goods as og')->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
         					->where(RC_DB::raw('og.order_id'), $order_info['order_id'])
-        					->selectRaw('og.*, g.goods_thumb, g.goods_img, g.original_img')->get();
+        					->select(RC_DB::raw('og.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))->get();
         	
         	
         	if (!empty($goods_item)) {

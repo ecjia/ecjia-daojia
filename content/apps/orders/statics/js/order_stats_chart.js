@@ -1,302 +1,255 @@
 // JavaScript Document
 ;
-(function(app, $) {
+(function (app, $) {
 	app.chart = {
-		init: function() {
-			app.chart.order_general();
-			app.chart.order_status();
-			app.chart.ship_status();
-			app.chart.ship_stats();
-			app.chart.pay_status();
-			app.chart.pay_stats();
-		},
-		order_general: function() {
+		//订单概况
+		order_general: function () {
 			var dataset = [];
 			var ticks = [];
-			var elem = $('#order_general');
 			if (data == 'null') {
 				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>" + js_lang.no_stats_data + "<\/div>";
 				$("#order_general").append(nodata);
 			} else {
-				$.each(JSON.parse(data), function(key, value) {
+				$.each(JSON.parse(data), function (key, value) {
 					ticks.push(parseInt(value));
 				});
-				var chart = new AChart({
-					theme: AChart.Theme.SmoothBase,
-					id: 'order_general',
-					width: 1000,
-					height: 500,
-					plotCfg: {
-						margin: [50, 50, 50] //画板的边距
-					},
+
+				var orderGeneralChart = echarts.init(document.getElementById('order_general'));
+
+				var option = {
+					color: ['#6DCEEE'],
 					xAxis: {
-						categories: [
-						js_lang.unconfirmed_order, js_lang.confirmed_order, js_lang.succeed_order, js_lang.invalid_order, ],
+						type: 'category',
+						data: [js_lang.await_pay_order, js_lang.await_ship_order, js_lang.shipped_order, js_lang.returned_order, js_lang.canceled_order, js_lang.succeed_order]
 					},
 					yAxis: {
-						min: 0
-					},
-					seriesOptions: { //设置多个序列共同的属性
-						/*columnCfg : { //公共的样式在此配置
-                      
-                   		}*/
+						type: 'value'
 					},
 					tooltip: {
-						pointRenderer: function(point) {
-							return point.yValue;
-						}
+						show: "true",
+						trigger: 'item',
+						backgroundColor: 'rgba(0,0,0,0.7)',
+						padding: [8, 10],
+						extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);',
+						formatter: function (params) {
+							if (params.seriesName != "") {
+								return params.name + ' ：  ' + params.value;
+							}
+						},
 					},
-					legend: null,
+					grid: {
+				        left: '2%',
+				        right: '2%',
+				        bottom: '5%',
+				        top: '5%',
+				        containLabel: true
+				    },
 					series: [{
-						name: js_lang.number,
-						type: 'column',
 						data: ticks,
+						type: 'bar',
+						barWidth: '80px',
 					}]
+				};
+
+				orderGeneralChart.setOption(option);
+				
+				window.addEventListener("resize", function() { 
+					orderGeneralChart.resize();  
 				});
-				chart.render();
 			}
+			app.chart.order_type();
 		},
 
-		order_status: function() {
-			var dataset = new Array();
-			var elem = $('#order_status');
-			var tpl = [];
-			var datas = [];
-
-			if (data == 'null') {
-				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>" + js_lang.no_stats_data + "<\/div>";
-				$("#order_status").append(nodata);
-			} else {
-				$.each(JSON.parse(data), function(key, val) {
-					var ticks = [];
-					var categories = [];
-					$.each(val, function(k, v) {
-						ticks.push(parseInt(v));
-						categories.push(k);
-					});
-					datas.push({
-						name: key,
-						data: ticks,
-					});
-					tpl = categories;
-				});
-				var chart = new AChart({
-					theme: AChart.Theme.SmoothBase,
-					id: 'order_status',
-					width: 1000,
-					height: 500,
-					xAxis: {
-						categories: tpl
-					},
-					plotCfg: {
-						margin: [50, 50, 80] //画板的边距
-					},
-					yAxis: {
-						min: 0
-					},
-					tooltip: {
-						shared: true
-					},
-					seriesOptions: {
-						columnCfg: {}
-					},
-					series: datas
-				});
-				chart.render();
-			}
-		},
-
-		ship_status: function() {
+		//配送方式
+		ship_status: function () {
 			var dataset = [];
 			var ticks = [];
 			var tpl = [];
-			var elem = $('#ship_status');
-
 			if (data == 'null') {
 				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>" + js_lang.no_stats_data + "<\/div>";
 				$("#ship_status").append(nodata);
 			} else {
-				$.each(JSON.parse(data), function(key, value) {
+				$.each(JSON.parse(data), function (key, value) {
 					tpl.push(parseInt(value.order_num));
 					dataset.push(value.ship_name);
 				});
-				var chart = new AChart({
-					theme: AChart.Theme.SmoothBase,
-					id: 'ship_status',
-					width: 1000,
-					height: 500,
-					plotCfg: {
-						margin: [50, 50, 50] //画板的边距
-					},
+				
+				var shipStatusChart = echarts.init(document.getElementById('ship_status'));
+
+				option = {
+					color: ['#6DCEEE'],
 					xAxis: {
-						categories: dataset,
+						type: 'category',
+						data: dataset
 					},
 					yAxis: {
-						min: 0
-					},
-					seriesOptions: { //设置多个序列共同的属性
-						/*columnCfg : { //公共的样式在此配置
-                      
-                		}*/
+						type: 'value'
 					},
 					tooltip: {
-						pointRenderer: function(point) {
-							return point.yValue;
-						}
+						show: "true",
+						trigger: 'item',
+						backgroundColor: 'rgba(0,0,0,0.7)',
+						padding: [8, 10],
+						extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);',
+						formatter: function (params) {
+							if (params.seriesName != "") {
+								return '订单数量' + ' ：  ' + params.value;
+							}
+						},
 					},
-					legend: null,
+					grid: {
+				        left: '2%',
+				        right: '2%',
+				        bottom: '5%',
+				        top: '5%',
+				        containLabel: true
+				    },
 					series: [{
-						name: js_lang.number,
-						type: 'column',
 						data: tpl,
+						type: 'bar',
+						barWidth: '80px',
 					}]
+				};
+
+				shipStatusChart.setOption(option);
+				
+				window.addEventListener("resize", function() { 
+					shipStatusChart.resize();  
 				});
-				chart.render();
 			}
+			app.chart.order_type();
 		},
 
-		ship_stats: function() {
-			var dataset = [];
-			var datas = [];
-			var elem = $('#ship_stats');
-
-			if (data == 'null') {
-				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>" + js_lang.no_stats_data + "<\/div>";
-				$("#ship_stats").append(nodata);
-			} else {
-				var tpl = [];
-				$.each(JSON.parse(data), function(key, val) {
-					var ticks = [];
-					var categories = [];
-					$.each(val, function(k, v) {
-						ticks.push(parseInt(v));
-						categories.push(k);
-					});
-					datas.push({
-						name: key,
-						data: ticks,
-					});
-					tpl = categories;
-				});
-				var chart = new AChart({
-					theme: AChart.Theme.SmoothBase,
-					id: 'ship_stats',
-					width: 1000,
-					height: 500,
-					xAxis: {
-						categories: tpl
-					},
-					plotCfg: {
-						margin: [50, 50, 80] //画板的边距
-					},
-					yAxis: {
-						min: 0
-					},
-					tooltip: {
-						shared: true
-					},
-					seriesOptions: {
-						columnCfg: {}
-					},
-					series: datas
-				});
-				chart.render();
-			}
-		},
-
-		pay_status: function() {
+		//支付方式
+		pay_status: function () {
 			var dataset = [];
 			var ticks = [];
 			var tpl = [];
-			var elem = $('#pay_status');
 			if (data == 'null') {
 				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>" + js_lang.no_stats_data + "<\/div>";
 				$("#pay_status").append(nodata);
 			} else {
-				$.each(JSON.parse(data), function(key, value) {
+				$.each(JSON.parse(data), function (key, value) {
 					tpl.push(parseInt(value.order_num));
 					dataset.push(value.pay_name);
 				});
-				var chart = new AChart({
-					theme: AChart.Theme.SmoothBase,
-					id: 'pay_status',
-					width: 1000,
-					height: 500,
-					plotCfg: {
-						margin: [50, 50, 50] //画板的边距
-					},
+				
+				var payStatusChart = echarts.init(document.getElementById('pay_status'));
+
+				option = {
+					color: ['#6DCEEE'],
 					xAxis: {
-						categories: dataset,
+						type: 'category',
+						data: dataset
 					},
 					yAxis: {
-						min: 0
-					},
-					seriesOptions: { //设置多个序列共同的属性
-						/*columnCfg : { //公共的样式在此配置
-							
-						}*/
+						type: 'value'
 					},
 					tooltip: {
-						pointRenderer: function(point) {
-							return point.yValue;
-						}
+						show: "true",
+						trigger: 'item',
+						backgroundColor: 'rgba(0,0,0,0.7)',
+						padding: [8, 10],
+						extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);',
+						formatter: function (params) {
+							if (params.seriesName != "") {
+								return '订单数量' + ' ：  ' + params.value;
+							}
+						},
 					},
-					legend: null,
+					grid: {
+				        left: '2%',
+				        right: '2%',
+				        bottom: '5%',
+				        top: '5%',
+				        containLabel: true
+				    },
 					series: [{
-						name: js_lang.number,
-						type: 'column',
 						data: tpl,
+						type: 'bar',
+						barWidth: '80px',
 					}]
+				};
+
+				payStatusChart.setOption(option);
+				
+				window.addEventListener("resize", function() { 
+					payStatusChart.resize();  
 				});
-				chart.render();
 			}
+			app.chart.order_type();
 		},
 
-		pay_stats: function() {
+		//订单类型
+		order_type: function () {
 			var dataset = [];
 			var ticks = [];
-			var datas = [];
-			var elem = $('#pay_stats');
-			if (data == 'null') {
+			var tpl = [];
+			if (order_stats_json == 'null') {
 				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>" + js_lang.no_stats_data + "<\/div>";
-				$("#pay_stats").append(nodata);
+				$("#order_type_chart").append(nodata);
 			} else {
-				$.each(JSON.parse(data), function(key, val) {
-					var ticks = [];
-					var categories = [];
-					$.each(val, function(k, v) {
-						ticks.push(parseInt(v));
-						categories.push(k);
-					});
-					datas.push({
-						name: key,
-						data: ticks,
-					});
-					tpl = categories;
-				});
-				var chart = new AChart({
-					theme: AChart.Theme.SmoothBase,
-					id: 'pay_stats',
-					width: 1000,
-					height: 500,
-					xAxis: {
-						categories: tpl
-					},
-					plotCfg: {
-						margin: [50, 50, 80] //画板的边距
-					},
-					yAxis: {
-						min: 0
-					},
+				dataset = JSON.parse(order_stats_json);
+				
+				var orderTypeChart = echarts.init(document.getElementById('order_type_chart'));
+				
+				option = {
+					backgroundColor: '#fff',
+					color: ['#91BE79', '#F0567D', '#4EB2C9', '#DF9D5E'],
 					tooltip: {
-						shared: true
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)"
 					},
-					seriesOptions: {
-						columnCfg: {}
+					legend: {
+						selectedMode: false,
+						bottom: 25,
+						data: ['配送', '团购', '到店', '自提']
 					},
-					series: datas
+					series: [{
+						tooltip: {
+			                trigger: 'item',
+			                formatter: "{b} : {c} ({d}%)"
+			            },
+						type: 'pie',
+						radius: '70%',
+						center: ['50%', '40%'],
+				        label: {
+				            normal: {
+				                position: 'inner',
+				                formatter: function(param) {
+				                    if (!param.percent) return ''
+				                    var f = Math.round(param.percent * 10) / 10;
+				                    var s = f.toString();
+				                    var rs = s.indexOf('.');
+				                    if (rs < 0) {
+				                        rs = s.length;
+				                        s += '.';
+				                    }
+				                    while (s.length <= rs + 1) {
+				                        s += '0';
+				                    }
+				                    return s + '%';
+				                },
+				                textStyle: {
+				                    color: '#fff',
+				                    fontSize: 12
+				                }
+				            }
+				        },
+						labelLine: {
+							normal: {
+								show: false
+							}
+						},
+						data: dataset
+					}]
+				};
+
+				orderTypeChart.setOption(option);
+				
+				window.addEventListener("resize", function() { 
+					orderTypeChart.resize();  
 				});
-				chart.render();
 			}
 		}
 	};

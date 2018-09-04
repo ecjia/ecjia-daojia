@@ -95,7 +95,7 @@ class delivery_module extends api_admin implements api_interface {
 function get_delivery_goods_list($delivery_id) {
     $goods_list = RC_DB::table('delivery_goods as dg')
     ->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
-    ->selectRaw('dg.goods_id, dg.goods_name, dg.send_number, dg.goods_attr, g.goods_thumb, g.shop_price, g.goods_img, g.original_img')
+    ->select(RC_DB::raw('dg.goods_id'), RC_DB::raw('dg.goods_name'), RC_DB::raw('dg.send_number'), RC_DB::raw('dg.goods_attr'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.shop_price'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))
     ->where(RC_DB::raw('dg.delivery_id'), $delivery_id)->get();
     
     $goods_items = array();

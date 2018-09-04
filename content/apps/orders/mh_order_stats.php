@@ -47,396 +47,664 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 订单统计
-*/
-class mh_order_stats extends ecjia_merchant {
-    private $db_order_info;
-    private $db_goods;
-    private $db_payment_view;
-    private $db_shipping_view;
-    private $db_orderinfo_view;
-    public function __construct() {
+ */
+class mh_order_stats extends ecjia_merchant
+{
+    public function __construct()
+    {
         parent::__construct();
         /* 加载所有全局 js/css */
+
+        RC_Loader::load_app_func('global', 'orders');
+
         RC_Script::enqueue_script('bootstrap-placeholder');
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');
         RC_Script::enqueue_script('smoke');
         RC_Script::enqueue_script('jquery-uniform');
         RC_Style::enqueue_style('uniform-aristo');
+
         //时间控件
         RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
-        /*加载自定义js*/
-        RC_Script::enqueue_script('acharts-min', RC_App::apps_url('statics/js/acharts-min.js', __FILE__), array('ecjia-merchant'), false, 1);
+
+        //百度图表
+        RC_Script::enqueue_script('echarts-min-js', RC_App::apps_url('statics/js/echarts.min.js', __FILE__));
+
         RC_Script::enqueue_script('order_stats', RC_App::apps_url('statics/js/merchant_order_stats.js', __FILE__), array('ecjia-merchant'), false, 1);
         RC_Script::enqueue_script('order_stats_chart', RC_App::apps_url('statics/js/merchant_order_stats_chart.js', __FILE__), array('ecjia-merchant'), false, 1);
+
         RC_Style::enqueue_style('orders-css', RC_App::apps_url('statics/css/merchant_orders.css', __FILE__));
         RC_Style::enqueue_style('stats-css', RC_App::apps_url('statics/css/merchant_stats.css', __FILE__));
-        RC_Loader::load_app_func('global', 'orders');
-        $this->db_order_info = RC_Loader::load_app_model('order_info_model', 'orders');
-        $this->db_goods = RC_Loader::load_app_model('goods_model', 'orders');
-        $this->db_payment_view = RC_Loader::load_app_model('payment_viewmodel', 'orders');
-        $this->db_shipping_view = RC_Loader::load_app_model('shipping_viewmodel', 'orders');
-        $this->db_orderinfo_view = RC_Loader::load_app_model('order_order_infogoods_viewmodel', 'orders');
+
+        RC_Script::localize_script('order_stats', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+        RC_Script::localize_script('order_stats_chart', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+
         ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'orders/mh_order_stats.php');
     }
     /**
      * 订单统计
      */
-    public function init() {
+    public function init()
+    {
         /* 判断权限 */
         $this->admin_priv('order_stats');
+
         /* 加载面包屑  */
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('报表统计', RC_Uri::url('stats/mh_keywords_stats/init')));
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单统计')));
+
         $this->assign('ur_here', '订单统计');
         $this->assign('action_link', array('text' => '订单统计报表下载', 'href' => RC_Uri::url('orders/mh_order_stats/download')));
-        /* 随机的颜色数组 */
-        $color_array = array('33FF66', 'FF6600', '3399FF', '009966', 'CC3399', 'FFCC33', '6699CC', 'CC3366');
-        /* 计算订单各种费用之和的语句 */
-        $total_fee = " SUM(" . order_amount_field() . ") AS total_turnover ";
-        /* 取得订单转化率数据 */
-        $order_general = $this->db_orderinfo_view->join('null')->field('COUNT(*) AS total_order_num , ' . $total_fee . '')->where(array('oi.store_id' => $_SESSION['store_id']))->find('1' . order_query_sql('finished') . '');
-        $order_general['total_turnover'] = floatval($order_general['total_turnover']);
-        /* 取得商品总点击数量 */
-        $click_count = $this->db_goods->where(array('is_delete' => 0, 'store_id' => $_SESSION['store_id']))->sum('click_count');
-        $click_count = floatval($click_count);
-        /* 每千个点击的订单数 */
-        $click_ordernum = $click_count > 0 ? round($order_general['total_order_num'] * 1000 / $click_count, 2) : 0;
-        /* 每千个点击的购物额 */
-        $click_turnover = $click_count > 0 ? round($order_general['total_turnover'] * 1000 / $click_count, 2) : 0;
-        /* 时区 */
-        $timezone = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : $GLOBALS['_CFG']['timezone'];
-        /* 时间参数 */
-        $is_multi = empty($_GET['is_multi']) ? false : true;
-        /* 时间参数 */
-        $start_date = !empty($_GET['start_date']) ? $_GET['start_date'] : RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('-6 days'));
-        $end_date = !empty($_GET['end_date']) ? $_GET['end_date'] : RC_Time::local_date('Y-m-d');
-        $this->assign('start_date', $start_date);
-        $this->assign('end_date', $end_date);
-        if (!empty($_GET['year_month'])) {
-            $filter = explode('.', $_GET['year_month']);
-            $arr = array_filter($filter);
-            $tmp = $arr;
-            for ($i = 0; $i < count($tmp); $i++) {
-                if (!empty($tmp[$i])) {
-                    $tmp_time = RC_Time::local_strtotime($tmp[$i] . '-1');
-                    $start_date_arr[$i] = $tmp_time;
-                }
-            }
-        } else {
-            $tmp_time = RC_Time::local_strtotime(RC_Time::local_date('Y-m-d'));
-            $start_date_arr[] = RC_Time::local_strtotime(RC_Time::local_date('Y-m') . '-1');
+
+        $store_id = $_SESSION['store_id'];
+        //获取订单统计信息
+        $order_stats = $this->get_order_stats($store_id);
+        $this->assign('order_stats', $order_stats);
+        $this->assign('order_stats_json', json_encode($order_stats['type']));
+
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year_list = [];
+        for ($i = 0; $i < 6; $i++) {
+            $year_list[] = ($current_year - $i);
         }
-        for ($i = 0; $i < 4; $i++) {
-            if (isset($start_date_arr[$i])) {
-                $start_date_arr[$i] = RC_Time::local_date('Y-m', $start_date_arr[$i]);
-            } else {
-                $start_date_arr[$i] = null;
-            }
+        $month_list = [];
+        for ($i = 12; $i > 0; $i--) {
+            $month_list[] = $i;
         }
-        $this->assign('start_date_arr', $start_date_arr);
-        $this->assign('order_general', $order_general);
-        $this->assign('total_turnover', price_format($order_general['total_turnover']));
-        $this->assign('click_count', $click_count);
-        // 商品总点击数
-        $this->assign('click_ordernum', $click_ordernum);
-        // 每千点订单数
-        $this->assign('click_turnover', price_format($click_turnover));
-        //每千点购物额
-        $this->assign('is_multi', $is_multi);
-        $this->assign('year_month', $_GET['year_month']);
-        
-        $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
-        if (empty($type)) {
-        	if (!$is_multi) {
-        		$data = $this->get_order_general();
-        	} else {
-        		$data = $this->get_order_status();
-        	}
-        } else {
-        	if (!$is_multi) {
-        		$data = $this->get_ship_status();
-        	} else {
-        		$data = $this->get_ship_stats();
-        	}
-        }
+        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        $this->assign('year_list', $year_list);
+        $this->assign('month_list', $month_list);
+        $this->assign('year', $year);
+        $this->assign('month', $month);
+        $this->assign('page', 'init');
+
+        $this->assign('form_action', RC_Uri::url('orders/mh_order_stats/init'));
+
+        $data = $this->get_order_general($store_id);
         $this->assign('data', $data);
-        $this->assign_lang();
+
         $this->display('order_stats.dwt');
     }
-    /**
-     * 订单统计-订单概况 ajax
-     */
-    private function get_order_general() {
-        /* 判断权限 */
-        $this->admin_priv('order_stats', ecjia::MSGTYPE_JSON);
-        $is_multi = empty($_GET['is_multi']) ? false : true;
-        if (!$is_multi) {
-            /*时间参数*/
-            $start_date = !empty($_GET['start_date']) ? RC_Time::local_strtotime($_GET['start_date']) : RC_Time::local_strtotime(RC_Time::local_date('Y-m-d')) - 86400 * 6;
-            $end_date = !empty($_GET['end_date']) ? RC_Time::local_strtotime($_GET['end_date']) : RC_Time::local_strtotime(RC_Time::local_date('Y-m-d'));
-            $order_info = $this->get_orderinfo($start_date, $end_date);
-            if ($order_info) {
-                foreach ($order_info as $k => $v) {
-                    if ($k == 'unconfirmed_num') {
-                        $order_info['未确认订单'] = $order_info['unconfirmed_num'];
-                        unset($order_info['unconfirmed_num']);
-                    } elseif ($k == 'confirmed_num') {
-                        $order_info['已确认订单'] = $order_info['confirmed_num'];
-                        unset($order_info['confirmed_num']);
-                    } elseif ($k == 'succeed_num') {
-                        $order_info['已完成订单'] = $order_info['succeed_num'];
-                        unset($order_info['succeed_num']);
-                    } elseif ($k == 'invalid_num') {
-                        $order_info['已取消订单'] = $order_info['invalid_num'];
-                        unset($order_info['invalid_num']);
-                    }
-                }
-            }
-            return json_encode($order_info);
-        }
-    }
-    /**
-     * 月份 获取订单走势数据
-     */
-    private function get_order_status() {
-        /* 判断权限 */
-        $this->admin_priv('order_stats', ecjia::MSGTYPE_JSON);
-        if (!empty($_GET['year_month'])) {
-            $filter = explode('.', $_GET['year_month']);
-            $arr = array_filter(json_decode(json_encode($filter), true));
-            $tmp = $arr;
-            for ($i = 0; $i < count($tmp); $i++) {
-                if (!empty($tmp[$i])) {
-                    $tmp_time = RC_Time::local_strtotime($tmp[$i] . '-1');
-                    $start_date_arr[$i] = $tmp_time;
-                    $end_date_arr[$i] = RC_Time::local_strtotime('+1 month', strtotime($tmp[$i] . '-1')) - 1;
-                }
-            }
-            $where = '';
-            foreach ($start_date_arr as $key => $val) {
-                $order_info[RC_Time::local_date('Y-m', $start_date_arr[$key])] = $this->get_orderinfo($start_date_arr[$key], $end_date_arr[$key], false);
-            }
-            foreach ($order_info as $k => $v) {
-                foreach ($v as $k1 => $v1) {
-                    if ($k1 == 'unconfirmed_num') {
-                        $arr1['未确认订单'][$k] = $v1;
-                        unset($arr1['unconfirmed_num']);
-                    } elseif ($k1 == 'confirmed_num') {
-                        $arr1['已确认订单'][$k] = $v1;
-                        unset($arr1['confirmed_num']);
-                    } elseif ($k1 == 'succeed_num') {
-                        $arr1['已完成订单'][$k] = $v1;
-                        unset($arr1['succeed_num']);
-                    } elseif ($k1 == 'invalid_num') {
-                        $arr1['已取消订单'][$k] = $v1;
-                        unset($arr1['invalid_num']);
-                    }
-                }
-            }
-            $templateCounts = json_encode($arr1);
-            return $templateCounts;
-        }
-    }
-    /**
-     * 订单统计-配送方式 ajax
-     */
-    private function get_ship_status() {
-        /* 判断权限 */
-        $this->admin_priv('order_stats', ecjia::MSGTYPE_JSON);
-        $is_multi = empty($_GET['is_multi']) ? false : true;
-        if (!$is_multi) {
-            /*时间参数*/
-            $start_date = !empty($_GET['start_date']) ? RC_Time::local_strtotime($_GET['start_date']) : RC_Time::local_strtotime(RC_Time::local_date('Y-m-d'), '-6 days');
-            $end_date = !empty($_GET['end_date']) ? RC_Time::local_strtotime($_GET['end_date']) + 86399 : RC_Time::local_strtotime(RC_Time::local_date('Y-m-d')) + 86399;
-            $where = "i.store_id= " . $_SESSION['store_id'] . " AND i.add_time >= '{$start_date}' AND i.add_time <= '{$end_date}'" . order_query_sql('finished') . ' ';
-            $where .= " AND i.is_delete = 0";
-           
-            // $ship_info = $this->db_shipping_view->field('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
 
-            $ship_info = RC_DB::table('shipping as sp')
-                ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
-                ->whereRaw($where)
-                ->selectRaw('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')
-                ->groupBy(RC_DB::raw('i.shipping_id'))
-                ->orderBy('order_num', 'desc')
-                ->get();
-
-            if ($ship_info) {
-                foreach ($ship_info as $k => $v) {
-                    $new_ship_info[$v['ship_name']] = (int) $v['order_num'];
-                }
-            } else {
-                $new_ship_info['配送方式'] = 0;
-            }
-            return json_encode($new_ship_info);
-        }
-    }
     /**
-     * 按月 查询获取配送方式数据
+     * 订单统计 - 配送方式
      */
-    private function get_ship_stats() {
-        /* 判断权限 */
-        $this->admin_priv('order_stats', ecjia::MSGTYPE_JSON);
-        if (!empty($_GET['year_month'])) {
-            $filter = explode('.', $_GET['year_month']);
-            $arr = array_filter(json_decode(json_encode($filter), true));
-            $tmp = $arr;
-            for ($i = 0; $i < count($tmp); $i++) {
-                if (!empty($tmp[$i])) {
-                    $tmp_time = RC_Time::local_strtotime($tmp[$i] . '-1');
-                    $start_date_arr[$i] = $tmp_time;
-                    $end_date_arr[$i] = RC_Time::local_strtotime('+1 month', $tmp_time) - 1;
-                }
-            }
-            $format_start_date = array();
-            foreach ($start_date_arr as $key => $val) {
-                $order_info[RC_Time::local_date('Y-m', $start_date_arr[$key])] = $this->get_orderinfo($start_date_arr[$key], $end_date_arr[$key], false);
-                $format_start_date[$key] = RC_Time::local_date('Y-m', $start_date_arr[$key]);
-            }
-            //查询所有配送方式
-            foreach ($start_date_arr as $key => $val) {
-                $where = "i.add_time >= '{$start_date_arr[$key]}' AND i.add_time <= '{$end_date_arr[$key]}'" . order_query_sql('finished') . ' AND i.store_id = ' . $_SESSION['store_id'];
-                // $ship_name[] = $this->db_shipping_view->field('DISTINCT sp.shipping_name AS ship_name')->where($where)->group('i.shipping_id')->select();
-                $ship_name[] = RC_DB::table('shipping as sp')
-                    ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
-                    ->whereRaw($where)
-                    ->selectRaw('DISTINCT sp.shipping_name AS ship_name')
-                    ->groupBy(RC_DB::raw('i.shipping_id'))
-                    ->get();
-            }
-            function array_get_by_key(array $array, $string) {
-                if (!trim($string)) {
-                    return false;
-                }
-                preg_match_all("/\"{$string}\";\\w{1}:(?:\\d+:|)(.*?);/", serialize($array), $res);
-                return $res[1];
-            }
-            $ship_name = array_get_by_key($ship_name, 'ship_name');
-            foreach ($ship_name as $key => &$ship_name_val) {
-                $ship_name_val = str_replace('"', '', $ship_name_val);
-            }
-            $ship_name = array_unique($ship_name);
-            //按月份查询数据
-            $ship_info = array();
-            foreach ($start_date_arr as $key => $val) {
-                $where = "i.add_time >= '{$start_date_arr[$key]}' AND i.add_time <= '{$end_date_arr[$key]}'" . order_query_sql('finished') . ' AND i.store_id = ' . $_SESSION['store_id'];
-                // $tmp = $this->db_shipping_view->field('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
+    public function shipping_status()
+    {
+        $this->admin_priv('order_stats');
 
-                $tmp = RC_DB::table('shipping as sp')
-                    ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
-                    ->whereRaw($where)
-                    ->selectRaw('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')
-                    ->groupBy(RC_DB::raw('i.shipping_id'))
-                    ->orderBy('order_num', 'desc')
-                    ->get();
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::statistic.order_stats')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+            'id' => 'overview',
+            'title' => RC_Lang::get('orders::statistic.overview'),
+            'content' => '<p>' . RC_Lang::get('orders::statistic.order_stats_help') . '</p>',
+        ));
 
-                $tmp[$key]['shipping_time'] = RC_Time::local_date('Y-m', $val);
-                $ship_info[RC_Time::local_date('Y-m', $start_date_arr[$key])] = $tmp;
-            }
-            //组装数据
-            $format_ship_info = array();
-            if ($ship_name) {
-                foreach ($ship_name as $v_ship_name) {
-                    foreach ($format_start_date as $k2 => $v2) {
-                        foreach ($ship_info as $k3 => $v3) {
-                            if ($k3 == $format_start_date[$k2]) {
-                                if ($v3) {
-                                    foreach ($v3 as $k4 => $v4) {
-                                        if ($v4['ship_name'] == $v_ship_name) {
-                                            $format_ship_info[$v_ship_name][$format_start_date[$k2]] = $v4['order_num'];
-                                        }
-                                    }
-                                } else {
-                                    $format_ship_info[$v_ship_name][$format_start_date[$k2]] = 0;
-                                }
-                            }
-                        }
-                    }
-                }
-                foreach ($format_ship_info as $k3 => &$v3) {
-                    foreach ($v3 as $k4 => &$v4) {
-                        foreach ($format_start_date as $k2 => $v2) {
-                            if ($k4 != $v2 && !isset($v3[$v2])) {
-                                $v3[$v2] = 0;
-                            }
-                        }
-                    }
-                }
-            } else {
-                foreach ($format_start_date as $k => $v) {
-                    $format_ship_info['配送方式'][$v] = 0;
-                }
-            }
-            return json_encode($format_ship_info);
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . RC_Lang::get('orders::statistic.more_info') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E9.85.8D.E9.80.81.E6.96.B9.E5.BC.8F" target="_blank">' . RC_Lang::get('orders::statistic.about_order_stats') . '</a>') . '</p>'
+        );
+
+        $this->assign('ur_here', '订单统计');
+        $this->assign('action_link', array('text' => '订单统计报表下载', 'href' => RC_Uri::url('orders/mh_order_stats/download')));
+
+        $store_id = $_SESSION['store_id'];
+        //获取订单统计信息
+        $order_stats = $this->get_order_stats($store_id);
+        $this->assign('order_stats', $order_stats);
+        $this->assign('order_stats_json', json_encode($order_stats['type']));
+
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year_list = [];
+        for ($i = 0; $i < 6; $i++) {
+            $year_list[] = ($current_year - $i);
         }
+        $month_list = [];
+        for ($i = 12; $i > 0; $i--) {
+            $month_list[] = $i;
+        }
+        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        $this->assign('store_id', $store_id);
+        $this->assign('year_list', $year_list);
+        $this->assign('month_list', $month_list);
+        $this->assign('year', $year);
+        $this->assign('month', $month);
+        $this->assign('page', 'shipping_status');
+
+        $this->assign('form_action', RC_Uri::url('orders/mh_order_stats/shipping_status'));
+
+        $data = $this->get_ship_status($store_id);
+        $this->assign('data', $data);
+
+        $this->display('order_stats.dwt');
     }
+
+    /**
+     * 订单统计 - 支付方式
+     */
+    public function pay_status()
+    {
+        $this->admin_priv('order_stats');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::statistic.order_stats')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+            'id' => 'overview',
+            'title' => RC_Lang::get('orders::statistic.overview'),
+            'content' => '<p>' . RC_Lang::get('orders::statistic.order_stats_help') . '</p>',
+        ));
+
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . RC_Lang::get('orders::statistic.more_info') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E6.94.AF.E4.BB.98.E6.96.B9.E5.BC.8F" target="_blank">' . RC_Lang::get('orders::statistic.about_order_stats') . '</a>') . '</p>'
+        );
+
+        $this->assign('ur_here', '订单统计');
+        $this->assign('action_link', array('text' => '订单统计报表下载', 'href' => RC_Uri::url('orders/mh_order_stats/download')));
+
+        $store_id = $_SESSION['store_id'];
+        //获取订单统计信息
+        $order_stats = $this->get_order_stats($store_id);
+        $this->assign('order_stats', $order_stats);
+        $this->assign('order_stats_json', json_encode($order_stats['type']));
+
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year_list = [];
+        for ($i = 0; $i < 6; $i++) {
+            $year_list[] = ($current_year - $i);
+        }
+        $month_list = [];
+        for ($i = 12; $i > 0; $i--) {
+            $month_list[] = $i;
+        }
+        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        $this->assign('store_id', $store_id);
+        $this->assign('year_list', $year_list);
+        $this->assign('month_list', $month_list);
+        $this->assign('year', $year);
+        $this->assign('month', $month);
+        $this->assign('page', 'pay_status');
+
+        $this->assign('form_action', RC_Uri::url('orders/mh_order_stats/pay_status'));
+
+        $data = $this->get_pay_status();
+        $this->assign('data', $data);
+
+        $this->display('order_stats.dwt');
+    }
+
     /**
      * 报表下载
      */
-    public function download() {
+    public function download()
+    {
         /* 判断权限 */
         $this->admin_priv('order_stats', ecjia::MSGTYPE_JSON);
-        /* 时间参数 */
-        $start_date = RC_Time::local_strtotime($_GET['start_date']);
-        $end_date = RC_Time::local_strtotime($_GET['end_date']);
-        /*文件名*/
-        $filename = RC_Lang::get('orders::statistic.order_statement') . '_' . $_GET['start_date'] . '至' . $_GET['end_date'];
+
+        $store_id = $_SESSION['store_id'];
+
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        if (empty($month)) {
+            $smonth = 1;
+            $emonth = 12;
+        } else {
+            $smonth = $month;
+            $emonth = $month;
+        }
+        $start_time = $year . '-' . $smonth . '-1 00:00:00';
+        $em = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+
+        $start_date = RC_Time::local_strtotime($start_time);
+        $end_date = RC_Time::local_strtotime($end_time);
+
+        $filename = RC_Lang::get('orders::statistic.order_statement');
+        if (!empty($start_time) && !empty($end_time)) {
+            $filename .= '_' . $start_time . '至' . $end_time;
+        }
+		
+        $order_stats = $this->get_order_stats($store_id);
         
-        header("Content-type: application/vnd.ms-excel; charset=utf-8");
-        header("Content-Disposition: attachment; filename=$filename.xls");
+        $count_key = array('await_pay_count', 'await_ship_count', 'shipped_count', 'returned_count', 'canceled_count', 'finished_count');
+        $data_key = array('order_count_data', 'groupbuy_count_data', 'storebuy_count_data', 'storepickup_count_data');
+        $order_stats['order_count_data']['title'] = '配送型订单';
+        $order_stats['groupbuy_count_data']['title'] = '团购型订单';
+        $order_stats['storebuy_count_data']['title'] = '到店型订单';
+        $order_stats['storepickup_count_data']['title'] = '自提型订单';
         
-        /* 订单概况 */
-        $order_info = $this->get_orderinfo($start_date, $end_date);
-        
-        $data = RC_Lang::get('orders::statistic.order_circs') . "\n";
-        $data .= RC_Lang::get('orders::statistic.confirmed') . "\t" . RC_Lang::get('orders::statistic.succeed') . "\t" . RC_Lang::get('orders::statistic.unconfirmed') . "\t" . RC_Lang::get('orders::statistic.invalid') . "\n";
-        $data .= $order_info[confirmed_num] . "\t" . $order_info[succeed_num] . "\t" . $order_info[unconfirmed_num] . "\t" . $order_info[invalid_num] . "\n";
-        /* 配送方式 */
-        $where = 'i.add_time >= ' . $start_date . ' AND i.add_time <= ' . $end_date . '' . order_query_sql('finished') . ' AND i.store_id = ' . $_SESSION['store_id'];
-        // $ship_res = $this->db_shipping_view->field('sp.shipping_id, sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')->where($where)->group('i.shipping_id')->order(array('order_num' => 'DESC'))->select();
-        
-        $ship_res = RC_DB::table('shipping as sp')
+        $count_arr = $count_data_arr = [];
+        foreach ($order_stats as $k => $v) {
+        	if (in_array($k, $count_key)) {
+        		$count_arr[] = $v;
+        	}
+        	if (in_array($k, $data_key)) {
+        		$count_data_arr[$k]['title'] = $order_stats[$k]['title'];
+        		$count_data_arr[$k]['order_count'] = $order_stats[$k]['order_count'];
+        		$count_data_arr[$k]['total_fee'] = $order_stats[$k]['total_fee'];
+        	}
+        }
+
+        RC_Excel::load(RC_APP_PATH . 'orders' . DIRECTORY_SEPARATOR .'statics/files/merchant_orders_stats.xls', function($excel) use ($count_arr, $count_data_arr) {
+        	$excel->sheet('First sheet', function($sheet) use ($count_arr, $count_data_arr) {
+        		$sheet->appendRow(2, $count_arr);
+        		$i = 5;
+        		foreach ($count_data_arr as $k => $v) {
+        			$sheet->appendRow($i, $v);
+        			$i++;
+        		}
+        	});
+        })->download('xls');
+    }
+
+    /**
+     * 获取订单统计信息
+     * @return    $arr 订单统计信息
+     */
+    private function get_order_stats($store_id = 0)
+    {
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        if (empty($month)) {
+            $smonth = 1;
+            $emonth = 12;
+        } else {
+            $smonth = $month;
+            $emonth = $month;
+        }
+        $start_time = $year . '-' . $smonth . '-1 00:00:00';
+        $em = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+
+        $start_date = RC_Time::local_strtotime($start_time);
+        $end_date = RC_Time::local_strtotime($end_time);
+
+        $field = 'SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee';
+        //待付款订单总金额
+        $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+        $await_pay_count = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_UNCONFIRMED, OS_SPLITED))
+            ->where('pay_status', PS_UNPAYED)
+            ->where('pay_id', '!=', $pay_cod_id)
+            ->select(RC_DB::raw($field))
+            ->first();
+        $data['await_pay_count'] = price_format($await_pay_count['total_fee']);
+
+        //待发货订单总金额
+        $await_ship_count = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART))
+            ->where(function ($query) {
+                $query->whereIn('pay_status', array(PS_PAYED, PS_PAYING))
+                    ->orWhere('pay_id', $pay_cod_id);
+            })
+            ->whereIn('shipping_status', array(SS_UNSHIPPED, SS_PREPARING, SS_SHIPPED_ING))
+            ->select(RC_DB::raw($field))
+            ->first();
+        $data['await_ship_count'] = price_format($await_ship_count['total_fee']);
+
+        //已发货订单总金额
+        $shipped_count = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('order_status', '!=', OS_RETURNED)
+            ->where('shipping_status', SS_SHIPPED)
+            ->select(RC_DB::raw($field))
+            ->first();
+        $data['shipped_count'] = price_format($shipped_count['total_fee']);
+
+        //退货订单总金额
+        $returned_count = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('order_status', OS_RETURNED)
+            ->where('pay_status', PS_PAYED)
+            ->select(RC_DB::raw($field))
+            ->first();
+        $data['returned_count'] = price_format($returned_count['total_fee']);
+
+        //已取消订单总金额
+        $canceled_count = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CANCELED, OS_INVALID))
+            ->select(RC_DB::raw($field))
+            ->first();
+        $data['canceled_count'] = price_format($canceled_count['total_fee']);
+
+        //已完成订单总金额
+        $finished_count = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
+            ->where('shipping_status', SS_RECEIVED)
+            ->select(RC_DB::raw($field))
+            ->first();
+        $data['finished_count'] = price_format($finished_count['total_fee']);
+
+        //配送型订单数及总金额
+        $data['order_count_data'] = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
+            ->where('shipping_status', SS_RECEIVED)
+            ->where(function ($query) {
+                $query->where('extension_code', '')
+                    ->orWhere('extension_code', null);
+            })
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->first();
+
+        //团购型订单数及总金额
+        $data['groupbuy_count_data'] = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
+            ->where('shipping_status', SS_RECEIVED)
+            ->where('extension_code', 'group_buy')
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->first();
+
+        //到店型订单数及总金额
+        $data['storebuy_count_data'] = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
+            ->where('shipping_status', SS_RECEIVED)
+            ->where('extension_code', 'storebuy')
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->first();
+
+        //自提型订单数及总金额
+        $data['storepickup_count_data'] = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
+            ->where('shipping_status', SS_RECEIVED)
+            ->where('extension_code', 'storepickup')
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->first();
+        $data['count_all'] = $data['order_count_data']['order_count'] + $data['groupbuy_count_data']['order_count'] + $data['storebuy_count_data']['order_count'] + $data['storepickup_count_data']['order_count'];
+
+        $data['order_count_data']['total_fee'] = price_format($data['order_count_data']['total_fee']);
+        $data['groupbuy_count_data']['total_fee'] = price_format($data['groupbuy_count_data']['total_fee']);
+        $data['storebuy_count_data']['total_fee'] = price_format($data['storebuy_count_data']['total_fee']);
+        $data['storepickup_count_data']['total_fee'] = price_format($data['storepickup_count_data']['total_fee']);
+
+        $data['type'] = array(
+            array('name' => '配送', 'value' => $data['order_count_data']['order_count']),
+            array('name' => '团购', 'value' => $data['groupbuy_count_data']['order_count']),
+            array('name' => '到店', 'value' => $data['storebuy_count_data']['order_count']),
+            array('name' => '自提', 'value' => $data['storepickup_count_data']['order_count']),
+        );
+        return $data;
+    }
+
+    /**
+     * 订单概况
+     */
+    private function get_order_general($store_id)
+    {
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        if (empty($month)) {
+            $smonth = 1;
+            $emonth = 12;
+        } else {
+            $smonth = $month;
+            $emonth = $month;
+        }
+        $start_time = $year . '-' . $smonth . '-1 00:00:00';
+        $em = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+
+        $start_date = RC_Time::local_strtotime($start_time);
+        $end_date = RC_Time::local_strtotime($end_time);
+
+        $order_info = $this->get_orderinfo($start_date, $end_date, $store_id);
+
+        if (!empty($order_info)) {
+            foreach ($order_info as $k => $v) {
+                if ($k == 'await_pay_num') {
+                    $key = RC_Lang::get('orders::statistic.await_pay_order');
+                    $order_info[$key] = $order_info['await_pay_num'];
+                    unset($order_info['await_pay_num']);
+
+                } elseif ($k == 'await_ship_num') {
+                    $key = RC_Lang::get('orders::statistic.await_ship_order');
+                    $order_info[$key] = $order_info['await_ship_num'];
+                    unset($order_info['confirmed_num']);
+
+                } elseif ($k == 'shipped_num') {
+                    $key = RC_Lang::get('orders::statistic.shipped_order');
+                    $order_info[$key] = $order_info['shipped_num'];
+                    unset($order_info['shipped_num']);
+
+                } elseif ($k == 'returned_num') {
+                    $key = RC_Lang::get('orders::statistic.returned_order');
+                    $order_info[$key] = $order_info['returned_num'];
+                    unset($order_info['returned_num']);
+                } elseif ($k == 'canceled_num') {
+                    $key = RC_Lang::get('orders::statistic.canceled_order');
+                    $order_info[$key] = $order_info['canceled_num'];
+                    unset($order_info['canceled_num']);
+                } elseif ($k == 'finished_num') {
+                    $key = RC_Lang::get('orders::statistic.succeed_order');
+                    $order_info[$key] = $order_info['finished_num'];
+                    unset($order_info['finished_num']);
+                }
+            }
+            arsort($order_info);
+            foreach ($order_info as $k => $v) {
+                if ($order_info[RC_Lang::get('orders::statistic.await_pay_order')] == 0 && $order_info[RC_Lang::get('orders::statistic.await_ship_order')] == 0
+                    && $order_info[RC_Lang::get('orders::statistic.shipped_order')] == 0 && $order_info[RC_Lang::get('orders::statistic.returned_order')] == 0
+                    && $order_info[RC_Lang::get('orders::statistic.canceled_order')] == 0 && $order_info[RC_Lang::get('orders::statistic.succeed_order')] == 0) {
+                    $order_info = null;
+                } else {
+                    break;
+                }
+            }
+        }
+        $order_infos = json_encode($order_info);
+        return $order_infos;
+    }
+
+    /**
+     * 获取配送方式数据
+     */
+    private function get_ship_status()
+    {
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        if (empty($month)) {
+            $smonth = 1;
+            $emonth = 12;
+        } else {
+            $smonth = $month;
+            $emonth = $month;
+        }
+        $start_time = $year . '-' . $smonth . '-1 00:00:00';
+        $em = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+
+        $start_date = RC_Time::local_strtotime($start_time);
+        $end_date = RC_Time::local_strtotime($end_time);
+
+        $where = "i.add_time >= '$start_date' AND i.add_time <= '$end_date'" . order_query_sql('finished');
+
+        $ship_info = RC_DB::table('shipping as sp')
             ->leftJoin('order_info as i', RC_DB::raw('sp.shipping_id'), '=', RC_DB::raw('i.shipping_id'))
+            ->select(RC_DB::raw('sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num'))
             ->whereRaw($where)
-            ->selectRaw('sp.shipping_id, sp.shipping_name AS ship_name, COUNT(i.order_id) AS order_num')
-            ->groupBy(RC_DB::raw('i.shipping_id'))
-            ->orderBy('order_num', 'desc')
+            ->groupby(RC_DB::raw('i.shipping_id'))
+            ->orderby('order_num', 'desc')
             ->get();
 
-        $data .= "\n" . RC_Lang::get('orders::statistic.shipping_method') . "\n";
-        foreach ($ship_res as $val) {
-            $data .= $val['ship_name'] . "\t";
+        if (!empty($ship_info)) {
+            arsort($ship_info);
+        } else {
+            $ship_info = null;
         }
-        $data .= "\n";
-        foreach ($ship_res as $val) {
-            $data .= $val['order_num'] . "\t";
-        }
-        echo mb_convert_encoding($data . "\t", 'UTF-8', 'auto') . "\t";
-        exit;
+        $ship_infos = json_encode($ship_info);
+        return $ship_infos;
     }
+
+    /**
+     * 获取支付方式数据
+     */
+    private function get_pay_status()
+    {
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        if (empty($month)) {
+            $smonth = 1;
+            $emonth = 12;
+        } else {
+            $smonth = $month;
+            $emonth = $month;
+        }
+        $start_time = $year . '-' . $smonth . '-1 00:00:00';
+        $em = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+
+        $start_date = RC_Time::local_strtotime($start_time);
+        $end_date = RC_Time::local_strtotime($end_time);
+
+        $where = "i.add_time >= '$start_date' AND i.add_time <= '$end_date'" . order_query_sql('finished');
+
+        $pay_info = RC_DB::table('payment as p')
+            ->leftJoin('order_info as i', RC_DB::raw('p.pay_id'), '=', RC_DB::raw('i.pay_id'))
+            ->select(RC_DB::raw('i.pay_id, p.pay_name, COUNT(i.order_id) AS order_num'))
+            ->whereRaw($where)
+            ->groupby(RC_DB::raw('i.pay_id'))
+            ->orderby('order_num', 'desc')
+            ->get();
+
+        if (!empty($pay_info)) {
+            foreach ($pay_info as $key => $val) {
+                unset($pay_info[$key]['pay_id']);
+            }
+            arsort($pay_info);
+        } else {
+            $pay_info = null;
+        }
+        $pay_infos = json_encode($pay_info);
+        return $pay_infos;
+    }
+
     /**
      * 取得订单概况数据(包括订单的几种状态)
      * @param       $start_date    开始查询的日期
      * @param       $end_date      查询的结束日期
      * @return      $order_info    订单概况数据
      */
-    private function get_orderinfo($start_date, $end_date, $is_edit_end_date = true) {
-        if ($is_edit_end_date) {
-            $end_date += 86399;
-        }
+    private function get_orderinfo($start_date, $end_date, $store_id = 0)
+    {
         $order_info = array();
-        $where = "oi.store_id = " . $_SESSION['store_id'] . " AND oi.add_time >= " . $start_date . " AND oi.add_time <= " . $end_date;
-        $where .= ' AND oi.is_delete = 0';
-        /* 未确认订单数 */
-        $order_info['unconfirmed_num'] = $this->db_orderinfo_view->field('COUNT(*) AS unconfirmed_num')->where($where . " AND oi.order_status = '" . OS_UNCONFIRMED . "'")->count('DISTINCT order_sn|unconfirmed_num');
-        /* 已确认订单数 */
-        $order_info['confirmed_num'] = $this->db_orderinfo_view->field('COUNT(*) AS confirmed_num')->where($where . " AND oi.order_status = '" . OS_CONFIRMED . "' AND oi.shipping_status != " . SS_SHIPPED . " && oi.shipping_status != " . SS_RECEIVED . " AND oi.pay_status != " . PS_PAYED . " && pay_status != " . PS_PAYING)->count('DISTINCT order_sn|confirmed_num');
-        /* 已成交订单数 */
-        $order_info['succeed_num'] = $this->db_orderinfo_view->field('COUNT(*) AS succeed_num')->where($where . order_query_sql('finished'))->count('DISTINCT order_sn|succeed_num');
-        /* 无效或已取消订单数 */
-        $order_info['invalid_num'] = $this->db_orderinfo_view->field('COUNT(*) AS invalid_num')->where($where . " AND oi.order_status IN ('" . OS_CANCELED . "','" . OS_INVALID . "','" . OS_RETURNED . "') ")->count('DISTINCT order_sn|invalid_num');
+        /*待付款订单*/
+        $order_info['await_pay_num'] = RC_DB::table('order_info')
+            ->select(RC_DB::raw('COUNT(*) AS await_pay_num'))
+            ->where('pay_status', PS_UNPAYED)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->count();
+
+        /* 待发货订单数 */
+        $order_info['await_ship_num'] = RC_DB::table('order_info')
+            ->select(RC_DB::raw('COUNT(*) AS await_ship_num'))
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART))
+            ->whereIn('shipping_status', array(SS_UNSHIPPED, SS_PREPARING, SS_SHIPPED_ING))
+            ->whereIn('pay_status', array(PS_PAYED, PS_PAYING))
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->count();
+
+        /* 已发货订单数 */
+        $order_info['shipped_num'] = RC_DB::table('order_info')
+            ->select(RC_DB::raw('COUNT(*) AS shipped_num'))
+            ->where('shipping_status', SS_SHIPPED)
+            ->where('order_status', '!=', OS_RETURNED)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->count();
+
+        /* 退货订单数 */
+        $order_info['returned_num'] = RC_DB::table('order_info')
+            ->select(RC_DB::raw('COUNT(*) AS returned_num'))
+            ->where('pay_status', PS_PAYED)
+            ->where('order_status', OS_RETURNED)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->count();
+
+        /* 已取消订单数 */
+        $order_info['canceled_num'] = RC_DB::table('order_info')
+            ->select(RC_DB::raw('COUNT(*) AS canceled_num'))
+            ->whereIn('order_status', array(OS_CANCELED, OS_INVALID))
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->count();
+
+        /* 已完成订单数 */
+        $order_info['finished_num'] = RC_DB::table('order_info')
+            ->select(RC_DB::raw('COUNT(*) AS finished_num'))
+            ->where('shipping_status', SS_RECEIVED)
+            ->whereIn('pay_status', array(PS_PAYED, PS_PAYING))
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->count();
+
         return $order_info;
     }
 }

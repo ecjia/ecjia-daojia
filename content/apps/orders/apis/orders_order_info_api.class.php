@@ -76,7 +76,7 @@ class orders_order_info_api extends Component_Event_Api {
 	    $total_fee = " (goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee ";
 	    $order_id = intval($order_id);
 
-	    $db_order_info->selectRaw('*, '.$total_fee);
+	    $db_order_info->select(RC_DB::raw('*'), RC_DB::raw("(goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee"));
 	    if ($order_id > 0) {
 	        $db_order_info->where('order_id', $order_id);
 	    } else {

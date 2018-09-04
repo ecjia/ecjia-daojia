@@ -72,7 +72,7 @@ class detail_module  extends api_front implements api_interface {
 			->leftJoin('order_goods as og', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('og.order_id'))
 			->leftJoin('comment as c', RC_DB::raw('og.rec_id'), '=', RC_DB::raw('c.rec_id'))
 // 			->leftJoin('term_attachment as t', RC_DB::raw('c.comment_id'), '=', RC_DB::raw('t.object_id'))
-			->selectRaw($field)
+			->select(RC_DB::raw('oi.order_id'), RC_DB::raw('og.rec_id'), RC_DB::raw('og.goods_name'), RC_DB::raw('og.goods_id'), RC_DB::raw('og.goods_attr'), RC_DB::raw('og.goods_price'), RC_DB::raw('c.comment_id'), RC_DB::raw('c.content'), RC_DB::raw('c.comment_rank'), RC_DB::raw('c.has_image'), RC_DB::raw('c.is_anonymous'))
 			->where(RC_DB::raw('oi.user_id'), $user_id)
 			->where(RC_DB::raw('og.rec_id'), $rec_id)
 			->where(RC_DB::raw('c.parent_id'), 0)

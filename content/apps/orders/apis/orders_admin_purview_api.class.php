@@ -58,7 +58,7 @@ class orders_admin_purview_api extends Component_Event_Api {
             array('action_name' => RC_Lang::get('orders::order.order_ps_edit'), 'action_code' => 'order_ps_edit', 	'relevance' => ''),
             array('action_name' => RC_Lang::get('orders::order.order_os_edit'), 'action_code' => 'order_os_edit', 	'relevance' => ''),
             array('action_name' => RC_Lang::get('orders::order.order_edit'), 	'action_code' => 'order_edit', 		'relevance' => ''),
-            array('action_name' => RC_Lang::get('orders::order.order_view'), 	'action_code' => 'order_view', 		'relevance' => ''),
+            array('action_name' => RC_Lang::get('orders::order.order_manage'), 	'action_code' => 'order_manage', 	'relevance' => ''),
         		
             array('action_name' => RC_Lang::get('orders::order.order_view_finished'), 	'action_code' => 'order_view_finished', 'relevance' => ''),
             array('action_name' => RC_Lang::get('orders::order.repay_manage'), 			'action_code' => 'repay_manage', 		'relevance' => ''),

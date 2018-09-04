@@ -85,7 +85,7 @@ class record_module extends api_admin implements api_interface {
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
 		$field = 'tm.*, oi.*';
-		$order_result = $dbview->take($size)->skip($page_row->start_id - 1)->selectRaw($field)->orderBy(RC_DB::raw('oi.add_time'), 'desc')->get();
+		$order_result = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw('tm.*'), RC_DB::raw('oi.*'))->orderBy(RC_DB::raw('oi.add_time'), 'desc')->get();
 		
 		$order_list = array();
 		$pickup_status = 0;

@@ -435,7 +435,8 @@ function delivery_order($delivery_id, $order) {
 	$delivery_stock_result = RC_DB::table('delivery_goods as dg')
 		->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
 		->leftJoin('products as p', RC_DB::raw('dg.product_id'), '=', RC_DB::raw('p.product_id'))
-		->selectRaw('dg.goods_id, dg.is_real, dg.product_id, SUM(dg.send_number) AS sums, IF(dg.product_id > 0, p.product_number, g.goods_number) AS storage, g.goods_name, dg.send_number')
+        ->select(RC_DB::raw('dg.goods_id'), RC_DB::raw('dg.is_real'), RC_DB::raw('dg.product_id'), RC_DB::raw('SUM(dg.send_number) AS sums'), RC_DB::raw("IF(dg.product_id > 0, p.product_number, g.goods_number) AS storage"), RC_DB::raw('g.goods_name'), RC_DB::raw('dg.send_number'))
+
 		->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
 		->groupBy(RC_DB::raw('dg.product_id'))
 		->groupBy(RC_DB::raw('dg.goods_id'))
@@ -473,7 +474,7 @@ function delivery_order($delivery_id, $order) {
 
 		$delivery_stock_result = RC_DB::table('delivery_goods as dg')
 			->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
-			->selectRaw('dg.goods_id, dg.is_real, SUM(dg.send_number) AS sums, g.goods_number, g.goods_name, dg.send_number')
+			->select(RC_DB::raw('dg.goods_id'), RC_DB::raw('dg.is_real'), RC_DB::raw('SUM(dg.send_number) AS sums'), RC_DB::raw('g.goods_number'), RC_DB::raw('g.goods_name'), RC_DB::raw('dg.send_number'))
 			->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
 			->groupBy(RC_DB::raw('dg.goods_id'))
 			->get();
@@ -623,7 +624,7 @@ function delivery_order($delivery_id, $order) {
 		}
 		
 		/* 如果需要，发短信 */
-		$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+		$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->select('user_name', 'mobile_phone')->first();
 		if (!empty($userinfo['mobile_phone'])) {
 		    $order['invoice_no'] = $invoice_no;
 		    //发送短信

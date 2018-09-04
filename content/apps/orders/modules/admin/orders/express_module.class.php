@@ -99,7 +99,7 @@ class express_module extends api_admin implements api_interface {
 							->leftJoin('shipping as s', RC_DB::raw('s.shipping_code'), '=', RC_DB::raw('etr.express_code'))
 							->where(RC_DB::raw('express_code'), $shipping_info['shipping_code'])
 							->where(RC_DB::raw('track_number'), $val['invoice_no'])
-							->selectRaw('etr.track_number, etr.time, etr.context, s.shipping_code, s.shipping_name')->get();
+							->select(RC_DB::raw('etr.track_number'), RC_DB::raw('etr.time'), RC_DB::raw('etr.context'), RC_DB::raw('s.shipping_code'), RC_DB::raw('s.shipping_name'))->get();
 						/*商品*/
 						$delivery_goods = $delivery_goods_db->where(array('delivery_id' => $val['delivery_id']))->select();
 							

@@ -1,88 +1,111 @@
 // JavaScript Document
 ;
 (function (app, $) {
-    app.order_stats = {
-        init: function () {
-            app.order_stats.searchForm();
-            app.order_stats.selectForm();
-        },
-        
-        searchForm: function () {
-            $(".start_date,.end_date").datepicker({
-                format: "yyyy-mm-dd",
-                container : '.main_content',
-            });
-            
-            $('.screen-btn').on('click', function (e) {
-                e.preventDefault();
-                var start_date = $("input[name='start_date']").val(); //开始时间
-                var end_date = $("input[name='end_date']").val(); //结束时间
-                var url = $("form[name='searchForm']").attr('action'); //请求链接
-                if (start_date == 'undefind') start_date = '';
-                if (end_date == 'undefind') end_date = '';
-                if (url == 'undefind') url = '';
- 
-                if (start_date == '') {
-                    var data = {
-                        message: js_lang.start_time_required,
-                        state: "error",
-                    };
-                    ecjia.admin.showmessage(data);
-                    return false;
-                } else if (end_date == '') {
-                    var data = {
-                        message: js_lang.end_time_required,
-                        state: "error",
-                    };
-                    ecjia.admin.showmessage(data);
-                    return false;
-                };
- 
-                if (start_date >= end_date && (start_date != '' && end_date != '')) {
-                    var data = {
-                        message: js_lang.time_exceed,
-                        state: "error",
-                    };
-                    ecjia.admin.showmessage(data);
-                    return false;
-                } else {
-                    ecjia.pjax(url + '&start_date=' + start_date + '&end_date=' + end_date);
-                }
-            });
-        },
-        
-        selectForm: function () {
-            $(".year_month").datepicker({
-				format: "yyyy-mm",
-			    minViewMode: 1,
-                container : '.main_content',
-            });
-            $('.screen-btn1').on('click', function (e) {
-                e.preventDefault();
-                var url = $("form[name='selectForm']").attr('action'); //请求链接
-                var is_multi = $("input[name='is_multi']").val();
-                var year_month = "";
-                $("input[name=year_month]").each(function () {
-                    if ($(this).val()) {
-                        year_month += $(this).val() + '.';
-                    }
-                });
-                if (year_month == '') {
-                    var data = {
-                        message: js_lang.time_required,
-                        state: "error",
-                    };
-                    ecjia.admin.showmessage(data);
-                    return false;
-                }
-                if (year_month == 'undefind') year_month = '';
-                if (url == 'undefind') url = '';
-                if (is_multi == 'undefind') is_multi = '';
-                ecjia.pjax(url + '&year_month=' + year_month + '&is_multi=' + is_multi);
-            });
-        }
-    };
-    
+	app.order_stats = {
+		init: function () {
+			app.order_stats.searchForm();
+			app.order_stats.order_stats();
+		},
+
+		searchForm: function () {
+			$('.screen-btn').off('click').on('click', function (e) {
+				e.preventDefault();
+				var year = $("select[name='year']").val(); //开始时间
+				var month = $("select[name='month']").val(); //结束时间
+				var url = $("form[name='searchForm']").attr('action'); //请求链接
+
+				if (year == 0 || year == undefined) {
+					ecjia.admin.showmessage({
+						'state': 'error',
+						'message': '请选择年份'
+					});
+					return false;
+				}
+				url += '&year=' + year;
+
+				if (month != undefined && month != 0) {
+					url += '&month=' + month;
+				}
+				ecjia.pjax(url);
+			});
+
+			$('.search-btn').off('click').on('click', function (e) {
+				e.preventDefault();
+				var keywords = $("input[name='keywords']").val();
+				var url = $("form[name='searchForm']").attr('action'); //请求链接
+
+				if (keywords != '' && keywords != undefined) {
+					url += '&keywords=' + keywords;
+				}
+				ecjia.pjax(url);
+			});
+		},
+
+		order_stats: function () {
+			var dataset = [];
+			var ticks = [];
+			if (data.length == 0) {
+				$('.row-fluid-stats').css('display', 'none');
+			} else {
+				$.each(JSON.parse(data), function (key, value) {
+					if (key < 30) {
+						if (stats == 'valid_order') {
+							dataset.push(value.valid_order);
+						} else {
+							dataset.push(value.valid_amount);
+						}
+						ticks.push(value.merchants_name);
+					}
+				});
+				var orderStatsChart = echarts.init(document.getElementById('order_stats'));
+				var option = {
+					color: ['#6DCEEE'],
+					xAxis: {
+						type: 'category',
+						data: ticks
+					},
+					yAxis: {
+						type: 'value'
+					},
+					tooltip: {
+						show: "true",
+						trigger: 'item',
+						backgroundColor: 'rgba(0,0,0,0.7)',
+						padding: [8, 10],
+						extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);',
+						formatter: function (params) {
+							if (params.seriesName != "") {
+								if (stats == 'valid_order') {
+									return params.name + ' ：  ' + params.value + '单';
+								} else {
+									return params.name + ' ：  ' + '￥' + params.value;
+								}
+							}
+						},
+					},
+					grid: {
+						left: '2%',
+						right: '2%',
+						bottom: '5%',
+						top: '5%',
+						containLabel: true
+					},
+					series: [{
+						data: dataset,
+						type: 'bar',
+						barWidth: '32px',
+					}]
+				};
+
+				orderStatsChart.setOption(option);
+
+				window.addEventListener("resize", function () {
+					orderStatsChart.resize();
+				});
+			}
+		},
+	};
+
 })(ecjia.admin, jQuery);
- 
+
 // end

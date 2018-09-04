@@ -456,7 +456,7 @@ class admin_order_delivery extends ecjia_admin {
 			}
 			
 			/* 如果需要，发短信 */
-			$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->selectRaw('user_name, mobile_phone')->first();
+			$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->select('user_name', 'mobile_phone')->first();
 		
 			if (!empty($userinfo['mobile_phone'])) {
 			    //发送短信

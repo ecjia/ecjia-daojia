@@ -12,6 +12,7 @@
 			app.order.batchForm();
 			app.order.tooltip();
 			app.order.current_order();
+			app.order.showSearch();
 		},
 		tooltip : function(){
 			$('span').tooltip({
@@ -38,6 +39,73 @@
 					url += '&keywords=' + keywords;
 				}
 				ecjia.pjax(url);
+			});
+			$("form[name='advancedSearchForm']").on('submit', function (e) {
+				e.preventDefault();
+				var $this = $(this);
+				url = $this.attr('action'),
+					order_sn = $("input[name='order_sn']").val(),
+					start_time = $("input[name='start_time']").val(),
+					end_time = $("input[name='end_time']").val(),
+					composite_status = $("select[name='composite_status']").val(),
+					shipping_id = $("select[name='shipping_id']").val(),
+					pay_id = $("select[name='pay_id']").val(),
+					referer = $("select[name='referer']").val(),
+					goods_keywords = $("input[name='goods_keywords']").val(),
+					consignee = $("input[name='consignee']").val(),
+					mobile = $("input[name='mobile']").val();
+				if (order_sn != '') {
+					url += '&order_sn=' + order_sn;
+				}
+				if (start_time != '') {
+					url += '&start_time=' + start_time;
+				}
+				if (end_time != '') {
+					url += '&end_time=' + end_time;
+				}
+				if (composite_status != '') {
+					url += '&composite_status=' + composite_status;
+				}
+				if (shipping_id != '') {
+					url += '&shipping_id=' + shipping_id;
+				}
+				if (pay_id != '') {
+					url += '&pay_id=' + pay_id;
+				}
+				if (referer != '') {
+					url += '&referer=' + referer;
+				}
+				if (pay_id != '') {
+					url += '&pay_id=' + pay_id;
+				}
+				if (goods_keywords != '') {
+					url += '&goods_keywords=' + goods_keywords;
+				}
+				if (consignee != '') {
+					url += '&consignee=' + consignee;
+				}
+				if (mobile != '') {
+					url += '&mobile=' + mobile;
+				}
+				if (start_time != '' && end_time != '') {
+					if (start_time >= end_time) {
+						ecjia.merchant.showmessage({
+							'state': 'error',
+							'message': '下单开始时间不能大于或等于结束时间'
+						});
+						return false;
+					}
+				}
+				url += '&show_search=1';
+				ecjia.pjax(url);
+			});
+			//重置
+			$('.btn-reset').off('click').on('click', function () {
+				$('.search-form').find("input[type='text']").val("");
+				$('.search-form').find('select').each(function() {
+					$(this).find('option').eq('').prop("selected", true);
+				})
+				$('.search-form').find('select').trigger("liszt:updated");
 			});
 		},
 		batch_print : function() {
@@ -295,6 +363,11 @@
 			app.order.operatesubmit();
 			app.order.batchForm();
 			app.order.toggle_view();
+			app.order.unconfirmForm();
+			app.order.ship_form();
+			app.order.change_shipping();
+			app.order.showCode();
+			app.order.confirm_validate();
 		},
 		
 		//商家进行退款
@@ -354,7 +427,6 @@
 				  			'merchant_action_note':merchant_action_note,
 				  	 };
 				}
-				console.log(option);
 			    $.post(url, option, function (data) {
 			         if (data.state == 'success') {
 						$('#actionmodal').modal('hide');
@@ -460,6 +532,109 @@
 				});
 			});
 		},
+		
+		unconfirmForm: function() {
+			var $this = $("form[name='unconfirm_form']");
+			var option = {	 
+				rules : {
+					unconfirm_reason : {required : true},
+				},
+				messages : {
+					unconfirm_reason : {required : "请填写拒绝原因", min: 1},
+				},
+				submitHandler:function(){
+					$this.ajaxSubmit({
+						dataType:"json",
+						success:function(data){
+							$('#unconfirmmodal').modal('hide');
+							ecjia.merchant.showmessage(data);
+						}
+					});
+				}
+			}
+			var options = $.extend(ecjia.merchant.defaultOptions.validate, option);
+			$this.validate(options);
+		},
+		
+		ship_form: function() {
+			$('#shipmodal-btn').off('click').on('click', function() {
+				var action_note = $('.action_note').val();
+				if (action_note != '' && action_note != undefined) {
+					$("form[name='ship_form']").find('input[name="action_note"]').val(action_note);
+				} else {
+					$("form[name='ship_form']").find('input[name="action_note"]').val('');
+				}
+			});
+			var $this = $("form[name='ship_form']");
+			var option = {	 
+				rules : {
+					shipping_id : {required : true},
+					invoice_no : {required : true},
+				},
+				messages : {
+					shipping_id : {required : "请选择配送方式", min: 1},
+					invoice_no: {required : "请填写运单编号"},
+				},
+				submitHandler:function(){
+					
+					$this.ajaxSubmit({
+						dataType:"json",
+						success:function(data){
+							$('#shipmodal').modal('hide');
+							ecjia.merchant.showmessage(data);
+						}
+					});
+				}
+			}
+			var options = $.extend(ecjia.merchant.defaultOptions.validate, option);
+			$this.validate(options);
+		},
+		
+		change_shipping: function() {
+			$('select[name="shipping_id"]').on('change', function() {
+				var $this = $(this),
+					code = $this.find('option:selected').attr('data-code');
+				if (code == 'ship_ecjia_express' || code == 'ship_o2o_express' || code == undefined) {
+					$('#shipmodal').find('.invoice-no-group').addClass('hide');
+				} else {
+					$('#shipmodal').find('.invoice-no-group').removeClass('hide');
+				}
+			});
+		},
+
+		showCode: function() {
+			$('.show_meta_value').off('click').on('click', function() {
+				var $this = $(this).parent(),
+					normal_value = $this.attr('data-val'),
+					enc_value = $this.attr('data-enc'),
+					$i = $this.children('i'),
+					$span = $this.children('span');
+
+				if ($i.hasClass('fa-eye')) {
+					$span.text(normal_value);
+					$i.removeClass('fa-eye').addClass('fa-eye-slash');
+				} else {
+					$span.text(enc_value);
+					$i.addClass('fa-eye').removeClass('fa-eye-slash');
+				}
+			});
+		},
+		
+		confirm_validate: function() {
+			$('.confirm_validate').off('click').on('click', function () {
+				var $this = $(this),
+					url = $this.attr('data-url'),
+					refresh_url = $this.attr('data-refresh'),
+					order_id = $('input[name="order_id"]').val();
+
+				$.post(url, {order_id: order_id}, function(data) {
+					ecjia.pjax(refresh_url, function() {
+						ecjia.merchant.showmessage(data);
+					})
+				});
+			});
+		},
+		
 		//以下为添加与编辑订单
 		addedit : function() {
 			$(":radio").click(function(){
@@ -1007,6 +1182,27 @@
                }, 'json');
            });
        },
+       
+		showSearch: function () {
+			$(".date").datepicker({
+				format: "yyyy-mm-dd",
+			});
+
+			$('.show_order_search').off('click').on('click', function () {
+				if ($('.ecjia-order-search').hasClass('display-none')) {
+					$('.ecjia-order-search').stop(true).slideDown('slow', 'easeOutQuint');
+					$('.ecjia-order-search').removeClass('display-none');
+				} else {
+					$('.ecjia-order-search').stop(true).slideUp('slow', 'easeInQuart');
+					$('.ecjia-order-search').addClass('display-none');
+					$('.nav.nav-pills').find('li a').each(function() {
+						var $this = $(this),
+							href = $this.attr('data-href');
+						$this.attr('href', href);
+					});
+				}
+			});
+		},
 	};
 
 })(ecjia.merchant, jQuery);

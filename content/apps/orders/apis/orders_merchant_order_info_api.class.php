@@ -78,9 +78,13 @@ class orders_merchant_order_info_api extends Component_Event_Api {
 	    $total_fee = " (goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee ";
 	    $order_id = intval($order_id);
 	    if ($order_id > 0) {
-	        $order = RC_DB::table('order_info')->selectRaw('*,'.$total_fee)->where('order_id', $order_id)->where('is_delete', 0)->first();
+	        $order = RC_DB::table('order_info')
+	      		->select(RC_DB::raw('*'), RC_DB::raw("(goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee"))
+	        	->where('order_id', $order_id)->where('is_delete', 0)->first();
 	    } else {
-	        $order = RC_DB::table('order_info')->selectRaw('*,'.$total_fee)->where('order_sn', $order_sn)->where('is_delete', 0)->first();
+	        $order = RC_DB::table('order_info')
+	        	->select(RC_DB::raw('*'), RC_DB::raw("(goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee"))
+	        	->where('order_sn', $order_sn)->where('is_delete', 0)->first();
 	    }
 	    /* 格式化金额字段 */
 	    if ($order) {

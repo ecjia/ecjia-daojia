@@ -132,7 +132,7 @@ class orders_order_paid_api extends Component_Event_Api {
 	            /* 根据记录类型做相应处理 */
 	            if ($pay_log['order_type'] == PAY_ORDER) {
 	                /* 取得订单信息 */
-	            	$order = RC_DB::table('order_info')->selectRaw('order_id, store_id, user_id, order_sn, consignee, address, tel, mobile, shipping_id, extension_code, extension_id, goods_amount, order_amount, add_time')
+	            	$order = RC_DB::table('order_info')->select('order_id', 'store_id', 'user_id', 'order_sn', 'consignee', 'address', 'tel', 'mobile', 'shipping_id', 'extension_code', 'extension_id', 'goods_amount', 'order_amount', 'add_time')
 						->where('order_id', $pay_log['order_id'])->first();
 	                
 	                $order_id = $order['order_id'];
@@ -149,72 +149,31 @@ class orders_order_paid_api extends Component_Event_Api {
 	                );
 	                RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
 	                
+	                //会员店铺消费过，记录为店铺会员TODO暂时不启用
+	                //if (!empty($order['user_id'])) {
+	                //	if (!empty($order['store_id'])) {
+	                //		RC_Loader::load_app_class('add_storeuser', 'user', false);
+	                //		add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
+	                //	}
+	                //}
+	                
 	                /* 记录订单操作记录 */
 	                order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, '', RC_Lang::get('orders::order.buyers'));
-	
-	                /* 支付流水记录*/
-// 	                $db = RC_DB::table('payment_record');
-// 	                $db->where('order_sn', $order['order_sn'])->where('trade_type', 'buy')->update(array('pay_time' => RC_Time::gmtime(), 'pay_status' => 1));
-	                
-	                RC_DB::table('order_status_log')->insert(array(
-		                'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
-		                'order_id'		=> $order_id,
-		                'message'		=> RC_Lang::get('orders::order.notice_merchant_message'),
-		                'add_time'		=> RC_Time::gmtime(),
-	                ));
-	                RC_DB::table('order_status_log')->insert(array(
-		                'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
-		                'order_id'		=> $order_id,
-		                'message'		=> '订单已通知商家，等待商家处理',
-		                'add_time'		=> RC_Time::gmtime(),
-	                ));
+	                //订单付款成功时
+	                OrderStatusLog::order_paid(array('order_id' => $order_id));
+	                //订单付款成功时同时通知商家
+	                OrderStatusLog::notify_merchant(array('order_id' => $order_id));
 	                
 	                /*门店自提，时发送提货验证码；*/
 	                if ($order['shipping_id'] > 0) {
-	                	$shipping_info = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->first();
-	                	if ($shipping_info['shipping_code'] == 'ship_cac') {
-	                		/*生成提货码*/
-	                		$db_term_meta = RC_DB::table('term_meta');
-	                		$max_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->max('meta_value');
-	                		
-	                		$max_code = $max_code ? ceil($max_code/10000) : 1000000;
-	                		$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
-	                		$meta_data = array(
-	                				'object_type'	=> 'ecjia.order',
-	                				'object_group'	=> 'order',
-	                				'object_id'		=> $order_id,
-	                				'meta_key'		=> 'receipt_verification',
-	                				'meta_value'	=> $code,
-	                		);
-	                		$db_term_meta->insert($meta_data);
-	                		
-	                		/*短信给用户发送收货验证码*/
-	                		$mobile = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('mobile_phone');
-	                		if (!empty($mobile)) {
-	                			
-	                			 
-	                			$options = array(
-	                					'mobile' => $mobile,
-	                					'event'	 => 'sms_order_pickup',
-	                					'value'  =>array(
-	                							'order_sn'  	=> $order['order_sn'],
-	                							'user_name' 	=> $order['consignee'],
-	                							'code'  		=> $code,
-	                							'service_phone' => ecjia::config('service_phone'),
-	                					),
-	                			);
-	                			RC_Api::api('sms', 'send_event_sms', $options);
-	                		}
-	                	}
+	                	Ecjia\App\Orders\SendPickupCode::send_pickup_code($order);
 	                }
 	           		
 	                /* 客户付款通知（默认通知店长）*/
 	                /* 获取店长的记录*/
-// 	                $devic_info = $staff_user = array();
 	                $staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
 	                
 	                if (!empty($staff_user)) {
-// 	                	$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $staff_user['user_id']));
 
 	                	$options = array(
 	                			'user_id'   => $staff_user['user_id'],
@@ -297,10 +256,6 @@ class orders_order_paid_api extends Component_Event_Api {
                         	'change_type'	=> ACT_SAVING
                         );
                         RC_Api::api('user', 'account_change_log', $options);
-                        
-//                         /* 支付流水记录*/
-//                         $db = RC_DB::table('payment_record');
-//                         $db->where('order_sn', $arr['order_sn'])->where('trade_type', 'deposit')->update(array('pay_time' => RC_Time::gmtime(), 'pay_status' => 1));
                     }
                 }
             }

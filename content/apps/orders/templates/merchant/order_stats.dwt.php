@@ -3,188 +3,206 @@
 <!-- {block name="footer"} -->
 <script type="text/javascript">
 	var data = '{$data}';
-	ecjia.merchant.order_stats.init();
-	{if $smarty.get.type neq 'shipping'}
-    	{if $is_multi eq ''}
-    	ecjia.merchant.chart.order_general();
-    	{else if $is_multi eq 1}
-    	ecjia.merchant.chart.order_status();
-    	{/if}
-    {else if $smarty.get.type eq 'shipping'}
-        {if $is_multi eq ''}
-        ecjia.merchant.chart.ship_status();
-    	{else if $is_multi eq 1}
-    	ecjia.merchant.chart.ship_stats();
-    	{/if}
+	var order_stats_json = '{$order_stats_json}';
+	ecjia.merchant.order_stats.init(); 
+	{if $page eq 'init'}
+	ecjia.merchant.chart.order_general(); 
+	{else if $page eq 'shipping_status'}
+	ecjia.merchant.chart.ship_status(); 
+	{else if $page eq 'pay_status'}
+	ecjia.merchant.chart.pay_status(); 
 	{/if}
 </script>
 <!-- {/block} -->
 
 <!-- {block name="home-content"} -->
-	<!-- 订单统计 -->
-	<div class="alert alert-info">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-		<strong>温馨提示：</strong>订单统计图表默认显示为按时间段查询
-	</div>
-	<div class="page-header">
-    	<div class="pull-left">
-    		<h2><!-- {if $ur_here}{$ur_here}{/if} --></h2>
-      	</div>
-      	<!-- {if !$is_multi} -->
-        	<!-- {if $action_link} -->
-        	<div class="pull-right">
-        	  <a class="btn btn-primary" id="sticky_a" href="{$action_link.href}&start_date={$start_date}&end_date={$end_date}"><i class="glyphicon glyphicon-download-alt"></i> {t}{$action_link.text}{/t}</a>
-        	</div>
-        	<!-- {/if} -->
-    	<!-- {/if} -->
-    	<div class="clearfix"></div>
-    </div>
-	<!-- <div class="row">
-        <div class="col-lg-12">
-            <section class="panel">
-				<table class="table table-striped">
-				    <thead>
-				        <th colspan="4">订单统计信息</th>
-				    </thead>
-					<tbody class="first-td-no-leftbd">
-						<tr>
-							<td align="right">{t}有效订单总金额：{/t}</td>
-							<td>{$total_turnover}</td>
-							<td align="right">{t}总点击数：{/t}</td>
-							<td>{$click_count}</td>
-						</tr>
-						
-						<tr>
-							<td align="right">{t}每千点击订单数：{/t}</td>
-							<td>{$click_ordernum}</td>
-							<td align="right">{t}每千点击购物额：{/t}</td>
-							<td>{$click_turnover}</td>
-						</tr>
-					</tbody>
-				</table>
-            </section>
-        </div>
-    </div> -->
-    <div class="row">
-      <div class="col-lg-12">
-          <section class="panel">
-              <header class="panel-heading">订单统计信息</header>
-              <div class="panel-body">
-                  <section id="unseen">
-                    <table class="table table-bordered table-striped table-condensed">
-    					<tbody class="first-td-no-leftbd">
-    						<tr>
-    							<td align="right" width="30%">{t}有效订单总金额：{/t}</td>
-    							<td width="20%">{$total_turnover}</td>
-    							<td align="right" width="30%">{t}总点击数：{/t}</td>
-    							<td width="20%">{$click_count}</td>
-    						</tr>
-    						<tr>
-    							<td align="right">{t}每千点击订单数：{/t}</td>
-    							<td>{$click_ordernum}</td>
-    							<td align="right">{t}每千点击购物额：{/t}</td>
-    							<td>{$click_turnover}</td>
-    						</tr>
-    					</tbody>
-                    </table>
-                  </section>
-              </div>
-          </section>
-      </div>
-  </div>
 
-  <div class="row">
-      <div class="col-lg-12">
-          <section class="panel">
-              <header class="panel-heading">
-                  <div class="form-group t_r">
-                    <form class="form-inline" action='{RC_Uri::url("orders/mh_order_stats/init", "{if $smarty.get.type}&type={$smarty.get.type}{/if}")}' method="post" name="searchForm">
-                        <span>按时间段查询：</span>
-                        <input type="text" class="form-control start_date w110" name="start_date" value="{$start_date}" placeholder="开始时间"/>
-                        <span>-</span>
-                        <input type="text" class="form-control end_date w110" name="end_date" value="{$end_date}" placeholder="结束时间"/>
-                        <input type="submit" name="submit" value="查询" class="btn btn-primary screen-btn" />
-                    </form>
-                  </div>
-                  <div>
-                    <form class="form-inline t_r" action='{RC_Uri::url("orders/mh_order_stats/init", "{if $smarty.get.type}&type={$smarty.get.type}{/if}")}' method="post" name="selectForm">
-            			<span>按月份查询：</span>
-            			<!-- {foreach from=$start_date_arr item=sta key=k} -->
-            				<input type="text" name="year_month" value="{$sta}" class="form-control year_month w110"/>
-            				 <!-- {if $k < 3} --><span class="">-</span><!-- {/if} -->
-            			<!-- {/foreach} -->
-        				<input type="hidden" name="is_multi" value="1" />
-            			<input type="submit" name="submit" value="查询" class="btn btn-primary screen-btn1" />
-        			</form>
-    			  </div>
-              </header>
-              
-              <div class="panel-body">
-                  <section id="unseen">
-                    <ul class="nav nav-tabs">
-    					<li {if $smarty.get.type neq 'shipping'}class="active"{/if}>
-    					<!-- {if $is_multi eq ''} -->
-    					<a href='{RC_Uri::url("orders/mh_order_stats/init","{if $start_date}&start_date={$start_date}{/if}{if $end_date}&end_date={$end_date}{/if}{if $is_multi}{/if}")}' class="data-pjax">{t}订单概况{/t}</a>
-    					<!-- {elseif $is_multi eq 1} -->
-    					<a href='{RC_Uri::url("orders/mh_order_stats/init","is_multi=1&year_month={$year_month}")}' class="data-pjax">{t}订单概况{/t}</a>
-    					<!-- {/if} -->
-    					</li>
-    					<li {if $smarty.get.type eq 'shipping'}class="active"{/if}>
-    					<!-- {if $is_multi eq ''} -->
-    					<a href='{RC_Uri::url("orders/mh_order_stats/init","&type=shipping{if $start_date}&start_date={$start_date}{/if}{if $end_date}&end_date={$end_date}{/if}{if $is_multi}&is_multi={$is_multi}{/if}")}' class="data-pjax">配送方式</a>
-    					<!-- {elseif $is_multi eq 1} -->
-    					<a href='{RC_Uri::url("orders/mh_order_stats/init","&type=shipping{if $year_month}&year_month={$year_month}{/if}&is_multi={$is_multi}")}' class="data-pjax">配送方式</a>
-    					<!-- {/if} -->
-    					</li>
-    				</ul>
-    				<form class="form-horizontal">
-    					<div class="tab-content">
-    						<!--start订单概况  -->
-    						{if $smarty.get.type neq 'shipping'}
-    						<div class="tab-pane active" id="tab1">
-    							<!-- {if $is_multi eq ''} -->
-    							<div class="span12">
-    								<div id="order_general" data-url='{RC_Uri::url("orders/mh_order_stats/get_order_general","start_date={$start_date}&end_date={$end_date}")}'>
-    								    <div class="ajax_loading"><i class="fa fa-spin fa-spinner"></i>加载中...</div>
-    								</div>
-    							</div>
-    							<!-- {elseif $is_multi eq 1} -->
-    							<div class="span12 t_c m_t10">
-    								<div id="order_status" data-url='{RC_Uri::url("orders/mh_order_stats/get_order_status","is_multi=1&year_month={$year_month}")}'>
-    								    <div class="ajax_loading"><i class="fa fa-spin fa-spinner"></i>加载中...</div>
-    								</div>
-    								<div class="order_number">订单数(单位：个)</div>
-    							</div>
-    							<!-- {/if} -->
-    						</div>
-    						{/if}
-    						<!--end订单概况  -->
-    						
-    						<!--start配送方式  -->
-    						{if $smarty.get.type eq 'shipping'}
-    						<div class="tab-pane active" id="tab2">
-    							<!-- {if $is_multi eq ''} -->
-    				          	<div class="span12">
-    								<div id="ship_status" data-url='{RC_Uri::url("orders/mh_order_stats/get_ship_status","start_date={$start_date}&end_date={$end_date}")}'>
-    								    <div class="ajax_loading"><i class="fa fa-spin fa-spinner"></i>加载中...</div>
-    								</div>
-    							</div>
-    							<!-- {elseif $is_multi eq 1} -->
-    							<div class="span12 t_c m_t10">
-    								<div id="ship_stats" data-url='{RC_Uri::url("orders/mh_order_stats/get_ship_stats","is_multi=1&year_month={$year_month}")}'>
-    								    <div class="ajax_loading"><i class="fa fa-spin fa-spinner"></i>加载中...</div>
-    								</div>
-    								<div class="ship_number">配送个数(单位：个)</div>
-    							</div>
-    							<!-- {/if} -->
-    						</div>
-    						{/if}
-    						<!--end配送方式  -->
-    					</div>
-    				</form>
-                  </section>
-              </div>
-          </section>
-      </div>
-  </div>
+<div class="alert alert-info">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+		<i class="fa fa-times" data-original-title="" title=""></i>
+	</button>
+	<strong>{lang key='orders::statistic.tips'}</strong>{lang key='orders::statistic.order_stats_date'}
+</div>
+
+<div class="page-header">
+	<div class="pull-left">
+		<h2>{if $ur_here}{$ur_here}{/if}</h2>
+	</div>
+	<div class="pull-right">
+		<a href="{$action_link.href}&year={$year}{if $month}&month={$month}{/if}" class="btn btn-primary nopjax"><i class="fa fa-download"></i> {$action_link.text}</a>
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel">
+			<div class="panel-body">
+				<div class="choose_list f_r">
+					<form action="{$form_action}" method="post" name="searchForm">
+						<div class="screen f_r">
+							<span>选择年份：</span>
+							<div class="f_l m_r5">
+								<select class="w150" name="year">
+									<option value="0">请选择年份</option>
+									<!-- {foreach from=$year_list item=val} -->
+									<option value="{$val}" {if $val eq $year}selected{/if}>{$val}</option>
+									<!-- {/foreach} -->
+								</select>
+							</div>
+							<span>选择月份：</span>
+							<div class="f_l m_r5">
+								<select class="no_search w120" name="month">
+									<option value="0">全年</option>
+									<!-- {foreach from=$month_list item=val} -->
+									<option value="{$val}" {if $val eq $month}selected{/if}>{$val}</option>
+									<!-- {/foreach} -->
+								</select>
+							</div>
+							<button class="btn btn-primary screen-btn" type="button">查询</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="row-fluid">
+					<div class="ecjia-order-amount">
+						<div class="item">
+							<div class="price">{$order_stats.await_pay_count}</div>
+							<div class="type">待付款订单（元）</div>
+						</div>
+
+						<div class="item">
+							<div class="price">{$order_stats.await_ship_count}</div>
+							<div class="type">待发货订单（元）</div>
+						</div>
+
+						<div class="item">
+							<div class="price">{$order_stats.shipped_count}</div>
+							<div class="type">已发货订单（元）</div>
+						</div>
+
+						<div class="item">
+							<div class="price">{$order_stats.returned_count}</div>
+							<div class="type">退货订单（元）</div>
+						</div>
+
+						<div class="item">
+							<div class="price">{$order_stats.canceled_count}</div>
+							<div class="type">已取消订单（元）</div>
+						</div>
+
+						<div class="item">
+							<div class="price">{$order_stats.finished_count}</div>
+							<div class="type">已完成订单（元）</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="page-header">
+					<div class="pull-left">
+						<h4>订单类型</h4>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="row-fluid edit-page">
+					<form class="form-horizontal">
+						<div class="tab-content">
+							<div class="tab-pane active" id="tab">
+								<div class="col-lg-4">
+									<div id="order_type_chart" style="width: 100%;height:212px;">
+									</div>
+								</div>
+								<div class="col-lg-8">
+									<div class="row-fluid">
+										<table class="table table-striped table-hide-edit">
+											<thead>
+												<tr>
+													<th class="w180">订单类型</th>
+													<th>总订单数</th>
+													<th>总金额数</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}" target="__blank">配送型订单</a></td>
+													<td>{$order_stats.order_count_data.order_count}</td>
+													<td>{$order_stats.order_count_data.total_fee}</td>
+												</tr>
+												<tr>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=group_buy" target="__blank">团购型订单</a></td>
+													<td>{$order_stats.groupbuy_count_data.order_count}</td>
+													<td>{$order_stats.groupbuy_count_data.total_fee}</td>
+												</tr>
+												<tr>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storebuy" target="__blank">到店型订单</a></td>
+													<td>{$order_stats.storebuy_count_data.order_count}</td>
+													<td>{$order_stats.storebuy_count_data.total_fee}</td>
+												</tr>
+												<tr>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storepickup" target="__blank">自提型订单</a></td>
+													<td>{$order_stats.storepickup_count_data.order_count}</td>
+													<td>{$order_stats.storepickup_count_data.total_fee}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<section id="unseen">
+					<ul class="nav nav-tabs">
+						<li class="{if $page eq 'init'}active{/if}">
+							<a class="data-pjax" href='{url path="orders/mh_order_stats/init"}&year={$year}{if $month}&month={$month}{/if}'>{lang key='orders::statistic.order_circs'}</a>
+						</li>
+						<li class="{if $page eq 'shipping_status'}active{/if}">
+							<a class="data-pjax" href='{url path="orders/mh_order_stats/shipping_status"}&year={$year}{if $month}&month={$month}{/if}'>{lang key='orders::statistic.shipping_method'}</a>
+						</li>
+						<li class="{if $page eq 'pay_status'}active{/if}">
+							<a class="data-pjax" href='{url path="orders/mh_order_stats/pay_status"}&year={$year}{if $month}&month={$month}{/if}'>{lang key='orders::statistic.pay_method'}</a>
+						</li>
+					</ul>
+					<form class="form-horizontal">
+						<div class="tab-content">
+							{if $page eq 'init'}
+							<div class="tab-pane active">
+								<div class="span12">
+									<div id="order_general">
+									</div>
+								</div>
+							</div>
+							{/if} {if $page eq 'shipping_status'}
+							<div class="tab-pane active">
+								<div class="span12">
+									<div id="ship_status">
+									</div>
+								</div>
+							</div>
+							{/if} {if $page eq 'pay_status'}
+							<div class="tab-pane active">
+								<div class="span12">
+									<div id="pay_status">
+									</div>
+								</div>
+							</div>
+							{/if}
+						</div>
+					</form>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- {/block} -->

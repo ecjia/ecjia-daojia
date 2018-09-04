@@ -263,4 +263,37 @@ class OrderStatusLog
     	RC_DB::table('order_status_log')->insert($data);
     	return true;
     }
+    
+    /**
+     * 团购订单支付成功时
+     * @param array $options
+     * @return bool
+     */
+    public static function groupbuy_order_paid($options) {
+    	$data = array(
+		    		'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
+		    		'order_id'		=> $options['order_id'],
+		    		'message'		=> '保证金支付成功，等活动成功结束后尽快支付商品部分余款！',
+		    		'add_time'		=> RC_Time::gmtime(),
+	    		);
+    	
+    	RC_DB::table('order_status_log')->insert($data);
+    	return true;
+    }
+    
+    /**
+     * 自提和配送订单（开启自动接单时）；订单支付成功，默认已接单
+     * @param array $options
+     * @return bool
+     */
+    public static function orderpaid_autoconfirm($options) {
+    	$data = array(
+    			'order_status'	=> '商家已接单',
+    			'order_id'		=> $options['order_id'],
+    			'message'		=> '已被商家接单，订单正在备货中',
+    			'add_time'		=> RC_Time::gmtime()
+    	);
+    	RC_DB::table('order_status_log')->insert($data);
+    	return true;
+    }
 }

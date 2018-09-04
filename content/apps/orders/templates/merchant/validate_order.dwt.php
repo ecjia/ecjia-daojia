@@ -80,7 +80,7 @@
   	</div>
   	<div class="pull-right">
   		{if $action_link}
-		<a href="{$action_link.href}" class="btn btn-primary data-pjax">
+		<a href="{$action_link.href}" class="btn btn-primary nopjax">
 			<i class="fa fa-reply"></i> {$action_link.text}
 		</a>
 		{/if}

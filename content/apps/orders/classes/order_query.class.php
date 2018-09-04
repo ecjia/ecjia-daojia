@@ -407,7 +407,13 @@ class order_query extends order {
     	
     	$row = $db_order_info
     		->leftJoin('order_goods as og', RC_DB::raw('o.order_id'), '=', RC_DB::raw('og.order_id'))
-    		->selectRaw($fields)
+            ->select(RC_DB::raw('o.order_id'), RC_DB::raw('o.store_id'), RC_DB::raw('o.order_sn'), RC_DB::raw('
+        o.add_time'), RC_DB::raw('o.order_status'), RC_DB::raw('o.shipping_status'), RC_DB::raw('
+        o.order_amount'), RC_DB::raw('o.money_paid'), RC_DB::raw('o.pay_status'), RC_DB::raw('
+        o.consignee'), RC_DB::raw('o.address'), RC_DB::raw('o.email'), RC_DB::raw('o.tel'), RC_DB::raw('o.mobile'), RC_DB::raw('
+        o.extension_code'), RC_DB::raw('o.extension_id '), RC_DB::raw("(" . $this->order_amount_field('o.') . ") AS total_fee"), RC_DB::raw('
+        o.surplus'), RC_DB::raw('o.integral_money'), RC_DB::raw('o.bonus'), RC_DB::raw('
+        s.merchants_name'), RC_DB::raw('u.user_name'))
     		->orderby($filter['sort_by'], $filter['sort_order'])
     		->take($pagesize)
     		->skip($page->start_id-1)

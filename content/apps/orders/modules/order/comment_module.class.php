@@ -75,7 +75,7 @@ class comment_module extends api_front implements api_interface {
     		    $join->on(RC_DB::raw('og.rec_id'), '=', RC_DB::raw('c.rec_id'))
     		    ->where(RC_DB::raw('c.parent_id'), '=', 0);
     		})
-    		->selectRaw($field)
+    		->select(RC_DB::raw('oi.order_id'), RC_DB::raw('og.rec_id'), RC_DB::raw('og.goods_id'), RC_DB::raw('og.goods_name'), RC_DB::raw('og.goods_price'), RC_DB::raw('og.goods_attr'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'), RC_DB::raw('c.comment_id'), RC_DB::raw('c.has_image'))
     		->groupBy(RC_DB::raw('og.rec_id'))
     		->where(RC_DB::raw('oi.user_id'), $user_id)
     		->where(RC_DB::raw('oi.order_id'), $order_id)

@@ -104,10 +104,93 @@ ecjia.merchant.order.info();
 							</div>
 						</div>
 						
-						
                         <div class="control-group t_c">
 							<button class="btn btn-info" id="note_btn" type="submit">{t}确定{/t}</button>
 							<input type="hidden" name="order_id" value="{$order_id}" />
+						</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   	</div>
+   	
+	<div id="unconfirmmodal" class="modal fade">
+        <div class="modal-dialog" style="margin-top: 200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">拒绝接单</h4>
+                </div>
+                
+                <div class="modal-body">
+                	  <div class="success-msg"></div>
+		              <div class="error-msg"></div>
+                      <form class="form-horizontal" method="post" name="unconfirm_form" action='{url path="orders/merchant/unconfirm_order"}'>
+						<div class="form-group">
+							<label class="control-label col-lg-3">拒绝原因：</label>
+							<div class="controls col-lg-6">
+								<select class="form-control w250" name="unconfirm_reason">
+									<option value="">请选择…</option>
+									<option value="31">该订单商品已售完</option>
+									<option value="32">由于天气原因，本店铺暂不接单</option>
+									<option value="33">商家忙碌，暂时无法接单</option>
+					            </select>
+							</div>
+						</div>
+						
+                        <div class="form-group">
+                        	<label class="control-label col-lg-3"></label>
+                        	<div class="controls col-lg-8">
+								<button class="btn btn-info" type="submit">{t}确定{/t}</button>
+								<input type="hidden" name="order_id" value="{$order_id}" />
+							</div>
+						</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   	</div>
+   	
+	<div id="shipmodal" class="modal fade">
+        <div class="modal-dialog" style="margin-top: 200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">一键发货</h4>
+                </div>
+                
+                <div class="modal-body">
+                	  <div class="success-msg"></div>
+		              <div class="error-msg"></div>
+                      <form class="form-horizontal" method="post" name="ship_form" action='{url path="orders/merchant/ship"}'>
+						<div class="form-group">
+							<label class="control-label col-lg-3">配送方式：</label>
+							<div class="controls col-lg-6">
+								<select class="form-control" name="shipping_id" style="width: 299px;">
+									<option value="">请选择…</option>
+									{foreach from=$shipping_list item=val}
+									<option value="{$val.shipping_id}" {if $order.shipping_id eq $val.shipping_id}selected{/if} data-code="{$val.shipping_code}">{$val.shipping_name}</option>
+									{/foreach}
+					            </select>
+							</div>
+							<span class="input-must">*</span>
+						</div>
+						
+						<div class="form-group invoice-no-group {if $shipping_code eq 'ship_o2o_express' || $shipping_code eq 'ship_ecjia_express'}hide{/if}">
+							<label class="control-label col-lg-3">运单编号：</label>
+							<div class="controls col-lg-6">
+								<input class="form-control" type="text" name="invoice_no" placeholder="请输入此订单的运单编号" />
+							</div>
+							<span class="input-must">*</span>
+						</div>
+						
+                        <div class="form-group">
+                        	<label class="control-label col-lg-3"></label>
+                        	<div class="controls col-lg-6">
+								<button class="btn btn-info" name="to_delivery" type="submit">{t}确定{/t}</button>
+								<input type="hidden" name="order_id" value="{$order_id}" />
+								<input type="hidden" name="action_note" />
+							</div>
 						</div>
                     </form>
                 </div>
@@ -152,32 +235,40 @@ ecjia.merchant.order.info();
 </div>
 
 <div class="panel panel-body">
-	<div class="order-status-base m_b20">
-		<ul class="">
+	<div class="order-status-base order-five-base m_b20">
+		<ul>
 			<li class="step-first">
-				<div class="{if $time_key lt '2'}step-cur{else}step-done{/if}">
-					<div class="step-no">{if $time_key lt '2'}1{/if}</div>
+				<div class="{if $flow_status.key eq '1'}step-cur{else}step-done{/if}">
+					<div class="step-no">{if $flow_status.key lt '2'}1{/if}</div>
 					<div class="m_t5">{lang key='orders::order.submit_order'}</div>
-					<div class="m_t5 ecjiafc-blue">{$order.formated_add_time}</div>
+					<div class="m_t5 ecjiafc-blue">{if $order.formated_add_time}{$order.formated_add_time}{/if}</div>
 				</div>
 			</li>
 			<li>
-				<div class="{if $time_key eq '2'}step-cur{elseif $time_key gt '2' && $pay_key}step-done{else}step-pay{/if}">
-					<div class="step-no">{if $time_key eq '2' || !$pay_key}2{/if}</div>
-					<div class="m_t5">{lang key='orders::order.pay_for_order'}</div>
-					<div class="m_t5 ecjiafc-blue">{$order.pay_time}</div>
+				<div class="{if $flow_status.key eq '2'}step-cur{elseif $flow_status.key gt '2'}step-done{/if}">
+					<div class="step-no">{if $flow_status.key lt '3'}2{/if}</div>
+					<div class="m_t5">{$flow_status.pay}</div>
+					<div class="m_t5 ecjiafc-blue">{if $order.pay_time}{$order.pay_time}{/if}</div>
 				</div>
 			</li>
 			<li>
-				<div class="{if $time_key eq '3'}step-cur{elseif $time_key gt '3'}step-done{/if}">
-					<div class="step-no">{if $time_key lt '4'}3{/if}</div>
-					<div class="m_t5">{lang key='orders::order.merchant_shipping'}</div>
+				<div class="{if $flow_status.key eq '3'}step-cur{elseif $flow_status.key gt '3'}step-done{/if}">
+					<div class="step-no">{if $flow_status.key lt '4'}3{/if}</div>
+					<div class="m_t5">{$flow_status.confirm}</div>
+					<div class="m_t5 ecjiafc-blue">{if $order.confirm_time && $flow_status.key gt '2'}{$order.confirm_time}{/if}</div>
+				</div>
+			</li>
+			<li>
+				<div class="{if $flow_status.key eq '4'}step-cur{elseif $flow_status.key gt '4'}step-done{/if}">
+					<div class="step-no">{if $flow_status.key lt '5'}4{/if}</div>
+					<div class="m_t5">{$flow_status.shipping}</div>
+					<div class="m_t5 ecjiafc-blue">{if $order.shipping_time}{$order.shipping_time}{/if}</div>
 				</div>
 			</li>
 			<li class="step-last">
-				<div class="{if $time_key eq '4'}step-cur{elseif $time_key gt '4'}step-done{/if}">
-					<div class="step-no">{if $time_key lt '5'}4{/if}</div>
-					<div class="m_t5">{lang key='orders::order.confirm_receipt'}</div>
+				<div class="{if $flow_status.key eq '5'}step-cur{elseif $flow_status.key gt '5'}step-done{/if}">
+					<div class="step-no">{if $flow_status.key lt '6'}5{/if}</div>
+					<div class="m_t5">交易完成</div>
 				</div>
 			</li>
 		</ul>
@@ -220,6 +311,7 @@ ecjia.merchant.order.info();
 		</div>
 	</div>
 </div>
+
 <div class="row-fluid">
 	<div class="span12">
 		<form action="{$form_action}" method="post" name="orderpostForm" id="listForm" data-url='{url path="orders/merchant/operate_post" args="order_id={$order.order_id}"}'  data-pjax-url='{url path="orders/merchant/info" args="order_id={$order.order_id}"}' data-list-url='{url path="orders/merchant/init"}' data-remove-url="{$remove_action}">
@@ -236,25 +328,16 @@ ecjia.merchant.order.info();
 						<tbody class="first-td-no-leftbd">
 							<tr>
 								<td><div align="right"><strong>{lang key='orders::order.label_order_sn'}</strong></div></td>
-								<!-- TODO 团购链接赞不知，以后修改测试 -->
 								<td>
 									{$order.order_sn}
-									{if $order.extension_code eq "group_buy"}
-<!-- 										<a href="group_buy.php?act=edit&id={$order.extension_id}">{lang key='orders::order.group_buy'}</a> -->
-									{elseif $order.extension_code eq "exchange_goods"}
-<!-- 										<a href="exchange_goods.php?act=edit&id={$order.extension_id}">{lang key='orders::order.exchange_goods'}</a> -->
-									{/if}
 								</td>
 								<td><div align="right"><strong>{lang key='orders::order.label_order_status'}</strong></div></td>
 								<td>{$order.status}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_user_name'}</strong></div></td>
+								<td><div align="right"><strong>购买人：</strong></div></td>
 								<td>
 									{$order.user_name|default:{lang key='orders::order.anonymous'}}
-									{if $order.user_id gt 0}
-									[ <a class="userInfo cursor_pointer" data-toggle="modal" data-target="#consigneeinfo" title="{lang key='orders::order.display_buyer'}">{lang key='orders::order.display_buyer'}</a> ]
-									{/if}
 								</td>
 								<td><div align="right"><strong>{lang key='orders::order.label_order_time'}</strong></div></td>
 								<td>{$order.formated_add_time}</td>
@@ -263,10 +346,6 @@ ecjia.merchant.order.info();
 								<td><div align="right"><strong>{lang key='orders::order.label_payment'}</strong></div></td>
 								<td>
 									{$order.pay_name}
-									{if $order_finished neq 1 && $order.shipping_status neq 1 && !$invalid_order}
-									<a class="data-pjax" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
-									{/if}
-									({lang key='orders::order.label_action_note'}<span>{if $order.pay_note}{$order.pay_note}{else}暂无{/if}</span>)
 								</td>
 								<td><div align="right"><strong>{lang key='orders::order.label_pay_time'}</strong></div></td>
 								<td>{$order.pay_time}</td>
@@ -278,39 +357,34 @@ ecjia.merchant.order.info();
 									{if $exist_real_goods}
 										<span>{if $order.shipping_name}{$order.shipping_name}{/if}</span>
 										{if $order.shipping_id gt 0}
-											{if $order_finished neq 1 && !$invalid_order}
-											<a class="data-pjax" href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}'>{lang key='system::system.edit'}</a>
-											{/if}
-											
 											{if $shipping_code == 'ship_cac'}
 												(提货码：{if $meta_value neq ''}{$meta_value}{else}暂无{/if})
-											{else}
-												<input type="button" class="btn btn-primary" onclick="window.open('{url path="orders/merchant/info" args="order_id={$order.order_id}&shipping_print=1"}')" value="{lang key='orders::order.print_shipping'}">
 											{/if}
 										{/if}
-											
 										
+										{if $order.shipping_status gt 0 && $shipping_code neq 'ship_ecjia_express' && $shipping_code neq 'ship_o2o_express'}
+										<input type="button" class="btn btn-primary" onclick="window.open('{url path="orders/merchant/info" args="order_id={$order.order_id}&shipping_print=1"}')" value="{lang key='orders::order.print_shipping'}">
+										{/if}
+
 										{if $order.insure_fee gt 0}
 											{lang key='orders::order.label_insure_fee'}{$order.formated_insure_fee}
 										{/if}
 									{/if}
 								</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_shipping_time'}</strong></div></td>
-								<td>{$order.shipping_time}</td>
+								<td><div align="right"><strong>期望送达时间：</strong></div></td>
+								<td>{if $order.expect_shipping_time}{$order.expect_shipping_time}{else}暂无{/if}</td>
 							</tr>
 							
 							<tr>
+								<td><div align="right"><strong>{lang key='orders::order.label_shipping_time'}</strong></div></td>
+								<td>{$order.shipping_time}</td>
+								
 								<td><div align="right"><strong>{lang key='orders::order.label_invoice_no'}</strong></div></td>
 								<td>
 									{if $order.shipping_id gt 0 and $order.shipping_status gt 0}
 										<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>&nbsp;
-										{if $order_finished neq 1}
-											<a href='{url path="orders/merchant/edit" args="order_id={$order.order_id}&step=shipping"}' class="special data-pjax">{lang key='system::system.edit'}</a>
-										{/if}
 									{/if}
 								</td>
-								<td><div align="right"><strong>{lang key='orders::order.from_order'}</strong></div></td>
-								<td>{if $order.referer eq 'ecjia-cashdesk'}收银台{else}{$order.referer}{/if}</td>
 							</tr>
 							
 							<!-- {if $order.express_user} -->
@@ -320,17 +394,39 @@ ecjia.merchant.order.info();
 								<td><div align="right"><strong>{lang key='orders::order.label_express_user_mobile'}</strong></div></td>
 								<td>{$order.express_mobile}</td>
 							</tr>
-							<!-- {/if}  -->
+							<!-- {/if} -->
 							
 							<tr>
-								<td><div align="right"><strong>期望送达时间：</strong></div></td>
-								<td colspan="3">{$order.expect_shipping_time}</td>
+								<td><div align="right"><strong>{lang key='orders::order.from_order'}</strong></div></td>
+								<td colspan="3">{$order.label_referer}</td>
 							</tr>
-							
 						</tbody>
 					</table>
 				</div>
 			</div>
+			
+			{if $order_finished eq 1 || $order.shipping_status eq 2}
+			<div class="accordion-group panel panel-default">
+				<div class="panel-heading accordion-group-heading-relative">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#delivery_info">
+                        <h4 class="panel-title">
+                            <strong>{t}发货单信息{/t}</strong>
+                        </h4>
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="delivery_inf">
+                	<table class="table table-oddtd m_b0">
+						<tbody class="first-td-no-leftbd">
+							<tr>
+								<td><div align="right"><strong>发货单流水号：</strong></div></td>
+								<td colspan="3"><a href="{RC_Uri::url('orders/mh_delivery/delivery_info')}&delivery_id={$delivery_info.delivery_id}" target="__blank">{$delivery_info.delivery_sn}</a></td>
+							</tr>
+						</tbody>
+					</table>
+                </div>
+			</div>
+			{/if}
+			
 			<div class="accordion-group panel panel-default">
 				<div class="panel-heading accordion-group-heading-relative">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
@@ -348,12 +444,12 @@ ecjia.merchant.order.info();
 							<tr>
 								<td><div align="right"><strong>{lang key='orders::order.label_inv_type'}</strong></div></td>
 								<td>{$order.inv_type}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_inv_tax_no'}</strong></div></td>
+								<td><div align="right"><strong>纳税人识别码：</strong></div></td>
 								<td>{$inv_tax_no}</td>
 							</tr>
 							<tr>
 								<td><div align="right"><strong>{lang key='orders::order.label_inv_payee'}</strong></div></td>
-								<td>{$inv_payee}</td>
+								<td>{if $inv_payee}{$inv_payee}{else if $order.inv_type neq ''}个人{/if}</td>
 								<td><div align="right"><strong>{lang key='orders::order.label_inv_content'}</strong></div></td>
 								<td>{$order.inv_content}</td>
 							</tr>
@@ -376,23 +472,13 @@ ecjia.merchant.order.info();
                 	<table class="table table-oddtd m_b0">
 						<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_postscript'}</strong></div></td>
+								<td><div align="right"><strong>订单备注：</strong></div></td>
 								<td colspan="3">{$order.postscript}</td>
 							</tr>
 							<tr>
 								<td><div align="right"><strong>{lang key='orders::order.label_how_oos'}</strong></div></td>
 								<td colspan="3">{$order.how_oos}</td>
 							</tr>
-<!-- 							<tr> -->
-<!-- 								<td><div align="right"><strong>{lang key='orders::order.label_pack'}</strong></div></td> -->
-<!-- 								<td>{$order.pack_name}</td> -->
-<!-- 								<td><div align="right"><strong>{lang key='orders::order.label_card'}</strong></div></td> -->
-<!-- 								<td>{$order.card_name}</td> -->
-<!-- 							</tr> -->
-<!-- 							<tr> -->
-<!-- 								<td><div align="right"><strong>{lang key='orders::order.label_card_message'}</strong></div></td> -->
-<!-- 								<td colspan="3">{$order.card_message}</td> -->
-<!-- 							</tr> -->
 							<tr>
 								<td><div align="right"><strong>{lang key='orders::order.label_to_buyer'}</strong></div></td>
 								<td colspan="3">{$order.to_buyer}</td>
@@ -418,27 +504,13 @@ ecjia.merchant.order.info();
 							<tr>
 								<td><div align="right"><strong>{lang key='orders::order.label_consignee'}</strong></div></td>
 								<td>{$order.consignee}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_address'}</strong></div></td>
-								<td>[{$order.region}]{$order.address}</td>
-							</tr>
-<!-- 							<tr> -->
-<!-- 								<td><div align="right"><strong>{lang key='orders::order.label_email'}</strong></div></td> -->
-<!-- 								<td>{$order.email}</td> -->
-<!-- 								<td><div align="right"><strong>{lang key='orders::order.label_zipcode'}</strong></div></td> -->
-<!-- 								<td>{$order.zipcode}</td> -->
-<!-- 							</tr> -->
-							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_tel'}</strong></div></td>
-								<td>{$order.tel}</td>
 								<td><div align="right"><strong>{lang key='orders::order.label_mobile'}</strong></div></td>
 								<td>{$order.mobile}</td>
 							</tr>
-<!-- 							<tr> -->
-<!-- 								<td><div align="right"><strong>{lang key='orders::order.label_sign_building'}</strong></div></td> -->
-<!-- 								<td>{$order.sign_building|escape}</td> -->
-<!-- 								<td><div align="right"><strong>{lang key='orders::order.label_expect_shipping_time'}</strong></div></td> -->
-<!-- 								<td>{$order.expect_shipping_time}</td> -->
-<!-- 							</tr> -->
+							<tr>
+								<td><div align="right"><strong>{lang key='orders::order.label_address'}</strong></div></td>
+								<td colspan="3">[{$order.region}] {$order.address}</td>
+							</tr>
 						</tbody>
 					</table>
                 </div>
@@ -559,7 +631,10 @@ ecjia.merchant.order.info();
 									{else}
 									{lang key='orders::order.label_money_refund'}<strong>{$order.formated_money_refund}</strong>
 									{/if}
-									{if $order.extension_code eq "group_buy"}<br />{lang key='orders::order.notice_gb_order_amount'}{/if}
+									
+									{if $order.extension_code eq "group_buy"}<br />
+										{lang key='orders::order.notice_gb_order_amount'}
+									{/if}
 								</div>
 							</td>
 						</tr>
@@ -581,8 +656,6 @@ ecjia.merchant.order.info();
 								<th class="w150"><strong>操作者</strong></th>
 								<th class="w180"><strong>{lang key='orders::order.action_time'}</strong></th>
 								<th class="w130"><strong>{lang key='orders::order.order_status'}</strong></th>
-								<th class="w130"><strong>{lang key='orders::order.pay_status'}</strong></th>
-								<th class="w130"><strong>{lang key='orders::order.shipping_status'}</strong></th>
 								<th class="ecjiafc-pre t_c"><strong>{lang key='orders::order.action_note'}</strong></th>
 							</tr>
 						</thead>
@@ -591,9 +664,7 @@ ecjia.merchant.order.info();
 							<tr>
 								<td>{$action.action_user}</td>
 								<td>{$action.action_time}</td>
-								<td>{$action.order_status}</td>
-								<td>{$action.pay_status}</td>
-								<td>{$action.shipping_status}</td>
+								<td>{$action.action_status}</td>
 								<td class="t_c">{$action.action_note|nl2br}</td>
 							</tr>
 							<!-- {foreachelse} -->
@@ -605,7 +676,8 @@ ecjia.merchant.order.info();
 					</table>
                 </div>
 			</div>
-			{if !$invalid_order}
+			
+			{if !$invalid_order && $order.order_status neq 2}
 			<div class="accordion-group panel panel-default">
 				<div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
@@ -627,7 +699,7 @@ ecjia.merchant.order.info();
 									<input type='hidden' class="operate_note" data-url='{url path="orders/merchant/operate_note"}'>
 
 									{if $operable_list.confirm}
-									<button class="btn operatesubmit btn-info" type="submit" name="confirm">{lang key='orders::order.op_confirm'}</button>
+									<button class="btn operatesubmit btn-info" type="submit" name="confirm">确认接单</button>
 									{/if}
 
 									{if $operable_list.pay}
@@ -638,6 +710,10 @@ ecjia.merchant.order.info();
 									<button class="btn operatesubmit btn-info" type="submit" name="unpay">{lang key='orders::order.op_unpay'}</button>
 									{/if}
 
+									{if $operable_list.to_delivery}
+									<a style="cursor: pointer;" class="btn btn-info" href="#shipmodal" data-toggle="modal" id="shipmodal-btn">一键发货</a>
+									{/if}
+									
 									{if $operable_list.prepare}
 									<button class="btn operatesubmit btn-info" type="submit" name="prepare">{lang key='orders::order.op_prepare'}</button>
 									{/if}
@@ -646,22 +722,14 @@ ecjia.merchant.order.info();
 									<button class="btn operatesubmit btn-info" type="submit" name="ship">{lang key='orders::order.op_split'}</button>
 									{/if}
 
-<!-- 									{if $operable_list.unship} -->
-<!-- 									<button class="btn operatesubmit btn-info" type="submit" name="unship">{lang key='orders::order.op_unship'}</button> -->
-<!-- 									{/if} -->
-
-<!-- 									{if $operable_list.receive} -->
-<!-- 									<button class="btn operatesubmit btn-info" type="submit" name="receive">{lang key='orders::order.op_receive'}</button> -->
-<!-- 									{/if}  -->
-
-<!-- 									{if $operable_list.cancel} -->
-<!-- 									<button class="btn operatesubmit btn-info" type="submit" name="cancel">{lang key='orders::order.op_cancel'}</button> -->
-<!-- 									{/if} -->
-
-									{if $operable_list.invalid}
-									<button class="btn operatesubmit btn-info" type="submit" name="invalid">{lang key='orders::order.op_invalid'}</button>
+									{if $operable_list.unconfirm}
+									<a style="cursor: pointer;" class="btn btn-info" href="#unconfirmmodal" data-toggle="modal" id="unconfirmmodal">拒单</a>
 									{/if}
-
+									
+									{if $operable_list.cancel}
+									<button class="btn operatesubmit btn-info" type="submit" name="cancel">{lang key='orders::order.op_cancel'}</button>
+									{/if}
+									
 									{if $operable_list.return}
 									<a style="cursor: pointer;" class="btn btn-info" href="#actionmodal" data-toggle="modal" id="modal">退款/退货</a>
 									{/if}
@@ -670,35 +738,36 @@ ecjia.merchant.order.info();
 									<button class="btn operatesubmit btn-info" type="submit" name="confirm_return">确认</button>
 									{/if}
 									
-									
-<!-- 									{if $operable_list.to_delivery} -->
-<!-- 									<button class="btn operatesubmit btn-info" type="submit" name="to_delivery">{lang key='orders::order.op_to_delivery'}</button> -->
-<!-- 									{/if} -->
 									{if $operable_list.after_service}
-									<button class="btn operatesubmit btn-info" type="submit" name="after_service">{lang key='orders::order.op_after_service'}</button>
+									<button class="btn operatesubmit btn-info" type="submit" name="after_service">添加备注</button>
 									{/if}
-									
-								
 									
 									{if $operable_list.remove}
 									<button class="btn operatesubmit btn-info" type="submit" name="remove">{lang key='orders::order.remove'}</button>
 									{/if}
 
-									{if $order.extension_code eq "group_buy"}{lang key='orders::order.notice_gb_ship'}{/if}
+									{if $order.extension_code eq "group_buy"}
+									<div class="m_t10">{lang key='orders::order.notice_gb_ship'}</div>
+									{/if}
 									<input name="order_id" class="order_id" type="hidden" value="{$order.order_id}">
 								</td>
 							</tr>
 							<tr>
 								<td width="15%"><div align="right"> <strong>操作说明：</strong></div></td>
 								<td colspan="3">
-								{if $operable_list.confirm}【确认】设置该订单为有效订单；<br>{/if}
-								{if $operable_list.prepare}【配货】标记订单为配货状态，对订单商品进行配货；<br>{/if}
-								{if $operable_list.split}【生成发货单】对已经配货完成的订单进行发货，并且生成发货单详细信息；<br>{/if}
-								{if $operable_list.invalid}【无效】设置该订单为无效/作废订单；<br>{/if}
-								{if $operable_list.return}【退款/退货】设置该订单进入售后处理流程；<br>{/if}
-								{if $operable_list.confirm_return}【确认】操作人员对该订单的确认操作记录；<br>{/if}
-								{if $operable_list.after_service}【售后】对该订单的补充说明；<br>{/if}
-								{if $operable_list.remove}【移除】对已经标记取消或无效的订单删除<br>{/if}
+									{if $operable_list.cancel}【取消】设置该订单为无效/作废订单<br>{/if}
+									{if $operable_list.confirm}【确认接单】标记订单为已接单状态；<br>{/if}
+									{if $operable_list.unconfirm}【拒单】标记订单为取消状态，取消后，系统自动将款项退回给用户；<br>{/if}
+									
+									{if $operable_list.to_delivery}【一键发货】标记订单为已发货状态；<br>{/if}
+									{if $operable_list.prepare}【配货】标记订单为配货状态，对订单商品进行配货；<br>{/if}
+									{if $operable_list.split}【生成发货单】对已经配货完成的订单进行发货，并且生成发货单详细信息；<br>{/if}
+									{if $operable_list.return}【退款/退货】设置该订单进入售后处理流程；<br>{/if}
+									{if $operable_list.after_service}【添加备注】对该订单的补充说明；<br>{/if}
+									
+									{if $operable_list.confirm_return}【确认】操作人员对该订单的确认操作记录；<br>{/if}
+									{if $operable_list.invalid}【无效】设置该订单为无效/作废订单；<br>{/if}
+									{if $operable_list.remove}【移除】对已经标记取消或无效的订单删除<br>{/if}
 								</td>
 							</tr>
 						</tbody>
@@ -706,6 +775,7 @@ ecjia.merchant.order.info();
                 </div>
 			</div>
 			{/if}
+			
 		</form>
 	</div>
 </div>

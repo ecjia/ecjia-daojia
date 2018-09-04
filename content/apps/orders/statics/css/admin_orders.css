@@ -83,7 +83,7 @@
 
 #order_general {
 	height: 500px;
-	width: 1000px;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -95,7 +95,7 @@
 
 #order_status {
 	height: 500px;
-	width: 1000px;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -107,7 +107,7 @@
 
 #ship_status {
 	height: 500px;
-	width: 1000px;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -119,7 +119,7 @@
 
 #ship_stats {
 	height: 500px;
-	width: 1000px;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -131,7 +131,7 @@
 
 #pay_status {
 	height: 500px;
-	width: 1000px;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -143,19 +143,19 @@
 
 #pay_stats {
 	height: 500px;
-	width: 1000px;
+	width: 100%;
 	margin: 0 auto;
 }
 
 #order_count {
 	height: 580px;
-	width: 1000px;
+	width: 100%;
 	margin: 0 auto;
 }
 
 #order_amount {
 	height: 580px;
-	width: 1000px;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -181,6 +181,10 @@
 	text-align: center;
 	width: 24.11111%;
 	float: left;
+}
+
+.order-status-base.order-five-base ul li {
+	width: 20%;
 }
 
 .order-status-base.order-third-base ul li {
@@ -226,8 +230,104 @@
 
 .groupbuy-icon {
 	background-color: #E95454;
-    color: #fff;
-    padding: 2px;
-    border-radius: 4px;
-    margin-left: 2px;
+	color: #fff;
+	padding: 2px;
+	border-radius: 4px;
+	margin-left: 2px;
+}
+
+.ecjia-order-search.display-none {
+	display: none;
+}
+
+.search-form.form-horizontal {
+	background-color: #F6F6F7;
+	padding: 25px 0px 11px 0;
+	margin: 0;
+	margin-bottom: 18px;
+	border-radius: 5px;
+	height: 220px;
+}
+
+.search-form.form-horizontal .control-label {
+	width: 100px;
+}
+
+.w165 {
+	width: 165px;
+}
+
+.search-form.form-horizontal .controls {
+	margin-left: 120px;
+}
+
+.search-form.form-horizontal .search-item {
+	float: left;
+	width: 100%;
+	margin: 0;
+}
+
+.search-form.form-horizontal .search-item .item {
+	float: left;
+	width: 300px;
+}
+
+.search-form.form-horizontal .search-item .item.w350 {
+	width: 350px;
+}
+
+.search-form.form-horizontal .search-item .item.w520 {
+	width: 520px;
+}
+
+.ecjia-order-amount .item {
+	width: 15%;
+    height: 100px;
+    float: left;
+    background-color: #F6F8F8;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 30px;
+    margin-right: 2%;
+}
+
+.ecjia-order-amount .item:nth-child(6) {
+	margin-right: 0;
+}
+
+.ecjia-order-amount .item .price {
+	font-size: 20px;
+    max-width: 90%;
+    overflow: hidden;
+    color: #ff3434;
+    text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ecjia-order-amount .item .type {
+	font-size: 15px;
+	margin-top: 20px;
+}
+
+.badge.badge-groupbuy-underway {
+	background-color: #3a99d8;
+}
+.badge.badge-groupbuy-finished {
+	background-color: #c1c1c1;
+}
+.badge.badge-groupbuy-success {
+	background-color: #28b294;
+}
+.badge.badge-groupbuy-fail {
+	background-color: #eb5768;
+}
+
+.order_stats {
+	width: 100%;
+	height: 400px;
+}
+
+#order_stats {
+	height: 400px;
+	width: 100%;
 }

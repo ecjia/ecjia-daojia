@@ -165,7 +165,10 @@ function order_info($order_id, $order_sn = '', $type = '') {
         /*接口订单详情*/
         $order = $db_order_info->select('*', RC_DB::raw($total_fee))->first();
     } else {
-        $order = $db_order_info->selectRaw('o.*, s.merchants_name, s.responsible_person, s.contact_mobile, s.email as merchants_email, s.company_name, ' . $total_fee)->first();
+        $order = $db_order_info->select(RC_DB::raw('o.*'), RC_DB::raw('s.merchants_name'), 
+            RC_DB::raw('s.responsible_person'), RC_DB::raw('s.contact_mobile'), 
+            RC_DB::raw('s.email as merchants_email'), RC_DB::raw('s.company_name'), RC_DB::raw($total_fee))
+            ->first();
     }
     if ($order) {
         $order['store_id'] = intval($order['store_id']);
@@ -205,7 +208,7 @@ function order_finished($order) {
 * @return  array   订单商品数组
 */
 function order_goods($order_id) {
-    $data = RC_DB::table('order_goods')->selectRaw('rec_id, goods_id, goods_name, goods_sn, product_id, market_price, goods_number, goods_price, goods_attr, is_real, parent_id, is_gift, goods_price * goods_number as subtotal, extension_code')->where('order_id', $order_id)->get();
+    $data = RC_DB::table('order_goods')->select('rec_id', 'goods_id', 'goods_name', 'goods_sn', 'product_id', 'market_price', 'goods_number', 'goods_price', 'goods_attr', 'is_real', 'parent_id', 'is_gift', RC_DB::raw('goods_price * goods_number as subtotal'), 'extension_code')->where('order_id', $order_id)->get();
     $goods_list = array();
     if (!empty($data)) {
         foreach ($data as $row) {
@@ -238,7 +241,10 @@ function order_amount($order_id, $include_gift = true) {
 */
 function order_weight_price($order_id) {
     RC_Loader::load_app_func('global', 'goods');
-    $row = $db = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('o.goods_id'))->selectRaw('SUM(g.goods_weight * o.goods_number) as weight, SUM(o.goods_price * o.goods_number) as amount, SUM(o.goods_number) as number')->where(RC_DB::raw('o.order_id'), $order_id)->first();
+    $row = $db = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('o.goods_id'))
+        ->select(RC_DB::raw('SUM(g.goods_weight * o.goods_number) as weight'), RC_DB::raw('SUM(o.goods_price * o.goods_number) as amount'), 
+            RC_DB::raw('SUM(o.goods_number) as number'))
+        ->where(RC_DB::raw('o.order_id'), $order_id)->first();
     $row['weight'] = floatval($row['weight']);
     $row['amount'] = floatval($row['amount']);
     $row['number'] = intval($row['number']);
@@ -670,10 +676,10 @@ function change_order_goods_storage($order_id, $is_dec = true, $storage = 0) {
     /* 查询订单商品信息  */
     switch ($storage) {
         case 0:
-            $data = RC_DB::table('order_goods')->selectRaw('goods_id, SUM(send_number) as num, MAX(extension_code) as extension_code, product_id')->where('order_id', $order_id)->where('is_real', 1)->groupby('goods_id')->groupby('product_id')->get();
+            $data = RC_DB::table('order_goods')->select('goods_id', RC_DB::raw('SUM(send_number) as num'), RC_DB::raw('MAX(extension_code) as extension_code'), 'product_id')->where('order_id', $order_id)->where('is_real', 1)->groupby('goods_id')->groupby('product_id')->get();
             break;
         case 1:
-            $data = RC_DB::table('order_goods')->selectRaw('goods_id, SUM(goods_number) as num, MAX(extension_code) as extension_code, product_id')->where('order_id', $order_id)->where('is_real', 1)->groupby('goods_id')->groupby('product_id')->get();
+            $data = RC_DB::table('order_goods')->select('goods_id', RC_DB::raw('SUM(send_number) as num'), RC_DB::raw('MAX(extension_code) as extension_code'), 'product_id')->where('order_id', $order_id)->where('is_real', 1)->groupby('goods_id')->groupby('product_id')->get();
             break;
     }
     if (!empty($data)) {
@@ -852,7 +858,7 @@ function order_bonus($order_id) {
     /* 查询按商品发的红包 */
     $store_id = RC_DB::table('order_info')->where('order_id', $order_id)->pluck('store_id');
     $today = RC_Time::gmtime();
-    $list = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('o.goods_id'), '=', RC_DB::raw('g.goods_id'))->leftJoin('bonus_type as b', RC_DB::raw('g.bonus_type_id'), '=', RC_DB::raw('b.type_id'))->selectRaw('b.type_id, b.type_money, SUM(o.goods_number) AS number')->whereRaw('o.order_id = ' . $order_id . ' and o.is_gift = 0 and b.send_type = ' . SEND_BY_GOODS . ' and b.send_start_date <= ' . $today . ' and b.send_end_date >= ' . $today . ' and (b.store_id = ' . $store_id . ' OR b.store_id = 0 )')->groupby(RC_DB::raw('b.type_id'))->get();
+    $list = RC_DB::table('order_goods as o')->leftJoin('goods as g', RC_DB::raw('o.goods_id'), '=', RC_DB::raw('g.goods_id'))->leftJoin('bonus_type as b', RC_DB::raw('g.bonus_type_id'), '=', RC_DB::raw('b.type_id'))->select(RC_DB::raw('b.type_id'), RC_DB::raw('b.type_money'), RC_DB::raw('SUM(o.goods_number) AS number'))->whereRaw('o.order_id = ' . $order_id . ' and o.is_gift = 0 and b.send_type = ' . SEND_BY_GOODS . ' and b.send_start_date <= ' . $today . ' and b.send_end_date >= ' . $today . ' and (b.store_id = ' . $store_id . ' OR b.store_id = 0 )')->groupby(RC_DB::raw('b.type_id'))->get();
     /* 查询定单中非赠品总金额 */
     $amount = order_amount($order_id, false);
     /* 查询订单日期 */
@@ -1122,7 +1128,7 @@ function get_order_detail($order_id, $user_id = 0, $type = '') {
             if ($code == 'package_buy') {
                 $db_package_goods = RC_DB::table('package_goods as pg')->leftJoin('goods as g', RC_DB::table('pg.goods_id'), '=', RC_DB::table('g.goods_id'));
                 foreach ($goods_list as $goods) {
-                    $vcard_arr = $db_package_goods->selectRaw('g.goods_id')->whereRaw('pg.package_id = ' . $goods['goods_id'] . ' AND extension_code = "virtual_card"')->get();
+                    $vcard_arr = $db_package_goods->select(RC_DB::raw('g.goods_id'))->whereRaw('pg.package_id = ' . $goods['goods_id'] . ' AND extension_code = "virtual_card"')->get();
                     if (!empty($vcard_arr)) {
                         foreach ($vcard_arr as $val) {
                             $info = virtual_card_result($order['order_sn'], $val);
@@ -1164,7 +1170,7 @@ function get_order_detail($order_id, $user_id = 0, $type = '') {
  * @return void
  */
 function virtual_card_result($order_sn, $goods) {
-    $res = RC_DB::table('virtual_card')->selectRaw('card_sn, card_password, end_date, crc32')->where('goods_id', $goods['goods_id'])->where('order_sn', $order_sn)->get();
+    $res = RC_DB::table('virtual_card')->select('card_sn', 'card_password', 'end_date', 'crc32')->where('goods_id', $goods['goods_id'])->where('order_sn', $order_sn)->get();
     $cards = array();
     if (!empty($res)) {
         $auth_key = ecjia_config::instance()->read_config('auth_key');
@@ -1212,7 +1218,7 @@ function EM_order_goods($order_id) {
         ->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
         ->leftJoin('comment as c', RC_DB::raw('og.rec_id'), '=', RC_DB::raw('c.rec_id'));
     
-    $res = $db_view->selectRaw($field)->where(RC_DB::raw('og.order_id'), $order_id)->groupBy(RC_DB::raw('og.rec_id'))->get();
+    $res = $db_view->select(RC_DB::raw('og.*'), RC_DB::raw('og.goods_price * og.goods_number AS subtotal'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.original_img'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.store_id'), RC_DB::raw('c.comment_id'), RC_DB::raw('c.comment_rank'), RC_DB::raw('c.content as comment_content'))->where(RC_DB::raw('og.order_id'), $order_id)->groupBy(RC_DB::raw('og.rec_id'))->get();
     
     $goods_list = array();
     if (!empty($res)) {
