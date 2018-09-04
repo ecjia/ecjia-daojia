@@ -379,7 +379,7 @@ class admin extends ecjia_admin {
 			//用户标签列表
 			$tag_arr = array();
 			$tag_arr['all']	= RC_DB::table('wechat_user')->where('wechat_id', $wechat_id)->where('subscribe', 1)->where('group_id', '!=', 1)->count();
-			$tag_arr['item']= RC_DB::table('wechat_tag')->where('wechat_id', $wechat_id)->orderBy('id', 'desc')->selectRaw('id, tag_id, name, count')->get();
+			$tag_arr['item']= RC_DB::table('wechat_tag')->where('wechat_id', $wechat_id)->orderBy('id', 'desc')->select('id', 'tag_id', 'name', 'count')->get();
 			$this->assign('tag_arr', $tag_arr);
 			
 			//取消关注用户数量
@@ -468,7 +468,7 @@ class admin extends ecjia_admin {
 		$wechat_id = $platform_account->getAccountID();
 	
 		$uid = !empty($_POST['uid']) ? intval($_POST['uid']) : '';
-		$tag_arr   = RC_DB::table('wechat_tag')->selectRaw('id, tag_id, name, count')->where(RC_DB::raw('wechat_id'), $wechat_id)->orderBy(RC_DB::raw('id'), 'desc')->get();
+		$tag_arr   = RC_DB::table('wechat_tag')->select('id', 'tag_id', 'name', 'count')->where(RC_DB::raw('wechat_id'), $wechat_id)->orderBy(RC_DB::raw('id'), 'desc')->get();
 		
 		$user_tag_list = array();
 		if (!empty($uid)) {
@@ -546,7 +546,7 @@ class admin extends ecjia_admin {
 		$openids_no_tag = $openids_tag = array();
 		foreach ($openid_list as $k => $v) {
 			$db = RC_DB::table('wechat_user as wu')->leftJoin('wechat_user_tag as wut', RC_DB::raw('wu.uid'), '=', RC_DB::raw('wut.userid'));
-			$tag = $db->where(RC_DB::raw('wu.openid'), $v)->where(RC_DB::raw('wu.wechat_id'), $wechat_id)->selectRaw('wut.tagid, wu.uid, wu.openid')->get();
+			$tag = $db->where(RC_DB::raw('wu.openid'), $v)->where(RC_DB::raw('wu.wechat_id'), $wechat_id)->select(RC_DB::raw('wut.tagid'), RC_DB::raw('wu.uid'), RC_DB::raw('wu.openid'))->get();
 			foreach ($tag as $key => $val) {
 				if (empty($val['tagid'])) {
 					//没有标签的用户
@@ -641,7 +641,7 @@ class admin extends ecjia_admin {
 							->leftJoin('users as u', RC_DB::raw('u.user_id'), '=', RC_DB::raw('cu.user_id'));
 			$db->where(RC_DB::raw('wu.wechat_id'), $wechat_id);
 			
-			$info = $db->where(RC_DB::raw('wu.uid'), $uid)->where(RC_DB::raw('wu.wechat_id'), $wechat_id)->selectRaw('wu.*, u.user_name')->first();
+			$info = $db->where(RC_DB::raw('wu.uid'), $uid)->where(RC_DB::raw('wu.wechat_id'), $wechat_id)->select(RC_DB::raw('wu.*'), RC_DB::raw('u.user_name'))->first();
 			if (!empty($info)) {
 				if ($info['subscribe_time']) {
 					$info['subscribe_time'] = RC_Time::local_date(ecjia::config('time_format'), $info['subscribe_time']);
@@ -834,7 +834,7 @@ class admin extends ecjia_admin {
 	
 		$arr = array();
 		$data = $db_wechat_user
-					->selectRaw('wu.*')
+					->select(RC_DB::raw('wu.*'))
 					->orderBy(RC_DB::Raw('subscribe_time'), 'desc')->take(10)->skip($page->start_id-1)->get();
 		
 		if (isset($data)) {
