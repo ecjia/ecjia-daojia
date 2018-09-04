@@ -357,6 +357,8 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'store_deposit', 'value' => '0', 'options' => ['type' => 'hidden']],
             //v1.17.1新增
             ['code' => 'plugin_ship_ecjia_express', 'value' => '', 'options' => ['type' => 'text']],
+            //v1.20.0新增
+            ['code' => 'merchant_staff_max_number', 'value' => '10', 'options' => ['type' => 'text']],
         ];
         
         $this->add_config($group, $data);
