@@ -611,7 +611,7 @@ class mh_print extends ecjia_merchant
 
         $count = $db_printer_view->count();
         $page = new ecjia_merchant_page($count, 10, 5);
-        $data = $db_printer_view->selectRaw('p.*, m.machine_name')->take(10)->skip($page->start_id - 1)->orderBy('id', 'desc')->get();
+        $data = $db_printer_view->select(RC_DB::raw('p.*, m.machine_name'))->take(10)->skip($page->start_id - 1)->orderBy('id', 'desc')->get();
         if (!empty($data)) {
             foreach ($data as $k => $v) {
                 $data[$k]['content'] = !empty($v['content']) ? htmlspecialchars($v['content']) : '';

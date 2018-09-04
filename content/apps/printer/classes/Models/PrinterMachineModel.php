@@ -141,6 +141,14 @@ class PrinterMachineModel extends Model
     {
         return $this->store($store_id)->online()->first();
     }
+
+    /**
+     * 获取一个店铺的所有打印设备
+     */
+    public function getMachine($store_id)
+    {
+        return $this->store($store_id)->first();
+    }
     
     
 }

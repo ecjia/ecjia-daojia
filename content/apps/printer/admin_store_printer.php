@@ -667,7 +667,7 @@ class admin_store_printer extends ecjia_admin
 
         $count = $db_printer_view->count();
         $page = new ecjia_page($count, 10, 5);
-        $data = $db_printer_view->selectRaw('p.*, m.machine_name')->take(10)->skip($page->start_id - 1)->orderBy('id', 'desc')->get();
+        $data = $db_printer_view->select(RC_DB::raw('p.*, m.machine_name'))->take(10)->skip($page->start_id - 1)->orderBy('id', 'desc')->get();
 
         return array('item' => $data, 'page' => $page->show(2), 'desc' => $page->page_desc());
     }

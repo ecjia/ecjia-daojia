@@ -115,8 +115,23 @@ class callback extends ecjia_front
         $state              = $this->request->input('state');
         
         if (ecjia_printer::verifySign(['notify_name' => $notify_name, 'push_time' => $push_time], $sign)) {
-            if ($notify_name == 'printer_finish') {
+            if ($notify_name == 'printer_get_order') {
                 //接单、拒单逻辑未实现
+                $model = \Ecjia\App\Printer\Models\PrinterPrintlistModel::where('print_order_id', $print_order_id)
+                    ->where('machine_code', $machine_code)->first();
+                //接单请求
+                if ($state == 1) {
+                    if ($model->order_type == 'buy') {
+                        RC_Api::api('orders', 'order_auto_confirm', ['order_sn' => $model->order_sn]);
+                    }
+                }
+                //拒单请求
+                else {
+                    if ($model->order_type == 'buy') {
+                        RC_Api::api('orders', 'order_auto_refuse', ['order_sn' => $model->order_sn]);
+                    }
+                }
+
                 echo json_encode(['data' => 'OK']);
             }
         } else {

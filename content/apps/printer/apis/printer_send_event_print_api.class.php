@@ -77,29 +77,30 @@ class printer_send_event_print_api extends Component_Event_Api {
         if (array_key_exists('machine', $options)) {
             $machine = $options['machine'];
         } else {
-            $machineModel = with(new \Ecjia\App\Printer\Models\PrinterMachineModel())->getAvailableMachine($store_id);
-            if (! $machineModel) {
-                return new ecjia_error('not_found_available_machine', '没有找到可用打印设备，或未添加任何打印设备，或打印设备处于离线状态。');
+            //没有找到可用打印设备，或未添加任何打印设备，或打印设备处于离线状态。
+            $machineModel = with(new \Ecjia\App\Printer\Models\PrinterMachineModel())->getMachine($store_id);
+            if ($machineModel->online_status != 1 && ! ecjia::config('printer_offline_send')) {
+                return new ecjia_error('not_found_available_machine', "打印设备{$machineModel->machine_name}处于离线状态。");
             }
             $machine = $machineModel->machine_code;
         }
 	    
 	    $eventHandler = with(new Ecjia\App\Printer\EventFactory())->event($event);
-	    
+
 	    $model = with(new \Ecjia\App\Printer\Models\PrinterTemplateModel())->getTemplateByCode($event, $store_id);
-	    if (intval($model->status) !== 1) {
-	        return new ecjia_error('event_not_open', "请先开启打印".$eventHandler->getName()."模板");
-	    }
-	    
+        if (intval($model->status) !== 1) {
+            return new ecjia_error('event_not_open', "请先开启打印".$eventHandler->getName()."模板");
+        }
+
 	    if ($auto_print && intval($model->auto_print) !== 1) {
 	        return new ecjia_error('event_not_open_auto_print', "请先开启自动打印".$eventHandler->getName()."事件");
 	    }
-	    
+
 	    $result = \Ecjia\App\Printer\EventPrint::make()
         	    ->setTemplateModel($model)
         	    ->setEvent($eventHandler)
         	    ->send($machine, $value);
-	    
+
 	    return $result;
 	}
 }
