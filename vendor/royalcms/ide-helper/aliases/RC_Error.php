@@ -6,7 +6,7 @@
  * Time: 10:16 AM
  */
 
-class RC_Error extends Royalcms\Component\Support\Facades\Error
+class RC_Error extends Royalcms\Component\Error\Facades\Error
 {
 
 }

@@ -6,7 +6,7 @@
  * Time: 10:19 AM
  */
 
-class RC_Package extends Royalcms\Component\Support\Facades\Package
+class RC_Package extends Royalcms\Component\Package\Facades\Package
 {
 
 }

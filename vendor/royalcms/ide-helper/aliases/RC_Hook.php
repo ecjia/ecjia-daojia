@@ -6,7 +6,7 @@
  * Time: 10:19 AM
  */
 
-class RC_Hook extends Royalcms\Component\Support\Facades\Hook
+class RC_Hook extends Royalcms\Component\Hook\Facades\Hook
 {
 
 }
