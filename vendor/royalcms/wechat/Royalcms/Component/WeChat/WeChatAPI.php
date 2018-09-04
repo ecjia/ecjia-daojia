@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\WeChat;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Error\Error;
 use Exception;
 
@@ -34,7 +34,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'message/custom/send');
+        RC_Hook::do_action('wechat_api_request_record', 'message/custom/send');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -58,7 +58,7 @@ class WeChatAPI {
             'nickname'   => $nickname,
         );
         $body = Utility::http(sprintf($url, $token), Utility::json_encode($data));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/add');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/add');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -83,7 +83,7 @@ class WeChatAPI {
             'invite_wx'   => $nickname,
         );
         $body = Utility::http(sprintf($url, $token), Utility::json_encode($data));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/add');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/add');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -109,7 +109,7 @@ class WeChatAPI {
             'nickname'   => $nickname,
         );
         $body = Utility::http(sprintf($url, $token), Utility::json_encode($data));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/update');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/update');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -129,7 +129,7 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/customservice/kfaccount/del?access_token=%s&kf_account=%s';
         $token = $this->getAccessToken();
         $body = Utility::http(sprintf($url, $token, $kf_account));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/del');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/del');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -149,7 +149,7 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=%s&kf_account=%s';
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token, $kf_account), array('media' => curl_file_create(realpath($media))));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/uploadheadimg');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfaccount/uploadheadimg');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -178,7 +178,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'customservice/getkflist');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/getkflist');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -207,7 +207,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'customservice/getkflist');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/getkflist');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -233,7 +233,7 @@ class WeChatAPI {
             'text'      => $text,
         );
         $body = Utility::http(sprintf($url, $token), Utility::json_encode($data));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfsession/create');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfsession/create');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -260,7 +260,7 @@ class WeChatAPI {
             'text'      => $text,
         );
         $body = Utility::http(sprintf($url, $token), Utility::json_encode($data));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfsession/close');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfsession/close');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -283,7 +283,7 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/customservice/kfsession/getsession?access_token=%s&openid=%s';
         $token = $this->getAccessToken();
         $body = Utility::http(sprintf($url, $token, $openid));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfsession/getsession');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfsession/getsession');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -318,7 +318,7 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/customservice/kfsession/getsessionlist?access_token=%s&kf_account=%s';
         $token = $this->getAccessToken();
         $body = Utility::http(sprintf($url, $token, $kf_account));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfsession/getsessionlist');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfsession/getsessionlist');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -351,7 +351,7 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/customservice/kfsession/getwaitcase?access_token=%s';
         $token = $this->getAccessToken();
         $body = Utility::http(sprintf($url, $token));
-        Hook::do_action('wechat_api_request_record', 'customservice/kfsession/getwaitcase');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/kfsession/getwaitcase');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -381,7 +381,7 @@ class WeChatAPI {
             'pagesize'  => $pagesize,
         );
         $body = Utility::http(sprintf($url, $token), Utility::json_encode($data));
-        Hook::do_action('wechat_api_request_record', 'customservice/msgrecord/getrecord');
+        RC_Hook::do_action('wechat_api_request_record', 'customservice/msgrecord/getrecord');
         $result = json_decode($body, true);
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
@@ -419,7 +419,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'message/template/send');
+        RC_Hook::do_action('wechat_api_request_record', 'message/template/send');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -438,7 +438,7 @@ class WeChatAPI {
         $token = $this->getAccessToken(); 
         $body  = Utility::http(sprintf($url, $token, $type), array('media' => curl_file_create(realpath($file))));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'media/upload');
+        RC_Hook::do_action('wechat_api_request_record', 'media/upload');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -455,7 +455,7 @@ class WeChatAPI {
         static $url = 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s';
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token, $media_id));
-        Hook::do_action('wechat_api_request_record', 'media/get');
+        RC_Hook::do_action('wechat_api_request_record', 'media/get');
         if (substr($body,0,1) == '{') {
             return false;
         } else {
@@ -474,7 +474,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), array('media' => curl_file_create(realpath($file))));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'media/uploadimg');
+        RC_Hook::do_action('wechat_api_request_record', 'media/uploadimg');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -504,7 +504,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'media/uploadnews');
+        RC_Hook::do_action('wechat_api_request_record', 'media/uploadnews');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -531,7 +531,7 @@ class WeChatAPI {
         );
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'media/uploadvideo');
+        RC_Hook::do_action('wechat_api_request_record', 'media/uploadvideo');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -554,7 +554,7 @@ class WeChatAPI {
     		$body = Utility::http(sprintf($url, $token, $type), array('media' => curl_file_create(realpath($file))));
     	}
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'material/add_material');
+        RC_Hook::do_action('wechat_api_request_record', 'material/add_material');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -585,7 +585,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'material/add_news');
+        RC_Hook::do_action('wechat_api_request_record', 'material/add_news');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -604,7 +604,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode(array('media_id' => $media_id)));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'material/get_material');
+        RC_Hook::do_action('wechat_api_request_record', 'material/get_material');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -631,7 +631,7 @@ class WeChatAPI {
         );
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'material/batchget_material');
+        RC_Hook::do_action('wechat_api_request_record', 'material/batchget_material');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -650,7 +650,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode(array('media_id' => $media_id)));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'material/del_material');
+        RC_Hook::do_action('wechat_api_request_record', 'material/del_material');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -686,7 +686,7 @@ class WeChatAPI {
         );
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'material/update_news');
+        RC_Hook::do_action('wechat_api_request_record', 'material/update_news');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -709,7 +709,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'material/get_materialcount');
+        RC_Hook::do_action('wechat_api_request_record', 'material/get_materialcount');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -741,7 +741,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token, $openid));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'user/info');
+        RC_Hook::do_action('wechat_api_request_record', 'user/info');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -778,7 +778,7 @@ class WeChatAPI {
         }
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'user/info/batchget');
+        RC_Hook::do_action('wechat_api_request_record', 'user/info/batchget');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -798,7 +798,7 @@ class WeChatAPI {
                     'openid' => $openid, 'remark' => $remark,
                  )));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'user/info/updateremark');
+        RC_Hook::do_action('wechat_api_request_record', 'user/info/updateremark');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -824,7 +824,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token, $next_openid));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'user/get');
+        RC_Hook::do_action('wechat_api_request_record', 'user/get');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -855,7 +855,7 @@ class WeChatAPI {
                     'group' => array('name' => $name)
                  )));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'groups/create');
+        RC_Hook::do_action('wechat_api_request_record', 'groups/create');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -886,7 +886,7 @@ class WeChatAPI {
     			'tag' => array('name' => $name)
     	)));
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'tags/create');
+        RC_Hook::do_action('wechat_api_request_record', 'tags/create');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -913,7 +913,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'groups/get');
+        RC_Hook::do_action('wechat_api_request_record', 'groups/get');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -941,7 +941,7 @@ class WeChatAPI {
     	$token = $this->getAccessToken();
     	$body  = Utility::http(sprintf($url, $token));
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'tags/get');
+        RC_Hook::do_action('wechat_api_request_record', 'tags/get');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -968,7 +968,7 @@ class WeChatAPI {
                     'group' => array('id' => $groupid, 'name' => $name)
                  )));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'groups/update');
+        RC_Hook::do_action('wechat_api_request_record', 'groups/update');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -995,7 +995,7 @@ class WeChatAPI {
     			'tag' => array('id' => $tagid, 'name' => $name)
     	)));
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'tags/update');
+        RC_Hook::do_action('wechat_api_request_record', 'tags/update');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -1021,7 +1021,7 @@ class WeChatAPI {
                     'group' => array('id' => $groupid)
                  )));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'groups/delete');
+        RC_Hook::do_action('wechat_api_request_record', 'groups/delete');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1047,7 +1047,7 @@ class WeChatAPI {
     			'tag' => array('id' => $tagid)
     	)));
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'tags/delete');
+        RC_Hook::do_action('wechat_api_request_record', 'tags/delete');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -1069,7 +1069,7 @@ class WeChatAPI {
                     'openid' => $openid,
                  )));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'groups/getid');
+        RC_Hook::do_action('wechat_api_request_record', 'groups/getid');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1092,7 +1092,7 @@ class WeChatAPI {
     			'openid' => $openid,
     	)));
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'tags/getidlist');
+        RC_Hook::do_action('wechat_api_request_record', 'tags/getidlist');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -1113,7 +1113,7 @@ class WeChatAPI {
                     'to_groupid' => $groupid,
                  )));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'groups/members/update');
+        RC_Hook::do_action('wechat_api_request_record', 'groups/members/update');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1141,7 +1141,7 @@ class WeChatAPI {
     			'tagid'  	  => $tagid,
     	)));
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'tags/members/batchtagging');
+        RC_Hook::do_action('wechat_api_request_record', 'tags/members/batchtagging');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -1170,7 +1170,7 @@ class WeChatAPI {
     			'tagid'  	  => $tagid,
     	)));
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'tags/members/batchuntagging');
+        RC_Hook::do_action('wechat_api_request_record', 'tags/members/batchuntagging');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -1199,7 +1199,7 @@ class WeChatAPI {
                     'to_groupid'  => $groupid,
                  )));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'groups/members/update');
+        RC_Hook::do_action('wechat_api_request_record', 'groups/members/update');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1236,7 +1236,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($menu));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'menu/create');
+        RC_Hook::do_action('wechat_api_request_record', 'menu/create');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1259,7 +1259,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'menu/get');
+        RC_Hook::do_action('wechat_api_request_record', 'menu/get');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1278,7 +1278,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'menu/delete');
+        RC_Hook::do_action('wechat_api_request_record', 'menu/delete');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1347,7 +1347,7 @@ class WeChatAPI {
         );
         $body = Utility::http(sprintf($url, http_build_query($args)));
         $result = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'sns/oauth2/access_token');
+        RC_Hook::do_action('wechat_api_request_record', 'sns/oauth2/access_token');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1369,7 +1369,7 @@ class WeChatAPI {
         );
         $body = Utility::http(sprintf($url, http_build_query($args)));
         $result = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'sns/oauth2/refresh_token');
+        RC_Hook::do_action('wechat_api_request_record', 'sns/oauth2/refresh_token');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1386,7 +1386,7 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/sns/auth?access_token=%s&openid=%s';
         $body = Utility::http(sprintf($url, $token, $openid));
         $result = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'sns/auth');
+        RC_Hook::do_action('wechat_api_request_record', 'sns/auth');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1412,7 +1412,7 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN';
         $body = Utility::http(sprintf($url, $token, $openid));
         $result = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'sns/userinfo');
+        RC_Hook::do_action('wechat_api_request_record', 'sns/userinfo');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1456,7 +1456,7 @@ class WeChatAPI {
         $token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
         $result  = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'qrcode/create');
+        RC_Hook::do_action('wechat_api_request_record', 'qrcode/create');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1502,7 +1502,7 @@ class WeChatAPI {
         if (empty($token) || time() > $token['expired']) {
             $body= Utility::http(sprintf($url, $this->getConfig('appid'), $this->getConfig('appsecret')));
             $result = json_decode($body, true);
-            Hook::do_action('wechat_api_request_record', 'token');
+            RC_Hook::do_action('wechat_api_request_record', 'token');
             if (!$result || !empty($result['errcode'])) {
                 throw new Exception('Error - WeChat Can not get AccessToken.');            
             } else {
@@ -1542,7 +1542,7 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s';
         $body = Utility::http(sprintf($url, $this->getConfig('appid'), $this->getConfig('appsecret')));
         $result = json_decode($body, true);
-        Hook::do_action('wechat_api_request_record', 'token');
+        RC_Hook::do_action('wechat_api_request_record', 'token');
         if (!$result || !empty($result['errcode'])) {
             return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
         } else {
@@ -1560,7 +1560,7 @@ class WeChatAPI {
     	$token = $this->getAccessToken();
     	$body  = Utility::http(sprintf($url, $token), Utility::json_encode($data));
     	$result  = json_decode($body, true);
-    	Hook::do_action('wechat_api_request_record', 'message/custom/send');
+        RC_Hook::do_action('wechat_api_request_record', 'message/custom/send');
     	if (!$result || !empty($result['errcode'])) {
     		return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
     	} else {
@@ -1578,7 +1578,8 @@ class WeChatAPI {
         static $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token=%s';
     	$token = $this->getAccessToken();
         $body  = Utility::http(sprintf($url, $token), Utility::json_encode($msg_id));
-        $result  = json_decode($body, true);Hook::do_action('wechat_api_request_record', 'message/mass/delete');
+        $result  = json_decode($body, true);
+        RC_Hook::do_action('wechat_api_request_record', 'message/mass/delete');
 	    if (!$result || !empty($result['errcode'])) {
 	       return new Error('wechat_error_' . $result['errcode'], $result['errmsg']);
 	    } else {
