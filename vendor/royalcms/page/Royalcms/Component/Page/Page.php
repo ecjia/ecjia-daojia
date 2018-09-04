@@ -251,11 +251,12 @@ abstract class Page implements Presenter
      */
     protected function unset_url_val(& $vars)
     {
-        unset($vars[RC_Config::get('system.url_var_app')]);
-        unset($vars[RC_Config::get('system.url_var_control')]);
-        unset($vars[RC_Config::get('system.url_var_method')]);
-        unset($vars[RC_Config::get('system.url_var_lang')]);
-        unset($vars[RC_Config::get('system.page_var')]);
+        unset($vars[RC_Config::get('route.module')]);
+        unset($vars[RC_Config::get('route.controller')]);
+        unset($vars[RC_Config::get('route.action')]);
+        unset($vars[RC_Config::get('route.lang')]);
+        unset($vars[RC_Config::get('route.page')]);
+        unset($vars[RC_Config::get('route.route')]);
     }
 
 
