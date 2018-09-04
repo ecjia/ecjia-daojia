@@ -150,7 +150,7 @@ class config_module extends api_front implements api_interface
         		'city'     => 0
         ]);
         
-        $data['shop_banner '] = empty($cycleimageDatas['0']['image']) ? '' : $cycleimageDatas['0']['image'];
+        $data['shop_banner'] = empty($cycleimageDatas['0']['image']) ? '' : $cycleimageDatas['0']['image'];
         
         return $data;
     }

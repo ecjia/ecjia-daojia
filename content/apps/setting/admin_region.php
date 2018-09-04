@@ -236,7 +236,7 @@ class admin_region extends ecjia_admin {
 			return $this->showmessage(__('区域名称不能为空！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		$old = RC_DB::table('regions')->selectRaw('region_name,parent_id')->where('region_id', $region_id)->first();
+		$old = RC_DB::table('regions')->select('region_name','parent_id')->where('region_id', $region_id)->first();
 		$parent_id = $old['parent_id'];
 		$old_name  = $old['region_name'];
 		
