@@ -3,7 +3,7 @@
 use Royalcms\Component\View\Factory as View;
 use Royalcms\Component\Database\Eloquent\Model;
 use Royalcms\Component\Support\Collection;
-use Royalcms\Component\HttpKernel\Request;
+use Royalcms\Component\Http\Request;
 
 class FormHelper
 {

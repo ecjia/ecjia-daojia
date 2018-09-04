@@ -634,7 +634,7 @@ class Form
     /**
      * Get current request
      *
-     * @return \Illuminate\Http\Request
+     * @return \Royalcms\Component\Http\Request
      */
     public function getRequest()
     {
