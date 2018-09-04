@@ -11,7 +11,7 @@ class FrameGuard
      *
      * @param  \Royalcms\Component\Http\Request  $request
      * @param  \Closure  $next
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Royalcms\Component\Http\Response
      */
     public function handle($request, Closure $next)
     {

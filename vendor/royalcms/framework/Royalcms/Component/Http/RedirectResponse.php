@@ -6,17 +6,14 @@ use BadMethodCallException;
 use Royalcms\Component\Support\Str;
 use Royalcms\Component\Support\MessageBag;
 use Royalcms\Component\Support\ViewErrorBag;
-use Royalcms\Component\Support\Traits\Macroable;
-use Royalcms\Component\Session\Store as SessionStore;
-use Royalcms\Component\Support\Contracts\MessageProvider;
-use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
+use Royalcms\Component\Session\StoreInterface as SessionStore;
+use Royalcms\Component\Contracts\Support\MessageProvider;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse as BaseRedirectResponse;
 
 class RedirectResponse extends BaseRedirectResponse
 {
-    use ResponseTrait, Macroable {
-        Macroable::__call as macroCall;
-    }
+    use ResponseTrait;
 
     /**
      * The request instance.
@@ -73,37 +70,23 @@ class RedirectResponse extends BaseRedirectResponse
      */
     public function withInput(array $input = null)
     {
-        $this->session->flashInput($this->removeFilesFromInput(
-            ! is_null($input) ? $input : $this->request->input()
-        ));
+        $input = $input ?: $this->request->input();
+
+        $this->session->flashInput($data = array_filter($input, $callback = function (&$value) use (&$callback) {
+            if (is_array($value)) {
+                $value = array_filter($value, $callback);
+            }
+
+            return ! $value instanceof UploadedFile;
+        }));
 
         return $this;
     }
 
     /**
-     * Remove all uploaded files form the given input array.
-     *
-     * @param  array  $input
-     * @return array
-     */
-    protected function removeFilesFromInput(array $input)
-    {
-        foreach ($input as $key => $value) {
-            if (is_array($value)) {
-                $input[$key] = $this->removeFilesFromInput($value);
-            }
-
-            if ($value instanceof SymfonyUploadedFile) {
-                unset($input[$key]);
-            }
-        }
-
-        return $input;
-    }
-
-    /**
      * Flash an array of input to the session.
      *
+     * @param  mixed  string
      * @return $this
      */
     public function onlyInput()
@@ -114,6 +97,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Flash an array of input to the session.
      *
+     * @param  mixed  string
      * @return \Royalcms\Component\Http\RedirectResponse
      */
     public function exceptInput()
@@ -124,7 +108,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Flash a container of errors to the session.
      *
-     * @param  \Royalcms\Component\Support\Contracts\MessageProvider|array|string  $provider
+     * @param  \Royalcms\Component\Contracts\Support\MessageProvider|array|string  $provider
      * @param  string  $key
      * @return $this
      */
@@ -132,14 +116,8 @@ class RedirectResponse extends BaseRedirectResponse
     {
         $value = $this->parseErrors($provider);
 
-        $errors = $this->session->get('errors', new ViewErrorBag);
-
-        if (! $errors instanceof ViewErrorBag) {
-            $errors = new ViewErrorBag;
-        }
-
         $this->session->flash(
-            'errors', $errors->put($key, $value)
+            'errors', $this->session->get('errors', new ViewErrorBag)->put($key, $value)
         );
 
         return $this;
@@ -148,7 +126,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Parse the given errors into an appropriate value.
      *
-     * @param  \Royalcms\Component\Support\Contracts\MessageProvider|array|string  $provider
+     * @param  \Royalcms\Component\Contracts\Support\MessageProvider|array|string  $provider
      * @return \Royalcms\Component\Support\MessageBag
      */
     protected function parseErrors($provider)
@@ -158,16 +136,6 @@ class RedirectResponse extends BaseRedirectResponse
         }
 
         return new MessageBag((array) $provider);
-    }
-
-    /**
-     * Get the original response content.
-     *
-     * @return null
-     */
-    public function getOriginalContent()
-    {
-        //
     }
 
     /**
@@ -194,7 +162,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Get the session store implementation.
      *
-     * @return \Royalcms\Component\Session\Store|null
+     * @return \Royalcms\Component\Session\StoreInterface|null
      */
     public function getSession()
     {
@@ -204,7 +172,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Set the session store implementation.
      *
-     * @param  \Royalcms\Component\Session\Store  $session
+     * @param  \Royalcms\Component\Session\StoreInterface  $session
      * @return void
      */
     public function setSession(SessionStore $session)
@@ -223,16 +191,10 @@ class RedirectResponse extends BaseRedirectResponse
      */
     public function __call($method, $parameters)
     {
-        if (static::hasMacro($method)) {
-            return $this->macroCall($method, $parameters);
-        }
-
         if (Str::startsWith($method, 'with')) {
             return $this->with(Str::snake(substr($method, 4)), $parameters[0]);
         }
 
-        throw new BadMethodCallException(
-            "Method [$method] does not exist on Redirect."
-        );
+        throw new BadMethodCallException("Method [$method] does not exist on Redirect.");
     }
 }

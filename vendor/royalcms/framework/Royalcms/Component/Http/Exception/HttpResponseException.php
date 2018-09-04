@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Http\Exceptions;
+namespace Royalcms\Component\Http\Exception;
 
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
