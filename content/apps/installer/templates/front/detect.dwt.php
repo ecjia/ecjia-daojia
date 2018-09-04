@@ -54,8 +54,8 @@
 											<tr>
 											    <td>PHP版本</td>
 											    <td>{$sys_info.php_ver}</td>
-											    <td>5.4及以上</td>
-											    <td>{if $sys_info.php_ver gte '5.4'}<i class="fontello-icon-ok"></i>{else}<i class="fontello-icon-cancel"></i>{/if}</td>
+											    <td>5.5及以上</td>
+											    <td>{if $sys_info.php_check}<i class="fontello-icon-ok"></i>{else}<i class="fontello-icon-cancel"></i>{/if}</td>
 											</tr>
 											  
 											<tr>

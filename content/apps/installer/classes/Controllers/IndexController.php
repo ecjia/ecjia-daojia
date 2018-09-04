@@ -202,8 +202,10 @@ class IndexController extends SimpleController
         if (function_exists('gzclose')) $php_zlib = '1';
         $sys_info['zlib'] = $php_zlib == 1 ? $ok : $cancel;
 
+        $sys_info['php_check'] = version_compare(PHP_VERSION, '5.5.9', '>=');
+
         //检测必须开启项是否开启
-        $sys_info['is_right'] = $php_path && $php_os && version_compare(PHP_VERSION, '5.4.0', 'ge') && $php_mysqli && $php_pdo && $php_openssl && $php_socket && $php_gd && $php_curl && $php_fileinfo && $php_zlib ? 1 : 0;
+        $sys_info['is_right'] = $php_path && $php_os && $sys_info['php_check'] && $php_mysqli && $php_pdo && $php_openssl && $php_socket && $php_gd && $php_curl && $php_fileinfo && $php_zlib ? 1 : 0;
 
 //        //目录检测
 //        $Upload_Current_Path		= str_replace(SITE_ROOT, '', RC_Upload::upload_path());
@@ -421,8 +423,10 @@ class IndexController extends SimpleController
         if (is_ecjia_error($databases)) {
             return $this->showmessage(RC_Lang::get('installer::installer.connect_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
-            if (in_array($db_database, $databases)) {
+            if ($databases->contains($db_database)) {
                 return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('is_exist' => true));
+            } else {
+                return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('is_exist' => false));
             }
         }
     }
@@ -591,15 +595,18 @@ class IndexController extends SimpleController
     {
         if ($step > 1) {
             if (!isset($_COOKIE['install_step1']) || !isset($_COOKIE['agree'])) {
-                return $this->redirect(RC_Uri::url('installer/index/init'));
+                $this->redirect(RC_Uri::url('installer/index/init'));
+                $this->exited();
             }
             if ($step > 2) {
                 if (!isset($_COOKIE['install_step2']) || $_COOKIE['install_config'] != 1) {
-                    return $this->redirect(RC_Uri::url('installer/index/detect'));
+                    $this->redirect(RC_Uri::url('installer/index/detect'));
+                    $this->exited();
                 } else {
                     if ($step > 3) {
                         if (!isset($_COOKIE['install_step3']) || !isset($_COOKIE['install_step4'])) {
-                            return $this->redirect(RC_Uri::url('installer/index/deploy'));
+                            $this->redirect(RC_Uri::url('installer/index/deploy'));
+                            $this->exited();
                         }
                     }
                 }
@@ -615,7 +622,8 @@ class IndexController extends SimpleController
     {
         /* 初始化流程控制变量 */
         if (Helper::checkInstallLock()) {
-            return $this->redirect(RC_Uri::url('installer/index/installed'));
+            $this->redirect(RC_Uri::url('installer/index/installed'));
+            $this->exited();
         }
     }
 
@@ -633,12 +641,12 @@ class IndexController extends SimpleController
     }
     
     private function get_percent($step) {
-
-        $sqlcount = count(scandir(royalcms('path').'/database/migrations'))-2;
+        
+        $sqlcount = count(scandir(royalcms('path').'/content/database/migrations'))-2;
         
         if($step == 'create_config_file') {
             $past = 20;
-            } else if($step == 'create_database') {
+        } else if($step == 'create_database') {
             $past = 40;
         } else if($step == 'install_structure') {
             $over = Helper::getWillMigrationFilesCount();
@@ -649,7 +657,7 @@ class IndexController extends SimpleController
         } else if($step == 'install_demo_data') {
             $past = 40 +  $sqlcount + 40;
         } else if($step == 'create_admin_passport') {
-//             $past = 4 +  $_SESSION['temp']['sqlcount'] + 6;
+            //             $past = 4 +  $_SESSION['temp']['sqlcount'] + 6;
             return 100;
         }
         $total = $sqlcount + 20 + 20 + 20 + 20;

@@ -370,7 +370,7 @@
 			} else {
 				progress(result.percent);
 				if (result.more > 0) {
-					notice_text = "<span class='install_correct' id='numtips'>剩余"+ result.more +"个 </span>" ;
+					notice_text = "<span class='install_correct' id='numtips'>剩余"+ result.more +"个 ...</span>" ;
 					$('#js-notice').append(notice_text);
 					installStructureMore();
 				} else {
@@ -389,7 +389,7 @@
 			} else {
 				progress(result.percent);
 				if (result.more > 0) {
-					var notice_text = "剩余"+ result.more +"个 " ;
+					var notice_text = "剩余"+ result.more +"个 ..." ;
 					$('#numtips').text(notice_text);
 					installStructureMore();
 				} else {

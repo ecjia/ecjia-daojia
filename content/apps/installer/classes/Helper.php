@@ -169,8 +169,11 @@ class Helper
             }
             $db = new \PDO($dsn, $user, $pass);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return new Connection($db);
-        
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+            $connection = new Connection($db);
+            $connection->setFetchMode(config('database.fetch'));
+            return $connection;
         } catch (PDOException $e) {
             
             return new ecjia_error('connect_failed', RC_Lang::get('installer::installer.connect_failed'));
