@@ -47,9 +47,9 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 买单活动
+ * 收银台收款买单活动
  */
-class quickpay_activity {
+class cashdesk_quickpay_activity {
 	/**
 	 * 获取周
 	 */
@@ -315,64 +315,6 @@ class quickpay_activity {
 			foreach ($list as $key => $val) {
 				$list[$key]['total_act_discount'] = self::get_quickpay_discount(array('activity_type' => $val['activity_type'],'goods_amount' => $options['goods_amount'], 'exclude_amount' => $options['exclude_amount'], 'activity_value' => $val['activity_value']));
 				$list[$key]['is_allow_use'] = 1;
-				/*活动是否允许使用积分处理*/
-				if ($val['use_integral'] == 'nolimit') {
-					//无积分限制；最多可用积分按商品价格兑换
-					$scale = floatval(ecjia::config('integral_scale'));
-					$integral = (($options['goods_amount'] - $options['exclude_amount'])/$scale)*100;
-					$order_max_integral = intval($integral);
-					$integral_money = self::integral_of_value($integral);
-					$allow_use_integral = 1;
-				} elseif (($val['use_integral'] != 'nolimit') && ($val['use_integral'] != 'close')) {
-					//有积分限制
-					$allow_use_integral = 1;
-					$order_max_integral = intval($val['use_integral']);
-					$integral_money = self::integral_of_value($integral);
-				} else {
-					//不可用积分
-					$allow_use_integral = 0;
-					$integral_money = 0.00;
-					$order_max_integral = 0;
-				}
-				$list[$key]['act_integral_money'] = $integral_money;
-				$list[$key]['allow_use_integral'] = $allow_use_integral;
-				$list[$key]['order_max_integral'] = $order_max_integral;
-				/*活动是否允许使用红包*/
-				$bonus_list = array();
-				$allow_use_bonus =0;
-				
-				if (ecjia::config('use_bonus') == '1') {
-					if ($val['use_bonus'] == 'nolimit') {
-						//无限制红包；获取用户可用红包
-						// 取得用户可用红包
-						$real_amount = $options['goods_amount'] - $options['exclude_amount'];
-						$user_bonus = self::user_bonus($_SESSION['user_id'], $real_amount, $options['store_id']);
-						if (!empty($user_bonus)) {
-							foreach ($user_bonus AS $arr1 => $res1) {
-								$user_bonus[$arr1]['bonus_money_formated'] = price_format($res1['type_money'], false);
-							}
-							$bonus_list = $user_bonus;
-						}
-						$allow_use_bonus = 1;
-						// 能使用红包
-					} elseif (($val['use_bonus'] != 'nolimit') && $val['use_bonus'] != 'close') {
-						//活动指定红包类型
-						$bonus_type_ids = explode(',', $val['use_bonus']);
-						$bonus_list = self::get_acyivity_bonus(array('user_id' => $options['user_id'], 'bonus_type_ids' => $bonus_type_ids, 'store_id' => $options['store_id']));
-				
-						if (!empty($bonus_list)) {
-							foreach ($bonus_list AS $arr2 => $res2) {
-								$bonus_list[$arr2]['bonus_money_formated'] = price_format($res2['type_money'], false);
-							}
-						}
-						$allow_use_bonus = 1;
-					} else{
-						$allow_use_bonus = 0;
-						$bonus_list = array();
-					}
-				}
-				$list[$key]['allow_use_bonus'] = $allow_use_bonus;
-				$list[$key]['act_bonus_list'] = $bonus_list;
 			}
 		}
 		return $list;

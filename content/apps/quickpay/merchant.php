@@ -509,11 +509,11 @@ class merchant extends ecjia_merchant {
 		$count = $db_quickpay_activity->count();
 		$page = new ecjia_merchant_page($count,10, 5);
 		$data = $db_quickpay_activity
-		->selectRaw('id,title,activity_type,start_time,end_time')
-		->orderby('id', 'asc')
-		->take(10)
-		->skip($page->start_id-1)
-		->get();
+    		->select(RC_DB::raw('id,title,activity_type,start_time,end_time'))
+    		->orderby('id', 'asc')
+    		->take(10)
+    		->skip($page->start_id-1)
+    		->get();
 		$res = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {

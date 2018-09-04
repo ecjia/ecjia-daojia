@@ -80,7 +80,7 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	private function order_paid($order_sn, $pay_status = PS_PAYED) {
 		RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
 	    /* 取得订单信息 */
-	    $order = RC_DB::table('quickpay_orders')->selectRaw('order_id, store_id, user_id, order_sn, user_name, user_mobile, goods_amount, order_amount, add_time')
+		$order = RC_DB::table('quickpay_orders')->select(RC_DB::raw('order_id, store_id, user_id, order_sn, user_name, user_mobile, goods_amount, order_amount, add_time'))
 	    										->where('order_sn', $order_sn)->first();
 	    $order_id = $order['order_id'];
 	    $order_sn = $order['order_sn'];
@@ -95,6 +95,14 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    //RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
 	    RC_DB::table('quickpay_orders')->where('order_id', $order_id)->update($data);
 	    
+	    //会员店铺消费过，记录为店铺会员TODO暂时不启用
+	    //if (!empty($order['user_id'])) {
+	    //	if (!empty($order['store_id'])) {
+	    //		RC_Loader::load_app_class('add_storeuser', 'user', false);
+	    //		add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
+	    //	}
+	    //}
+	    
 	    /* 记录订单操作记录 */
 	    $options = array(
 	    		'order_id' 			=> $order_id,
@@ -108,55 +116,23 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    );
 	    quickpay_activity::quickpay_order_action($options);
 	    
-	    RC_DB::table('order_status_log')->insert(array(
-    	    'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
-    	    'order_id'		=> $order_id,
-    	    'message'		=> RC_Lang::get('orders::order.notice_merchant_message'),
-    	    'add_time'		=> RC_Time::gmtime(),
-	    ));
-	    RC_DB::table('order_status_log')->insert(array(
-    	    'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
-    	    'order_id'		=> $order_id,
-    	    'message'		=> '订单已通知商家，等待商家处理',
-    	    'add_time'		=> RC_Time::gmtime(),
-	    ));
+// 	    RC_DB::table('order_status_log')->insert(array(
+//     	    'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
+//     	    'order_id'		=> $order_id,
+//     	    'message'		=> RC_Lang::get('orders::order.notice_merchant_message'),
+//     	    'add_time'		=> RC_Time::gmtime(),
+// 	    ));
+// 	    RC_DB::table('order_status_log')->insert(array(
+//     	    'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
+//     	    'order_id'		=> $order_id,
+//     	    'message'		=> '订单已通知商家，等待商家处理',
+//     	    'add_time'		=> RC_Time::gmtime(),
+// 	    ));
 	    
 	    /*门店自提，无需物流（收银台）时发送提货验证码；*/
 	    if ($order['shipping_id'] > 0) {
-	    	$shipping_info = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->first();
-	    	if ($shipping_info['shipping_code'] == 'ship_cac') {
-	    		/*生成提货码*/
-	    		$db_term_meta = RC_DB::table('term_meta');
-	    		$max_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->max('meta_value');
-	    		 
-	    		$max_code = $max_code ? ceil($max_code/10000) : 1000000;
-	    		$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
-	    		$meta_data = array(
-	    				'object_type'	=> 'ecjia.order',
-	    				'object_group'	=> 'order',
-	    				'object_id'		=> $order_id,
-	    				'meta_key'		=> 'receipt_verification',
-	    				'meta_value'	=> $code,
-	    		);
-	    		$db_term_meta->insert($meta_data);
-	    		
-	    		/*短信给用户发送收货验证码*/
-	    		$mobile = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('mobile_phone');
-	    		if (!empty($mobile)) {
-	    			
-	    			$options = array(
-	    					'mobile' => $mobile,
-	    					'event'	 => 'sms_order_pickup',
-	    					'value'  =>array(
-	    							'order_sn'  	=> $order['order_sn'],
-	    							'user_name' 	=> $order['user_name'],
-	    							'code'  		=> $code,
-	    							'service_phone' => ecjia::config('service_phone'),
-	    					),
-	    			);
-	    			RC_Api::api('sms', 'send_event_sms', $options);
-	    		}
-	    	}
+	    	$order['consignee'] = $order['user_name'];
+	    	Ecjia\App\Orders\SendPickupCode::send_pickup_code($order);
 	    }
 	    
 	    /* 客户付款通知（默认通知店长）*/
@@ -228,6 +204,7 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
         if (is_ecjia_error($res)) {
         	RC_Logger::getLogger('error')->error($res->get_error_message());
         }
+
     }
 }
 

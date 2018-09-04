@@ -85,7 +85,10 @@ class OrderPrint
             $address .= ' ';
         }
         $address .= $store['address'];
-        
+
+        $discount_amount = number_format(($order['discount'] + $order['integral_money'] + $order['bonus']), 2);
+        $order_amount = number_format(($order['order_amount'] + $order['surplus']), 2);
+
         $data = array(
             'order_sn'            => $order['order_sn'], //订单编号
             'order_trade_no'      => $order_trade_no, //流水编号
@@ -94,10 +97,10 @@ class OrderPrint
             'merchant_address'    => $address,
             'favourable_activity' => $order['activity_name'],
         		
-        	'discount_amount'     => $order['discount'], //优惠金额
-            'receivables'         => $order['surplus'], //应收金额
+        	'discount_amount'     => $discount_amount, //优惠金额
+            'receivables'         => $order_amount, //应收金额
             'payment'             => $order['pay_name'], //支付方式
-            'order_amount'        => $order['surplus'], //实收金额
+            'order_amount'        => $order_amount, //实收金额
             
             'qrcode'              => $order['order_sn'],
         );

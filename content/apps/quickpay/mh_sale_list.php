@@ -108,11 +108,11 @@ class mh_sale_list extends ecjia_merchant {
 		$db_quickpay_order->where('pay_time', '<=', $end_date);
 
 		$sale_list_data = $db_quickpay_order
-		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,
+		->select(RC_DB::raw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,
 				COUNT(DISTINCT order_sn) AS order_count,
 				SUM(goods_amount) AS goods_amount,
 				SUM(order_amount + surplus) AS order_amount,
-				SUM(goods_amount - order_amount) AS favorable_amount")
+				SUM(goods_amount - order_amount) AS favorable_amount"))
 		->groupby('period')
 		->orderby('period', 'desc')
 		->get();
@@ -176,16 +176,16 @@ class mh_sale_list extends ecjia_merchant {
 		$db_quickpay_order->where('pay_time', '<=', $end);
 	
 		$count_data = $db_quickpay_order
-		->selectRaw("COUNT(DISTINCT order_sn) AS order_count,
-				SUM(order_amount + surplus) AS order_amount")
+		->select(RC_DB::raw("COUNT(DISTINCT order_sn) AS order_count,
+				SUM(order_amount + surplus) AS order_amount"))
 		->get();
 		
 		$sale_list_data = $db_quickpay_order
-		->selectRaw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,
+		->select(RC_DB::raw("DATE_FORMAT(FROM_UNIXTIME(pay_time), '". $format ."') AS period,
 				COUNT(DISTINCT order_sn) AS order_count, 
 				SUM(goods_amount) AS goods_amount,
 				SUM(order_amount + surplus) AS order_amount, 
-				SUM(goods_amount - order_amount -surplus) AS favorable_amount")
+				SUM(goods_amount - order_amount -surplus) AS favorable_amount"))
 		->groupby('period')
 		->orderby('period', 'desc')
 		->get();
