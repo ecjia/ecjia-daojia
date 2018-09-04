@@ -1,13 +1,14 @@
-<?php namespace Royalcms\Component\Queue\Connectors;
+<?php
 
-interface ConnectorInterface {
+namespace Royalcms\Component\Queue\Connectors;
 
-	/**
-	 * Establish a queue connection.
-	 *
-	 * @param  array  $config
-	 * @return \Royalcms\Component\Queue\QueueInterface
-	 */
-	public function connect(array $config);
-
+interface ConnectorInterface
+{
+    /**
+     * Establish a queue connection.
+     *
+     * @param  array  $config
+     * @return \Royalcms\Component\Contracts\Queue\Queue
+     */
+    public function connect(array $config);
 }

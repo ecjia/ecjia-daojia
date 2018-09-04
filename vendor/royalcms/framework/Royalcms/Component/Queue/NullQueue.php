@@ -1,17 +1,11 @@
 <?php
 
-namespace Royalcms\Component\Queue\Contracts;
+namespace Royalcms\Component\Queue;
 
-interface Queue
+use Royalcms\Component\Contracts\Queue\Queue as QueueContract;
+
+class NullQueue extends Queue implements QueueContract
 {
-    /**
-     * Get the size of the queue.
-     *
-     * @param  string  $queue
-     * @return int
-     */
-    public function size($queue = null);
-
     /**
      * Push a new job onto the queue.
      *
@@ -20,7 +14,10 @@ interface Queue
      * @param  string  $queue
      * @return mixed
      */
-    public function push($job, $data = '', $queue = null);
+    public function push($job, $data = '', $queue = null)
+    {
+        //
+    }
 
     /**
      * Push a raw payload onto the queue.
@@ -30,7 +27,10 @@ interface Queue
      * @param  array   $options
      * @return mixed
      */
-    public function pushRaw($payload, $queue = null, array $options = []);
+    public function pushRaw($payload, $queue = null, array $options = [])
+    {
+        //
+    }
 
     /**
      * Push a new job onto the queue after a delay.
@@ -41,7 +41,10 @@ interface Queue
      * @param  string  $queue
      * @return mixed
      */
-    public function later($delay, $job, $data = '', $queue = null);
+    public function later($delay, $job, $data = '', $queue = null)
+    {
+        //
+    }
 
     /**
      * Push a new job onto the queue.
@@ -51,7 +54,10 @@ interface Queue
      * @param  mixed   $data
      * @return mixed
      */
-    public function pushOn($queue, $job, $data = '');
+    public function pushOn($queue, $job, $data = '')
+    {
+        //
+    }
 
     /**
      * Push a new job onto the queue after a delay.
@@ -62,13 +68,19 @@ interface Queue
      * @param  mixed   $data
      * @return mixed
      */
-    public function laterOn($queue, $delay, $job, $data = '');
+    public function laterOn($queue, $delay, $job, $data = '')
+    {
+        //
+    }
 
     /**
      * Pop the next job off of the queue.
      *
      * @param  string  $queue
-     * @return \Royalcms\Component\Queue\Contracts\Job|null
+     * @return \Royalcms\Component\Contracts\Queue\Job|null
      */
-    public function pop($queue = null);
+    public function pop($queue = null)
+    {
+        //
+    }
 }

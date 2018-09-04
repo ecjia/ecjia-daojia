@@ -1,23 +1,26 @@
-<?php namespace Royalcms\Component\Queue\Connectors;
+<?php
 
+namespace Royalcms\Component\Queue\Connectors;
+
+use Pheanstalk\Pheanstalk;
+use Royalcms\Component\Support\Arr;
+use Pheanstalk\PheanstalkInterface;
 use Royalcms\Component\Queue\BeanstalkdQueue;
-use Pheanstalk_Pheanstalk as Pheanstalk;
 
-class BeanstalkdConnector implements ConnectorInterface {
+class BeanstalkdConnector implements ConnectorInterface
+{
+    /**
+     * Establish a queue connection.
+     *
+     * @param  array  $config
+     * @return \Royalcms\Component\Contracts\Queue\Queue
+     */
+    public function connect(array $config)
+    {
+        $pheanstalk = new Pheanstalk($config['host'], Arr::get($config, 'port', PheanstalkInterface::DEFAULT_PORT));
 
-	/**
-	 * Establish a queue connection.
-	 *
-	 * @param  array  $config
-	 * @return \Royalcms\Component\Queue\QueueInterface
-	 */
-	public function connect(array $config)
-	{
-		$pheanstalk = new Pheanstalk($config['host']);
-
-		return new BeanstalkdQueue(
-			$pheanstalk, $config['queue'], array_get($config, 'ttr', Pheanstalk::DEFAULT_TTR)
-		);
-	}
-
+        return new BeanstalkdQueue(
+            $pheanstalk, $config['queue'], Arr::get($config, 'ttr', Pheanstalk::DEFAULT_TTR)
+        );
+    }
 }

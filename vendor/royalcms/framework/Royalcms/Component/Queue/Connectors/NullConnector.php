@@ -2,9 +2,9 @@
 
 namespace Royalcms\Component\Queue\Connectors;
 
-use Royalcms\Component\Queue\SyncQueue;
+use Royalcms\Component\Queue\NullQueue;
 
-class SyncConnector implements ConnectorInterface
+class NullConnector implements ConnectorInterface
 {
     /**
      * Establish a queue connection.
@@ -14,6 +14,6 @@ class SyncConnector implements ConnectorInterface
      */
     public function connect(array $config)
     {
-        return new SyncQueue;
+        return new NullQueue;
     }
 }

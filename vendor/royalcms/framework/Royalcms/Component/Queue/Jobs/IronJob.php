@@ -1,172 +1,180 @@
-<?php namespace Royalcms\Component\Queue\Jobs;
+<?php
 
+namespace Royalcms\Component\Queue\Jobs;
+
+use Royalcms\Component\Support\Arr;
 use Royalcms\Component\Queue\IronQueue;
 use Royalcms\Component\Container\Container;
+use Royalcms\Component\Contracts\Queue\Job as JobContract;
 
-class IronJob extends Job {
+class IronJob extends Job implements JobContract
+{
+    /**
+     * The Iron queue instance.
+     *
+     * @var \Royalcms\Component\Queue\IronQueue
+     */
+    protected $iron;
 
-	/**
-	 * The Iron queue instance.
-	 *
-	 * @var \Royalcms\Component\Queue\IronQueue
-	 */
-	protected $iron;
+    /**
+     * The IronMQ message instance.
+     *
+     * @var object
+     */
+    protected $job;
 
-	/**
-	 * The IronMQ message instance.
-	 *
-	 * @var array
-	 */
-	protected $job;
+    /**
+     * Indicates if the message was a push message.
+     *
+     * @var bool
+     */
+    protected $pushed = false;
 
-	/**
-	 * Indicates if the message was a push message.
-	 *
-	 * @var bool
-	 */
-	protected $pushed = false;
-
-	/**
-	 * Create a new job instance.
-	 *
-	 * @param  \Royalcms\Component\Container\Container  $container
-	 * @param  \Royalcms\Component\Queue\IronQueue  $iron
-	 * @param  object  $job
-	 * @param  string  $queue
-	 * @param  bool    $pushed
-	 * @return void
-	 */
-	public function __construct(Container $container,
+    /**
+     * Create a new job instance.
+     *
+     * @param  \Royalcms\Component\Container\Container  $container
+     * @param  \Royalcms\Component\Queue\IronQueue  $iron
+     * @param  object  $job
+     * @param  bool    $pushed
+     * @return void
+     */
+    public function __construct(Container $container,
                                 IronQueue $iron,
                                 $job,
                                 $pushed = false)
-	{
-		$this->job = $job;
-		$this->iron = $iron;
-		$this->pushed = $pushed;
-		$this->container = $container;
-	}
+    {
+        $this->job = $job;
+        $this->iron = $iron;
+        $this->pushed = $pushed;
+        $this->container = $container;
+    }
 
-	/**
-	 * Fire the job.
-	 *
-	 * @return void
-	 */
-	public function fire()
-	{
-		$this->resolveAndFire(json_decode($this->getRawBody(), true));
-	}
+    /**
+     * Fire the job.
+     *
+     * @return void
+     */
+    public function fire()
+    {
+        $this->resolveAndFire(json_decode($this->getRawBody(), true));
+    }
 
-	/**
-	 * Get the raw body string for the job.
-	 *
-	 * @return string
-	 */
-	public function getRawBody()
-	{
-		return $this->job->body;
-	}
+    /**
+     * Get the raw body string for the job.
+     *
+     * @return string
+     */
+    public function getRawBody()
+    {
+        return $this->job->body;
+    }
 
-	/**
-	 * Delete the job from the queue.
-	 *
-	 * @return void
-	 */
-	public function delete()
-	{
-		parent::delete();
+    /**
+     * Delete the job from the queue.
+     *
+     * @return void
+     */
+    public function delete()
+    {
+        parent::delete();
 
-		if (isset($this->job->pushed)) return;
+        if (isset($this->job->pushed)) {
+            return;
+        }
 
-		$this->iron->deleteMessage($this->getQueue(), $this->job->id);
-	}
+        $this->iron->deleteMessage($this->getQueue(), $this->job->id);
+    }
 
-	/**
-	 * Release the job back into the queue.
-	 *
-	 * @param  int   $delay
-	 * @return void
-	 */
-	public function release($delay = 0)
-	{
-		if ( ! $this->pushed) $this->delete();
+    /**
+     * Release the job back into the queue.
+     *
+     * @param  int   $delay
+     * @return void
+     */
+    public function release($delay = 0)
+    {
+        parent::release($delay);
 
-		$this->recreateJob($delay);
-	}
+        if (! $this->pushed) {
+            $this->delete();
+        }
 
-	/**
-	 * Release a pushed job back onto the queue.
-	 *
-	 * @param  int  $delay
-	 * @return void
-	 */
-	protected function recreateJob($delay)
-	{
-		$payload = json_decode($this->job->body, true);
+        $this->recreateJob($delay);
+    }
 
-		array_set($payload, 'attempts', array_get($payload, 'attempts', 1) + 1);
+    /**
+     * Release a pushed job back onto the queue.
+     *
+     * @param  int  $delay
+     * @return void
+     */
+    protected function recreateJob($delay)
+    {
+        $payload = json_decode($this->job->body, true);
 
-		$this->iron->recreate(json_encode($payload), $this->getQueue(), $delay);
-	}
+        Arr::set($payload, 'attempts', Arr::get($payload, 'attempts', 1) + 1);
 
-	/**
-	 * Get the number of times the job has been attempted.
-	 *
-	 * @return int
-	 */
-	public function attempts()
-	{
-		return array_get(json_decode($this->job->body, true), 'attempts', 1);
-	}
+        $this->iron->recreate(json_encode($payload), $this->getQueue(), $delay);
+    }
 
-	/**
-	 * Get the job identifier.
-	 *
-	 * @return string
-	 */
-	public function getJobId()
-	{
-		return $this->job->id;
-	}
+    /**
+     * Get the number of times the job has been attempted.
+     *
+     * @return int
+     */
+    public function attempts()
+    {
+        return Arr::get(json_decode($this->job->body, true), 'attempts', 1);
+    }
 
-	/**
-	 * Get the IoC container instance.
-	 *
-	 * @return \Royalcms\Component\Container\Container
-	 */
-	public function getContainer()
-	{
-		return $this->container;
-	}
+    /**
+     * Get the job identifier.
+     *
+     * @return string
+     */
+    public function getJobId()
+    {
+        return $this->job->id;
+    }
 
-	/**
-	 * Get the underlying Iron queue instance.
-	 *
-	 * @return \Royalcms\Component\Queue\IronQueue
-	 */
-	public function getIron()
-	{
-		return $this->iron;
-	}
+    /**
+     * Get the IoC container instance.
+     *
+     * @return \Royalcms\Component\Container\Container
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
 
-	/**
-	 * Get the underlying IronMQ job.
-	 *
-	 * @return array
-	 */
-	public function getIronJob()
-	{
-		return $this->job;
-	}
+    /**
+     * Get the underlying Iron queue instance.
+     *
+     * @return \Royalcms\Component\Queue\IronQueue
+     */
+    public function getIron()
+    {
+        return $this->iron;
+    }
 
-	/**
-	 * Get the name of the queue the job belongs to.
-	 *
-	 * @return string
-	 */
-	public function getQueue()
-	{
-		return array_get(json_decode($this->job->body, true), 'queue');
-	}
+    /**
+     * Get the underlying IronMQ job.
+     *
+     * @return array
+     */
+    public function getIronJob()
+    {
+        return $this->job;
+    }
 
+    /**
+     * Get the name of the queue the job belongs to.
+     *
+     * @return string
+     */
+    public function getQueue()
+    {
+        return Arr::get(json_decode($this->job->body, true), 'queue');
+    }
 }

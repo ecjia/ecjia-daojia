@@ -7,21 +7,21 @@ use Royalcms\Component\Console\Command;
 use Royalcms\Component\Foundation\Composer;
 use Royalcms\Component\Filesystem\Filesystem;
 
-class FailedTableCommand extends Command
+class TableCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'queue:failed-table';
+    protected $name = 'queue:table';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a migration for the failed queue jobs database table';
+    protected $description = 'Create a migration for the queue jobs database table';
 
     /**
      * The filesystem instance.
@@ -36,7 +36,7 @@ class FailedTableCommand extends Command
     protected $composer;
 
     /**
-     * Create a new failed queue jobs table command instance.
+     * Create a new queue job table command instance.
      *
      * @param  \Royalcms\Component\Filesystem\Filesystem  $files
      * @param  \Royalcms\Component\Foundation\Composer    $composer
@@ -57,14 +57,14 @@ class FailedTableCommand extends Command
      */
     public function fire()
     {
-        $table = $this->laravel['config']['queue.failed.table'];
+        $table = $this->royalcms['config']['queue.connections.database.table'];
 
         $tableClassName = Str::studly($table);
 
         $fullPath = $this->createBaseMigration($table);
 
         $stub = str_replace(
-            ['{{table}}', '{{tableClassName}}'], [$table, $tableClassName], $this->files->get(__DIR__.'/stubs/failed_jobs.stub')
+            ['{{table}}', '{{tableClassName}}'], [$table, $tableClassName], $this->files->get(__DIR__.'/stubs/jobs.stub')
         );
 
         $this->files->put($fullPath, $stub);
@@ -80,12 +80,12 @@ class FailedTableCommand extends Command
      * @param  string  $table
      * @return string
      */
-    protected function createBaseMigration($table = 'failed_jobs')
+    protected function createBaseMigration($table = 'jobs')
     {
         $name = 'create_'.$table.'_table';
 
-        $path = $this->laravel->databasePath().'/migrations';
+        $path = $this->royalcms->databasePath().'/migrations';
 
-        return $this->laravel['migration.creator']->create($name, $path);
+        return $this->royalcms['migration.creator']->create($name, $path);
     }
 }

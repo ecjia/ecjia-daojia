@@ -2,24 +2,23 @@
 
 namespace Royalcms\Component\Queue\Jobs;
 
-use Royalcms\Component\Support\Arr;
-use Royalcms\Component\Queue\RedisQueue;
+use Royalcms\Component\Queue\DatabaseQueue;
 use Royalcms\Component\Container\Container;
 use Royalcms\Component\Contracts\Queue\Job as JobContract;
 
-class RedisJob extends Job implements JobContract
+class DatabaseJob extends Job implements JobContract
 {
     /**
-     * The Redis queue instance.
+     * The database queue instance.
      *
-     * @var \Royalcms\Component\Queue\RedisQueue
+     * @var \Royalcms\Component\Queue\DatabaseQueue
      */
-    protected $redis;
+    protected $database;
 
     /**
-     * The Redis job payload.
+     * The database job payload.
      *
-     * @var string
+     * @var \StdClass
      */
     protected $job;
 
@@ -27,17 +26,18 @@ class RedisJob extends Job implements JobContract
      * Create a new job instance.
      *
      * @param  \Royalcms\Component\Container\Container  $container
-     * @param  \Royalcms\Component\Queue\RedisQueue  $redis
-     * @param  string  $job
+     * @param  \Royalcms\Component\Queue\DatabaseQueue  $database
+     * @param  \StdClass  $job
      * @param  string  $queue
      * @return void
      */
-    public function __construct(Container $container, RedisQueue $redis, $job, $queue)
+    public function __construct(Container $container, DatabaseQueue $database, $job, $queue)
     {
         $this->job = $job;
-        $this->redis = $redis;
         $this->queue = $queue;
+        $this->database = $database;
         $this->container = $container;
+        $this->job->attempts = $this->job->attempts + 1;
     }
 
     /**
@@ -47,17 +47,7 @@ class RedisJob extends Job implements JobContract
      */
     public function fire()
     {
-        $this->resolveAndFire(json_decode($this->getRawBody(), true));
-    }
-
-    /**
-     * Get the raw body string for the job.
-     *
-     * @return string
-     */
-    public function getRawBody()
-    {
-        return $this->job;
+        $this->resolveAndFire(json_decode($this->job->payload, true));
     }
 
     /**
@@ -69,13 +59,13 @@ class RedisJob extends Job implements JobContract
     {
         parent::delete();
 
-        $this->redis->deleteReserved($this->queue, $this->job);
+        $this->database->deleteReserved($this->queue, $this->job->id);
     }
 
     /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param  int  $delay
      * @return void
      */
     public function release($delay = 0)
@@ -84,7 +74,7 @@ class RedisJob extends Job implements JobContract
 
         $this->delete();
 
-        $this->redis->release($this->queue, $this->job, $delay, $this->attempts() + 1);
+        $this->database->release($this->queue, $this->job, $delay);
     }
 
     /**
@@ -94,7 +84,7 @@ class RedisJob extends Job implements JobContract
      */
     public function attempts()
     {
-        return Arr::get(json_decode($this->job, true), 'attempts');
+        return (int) $this->job->attempts;
     }
 
     /**
@@ -104,7 +94,17 @@ class RedisJob extends Job implements JobContract
      */
     public function getJobId()
     {
-        return Arr::get(json_decode($this->job, true), 'id');
+        return $this->job->id;
+    }
+
+    /**
+     * Get the raw body string for the job.
+     *
+     * @return string
+     */
+    public function getRawBody()
+    {
+        return $this->job->payload;
     }
 
     /**
@@ -120,19 +120,19 @@ class RedisJob extends Job implements JobContract
     /**
      * Get the underlying queue driver instance.
      *
-     * @return \Royalcms\Component\Redis\Database
+     * @return \Royalcms\Component\Queue\DatabaseQueue
      */
-    public function getRedisQueue()
+    public function getDatabaseQueue()
     {
-        return $this->redis;
+        return $this->database;
     }
 
     /**
-     * Get the underlying Redis job.
+     * Get the underlying database job.
      *
-     * @return string
+     * @return \StdClass
      */
-    public function getRedisJob()
+    public function getDatabaseJob()
     {
         return $this->job;
     }

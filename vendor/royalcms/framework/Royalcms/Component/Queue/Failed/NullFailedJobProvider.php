@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\Queue\Failed;
 
-interface FailedJobProviderInterface
+class NullFailedJobProvider implements FailedJobProviderInterface
 {
     /**
      * Log a failed job into storage.
@@ -12,14 +12,20 @@ interface FailedJobProviderInterface
      * @param  string  $payload
      * @return void
      */
-    public function log($connection, $queue, $payload);
+    public function log($connection, $queue, $payload)
+    {
+        //
+    }
 
     /**
      * Get a list of all of the failed jobs.
      *
      * @return array
      */
-    public function all();
+    public function all()
+    {
+        return [];
+    }
 
     /**
      * Get a single failed job.
@@ -27,7 +33,10 @@ interface FailedJobProviderInterface
      * @param  mixed  $id
      * @return array
      */
-    public function find($id);
+    public function find($id)
+    {
+        //
+    }
 
     /**
      * Delete a single failed job from storage.
@@ -35,12 +44,18 @@ interface FailedJobProviderInterface
      * @param  mixed  $id
      * @return bool
      */
-    public function forget($id);
+    public function forget($id)
+    {
+        return true;
+    }
 
     /**
      * Flush all of the failed jobs from storage.
      *
      * @return void
      */
-    public function flush();
+    public function flush()
+    {
+        //
+    }
 }

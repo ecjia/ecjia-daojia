@@ -4,21 +4,21 @@ namespace Royalcms\Component\Queue\Console;
 
 use Royalcms\Component\Console\Command;
 
-class FlushFailedCommand extends Command
+class RestartCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'queue:flush';
+    protected $name = 'queue:restart';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Flush all of the failed queue jobs';
+    protected $description = 'Restart queue worker daemons after their current job';
 
     /**
      * Execute the console command.
@@ -27,8 +27,8 @@ class FlushFailedCommand extends Command
      */
     public function fire()
     {
-        $this->royalcms['queue.failer']->flush();
+        $this->royalcms['cache']->forever('royalcms:queue:restart', time());
 
-        $this->info('All failed jobs deleted successfully!');
+        $this->info('Broadcasting queue restart signal.');
     }
 }

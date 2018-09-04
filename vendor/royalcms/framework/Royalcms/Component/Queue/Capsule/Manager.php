@@ -1,18 +1,15 @@
-<?php namespace Royalcms\Component\Queue\Capsule;
+<?php
 
-use Royalcms\Component\Support\Fluent;
+namespace Royalcms\Component\Queue\Capsule;
+
 use Royalcms\Component\Queue\QueueManager;
 use Royalcms\Component\Container\Container;
 use Royalcms\Component\Queue\QueueServiceProvider;
+use Royalcms\Component\Support\Traits\CapsuleManagerTrait;
 
-class Manager {
-
-    /**
-     * The current globally used instance.
-     *
-     * @var \Royalcms\Component\Queue\Capsule\Manager
-     */
-    protected static $instance;
+class Manager
+{
+    use CapsuleManagerTrait;
 
     /**
      * The queue manager instance.
@@ -29,7 +26,7 @@ class Manager {
      */
     public function __construct(Container $container = null)
     {
-        $this->setupContainer($container);
+        $this->setupContainer($container ?: new Container);
 
         // Once we have the container setup, we will setup the default configuration
         // options in the container "config" bindings. This just makes this queue
@@ -39,22 +36,6 @@ class Manager {
         $this->setupManager();
 
         $this->registerConnectors();
-    }
-
-    /**
-     * Setup the IoC container instance.
-     *
-     * @param  \Royalcms\Component\Container\Container  $container
-     * @return void
-     */
-    protected function setupContainer($container)
-    {
-        $this->container = $container ?: new Container;
-
-        if ( ! $this->container->bound('config'))
-        {
-            $this->container->instance('config', new Fluent);
-        }
     }
 
     /**
@@ -93,7 +74,7 @@ class Manager {
      * Get a connection instance from the global manager.
      *
      * @param  string  $connection
-     * @return \Royalcms\Component\Queue\QueueInterface
+     * @return \Royalcms\Component\Contracts\Queue\Queue
      */
     public static function connection($connection = null)
     {
@@ -147,7 +128,7 @@ class Manager {
      * Get a registered connection instance.
      *
      * @param  string  $name
-     * @return \Royalcms\Component\Queue\QueueInterface
+     * @return \Royalcms\Component\Contracts\Queue\Queue
      */
     public function getConnection($name = null)
     {
@@ -167,44 +148,13 @@ class Manager {
     }
 
     /**
-     * Make this capsule instance available globally.
-     *
-     * @return void
-     */
-    public function setAsGlobal()
-    {
-        static::$instance = $this;
-    }
-
-    /**
      * Get the queue manager instance.
      *
-     * @return \Royalcms\Component\Queue\Manager
+     * @return \Royalcms\Component\Queue\QueueManager
      */
     public function getQueueManager()
     {
         return $this->manager;
-    }
-
-    /**
-     * Get the IoC container instance.
-     *
-     * @return \Royalcms\Component\Container\Container
-     */
-    public function getContainer()
-    {
-        return $this->container;
-    }
-
-    /**
-     * Set the IoC container instance.
-     *
-     * @param  \Illuminate\Container\Container  $container
-     * @return void
-     */
-    public function setContainer(Container $container)
-    {
-        $this->container = $container;
     }
 
     /**
@@ -216,7 +166,7 @@ class Manager {
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array(array($this->manager, $method), $parameters);
+        return call_user_func_array([$this->manager, $method], $parameters);
     }
 
     /**
@@ -228,7 +178,6 @@ class Manager {
      */
     public static function __callStatic($method, $parameters)
     {
-        return call_user_func_array(array(static::connection(), $method), $parameters);
+        return call_user_func_array([static::connection(), $method], $parameters);
     }
-
 }

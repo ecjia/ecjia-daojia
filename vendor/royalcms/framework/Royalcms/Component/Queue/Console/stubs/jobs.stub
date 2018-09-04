@@ -13,11 +13,15 @@ class Create{{tableClassName}}Table extends Migration
     public function up()
     {
         Schema::create('{{table}}', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('connection');
-            $table->text('queue');
+            $table->bigIncrements('id');
+            $table->string('queue');
             $table->longText('payload');
-            $table->timestamp('failed_at')->useCurrent();
+            $table->tinyInteger('attempts')->unsigned();
+            $table->tinyInteger('reserved')->unsigned();
+            $table->unsignedInteger('reserved_at')->nullable();
+            $table->unsignedInteger('available_at');
+            $table->unsignedInteger('created_at');
+            $table->index(['queue', 'reserved', 'reserved_at']);
         });
     }
 
