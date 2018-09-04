@@ -63,9 +63,18 @@ if ( !function_exists('rc_redirect') )
         if ( !$is_IIS && PHP_SAPI != 'cgi-fcgi' )
             rc_status_header($status); // This causes problems on IIS and some FastCGI setups
 
-        header("Location: $location", true, $status);
+        //header("Location: $location", true, $status);
+        //return true;
 
-        return true;
+        $response = redirect($location, $status);
+        $cookies = royalcms('response')->headers->getCookies();
+        foreach ($cookies as $cookie)
+        {
+            $response->withCookie($cookie);
+        }
+        royalcms()->instance('response', $response);
+        $response->send();
+        exit(0);
     }
 }
 
