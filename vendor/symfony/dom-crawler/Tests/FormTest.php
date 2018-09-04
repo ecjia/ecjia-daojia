@@ -13,7 +13,6 @@ namespace Symfony\Component\DomCrawler\Tests;
 
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\FormFieldRegistry;
-use Symfony\Component\DomCrawler\Field;
 
 class FormTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +62,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * __construct() should throw \\LogicException if the form attribute is invalid
+     * __construct() should throw \\LogicException if the form attribute is invalid.
+     *
      * @expectedException \LogicException
      */
     public function testConstructorThrowsExceptionIfNoRelatedForm()
@@ -344,18 +344,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSetValueOnMultiValuedFieldsWithMalformedName()
-    {
-        $form = $this->createForm('<form><input type="text" name="foo[bar]" value="bar" /><input type="text" name="foo[baz]" value="baz" /><input type="submit" /></form>');
-
-        try {
-            $form['foo[bar'] = 'bar';
-            $this->fail('->offsetSet() throws an \InvalidArgumentException exception if the name is malformed.');
-        } catch (\InvalidArgumentException $e) {
-            $this->assertTrue(true, '->offsetSet() throws an \InvalidArgumentException exception if the name is malformed.');
-        }
-    }
-
     public function testDisableValidation()
     {
         $form = $this->createForm('<form>
@@ -416,7 +404,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testMultiselectSetValues()
     {
         $form = $this->createForm('<form><select multiple="multiple" name="multi"><option value="foo">foo</option><option value="bar">bar</option></select><input type="submit" /></form>');
-        $form->setValues(array('multi' => array("foo", "bar")));
+        $form->setValues(array('multi' => array('foo', 'bar')));
         $this->assertEquals(array('multi' => array('foo', 'bar')), $form->getValues(), '->setValue() sets the values of select');
     }
 
@@ -593,6 +581,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
                 '/foo?bar=bar&foo=foo',
             ),
             array(
+                'replaces query values with the form values',
+                '<form action="/foo?bar=bar"><input type="text" name="bar" value="foo" /><input type="submit" /></form>',
+                array(),
+                '/foo?bar=foo',
+            ),
+            array(
                 'returns an empty URI if the action is empty',
                 '<form><input type="submit" /></form>',
                 array(),
@@ -674,31 +668,19 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->has('example.y'), '->has() returns true if the image input was correctly turned into an x and a y fields');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testFormFieldRegistryAddThrowAnExceptionWhenTheNameIsMalformed()
+    public function testFormFieldRegistryAcceptAnyNames()
     {
-        $registry = new FormFieldRegistry();
-        $registry->add($this->getFormFieldMock('[foo]'));
-    }
+        $field = $this->getFormFieldMock('[t:dbt%3adate;]data_daterange_enddate_value');
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testFormFieldRegistryRemoveThrowAnExceptionWhenTheNameIsMalformed()
-    {
         $registry = new FormFieldRegistry();
-        $registry->remove('[foo]');
-    }
+        $registry->add($field);
+        $this->assertEquals($field, $registry->get('[t:dbt%3adate;]data_daterange_enddate_value'));
+        $registry->set('[t:dbt%3adate;]data_daterange_enddate_value', null);
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testFormFieldRegistryGetThrowAnExceptionWhenTheNameIsMalformed()
-    {
-        $registry = new FormFieldRegistry();
-        $registry->get('[foo]');
+        $form = $this->createForm('<form><input type="text" name="[t:dbt%3adate;]data_daterange_enddate_value" value="bar" /><input type="submit" /></form>');
+        $form['[t:dbt%3adate;]data_daterange_enddate_value'] = 'bar';
+
+        $registry->remove('[t:dbt%3adate;]data_daterange_enddate_value');
     }
 
     /**
@@ -708,15 +690,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $registry = new FormFieldRegistry();
         $registry->get('foo');
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testFormFieldRegistrySetThrowAnExceptionWhenTheNameIsMalformed()
-    {
-        $registry = new FormFieldRegistry();
-        $registry->set('[foo]', null);
     }
 
     /**
@@ -792,12 +765,36 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $registry->set('foo[bar][baz]', 'fbb');
 
         $registry->set('foo', array(
-            2     => 2,
-            3     => 3,
+            2 => 2,
+            3 => 3,
             'bar' => array(
                 'baz' => 'fbb',
              ),
         ));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Cannot set value on a compound field "foo[bar]".
+     */
+    public function testFormRegistrySetValueOnCompoundField()
+    {
+        $registry = new FormFieldRegistry();
+        $registry->add($this->getFormFieldMock('foo[bar][baz]'));
+
+        $registry->set('foo[bar]', 'fbb');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unreachable field "0"
+     */
+    public function testFormRegistrySetArrayOnNotCompoundField()
+    {
+        $registry = new FormFieldRegistry();
+        $registry->add($this->getFormFieldMock('bar'));
+
+        $registry->set('bar', array('baz'));
     }
 
     public function testDifferentFieldTypesWithSameName()
