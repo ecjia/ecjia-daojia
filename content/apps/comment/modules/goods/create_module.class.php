@@ -80,7 +80,7 @@ class create_module extends api_front implements api_interface {
 		}
 		
 		$order_info = RC_DB::table('order_info as oi')
-    		->selectRaw('oi.store_id, oi.shipping_time, og.goods_attr, og.order_id, og.goods_id')
+    		->select(RC_DB::raw('oi.store_id, oi.shipping_time, og.goods_attr, og.order_id, og.goods_id'))
     		->leftJoin('order_goods as og', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('og.order_id'))
     		->where(RC_DB::raw('oi.user_id'), $user_id)
     		->where(RC_DB::raw('og.rec_id'), $rec_id)

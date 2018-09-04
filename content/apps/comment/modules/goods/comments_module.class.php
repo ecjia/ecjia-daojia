@@ -103,7 +103,7 @@ function EM_assign_comment($id, $type, $page = 1, $page_size = 15) {
 
 	$db_comment = RC_DB::table('comment as c')
 	    ->leftJoin('users as u', RC_DB::raw('u.user_id'), '=', RC_DB::raw('c.user_id'))
-		->selectRaw('c.*, u.avatar_img')
+		->select(RC_DB::raw('c.*, u.avatar_img'))
 		->where('id_value', $id)
 		->where('status', 1)
 		->where(RC_DB::raw('c.parent_id'), 0)

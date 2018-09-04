@@ -183,7 +183,7 @@ class admin extends ecjia_admin {
 		if (!empty($reply_info)) {
 			foreach ($reply_info as $key => $val) {
 				if (($val['user_type'] === 'merchant') && ($val['user_id'] > 0)) {
-					$staff_info = RC_DB::table('staff_user')->where('user_id', $val['user_id'])->selectRaw('name,avatar')->first();
+					$staff_info = RC_DB::table('staff_user')->where('user_id', $val['user_id'])->select('name','avatar')->first();
 					$reply_info[$key]['staff_img'] = RC_Upload::upload_url().'/'.$staff_info['avatar'];
 					$reply_info[$key]['staff_name'] = $staff_info['name'];
 				}
@@ -677,7 +677,7 @@ class admin extends ecjia_admin {
 		$data = $db_comment
 		->leftJoin('store_franchisee as sf', RC_DB::raw('c.store_id'), '=', RC_DB::raw('sf.store_id'))
 		->leftJoin('goods as g', RC_DB::raw('c.id_value'), '=', RC_DB::raw('g.goods_id'))
-		->selectRaw('c.comment_id,c.user_name,c.content,c.add_time,c.id_value,c.comment_rank,c.status,c.has_image,sf.merchants_name,g.goods_name')
+		->select(RC_DB::raw('c.comment_id,c.user_name,c.content,c.add_time,c.id_value,c.comment_rank,c.status,c.has_image,sf.merchants_name,g.goods_name'))
 		->orderby(RC_DB::raw('c.add_time'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)

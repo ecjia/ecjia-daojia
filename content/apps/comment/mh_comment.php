@@ -290,7 +290,7 @@ class mh_comment extends ecjia_merchant {
 		$count = $db_comment->count();
 		$page = new ecjia_merchant_page($count, 10, 5);
 		$data = $db_comment
-		->selectRaw('comment_id,user_name,content,add_time,id_value,comment_rank,id_value')
+		->select('comment_id','user_name','content','add_time','id_value','comment_rank','id_value')
 		->orderby('add_time', 'desc')
 		->take(10)
 		->skip($page->start_id-1)

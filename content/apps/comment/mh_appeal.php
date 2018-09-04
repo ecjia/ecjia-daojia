@@ -264,7 +264,7 @@ class mh_appeal extends ecjia_merchant {
 		$count = $db_comment_appeal->count();
 		$page = new ecjia_merchant_page($count, 10, 5);
 		$data = $db_comment_appeal
-		->selectRaw('id,appeal_sn,comment_id,appeal_content,check_status,appeal_time,process_time')
+		->select('id','appeal_sn','comment_id','appeal_content','check_status','appeal_time','process_time')
 		->orderby('appeal_time', 'desc')
 		->take(10)
 		->skip($page->start_id-1)

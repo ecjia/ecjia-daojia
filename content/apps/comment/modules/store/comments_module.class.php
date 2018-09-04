@@ -150,7 +150,7 @@ function EM_assign_comment($id, $type, $page = 1, $page_size = 15) {
 	$page_row = new ecjia_page($count, $page_size, 6, '', $page);
 	$data = $db_comment
     	->leftJoin('users as u', RC_DB::raw('u.user_id'), '=', RC_DB::raw('c.user_id'))
-    	->selectRaw('c.*, u.avatar_img')
+    	->select(RC_DB::raw('c.*, u.avatar_img'))
     	->orderBy('comment_id', 'desc')->take($page_size)->skip($page_row->start_id-1)->get();
 	
 	$arr = $ids = array();

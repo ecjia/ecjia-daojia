@@ -237,7 +237,7 @@ class appeal extends ecjia_admin {
 		$count = $db_comment_appeal->count();
 		$page = new ecjia_page($count, 10, 5);
 		$data = $db_comment_appeal
-		->selectRaw('ca.id, ca.appeal_sn, ca.comment_id, ca.appeal_content, ca.check_status, ca.appeal_time, ca.process_time, sf.merchants_name, c.has_image')
+		->select(RC_DB::raw('ca.id, ca.appeal_sn, ca.comment_id, ca.appeal_content, ca.check_status, ca.appeal_time, ca.process_time, sf.merchants_name, c.has_image'))
 		->orderby(RC_DB::Raw('ca.appeal_time'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)

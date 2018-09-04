@@ -84,7 +84,7 @@ class admin_config extends ecjia_admin {
 	    /* 评论送积分*/
 	    $user_rank_list = array();
 	    $db_user_rank = RC_DB::table('user_rank');
-	    $data = $db_user_rank->selectRaw('rank_id, rank_name')->get();
+	    $data = $db_user_rank->select('rank_id', 'rank_name')->get();
 	    if (!empty($data)) {
 	        $comment_award_rules = unserialize(ecjia::config('comment_award_rules'));
 	         
