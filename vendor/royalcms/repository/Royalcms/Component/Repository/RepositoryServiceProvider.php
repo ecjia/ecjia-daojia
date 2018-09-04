@@ -40,4 +40,21 @@ class RepositoryServiceProvider extends ServiceProvider
 
     }
 
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/repository');
+
+        return [
+            $dir . "/Repositories/AbstractRepository.php",
+            $dir . "/Traits/Cacheable.php",
+            $dir . "/Contracts/RepositoryContract.php",
+            $dir . "/RepositoryServiceProvider.php",
+        ];
+    }
+
 }
