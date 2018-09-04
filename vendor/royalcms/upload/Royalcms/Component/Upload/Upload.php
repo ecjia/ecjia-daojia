@@ -4,7 +4,7 @@ use Royalcms\Component\Foundation\Uri;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\DateTime\Time;
 use Royalcms\Component\Support\Facades\Config;
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Facades\File;
 
 /**
@@ -36,7 +36,7 @@ class Upload
      */
     public static function random_filename()
     {
-        $value = Hook::apply_filters('upload_default_random_filename', '');
+        $value = RC_Hook::apply_filters('upload_default_random_filename', '');
         if (!$value) {
             $seedstr = explode(" ", microtime(), 5);
             $seed = $seedstr[0] * 10000;
@@ -124,7 +124,7 @@ class Upload
          *            Array of upload directory data with keys of 'path',
          *            'url', 'subdir, 'basedir', and 'error'.
          */
-        $uploads = Hook::apply_filters('upload_dir', array(
+        $uploads = RC_Hook::apply_filters('upload_dir', array(
             'path' => $dir,
             'url' => $url,
             'subdir' => $subdir,
@@ -171,7 +171,7 @@ class Upload
          *            Array of upload directory data with keys of 'path',
          *            'url', 'subdir, 'basedir', and 'error'.
          */
-        return Hook::apply_filters('upload_sub_dir', $subdir, $time);
+        return RC_Hook::apply_filters('upload_sub_dir', $subdir, $time);
     }
 
     /**
@@ -205,7 +205,7 @@ class Upload
          * @param string $path
          *            Full path to the file.
          */
-        return Hook::apply_filters('relative_upload_path', $new_path, $path);
+        return RC_Hook::apply_filters('relative_upload_path', $new_path, $path);
     }
     
     
@@ -237,7 +237,7 @@ class Upload
          * @param string $path
          *            Path relative to the admin area URL. Blank string if no path is specified.
          */
-        return Hook::apply_filters('upload_url', $url, $path);
+        return RC_Hook::apply_filters('upload_url', $url, $path);
     }
     
     
@@ -268,7 +268,7 @@ class Upload
          * @param string $path
          *            Path relative to the admin area URL. Blank string if no path is specified.
          */
-        return Hook::apply_filters('upload_path', $upload_root, $path);
+        return RC_Hook::apply_filters('upload_path', $upload_root, $path);
     }
 
 }

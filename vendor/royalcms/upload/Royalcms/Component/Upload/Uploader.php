@@ -2,8 +2,8 @@
 
 use Royalcms\Component\Error\Error;
 use Royalcms\Component\Support\Format;
-use Royalcms\Component\Support\Facades\Hook;
-use Royalcms\Component\Support\Facades\Storage as RC_Storage;
+use RC_Hook;
+use RC_Storage;
 use Royalcms\Component\Support\Facades\Config;
 
 /**
@@ -577,7 +577,7 @@ class Uploader
          *
          * @param array $file An array of data for a single file.
          */
-        $file = Hook::apply_filters( "{$action}_prefilter", $file );
+        $file = RC_Hook::apply_filters( "{$action}_prefilter", $file );
     
         // You may define your own function and pass the name in $overrides['upload_error_handler']
         $upload_error_handler = 'wp_handle_upload_error';
@@ -732,7 +732,7 @@ class Uploader
          * }
          * @param string $context The type of upload action. Values include 'upload' or 'sideload'.
          */
-        return Hook::apply_filters( 'rc_handle_upload', array(
+        return RC_Hook::apply_filters( 'rc_handle_upload', array(
             'file' => $new_file,
             'url'  => $url,
             'type' => $type
