@@ -110,7 +110,7 @@ class admin_separate extends ecjia_admin {
 		empty($affiliate) && $affiliate = array();
 		$separate_by = $affiliate['config']['separate_by'];
 		$oid = (int)$_GET['id'];
-		$row = RC_DB::table('order_info')->where('order_id', $oid)->selectRaw('order_id, extension_code, extension_id, order_sn, is_separate, (goods_amount - discount) as goods_amount, user_id')->first();
+		$row = RC_DB::table('order_info')->where('order_id', $oid)->select(RC_DB::raw('order_id, extension_code, extension_id, order_sn, is_separate, (goods_amount - discount) as goods_amount, user_id'))->first();
 		$order_sn = $row['order_sn'];
 		
 		if (empty($row['is_separate'])) {
@@ -170,7 +170,7 @@ class admin_separate extends ecjia_admin {
 				$row = RC_DB::table('order_info as o')
 					->leftJoin('users as u', RC_DB::raw('o.user_id'), '=', RC_DB::raw('u.user_id'))
 					->where(RC_DB::raw('o.order_id'), $oid)
-					->selectRaw('o.parent_id, u.user_name')
+					->select(RC_DB::raw('o.parent_id, u.user_name'))
 					->first();
 				
 				$up_uid = $row['parent_id'];
@@ -309,7 +309,7 @@ class admin_separate extends ecjia_admin {
 			//关闭
 			$where = "o.user_id > 0 AND o.is_separate > 0 $sqladd ";
 		}
-		$data = $db_order_info_view->selectRaw($field)->whereRaw($where)->take(15)->skip($page->start_id-1)->orderBy(RC_DB::raw('o.order_id'), 'desc')->get();
+		$data = $db_order_info_view->select(RC_DB::raw($field))->whereRaw($where)->take(15)->skip($page->start_id-1)->orderBy(RC_DB::raw('o.order_id'), 'desc')->get();
 		
 		if (!empty($data)) {
 			foreach ($data as $rt) {

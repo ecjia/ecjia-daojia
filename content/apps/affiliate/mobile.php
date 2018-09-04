@@ -117,7 +117,10 @@ class mobile extends ecjia_front {
 		$this->assign('invite_code', $invite_code);
 		$this->assign('affiliate_note', $affiliate_note);
 		
-		$this->display('affiliate.dwt');
+		//$this->display('affiliate.dwt');
+		$this->display(
+				RC_Package::package('app::affiliate')->loadTemplate('front/affiliate.dwt', true)
+		);
 	}
 	
 	public function invite() {
