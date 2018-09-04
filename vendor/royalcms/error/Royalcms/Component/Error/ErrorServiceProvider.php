@@ -17,4 +17,21 @@ class ErrorServiceProvider extends ServiceProvider {
 	    });
 	}
 
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/error');
+
+        return [
+            $dir . '/Error.php',
+            $dir . '/ErrorDisplay.php',
+            $dir . '/ErrorServiceProvider.php',
+            $dir . '/Facades/Error.php',
+        ];
+    }
+
 }
