@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\DateTime;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 
 /**
  * 时间处理类
@@ -57,7 +57,7 @@ class Time
          * @param string $orig_scheme
          *            Scheme requested for the URL. One of 'http', 'https' or 'relative'.
          */
-        return Hook::apply_filters('set_server_timezone', $timezone);
+        return RC_Hook::apply_filters('set_server_timezone', $timezone);
     }
 
     /**
