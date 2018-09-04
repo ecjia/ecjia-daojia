@@ -28,6 +28,7 @@ return array(
 
     //@TODO
 	'defaultconnection' => 'mysql',
+	'default' => 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------

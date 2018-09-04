@@ -1,10 +1,15 @@
-<?php namespace Royalcms\Component\Config;
+<?php
+
+namespace Royalcms\Component\Config;
 
 use Closure;
 use ArrayAccess;
 use Royalcms\Component\Support\NamespacedItemResolver;
+use Royalcms\Component\Contracts\Config\Repository as ConfigContract;
 
-class Repository extends NamespacedItemResolver implements ArrayAccess {
+class Repository extends NamespacedItemResolver implements ArrayAccess, ConfigContract
+{
+    use CompatibleTrait;
 
 	/**
 	 * The loader implementation.
@@ -48,10 +53,11 @@ class Repository extends NamespacedItemResolver implements ArrayAccess {
 	 * @param  string  $environment
 	 * @return void
 	 */
-	public function __construct(LoaderInterface $loader, $environment)
+	public function __construct(LoaderInterface $loader, $environment, array $items = [])
 	{
 		$this->loader = $loader;
 		$this->environment = $environment;
+        $this->items = $items;
 	}
 
 	/**
@@ -108,7 +114,7 @@ class Repository extends NamespacedItemResolver implements ArrayAccess {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	public function set($key, $value)
+	public function set($key, $value = null)
 	{
 		list($namespace, $group, $item) = $this->parseKey($key);
 
@@ -128,6 +134,48 @@ class Repository extends NamespacedItemResolver implements ArrayAccess {
 			array_set($this->items[$collection], $item, $value);
 		}
 	}
+
+    /**
+     * Prepend a value onto an array configuration value.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function prepend($key, $value)
+    {
+        $array = $this->get($key);
+
+        array_unshift($array, $value);
+
+        $this->set($key, $array);
+    }
+
+    /**
+     * Push a value onto an array configuration value.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function push($key, $value)
+    {
+        $array = $this->get($key);
+
+        $array[] = $value;
+
+        $this->set($key, $array);
+    }
+
+    /**
+     * Get all of the configuration items for the application.
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->items;
+    }
 
 	/**
 	 * Load the configuration group for the key.
@@ -411,47 +459,5 @@ class Repository extends NamespacedItemResolver implements ArrayAccess {
 	{
 		$this->set($key, null);
 	}
-	
-	/**
-	 * @since 3.9
-	 * 兼容3.8老的使用方法
-	 */
-	public function load_config($file, $name = '')
-	{
-	    if ($name) {
-	        return $this->get($file.'.'.strtolower($name));
-	    }
-	    else {
-	        return $this->get($file);
-	    }
-	}
-	public function system($name)
-    {
-        return $this->get('system.'.strtolower($name));
-    }
-    public function cache($name)
-    {
-        return $this->get('cache.'.strtolower($name));
-    }
-    public function database($name)
-    {
-        return $this->get('database.'.strtolower($name));
-    }
-    public function mail($name)
-    {
-        return $this->get('mail.'.strtolower($name));
-    }
-    public function route($name)
-    {
-        return $this->get('route.'.strtolower($name));
-    }
-    public function session($name)
-    {
-        return $this->get('session.'.strtolower($name));
-    }
-    public function cookie($name)
-    {
-        return $this->get('session.'.strtolower($name));
-    }
 
 }

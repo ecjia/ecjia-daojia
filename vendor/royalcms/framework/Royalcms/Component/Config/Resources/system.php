@@ -14,7 +14,7 @@ return array(
     | Encryption Key
     |--------------------------------------------------------------------------
     |
-    | This key is used by the Illuminate encrypter service and should be set
+    | This key is used by the Royalcms encrypter service and should be set
     | to a random, 32 character string, otherwise these encrypted strings
     | will not be safe. Please do this before deploying an application!
     |
@@ -114,6 +114,38 @@ return array(
     */
     
     'locale' => 'zh_CN',
+
+    'fallback_locale' => 'zh_CN',
+
+    /*
+	|--------------------------------------------------------------------------
+	| Application URL
+	|--------------------------------------------------------------------------
+	|
+	| This URL is used by the console to properly generate URLs when using
+	| the Artisan command line tool. You should set this to the root of
+	| your application so that it is used when running Artisan tasks.
+	|
+	*/
+
+    'url' => 'http://localhost',
+
+    /*
+	|--------------------------------------------------------------------------
+	| Logging Configuration
+	|--------------------------------------------------------------------------
+	|
+	| Here you may configure the log settings for your application. Out of
+	| the box, Laravel uses the Monolog PHP logging library. This gives
+	| you a variety of powerful log handlers / formatters to utilize.
+	|
+	| Available Settings: "single", "daily", "syslog", "errorlog"
+	|
+	*/
+
+    'log' => 'daily',
+
+    'log_max_files' => 5,
     
     /*
     |--------------------------------------------------------------------------
@@ -125,8 +157,8 @@ return array(
     | list of all of the services. Here, you may set its storage spot.
     |
     */
-    
-    'manifest' => storage_path().'/meta',
+    // @todo
+//    'manifest' => storage_path().'/meta',
     
 );
 
