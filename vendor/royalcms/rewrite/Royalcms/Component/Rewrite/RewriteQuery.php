@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Rewrite;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Foundation\Uri;
 
 class RewriteQuery
@@ -248,7 +248,7 @@ class RewriteQuery
          * @param WP           $this             Current WordPress environment instance.
          * @param array|string $extra_query_vars Extra passed query variables.
          */
-        if ( ! Hook::apply_filters( 'do_parse_request', true, $this, $extra_query_vars ) )
+        if ( ! RC_Hook::apply_filters( 'do_parse_request', true, $this, $extra_query_vars ) )
             return;
     
         $this->query_vars = array();
@@ -311,7 +311,7 @@ class RewriteQuery
 
             $this->request = $request;
             
-            $req_str = Hook::apply_filters('rewrite_parse_query_string', $req_str);
+            $req_str = RC_Hook::apply_filters('rewrite_parse_query_string', $req_str);
             // Look for matches.
             $request_match = $request . '?' . $req_str;
             if ( empty( $request_match ) ) {
@@ -371,7 +371,7 @@ class RewriteQuery
          *
          * @param array $public_query_vars The array of whitelisted query variables.
          */
-        $this->public_query_vars = Hook::apply_filters( 'query_vars', $this->public_query_vars );
+        $this->public_query_vars = RC_Hook::apply_filters( 'query_vars', $this->public_query_vars );
     
         foreach ( $this->public_query_vars as $rcvar ) {
             if ( isset( $this->extra_query_vars[$rcvar] ) )
@@ -411,7 +411,7 @@ class RewriteQuery
          *
          * @param array $query_vars The array of requested query variables.
          */
-        $this->query_vars = Hook::apply_filters( 'request', $this->query_vars );
+        $this->query_vars = RC_Hook::apply_filters( 'request', $this->query_vars );
 
         /**
          * Fires once all query variables for the current request have been parsed.
@@ -420,7 +420,7 @@ class RewriteQuery
          *
          * @param WP &$this Current WordPress environment instance (passed by reference).
         */
-        Hook::do_action_ref_array( 'parse_request', array( &$this ) );
+        RC_Hook::do_action_ref_array( 'parse_request', array( &$this ) );
     }
     
     /**
@@ -488,7 +488,7 @@ class RewriteQuery
             }
         }
     
-        if ( Hook::has_filter( 'query_string' ) ) {  // Don't bother filtering and parsing if no plugins are hooked in.
+        if ( RC_Hook::has_filter( 'query_string' ) ) {  // Don't bother filtering and parsing if no plugins are hooked in.
             /**
             * Filter the query string before parsing.
             *
@@ -497,7 +497,7 @@ class RewriteQuery
             *
             * @param string $query_string The query string to modify.
             */
-            $this->query_string = Hook::apply_filters( 'query_string', $this->query_string );
+            $this->query_string = RC_Hook::apply_filters( 'query_string', $this->query_string );
 			parse_str($this->query_string, $this->query_vars);
 		}
 	}
