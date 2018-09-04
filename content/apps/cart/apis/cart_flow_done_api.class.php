@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 use Ecjia\System\Notifications\OrderPlaced;
+use Ecjia\App\Orders\Notifications\OrderPickup;
 defined('IN_ECJIA') or exit('No permission resources.');
 
 
@@ -80,7 +81,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		if (isset($consignee['latitude']) && isset($consignee['longitude']) && $mobile_location_range > 0) {
 			$geohash = RC_Loader::load_app_class('geohash', 'store');
 			$geohash_code = $geohash->encode($consignee['latitude'] , $consignee['longitude']);
-			$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
+			$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => ''));
 			
 		} elseif (isset($consignee['city']) && $consignee['city'] > 0) {
 			$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $consignee['city']));
@@ -129,21 +130,19 @@ class cart_flow_done_api extends Component_Event_Api {
 		if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
 			$cart_goods_stock = $get_cart_goods['goods_list'];
 			$_cart_goods_stock = array();
-			foreach ($cart_goods_stock['goods_list'] as $value) {
-				$_cart_goods_stock[$value['rec_id']] = $value['goods_number'];
+			if (!empty($cart_goods_stock['goods_list'])) {
+				foreach ($cart_goods_stock['goods_list'] as $value) {
+					$_cart_goods_stock[$value['rec_id']] = $value['goods_number'];
+				}
+				$result = cart::flow_cart_stock($_cart_goods_stock);
+				if (is_ecjia_error($result)) {
+					return $result;
+				}
+				unset($cart_goods_stock, $_cart_goods_stock);
 			}
-			$result = cart::flow_cart_stock($_cart_goods_stock);
-			if (is_ecjia_error($result)) {				
-				return $result;
-			}
-			unset($cart_goods_stock, $_cart_goods_stock);
 		}
 
 		/* 扩展信息 */
-		RC_Logger::getLogger('error')->info('test111');
-		RC_Logger::getLogger('error')->info($flow_type);
-		RC_Logger::getLogger('error')->info('test222');
-		
 		if (isset($flow_type) && intval($flow_type) != CART_GENERAL_GOODS) {
 			//$order['extension_code']	= $_SESSION['extension_code'];
 			//$order['extension_id']		= $_SESSION['extension_id'];
@@ -156,9 +155,6 @@ class cart_flow_done_api extends Component_Event_Api {
 				$extension_id = RC_DB::table('goods_activity')->where('store_id', $cart_goods['0']['store_id'])->where('goods_id', $goods_id)->where('act_type', GAT_GROUP_BUY)->orderBy('act_id', 'desc')->pluck('act_id');
 				$order['extension_id'] = empty($extension_id) ? 0 : intval($extension_id);
 				
-				RC_Logger::getLogger('error')->info('test333');
-				RC_Logger::getLogger('error')->info($order);
-				RC_Logger::getLogger('error')->info('test444');
 			} else {
 				$order['extension_code'] = '';
 				$order['extension_id']   = 0;
@@ -168,9 +164,6 @@ class cart_flow_done_api extends Component_Event_Api {
 			$order['extension_id']   = 0;
 		}
 		
-		RC_Logger::getLogger('error')->info('test555');
-		RC_Logger::getLogger('error')->info($order);
-		RC_Logger::getLogger('error')->info('test666');
 
 		/* 检查积分余额是否合法 */
 		$user_id = $_SESSION['user_id'];
@@ -375,7 +368,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		$field = 'goods_id, goods_name, goods_sn, product_id, goods_number, market_price,goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, goods_attr_id, store_id';
 
 		$data_row = RC_DB::table('cart')
-			->selectRaw($field)
+			->select(RC_DB::raw($field))
 			->where('user_id', $_SESSION['user_id'])
 			->where('rec_type', $options['flow_type'])
 			->whereIn('rec_id', $options['cart_id'])
@@ -485,13 +478,17 @@ class cart_flow_done_api extends Component_Event_Api {
 		/*如果订单金额为0，并且配送方式为上门取货时发送提货码*/
 		if (($order['order_amount'] + $order['surplus']) == '0.00' && (!empty($shipping_code) && ($shipping_code == 'ship_cac'))) {
 			/*短信给用户发送收货验证码*/
-			$mobile = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('mobile_phone');
+			$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->select('user_name', 'mobile_phone')->first();
+			$mobile = $userinfo['mobile_phone'];
 			if (!empty($mobile)) {
 				$db_term_meta = RC_DB::table('term_meta');
 				$max_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->max('meta_value');
 				$max_code = $max_code ? ceil($max_code/10000) : 1000000;
 				$code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
-					
+
+				$orm_user_db = RC_Model::model('orders/orm_users_model');
+				$user_ob = $orm_user_db->find($order['user_id']);
+				
 				try {
 					//发送短信
 					$options = array(
@@ -505,6 +502,22 @@ class cart_flow_done_api extends Component_Event_Api {
 							),
 					);
 					RC_Api::api('sms', 'send_event_sms', $options);
+					//消息通知
+					$order_pickup_data = array(
+							'title'	=> '订单收货验证码',
+							'body'	=> '尊敬的'.$userinfo['user_name'].'，您在我们网站已成功下单。订单号：'.$order['order_sn'].'，收货验证码为：'.$code.'。请保管好您的验证码，以便收货验证',
+							'data'	=> array(
+									'user_id'				=> $order['user_id'],
+									'user_name'				=> $userinfo['user_name'],
+									'order_id'				=> $new_order_id,
+									'order_sn'				=> $order['order_sn'],
+									'code'					=> $code,
+							),
+					);
+					 
+					$push_orderpickup_data = new OrderPickup($order_pickup_data);
+					RC_Notification::send($user_ob, $push_orderpickup_data);
+					
 				} catch (PDOException $e) {
 					RC_Logger::getLogger('info')->error($e);
 				}
@@ -656,24 +669,28 @@ class cart_flow_done_api extends Component_Event_Api {
 // 			/* 通知记录*/
 			$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
 			$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
-			$order_data = array(
-			    'title'	=> '客户下单',
-			    'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
-			    'data'	=> array(
-			        'order_id'		         => $order['order_id'],
-			        'order_sn'		         => $order['order_sn'],
-			        'order_amount'	         => $order['order_amount'],
-			        'formatted_order_amount' => price_format($order['order_amount']),
-			        'consignee'		         => $order['consignee'],
-			        'mobile'		         => $order['mobile'],
-			        'address'		         => $order['address'],
-			        'order_time'	         => RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
-			    ),
-			);
-			
-			$push_order_placed = new OrderPlaced($order_data);
-			RC_Notification::send($staff_user_ob, $push_order_placed);
-
+			try {
+				$order_data = array(
+						'title'	=> '客户下单',
+						'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
+						'data'	=> array(
+								'order_id'		         => $order['order_id'],
+								'order_sn'		         => $order['order_sn'],
+								'order_amount'	         => $order['order_amount'],
+								'formatted_order_amount' => price_format($order['order_amount']),
+								'consignee'		         => $order['consignee'],
+								'mobile'		         => $order['mobile'],
+								'address'		         => $order['address'],
+								'order_time'	         => RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
+						),
+				);
+					
+				$push_order_placed = new OrderPlaced($order_data);
+				RC_Notification::send($staff_user_ob, $push_order_placed);
+			} catch (PDOException $e) {
+				RC_Logger::getLogger('info')->error($e);
+			}
+		
 			try {
 				//新的推送消息方法
 				$options = array(

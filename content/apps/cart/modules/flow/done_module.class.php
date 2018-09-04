@@ -102,6 +102,7 @@ class done_module extends api_front implements api_interface {
     	}
     	
     	//发票抬头处理
+    	$inv_payee_last = '';
     	$inv_title_type = trim($this->requestData('inv_title_type', ''));
     	if (!empty($inv_title_type)) {
     		if ($inv_title_type == 'personal') {

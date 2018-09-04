@@ -93,7 +93,7 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
 
         $field = 'g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.market_price, g.shop_price AS org_price, g.promote_price, g.promote_start_date,g.promote_end_date, g.goods_weight, g.integral, g.extension_code,g.goods_number, g.is_alone_sale, g.is_shipping,IFNULL(mp.user_price, g.shop_price * '.$_SESSION['discount'].') AS shop_price, g.store_id';
         //$goods = $dbview->field($field)->join(array('member_price'))->find(array('g.goods_id' => $goods_id , 'g.is_delete' => 0));
-        $goods = $dbview->selectRaw($field)
+        $goods = $dbview->select(RC_DB::raw($field))
         ->where(RC_DB::raw('g.goods_id'), $goods_id)
         ->where(RC_DB::raw('g.is_delete'), 0)->first();
 
@@ -315,7 +315,7 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
             // 重新赋值查询
             $db_cart_model = RC_DB::table('cart');
             $row = $db_cart_model
-                ->selectRaw('rec_id, goods_number')
+                ->select('rec_id', 'goods_number')
                 ->where('user_id', $_SESSION['user_id'])
                 ->where('goods_id', $goods_id)
                 ->where('parent_id', $parent_id)

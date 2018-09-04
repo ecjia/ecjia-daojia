@@ -99,7 +99,7 @@ class create_module extends api_front implements api_interface {
 		//商品对应的店铺是否被锁定
 		if (!empty($goods['store_id'])) {
 			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($goods['store_id']);
-			if ($store_status == '2') {
+			if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
 				return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
 			}
 		}

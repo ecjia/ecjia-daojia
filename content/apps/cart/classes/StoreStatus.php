@@ -54,6 +54,11 @@ use RC_DB;
  */
 class StoreStatus
 {
+	const NORMAL 	 = 1;//正常
+	const LOCKED 	 = 2;//锁定
+	
+	const AUTOCONFIRM 	 = 1;//自动接单
+	const UNAUTOCONFIRM  = 0;//手动接单
 	
     /**
      * 获取商品对应的店铺id
@@ -86,4 +91,16 @@ class StoreStatus
     	return $goods_id;
     }
     
+    /**
+     * 获取店铺自动接单是否开启
+     * @param integer $store_id
+     * @return integer
+     */
+    public static function StoreOrdersAutoConfirm($store_id = 0) {
+    	$orders_auto_confirm = 0;
+    	if (!empty($store_id)) {
+    		$orders_auto_confirm = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'orders_auto_confirm')->pluck('value');
+    	}
+    	return $orders_auto_confirm;
+    }
 }

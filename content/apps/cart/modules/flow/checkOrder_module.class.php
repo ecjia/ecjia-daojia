@@ -408,7 +408,7 @@ class checkOrder_module extends api_front implements api_interface {
 		$out['payment_list']	= $payment_list;//支付信息
 		
 		//根据店铺id，店铺有没设置运费模板，查找店铺设置的运费模板关联的快递
-		$shipping_area_list = RC_DB::table('shipping_area')->selectRaw('shipping_id')->where('store_id', $store_id)->groupBy('shipping_id')->get();
+		$shipping_area_list = RC_DB::table('shipping_area')->select('shipping_id')->where('store_id', $store_id)->groupBy('shipping_id')->get();
 		
 		if (!empty($shipping_area_list)) {
 			foreach ($shipping_area_list as $key => $val) {
@@ -647,7 +647,7 @@ class checkOrder_module extends api_front implements api_interface {
 			
 			/*店铺信息*/
 			$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->pluck('value');
-			$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->selectRaw('merchants_name, province, city, district, street, address, longitude, latitude')->first();
+			$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select(RC_DB::raw('merchants_name, province, city, district, street, address, longitude, latitude'))->first();
 			$store_address = ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
 			$out_new['store_info'] = array('store_name' => $store_info['merchants_name'], 'store_address' => $store_address, 'shop_kf_mobile' => $shop_kf_mobile, 'location' => array('longitude' => $store_info['longitude'], 'latitude' => $store_info['latitude']));
 			

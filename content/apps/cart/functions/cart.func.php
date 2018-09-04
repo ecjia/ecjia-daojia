@@ -66,7 +66,7 @@ function EM_get_cart_goods() {
 	RC_Loader::load_app_func('global', 'goods');
 	if ($_SESSION['user_id']) {
         $data = RC_DB::table('cart')
-            ->selectRaw('*, IF(parent_id, parent_id, goods_id) AS pid')
+            ->select(RC_DB::raw('*, IF(parent_id, parent_id, goods_id) AS pid'))
             ->where('user_id', $_SESSION['user_id'])
             ->where('rec_type', CART_GENERAL_GOODS)
             ->orderBy('pid', 'asc')
@@ -74,7 +74,7 @@ function EM_get_cart_goods() {
             ->get();
 	} else {
         $data = RC_DB::table('cart')
-            ->selectRaw('*, IF(parent_id, parent_id, goods_id) AS pid')
+            ->select(RC_DB::raw('*, IF(parent_id, parent_id, goods_id) AS pid'))
             ->where('session_id', SESS_ID)
             ->where('rec_type', CART_GENERAL_GOODS)
             ->orderBy('pid', 'asc')
@@ -114,7 +114,7 @@ function EM_get_cart_goods() {
         }
         /* 增加是否在购物车里显示商品图 */
         if ((ecjia::config('show_goods_in_cart') == "2" || ecjia::config('show_goods_in_cart') == "3") && $row['extension_code'] != 'package_buy') {
-            $goods_img = RC_DB::table('goods')->selectRaw('goods_thumb, goods_img, original_img')->where('goods_id', $row['goods_id'])->first();
+            $goods_img = RC_DB::table('goods')->select(RC_DB::raw('goods_thumb, goods_img, original_img'))->where('goods_id', $row['goods_id'])->first();
             
 			$row['goods_thumb'] = get_image_path($row['goods_id'], $goods_img['goods_thumb'], true);
             $row['goods_img'] = get_image_path($row['goods_id'], $goods_img['goods_img'], true);
@@ -153,17 +153,27 @@ function flow_update_cart($arr) {
         if ($val <= 0 || !is_numeric($key)) {
             continue;
         }
+        //要更新的购物车商品对应店铺有没锁定
+        $goods_id = Ecjia\App\Cart\StoreStatus::GetGoodsId($key);
+        if (!empty($goods_id)) {
+        	$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods_id);
+        	$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
+        	if ($store_status == '2') {
+        		return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
+        	}
+        }
+        
         //查询：     
         if ($_SESSION['user_id']) {
             $goods = RC_DB::table('cart')
-                ->selectRaw('goods_id, goods_attr_id, product_id, extension_code')
+                ->select(RC_DB::raw('goods_id, goods_attr_id, product_id, extension_code'))
                 ->where('rec_id', $key)
                 ->where('user_id', $_SESSION['user_id'])
                 ->first();
 
         } else {
             $goods = RC_DB::table('cart')
-                ->selectRaw('goods_id, goods_attr_id, product_id, extension_code')
+                ->select(RC_DB::raw('goods_id, goods_attr_id, product_id, extension_code'))
                 ->where('rec_id', $key)
                 ->where('session_id', SESS_ID)
                 ->first();
@@ -171,7 +181,7 @@ function flow_update_cart($arr) {
         $row = RC_DB::table('goods as g')
             ->leftJoin('cart as c', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('c.goods_id'))
             ->where(RC_DB::raw('c.rec_id'), $key)
-            ->selectRaw('g.goods_number as g_number, c.*')
+            ->select(RC_DB::raw('g.goods_number as g_number, c.*'))
             ->first();
 
         //查询：系统启用了库存，检查输入的商品数量是否有效
@@ -350,7 +360,7 @@ function flow_drop_cart_goods($id) {
             $data = RC_DB::table('cart as c')
                 ->leftJoin('group_goods as gg', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('gg.goods_id'))
                 ->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
-                ->selectRaw('c.rec_id')
+                ->select(RC_DB::raw('c.rec_id'))
                 ->where(RC_DB::raw('gg.parent_id'), $row['goods_id'])
                 ->where(RC_DB::raw('c.parent_id'), $row['goods_id'])
                 ->where(RC_DB::raw('g.is_alone_sale'), 0)
@@ -420,9 +430,9 @@ function flow_clear_cart_alone() {
 
     /* 查询：购物车中所有商品 */
 	if ($_SESSION['user_id']) {
-        $res = RC_DB::table('cart')->selectRaw('DISTINCT goods_id')->where('user_id', $_SESSION['user_id'])->get();
+        $res = RC_DB::table('cart')->select(RC_DB::raw('DISTINCT goods_id'))->where('user_id', $_SESSION['user_id'])->get();
 	} else {
-        $res = RC_DB::table('cart')->selectRaw('DISTINCT goods_id')->where('session_id', SESS_ID)->get();
+        $res = RC_DB::table('cart')->select(RC_DB::raw('DISTINCT goods_id'))->where('session_id', SESS_ID)->get();
 	}
     
     $cart_good = array();
@@ -850,11 +860,11 @@ function recalculate_price($device = array()) {
 	
 	$db = RC_DB::table('cart as c')
 			->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
-			->leftJoin('member_price as mp', function($join) {
+			->leftJoin('member_price as mp', function($join) use ($user_rank) {
 				$join->where(RC_DB::raw('mp.goods_id'), '=', RC_DB::raw('g.goods_id'))
 				->where(RC_DB::raw('mp.user_rank'), '=', $user_rank);
 			})
-			->selectRaw("c.rec_id, c.goods_id, c.goods_attr_id, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * $discount) AS member_price");
+			->select(RC_DB::raw("c.rec_id, c.goods_id, c.goods_attr_id, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * $discount) AS member_price"));
 			
 	/* 取得有可能改变价格的商品：除配件和赠品之外的商品 */
 	// @update 180719 选择性更新内容mark_changed=1

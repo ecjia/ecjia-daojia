@@ -80,7 +80,7 @@ class cart {
 			if (!empty($goods_id)) {
 				$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods_id);
 				$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
-				if ($store_status == '2') {
+				if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
 					return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
 				}
 			}
@@ -696,7 +696,7 @@ class cart {
 				$shipping_count_where['is_shipping'] = array('neq' => 1);
 				$shipping_count       = $db->where($shipping_count_where)->count();
 
-				if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+				if (($shipping_info['shipping_code'] == 'ship_o2o_express') || ($shipping_info['shipping_code'] == 'ship_ecjia_express')) {
 				
 					/* ===== 计算收件人距离 START ===== */
 					// 收件人地址，带坐标 $consignee
@@ -1058,6 +1058,7 @@ class cart {
 		RC_Loader::load_app_class('goods_category', 'goods', false);
 		/* 循环计算每个优惠活动的折扣 */
 		if (!empty($favourable_list)) {
+			$discount_temp = [];
 			foreach ($favourable_list as $favourable) {
 			    /* 初始化折扣 */
 			    $discount = 0;
@@ -1129,7 +1130,7 @@ class cart {
 					}
 				}
 			}
-			$discount = max($discount_temp);
+			$discount = !empty($discount_temp) ? max($discount_temp) : 0.00;
 			//优惠金额不能超过订单本身
 			if ($total_amount && $discount > $total_amount) {
 			    $discount = $total_amount;

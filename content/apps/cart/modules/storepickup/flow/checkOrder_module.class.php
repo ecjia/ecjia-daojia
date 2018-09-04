@@ -143,14 +143,14 @@ class checkOrder_module extends api_front implements api_interface {
 		//店铺是否被锁定
 		if (!empty($store_id)) {
 			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
-			if ($store_status == '2') {
+			if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
 				return new ecjia_error('store_locked', '对不起，商品所属的店铺已锁定！');
 			}
 		}
 		
 		/*店铺信息*/
 		$shop_kf_mobile = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_kf_mobile')->pluck('value');
-		$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->selectRaw('merchants_name, province, city, district, street, address, longitude, latitude')->first();
+		$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select(RC_DB::raw('merchants_name, province, city, district, street, address, longitude, latitude'))->first();
 		$store_address = ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address']; 
 		$out['store_info'] = array('store_name' => $store_info['merchants_name'], 'store_address' => $store_address, 'shop_kf_mobile' => $shop_kf_mobile, 'location' => array('longitude' => $store_info['longitude'], 'latitude' => $store_info['latitude']));
 		$payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $store_id, 'cod_fee' => 0));
