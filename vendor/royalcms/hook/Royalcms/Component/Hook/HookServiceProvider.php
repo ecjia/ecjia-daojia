@@ -26,5 +26,21 @@ class HookServiceProvider extends ServiceProvider {
 			return new Hooks();
 		});
 	}
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/hook');
+
+        return [
+            $dir . '/Hooks.php',
+            $dir . '/HookServiceProvider.php',
+            $dir . '/Facades/Hook.php',
+        ];
+    }
 	
 }
