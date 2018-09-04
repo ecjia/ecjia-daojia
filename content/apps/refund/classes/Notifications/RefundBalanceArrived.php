@@ -44,50 +44,69 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\App\Refund\Notifications;
 
+use Royalcms\Component\Bus\Queueable;
+use Royalcms\Component\Notifications\Notification;
+// use Royalcms\Component\Notifications\Messages\MailMessage;
 
-//待发货、已完成、待收货,商家售后原因
-return array(
-    'await_ship' => array(
-    				array('reason_id' => 1,'reason_name' => '暂时不想购买了'),
-    				array('reason_id' => 2,'reason_name' => '忘记使用优惠券'),
-    				array('reason_id' => 3,'reason_name' => '商家缺货，不想买了'),
-    				array('reason_id' => 4,'reason_name' => '商家服务态度有问题'),
-    				array('reason_id' => 5,'reason_name' => '商家长时间未发货'),
-    				array('reason_id' => 6,'reason_name' => '信息填写有误，重新购买')
-    	
-	),
-	'finished'	=> array(
-					array('reason_id' => 11,'reason_name' => '商品质量问题'),
-					array('reason_id' => 12,'reason_name' => '发错货'),
-					array('reason_id' => 13,'reason_name' => '缺斤少两'),
-					array('reason_id' => 14,'reason_name' => '外表损伤（包装，商品等）'),
-					array('reason_id' => 15,'reason_name' => '未在时效内送达'),
-					array('reason_id' => 16,'reason_name' => '误购')
-	),
-	'shipped'	=> array(
-					array('reason_id' => 21,'reason_name' => '暂时不想购买了'),
-					array('reason_id' => 22,'reason_name' => '忘记使用优惠券'),
-					array('reason_id' => 23,'reason_name' => '商家服务态度有问题'),
-					array('reason_id' => 24,'reason_name' => '快递太慢了'),
-					array('reason_id' => 25,'reason_name' => '信息填写有误，重新购买')
-	),
-	'merchant'	=> array(
-					array('reason_id' => 91,'reason_name' => '暂时不想购买了'),
-					array('reason_id' => 92,'reason_name' => '信息填写有误，重新购买'),
-					array('reason_id' => 93,'reason_name' => '外表损伤（包装，商品等）'),
-					array('reason_id' => 94,'reason_name' => '商品质量问题'),
-					array('reason_id' => 95,'reason_name' => '发错货'),
-					array('reason_id' => 96,'reason_name' => '未在时效内送达'),
-					array('reason_id' => 97,'reason_name' => '服务态度问题')
-	),
-	'merchant_refuse'	=> array(
-			array('reason_id' => 31,'reason_name' => '该订单商品已售完'),
-			array('reason_id' => 32,'reason_name' => '由于天气原因，本店铺暂不接单'),
-			array('reason_id' => 33,'reason_name' => '商家忙碌，暂时无法接单'),
-	),
-	'auto_refuse'	=> array(
-			array('reason_id' => 34,'reason_name' => '由于特殊情况，商家暂时无法接单，系统已自动申请退款'),
-	),
-			
-);
+/**
+ * 通知用户退款到余额
+ */
+class RefundBalanceArrived extends Notification
+{
+    use Queueable;
+    
+	private $notifiable_data;
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct($user_refund_data)
+    {
+        //
+        $this->notifiable_data = $user_refund_data;
+    }
+
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return array('database');
+    }
+
+//     /**
+//      * Get the mail representation of the notification.
+//      *
+//      * @param  mixed  $notifiable
+//      * @return \Royalcms\Component\Notifications\Messages\MailMessage
+//      */
+//     public function toMail($notifiable)
+//     {
+//         return with(new MailMessage)
+//                     ->line('The introduction to the notification.')
+//                     ->action('Notification Action', 'https://ecjia.com')
+//                     ->line('Thank you for using our application!');
+//     }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray()
+    {
+//         return array(
+//         	'user_name' => 'admin',
+//             'order_sn' => '12344421111233332',
+//             'goods_name' => 'test',
+//         );
+        return $this->notifiable_data;
+    }
+}

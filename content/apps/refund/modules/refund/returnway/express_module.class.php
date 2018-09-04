@@ -87,7 +87,7 @@ class express_module extends api_front implements api_interface {
 			return new ecjia_error('express_info_error', '快递信息不能为空！');
 		}
         //收件地址默认为店铺地址
-		$store_info = RC_DB::table('store_franchisee')->where('store_id', $refund_info['store_id'])->selectRaw('merchants_name, responsible_person, city, district, street, address')->first();
+		$store_info = RC_DB::table('store_franchisee')->where('store_id', $refund_info['store_id'])->select('merchants_name', 'responsible_person', 'city', 'district', 'street', 'address')->first();
 		$store_recipients = $store_info['responsible_person'];
 		$store_name = $store_info['merchants_name'];
 		/*商家电话*/

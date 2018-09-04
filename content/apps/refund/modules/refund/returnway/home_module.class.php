@@ -87,7 +87,7 @@ class home_module extends api_front implements api_interface {
 		}
         //取件地址默认为用户下单地址
 		if (empty($pickup_address)) {
-			$order_info = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->selectRaw('city, district, street, address')->first();
+			$order_info = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->select('city', 'district', 'street', 'address')->first();
 			$pickup_address = ecjia_region::getRegionName($order_info['city']).ecjia_region::getRegionName($order_info['district']).ecjia_region::getRegionName($order_info['street']).$order_info['address'];
 		}
 		

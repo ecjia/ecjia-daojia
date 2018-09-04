@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class refund_admin_plugin {
 	
 	public static function refund_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('1_refund_list', '售后列表', RC_Uri::url('refund/admin/init'), 6)->add_purview('refund_manage');
+	    $menu = ecjia_admin::make_admin_menu('11_refund_list', '售后列表', RC_Uri::url('refund/admin/init'), 11)->add_purview('refund_manage');
 	    $menus->add_submenu($menu);
 	    return $menus;
 	}

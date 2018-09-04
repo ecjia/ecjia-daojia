@@ -624,7 +624,7 @@ class merchant extends ecjia_merchant {
 		$count = $db_refund_view->count();
 		$page = new ecjia_merchant_page($count, 10, 5);
 		$data = $db_refund_view
-		->selectRaw('refund_id,refund_sn,refund_type,order_id,order_sn,money_paid,surplus,add_time,shipping_fee,pack_fee,status,refund_status')
+		->select('refund_id', 'refund_sn', 'refund_type', 'order_id', 'order_sn', 'money_paid', 'surplus', 'add_time', 'shipping_fee', 'pack_fee', 'status', 'refund_status')
 		->orderby($filter['sort_by'], $filter['sort_order'])
 		->take(10)
 		->skip($page->start_id-1)

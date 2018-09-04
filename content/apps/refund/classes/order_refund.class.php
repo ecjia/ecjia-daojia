@@ -174,7 +174,7 @@ class order_refund {
 		if (!empty($order_id)) {
 			$list = RC_DB::table('order_goods as og')
 			->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
-			->selectRaw('og.*, g.goods_thumb, g.goods_img, g.original_img')
+			->select(RC_DB::raw('og.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))
 			->where(RC_DB::raw('og.order_id'), $order_id)->get();
 		}
 	
@@ -200,7 +200,7 @@ class order_refund {
 	public static function delivery_goodsList($delivery_id) {
 		$deliveryGoods_list = array();
 		if (!empty($delivery_id)) {
-			$deliveryGoods_list = RC_DB::table('delivery_goods')->where('delivery_id', $delivery_id)->selectRaw('goods_id, product_id, product_sn, goods_name,goods_sn, is_real, send_number, goods_attr')->get();
+			$deliveryGoods_list = RC_DB::table('delivery_goods')->where('delivery_id', $delivery_id)->select('goods_id', 'product_id', 'product_sn', 'goods_name', 'goods_sn', 'is_real', 'send_number', 'goods_attr')->get();
 		}
 		return $deliveryGoods_list;
 	}
@@ -298,7 +298,7 @@ class order_refund {
 		if (!empty($refund_id)) {
 			$list = RC_DB::table('refund_goods as rg')
 						->leftJoin('goods as g',  RC_DB::raw('bg.goods_id'), '=', RC_DB::raw('g.goods_id'))
-						->selectRaw('bg.*, g.goods_thumb, g.goods_img, g.original_img')
+						->select(RC_DB::raw('bg.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))
 						->where(RC_DB::raw('bg.back_id'), $refund_id)
 						->get();
 		}

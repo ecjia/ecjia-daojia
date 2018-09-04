@@ -82,7 +82,7 @@ class shop_module extends api_front implements api_interface {
 		
 		
         //收件地址默认为店铺地址
-		$store_info = RC_DB::table('store_franchisee')->where('store_id', $refund_info['store_id'])->selectRaw('merchants_name, city, district, street, address')->first();
+		$store_info = RC_DB::table('store_franchisee')->where('store_id', $refund_info['store_id'])->select('merchants_name', 'city', 'district', 'street', 'address')->first();
 		/*商家电话*/
 		$store_service_phone = RC_DB::table('merchants_config')->where('store_id', $refund_info['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
 		//店铺地址

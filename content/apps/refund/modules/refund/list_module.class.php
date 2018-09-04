@@ -110,7 +110,7 @@ class list_module extends api_front implements api_interface {
 					}
 				}
 				//退款总金额 
-				$order_info = RC_DB::table('order_info')->where('order_id', $rows['order_id'])->selectRaw('order_status, shipping_status, pay_status')->first();
+				$order_info = RC_DB::table('order_info')->where('order_id', $rows['order_id'])->select('order_status', 'shipping_status', 'pay_status')->first();
 				//配送费：已发货的不退，未发货的退
 				if ($order_info['shipping_status'] > SS_UNSHIPPED) {
 					$refund_total_amount  = $rows['money_paid'] + $rows['surplus'] - $rows['pay_fee']- $rows['shipping_fee'] - $rows['insure_fee'];
