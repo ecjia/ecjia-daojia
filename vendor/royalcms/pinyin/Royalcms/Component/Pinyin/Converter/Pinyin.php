@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Pinyin\Lib;
+namespace Royalcms\Component\Pinyin\Converter;
 
 /**
  * Pinyin Converter

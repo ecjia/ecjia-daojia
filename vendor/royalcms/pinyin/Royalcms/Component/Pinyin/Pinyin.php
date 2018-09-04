@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\Pinyin;
 
-use Royalcms\Component\Pinyin\Lib\Pinyin as PinyinLib;
+use Royalcms\Component\Pinyin\Converter\Pinyin as PinyinConverter;
 
 class Pinyin
 {
@@ -104,7 +104,7 @@ class Pinyin
 
     private static function getPinyinComponents($s)
     {
-        $pinyinObj  = new PinyinLib();
+        $pinyinObj  = new PinyinConverter();
         $s          = trim($s);
         $s          = preg_replace('/\s/is', '_', $s);
         $s          = self::getGBKString($s);

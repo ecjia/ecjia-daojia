@@ -1,4 +1,4 @@
-Laravel-RC_Pinyin
+RC_Pinyin
 ==========
 
 ## Usages
