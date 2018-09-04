@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\Model;
 
 use Royalcms\Component\Support\Facades\Config;
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Foundation\Loader;
 use Royalcms\Component\Foundation\RoyalcmsObject;
 
@@ -330,7 +330,7 @@ class ModelManage extends RoyalcmsObject {
          *
          * @param array $queries An array of dbDelta SQL queries.
          */
-        $queries = Hook::apply_filters( 'dbdelta_queries', $queries );
+        $queries = RC_Hook::apply_filters( 'dbdelta_queries', $queries );
     
         $cqueries = array(); // Creation Queries
         $iqueries = array(); // Insertion Queries
@@ -361,7 +361,7 @@ class ModelManage extends RoyalcmsObject {
          *
          * @param array $cqueries An array of dbDelta create SQL queries.
          */
-        $cqueries = Hook::apply_filters( 'dbdelta_create_queries', $cqueries );
+        $cqueries = RC_Hook::apply_filters( 'dbdelta_create_queries', $cqueries );
     
         /**
          * Filter the dbDelta SQL queries for inserting or updating.
@@ -372,7 +372,7 @@ class ModelManage extends RoyalcmsObject {
          *
          * @param array $iqueries An array of dbDelta insert or update SQL queries.
         */
-        $iqueries = Hook::apply_filters( 'dbdelta_insert_queries', $iqueries );
+        $iqueries = RC_Hook::apply_filters( 'dbdelta_insert_queries', $iqueries );
 
         foreach ( $cqueries as $table => $qry ) {    
             // Fetch the table column structure from the database

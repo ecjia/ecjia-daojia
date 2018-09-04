@@ -31,7 +31,7 @@ class Model
         }
         
         if (! $this->db_setting || ! isset($this->db_config[$this->db_setting])) {
-            $this->db_setting = \RC_Config::get('database.defaultconnection');
+            $this->db_setting = \RC_Config::get('database.default');
         }
         
         $this->db_tablepre = $this->db_config[$this->db_setting]['prefix'];
