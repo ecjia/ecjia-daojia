@@ -141,7 +141,7 @@ function article_comments($options) {
 	$count = $dbview->select('id')->count();
 	$page_row = new ecjia_page($count, $size, 6, '', $page);
 	
-	$result = $dbview->selectRaw('dc.*')
+	$result = $dbview->select(RC_DB::raw('dc.*'))
 	->orderby(RC_DB::raw($sort_by), $sort_order)->take($size)->skip($page_row->start_id - 1)->get();
 	$pager = array(
 			'total' => $page_row->total_records,

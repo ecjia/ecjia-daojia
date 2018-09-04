@@ -180,7 +180,7 @@ class admin_notice extends ecjia_admin {
 		$id = intval($_GET['id']);
 		$info = RC_DB::table('article as a')
 			->where(RC_DB::raw('a.article_id'), $id)
-			->selectRaw('a.*')
+			->select(RC_DB::raw('a.*'))
 			->first();
 		
 		$article_type = !empty($_GET['article_type']) ? trim($_GET['article_type']) : $info['article_type'];

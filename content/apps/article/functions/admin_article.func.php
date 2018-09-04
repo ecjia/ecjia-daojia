@@ -58,7 +58,7 @@ function get_article_info($article_id) {
 	
 	//评论等级
 	$comment_info = RC_DB::table('comment')
-	    ->selectRaw('IFNULL(AVG(comment_rank), 0) AS comment_rank')
+	    ->select(RC_DB::raw('IFNULL(AVG(comment_rank), 0) AS comment_rank'))
 	    ->where('id_value', $article_id)
 	    ->where('comment_type', 1)
 	    ->first();
@@ -90,7 +90,7 @@ function get_cat_type_info ($article_type = 'merchant_notice', $article_id = 0) 
 	if (!empty($article_id)) {
 		$info = RC_DB::table('article as a')
 		->where(RC_DB::raw('a.article_id'), $article_id)
-		->selectRaw('a.*')
+		->select(RC_DB::raw('a.*'))
 		->first();
 	}
 	$article_type = !empty($info['article_type']) ? $info['article_type'] : $article_type;//默认商家公告

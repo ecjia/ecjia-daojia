@@ -90,7 +90,7 @@ class article_list {
 		$count = $dbview->select('article_id')->count();
 		$page_row = new ecjia_page($count, $filter['size'], 6, '', $filter['page']);
 	
-		$result = $dbview->selectRaw('a.*, ac.cat_name, ac.cat_type, ac.sort_order')
+		$result = $dbview->select(RC_DB::raw('a.*, ac.cat_name, ac.cat_type, ac.sort_order'))
 		->orderby(RC_DB::raw($filter['sort_by']), $filter['sort_order'])->take($filter['size'])->skip($page_row->start_id - 1)->get();
 		$pager = array(
 				'total' => $page_row->total_records,

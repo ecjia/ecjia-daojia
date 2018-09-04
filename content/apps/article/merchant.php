@@ -1175,7 +1175,7 @@ class merchant extends ecjia_merchant {
 			$db_article->where(RC_DB::raw('a.article_approved'), 'trash');
 		}
 
-		$count = $db_article->selectRaw('a.article_id')->count();
+		$count = $db_article->select(RC_DB::raw('a.article_id'))->count();
 		$page = new ecjia_merchant_page($count, 15, 5);
 		
 		$result = $db_article->select(RC_DB::raw('a.*'), RC_DB::raw('ac.cat_id'), RC_DB::raw('ac.cat_name'), RC_DB::raw('ac.cat_type'), RC_DB::raw('ac.sort_order'))

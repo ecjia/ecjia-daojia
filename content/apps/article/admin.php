@@ -1283,7 +1283,7 @@ class admin extends ecjia_admin {
 			$this->admin_priv('article_comment_update', ecjia::MSGTYPE_JSON);
 		}
 		$info = RC_DB::table('discuss_comments')
-				->whereIn('id', $ids)->selectRaw('content,comment_approved, id_value')->get();
+				->whereIn('id', $ids)->select(RC_DB::raw('content,comment_approved, id_value'))->get();
 
 		/*释放文章缓存*/
 		$orm_article_db = RC_Model::model('article/orm_article_model');
@@ -1531,7 +1531,7 @@ class admin extends ecjia_admin {
 		$count = $db_article->select('article_id')->count();
 		$page = new ecjia_page($count, 15, 5);
 		
-		$result = $db_article->selectRaw('a.*, ac.cat_id, ac.cat_name, ac.cat_type, ac.sort_order,sf.merchants_name')
+		$result = $db_article->select(RC_DB::raw('a.*, ac.cat_id, ac.cat_name, ac.cat_type, ac.sort_order,sf.merchants_name'))
 			->orderby(RC_DB::raw($filter['sort_by']), $filter['sort_order'])
 			->take(15)->skip($page->start_id-1)->get();
 

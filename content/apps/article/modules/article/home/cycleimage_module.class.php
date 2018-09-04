@@ -56,7 +56,7 @@ class cycleimage_module extends api_front implements api_interface {
     	$request = royalcms('request');
     	
     	$cat_type = array('article');
-    	$cat_list = RC_DB::table('article_cat')->where('parent_id', 0)->whereIn('cat_type', $cat_type)->orderBy('sort_order', 'ASC')->selectRaw('cat_id, cat_name')->get();
+    	$cat_list = RC_DB::table('article_cat')->where('parent_id', 0)->whereIn('cat_type', $cat_type)->orderBy('sort_order', 'ASC')->select(RC_DB::raw('cat_id, cat_name'))->get();
     	
 		$list = array();
 		if (!empty($cat_list)) {

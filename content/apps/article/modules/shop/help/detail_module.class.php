@@ -75,7 +75,7 @@ class detail_module extends api_front implements api_interface {
 
 function get_article_info($article_id) {
 	/* 获得文章的信息 */
-    $row = RC_DB::table('article')->selectRaw('article_id as id, title, content')->where('article_id', $article_id)->first();
+    $row = RC_DB::table('article')->select(RC_DB::raw('article_id as id, title, content'))->where('article_id', $article_id)->first();
     return $row;
 }
 

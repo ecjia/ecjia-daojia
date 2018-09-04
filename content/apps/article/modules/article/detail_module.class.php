@@ -85,7 +85,7 @@ class detail_module extends api_front implements api_interface {
 			$article_related_goods_ids = RC_DB::table('goods_article')->where('article_id', $id)->lists('goods_id');
 			$article_related_goods = array();
 			if (!empty($article_related_goods_ids)) {
-				$article_related_goods = RC_DB::table('goods')->whereIn('goods_id', $article_related_goods_ids)->selectRaw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img')->get();
+				$article_related_goods = RC_DB::table('goods')->whereIn('goods_id', $article_related_goods_ids)->select(RC_DB::raw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img'))->get();
 			}
 			$list = array();
 			if (!empty($article_related_goods)) {
@@ -113,7 +113,7 @@ class detail_module extends api_front implements api_interface {
 								->where('is_delete', 0)
 								->whereIn('review_status', array(4,5))
 								->whereRaw('(is_best=1 or is_hot=1 or is_new=1)')
-								->selectRaw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img')->limit(6)->orderBy('add_time', 'DESC')->get();
+								->select(RC_DB::raw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img'))->limit(6)->orderBy('add_time', 'DESC')->get();
 			/*店铺是否关闭*/
 			if ($article_info['store_id'] > 0) {
 				$shop_close = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->pluck('shop_close');

@@ -249,7 +249,7 @@ class admin_article_auto extends ecjia_admin {
 		$page = new ecjia_page($count, 10, 5);
 		
 		$data = $db_article_view
-			->selectRaw('a.*, am.starttime, am.endtime')
+			->select(RC_DB::raw('a.*, am.starttime, am.endtime'))
 			->take(10)
 			->skip($page->start_id-1)
 			->orderBy(RC_DB::raw('a.add_time'), 'desc')
