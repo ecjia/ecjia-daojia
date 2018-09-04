@@ -34,4 +34,20 @@ class VariableServiceProvider extends ServiceProvider {
 		return array('variable');
 	}
 
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/variable');
+
+        return [
+            $dir . '/Variable.php',
+            $dir . '/VariableServiceProvider.php',
+            $dir . '/Facades/Variable.php',
+        ];
+    }
+
 }

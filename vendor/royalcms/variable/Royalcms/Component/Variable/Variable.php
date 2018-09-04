@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Variable;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 
 /**
  * @file
@@ -49,7 +49,7 @@ class Variable {
      */
     public function set($key, $value) {
         $this->data[$key] = $value;
-        Hook::do_action('rc_variable_set', $key, $value);
+        RC_Hook::do_action('rc_variable_set', $key, $value);
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Variable {
      */
     public function delete($key) {
         unset($this->data[$key]);
-        Hook::do_action('rc_variable_delete', $key);
+        RC_Hook::do_action('rc_variable_delete', $key);
         return $this;
     }
 
@@ -110,7 +110,7 @@ class Variable {
     public function load() {
         if (!$this->isLoaded) {
             try {
-                $this->data = Hook::apply_filters('rc_variable_load', array());
+                $this->data = RC_Hook::apply_filters('rc_variable_load', array());
                 foreach ($this->data as $k => $v) {
                     $this->data[$k] = unserialize($v);
                 }
