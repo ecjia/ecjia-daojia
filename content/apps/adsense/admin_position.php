@@ -441,7 +441,7 @@ class admin_position extends ecjia_admin {
 	}
 	
 	private function get_city_list() {
-		$city_list = RC_DB::table('ad_position')->where('type', 'adsense')->selectRaw('distinct city_id,city_name')->orderBy('city_id', 'asc')->get();
+		$city_list = RC_DB::table('ad_position')->where('type', 'adsense')->select(RC_DB::raw('distinct city_id,city_name'))->orderBy('city_id', 'asc')->get();
 		foreach ($city_list as $key => $val) {
 			$count = RC_DB::table('ad_position')->where('type', 'adsense')->where('city_id', $val['city_id'])->count();
 			$city_list[$key]['count']=$count;

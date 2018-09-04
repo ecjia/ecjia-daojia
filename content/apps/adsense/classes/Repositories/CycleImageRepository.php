@@ -47,6 +47,7 @@
 namespace Ecjia\App\Adsense\Repositories;
 
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
+use RC_DB;
 
 class CycleImageRepository extends AbstractRepository
 {
@@ -78,7 +79,7 @@ class CycleImageRepository extends AbstractRepository
     
     public function getAllCitys()
     {
-        $city = $this->getModel()->where('type', $this->type)->selectRaw('distinct city_id, city_name')->orderBy('city_id', 'asc')->get();
+        $city = $this->getModel()->where('type', $this->type)->select(RC_DB::raw('distinct city_id, city_name'))->orderBy('city_id', 'asc')->get();
     
         return $city->toArray();
     }

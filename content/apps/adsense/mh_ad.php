@@ -441,7 +441,7 @@ class mh_ad extends ecjia_merchant {
 		);
 		RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $ad_id)->update($data);
 	
-		return $this->showmessage('删除图片成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin/edit', array('ad_id' => $ad_id, 'position_id' => $position_id, 'show_client' => $show_client))));
+		return $this->showmessage('删除图片成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_ad/edit', array('ad_id' => $ad_id, 'position_id' => $position_id, 'show_client' => $show_client))));
 	}
 	
 	/**

@@ -84,7 +84,7 @@
 				                                        <span class="fileupload-exists"> 修改</span>
 				                                        <input type="file" class="default" name="ad_img" />
 				                                    </span>
-				                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $ads.url}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=ad_code"}" >删除</a>
+				                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $ads.url}data-toggle="ajaxremove" data-msg="您确定要删除该图片吗？"{else}data-dismiss="fileupload"{/if} href='{url path="adsense/mh_ad/delfile" args="ad_id={$ads.ad_id}&position_id={$ads.position_id}&show_client={$show_client}&code=ad_code"}'>删除</a>
 				                                </div>
 				                            </div>
 				                        </div>

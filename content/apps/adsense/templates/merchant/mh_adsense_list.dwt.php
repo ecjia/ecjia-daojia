@@ -92,7 +92,7 @@
 								    <span>
 								    {if $list.ad_code and $list.media_type eq 0}
 									    <a tabindex="0" role="button" href="javascript:;" class="no-underline cursor_pointor" data-id="{$list.ad_id}" data-trigger="focus" data-toggle="popover" data-placement="top" title="{$list.ad_name}">（预览）</a>
-									    <div class="hide" id="content_{$list.ad_id}"><img class="mh150" src="{RC_Upload::upload_url()}/{$list.ad_code}"></div> 
+									    <div class="hide" id="content_{$list.ad_id}"><img class="mh150" style="width:100%;" src="{RC_Upload::upload_url()}/{$list.ad_code}"></div> 
 								    {/if}
 								    </span>
 								    
