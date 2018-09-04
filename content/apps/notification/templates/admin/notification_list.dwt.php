@@ -17,38 +17,33 @@
 <div class="row-fluid notice_list">
 	<div class="chat_box">
 		<div class="span8">
-		<!-- {foreach from=$list item=item} -->
+			{if $list.item}
 			<div class="chat_content">
-				<div class="chat_heading clearfix">
-					<span class="badge badge-danger">{$item.count}</span>
-					{$item.type_title}
-					<a class="f_r toggle_view no-underline" href="{RC_Uri::url('notification/admin/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}" data-type="{$item.type}" title="标记为已读">标记 {$item.type} 的当前通知为已读</a>
-				</div>
-				
 				<div class="msg_window">
-					<!-- {foreach from=$item.list item=val} -->
-                  		<div class="panel-body">
-                    		<i class=" fontello-icon-comment"></i>
-              				<span class="text-content">{$val.content}</span>
-                            <span class="edit-range f_r">
-                            	<span class="m_r5">{$val.created_time}</span>
-                                <!-- {if !$val.read_at} -->
-                                <a class="toggle_view" href="{RC_Uri::url('notification/admin/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}" data-id="{$val.id}" title="标记为已读">
-                                	<i class="fontello-icon-ok"></i>
-                                </a>
-                                <!-- {else} -->
-                                <a href="javascript:;" title="已读">
-                                	<i class="stop_color fontello-icon-ok"></i>
-                                </a>
-                                <!-- {/if} -->
-                            </span>
-                    	</div>
-                	<!-- {/foreach} -->
+					<!-- {foreach from=$list.item item=val} -->
+					<div class="panel-body">
+						<i class=" fontello-icon-comment"></i>
+						<span class="text-content">【{$val.type_title}】{$val.content}</span>
+						<span class="edit-range f_r">
+							<span class="m_r5">{$val.created_time}</span>
+							<!-- {if !$val.read_at} -->
+							<a class="toggle_view" href="{RC_Uri::url('notification/admin/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}"
+							    data-id="{$val.id}" title="标记为已读">
+								<i class="fontello-icon-ok"></i>
+							</a>
+							<!-- {else} -->
+							<a href="javascript:;" title="已读">
+								<i class="stop_color fontello-icon-ok"></i>
+							</a>
+							<!-- {/if} -->
+						</span>
+					</div>
+					<!-- {/foreach} -->
 				</div>
 			</div>
-		<!-- {foreachelse} -->
+			{else}
 			<div class="notice_empty text-center">
-            	<div class="ui tertiary segment">
+				<div class="ui tertiary segment">
 					<div class="ui list">
 						<div class="item">
 							<i class="fontello-icon-bell-alt"></i>
@@ -58,30 +53,42 @@
 						</div>
 					</div>
 				</div>
- 			</div>
-		<!-- {/foreach} -->
+			</div>
+			{/if}
+			{$list.page}
 		</div>
 
 		<div class="span4 chat_sidebar">
 			<div class="chat_heading clearfix">
 				<div class="btn-group pull-right">
-					<a class="btn btn-mini ttip_t data-pjax" title="{t}刷新{/t}" href='{url path="notification/admin/init" args="{if $smarty.get.status}&status={$smarty.get.status}{/if}"}'><i class="icon-refresh"></i></a>
-					<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-mini ttip_t" oldtitle="Options" aria-describedby="ui-tooltip-3"><i class="icon-cog"></i></a>
+					<a class="btn btn-mini ttip_t data-pjax" title="{t}刷新{/t}" href='{url path="notification/admin/init" args="{if $smarty.get.status}&status={$smarty.get.status}{/if}"}'><i
+						    class="icon-refresh"></i></a>
+					<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-mini ttip_t" oldtitle="Options" aria-describedby="ui-tooltip-3"><i
+						    class="icon-cog"></i></a>
 					<ul class="dropdown-menu">
-						<li><a class="toggle_view" href="{RC_Uri::url('notification/admin/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}" {if $count.count neq 0 }data-type="mark_all"{/if} title="标记为已读">标记所有为已读</a></li>
+						<li><a class="toggle_view" href="{RC_Uri::url('notification/admin/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}{if $smarty.get.page}&page={$smarty.get.page}{/if}"
+							    data-type="mark_all" title="标记为已读">标记所有为已读</a></li>
 					</ul>
 				</div>
 			</div>
 			<ul class="chat_user_list">
-				<li class="{if $smarty.get.status eq 'not_read'}active{/if}">
+				<li class="{if $smarty.get.status eq 'not_read' || !$smarty.get.status}active{/if}">
 					<a class="data-pjax" href="{RC_Uri::url('notification/admin/init')}&status=not_read" title="未读通知">未读通知</a>
-					<span class="badge badge-danger">{$count.not_read}</span>
+					<span class="badge badge-danger">{$list.type_count.not_read}</span>
 				</li>
-				
-				<li class="{if $smarty.get.status neq 'not_read'}active{/if}">
+
+				<li class="{if $smarty.get.status eq 'all'}active{/if}">
 					<a class="data-pjax" href="{RC_Uri::url('notification/admin/init')}&status=all" title="所有通知">所有通知</a>
-					<span class="badge badge-primary">{$count.count}</span>
+					<span class="badge badge-primary">{$list.type_count.count}</span>
 				</li>
+				{if $list.type_list}
+				<!-- {foreach from=$list.type_list item=val} -->
+				<li class="{if $smarty.get.status eq $val.type}active{/if}">
+					<a class="data-pjax" href="{RC_Uri::url('notification/admin/init')}&status={$val.type}">{$val.notice_type_title}</a>
+					<span class="badge badge-primary">{$val.count}</span>
+				</li>
+				<!-- {/foreach} -->
+				{/if}
 			</ul>
 		</div>
 	</div>

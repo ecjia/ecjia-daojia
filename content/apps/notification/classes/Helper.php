@@ -50,19 +50,20 @@ use ecjia_admin_log;
 
 class Helper
 {
-    
+
     /**
      * 添加管理员记录日志操作对象
      */
-    public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_action('batch_mark', '批量标记');
-    	ecjia_admin_log::instance()->add_action('mark', '标记');
-    	
-    	ecjia_admin_log::instance()->add_object('notice', '通知');
-    	ecjia_admin_log::instance()->add_object('notification_channel', '通知渠道');
-    	ecjia_admin_log::instance()->add_object('notification_channel_sort', '通知渠道排序');
+    public static function assign_adminlog_content()
+    {
+        ecjia_admin_log::instance()->add_action('batch_mark', '批量标记');
+        ecjia_admin_log::instance()->add_action('mark', '标记');
+
+        ecjia_admin_log::instance()->add_object('notice', '通知');
+        ecjia_admin_log::instance()->add_object('notification_channel', '通知渠道');
+        ecjia_admin_log::instance()->add_object('notification_channel_sort', '通知渠道排序');
     }
-    
+
 }
 
 // end

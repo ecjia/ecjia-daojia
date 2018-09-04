@@ -50,16 +50,18 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 后台工具菜单API
  * @author wutifang
  */
-class notification_tool_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('07_notification_list', RC_Lang::get('notification::notification.notification'), '', 7);
-		$submenus = array(
-			ecjia_admin::make_admin_menu('01_notification_list', RC_Lang::get('notification::notification.notification_list'), RC_Uri::url('notification/admin/init'), 1)->add_purview('notification_manage'),
-		);
-		$menus->add_submenu($submenus);
-		return $menus;
-	}
+class notification_tool_menu_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
+        $menus = ecjia_admin::make_admin_menu('07_notification_list', RC_Lang::get('notification::notification.notification'), '', 7);
+        $submenus = array(
+            ecjia_admin::make_admin_menu('01_notification_list', RC_Lang::get('notification::notification.notification_list'), RC_Uri::url('notification/admin/init'), 1)->add_purview('notification_manage'),
+        );
+        $menus->add_submenu($submenus);
+        return $menus;
+    }
 }
 
 // end

@@ -47,44 +47,44 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA  通知语言包
+ * 消息中心
+ * @author will.chen
  */
-return array(
-    'notification' => '通知',
-    'notification_channel' => '通知渠道',
-    'notification_list' => '通知列表',
-
-    'enable' => '启用',
-    'disable' => '禁用',
-    'plugin' => '插件',
-    'disabled' => '已停用',
-    'enabled' => '已启用',
-
-    'js_lang' => array(
-        'channel_name_required' => '请输入通知渠道名称',
-        'channel_desc_required' => '请输入描述',
-        'channel_desc_minlength' => '描述长度不能小于6',
-    ),
-
-    'edit_ok' => '编辑成功',
-    'install_ok' => '安装成功',
-    'name_is_null' => '请输入通知渠道名称',
-    'name_exists' => '该通知渠道名称已存在',
-    'edit_channel_name' => '编辑名称',
-    'edit_channel_sort' => '编辑排序',
-
-    'edit_notification_channel' => '编辑通知渠道',
-    'label_name' => '名称：',
-    'label_desc' => '描述：',
-    'channel_name_required' => '请输入通知渠道名称',
-    'notification_channel_group' => '通知渠道组',
-    'sms' => '短信',
-    'mail' => '邮件',
-    'name' => '名称',
-    'desc' => '描述',
-    'sort_order' => '排序',
-    'is_enabled' => '是否开启',
-    'number_required' => '请输入数字类型的排序值',
-);
+class notifications_module  extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	
+    	$this->authSession();
+    	if ($_SESSION['user_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	
+    	$size = $this->requestData('pagination.count', 15);
+    	$page = $this->requestData('pagination.page', 1);
+    	
+    	$options = array(
+    			'page'			=> empty($page) ? 1 : $page,
+    			'size'			=> empty($size)	? 15 : $size,
+    			'type'			=> 'user',
+    			'notifiable_id'	=> $_SESSION['user_id']
+    	);
+    	
+    	$notifications_list = array();
+    	
+    	$notifications_result = RC_Api::api('notification', 'notification_list', $options);
+    	
+    	if (!empty($notifications_result['list'])) {
+    		$notifications_list = $notifications_result['list'];
+    		$pager = $notifications_result['page'];
+    	} else {
+    		$pager = array(
+    				'total' => 0,
+    				'count' => 0,
+    				'more'	=> 0,
+    		);
+    	}
+		
+		return array('data' => $notifications_list, 'pager' => $pager);
+	 }	
+}
 
 // end
