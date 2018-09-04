@@ -1,84 +1,94 @@
-<?php namespace Royalcms\Component\Database\Console\Migrations;
+<?php
+
+namespace Royalcms\Component\Database\Console\Migrations;
 
 use Royalcms\Component\Console\Command;
+use Royalcms\Component\Console\ConfirmableTrait;
 use Royalcms\Component\Database\Migrations\Migrator;
 use Symfony\Component\Console\Input\InputOption;
 
-class ResetCommand extends Command {
+class ResetCommand extends Command
+{
+    use ConfirmableTrait;
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'migrate:reset';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'migrate:reset';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Rollback all database migrations';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Rollback all database migrations';
 
-	/**
-	 * The migrator instance.
-	 *
-	 * @var \Royalcms\Component\Database\Migrations\Migrator
-	 */
-	protected $migrator;
+    /**
+     * The migrator instance.
+     *
+     * @var \Royalcms\Component\Database\Migrations\Migrator
+     */
+    protected $migrator;
 
-	/**
-	 * Create a new migration rollback command instance.
-	 *
-	 * @param  \Royalcms\Component\Database\Migrations\Migrator  $migrator
-	 * @return void
-	 */
-	public function __construct(Migrator $migrator)
-	{
-		parent::__construct();
+    /**
+     * Create a new migration rollback command instance.
+     *
+     * @param  \Royalcms\Component\Database\Migrations\Migrator  $migrator
+     * @return void
+     */
+    public function __construct(Migrator $migrator)
+    {
+        parent::__construct();
 
-		$this->migrator = $migrator;
-	}
+        $this->migrator = $migrator;
+    }
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return void
-	 */
-	public function fire()
-	{
-		$this->migrator->setConnection($this->input->getOption('database'));
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function fire()
+    {
+        if (! $this->confirmToProceed()) {
+            return;
+        }
 
-		$pretend = $this->input->getOption('pretend');
+        $this->migrator->setConnection($this->input->getOption('database'));
 
-		while (true)
-		{
-			$count = $this->migrator->rollback($pretend);
+        if (! $this->migrator->repositoryExists()) {
+            $this->output->writeln('<comment>Migration table not found.</comment>');
 
-			// Once the migrator has run we will grab the note output and send it out to
-			// the console screen, since the migrator itself functions without having
-			// any instances of the OutputInterface contract passed into the class.
-			foreach ($this->migrator->getNotes() as $note)
-			{
-				$this->output->writeln($note);
-			}
+            return;
+        }
 
-			if ($count == 0) break;
-		}
-	}
+        $pretend = $this->input->getOption('pretend');
 
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return array(
-			array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
+        $this->migrator->reset($pretend);
 
-			array('pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'),
-		);
-	}
+        // Once the migrator has run we will grab the note output and send it out to
+        // the console screen, since the migrator itself functions without having
+        // any instances of the OutputInterface contract passed into the class.
+        foreach ($this->migrator->getNotes() as $note) {
+            $this->output->writeln($note);
+        }
+    }
 
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'],
+
+            ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
+        ];
+    }
 }

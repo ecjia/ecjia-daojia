@@ -1,55 +1,69 @@
-<?php namespace Royalcms\Component\Database;
+<?php
+
+namespace Royalcms\Component\Database;
 
 use Royalcms\Component\Support\ServiceProvider;
-use Royalcms\Component\Database\Console\SeedCommand;
+use Royalcms\Component\Database\Console\Seeds\SeedCommand;
+use Royalcms\Component\Database\Console\Seeds\SeederMakeCommand;
 
-class SeedServiceProvider extends ServiceProvider {
+class SeedServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->registerSeedCommand();
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->registerSeedCommand();
+        $this->registerMakeCommand();
 
-		$this->royalcms->bindShared('seeder', function($royalcms)
-		{
-			return new Seeder;
-		});
+        $this->royalcms->singleton('seeder', function () {
+            return new Seeder;
+        });
 
-		$this->commands('command.seed');
-	}
+        $this->commands('command.seed', 'command.seeder.make');
+    }
 
-	/**
-	 * Register the seed console command.
-	 *
-	 * @return void
-	 */
-	protected function registerSeedCommand()
-	{
-		$this->royalcms->bindShared('command.seed', function($royalcms)
-		{
-			return new SeedCommand($royalcms['db']);
-		});
-	}
+    /**
+     * Register the seed console command.
+     *
+     * @return void
+     */
+    protected function registerSeedCommand()
+    {
+        $this->royalcms->singleton('command.seed', function ($royalcms) {
+            return new SeedCommand($royalcms['db']);
+        });
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('seeder', 'command.seed');
-	}
+    /**
+     * Register the seeder generator command.
+     *
+     * @return void
+     */
+    protected function registerMakeCommand()
+    {
+        $this->royalcms->singleton('command.seeder.make', function ($royalcms) {
+            return new SeederMakeCommand($royalcms['files'], $royalcms['composer']);
+        });
+    }
 
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['seeder', 'command.seed', 'command.seeder.make'];
+    }
 }

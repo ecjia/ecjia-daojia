@@ -1,16 +1,23 @@
-<?php namespace Royalcms\Component\Database\Query\Processors;
+<?php
 
-class MySqlProcessor extends Processor {
+namespace Royalcms\Component\Database\Query\Processors;
 
-	/**
-	 * Process the results of a column listing query.
-	 *
-	 * @param  array  $results
-	 * @return array
-	 */
-	public function processColumnListing($results)
-	{
-		return array_map(function($r) { return $r->column_name; }, $results);
-	}
+class MySqlProcessor extends Processor
+{
+    /**
+     * Process the results of a column listing query.
+     *
+     * @param  array  $results
+     * @return array
+     */
+    public function processColumnListing($results)
+    {
+        $mapping = function ($r) {
+            $r = (object) $r;
 
-} 
+            return $r->column_name;
+        };
+
+        return array_map($mapping, $results);
+    }
+}

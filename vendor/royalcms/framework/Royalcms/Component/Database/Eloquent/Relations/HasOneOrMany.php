@@ -1,294 +1,405 @@
-<?php namespace Royalcms\Component\Database\Eloquent\Relations;
+<?php
+
+namespace Royalcms\Component\Database\Eloquent\Relations;
 
 use Royalcms\Component\Database\Eloquent\Model;
 use Royalcms\Component\Database\Eloquent\Builder;
+use Royalcms\Component\Database\Query\Expression;
 use Royalcms\Component\Database\Eloquent\Collection;
 
-abstract class HasOneOrMany extends Relation {
+abstract class HasOneOrMany extends Relation
+{
+    /**
+     * The foreign key of the parent model.
+     *
+     * @var string
+     */
+    protected $foreignKey;
 
-	/**
-	 * The foreign key of the parent model.
-	 *
-	 * @var string
-	 */
-	protected $foreignKey;
+    /**
+     * The local key of the parent model.
+     *
+     * @var string
+     */
+    protected $localKey;
 
-	/**
-	 * The local key of the parent model.
-	 *
-	 * @var string
-	 */
-	protected $localKey;
+    /**
+     * Create a new has one or many relationship instance.
+     *
+     * @param  \Royalcms\Component\Database\Eloquent\Builder  $query
+     * @param  \Royalcms\Component\Database\Eloquent\Model  $parent
+     * @param  string  $foreignKey
+     * @param  string  $localKey
+     * @return void
+     */
+    public function __construct(Builder $query, Model $parent, $foreignKey, $localKey)
+    {
+        $this->localKey = $localKey;
+        $this->foreignKey = $foreignKey;
 
-	/**
-	 * Create a new has many relationship instance.
-	 *
-	 * @param  \Royalcms\Component\Database\Eloquent\Builder  $query
-	 * @param  \Royalcms\Component\Database\Eloquent\Model  $parent
-	 * @param  string  $foreignKey
-	 * @return void
-	 */
-	public function __construct(Builder $query, Model $parent, $foreignKey, $localKey)
-	{
-		$this->localKey = $localKey;
-		$this->foreignKey = $foreignKey;
+        parent::__construct($query, $parent);
+    }
 
-		parent::__construct($query, $parent);
-	}
+    /**
+     * Set the base constraints on the relation query.
+     *
+     * @return void
+     */
+    public function addConstraints()
+    {
+        if (static::$constraints) {
+            $this->query->where($this->foreignKey, '=', $this->getParentKey());
 
-	/**
-	 * Set the base constraints on the relation query.
-	 *
-	 * @return void
-	 */
-	public function addConstraints()
-	{
-		if (static::$constraints)
-		{
-			$this->query->where($this->foreignKey, '=', $this->getParentKey());
-		}
-	}
+            $this->query->whereNotNull($this->foreignKey);
+        }
+    }
 
-	/**
-	 * Set the constraints for an eager load of the relation.
-	 *
-	 * @param  array  $models
-	 * @return void
-	 */
-	public function addEagerConstraints(array $models)
-	{
-		$this->query->whereIn($this->foreignKey, $this->getKeys($models, $this->localKey));
-	}
+    /**
+     * Add the constraints for a relationship count query.
+     *
+     * @param  \Royalcms\Component\Database\Eloquent\Builder  $query
+     * @param  \Royalcms\Component\Database\Eloquent\Builder  $parent
+     * @return \Royalcms\Component\Database\Eloquent\Builder
+     */
+    public function getRelationCountQuery(Builder $query, Builder $parent)
+    {
+        if ($parent->getQuery()->from == $query->getQuery()->from) {
+            return $this->getRelationCountQueryForSelfRelation($query, $parent);
+        }
 
-	/**
-	 * Match the eagerly loaded results to their single parents.
-	 *
-	 * @param  array   $models
-	 * @param  \Royalcms\Component\Database\Eloquent\Collection  $results
-	 * @param  string  $relation
-	 * @return array
-	 */
-	public function matchOne(array $models, Collection $results, $relation)
-	{
-		return $this->matchOneOrMany($models, $results, $relation, 'one');
-	}
+        return parent::getRelationCountQuery($query, $parent);
+    }
 
-	/**
-	 * Match the eagerly loaded results to their many parents.
-	 *
-	 * @param  array   $models
-	 * @param  \Royalcms\Component\Database\Eloquent\Collection  $results
-	 * @param  string  $relation
-	 * @return array
-	 */
-	public function matchMany(array $models, Collection $results, $relation)
-	{
-		return $this->matchOneOrMany($models, $results, $relation, 'many');
-	}
+    /**
+     * Add the constraints for a relationship count query on the same table.
+     *
+     * @param  \Royalcms\Component\Database\Eloquent\Builder  $query
+     * @param  \Royalcms\Component\Database\Eloquent\Builder  $parent
+     * @return \Royalcms\Component\Database\Eloquent\Builder
+     */
+    public function getRelationCountQueryForSelfRelation(Builder $query, Builder $parent)
+    {
+        $query->select(new Expression('count(*)'));
 
-	/**
-	 * Match the eagerly loaded results to their many parents.
-	 *
-	 * @param  array   $models
-	 * @param  \Royalcms\Component\Database\Eloquent\Collection  $results
-	 * @param  string  $relation
-	 * @param  string  $type
-	 * @return array
-	 */
-	protected function matchOneOrMany(array $models, Collection $results, $relation, $type)
-	{
-		$dictionary = $this->buildDictionary($results);
+        $query->from($query->getModel()->getTable().' as '.$hash = $this->getRelationCountHash());
 
-		// Once we have the dictionary we can simply spin through the parent models to
-		// link them up with their children using the keyed dictionary to make the
-		// matching very convenient and easy work. Then we'll just return them.
-		foreach ($models as $model)
-		{
-			$key = $model->getAttribute($this->localKey);
+        $query->getModel()->setTable($hash);
 
-			if (isset($dictionary[$key]))
-			{
-				$value = $this->getRelationValue($dictionary, $key, $type);
+        $key = $this->wrap($this->getQualifiedParentKeyName());
 
-				$model->setRelation($relation, $value);
-			}
-		}
+        return $query->where($hash.'.'.$this->getPlainForeignKey(), '=', new Expression($key));
+    }
 
-		return $models;
-	}
+    /**
+     * Get a relationship join table hash.
+     *
+     * @return string
+     */
+    public function getRelationCountHash()
+    {
+        return 'self_'.md5(microtime(true));
+    }
 
-	/**
-	 * Get the value of a relationship by one or many type.
-	 *
-	 * @param  array   $dictionary
-	 * @param  string  $key
-	 * @param  string  $type
-	 * @return mixed
-	 */
-	protected function getRelationValue(array $dictionary, $key, $type)
-	{
-		$value = $dictionary[$key];
+    /**
+     * Set the constraints for an eager load of the relation.
+     *
+     * @param  array  $models
+     * @return void
+     */
+    public function addEagerConstraints(array $models)
+    {
+        $this->query->whereIn($this->foreignKey, $this->getKeys($models, $this->localKey));
+    }
 
-		return $type == 'one' ? reset($value) : $this->related->newCollection($value);
-	}
+    /**
+     * Match the eagerly loaded results to their single parents.
+     *
+     * @param  array   $models
+     * @param  \Royalcms\Component\Database\Eloquent\Collection  $results
+     * @param  string  $relation
+     * @return array
+     */
+    public function matchOne(array $models, Collection $results, $relation)
+    {
+        return $this->matchOneOrMany($models, $results, $relation, 'one');
+    }
 
-	/**
-	 * Build model dictionary keyed by the relation's foreign key.
-	 *
-	 * @param  \Royalcms\Component\Database\Eloquent\Collection  $results
-	 * @return array
-	 */
-	protected function buildDictionary(Collection $results)
-	{
-		$dictionary = array();
+    /**
+     * Match the eagerly loaded results to their many parents.
+     *
+     * @param  array   $models
+     * @param  \Royalcms\Component\Database\Eloquent\Collection  $results
+     * @param  string  $relation
+     * @return array
+     */
+    public function matchMany(array $models, Collection $results, $relation)
+    {
+        return $this->matchOneOrMany($models, $results, $relation, 'many');
+    }
 
-		$foreign = $this->getPlainForeignKey();
+    /**
+     * Match the eagerly loaded results to their many parents.
+     *
+     * @param  array   $models
+     * @param  \Royalcms\Component\Database\Eloquent\Collection  $results
+     * @param  string  $relation
+     * @param  string  $type
+     * @return array
+     */
+    protected function matchOneOrMany(array $models, Collection $results, $relation, $type)
+    {
+        $dictionary = $this->buildDictionary($results);
 
-		// First we will create a dictionary of models keyed by the foreign key of the
-		// relationship as this will allow us to quickly access all of the related
-		// models without having to do nested looping which will be quite slow.
-		foreach ($results as $result)
-		{
-			$dictionary[$result->{$foreign}][] = $result;
-		}
+        // Once we have the dictionary we can simply spin through the parent models to
+        // link them up with their children using the keyed dictionary to make the
+        // matching very convenient and easy work. Then we'll just return them.
+        foreach ($models as $model) {
+            $key = $model->getAttribute($this->localKey);
 
-		return $dictionary;
-	}
+            if (isset($dictionary[$key])) {
+                $value = $this->getRelationValue($dictionary, $key, $type);
 
-	/**
-	 * Attach a model instance to the parent model.
-	 *
-	 * @param  \Royalcms\Component\Database\Eloquent\Model  $model
-	 * @return \Royalcms\Component\Database\Eloquent\Model
-	 */
-	public function save(Model $model)
-	{
-		$model->setAttribute($this->getPlainForeignKey(), $this->getParentKey());
+                $model->setRelation($relation, $value);
+            }
+        }
 
-		return $model->save() ? $model : false;
-	}
+        return $models;
+    }
 
-	/**
-	 * Attach an array of models to the parent instance.
-	 *
-	 * @param  array  $models
-	 * @return array
-	 */
-	public function saveMany(array $models)
-	{
-		array_walk($models, array($this, 'save'));
+    /**
+     * Get the value of a relationship by one or many type.
+     *
+     * @param  array   $dictionary
+     * @param  string  $key
+     * @param  string  $type
+     * @return mixed
+     */
+    protected function getRelationValue(array $dictionary, $key, $type)
+    {
+        $value = $dictionary[$key];
 
-		return $models;
-	}
+        return $type == 'one' ? reset($value) : $this->related->newCollection($value);
+    }
 
-	/**
-	 * Create a new instance of the related model.
-	 *
-	 * @param  array  $attributes
-	 * @return \Royalcms\Component\Database\Eloquent\Model
-	 */
-	public function create(array $attributes)
-	{
-		$foreign = array(
-			$this->getPlainForeignKey() => $this->getParentKey(),
-		);
+    /**
+     * Build model dictionary keyed by the relation's foreign key.
+     *
+     * @param  \Royalcms\Component\Database\Eloquent\Collection  $results
+     * @return array
+     */
+    protected function buildDictionary(Collection $results)
+    {
+        $dictionary = [];
 
-		// Here we will set the raw attributes to avoid hitting the "fill" method so
-		// that we do not have to worry about a mass accessor rules blocking sets
-		// on the models. Otherwise, some of these attributes will not get set.
-		$instance = $this->related->newInstance();
+        $foreign = $this->getPlainForeignKey();
 
-		$instance->setRawAttributes(array_merge($attributes, $foreign));
+        // First we will create a dictionary of models keyed by the foreign key of the
+        // relationship as this will allow us to quickly access all of the related
+        // models without having to do nested looping which will be quite slow.
+        foreach ($results as $result) {
+            $dictionary[$result->{$foreign}][] = $result;
+        }
 
-		$instance->save();
+        return $dictionary;
+    }
 
-		return $instance;
-	}
+    /**
+     * Attach a model instance to the parent model.
+     *
+     * @param  \Royalcms\Component\Database\Eloquent\Model  $model
+     * @return \Royalcms\Component\Database\Eloquent\Model
+     */
+    public function save(Model $model)
+    {
+        $model->setAttribute($this->getPlainForeignKey(), $this->getParentKey());
 
-	/**
-	 * Create an array of new instances of the related model.
-	 *
-	 * @param  array  $records
-	 * @return array
-	 */
-	public function createMany(array $records)
-	{
-		$instances = array();
+        return $model->save() ? $model : false;
+    }
 
-		foreach ($records as $record)
-		{
-			$instances[] = $this->create($record);
-		}
+    /**
+     * Attach a collection of models to the parent instance.
+     *
+     * @param  \Royalcms\Component\Database\Eloquent\Collection|array  $models
+     * @return \Royalcms\Component\Database\Eloquent\Collection|array
+     */
+    public function saveMany($models)
+    {
+        foreach ($models as $model) {
+            $this->save($model);
+        }
 
-		return $instances;
-	}
+        return $models;
+    }
 
-	/**
-	 * Perform an update on all the related models.
-	 *
-	 * @param  array  $attributes
-	 * @return int
-	 */
-	public function update(array $attributes)
-	{
-		if ($this->related->usesTimestamps())
-		{
-			$attributes[$this->relatedUpdatedAt()] = $this->related->freshTimestamp();
-		}
+    /**
+     * Find a model by its primary key or return new instance of the related model.
+     *
+     * @param  mixed  $id
+     * @param  array  $columns
+     * @return \Royalcms\Component\Support\Collection|\Royalcms\Component\Database\Eloquent\Model
+     */
+    public function findOrNew($id, $columns = ['*'])
+    {
+        if (is_null($instance = $this->find($id, $columns))) {
+            $instance = $this->related->newInstance();
 
-		return $this->query->update($attributes);
-	}
+            $instance->setAttribute($this->getPlainForeignKey(), $this->getParentKey());
+        }
 
-	/**
-	 * Get the key for comparing against the parent key in "has" query.
-	 *
-	 * @return string
-	 */
-	public function getHasCompareKey()
-	{
-		return $this->getForeignKey();
-	}
+        return $instance;
+    }
 
-	/**
-	 * Get the foreign key for the relationship.
-	 *
-	 * @return string
-	 */
-	public function getForeignKey()
-	{
-		return $this->foreignKey;
-	}
+    /**
+     * Get the first related model record matching the attributes or instantiate it.
+     *
+     * @param  array  $attributes
+     * @return \Royalcms\Component\Database\Eloquent\Model
+     */
+    public function firstOrNew(array $attributes)
+    {
+        if (is_null($instance = $this->where($attributes)->first())) {
+            $instance = $this->related->newInstance($attributes);
 
-	/**
-	 * Get the plain foreign key.
-	 *
-	 * @return string
-	 */
-	public function getPlainForeignKey()
-	{
-		$segments = explode('.', $this->getForeignKey());
+            $instance->setAttribute($this->getPlainForeignKey(), $this->getParentKey());
+        }
 
-		return $segments[count($segments) - 1];
-	}
+        return $instance;
+    }
 
-	/**
-	 * Get the key value of the paren's local key.
-	 *
-	 * @return mixed
-	 */
-	public function getParentKey()
-	{
-		return $this->parent->getAttribute($this->localKey);
-	}
+    /**
+     * Get the first related record matching the attributes or create it.
+     *
+     * @param  array  $attributes
+     * @return \Royalcms\Component\Database\Eloquent\Model
+     */
+    public function firstOrCreate(array $attributes)
+    {
+        if (is_null($instance = $this->where($attributes)->first())) {
+            $instance = $this->create($attributes);
+        }
 
-	/**
-	 * Get the fully qualified parent key name.
-	 *
-	 * @return string
-	 */
-	public function getQualifiedParentKeyName()
-	{
-		return $this->parent->getTable().'.'.$this->localKey;
-	}
+        return $instance;
+    }
 
+    /**
+     * Create or update a related record matching the attributes, and fill it with values.
+     *
+     * @param  array  $attributes
+     * @param  array  $values
+     * @return \Royalcms\Component\Database\Eloquent\Model
+     */
+    public function updateOrCreate(array $attributes, array $values = [])
+    {
+        $instance = $this->firstOrNew($attributes);
+
+        $instance->fill($values);
+
+        $instance->save();
+
+        return $instance;
+    }
+
+    /**
+     * Create a new instance of the related model.
+     *
+     * @param  array  $attributes
+     * @return \Royalcms\Component\Database\Eloquent\Model
+     */
+    public function create(array $attributes)
+    {
+        // Here we will set the raw attributes to avoid hitting the "fill" method so
+        // that we do not have to worry about a mass accessor rules blocking sets
+        // on the models. Otherwise, some of these attributes will not get set.
+        $instance = $this->related->newInstance($attributes);
+
+        $instance->setAttribute($this->getPlainForeignKey(), $this->getParentKey());
+
+        $instance->save();
+
+        return $instance;
+    }
+
+    /**
+     * Create an array of new instances of the related model.
+     *
+     * @param  array  $records
+     * @return array
+     */
+    public function createMany(array $records)
+    {
+        $instances = [];
+
+        foreach ($records as $record) {
+            $instances[] = $this->create($record);
+        }
+
+        return $instances;
+    }
+
+    /**
+     * Perform an update on all the related models.
+     *
+     * @param  array  $attributes
+     * @return int
+     */
+    public function update(array $attributes)
+    {
+        if ($this->related->usesTimestamps()) {
+            $attributes[$this->relatedUpdatedAt()] = $this->related->freshTimestampString();
+        }
+
+        return $this->query->update($attributes);
+    }
+
+    /**
+     * Get the key for comparing against the parent key in "has" query.
+     *
+     * @return string
+     */
+    public function getHasCompareKey()
+    {
+        return $this->getForeignKey();
+    }
+
+    /**
+     * Get the foreign key for the relationship.
+     *
+     * @return string
+     */
+    public function getForeignKey()
+    {
+        return $this->foreignKey;
+    }
+
+    /**
+     * Get the plain foreign key.
+     *
+     * @return string
+     */
+    public function getPlainForeignKey()
+    {
+        $segments = explode('.', $this->getForeignKey());
+
+        return $segments[count($segments) - 1];
+    }
+
+    /**
+     * Get the key value of the parent's local key.
+     *
+     * @return mixed
+     */
+    public function getParentKey()
+    {
+        return $this->parent->getAttribute($this->localKey);
+    }
+
+    /**
+     * Get the fully qualified parent key name.
+     *
+     * @return string
+     */
+    public function getQualifiedParentKeyName()
+    {
+        return $this->parent->getTable().'.'.$this->localKey;
+    }
 }

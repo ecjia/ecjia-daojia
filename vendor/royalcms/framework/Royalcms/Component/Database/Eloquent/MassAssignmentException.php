@@ -1,3 +1,10 @@
-<?php namespace Royalcms\Component\Database\Eloquent;
+<?php
 
-class MassAssignmentException extends \RuntimeException {}
+namespace Royalcms\Component\Database\Eloquent;
+
+use RuntimeException;
+
+class MassAssignmentException extends RuntimeException
+{
+    //
+}

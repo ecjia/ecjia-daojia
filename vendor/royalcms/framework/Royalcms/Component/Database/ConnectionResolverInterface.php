@@ -1,28 +1,29 @@
-<?php namespace Royalcms\Component\Database;
+<?php
 
-interface ConnectionResolverInterface {
+namespace Royalcms\Component\Database;
 
-	/**
-	 * Get a database connection instance.
-	 *
-	 * @param  string  $name
-	 * @return \Royalcms\Component\Database\Connection
-	 */
-	public function connection($name = null);
+interface ConnectionResolverInterface
+{
+    /**
+     * Get a database connection instance.
+     *
+     * @param  string  $name
+     * @return \Royalcms\Component\Database\ConnectionInterface
+     */
+    public function connection($name = null);
 
-	/**
-	 * Get the default connection name.
-	 *
-	 * @return string
-	 */
-	public function getDefaultConnection();
+    /**
+     * Get the default connection name.
+     *
+     * @return string
+     */
+    public function getDefaultConnection();
 
-	/**
-	 * Set the default connection name.
-	 *
-	 * @param  string  $name
-	 * @return void
-	 */
-	public function setDefaultConnection($name);
-
+    /**
+     * Set the default connection name.
+     *
+     * @param  string  $name
+     * @return void
+     */
+    public function setDefaultConnection($name);
 }
