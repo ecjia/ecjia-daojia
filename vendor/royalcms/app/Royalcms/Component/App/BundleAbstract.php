@@ -3,7 +3,7 @@
 namespace Royalcms\Component\App;
 
 use Royalcms\Component\Support\Facades\Lang as RC_Lang;
-use Royalcms\Component\Support\Facades\Error as RC_Error;
+use Royalcms\Component\Error\Facades\Error as RC_Error;
 
 abstract class BundleAbstract
 {
@@ -124,7 +124,7 @@ abstract class BundleAbstract
      */
     protected function appPackage($markup = true, $translate = true)
     {
-        $package = self::getPackageData();
+        $package = $this->getPackageData();
         
         if ( $package && $translate ) {
             $lang_namespace = $this->getNamespace() . '::package.';

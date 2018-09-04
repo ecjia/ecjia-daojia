@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\App\Facades;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Facades\Lang;
 use Royalcms\Component\Support\Facades\Cache as RC_Cache;
 use Royalcms\Component\Foundation\Uri;
@@ -59,7 +59,7 @@ class App extends Facade
          *                      array('alias' => '', 'identifier' => '', 'directory' => ''),
          *                  )
         */
-        $bundles = Hook::apply_filters('app_scan_bundles', $bundles);
+        $bundles = RC_Hook::apply_filters('app_scan_bundles', $bundles);
         if (!empty($bundles)) {
             foreach ($bundles as $bundle) {
                 self::$alias_map[$bundle['alias']] = $bundle['identifier'];
@@ -251,7 +251,7 @@ class App extends Facade
          *            The application file path to be relative to. Blank string if no plugin
          *            is specified.
          */
-        return Hook::apply_filters('apps_url', $url, $path, $app);
+        return RC_Hook::apply_filters('apps_url', $url, $path, $app);
     }
 
     /**
@@ -361,8 +361,8 @@ class App extends Facade
         static $alias_directory = array();
         $bundles = array();
         
-        if (Hook::has_filter('app_scan_bundles')) {
-            $bundles = Hook::apply_filters('app_scan_bundles', $bundles);
+        if (RC_Hook::has_filter('app_scan_bundles')) {
+            $bundles = RC_Hook::apply_filters('app_scan_bundles', $bundles);
             if (!empty($bundles)) {
                 foreach ($bundles as $bundle) {
                     $alias_directory[$bundle['alias']] = $bundle['directory'];
@@ -372,7 +372,7 @@ class App extends Facade
             $alias_directory = \RC_Config::get('app');
         }
 
-        return \RC_Hook::apply_filters('app_alias_directory_handle', $alias_directory);
+        return RC_Hook::apply_filters('app_alias_directory_handle', $alias_directory);
     }
 }
 

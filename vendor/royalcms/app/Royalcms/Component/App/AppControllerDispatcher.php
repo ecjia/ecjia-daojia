@@ -3,8 +3,8 @@
 namespace Royalcms\Component\App;
 
 use Royalcms\Component\DefaultRoute\HttpQueryRoute;
-use Royalcms\Component\Support\Facades\Error as RC_Error;
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use Royalcms\Component\Error\Facades\Error as RC_Error;
+use RC_Hook;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
@@ -125,7 +125,7 @@ class AppControllerDispatcher
      *
      * @param  \Royalcms\Component\Routing\Controller  $instance
      * @param  \Royalcms\Component\Routing\Route  $route
-     * @param  \Royalcms\Component\Httpkernel\Request  $request
+     * @param  \Royalcms\Component\Http\Request  $request
      * @param  string  $method
      * @return mixed
      */

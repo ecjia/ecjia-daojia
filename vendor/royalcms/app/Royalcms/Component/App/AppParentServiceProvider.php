@@ -23,7 +23,7 @@ abstract class AppParentServiceProvider extends ServiceProvider
 		// In this method we will register the configuration package for the package
 		// so that the configuration options cleanly cascade into the application
 		// folder to make the developers lives much easier in maintaining them.
-		$path = $path ?: $this->guessPackagePath();
+		$path = $path ?: $this->guessPackagePath($namespace);
 
 		$config = $path.'/configs';
 
@@ -40,6 +40,9 @@ abstract class AppParentServiceProvider extends ServiceProvider
 		if ($this->royalcms['files']->isDirectory($lang))
 		{
 			$this->royalcms['translator']->addNamespace($namespace, $lang);
+			if (strpos($namespace, 'app-', 0) !== false) {
+                $this->royalcms['translator']->addNamespace(str_replace('app-', '', $namespace), $lang);
+            }
 		}
 
 		// Next, we will see if the application view folder contains a folder for the
@@ -68,8 +71,13 @@ abstract class AppParentServiceProvider extends ServiceProvider
 	 *
 	 * @return string
 	 */
-	public function guessPackagePath()
+	public function guessPackagePath($namespace = null)
 	{
+        if (strpos($namespace, 'app-', 0) !== false) {
+            $app = str_replace('app-', '', $namespace);
+            return realpath($this->royalcms['path.app'] . '/' . $app);
+        }
+
 		$path = with(new ReflectionClass($this))->getFileName();
 
 		return realpath(dirname($path).'/../');
@@ -107,9 +115,9 @@ abstract class AppParentServiceProvider extends ServiceProvider
 		// give us the Artisan console instance which we will give commands to.
 		$events = $this->royalcms['events'];
 
-		$events->listen('royalcmd.start', function($royalcmd) use ($commands)
+		$events->listen('royalcms.start', function($royalcms) use ($commands)
 		{
-			$royalcmd->resolveCommands($commands);
+			$royalcms->resolveCommands($commands);
 		});
 	}
 

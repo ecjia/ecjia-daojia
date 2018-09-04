@@ -3,7 +3,7 @@
 namespace Royalcms\Component\App;
 
 use Royalcms\Component\Support\Manager;
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Facades\File as RC_File;
 use Royalcms\Component\App\Bundles\AppBundle;
 

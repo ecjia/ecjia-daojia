@@ -21,6 +21,25 @@ class AppServiceProvider extends ServiceProvider
         });
         
     }
-    
-    
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/app');
+
+        return [
+            $dir . "/Facades/App.php",
+            $dir . "/AppManager.php",
+            $dir . "/Bundles/AppBundle.php",
+            $dir . "/BundleAbstract.php",
+            $dir . "/Contracts/BundlePackage.php",
+            $dir . "/AppControllerDispatcher.php",
+            $dir . "/AppServiceProvider.php",
+            $dir . "/AppParentServiceProvider.php",
+        ];
+    }
 }

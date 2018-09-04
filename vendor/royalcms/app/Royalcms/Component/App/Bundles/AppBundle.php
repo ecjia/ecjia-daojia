@@ -19,13 +19,15 @@ class AppBundle extends BundleAbstract implements BundlePackage
         }
         
         $this->package = $this->appPackage();
-        
-        $this->identifier = $this->package['identifier'];
-        
-        $this->namespace = $this->package['namespace'];
-        
+
+        if (! empty($this->package)) {
+            $this->identifier = $this->package['identifier'];
+
+            $this->namespace = $this->package['namespace'];
+        }
+
         $this->site = defined('RC_SITE') ? RC_SITE : 'default';
-        
+
         $this->makeControllerPath();
     }
     
