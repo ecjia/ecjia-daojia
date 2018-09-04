@@ -274,7 +274,7 @@ class admin_area extends ecjia_admin
 
         $shipping_data = RC_DB::table('shipping as s')
             ->leftJoin('shipping_area as a', RC_DB::raw('a.shipping_id'), '=', RC_DB::raw('s.shipping_id'))
-            ->selectRaw('s.shipping_name, s.shipping_code, s.support_cod, a.*')
+            ->select(RC_DB::raw('s.shipping_name, s.shipping_code, s.support_cod, a.*'))
             ->where(RC_DB::raw('a.shipping_area_id'), $ship_area_id)
             ->first();
 
