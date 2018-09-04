@@ -76,7 +76,7 @@ class index {
             return royalcms('response')->setContent('Api Error: ' . $url . ' does not exist.');
 
         }
-        
+
         $router->parseKey();
 
         if ($router->getApp() == 'system') {
@@ -84,7 +84,10 @@ class index {
         } else {
             $handle = RC_Loader::load_app_module($router->getClassPath().'.'.$router->getClassName(), $router->getApp());
         }
-        
+
+        //原Http组件转换为HttpKernel组件
+        $request = Royalcms\Component\HttpKernel\Request::createMyFromBase($request);
+
         if ($handle && is_a($handle, $router->getClassName())) {
             $data = $handle->handleRequest($request);
             return with(new api_response($data))->send();
