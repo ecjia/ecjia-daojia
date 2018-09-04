@@ -1,10 +1,11 @@
-<?php namespace Royalcms\Component\Excel;
+<?php
+
+namespace Royalcms\Component\Excel;
 
 use PHPExcel_Settings;
 use PHPExcel_Shared_Font;
 use Royalcms\Component\Excel\Readers\HtmlReader;
 use Royalcms\Component\Excel\Classes\Cache;
-use Royalcms\Component\Support\Facades\Config;
 use Royalcms\Component\Excel\Classes\PHPExcel;
 use Royalcms\Component\Support\ServiceProvider;
 use Royalcms\Component\Excel\Parsers\CssParser;
@@ -13,6 +14,7 @@ use Royalcms\Component\Excel\Classes\FormatIdentifier;
 use Royalcms\Component\Excel\Readers\ExcelReader;
 use Royalcms\Component\Excel\Writers\ExcelWriter;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
+use RC_Config;
 
 /**
  *
@@ -36,7 +38,7 @@ class ExcelServiceProvider extends ServiceProvider {
     public function boot()
     {
         // Boot the package
-        $this->royalcms['config']->package('royalcms/excel', __DIR__ . '/Config');
+        $this->package('royalcms/excel');
 
         // Set the autosizing settings
         $this->setAutoSizingSettings();
@@ -217,7 +219,7 @@ class ExcelServiceProvider extends ServiceProvider {
      */
     public function setLocale()
     {
-        $locale = Config::get('system.locale', 'zh_CN');
+        $locale = RC_Config::get('system.locale', 'zh_CN');
         PHPExcel_Settings::setLocale($locale);
     }
 
@@ -226,7 +228,7 @@ class ExcelServiceProvider extends ServiceProvider {
      */
     public function setAutoSizingSettings()
     {
-        $method = Config::get('excel::export.autosize-method', PHPExcel_Shared_Font::AUTOSIZE_METHOD_APPROX);
+        $method = RC_Config::get('excel::export.autosize-method', PHPExcel_Shared_Font::AUTOSIZE_METHOD_APPROX);
         PHPExcel_Shared_Font::setAutoSizeMethod($method);
     }
 

@@ -5,7 +5,7 @@ use Royalcms\Component\DateTime\Carbon;
 use PHPExcel_IOFactory;
 use Royalcms\Component\Filesystem\Filesystem;
 use Royalcms\Component\Support\Facades\Config;
-use Royalcms\Component\HttpKernel\Response;
+use Royalcms\Component\Http\Response;
 use Royalcms\Component\Excel\Classes\FormatIdentifier;
 use Royalcms\Component\Excel\Exceptions\ExcelException;
 
