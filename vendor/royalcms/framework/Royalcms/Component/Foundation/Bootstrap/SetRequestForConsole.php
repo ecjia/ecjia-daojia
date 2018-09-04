@@ -1,21 +1,22 @@
-<?php namespace Royalcms\Component\Foundation\Bootstrap;
+<?php
 
-use Royalcms\Component\HttpKernel\Request;
-use Royalcms\Component\Foundation\Contracts\Royalcms;
+namespace Royalcms\Component\Foundation\Bootstrap;
 
-class SetRequestForConsole {
+use Royalcms\Component\Http\Request;
+use Royalcms\Component\Contracts\Foundation\Royalcms;
 
-	/**
-	 * Bootstrap the given application.
-	 *
-	 * @param  \Royalcms\Component\Foundation\Contracts\Royalcms  $royalcms
-	 * @return void
-	 */
-	public function bootstrap(Royalcms $royalcms)
-	{
-		$url = $royalcms['config']->get('app.url', 'http://localhost');
+class SetRequestForConsole
+{
+    /**
+     * Bootstrap the given application.
+     *
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
+     * @return void
+     */
+    public function bootstrap(Royalcms $royalcms)
+    {
+        $url = $royalcms->make('config')->get('system.url', 'http://localhost');
 
-		$royalcms->instance('request', Request::create($url, 'GET', [], [], [], $_SERVER));
-	}
-
+        $royalcms->instance('request', Request::create($url, 'GET', [], [], [], $_SERVER));
+    }
 }

@@ -3,25 +3,17 @@
 namespace Royalcms\Component\Foundation\Http\Middleware;
 
 use Closure;
-use Royalcms\Component\DateTime\Carbon;
-use Royalcms\Component\Foundation\Royalcms;
+use Royalcms\Component\Support\Str;
 use Symfony\Component\HttpFoundation\Cookie;
-use Royalcms\Component\Encryption\Contracts\Encrypter;
+use Royalcms\Component\Contracts\Encryption\Encrypter;
 use Royalcms\Component\Session\TokenMismatchException;
 
 class VerifyCsrfToken
 {
     /**
-     * The royalcms instance.
-     *
-     * @var \Royalcms\Component\Foundation\Royalcms
-     */
-    protected $royalcms;
-
-    /**
      * The encrypter implementation.
      *
-     * @var \Royalcms\Component\Encryption\Contracts\Encrypter
+     * @var \Royalcms\Component\Contracts\Encryption\Encrypter
      */
     protected $encrypter;
 
@@ -35,13 +27,11 @@ class VerifyCsrfToken
     /**
      * Create a new middleware instance.
      *
-     * @param  \Royalcms\Component\Foundation\Royalcms  $royalcms
-     * @param  \Royalcms\Component\Encryption\Contracts\Encrypter  $encrypter
+     * @param  \Royalcms\Component\Contracts\Encryption\Encrypter  $encrypter
      * @return void
      */
-    public function __construct(Royalcms $royalcms, Encrypter $encrypter)
+    public function __construct(Encrypter $encrypter)
     {
-        $this->royalcms = $royalcms;
         $this->encrypter = $encrypter;
     }
 
@@ -56,37 +46,11 @@ class VerifyCsrfToken
      */
     public function handle($request, Closure $next)
     {
-        if (
-            $this->isReading($request) ||
-            $this->runningUnitTests() ||
-            $this->inExceptArray($request) ||
-            $this->tokensMatch($request)
-        ) {
+        if ($this->isReading($request) || $this->shouldPassThrough($request) || $this->tokensMatch($request)) {
             return $this->addCookieToResponse($request, $next($request));
         }
 
         throw new TokenMismatchException;
-    }
-
-    /**
-     * Determine if the HTTP request uses a ‘read’ verb.
-     *
-     * @param  \Royalcms\Component\Http\Request  $request
-     * @return bool
-     */
-    protected function isReading($request)
-    {
-        return in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']);
-    }
-
-    /**
-     * Determine if the application is running unit tests.
-     *
-     * @return bool
-     */
-    protected function runningUnitTests()
-    {
-        return $this->royalcms->runningInConsole() && $this->royalcms->runningUnitTests();
     }
 
     /**
@@ -95,7 +59,7 @@ class VerifyCsrfToken
      * @param  \Royalcms\Component\Http\Request  $request
      * @return bool
      */
-    protected function inExceptArray($request)
+    protected function shouldPassThrough($request)
     {
         foreach ($this->except as $except) {
             if ($except !== '/') {
@@ -118,36 +82,27 @@ class VerifyCsrfToken
      */
     protected function tokensMatch($request)
     {
-        $token = $this->getTokenFromRequest($request);
+        $sessionToken = $request->session()->token();
 
-        return is_string($request->session()->token()) &&
-               is_string($token) &&
-               hash_equals($request->session()->token(), $token);
-    }
-
-    /**
-     * Get the CSRF token from the request.
-     *
-     * @param  \Royalcms\Component\Http\Request  $request
-     * @return string
-     */
-    protected function getTokenFromRequest($request)
-    {
         $token = $request->input('_token') ?: $request->header('X-CSRF-TOKEN');
 
         if (! $token && $header = $request->header('X-XSRF-TOKEN')) {
             $token = $this->encrypter->decrypt($header);
         }
 
-        return $token;
+        if (! is_string($sessionToken) || ! is_string($token)) {
+            return false;
+        }
+
+        return Str::equals($sessionToken, $token);
     }
 
     /**
      * Add the CSRF token to the response cookies.
      *
      * @param  \Royalcms\Component\Http\Request  $request
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  \Royalcms\Component\Http\Response  $response
+     * @return \Royalcms\Component\Http\Response
      */
     protected function addCookieToResponse($request, $response)
     {
@@ -155,11 +110,22 @@ class VerifyCsrfToken
 
         $response->headers->setCookie(
             new Cookie(
-                'XSRF-TOKEN', $request->session()->token(), Carbon::now()->getTimestamp() + 60 * $config['lifetime'],
+                'XSRF-TOKEN', $request->session()->token(), time() + 60 * 120,
                 $config['path'], $config['domain'], $config['secure'], false
             )
         );
 
         return $response;
+    }
+
+    /**
+     * Determine if the HTTP request uses a ‘read’ verb.
+     *
+     * @param  \Royalcms\Component\Http\Request  $request
+     * @return bool
+     */
+    protected function isReading($request)
+    {
+        return in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']);
     }
 }

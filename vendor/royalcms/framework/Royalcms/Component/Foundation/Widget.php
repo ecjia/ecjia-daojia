@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Foundation;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Format;
 
 class Widget extends RoyalcmsObject
@@ -118,7 +118,7 @@ class Widget extends RoyalcmsObject
         );
         $widget = array_merge($widget, $options);
     
-        if ( is_callable($output_callback) && ( !isset(self::$registered_widgets[$id]) || Hook::did_action( 'widgets_init' ) ) ) {
+        if ( is_callable($output_callback) && ( !isset(self::$registered_widgets[$id]) || RC_Hook::did_action( 'widgets_init' ) ) ) {
     
             /**
              * Fires once for each registered widget.
@@ -127,7 +127,7 @@ class Widget extends RoyalcmsObject
              *
              * @param array $widget An array of default widget arguments.
              */
-            Hook::do_action( 'register_sidebar_widget', $widget );
+            RC_Hook::do_action( 'register_sidebar_widget', $widget );
             self::$registered_widgets[$id] = $widget;
         }
     }
@@ -200,7 +200,7 @@ class Widget extends RoyalcmsObject
             return;
         }
     
-        if ( isset(self::$registered_widget_controls[$id]) && !Hook::did_action( 'widgets_init' ) ) {
+        if ( isset(self::$registered_widget_controls[$id]) && !RC_Hook::did_action( 'widgets_init' ) ) {
             return;
         }
     
@@ -239,7 +239,7 @@ class Widget extends RoyalcmsObject
             return;
         }
     
-        if ( isset(self::$registered_widget_controls[$id]) && !Hook::did_action( 'widgets_init' ) ) {
+        if ( isset(self::$registered_widget_controls[$id]) && !RC_Hook::did_action( 'widgets_init' ) ) {
             return;
         } 
     
@@ -323,7 +323,7 @@ class Widget extends RoyalcmsObject
          *
          * @param int $id The widget ID.
          */
-        Hook::do_action( 'unregister_sidebar_widget', $id );
+        RC_Hook::do_action( 'unregister_sidebar_widget', $id );
     
         self::register_sidebar_widget($id, '', '');
         self::unregister_widget_control($id);

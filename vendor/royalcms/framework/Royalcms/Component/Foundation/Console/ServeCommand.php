@@ -1,78 +1,72 @@
-<?php namespace Royalcms\Component\Foundation\Console;
+<?php
 
-use Royalcms\Component\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
+namespace Royalcms\Component\Foundation\Console;
+
 use Exception;
+use Royalcms\Component\Console\Command;
+use Symfony\Component\Process\ProcessUtils;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\PhpExecutableFinder;
 
-class ServeCommand extends Command {
+class ServeCommand extends Command
+{
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'serve';
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'serve';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Serve the application on the PHP development server';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = "Serve the application on the PHP development server";
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function fire()
+    {
+        chdir($this->royalcms->publicPath());
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return void
-	 */
-	public function fire()
-	{
-	    try {
-	        $this->checkPhpVersion();
-	        
-	        chdir($this->royalcms['path.base']);
-	        
-	        $host = $this->input->getOption('host');
-	        
-	        $port = $this->input->getOption('port');
-	        
-	        $public = $this->royalcms['path.base'];
-	        
-	        $this->info("Royalcms development server started on http://{$host}:{$port}");
-	        
-	        passthru('"'.PHP_BINARY.'"'." -S {$host}:{$port} -t \"{$public}\" server.php");
-	    } catch (Exception $e) {
-	        $this->error($e->getMessage());
-	    }
-	}
+        $host = $this->input->getOption('host');
 
-	/**
-	 * Check the current PHP version is >= 5.4.
-	 *
-	 * @return void
-	 *
-	 * @throws \Exception
-	 */
-	protected function checkPhpVersion()
-	{
-		if (version_compare(PHP_VERSION, '5.4.0', '<'))
-		{
-			throw new Exception('This PHP binary is not version 5.4 or greater.');
-		}
-	}
+        $port = $this->input->getOption('port');
 
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return array(
-			array('host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on.', 'localhost'),
+        $base = ProcessUtils::escapeArgument($this->royalcms->basePath());
 
-			array('port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on.', 8000),
-		);
-	}
+        $binary = ProcessUtils::escapeArgument((new PhpExecutableFinder)->find(false));
 
+        $this->info("Royalcms development server started on http://{$host}:{$port}/");
+
+        if (defined('HHVM_VERSION')) {
+            if (version_compare(HHVM_VERSION, '3.8.0') >= 0) {
+                passthru("{$binary} -m server -v Server.Type=proxygen -v Server.SourceRoot={$base}/ -v Server.IP={$host} -v Server.Port={$port} -v Server.DefaultDocument=server.php -v Server.ErrorDocument404=server.php");
+            } else {
+                throw new Exception("HHVM's built-in server requires HHVM >= 3.8.0.");
+            }
+        } else {
+            passthru("{$binary} -S {$host}:{$port} {$base}/server.php");
+        }
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on.', 'localhost'],
+
+            ['port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on.', 8000],
+        ];
+    }
 }

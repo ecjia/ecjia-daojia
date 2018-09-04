@@ -7,17 +7,16 @@ use Throwable;
 use Royalcms\Component\Routing\Router;
 use Royalcms\Component\Pipeline\Pipeline;
 use Royalcms\Component\Support\Facades\Facade;
-use Royalcms\Component\Debug\Contracts\ExceptionHandler;
-use Royalcms\Component\Foundation\Contracts\Royalcms;
-use Royalcms\Component\Http\Contracts\Kernel as KernelContract;
+use Royalcms\Component\Contracts\Foundation\Royalcms;
+use Royalcms\Component\Contracts\Http\Kernel as KernelContract;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class Kernel implements KernelContract
 {
     /**
-     * The royalcms implementation.
+     * The royalcms application implementation.
      *
-     * @var \Royalcms\Component\Foundation\Contracts\Royalcms
+     * @var \Royalcms\Component\Contracts\Foundation\Royalcms
      */
     protected $royalcms;
 
@@ -34,55 +33,36 @@ class Kernel implements KernelContract
      * @var array
      */
     protected $bootstrappers = [
-        '\Royalcms\Component\Foundation\Bootstrap\LoadEnvironmentVariables',
-        '\Royalcms\Component\Foundation\Bootstrap\LoadConfiguration',
-        '\Royalcms\Component\Foundation\Bootstrap\HandleExceptions',
-        '\Royalcms\Component\Foundation\Bootstrap\RegisterFacades',
-        '\Royalcms\Component\Foundation\Bootstrap\RegisterProviders',
-        '\Royalcms\Component\Foundation\Bootstrap\BootProviders',
+        'Royalcms\Component\Foundation\Bootstrap\Starting',
+        'Royalcms\Component\Foundation\Bootstrap\DetectEnvironment',
+        'Royalcms\Component\Foundation\Bootstrap\LoadConfiguration',
+        'Royalcms\Component\Foundation\Bootstrap\RegisterNamespaces',
+        'Royalcms\Component\Foundation\Bootstrap\ConfigureLogging',
+        'Royalcms\Component\Foundation\Bootstrap\HandleExceptions',
+        'Royalcms\Component\Foundation\Bootstrap\RegisterFacades',
+        'Royalcms\Component\Foundation\Bootstrap\RegisterProviders',
+        'Royalcms\Component\Foundation\Bootstrap\BootProviders',
+        'Royalcms\Component\Foundation\Bootstrap\Booted',
     ];
 
     /**
-     * The royalcms's middleware stack.
+     * The application's middleware stack.
      *
      * @var array
      */
     protected $middleware = [];
 
     /**
-     * The royalcms's route middleware groups.
-     *
-     * @var array
-     */
-    protected $middlewareGroups = [];
-
-    /**
-     * The royalcms's route middleware.
+     * The application's route middleware.
      *
      * @var array
      */
     protected $routeMiddleware = [];
 
     /**
-     * The priority-sorted list of middleware.
-     *
-     * Forces the listed middleware to always be in the given order.
-     *
-     * @var array
-     */
-    protected $middlewarePriority = [
-        '\Royalcms\Component\Session\Middleware\StartSession',
-        '\Royalcms\Component\View\Middleware\ShareErrorsFromSession',
-        '\Royalcms\Component\Auth\Middleware\Authenticate',
-        '\Royalcms\Component\Session\Middleware\AuthenticateSession',
-        '\Royalcms\Component\Routing\Middleware\SubstituteBindings',
-        '\Royalcms\Component\Auth\Middleware\Authorize',
-    ];
-
-    /**
      * Create a new HTTP kernel instance.
      *
-     * @param  \Royalcms\Component\Foundation\Contracts\Royalcms  $royalcms
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
      * @param  \Royalcms\Component\Routing\Router  $router
      * @return void
      */
@@ -91,14 +71,8 @@ class Kernel implements KernelContract
         $this->royalcms = $royalcms;
         $this->router = $router;
 
-        $router->middlewarePriority = $this->middlewarePriority;
-
-        foreach ($this->middlewareGroups as $key => $middleware) {
-            $router->middlewareGroup($key, $middleware);
-        }
-
         foreach ($this->routeMiddleware as $key => $middleware) {
-            $router->aliasMiddleware($key, $middleware);
+            $router->middleware($key, $middleware);
         }
     }
 
@@ -119,14 +93,14 @@ class Kernel implements KernelContract
 
             $response = $this->renderException($request, $e);
         } catch (Throwable $e) {
-            $this->reportException($e = new FatalThrowableError($e));
+            $e = new FatalThrowableError($e);
+
+            $this->reportException($e);
 
             $response = $this->renderException($request, $e);
         }
 
-        $this->royalcms['events']->dispatch(
-            new Events\RequestHandled($request, $response)
-        );
+        $this->royalcms['events']->fire('kernel.handled', [$request, $response]);
 
         return $response;
     }
@@ -152,32 +126,6 @@ class Kernel implements KernelContract
     }
 
     /**
-     * Bootstrap the royalcms for HTTP requests.
-     *
-     * @return void
-     */
-    public function bootstrap()
-    {
-        if (! $this->royalcms->hasBeenBootstrapped()) {
-            $this->royalcms->bootstrapWith($this->bootstrappers());
-        }
-    }
-
-    /**
-     * Get the route dispatcher callback.
-     *
-     * @return \Closure
-     */
-    protected function dispatchToRouter()
-    {
-        return function ($request) {
-            $this->royalcms->instance('request', $request);
-
-            return $this->router->dispatch($request);
-        };
-    }
-
-    /**
      * Call the terminate method on any terminable middleware.
      *
      * @param  \Royalcms\Component\Http\Request  $request
@@ -186,30 +134,12 @@ class Kernel implements KernelContract
      */
     public function terminate($request, $response)
     {
-        $this->terminateMiddleware($request, $response);
-
-        $this->royalcms->terminate();
-    }
-
-    /**
-     * Call the terminate method on any terminable middleware.
-     *
-     * @param  \Royalcms\Component\Http\Request  $request
-     * @param  \Royalcms\Component\Http\Response  $response
-     * @return void
-     */
-    protected function terminateMiddleware($request, $response)
-    {
         $middlewares = $this->royalcms->shouldSkipMiddleware() ? [] : array_merge(
-            $this->gatherRouteMiddleware($request),
+            $this->gatherRouteMiddlewares($request),
             $this->middleware
         );
 
         foreach ($middlewares as $middleware) {
-            if (! is_string($middleware)) {
-                continue;
-            }
-
             list($name, $parameters) = $this->parseMiddleware($middleware);
 
             $instance = $this->royalcms->make($name);
@@ -218,6 +148,8 @@ class Kernel implements KernelContract
                 $instance->terminate($request, $response);
             }
         }
+
+        $this->royalcms->terminate();
     }
 
     /**
@@ -226,11 +158,10 @@ class Kernel implements KernelContract
      * @param  \Royalcms\Component\Http\Request  $request
      * @return array
      */
-    protected function gatherRouteMiddleware($request)
+    protected function gatherRouteMiddlewares($request)
     {
-        $route = $request->route();
-        if ($route) {
-            return $this->router->gatherRouteMiddleware($route);
+        if ($route = $request->route()) {
+            return $this->router->gatherRouteMiddlewares($route);
         }
 
         return [];
@@ -251,17 +182,6 @@ class Kernel implements KernelContract
         }
 
         return [$name, $parameters];
-    }
-
-    /**
-     * Determine if the kernel has a given middleware.
-     *
-     * @param  string  $middleware
-     * @return bool
-     */
-    public function hasMiddleware($middleware)
-    {
-        return in_array($middleware, $this->middleware);
     }
 
     /**
@@ -295,6 +215,43 @@ class Kernel implements KernelContract
     }
 
     /**
+     * Bootstrap the application for HTTP requests.
+     *
+     * @return void
+     */
+    public function bootstrap()
+    {
+        if (! $this->royalcms->hasBeenBootstrapped()) {
+            $this->royalcms->bootstrapWith($this->bootstrappers());
+        }
+    }
+
+    /**
+     * Get the route dispatcher callback.
+     *
+     * @return \Closure
+     */
+    protected function dispatchToRouter()
+    {
+        return function ($request) {
+            $this->royalcms->instance('request', $request);
+
+            return $this->router->dispatch($request);
+        };
+    }
+
+    /**
+     * Determine if the kernel has a given middleware.
+     *
+     * @param  string  $middleware
+     * @return bool
+     */
+    public function hasMiddleware($middleware)
+    {
+        return in_array($middleware, $this->middleware);
+    }
+
+    /**
      * Get the bootstrap classes for the application.
      *
      * @return array
@@ -312,7 +269,7 @@ class Kernel implements KernelContract
      */
     protected function reportException(Exception $e)
     {
-        $this->royalcms['\Royalcms\Component\Debug\Contracts\ExceptionHandler']->report($e);
+        $this->royalcms['Royalcms\Component\Contracts\Debug\ExceptionHandler']->report($e);
     }
 
     /**
@@ -324,15 +281,25 @@ class Kernel implements KernelContract
      */
     protected function renderException($request, Exception $e)
     {
-        return $this->royalcms['\Royalcms\Component\Debug\Contracts\ExceptionHandler']->render($request, $e);
+        return $this->royalcms['Royalcms\Component\Contracts\Debug\ExceptionHandler']->render($request, $e);
     }
 
     /**
      * Get the Royalcms application instance.
      *
-     * @return \Royalcms\Component\Foundation\Contracts\Royalcms
+     * @return \Royalcms\Component\Contracts\Foundation\Royalcms
      */
     public function getRoyalcms()
+    {
+        return $this->royalcms;
+    }
+
+    /**
+     * Get the Royalcms application instance.
+     *
+     * @return \Royalcms\Component\Contracts\Foundation\Application
+     */
+    public function getApplication()
     {
         return $this->royalcms;
     }

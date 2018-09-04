@@ -1,0 +1,18 @@
+<?php
+
+use Royalcms\Component\Foundation\Testing\WithoutMiddleware;
+use Royalcms\Component\Foundation\Testing\DatabaseMigrations;
+use Royalcms\Component\Foundation\Testing\DatabaseTransactions;
+
+class DummyClass extends TestCase
+{
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testExample()
+    {
+        $this->assertTrue(true);
+    }
+}

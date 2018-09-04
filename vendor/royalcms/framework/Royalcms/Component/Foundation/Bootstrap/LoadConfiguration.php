@@ -1,100 +1,117 @@
-<?php namespace Royalcms\Component\Foundation\Bootstrap;
+<?php
+
+namespace Royalcms\Component\Foundation\Bootstrap;
 
 use Royalcms\Component\Config\Repository;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Royalcms\Component\Foundation\Contracts\Royalcms;
-use Royalcms\Component\Config\Contracts\Repository as RepositoryContract;
+use Royalcms\Component\Contracts\Foundation\Royalcms;
+use Royalcms\Component\Contracts\Config\Repository as RepositoryContract;
 
-class LoadConfiguration { 
+use Royalcms\Component\Config\FileLoader;
+use Royalcms\Component\Filesystem\Filesystem;
 
-	/**
-	 * Bootstrap the given application.
-	 *
-	 * @param  \Royalcms\Component\Foundation\Contracts\Royalcms  $royalcms
-	 * @return void
-	 */
-	public function bootstrap(Royalcms $royalcms)
-	{
-		$items = [];
+class LoadConfiguration
+{
+    /**
+     * Bootstrap the given application.
+     *
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
+     * @return void
+     */
+    public function bootstrap(Royalcms $royalcms)
+    {
+        $items = [];
 
-		// First we will see if we have a cache configuration file. If we do, we'll load
-		// the configuration items from that file so that it is very quick. Otherwise
-		// we will need to spin through every configuration file and load them all.
-		if (file_exists($cached = $royalcms->getCachedConfigPath()))
-		{
-			$items = require $cached;
+        // First we will see if we have a cache configuration file. If we do, we'll load
+        // the configuration items from that file so that it is very quick. Otherwise
+        // we will need to spin through every configuration file and load them all.
+        if (file_exists($cached = $royalcms->getCachedConfigPath())) {
+            $items = require $cached;
 
-			$loadedFromCache = true;
-		}
+            $loadedFromCache = true;
+        }
 
-		$royalcms->instance('config', $config = new Repository($items));
+        $config = new Repository(
+            $this->getConfigLoader($royalcms), $royalcms['env'], $items
+        );
 
-		// Next we will spin through all of the configuration files in the configuration
-		// directory and load each one into the repository. This will make all of the
-		// options available to the developer for use in various parts of this app.
-		if ( ! isset($loadedFromCache))
-		{
-			$this->loadConfigurationFiles($royalcms, $config);
-		}
+        $royalcms->instance('config', $config);
 
-		date_default_timezone_set($config['app.timezone']);
+        // Next we will spin through all of the configuration files in the configuration
+        // directory and load each one into the repository. This will make all of the
+        // options available to the developer for use in various parts of this app.
+        if (! isset($loadedFromCache)) {
+            //@todo
+            //$this->loadConfigurationFiles($royalcms, $config);
+        }
 
-		mb_internal_encoding('UTF-8');
-	}
+        date_default_timezone_set($config['system.timezone']);
 
-	/**
-	 * Load the configuration items from all of the files.
-	 *
-	 * @param  \Royalcms\Component\Foundation\Contracts\Royalcms  $royalcms
-	 * @param  \Royalcms\Component\Contracts\Config\Repository  $config 
-	 * @return void
-	 */
-	protected function loadConfigurationFiles(Royalcms $royalcms, RepositoryContract $config)
-	{
-		foreach ($this->getConfigurationFiles($royalcms) as $key => $path)
-		{
-			$config->set($key, require $path);
-		}
-	}
+        mb_internal_encoding('UTF-8');
+    }
 
-	/**
-	 * Get all of the configuration files for the application.
-	 *
-	 * @param  \Royalcms\Component\Foundation\Contracts\Royalcms  $royalcms
-	 * @return array
-	 */
-	protected function getConfigurationFiles(Royalcms $royalcms)
-	{
-		$files = [];
+    /**
+     * Get the configuration loader instance.
+     *
+     * @param \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
+     * @return \Royalcms\Component\Config\LoaderInterface
+     */
+    protected function getConfigLoader(Royalcms $royalcms)
+    {
+        return new FileLoader(new Filesystem, $royalcms['path'].'/content/configs', $royalcms['path.base'].'/content/configs');
+    }
 
-		foreach (Finder::create()->files()->name('*.php')->in($royalcms->configPath()) as $file)
-		{
-			$nesting = $this->getConfigurationNesting($file);
+    /**
+     * Load the configuration items from all of the files.
+     *
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
+     * @param  \Royalcms\Component\Contracts\Config\Repository  $repository
+     * @return void
+     */
+    protected function loadConfigurationFiles(Royalcms $royalcms, RepositoryContract $repository)
+    {
+        foreach ($this->getConfigurationFiles($royalcms) as $key => $path) {
+            $repository->set($key, require $path);
+        }
+    }
 
-			$files[$nesting.basename($file->getRealPath(), '.php')] = $file->getRealPath();
-		}
+    /**
+     * Get all of the configuration files for the application.
+     *
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
+     * @return array
+     */
+    protected function getConfigurationFiles(Royalcms $royalcms)
+    {
+        $files = [];
 
-		return $files;
-	}
+        $configPath = realpath($royalcms->configPath());
 
-	/**
-	 * Get the configuration file nesting path.
-	 *
-	 * @param  \Symfony\Component\Finder\SplFileInfo  $file
-	 * @return string
-	 */
-	private function getConfigurationNesting(SplFileInfo $file)
-	{
-		$directory = dirname($file->getRealPath());
+        foreach (Finder::create()->files()->name('*.php')->in($configPath) as $file) {
+            $nesting = $this->getConfigurationNesting($file, $configPath);
 
-		$tree = trim(str_replace(config_path(), '', $directory), DIRECTORY_SEPARATOR);
-		if ($tree)
-		{
-			$tree = str_replace(DIRECTORY_SEPARATOR, '.', $tree).'.';
-		}
+            $files[$nesting.basename($file->getRealPath(), '.php')] = $file->getRealPath();
+        }
 
-		return $tree;
-	}
+        return $files;
+    }
 
+    /**
+     * Get the configuration file nesting path.
+     *
+     * @param  \Symfony\Component\Finder\SplFileInfo  $file
+     * @param  string  $configPath
+     * @return string
+     */
+    protected function getConfigurationNesting(SplFileInfo $file, $configPath)
+    {
+        $directory = dirname($file->getRealPath());
+
+        if ($tree = trim(str_replace($configPath, '', $directory), DIRECTORY_SEPARATOR)) {
+            $tree = str_replace(DIRECTORY_SEPARATOR, '.', $tree).'.';
+        }
+
+        return $tree;
+    }
 }

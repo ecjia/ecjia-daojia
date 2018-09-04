@@ -1,7 +1,7 @@
 <?php namespace Royalcms\Component\Foundation;
 
 use Royalcms\Component\Support\Facades\Config;
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Facades\Cache as RC_Cache;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Support\Facades\File as RC_File;
@@ -230,7 +230,7 @@ class Theme extends RoyalcmsObject
          * @param string $stylesheet_or_template
          *            Stylesheet or template name of the theme.
          */
-        return Hook::apply_filters('theme_root_uri', $theme_root_uri, Uri::site_url(), $template);
+        return RC_Hook::apply_filters('theme_root_uri', $theme_root_uri, Uri::site_url(), $template);
     }
 
     /**
@@ -271,7 +271,7 @@ class Theme extends RoyalcmsObject
          * @param string $theme_root
          *            Absolute path to themes directory.
          */
-        return Hook::apply_filters('theme_root', $theme_root);
+        return RC_Hook::apply_filters('theme_root', $theme_root);
     }
 
     /**
@@ -321,7 +321,7 @@ class Theme extends RoyalcmsObject
          * @param string $theme_root_uri
          *            The themes root URI.
          */
-        return Hook::apply_filters('template_directory_uri', $template_dir_uri, $template, $theme_root_uri);
+        return RC_Hook::apply_filters('template_directory_uri', $template_dir_uri, $template, $theme_root_uri);
     }
 
     /**
@@ -349,7 +349,7 @@ class Theme extends RoyalcmsObject
          * @param string $theme_root
          *            Absolute path to the themes directory.
          */
-        return Hook::apply_filters('template_directory', $template_dir, $template, $theme_root);
+        return RC_Hook::apply_filters('template_directory', $template_dir, $template, $theme_root);
     }
 
     /**
@@ -370,7 +370,7 @@ class Theme extends RoyalcmsObject
          * @param string $template
          *            Current theme's directory name.
          */
-        return Hook::apply_filters('template', Config::get('system.tpl_style'));
+        return RC_Hook::apply_filters('template', Config::get('system.tpl_style'));
     }
 
     /**

@@ -1,8 +1,11 @@
-<?php namespace Royalcms\Component\Foundation;
+<?php
 
-use Royalcms\Component\Support\Facades\Config;
-use Royalcms\Component\Support\Facades\Hook;
+namespace Royalcms\Component\Foundation;
+
+use RC_Config;
 use Royalcms\Component\Support\Format;
+use RC_Hook;
+use RC_Route;
 
 class Uri extends RoyalcmsObject
 {
@@ -26,7 +29,7 @@ class Uri extends RoyalcmsObject
             return $pathinfo;
         
         if (strpos($pathinfo, '@') === 0) {
-            $pathinfo = str_replace('@', Config::get('system.admin_entrance') . '/', $pathinfo);
+            $pathinfo = str_replace('@', RC_Config::get('system.admin_entrance') . '/', $pathinfo);
         } elseif (strpos($pathinfo, '#') === 0) {
             $pathinfo = str_replace('#', ROUTE_M . '/', $pathinfo);
         }
@@ -34,17 +37,17 @@ class Uri extends RoyalcmsObject
         $gets = self::build_params($pathinfo, $args);
         /* 入口文件类型 */
         /* normal pathinfo */ 
-        $urlType = Config::get('system.url_mode'); 
+        $urlType = RC_Config::get('system.url_mode');
         $url = '';
         switch ($urlType) {
             case 'pathinfo':
                 foreach ($gets as $value) {
-                    $url .= Config::get('system.url_pathinfo_dli') . $value;
+                    $url .= RC_Config::get('system.url_pathinfo_dli') . $value;
                 }
                 $url = str_replace(array(
-                    "/" . Config::get('system.url_var_app') . "/",
-                    "/" . Config::get('system.url_var_control') . "/",
-                    "/" . Config::get('system.url_var_method') . "/"
+                    "/" . RC_Config::get('route.module') . "/",
+                    "/" . RC_Config::get('route.controller') . "/",
+                    "/" . RC_Config::get('route.action') . "/"
                 ), "/", $url);
                 $url = substr($url, 1);
                 break;
@@ -61,8 +64,8 @@ class Uri extends RoyalcmsObject
         }
         
         /* 伪表态后缀如.html */ 
-        if ($urlType == 'pathinfo' && Config::get('system.url_pathinfo_suf')) {
-            $pathinfo_suf = '.' . trim(Config::get('system.url_pathinfo_suf'), '.');
+        if ($urlType == 'pathinfo' && RC_Config::get('system.url_pathinfo_suf')) {
+            $pathinfo_suf = '.' . trim(RC_Config::get('system.url_pathinfo_suf'), '.');
         } else {
             $pathinfo_suf = '';
         }
@@ -81,38 +84,38 @@ class Uri extends RoyalcmsObject
         switch (count($vars)) {
             /* 应用 */ 
             case 3: 
-                $data[] = Config::get('system.url_var_app');
+                $data[] = RC_Config::get('route.module');
                 $data[] = array_shift($vars);
-                $data[] = Config::get('system.url_var_control');
+                $data[] = RC_Config::get('route.controller');
                 $data[] = array_shift($vars);
-                $data[] = Config::get('system.url_var_method');
+                $data[] = RC_Config::get('route.action');
                 $data[] = array_shift($vars);
                 break;
             /* 控制器 */ 
             case 2: 
-                $data[] = Config::get('system.url_var_app');
+                $data[] = RC_Config::get('route.module');
                 $data[] = ROUTE_M;
-                $data[] = Config::get('system.url_var_control');
+                $data[] = RC_Config::get('route.controller');
                 $data[] = array_shift($vars);
-                $data[] = Config::get('system.url_var_method');
+                $data[] = RC_Config::get('route.action');
                 $data[] = array_shift($vars);
                 break;
             /* 方法 */ 
             case 1: 
-                $data[] = Config::get('system.url_var_app');
+                $data[] = RC_Config::get('route.module');
                 $data[] = ROUTE_M;
-                $data[] = Config::get('system.url_var_control');
+                $data[] = RC_Config::get('route.controller');
                 $data[] = ROUTE_C;
-                $data[] = Config::get('system.url_var_method');
+                $data[] = RC_Config::get('route.action');
                 $data[] = array_shift($vars);
                 break;
             /* 应用组及其他情况 */ 
             default: 
-                $data[] = Config::get('system.url_var_app');
+                $data[] = RC_Config::get('route.module');
                 $data[] = array_shift($vars);
-                $data[] = Config::get('system.url_var_control');
+                $data[] = RC_Config::get('route.controller');
                 $data[] = array_shift($vars);
-                $data[] = Config::get('system.url_var_method');
+                $data[] = RC_Config::get('route.action');
                 $data[] = array_shift($vars);
                 if (is_array($vars)) {
                     foreach ($vars as $v) {
@@ -165,11 +168,11 @@ class Uri extends RoyalcmsObject
             $web = self::site_url();
         }
         /* 入口文件类型 */ 
-        $urlType = Config::get('system.url_mode'); // normal pathinfo
+        $urlType = RC_Config::get('system.url_mode'); // normal pathinfo
         switch ($urlType) {
             case 'pathinfo':
                 /* 入口位置 */ 
-                if (Config::get('system.url_rewrite')) {
+                if (RC_Config::get('system.url_rewrite')) {
                     $root = $web . '/';
                 } else {
                     $root = $web . '/index.php' . '/';
@@ -180,7 +183,7 @@ class Uri extends RoyalcmsObject
                 break;
         }
         
-        if (Config::get('system.url_rewrite')) {
+        if (RC_Config::get('system.url_rewrite')) {
             $root = preg_replace('/\w+?\.php\/?/i', '', $root);
         }
         
@@ -192,13 +195,12 @@ class Uri extends RoyalcmsObject
      * Uri::url()函数等使用
      *
      * @access public
-     * @param string $url
-     *            url字符串不含.'?|/'
+     * @param string $url url字符串不含.'?|/'
      * @return string
      */
     private static function resolve_url($url)
     {
-        $route = new Route();
+        $route = royalcms('default-router');
         $rules = $route->getRule();
         /* 未定义路由规则 */ 
         if (! $rules) {
@@ -242,7 +244,7 @@ class Uri extends RoyalcmsObject
                 /* 获得路由规则中以:开始的变量 */ 
                 preg_match_all('/:([a-z]*)/i', $routeKey, $routeGetVars, PREG_PATTERN_ORDER); 
                 $getRouteUrl = $routeVal;
-                switch (Config::get('system.url_mode')) {
+                switch (RC_Config::get('system.url_mode')) {
                     case 'pathinfo':
                         $getRouteUrl .= '/';
                         foreach ($routeGetVars[1] as $getK => $getV) {
@@ -296,7 +298,7 @@ class Uri extends RoyalcmsObject
          * @param string $orig_scheme
          *            Scheme requested for the URL. One of 'http', 'https' or 'relative'.
          */
-        return Hook::apply_filters('set_current_url', $current_url);
+        return RC_Hook::apply_filters('set_current_url', $current_url);
     }
     
     /**
@@ -305,8 +307,8 @@ class Uri extends RoyalcmsObject
     public static function site_folder() {
         $php_self = $_SERVER['PHP_SELF'] ? safe_replace($_SERVER['PHP_SELF']) : safe_replace($_SERVER['SCRIPT_NAME']);
     
-        if (Config::has('site.site_folder')) {
-            $site_folder = Config::get('site.site_folder');
+        if (RC_Config::has('site.site_folder')) {
+            $site_folder = RC_Config::get('site.site_folder');
         } else {
             if (strpos($php_self, '/sites/') === 0) {
                 $site_folder = str_replace('/sites/', '', dirname($php_self));
@@ -328,8 +330,8 @@ class Uri extends RoyalcmsObject
         $site_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
         $php_self = $_SERVER['PHP_SELF'] ? safe_replace($_SERVER['PHP_SELF']) : safe_replace($_SERVER['SCRIPT_NAME']);
     
-        if (Config::has('site.web_path')) {
-            $web_path = Config::get('site.web_path');
+        if (RC_Config::has('site.web_path')) {
+            $web_path = RC_Config::get('site.web_path');
         } else {
             $web_path = str_replace($sys_protocal . $site_host, '', dirname($sys_protocal . $site_host . $php_self)) . '/';
         }
@@ -376,7 +378,7 @@ class Uri extends RoyalcmsObject
             if (strpos($web_path, 'sites')) {
                 $site_url = $sys_protocal . $site_host . rtrim($web_path, '/');
             } else {
-                if (Config::get('site.use_sub_domain', false)) {
+                if (RC_Config::get('site.use_sub_domain', false)) {
                     $site_url = $sys_protocal . $site_host . rtrim($web_path, '/');
                 } else {
                     $site_url = $sys_protocal . $site_host . rtrim($web_path, '/') . '/sites/' . $site_folder;
@@ -440,7 +442,7 @@ class Uri extends RoyalcmsObject
          * @param string|null $orig_scheme
          *            Scheme to give the home URL context. Accepts 'http', 'https', 'relative' or null.
          */
-        return Hook::apply_filters('home_url', $url, $path, $orig_scheme);
+        return RC_Hook::apply_filters('home_url', $url, $path, $orig_scheme);
     }
     
     
@@ -493,7 +495,7 @@ class Uri extends RoyalcmsObject
          * @param string $orig_scheme
          *            Scheme requested for the URL. One of 'http', 'https' or 'relative'.
          */
-        return Hook::apply_filters('set_url_scheme', $url, $scheme, $orig_scheme);
+        return RC_Hook::apply_filters('set_url_scheme', $url, $scheme, $orig_scheme);
     }
 
     /**
@@ -540,7 +542,7 @@ class Uri extends RoyalcmsObject
          *            Scheme to give the site URL context. Accepts 'http', 'https', 'login',
          *            'login_post', 'admin', 'relative' or null.
          */
-        return Hook::apply_filters('site_url', $url, $path, $scheme);
+        return RC_Hook::apply_filters('site_url', $url, $path, $scheme);
     }
 
     /**
@@ -578,7 +580,7 @@ class Uri extends RoyalcmsObject
          * @param string $path
          *            Path relative to the admin area URL. Blank string if no path is specified.
          */
-        return Hook::apply_filters('admin_url', $url, $path);
+        return RC_Hook::apply_filters('admin_url', $url, $path);
     }
     
     /**
@@ -615,7 +617,7 @@ class Uri extends RoyalcmsObject
          * @param string $path
          *            Path relative to the admin area URL. Blank string if no path is specified.
          */
-        return Hook::apply_filters('system_static_url', $url, $path);
+        return RC_Hook::apply_filters('system_static_url', $url, $path);
     }
     
     
@@ -647,7 +649,7 @@ class Uri extends RoyalcmsObject
          *            Path relative to the URL to the content directory. Blank string
          *            if no path is specified.
         */
-        return Hook::apply_filters('home_content_url', $url, $path);
+        return RC_Hook::apply_filters('home_content_url', $url, $path);
     }
 
     /**
@@ -678,7 +680,7 @@ class Uri extends RoyalcmsObject
          *            Path relative to the URL to the content directory. Blank string
          *            if no path is specified.
          */
-        return Hook::apply_filters('content_url', $url, $path);
+        return RC_Hook::apply_filters('content_url', $url, $path);
     }
 
     /**
@@ -710,7 +712,7 @@ class Uri extends RoyalcmsObject
          *            Path relative to the URL to the content directory. Blank string
          *            if no path is specified.
          */
-        return Hook::apply_filters('vendor_url', $url, $path);
+        return RC_Hook::apply_filters('vendor_url', $url, $path);
     }
 
     /**
@@ -741,7 +743,7 @@ class Uri extends RoyalcmsObject
          * @param string $path
          *            Path relative to the admin area URL. Blank string if no path is specified.
          */
-        return Hook::apply_filters('admin_path', $system_root, $path);
+        return RC_Hook::apply_filters('admin_path', $system_root, $path);
     }
 
     /**

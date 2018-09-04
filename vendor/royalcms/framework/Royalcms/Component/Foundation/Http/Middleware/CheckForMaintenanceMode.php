@@ -3,22 +3,22 @@
 namespace Royalcms\Component\Foundation\Http\Middleware;
 
 use Closure;
-use Royalcms\Component\Foundation\Contracts\Royalcms;
-use Royalcms\Component\Foundation\Http\Exceptions\MaintenanceModeException;
+use Royalcms\Component\Contracts\Foundation\Royalcms;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CheckForMaintenanceMode
 {
     /**
-     * The royalcms implementation.
+     * The application implementation.
      *
-     * @var \Royalcms\Component\Foundation\Contracts\Royalcms
+     * @var \Royalcms\Component\Contracts\Foundation\Royalcms
      */
     protected $royalcms;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \Royalcms\Component\Foundation\Contracts\Royalcms  $royalcms
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
      * @return void
      */
     public function __construct(Royalcms $royalcms)
@@ -38,9 +38,7 @@ class CheckForMaintenanceMode
     public function handle($request, Closure $next)
     {
         if ($this->royalcms->isDownForMaintenance()) {
-            $data = json_decode(file_get_contents($this->royalcms->storagePath().'/framework/down'), true);
-
-            throw new MaintenanceModeException($data['time'], $data['retry'], $data['message']);
+            throw new HttpException(503);
         }
 
         return $next($request);

@@ -1,6 +1,6 @@
 <?php namespace Royalcms\Component\Foundation;
 
-use Royalcms\Component\Support\Facades\Hook;
+use RC_Hook;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Support\Facades\File;
 use RC_Cache;
@@ -349,7 +349,7 @@ class Plugin extends RoyalcmsObject
          *            The plugin file path to be relative to. Blank string if no plugin
          *            is specified.
          */
-        return Hook::apply_filters('plugins_url', $url, $path, $plugin);
+        return RC_Hook::apply_filters('plugins_url', $url, $path, $plugin);
     }
 
     /**
@@ -435,7 +435,7 @@ class Plugin extends RoyalcmsObject
      */
     public static function register_activation_hook($file, $function) {
         $file = self::plugin_basename($file);
-        Hook::add_action('activate_' . $file, $function);
+        RC_Hook::add_action('activate_' . $file, $function);
     }
     
     
@@ -459,7 +459,7 @@ class Plugin extends RoyalcmsObject
      */
     public static function register_deactivation_hook($file, $function) {
         $file = self::plugin_basename($file);
-        Hook::add_action('deactivate_' . $file, $function);
+        RC_Hook::add_action('deactivate_' . $file, $function);
     }
     
     

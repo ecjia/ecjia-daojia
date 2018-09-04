@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Foundation;
+<?php
+
+namespace Royalcms\Component\Foundation;
 
 class RoyalcmsConstant
 {    
@@ -7,5 +9,5 @@ class RoyalcmsConstant
      *
      * @var string
      */
-    const PHP_REQUIRED = '5.4.0'; 
+    const PHP_REQUIRED = '5.5.9';
 }

@@ -1,24 +1,26 @@
-<?php namespace Royalcms\Component\Foundation\Bootstrap;
+<?php
+
+namespace Royalcms\Component\Foundation\Bootstrap;
 
 use Royalcms\Component\Support\Facades\Facade;
 use Royalcms\Component\Foundation\AliasLoader;
-use Royalcms\Component\Foundation\Contracts\Royalcms;
+use Royalcms\Component\Contracts\Foundation\Royalcms;
 
-class RegisterFacades {
+class RegisterFacades
+{
+    /**
+     * Bootstrap the given application.
+     *
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
+     * @return void
+     */
+    public function bootstrap(Royalcms $royalcms)
+    {
+        Facade::clearResolvedInstances();
 
-	/**
-	 * Bootstrap the given application.
-	 *
-	 * @param  \Royalcms\Component\Foundation\Contracts\Royalcms  $royalcms
-	 * @return void
-	 */
-	public function bootstrap(Royalcms $royalcms)
-	{
-		Facade::clearResolvedInstances();
+        Facade::setFacadeRoyalcms($royalcms);
 
-		Facade::setFacadeRoyalcms($royalcms);
-
-		AliasLoader::getInstance($royalcms['config']['system.aliases'])->register();
-	}
-
+        AliasLoader::getInstance($royalcms->make('config')->get('coreservice.aliases'));
+        AliasLoader::getInstance($royalcms->make('config')->get('facade'))->register();
+    }
 }

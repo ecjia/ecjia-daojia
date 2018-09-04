@@ -1,80 +1,77 @@
-<?php namespace Royalcms\Component\Foundation\Console;
+<?php
+
+namespace Royalcms\Component\Foundation\Console;
 
 use Royalcms\Component\Support\Str;
 use Royalcms\Component\Console\Command;
-use Royalcms\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputOption;
 
-class KeyGenerateCommand extends Command {
+class KeyGenerateCommand extends Command
+{
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'key:generate';
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'key:generate';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Set the application key';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = "Set the application key";
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function fire()
+    {
+        $key = $this->getRandomKey($this->royalcms['config']['system.cipher']);
 
-	/**
-	 * Create a new key generator command.
-	 *
-	 * @param  \Royalcms\Component\Filesystem\Filesystem  $files
-	 * @return void
-	 */
-	public function __construct(Filesystem $files)
-	{
-		parent::__construct();
+        if ($this->option('show')) {
+            return $this->line('<comment>'.$key.'</comment>');
+        }
 
-		$this->files = $files;
-	}
+        $path = base_path('.env');
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return void
-	 */
-	public function fire()
-	{
-		list($path, $contents) = $this->getKeyFile();
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                'AUTH_KEY='.$this->royalcms['config']['system.auth_key'], 'AUTH_KEY='.$key, file_get_contents($path)
+            ));
+        }
 
-		$key = $this->getRandomKey();
+        $this->royalcms['config']['system.auth_key'] = $key;
 
-		$contents = str_replace($this->royalcms['config']['system.auth_key'], $key, $contents);
+        $this->info("Royalcms application key [$key] set successfully.");
+    }
 
-		$this->files->put($path, $contents);
+    /**
+     * Generate a random key for the application.
+     *
+     * @param  string  $cipher
+     * @return string
+     */
+    protected function getRandomKey($cipher)
+    {
+        if ($cipher === 'AES-128-CBC') {
+            return Str::random(16);
+        }
 
-		$this->royalcms['config']['system.auth_key'] = $key;
+        return Str::random(32);
+    }
 
-		$this->info("Application key [$key] set successfully.");
-	}
-
-	/**
-	 * Get the key file and contents.
-	 *
-	 * @return array
-	 */
-	protected function getKeyFile()
-	{
-		$env = $this->option('env') ? $this->option('env').'/' : '';
-
-		$contents = $this->files->get($path = $this->royalcms['path']."/config/{$env}system.php");
-
-		return array($path, $contents);
-	}
-
-	/**
-	 * Generate a random key for the application.
-	 *
-	 * @return string
-	 */
-	protected function getRandomKey()
-	{
-		return Str::random(32);
-	}
-
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['show', null, InputOption::VALUE_NONE, 'Simply display the key instead of modifying files.'],
+        ];
+    }
 }

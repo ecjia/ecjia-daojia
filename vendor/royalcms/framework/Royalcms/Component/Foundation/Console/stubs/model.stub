@@ -1,0 +1,10 @@
+<?php
+
+namespace DummyNamespace;
+
+use Royalcms\Component\Database\Eloquent\Model;
+
+class DummyClass extends Model
+{
+    //
+}
