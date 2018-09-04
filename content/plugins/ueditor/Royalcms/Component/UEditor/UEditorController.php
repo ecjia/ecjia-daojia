@@ -47,7 +47,7 @@
 namespace Royalcms\Component\UEditor;
 
 use Royalcms\Component\Routing\Controller as BaseController;
-use Royalcms\Component\HttpKernel\Request;
+use Royalcms\Component\Http\Request;
 use Royalcms\Component\UEditor\Uploader\UploadScrawl;
 use Royalcms\Component\UEditor\Uploader\UploadFile;
 use Royalcms\Component\UEditor\Uploader\UploadCatch;
