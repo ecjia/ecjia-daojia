@@ -423,9 +423,9 @@
                 $(this).siblings().removeClass('green');
                 $(this).siblings().css('border', '1px solid #eaeaea');
                 $(this).addClass("green");
-                $(this).css({
-                    'border': '0'
-                });
+//                $(this).css({
+//                    'border': '0'
+//                });
                 var price = 0;
                 $(".green").each(function() {
                     data_price = $(this).attr('data-price');

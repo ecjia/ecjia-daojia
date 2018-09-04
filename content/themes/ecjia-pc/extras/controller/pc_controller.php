@@ -48,21 +48,23 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * pc主控制器
  */
-class pc_controller {
+class pc_controller
+{
     /**
      * 首页信息
      */
-    public static function init() {
+    public static function init()
+    {
         //判断是否手机访问，如果手机访问，自动跳到H5页面
         if (RC_Agent::isPhone()) {
             ecjia_front::$controller->redirect(RC_Uri::home_url() . '/sites/m/');
         }
-        
+
         $general_info = pc_function::get_general_info();
         ecjia_front::$controller->assign('info', $general_info);
-        
+
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $_COOKIE['city_id'] . '-' . $_COOKIE['city_name']));
-        
+
         if (!ecjia_front::$controller->is_cached('index.dwt', $cache_id)) {
             $categoryGoods = array();
             RC_Loader::load_app_class('goods_category', 'goods', false);
@@ -74,13 +76,13 @@ class pc_controller {
                     $categoryGoods[$key]['id'] = $val['id'];
                     $categoryGoods[$key]['name'] = $val['name'];
                     $categoryGoods[$key]['image'] = $val['img'];
-                    
+
                     if (!empty($val['cat_id'])) {
                         foreach ($val['cat_id'] as $k => $v) {
                             $categoryGoods[$key]['children'][$k] = array('id' => $v['id'], 'name' => $v['name'], 'image' => $v['img']);
-                            
+
                             $goods_options = array('cat_id' => $v['id'], 'size' => 5);
-                            
+
                             //这里city_id在goods_list_api已处理
                             if (!empty($_COOKIE['city_id'])) {
                                 $goods_options['city_id'] = $_COOKIE['city_id'];
@@ -90,9 +92,9 @@ class pc_controller {
                             $goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
 
                             $categoryGoods[$key]['children'][$k]['goods_list'] = $goods_result['list'];
-                            
+
                             if (!empty($goods_result['list'])) {
-                            	$arr[] = $goods_result['list'];
+                                $arr[] = $goods_result['list'];
                             }
                             if (empty($categoryGoods[$key]['children'][$k]['goods_list'])) {
                                 unset($categoryGoods[$key]['children'][$k]);
@@ -117,17 +119,17 @@ class pc_controller {
             ecjia_front::$controller->assign('cat_list', $categoryGoods);
             ecjia_front::$controller->assign('url', RC_Uri::url('pc/index/init'));
             ecjia_front::$controller->assign('active', 'main');
-            
+
             $has_goods = empty($arr) ? false : true;
             ecjia_front::$controller->assign('has_goods', $has_goods);
             ecjia_front::$controller->assign('goods_url', RC_Uri::url('goods/index/init'));
             ecjia_front::$controller->assign('goods_info_url', RC_Uri::url('goods/index/show'));
-            
+
             //首页轮播图
             $data = RC_Api::api('adsense', 'cycleimage', array(
-            	'code' 		=> 'home_cycleimage', 
-            	'client' 	=> Ecjia\App\Adsense\Client::PC, 
-            	'city' 		=> $general_info['city_id']
+                'code' => 'home_cycleimage',
+                'client' => Ecjia\App\Adsense\Client::PC,
+                'city' => $general_info['city_id'],
             ));
             ecjia_front::$controller->assign('cycleimage', $data);
             $count = count($data);
@@ -137,14 +139,15 @@ class pc_controller {
         }
         ecjia_front::$controller->display('index.dwt', $cache_id);
     }
-    
-    public static function search() {
+
+    public static function search()
+    {
         $keywords = !empty($_POST['keywords']) ? trim($_POST['keywords']) : '';
         if (!empty($keywords)) {
             $count = pc_function::search_count(0, 1, '', $keywords);
             $url['goods_url'] = RC_Uri::url('goods/index/init', array('keywords' => $keywords));
             $url['store_url'] = RC_Uri::url('merchant/store/category', array('keywords' => $keywords));
-            
+
             ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('count' => $count, 'url' => $url, 'keywords' => $keywords));
         }
     }

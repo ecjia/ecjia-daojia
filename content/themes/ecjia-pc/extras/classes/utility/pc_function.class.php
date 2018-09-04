@@ -45,9 +45,11 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-class pc_function {
+class pc_function
+{
     //获取头部和尾部信息
-    public static function get_general_info() {
+    public static function get_general_info()
+    {
         $shop_logo_url = '';
         $shop_logo = ecjia::config('shop_logo');
 
@@ -79,7 +81,7 @@ class pc_function {
         }
         $shop_wechat_qrcode = ecjia::config('shop_wechat_qrcode');
         $shop_wechat_qrcode = !empty($shop_wechat_qrcode) ? RC_Upload::upload_url() . '/' . $shop_wechat_qrcode : '';
-        
+
         if (empty($_COOKIE['city_id'])) {
             $adcode = self::GetIpLookup();
             $region_id = $adcode ? $adcode : '';
@@ -91,58 +93,59 @@ class pc_function {
             setcookie("city_name", $city_detail['region_name'], RC_Time::gmtime() + 3600 * 24 * 7);
             $_COOKIE['city_id'] = $city_detail['region_id'];
             $_COOKIE['city_name'] = $city_detail['region_name'];
-            
+
             setcookie("location_id", $city_detail['region_id'], RC_Time::gmtime() + 3600 * 24 * 7);
             setcookie("location_address", $city_detail['region_name'], RC_Time::gmtime() + 3600 * 24 * 7);
             $_COOKIE['location_id'] = $city_detail['region_id'];
             $_COOKIE['location_address'] = $city_detail['region_name'];
-        } 
-        
+        }
+
         $kf_qq = '';
         if (ecjia_config::has('qq')) {
-        	$kf_qq = explode(',', ecjia::config('qq'));
-        	$kf_qq = $kf_qq[0];
+            $kf_qq = explode(',', ecjia::config('qq'));
+            $kf_qq = $kf_qq[0];
         }
-        
+
         //获取友情链接数据
         $result = RC_Api::api('friendlink', 'friendlink_list', ['type' => 'all']);
-        if (! is_ecjia_error($result)) {
+        if (!is_ecjia_error($result)) {
             list($has_logo_arr, $no_logo_arr) = $result;
         } else {
             list($has_logo_arr, $no_logo_arr) = [];
         }
-        
+
         $data = array(
-        	'shop_logo' 		=> $shop_logo_url, 
-        	'merchant_url' 		=> $merchant_url, 
-        	'merchant_login' 	=> $merchant_login, 
-        	'company_name' 		=> $company_name, 
-        	'shop_address' 		=> $shop_address, 
-        	'region_list' 		=> $regions, 
-        	'shop_weibo_url' 	=> ecjia::config('shop_weibo_url'), 
-        	'shop_wechat_qrcode'	=> $shop_wechat_qrcode, 
-        	'shop_info' 		 	=> $shop_info, 
-        	'company_name' 			=> ecjia::config('company_name'), 
-        	'powered' 				=> 'Powered&nbsp;by&nbsp;<a href="https:\\/\\/ecjia.com" target="_blank">ECJia</a>', 
-        	'service_phone' 		=> ecjia::config('service_phone'), 
-        	'city_id' 				=> !empty($_COOKIE['city_id']) ? trim($_COOKIE['city_id']) : '', 
-        	'city_name' 			=> !empty($_COOKIE['city_name']) ? trim($_COOKIE['city_name']) : '',
-        	'http_host'				=> isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
-        	'kf_qq'					=> $kf_qq,
-        	'location_id'			=>	$_COOKIE['location_id'],
-        	'location_address' 		=>	$_COOKIE['location_address'],
-        	'link_list'				=> array('has_logo' => $has_logo_arr, 'no_logo' => $no_logo_arr)
+            'shop_logo' => $shop_logo_url,
+            'merchant_url' => $merchant_url,
+            'merchant_login' => $merchant_login,
+            'company_name' => $company_name,
+            'shop_address' => $shop_address,
+            'region_list' => $regions,
+            'shop_weibo_url' => ecjia::config('shop_weibo_url'),
+            'shop_wechat_qrcode' => $shop_wechat_qrcode,
+            'shop_info' => $shop_info,
+            'company_name' => ecjia::config('company_name'),
+            'powered' => 'Powered&nbsp;by&nbsp;<a href="https:\\/\\/ecjia.com" target="_blank">ECJia</a>',
+            'service_phone' => ecjia::config('service_phone'),
+            'city_id' => !empty($_COOKIE['city_id']) ? trim($_COOKIE['city_id']) : '',
+            'city_name' => !empty($_COOKIE['city_name']) ? trim($_COOKIE['city_name']) : '',
+            'http_host' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
+            'kf_qq' => $kf_qq,
+            'location_id' => $_COOKIE['location_id'],
+            'location_address' => $_COOKIE['location_address'],
+            'link_list' => array('has_logo' => $has_logo_arr, 'no_logo' => $no_logo_arr),
         );
-        
+
         $data['close_choose_city'] = 0;
         if (isset($_COOKIE['close_choose_city'])) {
-        	$data['close_choose_city'] = 1;
+            $data['close_choose_city'] = 1;
         }
         return $data;
     }
-    
-    public static function get_child_tree($cat_id) {
-        $cat_list = RC_DB::table('merchants_category')->selectRaw('cat_id, cat_name, parent_id')->where('parent_id', $cat_id)->where('is_show', 1)->orderBy('sort_order', 'asc')->get();
+
+    public static function get_child_tree($cat_id)
+    {
+        $cat_list = RC_DB::table('merchants_category')->select('cat_id', 'cat_name', 'parent_id')->where('parent_id', $cat_id)->where('is_show', 1)->orderBy('sort_order', 'asc')->get();
         $cat_arr = array();
         if (!empty($cat_list)) {
             foreach ($cat_list as $key => $val) {
@@ -151,8 +154,9 @@ class pc_function {
         }
         return $cat_arr;
     }
-    
-    public static function GetIp() {
+
+    public static function GetIp()
+    {
         $realip = '';
         $unknown = 'unknown';
         if (isset($_SERVER)) {
@@ -194,83 +198,87 @@ class pc_function {
         $realip = preg_match("/[\\d\\.]{7,15}/", $realip, $matches) ? $matches[0] : $unknown;
         return $realip;
     }
-    
-    public static function GetIpLookup($ip = '') {
+
+    public static function GetIpLookup($ip = '')
+    {
         if (empty($ip)) {
             $ip = self::GetIp();
         }
         $key = ecjia::config('map_qq_key');
-        $res = @file_get_contents('https://apis.map.qq.com/ws/location/v1/ip?ip='.$ip.'&key='.$key);
-        
+        $res = @file_get_contents('https://apis.map.qq.com/ws/location/v1/ip?ip=' . $ip . '&key=' . $key);
+
         $json = json_decode($res, true);
         if ($json['status'] != 0) {
-        	return false;
+            return false;
         }
         $shop_country = ecjia::config('shop_country');
         $shop_country = !empty($shop_country) ? $shop_country : 'CN';
-        $adcode = $shop_country.$json['result']['ad_info']['adcode'];
+        $adcode = $shop_country . $json['result']['ad_info']['adcode'];
 
         return $adcode;
     }
-    
-    public static function get_cat_info($cat_id, $select_id) {
-    	$cat_info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
-    	if ($cat_info['parent_id'] != 0) {
-    		if (!empty($select_id)) {
-    			$cat_info = RC_DB::table('category')->where('cat_id', $cat_info['parent_id'])->first();
-    		}
-    		$cat_info = RC_DB::table('category')->where('cat_id', $cat_info['parent_id'])->first();
-    	}
-    	$cat_info['child_cat'] = RC_DB::table('category')->where('parent_id', $cat_info['cat_id'])->where('is_show', 1)->orderBy('sort_order', 'asc')->get();
-    	if (!empty($cat_info['child_cat'])) {
-    		foreach ($cat_info['child_cat'] as $k => $v) {
-    			$cat_info['child_cat'][$k]['children'] = RC_DB::table('category')->where('parent_id', $v['cat_id'])->where('is_show', 1)->orderBy('sort_order', 'asc')->get();
-    		}
-    	}
-    	return $cat_info;
+
+    public static function get_cat_info($cat_id, $select_id)
+    {
+        $cat_info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
+        if ($cat_info['parent_id'] != 0) {
+            if (!empty($select_id)) {
+                $cat_info = RC_DB::table('category')->where('cat_id', $cat_info['parent_id'])->first();
+            }
+            $cat_info = RC_DB::table('category')->where('cat_id', $cat_info['parent_id'])->first();
+        }
+        $cat_info['child_cat'] = RC_DB::table('category')->where('parent_id', $cat_info['cat_id'])->where('is_show', 1)->orderBy('sort_order', 'asc')->get();
+        if (!empty($cat_info['child_cat'])) {
+            foreach ($cat_info['child_cat'] as $k => $v) {
+                $cat_info['child_cat'][$k]['children'] = RC_DB::table('category')->where('parent_id', $v['cat_id'])->where('is_show', 1)->orderBy('sort_order', 'asc')->get();
+            }
+        }
+        return $cat_info;
     }
-    
+
     /**
      * 获取指定分类的str 例：分类1,分类2,分类3
      */
-    public static function get_cat_str($cat_id = 0, $i = 3) {
-    	if (empty($cat_id)) {
-    		return '';
-    	}
-    	$cat_info = RC_DB::table('category')->where('cat_id', $cat_id)->select('parent_id', 'cat_name', 'cat_id')->first();
-    	if ($i == 2) {
-    		$arr['cat_id'] = $cat_info['parent_id'];
-    		$arr['select_id'] = $cat_id;
-    	} else {
-    		$arr['cat_id'] = $cat_id;
-    	}
-    	$str = '<a href="'.RC_Uri::url('goods/index/init', $arr).'">'.$cat_info['cat_name'].'</a>';
-    	if (!empty($cat_info['parent_id'])) {
-    		$i--;
-    		$html_tmp = self::get_cat_str($cat_info['parent_id'], $i);
-    		if (!empty($html_tmp)) {
-    			$str .= ','.$html_tmp;
-    		}
-    	}
-    	return $str;
+    public static function get_cat_str($cat_id = 0, $i = 3)
+    {
+        if (empty($cat_id)) {
+            return '';
+        }
+        $cat_info = RC_DB::table('category')->where('cat_id', $cat_id)->select('parent_id', 'cat_name', 'cat_id')->first();
+        if ($i == 2) {
+            $arr['cat_id'] = $cat_info['parent_id'];
+            $arr['select_id'] = $cat_id;
+        } else {
+            $arr['cat_id'] = $cat_id;
+        }
+        $str = '<a href="' . RC_Uri::url('goods/index/init', $arr) . '">' . $cat_info['cat_name'] . '</a>';
+        if (!empty($cat_info['parent_id'])) {
+            $i--;
+            $html_tmp = self::get_cat_str($cat_info['parent_id'], $i);
+            if (!empty($html_tmp)) {
+                $str .= ',' . $html_tmp;
+            }
+        }
+        return $str;
     }
-    
+
     /**
      * 获取指定分类的html 例：分类1>分类2>分类3
      */
-    public static function get_cat_html($str) {
-    	$cat_list = explode(',', $str);
-    	
-    	$i = '<i class="iconfont icon-jiantou-right"></i>';
-    	$html = '全部分类 ';
-    	foreach (array_reverse($cat_list) as $k => $v) {
-    		if ($k <= 2 && !empty($v)) {
-    			$html .= $i.$v.' ';
-    		}
-    	}    		
-    	return $html;
+    public static function get_cat_html($str)
+    {
+        $cat_list = explode(',', $str);
+
+        $i = '<i class="iconfont icon-jiantou-right"></i>';
+        $html = '全部分类 ';
+        foreach (array_reverse($cat_list) as $k => $v) {
+            if ($k <= 2 && !empty($v)) {
+                $html .= $i . $v . ' ';
+            }
+        }
+        return $html;
     }
-    
+
     /**
      * 获得商品总数和店铺总数
      *
@@ -283,52 +291,53 @@ class pc_function {
      *            s integer $conditions
      * @return array
      */
-    public static function search_count($is_delete = 0, $real_goods = 1, $conditions = '', $keywords) {
-    	/* 过滤条件 */
-    	$param_str 	= '-' . $is_delete . '-' . $real_goods;
-    	$filter ['keywords'] 		= $keywords;
+    public static function search_count($is_delete = 0, $real_goods = 1, $conditions = '', $keywords)
+    {
+        /* 过滤条件 */
+        $param_str = '-' . $is_delete . '-' . $real_goods;
+        $filter['keywords'] = $keywords;
 
-    	$where = $filter ['cat_id'] > 0 ? " AND " . get_children($filter ['cat_id']) : '';
-    
-    	/* 关键字 */
-    	if (!empty ($filter ['keywords'])) {
-    		$where .= " AND (goods_sn LIKE '%" . mysql_like_quote($filter ['keywords']) . "%' OR goods_name LIKE '%" . mysql_like_quote($filter ['keywords']) . "%' OR keywords LIKE '%" . mysql_like_quote($filter ['keywords']) . "%')";
-    	}
-    
-    	if ($real_goods > -1) {
-    		$where .= " AND is_real='$real_goods'";
-    	}
-    
-    	$db_goods = RC_DB::table('goods as g')
-    		->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
-    		->where(RC_DB::raw('s.status'), 1);
+        $where = $filter['cat_id'] > 0 ? " AND " . get_children($filter['cat_id']) : '';
 
-    	$where .= " AND (is_on_sale='" . 1 . "')";
-    	$where .= " AND (is_alone_sale='" . 1 . "')";
-//     	$where .= " AND (g.is_hot='" . 1 . "')";
+        /* 关键字 */
+        if (!empty($filter['keywords'])) {
+            $where .= " AND (goods_sn LIKE '%" . mysql_like_quote($filter['keywords']) . "%' OR goods_name LIKE '%" . mysql_like_quote($filter['keywords']) . "%' OR keywords LIKE '%" . mysql_like_quote($filter['keywords']) . "%')";
+        }
+
+        if ($real_goods > -1) {
+            $where .= " AND is_real='$real_goods'";
+        }
+
+        $db_goods = RC_DB::table('goods as g')
+            ->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
+            ->where(RC_DB::raw('s.status'), 1);
+
+        $where .= " AND (is_on_sale='" . 1 . "')";
+        $where .= " AND (is_alone_sale='" . 1 . "')";
+//         $where .= " AND (g.is_hot='" . 1 . "')";
 
         $length = strlen($_COOKIE['city_id']);
         if ($length == 4) {
-            $where .= " AND (s.province = '".$_COOKIE['city_id']."')";
+            $where .= " AND (s.province = '" . $_COOKIE['city_id'] . "')";
         } elseif ($length == 6) {
-            $where .= " AND (s.city = '".$_COOKIE['city_id']."')";
+            $where .= " AND (s.city = '" . $_COOKIE['city_id'] . "')";
         } elseif ($length == 8) {
-            $where .= " AND (s.district = '".$_COOKIE['city_id']."')";
+            $where .= " AND (s.district = '" . $_COOKIE['city_id'] . "')";
         } elseif ($length == 11) {
-            $where .= " AND (s.street = '".$_COOKIE['city_id']."')";
+            $where .= " AND (s.street = '" . $_COOKIE['city_id'] . "')";
         }
 
-    	$where .= " AND (s.shop_close = '". 0 ."')";
-    	$where .= " AND (g.is_delete = '". 0 ."')";
-    	$where .= " AND (g.review_status > '". 2 ."')";
-    	
-    	$where .= $conditions;
-    
-    	$db_goods = RC_DB::table('goods as g')
-    		->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
-    		->where(RC_DB::raw('s.status'), 1);
-    	/* 记录总数 */
-    	$count['goods_count'] = $db_goods->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
+        $where .= " AND (s.shop_close = '" . 0 . "')";
+        $where .= " AND (g.is_delete = '" . 0 . "')";
+        $where .= " AND (g.review_status > '" . 2 . "')";
+
+        $where .= $conditions;
+
+        $db_goods = RC_DB::table('goods as g')
+            ->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'))
+            ->where(RC_DB::raw('s.status'), 1);
+        /* 记录总数 */
+        $count['goods_count'] = $db_goods->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
 
         $db_store_franchisee = RC_DB::table('store_franchisee')->where('shop_close', 0)
             ->where('merchants_name', 'like', '%' . mysql_like_quote($filter['keywords']) . '%');
@@ -342,38 +351,40 @@ class pc_function {
         } elseif ($length == 11) {
             $db_store_franchisee->where('street', $_COOKIE['city_id']);
         }
-		$count['store_count'] = $db_store_franchisee->count();
-    	return $count;
+        $count['store_count'] = $db_store_franchisee->count();
+        return $count;
     }
-    
-    public static function has_store() {
-    	$db_store_franchisee = RC_DB::table('store_franchisee');
-    	$store = array();
-    	if (!empty($_COOKIE['city_id'])) {
-    		$length = strlen($_COOKIE['city_id']);
-    		if ($length == 4) {
-    			$db_store_franchisee->where('province', $_COOKIE['city_id']);
-    		} elseif ($length == 6) {
-    			$db_store_franchisee->where('city', $_COOKIE['city_id']);
-    		} elseif ($length == 8) {
-    			$db_store_franchisee->where('district', $_COOKIE['city_id']);
-    		} elseif ($length == 11) {
-    			$db_store_franchisee->where('street', $_COOKIE['city_id']);
-    		}
-    	}
-    	$store = $db_store_franchisee->where('shop_close', 0)->where('status', 1)->get();
-    	$has_store = !empty($store) ? true : false;
-    	return $has_store;
+
+    public static function has_store()
+    {
+        $db_store_franchisee = RC_DB::table('store_franchisee');
+        $store = array();
+        if (!empty($_COOKIE['city_id'])) {
+            $length = strlen($_COOKIE['city_id']);
+            if ($length == 4) {
+                $db_store_franchisee->where('province', $_COOKIE['city_id']);
+            } elseif ($length == 6) {
+                $db_store_franchisee->where('city', $_COOKIE['city_id']);
+            } elseif ($length == 8) {
+                $db_store_franchisee->where('district', $_COOKIE['city_id']);
+            } elseif ($length == 11) {
+                $db_store_franchisee->where('street', $_COOKIE['city_id']);
+            }
+        }
+        $store = $db_store_franchisee->where('shop_close', 0)->where('status', 1)->get();
+        $has_store = !empty($store) ? true : false;
+        return $has_store;
     }
-    
+
     //获取分类等级
-    public static function get_cat_level($cat_id = 0, $i = 0) {
-    	$info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
-    	if (!empty($info['parent_id'])) {
-    		$i++;
-    		$i = self::get_cat_level($info['parent_id'], $i);
-    	}
-    	return $i;
+    public static function get_cat_level($cat_id = 0, $i = 0)
+    {
+        $info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
+        if (!empty($info['parent_id'])) {
+            $i++;
+            $i = self::get_cat_level($info['parent_id'], $i);
+        }
+        return $i;
     }
 }
 //end

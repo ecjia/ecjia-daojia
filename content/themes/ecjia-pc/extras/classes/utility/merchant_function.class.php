@@ -45,57 +45,59 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-class merchant_function {
+class merchant_function
+{
     /*
      * 店铺信息
      */
-    public static function get_merchant_info($store_id = 0) {
+    public static function get_merchant_info($store_id = 0)
+    {
         //店铺基本信息
         $db_store_franchisee = RC_DB::table('store_franchisee as sf')
-        	->leftJoin('merchants_config as mc', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('mc.store_id'))
-        	->where(RC_DB::raw('mc.code'), 'shop_notice')
-        	->where(RC_DB::raw('sf.store_id'), $store_id)
-        	->where(RC_DB::raw('sf.status'), 1)
-        	->selectRaw('sf.manage_mode, sf.address, sf.merchants_name, sf.store_id, sf.shop_close, mc.value, sf.province, sf.city, sf.shop_keyword');
-        
+            ->leftJoin('merchants_config as mc', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('mc.store_id'))
+            ->where(RC_DB::raw('mc.code'), 'shop_notice')
+            ->where(RC_DB::raw('sf.store_id'), $store_id)
+            ->where(RC_DB::raw('sf.status'), 1)
+            ->select(RC_DB::raw('sf.manage_mode'), RC_DB::raw('sf.address'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.store_id'), RC_DB::raw('sf.shop_close'), RC_DB::raw('mc.value'), RC_DB::raw('sf.province'), RC_DB::raw('sf.city'), RC_DB::raw('sf.shop_keyword'));
+
         $length = strlen($_COOKIE['city_id']);
         if ($length == 4) {
-        	$db_store_franchisee->where(RC_DB::raw('sf.province'), $_COOKIE['city_id']);
+            $db_store_franchisee->where(RC_DB::raw('sf.province'), $_COOKIE['city_id']);
         } elseif ($length == 6) {
-        	$db_store_franchisee->where(RC_DB::raw('sf.city'), $_COOKIE['city_id']);
+            $db_store_franchisee->where(RC_DB::raw('sf.city'), $_COOKIE['city_id']);
         } elseif ($length == 8) {
-        	$db_store_franchisee->where(RC_DB::raw('sf.district'), $_COOKIE['city_id']);
+            $db_store_franchisee->where(RC_DB::raw('sf.district'), $_COOKIE['city_id']);
         } elseif ($length == 11) {
-        	$db_store_franchisee->where(RC_DB::raw('sf.street'), $_COOKIE['city_id']);
+            $db_store_franchisee->where(RC_DB::raw('sf.street'), $_COOKIE['city_id']);
         }
         $shop_info = $db_store_franchisee->first();
         if (empty($shop_info)) {
-        	return array();
+            return array();
         }
-        $info               = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select('province', 'city', 'district', 'street', 'address')->first();
-        $province_name      = ecjia_region::getRegionName($info['province']);
-        $city_name          = ecjia_region::getRegionName($info['city']);
-        $district_name      = ecjia_region::getRegionName($info['district']);
-        $street_name        = ecjia_region::getRegionName($info['street']);
-        
-        $shop_address		= $province_name.$city_name.$district_name.$street_name.' '.$info['address'];
+        $info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select('province', 'city', 'district', 'street', 'address')->first();
+        $province_name = ecjia_region::getRegionName($info['province']);
+        $city_name = ecjia_region::getRegionName($info['city']);
+        $district_name = ecjia_region::getRegionName($info['district']);
+        $street_name = ecjia_region::getRegionName($info['street']);
+
+        $shop_address = $province_name . $city_name . $district_name . $street_name . ' ' . $info['address'];
         $outward_info = RC_DB::table('merchants_config')->where('store_id', $store_id)->where(function ($query) {
-            	$query->where('code', 'shop_trade_time')
-            		->orwhere('code', 'shop_kf_mobile')
-            		->orwhere('code', 'shop_banner_pic')
-            		->orwhere('code', 'shop_logo')
-            		->orwhere('code', 'shop_description');
-        	})->get();
+            $query->where('code', 'shop_trade_time')
+                ->orwhere('code', 'shop_kf_mobile')
+                ->orwhere('code', 'shop_banner_pic')
+                ->orwhere('code', 'shop_logo')
+                ->orwhere('code', 'shop_description');
+        })->get();
 
         //优惠活动
         $time = RC_Time::gmtime();
         $db_favourable = RC_DB::table('favourable_activity')
-        	->select('act_name', 'act_id', 'act_type', 'act_type_ext', 'gift', 'start_time', 'end_time')
-        	->where('store_id', $store_id)
-        	->where('start_time', '<=', $time)
-        	->where('end_time', '>=', $time)
-        	->get();
-   
+            ->select('act_name', 'act_id', 'act_type', 'act_type_ext', 'gift', 'start_time', 'end_time')
+            ->where('store_id', $store_id)
+            ->where('start_time', '<=', $time)
+            ->where('end_time', '>=', $time)
+            ->get();
+
         $list = array();
         if (!empty($db_favourable)) {
             foreach ($db_favourable as $row) {
@@ -134,9 +136,9 @@ class merchant_function {
                     $end = explode(':', $shop_hours['end']);
                     if ($end[0] > 24) {
                         $hour = $end[0] - 24;
-                    	$end[0] = '次日'. ($hour);
-                        $end_time = $hour. ':' . $end[1];
-                        $end_time = strtotime($end_time) + 24*3600;
+                        $end[0] = '次日' . ($hour);
+                        $end_time = $hour . ':' . $end[1];
+                        $end_time = strtotime($end_time) + 24 * 3600;
                     }
                     $shop_hours = $start . '--' . $end[0] . ':' . $end[1];
                     //0为不营业，1为营业
@@ -146,7 +148,7 @@ class merchant_function {
                         $business_status = 0;
                     }
                 } else {
-                	$shop_hours = '暂未设置';
+                    $shop_hours = '暂未设置';
                 }
             }
             if ($val['code'] == 'shop_kf_mobile') {
@@ -159,27 +161,27 @@ class merchant_function {
                 $outward['shop_banner_pic'] = !empty($val['value']) ? RC_Upload::upload_url($val['value']) : '';
             }
             if ($val['code'] == 'shop_description') {
-            	$outward['shop_description'] = $val['value'];
+                $outward['shop_description'] = $val['value'];
             }
         }
 
-       	$data = array(
-        	'merchants_name' 	=> $shop_info['merchants_name'], 
-        	'manage_mode'	 	=> $shop_info['manage_mode'], 
-        	'shop_close' 		=> $shop_info['shop_close'], 
-        	'value' 			=> !empty($shop_info['value']) ? $shop_info['value'] : '暂无公告', 
-        	'address' 			=> $shop_address, 
-        	'comment_rank' 		=> $store_rank['comment_rank'], 
-        	'comment_percent' 	=> $store_rank['comment_percent'], 
-        	'shop_logo' 		=> $outward['shop_logo'], 
-        	'trade_time' 		=> $shop_hours, 
-        	'kf_mobile' 		=> !empty($outward['kf_mobile']) ? $outward['kf_mobile'] : '暂未填写', 
-        	'banner_pic' 		=> $outward['shop_banner_pic'], 'order_amount' => $amount_info['order_amount'],
-        	'order_precent' 	=> $amount_info['order_precent'], 
-        	'activity' 			=> $list, 
-       	    'business_status'   => $business_status,
-       		'shop_keyword'		=> $shop_info['shop_keyword'],
-       		'shop_description'  => $outward['shop_description'],
+        $data = array(
+            'merchants_name' => $shop_info['merchants_name'],
+            'manage_mode' => $shop_info['manage_mode'],
+            'shop_close' => $shop_info['shop_close'],
+            'value' => !empty($shop_info['value']) ? $shop_info['value'] : '暂无公告',
+            'address' => $shop_address,
+            'comment_rank' => $store_rank['comment_rank'],
+            'comment_percent' => $store_rank['comment_percent'],
+            'shop_logo' => $outward['shop_logo'],
+            'trade_time' => $shop_hours,
+            'kf_mobile' => !empty($outward['kf_mobile']) ? $outward['kf_mobile'] : '暂未填写',
+            'banner_pic' => $outward['shop_banner_pic'], 'order_amount' => $amount_info['order_amount'],
+            'order_precent' => $amount_info['order_precent'],
+            'activity' => $list,
+            'business_status' => $business_status,
+            'shop_keyword' => $shop_info['shop_keyword'],
+            'shop_description' => $outward['shop_description'],
         );
         return $data;
     }
