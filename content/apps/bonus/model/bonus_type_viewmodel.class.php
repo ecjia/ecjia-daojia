@@ -103,7 +103,7 @@ class bonus_type_viewmodel extends Component_Model_View
         $page_row = new ecjia_page($record_count, $options['size'], 6, '', $options['page']);
 
         $res = $db_bonus_type
-            ->selectRaw('s.merchants_name, bt.*, ub.user_id')
+            ->select(RC_DB::raw('s.merchants_name, bt.*, ub.user_id'))
             ->groupBy(RC_DB::raw('bt.type_id'))
             ->take($options['size'])
             ->skip($page_row->start_id - 1)

@@ -91,7 +91,7 @@ class bonus {
     	if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
     		$db->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
     	}
-    	$data = $db->selectRaw('type_id, type_name, type_money')
+    	$data = $db->select(RC_DB::raw('type_id, type_name, type_money'))
     			->where(RC_DB::raw('send_type'), 3)
     			->get();
     	if (!empty($data)) {

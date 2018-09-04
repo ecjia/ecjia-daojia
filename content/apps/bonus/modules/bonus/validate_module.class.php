@@ -22,7 +22,7 @@ class validate_module extends api_front implements api_interface
     						->where(RC_DB::raw('ub.bonus_sn'), $bonus_sn)
     						->where(RC_DB::raw('ub.user_id'), 0)
     						->where(RC_DB::raw('bt.use_end_date'), '>', $time)
-    						->selectRaw('bt.type_id, bt.type_name, bt.type_money, ub.bonus_id, bt.use_start_date, bt.use_end_date, bt.min_goods_amount')
+    						->select(RC_DB::raw('bt.type_id, bt.type_name, bt.type_money, ub.bonus_id, bt.use_start_date, bt.use_end_date, bt.min_goods_amount'))
     						->first();
     	
 		if (empty($bonus_info)) {

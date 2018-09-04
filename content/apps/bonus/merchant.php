@@ -479,13 +479,13 @@ class merchant extends ecjia_merchant {
 		} elseif ($send_by == SEND_BY_GOODS) {
 			if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
 				$bonus_type = $db_bonus_type
-				->selectRaw('type_id, type_name')
+				->select(RC_DB::raw('type_id, type_name'))
 				->where(RC_DB::raw('type_id '), $id )
 				->where(RC_DB::raw('store_id'), $_SESSION['store_id'])
 				->first();
 			} else {
 				$bonus_type = $db_bonus_type
-				->selectRaw('type_id, type_name')
+				->select(RC_DB::raw('type_id, type_name'))
 				->where(RC_DB::raw('type_id'), $id )
 				->first();
 			}
@@ -563,7 +563,7 @@ class merchant extends ecjia_merchant {
 		$rank_id = intval($_POST['rank_id']);
 		if ($rank_id > 0) {
 			$row = RC_DB::table('user_rank')
-					->selectRaw('min_points, max_points, special_rank')
+					->select(RC_DB::raw('min_points, max_points, special_rank'))
 					->where(RC_DB::raw('rank_id'), $rank_id)
 					->first();
 			$db_user = RC_DB::table('users');
@@ -571,13 +571,13 @@ class merchant extends ecjia_merchant {
 				/* 特殊会员组处理 */
 				if($validated_email) {
 					$user_list = $db_user
-						->selectRaw('user_id, email, user_name')
+						->select(RC_DB::raw('user_id, email, user_name'))
 						->where(RC_DB::raw('user_rank'), $rank_id)
 						->where(RC_DB::raw('is_validated'), 1)
 						->get();
 				} else {
 					$user_list = $db_user
-						->selectRaw('user_id, email, user_name')
+						->select(RC_DB::raw('user_id, email, user_name'))
 						->where(RC_DB::raw('user_rank'), $rank_id)
 						->get();
 				}
@@ -587,11 +587,11 @@ class merchant extends ecjia_merchant {
 						->where(RC_DB::raw('rank_points'), '>=', intval($row['min_points']))
 						->where(RC_DB::raw('rank_points'), '<', intval($row['max_points']))
 						->where(RC_DB::raw('is_validated'), 1)
-						->selectRaw('user_id, email, user_name')
+						->select('user_id', 'email', 'user_name')
 						->get();
 				} else {
 					$user_list = $db_user
-						->selectRaw('user_id, email, user_name')
+						->select(RC_DB::raw('user_id, email, user_name'))
 						->where(RC_DB::raw('rank_points'), '>=', intval($row['min_points']))
 						->where(RC_DB::raw('rank_points'), '<', intval($row['max_points']))
 						->get();
@@ -736,7 +736,7 @@ class merchant extends ecjia_merchant {
 		/* 商品的权限判断 START */
 		if(!empty($_POST['linked_array'])){
 			$goods_id_temp = $db_goods
-				->selectRaw('goods_id')
+				->select('goods_id')
 				->whereIn(RC_DB::raw('goods_id'), $_POST['linked_array'])
 				->get();
 			$_POST['linked_array'] = array_column($goods_id_temp, 'goods_id');
@@ -804,7 +804,7 @@ class merchant extends ecjia_merchant {
 		if(!empty($keywords)){
 			$db_user = RC_DB::table('users');
 			$row = $db_user
-				->selectRaw('user_id, user_name')
+				->select('user_id', 'user_name')
 				->where(RC_DB::raw('user_name'), 'like', '%'.$keywords.'%')
 				->orWhere(RC_DB::raw('user_id'), 'like', '%'.$keywords.'%')
 				->get();

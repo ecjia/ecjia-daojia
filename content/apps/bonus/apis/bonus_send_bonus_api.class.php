@@ -75,7 +75,7 @@ class bonus_send_bonus_api extends Component_Event_Api
 
         $result = RC_DB::table('bonus_type as bt')
             ->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
-            ->selectRaw('bt.type_id, bt.type_name, bt.type_money, ub.bonus_id')
+            ->select(RC_DB::raw('bt.type_id, bt.type_name, bt.type_money, ub.bonus_id'))
             ->where('send_type', SEND_COUPON)
             ->where(RC_DB::raw('ub.user_id'), $_SESSION['user_id'])
             ->where(RC_DB::raw('bt.type_id'), $bonus_type_id)

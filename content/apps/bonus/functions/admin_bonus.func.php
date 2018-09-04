@@ -101,7 +101,7 @@ function get_type_list() {
 	$page = new ecjia_page($count, 10, 6);
 	
 	$res = $db_bonus_type
-		->selectRaw('bt.*, s.merchants_name')
+		->select(RC_DB::raw('bt.*, s.merchants_name'))
 		->orderby($filter['sort_by'], $filter['sort_order'])
 		->take(10)
 		->skip($page->start_id-1)
@@ -232,7 +232,7 @@ function user_bonus($user_id, $goods_amount = 0, $cart_id = array(), $store_id =
 		if (!empty($store_id)) {
 			$dbview->whereIn(RC_DB::raw('bt.store_id'), array($store_id, 0));
 		}
-		$row = $dbview->selectRaw('bt.type_id, bt.store_id, bt.type_name, bt.type_money, ub.bonus_id, bt.usebonus_type,bt.min_goods_amount,bt.use_start_date,bt.use_end_date')
+		$row = $dbview->select(RC_DB::raw('bt.type_id, bt.store_id, bt.type_name, bt.type_money, ub.bonus_id, bt.usebonus_type,bt.min_goods_amount,bt.use_start_date,bt.use_end_date'))
 		->where(RC_DB::raw('bt.use_start_date'), '<=', $today)
 		->where(RC_DB::raw('bt.use_end_date'), '>=', $today)
 		->where(RC_DB::raw('bt.min_goods_amount'), '<=', $goods_amount)
@@ -346,7 +346,7 @@ function get_total_bonus() {
 	}
 	/* 按订单发的红包 */
 	$order_amount = RC_DB::table('bonus_type')
-		->selectRaw('FLOOR('.$amount.' / min_amount) * type_money')
+		->select(RC_DB::raw('FLOOR('.$amount.' / min_amount) * type_money'))
 		->whereRaw('send_type = "'. SEND_BY_ORDER . '" AND send_start_date <= '.$today.'  AND send_end_date >= '.$today.' AND min_amount > 0')
 		->first();
 	$order_total = floatval($order_amount);
