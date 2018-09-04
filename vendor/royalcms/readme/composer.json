@@ -1,0 +1,22 @@
+{
+    "name": "royalcms/readme",
+    "description": "Royalcms Packages's Readme File(Docs) Viewer.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/filesystem": "^5.0",
+        "cebe/markdown": "~1.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Readme\\": "Royalcms/Component/Readme/"
+        }
+    }
+}
