@@ -6,10 +6,24 @@ body {
 }
 
 body {
-	font: 12px/1.5 'Microsoft Yahei',"微软雅黑",Verdana,SimHei,"Microsoft JhengHei",Tahoma
+	font: 12px/1.5 'Microsoft Yahei', "微软雅黑", Verdana, SimHei, "Microsoft JhengHei", Tahoma
 }
 
-dd,dl,dt,form,h1,h2,h3,h4,h5,h6,img,li,p,span,ul {
+dd,
+dl,
+dt,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+img,
+li,
+p,
+span,
+ul {
 	margin: 0;
 	padding: 0;
 	border: none;
@@ -211,8 +225,8 @@ a {
 }
 
 .ecjia-header.fixed.navbar-transparent {
-	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.12);
-	box-shadow: 0 3px 6px rgba(0,0,0,.12)
+	-webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .12);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .12)
 }
 
 .ecjia-header .ecjia-logo {
@@ -347,7 +361,8 @@ a {
 	padding-right: 0;
 }
 
-.content-item .left-side img, .content-item .right-side img {
+.content-item .left-side img,
+.content-item .right-side img {
 	width: 400px;
 }
 
@@ -360,7 +375,7 @@ a {
 	text-align: center;
 	line-height: 32px;
 	color: #fff;
-	box-shadow: 0 3px 6px rgba(0,0,0,.12);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .12);
 	float: left;
 	margin-right: 15px;
 	font-size: 15px;
@@ -391,8 +406,8 @@ a {
 }
 
 .teach-item-content .content {
-    position: relative;
-    height: 580px;
+	position: relative;
+	height: 580px;
 }
 
 .teach-item-content .content .background {
@@ -408,9 +423,9 @@ a {
 }
 
 .teach-item-content .content .bottom {
-    position: absolute;
-    bottom: 0;
-    left: 217px;
+	position: absolute;
+	bottom: 0;
+	left: 217px;
 }
 
 .teach-item-content .content p {
@@ -422,60 +437,60 @@ a {
 }
 
 .step-item {
-    margin: 40px 0;
-    width: 100%;
-    height: 140px;
+	margin: 40px 0;
+	width: 100%;
+	height: 140px;
 }
 
 .step-item-content {
-    width: 970px;
-    margin: 0 auto;
-    height: 140px;
+	width: 970px;
+	margin: 0 auto;
+	height: 140px;
 }
 
 .step-item-content .step-item-li {
-    width: 270px;
-    background-color: #FCFCFC;
-    border-radius: 8px;
-    float: left;
-    margin-right: 50px;
-    display: flex;
-    padding: 10px;
-    align-items: center;
-    padding-bottom: 0;
+	width: 270px;
+	background-color: #FCFCFC;
+	border-radius: 8px;
+	float: left;
+	margin-right: 50px;
+	display: flex;
+	padding: 10px;
+	align-items: center;
+	padding-bottom: 0;
 	height: 134px;
 	display: -webkit-box;
-	align-items:center;
--webkit-align-items:center;
-box-align:center;
--moz-box-align:center;
--webkit-box-align:center;
+	align-items: center;
+	-webkit-align-items: center;
+	box-align: center;
+	-moz-box-align: center;
+	-webkit-box-align: center;
 }
 
 .step-item-content .step-item-li:last-child {
-    margin-right: 0;
+	margin-right: 0;
 }
 
 .step-item-content .step-item-li .img img {
-    width: 90px;
-    height: 110px;
+	width: 90px;
+	height: 110px;
 }
 
 .step-item-content .step-item-li:first-child .img img {
-    width: 50px;
-    height: 50px;
+	width: 50px;
+	height: 50px;
 }
 
 .right {
-    padding-left: 20px;
-    font-size: 16px;
-    display: flex;
-    flex-direction: column;
-    color: #838383;
+	padding-left: 20px;
+	font-size: 16px;
+	display: flex;
+	flex-direction: column;
+	color: #838383;
 }
 
 .right .step {
-    font-size: 25px;
+	font-size: 25px;
 	color: #333;
 	padding-bottom: 10px;
 }
@@ -552,7 +567,8 @@ box-align:center;
 	text-align: center
 }
 
-.ecjia-code span,.ecjia-code span img {
+.ecjia-code span,
+.ecjia-code span img {
 	width: 200px;
 	height: 200px
 }
@@ -590,26 +606,29 @@ box-align:center;
 }
 
 .cly-tab-content {
-    width: 900px;
-    margin: 0 auto;
-    height: 70px;
-    line-height: 70px;
-    font-size: 25px;
+	width: 900px;
+	margin: 0 auto;
+	height: 70px;
+	line-height: 70px;
+	font-size: 25px;
 }
 
 .cly-tab-content .tab-li {
-    display: inline-block;
-    width: 240px;
-    text-align: center;
-    margin-left: 140px;
+	width: 300px;
+	text-align: center;
+	float: left;
 }
 
 .cly-tab-content .tab-li.active {
-    border-bottom: 2px solid #00D04E;
+	border-bottom: 2px solid #00D04E;
 }
 
-#distributor-swiper {
-    display: none;
+.wt-30 .swiper-container {
+	display: none;
+}
+
+.wt-30 .swiper-container:first-child {
+	display: block;
 }
 
 .swiper-container-phone {
@@ -632,8 +651,8 @@ box-align:center;
 }
 
 .clyimges {
-    position: relative;
-    margin-bottom: 50px;
+	position: relative;
+	margin-bottom: 50px;
 }
 
 .swiper-button-prev {
