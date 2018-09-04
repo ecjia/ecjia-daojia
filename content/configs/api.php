@@ -497,11 +497,17 @@ return array(
 	'admin/user/merchant/order/list'            => 'orders::admin/user/merchant/order/list',            //获取某个会员在某个店铺的订单列表
 	'admin/user/account/deposit'				=> 'user::admin/user/account/deposit',					//后台管理员给会员进行充值申请
 	'admin/user/account/pay'					=> 'user::admin/user/account/pay',						//后台管理员给会员充值支付
+	'admin/cashier/orders/summary'				=> 'cashier::admin/cashier/orders/summary',				//收银台订单统计
+	'admin/cashier/quickpay/flow/checkOrder'	=> 'cashier::admin/cashier/quickpay/flow/checkOrder',	//收银台收款检查购物流订单
+	'admin/cashier/quickpay/flow/done'			=> 'cashier::admin/cashier/quickpay/flow/done',			//收银台收款结算
+	'admin/cashier/quickpay/order/pay'			=> 'cashier::admin/cashier/quickpay/order/pay',			//收银台收款支付
 	
 	//1.19
 	'bonus/validate'		=> 'bonus::bonus/validate',		//验证线下红包
 	'bonus/bind'			=> 'bonus::bonus/bind',			//兑换红包需要登录
 	
+	//1.20
+	'user/notifications'	=> 'notification::user/notifications',
 	
     /** 1.0 已经废弃
      * article 
