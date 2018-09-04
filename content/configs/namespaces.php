@@ -48,9 +48,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 // autoload_psr4.php
 $contentDir = realpath(__DIR__ . '/../');
+$baseDir = realpath(__DIR__ . '/../../');
 
 return array(
-	'Ecjia\App\Adsense'         => $contentDir . '/apps/adsense/classes',
+    'Ecjia\System'              => $contentDir . '/system/classes',
+
+    'Ecjia\App\Adsense'         => $contentDir . '/apps/adsense/classes',
     'Ecjia\App\Affiliate'       => $contentDir . '/apps/affiliate/classes',
     'Ecjia\App\Api'             => $contentDir . '/apps/api/classes',
     'Ecjia\App\Article'         => $contentDir . '/apps/article/classes',
@@ -99,16 +102,17 @@ return array(
     'Ecjia\App\Stats'           => $contentDir . '/apps/stats/classes',
     'Ecjia\App\Store'           => $contentDir . '/apps/store/classes',
     'Ecjia\App\Theme'           => $contentDir . '/apps/theme/classes',
-	'Ecjia\App\Tmplmsg'         => $contentDir . '/apps/tmplmsg/classes',
+    'Ecjia\App\Tmplmsg'         => $contentDir . '/apps/tmplmsg/classes',
     'Ecjia\App\Touch'           => $contentDir . '/apps/touch/classes',
     'Ecjia\App\Ucenter'         => $contentDir . '/apps/ucenter/classes',
     'Ecjia\App\Upgrade'         => $contentDir . '/apps/upgrade/classes',
     'Ecjia\App\User'            => $contentDir . '/apps/user/classes',
     'Ecjia\App\Weapp'           => $contentDir . '/apps/weapp/classes',
-	'Ecjia\App\Wechat'          => $contentDir . '/apps/wechat/classes',
+    'Ecjia\App\Wechat'          => $contentDir . '/apps/wechat/classes',
     'Ecjia\App\Customer'        => $contentDir . '/apps/customer/classes',
 
     
+    'Royalcms\Component\HttpKernel' => $contentDir . '/apps/api/classes/Royalcms/Component/HttpKernel',
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
     'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cart/classes/Royalcms/Component/Shoppingcart',
     'Royalcms\Component\Printer' => $contentDir . '/apps/printer/classes/Royalcms/Component/Printer',
