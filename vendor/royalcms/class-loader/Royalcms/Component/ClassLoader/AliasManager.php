@@ -59,10 +59,6 @@ class AliasManager
         'Component_WeChat_WeChatAPI'            => 'Royalcms\Component\WeChat\WeChatAPI',
         'Component_WeChat_WeChatCorp'           => 'Royalcms\Component\WeChat\WeChatCorp',
         'Component_WeChat_WeChatCorpAPI'        => 'Royalcms\Component\WeChat\WeChatCorpAPI',
-        
-        'Component_Widget_Control'              => 'Royalcms\Component\Widget\Control',
-        'Component_Widget_Factory'              => 'Royalcms\Component\Widget\Factory',
-        'Component_Widget_Widget'               => 'Royalcms\Component\Widget\Widget',
 
         'Component_Error_ErrorDisplay'          => 'Royalcms\Component\Error\ErrorDisplay',
 
@@ -80,7 +76,6 @@ class AliasManager
         'Component_Widget_Control'              => 'Royalcms\Component\Widget\WidgetController',
         'Component_Widget_Factory'              => 'Royalcms\Component\Widget\Factory',
         'Component_Widget_Widget'               => 'Royalcms\Component\Widget\Widget',
-
     );
 }
 
