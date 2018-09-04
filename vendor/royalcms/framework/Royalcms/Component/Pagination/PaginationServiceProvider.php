@@ -1,43 +1,30 @@
-<?php namespace Royalcms\Component\Pagination;
+<?php
+
+namespace Royalcms\Component\Pagination;
 
 use Royalcms\Component\Support\ServiceProvider;
 
-class PaginationServiceProvider extends ServiceProvider {
+class PaginationServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        Paginator::currentPathResolver(function () {
+            return $this->app['request']->url();
+        });
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
+        Paginator::currentPageResolver(function ($pageName = 'page') {
+            $page = $this->app['request']->input($pageName);
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->royalcms->bindShared('paginator', function($royalcms)
-		{
-			$paginator = new Environment($royalcms['request'], $royalcms['view'], $royalcms['translator']);
+            if (filter_var($page, FILTER_VALIDATE_INT) !== false && (int) $page >= 1) {
+                return $page;
+            }
 
-			$paginator->setViewName($royalcms['config']['view.pagination']);
-
-			$royalcms->refresh('request', $paginator, 'setRequest');
-
-			return $paginator;
-		});
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('paginator');
-	}
-
+            return 1;
+        });
+    }
 }

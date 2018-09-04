@@ -9,63 +9,67 @@ use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Contracts\Support\Jsonable;
 use Royalcms\Component\Contracts\Support\Arrayable;
 use Royalcms\Component\Contracts\Pagination\Presenter;
-use Royalcms\Component\Contracts\Pagination\Paginator as PaginatorContract;
+use Royalcms\Component\Contracts\Pagination\LengthAwarePaginator as LengthAwarePaginatorContract;
 
-class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, PaginatorContract
+class LengthAwarePaginator extends AbstractPaginator implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, LengthAwarePaginatorContract
 {
     /**
-     * Determine if there are more items in the data source.
+     * The total number of items before slicing.
      *
-     * @return bool
+     * @var int
      */
-    protected $hasMore;
+    protected $total;
+
+    /**
+     * The last available page.
+     *
+     * @var int
+     */
+    protected $lastPage;
 
     /**
      * Create a new paginator instance.
      *
      * @param  mixed  $items
+     * @param  int  $total
      * @param  int  $perPage
      * @param  int|null  $currentPage
      * @param  array  $options (path, query, fragment, pageName)
      * @return void
      */
-    public function __construct($items, $perPage, $currentPage = null, array $options = [])
+    public function __construct($items, $total, $perPage, $currentPage = null, array $options = [])
     {
         foreach ($options as $key => $value) {
             $this->{$key} = $value;
         }
 
+        $this->total = $total;
         $this->perPage = $perPage;
-        $this->currentPage = $this->setCurrentPage($currentPage);
+        $this->lastPage = (int) ceil($total / $perPage);
         $this->path = $this->path != '/' ? rtrim($this->path, '/') : $this->path;
+        $this->currentPage = $this->setCurrentPage($currentPage, $this->lastPage);
         $this->items = $items instanceof Collection ? $items : Collection::make($items);
-
-        $this->checkForMorePages();
     }
 
     /**
      * Get the current page for the request.
      *
      * @param  int  $currentPage
+     * @param  int  $lastPage
      * @return int
      */
-    protected function setCurrentPage($currentPage)
+    protected function setCurrentPage($currentPage, $lastPage)
     {
         $currentPage = $currentPage ?: static::resolveCurrentPage();
 
+        // The page number will get validated and adjusted if it either less than one
+        // or greater than the last page available based on the count of the given
+        // items array. If it's greater than the last, we'll give back the last.
+        if (is_numeric($currentPage) && $currentPage > $lastPage) {
+            return $lastPage > 0 ? $lastPage : 1;
+        }
+
         return $this->isValidPageNumber($currentPage) ? (int) $currentPage : 1;
-    }
-
-    /**
-     * Check for more pages. The last item will be sliced off.
-     *
-     * @return void
-     */
-    protected function checkForMorePages()
-    {
-        $this->hasMore = count($this->items) > ($this->perPage);
-
-        $this->items = $this->items->slice(0, $this->perPage);
     }
 
     /**
@@ -75,7 +79,7 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
      */
     public function nextPageUrl()
     {
-        if ($this->hasMore) {
+        if ($this->lastPage() > $this->currentPage()) {
             return $this->url($this->currentPage() + 1);
         }
     }
@@ -87,7 +91,27 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
      */
     public function hasMorePages()
     {
-        return $this->hasMore;
+        return $this->currentPage() < $this->lastPage();
+    }
+
+    /**
+     * Get the total number of items being paginated.
+     *
+     * @return int
+     */
+    public function total()
+    {
+        return $this->total;
+    }
+
+    /**
+     * Get the last page.
+     *
+     * @return int
+     */
+    public function lastPage()
+    {
+        return $this->lastPage;
     }
 
     /**
@@ -102,7 +126,7 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
             $presenter = call_user_func(static::$presenterResolver, $this);
         }
 
-        $presenter = $presenter ?: new SimpleBootstrapThreePresenter($this);
+        $presenter = $presenter ?: new BootstrapThreePresenter($this);
 
         return $presenter->render();
     }
@@ -115,10 +139,15 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
     public function toArray()
     {
         return [
-            'per_page' => $this->perPage(), 'current_page' => $this->currentPage(),
-            'next_page_url' => $this->nextPageUrl(), 'prev_page_url' => $this->previousPageUrl(),
-            'from' => $this->firstItem(), 'to' => $this->lastItem(),
-            'data' => $this->items->toArray(),
+            'total'         => $this->total(),
+            'per_page'      => $this->perPage(),
+            'current_page'  => $this->currentPage(),
+            'last_page'     => $this->lastPage(),
+            'next_page_url' => $this->nextPageUrl(),
+            'prev_page_url' => $this->previousPageUrl(),
+            'from'          => $this->firstItem(),
+            'to'            => $this->lastItem(),
+            'data'          => $this->items->toArray(),
         ];
     }
 
