@@ -73,11 +73,11 @@ class config_module extends api_front implements api_interface {
 // 							->where($where)
 // 							->find();
         $info = RC_DB::table('store_franchisee as sf')
-        ->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'))
-        ->leftJoin('collect_store as cs', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('cs.store_id'))
-        ->selectRaw('sf.*, sc.cat_name, count(cs.store_id) as follower, SUM(IF(cs.user_id = '.$user_id.',1,0)) as is_follower')
-        ->where(RC_DB::raw('sf.status'), 1)->where(RC_DB::raw('sf.store_id'), $seller_id)
-        ->first();
+            ->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'))
+            ->leftJoin('collect_store as cs', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('cs.store_id'))
+            ->select(RC_DB::raw('sf.*, sc.cat_name, count(cs.store_id) as follower, SUM(IF(cs.user_id = '.$user_id.',1,0)) as is_follower'))
+            ->where(RC_DB::raw('sf.status'), 1)->where(RC_DB::raw('sf.store_id'), $seller_id)
+            ->first();
         $store_config = array(
             'shop_title'                => '', // 店铺标题
             'shop_kf_mobile'            => '', // 客服手机号码
@@ -109,13 +109,13 @@ class config_module extends api_front implements api_interface {
 	            $end_time = strtotime($shop_trade_time['end']);
 	            $start = $shop_trade_time['start'];
 	            $end = explode(':', $shop_trade_time['end']);
-	            if ($end[0] > 24) {
+	            if ($end[0] >= 24) {
 	                $hour = $end[0] - 24;
 	            	$end[0] = '次日'. ($hour);
 	                $end_str = $hour. ':' . $end[1];
 	                $end_time = strtotime($end_str) + 24*3600;
 	            }
-	            //0为不营业，1为营业
+	            //0为营业，1为不营业
 	            if ($start_time < $current_time && $current_time < $end_time) {
 	                $shop_closed = 0;
 	            } else {

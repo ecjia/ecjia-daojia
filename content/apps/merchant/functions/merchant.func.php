@@ -97,7 +97,7 @@ function get_store_trade_time($store_id = 0) {
     }
     $sart_time = $trade_time['start'];
     $end_time = explode(':', $trade_time['end']);
-    if ($end_time[0] > 24) {
+    if ($end_time[0] >= 24) {
         $end_time[0] = '次日'. ($end_time[0] - 24);
     }
     

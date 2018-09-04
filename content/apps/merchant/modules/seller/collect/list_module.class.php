@@ -86,7 +86,7 @@ class list_module extends api_front implements api_interface {
         $result = RC_DB::table('collect_store as cs')
                 ->leftJoin('store_franchisee as sf', RC_DB::raw('cs.store_id'), '=', RC_DB::raw('sf.store_id'))
                 ->leftjoin('store_category as sc', RC_DB::raw('cs.store_id'), '=', RC_DB::raw('sf.store_id'))
-                ->selectRaw($field)
+                ->select(RC_DB::raw($field))
                 ->where('status', '1')->where('user_id', $user_id)
                 ->take(10)
                 ->skip($page->start_id-1)

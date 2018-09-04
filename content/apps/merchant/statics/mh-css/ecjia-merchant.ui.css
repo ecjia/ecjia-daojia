@@ -728,8 +728,8 @@ input[type="radio"]{display: none;}
 }
 
 .state-overview .value {
-    width: 60%;
-    padding-top: 31px;
+    width: 203px;
+    padding-top: 35px;
 }
 
 .state-overview .terques {
@@ -5511,4 +5511,161 @@ table tr th.sorting-desc{
 }
 .merchant_shop_notice img {
 	width: 100% !important;
+}
+
+/*商家店铺首页*/
+.task-progress-content {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+    margin: 10px 0;
+}
+.task-progress-content .item-column {
+	width: 25%;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+}
+
+.task-progress-content .item-row {
+	width: 25%;
+	display: -webkit-box;
+  	display: -ms-flexbox;
+  	display: -webkit-flex;
+  	display: flex;
+    flex-direction: row;
+	align-items: center;
+	-webkit-align-items: center;
+	box-align: center;
+	-moz-box-align: center;
+	-webkit-box-align: center;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-progress-content .item-row img {
+	width: 30px;
+    height: 30px;
+    margin-right: 3px;
+}
+
+.task-progress-content .item-column .title, .task-progress-content .item-row .title {
+	font-size: 15px;
+    font-weight: bold;
+    color: #aaa;
+    margin: 10px 0 10px 0;
+}
+
+.task-progress-content .item-column .num, .task-progress-content .item-row .num {
+	font-size: 20px;
+    font-weight: bold;
+}
+
+.task-progress-content .item-row .num {
+	margin-left: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/*商家店铺首页 店铺类型*/
+.panel-type {
+	display: -webkit-box;
+  	display: -ms-flexbox;
+  	display: -webkit-flex;
+	display: flex;
+	margin-top: 20px;
+}
+
+.panel-type .panel-type-item {
+	display:-webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+	-webkit-align-items: center;
+	box-align: center;
+	-moz-box-align: center;
+	-webkit-box-align: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    margin-right: 30px;
+}
+
+.panel-type .panel-type-item img {
+	width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.panel-type .panel-type-item .type {
+	font-size: 15px;
+}
+
+.symbol-order-type {
+    width: 138.66px;
+    height: 135px;
+    display: inline-block;
+	text-align: center;
+	border-radius: 4px 0px 0px 4px;
+}
+
+.symbol-order-type.wait-confirm {
+	background-color: #1BB99B;
+}
+
+.symbol-order-type.wait-ship {
+	background-color: #E74C3C;
+}
+
+.symbol-order-type.wait-shipped {
+	background-color: #F1C40F;
+}
+
+.symbol-order-type.return {
+	background-color: #9B59B6;
+}
+
+.symbol-order-type img {
+	margin-top: 25px;
+}
+
+.table.m_b0 {
+	margin-bottom: 0;
+}
+
+.panel-body-fastenter .fastenter-item {
+	width: 50%;
+    float: left;
+    display: flex;
+    line-height: 40px;
+    padding-left: 15px;
+}
+
+.panel-body-fastenter .fastenter-item a {
+	color: #333;
+}
+
+.panel-body-fastenter .fastenter-item img {
+	width: 30px;
+    height: 30px;
+    margin-right: 10px;
 }

@@ -101,7 +101,7 @@ class list_module extends api_front implements api_interface {
 		);
 		
 		$result = RC_Api::api('goods', 'goods_list', $options);
-		if ($result) {
+		if ($result['list']) {
 		    RC_Loader::load_app_func('admin_goods', 'goods');
 		    foreach ($result['list'] as $val) {
 		        /* 判断是否有促销价格*/
@@ -139,6 +139,11 @@ class list_module extends api_front implements api_interface {
 		        'count' => $result['page']->total_records,
 		        'more' => $result['page']->total_pages <= $page ? 0 : 1,
 		    );
+		} else {
+			$data = array(
+					'list' 	=> array(),
+					'pager'	=>  array('total' => 0,'count' => 0,'more' => 0)
+			);
 		}
 		
 		//更新店铺搜索关键字

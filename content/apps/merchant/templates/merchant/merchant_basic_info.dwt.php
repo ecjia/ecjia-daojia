@@ -177,7 +177,7 @@ label + div.col-lg-6, label + div.col-lg-2 {
                         
                         <div class="form-group ">
                             <label class="control-label col-lg-2">{t}自动派单：{/t}</label>
-                            <div class="col-lg-6">
+                            <div class="col-lg-10">
                                 <input id="open" type="radio" name="express_assign_auto" value="1" {if $data.express_assign_auto eq 1} checked="true" {/if}  />
                                 <label for="open">开启</label>
                                 <input id="close" type="radio" name="express_assign_auto" value="0" {if $data.express_assign_auto eq 0} checked="true" {/if}  />
@@ -194,8 +194,38 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                 <span class="help-block">用户下单时达到此购物金额，才能提交订单</span>
                             </div>
                         </div>
+                        
+             			<div class="form-group">
+                            <label class="control-label col-lg-2">{t}接单类型：{/t}</label>
+                            <div class="col-lg-8">
+                                <input id="orders_auto_confirm_1" type="radio" name="orders_auto_confirm" value="1" {if $data.orders_auto_confirm eq 1} checked="true" {/if}  />
+                                <label for="orders_auto_confirm_1">自动接单</label>
+                                <input id="orders_auto_confirm_0" type="radio" name="orders_auto_confirm" value="0" {if $data.orders_auto_confirm eq 0} checked="true" {/if}  />
+                                <label for="orders_auto_confirm_0">手动接单</label>
+                                <span class="help-block">启用自动接单后，所有订单将无需人工处理接单，自动由系统接单，您可以随时切回手动接单模式</span>
+                            </div>
+                        </div>
+                        
+               			<div class="form-group orders_auto_rejection_time {if $data.orders_auto_confirm eq 1}hide{/if}">
+                            <label class="control-label col-lg-2">{t}拒绝接单时间：{/t}</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" name="orders_auto_rejection_time" type="text" value="{$data.orders_auto_rejection_time}"/>
+                                <span class="help-block">若管理员未操作手动接单，系统将会在设置时间（单位：分钟）后自动拒绝接单，<br/>默认0代表不设置，不设置则需要管理员手动拒单</span>
+                            </div>
+                        </div>
 						
-                        <div class="form-group ">
+						<div class="form-group">
+                            <label class="control-label col-lg-2">{t}小票离线打印：{/t}</label>
+                            <div class="col-lg-8">
+                                <input id="printer_offline_send_1" type="radio" name="printer_offline_send" value="1" {if $data.printer_offline_send eq 1} checked="true" {/if}  />
+                                <label for="printer_offline_send_1">开启</label>
+                                <input id="printer_offline_send_0" type="radio" name="printer_offline_send" value="0" {if $data.printer_offline_send eq 0} checked="true" {/if}  />
+                                <label for="printer_offline_send_0">关闭</label>
+                                <span class="help-block">开启后，已支付的订单自动加入打印队列，只要小票机在线后，将自动打印订单</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
                             <div class="col-lg-6 col-md-offset-2">
                                 <input class="btn btn-info" type="submit" name="name" value="提交信息">
                             </div>

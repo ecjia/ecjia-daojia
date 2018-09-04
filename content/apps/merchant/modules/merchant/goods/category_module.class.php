@@ -60,7 +60,7 @@ class category_module extends api_front implements api_interface {
 		if (empty($seller_id)) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
-        $cat_list = RC_DB::table('merchants_category')->selectRaw('cat_id, cat_name, parent_id,cat_image')
+		$cat_list = RC_DB::table('merchants_category')->select(RC_DB::raw('cat_id, cat_name, parent_id,cat_image'))
         												->where('parent_id', 0)
         												->where('store_id', $seller_id)
         												->where('is_show', 1)
@@ -87,7 +87,7 @@ class category_module extends api_front implements api_interface {
 
 
 function get_child_tree($cat_id) {
-    $cat_list = RC_DB::table('merchants_category')->selectRaw('cat_id, cat_name, parent_id, cat_image')
+    $cat_list = RC_DB::table('merchants_category')->select(RC_DB::raw('cat_id, cat_name, parent_id, cat_image'))
         												->where('parent_id', $cat_id)
         												->where('is_show', 1)
         												->orderBy('sort_order', 'asc')

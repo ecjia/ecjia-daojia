@@ -27,7 +27,16 @@
   	<div class="clearfix"></div>
 </div>
 
-<style media="screen" type="text/css">
+<style type="text/css">
+.trade_time{
+	font-size:18px;font-weight:700;margin-right:5px
+}
+.unclose{
+	color:#fff;background-color:#1abc9c;border-radius:4px;padding:5px 8px;font-size:15px
+}
+.closed{
+	color:#fff;background-color:#e74c3c;border-radius:4px;padding:5px 8px;font-size:15px
+}
 </style>
 <div class="row">
     <div class="col-lg-12">
@@ -39,15 +48,14 @@
                 {else}
 				<form class="cmxform form-horizontal" name="theForm" action="{$form_action}"  method="post" enctype="multipart/form-data" data-toggle='from'>
 					<div class="form-group">
-				        <label class="control-label col-lg-2">{t}店铺上下线：{/t}</label>
-				        <div class="col-lg-6">
-				            <!-- <div id="danger-toggle-button"  data-toggleButton-width="170">
-				                <input type="checkbox" checked="checked">
-				            </div> -->
-				            <input id="close1" type="radio" name="shop_close" value="0" {if $merchant_info.shop_close eq 0} checked="true" {/if}  />
-				            <label for="close1">上线</label>
-				            <input id="close2" type="radio" name="shop_close" value="1" {if $merchant_info.shop_close eq 1} checked="true" {/if}  />
-				            <label for="close2">下线</label>
+				        <label class="control-label col-lg-2">{t}营业时间：{/t}</label>
+				        <div class="col-lg-6 l_h30">
+				        	<span class="trade_time">{$merchant_info.shop_trade_time}</span>
+				        	{if $shop_closed eq 0 && $merchant_info eq 0}
+								<span class="unclose">营业中</span>
+				           	{else}
+								<span class="closed">休息中</span>
+				           	{/if}
 				        </div>
 				    </div>
 				
@@ -56,9 +64,6 @@
 					  	<div class="controls col-lg-6">
 					      	<input class="form-control" name="mobile" id="mobile" placeholder="请输入手机号码" type="text" value="{$merchant_info.mobile}" readonly/>
 					  	</div>
-					  	{if $type neq 'edit_apply'}
-					 	<a class="btn btn-primary" data-url="{url path='merchant/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
-					 	{/if}
 					</div>
 				
 					<div class="form-group">
@@ -66,11 +71,16 @@
 					  	<div class="col-lg-6">
 					      	<input class="form-control" name="code" placeholder="请输入手机短信验证码" type="text" />
 					  	</div>
+					  	<a class="btn btn-primary" data-url="{url path='merchant/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
 					</div>
 				
 					<div class="form-group ">
 				        <div class="col-lg-6 col-md-offset-2">
-				            <input class="btn btn-info unset_SetRemain" type="submit" name="name" value="提交信息">
+				        	{if $merchant_info.shop_close eq 0}
+								<input class="btn btn-info unset_SetRemain" type="submit" name="name" value="店铺打烊">
+				           	{else}
+								<input class="btn btn-info unset_SetRemain" type="submit" name="name" value="店铺营业">
+				           	{/if}
 				        </div>
 				    </div>
 				</form>

@@ -59,6 +59,7 @@
 </body>
 </html>
 <!-- {else} -->
+	<title>{block name="title"}{if $ur_here}{$ur_here}{/if}{if $ecjia_merchant_cptitle} - {$ecjia_merchant_cptitle}{/if}{/block}</title>
 	<!-- {block name="meta"} --><!-- {/block} -->
 	<!-- {ecjia:hook id=merchant_pjax_head} -->
 	<!-- {ecjia:hook id=merchant_print_main_header} -->

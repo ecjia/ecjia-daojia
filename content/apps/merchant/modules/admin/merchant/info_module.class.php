@@ -89,7 +89,7 @@ class info_module extends api_admin implements api_interface {
 					//处理营业时间格式例：7:00--次日5:30
 					$start = $trade_time['start'];
 					$end = explode(':', $trade_time['end']);
-					if ($end[0] > 24) {
+					if ($end[0] >= 24) {
 						$hour = $end[0] - 24;
 						$end[0] = '次日'. ($hour);
 						$end_time = $hour. ':' . $end[1];

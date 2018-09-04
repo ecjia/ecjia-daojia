@@ -10,6 +10,7 @@
             $('.disable input,.disable select, .disable textarea, .disable .btn').attr('disabled', 'disabled');
             $('.nodisabled').attr('disabled', false);
             app.merchant_info.image_preview();
+            app.merchant_info.orders_auto_confirm_change();
         },
 
         submit_form: function () {
@@ -288,6 +289,18 @@
                 }, { ok: "确定", cancel: "取消" });
             });
         },
+        
+        orders_auto_confirm_change: function() {
+        	$('input[name="orders_auto_confirm"]').off('click').on('click', function() {
+        		var $this = $(this),
+        			val = $this.val();
+        		if (val == 1) {
+        			$('.orders_auto_rejection_time').addClass('hide');
+        		} else {
+        			$('.orders_auto_rejection_time').removeClass('hide');
+        		}
+        	});
+        }
     };
 })(ecjia.merchant, jQuery);
 
