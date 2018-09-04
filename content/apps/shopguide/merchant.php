@@ -300,7 +300,7 @@ class merchant extends ecjia_merchant
             }
             if (empty($goods_id)) {
                 //生成商品货号
-                $max_id = RC_DB::table('goods')->selectRaw('(MAX(goods_id) + 1) as max')->first();
+                $max_id = RC_DB::table('goods')->select(RC_DB::raw('(MAX(goods_id) + 1) as max'))->first();
                 if (empty($max_id['max'])) {
                     $goods_sn_bool = true;
                     $goods_sn      = '';
