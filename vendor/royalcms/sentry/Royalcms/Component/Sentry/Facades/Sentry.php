@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Sentry\Facades;
+<?php
+
+namespace Royalcms\Component\Sentry\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 
