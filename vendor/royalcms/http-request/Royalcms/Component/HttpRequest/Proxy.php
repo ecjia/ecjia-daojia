@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\HttpRequest;
 
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Hook;
 use Royalcms\Component\Foundation\Uri as RC_Uri;
 
 /**

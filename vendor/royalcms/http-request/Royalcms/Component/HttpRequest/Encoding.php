@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\HttpRequest;
 
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Hook;
 
 /**
  * Core class used to implement deflate and gzip transfer encoding support for HTTP requests.

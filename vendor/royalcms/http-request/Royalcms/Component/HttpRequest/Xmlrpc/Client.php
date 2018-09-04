@@ -6,8 +6,8 @@ use Royalcms\Component\Xmlrpc\Client as IXRClient;
 use Royalcms\Component\Xmlrpc\Request;
 use Royalcms\Component\Xmlrpc\Error;
 use Royalcms\Component\Xmlrpc\Message;
-use Royalcms\Component\Support\Facades\Error as RC_Error;
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Error;
+use RC_Hook;
 use Royalcms\Component\HttpRequest\HttpRequest;
 
 /**

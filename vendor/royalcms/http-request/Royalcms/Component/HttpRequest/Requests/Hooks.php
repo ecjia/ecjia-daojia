@@ -3,7 +3,7 @@
 namespace Royalcms\Component\HttpRequest\Requests;
 
 use Royalcms\Component\Requests\Hooks as RequestsHooks;
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Hook;
 
 /**
  * HTTP API: Requests hook bridge class

@@ -2,8 +2,8 @@
 
 namespace Royalcms\Component\HttpRequest\Transport;
 
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
-use Royalcms\Component\Support\Facades\Error as RC_Error;
+use RC_Hook;
+use RC_Error;
 use Royalcms\Component\HttpRequest\Http;
 use Royalcms\Component\HttpRequest\Proxy;
 use Royalcms\Component\HttpRequest\Encoding;

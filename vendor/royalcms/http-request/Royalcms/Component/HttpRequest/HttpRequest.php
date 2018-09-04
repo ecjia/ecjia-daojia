@@ -2,8 +2,8 @@
 
 namespace Royalcms\Component\HttpRequest;
 
-use Royalcms\Component\Support\Facades\Error as RC_Error;
-use Royalcms\Component\Support\Facades\Hook as RC_Hook;
+use RC_Error;
+use RC_Hook;
 use Royalcms\Component\Foundation\Kses as RC_Kses;
 use Royalcms\Component\Foundation\Uri as RC_Uri;
 
