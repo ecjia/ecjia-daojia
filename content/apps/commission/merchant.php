@@ -393,7 +393,7 @@ class merchant extends ecjia_merchant {
 		$db->where('store_id', $_SESSION['store_id']);
 		$count = $db->count();
 		$page = new ecjia_merchant_page($count, $page_size, 5);
-		$data = $db->take($page_size)->skip($page->start_id - 1)->orderBy('change_time', 'desc')->get();
+		$data = $db->take($page_size)->skip($page->start_id - 1)->orderBy('change_time', 'desc')->orderBy('log_id', 'desc')->get();
 		if (!empty($data)) {
 			foreach ($data as $k => $v) {
 				$data[$k]['change_time'] = RC_Time::local_date('Y-m-d H:i:s', $v['change_time']);

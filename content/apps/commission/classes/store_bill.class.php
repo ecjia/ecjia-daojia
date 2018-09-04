@@ -56,7 +56,7 @@ class store_bill {
      * @param number $options store_id
      * @param string $options day 2016-05-11
      */
-    public function bill_day($options) {
+    public function bill_day($options = array()) {
 //         TODO:大数据
         if (!isset($options['day'])) {
             $options['day'] = RC_Time::local_date('Y-m-d', RC_Time::gmtime() - 86400) ;
@@ -91,7 +91,7 @@ class store_bill {
      * @param number $options store_id
      * @param string $options month 2016-05
      */
-    public function bill_month($options) {
+    public function bill_month($options = array()) {
         if (!isset($options['month'])) {
             $month = RC_Time::local_date('m');
             if ($month == '01') {
@@ -145,7 +145,7 @@ class store_bill {
         return true;
     }
     
-    public function bill_month_refresh($options) {
+    public function bill_month_refresh($options = array()) {
         if (!isset($options['month'])) {
             $options['month'] = RC_Time::local_date('Y-m', RC_Time::gmtime() - 86400) ;
         }

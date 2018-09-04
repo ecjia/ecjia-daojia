@@ -62,7 +62,7 @@ class store_bill_model extends Component_Model_Model {
 	 * @param integer $store_id
 	 * @param array $filter
 	 */
-	public function get_bill_list ($store_id, $page_current = 1, $page_size = 15, $filter = array()) {
+	public function get_bill_list ($store_id = 0, $page_current = 1, $page_size = 15, $filter = array()) {
 	    $db_store_bill = RC_DB::table('store_bill as b')->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('b.store_id'));
 	    
 	    if ($store_id) {
@@ -132,7 +132,7 @@ class store_bill_model extends Component_Model_Model {
 	 * @param integer $store_id
 	 * @param array $filter
 	 */
-	public function get_bill_list_merchant ($store_id, $page = 1, $page_size = 15, $filter = array()) {
+	public function get_bill_list_merchant ($store_id = 0, $page = 1, $page_size = 15, $filter = array()) {
 	    $db_store_bill = RC_DB::table('store_bill');
 	     
 	    if ($store_id) {
@@ -169,7 +169,7 @@ class store_bill_model extends Component_Model_Model {
 	    return array('item' => $row, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
 	}
 	
-	public function get_bill($bill_id, $store_id) {
+	public function get_bill($bill_id = 0, $store_id = 0) {
 	    if (empty($bill_id)) {
 	        return false;
 	    }
