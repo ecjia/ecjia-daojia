@@ -1,156 +1,126 @@
-<?php namespace Royalcms\Component\View;
+<?php
 
-use Royalcms\Component\Support\MessageBag;
+namespace Royalcms\Component\View;
+
 use Royalcms\Component\View\Engines\PhpEngine;
 use Royalcms\Component\Support\ServiceProvider;
+use Royalcms\Component\View\Engines\CompilerEngine;
 use Royalcms\Component\View\Engines\EngineResolver;
+use Royalcms\Component\View\Compilers\BladeCompiler;
 
-class ViewServiceProvider extends ServiceProvider {
+class ViewServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->registerEngineResolver();
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->registerEngineResolver();
+        $this->registerViewFinder();
 
-		$this->registerViewFinder();
+        $this->registerFactory();
+    }
 
-		// Once the other components have been registered we're ready to include the
-		// view environment and session binder. The session binder will bind onto
-		// the "before" application event and add errors into shared view data.
-		$this->registerEnvironment();
+    /**
+     * Register the engine resolver instance.
+     *
+     * @return void
+     */
+    public function registerEngineResolver()
+    {
+        $this->royalcms->singleton('view.engine.resolver', function () {
+            $resolver = new EngineResolver;
 
-		$this->registerSessionBinder();
-	}
+            // Next we will register the various engines with the resolver so that the
+            // environment can resolve the engines it needs for various views based
+            // on the extension of view files. We call a method for each engines.
+            foreach (['php', 'blade'] as $engine) {
+                $this->{'register'.ucfirst($engine).'Engine'}($resolver);
+            }
 
-	/**
-	 * Register the engine resolver instance.
-	 *
-	 * @return void
-	 */
-	public function registerEngineResolver()
-	{
-		$me = $this;
+            return $resolver;
+        });
+    }
 
-		$this->royalcms->bindShared('view.engine.resolver', function($royalcms) use ($me)
-		{
-			$resolver = new EngineResolver;
+    /**
+     * Register the PHP engine implementation.
+     *
+     * @param  \Royalcms\Component\View\Engines\EngineResolver  $resolver
+     * @return void
+     */
+    public function registerPhpEngine($resolver)
+    {
+        $resolver->register('php', function () {
+            return new PhpEngine;
+        });
+    }
 
-			// Next we will register the various engines with the resolver so that the
-			// environment can resolve the engines it needs for various views based
-			// on the extension of view files. We call a method for each engines.
-			foreach (array('php') as $engine)
-			{
-				$me->{'register'.ucfirst($engine).'Engine'}($resolver);
-			}
+    /**
+     * Register the Blade engine implementation.
+     *
+     * @param  \Royalcms\Component\View\Engines\EngineResolver  $resolver
+     * @return void
+     */
+    public function registerBladeEngine($resolver)
+    {
+        $royalcms = $this->royalcms;
 
-			return $resolver;
-		});
-	}
+        // The Compiler engine requires an instance of the CompilerInterface, which in
+        // this case will be the Blade compiler, so we'll first create the compiler
+        // instance to pass into the engine so it can compile the views properly.
+        $royalcms->singleton('blade.compiler', function ($royalcms) {
+            $cache = $royalcms['config']['view.compiled'];
 
-	/**
-	 * Register the PHP engine implementation.
-	 *
-	 * @param  \Royalcms\Component\View\Engines\EngineResolver  $resolver
-	 * @return void
-	 */
-	public function registerPhpEngine($resolver)
-	{
-		$resolver->register('php', function() { return new PhpEngine; });
-	}
+            return new BladeCompiler($royalcms['files'], $cache);
+        });
 
-	/**
-	 * Register the view finder implementation.
-	 *
-	 * @return void
-	 */
-	public function registerViewFinder()
-	{
-		$this->royalcms->bindShared('view.finder', function($royalcms)
-		{
-			$paths = $royalcms['config']['view.paths'];
+        $resolver->register('blade', function () use ($royalcms) {
+            return new CompilerEngine($royalcms['blade.compiler']);
+        });
+    }
 
-			return new FileViewFinder($royalcms['files'], $paths);
-		});
-	}
+    /**
+     * Register the view finder implementation.
+     *
+     * @return void
+     */
+    public function registerViewFinder()
+    {
+        $this->royalcms->bind('view.finder', function ($royalcms) {
+            $paths = $royalcms['config']['view.paths'];
 
-	/**
-	 * Register the view environment.
-	 *
-	 * @return void
-	 */
-	public function registerEnvironment()
-	{
-		$this->royalcms->bindShared('view', function($royalcms)
-		{
-			// Next we need to grab the engine resolver instance that will be used by the
-			// environment. The resolver will be used by an environment to get each of
-			// the various engine implementations such as plain PHP or Blade engine.
-			$resolver = $royalcms['view.engine.resolver'];
+            return new FileViewFinder($royalcms['files'], $paths);
+        });
+    }
 
-			$finder = $royalcms['view.finder'];
+    /**
+     * Register the view environment.
+     *
+     * @return void
+     */
+    public function registerFactory()
+    {
+        $this->royalcms->singleton('view', function ($royalcms) {
+            // Next we need to grab the engine resolver instance that will be used by the
+            // environment. The resolver will be used by an environment to get each of
+            // the various engine implementations such as plain PHP or Blade engine.
+            $resolver = $royalcms['view.engine.resolver'];
 
-			$env = new Environment($resolver, $finder, $royalcms['events']);
+            $finder = $royalcms['view.finder'];
 
-			// We will also set the container instance on this view environment since the
-			// view composers may be classes registered in the container, which allows
-			// for great testable, flexible composers for the application developer.
-			$env->setContainer($royalcms);
+            $env = new Factory($resolver, $finder, $royalcms['events']);
 
-			$env->share('royalcms', $royalcms);
+            // We will also set the container instance on this view environment since the
+            // view composers may be classes registered in the container, which allows
+            // for great testable, flexible composers for the application developer.
+            $env->setContainer($royalcms);
 
-			return $env;
-		});
-	}
+            $env->share('royalcms', $royalcms);
 
-	/**
-	 * Register the session binder for the view environment.
-	 *
-	 * @return void
-	 */
-	protected function registerSessionBinder()
-	{
-		list($royalcms, $me) = array($this->royalcms, $this);
-
-		$royalcms->booted(function() use ($royalcms, $me)
-		{
-			// If the current session has an "errors" variable bound to it, we will share
-			// its value with all view instances so the views can easily access errors
-			// without having to bind. An empty bag is set when there aren't errors.
-			if ($me->sessionHasErrors($royalcms))
-			{
-				$errors = $royalcms['session.store']->get('errors');
-
-				$royalcms['view']->share('errors', $errors);
-			}
-
-			// Putting the errors in the view for every view allows the developer to just
-			// assume that some errors are always available, which is convenient since
-			// they don't have to continually run checks for the presence of errors.
-			else
-			{
-				$royalcms['view']->share('errors', new MessageBag);
-			}
-		});
-	}
-
-	/**
-	 * Determine if the application session has errors.
-	 *
-	 * @param  \Royalcms\Component\Foundation\Royalcms  $royalcms
-	 * @return bool
-	 */
-	public function sessionHasErrors($royalcms)
-	{
-		$config = $royalcms['config']['session'];
-
-		if (isset($royalcms['session.store']) && ! is_null($config['driver']))
-		{
-			return $royalcms['session.store']->has('errors');
-		}
-	}
-
+            return $env;
+        });
+    }
 }

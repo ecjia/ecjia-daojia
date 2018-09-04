@@ -1,58 +1,69 @@
-<?php namespace Royalcms\Component\View\Engines;
+<?php
 
-class PhpEngine implements EngineInterface {
+namespace Royalcms\Component\View\Engines;
 
-	/**
-	 * Get the evaluated contents of the view.
-	 *
-	 * @param  string  $path
-	 * @param  array   $data
-	 * @return string
-	 */
-	public function get($path, array $data = array())
-	{
-		return $this->evaluatePath($path, $data);
-	}
+use Exception;
+use Throwable;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
-	/**
-	 * Get the evaluated contents of the view at the given path.
-	 *
-	 * @param  string  $__path
-	 * @param  array   $__data
-	 * @return string
-	 */
-	protected function evaluatePath($__path, $__data)
-	{
-		ob_start();
+class PhpEngine implements EngineInterface
+{
+    /**
+     * Get the evaluated contents of the view.
+     *
+     * @param  string  $path
+     * @param  array   $data
+     * @return string
+     */
+    public function get($path, array $data = [])
+    {
+        return $this->evaluatePath($path, $data);
+    }
 
-		extract($__data);
+    /**
+     * Get the evaluated contents of the view at the given path.
+     *
+     * @param  string  $__path
+     * @param  array   $__data
+     * @return string
+     */
+    protected function evaluatePath($__path, $__data)
+    {
+        $obLevel = ob_get_level();
 
-		// We'll evaluate the contents of the view inside a try/catch block so we can
-		// flush out any stray output that might get out before an error occurs or
-		// an exception is thrown. This prevents any partial views from leaking.
-		try
-		{
-			include $__path;
-		}
-		catch (\Exception $e)
-		{
-			$this->handleViewException($e);
-		}
+        ob_start();
 
-		return ltrim(ob_get_clean());
-	}
+        extract($__data, EXTR_SKIP);
 
-	/**
-	 * Handle a view exception.
-	 *
-	 * @param  \Exception  $e
-	 * @return void
-	 *
-	 * @throws $e
-	 */
-	protected function handleViewException($e)
-	{
-		ob_get_clean(); throw $e;
-	}
+        // We'll evaluate the contents of the view inside a try/catch block so we can
+        // flush out any stray output that might get out before an error occurs or
+        // an exception is thrown. This prevents any partial views from leaking.
+        try {
+            include $__path;
+        } catch (Exception $e) {
+            $this->handleViewException($e, $obLevel);
+        } catch (Throwable $e) {
+            $this->handleViewException(new FatalThrowableError($e), $obLevel);
+        }
 
+        return ltrim(ob_get_clean());
+    }
+
+    /**
+     * Handle a view exception.
+     *
+     * @param  \Exception  $e
+     * @param  int  $obLevel
+     * @return void
+     *
+     * @throws $e
+     */
+    protected function handleViewException($e, $obLevel)
+    {
+        while (ob_get_level() > $obLevel) {
+            ob_end_clean();
+        }
+
+        throw $e;
+    }
 }

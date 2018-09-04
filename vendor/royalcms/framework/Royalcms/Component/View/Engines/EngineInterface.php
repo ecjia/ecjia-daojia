@@ -1,14 +1,15 @@
-<?php namespace Royalcms\Component\View\Engines;
+<?php
 
-interface EngineInterface {
+namespace Royalcms\Component\View\Engines;
 
-	/**
-	 * Get the evaluated contents of the view.
-	 *
-	 * @param  string  $path
-	 * @param  array   $data
-	 * @return string
-	 */
-	public function get($path, array $data = array());
-
+interface EngineInterface
+{
+    /**
+     * Get the evaluated contents of the view.
+     *
+     * @param  string  $path
+     * @param  array   $data
+     * @return string
+     */
+    public function get($path, array $data = []);
 }
