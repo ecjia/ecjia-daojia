@@ -16,6 +16,35 @@
 		                </h4>
 	                	<hr style="margin-top: 10px;margin-bottom: 10px;">
 	                	<p>{if $merchant_info.shop_description}{$merchant_info.shop_description}{else}店长有点懒哦，赶紧去完善店铺资料吧~~{/if}</p>
+	                	<div class="panel-type">
+	                		<div class="panel-type-item">
+	                			{if $merchant_info.manage_mode eq 'self'}
+	                			<img src="{$ecjia_main_static_url}img/merchant_dashboard/self.png" />
+	                			<div class="type">自营店</div>
+								{else}
+								<img src="{$ecjia_main_static_url}img/merchant_dashboard/join.png" />
+								<div class="type">入驻店</div>
+								{/if}	                			
+	                		</div>
+	               			<div class="panel-type-item">
+	                			{if $merchant_info.validate_type eq 1}
+	                			<img src="{$ecjia_main_static_url}img/merchant_dashboard/personal.png" />
+	                			<div class="type">个人入驻</div>
+								{else $merchant_info.validate_type eq 2}
+								<img src="{$ecjia_main_static_url}img/merchant_dashboard/enterprise.png" />
+								<div class="type">企业入驻</div>
+								{/if}	                			
+	                		</div>
+	                		<div class="panel-type-item">
+	                			{if $merchant_info.shop_close neq 1 && $merchant_info.shop_closed neq 1}
+	                			<img src="{$ecjia_main_static_url}img/merchant_dashboard/open.png" />
+	                			<div class="type">营业中</div>
+								{else}
+								<img src="{$ecjia_main_static_url}img/merchant_dashboard/close.png" />
+								<div class="type">打烊</div>
+								{/if}	                			
+	                		</div>
+	                	</div>
 	            	</div>
 	            	
 	            	<div class="col-sm-4">
@@ -23,7 +52,7 @@
 		                    <strong>小店资料</strong>
 		                </h4>
 	                	<hr style="margin-top: 10px;margin-bottom: 10px;">
-            			<div><label>营业时间：</label>{$merchant_info.shop_trade_time}</div>
+            			<div><label>营业时间：</label>{$merchant_info.shop_time_value}</div>
             			<div><label>店铺公告：</label>{$merchant_info.shop_notice}</div>
 	            	</div>
 	        	</div>

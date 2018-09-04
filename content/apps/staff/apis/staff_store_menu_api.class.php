@@ -55,7 +55,11 @@ class staff_store_menu_api extends Component_Event_Api {
 	public function call(&$options) {	
 	    $store_id = royalcms('request')->query('store_id');
         
-        return ecjia_admin::make_admin_menu('store_view_staff', '查看员工', RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id)), 7)->add_purview('store_staff_manage');
+	    $menus = array(
+	    	ecjia_admin::make_admin_menu('store_staff_set', '员工设置', RC_Uri::url('staff/admin_store_staff/set', array('store_id' => $store_id)), 6)->add_purview('store_staff_manage'),
+	    	ecjia_admin::make_admin_menu('store_view_staff', '查看员工', RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id)), 7)->add_purview('store_staff_manage'),
+	    );
+        return $menus;
 	}
 }
 

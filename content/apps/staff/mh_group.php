@@ -247,7 +247,7 @@ class mh_group extends ecjia_merchant
         $page  = new ecjia_merchant_page($count, 10, 5);
 
         $data = $db_staff_group
-            ->selectRaw('group_id,group_name,groupdescribe')
+            ->select('group_id', 'group_name', 'groupdescribe')
             ->orderby('group_id', 'asc')
             ->take(10)
             ->skip($page->start_id - 1)

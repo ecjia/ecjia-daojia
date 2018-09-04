@@ -78,7 +78,7 @@ class mh_log extends ecjia_merchant {
 
 		/* 查询IP地址列表 */
 		$ip_list = array();
-		$data = RC_DB::table('staff_log')->selectRaw('distinct ip_address')->get();
+		$data = RC_DB::table('staff_log')->select(RC_DB::raw('distinct ip_address'))->get();
 		if (!empty($data)) {
 			foreach ($data as $row) {
 				$ip_list[] = $row['ip_address'];
@@ -146,7 +146,7 @@ class mh_log extends ecjia_merchant {
 		$count = $db_staff_log->count();
 		$page = new ecjia_merchant_page($count, 15, 5);
 		$data = $db_staff_log
-    		->selectRaw('sl.log_id,sl.log_time,sl.log_info,sl.ip_address,sl.ip_location,su.name')
+    		->select(RC_DB::raw('sl.log_id'), RC_DB::raw('sl.log_time'), RC_DB::raw('sl.log_info'), RC_DB::raw('sl.ip_address'), RC_DB::raw('sl.ip_location'), RC_DB::raw('su.name'))
     		->orderby($filter['sort_by'], $filter['sort_order'])
     		->take(20)
     		->skip($page->start_id-1)

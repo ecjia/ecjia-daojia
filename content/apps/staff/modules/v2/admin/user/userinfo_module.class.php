@@ -95,6 +95,7 @@ function get_user_info_merchant() {
             'role_name'		=> $role_name,
             'avator_img'	=> $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
             'action_list'	=> $result['action_list'],
+        	'store_id'		=> intval($result['store_id'])
         );
     } else {
         return new ecjia_error('error', '用户信息不存在');

@@ -156,8 +156,12 @@ class merchant extends ecjia_merchant
     {
 
         $count = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', '>', 0)->count();
-        if ($count >= 10) {
-            return $this->showmessage('抱歉，目前子员工数额已达到10个，不可再添加', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        
+        $store_staff_mun = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->pluck('value');
+        $staff_mun = RC_DB::table('shop_config')->where('code', 'merchant_staff_max_number')->pluck('value');
+        $num = !empty($store_staff_mun) ? $store_staff_mun : (!empty($staff_mun) ? $staff_mun : 10);
+        if ($count >= $num) {
+        	return $this->showmessage('抱歉，目前子员工数额已达到'.$num.'个，不可再添加', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $mobile = $_GET['mobile'];
@@ -197,8 +201,12 @@ class merchant extends ecjia_merchant
         $mobile = $_POST['mobile'];
 
         $count = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', '>', 0)->count();
-        if ($count >= 10) {
-            return $this->showmessage('抱歉，目前子员工数额已达到10个，不可再添加', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        
+        $store_staff_mun = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->pluck('value');
+        $staff_mun = RC_DB::table('shop_config')->where('code', 'merchant_staff_max_number')->pluck('value');
+        $num = !empty($store_staff_mun) ? $store_staff_mun : (!empty($staff_mun) ? $staff_mun : 10);
+        if ($count >= $num) {
+            return $this->showmessage('抱歉，目前子员工数额已达到'.$num.'个，不可再添加', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (RC_DB::table('staff_user')->where('mobile', $mobile)->count() > 0) {
@@ -233,6 +241,15 @@ class merchant extends ecjia_merchant
             $group_id = $_POST['group_id'];
         }
 
+        $count = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', '>', 0)->count();
+        
+        $store_staff_mun = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->pluck('value');
+        $staff_mun = RC_DB::table('shop_config')->where('code', 'merchant_staff_max_number')->pluck('value');
+        $num = !empty($store_staff_mun) ? $store_staff_mun : (!empty($staff_mun) ? $staff_mun : 10);
+        if ($count >= $num) {
+        	return $this->showmessage('抱歉，目前子员工数额已达到'.$num.'个，不可再添加', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        
         if (RC_DB::table('staff_user')->where('name', $_POST['name'])->where('store_id', $_SESSION['store_id'])->count() > 0) {
             return $this->showmessage('该员工名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -511,7 +528,7 @@ class merchant extends ecjia_merchant
         $count = $db_staff_user->count();
         $page  = new ecjia_merchant_page($count, 10, 5);
         $data  = $db_staff_user
-            ->selectRaw('user_ident,parent_id,user_id,name,nick_name,mobile,email,group_id,last_login')
+            ->select('user_ident', 'parent_id', 'user_id', 'name', 'nick_name', 'mobile', 'email', 'group_id', 'last_login')
             ->orderby('user_id', 'asc')
             ->take(10)
             ->skip($page->start_id - 1)
