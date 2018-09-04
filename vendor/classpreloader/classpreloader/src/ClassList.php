@@ -1,38 +1,63 @@
 <?php
 
+/*
+ * This file is part of Class Preloader.
+ *
+ * (c) Graham Campbell <graham@alt-three.com>
+ * (c) Michael Dowling <mtdowling@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace ClassPreloader;
 
 /**
- * Maintains a list of classes using a sort of doubly-linked list
+ * This is the class list class.
+ *
+ * This maintains a list of classes using a sort of doubly-linked list.
  */
 class ClassList
 {
     /**
-     * @var ClassNode The head node of the list
+     * The head node of the list.
+     *
+     * @var \ClassPreloader\ClassNode
      */
     protected $head;
 
     /**
-     * @var ClassNode The current node of the list
+     * The current node of the list.
+     *
+     * @var \ClassPreloader\ClassNode
      */
     protected $current;
 
+    /**
+     * Create a new class list instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->clear();
     }
 
     /**
-     * Clear the contents of the list and reset the head node and current node
+     * Clear the contents of the list and reset the head node and current node.
+     *
+     * @return void
      */
     public function clear()
     {
-        $this->head = new ClassNode(null);
+        $this->head = new ClassNode();
         $this->current = $this->head;
     }
 
     /**
-     * Traverse to the next node in the list
+     * Traverse to the next node in the list.
+     *
+     * @return void
      */
     public function next()
     {
@@ -45,11 +70,14 @@ class ClassList
     }
 
     /**
-     * Insert a value at the current position in the list. Any currently set
-     * value at this position will be pushed back in the list after the new
-     * value
+     * Insert a value at the current position in the list.
      *
-     * @param mixed $value Value to insert
+     * Any currently set value at this position will be pushed back in the list
+     * after the new value.
+     *
+     * @param mixed $value
+     *
+     * @return void
      */
     public function push($value)
     {
@@ -69,13 +97,13 @@ class ClassList
     }
 
     /**
-     * Traverse the ClassList and return a list of classes
+     * Traverse the ClassList and return a list of classes.
      *
      * @return array
      */
     public function getClasses()
     {
-        $classes = array();
+        $classes = [];
         $current = $this->head;
         while ($current && $current->value) {
             $classes[] = $current->value;
