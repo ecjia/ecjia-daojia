@@ -31,7 +31,7 @@ class DbMigrationsServiceProvider extends ServiceProvider {
 
         $this->royalcms['DbMigrations'] = $this->royalcms->share(function()
         {
-            $connType = $this->royalcms['config']->get('database.defaultconnection');
+            $connType = $this->royalcms['config']->get('database.default');
             $database = $this->royalcms['config']->get('database.connections.' .$connType );
             return new DbMigrations($database);
         });

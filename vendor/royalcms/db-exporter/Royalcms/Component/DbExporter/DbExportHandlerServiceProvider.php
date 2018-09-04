@@ -64,7 +64,7 @@ class DbExportHandlerServiceProvider extends ServiceProvider
      */
     private function getDatabaseName()
     {
-        $connType = $this->royalcms['config']->get('database.defaultconnection');
+        $connType = $this->royalcms['config']->get('database.default');
         $database = $this->royalcms['config']->get('database.connections.' .$connType );
 
         return $database['database'];
