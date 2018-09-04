@@ -1,0 +1,66 @@
+{
+    "name": "league/commonmark",
+    "type": "library",
+    "description": "Markdown parser for PHP based on the CommonMark spec",
+    "keywords": ["markdown","parser","commonmark"],
+    "homepage": "https://github.com/thephpleague/commonmark",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Colin O'Dell",
+            "email": "colinodell@gmail.com",
+            "homepage": "https://www.colinodell.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "replace": {
+        "colinodell/commonmark-php": "*"
+    },
+    "require": {
+        "php": ">=5.6.5",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "cebe/markdown": "~1.0",
+        "erusev/parsedown": "~1.0",
+        "commonmark/commonmark.js": "0.28",
+        "michelf/php-markdown": "~1.4",
+        "mikehaertl/php-shellcommand": "^1.2",
+        "phpunit/phpunit": "^5.7|^6.5",
+        "symfony/finder": "^3.0|^4.0",
+        "scrutinizer/ocular": "^1.1"
+    },
+    "suggest": {
+        "league/commonmark-extras": "Library of useful extensions including smart punctuation"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "commonmark/commonmark.js",
+                "version": "0.28",
+                "dist": {
+                    "url": "https://github.com/commonmark/commonmark.js/archive/0.28.0.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "League\\CommonMark\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "League\\CommonMark\\Tests\\Unit\\": "tests/unit",
+            "League\\CommonMark\\Tests\\Functional\\": "tests/functional"
+        }
+    },
+    "bin": ["bin/commonmark"],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.18-dev"
+        }
+    }
+}
