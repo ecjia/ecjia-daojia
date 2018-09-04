@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\DefaultRoute;
 
-use Royalcms\Component\HttpKernel\Request;
+use Royalcms\Component\Http\Request;
 use Royalcms\Component\Rewrite\Facades\Rewrite;
 
 class HttpQueryRoute
@@ -21,7 +21,7 @@ class HttpQueryRoute
     
     /**
      * 
-     * @var \Royalcms\Component\HttpKernel\Request  $request
+     * @var \Royalcms\Component\Http\Request  $request
      */
     protected $request;
     
@@ -42,7 +42,7 @@ class HttpQueryRoute
     /**
      * Find the first route matching a given request.
      *
-     * @param  \Royalcms\Component\HttpKernel\Request  $request
+     * @param  \Royalcms\Component\Http\Request  $request
      * @return \Royalcms\Component\Routing\Route
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -131,6 +131,16 @@ class HttpQueryRoute
     {
         $actionName = config('route.action', 'a');
         return $this->action ?: $this->matchDefaultRoute($actionName);
+    }
+
+    /**
+     * 获取路由规则
+     *
+     * @return array
+     */
+    public function getRule()
+    {
+        return $rules = config('route.rule', []);
     }
     
 }

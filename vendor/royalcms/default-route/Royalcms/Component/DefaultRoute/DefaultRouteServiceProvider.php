@@ -28,5 +28,21 @@ class DefaultRouteServiceProvider extends ServiceProvider
             return $route;
         });
     }
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/default-route');
+
+        return [
+            $dir . '/DefaultRoute.php',
+            $dir . '/HttpQueryRoute.php',
+            $dir . '/DefaultRouteServiceProvider.php',
+        ];
+    }
     
 }
