@@ -32,7 +32,7 @@ Now, uploading a file is very simple like this:
 namespace App\Http\Controllers;
 
 use RC_Uploader;
-use Royalcms\Component\HttpKernel\Request;
+use Royalcms\Component\Http\Request;
 
 class UserController extends Controller
 {

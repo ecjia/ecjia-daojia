@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\Uploader\Providers;
 
-use Royalcms\Component\HttpKernel\Request;
+use Royalcms\Component\Http\Request;
 use Royalcms\Component\Uploader\Contracts\Provider;
 use Royalcms\Component\Uploader\Support\FileSetter;
 
