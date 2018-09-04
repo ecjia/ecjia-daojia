@@ -3,7 +3,7 @@
 namespace Royalcms\Component\Swoole;
 
 use Royalcms\Component\Support\Facades\Facade;
-use Royalcms\Component\HttpKernel\Request as RoyalcmsRequest;
+use Royalcms\Component\Http\Request as RoyalcmsRequest;
 use Royalcms\Component\Http\Contracts\Kernel as HttpKernel;
 use Royalcms\Component\Console\Contracts\Kernel as ConsoleKernel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;

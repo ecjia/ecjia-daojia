@@ -13,7 +13,7 @@ use Royalcms\Component\Swoole\Traits\RoyalcmsTrait;
 use Royalcms\Component\Swoole\Traits\LogTrait;
 use Royalcms\Component\Swoole\Traits\ProcessTitleTrait;
 use Royalcms\Component\Swoole\Traits\TimerTrait;
-use Royalcms\Component\HttpKernel\Request as RoyalcmsRequest;
+use Royalcms\Component\Http\Request as RoyalcmsRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Swoole\Http\Response as SwooleResponse;
 use Swoole\Http\Request as SwooleRequest;

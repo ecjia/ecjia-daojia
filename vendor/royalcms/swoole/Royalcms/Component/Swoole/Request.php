@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\Swoole;
 
-use Royalcms\Component\HttpKernel\Request as RoyalcmsRequest;
+use Royalcms\Component\Http\Request as RoyalcmsRequest;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Swoole\Http\Request as SwooleReqeust;
 
