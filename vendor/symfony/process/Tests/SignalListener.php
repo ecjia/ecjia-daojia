@@ -9,14 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Process\Tests;
+pcntl_signal(SIGUSR1, function () {echo 'SIGUSR1'; exit;});
 
-use Symfony\Component\Process\Process;
+echo 'Caught ';
 
-class ProcessInSigchildEnvironment extends Process
-{
-    protected function isSigchildEnabled()
-    {
-        return true;
-    }
+$n = 0;
+
+while ($n++ < 400) {
+    usleep(10000);
+    pcntl_signal_dispatch();
 }

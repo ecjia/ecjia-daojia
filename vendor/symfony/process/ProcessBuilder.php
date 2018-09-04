@@ -24,14 +24,15 @@ class ProcessBuilder
     private $arguments;
     private $cwd;
     private $env = array();
-    private $stdin;
+    private $input;
     private $timeout = 60;
     private $options = array();
     private $inheritEnv = true;
     private $prefix = array();
+    private $outputDisabled = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string[] $arguments An array of arguments
      */
@@ -67,7 +68,7 @@ class ProcessBuilder
     }
 
     /**
-     * Adds an unescaped prefix to the command string.
+     * Adds a prefix to the command string.
      *
      * The prefix is preserved when resetting arguments.
      *
@@ -128,7 +129,7 @@ class ProcessBuilder
     }
 
     /**
-     * Sets an environment variable
+     * Sets an environment variable.
      *
      * Setting a variable overrides its previous value. Use `null` to unset a
      * defined environment variable.
@@ -166,15 +167,17 @@ class ProcessBuilder
     /**
      * Sets the input of the process.
      *
-     * @param string|null $stdin The input as a string
+     * @param mixed $input The input as a string
      *
      * @return ProcessBuilder
      *
      * @throws InvalidArgumentException In case the argument is invalid
+     *
+     * Passing an object as an input is deprecated since version 2.5 and will be removed in 3.0.
      */
-    public function setInput($stdin)
+    public function setInput($input)
     {
-        $this->stdin = ProcessUtils::validateInput(sprintf('%s::%s', __CLASS__, __FUNCTION__), $stdin);
+        $this->input = ProcessUtils::validateInput(__METHOD__, $input);
 
         return $this;
     }
@@ -184,7 +187,7 @@ class ProcessBuilder
      *
      * To disable the timeout, set this value to null.
      *
-     * @param float|null
+     * @param float|null $timeout
      *
      * @return ProcessBuilder
      *
@@ -225,6 +228,30 @@ class ProcessBuilder
     }
 
     /**
+     * Disables fetching output and error output from the underlying process.
+     *
+     * @return ProcessBuilder
+     */
+    public function disableOutput()
+    {
+        $this->outputDisabled = true;
+
+        return $this;
+    }
+
+    /**
+     * Enables fetching output and error output from the underlying process.
+     *
+     * @return ProcessBuilder
+     */
+    public function enableOutput()
+    {
+        $this->outputDisabled = false;
+
+        return $this;
+    }
+
+    /**
      * Creates a Process instance and returns it.
      *
      * @return Process
@@ -249,6 +276,12 @@ class ProcessBuilder
             $env = $this->env;
         }
 
-        return new Process($script, $this->cwd, $env, $this->stdin, $this->timeout, $options);
+        $process = new Process($script, $this->cwd, $env, $this->input, $this->timeout, $options);
+
+        if ($this->outputDisabled) {
+            $process->disableOutput();
+        }
+
+        return $process;
     }
 }
