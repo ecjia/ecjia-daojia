@@ -3465,7 +3465,7 @@ class merchant extends ecjia_merchant
             /* 记录日志 */
             ecjia_merchant::admin_log('添加售后，订单号是' . $order['order_sn'], 'setup', 'order');
         } elseif ('confirm_return' == $operation) {
-            order_action($order['order_sn'], $order['order_status'], $order['shipping_status'], $order['pay_status'], '[' . RC_Lang::get('orders::order.op_return_confirm') . '] ' . $action_note);
+            order_action($order['order_sn'], $order['order_status'], $order['shipping_status'], $order['pay_status'], $action_note);
         } else {
             return $this->showmessage('invalid params', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -3952,7 +3952,42 @@ class merchant extends ecjia_merchant
         } else {
             $pay_code = null;
         }
-
+        
+        //订单被拒短信通知
+        if (!empty($order['user_id'])) {
+        	$user_info = RC_DB::table('users')->where('user_id', $order['user_id'])->select('mobile_phone', 'user_name')->first();
+        	if (!empty($user_info['mobile_phone'])) {
+        		//发送短信
+        		$options = array(
+        				'mobile' => $user_info['mobile_phone'],
+        				'event'	 => 'sms_order_refused',
+        				'value'  => array(
+        						'order_sn'	=> $order['order_sn'],
+        						'user_name' => $user_info['user_name']
+        				),
+        		);
+        		RC_Api::api('sms', 'send_event_sms', $options);
+        	}
+        }
+        
+        $action_note = trim($_POST['action_note']);
+        
+        //货到付款订单 走取消
+        if ($order['order_status'] == OS_UNCONFIRMED) {
+        	if ($pay_code == 'pay_cod' && $order['pay_status'] == PS_UNPAYED) {
+        		RC_DB::table('order_info')->where('order_id', $order['order_id'])->update(array('order_status' => OS_CANCELED));
+        		RC_DB::table('order_status_log')->insert(array(
+	        		'order_status'	=> RC_Lang::get('orders::order.order_cancel'),
+	        		'order_id'		=> $order['order_id'],
+	        		'message'		=> '订单已取消！',
+	        		'add_time'		=> RC_Time::gmtime()
+        		));
+        		
+        		order_refund::order_action($order_id, OS_CANCELED, $order['shipping_status'], $order['pay_status'], $action_note, $_SESSION['staff_name']);
+        		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/merchant/info', array('order_id' => $order_id))));
+        	}
+        }
+        
         //退款编号
         $refund_sn = order_refund::get_refund_sn();
 
@@ -4005,27 +4040,9 @@ class merchant extends ecjia_merchant
         /* 订单状态为“退货” */
         RC_DB::table('order_info')->where('order_id', $order_id)->update(array('order_status' => OS_RETURNED));
 		
-        //订单被拒短信通知
-        if (!empty($order['user_id'])) {
-        	$user_info = RC_DB::table('users')->where('user_id', $order['user_id'])->select('mobile_phone', 'user_name')->first();
-        	if (!empty($user_info['mobile_phone'])) {
-        		//发送短信
-        		$options = array(
-        				'mobile' => $user_info['mobile_phone'],
-        				'event'	 => 'sms_order_refused',
-        				'value'  =>array(
-        						'order_sn'	=> $order['order_sn'],
-        						'user_name' => $user_info['user_name']
-        				),
-        		);
-        		RC_Api::api('sms', 'send_event_sms', $options);
-        	}
-        }
-        
         /* 记录log */
-        $action_note = trim($_POST['action_note']);
         order_refund::order_action($order_id, OS_RETURNED, $order['shipping_status'], $order['pay_status'], $action_note, $_SESSION['staff_name']);
-
+        
         //订单状态log记录
         $pra = array('order_status' => '无法接单', 'order_id' => $order_id, 'message' => '等待商家退款！');
         order_refund::order_status_log($pra);

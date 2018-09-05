@@ -4,7 +4,7 @@
 	app.order_stats = {
 		init: function () {
 			app.order_stats.searchForm();
-			app.order_stats.order_stats();
+			app.order_stats.chart();
 		},
 
 		searchForm: function () {
@@ -41,7 +41,7 @@
 			});
 		},
 
-		order_stats: function () {
+		chart: function () {
 			var dataset = [];
 			var ticks = [];
 			if (data.length == 0) {

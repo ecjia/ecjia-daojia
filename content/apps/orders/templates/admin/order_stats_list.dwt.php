@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	var data = '{$data}';
 	var stats = '{$stats}';
-	ecjia.admin.order_stats.init();
+	ecjia.admin.order_stats.chart();
 </script>
 <!-- {/block} -->
 
@@ -28,8 +28,8 @@
 				<div class="tab-content">
 					<div class="tab-pane active">
 						<div class="tab-pane-change t_c m_b10">
-							<a class="btn btn-gebo data-pjax" href="{RC_Uri::url('orders/admin_order_stats/init')}&stats=valid_order{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}">成交订单数</a>
-							<a class="btn m_l10 data-pjax" href="{RC_Uri::url('orders/admin_order_stats/init')}&stats=valid_amount{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}">成交总金额</a>
+							<a class="btn {if $stats eq 'valid_amount' || !$stats}btn-gebo{/if} data-pjax" href="{RC_Uri::url('orders/admin_order_stats/init')}&stats=valid_amount{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}">成交总金额</a>
+							<a class="btn {if $stats eq 'valid_order'}btn-gebo{/if} m_l10 data-pjax" href="{RC_Uri::url('orders/admin_order_stats/init')}&stats=valid_order{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}">成交订单数</a>
 						</div>
 						<div class="order_stats">
 							<div id="order_stats">
@@ -65,11 +65,11 @@
 				<thead>
 					<tr data-sorthref='{RC_Uri::url("orders/admin_order_stats/init", "{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}")}'>
 						<th class="w180">商家名称</th>
-						<th data-toggle="sortby" data-sortby="total_order">下单总数</th>
-						<th data-toggle="sortby" data-sortby="total_amount">下单总金额</th>
-						<th data-toggle="sortby" data-sortby="valid_order">成交订单数</th>
-						<th data-toggle="sortby" data-sortby="valid_amount">成交总金额</th>
-						<th data-toggle="sortby" data-sortby="level" class="w100">店铺排行</th>
+						<th data-toggle="sortbyDesc" data-sortby="total_order">下单总数</th>
+						<th data-toggle="sortbyDesc" data-sortby="total_amount">下单总金额</th>
+						<th data-toggle="sortbyDesc" data-sortby="valid_order">成交订单数</th>
+						<th data-toggle="sortbyDesc" data-sortby="valid_amount">成交总金额</th>
+						<th data-toggle="sortbyDesc" data-sortby="level" class="w100">店铺排行</th>
 					</tr>
 				</thead>
 				<tbody>

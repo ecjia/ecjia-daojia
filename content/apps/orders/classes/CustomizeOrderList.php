@@ -103,7 +103,7 @@ class CustomizeOrderList
     public static function exportOrderListAdmin(Collection $orders, $count, $pagesize, $filter_count)
     {
     	RC_Loader::load_app_func('admin_goods', 'goods');
-    	$order_deposit = 0;
+    	$order_deposit = price_format(0);
     	
         $orderlist = $orders->map(function ($item) {
             //计算订单总价格
@@ -189,7 +189,7 @@ class CustomizeOrderList
     public static function exportOrderListMerchant(Collection $orders, $count, $pagesize, $filter_count)
     {
     	RC_Loader::load_app_func('admin_goods', 'goods');
-    	$order_deposit = 0;
+    	$order_deposit = price_format(0);
     	
     	$orderlist = $orders->map(function ($item) {
     		//计算订单总价格

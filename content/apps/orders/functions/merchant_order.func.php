@@ -122,6 +122,10 @@ function merchant_operable_list($order)
                         }
                         $list['split'] = true;
                         // 分单
+
+                        $list['to_delivery'] = true;
+                        $list['return'] = true;
+                        $list['after_service'] = true;
                     }
                 } else {
                     /* 不是货到付款 */
@@ -159,6 +163,7 @@ function merchant_operable_list($order)
                     if ($priv_list['os']) {
                         $list['return'] = true;
                         // 退货
+                        $list['after_service'] = true;
                     }
                 }
             }
@@ -236,7 +241,7 @@ function merchant_operable_list($order)
     } elseif (OS_RETURNED == $os) {
         /* 状态：退货 */
         if ($priv_list['os']) {
-            $list['confirm_return'] = true;
+//             $list['confirm_return'] = true;
             $list['after_service'] = true;
         }
     }

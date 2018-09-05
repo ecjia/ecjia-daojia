@@ -109,7 +109,7 @@ class admin_order_stats extends ecjia_admin
         if (!empty($list['stats_data'])) {
             $this->assign('data', json_encode($list['stats_data']));
         }
-        $stats = !empty($_GET['stats']) ? trim($_GET['stats']) : 'valid_order';
+        $stats = !empty($_GET['stats']) ? trim($_GET['stats']) : 'valid_amount';
         $this->assign('stats', $stats);
 
         $this->display('order_stats_list.dwt');
@@ -388,6 +388,8 @@ class admin_order_stats extends ecjia_admin
         $field = 'SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee';
         //待付款订单总金额
         $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
+        $pay_cod_id = !empty($pay_cod_id) ? intval($pay_cod_id) : 0;
+
         $await_pay_count = RC_DB::table('order_info')
             ->where('is_delete', 0)
             ->where('store_id', $store_id)
@@ -794,25 +796,41 @@ where s.shop_close = 0 and s.identity_status = 2";
         $sort_by = isset($_GET['sort_by']) && $_GET['sort_by'] != 'level' ? trim($_GET['sort_by']) : 'valid_amount';
         $sort_order = isset($_GET['sort_order']) ? trim($_GET['sort_order']) : 'desc';
 
-        $level_sql = $sql . " ORDER BY valid_amount desc";
-        $level_data = RC_DB::select($level_sql);
+        //图表数据 根据按钮状态切换显示 start
+        $stats = !empty($_GET['stats']) ? trim($_GET['stats']) : 'valid_amount';
+        if ($stats == 'valid_order') {
+            $level_sql = $sql . " ORDER BY valid_order desc";
+        } else {
+            $level_sql = $sql . " ORDER BY valid_amount desc";
+        }
+        $stats_data = RC_DB::select($level_sql);
+        //图表数据 根据按钮状态切换显示 end
+
+        //店铺排行 不受分页/关键字影响 start
+        $amount_sql = $sql . " ORDER BY valid_amount desc";
+        $level_data = RC_DB::select($amount_sql);
         $level = [];
         if (!empty($level_data)) {
             foreach ($level_data as $k => $v) {
                 $level[$v['store_id']]['level'] = $k + 1;
             }
         }
+        //店铺排行 不受分页/关键字影响 end
+
+        //列表数据 start
         $data = [];
         if (!empty($keywords)) {
             $sql .= ' and s.merchants_name like "' . '%' . $keywords . '%"';
         }
         $sql .= " ORDER BY " . $sort_by . ' ' . $sort_order;
-
         $data = RC_DB::select($sql);
-        $count = count($data);
-        $page = new ecjia_page($count, 15, 6);
+        //列表数据 end
 
-        $sql .= " limit " . ($pagenum - 1) * 15 . "," . 15;
+        $pageSize = 30;
+        $count = count($data);
+        $page = new ecjia_page($count, $pageSize, 6);
+
+        $sql .= " limit " . ($pagenum - 1) * $pageSize . "," . $pageSize;
         $result = RC_DB::select($sql);
 
         if (!empty($result)) {
@@ -828,7 +846,7 @@ where s.shop_close = 0 and s.identity_status = 2";
                 $result = $this->array_sort($result, 'level', $sort_order);
             }
         }
-        return array('item' => $result, 'page' => $page->show(2), 'stats_data' => $level_data);
+        return array('item' => $result, 'page' => $page->show(2), 'stats_data' => $stats_data);
     }
 
     private function array_sort($arr, $keys, $type = 'asc')

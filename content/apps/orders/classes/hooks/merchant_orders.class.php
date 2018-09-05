@@ -161,7 +161,7 @@ class orders_merchant_plugin
             ->groupBy(RC_DB::raw('og.goods_id'))
             ->orderBy('goods_num', 'desc')
             ->orderBy('turnover', 'desc')
-            ->take(3)
+            ->take(10)
             ->get();
 
         if (!empty($sales_order_data)) {

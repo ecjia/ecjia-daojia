@@ -655,7 +655,7 @@ ecjia.merchant.order.info();
 							<tr>
 								<th class="w150"><strong>操作者</strong></th>
 								<th class="w180"><strong>{lang key='orders::order.action_time'}</strong></th>
-								<th class="w130"><strong>{lang key='orders::order.order_status'}</strong></th>
+								<th class="w150"><strong>{lang key='orders::order.order_status'}</strong></th>
 								<th class="ecjiafc-pre t_c"><strong>{lang key='orders::order.action_note'}</strong></th>
 							</tr>
 						</thead>
@@ -702,9 +702,9 @@ ecjia.merchant.order.info();
 									<button class="btn operatesubmit btn-info" type="submit" name="confirm">确认接单</button>
 									{/if}
 
-									{if $operable_list.pay}
-									<button class="btn operatesubmit btn-info" type="submit" name="pay">{lang key='orders::order.op_confirm_pay'}</button>
-									{/if}
+<!--									{if $operable_list.pay}-->
+<!--									<button class="btn operatesubmit btn-info" type="submit" name="pay">{lang key='orders::order.op_confirm_pay'}</button>-->
+<!--									{/if}-->
 
 									{if $operable_list.unpay}
 									<button class="btn operatesubmit btn-info" type="submit" name="unpay">{lang key='orders::order.op_unpay'}</button>
@@ -735,7 +735,7 @@ ecjia.merchant.order.info();
 									{/if}
 									
 									{if $operable_list.confirm_return}
-									<button class="btn operatesubmit btn-info" type="submit" name="confirm_return">确认</button>
+									<button class="btn operatesubmit btn-info" type="submit" name="confirm_return">确认退货</button>
 									{/if}
 									
 									{if $operable_list.after_service}
@@ -765,8 +765,7 @@ ecjia.merchant.order.info();
 									{if $operable_list.return}【退款/退货】设置该订单进入售后处理流程；<br>{/if}
 									{if $operable_list.after_service}【添加备注】对该订单的补充说明；<br>{/if}
 									
-									{if $operable_list.confirm_return}【确认】操作人员对该订单的确认操作记录；<br>{/if}
-									{if $operable_list.invalid}【无效】设置该订单为无效/作废订单；<br>{/if}
+									{if $operable_list.confirm_return}【确认退货】操作人员对该订单的确认退货操作记录；<br>{/if}
 									{if $operable_list.remove}【移除】对已经标记取消或无效的订单删除<br>{/if}
 								</td>
 							</tr>

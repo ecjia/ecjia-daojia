@@ -191,16 +191,16 @@ class OrderStatusLog
      * @return bool
      */
     public static function refund_order_process($options) {
-    	if($options['status'] == 1) {
+    	if ($options['status'] == 1) {
     		$message = '申请审核已通过';
     	} else {
-    		$message ='申请审核未通过';
+    		$message = '申请审核未通过';
     	}
     	$data = array(
-    			'order_status'	=> '订单退款申请已处理',
-    			'message'       => $message,
-    			'order_id'    	=> $options['order_id'],
-    			'add_time'    	=> RC_Time::gmtime(),
+    		'order_status'	=> '订单退款申请已处理',
+    		'message'       => $message,
+    		'order_id'    	=> $options['order_id'],
+    		'add_time'    	=> RC_Time::gmtime(),
     	);
     	RC_DB::table('order_status_log')->insert($data);
     	return true;

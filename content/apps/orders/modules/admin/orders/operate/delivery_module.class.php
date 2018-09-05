@@ -548,6 +548,7 @@ function delivery_order($delivery_id, $order) {
 	/* 更新发货时间 */
 	$order_finish				= get_all_delivery_finish($order['order_id']);
 	$shipping_status			= ($order_finish == 1) ? SS_SHIPPED : SS_SHIPPED_PART;
+	$arr['order_status']		= $order_finish ? OS_SPLITED : OS_SPLITING_PART; // 全部分单、部分分单
 	$arr['shipping_status']		= $shipping_status;
 	$arr['shipping_time']		= RC_Time::gmtime(); // 发货时间
 	if ($order['invoice_no'] != $invoice_no) {
@@ -558,7 +559,7 @@ function delivery_order($delivery_id, $order) {
 	update_order($order['order_id'], $arr);
 	
 	/* 发货单发货记录log */
-	order_action($order['order_sn'], OS_CONFIRMED, $shipping_status, $order['pay_status'], '', '', 1);
+	order_action($order['order_sn'], $arr['order_status'], $shipping_status, $order['pay_status'], '', '', 1);
 	
 	/*当订单配送方式为o2o速递时,记录o2o速递物流信息*/
 	if ($order['shipping_id'] > 0) {

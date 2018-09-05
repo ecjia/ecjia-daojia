@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	var data = '{$data}';
 	var order_stats_json = '{$order_stats_json}';
-	ecjia.admin.order_stats.init(); 
+	ecjia.admin.order_stats.searchForm();
 	{if $page eq 'init'}
 	ecjia.admin.chart.order_general(); 
 	{else if $page eq 'shipping_status'}

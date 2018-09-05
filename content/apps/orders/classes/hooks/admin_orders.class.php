@@ -82,70 +82,6 @@ class orders_admin_plugin
         ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_orderslist.lbi', 'orders'));
     }
 
-    // public static function widget_admin_dashboard_shopchart()
-    // {
-    //     $order_query = RC_Loader::load_app_class('order_query', 'orders');
-    //     $db = RC_Loader::load_app_model('order_info_viewmodel', 'orders');
-    //     $db->view = array(
-    //         'order_goods' => array(
-    //             'type' => Component_Model_View::TYPE_LEFT_JOIN,
-    //             'alias' => 'g',
-    //             'on' => 'oi.order_id = g.order_id ',
-    //         ),
-    //     );
-
-    //     //本月开始时间
-    //     $start_month = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), 1, RC_Time::local_date('Y'));
-
-    //     //今日开始时间
-    //     $start_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), RC_Time::local_date('d'), RC_Time::local_date('Y'));
-
-    //     $month_order = RC_DB::table('order_info as oi')
-    //         ->leftJoin('order_goods as g', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('g.order_id'))
-    //         ->where(RC_DB::raw('oi.add_time'), '>=', $start_month)
-    //         ->count(RC_DB::raw('distinct oi.order_id'));
-
-    //     //当前时间戳
-    //     $now = RC_Time::gmtime();
-    //     $order_money = RC_DB::table('order_info as oi')
-    //         ->select(RC_DB::raw('oi.order_id'), RC_DB::raw('oi.goods_amount'))
-    //         ->where(RC_DB::raw('oi.add_time'), '>=', $start_month)
-    //         ->where(RC_DB::raw('oi.add_time'), '<=', $now)
-    //         ->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
-    //         ->groupBy(RC_DB::raw('oi.order_id'))
-    //         ->groupBy(RC_DB::raw('oi.goods_amount'))
-    //         ->get();
-
-    //     $num = 0;
-    //     if (!empty($order_money)) {
-    //         foreach ($order_money as $val) {
-    //             $num += $val['goods_amount'];
-    //         }
-    //         $num = floor($num * 100) / 100;
-    //     }
-
-    //     $order_unconfirmed = $db->field('oi.order_id')->where(array('oi.order_status' => 0, 'oi.add_time' => array('gt' => $start_time, 'lt' => $now)))->group('oi.order_id')->select();
-    //     $order_unconfirmed = count($order_unconfirmed);
-
-    //     $order_await_ship = $db->field('oi.order_id')->where(array_merge($order_query->order_await_ship('oi.'), array('oi.add_time' => array('gt' => $start_time, 'lt' => $now))))->group('oi.order_id')->select();
-    //     $order_await_ship = count($order_await_ship);
-
-    //     ecjia_admin::$controller->assign('order_money', $num); //本月订单总额
-    //     ecjia_admin::$controller->assign('month_order', $month_order); //本月订单数量
-    //     ecjia_admin::$controller->assign('order_unconfirmed', $order_unconfirmed); //今日待确认订单
-    //     ecjia_admin::$controller->assign('order_await_ship', $order_await_ship); //今日待发货订单
-
-    //     ecjia_admin::$controller->assign('month_start_time', RC_Time::local_date('Y-m-d', $start_month)); //本月开始时间
-    //     ecjia_admin::$controller->assign('month_end_time', RC_Time::local_date('Y-m-d', $now)); //本月结束时间
-
-    //     ecjia_admin::$controller->assign('today_start_time', RC_Time::local_date('Y-m-d H:i:s', $start_time)); //今天开始时间
-    //     ecjia_admin::$controller->assign('today_end_time', RC_Time::local_date('Y-m-d H:i:s', $start_time + 24 * 3600 - 1)); //今天结束时间
-    //     ecjia_admin::$controller->assign('wait_ship', CS_AWAIT_SHIP); //待发货
-    //     ecjia_admin::$controller->assign('unconfirmed', OS_UNCONFIRMED); //待确认
-
-    //     ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_shopchart.lbi', 'orders'));
-    // }
-
     public static function widget_admin_dashboard_shopstats()
     {
         $static_url = RC_App::apps_url('orders/statics/images/');
@@ -377,8 +313,8 @@ RC_Hook::add_action('admin_dashboard_top', array('orders_admin_plugin', 'widget_
 RC_Hook::add_action('admin_dashboard_left', array('orders_admin_plugin', 'widget_admin_dashboard_shopstats_left'), 9);
 RC_Hook::add_action('admin_dashboard_right', array('orders_admin_plugin', 'widget_admin_dashboard_shopstats_right'), 9);
 
-RC_Hook::add_action('admin_dashboard_left', array('orders_admin_plugin', 'widget_admin_dashboard_ordersstat'));
-RC_Hook::add_action('admin_dashboard_left', array('orders_admin_plugin', 'widget_admin_dashboard_orderslist'));
+// RC_Hook::add_action('admin_dashboard_left', array('orders_admin_plugin', 'widget_admin_dashboard_ordersstat'));
+// RC_Hook::add_action('admin_dashboard_left', array('orders_admin_plugin', 'widget_admin_dashboard_orderslist'));
 RC_Hook::add_filter('stats_admin_menu_api', array('orders_admin_plugin', 'orders_stats_admin_menu_api'));
 
 // end

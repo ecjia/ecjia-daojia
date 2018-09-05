@@ -173,7 +173,7 @@
 									</th>
 									<th class="w130">订单编号</th>
 									<th class="w180">{lang key='orders::order.order_time'}</th>
-									<th>购买者信息</th>
+									<th class="w150">购买者信息</th>
 									<th class="w120">{lang key='orders::order.total_fee'}</th>
 									<th class="w110">{lang key='orders::order.order_amount'}</th>
 									<th class="w150">{lang key='orders::order.all_status'}</th>

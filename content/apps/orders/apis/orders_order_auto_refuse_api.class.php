@@ -74,8 +74,19 @@ class orders_order_auto_refuse_api extends Component_Event_Api {
 				return $order_info;
 			}
 			if (!empty($order_info)) {
-				if (($order_info['order_status'] == OS_UNCONFIRMED) && ($order_info['pay_status'] == PS_PAYED)) {
-					Ecjia\App\Orders\OrderAutoRefuse::AutoRejectOrder($order_info);
+				$pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->pluck('pay_code');
+				if ($order_info['order_status'] == OS_UNCONFIRMED) {
+					if ($pay_code == 'pay_cod' && $order_info['pay_status'] == PS_UNPAYED) {
+						RC_DB::table('order_info')->where('order_id', $order_info['order_id'])->update(array('order_status' => OS_CANCELED));
+						RC_DB::table('order_status_log')->insert(array(
+							'order_status'	=> RC_Lang::get('orders::order.order_cancel'),
+							'order_id'		=> $order_info['order_id'],
+							'message'		=> '订单已取消！',
+							'add_time'		=> RC_Time::gmtime()
+						));
+					} elseif ($order_info['pay_status'] == PS_PAYED) {
+						Ecjia\App\Orders\OrderAutoRefuse::AutoRejectOrder($order_info);
+					}
 				}
 			}
 		}
