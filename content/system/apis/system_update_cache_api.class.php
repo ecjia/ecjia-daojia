@@ -60,19 +60,24 @@ class system_update_cache_api extends Component_Event_Api {
     }
     
     public function call(&$options) {
-        
-        in_array('system_tablestruct_cache', $options) and $this->clean_system_tablestruct_cache();
-        
-        in_array('system_query_cache', $options) and $this->clean_system_query_cache();
-        
-        in_array('system_userdata_cache', $options) and $this->clean_system_userdata_cache();
-        
-        in_array('system_app_cache', $options) and $this->clean_system_app_cache();
-        
-        in_array('front_template_cache', $options) and $this->clean_front_template_cache();
-        
-        in_array('admin_template_cache', $options) and $this->clean_admin_template_cache();
 
+        try {
+            
+            in_array('system_tablestruct_cache', $options) and $this->clean_system_tablestruct_cache();
+
+            in_array('system_query_cache', $options) and $this->clean_system_query_cache();
+
+            in_array('system_userdata_cache', $options) and $this->clean_system_userdata_cache();
+
+            in_array('system_app_cache', $options) and $this->clean_system_app_cache();
+
+            in_array('front_template_cache', $options) and $this->clean_front_template_cache();
+
+            in_array('admin_template_cache', $options) and $this->clean_admin_template_cache();
+
+        } catch (UnexpectedValueException $e) {
+            ecjia_log_notice($e->getMessage());
+        }
     }
     
     

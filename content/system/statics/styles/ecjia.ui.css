@@ -1221,6 +1221,10 @@ table tr th[data-toggle="sortby"]{
     cursor: pointer;
     background: url("../lib/datatables/images/sort_both.png") no-repeat scroll right center #e9f3f8;
 }
+table tr th[data-toggle="sortbyDesc"]{
+    cursor: pointer;
+    background: url("../lib/datatables/images/sort_desc_disabled.png") no-repeat scroll right center #e9f3f8;
+}
 table tr th.sorting-asc{
     background: url("../lib/datatables/images/sort_asc.png") no-repeat scroll right center #d4e3eb;
 }

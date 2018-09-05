@@ -328,13 +328,31 @@
 	 */
 	$(document).on('click', '[data-toggle="sortby"]', function(e) {
 		e.preventDefault();
-		var $this		= $(this),
+		var $this   = $(this),
 		url			= $this.parent('tr').attr('data-sorthref'),
 		sort_by		= $this.attr('data-sortby'),
 		sort_order	= $this.hasClass('sorting-asc') ? 'desc' : 'asc',
 		sortclass	= $this.hasClass('sorting-asc') ? 'sorting-desc' : 'sorting-asc',
 		option		= {url : url, sort_by : sort_by, sort_order : sort_order,thisobj : $this, sortclass : sortclass};
 //		(!option.url || !option.sort_by || !option.sort_order) && console.log('缺少参数');
+		(!option.url || !option.sort_by || !option.sort_order) && console.log(admin_lang.missing_parameters);
+
+		ecjia.ui.sort(option);
+	});
+
+	/**
+	 * sortbyDesc触发器
+	 * data-sorthref 	批量操作访问的url地址（加在父级tr上）
+	 * data-sortby 		排序参考字段
+	 */
+	$(document).on('click', '[data-toggle="sortbyDesc"]', function(e) {
+		e.preventDefault();
+		var $this   = $(this),
+		url			= $this.parent('tr').attr('data-sorthref'),
+		sort_by		= $this.attr('data-sortby'),
+		sort_order	= 'desc',
+		sortclass	= 'sorting-desc',
+		option		= {url : url, sort_by : sort_by, sort_order : sort_order,thisobj : $this, sortclass : sortclass};
 		(!option.url || !option.sort_by || !option.sort_order) && console.log(admin_lang.missing_parameters);
 
 		ecjia.ui.sort(option);
