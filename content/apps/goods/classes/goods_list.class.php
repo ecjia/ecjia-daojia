@@ -89,9 +89,9 @@ class goods_list {
 					$val = mysql_like_quote(trim($val));
 					$keywords .= "(goods_name LIKE '%$val%' OR goods_sn LIKE '%$val%' OR keywords LIKE '%$val%')";
 					//插入keywords表数据 will.chen
-					$count = $db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'keyword'=>addslashes(str_replace('%', '', $val))))->get_field('count');
+					$count = $db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'searchengine' => 'ecjia', 'keyword'=>addslashes(str_replace('%', '', $val))))->get_field('count');
 					if (!empty($count) && $count > 0) {
-						$db_keywords->where(array('date'=>RC_Time::local_date('Y-m-d'),'keyword'=>addslashes(str_replace('%', '', $val))))->update(array('count' => $count + 1));
+					    $db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'searchengine' => 'ecjia', 'keyword'=>addslashes(str_replace('%', '', $val))))->update(array('count' => $count + 1));
 					} else {
 						$data = array(
 								'date' => RC_Time::local_date('Y-m-d'),
