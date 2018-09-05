@@ -378,7 +378,7 @@ class merchant extends ecjia_merchant
             //处理营业时间格式例：7:00--次日5:30
             $start = $shop_hours['start'];
             $end = explode(':', $shop_hours['end']);
-            if ($end[0] > 24) {
+            if ($end[0] >= 24) {
                 $hour = $end[0] - 24;
                 $end[0] = '次日' . ($hour);
                 $end_time = $hour . ':' . $end[1];
