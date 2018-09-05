@@ -72,7 +72,8 @@ class finished_module extends api_admin implements api_interface {
 		$express_order_info	= $dbview->where(RC_DB::raw('eo.express_id'), $express_id)->select(RC_DB::raw('eo.*'), RC_DB::raw('oi.add_time as order_time'), RC_DB::raw('oi.pay_time'), RC_DB::raw('oi.order_status'), RC_DB::raw('oi.pay_status'), RC_DB::raw('oi.expect_shipping_time'), RC_DB::raw('oi.order_amount'), RC_DB::raw('oi.pay_name'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.district as sf_district'), RC_DB::raw('sf.street as sf_street'), RC_DB::raw('sf.address as merchant_address'), RC_DB::raw('sf.longitude as sf_longitude'), RC_DB::raw('sf.latitude as sf_latitude'))->first();
 		$data = array(
 				'order_status' 		=> OS_CONFIRMED,
-				'shipping_status'	=> SS_RECEIVED
+				'shipping_status'	=> SS_RECEIVED,
+				'pay_status'		=> PS_PAYED
 		);
 		
 		/*检查订单和配送单状态*/
@@ -109,7 +110,7 @@ class finished_module extends api_admin implements api_interface {
 			
 			/* 记录日志 */
 			RC_Loader::load_app_func('admin_order', 'orders');
-			order_action($express_order_info['order_sn'], $express_order_info['order_status'], SS_RECEIVED, $express_order_info['pay_status'], '', '买家');
+			order_action($express_order_info['order_sn'], OS_CONFIRMED, SS_RECEIVED, PS_PAYED, '', '买家');
 			
 			if ($express_order_info['status'] != 5) {
 				$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
