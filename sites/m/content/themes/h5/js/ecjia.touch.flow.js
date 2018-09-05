@@ -406,10 +406,25 @@
 			$('.select-pay-title').off('click').on('click', function () {
 				var $this = $(this),
 					parent = $this.parents('.ecjia-list'),
-					pay_id = $this.attr('data-payment');
+					pay_id = $this.attr('data-payment'),
+					pay_code = $this.attr('data-code');
 				parent.find('.select-pay-title').removeClass('active');
 				$this.addClass('active');
 				$('input[name="payment"]').val(pay_id);
+				//货到付款 隐藏不支持的配送方式
+				if (pay_code == 'pay_cod') {
+					$('.select-shipping-title.unsupport_cod_shipping').hide();
+					if ($('.select-shipping-title.active').hasClass('unsupport_cod_shipping')) {
+						$('.select-item-li').find('.select-shipping-title').each(function() {
+							if (!$(this).hasClass('unsupport_cod_shipping')) {
+								$(this).trigger('click');
+								return false;
+							}
+						})
+					}
+				} else {
+					$('.select-shipping-title').show();
+				}
 			});
 			//选择配送方式
 			$('.select-shipping-title').off('click').on('click', function () {
@@ -417,7 +432,8 @@
 					parent = $this.parents('.ecjia-list'),
 					shipping_id = $this.attr('data-shipping'),
 					shipping_code = $this.attr('data-code');
-				parent.find('.select-shipping-title ').removeClass('active');
+				
+				parent.find('.select-shipping-title').removeClass('active');
 				$this.addClass('active');
 				$('input[name="shipping"]').val(shipping_id);
 				if (shipping_code == 'ship_o2o_express' || shipping_code == 'ship_ecjia_express') {

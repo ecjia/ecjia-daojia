@@ -26,7 +26,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	            <label class="select-item">
 	                <li class="select-item-li">
 	                	<!-- {foreach from=$payment_list.online item=rs} -->
-	                    <span class="select-pay-title {if $temp.pay_id eq $rs.pay_id}active{/if}" data-payment="{$rs.pay_id}">{$rs.pay_name}</span>
+	                    <span class="select-pay-title {if $temp.pay_id eq $rs.pay_id}active{/if}" data-payment="{$rs.pay_id}" data-code="{$rs.pay_code}">{$rs.pay_name}</span>
 	                    <!-- {/foreach} -->
 	                </li>
 	            </label>
@@ -36,7 +36,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	            <label class="select-item">
 	                <li class="select-item-li">
 	                	<!-- {foreach from=$payment_list.offline item=rs} -->
-	                    <span class="select-pay-title {if $temp.pay_id eq $rs.pay_id}active{/if}" data-payment="{$rs.pay_id}">{$rs.pay_name}</span>
+	                    <span class="select-pay-title {if $temp.pay_id eq $rs.pay_id}active{/if}" data-payment="{$rs.pay_id}" data-code="{$rs.pay_code}">{$rs.pay_name}</span>
 	                    <!-- {/foreach} -->
 	                </li>
 	            </label>
@@ -52,7 +52,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	                <li class="select-item-li">
 	                	<!-- {foreach from=$shipping_list item=list} -->
 	                	{if $list.shipping_code neq 'ship_cac'}
-	                    <span class="select-shipping-title {if $temp.shipping_id eq $list.shipping_id}active{/if}" data-shipping="{$list.shipping_id}" data-code="{$list.shipping_code}">{$list.shipping_name}</span>
+	                    <span {if $pay_code eq 'pay_cod' && $list.support_cod neq 1}style="display:none;"{/if} class="select-shipping-title {if $list.support_cod neq 1}unsupport_cod_shipping{/if} {if $temp.shipping_id eq $list.shipping_id}active{/if}" data-shipping="{$list.shipping_id}" data-code="{$list.shipping_code}">{$list.shipping_name}</span>
 	                    {/if}
 	                    <!-- {/foreach} -->
 	                </li>

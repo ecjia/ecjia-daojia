@@ -2,7 +2,7 @@
 <!-- {block name="ajaxinfo"} -->
 	<!-- {foreach from=$data item=val key=key} -->
 	<div class="article-item"> 
-		<a {if $val.article_type eq 'redirect'}class="nopjax external" href="{$val.link_url}"{else}href="{RC_Uri::url('article/index/detail')}&article_id={$val.article_id}{/if}">
+		<a href="{RC_Uri::url('article/index/detail')}&article_id={$val.article_id}">
 			<div class="article-left"> 
 				<p class="article-title line-clamp2">{$val.title}</p> 
 				<p class="article-summary line-clamp2">{$val.description}</p> 

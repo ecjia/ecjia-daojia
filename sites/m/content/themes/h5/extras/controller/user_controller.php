@@ -61,7 +61,7 @@ class user_controller
         $signin = ecjia_touch_user::singleton()->isSignin();
 
         $token = ecjia_touch_user::singleton()->getShopToken();
-        $signup_reward_url = RC_Uri::url('user/mobile_reward/init', array('token' => $token));
+        $signup_reward_url = RC_Uri::url('market/mobile_reward/init', array('token' => $token));
 
         if ($signin) {
             $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();

@@ -108,8 +108,8 @@ class user_front {
 	    	'user/get_password/validate_forget_password',
 	    		
 	    	'user/get_password/reset_password',
-	        'user/mobile_reward/init',
-	        'user/mobile_reward/recieve',
+	        'market/mobile_reward/init',
+	        'market/mobile_reward/recieve',
 	    		
 	    	'user/index/wxconfig',
 	    );

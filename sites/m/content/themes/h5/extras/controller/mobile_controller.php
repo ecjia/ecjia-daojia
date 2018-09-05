@@ -57,7 +57,7 @@ class mobile_controller {
             $token = ecjia_touch_user::singleton()->getToken();
             
             $discover = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DISCOVER)->run();
-            $signup_reward_url =  RC_Uri::url('user/mobile_reward/init', array('token' => $token));
+            $signup_reward_url =  RC_Uri::url('market/mobile_reward/init', array('token' => $token));
 
             if (!is_ecjia_error($discover) && !empty($discover)) {
                 foreach ($discover as $key => $val) {

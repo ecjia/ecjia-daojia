@@ -446,6 +446,9 @@ class cart_controller {
         $shipping_id = 0;
         if ($_POST['payment_shipping_update']) {
         	$shipping_id = $_SESSION['cart'][$cart_key]['temp']['shipping_id'] = empty($_POST['shipping']) ? 0 : intval($_POST['shipping']);
+        	if (empty($shipping_id)) {
+        		return ecjia_front::$controller->showmessage('请选择配送方式', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	}
         } else {
         	if (isset($_SESSION['cart'][$cart_key]['temp']['shipping_id'])) {
         		$shipping_id = $_SESSION['cart'][$cart_key]['temp']['shipping_id'];
@@ -994,7 +997,13 @@ class cart_controller {
    			),
             'city_id' => $_COOKIE['city_id']
    		);
-
+   		
+   		$cart_key = md5($address_id.$rec_id);
+   		$support_cod = $_SESSION['cart'][$cart_key]['data']['shipping_list'][$shipping_id]['support_cod'];
+   		if (empty($support_cod)) {
+   			return ecjia_front::$controller->showmessage('当前配送方式不支持货到付款', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+   		}
+   		
    		$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::FLOW_DONE)->data($params)->run();
    		if (is_ecjia_error($rs)) {
    			$pjax_url = !empty($_SESSION['order_address_temp']['pjax_url']) ? trim($_SESSION['order_address_temp']['pjax_url']) : RC_Uri::url('cart/index/init');
@@ -1235,6 +1244,11 @@ class cart_controller {
 
     	ecjia_front::$controller->assign('shipping', $shipping);
     	ecjia_front::$controller->assign('temp', $_SESSION['cart'][$cart_key]['temp']);
+    	
+    	$pay_id = $_SESSION['cart'][$cart_key]['temp']['pay_id'];
+    	if (isset($format_payment_list['offline']) && isset($format_payment_list['offline'][$pay_id]) && isset($format_payment_list['offline'][$pay_id]['pay_code'])) {
+    		ecjia_front::$controller->assign('pay_code', $format_payment_list['offline'][$pay_id]['pay_code']);
+    	}
     	
     	ecjia_front::$controller->assign('payment_list', $format_payment_list);
     	ecjia_front::$controller->assign('shipping_list', $data['shipping_list']);

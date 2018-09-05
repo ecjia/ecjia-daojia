@@ -143,7 +143,7 @@ class article_controller {
     	
     	//新人有礼url
     	$token = ecjia_touch_user::singleton()->getShopToken();
-    	$signup_reward_url =  RC_Uri::url('user/mobile_reward/init', array('token' => $token));
+    	$signup_reward_url =  RC_Uri::url('market/mobile_reward/init', array('token' => $token));
     	ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
     	
     	//菜单选中
@@ -166,6 +166,9 @@ class article_controller {
     	$article_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_DETAIL)->data($article_param)->run();
     	if (!is_ecjia_error($article_info) && !empty($article_info)) {
     		list($data, $info) = $article_info;
+    		if ($data['article_type'] == 'redirect') {
+    			return ecjia_front::$controller->redirect($data['link_url']);
+    		}
     		$res = array();
     		if (!empty($data['content'])) {
     			$data['content'] = stripslashes($data['content']);
