@@ -86,6 +86,12 @@ class store_bill_queue_model extends Component_Model_Model {
 	        return false;
 	    }
 	    
+	    $queue = RC_DB::table('store_bill_queue')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])
+	       ->count();
+        if($queue) {
+	        return false;
+	    }
+	    
 	    $option = array(
 	        'order_type' => $data['order_type'],
 	        'order_id' => $data['order_id'],
