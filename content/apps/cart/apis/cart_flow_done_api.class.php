@@ -264,7 +264,7 @@ class cart_flow_done_api extends Component_Event_Api {
 			$order['pay_name'] = addslashes($payment['pay_name']);
 			//如果是货到付款，状态设置为已确认。
 			if($payment['pay_code'] == 'pay_cod') {
-				//$order['order_status'] = 1;//调整为后台接单
+				$order['order_status'] = 1;
 				$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_group[0])->first();
 				/* 货到付款判断是否是自营*/
 				if ($store_info['manage_mode'] != 'self') {
@@ -326,7 +326,6 @@ class cart_flow_done_api extends Component_Event_Api {
 		
 		$new_order_id = RC_DB::table('order_info')->insertGetId($order);
 		$order['order_id'] = $new_order_id;
-		
 		
 		if (!empty($order['inv_payee'])) {
 			$inv_payee = explode(',', $order['inv_payee']);
@@ -649,6 +648,11 @@ class cart_flow_done_api extends Component_Event_Api {
 				'message'		=> '请尽快支付该订单，超时将会自动取消订单',
 				'add_time'		=> RC_Time::gmtime(),
 			));
+		}
+		
+		if($payment_info['is_cod'] && $order['order_status'] == '1') {
+			RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
+			OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $new_order_id));
 		}
 		
 // 		if ($payment_info['is_cod']) {
