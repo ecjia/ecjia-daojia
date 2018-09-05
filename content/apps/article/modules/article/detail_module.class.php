@@ -155,7 +155,9 @@ class detail_module extends api_front implements api_interface {
 					'is_like'				=> !empty($discuss_likes_info) ? 1 : 0,
 					'article_related_goods' => $list,
 					'recommend_goods'		=> $goods_list,
-					'content'				=> $content
+					'content'				=> $content,
+					'article_type'			=> $article_info['article_type'],
+					'link_url'				=> !empty($article_info['link']) ? $article_info['link'] : ''
 			);
 			$article_db->set_cache_item($cache_id, $article_detail);
 		}
