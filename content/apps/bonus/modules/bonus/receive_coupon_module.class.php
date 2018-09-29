@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 领取优惠券
  * @author will.chen
  */
-class receive_coupon_module extends api_front implements api_interface {
+class bonus_receive_coupon_module extends api_front implements api_interface {
 	
 	 public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
 		$this->authSession();	
@@ -73,7 +73,14 @@ class receive_coupon_module extends api_front implements api_interface {
  				'send_start_date' 	=> array('elt' => $time),
  				'send_end_date'		=> array('egt' => $time),
  		);
- 		$user_bonus_count = RC_Model::model('bonus/user_bonus_type_viewmodel')->join(array('bonus_type'))->where($where)->count();
+ 		$dbview = RC_DB::table('bonus_type as bt')->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'));
+ 		
+ 		$user_bonus_count = $dbview->where(RC_DB::raw('send_type'), SEND_COUPON)
+ 								   ->where(RC_DB::raw('ub.user_id'), $user_id)
+ 								   ->where(RC_DB::raw('ub.bonus_type_id'), $bonus_id)
+ 								   ->where(RC_DB::raw('send_start_date'), '<=' , $time)
+ 								   ->where(RC_DB::raw('send_end_date'), '>=' , $time)
+ 								   ->count(RC_DB::raw('ub.bonus_id'));
  		
  		if ($user_bonus_count > 0) {
  			return new ecjia_error('received', '此优惠卷每人只限领一次'); 

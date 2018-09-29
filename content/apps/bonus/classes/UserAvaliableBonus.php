@@ -44,24 +44,39 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ROYALCMS') or exit('No permission resources.');
+namespace Ecjia\App\Bonus;
 
-class merchants_user_bonus_type_viewmodel extends Component_Model_View {
-	public $table_name = '';
-	public $view = array();
-	public function __construct() {
-		$this->table_name = 'bonus_type';
-		$this->table_alias_name	= 'bt';
-		
-		$this->view = array(
-			'seller_shopinfo' => array(
-				'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
-				'alias' => 'ssi',
-				'on'   	=> 'ssi.id = bt.seller_id'
-			)
-		);
-		parent::__construct();
-	}
+use RC_DB;
+use RC_Loader;
+use RC_Time;
+use RC_Logger;
+use RC_Api;
+
+/**
+ * 用户可用红包
+ *
+ */
+class UserAvaliableBonus
+{
+	
+    /**
+     * 获取商品对应的店铺id
+     * @param array $options
+     * @return ayyay
+     */
+    public static function GetUserBonus($options = array()) {  	
+    	$time = RC_Time::gmtime();
+    	$field = 'bt.type_id, bt.type_name, bt.send_type, bt.type_money, ub.bonus_id, bt.use_start_date, bt.use_end_date, min_goods_amount,bt.store_id,merchants_name';
+    	$dbview = RC_DB::table('bonus_type as bt')
+    					->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
+    					->leftJoin('store_franchisee as sf', RC_DB::raw('bt.store_id'), '=', RC_DB::raw('sf.store_id'));
+    	$user_bonus = $dbview->where(RC_DB::raw('bt.use_start_date'), '<=', $time)
+    						 ->where(RC_DB::raw('bt.use_end_date'), '>=', $time)
+    						 ->where(RC_DB::raw('ub.user_id'), '!=', 0)
+    						 ->where(RC_DB::raw('ub.user_id'), $options['user_id'])
+    						 ->where(RC_DB::raw('ub.order_id'), 0)
+    						 ->where(RC_DB::raw('bt.min_goods_amount'), '<=', $options['min_goods_amount'])
+    						 ->selectRaw($field)->get();
+    	return $user_bonus;
+    }
 }
-
-// end

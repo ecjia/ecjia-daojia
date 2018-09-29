@@ -5,7 +5,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author zrl
  *
  */
-class validate_module extends api_front implements api_interface
+class bonus_validate_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
