@@ -59,6 +59,7 @@ return array(
 	'version' 		=> '1.19.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
     'namespace'     => 'Ecjia\App\Platform',
+    'provider'      => 'PlatformServiceProvider',
 );
 
 // end

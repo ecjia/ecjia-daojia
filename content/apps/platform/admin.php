@@ -51,11 +51,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class admin extends ecjia_admin
 {
-    private $db_platform_account;
-    private $db_extend;
-    private $db_platform_config;
-    private $dbview_platform_config;
-    private $db_command;
+    //private $db_platform_account;
+    //private $db_extend;
+    //private $db_platform_config;
+    //private $dbview_platform_config;
+    //private $db_command;
 
     public function __construct()
     {
@@ -63,11 +63,11 @@ class admin extends ecjia_admin
 
         Ecjia\App\Platform\Helper::assign_adminlog_content();
 
-        $this->db_platform_account = RC_Loader::load_app_model('platform_account_model');
-        $this->db_platform_config = RC_Loader::load_app_model('platform_config_model');
-        $this->db_extend = RC_Loader::load_app_model('platform_extend_model');
-        $this->dbview_platform_config = RC_Loader::load_app_model('platform_config_viewmodel');
-        $this->db_command = RC_Loader::load_app_model('platform_command_model');
+        //$this->db_platform_account = RC_Loader::load_app_model('platform_account_model');
+        //$this->db_platform_config = RC_Loader::load_app_model('platform_config_model');
+        //$this->db_extend = RC_Loader::load_app_model('platform_extend_model');
+        //$this->dbview_platform_config = RC_Loader::load_app_model('platform_config_viewmodel');
+        //$this->db_command = RC_Loader::load_app_model('platform_command_model');
 
         RC_Loader::load_app_class('platform_factory', null, false);
         /* 加载全局 js/css */
@@ -167,7 +167,7 @@ class admin extends ecjia_admin
         $type = !empty($_POST['type']) ? intval($_POST['type']) : 0;
         $name = !empty($_POST['name']) ? trim($_POST['name']) : '';
         $token = !empty($_POST['token']) ? trim($_POST['token']) : '';
-        $appid = !empty($_POST['token']) ? trim($_POST['appid']) : '';
+        $appid = !empty($_POST['appid']) ? trim($_POST['appid']) : '';
         $appsecret = !empty($_POST['appsecret']) ? trim($_POST['appsecret']) : '';
         $aeskey = !empty($_POST['aeskey']) ? trim($_POST['aeskey']) : '';
 
@@ -216,7 +216,8 @@ class admin extends ecjia_admin
             'sort' => intval($_POST['sort']),
             'status' => intval($_POST['status']),
         );
-        $id = $this->db_platform_account->insert($data);
+        //$id = $this->db_platform_account->insert($data);
+        $id = RC_DB::table('platform_account')->insertGetId($data);
 
         ecjia_admin::admin_log($_POST['name'], 'add', 'wechat');
         return $this->showmessage(RC_Lang::get('platform::platform.add_pub_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/admin/edit', array('id' => $id))));
@@ -245,7 +246,8 @@ class admin extends ecjia_admin
             '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia公众平台:管理公众号#.E7.BC.96.E8.BE.91.E5.85.AC.E4.BC.97.E5.8F.B7" target="_blank">' . RC_Lang::get('platform::platform.edit_pub_help') . '</a>') . '</p>'
         );
 
-        $wechat = $this->db_platform_account->find(array('id' => intval($_GET['id'])));
+        //$wechat = $this->db_platform_account->find(array('id' => intval($_GET['id'])));
+        $wechat	= RC_DB::table('platform_account')->where('id', intval($_GET['id']))->first();
         if (!empty($wechat['logo'])) {
             $wechat['logo'] = RC_Upload::upload_url($wechat['logo']);
         }
@@ -272,7 +274,7 @@ class admin extends ecjia_admin
         $type = !empty($_POST['type']) ? intval($_POST['type']) : 0;
         $name = !empty($_POST['name']) ? trim($_POST['name']) : '';
         $token = !empty($_POST['token']) ? trim($_POST['token']) : '';
-        $appid = !empty($_POST['token']) ? trim($_POST['appid']) : '';
+        $appid = !empty($_POST['appid']) ? trim($_POST['appid']) : '';
         $appsecret = !empty($_POST['appsecret']) ? trim($_POST['appsecret']) : '';
         $aeskey = !empty($_POST['aeskey']) ? trim($_POST['aeskey']) : '';
 
@@ -293,8 +295,9 @@ class admin extends ecjia_admin
         }
 
         //获取旧的logo
-        $old_logo = $this->db_platform_account->where(array('id' => $id))->get_field('logo');
-
+        //$old_logo = $this->db_platform_account->where(array('id' => $id))->get_field('logo');
+        $old_logo	= RC_DB::table('platform_account')->where('id', $id)->pluck('logo');
+        
         if ((isset($_FILES['platform_logo']['error']) && $_FILES['platform_logo']['error'] == 0) || (!isset($_FILES['platform_logo']['error']) && isset($_FILES['platform_logo']['tmp_name']) && $_FILES['platform_logo']['tmp_name'] != 'none')) {
             $upload = RC_Upload::uploader('image', array('save_path' => 'data/platform', 'auto_sub_dirs' => false));
             $image_info = $upload->upload($_FILES['platform_logo']);
@@ -323,7 +326,8 @@ class admin extends ecjia_admin
             'sort' => intval($_POST['sort']),
             'status' => intval($_POST['status']),
         );
-        $this->db_platform_account->where(array('id' => $id))->update($data);
+        //$this->db_platform_account->where(array('id' => $id))->update($data);
+        RC_DB::table('platform_account')->where('id', $id)->update($data);
 
         ecjia_admin::admin_log($_POST['name'], 'edit', 'wechat');
         return $this->showmessage(RC_Lang::get('platform::platform.edit_pub_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/admin/edit', array('id' => $id))));
@@ -337,16 +341,21 @@ class admin extends ecjia_admin
         $this->admin_priv('platform_config_delete', ecjia::MSGTYPE_JSON);
 
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        $info = $this->db_platform_account->where(array('id' => $id))->field('name, logo')->find();
+        //$info = $this->db_platform_account->where(array('id' => $id))->field('name, logo')->find();
+        $info = RC_DB::table('platform_account')->where('id', $id)->select('name', 'logo')->first();
+        
         if (!empty($info['logo'])) {
             $disk = RC_Filesystem::disk();
             $disk->delete(RC_Upload::upload_path() . $info['logo']);
         }
-        $success = $this->db_platform_account->where(array('id' => $id))->delete();
+        //$success = $this->db_platform_account->where(array('id' => $id))->delete();
+        $success = RC_DB::table('platform_account')->where('id', $id)->delete();
         //删除公众号扩展及扩展命令
-        $this->db_platform_config->where(array('account_id' => $id))->delete();
-        $this->db_command->where(array('account_id' => $id))->delete();
-
+        //$this->db_platform_config->where(array('account_id' => $id))->delete();
+        RC_DB::table('platform_config')->where('account_id', $id)->delete();
+        //$this->db_command->where(array('account_id' => $id))->delete();
+		RC_DB::table('platform_command')->where('account_id', $id)->delete();
+		
         if ($success) {
             ecjia_admin::admin_log($info['name'], 'remove', 'wechat');
             return $this->showmessage(RC_Lang::get('platform::platform.remove_pub_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/admin/init')));
@@ -363,14 +372,16 @@ class admin extends ecjia_admin
         $this->admin_priv('platform_config_update', ecjia::MSGTYPE_JSON);
 
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        $info = $this->db_platform_account->where(array('id' => $id))->field('name,logo')->find();
+        //$info = $this->db_platform_account->where(array('id' => $id))->field('name,logo')->find();
+        $info = RC_DB::table('platform_account')->where('id', $id)->select('name', 'logo')->first();
         if (!empty($info['logo'])) {
             $disk = RC_Filesystem::disk();
             $disk->delete(RC_Upload::upload_path() . $info['logo']);
         }
         $data = array('logo' => '');
-        $update = $this->db_platform_account->where(array('id' => $id))->update($data);
-
+        //$update = $this->db_platform_account->where(array('id' => $id))->update($data);
+        $update = RC_DB::table('platform_account')->where('id', $id)->update($data);
+        
         ecjia_admin::admin_log(RC_Lang::get('platform::platform.public_name_is') . $info['name'], 'remove', 'platform_logo');
 
         if ($update) {
@@ -389,8 +400,11 @@ class admin extends ecjia_admin
 
         $id = intval($_POST['id']);
         $val = intval($_POST['val']);
-        $this->db_platform_account->where(array('id' => $id))->update(array('status' => $val));
-        $name = $this->db_platform_account->where(array('id' => $id))->get_field('name');
+        //$this->db_platform_account->where(array('id' => $id))->update(array('status' => $val));
+        //$name = $this->db_platform_account->where(array('id' => $id))->get_field('name');
+        RC_DB::table('platform_account')->where('id', $id)->update(array('status' => $val));
+        $name = RC_DB::table('platform_account')->where('id', $id)->pluck('name');
+        
         if ($val == 1) {
             ecjia_admin::admin_log($name, 'use', 'wechat');
         } else {
@@ -414,7 +428,9 @@ class admin extends ecjia_admin
             if (!is_numeric($sort)) {
                 return $this->showmessage(RC_Lang::get('platform::platform.import_num'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
-                if ($this->db_platform_account->where(array('id' => $id))->update(array('sort' => $sort))) {
+            	//$update = $this->db_platform_account->where(array('id' => $id))->update(array('sort' => $sort));
+            	$update = RC_DB::table('platform_account')->where('id', $id)->update(array('sort' => $sort));
+                if ($update) {
                     return $this->showmessage(RC_Lang::get('platform::platform.editsort_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('platform/admin/init')));
                 } else {
                     return $this->showmessage(RC_Lang::get('platform::platform.editsort_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -472,11 +488,15 @@ class admin extends ecjia_admin
         $idArr = explode(',', $_POST['id']);
         $count = count($idArr);
 
-        $info = $this->db_platform_account->in(array('id' => $idArr))->field('name')->select();
+        //$info = $this->db_platform_account->in(array('id' => $idArr))->field('name')->select();
+        $info = RC_DB::table('platform_account')->whereIn('id', $idArr)->select('name')->get();
+        
         foreach ($info as $v) {
             ecjia_admin::admin_log($v['name'], 'batch_remove', 'wechat');
         }
-        $this->db_platform_account->where(array('id' => $idArr))->delete();
+        //$this->db_platform_account->where(array('id' => $idArr))->delete();
+        RC_DB::table('platform_account')->whereIn('id', $idArr)->delete();
+        
         return $this->showmessage(RC_Lang::get('platform::platform.deleted') . "[ " . $count . " ]" . RC_Lang::get('platform::platform.record_account'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/admin/init')));
     }
 
@@ -495,30 +515,41 @@ class admin extends ecjia_admin
      */
     private function wechat_list()
     {
-        $db_platform_account = RC_Loader::load_app_model('platform_account_model');
-
-        $filter = array();
-        $filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
-
-        $where = array();
-        if ($filter['keywords']) {
-            $where[] = "name LIKE '%" . mysql_like_quote($filter['keywords']) . "%'";
-        }
-
-        $where['platform'] = array('neq' => 'weapp');
-
-        $platform = !empty($_GET['platform']) ? $_GET['platform'] : '';
-        if (!empty($platform)) {
-            $where['platform'] = $platform;
-        }
-        $where['shop_id'] = array('eq' => 0);
-
-        $count = $db_platform_account->where($where)->count();
+        //$db_platform_account = RC_Loader::load_app_model('platform_account_model');
+        //$filter = array();
+        //$filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+        //$where = array();
+        //if ($filter['keywords']) {
+        //    $where[] = "name LIKE '%" . mysql_like_quote($filter['keywords']) . "%'";
+        //}
+        //$where['platform'] = array('neq' => 'weapp');
+        //$platform = !empty($_GET['platform']) ? $_GET['platform'] : '';
+        //if (!empty($platform)) {
+        //    $where['platform'] = $platform;
+        //}
+        //$where['shop_id'] = array('eq' => 0);
+        //$count = $db_platform_account->where($where)->count();
+		
+    	$db_platform_account = RC_DB::table('platform_account');
+    	$filter = array();
+    	$platform = !empty($_GET['platform']) ? $_GET['platform'] : '';
+    	$filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+    	if (!empty($filter['keywords'])) {
+    		$db_platform_account->where('name', 'like', '%'.mysql_like_quote($filter['keywords']).'%');
+    	}
+    	$db_platform_account->where('platform', '!=', 'weapp')->where('shop_id', 0);
+    	if (!empty($platform)) {
+    		$db_platform_account->where('platform', $platform);
+    	}
+    	$count = $db_platform_account->count('id');
+    	
         $filter['record_count'] = $count;
         $page = new ecjia_page($count, 10, 5);
 
         $arr = array();
-        $data = $db_platform_account->where($where)->order(array('sort' => 'asc', 'add_time' => 'desc'))->limit($page->limit())->select();
+        //$data = $db_platform_account->where($where)->order(array('sort' => 'asc', 'add_time' => 'desc'))->limit($page->limit())->select();
+        $data = $db_platform_account->orderBy('sort', 'asc')->orderBy('add_time', 'desc')->take(10)->skip($page->start_id-1)->get();
+        
         if (isset($data)) {
             foreach ($data as $rows) {
                 $rows['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $rows['add_time']);
@@ -540,19 +571,28 @@ class admin extends ecjia_admin
     {
         $id = intval($_GET['JSON']['id']);
         $keywords = trim($_GET['JSON']['keywords']);
-
-        $where = "1";
-        if ($keywords) {
-            $where = "ext_name LIKE '%" . $keywords . "%'";
-            $where .= " OR ext_code LIKE '%" . $keywords . "%'";
-        }
+		$db_extend = RC_DB::table('platform_extend');
+		
+        //$where = "1";
+        //if ($keywords) {
+        //    $where = "ext_name LIKE '%" . $keywords . "%'";
+        //    $where .= " OR ext_code LIKE '%" . $keywords . "%'";
+        //}
         //已禁用的扩展搜索不显示
-        $where .= " AND enabled != 0";
-
+        //$where .= " AND enabled != 0";
+		$db_extend->where('enabled', '!=', 0);
+		if (!empty($keywords)) {
+			$db_extend->where(function($query) use ($keywords) {
+				$query->where('ext_name', 'like', '%'.mysql_like_quote($keywords).'%')->orWhere('ext_code', 'like', '%'.mysql_like_quote($keywords).'%');
+			});
+		}
+        
         //查找已关联的扩展
-        $ext_code_list = $this->db_platform_config->where(array('account_id' => $id))->get_field('ext_code', true);
-        $platform_list = $this->db_extend->where($where)->field('ext_id, ext_name, ext_code, ext_config')->order(array('ext_id' => 'desc'))->select();
-
+        //$ext_code_list = $this->db_platform_config->where(array('account_id' => $id))->get_field('ext_code', true);
+        $ext_code_list = RC_DB::table('platform_config')->where('account_id', $id)->lists('ext_code');
+        //$platform_list = $this->db_extend->where($where)->field('ext_id, ext_name, ext_code, ext_config')->order(array('ext_id' => 'desc'))->select();
+        $platform_list = $db_extend->select('ext_id', 'ext_name', 'ext_code', 'ext_config')->orderBy('ext_id', 'desc')->get();
+        
         if ($ext_code_list) {
             if (!empty($platform_list)) {
                 foreach ($platform_list as $k => $v) {

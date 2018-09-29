@@ -63,9 +63,10 @@ class platform_command {
      */
     public function runCommand($cmd) {
         //查询$cmd命令是哪个插件的
-        $db_platform_command = RC_Loader::load_app_model('platform_command_model', 'platform');
-        
-        $row = $db_platform_command->where(array('cmd_word' => $cmd, 'account_id' => $this->account_id))->find();
+        //$db_platform_command = RC_Loader::load_app_model('platform_command_model', 'platform');
+        //$row = $db_platform_command->where(array('cmd_word' => $cmd, 'account_id' => $this->account_id))->find();
+    	$row = RC_DB::table('platform_command')->where('cmd_word', $cmd)->where('account_id', $this->account_id)->first();
+    	
         if (!empty($row) && $row['ext_code']) {
             RC_Loader::load_app_class('platform_factory', 'platform', false);
             $handler = new platform_factory($row['ext_code'], array('parameter' => $this->request->getParameters(), 'sub_code' => $row['sub_code']));
@@ -81,9 +82,11 @@ class platform_command {
      * @return boolean
      */
     public function hasCommand($cmd) {
-        $db_platform_command = RC_Loader::load_app_model('platform_command_model', 'platform');
-        $row = $db_platform_command->where(array('cmd_word' => $cmd, 'account_id' => $this->account_id))->find();
-        if (!empty($row)) {
+        //$db_platform_command = RC_Loader::load_app_model('platform_command_model', 'platform');
+        //$row = $db_platform_command->where(array('cmd_word' => $cmd, 'account_id' => $this->account_id))->find();
+    	$row = RC_DB::table('platform_command')->where('cmd_word', $cmd)->where('account_id', $this->account_id)->first();
+    	
+    	if (!empty($row)) {
             return true;
         } else {
             return false;

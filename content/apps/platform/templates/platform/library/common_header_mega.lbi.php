@@ -1,6 +1,6 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 <li class="dropdown nav-item mega-dropdown">
-<a class="dropdown-toggle nav-link" href="icons-simple-line-icons.html#" data-toggle="dropdown">公众平台</a>
+<a class="dropdown-toggle nav-link" href="icons-simple-line-icons.html#" data-toggle="dropdown">{$platformAccount->getPlatformName()}</a>
     <ul class="mega-dropdown-menu dropdown-menu row">
 		<li class="col-md-12">
         	<h3 class="dropdown-menu-header text-uppercase mb-1">
@@ -15,9 +15,11 @@
               			<p>{$platformAccount->getPlatformName()}</p>
 	              	</div>
 	              	<div class="mega-menu-carousel-row right">
+                        {if $platformAccount->getPlatform() eq 'wechat'}
 	              		<p>公众号类型</p>
               			<img src="{$ecjia_main_static_url}image/{$platformAccount->getTypeCode()}.png">
               			<p>{$platformAccount->getTypeName()}</p>
+                        {/if}
 	              	</div>
               	</div>
               	<div class="mega-menu-carousel-content right">
@@ -31,7 +33,7 @@
               		</div>
               		<div class="item">
               			<a class="btn btn-success" target="__blank" href="{$platformAccount->getPlatformSettingUrl()}">编辑配置</a>
-              			<a class="btn btn-info m_l20" href="{$platformAccount->getPlatformListUrl()}">返回公众平台</a>
+              			<a class="btn btn-info m_l20" href="{$platformAccount->getPlatformListUrl()}">返回{$platformAccount->getPlatformName()}</a>
               		</div>
               	</div>
             </div>

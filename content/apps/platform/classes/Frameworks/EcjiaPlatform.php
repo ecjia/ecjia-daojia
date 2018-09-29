@@ -130,30 +130,7 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 		RC_Hook::add_action('platform_print_main_header', array(Screen::$current_screen, 'render_screen_meta'));
 
 		$this->public_route = array(
-// 		    'staff/privilege/login',
-// 		    'staff/privilege/signin',
 			'platform/privilege/autologin',
-// 		    'staff/get_password/forget_pwd',
-// 		    'staff/get_password/reset_pwd_mail',
-// 		    'staff/get_password/reset_pwd_form',
-// 		    'staff/get_password/reset_pwd',
-// 			'staff/get_password/forget_fast',
-// 			'staff/get_password/fast_reset_pwd',
-// 			'staff/get_password/get_code',
-// 			'staff/get_password/get_code_value',
-// 			'staff/get_password/get_code_form',
-// 			'staff/get_password/mobile_reset',
-// 			'staff/get_password/mobile_reset_pwd',
-// 		    'franchisee/merchant/init',
-// 		    'franchisee/merchant/get_code_value',
-// 		    'franchisee/merchant/insert',
-// 		    'franchisee/merchant/view',
-// 		    'franchisee/merchant/view_post',
-// 		    'franchisee/merchant/remove_apply',
-// 		    'franchisee/merchant/drop_file',
-// 			'franchisee/merchant/getgeohash',
-// 			'franchisee/merchant/get_region',
-// 			'merchant/merchant/shopinfo',
 		);
 		$this->public_route = RC_Hook::apply_filters('platform_access_public_route', $this->public_route);
 
@@ -201,6 +178,11 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 	public function getPlatformAccount()
     {
         return $this->platformAccount;
+    }
+
+    public function getCurrentPlatform()
+    {
+        return $this->platformAccount->getPlatform();
     }
 
 	protected function session_start()

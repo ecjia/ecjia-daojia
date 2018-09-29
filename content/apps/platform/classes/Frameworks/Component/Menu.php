@@ -65,10 +65,12 @@ class Menu extends RC_Object
 
     public function __construct()
     {
+        $uuid = session('uuid');
+
         if (defined('RC_SITE')) {
-            $this->cacheKey = 'platform_menus' . constant('RC_SITE');
+            $this->cacheKey = 'platform_menus' . constant('RC_SITE') . $uuid;
         } else {
-            $this->cacheKey = 'platform_menus';
+            $this->cacheKey = 'platform_menus' . $uuid;
         }
     }
 

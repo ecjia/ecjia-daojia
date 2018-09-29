@@ -51,9 +51,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class admin_plugin extends ecjia_admin
 {
-    private $db_extend;
-    private $db_command;
-    private $db_platform_account;
+    //private $db_extend;
+    //private $db_command;
+    //private $db_platform_account;
 
     public function __construct()
     {
@@ -61,9 +61,9 @@ class admin_plugin extends ecjia_admin
 
         Ecjia\App\Platform\Helper::assign_adminlog_content();
 
-        $this->db_extend = RC_Loader::load_app_model('platform_extend_model');
-        $this->db_command = RC_Loader::load_app_model('platform_command_model');
-        $this->db_platform_account = RC_Loader::load_app_model('platform_account_model');
+        //$this->db_extend = RC_Loader::load_app_model('platform_extend_model');
+        //$this->db_command = RC_Loader::load_app_model('platform_command_model');
+        //$this->db_platform_account = RC_Loader::load_app_model('platform_account_model');
 
         RC_Loader::load_app_class('platform_factory', null, false);
 
@@ -138,8 +138,9 @@ class admin_plugin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('platform/admin_plugin/save'));
 
         $code = trim($_GET['code']);
-        $bd = $this->db_extend->where(array('ext_code' => $code))->find();
-
+        //$bd = $this->db_extend->where(array('ext_code' => $code))->find();
+		$bd = RC_DB::table('platform_extend')->where('ext_code', $code)->first();
+        
         $this->assign('bd', $bd);
 
         $this->assign_lang();
@@ -157,7 +158,8 @@ class admin_plugin extends ecjia_admin
         $data['ext_desc'] = trim($_POST['ext_desc']);
         $ext_code = trim($_POST['ext_code']);
 
-        $this->db_extend->where(array('ext_code' => $ext_code))->update($data);
+        //$this->db_extend->where(array('ext_code' => $ext_code))->update($data);
+        RC_DB::table('platform_extend')->where('ext_code', $ext_code)->update($data);
 
         ecjia_admin::admin_log($data['ext_name'], 'edit', 'platform_extend');
         return $this->showmessage(RC_Lang::get('platform::platform.edit_fun_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/admin_plugin/edit', array('code' => $ext_code))));
@@ -171,11 +173,13 @@ class admin_plugin extends ecjia_admin
         $this->admin_priv('extend_update', ecjia::MSGTYPE_JSON);
 
         $code = trim($_GET['code']);
-        $ext_name = $this->db_extend->where(array('ext_code' => $code))->get_field('ext_name');
+        //$ext_name = $this->db_extend->where(array('ext_code' => $code))->get_field('ext_name');
+        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
         $data = array(
             'enabled' => 0,
         );
-        $this->db_extend->where(array('ext_code' => $code))->update($data);
+        //$this->db_extend->where(array('ext_code' => $code))->update($data);
+        RC_DB::table('platform_extend')->where('ext_code', $code)->update($data);
 
         ecjia_admin::admin_log($ext_name, 'stop', 'platform_extend');
         return $this->showmessage(RC_Lang::get('platform::platform.plugin') . '<strong>' . RC_Lang::get('platform::platform.disabled') . '</strong>', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/admin_plugin/init')));
@@ -189,12 +193,15 @@ class admin_plugin extends ecjia_admin
         $this->admin_priv('extend_update', ecjia::MSGTYPE_JSON);
 
         $code = trim($_GET['code']);
-        $ext_name = $this->db_extend->where(array('ext_code' => $code))->get_field('ext_name');
+        //$ext_name = $this->db_extend->where(array('ext_code' => $code))->get_field('ext_name');
+        $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
+        
         $data = array(
             'enabled' => 1,
         );
-        $this->db_extend->where(array('ext_code' => $code))->update($data);
-
+        //$this->db_extend->where(array('ext_code' => $code))->update($data);
+        RC_DB::table('platform_extend')->where('ext_code', $code)->update($data);
+        
         ecjia_admin::admin_log($ext_name, 'use', 'platform_extend');
         return $this->showmessage(RC_Lang::get('platform::platform.plugin') . '<strong>' . RC_Lang::get('platform::platform.enabled') . '</strong>', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/admin_plugin/init')));
     }
@@ -204,14 +211,16 @@ class admin_plugin extends ecjia_admin
      */
     private function exts_list()
     {
-        $db_ext = RC_Loader::load_app_model('platform_extend_model');
-
+        //$db_ext = RC_Loader::load_app_model('platform_extend_model');
+    	$db_ext = RC_DB::table('platform_extend');
+    	
         $count = $db_ext->count();
         $filter['record_count'] = $count;
         $page = new ecjia_page($count, 10, 5);
 
         $arr = array();
-        $data = $db_ext->order('ext_id DESC')->limit($page->limit())->select();
+        //$data = $db_ext->order('ext_id DESC')->limit($page->limit())->select();
+        $data = $db_ext->orderBy('ext_id', 'desc')->take(10)->skip($page->start_id-1)->get();
         if (isset($data)) {
             foreach ($data as $rows) {
                 $arr[] = $rows;

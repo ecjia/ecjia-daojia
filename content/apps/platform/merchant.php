@@ -75,6 +75,7 @@ class merchant extends ecjia_merchant
         RC_Style::enqueue_style('wechat_extend', RC_App::apps_url('statics/css/wechat_extend.css', __FILE__));
 
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('platform::platform.platform_list'), RC_Uri::url('platform/merchant/init')));
+        ecjia_merchant_screen::get_current_screen()->set_parentage('platform', 'platform/merchant.php');
     }
 
     /**
@@ -132,7 +133,7 @@ class merchant extends ecjia_merchant
             '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia公众平台:管理公众号#.E6.B7.BB.E5.8A.A0.E5.85.AC.E4.BC.97.E5.8F.B7" target="_blank">' . RC_Lang::get('platform::platform.add_pub_help') . '</a>') . '</p>'
         );
 
-        $count = RC_DB::table('platform_account')->where('shop_id', $_SESSION['store_id'])->count();
+        $count = RC_DB::table('platform_account')->where('shop_id', $_SESSION['store_id'])->where('platform', '!=', 'weapp')->count();
         if ($count != 0) {
         	return $this->showmessage('每个商家只能添加一个公众号', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
@@ -157,11 +158,11 @@ class merchant extends ecjia_merchant
         $type = !empty($_POST['type']) ? intval($_POST['type']) : 0;
         $name = !empty($_POST['name']) ? trim($_POST['name']) : '';
         $token = !empty($_POST['token']) ? trim($_POST['token']) : '';
-        $appid = !empty($_POST['token']) ? trim($_POST['appid']) : '';
+        $appid = !empty($_POST['appid']) ? trim($_POST['appid']) : '';
         $appsecret = !empty($_POST['appsecret']) ? trim($_POST['appsecret']) : '';
         $aeskey = !empty($_POST['aeskey']) ? trim($_POST['aeskey']) : '';
 
-        $count = RC_DB::table('platform_account')->where('shop_id', $_SESSION['store_id'])->count();
+        $count = RC_DB::table('platform_account')->where('shop_id', $_SESSION['store_id'])->where('platform', '!=', 'weapp')->count();
         if ($count != 0) {
         	return $this->showmessage('每个商家只能添加一个公众号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -268,7 +269,7 @@ class merchant extends ecjia_merchant
         $type = !empty($_POST['type']) ? intval($_POST['type']) : 0;
         $name = !empty($_POST['name']) ? trim($_POST['name']) : '';
         $token = !empty($_POST['token']) ? trim($_POST['token']) : '';
-        $appid = !empty($_POST['token']) ? trim($_POST['appid']) : '';
+        $appid = !empty($_POST['appid']) ? trim($_POST['appid']) : '';
         $appsecret = !empty($_POST['appsecret']) ? trim($_POST['appsecret']) : '';
         $aeskey = !empty($_POST['aeskey']) ? trim($_POST['aeskey']) : '';
 
@@ -351,6 +352,23 @@ class merchant extends ecjia_merchant
         } else {
             return $this->showmessage(RC_Lang::get('platform::platform.remove_pub_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+    }
+    
+    /**
+     * 批量删除
+     */
+    public function batch_remove()
+    {
+    	$this->admin_priv('platform_config_delete', ecjia::MSGTYPE_JSON);
+    
+    	$idArr = explode(',', $_POST['id']);
+    
+    	$info = RC_DB::table('platform_account')->where('shop_id', $_SESSION['store_id'])->whereIn('id', $idArr)->select('name')->get();
+    	foreach ($info as $v) {
+    		ecjia_merchant::admin_log($v['name'], 'batch_remove', 'wechat');
+    	}
+    	RC_DB::table('platform_account')->where('shop_id', $_SESSION['store_id'])->whereIn('id', $idArr)->delete();
+    	return $this->showmessage('批量删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/merchant/init')));
     }
 
     /**

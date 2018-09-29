@@ -46,10 +46,18 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class admin_platform_hooks {
+/**
+ * 公众平台菜单
+ */
+class platform_platform_menu_api extends Component_Event_Api
+{
 
+    public function call(&$options)
+    {
+        $menus = ecjia_platform::make_admin_menu('staff', '仪表盘', RC_Uri::url('platform/dashboard/init'), 0)->add_icon('icon-home')->add_base('dashboard');
 
+        return $menus;
+    }
 }
-
 
 // end

@@ -79,9 +79,10 @@ class platform_plugin_uninstall_api extends Component_Event_Api
 	        Ecjia\App\Platform\Helper::assign_adminlog_content();
 	        
 	        /* 从数据库中删除支付方式 */
-	        $db = RC_Loader::load_app_model('platform_extend_model', 'platform');
-	        $db->where("`ext_code` = '" . $options['config']['ext_code'] . "'")->delete();
-	    
+	        //$db = RC_Loader::load_app_model('platform_extend_model', 'platform');
+	        //$db->where("`ext_code` = '" . $options['config']['ext_code'] . "'")->delete();
+	    	RC_DB::table('platform_extend')->where('ext_code', $options['config']['ext_code'])->delete();
+	        
 	        /* 记录日志 */
 	        ecjia_admin::admin_log($format_name, 'uninstall', 'platform');
 	    

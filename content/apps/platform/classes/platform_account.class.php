@@ -68,8 +68,9 @@ class platform_account {
     
     protected function getAccountRow() {
         //查询数据库
-        $db_platform_command = RC_Loader::load_app_model('platform_account_model', 'platform');
-        $row = $db_platform_command->where(array('uuid' => $this->uuid))->find();
+        //$db_platform_command = RC_Loader::load_app_model('platform_account_model', 'platform');
+        //$row = $db_platform_command->where(array('uuid' => $this->uuid))->find();
+    	$row = RC_DB::table('platform_account')->where('uuid', $this->uuid)->first();
         if (empty($row)) {
             return new ecjia_error('platform_not_found_uuid', RC_Lang::get('platform::platform.unidentification_uuid'));
         }
@@ -144,7 +145,8 @@ class platform_account {
      */
     public static function getAccountList($platform, $shopid = 0) {
         $db_platform_account = RC_Loader::load_app_model('platform_account_model', 'platform');
-        $accountlist = $db_platform_account->where(array('platform' => $platform, 'shop_id' => $shopid, 'status'=>1))->order('sort DESC, id DESC')->select();
+        //$accountlist = $db_platform_account->where(array('platform' => $platform, 'shop_id' => $shopid, 'status'=>1))->order('sort DESC, id DESC')->select();
+        $accountlist   = RC_DB::table('platform_account')->where('platform', $platform)->where('shop_id', $shopid)->where('status', 1)->orderBy('sort', 'desc')->orderBy('id', 'desc')->get();
         return $accountlist;
     }
     

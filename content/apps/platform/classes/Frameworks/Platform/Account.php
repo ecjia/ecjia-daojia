@@ -97,13 +97,13 @@ class Account extends AbstractRepository
     public function getPlatformName()
     {
         if ($this->getPlatform() == 'wechat') {
-            return '微信';
+            return '微信公众平台';
         } 
         else if ($this->getPlatform() == 'alipay') {
             return '支付宝';
         } 
         else if ($this->getPlatform() == 'weapp') {
-            return '小程序';
+            return '微信小程序';
         }
         else {
             return '未知';
@@ -208,10 +208,24 @@ class Account extends AbstractRepository
     public function getPlatformListUrl()
     {
         if ($this->getStoreId() > 0) {
-            return str_replace('sites/platform/index.php', 'sites/merchant/index.php', RC_Uri::url('platform/merchant/init'));
+            if ($this->getPlatform() == 'wechat') {
+                return str_replace('sites/platform/index.php', 'sites/merchant/index.php', RC_Uri::url('platform/merchant/init'));
+            } else if ($this->getPlatform() == 'weapp') {
+                return str_replace('sites/platform/index.php', 'sites/merchant/index.php', RC_Uri::url('weapp/merchant/init'));
+            } else {
+                return null;
+            }
+
         }
         else {
-            return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('platform/admin/init'));
+            if ($this->getPlatform() == 'wechat') {
+                return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('platform/admin/init'));
+            } else if ($this->getPlatform() == 'weapp') {
+                return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('weapp/admin/init'));
+            } else {
+                return null;
+            }
+
         }
     }
     
@@ -221,10 +235,24 @@ class Account extends AbstractRepository
     public function getPlatformSettingUrl()
     {
         if ($this->getStoreId() > 0) {
-            return str_replace('sites/platform/index.php', 'sites/merchant/index.php', RC_Uri::url('platform/merchant/edit', ['id' => $this->getAccountID()]));
+            if ($this->getPlatform() == 'wechat') {
+                return str_replace('sites/platform/index.php', 'sites/merchant/index.php', RC_Uri::url('platform/merchant/edit', ['id' => $this->getAccountID()]));
+            } else if ($this->getPlatform() == 'weapp') {
+                return str_replace('sites/platform/index.php', 'sites/merchant/index.php', RC_Uri::url('weapp/merchant/edit', ['id' => $this->getAccountID()]));
+            } else {
+                return null;
+            }
+
         }
         else {
-            return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('platform/admin/edit', ['id' => $this->getAccountID()]));
+            if ($this->getPlatform() == 'wechat') {
+                return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('platform/admin/edit', ['id' => $this->getAccountID()]));
+            } else if ($this->getPlatform() == 'weapp') {
+                return str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('weapp/admin/edit', ['id' => $this->getAccountID()]));
+            } else {
+                return null;
+            }
+
         }
     }
 
