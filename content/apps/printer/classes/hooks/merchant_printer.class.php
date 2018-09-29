@@ -79,9 +79,18 @@ class printer_merchant_hooks {
         echo '</ul>'.PHP_EOL;
         echo '</div>'.PHP_EOL;
     }
+    
+    public static function printer_merchant_menu_api($menus) {
+    	$menu = ecjia_merchant::make_admin_menu('07_merchant_printer', __('小票机'), RC_Uri::url('printer/mh_print/init'), 7)->add_purview('mh_printer_manage')->add_icon('fa-print');
+    	
+    	$menus->add_submenu($menu);
+    	return $menus;
+    }
 	
 }
 
 RC_Hook::add_action( 'display_merchant_printer_menus', array('printer_merchant_hooks', 'display_merchant_printer_menus') );
+
+RC_Hook::add_filter( 'merchant_merchant_menu_api', array('printer_merchant_hooks', 'printer_merchant_menu_api') );
 
 // end
