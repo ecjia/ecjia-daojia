@@ -5,7 +5,7 @@
  *
  */
 
-namespace Royalcms\Component\WeApp\Material;
+namespace Royalcms\Component\WeChat\MiniProgram\Material;
 
 use Royalcms\Component\WeChat\Material\Temporary as MaterialTemporary;
 

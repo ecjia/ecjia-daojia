@@ -5,7 +5,7 @@
  *
  */
 
-namespace Royalcms\Component\WeApp\Encryption;
+namespace Royalcms\Component\WeChat\MiniProgram\Encryption;
 
 use Royalcms\Component\WeChat\Encryption\EncryptionException;
 use Royalcms\Component\WeChat\Encryption\Encryptor as BaseEncryptor;
@@ -25,9 +25,16 @@ class Encryptor extends BaseEncryptor
     public function decryptData($sessionKey, $iv, $encrypted)
     {
         try {
+
+            $aesKey = base64_decode($sessionKey, true);
+
+            $aesIV = base64_decode($iv, true);
+
+            $aesCipher = base64_decode($encrypted, true);
+
             $decrypted = openssl_decrypt(
-                base64_decode($encrypted, true), 'aes-128-cbc', base64_decode($sessionKey, true),
-                OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, base64_decode($iv, true)
+                $aesCipher, 'aes-128-cbc', $aesKey,
+                OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, $aesIV
             );
         } catch (Exception $e) {
             throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_DECRYPT_AES);

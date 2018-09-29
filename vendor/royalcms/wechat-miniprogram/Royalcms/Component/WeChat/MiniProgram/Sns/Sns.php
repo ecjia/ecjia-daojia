@@ -5,11 +5,11 @@
  *
  */
 
-namespace Royalcms\Component\WeApp\Sns;
+namespace Royalcms\Component\WeChat\MiniProgram\Sns;
 
-use Royalcms\Component\WeApp\Core\AbstractWeApp;
+use Royalcms\Component\WeChat\MiniProgram\Core\AbstractMiniProgram;
 
-class Sns extends AbstractWeApp
+class Sns extends AbstractMiniProgram
 {
     /**
      * Api.

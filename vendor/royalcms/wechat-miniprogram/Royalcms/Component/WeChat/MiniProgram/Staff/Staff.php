@@ -5,7 +5,7 @@
  *
  */
 
-namespace Royalcms\Component\WeApp\Staff;
+namespace Royalcms\Component\WeChat\MiniProgram\Staff;
 
 use Royalcms\Component\WeChat\Staff\Staff as BaseStaff;
 

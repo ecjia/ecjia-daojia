@@ -4,25 +4,24 @@
  * WeApp.php.
  *
  */
-namespace Royalcms\Component\WeApp;
+namespace Royalcms\Component\WeChat\MiniProgram;
 
-use Royalcms\Component\Support\Str;
 use Royalcms\Component\WeChat\Foundation\WeChat;
-use Royalcms\Component\WeApp\QRCode\QRCode;
-use Royalcms\Component\WeApp\Core\AccessToken;
+use Royalcms\Component\WeChat\MiniProgram\QRCode\QRCode;
+use Royalcms\Component\WeChat\MiniProgram\Core\AccessToken;
 
 /**
  * Class WeApp.
  *
- * @property \Royalcms\Component\WeApp\Server\Guard $server
- * @property \Royalcms\Component\WeApp\Sns\Sns $sns
- * @property \Royalcms\Component\WeApp\Notice\Notice $notice
- * @property \Royalcms\Component\WeApp\Staff\Staff $staff
- * @property \Royalcms\Component\WeApp\QRCode\QRCode $qrcode
- * @property \Royalcms\Component\WeApp\Material\Temporary $material_temporary
- * @property \Royalcms\Component\WeApp\Stats\Stats $stats
+ * @property \Royalcms\Component\WeChat\MiniProgram\Server\Guard $server
+ * @property \Royalcms\Component\WeChat\MiniProgram\Sns\Sns $sns
+ * @property \Royalcms\Component\WeChat\MiniProgram\Notice\Notice $notice
+ * @property \Royalcms\Component\WeChat\MiniProgram\Staff\Staff $staff
+ * @property \Royalcms\Component\WeChat\MiniProgram\QRCode\QRCode $qrcode
+ * @property \Royalcms\Component\WeChat\MiniProgram\Material\Temporary $material_temporary
+ * @property \Royalcms\Component\WeChat\MiniProgram\Stats\Stats $stats
  */
-class WeApp
+class MiniProgram
 {
     /**
      * Wechat Container.
@@ -40,14 +39,24 @@ class WeApp
     {
         $this->wechat = $wechat;
         
-        $wechat->bindShared('weapp.access_token', function($wechat)
+        $this->registerAccessToken();
+        
+        $this->registerQrcode();
+    }
+
+    private function registerAccessToken()
+    {
+        $this->wechat->singleton('weapp.access_token', function($wechat)
         {
             $app_id = $wechat->config['app_id'];
             $app_secret = $wechat->config['app_secret'];
             return new AccessToken($app_id, $app_secret);
         });
-        
-        $wechat->bindShared('weapp.qrcode', function($wechat)
+    }
+
+    private function registerQrcode()
+    {
+        $this->wechat->singleton('weapp.qrcode', function($wechat)
         {
             return new QRCode($wechat['weapp.access_token'], []);
         });
@@ -78,7 +87,7 @@ class WeApp
      * Get the `class basename` of the current class.
      * Convert `class basename` to snake-case and concatenation with dot notation.
      *
-     * E.g. Class 'EasyWechat', $key foo -> 'easy_wechat.foo'
+     * E.g. Class 'Wechat', $key foo -> 'wechat.foo'
      *
      * @param string $key The unique identifier for the parameter or object
      *
@@ -89,7 +98,7 @@ class WeApp
     public function __get($key)
     {
         $name = 'weapp.'.$key;
-    
+
         return $this->wechat->offsetGet($name);
     }
     

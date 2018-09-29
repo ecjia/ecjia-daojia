@@ -5,11 +5,11 @@
  *
  */
 
-namespace Royalcms\Component\WeApp\Core;
+namespace Royalcms\Component\WeChat\MiniProgram\Core;
 
 use Royalcms\Component\WeChat\Core\AbstractAPI;
 
-class AbstractWeApp extends AbstractAPI
+class AbstractMiniProgram extends AbstractAPI
 {
     /**
      * Mini program config.
@@ -21,7 +21,7 @@ class AbstractWeApp extends AbstractAPI
     /**
      * AbstractMiniProgram constructor.
      *
-     * @param \Royalcms\Component\WeApp\AccessToken $accessToken
+     * @param \Royalcms\Component\WeChat\MiniProgram\AccessToken $accessToken
      * @param array                               $config
      */
     public function __construct($accessToken, $config)

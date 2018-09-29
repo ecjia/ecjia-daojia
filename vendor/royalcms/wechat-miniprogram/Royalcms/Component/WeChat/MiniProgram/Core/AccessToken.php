@@ -5,7 +5,7 @@
  *
  */
 
-namespace Royalcms\Component\WeApp\Core;
+namespace Royalcms\Component\WeChat\MiniProgram\Core;
 
 use Royalcms\Component\WeChat\Core\AccessToken as CoreAccessToken;
 

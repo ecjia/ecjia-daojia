@@ -1,13 +1,13 @@
 <?php
 
-namespace Royalcms\Component\WeApp;
+namespace Royalcms\Component\WeChat\MiniProgram;
 
 use Royalcms\Component\Support\ServiceProvider;
 
 /**
- * Class WeAppServiceProvider.
+ * Class MiniProgramServiceProvider.
  */
-class WeAppServiceProvider extends ServiceProvider
+class MiniProgramServiceProvider extends ServiceProvider
 {
     /**
      * Registers services on the given container.
@@ -23,7 +23,7 @@ class WeAppServiceProvider extends ServiceProvider
         
         $wechat->bindShared('weapp', function($wechat)
         {
-            return new WeApp($wechat);
+            return new MiniProgram($wechat);
         });
         
         

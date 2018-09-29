@@ -5,7 +5,7 @@
  *
  */
 
-namespace Royalcms\Component\WeApp\Notice;
+namespace Royalcms\Component\WeChat\MiniProgram\Notice;
 
 use Royalcms\Component\WeChat\Notice\Notice as BaseNotice;
 

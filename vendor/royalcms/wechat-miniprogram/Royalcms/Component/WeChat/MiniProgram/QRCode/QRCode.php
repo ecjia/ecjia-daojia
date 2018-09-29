@@ -5,11 +5,11 @@
  *
  */
 
-namespace Royalcms\Component\WeApp\QRCode;
+namespace Royalcms\Component\WeChat\MiniProgram\QRCode;
 
-use Royalcms\Component\WeApp\Core\AbstractWeApp;
+use Royalcms\Component\WeChat\MiniProgram\Core\AbstractMiniProgram;
 
-class QRCode extends AbstractWeApp
+class QRCode extends AbstractMiniProgram
 {
     const API_GET_WXACODE = 'https://api.weixin.qq.com/wxa/getwxacode';
     const API_GET_WXACODE_UNLIMIT = 'http://api.weixin.qq.com/wxa/getwxacodeunlimit';

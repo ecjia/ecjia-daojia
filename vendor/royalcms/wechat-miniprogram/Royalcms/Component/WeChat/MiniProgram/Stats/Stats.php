@@ -5,11 +5,11 @@
  * 
  */
 
-namespace Royalcms\Component\WeApp\Stats;
+namespace Royalcms\Component\WeChat\MiniProgram\Stats;
 
-use Royalcms\Component\WeApp\Core\AbstractWeApp;
+use Royalcms\Component\WeChat\MiniProgram\Core\AbstractMiniProgram;
 
-class Stats extends AbstractWeApp
+class Stats extends AbstractMiniProgram
 {
     const SUMMARY_TREND = 'https://api.weixin.qq.com/datacube/getweanalysisappiddailysummarytrend';
     const DAILY_VISIT_TREND = 'https://api.weixin.qq.com/datacube/getweanalysisappiddailyvisittrend';
