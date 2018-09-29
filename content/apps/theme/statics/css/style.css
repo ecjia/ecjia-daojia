@@ -1,0 +1,144 @@
+body{
+	font-family: 'Microsoft Yahei';
+	margin: 0;
+
+}
+ul,li {
+	list-style: none;
+}
+h1{
+	font-size: 40px;
+}
+dd{
+	font-style: italic;
+	color: #666;
+}
+.clearfix:after{
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+.container{
+	width: 100%;
+    min-height: 500px;
+    background: #fff;
+    margin: 0 auto;
+
+}
+
+.demo-header {
+    margin-bottom: 80px;
+    height: 350px;
+    color: #fff;
+    background-color: #0abebf;
+    padding: 10px 150px;
+}
+#download{
+	background-color: #b7d06c;
+    color: #fff;
+    height: 20px;
+    display: block;
+    width: 180px;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 1px 1px 5px #ccc;
+    border-radius: 3px;
+    text-decoration: none;
+}
+#download:hover{
+	    text-decoration: none;
+    background-color: #9dc509;
+}
+.demo{
+	padding-bottom: 80px;
+}
+li.slot-item{
+	padding: 1px 0px;
+	/*border: 1px solid #18a0b7;
+    border-left: 0px solid #4bcce2;*/
+	border-bottom: 1px solid #f9f9f9;
+    background-color: #fff;
+
+}
+li.slot-item:not(:last-child){
+	border-bottom-color: transparent;
+}
+
+.item-title{
+	font-size: 17px;
+	line-height: 48px;
+}
+.toutiao-title{
+	font-size: 17px;
+	line-height: 30px;
+}
+.slot-handler p{
+	margin: 0;
+	font-size: 14px;
+}
+.avator1{
+	width: 35%;
+	float: left;
+}
+.avator2{
+	/*width: 35%;*/
+	float: left;
+}
+.avator>img{
+	/*width:50px;*/
+	width:100%;
+	height:auto;
+}
+.content{
+	width:30%;
+	float: left;
+	line-height: 18px;
+	margin-left:2%;
+}
+.border-yellow{
+	border: 1px solid #f9f9f9;
+}
+.border-red{
+	border: 2px solid #ea7c7c;
+}
+.border-green{
+	border: 2px solid #61d486;
+}
+.bg-yellow{
+	background-color: #ecdb50;
+}
+.bg-red{
+	background-color: #ea7c7c;
+	margin-right:8%;
+}
+.bg-green{
+	background-color: #61d486;
+}
+.slot-title{
+	float: left;
+    width: 44%;
+    /*color: #fff;*/
+    padding: 10px 1px;
+    min-height: 30px;
+    font-size: 20px
+}
+.avaliable-title{
+	margin-right:8%;
+}
+.slot-title:not(:nth-child(3)){
+	/*margin-right: 10%;*/
+}
+
+.code{
+	min-height: 500px;
+	
+	background-color: #b7d06c;
+	padding: 20px 150px;
+}
+.aa{
+	width:45%;
+	height:600px;
+	overflow: auto;
+}

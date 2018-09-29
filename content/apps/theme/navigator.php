@@ -458,12 +458,12 @@ class navigator extends ecjia_admin {
      */
     private function is_show_in_nav($type, $id) {
         if ($type == 'c') {
-            $db = RC_Loader::load_app_model('category_model','goods');
+            $db = RC_DB::table('category');
         } else {
-            $db = RC_Loader::load_app_model('article_cat_model','article');
+            $db = RC_DB::table('article_cat');
         }
-
-        return  $db->field('show_in_nav')->find('cat_id = '.$id.'');
+        $show_in_nav = $db->where('cat_id', $id)->pluck('show_in_nav');
+       
     }
 
     /**
@@ -474,11 +474,11 @@ class navigator extends ecjia_admin {
      */
     function set_show_in_nav($type, $id, $val) {
         if ($type == 'c') {
-            $db = RC_Loader::load_app_model('category_model','goods');
+            $db = RC_DB::table('category');
         } else {
-            $db = RC_Loader::load_app_model('article_cat_model','article');
+            $db = RC_DB::table('article_cat');
         }
-        $db->where('cat_id = '.$id.'')->update(array('show_in_nav' => $val));
+        $db->where('cat_id', $id)->update(array('show_in_nav' => $val));
     }
 }
 

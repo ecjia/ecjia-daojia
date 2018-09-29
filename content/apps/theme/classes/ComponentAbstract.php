@@ -44,22 +44,86 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\App\Theme;
 
-defined('IN_ROYALCMS') or exit('No permission resources.');
-/**
- * 中心应用
- */
-return array(
-	'identifier' 	=> 'ecjia.theme',
-	'directory' 	=> 'theme',
-	'name'			=> 'theme',
-	'description' 	=> 'theme_desc',		    /* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.18.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
-    'namespace'     => 'Ecjia\App\Theme',
-    'provider'      => 'ThemeServiceProvider',
-);
+abstract class ComponentAbstract
+{
 
-// end
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code;
+    
+    /**
+     * 名称
+     * @var string
+     */
+    protected $name;
+    
+    /**
+     * 描述
+     * @var string
+     */
+    protected $description;
+    
+    /**
+     * 缩略图
+     * @var string
+     */
+    protected $thumb;
+
+    /**
+     * 排序
+     * @var int
+     */
+    protected $sort = 0;
+    
+    public function getCode()
+    {
+        return $this->code;
+    }
+    
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    public function getThumb()
+    {
+    	if ($this->thumb)
+    	{
+    		$this->icon = \RC_App::apps_url('', __DIR__) . $this->thumb;
+    	}
+    	return $this->icon;
+    }
+    
+    public function getSort()
+    {
+    	return $this->sort;
+    }
+    
+    public function setSort($sort)
+    {
+    	$this->sort = $sort;
+    	return $this;
+    }
+    
+    /**
+     * 预览显示使用的HTML，抽象方法
+     */
+    abstract public function handlePriviewHtml();
+
+    /**
+     * API使用的数据格式
+     * @return mixed
+     */
+    abstract public function handleData();
+
+
+}

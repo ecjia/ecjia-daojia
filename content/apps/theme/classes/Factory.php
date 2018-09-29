@@ -44,22 +44,73 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\App\Theme;
 
-defined('IN_ROYALCMS') or exit('No permission resources.');
-/**
- * 中心应用
- */
-return array(
-	'identifier' 	=> 'ecjia.theme',
-	'directory' 	=> 'theme',
-	'name'			=> 'theme',
-	'description' 	=> 'theme_desc',		    /* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.18.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
-    'namespace'     => 'Ecjia\App\Theme',
-    'provider'      => 'ThemeServiceProvider',
-);
+use RC_Hook;
+use InvalidArgumentException;
 
-// end
+class Factory
+{
+    
+    protected static $factories;
+    
+    public function __construct()
+    {
+        self::$factories = $this->getFactories();
+    }
+    
+    public function getFactories()
+    {
+        $cache_key = 'theme_component_factories';
+    
+        $factories = ecjia_cache('theme')->get($cache_key);
+        if (empty($factories)) {
+    
+            $dir = __DIR__ . '/Components';
+    
+            $platforms = royalcms('files')->files($dir);
+
+            $factories = [];
+    
+            foreach ($platforms as $key => $value) {
+                $value = str_replace($dir . '/', '', $value);
+                $value = str_replace('.php', '', $value);
+                $className = __NAMESPACE__ . '\Components\\' . $value;
+                
+                $key = with(new $className)->getCode();
+                $factories[$key] = $className;
+            }
+    
+            ecjia_cache('theme')->put($cache_key, $factories, 10080);
+        }
+    
+        return RC_Hook::apply_filters('ecjia_theme_component_filter', $factories);
+    }
+    
+    
+    public function getComponents()
+    {
+        $events = [];
+    
+        foreach (self::$factories as $key => $value) {
+            $inst = new $value;
+            $events[$key] = $inst;
+        }
+    
+        return $events;
+    }
+    
+    
+    public function component($code)
+    {
+        if (!array_key_exists($code, self::$factories)) {
+            throw new InvalidArgumentException("Component '$code' is not supported.");
+        }
+    
+        $className = self::$factories[$code];
+
+        return new $className();
+    }
+    
+    
+}

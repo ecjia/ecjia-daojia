@@ -44,22 +44,127 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-
-defined('IN_ROYALCMS') or exit('No permission resources.');
 /**
- * 中心应用
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/7/23
+ * Time: 11:56 AM
  */
-return array(
-	'identifier' 	=> 'ecjia.theme',
-	'directory' 	=> 'theme',
-	'name'			=> 'theme',
-	'description' 	=> 'theme_desc',		    /* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.18.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
-    'namespace'     => 'Ecjia\App\Theme',
-    'provider'      => 'ThemeServiceProvider',
-);
 
-// end
+namespace Ecjia\App\Theme\Components;
+
+
+use Ecjia\App\Theme\ComponentAbstract;
+
+class NewGoods extends ComponentAbstract
+{
+
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'new_goods';
+
+    /**
+     * 名称
+     * @var string
+     */
+    protected $name = '首页新品';
+
+    /**
+     * 描述
+     * @var string
+     */
+    protected $description = '首页新品，最多支持10个。';
+
+    /**
+     * 缩略图
+     * @var string
+     */
+    protected $thumb = '/statics/images/thumb/module_newgoods.png'; //图片未添加
+
+
+    /**
+     * 预览显示使用的HTML
+     */
+    public function handlePriviewHtml()
+    {
+        $data = $this->queryData();
+
+        return <<<HTML
+
+
+HTML;
+    }
+
+
+    /**
+     * API使用的数据格式
+     */
+    public function handleData()
+    {
+        $data = $this->queryData();
+
+        return [
+            'module' => $this->code,
+            'title' => '',
+            'data'  => $data,
+        ];
+    }
+
+
+    protected function queryData()
+    {
+        $request 	= royalcms('request');
+        $location 	= $request->input('location', array());
+        $city_id	= $request->input('city_id', 0);
+        
+        if (is_array($location) && isset($location['latitude']) && isset($location['longitude'])) {
+        	$request                     = array('location' => $location);
+        	$geohash                     = \RC_Loader::load_app_class('geohash', 'store');
+        	$geohash_code                = $geohash->encode($location['latitude'] , $location['longitude']);
+        	$store_id_group   			 = \RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
+        	if (empty($store_id_group)) {
+        		$store_id_group = array(0);
+        	}
+        }
+        
+        $new_goods_data = array();
+        
+        $order_sort = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
+        $filter     = array(
+        		'intro'	=> 'new',
+        		'sort'	=> $order_sort,
+        		'page'	=> 1,
+        		'size'	=> 6,
+        		'store_id' => $store_id_group,
+        );
+        
+        $result = \RC_Api::api('goods', 'goods_list', $filter);
+        if ( !empty($result['list']) ) {
+        	foreach ( $result['list'] as $key => $val ) {
+        		$new_goods_data[] = array(
+        				'id'            => intval($val['goods_id']),
+        				'goods_id'      => intval($val['goods_id']),           //多商铺中不用，后期删除
+        				'name'          => $val['goods_name'],
+        				'manage_mode'   => $val['manage_mode'],
+        				'market_price'	=> $val['market_price'],
+        				'shop_price'	=> $val['shop_price'],
+        				'promote_price'	=> $val['promote_price'],
+        				'img'           => array(
+        						'small' => $val['goods_thumb'],
+        						'thumb' => $val['goods_img'],
+        						'url'	=> $val['original_img'],
+        				),
+        				'store_id'		=> $val['store_id'],
+        				'store_name'	=> $val['store_name'],
+        				'store_logo'	=> $val['store_logo'],
+        		);
+        	}
+        }
+        
+        return $new_goods_data;
+    }
+
+
+}

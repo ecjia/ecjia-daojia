@@ -1,0 +1,50 @@
+
+.slot{
+	width: 46%;
+    height: 600px;
+    float: left;
+    border: 1px solid #e2e2e1;
+    padding: 1px;
+	overflow: auto;
+	background-color: #f9f9f9;
+	border-radius:4px;
+}
+.slot2{
+	width: 46%;
+}
+.empty-slot{
+	border:  1px dashed #ddd;
+}
+
+.slot-list{
+	list-style: none;
+    padding: 0;
+    font-size: 20px;
+    cursor:pointer;
+    margin: 0;
+}
+.slot-item{
+	padding: 1px 10px;
+	border: 1px solid #f9f9f9;
+
+}
+.slot-item:not(:last-child){
+	border-bottom-color: transparent;
+}
+
+.slot:not(:last-child){
+	margin-right: 6%;
+}
+.drag-item{
+	position: absolute;
+	opacity: .8;
+}
+.placeholder{
+	border: 2px dashed #349ce4;
+}
+.openname{
+	display:none;
+}
+.literal{
+	margin-top:10px !important;
+}
