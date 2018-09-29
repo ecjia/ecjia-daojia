@@ -50,14 +50,14 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 商店帮助列表
  * @author royalwang
  */
-class help_module extends api_front implements api_interface {
+class shop_help_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	$cache_article_key = 'article_list_';
     	$cache_id = sprintf('%X', crc32($cache_article_key));
     	$article_db = RC_Model::model('article/orm_article_model');
     	$out = $article_db->get_cache_item($cache_id);
     	if (empty($out)) {
-    		$data = get_shop_help();
+    		$data = $this->get_shop_help();
     		$out = array();
     		foreach ($data as $value) {
     			$value['article'] && $value['article'] = array_values($value['article']);
@@ -67,33 +67,33 @@ class help_module extends api_front implements api_interface {
     	}
 		return $out;
 	}
-}
-
-function get_shop_help() {
-    $res = RC_DB::table('article')
-    ->leftJoin('article_cat', 'article.cat_id', '=', 'article_cat.cat_id')
-    ->where('cat_type', 'shop_help')->where('parent_id', 0)->whereNotNull('cat_name')
-    ->orderBy('sort_order', 'ASC')->orderBy('article_id', 'ASC')
-    ->get();
-     
-    $arr = array();
-    if (!empty($res)) {
-        foreach ($res AS $key => $row) {
-            if (!empty($row['link']) && $row['link'] != 'http://' && $row['link'] != 'https://') {
-                continue;
-            }
-            if (empty($row['content']) || empty($row['cat_name'])) {
-                continue;
-            }
-             
-            $arr[$row['cat_id']]['name']                     	 = $row['cat_name'];
-            $arr[$row['cat_id']]['article'][$key]['id']  		 = $row['article_id'];
-            $arr[$row['cat_id']]['article'][$key]['title']       = $row['title'];
-            $arr[$row['cat_id']]['article'][$key]['short_title'] = ecjia::config('article_title_length') > 0 ?
-            RC_String::sub_str($row['title'], ecjia::config('article_title_length')) : $row['title'];
-        }
-    }
-    return $arr;
+	
+	private function get_shop_help() {
+	    $res = RC_DB::table('article')
+	    ->leftJoin('article_cat', 'article.cat_id', '=', 'article_cat.cat_id')
+	    ->where('cat_type', 'shop_help')->where('parent_id', 0)->whereNotNull('cat_name')
+	    ->orderBy('sort_order', 'ASC')->orderBy('article_id', 'ASC')
+	    ->get();
+	     
+	    $arr = array();
+	    if (!empty($res)) {
+	        foreach ($res AS $key => $row) {
+	            if (!empty($row['link']) && $row['link'] != 'http://' && $row['link'] != 'https://') {
+	                continue;
+	            }
+	            if (empty($row['content']) || empty($row['cat_name'])) {
+	                continue;
+	            }
+	             
+	            $arr[$row['cat_id']]['name']                     	 = $row['cat_name'];
+	            $arr[$row['cat_id']]['article'][$key]['id']  		 = $row['article_id'];
+	            $arr[$row['cat_id']]['article'][$key]['title']       = $row['title'];
+	            $arr[$row['cat_id']]['article'][$key]['short_title'] = ecjia::config('article_title_length') > 0 ?
+	            RC_String::sub_str($row['title'], ecjia::config('article_title_length')) : $row['title'];
+	        }
+	    }
+	    return $arr;
+	}
 }
 
 // end

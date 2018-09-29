@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 某一分类下文章列表
  * @author zrl
  */
-class list_module extends api_front implements api_interface {
+class article_list_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
     	RC_Loader::load_app_class('article_list', 'article', false);

@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class detail_module extends api_front implements api_interface {
+class shop_info_detail_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
 		$id = $this->requestData('article_id', 0);
 		if ($id <= 0) {
@@ -60,7 +60,7 @@ class detail_module extends api_front implements api_interface {
 		//$html = $article_db->get_cache_item($cache_id);
 		$html = array();
 		if (empty($html)) {
-			$article_info = get_article_info($id);
+			$article_info = $this->get_article_info($id);
 			if (empty($article_info)) {
 				return new ecjia_error('does not exist', '不存在的信息');
 			}
@@ -71,12 +71,12 @@ class detail_module extends api_front implements api_interface {
 		}
 		return $html;
 	}
-}
-
-function get_article_info($article_id) {
-	/* 获得文章的信息 */
-	$row = RC_DB::table('article')->select(RC_DB::raw('article_id as id, title, content'))->where('article_id', $article_id)->first();
-    return $row;
+	
+	private function get_article_info($article_id) {
+		/* 获得文章的信息 */
+		$row = RC_DB::table('article')->select(RC_DB::raw('article_id as id, title, content'))->where('article_id', $article_id)->first();
+	    return $row;
+	}
 }
 
 // end

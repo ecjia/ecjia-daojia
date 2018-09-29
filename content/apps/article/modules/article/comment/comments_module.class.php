@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 某一文章的评价列表
  * @author zrl
  */
-class comments_module extends api_front implements api_interface {
+class article_comment_comments_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
 		$article_id	 = $this->requestData('article_id', 0);
@@ -70,7 +70,7 @@ class comments_module extends api_front implements api_interface {
 				'comment_approved'	=> array(1)
 		);
 		
-		$comments =article_comments($options);
+		$comments = $this->article_comments($options);
 		$time = RC_Time::gmtime();
 		$arr = array();
 		if (!empty($comments['list'])) {
@@ -117,37 +117,39 @@ class comments_module extends api_front implements api_interface {
 		);
 		return array('data' => $list, 'pager' => $comments['page']);
 	}
+
+	private function article_comments($options) {
+        $dbview = RC_DB::table('discuss_comments as dc');
+        /*获得文章评论*/
+        $article_id		      = empty($options['article_id']) 	? 0 : intval($options['article_id']);
+        $sort_by	   		  = empty($options['sort_by']) 		? 'dc.add_time' : trim($options['sort_by']);
+        $sort_order 		  = empty($options['sort_order']) 	? 'DESC' : trim($options['sort_order']);
+        $size			  	  = empty($options['size']) 		? 15 : intval($options['size']);
+        $page			 	  = empty($options['page']) 		? 1 : intval($options['page']);
+
+        if ($options['article_id'] && ($options['article_id'] > 0)) {
+            $dbview->where(RC_DB::raw('dc.id_value'), $options['article_id'])->where(RC_DB::raw('dc.comment_type'), 'article');
+        }
+        /*显示审核通过的*/
+        if ($options['comment_approved'] && is_array($options['comment_approved'])) {
+            $dbview->whereIn(RC_DB::raw('dc.comment_approved'),  $options['comment_approved']);
+        }
+
+        /*文章评论总数 */
+        $count = $dbview->select('id')->count();
+        $page_row = new ecjia_page($count, $size, 6, '', $page);
+
+        $result = $dbview->select(RC_DB::raw('dc.*'))
+            ->orderby(RC_DB::raw($sort_by), $sort_order)->take($size)->skip($page_row->start_id - 1)->get();
+        $pager = array(
+            'total' => $page_row->total_records,
+            'count' => $page_row->total_records,
+            'more'	=> $page_row->total_pages <= $page ? 0 : 1,
+        );
+        return array('list' => $result, 'page' => $pager);
+    }
 	
 }
 
-function article_comments($options) {
-	$dbview = RC_DB::table('discuss_comments as dc');
-	/*获得文章评论*/
-	$article_id		      = empty($options['article_id']) 	? 0 : intval($options['article_id']);
-	$sort_by	   		  = empty($options['sort_by']) 		? 'dc.add_time' : trim($options['sort_by']);
-	$sort_order 		  = empty($options['sort_order']) 	? 'DESC' : trim($options['sort_order']);
-	$size			  	  = empty($options['size']) 		? 15 : intval($options['size']);
-	$page			 	  = empty($options['page']) 		? 1 : intval($options['page']);
-	
-	if ($options['article_id'] && ($options['article_id'] > 0)) {
-		$dbview->where(RC_DB::raw('dc.id_value'), $options['article_id'])->where(RC_DB::raw('dc.comment_type'), 'article');
-	}
-	/*显示审核通过的*/
-	if ($options['comment_approved'] && is_array($options['comment_approved'])) {
-		$dbview->whereIn(RC_DB::raw('dc.comment_approved'),  $options['comment_approved']);
-	}
-	
-	/*文章评论总数 */
-	$count = $dbview->select('id')->count();
-	$page_row = new ecjia_page($count, $size, 6, '', $page);
-	
-	$result = $dbview->select(RC_DB::raw('dc.*'))
-	->orderby(RC_DB::raw($sort_by), $sort_order)->take($size)->skip($page_row->start_id - 1)->get();
-	$pager = array(
-			'total' => $page_row->total_records,
-			'count' => $page_row->total_records,
-			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
-	);
-	return array('list' => $result, 'page' => $pager);
-}
+
 // end

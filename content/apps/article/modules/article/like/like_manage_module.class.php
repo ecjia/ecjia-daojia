@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author zrl
  *
  */
-class like_manage_module extends api_front implements api_interface {
+class article_like_like_manage_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	//如果用户登录获取其session
     	$this->authSession();

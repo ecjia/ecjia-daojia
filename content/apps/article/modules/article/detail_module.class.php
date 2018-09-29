@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author zrl
  *
  */
-class detail_module extends api_front implements api_interface {
+class article_detail_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	$id = $this->requestData('article_id', 0);
     	if ($id <= 0) {
@@ -64,7 +64,7 @@ class detail_module extends api_front implements api_interface {
     	$article_detail = $article_db->get_cache_item($cache_id);
     	
 		if (empty($article_detail)) {
-			$article_info = get_article_info($id);
+			$article_info = $this->get_article_info($id);
 			if (empty($article_info)) {
 				return new ecjia_error('does not exist', '不存在的信息');
 			}
@@ -165,12 +165,12 @@ class detail_module extends api_front implements api_interface {
 		RC_DB::table('article')->where('article_id', $id)->increment('click_count');
 		return $article_detail;
 	}
-}
-
-function get_article_info($article_id) {
-	/* 获得文章的信息 */
-    $row = RC_DB::table('article')->where('article_approved', 1)->where( 'article_id', $article_id)->first();
-    return $row;
+	
+	private function get_article_info($article_id) {
+		/* 获得文章的信息 */
+		$row = RC_DB::table('article')->where('article_approved', 1)->where( 'article_id', $article_id)->first();
+		return $row;
+	}
 }
 
 // end
