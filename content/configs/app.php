@@ -53,108 +53,109 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 return array(
     /*广告管理*/
-    'adsense' => 'adsense',
+    'adsense'       => 'adsense',
     /* 推荐分成 */
-    'affiliate' => 'affiliate',
+    'affiliate'     => 'affiliate',
     /* api */
-    'api' => 'api',
+    'api'           => 'api',
     /* 文章 */
-    'article' => 'article',	
+    'article'       => 'article',
     /* 红包 */
-    'bonus' => 'bonus',	
+    'bonus'         => 'bonus',
     /* 验证码 */
-    'captcha' => 'captcha',	
+    'captcha'       => 'captcha',
     /* 购物车 */
-    'cart' => 'cart',
+    'cart'          => 'cart',
     /* 评论 */
-    'comment' => 'comment',
+    'comment'       => 'comment',
     /* 结算 */
-    'commission' => 'commission',
+    'commission'    => 'commission',
     /* 帐号连接 */
-    'connect' => 'connect',
+    'connect'       => 'connect',
     /* 计划任务 */
-    'cron' => 'cron', 
+    'cron'          => 'cron',
     /* 配送中心 */
-    'express' => 'express',
+    'express'       => 'express',
     /* 优惠活动 */
-    'favourable' => 'favourable',
+    'favourable'    => 'favourable',
     /* 财务 */
-    'finance' => 'finance',
+    'finance'       => 'finance',
     /* 商家入驻 */
-    'franchisee' => 'franchisee',
+    'franchisee'    => 'franchisee',
     /* 商品 */
-    'goods' => 'goods',
+    'goods'         => 'goods',
     /* 商品库 */
-    'goodslib' => 'goodslib',
+    'goodslib'      => 'goodslib',
     /* 团购 */
-    'groupbuy' => 'groupbuy',	
+    'groupbuy'      => 'groupbuy',
     /* 安装器 */
-    'installer' => 'installer',
+    'installer'     => 'installer',
     /* APP介绍 */
-    'intro' => 'intro',
+    'intro'         => 'intro',
     /* 邮件管理 */
-    'mail' => 'mail',
+    'mail'          => 'mail',
     /* 主页 */
-    'main' => 'main',
+    'main'          => 'main',
     /* 运维工具 */
-    'maintain' => 'maintain',
+    'maintain'      => 'maintain',
     /* 营销活动 */
-    'market' => 'market',
+    'market'        => 'market',
     /* 商户 */
-    'merchant' => 'merchant',
+    'merchant'      => 'merchant',
     /* 移动应用 */
-    'mobile' => 'mobile',
+    'mobile'        => 'mobile',
     /* 通知  */
-    'notification' => 'notification',
+    'notification'  => 'notification',
     /* 订单 */
-    'orders' => 'orders',
+    'orders'        => 'orders',
     /* 支付方式 */
-    'payment' => 'payment',	
+    'payment'       => 'payment',
     /* 公众平台 */
-    'platform' => 'platform',
+    'platform'      => 'platform',
     /* 打印机 */
-    'printer' => 'printer',
+    'printer'       => 'printer',
     /* 促销 */
-    'promotion' => 'promotion',
+    'promotion'     => 'promotion',
     /* 消息推送 */
-    'push' => 'push',
+    'push'          => 'push',
     /* 闪惠活动 */
-    'quickpay' => 'quickpay',
+    'quickpay'      => 'quickpay',
     /* 退货退款 */
-    'refund' => 'refund',
+    'refund'        => 'refund',
     /* 设置 */
-	'setting' => 'setting',	
+	'setting'       => 'setting',
 	/* 配送方式 */
-    'shipping' => 'shipping',	
+    'shipping'      => 'shipping',
     /* 开店向导 */
-    'shopguide' => 'shopguide',
+    'shopguide'     => 'shopguide',
     /* 短信 */
-    'sms' => 'sms',
+    'sms'           => 'sms',
     /* 员工 */
-    'staff' => 'staff',
+    'staff'         => 'staff',
     /* 报表统计 */
-    'stats' => 'stats',
+    'stats'         => 'stats',
     /* 商家入驻 */
-    'store' => 'store',
+    'store'         => 'store',
     /* 主题 */
-    'theme' => 'theme',
+    'theme'         => 'theme',
     /* 模板消息 */
-    'tmplmsg' => 'tmplmsg',
+    'tmplmsg'       => 'tmplmsg',
     /* 微商城 */
-    'touch' => 'touch',
+    'touch'         => 'touch',
     /* 升级器 */
-    'upgrade' => 'upgrade',
+    'upgrade'       => 'upgrade',
     /* 会员 */
-	'user' => 'user',
+	'user'          => 'user',
 	/* 小程序 */
-    'weapp' => 'weapp',
+    'weapp'         => 'weapp',
     /* 微信公众平台 */
-    'wechat' => 'wechat',
+    'wechat'        => 'wechat',
     /*收银台*/
-    'cashier' => 'cashier',
+    'cashier'       => 'cashier',
 
     //Ucenter
-//    'ucenter' => 'ucenter',
+    'ucenter'       => 'ucenter',
+
     /* 附件管理 */
 //    'attach' => 'attach',
 	/* 主题活动 */
