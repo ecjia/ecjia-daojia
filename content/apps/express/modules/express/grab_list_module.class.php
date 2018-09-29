@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 配送抢单列表
  * @author will.chen
  */
-class grab_list_module extends api_admin implements api_interface {
+class express_grab_list_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
@@ -61,22 +61,33 @@ class grab_list_module extends api_admin implements api_interface {
 		$size             = $this->requestData('pagination.count', 15);
 		$page             = $this->requestData('pagination.page', 1);
 		//$where            = array('eo.store_id' => $_SESSION['store_id'], 'staff_id' => 0, 'eo.status' => 0);
-		$where = array();
-		$where['staff_id'] = 0;
-		$where['eo.status'] = 0;
+		//$where = array();
+		//$where['staff_id'] = 0;
+		//$where['eo.status'] = 0;
+		//if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
+		//	$where['eo.store_id'] = $_SESSION['store_id'];
+		//}
+		
+		//$express_order_db = RC_Model::model('express/express_order_viewmodel');
+		//$count            = $express_order_db->join(null)->where($where)->count();
+		
+		$express_order_db = RC_DB::table('express_order as eo')
+                                        ->leftjoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
+                                        ->leftjoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
+		
+		$express_order_db->where(RC_DB::raw('eo.staff_id'), 0)->where(RC_DB::raw('eo.status'), 0);
 		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-			$where['eo.store_id'] = $_SESSION['store_id'];
+			$express_order_db->where(RC_DB::raw('eo.store_id'), $_SESSION['store_id']);
 		}
 		
-		$express_order_db = RC_Model::model('express/express_order_viewmodel');
+		$count = $express_order_db->count(RC_DB::raw('eo.express_id'));
 		
-		$count            = $express_order_db->join(null)->where($where)->count();
 		//实例化分页
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
 		$field                = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
-		$express_order_result = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->order(array('express_id' => 'desc'))->select();
-		
+		//$express_order_result = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->order(array('express_id' => 'desc'))->select();
+		$express_order_result = $express_order_db->select(RC_DB::raw($field))->get();
 		$express_order_list = array();
 		if (!empty($express_order_result)) {
 			foreach ($express_order_result as $val) {

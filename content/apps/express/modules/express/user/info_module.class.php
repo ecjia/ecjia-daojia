@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 快递员基本信息
  * @author will.chen
  */
-class info_module extends api_admin implements api_interface {
+class express_user_info_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {

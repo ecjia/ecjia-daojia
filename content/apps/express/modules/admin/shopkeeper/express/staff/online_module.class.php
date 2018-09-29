@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 掌柜指派订单获取在线配送员列表
  * @author zrl
  */
-class online_module extends api_admin implements api_interface {
+class admin_shopkeeper_express_staff_online_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
     	if ($_SESSION['staff_id'] <= 0) {

@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 查看配送员位置
  * @author zrl
  */
-class location_module extends api_front implements api_interface {
+class express_location_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	//如果用户登录获取其session
     	$this->authSession();

@@ -52,7 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 掌柜操作商家配送单为已取货
  * @author zrl
  */
-class pickup_module extends api_admin implements api_interface {
+class admin_shopkeeper_express_pickup_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
     	
@@ -66,11 +66,21 @@ class pickup_module extends api_admin implements api_interface {
     		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
     	}
     	$express_order         = array();
-    	$express_order_db      = RC_Model::model('express/express_order_viewmodel');
-    	$where                 = array('eo.store_id' => $_SESSION['store_id'], 'eo.delivery_sn' => $delivery_sn, 'eo.status' => 1, 'eo.shipping_code' => 'ship_o2o_express');
-    	$field                 = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
-    	$express_order_info    = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
+    	//$express_order_db      = RC_Model::model('express/express_order_viewmodel');
+    	//$where                 = array('eo.store_id' => $_SESSION['store_id'], 'eo.delivery_sn' => $delivery_sn, 'eo.status' => 1, 'eo.shipping_code' => 'ship_o2o_express');
+    	//$field                 = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+    	//$express_order_info    = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
 		
+		$express_order_db      = RC_DB::table('express_order as eo')
+                                        ->leftjoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
+                                        ->leftjoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
+		
+        $express_order_db->where(RC_DB::raw('eo.store_id'), $_SESSION['store_id'])->where(RC_DB::raw('eo.delivery_sn'), $delivery_sn)->where(RC_DB::raw('eo.status'), 1)->where(RC_DB::raw('eo.shipping_code'), 'ship_o2o_express');
+
+        $field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+        
+        $express_order_info = $express_order_db->select(RC_DB::raw($field))->first();
+
     	if (empty($express_order_info)) {
     		return new ecjia_error('express_no_exists_error', '此配送单不存在！');
     	} elseif ($express_order_info['status'] > 1) {
@@ -81,8 +91,12 @@ class pickup_module extends api_admin implements api_interface {
     		return new ecjia_error('express_staffinfo_error','此配送单并未有配送员接单！');
     	}
     	
-    	$where = array('store_id' => $_SESSION['store_id'], 'staff_id' => $express_order_info['staff_id'], 'delivery_sn' => $delivery_sn);
-    	RC_Model::model('express/express_order_model')->where($where)->update(array('status' => 2, 'express_time' => RC_Time::gmtime()));
+    	//$where = array('store_id' => $_SESSION['store_id'], 'staff_id' => $express_order_info['staff_id'], 'delivery_sn' => $delivery_sn);
+    	//RC_Model::model('express/express_order_model')->where($where)->update(array('status' => 2, 'express_time' => RC_Time::gmtime()));
+        RC_DB::table('express_order')->where('store_id', $_SESSION['store_id'])
+                                     ->where('staff_id', $express_order_info['staff_id'])
+                                     ->where('delivery_sn', $delivery_sn)
+                                     ->update(array('status' => 2, 'express_time' => RC_Time::gmtime()));
     	
     	//记录管理员操作log
     	Ecjia\App\Express\Helper::assign_adminlog_content();

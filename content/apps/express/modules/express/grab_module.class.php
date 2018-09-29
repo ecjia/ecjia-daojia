@@ -52,7 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 配送抢单列表
  * @author will.chen
  */
-class grab_module extends api_admin implements api_interface {
+class express_grab_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
@@ -67,15 +67,21 @@ class grab_module extends api_admin implements api_interface {
 		}
 		
 		//$where                = array('store_id' => $_SESSION['store_id'], 'staff_id' => 0, 'express_id' => $express_id);
-		$where = array();
-		$where['staff_id'] = 0;
-		$where['express_id'] = $express_id;
-		if (!empty($_SESSION['store_id'])) {
-			$where['store_id'] = $_SESSION['store_id'];
-		}
+		// $where = array();
+		// $where['staff_id'] = 0;
+		// $where['express_id'] = $express_id;
+		// if (!empty($_SESSION['store_id'])) {
+		// 	$where['store_id'] = $_SESSION['store_id'];
+		// }
 		
-		$express_order_db     = RC_Model::model('express/express_order_model');
-		$express_order_info   = $express_order_db->where($where)->find();
+		//$express_order_db     = RC_Model::model('express/express_order_model');
+		//$express_order_info   = $express_order_db->where($where)->find();
+		$express_order_db       = RC_DB::table('express_order');
+		$express_order_db->where('staff_id', 0)->where('express_id', $express_id);
+		if (!empty($_SESSION['store_id'])) {
+			$express_order_db->where('store_id', $_SESSION['store_id']);
+		}
+		$express_order_info	 = $express_order_db->first();
 		
 		if (!empty($express_order_info)) {
 			$update_date                     = array('staff_id' => $_SESSION['staff_id'], 'from' => 'grab', 'status' => 1, 'commision_status' => 0, 'receive_time' => RC_Time::gmtime());
@@ -86,8 +92,8 @@ class grab_module extends api_admin implements api_interface {
 			$shippingfee_percent = RC_DB::table('express_user')->where('user_id', $_SESSION['staff_id'])->pluck('shippingfee_percent');
 			$update_date['commision'] = $shippingfee_percent/100*$express_order_info['shipping_fee'];
 			
-			
-			$result                  = $express_order_db->where($where)->update($update_date);
+			//$result                  = $express_order_db->where($where)->update($update_date);
+			$result					 = $express_order_db->update($update_date);
 			$orm_staff_user_db       = RC_Model::model('express/orm_staff_user_model');
 			$user                    = $orm_staff_user_db->find($_SESSION['staff_id']);
 			$express_order_viewdb    = RC_Model::model('express/express_order_viewmodel');

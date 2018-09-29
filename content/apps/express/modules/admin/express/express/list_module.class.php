@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 配送信息列表
  * @author will.chen
  */
-class list_module extends api_admin implements api_interface {
+class admin_express_express_list_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
     	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
@@ -63,39 +63,63 @@ class list_module extends api_admin implements api_interface {
 		$size     = $this->requestData('pagination.count', 15);
 		$page     = $this->requestData('pagination.page', 1);
 		
-		$where    = array('staff_id' => $_SESSION['staff_id']);
+		if (empty($express_type)) {
+			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+		}
+		//$where    = array('staff_id' => $_SESSION['staff_id']);
+		//switch ($express_type) {
+		//	case 'wait_pickup' :
+		//		$where['eo.status'] = 1;
+		//		break;
+		//	case 'wait_shipping' :
+		//		$where['eo.status'] = 2;
+		//		break;
+		//	case 'finished' :
+		//		$where['eo.status'] = array(5,7);
+		//		break;
+		//	default : 
+		//		if (!empty($order_sn)) {
+		//			$where['eo.express_sn'] = array('like' => '%'.$order_sn.'%');
+		//		} else {
+		//			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+		//		}
+		//}
+		//if (!empty($type) && in_array($type, array('assign', 'grab'))) {
+		//    $where['eo.from'] = $type;
+		//}
 		
-		switch ($express_type) {
-			case 'wait_pickup' :
-				$where['eo.status'] = 1;
-				break;
-			case 'wait_shipping' :
-				$where['eo.status'] = 2;
-				break;
-			case 'finished' :
-				$where['eo.status'] = array(5,7);
-				break;
-			default : 
-				if (!empty($order_sn)) {
-					$where['eo.express_sn'] = array('like' => '%'.$order_sn.'%');
-				} else {
-					return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-				}
+		//$express_order_db = RC_Model::model('express/express_order_viewmodel');
+		//$count = $express_order_db->join(null)->where($where)->count();
+		
+		$express_order_db = RC_DB::table('express_order as eo')
+                                        ->leftjoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
+                                        ->leftjoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
+                                        
+		$express_order_db->where(RC_DB::raw('eo.staff_id'), $_SESSION['staff_id']);
+		if (!empty($express_type)) {
+			if ($express_type == 'wait_pickup') {
+				$express_order_db->where(RC_DB::raw('eo.status'), 1);
+			} elseif ($express_type == 'wait_shipping') {
+				$express_order_db->where(RC_DB::raw('eo.status'), 2);
+			} elseif ($express_type == 'finished') {
+				$express_order_db->whereIn(RC_DB::raw('eo.status'), array(5,7));
+			}
+		}
+		if (!empty($order_sn)) {
+			$express_order_db->where(RC_DB::raw('eo.express_sn'), 'like', '%'.mysql_like_quote($order_sn).'%');
 		}
 		if (!empty($type) && in_array($type, array('assign', 'grab'))) {
-		    $where['eo.from'] = $type;
+			$express_order_db->where(RC_DB::raw('eo.from'), $type);
 		}
 		
-		$express_order_db = RC_Model::model('express/express_order_viewmodel');
-		
-		$count = $express_order_db->join(null)->where($where)->count();
+		$count = $express_order_db->count(RC_DB::raw('eo.express_id'));
 		
 		//实例化分页
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
 		$field = 'eo.*, oi.expect_shipping_time, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
-		$express_order_result = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->order(array('express_id' => 'desc'))->limit($page_row->limit())->select();
-		
+		//$express_order_result = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->order(array('express_id' => 'desc'))->limit($page_row->limit())->select();
+		$express_order_result = $express_order_db->select(RC_DB::raw($field))->take($size)->skip($page_row->start_id-1)->get();
 		$express_order_list = array();
 		if (!empty($express_order_result)) {
 			foreach ($express_order_result as $val) {

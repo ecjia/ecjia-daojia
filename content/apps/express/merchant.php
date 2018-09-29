@@ -579,10 +579,17 @@ class merchant extends ecjia_merchant {
         }
 
         $express_order = array();
-        $express_order_db = RC_Model::model('express/express_order_viewmodel');
-        $where = array('eo.store_id' => $_SESSION['store_id'], 'eo.express_sn' => $delivery_sn, 'eo.status' => 1, 'eo.shipping_code' => 'ship_o2o_express');
+        //$express_order_db = RC_Model::model('express/express_order_viewmodel');
+        //$where = array('eo.store_id' => $_SESSION['store_id'], 'eo.express_sn' => $delivery_sn, 'eo.status' => 1, 'eo.shipping_code' => 'ship_o2o_express');
+        //$field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
+        //$express_order_info = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
+        $express_order_db = RC_DB::table('express_order as eo')
+        						->leftJoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
+        						->leftJoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
+
+        $express_order_db->where(RC_DB::raw('eo.store_id'), $_SESSION['store_id'])->where(RC_DB::raw('eo.express_sn'), $delivery_sn)->where(RC_DB::raw('eo.status'), 1)->where(RC_DB::raw('eo.shipping_code'), 'ship_o2o_express');
         $field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
-        $express_order_info = $express_order_db->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
+        $express_order_info = $express_order_db->select(RC_DB::raw($field))->first();
 
         if (empty($express_order_info)) {
             return $this->showmessage('此配送单不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -594,8 +601,12 @@ class merchant extends ecjia_merchant {
             return $this->showmessage('此配送单并未有配送员接单！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $where = array('store_id' => $_SESSION['store_id'], 'staff_id' => $express_order_info['staff_id'], 'express_sn' => $delivery_sn);
-        RC_Model::model('express/express_order_model')->where($where)->update(array('status' => 2, 'express_time' => RC_Time::gmtime()));
+        //$where = array('store_id' => $_SESSION['store_id'], 'staff_id' => $express_order_info['staff_id'], 'express_sn' => $delivery_sn);
+        //RC_Model::model('express/express_order_model')->where($where)->update(array('status' => 2, 'express_time' => RC_Time::gmtime()));
+        RC_DB::table('express_order')->where('store_id', $_SESSION['store_id'])
+        							 ->where('staff_id', $express_order_info['staff_id'])
+        							 ->where('express_sn', $delivery_sn)
+        							 ->update(array('status' => 2, 'express_time' => RC_Time::gmtime()));
 
         /*当订单配送方式为o2o速递时,记录o2o速递物流信息*/
         $order_info = RC_DB::table('order_info')->where('order_id', $express_order_info['order_id'])->first();
@@ -606,9 +617,16 @@ class merchant extends ecjia_merchant {
                     'express_code' => $shipping_info['shipping_code'],
                     'track_number' => $order_info['invoice_no'],
                     'time' => RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime()),
-                    'context' => '配送员已取货，正在向您奔去，配送员：' . $_SESSION['staff_name'],
+                    'context' => '配送员已取货，正在向您奔去，配送员：' . $express_order_info['express_user'],
                 );
                 RC_DB::table('express_track_record')->insert($data);
+                //订单状态log记录
+                RC_DB::table('order_status_log')->insert(array(
+                	'order_status'	=> RC_Lang::get('express::express.express_user_pickup'),
+               		'order_id'		=> $express_order_info['order_id'],
+                	'message'		=> '配送员已取货，正在向您奔去，配送员：'.$express_order_info['express_user'],
+                	'add_time'		=> RC_Time::gmtime(),
+                ));
             }
         }
         return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/merchant/wait_pickup', array('type' => 'wait_pickup'))));

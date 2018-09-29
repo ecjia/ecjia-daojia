@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 商家提醒平台派单（配送单属于平台配送的）
  * @author zrl
  */
-class remind_module extends api_admin implements api_interface {
+class admin_shopkeeper_crowdsource_express_remind_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
     	if ($_SESSION['staff_id'] <= 0) {

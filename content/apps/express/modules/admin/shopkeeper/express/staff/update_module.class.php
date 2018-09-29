@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 掌柜编辑配送员
  * @author zrl
  */
-class update_module extends api_admin implements api_interface {
+class admin_shopkeeper_express_staff_update_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
     	if ($_SESSION['staff_id'] <= 0) {
