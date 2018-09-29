@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Session;
+<?php
+
+namespace Royalcms\Component\Session;
 
 interface StoreInterface
 {

@@ -648,7 +648,7 @@ class Store implements SessionInterface, StoreInterface
      */
     public function setPreviousUrl($url)
     {
-        return $this->put('_previous.url', $url);
+        $this->put('_previous.url', $url);
     }
 
     /**
