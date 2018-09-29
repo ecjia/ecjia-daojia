@@ -3562,22 +3562,6 @@ class DemoCategoryTableSeeder extends Seeder
                 'is_show'           => '1',
                 'grade'             => '0',
                 'filter_attr'       => '',
-            ),                                                                                                          
-            array(
-                'cat_id'            => '1341',
-                'cat_name'          => '到家商品',
-                'category_img'      => '',
-                'keywords'          => '',
-                'cat_desc'          => '',
-                'parent_id'         => '0',
-                'sort_order'        => '50',
-                'template_file'     => '',
-                'measure_unit'      => '',
-                'show_in_nav'       => '0',
-                'style'             => '',
-                'is_show'           => '0',
-                'grade'             => '0',
-                'filter_attr'       => '',
             ),
         );
 

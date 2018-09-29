@@ -61,8 +61,6 @@ class InitDatabaseSeeder extends Seeder
         $this->call('InitMailTemplatesTableSeeder');
         $this->call('InitMobileScreenshotsTableSeeder');
         $this->call('InitPaymentTableSeeder');
-        $this->call('InitPlatformCommandTableSeeder');
-        $this->call('InitPlatformConfigTableSeeder');
         $this->call('InitPlatformExtendTableSeeder');
         $this->call('InitRegFieldsTableSeeder');
         $this->call('InitShopConfigTableSeeder');

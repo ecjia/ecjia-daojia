@@ -359,6 +359,8 @@ class InitShopConfigTableSeeder extends Seeder
             ['code' => 'plugin_ship_ecjia_express', 'value' => '', 'options' => ['type' => 'text']],
             //v1.20.0新增
             ['code' => 'merchant_staff_max_number', 'value' => '10', 'options' => ['type' => 'text']],
+            //v1.21.0新增
+            ['code' => 'invitee_rule_explain', 'value' => "1、奖励仅限新用户领取；\n2、每位新用户仅限领取1次，相同设备、手机号等均视为同一用户；\n3、奖励一经领取后，不可删除，不可提现，不可转赠；\n4、新用户领取的奖励查看方式：【我的－我的钱包】查看；\n5、如有其他疑问请咨询官网客服人员。", 'options' => ['type' => 'text']],
         ];
         
         $this->add_config($group, $data);
