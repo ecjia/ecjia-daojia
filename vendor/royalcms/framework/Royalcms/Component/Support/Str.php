@@ -260,6 +260,79 @@ class Str
     }
 
     /**
+     * Replace a given value in the string sequentially with an array.
+     *
+     * @param  string  $search
+     * @param  array   $replace
+     * @param  string  $subject
+     * @return string
+     */
+    public static function replaceArray($search, array $replace, $subject)
+    {
+        foreach ($replace as $value) {
+            $subject = static::replaceFirst($search, $value, $subject);
+        }
+
+        return $subject;
+    }
+
+    /**
+     * Replace the first occurrence of a given value in the string.
+     *
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $subject
+     * @return string
+     */
+    public static function replaceFirst($search, $replace, $subject)
+    {
+        if ($search == '') {
+            return $subject;
+        }
+
+        $position = strpos($subject, $search);
+
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+
+        return $subject;
+    }
+
+    /**
+     * Replace the last occurrence of a given value in the string.
+     *
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $subject
+     * @return string
+     */
+    public static function replaceLast($search, $replace, $subject)
+    {
+        $position = strrpos($subject, $search);
+
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+
+        return $subject;
+    }
+
+    /**
+     * Begin a string with a single instance of a given value.
+     *
+     * @param  string  $value
+     * @param  string  $prefix
+     * @return string
+     */
+    public static function start($value, $prefix)
+    {
+        $quoted = preg_quote($prefix, '/');
+
+        return $prefix.preg_replace('/^(?:'.$quoted.')+/u', '', $value);
+    }
+
+    /**
      * Compares two strings using a constant-time algorithm.
      *
      * Note: This method will leak length information.

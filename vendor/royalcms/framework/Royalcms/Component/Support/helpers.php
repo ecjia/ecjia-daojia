@@ -2,9 +2,11 @@
 
 use Royalcms\Component\Support\Arr;
 use Royalcms\Component\Support\Str;
+use Royalcms\Component\Support\Optional;
 use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Support\Debug\Dumper;
 use Royalcms\Component\Contracts\Support\Htmlable;
+use Royalcms\Component\Support\HigherOrderTapProxy;
 
 if (! function_exists('append_config')) {
     /**
@@ -166,7 +168,7 @@ if (! function_exists('array_forget')) {
      */
     function array_forget(&$array, $keys)
     {
-        return Arr::forget($array, $keys);
+        Arr::forget($array, $keys);
     }
 }
 
@@ -342,6 +344,35 @@ if ( ! function_exists('array_head'))
     function array_head($array)
     {
         return reset($array);
+    }
+}
+
+if (! function_exists('blank')) {
+    /**
+     * Determine if the given value is "blank".
+     *
+     * @param  mixed  $value
+     * @return bool
+     */
+    function blank($value)
+    {
+        if (is_null($value)) {
+            return true;
+        }
+
+        if (is_string($value)) {
+            return trim($value) === '';
+        }
+
+        if (is_numeric($value) || is_bool($value)) {
+            return false;
+        }
+
+        if ($value instanceof Countable) {
+            return count($value) === 0;
+        }
+
+        return empty($value);
     }
 }
 
@@ -558,6 +589,19 @@ if (! function_exists('ends_with')) {
     }
 }
 
+if (! function_exists('filled')) {
+    /**
+     * Determine if a value is "filled".
+     *
+     * @param  mixed  $value
+     * @return bool
+     */
+    function filled($value)
+    {
+        return ! blank($value);
+    }
+}
+
 if (! function_exists('head')) {
     /**
      * Get the first element of an array. Useful for method chaining.
@@ -611,6 +655,44 @@ if (! function_exists('object_get')) {
     }
 }
 
+if (! function_exists('optional')) {
+    /**
+     * Provide access to optional objects.
+     *
+     * @param  mixed  $value
+     * @param  callable|null  $callback
+     * @return mixed
+     */
+    function optional($value = null, callable $callback = null)
+    {
+        if (is_null($callback)) {
+            return new Optional($value);
+        } elseif (! is_null($value)) {
+            return $callback($value);
+        }
+    }
+}
+
+if (! function_exists('preg_replace_array')) {
+    /**
+     * Replace a given pattern with each value in the array in sequentially.
+     *
+     * @param  string  $pattern
+     * @param  array   $replacements
+     * @param  string  $subject
+     * @return string
+     */
+    function preg_replace_array($pattern, array $replacements, $subject)
+    {
+        return preg_replace_callback($pattern, function () use (&$replacements) {
+            foreach ($replacements as $key => $value) {
+                return array_shift($replacements);
+            }
+        }, $subject);
+    }
+}
+
+
 if (! function_exists('preg_replace_sub')) {
     /**
      * Replace a given pattern with each value in the array in sequentially.
@@ -627,6 +709,40 @@ if (! function_exists('preg_replace_sub')) {
                 return array_shift($replacements);
             }
         }, $subject);
+    }
+}
+
+if (! function_exists('retry')) {
+    /**
+     * Retry an operation a given number of times.
+     *
+     * @param  int  $times
+     * @param  callable  $callback
+     * @param  int  $sleep
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    function retry($times, callable $callback, $sleep = 0)
+    {
+        $times--;
+
+        beginning:
+        try {
+            return $callback();
+        } catch (Exception $e) {
+            if (! $times) {
+                throw $e;
+            }
+
+            $times--;
+
+            if ($sleep) {
+                usleep($sleep * 1000);
+            }
+
+            goto beginning;
+        }
     }
 }
 
@@ -763,6 +879,36 @@ if (! function_exists('str_replace_array')) {
     }
 }
 
+if (! function_exists('str_replace_first')) {
+    /**
+     * Replace the first occurrence of a given value in the string.
+     *
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $subject
+     * @return string
+     */
+    function str_replace_first($search, $replace, $subject)
+    {
+        return Str::replaceFirst($search, $replace, $subject);
+    }
+}
+
+if (! function_exists('str_replace_last')) {
+    /**
+     * Replace the last occurrence of a given value in the string.
+     *
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $subject
+     * @return string
+     */
+    function str_replace_last($search, $replace, $subject)
+    {
+        return Str::replaceLast($search, $replace, $subject);
+    }
+}
+
 if (! function_exists('str_singular')) {
     /**
      * Get the singular form of an English word.
@@ -790,6 +936,20 @@ if (! function_exists('str_slug')) {
     }
 }
 
+if (! function_exists('str_start')) {
+    /**
+     * Begin a string with a single instance of a given value.
+     *
+     * @param  string  $value
+     * @param  string  $prefix
+     * @return string
+     */
+    function str_start($value, $prefix)
+    {
+        return Str::start($value, $prefix);
+    }
+}
+
 if (! function_exists('studly_case')) {
     /**
      * Convert a value to studly caps case.
@@ -800,6 +960,83 @@ if (! function_exists('studly_case')) {
     function studly_case($value)
     {
         return Str::studly($value);
+    }
+}
+
+if (! function_exists('tap')) {
+    /**
+     * Call the given Closure with the given value then return the value.
+     *
+     * @param  mixed  $value
+     * @param  callable|null  $callback
+     * @return mixed
+     */
+    function tap($value, $callback = null)
+    {
+        if (is_null($callback)) {
+            return new HigherOrderTapProxy($value);
+        }
+
+        $callback($value);
+
+        return $value;
+    }
+}
+
+if (! function_exists('call_user_func_args')) {
+    function call_user_func_args($class, array $parameters)
+    {
+        $reflect = new ReflectionClass($class);
+        $instance = $reflect->newInstanceArgs($parameters);
+        return $instance;
+    }
+}
+
+if (! function_exists('throw_if')) {
+    /**
+     * Throw the given exception if the given condition is true.
+     *
+     * @param  mixed  $condition
+     * @param  \Throwable|string  $exception
+     * @param  array  ...$parameters
+     * @return mixed
+     * @throws \Throwable
+     */
+    function throw_if($condition, $exception, $parameters)
+    {
+        $parameters = func_get_args();
+        unset($parameters[0]);
+        unset($parameters[1]);
+
+        if ($condition) {
+            throw (is_string($exception) ? call_user_func_args($exception, $parameters) : $exception);
+        }
+
+        return $condition;
+    }
+}
+
+if (! function_exists('throw_unless')) {
+    /**
+     * Throw the given exception unless the given condition is true.
+     *
+     * @param  mixed  $condition
+     * @param  \Throwable|string  $exception
+     * @param  array  ...$parameters
+     * @return mixed
+     * @throws \Throwable
+     */
+    function throw_unless($condition, $exception, $parameters)
+    {
+        $parameters = func_get_args();
+        unset($parameters[0]);
+        unset($parameters[1]);
+
+        if (! $condition) {
+            throw (is_string($exception) ? call_user_func_args($exception, $parameters) : $exception);
+        }
+
+        return $condition;
     }
 }
 
@@ -832,6 +1069,29 @@ if (! function_exists('trait_uses_recursive')) {
         }
 
         return $traits;
+    }
+}
+
+if (! function_exists('transform')) {
+    /**
+     * Transform the given value if it is present.
+     *
+     * @param  mixed  $value
+     * @param  callable  $callback
+     * @param  mixed  $default
+     * @return mixed|null
+     */
+    function transform($value, callable $callback, $default = null)
+    {
+        if (filled($value)) {
+            return $callback($value);
+        }
+
+        if (is_callable($default)) {
+            return $default($value);
+        }
+
+        return $default;
     }
 }
 
