@@ -113,7 +113,7 @@ class finance_pay_points_change_api extends Component_Event_Api {
             $log_id = RC_DB::table('account_log')->insertGetId($account_log);
 
             /* 更新用户信息 */
-            RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', $account_log['pay_points']);
+            RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', intval($account_log['pay_points']));
 
             return $log_id;
         });

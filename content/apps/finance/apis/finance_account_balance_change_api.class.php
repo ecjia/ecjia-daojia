@@ -115,8 +115,8 @@ class finance_account_balance_change_api extends Component_Event_Api {
             // $step = $account_log['user_money'] . ", frozen_money = frozen_money + ('" . $account_log['frozen_money'] . "')";
             // RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $step);
 
-            RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $account_log['user_money']);
-            RC_DB::table('users')->where('user_id', $user_id)->increment('frozen_money', $account_log['frozen_money']);
+            RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', floatval($account_log['user_money']));
+            RC_DB::table('users')->where('user_id', $user_id)->increment('frozen_money', floatval($account_log['frozen_money']));
             return $log_id;
         });
 

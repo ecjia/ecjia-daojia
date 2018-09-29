@@ -65,9 +65,11 @@ class finance_account_change_log_api extends Component_Event_Api {
         $pay_points 	= isset($options['pay_points']) 	? $options['pay_points'] 	: 0;
         $change_desc 	= isset($options['change_desc']) 	? $options['change_desc'] 	: '';
         $change_type 	= isset($options['change_type']) 	? $options['change_type'] 	: ACT_OTHER;
+        $from_type		= isset($options['from_type']) 		? $options['from_type'] 		: '';
+        $from_value		= isset($options['from_value'])		? $options['from_value'] 	: '';
         
         
-        return $this->log_account_change($user_id, $user_money, $frozen_money, $rank_points, $pay_points, $change_desc, $change_type);
+        return $this->log_account_change($user_id, $user_money, $frozen_money, $rank_points, $pay_points, $change_desc, $change_type, $from_type, $from_value);
     }
     
     
@@ -90,7 +92,7 @@ class finance_account_change_log_api extends Component_Event_Api {
      *        	变动类型：参见常量文件
      * @return void
      */
-    private function log_account_change($user_id, $user_money = 0, $frozen_money = 0, $rank_points = 0, $pay_points = 0, $change_desc = '', $change_type = ACT_OTHER) {
+    private function log_account_change($user_id, $user_money = 0, $frozen_money = 0, $rank_points = 0, $pay_points = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type = '', $from_value = '') {
 
         /* 插入帐户变动记录 */
         $account_log = array (
@@ -101,25 +103,27 @@ class finance_account_change_log_api extends Component_Event_Api {
             'pay_points'	=> $pay_points,
             'change_time'	=> RC_Time::gmtime(),
             'change_desc'	=> $change_desc,
-            'change_type'	=> $change_type
+            'change_type'	=> $change_type,
+            'from_type'		=> empty($from_type) ? '' : $from_type,
+            'from_value'	=> empty($from_value) ? '' : $from_value
         );
         RC_DB::table('account_log')->insert($account_log);
     
         /* 更新用户信息 */
         // 	TODO: 暂时先恢复之前的写法
     
-        $step = $user_money.", frozen_money = frozen_money + ('$frozen_money')," .
-//         " rank_points = rank_points + ('$rank_points')," .
-        " pay_points = pay_points + ('$pay_points')";
+        RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $user_money);
+        RC_DB::table('users')->where('user_id', $user_id)->increment('frozen_money', $frozen_money);
+        RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', $pay_points);
     
-        RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $step);
-        
         if ($rank_points) {
             $data = array (
                 'user_id'			=> $user_id,
                 'rank_points'		=> $rank_points,
                 'change_desc'		=> $change_desc,
                 'change_type'		=> $change_type,
+                'from_type'			=> empty($from_type) ? '' : $from_type,
+                'from_value'		=> empty($from_value) ? '' : $from_value
             );
             RC_Api::api('user', 'rank_points_change_log', $data);
         }
