@@ -141,6 +141,11 @@ class sns_qq extends ConnectAbstract
         $redirect_uri = urlencode(RC_Uri::url('connect/callback/init', array('connect_code' => 'sns_qq')));
         return $redirect_uri;
     }
+
+    public function overwrite_callback_url($callback_url)
+    {
+        $this->recorder->writeInc('callback', $callback_url);
+    }
     
     /**
      * 登录成功后回调处理
