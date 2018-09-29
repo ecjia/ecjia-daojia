@@ -18,7 +18,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<!-- {block name="ready_meta"} --><!-- {/block} -->
 	<link rel="stylesheet" href="{$theme_url}lib/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{$theme_url}fonts/iconfont.min.css">
-	<link rel="stylesheet" href="{$theme_url}css/style.css">
+	<link rel="stylesheet" href="{$theme_url}css/style.css?919">
 	<link rel="stylesheet" href="{$theme_url}lib/swiper/css/swiper.min.css">
 </head>
 <body>

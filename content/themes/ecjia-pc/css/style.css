@@ -41,7 +41,7 @@ a:active, a:hover {
 }
 .search input {
     margin-top: 25px;
-    width: 220px;
+    width: 180px;
     height: 25px;
     border-radius: 4px 0 0 4px
 }
@@ -68,7 +68,7 @@ a:active, a:hover {
 .ecjia-content .search .shelper {
     position: absolute;
     z-index: 2;
-    width: 232px;
+    width: 227px;
     height: auto;
     border: 1px solid #ccc;
     top: 61px;
@@ -271,7 +271,7 @@ a:active, a:hover {
     background: #fff
 }
 .ecjia-header .ecjia-logo {
-    width: 34%
+    width: 32%
 }
 .ecjia-header .ecjia-logo img {
     height: 60px;
@@ -306,8 +306,8 @@ a:active, a:hover {
     margin-bottom: 0
 }
 .ecjia-header .nav li {
-    padding: 0 17px;
-    font-size: 17px;
+    padding: 0 15px;
+    font-size: 16px;
     line-height: 80px;
     float: left;
     color: #333
