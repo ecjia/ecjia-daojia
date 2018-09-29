@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author 
  * 
  */
-class pay_module extends api_front implements api_interface {
+class quickpay_order_pay_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authSession();
     	$user_id = $_SESSION['user_id'];

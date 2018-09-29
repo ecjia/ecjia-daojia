@@ -47,65 +47,55 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 买单订单删除
+ * 买单订单列表
  * @author zrl
- *
  */
-class delete_module extends api_front implements api_interface {
+class quickpay_order_list_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	//如果用户登录获取其session
+    
     	$this->authSession();
-		$user_id = $_SESSION['user_id'];
-		if ($user_id < 1) {
-			return new ecjia_error(100, 'Invalid session');
-		}
+    	if ($_SESSION['user_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+		/* 获取数量 */
+		$size = $this->requestData('pagination.count', 15);
+		$page = $this->requestData('pagination.page', 1);
 		
-		$user_id 		= $_SESSION['user_id'];
-		$order_id		= $this->requestData('order_id', 0);
-		
-		if ( $order_id <= 0) {
-			return new ecjia_error('invalid_parameter', '参数错误！');
-		}
-	
-		$options = array('order_id' => $order_id);
-		$order_info = RC_Api::api('quickpay', 'quickpay_order_info', $options);
-		if (is_ecjia_error($order_info)) {
-			return $order_info;
-		}
-		
-		if (empty($order_info)) {
-			return new ecjia_error('not_exist_info', '订单信息不存在！');
-		}
-		
-		$pay_status = Ecjia\App\Quickpay\Status::UNPAID;
-		$order_status = Ecjia\App\Quickpay\Status::CANCELED;
-		$verification_status = Ecjia\App\Quickpay\Status::UNVERIFICATION;
-		
-		if (($order_info['order_status'] != $pay_status) && ($order_info['pay_status'] != $pay_status) && $order_info['verification_status'] != $verification_status) {
-			return new ecjia_error('not_support_cancel', '当前订单不支持删除！');
-		}
-		
-		$arr = array(
-				'order_status' 			=> Ecjia\App\Quickpay\Status::DELETED,
+		$options = array(
+			'size'			=> $size,
+			'page'			=> $page,
+			'user_id'		=> $_SESSION['user_id']
 		);
 		
-		RC_DB::table('quickpay_orders')->where('order_id', $order_id)->update($arr);
+		$quickpay_order_data = RC_Api::api('quickpay', 'quickpay_order_list', $options);
+		if (is_ecjia_error($quickpay_order_data)) {
+			return $quickpay_order_data;
+		}
 		
-		/* 记录log */
-		RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
-		$data = array(
-				'order_id' 			=> $order_id,
-				'action_user_id'	=> $order_info['user_id'],
-				'action_user_name' 	=> $order_info['user_name'],
-				'action_user_type'	=> 'user',
-				'order_status' 		=> Ecjia\App\Quickpay\Status::DELETED,
-				'pay_status' 		=> $pay_status,
-				'action_note' 		=> ''
-		);
-		quickpay_activity::quickpay_order_action($data);
-	
-		return array();
+		$arr = array();
+		if(!empty($quickpay_order_data['list'])) {
+			foreach ($quickpay_order_data['list'] as $rows) {
+				if ($rows['pay_code'] == 'pay_balance') {
+					$rows['order_amount'] = $rows['order_amount'] + $rows['surplus'];
+				}
+				$arr[] = array(
+					'store_id' 					=> intval($rows['store_id']),
+					'store_name' 				=> $rows['store_name'],
+					'store_logo'				=> empty($rows['store_logo']) ? '' : RC_Upload::upload_url($rows['store_logo']),
+					'order_id' 					=> $rows['order_id'],
+					'order_sn' 					=> $rows['order_sn'],
+					'order_status'				=> $rows['order_status'],
+					'order_status_str'			=> $rows['order_status_str'],
+					'label_order_status'		=> empty($rows['label_order_status']) ? '' : $rows['label_order_status'],
+					'total_discount'			=> $rows['total_discount'],
+					'formated_total_discount'	=> $rows['formated_total_discount'],
+					'order_amount'				=> $rows['order_amount'],
+					'formated_order_amount'	=> price_format($rows['order_amount']),
+					'formated_add_time'			=> RC_Time::local_date(ecjia::config('time_format'), $rows['add_time']),
+				);
+			}
+		}
+		return array('data' => $arr, 'pager' => $quickpay_order_data['page']);
 	}
 }
-
 // end

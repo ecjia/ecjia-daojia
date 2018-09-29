@@ -46,59 +46,38 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 某一商家买单活动列表
- * @author zrl
- */
-class list_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    
-		$store_id	 = $this->requestData('store_id', 0);
-		if ($store_id <= 0) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}
-		/* 获取数量 */
-		$size = $this->requestData('pagination.count', 15);
-		$page = $this->requestData('pagination.page', 1);
-		
-		$options = array(
-				'size'			=> $size,
-				'page'			=> $page,
-				'store_id'		=> $store_id,
-		);
-		$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
-		
-		$quickpay_activity_data = RC_Api::api('quickpay', 'quickpay_activity_list', $options);
-		if (is_ecjia_error($quickpay_activity_data)) {
-			return $quickpay_activity_data;
-		}
-		$arr = array();
-		if(!empty($quickpay_activity_data['list'])) {
-			foreach ($quickpay_activity_data['list'] as $rows) {
-				$arr[] = array(
-						'store_id' 				=> intval($rows['store_id']),
-						'activity_id' 			=> intval($rows['id']),
-						'title'					=> $rows['title'],
-						'activity_type' 		=> $rows['activity_type'],
-						'label_activity_type' 	=> $rows['label_activity_type'],
-						'limit_time_type'		=> $rows['limit_time_type'],
-						'limit_time_weekly'		=> $rows['limit_time_weekly_str'],
-						'limit_time_daily'		=> $rows['limit_time_daily_str'],
-						'limit_time_exclude'	=> $rows['limit_time_exclude'],
-						'start_time'			=> $rows['start_time'],
-						'end_time'				=> $rows['end_time'],
-						'formated_start_time'	=> RC_Time::local_date(ecjia::config('date_format'), $rows['start_time']),
-						'formated_end_time'		=> RC_Time::local_date(ecjia::config('date_format'), $rows['end_time']),
-						//'total_order_count'		=> $rows['total_order_count']
-				);
-			}
-		}
-		$result = array(
-			'store_id' 		=> $store_id,
-			'store_name' 	=> empty($store_name) ? '' : $store_name,
-			'activity_list' => 	$arr
-		);
-		return array('data' => $result, 'pager' => $quickpay_activity_data['page']);
-	}
+//商家支付方式列表
+class quickpay_merchant_shop_payment_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	
+    	$this->authSession();
+    	$store_id		= $this->requestData('store_id', 0);
+    	if (empty($store_id)) {
+    		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+    	}
+    	$payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $store_id));
+    	
+    	if (!empty($payment_list)) {
+    		foreach ($payment_list as $key => $val) {
+    				if ($val['pay_code'] == 'pay_cod') {
+    					unset($payment_list[$key]);
+    				}
+    		}
+    		foreach ($payment_list as $row) {
+    			$list[] = array(
+    					'pay_id' 	=> $row['pay_id'],
+    					'pay_code' 	=> $row['pay_code'],
+    					'pay_name'  => $row['pay_name'],
+    					'pay_fee'	=> $row['pay_fee'],
+    					'is_cod'	=> $row['is_cod'],
+    					'is_online'	=> $row['is_online'],
+    					'format_pay_fee'=> $row['format_pay_fee']
+    			);
+    		}
+    	}
+    	
+        return array('payment' => $list);
+    }
 }
+
 // end

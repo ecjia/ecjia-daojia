@@ -115,7 +115,7 @@ function get_merchant_config($code = '', $arr = '', $store_id = 0)
     if (empty($store_id)) {
         return array();
     }
-    $merchants_config = RC_Model::model('merchant/merchants_config_model');
+    //$merchants_config = RC_Model::model('merchant/merchants_config_model');
     if (empty($code)) {
         if (is_array($arr)) {
             $config = RC_DB::table('merchants_config')->where('store_id', $store_id)->select('code', 'value')->get();
@@ -127,7 +127,8 @@ function get_merchant_config($code = '', $arr = '', $store_id = 0)
             return;
         }
     } else {
-        $config = $merchants_config->where(array('store_id' => $store_id, 'code' => $code))->get_field('value');
+        //$config = $merchants_config->where(array('store_id' => $store_id, 'code' => $code))->get_field('value');
+    	$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', $code)->pluck('value');
         return $config;
     }
 }
@@ -165,15 +166,17 @@ function merchant_file_upload_info($path, $code, $old_images = '')
  */
 function set_merchant_config($code = '', $value = '', $arr = '')
 {
-    $merchants_config = RC_Model::model('merchant/merchants_config_model');
+    //$merchants_config = RC_Model::model('merchant/merchants_config_model');
     if (empty($code)) {
         if (is_array($arr)) {
             foreach ($arr as $key => $val) {
-                $count = $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $key))->count();
+                //$count = $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $key))->count();
+            	$count = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', $key)->count();
                 if (empty($count)) {
-                    $merchants_config->insert(array('store_id' => $_SESSION['store_id'], 'code' => $key, 'value' => $val));
+                    RC_DB::table('merchants_config')->insert(array('store_id' => $_SESSION['store_id'], 'code' => $key, 'value' => $val));
                 } else {
-                    $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $key))->update(array('value' => $val));
+                    //$merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $key))->update(array('value' => $val));
+                	RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', $key)->update(array('value' => $val));
                 }
             }
             return true;
@@ -181,11 +184,13 @@ function set_merchant_config($code = '', $value = '', $arr = '')
             return new ecjia_error(101, '参数错误');
         }
     } else {
-        $count = $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $code))->count();
+        //$count = $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $code))->count();
+    	$count = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', $code)->count();
         if (empty($count)) {
-            $merchants_config->insert(array('store_id' => $_SESSION['store_id'], 'code' => $code, 'value' => $value));
+            RC_DB::table('merchants_config')->insert(array('store_id' => $_SESSION['store_id'], 'code' => $code, 'value' => $value));
         } else {
-            $merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $code))->update(array('value' => $value));
+            //$merchants_config->where(array('store_id' => $_SESSION['store_id'], 'code' => $code))->update(array('value' => $value));
+        	RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', $code)->update(array('value' => $value));
         }
         return true;
     }

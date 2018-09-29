@@ -47,55 +47,58 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 买单订单列表
+ * 某一商家买单活动列表
  * @author zrl
  */
-class list_module extends api_front implements api_interface {
+class quickpay_activity_list_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     
-    	$this->authSession();
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
+		$store_id	 = $this->requestData('store_id', 0);
+		if ($store_id <= 0) {
+			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+		}
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
 		
 		$options = array(
-			'size'			=> $size,
-			'page'			=> $page,
-			'user_id'		=> $_SESSION['user_id']
+				'size'			=> $size,
+				'page'			=> $page,
+				'store_id'		=> $store_id,
 		);
+		$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
 		
-		$quickpay_order_data = RC_Api::api('quickpay', 'quickpay_order_list', $options);
-		if (is_ecjia_error($quickpay_order_data)) {
-			return $quickpay_order_data;
+		$quickpay_activity_data = RC_Api::api('quickpay', 'quickpay_activity_list', $options);
+		if (is_ecjia_error($quickpay_activity_data)) {
+			return $quickpay_activity_data;
 		}
-		
 		$arr = array();
-		if(!empty($quickpay_order_data['list'])) {
-			foreach ($quickpay_order_data['list'] as $rows) {
-				if ($rows['pay_code'] == 'pay_balance') {
-					$rows['order_amount'] = $rows['order_amount'] + $rows['surplus'];
-				}
+		if(!empty($quickpay_activity_data['list'])) {
+			foreach ($quickpay_activity_data['list'] as $rows) {
 				$arr[] = array(
-					'store_id' 					=> intval($rows['store_id']),
-					'store_name' 				=> $rows['store_name'],
-					'store_logo'				=> empty($rows['store_logo']) ? '' : RC_Upload::upload_url($rows['store_logo']),
-					'order_id' 					=> $rows['order_id'],
-					'order_sn' 					=> $rows['order_sn'],
-					'order_status'				=> $rows['order_status'],
-					'order_status_str'			=> $rows['order_status_str'],
-					'label_order_status'		=> empty($rows['label_order_status']) ? '' : $rows['label_order_status'],
-					'total_discount'			=> $rows['total_discount'],
-					'formated_total_discount'	=> $rows['formated_total_discount'],
-					'order_amount'				=> $rows['order_amount'],
-					'formated_order_amount'	=> price_format($rows['order_amount']),
-					'formated_add_time'			=> RC_Time::local_date(ecjia::config('time_format'), $rows['add_time']),
+						'store_id' 				=> intval($rows['store_id']),
+						'activity_id' 			=> intval($rows['id']),
+						'title'					=> $rows['title'],
+						'activity_type' 		=> $rows['activity_type'],
+						'label_activity_type' 	=> $rows['label_activity_type'],
+						'limit_time_type'		=> $rows['limit_time_type'],
+						'limit_time_weekly'		=> $rows['limit_time_weekly_str'],
+						'limit_time_daily'		=> $rows['limit_time_daily_str'],
+						'limit_time_exclude'	=> $rows['limit_time_exclude'],
+						'start_time'			=> $rows['start_time'],
+						'end_time'				=> $rows['end_time'],
+						'formated_start_time'	=> RC_Time::local_date(ecjia::config('date_format'), $rows['start_time']),
+						'formated_end_time'		=> RC_Time::local_date(ecjia::config('date_format'), $rows['end_time']),
+						//'total_order_count'		=> $rows['total_order_count']
 				);
 			}
 		}
-		return array('data' => $arr, 'pager' => $quickpay_order_data['page']);
+		$result = array(
+			'store_id' 		=> $store_id,
+			'store_name' 	=> empty($store_name) ? '' : $store_name,
+			'activity_list' => 	$arr
+		);
+		return array('data' => $result, 'pager' => $quickpay_activity_data['page']);
 	}
 }
 // end

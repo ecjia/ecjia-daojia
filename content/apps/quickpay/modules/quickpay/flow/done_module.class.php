@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class done_module extends api_front implements api_interface {
+class quickpay_flow_done_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		/**
          * goods_amount    //消费金额
