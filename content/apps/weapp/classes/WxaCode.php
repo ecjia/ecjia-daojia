@@ -2,9 +2,8 @@
 
 namespace Ecjia\App\Weapp;
 
-use platform_account;
-use RC_Loader;
 use RC_Cache;
+use Ecjia\App\Platform\Frameworks\Platform\AccountManager;
 
 class WxaCode
 {
@@ -17,18 +16,16 @@ class WxaCode
     
     public function defaultWeappUUID()
     {
-        RC_Loader::load_app_class('platform_account', 'platform', false);
-        
-        $platform_list = platform_account::getAccountList('weapp');
-        
-        $account = head($platform_list);
-        
+        $platform_list = with(new AccountManager())->getAccountList('weapp');
+
+        $account = $platform_list->first();
+
         if ($account) {
             $uuid = $account['uuid'];
         } else {
             $uuid = null;
         }
-        
+
         return $uuid;
     }
     

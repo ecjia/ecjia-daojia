@@ -48,8 +48,6 @@
 namespace Ecjia\App\Weapp;
 
 use RC_WeChat;
-use RC_Loader;
-use platform_account;
 use Ecjia\App\Weapp\Decrypted\BizDataCrypt;
 
 class WeappUser {

@@ -33,14 +33,14 @@
 								</div>
 							{/if}
 							<div class="control-group formSep" >
-								<label class="control-label">小程序名称</label>
+								<label class="control-label">小程序名称：</label>
 								<div class="controls">
 									<input type="text" name="name" value="{$wxapp_info.name}" />
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 								</div>
 							</div>
 							<div class="control-group formSep">
-								<label class="control-label">Logo</label>
+								<label class="control-label">Logo：</label>
 								<div class="controls chk_radio">
 									<div class="fileupload {if $wxapp_info.logo}fileupload-exists{else}fileupload-new{/if}" data-provides="fileupload">	
 										<div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px; line-height: 50px;">

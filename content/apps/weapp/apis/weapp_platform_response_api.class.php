@@ -44,27 +44,36 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+use Royalcms\Component\WeChat\Server\BadRequestException;
 
 /**
- * 微信小程序
- * @author zrl
+ * 微信小程序对接处理
+ * @author royalwang
  */
-class weapp_admin_menu_api extends Component_Event_Api
+class weapp_platform_response_api extends Component_Event_Api
 {
 
     public function call(&$options)
     {
-        $menus = ecjia_admin::make_admin_menu('16_weapp', RC_Lang::get('weapp::package.weapp'), '', 19);
+        if (! ($options instanceof Ecjia\App\Platform\Frameworks\Platform\Account)) {
+            return new ecjia_error('ecjia_platform_account_object_not_match', '参数不是Ecjia\App\Platform\Frameworks\Platform\Account对象');
+        }
         
-        $submenus = array(
-        	ecjia_admin::make_admin_menu('01_weapp', RC_Lang::get('weapp::weapp.weapp_manage'), RC_Uri::url('weapp/admin/init'), 1)->add_purview('weapp_manage'),
-        	ecjia_admin::make_admin_menu('02_weapp_user_manage', RC_Lang::get('weapp::weapp.weapp_user_manage'), RC_Uri::url('weapp/admin/user_list'), 2)->add_purview('weapp_user_manage'),
-        );
-        
-        $menus->add_submenu($submenus);
-        return $menus;
+        try {
+            
+            $uuid = $options->getUUID();
+            $wechat = with(new Ecjia\App\Weapp\WeappUUID($uuid))->getWechatInstance();
+            
+            $server = $wechat->server;
+            $server->setMessageHandler(['\Ecjia\App\Weapp\Handlers\WeappMessageHandler', 'getMessageHandler']);
+                
+            return $server->serve();
+            
+        } catch (Royalcms\Component\WeChat\Server\BadRequestException $e) {
+            return new ecjia_error('ecjia_platform_bad_request_exception', $e->getMessage());
+        }
     }
+    
 }
 
 // end

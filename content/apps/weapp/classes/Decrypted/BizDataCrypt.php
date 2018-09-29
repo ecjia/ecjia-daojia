@@ -89,13 +89,8 @@ class BizDataCrypt
 
 		$aesCipher = base64_decode($encryptedData);
 
-		$pc = new Prpcrypt($aesKey);
-		$result = $pc->decrypt($aesCipher,$aesIV);
-        
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
-     
+        $result = openssl_decrypt( $aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
+
         $dataObj = json_decode( $result );
         if( is_null($dataObj) )
         {

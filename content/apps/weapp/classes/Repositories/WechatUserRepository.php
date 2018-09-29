@@ -112,7 +112,13 @@ class WechatUserRepository extends AbstractRepository
         }
         return false;
     }
-    
+
+
+    public function findUser($openid)
+    {
+        return $this->findWhere(['openid' => $openid, 'wechat_id' => $this->weappId]);
+    }
+
    
     public function findWhereLimit(array $where, $columns = ['*'], $limit = null)
     {

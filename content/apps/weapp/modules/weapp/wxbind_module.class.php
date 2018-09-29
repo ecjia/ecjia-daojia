@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class wxbind_module extends api_front implements api_interface {
+class weapp_wxbind_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authSession();
     	$device       = $this->device;
@@ -59,9 +59,10 @@ class wxbind_module extends api_front implements api_interface {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
 		}
 
-		$openid = $_SESSION['openid'];
-		$session_key = $_SESSION['session_key'];
-		
+		$openid = session('openid');
+		$session_key = session('session_key');
+
+
 		//获取小程序的weappid,即小程序自增id
 		$WeappUUID =  new Ecjia\App\Weapp\WeappUUID($uuid);
 		$weappId   = $WeappUUID->getWeappID();
@@ -117,7 +118,7 @@ class wxbind_module extends api_front implements api_interface {
 		$user->set_cookie($user_info['user_name']);
 		
 		//修正咨询信息
-		feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
+		$this->feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
 		
 		//同步会员信息
 		RC_Loader::load_app_func('admin_user', 'user');
@@ -149,33 +150,43 @@ class wxbind_module extends api_front implements api_interface {
 		);
 		return $out;
 	}
+
+    /**
+     * 修正咨询信息
+     * @param string $user_id
+     * @param string $device
+     */
+    private function feedback_batch_userid($user_id, $user_name, $device) {
+        $device_udid	  = $device['udid'];
+        $device_client	  = $device['client'];
+        //$db_term_relation = RC_Model::model('term_relationship_model');
+        //$object_id = $db_term_relation->where(array(
+        //    'object_type'	=> 'ecjia.feedback',
+        //    'object_group'	=> 'feedback',
+        //    'item_key2'		=> 'device_udid',
+        //    'item_value2'	=> $device_udid
+        //))->get_field('object_id', true);
+        $pra = array(
+        		'object_type'	=> 'ecjia.feedback',
+        		'object_group'	=> 'feedback',
+        		'item_key2'		=> 'device_udid',
+        		'item_value2'	=> $device_udid
+        );
+        $object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
+        
+        //更新未登录用户的咨询
+        //$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_udid))->update(array('item_key2' => '', 'item_value2' => ''));
+        RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_udid)->update(array('item_key2' => '', 'item_value2' => ''));
+        
+        if (!empty($object_id)) {
+            $db = RC_Model::model('feedback/feedback_model');
+            $db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
+            $db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
+        }
+    }
 }
 
 
-/**
- * 修正咨询信息
- * @param string $user_id
- * @param string $device
- */
-function feedback_batch_userid($user_id, $user_name, $device) {
-	$device_udid	  = $device['udid'];
-	$device_client	  = $device['client'];
-	$db_term_relation = RC_Model::model('term_relationship_model');
 
-	$object_id = $db_term_relation->where(array(
-			'object_type'	=> 'ecjia.feedback',
-			'object_group'	=> 'feedback',
-			'item_key2'		=> 'device_udid',
-			'item_value2'	=> $device_udid
-	))->get_field('object_id', true);
-	//更新未登录用户的咨询
-	$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_udid))->update(array('item_key2' => '', 'item_value2' => ''));
-
-	if (!empty($object_id)) {
-		$db = RC_Model::model('feedback/feedback_model');
-		$db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-		$db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-	}
-}
 
 // end

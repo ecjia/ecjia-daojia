@@ -44,59 +44,60 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Weapp\Decrypted;
+use Ecjia\App\Platform\Frameworks\Platform\Account;
 
-use Ecjia\App\Weapp\Exception;
-use ecjia_error;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * Prpcrypt class
- *
- *
- */
-class Prpcrypt
+class weapp_platform_hooks
 {
-    protected $key;
 
-    public function __construct( $key )
+    public static function ecjia_platform_dashboard_stats()
     {
-        $this->key = $key;
+        $platformAccount = new Account(session('uuid'));
+        $wechat_id = $platformAccount->getAccountID();
+
+        $start_time = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        //新访客用户
+        $new_cancel_user = RC_DB::table('wechat_user')
+            ->where('wechat_id', $wechat_id)
+            ->where('subscribe_time', '>', $start_time)->count();
+
+        //新增人数
+        $new_user = RC_DB::table('wechat_user')
+            ->where('subscribe', 1)
+            ->where('wechat_id', $wechat_id)
+            ->where('subscribe_time', '>', $start_time)->count();
+
+        //总用户数
+        $user_count = RC_DB::table('wechat_user')
+            ->where('subscribe', 1)
+            ->where('wechat_id', $wechat_id)
+            ->count();
+
+        $count = array(
+            'new_cancel_user' => $new_cancel_user,
+            'new_user' => $new_user,
+            'user_count' => $user_count,
+        );
+        ecjia_platform::$controller->assign('count', $count);
+
+        ecjia_platform::$controller->display(
+            RC_Package::package('app::weapp')->loadTemplate('platform/library/widget_platform_dashboard_stats.lbi', true)
+        );
     }
 
-    /**
-     * 对密文进行解密
-     * @param string $aesCipher 需要解密的密文
-     * @param string $aesIV 解密的初始向量
-     * @return string 解密得到的明文
-     */
-    public function decrypt( $aesCipher, $aesIV )
-    {
-
-        try {
-            	
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            	
-            mcrypt_generic_init($module, $this->key, $aesIV);
-
-            //解密
-            $decrypted = mdecrypt_generic($module, $aesCipher);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
-        } catch (Exception $e) {
-            return new ecjia_error(ErrorCode::IllegalBuffer, ErrorCode::errorDesc(ErrorCode::IllegalBuffer));
-        }
-
-
-        try {
-            //去除补位字符
-            $pkc_encoder = new PKCS7Encoder;
-            $result = $pkc_encoder->decode($decrypted);
-
-        } catch (Exception $e) {
-            //print $e;
-            return new ecjia_error(ErrorCode::IllegalBuffer, ErrorCode::errorDesc(ErrorCode::IllegalBuffer));
-        }
-        
-        return $result;
-    }
 }
+
+RC_Hook::add_action('ecjia_platform_finish_launching', function () {
+    if (is_null(ecjia_platform::$controller->getPlatformAccount())) {
+        return null;
+    }
+
+    if (ecjia_platform::$controller->getCurrentPlatform() == 'weapp') {
+
+        RC_Hook::add_filter('platform_dashboard_top', array('weapp_platform_hooks', 'ecjia_platform_dashboard_stats'), 9);
+
+    }
+});
+
+// end
