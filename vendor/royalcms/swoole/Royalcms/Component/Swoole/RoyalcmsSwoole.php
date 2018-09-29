@@ -2,22 +2,19 @@
 
 namespace Royalcms\Component\Swoole;
 
-use Royalcms\Component\Swoole\Swoole;
-use Royalcms\Component\Swoole\DynamicResponse;
-use Royalcms\Component\Swoole\Request;
-use Royalcms\Component\Swoole\Server;
-use Royalcms\Component\Swoole\StaticResponse;
-use Royalcms\Component\Swoole\Traits\CustomProcessTrait;
-use Royalcms\Component\Swoole\Traits\InotifyTrait;
-use Royalcms\Component\Swoole\Traits\RoyalcmsTrait;
-use Royalcms\Component\Swoole\Traits\LogTrait;
-use Royalcms\Component\Swoole\Traits\ProcessTitleTrait;
-use Royalcms\Component\Swoole\Traits\TimerTrait;
+use Royalcms\Component\Swoole\Foundation\Royalcms;
+use Royalcms\Component\Swoole\Swoole\DynamicResponse;
+use Royalcms\Component\Swoole\Swoole\Request;
+use Royalcms\Component\Swoole\Swoole\Server;
+use Royalcms\Component\Swoole\Swoole\StaticResponse;
+use Royalcms\Component\Swoole\Swoole\Traits\CustomProcessTrait;
+use Royalcms\Component\Swoole\Swoole\Traits\InotifyTrait;
+use Royalcms\Component\Swoole\Swoole\Traits\RoyalcmsTrait;
+use Royalcms\Component\Swoole\Swoole\Traits\LogTrait;
+use Royalcms\Component\Swoole\Swoole\Traits\ProcessTitleTrait;
+use Royalcms\Component\Swoole\Swoole\Traits\TimerTrait;
 use Royalcms\Component\Http\Request as RoyalcmsRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Swoole\Http\Response as SwooleResponse;
-use Swoole\Http\Request as SwooleRequest;
-use Swoole\Http\Server as HttpServer;
 
 
 /**
@@ -40,7 +37,7 @@ class RoyalcmsSwoole extends Server
     protected $royalcmsConf;
 
     /**
-     * @var \Royalcms\Component\Swoole\Royalcms $royalcms
+     * @var \Royalcms\Component\Swoole\Foundation\Royalcms $royalcms
      */
     protected $royalcms;
 
@@ -54,7 +51,9 @@ class RoyalcmsSwoole extends Server
         $this->swoole->timerProcess = $this->addTimerProcess($this->swoole, $timerCfg, $this->royalcmsConf);
         
         $inotifyCfg = isset($this->conf['inotify_reload']) ? $this->conf['inotify_reload'] : [];
-        $inotifyCfg['root_path'] = $this->royalcmsConf['root_path'];
+        if (!isset($inotifyCfg['watch_path'])) {
+            $inotifyCfg['watch_path'] = $this->royalcmsConf['root_path'];
+        }
         $inotifyCfg['process_prefix'] = $svrConf['process_prefix'];
         $this->swoole->inotifyProcess = $this->addInotifyProcess($this->swoole, $inotifyCfg);
         
@@ -74,13 +73,14 @@ class RoyalcmsSwoole extends Server
             };
 
             $this->swoole->on('Open', function (\swoole_websocket_server $server, \swoole_http_request $request) use ($eventHandler) {
+                $royalcms = clone $this->royalcms;
                 // Start Royalcms's lifetime, then support session ...middleware.
-                $this->royalcms->resetSession();
-                $royalcmsRequest = $this->convertRequest($request);
-                $this->royalcms->bindRequest($royalcmsRequest);
-                $this->royalcms->handleDynamic($royalcmsRequest);
+                $royalcms->resetSession();
+                $royalcmsRequest = $this->convertRequest($royalcms, $request);
+                $royalcms->bindRequest($royalcmsRequest);
+                $royalcms->handleDynamic($royalcmsRequest);
                 $eventHandler('onOpen', func_get_args());
-                $this->royalcms->saveSession();
+                $royalcms->saveSession();
             });
 
             $this->swoole->on('Message', function () use ($eventHandler) {
@@ -97,7 +97,7 @@ class RoyalcmsSwoole extends Server
         }
     }
 
-    public function onWorkerStart(HttpServer $server, $workerId)
+    public function onWorkerStart(\swoole_http_server $server, $workerId)
     {
         parent::onWorkerStart($server, $workerId);
 
@@ -107,23 +107,24 @@ class RoyalcmsSwoole extends Server
         $this->royalcms = $this->initRoyalcms($this->royalcmsConf, $this->swoole);
     }
 
-    protected function convertRequest(SwooleRequest $request)
+    protected function convertRequest(Royalcms $royalcms, \swoole_http_request $request)
     {
-        $rawGlobals = $this->royalcms->getRawGlobals();
+        $rawGlobals = $royalcms->getRawGlobals();
         $server = isset($rawGlobals['_SERVER']) ? $rawGlobals['_SERVER'] : [];
         $env = isset($rawGlobals['_ENV']) ? $rawGlobals['_ENV'] : [];
         return with(new Request($request))->toRoyalcmsRequest($server, $env);
     }
 
-    public function onRequest(SwooleRequest $request, SwooleResponse $response)
+    public function onRequest(\swoole_http_request $request, \swoole_http_response $response)
     {
+        $royalcms = clone $this->royalcms;
         try {
-            $royalcmsRequest = $this->convertRequest($request);
-            $this->royalcms->bindRequest($royalcmsRequest);
-            $this->royalcms->fireEvent('swoole.received_request', [$royalcmsRequest]);
-            $success = $this->handleStaticResource($royalcmsRequest, $response);
+            $royalcmsRequest = $this->convertRequest($royalcms, $request);
+            $royalcms->bindRequest($royalcmsRequest);
+            $royalcms->fireEvent('swoole.received_request', [$royalcmsRequest]);
+            $success = $this->handleStaticResource($royalcms, $royalcmsRequest, $response);
             if ($success === false) {
-                $this->handleDynamicResource($royalcmsRequest, $response);
+                $this->handleDynamicResource($royalcms, $royalcmsRequest, $response);
             }
         } catch (\Exception $e) {
             $this->handleException($e, $response);
@@ -136,7 +137,7 @@ class RoyalcmsSwoole extends Server
      * @param \Exception|\Throwable $e
      * @param \swoole_http_response $response
      */
-    protected function handleException($e, SwooleResponse $response)
+    protected function handleException($e, \swoole_http_response $response)
     {
         $error = sprintf('onRequest: Uncaught exception "%s"([%d]%s) at %s:%s, %s%s', get_class($e), $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine(), PHP_EOL, $e->getTraceAsString());
         $this->log($error, 'ERROR');
@@ -148,14 +149,14 @@ class RoyalcmsSwoole extends Server
         }
     }
 
-    protected function handleStaticResource(RoyalcmsRequest $royalcmsRequest, SwooleResponse $swooleResponse)
+    protected function handleStaticResource(Royalcms $royalcms, RoyalcmsRequest $royalcmsRequest, \swoole_http_response $swooleResponse)
     {
         // For Swoole < 1.9.17
         if (!empty($this->conf['handle_static'])) {
-            $royalcmsResponse = $this->royalcms->handleStatic($royalcmsRequest);
+            $royalcmsResponse = $royalcms->handleStatic($royalcmsRequest);
             if ($royalcmsResponse !== false) {
                 $royalcmsResponse->headers->set('Server', $this->conf['server'], true);
-                $this->royalcms->fireEvent('swoole.generated_response', [$royalcmsRequest, $royalcmsResponse]);
+                $royalcms->fireEvent('swoole.generated_response', [$royalcmsRequest, $royalcmsResponse]);
                 with(new StaticResponse($swooleResponse, $royalcmsResponse))->send($this->conf['enable_gzip']);
                 return true;
             }
@@ -163,12 +164,12 @@ class RoyalcmsSwoole extends Server
         return false;
     }
 
-    protected function handleDynamicResource(RoyalcmsRequest $royalcmsRequest, SwooleResponse $swooleResponse)
+    protected function handleDynamicResource(Royalcms $royalcms, RoyalcmsRequest $royalcmsRequest, \swoole_http_response $swooleResponse)
     {
-        $royalcmsResponse = $this->royalcms->handleDynamic($royalcmsRequest);
+        $royalcmsResponse = $royalcms->handleDynamic($royalcmsRequest);
         $royalcmsResponse->headers->set('Server', $this->conf['server'], true);
-        $this->royalcms->fireEvent('swoole.generated_response', [$royalcmsRequest, $royalcmsResponse]);
-        $this->royalcms->cleanRequest($royalcmsRequest);
+        $royalcms->fireEvent('swoole.generated_response', [$royalcmsRequest, $royalcmsResponse]);
+        $royalcms->cleanRequest($royalcmsRequest);
         if ($royalcmsResponse instanceof BinaryFileResponse) {
             with(new StaticResponse($swooleResponse, $royalcmsResponse))->send($this->conf['enable_gzip']);
         } else {

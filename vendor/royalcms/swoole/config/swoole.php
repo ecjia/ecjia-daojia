@@ -38,7 +38,7 @@ return [
      * 是否开启RoyalcmsSwoole处理静态资源(要求 Swoole >= 1.7.21，若Swoole >= 1.9.17则由Swoole自己处理)，默认false，建议Nginx处理静态资源，RoyalcmsSwoole仅处理动态资源。
      * 静态资源的默认路径为base_path('public')，可通过修改swoole.document_root变更。
      */
-    'handle_static'      => env('SWOOLE_HANDLE_STATIC', false),
+    'handle_static'      => env('SWOOLE_HANDLE_STATIC', true),
     
     /*
      * string
@@ -56,6 +56,8 @@ return [
          * 通过命令php --ri inotify检查是否可用，默认false，建议仅开发环境开启，修改监听数上限。
          */
         'enable'     => env('SWOOLE_INOTIFY_RELOAD', false),
+
+        'watch_path' => base_path(),
         
         /*
          * array
@@ -140,8 +142,8 @@ return [
         'reactor_num'        => function_exists('\swoole_cpu_num') ? \swoole_cpu_num() * 2 : 4,
         'worker_num'         => function_exists('\swoole_cpu_num') ? \swoole_cpu_num() * 2 : 8,
         //'task_worker_num'   => function_exists('\swoole_cpu_num') ? \swoole_cpu_num() * 2 : 8,
-        'task_ipc_mode'      => 3,
-        'task_max_request'   => 3000,
+        'task_ipc_mode'      => 1,
+        'task_max_request'   => 5000,
         'task_tmpdir'        => @is_writable('/dev/shm/') ? '/dev/shm' : '/tmp',
         'message_queue_key'  => ftok(base_path('index.php'), 1),
         'max_request'        => 3000,
@@ -156,7 +158,7 @@ return [
         'reload_async'       => true,
         'max_wait_time'      => 60,
         'enable_reuse_port'  => true,
-        
+
         'user'               => 'royalwang',
         'group'              => 'staff',
 
