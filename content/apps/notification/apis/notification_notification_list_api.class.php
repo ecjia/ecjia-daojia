@@ -10,6 +10,7 @@ class notification_notification_list_api extends Component_Event_Api
     /**
      * @param  string $options['type']    通知类型（用户，商家）
      * @param  int $options['notifiable_id'] 通知用户id
+     * @param  string $options['status']  消息状态（readed已读，unread未读）
      * @return array
      */
     public function call(&$options)
@@ -62,7 +63,16 @@ class notification_notification_list_api extends Component_Event_Api
 
         $time = RC_Time::gmtime();
 
+        if (!empty($options['status'])) {
+            if ($options['status'] == 'readed') {
+                $db->whereRaw("(read_at is not null or read_at !='')");
+            } elseif ($options['status'] == 'unread') {
+                 $db->whereRaw("(read_at is null or read_at ='')");
+            }
+        }
+
         $count = $db->select('id')->count();
+
 
         $page_row = new ecjia_page($count, $size, 6, '', $page);
 

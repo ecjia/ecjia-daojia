@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 消息中心
  * @author will.chen
  */
-class notifications_module  extends api_front implements api_interface {
+class user_notifications_module  extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
     	$this->authSession();
@@ -58,14 +58,16 @@ class notifications_module  extends api_front implements api_interface {
     		return new ecjia_error(100, 'Invalid session');
     	}
     	
-    	$size = $this->requestData('pagination.count', 15);
-    	$page = $this->requestData('pagination.page', 1);
+    	$size      = $this->requestData('pagination.count', 15);
+    	$page      = $this->requestData('pagination.page', 1);
+        $status    = $this->requestData('status', '');
     	
     	$options = array(
     			'page'			=> empty($page) ? 1 : $page,
     			'size'			=> empty($size)	? 15 : $size,
     			'type'			=> 'user',
-    			'notifiable_id'	=> $_SESSION['user_id']
+    			'notifiable_id'	=> $_SESSION['user_id'],
+                'status'        => $status
     	);
     	
     	$notifications_list = array();

@@ -47,39 +47,43 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 消息中心标记为已读
- * @author will.chen
+ * 用户消息中心数量
  */
-class read_module extends api_admin implements api_interface {
-	
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+class user_notification_count_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {    
     	
-    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+    	$this->authSession();
+        if ($_SESSION['user_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
-		
-    	$message_id = $this->requestData('id');
-    	if (empty($message_id)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-    	}
+        
+       $type = array(
+            'Ecjia\System\Notifications\OrderShipped',
+            'Ecjia\App\Finance\Notifications\UserAccountChange',
+            'Ecjia\App\Refund\Notifications\RefundBalanceArrived',
+            'Ecjia\App\Groupbuy\Notifications\GroupbuyActivitySucceed',
+            'Ecjia\App\Orders\Notifications\OrderPickup',
+            'Ecjia\App\Orders\Notifications\OrderPickupSuccess',
+        );
+        
+        $unread_count  = RC_DB::table('notifications')
+            ->whereIn('type', $type)
+            ->where('notifiable_id', $_SESSION['user_id'])
+            ->whereRaw("(read_at is null or read_at ='')")
+            ->count();
+
+         $readed_count  = RC_DB::table('notifications')
+            ->whereIn('type', $type)
+            ->where('notifiable_id', $_SESSION['user_id'])
+            ->whereRaw("(read_at is not null or read_at !='')")
+            ->count();
     	
-    	$db = RC_DB::table('notifications');
-    	if ($_SESSION['staff_id']) {
-    		$db->where('notifiable_type', 'orm_staff_user_model')->where('notifiable_id', $_SESSION['staff_id']);
-    	} elseif ($_SESSION['admin_id']) {
-    	    
-    	}
-    	$notification_info = $db->where('id', $message_id)->first();
-    	if (empty($notification_info)) {
-    		return new ecjia_error('notification_not_exists', '该消息不存在！');
-    	}
-    	if (!empty($notification_info['read_at'])) {
-    		return new ecjia_error('notification_already_read', '该消息已读！');
-    	} 
-    	
-    	RC_DB::table('notifications')->where('id', $message_id)->update(array('read_at' => RC_Time::local_date('Y-m-d H:i:s', RC_Time::gmtime())));
-    	
-		return array();
+        $total_count = 	RC_DB::table('notifications')
+            ->whereIn('type', $type)
+            ->where('notifiable_id', $_SESSION['user_id'])
+            ->count();
+
+		return array('unread_count' => $unread_count, 'readed_count' => $readed_count, 'total_count' => $total_count);
 	 }	
 }
 
