@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Core;
+<?php
+
+namespace Royalcms\Component\WeChat\Core;
 
 use Royalcms\Component\WeChat\Core\Exceptions\HttpException;
 use Royalcms\Component\Support\Collection;
@@ -103,7 +105,7 @@ abstract class AbstractAPI
      * @param string $method
      * @param array  $args
      *
-     * @return \Royalcms\Component\WeChat\Support\Collection
+     * @return \Royalcms\Component\Support\Collection
      */
     public function parseJSON($method, array $args)
     {

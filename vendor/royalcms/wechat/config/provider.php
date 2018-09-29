@@ -17,5 +17,6 @@ return [
     'Royalcms\Component\WeChat\Staff\StaffServiceProvider',
     'Royalcms\Component\WeChat\Broadcast\BroadcastServiceProvider',
     'Royalcms\Component\WeChat\Notice\NoticeServiceProvider',
+    'Royalcms\Component\WeChat\MiniProgram\MiniProgramServiceProvider',
 
 ];

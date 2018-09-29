@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Core;
+<?php
+
+namespace Royalcms\Component\WeChat\Core;
 
 use Exception as BaseException;
 

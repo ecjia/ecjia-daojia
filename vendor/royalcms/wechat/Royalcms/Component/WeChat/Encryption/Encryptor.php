@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Encryption;
+<?php
+
+namespace Royalcms\Component\WeChat\Encryption;
 
 use Royalcms\Component\WeChat\Core\Exceptions\InvalidConfigException;
 use Royalcms\Component\WeChat\Core\Exceptions\RuntimeException;

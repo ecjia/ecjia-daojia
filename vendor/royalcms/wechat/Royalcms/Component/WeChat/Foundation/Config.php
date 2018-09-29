@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Foundation;
+<?php
+
+namespace Royalcms\Component\WeChat\Foundation;
 
 use Royalcms\Component\Support\Collection;
 

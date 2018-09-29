@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Core;
+<?php
+
+namespace Royalcms\Component\WeChat\Core;
 
 use Royalcms\Component\WeChat\Core\Exceptions\HttpException;
 use Royalcms\Component\Support\Facades\Log;

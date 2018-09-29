@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Foundation;
+<?php
+
+namespace Royalcms\Component\WeChat\Foundation;
 
 use Royalcms\Component\WeChat\Core\AccessToken;
 use Royalcms\Component\WeChat\Core\Http;

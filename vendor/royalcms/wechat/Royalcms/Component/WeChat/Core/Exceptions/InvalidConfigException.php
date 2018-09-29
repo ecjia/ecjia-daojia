@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Core\Exceptions;
+<?php
+
+namespace Royalcms\Component\WeChat\Core\Exceptions;
 
 use Royalcms\Component\WeChat\Core\Exception;
 

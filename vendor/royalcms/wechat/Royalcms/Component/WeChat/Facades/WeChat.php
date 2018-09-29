@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\WeChat\Facades;
+<?php
+
+namespace Royalcms\Component\WeChat\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 
