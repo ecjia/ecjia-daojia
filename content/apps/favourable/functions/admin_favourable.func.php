@@ -50,15 +50,17 @@ defined ( 'IN_ECJIA' ) or exit ( 'No permission resources.' );
  * 优惠活动信息
  */
 function favourable_info($act_id) {
-    $db = RC_Loader::load_app_model ( 'favourable_activity_model', 'favourable' );
+    //$db = RC_Loader::load_app_model ( 'favourable_activity_model', 'favourable' );
 	
     if (!empty($_SESSION['store_id'])){
-        $row = $db->find ( array (
-            'act_id'    => $act_id,
-            'store_id'  => $_SESSION['store_id']
-        ) );
+//         $row = $db->find ( array (
+//             'act_id'    => $act_id,
+//             'store_id'  => $_SESSION['store_id']
+//         ) );
+        $row = RC_DB::table('favourable_activity')->where('act_id', $act_id)->where('store_id', $_SESSION['store_id'])->first();
     } else {
-        $row = $db->find(array('act_id' => $act_id));
+        //$row = $db->find(array('act_id' => $act_id));
+    	$row = RC_DB::table('favourable_activity')->where('act_id', $act_id)->first();
     }
 	if (!empty($row)) {
 		$row ['start_time']           = RC_Time::local_date ( ecjia::config ( 'time_format' ), $row ['start_time'] );

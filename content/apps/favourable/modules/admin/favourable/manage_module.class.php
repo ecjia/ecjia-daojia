@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 满减满赠活动添加编辑处理
  * @author will
  */
-class manage_module extends api_admin implements api_interface {
+class admin_favourable_manage_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
 		$this->authadminSession();
@@ -120,7 +120,8 @@ class manage_module extends api_admin implements api_interface {
 		} else {
 			$act_type = '享受价格折扣';
 		}
-		RC_Model::model('favourable/favourable_activity_model')->favourable_manage($favourable);
+		//RC_Model::model('favourable/favourable_activity_model')->favourable_manage($favourable);
+		Ecjia\App\Favourable\FavourableActivity::FavourableManage($favourable);
 		if ($act_id > 0 ) {
 			$log_action = 'edit';
 		} else {

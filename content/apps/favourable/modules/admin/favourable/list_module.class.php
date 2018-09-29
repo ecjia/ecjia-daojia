@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 满减满赠活动列表
  * @author will
  */
-class list_module extends api_admin implements api_interface {
+class admin_favourable_list_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		$this->authadminSession();
 		
@@ -76,7 +76,8 @@ class list_module extends api_admin implements api_interface {
 		//$filter['seller_id'] = $_SESSION['seller_id'];
 		$filter['store_id'] = $_SESSION['store_id'];
 		
-		$result = RC_Model::model('favourable/favourable_activity_viewmodel')->favourable_list($filter);
+		//$result = RC_Model::model('favourable/favourable_activity_viewmodel')->favourable_list($filter);
+		$result = Ecjia\App\Favourable\FavourableActivity::FavourableList($filter);
 		$data   = array();
 		if (!empty($result['item'])) {
 			/* 取得用户等级 */

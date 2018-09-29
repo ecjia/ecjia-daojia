@@ -51,13 +51,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author songqian
  */
 class merchant extends ecjia_merchant {
-	private $db_favourable_activity;
+	//private $db_favourable_activity;
 
 	public function __construct() {
 		parent::__construct();
 
 		RC_Loader::load_app_func('admin_favourable');
-		$this->db_favourable_activity = RC_Model::model('favourable/favourable_activity_model');
+		//$this->db_favourable_activity = RC_Model::model('favourable/favourable_activity_model');
 
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
@@ -225,7 +225,8 @@ class merchant extends ecjia_merchant {
         } elseif ($favourable['act_type'] == 2) {
 			$act_type = RC_Lang::get('favourable::favourable.fat_discount');
 		}
-		$act_id = $this->db_favourable_activity->favourable_manage($favourable);
+		//$act_id = $this->db_favourable_activity->favourable_manage($favourable);
+		$act_id = Ecjia\App\Favourable\FavourableActivity::FavourableManage($favourable);
 		
 		/* 释放优惠活动缓存*/
 		$favourable_activity_db = RC_Model::model('favourable/orm_favourable_activity_model');
@@ -251,7 +252,8 @@ class merchant extends ecjia_merchant {
 		$this->assign('action_link', array('text' => RC_Lang::get('favourable::favourable.favourable_list'), 'href' => RC_Uri::url('favourable/merchant/init')));
 
 		$id         = !empty($_GET['act_id']) ? intval($_GET['act_id']) : 0;
-		$favourable = $this->db_favourable_activity->favourable_info($id);
+		//$favourable = $this->db_favourable_activity->favourable_info($id);
+		$favourable = Ecjia\App\Favourable\FavourableActivity::FavourableInfo($id);
 
 		if (empty($favourable)) {
 			return $this->showmessage(RC_Lang::get('favourable::favourable.favourable_not_exist'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
@@ -330,7 +332,8 @@ class merchant extends ecjia_merchant {
         } elseif ($favourable['act_type'] == 2) {
 			$act_type = RC_Lang::get('favourable::favourable.fat_discount');
 		}
-		$this->db_favourable_activity->favourable_manage($favourable);
+		//$this->db_favourable_activity->favourable_manage($favourable);
+		Ecjia\App\Favourable\FavourableActivity::FavourableManage($favourable);
 		
 		/* 释放优惠活动缓存*/
 		$favourable_activity_db = RC_Model::model('favourable/orm_favourable_activity_model');
@@ -349,7 +352,8 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('favourable_delete', ecjia::MSGTYPE_JSON);
 
 		$id         = intval($_GET['act_id']);
-		$favourable = $this->db_favourable_activity->favourable_info($id);
+		//$favourable = $this->db_favourable_activity->favourable_info($id);
+		$favourable = Ecjia\App\Favourable\FavourableActivity::FavourableInfo($id);
 		if (empty($favourable)) {
 			return $this->showmessage(RC_Lang::get('favourable::favourable.favourable_not_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -365,7 +369,8 @@ class merchant extends ecjia_merchant {
 			$act_type = RC_Lang::get('favourable::favourable.fat_discount');
 		}
 
-		$this->db_favourable_activity->favourable_remove($id);
+		//$this->db_favourable_activity->favourable_remove($id);
+		Ecjia\App\Favourable\FavourableActivity::FavourableRemove($id);
 		/*释放优惠活动缓存*/
 		$favourable_activity_db = RC_Model::model('favourable/orm_favourable_activity_model');
 		$cache_favourable_key   = 'favourable_list_store_'.$_SESSION['store_id'];
@@ -386,7 +391,8 @@ class merchant extends ecjia_merchant {
 		$act_ids  = explode(',', $ids);
 		$info     = RC_DB::table('favourable_activity')->whereIn('act_id', $act_ids)->get();
 
-		$this->db_favourable_activity->favourable_remove($act_ids, true);
+		//$this->db_favourable_activity->favourable_remove($act_ids, true);
+		Ecjia\App\Favourable\FavourableActivity::FavourableRemove($act_ids);
 		if (!empty($info)) {
 			foreach ($info as $v) {
 				if ($v['act_type'] == 0) {
@@ -423,7 +429,8 @@ class merchant extends ecjia_merchant {
 					'act_id'	=> $id,
 					'act_name'	=> $act_name
 				);
-				$this->db_favourable_activity->favourable_manage($data);
+				//$this->db_favourable_activity->favourable_manage($data);
+				Ecjia\App\Favourable\FavourableActivity::FavourableManage($data);
 				/*释放优惠活动缓存*/
 				$favourable_activity_db = RC_Model::model('favourable/orm_favourable_activity_model');
 				$cache_favourable_key   = 'favourable_list_store_'.$_SESSION['store_id'];
@@ -450,7 +457,8 @@ class merchant extends ecjia_merchant {
 			'act_id' 		=> $id,
 			'sort_order' 	=> $val
 		);
-		$this->db_favourable_activity->favourable_manage($data);
+		//$this->db_favourable_activity->favourable_manage($data);
+		Ecjia\App\Favourable\FavourableActivity::FavourableManage($data);
 
 		return $this->showmessage(RC_Lang::get('favourable::favourable.sort_edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('favourable/merchant/init')) );
 	}

@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 获取商家活动列表
  * @author zrl
  */
-class list_module extends api_front implements api_interface {
+class favourable_list_module extends api_front implements api_interface {
 	
 	 public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		$this->authSession();	
