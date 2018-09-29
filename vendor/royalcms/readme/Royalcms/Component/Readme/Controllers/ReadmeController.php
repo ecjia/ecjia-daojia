@@ -26,8 +26,12 @@ class ReadmeController extends Controller
 
     public function index($packageName = 'royalcms_framework')
     {
+        $path = royalcms('request')->input('path');
         $packages = $this->readme->getPackageList();
-        $docs = $this->readme->getDocs($packageName);
+        $docs = $this->readme->getDocs($packageName, $path);
+
+        //process internat links
+        $docs = $this->readme->processDocsInternatLinks($docs);
 
         $packageName = $this->readme->parseUrlParamToPackageName($packageName);
 

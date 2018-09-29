@@ -41,9 +41,14 @@ class ReadmeService
         return $this->packages;
     }
 
-    public function getDocs($packageName)
+    public function getDocs($packageName, $path = null)
     {
-        $fileName = $this->getReadmeFile($this->parseUrlParamToPackageName($packageName));
+        if (! is_null($path)) {
+            $fileName = $this->getDocsFile($this->parseUrlParamToPackageName($packageName), $path);
+        } else {
+            $fileName = $this->getReadmeFile($this->parseUrlParamToPackageName($packageName));
+        }
+
         if(!is_file($fileName)) {
             return 'No Readme File.';
         }
@@ -103,7 +108,7 @@ class ReadmeService
 
     protected function getReadmeFile($packageName)
     {
-        $name = $this->getReadmeFileName(vendor_path('/'.$packageName));
+        $name = $this->getReadmeFileName(vendor_path($packageName));
         return $name;
     }
 
@@ -117,6 +122,35 @@ class ReadmeService
                 }
             }
         }
+    }
+
+
+    protected function getDocsFile($packageName, $file)
+    {
+        $path = vendor_path($packageName);
+        $name = $this->getDocsFileName("$path/$file");
+        return $name;
+    }
+
+    protected function getDocsFileName($filePath)
+    {
+        if (file_exists($filePath)) {
+            return $filePath;
+        }
+    }
+
+
+    public function processDocsInternatLinks($docs)
+    {
+        $pattern = array(
+            '/href=["|\']docs\//i',  // 替换相对链接
+        );
+        $replace = array(
+            '/href="?path=docs/'.'\1',
+        );
+        $docs = preg_replace($pattern, $replace, $docs);
+
+        return $docs;
     }
 
 }
