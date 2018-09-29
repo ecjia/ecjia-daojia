@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 门店提货购物流检查订单
  * @author zrl
  */
-class done_module extends api_front implements api_interface
+class storepickup_flow_done_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
@@ -130,7 +130,6 @@ class done_module extends api_front implements api_interface
         /* 订单中的商品 */
         $cart_goods = cart_goods($flow_type, $cart_id);
         if (empty($cart_goods)) {
-            //EM_Api::outPut(10002);
             return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
         }
         
@@ -273,8 +272,7 @@ class done_module extends api_front implements api_interface
             $now = RC_Time::gmtime();
             if (empty($bonus) || $bonus['user_id'] > 0 || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_amount(true, $flow_type, $cart_id) || $now > $bonus['use_end_date']) {} else {
                 if ($user_id > 0) {
-					$db_user_bonus = RC_Loader::load_app_model('user_bonus_model', 'bonus');
-					$db_user_bonus->where(array('bonus_id' => $bonus['bonus_id']))->update(array('user_id' => $user_id));
+					RC_DB::table('user_bonus')->where('bonus_id', $bonus['bonus_id'])->update(array('user_id' => $user_id));
      			}
                 $order['bonus_id'] = $bonus['bonus_id'];
                 $order['bonus_sn'] = $bonus_sn;

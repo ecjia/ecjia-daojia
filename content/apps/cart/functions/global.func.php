@@ -71,7 +71,7 @@ function cmp_favourable($a, $b) {
  */
 function em_favourable_list($user_rank) {
 	RC_Loader::load_app_func('global', 'goods');
-	$db_favourable_activity = RC_Loader::load_app_model('favourable_activity_model','favourable');
+	//$db_favourable_activity = RC_Loader::load_app_model('favourable_activity_model','favourable');
 	$db_goods = RC_Loader::load_app_model('goods_model','goods');
     /* 购物车中已有的优惠活动及数量 */
     $used_list = cart_favourable();
@@ -81,14 +81,16 @@ function em_favourable_list($user_rank) {
     $user_rank = ',' . $user_rank . ',';
     $now = RC_Time::gmtime();
 	
-    $where = array(
-    	"CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'",
-    	'start_time' => array('elt' => $now),
-    	'end_time' => array('egt' => $now),
-    	'act_type' => FAT_GOODS
-    );
+    //$where = array(
+    //	"CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'",
+    //	'start_time' => array('elt' => $now),
+    //	'end_time' => array('egt' => $now),
+    //	'act_type' => FAT_GOODS
+    //);
     
-	$data = $db_favourable_activity->where($where)->order('sort_order asc')->select();
+	//$data = $db_favourable_activity->where($where)->order('sort_order asc')->select();
+	
+    $data = RC_DB::table('favourable_activity')->where('start_time', '<=', $now)->where('end_time', '>=', $now)->where('act_type', FAT_GOODS)->whereRaw("CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'")->orderBy('sort_order', 'asc')->get();
     foreach ($data as $favourable) {
         $favourable['formated_start_time'] = RC_Time::local_date(ecjia::config('time_format'), $favourable['start_time']);
         $favourable['formated_end_time']   = RC_Time::local_date(ecjia::config('time_format'), $favourable['end_time']);

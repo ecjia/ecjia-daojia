@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class done_module extends api_front implements api_interface
+class storebuy_flow_done_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
@@ -248,8 +248,7 @@ class done_module extends api_front implements api_interface
             $now = RC_Time::gmtime();
             if (empty($bonus) || $bonus['user_id'] > 0 || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_amount(true, $flow_type, $cart_id) || $now > $bonus['use_end_date']) {} else {
                 if ($user_id > 0) {
-					$db_user_bonus = RC_Loader::load_app_model('user_bonus_model', 'bonus');
-					$db_user_bonus->where(array('bonus_id' => $bonus['bonus_id']))->update(array('user_id' => $user_id));
+					RC_DB::table('user_bonus')->where('bonus_id', $bonus['bonus_id'])->update(array('user_id' => $user_id));
      			}
                 $order['bonus_id'] = $bonus['bonus_id'];
                 $order['bonus_sn'] = $bonus_sn;
@@ -259,7 +258,6 @@ class done_module extends api_front implements api_interface
         
         /* 检查商品总额是否达到最低限购金额 */
         if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
-            //EM_Api::outPut(10003);
         	return new ecjia_error('insufficient_balance', '您的余额不足以支付整个订单，请选择其他支付方式。');
         }
         

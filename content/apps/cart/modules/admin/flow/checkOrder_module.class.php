@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author zrl
  *
  */
-class checkOrder_module extends api_admin implements api_interface {
+class admin_flow_checkOrder_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -71,6 +71,8 @@ class checkOrder_module extends api_admin implements api_interface {
 		RC_Loader::load_app_func('admin_bonus','bonus');
 		$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
 		
+		RC_Loader::load_app_class('cart_cashdesk', 'cart', false);
+		
 		//从移动端接收数据
 		$addgoods		= $this->requestData('addgoods');	//添加商品
 		$updategoods	= $this->requestData('updategoods');	//更新商品数量
@@ -83,8 +85,6 @@ class checkOrder_module extends api_admin implements api_interface {
 			if ($user_id > 0) {
 				$_SESSION['cashdesk_temp_user_id']	= $user_id;
 				$_SESSION['user_id']		= $user_id;
-				//$db_cart->where(array('session_id' => SESS_ID))->update(array('user_id' => $user_id));
-				//$row = RC_Model::model('user/users_model')->find(array('user_id' => $_SESSION['user_id']));
 				RC_DB::table('cart')->where('session_id', SESS_ID)->update(array('user_id' => $user_id));
 				$row = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->first();
 				
@@ -97,7 +97,6 @@ class checkOrder_module extends api_admin implements api_interface {
 							$data = array(
 									'user_rank' => '0'
 							);
-							//RC_Model::model('user/users_model')->where(array('user_id' => $_SESSION['user_id']))->update($data);
 							RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update($data);
 							$row['user_rank'] = 0;
 						}
@@ -181,7 +180,7 @@ class checkOrder_module extends api_admin implements api_interface {
 		}
 		//删除购物车商品
 		if (!empty($deletegoods)) {
-			$result = deletecart($deletegoods);
+			$result = $this->deletecart($deletegoods);
 		}
 		
 		if (is_ecjia_error($result)) {
@@ -194,13 +193,9 @@ class checkOrder_module extends api_admin implements api_interface {
 	
 		/* 取得订单信息*/
 		$order = flow_order_info();
-		/* 计算折扣 */
-		if ($flow_type != CART_EXCHANGE_GOODS && $flow_type != CART_GROUP_BUY_GOODS) {
-			$discount = compute_discount();
-			$favour_name = empty($discount['name']) ? '' : join(',', $discount['name']);
-		}
 		/* 计算订单的费用 */
-		$total = cashdesk_order_fee($order, $cart_goods);
+		//$total = cashdesk_order_fee($order, $cart_goods);
+		$total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, array(), array(), CART_CASHDESK_GOODS);
 	
 // 		/* 取得支付列表 */
 // 		$cod_fee    = 0;
@@ -218,7 +213,9 @@ class checkOrder_module extends api_admin implements api_interface {
 		$out = array();
 		$out['user_info'] = array();
 		if (isset($_SESSION['user_id']) && $_SESSION['user_id']) {
-			$user_info = RC_Model::model('user/users_model')->find(array('user_id' => $_SESSION['user_id']));
+			//$user_info = RC_Model::model('user/users_model')->find(array('user_id' => $_SESSION['user_id']));
+			$user_info = Ecjia\App\User\Users::UserInfo($_SESSION['user_id']);
+			
 			$out['user_info'] = array(
 					'user_id'	=> intval($user_info['user_id']),
 					'user_name'	=> $user_info['user_name'],
@@ -279,7 +276,7 @@ class checkOrder_module extends api_admin implements api_interface {
 		$out['bonus'] 			= $bonus_list;//红包
 		$out['your_integral']	= $user_info['pay_points'];//用户可用积分
 		
-		$out['discount']		= number_format($discount['discount'], 2, '.', '');//用户享受折扣数
+		$out['discount']		= number_format($total['discount'], 2, '.', '');//用户享受折扣数
 		$out['discount_formated'] = $total['discount_formated'];
 				
 		if (!empty($out['payment_list'])) {
@@ -310,26 +307,27 @@ class checkOrder_module extends api_admin implements api_interface {
 				}
 			}
 		}
-		//EM_API::outPut($out);
 		return $out;
-	}		
-}
-
-//存在，更新(编辑)到购物车
-function updatecart($updategoods){
-	$db_carts = RC_Loader::load_app_model('cart_model', 'cart');
-	$data	= array(
-		'goods_number'	=>	$updategoods['number']
-	);
-	$count = $db_carts->where(array('rec_id' => $updategoods['rec_id']))->update($data);
-	if($count>0){
-		return true;
+	}	
+	
+	//存在，更新(编辑)到购物车
+	private function updatecart($updategoods){
+		$db_carts = RC_Loader::load_app_model('cart_model', 'cart');
+		$data	= array(
+			'goods_number'	=>	$updategoods['number']
+		);
+		$count = $db_carts->where(array('rec_id' => $updategoods['rec_id']))->update($data);
+		if($count>0){
+			return true;
+		}
+	}
+	
+	//删除购物车商品(购物车可以批量删除)
+	private function deletecart($deletegoods){
+		$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
+		$rec_id = explode(',', $deletegoods['rec_id']);
+		$db_cart->in(array('rec_id'=> $rec_id))->delete();
 	}
 }
-//删除购物车商品(购物车可以批量删除)
-function deletecart($deletegoods){
-	$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
-	$rec_id = explode(',', $deletegoods['rec_id']);
-	$db_cart->in(array('rec_id'=> $rec_id))->delete();
-}
 
+// end

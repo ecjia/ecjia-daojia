@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 从购物车中删除一商品
  * @author royalwang
  */
-class delete_module extends api_front implements api_interface {
+class cart_delete_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
     	$this->authSession();

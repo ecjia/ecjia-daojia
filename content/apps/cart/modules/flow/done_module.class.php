@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class done_module extends api_front implements api_interface {
+class flow_done_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		/**
          * bonus 0 //红包
@@ -150,6 +150,8 @@ class done_module extends api_front implements api_interface {
     		'agency_id'		=> 0,
     		'expect_shipping_time' =>  $this->requestData('expect_shipping_time', ''),
     	);
+		//期望送达时间过滤
+    	$order['expect_shipping_time'] = empty($order['expect_shipping_time']) ? '' : $order['expect_shipping_time'];
     	
     	if (empty($order['pay_id'])) {
     	    return new ecjia_error('empty_payment', '请选择支付方式');

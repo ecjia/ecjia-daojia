@@ -60,6 +60,12 @@ class StoreStatus
 	const AUTOCONFIRM 	 = 1;//自动接单
 	const UNAUTOCONFIRM  = 0;//手动接单
 	
+	const GRAM  	= 1;	//克
+	const KILOGRAM  = 2;	//千克
+	
+	const GRAMPERYUAN  		= 1;	//克/元
+	const KILOGRAMPERYUAN  	= 2;	//千克/元
+	
     /**
      * 获取商品对应的店铺id
      * @param int $goods_id

@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 再次购买，商品货品加入购物车 并选中
  * @author huangyuyuan@ecmoban.com
  */
-class buyagain_module extends api_front implements api_interface {
+class cart_buyagain_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();

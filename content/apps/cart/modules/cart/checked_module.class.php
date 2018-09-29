@@ -52,7 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * $is_checked 0未选中，1选中
  * http://wiki.shangchina.com/index.php?title=Cart/checked(o2o)
  */
-class checked_module extends api_front implements api_interface {
+class cart_checked_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
     	$this->authSession();

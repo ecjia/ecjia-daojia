@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 购物流检查订单
  * @author royalwang
  */
-class checkOrder_module extends api_front implements api_interface {
+class flow_checkOrder_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();
@@ -465,32 +465,12 @@ class checkOrder_module extends api_front implements api_interface {
 				&& ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
 		{
 			// 取得用户可用红包
-			$db_user_bonus_view	= RC_Model::model('bonus/user_bonus_type_viewmodel');
-            $db_user_bonus_view->view = array(
-                'bonus_type' => array(
-    		   		'type' 	 => Component_Model_View::TYPE_LEFT_JOIN,
-    			 	'alias'	 => 'bt',
-    			 	'on'   	 => 'ub.bonus_type_id = bt.type_id'
-    			),
-                'store_franchisee' => array(
-                    'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
-                    'alias'	=> 'sf',
-                    'on'   	=> 'sf.store_id = bt.store_id'
-                )
-            );
-			$user_bonus = $db_user_bonus_view->join('bonus_type,store_franchisee')
-				->field('bt.type_id, bt.type_name, bt.send_type, bt.type_money, ub.bonus_id, bt.use_start_date, bt.use_end_date, min_goods_amount,bt.store_id,merchants_name')
-				->where(array(
-					'bt.use_start_date'   => array('elt' => RC_Time::gmtime()),
-					'bt.use_end_date'     => array('egt' => RC_Time::gmtime()),
-					'ub.user_id'          => array('neq' => 0),
-					'ub.user_id'          => $_SESSION['user_id'],
-					'ub.order_id'         => 0,
-					'bt.min_goods_amount' => array('elt' => $total['goods_price']),
-				))
-        		->in(array('bt.store_id'  => array($order['store_id'], '0')))
-				->select();
-			
+			$pra = array(
+				'user_id' 			=> $_SESSION['user_id'],
+				'store_id' 			=> array($order['store_id'], 0),
+				'min_goods_amount'	=> $total['goods_price']
+			);
+			$user_bonus = Ecjia\App\Bonus\UserAvaliableBonus::GetUserBonus($pra);
 			$user_bonus_list = array();
 			if (!empty($user_bonus)) {
 				foreach ($user_bonus AS $key => $val) {

@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class done_module extends api_admin implements api_interface
+class admin_flow_done_module extends api_admin implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {	
@@ -78,6 +78,8 @@ class done_module extends api_admin implements api_interface
         RC_Loader::load_app_func('cart','cart');
         RC_Loader::load_app_func('cashdesk','cart');
         RC_Loader::load_app_func('admin_order','orders');
+        
+        RC_Loader::load_app_class('cart_cashdesk', 'cart', false);
         
         $device = $this->device;
         //获取所需购买购物车id  will.chen
@@ -128,10 +130,12 @@ class done_module extends api_admin implements api_interface
         /* 判断是否是会员 */
         $consignee = array();
         if ($_SESSION['user_id']) {
-        	$db_user_model = RC_Loader::load_app_model('users_model','user');
-        	$user_info = $db_user_model->field('user_name, mobile_phone, email')
-							        	->where(array('user_id'=>$_SESSION['user_id']))
-							        	->find();
+//         	$db_user_model = RC_Loader::load_app_model('users_model','user');
+//         	$user_info = $db_user_model->field('user_name, mobile_phone, email')
+// 							        	->where(array('user_id'=>$_SESSION['user_id']))
+// 							        	->find();
+        	$user_info = Ecjia\App\User\Users::UserInfo($_SESSION['user_id']);
+        	
         	$consignee = array(
         			'consignee'		=> $user_info['user_name'],
         			'mobile'		=> $user_info['mobile_phone'],
@@ -246,8 +250,7 @@ class done_module extends api_admin implements api_interface
             $now = RC_Time::gmtime();
             if (empty($bonus) || $bonus['user_id'] > 0 || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_amount(true, $flow_type, $cart_id) || $now > $bonus['use_end_date']) {} else {
                 if ($user_id > 0) {
-					$db_user_bonus = RC_Loader::load_app_model('user_bonus_model', 'bonus');
-					$db_user_bonus->where(array('bonus_id' => $bonus['bonus_id']))->update(array('user_id' => $user_id));
+					RC_DB::table('user_bonus')->where('bonus_id', $bonus['bonus_id'])->update(array('user_id' => $user_id));
      			}
                 $order['bonus_id'] = $bonus['bonus_id'];
                 $order['bonus_sn'] = $bonus_sn;
@@ -257,13 +260,11 @@ class done_module extends api_admin implements api_interface
         /* 订单中的商品 */
         $cart_goods = cart_goods($flow_type, $cart_id);
         if (empty($cart_goods)) {
-            //EM_Api::outPut(10002);
         	return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
         }
         
         /* 检查商品总额是否达到最低限购金额 */
         if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
-            //EM_Api::outPut(10003);
         	return new ecjia_error('insufficient_balance', '您的余额不足以支付整个订单，请选择其他支付方式。');
         }
         
@@ -281,8 +282,9 @@ class done_module extends api_admin implements api_interface
         }
 
         /* 订单中的总额 *///$order['bonus_id']
-        $total = cashdesk_order_fee($order, $cart_goods, $consignee);
-        RC_Logger::getlogger('info')->info(array('total',$total));
+        //$total = cashdesk_order_fee($order, $cart_goods, $consignee);
+        $total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, $consignee, array(), CART_CASHDESK_GOODS);
+       
         $order['bonus']			= $total['bonus'];
         $order['goods_amount']	= $total['goods_price'];
         $order['discount']		= $total['discount'];

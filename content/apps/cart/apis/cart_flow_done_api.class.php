@@ -359,8 +359,6 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 		
 		/* 插入订单商品 */
-		//$db_order_goods = RC_Model::model('orders/order_goods_model');
-		//$db_goods_activity = RC_Model::model('goods/goods_activity_model');
 		$db_order_goods = RC_DB::table('order_goods');
 		$db_goods_activity = RC_DB::table('goods_activity');
 
@@ -400,8 +398,6 @@ class cart_flow_done_api extends Component_Event_Api {
 			$result = cart::change_order_goods_storage($order['order_id'], true, SDT_PLACE);
 			if (is_ecjia_error($result)) {
 				/* 库存不足删除已生成的订单（并发处理） will.chen*/
-				//$db_order_info->where(array('order_id' => $order['order_id']))->delete();
-				//$db_order_goods->where(array('order_id' => $order['order_id']))->delete();
 				RC_DB::table('order_info')->where('order_id', $order['order_id'])->delete();
 				$db_order_goods->where('order_id', $order['order_id'])->delete();
 				return $result;

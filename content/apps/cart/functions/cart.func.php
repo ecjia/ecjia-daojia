@@ -1320,14 +1320,15 @@ function flow_order_info() {
  * @return  float   折扣
  */
 function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $user_type = 0) {
-	$db 			= RC_Loader::load_app_model('favourable_activity_model', 'favourable');
+	//$db 			= RC_Loader::load_app_model('favourable_activity_model', 'favourable');
 	$db_cartview 	= RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
-
+	$db				= RC_DB::table('favourable_activity');
 	/* 查询优惠活动 */
 	$now = RC_Time::gmtime();
 	$user_rank = ',' . $_SESSION['user_rank'] . ',';
 
-	$favourable_list = $db->where("start_time <= '$now' AND end_time >= '$now' AND CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'")->in(array('act_type'=>array(FAT_DISCOUNT, FAT_PRICE)))->select();
+	//$favourable_list = $db->where("start_time <= '$now' AND end_time >= '$now' AND CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'")->in(array('act_type'=>array(FAT_DISCOUNT, FAT_PRICE)))->select();
+	$favourable_list = $db->where('start_time', '<=', $now)->where('end_time', '>=', $now)->whereRaw("CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'")->whereIn('act_type', array(FAT_DISCOUNT, FAT_PRICE))->get();
 	if (!$favourable_list) {
 		return 0;
 	}
@@ -1476,13 +1477,15 @@ function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $us
  * @return  float   享受红包支付的总额
  */
 function compute_discount_amount($cart_id = array()) {
-	$db 			= RC_Loader::load_app_model('favourable_activity_model', 'favourable');
+	//$db 			= RC_Loader::load_app_model('favourable_activity_model', 'favourable');
 	$db_cartview 	= RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
+	$db				= RC_DB::table('favourable_activity');
 	/* 查询优惠活动 */
 	$now = RC_Time::gmtime();
 	$user_rank = ',' . $_SESSION['user_rank'] . ',';
 
-	$favourable_list = $db->where('start_time <= '.$now.' AND end_time >= '.$now.' AND CONCAT(",", user_rank, ",") LIKE "%' . $user_rank . '%" ')->in(array('act_type' => array(FAT_DISCOUNT, FAT_PRICE)))->select();
+	//$favourable_list = $db->where('start_time <= '.$now.' AND end_time >= '.$now.' AND CONCAT(",", user_rank, ",") LIKE "%' . $user_rank . '%" ')->in(array('act_type' => array(FAT_DISCOUNT, FAT_PRICE)))->select();
+	$favourable_list   = $db->where('start_time', '<=', $now)->where('end_time', '>=', $now)->whereRaw('CONCAT(",", user_rank, ",") LIKE "%' . $user_rank . '%"')->whereIn('act_type', array(FAT_DISCOUNT, FAT_PRICE))->get();
 	if (!$favourable_list) {
 		return 0;
 	}

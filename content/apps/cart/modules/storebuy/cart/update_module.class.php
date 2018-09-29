@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 购物车更新商品数目
  * @author royalwang
  */
-class update_module extends api_front implements api_interface {
+class storebuy_cart_update_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
     	$this->authSession();
