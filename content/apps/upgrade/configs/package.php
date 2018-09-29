@@ -56,6 +56,7 @@ return array(
 	'version' 		=> '1.18.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2017 ~ 2018.',
     'namespace'     => 'Ecjia\App\Upgrade',
+    'provider'      => 'UpgradeServiceProvider',
 );
 
 // end
