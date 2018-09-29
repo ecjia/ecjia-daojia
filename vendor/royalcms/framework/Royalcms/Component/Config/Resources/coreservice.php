@@ -66,6 +66,7 @@ return array(
         'RC_ENV'               => 'Royalcms\Component\Environment\Facades\Environment',
         'RC_Variable'          => 'Royalcms\Component\Variable\Facades\Variable',
         'RC_App'               => 'Royalcms\Component\App\Facades\App',
+        'RC_Widget'            => 'Royalcms\Component\Widget\Facades\Widget',
 
         //other
         'RC_String'            => 'Royalcms\Component\Support\Str',
@@ -93,16 +94,51 @@ return array(
         'RC_Token'             => 'Royalcms\Component\Foundation\Token',
         'RC_Uri'               => 'Royalcms\Component\Foundation\Uri',
         'RC_Validate'          => 'Royalcms\Component\Foundation\Validate',
-        'RC_Widget'            => 'Royalcms\Component\Foundation\Widget',
         'RC_Xml'               => 'Royalcms\Component\Foundation\Xml',
         
-        
-        
-        //     'Form'            => 'Royalcms\Component\Support\Facades\Form',
-        
-        //     'HTML'            => 'Royalcms\Component\Support\Facades\HTML',
 
-        
+        // Compatible
+        'Component_Database_Database'           => 'Royalcms\Component\Model\Database\Database',
+        'Component_Database_Factory'            => 'Royalcms\Component\Model\Database\DatabaseFactory',
+        'Component_Database_Interface'          => 'Royalcms\Component\Model\Database\DatabaseInterface',
+        'Component_Database_Mysql'              => 'Royalcms\Component\Model\Database\Mysql',
+        'Component_Database_Mysqli'             => 'Royalcms\Component\Model\Database\Mysqli',
+        'Component_Database_Pdo'                => 'Royalcms\Component\Model\Database\Pdo',
+        'Component_Model_Model'                 => 'Royalcms\Component\Model\Model',
+        'Component_Model_Null'                  => 'Royalcms\Component\Model\NullModel',
+        'Component_Model_Relation'              => 'Royalcms\Component\Model\RelationModel',
+        'Component_Model_View'                  => 'Royalcms\Component\Model\ViewModel',
+
+        'Component_WeChat_ErrorCode'            => 'Royalcms\Component\WeChat\ErrorCode',
+        'Component_WeChat_ParameterBag'         => 'Royalcms\Component\WeChat\ParameterBag',
+        'Component_WeChat_Prpcrypt'             => 'Royalcms\Component\WeChat\Prpcrypt',
+        'Component_WeChat_Request'              => 'Royalcms\Component\WeChat\Request',
+        'Component_WeChat_Response'             => 'Royalcms\Component\WeChat\Response',
+        'Component_WeChat_Utility'              => 'Royalcms\Component\WeChat\Utility',
+        'Component_WeChat_WeChat'               => 'Royalcms\Component\WeChat\WeChat',
+        'Component_WeChat_WeChatAPI'            => 'Royalcms\Component\WeChat\WeChatAPI',
+        'Component_WeChat_WeChatCorp'           => 'Royalcms\Component\WeChat\WeChatCorp',
+        'Component_WeChat_WeChatCorpAPI'        => 'Royalcms\Component\WeChat\WeChatCorpAPI',
+
+        'Component_Error_ErrorDisplay'          => 'Royalcms\Component\Error\ErrorDisplay',
+
+        'Component_Page_Page'                   => 'Royalcms\Component\Page\Page',
+        'Component_Page_Default'                => 'Royalcms\Component\Page\DefaultPage',
+
+        'Component_ImageEditor_Editor'          => 'Royalcms\Component\ImageEditor\Editor',
+        'Component_ImageEditor_GD'              => 'Royalcms\Component\ImageEditor\GD',
+        'Component_ImageEditor_Imagick'         => 'Royalcms\Component\ImageEditor\Imagick',
+
+        'Component_Editor_Editor'               => 'Royalcms\Component\Editor\Editor',
+        'Component_Editor_Quicktags'            => 'Royalcms\Component\Editor\Quicktags',
+        'Component_Editor_Tinymce'              => 'Royalcms\Component\Editor\Tinymce',
+
+        'Component_Widget_Control'              => 'Royalcms\Component\Widget\WidgetController',
+        'Component_Widget_Factory'              => 'Royalcms\Component\Widget\Factory',
+        'Component_Widget_Widget'               => 'Royalcms\Component\Widget\Widget',
+
+        //     'Form'            => 'Royalcms\Component\Support\Facades\Form',
+        //     'HTML'            => 'Royalcms\Component\Support\Facades\HTML',
 
     ),
     
