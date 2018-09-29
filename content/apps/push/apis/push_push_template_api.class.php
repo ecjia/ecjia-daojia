@@ -69,8 +69,8 @@ class push_push_template_api extends Component_Event_Api {
 	        return false;
 	    }
 		
-		$db = RC_Model::model('mail/mail_templates_model');
-		return $db->field('template_id, template_subject, is_html, template_content')->find(array('template_code' => $tpl_name));
+		$info = RC_DB::table('mail_templates')->where('template_code', $tpl_name)->select('template_id', 'template_subject', 'is_html', 'template_content')->first();
+		return $info;
 	}
 }
 
