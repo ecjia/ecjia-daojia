@@ -99,6 +99,13 @@
 					<textarea name='invite_explain' class="span7">{$invite_explain}</textarea>
 				</div>
 			</div>
+
+			<div class="control-group formSep formSep1">
+				<label class="control-label">被邀请分享说明设置：</label>
+				<div class="controls">
+					<textarea name='invitee_rule_explain' class="span7">{$invitee_rule_explain}</textarea>
+				</div>
+			</div>
 			
 			<h3 class="heading">邀请人奖励设置</h3>
 			<div class="control-group formSep formSep1">

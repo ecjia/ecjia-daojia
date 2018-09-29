@@ -47,67 +47,20 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 推荐奖励的记录
- * @author will.chen
+ * 被邀请说明
+ * @author zrl
  */
-class invite_record_module extends api_front implements api_interface {
+class rule_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-		$this->authSession();
-		if ($_SESSION['user_id'] <= 0 ) {
-			return new ecjia_error(100, 'Invalid session');
-		}
 		
-		$date = $this->requestData('date');
-		$size = $this->requestData('pagination.count', 15);
- 		$page = $this->requestData('pagination.page', 1);
 		
-		if (empty($date)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}
+		$invitee_rule_explain = ecjia::config('invitee_rule_explain');
 		
-		$count = RC_DB::table('invite_reward')
-			->where('invite_id', $_SESSION['user_id'])
-			->where(RC_DB::raw("FROM_UNIXTIME(add_time, '%Y-%m')"), $date)
-			->count();
-		//实例化分页
-		$page_row = new ecjia_page($count, $size, 6, '', $page);
-		$list_result = RC_DB::table('invite_reward')
-			->where('invite_id', $_SESSION['user_id'])
-			->where(RC_DB::raw("FROM_UNIXTIME(add_time, '%Y-%m')"), $date)
-			->take($size)
-			->skip($page_row->start_id-1)
-			->orderBy('add_time', 'desc')
-			->get();
-
-		
-		$list = array();
-		foreach ($list_result as $val) {
-			if ($val['reward_type'] == 'bonus') {
-				$reward_type = '红包';
-				$val['reward_value'] = RC_DB::table('bonus_type')->where('type_id', $val['reward_value'])->pluck('type_name');
-			} elseif ($val['reward_type'] == 'balance') {
-				$reward_type = '现金';
-				$val['reward_value'] = price_format($val['reward_value']);
-			} else {
-				$reward_type = '积分';
-			}
-			
-			$list[] = array(
-				'invitee_name'		=> $val['invitee_name'],
-				'label_reward_type'	=> '邀请'.$val['invitee_name'].'成功，奖励'.$reward_type,
-				'reward_type'		=> $val['reward_type'],
-				'give_reward'		=> $val['reward_value'],
-				'reward_time'		=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
-			);
-			
-		}
-		
-		$pager = array(
-			"total" => $page_row->total_records,
-			"count" => $page_row->total_records,
-			"more"	=> $page_row->total_pages <= $page ? 0 : 1,
+		$invite_info = array(
+			'invitee_rule_explain'  => empty($invitee_rule_explain) ? '' : $invitee_rule_explain,
 		);
-		return array('data' => $list, 'pager' => $pager);
+		
+		return $invite_info;
 	}
 }
 

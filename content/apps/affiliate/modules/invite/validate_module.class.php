@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 推荐人验证的记录
  * @author will.chen
  */
-class validate_module extends api_front implements api_interface
+class invite_validate_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {

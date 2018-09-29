@@ -98,6 +98,8 @@ class admin_config extends ecjia_admin {
 		$this->assign('config', $config);
 		$this->assign('invite_template', ecjia::config('invite_template'));
 		$this->assign('invite_explain', ecjia::config('invite_explain'));
+		$this->assign('invitee_rule_explain', ecjia::config('invitee_rule_explain'));
+
 		$this->assign('current_code', 'affiliate');
 		$this->assign('form_action', RC_Uri::url('affiliate/admin_config/update'));
 		
@@ -116,7 +118,8 @@ class admin_config extends ecjia_admin {
 		$expire_unit 		= isset($_POST['expire_unit']) 		? $_POST['expire_unit'] 			: $config['config']['expire_unit'];
 		$invite_template	= isset($_POST['invite_template']) 	? trim($_POST['invite_template']) 	: '';
 		$invite_explain		= isset($_POST['invite_explain']) 	? $_POST['invite_explain'] 			: '';
-		
+		$invitee_rule_explain = isset($_POST['invitee_rule_explain']) ? $_POST['invitee_rule_explain'] : '';
+
 		$_POST['expire'] 			= (float)$_POST['expire'];
 		$_POST['level_point_all'] 	= (float)$_POST['level_point_all'];
 		$_POST['level_money_all'] 	= (float)$_POST['level_money_all'];
@@ -189,6 +192,8 @@ class admin_config extends ecjia_admin {
 		ecjia_config::instance()->write_config('affiliate', serialize($temp));
 		ecjia_config::instance()->write_config('invite_template', $invite_template);
 		ecjia_config::instance()->write_config('invite_explain', $invite_explain);
+		ecjia_config::instance()->write_config('invitee_rule_explain', $invitee_rule_explain);
+
 		ecjia_admin::admin_log(RC_Lang::get('system::system.affiliate'), 'edit', 'config');
 		
 		return $this->showmessage(RC_Lang::get('affiliate::affiliate.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin_config/init')));

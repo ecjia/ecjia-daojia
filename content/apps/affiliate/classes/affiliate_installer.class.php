@@ -68,6 +68,11 @@ class affiliate_installer extends ecjia_installer {
     	/* 推荐说明*/
     	if (!ecjia::config('invite_explain', ecjia::CONFIG_CHECK)) {
     		ecjia_config::instance()->insert_config('hidden', 'invite_explain', '', array('type' => 'hidden'));
+		}
+		
+		/* 被邀请分享说明设置*/
+    	if (!ecjia::config('invitee_rule_explain', ecjia::CONFIG_CHECK)) {
+    		ecjia_config::instance()->insert_config('hidden', 'invitee_rule_explain', '', array('type' => 'hidden'));
     	}
     	
     	/* 推荐奖励记录表*/
@@ -117,7 +122,12 @@ class affiliate_installer extends ecjia_installer {
     	if (ecjia::config('invite_explain', ecjia::CONFIG_CHECK)) {
     		ecjia_config::instance()->delete_config('invite_explain');
     	}
-    	
+		
+		/* 被邀请分享说明设置*/
+		if (!ecjia::config('invitee_rule_explain', ecjia::CONFIG_CHECK)) {
+			ecjia_config::instance()->delete_config('invitee_rule_explain');
+		}
+
     	$invite_reward_table = 'invite_reward';
     	if (RC_Model::make()->table_exists($invite_reward_table)) {
     		RC_Model::make()->drop_table($invite_reward_table);
