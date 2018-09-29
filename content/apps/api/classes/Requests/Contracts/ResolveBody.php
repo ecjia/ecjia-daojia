@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,80 +44,16 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Api\Requests\Contracts;
 
-/**
- * api_front
- * @author will
- */
-abstract class api_front extends ecjia_api {
-	protected $requestData = array();
-	
-	protected $token = null;
-	
-	protected $device = array();
-	
-	protected $api_version = null;
-	
-	public function __construct() {
-        parent::__construct();
-        
-        $request = royalcms('request');
-		
-		$json = $request->input('json');
-		$this->requestData = json_decode(rc_stripslashes($json), true);
-		
-		$this->token = $this->requestData('token') ? $this->requestData('token') : $this->requestData('session.sid');
-		
-		$this->device['client'] = $request->header('device-client');
-		$this->device['code']	= $request->header('device-code');
-		$this->device['udid']	= $request->header('device-udid');
-		$this->api_version		= $request->header('api-version');
-        
-        $this->authSession();
-        
-        RC_Api::api('stats', 'statsapi', array('api_name' => $request->input('url'), 'device' => $this->device));
-        RC_Api::api('mobile', 'device_record', array('device' => $this->device));
-	}
-	
-	protected function session_start() {
-		RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
-			return RC_Config::get('session.session_name');
-		});
-	
-		RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
-			return RC_Hook::apply_filters('ecjia_api_session_id', $sessin_id);
-		});
-	
-		RC_Session::start();
-	}
-	
-	/**
-	 * 登录session授权
-	 */
-	public function authSession() {
-// 		if (!empty($this->token)) {
-// 			if (RC_Session::session_id() != $this->token) {
-//     			RC_Session::destroy();
-//     			RC_Session::init(null, $this->token);
-//     		}
-// 		}
-	}
-	
-	public function requestData($key, $default = null) {
-		$requestData = array_get($this->requestData, $key);
-		if (!empty($requestData)) {
-			return $requestData;
-		} else {
-			$input = explode('.', $key);
-			$request = royalcms('request');
-			$input_val = $request->input($input[0]);
-			if (isset($input_val)) {
-			    $this->requestData[$input[0]] = $request->input($input[0]);
-			}
-			return array_get($this->requestData, $key, $default);
-		}
-	}
+interface ResolveBody
+{
+    /**
+     * 解析服务器返回的数据
+     * @param string $data
+     * @return Object
+     */
+    public function resolve($body);
 }
 
 // end

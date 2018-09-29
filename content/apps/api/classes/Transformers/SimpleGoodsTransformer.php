@@ -44,41 +44,38 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/17
+ * Time: 1:05 PM
+ */
 
-use Royalcms\Component\App\AppParentServiceProvider;
+namespace Ecjia\App\Api\Transformers;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+
+class SimpleGoodsTransformer extends Transformer
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
-    {
-
-        $this->loadAlias();
-    }
 
 
-    /**
-     * Load the alias = One less install step for the user
-     */
-    protected function loadAlias()
+    public function transformer($data)
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        $photoTransformer = new PhotoTransformer();
+
+        $outData = array(
+            'goods_id'      => $data['goods_id'],
+            'name'          => $data['goods_name'],
+            'market_price'  => $data['market_price'],
+            'shop_price'    => $data['shop_price'],
+            'promote_price' => $data['promote_price'],
+            'img'           => array(
+                'thumb'     => $photoTransformer->transformer($data['goods_img']),
+                'url'       => $photoTransformer->transformer($data['original_img']),
+                'small'     => $photoTransformer->transformer($data['goods_thumb'])
+            )
+        );
+
+        return $outData;
     }
-    
-    
+
 }

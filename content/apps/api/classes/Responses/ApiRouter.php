@@ -44,41 +44,82 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/13
+ * Time: 22:47
+ */
 
-use Royalcms\Component\App\AppParentServiceProvider;
+namespace Ecjia\App\Api\Responses;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+
+class ApiRouter
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
-    {
+    protected $key;
 
-        $this->loadAlias();
+    protected $appModule;
+
+    protected $classPath;
+
+    protected $className;
+
+    static protected $apiRoutes = array();
+
+    public function __construct($name) {
+
+        self::$apiRoutes = config('api');
+
+        $this->key = $name;
     }
 
+    public function hasKey() {
+        if (isset(self::$apiRoutes[$this->key])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    /**
-     * Load the alias = One less install step for the user
-     */
-    protected function loadAlias()
+    public function getKey() {
+        return $this->key;
+    }
+
+    public function parseKey() {
+        $api_class = explode('::', self::$apiRoutes[$this->key]);
+        $this->appModule = $api_class[0];
+
+        $path = dirname($api_class[1]);
+        $name = basename($api_class[1]);
+        if ($path == '.') {
+            $controller = null;
+        } else {
+            $controller = $path;
+        }
+
+        $this->classPath = $controller;
+
+        $this->className = $name . '_module';
+
+        return $this;
+    }
+
+    public function getApp() {
+        return $this->appModule;
+    }
+
+    public function getFullClassName()
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        $class = $this->classPath . '/' . $this->className;
+        $className = str_replace('/', '_', $class);
+        return $className;
     }
-    
-    
+
+    public function getClassName() {
+        return $this->className;
+    }
+
+    public function getClassPath() {
+        return $this->classPath;
+    }
 }

@@ -44,41 +44,41 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/17
+ * Time: 1:09 PM
+ */
 
-use Royalcms\Component\App\AppParentServiceProvider;
+namespace Ecjia\App\Api\Transformers;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+
+class AddressTransformer extends Transformer
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
-    {
-
-        $this->loadAlias();
-    }
 
 
-    /**
-     * Load the alias = One less install step for the user
-     */
-    protected function loadAlias()
+    public function transformer($data)
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+
+        $outData = array(
+            "id"            => 15,
+            "consignee"     => "联系人姓名",
+            "email"         => "联系人email",
+            "country"       => "国家id",
+            "province"      => "省id",
+            "city"          => "城市id",
+            "district"      => "地区id",
+            "address"       => "详细地址",
+            "zipcode"       => "邮政编码",
+            "tel"           => "联系电话",
+            "mobile"        => "手机",
+            "sign_building" => "标志建筑",
+            "best_time"     => "最佳送货时间"
+        );
+
+        return $outData;
+
     }
-    
-    
+
 }

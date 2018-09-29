@@ -44,41 +44,65 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/13
+ * Time: 23:07
+ */
 
-use Royalcms\Component\App\AppParentServiceProvider;
+namespace Ecjia\App\Api\Responses;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+use Royalcms\Component\Http\Response;
+
+class ApiResponse extends Response
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
-    {
 
-        $this->loadAlias();
-    }
+    protected $sourceData = array();
 
+    protected $responseData = array();
 
     /**
-     * Load the alias = One less install step for the user
+     * Set the content on the response.
+     *
+     * @param  mixed  $content
+     * @return $this
      */
-    protected function loadAlias()
+    public function setContent($data)
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        $this->sourceData = $data;
+
+        if (is_ecjia_error($this->sourceData)) {
+            $this->responseData = with(new ApiError($this->sourceData->get_error_code(), $this->sourceData->get_error_message()))->getData();
+        } else {
+            $this->responseData = $this->makeSucceedStatus();
+
+            if (isset($data['data'])) {
+                $this->responseData['data'] = $data['data'];
+            } else {
+                $this->responseData['data'] = $data;
+            }
+
+            if (isset($data['pager'])) {
+                $this->responseData['paginated'] = $data['pager'];
+            }
+
+            if (isset($data['privilege'])) {
+                $this->responseData['privilege'] = $data['privilege'];
+            }
+        }
+
+        return parent::setContent($this->responseData);
     }
-    
-    
+
+    public function setOriginalContent($content)
+    {
+        return parent::setContent($content);
+    }
+
+    protected function makeSucceedStatus()
+    {
+        return array('data' => array(), 'status' => array('succeed' => 1));
+    }
+
 }

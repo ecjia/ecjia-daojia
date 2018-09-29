@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,41 +44,53 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+namespace Ecjia\App\Api\Requests;
 
-use Royalcms\Component\App\AppParentServiceProvider;
-
-class ApiServiceProvider extends  AppParentServiceProvider
+class ApiModel
 {
+    protected $data = array();
     
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
+    protected static $registered_instance = array();
+    
+    
+    public function __get($name) {
+        if (isset($this->data[$name])) {
+            return $this->data[$name];
+        }
+        
+        return null;
     }
     
-    public function register()
-    {
-
-        $this->loadAlias();
+    public function __isset($name) {
+        if (isset($this->data[$name])) {
+            return true;
+        }
+    
+        return false;
     }
-
 
     /**
-     * Load the alias = One less install step for the user
+     * @return string
      */
-    protected function loadAlias()
+    public function __toString()
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        echo get_class($this);
+    }
+    
+    //自身迭代
+    public static function make(array $input = array()) {
+        $key = get_called_class();
+        $md5 = md5(serialize($input));
+        $key = $key . ':' . $md5;
+        
+        if ( ! isset(static::$registered_instance[$key])) {
+            static::$registered_instance[$key] = new static($input);
+        }
+
+        return static::$registered_instance[$key];
     }
     
     
 }
+
+// end

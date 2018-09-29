@@ -59,6 +59,7 @@ return array(
 	'version' => '2.20.0',					/* 版本号 */
 	'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace'     => 'Ecjia\App\Api',
+    'provider'      => 'ApiServiceProvider',
 );
 
 // end

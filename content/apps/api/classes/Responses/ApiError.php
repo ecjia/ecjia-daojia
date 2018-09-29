@@ -44,41 +44,94 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/13
+ * Time: 23:46
+ */
 
-use Royalcms\Component\App\AppParentServiceProvider;
+namespace Ecjia\App\Api\Responses;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+use ecjia_error;
+
+/**
+ * API错误返回类
+ * @package ecjia-api
+ * @since 1.5
+ */
+
+class ApiError extends ecjia_error
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
-    {
 
-        $this->loadAlias();
-    }
+    private static $errorCodes = [
+        6       => '密码错误',
+        8       => '处理失败',
+        11      => '用户名或email已使用',
+        13      => '不存在的信息',
+        14      => '购买失败',
+        100     => 'Invalid session',
+        101     => '错误的参数提交',
+        200     => '用户名不能为空',
+        201     => '用户名含有敏感字符',
+        202     => '用户名 已经存在',
+        203     => 'email不能为空',
+        204     => '不是合法的email地址',
+        300     => '对不起，指定的商品不存在',
+        301     => '对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。',
+        302     => '对不起，该商品已经下架。',
+        303     => '对不起，该商品不能单独销售。',
+        501     => '没有pagination结构',
+        502     => 'code错误',
+        503     => '合同期终止',
+        10001   => '您必须选定一个配送方式',
+        10002   => '购物车中没有商品',
+        10003   => '您的余额不足以支付整个订单，请选择其他支付方式。',
+        10005   => '您选择的超值礼包数量已经超出库存。请您减少购买量或联系商家。',
+        10006   => '如果是团购，且保证金大于0，不能使用货到付款',
+        10007   => '您已收藏过此商品',
+        10008   => '库存不足',
+        10009   => '订单无发货信息',
+        10010   => '该订单已经支付，请勿重复支付。',
+        99999   => '该网店暂停注册'
+    ];
 
-
-    /**
-     * Load the alias = One less install step for the user
-     */
-    protected function loadAlias()
+    public function __construct($code, $message = null)
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        parent::__construct($code, $message);
     }
-    
-    
+
+    public function getData()
+    {
+        $data = array(
+            'status' => array(
+                'succeed' => 0,
+                'error_code' => $this->getCode(),
+                'error_desc' => $this->getMessage(),
+            )
+        );
+        return $data;
+    }
+
+    public function getJson()
+    {
+        $data = $this->getData();
+
+        return json_encode($data);
+    }
+
+    public function getCode()
+    {
+        return $this->get_error_code();
+    }
+
+    public function getMessage()
+    {
+        if (empty($this->get_error_message())) {
+            return array_get(self::$errorCodes, $this->get_error_code(), $this->get_error_code());
+        }
+
+        return $this->get_error_message();
+    }
+
 }

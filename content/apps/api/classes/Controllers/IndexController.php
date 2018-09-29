@@ -44,41 +44,44 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+namespace Ecjia\App\Api\Controllers;
 
-use Royalcms\Component\App\AppParentServiceProvider;
+use Ecjia\App\Api\Responses\ApiManager;
+use RC_Loader;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+class IndexController
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
+    public function __construct()
     {
 
-        $this->loadAlias();
+        ini_set('memory_limit', -1);
+
+        RC_Loader::load_app_func('functions');
+        
     }
 
-
-    /**
-     * Load the alias = One less install step for the user
-     */
-    protected function loadAlias()
+    public function init()
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        $request = royalcms('request');
+
+        $response = with(new ApiManager($request))->handleRequest();
+
+        $data = $response->getOriginalContent();
+        $error_code = array_get($data, 'status.error_code');
+
+        if (in_array($error_code, [
+            'url_param_not_exists',
+            'api_not_exists',
+            'api_not_handle',
+            'api_not_instanceof',
+        ])) {
+            $error_desc = array_get($data, 'status.error_desc');
+            $response->setOriginalContent($error_desc);
+        }
+
+        royalcms()->instance('response', $response);
+        return $response;
     }
-    
-    
 }
+
+// end

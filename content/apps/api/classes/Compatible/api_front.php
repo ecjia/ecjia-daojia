@@ -44,56 +44,14 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/15
+ * Time: 10:06 AM
+ */
 
-class api_response {
-    protected $sourceData = array();
-    protected $responseData = array();
-    
-    public function __construct($data) {
-        $this->sourceData = $data;
-        
-        if (is_ecjia_error($this->sourceData)) {
-            $this->responseData = with(new api_error($this->sourceData->get_error_code(), $this->sourceData->get_error_message()))->getData();
-        } else {
-            $this->responseData = $this->makeSucceedStatus();
-            
-            if (isset($data['data'])) {
-                $this->responseData['data'] = $data['data'];
-            } else {
-                $this->responseData['data'] = $data;
-            }
-            
-            if (isset($data['pager'])) {
-                $this->responseData['paginated'] = $data['pager'];
-            }
-            
-            if (isset($data['privilege'])) {
-            	$this->responseData['privilege'] = $data['privilege'];
-            }
-        }
-    }
-    
-    public function responseData() {
-        return $this->responseData;
-    }
-    
-    public function send() {
-        $response = RC_Response::json($this->responseData);
-        $cookies = royalcms('response')->headers->getCookies();
-        foreach ($cookies as $cookie)
-        {
-            $response->withCookie($cookie);
-        }
+class api_front extends Ecjia\App\Api\BaseControllers\EcjiaApiFrontController
+{
 
-        royalcms()->instance('response', $response);
-
-        return $response;
-    }
-    
-    protected function makeSucceedStatus() {
-        return array('data' => array(), 'status' => array('succeed' => 1));
-    }
 }
-
-//end

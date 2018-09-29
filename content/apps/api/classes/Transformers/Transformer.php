@@ -44,20 +44,91 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * API接口类
- * @author royalwang
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/17
+ * Time: 1:22 PM
  */
-interface api_interface {
-    /**
-     * API接口响应方法
-     * @param \Royalcms\Component\HttpKernel\Request $request
-     * @param unknown $response
-     */
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request);
-    
-}
 
-// end
+namespace Ecjia\App\Api\Transformers;
+
+
+abstract class Transformer
+{
+
+
+    abstract public function transformer($data);
+
+
+    public static function transformerData($type, $data)
+    {
+        $outData = array();
+        if (empty($data)) {
+            return $outData;
+        }
+
+        if (is_array($data)) {
+            $first = current($data);
+
+            if ($first && is_array($first)) {
+                foreach ($data as $key => $value) {
+                    $outData[] = self::transformerData($type, $value);
+                }
+
+                return array_filter($outData);
+            }
+        }
+
+
+        switch ($type) {
+            case 'PHOTO':
+                $outData = with(new PhotoTransformer())->transformer($data);
+
+                break;
+
+            case 'SIMPLEGOODS':
+                $outData = with(new SimpleGoodsTransformer())->transformer($data);
+
+                break;
+
+            case 'ADDRESS':
+                $outData = with(new AddressTransformer())->transformer($data);
+
+                break;
+
+            case 'SIGNUPFIELDS':
+                $outData = with(new SignupFieldsTransformer())->transformer($data);
+
+                break;
+
+            case 'CONFIG':
+                $outData = with(new ConfigTransformer())->transformer($data);
+
+                break;
+
+            case 'CATEGORY':
+                $outData = with(new CategoryTransformer())->transformer($data);
+
+                break;
+
+            case 'SIMPLEORDER':
+                $outData = with(new SimpleOrderTransformer())->transformer($data);
+
+                break;
+
+            case 'GOODS':
+                $outData = with(new GoodsTransformer())->transformer($data);
+
+                break;
+
+            default:
+                $outData = [];
+                break;
+
+        }
+
+        return $outData;
+    }
+
+}

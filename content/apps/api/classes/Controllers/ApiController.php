@@ -44,45 +44,47 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Api\Controllers;
 
-/**
- * API错误返回类
- * @package ecjia-api
- * @since 1.5
- */
-class api_error {
-    private $code;
-    private $message;
+use Ecjia\App\Api\BaseControllers\EcjiaApi;
 
-    public function __construct($code, $message) {
-        $this->code = $code;
-        $this->message = htmlspecialchars($message);
+class ApiController extends EcjiaApi
+{
+    public function __construct()
+    {
+        parent::__construct();
     }
     
-    public function getData() {
-        $data = array(
-            'status' => array(
-                'succeed' => 0,
-                'error_code' => $this->code,
-                'error_desc' => $this->message,
-            )
-        );
-        return $data;
-    }
-
-    public function getJson() {
-        $data = $this->getData();
+    
+    public function init()
+    {
         
-        return json_encode($data);
     }
     
-    public function getCode() {
-        return $this->code;
-    }
-    
-    public function getMessage() {
-        return $this->message;
+    /**
+     * 插件远程调用Api控制器处理
+     */
+    public function plugin()
+    {
+        $action = rc_addslashes(trim($_GET['handle']));
+        
+        if (file_exists(SITE_PLUGIN_PATH . $action . '.php')) {
+            $file = SITE_PLUGIN_PATH . $action . '.php';
+        } elseif (file_exists(RC_PLUGIN_PATH . $action . '.php')) {
+            $file = RC_PLUGIN_PATH . $action . '.php';
+        } else {
+            _404();
+        }
+        
+        require_once $file;
+        
+        $action_class = str_replace('/', '_', $action);
+        
+        $handle = new $action_class();
+        
+        if ($handle && is_a($handle, $action_class)) {
+            $handle->run($this);
+        }
     }
 }
 

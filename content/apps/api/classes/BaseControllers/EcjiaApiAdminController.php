@@ -44,41 +44,81 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+namespace Ecjia\App\Api\BaseControllers;
 
-use Royalcms\Component\App\AppParentServiceProvider;
+use RC_Hook;
+use RC_Session;
+use RC_Config;
+use ecjia_error;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+/**
+ * api_front
+ * @author will
+ */
+abstract class EcjiaApiAdminController extends EcjiaApi
 {
-    
-    public function boot()
+
+	public function __construct()
     {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
+        parent::__construct();
+
+        $this->authSession();
+        
+	}
+
+
+	protected function session_start()
+    {
+        if ($this->requestDevice('client') == 'local') {
+            return null;
+        }
+
+        RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
+            return RC_Config::get('session.session_admin_name');
+        });
+
+        RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
+            return RC_Hook::apply_filters('ecjia_api_session_id', $sessin_id);
+        });
+	
+		RC_Session::start();
+	}
+
+	/**
+	 * 登录session授权
+	 */
+	public function authSession()
     {
 
-        $this->loadAlias();
-    }
-
+	}
 
     /**
-     * Load the alias = One less install step for the user
+     * 管理员登录授权验证
      */
-    protected function loadAlias()
+    public function authadminSession()
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+
     }
-    
-    
+
+    /**
+     * 判断管理员对某一个操作是否有权限。
+     * 根据当前对应的action_code，然后再和用户session里面的action_list做匹配，以此来决定是否可以继续执行。
+     * @param     string    $priv_str    操作对应的priv_str
+     * @return true/false
+     */
+    public function admin_priv($priv_str) {
+        if ($_SESSION['action_list'] == 'all') {
+            return true;
+        }
+
+        if (strpos(',' . $_SESSION['action_list'] . ',', ',' . $priv_str . ',') === false) {
+// 			return false;
+            return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+        } else {
+            return true;
+        }
+    }
+	
 }
+
+// end

@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,41 +44,141 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+namespace Ecjia\App\Api\Requests;
 
-use Royalcms\Component\App\AppParentServiceProvider;
+use Ecjia\App\Api\Requests\Contracts\ResolveBody;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+class ResolveEcjiaBody implements ResolveBody
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
-    {
-
-        $this->loadAlias();
-    }
-
-
     /**
-     * Load the alias = One less install step for the user
+     * 返回数据
+     * @var array $data
      */
-    protected function loadAlias()
+    protected $data = array();
+    
+    /**
+     * 分页数据
+     * @var array $paginated
+     */
+    protected $paginated = array();
+    
+    protected $status;
+    
+    protected $errorCode;
+    
+    protected $errorMessage;
+
+    
+    /**
+     * 解析服务器返回的数据
+     * @param string $data
+     * @return array
+     */
+    public function resolve($body)
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        if (empty($body)) {
+            $this->status = 'error';
+            $this->errorCode = 'no_body';
+            $this->errorMessage = 'Not Found body info';
+            
+            return $this;
+        }
+        
+        // 去除BOM头检测
+        $body = trim($body, chr(239).chr(187).chr(191));
+        $data = json_decode($body, true);
+        
+        $status = array_get($data, 'status', false);
+        
+        if (!empty($status)) {
+        
+            $this->status = $status['succeed'] ? 'success' : 'error';
+        
+            if ($this->status != 'success') {
+                $this->errorCode = $status['error_code'];
+                $this->errorMessage = $status['error_desc'];
+            }
+            else {
+                $this->data = array_get($data, 'data');
+                $this->paginated = array_get($data, 'paginated');
+            }
+        }
+        
+        return $this;
     }
     
+    /**
+     * 获取 data 数组
+     * 
+     * @return array:
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+    
+    /**
+     * 获取 paginated 数组
+     *
+     * @return array:
+     */
+    public function getPaginated()
+    {
+        return $this->paginated;
+    }
+    
+    /**
+     * 获取 API 返回的状态
+     * 
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+    
+    /**
+     * 获取返回的错误编号
+     */
+    public function getErrorCode()
+    {
+        return $this->errorCode;
+    }
+    
+    /**
+     * 获取返回的错误信息
+     */
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+    
+    /**
+     * 拼装结果
+     *
+     * @api
+     */
+    public function process()
+     {
+        return array(
+            'status'        => $this->status,
+            'errorCode'     => $this->errorCode,
+            'errorMessage'  => $this->errorMessage,
+            'data'          => $this->data,
+        );
+    }
+    
+    /**
+     * 魔术方法
+     *
+     * @api
+     *
+     * @return string
+     */
+    public function __toString() {
+        return var_export($this->process(), true);
+    }
     
 }
+
+// end

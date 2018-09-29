@@ -44,41 +44,127 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/13
+ * Time: 22:41
+ */
 
-use Royalcms\Component\App\AppParentServiceProvider;
+namespace Ecjia\App\Api\Responses;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+use ecjia_error;
+use RC_Loader;
+
+class ApiManager
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
-    {
 
-        $this->loadAlias();
+    protected $request;
+
+    public function __construct($request = null)
+    {
+        if (is_null($request)) {
+            $this->request = royalcms('request');
+        }
+
+        $this->request = $request;
     }
 
+
+    public function handler()
+    {
+        $url = $this->request->query('url');
+
+        if (empty($url)) {
+            return new ecjia_error('url_param_not_exists', 'NO ACCESS');
+        }
+
+        $router = new ApiRouter($url);
+        if (! $router->hasKey()) {
+            return new ecjia_error('api_not_exists', 'Api Error: ' . $url . ' does not exist.');
+        }
+
+        $router->parseKey();
+
+        if ($router->getApp() == 'system') {
+            $handle = $this->handlerSystemHttpApi($router);
+        } else {
+            $handle = $this->handlerAppHttpApi($router);
+        }
+
+        if (empty($handle)) {
+            return new ecjia_error('api_not_handle', 'Api Error: ' . $url . ' does not exist.');
+        }
+
+        if (is_a($handle, $router->getFullClassName())) {
+
+        }
+        elseif (is_a($handle, $router->getClassName())) {
+
+        }
+        else {
+            return new ecjia_error('api_not_instanceof', 'Api Error: ' . $router->getFullClassName . ' does not exist.');
+        }
+
+        return $handle;
+    }
+
+
+    public function handleRequest()
+    {
+        $handle = $this->handler();
+        if (is_ecjia_error($handle)) {
+            $data = $handle;
+        } else {
+            $request = $this->compatibleHttpKernelRequest($this->request);
+            $data = $handle->handleRequest($request);
+        }
+
+        return new ApiResponse($data);
+    }
 
     /**
-     * Load the alias = One less install step for the user
+     * @param ApiRouter $router
      */
-    protected function loadAlias()
+    protected function handlerSystemHttpApi(ApiRouter $router)
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        $handle = RC_Loader::load_module($router->getClassPath().'.'.$router->getClassName(), false);
+
+        $fullClassName = $router->getFullClassName();
+        if (class_exists($fullClassName)) {
+            return new $fullClassName;
+        }
+
+        $className = $router->getClassName();
+        return new $className;
     }
-    
-    
+
+    /**
+     * @param ApiRouter $router
+     * @param $app
+     */
+    protected function handlerAppHttpApi(ApiRouter $router)
+    {
+        RC_Loader::load_app_module($router->getClassPath().'.'.$router->getClassName(), $router->getApp(), false);
+
+        $fullClassName = $router->getFullClassName();
+        if (class_exists($fullClassName)) {
+            return new $fullClassName;
+        }
+
+        $className = $router->getClassName();
+        return new $className;
+    }
+
+    /**
+     * 原Http组件转换为HttpKernel组件
+     * @param $request
+     */
+    protected function compatibleHttpKernelRequest()
+    {
+        //原Http组件转换为HttpKernel组件
+        $request = \Royalcms\Component\HttpKernel\Request::createMyFromBase($this->request);
+        return $request;
+    }
+
 }

@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,41 +44,115 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+namespace Ecjia\App\Api\Requests\Actions;
 
-use Royalcms\Component\App\AppParentServiceProvider;
+use Ecjia\App\Api\Requests\Contracts\RequestAction;
+use Ecjia\App\Api\Requests\Exceptions\HttpRequestException;
+use Ecjia\App\Api\Requests\Exceptions\ServerHostNotFoundException;
+use RC_Http;
+use RC_Session;
+use RC_Cache;
+use RC_Error;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+/**
+ * @file
+ *
+ * ApiRequest
+ */
+
+class RemoteAction extends BaseAction implements RequestAction
 {
     
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
+    protected $url;
     
-    public function register()
+    protected $method = 'GET';
+    
+    protected $timeout = 15;
+    
+    protected $httpVersion = '1.1';
+    
+    protected $blocking = true;
+
+
+    protected function buildUrl()
     {
-
-        $this->loadAlias();
+        $this->method = $this->apiManager->getMethod();
+        $this->url = $this->apiManager->serverHost() . $this->apiManager->getApi();
     }
-
 
     /**
-     * Load the alias = One less install step for the user
+     * 发送API请求
+     *
+     * @return array|null|RC_Error
+     * @throws HttpRequestException | ServerHostNotFoundException
      */
-    protected function loadAlias()
+    public function send()
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        //判断serverHost是否定义
+        if ( ! $this->apiManager->serverHost()) {
+            throw new ServerHostNotFoundException(__('Const [serverHost] url not defined.'));
+        }
+
+        $this->buildUrl();
+
+        $this->setCookies($this->getCacheCookie());
+
+        $response = RC_Http::remote_request($this->url, $this->process());
+        //判断接口请求是否全出现错误
+        if (RC_Error::is_error($response)) {
+            throw new HttpRequestException($response->get_error_message());
+        }
+
+        //缓存cookies
+        $this->cacheCookie($response['cookies']);
+
+        return $response;
     }
     
+    /**
+     * 拼装结果
+     *
+     * @api
+     */
+    public function process()
+    {
+        $this->body = $this->body + $this->files;
+        
+        return array(
+            'method'    => $this->method,
+            'timeout'   => $this->timeout,
+            'httpversion' => $this->httpVersion,
+            'blocking'  => $this->blocking,
+            'body'      => $this->body,
+            'headers'   => $this->headers,
+            'cookies'   => $this->cookies,
+        );
+    }
+    
+    /**
+     * 魔术方法
+     *
+     * @api
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return var_export($this->process(), true);
+    }
+
+    protected function cacheCookie($cookie) {
+        $cache_key = 'api_request_cookie::'. RC_Session::getId();
+
+        RC_Cache::app_cache_set($cache_key, $cookie, 'system');
+    }
+
+    protected function getCacheCookie() {
+        $cache_key = 'api_request_cookie::'. RC_Session::getId();
+
+        $data = RC_Cache::app_cache_get($cache_key, 'system');
+
+        return $data ?: array();
+    }
     
 }

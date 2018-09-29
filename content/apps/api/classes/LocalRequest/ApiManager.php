@@ -44,41 +44,37 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Api;
+namespace Ecjia\App\Api\LocalRequest;
 
-use Royalcms\Component\App\AppParentServiceProvider;
+use Ecjia\App\Api\Requests\ApiManager as BaseApiManager;
+use RC_Session;
 
-class ApiServiceProvider extends  AppParentServiceProvider
+/**
+ * ecjia api manager API管理类
+ * @author royalwang
+ */
+class ApiManager extends BaseApiManager
 {
-    
-    public function boot()
-    {
-        $this->package('ecjia/app-api');
-    }
-    
-    public function register()
-    {
 
-        $this->loadAlias();
-    }
+    protected $driver = 'local';
 
-
-    /**
-     * Load the alias = One less install step for the user
-     */
-    protected function loadAlias()
+    public function __construct()
     {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_api', 'Ecjia\App\Api\BaseControllers\EcjiaApi');
-            $loader->alias('ecjia_api_manager', 'Ecjia\App\Api\LocalRequest\ApiManager');
-            $loader->alias('ecjia_api_const', 'Ecjia\App\Api\LocalRequest\ApiConst');
-            $loader->alias('api_front', 'Ecjia\App\Api\BaseControllers\EcjiaApiFrontController');
-            $loader->alias('api_admin', 'Ecjia\App\Api\BaseControllers\EcjiaApiAdminController');
-            $loader->alias('api_interface', 'Ecjia\App\Api\Responses\Contracts\ApiHandler');
-        });
+        parent::__construct();
+
+        $this->header(array(
+        	'device-udid'     => RC_Session::getId(),
+            'device-client'   => 'local',
+            'device-code'     => '6009',
+            'api-version'     => '1.19',
+        ));
     }
-    
-    
+
+    public function serverHost()
+    {
+        // TODO: Implement serverHost() method.
+    }
+
 }
+
+// end

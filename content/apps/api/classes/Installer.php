@@ -44,59 +44,58 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/6
+ * Time: 10:26 AM
+ */
 
-class index {
-    public function __construct() {
+namespace Ecjia\App\Api;
 
-        ini_set('memory_limit', -1);
+use ecjia_installer;
 
-        RC_Loader::load_app_func('functions');
-        RC_Loader::load_app_func('global');
-        RC_Loader::load_sys_func('global');
-        spl_autoload_register('em_autoload');
-        
-        EM_Api::init();
+class Installer extends ecjia_installer
+{
+    protected $dependent = array(
+        'ecjia.system' => '1.0'
+    );
+
+
+    public function __construct()
+    {
+        $id = 'ecjia.api';
+        parent::__construct($id);
     }
 
-    public function init() {        
-        $request = royalcms('request');
+    /**
+     * 安装
+     * @return bool
+     */
+    public function install()
+    {
 
-        $url = $request->query('url');
-
-        if (empty($url)) {
-//            exit("NO ACCESS");
-            return royalcms('response')->setContent("NO ACCESS");
-        }
-        
-        $router = new api_router($url);
-        if (! $router->hasKey()) {
-//            echo 'Api Error: ' . $url . ' does not exist.';
-//            exit(0);
-            return royalcms('response')->setContent('Api Error: ' . $url . ' does not exist.');
-
-        }
-
-        $router->parseKey();
-
-        if ($router->getApp() == 'system') {
-            $handle = RC_Loader::load_module($router->getClassPath().'.'.$router->getClassName());
-        } else {
-            $handle = RC_Loader::load_app_module($router->getClassPath().'.'.$router->getClassName(), $router->getApp());
-        }
-
-        //原Http组件转换为HttpKernel组件
-        $request = Royalcms\Component\HttpKernel\Request::createMyFromBase($request);
-
-        if ($handle && is_a($handle, $router->getClassName())) {
-            $data = $handle->handleRequest($request);
-            return with(new api_response($data))->send();
-        } else {
-//            echo 'Api Error: ' . $url . ' does not exist.';
-//            exit(0);
-            return royalcms('response')->setContent('Api Error: ' . $url . ' does not exist.');
-        }
+        return true;
     }
+
+    /**
+     * 卸载
+     * @return bool
+     */
+    public function uninstall()
+    {
+
+        return true;
+    }
+
+    /**
+     * 升级
+     * @return bool
+     */
+    public function upgrade()
+    {
+
+        return true;
+    }
+
 }
-
-// end

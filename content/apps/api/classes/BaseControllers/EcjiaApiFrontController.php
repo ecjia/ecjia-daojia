@@ -44,27 +44,53 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Api\BaseControllers;
 
-class api_installer  extends ecjia_installer {
-    
-    protected $dependent = array(
-    	'ecjia.system'    => '1.0'
-    );
-    
-    public function __construct() {
-        $id = 'ecjia.api';
-        parent::__construct($id);
-    }
-    
-    public function install() {
-        return ;
-    }
-    
-    public function uninstall() {
-        return ;
-    }
-    
+use RC_Hook;
+use RC_Session;
+use RC_Config;
+
+/**
+ * api_front
+ * @author will
+ */
+abstract class EcjiaApiFrontController extends EcjiaApi
+{
+
+	public function __construct()
+    {
+        parent::__construct();
+
+        $this->authSession();
+        
+	}
+
+
+	protected function session_start()
+    {
+        if ($this->requestDevice('client') == 'local') {
+            return null;
+        }
+
+		RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
+			return RC_Config::get('session.session_name');
+		});
+	
+		RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
+			return RC_Hook::apply_filters('ecjia_api_session_id', $sessin_id);
+		});
+	
+		RC_Session::start();
+	}
+	
+	/**
+	 * 登录session授权
+	 */
+	public function authSession()
+    {
+
+	}
+	
 }
 
 // end
