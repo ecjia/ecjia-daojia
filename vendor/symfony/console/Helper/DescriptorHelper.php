@@ -16,6 +16,7 @@ use Symfony\Component\Console\Descriptor\JsonDescriptor;
 use Symfony\Component\Console\Descriptor\MarkdownDescriptor;
 use Symfony\Component\Console\Descriptor\TextDescriptor;
 use Symfony\Component\Console\Descriptor\XmlDescriptor;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -30,9 +31,6 @@ class DescriptorHelper extends Helper
      */
     private $descriptors = array();
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this
@@ -54,7 +52,7 @@ class DescriptorHelper extends Helper
      * @param object          $object
      * @param array           $options
      *
-     * @throws \InvalidArgumentException when the given format is not supported
+     * @throws InvalidArgumentException when the given format is not supported
      */
     public function describe(OutputInterface $output, $object, array $options = array())
     {
@@ -64,7 +62,7 @@ class DescriptorHelper extends Helper
         ), $options);
 
         if (!isset($this->descriptors[$options['format']])) {
-            throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $options['format']));
+            throw new InvalidArgumentException(sprintf('Unsupported format "%s".', $options['format']));
         }
 
         $descriptor = $this->descriptors[$options['format']];
@@ -77,7 +75,7 @@ class DescriptorHelper extends Helper
      * @param string              $format
      * @param DescriptorInterface $descriptor
      *
-     * @return DescriptorHelper
+     * @return $this
      */
     public function register($format, DescriptorInterface $descriptor)
     {

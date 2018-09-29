@@ -11,6 +11,9 @@
 
 namespace Symfony\Component\Console\Input;
 
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\InvalidOptionException;
+
 /**
  * ArrayInput represents an input provided as an array.
  *
@@ -24,12 +27,6 @@ class ArrayInput extends Input
 {
     private $parameters;
 
-    /**
-     * Constructor.
-     *
-     * @param array                $parameters An array of parameters
-     * @param InputDefinition|null $definition A InputDefinition instance
-     */
     public function __construct(array $parameters, InputDefinition $definition = null)
     {
         $this->parameters = $parameters;
@@ -54,16 +51,20 @@ class ArrayInput extends Input
     /**
      * {@inheritdoc}
      */
-    public function hasParameterOption($values)
+    public function hasParameterOption($values, $onlyParams = false)
     {
         $values = (array) $values;
 
         foreach ($this->parameters as $k => $v) {
-            if (!is_int($k)) {
+            if (!\is_int($k)) {
                 $v = $k;
             }
 
-            if (in_array($v, $values)) {
+            if ($onlyParams && '--' === $v) {
+                return false;
+            }
+
+            if (\in_array($v, $values)) {
                 return true;
             }
         }
@@ -74,16 +75,20 @@ class ArrayInput extends Input
     /**
      * {@inheritdoc}
      */
-    public function getParameterOption($values, $default = false)
+    public function getParameterOption($values, $default = false, $onlyParams = false)
     {
         $values = (array) $values;
 
         foreach ($this->parameters as $k => $v) {
-            if (is_int($k)) {
-                if (in_array($v, $values)) {
+            if ($onlyParams && ('--' === $k || (\is_int($k) && '--' === $v))) {
+                return $default;
+            }
+
+            if (\is_int($k)) {
+                if (\in_array($v, $values)) {
                     return true;
                 }
-            } elseif (in_array($k, $values)) {
+            } elseif (\in_array($k, $values)) {
                 return $v;
             }
         }
@@ -101,9 +106,15 @@ class ArrayInput extends Input
         $params = array();
         foreach ($this->parameters as $param => $val) {
             if ($param && '-' === $param[0]) {
-                $params[] = $param.('' != $val ? '='.$this->escapeToken($val) : '');
+                if (\is_array($val)) {
+                    foreach ($val as $v) {
+                        $params[] = $param.('' != $v ? '='.$this->escapeToken($v) : '');
+                    }
+                } else {
+                    $params[] = $param.('' != $val ? '='.$this->escapeToken($val) : '');
+                }
             } else {
-                $params[] = $this->escapeToken($val);
+                $params[] = \is_array($val) ? implode(' ', array_map(array($this, 'escapeToken'), $val)) : $this->escapeToken($val);
             }
         }
 
@@ -116,6 +127,9 @@ class ArrayInput extends Input
     protected function parse()
     {
         foreach ($this->parameters as $key => $value) {
+            if ('--' === $key) {
+                return;
+            }
             if (0 === strpos($key, '--')) {
                 $this->addLongOption(substr($key, 2), $value);
             } elseif ('-' === $key[0]) {
@@ -132,12 +146,12 @@ class ArrayInput extends Input
      * @param string $shortcut The short option key
      * @param mixed  $value    The value for the option
      *
-     * @throws \InvalidArgumentException When option given doesn't exist
+     * @throws InvalidOptionException When option given doesn't exist
      */
     private function addShortOption($shortcut, $value)
     {
         if (!$this->definition->hasShortcut($shortcut)) {
-            throw new \InvalidArgumentException(sprintf('The "-%s" option does not exist.', $shortcut));
+            throw new InvalidOptionException(sprintf('The "-%s" option does not exist.', $shortcut));
         }
 
         $this->addLongOption($this->definition->getOptionForShortcut($shortcut)->getName(), $value);
@@ -149,23 +163,25 @@ class ArrayInput extends Input
      * @param string $name  The long option key
      * @param mixed  $value The value for the option
      *
-     * @throws \InvalidArgumentException When option given doesn't exist
-     * @throws \InvalidArgumentException When a required value is missing
+     * @throws InvalidOptionException When option given doesn't exist
+     * @throws InvalidOptionException When a required value is missing
      */
     private function addLongOption($name, $value)
     {
         if (!$this->definition->hasOption($name)) {
-            throw new \InvalidArgumentException(sprintf('The "--%s" option does not exist.', $name));
+            throw new InvalidOptionException(sprintf('The "--%s" option does not exist.', $name));
         }
 
         $option = $this->definition->getOption($name);
 
         if (null === $value) {
             if ($option->isValueRequired()) {
-                throw new \InvalidArgumentException(sprintf('The "--%s" option requires a value.', $name));
+                throw new InvalidOptionException(sprintf('The "--%s" option requires a value.', $name));
             }
 
-            $value = $option->isValueOptional() ? $option->getDefault() : true;
+            if (!$option->isValueOptional()) {
+                $value = true;
+            }
         }
 
         $this->options[$name] = $value;
@@ -177,12 +193,12 @@ class ArrayInput extends Input
      * @param string $name  The argument name
      * @param mixed  $value The value for the argument
      *
-     * @throws \InvalidArgumentException When argument given doesn't exist
+     * @throws InvalidArgumentException When argument given doesn't exist
      */
     private function addArgument($name, $value)
     {
         if (!$this->definition->hasArgument($name)) {
-            throw new \InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
 
         $this->arguments[$name] = $value;
