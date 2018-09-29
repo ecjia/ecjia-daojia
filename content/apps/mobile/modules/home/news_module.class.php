@@ -50,15 +50,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * news 今日热点
  * @author will.chen
  */
-class news_module extends api_front implements api_interface {
+class home_news_module extends api_front implements api_interface {
 
 	 public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	$this->authSession();
 		
-		$db_mobile_news = RC_Model::model('mobile/mobile_news_model');
+		//$db_mobile_news = RC_Model::model('mobile/mobile_news_model');
 		/* 查询今日热点总数*/
-		$count = $db_mobile_news->where(array('group_id' => 0, 'status' => 1))->count();
-		
+		//$count = $db_mobile_news->where(array('group_id' => 0, 'status' => 1))->count();
+    	$count = RC_DB::table('mobile_news')->where('group_id', 0)->where('status', 1)->count();
 		/* 查询总数为0时直接返回  */
 		if ($count == 0) {
 			$pager = array(
@@ -76,7 +76,8 @@ class news_module extends api_front implements api_interface {
 		//实例化分页
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
-		$result = $db_mobile_news->where(array('group_id' => 0, 'status' => 1))->limit($page_row->limit())->order(array('id' => 'desc'))->select();
+		//$result = $db_mobile_news->where(array('group_id' => 0, 'status' => 1))->limit($page_row->limit())->order(array('id' => 'desc'))->select();
+		$result = RC_DB::table('mobile_news')->where('group_id', 0)->where('status', 1)->take($size)->skip($page_row->start_id-1)->orderBy('id', 'desc')->get();
 		
 		$list = array();
 		if ( !empty ($result)) {
@@ -95,7 +96,8 @@ class news_module extends api_front implements api_interface {
 						'create_time' => RC_Time::local_date(ecjia::config('time_format'), $val['create_time']),
 				);
 				
-				$child_result = $db_mobile_news->where(array('group_id' => $val['id']))->select();
+				//$child_result = $db_mobile_news->where(array('group_id' => $val['id']))->select();
+				$child_result	= RC_DB::table('mobile_news')->where('group_id', $val['id'])->get();
 				if ( !empty($child_result)) {
 					foreach ($child_result as $v) {
 						if (substr($v['image'], 0, 4) == 'http' || substr($v['image'],0, 9) == 'ecjiaopen') {

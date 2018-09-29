@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * discover
  * @author will.chen
  */
-class discover_module extends api_front implements api_interface {
+class home_discover_module extends api_front implements api_interface {
 
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
 	

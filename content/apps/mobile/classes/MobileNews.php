@@ -44,38 +44,50 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Mobile;
+
+use RC_DB;
+use RC_Time;
+use ecjia;
+use RC_Api;
+use RC_Logger;
+use ecjia_page;
+use RC_Lang;
+
 /**
- * 设置移动设备device信息
- * @author royalwang
+ * 头条
  *
  */
-class mobile_device_record_api extends Component_Event_Api {
-	
-    /**
-     * @param $options[array] 
-     *
-     * @return array
-     */
-	public function call(&$options) {	
-		if (!is_array($options) || !isset($options['device']) || empty($options['device'])) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+class MobileNews
+{
+	/**
+	 * 头条添加/更新
+	 * @param array $data
+	 * @param array $where
+	 */
+	public static function MobileNewsManage($data, $where=array()) {
+		$db_mobile_news = RC_DB::table('mobile_news');
+		if (!empty($where)) {
+			foreach ($where as $k => $v) {
+				$db_mobile_news->where($k, $v);
+			}
+			return $db_mobile_news->update($data);
 		}
-		$device = $options['device']; 
-		if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-			$device_data = array(
-					'device_udid'	=> $device['udid'],
-					'device_client'	=> $device['client'],
-					'device_code'	=> $device['code']
-			);
-			$row = RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->first();
-			if(empty($row)) {
-				$device_data['add_time'] = RC_Time::gmtime();
-				RC_DB::table('mobile_device')->insert($device_data);
+		return RC_DB::table('mobile_news')->insertGetId($data);
+	}
+	
+	/**
+	 * 获取某个字段
+	 * @param array $where
+	 * @param string $field
+	 */
+	public static function MobileNewsField($where, $field) {
+		$db_mobile_news = RC_DB::table('mobile_news');
+		if (!empty($where)) {
+			foreach ($where as $k => $v) {
+				$db_mobile_news->where($k, $v);
 			}
 		}
-		return true;
+		return $db_mobile_news->pluck($field);
 	}
 }
-
-// end

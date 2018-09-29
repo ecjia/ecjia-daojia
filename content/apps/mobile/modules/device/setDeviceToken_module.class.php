@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * @author royalwang
  */
-class setDeviceToken_module extends api_front implements api_interface {
+class device_setDeviceToken_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authSession();	
 		
@@ -62,28 +62,30 @@ class setDeviceToken_module extends api_front implements api_interface {
 			return new ecjia_error(101, '参数错误');
 		}
 		
-		$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
+		//$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
 		$device_data = array(
 				'device_udid'	=> $device['udid'],
 				'device_client'	=> $device['client'],
 				'device_code'	=> $device['code'],
 				'user_type'		=> $user_type,
 		);
-		$row = $db_mobile_device->find($device_data);
-		
+		//$row = $db_mobile_device->find($device_data);
+		$row = RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', $user_type)->first();
 		if (empty($row)) {
 			$device_data['add_time']     = RC_Time::gmtime();
 			$device_data['device_token'] = !empty($device['device_token']) ? $device['device_token'] : '';
 			$device_data['in_status']	 = 0;
 				
-			$db_mobile_device->insert($device_data);
+			//$db_mobile_device->insert($device_data);
+			RC_DB::table('mobile_device')->insert($device_data);
 		} else {
 			$data = array();
 			if (!empty($device['device_token'])) {
 				$data['device_token'] = $device['device_token'];
 				$data['update_time']  = RC_Time::gmtime();
 			}
-			$db_mobile_device->where($device_data)->update($data);
+			//$db_mobile_device->where($device_data)->update($data);
+			RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', $user_type)->update($data);
 		}
 		return array();
 		

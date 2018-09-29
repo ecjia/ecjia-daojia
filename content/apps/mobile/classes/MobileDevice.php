@@ -44,38 +44,72 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Mobile;
+
+use RC_DB;
+use RC_Time;
+use ecjia;
+use RC_Api;
+use RC_Logger;
+use ecjia_page;
+
 /**
- * 设置移动设备device信息
- * @author royalwang
+ * 移动设备
  *
  */
-class mobile_device_record_api extends Component_Event_Api {
+class MobileDevice
+{
+// 	const NORMAL 	 = 1;//正常
+// 	const LOCKED 	 = 2;//锁定
 	
-    /**
-     * @param $options[array] 
-     *
-     * @return array
+
+     /**
+     * 移动设备更新
+     * @param  $act_id
      */
-	public function call(&$options) {	
-		if (!is_array($options) || !isset($options['device']) || empty($options['device'])) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+    public static function DeviceUpdate($id, $data) {
+    	if (!empty($id) && !empty($data)) {
+    		if (is_array($id)) {
+    			RC_DB::table('mobile_device')->whereIn('id', $id)->update($data);
+    		} else {
+    			RC_DB::table('mobile_device')->where('id', $id)->update($data);
+    		}
+    	}
+    	return true;
+    }
+    
+    /**
+     * 设备信息
+     * @param int $id
+     */
+	public static function DeviceInfo($id) {
+		return RC_DB::table('mobile_device')->where('id', $id)->first();
+	}
+    
+	/**
+	 * 删除移动设备
+	 * @param int or array  $id
+	 */
+	public static function DeviceDelete($id) {
+		if (is_array($id)) {
+			return RC_DB::table('mobile_device')->whereIn('id', $id)->delete();
+		} else {
+			return RC_DB::table('mobile_device')->where('id', $id)->delete();
 		}
-		$device = $options['device']; 
-		if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-			$device_data = array(
-					'device_udid'	=> $device['udid'],
-					'device_client'	=> $device['client'],
-					'device_code'	=> $device['code']
-			);
-			$row = RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->first();
-			if(empty($row)) {
-				$device_data['add_time'] = RC_Time::gmtime();
-				RC_DB::table('mobile_device')->insert($device_data);
-			}
+	}
+	
+	/**
+	 * 获得指定id移动设备列表信息
+	 * @param int or array  $id
+	 */
+	public function DeviceSelect($id) {
+		$db_mobile_device = RC_DB::table('mobile_device');
+	
+		if (is_array($id)) {
+			$db_mobile_device->whereIn('id', $id);
+		} else {
+			$db_mobile_device->where('id', $id);
 		}
-		return true;
+		return $db_mobile_device->get();
 	}
 }
-
-// end

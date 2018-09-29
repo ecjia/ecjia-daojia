@@ -29,10 +29,10 @@
 			<div class="street-info">
 				<div class="ec-icon-info">
 					<img class="ec-icon-img" src="{$app_url}/ec_icon.png">
-					<div class="literal">ECJia店铺街</div>
+					<div class="literal">ECJia云店</div>
 				</div>
 				<div class="street-decription">
-				ECJia店铺街到家是一款免费的到家APP，拿起APP直接扫码便可体验原生到家手机APP，1分钟简单操作就能开启属于你的电商之旅，还提供了各种尺寸的店铺二维码图片，让宣传更加方便。
+				ECJia云店到家是一款免费的到家APP，拿起APP直接扫码便可体验原生到家手机APP，1分钟简单操作就能开启属于你的电商之旅，还提供了各种尺寸的店铺二维码图片，让宣传更加方便。
 				</div>
 				<div class="qrcode-apiaddress-info">
 					<div class="street-qrcode-info">
@@ -91,9 +91,9 @@
 		<div><span class="warning"></span><span style="display:inline-block;margin-left:22px;">二维码尺寸请按照4.3像素的整数倍数缩放，以保持最佳效果</span></div>
 		<div class="daojia-info border">
 			<div class="daojia">
-				<div class="daojia-literal">ECJia店铺街APP下载</div>
+				<div class="daojia-literal">ECJia云店APP下载</div>
 				<div class="daojia-qrcode">
-					<img src="{$app_url}/dianpujie.png">
+					<img src="{$app_url}/cloudshop.png">
 				</div>
 				<div class="download">
 					<a class="btn-apple" target="_blank" style="background-color:#009FE8;" href="https://itunes.apple.com/us/app/ec-%E5%BA%97%E9%93%BA%E8%A1%97/id990510286?mt=8"><span class="apple-icon"></span><span style="color:#fff;">iPhone端下载</span></a>&nbsp;&nbsp;&nbsp;&nbsp;

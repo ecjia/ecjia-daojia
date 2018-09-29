@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * @author chen
  */
-class setDeviceinfo_module extends api_front implements api_interface {
+class device_setDeviceinfo_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
 		
 		$device = $this->device;
@@ -67,14 +67,13 @@ class setDeviceinfo_module extends api_front implements api_interface {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		
-		$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
 		$device_data = array(
 				'device_udid'	=> $device['udid'],
 				'device_client'	=> $device['client'],
 				'device_code'	=> $device['code'],
 				'user_type'		=> $user_type,
 		);
-		$row = $db_mobile_device->find($device_data);
+		$row = RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', $user_type)->first();
 		
 		if (empty($row)) {
 			$device_data['add_time']		    = RC_Time::gmtime();
@@ -87,7 +86,7 @@ class setDeviceinfo_module extends api_front implements api_interface {
 			$device_data['visit_times']		    = 1;
 			$device_data['in_status']		    = 0;
 			
-			$db_mobile_device->insert($device_data);
+			RC_DB::table('mobile_device')->insert($device_data);
 		} else {
 			$data = array();
 			if (!empty($device['device_token'])) {
@@ -101,7 +100,7 @@ class setDeviceinfo_module extends api_front implements api_interface {
 			$data['visit_times']		= $row['visit_times'] + 1;
 			$data['update_time']		= RC_Time::gmtime();
 			
-			$db_mobile_device->where($device_data)->update($data);
+			RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', $user_type)->update($data);
 		}
 		return array();
 		

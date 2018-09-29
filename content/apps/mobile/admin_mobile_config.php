@@ -50,12 +50,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA移动应用配置模块
  */
 class admin_mobile_config extends ecjia_admin {
-	private $db_mobile_manage;
+	//private $db_mobile_manage;
 	
 	public function __construct() {
 		parent::__construct();
 		
-		$this->db_mobile_manage = RC_Model::model('mobile/mobile_manage_model');
+		//$this->db_mobile_manage = RC_Model::model('mobile/mobile_manage_model');
 		
 		Ecjia\App\Mobile\Helper::assign_adminlog_content();
 		

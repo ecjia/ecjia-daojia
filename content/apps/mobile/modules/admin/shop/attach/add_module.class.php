@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author chenzhejun@ecmoban.com
  *
  */
-class add_module extends api_admin implements api_interface {
+class admin_shop_attach_add_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -101,8 +101,8 @@ class add_module extends api_admin implements api_interface {
     			'in_status'     => 0,
     			'is_image'		=> 1,
     	);
-    	RC_Model::model('mobile/term_attachment_model')->insert($data);
-    	
+    	//RC_Model::model('mobile/term_attachment_model')->insert($data);
+    	RC_DB::table('term_attachment')->insert($data);
     	return array('url' => RC_Upload::upload_url($image_url));
     	
     }
