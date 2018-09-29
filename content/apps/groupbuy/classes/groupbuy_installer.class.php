@@ -10,7 +10,7 @@ class groupbuy_installer  extends ecjia_installer {
     );
     
     public function __construct() {
-        $id = 'ecjia.topic';
+        $id = 'ecjia.groupbuy';
         parent::__construct($id);
     }
     

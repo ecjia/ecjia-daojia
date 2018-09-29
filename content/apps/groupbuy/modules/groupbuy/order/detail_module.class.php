@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 订单详情
  * @author royalwang
  */
-class detail_module extends api_front implements api_interface {
+class groupbuy_order_detail_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
         
     	$user_id = $_SESSION['user_id'];
@@ -96,7 +96,7 @@ class detail_module extends api_front implements api_interface {
 		}
 		
 		/*订单状态处理*/
-		$order_status_info = get_order_status($order['order_status'], $order['shipping_status'], $order['pay_status'], $payment['is_cod']);
+		$order_status_info = $this->get_order_status($order['order_status'], $order['shipping_status'], $order['pay_status'], $payment['is_cod']);
 		$order['order_status_code'] = empty($order_status_info['status_code']) ? '' : $order_status_info['status_code'];
 		$order['label_order_status'] = empty($order_status_info['label_order_status']) ? '' : $order_status_info['label_order_status'];
 		
@@ -113,7 +113,7 @@ class detail_module extends api_front implements api_interface {
 		RC_Loader::load_app_class('order_refund', 'refund', false);
 		$refund_info = order_refund::currorder_refund_info($order_id);
 		if (!empty($refund_info)) {
-			$refund_status_info = get_refund_status($refund_info);
+			$refund_status_info = $this->get_refund_status($refund_info);
 			
 			//被拒后返回原因，供重新申请使用
 			$refused_reasons =array();
@@ -344,84 +344,83 @@ class detail_module extends api_front implements api_interface {
 		}
 		return array('data' => $order);
 	}
-}
-
-
-/**
- * 订单状态处理
- *
- * @access public
- * @param int $order_id
- *            订单ID
- * @return array
- */
-function get_order_status($order_status, $shipping_status, $pay_status, $is_cod) {
-	$result = array(
-		'status_code' 			=> '',
-		'label_order_status'	=> ''	
-	);
 	
-	if (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED)) && in_array($shipping_status, array(SS_RECEIVED)) && in_array($pay_status, array(PS_PAYED, PS_PAYING)))
-	{
-		$label_order_status = RC_Lang::get('orders::order.cs.'.CS_FINISHED);
-		$status_code = 'finished';
-	}elseif (in_array($shipping_status, array(SS_SHIPPED)))
-	{
-		$label_order_status = RC_Lang::get('orders::order.label_await_confirm');
-		$status_code = 'shipped';
-	}elseif (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) && in_array($pay_status, array(PS_UNPAYED)) && (in_array($shipping_status, array(SS_SHIPPED, SS_RECEIVED)) || !$is_cod))
-	{
-		$label_order_status = RC_Lang::get('orders::order.label_await_pay');
-		$status_code = 'await_pay';
-	}elseif (in_array($order_status, array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) && in_array($shipping_status, array(SS_UNSHIPPED, SS_PREPARING, SS_SHIPPED_ING)) && (in_array($pay_status, array(PS_PAYED, PS_PAYING)) || $is_cod))
-	{
-		$label_order_status = RC_Lang::get('orders::order.label_await_ship');
-		$status_code = 'await_ship';
-	}elseif (in_array($order_status, array(OS_SPLITING_PART)) && in_array($shipping_status, array(SS_SHIPPED_PART)))
-	{
-		$label_order_status = RC_Lang::get('orders::order.label_shipped_part');
-		$status_code = 'shipped_part';
-	}elseif (in_array($order_status, array(OS_CANCELED))) {
-		$label_order_status = RC_Lang::get('orders::order.label_canceled');
-		$status_code = 'canceled';
-	}elseif (in_array($order_status, array(OS_RETURNED))) {
-		$label_order_status = RC_Lang::get('orders::order.label_refunded');
-		$status_code = 'refunded';
+	/**
+	 * 订单状态处理
+	 *
+	 * @access public
+	 * @param int $order_id
+	 *            订单ID
+	 * @return array
+	 */
+	private function get_order_status($order_status, $shipping_status, $pay_status, $is_cod) {
+		$result = array(
+			'status_code' 			=> '',
+			'label_order_status'	=> ''	
+		);
+		
+		if (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED)) && in_array($shipping_status, array(SS_RECEIVED)) && in_array($pay_status, array(PS_PAYED, PS_PAYING)))
+		{
+			$label_order_status = RC_Lang::get('orders::order.cs.'.CS_FINISHED);
+			$status_code = 'finished';
+		}elseif (in_array($shipping_status, array(SS_SHIPPED)))
+		{
+			$label_order_status = RC_Lang::get('orders::order.label_await_confirm');
+			$status_code = 'shipped';
+		}elseif (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) && in_array($pay_status, array(PS_UNPAYED)) && (in_array($shipping_status, array(SS_SHIPPED, SS_RECEIVED)) || !$is_cod))
+		{
+			$label_order_status = RC_Lang::get('orders::order.label_await_pay');
+			$status_code = 'await_pay';
+		}elseif (in_array($order_status, array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) && in_array($shipping_status, array(SS_UNSHIPPED, SS_PREPARING, SS_SHIPPED_ING)) && (in_array($pay_status, array(PS_PAYED, PS_PAYING)) || $is_cod))
+		{
+			$label_order_status = RC_Lang::get('orders::order.label_await_ship');
+			$status_code = 'await_ship';
+		}elseif (in_array($order_status, array(OS_SPLITING_PART)) && in_array($shipping_status, array(SS_SHIPPED_PART)))
+		{
+			$label_order_status = RC_Lang::get('orders::order.label_shipped_part');
+			$status_code = 'shipped_part';
+		}elseif (in_array($order_status, array(OS_CANCELED))) {
+			$label_order_status = RC_Lang::get('orders::order.label_canceled');
+			$status_code = 'canceled';
+		}elseif (in_array($order_status, array(OS_RETURNED))) {
+			$label_order_status = RC_Lang::get('orders::order.label_refunded');
+			$status_code = 'refunded';
+		}
+	
+		$result['status_code'] = $status_code;
+		$result['label_order_status'] = $label_order_status;
+		
+		return $result;
 	}
 
-	$result['status_code'] = $status_code;
-	$result['label_order_status'] = $label_order_status;
+	/**
+	 * 获取退款单状态
+	 * @param array
+	 */
+	private function get_refund_status($refund_info) {
+		$result = array();
 	
-	return $result;
-}
-
-/**
- * 获取退款单状态
- * @param array
- */
-function get_refund_status($refund_info) {
-	$result = array();
+		$status = $refund_info['status'];
+		$refund_status = $refund_info['refund_status'];
+		//1进行中2已退款3已取消
+		if (in_array($status, array(Ecjia\App\Refund\RefundStatus::UNCHECK, Ecjia\App\Refund\RefundStatus::AGREE)) && $refund_status !=Ecjia\App\Refund\RefundStatus::TRANSFERED) {
+			$refund_status_code = 'going';
+			$label_refund_staus = '进行中';
+		} elseif (in_array($status, array(Ecjia\App\Refund\RefundStatus::AGREE)) && in_array($refund_status, array(Ecjia\App\Refund\RefundStatus::TRANSFERED))) {
+			$refund_status_code = 'refunded';
+			$label_refund_staus = '已退款';
+		} elseif (in_array($status, array(Ecjia\App\Refund\RefundStatus::CANCELED))) {
+			$refund_status_code = 'canceled';
+			$label_refund_staus = '已取消';
+		}elseif ($status == Ecjia\App\Refund\RefundStatus::REFUSED) {
+			$refund_status_code = 'refused';
+			$label_refund_staus = '退款被拒';
+		}
+		$result['refund_status_code'] = $refund_status_code;
+		$result['label_refund_status'] = $label_refund_staus;
 	
-	$status = $refund_info['status'];
-	$refund_status = $refund_info['refund_status'];
-	//1进行中2已退款3已取消
-	if (in_array($status, array(Ecjia\App\Refund\RefundStatus::UNCHECK, Ecjia\App\Refund\RefundStatus::AGREE)) && $refund_status !=Ecjia\App\Refund\RefundStatus::TRANSFERED) {
-		$refund_status_code = 'going';
-		$label_refund_staus = '进行中';
-	} elseif (in_array($status, array(Ecjia\App\Refund\RefundStatus::AGREE)) && in_array($refund_status, array(Ecjia\App\Refund\RefundStatus::TRANSFERED))) {
-		$refund_status_code = 'refunded';
-		$label_refund_staus = '已退款';
-	} elseif (in_array($status, array(Ecjia\App\Refund\RefundStatus::CANCELED))) {
-		$refund_status_code = 'canceled';
-		$label_refund_staus = '已取消';
-	}elseif ($status == Ecjia\App\Refund\RefundStatus::REFUSED) {
-		$refund_status_code = 'refused';
-		$label_refund_staus = '退款被拒';
+		return $result;
 	}
-	$result['refund_status_code'] = $refund_status_code;
-	$result['label_refund_status'] = $label_refund_staus;
-	
-	return $result;
 }
 
 // end

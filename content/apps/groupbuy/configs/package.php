@@ -56,6 +56,7 @@ return array(
 	'version' 		=> '1.20.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
     'namespace'     => 'Ecjia\App\Groupbuy',
+    'provider'      => 'GroupbuyServiceProvider',
 );
 
 // end

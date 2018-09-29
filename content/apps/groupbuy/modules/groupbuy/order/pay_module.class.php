@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  * 16-12-09 增加支付状态
  */
-class pay_module extends api_front implements api_interface {
+class groupbuy_order_pay_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
     	$user_id = $_SESSION['user_id'];
