@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  * 16-12-09 增加支付状态
  */
-class pay_module  extends api_admin implements api_interface {
+class admin_orders_pay_module  extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
     	//收银台支付登录判断

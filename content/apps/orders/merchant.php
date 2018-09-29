@@ -63,7 +63,7 @@ class merchant extends ecjia_merchant
     private $db_user_address;
     private $db_bonus;
     private $db_order_goodview;
-    private $db_shipping;
+    //private $db_shipping;
     private $db_delivery;
     private $db_goods;
     private $db_products;
@@ -95,14 +95,13 @@ class merchant extends ecjia_merchant
         $this->db_user_address = RC_Model::model('user/user_address_viewmodel');
         $this->db_bonus = RC_Model::model('orders/bonus_type_user_viewmodel');
         $this->db_order_goodview = RC_Model::model('orders/order_order_goods_viewmodel');
-        $this->db_shipping = RC_Model::model('shipping/shipping_model');
+        //$this->db_shipping = RC_Model::model('shipping/shipping_model');
         $this->db_delivery = RC_Model::model('orders/delivery_goods_model');
         $this->db_goods = RC_Model::model('goods/goods_model');
         $this->db_products = RC_Model::model('goods/products_model');
         $this->db_back_goods = RC_Model::model('orders/back_goods_model');
         $this->db_pay_log = RC_Model::model('orders/pay_log_model');
         $this->db_goods_attr = RC_Model::model('goods/goods_attr_model');
-        $this->db_user_bonus = RC_Model::model('bonus/user_bonus_model');
         $this->db_back_order = RC_Model::model('orders/back_order_model');
         $this->db_delivery_order = RC_Model::model('orders/delivery_order_model');
 
@@ -749,8 +748,9 @@ class merchant extends ecjia_merchant
                 /* 代码 */
                 echo $this->fetch_string($shipping['shipping_print']);
             } else {
-                $shipping_code = $this->db_shipping->where(array('shipping_id' => $order['shipping_id']))->get_field('shipping_code');
-                if ($shipping_code) {
+                //$shipping_code = $this->db_shipping->where(array('shipping_id' => $order['shipping_id']))->get_field('shipping_code');
+            	$shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
+            	if ($shipping_code) {
                     //todo 暂时注释
                     //include_once(ROOT_PATH . 'includes/modules/shipping/' . $shipping_code . '.php');
                 }
@@ -1863,7 +1863,7 @@ class merchant extends ecjia_merchant
                             'used_time' => 0,
                             'order_id' => 0,
                         );
-                        $this->db_user_bonus->where(array('bonus_id' => $old_order['bonus_id']))->update($data);
+                        RC_DB::table('user_bonus')->where('bonus_id', $old_order['bonus_id'])->update($data);
                     }
 
                     if ($order['bonus_id'] > 0) {
@@ -1871,7 +1871,7 @@ class merchant extends ecjia_merchant
                             'used_time' => RC_Time::gmtime(),
                             'order_id' => $order_id,
                         );
-                        $this->db_user_bonus->where('bonus_id = "' . $order['bonus_id'] . '"')->update($data);
+                        RC_DB::table('user_bonus')->where('bonus_id', $order['bonus_id'])->update($data);
                     }
                 }
             }
@@ -4804,11 +4804,17 @@ class merchant extends ecjia_merchant
                 $orm_staff_user_db = RC_Model::model('orders/orm_staff_user_model');
                 $user = $orm_staff_user_db->find($staff_id);
 
-                $express_order_viewdb = RC_Model::model('orders/express_order_viewmodel');
-                $where = array('express_id' => $express_id);
+                //$express_order_viewdb = RC_Model::model('orders/express_order_viewmodel');
+                //$where = array('express_id' => $express_id);
                 $field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
-                $express_order_info = $express_order_viewdb->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
-
+                //$express_order_info = $express_order_viewdb->field($field)->join(array('delivery_order', 'order_info', 'store_franchisee'))->where($where)->find();
+                
+                $express_order_viewdb = RC_DB::table('express_order as eo')
+                                        ->leftjoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
+                                        ->leftjoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
+                
+                $express_order_info = $express_order_viewdb->where(RC_DB::raw('eo.express_id'), $express_id)->select(RC_DB::raw($field))->first();
+                
                 /* 派单发短信 */
                 if (!empty($express_order_info['express_mobile'])) {
                     $options = array(

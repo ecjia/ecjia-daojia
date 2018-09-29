@@ -90,6 +90,7 @@ class orders_order_info_api extends Component_Event_Api {
 
 	    /* 格式化金额字段 */
 	    if ($order) {
+	    	$order['expect_shipping_time']		= empty($order['expect_shipping_time']) ? '' : $order['expect_shipping_time'];
 	        $order['formated_goods_amount']		= price_format($order['goods_amount'], false);
 	        $order['formated_discount']			= price_format($order['discount'], false);
 	        $order['formated_tax']				= price_format($order['tax'], false);
@@ -154,8 +155,8 @@ class orders_order_info_api extends Component_Event_Api {
 	        
 	        /* 对发货号处理 */
 	        if (! empty($order['invoice_no'])) {
-	        	$shipping_code = RC_Model::model('shipping/shipping_model')->field('shipping_code')->find('shipping_id = ' . $order['shipping_id']);
-	        	$shipping_code = $shipping_code['shipping_code'];
+	        	//$shipping_code = RC_Model::model('shipping/shipping_model')->field('shipping_code')->find('shipping_id = ' . $order['shipping_id']);
+	        	$shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
 	        }
 	        
 	        /* 只有未确认才允许用户修改订单地址 */

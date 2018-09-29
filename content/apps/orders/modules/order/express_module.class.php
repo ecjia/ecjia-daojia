@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 订单快递查询
  * @author royalwang
  */
-class express_module extends api_front implements api_interface {
+class order_express_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
     	$user_id = $_SESSION['user_id'];
@@ -91,7 +91,7 @@ class express_module extends api_front implements api_interface {
 		    foreach ($delivery_result as $val) {
 		        $shipping_info = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])
 		        ->first();
-		        if ($shipping_info['shipping_code'] == 'ship_o2o_express') {
+		        if ($shipping_info['shipping_code'] == 'ship_o2o_express' || $shipping_info['shipping_code'] == 'ship_ecjia_express') {
 		            $delivery_list1 = array();
 		            if (!empty($val['invoice_no'])){
 		                $delivery_list1 = RC_DB::table('express_track_record as etr')

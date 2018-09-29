@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author will
  *
  */
-class receive_module extends api_admin implements api_interface {
+class admin_orders_receive_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		$this->authadminSession();
 

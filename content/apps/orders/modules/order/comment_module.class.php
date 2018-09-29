@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author 
  *
  */
-class comment_module extends api_front implements api_interface {
+class order_comment_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 //         $user_id = 1036;

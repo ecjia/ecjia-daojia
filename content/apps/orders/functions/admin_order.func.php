@@ -172,7 +172,8 @@ function order_info($order_id, $order_sn = '', $type = '') {
     }
     if ($order) {
         $order['store_id'] = intval($order['store_id']);
-        $order['invoice_no'] = empty($order['invoice_no']) ? '' : $order['invoice_no'];
+        $order['invoice_no'] 			= empty($order['invoice_no']) ? '' : $order['invoice_no'];
+        $order['expect_shipping_time']  = !empty($order['expect_shipping_time']) ? $order['expect_shipping_time'] : '';
         /* 格式化金额字段 */
         $order['formated_goods_amount'] = price_format($order['goods_amount'], false);
         $order['formated_discount'] = price_format($order['discount'], false);

@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author will
  *
  */
-class setgrab_module extends api_admin implements api_interface {
+class admin_orders_operate_setgrab_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		$this->authadminSession();
 
@@ -66,9 +66,9 @@ class setgrab_module extends api_admin implements api_interface {
 		}
 		
 		
-		//$ru_id = get_ru_id($order_id);
+		//$ru_id = $this->>get_ru_id($order_id);
 		
-		$store_order_info = get_store_order_info($order_id, $_SESSION['store_id']);
+		$store_order_info = $this->get_store_order_info($order_id, $_SESSION['store_id']);
 		
 		if (empty($store_order_info)) {
 			RC_Model::model('orders/store_order_model')->insert(array(
@@ -83,28 +83,27 @@ class setgrab_module extends api_admin implements api_interface {
 		}
 		
 		return array();
-	} 
+	}
+
+    /* 通过订单商品返回ru_id*/
+    private function get_ru_id($order_id = 0)
+    {
+        $ru_id = RC_Model::model('orders/order_goods_model')->where(array('order_id' => $order_id))->get_field('ru_id');
+
+        // 	if (!$ru_id) {
+        // 		$adminru = get_admin_ru_id();
+        // 		$ru_id = $adminru['ru_id'];
+        // 	}
+        return $ru_id;
+    }
+
+    /* 获取记录信息*/
+    private function get_store_order_info($order_id = 0, $store_id=0)
+    {
+        $store_order_info = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id, 'store_id' => $store_id))->find();
+        return $store_order_info;
+    }
+
 }
-
-/* 通过订单商品返回ru_id*/
-function get_ru_id($order_id = 0)
-{
-	$ru_id = RC_Model::model('orders/order_goods_model')->where(array('order_id' => $order_id))->get_field('ru_id');
-
-	// 	if (!$ru_id) {
-	// 		$adminru = get_admin_ru_id();
-	// 		$ru_id = $adminru['ru_id'];
-	// 	}
-	return $ru_id;
-}
-
-/* 获取记录信息*/
-function get_store_order_info($order_id = 0, $store_id=0)
-{
-	$store_order_info = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id, 'store_id' => $store_id))->find();
-	return $store_order_info;
-}
-
-
 
 // end

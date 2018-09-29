@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 订单列表
  * @author will
  */
-class list_module extends api_admin implements api_interface {
+class admin_orders_list_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		
 		$this->authadminSession();
@@ -73,11 +73,12 @@ class list_module extends api_admin implements api_interface {
 		$type		= $this->requestData('type', 'whole');
 		$keywords	= $this->requestData('keywords');
 		$user_id	= $this->requestData('user_id', 0);
-		$size = $this->requestData('pagination.count', 15);
-		$page = $this->requestData('pagination.page', 1);
+		$size 		= $this->requestData('pagination.count', 15);
+		$page 		= $this->requestData('pagination.page', 1);
 		
 		$start_date = $this->requestData('start_date');
-		$end_date = $this->requestData('end_date');
+		$end_date 	= $this->requestData('end_date');
+		$pay_id 	= $this->requestData('pay_id', 0);
 		
 		if (!empty($start_date) && !empty($end_date)) {
 			$start_date = RC_Time::local_strtotime($start_date);
@@ -200,6 +201,9 @@ class list_module extends api_admin implements api_interface {
 			
 			if (!empty($start_date) && !empty($end_date)) {
 				$where['cr.create_at'] = array('egt' => $start_date, 'elt' => $end_date);
+			}
+			if (!empty($pay_id)) {
+				$where['oi.pay_id'] = $pay_id;
 			}
 			$where['cr.action'] = array('billing', 'receipt');
 			$join = array('order_info', 'order_goods', 'staff_user', 'goods');

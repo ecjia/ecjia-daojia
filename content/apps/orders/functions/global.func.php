@@ -353,14 +353,18 @@ function order_query_sql($type = 'finished', $alias = '') {
  * @return  array
  */
 function payment_id_list($is_cod) {
-    $db = RC_Loader::load_app_model('payment_model', 'orders');
+    //$db = RC_Loader::load_app_model('payment_model', 'orders');
+	$db = RC_DB::table('payment');
     $where = '';
     if ($is_cod) {
-        $where = " is_cod = 1";
+        //$where = " is_cod = 1";
+    	$db->where('is_cod', 1);
     } else {
-        $where = " is_cod = 0";
+        //$where = " is_cod = 0";
+    	$db->where('is_cod', 0);
     }
-    $arr = $db->field('pay_id')->where($where)->select();
+    //$arr = $db->field('pay_id')->where($where)->select();
+    $arr = $db->lists('pay_id');
     return $arr;
 }
 /**
