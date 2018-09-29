@@ -59,6 +59,7 @@ return array(
 	'version'     => '2.18.0',					/* 版本号 */
 	'copyright'   => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace'   => 'Ecjia\App\Intro',
+    'provider'    => 'IntroServiceProvider',
 )
 ;
 
