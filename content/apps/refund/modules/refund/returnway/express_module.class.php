@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author 
  * zrl
  */
-class express_module extends api_front implements api_interface {
+class refund_returnway_express_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authSession();
     	$user_id = $_SESSION['user_id'];

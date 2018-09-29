@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 取消订单和售后原因列表
  * @author zrl
  */
-class reasons_module extends api_front implements api_interface {
+class refund_reasons_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     
     	$this->authSession();
