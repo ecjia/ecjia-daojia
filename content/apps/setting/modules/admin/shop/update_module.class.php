@@ -50,18 +50,18 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author luchongchong
  *
  */
-class update_module  extends api_admin implements api_interface
+class admin_shop_update_module  extends api_admin implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
     	$this->authadminSession();
     	
-		$seller_category	= isset($_POST['seller_category']) ? $_POST['seller_category'] : null;
-		$seller_telephone	= isset($_POST['seller_telephone']) ? $_POST['seller_telephone'] : null;
-		$province			= isset($_POST['provice']) ? $_POST['provice'] :null;
-		$city				= isset($_POST['city']) ? $_POST['city'] : null;
-		$seller_address		= isset($_POST['seller_address']) ? $_POST['seller_address'] : null;
-		$seller_description	= isset($_POST['seller_description']) ? $_POST['seller_description'] : null;
+		$seller_category	= $this->requestData('seller_category', 0);
+		$seller_telephone	= $this->requestData('seller_telephone', ''); 
+		$province			= $this->requestData('provice', '');
+		$city				= $this->requestData('city', '');
+		$seller_address		= $this->requestData('seller_address', '');
+		$seller_description	= $this->requestData('seller_description', '');
 		
 		
 		if (!$this->admin_priv('shop_config')) {

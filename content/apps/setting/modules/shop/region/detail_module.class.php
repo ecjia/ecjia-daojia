@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  *
  */
-class detail_module extends api_front implements api_interface
+class shop_region_detail_module extends api_front implements api_interface
 {
 
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)

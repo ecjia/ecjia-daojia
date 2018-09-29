@@ -46,12 +46,13 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class config_module extends api_front implements api_interface
+class shop_config_module extends api_front implements api_interface
 {
 
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
     	$mobile_recommend_city = explode(',', ecjia::config('mobile_recommend_city'));
+        $api_version = $this->request->header('api-version');
     	
     	$regions = array ();
         $region_data = ecjia_region::getRegions($mobile_recommend_city);
@@ -94,20 +95,48 @@ class config_module extends api_front implements api_interface
         	$data['get_password_url'] = RC_Uri::url('user/get_password/forget_pwd', 'type=email');
         }
         
+        //门店模式
         $store_model = trim(ecjia::config('store_model'));
-        
-        if ($store_model == 'nearby' || empty($store_model)) {
-        	$data['store_model'] = 'nearby';
-        } else if (!empty($store_model)) {
-        	$store_id = $store_model;
-        	$store_model = explode(',', $store_model);
-        	if (count($store_model) == 1) {
-        		$data['store_model'] = 'single';
-        		$data['store_id'] = $store_id;
-        	} else {
-        		$data['store_model'] = 'recommend';
-        	}
+        if (version_compare($api_version, '1.21', '>=')) {
+            if (empty($store_model)) {
+                $data['store_model'] = 'nearby';
+            } else {
+                if ($store_model == 'nearby') {
+                    $data['store_model'] = 'nearby';
+                } elseif ($store_model == 'platform') {
+                    $data['store_model'] = 'platform';
+                } else {
+                    $store_id = $store_model;
+                    $store_model = explode(',', $store_model);
+                    if (count($store_model) == 1) {
+                        $data['store_model'] = 'single';
+                        $data['store_id'] = $store_id;
+                    } else {
+                        $data['store_model'] = 'recommend';
+                    }
+                }
+            }
+        } else {
+            if (empty($store_model)) {
+                $data['store_model'] = 'nearby';
+            } else {
+                if ($store_model == 'nearby') {
+                    $data['store_model'] = 'nearby';
+                } elseif ($store_model == 'platform') {
+                     $data['store_model'] = 'nearby';
+                } else {
+                    $store_id = $store_model;
+                    $store_model = explode(',', $store_model);
+                    if (count($store_model) == 1) {
+                        $data['store_model'] = 'single';
+                        $data['store_id'] = $store_id;
+                    } else {
+                        $data['store_model'] = 'recommend';
+                    }
+                }
+            }
         }
+        
         
         $device	= $this->device;
         if (isset($device['client']) && ($device['client'] == 'iphone' || $device['client'] == 'android')) {

@@ -137,6 +137,25 @@ class setting_admin_hooks {
             ecjia_config::instance()->write_config('invoice_type', serialize($invoice));
         }
     }
+
+    /**
+     * 过滤处理shop_config的设置项
+     *
+     * @param $items
+     * @param $code
+     */
+    public static function shop_config_filter_items($items, $code)
+    {
+        $disabled = config('app-setting::settings.disabled');
+
+        foreach ($items as $key => $item) {
+            if (in_array($item['code'], $disabled)) {
+                unset($items[$key]);
+            }
+        }
+
+        return $items;
+    }
     
 }
 
@@ -148,5 +167,6 @@ RC_Hook::add_action( 'config_form_shop_city', array('setting_admin_hooks', 'form
 RC_Hook::add_action( 'config_form_lang', array('setting_admin_hooks', 'form_config_lang_select') );
 RC_Hook::add_action( 'config_form_invoice_type', array('setting_admin_hooks', 'form_config_invoice_type') );
 RC_Hook::add_action( 'update_config_invoice_type', array('setting_admin_hooks', 'update_config_invoice_type'), 10, 2 );
+RC_Hook::add_filter( 'shop_config_filter_items', array('setting_admin_hooks', 'shop_config_filter_items'), 10, 2 );
 
 // end

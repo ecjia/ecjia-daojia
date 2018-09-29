@@ -25,7 +25,7 @@
 	<div class="span12">
 		<form class="form-horizontal">
 			<div class="control-group">
-				<label class="control-label"><button class="ajaxremove ajaxmenu btn" data-toggle="ajaxremove" data-msg="你确定执行此操作吗？" data-url='{RC_Uri::url("setting/admin_region/get_regioninfo")}' data-value="get_regioninfo">{t}同步地区表信息{/t}</button></label>
+				<label class="control-label"><button class="ajaxmenu btn" data-msg="你确定执行此操作吗？" data-url='{RC_Uri::url("setting/admin_region/get_regioninfo")}' data-value="get_regioninfo">{t}同步地区表信息{/t}</button></label>
 				<div class="controls">
 					通过点击该按钮可以获取云平台地区信息到本地。<br/>
 					执行该同步操作，会先<strong>清空本地地区表数据</strong>后再同步，同步时间较久，请确认好之后再操作。

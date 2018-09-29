@@ -123,6 +123,9 @@ class shop_config extends ecjia_admin {
 		$this->assign('cfg_range_lang', RC_Lang::get('setting::shop_config.cfg_range'));
 		
 		$item_list = ecjia_admin_setting::singleton()->load_items($code);
+
+		$item_list = RC_Hook::apply_filters('shop_config_filter_items', $item_list, $code);
+
 		$ecjia_config = ecjia::config();
 		$invoice_type = ecjia::config('invoice_type');
 		$ecjia_config['invoice_type'] = unserialize($invoice_type);
