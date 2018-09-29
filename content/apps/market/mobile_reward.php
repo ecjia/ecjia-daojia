@@ -133,10 +133,7 @@ class mobile_reward extends ecjia_front {
 	}
 	
 	private function send_bonus($user_id, $bonus_id) {
-	    RC_Model::model('bonus/user_bonus_model')->insert(array(
-    	    'user_id'		=> $user_id,
-    	    'bonus_type_id' => $bonus_id,
-	    ));
+	    RC_DB::table('user_bonus')->insert(array('user_id' => $user_id,'bonus_type_id' => $bonus_id));
 	    
 	    //存储 领取时间
 	    $data = array(

@@ -73,7 +73,8 @@
 								<span class="input-must">*</span>
 							</div>
 
-							<div class="form-group row prize_value_bonus {if $activity_prize.prize_type neq 1}ecjiaf-dn{/if}">
+							
+							<div class="form-group row prize_value_bonus {if $activity_prize.prize_type neq 1}display-dn{/if}">
 								<label class="col-lg-2 label-control text-right">礼券奖品内容：</label>
 								<div class="col-lg-8 controls">
 									<select name="prize_value" class=" select2 form-control">
@@ -86,7 +87,7 @@
 								<span class="input-must">*</span>
 							</div>
 
-							<div class="form-group row prize_value_other {if $activity_prize.prize_type neq 2 && $activity_prize.prize_type neq 3 && $activity_prize.prize_type neq 6}ecjiaf-dn{/if}">
+							<div class="form-group row prize_value_other {if $activity_prize.prize_type neq 2 && $activity_prize.prize_type neq 3 && $activity_prize.prize_type neq 6}display-dn{/if}">
 								<label class="col-lg-2 label-control text-right">其他奖品内容：</label>
 								<div class="col-lg-8 controls">
 									<input class="input-xlarge form-control" name="prize_value_other" type="text" value="{if $activity_prize.prize_type eq 2 || $activity_prize.prize_type eq 3 || $activity_prize.prize_type eq 6}{$activity_prize.prize_value}{/if}"

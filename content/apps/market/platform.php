@@ -451,6 +451,7 @@ class platform extends ecjia_platform
         				->where('store_id', $_SESSION['store_id'])
         				->where('use_start_date', '<=', $time)
         				->where('use_end_date', '>=', $time)
+        				->whereIn('send_type', array(1,2))
         				->select('type_id', 'type_name')
         				->get();
         $this->assign('bonus_list', $bonus_list);
@@ -458,6 +459,7 @@ class platform extends ecjia_platform
 
         $this->assign('ur_here', RC_Lang::get('market::market.prize_pool'));
         $this->assign('code', $activity_code);
+        $this->assign('store_id', $_SESSION['store_id']);
         $this->assign('p_id', $p_id);
         $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_prize', array('code' => $activity_code)), 'text' => RC_Lang::get('market::market.prize_pool')));
         $this->assign('form_action', RC_Uri::url('market/platform/activity_prize_update', array('code' => $activity_code)));

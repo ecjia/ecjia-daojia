@@ -54,6 +54,10 @@ class market_platform_menu_api extends Component_Event_Api
 
     public function call(&$options)
     {
+        if (ecjia_platform::$controller->getPlatformAccount()->getPlatform() != 'wechat') {
+            return null;
+        }
+
         $menus = ecjia_platform::make_admin_menu('market', '营销中心', RC_Uri::url('market/platform/init'), 30)->add_icon('icon-star')->add_base('market')->add_purview(['market_activity_manage', 'activity_record_manage'])->add_submenu(
             array(
                 ecjia_platform::make_admin_menu('market_activity_manage', '营销活动', RC_Uri::url('market/platform/init'), 301)->add_icon('icon-star')->add_purview('market_activity_manage')->add_base('market'),

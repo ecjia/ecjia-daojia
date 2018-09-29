@@ -50,15 +50,16 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 营销活动应用
  */
 return array(
-	'identifier' 	=> 'ecjia.market',
-	'directory' 	=> 'market',
-	'name'			=> 'market',
-	'description' 	=> 'market_desc',			/* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.20.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
-    'namespace'     => 'Ecjia\App\Market',
+	'identifier'  => 'ecjia.market',
+	'directory'   => 'market',
+	'name'		  => 'market',
+	'description' => 'market_desc',			/* 描述对应的语言项 */
+	'author' 	  => 'ECJIA TEAM',			/* 作者 */
+	'website' 	  => 'http://www.ecjia.com',	/* 网址 */
+	'version' 	  => '1.20.0',					/* 版本号 */
+	'copyright'   => 'ECJIA Copyright 2014 ~ 2018.',
+    'namespace'   => 'Ecjia\App\Market',
+    'provider'    => 'MarketServiceProvider',
 );
 
 // end

@@ -133,17 +133,16 @@
 			$('select[name="prize_type"]').off('change').on('change', function () {
 				var $this = $(this),
 					val = $this.val();
-
 				var html = '';
 				//0未中奖 4商品展示 5店铺展示
 				if (val == 0 || val == 4 || val == 5) {
-					$('.prize_value_bonus').addClass('ecjiaf-dn');
-					$('.prize_value_other').addClass('ecjiaf-dn');
+					$('.prize_value_bonus').addClass('display-dn');
+					$('.prize_value_other').addClass('display-dn');
 				}
 				//1礼券红包 下拉选择红包
 				if (val == 1) {
-					$('.prize_value_bonus').removeClass('ecjiaf-dn').find('select').select2();
-					$('.prize_value_other').addClass('ecjiaf-dn');
+					$('.prize_value_bonus').removeClass('display-dn').find('select').select2();
+					$('.prize_value_other').addClass('display-dn');
 				}
 				//2实物奖品 3积分奖品 6现金红包 手动填写 
 				if (val == 2 || val == 3 || val == 6) {
@@ -160,8 +159,8 @@
 						html += '填写中奖后发放的现金红包金额，中奖后直接发放到用户帐户余额';
 					}
 					html += '</span>'
-					$('.prize_value_bonus').addClass('ecjiaf-dn');
-					$('.prize_value_other').removeClass('ecjiaf-dn');
+					$('.prize_value_bonus').addClass('display-dn');
+					$('.prize_value_other').removeClass('display-dn');
 					$('.prize_value_other').find('.controls').append(html);
 				}
 
