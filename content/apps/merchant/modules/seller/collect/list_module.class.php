@@ -50,12 +50,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 店铺收藏列表
  * @author will.chen
  */
-class list_module extends api_front implements api_interface {
+class seller_collect_list_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();
 		$user_id   = $_SESSION['user_id'];
-		$cs_dbview = RC_Model::model('store/collect_store_viewmodel');
 
 		$where = array();
 		$count = RC_DB::table('collect_store as cs')

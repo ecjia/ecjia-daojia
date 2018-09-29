@@ -51,9 +51,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class mh_franchisee extends ecjia_merchant {
 
-    private $store_preaudit;
+    //private $store_preaudit;
     private $store_franchisee;
-    private $db_store_category;
+    //private $db_store_category;
 
     public function __construct() {
         parent::__construct();
@@ -84,10 +84,6 @@ class mh_franchisee extends ecjia_merchant {
         RC_Loader::load_app_func('merchant');
         Ecjia\App\Merchant\Helper::assign_adminlog_content();
 
-        $this->store_preaudit = RC_Model::model('merchant/store_preaudit_model');
-        $this->store_franchisee = RC_Model::model('merchant/store_franchisee_model');
-        $this->db_store_category = RC_Model::model('merchant/store_category_model');
-
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('我的店铺', RC_Uri::url('merchant/mh_franchisee/init')));
 
         ecjia_merchant_screen::get_current_screen()->set_parentage('store', 'store/mh_franchisee.php');
@@ -116,7 +112,8 @@ class mh_franchisee extends ecjia_merchant {
         $data['street']                     = !empty($data['street'])                   ? ecjia_region::getRegionName($data['street'])              : '';
         $data['identity_type']              = !empty($data['identity_type'])            ? $data['identity_type']                                    : '1';
         
-        $data['cat_name'] = $this->db_store_category->where(array('cat_id' => $data['cat_id']))->get_field('cat_name');
+        //$data['cat_name'] = $this->db_store_category->where(array('cat_id' => $data['cat_id']))->get_field('cat_name');
+        $data['cat_name'] = RC_DB::table('store_category')->where('cat_id', $data['cat_id'])->pluck('cat_name');
         $this->assign('data',$data);
 
         $this->display('merchant_info.dwt');
@@ -384,9 +381,9 @@ class mh_franchisee extends ecjia_merchant {
         $data['check_status'] = 2;
         $count = RC_DB::table('store_preaudit')->where('store_id', $_SESSION['store_id'])->count();
         if (empty($count)) {
-            $preaudit = $this->store_preaudit->insert($data);
+            $preaudit = RC_DB::table('store_preaudit')->insert($data);
         } else {
-            $preaudit = $this->store_preaudit->where(array('store_id' => $_SESSION['store_id']))->update($data);
+            $preaudit = RC_DB::table('store_preaudit')->where('store_id', $_SESSION['store_id'])->update($data);
         }
 
         if (!empty($preaudit)) {

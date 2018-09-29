@@ -50,21 +50,16 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 店铺街分类
  * @author
  */
-class category_module extends api_front implements api_interface {
+class seller_category_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();
 		$location = $this->requestData('location');
 		RC_Loader::load_app_class('store_category', 'store');
-		//$db_shop = RC_Loader::load_app_model('seller_shopinfo_model', 'seller');
-		$scs_view = RC_Model::model('store/store_franchisee_viewmodel');
-		$db_category = RC_Model::model('store/store_category_model');
-
-		$shop_cat           = $db_category->where(array('parent_id' => 0, 'is_show' => 1))
-                                		->select();
+		$shop_cat			= RC_DB::table('store_category')->where('parent_id', 0)->where('is_show', 1)->get();
 		
 		$shop_cat           = array_column($shop_cat, 'cat_id');
-        $where['sc.cat_id'] = $shop_cat;
+        $where['cat_id'] 	= $shop_cat;
 		$cat_all            = store_category::get_categories_tree($where);
 		$cat_all            = array_merge($cat_all);
 

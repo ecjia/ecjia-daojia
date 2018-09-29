@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 附近店铺列表
  * @author hyy
  */
-class nearby_module extends api_front implements api_interface {
+class merchant_nearby_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$keywords 		= $this->requestData('keywords');
@@ -72,7 +72,7 @@ class nearby_module extends api_front implements api_interface {
 		
 		/*判断当前门店模式*/
 		$store_model = trim(ecjia::config('store_model'));
-		if ($store_model == 'nearby' || empty($store_model)) {
+		if ($store_model == 'nearby' || empty($store_model) || $store_model == 'platform') {
 			/*经纬度为空判断*/
 			if ((is_array($location) && !empty($location['longitude']) && !empty($location['latitude']))) {
 				$geohash      = RC_Loader::load_app_class('geohash', 'store');
@@ -87,7 +87,7 @@ class nearby_module extends api_front implements api_interface {
 				);
 				return array('data' => $seller_list, 'pager' => $page);
 			}
-		} elseif (!empty($store_model) && $store_model !='nearby') {
+		} elseif (!empty($store_model) && ($store_model !='nearby' || $store_model !='platform')) {
 			$store_id = $store_model;
 			$store_id_new = explode(',', $store_model);
 			$options['store_id'] = $store_id_new;
@@ -132,7 +132,7 @@ class nearby_module extends api_front implements api_interface {
 				}
 				$row['shop_closed'] = $shop_closed;
 				
-				$distance = getDistance($location['latitude'], $location['longitude'], $row['location']['latitude'], $row['location']['longitude']);
+				$distance = $this->getDistance($location['latitude'], $location['longitude'], $row['location']['latitude'], $row['location']['longitude']);
 	
 				$distance_list[]	= $distance;
 				$sort_order[]	 	= $row['sort_order'];
@@ -167,28 +167,28 @@ class nearby_module extends api_front implements api_interface {
 
 		return array('data' => $seller_list, 'pager' => $page);
 	}
-}
-
-/**
- * 计算两组经纬度坐标 之间的距离
- * @param params ：lat1 纬度1； lng1 经度1； lat2 纬度2； lng2 经度2； len_type （1:m or 2:km);
- * @return return m or km
- */
-function getDistance($lat1, $lng1, $lat2, $lng2, $len_type = 1, $decimal = 1) {
-	$EARTH_RADIUS = 6378.137;
-	$PI = 3.1415926;
-	$radLat1 = $lat1 * $PI / 180.0;
-	$radLat2 = $lat2 * $PI / 180.0;
-	$a = $radLat1 - $radLat2;
-	$b = ($lng1 * $PI / 180.0) - ($lng2 * $PI / 180.0);
-	$s = 2 * asin(sqrt(pow(sin($a/2),2) + cos($radLat1) * cos($radLat2) * pow(sin($b/2),2)));
-	$s = $s * $EARTH_RADIUS;
-	$s = round($s * 1000);
-	if ($len_type > 1) {
-		$s /= 1000;
+	
+	/**
+	 * 计算两组经纬度坐标 之间的距离
+	 * @param params ：lat1 纬度1； lng1 经度1； lat2 纬度2； lng2 经度2； len_type （1:m or 2:km);
+	 * @return return m or km
+	 */
+	private function getDistance($lat1, $lng1, $lat2, $lng2, $len_type = 1, $decimal = 1) {
+		$EARTH_RADIUS = 6378.137;
+		$PI = 3.1415926;
+		$radLat1 = $lat1 * $PI / 180.0;
+		$radLat2 = $lat2 * $PI / 180.0;
+		$a = $radLat1 - $radLat2;
+		$b = ($lng1 * $PI / 180.0) - ($lng2 * $PI / 180.0);
+		$s = 2 * asin(sqrt(pow(sin($a/2),2) + cos($radLat1) * cos($radLat2) * pow(sin($b/2),2)));
+		$s = $s * $EARTH_RADIUS;
+		$s = round($s * 1000);
+		if ($len_type > 1) {
+			$s /= 1000;
+		}
+	
+		return round($s, $decimal);
 	}
-
-	return round($s, $decimal);
 }
 
 // end

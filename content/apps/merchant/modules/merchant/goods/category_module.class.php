@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 商铺商品分类
  * @author will.chen
  */
-class category_module extends api_front implements api_interface {
+class merchant_goods_category_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();
@@ -74,7 +74,7 @@ class category_module extends api_front implements api_interface {
         				'id'	=> $val['cat_id'],
         				'name'	=> $val['cat_name'],
         		        'image' => $val['cat_image'] ? RC_Upload::upload_url($val['cat_image']) : '',
-        				'children' => get_child_tree($val['cat_id']),
+        				'children' => $this->get_child_tree($val['cat_id']),
         		);
         	}
         }
@@ -83,26 +83,25 @@ class category_module extends api_front implements api_interface {
 
 		
 	}
-}
-
-
-function get_child_tree($cat_id) {
-    $cat_list = RC_DB::table('merchants_category')->select(RC_DB::raw('cat_id, cat_name, parent_id, cat_image'))
-        												->where('parent_id', $cat_id)
-        												->where('is_show', 1)
-        												->orderBy('sort_order', 'asc')
-        												->get();
-	$cat_arr = array();
-	if (!empty($cat_list)) {
-		foreach($cat_list as $key => $val){
-			$cat_arr[] = array(
-					'id'	=> $val['cat_id'],
-					'name'	=> $val['cat_name'],
-			        'image' => $val['cat_image'] ? RC_Upload::upload_url($val['cat_image']) : '',
+	
+	private function get_child_tree($cat_id) {
+		$cat_list = RC_DB::table('merchants_category')->select(RC_DB::raw('cat_id, cat_name, parent_id, cat_image'))
+		->where('parent_id', $cat_id)
+		->where('is_show', 1)
+		->orderBy('sort_order', 'asc')
+		->get();
+		$cat_arr = array();
+		if (!empty($cat_list)) {
+			foreach($cat_list as $key => $val){
+				$cat_arr[] = array(
+						'id'	=> $val['cat_id'],
+						'name'	=> $val['cat_name'],
+						'image' => $val['cat_image'] ? RC_Upload::upload_url($val['cat_image']) : '',
 				);
-        	}
-	}												
-    return $cat_arr;
+			}
+		}
+		return $cat_arr;
+	}
 }
 
 // end

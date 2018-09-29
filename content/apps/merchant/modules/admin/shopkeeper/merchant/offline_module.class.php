@@ -51,7 +51,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author zrl
  *
  */
-class offline_module extends api_admin implements api_interface {
+class admin_shopkeeper_merchant_offline_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	$this->authadminSession();
     	if ($_SESSION['staff_id'] <= 0) {

@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 入驻申请信息修改
  * @author
  */
-class resignup_module extends api_admin implements api_interface {
+class admin_merchant_resignup_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
         $responsible_person = $this->requestData('responsible_person');
@@ -94,7 +94,7 @@ class resignup_module extends api_admin implements api_interface {
         // 获取定位信息
 
         if(empty($longitude) || empty($latitude)){
-            $location  = getgeohash($city, $address);
+            $location  = $this->getgeohash($city, $address);
             $latitude  = $location['lat'];
             $longitude = $location['lng'];
         }
@@ -128,25 +128,25 @@ class resignup_module extends api_admin implements api_interface {
         
         return array();
     }
-}
-
-/**
- * 根据地区获取经纬度
- */
-function getgeohash($city, $address){
-    $shop_city          = !empty($city)        ? trim($city)                : '';
-    $shop_address       = !empty($address)     ? htmlspecialchars($address) : 0;
-
-    $city_name  = ecjia_region::getRegionName($shop_city);
-    $address    = $city_name.$shop_address;
-
-    //腾讯地图api 地址解析（地址转坐标）
-    $address = urlencode($address);
-    $key = ecjia::config('map_qq_key');
-    $shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$address."&key=".$key);
-    $shop_point = json_decode($shop_point['body'], true);
-    $location   = (array)$shop_point['result']['location'];
-    return $location;
+    
+    /**
+     * 根据地区获取经纬度
+     */
+    private function getgeohash($city, $address){
+    	$shop_city          = !empty($city)        ? trim($city)                : '';
+    	$shop_address       = !empty($address)     ? htmlspecialchars($address) : 0;
+    
+    	$city_name  = ecjia_region::getRegionName($shop_city);
+    	$address    = $city_name.$shop_address;
+    
+    	//腾讯地图api 地址解析（地址转坐标）
+    	$address = urlencode($address);
+    	$key = ecjia::config('map_qq_key');
+    	$shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$address."&key=".$key);
+    	$shop_point = json_decode($shop_point['body'], true);
+    	$location   = (array)$shop_point['result']['location'];
+    	return $location;
+    }
 }
 
 //end

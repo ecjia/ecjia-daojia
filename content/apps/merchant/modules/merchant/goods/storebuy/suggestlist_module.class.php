@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 商铺推荐商品列表
  * @author will.chen
  */
-class suggestlist_module extends api_front implements api_interface {
+class merchant_goods_storebuy_suggestlist_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();

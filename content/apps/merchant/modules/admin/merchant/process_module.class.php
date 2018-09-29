@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 申请商家入驻查询进度
  * @author will.chen
  */
-class process_module extends api_admin implements api_interface {
+class admin_merchant_process_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	$mobile 		= $this->requestData('mobile');
     	$validate_code	= $this->requestData('validate_code');

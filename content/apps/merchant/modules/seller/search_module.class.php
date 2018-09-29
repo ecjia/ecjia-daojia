@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 店铺街列表
  * @author will.chen
  */
-class search_module extends api_front implements api_interface {
+class seller_search_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();
@@ -92,13 +92,15 @@ class search_module extends api_front implements api_interface {
 // 			$result_mobilebuy = ecjia_app::validate_application('mobilebuy');
 // 			$is_active = ecjia_app::is_active('ecjia.mobilebuy');
 
-			$db_favourable = RC_Model::model('favourable/favourable_activity_model');
-
+			//$db_favourable = RC_Model::model('favourable/favourable_activity_model');
+			$db_favourable	 = RC_DB::table('favourable_activity');
+			$now = RC_Time::gmtime();
 			foreach ($result['seller_list'] as $row) {
 				$field = 'count(*) as count, SUM(comment_rank) as comment_rank';
 				//$comment = $db_goods_view->join(null)->field($field)->where(array('c.seller_id' => $row['id'], 'comment_type' => 0, 'parent_id' => 0, 'status' => 1))->find();
 				
-				$favourable_result = $db_favourable->where(array('store_id' => $row['id'], 'start_time' => array('elt' => RC_Time::gmtime()), 'end_time' => array('egt' => RC_Time::gmtime()), 'act_type' => array('neq' => 0)))->select();
+				//$favourable_result = $db_favourable->where(array('store_id' => $row['id'], 'start_time' => array('elt' => RC_Time::gmtime()), 'end_time' => array('egt' => RC_Time::gmtime()), 'act_type' => array('neq' => 0)))->select();
+				$favourable_result = $db_favourable->where('store_id', $row['id'])->where('start_time', '<=', $now)->where('end_time', '>=', $now)->where('act_type', '!=', 0)->get();
 				$favourable_list   = array();
 				
 				if (!empty($favourable_result)) {

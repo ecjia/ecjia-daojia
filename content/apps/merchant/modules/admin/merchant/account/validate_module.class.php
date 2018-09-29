@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 认证申请
  * @author will.chen
  */
-class validate_module extends api_admin implements api_interface {
+class admin_merchant_account_validate_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	$this->authadminSession();
 

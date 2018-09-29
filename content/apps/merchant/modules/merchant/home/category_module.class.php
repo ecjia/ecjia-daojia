@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 首页商品分类
  * @author 
  */
-class category_module extends api_front implements api_interface {
+class merchant_home_category_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
 		$device	= $this->device;
