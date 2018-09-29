@@ -62,8 +62,9 @@ class Helper
 	
 		ecjia_admin_log::instance()->add_object('withdraw_apply', RC_Lang::get('user::user_account.withdraw_apply'));
 		ecjia_admin_log::instance()->add_object('pay_apply', RC_Lang::get('user::user_account.pay_apply'));
-		
-		ecjia_admin_log::instance()->add_action('check', RC_Lang::get('user::users.check'));
+        ecjia_admin_log::instance()->add_object('config', '配置');
+        
+        ecjia_admin_log::instance()->add_action('check', RC_Lang::get('user::users.check'));
     }
     
 }

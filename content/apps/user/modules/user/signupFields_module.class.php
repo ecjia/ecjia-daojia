@@ -5,7 +5,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  *
  */
-class signupFields_module extends api_front implements api_interface {
+class user_signupFields_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		
 		$db = RC_Loader::load_app_model('reg_fields_model','user');

@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 管理员登录
  * @author will
  */
-class signin_module extends api_admin implements api_interface {
+class admin_user_signin_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
 		$this->authadminSession();
@@ -63,30 +63,33 @@ class signin_module extends api_admin implements api_interface {
 			return $result;
 		}
 
-		$db_user = RC_Model::model('user/admin_user_model');
+		//$db_user = RC_Model::model('user/admin_user_model');
 		/* 收银台请求判断处理*/
 		$codes = array('8001', '8011');
-		if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
-			$adviser_info = RC_Model::model('achievement/adviser_model')->find(array('username' => $username));
-			if (empty($adviser_info)) {
-				$result = new ecjia_error('login_error', __('您输入的帐号信息不正确。'));
-				return $result;
-			}
-			$admin_info = $db_user->field(array('user_name', 'ec_salt'))->find(array('user_id' => $adviser_info['admin_id']));
-			$username	= $admin_info['user_name'];
-			$ec_salt	= $admin_info['ec_salt'];
-		} else {
-			$ec_salt = $db_user->where(array('user_name' => $username))->get_field('ec_salt');
-		}
+		//if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
+		//	$adviser_info = RC_Model::model('achievement/adviser_model')->find(array('username' => $username));
+		//	if (empty($adviser_info)) {
+		//		$result = new ecjia_error('login_error', __('您输入的帐号信息不正确。'));
+		//		return $result;
+		//	}
+		//	$admin_info = $db_user->field(array('user_name', 'ec_salt'))->find(array('user_id' => $adviser_info['admin_id']));
+		//	$username	= $admin_info['user_name'];
+		//	$ec_salt	= $admin_info['ec_salt'];
+		//} else {
+			//$ec_salt = $db_user->where(array('user_name' => $username))->get_field('ec_salt');
+			$ec_salt = RC_DB::table('admin_user')->where('user_name', $username)->pluck('ec_salt');
+		//}
 		
 	
 		/* 检查密码是否正确 */
 		if (!empty($ec_salt)) {
-			$row = $db_user->field('user_id, user_name, email, password, last_login, action_list, last_login, suppliers_id, ec_salt, seller_id, role_id, ru_id')
-						->find(array('user_name' => $username, 'password' => md5(md5($password).$ec_salt)));
+			//$row = $db_user->field('user_id, user_name, email, password, last_login, action_list, last_login, suppliers_id, ec_salt, seller_id, role_id, ru_id')
+			//			->find(array('user_name' => $username, 'password' => md5(md5($password).$ec_salt)));
+			$row = RC_DB::table('admin_user')->where('user_name', $username)->where('password', md5(md5($password).$ec_salt))->select('user_id', 'user_name', 'email', 'password', 'last_login', 'action_list', 'suppliers_id', 'ec_salt', 'role_id')->first();
 		} else {
-			$row = $db_user->field('user_id, user_name, email, password, last_login, action_list, last_login, suppliers_id, ec_salt, seller_id, role_id, ru_id')
-						->find(array('user_name' => $username, 'password' => md5($password)));
+			//$row = $db_user->field('user_id, user_name, email, password, last_login, action_list, last_login, suppliers_id, ec_salt, seller_id, role_id, ru_id')
+			//			->find(array('user_name' => $username, 'password' => md5($password)));
+			$row = RC_DB::table('admin_user')->where('user_name', $username)->where('password', md5($password))->select('user_id', 'user_name', 'email', 'password', 'action_list', 'last_login', 'suppliers_id', 'ec_salt', 'role_id')->first();
 		}
 		
 		if ($row) {
@@ -103,8 +106,13 @@ class signin_module extends api_admin implements api_interface {
 			}
 			
 			/* 获取device_id*/
-			$device_id = RC_Model::model('mobile/mobile_device_model')->where(array('device_udid' => $device['udid'], 'device_client' => $device['client'], 'device_code' => $device['code']))->get_field('id');
-			$_SESSION['device_id']	= $row['device_id'];
+			//$device_id = RC_Model::model('mobile/mobile_device_model')->where(array('device_udid' => $device['udid'], 'device_client' => $device['client'], 'device_code' => $device['code']))->get_field('id');
+			$device_id = RC_DB::table('mobile_device')
+								->where('device_udid', $device['udid'])
+								->where('device_client', $device['client'])
+								->where('device_code', $device['code'])
+								->pluck('id');
+			$_SESSION['device_id']	= $device_id;
 
 			$codes = array('8001', '8011');
 			if (in_array($device['code'], $codes)) {
@@ -120,7 +128,8 @@ class signin_module extends api_admin implements api_interface {
 						'ec_salt'	=> $ec_salt,
 						'password'	=> $new_possword
 				);
-				$db_user->where(array('user_id' => $_SESSION['admin_id']))->update($data);
+				//$db_user->where(array('user_id' => $_SESSION['admin_id']))->update($data);
+				RC_DB::table('admin_user')->where('user_id', $_SESSION['admin_id'])->update($data);
 			}
 		
 			if ($row['action_list'] == 'all' && empty($row['last_login'])) {
@@ -131,8 +140,9 @@ class signin_module extends api_admin implements api_interface {
 					'last_login' 	=> RC_Time::gmtime(),
 					'last_ip'		=> RC_Ip::client_ip(),
 			);
-			$db_user->where(array('user_id' => $_SESSION['admin_id']))->update($data);
-		
+			//$db_user->where(array('user_id' => $_SESSION['admin_id']))->update($data);
+			RC_DB::table('admin_user')->where('user_id', $_SESSION['admin_id'])->update($data);
+			
 			$out = array(
 					'session' => array(
 						'sid' => RC_Session::session_id(),
@@ -162,13 +172,13 @@ class signin_module extends api_admin implements api_interface {
 			if (!is_ecjia_error($result)) {
 				$device = $this->requestData('device', array());
 				if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-					$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
-					$device_data = array(
-							'device_udid'	=> $device['udid'],
-							'device_client'	=> $device['client'],
-							'device_code'	=> $device['code']
-					);
-					$db_mobile_device->where($device_data)->update(array('user_id' => $_SESSION['admin_id'], 'is_admin' => 1));
+					//$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
+					//$device_data = array(
+					//		'device_udid'	=> $device['udid'],
+					//		'device_client'	=> $device['client'],
+					//		'device_code'	=> $device['code']
+					//);
+					RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->update(array('user_id' => $_SESSION['admin_id'], 'is_admin' => 1));
 				}
 			}
 			

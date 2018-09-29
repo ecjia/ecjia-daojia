@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 修改密码
  * @author royalwang
  */
-class password_module extends api_front implements api_interface {
+class user_password_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
         //如果用户登录获取其session

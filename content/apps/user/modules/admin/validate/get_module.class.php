@@ -47,7 +47,7 @@
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class get_module extends api_admin implements api_interface {
+class admin_validate_get_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 	    //sms_get_validate 
     

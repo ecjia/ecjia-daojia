@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 会员红包列表
  * @author will.chen
  */
-class bonus_module extends api_front implements api_interface
+class user_bonus_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {

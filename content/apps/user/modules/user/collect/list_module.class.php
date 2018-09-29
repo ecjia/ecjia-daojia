@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户收藏列表
  * @author royalwang
  */
-class list_module extends api_front implements api_interface {
+class user_collect_list_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
         $this->authSession();
@@ -65,6 +65,7 @@ class list_module extends api_front implements api_interface {
 		$rec_id   = $this->requestData('rec_id', 0);
 		
 		RC_Loader::load_app_func('admin_user', 'user');
+		
 		RC_Loader::load_app_func('global', 'api');
 		$db_collect_goods = RC_Model::model('goods/collect_goods_model');
 		
@@ -85,7 +86,7 @@ class list_module extends api_front implements api_interface {
 		if (!empty($goods_list)) {
 			$mobilebuy_db = RC_Model::model('goods/goods_activity_model');
 			foreach ($goods_list as $key => $value) {
-				$temp = API_DATA("SIMPLEGOODS", $value);
+				$temp =  ecjia_api::transformerData("SIMPLEGOODS", $value);
 				
 				$groupbuy = $mobilebuy_db->find(array(
 						'goods_id'	 => $value['goods_id'],

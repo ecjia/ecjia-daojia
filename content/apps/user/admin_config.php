@@ -46,12 +46,46 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class collect_goods_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'collect_goods';
-		parent::__construct();
-	}
+class admin_config extends ecjia_admin
+{
+    public function __construct()
+    {
+        parent::__construct();
+
+        Ecjia\App\User\Helper::assign_adminlog_content();
+
+        /* 加载所有全局 js/css */
+        RC_Script::enqueue_script('jquery-validate');
+        RC_Script::enqueue_script('jquery-form');
+        RC_Script::enqueue_script('jquery-uniform');
+        RC_Style::enqueue_style('uniform-aristo');
+        RC_Script::enqueue_script('user_config', RC_App::apps_url('statics/js/user_config.js', __FILE__));
+    }
+
+    public function init()
+    {
+        $this->admin_priv('user_manage');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('PC设置'));
+        $this->assign('ur_here', 'PC设置');
+
+        $this->assign('pc_test', ecjia::config('pc_test'));
+
+        $this->assign('current_code', 'user');
+        $this->assign('form_action', RC_Uri::url('user/admin_config/update'));
+
+        $this->display('user_config.dwt');
+    }
+
+    public function update()
+    {
+        $this->admin_priv('user_manage', ecjia::MSGTYPE_JSON);
+
+        ecjia_config::instance()->write_config('pc_test', intval($_POST['pc_test']));
+
+        ecjia_admin::admin_log('PC设置', 'edit', 'config');
+        return $this->showmessage('修改成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/admin_config/init')));
+    }
 }
 
-// end
+//end

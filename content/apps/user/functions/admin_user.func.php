@@ -293,7 +293,6 @@ function get_account_log($user_id, $num, $start, $process_type = '') {
 	
 	if (!empty($res)) {
 		RC_Loader::load_sys_func('global');
-// 		$payment_db = RC_Model::model('payment/payment_model');
 		foreach ($res as $key=>$rows) {
 			$db_payment = RC_DB::table('payment');
 			if ($rows['is_paid'] == '1') {
@@ -354,22 +353,28 @@ function get_account_log($user_id, $num, $start, $process_type = '') {
  */
 function get_account_log_list($user_id, $account_type = '') {
 
-	$db_account_log = RC_Model::model('user/account_log_model');
+	//$db_account_log = RC_Model::model('user/account_log_model');
 	/* 检查参数 */
-	$where['user_id'] = $user_id;
+	//$where['user_id'] = $user_id;
+	//if (in_array($account_type, array('user_money', 'frozen_money', 'rank_points', 'pay_points'))) {
+	//	$where[$account_type] = array('neq' => 0);
+	//}
+	$db_account_log = RC_DB::table('account_log');
 	if (in_array($account_type, array('user_money', 'frozen_money', 'rank_points', 'pay_points'))) {
-		$where[$account_type] = array('neq' => 0);
+		$db_account_log->where(function($query) use ($account_type) {
+			$query->where($account_type, '>', 0)->orWhere($account_type, '<', 0);
+		});
 	}
 
 	/* 查询记录总数，计算分页数 */
-	$count = RC_DB::table('account_log')->where('user_id', $user_id)->count();
+	$count = $db_account_log->where('user_id', $user_id)->count();
 	
 	if ($count != 0) {
 		/* 实例化分页 */
 		$page = new ecjia_page($count, 15, 6);
 		
 		/* 查询记录 */
-		$res = RC_DB::table('account_log')->where('user_id', $user_id)->orderBy('log_id', 'DESC')->take(15)->skip($page->start_id-1)->get();
+		$res = $db_account_log->where('user_id', $user_id)->orderBy('log_id', 'DESC')->take(15)->skip($page->start_id-1)->get();
 		
 		$arr = array();
 		if (!empty($res)) {
@@ -577,8 +582,6 @@ function update_user_info() {
 	// 链接数据库
 	$dbview        = RC_Model::model('user/user_viewmodel');
 	$db_users      = RC_Model::model('user/users_model');
-	$db_user_bonus = RC_Model::model('bonus/user_bonus_model');
-	$db_bonus_type = RC_Model::model('bonus/bonus_type_model');
 	$db_user_rank  = RC_Model::model('user/user_rank_model');
 
 	if (! $_SESSION['user_id']) {
@@ -805,12 +808,23 @@ function EM_user_info($user_id, $mobile = '') {
 	$user_info['user_name'] = preg_replace('/<span(.*)span>/i', '', $user_info['user_name']);
 	
 	/* 获取可使用的红包数量*/
-	$bonus_count = RC_Model::model('bonus/user_bonus_type_viewmodel')->join('bonus_type')->where(array('ub.user_id' => $user_id, 'use_start_date' => array('lt' => RC_Time::gmtime()), 'use_end_date' => array('gt' => RC_Time::gmtime()), 'ub.order_id' => 0))->count();
+	$dbview = RC_DB::table('bonus_type as bt')->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'));
+	$time = RC_Time::gmtime();
 	
-	$data = array('object_type' => 'ecjia.user', 'object_group' => 'update_user_name', 'object_id' => $user_id, 'meta_key' => 'update_time');
-	
+	$bonus_count = $dbview->where(RC_DB::raw('ub.user_id'), $user_id)
+	->where(RC_DB::raw('use_start_date'), '<', $time)
+	->where(RC_DB::raw('use_end_date'), '>', $time)
+	->where(RC_DB::raw('ub.order_id'), 0)
+	->count(RC_DB::raw('ub.bonus_id'));
 	/* 判断会员名更改时间*/
-	$username_update_time = RC_Model::model('term_meta_model')->find($data);
+	//$data = array('object_type' => 'ecjia.user', 'object_group' => 'update_user_name', 'object_id' => $user_id, 'meta_key' => 'update_time');
+	//$username_update_time = RC_Model::model('term_meta_model')->find($data);
+	$username_update_time = RC_DB::table('term_meta')->where('object_type', 'ecjia.user')
+							->where('object_group', 'update_user_name')
+							->where('object_id', $user_id)
+							->where('meta_key', 'update_time')
+							->first();
+	
 	
 	$address = $user_info['address_id'] > 0 ? RC_DB::table('user_address')->where('address_id', $user_info['address_id'])->first() : '';
 	$user_info['address'] = $user_info['address_id'] > 0 ? ecjia_region::getRegionName($address['city']).ecjia_region::getRegionName($address['district']).ecjia_region::getRegionName($address['street']).$address['address'] : '';

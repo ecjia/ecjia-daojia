@@ -5,7 +5,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author 
  *
  */
-class pay_module extends api_admin implements api_interface {
+class admin_user_account_pay_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
         
@@ -23,7 +23,7 @@ class pay_module extends api_admin implements api_interface {
 	    
 	    //获取单条会员帐目信息
 	    $order = array();
-	    $order = get_surplus_info($account_id);
+	    $order = $this->get_surplus_info($account_id);
 		
 	    $plugin = new Ecjia\App\Payment\PaymentPlugin();
 	    $payment_info = $plugin->getPluginDataById($payment_id);
@@ -46,7 +46,7 @@ class pay_module extends api_admin implements api_interface {
 	    
 	    /* 如果当前支付方式没有被禁用，进行支付的操作 */
 	    if (!empty($payment_info)) {
-	    	$user_name = get_user_name($order['user_id']);
+	    	$user_name = $this->get_user_name($order['user_id']);
 	    	$order['order_id']       = $order['id'];
 	    	$order['user_name']      = $user_name;
 	    	$order['surplus_amount'] = $order['amount'];
@@ -80,36 +80,38 @@ class pay_module extends api_admin implements api_interface {
             return new ecjia_error('select_payment_pls_again', __('支付方式无效，请重新选择支付方式！'));
 	    }
 	}
+
+    /**
+     * 获取会员充值申请信息
+     *
+     * @access  public
+     * @param   int     $account_id  会员充值申请的ID
+     *
+     * @return  array
+     */
+    private function get_surplus_info($account_id = 0)
+    {
+        $user_account_info = [];
+        $user_account_info = RC_DB::table('user_account')->where('id', $account_id)->first();
+        return $user_account_info;
+    }
+
+    /**
+     * 获取会员名
+     *
+     * @access  public
+     * @param   int     $user_id  会员的ID
+     *
+     * @return  string
+     */
+    private function get_user_name($user_id = 0)
+    {
+        $user_name = '';
+        $user_name = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
+        return $user_name;
+    }
 }
 
-/**
- * 获取会员充值申请信息
- *
- * @access  public
- * @param   int     $account_id  会员充值申请的ID
- *
- * @return  array
- */
-function get_surplus_info($account_id = 0)
-{
-	$user_account_info = [];
-	$user_account_info = RC_DB::table('user_account')->where('id', $account_id)->first();
-	return $user_account_info;
-}
 
-/**
- * 获取会员名
- *
- * @access  public
- * @param   int     $user_id  会员的ID
- *
- * @return  string
- */
-function get_user_name($user_id = 0)
-{
-	$user_name = '';
-	$user_name = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
-	return $user_name;
-}
 
 // end

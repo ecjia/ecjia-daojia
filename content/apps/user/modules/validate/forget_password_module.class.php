@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 密码找回校验验证码
  * @author will.chen
  */
-class forget_password_module extends api_front implements api_interface {
+class validate_forget_password_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
     	$this->authSession();	

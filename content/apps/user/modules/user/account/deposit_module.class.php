@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户充值申请
  * @author royalwang
  */
-class deposit_module extends api_front implements api_interface {
+class user_account_deposit_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
     	if ($_SESSION['user_id'] <= 0) {
@@ -105,7 +105,7 @@ class deposit_module extends api_front implements api_interface {
  		
  		if ($surplus['account_id'] > 0) {
  			//更新会员账目明细
- 			$surplus['account_id'] = em_update_user_account($surplus);
+ 			$surplus['account_id'] = $this->em_update_user_account($surplus);
  		} else {
  			RC_Loader::load_app_func('admin_user', 'user');
  			//插入会员账目明细
@@ -118,26 +118,28 @@ class deposit_module extends api_front implements api_interface {
  		
  		return array('payment' => $order['payment'], 'order_sn' => $surplus['order_sn']);
 	}
+
+    /**
+     * 更新会员账目明细
+     *
+     * @access  public
+     * @param   array     $surplus  会员余额信息
+     *
+     * @return  int
+     */
+    private function em_update_user_account($surplus) {
+        $db = RC_Model::model('user/user_account_model');
+        $data = array(
+            'amount'	=> $surplus['amount'],
+            'user_note'	=> $surplus['user_note'],
+            'payment'	=> $surplus['payment'],
+        );
+        $db->where(array('id' => $surplus['account_id']))->update($data);
+
+        return $surplus['account_id'];
+    }
 }
 
-/**
- * 更新会员账目明细
- *
- * @access  public
- * @param   array     $surplus  会员余额信息
- *
- * @return  int
- */
-function em_update_user_account($surplus) {
-	$db = RC_Model::model('user/user_account_model');
-	$data = array(
-		'amount'	=> $surplus['amount'],
-		'user_note'	=> $surplus['user_note'],
-		'payment'	=> $surplus['payment'],
-	);
-	$db->where(array('id' => $surplus['account_id']))->update($data);
 
-	return $surplus['account_id'];
-}
 
 // end

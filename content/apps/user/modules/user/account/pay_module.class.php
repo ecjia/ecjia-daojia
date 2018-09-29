@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户充值付款
  * @author royalwang
  */
-class pay_module extends api_front implements api_interface {
+class user_account_pay_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
     	if ($_SESSION['user_id'] <= 0) {
@@ -60,6 +60,7 @@ class pay_module extends api_front implements api_interface {
  		//变量初始化
  		$account_id = $this->requestData('account_id', 0);
  		$payment_id = $this->requestData('payment_id', 0);
+ 		$is_mobile	= $this->requestData('is_mobile', true);
  		$user_id = $_SESSION['user_id'];
  		$wxpay_open_id = $this->requestData('wxpay_open_id', 0);
  		if ($account_id <= 0 || $payment_id <= 0) {
@@ -67,7 +68,7 @@ class pay_module extends api_front implements api_interface {
 	    }
 	    
 	    //获取单条会员帐目信息
-	    $order = get_surplus_info($account_id, $user_id);
+	    $order = $this->get_surplus_info($account_id, $user_id);
 	    if (empty($order)) {
 	        return new ecjia_error('deposit_log_not_exist', '充值记录不存在');
 	    }
@@ -114,7 +115,7 @@ class pay_module extends api_front implements api_interface {
 	        
 	        $handler = $plugin->channel($payment_info['pay_code']);
 	        $handler->set_orderinfo($order);
-	        $handler->set_mobile(true);
+            $handler->set_mobile($is_mobile);
 	        $handler->setOrderType(Ecjia\App\Payment\PayConstant::PAY_SURPLUS);
 	        $handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
 	         
@@ -131,20 +132,22 @@ class pay_module extends api_front implements api_interface {
             return new ecjia_error('select_payment_pls_again', __('支付方式无效，请重新选择支付方式！'));
         } 
 	}
+
+    /**
+     * 根据ID获取当前余额操作信息
+     *
+     * @access  public
+     * @param   int     $account_id  会员余额的ID
+     *
+     * @return  int
+     */
+    private function get_surplus_info($account_id, $user_id) {
+        $db = RC_Model::model('user/user_account_model');
+
+        return $db->find(array('id' => $account_id, 'user_id' => $user_id));
+    }
 }
 
-/**
- * 根据ID获取当前余额操作信息
- *
- * @access  public
- * @param   int     $account_id  会员余额的ID
- *
- * @return  int
- */
-function get_surplus_info($account_id, $user_id) {
-	$db = RC_Model::model('user/user_account_model');
-	
-	return $db->find(array('id' => $account_id, 'user_id' => $user_id));
-}
+
 
 // end

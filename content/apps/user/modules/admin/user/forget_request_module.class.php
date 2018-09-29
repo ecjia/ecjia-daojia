@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 忘记密码请求
  * @author will
  */
-class forget_request_module extends api_admin implements api_interface {
+class admin_user_forget_request_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
 		$this->authadminSession();
@@ -68,10 +68,11 @@ class forget_request_module extends api_admin implements api_interface {
 			    $result = new ecjia_error('email_error', __('邮箱格式不正确！'));
 				return $result;
 			}
-			$db = RC_Model::model('user/admin_user_model');
+			//$db = RC_Model::model('user/admin_user_model');
 			
 			/* 管理员用户名和邮件地址是否匹配，并取得原密码 */
-			$admin_info = $db->field('user_id, password')->find(array('user_name' => $admin_username, 'email' => $type_info));
+			//$admin_info = $db->field('user_id, password')->find(array('user_name' => $admin_username, 'email' => $type_info));
+			$admin_info = RC_DB::table('admin_user')->where('user_name', $admin_username)->where('email', $type_info)->select('user_id', 'password')->first();
 		}
 		if (!empty($admin_info)) {
 			if ($type == "email") {

@@ -55,7 +55,7 @@
 								</tr>
 								<tr>
 									<td><div align="right"><strong>{lang key='user::users.label_user_rank'}</strong></div></td>
-									<td>{if !$user.user_rank }非特殊等级{else}{$user.user_rank}{/if}</td>
+									<td>{$user.user_rank_name}</td>
 									<td><div align="right"><strong>{lang key='user::users.label_credit_line'}</strong></div></td>
 									<td>{$user.credit_line}</td>
 								</tr>

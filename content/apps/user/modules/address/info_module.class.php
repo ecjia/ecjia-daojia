@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 单条收货地址信息
  * @author royalwang
  */
-class info_module extends api_front implements api_interface {
+class address_info_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
         //如果用户登录获取其session

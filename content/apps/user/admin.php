@@ -551,8 +551,23 @@ class admin extends ecjia_admin {
 		}
 		
 		/* 获得用户等级名 */
-		$user['user_rank'] = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->pluck('rank_name');
-
+		$user = [];
+		if ($row['user_rank'] == 0) {
+			// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+			$user_rankinfo = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', intval($row['rank_points']))->where('max_points', '>', intval($row['rank_points']))->first();
+		} else {
+			// 特殊等级
+			$user_rankinfo = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->select('rank_id', 'rank_name')->first();
+		}
+		
+		if (!empty($user_rankinfo)) {
+			$user['user_rank_name'] = $user_rankinfo['rank_name'];
+			$user['user_rank_id'] = $user_rankinfo['rank_id'];
+		} else {
+			$user['user_rank_name'] = '非特殊等级';
+			$user['user_rank_id'] = $row['rank_id'];
+		}
+		
 		if ($row) {
 			$user['user_id']				= $row['user_id'];
 			$user['user_name']				= $row['user_name'];

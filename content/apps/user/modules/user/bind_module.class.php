@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 手机/邮箱绑定解绑
  */
-class bind_module extends api_front implements api_interface {
+class user_bind_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
         $user_id = $_SESSION['user_id']/*  = 1024 */;
