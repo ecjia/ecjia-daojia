@@ -60,7 +60,6 @@ class admin_plugin extends ecjia_admin {
 		
 		$this->connect_account = RC_Loader::load_app_class('connect_account');
 		$this->db_user = RC_Loader::load_app_model('users_model');
-		$this->db_connect = RC_Loader::load_app_model('connect_model');
 
 		/* 加载所全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
@@ -117,7 +116,7 @@ class admin_plugin extends ecjia_admin {
 		}
 		
 		/* 查询该连接方式内容 */
-		$connect = $this->db_connect->where(array('connect_code' => $connect_code, 'enabled' => 1))->find();
+		$connect = RC_DB::table('connect')->where('connect_code', $connect_code)->where('enabled', 1)->first();
 		if (empty($connect)) {
 		    return $this->showmessage(RC_Lang::get('connect::connect.connect_type'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 		}
@@ -158,7 +157,7 @@ class admin_plugin extends ecjia_admin {
 		$code         = trim($_POST['connect_code']);
 		
 		if ($connect_name != $oldname) {
-			$query = $this->db_connect->where(array('connect_name' => $connect_name))->count();
+			$query = RC_DB::table('connect')->where('connect_name', $connect_name)->count();
 			if ($query > 0) {
 				return $this->showmessage(RC_Lang::get('connect::connect.confirm_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
@@ -186,12 +185,10 @@ class admin_plugin extends ecjia_admin {
 		        'connect_desc'   => trim($_POST['connect_desc']),
 		        'connect_config' => $connect_config,
 		    );
-		    $this->db_connect->where(array('connect_code' => $code))->update($data);
-		
+		    RC_DB::table('connect')->where('connect_code', $code)->update($data);		
 		    return $this->showmessage(RC_Lang::get('system::navigator.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		} else {
-		    $data_one = $this->db_connect->where(array('connect_code' => $code))->count();
-		    	
+		    $data_one = RC_DB::table('connect')->where('connect_code', $code)->count();	
 		    if ($data_one > 0) {
 		        /* 该支付方式已经安装过, 将该支付方式的状态设置为 enable */
 		        $data = array(
@@ -200,7 +197,7 @@ class admin_plugin extends ecjia_admin {
 		            'connect_config' => $connect_config,
 		            'enabled'        => '1'
 		        );
-		        $this->db_connect->where(array('connect_code' => $code))->update($data);
+		        RC_DB::table('connect')->where('connect_code', $code)->update($data);
 		    } else {
 		        /* 该支付方式没有安装过, 将该支付方式的信息添加到数据库 */
 		        $data =array(
@@ -210,8 +207,7 @@ class admin_plugin extends ecjia_admin {
 		            'connect_config' 	=> $connect_config,
 		            'enabled'  			=> '1',
 		        );
-		
-		        $this->db_connect->insert($data);
+		        RC_DB::table('connect')->insert($data);
 		    }
 		}
 	
@@ -232,10 +228,11 @@ class admin_plugin extends ecjia_admin {
 		if (empty($connect_name)) {
 			return $this->showmessage(RC_Lang::get('connect::connect.empty_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 		} else {
-			if( $this->db_connect->where(array('connect_name' => $connect_name, 'connect_id' => array('neq' => $connect_id)))->count() > 0) {
+			$counts = RC_DB::table('connect')->where('connect_name', $connect_name)->where('connect_id', '!=', $connect_id)->count();
+			if($counts > 0) {
 				return $this->showmessage(RC_Lang::get('connect::connect.confirm_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 			} else {
-				$this->db_connect->where(array('connect_id' => $connect_id ))->update(array('connect_name' => $connect_name));
+				RC_DB::table('connect')->where('connect_id', $connect_id)->update(array('connect_name' => $connect_name));
 				return $this->showmessage(RC_Lang::get('connect::connect.edit_name_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 			}
 		}
@@ -252,8 +249,7 @@ class admin_plugin extends ecjia_admin {
 		} else {
 			$connect_id    = intval($_POST['pk']);
 			$connect_order = intval($_POST['value']);
-	
-			$this->db_connect->where(array('connect_id' => $connect_id))->update(array('connect_order' => $connect_order));
+			RC_DB::table('connect')->where('connect_id', $connect_id)->update(array('connect_order' => $connect_order));
 			return $this->showmessage(RC_Lang::get('connect::connect.sort_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 		}
 	}
@@ -268,8 +264,7 @@ class admin_plugin extends ecjia_admin {
 		$data = array(
 			'enabled' => 0
 		);
-		$this->db_connect->where(array('connect_id' => $id))->update($data);
-	
+		RC_DB::table('connect')->where('connect_id', $id)->update($data);
 // 		ecjia_admin::admin_log($id, 'disable', 'payment');
 		return $this->showmessage(RC_Lang::get('connect::connect.disable_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 	}
@@ -284,23 +279,22 @@ class admin_plugin extends ecjia_admin {
 		$data = array(
 			'enabled' => 1
 		);
-		$this->db_connect->where(array('connect_id' => $id))->update($data);
+		RC_DB::table('connect')->where('connect_id', $id)->update($data);
 
 // 		ecjia_admin::admin_log($id, 'enable', 'payment');
 		return $this->showmessage(RC_Lang::get('connect::connect.enable_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 	}
 	
 	private function connect_list() {
-		$db_topic = RC_Loader::load_app_model('connect_model');
-		
+		$db = RC_DB::table('connect');
 		$filter   = array();
 		
-		$count    = $db_topic->count();
+		$count    = $db->count();
 		$filter ['record_count'] = $count;
 		$page     = new ecjia_page($count, 10, 5);
 	
 		$arr      = array ();
-		$data     = $db_topic->order(array('connect_order'=> 'desc'))->limit($page->limit())->select();
+		$data = $db->take(10)->skip($page->start_id - 1)->orderBy('connect_order', 'desc')->get();
 		if (isset($data)) {
 			foreach ($data as $rows) {
 				$arr[] = $rows;

@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class signup_module extends api_front implements api_interface {
+class connect_signup_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	$this->authSession();
 		$open_id      = $this->requestData('openid');
@@ -167,7 +167,7 @@ class signup_module extends api_front implements api_interface {
 				'user_id'		=> $_SESSION['user_id'],
 				'profile'		=> serialize($profile)
 			);
-			RC_Model::model('connect/connect_user_model')->insert($data);
+			RC_DB::table('connect_user')->insert($data);
 
 			/* 获取远程用户头像信息*/
 			RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
@@ -200,7 +200,7 @@ class signup_module extends api_front implements api_interface {
 
 			// 1、同步会员信息
 			// 2、修正咨询信息
-// 			feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
+// 			$this->feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
 
 			RC_Loader::load_app_func('admin_user', 'user');
 			$user_info = EM_user_info($_SESSION['user_id']);
@@ -217,14 +217,12 @@ class signup_module extends api_front implements api_interface {
 			$result = ecjia_app::validate_application('mobile');
 			if (!is_ecjia_error($result)) {
 				if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-					$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
-					$device_data = array(
-						'device_udid'	=> $device['udid'],
-						'device_client'	=> $device['client'],
-						'device_code'	=> $device['code'],
-						'user_type'		=> 'user',
-					);
-					$db_mobile_device->where($device_data)->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
+					RC_DB::table('mobile_device')
+						->where('device_udid', $device['udid'])
+						->where('device_client', $device['client'])
+						->where('device_code', $device['code'])
+						->where('user_type', 'user')
+						->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
 				}
 			}
 
@@ -239,31 +237,40 @@ class signup_module extends api_front implements api_interface {
 			}
 		}
 	}
-}
-
-/**
- * 修正咨询信息
- * @param string $user_id
- * @param string $device
- */
-function feedback_batch_userid($user_id, $user_name, $device) {
-	$device_udid	  = $device['udid'];
-	$device_client	  = $device['client'];
-	$db_term_relation = RC_Model::model('term_relationship_model');
-
-	$object_id = $db_term_relation->where(array(
-		'object_type'	=> 'ecjia.feedback',
-		'object_group'	=> 'feedback',
-		'item_key2'		=> 'device_udid',
-		'item_value2'	=> $device_udid
-	))->get_field('object_id', true);
-	//更新未登录用户的咨询
-	$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_udid))->update(array('item_key2' => '', 'item_value2' => ''));
-
-	if (!empty($object_id)) {
-		$db = RC_Model::model('feedback/feedback_model');
-		$db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-		$db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
+	
+	/**
+	 * 修正咨询信息
+	 * @param string $user_id
+	 * @param string $device
+	 */
+	private function feedback_batch_userid($user_id, $user_name, $device) {
+		$device_udid	  = $device['udid'];
+		$device_client	  = $device['client'];
+		//$db_term_relation = RC_Model::model('term_relationship_model');
+		//$object_id = $db_term_relation->where(array(
+		//	'object_type'	=> 'ecjia.feedback',
+		//	'object_group'	=> 'feedback',
+		//	'item_key2'		=> 'device_udid',
+		//	'item_value2'	=> $device_udid
+		//))->get_field('object_id', true);
+		
+		$pra = array(
+				'object_type'	=> 'ecjia.feedback',
+				'object_group'	=> 'feedback',
+				'item_key2'		=> 'device_udid',
+				'item_value2'	=> $device_udid
+		);
+		$object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
+		
+		//更新未登录用户的咨询
+		//$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_udid))->update(array('item_key2' => '', 'item_value2' => ''));
+		RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_udid)->update(array('item_key2' => '', 'item_value2' => ''));
+		
+		if (!empty($object_id)) {
+			$db = RC_Model::model('feedback/feedback_model');
+			$db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
+			$db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
+		}
 	}
 }
 

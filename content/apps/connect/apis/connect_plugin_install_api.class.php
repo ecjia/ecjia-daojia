@@ -74,11 +74,9 @@ class connect_plugin_install_api extends Component_Event_Api {
 	        if (empty($format_name) || empty($options['config']['connect_code'])) {
 	            return ecjia_plugin::add_error('plugin_install_error', __('帐号登录平台名称或connect_code不能为空'));
 	        }
-	    
-	        $db = RC_Loader::load_app_model('connect_model', 'connect');
 	         
 	        /* 检测支付名称重复 */
-	        $data = $db->where("`connect_name` = '" . $format_name . "' and `connect_code` = '" . $options['config']['connect_code'] . "'")->count();
+	        $data = RC_DB::table('connect')->where('connect_name', $format_name)->where('connect_code', $options['config']['connect_code'])->count();
 	        if ($data > 0) {
 	            return ecjia_plugin::add_error('plugin_install_error', __('帐号登录平台已存在'));
 	        }
@@ -87,8 +85,7 @@ class connect_plugin_install_api extends Component_Event_Api {
 	        $connect_config = serialize($options['config']['forms']);
 	         
 	        /* 安装，检查该支付方式是否曾经安装过 */
-	        $count = $db->where("`connect_code` = '" . $options['config']['connect_code'] . "'")->count();
-	         
+	        $count = RC_DB::table('connect')->where('connect_code', $options['config']['connect_code'])->count();
 	        if ($count > 0) {
 	            /* 该支付方式已经安装过, 将该支付方式的状态设置为 enable */
 	            $data = array(
@@ -98,7 +95,7 @@ class connect_plugin_install_api extends Component_Event_Api {
 	                'enabled' 		    => 1
 	            );
 	             
-	            $db->where("`connect_code` = '" . $options['config']['connect_code'] . "'")->update($data);
+	            RC_DB::table('connect')->where('connect_code', $options['config']['connect_code'])->update();
 	             
 	        } else {
 	            /* 该支付方式没有安装过, 将该支付方式的信息添加到数据库 */
@@ -109,7 +106,7 @@ class connect_plugin_install_api extends Component_Event_Api {
 	                'connect_config' 	=> $connect_config,
 	                'enabled' 		    => 1,
 	            );
-	            $db->insert($data);
+	            RC_DB::table('connect')->insert($data);
 	        }
 	    
 	        /* 记录日志 */

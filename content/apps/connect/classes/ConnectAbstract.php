@@ -146,6 +146,23 @@ abstract class ConnectAbstract extends AbstractPlugin {
      * 生成授权网址
      */
     abstract function authorize_url();
+
+    /**
+     * 生成回调地址
+     *
+     * @return mixed
+     */
+    abstract function callback_url();
+
+    /**
+     * 设置回调地址，需要用到，就在子类中实现
+     *
+     * @param $callback_url
+     */
+    public function overwrite_callback_url($callback_url)
+    {
+        //no thing.
+    }
     
     /**
      * 登录成功后回调处理

@@ -75,9 +75,7 @@ class connect_plugin_uninstall_api extends Component_Event_Api {
 	        }
 	         
 	        /* 从数据库中删除支付方式 */
-	        $db = RC_Loader::load_app_model('connect_model', 'connect');
-	        $db->where("`connect_code` = '" . $options['config']['connect_code'] . "'")->delete();
-	         
+	         RC_DB::table('connect')->where('connect_code', $options['config']['connect_code'])->delete();
 	        /* 记录日志 */
 	        ecjia_admin::admin_log($format_name, 'uninstall', 'connect');
 	         
