@@ -291,8 +291,6 @@ return [
     $basePath.'/vendor/royalcms/datetime/Royalcms/Component/DateTime/Carbon.php',
 
 
-    $basePath.'/vendor/royalcms/environment/Royalcms/Component/Environment/Facades/Environment.php',
-
     $basePath.'/vendor/monolog/monolog/src/Monolog/Logger.php',
     $basePath.'/vendor/psr/log/Psr/Log/LoggerInterface.php',
     $basePath.'/vendor/monolog/monolog/src/Monolog/Handler/AbstractHandler.php',

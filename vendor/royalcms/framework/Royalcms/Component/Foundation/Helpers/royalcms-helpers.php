@@ -2256,21 +2256,6 @@ if ( ! function_exists('__'))
 }
 
 
-if ( ! function_exists('action'))
-{
-    /**
-     * Generate a URL to a controller action.
-     *
-     * @param  string  $name
-     * @param  array   $parameters
-     * @return string
-     */
-    function action($name, $parameters = array())
-    {
-        return royalcms('url')->action($name, $parameters);
-    }
-}
-
 if ( ! function_exists('link_to'))
 {
     /**
@@ -2338,22 +2323,6 @@ if ( ! function_exists('link_to_action'))
         return royalcms('html')->linkAction($action, $title, $parameters, $attributes);
     }
 }
-
-if ( ! function_exists('route'))
-{
-    /**
-     * Generate a URL to a named route.
-     *
-     * @param  string  $route
-     * @param  array   $parameters
-     * @return string
-     */
-    function route($route, $parameters = array())
-    {
-        return royalcms('url')->route($route, $parameters);
-    }
-}
-
 
 /**
  * compat.php 兼容函数库
@@ -2454,37 +2423,6 @@ if (!function_exists('measure')) {
     }
 }
 
-if (! function_exists('class_basename')) {
-    /**
-     * Get the class "basename" of the given object / class.
-     *
-     * @param  string|object  $class
-     * @return string
-     */
-    function class_basename($class)
-    {
-        $class = is_object($class) ? get_class($class) : $class;
-
-        return basename(str_replace('\\', '/', $class));
-    }
-}
-
-if (! function_exists('tap')) {
-    /**
-     * Call the given Closure with the given value then return the value.
-     *
-     * @param  mixed  $value
-     * @param  callable  $callback
-     * @return mixed
-     */
-    function tap($value, $callback)
-    {
-        $callback($value);
-
-        return $value;
-    }
-}
-
 if (! function_exists('base64url_encode')) {
     /**
      * 使用base64 加密在URL安全传递
@@ -2507,5 +2445,20 @@ if (! function_exists('base64url_decode')) {
     }
 }
 
+if (! function_exists('remove_route_var')) {
+    /**
+     * 移出$_GET中路由变量参数
+     */
+    function remove_route_var() {
+        $module = config('route.module');
+        $controller = config('route.controller');
+        $action = config('route.action');
+
+        unset($_GET[$module]);
+        unset($_GET[$controller]);
+        unset($_GET[$action]);
+    }
+    
+}
 
 // end

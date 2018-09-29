@@ -21,6 +21,7 @@ class RegisterFacades
         Facade::setFacadeRoyalcms($royalcms);
 
         AliasLoader::getInstance($royalcms->make('config')->get('coreservice.aliases'));
-        AliasLoader::getInstance($royalcms->make('config')->get('facade'))->register();
+        AliasLoader::getInstance($royalcms->make('config')->get('facade'));
+        AliasLoader::getInstance()->register();
     }
 }

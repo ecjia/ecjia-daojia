@@ -267,9 +267,9 @@ class Loader extends RoyalcmsObject
      * @param string $classname
      *            类名
      */
-    public static function load_module($classname)
+    public static function load_module($classname, $initialize = true)
     {
-        return \RC_Package::package('system')->loadModule($classname);
+        return \RC_Package::package('system')->loadModule($classname, $initialize);
         
 //         $classname = str_replace(".", DIRECTORY_SEPARATOR, $classname);
 //         $class = basename($classname);
