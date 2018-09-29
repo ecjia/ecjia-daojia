@@ -70,6 +70,7 @@ return [
     'goods/index/promotion'             => 'goods_controller@promotion',
     'goods/index/ajax_goods'            => 'goods_controller@ajax_goods',
     'goods/index/new'                   => 'goods_controller@goods_new',
+    'goods/index/best'                   => 'goods_controller@goods_best',
     'goods/index/ajax_goods_comment'    => 'goods_controller@ajax_goods_comment', //获取商品评论
     'goods/index/groupbuy'    		    => 'goods_controller@groupbuy', //团购商品列表
     
@@ -224,6 +225,7 @@ return [
     'user/order/async_order_list'       => 'user_order_controller@async_order_list',
     'user/order/async_return_order_list'=> 'user_order_controller@async_return_order_list',
     'user/order/order_detail'           => 'user_order_controller@order_detail',
+    'user/order/express_info'           => 'user_order_controller@express_info',
     'user/order/affirm_received'        => 'user_order_controller@affirm_received',
     'user/order/comment_list'           => 'user_order_controller@comment_list',
     'user/order/goods_comment'          => 'user_order_controller@goods_comment',
@@ -269,6 +271,7 @@ return [
     'connect/index/enter_code'          => 'connect_controller@enter_code',
     'connect/index/mobile_signin'       => 'connect_controller@mobile_signin',
     'connect/index/set_password'        => 'connect_controller@set_password',
+    'connect/index/callback_template'        => 'connect_controller@callback_template',
     
     //发现
     'mobile/discover/init'              => 'mobile_controller@init',  //百宝箱

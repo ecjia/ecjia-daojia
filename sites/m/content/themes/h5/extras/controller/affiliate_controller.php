@@ -56,11 +56,17 @@ class affiliate_controller {
 		
 		$res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
 		$res = !is_ecjia_error($res) ? $res : array();
-
+		
 		ecjia_front::$controller->assign('captcha_image', $res['base64']);
 		
 		$invite_code = trim($_GET['invite_code']);
 		ecjia_front::$controller->assign('invite_code', $invite_code);
+
+		$invite_user_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_INVITEE_RULE)->data(array('token' => $token))->run();
+		$invite_user_detail = is_ecjia_error($invite_user_detail) ? [] : $invite_user_detail;
+
+		$invite_user_detail['invitee_rule_explain'] = explode("\n", $invite_user_detail['invitee_rule_explain']);
+		ecjia_front::$controller->assign('invite_user', $invite_user_detail);
 		
 		ecjia_front::$controller->display('affiliate_invite_register.dwt');
 	}
@@ -91,7 +97,7 @@ class affiliate_controller {
 			return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
 		}
 		if ($res['registered'] == 1) {
-			return ecjia_front::$controller->showmessage('该手机号已注册', ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
+			return ecjia_front::$controller->showmessage('您已经是老用户，可以直接去登陆', ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON, array('registered' => 1, 'url' => RC_Uri::url('user/privilege/login')));
 		}
 		
 		if ($res['is_invited'] == 1) {

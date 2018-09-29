@@ -6877,7 +6877,7 @@ footer {
 }
 
 .ecjia-order-list .order-ft span {
-    display: inline-block;
+    /* display: inline-block; */
     width: 50%
 }
 
@@ -7458,6 +7458,10 @@ footer {
     background-size: 60%
 }
 
+.order-log-item.express-status-icon::after {
+    top: 35%;
+}
+
 /*订单提交成功*/
 .order-log-item.place_order:first-child::after {
     background: url(../images/order_status/done_2.png) #F7F7F7 no-repeat center;
@@ -7474,6 +7478,7 @@ footer {
     background: url(../images/order_status/wait_pay_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.unpay::after {
     background: url(../images/order_status/wait_pay_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7481,9 +7486,10 @@ footer {
 
 /*已付款*/
 .order-log-item.payed:first-child::after {
-	background: url(../images/order_status/paid_2.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/paid_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.payed::after {
     background: url(../images/order_status/paid_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7491,11 +7497,12 @@ footer {
 
 /*等待商家接单*/
 .order-log-item.merchant_process:first-child::after {
-	background: url(../images/order_status/wait_confirm_2.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/wait_confirm_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.merchant_process::after {
-	background: url(../images/order_status/wait_confirm_1.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/wait_confirm_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
@@ -7504,6 +7511,7 @@ footer {
     background: url(../images/order_status/shipping_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.shipping::after {
     background: url(../images/order_status/shipping_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7511,11 +7519,12 @@ footer {
 
 /*已发货*/
 .order-log-item.shipped:first-child::after {
-	background: url(../images/order_status/shipped_2.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/shipped_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.shipped::after {
-	background: url(../images/order_status/shipped_1.png) #F7F7F7 no-repeat center;
+    background: url(../images/order_status/shipped_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
 
@@ -7524,6 +7533,7 @@ footer {
     background: url(../images/order_status/finished_2.png) no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.confirm_receipt::after {
     background: url(../images/order_status/finished_1.png) no-repeat center;
     background-size: 60%
@@ -7534,6 +7544,7 @@ footer {
     background: url(../images/order_status/finished_2.png) no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.finished::after {
     background: url(../images/order_status/finished_1.png) no-repeat center;
     background-size: 60%
@@ -7544,6 +7555,7 @@ footer {
     background: url(../images/order_status/finished_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.pickup_success::after {
     background: url(../images/order_status/finished_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7554,6 +7566,7 @@ footer {
     background: url(../images/order_status/expressed_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.express_user_pickup::after {
     background: url(../images/order_status/expressed_1.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7561,21 +7574,23 @@ footer {
 
 /*已取消*/
 .order-log-item.cancel:first-child::after {
-	background: url(../images/order_status/canceled_2.png) no-repeat center;
+    background: url(../images/order_status/canceled_2.png) no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.cancel::after {
-	background: url(../images/order_status/canceled_1.png) no-repeat center;
+    background: url(../images/order_status/canceled_1.png) no-repeat center;
     background-size: 60%
 }
 
 /*商家已接单*/
 .order-log-item.merchant_confirmed:first-child::after {
-	background: url(../images/order_status/confirmed_2.png) no-repeat center;
+    background: url(../images/order_status/confirmed_2.png) no-repeat center;
     background-size: 60%
 }
+
 .order-log-item.merchant_confirmed::after {
-	background: url(../images/order_status/confirmed_1.png) no-repeat center;
+    background: url(../images/order_status/confirmed_1.png) no-repeat center;
     background-size: 60%
 }
 
@@ -7585,11 +7600,11 @@ footer {
 }
 
 .order-log-item.express_user_pickup .order-log .tel {
-    width: 15%;
-    height: 2em;
+    width: 30px;
+    height: 30px;
     float: right;
     background: url(../images/icon/tel_circle_50.png) no-repeat center;
-    background-size: 60%
+    background-size: 100%;
 }
 
 /* 订单商品列表单独页面*/
@@ -9033,11 +9048,13 @@ footer {
         transform: scale(1);
         opacity: 1
     }
+
     45% {
         -webkit-transform: scale(.1);
         transform: scale(.1);
         opacity: .7
     }
+
     80% {
         -webkit-transform: scale(1);
         transform: scale(1);
@@ -9051,11 +9068,13 @@ footer {
         transform: scale(1);
         opacity: 1
     }
+
     45% {
         -webkit-transform: scale(.1);
         transform: scale(.1);
         opacity: .7
     }
+
     80% {
         -webkit-transform: scale(1);
         transform: scale(1);
@@ -12752,25 +12771,32 @@ footer {
 /*邀请注册样式*/
 
 .ecjia-invite-register {
-    position: relative;
-    height: auto;
-    margin: 0;
-    padding: 0
+	position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+	background-color: #7EC730;
+	overflow-y: auto;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
+    max-width: 640px;
+	margin: 0 auto;
 }
 
 .ecjia-invite-register .form {
-    position: absolute;
+	position: absolute;
     height: 13em;
     width: 90%;
-    top: 38%;
-    left: 5%
+	bottom: 4.5em;
+    left: 5%;
 }
 
 .ecjia-invite-register .invite-notice {
     position: absolute;
     height: auto;
     width: 92%;
-    bottom: 2%;
+    top: 4.5em;
     left: 4%;
     font-size: 13px
 }
@@ -12780,10 +12806,8 @@ footer {
 }
 
 .ecjia-invite-register .invite-notice p {
-    line-height: 20px;
+    line-height: 1.8em;
     color: #fff;
-    margin: 5px 0;
-    padding-left: 20px;
     position: relative
 }
 
@@ -13839,7 +13863,7 @@ body {
     height: 100%;
     background-color: #fff;
     position: fixed;
-	max-width: 640px;
+    max-width: 640px;
 }
 
 .ecjia-add-bonus .bonus_image img {
@@ -13960,4 +13984,235 @@ body {
     -webkit-transition-duration: .4s;
     transition-duration: .4s;
     display: none
+}
+
+/* 物流信息 */
+
+.order-express-info {
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+.express-info-title {
+    line-height: 3em;
+    padding: 0 1em;
+}
+
+.express-info-item {
+    border-top: 1px solid #eee;
+}
+
+.ecjia-li-pitch {
+    overflow: hidden;
+    padding: 0 1em;
+}
+
+.ecjia-li-pitch.display-flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -moz-box-pack: space-between;
+    -webkit--moz-box-pack: space-between;
+    box-pack: space-between;
+}
+
+.ecjia-li-pitch.display-flex .ecjia-order-status-o {
+    width: 75%;
+}
+
+.ecjia-li-pitch .status-flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -moz-box-pack: space-between;
+    -webkit--moz-box-pack: space-between;
+    box-pack: space-between;
+
+    align-items: center;
+    -webkit-align-items: center;
+    box-align: center;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+}
+
+.ecjia-li-pitch .status-flex .location {
+    width: 80px;
+    height: 80px;
+}
+
+.ecjia-li-pitch-alt {
+    border-bottom: none;
+    padding: 0.7rem 0;
+}
+
+.at-timelineitem {
+    position: relative;
+    padding: 0 0 .5em;
+}
+
+.at-timelineitem__tail {
+    position: absolute;
+    top: 1.5em;
+    bottom: -1em;
+    left: .85em;
+    border-left: 2px solid #eee;
+}
+
+.at-timeline:last-child .at-timelineitem__tail {
+    bottom: 0;
+}
+
+.at-timelineitem__dot,
+.at-timelineitem__icon {
+    position: absolute;
+    left: .6em;
+    top: 16px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 1;
+    width: 10px;
+    height: 10px;
+    background-color: #838383;
+    border-radius: 50%;
+    box-shadow: #838383 0px 0px 10px;
+}
+
+.at-timeline:first-child .at-timelineitem__dot,
+.at-timelineitem__icon {
+    left: .45em;
+    width: 15px;
+    height: 15px;
+    background-color: #ff3a6d;
+    box-shadow: #ff3a6d 0px 0px 10px;
+}
+
+.at-timelineitem__content {
+    margin-left: 2em;
+    min-height: 4em;
+    color: #333;
+    font-size: 1em;
+    text-align: left;
+}
+
+.at-timelineitem__content-item.at-timelineitem__content-item {
+    color: #838383;
+    line-height: 2em;
+    padding-top: .3em;
+}
+
+.at-timeline:first-child .at-timelineitem__content-item.at-timelineitem__content-item {
+    color: #ff3a6d;
+}
+
+.at-timelineitem__content-item-time {
+    color: #838383;
+}
+
+.ecjia-express-detail {
+    margin: 1em;
+    font-size: 1em;
+}
+
+.ecjia-express-detail .express-info {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 1em;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.express-left img {
+    width: 4em;
+    height: 4em;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-right: 1em;
+}
+
+.express-right {
+    line-height: 2em;
+}
+
+.express-right .express-num {
+    color: #838383;
+}
+
+.copy-express-btn {
+    border: 1px solid #eee;
+    margin-left: 1em;
+    padding: .2em .5em;
+    border-radius: 4px;
+    cursor: pointer;
+    float: none;
+}
+
+.express-status {
+    margin-top: 1em;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 1em;
+}
+
+.no-express-info {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    align-items: center;
+    -webkit-align-items: center;
+    box-align: center;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+
+    -webkit-justify-content: center;
+    justify-content: center;
+    -moz-box-pack: center;
+    -webkit--moz-box-pack: center;
+    box-pack: center;
+
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+
+    padding-top: 8em;
+    color: #888;
+}
+
+.no-express-info img {
+    width: 12em;
+    height: 12em;
+}
+
+.ecjia-express-user-position {
+    clear: both;
+    width: 100%;
+    height: 200px;
+    padding-top: 5px;
+}
+
+#expressMap {
+    width: 100%;
+    height: 200px;
 }

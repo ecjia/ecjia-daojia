@@ -46,6 +46,42 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			        </div>
 		        </a>
 		    </div>
+
+			{if $express_info}
+			<div class="order-express-info">
+				<a href="{url path='user/order/express_info'}&order_id={$order.order_id}"><div class="express-info-title">物流信息<span class="ecjiaf-fr"><i class="iconfont icon-jiantou-right"></i></span></div></a>
+				<div class="express-info-item">
+					<div class="ecjia-li-pitch">
+						{if $express_info.content.time eq 'error'}
+						<div class="at-timeline at-timeline at-timeline--pending at-timeline--pending">
+							<div class="at-timelineitem at-timelineitem">
+								<div class="at-timelineitem__tail at-timelineitem__tail"></div>
+								<div class="at-timelineitem__dot at-timelineitem__dot"></div>
+								<div class="at-timelineitem__content at-timelineitem__content">
+									<div class="at-timelineitem__content-item at-timelineitem__content-item">{$express_info.content.context}</div>
+								</div>
+							</div>
+						</div>
+						{else}
+							{foreach from=$express_info.content item=v key=k}
+								{if $k eq 0}
+								<div class="at-timeline at-timeline at-timeline--pending at-timeline--pending">
+									<div class="at-timelineitem at-timelineitem">
+										<div class="at-timelineitem__tail at-timelineitem__tail"></div>
+										<div class="at-timelineitem__dot at-timelineitem__dot"></div>
+										<div class="at-timelineitem__content at-timelineitem__content">
+											<div class="at-timelineitem__content-item at-timelineitem__content-item">{$v.context}</div>
+											<div class="at-timelineitem__content-item-time">{$v.time}</div>
+										</div>
+									</div>
+								</div>
+								{/if}
+							{/foreach}
+						{/if}
+					</div>
+				</div>
+			</div>
+			{/if}
 		    
 			<div class="order-hd">
 				<a class="ecjiaf-fl" href='{url path="merchant/index/init" args="store_id={$order.store_id}"}'>

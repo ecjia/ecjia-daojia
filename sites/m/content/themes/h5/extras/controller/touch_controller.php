@@ -57,6 +57,7 @@ class touch_controller {
     public static function init() {
         ecjia_front::$controller->assign('more_sales', RC_Uri::url('goods/index/promotion'));
         ecjia_front::$controller->assign('more_news', RC_Uri::url('goods/index/new'));
+        ecjia_front::$controller->assign('more_best', RC_Uri::url('goods/index/best'));
         ecjia_front::$controller->assign('theme_url', RC_Theme::get_template_directory_uri() . '/');
         
         $url = RC_Uri::url('touch/index/init');
@@ -64,7 +65,6 @@ class touch_controller {
         
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'].'-'.$_COOKIE['city_id'].'-'.$_COOKIE['longitude'].'-'.$_COOKIE['latitude'].'-'.$_COOKIE['close_download']));
         if (!ecjia_front::$controller->is_cached('index.dwt', $cache_id)) {
-
 	
 	        ecjia_front::$controller->assign('page_header', 'index');
 	        ecjia_front::$controller->assign('searchs', user_function::insert_search());
@@ -72,9 +72,6 @@ class touch_controller {
 	        ecjia_front::$controller->assign('copyright', ecjia::config('wap_copyright'));
 	        ecjia_front::$controller->assign('active', 'index');
 	        ecjia_front::$controller->assign('address', 'address');
-	        
-	        ecjia_front::$controller->assign('searchs', user_function::get_search($store_id));
-	        ecjia_front::$controller->assign('searchs_count', count(user_function::get_search($store_id)));
 	        
 	        ecjia_front::$controller->assign('down_url', RC_Uri::url('mobile/mobile/download'));
 

@@ -118,19 +118,8 @@ class user_controller
             $name = trim($_GET['name']);
             $invite_user_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_USER)->data(array('token' => $token))->run();
             $invite_user_detail = is_ecjia_error($invite_user_detail) ? array() : $invite_user_detail;
+            $invite_user_detail['invite_explain'] = explode("\n", $invite_user_detail['invite_explain']);
 
-            if (!empty($invite_user_detail['invite_explain'])) {
-                if (strpos($invite_user_detail['invite_explain'], '；')) {
-                    $invite_user_detail['invite_explain_new'] = explode('；', $invite_user_detail['invite_explain']);
-                }
-            }
-            if (!empty($invite_user_detail['invite_explain_new'])) {
-                foreach ($invite_user_detail['invite_explain_new'] as $key => $val) {
-                    if (empty($val)) {
-                        unset($invite_user_detail[$key]);
-                    }
-                }
-            }
             $invite_user_detail['invite_url'] = RC_Uri::url('affiliate/index/init', array('invite_code' => $invite_user_detail['invite_code']));
             ecjia_front::$controller->assign('share_title', $name . '推荐这个实用的App给你~');
             ecjia_front::$controller->assign_title('我的推广');

@@ -8,7 +8,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 {if $best_goods}
 <div class="ecjia-mod ecjia-new-model ecjia-margin-t {if !$data}ecjia-mod-pb35{/if}">
 	<div class="head-title ecjia-new-goods">
-		<h2><i class="icon-best"></i>店长推荐<a href="{$more_news}" class="more_info">更多</a></h2>
+		<h2><i class="icon-best"></i>店长推荐<a href="{$more_best}" class="more_info">更多</a></h2>
 	</div>
 	<div class="swiper-container swiper-promotion">
 		<div class="swiper-wrapper">

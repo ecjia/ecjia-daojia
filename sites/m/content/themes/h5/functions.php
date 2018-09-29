@@ -361,9 +361,11 @@ ecjia_open::macro('merchant', function($querys) {
 /**
  * 支付响应提示模板
  */
-RC_Hook::add_filter('payment_respond_template', function($respond, $msg){
-    return pay_controller::notify($msg);
-}, 10, 2);
+RC_Hook::add_filter('payment_respond_template', function($callback) {
+    return function ($respond, $msg, $info) {
+        return payment_controller::notify($msg);
+    };
+});
 
 /**
  * 自定义站点API地址

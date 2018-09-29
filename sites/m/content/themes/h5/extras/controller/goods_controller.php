@@ -418,6 +418,8 @@ class goods_controller {
         	$dwt = 'goods_promotion.dwt';
         } elseif ($type == 'new') {
         	$dwt = 'goods_new.dwt';
+        } elseif ($type == 'best') {
+        	$dwt = 'goods_best.dwt';
         } elseif ($type == 'groupbuy') {
         	$dwt = 'goods_groupbuy.dwt';
         	$api = ecjia_touch_api::GROUPBUY_GOODS_LIST;
@@ -444,11 +446,19 @@ class goods_controller {
 
 
     /**
-     * 新品推荐
+     * 新品首发
      */
     public static function goods_new() {
-    	ecjia_front::$controller->assign_title('新品推荐');
+    	ecjia_front::$controller->assign_title('新品首发');
     	ecjia_front::$controller->display('goods_new.dwt');
+    }
+
+	/**
+     * 店长推荐
+     */
+    public static function goods_best() {
+    	ecjia_front::$controller->assign_title('店长推荐');
+    	ecjia_front::$controller->display('goods_best.dwt');
     }
 
     /**

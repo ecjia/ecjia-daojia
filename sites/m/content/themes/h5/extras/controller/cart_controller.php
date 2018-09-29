@@ -998,12 +998,12 @@ class cart_controller {
             'city_id' => $_COOKIE['city_id']
    		);
    		
-   		$cart_key = md5($address_id.$rec_id);
+		$cart_key = md5($address_id.$rec_id);
+		$pay_code = $_SESSION['cart'][$cart_key]['data']['payment_list'][$pay_id]['pay_code'];
    		$support_cod = $_SESSION['cart'][$cart_key]['data']['shipping_list'][$shipping_id]['support_cod'];
-   		if (empty($support_cod)) {
+   		if (empty($support_cod) && $pay_code == 'pay_cod') {
    			return ecjia_front::$controller->showmessage('当前配送方式不支持货到付款', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-   		}
-   		
+		}
    		$rs = ecjia_touch_manager::make()->api(ecjia_touch_api::FLOW_DONE)->data($params)->run();
    		if (is_ecjia_error($rs)) {
    			$pjax_url = !empty($_SESSION['order_address_temp']['pjax_url']) ? trim($_SESSION['order_address_temp']['pjax_url']) : RC_Uri::url('cart/index/init');
