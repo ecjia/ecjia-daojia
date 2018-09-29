@@ -98,6 +98,8 @@ return array(
     	'wechat'        => 'wechat',
     	/* 收银台  */
     	'cashier'       => 'cashier',
+    	/* 微信小程序 */
+    	'weapp'         => 'weapp',
     ),
 );
 
