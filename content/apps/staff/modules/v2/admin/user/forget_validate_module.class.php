@@ -50,12 +50,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 忘记密码请求验证
  * @author will
  */
-class forget_validate_module extends api_admin implements api_interface {
+class v2_admin_user_forget_validate_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
 		$this->authadminSession();
-		$ecjia = RC_Loader::load_app_class('api_admin', 'api');
-		$ecjia->passwordSession();
+// 		$ecjia = RC_Loader::load_app_class('api_admin', 'api');
+// 		$ecjia->passwordSession();
 		$code = $this->requestData('code');
 		$type = $this->requestData('type');
 		$time = RC_Time::gmtime() - 6000*3;//三分有效期

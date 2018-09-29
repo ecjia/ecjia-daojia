@@ -105,6 +105,11 @@ class mh_group extends ecjia_merchant
         $this->assign('staff_plus', RC_App::apps_url('statics/images/staff_plus.png', __FILE__));
         $this->assign('staff_edit', RC_App::apps_url('statics/images/staff_edit.png', __FILE__));
 
+        //最大员工数量
+        $merchant_staff_max_number = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->pluck('value');
+		$max = !empty($merchant_staff_max_number) ? $merchant_staff_max_number : ecjia::config('merchant_staff_max_number');
+		$this->assign('max', $max);
+        
         $this->display('staff_customize.dwt');
     }
 

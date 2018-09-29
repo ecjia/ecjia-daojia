@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 忘记密码请求
  * @author will
  */
-class forget_request_module extends api_admin implements api_interface {
+class v2_admin_user_forget_request_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
 		$this->authadminSession();
@@ -160,10 +160,11 @@ class forget_request_module extends api_admin implements api_interface {
 	
 	private function forget_request_admin($admin_username, $type, $type_info) {
 	    if ($type == "email") {
-	        $db = RC_Model::model('user/admin_user_model');
+	        //$db = RC_Model::model('user/admin_user_model');
 	        /* 管理员用户名和邮件地址是否匹配，并取得原密码 */
-	        $admin_info = $db->field('user_id, password')->find(array('user_name' => $admin_username, 'email' => $type_info));
-	
+	        //$admin_info = $db->field('user_id, password')->find(array('user_name' => $admin_username, 'email' => $type_info));
+	    	$admin_info	  = RC_DB::table('admin_user')->select('user_id', 'password')->where('user_name', $admin_username)->where('email', $type_info)->first();
+	    	
 	        if (!empty($admin_info)) {
 	            $code    = rand(111111, 999999);
 	            $content = "[".ecjia::config('shop_name')."]您的管理员账户正在变更账户信息，效验码：".$code."，打死都不能告诉别人哦！唯一热线".ecjia::config('service_phone');

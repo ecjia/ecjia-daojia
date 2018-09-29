@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户 头像上传
  * @author royalwang
  */
-class update_module extends api_admin implements api_interface {
+class v2_admin_user_update_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
     	if ($_SESSION['admin_id' ] <= 0 && $_SESSION['staff_id'] <= 0) {

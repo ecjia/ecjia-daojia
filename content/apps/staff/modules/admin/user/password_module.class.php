@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 管理员修改密码
  * @author will
  */
-class password_module extends api_admin implements api_interface {
+class admin_user_password_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
 		$new_password = $this->requestData('password');
@@ -66,9 +66,11 @@ class password_module extends api_admin implements api_interface {
 			return $result;
 		}
 		
-		$db = RC_Model::model('user/admin_user_model');
+		//$db = RC_Model::model('user/admin_user_model');
+		$db = RC_DB::table('admin_user');
 		/* 以用户的原密码，与code的值匹配 */
-		$name = $db->field('user_name')->where(array('user_id' => $adminid))->find();
+		//$name = $db->field('user_name')->where(array('user_id' => $adminid))->find();
+		$name = $db->where('user_id', $adminid)->pluck('user_name');
 		
 		if ($admin_name == $name) {
 			$result = new ecjia_error('info_error', __('信息错误！'));
@@ -81,8 +83,9 @@ class password_module extends api_admin implements api_interface {
 					'ec_salt'  => $ec_salt
 			);
 		
-			$result = $db->where(array('user_id' => $adminid))->update($data);
-		
+			//$result = $db->where(array('user_id' => $adminid))->update($data);
+			$result	= $db->where('user_id', $adminid)->update($data);
+			
 			if ($result) {
 				$data['data'] = __('密码修改成功!');
 				return $data;

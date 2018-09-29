@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 查询会员信息(返回列表)
  * @author will.chen
  */
-class search_module extends api_admin implements api_interface {
+class admin_user_search_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
 		$this->authadminSession();
