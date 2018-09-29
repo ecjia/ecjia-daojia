@@ -100,10 +100,15 @@
 	    	<div class="control-group formSep">
     			<label class="control-label">{t}门店切换模式：{/t}</label>
     			<div class="controls l_h30">
-    				<input type="radio" name="store_model" value="0" {if $model eq 0 || !$model}checked="true"{/if} />附近门店
-    				<input type="radio" name="store_model" value="1" {if $model eq 1}checked="true"{/if} />单门店
-    				<input type="radio" name="store_model" value="2" {if $model eq 2}checked="true"{/if} />多门店
-    				<span class="help-block">设置门店的切换模式，如选择“单门店”则可设置单独的一家门店，如选择“多门店”则可设置多家门店</span>
+    				<input type="radio" name="store_model" value="0" {if $model eq 0 || !$model}checked{/if} />附近门店
+    				<input type="radio" name="store_model" value="1" {if $model eq 1}checked{/if} />单门店
+    				<input type="radio" name="store_model" value="2" {if $model eq 2}checked{/if} />多门店
+					<input type="radio" name="store_model" value="3" {if $model eq 3}checked{/if} />平台模式
+    				<span class="help-block">
+						设置门店的切换模式，如果选择“单门店”则可设置单独的一家门店<br>
+						如果选择“多门店”则可设置多家门店<br>
+						如果选择“平台模式”，则显示多商户版小程序
+					</span>
     			</div>
     			<div class="controls search" data-url="{url path='store/admin_config/search_store'}">
     				<div class="search_content {if $model neq 1 && $model neq 2}hide{/if}">

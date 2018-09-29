@@ -61,13 +61,12 @@ class store_category {
 	 * @return array
 	 */
 	public static function get_categories_tree($where) {
-		$db_category = RC_Model::model('store/store_category_model');
 		if (!empty($where['cat_id']) && is_array($where['cat_id'])) {
 			foreach ($where['cat_id'] as $val) {
 				if ($val > 0) {
-					$where['cat_id'] = $val;
-					$parent = $db_category->join('store_category')->where($where)->get_field('parent_id');
-					$parent_id = $parent['parent_id'];
+					$db = RC_DB::table('store_category')->where('cat_id', $val);
+					$parent = $db->pluck('parent_id');
+					$parent_id = $parent;
 				} else {
 					$parent_id = 0;
 				}
@@ -79,12 +78,12 @@ class store_category {
 		 * 如果是取出底级分类上级分类，
 		 * 如果不是取当前分类及其下的子分类
 		 */
-
-		$count = $db_category->where(array('parent_id' => $parent_id, 'is_show' => 1))->count('cat_id');
-
+		//$count = $db_category->where(array('parent_id' => $parent_id, 'is_show' => 1))->count('cat_id');
+		$count = RC_DB::table('store_category')->where('parent_id', $parent_id)->where('is_show', 1)->count();
 		if ($count || $parent_id == 0) {
 			/* 获取当前分类及其子分类 */
-			$res = $db_category->join('store_category')->field('cat_id, cat_name, parent_id, is_show')->where(array('parent_id' => $parent_id, 'is_show' => 1))->order(array('sort_order'=>'asc','cat_id'=> 'asc'))->select();
+			//$res = $db_category->join('store_category')->field('cat_id, cat_name, parent_id, is_show')->where(array('parent_id' => $parent_id, 'is_show' => 1))->order(array('sort_order'=>'asc','cat_id'=> 'asc'))->select();
+			$res = RC_DB::table('store_category')->where('parent_id', $parent_id)->where('is_show', 1)->select('cat_id', 'cat_name', 'parent_id', 'is_show')->orderBy('sort_order', 'asc')->orderBy('cat_id', 'asc')->get();
 			foreach ( $res as $row ) {
 				if ($row ['is_show']) {
     				$cat_arr [$row ['cat_id']] ['id'] = $row ['cat_id'];
@@ -101,14 +100,12 @@ class store_category {
 	}
 
 	public static function get_child_tree($tree_id = 0, $geohash = '') {
-		$db_category = RC_Model::model('store/store_category_model');
 		$three_arr = array ();
 
-		$count = $db_category->join('store_category')->where(array('parent_id' => $tree_id, 'is_show' => 1))->count('cat_id');
+		$count = RC_DB::table('store_category')->where('parent_id', $tree_id)->where('is_show', 1)->count('cat_id');
 		if ($count > 0 || $tree_id == 0) {
 
-			$res = $db_category->field('cat_id, cat_name , parent_id, is_show')->where(array('parent_id' => $tree_id, 'is_show' => 1))->order(array('sort_order' => 'asc', 'cat_id' => 'asc'))->select();
-
+			$res = RC_DB::table('store_category')->where('parent_id', $tree_id)->where('is_show', 1)->select('cat_id', 'cat_name', 'parent_id', 'is_show')->orderBy('sort_order', 'asc')->orderBy('cat_id', 'asc')->get();
 			foreach ( $res as $row ) {
 				if ($row ['is_show'])
 				$three_arr [$row ['cat_id']] ['id'] = $row ['cat_id'];

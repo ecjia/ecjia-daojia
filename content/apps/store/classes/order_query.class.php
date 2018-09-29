@@ -218,7 +218,7 @@ class order_query extends order {
     	$db_order 	= RC_Loader::load_app_model('order_info_model','orders');
 	    $dbview 	= RC_Loader::load_app_model('order_order_info_viewmodel','orders');
 	    //$db_admin 	= RC_Loader::load_model('admin_user_model');
-		$db_admin 	= RC_Model::model('admin_user_model');
+		//$db_admin 	= RC_Model::model('admin_user_model');
 	    $args = $_GET;
 
         /* 过滤信息 */

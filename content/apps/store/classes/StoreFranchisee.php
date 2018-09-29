@@ -44,14 +44,98 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Store;
 
-class collect_store_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'collect_store';
-		parent::__construct();
-	}
+use RC_DB;
+use RC_Time;
+use ecjia;
+use RC_Api;
+use RC_Logger;
+use ecjia_page;
+use RC_Lang;
+
+/**
+ * 店铺信息
+ *
+ */
+class StoreFranchisee
+{
+	
+    /**
+     * 获取店铺信息 
+     * @param array $options
+     * @return array
+     */
+    public static function StoreFranchiseeInfo($options) {
+    	$dbview = RC_DB::table('store_franchisee as sf')->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'));
+    	if (isset($options['status'])) {
+    		$dbview->where(RC_DB::raw('sf.status'), $options['status']);
+    	}
+    	if (isset($options['store_id'])) {
+    		$dbview->where(RC_DB::raw('sf.store_id'), $options['store_id']);
+    	}
+    	$info = $dbview->select(RC_DB::raw($options['field']))->first();
+    	return $info;
+    }
+    
+    /**
+     * 获取店铺营业时间（格式化）
+     * @param int $store_id
+     * @return string
+     */
+    public static function GetStoreTradetime($store_id = 0) {
+    	if (empty($store_id)) {
+    		$store_id = $_SESSION['store_id'];
+    	}
+    	if (empty($store_id)) {
+    		return false;
+    	}
+    
+    	$trade_time = self::GetMerchantConfig('shop_trade_time', '', $store_id);
+    	if (empty($trade_time)) {
+    		return '暂未设置';
+    	}
+    	$trade_time = unserialize($trade_time);
+    	if (empty($trade_time)) {
+    		return '暂未设置';
+    	}
+    	$sart_time = $trade_time['start'];
+    	$end_time = explode(':', $trade_time['end']);
+    	if ($end_time[0] >= 24) {
+    		$end_time[0] = '次日'. ($end_time[0] - 24);
+    	}
+    
+    	return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
+    }
+    
+    /**
+     * 获取店铺配置信息
+     * @param string $code
+     * @param string or array $arr
+     * @param int $store_id
+     * @return array or string
+     */
+    public static function GetMerchantConfig($code = '', $arr = '', $store_id = 0)
+    {
+    	if (empty($store_id)) {
+    		$store_id = $_SESSION['store_id'];
+    	}
+    	if (empty($store_id)) {
+    		return array();
+    	}
+    	if (empty($code)) {
+    		if (is_array($arr)) {
+    			$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->select('code', 'value')->get();
+    			foreach ($config as $key => $value) {
+    				$arr[$value['code']] = $value['value'];
+    			}
+    			return $arr;
+    		} else {
+    			return;
+    		}
+    	} else {
+    		$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', $code)->pluck('value');
+    		return $config;
+    	}
+    }
 }
-
-// end

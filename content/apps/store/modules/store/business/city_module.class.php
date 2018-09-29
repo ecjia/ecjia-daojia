@@ -46,38 +46,34 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class order_info_viewmodel extends Component_Model_View {
-	public $table_name = '';
-	public $view = array();
-	public function __construct() {
-		$this->table_name = 'order_info';
-		$this->table_alias_name = 'o';
+/**
+ * 经营城市列表
+ * @author zrl
+ */
+class store_business_city_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+
+		$db = RC_DB::table('store_business_city');
 		
-		$this->view =array(
-			'users' => array(
-					'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-					'alias' => 'u',
-					'on'    => 'u.user_id=o.user_id'
-			),
-			'order_goods' => array( 
-					'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-					'alias' => 'og',
-					'field' => '',
-					'on'    => 'o.order_id = og.order_id'				
-			),
-			'goods' => array(
-					'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-					'alias' => 'g',
-					'on'    => 'og.goods_id=g.goods_id'
-			),
-// 			'order_info' => array(
-// 					'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-// 					'alias' => 'oi2',
-// 					'on'    => 'oi2.main_order_id = o.order_id'
-// 			)
-		);
+		$business_city_list = array();
+		$business_city_list = $db->select('*')->orderBy('index_letter', 'asc')->get();
 		
-		parent::__construct();
+		if (!empty($business_city_list)) {
+			foreach ($business_city_list as $key => $val) {
+				if (!empty($val['business_district'])) {
+					$business_district = explode(',', $val['business_district']);
+					foreach ($business_district as $res) {
+						$district_name = ecjia_region::getRegionName($res);
+						$business_city_list[$key]['business_district_list'][] = array('district_id' => $res, 'district_name' => $district_name);
+					}
+				} else {
+					$business_city_list[$key]['business_district_list'] = array();
+				}
+			}
+		}
+		
+		return array('data' => $business_city_list);
+		
 	}
 }
 

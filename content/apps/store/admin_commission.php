@@ -80,19 +80,19 @@ class admin_commission extends ecjia_admin {
 	/**
 	 * 订单佣金结算页面
 	 */
-	public function init() {
-		$this->admin_priv('store_commission_manage');
+	//public function init() {
+	//	$this->admin_priv('store_commission_manage');
 
-		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('佣金结算')));
+	//	ecjia_screen::get_current_screen()->remove_last_nav_here();
+	//	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('佣金结算')));
 
-		$this->assign('ur_here', __('佣金结算'));
+	//	$this->assign('ur_here', __('佣金结算'));
 
-		$commission_list = $this->store_commission_list();
-		$this->assign('commission_list',$commission_list);
+	//	$commission_list = $this->store_commission_list();
+	//	$this->assign('commission_list',$commission_list);
 
-		$this->display('store_commission_list.dwt');
-	}
+	//	$this->display('store_commission_list.dwt');
+	//}
 
 	/**
 	 * 设置佣金
@@ -434,41 +434,41 @@ class admin_commission extends ecjia_admin {
 	/**
 	 *  获取商家佣金列表
 	 */
-	private function store_commission_list() {
-		$filter['sort_by'] = empty($_GET['sort_by']) ?  RC_DB::raw('sc.id') : trim($_GET['sort_by']);
-		$filter['sort_order'] = empty($_GET['sort_order']) ? 'ASC' : trim($_GET['sort_order']);
+	//private function store_commission_list() {
+	//	$filter['sort_by'] = empty($_GET['sort_by']) ?  RC_DB::raw('sc.id') : trim($_GET['sort_by']);
+	//	$filter['sort_order'] = empty($_GET['sort_order']) ? 'ASC' : trim($_GET['sort_order']);
 
-		$count = RC_DB::table('store_commission')->count();
-		$page = new ecjia_page($count,10,5);
+	//	$count = RC_DB::table('store_commission')->count();
+	//	$page = new ecjia_page($count,10,5);
 
-		$dbview = RC_DB::table('store_commission as sc')
-				 ->leftJoin('store_franchisee as sf', RC_DB::raw('sc.store_id'), '=', RC_DB::raw('sf.store_id'))
-				 ->leftJoin('store_percent as sp', RC_DB::raw('sc.percent_id'), '=', RC_DB::raw('sp.percent_id'));
+	//	$dbview = RC_DB::table('store_commission as sc')
+	//			 ->leftJoin('store_franchisee as sf', RC_DB::raw('sc.store_id'), '=', RC_DB::raw('sf.store_id'))
+	//			 ->leftJoin('store_percent as sp', RC_DB::raw('sc.percent_id'), '=', RC_DB::raw('sp.percent_id'));
 
-		$data =  $dbview
-		         ->select(RC_DB::raw('sf.merchants_name, sf.contact_mobile, sf.store_id, sc.percent_id, sp.percent_value, sc.id'))
-				 ->orderBy($filter['sort_by'], $filter['sort_order'])
-				 ->groupBy(RC_DB::raw('sc.store_id'))
-        		 ->take(10)
-        		 ->skip($page->start_id-1)
-        		 ->get();
+	//	$data =  $dbview
+	//	         ->select(RC_DB::raw('sf.merchants_name, sf.contact_mobile, sf.store_id, sc.percent_id, sp.percent_value, sc.id'))
+	//			 ->orderBy($filter['sort_by'], $filter['sort_order'])
+	//			 ->groupBy(RC_DB::raw('sc.store_id'))
+    //    		 ->take(10)
+    //    		 ->skip($page->start_id-1)
+    //    		 ->get();
 
-		if (!empty($data)) {
-			foreach ($data as $key => $val) {
-				//$valid = $this->get_nerchants_order_valid_refund($val['user_id']); //订单有效总额
-				$valid = $this->get_nerchants_order_valid_refund($val['store_id']);//订单有效总额
-				$data[$key]['order_valid_total'] = price_format($valid['total_fee']);
+	//	if (!empty($data)) {
+	//		foreach ($data as $key => $val) {
+	//			//$valid = $this->get_nerchants_order_valid_refund($val['user_id']); //订单有效总额
+	//			$valid = $this->get_nerchants_order_valid_refund($val['store_id']);//订单有效总额
+	//			$data[$key]['order_valid_total'] = price_format($valid['total_fee']);
 
 				//$data[$key]['percent_value'] = $this->mpdb->where(array('percent_id'=>$val['suppliers_percent']))->get_field('percent_value');
 
-				$refund = $this->get_nerchants_order_valid_refund($val['store_id'], 1); //订单退款总额
-				$data[$key]['order_refund_total'] = price_format($refund['total_fee']);
-			}
-		}
+	//			$refund = $this->get_nerchants_order_valid_refund($val['store_id'], 1); //订单退款总额
+	//			$data[$key]['order_refund_total'] = price_format($refund['total_fee']);
+	//		}
+	//	}
 
-		$arr = array('item' => $data, 'filter'=>$filter,'page' => $page->show(2), 'desc' => $page->page_desc(), 'current_page' => $page->current_page);
-		return $arr;
-	}
+	//	$arr = array('item' => $data, 'filter'=>$filter,'page' => $page->show(2), 'desc' => $page->page_desc(), 'current_page' => $page->current_page);
+	//	return $arr;
+	//}
 
 	//佣金百分比
 	private function get_suppliers_percent() {
@@ -480,44 +480,44 @@ class admin_commission extends ecjia_admin {
 		return $res;
 	}
 	//获取列表商家
-	private function get_merchants_user_list() {
-		$msidb = RC_Loader::load_app_model('merchants_shop_information_model','seller');
-		$res = $msidb->select();
-		$arr = array();
-		if (!empty($res)) {
-			foreach ($res as $key=>$row) {
-				$arr[$key] = $row;
-				$data = array('user_name');
-				$user_name = get_table_date('users', "user_id = '" .$row['user_id']. "'", $data, 2);
-				$arr[$key]['user_name'] = $user_name;
-			}
-		}
-		return $arr;
-	}
+	//private function get_merchants_user_list() {
+	//	$msidb = RC_Loader::load_app_model('merchants_shop_information_model','seller');
+	//	$res = $msidb->select();
+	//	$arr = array();
+	//	if (!empty($res)) {
+	//		foreach ($res as $key=>$row) {
+	//			$arr[$key] = $row;
+	//			$data = array('user_name');
+	//			$user_name = get_table_date('users', "user_id = '" .$row['user_id']. "'", $data, 2);
+	//			$arr[$key]['user_name'] = $user_name;
+	//		}
+	//	}
+	//	return $arr;
+	//}
 
 
 	//商家订单有效金额和退款金额
-	private function get_nerchants_order_valid_refund($store_id, $type = 0) {
+	//private function get_nerchants_order_valid_refund($store_id, $type = 0) {
 
-		$where =array();
-		if ($type == 1) {
-			$where = array(
-					'o.order_status'		=> OS_RETURNED,
-					'o.shipping_status'		=> SS_UNSHIPPED,
-					'o.pay_status'			=> PS_UNPAYED
-			);
-		} else {
-			$order_query = RC_Loader::load_app_class('order_query', 'store');
-			$where = $order_query->order_finished('o.');
-		}
-		$total_fee  = "SUM(" . order_amount_field('o.', $store_id) . ") AS total_fee ";
-		$order_info = RC_Loader::load_app_model('order_info_viewmodel', 'store');
+	//	$where =array();
+	//	if ($type == 1) {
+	//		$where = array(
+	//				'o.order_status'		=> OS_RETURNED,
+	//				'o.shipping_status'		=> SS_UNSHIPPED,
+	//				'o.pay_status'			=> PS_UNPAYED
+	//		);
+	//	} else {
+	//		$order_query = RC_Loader::load_app_class('order_query', 'store');
+	//		$where = $order_query->order_finished('o.');
+	//	}
+	//	$total_fee  = "SUM(" . order_amount_field('o.', $store_id) . ") AS total_fee ";
+	//	$order_info = RC_Loader::load_app_model('order_info_viewmodel', 'store');
 
-		$where = array_merge($where, array('store_id' => $store_id));
+	//	$where = array_merge($where, array('store_id' => $store_id));
 
-		$res   = $order_info->join(array('order_goods', 'order_info'))->field($total_fee)->where($where)->group('o.order_id')->find();
-		return $res;
-	}
+	//	$res   = $order_info->join(array('order_goods', 'order_info'))->field($total_fee)->where($where)->group('o.order_id')->find();
+	//	return $res;
+	//}
 
 	/**
 	 * 生成查询订单的sql

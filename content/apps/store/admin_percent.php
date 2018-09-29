@@ -258,15 +258,17 @@ class admin_percent extends ecjia_admin {
 		
 		$data = RC_DB::table('store_percent')
 				->orderBy($filter['sort_by'], $filter['sort_order'])
-				->limit($page->limit($page->limit()))
+				->take($page->page_size)
+				->skip($page->start_id - 1)
 				->get();
+		
 		if (!empty($data)) {
 			foreach ($data as $k => $v) {
 				$data[$k]['add_time'] = RC_Time::local_date('Y-m-d',$v['add_time']);
 			}
 		}
 		
-		return array('item' => $data, 'filter'=>$filter, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'current_page' => $page->current_page);
+		return array('item' => $data, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'current_page' => $page->current_page);
 	}
 }
 

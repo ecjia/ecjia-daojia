@@ -844,7 +844,6 @@ function integral_to_give($order) {
 */
 function send_order_bonus($order_id) {
 	RC_Loader::load_app_func('global', 'goods');
-	$db		=  RC_Loader::load_app_model('user_bonus_model', 'bonus');
 	$dbview	=  RC_Loader::load_app_model('order_info_viewmodel', 'orders');
 	/* 取得订单应该发放的红包 */
 	$bonus_list = order_bonus($order_id);
@@ -876,8 +875,9 @@ function send_order_bonus($order_id) {
 				);
 
 			for ($i = 0; $i < $bonus['number']; $i++) {
-				if(!$db->insert($data)) {
-					return $db->errorMsg();
+				if(!RC_DB::table('user_bonus')->insert($data)) {
+					//return $db->errorMsg();
+					return false;
 				}
 			}
 		}
@@ -905,7 +905,6 @@ function send_order_bonus($order_id) {
 * @param   int	 $order_id   订单id
 */
 function return_order_bonus($order_id) {
-	$db	=  RC_Loader::load_app_model('user_bonus_model','bonus');
 	/* 取得订单应该发放的红包 */
 	$bonus_list = order_bonus($order_id);
 
@@ -915,7 +914,8 @@ function return_order_bonus($order_id) {
 		$order = order_info($order_id);
 		$user_id = $order['user_id'];
 		foreach ($bonus_list AS $bonus) {
-			$db->where(array('bonus_type_id' => $bonus[type_id] , 'user_id' => $user_id , 'order_id' => 0))->limit($bonus['number'])->delete();
+			//$db->where(array('bonus_type_id' => $bonus[type_id] , 'user_id' => $user_id , 'order_id' => 0))->limit($bonus['number'])->delete();
+			RC_DB::table('user_bonus')->where('bonus_type_id', $bonus[type_id])->where('user_id', $user_id)->where('order_id', 0)->take($bonus['number'])->delete();
 		}
 	}
 }
@@ -926,7 +926,7 @@ function return_order_bonus($order_id) {
 * @return  array
 */
 function order_bonus($order_id) {
-	$db_bonus_type	= RC_Loader::load_app_model('bonus_type_model','bonus');
+	//$db_bonus_type	= RC_Loader::load_app_model('bonus_type_model','bonus');
 	$db_order_info	= RC_Loader::load_app_model('order_info_model','orders');
 	$dbview			= RC_Loader::load_app_model('order_order_goods_viewmodel','orders');
 
@@ -967,7 +967,13 @@ function order_bonus($order_id) {
 	/* 查询订单日期 */
 	$order_time = $db_order_info->where(array('order_id' => $order_id))->get_field('add_time');
 	/* 查询按订单发的红包 */
-	$data = $db_bonus_type->field('type_id, type_money, IFNULL(FLOOR('.$amount.' / min_amount), 1)|number')->where(array('send_type' => SEND_BY_ORDER , 'send_start_date' => array('elt' => $order_time) ,  'send_end_date' => array('egt' => $order_time)))->select();
+	//$data = $db_bonus_type->field('type_id, type_money, IFNULL(FLOOR('.$amount.' / min_amount), 1)|number')->where(array('send_type' => SEND_BY_ORDER , 'send_start_date' => array('elt' => $order_time) ,  'send_end_date' => array('egt' => $order_time)))->select();
+	$data = RC_DB::table('bonus_type')
+				->select('type_id', 'type_money', RC_DB::raw('IFNULL(FLOOR(' . $amount . ' / min_amount), 1) as number'))
+				->where('send_type', SEND_BY_ORDER)
+				->where('send_start_date', '<=', $order_time)
+				->where('send_end_date', '<=', $order_time)
+				->get();
 	$list = array_merge($list, $data);
 	return $list;
 }
@@ -1194,7 +1200,7 @@ function judge_package_stock($package_id, $package_num = 1) {
  */
 function get_order_detail ($order_id, $user_id = 0)
 {
-    $db         = RC_Loader::load_app_model('shipping_model', 'shipping');
+    //$db         = RC_Loader::load_app_model('shipping_model', 'shipping');
     $dbview     = RC_Loader::load_app_model('package_goods_viewmodel', 'goods');
     $pay_method = RC_Loader::load_app_class('payment_method', 'payment');
 
@@ -1213,8 +1219,8 @@ function get_order_detail ($order_id, $user_id = 0)
 
     /* 对发货号处理 */
     if (! empty($order['invoice_no'])) {
-        $shipping_code = $db->field('shipping_code')->find('shipping_id = ' . $order[shipping_id] . '');
-        $shipping_code = $shipping_code['shipping_code'];
+        //$shipping_code = $db->field('shipping_code')->find('shipping_id = ' . $order[shipping_id] . '');
+    	$shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
     }
 
     /* 只有未确认才允许用户修改订单地址 */

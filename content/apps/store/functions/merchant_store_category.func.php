@@ -110,8 +110,6 @@ function cat_update($cat_id, $args) {
  */
 function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_show_all = true) {
 	// 加载方法
-	//$db_shopinfo = RC_Loader::load_app_model('seller_shopinfo_model', 'seller');
-	//$db_category = RC_Loader::load_app_model('seller_category_viewmodel', 'seller');
 	$db_store_franchisee = RC_DB::table('store_franchisee');
 	$db_store_category = RC_DB::table('store_category as c')
 						->leftJoin('store_category as s', RC_DB::raw('s.parent_id'), '=', RC_DB::raw('c.cat_id'));
