@@ -44,9 +44,12 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Wechat;
 
-class wechat_request_times
+use RC_Time;
+use RC_DB;
+
+class WechatRequestTimes
 {
 
     protected $wechat_id;
@@ -59,7 +62,7 @@ class wechat_request_times
     public function record($api_name)
     {
         $day = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
-        $row = RC_DB::table('wechat_request_times')->where('wechat_id', $wechat_id)->where('day', $day)->where('api_name', $api_name)->first();
+        $row = RC_DB::table('wechat_request_times')->where('wechat_id', $this->wechat_id)->where('day', $day)->where('api_name', $api_name)->first();
         if (empty($row)) {
             $data = array(
                 'wechat_id' => $this->wechat_id,
@@ -79,5 +82,3 @@ class wechat_request_times
     }
 
 }
-
-// end

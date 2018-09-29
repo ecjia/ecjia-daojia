@@ -620,11 +620,11 @@ class platform_subscribe extends ecjia_platform
                 $tag_list = RC_DB::table('wechat_user_tag')->where('userid', $info['uid'])->lists('tagid');
 
                 $name_list = RC_DB::table('wechat_tag')
-                    ->where('tag_id', $tag_list)
+                    ->whereIn('tag_id', $tag_list)
                     ->where('wechat_id', $wechat_id)
                     ->orderBy('tag_id', 'desc')
                     ->lists('name');
-
+                    
                 if (!empty($name_list)) {
                     $info['tag_name'] = implode('，', $name_list);
                 }

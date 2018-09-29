@@ -131,14 +131,14 @@ return array(
 	'authorize_failure'     => '登录授权失败，请换其他方式登录',
 	
 	//客服管理
-	'customer'					=> '多客服账号',
-	'customer_list'				=> '多客服账号列表',
+	'customer'					=> '客服账号',
+	'customer_list'				=> '客服账号列表',
 	'add_customer'				=> '添加客服账号',
 	
 	'overview'					=> '概述',
-	'customer_content'			=> '欢迎访问ECJia智能后台多客服账号列表页面，当前公众号的所有客服账号都会显示在此列表中。',
+	'customer_content'			=> '欢迎访问ECJia智能后台客服账号列表页面，当前公众号的所有客服账号都会显示在此列表中。',
 	'more_info'					=> '更多信息：',
-	'customer_help'				=> '关于多客服账号列表帮助文档',
+	'customer_help'				=> '关于客服账号列表帮助文档',
 	
 	'add_platform_first'		=> '请先添加公众号，再进行后续操作',
 	'tag_name_require'			=> '请输入标签名称',
@@ -148,7 +148,7 @@ return array(
 	
 	'up_customer_accounts'		=> '最多添加10个客服账号',
 	'customer_exists'			=> '客服账号已存在',
-	'return_customer_list'		=> '返回多客服账号列表',
+	'return_customer_list'		=> '返回客服账号列表',
 	'continue_add_customer'		=> '继续添加客服账号',
 	'add_customer_success'		=> '添加客服账号成功',
 	'edit_customer'				=> '编辑客服账号',

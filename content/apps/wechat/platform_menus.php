@@ -454,10 +454,10 @@ class platform_menus extends ecjia_platform
                     if ($val['type'] == 'click') {
                         $menu[$key]['key'] = $val['key'];
                     } elseif ($val['type'] == 'view') {
-                        $menu[$key]['url'] = $this->html_out($val['url']);
+                        $menu[$key]['url'] = Ecjia\App\Wechat\Helper::html_out($val['url']);
                     } else {
                         $url_config = unserialize($val['url']);
-                        $menu[$key]['url'] = $this->html_out($url_config['url']);
+                        $menu[$key]['url'] = Ecjia\App\Wechat\Helper::html_out($url_config['url']);
                         $menu[$key]['appid'] = $url_config['appid'];
                         $menu[$key]['pagepath'] = $url_config['pagepath'];
                     }
@@ -469,10 +469,10 @@ class platform_menus extends ecjia_platform
                         if ($v['type'] == 'click') {
                             $menu[$key]['sub_button'][$k]['key'] = $v['key'];
                         } elseif ($v['type'] == 'view') {
-                            $menu[$key]['sub_button'][$k]['url'] = $this->html_out($v['url']);
+                            $menu[$key]['sub_button'][$k]['url'] = Ecjia\App\Wechat\Helper::html_out($v['url']);
                         } else {
                             $child_url = unserialize($v['url']);
-                            $menu[$key]['sub_button'][$k]['url'] = $this->html_out($child_url['url']);
+                            $menu[$key]['sub_button'][$k]['url'] = Ecjia\App\Wechat\Helper::html_out($child_url['url']);
                             $menu[$key]['sub_button'][$k]['appid'] = $child_url['appid'];
                             $menu[$key]['sub_button'][$k]['pagepath'] = $child_url['pagepath'];
                         }
@@ -861,21 +861,6 @@ class platform_menus extends ecjia_platform
         return $list;
     }
 
-    /**
-     * html代码输出
-     * @param unknown $str
-     * @return string
-     */
-    private function html_out($str)
-    {
-        if (function_exists('htmlspecialchars_decode')) {
-            $str = htmlspecialchars_decode($str);
-        } else {
-            $str = html_entity_decode($str);
-        }
-        $str = stripslashes($str);
-        return $str;
-    }
 }
 
 //end

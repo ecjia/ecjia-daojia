@@ -54,7 +54,9 @@ class wechat_platform_menu_api extends Component_Event_Api
 
     public function call(&$options)
     {
-        $menus = ecjia_platform::make_admin_menu('staff', '仪表盘', RC_Uri::url('platform/dashboard/init'), 0)->add_icon('icon-home')->add_base('dashboard');
+        if (ecjia_platform::$controller->getPlatformAccount()->getPlatform() != 'wechat') {
+            return null;
+        }
 
         $extend_menus = ecjia_admin::make_admin_menu('01_wechat_extend', RC_Lang::get('wechat::wechat.extend_manage'), RC_Uri::url('platform/platform_extend/init'), 1)->add_icon('icon-puzzle')->add_purview('platform_extend_manage');
 
@@ -111,7 +113,6 @@ class wechat_platform_menu_api extends Component_Event_Api
         );
 
         return array(
-            $menus,
             $extend_menus,
             $command_menus,
             $message_manage,
@@ -119,7 +120,6 @@ class wechat_platform_menu_api extends Component_Event_Api
             $usermenus,
             $custom_menu,
             $material_manage,
-            $prize_menus,
             $replymenus,
             $kefumenus,
             $tgmenus,

@@ -159,6 +159,10 @@ class WechatMessageHandler
         }
         
         $wechat_id = with(new WechatUUID())->getWechatID();
+        $rule_keywords  = $message->get('Content');
+
+        //用户输入信息记录
+        WechatRecord::inputMsg($message->get('FromUserName'), $rule_keywords);
         
         $data = WechatReplyModel::select('reply_type', 'content', 'media_id')
                                 ->where('wechat_id', $wechat_id)->where('type', 'msg')->first();

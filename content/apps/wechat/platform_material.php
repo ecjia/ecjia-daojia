@@ -1458,9 +1458,9 @@ class platform_material extends ecjia_platform
                     $item->file = RC_Upload::upload_url($item->file);
                 }
             }
-            $content = !empty($item->digest) ? strip_tags(html_out($item->digest)) : strip_tags(html_out($item->content));
+            $content = !empty($item->digest) ? strip_tags(Ecjia\App\Wechat\Helper::html_out($item->digest)) : strip_tags(Ecjia\App\Wechat\Helper::html_out($item->content));
             if (strlen($content) > 100) {
-                $item->content = msubstr($content, 100);
+                $item->content = Ecjia\App\Wechat\Helper::msubstr($content, 100);
             } else {
                 $item->content = $content;
             }
@@ -1601,10 +1601,10 @@ class platform_material extends ecjia_platform
 
             }
 
-            $content = !empty($item->digest) ? strip_tags(html_out($item->digest)) : strip_tags(html_out($item->content));
+            $content = !empty($item->digest) ? strip_tags(Ecjia\App\Wechat\Helper::html_out($item->digest)) : strip_tags(Ecjia\App\Wechat\Helper::html_out($item->content));
 
             if (strlen($content) > 100) {
-                $item->content = msubstr($content, 100);
+                $item->content = Ecjia\App\Wechat\Helper::msubstr($content, 100);
             } else {
                 $item->content = $content;
             }
@@ -1657,7 +1657,7 @@ class platform_material extends ecjia_platform
     private function uploadMassMessageContentImages($wechat, $content)
     {
 
-        $content = html_out($content);
+        $content = Ecjia\App\Wechat\Helper::html_out($content);
         $pattern = "/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png|\.bmp|\.jpeg]))[\'|\"].*?[\/]?>/";
         preg_match_all($pattern, $content, $match);
 

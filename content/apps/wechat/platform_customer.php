@@ -79,7 +79,7 @@ class platform_customer extends ecjia_platform
     }
 
     /**
-     * 多客服账号列表
+     * 客服账号列表
      */
     public function init()
     {
