@@ -51,12 +51,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author songqian
  */
 class admin extends ecjia_admin {
-	private $db_mail;
 	
 	public function __construct() {
 		parent::__construct();
 		
-		$this->db_mail = RC_Model::model('mail/mail_templates_model');
 		
 		Ecjia\App\Mail\Helper::assign_adminlog_content();
 		
@@ -97,7 +95,8 @@ class admin extends ecjia_admin {
 		$this->assign('ur_here', RC_Lang::get('mail::mail_template.mail_template'));
 		
 		$cur = null;
-		$data = $this->db_mail->mail_templates_select('template', array('template_id', 'template_code'));
+		//$data = $this->db_mail->mail_templates_select('template', array('template_id', 'template_code'));
+		$data 	= Ecjia\App\Mail\MailTeplates::MailTemplatesSelect('template', array('template_id', 'template_code'));
 
 		$data or $data = array();
 		foreach ($data as $key => $row) {
@@ -133,8 +132,10 @@ class admin extends ecjia_admin {
 		
 		$tpl 		= safe_replace($_GET['tpl']);
 		$mail_type 	= isset($_GET['mail_type']) ? $_GET['mail_type'] : -1;
-		$content 	= $this->db_mail->load_template($tpl);
+		//$content 	= $this->db_mail->load_template($tpl);
 		
+		$content 	= Ecjia\App\Mail\MailTeplates::LoadTemplate($tpl);
+
 		if ($content === NULL || empty($tpl)) {
 			return $this->showmessage(RC_Lang::get('mail::mail_template.template_not_exist'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('system::system.back'), 'href' => 'javascript:window.history.back(-1);'))));
 		}
@@ -184,8 +185,11 @@ class admin extends ecjia_admin {
 			'is_html'          => $type,
 			'last_modify'      => RC_Time::gmtime()
 		);
+		//$this->db_mail->mail_templates_update($tpl_code, $data);
 
-	    if ($this->db_mail->mail_templates_update($tpl_code, $data)) {
+		$update = Ecjia\App\Mail\MailTeplates::MailTemplatesUpdate($tpl_code, $data);
+		
+	    if ($update) {
 			//todo 语言包方法待确认
 			ecjia_admin::admin_log(RC_Lang::lang($tpl_code), 'edit', 'email_template');
 			return $this->showmessage(RC_Lang::get('mail::mail_template.update_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -205,7 +209,8 @@ class admin extends ecjia_admin {
 		$tpl       = safe_replace($_GET['tpl']);
 		$mail_type = isset($_GET['mail_type']) ? $_GET['mail_type'] : -1;
 	
-		$content   = $this->db_mail->load_template($tpl);
+		//$content   = $this->db_mail->load_template($tpl);
+		$content 	 = Ecjia\App\Mail\MailTeplates::LoadTemplate($tpl);
 
 		//todo 语言包方法待确认
 		$content['template_name'] = RC_Lang::lang($tpl) . " [$tpl]";

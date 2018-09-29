@@ -44,45 +44,69 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Mail;
 
-class mail_templates_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name	= 'mail_templates';
-		parent::__construct();
-	}
+use RC_DB;
+use RC_Time;
+use ecjia;
+use RC_Api;
+use RC_Logger;
+use ecjia_page;
+use RC_Lang;
 
-	/**
-	 * 加载指定的模板内容
-	 *
-	 * @access  public
-	 * @param   string  $temp   邮件模板的ID
-	 * @return  array
-	 */
-	public function load_template($tpl) {
-		return RC_DB::table('mail_templates')
-			->where('template_code', $tpl)
-			->select('template_subject', 'template_content', 'is_html')
-			->first();
-	}
+/**
+ * 邮件模板管理
+ *
+ */
+class MailTeplates
+{
 	
-	public function mail_templates_find($id) {
-		return RC_DB::table('mail_templates')->where('template_id', $id)->first();
-	}
-	
-	public function mail_templates_select($where, $field='*') {
-		return RC_DB::table('mail_templates')
-			->where('type', $where)
-			->select($field)
-			->get();
-	}
-	
-	public function mail_templates_update($where, $data) {
-		return RC_DB::table('mail_templates')
-			->where('template_code', $where)
-			->update($data);
-	}
+    /**
+     * 获取邮件模板信息 
+     * @param int $id
+     * @return array
+     */
+    public static function MailTemplatesInfo($id) {
+        return RC_DB::table('mail_templates')->where('template_id', $id)->first();
+    }
+
+    /**
+     * 获取某种类型的邮件模板列表 
+     * @param  string $where
+     * @param string $field
+     * @return array
+     */
+    public static function MailTemplatesSelect($where, $field='*') {
+        return RC_DB::table('mail_templates')
+            ->where('type', $where)
+            ->select($field)
+            ->get();
+    }
+    
+    /**
+     * 加载指定的模板内容
+     *
+     * @access  public
+     * @param   string  $temp   邮件模板的ID
+     * @return  array
+     */
+    public static function LoadTemplate($tpl) {
+        return RC_DB::table('mail_templates')
+            ->where('template_code', $tpl)
+            ->select('template_subject', 'template_content', 'is_html')
+            ->first();
+    }
+
+    /**
+     * 指定模板更新
+     *
+     * @access  public
+     * @param   string  $where   
+     * @param   array  $data
+     */
+    public static function MailTemplatesUpdate($where, $data) {
+        return RC_DB::table('mail_templates')
+            ->where('template_code', $where)
+            ->update($data);
+    }
 }
-
-// end

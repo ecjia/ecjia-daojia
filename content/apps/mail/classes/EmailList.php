@@ -44,22 +44,50 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Mail;
+
+use RC_DB;
+use RC_Time;
+use ecjia;
+use RC_Api;
+use RC_Logger;
+use ecjia_page;
+use RC_Lang;
 
 /**
- * 邮件群发应用
+ * 邮件订阅
+ *
  */
-return array(
-	'identifier'  => 'ecjia.mail',
-	'directory'   => 'mail',
-	'name'		  => 'mail',
-	'description' => 'mail_desc',
-	'author' 	  => 'ECJIA TEAM',
-	'website' 	  => 'http://www.ecjia.com',
-	'version' 	  => '1.20.0',
-	'copyright'   => 'ECJIA Copyright 2014 ~ 2018.',
-    'namespace'   => 'Ecjia\App\Mail',
-    'provider'    => 'LogviewerServiceProvider',
-);
-
-// end
+class EmailList
+{
+	
+    /**
+     * 获取邮件订阅列表
+     * @param string $stat
+     * @param string $field
+     * @return array
+     */
+	public static function EmailListSelect($stat, $field='*') {
+		return RC_DB::table('email_list')
+			->where('stat', $stat)
+			->select($field)
+			->get();
+	}
+	
+	/**
+	 * 取邮件订阅管理
+	 * @param int or array $ids
+	 * @param sring $type
+	 * @param array $data
+	 */
+	public static function EmailListBatch($ids, $type, $data=array()) {
+		$db_email_list = RC_DB::table('email_list');
+		if ($type == 'select') {
+			return $db_email_list->whereIn('id', $ids)->get();
+		} elseif ($type == 'delete') {
+			return $db_email_list->whereIn('id', $ids)->delete();
+		} elseif ($type == 'update') {
+			return $db_email_list->whereIn('id', $ids)->update($data);
+		}
+	}
+}

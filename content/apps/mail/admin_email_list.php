@@ -51,14 +51,14 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author songqian
  */
 class admin_email_list extends ecjia_admin {
-	private $db_email_list;
+	//private $db_email_list;
 	
 	public function __construct() {
 		parent::__construct();
 		
 		Ecjia\App\Mail\Helper::assign_adminlog_content();
 
-		$this->db_email_list = RC_Model::model('mail/email_list_model');
+		//$this->db_email_list = RC_Model::model('mail/email_list_model');
 		
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
@@ -101,8 +101,9 @@ class admin_email_list extends ecjia_admin {
 	public function export() {
 		$this->admin_priv('email_list_manage', ecjia::MSGTYPE_JSON);
 		
-		$emails = $this->db_email_list->email_list_select(1, 'email');
-
+		//$emails = $this->db_email_list->email_list_select(1, 'email');
+		$emails = Ecjia\App\Mail\EmailSendlist::EmailListSelect(1, 'email');
+		
 		$out = '';
 		if (!empty($emails)) {
 			foreach ($emails as $key => $val) {
@@ -152,12 +153,14 @@ class admin_email_list extends ecjia_admin {
 		$ids = explode(',', $ids);
 		
 		if (!empty($ids)){
-			$info = $this->db_email_list->email_list_batch($ids, 'select');
-
+			//$info = $this->db_email_list->email_list_batch($ids, 'select');
+			$info 	= Ecjia\App\Mail\EmailList::EmailListBatch($ids, 'select');
+			
 			switch ($action) {
 				case 'remove':
-					$this->db_email_list->email_list_batch($ids, 'delete');
-
+					//$this->db_email_list->email_list_batch($ids, 'delete');
+					Ecjia\App\Mail\EmailList::EmailListBatch($ids, 'delete');
+					
 					foreach ($info as $key => $v) {
 						ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::email_list.email_address'), $v['email']).'，'.sprintf(RC_Lang::get('mail::email_list.email_id'), $v['id']), 'batch_remove', 'subscription_email');
 					}
@@ -167,8 +170,9 @@ class admin_email_list extends ecjia_admin {
 	
 				case 'exit' :
 					$data = array('stat' => 2);
-					$update = $this->db_email_list->email_list_batch($ids, 'update', $data);
-
+					//$update = $this->db_email_list->email_list_batch($ids, 'update', $data);
+					$update = Ecjia\App\Mail\EmailList::EmailListBatch($ids, 'update', $data);
+					
 					foreach ($info as $key => $v) {
 						ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::email_list.email_address'), $v['email']).'，'.sprintf(RC_Lang::get('mail::email_list.email_id'), $v['id']), 'batch_exit', 'subscription_email');
 					}
@@ -178,8 +182,9 @@ class admin_email_list extends ecjia_admin {
 	
 				case 'ok' :
 					$data = array('stat' => 1);
-					$update = $this->db_email_list->email_list_batch($ids, 'update', $data);
-
+					//$update = $this->db_email_list->email_list_batch($ids, 'update', $data);
+					$update = Ecjia\App\Mail\EmailList::EmailListBatch($ids, 'update', $data);
+					
 					foreach ($info as $key => $v) {
 						ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::email_list.email_address'), $v['email']).'，'.sprintf(RC_Lang::get('mail::email_list.email_id'), $v['id']), 'batch_ok', 'subscription_email');
 					}

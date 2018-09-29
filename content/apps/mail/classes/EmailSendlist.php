@@ -44,22 +44,73 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Mail;
+
+use RC_DB;
+use RC_Time;
+use ecjia;
+use RC_Api;
+use RC_Logger;
+use ecjia_page;
+use RC_Lang;
 
 /**
- * 邮件群发应用
+ * 邮件队列管理
+ *
  */
-return array(
-	'identifier'  => 'ecjia.mail',
-	'directory'   => 'mail',
-	'name'		  => 'mail',
-	'description' => 'mail_desc',
-	'author' 	  => 'ECJIA TEAM',
-	'website' 	  => 'http://www.ecjia.com',
-	'version' 	  => '1.20.0',
-	'copyright'   => 'ECJIA Copyright 2014 ~ 2018.',
-    'namespace'   => 'Ecjia\App\Mail',
-    'provider'    => 'LogviewerServiceProvider',
-);
-
-// end
+class EmailSendlist
+{
+	
+    /**
+     * 获取邮件队列列表
+     * @param array $order
+     * @param int  $id
+     * @return array
+     */
+	public static function EmailSendlistInfo($id, $order=array()) {
+		$db_email_sendlist = RC_DB::table('email_sendlist');
+		if (!empty($order)) {
+			foreach ($order as $key => $val) {
+				$db_email_sendlist->orderBy($key, $val);
+			}
+		}
+		return $db_email_sendlist->where('id', $id)->first();
+	}
+	
+	/**
+	 * 邮件队列删除
+	 * @param int or array $id
+	 */
+	public static function EmailSendlistDelete($id) {
+		if (is_array($id)) {
+			return RC_DB::table('email_sendlist')->whereIn('id', $id)->delete();
+		} else {
+			return RC_DB::table('email_sendlist')->where('id', $id)->delete();
+		}
+	}
+	
+	/**
+	 * 获取指定的邮件队列
+	 * @param array $ids
+	 * @param array $order
+	 * @return array
+	 */
+	public static function EmailSendlistSelect($ids = array(), $order = array()) {
+		$db_email_sendlist = RC_DB::table('email_sendlist');
+	
+		if (!empty($order)) {
+			foreach ($order as $key => $val) {
+				$db_email_sendlist->orderBy($key, $val);
+			}
+		}
+		if (!empty($ids)) {
+			$db_email_sendlist->whereIn('id', $ids);
+		}
+		return $db_email_sendlist->get();
+	}
+	
+	public static function EmailSendlistUpdate($id, $data) {
+		return RC_DB::table('email_sendlist')->where('id', $id)->update($data);
+	}
+	
+}
