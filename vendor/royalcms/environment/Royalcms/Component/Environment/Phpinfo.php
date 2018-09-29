@@ -14,7 +14,7 @@ class Phpinfo
     
     public function __construct()
     {
-        $this->parse_phpinfo();
+        $this->phpinfo = $this->parse_phpinfo();
     }
     
     public function phpinfo() 
