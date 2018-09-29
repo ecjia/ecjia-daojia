@@ -59,6 +59,7 @@ return array(
     'version' 	  => '1.18.0', 					/* 版本号 */
     'copyright'   => 'ECJIA Copyright 2016 ~ 2018.',
     'namespace'   => 'Ecjia\App\Logviewer',
+    'provider'    => 'LogviewerServiceProvider',
 );
 
 // end
