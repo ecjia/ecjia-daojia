@@ -62,17 +62,29 @@ if (royalcms('request')->query('m') != 'installer') {
  * 加载主题扩展文件
  */
 function load_theme_function() {
-    
     RC_Loader::load_app_func('functions', 'api');
     $app = RC_Config::load_config('site', 'MAIN_APP');
     if ($app) {
         RC_Loader::load_app_func('functions', $app);
+
+        RC_Hook::add_filter('template', function () {
+            $template_code = RC_Hook::apply_filters('ecjia_theme_template_code', 'template');
+            return ecjia::config($template_code);
+        });
+    } else {
+        $request = royalcms('request');
+        if ($request->getBasePath() != '') {
+            RC_Hook::add_filter('template', function () {
+                return config('system.tpl_style');
+            });
+        } else {
+            RC_Hook::add_filter('template', function () {
+                $template_code = RC_Hook::apply_filters('ecjia_theme_template_code', 'template');
+                return ecjia::config($template_code);
+            });
+        }
     }
-    
-    RC_Hook::add_filter('template', function () {
-        $template_code = RC_Hook::apply_filters('ecjia_theme_template_code', 'template');
-    	return ecjia::config($template_code);
-    });
+
     $dir = RC_Theme::get_template_directory();
     if (file_exists($dir . DS . 'functions.php')) {
         include_once $dir . DS . 'functions.php';

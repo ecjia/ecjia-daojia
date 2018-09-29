@@ -102,6 +102,10 @@ class SystemServiceProvider extends AppParentServiceProvider
 
         if ($this->royalcms->environment() == 'local') {
             $this->royalcms->register('Royalcms\Component\Readme\ReadmeServiceProvider');
+
+            if (PHP_VERSION_ID > 70100) {
+                $this->royalcms->register('Royalcms\Component\DumpServer\DumpServerServiceProvider');
+            }
         }
 	}
 	

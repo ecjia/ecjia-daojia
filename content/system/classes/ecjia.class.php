@@ -392,6 +392,5 @@ RC_Hook::add_action('init', array('ecjia', 'init_load'), 1);
 RC_Hook::add_action('init', array('ecjia', 'load_lang'), 3);
 // RC_Hook::add_action('init', array('RC_Cache', 'memory_cache_init'), 1);
 // RC_Hook::add_action('init', array('ecjia_upgrade_db', 'initialization'),1);
-// RC_Hook::add_action('init', array('ecjia_widget', 'widgets_init'), 2);
 
 // end

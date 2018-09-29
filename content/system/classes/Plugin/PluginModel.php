@@ -47,7 +47,7 @@
 namespace Ecjia\System\Plugin;
 
 use Royalcms\Component\Database\Eloquent\Model;
-use Ecjia\System\Facades\PluginManager;
+use Ecjia\System\Facades\PluginManager as Ecjia_PluginManager;
 
 abstract class PluginModel extends Model
 {
@@ -124,9 +124,9 @@ abstract class PluginModel extends Model
         }
         
         $plugins = $this->getInstalledPlugins();
-        PluginManager::addPlugins($plugins);
+        Ecjia_PluginManager::addPlugins($plugins);
         
-        $handler = PluginManager::driver($code);
+        $handler = Ecjia_PluginManager::driver($code);
         $handler->setConfig($config);
 
         return $handler;

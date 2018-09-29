@@ -44,21 +44,23 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+
+use Ecjia\System\Frameworks\Widget\Widget;
 
 /**
  * Navigation Menu widget class
  *
  * @since 3.0.0
  */
-class widget_nav_menu extends ecjia_widget {
+class widget_nav_menu extends Widget
+{
 
-    function __construct() {
+    public function __construct() {
         $widget_ops = array( 'description' => __('添加自定义菜单') );
         parent::__construct( 'nav_menu', __('自定义菜单'), $widget_ops );
     }
 
-    function widget($args, $instance) {
+    public function widget($args, $instance) {
         // Get menu
         $nav_menu =  array(); //! empty( $instance['nav_menu'] ) ? wp_get_nav_menu_object( $instance['nav_menu'] ) : false;
 
@@ -78,13 +80,13 @@ class widget_nav_menu extends ecjia_widget {
         echo $args['after_widget'];
     }
 
-    function update( $new_instance, $old_instance ) {
+    public function update( $new_instance, $old_instance ) {
         $instance['title'] = strip_tags( stripslashes($new_instance['title']) );
         $instance['nav_menu'] = (int) $new_instance['nav_menu'];
         return $instance;
     }
 
-    function form( $instance ) {
+    public function form( $instance ) {
         $title = isset( $instance['title'] ) ? $instance['title'] : '';
         $nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
 
