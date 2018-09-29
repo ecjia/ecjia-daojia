@@ -17,6 +17,7 @@ return array(
     $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
     $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
     $vendorDir . '/symfony/polyfill-php56/bootstrap.php',
+    $vendorDir . '/symfony/polyfill-php72/bootstrap.php',
     $vendorDir . '/paragonie/random_compat/lib/random.php',
     $vendorDir . '/danielstjules/stringy/src/Create.php',
 
