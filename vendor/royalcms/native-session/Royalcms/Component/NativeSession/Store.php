@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Royalcms\Component\Session\StoreInterface;
+use Royalcms\Component\Support\Str;
 
 class Store implements SessionInterface, StoreInterface
 {
@@ -57,18 +58,6 @@ class Store implements SessionInterface, StoreInterface
         return $this->session->getId();
     }
     
-    /**
-     * Get a new, random session ID.
-     *
-     * @return string
-     */
-    protected function generateSessionId()
-    {
-        $sessionId = $this->session->generateSessionId();
-
-        return Hook::apply_filters('rc_session_generate_id', $sessionId);
-    }
-
     /**
      * Returns the session name.
      *
@@ -145,6 +134,40 @@ class Store implements SessionInterface, StoreInterface
     }
 
     /**
+     * Put a key / value pair or array of key / value pairs in the session.
+     *
+     * @param  string|array  $key
+     * @param  mixed       $value
+     * @return void
+     */
+    public function put($key, $value = null)
+    {
+        if (! is_array($key)) {
+            $key = [$key => $value];
+        }
+
+        foreach ($key as $arrayKey => $arrayValue) {
+            $this->set($arrayKey, $arrayValue);
+        }
+    }
+
+    /**
+     * Push a value onto a session array.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return void
+     */
+    public function push($key, $value)
+    {
+        $array = $this->get($key, []);
+
+        $array[] = $value;
+
+        $this->put($key, $array);
+    }
+
+    /**
      * Returns attributes.
      *
      * @return array Attributes
@@ -162,7 +185,7 @@ class Store implements SessionInterface, StoreInterface
      */
     public function exists($name)
     {
-        return $this->session->exists($name);
+        return $this->session->has($name);
     }
 
     /**
@@ -360,6 +383,140 @@ class Store implements SessionInterface, StoreInterface
     public function getHandler()
     {
         return $this->session->getHandler();
+    }
+
+    /**
+     * ====================================
+     * session class compatible
+     * ====================================
+     */
+
+    /**
+     * Age the flash data for the session.
+     *
+     * @return void
+     */
+    public function ageFlashData()
+    {
+        $this->session->forget($this->get('flash.old', []));
+
+        $this->put('flash.old', $this->get('flash.new', []));
+
+        $this->put('flash.new', []);
+    }
+
+    /**
+     * Flash a key / value pair to the session.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return void
+     */
+    public function flash($key, $value)
+    {
+        $this->put($key, $value);
+
+        $this->push('flash.new', $key);
+
+        $this->removeFromOldFlashData([$key]);
+    }
+
+    /**
+     * Flash a key / value pair to the session
+     * for immediate use.
+     *
+     * @param  string $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function now($key, $value)
+    {
+        $this->put($key, $value);
+
+        $this->push('flash.old', $key);
+    }
+
+    /**
+     * Flash an input array to the session.
+     *
+     * @param  array  $value
+     * @return void
+     */
+    public function flashInput(array $value)
+    {
+        $this->flash('_old_input', $value);
+    }
+
+    /**
+     * Reflash all of the session flash data.
+     *
+     * @return void
+     */
+    public function reflash()
+    {
+        $this->mergeNewFlashes($this->get('flash.old', []));
+
+        $this->put('flash.old', []);
+    }
+
+    /**
+     * Reflash a subset of the current flash data.
+     *
+     * @param  array|mixed  $keys
+     * @return void
+     */
+    public function keep($keys = null)
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        $this->mergeNewFlashes($keys);
+
+        $this->removeFromOldFlashData($keys);
+    }
+
+    /**
+     * Merge new flash keys into the new flash array.
+     *
+     * @param  array  $keys
+     * @return void
+     */
+    protected function mergeNewFlashes(array $keys)
+    {
+        $values = array_unique(array_merge($this->get('flash.new', []), $keys));
+
+        $this->put('flash.new', $values);
+    }
+
+    /**
+     * Remove the given keys from the old flash data.
+     *
+     * @param  array  $keys
+     * @return void
+     */
+    protected function removeFromOldFlashData(array $keys)
+    {
+        $this->put('flash.old', array_diff($this->get('flash.old', []), $keys));
+    }
+
+    /**
+     * Regenerate the CSRF token value.
+     *
+     * @return void
+     */
+    public function regenerateToken()
+    {
+        $this->put('_token', Str::random(40));
+    }
+
+    /**
+     * Set the "previous" URL in the session.
+     *
+     * @param  string  $url
+     * @return void
+     */
+    public function setPreviousUrl($url)
+    {
+        $this->put('_previous.url', $url);
     }
 
     /**
