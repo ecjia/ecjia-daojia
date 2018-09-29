@@ -159,7 +159,8 @@ class admin_cycleimage extends ecjia_admin {
     	'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:轮播图管理" target="_blank">关于添加轮播组帮助文档</a>') . '</p>'
     	);
     		
-    	$city_list = $this->get_select_city();
+    	//$city_list = $this->get_select_city();
+        $city_list   = $this->get_business_city();
     	$this->assign('city_list', $city_list);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/admin_cycleimage/insert_group'));
@@ -178,7 +179,7 @@ class admin_cycleimage extends ecjia_admin {
     	$ad_height     = !empty($_POST['ad_height']) ? intval($_POST['ad_height']) : 0;
     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
-    	$city_id       = !empty($_POST['city_id']) ? trim($_POST['city_id']) : '';
+    	$city_id       = !empty($_POST['city_id']) ? trim($_POST['city_id']) : '0';
     	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
@@ -228,7 +229,8 @@ class admin_cycleimage extends ecjia_admin {
     	$this->assign('city_id', $city_id);
     	$this->assign('position_id', $position_id);
     	
-    	$city_list = $this->get_select_city();
+    	//$city_list = $this->get_select_city();
+        $city_list   = $this->get_business_city();
     	$this->assign('city_list', $city_list);
    
     	$data = RC_DB::table('ad_position')->where('position_id', $position_id)->first();
@@ -257,7 +259,7 @@ class admin_cycleimage extends ecjia_admin {
     	$max_number    = !empty($_POST['max_number']) ? intval($_POST['max_number']) : 0;
     	$sort_order    = !empty($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
     	
-    	$city_id       = trim($_POST['city_id']);
+    	$city_id       = isset($_POST['city_id']) ? trim($_POST['city_id']) : 0;
     	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
     		$city_name = '默认';
@@ -358,6 +360,20 @@ class admin_cycleimage extends ecjia_admin {
     		}
     	}
     	return $regions;
+    }
+
+    /**
+     * 获取经营城市
+     */
+    private function get_business_city() {
+        $data = RC_DB::table('store_business_city')->orderBy(RC_DB::raw('index_letter'), 'asc')->get();
+        $regions = [];
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                $regions[$row['business_city']] = addslashes($row['business_city_name']);
+            }
+        }
+        return $regions;
     }
     
     /**
