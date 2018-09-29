@@ -51,11 +51,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  */
 class payment_method {
-	private $db;
+	//private $db;
 	private $dblog;
 	
 	public function __construct() {
-		$this->db = RC_Model::model('payment/payment_model');
+		//$this->db = RC_Model::model('payment/payment_model');
 	}
 	
 	
@@ -83,7 +83,7 @@ class payment_method {
         $plugins = $this->available_payment_plugins();
 
         // $data = $this->db->field('pay_id, pay_code, pay_name, pay_fee, pay_desc, pay_config, is_cod, is_online')->where($where)->order(array('pay_order' => 'asc'))->select();
-        $data = $db_payment->select('pay_id', 'pay_code', 'pay_name', 'pay_fee', 'pay_desc', 'pay_config', 'is_cod', 'is_online')->orderby('pay_order', 'asc')->get();
+        $data = $db_payment->select('pay_id', 'pay_code', 'pay_name', 'pay_fee', 'pay_desc', 'pay_config', 'is_cod', 'is_online')->orderBy('pay_order', 'asc')->get();
 
         $pay_list = array();
          
@@ -139,13 +139,16 @@ class payment_method {
 	    return $this->payment_info_by_id($pay_id);
 	}
 	public function payment_info_by_id($pay_id) {
-	    return $this->db->find(array('pay_id' => $pay_id , 'enabled' => 1));
+	    //return $this->db->find(array('pay_id' => $pay_id , 'enabled' => 1));
+		return RC_DB::table('payment')->where('pay_id', $pay_id)->where('enabled', 1)->first();
 	}
 	public function payment_info_by_code($pay_code) {
-	    return $this->db->find(array('pay_code' => $pay_code , 'enabled' => 1));
+	    //return $this->db->find(array('pay_code' => $pay_code , 'enabled' => 1));
+		return RC_DB::table('payment')->where('pay_code', $pay_code)->where('enabled', 1)->first();
 	}
 	public function payment_info_by_name($pay_name) {
-		return $this->db->where(array('pay_name' => $pay_name , 'enabled' => 1))->select();
+		//return $this->db->where(array('pay_name' => $pay_name , 'enabled' => 1))->select();
+		return  RC_DB::table('payment')->where('pay_name', $pay_name)->where('enabled', 1)->get();
 	}
 	
 	/**

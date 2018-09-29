@@ -174,27 +174,36 @@ trait CompatibleTrait
         $log_id = $this->order_info['log_id'];
         $out_trade_no = $order_sn . $log_id;
          
-        $relationship_db = \RC_Model::model('goods/term_relationship_model');
-         
-        $data = array(
-            'object_type' 	=> $app,
-            'object_group' 	=> $group,
-            'object_id' 	=> $log_id,
-            'item_key1' 	=> 'order_sn',
-            'item_value1' 	=> $order_sn,
-            'item_key2' 	=> 'out_trade_no',
-            "item_value2 	= '$out_trade_no'" ,
-        );
-        $count = $relationship_db->where($data)->count();
+        //$relationship_db = \RC_Model::model('goods/term_relationship_model');
+        $relationship_db = \RC_DB::table('term_relationship');
+        
+        //$data = array(
+        //    'object_type' 	=> $app,
+        //    'object_group' 	=> $group,
+        //    'object_id' 	=> $log_id,
+        //    'item_key1' 	=> 'order_sn',
+        //    'item_value1' 	=> $order_sn,
+        //    'item_key2' 	=> 'out_trade_no',
+        //    "item_value2 	= '$out_trade_no'" ,
+        //);
+        $count = $relationship_db
+        				->where('object_type', $app)
+        				->where('object_group', $group)
+        				->where('object_id', $log_id)
+        				->where('item_key1', 'order_sn')
+        				->where('item_value1', $order_sn)
+        				->where('item_key2', 'out_trade_no')
+        				->where('item_value2', $out_trade_no)
+        				->count();
         if (!$count) {
             $data = array(
-                'object_type' 	=> $app,
-                'object_group' 	=> $group,
-                'object_id' 	=> $log_id,
+                'object_type' 	=> empty($app) ? '' : $app,
+                'object_group' 	=> empty($group) ? '' : $group,
+                'object_id' 	=> empty($log_id) ? 0 : $log_id,
                 'item_key1' 	=> 'order_sn',
-                'item_value1' 	=> $order_sn,
+                'item_value1' 	=> empty($order_sn) ? '' : $order_sn,
                 'item_key2' 	=> 'out_trade_no',
-                'item_value2' 	=> $out_trade_no,
+                'item_value2' 	=> empty($out_trade_no) ? '' : $out_trade_no,
             );
             $relationship_db->insert($data);
         }
@@ -213,15 +222,24 @@ trait CompatibleTrait
             return false;
         }
          
-        $data = array(
-            'object_type'	=> $app,
-            'object_group'	=> $group,
-            'item_key1'		=> 'order_sn',
-            'item_key2'		=> 'out_trade_no',
-            "item_value2 	= '$out_trade_no'" ,
-        );
-        $relationship_db = \RC_Model::model('goods/term_relationship_model');
-        $item = $relationship_db->where($data)->find();
+        //$data = array(
+        //    'object_type'	=> $app,
+        //    'object_group'	=> $group,
+        //    'item_key1'		=> 'order_sn',
+        //    'item_key2'		=> 'out_trade_no',
+        //    "item_value2 	= '$out_trade_no'" ,
+        //);
+        //$relationship_db = \RC_Model::model('goods/term_relationship_model');
+        //$item = $relationship_db->where($data)->find();
+        
+        $item = \RC_DB::table('term_relationship')
+        			->where('object_type', $app)
+        			->where('object_group', $group)
+        			->where('item_key1', 'order_sn')
+        			->where('item_key2', 'out_trade_no')
+        			->where('item_value2', $out_trade_no)
+        			->first();
+        			
         \RC_Logger::getLogger('pay')->info($item);
         if ($item) {
             return array('order_sn' => $item['item_value1'], 'log_id' => $item['object_id']);

@@ -73,7 +73,7 @@ class payment_pay_list_api extends Component_Event_Api {
 		$plugins = ecjia_config::instance()->get_addon_config('payment_plugins', true, true);
 
 // 		$data = $db_payment->payment_select('pay_order');
-		$data = RC_DB::table('payment')->orderby('pay_order')->get();
+		$data = RC_DB::table('payment')->orderBy('pay_order', 'asc')->get();
 		$data or $data = array();
 		$modules = array();
 		if (!empty($data)) {

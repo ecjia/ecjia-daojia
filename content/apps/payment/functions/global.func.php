@@ -362,10 +362,11 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
  * @return  array('is_cod' => '', 'is_not_cod' => '')
  */
 function get_pay_ids() {
-	$db = RC_Model::model('payment/payment_model');
+	//$db = RC_Model::model('payment/payment_model');
 
 	$ids = array('is_cod' => '0', 'is_not_cod' => '0');
-	$data = $db->field('pay_id, is_cod')->where('enabled = 1')->select();
+	//$data = $db->field('pay_id, is_cod')->where('enabled = 1')->select();
+	$data	= RC_DB::table('payment')->where('enabled', 1)->select('pay_id', 'is_cod')->get();
 	if(!empty($data)) {
 		foreach ($data as $row) {
 			if ($row['is_cod']) {
