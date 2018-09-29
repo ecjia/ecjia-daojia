@@ -58,7 +58,7 @@ class stats_statsapi_api extends Component_Event_Api {
 		}
 		
 		
-		$db_stats = RC_Model::model('stats/stats_model');
+		//$db_stats = RC_Model::model('stats/stats_model');
 		$time = RC_Time::gmtime();
 		/* 检查客户端是否存在访问统计的cookie */
 		$expire = $_SESSION['stats_expire'];
@@ -72,13 +72,13 @@ class stats_statsapi_api extends Component_Event_Api {
 			$stats_data = array(
 					'visit_times'=> 1,
 					'access_time'=> $time,
-					'ip_address' => $ip_address,
-					'system'     => $system,
-					'browser'	 => $browser,
-					'area'		 => $area,
-					'access_url' => $access_url,
+					'ip_address' => empty($ip_address) ? '' : $ip_address,
+					'system'     => empty($system) ? '' : $system,
+					'browser'	 => empty($browser) ? '' : $browser,
+					'area'		 => empty($area) ? '' : $area,
+					'access_url' => empty($access_url) ? '' : $access_url,
 			);
-			$db_stats->insert($stats_data);
+			RC_DB::table('stats')->insert($stats_data);
 			$_SESSION['stats_expire'] = $time + 10800;
 		}
  		

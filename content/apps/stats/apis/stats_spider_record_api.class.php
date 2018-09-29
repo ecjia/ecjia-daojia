@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class stats_spider_record_api extends Component_Event_Api {
 	
 	public function call(&$options) {
-        $db = RC_Model::model('stats/searchengine_model');
+        //$db = RC_Model::model('stats/searchengine_model');
 	    
         $spider = $options['searchengine'];
         
@@ -63,10 +63,18 @@ class stats_spider_record_api extends Component_Event_Api {
                 'searchengine' 	=> $spider,
                 'count' 		=> 1
             );
-            $update_data = array(
-                'count'         => `count` + 1
-            );
-            $db->auto_replace($insert_data, $update_data);
+            //$update_data = array(
+            //    'count'         => `count` + 1
+            //);
+            //$db->auto_replace($insert_data, $update_data);
+            
+            $searchengine_info = RC_DB::table('searchengine')->where('date', RC_Time::local_date('Y-m-d'))->where('searchengine', $spider)->first();
+            if (!empty($searchengine_info)) {
+            	RC_DB::table('searchengine')->where('date', RC_Time::local_date('Y-m-d'))->where('searchengine', $spider)->increment('count', 1);
+            } else {
+            	RC_DB::table('searchengine')->insert($insert_data);
+            }
+            
             return true;
         } else {
             return false;
