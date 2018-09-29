@@ -26,13 +26,11 @@ return [
         $baseDir . '/vendor/royalcms/framework/Royalcms/Component/Cache/CacheServiceProvider.php',
         $baseDir . '/vendor/royalcms/ip-address/Royalcms/Component/IpAddress/Ip.php',
         $baseDir . '/vendor/royalcms/class-loader/Royalcms/Component/ClassLoader/ClassManager.php',
-        $baseDir . '/vendor/royalcms/class-loader/Royalcms/Component/ClassLoader/AliasManager.php',
-        $baseDir . '/vendor/royalcms/class-loader/Royalcms/Component/ClassLoader/AliasLoader.php',
         $baseDir . '/vendor/royalcms/purifier/Royalcms/Component/Purifier/PurifierServiceProvider.php',
         $baseDir . '/vendor/royalcms/xml-response/Royalcms/Component/XmlResponse/XmlResponseServiceProvider.php',
         $baseDir . '/vendor/royalcms/tcpdf/Royalcms/Component/Tcpdf/TcpdfServiceProvider.php',
         $baseDir . '/vendor/royalcms/excel/Royalcms/Component/Excel/ExcelServiceProvider.php',
-        $baseDir . '/vendor/royalcms/weapp/Royalcms/Component/WeApp/WeAppServiceProvider.php',
+        $baseDir . '/vendor/royalcms/wechat-miniprogram/Royalcms/Component/WeChat/MiniProgram/MiniProgramServiceProvider.php',
 
         $contentDir . '/apps/cron/classes/Royalcms/Component/Cron/CronServiceProvider.php',
         $contentDir . '/apps/cart/classes/Royalcms/Component/Shoppingcart/ShoppingcartServiceProvider.php',
@@ -125,6 +123,7 @@ return [
         'Royalcms\Component\Repository\RepositoryServiceProvider',
         'Royalcms\Component\Agent\AgentServiceProvider',
         'Royalcms\Component\Storage\StorageServiceProvider',
+        'Royalcms\Component\Environment\EnvironmentServiceProvider',
 
         'Ecjia\System\Providers\SystemServiceProvider',
 
