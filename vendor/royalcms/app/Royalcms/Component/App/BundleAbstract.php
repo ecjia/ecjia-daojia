@@ -36,7 +36,9 @@ abstract class BundleAbstract
     
     
     protected $namespace;
-    
+
+    protected $provider;
+
     
     protected $controllerPath;
     
@@ -72,6 +74,12 @@ abstract class BundleAbstract
     public function getNameSpace()
     {
         return $this->namespace;
+    }
+
+
+    public function getProvider()
+    {
+        return $this->provider;
     }
     
     
@@ -174,7 +182,16 @@ abstract class BundleAbstract
         
         return $name;
     }
-    
+
+    /**
+     * 获取命名空间的完整类名
+     * @param $class
+     * @return string
+     */
+    protected function getNamespaceClassName($class)
+    {
+        return $this->getNameSpace() . '\\' . $class;
+    }
 }
 
 // end

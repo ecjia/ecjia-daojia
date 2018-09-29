@@ -24,6 +24,7 @@ class AppBundle extends BundleAbstract implements BundlePackage
             $this->identifier = $this->package['identifier'];
 
             $this->namespace = $this->package['namespace'];
+            $this->provider = $this->namespace . '\\' . $this->package['provider'];
         }
 
         $this->site = defined('RC_SITE') ? RC_SITE : 'default';
@@ -62,6 +63,20 @@ class AppBundle extends BundleAbstract implements BundlePackage
     public function getNamespace()
     {
         return 'app-'.$this->directory;
+    }
+
+    /**
+     * 获取应用安装器对象
+     */
+    public function getInstaller()
+    {
+        $className = $this->getNamespaceClassName('Installer');
+
+        if (class_exists($className)) {
+            return new $className;
+        } else {
+            return null;
+        }
     }
     
 }

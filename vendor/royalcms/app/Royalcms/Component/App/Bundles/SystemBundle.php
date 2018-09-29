@@ -19,7 +19,8 @@ class SystemBundle extends BundleAbstract implements BundlePackage
         $this->identifier = array_get($this->package, 'identifier');
         
         $this->namespace = array_get($this->package, 'namespace');
-        
+        $this->provider = $this->namespace . '\\' . array_get($this->package, 'provider');
+
         $this->site = defined('RC_SITE') ? RC_SITE : 'default';
         
         $this->makeControllerPath();
