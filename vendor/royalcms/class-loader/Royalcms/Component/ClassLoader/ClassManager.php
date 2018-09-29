@@ -36,8 +36,6 @@ class ClassManager
             self::$loader->register();
         }
     
-        AliasManager::register();
-    
         return self::$loader;
     }
     
