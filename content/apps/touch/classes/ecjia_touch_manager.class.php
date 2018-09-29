@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ecjia touch manager API管理类
  * @author royalwang
  */
-class ecjia_touch_manager extends Ecjia\System\Api\ApiManager
+class ecjia_touch_manager extends Ecjia\App\Api\Requests\ApiManager
 {
     /**
      * 服务器地址
@@ -58,18 +58,22 @@ class ecjia_touch_manager extends Ecjia\System\Api\ApiManager
      */
     const serverHost = '/sites/api/?url=';
 
-    public function __construct() {
+    protected $driver = 'local';
+
+    public function __construct()
+    {
         parent::__construct();
 
         $this->header(array(
         	'device-udid'     => RC_Session::getId(),
-            'device-client'   => 'h5',
-            'device-code'     => '6004',
-            'api-version'     => '1.19',
+            'device-client'   => 'local', //h5,local
+            'device-code'     => '6004',  //6004
+            'api-version'     => '1.21',
         ));
     }
 
-    public function serverHost() {
+    public function serverHost()
+    {
         return RC_Hook::apply_filters('custom_site_api_url', RC_Uri::home_url() . static::serverHost);
     }
 }

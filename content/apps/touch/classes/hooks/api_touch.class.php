@@ -60,9 +60,11 @@ class api_touch_hooks {
         return $callback_url;
     }
     
-    public static function payment_respond_template($respondContent, $msg, $info) {
+    public static function payment_respond_template($callback) {
         
-        
+        return function ($respondContent, $msg, $info) {
+
+        };
     }
 }
 

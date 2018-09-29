@@ -129,19 +129,19 @@ function update_library($lib_name, $content){
  * @access  public
  * @return void
  */
-function  get_touch_topic_list() {
-    $db_topic = RC_Loader::load_app_model('topic_model');
-    $res = array();
-    $data = $db_topic->field('topic_id, title, start_time, end_time')->where($where)->order('topic_id DESC')->select();
-    if(!empty($data)) {
-        foreach ($data as $topic) {
-            $topic['is_overdue'] = !($topic['start_time'] < RC_Time::gmtime()) && ($topic['end_time'] > RC_Time::gmtime());
-            $topic['start_time'] = RC_Time::local_date('Y-m-d',$topic['start_time']);
-            $topic['end_time']   = RC_Time::local_date('Y-m-d',$topic['end_time']);
-            $res[] = $topic;
-        }
-    }
-    return $res;
-}
+// function  get_touch_topic_list() {
+//     $db_topic = RC_Loader::load_app_model('topic_model');
+//     $res = array();
+//     $data = $db_topic->field('topic_id, title, start_time, end_time')->where($where)->order('topic_id DESC')->select();
+//     if(!empty($data)) {
+//         foreach ($data as $topic) {
+//             $topic['is_overdue'] = !($topic['start_time'] < RC_Time::gmtime()) && ($topic['end_time'] > RC_Time::gmtime());
+//             $topic['start_time'] = RC_Time::local_date('Y-m-d',$topic['start_time']);
+//             $topic['end_time']   = RC_Time::local_date('Y-m-d',$topic['end_time']);
+//             $res[] = $topic;
+//         }
+//     }
+//     return $res;
+// }
 
 // end
