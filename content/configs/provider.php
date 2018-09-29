@@ -65,7 +65,8 @@ return array(
     'Royalcms\Component\Tcpdf\TcpdfServiceProvider',
     'Royalcms\Component\Ucenter\UcenterServiceProvider',
     'Royalcms\Component\WeChat\WeChatServiceProvider',
-    'Royalcms\Component\WeApp\WeAppServiceProvider',
+    'Royalcms\Component\Widget\WidgetServiceProvider',
+    'Royalcms\Component\Environment\EnvironmentServiceProvider',
 
     'Ecjia\System\Providers\SystemServiceProvider',
     'Ecjia\System\Providers\RouteServiceProvider',
