@@ -283,8 +283,6 @@ return array(
     'InitMailTemplatesTableSeeder' => $contentDir . '/database/seeds/InitMailTemplatesTableSeeder.php',
     'InitMobileScreenshotsTableSeeder' => $contentDir . '/database/seeds/InitMobileScreenshotsTableSeeder.php',
     'InitPaymentTableSeeder' => $contentDir . '/database/seeds/InitPaymentTableSeeder.php',
-    'InitPlatformCommandTableSeeder' => $contentDir . '/database/seeds/InitPlatformCommandTableSeeder.php',
-    'InitPlatformConfigTableSeeder' => $contentDir . '/database/seeds/InitPlatformConfigTableSeeder.php',
     'InitPlatformExtendTableSeeder' => $contentDir . '/database/seeds/InitPlatformExtendTableSeeder.php',
     'InitRegFieldsTableSeeder' => $contentDir . '/database/seeds/InitRegFieldsTableSeeder.php',
     'InitShopConfigTableSeeder' => $contentDir . '/database/seeds/InitShopConfigTableSeeder.php',

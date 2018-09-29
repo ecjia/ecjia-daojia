@@ -5348,23 +5348,25 @@ interface TranslatorInterface
 }
 
 namespace Symfony\Component\Console\Command {
-use Symfony\Component\Console\Descriptor\TextDescriptor;
-use Symfony\Component\Console\Descriptor\XmlDescriptor;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Exception\ExceptionInterface;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 class Command
 {
+    protected static $defaultName;
     private $application;
     private $name;
     private $processTitle;
     private $aliases = array();
     private $definition;
+    private $hidden = false;
     private $help;
     private $description;
     private $ignoreValidationErrors = false;
@@ -5374,16 +5376,19 @@ class Command
     private $synopsis = array();
     private $usages = array();
     private $helperSet;
+    public static function getDefaultName()
+    {
+        $class = \get_called_class();
+        $r = new \ReflectionProperty($class, 'defaultName');
+        return $class === $r->class ? static::$defaultName : null;
+    }
     public function __construct($name = null)
     {
         $this->definition = new InputDefinition();
-        if (null !== $name) {
+        if (null !== $name || null !== ($name = static::getDefaultName())) {
             $this->setName($name);
         }
         $this->configure();
-        if (!$this->name) {
-            throw new \LogicException(sprintf('The command defined in "%s" cannot have an empty name.', get_class($this)));
-        }
     }
     public function ignoreValidationErrors()
     {
@@ -5419,7 +5424,7 @@ class Command
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        throw new \LogicException('You must override the execute() method in the concrete command class.');
+        throw new LogicException('You must override the execute() method in the concrete command class.');
     }
     protected function interact(InputInterface $input, OutputInterface $output)
     {
@@ -5434,16 +5439,22 @@ class Command
         $this->mergeApplicationDefinition();
         try {
             $input->bind($this->definition);
-        } catch (\Exception $e) {
+        } catch (ExceptionInterface $e) {
             if (!$this->ignoreValidationErrors) {
                 throw $e;
             }
         }
         $this->initialize($input, $output);
         if (null !== $this->processTitle) {
-            if (function_exists('cli_set_process_title')) {
-                cli_set_process_title($this->processTitle);
-            } elseif (function_exists('setproctitle')) {
+            if (\function_exists('cli_set_process_title')) {
+                if (!@cli_set_process_title($this->processTitle)) {
+                    if ('Darwin' === PHP_OS) {
+                        $output->writeln('<comment>Running "cli_set_process_title" as an unprivileged user is not supported on MacOS.</comment>', OutputInterface::VERBOSITY_VERY_VERBOSE);
+                    } else {
+                        cli_set_process_title($this->processTitle);
+                    }
+                }
+            } elseif (\function_exists('setproctitle')) {
                 setproctitle($this->processTitle);
             } elseif (OutputInterface::VERBOSITY_VERY_VERBOSE === $output->getVerbosity()) {
                 $output->writeln('<comment>Install the proctitle PECL to be able to change the process title.</comment>');
@@ -5457,16 +5468,23 @@ class Command
         }
         $input->validate();
         if ($this->code) {
-            $statusCode = call_user_func($this->code, $input, $output);
+            $statusCode = \call_user_func($this->code, $input, $output);
         } else {
             $statusCode = $this->execute($input, $output);
         }
         return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
-    public function setCode($code)
+    public function setCode(callable $code)
     {
-        if (!is_callable($code)) {
-            throw new \InvalidArgumentException('Invalid callable provided to Command::setCode.');
+        if ($code instanceof \Closure) {
+            $r = new \ReflectionFunction($code);
+            if (null === $r->getClosureThis()) {
+                if (\PHP_VERSION_ID < 70000) {
+                    $code = @\Closure::bind($code, $this);
+                } else {
+                    $code = \Closure::bind($code, $this);
+                }
+            }
         }
         $this->code = $code;
         return $this;
@@ -5530,6 +5548,15 @@ class Command
     {
         return $this->name;
     }
+    public function setHidden($hidden)
+    {
+        $this->hidden = (bool) $hidden;
+        return $this;
+    }
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
     public function setDescription($description)
     {
         $this->description = $description;
@@ -5557,8 +5584,8 @@ class Command
     }
     public function setAliases($aliases)
     {
-        if (!is_array($aliases) && !$aliases instanceof \Traversable) {
-            throw new \InvalidArgumentException('$aliases must be an array or an instance of \\Traversable');
+        if (!\is_array($aliases) && !$aliases instanceof \Traversable) {
+            throw new InvalidArgumentException('$aliases must be an array or an instance of \\Traversable');
         }
         foreach ($aliases as $alias) {
             $this->validateName($alias);
@@ -5593,33 +5620,14 @@ class Command
     public function getHelper($name)
     {
         if (null === $this->helperSet) {
-            throw new \LogicException(sprintf('Cannot retrieve helper "%s" because there is no HelperSet defined. Did you forget to add your command to the application or to set the application on the command using the setApplication() method? You can also set the HelperSet directly using the setHelperSet() method.', $name));
+            throw new LogicException(sprintf('Cannot retrieve helper "%s" because there is no HelperSet defined. Did you forget to add your command to the application or to set the application on the command using the setApplication() method? You can also set the HelperSet directly using the setHelperSet() method.', $name));
         }
         return $this->helperSet->get($name);
-    }
-    public function asText()
-    {
-        @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 2.3 and will be removed in 3.0.', E_USER_DEPRECATED);
-        $descriptor = new TextDescriptor();
-        $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
-        $descriptor->describe($output, $this, array('raw_output' => true));
-        return $output->fetch();
-    }
-    public function asXml($asDom = false)
-    {
-        @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 2.3 and will be removed in 3.0.', E_USER_DEPRECATED);
-        $descriptor = new XmlDescriptor();
-        if ($asDom) {
-            return $descriptor->getCommandDocument($this);
-        }
-        $output = new BufferedOutput();
-        $descriptor->describe($output, $this);
-        return $output->fetch();
     }
     private function validateName($name)
     {
         if (!preg_match('/^[^\\:]++(\\:[^\\:]++)*$/', $name)) {
-            throw new \InvalidArgumentException(sprintf('Command name "%s" is invalid.', $name));
+            throw new InvalidArgumentException(sprintf('Command name "%s" is invalid.', $name));
         }
     }
 }
@@ -10270,6 +10278,37 @@ class Str
     {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         return static::substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+    }
+    public static function replaceArray($search, array $replace, $subject)
+    {
+        foreach ($replace as $value) {
+            $subject = static::replaceFirst($search, $value, $subject);
+        }
+        return $subject;
+    }
+    public static function replaceFirst($search, $replace, $subject)
+    {
+        if ($search == '') {
+            return $subject;
+        }
+        $position = strpos($subject, $search);
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+        return $subject;
+    }
+    public static function replaceLast($search, $replace, $subject)
+    {
+        $position = strrpos($subject, $search);
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+        return $subject;
+    }
+    public static function start($value, $prefix)
+    {
+        $quoted = preg_quote($prefix, '/');
+        return $prefix . preg_replace('/^(?:' . $quoted . ')+/u', '', $value);
     }
     public static function equals($knownString, $userInput)
     {
@@ -16636,7 +16675,7 @@ class Store implements SessionInterface, StoreInterface
     }
     public function setPreviousUrl($url)
     {
-        return $this->put('_previous.url', $url);
+        $this->put('_previous.url', $url);
     }
     public function setExists($value)
     {
@@ -20574,131 +20613,6 @@ class Carbon extends DateTime
 }
 }
 
-namespace Royalcms\Component\Environment\Facades {
-use Royalcms\Component\Support\Facades\Facade;
-use RC_Hook;
-class Environment extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'phpinfo';
-    }
-    public static function gd_version()
-    {
-        static $version = -1;
-        if ($version >= 0) {
-            return $version;
-        }
-        if (!extension_loaded('gd')) {
-            $version = 0;
-        } else {
-            if (PHP_VERSION >= '4.3') {
-                if (function_exists('gd_info')) {
-                    $ver_info = gd_info();
-                    preg_match('/\\d/', $ver_info['GD Version'], $match);
-                    $version = $match[0];
-                } else {
-                    if (function_exists('imagecreatetruecolor')) {
-                        $version = 2;
-                    } elseif (function_exists('imagecreate')) {
-                        $version = 1;
-                    }
-                }
-            } else {
-                if (preg_match('/phpinfo/', ini_get('disable_functions'))) {
-                    $version = 1;
-                } else {
-                    ob_start();
-                    phpinfo(8);
-                    $info = ob_get_contents();
-                    ob_end_clean();
-                    $info = stristr($info, 'gd version');
-                    preg_match('/\\d/', $info, $match);
-                    $version = $match[0];
-                }
-            }
-        }
-        return $version;
-    }
-    public static function get_os()
-    {
-        if (empty($_SERVER['HTTP_USER_AGENT'])) {
-            return 'Unknown';
-        }
-        $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-        $os = '';
-        if (strpos($agent, 'win') !== false) {
-            if (strpos($agent, 'nt 5.1') !== false) {
-                $os = 'Windows XP';
-            } elseif (strpos($agent, 'nt 5.2') !== false) {
-                $os = 'Windows 2003';
-            } elseif (strpos($agent, 'nt 5.0') !== false) {
-                $os = 'Windows 2000';
-            } elseif (strpos($agent, 'nt 6.0') !== false) {
-                $os = 'Windows Vista';
-            } elseif (strpos($agent, 'nt') !== false) {
-                $os = 'Windows NT';
-            } elseif (strpos($agent, 'win 9x') !== false && strpos($agent, '4.90') !== false) {
-                $os = 'Windows ME';
-            } elseif (strpos($agent, '98') !== false) {
-                $os = 'Windows 98';
-            } elseif (strpos($agent, '95') !== false) {
-                $os = 'Windows 95';
-            } elseif (strpos($agent, '32') !== false) {
-                $os = 'Windows 32';
-            } elseif (strpos($agent, 'ce') !== false) {
-                $os = 'Windows CE';
-            }
-        } elseif (strpos($agent, 'linux') !== false) {
-            $os = 'Linux';
-        } elseif (strpos($agent, 'unix') !== false) {
-            $os = 'Unix';
-        } elseif (strpos($agent, 'sun') !== false && strpos($agent, 'os') !== false) {
-            $os = 'SunOS';
-        } elseif (strpos($agent, 'ibm') !== false && strpos($agent, 'os') !== false) {
-            $os = 'IBM OS/2';
-        } elseif (strpos($agent, 'mac') !== false && strpos($agent, 'pc') !== false) {
-            $os = 'Macintosh';
-        } elseif (strpos($agent, 'powerpc') !== false) {
-            $os = 'PowerPC';
-        } elseif (strpos($agent, 'aix') !== false) {
-            $os = 'AIX';
-        } elseif (strpos($agent, 'hpux') !== false) {
-            $os = 'HPUX';
-        } elseif (strpos($agent, 'netbsd') !== false) {
-            $os = 'NetBSD';
-        } elseif (strpos($agent, 'bsd') !== false) {
-            $os = 'BSD';
-        } elseif (strpos($agent, 'osf1') !== false) {
-            $os = 'OSF1';
-        } elseif (strpos($agent, 'irix') !== false) {
-            $os = 'IRIX';
-        } elseif (strpos($agent, 'freebsd') !== false) {
-            $os = 'FreeBSD';
-        } elseif (strpos($agent, 'teleport') !== false) {
-            $os = 'teleport';
-        } elseif (strpos($agent, 'flashget') !== false) {
-            $os = 'flashget';
-        } elseif (strpos($agent, 'webzip') !== false) {
-            $os = 'webzip';
-        } elseif (strpos($agent, 'offline') !== false) {
-            $os = 'offline';
-        } else {
-            $os = 'Unknown';
-        }
-        return $os;
-    }
-    public static function gzip_enabled()
-    {
-        static $enabled_gzip = null;
-        if ($enabled_gzip === null) {
-            $enabled_gzip = function_exists('ob_gzhandler');
-        }
-        return RC_Hook::apply_filters('gzip_enabled', $enabled_gzip);
-    }
-}
-}
-
 namespace Monolog {
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\StreamHandler;
@@ -21839,7 +21753,6 @@ class ClassManager
             self::$loader->registerPrefix('Component', $dir . '/Royalcms');
             self::$loader->register();
         }
-        AliasManager::register();
         return self::$loader;
     }
     public static function addNamespace($namespace, $directorie)
@@ -21853,98 +21766,6 @@ class ClassManager
     public static function getNamespaces()
     {
         return self::$loader->getNamespaces();
-    }
-}
-}
-
-namespace Royalcms\Component\ClassLoader {
-class AliasManager
-{
-    public static function register($prepend = false)
-    {
-        if (self::$registered === true) {
-            return;
-        }
-        spl_autoload_register(array(__CLASS__, 'autoload'), true, $prepend);
-        self::$registered = true;
-    }
-    public static function autoload($class)
-    {
-        if (isset(self::$nonNamespacedAliases[$class])) {
-            self::registerNonNamespacedAliases($class);
-        }
-    }
-    private static function registerNonNamespacedAliases($alias)
-    {
-        return class_alias(self::$nonNamespacedAliases[$alias], $alias);
-    }
-    private static $registered = false;
-    private static $nonNamespacedAliases = array('Component_Database_Database' => 'Royalcms\\Component\\Model\\Database\\Database', 'Component_Database_Factory' => 'Royalcms\\Component\\Model\\Database\\DatabaseFactory', 'Component_Database_Interface' => 'Royalcms\\Component\\Model\\Database\\DatabaseInterface', 'Component_Database_Mysql' => 'Royalcms\\Component\\Model\\Database\\Mysql', 'Component_Database_Mysqli' => 'Royalcms\\Component\\Model\\Database\\Mysqli', 'Component_Database_Pdo' => 'Royalcms\\Component\\Model\\Database\\Pdo', 'Component_Model_Model' => 'Royalcms\\Component\\Model\\Model', 'Component_Model_Null' => 'Royalcms\\Component\\Model\\NullModel', 'Component_Model_Relation' => 'Royalcms\\Component\\Model\\RelationModel', 'Component_Model_View' => 'Royalcms\\Component\\Model\\ViewModel', 'Component_WeChat_ErrorCode' => 'Royalcms\\Component\\WeChat\\ErrorCode', 'Component_WeChat_ParameterBag' => 'Royalcms\\Component\\WeChat\\ParameterBag', 'Component_WeChat_Prpcrypt' => 'Royalcms\\Component\\WeChat\\Prpcrypt', 'Component_WeChat_Request' => 'Royalcms\\Component\\WeChat\\Request', 'Component_WeChat_Response' => 'Royalcms\\Component\\WeChat\\Response', 'Component_WeChat_Utility' => 'Royalcms\\Component\\WeChat\\Utility', 'Component_WeChat_WeChat' => 'Royalcms\\Component\\WeChat\\WeChat', 'Component_WeChat_WeChatAPI' => 'Royalcms\\Component\\WeChat\\WeChatAPI', 'Component_WeChat_WeChatCorp' => 'Royalcms\\Component\\WeChat\\WeChatCorp', 'Component_WeChat_WeChatCorpAPI' => 'Royalcms\\Component\\WeChat\\WeChatCorpAPI', 'Component_Error_ErrorDisplay' => 'Royalcms\\Component\\Error\\ErrorDisplay', 'Component_Page_Page' => 'Royalcms\\Component\\Page\\Page', 'Component_Page_Default' => 'Royalcms\\Component\\Page\\DefaultPage', 'Component_ImageEditor_Editor' => 'Royalcms\\Component\\ImageEditor\\Editor', 'Component_ImageEditor_GD' => 'Royalcms\\Component\\ImageEditor\\GD', 'Component_ImageEditor_Imagick' => 'Royalcms\\Component\\ImageEditor\\Imagick', 'Component_Editor_Editor' => 'Royalcms\\Component\\Editor\\Editor', 'Component_Editor_Quicktags' => 'Royalcms\\Component\\Editor\\Quicktags', 'Component_Editor_Tinymce' => 'Royalcms\\Component\\Editor\\Tinymce', 'Component_Widget_Control' => 'Royalcms\\Component\\Widget\\WidgetController', 'Component_Widget_Factory' => 'Royalcms\\Component\\Widget\\Factory', 'Component_Widget_Widget' => 'Royalcms\\Component\\Widget\\Widget');
-}
-}
-
-namespace Royalcms\Component\ClassLoader {
-class AliasLoader
-{
-    protected $aliases;
-    protected $registered = false;
-    protected static $instance;
-    private function __construct($aliases)
-    {
-        $this->aliases = $aliases;
-    }
-    public static function getInstance(array $aliases = array())
-    {
-        if (is_null(static::$instance)) {
-            return static::$instance = new static($aliases);
-        }
-        $aliases = array_merge(static::$instance->getAliases(), $aliases);
-        static::$instance->setAliases($aliases);
-        return static::$instance;
-    }
-    public function load($alias)
-    {
-        if (isset($this->aliases[$alias])) {
-            return class_alias($this->aliases[$alias], $alias);
-        }
-    }
-    public function alias($class, $alias)
-    {
-        $this->aliases[$class] = $alias;
-    }
-    public function register()
-    {
-        if (!$this->registered) {
-            $this->prependToLoaderStack();
-            $this->registered = true;
-        }
-    }
-    protected function prependToLoaderStack()
-    {
-        spl_autoload_register(array($this, 'load'), true, true);
-    }
-    public function getAliases()
-    {
-        return $this->aliases;
-    }
-    public function setAliases(array $aliases)
-    {
-        $this->aliases = $aliases;
-    }
-    public function isRegistered()
-    {
-        return $this->registered;
-    }
-    public function setRegistered($value)
-    {
-        $this->registered = $value;
-    }
-    public static function setInstance($loader)
-    {
-        static::$instance = $loader;
-    }
-    private function __clone()
-    {
     }
 }
 }
@@ -22167,15 +21988,15 @@ class ExcelServiceProvider extends ServiceProvider
 }
 }
 
-namespace Royalcms\Component\WeApp {
+namespace Royalcms\Component\WeChat\MiniProgram {
 use Royalcms\Component\Support\ServiceProvider;
-class WeAppServiceProvider extends ServiceProvider
+class MiniProgramServiceProvider extends ServiceProvider
 {
     public function register()
     {
         $wechat = $this->royalcms['wechat'];
         $wechat->bindShared('weapp', function ($wechat) {
-            return new WeApp($wechat);
+            return new MiniProgram($wechat);
         });
     }
 }
@@ -22296,6 +22117,19 @@ class ApiServiceProvider extends AppParentServiceProvider
     }
     public function register()
     {
+        $this->loadAlias();
+    }
+    protected function loadAlias()
+    {
+        $this->royalcms->booting(function () {
+            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+            $loader->alias('ecjia_api', 'Ecjia\\App\\Api\\BaseControllers\\EcjiaApi');
+            $loader->alias('ecjia_api_manager', 'Ecjia\\App\\Api\\LocalRequest\\ApiManager');
+            $loader->alias('ecjia_api_const', 'Ecjia\\App\\Api\\LocalRequest\\ApiConst');
+            $loader->alias('api_front', 'Ecjia\\App\\Api\\BaseControllers\\EcjiaApiFrontController');
+            $loader->alias('api_admin', 'Ecjia\\App\\Api\\BaseControllers\\EcjiaApiAdminController');
+            $loader->alias('api_interface', 'Ecjia\\App\\Api\\Responses\\Contracts\\ApiHandler');
+        });
     }
 }
 }
@@ -23368,6 +23202,7 @@ class AppBundle extends BundleAbstract implements BundlePackage
         if (!empty($this->package)) {
             $this->identifier = $this->package['identifier'];
             $this->namespace = $this->package['namespace'];
+            $this->provider = $this->namespace . '\\' . $this->package['provider'];
         }
         $this->site = defined('RC_SITE') ? RC_SITE : 'default';
         $this->makeControllerPath();
@@ -23392,6 +23227,15 @@ class AppBundle extends BundleAbstract implements BundlePackage
     {
         return 'app-' . $this->directory;
     }
+    public function getInstaller()
+    {
+        $className = $this->getNamespaceClassName('Installer');
+        if (class_exists($className)) {
+            return new $className();
+        } else {
+            return null;
+        }
+    }
 }
 }
 
@@ -23406,6 +23250,7 @@ abstract class BundleAbstract
     protected $site;
     protected $package;
     protected $namespace;
+    protected $provider;
     protected $controllerPath;
     public function getIdentifier()
     {
@@ -23422,6 +23267,10 @@ abstract class BundleAbstract
     public function getNameSpace()
     {
         return $this->namespace;
+    }
+    public function getProvider()
+    {
+        return $this->provider;
     }
     public function getControllerPath()
     {
@@ -23482,6 +23331,10 @@ abstract class BundleAbstract
         $name = implode('', array_map('ucfirst', explode('_', $name)));
         $name = implode('\\', array_map('ucfirst', explode('/', $name)));
         return $name;
+    }
+    protected function getNamespaceClassName($class)
+    {
+        return $this->getNameSpace() . '\\' . $class;
     }
 }
 }
@@ -26443,6 +26296,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Royalcms\Component\Session\StoreInterface;
+use Royalcms\Component\Support\Str;
 class Store implements SessionInterface, StoreInterface
 {
     use CompatibleTrait;
@@ -26469,11 +26323,6 @@ class Store implements SessionInterface, StoreInterface
     public function getId()
     {
         return $this->session->getId();
-    }
-    protected function generateSessionId()
-    {
-        $sessionId = $this->session->generateSessionId();
-        return Hook::apply_filters('rc_session_generate_id', $sessionId);
     }
     public function getName()
     {
@@ -26503,13 +26352,28 @@ class Store implements SessionInterface, StoreInterface
         array_set($_SESSION, $name, $value);
         $this->session->set($name, $value);
     }
+    public function put($key, $value = null)
+    {
+        if (!is_array($key)) {
+            $key = [$key => $value];
+        }
+        foreach ($key as $arrayKey => $arrayValue) {
+            $this->set($arrayKey, $arrayValue);
+        }
+    }
+    public function push($key, $value)
+    {
+        $array = $this->get($key, []);
+        $array[] = $value;
+        $this->put($key, $array);
+    }
     public function all()
     {
         return $this->session->all();
     }
     public function exists($name)
     {
-        return $this->session->exists($name);
+        return $this->session->has($name);
     }
     public function handlerNeedsRequest()
     {
@@ -26586,6 +26450,55 @@ class Store implements SessionInterface, StoreInterface
     public function getHandler()
     {
         return $this->session->getHandler();
+    }
+    public function ageFlashData()
+    {
+        $this->session->forget($this->get('flash.old', []));
+        $this->put('flash.old', $this->get('flash.new', []));
+        $this->put('flash.new', []);
+    }
+    public function flash($key, $value)
+    {
+        $this->put($key, $value);
+        $this->push('flash.new', $key);
+        $this->removeFromOldFlashData([$key]);
+    }
+    public function now($key, $value)
+    {
+        $this->put($key, $value);
+        $this->push('flash.old', $key);
+    }
+    public function flashInput(array $value)
+    {
+        $this->flash('_old_input', $value);
+    }
+    public function reflash()
+    {
+        $this->mergeNewFlashes($this->get('flash.old', []));
+        $this->put('flash.old', []);
+    }
+    public function keep($keys = null)
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+        $this->mergeNewFlashes($keys);
+        $this->removeFromOldFlashData($keys);
+    }
+    protected function mergeNewFlashes(array $keys)
+    {
+        $values = array_unique(array_merge($this->get('flash.new', []), $keys));
+        $this->put('flash.new', $values);
+    }
+    protected function removeFromOldFlashData(array $keys)
+    {
+        $this->put('flash.old', array_diff($this->get('flash.old', []), $keys));
+    }
+    public function regenerateToken()
+    {
+        $this->put('_token', Str::random(40));
+    }
+    public function setPreviousUrl($url)
+    {
+        $this->put('_previous.url', $url);
     }
     public function __call($name, $arguments)
     {
@@ -33643,6 +33556,154 @@ class StorageServiceProvider extends ServiceProvider
     {
         $dir = static::guessPackageClassPath('royalcms/storage');
         return [$dir . "/Facades/Storage.php", $dir . "/Aliyunoss.php", $dir . "/Direct.php", $dir . "/Filesystem.php", $dir . "/FilesystemAdapter.php", $dir . "/FilesystemBase.php", $dir . "/FilesystemManager.php", $dir . "/StorageServiceProvider.php"];
+    }
+}
+}
+
+namespace Royalcms\Component\Environment\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+use RC_Hook;
+class Environment extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'phpinfo';
+    }
+    public static function gd_version()
+    {
+        static $version = -1;
+        if ($version >= 0) {
+            return $version;
+        }
+        if (!extension_loaded('gd')) {
+            $version = 0;
+        } else {
+            if (PHP_VERSION >= '4.3') {
+                if (function_exists('gd_info')) {
+                    $ver_info = gd_info();
+                    preg_match('/\\d/', $ver_info['GD Version'], $match);
+                    $version = $match[0];
+                } else {
+                    if (function_exists('imagecreatetruecolor')) {
+                        $version = 2;
+                    } elseif (function_exists('imagecreate')) {
+                        $version = 1;
+                    }
+                }
+            } else {
+                if (preg_match('/phpinfo/', ini_get('disable_functions'))) {
+                    $version = 1;
+                } else {
+                    ob_start();
+                    phpinfo(8);
+                    $info = ob_get_contents();
+                    ob_end_clean();
+                    $info = stristr($info, 'gd version');
+                    preg_match('/\\d/', $info, $match);
+                    $version = $match[0];
+                }
+            }
+        }
+        return $version;
+    }
+    public static function get_os()
+    {
+        if (empty($_SERVER['HTTP_USER_AGENT'])) {
+            return 'Unknown';
+        }
+        $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $os = '';
+        if (strpos($agent, 'win') !== false) {
+            if (strpos($agent, 'nt 5.1') !== false) {
+                $os = 'Windows XP';
+            } elseif (strpos($agent, 'nt 5.2') !== false) {
+                $os = 'Windows 2003';
+            } elseif (strpos($agent, 'nt 5.0') !== false) {
+                $os = 'Windows 2000';
+            } elseif (strpos($agent, 'nt 6.0') !== false) {
+                $os = 'Windows Vista';
+            } elseif (strpos($agent, 'nt') !== false) {
+                $os = 'Windows NT';
+            } elseif (strpos($agent, 'win 9x') !== false && strpos($agent, '4.90') !== false) {
+                $os = 'Windows ME';
+            } elseif (strpos($agent, '98') !== false) {
+                $os = 'Windows 98';
+            } elseif (strpos($agent, '95') !== false) {
+                $os = 'Windows 95';
+            } elseif (strpos($agent, '32') !== false) {
+                $os = 'Windows 32';
+            } elseif (strpos($agent, 'ce') !== false) {
+                $os = 'Windows CE';
+            }
+        } elseif (strpos($agent, 'linux') !== false) {
+            $os = 'Linux';
+        } elseif (strpos($agent, 'unix') !== false) {
+            $os = 'Unix';
+        } elseif (strpos($agent, 'sun') !== false && strpos($agent, 'os') !== false) {
+            $os = 'SunOS';
+        } elseif (strpos($agent, 'ibm') !== false && strpos($agent, 'os') !== false) {
+            $os = 'IBM OS/2';
+        } elseif (strpos($agent, 'mac') !== false && strpos($agent, 'pc') !== false) {
+            $os = 'Macintosh';
+        } elseif (strpos($agent, 'powerpc') !== false) {
+            $os = 'PowerPC';
+        } elseif (strpos($agent, 'aix') !== false) {
+            $os = 'AIX';
+        } elseif (strpos($agent, 'hpux') !== false) {
+            $os = 'HPUX';
+        } elseif (strpos($agent, 'netbsd') !== false) {
+            $os = 'NetBSD';
+        } elseif (strpos($agent, 'bsd') !== false) {
+            $os = 'BSD';
+        } elseif (strpos($agent, 'osf1') !== false) {
+            $os = 'OSF1';
+        } elseif (strpos($agent, 'irix') !== false) {
+            $os = 'IRIX';
+        } elseif (strpos($agent, 'freebsd') !== false) {
+            $os = 'FreeBSD';
+        } elseif (strpos($agent, 'teleport') !== false) {
+            $os = 'teleport';
+        } elseif (strpos($agent, 'flashget') !== false) {
+            $os = 'flashget';
+        } elseif (strpos($agent, 'webzip') !== false) {
+            $os = 'webzip';
+        } elseif (strpos($agent, 'offline') !== false) {
+            $os = 'offline';
+        } else {
+            $os = 'Unknown';
+        }
+        return $os;
+    }
+    public static function gzip_enabled()
+    {
+        static $enabled_gzip = null;
+        if ($enabled_gzip === null) {
+            $enabled_gzip = function_exists('ob_gzhandler');
+        }
+        return RC_Hook::apply_filters('gzip_enabled', $enabled_gzip);
+    }
+}
+}
+
+namespace Royalcms\Component\Environment {
+use Royalcms\Component\Support\ServiceProvider;
+class EnvironmentServiceProvider extends ServiceProvider
+{
+    protected $defer = true;
+    public function register()
+    {
+        $this->royalcms->bindShared('phpinfo', function ($royalcms) {
+            return new Phpinfo();
+        });
+    }
+    public function provides()
+    {
+        return array('phpinfo');
+    }
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/environment');
+        return [$dir . "/Facades/Environment.php", $dir . "/EnvironmentServiceProvider.php"];
     }
 }
 }

@@ -50,6 +50,7 @@
       'RC_ENV' => 'Royalcms\\Component\\Environment\\Facades\\Environment',
       'RC_Variable' => 'Royalcms\\Component\\Variable\\Facades\\Variable',
       'RC_App' => 'Royalcms\\Component\\App\\Facades\\App',
+      'RC_Widget' => 'Royalcms\\Component\\Widget\\Facades\\Widget',
       'RC_String' => 'Royalcms\\Component\\Support\\Str',
       'RC_Array' => 'Royalcms\\Component\\Support\\Arr',
       'RC_Json' => 'Royalcms\\Component\\Support\\Json',
@@ -72,8 +73,39 @@
       'RC_Token' => 'Royalcms\\Component\\Foundation\\Token',
       'RC_Uri' => 'Royalcms\\Component\\Foundation\\Uri',
       'RC_Validate' => 'Royalcms\\Component\\Foundation\\Validate',
-      'RC_Widget' => 'Royalcms\\Component\\Foundation\\Widget',
       'RC_Xml' => 'Royalcms\\Component\\Foundation\\Xml',
+      'Component_Database_Database' => 'Royalcms\\Component\\Model\\Database\\Database',
+      'Component_Database_Factory' => 'Royalcms\\Component\\Model\\Database\\DatabaseFactory',
+      'Component_Database_Interface' => 'Royalcms\\Component\\Model\\Database\\DatabaseInterface',
+      'Component_Database_Mysql' => 'Royalcms\\Component\\Model\\Database\\Mysql',
+      'Component_Database_Mysqli' => 'Royalcms\\Component\\Model\\Database\\Mysqli',
+      'Component_Database_Pdo' => 'Royalcms\\Component\\Model\\Database\\Pdo',
+      'Component_Model_Model' => 'Royalcms\\Component\\Model\\Model',
+      'Component_Model_Null' => 'Royalcms\\Component\\Model\\NullModel',
+      'Component_Model_Relation' => 'Royalcms\\Component\\Model\\RelationModel',
+      'Component_Model_View' => 'Royalcms\\Component\\Model\\ViewModel',
+      'Component_WeChat_ErrorCode' => 'Royalcms\\Component\\WeChat\\ErrorCode',
+      'Component_WeChat_ParameterBag' => 'Royalcms\\Component\\WeChat\\ParameterBag',
+      'Component_WeChat_Prpcrypt' => 'Royalcms\\Component\\WeChat\\Prpcrypt',
+      'Component_WeChat_Request' => 'Royalcms\\Component\\WeChat\\Request',
+      'Component_WeChat_Response' => 'Royalcms\\Component\\WeChat\\Response',
+      'Component_WeChat_Utility' => 'Royalcms\\Component\\WeChat\\Utility',
+      'Component_WeChat_WeChat' => 'Royalcms\\Component\\WeChat\\WeChat',
+      'Component_WeChat_WeChatAPI' => 'Royalcms\\Component\\WeChat\\WeChatAPI',
+      'Component_WeChat_WeChatCorp' => 'Royalcms\\Component\\WeChat\\WeChatCorp',
+      'Component_WeChat_WeChatCorpAPI' => 'Royalcms\\Component\\WeChat\\WeChatCorpAPI',
+      'Component_Error_ErrorDisplay' => 'Royalcms\\Component\\Error\\ErrorDisplay',
+      'Component_Page_Page' => 'Royalcms\\Component\\Page\\Page',
+      'Component_Page_Default' => 'Royalcms\\Component\\Page\\DefaultPage',
+      'Component_ImageEditor_Editor' => 'Royalcms\\Component\\ImageEditor\\Editor',
+      'Component_ImageEditor_GD' => 'Royalcms\\Component\\ImageEditor\\GD',
+      'Component_ImageEditor_Imagick' => 'Royalcms\\Component\\ImageEditor\\Imagick',
+      'Component_Editor_Editor' => 'Royalcms\\Component\\Editor\\Editor',
+      'Component_Editor_Quicktags' => 'Royalcms\\Component\\Editor\\Quicktags',
+      'Component_Editor_Tinymce' => 'Royalcms\\Component\\Editor\\Tinymce',
+      'Component_Widget_Control' => 'Royalcms\\Component\\Widget\\WidgetController',
+      'Component_Widget_Factory' => 'Royalcms\\Component\\Widget\\Factory',
+      'Component_Widget_Widget' => 'Royalcms\\Component\\Widget\\Widget',
     ),
     'providers' => 
     array (
@@ -129,6 +161,10 @@
       'action' => 'Royalcms\\Component\\Readme\\Controllers\\ReadmeController@index',
       'name' => 'readme.index',
     ),
+  ),
+  '*::debug-server' => 
+  array (
+    'host' => 'tcp://127.0.0.1:9912',
   ),
   'alidayu::config' => 
   array (
@@ -201,6 +237,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Adsense',
+    'provider' => 'AdsenseServiceProvider',
   ),
   'app-affiliate::package' => 
   array (
@@ -213,6 +250,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2015 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Affiliate',
+    'provider' => 'AffiliateServiceProvider',
   ),
   'app-api::package' => 
   array (
@@ -225,6 +263,7 @@
     'version' => '2.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Api',
+    'provider' => 'ApiServiceProvider',
   ),
   'app-article::package' => 
   array (
@@ -237,6 +276,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Article',
+    'provider' => 'ArticleServiceProvider',
   ),
   'app-attach::package' => 
   array (
@@ -249,6 +289,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Attach',
+    'provider' => 'AttachServiceProvider',
   ),
   'app-bonus::package' => 
   array (
@@ -261,6 +302,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Bonus',
+    'provider' => 'BonusServiceProvider',
   ),
   'app-captcha::package' => 
   array (
@@ -273,6 +315,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Captcha',
+    'provider' => 'CaptchaServiceProvider',
   ),
   'app-cart::package' => 
   array (
@@ -285,6 +328,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Cart',
+    'provider' => 'CartServiceProvider',
   ),
   'app-cashier::package' => 
   array (
@@ -297,6 +341,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Cashier',
+    'provider' => 'CashierServiceProvider',
   ),
   'app-chinaregion::package' => 
   array (
@@ -312,6 +357,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Comment',
+    'provider' => 'CommentServiceProvider',
   ),
   'app-commission::package' => 
   array (
@@ -324,6 +370,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2016 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Commission',
+    'provider' => 'CommissionServiceProvider',
   ),
   'app-connect::package' => 
   array (
@@ -336,6 +383,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Connect',
+    'provider' => 'ConnectServiceProvider',
   ),
   'app-cron::package' => 
   array (
@@ -348,6 +396,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2015 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Cron',
+    'provider' => 'CronServiceProvider',
   ),
   'app-customer::package' => 
   array (
@@ -360,6 +409,7 @@
     'version' => '1.2.1',
     'copyright' => 'ECJIA Copyright 2018.',
     'namespace' => 'Ecjia\\App\\Customer',
+    'provider' => 'CustomerServiceProvider',
   ),
   'app-express::package' => 
   array (
@@ -372,6 +422,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Express',
+    'provider' => 'ExpressServiceProvider',
   ),
   'app-favourable::package' => 
   array (
@@ -384,6 +435,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Favourable',
+    'provider' => 'FavourableServiceProvider',
   ),
   'app-finance::package' => 
   array (
@@ -396,6 +448,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Finance',
+    'provider' => 'FinanceServiceProvider',
   ),
   'app-franchisee::package' => 
   array (
@@ -408,6 +461,7 @@
     'version' => '1.19.0',
     'copyright' => 'ECJIA Copyright 2016 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Franchisee',
+    'provider' => 'FranchiseeServiceProvider',
   ),
   'app-friendlink::package' => 
   array (
@@ -420,6 +474,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Friendlink',
+    'provider' => 'FriendlinkServiceProvider',
   ),
   'app-goods::package' => 
   array (
@@ -432,6 +487,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Goods',
+    'provider' => 'GoodsServiceProvider',
   ),
   'app-goodslib::package' => 
   array (
@@ -444,6 +500,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Goodslib',
+    'provider' => 'GoodslibServiceProvider',
   ),
   'app-groupbuy::package' => 
   array (
@@ -456,6 +513,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Groupbuy',
+    'provider' => 'GroupbuyServiceProvider',
   ),
   'app-installer::package' => 
   array (
@@ -468,6 +526,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2017 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Installer',
+    'provider' => 'InstallerServiceProvider',
   ),
   'app-intro::package' => 
   array (
@@ -480,6 +539,7 @@
     'version' => '2.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Intro',
+    'provider' => 'IntroServiceProvider',
   ),
   'app-invitecode::package' => 
   array (
@@ -492,6 +552,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Invitecode',
+    'provider' => 'InvitecodeServiceProvider',
   ),
   'app-logviewer::package' => 
   array (
@@ -504,6 +565,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2016 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Logviewer',
+    'provider' => 'LogviewerServiceProvider',
   ),
   'app-mail::package' => 
   array (
@@ -516,6 +578,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Mail',
+    'provider' => 'LogviewerServiceProvider',
   ),
   'app-main::package' => 
   array (
@@ -528,6 +591,7 @@
     'version' => '2.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Main',
+    'provider' => 'MainServiceProvider',
   ),
   'app-maintain::package' => 
   array (
@@ -540,6 +604,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Maintain',
+    'provider' => 'MaintainServiceProvider',
   ),
   'app-market::package' => 
   array (
@@ -552,6 +617,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Market',
+    'provider' => 'MarketServiceProvider',
   ),
   'app-memadmin::package' => 
   array (
@@ -564,6 +630,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Memadmin',
+    'provider' => 'MarketServiceProvider',
   ),
   'app-merchant::package' => 
   array (
@@ -576,6 +643,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2015 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Merchant',
+    'provider' => 'MerchantServiceProvider',
   ),
   'app-mobile::package' => 
   array (
@@ -588,6 +656,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Mobile',
+    'provider' => 'MobileServiceProvider',
   ),
   'app-notification::package' => 
   array (
@@ -600,6 +669,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2016 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Notification',
+    'provider' => 'NotificationServiceProvider',
   ),
   'app-orders::package' => 
   array (
@@ -612,6 +682,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Orders',
+    'provider' => 'OrdersServiceProvider',
   ),
   'app-payment::package' => 
   array (
@@ -624,6 +695,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Payment',
+    'provider' => 'PaymentServiceProvider',
   ),
   'app-pintuan::package' => 
   array (
@@ -639,6 +711,7 @@
     'version' => '1.19.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Platform',
+    'provider' => 'PlatformServiceProvider',
   ),
   'app-printer::package' => 
   array (
@@ -651,6 +724,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2013 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Printer',
+    'provider' => 'PrinterServiceProvider',
   ),
   'app-promotion::package' => 
   array (
@@ -663,6 +737,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Promotion',
+    'provider' => 'PromotionServiceProvider',
   ),
   'app-push::package' => 
   array (
@@ -675,6 +750,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Push',
+    'provider' => 'PushServiceProvider',
   ),
   'app-quickpay::package' => 
   array (
@@ -687,6 +763,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2015 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Quickpay',
+    'provider' => 'QuickpayServiceProvider',
   ),
   'app-refund::package' => 
   array (
@@ -699,6 +776,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2015 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Refund',
+    'provider' => 'RefundServiceProvider',
   ),
   'app-setting::package' => 
   array (
@@ -711,6 +789,7 @@
     'version' => '2.20.0',
     'copyright' => 'ECJIA Copyright 2016 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Setting',
+    'provider' => 'SettingServiceProvider',
   ),
   'app-shipping::package' => 
   array (
@@ -723,6 +802,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Shipping',
+    'provider' => 'ShippingServiceProvider',
   ),
   'app-shopguide::package' => 
   array (
@@ -735,6 +815,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2016 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Shopguide',
+    'provider' => 'ShopguideServiceProvider',
   ),
   'app-sms::package' => 
   array (
@@ -747,6 +828,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Sms',
+    'provider' => 'SmsServiceProvider',
   ),
   'app-staff::package' => 
   array (
@@ -759,6 +841,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2015 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Staff',
+    'provider' => 'StaffServiceProvider',
   ),
   'app-stats::package' => 
   array (
@@ -771,6 +854,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2015 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Stats',
+    'provider' => 'StatsServiceProvider',
   ),
   'app-store::package' => 
   array (
@@ -783,6 +867,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Store',
+    'provider' => 'StoreServiceProvider',
   ),
   'app-theme::package' => 
   array (
@@ -795,6 +880,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Theme',
+    'provider' => 'ThemeServiceProvider',
   ),
   'app-tmplmsg::package' => 
   array (
@@ -807,6 +893,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Tmplmsg',
+    'provider' => 'TmplmsgServiceProvider',
   ),
   'app-touch::package' => 
   array (
@@ -819,6 +906,7 @@
     'version' => '1.19.0',
     'copyright' => 'ECJIA Copyright 2015 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Touch',
+    'provider' => 'TouchServiceProvider',
   ),
   'app-ucenter::package' => 
   array (
@@ -831,6 +919,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2018.',
     'namespace' => 'Ecjia\\App\\Ucenter',
+    'provider' => 'UcenterServiceProvider',
   ),
   'app-upgrade::package' => 
   array (
@@ -843,6 +932,7 @@
     'version' => '1.18.0',
     'copyright' => 'ECJIA Copyright 2017 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Upgrade',
+    'provider' => 'UpgradeServiceProvider',
   ),
   'app-user::package' => 
   array (
@@ -855,6 +945,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\User',
+    'provider' => 'UserServiceProvider',
   ),
   'app-weapp::package' => 
   array (
@@ -867,6 +958,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Weapp',
+    'provider' => 'WeappServiceProvider',
   ),
   'app-wechat::package' => 
   array (
@@ -879,6 +971,7 @@
     'version' => '1.20.0',
     'copyright' => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace' => 'Ecjia\\App\\Wechat',
+    'provider' => 'WechatServiceProvider',
   ),
   '*::mail' => 
   array (

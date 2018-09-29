@@ -50,6 +50,9 @@ foreach ($namespacemap as $namespace => $path) {
     ComposerAutoloaderInit::getLoader()->setPsr4($namespace, $path);
 }
 
+if (PHP_VERSION_ID > 70100) {
+    ComposerAutoloaderInit::getLoader()->setPsr4('Symfony\Component\VarDumper\\', VENDOR_DIR . '/symfony/var-dumper-php71');
+}
 
 /*
 |--------------------------------------------------------------------------
