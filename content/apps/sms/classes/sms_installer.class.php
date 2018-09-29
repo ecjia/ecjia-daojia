@@ -54,7 +54,7 @@ class sms_installer extends ecjia_installer {
     );
     
     public function __construct() {
-        $id = 'ecjia.bonus';
+        $id = 'ecjia.sms';
         parent::__construct($id);
     }
     
