@@ -59,6 +59,11 @@ RC_Hook::add_action('intro/index/init', function () {
         $main_url = str_replace('sites/app/', '', $main_url);
         ecjia_front::$controller->assign('main_url', $main_url);
 
+        //会员中心
+        $this_url     = RC_Uri::site_url();
+        $member_url   = str_replace('sites/app', 'sites/member', $this_url);
+        ecjia_front::$controller->assign('member_url', $member_url);
+        
         //商家列表url
         $main_goods_url = RC_Uri::url('merchant/store/category');
         $main_goods_url = str_replace('sites/app/', '', $main_goods_url);
