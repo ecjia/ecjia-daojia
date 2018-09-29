@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Communication;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Communication;
 
 use Royalcms\Component\Aliyun\Common\Utilities\AssertUtils;
 use Royalcms\Component\Aliyun\Common\Utilities\HttpMethods;
@@ -138,14 +140,14 @@ class HttpRequest extends HttpMessage {
     }
 
     /**
-     * @param \Aliyun\Common\Communication\HttpResponse $response
+     * @param \Royalcms\Component\Aliyun\Common\Communication\HttpResponse $response
      */
     public function setResponse($response) {
         $this->response = $response;
     }
 
     /**
-     * @return \Aliyun\Common\Communication\HttpResponse
+     * @return \Royalcms\Component\Aliyun\Common\Communication\HttpResponse
      */
     public function getResponse() {
         return $this->response;

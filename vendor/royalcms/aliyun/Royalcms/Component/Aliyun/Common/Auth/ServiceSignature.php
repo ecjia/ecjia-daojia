@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Auth;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Auth;
 
 use Royalcms\Component\Aliyun\Common\Utilities\AssertUtils;
 

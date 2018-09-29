@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Commands;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Commands;
 
 use Royalcms\Component\Aliyun\OSS\ResponseHandlers\OSSErrorResponseHandler;
 use Royalcms\Component\Aliyun\OSS\Models\OSSOptions;

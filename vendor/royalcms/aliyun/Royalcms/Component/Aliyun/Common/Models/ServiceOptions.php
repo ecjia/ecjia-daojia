@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Models;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Models;
 
 /**
  * 构造Client所包含的键

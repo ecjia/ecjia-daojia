@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Utilities;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Utilities;
 
 abstract class OSSResponseParserFactory {
     public static function factory() {

@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Utilities;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Utilities;
 
 use Royalcms\Component\Aliyun\Common\Resources\ResourceManager;
 use Royalcms\Component\Aliyun\Common\Utilities\DateUtils;

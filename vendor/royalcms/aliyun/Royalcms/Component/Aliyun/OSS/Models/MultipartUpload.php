@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Models;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Models;
 
 /**
  * 用以表示每个分块上传事件的信息

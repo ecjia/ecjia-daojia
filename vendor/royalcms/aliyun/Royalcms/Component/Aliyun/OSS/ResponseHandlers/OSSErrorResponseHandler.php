@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\ResponseHandlers;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\ResponseHandlers;
 
 use Royalcms\Component\Aliyun\OSS\Utilities\OSSResponseParserFactory;
 use Royalcms\Component\Aliyun\OSS\Utilities\OSSExceptionFactory;

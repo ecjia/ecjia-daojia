@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS;
 
 use Royalcms\Component\Aliyun\Common\Utilities\AssertUtils;
 use Royalcms\Component\Aliyun\Common\Resources\ResourceManager;

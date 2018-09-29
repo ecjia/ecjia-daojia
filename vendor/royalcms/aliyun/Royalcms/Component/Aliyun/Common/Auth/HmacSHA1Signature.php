@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Auth;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Auth;
 
 class HmacSHA1Signature extends ServiceSignature {
     public function getSignatureMethod() {

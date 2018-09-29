@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Parsers\SXParser;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Parsers\SXParser;
 
 use Royalcms\Component\Aliyun\Common\Communication\ResponseParserInterface;
 use Royalcms\Component\Aliyun\Common\Exceptions\ClientException;

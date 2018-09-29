@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Models;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Models;
 
 /**
  * CopyObject 的返回结果

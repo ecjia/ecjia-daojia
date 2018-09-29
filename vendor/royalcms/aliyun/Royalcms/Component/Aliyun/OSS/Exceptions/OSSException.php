@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Exceptions;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Exceptions;
 
 use Royalcms\Component\Aliyun\Common\Exceptions\ServiceException;
 

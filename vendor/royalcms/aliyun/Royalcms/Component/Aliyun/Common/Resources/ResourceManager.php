@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Resources;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Resources;
 
 final class ResourceManager {
 

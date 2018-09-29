@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Models;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Models;
 
 /**
  * CompleteMultipartUpload的返回结果

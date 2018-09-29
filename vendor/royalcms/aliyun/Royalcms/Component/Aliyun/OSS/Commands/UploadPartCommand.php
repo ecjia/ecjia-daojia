@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Commands;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Commands;
 
 use Royalcms\Component\Aliyun\Common\Utilities\HttpMethods;
 use Royalcms\Component\Aliyun\OSS\Utilities\OSSHeaders;

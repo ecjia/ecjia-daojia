@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Utilities;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Utilities;
 
 class DateUtils {
     const FORMAT_RFC822 = 'D, d M Y H:i:s \G\M\T';

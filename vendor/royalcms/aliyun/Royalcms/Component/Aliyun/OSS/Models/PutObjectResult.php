@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Models;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Models;
 
 /**
  * Put Object的返回结果

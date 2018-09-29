@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Utilities;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Utilities;
 
 class ResponseHeaderOverrides {
     const RESPONSE_HEADER_CONTENT_TYPE = "response-content-type";

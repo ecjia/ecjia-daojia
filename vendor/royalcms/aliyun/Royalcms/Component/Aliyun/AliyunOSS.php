@@ -1,8 +1,10 @@
-<?php namespace Royalcms\Component\Aliyun;
+<?php
+
+namespace Royalcms\Component\Aliyun;
 
 use Royalcms\Component\Aliyun\OSS\OSSClient;
 use Royalcms\Component\Aliyun\OSS\Models\OSSOptions;
-use Royalcms\Component\Flysystem\Util\MimeType;
+use Royalcms\Component\Aliyun\Common\Utilities\MimeType;
 
 class AliyunOSS {
 

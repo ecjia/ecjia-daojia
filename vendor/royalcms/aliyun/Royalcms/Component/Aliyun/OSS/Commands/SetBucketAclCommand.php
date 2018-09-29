@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Commands;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Commands;
 
 use Royalcms\Component\Aliyun\Common\Utilities\AssertUtils;
 use Royalcms\Component\Aliyun\Common\Utilities\HttpMethods;

@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Models;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Models;
 
 use Royalcms\Component\Aliyun\Common\Utilities\DateUtils;
 use Royalcms\Component\Aliyun\OSS\Utilities\OSSHeaders;

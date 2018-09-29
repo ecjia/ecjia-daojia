@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\OSS\Auth;
+<?php
+
+namespace Royalcms\Component\Aliyun\OSS\Auth;
 
 use Royalcms\Component\Aliyun\OSS\Utilities\OSSHeaders;
 use Royalcms\Component\Aliyun\Common\Communication\HttpRequest;

@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Communication;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Communication;
 
 use Royalcms\Component\Aliyun\Common\Utilities\AssertUtils;
 

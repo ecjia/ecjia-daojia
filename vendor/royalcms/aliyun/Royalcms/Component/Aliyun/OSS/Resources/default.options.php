@@ -1,4 +1,5 @@
 <?php
+
 use \Royalcms\Component\Aliyun\OSS\Models\OSSOptions;
 
 return array(

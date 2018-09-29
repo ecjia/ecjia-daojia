@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Utilities;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Utilities;
 
 class HttpMethods {
     const GET = 'GET';

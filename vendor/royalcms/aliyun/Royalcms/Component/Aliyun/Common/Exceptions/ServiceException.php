@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Aliyun\Common\Exceptions;
+<?php
+
+namespace Royalcms\Component\Aliyun\Common\Exceptions;
 
 /**
  * <p>
