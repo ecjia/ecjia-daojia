@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 获取所有商品分类
  * @author royalwang
  */
-class category_module extends api_front implements api_interface {
+class goods_category_module extends api_front implements api_interface {
 	public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 	    $api_old = false;
 	    if (version_compare($request->header('api-version'), '1.5', '<')) {

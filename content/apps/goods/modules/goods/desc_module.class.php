@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 单个商品的详情描述
  * @author royalwang
  */
-class desc_module extends api_front implements api_interface {
+class goods_desc_module extends api_front implements api_interface {
 
      public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
         /* 获得商品的信息 */

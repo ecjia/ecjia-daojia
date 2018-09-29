@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 商品店铺搜索
  * @author will.chen
  */
-class search_module extends api_front implements api_interface {
+class goods_search_module extends api_front implements api_interface {
 
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
         $this->authSession();
@@ -106,18 +106,20 @@ class search_module extends api_front implements api_interface {
         if (!empty($result['seller_list'])) {
             $max_goods = 0;
             $mobilebuy_db = RC_Model::model('goods/goods_activity_model');
-            $db_favourable = RC_Model::model('favourable/favourable_activity_model');
-
+            //$db_favourable = RC_Model::model('favourable/favourable_activity_model');
+            $db_favourable	 = RC_DB::table('favourable_activity');
             /* 手机专享*/
 //             $result_mobilebuy = ecjia_app::validate_application('mobilebuy');
 //             $is_active = ecjia_app::is_active('ecjia.mobilebuy');
             $seller_list = array();
+            $now = RC_Time::gmtime();
             foreach ($result['seller_list'] as $row) {
 //                 $field = 'count(*) as count, SUM(comment_rank) as comment_rank';
 //                 $comment = $db_comment->field($field)->where(array('store_id' => $row['id'], 'parent_id' => 0, 'status' => 1))->find();
 
-                $favourable_result = $db_favourable->where(array('store_id' => $row['id'], 'start_time' => array('elt' => RC_Time::gmtime()), 'end_time' => array('egt' => RC_Time::gmtime()), 'act_type' => array('neq' => 0)))->select();
-                $favourable_list = array();
+                //$favourable_result = $db_favourable->where(array('store_id' => $row['id'], 'start_time' => array('elt' => RC_Time::gmtime()), 'end_time' => array('egt' => RC_Time::gmtime()), 'act_type' => array('neq' => 0)))->select();
+            	$favourable_result = $db_favourable->where('store_id', $row['id'])->where('start_time', "<=", $now)->where('end_time', ">=", $now)->where('act_type', '!=', 0)->get();
+            	$favourable_list = array();
                 if (!empty($favourable_result)) {
                     foreach ($favourable_result as $val) {
                         if ($val['act_range'] == '0') {

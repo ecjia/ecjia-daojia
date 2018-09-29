@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author chenzhejun@ecmoban.com
  *
  */
-class add_module extends api_admin implements api_interface {
+class admin_goods_add_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();

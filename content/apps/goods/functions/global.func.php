@@ -191,22 +191,24 @@ function get_parent_grade($cat_id) {
  * @param   integer     $goods_id
  * @return  void
  */
-function get_linked_articles($goods_id) {
-    $dbview = RC_Model::model('article/goods_article_viewmodel');
-    $data = $dbview->join('article')->where(array('ga.goods_id' => "$goods_id" ,'a.article_approved' => '1'))->order(array('a.add_time' =>'DESC'))->select();
-
+function get_linked_articles($goods_id = 0) {
+	$dbview = RC_DB::table('goods_article as ga')->leftJoin('article as a', RC_DB::raw('ga.article_id'), '=', RC_DB::raw('a.article_id'));
+	
     $arr = array();
-
-    foreach ($data as $row) {
-        $row['url']         = $row['article_type'] == 'article' ?
-        build_uri('article', array('aid'=>$row['article_id']), $row['title']) : trim($row['file_url']);
-        $row['add_time']    = RC_Time::local_date(ecjia::config('date_format'), $row['add_time']);
-        $row['short_title'] = ecjia::config('article_title_length') > 0 ?
-        RC_String::sub_str($row['title'], ecjia::config('article_title_length')) : $row['title'];
-
-        $arr[] = $row;
+    $data = [];
+    if (!empty($goods_id)) {
+    	$data = $dbview->where(RC_DB::raw('ga.goods_id'), $goods_id)->where(RC_DB::raw('a.article_approved'), 1)->orderBy(RC_DB::raw('a.add_time'), 'desc')->select(RC_DB::raw('a.article_id, a.title, a.file_url, a.article_type, a.add_time'))->get();
+		if (!empty($data)) {
+			foreach ($data as $row) {
+				$row['url']         = $row['article_type'] == 'article' ?
+				build_uri('article', array('aid'=>$row['article_id']), $row['title']) : trim($row['file_url']);
+				$row['add_time']    = RC_Time::local_date(ecjia::config('date_format'), $row['add_time']);
+				$row['short_title'] = ecjia::config('article_title_length') > 0 ?
+				RC_String::sub_str($row['title'], ecjia::config('article_title_length')) : $row['title'];
+				$arr[] = $row;
+			}
+		}
     }
-
     return $arr;
 }
 
@@ -1346,21 +1348,14 @@ function get_group_goods($goods_id) {
  * @param integer $goods_id
  * @return array
  */
-function get_goods_articles($goods_id) {
-	$dbview = RC_Model::model('goods/goods_article_viewmodel');
-	$dbview->view = array(
-		'article' => array(
-			'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-			'alias' => 'a',
-			'field' => 'ga.article_id, a.title',
-			'on'    => 'ga.article_id = a.article_id'
-		)
-	);
-	if ($goods_id == 0) {
-// 		$row = $dbview->where(array('ga.goods_id' => $goods_id, 'ga.admin_id' => $_SESSION ['admin_id']))->select();
-		$row = $dbview->where(array('ga.goods_id' => $goods_id))->select();
+function get_goods_articles($goods_id = 0) {
+	
+	$dbview = RC_DB::table('goods_article as ga')->leftJoin('article as a', RC_DB::raw('ga.article_id'), '=', RC_DB::raw('a.article_id'));
+	$goods_article = [];
+	if (!empty($goods_id)) {
+		$goods_article = $dbview->where(RC_DB::raw('ga.goods_id'), $goods_id)->select(RC_DB::raw('ga.article_id,a.title'))->get();
 	}
-	return $dbview->where(array('ga.goods_id' => $goods_id))->select();
+	return $goods_article;
 }
 
 /**

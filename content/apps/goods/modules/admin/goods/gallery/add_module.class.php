@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author chenzhejun@ecmoban.com
  * 添加和编辑商品相册图片，此接口只追加图片，删除图片用delete接口
  */
-class add_module extends api_admin implements api_interface {
+class admin_goods_gallery_add_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();

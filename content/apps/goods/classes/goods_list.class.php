@@ -81,7 +81,7 @@ class goods_list {
 			$keywords = '(';
 			$goods_ids = array();
 			if (!empty($arr)) {
-				$db_keywords = RC_Model::model('goods/keywords_model');
+				//$db_keywords = RC_Model::model('goods/keywords_model');
 				foreach ($arr as $key => $val) {
 					if ($key > 0 && $key < count($arr) && count($arr) > 1) {
 						$keywords .= $operator;
@@ -89,16 +89,19 @@ class goods_list {
 					$val = mysql_like_quote(trim($val));
 					$keywords .= "(goods_name LIKE '%$val%' OR goods_sn LIKE '%$val%' OR keywords LIKE '%$val%')";
 					//插入keywords表数据 will.chen
-					$count = $db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'searchengine' => 'ecjia', 'keyword'=>addslashes(str_replace('%', '', $val))))->get_field('count');
+					//$count = $db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'searchengine' => 'ecjia', 'keyword'=>addslashes(str_replace('%', '', $val))))->get_field('count');
+					$count = RC_DB::table('keywords')->where('date', RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $val)))->pluck('count');
+					
 					if (!empty($count) && $count > 0) {
-					    $db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'searchengine' => 'ecjia', 'keyword'=>addslashes(str_replace('%', '', $val))))->update(array('count' => $count + 1));
+					    //$db_keywords->where(array('date' => RC_Time::local_date('Y-m-d'), 'searchengine' => 'ecjia', 'keyword'=>addslashes(str_replace('%', '', $val))))->update(array('count' => $count + 1));
+						RC_DB::table('keywords')->where('date', RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $val)))->update(array('count' => $count + 1));
 					} else {
 						$data = array(
 								'date' => RC_Time::local_date('Y-m-d'),
 								'searchengine' => 'ecjia',
 								'count'=> '1',
 								'keyword' => addslashes(str_replace('%', '', $val)));
-						$db_keywords->insert($data);
+						RC_DB::table('keywords')->insert($data);
 					}
 				}
 			}
@@ -360,6 +363,7 @@ class goods_list {
 			$data = $dbview->join(array('member_price', 'store_franchisee'))->field($field)->where($where)->order($filter['sort'])->limit($limit)->select();
 			
 			$arr = array();
+			$store_logo = '';
 			if (!empty($data)) {
 				RC_Loader::load_app_func('admin_goods', 'goods');
 				foreach ($data as $key => $row) {
@@ -373,13 +377,16 @@ class goods_list {
 					} else {
 						$arr[$key]['goods_name'] = $row['goods_name'];
 					}
-			
+					if ($row['store_id'] > 0) {
+						$store_logo = self::get_store_logo($row['store_id']);
+					}
 					$arr[$key]['goods_id']		= $row['goods_id'];
 					$arr[$key]['name']			= $row['goods_name'];
 					$arr[$key]['goods_sn']		= $row['goods_sn'];
 					$arr[$key]['goods_brief'] 	= $row['goods_brief'];
 					$arr[$key]['store_id']		= $row['store_id'];
 					$arr[$key]['store_name']	= $row['merchants_name'];
+					$arr[$key]['store_logo']	= $store_logo;
 					$arr[$key]['manage_mode']	= $row['manage_mode'];
 					/* 增加商品样式*/
 					$arr[$key]['goods_style_name'] = add_style($row['goods_name'], $row['goods_name_style']);
@@ -632,6 +639,7 @@ class goods_list {
 	        $data = $dbview->join(array('member_price', 'store_franchisee', 'products'))->field($field)->where($where)->order($filter['sort'])->limit($limit)->select();
 	        	
 	        $arr = array();
+	        $store_logo = '';
 	        if (!empty($data)) {
 	            RC_Loader::load_app_func('admin_goods', 'goods');
 	            foreach ($data as $key => $row) {
@@ -650,6 +658,9 @@ class goods_list {
 					foreach ($attr_list AS $attr) {
 						$row['goods_attr_name'] .= ' [' . $attr['attr_value'] . '] ';
 					}
+					if ($row['store_id'] > 0) {
+						$store_logo = self::get_store_logo($row['store_id']);
+					}
 	                $arr[$key]['goods_id']		= $row['goods_id'];
 	                $arr[$key]['name']			= $row['goods_name'];
 	                $arr[$key]['goods_sn']		= $row['goods_sn'];
@@ -660,6 +671,7 @@ class goods_list {
 	                $arr[$key]['goods_brief'] 	= $row['goods_brief'];
 	                $arr[$key]['store_id']		= $row['store_id'];
 	                $arr[$key]['store_name']	= $row['merchants_name'];
+	                $arr[$key]['store_logo']	= $store_logo;
 	                $arr[$key]['manage_mode']	= $row['manage_mode'];
 	                /* 增加商品样式*/
 	                $arr[$key]['goods_style_name'] = add_style($row['goods_name'], $row['goods_name_style']);
@@ -688,7 +700,17 @@ class goods_list {
 	
 	    return $goods_result;
 	}
-
+	
+	public static function get_store_logo($store_id = 0) {
+		$store_logo = '';
+		if ($store_id) {
+			$store_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->pluck('value');
+			if ($store_logo) {
+				$store_logo = RC_Upload::upload_url($store_logo);
+			} 
+		}
+		return $store_logo;
+	}
 
 	/**
 	 * 创建像这样的查询: "IN('a','b')";

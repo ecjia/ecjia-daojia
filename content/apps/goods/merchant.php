@@ -66,7 +66,7 @@ class merchant extends ecjia_merchant {
 	private $db_category;
 	
 	private $db_term_meta;
-	private $db_term_relationship;
+	//private $db_term_relationship;
 	
 	private $tags;
 
@@ -89,7 +89,7 @@ class merchant extends ecjia_merchant {
 		$this->db_category 			= RC_Model::model('goods/category_model');
 		
 		$this->db_term_meta 		= RC_Loader::load_sys_model('term_meta_model');
-		$this->db_term_relationship = RC_Model::model('goods/term_relationship_model');
+		//$this->db_term_relationship = RC_Model::model('goods/term_relationship_model');
 		
 		RC_Style::enqueue_style('jquery-placeholder');
 		RC_Script::enqueue_script('jquery-imagesloaded');

@@ -64,7 +64,7 @@ class admin extends ecjia_admin {
 	private $db_brand;
 	private $db_category;
 	private $db_term_meta;
-	private $db_term_relationship;
+	//private $db_term_relationship;
 	private $orm_goods_db;
 
 	public function __construct() {
@@ -83,7 +83,7 @@ class admin extends ecjia_admin {
 		$this->db_products 			= RC_Model::model('goods/products_model');
 		$this->db_brand 			= RC_Model::model('goods/brand_model','goods');
 		$this->db_category 			= RC_Model::model('goods/category_model');
-		$this->db_term_relationship = RC_Model::model('goods/term_relationship_model');
+		//$this->db_term_relationship = RC_Model::model('goods/term_relationship_model');
 		$this->db_term_meta 		= RC_Loader::load_sys_model('term_meta_model');
 		
 		$this->orm_goods_db = RC_Model::model('goods/orm_goods_model');

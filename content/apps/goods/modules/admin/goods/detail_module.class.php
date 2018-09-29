@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 商品详情
  * @author 
  */
-class detail_module extends api_admin implements api_interface {
+class admin_goods_detail_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -175,7 +175,7 @@ class detail_module extends api_admin implements api_interface {
 		    		);
 		    	}
 		    }
-		    $pictures = get_goods_gallery($id);
+		    $pictures = $this->get_goods_gallery($id);
 		    $pictures_array = array();
 		    if (!empty($pictures)) {
 		        foreach ($pictures as $val) {
@@ -191,60 +191,37 @@ class detail_module extends api_admin implements api_interface {
 			return $goods_detail;
 		}
 	}
-}
-
-function get_goods_gallery($goods_id) {
-    $db_goods_gallery = RC_Loader::load_app_model('goods_gallery_model', 'goods');
-    $row = $db_goods_gallery->field('img_id, img_url, thumb_url, img_desc, img_original')->where(array('goods_id' => $goods_id))->select();
-    $img_list_sort = $img_list_id = array();
-    $img = array();
-    /* 格式化相册图片路径 */
-    if (!empty($row)) {
-        foreach ($row as $key => $gallery_img) {
-            $desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
-            !empty($desc_index) && $row[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
-            $row[$key]['small']	= get_upload_url($gallery_img['img_original']);
-            $row[$key]['url']	= get_upload_url($gallery_img['img_url']);
-            $row[$key]['thumb']	= get_upload_url($gallery_img['thumb_url']);
-
-            $img_list_sort[$key] = $row[$key]['desc'];
-            $img_list_id[$key] = $gallery_img['img_id'];
-        }
-        //先使用sort排序，再使用id排序。
-        array_multisort($img_list_sort, $img_list_id, $row);
-    }
-    return $row;
-}
-/**
- * 获取上传文件url
- * @param string $save_url 数据表存储的相对路径
- * 
- */
-function get_upload_url($save_url) {
-    return substr($save_url, 0, 4) == 'http' ? $save_url : RC_Upload::upload_url($save_url);
-}
-/**
- * 判断某个商品是否正在特价促销期
- *
- * @access public
- * @param float $price
- *        	促销价格
- * @param string $start
- *        	促销开始日期
- * @param string $end
- *        	促销结束日期
- * @return float 如果还在促销期则返回促销价，否则返回0
- */
-function bargain_price($price, $start, $end) {
-	if ($price == 0) {
-		return 0;
-	} else {
-		$time = RC_Time::gmtime ();
-		if ($time >= $start && $time <= $end) {
-			return $price;
-		} else {
-			return 0;
+	
+	private function get_goods_gallery($goods_id) {
+		$db_goods_gallery = RC_Loader::load_app_model('goods_gallery_model', 'goods');
+		$row = $db_goods_gallery->field('img_id, img_url, thumb_url, img_desc, img_original')->where(array('goods_id' => $goods_id))->select();
+		$img_list_sort = $img_list_id = array();
+		$img = array();
+		/* 格式化相册图片路径 */
+		if (!empty($row)) {
+			foreach ($row as $key => $gallery_img) {
+				$desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
+				!empty($desc_index) && $row[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
+				$row[$key]['small']	= $this->get_upload_url($gallery_img['img_original']);
+				$row[$key]['url']	= $this->get_upload_url($gallery_img['img_url']);
+				$row[$key]['thumb']	= $this->get_upload_url($gallery_img['thumb_url']);
+	
+				$img_list_sort[$key] = $row[$key]['desc'];
+				$img_list_id[$key] = $gallery_img['img_id'];
+			}
+			//先使用sort排序，再使用id排序。
+			array_multisort($img_list_sort, $img_list_id, $row);
 		}
+		return $row;
+	}
+	
+	/**
+	 * 获取上传文件url
+	 * @param string $save_url 数据表存储的相对路径
+	 *
+	 */
+	private function get_upload_url($save_url) {
+		return substr($save_url, 0, 4) == 'http' ? $save_url : RC_Upload::upload_url($save_url);
 	}
 }
 

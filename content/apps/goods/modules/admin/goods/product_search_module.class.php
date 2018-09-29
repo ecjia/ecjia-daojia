@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 搜索商品（搜索商品）
  * @author luchongchong
  */
-class product_search_module extends api_admin implements api_interface {
+class admin_goods_product_search_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -104,9 +104,9 @@ class product_search_module extends api_admin implements api_interface {
 					'goods_sn'				=> empty($v['product_sn']) ? $v['goods_sn'] : $v['product_sn'],
 					'attribute'				=> $v['goods_attr'],
 					'img' => array(
-						'thumb'	=> API_DATA('PHOTO', $v['goods_img']),
-						'url'	=> API_DATA('PHOTO', $v['original_img']),
-						'small'	=> API_DATA('PHOTO', $v['goods_thumb'])
+						'thumb'	=> ecjia_api::transformerData('PHOTO', $v['goods_img']),
+						'url'	=> ecjia_api::transformerData('PHOTO', $v['original_img']),
+						'small'	=> ecjia_api::transformerData('PHOTO', $v['goods_thumb'])
 					),
 	    	 	);
 			}

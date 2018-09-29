@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 单个商品的详情描述
  * @author royalwang
  */
-class desc_module extends api_admin implements api_interface {
+class admin_goods_desc_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
@@ -62,7 +62,7 @@ class desc_module extends api_admin implements api_interface {
     	$goods_id = $this->requestData('goods_id', 0);
 
 		//RC_Loader::load_app_func('admin_goods', 'goods');
-        $goods = get_goods_info($goods_id);
+        $goods = $this->get_goods_info($goods_id);
         if ($goods === false) {
             /* 如果没有找到任何记录则跳回到首页 */
            	return new ecjia_error('not_exists_info', '不存在的信息');
@@ -79,137 +79,136 @@ class desc_module extends api_admin implements api_interface {
 	        return array('data' => $html);
         }
     }
-}
-
-
-/**
- * 获得商品的详细信息
- *
- * @access public
- * @param integer $goods_id
- * @return void
- */
-function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
-	RC_Loader::load_app_func('global', 'goods');
-	$time = RC_Time::gmtime();
-
-	$db_goods = RC_DB::table('goods')->where('goods_id', $goods_id);
+    
+    /**
+     * 获得商品的详细信息
+     *
+     * @access public
+     * @param integer $goods_id
+     * @return void
+     */
+    private function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
+		RC_Loader::load_app_func('global', 'goods');
+		$time = RC_Time::gmtime();
 	
-	if (!empty($_SESSION['store_id'])) {
-		$db_goods->where('store_id', $_SESSION['store_id']);
-	}
+		$db_goods = RC_DB::table('goods')->where('goods_id', $goods_id);
+		
+		if (!empty($_SESSION['store_id'])) {
+			$db_goods->where('store_id', $_SESSION['store_id']);
+		}
+		
+		//商品信息
+		$row = $db_goods->first();
+		if (empty($row)) {
+			return false;
+		}
+		//分类信息
+		$cat_info = RC_DB::table('category')->where('cat_id', $row['cat_id'])->first();
+		$row['measure_unit'] = $cat_info['measure_unit'];
 	
-	//商品信息
-	$row = $db_goods->first();
-	if (empty($row)) {
-		return false;
-	}
-	//分类信息
-	$cat_info = RC_DB::table('category')->where('cat_id', $row['cat_id'])->first();
-	$row['measure_unit'] = $cat_info['measure_unit'];
-
-	//品牌信息
-	$brand_info = RC_DB::table('brand')->where('brand_id', $row['brand_id'])->first();
-	$row['brand_logo'] = $brand_info['brand_logo'];
-	$row['goods_brand'] = $brand_info['brand_name'];
-
-	//评论信息
-	$comment_info = RC_DB::table('comment')
-	->select(RC_DB::raw('IFNULL(AVG(comment_rank), 0) AS comment_rank'))
-	->where('id_value', $goods_id)
-	->where('comment_type', 0)
-	->where('parent_id', 0)
-	->where('status', 1)
-	->first();
-	$row['comment_rank'] = $comment_info['comment_rank'];
-
-	//红包类型信息
-	$bonus_info = RC_DB::table('bonus_type')
-	->where('type_id', $row['bonus_type_id'])
-	->where('send_start_date', '<=', $time)
-	->where('send_end_date', '>=', $time)
-	->first();
-	$row['bonus_money'] = $bonus_info['type_money'];
-	 
-	//会员价格信息
-	$member_price_info = RC_DB::table('member_price')
-	->select(RC_DB::raw("IFNULL(user_price, $row[shop_price] * '$_SESSION[discount]') AS rank_price"))
-	->where('goods_id', $goods_id)
-	->where('user_rank', $_SESSION['user_rank'])
-	->first();
-	$row['rank_price'] = $member_price_info['rank_price'];
-
-	$count = RC_DB::table('store_franchisee')->where('shop_close', '0')->where('store_id', $row['store_id'])->count();
-	if (empty($count)) {
-		return false;
-	}
-
-	if (!empty($row)) {
-		$row['goods_id'] = $goods_id;
-		/* 用户评论级别取整 */
-		$row ['comment_rank'] = ceil ( $row ['comment_rank'] ) == 0 ? 5 : ceil ( $row ['comment_rank'] );
-		/* 获得商品的销售价格 */
-		$row ['market_price'] = $row ['market_price'];
-		$row ['shop_price_formated'] = price_format ($row ['shop_price'] );
-
-		/* 修正促销价格 */
-		if ($row ['promote_price'] > 0) {
-			$promote_price = bargain_price ( $row ['promote_price'], $row ['promote_start_date'], $row ['promote_end_date'] );
+		//品牌信息
+		$brand_info = RC_DB::table('brand')->where('brand_id', $row['brand_id'])->first();
+		$row['brand_logo'] = $brand_info['brand_logo'];
+		$row['goods_brand'] = $brand_info['brand_name'];
+	
+		//评论信息
+		$comment_info = RC_DB::table('comment')
+		->select(RC_DB::raw('IFNULL(AVG(comment_rank), 0) AS comment_rank'))
+		->where('id_value', $goods_id)
+		->where('comment_type', 0)
+		->where('parent_id', 0)
+		->where('status', 1)
+		->first();
+		$row['comment_rank'] = $comment_info['comment_rank'];
+	
+		//红包类型信息
+		$bonus_info = RC_DB::table('bonus_type')
+		->where('type_id', $row['bonus_type_id'])
+		->where('send_start_date', '<=', $time)
+		->where('send_end_date', '>=', $time)
+		->first();
+		$row['bonus_money'] = $bonus_info['type_money'];
+		 
+		//会员价格信息
+		$member_price_info = RC_DB::table('member_price')
+		->select(RC_DB::raw("IFNULL(user_price, $row[shop_price] * '$_SESSION[discount]') AS rank_price"))
+		->where('goods_id', $goods_id)
+		->where('user_rank', $_SESSION['user_rank'])
+		->first();
+		$row['rank_price'] = $member_price_info['rank_price'];
+	
+		$count = RC_DB::table('store_franchisee')->where('shop_close', '0')->where('store_id', $row['store_id'])->count();
+		if (empty($count)) {
+			return false;
+		}
+	
+		if (!empty($row)) {
+			$row['goods_id'] = $goods_id;
+			/* 用户评论级别取整 */
+			$row ['comment_rank'] = ceil ( $row ['comment_rank'] ) == 0 ? 5 : ceil ( $row ['comment_rank'] );
+			/* 获得商品的销售价格 */
+			$row ['market_price'] = $row ['market_price'];
+			$row ['shop_price_formated'] = price_format ($row ['shop_price'] );
+	
+			/* 修正促销价格 */
+			if ($row ['promote_price'] > 0) {
+				$promote_price = bargain_price ( $row ['promote_price'], $row ['promote_start_date'], $row ['promote_end_date'] );
+			} else {
+				$promote_price = 0;
+			}
+			/* 处理商品水印图片 */
+			$watermark_img = '';
+	
+			if ($promote_price != 0) {
+				$watermark_img = "watermark_promote";
+			} elseif ($row ['is_new'] != 0) {
+				$watermark_img = "watermark_new";
+			} elseif ($row ['is_best'] != 0) {
+				$watermark_img = "watermark_best";
+			} elseif ($row ['is_hot'] != 0) {
+				$watermark_img = 'watermark_hot';
+			}
+	
+			if ($watermark_img != '') {
+				$row ['watermark_img'] = $watermark_img;
+			}
+	
+			$row ['promote_price_org'] = $promote_price;
+			$row ['promote_price'] = price_format ( $promote_price );
+	
+			/* 修正重量显示 */
+			$row ['goods_weight'] = (intval ( $row ['goods_weight'] ) > 0) ? $row ['goods_weight'] . RC_Lang::get('goods::goods.kilogram') : ($row ['goods_weight'] * 1000) . RC_Lang::get('goods::goods.gram');
+	
+			/* 修正上架时间显示 */
+			$row ['add_time'] = RC_Time::local_date ( ecjia::config ( 'date_format' ), $row ['add_time'] );
+	
+			/* 促销时间倒计时 */
+			$time = RC_Time::gmtime ();
+			if ($time >= $row ['promote_start_date'] && $time <= $row ['promote_end_date']) {
+				$row ['gmt_end_time'] = $row ['promote_end_date'];
+			} else {
+				$row ['gmt_end_time'] = 0;
+			}
+	
+			/* 是否显示商品库存数量 */
+			$row ['goods_number'] = (ecjia::config ( 'use_storage' ) == 1) ? $row ['goods_number'] : '';
+	
+			/* 修正积分：转换为可使用多少积分（原来是可以使用多少钱的积分） */
+			$row ['integral'] = ecjia::config ( 'integral_scale' ) ? round ( $row ['integral'] * 100 / ecjia::config ( 'integral_scale' ) ) : 0;
+	
+			/* 修正优惠券 */
+			$row ['bonus_money'] = ($row ['bonus_money'] == 0) ? 0 : price_format ( $row ['bonus_money'], false );
+	
+			RC_Loader::load_app_class('goods_imageutils', 'goods', false);
+			/* 修正商品图片 */
+			$row ['goods_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['goods_img']);
+			$row ['goods_thumb'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['goods_thumb']);
+			$row ['original_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['original_img']);
+	
+			return $row;
 		} else {
-			$promote_price = 0;
+			return false;
 		}
-		/* 处理商品水印图片 */
-		$watermark_img = '';
-
-		if ($promote_price != 0) {
-			$watermark_img = "watermark_promote";
-		} elseif ($row ['is_new'] != 0) {
-			$watermark_img = "watermark_new";
-		} elseif ($row ['is_best'] != 0) {
-			$watermark_img = "watermark_best";
-		} elseif ($row ['is_hot'] != 0) {
-			$watermark_img = 'watermark_hot';
-		}
-
-		if ($watermark_img != '') {
-			$row ['watermark_img'] = $watermark_img;
-		}
-
-		$row ['promote_price_org'] = $promote_price;
-		$row ['promote_price'] = price_format ( $promote_price );
-
-		/* 修正重量显示 */
-		$row ['goods_weight'] = (intval ( $row ['goods_weight'] ) > 0) ? $row ['goods_weight'] . RC_Lang::get('goods::goods.kilogram') : ($row ['goods_weight'] * 1000) . RC_Lang::get('goods::goods.gram');
-
-		/* 修正上架时间显示 */
-		$row ['add_time'] = RC_Time::local_date ( ecjia::config ( 'date_format' ), $row ['add_time'] );
-
-		/* 促销时间倒计时 */
-		$time = RC_Time::gmtime ();
-		if ($time >= $row ['promote_start_date'] && $time <= $row ['promote_end_date']) {
-			$row ['gmt_end_time'] = $row ['promote_end_date'];
-		} else {
-			$row ['gmt_end_time'] = 0;
-		}
-
-		/* 是否显示商品库存数量 */
-		$row ['goods_number'] = (ecjia::config ( 'use_storage' ) == 1) ? $row ['goods_number'] : '';
-
-		/* 修正积分：转换为可使用多少积分（原来是可以使用多少钱的积分） */
-		$row ['integral'] = ecjia::config ( 'integral_scale' ) ? round ( $row ['integral'] * 100 / ecjia::config ( 'integral_scale' ) ) : 0;
-
-		/* 修正优惠券 */
-		$row ['bonus_money'] = ($row ['bonus_money'] == 0) ? 0 : price_format ( $row ['bonus_money'], false );
-
-		RC_Loader::load_app_class('goods_imageutils', 'goods', false);
-		/* 修正商品图片 */
-		$row ['goods_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['goods_img']);
-		$row ['goods_thumb'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['goods_thumb']);
-		$row ['original_img'] = empty($row ['goods_img']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($row ['original_img']);
-
-		return $row;
-	} else {
-		return false;
 	}
 }
 
