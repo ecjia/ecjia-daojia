@@ -13,14 +13,89 @@ namespace Royalcms\Component\Widget;
 abstract class Widget
 {
 
-    var $id_base;			// Root id for all widgets of this type.
-    var $name;				// Name for this widget type.
-    var $widget_options;	// Option array passed to wp_register_sidebar_widget()
-    var $control_options;	// Option array passed to wp_register_widget_control()
+    /**
+     * Root ID for all widgets of this type.
+     *
+     * @since 5.0.0
+     * @access public
+     * @var mixed|string
+     */
+    protected $id_base;
 
-    var $number = false;	// Unique ID number of the current instance.
-    var $id = false;		// Unique ID string of the current instance (id_base-number)
-    var $updated = false;	// Set true when we update the data after a POST submit - makes sure we don't do it twice.
+    /**
+     * Name for this widget type.
+     *
+     * @since 5.0.0
+     * @access public
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * Option name for this widget type.
+     *
+     * @since 5.0.0
+     * @access public
+     * @var string
+     */
+    public $option_name;
+
+    /**
+     * Alt option name for this widget type.
+     *
+     * @since 5.0.0
+     * @access public
+     * @var string
+     */
+    public $alt_option_name;
+
+    /**
+     * Option array passed to register_sidebar_widget().
+     *
+     * @since 5.0.0
+     * @access public
+     * @var array
+     */
+    protected $widget_options;
+
+    /**
+     * Option array passed to register_widget_control().
+     *
+     * @since 5.0.0
+     * @access public
+     * @var array
+     */
+    protected $control_options;
+
+    /**
+     * Unique ID number of the current instance.
+     *
+     * @since 5.0.0
+     * @access public
+     * @var bool|int
+     */
+    protected $number = false;
+
+    /**
+     * Unique ID string of the current instance (id_base-number).
+     *
+     * @since 5.0.0
+     * @access public
+     * @var bool|string
+     */
+    protected $id = false;
+
+    /**
+     * Whether the widget data has been updated.
+     *
+     * Set to true when the data is updated after a POST submit - ensures it does
+     * not happen twice.
+     *
+     * @since 5.0.0
+     * @access public
+     * @var bool
+     */
+    protected $updated = false;
 
     // Member functions that you must over-ride.
 
@@ -43,7 +118,8 @@ abstract class Widget
      * @param array $old_instance Old settings for this instance
      * @return array Settings to save or bool false to cancel saving
      */
-    function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         return $new_instance;
     }
 
@@ -51,7 +127,8 @@ abstract class Widget
      *
      * @param array $instance Current settings
      */
-    function form($instance) {
+    public function form($instance)
+    {
         echo '<p class="no-options-widget">' . __('There are no options for this widget.') . '</p>';
         return 'noform';
     }
@@ -71,12 +148,18 @@ abstract class Widget
      *	 - width: required if more than 250px
      *	 - height: currently not used but may be needed in the future
      */
-    function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
+    public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() )
+    {
         $this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : strtolower($id_base);
         $this->name = $name;
         $this->option_name = 'widget_' . $this->id_base;
         $this->widget_options = rc_parse_args( $widget_options, array('classname' => $this->option_name) );
         $this->control_options = rc_parse_args( $control_options, array('id_base' => $this->id_base) );
+    }
+
+    public function getWidgetOptions($name)
+    {
+        return $this->widget_options[$name];
     }
 
     /**
@@ -87,7 +170,8 @@ abstract class Widget
      * @param string $field_name Field name
      * @return string Name attribute for $field_name
      */
-    function get_field_name($field_name) {
+    public function get_field_name($field_name)
+    {
         return 'widget-' . $this->id_base . '[' . $this->number . '][' . $field_name . ']';
     }
 
@@ -99,13 +183,15 @@ abstract class Widget
      * @param string $field_name Field name
      * @return string ID attribute for $field_name
      */
-    function get_field_id($field_name) {
+    public function get_field_id($field_name)
+    {
         return 'widget-' . $this->id_base . '-' . $this->number . '-' . $field_name;
     }
 
     // Private Functions. Don't worry about these.
 
-    public function _register() {
+    public function _register()
+    {
         $settings = $this->get_settings();
         $empty = true;
 
@@ -127,20 +213,24 @@ abstract class Widget
         }
     }
 
-    private function _set($number) {
+    public function _set($number)
+    {
         $this->number = $number;
         $this->id = $this->id_base . '-' . $number;
     }
 
-    private function _get_display_callback() {
+    private function _get_display_callback()
+    {
         return array($this, 'display_callback');
     }
 
-    private function _get_update_callback() {
+    private function _get_update_callback()
+    {
         return array($this, 'update_callback');
     }
 
-    private function _get_form_callback() {
+    private function _get_form_callback()
+    {
         return array($this, 'form_callback');
     }
 
@@ -154,7 +244,8 @@ abstract class Widget
      *
      * @return bool True if Customizer is on, false if not.
      */
-    function is_preview() {
+    public function is_preview()
+    {
         global $wp_customize;
         return ( isset( $wp_customize ) && $wp_customize->is_preview() ) ;
     }
@@ -162,7 +253,8 @@ abstract class Widget
     /** Generate the actual widget content.
      *	Just finds the instance and calls widget().
      *	Do NOT over-ride this function. */
-    function display_callback( $args, $widget_args = 1 ) {
+    public function display_callback( $args, $widget_args = 1 )
+    {
         if ( is_numeric($widget_args) )
             $widget_args = array( 'number' => $widget_args );
 
@@ -210,7 +302,8 @@ abstract class Widget
      *
      * @param mixed $deprecated Not used.
      */
-    function update_callback( $deprecated = 1 ) {
+    public function update_callback( $deprecated = 1 )
+    {
         global $wp_registered_widgets;
 
         $all_instances = $this->get_settings();
@@ -292,7 +385,8 @@ abstract class Widget
      *
      * Do NOT over-ride this function.
      */
-    function form_callback( $widget_args = 1 ) {
+    final public function form_callback( $widget_args = 1 )
+    {
         if ( is_numeric($widget_args) )
             $widget_args = array( 'number' => $widget_args );
 
@@ -346,10 +440,17 @@ abstract class Widget
     }
 
     /** Helper function: Registers a single instance. */
-    function _register_one($number = -1) {
+    public function _register_one($number = -1)
+    {
         RC_Widget::register_sidebar_widget(	$this->id, $this->name,	$this->_get_display_callback(), $this->widget_options, array( 'number' => $number ) );
         RC_Widget::_register_widget_update_callback( $this->id_base, $this->_get_update_callback(), $this->control_options, array( 'number' => -1 ) );
         RC_Widget::_register_widget_form_callback(	$this->id, $this->name,	$this->_get_form_callback(), $this->control_options, array( 'number' => $number ) );
+    }
+
+
+    public function getIdBase()
+    {
+        return $this->id_base;
     }
 
     public abstract function save_settings($settings);
