@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 促销商品删除(取消商品促销活动)
  * @author will
  */
-class delete_module extends api_admin implements api_interface {
+class admin_promotion_delete_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
