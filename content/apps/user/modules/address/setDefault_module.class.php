@@ -64,10 +64,8 @@ class address_setDefault_module extends api_front implements api_interface {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		
-		$db_user_address = RC_Model::model('user/user_address_model');
 		$db_users = RC_Model::model('user/users_model');
-		
-		$arr = $db_user_address->find(array('address_id' => $address_id, 'user_id' => $user_id));
+		$arr = RC_DB::table('user_address')->where('address_id', $address_id)->where('user_id', $user_id)->first();
 		if (empty($arr)) {
 			return new ecjia_error(8, 'fail');
 		}

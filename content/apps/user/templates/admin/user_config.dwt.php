@@ -15,10 +15,8 @@
 			<div class="control-group formSep">
 				<label class="control-label">是否开启会员中心：</label>
 				<div class="controls chk_radio">
-					<input type="radio" name="pc_test" value="1" {if $pc_test.on eq 1} checked {/if}>
-					<span>开启</span>
-					<input type="radio" name="pc_test" value="0" {if !$pc_test.on || $pc_test.on eq 0} checked {/if}>
-					<span>关闭</span>
+					<input type="radio" name="pc_enabled_member" value="1" {if $pc_enabled_member eq 1} checked {/if}> <span>开启</span>
+					<input type="radio" name="pc_enabled_member" value="0" {if !$pc_enabled_member || $pc_enabled_member eq 0} checked {/if}> <span>关闭</span>
 					<div class="clear"></div>
 					<div class="help-block">开启则显示PC会员中心，关闭则隐藏</div>
 				</div>

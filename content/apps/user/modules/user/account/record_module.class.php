@@ -67,20 +67,21 @@ class user_account_record_module extends api_front implements api_interface {
 		if (!$user_id) {
 		    return new ecjia_error(100, 'Invalid session' );
 		}
- 		$db = RC_Model::model('user/user_account_model');
- 		
- 		$where = array(
- 				'user_id' => $user_id,
- 				'process_type' => array(SURPLUS_SAVE, SURPLUS_RETURN)
- 		);
- 		
+		
+		$db = RC_DB::table('user_account')->where('user_id', $user_id);
 		if (!empty($process_type)) {
- 			$where['process_type'] = $process_type == 'deposit' ? 0 : 1;
- 		}
- 		
+			if ($process_type == 'deposit') {
+				$db->where('process_type', SURPLUS_SAVE);
+			} else {
+				$db->where('process_type', SURPLUS_RETURN);
+			}
+		} else {
+			$db->whereIn('process_type', array(SURPLUS_SAVE, SURPLUS_RETURN));
+		}
+		
  		/* 获取记录条数 */
- 		$record_count = $db->where($where)->count();
- 		
+		$record_count = $db->count();
+		
  		//加载分页类
 		RC_Loader::load_sys_class('ecjia_page', false);
 		//实例化分页

@@ -8,10 +8,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class user_signupFields_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		
-		$db = RC_Loader::load_app_model('reg_fields_model','user');
-
-		$extend_info_list = $db->where(array('type' => array('lt' => 2), 'display' => '1', 'id' => array('neq' => 6)))->order(array('dis_order' => 'asc' , 'id' => 'asc'))->select();
-		$out = array();
+    	$extend_info_list = RC_DB::table('reg_fields')->where('type', '<', 2)->where('display', 1)->where('id', '!=', 6)->orderBy('dis_order', 'asc')->orderBy('id', 'asc')->get();
+    	
+    	$out = array();
 		foreach ($extend_info_list as $val) {
 			$out[] = array(
 					'id' => $val['id'],

@@ -67,7 +67,6 @@ class address_update_module extends api_front implements api_interface {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
 		
-		$db_user_address = RC_Model::model('user/user_address_model');
 		$address_update_data = array();
 		$address_update_data['user_id'] 		= $address['user_id'];
 		$address_update_data['address_id']		= $address['address_id'];
@@ -126,7 +125,7 @@ class address_update_module extends api_front implements api_interface {
 			$address_update_data['district']	= $data['district'];
 			$address_update_data['street']		= $data['street'];
 		}
-		
+
 		$result = RC_Api::api('user', 'address_manage', $address_update_data);
 		if(is_ecjia_error($result)){
 			return $result;

@@ -44,14 +44,56 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\User;
 
-class user_account_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'user_account';
-		parent::__construct();
-	}
+use RC_DB;
+use RC_Time;
+use ecjia;
+use RC_Api;
+use RC_Logger;
+use ecjia_page;
+use RC_Lang;
+
+/**
+ * 用户收货地址管理
+ *
+ */
+class UserAddress
+{
+	
+    /**
+     * 获取用户默认收货地址信息
+     * @param int $user_id
+     * @return array
+     */
+    public static function UserDefaultAddressInfo($user_id = 0) {
+    	$info = [];
+    	if ($user_id) {
+    		$info = RC_DB::table('user_address as ua')
+    					->leftJoin('users as u', RC_DB::raw('ua.address_id'), '=', RC_DB::raw('u.address_id'))
+    					->where(RC_DB::raw('u.user_id'), $user_id)
+    					->select(RC_DB::raw('ua.*'))
+    					->first();
+    	}
+        return $info;
+    }
+    
+    /**
+     * 获取用户收货地址列表
+     * @param int $user_id
+     * @return array
+     */
+    public static function UserAddressList($user_id = 0) {
+    	$list = [];
+    	if ($user_id) {
+    		$dbview = RC_DB::table('user_address as ua')
+    		->leftJoin('regions as c', RC_DB::raw('c.region_id'), '=', RC_DB::raw('ua.country'))
+    		->leftJoin('regions as p', RC_DB::raw('p.region_id'), '=', RC_DB::raw('ua.province'))
+    		->leftJoin('regions as t', RC_DB::raw('t.region_id'), '=', RC_DB::raw('ua.city'))
+    		->leftJoin('regions as d', RC_DB::raw('d.region_id'), '=', RC_DB::raw('ua.district'));
+    		
+    		$list = $dbview->where(RC_DB::raw('user_id'), $user_id)->get();
+    	}
+    	return $list;
+    }
 }
-
-// end

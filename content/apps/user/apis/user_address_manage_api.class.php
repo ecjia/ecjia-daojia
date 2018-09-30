@@ -107,9 +107,7 @@ class user_address_manage_api extends Component_Event_Api {
         }
      
         /* 获取用户地址 */
-        $db_user_address = RC_Model::model('user/user_address_model');
-        $user_address = $db_user_address->where(array('address_id' => $address['address_id'], 'user_id' => $_SESSION['user_id']))->get_field('address_id');
-        
+        $user_address	= RC_DB::table('user_address')->where('address_id', $address['address_id'])->where('user_id', $_SESSION['user_id'])->pluck('address_id');
         if ($address['address_id'] != $user_address) {
         	return new ecjia_error('not_exists_info', '不存在的信息');
         }
@@ -145,7 +143,6 @@ class user_address_manage_api extends Component_Event_Api {
      */
     private function update_address($address)
     {
-    	$db_user_address = RC_Model::model('user/user_address_model');
     
     	$address_id = 0;
     	if (isset($address['address_id'])) {
@@ -154,41 +151,43 @@ class user_address_manage_api extends Component_Event_Api {
     	}
     	
     	//验证是否重复
-    	$where = array(
-    	    'address_id' => array('neq' => $address_id),
-    	    'user_id'   =>  $address['user_id'],
-    	    'consignee' =>  $address['consignee'],
-    	    'email'     =>  $address['email'],
-    	    'country'   =>  $address['country'],
-    	    'province'  =>  $address['province'],
-    	    'city'      =>  $address['city'],
-    	    'district'  =>  $address['district'],
-            'street'    =>  $address['street'],
-    	    'address'   =>  $address['address'],
-    	    'address_info' =>  $address['address_info'],
-    	    'zipcode'   =>  $address['zipcode'],
-    	    'tel'       =>  $address['tel'],
-    	    'mobile'    =>  $address['mobile'],
-    	    
-    	);
-    	if ($db_user_address->where($where)->count()) {
+    	$count = RC_DB::table('user_address')->where('address_id', '!=', $address_id)
+    				->where('user_id', $address['user_id'])
+    				->where('consignee', $address['consignee'])
+    				->where('email', $address['email'])
+    				->where('country', $address['country'])
+    				->where('province', $address['province'])
+    				->where('city', $address['city'])
+    				->where('district', $address['district'])
+    				->where('street', $address['street'])
+    				->where('address', $address['address'])
+    				->where('address_info', $address['address_info'])
+    				->where('zipcode', $address['zipcode'])
+    				->where('tel', $address['tel'])
+    				->where('mobile', $address['mobile'])
+    				->count();
+    	
+    	if ($count) {
     	    return new ecjia_error('address_repeat', '收货地址信息重复，请修改！');
+    	}
+    	//字段过滤
+    	$defaul = $address['default'];
+    	if (array_key_exists('default', $address)) {
+    		 unset($address['default']);
     	}
     	
     	if ($address_id > 0) {
     		$address['district'] = empty($address['district']) ? '' : $address['district'];
     		
     		/* 更新指定记录 */
-    		$db_user_address->where(array('address_id' => $address_id, 'user_id' => $address['user_id']))->update($address);
-    		
+    		RC_DB::table('user_address')->where('address_id', $address_id)->where('user_id', $address['user_id'])->update($address);
     	} else {
     		/* 插入一条新记录 */
-    		$address_id = $db_user_address->insert($address);
+    		$address_id = RC_DB::table('user_address')->insertGetId($address);
     	}
     
-    	if (isset($address['default']) && $address['default'] > 0 && isset($address['user_id'])) {
-    		$db_user = RC_Model::model('user/users_model');
-    		$db_user->where(array('user_id' => $address['user_id']))->update(array('address_id' => $address_id));
+    	if (isset($defaul) && $defaul > 0 && isset($address['user_id'])) {
+    		RC_DB::table('users')->where('user_id', $address['user_id'])->update(array('address_id' => $address_id));
     	}
     
     	return $address_id;

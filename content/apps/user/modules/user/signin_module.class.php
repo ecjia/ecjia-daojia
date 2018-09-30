@@ -173,43 +173,29 @@ class user_signin_module extends api_front implements api_interface {
 			$device		      = $this->device;
 			$device_id	      = $device['udid'];
 			$device_client    = $device['client'];
-			//$db_term_relation = RC_Model::model('goods/term_relationship_model');
-			//$object_id = $db_term_relation->where(array(
+			
+			//$pra = array(
 			//		'object_type'	=> 'ecjia.feedback',
 			//		'object_group'	=> 'feedback',
 			//		'item_key2'		=> 'device_udid',
-			//		'item_value2'	=> $device_id ))
-			//		->get_field('object_id', true);
-			$pra = array(
-					'object_type'	=> 'ecjia.feedback',
-					'object_group'	=> 'feedback',
-					'item_key2'		=> 'device_udid',
-					'item_value2'	=> $device_id
-			);
-			
-			$object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
+			//		'item_value2'	=> $device_id
+			//);
+			//$object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
 			
 			//更新未登录用户的咨询
 			//$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_id))->update(array('item_key2' => '', 'item_value2' => ''));
 			RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_id)->update(array('item_key2' => '', 'item_value2' => ''));
 			
-			if(!empty($object_id)) {
-				$db = RC_Model::model('feedback/feedback_model');
-				$db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $_SESSION['user_id'], 'user_name' => $_SESSION['user_name']));
-				$db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $_SESSION['user_id'], 'user_name' => $_SESSION['user_name']));
-			}
+			//if(!empty($object_id)) {
+			//	$db = RC_Model::model('feedback/feedback_model');
+			//	$db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $_SESSION['user_id'], 'user_name' => $_SESSION['user_name']));
+			//	$db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $_SESSION['user_id'], 'user_name' => $_SESSION['user_name']));
+			//}
 			
 			//修正关联设备号
 			$result = ecjia_app::validate_application('mobile');
 			if (!is_ecjia_error($result)) {
 				if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-					//$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
-// 					$device_data = array(
-// 							'device_udid'	=> $device['udid'],
-// 							'device_client'	=> $device['client'],
-// 							'device_code'	=> $device['code'],
-// 							'user_type'		=> 'user',
-// 					);
 					RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', 'user')->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
 				}
 			}

@@ -82,14 +82,12 @@ class admin_user_account_deposit_module extends api_admin implements api_interfa
      */
     private function em_update_user_account($surplus)
     {
-        $db = RC_Loader::load_app_model('user_account_model', 'user');
         $data = array(
             'amount'	=> $surplus['amount'],
-            'user_note'	=> $surplus['user_note'],
-            'payment'	=> $surplus['payment'],
+            'user_note'	=> empty($surplus['user_note']) ? '' : $surplus['user_note'],
+            'payment'	=> empty($surplus['payment']) ? '' : $surplus['payment'],
         );
-        $db->where(array('id' => $surplus['account_id']))->update($data);
-
+		RC_DB::table('user_account')->where('id', $surplus['account_id'])->update($data);
         return $surplus['account_id'];
     }
 }

@@ -128,14 +128,12 @@ class user_account_deposit_module extends api_front implements api_interface {
      * @return  int
      */
     private function em_update_user_account($surplus) {
-        $db = RC_Model::model('user/user_account_model');
         $data = array(
             'amount'	=> $surplus['amount'],
-            'user_note'	=> $surplus['user_note'],
-            'payment'	=> $surplus['payment'],
+            'user_note'	=> empty($surplus['user_note']) ? '' : $surplus['user_note'],
+            'payment'	=> empty($surplus['payment']) ? '' : $surplus['payment'],
         );
-        $db->where(array('id' => $surplus['account_id']))->update($data);
-
+		RC_DB::table('user_account')->where('id', $surplus['account_id'])->update($data);
         return $surplus['account_id'];
     }
 }

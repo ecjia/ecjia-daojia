@@ -65,7 +65,7 @@ class address_delete_module extends api_front implements api_interface {
 		}
 		
 		if (! $this->drop_consignee($address_id, $user_id)) {
-			return new ecjia_error(8, 'fail');
+			return new ecjia_error('delete_fail', '删除失败！');
 		}
 		return array();
 	}
@@ -78,7 +78,7 @@ class address_delete_module extends api_front implements api_interface {
      * @return boolean
      */
     private function drop_consignee($id, $user_id) {
-        return RC_Model::model('user/user_address_model')->where(array('address_id' => $id, 'user_id' => $user_id))->delete();
+        return RC_DB::table('user_address')->where('address_id', $id)->where('user_id', $user_id)->delete();
     }
 
 }

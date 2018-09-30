@@ -60,20 +60,26 @@ class address_list_module extends api_front implements api_interface {
     		return new ecjia_error(100, 'Invalid session');
     	}
 		
-		$db_user_address = RC_Model::model('user/user_address_model');
-		$dbview_user_address = RC_Model::model('user/user_address_user_viewmodel');
-		
 		$seller_id = $this->requestData('seller_id', 0);
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
-		$record_count = $db_user_address->where(array('user_id' => $user_id))->count();
+		$record_count = RC_DB::table('user_address')->where('user_id', $user_id)->count();
 		
 		//实例化分页
 		$page_row = new ecjia_page($record_count, $size, 6, '', $page);
 		
 		$field = 'ua.*, IFNULL(u.address_id, 0) as is_default_address';
-		$consignee_list = $dbview_user_address->field($field)->where(array('ua.user_id' => $user_id))->order(array('is_default_address' => 'desc', 'address_id' => 'desc'))->limit($page_row->limit())->select();
-	
+		
+		$dbview_user_address = RC_DB::table('user_address as ua')->leftJoin('users as u', RC_DB::raw('ua.address_id'), '=', RC_DB::raw('u.address_id'));
+		$consignee_list = $dbview_user_address
+							->select(RC_DB::raw($field))
+							->where(RC_DB::raw('ua.user_id'), $user_id)
+							->orderBy(RC_DB::raw('is_default_address'), 'desc')
+							->orderBy(RC_DB::raw('address_id'), 'desc')
+							->take($size)
+							->skip($page->start_id-1)
+							->get();
+		
 		$result = array();
 		if (!empty($consignee_list)) {
 			$geohash = RC_Loader::load_app_class('geohash', 'store');
