@@ -7278,8 +7278,8 @@ use Royalcms\Component\Contracts\Foundation\Royalcms as RoyalcmsContract;
 use Royalcms\Component\Contracts\Debug\ExceptionHandler;
 class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterface
 {
-    const VERSION = '5.0.0';
-    const RELEASE = '2018-09-04';
+    const VERSION = '5.1.0';
+    const RELEASE = '2018-09-30';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -7944,7 +7944,8 @@ class RegisterFacades
         Facade::clearResolvedInstances();
         Facade::setFacadeRoyalcms($royalcms);
         AliasLoader::getInstance($royalcms->make('config')->get('coreservice.aliases'));
-        AliasLoader::getInstance($royalcms->make('config')->get('facade'))->register();
+        AliasLoader::getInstance($royalcms->make('config')->get('facade'));
+        AliasLoader::getInstance()->register();
     }
 }
 }
