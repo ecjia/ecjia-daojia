@@ -59,6 +59,8 @@ abstract class PlatformAbstract extends AbstractPlugin
     
     protected $store_id;
 
+    protected $account;
+
     protected $keywrod;
     
     /**
@@ -126,10 +128,23 @@ abstract class PlatformAbstract extends AbstractPlugin
     {
         return $this->loadConfig('commands', null);
     }
+
+    public function setAccount($account)
+    {
+        $this->account = $account;
+
+        return $this;
+    }
+
+    public function getAccount()
+    {
+        return $this->account;
+    }
     
     public function setStoreId($store_id)
     {
         $this->store_id = $store_id;
+
         return $this;
     }
     
@@ -214,6 +229,24 @@ abstract class PlatformAbstract extends AbstractPlugin
         $type = $this->loadConfig('support_type', self::TypeAdmin);
         
         return ($type & self::TypeMerchant) == self::TypeMerchant;
+    }
+
+
+    /**
+     * 判断当前插件是否支持指定的平台
+     *
+     * @param $platform
+     * @return bool
+     */
+    public function hasPlatform($platform)
+    {
+        $support_platforms = (array) $this->loadConfig('support_platform', 'wechat');
+
+        if (in_array($platform, $support_platforms)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

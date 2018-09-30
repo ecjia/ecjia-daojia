@@ -117,17 +117,22 @@ class Account extends AbstractRepository
     
     public function getTypeCode()
     {
-        if ($this->getType() === 0) {
-            return 'unauthorized';
+        if ($this->getPlatform() == 'wechat') {
+            if ($this->getType() === 0) {
+                return 'unauthorized';
+            }
+            elseif ($this->getType() == 1) {
+                return 'subscribe';
+            }
+            elseif ($this->getType() == 2) {
+                return 'service';
+            }
+            elseif ($this->getType() == 3) {
+                return 'test';
+            }
         }
-        elseif ($this->getType() == 1) {
-            return 'subscribe';
-        }
-        elseif ($this->getType() == 2) {
+        else {
             return 'service';
-        }
-        elseif ($this->getType() == 3) {
-            return 'test';
         }
     }
     

@@ -56,6 +56,17 @@ class AccountManager
         }
     }
 
+    /**
+     * 获取默认的UUID
+     * @param $platform
+     */
+    public function getDefaultUUID($platform)
+    {
+        $accountlist = $this->getAccountList($platform);
+        $default = array_first($accountlist);
+        return $default->uuid;
+    }
+
 
 
 

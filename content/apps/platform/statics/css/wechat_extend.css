@@ -9,4 +9,19 @@
 	width: 243px;
 }
 
+.chk_radio .mh-custom-help-block {
+    margin-left: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    top: 5px;
+	position: relative;
+	color: #737373;
+}
+
+.chk_radio .custom-help-block {
+	margin-left: 10px;
+	font-size: 12px;
+	color: #595959;
+}
+
 

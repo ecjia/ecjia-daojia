@@ -41,7 +41,7 @@
 						<fieldset>
 							<div class="row-fluid edit-page">
 								{if $wechat.id neq ''}
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">UUID：</label>
 									<div class="controls col-lg-6 l_h30">
 										{$wechat.uuid}<br>
@@ -49,7 +49,7 @@
 									</div>
 								</div>
 								
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{lang key='platform::platform.lable_external_address'}</label>
 									<div class="controls col-lg-6 l_h30">
 										<input class="form-control" type="text" readonly value="{$url}" id="external_address" />
@@ -58,7 +58,7 @@
 								</div>
 								{/if}
 								
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{lang key='platform::platform.lable_terrace'}</label>
 									<div class="controls col-lg-6">
 										<select name="platform" class="form-control">
@@ -69,7 +69,7 @@
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 								</div>
 							
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{lang key='platform::platform.lable_platform_num_type'}</label>
 									<div class="controls col-lg-6">
 										<select name="type" class="form-control">
@@ -82,7 +82,7 @@
 									</div>
 								</div>
 								
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{lang key='platform::platform.lable_platform_name'}</label>
 									<div class="controls col-lg-6">
 										<input class="form-control" type="text" name="name" id="name" value="{$wechat.name}" />
@@ -110,18 +110,18 @@
 		                            </div>
 		                        </div>
                         	
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{t}Token：{/t}</label>
 									<div class="controls col-lg-6">
 										<input class="generate_token form-control" type="text" name="token" id="token" value="{$wechat.token}" />
 										<span class="help-block">自定义的Token值，或者点击生成Token创建一个，复制到微信公众平台配置中</span>
 									</div>
-									<a class="toggle_view btn btn-primary filter-btn" href='{url path="platform/merchant/generate_token"}'  data-val="allow" >生成Token</a>
+									<a class="toggle_view btn btn-primary filter-btn" href='{url path="platform/merchant/generate_token"}'  data-val="allow">生成Token</a>
 									<a class="btn btn-info copy-token-btn" href='javascript:;' data-clipboard-action="copy" data-clipboard-target="#token">复制Token</a>
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 								</div>
 								
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{lang key='platform::platform.lable_appid'}</label>
 									<div class="controls col-lg-6">
 										<input class="form-control" type="text" name="appid" id="appid" value="{$wechat.appid}" />
@@ -129,7 +129,7 @@
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 								</div>
 								
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{t}AppSecret：{/t}</label>
 									<div class="controls col-lg-6">
 										<input class="form-control" type="text" name="appsecret" id="appsecret" value="{$wechat.appsecret}" />
@@ -137,14 +137,21 @@
 									<span class="input-must">{lang key='system::system.require_field'}</span>
 								</div>
 								
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{t}EncodingAESKey：{/t}</label>
 									<div class="controls col-lg-6">
 										<input class="form-control" type="text" name="aeskey" id="aeskey" value="{$wechat.aeskey}" />
 									</div>
 								</div>
+
+								<div class="form-group">
+									<label class="control-label col-lg-2">消息加密方式：</label>
+									<div class="controls col-lg-8 chk_radio">
+										<input type="radio" checked id="radio_1"><label for="radio_1">明文模式</label><span class="mh-custom-help-block">(不使用消息体加解密功能，安全系数较低)</span>
+									</div>
+								</div>
 								
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{lang key='platform::platform.lable_status'}</label>
 									<div class="col-lg-6 chk_radio">
 										<input type="radio" name="status" value="1" {if $wechat.status eq 1}checked{/if} id="radio_1"><label for="radio_1">{lang key='platform::platform.open'}</label>
@@ -152,7 +159,7 @@
 									</div>
 								</div>
 									
-								<div class="form-group" >
+								<div class="form-group">
 									<label class="control-label col-lg-2">{lang key='platform::platform.lable_sort'}</label>
 									<div class="controls col-lg-6">
 										<input class="form-control" type="text" name="sort" id="sort" value="{$wechat.sort|default:0}" />

@@ -65,7 +65,6 @@ class admin_plugin extends ecjia_admin
         //$this->db_command = RC_Loader::load_app_model('platform_command_model');
         //$this->db_platform_account = RC_Loader::load_app_model('platform_account_model');
 
-        RC_Loader::load_app_class('platform_factory', null, false);
 
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');

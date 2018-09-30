@@ -57,7 +57,6 @@ class merchant extends ecjia_merchant
 
         Ecjia\App\Platform\Helper::assign_adminlog_content();
 
-        RC_Loader::load_app_class('platform_factory', null, false);
         /* 加载全局 js/css */
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');

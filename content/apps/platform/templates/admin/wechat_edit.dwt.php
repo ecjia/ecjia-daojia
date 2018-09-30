@@ -137,6 +137,13 @@
 									<input class="w350" type="text" name="aeskey" id="aeskey" value="{$wechat.aeskey}" />
 								</div>
 							</div>
+
+							<div class="control-group formSep">
+								<label class="control-label">消息加密方式：</label>
+								<div class="controls chk_radio">
+									<input type="radio" checked><span>明文模式</span><span class="custom-help-block">(不使用消息体加解密功能，安全系数较低)</span>
+								</div>
+							</div>
 							
 							<div class="control-group formSep">
 								<label class="control-label">{lang key='platform::platform.lable_status'}</label>
