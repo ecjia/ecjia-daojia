@@ -59,7 +59,6 @@ class platform_subscribe extends ecjia_platform
         RC_Loader::load_app_func('global');
         Ecjia\App\Wechat\Helper::assign_adminlog_content();
 
-        RC_Loader::load_app_class('platform_account', 'platform', false);
 
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');

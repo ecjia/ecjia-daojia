@@ -56,7 +56,6 @@ class platform_response extends ecjia_platform
     {
         parent::__construct();
 
-        RC_Loader::load_app_class('platform_account', 'platform', false);
         RC_Loader::load_app_func('global');
         Ecjia\App\Wechat\Helper::assign_adminlog_content();
 
