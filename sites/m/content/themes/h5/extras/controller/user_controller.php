@@ -138,18 +138,23 @@ class user_controller
         if (empty($url)) {
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        RC_Loader::load_app_class('platform_account', 'platform', false);
-        $uuid = platform_account::getCurrentUUID('wechat');
-        $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
-        if (!empty($wechat)) {
-            $apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
-            $wechat->js->setUrl($url);
-            $config = $wechat->js->config($apis, false);
-            $config = json_decode($config, true);
-
-            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $config));
+        $uuid = with(new Ecjia\App\Platform\Frameworks\Platform\AccountManager(0))->getDefaultUUID('wechat');
+        if (empty($uuid)) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+
+        $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+        if (empty($wechat)) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
+        $wechat->js->setUrl($url);
+        $config = $wechat->js->config($apis, false);
+        $config = json_decode($config, true);
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $config));
     }
 
     public static function sync_avatar($connect_user)

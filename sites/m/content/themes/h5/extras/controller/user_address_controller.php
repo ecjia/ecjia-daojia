@@ -109,7 +109,7 @@ class user_address_controller {
     	}
     }
 
-    public static function save_temp_data ($is_return = 0, $data_key, $is_clear, $options = array()) {
+    public static function save_temp_data ($is_return = 0, $data_key = '', $is_clear = [], $options = []) {
         if (isset($_GET['city'])) {
             $options['tem_city_name'] = $_GET['city'];
         }
