@@ -76,9 +76,16 @@ class Account extends AbstractRepository
         if (is_null($this->account)) {
             throw new AccountException('Ecjia Platform uuid not exists.');
         } 
-    } 
-    
-    
+    }
+
+    public function getAccount($toArray = false)
+    {
+        if ($toArray) {
+            return $this->account->toArray();
+        }
+        return $this->account;
+    }
+
     public function getAccountID()
     {
         return $this->account->id;
