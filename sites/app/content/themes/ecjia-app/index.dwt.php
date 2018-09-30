@@ -30,12 +30,10 @@
                     <li class="active">
                         <a href="javascript:;">下载APP</a>
                     </li>
-                    <li>
-                        <a class="nopjax" href="{$member_url}" target="_blank">会员中心</a>
-                    </li>
-                    <li>
-                        <a class="nopjax" href="{$merchant_url}" target="_blank">商家入驻</a>
-                    </li>
+                    {if $member_url}<li><a class="nopjax" href="{$member_url}" target="_blank">会员中心</a></li>{/if}
+                    {if ecjia::config('merchant_join_close') eq 0}
+                    <li><a class="nopjax" href="{$merchant_url}" target="_blank">商家入驻</a></li>
+                    {/if}
                     <li>
                         <a class="nopjax ecjia-back-green" href="{$merchant_login}" target="_blank">商家登录</a>
                     </li>

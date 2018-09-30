@@ -60,9 +60,12 @@ RC_Hook::add_action('intro/index/init', function () {
         ecjia_front::$controller->assign('main_url', $main_url);
 
         //会员中心
-        $this_url     = RC_Uri::site_url();
-        $member_url   = str_replace('sites/app', 'sites/member', $this_url);
-        ecjia_front::$controller->assign('member_url', $member_url);
+        $pc_enabled_member = ecjia::config('pc_enabled_member');
+        if ($pc_enabled_member) {
+            $this_url     = RC_Uri::site_url();
+            $member_url   = str_replace('sites/app', 'sites/member', $this_url);
+            ecjia_front::$controller->assign('member_url', $member_url);
+        }
         
         //商家列表url
         $main_goods_url = RC_Uri::url('merchant/store/category');
@@ -146,8 +149,10 @@ RC_Hook::add_action('intro/index/init', function () {
         ecjia_front::$controller->assign('shop_wechat_qrcode', $shop_wechat_qrcode);
         ecjia_front::$controller->assign('powered', 'Powered&nbsp;by&nbsp;<a href="https:\/\/ecjia.com" target="_blank">ECJia</a>');
 
-        RC_Loader::load_app_class('platform_account', 'platform', false);
-        $platform_list = platform_account::getAccountList('weapp');
+        $platform_list = RC_Api::api('platform', 'platform_account_list', [
+            'shop_id' => 0,
+            'platform' => 'weapp',
+        ]);
         if (!empty($platform_list)) {
             ecjia_front::$controller->assign('has_weapp', true);
         }
