@@ -173,7 +173,7 @@
 		   	
 			   	<div class="modal-footer justify-content-center">
 			   		<input type="hidden" name="openid" />
-					<button type="submit" class="btn btn-outline-primary" {if $errormsg || $type neq 2}disabled{/if}>{lang key='wechat::wechat.ok'}</button>
+					<button type="submit" class="btn btn-outline-primary">{lang key='wechat::wechat.ok'}</button>
 				</div>
 			</form>
 		</div>

@@ -76,9 +76,8 @@ class platform_config extends ecjia_platform
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('消息推送配置'));
 
-        $wechat_id = $this->platformAccount->getAccountID();
-        $data = RC_DB::table('platform_account')->where('id', $wechat_id)->first();
-        $data['url'] = RC_Uri::home_url() . '/sites/platform/?uuid=' . $data['uuid'];
+        $data = $this->platformAccount->getAccount(true);
+        $data['url'] = RC_Uri::home_url() . '/sites/platform/?uuid=' . $this->platformAccount->getUUID();
 
         $this->assign('data', $data);
 

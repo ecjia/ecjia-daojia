@@ -92,9 +92,6 @@ class platform_customer extends ecjia_platform
             $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
         } else {
             $this->assign('warn', 'warn');
-            $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
-            $this->assign('type', $type);
-
             $list = $this->get_list();
             $this->assign('list', $list);
         }
@@ -434,23 +431,6 @@ class platform_customer extends ecjia_platform
         RC_DB::table('wechat_customer')->where('id', $id)->update($data);
         ecjia_admin::admin_log($info['kf_account'], 'edit', 'customer');
         return $this->showmessage(RC_Lang::get('wechat::wechat.edit_nick_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-    }
-
-    //客服消息记录
-    public function customer_message()
-    {
-        $this->admin_priv('weapp_customer_message_manage');
-
-        $wechat_id = $this->platformAccount->getAccountID();
-
-        $this->assign('ur_here', RC_Lang::get('wechat::wechat.customer_message'));
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.customer_message')));
-        $this->assign('action_link', array('text' => RC_Lang::get('wechat::wechat.customer_list'), 'href' => RC_Uri::url('weapp/platform_customer/init')));
-
-        $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
-        $this->assign('type', $type);
-
-        $this->display('weapp_customer_message.dwt');
     }
 
     //绑定微信号

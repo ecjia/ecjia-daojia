@@ -13,7 +13,7 @@
 					新访客用户
 				</span>
 				<em class="weui-desktop-data-overview__desc">
-					<a href="">{$count.new_cancel_user}</a>
+					<a href="{RC_Uri::url('weapp/platform_user/init')}">{$count.new_cancel_user}</a>
 				</em>
 			</li>
 			<li class="weui-desktop-data-overview">
@@ -24,7 +24,7 @@
 					新增人数
 				</span>
 				<em class="weui-desktop-data-overview__desc">
-					<a href="">{$count.new_user}</a>
+					<a href="{RC_Uri::url('weapp/platform_user/init')}">{$count.new_user}</a>
 				</em>
 			</li>
 			<li class="weui-desktop-data-overview">
@@ -35,7 +35,7 @@
 					总用户数
 				</span>
 				<em class="weui-desktop-data-overview__desc">
-					<a href="">{$count.user_count}</a>
+					<a href="{RC_Uri::url('weapp/platform_user/init')}">{$count.user_count}</a>
 				</em>
 			</li>
 		</ul>
