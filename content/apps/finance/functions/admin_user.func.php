@@ -287,23 +287,23 @@ function get_user_surplus($user_id) {
  * @param   int     $start      开始显示的条数
  * @return  array
  */
-function get_account_log($user_id, $num, $start, $process_type = '') {
-	$db = RC_Model::model('user/user_account_model');
+function get_account_log($user_id, $num = 15, $start, $process_type = '') {
 	$account_log = array();
 	
-	$where = array(
-		'user_id'		=> $user_id,
-		'process_type'	=> array(SURPLUS_SAVE, SURPLUS_RETURN),
-	);
+	$db = RC_DB::table('user_account')->where('user_id', $user_id);
 	if (!empty($process_type)) {
-		$where['process_type'] = $process_type == 'deposit' ? 0 : 1;
+		if ($process_type == 'deposit') {
+			$db->where('process_type', SURPLUS_SAVE);
+		} else {
+			$db->where('process_type', SURPLUS_RETURN);
+		}
+	} else {
+		$db->whereIn('process_type', array(SURPLUS_SAVE, SURPLUS_RETURN));
 	}
-	
-	$res = $db->where($where)->order(array('add_time' => 'desc'))->limit($start->limit())->select();
+	$res = $db->orderBy('add_time', 'desc')->take($num)->skip($start->start_id-1)->get();
 	
 	if (!empty($res)) {
 		RC_Loader::load_sys_func('global');
-// 		$payment_db = RC_Model::model('payment/payment_model');
 		foreach ($res as $key=>$rows) {
 			$db_payment = RC_DB::table('payment');
 			$rows['add_time']         = RC_Time::local_date(ecjia::config('time_format'), $rows['add_time']);
@@ -421,7 +421,7 @@ function get_total_amount ($start_date, $end_date, $type = 0) {
  * @return void
  */
 function get_user_order($args = array()) {
-	$dbview = RC_Model::model('user/order_user_viewmodel');
+	//$dbview = RC_Model::model('user/order_user_viewmodel');
 
 	$filter['keywords']		= empty($_REQUEST['keywords'])		? ''         : trim($_REQUEST['keywords']);
 	$filter['start_date']	= empty($args['start_date'])		? ''         : $args['start_date'];

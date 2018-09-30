@@ -555,7 +555,6 @@ class admin_account extends ecjia_admin {
 	 * ajax删除一条信息
 	 */
 	public function remove() {
-		$db_view    = RC_Model::model('user_account_viewmodel', ecjia::MSGTYPE_JSON);
 		/* 检查权限 */
 		$this->admin_priv('surplus_manage', ecjia::MSGTYPE_JSON);
 		
