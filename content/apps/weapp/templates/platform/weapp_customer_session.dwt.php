@@ -46,15 +46,14 @@
 							<th>用户昵称</th>
 							<th>状态</th>
 							<th>创建时间</th>
-							<th>最后一条消息的时间</th>
-							<th>操作</th>
+							<th>会话结束时间</th>
 						</tr>
 					</thead>
 					<tbody>
 						<!-- {foreach from=$list.item item=val} -->
 						<tr>
 							<td>{if $val.kf_account}{$val.kf_account}{else}暂无{/if}</td>
-							<td>{$val.nickname}</td>
+							<td><a href='{url path="weapp/platform_user/subscribe_message" args="uid={$val.uid}"}'>{$val.nickname}</a></td>
 							<td>
 								{if $val.status eq 1}
 								会话中
@@ -72,11 +71,6 @@
 							<td>
 								{if $val.latest_time}
 								{date('Y-m-d H:i:s', ($val['latest_time']))}
-								{/if}
-							</td>
-							<td>
-								{if $val.status neq 3}
-									<a class="ajaxremove cursor_pointer" href='{RC_Uri::url("weapp/platform_customer/close_session", "id={$val.id}")}' title="关闭" data-toggle="ajaxremove" data-msg="您确定要关闭该会话吗？">关闭会话</a>
 								{/if}
 							</td>
 						</tr>

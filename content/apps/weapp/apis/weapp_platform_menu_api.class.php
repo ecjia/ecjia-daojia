@@ -59,12 +59,23 @@ class weapp_platform_menu_api extends Component_Event_Api
             return null;
         }
 
-        $weapp_config_menus = ecjia_admin::make_admin_menu('01_weapp_config', '消息推送配置', RC_Uri::url('weapp/platform_config/init'), 1)
+        $extend_menus = ecjia_admin::make_admin_menu('01_wechat_extend', RC_Lang::get('wechat::wechat.extend_manage'), RC_Uri::url('platform/platform_extend/init'), 1)->add_icon('icon-puzzle')->add_purview('platform_extend_manage');
+
+        $command_menus = ecjia_admin::make_admin_menu('02_wechat_extend', '关键词命令', RC_Uri::url('platform/platform_command/init'), 2)->add_icon('ft-command')->add_purview('platform_command_manage');
+
+        $weapp_config_menus = ecjia_admin::make_admin_menu('03_weapp_config', '消息推送配置', RC_Uri::url('weapp/platform_config/init'), 3)
             ->add_icon('ft-settings')->add_purview('weapp_config_manage');
 
         $navmenus = ecjia_admin::make_admin_menu('nav-header', '微信小程序', '', 10);
 
-        $usermenus = ecjia_admin::make_admin_menu('03_user_manage', '用户管理', '', 11)->add_icon('icon-user')->add_submenu(
+        $message_manage = ecjia_admin::make_admin_menu('04_message_manage', '消息管理', '', 11)->add_icon('icon-bubble')->add_submenu(
+            array(
+                ecjia_admin::make_admin_menu('01_wechat', RC_Lang::get('wechat::wechat.message_manage'), RC_Uri::url('weapp/platform_message/init'), 1)
+                    ->add_purview('weapp_subscribe_message_manage'),
+            )
+        );
+
+        $usermenus = ecjia_admin::make_admin_menu('05_user_manage', '用户管理', '', 12)->add_icon('icon-user')->add_submenu(
             array(
                 ecjia_admin::make_admin_menu('01_weapp', '用户管理', RC_Uri::url('weapp/platform_user/init'), 1)->add_purview('weapp_user_manage'),
                 ecjia_admin::make_admin_menu('02_weapp', '标签管理', RC_Uri::url('weapp/platform_user/tag'), 2)->add_purview('weapp_tag_manage'),
@@ -73,7 +84,7 @@ class weapp_platform_menu_api extends Component_Event_Api
             )
         );
 
-        $replymenus = ecjia_admin::make_admin_menu('o4_auto_reply', '自动回复', '', 12)->add_icon('fa fa-reply')->add_submenu(
+        $replymenus = ecjia_admin::make_admin_menu('06_auto_reply', '自动回复', '', 13)->add_icon('fa fa-reply')->add_submenu(
             array(
                 ecjia_admin::make_admin_menu('01_weapp', '关键词回复', RC_Uri::url('weapp/platform_response/reply_keywords'), 1)->add_purview('weapp_response_manage'),
                 ecjia_admin::make_admin_menu('02_weapp', '收到消息回复', RC_Uri::url('weapp/platform_response/reply_msg'), 2)->add_purview('weapp_response_manage'),
@@ -81,13 +92,13 @@ class weapp_platform_menu_api extends Component_Event_Api
             )
         );
 
-        $materialmenus = ecjia_admin::make_admin_menu('05_material_manage', '素材管理', '', 13)->add_icon('ft-inbox')->add_submenu(
+        $materialmenus = ecjia_admin::make_admin_menu('07_material_manage', '素材管理', '', 14)->add_icon('ft-inbox')->add_submenu(
             array(
                 ecjia_admin::make_admin_menu('01_weapp', '临时素材', RC_Uri::url('weapp/platform_material/init', array('type' => 'image')), 1)->add_purview('weapp_material_manage'),
             )
         );
 
-        $kefumenus = ecjia_admin::make_admin_menu('06_customer', '客服管理', '', 14)->add_icon('fa fa-headphones')->add_submenu(
+        $kefumenus = ecjia_admin::make_admin_menu('08_customer', '客服管理', '', 15)->add_icon('fa fa-headphones')->add_submenu(
             array(
                 ecjia_admin::make_admin_menu('01_weapp', RC_Lang::get('wechat::wechat.customer'), RC_Uri::url('weapp/platform_customer/init'), 1)->add_purview('weapp_customer_manage'),
                 ecjia_admin::make_admin_menu('02_weapp', '客服会话', RC_Uri::url('weapp/platform_customer/session'), 2)->add_purview('weapp_customer_session_manage'),
@@ -95,12 +106,16 @@ class weapp_platform_menu_api extends Component_Event_Api
         );
 
         return array(
+            $extend_menus,
+            $command_menus,
             $weapp_config_menus,
             $navmenus,
+            $message_manage,
             $usermenus,
             $replymenus,
             $materialmenus,
-            $kefumenus);
+            $kefumenus,
+        );
     }
 }
 

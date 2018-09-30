@@ -50,7 +50,6 @@ use RC_Hook;
 use Ecjia\App\Wechat\Models\WechatReplyModel;
 use Ecjia\App\Weapp\WeappRecord;
 use Ecjia\App\Weapp\WeappUUID;
-use Ecjia\App\Weapp\WeappMediaReply;
 use Ecjia\App\Weapp\WeappCommand;
 use Ecjia\App\Weapp\Sends\SendCustomMessage;
 
@@ -111,13 +110,13 @@ class WeappMessageHandler
         //用户输入信息记录
         WeappRecord::inputMsg($message->get('FromUserName'), $message->get('Content'));
 
-        RC_Hook::add_filter('wechat_text_response', array(__CLASS__, 'Command_reply'), 10, 2);
+        RC_Hook::add_filter('weapp_text_response', array(__CLASS__, 'Command_reply'), 10, 2);
         RC_Hook::add_filter('weapp_text_response', array(__CLASS__, 'Keyword_reply'), 90, 2);
         RC_Hook::add_filter('weapp_text_response', array(__CLASS__, 'Empty_reply'), 100, 2);
         
-        RC_Hook::apply_filters('weapp_text_response', null, $message);
+        $response = RC_Hook::apply_filters('weapp_text_response', null, $message);
 
-        return null;
+        return $response;
     }
     
     
@@ -147,9 +146,11 @@ class WeappMessageHandler
             } else {
                 $content = with(new SendCustomMessage($wechat, $weapp_id, $openid))->sendMediaMessage($data->media_id);
             }
+
+            return 0;
+        } else {
+            return null;
         }
-        
-        return $content;
     }
     
     /**
@@ -180,9 +181,11 @@ class WeappMessageHandler
             } else {
                 $content = with(new SendCustomMessage($wechat, $weapp_id, $openid))->sendTextMessage($model->content);
             }
+
+            return 0;
+        } else {
+            return null;
         }
-        
-        return $content;
     }
     
     
@@ -203,7 +206,7 @@ class WeappMessageHandler
         if (is_string($content)) {
             $content = WeappRecord::Text_reply($message, $content);
         }
-        
+
         return $content;
     }
     

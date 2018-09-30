@@ -64,19 +64,21 @@ class weapp_platform_purview_api extends Component_Event_Api
             array('action_name' => '小程序管理', 'action_code' => 'weapp_config_manage', 'relevance' => ''),
             array('action_name' => '小程序更新', 'action_code' => 'weapp_config_update', 'relevance' => ''),
 
-            array('action_name' => '客服会话管理', 'action_code' => 'weapp_customer_session_manage', 'relevance'   => ''),
-            array('action_name' => '客服会话更新', 'action_code' => 'weapp_customer_session_update', 'relevance'   => ''),
-            array('action_name' => '客服会话删除', 'action_code' => 'weapp_customer_session_delete', 'relevance'   => ''),
+            array('action_name' => '客服会话管理', 'action_code' => 'weapp_customer_session_manage', 'relevance' => ''),
+            array('action_name' => '客服会话更新', 'action_code' => 'weapp_customer_session_update', 'relevance' => ''),
+            array('action_name' => '客服会话删除', 'action_code' => 'weapp_customer_session_delete', 'relevance' => ''),
 
-            array('action_name' => RC_Lang::get('wechat::wechat.material_manage'), 'action_code' => 'weapp_material_manage', 'relevance'   => ''),
-        	array('action_name' => RC_Lang::get('wechat::wechat.material_add'), 'action_code' => 'weapp_material_add', 'relevance'   => ''),
-        	array('action_name' => RC_Lang::get('wechat::wechat.material_edit'), 'action_code' => 'weapp_material_update', 'relevance'   => ''),
-            array('action_name' => RC_Lang::get('wechat::wechat.material_del'), 'action_code' => 'weapp_material_delete', 'relevance'   => ''),
-            
-            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_manage'), 'action_code' => 'weapp_response_manage', 'relevance'   => ''),
-        	array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_add'), 'action_code' => 'weapp_response_add', 'relevance'   => ''),
-        	array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_edit'), 'action_code' => 'weapp_response_update', 'relevance'   => ''),
-        	array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_del'), 'action_code' => 'weapp_response_delete', 'relevance'   => ''),
+            array('action_name' => RC_Lang::get('wechat::wechat.material_manage'), 'action_code' => 'weapp_material_manage', 'relevance' => ''),
+            array('action_name' => RC_Lang::get('wechat::wechat.material_add'), 'action_code' => 'weapp_material_add', 'relevance' => ''),
+            array('action_name' => RC_Lang::get('wechat::wechat.material_edit'), 'action_code' => 'weapp_material_update', 'relevance' => ''),
+            array('action_name' => RC_Lang::get('wechat::wechat.material_del'), 'action_code' => 'weapp_material_delete', 'relevance' => ''),
+
+            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_manage'), 'action_code' => 'weapp_response_manage', 'relevance' => ''),
+            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_add'), 'action_code' => 'weapp_response_add', 'relevance' => ''),
+            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_edit'), 'action_code' => 'weapp_response_update', 'relevance' => ''),
+            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_del'), 'action_code' => 'weapp_response_delete', 'relevance' => ''),
+
+            array('action_name' => RC_Lang::get('wechat::wechat.user_message_manage'), 'action_code' => 'weapp_subscribe_message_manage', 'relevance' => ''),
         );
         return $purviews;
     }

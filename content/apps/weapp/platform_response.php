@@ -56,9 +56,7 @@ class platform_response extends ecjia_platform
     {
         parent::__construct();
 
-        RC_Loader::load_app_class('platform_account', 'platform', false);
         RC_Loader::load_app_func('global');
-        Ecjia\App\Wechat\Helper::assign_adminlog_content();
 
         /* 加载所有全局 js/css */
         RC_Script::enqueue_script('bootstrap-placeholder');
@@ -114,7 +112,7 @@ class platform_response extends ecjia_platform
                 if (!empty($data)) {
                     foreach ($data as $k => $v) {
                         if (!empty($v['file'])) {
-                            $subscribe['child'][$k]['title'] = strip_tags(Ecjia\App\Wechat\Helper::html_out($v['title']));
+                            $subscribe['child'][$k]['title'] = strip_tags(Ecjia\App\Weapp\Helper::html_out($v['title']));
                             $subscribe['child'][$k]['file'] = RC_Upload::upload_url($v['file']);
                             $subscribe['child'][$k]['add_time'] = RC_Time::local_date(RC_Lang::get('wechat::wechat.date_ymd'), $v['add_time']);
                         } else {
@@ -175,7 +173,7 @@ class platform_response extends ecjia_platform
                 if (!empty($data)) {
                     foreach ($data as $k => $v) {
                         if (!empty($v['file'])) {
-                            $subscribe['child'][$k]['title'] = strip_tags(Ecjia\App\Wechat\Helper::html_out($v['title']));
+                            $subscribe['child'][$k]['title'] = strip_tags(Ecjia\App\Weapp\Helper::html_out($v['title']));
                             $subscribe['child'][$k]['file'] = RC_Upload::upload_url($v['file']);
                             $subscribe['child'][$k]['add_time'] = RC_Time::local_date(RC_Lang::get('wechat::wechat.date_ymd'), $v['add_time']);
                         } else {
@@ -616,9 +614,9 @@ class platform_response extends ecjia_platform
                         $media['file'] = RC_Upload::upload_url($media['file']);
 
                         $media['content'] = empty($media['digest']) ? $media['content'] : $media['digest'];
-                        $content = strip_tags(Ecjia\App\Wechat\Helper::html_out($media['content']));
+                        $content = strip_tags(Ecjia\App\Weapp\Helper::html_out($media['content']));
                         if (strlen($content) > 100) {
-                            $media['content'] = Ecjia\App\Wechat\Helper::msubstr($content, 100);
+                            $media['content'] = Ecjia\App\Weapp\Helper::msubstr($content, 100);
                         } else {
                             $media['content'] = $content;
                         }
@@ -632,7 +630,7 @@ class platform_response extends ecjia_platform
 
                         foreach ($info as $k => $v) {
                             if (!empty($v['file'])) {
-                                $list[$key]['medias'][$k]['title'] = strip_tags(Ecjia\App\Wechat\Helper::html_out($v['title']));
+                                $list[$key]['medias'][$k]['title'] = strip_tags(Ecjia\App\Weapp\Helper::html_out($v['title']));
                                 $list[$key]['medias'][$k]['file'] = RC_Upload::upload_url($v['file']);
                                 $list[$key]['medias'][$k]['add_time'] = RC_Time::local_date(RC_Lang::get('wechat::wechat.date_ymd'), $v['add_time']);
                             } else {
@@ -688,9 +686,9 @@ class platform_response extends ecjia_platform
                 }
                 $media['add_time'] = RC_Time::local_date(RC_Lang::get('wechat::wechat.date_nj'), $media['add_time']);
                 $media['content'] = empty($media['digest']) ? $media['content'] : $media['digest'];
-                $content = strip_tags(Ecjia\App\Wechat\Helper::html_out($media['content']));
+                $content = strip_tags(Ecjia\App\Weapp\Helper::html_out($media['content']));
                 if (strlen($content) > 100) {
-                    $media['content'] = Ecjia\App\Wechat\Helper::msubstr($content, 100);
+                    $media['content'] = Ecjia\App\Weapp\Helper::msubstr($content, 100);
                 } else {
                     $media['content'] = $content;
                 }
@@ -703,7 +701,7 @@ class platform_response extends ecjia_platform
                 if (!empty($data)) {
                     foreach ($data as $k => $v) {
                         if (!empty($v['file'])) {
-                            $list['child'][$k]['title'] = strip_tags(Ecjia\App\Wechat\Helper::html_out($v['title']));
+                            $list['child'][$k]['title'] = strip_tags(Ecjia\App\Weapp\Helper::html_out($v['title']));
                             $list['child'][$k]['file'] = RC_Upload::upload_url($v['file']);
                             $list['child'][$k]['add_time'] = RC_Time::local_date(RC_Lang::get('wechat::wechat.date_ymd'), $v['add_time']);
                         } else {
@@ -754,7 +752,7 @@ class platform_response extends ecjia_platform
                     $article['file'][$k]['file'] = RC_Uri::admin_url('statics/images/nopic.png');
                 }
                 $article['file'][$k]['add_time'] = RC_Time::local_date(RC_Lang::get('wechat::wechat.date_ymd'), $v['add_time']);
-                $article['file'][$k]['title'] = strip_tags(Ecjia\App\Wechat\Helper::html_out($v['title']));
+                $article['file'][$k]['title'] = strip_tags(Ecjia\App\Weapp\Helper::html_out($v['title']));
                 $article['file'][$k]['id'] = $v['id'];
                 if (!empty($v['size'])) {
                     if ($v['size'] > (1024 * 1024)) {

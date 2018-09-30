@@ -56,9 +56,6 @@ class platform_customer extends ecjia_platform
         parent::__construct();
 
         RC_Loader::load_app_func('global');
-        Ecjia\App\Wechat\Helper::assign_adminlog_content();
-
-        RC_Loader::load_app_class('platform_account', 'platform', false);
 
         /* 加载全局 js/css */
         RC_Script::enqueue_script('jquery-validate');
@@ -97,7 +94,6 @@ class platform_customer extends ecjia_platform
             $this->assign('warn', 'warn');
             $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
             $this->assign('type', $type);
-            $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
 
             $list = $this->get_list();
             $this->assign('list', $list);
@@ -135,9 +131,7 @@ class platform_customer extends ecjia_platform
             $this->assign('warn', 'warn');
         }
         $type = $this->platformAccount->getType();
-
         $this->assign('type', $type);
-        $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
 
         $id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
         $list = RC_DB::table('wechat_customer')->where('id', $id)->first();
@@ -455,7 +449,6 @@ class platform_customer extends ecjia_platform
 
         $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
         $this->assign('type', $type);
-        $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
 
         $this->display('weapp_customer_message.dwt');
     }
@@ -514,7 +507,6 @@ class platform_customer extends ecjia_platform
             //获取公众号类型 0未认证 1订阅号 2服务号 3认证服务号 4企业号
             $types = $this->platformAccount->getType();
             $this->assign('type', $types);
-            $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $types)));
         }
 
         $list = $this->get_session_list();
@@ -622,10 +614,12 @@ class platform_customer extends ecjia_platform
             $db_customer->where('online_status', '!=', 0);
         } elseif ($type == 'deleted') {
             $db_customer->where('status', 0);
+        } else {
+            $db_customer->where('status', '!=', 0);
         }
         $list = $db_customer->get();
 
-        $filter['all'] = RC_DB::table('wechat_customer')->where('wechat_id', $wechat_id)->count();
+        $filter['all'] = RC_DB::table('wechat_customer')->where('wechat_id', $wechat_id)->where('status', '!=', 0)->count();
         $filter['online'] = RC_DB::table('wechat_customer')->where('wechat_id', $wechat_id)->where('online_status', '!=', 0)->count();
         $filter['deleted'] = RC_DB::table('wechat_customer')->where('wechat_id', $wechat_id)->where('status', 0)->count();
 
@@ -757,7 +751,7 @@ class platform_customer extends ecjia_platform
 
         $count = $db_session->count();
         $page = new ecjia_platform_page($count, 15, 5);
-        $list = $db_session->select(RC_DB::raw('w.*'), RC_DB::raw('u.nickname'))->orderBy('id', 'desc')->take(15)->skip($page->start_id - 1)->get();
+        $list = $db_session->select(RC_DB::raw('w.*'), RC_DB::raw('u.nickname'), RC_DB::raw('u.uid'))->orderBy('id', 'desc')->take(15)->skip($page->start_id - 1)->get();
 
         return array('item' => $list, 'page' => $page->show(5), 'desc' => $page->page_desc(), 'count' => $total_count);
     }

@@ -49,9 +49,7 @@ namespace Ecjia\App\Weapp\Handlers;
 use RC_Hook;
 use Ecjia\App\Weapp\WeappRecord;
 use Ecjia\App\Weapp\WeappUUID;
-use Ecjia\App\Weapp\WeappMediaReply;
 use Ecjia\App\Weapp\Sends\SendCustomMessage;
-use Ecjia\App\Weapp\WeappCommand;
 use Ecjia\App\Wechat\Models\WechatReplyModel;
 
 class WeappEventHandler
@@ -67,32 +65,31 @@ class WeappEventHandler
             case 'user_enter_tempsession':
                 return self::UserEnter_event($message);
                 break;
-                
-            case 'kf_create_session':
 
+            case 'kf_create_session':
+                return self::kfCreateSession_event($message);
                 break;
 
             case 'kf_close_session':
-
+                return self::kfCloseSession_event($message);
                 break;
 
-                
             default:
                 return self::Default_event($message);
                 break;
         }
-        
+
         // ...
     }
-    
+
     /**
      * 文本回复
      * @param \Royalcms\Component\Support\Collection $message
      * @return \Royalcms\Component\WeChat\Message\AbstractMessage
      */
-    public static function Default_event($message) 
+    public static function Default_event($message)
     {
-        
+        return RC_Hook::apply_filters('weapp_default_event_handle', $message);
     }
 
     /**
@@ -105,15 +102,15 @@ class WeappEventHandler
         $weapp_uuid = new WeappUUID();
         $weapp_id = $weapp_uuid->getWeappID();
         $openid = $message->get('FromUserName');
-        $rule_keywords  = $message->get('Content');
+        $content = '我悄悄地来了';
 
         //用户输入信息记录
-        WeappRecord::inputMsg($message->get('FromUserName'), $rule_keywords);
+        WeappRecord::inputMsg($message->get('FromUserName'), $content);
 
         $data = WechatReplyModel::select('reply_type', 'content', 'media_id')
             ->where('wechat_id', $weapp_id)->where('type', 'user_enter')->first();
 
-        if ( ! empty($data)) {
+        if (!empty($data)) {
             $wechat = $weapp_uuid->getWechatInstance();
             if ($data->reply_type == 'text') {
                 with(new SendCustomMessage($wechat, $weapp_id, $openid))->sendTextMessage($data->content);
@@ -124,77 +121,37 @@ class WeappEventHandler
 
         return null;
     }
-    
-    /**
-     * 点击菜单拉取消息时的事件推送
-     * @param \Royalcms\Component\Support\Collection $message
-     * @return \Royalcms\Component\WeChat\Message\AbstractMessage 
-     */
-    public static function Click_event($message) {
-        RC_Hook::add_filter('wechat_event_response', array(__CLASS__, 'Command_event'), 10, 2);
-        RC_Hook::add_filter('wechat_event_response', array(__CLASS__, 'Keyword_event'), 90, 2);
-        RC_Hook::add_filter('wechat_event_response', array('\Ecjia\App\Wechat\Handlers\WechatMessageHandler', 'Empty_reply'), 100, 2);
-        
-        $response = RC_Hook::apply_filters('wechat_event_response', null, $message);
-        
-        return $response;
-    }
-    
-    
-    /**
-     * 关键字回复
-     * @param \Royalcms\Component\WeChat\Message\AbstractMessage $content
-     * @param \Royalcms\Component\Support\Collection $message
-     * @return \Royalcms\Component\WeChat\Message\AbstractMessage
-     */
-    public static function Keyword_event($content, $message) {
-        if (!is_null($content)) {
-            return $content;
-        }
-        
-        $wechat_id = with(new WeappUUID())->getWechatID();
-        $rule_keywords  = $message->get('EventKey');
-        
-        //用户输入信息记录
-        WeappRecord::inputMsg($message->get('FromUserName'), $rule_keywords);
-        
-        $model = WechatReplyModel::leftJoin('wechat_rule_keywords', 'wechat_rule_keywords.rid', '=', 'wechat_reply.id')
-                                ->select('wechat_reply.content', 'wechat_reply.media_id', 'wechat_reply.reply_type')
-                                ->where('wechat_reply.wechat_id', $wechat_id)
-                                ->where('wechat_rule_keywords.rule_keywords', $rule_keywords)->first();
-        
-        if (! empty($model)) {
-            if ($model->media_id) {
-                $content = with(new WeappMediaReply($wechat_id, $model->media_id))->replyContent($message);
-            } else {
-                $content = WeappRecord::Text_reply($message, $model->content);
-            }
-        }
-        
-        return $content;
-    }
-    
-    
-    /**
-     * 命令回复
-     * @param \Royalcms\Component\WeChat\Message\AbstractMessage $content
-     * @param \Royalcms\Component\Support\Collection $message
-     * @return \Royalcms\Component\WeChat\Message\AbstractMessage
-     */
-    public static function Command_event($content, $message)
+
+
+    public static function kfCreateSession_event($message)
     {
-        if (!is_null($content)) {
-            return $content;
-        }
-        
-        $content = with(new WeappCommand($message, new WeappUUID()))->runCommand($message->get('EventKey'));
-        
-        if (is_string($content)) {
-            $content = WeappRecord::Text_reply($message, $content);
-        }
-        
-        return $content;
+        $openid = $message->get('FromUserName');
+        $kf_account = $message->get('KfAccount');
+        $create_time = $message->get('CreateTime');
+        $weappUUID = new \Ecjia\App\Weapp\WeappUUID();
+        $weapp_id = $weappUUID->getWeappID();
+
+        $customer_session = new \Ecjia\App\Weapp\Repositories\WeappCustomerSessionRepository($weapp_id);
+        $customer_session->createSession($openid, $kf_account, $create_time);
+
+        return null;
     }
+
+
+    public static function kfCloseSession_event($message)
+    {
+        $openid = $message->get('FromUserName');
+        $kf_account = $message->get('KfAccount');
+        $create_time = $message->get('CreateTime');
+        $weappUUID = new \Ecjia\App\Weapp\WeappUUID();
+        $weapp_id = $weappUUID->getWeappID();
+
+        $customer_session = new \Ecjia\App\Weapp\Repositories\WeappCustomerSessionRepository($weapp_id);
+        $customer_session->closeSession($openid, $kf_account, $create_time);
+
+        return null;
+    }
+
 
 
 }

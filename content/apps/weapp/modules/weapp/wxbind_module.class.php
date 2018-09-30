@@ -159,30 +159,24 @@ class weapp_wxbind_module extends api_front implements api_interface {
     private function feedback_batch_userid($user_id, $user_name, $device) {
         $device_udid	  = $device['udid'];
         $device_client	  = $device['client'];
-        //$db_term_relation = RC_Model::model('term_relationship_model');
-        //$object_id = $db_term_relation->where(array(
-        //    'object_type'	=> 'ecjia.feedback',
-        //    'object_group'	=> 'feedback',
-        //    'item_key2'		=> 'device_udid',
-        //    'item_value2'	=> $device_udid
-        //))->get_field('object_id', true);
-        $pra = array(
-        		'object_type'	=> 'ecjia.feedback',
-        		'object_group'	=> 'feedback',
-        		'item_key2'		=> 'device_udid',
-        		'item_value2'	=> $device_udid
-        );
-        $object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
+        
+        //$pra = array(
+        //		'object_type'	=> 'ecjia.feedback',
+        //		'object_group'	=> 'feedback',
+        //		'item_key2'		=> 'device_udid',
+        //		'item_value2'	=> $device_udid
+        //);
+        //$object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
         
         //更新未登录用户的咨询
         //$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_udid))->update(array('item_key2' => '', 'item_value2' => ''));
         RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_udid)->update(array('item_key2' => '', 'item_value2' => ''));
         
-        if (!empty($object_id)) {
-            $db = RC_Model::model('feedback/feedback_model');
-            $db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-            $db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-        }
+        //if (!empty($object_id)) {
+        //    $db = RC_Model::model('feedback/feedback_model');
+        //    $db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
+        //    $db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
+        //}
     }
 }
 

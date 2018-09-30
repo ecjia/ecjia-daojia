@@ -88,12 +88,15 @@ class merchant extends ecjia_merchant
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('小程序列表'));
 
         $this->assign('ur_here', '小程序列表');
-        $this->assign('action_link', array('text' => '添加小程序', 'href' => RC_Uri::url('weapp/merchant/add')));
 
         $weapp_list = $this->weapp_list();
         $this->assign('weapp_list', $weapp_list);
         $this->assign('search_action', RC_Uri::url('weapp/merchant/init'));
 
+        if ($weapp_list['count'] == 0) {
+        	$this->assign('action_link', array('text' => '添加小程序', 'href' => RC_Uri::url('weapp/merchant/add')));
+        }
+        
         $this->display('weapp_list.dwt');
     }
 
@@ -125,6 +128,11 @@ class merchant extends ecjia_merchant
         $appid = !empty($_POST['appid']) ? trim($_POST['appid']) : '';
         $appsecret = !empty($_POST['appsecret']) ? trim($_POST['appsecret']) : '';
 
+        $count = RC_DB::table('platform_account')->where('shop_id', $_SESSION['store_id'])->where('platform', 'weapp')->count();
+        if ($count != 0) {
+        	return $this->showmessage('每个商家只能添加一个小程序', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        
         if (empty($name)) {
             return $this->showmessage('请输入小程序名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }

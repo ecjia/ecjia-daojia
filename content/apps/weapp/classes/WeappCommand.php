@@ -29,30 +29,25 @@ class WeappCommand
         list($cmd, $keyword) = explode(' ', $cmd);
 
         //查询$cmd命令是哪个插件的
-        $model = PlatformCommandModel::where('account_id', $this->wechat_id)->where('cmd_word', $cmd)->first();
+        $model = PlatformCommandModel::where('account_id', $this->weapp_id)->where('cmd_word', $cmd)->first();
         
         if (!empty($model) && $model->ext_code) {
             $extend_handle = with(new PlatformPlugin)->channel($model->ext_code);
-            
-            if ($this->wechat_uuid->getAccount()->getStoreId() > 0 && $extend_handle->hasSupportTypeMerchant()) {
-                $extend_handle->setMessage($this->message);
-                $extend_handle->setSubCodeCommand($model->sub_code);
-                $extend_handle->setStoreId($this->wechat_uuid->getAccount()->getStoreId());
+
+            $extend_handle->setAccount($this->weapp_uuid->getAccount());
+            $extend_handle->setMessage($this->message);
+            $extend_handle->setSubCodeCommand($model->sub_code);
+            $extend_handle->setStoreId($this->weapp_uuid->getAccount()->getStoreId());
+            $extend_handle->setKeyword($keyword);
+
+            if ($this->weapp_uuid->getAccount()->getStoreId() > 0 && $extend_handle->hasSupportTypeMerchant()) {
                 $extend_handle->setStoreType(\Ecjia\App\Platform\Plugin\PlatformAbstract::TypeMerchant);
-                $extend_handle->setKeyword($keyword);
-                return $extend_handle->eventReply();
             }
-            else if ($this->wechat_uuid->getAccount()->getStoreId() === 0 && $extend_handle->hasSupportTypeAdmin()) {
-                $extend_handle->setMessage($this->message);
-                $extend_handle->setSubCodeCommand($model->sub_code);
-                $extend_handle->setStoreId($this->wechat_uuid->getAccount()->getStoreId());
+            else if ($this->weapp_uuid->getAccount()->getStoreId() === 0 && $extend_handle->hasSupportTypeAdmin()) {
                 $extend_handle->setStoreType(\Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin);
-                $extend_handle->setKeyword($keyword);
-                return $extend_handle->eventReply();
             }
-            else {
-                return null;
-            }
+
+            return $extend_handle->eventReply();
         } else {
             return null;
         }
@@ -65,7 +60,7 @@ class WeappCommand
      */
     public function hasCommand($cmd) 
     {
-        $model = PlatformCommandModel::where('account_id', $this->wechat_id)->where('cmd_word', $cmd)->first();
+        $model = PlatformCommandModel::where('account_id', $this->weapp_id)->where('cmd_word', $cmd)->first();
         
         if (!empty($model)) {
             return true;
