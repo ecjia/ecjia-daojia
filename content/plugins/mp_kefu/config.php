@@ -50,7 +50,9 @@ return array(
     
     'ext_icon'      => 'images/icon_kefu.png',
 
-    'support_platform' => 'wechat', //仅支持微信公众平台
+    'commands'      => ['kefu', '客服'],
+
+    'support_platform' => ['wechat', 'weapp'], //支持微信公众平台和微信小程序
 
     'support_platform_type' => ['service'], //仅支持微信服务号
 
