@@ -86,7 +86,7 @@ class platform_mass_message extends ecjia_platform
             $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
         } else {
             $this->assign('warn', 'warn');
-            $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
+            $type = $this->platformAccount->getType();
             $this->assign('type', $type);
             $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_certification_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
 
@@ -164,8 +164,7 @@ class platform_mass_message extends ecjia_platform
             $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
         } else {
             $this->assign('warn', 'warn');
-
-            $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
+            $type = $this->platformAccount->getType();
             $this->assign('type', $type);
             $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_certification_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
 

@@ -13,7 +13,7 @@
 					新消息
 				</span>
 				<em class="weui-desktop-data-overview__desc">
-					<a href="">{$count.new_msg}</a>
+					<a href="{RC_Uri::url('wechat/platform_subscribe/init')}">{$count.new_msg}</a>
 				</em>
 			</li>
 			<li class="weui-desktop-data-overview">
@@ -24,7 +24,7 @@
 					新增人数
 				</span>
 				<em class="weui-desktop-data-overview__desc">
-					<a href="">{$count.new_user}</a>
+					<a href="{RC_Uri::url('wechat/platform_subscribe/init')}">{$count.new_user}</a>
 				</em>
 			</li>
 			<li class="weui-desktop-data-overview">
@@ -35,7 +35,7 @@
 					总用户数
 				</span>
 				<em class="weui-desktop-data-overview__desc">
-					<a href="">{$count.user_count}</a>
+					<a href="{RC_Uri::url('wechat/platform_subscribe/init')}">{$count.user_count}</a>
 				</em>
 			</li>
 		</ul>

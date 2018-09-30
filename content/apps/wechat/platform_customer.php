@@ -105,7 +105,7 @@ class platform_customer extends ecjia_platform
             $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
         } else {
             $this->assign('warn', 'warn');
-            $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
+            $type = $this->platformAccount->getType();
             $this->assign('type', $type);
             $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
 
@@ -140,7 +140,7 @@ class platform_customer extends ecjia_platform
             $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
         } else {
             $this->assign('warn', 'warn');
-            $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
+            $type = $this->platformAccount->getType();
             $this->assign('action', 'add');
             $this->assign('type', $type);
             $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
@@ -513,7 +513,7 @@ class platform_customer extends ecjia_platform
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.customer_message')));
         $this->assign('action_link', array('text' => RC_Lang::get('wechat::wechat.customer_list'), 'href' => RC_Uri::url('wechat/platform_customer/init')));
 
-        $type = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('type');
+        $type = $this->platformAccount->getType();
         $this->assign('type', $type);
         $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
 
