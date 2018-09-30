@@ -48,11 +48,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 自动处理语言文件
+ * 自动处理商品的上架下架,和文章的发布取消
  */
 
 return array(
 	'auto_manage' 		=> '自动处理',
-	'auto_manage_desc' 	=> '自动处理商品的上架下架,和文章的发布取消',
+	'auto_manage_desc' 	=> '自动处理文章的发布和取消',
 	'auto_manage_count' => '每次处理记录个数：',
 
 	'auto_manage_count_range' => array(
