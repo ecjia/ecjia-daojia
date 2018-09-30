@@ -59,9 +59,12 @@ RC_Hook::add_action('main/index/init', function () {
         ecjia_front::$controller->assign('main_url', $main_url);
         
         //会员中心
-        $this_url     = RC_Uri::home_url();
-        $member_url   = str_replace('sites/app', 'sites/member', $this_url);
-        ecjia_front::$controller->assign('member_url', $member_url);
+        $pc_enabled_member = ecjia::config('pc_enabled_member');
+        if ($pc_enabled_member) {
+            $this_url     = RC_Uri::home_url();
+            $member_url   = str_replace('sites/app', 'sites/member', $this_url);
+            ecjia_front::$controller->assign('member_url', $member_url);
+        }
         
         //商家入驻url
         $merchant_url     = RC_Uri::url('franchisee/merchant/init');
