@@ -123,11 +123,11 @@ class flow_checkOrder_module extends api_front implements api_interface {
 
 		/* 获取用户收货地址*/
 		if ($address_id > 0) {
-			$consignee = RC_Model::model('user/user_address_model')->find(array('address_id' => $address_id, 'user_id' => $_SESSION['user_id']));
+			$consignee = RC_DB::table('user_address')->where('address_id', $address_id)->where('user_id', $_SESSION['user_id'])->first();
 			$_SESSION['address_id'] = $address_id;
 		} else {
 			if (isset($_SESSION['address_id'])) {
-				$consignee = RC_Model::model('user/user_address_model')->find(array('address_id' => $_SESSION['address_id'], 'user_id' => $_SESSION['user_id']));
+				$consignee = RC_DB::table('user_address')->where('address_id', $_SESSION['address_id'])->where('user_id', $_SESSION['user_id'])->first();
 			} else {
 				$consignee = cart::get_consignee($_SESSION['user_id']);
 			}
