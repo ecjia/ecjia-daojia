@@ -96,9 +96,8 @@ class admin_orders_operate_consignee_module extends api_admin implements api_int
 		RC_Loader::load_app_func('admin_order', 'orders');
 		/* 判断是非为会员购买*/
 		if ($address_id > 0 && $order_info['user_id'] > 0) {
-			$db_address = RC_Model::model('user/user_address_model');
 			$field = "consignee, email, country, province, city, district, street, address, zipcode, tel, mobile, sign_building, best_time";
-			$orders = $db_address->field($field)->find(array('user_id' => $order_info['user_id'],'address_id' => $address_id));
+			$orders = RC_DB::table('user_address')->select(RC_DB::raw($field))->where('user_id', $order_info['user_id'])->where('address_id', $address_id)->first();
 			update_order($order_id, $orders);
 		} else {
 			if ((empty($consignee) || empty($address) || empty($country_id) || empty($province_id) || empty($city_id) || empty($mobile))) {

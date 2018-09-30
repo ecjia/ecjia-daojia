@@ -60,10 +60,8 @@ class merchant extends ecjia_merchant
     private $db_order_view;
     private $db_order_action;
     private $db_user_rank;
-    private $db_user_address;
     private $db_bonus;
     private $db_order_goodview;
-    //private $db_shipping;
     private $db_delivery;
     private $db_goods;
     private $db_products;
@@ -92,10 +90,8 @@ class merchant extends ecjia_merchant
         $this->db_order_view = RC_Model::model('orders/order_order_info_viewmodel');
         $this->db_order_action = RC_Model::model('orders/order_action_model');
         $this->db_user_rank = RC_Model::model('user/user_rank_model');
-        $this->db_user_address = RC_Model::model('user/user_address_viewmodel');
         $this->db_bonus = RC_Model::model('orders/bonus_type_user_viewmodel');
         $this->db_order_goodview = RC_Model::model('orders/order_order_goods_viewmodel');
-        //$this->db_shipping = RC_Model::model('shipping/shipping_model');
         $this->db_delivery = RC_Model::model('orders/delivery_goods_model');
         $this->db_goods = RC_Model::model('goods/goods_model');
         $this->db_products = RC_Model::model('goods/products_model');
@@ -521,7 +517,7 @@ class merchant extends ecjia_merchant
             $this->assign('user', $user);
 
             // 地址信息
-            $data = $this->db_user_address->where(array('user_id' => $order['user_id']))->select();
+            $data = Ecjia\App\User\UserAddress::UserAddressList($order['user_id']);
             $this->assign('address_list', $data);
         }
 
@@ -1505,9 +1501,8 @@ class merchant extends ecjia_merchant
             }
             //如果是会员订单则读取会员地址信息
             if ($order['user_address'] > 0 && $old_order['user_id'] > 0) {
-                $db_address = RC_Loader::load_app_model('user_address_model', 'user');
                 $field = "consignee, email, country, province, city, district, street, address, zipcode, tel,mobile, sign_building, best_time";
-                $orders = $db_address->field($field)->find(array('user_id' => $old_order['user_id'], 'address_id' => $order['user_address']));
+                $orders = RC_DB::table('user_address')->select(RC_DB::raw($field))->where('user_id', $old_order['user_id'])->where('address_id', $order['user_address'])->first();
                 update_order($order_id, $orders);
             } else {
                 if (isset($order['user_address'])) {

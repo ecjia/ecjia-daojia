@@ -74,7 +74,7 @@ class admin_orders_consignee_list_module extends api_admin implements api_interf
 		$address_list = array();
 		if ($order_info['user_id'] > 0 ) {
 			$user_id = $order_info['user_id'];
-			$address_result = RC_Model::model('user/user_address_model')->where(array('user_id' => $user_id))->select();
+			$address_result = RC_DB::table('user_address')->where('user_id', $user_id)->get();
 			if (!empty($address_result)) {
 				$user_info = RC_Model::model('user/users_model')->where(array('user_id' => $user_id))->find();
 				foreach ($address_result as $key => $value) {

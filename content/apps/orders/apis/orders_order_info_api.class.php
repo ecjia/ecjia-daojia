@@ -155,7 +155,6 @@ class orders_order_info_api extends Component_Event_Api {
 	        
 	        /* 对发货号处理 */
 	        if (! empty($order['invoice_no'])) {
-	        	//$shipping_code = RC_Model::model('shipping/shipping_model')->field('shipping_code')->find('shipping_id = ' . $order['shipping_id']);
 	        	$shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
 	        }
 	        
