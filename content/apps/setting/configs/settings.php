@@ -27,6 +27,24 @@ return [
         'history_number',
         'comments_number',
         'article_number',
+        'sort_order_type',
+        'sort_order_method',
+        'show_order_type',
+        'attr_related_number',
+        'page_style',
+
+        'show_goods_in_cart',
+        'show_attr_in_cart',
+        'anonymous_buy',
+        'use_how_oos',
+
+        'cart_confirm',
+        'one_step_buy',
+
+        'goodsattr_style',
+        'show_brand',
+
+
 
 
         //计划任务分组已使用

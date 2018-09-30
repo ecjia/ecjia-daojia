@@ -156,6 +156,15 @@ class setting_admin_hooks {
 
         return $items;
     }
+
+
+    public static function add_maintain_command($factories)
+    {
+        $factories['setting_shop_config_sequence'] = 'Ecjia\App\Setting\Maintains\SettingShopConfigSequence';
+        $factories['setting_shop_config_seeder'] = 'Ecjia\App\Setting\Maintains\SettingShopConfigSeeder';
+
+        return $factories;
+    }
     
 }
 
@@ -168,5 +177,6 @@ RC_Hook::add_action( 'config_form_lang', array('setting_admin_hooks', 'form_conf
 RC_Hook::add_action( 'config_form_invoice_type', array('setting_admin_hooks', 'form_config_invoice_type') );
 RC_Hook::add_action( 'update_config_invoice_type', array('setting_admin_hooks', 'update_config_invoice_type'), 10, 2 );
 RC_Hook::add_filter( 'shop_config_filter_items', array('setting_admin_hooks', 'shop_config_filter_items'), 10, 2 );
+RC_Hook::add_action('ecjia_maintain_command_filter', array('setting_admin_hooks', 'add_maintain_command'));
 
 // end
