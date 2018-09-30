@@ -574,8 +574,11 @@ function update_user($user_id, $user) {
 * @return  array
 */
 function address_list($user_id) {
-	$db_users = RC_Loader::load_app_model("user_address_model","user");
-	return $db_users->where(array('user_id' => $user_id))->select();
+	$list = [];
+	if (!empty($user_id)) {
+		$list = RC_DB::table('user_address')->where('user_id', $user_id)->get();
+	}
+	return $list;
 }
 
 /**
@@ -584,8 +587,11 @@ function address_list($user_id) {
 * @return  array
 */
 function address_info($address_id) {
-	$db_users = RC_Loader::load_app_model("user_address_model","user");
-	return $db_users->find(array('address_id' => $address_id));
+	$info = [];
+	if (!empty($address_id)) {
+		RC_DB::table('user_address')->where('address_id', $address_id)->first();
+	}
+	return $info;
 }
 
 
@@ -619,8 +625,7 @@ function integral_of_value($value) {
 * @param   float   $refund_amount  退款金额（如果为0，取订单已付款金额）
 * @return  bool
 */
-function order_refund($order, $refund_type, $refund_note, $refund_amount = 0) {
-	$db = RC_Loader::load_app_model('user_account_model','user');
+function order_refund($order, $refund_type, $refund_note = '', $refund_amount = 0) {
 	/* 检查参数 */
 	$user_id = $order['user_id'];
 	if ($user_id == 0 && $refund_type == 1) {
@@ -664,17 +669,18 @@ function order_refund($order, $refund_type, $refund_note, $refund_amount = 0) {
 		}
 
 		/* user_account 表增加提款申请记录 */
+		$admin_note = sprintf(RC_Lang::get('store::store.order_refund'), $order['order_sn']);
 		$account = array(
 			'user_id'		=> $user_id,
 			'amount'		=> (-1) * $amount,
 			'add_time'		=> RC_Time::gmtime(),
-			'user_note'		=> $refund_note,
+			'user_note'		=> empty($refund_note) ? '' : $refund_note,
 			'process_type'	=> SURPLUS_RETURN,
-			'admin_user'	=> $_SESSION['admin_name'],
-			'admin_note'	=> sprintf(RC_Lang::get('store::store.order_refund'), $order['order_sn']),
+			'admin_user'	=> empty($_SESSION['admin_name']) ? '' : $_SESSION['admin_name'],
+			'admin_note'	=> empty($admin_note) ? '' : $admin_note,
 			'is_paid'		=> 0
 		);
-		$db->insert($account);
+		RC_DB::table('user_account')->insert($account);
 		return true;
 	} else {
 		return true;
@@ -1068,7 +1074,6 @@ function get_goods_attr_info($arr, $type = 'pice') {
 * @return  array
 */
 function get_consignee($user_id) {
-	$dbview = RC_Loader::load_app_model('user_address_user_viewmodel','user');
 
 	if (isset($_SESSION['flow_consignee'])) {
 		/* 如果存在session，则直接返回session中的收货人信息 */
@@ -1078,7 +1083,7 @@ function get_consignee($user_id) {
 		$arr = array();
 		if ($user_id > 0) {
 			/* 取默认地址 */
-			$arr = $dbview->join('users')->find(array('u.user_id' => $user_id));
+			$arr = Ecjia\App\User\UserAddress::UserDefaultAddressInfo($user_id);
 		}
 		return $arr;
 	}
@@ -1200,7 +1205,6 @@ function judge_package_stock($package_id, $package_num = 1) {
  */
 function get_order_detail ($order_id, $user_id = 0)
 {
-    //$db         = RC_Loader::load_app_model('shipping_model', 'shipping');
     $dbview     = RC_Loader::load_app_model('package_goods_viewmodel', 'goods');
     $pay_method = RC_Loader::load_app_class('payment_method', 'payment');
 
@@ -1219,7 +1223,6 @@ function get_order_detail ($order_id, $user_id = 0)
 
     /* 对发货号处理 */
     if (! empty($order['invoice_no'])) {
-        //$shipping_code = $db->field('shipping_code')->find('shipping_id = ' . $order[shipping_id] . '');
     	$shipping_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
     }
 
