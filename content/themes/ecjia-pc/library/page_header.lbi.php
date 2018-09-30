@@ -26,7 +26,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 				<li {if $active eq 'main'}class="active"{/if}><a href="{RC_Uri::home_url()}">首页</a></li>
 				<li {if $active eq 'category'}class="active"{/if}><a class="merchant-list" href="{RC_Uri::url('merchant/store/category')}">商家</a></li>
 				<li><a class="nopjax" href="{RC_Uri::site_url('/sites/app/')}">下载APP</a></li>
-				<li><a class="nopjax" href="{RC_Uri::site_url('/sites/member/')}" target="_blank">会员中心</a></li>
+				{if ecjia::config('pc_enabled_member')}<li><a class="nopjax" href="{RC_Uri::site_url('/sites/member/')}" target="_blank">会员中心</a></li>{/if}
 				{if ecjia::config('merchant_join_close') eq 0}
 				<li><a class="nopjax" href="{$info.merchant_url}" target="_blank">商家入驻</a></li>
 				{/if}
