@@ -52,7 +52,7 @@ return array(
     
     'sub_code'      => ['best', 'hot', 'new', 'recommend', 'promotion'], //子命令
 
-    'support_platform' => 'wechat', //仅支持微信公众平台
+    'support_platform' => 'wechat', //支持微信公众平台和微信小程序
 
     'support_platform_type' => ['service', 'unauthorized', 'subscribe', 'test'], //支持微信所有类型公众号
     
