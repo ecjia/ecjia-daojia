@@ -358,7 +358,7 @@ class cart {
 			$arr = array();
 			if ($user_id > 0) {
 				/* 取默认地址 */
-				$arr = RC_Model::model('user/user_address_user_viewmodel')->join('users')->find(array('u.user_id' => $user_id));
+				$arr = Ecjia\App\User\UserAddress::UserDefaultAddressInfo($user_id);
 			}
 			return $arr;
 		}

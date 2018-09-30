@@ -309,7 +309,6 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		/* 插入订单表 */
 		$order['order_sn'] = cart::get_order_sn(); // 获取新订单号
-		//$db_order_info	= RC_Model::model('orders/order_info_model');
 
 		/*过滤没有的字段*/
 		unset($order['need_inv']);
