@@ -220,7 +220,6 @@ function check_money($log_id, $money) {
 function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
 	$db_pay = RC_Model::model('orders/pay_log_model');
 	$db_order = RC_Model::model('orders/order_info_model');
-	$db_user = RC_Model::model('user/user_account_model');
 
     /* 取得支付编号 */
     $log_id = intval($log_id);
@@ -295,20 +294,18 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                 }
 
             } elseif ($pay_log['order_type'] == PAY_SURPLUS) {
-            		$res_id = $db_user -> field('`id`')->find('`id` = '.$pay_log['order_id'].' AND `is_paid` = 1');
+            		$res_id = RC_DB::table('user_account')->select('id')->where('id', $pay_log['order_id'])->where('is_paid', 1)->first();
                 if (empty($res_id)) {
-					/* 更新会员预付款的到款状态 */
+					/*更新会员预付款的到款状态 */
 	                	$data = array(
                 			'paid_time' => RC_Time::gmtime(),
                 			'is_paid'   => 1
                 		);
                 	
-                		$db_user->where('`id` = '.$pay_log['order_id'].'')->update($data);
-                    /* 取得添加预付款的用户以及金额 */
-                		$arr = $db_user->field('user_id, amount')->find('`id` = '. $pay_log['order_id'].'');
-                    /* 修改会员帐户金额 */
-//                     $_LANG = array();
-//                     include_once(ROOT_PATH . 'languages/' . $GLOBALS['_CFG']['lang'] . '/user.php');
+	                	RC_DB::table('user_account')->where('id', $pay_log['order_id'])->update($data);
+                    /*取得添加预付款的用户以及金额 */
+	                	$arr = RC_DB::table('user_account')->select('user_id', 'amount')->where('id', $pay_log['order_id'])->first();
+                    /*修改会员帐户金额 */
                     $options = array(
                     	'user_id'		=> $arr['user_id'],
                     	'user_money'	=> $arr['amount'],
