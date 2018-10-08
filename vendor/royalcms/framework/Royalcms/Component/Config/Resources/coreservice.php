@@ -175,9 +175,6 @@ return array(
         'Royalcms\Component\View\ViewServiceProvider',
 
 
-//        'Royalcms\Component\Foundation\Providers\PhpinfoServiceProvider',
-
-
         'Royalcms\Component\Gettext\GettextServiceProvider',
         'Royalcms\Component\Hook\HookServiceProvider',
         'Royalcms\Component\Package\PackageServiceProvider',
@@ -192,9 +189,11 @@ return array(
         'Royalcms\Component\Script\ScriptServiceProvider',
         'Royalcms\Component\Error\ErrorServiceProvider',
         'Royalcms\Component\DefaultRoute\DefaultRouteServiceProvider',
-    
-    
-    
+
+
+        // Foundation
+        'Royalcms\Component\Foundation\Providers\FoundationServiceProvider',
+
         // Command
         'Royalcms\Component\Foundation\Providers\ArtisanServiceProvider',
         'Royalcms\Component\Foundation\Providers\ComposerServiceProvider',
@@ -206,9 +205,6 @@ return array(
     
     
 
-    //         'Royalcms\Component\Routing\ControllerServiceProvider',
-    
-    
         //     'Royalcms\Component\Hashing\HashServiceProvider',
         //     'Royalcms\Component\Html\HtmlServiceProvider',
     
