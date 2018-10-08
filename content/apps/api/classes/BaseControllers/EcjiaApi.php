@@ -81,7 +81,9 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
      * @var null
      */
     protected $api_version = null;
-    
+
+    protected $api_driver = null;
+
 	public function __construct()
     {
 		parent::__construct();
@@ -132,7 +134,7 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
      */
 	protected function session_start()
 	{
-        if ($this->requestDevice('client') == 'local') {
+        if ($this->api_driver == 'local') {
             return null;
         }
 
@@ -152,7 +154,7 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
      */
 	public function create_view()
 	{
-	    if ($this->requestDevice('client') == 'local') {
+	    if ($this->api_driver == 'local') {
             return null;
         }
 
@@ -211,6 +213,7 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
         $this->device['code']	= $request->header('device-code');
         $this->device['udid']	= $request->header('device-udid');
         $this->api_version		= $request->header('api-version');
+        $this->api_driver		= $request->header('api-driver');
 
         RC_Api::api('stats', 'statsapi', array('api_name' => $request->input('url'), 'device' => $this->device));
         RC_Api::api('mobile', 'device_record', array('device' => $this->device));

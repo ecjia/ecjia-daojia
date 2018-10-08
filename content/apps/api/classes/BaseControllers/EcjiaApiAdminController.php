@@ -69,7 +69,7 @@ abstract class EcjiaApiAdminController extends EcjiaApi
 
 	protected function session_start()
     {
-        if ($this->requestDevice('client') == 'local') {
+        if ($this->api_driver == 'local') {
             return null;
         }
 
