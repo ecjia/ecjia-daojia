@@ -44,38 +44,22 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Touch\Frameworks;
 
 /**
- * ecjia touch manager API管理类
- * @author royalwang
+ * ecjia touch 主类
  */
-class ecjia_touch_manager extends Ecjia\App\Api\Requests\ApiManager
+class EcjiaTouch
 {
-    /**
-     * 服务器地址
-     * @var serverHost
-     */
-    const serverHost = '/sites/api/?url=';
+    //预设配置项存储key
+    const STORAGEKEY_template   = 'touch_template';
+    const STORAGEKEY_stylename  = 'touch_stylename';
 
-    protected $driver = 'local';
+    const STORAGEKEY_map_qq_referer   	= 'map_qq_referer';
+    const STORAGEKEY_map_qq_key   		= 'map_qq_key';
 
-    public function __construct()
-    {
-        parent::__construct();
 
-        $this->header(array(
-        	'device-udid'     => RC_Session::getId(),
-            'device-client'   => 'local', //h5,local
-            'device-code'     => '6004',  //6004
-            'api-version'     => '1.21',
-        ));
-    }
 
-    public function serverHost()
-    {
-        return RC_Hook::apply_filters('custom_site_api_url', RC_Uri::home_url() . static::serverHost);
-    }
 }
 
 // end

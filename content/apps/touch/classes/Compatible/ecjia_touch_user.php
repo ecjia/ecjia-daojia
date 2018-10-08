@@ -44,18 +44,11 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * ecjia touch 主类
- */
-class touch {
-    //预设配置项存储key
-    const STORAGEKEY_template   = 'touch_template';
-    const STORAGEKEY_stylename  = 'touch_stylename';
+class ecjia_touch_api extends Ecjia\App\Touch\Frameworks\Component\User
+{
+   
 
-    const STORAGEKEY_map_qq_referer   	= 'map_qq_referer';
-    const STORAGEKEY_map_qq_key   		= 'map_qq_key';
 }
 
 // end

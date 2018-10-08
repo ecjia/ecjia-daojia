@@ -44,13 +44,16 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Touch\Frameworks\Component;
+
+use ecjia_page;
 
 /**
  * 分页处理类
  * @package     Core
  */
-class ecjia_touch_page extends ecjia_page {
+class Page extends ecjia_page
+{
 
 	/**
 	 * 上一页
@@ -91,7 +94,7 @@ class ecjia_touch_page extends ecjia_page {
 	 */
 	public function show($style = '', $page_row = null) {
 		if (empty($style)) {
-			$style = RC_Config::load_config('system', 'PAGE_STYLE');
+			$style = config('system.page_style');
 		}
 		
 		//使用下拉加载，不使用分类页面

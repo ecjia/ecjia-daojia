@@ -44,85 +44,45 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Touch\ApiRequest;
+
+use Ecjia\App\Api\Requests\ApiManager as BaseApiManager;
+use RC_Session;
+use RC_Hook;
+use RC_Uri;
 
 /**
- * touch共用功能加载
+ * ecjia touch manager API管理类
+ * @author royalwang
  */
-function touch_common_loading() {
+class ApiManager extends BaseApiManager
+{
+    /**
+     * 服务器地址
+     * @var serverHost
+     */
+    const serverHost = '/sites/api/?url=';
 
-	/* 商店关闭了，输出关闭的消息 */
-	if (ecjia::config('wap_config') == 0) {
-		RC_Hook::do_action('ecjia_shop_closed');
-	}
+    protected $driver = 'local';
 
-    RC_Loader::load_theme('extras/class/touch/touch_page.class.php');
+    public function __construct()
+    {
+        parent::__construct();
 
-    RC_Lang::load('touch/common');
-    RC_Lang::load('touch/user');
-    
-    //判断是否显示头部和底部
-    if (!empty($_GET['hidenav']) && !empty($_GET['hidetab'])) {
-        RC_Cookie::set('hideinfo', 1, array('expire' => 360000));
-    }elseif (isset($_GET['hidenav']) && isset($_GET['hidetab']) && $_GET['hidenav'] == 0 && $_GET['hidetab'] == 0) {
-        RC_Cookie::delete('hideinfo');
+        $this->header(array(
+            'device-udid'     => RC_Session::getId(),
+            'device-client'   => 'h5',    //h5
+            'device-code'     => '6004',  //6004
+            'api-version'     => '1.21',
+            'api-driver'      => 'local',
+        ));
     }
 
-    if (RC_Cookie::get('hideinfo')) {
-        ecjia_front::$view_object->assign('hideinfo', 1);
+    public function serverHost()
+    {
+        return RC_Hook::apply_filters('custom_site_api_url', RC_Uri::home_url() . static::serverHost);
     }
 
-    if (!empty($_GET['hidenav'])) {
-        ecjia_front::$view_object->assign('hidenav', intval($_GET['hidenav']));
-    }
-    if (!empty($_GET['hidetab'])) {
-        ecjia_front::$view_object->assign('hidetab', intval($_GET['hidetab']));
-    }
-    $stylename_code = RC_Hook::apply_filters('ecjia_theme_stylename_code', 'stylename');
-    $curr_style = ecjia::config($stylename_code) ? 'style_'.ecjia::config($stylename_code).'.css' : 'style.css';
-    ecjia_front::$view_object->assign('curr_style', $curr_style);
-
-    // 提供APP下载广告的配置项
-    $shop_app_icon = ecjia::config('shop_app_icon');
-    !empty($shop_app_icon) && ecjia_front::$controller->assign('shop_app_icon', RC_Upload::upload_url() . '/' . $shop_app_icon);
 }
-
-
-
-RC_Hook::add_action('ecjia_front_finish_launching', 'touch_common_loading');
-
-RC_Hook::add_filter('ecjia_theme_template_code', function() {
-    return ecjia_touch::STORAGEKEY_template;
-});
-RC_Hook::add_filter('ecjia_theme_stylename_code', function() {
-    return ecjia_touch::STORAGEKEY_stylename;
-});
-RC_Hook::add_filter('page_title_suffix', function ($suffix) {
-	return ;
-});
-
-/**
- * 设置api session id
- * @param string $session_id session id
- * @return session_id
- */
-function set_touch_session_id($session_id) {
-    if (isset($_GET['token']) && !empty($_GET['token'])) {
-        return $_GET['token'];
-    }
-    return ;
-}
-RC_Hook::add_filter('ecjia_front_session_id', 'set_touch_session_id');
-
-/*
- * ========================================
- * API模型加载
- * ========================================
- */
-collect(config('app-touch::class_autoload', []))->each(function($item, $key) {
-    RC_Hook::add_action('class_'.$key, function () use ($item) {
-        RC_Package::package('app::touch')->loadModel($item, false);
-    });
-});
 
 // end
