@@ -30,10 +30,11 @@
         "27": "Royalcms\\Component\\Script\\ScriptServiceProvider",
         "28": "Royalcms\\Component\\Error\\ErrorServiceProvider",
         "29": "Royalcms\\Component\\DefaultRoute\\DefaultRouteServiceProvider",
-        "30": "Royalcms\\Component\\Foundation\\Providers\\ArtisanServiceProvider",
-        "31": "Royalcms\\Component\\Foundation\\Providers\\ComposerServiceProvider",
-        "32": "Royalcms\\Component\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "33": "Royalcms\\Component\\Sentry\\SentryServiceProvider",
+        "30": "Royalcms\\Component\\Foundation\\Providers\\FoundationServiceProvider",
+        "31": "Royalcms\\Component\\Foundation\\Providers\\ArtisanServiceProvider",
+        "32": "Royalcms\\Component\\Foundation\\Providers\\ComposerServiceProvider",
+        "33": "Royalcms\\Component\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "34": "Royalcms\\Component\\Sentry\\SentryServiceProvider",
         "100": "Royalcms\\Component\\NativeSession\\NativeSessionServiceProvider"
     },
     "eager": [
@@ -52,6 +53,7 @@
         "Royalcms\\Component\\Script\\ScriptServiceProvider",
         "Royalcms\\Component\\Error\\ErrorServiceProvider",
         "Royalcms\\Component\\DefaultRoute\\DefaultRouteServiceProvider",
+        "Royalcms\\Component\\Foundation\\Providers\\FoundationServiceProvider",
         "Royalcms\\Component\\NativeSession\\NativeSessionServiceProvider"
     ],
     "deferred": {
