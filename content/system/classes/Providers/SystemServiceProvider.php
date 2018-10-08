@@ -194,6 +194,10 @@ class SystemServiceProvider extends AppParentServiceProvider
 	        $loader->alias('Ecjia_SiteManager', 'Ecjia\System\Facades\SiteManager');
 	        $loader->alias('Ecjia_VersionManager', 'Ecjia\System\Facades\VersionManager');
 	        $loader->alias('ecjia_config', 'Ecjia\System\Facades\Config');
+
+	        //compatible
+	        $loader->alias('ecjia_base', 'Ecjia\System\BaseController\EcjiaController');
+	        $loader->alias('ecjia_error', 'Royalcms\Component\Error\Error');
 	    });
 	}
 	
