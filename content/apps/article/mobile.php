@@ -57,7 +57,8 @@ class mobile extends ecjia_front {
 	public function info() {
 		$article_info = RC_Api::api('article', 'article_info', array('id' => $_GET['id']));
 		$this->assign('article_info', $article_info);
-		$this->display('article_info.dwt');
+
+		$this->displayAppTemplate('article', 'front/article_info.dwt');
 	}
 }
 
