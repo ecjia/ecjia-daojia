@@ -671,7 +671,8 @@ class cart {
 			$region['province'] = $consignee['province'];
 			$region['city']     = $consignee['city'];
 			$region['district'] = isset($consignee['district']) ? $consignee['district'] : '';
-			$region_list = array($region['country'], $region['province'], $region['city'], $region['district']);
+			$region['street']   = isset($consignee['street']) ? $consignee['street'] : '';
+			$region_list 		= array($region['country'], $region['province'], $region['city'], $region['district'], $region['street']);
 
 // 			$shipping_method	= RC_Loader::load_app_class('shipping_method', 'shipping');
 // 			$shipping_info 		= $shipping_method->shipping_area_info($order['shipping_id'], $region_list, $store_id);
