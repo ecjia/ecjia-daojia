@@ -116,7 +116,7 @@ return array(
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
     'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cart/classes/Royalcms/Component/Shoppingcart',
     'Royalcms\Component\Printer' => $contentDir . '/apps/printer/classes/Royalcms/Component/Printer',
-    'Royalcms\Component\Ucenter' => $contentDir . '/apps/ucenter/classes/Royalcms/Component/Ucenter',
+    'Royalcms\Component\Ucenter' => $contentDir . '/apps/ucenter/classes/Ucenter/Royalcms/Component/Ucenter',
 );
 
 //end
