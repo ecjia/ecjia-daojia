@@ -58,11 +58,18 @@ class mobile_controller {
             
             $discover = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DISCOVER)->run();
             $signup_reward_url =  RC_Uri::url('market/mobile_reward/init', array('token' => $token));
-
             if (!is_ecjia_error($discover) && !empty($discover)) {
                 foreach ($discover as $key => $val) {
                     if (strpos($val['url'], 'ecjiaopen://') === 0) {
-                        $discover[$key]['url'] = with(new ecjia_open($val['url']))->toHttpUrl();
+                        try {
+                            $url = with(new ecjia_open($val['url']))->toHttpUrl();
+                        }
+                        catch (BadMethodCallException $e) {
+                            //
+                        }
+                        finally {
+                            $discover[$key]['url'] = $url;
+                        }
                     }
                 }
                 ecjia_front::$controller->assign('data', $discover);
