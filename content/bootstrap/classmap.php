@@ -272,6 +272,7 @@ return array(
     'CreateGoodslibGalleryTable' => $contentDir . '/database/migrations/2018_08_10_141443_create_goodslib_gallery_table.php',
     'CreateGoodslibProductsTable' => $contentDir . '/database/migrations/2018_08_10_141509_create_goodslib_products_table.php',
     'AddGoodslibIdToGoods' => $contentDir . '/database/migrations/2018_08_10_141644_add_goodslib_id_to_goods.php',
+    'AlterUserIdToMarketActivityLotteryTable' => $contentDir . '/database/migrations/2018_09_06_114738_alter_user_id_to_market_activity_lottery_table.php',
 
     
     // seeder
