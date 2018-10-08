@@ -44,14 +44,14 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/15
+ * Time: 9:26 AM
+ */
 
-class user_bonus_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'user_bonus';
-		parent::__construct();
-	}
+abstract class ecjia_user extends Ecjia\App\User\Frameworks\EcjiaUser
+{
+
 }
-
-// end
