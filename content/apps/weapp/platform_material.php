@@ -281,7 +281,7 @@ class platform_material extends ecjia_platform
             $data['media_id'] = $rs['media_id'];
 
             $id = RC_DB::table('wechat_media')->insertGetId($data);
-            ecjia_admin::admin_log($title, 'add', 'article_material');
+            $this->admin_log($title, 'add', 'article_material');
 
             $links[] = array('text' => RC_Lang::get('wechat::wechat.return_material_manage'), 'href' => RC_Uri::url('weapp/platform_material/init', array('type' => 'news', 'material' => 1)));
             $links[] = array('text' => RC_Lang::get('wechat::wechat.continue_material_manage'), 'href' => RC_Uri::url('weapp/platform_material/add', array('material' => 1)));
@@ -459,7 +459,7 @@ class platform_material extends ecjia_platform
             $model->update($data);
 
             $title = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('title');
-            ecjia_admin::admin_log($title, 'edit', 'article_material');
+            $this->admin_log($title, 'edit', 'article_material');
 
             return $this->showmessage(RC_Lang::get('wechat::wechat.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/platform_material/edit', array('id' => $id))));
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -547,7 +547,7 @@ class platform_material extends ecjia_platform
 
         //添加多图文素材
         $id = RC_DB::table('wechat_media')->insertGetId($data);
-        ecjia_admin::admin_log($title, 'add', 'article_material');
+        $this->admin_log($title, 'add', 'article_material');
 
         return $this->showmessage(RC_Lang::get('wechat::wechat.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/platform_material/edit', array('id' => $id, 'material' => 1))));
     }
@@ -729,14 +729,14 @@ class platform_material extends ecjia_platform
             if (!$model->subNews->isEmpty()) {
                 $model->subNews->each(function ($item) {
                     $item->delete();
-                    ecjia_admin::admin_log($item['title'], 'remove', 'article_material');
+                    $this->admin_log($item['title'], 'remove', 'article_material');
                     return true;
                 });
             }
 
             $model->delete();
 
-            ecjia_admin::admin_log($model['title'], 'remove', 'article_material');
+            $this->admin_log($model['title'], 'remove', 'article_material');
 
             return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
@@ -811,7 +811,7 @@ class platform_material extends ecjia_platform
 
             $id = RC_DB::table('wechat_media')->insertGetId($data);
 
-            ecjia_admin::admin_log($_FILES['img_url']['name'], 'add', 'picture_material');
+            $this->admin_log($_FILES['img_url']['name'], 'add', 'picture_material');
 
             return $this->showmessage(RC_Lang::get('wechat::wechat.upload_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/platform_material/init', array('type' => 'image', 'material' => $material))));
 
@@ -859,7 +859,7 @@ class platform_material extends ecjia_platform
                     }
                     Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
-                    ecjia_admin::admin_log($model['file_name'], 'remove', 'picture_material');
+                    $this->admin_log($model['file_name'], 'remove', 'picture_material');
                     return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
 
@@ -941,7 +941,7 @@ class platform_material extends ecjia_platform
 
             $id = RC_DB::table('wechat_media')->insertGetId($data);
 
-            ecjia_admin::admin_log($_FILES['img_url']['name'], 'add', 'thumb_material');
+            $this->admin_log($_FILES['img_url']['name'], 'add', 'thumb_material');
 
             return $this->showmessage(RC_Lang::get('wechat::wechat.upload_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/platform_material/init', array('type' => 'thumb', 'material' => $material))));
 
@@ -991,7 +991,7 @@ class platform_material extends ecjia_platform
                     }
                     Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
-                    ecjia_admin::admin_log($model['file_name'], 'remove', 'thumb_material');
+                    $this->admin_log($model['file_name'], 'remove', 'thumb_material');
                     return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
 
@@ -1066,7 +1066,7 @@ class platform_material extends ecjia_platform
 
             $id = RC_DB::table('wechat_media')->insertGetId($data);
 
-            ecjia_admin::admin_log($_FILES['img_url']['name'], 'add', 'voice_material');
+            $this->admin_log($_FILES['img_url']['name'], 'add', 'voice_material');
 
             return $this->showmessage(RC_Lang::get('wechat::wechat.upload_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/platform_material/init', array('type' => 'voice', 'material' => $material))));
 
@@ -1114,7 +1114,7 @@ class platform_material extends ecjia_platform
                     }
                     Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
-                    ecjia_admin::admin_log($model['file_name'], 'remove', 'voice_material');
+                    $this->admin_log($model['file_name'], 'remove', 'voice_material');
                     return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
 
@@ -1240,7 +1240,7 @@ class platform_material extends ecjia_platform
 
             $id = RC_DB::table('wechat_media')->insertGetId($data);
 
-            ecjia_admin::admin_log($title, 'add', 'video_material');
+            $this->admin_log($title, 'add', 'video_material');
 
             if ($id) {
                 $links[] = array('text' => RC_Lang::get('wechat::wechat.return_material_manage'), 'href' => RC_Uri::url('weapp/platform_material/init', array('type' => 'video', 'material' => $material)));
@@ -1296,7 +1296,7 @@ class platform_material extends ecjia_platform
                     }
                     Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
-                    ecjia_admin::admin_log($model['title'], 'remove', 'video_material');
+                    $this->admin_log($model['title'], 'remove', 'video_material');
                     return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
 
@@ -1378,9 +1378,9 @@ class platform_material extends ecjia_platform
             }
             RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->update(array('file_name' => $val));
             if ($type == 'voice') {
-                ecjia_admin::admin_log($val, 'edit', 'voice_material');
+                $this->admin_log($val, 'edit', 'voice_material');
             } elseif ($type == 'picture') {
-                ecjia_admin::admin_log($val, 'edit', 'picture_material');
+                $this->admin_log($val, 'edit', 'picture_material');
             }
         } else {
             if (empty($val)) {
@@ -1388,7 +1388,7 @@ class platform_material extends ecjia_platform
             }
             RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->update(array('title' => $val));
 
-            ecjia_admin::admin_log($val, 'edit', 'article_material');
+            $this->admin_log($val, 'edit', 'article_material');
         }
         return $this->showmessage(RC_Lang::get('wechat::wechat.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }

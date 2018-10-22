@@ -235,14 +235,14 @@ class platform_response extends ecjia_platform
             $info = RC_DB::table('wechat_media')->select('file', 'type')->where('wechat_id', $wechat_id)->where('id', $media_id)->first();
 
             if (!empty($content)) {
-                ecjia_admin::admin_log($content . '，' . RC_Lang::get('wechat::wechat.reply_type_character'), 'add', 'reply_msg');
+                $this->admin_log($content . '，' . RC_Lang::get('wechat::wechat.reply_type_character'), 'add', 'reply_msg');
             } else {
                 if ($info['type'] == 'image') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_picture'), 'add', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_picture'), 'add', 'reply_msg');
                 } elseif ($info['type'] == 'voice') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_voice'), 'add', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_voice'), 'add', 'reply_msg');
                 } elseif ($info['type'] == 'video') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_video'), 'add', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_video'), 'add', 'reply_msg');
                 }
             }
             if ($id) {
@@ -260,14 +260,14 @@ class platform_response extends ecjia_platform
             $info = RC_DB::table('wechat_media')->select('file', 'type')->where('wechat_id', $wechat_id)->where('id', $media_id)->first();
 
             if (!empty($content)) {
-                ecjia_admin::admin_log($content . '，' . RC_Lang::get('wechat::wechat.reply_type_character'), 'edit', 'reply_msg');
+                $this->admin_log($content . '，' . RC_Lang::get('wechat::wechat.reply_type_character'), 'edit', 'reply_msg');
             } else {
                 if ($info['type'] == 'image') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_picture'), 'edit', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_picture'), 'edit', 'reply_msg');
                 } elseif ($info['type'] == 'voice') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_voice'), 'edit', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_voice'), 'edit', 'reply_msg');
                 } elseif ($info['type'] == 'video') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_video'), 'edit', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_video'), 'edit', 'reply_msg');
                 }
             }
             if ($id) {
@@ -309,14 +309,14 @@ class platform_response extends ecjia_platform
             $info = RC_DB::table('wechat_media')->select('file', 'type')->where('wechat_id', $wechat_id)->where('id', $media_id)->first();
 
             if (!empty($content)) {
-                ecjia_admin::admin_log($content . '，' . RC_Lang::get('wechat::wechat.reply_type_character'), 'add', 'reply_msg');
+                $this->admin_log($content . '，' . RC_Lang::get('wechat::wechat.reply_type_character'), 'add', 'reply_msg');
             } else {
                 if ($info['type'] == 'image') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_picture'), 'add', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_picture'), 'add', 'reply_msg');
                 } elseif ($info['type'] == 'voice') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_voice'), 'add', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_voice'), 'add', 'reply_msg');
                 } elseif ($info['type'] == 'video') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_video'), 'add', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_video'), 'add', 'reply_msg');
                 }
             }
             if ($id) {
@@ -334,14 +334,14 @@ class platform_response extends ecjia_platform
             $info = RC_DB::table('wechat_media')->select('file', 'type')->where('wechat_id', $wechat_id)->where('id', $media_id)->first();
 
             if (!empty($content)) {
-                ecjia_admin::admin_log($content . '，' . RC_Lang::get('wechat::wechat.reply_type_character'), 'edit', 'reply_msg');
+                $this->admin_log($content . '，' . RC_Lang::get('wechat::wechat.reply_type_character'), 'edit', 'reply_msg');
             } else {
                 if ($info['type'] == 'image') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_picture'), 'edit', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_picture'), 'edit', 'reply_msg');
                 } elseif ($info['type'] == 'voice') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_voice'), 'edit', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_voice'), 'edit', 'reply_msg');
                 } elseif ($info['type'] == 'video') {
-                    ecjia_admin::admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_video'), 'edit', 'reply_msg');
+                    $this->admin_log($info['file'] . '，' . RC_Lang::get('wechat::wechat.reply_type_video'), 'edit', 'reply_msg');
                 }
             }
             if ($id) {
@@ -523,14 +523,14 @@ class platform_response extends ecjia_platform
             RC_DB::table('wechat_reply')->where('wechat_id', $wechat_id)->where('id', $id)->update($data);
             RC_DB::table('wechat_rule_keywords')->where('rid', $id)->delete();
 
-            ecjia_admin::admin_log($data['rule_name'], 'edit', 'reply_keywords_rule');
+            $this->admin_log($data['rule_name'], 'edit', 'reply_keywords_rule');
         } else {
             $this->admin_priv('weapp_response_add', ecjia::MSGTYPE_JSON);
 
             $data['add_time'] = RC_Time::gmtime();
             $id = RC_DB::table('wechat_reply')->insertGetId($data);
 
-            ecjia_admin::admin_log($data['rule_name'], 'add', 'reply_keywords_rule');
+            $this->admin_log($data['rule_name'], 'add', 'reply_keywords_rule');
         }
         foreach ($rule_keywords as $val) {
             $kdata['rid'] = $id;
@@ -579,7 +579,7 @@ class platform_response extends ecjia_platform
                 }
             }
         }
-        ecjia_admin::admin_log($rule_name, 'remove', 'reply_keywords_rule');
+        $this->admin_log($rule_name, 'remove', 'reply_keywords_rule');
 
         return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }

@@ -145,8 +145,8 @@ class admin extends ecjia_admin {
 		);
 	
 		$id = RC_DB::table('platform_account')->insertGetId($data);
-				
-		ecjia_admin::admin_log($_POST['name'], 'add', 'weapp');
+
+        $this->admin_log($_POST['name'], 'add', 'weapp');
 		return $this->showmessage(RC_Lang::get('weapp::weapp.add_weapp_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/admin/edit', array('id' => $id))));
 	}
 	
@@ -206,8 +206,8 @@ class admin extends ecjia_admin {
 		);
 		
 		RC_DB::table('platform_account')->where('id', $id)->update($data);
-		
-		ecjia_admin::admin_log($_POST['name'], 'edit', 'weapp');
+
+        $this->admin_log($_POST['name'], 'edit', 'weapp');
 		return $this->showmessage(RC_Lang::get('weapp::weapp.edit_weapp_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/admin/edit', array('id' => $id))));
 	}
 	
@@ -228,7 +228,7 @@ class admin extends ecjia_admin {
 		$success = RC_DB::table('platform_account')->where('id', $id)->delete();
 		
 		if ($success) {
-			ecjia_admin::admin_log($info['name'], 'remove', 'weapp');
+            $this->admin_log($info['name'], 'remove', 'weapp');
 			return $this->showmessage(RC_Lang::get('weapp::weapp.remove_weapp_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('weapp/admin/init')));
 		} else {
 			return $this->showmessage(RC_Lang::get('weapp::weapp.remove_weapp_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -252,8 +252,8 @@ class admin extends ecjia_admin {
 		$data = array('logo' => '');
 		
 		$update = RC_DB::table('platform_account')->where('id', $id)->update($data);
-		
-		ecjia_admin::admin_log(RC_Lang::get('weapp::weapp.weapp_name_is').$info['name'], 'remove', 'weapp_logo');
+
+        $this->admin_log(RC_Lang::get('weapp::weapp.weapp_name_is').$info['name'], 'remove', 'weapp_logo');
 		
 		if ($update) {
 			return $this->showmessage(RC_Lang::get('weapp::weapp.remove_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -273,9 +273,9 @@ class admin extends ecjia_admin {
 		RC_DB::table('platform_account')->where('id', $id)->update(array('status' => $val));
 		$name = RC_DB::table('platform_account')->where('id', $id)->pluck('name');
 		if ($val == 1) {
-			ecjia_admin::admin_log($name, 'use', 'weapp');
+            $this->admin_log($name, 'use', 'weapp');
 		} else {
-			ecjia_admin::admin_log($name, 'stop', 'weapp');
+            $this->admin_log($name, 'stop', 'weapp');
 		}
 		
 		return $this->showmessage(RC_Lang::get('weapp::weapp.switch_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val, 'pjaxurl' => RC_Uri::url('weapp/admin/init')));
@@ -317,7 +317,7 @@ class admin extends ecjia_admin {
 		$info = RC_DB::table('platform_account')->whereIn('id', $idArr)->select('name')->get();
 		
 		foreach ($info as $v) {
-			ecjia_admin::admin_log($v['name'], 'batch_remove', 'weapp');
+            $this->admin_log($v['name'], 'batch_remove', 'weapp');
 		}
 	
 		RC_DB::table('platform_account')->whereIn('id', $idArr)->delete();
