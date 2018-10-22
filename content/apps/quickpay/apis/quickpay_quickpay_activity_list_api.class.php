@@ -31,25 +31,30 @@ class quickpay_quickpay_activity_list_api extends Component_Event_Api {
 			$db->where('store_id', $options['store_id']);
 		}
 		
-		$size  	  = empty($options['size']) 		? 15 : intval($options['size']);
-		$page 	  = empty($options['page']) 		? 1 : intval($options['page']);
 		
 		$time = RC_Time::gmtime();
 		$db->where('start_time', '<=', $time);
 		$db->where('end_time', '>=', $time);
 		$db->where('enabled', 1);
 		
-		
-		$count = $db->select('id')->count();
-		$page_row = new ecjia_page($count, $size, 6, '', $page);
-		
-		$list = $db->take($size)->skip($page_row->start_id - 1)->select('*')->get();
-		
-		$pager = array(
-				'total' => $page_row->total_records,
-				'count' => $page_row->total_records,
-				'more'	=> $page_row->total_pages <= $page ? 0 : 1,
-		);
+		//是按分页返回
+		if (trim($options['is_page']) == 'no') {
+			$list = $db->select('*')->get();
+			$pager = array();
+		} else {
+			$size  	  = empty($options['size']) 		? 15 : intval($options['size']);
+			$page 	  = empty($options['page']) 		? 1 : intval($options['page']);
+				
+			$count = $db->select('id')->count();
+			$page_row = new ecjia_page($count, $size, 6, '', $page);
+				
+			$list = $db->take($size)->skip($page_row->start_id - 1)->select('*')->get();
+			$pager = array(
+					'total' => $page_row->total_records,
+					'count' => $page_row->total_records,
+					'more'	=> $page_row->total_pages <= $page ? 0 : 1,
+			);
+		}
 		
 		$week_list = $this->get_week_list();
 		

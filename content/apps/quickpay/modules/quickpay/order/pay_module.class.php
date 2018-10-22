@@ -60,7 +60,7 @@ class quickpay_order_pay_module extends api_front implements api_interface {
     	}
     	
 		$order_id	= $this->requestData('order_id', 0);
-		$is_mobile	= true;
+		$is_mobile	= $this->requestData('is_mobile', true);
 		$wxpay_open_id = $this->requestData('wxpay_open_id', 0);
 		$pay_code = $this->requestData('pay_code', '');
 		
@@ -112,7 +112,7 @@ class quickpay_order_pay_module extends api_front implements api_interface {
 		]);
 
 		$handler->set_orderinfo($order);
-		$handler->set_mobile(true);
+		$handler->set_mobile($is_mobile);
 		$handler->setOrderType(Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY);
 		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
 		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);

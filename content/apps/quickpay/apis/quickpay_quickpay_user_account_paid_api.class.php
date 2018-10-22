@@ -121,13 +121,13 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		//update_order($order_info['order_id'], $data);
 		RC_DB::table('quickpay_orders')->where('order_id', $order_id)->update($data);
 		
-		//会员店铺消费过，记录为店铺会员TODO暂时不启用
-		//if (!empty($order_info['user_id'])) {
-		//	if (!empty($order_info['store_id'])) {
-		//		RC_Loader::load_app_class('add_storeuser', 'user', false);
-		//		add_storeuser::add_store_user(array('user_id' => $order_info['user_id'], 'store_id' => $order_info['store_id']));
-		//	}
-		//}
+		//会员店铺消费过，记录为店铺会员
+		if (!empty($order_info['user_id'])) {
+			if (!empty($order_info['store_id'])) {
+				RC_Loader::load_app_class('add_storeuser', 'user', false);
+				add_storeuser::add_store_user(array('user_id' => $order_info['user_id'], 'store_id' => $order_info['store_id']));
+			}
+		}
 		
 		/* 处理余额变动信息 */
 		if ($order_info['user_id'] > 0 && $data['surplus'] > 0) {
