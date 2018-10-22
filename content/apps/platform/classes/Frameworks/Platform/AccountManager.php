@@ -63,7 +63,7 @@ class AccountManager
     public function getDefaultUUID($platform)
     {
         $accountlist = $this->getAccountList($platform);
-        $default = array_first($accountlist);
+        $default = head($accountlist);
         return $default->uuid;
     }
 

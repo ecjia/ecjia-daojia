@@ -57,6 +57,7 @@ use ecjia_config;
 use ecjia_app;
 use admin_nav_here;
 use admin_menu;
+use ecjia_admin_log;
 
 use RC_Loader;
 use RC_Lang;
@@ -73,6 +74,8 @@ use RC_Plugin;
 use RC_Uri;
 use RC_File;
 use RC_Ip;
+use RC_Time;
+use RC_DB;
 use Smarty;
 
 use Ecjia\App\Platform\Frameworks\Component\Screen;
@@ -603,13 +606,13 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 	 * @param   string      $content    操作的内容
 	 * @return  void
 	 */
-	public final static function admin_log($sn, $action, $content) {
+	public final function admin_log($sn, $action, $content) {
 	    $log_info = ecjia_admin_log::instance()->get_message($sn, $action, $content);
 
 	    $data = array(
 	        'log_time' 		=> RC_Time::gmtime(),
-	    	'store_id'		=> !empty($_SESSION['store_id']) ? $_SESSION['store_id'] : 0,
-	        'user_id' 		=> !empty($_SESSION['staff_id']) ? $_SESSION['staff_id'] : 0,
+	    	'store_id'		=> $this->currentStore->getSotreId(),
+	        'user_id' 		=> $this->currentUser->getUserId(),
 	        'log_info' 		=> stripslashes($log_info),
 	        'ip_address' 	=> RC_Ip::client_ip(),
 	    );
@@ -623,7 +626,7 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
      *
 	 * @return  array
 	 */
-	public final static function admin_info() {
+	public static function admin_info() {
 
 	    $admin_info = RC_DB::table('staff_user')->where('user_id', intval($_SESSION[staff_id]))->first();
 
@@ -633,6 +636,11 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 	    return false;
 	}
 
+    /**
+     * ==================================
+     * static function
+     * ==================================
+     */
 
 	/**
 	 * 添加IE支持的header信息

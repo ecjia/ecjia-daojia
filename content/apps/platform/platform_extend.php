@@ -164,7 +164,7 @@ class platform_extend extends ecjia_platform
                 }
             }
         }
-        ecjia_admin::admin_log(RC_Lang::get('platform::platform.extend_name_is') . $info['ext_name'] . '，' . RC_Lang::get('platform::platform.public_name_is') . $info['name'], 'add', 'wechat_extend');
+        $this->admin_log(RC_Lang::get('platform::platform.extend_name_is') . $info['ext_name'] . '，' . RC_Lang::get('platform::platform.public_name_is') . $info['name'], 'add', 'wechat_extend');
 
         if (empty($cmd_word)) {
             $message = '开通成功';
@@ -259,7 +259,7 @@ class platform_extend extends ecjia_platform
             ->where(RC_DB::raw('c.account_id'), $id)
             ->first();
 
-        ecjia_admin::admin_log(RC_Lang::get('platform::platform.extend_name_is') . $info['ext_name'] . '，' . RC_Lang::get('platform::platform.public_name_is') . $info['name'], 'edit', 'wechat_extend');
+        $this->admin_log(RC_Lang::get('platform::platform.extend_name_is') . $info['ext_name'] . '，' . RC_Lang::get('platform::platform.public_name_is') . $info['name'], 'edit', 'wechat_extend');
 
         return $this->showmessage(RC_Lang::get('platform::platform.edit_pub_extend_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/platform_extend/wechat_extend_view', array('code' => $ext_code))));
     }
@@ -286,7 +286,7 @@ class platform_extend extends ecjia_platform
         //删除公众号扩展下的命令
         RC_DB::table('platform_command')->where('account_id', $id)->where('ext_code', $ext_code)->delete();
 
-        ecjia_admin::admin_log(RC_Lang::get('platform::platform.extend_name_is') . $info['ext_name'] . '，' . RC_Lang::get('platform::platform.public_name_is') . $info['name'], 'remove', 'wechat_extend');
+        $this->admin_log(RC_Lang::get('platform::platform.extend_name_is') . $info['ext_name'] . '，' . RC_Lang::get('platform::platform.public_name_is') . $info['name'], 'remove', 'wechat_extend');
         return $this->showmessage('关闭成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/platform_extend/wechat_extend_view', array('code' => $ext_code))));
     }
 
@@ -302,7 +302,7 @@ class platform_extend extends ecjia_platform
 
         $info = RC_DB::table('platform_account')->whereIn('id', $idArr)->select('name')->get();
         foreach ($info as $v) {
-            ecjia_admin::admin_log($v['name'], 'batch_remove', 'wechat');
+            $this->admin_log($v['name'], 'batch_remove', 'wechat');
         }
         RC_DB::table('platform_account')->whereIn('id', $idArr)->delete();
         return $this->showmessage(RC_Lang::get('platform::platform.deleted') . "[ " . $count . " ]" . RC_Lang::get('platform::platform.record_account'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/platform_extend/init')));

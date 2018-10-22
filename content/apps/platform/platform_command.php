@@ -185,7 +185,7 @@ class platform_command extends ecjia_platform
         $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
 
         foreach ($data as $v) {
-            ecjia_admin::admin_log(RC_Lang::get('platform::platform.extend_name_is') . $ext_name . '，' . RC_Lang::get('platform::platform.keyword_is') . $v['cmd_word'], 'add', 'keyword');
+            $this->admin_log(RC_Lang::get('platform::platform.extend_name_is') . $ext_name . '，' . RC_Lang::get('platform::platform.keyword_is') . $v['cmd_word'], 'add', 'keyword');
         }
         return $this->showmessage(RC_Lang::get('platform::platform.add_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/platform_command/edit', array('ext_code' => $code))));
     }
@@ -275,7 +275,7 @@ class platform_command extends ecjia_platform
         $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
 
         foreach ($data as $v) {
-            ecjia_admin::admin_log(RC_Lang::get('platform::platform.extend_name_is') . $ext_name . '，' . RC_Lang::get('platform::platform.keyword_is') . $v['cmd_word'], 'edit', 'keyword');
+            $this->admin_log(RC_Lang::get('platform::platform.extend_name_is') . $ext_name . '，' . RC_Lang::get('platform::platform.keyword_is') . $v['cmd_word'], 'edit', 'keyword');
         }
         return $this->showmessage(RC_Lang::get('platform::platform.edit_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('platform/platform_command/edit', array('ext_code' => $code))));
     }
