@@ -14,6 +14,10 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+<div class="alert alert-info">
+	<a class="close" data-dismiss="alert">×</a>
+	<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端的平台模板模式。
+</div>
 <h3 class="heading">
 	<!-- {if $ur_here}{$ur_here}{/if} -->
 	<!-- {if $action_link} -->
