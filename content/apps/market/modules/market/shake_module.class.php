@@ -198,7 +198,7 @@ class market_shake_module extends api_front implements api_interface {
 			/*发放奖品至用户，赠送积分给用户*/
 			$options = array(
 					'user_id'		=> $_SESSION['user_id'],
-					'pay_points'	=> intval($prize_info['prize_value']),
+					'point'			=> intval($prize_info['prize_value']),
 					'change_desc'	=> '摇一摇活动抽奖赠送'
 			);
 			//RC_Api::api('user', 'account_change_log',$options);

@@ -57,6 +57,7 @@ class Helper
     public static function assign_adminlog_content() {
     	ecjia_admin_log::instance()->add_object('market_activity', RC_Lang::get('market::market.market_activity'));
     	ecjia_admin_log::instance()->add_object('prize', '奖品');
+    	ecjia_admin_log::instance()->add_object('market_activity_prize', '活动奖品');
     	
     	ecjia_admin_log::instance()->add_action('issue', '发放');
     }
