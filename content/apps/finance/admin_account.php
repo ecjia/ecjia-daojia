@@ -257,6 +257,8 @@ class admin_account extends ecjia_admin {
 			'payment'		=> $payment,
 			'is_paid'		=> $is_paid,
 			'order_sn'		=> $order_sn,
+			'from_type'		=> 'admin',
+			'from_value'	=> $_SESSION['admin_id']
 		);
 		if ($is_paid == 1) {
 			$data['paid_time']		= RC_Time::gmtime();

@@ -223,7 +223,9 @@ function insert_user_account($surplus, $amount) {
 		'user_note'		=> $surplus['user_note'] ,
 		'process_type'	=> $surplus['process_type'] ,
 		'payment'		=> $surplus['payment'] ,
-		'is_paid'		=> 0
+		'is_paid'		=> 0,
+		'from_type'		=> empty($surplus['from_type']) ? '' : $surplus['from_type'],
+		'from_value'	=> empty($surplus['from_value']) ? '' : $surplus['from_value']
 	);
 	return RC_DB::table('user_account')->insertGetId($data);
 }
