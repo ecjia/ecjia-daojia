@@ -10,33 +10,23 @@
 			ecjia.touch.goods_detail.goods_img();
 		},
 		change: function () {
-			$('.tab2').css("border-bottom", "none");
-			$('.tab3').css("border-bottom", "none");
-
 			$('.goods-tab').off('click').on('click', function (e) {
 				var id = $(this).attr('data-type');
 				if (id == 1) {
-					$(".tab1").css("border-bottom", "4px solid #fff")
-					$('.tab2').css("border-bottom", "none");
-					$('.tab3').css("border-bottom", "none");
 					$('#goods-info-one').show();
 					$('#goods-info-two').hide();
 					$('#goods-info-three').hide();
 				} else if (id == 2) {
-					$('.tab2').css("border-bottom", "4px solid #fff");
-					$('.tab1').css('border-bottom', "none");
-					$('.tab3').css("border-bottom", "none");
 					$('#goods-info-two').show();
 					$('#goods-info-one').hide();
 					$('#goods-info-three').hide();
 				} else if (id == 3) {
-					$('.tab2').css("border-bottom", "none");
-					$('.tab1').css('border-bottom', "none");
-					$('.tab3').css("border-bottom", "4px solid #fff");
 					$('#goods-info-two').hide();
 					$('#goods-info-one').hide();
 					$('#goods-info-three').show();
 				}
+				$('.ecjia-goods-detail-header').find('.goods-tab').removeClass('active');
+				$('.ecjia-goods-detail-header').find('.tab'+id).addClass('active');
 				$(window).scrollTop(0);
 			});
 			$('.goods-desc-li-info').off('click').on('click', function (e) {

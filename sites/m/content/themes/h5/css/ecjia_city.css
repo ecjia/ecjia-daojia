@@ -6071,14 +6071,14 @@ footer {
 
 /*========================  商品详情 ===========================*/
 
-.ecjia-goods-detail-header-title {
+.ecjia-goods-detail-header {
     height: 2.5em;
     line-height: 2.65em;
     font-size: 1.4em;
     z-index: 11
 }
 
-.ecjia-goods-detail-header-title ul {
+.ecjia-goods-detail-header ul {
     position: absolute;
     text-align: center;
     width: 54%;
@@ -6086,15 +6086,18 @@ footer {
     left: 23%
 }
 
-.ecjia-goods-detail-header-title li {
+.ecjia-goods-detail-header li {
     float: left;
     width: 33%
 }
 
-.ecjia-goods-detail-header-title li a {
+.ecjia-goods-detail-header li a {
     color: #fff;
-    border-bottom: 4px solid #fff;
     padding-bottom: .4em
+}
+
+.ecjia-goods-detail-header li a.active {
+    border-bottom: 4px solid #fff;
 }
 
 .p1 {

@@ -20,9 +20,9 @@ var releated_goods = {$releated_goods};
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<div class="ecjia-goods-detail-header-title ecjia-header-index" style="background:#47aa4d none repeat scroll 0 0;">
+<div class="ecjia-goods-detail-header ecjia-header-index" style="background:#47aa4d none repeat scroll 0 0;">
 	<ul>
-		<li><a class="goods-tab tab1" href="javascript:;" data-type="1">商品</a></li>
+		<li><a class="goods-tab tab1 active" href="javascript:;" data-type="1">商品</a></li>
 		<li><a class="goods-tab tab2" href="javascript:;" data-type="2">详情</a></li>
 		<li><a class="goods-tab tab3" href="javascript:;" data-type="3">评价</a></li>
 	</ul>
