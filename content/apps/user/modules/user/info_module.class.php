@@ -60,6 +60,7 @@ class user_info_module extends api_front implements api_interface {
     	}
     	
 		RC_Loader::load_app_func('admin_user', 'user');
+		
 		$user_info = EM_user_info($user_id);
 		$user_info['signup_reward_url'] =  RC_Uri::url('market/mobile_reward/init', array('token' => RC_Session::session_id()));
 		return $user_info;

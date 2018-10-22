@@ -74,7 +74,9 @@ class user_account_raply_module extends api_front implements api_interface {
 			'process_type' => 1,
 			'payment_id'   => 0,
 			'user_note'    => $user_note,
-			'amount'       => $amount
+			'amount'       => $amount,
+ 			'from_type'	   => 'user',
+ 			'from_value'   => $user_id
  		);
  		
  		RC_Loader::load_app_func('admin_user', 'user');

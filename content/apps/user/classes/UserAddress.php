@@ -53,6 +53,7 @@ use RC_Api;
 use RC_Logger;
 use ecjia_page;
 use RC_Lang;
+use ecjia_region;
 
 /**
  * 用户收货地址管理
@@ -74,6 +75,11 @@ class UserAddress
     					->where(RC_DB::raw('u.user_id'), $user_id)
     					->select(RC_DB::raw('ua.*'))
     					->first();
+			$info['country_name']   = ecjia_region::getRegionName($info['country']);
+            $info['province_name']  = ecjia_region::getRegionName($info['province']);
+			$info['city_name']    	= ecjia_region::getRegionName($info['city']);
+            $info['district_name']  = ecjia_region::getRegionName($info['district']);
+			$info['street_name']    = ecjia_region::getRegionName($info['street']);
     	}
         return $info;
     }

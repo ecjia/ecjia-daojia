@@ -75,6 +75,7 @@ class admin extends ecjia_admin {
 			'password_length'		=> 	RC_Lang::get('user::users.password_length'),
 			'password_check'		=> 	RC_Lang::get('user::users.password_check'),
 			'email_check'			=> 	RC_Lang::get('user::users.email_check'),
+			'mobile_phone_required' =>  RC_Lang::get('user::users.mobile_phone_required')
 		);
 		RC_Script::localize_script('user_info', 'user_jslang', $user_jslang );
 		
@@ -144,7 +145,7 @@ class admin extends ecjia_admin {
 		$this->assign('action_link', array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
 		
 		/* 取出注册扩展字段 */
-		$extend_info_list = RC_DB::table('reg_fields')->where('type', '<', 2)->where('display', 1)->where('id', '!=', 6)
+		$extend_info_list = RC_DB::table('reg_fields')->where('type', '<', 2)->where('display', 1)->where('id', '!=', 6)->where('id', '!=', 5)
 				->orderBy('dis_order', 'asc')->orderBy('id', 'asc')->get();
 
 		/* 给扩展字段加入key */
@@ -174,12 +175,13 @@ class admin extends ecjia_admin {
 		$this->admin_priv('user_update', ecjia::MSGTYPE_JSON);
 		
 		RC_Loader::load_app_class('integrate', 'user', false);
-		$user = integrate::init_users();
 
 		$username			= empty($_POST['username'])			? ''	: trim($_POST['username']);
 		$password			= empty($_POST['password'])			? ''	: trim($_POST['password']);
 		$confirm_password	= empty($_POST['confirm_password'])	? ''	: trim($_POST['confirm_password']);
 		$email				= empty($_POST['email'])			? ''	: trim($_POST['email']);
+		$mobile_phone		= empty($_POST['mobile_phone'])		? ''	: trim($_POST['mobile_phone']);
+		
 		$sex				= empty($_POST['sex'])				? 0		: intval($_POST['sex']);
 		$sex_array 			= array(0, 1, 2);
 		
@@ -191,7 +193,7 @@ class admin extends ecjia_admin {
 
 		/* 验证参数的合法性*/
 		/* 邮箱*/
-		if (!preg_match('/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/', $email)) {
+		if (!empty($email) && !preg_match('/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/', $email)) {
 			return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
@@ -227,11 +229,23 @@ class admin extends ecjia_admin {
 		$other['qq']			= isset($_POST['extend_field2']) ? htmlspecialchars(trim($_POST['extend_field2'])) : '';
 		$other['office_phone']	= isset($_POST['extend_field3']) ? htmlspecialchars(trim($_POST['extend_field3'])) : '';
 		$other['home_phone']	= isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';
-		$other['mobile_phone']	= isset($_POST['extend_field5']) ? htmlspecialchars(trim($_POST['extend_field5'])) : '';
+		// $other['mobile_phone']	= isset($_POST['extend_field5']) ? htmlspecialchars(trim($_POST['extend_field5'])) : '';
+		$other['mobile_phone']  = $mobile_phone;
 		$other['reg_time']      = $reg_time;
 
-		if ($user->add_user($username, $password, $email)) {
-			$user_info = $user->get_user_info($username);
+        $check_mobile = Ecjia\App\Sms\Helper::check_mobile($other['mobile_phone']);
+        if (is_ecjia_error($check_mobile)) {
+            return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $count = RC_DB::table('users')->where('mobile_phone', $other['mobile_phone'])->count();
+        if (!empty($count)) {
+            return $this->showmessage('手机号码已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+		if (ecjia_integrate::addUser($username, $password, $email)) {
+			$user_info = ecjia_integrate::getUserInfo($username);
+
 			$max_id = $user_info['user_id'];
 			RC_DB::table('users')->where('user_id', $user_info['user_id'])->update($other);
 
@@ -274,8 +288,8 @@ class admin extends ecjia_admin {
 			$links[] = array('text' =>RC_Lang::get('user::users.keep_add'), 'href' => RC_Uri::url('user/admin/add'));
 			return $this->showmessage(RC_Lang::get('user::users.add_user_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('user/admin/edit', array('id' => $max_id))));
 				
-		}else{
-			return $this->showmessage($user->error->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		} else {
+			return $this->showmessage(ecjia_integrate::getErrorMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -329,6 +343,7 @@ class admin extends ecjia_admin {
 				->where('type', '<', 2)
 				->where('display', 1)
 				->where('id', '!=', 6)
+				->where('id', '!=', 5)
 				->orderBy('dis_order', 'asc')
 				->orderBy('id', 'asc')
 				->get();
@@ -348,7 +363,7 @@ class admin extends ecjia_admin {
 					case 2:	 $extend_info_list[$key]['content'] = $user['qq']; break;
 					case 3:	 $extend_info_list[$key]['content'] = $user['office_phone']; break;
 					case 4:	 $extend_info_list[$key]['content'] = $user['home_phone']; break;
-					case 5:	 $extend_info_list[$key]['content'] = $user['mobile_phone']; break;
+					// case 5:	 $extend_info_list[$key]['content'] = $user['mobile_phone']; break;
 					default: $extend_info_list[$key]['content'] = empty($temp_arr[$val['id']]) ? '' : $temp_arr[$val['id']] ;
 				}
 			}
@@ -410,6 +425,8 @@ class admin extends ecjia_admin {
 		$password			= trim($_POST['newpassword']);
 		$confirm_password	= empty($_POST['confirm_password'])		? '' 	: trim($_POST['confirm_password']);
 		$email				= empty($_POST['email'])				? '' 	: trim($_POST['email']);
+		$mobile_phone		= empty($_POST['mobile_phone'])			? '' 	: trim($_POST['mobile_phone']);
+
 		$sex				= empty($_POST['sex'])					? 0		: intval($_POST['sex']);
 		$sex				= in_array($sex, array(0, 1, 2))		? $sex 	: 0;
 		$birthday			= empty($_POST['birthday'])			 	? '' 	: $_POST['birthday'];
@@ -418,7 +435,7 @@ class admin extends ecjia_admin {
 
 		/* 验证参数的合法性*/
 		/* 邮箱*/
-		if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/", $email)) {
+		if (!empty($email) && !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/", $email)) {
 			return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
@@ -493,7 +510,18 @@ class admin extends ecjia_admin {
 		$other['qq']			= isset($_POST['extend_field2']) ? htmlspecialchars(trim($_POST['extend_field2'])) : '';
 		$other['office_phone']	= isset($_POST['extend_field3']) ? htmlspecialchars(trim($_POST['extend_field3'])) : '';
 		$other['home_phone']	= isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';
-		$other['mobile_phone']	= isset($_POST['extend_field5']) ? htmlspecialchars(trim($_POST['extend_field5'])) : '';
+		// $other['mobile_phone']	= isset($_POST['extend_field5']) ? htmlspecialchars(trim($_POST['extend_field5'])) : '';
+		$other['mobile_phone']  = $mobile_phone;
+
+		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($other['mobile_phone']);
+		if (is_ecjia_error($check_mobile)) {
+		    return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+
+		$count = RC_DB::table('users')->where('user_id', '!=', $user_id)->where('mobile_phone', $other['mobile_phone'])->count();
+		if (!empty($count)) {
+			return $this->showmessage('手机号码已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
 		
 		$user->edit_user($user_other);
 		RC_DB::table('users')->where('user_id', $user_id)->update($other);
@@ -635,6 +663,7 @@ class admin extends ecjia_admin {
 		$extend_info_list = RC_DB::table('reg_fields')
 			->where('type', '<', 2)
 			->where('display', 1)
+			->where('id', '!=', 5)
 			->where('id', '!=', 6)
 			->orderBy('dis_order', 'asc')
 			->orderBy('id', 'asc')
@@ -646,7 +675,7 @@ class admin extends ecjia_admin {
 					case 2:	 $extend_info_list[$key]['content'] = $user['qq']; break;
 					case 3:	 $extend_info_list[$key]['content'] = $user['office_phone']; break;
 					case 4:	 $extend_info_list[$key]['content'] = $user['home_phone']; break;
-					case 5:	 $extend_info_list[$key]['content'] = $user['mobile_phone']; break;
+					// case 5:	 $extend_info_list[$key]['content'] = $user['mobile_phone']; break;
 					default: $extend_info_list[$key]['content'] = empty($temp_arr[$val['id']]) ? '' : $temp_arr[$val['id']] ;
 				}
 			}
@@ -722,21 +751,21 @@ class admin extends ecjia_admin {
 	/**
 	 * 删除会员帐号
 	 */
-	public function remove() {
-		$this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
+// 	public function remove() {
+// 		$this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
 		
-		$user_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$username = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
+// 		$user_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+// 		$username = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
 
-		RC_Loader::load_app_class('integrate', 'user', false);
-		$user = integrate::init_users();
-    	$user->remove_user($username); //已经删除用户所有数据
+// 		RC_Loader::load_app_class('integrate', 'user', false);
+// 		$user = integrate::init_users();
+//     	$user->remove_user($username); //已经删除用户所有数据
     	
-		/* 记录管理员操作 */
-		ecjia_admin::admin_log(addslashes($username), 'remove', 'users');
+// 		/* 记录管理员操作 */
+// 		ecjia_admin::admin_log(addslashes($username), 'remove', 'users');
 		
-		return $this->showmessage(RC_Lang::get('user::users.delete_user_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-	}
+// 		return $this->showmessage(RC_Lang::get('user::users.delete_user_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+// 	}
 	
 	/**
 	 * 收货地址查看

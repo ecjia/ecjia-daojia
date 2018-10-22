@@ -17,14 +17,21 @@ class admin_user_account_pay_module extends api_admin implements api_interface {
  		$account_id = $this->requestData('account_id', 0);
  		$payment_id = $this->requestData('payment_id', 0);
 	
- 		if ($account_id <= 0 || $payment_id <= 0) {
+ 		if ($account_id <= 0) {
 	    	return new ecjia_error('invalid_parameter', '参数错误');
 	    }
 	    
+	    if ($payment_id <= 0) {
+	    	return new ecjia_error('please_select_payment', '请选择支付方式');
+	    }
 	    //获取单条会员帐目信息
 	    $order = array();
 	    $order = $this->get_surplus_info($account_id);
 		
+	    if (empty($order)) {
+	    	return new ecjia_error('deposit_log_not_exist', '充值记录不存在');
+	    }
+	    
 	    $plugin = new Ecjia\App\Payment\PaymentPlugin();
 	    $payment_info = $plugin->getPluginDataById($payment_id);
 	    

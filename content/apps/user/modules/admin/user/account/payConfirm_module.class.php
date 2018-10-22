@@ -45,42 +45,69 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * ECJIA 个人中心 资金管理语言包
+ * 商家给用户充值，充值订单支付确认
+ * @author zrl
+ *
  */
-$LANG['back_list'] 							= '返回列表';
-$LANG['dispose_succed'] 					= '处理成功';
-
-$LANG['rec_id'] 							= '编号';
-$LANG['user_name'] 							= '申请用户';
-$LANG['amount'] 							= '退款金额';
-$LANG['apply_time'] 						= '申请时间';
-$LANG['action_user'] 						= '处理用户';
-$LANG['action_time'] 						= '处理时间';
-
-$LANG['button_dipose'] 						= '同意退款';
-$LANG['button_skip'] 						= '忽略申请';
-$LANG['button_modify'] 						= '修改备注';
-
-$LANG['is_repayed'] 						= '是否处理';
-$LANG['repayed'] 							= '已处理';
-$LANG['unrepayed'] 							= '未处理';
-
-$LANG['view'] 								= '查看详情';
-
-$LANG['from'] 								= '于';
-$LANG['reply'] 								= '回复';
-$LANG['had_reply_content'] 					= '提示: 此条申请已处理,并已经扣除用户申请金额, 如果继续回复将更新原来回复的内容!但不再扣除用户金额';
-$LANG['have_reply_content'] 				= '提示: 此条申请已被忽略, 如果继续回复将更新原来回复的内容!';
-
-$LANG['user_money'] 						= '用户余额';
-$LANG['action_note'] 						= '处理备注';
-
-$LANG['dispose'] 							= '退款申请处理';
-$LANG['undispose_repay'] 					= '未处理的退款申请';
-$LANG['list_all'] 							= '全部退款申请';
-
-$LANG['js_languages']['no_action_note'] 	= '必须输入处理备注';
+class payConfirm_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {	
+		$this->authadminSession();
+		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+			return new ecjia_error(100, 'Invalid session');
+		}
+		$device = $this->device;
+		
+    	/* 获取请求当前数据的device信息*/
+        $codes = array('8001', '8011');
+        if (!is_array($device) || !isset($device['code']) || !in_array($device['code'], $codes)) {
+            return new ecjia_error('caskdesk_error', '非收银台请求！');
+        }
+		
+		$account_id = $this->requestData('account_id');
+		
+		if (empty($account_id)) {
+			return new ecjia_error('invalid_parameter', '参数错误');
+		}
+		
+		/* 查询充值订单信息 */
+		$user_account_info = RC_DB::table('user_account')->where('id', $account_id)->first();;
+		
+		if (empty($user_account_info)) {
+			return new ecjia_error('deposit_log_not_exist', '充值记录不存在');
+		}
+		$payment_method	= new Ecjia\App\Payment\PaymentPlugin();
+		$pay_info = $payment_method->getPluginDataByCode($user_account_info['payment']);
+		
+		$payment_handler = $payment_method->channel($user_account_info['payment']);
+		
+		/* 判断是否有支付方式有没*/
+		if (is_ecjia_error($payment_handler)) {
+			return $payment_handler;
+		}
+		
+		if (in_array($pay_info['pay_code'], array('pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay'))) {
+			$result = RC_Api::api('finance', 'surplus_order_paid', array('order_sn' => $user_account_info['order_sn'], 'money' => $user_account_info['amount']));
+			if (is_ecjia_error($result)) {
+				return $result;
+			} else {
+				$data = array(
+						'account_id' 		=> $user_account_info['id'],
+						'amount'			=> $user_account_info['amount'],
+						'formatted_amount' 	=> price_format($user_account_info['amount'], false),
+						'pay_code'			=> $pay_info['pay_code'],
+						'pay_name'			=> $pay_info['pay_name'],
+						'pay_status'		=> 'success',
+						'desc'				=> '订单支付成功！'
+				);
+				return array('payment' => $data);
+			}
+		} else {
+			return new ecjia_error('not_support_payment', '此充值记录对应的支付方式不支持收银台充值支付！');
+		}
+	}
+}
 
 // end

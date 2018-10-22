@@ -57,7 +57,6 @@ class admin_integrate extends ecjia_admin {
 		parent::__construct();
 		RC_Loader::load_app_func('admin_user');
 		
-		$this->integrate = RC_Loader::load_app_class('integrate', 'user');
 		$this->db_user = RC_Model::model('user/users_model');
 
 		/* 加载所全局 js/css */
@@ -103,20 +102,12 @@ class admin_integrate extends ecjia_admin {
 		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员整合" target="_blank">'.RC_Lang::get('user::users.about_user_integrate').'</a>') . '</p>'
 		);
 		$this->assign('ur_here', RC_Lang::get('user::integrate.member_integration'));
-		
-		$integrate_list['ecjia'] = array(
-			'format_name'           => 'ECJia',
-			'code'   	            => 'ecjia',
-			'format_description'   	=> 'ECJia默认会员系统',
-		);
-		
-		$list = $this->integrate->integrate_list();
-		if (is_array($list)) {
-		    $integrate_list = array_merge($integrate_list, $list);
-		}
 
-		foreach ($integrate_list as &$integrate) {
-		    $code = ecjia::config('integrate_code') == 'ecshop' ? 'ecjia' : ecjia::config('integrate_code');
+        $integrate_list = ecjia_integrate::integrate_list();
+        $code = ecjia::config('integrate_code') == 'ecshop' ? 'ecjia' : ecjia::config('integrate_code');
+
+		foreach ($integrate_list as & $integrate) {
+            $integrate['code'] = $integrate['integrate_code'];
 		    if ($integrate['code'] == $code) {
 		        $integrate['activate'] = 1;
 		    } else {
@@ -136,22 +127,27 @@ class admin_integrate extends ecjia_admin {
 	
 	    $this->assign('ur_here',      RC_Lang::get('user::integrate.integrate_setup'));
 	    $this->assign('action_link',  array('text' => RC_Lang::get('user::integrate.back_integration'), 'href' => RC_Uri::url('user/admin_integrate/init')));
-	    
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::integrate.integrate_setup')));
+
 	    $code = strval($_GET['code']);
+
 	    
 	    if ($code == 'ecshop' || $code == 'ecjia') {
-	        return $this->showmessage(RC_Lang::get('user::integrate.need_not_setup'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_INFO);
-	    }
-	
-	    $cfg = unserialize(ecjia::config('integrate_config'));
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::integrate.integrate_setup')));
-	    if ($code != 'ucenter') {
-	        $this->assign('set_list', integrate::charset_list());
-	        $cfg['integrate_url'] = "http://";
-	    }
-	    
+	        $error_message = RC_Lang::get('user::integrate.need_not_setup');
+	        $this->assign('error_message', $error_message);
+	    } else {
+
+            $cfg = unserialize(ecjia::config('integrate_config'));
+
+            if ($code != 'ucenter') {
+                $cfg['integrate_url'] = "http://";
+            }
+
+            $this->assign('cfg', $cfg);
+        }
+
 	    $this->assign('code',         $code);
-	    $this->assign('cfg',		  $cfg);
 	    $this->assign('form_action',  RC_Uri::url('user/admin_integrate/save_config'));
 
 	    $this->display('integrates_setup.dwt');
@@ -189,8 +185,11 @@ class admin_integrate extends ecjia_admin {
 	/**
 	 * 保存整合填写的配置资料
 	 */
-	public function save_config() {
-		$code = strval($_POST['code'], ecjia::MSGTYPE_JSON);
+	public function save_config()
+    {
+        $this->admin_priv('integrate_users', ecjia::MSGTYPE_JSON);
+
+		$code = strval($_POST['code']);
 
 		if ($code != 'ecjia' && $code != 'ucenter' && $code != 'ecshop') {
 		    return $this->showmessage(RC_Lang::get('user::integrate.support_UCenter'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
@@ -203,7 +202,7 @@ class admin_integrate extends ecjia_admin {
 		$cfg = array_merge($cfg, $_POST['cfg']);
 		
 		/* 直接保存修改 */
-		if (integrate::save_integrate_config($code, $cfg)) {	
+		if (ecjia_integrate::plugin()->saveConfigData($code, $cfg)) {
 			return $this->showmessage(RC_Lang::get('user::integrate.save_ok'), ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON);
 		} else {			
 			return $this->showmessage(RC_Lang::get('user::integrate.save_error'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);

@@ -182,6 +182,11 @@ class user_address_manage_api extends Component_Event_Api {
     		/* 更新指定记录 */
     		RC_DB::table('user_address')->where('address_id', $address_id)->where('user_id', $address['user_id'])->update($address);
     	} else {
+    	    //上限20条
+    	    $count = RC_DB::table('user_address')->where('user_id', $address['user_id'])->count();
+    	    if ($count >= 20) {
+    	        return new ecjia_error('overflow_number', '收货地址最多只能添加20个！');
+    	    }
     		/* 插入一条新记录 */
     		$address_id = RC_DB::table('user_address')->insertGetId($address);
     	}

@@ -89,6 +89,8 @@ class user_account_deposit_module extends api_front implements api_interface {
 			'payment_id'   => intval($payment_id),
 			'user_note'    => $user_note,
 			'amount'       => $amount,
+ 			'from_type'	   => 'user',
+ 			'from_value'   => $user_id
  		);
  		
  		if ($surplus['payment_id'] <= 0) {

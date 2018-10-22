@@ -47,7 +47,7 @@ class admin_merchant_user_list_module  extends api_admin implements api_interfac
 						'formated_user_money'	=> price_format($result['user_money'], false),
 						'user_rank_id'			=> intval($result['user_rank']),
 						'user_rank_name'		=> $result['user_rank_name'],
-						'formated_add_time'		=> RC_Time::local_date(ecjia::config('time_format'), $result['reg_time'])
+						'formated_add_time'		=> RC_Time::local_date(ecjia::config('time_format'), $result['add_time'])
 				);
 			}
 		}

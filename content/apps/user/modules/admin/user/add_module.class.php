@@ -68,6 +68,7 @@ class admin_user_add_module extends api_admin implements api_interface
 		if ($user->add_user($username, null, $email)) {
 			$user_info = $user->get_user_info($username);
 			$max_id = $user_info['user_id'];
+			$other['reg_time'] = RC_Time::gmtime();
 			RC_DB::table('users')->where('user_id', $user_info['user_id'])->update($other);
 			//店铺会员表同步记录
 			$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');

@@ -48,9 +48,8 @@
                     username: {
                         required: true
                     },
-                    email: {
+                    mobile_phone: {
                         required: true,
-                        email: true
                     },
                     password: insert ? {
                         required: true,
@@ -73,9 +72,8 @@
                     username: {
                         required: user_jslang.username_required
                     },
-                    email: {
-                        required: user_jslang.email_required,
-                        email: user_jslang.email_check
+                    mobile_phone: {
+                        required: user_jslang.mobile_phone_required,
                     },
                     password: insert ? {
                         required: user_jslang.password_required,

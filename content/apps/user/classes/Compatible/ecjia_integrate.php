@@ -44,29 +44,14 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/9/15
+ * Time: 9:26 AM
+ */
 
-class user_bonus_type_viewmodel extends Component_Model_View {
-	public $table_name = '';
-	public $view =array();
-	public function __construct() {
-		$this->table_name = 'user_bonus';
-		$this->table_alias_name = 'ub';
+abstract class ecjia_integrate extends Ecjia\App\User\Integrate\Facades\EcjiaIntegrate
+{
 
-		$this->view = array(
-			'bonus_type' => array(
-		   		'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
-			 	'alias'	=> 'bt',
-			 	'on'   	=> 'ub.bonus_type_id = bt.type_id'				
-			),
-			'store_franchisee' => array(
-		   		'type' 	=> Component_Model_View::TYPE_LEFT_JOIN,
-			 	'alias'	=> 's',
-			 	'on'   	=> 'bt.store_id = s.store_id',				
-			),
-		);
-		parent::__construct();
-	}
 }
-
-// end

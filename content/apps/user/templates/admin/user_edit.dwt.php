@@ -36,12 +36,13 @@
 				</div>
 
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::users.label_email'}</label>
+					<label class="control-label">{lang key='user::users.label_phone'}</label>
 					<div class="controls">
-						<input class="w350" type="text" name="email" value="{$user.email}" />
+						<input class="w350" type="text" name="mobile_phone" value="{$user.mobile_phone}" />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
 				</div>
+
 				<!-- {if $form_act eq "insert"} -->
 				<div class="control-group formSep">
 					<label class="control-label">{lang key='user::users.label_password'}</label>
@@ -66,6 +67,14 @@
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
 				</div>
+
+				<div class="control-group formSep">
+					<label class="control-label">{lang key='user::users.label_email'}</label>
+					<div class="controls">
+						<input class="w350" type="text" name="email" value="{$user.email}" />
+					</div>
+				</div>
+
 				<div class="control-group formSep">
 					<label class="control-label">{lang key='user::users.label_user_rank'}</label>
 					<div class="controls">

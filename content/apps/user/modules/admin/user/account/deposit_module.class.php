@@ -45,6 +45,9 @@ class admin_user_account_deposit_module extends api_admin implements api_interfa
  				'payment_id'   => intval($payment_id),
  				'user_note'    => $user_note,
  				'amount'       => $amount,
+ 				'admin_note'   => '收银台充值',
+ 				'from_type'	   => 'merchant',
+ 				'from_value'   => $_SESSION['staff_id']
  		);
  		
  		if ($surplus['payment_id'] <= 0) {

@@ -47,16 +47,16 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label">{lang key='user::integrate.ucenter_lab_ip'}</label>
+						<label class="control-label">{lang key='user::integrate.ucenter_lab_url'}</label>
 						<div class="controls users">
 							<input class="w350" type="text" name="cfg[uc_url]" value="{$cfg.uc_url}" /><i class="input-must">{lang key='system::system.require_field'}</i>
 							<span class="w400 help-block" id="noticeGoodsSN">{lang key='user::integrate.ucenter_notice_url'}</span>
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label">{lang key='user::integrate.ucenter_lab_connect'}</label>
+						<label class="control-label">{lang key='user::integrate.ucenter_lab_ip'}</label>
 						<div class="controls users">
-							<input class="w350" type="text" name="cfg[uc_ip]" value="{$cfg.uc_ip}" /><i class="input-must">{lang key='system::system.require_field'}</i>
+							<input class="w350" type="text" name="cfg[uc_ip]" value="{$cfg.uc_ip}" />
 							<span class="help-block" id="noticeGoodsSN">{lang key='user::integrate.ucenter_notice_ip'}</span>
 						</div>
 					</div>
@@ -73,6 +73,14 @@
 				</fieldset>
 			</form>
 		</div>
+        <!--{elseif $code eq 'ecjia'}-->
+        <div>
+            <div class="control-group">
+                <div class="controls">
+                    <div class="alert alert-error" >{$error_message}</div>
+                </div>
+            </div>
+        </div>
 		<!--{else}-->
 		<div id="form3">
 			<form class="form-horizontal" id="form-privilege" action="{$form_action}" method="post" name="setupForm">

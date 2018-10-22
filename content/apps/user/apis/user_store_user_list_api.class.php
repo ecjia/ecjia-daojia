@@ -34,7 +34,7 @@ class user_store_user_list_api extends Component_Event_Api {
 		$rows = $user_db
 					->select(RC_DB::raw('su.*, u.email, u.user_name, u.birthday, u.user_money, u.frozen_money, u.pay_points, u.rank_points, u.reg_time, u.user_rank, u.parent_id, u.qq, u.mobile_phone, u.avatar_img'))
 					->take($options['size'])
-					->skip($page_row->start_id - 1)->orderBy(RC_DB::raw('u.reg_time'), 'desc')->get();
+					->skip($page_row->start_id - 1)->orderBy(RC_DB::raw('su.add_time'), 'desc')->get();
 		
 		$pager = array(
 				'total' => $page_row->total_records,
@@ -52,13 +52,15 @@ class user_store_user_list_api extends Component_Event_Api {
     				$row = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', intval($result['rank_points']))->where('max_points', '>', intval($result['rank_points']))->select('rank_id', 'rank_name')->first();
     			} else {
     				// 特殊等级
-    				$row = RC_DB::table('user_rank')->where('rank_id', $result['user_rank'])->select('rank_id', 'rank_name')->get();
+    				$row = RC_DB::table('user_rank')->where('rank_id', $result['user_rank'])->select('rank_id', 'rank_name')->first();
     			}
     			if (!empty($row)) {
-    				$result['user_rank_name'] = $row['rank_name'];
+    				$result['user_rank_name'] = empty($row['rank_name']) ? '非特殊等级' : $row['rank_name'];
     			} else {
     				$result['user_rank_name']='非特殊等级';
     			}
+    			
+    			
     			$list[] = $result;
     		}
     	}

@@ -1,5 +1,5 @@
-<?php
-//
+<?php 
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,24 +44,16 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\User\Integrate\Facades;
 
-class user_bonus_viewmodel extends Component_Model_View {
-	public $table_name = '';
-	public $view = array();
-	public function __construct() {
-		$this->table_name 		= 'user_bonus';
-		$this->table_alias_name = 'ub';
+use Royalcms\Component\Support\Facades\Facade;
 
-		$this->view = array(
-			'bonus_type'	=> array(
-				'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'		=> 'bt',
-				'on'		=> 'ub.bonus_type_id = bt.type_id'
-				)
-			);
-		parent::__construct();
-	}
+class EcjiaIntegrate extends Facade
+{
+
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.integrate';
+    }
+    
 }
-
-// end

@@ -44,50 +44,54 @@
 								<tr>
 									<td><div align="right"><strong>{lang key='user::users.user_names'}</strong></div></td>
 									<td>{$user.user_name}</td>
-									<td><div align="right"><strong>{lang key='user::users.label_email'}</strong></div></td>
-									<td>{$user.email}</td>
+									<td><div align="right"><strong>{lang key='user::users.label_phone'}</strong></div></td>
+									<td>{$user.mobile_phone}</td>
 								</tr>
+
 								<tr>
 									<td><div align="right"><strong>{lang key='user::users.label_gender'}</strong></div></td>
 									<td>{if $user.sex eq 1 }{lang key='user::users.sex.1'}{elseif $user.sex eq 2}{lang key='user::users.sex.2'}{else}{lang key='user::users.sex.0'}{/if}</td>
 									<td><div align="right"><strong>{lang key='user::users.label_birthday'}</strong></div></td>
 									<td>{if $user.birthday neq '0000-00-00'}{$user.birthday}{else}{/if}</td>
 								</tr>
+
 								<tr>
 									<td><div align="right"><strong>{lang key='user::users.label_user_rank'}</strong></div></td>
 									<td>{$user.user_rank_name}</td>
 									<td><div align="right"><strong>{lang key='user::users.label_credit_line'}</strong></div></td>
 									<td>{$user.credit_line}</td>
 								</tr>
+
 								<tr>
 									<td><div align="right"><strong>{lang key='user::users.lable_registration_time'}</strong></div></td>
 									<td>{$user.reg_time}</td>
 									<td><div align="right"><strong>{lang key='user::users.parent_user_lable'}</strong></div></td>
 									<td>{$user.parent_username}</td>
 								</tr>
+
+								<tr>
+									<td><div align="right"><strong>{lang key='user::users.label_email'}</strong></div></td>
+									<td>{$user.email}</td>
+									<td><div align="right"><strong>{lang key='user::users.email_verification_lable'}</strong></div></td>
+									<td class="ecjiafc-f00">{$user.is_validated}</td>
+								</tr>
 								
 								<!-- {if $extend_info_list} -->
 									<!-- {foreach from=$extend_info_list item=field key=key} -->
 									{if $key eq 0 || $key eq 2 || $key eq 4}
 									<tr>
-									<td><div align="right"><strong>{$field.reg_field_name}</strong></div></td>
-									<td>{$field.content}</td>
-									{/if}
-								
-									{if $key eq 1 || $key eq 3}
-									<td><div align="right"><strong>{$field.reg_field_name}</strong></div></td>
-									<td>{$field.content}</td>
+										<td><div align="right"><strong>{$field.reg_field_name}：</strong></div></td>
+										<td>{$field.content}</td>
+										{/if}
+									
+										{if $key eq 1 || $key eq 3}
+										<td><div align="right"><strong>{$field.reg_field_name}：</strong></div></td>
+										<td>{$field.content}</td>
 									</tr>
 									{/if}
 									<!-- {/foreach} -->
-									<td><div align="right"><strong>{lang key='user::users.email_verification_lable'}</strong></div></td>
-									<td class="ecjiafc-f00">{$user.is_validated}</td>
-								<!-- {else} -->
-								<tr>
-									<td><div align="right"><strong>{lang key='user::users.email_verification_lable'}</strong></div></td>
-									<td colspan="3" class="ecjiafc-f00">{$user.is_validated}</td>
-								</tr>
 								<!-- {/if} -->
+								
 								<tr>
 									<td><div align="right"><strong>{lang key='user::users.last_login_time_lable'}</strong></div></td>
 									<td>{$user.last_time}</td>

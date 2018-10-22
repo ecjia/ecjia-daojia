@@ -249,6 +249,7 @@ return array(
 	'label_gender'				=> '性别：',
 	'label_birthday'			=> '出生日期：',
 	'label_credit_line'			=> '信用额度：',
+	'label_phone'				=> '手机号码：',
 	
 	'invalid_parameter'		=> '参数无效',
 	'create_user_failed'	=> '创建参数失败',
@@ -287,6 +288,7 @@ return array(
 	'password_required'	=>	'请输入密码！',
 	'password_length'	=>	'密码长度不能小于6！',
 	'password_check'	=>	'两次密码不一致！',
+	'mobile_phone_required' => '请输入手机号码！',
 	
 	//help
 	'overview'				=> '概述',
