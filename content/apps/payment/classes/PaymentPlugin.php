@@ -128,7 +128,7 @@ class PaymentPlugin extends PluginModel
      *
      * @return \Royalcms\Component\Database\Eloquent\Builder
      */
-    public function scopeOnlie($query)
+    public function scopeOnline($query)
     {
         return $query->where('is_online', 1);
     }

@@ -97,7 +97,7 @@ class respond extends ecjia_front {
 				        RC_Logger::getLogger('pay')->debug('pay_fail: ' . $result->get_error_message());
 				        $msg = $result->get_error_data();
 				    } else {
-				        RC_Logger::getLogger('pay')->debug('pay_success');
+				        RC_Logger::getLogger('pay')->debug('pay_success_response');
 				        $msg = RC_Lang::get('payment::payment.pay_success');
 				    }
 				    
