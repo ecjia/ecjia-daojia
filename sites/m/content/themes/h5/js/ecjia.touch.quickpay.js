@@ -38,7 +38,6 @@
 			$('input[name="drop_out_money"]').koala({
 				delay: 500,
 				keyup: function (event) {
-					console.log(22);
 					ecjia.touch.quickpay.checkout('change_amount');
 				}
 			});
@@ -104,7 +103,8 @@
 						return false;
 					}
 					var drop_out_money = $("input[name='drop_out_money']").val();
-					if (show_exclude_amount == 1 && drop_out_money > order_money) {
+
+					if (show_exclude_amount == 1 && parseFloat(drop_out_money) > parseFloat(order_money)) {
 						$this.removeClass('disabled');
 						alert('不参与优惠金额不能大于消费总金额');
 						return false;

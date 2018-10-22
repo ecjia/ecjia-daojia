@@ -49,268 +49,284 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 文章模块控制器代码
  */
-class article_controller {
+class article_controller
+{
     /**
      *  帮助中心页
      */
-    public static function init() {
-    	$cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
-    	
-    	if (!ecjia_front::$controller->is_cached('article_init.dwt', $cache_id)) {
-    		$data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP)->run();
-    		if (!is_ecjia_error($data)) {
-    			ecjia_front::$controller->assign('data', $data);
-    		}
-    		ecjia_front::$controller->assign_title('帮助中心');
-    	}
+    public static function init()
+    {
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
+        if (!ecjia_front::$controller->is_cached('article_init.dwt', $cache_id)) {
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP)->run();
+            if (!is_ecjia_error($data)) {
+                ecjia_front::$controller->assign('data', $data);
+            }
+            ecjia_front::$controller->assign_title('帮助中心');
+        }
         ecjia_front::$controller->display('article_init.dwt', $cache_id);
     }
-    
+
     /**
      * 文章详情
      */
-    public static function detail() {
+    public static function detail()
+    {
         $title = trim($_GET['title']);
         $article_id = intval($_GET['aid']);
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
-        
+
         if (!ecjia_front::$controller->is_cached('article_detail.dwt', $cache_id)) {
-        	ecjia_front::$controller->assign('title', $title);
-        	$data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP_DETAIL)->data(array('article_id' => $article_id))->run();
-        	
-        	if (!is_ecjia_error($data) && !empty($data)) {
-        		$res = array();
-        		preg_match('/<body>([\s\S]*?)<\/body>/', $data, $res);
-        		$bodystr = trim($res[0]);
-        		if ($bodystr != '<body></body>') {
-        			ecjia_front::$controller->assign('data', stripslashes($bodystr));
-        		}
-        	}
-        	ecjia_front::$controller->assign_title($title);
+            ecjia_front::$controller->assign('title', $title);
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_HELP_DETAIL)->data(array('article_id' => $article_id))->run();
+
+            if (!is_ecjia_error($data) && !empty($data)) {
+                $res = array();
+                preg_match('/<body>([\s\S]*?)<\/body>/', $data, $res);
+                $bodystr = trim($res[0]);
+                if ($bodystr != '<body></body>') {
+                    ecjia_front::$controller->assign('data', stripslashes($bodystr));
+                }
+            }
+            ecjia_front::$controller->assign_title($title);
         }
         ecjia_front::$controller->display('article_detail.dwt', $cache_id);
     }
-    
+
     /**
      * 网店信息内容
      */
-    public static function shop_detail() {
+    public static function shop_detail()
+    {
         $title = trim($_GET['title']);
         $article_id = intval($_GET['article_id']);
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
-        
+
         if (!ecjia_front::$controller->is_cached('article_shop_detail.dwt', $cache_id)) {
-        	$shop_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO_DETAIL)->data(array('article_id' => $article_id))->run();
-        	if (!is_ecjia_error($shop_detail) && !empty($shop_detail)) {
-        		$res = array();
-        		preg_match('/<body>([\s\S]*?)<\/body>/', $shop_detail, $res);
-        		$bodystr = trim($res[0]);
-        		if ($bodystr != '<body></body>') {
-        			ecjia_front::$controller->assign('data', stripslashes($bodystr));
-        		}
-        	}
-        	ecjia_front::$controller->assign('title', $title);
-        	ecjia_front::$controller->assign_title($title);
+            $shop_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO_DETAIL)->data(array('article_id' => $article_id))->run();
+            if (!is_ecjia_error($shop_detail) && !empty($shop_detail)) {
+                $res = array();
+                preg_match('/<body>([\s\S]*?)<\/body>/', $shop_detail, $res);
+                $bodystr = trim($res[0]);
+                if ($bodystr != '<body></body>') {
+                    ecjia_front::$controller->assign('data', stripslashes($bodystr));
+                }
+            }
+            ecjia_front::$controller->assign('title', $title);
+            ecjia_front::$controller->assign_title($title);
         }
 
         ecjia_front::$controller->display('article_shop_detail.dwt', $cache_id);
     }
-    
+
     /**
      *  发现首页
      */
-    public static function article_index() {
-    	//文章分类及轮播图
-    	$article_cat = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_HOME_CYCLEIMAGE)->data(array('city_id' => $_COOKIE['city_id']))->run();
-    	
-    	//处理ecjiaopen url
-    	if (!is_ecjia_error($article_cat) && !empty($article_cat)) {
-    		foreach ($article_cat as $k => $v) {
-    			if ($k == 'player') {
-    				foreach ($v as $key => $val) {
-    					if (strpos($val['url'], 'ecjiaopen://') === 0) {
-    						$article_cat[$k][$key]['url'] = with(new ecjia_open($val['url']))->toHttpUrl();
-    					}
-    				}
-    			}
-    		}
-    		ecjia_front::$controller->assign('cycleimage', $article_cat['player']);
-    	
-    		if (!empty($article_cat['category'])) {
-    			ecjia_front::$controller->assign('article_cat', $article_cat['category']);
-    		}
-    	}
-    	
-    	//新人有礼url
-    	$token = ecjia_touch_user::singleton()->getShopToken();
-    	$signup_reward_url =  RC_Uri::url('market/mobile_reward/init', array('token' => $token));
-    	ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
-    	
-    	//菜单选中
-    	ecjia_front::$controller->assign('active', 'discover');
-    	ecjia_front::$controller->assign_title('发现');
-    		
-    	ecjia_front::$controller->display('discover_init.dwt');
+    public static function article_index()
+    {
+        //文章分类及轮播图
+        $article_cat = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_HOME_CYCLEIMAGE)->data(array('city_id' => $_COOKIE['city_id']))->run();
+
+        //处理ecjiaopen url
+        if (!is_ecjia_error($article_cat) && !empty($article_cat)) {
+            foreach ($article_cat as $k => $v) {
+                if ($k == 'player') {
+                    foreach ($v as $key => $val) {
+                        if (strpos($val['url'], 'ecjiaopen://') === 0) {
+                            $article_cat[$k][$key]['url'] = with(new ecjia_open($val['url']))->toHttpUrl();
+                        }
+                    }
+                }
+            }
+            ecjia_front::$controller->assign('cycleimage', $article_cat['player']);
+
+            if (!empty($article_cat['category'])) {
+                ecjia_front::$controller->assign('article_cat', $article_cat['category']);
+            }
+        }
+
+        //新人有礼url
+        $token = ecjia_touch_user::singleton()->getShopToken();
+        $signup_reward_url = RC_Uri::url('market/mobile_reward/init', array('token' => $token));
+        ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
+
+        //菜单选中
+        ecjia_front::$controller->assign('active', 'discover');
+        ecjia_front::$controller->assign_title('发现');
+
+        ecjia_front::$controller->display('discover_init.dwt');
     }
-    
+
     /**
      * 发现文章详情
      */
-    public static function article_detail() {
-    	$article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
-    	$token = ecjia_touch_user::singleton()->getToken();
-    	$article_param = array(
-    		'token' 		=> $token,
-    		'article_id'	=> $article_id
-    	);
-    	$article_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_DETAIL)->data($article_param)->run();
-    	if (!is_ecjia_error($article_info) && !empty($article_info)) {
-    		list($data, $info) = $article_info;
-    		if ($data['article_type'] == 'redirect') {
-    			return ecjia_front::$controller->redirect($data['link_url']);
-    		}
-    		$res = array();
-    		if (!empty($data['content'])) {
-    			$data['content'] = stripslashes($data['content']);
-    		}
-    		preg_match('/<body>([\s\S]*?)<\/body>/', $data['content'], $res);
-    		$bodystr = trim($res[0]);
-    		if ($bodystr != '<body></body>') {
-    			ecjia_front::$controller->assign('content', stripslashes($bodystr));
-    		}
-    		ecjia_front::$controller->assign('data', $data);
-    	}
-    	ecjia_front::$controller->assign('article_id', $article_id);
+    public static function article_detail()
+    {
+        $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
+        $token = ecjia_touch_user::singleton()->getToken();
+        $article_param = array(
+            'token' => $token,
+            'article_id' => $article_id,
+        );
+        $article_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_DETAIL)->data($article_param)->run();
+        if (!is_ecjia_error($article_info) && !empty($article_info)) {
+            list($data, $info) = $article_info;
+            if ($data['article_type'] == 'redirect') {
+                return ecjia_front::$controller->redirect($data['link_url']);
+            }
+            $res = array();
+            if (!empty($data['content'])) {
+                $data['content'] = stripslashes($data['content']);
+            }
+            preg_match('/<body>([\s\S]*?)<\/body>/', $data['content'], $res);
+            $bodystr = trim($res[0]);
+            if ($bodystr != '<body></body>') {
+                ecjia_front::$controller->assign('content', stripslashes($bodystr));
+            }
+            ecjia_front::$controller->assign('data', $data);
+            ecjia_front::$controller->assign_title($data['title']);
+        }
+        ecjia_front::$controller->assign('article_id', $article_id);
 
-    	ecjia_front::$controller->assign_title('文章详情');
-    	ecjia_front::$controller->display('discover_article.dwt');
+        ecjia_front::$controller->display('discover_article.dwt');
     }
-    
+
     /**
      * 评论文章
      */
-    public static function add_comment() {
-    	$type = !empty($_POST['type']) ? trim($_POST['type']) : '';
-    	if (!ecjia_touch_user::singleton()->isSignin()) {
-    		$url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+    public static function add_comment()
+    {
+        $type = !empty($_POST['type']) ? trim($_POST['type']) : '';
+        if (!ecjia_touch_user::singleton()->isSignin()) {
+            $url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
             $login_str = user_function::return_login_str();
 
-    		$referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
-    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
-    	}
-    	
-    	if (empty($type)) {
-    		$article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
-    		$content = !empty($_POST['val']) ? trim(htmlspecialchars($_POST['val'])) : '';
-    		if (empty($content)) {
-    			return ecjia_front::$controller->showmessage('请输入评论内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}
-    		$article_param = array(
-    			'token' => ecjia_touch_user::singleton()->getToken(),
-    			'article_id' => $article_id,
-    			'content' => $content,
-    		);
-    		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_COMMENT_CREATE)->data($article_param)->run();
-    		if (is_ecjia_error($response)) {
-    			return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		}	
-    	}
-    	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            $referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+        }
+
+        if (empty($type)) {
+            $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
+            $content = !empty($_POST['val']) ? trim(htmlspecialchars($_POST['val'])) : '';
+            if (empty($content)) {
+                return ecjia_front::$controller->showmessage('请输入评论内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            $article_param = array(
+                'token' => ecjia_touch_user::singleton()->getToken(),
+                'article_id' => $article_id,
+                'content' => $content,
+            );
+            $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_COMMENT_CREATE)->data($article_param)->run();
+            if (is_ecjia_error($response)) {
+                return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+        }
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
-    
+
     /**
      * 文章点赞/取消点赞
      */
-    public static function like_article() {
-    	if (!ecjia_touch_user::singleton()->isSignin()) {
-    		$url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+    public static function like_article()
+    {
+        if (!ecjia_touch_user::singleton()->isSignin()) {
+            $url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
             $login_str = user_function::return_login_str();
 
-    		$referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
-    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
-    	}
-    	
-    	$article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
-    	$type = !empty($_POST['type']) ? trim($_POST['type']) : '';
-    	 
-    	$article_param = array(
-    		'token' => ecjia_touch_user::singleton()->getToken(),
-    		'article_id' => $article_id,
-    	);
-    	
-    	if ($type == 'add') {
-    		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_LIKE_ADD)->data($article_param)->run();
-    	} elseif ($type == 'cancel') {
-    		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_LIKE_CANCEL)->data($article_param)->run();
-    	}
-    	if (is_ecjia_error($response)) {
-    		return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    	}
-    	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            $referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+        }
+
+        $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
+        $type = !empty($_POST['type']) ? trim($_POST['type']) : '';
+
+        $article_param = array(
+            'token' => ecjia_touch_user::singleton()->getToken(),
+            'article_id' => $article_id,
+        );
+
+        if ($type == 'add') {
+            $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_LIKE_ADD)->data($article_param)->run();
+        } elseif ($type == 'cancel') {
+            $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_LIKE_CANCEL)->data($article_param)->run();
+        }
+        if (is_ecjia_error($response)) {
+            return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
-    
+
     /**
      * 获取文章列表
      */
-    public static function ajax_article_list() {
-    	$limit = !empty($_GET['size']) > 0 	? intval($_GET['size']) : 10;
-    	$page = intval($_GET['page']) ? intval($_GET['page']) : 1;
-    	$action_type = $_GET['action_type'];
-    	
-    	if ($action_type == 'stickie') {
-    		//精选文章
-    		$article_param = array(
-    			'type' => 'stickie',
-    			'pagination' => array('count' => $limit, 'page' => $page),
-    		);
-    		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_SUGGESTLIST)->data($article_param)->hasPage()->run();
-    	} else {
-    		$article_param = array(
-    			'cat_id' => $action_type,
-    			'pagination' => array('count' => $limit, 'page' => $page),
-    		);
-    		$response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_LIST)->data($article_param)->hasPage()->run();
-    	}
-    	
-    	$say_list = '';
-    	$is_last = 1;
-    	if (!is_ecjia_error($response)) {
-    		list($data, $paginated) = $response;
-    		ecjia_front::$controller->assign('data', $data);
-    		$say_list = ecjia_front::$controller->fetch('library/article_list.lbi');
-    		
-    		if (isset($paginated['more']) && $paginated['more'] == 1) $is_last = 0;
-    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
-    	}
-    	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+    public static function ajax_article_list()
+    {
+        $limit = !empty($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+        $page = intval($_GET['page']) ? intval($_GET['page']) : 1;
+        $action_type = $_GET['action_type'];
+
+        if ($action_type == 'stickie') {
+            //精选文章
+            $article_param = array(
+                'type' => 'stickie',
+                'pagination' => array('count' => $limit, 'page' => $page),
+            );
+            $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_SUGGESTLIST)->data($article_param)->hasPage()->run();
+        } else {
+            $article_param = array(
+                'cat_id' => $action_type,
+                'pagination' => array('count' => $limit, 'page' => $page),
+            );
+            $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_LIST)->data($article_param)->hasPage()->run();
+        }
+
+        $say_list = '';
+        $is_last = 1;
+        if (!is_ecjia_error($response)) {
+            list($data, $paginated) = $response;
+            ecjia_front::$controller->assign('data', $data);
+            $say_list = ecjia_front::$controller->fetch('library/article_list.lbi');
+
+            if (isset($paginated['more']) && $paginated['more'] == 1) {
+                $is_last = 0;
+            }
+
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+        }
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
     }
-    
+
     /**
      * 获取评论列表
      */
-    public static function ajax_comment_list() {
-    	$pages = !empty($_GET['page']) ? intval($_GET['page']) : 1;
-    	$limit = !empty($_GET['size']) > 0 	? intval($_GET['size']) : 10;
-    	$article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
-    	 
-    	$article_param = array(
-    		'article_id' => $article_id,
-    		'pagination' => array('count' => $limit, 'page' => $pages),
-    	);
-    	$response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_COMMENTS)->data($article_param)->hasPage()->run();
-    	
-    	$say_list = '';
-    	$is_last = 1;
-    	if (!is_ecjia_error($response)) {
-    		list($data, $paginated) = $response;
-    		
-    		ecjia_front::$controller->assign('data', $data);
-    		$say_list = ecjia_front::$controller->fetch('library/article_comment.lbi');
-    		
-    		if (isset($paginated['more']) && $paginated['more'] == 1) $is_last = 0;
-    		return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
-    	}
-    	return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+    public static function ajax_comment_list()
+    {
+        $pages = !empty($_GET['page']) ? intval($_GET['page']) : 1;
+        $limit = !empty($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+        $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
+
+        $article_param = array(
+            'article_id' => $article_id,
+            'pagination' => array('count' => $limit, 'page' => $pages),
+        );
+        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_COMMENTS)->data($article_param)->hasPage()->run();
+
+        $say_list = '';
+        $is_last = 1;
+        if (!is_ecjia_error($response)) {
+            list($data, $paginated) = $response;
+
+            ecjia_front::$controller->assign('data', $data);
+            $say_list = ecjia_front::$controller->fetch('library/article_comment.lbi');
+
+            if (isset($paginated['more']) && $paginated['more'] == 1) {
+                $is_last = 0;
+            }
+
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+        }
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
     }
 }
 

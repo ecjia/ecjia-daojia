@@ -1297,7 +1297,6 @@ ul {
 
 .ecjia-mod .ecjia-adsense-model {
     height: auto;
-    padding-top: 1em;
     background-color: #fff
 }
 
@@ -1352,6 +1351,44 @@ ul {
     width: 100%;
     height: 8.5em;
     border-radius: .4em
+}
+
+.ecjia-mod .ecjia-adsense-model li.img-two-item {
+    width: 49.5%;
+    float: left;
+    margin: .3em 1% 0 0
+}
+
+.ecjia-mod .ecjia-adsense-model li.img-two-item:nth-of-type(2n) {
+    margin-right: 0;
+}
+
+.ecjia-mod .ecjia-adsense-model li.img-four-item {
+    width: 24.25%;
+    float: left;
+    margin: .3em 1% 0 0
+}
+
+.ecjia-mod .ecjia-adsense-model li.img-four-item:nth-of-type(4n) {
+    margin-right: 0;
+}
+
+.ecjia-mod .ecjia-adsense-model li.img-three-item:first-child {
+    width: 49.5%;
+    float: left;
+    margin: .3em 1% 0 0
+}
+
+.ecjia-mod .ecjia-adsense-model li.img-three-item:nth-child(2) {
+    width: 24.25%;
+    float: left;
+    margin: .3em 1% 0 0
+}
+
+.ecjia-mod .ecjia-adsense-model li.img-three-item:nth-child(3) {
+    width: 24.25%;
+    float: left;
+    margin: .3em 0 0 0
 }
 
 /*首页促销商品*/
@@ -1704,6 +1741,15 @@ footer {
 
 .ecjia-index .ecjia-margin-t2 {
     margin-top: 2em
+}
+
+.ecjia-padding-b1 {
+    padding-bottom: 1em
+}
+
+.ecjia-placeholder {
+    height: 5.4em;
+    width: 100%;
 }
 
 /*========================  分类 ===========================*/

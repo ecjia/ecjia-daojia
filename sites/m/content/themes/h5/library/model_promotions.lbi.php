@@ -5,14 +5,14 @@ Description: 这是首页的促销专场模块
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
-{if $promotion_goods}
-<div class="ecjia-mod ecjia-promotion-model ecjia-margin-t {if !$data && !$groupbuy_goods && !$new_goods && !$best_goods}ecjia-mod-pb35{/if}">
+{if $value.data}
+<div class="ecjia-mod ecjia-promotion-model ecjia-margin-t {if $count eq $key && !$data}ecjia-mod-pb35{/if}">
 	<div class="head-title">
 		<h2><i class="icon-promotion"></i>促销商品<a href="{$more_sales}" class="more_info">更多</a></h2>
 	</div>
 	<div class="swiper-container swiper-promotion">
 		<div class="swiper-wrapper">
-			<!-- {foreach from=$promotion_goods item=val} 循环商品 -->
+			<!-- {foreach from=$value.data item=val} 循环商品 -->
 			<div class="swiper-slide">
 				<a class="list-page-goods-img" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}">
 					<span class="goods-img">

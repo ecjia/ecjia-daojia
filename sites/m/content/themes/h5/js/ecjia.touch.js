@@ -318,19 +318,22 @@
             /* PJAX基础配置项 */
             ecjia.pjaxoption = {
                 timeout: 10000,
-                container: '.ecjia',
                 /* 内容替换的容器 */
-                cache: false,
+                container: '.ecjia',
                 /* 是否使用缓存 */
-                storage: false,
+                cache: false,
                 /* 是否使用本地存储 */
-                titleSuffix: '.pjax' /* 标题后缀 */
+                storage: false,
+                /* 标题后缀 */
+                titleSuffix: '.pjax',
+                /* 修改历史记录 */
+                replace: false
             };
 
             /* ecjia.pjax */
             ecjia.extend({
-                pjax: function (url, callback) {
-                    var option = $.extend(ecjia.pjaxoption, {
+                pjax: function (url, callback, options = {}) {
+                    var option = $.extend(ecjia.pjaxoption, options, {
                         url: url,
                         callback: function () {
                             if (typeof (callback) === 'function') callback();
@@ -338,6 +341,7 @@
                     });
                     $.pjax(option);
                     delete ecjia.pjaxoption.url;
+                    delete ecjia.pjaxoption.replace;
                 }
             });
             /* pjax刷新当前页面 */
@@ -347,7 +351,11 @@
             /* 移动pjax方法的调用，使用document元素委派pjax点击事件 */
             if ($.support.pjax) {
                 $(document).on('click', 'a:not(.nopjax)', function (event) {
+                    if ($(this).hasClass('fnUrlReplace')) {
+                        ecjia.pjaxoption.replace = true;
+                    }
                     $.pjax.click(event, ecjia.pjaxoption.container, ecjia.pjaxoption);
+                    delete ecjia.pjaxoption.replace;
                 });
             }
         },
@@ -362,17 +370,18 @@
          */
         showmessage: function (options) {
             var defaults = {
+                /* message 提示信息 */
                 message: false,
                 /* message 提示信息 */
                 is_show: true,
-                /* message 提示信息 */
-                state: 'success',
                 /* state 信息状态 */
-                links: false,
+                state: 'success',
                 /* links 链接对象 */
-                close: true,
+                links: false,
                 /* close 是否可以关闭 */
-                pjaxurl: '' /* pjax刷新页面后显示message的时候传递的pjaxURL参数 */
+                close: true,
+                /* pjax刷新页面后显示message的时候传递的pjaxURL参数 */
+                pjaxurl: ''
             };
 
             var options = $.extend({}, defaults, options);
@@ -418,16 +427,16 @@
             $('.is-last').remove();
             $(window).scrollTop(0);
             var defaults = {
-                    url: false, //url 			请求地址
-                    page: 1, //page			分页
-                    size: 10, //size			分页数量
+                    url: false, //url 请求地址
+                    page: 1, //page 分页
+                    size: 10, //size 分页数量
                     areaSelect: '#J_ItemList', //areaSelect	模块select
-                    areaClass: '', //areaClass		模块class
-                    scroll: true, //scroll		滑动加载
-                    offset: 100, //offset		滑动预留
-                    trigger: '.load-list', //trigger		点击的触发器
-                    lock: false, //lock			锁
-                    type: '', //type			类型
+                    areaClass: '', //areaClass 模块class
+                    scroll: true, //scroll 滑动加载
+                    offset: 100, //offset 滑动预留
+                    trigger: '.load-list', //trigger 点击的触发器
+                    lock: false, //lock 锁
+                    type: '', //type 类型
                 },
                 options = $.extend({}, defaults, options),
                 scroll_list = function () {
@@ -520,11 +529,11 @@
             var date = new Date;
             var year = date.getFullYear();
             for (var i = 2017; i <= year; i++) {
-                for (var j=1; j<13; j++) {
-                    if (j<10) {
+                for (var j = 1; j < 13; j++) {
+                    if (j < 10) {
                         j = '0' + j;
                     }
-                    $('.record-time-'+ i + "-" + j +':first').show();
+                    $('.record-time-' + i + "-" + j + ':first').show();
                 }
             }
         },
@@ -782,7 +791,6 @@
                 var is_order_list = $('input[name="keywords"]').attr("data-type");
                 if (is_order_list) {
                     if (!val) {
-                        //						ecjia.pjax(url);
                         return false;
                     } else {
                         ecjia.pjax(url + '&keywords=' + val);

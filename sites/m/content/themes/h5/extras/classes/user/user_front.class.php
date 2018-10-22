@@ -62,9 +62,10 @@ class user_front {
             $login_str = user_function::return_login_str();
             if (isset($_GET['referer_url'])) {
             	$url = $_GET['referer_url'];
-            	return ecjia_front::$controller->redirect(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));
             }
-            return ecjia_front::$controller->redirect(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));
+            
+            ecjia_front::$controller->redirect(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));
+            ecjia_front::$controller->exited();
 		}
 	}
 	

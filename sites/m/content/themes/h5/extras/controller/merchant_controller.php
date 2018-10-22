@@ -55,6 +55,8 @@ class merchant_controller {
 	 * 店铺首页
 	 */
 	public static function init() {
+		unset($_SESSION['cart']);
+		
 		$store_id 		= intval($_GET['store_id']);
 		$category_id 	= intval($_GET['category_id']);
 		

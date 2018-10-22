@@ -223,9 +223,11 @@ class user_order_controller
 
 		if (!ecjia_front::$controller->is_cached('user_order_express.dwt', $cache_id)) {
 			ecjia_front::$controller->assign('express_info', $express_info);
-			ecjia_front::$controller->assign('goods_info', $express_info['goods_items'][0]);
-		}
-
+            ecjia_front::$controller->assign('goods_info', $express_info['goods_items'][0]);
+            
+            ecjia_front::$controller->assign('title', '物流信息');
+            ecjia_front::$controller->assign_title('物流信息');
+        }
 		ecjia_front::$controller->display('user_order_express.dwt', $cache_id);
     }
 
@@ -540,6 +542,7 @@ class user_order_controller
                     ecjia_front::$controller->assign('store_location', json_encode($store_info['location']));
                 }
             }
+            ecjia_front::$controller->assign_title('配送员位置');
             ecjia_front::$controller->display('user_express_position.dwt');
         }
     }

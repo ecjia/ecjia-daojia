@@ -349,7 +349,7 @@ class goods_controller {
 	    ecjia_front::$controller->assign('ajax_url', RC_Uri::url('goods/index/ajax_goods_comment', array('goods_id' => $goods_id)));
 	    ecjia_front::$controller->assign('store_id', $goods_info['seller_id']);
 
-	    ecjia_front::$controller->assign_title('商品详情');
+	    ecjia_front::$controller->assign_title($goods_info['goods_name']);
         ecjia_front::$controller->display('goods_show.dwt');
     }
     
