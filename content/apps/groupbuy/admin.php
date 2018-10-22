@@ -174,7 +174,7 @@ class admin extends ecjia_admin
         RC_Loader::load_app_func('admin_goods', 'goods');
         $properties = get_goods_properties($goods_id);
         if (isset($properties['spe']) && !empty($properties['spe'])) {
-            return $this->showmessage('商品有属性价格时，不可添加未团购商品！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage('商品有属性价格时，不可添加为团购商品！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $act_desc = !empty($_POST['act_desc']) ? trim($_POST['act_desc']) : '';
@@ -552,7 +552,7 @@ class admin extends ecjia_admin
             RC_Loader::load_app_func('admin_goods', 'goods');
             $properties = get_goods_properties($goods_id);
             if (isset($properties['spe']) && !empty($properties['spe'])) {
-                return $this->showmessage('商品有属性价格时，不可添加未团购商品！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage('商品有属性价格时，不可添加为团购商品！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $goods_name = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->where('goods_id', $goods_id)->pluck('goods_name');
