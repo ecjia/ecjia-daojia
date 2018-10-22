@@ -85,6 +85,7 @@ class GoodsTransformer extends Transformer
             "promote_start_date"        => $this->bjTime($data['promote_start_date']),
             "promote_end_date"          => $this->bjTime($data['promote_end_date']),
             "is_shipping"   => $data['is_shipping'],
+        	"add_time"   	=> $data['add_time'],
             "img"           => array(
                 'thumb'     => $photoTransformer->transformer($data['goods_img']),
                 'url'       => $photoTransformer->transformer($data['original_img']),
