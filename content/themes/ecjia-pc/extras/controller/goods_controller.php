@@ -267,12 +267,21 @@ class goods_controller
                 $cat_str = pc_function::get_cat_str($goods_info['cat_id'], $level);
                 $goods_info['cat_html'] = pc_function::get_cat_html($cat_str);
 
-                $goods_info['order_amount'] = RC_DB::table('order_info')->where('store_id', $store_id)->where('order_status', 5)->where('shipping_status', 2)->where('pay_status', 2)->count();
+                $sale_num = RC_DB::table('order_goods as og')
+                    ->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('og.order_id'))
+                    ->where(RC_DB::raw('oi.store_id'), $store_id)
+                    ->whereIn(RC_DB::raw('oi.order_status'), array(OS_CONFIRMED, OS_SPLITED))
+                    ->where(RC_DB::raw('oi.shipping_status'), SS_RECEIVED)
+                    ->whereIn(RC_DB::raw('oi.pay_status'), array(PS_PAYED, PS_PAYING))
+                    ->select(RC_DB::raw('SUM(og.goods_number) AS goods_num'))
+                    ->first();
+                $goods_info['order_amount'] = !empty($sale_num['goods_num']) ? $sale_num['goods_num'] : 0;
+
                 ecjia_front::$controller->assign('shop_info', $shop_info);
                 ecjia_front::$controller->assign('goods_info', $goods_info);
                 ecjia_front::$controller->assign('pc_keywords', $goods_info['keywords']);
                 ecjia_front::$controller->assign('pc_description', $goods_info['goods_brief']);
-                ecjia_front::$controller->assign_title('商品详情');
+                ecjia_front::$controller->assign_title($goods_info['goods_name']);
             }
         }
         ecjia_front::$controller->display('goods_show.dwt', $cache_id);
