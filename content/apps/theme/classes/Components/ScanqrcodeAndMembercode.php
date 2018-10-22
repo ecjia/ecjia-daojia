@@ -45,108 +45,78 @@
 //  ---------------------------------------------------------------------------------
 //
 /**
- * ECJIA 首页模块管理
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/7/23
+ * Time: 11:56 AM
  */
 
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Theme\Components;
 
-class admin_home_group_sort extends ecjia_admin {
 
-	public function __construct() {
-		parent::__construct();
+use Ecjia\App\Theme\ComponentAbstract;
 
-		RC_Style::enqueue_style('chosen');
-		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('smoke');
-		RC_Script::enqueue_script('jquery-uniform');
+class ScanqrcodeAndMembercode extends ComponentAbstract
+{
 
-		RC_Script::enqueue_script('dragslot', RC_App::apps_url('statics/js/dragslot.js', __FILE__));
-		RC_Script::enqueue_script('admin_home_group', RC_App::apps_url('statics/js/admin_home_group.js', __FILE__));
-		RC_Style::enqueue_style('dragslot', RC_App::apps_url('statics/css/dragslot.css', __FILE__), array());
-		RC_Style::enqueue_style('style', RC_App::apps_url('statics/css/style.css', __FILE__), array());
-		
-	}
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'scanqrcode_and_membercode';
 
-	/**
-	 * 首页模块管理
-	 */
-	public function init() {
-		$this->admin_priv('home_group_manage');
+    /**
+     * 名称
+     * @var string
+     */
+    protected $name = '扫码购和会员码';
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('首页模块管理')));
-		$this->assign('ur_here', __('首页模块管理'));
-		
-		//在使用的模块
-		$useing_group = [];
-		$useing_group_code = ecjia::config('home_visual_page');
-		$useing_group_code = unserialize($useing_group_code);
-		
-		RC_Hook::add_filter('ecjia_theme_component_filter', function ($components) use ($useing_group_code, &$useing_group) {
-			foreach ($components as $key => $val) {
-				if (in_array($key, $useing_group_code)) {
-					$use_key = array_search($key, $useing_group_code);
-					$useing_group[$key] = new $val;
-					$useing_group[$key]->setSort($use_key);
-					unset($components[$key]);
-				}
-			}
-			return $components;
-		});
-		
-	
-		//首页所有模块
-		$factory = new Ecjia\App\Theme\Factory();
-		$components = $factory->getComponents();
-		
-		usort($useing_group, function($a, $b) {
-			if($a->getSort() > $b->getSort()) {
-				return 1;
-			}
-			elseif($a->getSort() < $b->getSort()) {
-				return -1;
-			}
-			else {
-				return 0;
-			}
-		});
-		
-		$this->assign('avaliable_group', $components);
-		$this->assign('useing_group', $useing_group);
-		
-		$this->display('home_group_sort.dwt');
-	}
-	
-	
-	/**
-	 * 保存排序
-	 */
-	public function save_sort() {
-		$this->admin_priv('home_group_manage', ecjia::MSGTYPE_JSON);
-	
-		$sort = $_GET['info'];
-		$sort_last = [];
-	
-		if (!empty($sort)) {
-			foreach ($sort as $k => $v) {
-					if (!empty($v)) {
-						$sort_last[] = $v;
-					}
-			}
-			$sort_last = serialize($sort_last);
-		}
-		if (!empty($sort_last)) {
-// 			if (!ecjia::config('home_visual_page', ecjia::CONFIG_CHECK)) {
-// 				ecjia_config::instance()->insert_config('text', 'home_visual_page', '', array('type' => 'text'));
-// 			}
-			ecjia_config::instance()->write_config('home_visual_page', $sort_last);
-		} else {
-			ecjia_config::instance()->write_config('home_visual_page', '');
-		}
-		
-		return $this->showmessage('保存排序成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('theme/admin_home_group_sort/init')));
-	}
-	
+    /**
+     * 描述
+     * @var string
+     */
+    protected $description = '首页扫码购和会员码';
+
+    /**
+     * 缩略图
+     * @var string
+     */
+    protected $thumb = '/statics/images/thumb/scanqrcode_and_membercode.png'; //图片未添加
+
+
+    /**
+     * 预览显示使用的HTML
+     */
+    public function handlePriviewHtml()
+    {
+        $data = $this->queryData();
+
+        return <<<HTML
+
+
+HTML;
+    }
+
+
+    /**
+     * API使用的数据格式
+     */
+    public function handleData()
+    {
+        $data = $this->queryData();
+
+        return [
+            'module' => $this->code,
+            'title' => '',
+            'data'  => $data,
+        ];
+    }
+
+
+    protected function queryData()
+    {
+        return array();
+    }
+
+
 }
-
-// end

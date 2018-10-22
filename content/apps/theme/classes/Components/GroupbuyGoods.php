@@ -69,7 +69,7 @@ class GroupbuyGoods extends ComponentAbstract
      * 名称
      * @var string
      */
-    protected $name = '首页促团购商品';
+    protected $name = '首页团购商品';
 
     /**
      * 描述

@@ -27,7 +27,7 @@
 		</div>
 		<section class="demo clearfix">
 			<a class="btn btn-info save-sort" style="margin-bottom:15px;" data-sorturl="{url path='theme/admin_home_group_sort/save_sort'}">保存</a>
-			<div id="dragslot" class="container">
+			<div id="dragslot">
 				<div class="slot-title avaliable-title">可用模块</div>
 				<div class="slot-title ">已启用模块</div>
 				

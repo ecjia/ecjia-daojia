@@ -1,31 +1,10 @@
-body{
-	font-family: 'Microsoft Yahei';
-	margin: 0;
 
-}
-ul,li {
-	list-style: none;
-}
 h1{
 	font-size: 40px;
 }
 dd{
 	font-style: italic;
 	color: #666;
-}
-.clearfix:after{
-	content:".";
-	display:block;
-	height:0;
-	clear:both;
-	visibility:hidden;
-}
-.container{
-	width: 100%;
-    min-height: 500px;
-    background: #fff;
-    margin: 0 auto;
-
 }
 
 .demo-header {
@@ -78,44 +57,12 @@ li.slot-item:not(:last-child){
 	margin: 0;
 	font-size: 14px;
 }
-.avator1{
-	width: 35%;
-	float: left;
-}
-.avator2{
-	/*width: 35%;*/
-	float: left;
-}
 .avator>img{
 	/*width:50px;*/
 	width:100%;
 	height:auto;
 }
-.content{
-	width:30%;
-	float: left;
-	line-height: 18px;
-	margin-left:2%;
-}
-.border-yellow{
-	border: 1px solid #f9f9f9;
-}
-.border-red{
-	border: 2px solid #ea7c7c;
-}
-.border-green{
-	border: 2px solid #61d486;
-}
-.bg-yellow{
-	background-color: #ecdb50;
-}
-.bg-red{
-	background-color: #ea7c7c;
-	margin-right:8%;
-}
-.bg-green{
-	background-color: #61d486;
-}
+
 .slot-title{
 	float: left;
     width: 44%;

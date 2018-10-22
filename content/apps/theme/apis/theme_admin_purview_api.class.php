@@ -58,6 +58,8 @@ class theme_admin_purview_api extends Component_Event_Api {
         	array('action_name' => '库项目管理', 'action_code' => 'library_manage', 'relevance' => ''),
         	array('action_name' => '布局设置备份', 'action_code' => 'backup_setting', 'relevance' => ''),
         	array('action_name' => '菜单', 'action_code' => 'navigator', 'relevance' => ''),
+        	
+        	array('action_name' => '首页模块管理', 'action_code' => 'home_group_manage', 'relevance' => ''),
         );
         return $purviews;
     }

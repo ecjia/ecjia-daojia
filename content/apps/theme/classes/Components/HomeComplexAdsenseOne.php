@@ -138,7 +138,6 @@ HTML;
         		'city'     => $city_id
         		]);
          
-        $response['adsense_group'] = $mobile_home_adsense_group_one;
 
         return $mobile_home_adsense_group_one;
     }
