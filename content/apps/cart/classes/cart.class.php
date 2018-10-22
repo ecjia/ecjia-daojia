@@ -479,7 +479,8 @@ class cart {
 
 		$data = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
 		
-		$total_goods_price = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('c.goods_price');
+		//购物车商品总价
+		$total_goods_price = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('c.goods_price*c.goods_number');
 		
 		$val_min = min($data, $total_goods_price);
 		
@@ -488,7 +489,6 @@ class cart {
 		} else {
 			$val = intval($val_min);
 		}
-		
 		return self::integral_of_value($val);
 	}
 

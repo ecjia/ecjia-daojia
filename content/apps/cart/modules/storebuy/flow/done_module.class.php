@@ -298,10 +298,9 @@ class storebuy_flow_done_module extends api_front implements api_interface
             $shipping = ecjia_shipping::pluginData($order['shipping_id']);
             $order['shipping_name'] = addslashes($shipping['shipping_name']);
         } else {
-            //自提
-            $shipping = ecjia_shipping::pluginData('ship_cac');
-            $order['shipping_id'] = $shipping['shipping_id'];
-            $order['shipping_name'] = addslashes($shipping['shipping_name']);
+            //无需物流
+            $order['shipping_id'] = 0;
+            $order['shipping_name'] = '无需物流';
         }
         $order['shipping_fee']	= $total['shipping_fee'];
         $order['insure_fee']	= $total['shipping_insure'];

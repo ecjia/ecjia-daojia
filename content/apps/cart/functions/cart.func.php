@@ -911,7 +911,7 @@ function recalculate_price($device = array()) {
 	        $attr_id = empty($row['goods_attr_id']) ? array() : explode(',', $row['goods_attr_id']);
 	        $goods_price = get_final_price($row['goods_id'], $row['goods_number'], true, $attr_id);
 	        $data = array(
-	            'goods_price' => $goods_price,
+	            'goods_price' => $goods_price > 0 ? $goods_price : 0.00,
 	            'mark_changed' => 0
 	        );
 	        if ($_SESSION['user_id']) {
@@ -1126,6 +1126,27 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 	return $arr;
 }
 
+//获取购物选择商品最终金额
+function get_cart_check_goods($cart_goods, $rec_id = '', $type = 0){
+    
+    $arr['subtotal_discount'] = 0;
+    $arr['subtotal_amount'] = 0;
+    $arr['subtotal_number'] = 0;
+    $arr['save_amount'] = 0;
+    
+    if(!empty($rec_id)){
+        if($cart_goods){
+            foreach($cart_goods as $row){
+                $arr['subtotal_amount'] += $row['subtotal'];
+                $arr['subtotal_number'] += $row['goods_number'];
+                $arr['save_amount'] += $row['dis_amount'];
+            }
+        }
+    }
+    
+    $arr['subtotal_amount'] = $arr['subtotal_amount'] - $arr['save_amount'];
+    return $arr;
+}
 /**
  * 取得购物车总金额
  * @params  boolean $include_gift   是否包括赠品
@@ -1192,6 +1213,7 @@ function get_cart_goods($cart_id = array(), $flow_type = CART_GENERAL_GOODS) {
 		'saving'       => 0, // 节省金额（有格式）
 		'save_rate'    => 0, // 节省百分比
 		'goods_amount' => 0, // 本店售价合计（无格式）
+	    'goods_number' => 0, // 商品总数
 	);
 
 	/* 循环、统计 */
@@ -1224,6 +1246,7 @@ function get_cart_goods($cart_id = array(), $flow_type = CART_GENERAL_GOODS) {
 			} else {
 				$virtual_goods_count++;
 			}
+			$total['goods_number'] += $row['goods_number'];
 
 			/* 查询规格 */
 			if (trim($row['goods_attr']) != '') {
@@ -1875,6 +1898,893 @@ function formated_favourable($favourable_result, $goods_list) {
    	$favourable_list_new = array_merge($favourable_list_new);
 
     return $favourable_list_new;
+}
+
+
+//dsc start
+
+/**
+ * 取得购物车商品
+ * @param   int     $type   类型：默认普通商品
+ * @return  array   购物车商品数组
+ */
+function cart_goods_dsc($type = CART_GENERAL_GOODS, $cart_value = '', $ru_type = 0, $warehouse_id = 0, $area_id = 0, $area_city = 0, $consignee = '',$store_id = 0)
+{
+    $rec_txt = array('普通', '团购','拍卖','夺宝奇兵','积分商城','预售','秒杀');
+    
+//     $where = 1;
+//     if($store_id){
+//         $where .= " AND c.store_id = '$store_id' ";
+//     }
+    
+//     $goods_where = " AND g.is_delete = 0 ";
+//     if($type == CART_PRESALE_GOODS){
+//         $goods_where .= " AND g.is_on_sale = 0 ";
+//     }
+    
+//     //ecmoban模板堂 --zhuo start
+//     if(!empty($_SESSION['user_id'])){
+//         $c_sess = " AND c.user_id = '" . $_SESSION['user_id'] . "' ";
+//     }else{
+//         $c_sess = " AND c.session_id = '" . SESS_ID . "' ";
+//     }
+    
+//     $where_area = '';
+//     if ($GLOBALS['_CFG']['area_pricetype'] == 1) {
+//         $where_area = " AND c.area_city = '$area_city'";
+//     }
+    
+//     $goodsIn = '';
+//     if(!empty($cart_value)){
+//         $goodsIn = " AND c.rec_id in($cart_value)";
+//     }
+//     //ecmoban模板堂 --zhuo end
+    
+//     //查询非超值礼包商品
+//     $sql = "SELECT c.warehouse_id, c.area_id, c.area_city, c.rec_id, c.user_id, c.goods_id, c.ru_id, g.cat_id, c.goods_name, g.goods_thumb, c.goods_sn, c.goods_number, g.default_shipping, g.goods_weight as goodsweight, " .//储值卡指定分类 liu
+//         "c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.rec_type, " .
+//         "c.goods_price * c.goods_number AS subtotal, c.goods_attr_id, c.goods_number, c.stages_qishu, " .//查出分期期数 bylu;
+//         "c.parent_id, c.group_id, pa.deposit, g.is_shipping, g.freight, g.tid, g.shipping_fee, g.brand_id, g.cloud_id, g.cloud_goodsname " .
+//         "FROM " . $GLOBALS['ecs']->table('cart') . " AS c ".
+//         "LEFT JOIN ".$GLOBALS['ecs']->table('goods'). " AS g ON c.goods_id = g.goods_id " .$goods_where.
+//         "LEFT JOIN ".$GLOBALS['ecs']->table('presale_activity'). " AS pa ON pa.goods_id = g.goods_id AND pa.review_status = 3 ".
+//         "WHERE $where " . $c_sess .
+//         "AND rec_type = '$type'" . $goodsIn ." GROUP BY c.rec_id order by c.rec_id DESC";
+    
+//     $arr = $GLOBALS['db']->getAll($sql);
+    
+//     if($GLOBALS['_CFG']['add_shop_price'] == 1){
+//         $add_tocart = 1;
+//     }else{
+//         $add_tocart = 0;
+//     }
+    
+//     /* 格式化价格及礼包商品 */
+//     foreach ($arr as $key => $value)
+//     {
+//         /* 判断购物车商品价格是否与目前售价一致，如果不同则返回购物车价格失效 */
+//         $currency_format = !empty($GLOBALS['_CFG']['currency_format']) ? explode('%', $GLOBALS['_CFG']['currency_format']) : '';
+//         $attr_id = !empty($value['goods_attr_id']) ? explode(',', $value['goods_attr_id']) : '';
+        
+//         if(count($currency_format) > 1){
+//             $goods_price = trim(get_final_price($value['goods_id'], $value['goods_number'], true, $attr_id, $value['warehouse_id'], $value['area_id'], $value['area_city'], 0, 0, $add_tocart), $currency_format[0]);
+//             $cart_price = trim($value['goods_price'], $currency_format[0]);
+//         }else{
+//             $goods_price = get_final_price($value['goods_id'], $value['goods_number'], true, $attr_id, $value['warehouse_id'], $value['area_id'], $value['area_city'], 0, 0, $add_tocart);
+//             $cart_price = $value['goods_price'];
+//         }
+        
+//         $goods_price = floatval($goods_price);
+//         $cart_price = floatval($cart_price);
+        
+//         if($goods_price != $cart_price && empty($value['is_gift']) && empty($value['group_id'])){
+//             $value['price_is_invalid'] = 1;//价格已过期
+//         }else{
+//             $value['price_is_invalid'] = 0;//价格未过期
+//         }
+//         if ($value['price_is_invalid'] && $value['rec_type'] == 0 && empty($value['is_gift']) && $value['extension_code'] != 'package_buy') {
+//             if (isset($_SESSION['flow_type']) && $_SESSION['flow_type'] == 0 && $goods_price > 0) {
+//                 get_update_cart_price($goods_price, $value['rec_id']);
+//                 $value['goods_price'] = $goods_price;
+//             }
+//         }
+        
+//         $arr[$key]['formated_goods_price']  = price_format($value['goods_price'], false);
+//         $arr[$key]['formated_subtotal']     = price_format($arr[$key]['subtotal'], false);
+        
+//         if ($value['extension_code'] == 'package_buy')
+//         {
+//             $value['amount'] = 0;
+//             $arr[$key]['dis_amount'] = 0;
+//             $arr[$key]['discount_amount'] = price_format($arr[$key]['dis_amount'], false);
+            
+//             $arr[$key]['package_goods_list'] = get_package_goods($value['goods_id']);
+            
+//             $activity = get_goods_activity_info($value['goods_id'], array('act_id', 'activity_thumb'));
+//             if ($activity) {
+//                 $value['goods_thumb'] = $activity['activity_thumb'];
+//             }
+//             $arr[$key]['goods_thumb'] = get_image_path($value['goods_id'], $value['goods_thumb'], true);
+            
+//             $package = get_package_goods_info($arr[$key]['package_goods_list']);
+//             $arr[$key]['goods_weight'] = $package['goods_weight'];
+//             $arr[$key]['goodsweight'] = $package['goods_weight'];
+//             $arr[$key]['goods_number'] = $value['goods_number'];
+//             $arr[$key]['attr_number'] = !judge_package_stock($value['goods_id'], $value['goods_number']);
+//         }else{
+//             //贡云商品参数
+//             $arr[$key]['cloud_goodsname'] = $value['cloud_goodsname'];
+//             $arr[$key]['cloud_id'] = $value['cloud_id'];
+            
+//             //ecmoban模板堂 --zhuo start 商品金额促销
+//             $goods_con = get_con_goods_amount($value['subtotal'], $value['goods_id'], 0, 0, $value['parent_id']);
+//             $goods_con['amount'] = explode(',', $goods_con['amount']);
+//             $value['amount'] = min($goods_con['amount']);
+            
+//             $arr[$key]['dis_amount'] = $value['subtotal'] - $value['amount'];
+//             $arr[$key]['discount_amount'] = price_format($arr[$key]['dis_amount'], false);
+//             //ecmoban模板堂 --zhuo end 商品金额促销
+            
+//             //$arr[$key]['subtotal'] = $value['amount'];
+//             $arr[$key]['goods_thumb'] = get_image_path($value['goods_id'], $value['goods_thumb'], true);
+//             $arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
+            
+//             $arr[$key]['formated_presale_deposit']  = price_format($value['deposit'], false);
+            
+//             //ecmoban模板堂 --zhuo
+//             $arr[$key]['region_name'] = $GLOBALS['db']->getOne("select region_name from " .$GLOBALS['ecs']->table('region_warehouse'). " where region_id = '" .$value['warehouse_id']. "'");
+//             $arr[$key]['rec_txt'] = $rec_txt[$value['rec_type']];
+            
+//             if ($value['rec_type'] == 1) {
+//                 $sql = "SELECT act_id,act_name FROM " . $GLOBALS['ecs']->table('goods_activity') . " WHERE review_status = 3 AND act_type = '" . GAT_GROUP_BUY . "' AND goods_id = '" . $value['goods_id'] . "'";
+//                 $group_buy = $GLOBALS['db']->getRow($sql);
+                
+//                 $arr[$key]['url'] = build_uri('group_buy', array('gbid' => $group_buy['act_id']));
+//                 $arr[$key]['act_name'] = $group_buy['act_name'];
+//             } elseif ($value['rec_type'] == 5) {
+//                 $sql = "SELECT act_id,act_name FROM " . $GLOBALS['ecs']->table('presale_activity') . " WHERE goods_id = '" . $value['goods_id'] . "' AND review_status = 3 LIMIT 1";
+//                 $presale = $GLOBALS['db']->getRow($sql);
+                
+//                 $arr[$key]['act_name'] = $presale['act_name'];
+//                 $arr[$key]['url'] = build_uri('presale', array('act' => 'view', 'presaleid' => $presale['act_id']), $presale['act_name']);
+//             }elseif($value['rec_type'] == 4){
+//                 $arr[$key]['url'] = build_uri('exchange_goods', array('gid'=>$value['goods_id']), $value['goods_name']);
+//             } else {
+//                 $arr[$key]['url'] = build_uri('goods', array('gid' => $value['goods_id']), $value['goods_name']);
+//             }
+            
+//             //预售商品，不受库存限制
+//             if($value['extension_code'] == 'presale' || $value['rec_type'] > 1 ){
+//                 $arr[$key]['attr_number'] = 1;
+//             }else{
+//                 //ecmoban模板堂 --zhuo start
+//                 if($ru_type == 1 && $warehouse_id > 0 && $store_id == 0){
+                    
+//                     $leftJoin = " left join " .$GLOBALS['ecs']->table('warehouse_goods'). " as wg on g.goods_id = wg.goods_id and wg.region_id = '$warehouse_id' ";
+//                     $leftJoin .= " left join " .$GLOBALS['ecs']->table('warehouse_area_goods'). " as wag on g.goods_id = wag.goods_id and wag.region_id = '$area_id' ";
+                    
+//                     $sql = "SELECT g.cloud_id, IF(g.model_price < 1, g.goods_number, IF(g.model_price < 2, wg.region_number, wag.region_number)) AS goods_number, g.user_id, g.model_attr FROM " .
+//                         $GLOBALS['ecs']->table('goods') ." AS g " . $leftJoin .
+//                         " WHERE g.goods_id = '" .$value['goods_id']. "' LIMIT 1";
+//                         $goodsInfo = $GLOBALS['db']->getRow($sql);
+                        
+//                         $products = get_warehouse_id_attr_number($value['goods_id'], $value['goods_attr_id'], $goodsInfo['user_id'], $warehouse_id, $area_id, $area_city);
+//                         $attr_number = $products['product_number'];
+                        
+//                         if($goodsInfo['model_attr'] == 1){
+//                             $table_products = "products_warehouse";
+//                             $type_files = " and warehouse_id = '$warehouse_id'";
+//                         }elseif($goodsInfo['model_attr'] == 2){
+//                             $table_products = "products_area";
+//                             $type_files = " and area_id = '$area_id'";
+//                             if ($GLOBALS['_CFG']['area_pricetype'] == 1) {
+//                                 $type_files .= " AND city_id = '$area_city'";
+//                             }
+//                         }else{
+//                             $table_products = "products";
+//                             $type_files = "";
+//                         }
+                        
+//                         $sql = "SELECT * FROM " .$GLOBALS['ecs']->table($table_products). " WHERE goods_id = '" .$value['goods_id']. "'" .$type_files. " LIMIT 0, 1";
+//                         $prod = $GLOBALS['db']->getRow($sql);
+                        
+//                         if(empty($prod)){ //当商品没有属性库存时
+//                             $attr_number = ($GLOBALS['_CFG']['use_storage'] == 1) ? $goodsInfo['goods_number'] : 1;
+//                         }
+                        
+//                         //贡云商品 验证库存
+//                         if ($goodsInfo['cloud_id'] > 0) {}
+//                         $attr_number = !empty($attr_number) ? $attr_number : 0;
+//                         $arr[$key]['attr_number'] = $attr_number;
+//                 }else{
+//                     $arr[$key]['attr_number'] = $value['goods_number'];
+//                 }
+                
+//                 //ecmoban模板堂 --zhuo end
+//             }
+            
+//             if (defined('THEME_EXTENSION')){
+//                 $arr[$key]['goods_attr_text'] = get_goods_attr_info($value['goods_attr_id'], 'pice', $value['warehouse_id'], $value['area_id'], $value['area_city'], 1);
+//             }
+            
+//             //by kong  切换门店获取商品门店库存 start 20160721
+//             if($store_id > 0){
+//                 $sql = "SELECT goods_number,ru_id FROM".$GLOBALS['ecs']->table("store_goods")." WHERE store_id = '$store_id' AND goods_id = '".$value['goods_id']."' ";
+//                 $goodsInfo = $GLOBALS['db']->getRow($sql);
+                
+//                 $products = get_warehouse_id_attr_number($value['goods_id'], $value['goods_attr_id'], $goodsInfo['ru_id'], 0, 0,'',$store_id);//获取属性库存
+//                 $attr_number = $products['product_number'];
+//                 if($value['goods_attr_id']){ //当商品没有属性库存时
+//                     $arr[$key]['attr_number'] = $attr_number;
+//                 }else{
+//                     $arr[$key]['attr_number'] = $goodsInfo['goods_number'];
+//                 }
+//             }
+//             //by kong  切换门店获取商品门店库存 end 20160721
+//         }
+//     }
+
+    
+    if(!is_array($cart_value)) {
+        $cart_value = explode(',', $cart_value);
+    }
+    
+    $arr = cart_goods(CART_GENERAL_GOODS, $cart_value);
+    
+    $goods_amount = get_cart_check_goods($arr, $cart_value);
+//     _dump($arr);
+    if($ru_type == 1){
+        $arr = get_cart_goods_ru_list($arr, $ru_type);
+        $arr = get_cart_ru_goods_list($arr, $cart_value, $consignee, $store_id);
+    }
+    
+    return array('goods_list' => $arr, 'subtotal' => $goods_amount);
+}
+
+//划分商家或平台运费 start
+function get_cart_goods_ru_list($goods, $type = 0) { //商家划分
+    $ru_id_list = get_cart_goods_ru_id($goods);
+    $ru_id_list = array_values(array_unique($ru_id_list));
+    
+    $arr = array();
+    foreach ($ru_id_list as $wkey => $ru) {
+        foreach ($goods as $gkey => $row) {
+            if ($ru == $row['store_id']) {
+                $arr[$ru][$gkey] = $row;
+            }
+        }
+    }
+    
+    if ($type == 1) { //购物车显示
+        return $arr;
+    } else {
+        $new_arr = array();
+        foreach ($arr as $key => $row) {
+//             $new_arr[$key] = get_cart_goods_warehouse_list($row);
+        }
+        
+        return $new_arr;
+    }
+}
+function get_cart_goods_ru_id($goods) {
+    
+    $arr = array();
+    if (count($goods) > 0) {
+        foreach ($goods as $key => $row) {
+            $arr[$key] = $row['store_id'];
+        }
+    }
+    
+    return $arr;
+}
+/**
+ * 区分商家商品
+ */
+function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = '',$store_id = 0){
+    
+    if(!empty($_SESSION['user_id'])){
+        $sess = $_SESSION['user_id'];
+    }else{
+        $sess = SESS_ID;
+    }
+    //配送方式选择
+    $point_id = isset($_SESSION['flow_consignee']['point_id']) ? intval($_SESSION['flow_consignee']['point_id']) : 0;
+    $consignee_district_id = isset($_SESSION['flow_consignee']['district']) ? intval($_SESSION['flow_consignee']['district']) : 0;
+    
+    $arr = array();
+    foreach($goods_list as $key => $row){
+        $shipping_type = isset($_SESSION['merchants_shipping'][$key]['shipping_type']) ? intval($_SESSION['merchants_shipping'][$key]['shipping_type']) : 0;
+//         $ru_name = get_shop_name($key, 1);
+        $arr[$key]['store_id'] = $key;
+        $arr[$key]['shipping_type'] =  $shipping_type;
+        $arr[$key]['store_name'] = $row[0]['store_name'];
+        $arr[$key]['url'] = build_uri('merchants_store', array('urid' => $key), $ru_name);
+        $arr[$key]['goods_amount'] = 0;
+        
+        foreach($row as $gkey=>$grow){
+            $arr[$key]['goods_amount'] += $grow['goods_price'] * $grow['goods_number'];
+        }
+        
+        if($cart_value){
+//             TODO::店铺配送方式 hyytodo
+//             $ru_shippng = get_ru_shippng_info($row, $cart_value, $key, $consignee);
+            
+            $arr[$key]['shipping'] = $ru_shippng['shipping_list'];
+            $arr[$key]['is_freight'] = $ru_shippng['is_freight'];
+            $arr[$key]['shipping_rec'] = $ru_shippng['shipping_rec'];
+            
+            $arr[$key]['shipping_count'] = !empty($arr[$key]['shipping']) ? count($arr[$key]['shipping']) : 0;
+            if(!empty($arr[$key]['shipping']))
+            {
+                $arr[$key]['shipping'] = array_values($arr[$key]['shipping']);
+                $arr[$key]['tmp_shipping_id'] = isset($arr[$key]['shipping'][0]['shipping_id']) ? $arr[$key]['shipping'][0]['shipping_id'] : 0; //默认选中第一个配送方式
+                foreach($arr[$key]['shipping'] as $kk=>$vv)
+                {
+                    $vv['default'] = isset($vv['default']) ? $vv['default'] : 0;
+                    if($vv['default'] == 1)
+                    {
+                        $arr[$key]['tmp_shipping_id'] = $vv['shipping_id'];
+                        continue;
+                    }
+                }
+            }
+        }
+        if(defined('THEME_EXTENSION')){
+            /*  @author-bylu 判断当前商家是否允许"在线客服" start  */
+//             $shop_information = get_shop_name($key); //通过ru_id获取到店铺信息;
+//             $arr[$key]['is_IM'] = isset($shop_information['is_IM']) ? $shop_information['is_IM'] : ''; //平台是否允许商家使用"在线客服";
+            //判断当前商家是平台,还是入驻商家 bylu
+            if ($key == 0) {
+                //判断平台是否开启了IM在线客服
+//                 if ($GLOBALS['db']->getOne("SELECT kf_im_switch FROM " . $GLOBALS['ecs']->table('seller_shopinfo') . "WHERE ru_id = 0", true)) {
+//                     $arr[$key]['is_dsc'] = true;
+//                 } else {
+//                     $arr[$key]['is_dsc'] = false;
+//                 }
+            } else {
+                $arr[$key]['is_dsc'] = false;
+            }
+            /*  @author-bylu  end  */
+            //自营有自提点--key=ru_id
+//             $sql="select * from ".$GLOBALS['ecs']->table('seller_shopinfo')." where ru_id='" .$key. "'";
+//             $basic_info = $GLOBALS['db']->getRow($sql);
+            $arr[$key]['kf_type'] = $basic_info['kf_type'];
+            
+            /*处理客服旺旺数组 by kong*/
+            if($basic_info['kf_ww']){
+                $kf_ww=array_filter(preg_split('/\s+/', $basic_info['kf_ww']));
+                $kf_ww=explode("|",$kf_ww[0]);
+                if(!empty($kf_ww[1])){
+                    $arr[$key]['kf_ww'] = $kf_ww[1];
+                }else{
+                    $arr[$key]['kf_ww'] ="";
+                }
+                
+            }else{
+                $arr[$key]['kf_ww'] ="";
+            }
+            /*处理客服QQ数组 by kong*/
+            if($basic_info['kf_qq']){
+                $kf_qq=array_filter(preg_split('/\s+/', $basic_info['kf_qq']));
+                $kf_qq=explode("|",$kf_qq[0]);
+                if(!empty($kf_qq[1])){
+                    $arr[$key]['kf_qq'] = $kf_qq[1];
+                }else{
+                    $arr[$key]['kf_qq'] = "";
+                }
+                
+            }else{
+                $arr[$key]['kf_qq'] = "";
+            }
+        }
+        
+        if($key == 0 && $consignee_district_id > 0){
+//             $self_point = get_self_point($consignee_district_id, $point_id, 1);
+            
+            if(!empty($self_point)){
+                $arr[$key]['self_point'] = $self_point[0];
+            }
+        }
+        /*获取门店信息 by kong 20160726 start*/
+        if($store_id > 0){
+//             $sql = "SELECT o.id,o.stores_name,o.stores_address,o.stores_opening_hours,o.stores_tel,o.stores_traffic_line,p.region_name as province ,"
+//                 . "c.region_name as city ,d.region_name as district,o.stores_img FROM ".$GLOBALS['ecs']->table("offline_store")." AS o "
+//                     . "LEFT JOIN ".$GLOBALS['ecs']->table("region")." AS p ON p.region_id = o.province "
+//                         . "LEFT JOIN ".$GLOBALS['ecs']->table('region')." AS c ON c.region_id = o.city "
+//                             . "LEFT JOIN ".$GLOBALS['ecs']->table('region')." AS d ON d.region_id = o.district "
+//                                 . "WHERE o.id = '$store_id'  LIMIT 1";
+//                                 $arr[$key]['offline_store'] = $GLOBALS['db']->getRow($sql);
+                                
+        }
+        
+        if ($row) {
+            
+            $shipping_rec = isset($ru_shippng['shipping_rec']) && !empty($ru_shippng['shipping_rec']) ? $ru_shippng['shipping_rec'] : [];
+            
+            foreach ($row as $k => $v) {
+                
+                if($shipping_rec && in_array($v['rec_id'], $shipping_rec)){
+                    
+                    $row[$k]['rec_shipping'] = 0; //不支持配送
+                }else{
+                    $row[$k]['rec_shipping'] = 1; //支持配送
+                }
+            }
+        }
+        
+        /*获取门店信息 by kong 20160726 end*/
+        $arr[$key]['goods_list'] = $row;
+    }
+    
+    $goods_list = array_values($arr);
+    return $goods_list;
+}
+
+// 重组商家购物车数组  按照优惠活动对购物车商品进行分类 -qin
+function cart_by_favourable($merchant_goods) {
+    
+    $id_list = array();
+    $list_array = array();
+    foreach ($merchant_goods as $key => $row) { // 第一层 遍历商家
+        $user_cart_goods = isset($row['goods_list']) && !empty($row['goods_list']) ? $row['goods_list'] : array();
+        //TODO::先注释活动 hyytodo
+        // 商家发布的优惠活动
+//         $favourable_list = favourable_list($_SESSION['user_rank'], $row['store_id']);
+        // 对优惠活动进行归类
+//         $sort_favourable = sort_favourable($favourable_list);
+        
+        if ($user_cart_goods) {
+            foreach ($user_cart_goods as $key1 => $row1) { // 第二层 遍历购物车中商家的商品
+                $row1['original_price'] = $row1['goods_price'] * $row1['goods_number'];
+                // 活动-全部商品
+                if (isset($sort_favourable['by_all']) && $row1['extension_code'] != 'package_buy' && substr($row1['extension_code'], 0, 7) != 'seckill') {
+                    foreach ($sort_favourable['by_all'] as $key2 => $row2) {
+                        $mer_ids = true;
+                        if($GLOBALS['_CFG']['region_store_enabled']){
+                            //卖场促销 liu
+                            $mer_ids = get_favourable_merchants($row2['userFav_type'], $row2['userFav_type_ext'], $row2['rs_id'], 1, $row1['ru_id']);
+                        }
+                        if ($row2['userFav_type'] == 1 || $mer_ids) {
+                            if ($row1['is_gift'] == 0) {// 活动商品
+                                if (isset($row1) && $row1) {
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_id'] = $row2['act_id'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_name'] = $row2['act_name'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type'] = $row2['act_type'];
+                                    // 活动类型
+                                    switch ($row2['act_type']) {
+                                        case 0:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['With_a_gift'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = intval($row2['act_type_ext']); // 可领取总件数
+                                            break;
+                                        case 1:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['Full_reduction'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = number_format($row2['act_type_ext'], 2); // 满减金额
+                                            break;
+                                        case 2:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['discount'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = floatval($row2['act_type_ext'] / 10); // 折扣百分比
+                                            break;
+                                            
+                                        default:
+                                            break;
+                                    }
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['min_amount'] = $row2['min_amount'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext'] = intval($row2['act_type_ext']); // 可领取总件数
+                                    @$merchant_goods[$key]['new_list'][$row2['act_id']]['cart_fav_amount'] += $row1['subtotal'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['available'] = favourable_available($row2, array(), $row1['ru_id']); // 购物车满足活动最低金额
+                                    // 购物车中已选活动赠品数量
+                                    $cart_favourable = cart_favourable($row1['ru_id']);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['cart_favourable_gift_num'] = empty($cart_favourable[$row2['act_id']]) ? 0 : intval($cart_favourable[$row2['act_id']]);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['favourable_used'] = favourable_used($row2, $cart_favourable);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['left_gift_num'] = intval($row2['act_type_ext']) - (empty($cart_favourable[$row2['act_id']]) ? 0 : intval($cart_favourable[$row2['act_id']]));
+                                    
+                                    /* 检查购物车中是否已有该优惠 */
+                                    
+                                    // 活动赠品
+                                    if ($row2['gift']) {
+                                        $merchant_goods[$key]['new_list'][$row2['act_id']]['act_gift_list'] = $row2['gift'];
+                                    }
+                                    
+                                    // new_list->活动id->act_goods_list
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list'][$row1['rec_id']] = $row1;
+                                    unset($row1);
+                                    
+                                    if (defined('THEME_EXTENSION')) {
+                                        $merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list_num'] = count($merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list']);
+                                    }
+                                }
+                            } else { // 赠品
+                                $merchant_goods[$key]['new_list'][$row2['act_id']]['act_cart_gift'][$row1['rec_id']] = $row1;
+                            }
+                        } else {
+                            if($GLOBALS['_CFG']['region_store_enabled']){
+                                // new_list->活动id->act_goods_list | 活动id的数组位置为0，表示次数组下面为没有参加活动的商品
+                                $merchant_goods[$key]['new_list'][0]['act_goods_list'][$row1['rec_id']] = $row1;
+                                if (defined('THEME_EXTENSION')) {
+                                    $merchant_goods[$key]['new_list'][0]['act_goods_list_num'] = count($merchant_goods[$key]['new_list'][0]['act_goods_list']);
+                                }
+                            }
+                        }
+                        break; // 如果有多个优惠活动包含全部商品，只取一个
+                    }
+                    continue; // 如果活动包含全部商品，跳出循环体
+                }
+                
+                // 活动-分类
+                if (isset($sort_favourable['by_category']) && $row1['extension_code'] != 'package_buy' && substr($row1['extension_code'], 0, 7) != 'seckill') {
+                    //优惠活动关联分类集合
+                    $get_act_range_ext = get_act_range_ext($_SESSION['user_rank'], $row['ru_id'], 1); // 1表示优惠范围 按分类
+                    
+                    $str_cat = '';
+                    foreach ($get_act_range_ext as $id) {
+                        /**
+                         * 当前分类下的所有子分类
+                         * 返回一维数组
+                         */
+                        $cat_keys = get_array_keys_cat(intval($id));
+                        
+                        if ($cat_keys) {
+                            $str_cat .= implode(",", $cat_keys);
+                        }
+                    }
+                    
+                    if ($str_cat) {
+                        $list_array = explode(",", $str_cat);
+                    }
+                    
+                    $list_array = !empty($list_array) ? array_merge($get_act_range_ext, $list_array) : $get_act_range_ext;
+                    $id_list = arr_foreach($list_array);
+                    $id_list = array_unique($id_list);
+                    $cat_id = $row1['cat_id']; //购物车商品所属分类ID
+                    // 优惠活动ID
+                    $favourable_id_list = get_favourable_id($sort_favourable['by_category']);
+                    // 判断商品或赠品 是否属于本优惠活动
+                    if ((in_array($cat_id, $id_list) && $row1['is_gift'] == 0) || in_array($row1['is_gift'], $favourable_id_list)) {
+                        foreach ($sort_favourable['by_category'] as $key2 => $row2) {
+                            if (isset($row1) && $row1) {
+                                //优惠活动关联分类集合
+                                $fav_act_range_ext = !empty($row2['act_range_ext']) ? explode(',', $row2['act_range_ext']) : array();
+                                foreach ($fav_act_range_ext as $id) {
+                                    /**
+                                     * 当前分类下的所有子分类
+                                     * 返回一维数组
+                                     */
+                                    $cat_keys = get_array_keys_cat(intval($id));
+                                    $fav_act_range_ext = array_merge($fav_act_range_ext, $cat_keys);
+                                }
+                                
+                                if ($row1['is_gift'] == 0 && in_array($cat_id, $fav_act_range_ext)) { // 活动商品
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_id'] = $row2['act_id'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_name'] = $row2['act_name'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type'] = $row2['act_type'];
+                                    // 活动类型
+                                    switch ($row2['act_type']) {
+                                        case 0:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['With_a_gift'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = intval($row2['act_type_ext']); // 可领取总件数
+                                            break;
+                                        case 1:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['Full_reduction'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = number_format($row2['act_type_ext'], 2); // 满减金额
+                                            break;
+                                        case 2:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['discount'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = floatval($row2['act_type_ext'] / 10); // 折扣百分比
+                                            break;
+                                            
+                                        default:
+                                            break;
+                                    }
+                                    
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['min_amount'] = $row2['min_amount'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext'] = intval($row2['act_type_ext']); // 可领取总件数
+                                    @$merchant_goods[$key]['new_list'][$row2['act_id']]['cart_fav_amount'] += $row1['subtotal'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['available'] = favourable_available($row2, array(), $row1['ru_id']); // 购物车满足活动最低金额
+                                    // 购物车中已选活动赠品数量
+                                    $cart_favourable = cart_favourable($row1['ru_id']);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['cart_favourable_gift_num'] = empty($cart_favourable[$row2['act_id']]) ? 0 : intval($cart_favourable[$row2['act_id']]);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['favourable_used'] = favourable_used($row2, $cart_favourable);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['left_gift_num'] = intval($row2['act_type_ext']) - (empty($cart_favourable[$row2['act_id']]) ? 0 : intval($cart_favourable[$row2['act_id']]));
+                                    
+                                    /* 检查购物车中是否已有该优惠 */
+                                    
+                                    // 活动赠品
+                                    if ($row2['gift']) {
+                                        $merchant_goods[$key]['new_list'][$row2['act_id']]['act_gift_list'] = $row2['gift'];
+                                    }
+                                    
+                                    // new_list->活动id->act_goods_list
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list'][$row1['rec_id']] = $row1;
+                                    
+                                    if (defined('THEME_EXTENSION')) {
+                                        $merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list_num'] = count($merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list']);
+                                    }
+                                    
+                                    unset($row1);
+                                }
+                                
+                                if (isset($row1) && $row1 && $row1['is_gift'] == $row2['act_id']) { // 赠品
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_cart_gift'][$row1['rec_id']] = $row1;
+                                }
+                            }
+                        }
+                        continue;
+                    }
+                }
+                
+                // 活动-品牌
+                if (isset($sort_favourable['by_brand']) && $row1['extension_code'] != 'package_buy' && substr($row1['extension_code'], 0, 7) != 'seckill') {
+                    // 优惠活动 品牌集合
+                    $get_act_range_ext = get_act_range_ext($_SESSION['user_rank'], $row['ru_id'], 2); // 2表示优惠范围 按品牌
+                    $brand_id = $row1['brand_id'];
+                    
+                    // 优惠活动ID集合
+                    $favourable_id_list = get_favourable_id($sort_favourable['by_brand']);
+                    
+                    // 是品牌活动的商品或者赠品
+                    if ((in_array(trim($brand_id), $get_act_range_ext) && $row1['is_gift'] == 0) || in_array($row1['is_gift'], $favourable_id_list)) {
+                        foreach ($sort_favourable['by_brand'] as $key2 => $row2) {
+                            $act_range_ext_str = ',' . $row2['act_range_ext'] . ',';
+                            $brand_id_str = ',' . $brand_id . ',';
+                            
+                            if (isset($row1) && $row1) {
+                                if ($row1['is_gift'] == 0 && strstr($act_range_ext_str, trim($brand_id_str))) { // 活动商品
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_id'] = $row2['act_id'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_name'] = $row2['act_name'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type'] = $row2['act_type'];
+                                    // 活动类型
+                                    switch ($row2['act_type']) {
+                                        case 0:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['With_a_gift'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = intval($row2['act_type_ext']); // 可领取总件数
+                                            break;
+                                        case 1:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['Full_reduction'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = number_format($row2['act_type_ext'], 2); // 满减金额
+                                            break;
+                                        case 2:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['discount'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = floatval($row2['act_type_ext'] / 10); // 折扣百分比
+                                            break;
+                                            
+                                        default:
+                                            break;
+                                    }
+                                    
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['min_amount'] = $row2['min_amount'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext'] = intval($row2['act_type_ext']); // 可领取总件数
+                                    @$merchant_goods[$key]['new_list'][$row2['act_id']]['cart_fav_amount'] += $row1['subtotal'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['available'] = favourable_available($row2); // 购物车满足活动最低金额
+                                    // 购物车中已选活动赠品数量
+                                    $cart_favourable = cart_favourable($row1['ru_id']);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['cart_favourable_gift_num'] = empty($cart_favourable[$row2['act_id']]) ? 0 : intval($cart_favourable[$row2['act_id']]);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['favourable_used'] = favourable_used($row2, $cart_favourable);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['left_gift_num'] = intval($row2['act_type_ext']) - (empty($cart_favourable[$row2['act_id']]) ? 0 : intval($cart_favourable[$row2['act_id']]));
+                                    
+                                    /* 检查购物车中是否已有该优惠 */
+                                    
+                                    // 活动赠品
+                                    if ($row2['gift']) {
+                                        $merchant_goods[$key]['new_list'][$row2['act_id']]['act_gift_list'] = $row2['gift'];
+                                    }
+                                    
+                                    // new_list->活动id->act_goods_list
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list'][$row1['rec_id']] = $row1;
+                                    
+                                    if (defined('THEME_EXTENSION')) {
+                                        $merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list_num'] = count($merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list']);
+                                    }
+                                    
+                                    unset($row1);
+                                }
+                                
+                                if (isset($row1) && $row1 && $row1['is_gift'] == $row2['act_id']) { // 赠品
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_cart_gift'][$row1['rec_id']] = $row1;
+                                }
+                            }
+                        }
+                        continue;
+                    }
+                }
+                
+                // 活动-部分商品
+                if (isset($sort_favourable['by_goods']) && $row1['extension_code'] != 'package_buy' && substr($row1['extension_code'], 0, 7) != 'seckill') {
+                    $get_act_range_ext = get_act_range_ext($_SESSION['user_rank'], $row['ru_id'], 3); // 3表示优惠范围 按商品
+                    // 优惠活动ID集合
+                    $favourable_id_list = get_favourable_id($sort_favourable['by_goods']);
+                    
+                    // 判断购物商品是否参加了活动  或者  该商品是赠品
+                    if (in_array($row1['goods_id'], $get_act_range_ext) || in_array($row1['is_gift'], $favourable_id_list)) {
+                        foreach ($sort_favourable['by_goods'] as $key2 => $row2) { // 第三层 遍历活动
+                            $act_range_ext_str = ',' . $row2['act_range_ext'] . ','; // 优惠活动中的优惠商品
+                            $goods_id_str = ',' . $row1['goods_id'] . ',';
+                            // 如果是活动商品
+                            if (isset($row1) && $row1) {
+                                if (strstr($act_range_ext_str, $goods_id_str) && ($row1['is_gift'] == 0)) {
+                                    
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_id'] = $row2['act_id'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_name'] = $row2['act_name'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type'] = $row2['act_type'];
+                                    // 活动类型
+                                    switch ($row2['act_type']) {
+                                        case 0:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['With_a_gift'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = intval($row2['act_type_ext']); // 可领取总件数
+                                            break;
+                                        case 1:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['Full_reduction'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = number_format($row2['act_type_ext'], 2); // 满减金额
+                                            break;
+                                        case 2:
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['discount'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = floatval($row2['act_type_ext'] / 10); // 折扣百分比
+                                            break;
+                                            
+                                        default:
+                                            break;
+                                    }
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['min_amount'] = $row2['min_amount'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext'] = intval($row2['act_type_ext']); // 可领取总件数
+                                    @$merchant_goods[$key]['new_list'][$row2['act_id']]['cart_fav_amount'] += $row1['subtotal'];
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['available'] = favourable_available($row2); // 购物车满足活动最低金额
+                                    // 购物车中已选活动赠品数量
+                                    $cart_favourable = cart_favourable($row1['ru_id']);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['cart_favourable_gift_num'] = empty($cart_favourable[$row2['act_id']]) ? 0 : intval($cart_favourable[$row2['act_id']]);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['favourable_used'] = favourable_used($row2, $cart_favourable);
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['left_gift_num'] = intval($row2['act_type_ext']) - (empty($cart_favourable[$row2['act_id']]) ? 0 : intval($cart_favourable[$row2['act_id']]));
+                                    
+                                    /* 检查购物车中是否已有该优惠 */
+                                    
+                                    // 活动赠品
+                                    if ($row2['gift']) {
+                                        $merchant_goods[$key]['new_list'][$row2['act_id']]['act_gift_list'] = $row2['gift'];
+                                    }
+                                    
+                                    // new_list->活动id->act_goods_list
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list'][$row1['rec_id']] = $row1;
+                                    
+                                    if (defined('THEME_EXTENSION')) {
+                                        $merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list_num'] = count($merchant_goods[$key]['new_list'][$row2['act_id']]['act_goods_list']);
+                                    }
+                                    break;
+                                    
+                                    unset($row1);
+                                }
+                                
+                                // 如果是赠品
+                                if (isset($row1) && $row1 && $row1['is_gift'] == $row2['act_id']) {
+                                    $merchant_goods[$key]['new_list'][$row2['act_id']]['act_cart_gift'][$row1['rec_id']] = $row1;
+                                }
+                            }
+                        }
+                    } else {
+                        // new_list->活动id->act_goods_list | 活动id的数组位置为0，表示次数组下面为没有参加活动的商品
+                        $merchant_goods[$key]['new_list'][0]['act_goods_list'][$row1['rec_id']] = $row1;
+                        if (defined('THEME_EXTENSION')) {
+                            $merchant_goods[$key]['new_list'][0]['act_goods_list_num'] = count($merchant_goods[$key]['new_list'][0]['act_goods_list']);
+                        }
+                    }
+                } else {
+                    // new_list->活动id->act_goods_list | 活动id的数组位置为0，表示次数组下面为没有参加活动的商品
+                    $merchant_goods[$key]['new_list'][0]['act_goods_list'][$row1['rec_id']] = $row1;
+                    if (defined('THEME_EXTENSION')) {
+                        $merchant_goods[$key]['new_list'][0]['act_goods_list_num'] = count($merchant_goods[$key]['new_list'][0]['act_goods_list']);
+                    }
+                }
+            }
+        }
+    }
+    
+    return $merchant_goods;
+}
+
+/**
+ * 取得某用户等级当前时间可以享受的优惠活动
+ * @param   int     $user_rank      用户等级id，0表示非会员
+ * @param int $user_id 商家id
+ * @param int $fav_id 优惠活动ID
+ * @return  array
+ *
+ * 显示赠品商品 $ru_id 传参
+ */
+function favourable_list($user_rank, $user_id = -1, $fav_id = 0, $act_sel_id = array(), $ru_id = -1) {
+    $where = '';
+    if ($user_id >= 0) {
+        //$where .= " AND user_id = '$user_id'";
+        $where .= " AND IF(userFav_type = 0, user_id = '$user_id', 1 = 1) ";
+    }
+    if ($fav_id > 0) {
+        $where .= " AND act_id = '$fav_id' ";
+    }
+    /* 购物车中已有的优惠活动及数量 */
+    $used_list = cart_favourable($ru_id);
+    
+    /* 当前用户可享受的优惠活动 */
+    $favourable_list = array();
+    $user_rank = ',' . $user_rank . ',';
+    $now = gmtime();
+    $sql = "SELECT * " .
+        "FROM " . $GLOBALS['ecs']->table('favourable_activity') .
+        " WHERE CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'" .
+        " AND review_status = 3 AND start_time <= '$now' AND end_time >= '$now' " . $where .
+        " ORDER BY sort_order";
+    
+    $res = $GLOBALS['db']->query($sql);
+    while ($favourable = $GLOBALS['db']->fetchRow($res)) {
+        $favourable['start_time'] = local_date($GLOBALS['_CFG']['time_format'], $favourable['start_time']);
+        $favourable['end_time'] = local_date($GLOBALS['_CFG']['time_format'], $favourable['end_time']);
+        $favourable['formated_min_amount'] = price_format($favourable['min_amount'], false);
+        $favourable['formated_max_amount'] = price_format($favourable['max_amount'], false);
+        $favourable['gift'] = unserialize($favourable['gift']);
+        
+        foreach ($favourable['gift'] as $key => $value) {
+            $favourable['gift'][$key]['formated_price'] = price_format($value['price'], false);
+            // 赠品缩略图
+            $favourable['gift'][$key]['thumb_img'] = $GLOBALS['db']->getOne("SELECT goods_thumb FROM " . $GLOBALS['ecs']->table('goods') . " WHERE goods_id = '$value[id]'");
+            $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('goods') . " WHERE is_on_sale = 1 AND goods_id = " . $value['id'];
+            $is_sale = $GLOBALS['db']->getOne($sql);
+            if (!$is_sale) {
+                unset($favourable['gift'][$key]);
+            }
+        }
+        
+        $favourable['act_range_desc'] = act_range_desc($favourable);
+        $favourable['act_type_desc'] = sprintf($GLOBALS['_LANG']['fat_ext'][$favourable['act_type']], $favourable['act_type_ext']);
+        
+        /* 是否能享受 */
+        $favourable['available'] = favourable_available($favourable, $act_sel_id);
+        if ($favourable['available']) {
+            /* 是否尚未享受 */
+            $favourable['available'] = !favourable_used($favourable, $used_list);
+        }
+        
+        $favourable['act_range_ext'] = return_act_range_ext($favourable['act_range_ext'], $favourable['userFav_type'], $favourable['act_range']);
+        
+        $favourable_list[] = $favourable;
+    }
+    
+    return $favourable_list;
+}
+
+// 对优惠商品进行归类
+function sort_favourable($favourable_list)
+{
+    $arr = array();
+    foreach ($favourable_list as $key => $value)
+    {
+        switch ($value['act_range'])
+        {
+            case FAR_ALL:
+                $arr['by_all'][$key] = $value;
+                break;
+            case FAR_CATEGORY:
+                $arr['by_category'][$key] = $value;
+                break;
+            case FAR_BRAND:
+                $arr['by_brand'][$key] = $value;
+                break;
+            case FAR_GOODS:
+                $arr['by_goods'][$key] = $value;
+                break;
+            default:
+                break;
+        }
+    }
+    return $arr;
+}
+
+/**
+ * 重新组合购物流程商品数组
+ */
+function get_new_group_cart_goods($cart_goods_list_new){
+    $car_goods = array();
+    foreach($cart_goods_list_new as $key=>$goods){
+        foreach($goods['goods_list'] as $k => $list){
+            $car_goods[] = $list;
+        }
+    }
+    
+    return $car_goods;
 }
 
 // end
