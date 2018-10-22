@@ -115,11 +115,11 @@
 					<form class="form-horizontal">
 						<div class="tab-content">
 							<div class="tab-pane active" id="tab">
-								<div class="col-lg-4">
+								<div class="col-lg-5">
 									<div id="order_type_chart" style="width: 100%;height:212px;">
 									</div>
 								</div>
-								<div class="col-lg-8">
+								<div class="col-lg-7">
 									<div class="row-fluid">
 										<table class="table table-striped table-hide-edit">
 											<thead>
@@ -149,6 +149,11 @@
 													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storepickup" target="__blank">自提型订单</a></td>
 													<td>{$order_stats.storepickup_count_data.order_count}</td>
 													<td>{$order_stats.storepickup_count_data.total_fee}</td>
+												</tr>
+												<tr>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storepickup" target="__blank">收银台型订单</a></td>
+													<td>{$order_stats.cashdesk_count_data.order_count}</td>
+													<td>{$order_stats.cashdesk_count_data.total_fee}</td>
 												</tr>
 											</tbody>
 										</table>

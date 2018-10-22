@@ -331,11 +331,12 @@ class admin_order_stats extends ecjia_admin
         $order_stats = $this->get_order_stats($store_id);
 
         $count_key = array('await_pay_count', 'await_ship_count', 'shipped_count', 'returned_count', 'canceled_count', 'finished_count');
-        $data_key = array('order_count_data', 'groupbuy_count_data', 'storebuy_count_data', 'storepickup_count_data');
+        $data_key = array('order_count_data', 'groupbuy_count_data', 'storebuy_count_data', 'storepickup_count_data', 'cashdesk_count_data');
         $order_stats['order_count_data']['title'] = '配送型订单';
         $order_stats['groupbuy_count_data']['title'] = '团购型订单';
         $order_stats['storebuy_count_data']['title'] = '到店型订单';
         $order_stats['storepickup_count_data']['title'] = '自提型订单';
+        $order_stats['cashdesk_count_data']['title'] = '收银台型订单';
 
         $count_arr = $count_data_arr = [];
         foreach ($order_stats as $k => $v) {
@@ -515,18 +516,33 @@ class admin_order_stats extends ecjia_admin
             ->where('extension_code', 'storepickup')
             ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
             ->first();
-        $data['count_all'] = $data['order_count_data']['order_count'] + $data['groupbuy_count_data']['order_count'] + $data['storebuy_count_data']['order_count'] + $data['storepickup_count_data']['order_count'];
+
+        //收银台型订单数及总金额
+        $data['cashdesk_count_data'] = RC_DB::table('order_info')
+            ->where('is_delete', 0)
+            ->where('store_id', $store_id)
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
+            ->where('shipping_status', SS_RECEIVED)
+            ->where('extension_code', 'cashdesk')
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->first();
+
+        $data['count_all'] = $data['order_count_data']['order_count'] + $data['groupbuy_count_data']['order_count'] + $data['storebuy_count_data']['order_count'] + $data['storepickup_count_data']['order_count'] + $data['cashdesk_count_data']['order_count'];
 
         $data['order_count_data']['total_fee'] = price_format($data['order_count_data']['total_fee']);
         $data['groupbuy_count_data']['total_fee'] = price_format($data['groupbuy_count_data']['total_fee']);
         $data['storebuy_count_data']['total_fee'] = price_format($data['storebuy_count_data']['total_fee']);
         $data['storepickup_count_data']['total_fee'] = price_format($data['storepickup_count_data']['total_fee']);
+        $data['cashdesk_count_data']['total_fee'] = price_format($data['cashdesk_count_data']['total_fee']);
 
         $data['type'] = array(
             array('name' => '配送', 'value' => $data['order_count_data']['order_count']),
             array('name' => '团购', 'value' => $data['groupbuy_count_data']['order_count']),
             array('name' => '到店', 'value' => $data['storebuy_count_data']['order_count']),
             array('name' => '自提', 'value' => $data['storepickup_count_data']['order_count']),
+            array('name' => '收银台', 'value' => $data['cashdesk_count_data']['order_count']),
         );
         return $data;
     }

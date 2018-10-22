@@ -62,7 +62,7 @@ class order_operate {
 		RC_Loader::load_app_func('global', 'orders');
 		/* 标记订单为已确认 */
 		$this->update_order($order['order_id'], array('order_status' => OS_CONFIRMED, 'confirm_time' => RC_Time::gmtime()));
-		update_order_amount($order['order_id']);
+		//update_order_amount($order['order_id']);
 		
 		/* 记录日志 */
 		ecjia_admin::admin_log('订单号是 '.$order['order_sn'], 'edit', 'order_status');

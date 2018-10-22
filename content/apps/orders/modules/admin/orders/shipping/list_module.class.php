@@ -83,7 +83,7 @@ class admin_orders_shipping_list_module extends api_admin implements api_interfa
 		$order_info['store_id'] = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->get_field('store_id');
 		/* 取得可用的配送方式列表 */
 		$region_id_list = array(
-				$order_info['country'], $order_info['province'], $order_info['city'], $order_info['district'], $order_info['street']
+			$order_info['country'], $order_info['province'], $order_info['city'], $order_info['district'], $order_info['street']
 		);
 		
 		//$shipping_method   = RC_Loader::load_app_class('shipping_method', 'shipping');

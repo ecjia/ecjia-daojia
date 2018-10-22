@@ -135,7 +135,7 @@ class admin_stats_payment_module extends api_admin implements api_interface
 
                 $order_stats = RC_DB::table('cashier_record as cr')
                     ->leftJoin('order_info as oi', RC_DB::raw('cr.order_id'), '=', RC_DB::raw('oi.order_id'))
-                    ->select(RC_DB::raw('count("cr.id") as count'), RC_DB::raw('SUM((goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee)) AS total_fee'))
+                    ->select(RC_DB::raw('count("DISTINCT cr.order_id") as count'), RC_DB::raw('SUM((goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee)) AS total_fee'))
                     ->where(RC_DB::raw('oi.pay_status'), 2)
                     ->where(RC_DB::raw('oi.pay_time'), '>=', $start_date) 
                     ->where(RC_DB::raw('oi.pay_time'), '<=', $end_date)
@@ -147,11 +147,13 @@ class admin_stats_payment_module extends api_admin implements api_interface
                     'pay_code'		=> $val,
                     'pay_name'		=> $pay_id_group_new[$val]['pay_name'],
                     'order_count'	=> $order_stats['count'],
-                    'order_amount'	=> empty($order_stats['total_fee']) ? '0.00' : $order_stats['total_fee'],
-                    'formatted_order_amount' => empty($order_stats['total_fee']) ? '0.00' : price_format($order_stats['total_fee']),
+                    'order_amount'	=> $order_stats['total_fee'] > 0 ? $order_stats['total_fee'] : '0.00',
+                    'formatted_order_amount' => price_format($order_stats['total_fee'], false),
                 );
             }
         }
+        
+        
 
         return $data;
     }

@@ -32,6 +32,7 @@
 					</div>
 				</div>
 			</div>
+			{if $filter.extension_code neq 'cashdesk'}
 			<div class="item">
 				<div class="form-group">
 					<label class="control-label col-lg-2">配送方式：</label>
@@ -45,6 +46,7 @@
 					</div>
 				</div>
 			</div>
+			{/if}
 			<div class="item">
 				<div class="form-group">
 					<label class="control-label col-lg-2">支付方式：</label>
@@ -61,6 +63,7 @@
 		</div>
 
 		<div class="search-item">
+			{if $filter.extension_code neq 'cashdesk'}
 			<div class="item">
 				<div class="form-group">
 					<label class="control-label col-lg-2">下单渠道：</label>
@@ -74,6 +77,7 @@
 					</div>
 				</div>
 			</div>
+			{/if}
 			<div class="item">
 				<div class="form-group">
 					<label class="control-label col-lg-2">商品名称：</label>

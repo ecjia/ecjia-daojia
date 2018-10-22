@@ -265,6 +265,8 @@ class admin_orders_detail_module extends api_admin implements api_interface {
 					'subtotal'				=> price_format($v['subtotal'], false),
 					'goods_attr'			=> trim($v['goods_attr']),
 					'formated_shop_price' 	=> price_format($v['goods_price'], false),
+					'is_bulk'				=> $v['extension_code'] == 'bulk' ? 1 : 0,
+					'goods_buy_weight' 		=> $v['goods_buy_weight'] > 0 ? $v['goods_buy_weight'] : '',
 					'img' => array(
 						'thumb'	=> !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
 						'url'	=> !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',

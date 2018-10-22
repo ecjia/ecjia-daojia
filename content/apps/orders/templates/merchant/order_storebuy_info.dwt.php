@@ -14,7 +14,7 @@ ecjia.merchant.order.info();
   	</div>
   	<div class="pull-right">
   		{if $action_link}
-		<a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storebuy" class="btn btn-primary data-pjax">
+		<a href="{RC_Uri::url('orders/merchant/init')}&extension_code={$order_model}" class="btn btn-primary data-pjax">
 			<i class="fa fa-reply"></i> {$action_link.text}
 		</a>
 		{/if}

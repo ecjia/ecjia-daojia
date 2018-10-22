@@ -755,7 +755,7 @@ class mh_delivery extends ecjia_merchant
             return $this->showmessage(RC_Lang::get('orders::order.act_false'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        /* 修改定单发货单号 */
+        /* 修改订单发货单号 */
         $invoice_no_order = explode('<br>', $order['invoice_no']);
         $invoice_no_delivery = explode('<br>', $delivery_order['invoice_no']);
         foreach ($invoice_no_order as $key => $value) {

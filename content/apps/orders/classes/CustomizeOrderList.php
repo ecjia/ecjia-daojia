@@ -166,9 +166,12 @@ class CustomizeOrderList
                 'groupbuy_status_desc' => $group_buy['status_desc'],
                 'groupbuy_status' => $group_buy['status']
             ];
-            if (in_array($item->extension_code, array('storebuy', 'cashdesk'))) {
+            if ($item->extension_code == 'storebuy') {
                 $data['order_mode'] = 'storebuy';
                 $data['label_order_mode'] = '扫码购';
+            } elseif ($item->extension_code == 'cashdesk') {
+                $data['order_mode'] = 'cashdesk';
+                $data['label_order_mode'] = '收银台';
             } elseif ($item->extension_code == 'storepickup') {
                 $data['order_mode'] = 'storepickup';
                 $data['label_order_mode'] = '自提';
@@ -252,10 +255,13 @@ class CustomizeOrderList
 	    		'groupbuy_status_desc' => $group_buy['status_desc'],
 	    		'groupbuy_status' => $group_buy['status']
     		];
-    		if (in_array($item->extension_code, array('storebuy', 'cashdesk'))) {
-    			$data['order_mode'] = 'storebuy';
-    			$data['label_order_mode'] = '扫码购';
-    		} elseif ($item->extension_code == 'storepickup') {
+    		if ($item->extension_code == 'storebuy') {
+                $data['order_mode'] = 'storebuy';
+                $data['label_order_mode'] = '扫码购';
+            } elseif ($item->extension_code == 'cashdesk') {
+                $data['order_mode'] = 'cashdesk';
+                $data['label_order_mode'] = '收银台';
+            } elseif ($item->extension_code == 'storepickup') {
     			$data['order_mode'] = 'storepickup';
     			$data['label_order_mode'] = '自提';
     		} elseif ($item->extension_code == 'group_buy') {

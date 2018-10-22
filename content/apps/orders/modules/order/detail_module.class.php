@@ -62,7 +62,10 @@ class order_detail_module extends api_front implements api_interface {
     	}
 
 		RC_Loader::load_app_func('admin_order', 'orders');
-		$order_id = $this->requestData('order_id', 0);
+		$order_id = $this->requestData('order_id', '0');
+		$with_goods = $this->requestData('with_goods', 'yes'); //是否携带返回商品信息，默认返回
+		$with_log = $this->requestData('with_log', 'yes');  //是否携带返回订单状态记录信息，默认返回
+		
 		if (!$order_id) {
 			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 		}
@@ -98,9 +101,11 @@ class order_detail_module extends api_front implements api_interface {
 		}
 		
 		/*订单状态处理*/
-		$order_status_info = $this->get_order_status($order['order_status'], $order['shipping_status'], $order['pay_status'], $payment['is_cod']);
-		$order['order_status_code'] = empty($order_status_info['status_code']) ? '' : $order_status_info['status_code'];
-		$order['label_order_status'] = empty($order_status_info['label_order_status']) ? '' : $order_status_info['label_order_status'];
+		//$order_status_info = $this->get_order_status($order['order_status'], $order['shipping_status'], $order['pay_status'], $payment['is_cod']);
+		list($label_order_status, $status_code)  = Ecjia\App\Orders\OrderStatus::getOrderStatusLabel($order['order_status'], $order['shipping_status'], $order['pay_status'], $payment['is_cod']);
+		
+		$order['order_status_code'] = empty($status_code) ? '' : $status_code;
+		$order['label_order_status'] = empty($label_order_status) ? '' : $label_order_status;
 		
 		//配送费：已发货的不退，未发货的退
 		if ($order['shipping_status'] > SS_UNSHIPPED) {
@@ -246,9 +251,6 @@ class order_detail_module extends api_front implements api_interface {
 		$order['district'] = ecjia_region::getRegionName($order['district']);
 		$order['street'] = ecjia_region::getRegionName($order['street']);
 
-		$goods_list = array();
-		$goods_list = EM_order_goods($order_id);
-		
 		/*店铺有关信息*/
 		if ($order['store_id'] > 0) {
 			$seller_info = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->first();
@@ -266,70 +268,79 @@ class order_detail_module extends api_front implements api_interface {
 			$order['order_user_info'] = array();
 		}
 		
-		if (!empty($goods_list)) {
-			foreach ($goods_list as $k => $v) {
-				$attr = array();
-				if (!empty($v['goods_attr'])) {
-					$goods_attr = explode("\n", $v['goods_attr']);
-					$goods_attr = array_filter($goods_attr);
-					foreach ($goods_attr as  $val) {
-						$a = explode(':',$val);
-						if (!empty($a[0]) && !empty($a[1])) {
-							$attr[] = array('name'=>$a[0], 'value'=>$a[1]);
+		//是否携带返回订单商品信息
+		$with_goods = strtolower($with_goods);		
+		if ($with_goods == 'yes') {
+			$goods_list = array();
+			$goods_list = EM_order_goods($order_id);
+			if (!empty($goods_list)) {
+				foreach ($goods_list as $k => $v) {
+					$attr = array();
+					if (!empty($v['goods_attr'])) {
+						$goods_attr = explode("\n", $v['goods_attr']);
+						$goods_attr = array_filter($goods_attr);
+						foreach ($goods_attr as  $val) {
+							$a = explode(':',$val);
+							if (!empty($a[0]) && !empty($a[1])) {
+								$attr[] = array('name'=>$a[0], 'value'=>$a[1]);
+							}
 						}
 					}
+						
+					$goods_list[$k] = array(
+							'rec_id'		=> $v['rec_id'],
+							'goods_id'		=> $v['goods_id'],
+							'goods_sn'      => $v['goods_sn'],
+							'name'			=> $v['goods_name'],
+							'goods_attr_id'	=> $v['goods_attr_id'],
+							'goods_attr'	=> $attr,
+							'goods_number'	=> $v['goods_number'],
+							'subtotal'		=> price_format($v['subtotal'], false),
+							'formated_shop_price' => $v['goods_price'] > 0 ? price_format($v['goods_price'], false) : __('免费'),
+							'is_commented'	=> $v['is_commented'],
+							'comment_rank'  => empty($v['comment_rank']) ? 0 : intval($v['comment_rank']),
+							'comment_content' => empty($v['comment_content']) ? '' : $v['comment_content'],
+							'img' => array(
+									'small'	=> !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : '',
+									'thumb'	=> !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
+									'url' 	=> !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
+							)
+					);
 				}
-			
-				$goods_list[$k] = array(
-						'rec_id'		=> $v['rec_id'],
-						'goods_id'		=> $v['goods_id'],
-				        'goods_sn'      => $v['goods_sn'],
-						'name'			=> $v['goods_name'],
-						'goods_attr_id'	=> $v['goods_attr_id'],
-						'goods_attr'	=> $attr,
-						'goods_number'	=> $v['goods_number'],
-						'subtotal'		=> price_format($v['subtotal'], false),
-						'formated_shop_price' => $v['goods_price'] > 0 ? price_format($v['goods_price'], false) : __('免费'),
-						'is_commented'	=> $v['is_commented'],
-						'comment_rank'  => empty($v['comment_rank']) ? 0 : intval($v['comment_rank']),
-						'comment_content' => empty($v['comment_content']) ? '' : $v['comment_content'],
-						'img' => array(
-								'small'	=> !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : '',
-								'thumb'	=> !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
-								'url' 	=> !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
-						)
-				);
-			}	
+			}
+			$order['goods_list'] = $goods_list;
 		}
 		
-		$order['goods_list'] = $goods_list;
-
-		$order_status_log = RC_Model::model('orders/order_status_log_model')->where(array('order_id' => $order_id))->order(array('log_id' => 'desc'))->select();
-		$order['order_status_log'] = array();
-		if (!empty($order_status_log)) {
-			$labe_order_status = array(
-				'place_order'	=> RC_Lang::get('orders::order.place_order'),//下单 
-				'unpay'			=> RC_Lang::get('orders::order.unpay'), 
-				'payed' 		=> RC_Lang::get('orders::order.payed'),
-				'merchant_process' => RC_Lang::get('orders::order.merchant_process'),//等待接单
-				'shipping' 		=> RC_Lang::get('orders::order.shipping'), 
-				'shipped' 		=> RC_Lang::get('orders::order.shipped'),
-				'express_user_pickup'	=> RC_Lang::get('orders::order.express_user_pickup'),
-				'cancel'		=> RC_Lang::get('orders::order.order_cancel'),
-				'confirm_receipt'	=> RC_Lang::get('orders::order.confirm_receipted'),
-				'finished'		=> RC_Lang::get('orders::order.order_finished'),
-				'pickup_success'=> RC_Lang::get('orders::order.order_pickup_success'),
-				'merchant_confirmed'=> RC_Lang::get('orders::order.merchant_confirmed'),
-				'merchant_unconfirmed'=> RC_Lang::get('orders::order.merchant_unconfirmed'),
-			);
-			
-			foreach ($order_status_log as $val) {
-				$order['order_status_log'][] = array(
-					'status'		=> array_search($val['order_status'], $labe_order_status),
-					'order_status'	=> $val['order_status'],
-					'message'		=> $val['message'],
-					'time'			=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
+		//是否携带返回订单状态记录信息
+		$with_log = strtolower($with_log);
+		if ($with_log == 'yes' ) {
+			$order_status_log = RC_Model::model('orders/order_status_log_model')->where(array('order_id' => $order_id))->order(array('log_id' => 'desc'))->select();
+			$order['order_status_log'] = array();
+			if (!empty($order_status_log)) {
+				$labe_order_status = array(
+						'place_order'	=> RC_Lang::get('orders::order.place_order'),//下单
+						'unpay'			=> RC_Lang::get('orders::order.unpay'),
+						'payed' 		=> RC_Lang::get('orders::order.payed'),
+						'merchant_process' => RC_Lang::get('orders::order.merchant_process'),//等待接单
+						'shipping' 		=> RC_Lang::get('orders::order.shipping'),
+						'shipped' 		=> RC_Lang::get('orders::order.shipped'),
+						'express_user_pickup'	=> RC_Lang::get('orders::order.express_user_pickup'),
+						'cancel'		=> RC_Lang::get('orders::order.order_cancel'),
+						'confirm_receipt'	=> RC_Lang::get('orders::order.confirm_receipted'),
+						'finished'		=> RC_Lang::get('orders::order.order_finished'),
+						'pickup_success'=> RC_Lang::get('orders::order.order_pickup_success'),
+						'merchant_confirmed'=> RC_Lang::get('orders::order.merchant_confirmed'),
+						'merchant_unconfirmed'=> RC_Lang::get('orders::order.merchant_unconfirmed'),
 				);
+					
+				foreach ($order_status_log as $val) {
+					$order['order_status_log'][] = array(
+							'status'		=> array_search($val['order_status'], $labe_order_status),
+							'order_status'	=> $val['order_status'],
+							'message'		=> $val['message'],
+							'time'			=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
+					);
+				}
 			}
 		}
 		return array('data' => $order);

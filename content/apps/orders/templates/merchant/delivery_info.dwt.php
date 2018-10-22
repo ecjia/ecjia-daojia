@@ -45,7 +45,7 @@
 							<tr>
 								<td><div align="right"><strong>订单编号：</strong></div></td>
 								<td>
-									<a href='{url path="orders/merchant/info" args="order_sn={$delivery_order.order_sn}"}'>{$delivery_order.order_sn}</a>
+									<a href='{url path="orders/merchant/info" args="order_id={$delivery_order.order_id}"}'>{$delivery_order.order_sn}</a>
 								</td>
 								<td><div align="right"><strong>{lang key='orders::order.label_time'}</strong></div></td>
 								<td>{$delivery_order.formated_add_time}</td>

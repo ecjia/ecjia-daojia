@@ -100,6 +100,9 @@ class admin_orders_check_module extends api_admin implements api_interface
 		}
 		/* 查询订单信息 */
 		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
+		if ($_SESSION['store_id'] != $order_info['store_id']) {
+			return new ecjia_error('order_error', __('验证码所对应的订单不属于当前店铺！'));
+		}
 		/* 判断发货情况*/
 		if ($order_info['shipping_status'] > SS_UNSHIPPED) {
 			return new ecjia_error('order_shipped', __('该订单已发货！无法进行此操作'));

@@ -195,7 +195,7 @@
 				
 				option = {
 					backgroundColor: '#fff',
-					color: ['#91BE79', '#F0567D', '#4EB2C9', '#DF9D5E'],
+					color: ['#91BE79', '#F0567D', '#4EB2C9', '#DF9D5E', '#3993ba'],
 					tooltip: {
 						trigger: 'item',
 						formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -203,7 +203,7 @@
 					legend: {
 						selectedMode: false,
 						bottom: 25,
-						data: ['配送', '团购', '到店', '自提']
+						data: ['配送', '团购', '到店', '自提', '收银台']
 					},
 					series: [{
 						tooltip: {

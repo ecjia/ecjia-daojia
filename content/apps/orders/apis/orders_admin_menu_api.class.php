@@ -59,8 +59,9 @@ class orders_admin_menu_api extends Component_Event_Api {
 			ecjia_admin::make_admin_menu('02_order_list', '到店订单', RC_Uri::url('orders/admin/init', array('extension_code' => 'storebuy')), 2)->add_purview('order_manage'),
 			ecjia_admin::make_admin_menu('03_order_list', '自提订单', RC_Uri::url('orders/admin/init', array('extension_code' => 'storepickup')), 3)->add_purview('order_manage'),
 			ecjia_admin::make_admin_menu('04_order_list', '团购订单', RC_Uri::url('orders/admin/init', array('extension_code' => 'group_buy')), 4)->add_purview('order_manage'),
-				
-			ecjia_admin::make_admin_menu('divider', '', '', 6)->add_purview(array('order_manage')),
+			ecjia_admin::make_admin_menu('05_order_list', '收银台订单', RC_Uri::url('orders/admin/init', array('extension_code' => 'cashdesk')), 5)->add_purview('order_manage'),	
+
+			ecjia_admin::make_admin_menu('divider', '', '', 6)->add_purview(array('order_stats', 'delivery_view', 'back_view')),
 			
 			ecjia_admin::make_admin_menu('07_order_stats', __('订单统计'), RC_Uri::url('orders/admin_order_stats/init'), 7)->add_purview('order_stats'),
 			ecjia_admin::make_admin_menu('08_delivery_order', RC_Lang::get('orders::order.order_delivery_list'), RC_Uri::url('orders/admin_order_delivery/init'), 8)->add_purview('delivery_view'),

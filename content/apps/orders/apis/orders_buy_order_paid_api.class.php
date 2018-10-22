@@ -94,7 +94,7 @@ class orders_buy_order_paid_api extends Component_Event_Api {
 	    $order_id = $order['order_id'];
 	    $order_sn = $order['order_sn'];
 	    RC_Logger::getLogger('pay')->info('orders_buy_order_paid');
-	    RC_Logger::getLogger('pay')->info($order);
+// 	    RC_Logger::getLogger('pay')->info($order);
 	    
 	    $time = RC_Time::gmtime();
 	    $orders_auto_confirm = Ecjia\App\Cart\StoreStatus::StoreOrdersAutoConfirm($order['store_id']);
@@ -143,13 +143,13 @@ class orders_buy_order_paid_api extends Component_Event_Api {
 	        order_action($order_sn, $order_status, SS_UNSHIPPED, $pay_status, '', RC_Lang::get('orders::order.buyers'));
 	    }
 	    
-	    //会员店铺消费过，记录为店铺会员 TODO暂时不启用
-	    //if (!empty($order['user_id'])) {
-	    //	if (!empty($order['store_id'])) {
-	    //		RC_Loader::load_app_class('add_storeuser', 'user', false);
-	    //		add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
-	    //	}
-	    //}
+	    //会员店铺消费过，记录为店铺会员 
+	    if (!empty($order['user_id'])) {
+	    	if (!empty($order['store_id'])) {
+	    		RC_Loader::load_app_class('add_storeuser', 'user', false);
+	    		add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
+	    	}
+	    }
 	    
 	    //订单状态log记录区分
 	    if (in_array($order['extension_code'], array('storebuy', 'cashdesk', 'storepickup'))) {

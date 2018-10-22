@@ -122,6 +122,7 @@ return array(
 		'storebuy' => '到店订单',
 		'storepickup' => '自提订单',
 		'group_buy' => '团购订单',
+		'cashdesk' => '收银台订单'
 	),
 				
 	/* 订单操作 */

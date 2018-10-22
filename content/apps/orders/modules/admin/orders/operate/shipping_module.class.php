@@ -107,7 +107,7 @@ class admin_orders_operate_shipping_module extends api_admin implements api_inte
 		RC_Loader::load_app_func('global', 'orders');
 		/* 保存配送信息 */
 		/* 取得订单信息 */
-		$region_id_list = array($order_info['country'], $order_info['province'], $order_info['city'], $order_info['district']);
+		$region_id_list = array($order_info['country'], $order_info['province'], $order_info['city'], $order_info['district'], $order_info['street']);
 		/* 保存订单 */
 		//$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 		//$shipping		= $shipping_method->shipping_area_info($shipping_id, $region_id_list, $order_info['store_id']);

@@ -47,10 +47,10 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 订单列表
+ * 资金流水列表（某种支付方式下已支付的普通订单）
  * @author will
  */
-class admin_orders_list_module extends api_admin implements api_interface {
+class history_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		
 		$this->authadminSession();
@@ -65,15 +65,9 @@ class admin_orders_list_module extends api_admin implements api_interface {
         $codes = array('8001', '8011');
         
         if (!in_array($device_code, $codes)) {
-        	$result = $this->admin_priv('order_view');
-        	if (is_ecjia_error($result)) {
-        		return $result;
-        	}
+        	return new ecjia_error('caskdesk_error', '非收银台请求！');
         }
         
-		$type		= $this->requestData('type', 'whole');
-		$keywords	= $this->requestData('keywords');
-		$user_id	= $this->requestData('user_id', 0);
 		$size 		= $this->requestData('pagination.count', 15);
 		$page 		= $this->requestData('pagination.page', 1);
 		
@@ -86,169 +80,36 @@ class admin_orders_list_module extends api_admin implements api_interface {
 			$end_date = RC_Time::local_strtotime($end_date) + 86399;
 		}
 
-		$order_query = RC_Loader::load_app_class('order_query', 'orders');
-		$db = RC_Model::model('orders/order_info_model');
-		$db_view = RC_Model::model('orders/order_info_viewmodel');
-
-		$where = array();
-		if ( !empty($keywords)) {
-			$where[] = "( oi.order_sn like '%".$keywords."%' or oi.consignee like '%".$keywords."%' or oi.mobile like '%".$keywords."%' )";
-		}
+		$dbview = $dbview_billing = RC_DB::table('cashier_record as cr')->leftJoin('order_info as oi', RC_DB::raw('cr.order_id'), '=', RC_DB::raw('oi.order_id'));
 		
 		$order_list = [];
-		if (!in_array($device_code, $codes) || $user_id > 0) {
-			if ($user_id > 0) {
-				$where['oi.user_id'] = $user_id;
-			}
-			switch ($type) {
-				case 'await_pay':
-					$where_query = $order_query->order_await_pay('oi.');
-					break;
-				case 'payed' :
-				    $where_query = $order_query->order_await_ship('oi.');
-				    break;
-				case 'await_ship':
-					$where_query = $order_query->order_await_ship('oi.');
-					break;
-				case 'shipped':
-					$where_query = $order_query->order_shipped('oi.');
-					break;
-				case 'finished':
-					$where_query = $order_query->order_finished('oi.');
-					break;
-				case 'refund':
-					$where_query = $order_query->order_refund('oi.');
-					break;
-				case 'closed' :
-					$where_query = array_merge($order_query->order_invalid('oi.'),$order_query->order_canceled('oi.'));
-					break;
-				case 'whole':
-					break;
-			}
-			if (is_array($where_query)) {
-			    $where = array_merge($where, $where_query);
-			}
-			
-			$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
-			$field = 'oi.order_id, oi.store_id, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time, oi.integral, oi.money_paid, oi.surplus, oi.order_amount';
-			
-			$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
-			$result = ecjia_app::validate_application('store');
-			if (!is_ecjia_error($result)) {
-				$db_orderinfo_view->view = array(
-					'order_goods' => array(
-						'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'	=> 'og',
-						'on'	=> 'oi.order_id = og.order_id'
-					),
-					'goods' => array(
-						'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'	=> 'g',
-						'on'	=> 'g.goods_id = og.goods_id'
-					),
-				);
-
-				if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-					$where['oi.store_id'] = $_SESSION['store_id'];
-				}
-
-				/*获取记录条数*/
-				$record_count = $db_orderinfo_view->join(array('order_goods'))->where($where)->count('DISTINCT oi.order_id');
-
-				//实例化分页
-				$page_row = new ecjia_page($record_count, $size, 6, '', $page);
-				$data = $db_orderinfo_view->field($field)->where($where)->join(null)->limit($page_row->limit())->order(array('oi.add_time' => 'desc'))->select();
-				$data = $this->formated_admin_order_list($data, $device_code, $type);
-				$order_list = $data;
-			} else {
-				$db_orderinfo_view->view = array(
-					'order_goods' => array(
-						'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'	=> 'og',
-						'on'	=> 'oi.order_id = og.order_id'
-					),
-					'goods' => array(
-						'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'	=> 'g',
-						'on'	=> 'g.goods_id = og.goods_id'
-					),
-				);
-				/*获取记录条数*/
-				$record_count = $db_orderinfo_view->join(null)->where($where)->count('oi.order_id');
-				//实例化分页
-				$page_row = new ecjia_page($record_count, $size, 6, '', $page);
-				$data = $db_orderinfo_view->field($field)->join(null)->where($where)->order(array('oi.add_time' => 'desc'))->select();
-				$data = $this->formated_admin_order_list($data, $device_code, $type);
-				$order_list = $data;
-			}
-		} else {
-			
-			$db_cashier_record_view = RC_Model::model('orders/cashier_record_viewmodel');
-			$where['cr.mobile_device_id'] = $_SESSION['device_id'];
-			//$where['cr.mobile_device_id'] = 5558;
-			
-			if (!empty($start_date) && !empty($end_date)) {
-				$where['cr.create_at'] = array('egt' => $start_date, 'elt' => $end_date);
-			}
-			if (!empty($pay_id)) {
-				$where['oi.pay_id'] = $pay_id;
-			}
-			if (!empty($_SESSION['store_id'])) {
-				$where['cr.store_id'] = $_SESSION['store_id'];
-			}
-			$where['cr.action'] = array('billing', 'receipt');
-			$join = array('order_info');
-			
-			switch ($type) {
-				case 'await_pay':
-					$where_query = $order_query->order_await_pay('oi.');
-					break;
-				case 'payed' :
-					$where_query = $order_query->order_await_ship('oi.');
-					break;
-				case 'await_ship':
-					$where_query = $order_query->order_await_ship('oi.');
-					break;
-				case 'shipped':
-					$where_query = $order_query->order_shipped('oi.');
-					break;
-				case 'finished':
-					$where_query = $order_query->order_finished('oi.');
-					break;
-				case 'refund':
-					$where_query = $order_query->order_refund('oi.');
-					break;
-				case 'closed' :
-					$where_query = array_merge($order_query->order_invalid('oi.'),$order_query->order_canceled('oi.'));
-					break;
-				case 'whole':
-					break;
-			}
-			
-			if ($type == 'verify') {
-				$where['cr.action'] = 'check_order';//验单
-				$join = array('order_info');
-			}elseif ($type == 'billing') {
-				$where['cr.action'] = 'billing'; //开单
-				$join = array('order_info');
-			} 
-			
-			if ($type != 'verify') {
-				if (is_array($where_query)) {
-					$where = array_merge($where, $where_query);
-				}
-			}
-			
-			$record_count = $db_cashier_record_view->join(array('order_info'))->where($where)->count('DISTINCT oi.order_id');
-			
-			$page_row = new ecjia_page($record_count, $size, 6, '', $page);
-			$order_id_group = $db_cashier_record_view->join(array('order_info'))->where($where)->limit($page_row->limit())->order(array('create_at' => 'desc'))->field('oi.order_id')->group('oi.order_id')->select();
-			$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
-			$field = 'oi.order_id, oi.surplus, oi.money_paid, oi.order_amount, oi.store_id, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time';
-			$data = $db_cashier_record_view->field($field)->join($join)->where($where)->limit($page_row->limit())->order(array('cr.create_at' => 'desc'))->group('oi.order_id')->select();
-			$data = $this->formated_admin_order_list($data, $device_code, $type);
-			$order_list = $data;
+		
+		$dbview->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id'])
+			   ->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
+			   ->whereIn(RC_DB::raw('cr.action'), array('billing', 'receipt'));
+		
+		if (!empty($pay_id)) {
+			$dbview->where(RC_DB::raw('oi.pay_id'), $pay_id);
 		}
+		if (!empty($_SESSION['store_id'])) {
+			$dbview->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id']);
+		}
+		if (!empty($start_date) && !empty($end_date)) {
+			$where['cr.create_at'] = array('egt' => $start_date, 'elt' => $end_date);
+			$dbview->where(RC_DB::raw('cr.create_at'), '>=', $start_date);
+			$dbview->where(RC_DB::raw('cr.create_at'), '<=', $end_date);
+		}
+		
+		$record_count = $dbview->count(RC_DB::raw('DISTINCT oi.order_id'));
+		$page_row = new ecjia_page($record_count, $size, 6, '', $page);
+		$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
+		$field = 'oi.order_id, oi.surplus, oi.money_paid, oi.order_amount, oi.store_id, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time';
+	
+		$data = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw($field))->orderBy(RC_DB::raw('cr.create_at'), 'desc')->groupBy(RC_DB::raw('oi.order_id'))->get();
+		
+		$data = $this->formated_admin_order_list($data, $device_code);
+		$order_list = $data;
+		
 		$pager = array(
 			'total'	=> $page_row->total_records,
 			'count' => $page_row->total_records,
@@ -262,7 +123,7 @@ class admin_orders_list_module extends api_admin implements api_interface {
 	 * @param array $data
 	 * return array
 	 */
-	private function formated_admin_order_list($data = array(), $device_code = '', $type='') {
+	private function formated_admin_order_list($data = array(), $device_code = '') {
 		$codes = array('8001', '8011');
 		if (!empty($data)) {
 			foreach ($data as $key => $val) {
@@ -274,7 +135,7 @@ class admin_orders_list_module extends api_admin implements api_interface {
 					$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($val['pay_id']);
 				}
 				
-				list($label_order_status, $status_code) = $this->get_label_order_status($val['order_status'], $val['pay_status'], $val['shipping_status'], $payment, $device_code, $codes, $type);
+				list($label_order_status, $status_code) = $this->get_label_order_status($val['order_status'], $val['pay_status'], $val['shipping_status'], $payment, $device_code, $codes);
 				
 				$data[$key]['mobile']					= empty($val['mobile']) ? $val['tel'] : $val['mobile'];
 				$data[$key]['formated_total_fee'] 		= price_format($val['total_fee'], false);
@@ -288,8 +149,6 @@ class admin_orders_list_module extends api_admin implements api_interface {
 				$data[$key]['formated_discount']		= price_format($val['discount'], false);
 				$data[$key]['create_time'] 				= RC_Time::local_date(ecjia::config('date_format'), $val['add_time']);
 				$data[$key]['status']					= $order_status.','.RC_Lang::get('orders::order.ps.'.$val['pay_status']).','.RC_Lang::get('orders::order.ss.'.$val['shipping_status']);
-				$data[$key]['label_order_status']		= $label_order_status;
-				$data[$key]['order_status_code']		= $status_code;
 				$data[$key]['verify_code']				= $this->get_verify_code($val['order_id']);
 				$data[$key]['store_name'] 				= $val['store_id'] > 0 ? $this->get_store_name($val['store_id']) : '';
 				$order_goods_list 						= $this->get_order_goods($val['order_id']);
@@ -326,7 +185,7 @@ class admin_orders_list_module extends api_admin implements api_interface {
 	/**
 	 * 获取格式化订单状态
 	 */
-	private function get_label_order_status($order_status, $pay_status, $shipping_status, $payment =array(), $device_code = '', $codes, $type = '') {
+	private function get_label_order_status($order_status, $pay_status, $shipping_status, $payment =array(), $device_code = '', $codes) {
 		$label_order_status = '';
 		$status_code = '';
 		if (in_array($device_code , $codes)) {
@@ -341,7 +200,8 @@ class admin_orders_list_module extends api_admin implements api_interface {
 				$status_code		= 'unpay';
 			}
 		} else {
-			if (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED)) && in_array($shipping_status, array(SS_RECEIVED)) &&
+			if (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED)) &&
+			in_array($shipping_status, array(SS_RECEIVED)) &&
 			in_array($pay_status, array(PS_PAYED, PS_PAYING)))
 			{
 				$label_order_status = '已完成';
@@ -363,9 +223,9 @@ class admin_orders_list_module extends api_admin implements api_interface {
 					in_array($shipping_status, array(SS_UNSHIPPED, SS_SHIPPED_PART, SS_PREPARING, SS_SHIPPED_ING, OS_SHIPPED_PART)) &&
 					(in_array($pay_status, array(PS_PAYED, PS_PAYING)) || $payment['is_cod']))
 			{
-// 				if (!in_array($pay_status, array(PS_PAYED)) && $type == 'payed') {
-// 					continue;
-// 				}
+				//if (!in_array($val['pay_status'], array(PS_PAYED)) && $type == 'payed') {
+				//	continue;
+				//}
 				$label_order_status = '待发货';
 				$status_code = 'await_ship';
 			}

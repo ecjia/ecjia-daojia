@@ -103,13 +103,18 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 			if (is_ecjia_error($result)) {
 				RC_Logger::getLogger('error')->info('订单确认【订单id|'.$order_id.'】：'.$result->get_error_message());
 			}
-// 			$result = RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'operation' => 'pay', 'note' => array('action_note' => '收银台确认现金收款')));
-// 			if (is_ecjia_error($result)) {
-// 				RC_Logger::getLogger('error')->info('订单支付【订单id|'.$order_id.'】：'.$result->get_error_message());
-// 			}
+			
 			$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
 			$operate = RC_Loader::load_app_class('order_operate', 'orders');
-			$operate->operate($order, 'pay', '收银台收款');
+			$operate->operate($order, 'pay', '收银台现金收款');
+			
+			//会员店铺消费过，记录为店铺会员
+			if (!empty($order['user_id'])) {
+				if (!empty($order['store_id'])) {
+					RC_Loader::load_app_class('add_storeuser', 'user', false);
+					add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
+				}
+			}
 			
 			/* 更新支付流水记录*/
 			RC_Api::api('payment', 'update_payment_record', [
@@ -157,6 +162,9 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 			
 			/* 记录log */
 			order_action($order['order_sn'], OS_SPLITED, SS_RECEIVED, PS_PAYED, '收银台确认收货');
+			
+			//更新商品销量
+			RC_Api::api('goods', 'update_goods_sales', array('order_id' => $order_id));
 			
 			$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
 			$data = array(
@@ -220,6 +228,14 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 			
 			/* 记录log */
 			order_action($order['order_sn'], OS_SPLITED, SS_RECEIVED, PS_PAYED, '收银台确认收货');
+			
+			//会员店铺消费过，记录为店铺会员
+			if (!empty($order['user_id'])) {
+				if (!empty($order['store_id'])) {
+					RC_Loader::load_app_class('add_storeuser', 'user', false);
+					add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
+				}
+			}
 			
 			$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
 			$data = array(
