@@ -9,7 +9,7 @@
 /*===========================style移植过来的ECJIA-MERCHANT-UI全局样式 START===========================*/
 body{
 	background-color: #e7e7e7;
-	/*font-family: "Open Sans", sans-serif;*/
+    font-family: tahoma, arial, "Microsoft YaHei", "Hiragino Sans GB", "Open Sans", sans-serif;
 	font-weight: 300;
 	scrollbar-face-color: #121212;
 }

@@ -62,7 +62,7 @@
                     </p>
                     <p class="footer-bottom-links">
                         <!-- {foreach from=$ecjia_merchant_shopinfo_list item=val} -->
-                        <a class="data-pjax" href='{url path="merchant/merchant/shopinfo" args="id={$val.article_id}"}'>{$val.title}</a>
+                        <a href='{url path="merchant/merchant/shopinfo" args="id={$val.article_id}"}'>{$val.title}</a>
                         <!-- {/foreach} -->
                     </p>
                 </div>
