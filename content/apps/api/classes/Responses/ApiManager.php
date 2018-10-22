@@ -103,7 +103,7 @@ class ApiManager
 
         }
         else {
-            return new ecjia_error('api_not_instanceof', 'Api Error: ' . $router->getFullClassName . ' does not exist.');
+            return new ecjia_error('api_not_instanceof', 'Api Error: ' . $router->getFullClassName() . ' does not exist.');
         }
 
         return $handle;

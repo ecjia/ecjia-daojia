@@ -212,6 +212,7 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
         $this->device['client'] = $request->header('device-client');
         $this->device['code']	= $request->header('device-code');
         $this->device['udid']	= $request->header('device-udid');
+        $this->device['sn']	    = $request->header('device-sn');
         $this->api_version		= $request->header('api-version');
         $this->api_driver		= $request->header('api-driver');
 
