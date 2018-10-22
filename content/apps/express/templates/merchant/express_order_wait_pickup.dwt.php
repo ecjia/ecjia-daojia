@@ -67,7 +67,7 @@
 					      	<td class="hide-edit-area">
 								{$wait_pickup.express_sn}
 					     	  	<div class="edit-list">
-								  	 <a class="express-order-modal" data-toggle="modal" data-backdrop="static" href="#myModal1" express-id="{$wait_pickup.express_id}" express-order-url='{url path="express/merchant/express_order_detail" args="express_id={$wait_pickup.express_id}{if $type}&type={$type}{/if}"}'  title="查看详情">查看详情</a>
+								  	 <a class="express-order-modal" data-toggle="modal" data-backdrop="static" href="#myModal1" express-id="{$wait_pickup.express_id}" express-order-url='{url path="express/merchant/express_order_detail" args="express_id={$wait_pickup.express_id}{if $platform eq 1}&platform=1{/if}{if $type}&type={$type}{/if}"}'  title="查看详情">查看详情</a>
 								  	 {if $platform eq 1 && $wait_pickup.online_status eq '1'}
 								  	 	&nbsp;|&nbsp;<a class="express-location" data-toggle="modal" data-backdrop="static" href="#myModal3" express-id="{$wait_pickup.express_id}" express-location-url='{url path="express/merchant/express_location" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title="查看路线">查看路线</a>
 								  	 {else}

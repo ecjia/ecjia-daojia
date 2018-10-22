@@ -71,7 +71,7 @@ class mh_express extends ecjia_merchant {
 		RC_Style::enqueue_style('mh_express', RC_App::apps_url('statics/css/mh_express.css', __FILE__));
 		
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工管理', RC_Uri::url('staff/mh_group/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送员管理', RC_Uri::url('staff/mh_express/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送员管理', RC_Uri::url('express/mh_express/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('express', 'express/mh_express.php');
 	}
 	

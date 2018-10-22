@@ -367,6 +367,9 @@ class merchant extends ecjia_merchant {
 		$express_id = intval($_GET['express_id']);
 		$type = trim($_GET['type']);
 		
+		$platform = intval($_GET['platform']);
+		$this->assign('platform', $platform);
+		
 		$express_info = RC_DB::table('express_order')->where('express_id', $express_id)->select('store_id','order_id', 'order_sn', 'delivery_id', 'delivery_sn', 'user_id', 'mobile', 'consignee', 'express_sn', 'distance', 'shipping_fee', 'commision','express_user','express_mobile','from','signed_time','province as eoprovince','city as eocity','district as eodistrict','street as eostreet','address as eoaddress')->first();
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $express_info['store_id'])->select('merchants_name','contact_mobile','province','city','district','street','address')->first();
 		//$users_info = RC_DB::table('users')->where('user_id', $express_info['user_id'])->select('user_name','mobile_phone')->first();
@@ -577,6 +580,7 @@ class merchant extends ecjia_merchant {
         if (empty($delivery_sn)) {
             return $this->showmessage('配送单号不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+       
 
         $express_order = array();
         //$express_order_db = RC_Model::model('express/express_order_viewmodel');
@@ -587,7 +591,14 @@ class merchant extends ecjia_merchant {
         						->leftJoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('eo.store_id'))
         						->leftJoin('order_info as oi', RC_DB::raw('eo.order_id'), '=', RC_DB::raw('oi.order_id'));
 
-        $express_order_db->where(RC_DB::raw('eo.store_id'), $_SESSION['store_id'])->where(RC_DB::raw('eo.express_sn'), $delivery_sn)->where(RC_DB::raw('eo.status'), 1)->where(RC_DB::raw('eo.shipping_code'), 'ship_o2o_express');
+        $platform = intval($_GET['platform']); //1平台配送
+        $shipping_code = !empty($platform) ? 'ship_ecjia_express' : 'ship_o2o_express';
+
+        $express_order_db->where(RC_DB::raw('eo.store_id'), $_SESSION['store_id'])
+        	->where(RC_DB::raw('eo.express_sn'), $delivery_sn)
+        	->where(RC_DB::raw('eo.status'), 1)
+        	->where(RC_DB::raw('eo.shipping_code'), $shipping_code);
+        
         $field = 'eo.*, oi.add_time as order_time, oi.pay_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as merchant_longitude, sf.latitude as merchant_latitude';
         $express_order_info = $express_order_db->select(RC_DB::raw($field))->first();
 
@@ -629,7 +640,11 @@ class merchant extends ecjia_merchant {
                 ));
             }
         }
-        return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/merchant/wait_pickup', array('type' => 'wait_pickup'))));
+        $url = RC_Uri::url('express/merchant/wait_pickup', array('type' => 'wait_pickup'));
+        if (!empty($platform)) {
+      		$url = RC_Uri::url('express/merchant/wait_pickup', array('type' => 'wait_pickup', 'platform' => 1));
+        }
+        return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
     }
 
     //提醒指派
