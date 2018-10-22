@@ -36,6 +36,11 @@ require __DIR__.'/autoload.php';
 
 $royalcms = require_once __DIR__.'/royalcms.php';
 
+if (! is_writable($royalcms->storagePath())) {
+    echo 'Storage path "' . $royalcms->storagePath() . '" no permissions to write.';
+    exit(1);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Run The Royalcms
