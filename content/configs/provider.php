@@ -125,6 +125,7 @@ return array(
     'Ecjia\App\Ucenter\UcenterServiceProvider',
     'Ecjia\App\Upgrade\UpgradeServiceProvider',
     'Ecjia\App\User\UserServiceProvider',
+    'Ecjia\App\User\Integrate\UserIntegrateServiceProvider',
     'Ecjia\App\Weapp\WeappServiceProvider',
     'Ecjia\App\Wechat\WechatServiceProvider',
     'Ecjia\App\Customer\CustomerServiceProvider',
