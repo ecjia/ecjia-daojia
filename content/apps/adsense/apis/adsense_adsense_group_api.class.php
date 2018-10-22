@@ -69,6 +69,10 @@ class adsense_adsense_group_api extends Component_Event_Api {
             return array();
         }
         
+        if (empty($city)) {
+        	$city = 0;
+        }
+        
         RC_Hook::add_filter('filter_adsense_group_data', array($this, 'filter_adsense_group_data'), 9);
         
         $position = new Ecjia\App\Adsense\PositionManage('group', $city);

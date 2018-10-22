@@ -63,6 +63,13 @@ ecjia.admin.cycleimage.cycleimage_info();
 					</div>
 				</div>
 				
+				<div class="control-group formSep">
+					<label class="control-label">图片标题：</label>
+					<div class="controls">
+						<input class="span8" name="ad_desc" type="text" value="{$data.ad_desc}" />
+					</div>
+				</div>
+				
 				<div class="control-group formSep" >
 					<label class="control-label">图片说明：</label>
 					<div class="controls">
