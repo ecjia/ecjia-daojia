@@ -272,6 +272,7 @@ class goods_detail_module extends api_front implements api_interface {
         }
 		
         $data = ecjia_api::transformerData('GOODS', $data);
+        
         $data['unformatted_shop_price'] = $goods['shop_price'];
         
         $groupbuy_info = [];
@@ -471,7 +472,44 @@ class goods_detail_module extends api_front implements api_interface {
         	$data['share_link'] = null;
         }
         $data['goods_brief'] = $goods['goods_brief'];
-
+        
+		//商店设置市场价不显示时，商品详情市场价返回空字符
+		if (ecjia::config('show_marketprice') == '0') {
+			$data['market_price'] = '';
+		}
+		//商品货号是否显示
+		if (ecjia::config('show_goodssn') == '1') {
+			$arr_goods_sn = array('name' => '商品货号', 'value' => $data['goods_sn']);
+			array_push($data['properties'], $arr_goods_sn); 
+			$data['goods_sn'] = '';
+		} else {
+			$data['goods_sn'] = '';
+		}
+		//商品重量是否显示
+		if (ecjia::config('show_goodsweight') == '1') {
+			$arr_goods_weight = array('name' => '商品重量', 'value' => $data['goods_weight']);
+			array_push($data['properties'], $arr_goods_weight);
+			$data['goods_weight'] = '';
+		} else {
+			$data['goods_weight'] = '';
+		}
+		//商品库存是否显示
+		if (ecjia::config('show_goodsnumber') == '1') {
+			$arr_goods_number = array('name' => '商品库存', 'value' => $data['goods_number']);
+			array_push($data['properties'], $arr_goods_number);
+			$data['goods_number'] = '';
+		} else {
+			$data['goods_number'] = '';
+		}
+		//商品上架时间是否显示
+		if (ecjia::config('show_addtime') == '1') {
+			$arr_goods_addtime = array('name' => '商品上架时间', 'value' => $data['add_time']);
+			array_push($data['properties'], $arr_goods_addtime);
+			$data['add_time'] = '';
+		} else {
+			$data['add_time'] = '';
+		}
+        
         return $data;
     }
     
