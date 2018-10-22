@@ -380,7 +380,7 @@ return array(
     'admin/express/pickup'			=> 'express::express/pickup',            //1.5新增
     'admin/express/grab'			=> 'express::express/grab',              //1.5新增
     'admin/express/basicinfo'	    => 'express::express/basicinfo',         //1.5新增
-    'admin/express/user/location'	=> 'express::express/user/location',     //1.5新增
+    'admin/express/user/location'	=> 'express::admin/express/user/location',//1.5新增
     'admin/express/user/info'		=> 'express::express/user/info',         //1.5新增
     'admin/express/user/checkin'    => 'express::express/user/checkin',      //1.5新增
     
@@ -501,11 +501,16 @@ return array(
 	'admin/user/merchant/order/list'                    => 'orders::admin/user/merchant/order/list',            //获取某个会员在某个店铺的订单列表
 	'admin/user/account/deposit'				        => 'user::admin/user/account/deposit',					//后台管理员给会员进行充值申请
 	'admin/user/account/pay'					        => 'user::admin/user/account/pay',						//后台管理员给会员充值支付
+	'admin/user/account/payConfirm'					    => 'user::admin/user/account/payConfirm',				//后台管理员给会员充值，充值订单确认支付
 	'admin/cashier/orders/summary'				        => 'cashier::admin/cashier/orders/summary',				//收银台订单统计
+	'admin/merchant/quickpay/activity/list'	        	=> 'quickpay::admin/merchant/quickpay/activity/list',	//收银台收款检查购物流订单
 	'admin/cashier/quickpay/flow/checkOrder'	        => 'cashier::admin/cashier/quickpay/flow/checkOrder',	//收银台收款检查购物流订单
 	'admin/cashier/quickpay/flow/done'			        => 'cashier::admin/cashier/quickpay/flow/done',			//收银台收款结算
 	'admin/cashier/quickpay/order/pay'			        => 'cashier::admin/cashier/quickpay/order/pay',			//收银台收款支付
+	'admin/cashier/quickpay/order/payConfirm'			=> 'cashier::admin/cashier/quickpay/order/payConfirm',	//收银台收款确认支付
+	'admin/cashier/quickpay/order/list'					=> 'cashier::admin/cashier/quickpay/order/list',		//收银台收款订单记录
 	'admin/cashier/merchant/goods/list'			        => 'cashier::admin/cashier/merchant/goods/list',		//商家商品列表
+	'admin/orders/payment/history'						=> 'orders::admin/orders/payment/history',				//交易流水列表
 		
 	//1.19
 	'bonus/validate'		                            => 'bonus::bonus/validate',		//验证线下红包
