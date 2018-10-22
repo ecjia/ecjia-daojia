@@ -332,7 +332,10 @@
 
             /* ecjia.pjax */
             ecjia.extend({
-                pjax: function (url, callback, options = {}) {
+                pjax: function (url, callback, options) {
+                    if (options == undefined) {
+                        options = {};
+                    }
                     var option = $.extend(ecjia.pjaxoption, options, {
                         url: url,
                         callback: function () {

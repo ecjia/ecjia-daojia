@@ -412,7 +412,11 @@
 		//spec 商品规格
 		//type 加/减
 		//div 删除指定div
-		update_cart: function (rec_id, val, goods_id, checked, store, spec, type = '', div = '', act_id = 0) {
+		update_cart: function (rec_id, val, goods_id, checked, store, spec, type, div, act_id) {
+			type = (type == undefined) ? '' : type;
+			div = (div == undefined) ? '' : div;
+			act_id = (act_id == undefined) ? 0 : act_id;
+
 			var url = $('input[name="update_cart_url"]').val();
 			var store_id = $('input[name="store_id"]').val();
 
