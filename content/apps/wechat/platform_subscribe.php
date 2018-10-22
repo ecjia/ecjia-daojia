@@ -224,7 +224,7 @@ class platform_subscribe extends ecjia_platform
                 RC_DB::table('wechat_tag')->where('wechat_id', $wechat_id)->where('id', $id)->update($data);
 
                 //记录日志
-                ecjia_admin::admin_log($name, 'edit', 'users_tag');
+                $this->admin_log($name, 'edit', 'users_tag');
                 return $this->showmessage(RC_Lang::get('wechat::wechat.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_subscribe/tag')));
             } else {
                 $this->admin_priv('wechat_subscribe_add', ecjia::MSGTYPE_JSON);
@@ -247,7 +247,7 @@ class platform_subscribe extends ecjia_platform
                 $data = array('name' => $name, 'wechat_id' => $wechat_id, 'tag_id' => $tag_id);
                 $id = RC_DB::table('wechat_tag')->insertGetId($data);
                 //记录日志
-                ecjia_admin::admin_log($name, 'add', 'users_tag');
+                $this->admin_log($name, 'add', 'users_tag');
                 if ($id) {
                     return $this->showmessage(RC_Lang::get('wechat::wechat.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_subscribe/tag')));
                 } else {
@@ -289,7 +289,7 @@ class platform_subscribe extends ecjia_platform
         RC_DB::table('wechat_tag')->where('id', $id)->where('tag_id', $tag_id)->where('wechat_id', $wechat_id)->delete();
 
         //记录日志
-        ecjia_admin::admin_log($name, 'remove', 'users_tag');
+        $this->admin_log($name, 'remove', 'users_tag');
         RC_DB::table('wechat_user')->where('wechat_id', $wechat_id)->where('group_id', $tag_id)->update(array('group_id' => 0));
         return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
@@ -304,7 +304,7 @@ class platform_subscribe extends ecjia_platform
         $result = $this->get_user_tags();
         if ($result === true) {
             //记录日志
-            ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.get_user_tag'), 'setup', 'users_tag');
+            $this->admin_log(RC_Lang::get('wechat::wechat.get_user_tag'), 'setup', 'users_tag');
             return $this->showmessage(RC_Lang::get('wechat::wechat.get_tag_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_subscribe/tag')));
         }
     }
@@ -478,7 +478,7 @@ class platform_subscribe extends ecjia_platform
             RC_Cache::app_cache_delete('wechat_user_position_' . $wechat_id, 'wechat');
             RC_Cache::app_cache_delete('wechat_user_list_' . $wechat_id, 'wechat');
 
-            ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.get_user_info'), 'setup', 'users_info');
+            $this->admin_log(RC_Lang::get('wechat::wechat.get_user_info'), 'setup', 'users_info');
             return $this->showmessage(RC_Lang::get('wechat::wechat.get_userinfo_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_subscribe/init', array('action' => 'get_list'))));
         }
     }
@@ -557,7 +557,7 @@ class platform_subscribe extends ecjia_platform
             RC_Cache::app_cache_delete('wechat_blackuser_position_' . $wechat_id, 'wechat');
             RC_Cache::app_cache_delete('wechat_blackuser_list_' . $wechat_id, 'wechat');
 
-            ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.get_user_info'), 'setup', 'users_info');
+            $this->admin_log(RC_Lang::get('wechat::wechat.get_user_info'), 'setup', 'users_info');
             return $this->showmessage(RC_Lang::get('wechat::wechat.get_userinfo_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_subscribe/back_list', array('action' => 'get_list'))));
         }
     }
@@ -709,7 +709,7 @@ class platform_subscribe extends ecjia_platform
                 with(new Ecjia\App\Wechat\Sends\SendCustomMessage($wechat, $wechat_id, $openid))->sendTextMessage($msg);
             }
 
-            ecjia_admin::admin_log($msg, 'send', 'subscribe_message');
+            $this->admin_log($msg, 'send', 'subscribe_message');
             return $this->showmessage(RC_Lang::get('wechat::wechat.send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('send_time' => RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime())));
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -750,7 +750,7 @@ class platform_subscribe extends ecjia_platform
         $data = array('remark' => $remark);
         RC_DB::table('wechat_user')->where('openid', $openid)->where('wechat_id', $wechat_id)->update($data);
 
-        ecjia_admin::admin_log(sprintf(RC_Lang::get('wechat::wechat.edit_remark_to'), $info['nickname'], $remark), 'edit', 'users_info');
+        $this->admin_log(sprintf(RC_Lang::get('wechat::wechat.edit_remark_to'), $info['nickname'], $remark), 'edit', 'users_info');
         return $this->showmessage(RC_Lang::get('wechat::wechat.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_subscribe/subscribe_message', array('uid' => $uid, 'page' => $page))));
     }
 
@@ -792,7 +792,7 @@ class platform_subscribe extends ecjia_platform
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        ecjia_admin::admin_log($sn, 'setup', 'users_info');
+        $this->admin_log($sn, 'setup', 'users_info');
         RC_DB::table('wechat_user')->where('openid', $openid)->where('wechat_id', $wechat_id)->update($data);
 
 //         $this->get_user_tags();
@@ -829,7 +829,7 @@ class platform_subscribe extends ecjia_platform
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        ecjia_admin::admin_log($sn, 'setup', 'users_info');
+        $this->admin_log($sn, 'setup', 'users_info');
         RC_DB::table('wechat_user')->where('openid', $openid)->where('wechat_id', $wechat_id)->update($data);
 
         return $this->showmessage($success_msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_subscribe/back_list')));

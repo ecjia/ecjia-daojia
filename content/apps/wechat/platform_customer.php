@@ -195,7 +195,7 @@ class platform_customer extends ecjia_platform
 
         $id = RC_DB::table('wechat_customer')->insertGetId($data);
 
-        ecjia_admin::admin_log($kf_account, 'add', 'customer');
+        $this->admin_log($kf_account, 'add', 'customer');
         $links[] = array('text' => RC_Lang::get('wechat::wechat.return_customer_list'), 'href' => RC_Uri::url('wechat/platform_customer/init'));
         $links[] = array('text' => RC_Lang::get('wechat::wechat.continue_add_customer'), 'href' => RC_Uri::url('wechat/platform_customer/add'));
 
@@ -337,7 +337,7 @@ class platform_customer extends ecjia_platform
 
         RC_DB::table('wechat_customer')->where('id', $id)->update($data);
 
-        ecjia_admin::admin_log($kf_account, 'edit', 'customer');
+        $this->admin_log($kf_account, 'edit', 'customer');
         return $this->showmessage(RC_Lang::get('wechat::wechat.edit_customer_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_customer/edit', array('id' => $id))));
     }
 
@@ -365,7 +365,7 @@ class platform_customer extends ecjia_platform
 
         RC_DB::table('wechat_customer')->where('id', $id)->where('wechat_id', $wechat_id)->delete();
 
-        ecjia_admin::admin_log($info['kf_account'], 'remove', 'customer');
+        $this->admin_log($info['kf_account'], 'remove', 'customer');
         return $this->showmessage(RC_Lang::get('wechat::wechat.remove_customer_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
@@ -462,7 +462,7 @@ class platform_customer extends ecjia_platform
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        ecjia_admin::admin_log($info['kf_account'], $action, 'customer');
+        $this->admin_log($info['kf_account'], $action, 'customer');
         $data = array(
             'status' => $val,
             'kf_wx' => '',
@@ -498,7 +498,7 @@ class platform_customer extends ecjia_platform
             }
         }
         RC_DB::table('wechat_customer')->where('id', $id)->update($data);
-        ecjia_admin::admin_log($info['kf_account'], 'edit', 'customer');
+        $this->admin_log($info['kf_account'], 'edit', 'customer');
         return $this->showmessage(RC_Lang::get('wechat::wechat.edit_nick_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 

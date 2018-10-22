@@ -212,7 +212,7 @@ class platform_menus extends ecjia_platform
             'sort' => $sort,
         );
         $id = RC_DB::table('wechat_menu')->insertGetId($data);
-        ecjia_admin::admin_log($_POST['name'], 'add', 'menu');
+        $this->admin_log($_POST['name'], 'add', 'menu');
 
         if (!empty($pid)) {
             RC_DB::table('wechat_menu')->where('wechat_id', $wechat_id)->where('id', $pid)->update(array('type' => '', 'key' => '', 'url' => ''));
@@ -363,7 +363,7 @@ class platform_menus extends ecjia_platform
         );
         RC_DB::table('wechat_menu')->where('id', $id)->where('wechat_id', $wechat_id)->update($data);
 
-        ecjia_admin::admin_log($name, 'edit', 'menu');
+        $this->admin_log($name, 'edit', 'menu');
 
         $listdb = $this->get_menuslist();
         $menu_list = $listdb['menu_list'];
@@ -484,7 +484,7 @@ class platform_menus extends ecjia_platform
                 $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
                 $rs = $wechat->menu->add($menu);
 
-                ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.make_menu'), 'setup', 'menu');
+                $this->admin_log(RC_Lang::get('wechat::wechat.make_menu'), 'setup', 'menu');
                 return $this->showmessage(RC_Lang::get('wechat::wechat.make_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
             } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -568,7 +568,7 @@ class platform_menus extends ecjia_platform
                     }
                 }
 
-                ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.get_menu'), 'setup', 'menu');
+                $this->admin_log(RC_Lang::get('wechat::wechat.get_menu'), 'setup', 'menu');
                 return $this->showmessage(RC_Lang::get('wechat::wechat.get_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_menus/init')));
             } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
                 return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -594,7 +594,7 @@ class platform_menus extends ecjia_platform
                 $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
                 $rs = $wechat->menu->destroy();
 
-                ecjia_admin::admin_log(RC_Lang::get('wechat::wechat.clear_menu'), 'setup', 'menu');
+                $this->admin_log(RC_Lang::get('wechat::wechat.clear_menu'), 'setup', 'menu');
                 RC_DB::table('wechat_menu')->where('wechat_id', $wechat_id)->where('id', '>', 0)->update(array('status' => 0));
 
                 return $this->showmessage(RC_Lang::get('wechat::wechat.clear_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_menus/init')));
@@ -623,7 +623,7 @@ class platform_menus extends ecjia_platform
         }
         RC_DB::table('wechat_menu')->where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
-        ecjia_admin::admin_log($info['name'], 'remove', 'menu');
+        $this->admin_log($info['name'], 'remove', 'menu');
         return $this->showmessage(RC_Lang::get('wechat::wechat.remove_menu_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_menus/init')));
     }
 
@@ -644,7 +644,7 @@ class platform_menus extends ecjia_platform
                 return $this->showmessage(RC_Lang::get('wechat::wechat.sort_numeric'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 RC_DB::table('wechat_menu')->where('wechat_id', $wechat_id)->where('id', $id)->update(array('sort' => $sort));
-                ecjia_admin::admin_log($name, 'edit', 'menu');
+                $this->admin_log($name, 'edit', 'menu');
                 return $this->showmessage(RC_Lang::get('wechat::wechat.edit_sort_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('wechat/platform_menus/init')));
             }
         } else {

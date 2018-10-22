@@ -189,7 +189,7 @@ class platform_prize extends ecjia_platform
         // 添加数据
         $message_id = RC_DB::table('custom_message')->insertGetId($data);
 
-        ecjia_admin::admin_log($data['msg'], 'send', 'subscribe_message');
+        $this->admin_log($data['msg'], 'send', 'subscribe_message');
         if ($message_id) {
             return $this->showmessage(RC_Lang::get('wechat::wechat.send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_prize/init')));
         } else {
