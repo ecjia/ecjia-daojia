@@ -796,51 +796,51 @@ function copy_goods_gallery($goods_id, $goodlib_id, $images_data = array()) {
 }
 
 function copy_goodslib_desc($goodlib_id, $goods_id, $goods_desc = '') {
-    if (empty($goods_desc)) {
-        $goods_desc = RC_DB::table('goodslib')->where('goods_id', $goodlib_id)->pluck('goods_desc');
-    }
+//     if (empty($goods_desc)) {
+//         $goods_desc = RC_DB::table('goodslib')->where('goods_id', $goodlib_id)->pluck('goods_desc');
+//     }
     
-    if ($goods_desc) {
-        $goods_desc = stripslashes($goods_desc);
-        //复制替换图
-        preg_match_all('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', $goods_desc, $match);
-        //复制重命名原图
-        foreach($match[2] as $key => $img_url) {
-            $new_file = create_new_filename($img_url, $goods_id);
-            $goods_img = str_replace(RC_Upload::upload_url(), '', $img_url);
-            goods_imageutils::copyImage(RC_Upload::upload_path($goods_img), $new_file['path']);
+//     if ($goods_desc) {
+//         $goods_desc = stripslashes($goods_desc);
+//         //复制替换图
+//         preg_match_all('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', $goods_desc, $match);
+//         //复制重命名原图
+//         foreach($match[2] as $key => $img_url) {
+//             $new_file = create_new_filename($img_url, $goods_id);
+//             $goods_img = str_replace(RC_Upload::upload_url(), '', $img_url);
+//             goods_imageutils::copyImage(RC_Upload::upload_path($goods_img), $new_file['path']);
             
-            $new_match[$key] = $new_file['url'];
-        }
-        //替换更新数据
-        $goods_desc = str_replace($match[2], $new_match, $goods_desc);
-        return update_goods_field($goods_id, array('goods_desc' => $goods_desc));
-    }
+//             $new_match[$key] = $new_file['url'];
+//         }
+//         //替换更新数据
+//         $goods_desc = str_replace($match[2], $new_match, $goods_desc);
+//         return update_goods_field($goods_id, array('goods_desc' => $goods_desc));
+//     }
     
     return true;
 }
 
 function copy_goods_desc($goods_id, $goodlib_id, $goods_desc = '') {
-    if (empty($goods_desc)) {
-        $goods_desc = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_desc');
-    }
+//     if (empty($goods_desc)) {
+//         $goods_desc = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_desc');
+//     }
     
-    if ($goods_desc) {
-        $goods_desc = stripslashes($goods_desc);
-        //复制替换图
-        preg_match_all('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', $goods_desc, $match);
-        //复制重命名原图
-        foreach($match[2] as $key => $img_url) {
-            $new_file = create_new_filename($img_url, $goodlib_id);
-            $goods_img = str_replace(RC_Upload::upload_url(), '', $img_url);
-            goods_imageutils::copyImage(RC_Upload::upload_path($goods_img), $new_file['path']);
+//     if ($goods_desc) {
+//         $goods_desc = stripslashes($goods_desc);
+//         //复制替换图
+//         preg_match_all('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', $goods_desc, $match);
+//         //复制重命名原图
+//         foreach($match[2] as $key => $img_url) {
+//             $new_file = create_new_filename($img_url, $goodlib_id);
+//             $goods_img = str_replace(RC_Upload::upload_url(), '', $img_url);
+//             goods_imageutils::copyImage(RC_Upload::upload_path($goods_img), $new_file['path']);
             
-            $new_match[$key] = $new_file['url'];
-        }
-        //替换更新数据
-        $goods_desc = str_replace($match[2], $new_match, $goods_desc);
-        return update_goodslib_field($goodlib_id, array('goods_desc' => $goods_desc));
-    }
+//             $new_match[$key] = $new_file['url'];
+//         }
+//         //替换更新数据
+//         $goods_desc = str_replace($match[2], $new_match, $goods_desc);
+//         return update_goodslib_field($goodlib_id, array('goods_desc' => $goods_desc));
+//     }
     
     return true;
 }
