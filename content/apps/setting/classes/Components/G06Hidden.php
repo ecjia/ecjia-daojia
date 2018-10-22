@@ -145,6 +145,8 @@ class G06Hidden extends ComponentAbstract
             //v1.21.0新增
             ['code' => 'invitee_rule_explain', 'value' => "1、奖励仅限新用户领取；\n2、每位新用户仅限领取1次，相同设备、手机号等均视为同一用户；\n3、奖励一经领取后，不可删除，不可提现，不可转赠；\n4、新用户领取的奖励查看方式：【我的－我的钱包】查看；\n5、如有其他疑问请咨询官网客服人员。", 'options' => ['type' => 'text']],
             ['code' => 'pc_enabled_member', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
+            //v1.22.0新增
+            ['code' => 'home_visual_page', 'value' => 'a:9:{i:0;s:15:"home_cycleimage";i:1;s:13:"home_shortcut";i:2;s:25:"scanqrcode_and_membercode";i:3;s:24:"home_complex_adsense_one";i:4;s:24:"home_complex_adsense_two";i:5;s:9:"new_goods";i:6;s:14:"groupbuy_goods";i:7;s:10:"best_goods";i:8;s:13:"promote_goods";}', 'options' => ['type' => 'text']],
         ];
 
         return $data;
