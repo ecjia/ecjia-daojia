@@ -273,6 +273,13 @@ return array(
     'CreateGoodslibProductsTable' => $contentDir . '/database/migrations/2018_08_10_141509_create_goodslib_products_table.php',
     'AddGoodslibIdToGoods' => $contentDir . '/database/migrations/2018_08_10_141644_add_goodslib_id_to_goods.php',
     'AlterUserIdToMarketActivityLotteryTable' => $contentDir . '/database/migrations/2018_09_06_114738_alter_user_id_to_market_activity_lottery_table.php',
+    'CreateCashierPendorderTable' => $contentDir . '/database/migrations/2018_10_20_115318_create_cashier_pendorder_table.php',
+    'CreateStoreUsersTable' => $contentDir . '/database/migrations/2018_10_20_140126_create_store_users_table.php',
+    'CreateCashierScalesTable' => $contentDir . '/database/migrations/2018_10_20_140809_create_cashier_scales_table.php',
+    'AddPendorderIdToCartTable' => $contentDir . '/database/migrations/2018_10_20_141444_add_pendorder_id_to_cart_table.php',
+    'AddCostPriceAndGoodsBarcodeToGoodsTable' => $contentDir . '/database/migrations/2018_10_20_141940_add_cost_price_and_goods_barcode_to_goods_table.php',
+    'AddAdDescToAdTable' => $contentDir . '/database/migrations/2018_10_20_145251_add_ad_desc_to_ad_table.php',
+    'AddFromTypeAndFromValueTable' => $contentDir . '/database/migrations/2018_10_20_145423_add_from_type_and_from_value_table.php',
 
     
     // seeder
