@@ -200,10 +200,10 @@ class goods_list {
 			}
 		}
 		
-		/*是否是收银台请求；非收银台请求过滤散装商品*/
-		if (empty($filter['is_cashdesk'])) {
+		/*是否是收银台请求；非收银台请求过滤散装商品和收银台商品*/
+		if (empty($filter['need_cashier_goods'])){
 			$where[] = "(g.extension_code is null or g.extension_code ='')";
-			$cache_key .= '-is_cashdesk-' . $filter['is_cashdesk'];
+			$cache_key .= '-need_cashier_goods-' . $filter['need_cashier_goods'];
 		}
 		
 		if (isset($filter['merchant_cat_id']) && !empty($filter['merchant_cat_id']) && isset($filter['store_id']) && !empty($filter['store_id']) ) {
@@ -481,6 +481,12 @@ class goods_list {
 	            $cache_key .= '-store-' . $filter['store_id'];
 	        }
 	    }
+	    
+	    /*是否是收银台请求；非收银台请求过滤散装商品和收银台商品*/
+	    if (empty($filter['need_cashier_goods'])){
+	    	$where[] = "(g.extension_code is null or g.extension_code ='')";
+	    	$cache_key .= '-need_cashier_goods-' . $filter['need_cashier_goods'];
+	    }
 	    	
 	    if (isset($filter['merchant_cat_id']) && !empty($filter['merchant_cat_id']) && isset($filter['store_id']) && !empty($filter['store_id']) ) {
 	        $merchant_cat_list = RC_DB::table('merchants_category')
@@ -643,6 +649,7 @@ class goods_list {
 	        if (!empty($data)) {
 	            RC_Loader::load_app_func('admin_goods', 'goods');
 	            foreach ($data as $key => $row) {
+	                $row['attr_price'] = 0;
 	                if ($row['promote_price'] > 0) {
 	                    $promote_price = bargain_price($row['promote_price'], $row['promote_start_date'], $row['promote_end_date']);
 	                } else {
@@ -654,12 +661,18 @@ class goods_list {
 	                    $arr[$key]['goods_name'] = $row['goods_name'];
 	                }
 	                $row['goods_attr'] = explode('|', $row['goods_attr']);
-	                $attr_list = RC_DB::table('goods_attr')->select('attr_value')->whereIn('goods_attr_id', $row['goods_attr'])->get();
+	                $attr_list = RC_DB::table('goods_attr')->select('attr_value', 'attr_price')->whereIn('goods_attr_id', $row['goods_attr'])->get();
 					foreach ($attr_list AS $attr) {
 						$row['goods_attr_name'] .= ' [' . $attr['attr_value'] . '] ';
+						$row['attr_price'] += $attr['attr_price'];
 					}
 					if ($row['store_id'] > 0) {
 						$store_logo = self::get_store_logo($row['store_id']);
+					}
+					if ($row['attr_price'] > 0) {
+					    $row['market_price'] += $row['attr_price'];
+					    $row['shop_price'] += $row['attr_price'];
+					    $promote_price = ($promote_price > 0) ? ($promote_price+$row['attr_price']) : 0;
 					}
 	                $arr[$key]['goods_id']		= $row['goods_id'];
 	                $arr[$key]['name']			= $row['goods_name'];
