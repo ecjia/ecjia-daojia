@@ -207,7 +207,7 @@ class storepickup_flow_checkOrder_module extends api_front implements api_interf
 		
 		$out['allow_can_invoice']	= ecjia::config('can_invoice');//能否开发票
 		/* 如果能开发票，取得发票内容列表 */
-		if ((ecjia_config::has('can_invoice') || ecjia::config('can_invoice') == '1')
+		if ((ecjia_config::has('can_invoice') && ecjia::config('can_invoice') == '1')
 		&& ecjia_config::has('invoice_content')
 		&& $flow_type != CART_EXCHANGE_GOODS)
 		{

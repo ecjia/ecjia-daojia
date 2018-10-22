@@ -508,9 +508,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		$out['bonus']				= !empty($bonus_list) ? $bonus_list : array();//红包
 		$out['allow_can_invoice']	= ecjia::config('can_invoice');//能否开发票
 		/* 如果能开发票，取得发票内容列表 */
-		if ((ecjia_config::has('can_invoice') || ecjia::config('can_invoice') == '1')
-				&& ecjia_config::has('invoice_content')
-				 && $flow_type != CART_EXCHANGE_GOODS)
+		if ((ecjia_config::has('can_invoice') && ecjia::config('can_invoice') == '1') && ecjia_config::has('invoice_content') && $flow_type != CART_EXCHANGE_GOODS)
 		{
 			$inv_content_list = explode("\n", str_replace("\r", '', ecjia::config('invoice_content')));
 			
