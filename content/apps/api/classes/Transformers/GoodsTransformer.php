@@ -76,6 +76,7 @@ class GoodsTransformer extends Transformer
             "shop_price"    => $data['shop_price'] > 0 ? ecjia_price_format($data['shop_price']) : __('免费'),
             "integral"      => $data['integral'],
             "click_count"   => $data['click_count'],
+            "sales_volume"  => $data['sales_volume'],
             "brand_id"      => $data['brand_id'],
             // fix 没有goods_number值
             "goods_number"  => is_numeric($data['goods_number']) ? $data['goods_number'] : 65535,
@@ -91,6 +92,7 @@ class GoodsTransformer extends Transformer
                 'url'       => $photoTransformer->transformer($data['original_img']),
                 'small'     => $photoTransformer->transformer($data['goods_thumb'])
             ),
+            "is_on_sale"    => $data['is_on_sale'],
             "rank_prices"   => array(),
             "pictures"      => array(),
             "properties"    => array(),
