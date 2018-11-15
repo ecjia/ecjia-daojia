@@ -35,7 +35,11 @@ class PayServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(dirname(__DIR__).'/config/pay.php', 'pay');
+        $this->mergeConfigFrom($this->guessPackagePath('royalcms/pay').'/config/pay.php', 'pay');
+
+        $this->royalcms->singleton('pay', function () {
+            return new Pay([]);
+        });
 
         $this->royalcms->singleton('pay.alipay', function () {
             return Pay::alipay(config('pay.alipay'));
@@ -54,6 +58,6 @@ class PayServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['pay.alipay', 'pay.wechat'];
+        return ['pay', 'pay.alipay', 'pay.wechat'];
     }
 }

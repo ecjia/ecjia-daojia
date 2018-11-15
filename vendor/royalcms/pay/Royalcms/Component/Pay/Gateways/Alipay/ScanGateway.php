@@ -3,6 +3,7 @@
 namespace Royalcms\Component\Pay\Gateways\Alipay;
 
 use Royalcms\Component\Pay\Contracts\GatewayInterface;
+use Royalcms\Component\Pay\Contracts\PayloadInterface;
 use Royalcms\Component\Pay\Log;
 use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Pay\Support\Config;
@@ -38,7 +39,7 @@ class ScanGateway implements GatewayInterface
      *
      * @return Collection
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, PayloadInterface $payload)
     {
         $payload['method'] = $this->getMethod();
         $payload['biz_content'] = json_encode(array_merge(

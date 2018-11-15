@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Royalcms\Component\Pay\Contracts\GatewayApplicationInterface;
 use Royalcms\Component\Pay\Contracts\GatewayInterface;
+use Royalcms\Component\Pay\Contracts\PayloadInterface;
 use Royalcms\Component\Pay\Exceptions\InvalidGatewayException;
 use Royalcms\Component\Pay\Exceptions\InvalidSignException;
 use Royalcms\Component\Pay\Gateways\Alipay\Support;
@@ -81,7 +82,9 @@ class Alipay implements GatewayApplicationInterface
      */
     public function __call($method, $params)
     {
-        return $this->pay($method, ...$params);
+        $params = array_unshift($method);
+
+        return call_user_func_array([$this, 'pay'], $params);
     }
 
     /**
@@ -94,7 +97,7 @@ class Alipay implements GatewayApplicationInterface
      *
      * @return Response|Collection
      */
-    public function pay($gateway, $params = [])
+    public function pay($gateway, PayloadInterface $params)
     {
         foreach (['return_url', 'notify_url'] as $field) {
             if (isset($params[$field])) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\LaravelPay\Facades;
+namespace Royalcms\Component\Pay\Facades;
 
 use Royalcms\Component\Support\Facades\Facade;
 
@@ -13,7 +13,7 @@ class Pay extends Facade
      */
     public static function getFacadeAccessor()
     {
-        return 'pay.alipay';
+        return 'pay';
     }
 
     /**

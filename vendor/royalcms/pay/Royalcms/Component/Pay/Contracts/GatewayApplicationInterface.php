@@ -8,11 +8,11 @@ interface GatewayApplicationInterface
      * To pay.
      *
      * @param string $gateway
-     * @param array  $params
+     * @param PayloadInterface  $params
      *
      * @return \Royalcms\Component\Support\Collection|\Symfony\Component\HttpFoundation\Response
      */
-    public function pay($gateway, $params);
+    public function pay($gateway, PayloadInterface $params);
 
     /**
      * Query an order.

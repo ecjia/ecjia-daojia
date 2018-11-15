@@ -9,6 +9,7 @@ use Royalcms\Component\Pay\Gateways\Wechat;
 use Royalcms\Component\Pay\Support\Config;
 use Royalcms\Component\Support\Facades\Log;
 use Royalcms\Component\Support\Str;
+use Closure;
 
 /**
  * @method static Alipay alipay(array $config) 支付宝
@@ -22,6 +23,13 @@ class Pay
      * @var Config
      */
     protected $config;
+
+    /**
+     * The registered custom driver creators.
+     *
+     * @var array
+     */
+    protected $customCreators = [];
 
     /**
      * Bootstrap.
@@ -43,11 +51,14 @@ class Pay
      *
      * @return GatewayApplicationInterface
      */
-    public static function __callStatic($method, $params)
+    public function __call($method, $params)
     {
-        $app = new self(...$params);
+        if (is_array($params[0])) {
+            $config = $params[0];
+        }
+        $this->config = new Config($config);
 
-        return $app->create($method);
+        return $this->create($method);
     }
 
     /**
@@ -64,13 +75,21 @@ class Pay
     {
         !$this->config->has('log.file') ?: $this->registerLog();
 
-        $gateway = __NAMESPACE__.'\\Gateways\\'.Str::studly($method);
+        if (isset($this->customCreators[$method])) {
 
-        if (class_exists($gateway)) {
-            return self::make($gateway);
+            return $this->callCustomCreator($method, $this->config);
+
+        } else {
+
+            $gateway = __NAMESPACE__.'\\Gateways\\'.Str::studly($method);
+
+            if (class_exists($gateway)) {
+                return self::make($gateway);
+            }
+
+            throw new InvalidGatewayException("Gateway [{$method}] Not Exists");
+
         }
-
-        throw new InvalidGatewayException("Gateway [{$method}] Not Exists");
     }
 
     /**
@@ -82,7 +101,7 @@ class Pay
      *
      * @return GatewayApplicationInterface
      */
-    protected function make($gateway)
+    public function make($gateway)
     {
         $app = new $gateway($this->config);
 
@@ -110,4 +129,30 @@ class Pay
 
         Log::setLogger($logger);
     }
+
+    /**
+     * Call a custom driver creator.
+     *
+     * @param  array  $config
+     * @return mixed
+     */
+    protected function callCustomCreator($driver, Config $config)
+    {
+        return $this->customCreators[$driver]($config);
+    }
+
+    /**
+     * Register a custom driver creator Closure.
+     *
+     * @param  string    $driver
+     * @param  \Closure  $callback
+     * @return $this
+     */
+    public function extend($driver, Closure $callback)
+    {
+        $this->customCreators[$driver] = $callback->bindTo($this, $this);
+
+        return $this;
+    }
+
 }
