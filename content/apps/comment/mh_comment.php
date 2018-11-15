@@ -74,7 +74,7 @@ class mh_comment extends ecjia_merchant {
 		RC_Style::enqueue_style('default-skin', RC_App::apps_url('statics/lib/photoswipe/css/default-skin/default-skin.css', __FILE__), array());
 		
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('评论管理', RC_Uri::url('comment/mh_comment/init')));
-		ecjia_merchant_screen::get_current_screen()->set_parentage('comment', 'comment/mh_comment.php');
+		ecjia_merchant_screen::get_current_screen()->set_parentage('order', 'order/merchant.php');
 	}
 
 	
