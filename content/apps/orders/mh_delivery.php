@@ -445,7 +445,7 @@ class mh_delivery extends ecjia_merchant
             $staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
             $express_from = !empty($staff_id) ? 'assign' : 'grab';
             $express_data = array(
-                'express_sn' => date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT),
+                'express_sn' => ecjia_order_express_sn(),
                 'order_sn' => $delivery_order['order_sn'],
                 'order_id' => $delivery_order['order_id'],
                 'delivery_id' => $delivery_order['delivery_id'],

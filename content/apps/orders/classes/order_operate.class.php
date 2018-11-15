@@ -304,7 +304,7 @@ class order_operate {
 	
 		/* 生成发货单 */
 		/* 获取发货单号和流水号 */
-		$delivery['delivery_sn']	= get_delivery_sn();
+		$delivery['delivery_sn']	= ecjia_order_delivery_sn();
 		$delivery_sn = $delivery['delivery_sn'];
 		/* 获取当前操作员 */
 		$delivery['action_user']	= $_SESSION['admin_name'];
@@ -447,6 +447,7 @@ class order_operate {
 // 		    RC_Api::api('commission', 'add_bill_detail', array('store_id' => $order['store_id'], 'order_type' => 'buy', 'order_id' => $order['order_id'], 'order_amount' => $order['order_amount']));
 		    RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'buy', 'order_id' => $order['order_id']));
 		    RC_Api::api('goods', 'update_goods_sales', array('order_id' => $order['order_id']));
+		    RC_Api::api('customer', 'store_user_buy', array('store_id' => $order['store_id'], 'user_id' => $order['user_id']));
 		    
 		    return true;
 		} else {

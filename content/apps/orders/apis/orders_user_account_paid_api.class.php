@@ -209,6 +209,9 @@ class orders_user_account_paid_api extends Component_Event_Api {
 			Ecjia\App\Orders\SendPickupCode::send_pickup_code($order_info);
 		}
 		
+		//更新商家会员
+		RC_Api::api('customer', 'store_user_buy', array('store_id' => $order_info['store_id'], 'user_id' => $order_info['user_id']));
+		
 	    /* 客户付款短信提醒 */
         $staff_user = RC_DB::table('staff_user')->where('store_id', $order_info['store_id'])->where('parent_id', 0)->first();
 		if (!empty($staff_user['mobile'])) {

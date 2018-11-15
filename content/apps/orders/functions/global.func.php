@@ -1211,7 +1211,7 @@ function merge_order($from_order_sn, $to_order_sn) {
         $order['order_amount'] += $order['pay_fee'];
     }
     /* 插入订单表 */
-    $order['order_sn'] = get_order_sn();
+    $order['order_sn'] = ecjia_order_buy_sn();
     $order_id = RC_Model::model('orders/order_info_model')->insert(rc_addslashes($order));
     if (!$order_id) {
         return ecjia_front::$controller->showmessage(RC_Lang::get('orders::order.order_merge_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

@@ -756,7 +756,7 @@ class mh_validate_order extends ecjia_merchant {
 		
 		/* 生成发货单 */
 		/* 获取发货单号和流水号 */
-		$delivery['delivery_sn']	= get_delivery_sn();
+		$delivery['delivery_sn']	= ecjia_order_delivery_sn();
 		$delivery_sn = $delivery['delivery_sn'];
 		/* 获取当前操作员 */
 		$delivery['action_user']	= $_SESSION['staff_name'];

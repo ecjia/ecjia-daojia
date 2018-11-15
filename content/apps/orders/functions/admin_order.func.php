@@ -291,13 +291,13 @@ function order_fee($order, $goods, $consignee, $cart_id = array()) {
         $total['market_price'] += $val['market_price'] * $val['goods_number'];
         $area_id = $consignee['province'];
         //多店铺开启库存管理以及地区后才会去判断
-        if ($area_id > 0) {
-            $warehouse_db = RC_Loader::load_app_model('warehouse_model', 'warehouse');
-            $warehouse = $warehouse_db->where(array('regionId' => $area_id))->find();
-            $warehouse_id = $warehouse['parent_id'];
-            $goods[$key]['warehouse_id'] = $warehouse_id;
-            $goods[$key]['area_id'] = $area_id;
-        }
+//         if ($area_id > 0) {
+//             $warehouse_db = RC_Loader::load_app_model('warehouse_model', 'warehouse');
+//             $warehouse = $warehouse_db->where(array('regionId' => $area_id))->find();
+//             $warehouse_id = $warehouse['parent_id'];
+//             $goods[$key]['warehouse_id'] = $warehouse_id;
+//             $goods[$key]['area_id'] = $area_id;
+//         }
     }
     $total['saving'] = $total['market_price'] - $total['goods_price'];
     $total['save_rate'] = $total['market_price'] ? round($total['saving'] * 100 / $total['market_price']) . '%' : 0;
@@ -511,15 +511,7 @@ function update_order($order_id, $order) {
     }
     return $db_order_info->update($order);
 }
-/**
-* 得到新订单号
-* @return  string
-*/
-function get_order_sn() {
-    /* 选择一个随机的方案 */
-    mt_srand((double) microtime() * 1000000);
-    return date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-}
+
 /**
 * 取得用户信息
 * @param   int	 $user_id	用户id
@@ -874,15 +866,7 @@ function order_bonus($order_id) {
     }
     return $list;
 }
-/**
-* 得到新发货单号
-* @return  string
-*/
-function get_delivery_sn() {
-    /* 选择一个随机的方案 */
-    mt_srand((double) microtime() * 1000000);
-    return date('YmdHi') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-}
+
 /**
  * 记录订单操作记录
  *

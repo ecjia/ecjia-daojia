@@ -707,7 +707,7 @@ class admin_order_delivery extends ecjia_admin {
             $staff_id = 0;
             $express_from = 'grab';
             $express_data = array(
-                'express_sn' 	=> date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT),
+                'express_sn' 	=> ecjia_order_express_sn(),
                 'order_sn'		=> $delivery_order['order_sn'],
                 'order_id'		=> $delivery_order['order_id'],
                 'delivery_id'	=> $delivery_order['delivery_id'],

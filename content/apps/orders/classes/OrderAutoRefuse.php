@@ -102,7 +102,7 @@ class OrderAutoRefuse
     	}
     	
     	//退款编号
-    	$refund_sn = order_refund::get_refund_sn();
+    	$refund_sn = ecjia_order_refund_sn();
     	
     	//仅退款
     	$refund_type = 'refund';

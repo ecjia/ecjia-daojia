@@ -168,7 +168,7 @@ class admin_orders_quickpay_module extends api_admin implements api_interface {
 		$order['parent_id'] = $parent_id;
 
 		/* 插入订单表 */
-		$order['order_sn'] = get_order_sn(); // 获取新订单号
+		$order['order_sn'] = ecjia_order_buy_sn(); // 获取新订单号
 
 		$db_order_info = RC_Loader::load_app_model('order_info_model','orders');
 		$new_order_id = $db_order_info->insert($order);

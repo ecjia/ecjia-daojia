@@ -361,7 +361,10 @@ class merchant extends ecjia_merchant
         if (empty($order) || is_ecjia_error($order) || $order['store_id'] != $_SESSION['store_id']) {
             return $this->showmessage(__('无法找到对应的订单！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
-
+        
+        $order_id = $order['order_id'];
+        $order_sn = $order['order_sn'];
+        
         /* 根据订单是否完成检查权限 */
         if (order_finished($order)) {
             $this->admin_priv('order_view_finished');
@@ -1240,7 +1243,7 @@ class merchant extends ecjia_merchant
                 'from_ad' => 0,
                 'referer' => RC_Lang::get('orders::order.admin'),
             );
-            $order['order_sn'] = get_order_sn();
+            $order['order_sn'] = ecjia_order_buy_sn();
             $order_id = $this->db_order_info->insert($order);
             if (!$order_id) {
                 return $this->showmessage(__('订单生成失败！请重新尝试！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -2804,6 +2807,10 @@ class merchant extends ecjia_merchant
             if ($order['order_status'] != OS_UNCONFIRMED && ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
                 change_order_goods_storage($order_id, true, SDT_PLACE);
             }
+            
+            //更新商家会员
+            RC_Api::api('customer', 'store_user_buy', array('store_id' => $order['store_id'], 'user_id' => $order['user_id']));
+            
             //订单已接单短信通知
             if (!empty($order['user_id'])) {
                 $user_info = RC_DB::table('users')->where('user_id', $order['user_id'])->select('mobile_phone', 'user_name')->first();
@@ -3083,7 +3090,7 @@ class merchant extends ecjia_merchant
 
             /* 生成发货单 */
             /* 获取发货单号和流水号 */
-            $delivery['delivery_sn'] = get_delivery_sn();
+            $delivery['delivery_sn'] = ecjia_order_delivery_sn();
             $delivery_sn = $delivery['delivery_sn'];
             /* 获取当前操作员 */
             $delivery['action_user'] = $_SESSION['staff_name'];
@@ -3744,7 +3751,7 @@ class merchant extends ecjia_merchant
         }
 
         //退款编号
-        $refund_sn = order_refund::get_refund_sn();
+        $refund_sn = ecjia_order_refund_sn();
         if ($refund_type == 'refund') { //仅退款
             $return_status = 0;
             $refund_status = 1;
@@ -3983,7 +3990,7 @@ class merchant extends ecjia_merchant
         }
 
         //退款编号
-        $refund_sn = order_refund::get_refund_sn();
+        $refund_sn = ecjia_order_refund_sn();
 
         //仅退款
         $refund_type = 'refund';
@@ -4321,7 +4328,7 @@ class merchant extends ecjia_merchant
 
         /* 生成发货单 */
         /* 获取发货单号和流水号 */
-        $delivery['delivery_sn'] = get_delivery_sn();
+        $delivery['delivery_sn'] = ecjia_order_delivery_sn();
         $delivery_sn = $delivery['delivery_sn'];
         /* 获取当前操作员 */
         $delivery['action_user'] = $_SESSION['staff_name'];
@@ -4730,7 +4737,7 @@ class merchant extends ecjia_merchant
             $staff_id = isset($_POST['staff_id']) ? intval($_POST['staff_id']) : 0;
             $express_from = !empty($staff_id) ? 'assign' : 'grab';
             $express_data = array(
-                'express_sn' => date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT),
+                'express_sn' => ecjia_order_express_sn(),
                 'order_sn' => $delivery_order['order_sn'],
                 'order_id' => $delivery_order['order_id'],
                 'delivery_id' => $delivery_order['delivery_id'],

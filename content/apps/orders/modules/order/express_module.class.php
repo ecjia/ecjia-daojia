@@ -179,7 +179,7 @@ class order_express_module extends api_front implements api_interface {
 		                'shipping_name'		=> $val['shipping_name'],
 		                'shipping_code'     => $shipping_info['shipping_code'],
 		                'shipping_number'	=> $val['invoice_no'],
-		                'shipping_status' => !empty($data['shipping_status']) ? $data['shipping_status'] : '',
+		                'shipping_status' => !empty($data['state']) ? $data['state'] : '',
 		                'label_shipping_status' => $shipping_info['shipping_code'] == 'ship_no_express' ? '您当前选择的物流为【无需物流】，因此该订单暂无运单编号和物流状态' : (!empty($data['state_label']) ? $data['state_label'] : ''),
 		                'sign_time_formated' => !empty($data['sign_time_formated']) ? $data['sign_time_formated'] : '',
 		                'content'			=> !empty($data['content']) ? $data['content'] : array('time' => 'error', 'context' => '暂无物流信息'),

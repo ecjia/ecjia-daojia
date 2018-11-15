@@ -259,7 +259,7 @@ class admin_orders_operate_delivery_module extends api_admin implements api_inte
 		
 		/* 生成发货单 */
 		/* 获取发货单号和流水号 */
-		$_delivery['delivery_sn']	= get_delivery_sn();
+		$_delivery['delivery_sn']	= ecjia_order_delivery_sn();
 		$delivery_sn				= $_delivery['delivery_sn'];
 		/* 获取当前操作员 */
 		$_delivery['action_user']	= $_SESSION['admin_name'];
@@ -657,7 +657,7 @@ class admin_orders_operate_delivery_module extends api_admin implements api_inte
             $staff_id = 0;
             $express_from = 'grab';
             $express_data = array(
-                'express_sn' 	=> date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT),
+                'express_sn' 	=> ecjia_order_express_sn(),
                 'order_sn'		=> $delivery_order['order_sn'],
                 'order_id'		=> $delivery_order['order_id'],
                 'delivery_id'	=> $delivery_order['delivery_id'],

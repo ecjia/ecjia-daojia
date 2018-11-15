@@ -191,6 +191,9 @@ class orders_buy_order_paid_api extends Component_Event_Api {
         if (is_ecjia_error($res)) {
             RC_Logger::getLogger('error')->error($res->get_error_message());
         }
+        
+        //更新商家会员
+        RC_Api::api('customer', 'store_user_buy', array('store_id' => $order['store_id'], 'user_id' => $order['user_id']));
 	    
 	    /* 客户付款通知（默认通知店长）*/
 	    /* 获取店长的记录*/

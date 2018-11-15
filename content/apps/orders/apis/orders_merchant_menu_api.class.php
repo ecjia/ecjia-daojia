@@ -72,6 +72,10 @@ class orders_merchant_menu_api extends Component_Event_Api
             ecjia_merchant::make_admin_menu('11_delivery_order', __('发货单列表'), RC_Uri::url('orders/mh_delivery/init'), 11)->add_purview('delivery_view')->add_icon('fa-check-square'),
             ecjia_merchant::make_admin_menu('12_back_order', __('退货单列表'), RC_Uri::url('orders/mh_back/init'), 12)->add_purview('back_view')->add_icon('fa-undo'),
 
+            ecjia_merchant::make_admin_menu('divider', '', '', 13)->add_purview(array('mh_comment_manage', 'mh_appeal_manage')),
+
+            ecjia_merchant::make_admin_menu('14_comment_list', __('评论列表'), RC_Uri::url('comment/mh_comment/init'), 14)->add_purview('mh_comment_manage')->add_icon('fa-comment'), 
+			ecjia_merchant::make_admin_menu('15_appeal_list', __('申诉列表'), RC_Uri::url('comment/mh_appeal/init'), 15)->add_purview('mh_appeal_manage')->add_icon('fa-exclamation-circle')
         );
         $menus->add_submenu($submenus);
 

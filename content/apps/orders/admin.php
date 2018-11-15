@@ -84,7 +84,7 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
-        RC_Script::enqueue_script('orders', RC_Uri::home_url('content/apps/orders/statics/js/orders.js'));
+        RC_Script::enqueue_script('orders', RC_App::apps_url('statics/js/orders.js', __FILE__));
         RC_Script::enqueue_script('order_delivery', RC_App::apps_url('statics/js/order_delivery.js', __FILE__));
         RC_Script::localize_script('orders', 'js_lang', RC_Lang::get('orders::order.js_lang'));
         RC_Style::enqueue_style('orders', RC_App::apps_url('statics/css/admin_orders.css', __FILE__), array());
@@ -1026,7 +1026,7 @@ class admin extends ecjia_admin
                 'from_ad' => 0,
                 'referer' => RC_Lang::get('orders::order.admin'),
             );
-            $order['order_sn'] = get_order_sn();
+            $order['order_sn'] = ecjia_order_buy_sn();
 
             $order_id = RC_DB::table('order_info')->insertGetId($order);
 
@@ -2789,7 +2789,7 @@ class admin extends ecjia_admin
 
             /* 生成发货单 */
             /* 获取发货单号和流水号 */
-            $delivery['delivery_sn'] = get_delivery_sn();
+            $delivery['delivery_sn'] = ecjia_order_delivery_sn();
             $delivery_sn = $delivery['delivery_sn'];
             /* 获取当前操作员 */
             $delivery['action_user'] = $_SESSION['admin_name'];
