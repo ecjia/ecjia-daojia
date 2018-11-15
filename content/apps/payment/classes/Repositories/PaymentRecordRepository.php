@@ -70,7 +70,7 @@ class PaymentRecordRepository extends AbstractRepository
         $where = array(
         	'order_sn'      => $orderSn,
             'trade_type'    => $type,
-            'pay_status'    => 0,
+            'pay_status'    => PayConstant::PAYMENT_RECORD_STATUS_WAIT,
             'total_fee'     => $amount,
         );
         $result = $this->findWhere($where);
@@ -170,7 +170,7 @@ class PaymentRecordRepository extends AbstractRepository
             'update_time' => RC_Time::gmtime(),
         );
         
-        return $this->getModel()->where('order_trade_no', $orderTradeNo)->where('pay_status', 0)->update($attributes);
+        return $this->getModel()->where('order_trade_no', $orderTradeNo)->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_WAIT)->update($attributes);
     }
     
     /**
@@ -189,6 +189,61 @@ class PaymentRecordRepository extends AbstractRepository
         
         return $this->getModel()->where('order_trade_no', $orderTradeNo)->update($attributes);
     }
+
+    /**
+     * 更新渠道信息
+     *
+     * @param number $orderTradeNo  订单编号
+     * @param array $params
+     */
+    public function updateChannelPayment($orderTradeNo, array $params)
+    {
+        $attributes = array(
+            'payer_uid'             => array_get($params, 'payer_uid'),
+            'payer_login'           => array_get($params, 'payer_login'),
+            'subject'               => array_get($params, 'subject'),
+            'operator'              => array_get($params, 'operator'),
+            'channel_payway'        => array_get($params, 'channel_payway'),
+            'channel_payway_name'   => array_get($params, 'channel_payway_name'),
+            'channel_sub_payway'    => array_get($params, 'channel_sub_payway'),
+            'channel_trade_no'      => array_get($params, 'channel_trade_no'),
+            'channel_payment_list'  => serialize(array_get($params, 'channel_payment_list')),
+            'update_time'           => RC_Time::gmtime(),
+        );
+
+        $attributes = array_filter($attributes, function ($value) {
+            return ($value == '' || is_null($value)) ? false : true;
+        });
+
+        return $this->getModel()->where('order_trade_no', $orderTradeNo)->update($attributes);
+    }
+
+    /**
+     * 更新订单交易失败记录
+     *
+     * @param $orderTradeNo
+     * @param array $params
+     */
+    public function updateOrderPayFail($orderTradeNo, array $params)
+    {
+        $attributes = array(
+            'trade_no'              => array_get($params, 'trade_no'),
+            'channel_payway'        => array_get($params, 'channel_payway'),
+            'channel_payway_name'   => array_get($params, 'channel_payway_name'),
+            'channel_trade_no'      => array_get($params, 'channel_trade_no'),
+            'last_error_message'    => array_get($params, 'last_error_message'),
+            'last_error_time'       => array_get($params, 'last_error_time'),
+            'pay_status'            => array_get($params, 'pay_status'),
+        );
+
+        $attributes = array_filter($attributes, function ($value) {
+            return ($value == '' || is_null($value)) ? false : true;
+        });
+
+        return $this->getModel()->where('order_trade_no', $orderTradeNo)
+            ->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_WAIT)
+            ->update($attributes);
+    }
     
     
     /**
@@ -201,7 +256,7 @@ class PaymentRecordRepository extends AbstractRepository
     public function updateOrderPaid($orderTradeNo, $amount, $tradeNo = null)
     {
         $attributes = array(
-            'pay_status' => 1,
+            'pay_status' => PayConstant::PAYMENT_RECORD_STATUS_PAYED,
             'pay_time' => RC_Time::gmtime(),
         );
         if (! is_null($tradeNo)) {
@@ -209,7 +264,7 @@ class PaymentRecordRepository extends AbstractRepository
         }
         /* 修改此次支付操作的状态为已付款 */
         return $this->getModel()->where('order_trade_no', $orderTradeNo)
-                                ->where('pay_status', 0)
+                                ->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_WAIT)
                                 ->where('total_fee', $amount)
                                 ->update($attributes);
     }

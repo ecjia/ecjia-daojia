@@ -120,4 +120,66 @@ class PayConstant
      */
     const PAYCODE_PARAM    = 3;
 
+
+    /**
+     * 流水记录的支付状态
+     */
+    const PAYMENT_RECORD_STATUS_WAIT        = 0; //等待支付
+    const PAYMENT_RECORD_STATUS_PAYED       = 1; //支付完成
+    const PAYMENT_RECORD_STATUS_PROGRESS    = 2; //支付进行中
+    const PAYMENT_RECORD_STATUS_FAIL        = 11; //支付失败
+
+
+    protected static $payways = [
+        '1'     => '支付宝',
+        '2'     => '支付宝',
+        '3'     => '微信',
+        '4'     => '百度钱包',
+        '5'     => '京东钱包',
+        '6'     => 'qq钱包',
+        '7'     => 'NFC支付',
+        '8'     => '拉卡拉钱包',
+        '9'     => '和包支付',
+        '15'    => '拉卡拉微信',
+        '16'    => '招商银行',
+        '17'    => '银联二维码',
+        '18'    => '翼支付',
+        '19'    => 'Weixin-Local',
+        '100'   => '储值支付',
+    ];
+
+    protected static $sub_payways = [
+        '1' => '条码支付',
+        '2' => '二维码支付',
+        '3' => 'wap支付',
+        '4' => '小程序支付',
+        '5' => 'APP支付',
+        '6' => 'H5支付',
+    ];
+
+
+    /**
+     * 获取一级支付方式名称
+     *
+     * @param $sub_payway
+     * @return mixed
+     */
+    public static function getPayway($payway)
+    {
+        return array_get(self::$payways, $payway, '未知');
+    }
+
+
+    /**
+     * 获取二级支付方式名称
+     *
+     * @param $sub_payway
+     * @return mixed
+     */
+    public static function getSubPayway($sub_payway)
+    {
+        return array_get(self::$sub_payways, $sub_payway, '未知');
+    }
+
+
 }
