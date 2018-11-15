@@ -100,6 +100,7 @@ function merchant_cat_list($cat_id = 0, $selected = 0, $re_type = true, $level =
 			    ->select(RC_DB::raw('cat_id, COUNT(*) as goods_num'))
 				->where('is_delete', 0)
 				->where('is_on_sale', 1)
+				->where('store_id', $_SESSION['store_id'])
 				->groupBy('cat_id')
 				->get();
 				
@@ -107,9 +108,10 @@ function merchant_cat_list($cat_id = 0, $selected = 0, $re_type = true, $level =
 				->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('gc.goods_id'))
 				->where(RC_DB::raw('g.is_delete'), 0)
 				->where(RC_DB::raw('g.is_on_sale'), 1)
+				->where(RC_DB::raw('g.store_id'), $_SESSION['store_id'])
 				->groupBy(RC_DB::raw('gc.cat_id'))
 				->get();
-				
+
 			$newres = array ();
 			if (!empty($res2)) {
 				foreach($res2 as $k => $v) {
@@ -137,8 +139,8 @@ function merchant_cat_list($cat_id = 0, $selected = 0, $re_type = true, $level =
 		return $re_type ? '' : array ();
 	}
 
-	$options = cat_options ( $cat_id, $res ); // 获得指定分类下的子分类的数组
-
+	$options = merchant_cat_options ( $cat_id, $res ); // 获得指定分类下的子分类的数组
+	
 	$children_level = 99999; // 大于这个分类的将被删除
 	if ($is_show_all == false) {
 		foreach ( $options as $key => $val ) {

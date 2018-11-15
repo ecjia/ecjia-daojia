@@ -320,6 +320,132 @@ function cat_options($spec_cat_id, $arr) {
 }
 
 /**
+ * 过滤和排序所有分类，返回一个带有缩进级别的数组
+ *
+ * @access private
+ * @param int $cat_id
+ *        	上级分类ID
+ * @param array $arr
+ *        	含有所有分类的数组
+ * @param int $level
+ *        	级别
+ * @return void
+ */
+function merchant_cat_options($spec_cat_id, $arr) {
+    static $cat_options = array ();
+    
+    if (isset ( $cat_options [$spec_cat_id] )) {
+        return $cat_options [$spec_cat_id];
+    }
+    
+    if (! isset ( $cat_options [0] )) {
+        $level = $last_cat_id = 0;
+        $options = $cat_id_array = $level_array = array ();
+        $data = false;
+        if ($data === false) {
+            while ( ! empty ( $arr ) ) {
+                foreach ( $arr as $key => $value ) {
+                    $cat_id = $value ['cat_id'];
+                    if ($level == 0 && $last_cat_id == 0) {
+                        if ($value ['parent_id'] > 0) {
+                            break;
+                        }
+                        
+                        $options [$cat_id] = $value;
+                        $options [$cat_id] ['level'] = $level;
+                        $options [$cat_id] ['id'] = $cat_id;
+                        $options [$cat_id] ['name'] = $value ['cat_name'];
+                        unset ( $arr [$key] );
+                        
+                        if ($value ['has_children'] == 0) {
+                            continue;
+                        }
+                        $last_cat_id = $cat_id;
+                        $cat_id_array = array($cat_id);
+                        $level_array [$last_cat_id] = ++ $level;
+                        continue;
+                    }
+                    
+                    if ($value ['parent_id'] == $last_cat_id) {
+                        $options [$cat_id] = $value;
+                        $options [$cat_id] ['level'] = $level;
+                        $options [$cat_id] ['id'] = $cat_id;
+                        $options [$cat_id] ['name'] = $value ['cat_name'];
+                        unset ( $arr [$key] );
+                        
+                        if ($value ['has_children'] > 0) {
+                            if (end ( $cat_id_array ) != $last_cat_id) {
+                                $cat_id_array [] = $last_cat_id;
+                            }
+                            $last_cat_id = $cat_id;
+                            $cat_id_array [] = $cat_id;
+                            $level_array [$last_cat_id] = ++ $level;
+                        }
+                    } elseif ($value ['parent_id'] > $last_cat_id) {
+                        break;
+                    }
+                }
+                
+                $count = count ( $cat_id_array );
+                if ($count > 1) {
+                    $last_cat_id = array_pop ( $cat_id_array );
+                } elseif ($count == 1) {
+                    if ($last_cat_id != end ( $cat_id_array )) {
+                        $last_cat_id = end ( $cat_id_array );
+                    } else {
+                        $level = 0;
+                        $last_cat_id = 0;
+                        $cat_id_array = array ();
+                        continue;
+                    }
+                }
+                
+                if ($last_cat_id && isset ( $level_array [$last_cat_id] )) {
+                    $level = $level_array [$last_cat_id];
+                } else {
+                    $level = 0;
+                }
+            }
+        } else {
+            $options = $data;
+        }
+        $cat_options [0] = $options;
+    } else {
+        $options = $cat_options [0];
+    }
+    
+    if (! $spec_cat_id) {
+        return $options;
+    } else {
+        if (empty ( $options [$spec_cat_id] )) {
+            return array ();
+        }
+        
+        $spec_cat_id_level = $options [$spec_cat_id] ['level'];
+        
+        foreach ( $options as $key => $value ) {
+            if ($key != $spec_cat_id) {
+                unset ( $options [$key] );
+            } else {
+                break;
+            }
+        }
+        
+        $spec_cat_id_array = array ();
+        foreach ( $options as $key => $value ) {
+            if (($spec_cat_id_level == $value ['level'] && $value ['cat_id'] != $spec_cat_id) || ($spec_cat_id_level > $value ['level'])) {
+                break;
+            } else {
+                $spec_cat_id_array [$key] = $value;
+            }
+        }
+        $cat_options [$spec_cat_id] = $spec_cat_id_array;
+        
+        return $spec_cat_id_array;
+    }
+}
+
+/**
  * 获得指定分类下所有底层分类的ID
  *
  * @access public

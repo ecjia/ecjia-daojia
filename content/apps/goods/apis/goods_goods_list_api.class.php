@@ -55,7 +55,9 @@ class goods_goods_list_api extends Component_Event_Api {
      * @param  $options['keyword'] 关键字
      *         $options['cat_id'] 分类id
      *         $options['brand_id'] 品牌id
-     *         $options['store_id
+     *         $options['store_id']
+     *         $options['size'] 每页条数 默认20
+     *         $options['page'] 页码
      * @return array
      */
 	public function call(&$options) {

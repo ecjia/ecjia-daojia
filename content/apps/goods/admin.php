@@ -582,6 +582,10 @@ class admin extends ecjia_admin {
 			return $this->showmessage(RC_Lang::get('goods::category.goods_name_null'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
+		if ($promote_price > $shop_price) {
+			return $this->showmessage('促销价不能大于商品价格：'.$shop_price, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+
 		$data = array(
 		  	'goods_name'				=> rc_stripslashes($goods_name),
 		  	'goods_name_style'	  		=> $goods_name_style,
@@ -1156,7 +1160,7 @@ class admin extends ecjia_admin {
 			$cache_goods_basic_info_key = 'goods_basic_info_'.$goods_id;
 			$cache_basic_info_id = sprintf('%X', crc32($cache_goods_basic_info_key));
 			$this->orm_goods_db->delete_cache_item($cache_basic_info_id);
-			return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin/init'), 'content' => number_format($goods_price, 2, '.', '')));
+			return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => number_format($goods_price, 2, '.', '')));
 		}
 	}
 
@@ -1174,7 +1178,7 @@ class admin extends ecjia_admin {
 		);
 		RC_DB::table('goods')->where('goods_id', $goods_id)->update($data);
 		
-		return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('goods/admin/init', 'cat_id='.$_GET['cat_id'].'&brand_id='.$_GET['brand_id'].'&intro_type='.$_GET['intro_type'].'&page='.$_GET['page'].'&sort_by='.$_GET['sort_by'].'&sort_order='.$_GET['sort_order']), 'content' => $sort_order));
+		return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array( 'content' => $sort_order));
 	}
 
 	/**

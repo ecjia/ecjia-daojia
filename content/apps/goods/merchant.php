@@ -550,6 +550,10 @@ class merchant extends ecjia_merchant {
 			return $this->showmessage(RC_Lang::get('goods::goods.goods_name_null'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
+		if ($promote_price > $shop_price) {
+			return $this->showmessage('促销价不能大于商品价格：'.$shop_price, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+
 		/* 入库 */
 		$data = array(
 			'goods_name'            => rc_stripslashes($goods_name),
@@ -931,6 +935,10 @@ class merchant extends ecjia_merchant {
 		
 		if (empty($goods_name)) {
 			return $this->showmessage(RC_Lang::get('goods::category.goods_name_null'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+
+		if ($promote_price > $shop_price) {
+			return $this->showmessage('促销价不能大于商品价格：'.$shop_price, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$data = array(
@@ -1406,7 +1414,7 @@ class merchant extends ecjia_merchant {
 			$cache_basic_info_id = sprintf('%X', crc32($cache_goods_basic_info_key));
 			$orm_goods_db->delete_cache_item($cache_basic_info_id);
 			
-			return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/merchant/init'), 'content' => number_format($goods_price, 2, '.', '')));
+			return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => number_format($goods_price, 2, '.', '')));
 		}
 	}
 
@@ -1424,7 +1432,7 @@ class merchant extends ecjia_merchant {
 		);
 		RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update($data);
 		
-		return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('goods/merchant/init', 'cat_id='.$_GET['cat_id'].'&brand_id='.$_GET['brand_id'].'&intro_type='.$_GET['intro_type'].'&page='.$_GET['page'].'&sort_by='.$_GET['sort_by'].'&sort_order='.$_GET['sort_order']), 'content' => $sort_order));
+		return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $sort_order));
 	}
 
 	/**

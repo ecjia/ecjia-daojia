@@ -224,16 +224,35 @@
 									</span> 
 								</td>
 								<td align="center">
-									<i class="cursor_pointer fa {if $goods.is_on_sale}fa-check {else}fa-times{/if}" data-trigger="toggle_on_sale" data-url="{RC_Uri::url('goods/merchant/toggle_on_sale')}" refresh-url="{RC_Uri::url('goods/merchant/init')}" data-id="{$goods.goods_id}"></i>
+									<i class="cursor_pointer fa {if $goods.is_on_sale}fa-check {else}fa-times{/if}" data-trigger="toggle_on_sale" data-url="{RC_Uri::url('goods/merchant/toggle_on_sale')}" 
+									refresh-url="{RC_Uri::url('goods/merchant/init')}{if $filter.type}&type={$filter.type}{/if}{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}{if $filter.review_status}&review_status={$filter.review_status}{/if}{if $smarty.get.page}&page={$smarty.get.page}{/if}" data-id="{$goods.goods_id}"></i>
 								</td>
 								<td align="center">
-									<i class="cursor_pointer fa {if $goods.store_best}fa-check {else}fa-times{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/merchant/toggle_best')}" data-id="{$goods.goods_id}"></i>
+									<i class="cursor_pointer fa {if $goods.store_best}fa-check {else}fa-times{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/merchant/toggle_best')}" refresh-url="{RC_Uri::url('goods/merchant/init')}
+									{if $filter.type}&type={$filter.type}{/if}
+        							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+        							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+        							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+        							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+        							{if $smarty.get.page}&page={$smarty.get.page}{/if}" data-id="{$goods.goods_id}"></i>
 								</td>
 								<td align="center">
-									<i class="cursor_pointer fa {if $goods.store_new}fa-check {else}fa-times{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/merchant/toggle_new')}" data-id="{$goods.goods_id}"></i>
+									<i class="cursor_pointer fa {if $goods.store_new}fa-check {else}fa-times{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/merchant/toggle_new')}" refresh-url="{RC_Uri::url('goods/merchant/init')}
+									{if $filter.type}&type={$filter.type}{/if}
+        							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+        							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+        							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+        							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+        							{if $smarty.get.page}&page={$smarty.get.page}{/if}" data-id="{$goods.goods_id}"></i>
 								</td>
 								<td align="center">
-									<i class="cursor_pointer fa {if $goods.store_hot}fa-check {else}fa-times{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/merchant/toggle_hot')}" data-id="{$goods.goods_id}"></i>
+									<i class="cursor_pointer fa {if $goods.store_hot}fa-check {else}fa-times{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/merchant/toggle_hot')}" refresh-url="{RC_Uri::url('goods/merchant/init')}
+									{if $filter.type}&type={$filter.type}{/if}
+        							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+        							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+        							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+        							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+        							{if $smarty.get.page}&page={$smarty.get.page}{/if}" data-id="{$goods.goods_id}"></i>
 								</td>
 								<!-- {if $use_storage} -->
 								<td align="center">

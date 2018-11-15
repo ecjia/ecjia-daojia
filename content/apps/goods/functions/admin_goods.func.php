@@ -651,7 +651,12 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 		} else {
 			$row ['gmt_end_time'] = 0;
 		}
-
+		
+		//销量
+		$row ['sales_volume'] = $row ['sales_volume'];
+		//上下架
+		$row ['is_on_sale'] = $row ['is_on_sale'];
+		
 		/* 是否显示商品库存数量 */
 		$row ['goods_number'] = (ecjia::config ( 'use_storage' ) == 1) ? $row ['goods_number'] : '';
 

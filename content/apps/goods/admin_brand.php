@@ -331,7 +331,7 @@ class admin_brand extends ecjia_admin {
 		$goods_brand->update_brand($id, $data);
 		
 		ecjia_admin::admin_log($brand_name, 'edit', 'brand');
-		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_brand/init', array('content'=> $order))));
+		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content'=> $order));
 	}
 	
 	/**

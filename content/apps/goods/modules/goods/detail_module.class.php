@@ -481,10 +481,7 @@ class goods_detail_module extends api_front implements api_interface {
 		if (ecjia::config('show_goodssn') == '1') {
 			$arr_goods_sn = array('name' => '商品货号', 'value' => $data['goods_sn']);
 			array_push($data['properties'], $arr_goods_sn); 
-			$data['goods_sn'] = '';
-		} else {
-			$data['goods_sn'] = '';
-		}
+		} 
 		//商品重量是否显示
 		if (ecjia::config('show_goodsweight') == '1') {
 			$arr_goods_weight = array('name' => '商品重量', 'value' => $data['goods_weight']);
@@ -497,10 +494,7 @@ class goods_detail_module extends api_front implements api_interface {
 		if (ecjia::config('show_goodsnumber') == '1') {
 			$arr_goods_number = array('name' => '商品库存', 'value' => $data['goods_number']);
 			array_push($data['properties'], $arr_goods_number);
-			$data['goods_number'] = '';
-		} else {
-			$data['goods_number'] = '';
-		}
+		} 
 		//商品上架时间是否显示
 		if (ecjia::config('show_addtime') == '1') {
 			$arr_goods_addtime = array('name' => '商品上架时间', 'value' => $data['add_time']);

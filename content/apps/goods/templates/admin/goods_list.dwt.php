@@ -333,17 +333,47 @@
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}
 							{if $filter.review_status}&review_status={$filter.review_status}{/if}
 							{if $filter.store_id}&store_id={$filter.store_id}{/if}
+							{if $smarty.get.page}&page={$smarty.get.page}{/if}
 							" data-id="{$goods.goods_id}">
 						</i>
 					</td>
 					<td align="center">
-						<i class="{if $goods.is_best}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin/toggle_best')}" data-id="{$goods.goods_id}"></i>
+						<i class="{if $goods.is_best}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin/toggle_best')}
+							{if $filter.type}&type={$filter.type}{/if}
+							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+							{if $filter.brand_id}&brand_id={$filter.brand_id}{/if}
+							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+							{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
+							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+							{if $filter.store_id}&store_id={$filter.store_id}{/if}
+							{if $smarty.get.page}&page={$smarty.get.page}{/if}
+							" data-id="{$goods.goods_id}"></i>
 					</td>
 					<td align="center">
-						<i class="{if $goods.is_new}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin/toggle_new')}" data-id="{$goods.goods_id}"></i>
+						<i class="{if $goods.is_new}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin/toggle_new')}
+							{if $filter.type}&type={$filter.type}{/if}
+							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+							{if $filter.brand_id}&brand_id={$filter.brand_id}{/if}
+							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+							{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
+							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+							{if $filter.store_id}&store_id={$filter.store_id}{/if}
+							{if $smarty.get.page}&page={$smarty.get.page}{/if}
+							" data-id="{$goods.goods_id}"></i>
 					</td>
 					<td align="center">
-						<i class="{if $goods.is_hot}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin/toggle_hot')}" data-id="{$goods.goods_id}"></i>
+						<i class="{if $goods.is_hot}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin/toggle_hot')}
+							{if $filter.type}&type={$filter.type}{/if}
+							{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}
+							{if $filter.brand_id}&brand_id={$filter.brand_id}{/if}
+							{if $filter.intro_type}&intro_type={$filter.intro_type}{/if}
+							{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
+							{if $filter.keywords}&keywords={$filter.keywords}{/if}
+							{if $filter.review_status}&review_status={$filter.review_status}{/if}
+							{if $filter.store_id}&store_id={$filter.store_id}{/if}
+							{if $smarty.get.page}&page={$smarty.get.page}{/if}" data-id="{$goods.goods_id}"></i>
 					</td>
 					<!-- {if $use_storage} -->
 					<td align="right">
