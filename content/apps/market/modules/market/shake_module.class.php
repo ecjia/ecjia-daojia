@@ -286,8 +286,7 @@ class market_shake_module extends api_front implements api_interface {
 					'type' => 'store',
 					'store' => $store_info_new
 			);
-		} 
-		/*elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) { //现金红包类型接口暂时不加，以免影响客户端20180806
+		} elseif ($prize_info['prize_type'] == Ecjia\App\Market\Prize\PrizeType::TYPE_BALANCE) { //现金红包类型接口暂时不加，以免影响客户端20180806
 			RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');//减奖品数量
 			//发放现金红包；更新用户账户余额
 			$options = array(
@@ -297,12 +296,13 @@ class market_shake_module extends api_front implements api_interface {
 			);
 			RC_Api::api('user', 'account_change_log',$options);
 			$result = array(
-					'type' => 'cash_bonus',
-					'cash_bonus' => array(
-							'cash_bonus' => intval($prize_info['prize_value']),
+					'type' => 'balance',
+					'balance' => array(
+							'balance' => intval($prize_info['prize_value']),
+							'formatted_balance' => price_format($prize_info['prize_value'])
 					)
 			);
-		}*/ else {
+		} else {
 			$result = array(
 				'type' => 'nothing',
 				'nothing' => array(
