@@ -65,7 +65,7 @@ class admin_express extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');
 		RC_Script::enqueue_script('ecjia-region');
-		RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
+		RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
 		
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));

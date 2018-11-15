@@ -61,7 +61,7 @@ class mh_match extends ecjia_merchant {
 		
 		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
-		RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
+		RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
 		
 		//时间控件
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));

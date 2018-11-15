@@ -69,7 +69,7 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('admin_express_task', RC_App::apps_url('statics/js/admin_express_task.js', __FILE__));
 		RC_Script::enqueue_script('admin_express_order_list', RC_App::apps_url('statics/js/admin_express_order_list.js', __FILE__));
 		RC_Style::enqueue_style('admin_express_task', RC_App::apps_url('statics/css/admin_express_task.css', __FILE__));
-		RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
+		RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
 		RC_Script::localize_script('express', 'js_lang', RC_Lang::get('express::express.js_lang'));
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送调度', RC_Uri::url('express/admin/init')));
 	}

@@ -73,7 +73,7 @@ class merchant extends ecjia_merchant {
 		
 		RC_Style::enqueue_style('mh_express_task', RC_App::apps_url('statics/css/mh_express_task.css', __FILE__));
 		
-		RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
+		RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
 		
 		RC_Script::localize_script('express', 'js_lang', RC_Lang::get('express::express.js_lang'));
 		
