@@ -121,7 +121,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('promotion_update', ecjia::MSGTYPE_JSON);
 		
 		$goods_id 	= intval($_POST['goods_id']);
-		$price		= $_POST['price'];
+		$price		= is_numeric($_POST['price']) ? floatval($_POST['price']) : 0;
 		
 		if (empty($goods_id)) {
 			return $this->showmessage('请选择活动商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -142,7 +142,10 @@ class merchant extends ecjia_merchant {
 		if (!empty($info)) {
 			return $this->showmessage(RC_Lang::get('promotion::promotion.promotion_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		$goods_name = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_name');
+		$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->first();
+		if ($price > $goods_info['shop_price']) {
+			return $this->showmessage('促销价不能大于商品价格：'.$goods_info['shop_price'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR); 
+		}
 		
 		$start_time = RC_Time::local_strtotime($_POST['start_time']);
 		$end_time 	= RC_Time::local_strtotime($_POST['end_time']);
@@ -162,7 +165,7 @@ class merchant extends ecjia_merchant {
 			$orm_goods_db->delete_cache_item('goods_list_cache_key_array');
 		}
 		
-		ecjia_merchant::admin_log($goods_name, 'add', 'promotion');
+		ecjia_merchant::admin_log($goods_info['goods_name'], 'add', 'promotion');
 		$links[] = array('text' => RC_Lang::get('promotion::promotion.return_promotion_list'), 'href'=> RC_Uri::url('promotion/merchant/init'));
 		$links[] = array('text' => RC_Lang::get('promotion::promotion.continue_add_promotion'), 'href'=> RC_Uri::url('promotion/merchant/add'));
 		return $this->showmessage(RC_Lang::get('promotion::promotion.add_promotion_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('promotion/merchant/edit', array('id' => $goods_id))));
@@ -208,8 +211,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('promotion_update', ecjia::MSGTYPE_JSON);
 		
 		$goods_id		= intval($_POST['goods_id']);
-		$price	  	  	= $_POST['price'];
-		$goods_name 	= RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_name');
+		$price			= is_numeric($_POST['price']) ? floatval($_POST['price']) : 0;
 		
 		$start_time 	= RC_Time::local_strtotime($_POST['start_time']);
 		$end_time 		= RC_Time::local_strtotime($_POST['end_time']);
@@ -226,6 +228,11 @@ class merchant extends ecjia_merchant {
 		if ($start_time >= $end_time) {
 			return $this->showmessage(RC_Lang::get('promotion::promotion.promotion_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+		$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->first();
+		if ($price > $goods_info['shop_price']) {
+			return $this->showmessage('促销价不能大于商品价格：'.$goods_info['shop_price'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR); 
+		}
+
 		$db->where('goods_id', $goods_id)->update(array('is_promote' => 1, 'promote_price' => $price, 'promote_start_date' => $start_time, 'promote_end_date' => $end_time));
 		
 		//更新原来的商品为非促销商品
@@ -243,7 +250,7 @@ class merchant extends ecjia_merchant {
 			$orm_goods_db->delete_cache_item('goods_list_cache_key_array');
 		}
 		
-		ecjia_merchant::admin_log($goods_name, 'edit', 'promotion');
+		ecjia_merchant::admin_log($goods_info['goods_name'], 'edit', 'promotion');
 		return $this->showmessage(RC_Lang::get('promotion::promotion.edit_promotion_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('promotion/merchant/edit', array('id' => $goods_id))));
 	}
 	
