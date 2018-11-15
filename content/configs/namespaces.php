@@ -75,6 +75,7 @@ return array(
     'Ecjia\App\Goodslib'        => $contentDir . '/apps/goodslib/classes',
     'Ecjia\App\Groupbuy'        => $contentDir . '/apps/groupbuy/classes',
     'Ecjia\App\Installer'       => $contentDir . '/apps/installer/classes',
+    'Ecjia\App\Integrate'       => $contentDir . '/apps/integrate/classes',
     'Ecjia\App\Intro'           => $contentDir . '/apps/intro/classes',
     'Ecjia\App\Invitecode'      => $contentDir . '/apps/invitecode/classes',
     'Ecjia\App\Logviewer'       => $contentDir . '/apps/logviewer/classes',
@@ -104,7 +105,10 @@ return array(
     'Ecjia\App\Theme'           => $contentDir . '/apps/theme/classes',
     'Ecjia\App\Tmplmsg'         => $contentDir . '/apps/tmplmsg/classes',
     'Ecjia\App\Touch'           => $contentDir . '/apps/touch/classes',
-    'Ecjia\App\Ucenter'         => $contentDir . '/apps/ucenter/classes',
+    'Ecjia\App\Toutiao'         => $contentDir . '/apps/toutiao/classes',
+	'Ecjia\App\Track'         	=> $contentDir . '/apps/track/classes',
+    'Ecjia\App\Ucclient'        => $contentDir . '/apps/ucclient/classes',
+    'Ecjia\App\Ucserver'        => $contentDir . '/apps/ucserver/classes',
     'Ecjia\App\Upgrade'         => $contentDir . '/apps/upgrade/classes',
     'Ecjia\App\User'            => $contentDir . '/apps/user/classes',
     'Ecjia\App\Weapp'           => $contentDir . '/apps/weapp/classes',
@@ -116,7 +120,7 @@ return array(
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
     'Royalcms\Component\Shoppingcart' => $contentDir . '/apps/cart/classes/Royalcms/Component/Shoppingcart',
     'Royalcms\Component\Printer' => $contentDir . '/apps/printer/classes/Royalcms/Component/Printer',
-    'Royalcms\Component\Ucenter' => $contentDir . '/apps/ucenter/classes/Ucenter/Royalcms/Component/Ucenter',
+    'Royalcms\Component\Ucenter' => $contentDir . '/apps/ucclient/classes/Ucenter/Royalcms/Component/Ucenter',
 );
 
 //end
