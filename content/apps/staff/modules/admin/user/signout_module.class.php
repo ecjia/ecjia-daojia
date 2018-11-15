@@ -53,7 +53,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class admin_user_signout_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
+    	$admin_id = $_SESSION['staff_id'];
+    	$user_type = 'merchant';
     	RC_Session::destroy();
+    	RC_DB::table('connect_user')->where('user_id', $admin_id)->where('connect_code', 'app')->where('user_type', $user_type)->delete();
     	
 		//修改关联设备号用户id为0
 		$result = ecjia_app::validate_application('mobile');

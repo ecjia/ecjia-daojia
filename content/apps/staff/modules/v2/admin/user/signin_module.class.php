@@ -268,6 +268,8 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                     RC_DB::table('express_checkin')->where('log_id', $checkin_log['log_id'])->update(array('end_time' => $time, 'duration' => $duration));
                 }
             }
+            /*返回connect_user表中open_id和access_token*/
+            $connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['staff_id'])->where('user_type', 'merchant')->first();
             
             $out['userinfo'] = array(
                 'seller_id'     => $row['store_id'],
@@ -282,6 +284,31 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                 'group'         => $group,
                 'avator_img'    => !empty($row['avatar']) ? RC_Upload::upload_url($row['avatar']) : '',
             );
+            
+            /*向connect_user表插入一条app数据*/
+            $open_id = md5(RC_Time::gmtime().$_SESSION['staff_id']);
+            $access_token = RC_Session::session_id();
+            $user_type = 'merchant';
+            if (empty($connect_user_app)) {
+            	$connect_data = array(
+            			'connect_code'    => 'app',
+            			'user_id'         => $_SESSION['admin_id'],
+            			'is_admin'        => '1',
+            			'user_type'		  => $user_type,
+            			'open_id'         => $open_id,
+            			'access_token'    => $access_token,
+            			'create_at'       => RC_Time::gmtime()
+            	);
+            	RC_DB::table('connect_user')->insert($connect_data);
+            } else {
+            	$connect_data = array(
+            			'open_id'         => $open_id,
+            			'access_token'    => $access_token
+            	);
+            	RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['staff_id'])->where('user_type', $user_type)->update($connect_data);
+            }
+            $out['userinfo']['open_id'] = $open_id;
+            $out['userinfo']['access_token'] = $access_token;
                     
             //修正关联设备号
             $result = ecjia_app::validate_application('mobile');

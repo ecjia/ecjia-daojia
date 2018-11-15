@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class staff_merchant_menu_api extends Component_Event_Api {
 
     public function call(&$options) {
-        $menus = ecjia_merchant::make_admin_menu('staff', '员工', '', 6)->add_icon('fa-group')->add_purview(array('staff_manage','staff_group_manage','staff_log_manage'))->add_base('staff');
+        $menus = ecjia_merchant::make_admin_menu('staff', '员工', '', 6)->add_icon('fa-suitcase')->add_purview(array('staff_manage','staff_group_manage','staff_log_manage'))->add_base('staff');
         
         $submenus = array(
             ecjia_merchant::make_admin_menu('01_staff_group', '员工管理', RC_Uri::url('staff/mh_group/init'), 1)->add_purview('staff_group_manage')->add_icon('fa-share-alt'),
