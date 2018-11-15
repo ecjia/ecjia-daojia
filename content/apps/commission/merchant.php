@@ -288,7 +288,7 @@ class merchant extends ecjia_merchant {
 		/* 变量初始化 */
 		$data = array(
 			'store_id'     => $_SESSION['store_id'],
-			'order_sn'	   => $this->get_order_sn(),
+			'order_sn'	   => ecjia_order_store_account_sn(),
 			'amount'   	   => $amount,
 			'staff_note'   => $staff_note,
 			'process_type' => 'withdraw',
@@ -479,12 +479,6 @@ class merchant extends ecjia_merchant {
 			//str_repeat — 重复一个字符串
 			return $strlen == 2 ? $firstStr . str_repeat('*', mb_strlen($str) - 1) : $firstStr . str_repeat("*", $strlen - 8) . $lastStr;
 		}
-	}
-	
-	private function get_order_sn() {
-		/* 选择一个随机的方案 */
-		mt_srand((double) microtime() * 1000000);
-		return date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
 	}
 	
 	private function update_store_money($amount = 0) {
