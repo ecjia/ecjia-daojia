@@ -1,0 +1,34 @@
+{
+    "name": "royalcms/http",
+    "description": "The Royalcms Http package.",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/session": "5.0.*",
+        "royalcms/support": "5.0.*",
+        "symfony/http-foundation": "2.7.*",
+        "symfony/http-kernel": "2.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Http\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}
