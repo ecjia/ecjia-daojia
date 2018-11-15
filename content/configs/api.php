@@ -155,11 +155,6 @@ return array(
 	'merchant/goods/category'       => 'merchant::merchant/goods/category',
 	'merchant/goods/list'           => 'merchant::merchant/goods/list',
 	'merchant/goods/suggestlist'    => 'merchant::merchant/goods/suggestlist',
-
-    
-
-
-    
     
     //扫码登录
     'mobile/qrcode/create'		    => 'mobile::qrcode/create',
@@ -524,14 +519,27 @@ return array(
 	//1.21
 	'invite/invitee/rule'								=> 'affiliate::invite/invitee/rule',  //被邀请说明
 
+    //1.23
+    'admin/payment/scancode'                            => 'payment::admin/payment/scancode', //收银台专用
+    'admin/payment/cancelpay'                           => 'payment::admin/payment/cancelpay', //收银台专用
 
-
-
-
+	'store/collect/list'	                            => 'user::store/collect/list', 					//用户收藏的店铺列表
+	'store/collect/create'								=> 'user::store/collect/create', 				//用户收藏店铺
+	'store/collect/cancel'								=> 'user::store/collect/cancel', 				//用户取消收藏店铺
+	'user/mobile/toutiao'								=> 'toutiao::user/mobile/toutiao', 				//用户收藏店铺的今日热点列表
+	'merchant/mobile/toutiao'							=> 'toutiao::merchant/mobile/toutiao', 			//获取某个商家今日热点列表
+	'merchant/menu'										=> 'store::merchant/menu', 						//商家自定义菜单
+	'user/orders/express/message'						=> 'track::user/orders/express/message', 		//用户订单物流消息中心
+	'user/orders/express/message/detail'				=> 'track::user/orders/express/message/detail', //物流消息详情
+		
+		
+		
     /**
      * 1.0 已经废弃
      *
      * article 
+     * 
+     * 
      * 'article'				=> 'article::article/detail',
      * 
      * goods
