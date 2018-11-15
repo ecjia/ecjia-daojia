@@ -76,7 +76,7 @@ class merchant extends ecjia_merchant
         RC_Style::enqueue_style('mh_groupbuy', RC_App::apps_url('statics/css/mh_groupbuy.css', __FILE__), array());
 
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('团购活动管理'), RC_Uri::url('groupbuy/merchant/init')));
-        ecjia_merchant_screen::get_current_screen()->set_parentage('groupbuy', 'groupbuy/merchant.php');
+        ecjia_merchant_screen::get_current_screen()->set_parentage('promotion', 'promotion/merchant.php');
     }
 
     /**
@@ -260,6 +260,14 @@ class merchant extends ecjia_merchant
         $shop_price = RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->where('goods_id', $group_buy['goods_id'])->pluck('shop_price');
         $this->assign('shop_price', $shop_price);
 
+        $res = RC_DB::table('order_info as o')->leftJoin('order_goods as g', RC_DB::raw('o.order_id'), '=', RC_DB::raw('g.order_id'))
+            ->select(RC_DB::raw('o.consignee, o.user_id, o.mobile, g.goods_name'))
+            ->where(RC_DB::raw('o.extension_code'), 'group_buy')
+            ->where(RC_DB::raw('o.extension_id'), $act_id)
+            ->where(RC_DB::raw('o.order_status'), OS_CONFIRMED)
+            ->get();
+        $this->assign('count_res', count($res));
+
         $this->display('group_buy_info.dwt');
     }
 
@@ -442,44 +450,50 @@ class merchant extends ecjia_merchant
                 return $this->showmessage(RC_Lang::get('groupbuy::groupbuy.error_status'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $res = RC_DB::table('order_info as o')->leftJoin('order_goods as g', RC_DB::raw('o.order_id'), '=', RC_DB::raw('g.order_id'))
-                ->select(RC_DB::raw('o.consignee, g.goods_name'))
+                ->select(RC_DB::raw('o.consignee, o.user_id, o.mobile, o.order_id, g.goods_name'))
                 ->where(RC_DB::raw('o.extension_code'), 'group_buy')
                 ->where(RC_DB::raw('o.extension_id'), $group_buy_id)
                 ->where(RC_DB::raw('o.order_status'), OS_CONFIRMED)
                 ->get();
             
-           
             $orm_user_db = RC_Model::model('orders/orm_users_model');
            
             if (!empty($res)) {
                 foreach ($res as $order) {
                     $options = array(
-                        'user_name' => $order['consignee'],
-                        'store_name' => $_SESSION['store_name'],
-                    	'goods_name' => $order['goods_name']
+                        'mobile' => $order['mobile'],
+                        'event' => 'sms_groupbuy_activity_succeed',
+                        'value' => array(
+                            'user_name' => $order['consignee'],
+                            'store_name' => $_SESSION['store_name'],
+                            'goods_name' => $order['goods_name']
+                        )
                     );
-                    RC_Api::api('sms', 'sms_groupbuy_activity_succeed', $options);
+                    $response = RC_Api::api('sms', 'send_event_sms', $options);
+                    if (is_ecjia_error($response)) {
+                        return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    }
+
                     //消息通知
                     $user_name = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
                     $user_ob = $orm_user_db->find($order['user_id']);
-                    
+                   
                     $groupbuy_data = array(
-                    		'title'	=> '团购活动成功结束',
-                    		'body'	=> '您在'.$_SESSION['store_name'].'店铺参加的商品'.$order['goods_name'].'的团购活动现已结束， 请尽快支付订单剩余余款，方便及时给您发货。',
-                    		'data'	=> array(
-                    				'user_id'				=> $order['user_id'],
-                    				'user_name'				=> $user_name,
-                    				'store_name'			=> $_SESSION['store_name'],
-                    				'goods_name' 			=> $order['goods_name'],
-                    		),
+                		'title'	=> '团购活动成功结束',
+                		'body'	=> '您在'.$_SESSION['store_name'].'店铺参加的商品'.$order['goods_name'].'的团购活动现已结束， 请尽快支付订单剩余余款，方便及时给您发货。',
+                		'data'	=> array(
+            				'user_id'				=> $order['user_id'],
+            				'user_name'				=> $user_name,
+            				'store_name'			=> $_SESSION['store_name'],
+            				'goods_name' 			=> $order['goods_name'],
+                			'order_id'				=>  $order['order_id'],
+                		),
                     );
-                     
                     $push_groupbuy_data = new GroupbuyActivitySucceed($groupbuy_data);
                     RC_Notification::send($user_ob, $push_groupbuy_data);
                 }
+                return $this->showmessage('短信发送成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $edit_url));
             }
-            return $this->showmessage('短信发送成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $edit_url));
-
         } else {
             $goods_id = intval($_POST['goods_id']);
 

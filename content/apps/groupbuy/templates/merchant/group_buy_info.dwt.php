@@ -128,7 +128,7 @@
 						    <input type="submit" name="fail" value="{lang key='groupbuy::groupbuy.button_fail'}" class="btn btn-info all" />{lang key='groupbuy::groupbuy.notice_fail'}
 						    
 						    <!-- 成功结束 -->
-						    {elseif $group_buy.status eq 3 && $group_buy.deposit neq 0}
+						    {elseif $group_buy.status eq 3 && $group_buy.deposit neq 0 && $count_res neq 0}
 						    <input type="submit" name="sms" value="{lang key='groupbuy::groupbuy.button_sms'}" class="btn btn-info all"  />&nbsp;
 						    {/if}
 						</div>
