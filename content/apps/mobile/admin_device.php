@@ -101,7 +101,7 @@ class admin_device extends ecjia_admin {
 	 * 移至回收站
 	 */
 	public function trash()  {
-		$this->admin_priv('device_delete', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('device_manage', ecjia::MSGTYPE_JSON);
 	
 		$id = intval($_GET['id']);
 		$deviceval = intval($_GET['deviceval']);
@@ -130,7 +130,7 @@ class admin_device extends ecjia_admin {
 	 * 从回收站还原
 	 */
 	public function returndevice()  {
-		$this->admin_priv('device_update', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('device_manage', ecjia::MSGTYPE_JSON);
 	
 		$id = intval($_GET['id']);
 		//$success = $this->db_device->device_update($id, array('in_status' => 0));
@@ -159,7 +159,7 @@ class admin_device extends ecjia_admin {
 	 * 删除移动设备
 	 */
 	public function remove()  {
-		$this->admin_priv('device_delete', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('device_manage', ecjia::MSGTYPE_JSON);
 		
 		$id = intval($_GET['id']);
 		$deviceval = intval($_GET['deviceval']);
@@ -258,7 +258,7 @@ class admin_device extends ecjia_admin {
 	 * 预览
 	 */
 	public function preview() {
-		$this->admin_priv('device_detail');
+		$this->admin_priv('device_manage');
 	
 		$id = intval($_GET['id']);
 	
@@ -287,7 +287,7 @@ class admin_device extends ecjia_admin {
 	 * 编辑设备别名
 	 */
 	public function edit_device_alias() {
-		$this->admin_priv('device_update', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('device_manage', ecjia::MSGTYPE_JSON);
 	
 		$id           = intval($_POST['pk']);
 		$device_alias = !empty($_POST['value']) ? trim($_POST['value']) : '';
@@ -323,7 +323,7 @@ class admin_device extends ecjia_admin {
 	 * @return  array
 	 */
 	private function get_device_list() {
-		$device_db = RC_DB::table('mobile_device');
+		$device_db = RC_DB::table('device_manage');
 		
 		$where = $filter = array();
 		$filter['keywords'] 	= empty($_GET['keywords']) 	? '' 	: trim($_GET['keywords']);

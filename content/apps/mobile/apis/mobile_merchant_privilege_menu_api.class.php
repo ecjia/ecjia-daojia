@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,50 +44,21 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Mobile;
-
-use RC_DB;
-use RC_Time;
-use ecjia;
-use RC_Api;
-use RC_Logger;
-use ecjia_page;
-use RC_Lang;
-
+defined('IN_ECJIA') or exit('No permission resources.');
 /**
- * 头条
+ * 后台菜单API
+ * @author royalwang
  *
  */
-class MobileNews
-{
-	/**
-	 * 头条添加/更新
-	 * @param array $data
-	 * @param array $where
-	 */
-	public static function MobileNewsManage($data, $where=array()) {
-		$db_mobile_news = RC_DB::table('mobile_news');
-		if (!empty($where)) {
-			foreach ($where as $k => $v) {
-				$db_mobile_news->where($k, $v);
-			}
-			return $db_mobile_news->update($data);
-		}
-		return RC_DB::table('mobile_news')->insertGetId($data);
-	}
+class mobile_merchant_privilege_menu_api extends Component_Event_Api {
 	
-	/**
-	 * 获取某个字段
-	 * @param array $where
-	 * @param string $field
-	 */
-	public static function MobileNewsField($where, $field) {
-		$db_mobile_news = RC_DB::table('mobile_news');
-		if (!empty($where)) {
-			foreach ($where as $k => $v) {
-				$db_mobile_news->where($k, $v);
-			}
-		}
-		return $db_mobile_news->pluck($field);
+	public function call(&$options) {
+	    $user_id = royalcms('request')->query('user_id');
+	    
+	    $mobile_privilege_menu 	 = ecjia_admin::make_admin_menu('shopkeeper_privilege_menu', __('掌柜权限'), RC_Uri::url('mobile/merchant_privilege/allot', array('user_id' => $user_id)), 3)->add_purview('shopkeeper_privilege_menu');
+	    
+	    return $mobile_privilege_menu;
 	}
 }
+
+// end

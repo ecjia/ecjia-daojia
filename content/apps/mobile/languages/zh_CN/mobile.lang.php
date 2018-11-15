@@ -382,7 +382,7 @@ return array(
 	'mobile_news_update'=> '编辑今日热点',
 	'mobile_news_delete'=> '删除今日热点',
 
-	'mobile_config_manage'	=> '应用配置管理',
+	'mobile_config_manage'	=> '移动应用设置',
 	'mobile_config_update'	=> '更新应用配置',
 	'mobile_config_delete'	=> '删除应用配置',
 	'mobile_app_manage'		=> '客户端管理',

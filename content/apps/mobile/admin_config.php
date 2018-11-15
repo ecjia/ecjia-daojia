@@ -146,7 +146,6 @@ class admin_config extends ecjia_admin {
 		$this->assign('bonus_type_list', $bonus_type_list);
 		$this->assign('mobile_signup_reward_notice', ecjia::config('mobile_signup_reward_notice'));
 		
-		
 		//iOS智能广告条
 		if (!ecjia::config('app_store_id', ecjia::CONFIG_CHECK)) {
 			ecjia_config::instance()->insert_config('hidden', 'app_store_id', '', array('type' => 'text'));
@@ -156,7 +155,12 @@ class admin_config extends ecjia_admin {
 		}
 		$this->assign('app_store_id', ecjia::config('app_store_id'));
 		$this->assign('app_argument', ecjia::config('app_argument'));
-		
+
+		//APP入口设置
+		$this->assign('app_disable_sale', ecjia::config('app_disable_sale'));
+		$this->assign('app_disable_shopkeeper', ecjia::config('app_disable_shopkeeper'));
+		$this->assign('app_disable_express', ecjia::config('app_disable_express'));
+
 		$this->assign('form_action', RC_Uri::url('mobile/admin_config/update_basic_info'));
 		$this->assign('current_code', trim($_GET['code']));
 		$this->display('mobile_config.dwt');
@@ -356,23 +360,31 @@ class admin_config extends ecjia_admin {
 	 * 处理移动应用基本信息
 	 */
 	public function update_basic_info() {
-		$this->admin_priv('mobile_config_update', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('mobile_config_manage', ecjia::MSGTYPE_JSON);
 		
 		$code = $_POST['code'];
 		
 		/*基本信息处理*/
-		$mobile_app_name 				= !empty($_POST['mobile_app_name']) 		? trim($_POST['mobile_app_name']) 		: '';
-		$mobile_app_version 			= !empty($_POST['mobile_app_version']) 		? trim($_POST['mobile_app_version']) 	: '';
-		$mobile_app_description 		= !empty($_POST['mobile_app_description']) 	? trim($_POST['mobile_app_description']) 	: '';
-		$mobile_app_video 				= !empty($_POST['mobile_app_video']) 		? trim($_POST['mobile_app_video']) 		: '';
-		$bonus_readme 					= !empty($_POST['bonus_readme']) 				? $_POST['bonus_readme'] 						: '';
-		$mobile_feedback_autoreply 		= !empty($_POST['mobile_feedback_autoreply']) 	? trim($_POST['mobile_feedback_autoreply']) 	: '';
-		$shop_pc_url 					= !empty($_POST['shop_pc_url']) 			? trim($_POST['shop_pc_url']) 			: '';
-		$mobile_touch_url 				= !empty($_POST['mobile_touch_url']) 		? trim($_POST['mobile_touch_url']) 		: '';
+		$mobile_app_name 				= !empty($_POST['mobile_app_name']) 			? trim($_POST['mobile_app_name']) 			: '';
+		$mobile_app_version 			= !empty($_POST['mobile_app_version']) 			? trim($_POST['mobile_app_version']) 		: '';
+		$mobile_app_description 		= !empty($_POST['mobile_app_description']) 		? trim($_POST['mobile_app_description']) 	: '';
+		$mobile_app_video 				= !empty($_POST['mobile_app_video']) 			? trim($_POST['mobile_app_video']) 			: '';
+		$bonus_readme 					= !empty($_POST['bonus_readme']) 				? $_POST['bonus_readme'] 					: '';
+		$mobile_feedback_autoreply 		= !empty($_POST['mobile_feedback_autoreply']) 	? trim($_POST['mobile_feedback_autoreply'])	: '';
+		$shop_pc_url 					= !empty($_POST['shop_pc_url']) 				? trim($_POST['shop_pc_url']) 				: '';
+		$mobile_touch_url 				= !empty($_POST['mobile_touch_url']) 			? trim($_POST['mobile_touch_url']) 			: '';
 		$mobile_share_link				= trim($_POST['mobile_share_link']);
-		$mobile_signup_reward			= isset($_POST['mobile_signup_reward']) ? intval($_POST['mobile_signup_reward']) : 0;
-		$mobile_signup_reward_notice	= isset($_POST['mobile_signup_reward_notice']) ? trim($_POST['mobile_signup_reward_notice']) : '';
+		$mobile_signup_reward			= isset($_POST['mobile_signup_reward']) 		? intval($_POST['mobile_signup_reward']) 		: 0;
+		$mobile_signup_reward_notice	= isset($_POST['mobile_signup_reward_notice']) 	? trim($_POST['mobile_signup_reward_notice']) 	: '';
+
+		$app_disable_sale				= isset($_POST['app_disable_sale']) 		? intval($_POST['app_disable_sale']) 		: 0;
+		$app_disable_shopkeeper			= isset($_POST['app_disable_shopkeeper']) 	? intval($_POST['app_disable_shopkeeper']) 	: 0;
+		$app_disable_express			= isset($_POST['app_disable_express']) 		? intval($_POST['app_disable_express']) 	: 0;
 		
+		if ($app_disable_sale === 1 && $app_disable_shopkeeper === 1 && $app_disable_express === 1) {
+			return $this->showmessage('APP入口三端至少必须开启一个', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		}
+
 		/* 上传app logo图标*/
 		if (isset($_FILES['mobile_app_icon'])) {
 			$upload = RC_Upload::uploader('image', array('save_path' => 'data/assets', 'replace' => true, 'auto_sub_dirs' => false));
@@ -422,6 +434,11 @@ class admin_config extends ecjia_admin {
 		
 		ecjia_config::instance()->write_config('mobile_signup_reward', $mobile_signup_reward);
 		ecjia_config::instance()->write_config('mobile_signup_reward_notice', $mobile_signup_reward_notice);
+
+		//APP入口设置
+		ecjia_config::instance()->write_config('app_disable_sale', $app_disable_sale);
+		ecjia_config::instance()->write_config('app_disable_shopkeeper', $app_disable_shopkeeper);
+		ecjia_config::instance()->write_config('app_disable_express', $app_disable_express);
 		
 		ecjia_admin::admin_log(RC_Lang::get('mobile::mobile.mobile_config_set'), 'setup', 'mobile_config');
 		return $this->showmessage(RC_Lang::get('mobile::mobile.update_config_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mobile/admin_config/basic_info_init',array('code'=>$code))));
@@ -432,7 +449,7 @@ class admin_config extends ecjia_admin {
 	 * 处理app下载地址
 	 */
 	public function update_app_download_url() {
-		$this->admin_priv('mobile_config_update', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('mobile_config_manage', ecjia::MSGTYPE_JSON);
 		
 		$code = $_POST['code'];
 		
@@ -505,7 +522,7 @@ class admin_config extends ecjia_admin {
 	 * 处理移动应用广告位设置
 	 */
 	public function update_mobile_adsense_set() {
-		$this->admin_priv('mobile_config_update', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('mobile_config_manage', ecjia::MSGTYPE_JSON);
 		
 		$code = $_POST['code'];
 		
@@ -532,7 +549,7 @@ class admin_config extends ecjia_admin {
 	 * 处理应用截图
 	 */
 	public function update_app_screenshots() {
-		$this->admin_priv('mobile_config_update', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('mobile_config_manage', ecjia::MSGTYPE_JSON);
 		
 		$code = $_POST['code'];
 		
@@ -584,7 +601,7 @@ class admin_config extends ecjia_admin {
 	 * 删除上传文件
 	 */
 	public function del() {
-		$this->admin_priv('mobile_config_delete', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('mobile_config_manage', ecjia::MSGTYPE_JSON);
 		
 		$disk = RC_Filesystem::disk();
 		$code = trim($_GET['code']);

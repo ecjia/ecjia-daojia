@@ -450,6 +450,35 @@
 							</div>
 						</div>
 					{/if}
+
+					<h3 class="heading">APP入口设置</h3>
+					<div class="alert alert-warnning">
+						<a class="close" data-dismiss="alert">×</a>
+						<strong>温馨提示：</strong>三端可同时开启，但不能同时关闭，至少必须开启一端；</a>
+					</div>
+
+					<div class="control-group formSep">
+						<label class="control-label">是否关闭消费端：</label>
+						<div class="controls l_h30">
+							<input type="radio" name="app_disable_sale" value="1" {if $app_disable_sale eq 1}checked{/if}/>是&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="app_disable_sale" value="0" {if $app_disable_sale eq 0}checked{/if}/>否
+						</div>
+					</div>
+					<div class="control-group formSep">
+						<label class="control-label">是否关闭掌柜端：</label>
+						<div class="controls l_h30">
+							<input type="radio" name="app_disable_shopkeeper" value="1" {if $app_disable_shopkeeper eq 1}checked{/if}/>是&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="app_disable_shopkeeper" value="0" {if $app_disable_shopkeeper eq 0}checked{/if}/>否
+						</div>
+					</div>
+					<div class="control-group formSep">
+						<label class="control-label">是否关闭配送员端：</label>
+						<div class="controls l_h30">
+							<input type="radio" name="app_disable_express" value="1" {if $app_disable_express eq 1}checked{/if}/>是&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="app_disable_express" value="0" {if $app_disable_express eq 0}checked{/if}/>否
+						</div>
+					</div>
+
 					<div class="control-group">
 						<div class="controls">
 							<input type="hidden" name="code" value="{$code}"/>

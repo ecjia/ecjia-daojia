@@ -44,74 +44,20 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\App\Mobile\Frameworks\Users;
 
-namespace Ecjia\App\Mobile\Platform;
+use Ecjia\System\Frameworks\Meta\MetaAbstract;
 
-use Ecjia\App\Mobile\ApplicationPlatform;
-use Ecjia\App\Mobile\MobileAction;
-
-class EcjiaCashDesk extends ApplicationPlatform
+class StaffUserAllotPurview extends MetaAbstract
 {
     
+    protected $meta_key     = 'shopkeeper_allot_purview';
     
-    /**
-     * 代号标识
-     * @var string
-     */
-    protected $code = 'ecjia-cashdesk';
+    protected $object_type  = 'ecjia.staff';
     
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = 'ECJia收银台';
+    protected $object_group = 'staff_user';
     
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = 'ECJia收银台App是一款多站点通用的商家桌面收银客户端。';
-    
-    /**
-     * 图标
-     * @var string
-     */
-    protected $icon = '/statics/images/cashdesk.png';
-    
-    /**
-     * 支持的客户端类型
-     * @var array
-     */
-    protected $clients = [
-        [
-            'device_client' => 'android',
-            'device_name' => 'Android',
-            'device_code' => '8001',
-        ]
-    ];
-        
-    /**
-     * 支持的支付方式
-     * @var array
-     */
-    protected $payments = [
-    	'pay_cash',
-    	'pay_balance',
-    	'pay_shouqianba',
-    	'pay_koolyun_alipay',
-    	'pay_koolyun_unionpay',
-    	'pay_koolyun_wxpay',
-    ];
-    
-    
-    /**
-     * 支持的opentype类型
-     * @var array
-     */
-    protected $opentypes = [
-        MobileAction::MAIN,
-        MobileAction::WEBVIEW,
-    ];
+    protected $object_id;
     
     
 }

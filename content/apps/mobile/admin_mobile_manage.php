@@ -253,7 +253,7 @@ class admin_mobile_manage extends ecjia_admin {
 	 * 编辑显示页面
 	 */
 	public function edit() {
-		$this->admin_priv('mobile_manage_update');
+		$this->admin_priv('mobile_manage');
 		
 		$code = $_GET['code'];
 		$id   = intval($_GET['id']);
@@ -286,7 +286,7 @@ class admin_mobile_manage extends ecjia_admin {
 	 * 开启客户端
 	 */
 	public function open_status() {
-		$this->admin_priv('mobile_manage_update');
+		$this->admin_priv('mobile_manage');
 		
 		$code = trim($_GET['code']);
 		$id   = intval($_GET['id']);
@@ -300,7 +300,7 @@ class admin_mobile_manage extends ecjia_admin {
 	 * 关闭客户端
 	 */
 	public function close_status() {
-		$this->admin_priv('mobile_manage_update');
+		$this->admin_priv('mobile_manage');
 		
 		$code = trim($_GET['code']);
 		$id   = intval($_GET['id']);
@@ -315,7 +315,7 @@ class admin_mobile_manage extends ecjia_admin {
 	 * 编辑应用名称
 	 */
 	public function edit_app_name() {
-		$this->admin_priv('mobile_manage_update');
+		$this->admin_priv('mobile_manage');
 	
 		$id		= trim($_POST['pk']);
 		$app_name = trim($_POST['value']);
@@ -330,7 +330,7 @@ class admin_mobile_manage extends ecjia_admin {
 	 * 编辑应用包名
 	 */
 	public function edit_bag_name() {
-		$this->admin_priv('mobile_manage_update');
+		$this->admin_priv('mobile_manage');
 	
 		$id		= trim($_POST['pk']);
 		$bag_name = trim($_POST['value']);
@@ -346,7 +346,7 @@ class admin_mobile_manage extends ecjia_admin {
 	 * 删除
 	 */
 	public function remove() {
-		$this->admin_priv('mobile_manage_delete');
+		$this->admin_priv('mobile_manage');
 	
 		$id = intval($_GET['id']);
 		RC_DB::table('mobile_manage')->where('app_id', $id)->delete();
