@@ -81,7 +81,8 @@ return [
     'merchant/index/ajax_store_comment' => 'merchant_controller@ajax_store_comment',
     'merchant/quickpay/collectmoney'    => 'merchant_controller@collectmoney',
     'merchant/category/list'            => 'merchant_controller@seller_list',
-    
+    'merchant/index/follow_store'       => 'merchant_controller@follow_store',
+
     //文章
     'article/help/init'                 => 'article_controller@init',
     'article/help/detail'               => 'article_controller@detail',
@@ -123,7 +124,9 @@ return [
     'touch/my/init'                     => 'user_controller@init',
     'user/index/spread'                 => 'user_controller@spread',
     'user/index/wxconfig'               => 'user_controller@wxconfig',
-    
+    'user/follow/init'                  => 'user_controller@follow_list',
+    'user/follow/ajax_follow_list'      => 'user_controller@ajax_follow_list',
+
     //推荐
     'affiliate/index/init'              => 'affiliate_controller@init', //邀请注册
     'affiliate/index/check'             => 'affiliate_controller@check',
@@ -131,25 +134,38 @@ return [
     'affiliate/index/invite'            => 'affiliate_controller@invite',
     
     //商家入驻申请
-    'franchisee/index/first'            => 'franchisee_controller@first', //入驻申请加载页面
-    'franchisee/index/first_check'      => 'franchisee_controller@first_check', //入驻申请第一步验证
-    'franchisee/index/validate'         => 'franchisee_controller@validate', //入驻验证码
-    'franchisee/index/enter_code'       => 'franchisee_controller@enter_code', 
-    'franchisee/index/resend_sms'       => 'franchisee_controller@resend_sms',
-    'franchisee/index/validate_code'    => 'franchisee_controller@validate_code',
-    'franchisee/index/second'           => 'franchisee_controller@second', //入驻申请第二步
-    'franchisee/index/finish'           => 'franchisee_controller@finish', //处理入驻申请
-    'franchisee/index/search'           => 'franchisee_controller@search', //处理入驻申请
-    'franchisee/index/process'          => 'franchisee_controller@process', //查询进度
-    'franchisee/index/process_search'   => 'franchisee_controller@process_search', //查询进度处理
-    'franchisee/index/process_captcha_check' => 'franchisee_controller@process_captcha_check',
-    'franchisee/index/process_enter_code'    => 'franchisee_controller@process_enter_code',
-    'franchisee/index/process_validate_code' => 'franchisee_controller@process_validate_code',
-    'franchisee/index/location'         => 'franchisee_controller@location', //获取店铺精确位置
-    'franchisee/index/location_finish'  => 'franchisee_controller@location_finish', //提交店铺精确位置
-    'franchisee/index/get_region'       => 'franchisee_controller@get_region', //提交店铺精确位置
-    'franchisee/index/captcha_refresh'  => 'franchisee_controller@captcha_refresh',
+    'franchisee/index/first'            => 'franchisee_controller@first',           //入驻申请第一步（真实姓名、电子邮箱、手机号码）
+    'franchisee/index/first_check'      => 'franchisee_controller@first_check',     //检查 第一步 填写
     
+    'franchisee/index/second'           => 'franchisee_controller@second',          //入驻申请第二步（图形验证码）
+    'franchisee/index/second_check'     => 'franchisee_controller@second_check',    //检查 图形验证码
+
+    'franchisee/index/three'            => 'franchisee_controller@three',           //入驻申请第三步（短信验证码）
+    'franchisee/index/three_check'      => 'franchisee_controller@three_check',     //检查 短信验证码
+
+    'franchisee/index/send_sms'         => 'franchisee_controller@send_sms',        //发送入驻验证码
+    'franchisee/index/resend_sms'       => 'franchisee_controller@resend_sms',      //重新发送入驻验证码    
+
+    'franchisee/index/four'             => 'franchisee_controller@four',            //入驻申请第四步 填写基本信息
+    'franchisee/index/finish'           => 'franchisee_controller@finish',          //检查 基本信息
+
+    //商家入驻查询
+    'franchisee/index/search'                => 'franchisee_controller@search',                 //店铺入驻查询 输入手机号
+    'franchisee/index/process_mobile_check'  => 'franchisee_controller@process_mobile_check',   //检查 手机号
+
+    'franchisee/index/enter_captcha'         => 'franchisee_controller@enter_captcha',          //店铺入驻查询 输入图形验证码
+    'franchisee/index/process_captcha_check' => 'franchisee_controller@process_captcha_check',  //检查图形验证码
+
+    'franchisee/index/process_enter_code'    => 'franchisee_controller@process_enter_code',     //店铺入驻查询 输入短信验证码
+    'franchisee/index/process_validate_code' => 'franchisee_controller@process_validate_code',  //检查短信验证码
+
+    'franchisee/index/process'               => 'franchisee_controller@process',                //显示入驻信息
+
+    'franchisee/index/location'              => 'franchisee_controller@location',               //显示店铺位置
+    'franchisee/index/get_region'            => 'franchisee_controller@get_region',             //获取地区
+
+    'franchisee/index/captcha_refresh'       => 'franchisee_controller@captcha_refresh',        //刷新图形验证码
+
     //登录注册
     'user/privilege/login'              => 'user_privilege_controller@login',
     'user/privilege/mobile_login'       => 'user_privilege_controller@mobile_login',

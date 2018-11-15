@@ -86,7 +86,7 @@ class touch_controller
         }
         $arr = array(
             'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-            'city_id' => $_COOKIE['city_id'],
+            'city_id'  => $_COOKIE['city_id'],
         );
         $home_data = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DATA)->data($arr)->run();
 
@@ -122,7 +122,7 @@ class touch_controller
                     }
                 }
             }
-            $home_data = array_values($home_data);
+            $home_data  = array_values($home_data);
             $count_data = count($home_data) - 1;
 
             ecjia_front::$controller->assign('home_data', $home_data);
@@ -139,14 +139,14 @@ class touch_controller
         }
         $paramater = array(
             'pagination' => array('count' => 10, 'page' => 1),
-            'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+            'location'   => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
         );
 
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
 
         if (!is_ecjia_error($response)) {
             list($data, $paginated) = $response;
-            $data = merchant_function::format_distance($data);
+            $data                   = merchant_function::format_distance($data);
 
             if (isset($paginated['more']) && $paginated['more'] == 0) {
                 $is_last = 1;
@@ -163,15 +163,15 @@ class touch_controller
      */
     public static function ajax_goods()
     {
-        $type = htmlspecialchars($_GET['type']);
+        $type  = htmlspecialchars($_GET['type']);
         $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
-        $page = intval($_GET['page']) ? intval($_GET['page']) : 1;
+        $page  = intval($_GET['page']) ? intval($_GET['page']) : 1;
 
         $paramater = array(
             'action_type' => $type,
-            'pagination' => array('count' => $limit, 'page' => $page),
-            'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-            'city_id' => $_COOKIE['city_id'],
+            'pagination'  => array('count' => $limit, 'page' => $page),
+            'location'    => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+            'city_id'     => $_COOKIE['city_id'],
         );
 
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_SUGGESTLIST)->data($paramater)->hasPage()->run();
@@ -196,18 +196,18 @@ class touch_controller
     public static function ajax_suggest_store()
     {
         $limit = intval($_GET['size']) ? intval($_GET['size']) : 10;
-        $page = intval($_GET['page']) ? intval($_GET['page']) : 1;
+        $page  = intval($_GET['page']) ? intval($_GET['page']) : 1;
 
         $paramater = array(
             'pagination' => array('count' => $limit, 'page' => $page),
-            'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+            'location'   => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
         );
 
         $cache_id = sprintf('%X', crc32($limit . '-' . $page . '-' . $_COOKIE['longitude'] . '-' . $_COOKIE['latitude'] . '-' . $_COOKIE['city_id']));
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
         if (!is_ecjia_error($response)) {
             list($data, $paginated) = $response;
-            $data = merchant_function::format_distance($data);
+            $data                   = merchant_function::format_distance($data);
 
             ecjia_front::$controller->assign('data', $data);
             ecjia_front::$controller->assign_lang();
@@ -250,7 +250,7 @@ class touch_controller
      */
     public static function del_search($store_id = 0)
     {
-        $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
+        $store_id     = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
         $ecjia_search = 'ECJia[search]';
         if (!empty($store_id)) {
             $ecjia_search .= '[' . $store_id . ']';
@@ -268,7 +268,7 @@ class touch_controller
 
     public static function cache_set()
     {
-        $token = ecjia_touch_user::singleton()->getToken();
+        $token     = ecjia_touch_user::singleton()->getToken();
         $user_info = ecjia_touch_user::singleton()->getUserinfo();
 
         $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
@@ -301,13 +301,13 @@ class touch_controller
         //周边店铺
         $paramater = array(
             'pagination' => array('count' => 10, 'page' => 1),
-            'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+            'location'   => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
             // 'city_id'       => $_COOKIE['city_id']
         );
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
         if (!is_ecjia_error($response)) {
             list($data, $paginated) = $response;
-            $data = merchant_function::format_distance($data);
+            $data                   = merchant_function::format_distance($data);
             if (isset($paginated['more']) && $paginated['more'] == 0) {
                 $is_last = 1;
             }
@@ -350,7 +350,7 @@ class touch_controller
 
         if (ecjia_touch_user::singleton()->isSignin()) {
             ecjia_front::$controller->assign('login', 1);
-            $token = ecjia_touch_user::singleton()->getToken();
+            $token     = ecjia_touch_user::singleton()->getToken();
             $user_info = ecjia_touch_user::singleton()->getUserinfo();
 
             $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
@@ -378,7 +378,7 @@ class touch_controller
 
             // 获取当前定位地址
             $ecjia_location = new ecjia_location();
-            $my_location = $ecjia_location->getLocationUrl($backurl);
+            $my_location    = $ecjia_location->getLocationUrl($backurl);
             ecjia_front::$controller->assign('my_location', $my_location);
 
             // 获取周边数据
@@ -393,7 +393,7 @@ class touch_controller
     //请求接口返回数据
     public static function search_list()
     {
-        $region = $_GET['region'];
+        $region   = $_GET['region'];
         $keywords = $_GET['keywords'];
 
         $content = with(new ecjia_location())->getSuggestionRegion($region, $keywords);
@@ -416,7 +416,7 @@ class touch_controller
         if (!empty($rs)) {
             foreach ($rs as $key => $value) {
                 $value['business_district_list'] = '';
-                $arr[$value['index_letter']][] = $value;
+                $arr[$value['index_letter']][]   = $value;
             }
         }
         ecjia_front::$controller->assign('rs', $arr);
@@ -443,18 +443,18 @@ class touch_controller
         $content = !is_ecjia_error($content) ? $content : array();
 
         $location_content = $content['result']['pois'][0];
-        $location_name = $location_content['title'];
+        $location_name    = $location_content['title'];
         $location_address = $location_content['address'];
-        $latng = $location_content['location'];
-        $longitude = $latng['lng'];
-        $latitude = $latng['lat'];
+        $latng            = $location_content['location'];
+        $longitude        = $latng['lng'];
+        $latitude         = $latng['lat'];
 
-        $ad_info = $location_content['ad_info'];
+        $ad_info   = $location_content['ad_info'];
         $city_name = $ad_info['district'];
-        $adcode = !empty($ad_info['adcode']) ? substr($ad_info['adcode'], 0, 4) : '';
+        $adcode    = !empty($ad_info['adcode']) ? substr($ad_info['adcode'], 0, 4) : '';
 
         $params = array(
-            'token' => ecjia_touch_user::singleton()->getToken(),
+            'token'   => ecjia_touch_user::singleton()->getToken(),
             'city_id' => $adcode,
         );
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
@@ -495,8 +495,8 @@ class touch_controller
             //周边店铺
             $paramater = array(
                 'pagination' => array('count' => 10, 'page' => 1),
-                'location' => array('longitude' => $longitude, 'latitude' => $latitude),
-                'city_id' => $city_id,
+                'location'   => array('longitude' => $longitude, 'latitude' => $latitude),
+                'city_id'    => $city_id,
             );
             $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
             if (!is_ecjia_error($response)) {
@@ -519,10 +519,10 @@ class touch_controller
         $location_msg = array();
 
         $location_msg['location_address_id'] = $_COOKIE['location_address_id'];
-        $location_msg['location_address'] = $_COOKIE['location_address'];
-        $location_msg['location_name'] = $_COOKIE['location_name'];
-        $location_msg['longitude'] = $_COOKIE['longitude'];
-        $location_msg['latitude'] = $_COOKIE['latitude'];
+        $location_msg['location_address']    = $_COOKIE['location_address'];
+        $location_msg['location_name']       = $_COOKIE['location_name'];
+        $location_msg['longitude']           = $_COOKIE['longitude'];
+        $location_msg['latitude']            = $_COOKIE['latitude'];
 
         return $location_msg;
     }

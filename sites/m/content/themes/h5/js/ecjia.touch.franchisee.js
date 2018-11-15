@@ -193,16 +193,16 @@
 			curCount = count;
 			$(".resend_sms").addClass("disabled");
 			InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
-			$(".resend_sms").html(curCount + "s后可重新获取");
+			$(".resend_sms").html("请查收 (" + curCount + "s)");
 			//timer处理函数
 			function SetRemainTime() {
 				if (curCount == 0) {
 					window.clearInterval(InterValObj); //停止计时器
 					$(".resend_sms").removeClass("disabled"); //启用按钮
-					$(".resend_sms").html('重新发送验证码');
+					$(".resend_sms").html('重新发送');
 				} else {
 					curCount--;
-					$(".resend_sms").html(curCount + "s后可重新获取");
+					$(".resend_sms").html("请查收 (" + curCount + "s)");
 				}
 			};
 		},

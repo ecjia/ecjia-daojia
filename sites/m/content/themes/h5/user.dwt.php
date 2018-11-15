@@ -264,6 +264,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         		<i class="iconfont icon-jiantou-right"></i>
         	</a>
 		</li>
+        <li>
+            <a href="{if $user}{url path='user/follow/init'}{else}{$login_url}{/if}">
+                <div class="icon-address-list"><img src="{$theme_url}images/user_center/follow.png"></div>
+                <span class="icon-name">关注店铺</span>
+                <i class="iconfont icon-jiantou-right"></i>
+            </a>
+        </li>
 		<li>
 			<a href="{url path='user/address/address_list'}">
         		<div class="icon-address-list"><img src="{$theme_url}images/user_center/75x75_3.png"></div>

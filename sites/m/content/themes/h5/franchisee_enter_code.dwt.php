@@ -16,8 +16,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<div class="ecjia-form ecjia-login">
-	<p class="ecjiaf-tac ecjia-margin-b">已发送验证码到{$mobile}</p>
+<div class="ecjia-address-list">
+	<div class="franchisee-search-title ecjia-margin-t">验证码已发送至</div>
+
+	<p class="ecjiaf-tac ecjia-margin-b ecjia-margin-t">手机号<span class="ecjia-color-orange">{$mobile}</span>，<span class="ecjiaf-tac blue resend_sms" data-url="{$resend_url}"></span></p>
 
 	<div id="payPassword_container">
 		<div class="franchisee_pass_container">
@@ -32,7 +34,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	
 	<input type="hidden" name="url" value="{$url}" />
 	<input type="hidden" name="mobile" value="{$mobile}" />
-    <p class="ecjiaf-tac blue resend_sms" data-url="{$resend_url}">重新发送验证码</p>
+    
 </div>
 <!-- {/block} -->
 {/nocache}

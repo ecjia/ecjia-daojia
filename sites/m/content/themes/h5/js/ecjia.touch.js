@@ -525,6 +525,8 @@
                 ecjia.touch.record_time();
                 ecjia.touch.category.image_preview();
                 ecjia.touch.user.cancel_order();
+                ecjia.touch.category.follow_store();
+                
             });
         },
 

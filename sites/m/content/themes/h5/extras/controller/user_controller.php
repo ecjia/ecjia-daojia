@@ -58,9 +58,9 @@ class user_controller
     public static function init()
     {
         $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
-        $signin = ecjia_touch_user::singleton()->isSignin();
+        $signin   = ecjia_touch_user::singleton()->isSignin();
 
-        $token = ecjia_touch_user::singleton()->getShopToken();
+        $token             = ecjia_touch_user::singleton()->getToken();
         $signup_reward_url = RC_Uri::url('market/mobile_reward/init', array('token' => $token));
 
         if ($signin) {
@@ -81,8 +81,8 @@ class user_controller
         ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
 
         //网店信息
-        $shop = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO)->run();
-        $shop = is_ecjia_error($shop) ? array() : $shop;
+        $shop        = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO)->run();
+        $shop        = is_ecjia_error($shop) ? array() : $shop;
         $shop_config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
         $shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
 
@@ -108,16 +108,16 @@ class user_controller
      */
     public static function spread()
     {
-        $token = ecjia_touch_user::singleton()->getToken();
+        $token     = ecjia_touch_user::singleton()->getToken();
         $user_info = ecjia_touch_user::singleton()->getUserinfo();
 
         $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
         $cache_id = sprintf('%X', crc32($cache_id));
 
         if (!ecjia_front::$controller->is_cached('spread.dwt', $cache_id)) {
-            $name = trim($_GET['name']);
-            $invite_user_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_USER)->data(array('token' => $token))->run();
-            $invite_user_detail = is_ecjia_error($invite_user_detail) ? array() : $invite_user_detail;
+            $name                                 = trim($_GET['name']);
+            $invite_user_detail                   = ecjia_touch_manager::make()->api(ecjia_touch_api::INVITE_USER)->data(array('token' => $token))->run();
+            $invite_user_detail                   = is_ecjia_error($invite_user_detail) ? array() : $invite_user_detail;
             $invite_user_detail['invite_explain'] = explode("\n", $invite_user_detail['invite_explain']);
 
             $invite_user_detail['invite_url'] = RC_Uri::url('affiliate/index/init', array('invite_code' => $invite_user_detail['invite_code']));
@@ -165,7 +165,7 @@ class user_controller
         }
 
         $token = ecjia_touch_user::singleton()->getToken();
-        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        $user  = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
 
         $user = is_ecjia_error($user) ? array() : $user;
         if (array_get($user, 'avatar_img')) {
@@ -175,6 +175,41 @@ class user_controller
         $head_img = $connect_user->getUserHeaderImg();
         if ($head_img) {
             RC_Api::api('user', 'update_user_avatar', array('avatar_url' => $head_img, 'user_id' => $user_id));
+        }
+    }
+
+    public static function follow_list()
+    {
+        ecjia_front::$controller->assign_title('关注店铺');
+        ecjia_front::$controller->display('follow_list.dwt');
+    }
+
+    public static function ajax_follow_list()
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
+        $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+        $page  = intval($_GET['page']) ? intval($_GET['page']) : 1;
+
+        $param = array(
+            'token'      => $token,
+            'pagination' => array('count' => $limit, 'page' => $page),
+            'location'   => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
+        );
+
+        $response = ecjia_touch_manager::make()->api(ecjia_touch_api::STORE_COLLECT_LIST)->data($param)->hasPage()->run();
+        if (!is_ecjia_error($response)) {
+            list($data, $paginated) = $response;
+            $data                   = merchant_function::format_distance($data);
+
+            ecjia_front::$controller->assign('data', $data);
+            ecjia_front::$controller->assign_lang();
+            $sayList = ecjia_front::$controller->fetch('follow_list.dwt');
+
+            if (isset($paginated['more']) && $paginated['more'] == 0) {
+                $data['is_last'] = 1;
+            }
+
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));
         }
     }
 }

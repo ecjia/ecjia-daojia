@@ -73,9 +73,9 @@ class article_controller
      */
     public static function detail()
     {
-        $title = trim($_GET['title']);
+        $title      = trim($_GET['title']);
         $article_id = intval($_GET['aid']);
-        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+        $cache_id   = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 
         if (!ecjia_front::$controller->is_cached('article_detail.dwt', $cache_id)) {
             ecjia_front::$controller->assign('title', $title);
@@ -99,9 +99,9 @@ class article_controller
      */
     public static function shop_detail()
     {
-        $title = trim($_GET['title']);
+        $title      = trim($_GET['title']);
         $article_id = intval($_GET['article_id']);
-        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+        $cache_id   = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 
         if (!ecjia_front::$controller->is_cached('article_shop_detail.dwt', $cache_id)) {
             $shop_detail = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_INFO_DETAIL)->data(array('article_id' => $article_id))->run();
@@ -147,7 +147,7 @@ class article_controller
         }
 
         //新人有礼url
-        $token = ecjia_touch_user::singleton()->getShopToken();
+        $token             = ecjia_touch_user::singleton()->getShopToken();
         $signup_reward_url = RC_Uri::url('market/mobile_reward/init', array('token' => $token));
         ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
 
@@ -163,10 +163,10 @@ class article_controller
      */
     public static function article_detail()
     {
-        $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
-        $token = ecjia_touch_user::singleton()->getToken();
+        $article_id    = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
+        $token         = ecjia_touch_user::singleton()->getToken();
         $article_param = array(
-            'token' => $token,
+            'token'      => $token,
             'article_id' => $article_id,
         );
         $article_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_DETAIL)->data($article_param)->run();
@@ -199,7 +199,7 @@ class article_controller
     {
         $type = !empty($_POST['type']) ? trim($_POST['type']) : '';
         if (!ecjia_touch_user::singleton()->isSignin()) {
-            $url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+            $url       = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
             $login_str = user_function::return_login_str();
 
             $referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
@@ -208,14 +208,14 @@ class article_controller
 
         if (empty($type)) {
             $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
-            $content = !empty($_POST['val']) ? trim(htmlspecialchars($_POST['val'])) : '';
+            $content    = !empty($_POST['val']) ? trim(htmlspecialchars($_POST['val'])) : '';
             if (empty($content)) {
                 return ecjia_front::$controller->showmessage('请输入评论内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $article_param = array(
-                'token' => ecjia_touch_user::singleton()->getToken(),
+                'token'      => ecjia_touch_user::singleton()->getToken(),
                 'article_id' => $article_id,
-                'content' => $content,
+                'content'    => $content,
             );
             $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_COMMENT_CREATE)->data($article_param)->run();
             if (is_ecjia_error($response)) {
@@ -231,7 +231,7 @@ class article_controller
     public static function like_article()
     {
         if (!ecjia_touch_user::singleton()->isSignin()) {
-            $url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+            $url       = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
             $login_str = user_function::return_login_str();
 
             $referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
@@ -239,10 +239,10 @@ class article_controller
         }
 
         $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
-        $type = !empty($_POST['type']) ? trim($_POST['type']) : '';
+        $type       = !empty($_POST['type']) ? trim($_POST['type']) : '';
 
         $article_param = array(
-            'token' => ecjia_touch_user::singleton()->getToken(),
+            'token'      => ecjia_touch_user::singleton()->getToken(),
             'article_id' => $article_id,
         );
 
@@ -262,27 +262,27 @@ class article_controller
      */
     public static function ajax_article_list()
     {
-        $limit = !empty($_GET['size']) > 0 ? intval($_GET['size']) : 10;
-        $page = intval($_GET['page']) ? intval($_GET['page']) : 1;
+        $limit       = !empty($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+        $page        = intval($_GET['page']) ? intval($_GET['page']) : 1;
         $action_type = $_GET['action_type'];
 
         if ($action_type == 'stickie') {
             //精选文章
             $article_param = array(
-                'type' => 'stickie',
+                'type'       => 'stickie',
                 'pagination' => array('count' => $limit, 'page' => $page),
             );
             $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_SUGGESTLIST)->data($article_param)->hasPage()->run();
         } else {
             $article_param = array(
-                'cat_id' => $action_type,
+                'cat_id'     => $action_type,
                 'pagination' => array('count' => $limit, 'page' => $page),
             );
             $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_LIST)->data($article_param)->hasPage()->run();
         }
 
         $say_list = '';
-        $is_last = 1;
+        $is_last  = 1;
         if (!is_ecjia_error($response)) {
             list($data, $paginated) = $response;
             ecjia_front::$controller->assign('data', $data);
@@ -302,8 +302,8 @@ class article_controller
      */
     public static function ajax_comment_list()
     {
-        $pages = !empty($_GET['page']) ? intval($_GET['page']) : 1;
-        $limit = !empty($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+        $pages      = !empty($_GET['page']) ? intval($_GET['page']) : 1;
+        $limit      = !empty($_GET['size']) > 0 ? intval($_GET['size']) : 10;
         $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
 
         $article_param = array(
@@ -313,7 +313,7 @@ class article_controller
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ARTICLE_COMMENTS)->data($article_param)->hasPage()->run();
 
         $say_list = '';
-        $is_last = 1;
+        $is_last  = 1;
         if (!is_ecjia_error($response)) {
             list($data, $paginated) = $response;
 

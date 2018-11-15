@@ -40,7 +40,6 @@
 }
 
 /*banner效果*/
-
 .focus {
 	width: 100%;
 	height: auto;
@@ -96,12 +95,10 @@
 }
 
 .focus .bd li a {
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	/* 取消链接高亮 */
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);	/* 取消链接高亮 */
 }
 
 /*快速导航*/
-
 .ecjia-row-nav {
 	margin-top: 0;
 	padding-bottom: 1em;
@@ -174,7 +171,6 @@
 }
 
 /*新增ecj的mod*/
-
 .ecjia-mod .hd {
 	padding: 0.7em 0;
 	border-top: 1px solid #eee;
@@ -198,7 +194,6 @@
 }
 
 /*精选大牌*/
-
 .ecjia-mod-brand .bd .ecjia-div {
 	float: left;
 	width: 25%;
@@ -286,7 +281,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*==================== 搜索页面CSS ====================*/
-
 .ecjia-search-header {
 	position: absolute;
 	top: 0.5em;
@@ -382,7 +376,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * user基本信息
  */
-
 .user-new-info {
 	padding: 1em;
 	overflow: hidden;
@@ -473,7 +466,6 @@ footer .footer-icon .ecjia-list li a.active i {
     top: 1.4em;
 }
 */
-
 .nav-header span {
 	color: #999;
 }
@@ -558,7 +550,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*小导航8个*/
-
 .user-nav .ecjia-row-nav li i:before {
 	font-size: 2em;
 }
@@ -576,7 +567,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*用户导航列表*/
-
 .ecjia-user-tab li {
 	position: relative;
 	height: 4em;
@@ -610,7 +600,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 用户中心 -- 资金管理
  */
-
 .user-account-detail .hd {
 	position: relative;
 	text-align: center;
@@ -711,7 +700,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 资金明细
  */
-
 .user_account_list-nav {
 	border-bottom: 1px solid #ddd;
 }
@@ -727,7 +715,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 用户中心 -- 个人信息
  */
-
 .ecjia_user-info-edit {
 	height: 13em;
 }
@@ -748,7 +735,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  *用户中心 -- 我的分享
  */
-
 .u-table {
 	width: 100% !important;
 }
@@ -837,12 +823,9 @@ footer .footer-icon .ecjia-list li a.active i {
 
 .user-share-show .hd i {
 	transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
-	/* Internet Explorer */
-	-moz-transform: rotate(180deg);
-	/* Firefox */
-	-webkit-transform: rotate(180deg);
-	/* Safari 和 Chrome */
+	-ms-transform: rotate(180deg);	/* Internet Explorer */
+	-moz-transform: rotate(180deg);	/* Firefox */
+	-webkit-transform: rotate(180deg);	/* Safari 和 Chrome */
 	-o-transform: rotate(180deg);
 }
 
@@ -861,7 +844,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 用户中心 -- 我的红包
  */
-
 .user-bonus li {
 	padding: 0;
 	background-image: url(../images/bonus-icon.png);
@@ -1143,7 +1125,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*入驻中心样式*/
-
 .merchants_step {
 	padding-bottom: 1em;
 }
@@ -1172,7 +1153,8 @@ footer .footer-icon .ecjia-list li a.active i {
 	font-weight: bolder;
 }
 
-.merchants_step .ecjia-list li {}
+.merchants_step .ecjia-list li {
+}
 
 .merchants_step .ecjia-list li.link {
 	cursor: pointer;
@@ -1193,7 +1175,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*找回密码导航*/
-
 .get-password-nav {
 	padding: 0em;
 }
@@ -1277,7 +1258,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*修改个人资料*/
-
 .user-profile-form .form-group div {
 	position: relative;
 }
@@ -1302,7 +1282,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*修改密码*/
-
 .edit-password-form input {
 	padding-left: 0em !important;
 }
@@ -1310,7 +1289,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 消息详情
  */
-
 .msg-detail {
 	padding: 0em;
 	font-size: 1.2em;
@@ -1351,7 +1329,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 消息中心
  */
-
 .ecjia-message-list li {
 	padding: 0.7em 1em;
 	overflow: hidden;
@@ -1448,7 +1425,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 我的标签
  */
-
 .user-tag-list li {
 	position: relative;
 	width: 48.5%;
@@ -1490,7 +1466,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 我的收藏
  */
-
 .ecjia-collection {
 	padding: .5em;
 }
@@ -1571,7 +1546,6 @@ footer .footer-icon .ecjia-list li a.active i {
 	right: 1.5em;
 }
 */
-
 .user-address-list li .address {
 	width: 70%;
 }
@@ -1579,7 +1553,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 缺货登记
  */
-
 .user-booking-list li {
 	overflow: hidden;
 	border-top: 1px solid #CCC;
@@ -1625,7 +1598,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*提交缺货登记*/
-
 .add-booking-form .form-group label {
 	line-height: 2.3em;
 }
@@ -2159,7 +2131,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*相关商品*/
-
 .goods-link-like {
 	padding: 1em 2em;
 }
@@ -2301,7 +2272,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 商品描述
  */
-
 .goods-desc-info {
 	padding-bottom: 7em;
 }
@@ -2365,7 +2335,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 商品评论页样式
  */
-
 .ecjia-list.ecjia-list-four.comment-list-nav li {
 	padding: 0.8em 0;
 }
@@ -2392,7 +2361,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /*
  * 我的标签
  */
-
 .tag_list .goods-tag {
 	padding: 0 1em;
 }
@@ -2427,7 +2395,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*评论内容*/
-
 .goods-comment-list li {
 	overflow: hidden;
 	padding: 1em;
@@ -2466,8 +2433,8 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 发表评论
  */
-
-.add-comment {}
+.add-comment {
+}
 
 .comment-form .add-comment .hd {
 	padding: 1em 1em 0.7em 1em;
@@ -2641,7 +2608,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /*
 *优惠活动列表----购物车
 */
-
 .ecjia-favourable-list li {
 	padding: .5em 1em;
 }
@@ -2672,7 +2638,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /*
 *相关商品配件
 */
-
 .ecjia-fitting-list li {
 	overflow: hidden;
 	padding: 1em;
@@ -2766,7 +2731,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 首页遮罩
  */
-
 .search_fixed_mask.active {
 	position: fixed;
 	left: 0;
@@ -2809,7 +2773,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 列表页
  */
-
 .ecjia-category-search .ecjia-header-title {
 	left: 4em;
 }
@@ -3046,12 +3009,9 @@ footer .footer-icon .ecjia-list li a.active i {
 
 .list-page-wrapper .list-page-nav a.list-page-nav-select i.icon-jiantou-top {
 	transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
-	/* Internet Explorer */
-	-moz-transform: rotate(180deg);
-	/* Firefox */
-	-webkit-transform: rotate(180deg);
-	/* Safari 和 Chrome */
+	-ms-transform: rotate(180deg);	/* Internet Explorer */
+	-moz-transform: rotate(180deg);	/* Firefox */
+	-webkit-transform: rotate(180deg);	/* Safari 和 Chrome */
 	-o-transform: rotate(180deg);
 }
 
@@ -3062,7 +3022,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 分类搜索
  */
-
 .ecjia-search-category .ecjia-header-title a {
 	border-radius: 2em;
 	padding-left: 0.5em;
@@ -3072,7 +3031,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 所有分类页
  */
-
 .category .category_left {
 	float: left;
 	width: 8em;
@@ -3147,7 +3105,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 筛选
  */
-
 .goods-filter .ecjia-header .ecjia-header-right {
 	line-height: 4em;
 }
@@ -3312,7 +3269,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 账户提现
  */
-
 .user-account-withdraw .account-withdraw {
 	padding: 0.5em 0.8em;
 	font-size: 1.2em;
@@ -3371,7 +3327,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 账单详情
  */
-
 .ecjia-user-info.log_detail {
 	background-color: #fff;
 }
@@ -3397,7 +3352,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 找回密码
  */
-
 .flow-consignee .form-group,
 .user-register-form .form-group {
 	border-bottom: 1px solid #ddd;
@@ -3420,7 +3374,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /*
  * 注册
  */
-
 .user-register .phone-register .send-code input {
 	width: 70%;
 	border-right: 1px solid #eee;
@@ -3503,7 +3456,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
 * 底部专题
 */
-
 .bottom-banner {
 	position: fixed;
 	bottom: 0;
@@ -3531,7 +3483,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /*
  * 首页点击直接搜索
  */
-
 .ecjia-header-index {
 	position: fixed;
 	top: 0;
@@ -3565,7 +3516,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*激活状态*/
-
 .ecjia-header-index.active {
 	position: fixed;
 	top: 0;
@@ -3601,7 +3551,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*热门搜索区域*/
-
 .ecjia-hot-search-index {
 	position: fixed;
 	width: 100%;
@@ -3610,7 +3559,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /*热门搜索激活状态*/
-
 .ecjia-hot-search-index.active {
 	display: block;
 	transform: translateY(0);
@@ -3713,7 +3661,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /**
  * 专题活动
  */
-
 .toplic-list .topic {
 	overflow: hidden;
 	position: relative;
@@ -3742,7 +3689,6 @@ footer .footer-icon .ecjia-list li a.active i {
 /*
  * 浏览历史
  */
-
 .ecjia-history-list .goods-img {
 	width: 7em;
 	height: 7em;
@@ -3750,7 +3696,6 @@ footer .footer-icon .ecjia-list li a.active i {
 }
 
 /* 登陆 */
-
 .ecjia-login-form .form-group .input .icon-lock {
 	background-color: #9ecc17;
 }

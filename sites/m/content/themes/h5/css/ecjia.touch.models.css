@@ -191,8 +191,7 @@ html.pixel-ratio-3 .modal-button:after {
   font-weight: 500;
 }
 
-html:not(.watch-active-state) .modal-button:active,
-.modal-button.active-state {
+html:not(.watch-active-state) .modal-button:active,.modal-button.active-state {
   background: #d4d4d4;
 }
 
@@ -379,8 +378,7 @@ html.pixel-ratio-3 .actions-modal-label:after {
   color: #007aff;
 }
 
-html:not(.watch-active-state) .actions-modal-button:active,
-.actions-modal-button.active-state {
+html:not(.watch-active-state) .actions-modal-button:active,.actions-modal-button.active-state {
   background: #dcdcdc;
 }
 
@@ -665,7 +663,7 @@ html.pixel-ratio-3 .actions-popover-label:after {
   display: block;
 }
 
-@media all and (min-width: 630px) and (min-height: 630px) {
+@media all and (min-width:630px) and (min-height:630px) {
   .popup:not(.tablet-fullscreen) {
     width: 630px;
     height: 630px;
@@ -676,26 +674,30 @@ html.pixel-ratio-3 .actions-popover-label:after {
     -webkit-transform: translate3d(0, 1024px, 0);
     transform: translate3d(0, 1024px, 0);
   }
+
   .popup:not(.tablet-fullscreen).modal-in {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
+
   .popup:not(.tablet-fullscreen).modal-out {
     -webkit-transform: translate3d(0, 1024px, 0);
     transform: translate3d(0, 1024px, 0);
   }
+
 }
 
-@media all and (max-width: 629px),
-(max-height: 629px) {
+@media all and (max-width:629px), (max-height:629px) {
   html.with-statusbar-overlay .popup {
     height: -webkit-calc(100% - 20px);
     height: calc(100% - 20px);
     top: 20px;
   }
+
   html.with-statusbar-overlay .popup-overlay {
     z-index: 9800;
   }
+
 }
 
 html.with-statusbar-overlay .login-screen,

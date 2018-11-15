@@ -16,6 +16,7 @@
 					<div class="store-title">
 						<span class="store-name">{$val.seller_name}</span>
 						{if $val.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}
+						{if $val.is_follower eq 1}<img class="followed" src="{$theme_url}images/user_center/icon_follow.png">{/if}
 						<span class="store-distance">{$val.distance}</span>
 					</div>
 					<div class="store-range">

@@ -1,5 +1,4 @@
 /*全局css*/
-
 .ecjia-list li {
     overflow: hidden;
 }
@@ -11,7 +10,6 @@
 /**
  * 店铺街
  */
-
 .ecjia-shop-list,
 .ecjia-shop-list .shop-list-head {
     overflow: hidden;
@@ -74,7 +72,6 @@
 }
 
 /* 店铺首页 */
-
 .shop-detail .list-page-nav a {
     width: 25%;
 }
@@ -129,7 +126,6 @@
 }
 
 /*店铺详情页*/
-
 .shop-score {
     padding: 1em 1em 0 1em;
     border-top: 1px solid #ddd;
@@ -146,7 +142,6 @@
 /**
  * 商家入驻
  */
-
 .ecjia-form.merchant_shop input[type="text"],
 .ecjia-form.merchant_shop input[type="file"] {
     padding-left: 0;
@@ -210,7 +205,6 @@
 }
 
 /* 选择所在地区 */
-
 .ecjia-region-sel li {
     border-bottom: none;
 }
@@ -265,7 +259,6 @@
 }
 
 /* 商品详情 */
-
 .address-warehouse {
     padding: 1em;
 }
@@ -322,7 +315,6 @@
 /**
  * 搜索页面
  */
-
 .ecjia-search-header .ecjia-form .select select {
     height: 2.4em;
 }

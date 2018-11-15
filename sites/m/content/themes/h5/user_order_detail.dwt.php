@@ -37,7 +37,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						{else if $order.order_status_code eq 'canceled'}
 							<img src="{$theme_url}images/order_status/canceled_2.png">
 						{else if $order.order_status_code eq 'refunded'}
-							<img src="{$theme_url}images/order_status/refund_2.png">							
+							<img src="{$theme_url}images/order_status/refund_2.png">
+						{else if $order.order_status_code eq 'payed'}
+							<img src="{$theme_url}images/order_status/wait_confirm_2.png">							
 			        	{/if}
 			        </span>
 			        <div class="order-status-msg">
@@ -201,7 +203,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						</a>
 					{/if}
 					
-					{if $order.order_status_code eq 'await_ship'}
+					{if $order.order_status_code eq 'await_ship' || $order.order_status_code eq 'payed'}
 						<a class="btn btn-small btn-hollow" href='{url path="user/order/return_order" args="order_id={$order.order_id}"}'>申请退款</a>
 					{/if}
 					
@@ -211,7 +213,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					{/if}
 				{/if}
 				
-				{if $order.order_status_code eq 'canceled'}
+				{if $order.order_status_code eq 'canceled' || $order.order_status_code eq 'payed'}
 					<a class="btn btn-small btn-hollow" href='{url path="user/order/buy_again" args="order_id={$order.order_id}"}'>再次购买</a>
 				{/if}
 				

@@ -51,7 +51,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<!--{/if}-->
 	</div>
 	<!-- {block name="ready_footer"} --><!-- {/block} -->
-	<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+	<script charset="utf-8" src="{ecjia_location_mapjs('convertor')}"></script>
 	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="{$theme_url}lib/multi-select/js/jquery.quicksearch.js"></script>
 	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.pjax.js"></script>

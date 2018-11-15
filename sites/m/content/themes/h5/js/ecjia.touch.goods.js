@@ -38,7 +38,9 @@
 			$('body').css('overflow-y', 'auto').off("touchmove").off('click'); //启用滚动条
 			$(".ecjia-store-goods .a1n .a1x").css({
 				overflow: "auto"
-			}); //启用滚动条	
+			}); //启用滚动条
+
+			ecjia.touch.category.follow_store();
 		},
 
 		//加入购物车
@@ -1049,74 +1051,7 @@
 					}, ]
 				});
 			});
-
-			// 获取所有行，对每一行设置监听
-			var lines = $(".ecjia-flow-cart .a4w");
-			var len = lines.length;
-			var lastX, lastXForMobile;
-			// 用于记录被按下的对象
-			var pressedObj; // 当前左滑的对象
-			var lastLeftObj; // 上一个左滑的对象
-			// 用于记录按下的点
-			var start;
-			// 网页在移动端运行时的监听
-			for (var i = 0; i < len; ++i) {
-				lines[i].addEventListener('touchstart', function (e) {
-					lastXForMobile = e.changedTouches[0].pageX;
-					pressedObj = this; // 记录被按下的对象 
-
-					// 记录开始按下时的点
-					var touches = e.touches[0];
-					start = {
-						x: touches.pageX,
-						// 横坐标
-						y: touches.pageY // 纵坐标
-					};
-				});
-
-				lines[i].addEventListener('touchmove', function (e) {
-					// 计算划动过程中x和y的变化量
-					var touches = e.touches[0];
-					delta = {
-						x: touches.pageX - start.x,
-						y: touches.pageY - start.y
-					};
-					// 横向位移大于纵向位移，阻止纵向滚动
-					if (Math.abs(delta.x) > Math.abs(delta.y)) {
-						e.preventDefault();
-					}
-				});
-
-				lines[i].addEventListener('touchend', function (e) {
-					var diffX = e.changedTouches[0].pageX - lastXForMobile;
-					if (diffX < -110) {
-						$(pressedObj).find('.a4x').animate({
-							marginLeft: "-60px",
-							marginRight: "60px"
-						}, 200); // 左滑
-						$(pressedObj).find('.a4y').animate({
-							marginLeft: "-60px",
-							marginRight: "60px"
-						}, 200); // 左滑
-						$(pressedObj).find('.w4').animate({
-							width: "60"
-						}, 200); // 左滑
-					}
-					if (diffX > 70) {
-						$(pressedObj).find('.a4x').animate({
-							marginLeft: "0",
-							marginRight: "0"
-						}, 200); // 右滑
-						$(pressedObj).find('.a4y').animate({
-							marginLeft: "0",
-							marginRight: "0"
-						}, 200); // 右滑
-						$(pressedObj).find('.w4').animate({
-							width: "0"
-						}, 200); // 右滑
-					}
-				});
-			}
+			ecjia.touch.category.delete_line(".ecjia-flow-cart .a4w", ".a4x", ".a4y", ".w4");
 		},
 
 		//店铺首页 单选
@@ -2165,6 +2100,198 @@
 				}
 			}
 		},
+
+		follow_store: function() {
+			$('[data-toggle="follow_store"]').off('click').on('click', function() {
+				var $this = $(this),
+					type = $this.attr('data-type'),
+					url = $this.attr('data-url'),
+					message = $this.attr('data-message');
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				$this.addClass('disabled');
+				if (message != undefined) {
+					var myApp = new Framework7();
+					//禁用滚动条
+					$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
+						event.preventDefault;
+					}, false);
+
+					myApp.modal({
+						title: '确定取消关注该店铺？',
+						buttons: [{
+							text: '取消',
+							onClick: function () {
+								$('.modal').remove();
+								$('.modal-overlay').remove();
+								$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
+								return false;
+							}
+						}, {
+							text: '确定',
+							onClick: function () {
+								$('.modal').remove();
+								$('.modal-overlay').remove();
+								$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
+								$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+								ecjia.touch.category.follow_store_update($this, url, type);
+							},
+						}]
+					});
+				} else {
+					ecjia.touch.category.follow_store_update($this, url, type);
+				}
+			});
+			ecjia.touch.category.delete_line(".ecjia-follow-list .store-info", ".basic-info", ".basic-info", ".remove-info");
+		},
+
+		follow_store_update: function(div, url, type) {
+			$.post(url, {type: type}, function(data) {
+				$('.la-ball-atom').remove();
+				if (data.state == 'error') {
+					$('[data-toggle="follow_store"]').removeClass('disabled');
+					var myApp = new Framework7();
+					if (data.referer_url || data.message == 'Invalid session') {
+						$(".ecjia-store-goods .a1n .a1x").css({
+							overflow: "hidden"
+						}); //禁用滚动条
+						//禁用滚动条
+						$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
+							event.preventDefault;
+						}, false);
+
+						myApp.modal({
+							title: '温馨提示',
+							text: '您还没有登录',
+							buttons: [{
+								text: '取消',
+								onClick: function () {
+									$('.modal').remove();
+									$('.modal-overlay').remove();
+									$(".ecjia-store-goods .a1n .a1x").css({
+										overflow: "auto"
+									}); //启用滚动条
+									$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
+									return false;
+								}
+							}, {
+								text: '去登录',
+								onClick: function () {
+									$('.modal').remove();
+									$('.modal-overlay').remove();
+									$(".ecjia-store-goods .a1n .a1x").css({
+										overflow: "auto"
+									}); //启用滚动条
+									$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
+									location.href = data.referer_url;
+									return false;
+								}
+							}, ]
+						});
+						return false;
+					} else {
+						alert(data.message);
+						return false;
+					}
+				} else {
+					iosOverlay({
+						text: data.message,
+						duration: 500,
+						onhide: function() {
+							$('[data-toggle="follow_store"]').removeClass('disabled');
+							if ($.find('.ecjia-follow-list').length != 0) {
+								div.parent('.store-info').remove();
+								if ($('.ecjia-follow-list').find('.store-info').length == 0) {
+									$('.ecjia-follow-list').html('<div class="ecjia-empty-list"><div class="ecjia-nolist">暂无关注店铺</div></div>');
+								}
+								return false;
+							}
+							if (type == 1) {
+								$('.follower').addClass('not').html('已关注').attr('data-type', 0);
+							} else {
+								$('.follower').removeClass('not').html('<i class="iconfont icon-add"></i>关注').attr('data-type', 1);
+							}
+						}
+					});
+				}
+			});
+		},
+
+		//删除行
+		//lines 要删除的行div
+		//left 该行显示的div
+		//right 该行显示的div
+		//btn 删除按钮
+		delete_line: function(lines, left, right, btn) {
+			// 获取所有行，对每一行设置监听
+			var lines = $(lines);
+			var len = lines.length;
+			var lastX, lastXForMobile;
+			// 用于记录被按下的对象
+			var pressedObj; // 当前左滑的对象
+			var lastLeftObj; // 上一个左滑的对象
+			// 用于记录按下的点
+			var start;
+			// 网页在移动端运行时的监听
+			for (var i = 0; i < len; ++i) {
+				lines[i].addEventListener('touchstart', function (e) {
+					lastXForMobile = e.changedTouches[0].pageX;
+					pressedObj = this; // 记录被按下的对象 
+
+					// 记录开始按下时的点
+					var touches = e.touches[0];
+					start = {
+						x: touches.pageX,
+						// 横坐标
+						y: touches.pageY // 纵坐标
+					};
+				});
+
+				lines[i].addEventListener('touchmove', function (e) {
+					// 计算划动过程中x和y的变化量
+					var touches = e.touches[0];
+					delta = {
+						x: touches.pageX - start.x,
+						y: touches.pageY - start.y
+					};
+					// 横向位移大于纵向位移，阻止纵向滚动
+					if (Math.abs(delta.x) > Math.abs(delta.y)) {
+						e.preventDefault();
+					}
+				});
+
+				lines[i].addEventListener('touchend', function (e) {
+					var diffX = e.changedTouches[0].pageX - lastXForMobile;
+					if (diffX < -110) {
+						$(pressedObj).find(left).animate({
+							marginLeft: "-60px",
+							marginRight: "60px"
+						}, 200); // 左滑
+						$(pressedObj).find(right).animate({
+							marginLeft: "-60px",
+							marginRight: "60px"
+						}, 200); // 左滑
+						$(pressedObj).find(btn).animate({
+							width: "60"
+						}, 200); // 左滑
+					}
+					if (diffX > 70) {
+						$(pressedObj).find(left).animate({
+							marginLeft: "0",
+							marginRight: "0"
+						}, 200); // 右滑
+						$(pressedObj).find(right).animate({
+							marginLeft: "0",
+							marginRight: "0"
+						}, 200); // 右滑
+						$(pressedObj).find(btn).animate({
+							width: "0"
+						}, 200); // 右滑
+					}
+				});
+			}
+		}
 	};
 
 	ecjia.touch.comment = {
@@ -2217,6 +2344,8 @@
 		$(modal).find('.goods-attr-name').html($spec_html);
 		$(modal).find('.goods-attr-price').html($spec_price);
 	};
+
+
 })(ecjia, jQuery);
 
 //end

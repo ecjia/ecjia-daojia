@@ -18,6 +18,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<span class="store-name">{$store_info.seller_name}</span>
 						{if $store_info.distance} <span class="seller-distance">{$store_info.distance}</span>{/if}
 						{if $store_info.manage_mode eq 'self'}<span class="manage-mode">自营</span>{/if}
+						{if $store_info.is_follower eq 1}
+							<span class="follower not" data-toggle="follow_store" data-type=0 data-url="{$follow_url}">已关注</span>
+						{else}
+							<span class="follower" data-toggle="follow_store" data-type=1 data-url="{$follow_url}"><i class="iconfont icon-add"></i>关注</span>
+						{/if}
 					</div>
 					<div class="store-range">
 						<i class="icon-shop-time"></i>{$store_info.label_trade_time}

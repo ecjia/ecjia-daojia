@@ -165,14 +165,8 @@ RC_Hook::add_action('connect_callback_user_signin', function($connect_user) {
     	return ecjia_front::$controller->showmessage($user_info->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
     }
     
-    RC_Loader::load_app_class('integrate', 'user', false);
-    $user = integrate::init_users();
-    if (is_ecjia_error($user)) {
-    	return ecjia_front::$controller->showmessage($user->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
-    }
-    
-    $user->set_session($user_info['name']);
-    $user->set_cookie($user_info['name']);
+    ecjia_integrate::setSession($user_info['name']);
+    ecjia_integrate::setCookie($user_info['name']);
 
     //这里需要请求connect/signin更新token
 //    $res = array(
