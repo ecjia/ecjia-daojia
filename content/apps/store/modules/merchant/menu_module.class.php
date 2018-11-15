@@ -44,125 +44,62 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Store;
-
-use RC_DB;
-use RC_Time;
-use ecjia;
-use RC_Api;
-use RC_Logger;
-use ecjia_page;
-use RC_Lang;
-use RC_Upload;
+defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 店铺信息
- *
+ * 商家自定义菜单
+ * @author zrl
  */
-class StoreFranchisee
-{
+class merchant_menu_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    	$this->authSession();
+    	$user_id = $_SESSION['user_id'];
+    	if ($user_id <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	
+    	$store_id = $this->requestData('store_id', '0');
+    	if (empty($store_id)) {
+    		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    	}
+    	
+		$db = RC_DB::table('merchant_menu');
+		$db->where('store_id', $store_id)->where('status', 1);
+
+		$menulist = $db->where('pid', 0)->orderBy('sort', 'asc')->get();
+		
+		$menu_list = array();
+		$sub = [];
+		if (!empty($menulist)) {
+			foreach ($menulist as $row) {
+				$sub_button = $this->get_sub_button($row['id'], $store_id);
+				$menu_list[] = array(
+						'url' 			=> empty($row['url']) ? '' : $row['url'],
+						'name'			=> empty($row['name']) ? '' : $row['name'],
+						'sub_button'	=> $sub_button,
+				);
+				
+			}
+		}
+		return array('data' => $menu_list);
+	}
 	
-    /**
-     * 获取店铺信息 
-     * @param array $options
-     * @return array
-     */
-    public static function StoreFranchiseeInfo($options) {
-    	$dbview = RC_DB::table('store_franchisee as sf')->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'));
-    	if (isset($options['status'])) {
-    		$dbview->where(RC_DB::raw('sf.status'), $options['status']);
-    	}
-    	if (isset($options['store_id'])) {
-    		$dbview->where(RC_DB::raw('sf.store_id'), $options['store_id']);
-    	}
-    	$info = $dbview->select(RC_DB::raw($options['field']))->first();
-    	return $info;
-    }
-    
-    /**
-     * 获取店铺营业时间（格式化）
-     * @param int $store_id
-     * @return string
-     */
-    public static function GetStoreTradetime($store_id = 0) {
-    	if (empty($store_id)) {
-    		$store_id = $_SESSION['store_id'];
-    	}
-    	if (empty($store_id)) {
-    		return false;
-    	}
-    
-    	$trade_time = self::GetMerchantConfig('shop_trade_time', '', $store_id);
-    	if (empty($trade_time)) {
-    		return '暂未设置';
-    	}
-    	$trade_time = unserialize($trade_time);
-    	if (empty($trade_time)) {
-    		return '暂未设置';
-    	}
-    	$sart_time = $trade_time['start'];
-    	$end_time = explode(':', $trade_time['end']);
-    	if ($end_time[0] >= 24) {
-    		$end_time[0] = '次日'. ($end_time[0] - 24);
-    	}
-    
-    	return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
-    }
-    
-    /**
-     * 获取店铺配置信息
-     * @param string $code
-     * @param string or array $arr
-     * @param int $store_id
-     * @return array or string
-     */
-    public static function GetMerchantConfig($code = '', $arr = '', $store_id = 0)
-    {
-    	if (empty($store_id)) {
-    		$store_id = $_SESSION['store_id'];
-    	}
-    	if (empty($store_id)) {
-    		return array();
-    	}
-    	if (empty($code)) {
-    		if (is_array($arr)) {
-    			$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->select('code', 'value')->get();
-    			foreach ($config as $key => $value) {
-    				$arr[$value['code']] = $value['value'];
-    			}
-    			return $arr;
-    		} else {
-    			return;
-    		}
-    	} else {
-    		$config = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', $code)->pluck('value');
-    		return $config;
-    	}
-    }
-    
-    
-    /**
-     * 获取店铺名称
-     * @param int $store_id
-     * @return string
-     */
-    public static function StoreName($store_id) {
-    	$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
-    	return $store_name;
-    }
-    
-    /**
-     * 获取店铺logo
-     * @param int $store_id
-     * @return string
-     */
-    public static function StoreLogo($store_id) {
-    	$store_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->pluck('value');
-    	if (!empty($store_logo)) {
-    		$store_logo = RC_Upload::upload_url($store_logo);
-    	} else {
-    		$store_logo = '';
-    	}
-    	return $store_logo;
-    }
+	/**
+	 * 获取子菜单
+	 */
+	private function get_sub_button($pid = 0, $store_id= 0) {
+		$arr = [];
+		$sub_button = RC_DB::table('merchant_menu')->select('url', 'name')->where('store_id', $store_id)->where('status', 1)->where('pid', $pid)->orderBy('sort', 'asc')->get();
+		if (!empty($sub_button)) {
+			foreach ($sub_button as $val) {
+				$arr [] = array(
+						'url' 			=> empty($val['url']) ? '' : $val['url'],
+						'name'			=> empty($val['name']) ? '' : $val['name'],
+				);
+			}
+		}
+		return $arr;
+	}
 }
+
+// end
