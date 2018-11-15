@@ -66,7 +66,7 @@
 												{if $subscribe.reply_type neq 'news'}
 												<div class="img_preview">
 													<img class="preview_img margin_10" src="{$subscribe.media.file}" alt="">
-													<input type="hidden" name="media_id" value="3">
+													<input type="hidden" name="media_id" value="{$subscribe.media_id}">
 													<a href="javascript:;" class="jsmsgSenderDelBt link_dele" "="">删除</a>
 												</div>
 												{else}

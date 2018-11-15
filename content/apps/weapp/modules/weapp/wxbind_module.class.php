@@ -112,10 +112,8 @@ class weapp_wxbind_module extends api_front implements api_interface {
 		}
 		
 		//设置session,设置cookie
-		RC_Loader::load_app_class('integrate', 'user', false);
-		$user = integrate::init_users();
-		$user->set_session($user_info['user_name']);
-		$user->set_cookie($user_info['user_name']);
+        ecjia_integrate::setSession($user_info['user_name']);
+        ecjia_integrate::setCookie($user_info['user_name']);
 		
 		//修正咨询信息
 		$this->feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
