@@ -49,7 +49,7 @@ Plugin Name: 自动确认收货
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_order_receive/
 Description: 计划任务-订单自动确认收货
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.23.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
 */
