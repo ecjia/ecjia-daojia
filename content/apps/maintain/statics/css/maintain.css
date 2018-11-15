@@ -21,4 +21,10 @@
 	text-decoration:none;
 }
 
-
+.outline .outline-right span{
+	display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

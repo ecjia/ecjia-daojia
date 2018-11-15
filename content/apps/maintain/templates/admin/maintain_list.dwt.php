@@ -18,11 +18,11 @@
 				<div class="row-fluid">
 					<!-- {foreach from=$data item=list} -->
 						<div class="outline">
-							<a style=""class="data-pjax"  href='{RC_Uri::url("maintain/admin/run", "code={$list.code}")}' >
+							<a style=""class="data-pjax"  href='{RC_Uri::url("maintain/admin/run", "code={$list.code}")}' title="{$list.name}">
 								<div class="outline-left"><img src="{$list.icon}" /></div>
 								<div class="outline-right">
 									<h3>{$list.name}</h3>
-									<span>{$list.description}</span>
+									<span title="{$list.description}">{$list.description}</span>
 								</div>
 							</a>
 						</div>
