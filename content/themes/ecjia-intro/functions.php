@@ -92,25 +92,26 @@ RC_Hook::add_action('main/index/init', function () {
         $shop_wechat_qrcode 		= !empty($shop_wechat_qrcode)? RC_Upload::upload_url().'/'.$shop_wechat_qrcode : '';
         $mobile_touch_qrcode    	= ecjia::config('mobile_touch_qrcode');
         $mobile_touch_qrcode        = !empty($mobile_touch_qrcode)? RC_Upload::upload_url($mobile_touch_qrcode) : '';
-    
-        $shop_info = RC_DB::table('article')->select('article_id', 'title')->where('cat_id', 0)->where('article_type', 'shop_info')->orderby('article_id', 'asc')->get();
-        if (!empty($shop_info)) {
-            foreach($shop_info as $key => $val){
-                $url                    = RC_Uri::url('merchant/merchant/shopinfo', array('id' => $val['article_id']));
-                $shop_info[$key]['url'] = str_replace('index.php', 'sites/merchant/index.php', $url);
-            }
-        }
+
+        $shop_info_html = (new Ecjia\App\Article\ShopInfoArticleList)->outputHtml();
     
         $screenshots = RC_DB::table('mobile_screenshots')->where('app_code', '=', 'cityo2o')->orderBy('sort','asc')->take(10)->get();
         foreach($screenshots as $key => $val){
             $screenshots[$key]['img_url'] = !empty($val['img_url'])? RC_Upload::upload_url($val['img_url']) : '';
             if (empty($val['img_url'])) unset($screenshots[$key]);
         }
+
+        $data = array(
+            'powered' => 'Powered&nbsp;by&nbsp;<a href="https:\/\/ecjia.com" target="_blank">ECJia</a>',
+        );
+
+        $data = RC_Hook::apply_filters('ecjia_general_info_filter', $data);
+
          
         ecjia_front::$controller->assign_title();
     
         ecjia_front::$controller->assign('screenshots',            $screenshots);
-        ecjia_front::$controller->assign('shop_info',              $shop_info);
+        ecjia_front::$controller->assign('shop_info_html',              $shop_info_html);
         ecjia_front::$controller->assign('company_name',           ecjia::config('company_name'));
         ecjia_front::$controller->assign('service_phone',          ecjia::config('service_phone'));
         ecjia_front::$controller->assign('shop_address',           ecjia::config('shop_address'));
@@ -134,7 +135,7 @@ RC_Hook::add_action('main/index/init', function () {
         ecjia_front::$controller->assign('touch_qrcode', 	        $mobile_touch_qrcode);
         ecjia_front::$controller->assign('shop_logo', 				$shop_logo);
         ecjia_front::$controller->assign('shop_wechat_qrcode', 	$shop_wechat_qrcode);
-        ecjia_front::$controller->assign('powered', 	'Powered&nbsp;by&nbsp;<a href="https:\/\/ecjia.com" target="_blank">ECJia</a>');
+        ecjia_front::$controller->assign('commoninfo', 	        $data);
     }
     
     ecjia_front::$controller->display('index.dwt', $cache_id);
