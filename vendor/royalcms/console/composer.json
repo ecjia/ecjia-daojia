@@ -1,0 +1,38 @@
+{
+    "name": "royalcms/console",
+    "description": "The Royalcms Console package.",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/contracts": "5.0.*",
+        "royalcms/support": "5.0.*",
+        "symfony/console": "2.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Console\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0-dev"
+        }
+    },
+    "suggest": {
+        "guzzlehttp/guzzle": "Required to use the ping methods on schedules (~5.3|~6.0).",
+        "mtdowling/cron-expression": "Required to use scheduling component (~1.0).",
+        "symfony/process": "Required to use scheduling component (2.7.*)."
+    },
+    "minimum-stability": "dev"
+}
