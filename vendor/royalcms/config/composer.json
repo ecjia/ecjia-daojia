@@ -1,0 +1,33 @@
+{
+    "name": "royalcms/config",
+    "description": "The Royalcms Config package.",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/contracts": "5.0.*",
+        "royalcms/filesystem": "5.0.*",
+        "royalcms/support": "5.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Config\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}
