@@ -98,7 +98,7 @@ class cart_cart_list_api extends Component_Event_Api {
 		if ($_SESSION['user_id']) {
 			$dbview_cart->where(RC_DB::raw('c.user_id'), $_SESSION['user_id']);
 		} else {
-			$dbview_cart->where(RC_DB::raw('c.session_id'), RC_Session::session()->getSessionKey());
+		    $dbview_cart->where(RC_DB::raw('c.session_id'), RC_Session::getId());
 		}
 		
 		/* 循环、统计 */

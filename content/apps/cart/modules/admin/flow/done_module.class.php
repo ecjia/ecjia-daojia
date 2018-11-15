@@ -69,7 +69,7 @@ class admin_flow_done_module extends api_admin implements api_interface
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
-    	define('SESS_ID', RC_Session::session_id());
+    	define('SESS_ID', RC_Session::getId());
     	
     	if ($_SESSION['cashdesk_temp_user_id'] > 0) {
     		$_SESSION['user_id'] = $_SESSION['cashdesk_temp_user_id'];
@@ -355,7 +355,7 @@ class admin_flow_done_module extends api_admin implements api_interface
         $order['parent_id'] = $parent_id;
         
         /* 插入订单表 */
-        $order['order_sn'] = get_order_sn(); // 获取新订单号
+        $order['order_sn'] = ecjia_order_buy_sn(); // 获取新订单号
         $db_order_info	= RC_Loader::load_app_model('order_info_model','orders');
         
         $new_order_id	= $db_order_info->insert($order);

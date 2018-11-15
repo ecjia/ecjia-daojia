@@ -82,13 +82,11 @@ class cart_create_module extends api_front implements api_interface {
     	}
     	
     	//该商品对应店铺是否被锁定
-    	if (!empty($goods_id)) {
-    		$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods_id);
-    		$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
-    		if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-    			return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
-    		}
-    	}
+		$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods_id);
+		$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
+		if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
+			return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
+		}
     	
     	$store_id_group = array();
     	/* 根据经纬度查询附近店铺id*/

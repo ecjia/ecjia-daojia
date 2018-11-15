@@ -58,7 +58,7 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
             return new ecjia_error(100, 'Invalid session');
         }
         //define('SESS_ID', RC_Session::session()->getSessionKey());
-        define('SESS_ID', RC_Session::session_id());
+        define('SESS_ID', RC_Session::getId());
         
         
         RC_Loader::load_app_class('cart', 'cart', false);

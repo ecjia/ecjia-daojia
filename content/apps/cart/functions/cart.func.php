@@ -1025,14 +1025,14 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 // 	$db = RC_Loader::load_app_model('cart_model', 'cart');
 	$db = RC_Loader::load_app_model('cart_goods_viewmodel', 'cart');
 	
-	$cart_where = array('rec_type' => $type);
+	$cart_where = array('rec_type' => $type, 'is_delete' => 0);
 	if (!empty($cart_id)) {
 		$cart_where = array_merge($cart_where,  array('rec_id' => $cart_id));
 	}
 	if (!empty($_SESSION['store_id'])) {
 		$cart_where = array_merge($cart_where, array('c.store_id' => $_SESSION['store_id']));
 	}
-	$field = 'g.store_id, goods_img, original_img, goods_thumb, c.rec_id, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, c.goods_price * c.goods_number|subtotal, goods_weight as goodsWeight, c.goods_attr_id';
+	$field = 'g.store_id, goods_img, g.goods_number|g_goods_number , original_img, goods_thumb, c.rec_id, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.product_id, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, c.goods_price * c.goods_number|subtotal, goods_weight as goodsWeight, c.goods_attr_id';
 	if ($_SESSION['user_id']) {
 		$cart_where = array_merge($cart_where, array('c.user_id' => $_SESSION['user_id']));
 		$arr        = $db->field($field)->where($cart_where)->select();
@@ -1108,6 +1108,25 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 		$arr[$key]['attr'] =  $value['goods_attr'];
 		$arr[$key]['goods_attr'] =  $goods_attr_gourp;
 		
+		//库存 181023 add
+		$arr[$key]['attr_number'] = 1;//有货
+		if (ecjia::config('use_storage') == 1) {
+		    if($value['product_id']) {
+		        $arr[$key]['product_id'] = $value['product_id'];
+		        $product_number = RC_DB::table('products')
+		            ->where('goods_id', $value['goods_id'])
+    		        ->where('product_id', $value['product_id'])
+    		        ->pluck('product_number');
+		        if ($value['goods_number'] > $product_number) {
+		            $arr[$key]['attr_number'] = 0;
+		        }
+		    } else {
+		        if($value['goods_number'] > $value['g_goods_number']) {
+		            $arr[$key]['attr_number'] = 0;
+		        }
+		    }
+		}
+		//库存 181023 end
 		
 		RC_Loader::load_app_func('global', 'goods');
 		$arr[$key]['img'] = array(
@@ -1908,7 +1927,7 @@ function formated_favourable($favourable_result, $goods_list) {
  * @param   int     $type   类型：默认普通商品
  * @return  array   购物车商品数组
  */
-function cart_goods_dsc($type = CART_GENERAL_GOODS, $cart_value = '', $ru_type = 0, $warehouse_id = 0, $area_id = 0, $area_city = 0, $consignee = '',$store_id = 0)
+function cart_goods_dsc($type = CART_GENERAL_GOODS, $cart_value = '', $ru_type = 0, $warehouse_id = 0, $area_id = 0, $area_city = 0, $consignee = array(), $store_id = 0)
 {
     $rec_txt = array('普通', '团购','拍卖','夺宝奇兵','积分商城','预售','秒杀');
     
@@ -2125,7 +2144,7 @@ function cart_goods_dsc($type = CART_GENERAL_GOODS, $cart_value = '', $ru_type =
 //     }
 
     
-    if(!is_array($cart_value)) {
+    if($cart_value && !is_array($cart_value)) {
         $cart_value = explode(',', $cart_value);
     }
     
@@ -2180,7 +2199,7 @@ function get_cart_goods_ru_id($goods) {
 /**
  * 区分商家商品
  */
-function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = '',$store_id = 0){
+function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = [], $store_id = 0){
     
     if(!empty($_SESSION['user_id'])){
         $sess = $_SESSION['user_id'];
@@ -2190,27 +2209,31 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = '',$
     //配送方式选择
     $point_id = isset($_SESSION['flow_consignee']['point_id']) ? intval($_SESSION['flow_consignee']['point_id']) : 0;
     $consignee_district_id = isset($_SESSION['flow_consignee']['district']) ? intval($_SESSION['flow_consignee']['district']) : 0;
-    
     $arr = array();
     foreach($goods_list as $key => $row){
         $shipping_type = isset($_SESSION['merchants_shipping'][$key]['shipping_type']) ? intval($_SESSION['merchants_shipping'][$key]['shipping_type']) : 0;
 //         $ru_name = get_shop_name($key, 1);
         $arr[$key]['store_id'] = $key;
         $arr[$key]['shipping_type'] =  $shipping_type;
-        $arr[$key]['store_name'] = $row[0]['store_name'];
         $arr[$key]['url'] = build_uri('merchants_store', array('urid' => $key), $ru_name);
         $arr[$key]['goods_amount'] = 0;
         
         foreach($row as $gkey=>$grow){
+            $arr[$key]['store_name'] = $grow['store_name'];
             $arr[$key]['goods_amount'] += $grow['goods_price'] * $grow['goods_number'];
         }
         
         if($cart_value){
-//             TODO::店铺配送方式 hyytodo
+//             TODO::店铺配送方式 hyytodo，众包商家自营需计算距离
 //             $ru_shippng = get_ru_shippng_info($row, $cart_value, $key, $consignee);
+
+            $region = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district'], $consignee['street']);
+            $ru_shippng = ecjia_shipping::availableUserShippings($region, $key);
+            //             _dump($ru_shippng);
             
-            $arr[$key]['shipping'] = $ru_shippng['shipping_list'];
-            $arr[$key]['is_freight'] = $ru_shippng['is_freight'];
+            //$arr[$key]['shipping'] = $ru_shippng['shipping_list'];
+            $arr[$key]['shipping'] = $ru_shippng;
+            $arr[$key]['is_freight'] = 1;//$ru_shippng['is_freight'];
             $arr[$key]['shipping_rec'] = $ru_shippng['shipping_rec'];
             
             $arr[$key]['shipping_count'] = !empty($arr[$key]['shipping']) ? count($arr[$key]['shipping']) : 0;
@@ -2229,7 +2252,7 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = '',$
                 }
             }
         }
-        if(defined('THEME_EXTENSION')){
+//         if(defined('THEME_EXTENSION')){
             /*  @author-bylu 判断当前商家是否允许"在线客服" start  */
 //             $shop_information = get_shop_name($key); //通过ru_id获取到店铺信息;
 //             $arr[$key]['is_IM'] = isset($shop_information['is_IM']) ? $shop_information['is_IM'] : ''; //平台是否允许商家使用"在线客服";
@@ -2276,7 +2299,7 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = '',$
             }else{
                 $arr[$key]['kf_qq'] = "";
             }
-        }
+//         }
         
         if($key == 0 && $consignee_district_id > 0){
 //             $self_point = get_self_point($consignee_district_id, $point_id, 1);
@@ -2785,6 +2808,48 @@ function get_new_group_cart_goods($cart_goods_list_new){
     }
     
     return $car_goods;
+}
+
+/**
+ * $type 0 获取数组差集数值
+ * $type 1 获取数组交集数值
+ */
+function get_sc_str_replace($str1, $str2, $type = 0){
+    
+    $str1 = !empty($str1) ? explode(',', $str1) : array();
+    $str2 = !empty($str2) ? explode(',', $str2) : array();
+    
+    $str = '';
+    if ($str1 && $str2) {
+        if ($type) {
+            $str = array_diff($str1, $str2);
+        } else {
+            $str = array_intersect($str1, $str2);
+        }
+        
+        $str = implode(",", $str);
+    }
+    
+    return $str;
+}
+
+/**
+ * 检测
+ * 购物流程商品配送方式
+ */
+function get_flowdone_goods_list($cart_goods_list, $tmp_shipping_id_arr){
+    
+    if ($cart_goods_list && $tmp_shipping_id_arr) {
+        foreach ($cart_goods_list as $key => $val) {
+            foreach ($tmp_shipping_id_arr as $k => $v) {
+                if ($v[1] > 0 && $val['ru_id'] == $v[0]) {
+                    $cart_goods_list[$key]['tmp_shipping_id'] = $v[1];
+                }
+            }
+        }
+    }
+    
+    return $cart_goods_list;
 }
 
 // end
