@@ -56,16 +56,16 @@ if (version_compare(PHP_VERSION, RoyalcmsConstant::PHP_REQUIRED, '<')) {
 }
 
 // 加载常量定义
-require_once VENDOR_PATH . 'royalcms/foundation/Royalcms/Component/Foundation/Helpers/royalcms-const.php';
+require_once ROYALCMS_PATH . 'Royalcms/Component/Foundation/Helpers/royalcms-const.php';
 
 /*
 |--------------------------------------------------------------------------
 | loading helpers functions
 |--------------------------------------------------------------------------
 */
-require VENDOR_PATH . 'royalcms/foundation/Royalcms/Component/Foundation/Helpers/royalcms-helpers.php';
-require VENDOR_PATH . 'royalcms/foundation/Royalcms/Component/Foundation/Helpers/foundation-helpers.php';
-require VENDOR_PATH . 'royalcms/foundation/Royalcms/Component/Foundation/Helpers/compatible.php';
+require ROYALCMS_PATH . 'Royalcms/Component/Foundation/Helpers/royalcms-helpers.php';
+require ROYALCMS_PATH . 'Royalcms/Component/Foundation/Helpers/foundation-helpers.php';
+require ROYALCMS_PATH . 'Royalcms/Component/Foundation/Helpers/compatible.php';
 require VENDOR_PATH . 'royalcms/support/Royalcms/Component/Support/helpers.php';
 
 // end
