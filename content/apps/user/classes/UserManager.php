@@ -51,59 +51,24 @@
  * Time: 9:51 AM
  */
 
-namespace Ecjia\App\User\Integrate;
+namespace Ecjia\App\User;
 
 use ecjia_error;
 use ecjia_config;
+use ecjia_integrate;
 use RC_Hook;
 
 /**
  * Class UserManager
- * @package Ecjia\App\User\Integrate
+ * @package Ecjia\App\User
  *
  */
 class UserManager
 {
-    /**
-     * @var UserIntegrateAbstract
-     */
-    protected static $instance;
 
     public function __construct()
     {
-        self::init_users();
-    }
-
-    /**
-     * 初始化会员数据整合类
-     *
-     * @return mixed
-     */
-    public static function init_users()
-    {
-        if (! is_null(self::$instance)) {
-            return self::$instance;
-        }
-
-        self::$instance = with(new IntegratePlugin())->defaultChannel();
-
-        return self::$instance;
-    }
-
-    /**
-     * 获取所有可用的插件
-     */
-    public function integrate_list()
-    {
-        return $this->plugin()->getEnableList();
-    }
-
-    /**
-     * @return \Ecjia\App\User\Integrate\IntegratePlugin
-     */
-    public function plugin()
-    {
-        return royalcms('ecjia.integrate.plugin');
+        self::$instance = ecjia_integrate::init_users();
     }
 
 
@@ -225,17 +190,5 @@ class UserManager
         return true;
     }
 
-
-    /**
-     * Handle dynamic calls into macros or pass missing methods to the store.
-     *
-     * @param  string  $method
-     * @param  array   $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        return call_user_func_array([self::$instance, $method], $parameters);
-    }
 
 }

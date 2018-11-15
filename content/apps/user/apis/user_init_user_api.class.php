@@ -53,8 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class user_init_user_api extends Component_Event_Api {
     
     public function call(&$options) {
-        RC_Loader::load_app_class('integrate', 'user', false);
-        return integrate::init_users();
+        return ecjia_integrate::init_users();
     }
 }
 

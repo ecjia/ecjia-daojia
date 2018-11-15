@@ -33,7 +33,7 @@ class admin_user_account_deposit_module extends api_admin implements api_interfa
  			$res = RC_DB::table('user_account')->where('id', $account_id)->first();
  			$order_sn = $res['order_sn'];
  		} else {
- 			$order_sn = get_order_sn();
+ 			$order_sn = ecjia_order_deposit_sn();
  		}
  			
  		/* 变量初始化 */

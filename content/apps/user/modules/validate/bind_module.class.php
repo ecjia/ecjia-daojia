@@ -82,9 +82,7 @@ class validate_bind_module extends api_front implements api_interface {
  		}
  		
  		if ($type == 'mobile') {
- 			RC_Loader::load_app_class('integrate', 'user', false);
- 			$user = integrate::init_users();
- 			if($user->check_user($value)) {
+ 			if(ecjia_integrate::checkUser($value)) {
  				return array('registered' => 1);
  			} else {
 	 			unset($_SESSION['bind_code']);

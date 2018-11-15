@@ -69,7 +69,7 @@ class user_account_raply_module extends api_front implements api_interface {
  		/* 变量初始化 */
  		$surplus = array(
 			'user_id'      => $user_id,
-			'order_sn'	   => get_order_sn(),
+			'order_sn'	   => ecjia_order_deposit_sn(),
 			'account_id'   => 0,
 			'process_type' => 1,
 			'payment_id'   => 0,

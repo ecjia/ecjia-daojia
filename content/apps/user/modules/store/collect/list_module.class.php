@@ -44,73 +44,56 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+defined('IN_ECJIA') or exit('No permission resources.');
 
-namespace Ecjia\App\User\Integrate\Plugins;
-
-use Ecjia\App\User\Integrate\UserIntegrateDatabaseAbstract;
-
-class IntegrateEcjia extends UserIntegrateDatabaseAbstract
-{
-
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->need_sync  = false;
-
-    }
-
-    /**
-     * 获取插件代号
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::getCode()
-     */
-    public function getCode()
-    {
-        return 'ecjia';
-    }
-
-    /**
-     * 加载配置文件
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadConfig()
-     */
-    public function loadConfig($key = null, $default = null)
-    {
-        return null;
-    }
-
-    /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $lang = array(
-            'ecjia'            => 'ECJia',
-            'ecjia_desc'       => 'ECJia默认会员系统',
-        );
-
-        return $this->getArrayData($lang, $key, $default);
-    }
-
-    /**
-     * 获取插件的元数据
-     *
-     * @return \Royalcms\Component\Support\Collection
-     */
-    public function getPluginMateData()
-    {
-        return collect([
-            'integrate_id'      => 1,
-            'integrate_code'    => $this->getCode(),
-            'integrate_name'    => $this->loadLanguage('ecjia'),
-            'integrate_desc'    => $this->loadLanguage('ecjia_desc'),
-            'configure'         => null,
-        ]);
-    }
-
-
+/**
+ * 用户收藏的店铺列表
+ * @author zrl
+ */
+class store_collect_list_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+    
+    	$this->authSession();
+    	$user_id = $_SESSION['user_id'];
+    	if ($user_id <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	$location = $this->requestData('location', array());
+    	
+		/* 获取数量 */
+		$size = $this->requestData('pagination.count', 15);
+		$page = $this->requestData('pagination.page', 1);
+		
+		$options = array(
+				'size'			=> $size,
+				'page'			=> $page,
+				'user_id'		=> $user_id,
+				'location'		=> $location,
+		);
+		
+		$collect_store_list = RC_Api::api('store', 'store_collect_list', $options);
+		
+		if (is_ecjia_error($collect_store_list)) {
+			return $collect_store_list;
+		}
+		$arr = array();
+		if(!empty($collect_store_list['list'])) {
+			foreach ($collect_store_list['list'] as $rows) {
+				$arr[] = array(
+						'store_id' 				=> intval($rows['store_id']),
+						'store_name'			=> $rows['merchants_name'],
+						'manage_mode'			=> $rows['manage_mode'],
+						'store_logo'			=> $rows['store_logo'],
+						'store_notice'			=> $rows['store_notice'],
+						'distance'				=> $rows['distance'],
+						'label_trade_time'		=> $rows['label_trade_time'],
+						'favourable_list'		=> $rows['favourable_list'],
+						'allow_use_quickpay'	=> $rows['allow_use_quickpay'],
+						'quickpay_activity_list'=> $rows['quickpay_activity_list']
+				);
+			}
+		}
+		return array('data' => $arr, 'pager' => $collect_store_list['page']);
+	}
 }
+// end

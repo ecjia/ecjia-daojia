@@ -26,10 +26,7 @@ class admin_user_add_module extends api_admin implements api_interface
 		if (empty($username) || empty($mobile) || empty($store_id)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
-		
-		RC_Loader::load_app_class('integrate', 'user', false);
-		$user = integrate::init_users();
-		
+
 		$other = [];
 		if (!empty($mobile)) {
 			$other['mobile_phone'] = $mobile;
@@ -65,8 +62,8 @@ class admin_user_add_module extends api_admin implements api_interface
 			return new ecjia_error('mobile_exists', '手机号已存在！');
 		}
 		$userinfo = [];
-		if ($user->add_user($username, null, $email)) {
-			$user_info = $user->get_user_info($username);
+		if (ecjia_integrate::addUser($username, null, $email)) {
+			$user_info = ecjia_integrate::getUserInfo($username);
 			$max_id = $user_info['user_id'];
 			$other['reg_time'] = RC_Time::gmtime();
 			RC_DB::table('users')->where('user_id', $user_info['user_id'])->update($other);
@@ -76,7 +73,7 @@ class admin_user_add_module extends api_admin implements api_interface
 					'store_id'		=> $store_id,
 					'user_id'		=> $user_info['user_id'],
 					'store_name'	=> empty($store_name) ? '' : $store_name,
-					'jion_scene'	=> 'cashier_suggest',
+					'join_scene'	=> 'cashier_suggest',
 					'add_time'		=> RC_Time::gmtime()
 			);
 			RC_DB::table('store_users')->insertGetId($store_user_data);

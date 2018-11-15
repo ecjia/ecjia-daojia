@@ -58,8 +58,6 @@ class user_admin_menu_api extends Component_Event_Api {
 				ecjia_admin::make_admin_menu('02_users_add', RC_Lang::get('user::users.user_add'), RC_Uri::url('user/admin/add'), 2)->add_purview('user_update'),
 				ecjia_admin::make_admin_menu('03_user_rank_list', RC_Lang::get('user::users.user_rank'), RC_Uri::url('user/admin_rank/init'), 3)->add_purview('user_rank'),
 				ecjia_admin::make_admin_menu('04_reg_fields', RC_Lang::get('user::users.reg_fields'), RC_Uri::url('user/admin_reg_fields/init'), 4)->add_purview('reg_fields'),
-				ecjia_admin::make_admin_menu('divider', '', '', 5)->add_purview('integrate_users'),
-				ecjia_admin::make_admin_menu('menu_user_integrate', RC_Lang::get('user::users.integrate_users'), RC_Uri::url('user/admin_integrate/init'), 6)->add_purview('integrate_users'),
 		);
 	
 		$menus->add_submenu($submenus);

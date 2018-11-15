@@ -59,11 +59,9 @@ class user_add_user_api extends Component_Event_Api {
         
         $username = $options['username'];
         
-        RC_Loader::load_app_class('integrate', 'user', false);
-        $user = integrate::init_users();
-        $result = $user->add_user($username, $options['password'], $options['email']);
+        $result = ecjia_integrate::addUser($username, $options['password'], $options['email']);
         if ($result) {
-            $profile = $user->get_profile_by_name($username);
+            $profile = ecjia_integrate::getProfileByName($username);
             return $profile;
         } else {
             return new ecjia_error('create_user_failed', '创建用户失败');

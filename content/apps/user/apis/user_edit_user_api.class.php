@@ -56,10 +56,13 @@ class user_edit_user_api extends Component_Event_Api {
         if (!is_array($options) || !isset($options['new_password']) || !isset($options['user_id'])) {
             return new ecjia_error('invalid_parameter', '参数无效');
         }
-        RC_Loader::load_app_class('integrate', 'user', false);
-        $user = integrate::init_users();
-        $user_info = $user->get_profile_by_id($options['user_id']);
-        $result = $user->edit_user(array('password' => $options['new_password'],'username'=>$user_info['user_name']),1);
+
+        $user_info = ecjia_integrate::getProfileById($options['user_id']);
+        $result = ecjia_integrate::editUser([
+            'username' => $user_info['user_name'],
+            'password' => $options['new_password'],
+        ]);
+
         if ($result) {
             return true;
         } else {

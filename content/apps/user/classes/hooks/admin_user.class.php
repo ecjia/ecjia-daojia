@@ -58,4 +58,17 @@ class user_admin_hooks
 
 RC_Hook::add_action('append_admin_setting_group', array('user_admin_hooks', 'append_admin_setting_group'));
 
+class user_admin_plugin
+{
+    
+    public static function add_maintain_command($factories)
+    {
+        $factories['refresh_user_rank'] = 'Ecjia\App\User\Maintains\RefreshUserRank';
+        return $factories;
+    }
+    
+}
+
+RC_Hook::add_action('ecjia_maintain_command_filter', array('user_admin_plugin', 'add_maintain_command'));
+
 // end

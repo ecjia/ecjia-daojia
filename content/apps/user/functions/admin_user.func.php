@@ -778,29 +778,42 @@ function EM_user_info($user_id, $mobile = '') {
 						->whereRaw('status != 10 and refund_status != 2')
 						->count();
 	
-	$db_user_rank = RC_Model::model('user/user_rank_model');
+// 	$db_user_rank = RC_Model::model('user/user_rank_model');
 	/* 取得用户等级 */
-	if ($user_info['user_rank'] == 0) {
-		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
-		$row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0 , 'min_points' => array('elt' => intval($user_info['rank_points'])) , 'max_points' => array('gt' => intval($user_info['rank_points']))));
-	} else {
-		// 特殊等级
-		$row = $db_user_rank->field('rank_id, rank_name')->find(array('rank_id' => $user_info['user_rank']));
-	}
+// 	if ($user_info['user_rank'] == 0) {
+// 		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+// 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0 , 'min_points' => array('elt' => intval($user_info['rank_points'])) , 'max_points' => array('gt' => intval($user_info['rank_points']))));
+// 	} else {
+// 		// 特殊等级
+// 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('rank_id' => $user_info['user_rank']));
+// 	}
 
-	if (!empty($row)) {
-		$user_info['user_rank_name'] = $row['rank_name'];
-		$user_info['user_rank_id'] = $row['rank_id'];
-	} else {
-		$user_info['user_rank_name'] = '非特殊等级';
-		$user_info['user_rank_id'] = $row['rank_id'];
-	}
-	$row = $db_user_rank->find(array('special_rank' => 0 , 'min_points' => 0));
+// 	if (!empty($row)) {
+// 		$user_info['user_rank_name'] = $row['rank_name'];
+// 		$user_info['user_rank_id'] = $row['rank_id'];
+// 	} else {
+// 		$user_info['user_rank_name'] = '非特殊等级';
+// 		$user_info['user_rank_id'] = $row['rank_id'];
+// 	}
+// 	$row = $db_user_rank->find(array('special_rank' => 0 , 'min_points' => 0));
 
-	if ($user_info['user_rank_name'] == $row['rank_name']) {
-		$level = 0;
-	} else {
-		$level = 1;
+// 	if ($user_info['user_rank_name'] == $row['rank_name']) {
+// 		$level = 0;
+// 	} else {
+// 		$level = 1;
+// 	}
+
+    if($user_info['user_rank'] == 0) {
+        //重新计算会员等级
+        RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
+    }
+	//用户等级更新，不用计算，直接读取
+	$row = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
+	$user_info['user_rank_name'] = $row['rank_name'];
+	$user_info['user_rank_id'] = $row['rank_id'];
+	$level = 1;
+	if($row['special_rank'] == 0 && $row['min_points'] == 0) {
+	    $level = 0;
 	}
 
 	if(empty($user_info['avatar_img'])) {
@@ -833,6 +846,9 @@ function EM_user_info($user_id, $mobile = '') {
 	$address = $user_info['address_id'] > 0 ? RC_DB::table('user_address')->where('address_id', $user_info['address_id'])->first() : '';
 	$user_info['address'] = $user_info['address_id'] > 0 ? ecjia_region::getRegionName($address['city']).ecjia_region::getRegionName($address['district']).ecjia_region::getRegionName($address['street']).$address['address'] : '';
 	
+	/*返回connect_user表中open_id和token*/
+	$connect_user_info = RC_DB::table('connect_user')->where('user_id', $user_id)->where('connect_code', 'app')->where('user_type', 'user')->first();
+	
 	return array(
 		'id'				=> $user_info['user_id'],
 		'name'				=> $user_info['user_name'],
@@ -857,7 +873,9 @@ function EM_user_info($user_id, $mobile = '') {
 		'user_points' 			=> $user_info['pay_points'],
 		'user_bonus_count' 		=> $bonus_count,
 		'reg_time'				=> empty($user_info['reg_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $user_info['reg_time']),
-		'update_username_time'	=> empty($username_update_time) ? '' : RC_Time::local_date(ecjia::config('time_format'), $username_update_time['meta_value'])
+		'update_username_time'	=> empty($username_update_time) ? '' : RC_Time::local_date(ecjia::config('time_format'), $username_update_time['meta_value']),
+		'open_id'               => $connect_user_info['open_id'],
+		'access_token'          => $connect_user_info['access_token'],
 	);
 }
 

@@ -88,11 +88,9 @@ class user_userbind_module extends api_front implements api_interface {
 		$db_user = RC_Model::model('user/users_model');
 		//设置session用于校验校验码
 		$code = rand(100000, 999999);
-		RC_Loader::load_app_class('integrate', 'user', false);
-		$user = integrate::init_users();
 		//版本兼容
 		if (version_compare($api_version, '1.14', '<')) {
-			if ($user->check_user($value)) {
+			if (ecjia_integrate::checkUser($value)) {
 				return array('registered' => 1);
 			}
 		}

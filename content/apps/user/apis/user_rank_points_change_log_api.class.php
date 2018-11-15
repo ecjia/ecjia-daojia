@@ -48,6 +48,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 会员 等级积分 变动日志记录接口
+ * 同时更新用户等级
  * @author 
  */
 class user_rank_points_change_log_api extends Component_Event_Api {
@@ -111,32 +112,11 @@ class user_rank_points_change_log_api extends Component_Event_Api {
         RC_DB::table('users')->where('user_id', $user_id)->increment('rank_points', $step);
         
         //重新计算会员等级
-        $this->refresh_user_rank($user_id);
+        RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
         
         return $log_id;
     }
     
-    private function refresh_user_rank($user_id) {
-        $user_info = RC_DB::table('users')->where('user_id', $user_id)->first();
-        if ($user_info['user_rank']) {
-            $rank_info = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
-            if ($rank_info['special_rank']) {
-                return $rank_info;
-            } else {
-                if($user_info['rank_points'] >= $rank_info['min_points'] && $user_info['rank_points'] < $rank_info['min_points']) {
-                    return $rank_info;
-                }
-            }
-        }
-        
-        $row = RC_DB::table('user_rank')->where('special_rank', 0)->where( 'min_points', '<=', $user_info['rank_points'])->where( 'max_points', '>', intval($user_info['rank_points']))->first();
-        RC_DB::table('users')->where('user_id', $user_id)->update(array('user_rank'=>$row['rank_id']));
-        if($user_info['user_rank'] != $row['rank_id']) {
-            //为更新用户购物车数据加标记
-            RC_Api::api('cart', 'mark_cart_goods', array('user_id' => $user_id));
-        }
-        return $row;
-    }
 }
 
 // end

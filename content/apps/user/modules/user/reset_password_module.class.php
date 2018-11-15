@@ -88,20 +88,21 @@ class user_reset_password_module extends api_front implements api_interface {
         	return new ecjia_error('code_validated_error', __('验证码验证失败！'));
         }
         
-        RC_Loader::load_app_class('integrate', 'user', false);
-        $user = integrate::init_users();
-         
+
         if (strlen($password) < 6) {
         	return new ecjia_error('password_shorter', __('- 登录密码不能少于 6 个字符。'));
         }
         $user_id = $userinfo['user_id'];
-        $user_info = $user->get_profile_by_id($user_id); //论坛记录
-     
-        if ($user->edit_user(array('username'=> $user_info['user_name'], 'old_password' => null, 'password' => $password), $forget_pwd = 1)) {
+        $user_info = ecjia_integrate::getProfileById($user_id); //论坛记录
+
+        if (ecjia_integrate::editUser([
+            'username' => $user_info['user_name'],
+            'password' => $password
+        ])) {
         	$db->where(array('user_id' => $user_id))->update(array('ec_salt' => 0));
 			$session_db	= RC_Model::model('user/user_session_model');
 			$session_db->delete(array('user_id' => $user_id));
-			$user->logout();
+            ecjia_integrate::logout();
         }
 		
         RC_Session::delete('forget_code');

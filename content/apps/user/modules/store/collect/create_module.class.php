@@ -44,69 +44,38 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\User\Integrate;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use Royalcms\Component\Support\ServiceProvider;
-
-class UserIntegrateServiceProvider extends  ServiceProvider
-{
-
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    public function register()
-    {
-        $this->registerIntegrateManager();
-
-        $this->registerIntegratePlugin();
-
-
-        $this->loadAlias();
-    }
-
-
-    protected function registerIntegrateManager()
-    {
-        $this->royalcms->bindShared('ecjia.integrate', function($royalcms) {
-            return new UserManager();
-        });
-    }
-
-
-    protected function registerIntegratePlugin()
-    {
-        $this->royalcms->bindShared('ecjia.integrate.plugin', function($royalcms) {
-            return new IntegratePlugin();
-        });
-    }
-
-
-    /**
-     * Load the alias = One less install step for the user
-     */
-    protected function loadAlias()
-    {
-        $this->royalcms->booting(function()
-        {
-            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
-            $loader->alias('ecjia_integrate', 'Ecjia\App\User\Integrate\Facades\EcjiaIntegrate');
-
-        });
-    }
-
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['ecjia.integrate', 'ecjia.integrate.plugin'];
-    }
+/**
+ * 用户收藏店铺
+ * @author zrl
+ */
+class store_collect_create_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     
+    	$this->authSession();
+    	$user_id = $_SESSION['user_id'];
+    	if ($user_id <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	$store_id = $this->requestData('store_id', '0');
+    	if (empty($store_id)) {
+    		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    	}
+    	
+    	$info = RC_DB::table('collect_store')->where('store_id', $store_id)->where('user_id', $user_id)->first();
+    	if (!empty($info)) {
+    		return new ecjia_error( 'has_collected', '您已收藏过此店铺了！');
+    	}
+    	$data = array('store_id' => $store_id, 'user_id' => $user_id, 'add_time' => RC_Time::gmtime(), 'is_attention' => 1);
+    	//更新商家会员粉丝关联信息
+    	if(RC_DB::table('store_users')->where('store_id', $store_id)->where('user_id', $user_id)->count()) {
+    	    $data['is_store_user'] = 1;
+    	}
+    	
+    	RC_DB::table('collect_store')->insert($data);
+    	
+    	return array();
+	}
 }
+// end

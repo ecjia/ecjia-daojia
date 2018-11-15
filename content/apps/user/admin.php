@@ -416,9 +416,6 @@ class admin extends ecjia_admin {
 	 */
 	public function update() {
 		$this->admin_priv('user_update', ecjia::MSGTYPE_JSON);
-		
-		RC_Loader::load_app_class('integrate', 'user', false);
-		$user = integrate::init_users();
 
 		$username			= empty($_POST['username'])				? '' 	: trim($_POST['username']);
 		$user_id			= trim($_POST['id']);
@@ -493,13 +490,6 @@ class admin extends ecjia_admin {
 
 		/* 更新会员的其它信息 */
 		$other = array();
-		$user_other = array();
-		if ($password) {
-			$user_other['password']	= $password;
-		}
-		$user_other['username']		= $username;
-		$user_other['email']		= $email;
-		
 		$other['user_name']		= $username;
 		$other['email']			= $email;
 		$other['credit_line']	= $credit_line;
@@ -522,8 +512,17 @@ class admin extends ecjia_admin {
 		if (!empty($count)) {
 			return $this->showmessage('手机号码已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		
-		$user->edit_user($user_other);
+
+        if (! ecjia_integrate::editUser([
+            'username' => $username,
+            'password' => $password,
+            'email' => $email,
+            'gender' => $sex,
+            'birthday' => $birthday,
+        ])) {
+            return $this->showmessage(ecjia_integrate::getErrorMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
 		RC_DB::table('users')->where('user_id', $user_id)->update($other);
 		
 		/* 记录管理员操作 */
@@ -581,20 +580,12 @@ class admin extends ecjia_admin {
 		/* 获得用户等级名 */
 		$user = [];
 		if ($row['user_rank'] == 0) {
-			// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
-			$user_rankinfo = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', intval($row['rank_points']))->where('max_points', '>', intval($row['rank_points']))->first();
-		} else {
-			// 特殊等级
-			$user_rankinfo = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->select('rank_id', 'rank_name')->first();
+		    //重新计算会员等级
+		    RC_Api::api('user', 'update_user_rank', array('user_id' => $row['user_id']));
 		}
-		
-		if (!empty($user_rankinfo)) {
-			$user['user_rank_name'] = $user_rankinfo['rank_name'];
-			$user['user_rank_id'] = $user_rankinfo['rank_id'];
-		} else {
-			$user['user_rank_name'] = '非特殊等级';
-			$user['user_rank_id'] = $row['rank_id'];
-		}
+		$row = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->first();
+		$user['user_rank_name'] = $row['rank_name'];
+		$user['user_rank_id'] = $row['rank_id'];
 		
 		if ($row) {
 			$user['user_id']				= $row['user_id'];
@@ -621,6 +612,7 @@ class admin extends ecjia_admin {
 			$user['last_time']              = $row['last_login'] == '0' ? '新用户还未登录' : RC_Time::local_date(ecjia::config('time_format'), $row['last_login']);
 			$user['last_ip']				= $row['last_ip'];
 			
+			$row['address_id'] = !empty($row['address_id']) ? intval($row['address_id']) : 0;
 			/* 用户地址列表*/
 			$field = "ua.*,
 					IF(address_id=".$row['address_id'].",1,0) as default_address,
@@ -691,20 +683,18 @@ class admin extends ecjia_admin {
 	public function batch_remove() {
 		$this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
 		
-		if (!empty($_SESSION['ru_id'])) {
-			return $this->showmessage(RC_Lang::get('user::user_account.merchants_notice'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
+// 		if (!empty($_SESSION['ru_id'])) {
+// 			return $this->showmessage(RC_Lang::get('user::user_account.merchants_notice'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+// 		}
 		if (isset($_POST['checkboxes'])) {
 			$idArr = explode(',', $_POST['checkboxes']);
 			$count = count($idArr);
-			$data = RC_DB::table('users')->whereIn('user_id', $idArr)->select('user_name')->get();
+			$data = RC_DB::table('users')->whereIn('user_id', $idArr)->select('user_name', 'user_id')->get();
 
 			/* 通过插件来删除用户 */
-			RC_Loader::load_app_class('integrate', 'user', false);
-			$user = integrate::init_users();
-			$user->remove_user($idArr); //已经删除用户所有数据
-			
+            //已经删除用户所有数据
 			foreach ($data as $row) {
+                ecjia_integrate::removeUser($row['user_name']);
 				ecjia_admin::admin_log($row['user_name'] , 'batch_remove', 'users');
 			}		
 			

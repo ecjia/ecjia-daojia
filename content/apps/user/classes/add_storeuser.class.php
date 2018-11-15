@@ -65,7 +65,7 @@ class add_storeuser {
 						'store_id' 		=> $options['store_id'],
 						'user_id'		=> $options['user_id'],
 						'store_name'	=> $store_name,
-						'jion_scene'	=> 'buy',
+						'join_scene'	=> 'buy',
 						'add_time'		=> RC_Time::gmtime()
 				);
 				RC_DB::table('store_users')->insert($data);

@@ -263,7 +263,7 @@ return array(
 	'surplus_reply'			=> '充值和提现申请',
 	'account_manage'		=> '资金管理',
 	'reg_fields'			=> '会员注册项设置',
-	'integrate_users'		=> '会员整合',
+    'integrate_users'		=> '会员整合',
 	
 	/*权限*/
 	'user_account_manage'	=> '会员账户管理',
@@ -321,10 +321,6 @@ return array(
 	'about_add_rank'		=> '关于添加会员等级帮助文档',
 	'edit_rank_help'		=> '欢迎访问ECJia智能后台编辑会员等级页面，在此页面可以进行编辑会员等级操作。',
 	'about_edit_rank'		=> '关于编辑会员等级帮助文档',
-	
-	//会员整合
-	'user_integrate_help'	=> '欢迎访问ECJia智能后台会员整合页面，用户可通过蓝色背景提示信息对会员进行相应的整合操作。',
-	'about_user_integrate'	=> '关于会员整合帮助文档',
 	
 	//充值和体现申请
 	'user_account_help'		=> '欢迎访问ECJia智能后台充值和提现申请列表页面，系统中所有的充值和提现申请都会显示在此列表中。',

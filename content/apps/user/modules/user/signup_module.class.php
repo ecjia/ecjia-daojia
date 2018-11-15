@@ -94,38 +94,32 @@ class user_signup_module extends api_front implements api_interface
 			if (!empty($username) && empty($mobile)) {
 				/* 判断是否为手机*/
 			    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
-			    if($check_mobile === true) {
-// 				if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
+			    if ($check_mobile === true) {
 					/* 设置用户手机号*/
 					$other['mobile_phone'] = $username;
 					$mobile = $username;
 					$username = substr_replace($username,'****',3,4);
-					$user = integrate::init_users();
-					
+
 				}
 			}elseif (empty($username) && !empty($mobile)) {
 				/* 判断是否为手机*/
 			    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
-			    if($check_mobile === true) {
-// 				if (is_numeric($mobile) && strlen($mobile) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $mobile)) {
+			    if ($check_mobile === true) {
 					/* 设置用户手机号*/
 					$other['mobile_phone'] = $mobile;
 				
 					$username = substr_replace($mobile,'****',3,4);
-					$user = integrate::init_users();
 				}
 			}
 		} else {
 			/* 判断是否为手机*/
 		    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
-		    if($check_mobile === true) {
-// 			if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
+		    if ($check_mobile === true) {
 				/* 设置用户手机号*/
 				$other['mobile_phone'] = $username;
 				$mobile = $username;
 				$username = $device_client.'_'.$code;
-				$user = integrate::init_users();
-				if ($user->check_user($username)) {
+				if (ecjia_integrate::checkUser($username)) {
 					$username = $username. rand(0,9);
 				}
 			}
@@ -136,11 +130,9 @@ class user_signup_module extends api_front implements api_interface
 		}
 		
 		$other['mobile_phone'] = empty($mobile) ? $other['mobile_phone'] : $mobile;
-// 		if (is_numeric($other['mobile_phone']) && strlen($other['mobile_phone']) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $other['mobile_phone'])) {
 	    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($other['mobile_phone']);
-	    if($check_mobile === true) {
-			$db_user      = RC_Loader::load_app_model('users_model', 'user');
-			$mobile_count = $db_user->where(array('mobile_phone' => $other['mobile_phone']))->count();
+	    if ($check_mobile === true) {
+	    	$mobile_count = RC_DB::table('users')->where('mobile_phone',  $other['mobile_phone'])->count();
 			if ($mobile_count > 0 ) {
 				return new ecjia_error('user_exists', '用户已存在！');
 			}
@@ -206,6 +198,28 @@ class user_signup_module extends api_front implements api_interface
  			$result = ecjia_app::validate_application('affiliate');
  			if (!is_ecjia_error($result) && !empty($invite_code)) {
  				RC_Api::api('affiliate', 'invite_bind', array('invite_code' => $invite_code, 'mobile' => $mobile));
+ 			}
+ 			
+ 			/*向connect_user表插入一条app数据*/
+ 			$connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->first();
+ 			$open_id = md5(RC_Time::gmtime().$_SESSION['user_id']);
+ 			if (empty($connect_user_app)) {
+ 				$connect_data = array(
+ 						'connect_code'    => 'app',
+ 						'user_id'         => $_SESSION['user_id'],
+ 						'is_admin'        => '0',
+ 						'user_type'		  => 'user',
+ 						'open_id'         => $open_id,
+ 						'access_token'    => RC_Session::session_id(),
+ 						'create_at'       => RC_Time::gmtime()
+ 				);
+ 				RC_DB::table('connect_user')->insert($connect_data);
+ 			} else {
+ 				$connect_data = array(
+ 						'open_id'         => $open_id,
+ 						'access_token'    => RC_Session::session_id(),
+ 				);
+ 				RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->update($connect_data);
  			}
  			
  			RC_Loader::load_app_func('admin_user', 'user');
@@ -301,20 +315,15 @@ class user_signup_module extends api_front implements api_interface
             }
         }
 
-        RC_Loader::load_app_class('integrate', 'user', false);
-        $user = integrate::init_users();
-        if (!$user->add_user($username, $password, $email)) {
-            if (is_ecjia_error($user->error)) {
-                return $user->error;
-            }
-
+        if (! ecjia_integrate::addUser($username, $password, $email)) {
             // 注册失败
-            return new ecjia_error('signup_error', '注册失败！');
+            return new ecjia_error('signup_error', ecjia_integrate::getErrorMessage());
         } else {
             // 注册成功
             /* 设置成登录状态 */
-            $user->set_session($username);
-            $user->set_cookie($username);
+            ecjia_integrate::setSession($username);
+            ecjia_integrate::setCookie($username);
+
             /* 注册送积分 */
             if (ecjia_config::has('register_points')) {
                 $options = array(

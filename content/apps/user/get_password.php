@@ -349,9 +349,7 @@ class get_password extends ecjia_front {
 	
 	/* 修改会员密码 */
 	public function reset_pwd() {
-		RC_Loader::load_app_class('integrate', 'user', false);
-		$user = integrate::init_users();
-		
+
 		$old_password     = isset($_POST['old_password']) 		? trim($_POST['old_password']) 		: null;
 		$new_password     = isset($_POST['new_password']) 		? trim($_POST['new_password']) 		: '';
 		$confirm_password = isset($_POST['confirm_password']) 	? trim($_POST['confirm_password']) 	: '';
@@ -368,16 +366,21 @@ class get_password extends ecjia_front {
 			$this->assign('action', 'reset_pwd_form');
 			$this->display('forget_password.dwt');
 		} else {
-			$user_info = $user->get_profile_by_id($user_id); //论坛记录
+			$user_info = ecjia_integrate::getProfileById($user_id); //论坛记录
 			if (($user_info && (!empty($code) && md5($user_info['user_id'] . ecjia::config('hash_code') . $user_info['reg_time']) == $code)) || 
-				($_SESSION['user_id'] > 0 && $_SESSION['user_id'] == $user_id && $user->check_user($_SESSION['user_name'], $old_password))) {
-				
-				if ($user->edit_user(array('username'=> (empty($code) ? $_SESSION['user_name'] : $user_info['user_name']), 'old_password'=>$old_password, 'password'=>$new_password), $forget_pwd = 1)) {
+				($_SESSION['user_id'] > 0 && $_SESSION['user_id'] == $user_id && ecjia_integrate::checkUser($_SESSION['user_name'], $old_password))) {
+
+			    $username = (empty($code) ? $_SESSION['user_name'] : $user_info['user_name']);
+				if (ecjia_integrate::editUser([
+				    'username' => $username,
+				    'password' => $new_password,
+				    'old_password' => $old_password,
+                ])) {
 					$data = array(
 						'ec_salt' => '0'		
 					);
 					RC_DB::table('users')->where('user_id', $user_id)->update($data);
-					$user->logout();
+                    ecjia_integrate::logout();
 					$this->assign('action', 'success');
 					$this->display('forget_password.dwt');
 				} else {
