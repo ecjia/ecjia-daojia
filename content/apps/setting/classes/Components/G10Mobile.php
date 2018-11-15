@@ -118,6 +118,10 @@ class G10Mobile extends ComponentAbstract
             ['code' => 'mobile_location_range', 'value' => '3', 'options' => ['type' => 'select', 'store_range' => '0,1,2,3,4,5']],
             ['code' => 'mobile_signup_reward_notice', 'value' => "1.本活动仅限手机号注册新用户参与；\r\n2.每个手机号仅限参与一次；\r\n3.领取红包查看方式：【我的－我的钱包】查看；", 'options' => ['type' => 'text']],
             ['code' => 'mobile_signup_reward', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
+            //1.23
+            ['code' => 'app_disable_sale', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
+            ['code' => 'app_disable_shopkeeper', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
+            ['code' => 'app_disable_express', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
         ];
 
         return $data;

@@ -86,6 +86,9 @@ class shop_config_module extends api_front implements api_interface
         	'bonus_readme_url'	=> RC_Uri::site_url().ecjia::config('bonus_readme_url'),
         	'quickpay_rule'		=> $quickpay_rule,
         	'merchant_join_close' => ecjia::config('merchant_join_close'),
+        	'app_disable_sale'	 => empty(ecjia::config('app_disable_sale')) ? 0 : ecjia::config('app_disable_sale'),
+        	'app_disable_shopkeeper'	 => empty(ecjia::config('app_disable_shopkeeper')) ? 0 : ecjia::config('app_disable_shopkeeper'),
+        	'app_disable_express'	 => empty(ecjia::config('app_disable_express')) ? 0 : ecjia::config('app_disable_express'),
         );
         
         $result = ecjia_app::validate_application('sms');

@@ -44,15 +44,9 @@ return [
         'goodsattr_style',
         'show_brand',
 
-
-
-
         //计划任务分组已使用
         'cron_method',
 
     ],
-
-
-
 
 ];
