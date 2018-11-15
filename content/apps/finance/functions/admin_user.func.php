@@ -623,32 +623,23 @@ function update_user_info() {
 				$data = array(
 					'user_rank' => '0'
 				);
-				$db_users->where('user_id = ' . $_SESSION[user_id] . '')->update($data);
+				$db_users->where('user_id = ' . $_SESSION['user_id'] . '')->update($data);
 				$row['user_rank'] = 0;
 			}
 		}
 
 		/* 取得用户等级和折扣 */
 		if ($row['user_rank'] == 0) {
-			// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
-			$row = $db_user_rank->field('rank_id, discount')->find('special_rank = "0" AND min_points <= "' . intval($row['rank_points']) . '" AND max_points > "' . intval($row['rank_points']) . '"');
-			if ($row) {
-				$_SESSION['user_rank'] = $row['rank_id'];
-				$_SESSION['discount']  = $row['discount'] / 100.00;
-			} else {
-				$_SESSION['user_rank'] = 0;
-				$_SESSION['discount']  = 1;
-			}
+		    //重新计算会员等级
+		    RC_Api::api('user', 'update_user_rank', array('user_id' => $_SESSION['user_id']));
+		}
+		$row = $db_user_rank->field('rank_id, discount')->find('rank_id = "' . $row['user_rank'] . '"');
+		if ($row) {
+			$_SESSION['user_rank'] = $row['rank_id'];
+			$_SESSION['discount']  = $row['discount'] / 100.00;
 		} else {
-			// 特殊等级
-			$row = $db_user_rank->field('rank_id, discount')->find('rank_id = "' . $row[user_rank] . '"');
-			if ($row) {
-				$_SESSION['user_rank'] = $row['rank_id'];
-				$_SESSION['discount']  = $row['discount'] / 100.00;
-			} else {
-				$_SESSION['user_rank'] = 0;
-				$_SESSION['discount']  = 1;
-			}
+			$_SESSION['user_rank'] = 0;
+			$_SESSION['discount']  = 1;
 		}
 	}
 
@@ -658,7 +649,7 @@ function update_user_info() {
 		'last_ip' 		=> RC_Ip::client_ip(),
 		'last_login' 	=> RC_Time::gmtime()
 	);
-	$db_users->where('user_id = ' . $_SESSION[user_id] . '')->update($data);
+	$db_users->where('user_id = ' . $_SESSION['user_id'] . '')->update($data);
 }
 
 
@@ -731,27 +722,40 @@ function EM_user_info($user_id) {
 	$finished       = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('finished', 'oi.')))->count('*');
 	$allow_comment_count = $db_orderinfo_view->join(array('order_goods', 'goods', 'comment'))->where(array('oi.user_id' => $user_id, 'oi.shipping_status' => SS_RECEIVED, 'oi.order_status' => array(OS_CONFIRMED, OS_SPLITED), 'oi.pay_status' => array(PS_PAYED, PS_PAYING), 'c.comment_id is null'))->count('DISTINCT oi.order_id');
 	/* 取得用户等级 */
-	if ($user_info['user_rank'] == 0) {
-		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
-		$row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0 , 'min_points' => array('elt' => intval($user_info['rank_points'])) , 'max_points' => array('gt' => intval($user_info['rank_points']))));
-	} else {
-		// 特殊等级
-		$row = $db_user_rank->field('rank_id, rank_name')->find(array('rank_id' => $user_info[user_rank]));
-	}
+// 	if ($user_info['user_rank'] == 0) {
+// 		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+// 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0 , 'min_points' => array('elt' => intval($user_info['rank_points'])) , 'max_points' => array('gt' => intval($user_info['rank_points']))));
+// 	} else {
+// 		// 特殊等级
+// 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('rank_id' => $user_info[user_rank]));
+// 	}
 
-	if (!empty($row)) {
-		$user_info['user_rank_name'] = $row['rank_name'];
-		$user_info['user_rank_id'] = $row['rank_id'];
-	} else {
-		$user_info['user_rank_name'] = '非特殊等级';
-		$user_info['user_rank_id'] = $row['rank_id'];
-	}
-	$row = $db_user_rank->find(array('special_rank' => 0 , 'min_points' => 0));
+// 	if (!empty($row)) {
+// 		$user_info['user_rank_name'] = $row['rank_name'];
+// 		$user_info['user_rank_id'] = $row['rank_id'];
+// 	} else {
+// 		$user_info['user_rank_name'] = '非特殊等级';
+// 		$user_info['user_rank_id'] = $row['rank_id'];
+// 	}
+// 	$row = $db_user_rank->find(array('special_rank' => 0 , 'min_points' => 0));
 
-	if ($user_info['user_rank_name'] == $row['rank_name']) {
-		$level = 0;
-	} else {
-		$level = 1;
+// 	if ($user_info['user_rank_name'] == $row['rank_name']) {
+// 		$level = 0;
+// 	} else {
+// 		$level = 1;
+// 	}
+
+	if($user_info['user_rank'] == 0) {
+	    //重新计算会员等级
+	    RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
+	}
+	//用户等级更新，不用计算，直接读取
+	$row = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
+	$user_info['user_rank_name'] = $row['rank_name'];
+	$user_info['user_rank_id'] = $row['rank_id'];
+	$level = 1;
+	if($row['special_rank'] == 0 && $row['min_points'] == 0) {
+	    $level = 0;
 	}
 
 	if(empty($user_info['avatar_img'])) {

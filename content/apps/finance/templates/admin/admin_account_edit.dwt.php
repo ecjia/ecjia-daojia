@@ -56,7 +56,7 @@
 					<label class="control-label">{lang key='user::user_account.label_process_type'}</label>
 					<div class="controls chk_radio">
 						<input class="uni_style" type="radio" name="process_type" value="0" {if $user_surplus.process_type eq 0} checked="checked" {/if} {if $user_surplus.is_paid} disabled="true" {/if} /><span>{lang key='user::user_account.surplus_type.0'}</span>
-						<input class="uni_style" type="radio" name="process_type" value="1" {if $user_surplus.process_type eq 1} checked="checked" {/if} {if $user_surplus.is_paid} disabled="true" {/if} /><span>{lang key='user::user_account.surplus_type.1'}</span>
+						<input class="uni_style" type="radio" name="process_type" value="1" {if $user_surplus.process_type eq 1 || $type == 'withdraw'} checked="checked" {/if} {if $user_surplus.is_paid} disabled="true" {/if} /><span>{lang key='user::user_account.surplus_type.1'}</span>
 					</div>
 				</div>
 				<!-- 管理员备注 -->
