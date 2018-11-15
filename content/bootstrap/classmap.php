@@ -280,6 +280,27 @@ return array(
     'AddCostPriceAndGoodsBarcodeToGoodsTable' => $contentDir . '/database/migrations/2018_10_20_141940_add_cost_price_and_goods_barcode_to_goods_table.php',
     'AddAdDescToAdTable' => $contentDir . '/database/migrations/2018_10_20_145251_add_ad_desc_to_ad_table.php',
     'AddFromTypeAndFromValueTable' => $contentDir . '/database/migrations/2018_10_20_145423_add_from_type_and_from_value_table.php',
+    //1.23
+    'CreateMerchantMenuTable' => $contentDir . '/database/migrations/2018_11_13_105440_create_merchant_menu_table.php',
+    'CreateMerchantNewsTable' => $contentDir . '/database/migrations/2018_11_13_105608_create_merchant_news_table.php',
+    'CreateTrackLogisticTable' => $contentDir . '/database/migrations/2018_11_13_105716_create_track_logistic_table.php',
+    'CreateTrackLogTable' => $contentDir . '/database/migrations/2018_11_13_105732_create_track_log_table.php',
+    'AlterPasswordEmailBirthdayNullToUsersTable' => $contentDir . '/database/migrations/2018_11_13_140532_alter_password_email_birthday_null_to_users_table.php',
+    'AddBuyTimesAndBuyAmountToStoreUsersTable' => $contentDir . '/database/migrations/2018_11_13_141317_add_buy_times_and_buy_amount_to_store_users_table.php',
+    'AddVisitTimesAndMoreToCollectStoreTable' => $contentDir . '/database/migrations/2018_11_13_141937_add_visit_times_and_more_to_collect_store_table.php',
+    'AddPayerUidAndMoreToPaymentRecordTable' => $contentDir . '/database/migrations/2018_11_13_144052_add_payer_uid_and_more_to_payment_record_table.php',
+    'AlterOrderSnLengthToOrderInfoTable' => $contentDir . '/database/migrations/2018_11_13_144236_alter_order_sn_length_to_order_info_table.php',
+    'AlterExpressSnLengthToExpressOrderTable' => $contentDir . '/database/migrations/2018_11_13_145138_alter_express_sn_length_to_express_order_table.php',
+    'AlterOrderSnLengthToDeliveryOrderTable' => $contentDir . '/database/migrations/2018_11_13_145516_alter_order_sn_length_to_delivery_order_table.php',
+    'AlterOrderSnLengthToRefundOrderTable' => $contentDir . '/database/migrations/2018_11_13_145603_alter_order_sn_length_to_refund_order_table.php',
+    'AlterOrderSnLengthToQuickpayOrdersTable' => $contentDir . '/database/migrations/2018_11_13_145639_alter_order_sn_length_to_quickpay_orders_table.php',
+    'AlterOrderSnLengthToStoreAccountOrderTable' => $contentDir . '/database/migrations/2018_11_13_145710_alter_order_sn_length_to_store_account_order_table.php',
+    'AlterOrderSnLengthToUserAccountTable' => $contentDir . '/database/migrations/2018_11_13_145756_alter_order_sn_length_to_user_account_table.php',
+    'AlterOrderSnLengthToRefundPayrecordTable' => $contentDir . '/database/migrations/2018_11_13_145826_alter_order_sn_length_to_refund_payrecord_table.php',
+    'AlterOrderSnLengthToPaymentRecordTable' => $contentDir . '/database/migrations/2018_11_13_145907_alter_order_sn_length_to_payment_record_table.php',
+    'AlterOrderSnLengthToStoreBillDetailTable' => $contentDir . '/database/migrations/2018_11_13_145933_alter_order_sn_length_to_store_bill_detail_table.php',
+    'AlterAppealSnLengthToCommentAppealTable' => $contentDir . '/database/migrations/2018_11_13_150010_alter_appeal_sn_length_to_comment_appeal_table.php',
+    'AlterBillSnLengthToStoreBillTable' => $contentDir . '/database/migrations/2018_11_13_150046_alter_bill_sn_length_to_store_bill_table.php',
 
     
     // seeder
