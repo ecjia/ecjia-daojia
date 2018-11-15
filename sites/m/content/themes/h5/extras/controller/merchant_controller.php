@@ -264,6 +264,7 @@ class merchant_controller
         ecjia_front::$controller->assign('referer_url', urlencode(RC_Uri::url('merchant/index/init', array('store_id' => $store_id))));
 
         ecjia_front::$controller->assign('url', RC_Uri::url('merchant/index/init', array('store_id' => $store_id)));
+        ecjia_front::$controller->assign('follow_url', RC_Uri::url('merchant/index/follow_store', array('store_id' => $store_id)));
 
         $status = !empty($_GET['status']) ? trim($_GET['status']) : '';
         if ($status == 'comment') {
@@ -294,7 +295,6 @@ class merchant_controller
         unset($_SESSION['quick_pay']);
         ecjia_front::$controller->assign('status', $status);
         ecjia_front::$controller->assign('ajax_url', RC_Uri::url('merchant/index/ajax_store_comment', array('store_id' => $store_id)));
-        ecjia_front::$controller->assign('follow_url', RC_Uri::url('merchant/index/follow_store', array('store_id' => $store_id)));
 
         ecjia_front::$controller->display('merchant.dwt');
     }
