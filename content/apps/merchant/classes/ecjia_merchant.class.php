@@ -164,13 +164,8 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 		$this->assign('ecjia_merchant_notice_list', $list);
 		
 		//底部右侧网店信息
-		$shopinfo_list = RC_DB::table('article')
-			->select('article_id', 'title')
-	    	->where('cat_id', 0)
-	    	->where('article_type', 'shop_info')
-	    	->orderby('article_id', 'asc')
-	    	->get();
-		$this->assign('ecjia_merchant_shopinfo_list', $shopinfo_list);
+        $shop_info_html = (new Ecjia\App\Article\ShopInfoArticleList)->outputHtml();
+		$this->assign('shop_info_html', $shop_info_html);
 		
 		//店铺导航背景图
 		$background_url = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_nav_background')->pluck('value');

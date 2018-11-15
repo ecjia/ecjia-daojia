@@ -61,9 +61,7 @@
                     Copyright &copy; 2018 {ecjia::config('shop_name')} {if ecjia::config('icp_number', 2)}<a href="http://www.miibeian.gov.cn" target="_blank">{ecjia::config('icp_number')}</a>{/if}
                     </p>
                     <p class="footer-bottom-links">
-                        <!-- {foreach from=$ecjia_merchant_shopinfo_list item=val} -->
-                        <a href='{url path="merchant/merchant/shopinfo" args="id={$val.article_id}"}'>{$val.title}</a>
-                        <!-- {/foreach} -->
+                        {$shop_info_html}
                     </p>
                 </div>
             </div>

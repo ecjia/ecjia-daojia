@@ -79,7 +79,7 @@ class mh_franchisee extends ecjia_merchant {
         // select 选择框
         RC_Style::enqueue_style('chosen_style', RC_App::apps_url('statics/assets/chosen/chosen.css', __FILE__), array());
         RC_Script::enqueue_script('chosen', RC_App::apps_url('statics/assets/chosen/chosen.jquery.min.js', __FILE__), array(), false, true);
-        RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
+        RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
         
         RC_Loader::load_app_func('merchant');
         Ecjia\App\Merchant\Helper::assign_adminlog_content();

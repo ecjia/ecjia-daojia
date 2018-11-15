@@ -77,7 +77,7 @@ class admin_store_setting extends ecjia_admin {
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
         RC_Script::enqueue_script('store', RC_App::apps_url('statics/js/admin_store_setting.js', __FILE__));
-		RC_Script::enqueue_script('qq_map', 'https://map.qq.com/api/js?v=2.exp');
+        RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
 
 		$store_id = intval($_GET['store_id']);
         $store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();

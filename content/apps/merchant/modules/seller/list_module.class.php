@@ -283,6 +283,8 @@ class seller_list_module extends api_front implements api_interface {
 						
 					$distance_list[]	= $distance;
 					$sort_order[]	 	= $row['sort_order'];
+					
+					$is_collect[] = in_array($row['id'], $collect_store_id) ? 1 : 0;
 						
 					$seller_list[] = array(
 							'id'						=> $row['id'],
@@ -341,7 +343,7 @@ class seller_list_module extends api_front implements api_interface {
 			$seller_list = $distance_list = $sort_order = array();
 			if (!empty($store_data['seller_list'])) {
 				$collect_store_id = RC_DB::table('collect_store')->where('user_id', $_SESSION['user_id'])->lists('store_id');
-			
+				
 				foreach ($store_data['seller_list'] as $key => $row) {
 					//打烊时间处理
 					$shop_trade_time =  RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->pluck('value');
@@ -355,13 +357,18 @@ class seller_list_module extends api_front implements api_interface {
 							$start_time = strtotime($shop_trade_time['start']);
 		                    $end_time = strtotime($shop_trade_time['end']);
 							//处理营业时间格式例：7:00--次日5:30
-		                    $start = $shop_trade_time['start'];
+		                    $start = explode(':', $shop_trade_time['start']);
 		                    $end = explode(':', $shop_trade_time['end']);
 		                    if ($end[0] >= 24) {
 		                        $hour = $end[0] - 24;
 		                    	$end[0] = '次日'. ($hour);
 		                        $end_str = $hour. ':' . $end[1];
-		                        $end_time = strtotime($end_str) + 24*3600;
+// 		                        $end_time = strtotime($end_str) + 24*3600;
+		                        //开始时间至00:00时间差
+		                        $dif_hour = 23 - $start['0'];
+		                        $dif_min = 60 - $start['1'];
+		                        
+		                        $end_time = $start_time + ($dif_hour*3600 + $dif_min*60) + ($hour*3600 + $end['1'] *60);
 		                    }
 		                    if ($start_time < $current_time && $current_time < $end_time) {
 		                        $shop_closed = 0;
@@ -482,6 +489,7 @@ class seller_list_module extends api_front implements api_interface {
 			
 					$distance_list[]	= $distance;
 					$sort_order[]	 	= $row['sort_order'];
+					$is_collect[] = in_array($row['id'], $collect_store_id) ? 1 : 0;
 			
 					$seller_list[] = array(
 							'id'				=> $row['id'],
@@ -505,7 +513,7 @@ class seller_list_module extends api_front implements api_interface {
 			}
 		}
 		
-		array_multisort($distance_list, SORT_ASC, $sort_order, SORT_ASC, $seller_list);
+		array_multisort($is_collect, SORT_DESC, $distance_list, SORT_ASC, $sort_order, SORT_ASC, $seller_list);
 		
 		$seller_list = array_slice($seller_list, ($page-1) * $size, $size);
 		

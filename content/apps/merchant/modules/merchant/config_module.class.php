@@ -129,6 +129,22 @@ class merchant_config_module extends api_front implements api_interface {
         	$shop_closed = 1;
         }
 		
+        //用户是否收藏此店铺
+        $is_collected = 0;
+        if ($_SESSION['user_id'] > 0) {
+        	$collect_store_info = RC_DB::table('collect_store')->where('user_id', $_SESSION['user_id'])->where('store_id', $seller_id)->first();
+        	if (!empty($collect_store_info)) {
+        		$is_collected = 1;
+        		//访问记录
+        		RC_Api::api('customer', 'store_fans_visit', [
+        		    'user_id'  => $_SESSION['user_id'],
+        		    'store_id' => $seller_id,
+        		    'longitude'=> $location['longitude'],
+        		    'latitude' => $location['latitude'],
+        		]);
+        	}
+        }
+        
 		if(substr($info['shop_logo'], 0, 1) == '.') {
 			$info['shop_logo'] = str_replace('../', '/', $info['shop_logo']);
 		}
@@ -245,7 +261,8 @@ class merchant_config_module extends api_front implements api_interface {
 				'favourable_list'	=> $favourable_list,
 				'label_trade_time'	=> $info['trade_time'],
 				'allow_use_quickpay'=> empty($allow_use_quickpay) ? 0 : 1,
-				'shop_closed'		=> $shop_closed
+				'shop_closed'		=> $shop_closed,
+				'is_collected'		=> $is_collected
 		);
 
 		return $seller_info;
