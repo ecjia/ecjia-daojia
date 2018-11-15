@@ -52,75 +52,84 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @param   integer     $article_id
  * @return  array
  */
-function get_article_info($article_id) {
-	//文章信息
-	$row = RC_DB::table('article')->where('article_id', $article_id)->where('article_approved', 1)->first();
-	
-	//评论等级
-	$comment_info = RC_DB::table('comment')
-	    ->select(RC_DB::raw('IFNULL(AVG(comment_rank), 0) AS comment_rank'))
-	    ->where('id_value', $article_id)
-	    ->where('comment_type', 1)
-	    ->first();
-	$row['comment_rank'] = $comment_info['comment_rank'];   
+function get_article_info($article_id)
+{
+    //文章信息
+    $row = RC_DB::table('article')->where('article_id', $article_id)->where('article_approved', 1)->first();
 
+    //评论等级
+    $comment_info = RC_DB::table('comment')
+        ->select(RC_DB::raw('IFNULL(AVG(comment_rank), 0) AS comment_rank'))
+        ->where('id_value', $article_id)
+        ->where('comment_type', 1)
+        ->first();
+    $row['comment_rank'] = $comment_info['comment_rank'];
 
-	if ($row !== false) {
-		/* 用户评论级别取整  */
-		$row['comment_rank'] = ceil($row['comment_rank']);
-		/* 修正添加时间显示  */
-		$row['add_time'] = RC_Time::local_date(ecjia::config('date_format'), $row['add_time']);
+    if ($row !== false) {
+        /* 用户评论级别取整  */
+        $row['comment_rank'] = ceil($row['comment_rank']);
+        /* 修正添加时间显示  */
+        $row['add_time'] = RC_Time::local_date(ecjia::config('date_format'), $row['add_time']);
 
-		/* 作者信息如果为空，则用网站名称替换 */
-		if (empty($row['author']) || $row['author'] == '_SHOPHELP') {
-			$row['author'] = ecjia::config('shop_name');
-		}
-	}
-	return $row;
+        /* 作者信息如果为空，则用网站名称替换 */
+        if (empty($row['author']) || $row['author'] == '_SHOPHELP') {
+            $row['author'] = ecjia::config('shop_name');
+        }
+    }
+    return $row;
 }
-
 
 /**
  * 获取指定分类类型下的相关信息
  * @param number $cat_type
  * @return array
  */
-function get_cat_type_info ($article_type = 'merchant_notice', $article_id = 0) {
-	$info['cat_type'] = 0;
-	if (!empty($article_id)) {
-		$info = RC_DB::table('article as a')
-		->where(RC_DB::raw('a.article_id'), $article_id)
-		->select(RC_DB::raw('a.*'))
-		->first();
-	}
-	$article_type = !empty($info['article_type']) ? $info['article_type'] : $article_type;//默认商家公告
-	$text = '商家公告';
-	$text_add = '发布商家公告';
-	$text_edit = '编辑商家公告';
-	$url = RC_Uri::url('article/admin_notice/init');
-	$url_add = RC_Uri::url('article/admin_notice/add');
-	$url_insert = RC_Uri::url('article/admin_notice/insert');
-	$url_update = RC_Uri::url('article/admin_notice/update');
+function get_cat_type_info($article_type = 'merchant_notice', $article_id = 0)
+{
+    $info['cat_type'] = 0;
+    if (!empty($article_id)) {
+        $info = RC_DB::table('article as a')
+            ->where(RC_DB::raw('a.article_id'), $article_id)
+            ->select(RC_DB::raw('a.*'))
+            ->first();
+    }
+    $article_type = !empty($info['article_type']) ? $info['article_type'] : $article_type; //默认商家公告
+    $text         = '商家公告';
+    $text_add     = '发布商家公告';
+    $text_edit    = '编辑商家公告';
+    $url          = RC_Uri::url('article/admin_notice/init');
+    $url_add      = RC_Uri::url('article/admin_notice/add');
+    $url_insert   = RC_Uri::url('article/admin_notice/insert');
+    $url_update   = RC_Uri::url('article/admin_notice/update');
 
-	if ($article_type == 'system') {
-		$text = '系统信息';
-		$text_add = '发布系统信息';
-		$text_edit = '编辑系统信息';
-		$url = RC_Uri::url('article/admin_notice/init', array('article_type' => 'system'));
-		$url_add = RC_Uri::url('article/admin_notice/add', array('article_type' => 'system'));
-		$url_insert = RC_Uri::url('article/admin_notice/insert', array('article_type' => 'system'));
-		$url_update = RC_Uri::url('article/admin_notice/update', array('article_type' => 'system'));
-	}
-	$data = array(
-		'text'          => $text,
-		'text_add'      => $text_add,
-		'text_edit'     => $text_edit,
-		'url'           => $url,
-		'url_add'       => $url_add,
-		'url_insert'    => $url_insert,
-		'url_update'    => $url_update,
-		'article_info'  => $info
-	);
-	return $data;
+    if ($article_type == 'system') {
+        $text       = '系统信息';
+        $text_add   = '发布系统信息';
+        $text_edit  = '编辑系统信息';
+        $url        = RC_Uri::url('article/admin_notice/init', array('article_type' => 'system'));
+        $url_add    = RC_Uri::url('article/admin_notice/add', array('article_type' => 'system'));
+        $url_insert = RC_Uri::url('article/admin_notice/insert', array('article_type' => 'system'));
+        $url_update = RC_Uri::url('article/admin_notice/update', array('article_type' => 'system'));
+    } elseif ($article_type == 'shop_notice') {
+        $text       = '平台公告';
+        $text_add   = '发布平台公告';
+        $text_edit  = '编辑平台公告';
+        $url        = RC_Uri::url('article/admin_notice/init', array('article_type' => 'shop_notice'));
+        $url_add    = RC_Uri::url('article/admin_notice/add', array('article_type' => 'shop_notice'));
+        $url_insert = RC_Uri::url('article/admin_notice/insert', array('article_type' => 'shop_notice'));
+        $url_update = RC_Uri::url('article/admin_notice/update', array('article_type' => 'shop_notice'));
+    }
+
+    $data = array(
+        'text'         => $text,
+        'text_add'     => $text_add,
+        'text_edit'    => $text_edit,
+        'url'          => $url,
+        'url_add'      => $url_add,
+        'url_insert'   => $url_insert,
+        'url_update'   => $url_update,
+        'article_info' => $info,
+    );
+    return $data;
 }
 // end

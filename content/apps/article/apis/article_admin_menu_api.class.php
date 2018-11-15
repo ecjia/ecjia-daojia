@@ -50,35 +50,37 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 后台文章菜单API
  * @author songqian
  */
-class article_admin_menu_api extends Component_Event_Api {
+class article_admin_menu_api extends Component_Event_Api
+{
 
-    public function call(&$options) {
+    public function call(&$options)
+    {
         $menus = ecjia_admin::make_admin_menu('09_content', RC_Lang::get('article::article.article_manage'), '', 9);
-        
+
         $submenus = array(
             ecjia_admin::make_admin_menu('01_article_list', RC_Lang::get('article::article.article_list'), RC_Uri::url('article/admin/init'), 1)->add_purview('article_manage'),
-        	ecjia_admin::make_admin_menu('02_store_article_list', RC_Lang::get('article::article.store_article_list'), RC_Uri::url('article/admin/init', array('publishby' => 'store')), 2)->add_purview('article_manage'),
-        	ecjia_admin::make_admin_menu('03_article_add', RC_Lang::get('article::article.add_article'), RC_Uri::url('article/admin/add'), 3)->add_purview('article_update'),
+            ecjia_admin::make_admin_menu('02_store_article_list', RC_Lang::get('article::article.store_article_list'), RC_Uri::url('article/admin/init', array('publishby' => 'store')), 2)->add_purview('article_manage'),
+            ecjia_admin::make_admin_menu('03_article_add', RC_Lang::get('article::article.add_article'), RC_Uri::url('article/admin/add'), 3)->add_purview('article_update'),
             ecjia_admin::make_admin_menu('04_articlecat_list', RC_Lang::get('article::article.cat'), RC_Uri::url('article/admin_articlecat/init'), 4)->add_purview('article_cat_manage'),
-        	ecjia_admin::make_admin_menu('05_article_comment_list', RC_Lang::get('article::article.article_comment'), RC_Uri::url('article/admin/article_comment_list', array('publishby' => 'total_comments')), 5)->add_purview('article_comment_manage'),
+            ecjia_admin::make_admin_menu('05_article_comment_list', RC_Lang::get('article::article.article_comment'), RC_Uri::url('article/admin/article_comment_list', array('publishby' => 'total_comments')), 5)->add_purview('article_comment_manage'),
 
-        	ecjia_admin::make_admin_menu('divider', '', '', 6)->add_purview(array('shophelp_manage', 'shopinfo_manage', 'store_notice_manage')),
-            ecjia_admin::make_admin_menu('06_article_help', RC_Lang::get('article::article.shop_help'), RC_Uri::url('article/admin_shophelp/init'), 7)->add_purview('shophelp_manage'),
-            ecjia_admin::make_admin_menu('07_article_info', RC_Lang::get('article::article.shop_info'), RC_Uri::url('article/admin_shopinfo/init'), 8)->add_purview('shopinfo_manage'),
-        	ecjia_admin::make_admin_menu('08_notice_list', RC_Lang::get('article::article.store_notice'), RC_Uri::url('article/admin_notice/init', array('article_type' => 'merchant_notice')), 9)->add_purview('store_notice_manage'),
-        	ecjia_admin::make_admin_menu('09_system_info', RC_Lang::get('article::article.system_info'), RC_Uri::url('article/admin_notice/init', array('article_type' => 'system')), 10)->add_purview('store_notice_manage'),
-        		
-        	ecjia_admin::make_admin_menu('divider', '', '', 10)->add_purview(array('article_auto_manage')),
-        	ecjia_admin::make_admin_menu('11_article_info', __('文章自动发布'), RC_Uri::url('article/admin_article_auto/init'), 12)->add_purview('article_auto_manage'),
+            ecjia_admin::make_admin_menu('divider', '', '', 6)->add_purview(array('article_manage', 'shophelp_manage', 'shopinfo_manage', 'store_notice_manage')),
+
+            ecjia_admin::make_admin_menu('07_platform_notice', '平台公告', RC_Uri::url('article/admin_notice/init', array('article_type' => 'shop_notice')), 7)->add_purview('article_manage'),
+            ecjia_admin::make_admin_menu('08_article_help', RC_Lang::get('article::article.shop_help'), RC_Uri::url('article/admin_shophelp/init'), 8)->add_purview('shophelp_manage'),
+            ecjia_admin::make_admin_menu('09_article_info', RC_Lang::get('article::article.shop_info'), RC_Uri::url('article/admin_shopinfo/init'), 9)->add_purview('shopinfo_manage'),
+            ecjia_admin::make_admin_menu('10_notice_list', RC_Lang::get('article::article.store_notice'), RC_Uri::url('article/admin_notice/init', array('article_type' => 'merchant_notice')), 10)->add_purview('store_notice_manage'),
+            ecjia_admin::make_admin_menu('11_system_info', RC_Lang::get('article::article.system_info'), RC_Uri::url('article/admin_notice/init', array('article_type' => 'system')), 11)->add_purview('store_notice_manage'),
+
+            ecjia_admin::make_admin_menu('divider', '', '', 12)->add_purview(array('article_auto_manage')),
+            ecjia_admin::make_admin_menu('13_article_info', __('文章自动发布'), RC_Uri::url('article/admin_article_auto/init'), 13)->add_purview('article_auto_manage'),
         );
-        
+
         $menus->add_submenu($submenus);
-//         $menus = RC_Hook::apply_filters('article_admin_menu_api', $menus);
-        
-		if ($menus->has_submenus()) {
-		    return $menus;
-		}
-		return false;
+        if ($menus->has_submenus()) {
+            return $menus;
+        }
+        return false;
     }
 }
 

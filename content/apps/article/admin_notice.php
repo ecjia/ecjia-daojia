@@ -186,7 +186,7 @@ class admin_notice extends ecjia_admin {
 		$article_type = !empty($_GET['article_type']) ? trim($_GET['article_type']) : $info['article_type'];
 		$data = get_cat_type_info($article_type);
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($data['text']));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($data['text_edit']));
 		
 		$this->assign('ur_here', $data['text']);
 		$this->assign('action_link', array('text' => $data['text'], 'href'=> $data['url']));

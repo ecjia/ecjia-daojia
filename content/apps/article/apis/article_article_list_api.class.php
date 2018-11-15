@@ -108,7 +108,7 @@ class article_article_list_api extends Component_Event_Api {
 		$filter['record_count'] = $count;
 		
 		$result = $dbview->select(RC_DB::raw('a.*'), RC_DB::raw('ac.cat_name'), RC_DB::raw('ac.cat_type'), RC_DB::raw('ac.sort_order'))
-				  ->orderby(RC_DB::raw($filter['sort_by']), $filter['sort_order'])->take(15)->skip($page->start_id-1)->get();
+				  ->orderby(RC_DB::raw($filter['sort_by']), $filter['sort_order'])->take($filter['page_size'])->skip($page->start_id-1)->get();
 			  
 		$arr = array();
 		if(!empty($result)) {
