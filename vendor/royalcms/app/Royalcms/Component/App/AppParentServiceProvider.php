@@ -75,7 +75,7 @@ abstract class AppParentServiceProvider extends ServiceProvider
 	{
         if (strpos($namespace, 'app-', 0) !== false) {
             $app = str_replace('app-', '', $namespace);
-            return realpath($this->royalcms['path.app'] . '/' . $app);
+            return realpath($this->royalcms->appPath($app));
         }
 
 		$path = with(new ReflectionClass($this))->getFileName();
