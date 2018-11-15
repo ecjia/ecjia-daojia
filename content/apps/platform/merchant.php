@@ -74,7 +74,7 @@ class merchant extends ecjia_merchant
         RC_Style::enqueue_style('wechat_extend', RC_App::apps_url('statics/css/wechat_extend.css', __FILE__));
 
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('platform::platform.platform_list'), RC_Uri::url('platform/merchant/init')));
-        ecjia_merchant_screen::get_current_screen()->set_parentage('platform', 'platform/merchant.php');
+        ecjia_merchant_screen::get_current_screen()->set_parentage('store', 'store/merchant.php');
     }
 
     /**
