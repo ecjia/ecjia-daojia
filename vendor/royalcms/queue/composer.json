@@ -1,0 +1,46 @@
+{
+    "name": "royalcms/queue",
+    "description": "The Royalcms Queue package.",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/console": "5.0.*",
+        "royalcms/contracts": "5.0.*",
+        "royalcms/container": "5.0.*",
+        "royalcms/http": "5.0.*",
+        "royalcms/support": "5.0.*",
+        "symfony/process": "2.7.*",
+        "symfony/debug": "2.7.*",
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Queue\\": ""
+        },
+        "classmap": [
+            "RoyalcmsQueueClosure.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0-dev"
+        }
+    },
+    "suggest": {
+        "aws/aws-sdk-php": "Required to use the SQS queue driver (~3.0).",
+        "royalcms/redis": "Required to use the redis queue driver (5.0.*).",
+        "iron-io/iron_mq": "Required to use the iron queue driver (~2.0).",
+        "pda/pheanstalk": "Required to use the beanstalk queue driver (~3.0)."
+    },
+    "minimum-stability": "dev"
+}
