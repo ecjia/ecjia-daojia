@@ -89,18 +89,14 @@ class connect_bind_module extends api_front implements api_interface {
 		 * login_alipay
 		 * login_taobao
 		 **/
-		RC_Loader::load_app_class('integrate', 'user', false);
-		$user = integrate::init_users();
+		$ecjia_integrate = ecjia_integrate::init_users();
 		
 		$is_mobile = false;
-		
-
 		
 		if (version_compare($api_version, '1.14', '<')) {
 			/* 判断是否为手机号*/
 		    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
 		    if($check_mobile === true) {
-// 			if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $username)) {
 				$db_user     = RC_Model::model('user/users_model');
 				$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
 				if ($user_count > 1) {
@@ -117,7 +113,7 @@ class connect_bind_module extends api_front implements api_interface {
 			
 			/* 如果不是手机号码*/
 			if (!$is_mobile) {
-				if (!$user->login($username, $password)) {
+				if (! $ecjia_integrate->login($username, $password)) {
 					return new ecjia_error('password_error', '密码错误！');
 				}
 			}
@@ -125,7 +121,6 @@ class connect_bind_module extends api_front implements api_interface {
 			/* 判断是否为手机号*/
 		    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
 		    if($check_mobile === true) {
-// 			if (is_numeric($username) && strlen($username) == 11 && preg_match( '/^1[3|4|5|6|7|8][0-9]\d{8}$/', $username)) {
 				$db_user     = RC_Model::model('user/users_model');
 				$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
 				if ($user_count > 1) {
@@ -134,7 +129,7 @@ class connect_bind_module extends api_front implements api_interface {
 				$check_user = $db_user->where(array('mobile_phone' => $username))->get_field('user_name');
 				/* 获取用户名进行判断验证*/
 				if (!empty($check_user)) {
-					if ($user->login($check_user)) {
+					if ($ecjia_integrate->login($check_user)) {
 						$is_mobile = true;
 					}
 					if ($is_mobile) {
@@ -147,7 +142,7 @@ class connect_bind_module extends api_front implements api_interface {
 			
 			/* 如果不是手机号码*/
 			if (!$is_mobile) {
-				if (!$user->login($username, $password)) {
+				if (!$ecjia_integrate->login($username, $password)) {
 					return new ecjia_error('password_error', '密码错误！');
 				}
 			}
@@ -171,6 +166,27 @@ class connect_bind_module extends api_front implements api_interface {
 		/* 获取远程用户头像信息*/
 		RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
 		
+		/*向connect_user表插入一条app数据*/
+		$connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('is_admin', 0)->first();
+		$open_id = md5(RC_Time::gmtime().$_SESSION['user_id']);
+		if (empty($connect_user_app)) {
+			$connect_data = array(
+					'connect_code'    => 'app',
+					'user_id'         => $_SESSION['user_id'],
+					'is_admin'        => '0',
+					'open_id'         => $open_id,
+					'access_token'    => RC_Session::session_id(),
+					'create_at'       => RC_Time::gmtime()
+			);
+			RC_DB::table('connect_user')->insert($connect_data);
+		} else {
+			$connect_data = array(
+					'open_id'         => $open_id,
+					'access_token'    => RC_Session::session_id(),
+			);
+			RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('is_admin', 0)->update($connect_data);
+		}
+		
 		RC_Loader::load_app_func('admin_user', 'user');
 		$user_info = EM_user_info($_SESSION['user_id']);
 		update_user_info(); // 更新用户信息
@@ -182,7 +198,7 @@ class connect_bind_module extends api_front implements api_interface {
 			'user' => $user_info
 		);
 		
-		$this->feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
+//		$this->feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
 		
 		//修正关联设备号
 		$result = ecjia_app::validate_application('mobile');
@@ -205,8 +221,8 @@ class connect_bind_module extends api_front implements api_interface {
 	 * @param string $device
 	 */
 	private function feedback_batch_userid($user_id, $user_name, $device) {
-		$device_udid	  = $device['udid'];
-		$device_client	  = $device['client'];
+//		$device_udid	  = $device['udid'];
+//		$device_client	  = $device['client'];
 		
 		//$pra = array(
 		//	'object_type'	=> 'ecjia.feedback',
@@ -218,7 +234,7 @@ class connect_bind_module extends api_front implements api_interface {
 		
 		//更新未登录用户的咨询
 		//$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_udid))->update(array('item_key2' => '', 'item_value2' => ''));
-		RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_udid)->update(array('item_key2' => '', 'item_value2' => ''));
+//		RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_udid)->update(array('item_key2' => '', 'item_value2' => ''));
 		
 		//if (!empty($object_id)) {
 		//	$db = RC_Model::model('feedback/feedback_model');

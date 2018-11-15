@@ -68,18 +68,15 @@ class connect_signin_module extends api_front implements api_interface {
 		 * login_username
 		 * login_alipay
 		 * login_taobao
-		 **/
-		
-// 		RC_Loader::load_app_class('connect_user', 'connect', false);
+		 */
 		$connect_user = new Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
 		//判断已绑定授权登录用户 直接登录
 		if ($connect_user->checkUser()) {
 			$connect_user_id = $connect_user->getUserId();
 			$user_info = RC_Api::api('user', 'user_info', array('user_id' => $connect_user_id));
-			RC_Loader::load_app_class('integrate', 'user', false);
-			$user = integrate::init_users();
-			$user->set_session($user_info['user_name']);
-			$user->set_cookie($user_info['user_name']);
+
+			ecjia_integrate::setSession($user_info['user_name']);
+            ecjia_integrate::setCookie($user_info['user_name']);
 			
 			$data = array(
 				'profile' => serialize($profile)
@@ -89,24 +86,6 @@ class connect_signin_module extends api_front implements api_interface {
 			RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
 		} else {
 			return new ecjia_error('connect_no_userbind', '请关联或注册一个会员用户！');
-			//新用户注册并登录
-// // 			$username = $connect_user->get_username();
-// 			$username = $username . rc_random(4, 'abcdefghijklmnopqrstuvwxyz0123456789');
-// 			$password = md5(rc_random(9, 'abcdefghijklmnopqrstuvwxyz0123456789'));
-// // 			$email = $connect_user->get_email();
-// 			$email = rc_random(8, 'abcdefghijklmnopqrstuvwxyz0123456789').'@'.$connect_code.'.com';
-// 			$user = integrate::init_users();
-// 			$result = $user->add_user($username, $password, $email);
-// 			$user->set_session($username);
-// 			$user->set_cookie($username);
-// 			$curr_time = RC_Time::gmtime();
-// 			$data = array(
-// 					'connect_code'	=> $connect_user->connect_code,
-// 					'open_id'		=> $connect_user->open_id,
-// 					'create_at'     => $curr_time,
-// 					'user_id'		=> $_SESSION['user_id']
-// 			);
-// 			RC_Model::model('connect/connect_user_model')->insert($data);
 		}
 		
 		// 1、同步会员信息
@@ -114,6 +93,28 @@ class connect_signin_module extends api_front implements api_interface {
 		
 		$this->feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
 
+		/*向connect_user表插入一条app数据*/
+		$connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->first();
+		$open_id = md5(RC_Time::gmtime().$_SESSION['user_id']);
+		if (empty($connect_user_app)) {
+			$connect_data = array(
+					'connect_code'    => 'app',
+					'user_id'         => $_SESSION['user_id'],
+					'is_admin'        => '0',
+					'user_type'		  => 'user',
+					'open_id'         => $open_id,
+					'access_token'    => RC_Session::session_id(),
+					'create_at'       => RC_Time::gmtime()
+			);
+			RC_DB::table('connect_user')->insert($connect_data);
+		} else {
+			$connect_data = array(
+					'open_id'         => $open_id,
+					'access_token'    => RC_Session::session_id(),
+			);
+			RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->update($connect_data);
+		}
+		
 		RC_Loader::load_app_func('admin_user', 'user');
 		$user_info = EM_user_info($_SESSION['user_id']);
 		

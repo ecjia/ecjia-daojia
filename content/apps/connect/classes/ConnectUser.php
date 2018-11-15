@@ -47,9 +47,9 @@
 namespace Ecjia\App\Connect;
 
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
-use RC_Loader;
 use RC_Time;
 use RC_Hook;
+use ecjia_integrate;
 
 class ConnectUser extends AbstractRepository
 {
@@ -115,8 +115,7 @@ class ConnectUser extends AbstractRepository
      */
     protected function cretateIntegrateUser()
     {
-        RC_Loader::load_app_class('integrate', 'user', false);
-        $this->integrate = \integrate::init_users();
+        $this->integrate = ecjia_integrate::init_users();
     }
     
     public function getIntegrateUser()
@@ -374,7 +373,7 @@ class ConnectUser extends AbstractRepository
     public function getGenerateUserName() {
         $username = $this->getUserName();
         
-        if ($this->getIntegrateUser()->check_user($username)) {
+        if ($this->getIntegrateUser()->checkUser($username)) {
             return $username . rc_random(4, 'abcdefghijklmnopqrstuvwxyz0123456789');
         } else {
             return $username;
@@ -385,7 +384,7 @@ class ConnectUser extends AbstractRepository
         $connect_handle = $this->getConnectPlugin();
         $email = $connect_handle->get_email();
         
-        if ($this->getIntegrateUser()->check_email($email)) {
+        if ($this->getIntegrateUser()->checkEmail($email)) {
             return 'a' . rc_random(2, 'abcdefghijklmnopqrstuvwxyz0123456789') . '_' . $email;
         } else {
             return $email;
