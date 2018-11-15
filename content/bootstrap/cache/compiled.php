@@ -1,540 +1,4 @@
 <?php
-namespace Royalcms\Component\Container {
-use Closure;
-use ArrayAccess;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionFunction;
-use ReflectionParameter;
-use InvalidArgumentException;
-use Royalcms\Component\Contracts\Container\Container as ContainerContract;
-use Royalcms\Component\Contracts\Container\BindingResolutionException as BindingResolutionContractException;
-class Container implements ArrayAccess, ContainerContract
-{
-    protected static $instance;
-    protected $resolved = [];
-    protected $bindings = [];
-    protected $instances = [];
-    protected $aliases = [];
-    protected $extenders = [];
-    protected $tags = [];
-    protected $buildStack = [];
-    public $contextual = [];
-    protected $reboundCallbacks = [];
-    protected $globalResolvingCallbacks = [];
-    protected $globalAfterResolvingCallbacks = [];
-    protected $resolvingCallbacks = [];
-    protected $afterResolvingCallbacks = [];
-    public function when($concrete)
-    {
-        return new ContextualBindingBuilder($this, $concrete);
-    }
-    public function bound($abstract)
-    {
-        return isset($this->bindings[$abstract]) || isset($this->instances[$abstract]) || $this->isAlias($abstract);
-    }
-    public function resolved($abstract)
-    {
-        if ($this->isAlias($abstract)) {
-            $abstract = $this->getAlias($abstract);
-        }
-        return isset($this->resolved[$abstract]) || isset($this->instances[$abstract]);
-    }
-    public function isAlias($name)
-    {
-        return isset($this->aliases[$name]);
-    }
-    public function bind($abstract, $concrete = null, $shared = false)
-    {
-        if (is_array($abstract)) {
-            list($abstract, $alias) = $this->extractAlias($abstract);
-            $this->alias($abstract, $alias);
-        }
-        $this->dropStaleInstances($abstract);
-        if (is_null($concrete)) {
-            $concrete = $abstract;
-        }
-        if (!$concrete instanceof Closure) {
-            $concrete = $this->getClosure($abstract, $concrete);
-        }
-        $this->bindings[$abstract] = compact('concrete', 'shared');
-        if ($this->resolved($abstract)) {
-            $this->rebound($abstract);
-        }
-    }
-    protected function getClosure($abstract, $concrete)
-    {
-        return function ($c, $parameters = []) use($abstract, $concrete) {
-            $method = $abstract == $concrete ? 'build' : 'make';
-            return $c->{$method}($concrete, $parameters);
-        };
-    }
-    public function addContextualBinding($concrete, $abstract, $implementation)
-    {
-        $this->contextual[$concrete][$abstract] = $implementation;
-    }
-    public function bindIf($abstract, $concrete = null, $shared = false)
-    {
-        if (!$this->bound($abstract)) {
-            $this->bind($abstract, $concrete, $shared);
-        }
-    }
-    public function singleton($abstract, $concrete = null)
-    {
-        $this->bind($abstract, $concrete, true);
-    }
-    public function share(Closure $closure)
-    {
-        return function ($container) use($closure) {
-            static $object;
-            if (is_null($object)) {
-                $object = $closure($container);
-            }
-            return $object;
-        };
-    }
-    public function bindShared($abstract, Closure $closure)
-    {
-        $this->bind($abstract, $this->share($closure), true);
-    }
-    public function extend($abstract, Closure $closure)
-    {
-        if (isset($this->instances[$abstract])) {
-            $this->instances[$abstract] = $closure($this->instances[$abstract], $this);
-            $this->rebound($abstract);
-        } else {
-            $this->extenders[$abstract][] = $closure;
-        }
-    }
-    public function instance($abstract, $instance)
-    {
-        if (is_array($abstract)) {
-            list($abstract, $alias) = $this->extractAlias($abstract);
-            $this->alias($abstract, $alias);
-        }
-        unset($this->aliases[$abstract]);
-        $bound = $this->bound($abstract);
-        $this->instances[$abstract] = $instance;
-        if ($bound) {
-            $this->rebound($abstract);
-        }
-    }
-    public function tag($abstracts, $tags)
-    {
-        $tags = is_array($tags) ? $tags : array_slice(func_get_args(), 1);
-        foreach ($tags as $tag) {
-            if (!isset($this->tags[$tag])) {
-                $this->tags[$tag] = [];
-            }
-            foreach ((array) $abstracts as $abstract) {
-                $this->tags[$tag][] = $abstract;
-            }
-        }
-    }
-    public function tagged($tag)
-    {
-        $results = [];
-        if (isset($this->tags[$tag])) {
-            foreach ($this->tags[$tag] as $abstract) {
-                $results[] = $this->make($abstract);
-            }
-        }
-        return $results;
-    }
-    public function alias($abstract, $alias)
-    {
-        $this->aliases[$alias] = $abstract;
-    }
-    protected function extractAlias(array $definition)
-    {
-        return [key($definition), current($definition)];
-    }
-    public function rebinding($abstract, Closure $callback)
-    {
-        $this->reboundCallbacks[$abstract][] = $callback;
-        if ($this->bound($abstract)) {
-            return $this->make($abstract);
-        }
-    }
-    public function refresh($abstract, $target, $method)
-    {
-        return $this->rebinding($abstract, function ($app, $instance) use($target, $method) {
-            $target->{$method}($instance);
-        });
-    }
-    protected function rebound($abstract)
-    {
-        $instance = $this->make($abstract);
-        foreach ($this->getReboundCallbacks($abstract) as $callback) {
-            call_user_func($callback, $this, $instance);
-        }
-    }
-    protected function getReboundCallbacks($abstract)
-    {
-        if (isset($this->reboundCallbacks[$abstract])) {
-            return $this->reboundCallbacks[$abstract];
-        }
-        return [];
-    }
-    public function wrap(Closure $callback, array $parameters = [])
-    {
-        return function () use($callback, $parameters) {
-            return $this->call($callback, $parameters);
-        };
-    }
-    public function call($callback, array $parameters = [], $defaultMethod = null)
-    {
-        if ($this->isCallableWithAtSign($callback) || $defaultMethod) {
-            return $this->callClass($callback, $parameters, $defaultMethod);
-        }
-        $dependencies = $this->getMethodDependencies($callback, $parameters);
-        return call_user_func_array($callback, $dependencies);
-    }
-    protected function isCallableWithAtSign($callback)
-    {
-        if (!is_string($callback)) {
-            return false;
-        }
-        return strpos($callback, '@') !== false;
-    }
-    protected function getMethodDependencies($callback, array $parameters = [])
-    {
-        $dependencies = [];
-        foreach ($this->getCallReflector($callback)->getParameters() as $key => $parameter) {
-            $this->addDependencyForCallParameter($parameter, $parameters, $dependencies);
-        }
-        return array_merge($dependencies, $parameters);
-    }
-    protected function getCallReflector($callback)
-    {
-        if (is_string($callback) && strpos($callback, '::') !== false) {
-            $callback = explode('::', $callback);
-        }
-        if (is_array($callback)) {
-            return new ReflectionMethod($callback[0], $callback[1]);
-        }
-        return new ReflectionFunction($callback);
-    }
-    protected function addDependencyForCallParameter(ReflectionParameter $parameter, array &$parameters, &$dependencies)
-    {
-        if (array_key_exists($parameter->name, $parameters)) {
-            $dependencies[] = $parameters[$parameter->name];
-            unset($parameters[$parameter->name]);
-        } elseif ($parameter->getClass()) {
-            $dependencies[] = $this->make($parameter->getClass()->name);
-        } elseif ($parameter->isDefaultValueAvailable()) {
-            $dependencies[] = $parameter->getDefaultValue();
-        }
-    }
-    protected function callClass($target, array $parameters = [], $defaultMethod = null)
-    {
-        $segments = explode('@', $target);
-        $method = count($segments) == 2 ? $segments[1] : $defaultMethod;
-        if (is_null($method)) {
-            throw new InvalidArgumentException('Method not provided.');
-        }
-        return $this->call([$this->make($segments[0]), $method], $parameters);
-    }
-    public function make($abstract, array $parameters = [])
-    {
-        $abstract = $this->getAlias($abstract);
-        if (isset($this->instances[$abstract])) {
-            return $this->instances[$abstract];
-        }
-        $concrete = $this->getConcrete($abstract);
-        if ($this->isBuildable($concrete, $abstract)) {
-            $object = $this->build($concrete, $parameters);
-        } else {
-            $object = $this->make($concrete, $parameters);
-        }
-        foreach ($this->getExtenders($abstract) as $extender) {
-            $object = $extender($object, $this);
-        }
-        if ($this->isShared($abstract)) {
-            $this->instances[$abstract] = $object;
-        }
-        $this->fireResolvingCallbacks($abstract, $object);
-        $this->resolved[$abstract] = true;
-        return $object;
-    }
-    protected function getConcrete($abstract)
-    {
-        if (!is_null($concrete = $this->getContextualConcrete($abstract))) {
-            return $concrete;
-        }
-        if (!isset($this->bindings[$abstract])) {
-            if ($this->missingLeadingSlash($abstract) && isset($this->bindings['\\' . $abstract])) {
-                $abstract = '\\' . $abstract;
-            }
-            return $abstract;
-        }
-        return $this->bindings[$abstract]['concrete'];
-    }
-    protected function getContextualConcrete($abstract)
-    {
-        if (isset($this->contextual[end($this->buildStack)][$abstract])) {
-            return $this->contextual[end($this->buildStack)][$abstract];
-        }
-    }
-    protected function missingLeadingSlash($abstract)
-    {
-        return is_string($abstract) && strpos($abstract, '\\') !== 0;
-    }
-    protected function getExtenders($abstract)
-    {
-        if (isset($this->extenders[$abstract])) {
-            return $this->extenders[$abstract];
-        }
-        return [];
-    }
-    public function build($concrete, array $parameters = [])
-    {
-        if ($concrete instanceof Closure) {
-            return $concrete($this, $parameters);
-        }
-        $reflector = new ReflectionClass($concrete);
-        if (!$reflector->isInstantiable()) {
-            $message = "Target [{$concrete}] is not instantiable.";
-            throw new BindingResolutionContractException($message);
-        }
-        $this->buildStack[] = $concrete;
-        $constructor = $reflector->getConstructor();
-        if (is_null($constructor)) {
-            array_pop($this->buildStack);
-            return new $concrete();
-        }
-        $dependencies = $constructor->getParameters();
-        $parameters = $this->keyParametersByArgument($dependencies, $parameters);
-        $instances = $this->getDependencies($dependencies, $parameters);
-        array_pop($this->buildStack);
-        return $reflector->newInstanceArgs($instances);
-    }
-    protected function getDependencies(array $parameters, array $primitives = [])
-    {
-        $dependencies = [];
-        foreach ($parameters as $parameter) {
-            $dependency = $parameter->getClass();
-            if (array_key_exists($parameter->name, $primitives)) {
-                $dependencies[] = $primitives[$parameter->name];
-            } elseif (is_null($dependency)) {
-                $dependencies[] = $this->resolveNonClass($parameter);
-            } else {
-                $dependencies[] = $this->resolveClass($parameter);
-            }
-        }
-        return (array) $dependencies;
-    }
-    protected function resolveNonClass(ReflectionParameter $parameter)
-    {
-        if ($parameter->isDefaultValueAvailable()) {
-            return $parameter->getDefaultValue();
-        }
-        $message = "Unresolvable dependency resolving [{$parameter}] in class {$parameter->getDeclaringClass()->getName()}";
-        throw new BindingResolutionContractException($message);
-    }
-    protected function resolveClass(ReflectionParameter $parameter)
-    {
-        try {
-            return $this->make($parameter->getClass()->name);
-        } catch (BindingResolutionContractException $e) {
-            if ($parameter->isOptional()) {
-                return $parameter->getDefaultValue();
-            }
-            throw $e;
-        }
-    }
-    protected function keyParametersByArgument(array $dependencies, array $parameters)
-    {
-        foreach ($parameters as $key => $value) {
-            if (is_numeric($key)) {
-                unset($parameters[$key]);
-                $parameters[$dependencies[$key]->name] = $value;
-            }
-        }
-        return $parameters;
-    }
-    public function resolving($abstract, Closure $callback = null)
-    {
-        if ($callback === null && $abstract instanceof Closure) {
-            $this->resolvingCallback($abstract);
-        } else {
-            $this->resolvingCallbacks[$abstract][] = $callback;
-        }
-    }
-    public function afterResolving($abstract, Closure $callback = null)
-    {
-        if ($abstract instanceof Closure && $callback === null) {
-            $this->afterResolvingCallback($abstract);
-        } else {
-            $this->afterResolvingCallbacks[$abstract][] = $callback;
-        }
-    }
-    protected function resolvingCallback(Closure $callback)
-    {
-        $abstract = $this->getFunctionHint($callback);
-        if ($abstract) {
-            $this->resolvingCallbacks[$abstract][] = $callback;
-        } else {
-            $this->globalResolvingCallbacks[] = $callback;
-        }
-    }
-    protected function afterResolvingCallback(Closure $callback)
-    {
-        $abstract = $this->getFunctionHint($callback);
-        if ($abstract) {
-            $this->afterResolvingCallbacks[$abstract][] = $callback;
-        } else {
-            $this->globalAfterResolvingCallbacks[] = $callback;
-        }
-    }
-    protected function getFunctionHint(Closure $callback)
-    {
-        $function = new ReflectionFunction($callback);
-        if ($function->getNumberOfParameters() == 0) {
-            return;
-        }
-        $expected = $function->getParameters()[0];
-        if (!$expected->getClass()) {
-            return;
-        }
-        return $expected->getClass()->name;
-    }
-    protected function fireResolvingCallbacks($abstract, $object)
-    {
-        $this->fireCallbackArray($object, $this->globalResolvingCallbacks);
-        $this->fireCallbackArray($object, $this->getCallbacksForType($abstract, $object, $this->resolvingCallbacks));
-        $this->fireCallbackArray($object, $this->globalAfterResolvingCallbacks);
-        $this->fireCallbackArray($object, $this->getCallbacksForType($abstract, $object, $this->afterResolvingCallbacks));
-    }
-    protected function getCallbacksForType($abstract, $object, array $callbacksPerType)
-    {
-        $results = [];
-        foreach ($callbacksPerType as $type => $callbacks) {
-            if ($type === $abstract || $object instanceof $type) {
-                $results = array_merge($results, $callbacks);
-            }
-        }
-        return $results;
-    }
-    protected function fireCallbackArray($object, array $callbacks)
-    {
-        foreach ($callbacks as $callback) {
-            $callback($object, $this);
-        }
-    }
-    public function isShared($abstract)
-    {
-        if (isset($this->bindings[$abstract]['shared'])) {
-            $shared = $this->bindings[$abstract]['shared'];
-        } else {
-            $shared = false;
-        }
-        return isset($this->instances[$abstract]) || $shared === true;
-    }
-    protected function isBuildable($concrete, $abstract)
-    {
-        return $concrete === $abstract || $concrete instanceof Closure;
-    }
-    protected function getAlias($abstract)
-    {
-        if (!isset($this->aliases[$abstract])) {
-            return $abstract;
-        }
-        return $this->getAlias($this->aliases[$abstract]);
-    }
-    public function getBindings()
-    {
-        return $this->bindings;
-    }
-    protected function dropStaleInstances($abstract)
-    {
-        unset($this->instances[$abstract], $this->aliases[$abstract]);
-    }
-    public function forgetInstance($abstract)
-    {
-        unset($this->instances[$abstract]);
-    }
-    public function forgetInstances()
-    {
-        $this->instances = [];
-    }
-    public function flush()
-    {
-        $this->aliases = [];
-        $this->resolved = [];
-        $this->bindings = [];
-        $this->instances = [];
-    }
-    public static function getInstance()
-    {
-        return static::$instance;
-    }
-    public static function setInstance(ContainerContract $container)
-    {
-        static::$instance = $container;
-    }
-    public function offsetExists($key)
-    {
-        return $this->bound($key);
-    }
-    public function offsetGet($key)
-    {
-        return $this->make($key);
-    }
-    public function offsetSet($key, $value)
-    {
-        if (!$value instanceof Closure) {
-            $value = function () use($value) {
-                return $value;
-            };
-        }
-        $this->bind($key, $value);
-    }
-    public function offsetUnset($key)
-    {
-        unset($this->bindings[$key], $this->instances[$key], $this->resolved[$key]);
-    }
-    public function __get($key)
-    {
-        return $this[$key];
-    }
-    public function __set($key, $value)
-    {
-        $this[$key] = $value;
-    }
-}
-}
-
-namespace Royalcms\Component\Contracts\Container {
-use Closure;
-interface Container
-{
-    public function bound($abstract);
-    public function alias($abstract, $alias);
-    public function tag($abstracts, $tags);
-    public function tagged($tag);
-    public function bind($abstract, $concrete = null, $shared = false);
-    public function bindIf($abstract, $concrete = null, $shared = false);
-    public function singleton($abstract, $concrete = null);
-    public function extend($abstract, Closure $closure);
-    public function instance($abstract, $instance);
-    public function when($concrete);
-    public function make($abstract, array $parameters = []);
-    public function call($callback, array $parameters = [], $defaultMethod = null);
-    public function resolved($abstract);
-    public function resolving($abstract, Closure $callback = null);
-    public function afterResolving($abstract, Closure $callback = null);
-}
-}
-
-namespace Royalcms\Component\Contracts\Container {
-interface ContextualBindingBuilder
-{
-    public function needs($abstract);
-    public function give($implementation);
-}
-}
-
 namespace Symfony\Component\Debug {
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Debug\Exception\FlattenException;
@@ -5633,6 +5097,542 @@ class Command
 }
 }
 
+namespace Royalcms\Component\Container {
+use Closure;
+use ArrayAccess;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionFunction;
+use ReflectionParameter;
+use InvalidArgumentException;
+use Royalcms\Component\Contracts\Container\Container as ContainerContract;
+use Royalcms\Component\Contracts\Container\BindingResolutionException as BindingResolutionContractException;
+class Container implements ArrayAccess, ContainerContract
+{
+    protected static $instance;
+    protected $resolved = [];
+    protected $bindings = [];
+    protected $instances = [];
+    protected $aliases = [];
+    protected $extenders = [];
+    protected $tags = [];
+    protected $buildStack = [];
+    public $contextual = [];
+    protected $reboundCallbacks = [];
+    protected $globalResolvingCallbacks = [];
+    protected $globalAfterResolvingCallbacks = [];
+    protected $resolvingCallbacks = [];
+    protected $afterResolvingCallbacks = [];
+    public function when($concrete)
+    {
+        return new ContextualBindingBuilder($this, $concrete);
+    }
+    public function bound($abstract)
+    {
+        return isset($this->bindings[$abstract]) || isset($this->instances[$abstract]) || $this->isAlias($abstract);
+    }
+    public function resolved($abstract)
+    {
+        if ($this->isAlias($abstract)) {
+            $abstract = $this->getAlias($abstract);
+        }
+        return isset($this->resolved[$abstract]) || isset($this->instances[$abstract]);
+    }
+    public function isAlias($name)
+    {
+        return isset($this->aliases[$name]);
+    }
+    public function bind($abstract, $concrete = null, $shared = false)
+    {
+        if (is_array($abstract)) {
+            list($abstract, $alias) = $this->extractAlias($abstract);
+            $this->alias($abstract, $alias);
+        }
+        $this->dropStaleInstances($abstract);
+        if (is_null($concrete)) {
+            $concrete = $abstract;
+        }
+        if (!$concrete instanceof Closure) {
+            $concrete = $this->getClosure($abstract, $concrete);
+        }
+        $this->bindings[$abstract] = compact('concrete', 'shared');
+        if ($this->resolved($abstract)) {
+            $this->rebound($abstract);
+        }
+    }
+    protected function getClosure($abstract, $concrete)
+    {
+        return function ($c, $parameters = []) use($abstract, $concrete) {
+            $method = $abstract == $concrete ? 'build' : 'make';
+            return $c->{$method}($concrete, $parameters);
+        };
+    }
+    public function addContextualBinding($concrete, $abstract, $implementation)
+    {
+        $this->contextual[$concrete][$abstract] = $implementation;
+    }
+    public function bindIf($abstract, $concrete = null, $shared = false)
+    {
+        if (!$this->bound($abstract)) {
+            $this->bind($abstract, $concrete, $shared);
+        }
+    }
+    public function singleton($abstract, $concrete = null)
+    {
+        $this->bind($abstract, $concrete, true);
+    }
+    public function share(Closure $closure)
+    {
+        return function ($container) use($closure) {
+            static $object;
+            if (is_null($object)) {
+                $object = $closure($container);
+            }
+            return $object;
+        };
+    }
+    public function bindShared($abstract, Closure $closure)
+    {
+        $this->bind($abstract, $this->share($closure), true);
+    }
+    public function extend($abstract, Closure $closure)
+    {
+        if (isset($this->instances[$abstract])) {
+            $this->instances[$abstract] = $closure($this->instances[$abstract], $this);
+            $this->rebound($abstract);
+        } else {
+            $this->extenders[$abstract][] = $closure;
+        }
+    }
+    public function instance($abstract, $instance)
+    {
+        if (is_array($abstract)) {
+            list($abstract, $alias) = $this->extractAlias($abstract);
+            $this->alias($abstract, $alias);
+        }
+        unset($this->aliases[$abstract]);
+        $bound = $this->bound($abstract);
+        $this->instances[$abstract] = $instance;
+        if ($bound) {
+            $this->rebound($abstract);
+        }
+    }
+    public function tag($abstracts, $tags)
+    {
+        $tags = is_array($tags) ? $tags : array_slice(func_get_args(), 1);
+        foreach ($tags as $tag) {
+            if (!isset($this->tags[$tag])) {
+                $this->tags[$tag] = [];
+            }
+            foreach ((array) $abstracts as $abstract) {
+                $this->tags[$tag][] = $abstract;
+            }
+        }
+    }
+    public function tagged($tag)
+    {
+        $results = [];
+        if (isset($this->tags[$tag])) {
+            foreach ($this->tags[$tag] as $abstract) {
+                $results[] = $this->make($abstract);
+            }
+        }
+        return $results;
+    }
+    public function alias($abstract, $alias)
+    {
+        $this->aliases[$alias] = $abstract;
+    }
+    protected function extractAlias(array $definition)
+    {
+        return [key($definition), current($definition)];
+    }
+    public function rebinding($abstract, Closure $callback)
+    {
+        $this->reboundCallbacks[$abstract][] = $callback;
+        if ($this->bound($abstract)) {
+            return $this->make($abstract);
+        }
+    }
+    public function refresh($abstract, $target, $method)
+    {
+        return $this->rebinding($abstract, function ($app, $instance) use($target, $method) {
+            $target->{$method}($instance);
+        });
+    }
+    protected function rebound($abstract)
+    {
+        $instance = $this->make($abstract);
+        foreach ($this->getReboundCallbacks($abstract) as $callback) {
+            call_user_func($callback, $this, $instance);
+        }
+    }
+    protected function getReboundCallbacks($abstract)
+    {
+        if (isset($this->reboundCallbacks[$abstract])) {
+            return $this->reboundCallbacks[$abstract];
+        }
+        return [];
+    }
+    public function wrap(Closure $callback, array $parameters = [])
+    {
+        return function () use($callback, $parameters) {
+            return $this->call($callback, $parameters);
+        };
+    }
+    public function call($callback, array $parameters = [], $defaultMethod = null)
+    {
+        if ($this->isCallableWithAtSign($callback) || $defaultMethod) {
+            return $this->callClass($callback, $parameters, $defaultMethod);
+        }
+        $dependencies = $this->getMethodDependencies($callback, $parameters);
+        return call_user_func_array($callback, $dependencies);
+    }
+    protected function isCallableWithAtSign($callback)
+    {
+        if (!is_string($callback)) {
+            return false;
+        }
+        return strpos($callback, '@') !== false;
+    }
+    protected function getMethodDependencies($callback, array $parameters = [])
+    {
+        $dependencies = [];
+        foreach ($this->getCallReflector($callback)->getParameters() as $key => $parameter) {
+            $this->addDependencyForCallParameter($parameter, $parameters, $dependencies);
+        }
+        return array_merge($dependencies, $parameters);
+    }
+    protected function getCallReflector($callback)
+    {
+        if (is_string($callback) && strpos($callback, '::') !== false) {
+            $callback = explode('::', $callback);
+        }
+        if (is_array($callback)) {
+            return new ReflectionMethod($callback[0], $callback[1]);
+        }
+        return new ReflectionFunction($callback);
+    }
+    protected function addDependencyForCallParameter(ReflectionParameter $parameter, array &$parameters, &$dependencies)
+    {
+        if (array_key_exists($parameter->name, $parameters)) {
+            $dependencies[] = $parameters[$parameter->name];
+            unset($parameters[$parameter->name]);
+        } elseif ($parameter->getClass()) {
+            $dependencies[] = $this->make($parameter->getClass()->name);
+        } elseif ($parameter->isDefaultValueAvailable()) {
+            $dependencies[] = $parameter->getDefaultValue();
+        }
+    }
+    protected function callClass($target, array $parameters = [], $defaultMethod = null)
+    {
+        $segments = explode('@', $target);
+        $method = count($segments) == 2 ? $segments[1] : $defaultMethod;
+        if (is_null($method)) {
+            throw new InvalidArgumentException('Method not provided.');
+        }
+        return $this->call([$this->make($segments[0]), $method], $parameters);
+    }
+    public function make($abstract, array $parameters = [])
+    {
+        $abstract = $this->getAlias($abstract);
+        if (isset($this->instances[$abstract])) {
+            return $this->instances[$abstract];
+        }
+        $concrete = $this->getConcrete($abstract);
+        if ($this->isBuildable($concrete, $abstract)) {
+            $object = $this->build($concrete, $parameters);
+        } else {
+            $object = $this->make($concrete, $parameters);
+        }
+        foreach ($this->getExtenders($abstract) as $extender) {
+            $object = $extender($object, $this);
+        }
+        if ($this->isShared($abstract)) {
+            $this->instances[$abstract] = $object;
+        }
+        $this->fireResolvingCallbacks($abstract, $object);
+        $this->resolved[$abstract] = true;
+        return $object;
+    }
+    protected function getConcrete($abstract)
+    {
+        if (!is_null($concrete = $this->getContextualConcrete($abstract))) {
+            return $concrete;
+        }
+        if (!isset($this->bindings[$abstract])) {
+            if ($this->missingLeadingSlash($abstract) && isset($this->bindings['\\' . $abstract])) {
+                $abstract = '\\' . $abstract;
+            }
+            return $abstract;
+        }
+        return $this->bindings[$abstract]['concrete'];
+    }
+    protected function getContextualConcrete($abstract)
+    {
+        if (isset($this->contextual[end($this->buildStack)][$abstract])) {
+            return $this->contextual[end($this->buildStack)][$abstract];
+        }
+    }
+    protected function missingLeadingSlash($abstract)
+    {
+        return is_string($abstract) && strpos($abstract, '\\') !== 0;
+    }
+    protected function getExtenders($abstract)
+    {
+        if (isset($this->extenders[$abstract])) {
+            return $this->extenders[$abstract];
+        }
+        return [];
+    }
+    public function build($concrete, array $parameters = [])
+    {
+        if ($concrete instanceof Closure) {
+            return $concrete($this, $parameters);
+        }
+        $reflector = new ReflectionClass($concrete);
+        if (!$reflector->isInstantiable()) {
+            $message = "Target [{$concrete}] is not instantiable.";
+            throw new BindingResolutionContractException($message);
+        }
+        $this->buildStack[] = $concrete;
+        $constructor = $reflector->getConstructor();
+        if (is_null($constructor)) {
+            array_pop($this->buildStack);
+            return new $concrete();
+        }
+        $dependencies = $constructor->getParameters();
+        $parameters = $this->keyParametersByArgument($dependencies, $parameters);
+        $instances = $this->getDependencies($dependencies, $parameters);
+        array_pop($this->buildStack);
+        return $reflector->newInstanceArgs($instances);
+    }
+    protected function getDependencies(array $parameters, array $primitives = [])
+    {
+        $dependencies = [];
+        foreach ($parameters as $parameter) {
+            $dependency = $parameter->getClass();
+            if (array_key_exists($parameter->name, $primitives)) {
+                $dependencies[] = $primitives[$parameter->name];
+            } elseif (is_null($dependency)) {
+                $dependencies[] = $this->resolveNonClass($parameter);
+            } else {
+                $dependencies[] = $this->resolveClass($parameter);
+            }
+        }
+        return (array) $dependencies;
+    }
+    protected function resolveNonClass(ReflectionParameter $parameter)
+    {
+        if ($parameter->isDefaultValueAvailable()) {
+            return $parameter->getDefaultValue();
+        }
+        $message = "Unresolvable dependency resolving [{$parameter}] in class {$parameter->getDeclaringClass()->getName()}";
+        throw new BindingResolutionContractException($message);
+    }
+    protected function resolveClass(ReflectionParameter $parameter)
+    {
+        try {
+            return $this->make($parameter->getClass()->name);
+        } catch (BindingResolutionContractException $e) {
+            if ($parameter->isOptional()) {
+                return $parameter->getDefaultValue();
+            }
+            throw $e;
+        }
+    }
+    protected function keyParametersByArgument(array $dependencies, array $parameters)
+    {
+        foreach ($parameters as $key => $value) {
+            if (is_numeric($key)) {
+                unset($parameters[$key]);
+                $parameters[$dependencies[$key]->name] = $value;
+            }
+        }
+        return $parameters;
+    }
+    public function resolving($abstract, Closure $callback = null)
+    {
+        if ($callback === null && $abstract instanceof Closure) {
+            $this->resolvingCallback($abstract);
+        } else {
+            $this->resolvingCallbacks[$abstract][] = $callback;
+        }
+    }
+    public function afterResolving($abstract, Closure $callback = null)
+    {
+        if ($abstract instanceof Closure && $callback === null) {
+            $this->afterResolvingCallback($abstract);
+        } else {
+            $this->afterResolvingCallbacks[$abstract][] = $callback;
+        }
+    }
+    protected function resolvingCallback(Closure $callback)
+    {
+        $abstract = $this->getFunctionHint($callback);
+        if ($abstract) {
+            $this->resolvingCallbacks[$abstract][] = $callback;
+        } else {
+            $this->globalResolvingCallbacks[] = $callback;
+        }
+    }
+    protected function afterResolvingCallback(Closure $callback)
+    {
+        $abstract = $this->getFunctionHint($callback);
+        if ($abstract) {
+            $this->afterResolvingCallbacks[$abstract][] = $callback;
+        } else {
+            $this->globalAfterResolvingCallbacks[] = $callback;
+        }
+    }
+    protected function getFunctionHint(Closure $callback)
+    {
+        $function = new ReflectionFunction($callback);
+        if ($function->getNumberOfParameters() == 0) {
+            return;
+        }
+        $expected = $function->getParameters()[0];
+        if (!$expected->getClass()) {
+            return;
+        }
+        return $expected->getClass()->name;
+    }
+    protected function fireResolvingCallbacks($abstract, $object)
+    {
+        $this->fireCallbackArray($object, $this->globalResolvingCallbacks);
+        $this->fireCallbackArray($object, $this->getCallbacksForType($abstract, $object, $this->resolvingCallbacks));
+        $this->fireCallbackArray($object, $this->globalAfterResolvingCallbacks);
+        $this->fireCallbackArray($object, $this->getCallbacksForType($abstract, $object, $this->afterResolvingCallbacks));
+    }
+    protected function getCallbacksForType($abstract, $object, array $callbacksPerType)
+    {
+        $results = [];
+        foreach ($callbacksPerType as $type => $callbacks) {
+            if ($type === $abstract || $object instanceof $type) {
+                $results = array_merge($results, $callbacks);
+            }
+        }
+        return $results;
+    }
+    protected function fireCallbackArray($object, array $callbacks)
+    {
+        foreach ($callbacks as $callback) {
+            $callback($object, $this);
+        }
+    }
+    public function isShared($abstract)
+    {
+        if (isset($this->bindings[$abstract]['shared'])) {
+            $shared = $this->bindings[$abstract]['shared'];
+        } else {
+            $shared = false;
+        }
+        return isset($this->instances[$abstract]) || $shared === true;
+    }
+    protected function isBuildable($concrete, $abstract)
+    {
+        return $concrete === $abstract || $concrete instanceof Closure;
+    }
+    protected function getAlias($abstract)
+    {
+        if (!isset($this->aliases[$abstract])) {
+            return $abstract;
+        }
+        return $this->getAlias($this->aliases[$abstract]);
+    }
+    public function getBindings()
+    {
+        return $this->bindings;
+    }
+    protected function dropStaleInstances($abstract)
+    {
+        unset($this->instances[$abstract], $this->aliases[$abstract]);
+    }
+    public function forgetInstance($abstract)
+    {
+        unset($this->instances[$abstract]);
+    }
+    public function forgetInstances()
+    {
+        $this->instances = [];
+    }
+    public function flush()
+    {
+        $this->aliases = [];
+        $this->resolved = [];
+        $this->bindings = [];
+        $this->instances = [];
+    }
+    public static function getInstance()
+    {
+        return static::$instance;
+    }
+    public static function setInstance(ContainerContract $container)
+    {
+        static::$instance = $container;
+    }
+    public function offsetExists($key)
+    {
+        return $this->bound($key);
+    }
+    public function offsetGet($key)
+    {
+        return $this->make($key);
+    }
+    public function offsetSet($key, $value)
+    {
+        if (!$value instanceof Closure) {
+            $value = function () use($value) {
+                return $value;
+            };
+        }
+        $this->bind($key, $value);
+    }
+    public function offsetUnset($key)
+    {
+        unset($this->bindings[$key], $this->instances[$key], $this->resolved[$key]);
+    }
+    public function __get($key)
+    {
+        return $this[$key];
+    }
+    public function __set($key, $value)
+    {
+        $this[$key] = $value;
+    }
+}
+}
+
+namespace Royalcms\Component\Contracts\Container {
+use Closure;
+interface Container
+{
+    public function bound($abstract);
+    public function alias($abstract, $alias);
+    public function tag($abstracts, $tags);
+    public function tagged($tag);
+    public function bind($abstract, $concrete = null, $shared = false);
+    public function bindIf($abstract, $concrete = null, $shared = false);
+    public function singleton($abstract, $concrete = null);
+    public function extend($abstract, Closure $closure);
+    public function instance($abstract, $instance);
+    public function when($concrete);
+    public function make($abstract, array $parameters = []);
+    public function call($callback, array $parameters = [], $defaultMethod = null);
+    public function resolved($abstract);
+    public function resolving($abstract, Closure $callback = null);
+    public function afterResolving($abstract, Closure $callback = null);
+}
+}
+
+namespace Royalcms\Component\Contracts\Container {
+interface ContextualBindingBuilder
+{
+    public function needs($abstract);
+    public function give($implementation);
+}
+}
+
 namespace Royalcms\Component\Contracts\Foundation {
 use Royalcms\Component\Contracts\Container\Container;
 interface Royalcms extends Container
@@ -7397,39 +7397,94 @@ class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterfac
     }
     public function bootstrapPath()
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'bootstrap';
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'bootstrap';
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'bootstrap';
+        }
     }
-    public function appPath()
+    public function appPath($dir = null)
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'apps';
+        if (!is_null($dir)) {
+            $dir = DIRECTORY_SEPARATOR . $dir;
+        }
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'apps' . $dir;
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'apps' . $dir;
+        }
     }
-    public function pluginPath()
+    public function pluginPath($dir = null)
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'plugins';
+        if (!is_null($dir)) {
+            $dir = DIRECTORY_SEPARATOR . $dir;
+        }
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'plugins' . $dir;
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'plugins' . $dir;
+        }
     }
     public function themePath()
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'themes';
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'themes';
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'themes';
+        }
     }
     public function uploadPath()
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'uploads';
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'uploads';
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'uploads';
+        }
     }
     public function resourcePath()
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'resources';
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'resources';
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'resources';
+        }
     }
     public function testPath()
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'tests';
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'tests';
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'tests';
+        }
     }
     public function configPath()
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'configs';
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'configs';
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'configs';
+        }
     }
     public function databasePath()
     {
-        return $this->databasePath ?: $this->contentPath() . DIRECTORY_SEPARATOR . 'database';
+        if ($this->databasePath) {
+            return $this->databasePath;
+        } else {
+            $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'database';
+            if ($this->runningInSite() && is_dir($path)) {
+                return $path;
+            } else {
+                return $this->contentPath() . DIRECTORY_SEPARATOR . 'database';
+            }
+        }
     }
     public function useDatabasePath($path)
     {
@@ -7439,7 +7494,12 @@ class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterfac
     }
     public function langPath()
     {
-        return $this->contentPath() . DIRECTORY_SEPARATOR . 'languages';
+        $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'languages';
+        if ($this->runningInSite() && is_dir($path)) {
+            return $path;
+        } else {
+            return $this->contentPath() . DIRECTORY_SEPARATOR . 'languages';
+        }
     }
     public function publicPath()
     {
@@ -7451,7 +7511,16 @@ class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterfac
     }
     public function storagePath()
     {
-        return $this->storagePath ?: $this->contentPath() . DIRECTORY_SEPARATOR . 'storages';
+        if ($this->storagePath) {
+            return $this->storagePath;
+        } else {
+            $path = $this->siteContentPath() . DIRECTORY_SEPARATOR . 'storages';
+            if ($this->runningInSite() && is_dir($path)) {
+                return $path;
+            } else {
+                return $this->contentPath() . DIRECTORY_SEPARATOR . 'storages';
+            }
+        }
     }
     public function useStoragePath($path)
     {
@@ -12650,6 +12719,26 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
 }
 }
 
+namespace Royalcms\Component\Pagination {
+use Royalcms\Component\Support\ServiceProvider;
+class PaginationServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        Paginator::currentPathResolver(function () {
+            return $this->app['request']->url();
+        });
+        Paginator::currentPageResolver(function ($pageName = 'page') {
+            $page = $this->app['request']->input($pageName);
+            if (filter_var($page, FILTER_VALIDATE_INT) !== false && (int) $page >= 1) {
+                return $page;
+            }
+            return 1;
+        });
+    }
+}
+}
+
 namespace Royalcms\Component\Config {
 use Closure;
 use ArrayAccess;
@@ -16246,26 +16335,6 @@ class EventServiceProvider extends ServiceProvider
 }
 }
 
-namespace Royalcms\Component\Pagination {
-use Royalcms\Component\Support\ServiceProvider;
-class PaginationServiceProvider extends ServiceProvider
-{
-    public function register()
-    {
-        Paginator::currentPathResolver(function () {
-            return $this->app['request']->url();
-        });
-        Paginator::currentPageResolver(function ($pageName = 'page') {
-            $page = $this->app['request']->input($pageName);
-            if (filter_var($page, FILTER_VALIDATE_INT) !== false && (int) $page >= 1) {
-                return $page;
-            }
-            return 1;
-        });
-    }
-}
-}
-
 namespace Royalcms\Component\Session {
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface as BaseSessionInterface;
@@ -18527,6 +18596,9 @@ abstract class Compiler
         }
         $this->files = $files;
         $this->cachePath = $cachePath;
+        if (!$this->files->isDirectory($this->cachePath)) {
+            $this->files->makeDirectory($this->cachePath, 0755, true, true);
+        }
     }
     public function getCompiledPath($path)
     {
@@ -20614,6 +20686,21 @@ class Carbon extends DateTime
 }
 }
 
+namespace Psr\Log {
+interface LoggerInterface
+{
+    public function emergency($message, array $context = array());
+    public function alert($message, array $context = array());
+    public function critical($message, array $context = array());
+    public function error($message, array $context = array());
+    public function warning($message, array $context = array());
+    public function notice($message, array $context = array());
+    public function info($message, array $context = array());
+    public function debug($message, array $context = array());
+    public function log($level, $message, array $context = array());
+}
+}
+
 namespace Monolog {
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\StreamHandler;
@@ -20855,21 +20942,6 @@ class Logger implements LoggerInterface
     {
         self::$timezone = $tz;
     }
-}
-}
-
-namespace Psr\Log {
-interface LoggerInterface
-{
-    public function emergency($message, array $context = array());
-    public function alert($message, array $context = array());
-    public function critical($message, array $context = array());
-    public function error($message, array $context = array());
-    public function warning($message, array $context = array());
-    public function notice($message, array $context = array());
-    public function info($message, array $context = array());
-    public function debug($message, array $context = array());
-    public function log($level, $message, array $context = array());
 }
 }
 
@@ -23511,7 +23583,7 @@ abstract class AppParentServiceProvider extends ServiceProvider
     {
         if (strpos($namespace, 'app-', 0) !== false) {
             $app = str_replace('app-', '', $namespace);
-            return realpath($this->royalcms['path.app'] . '/' . $app);
+            return realpath($this->royalcms->appPath($app));
         }
         $path = with(new ReflectionClass($this))->getFileName();
         return realpath(dirname($path) . '/../');
@@ -26841,7 +26913,7 @@ class PackageManager extends NamespacedItemResolver
     public function createAppPackage($alias)
     {
         $path = '/' . $alias;
-        $loader = new FileLoader($this->royalcms['files'], $this->royalcms['path'] . '/apps' . $path, $this->royalcms['path.content'] . '/apps' . $path);
+        $loader = new FileLoader($this->royalcms['files'], $this->royalcms['path.app'] . $path, $this->royalcms['path.content'] . '/apps' . $path);
         return new ApplicationPackage($loader, $alias);
     }
     public function createPluginPackage($alias)
