@@ -1,0 +1,43 @@
+{
+    "name": "royalcms/routing",
+    "description": "The Royalcms Routing package.",
+    "license": "MIT",
+    "homepage": "http://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/container": "5.0.*",
+        "royalcms/contracts": "5.0.*",
+        "royalcms/http": "5.0.*",
+        "royalcms/pipeline": "5.0.*",
+        "royalcms/session": "5.0.*",
+        "royalcms/support": "5.0.*",
+        "symfony/http-foundation": "2.7.*",
+        "symfony/http-kernel": "2.7.*",
+        "symfony/routing": "2.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Routing\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0-dev"
+        }
+    },
+    "suggest": {
+        "royalcms/console": "Required to use the make commands (5.0.*).",
+        "symfony/psr-http-message-bridge": "Required to psr7 bridging features (0.2.*)."
+    },
+    "minimum-stability": "dev"
+}
