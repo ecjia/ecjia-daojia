@@ -7,6 +7,7 @@
             app.affiliate.submit_form();
             app.affiliate.screen_click();
             app.affiliate.search_order();
+            app.affiliate.change_type();
         },
 
         invite_submit: function () {
@@ -105,6 +106,22 @@
                     url += '&order_sn=' + order_sn;
                 }
                 ecjia.pjax(url);
+            });
+        },
+
+        change_type: function() {
+            $('input[name="intive_reward_type"]').off('click').on('click', function (e) {
+                var $this = $(this),
+                    val = $this.val();
+                $('.intive_reward_type').addClass('ecjiaf-dn');
+                $('.intive_reward_type_'+val).removeClass('ecjiaf-dn');
+            });
+
+            $('input[name="intivee_reward_type"]').off('click').on('click', function (e) {
+                var $this = $(this),
+                    val = $this.val();
+                $('.intivee_reward_type').addClass('ecjiaf-dn');
+                $('.intivee_reward_type_'+val).removeClass('ecjiaf-dn');
             });
         },
 
