@@ -220,6 +220,9 @@ class ApiConst
 
     const STORE_COMMENTS			= 'store/comments';//店铺评论
     const STORE_BUSINESS_CITY       = 'store/business/city';
+    const STORE_COLLECT_CREATE      = 'store/collect/create'; //收藏店铺
+    const STORE_COLLECT_CANCEL      = 'store/collect/cancel'; //取消收藏店铺
+    const STORE_COLLECT_LIST        = 'store/collect/list'; //收藏店铺列表
 
     //==============================================
     // 绑定手机号或邮箱

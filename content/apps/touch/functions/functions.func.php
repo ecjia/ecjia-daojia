@@ -85,11 +85,13 @@ function touch_common_loading() {
     // 提供APP下载广告的配置项
     $shop_app_icon = ecjia::config('shop_app_icon');
     !empty($shop_app_icon) && ecjia_front::$controller->assign('shop_app_icon', RC_Upload::upload_url() . '/' . $shop_app_icon);
+
+    with(new \Ecjia\App\Touch\EcjiaSyncAppLogin())->justAutologin();
 }
 
 
 
-RC_Hook::add_action('ecjia_front_finish_launching', 'touch_common_loading');
+RC_Hook::add_action('ecjia_front_finish_launching', 'touch_common_loading', 8);
 
 RC_Hook::add_filter('ecjia_theme_template_code', function() {
     return ecjia_touch::STORAGEKEY_template;

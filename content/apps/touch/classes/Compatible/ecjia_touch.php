@@ -51,7 +51,7 @@
  * Time: 9:26 AM
  */
 
-class ecjia_api extends Ecjia\App\Touch\Frameworks\EcjiaTouch
+class ecjia_touch extends Ecjia\App\Touch\Frameworks\EcjiaTouch
 {
 
 }

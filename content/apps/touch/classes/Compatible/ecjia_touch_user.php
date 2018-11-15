@@ -45,7 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 
-class ecjia_touch_api extends Ecjia\App\Touch\Frameworks\Component\User
+class ecjia_touch_user extends Ecjia\App\Touch\Frameworks\Component\User
 {
    
 
