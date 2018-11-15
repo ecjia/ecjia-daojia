@@ -99,7 +99,13 @@ return array(
     	/* 收银台  */
     	'cashier'       => 'cashier',
     	/* 微信小程序 */
-    	'weapp'         => 'weapp',
+        'weapp'         => 'weapp',
+        /* 掌柜 */
+        'mobile'        => 'mobile',
+        /* 头条 */
+        'toutiao'       => 'toutiao',
+        /* 客户 */
+        'customer'      => 'customer',
     ),
 );
 
