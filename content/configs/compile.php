@@ -23,7 +23,6 @@ return [
         $baseDir . '/vendor/royalcms/alidayu/Royalcms/Component/Alidayu/AlidayuServiceProvider.php',
         $baseDir . '/vendor/royalcms/image/Royalcms/Component/Image/ImageServiceProvider.php',
         $baseDir . '/vendor/royalcms/wechat/Royalcms/Component/WeChat/WeChatServiceProvider.php',
-        $baseDir . '/vendor/royalcms/framework/Royalcms/Component/Cache/CacheServiceProvider.php',
         $baseDir . '/vendor/royalcms/ip-address/Royalcms/Component/IpAddress/Ip.php',
         $baseDir . '/vendor/royalcms/class-loader/Royalcms/Component/ClassLoader/ClassManager.php',
         $baseDir . '/vendor/royalcms/purifier/Royalcms/Component/Purifier/PurifierServiceProvider.php',
