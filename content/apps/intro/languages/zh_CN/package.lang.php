@@ -50,9 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA 应用语言包
  */
 return array(
-	'main'		=> 'APP介绍',
-	'main_desc'	=> 'ecjia在PC端展示的App下载页面，主要是App的功能介绍，截图展示，提供二维码下载。',
-    'intro'     => 'APP介绍',
+    'intro'         => 'APP介绍',
     'intro_desc'    => 'ecjia在PC端展示的App下载页面，主要是App的功能介绍，截图展示，提供二维码下载。'
 );
 
