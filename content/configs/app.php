@@ -90,6 +90,8 @@ return array(
     'groupbuy'      => 'groupbuy',
     /* 安装器 */
     'installer'     => 'installer',
+    /* 会员整合 */
+    'integrate'     => 'integrate',
     /* APP介绍 */
     'intro'         => 'intro',
     /* 邮件管理 */
@@ -154,8 +156,10 @@ return array(
     'cashier'       => 'cashier',
 
     //Ucenter
-    'ucenter'       => 'ucenter',
+    'ucserver'      => 'ucserver',
+    'ucclient'      => 'ucclient',
 
+    'toutiao'       => 'toutiao',
     /* 附件管理 */
 //    'attach' => 'attach',
 	/* 主题活动 */
@@ -163,7 +167,7 @@ return array(
     /* 优惠券 */
 //    'coupon' => 'coupon',
     /* 客户 */
-//    'customer' => 'customer',
+   'customer' => 'customer',
 );
 
 // end
