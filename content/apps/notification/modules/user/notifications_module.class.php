@@ -74,8 +74,19 @@ class user_notifications_module  extends api_front implements api_interface {
     	
     	$notifications_result = RC_Api::api('notification', 'notification_list', $options);
     	
+    	$order_detail_type = array('order_shipped', 'groupbuy_succeed', 'order_pickupcode', 'order_pickup_succeed');
+    	
     	if (!empty($notifications_result['list'])) {
     		$notifications_list = $notifications_result['list'];
+    		foreach ($notifications_list as $key => $val) {
+    			if (in_array($val['type'], $order_detail_type)) {
+    				$notifications_list[$key]['open_url'] = 'ecjiaopen://app?open_type=order_detail';
+    			} elseif ($val['type'] == 'account_change') {
+    				$notifications_list[$key]['open_url'] = 'ecjiaopen://app?open_type=user_account_record';
+    			} elseif ($val['type'] == 'refund_arrived') {
+    				$notifications_list[$key]['open_url'] = 'ecjiaopen://app?open_type=refund_detail';
+    			}
+    		}
     		$pager = $notifications_result['page'];
     	} else {
     		$pager = array(
