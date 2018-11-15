@@ -149,9 +149,11 @@ class merchant extends ecjia_merchant {
         $this->assign('step', 2);
         
         $goods_list = goodslib::goods_list(0, " AND is_display = 1 ");
-        
         $this->assign('goods_list', $goods_list);
         $this->assign('filter', $goods_list['filter']);
+        
+        $merchant_cat = merchant_cat_list(0, 0, true, 2, false);		//店铺分类
+        $this->assign('merchant_cat', $merchant_cat);
 	    
 	    $this->assign('ur_here', $ur_here);
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
@@ -191,6 +193,7 @@ class merchant extends ecjia_merchant {
 	        $shop_price = isset($_POST['shop_price']) 		? $_POST['shop_price'] 		: 0;
 	        $market_price = isset($_POST['market_price']) 		? $_POST['market_price'] 		: 0;
 	        $goods_number = isset($_POST['goods_number']) 		? intval($_POST['goods_number']) : ecjia::config('default_storage');
+	        $merchant_cat_id = isset($_POST['merchant_cat_id']) 	? intval($_POST['merchant_cat_id']) : 0;
 	        if(empty($id)) {
 	            return $this->showmessage('请选择导入的商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	        }
@@ -199,6 +202,9 @@ class merchant extends ecjia_merchant {
 	        }
 	        if(empty($shop_price)) {
 	            return $this->showmessage('请填写商品价格', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        }
+	        if(empty($merchant_cat_id)) {
+	            return $this->showmessage('请选择店铺商品分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	        }
 	        /* 如果没有输入商品货号则自动生成一个商品货号 */
 	        if (empty($goods_sn)) {
@@ -271,6 +277,7 @@ class merchant extends ecjia_merchant {
 	        $is_hot = isset($ext_info['is_hot']) 		? intval($ext_info['is_hot']) 		: 0;
 	        $is_shipping = isset($ext_info['is_shipping']) 		? intval($ext_info['is_shipping']) 		: 0;
 	        $is_on_sale = isset($ext_info['is_on_sale']) 		? intval($ext_info['is_on_sale']) 		: 0;
+	        $merchant_cat_id = isset($ext_info['merchant_cat_id']) 	? intval($ext_info['merchant_cat_id']) 		: 0;
 	        
 	        $goods['goods_name'] = $goods_name;
 	        $goods['goods_sn'] = $goods_sn;
@@ -282,6 +289,7 @@ class merchant extends ecjia_merchant {
 	        $goods['store_hot'] = $is_hot;
 	        $goods['is_shipping'] = $is_shipping;
 	        $goods['is_on_sale'] = $is_on_sale;
+	        $goods['merchant_cat_id'] = $merchant_cat_id;
 	    }
 	    if($goods['goods_sn']) {
 	        $count = $this->db_goods->is_only(array('goods_sn' => $goods['goods_sn'], 'is_delete' => 0, 'store_id' => $_SESSION['store_id']));
@@ -414,6 +422,9 @@ class merchant extends ecjia_merchant {
 	    $unit = $goods['goods_weight'] >= 1 ? '1' : '0.001';
 	    $unit_list = goods::unit_list();
 	    $goods['goods_weight_unit'] = $unit_list[$unit];
+	    
+	    $merchant_cat = merchant_cat_list(0, 0, true, 2, false);		//店铺分类
+	    $this->assign('merchant_cat', $merchant_cat);
 	    
 	    //商品相册
 	    $goods_photo_list = RC_DB::table('goodslib_gallery')->where('goods_id', $goods['goods_id'])->get();

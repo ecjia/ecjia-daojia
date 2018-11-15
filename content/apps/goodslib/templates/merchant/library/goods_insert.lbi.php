@@ -51,6 +51,16 @@
                       	<span class="input-must">{lang key='system::system.require_field'}</span>
           			</div>
           			<div class="form-group">
+          				<label class="control-label col-lg-2">店铺分类</label>
+          				<div class="controls col-lg-7">
+                        	 <select class="form-control" name="merchant_cat_id" style="width: 348px;">
+                                <option value="0">{lang key='system::system.select_please'}</option>
+								<!-- {$merchant_cat} -->
+                            </select>
+                      	</div>
+                      	<span class="input-must">{lang key='system::system.require_field'}</span>
+          			</div>
+          			<div class="form-group">
           				<label class="control-label col-lg-2">加入推荐</label>
           				<div class="col-lg-10">
           					<div class="checkbox-inline">

@@ -753,7 +753,7 @@
             });
             var shop_price = parseFloat($("input[name='original_price']").val());
             var total_price = price + shop_price;
-            $(".shop_price").html(total_price);
+            $(".shop_price").html(total_price.toFixed(2));
 		}
 	}
 
