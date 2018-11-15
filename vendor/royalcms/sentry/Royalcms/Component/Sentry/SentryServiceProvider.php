@@ -96,7 +96,7 @@ class SentryServiceProvider extends ServiceProvider
     protected function bindSentryConfig()
     {
         $this->royalcms->singleton(static::$abstract . '.config', function ($royalcms) {
-            // sentry::config is Laravel 4.x
+            // sentry::config is Royalcms 4.x
             $user_config = $royalcms['config']->get('sentry::config');
             // Make sure we don't crash when we did not publish the config file
             if (is_null($user_config)) {
