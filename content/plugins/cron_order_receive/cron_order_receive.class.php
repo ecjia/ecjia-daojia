@@ -66,11 +66,11 @@ class cron_order_receive extends CronAbstract
         
         //条件，发货时间+时间周期 < 当前时间，已发货，未收货，
         $rows = RC_DB::TABLE('order_info')
-        ->where(RC_DB::raw('shipping_time'), '>', 0)
-//         ->where(RC_DB::raw('shipping_time'), '>', $time - 31 * 86400)
-        ->where(RC_DB::raw('shipping_status'), SS_SHIPPED)
-        ->where(RC_DB::raw('shipping_time + '.$limit_time), '<=', $time)
-        ->get();
+            ->where(RC_DB::raw('shipping_time'), '>', 0)
+    //         ->where(RC_DB::raw('shipping_time'), '>', $time - 31 * 86400)
+            ->where(RC_DB::raw('shipping_status'), SS_SHIPPED)
+            ->where(RC_DB::raw('shipping_time + '.$limit_time), '<=', $time)
+            ->get();
         
         foreach ($rows as $order) {
             $order_operate->operate($order, 'receive', array('action_note' => '自动确认收货'));
