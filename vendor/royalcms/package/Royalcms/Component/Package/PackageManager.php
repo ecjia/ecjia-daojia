@@ -9,14 +9,14 @@ class PackageManager extends NamespacedItemResolver {
     /**
      * The application instance.
      *
-     * @var \Royalcms\Component\Support\Contracts\Foundation\Royalcms
+     * @var \Royalcms\Component\Contracts\Foundation\Royalcms
      */
     protected $royalcms;
     
     /**
      * Create a new filesystem manager instance.
      *
-     * @param  \Royalcms\Component\Support\Contracts\Foundation\Royalcms  $royalcms
+     * @param  \Royalcms\Component\Contracts\Foundation\Royalcms  $royalcms
      * @return void
      */
     public function __construct($royalcms)
@@ -121,7 +121,7 @@ class PackageManager extends NamespacedItemResolver {
         
         $path = '/'.$alias;
         
-        $loader = new FileLoader($this->royalcms['files'], $this->royalcms['path'].'/apps'.$path, $this->royalcms['path.content'].'/apps'.$path);
+        $loader = new FileLoader($this->royalcms['files'], $this->royalcms['path.app'].$path, $this->royalcms['path.content'].'/apps'.$path);
         
         return new ApplicationPackage($loader, $alias);
     }
