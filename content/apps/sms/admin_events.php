@@ -129,13 +129,28 @@ class admin_events extends ecjia_admin
         ecjia_admin::admin_log($_GET['code'], 'add', 'sms_events');
         return $this->showmessage('开启成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
     }
+    
+    public function all_open() {
+    	$this->admin_priv('sms_events_manage');
+    	
+    	RC_DB::table('notification_events')->where('channel_type', 'sms')->update(array('status' => 'open'));
+    	
+    	return $this->showmessage('全部开启成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
+    }
 
-    public function close()
-    {
+    public function close() {
         $this->admin_priv('sms_events_manage');
         RC_DB::table('notification_events')->where('id', $_GET['id'])->update(array('status' => 'close'));
         ecjia_admin::admin_log($_GET['code'], 'close', 'sms_events');
         return $this->showmessage('关闭成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
+    }
+    
+    public function all_close() {
+    	$this->admin_priv('sms_events_manage');
+    	 
+    	RC_DB::table('notification_events')->where('channel_type', 'sms')->update(array('status' => 'close'));
+    	 
+    	return $this->showmessage('全部关闭成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
     }
 
     /**

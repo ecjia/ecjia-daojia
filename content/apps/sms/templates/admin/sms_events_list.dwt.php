@@ -14,6 +14,8 @@
 		{if $action_link} 
 		<a class="btn plus_or_reply data-pjax" href="{$action_link.href}" id="sticky_a"><i class="fontello-icon-reply"></i>{$action_link.text}</a>
 		{/if}
+		<a class="all_close plus_or_reply" data-msg="您确定要关闭全部短信事件吗？" data-href='{url path="sms/admin_events/all_close"}'><button class="btn" type="button">全部关闭</button></a>     
+	    <a class="all_open plus_or_reply"  data-msg="您确定要开启全部短信事件吗？" data-href='{url path="sms/admin_events/all_open"}'><button class="btn btn-gebo" type="button">全部开启</button></a>     
 	</h3>
 </div>
 

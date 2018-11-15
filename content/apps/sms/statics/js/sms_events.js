@@ -23,6 +23,36 @@
 					}, {ok:"确定", cancel:"取消"});
 				} 
 			});
+	    	
+	    	$('.all_close').on('click', function() {
+				var $this = $(this);
+				var message = $this.attr('data-msg');
+				var url = $this.attr('data-href');
+				if (message != undefined) {
+					smoke.confirm(message, function(e) {
+						if (e) {
+							$.get(url, function(data){
+								ecjia.admin.showmessage(data);
+							})
+						}
+					}, {ok:"确定", cancel:"取消"});
+				} 
+			});
+	    	
+	    	$('.all_open').on('click', function() {
+				var $this = $(this);
+				var message = $this.attr('data-msg');
+				var url = $this.attr('data-href');
+				if (message != undefined) {
+					smoke.confirm(message, function(e) {
+						if (e) {
+							$.get(url, function(data){
+								ecjia.admin.showmessage(data);
+							})
+						}
+					}, {ok:"确定", cancel:"取消"});
+				} 
+			});
         },
     };
 })(ecjia.admin, jQuery);
