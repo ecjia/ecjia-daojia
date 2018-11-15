@@ -185,7 +185,7 @@ class refund_apply_module extends api_front implements api_interface {
 			}
 		} else{
 			//退款编号
-			$refund_sn = order_refund::get_refund_sn();
+			$refund_sn = ecjia_order_refund_sn();
 			//配送方式信息
 			if (!empty($order_info['shipping_id'])) {
 				$shipping_id = intval($order_info['shipping_id']);

@@ -86,7 +86,7 @@ class merchant extends ecjia_merchant {
 		RC_Style::enqueue_style('mh_refund', RC_App::apps_url('statics/css/mh_refund.css', __FILE__), array(), false, false);
 
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单管理', RC_Uri::url('orders/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->set_parentage('refund', 'refund/merchant.php');
+		ecjia_merchant_screen::get_current_screen()->set_parentage('order', 'order/merchant.php');
 	}
 	
 	/**

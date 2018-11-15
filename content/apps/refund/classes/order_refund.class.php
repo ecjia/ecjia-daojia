@@ -141,16 +141,6 @@ class order_refund {
 	}
 	
 	/**
-	 * 得到新售后编号
-	 * @return  string
-	 */
-	public static function get_refund_sn() {
-		/* 选择一个随机的方案 */
-		$str = date('Ymd') . str_pad(mt_rand(1, 9999999), 5, '0', STR_PAD_LEFT);
-		return $str;
-	}
-	
-	/**
 	 * 获取某个订单的售后申请信息（有效的，不含取消的）
 	 * @return  array
 	 */

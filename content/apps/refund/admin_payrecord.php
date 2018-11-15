@@ -297,6 +297,9 @@ class admin_payrecord extends ecjia_admin {
 			RC_Api::api('sms', 'send_event_sms', $options);
 		}
 		
+		//更新商家会员
+		RC_Api::api('customer', 'store_user_buy', array('store_id' => $refund_order['store_id'], 'user_id' => $user_id));
+		
 		//消息通知
 		$orm_user_db = RC_Model::model('orders/orm_users_model');
 		$user_ob = $orm_user_db->find($user_id);
@@ -310,7 +313,9 @@ class admin_payrecord extends ecjia_admin {
 						'amount'				=> $back_money_total,
 						'formatted_amount' 		=> price_format($back_money_total),
 						'user_money'			=> $user_info['user_money'],
-						'formatted_user_money'	=> price_format($user_info['user_money'])
+						'formatted_user_money'	=> price_format($user_info['user_money']),
+						'refund_id'				=> $refund_order['refund_id'],
+						'refund_sn'				=> $refund_order['refund_sn'],
 				),
 		);
 			
