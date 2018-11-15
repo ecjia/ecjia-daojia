@@ -74,14 +74,8 @@ class mobile_profile extends EcjiaWechatUserController
         
         $user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'email', 'mobile_phone', 'user_rank')->first();
 
-        $db_user_rank = RC_Model::model('user/user_rank_model');
-        if ($user_info['user_rank'] == 0) {
-            // 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
-            $row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0, 'min_points' => array('elt' => intval($user_info['rank_points'])), 'max_points' => array('gt' => intval($user_info['rank_points']))));
-        } else {
-            // 特殊等级
-            $row = $db_user_rank->field('rank_id, rank_name')->find(array('rank_id' => $user_info[user_rank]));
-        }
+        $row = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
+        
         $user_info['user_rank_name'] = $row['rank_name'];
         $user_info['user_rank_id'] = $row['rank_id'];
         $user_info['wechat_image'] = $wechat_user->getImage();

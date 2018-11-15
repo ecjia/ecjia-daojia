@@ -850,20 +850,19 @@ class platform_material extends ecjia_platform
 
                     $uuid = $this->platformAccount->getUUID();
                     $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
-
+                    
                     //删除永久素材
                     $rs = $wechat->material->delete($model->media_id);
-
-                    //删除本地图片
-                    $disk = RC_Storage::disk();
-                    if (!empty($model['file']) && $disk->exists(RC_Upload::upload_path($model['file']))) {
-                        $disk->delete(RC_Upload::upload_path($model['file']));
-                    }
-                    Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
-
-                    $this->admin_log($model['file_name'], 'remove', 'picture_material');
-                    return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
+                //删除本地图片
+                $disk = RC_Storage::disk();
+                if (!empty($model['file']) && $disk->exists(RC_Upload::upload_path($model['file']))) {
+                    $disk->delete(RC_Upload::upload_path($model['file']));
+                }
+                Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
+
+                $this->admin_log($model['file_name'], 'remove', 'picture_material');
+                return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
             }
 
@@ -985,19 +984,18 @@ class platform_material extends ecjia_platform
 
                     //删除永久素材
                     $rs = $wechat->material->delete($model->media_id);
-
-                    //删除本地语音
-                    $disk = RC_Storage::disk();
-                    if (!empty($model['file']) && $disk->exists(RC_Upload::upload_path($model['file']))) {
-                        $disk->delete(RC_Upload::upload_path($model['file']));
-                    }
-                    Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
-
-                    $this->admin_log($model['file_name'], 'remove', 'thumb_material');
-                    return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
+                //删除本地语音
+                $disk = RC_Storage::disk();
+                if (!empty($model['file']) && $disk->exists(RC_Upload::upload_path($model['file']))) {
+                    $disk->delete(RC_Upload::upload_path($model['file']));
+                }
+                Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
+                $this->admin_log($model['file_name'], 'remove', 'thumb_material');
+                return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
             }
+
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } catch (\Error $e) {
@@ -1108,17 +1106,17 @@ class platform_material extends ecjia_platform
 
                     //删除永久素材
                     $rs = $wechat->material->delete($model->media_id);
-
-                    //删除本地语音
-                    $disk = RC_Storage::disk();
-                    if (!empty($model['file']) && $disk->exists(RC_Upload::upload_path($model['file']))) {
-                        $disk->delete(RC_Upload::upload_path($model['file']));
-                    }
-                    Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
-
-                    $this->admin_log($model['file_name'], 'remove', 'voice_material');
-                    return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
+
+                //删除本地语音
+                $disk = RC_Storage::disk();
+                if (!empty($model['file']) && $disk->exists(RC_Upload::upload_path($model['file']))) {
+                    $disk->delete(RC_Upload::upload_path($model['file']));
+                }
+                Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
+
+                $this->admin_log($model['file_name'], 'remove', 'voice_material');
+                return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
             }
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -1287,20 +1285,19 @@ class platform_material extends ecjia_platform
             if (!empty($model)) {
 
                 if ($model->is_material == 'material' && $model->media_id) {
-
                     //删除永久素材
                     $rs = $wechat->material->delete($model->media_id);
-
-                    //删除本地视频
-                    $disk = RC_Storage::disk();
-                    if (!empty($model['file']) && $disk->exists(RC_Upload::upload_path($model['file']))) {
-                        $disk->delete(RC_Upload::upload_path($model['file']));
-                    }
-                    Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
-
-                    $this->admin_log($model['title'], 'remove', 'video_material');
-                    return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
+
+                //删除本地视频
+                $disk = RC_Storage::disk();
+                if (!empty($model['file']) && $disk->exists(RC_Upload::upload_path($model['file']))) {
+                    $disk->delete(RC_Upload::upload_path($model['file']));
+                }
+                Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
+
+                $this->admin_log($model['title'], 'remove', 'video_material');
+                return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
             }
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -1531,7 +1528,7 @@ class platform_material extends ecjia_platform
      */
     private function get_all_material()
     {
-        $material = !empty($_GET['material']) ? 'material' : null;
+        $material = !empty($_GET['material']) ? 'material' : '';
 
         $wechat_id = $this->platformAccount->getAccountID();
 
