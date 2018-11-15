@@ -219,17 +219,6 @@ class quickpay_activity {
 	}
 	
 	/**
-	 * 得到新订单号
-	 * @return  string
-	 */
-	public static function get_order_sn() {
-		/* 选择一个随机的方案 */
-		mt_srand((double) microtime() * 1000000);
-		return date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-	}
-	
-	
-	/**
 	 * 当前时间是否在活动限制时间段内
 	 */
 	public static function is_in_timelimit($options) {

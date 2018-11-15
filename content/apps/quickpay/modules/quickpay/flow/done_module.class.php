@@ -224,7 +224,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 		
 		$order['store_id'] = $store_id;
 		/*订单编号*/
-		$order['order_sn'] = quickpay_activity::get_order_sn();
+		$order['order_sn'] = ecjia_order_quickpay_sn();
 		$order['order_type'] = 'quickpay';
 		
 		/*支付方式信息*/
