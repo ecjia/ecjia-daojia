@@ -73,7 +73,7 @@ function load_theme_function() {
         });
     } else {
         $request = royalcms('request');
-        if ($request->getBasePath() != '') {
+        if ($request->getBasePath() != '' || config('system.tpl_force_specify')) {
             RC_Hook::add_filter('template', function () {
                 return config('system.tpl_style');
             });
@@ -124,6 +124,23 @@ function ecjia_front_access_session() {
     }
 }
 RC_Hook::add_action('ecjia_front_access_session', 'ecjia_front_access_session');
+RC_Hook::add_action('page_title_suffix', function ($title) {
+    if (defined('ROUTE_M') && ROUTE_M != 'installer') {
+        if (ecjia_license::instance()->license_check()) {
+            return '';
+        }
+    }
+    $suffix = ' - ' . ecjia::powerByText();
+    return $suffix;
+});
+RC_Hook::add_action('ecjia_general_info_filter', function ($data) {
+    if (! ecjia_license::instance()->license_check()) {
+        $data['powered'] = ecjia::powerByLink();
+    } else {
+        $data['powered'] = '';
+    }
+    return $data;
+});
 
 /**
  * 自定义后台管理访问URL

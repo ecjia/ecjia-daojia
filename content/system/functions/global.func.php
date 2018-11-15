@@ -744,6 +744,7 @@ if ( ! function_exists('mysql_like_quote'))
      */
     function mysql_like_quote($str)
     {
+        _deprecated_function( __FUNCTION__, '1.20', 'ecjia_mysql_like_quote()' );
         return ecjia_mysql_like_quote($str);
     }
 }
@@ -929,5 +930,97 @@ if (! function_exists('ecjia_is_weixin'))
     }
 }
 
+if (! function_exists('ecjia_order_buy_sn'))
+{
+    /**
+     * 获取普通购物的订单号
+     */
+    function ecjia_order_buy_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_BUY))->generation();
+    }
+}
+
+if (! function_exists('ecjia_order_quickpay_sn')) {
+    /**
+     * 获取快速买单的订单号
+     */
+    function ecjia_order_quickpay_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_QUICKPAY))->generation();
+    }
+}
+
+if (! function_exists('ecjia_order_deposit_sn')) {
+    /**
+     * 获取会员充值的订单号
+     */
+    function ecjia_order_deposit_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_DEPOSIT))->generation();
+    }
+}
+
+if (! function_exists('ecjia_order_refund_sn'))
+{
+    /**
+     * 获取退款的订单号
+     */
+    function ecjia_order_refund_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_REFUND))->generation();
+    }
+}
+
+if (! function_exists('ecjia_order_delivery_sn'))
+{
+    /**
+     * 获取发货单号订单
+     */
+    function ecjia_order_delivery_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_DELIVERY))->generation();
+    }
+}
+
+if (! function_exists('ecjia_order_express_sn'))
+{
+    /**
+     * 获取配送订单号
+     */
+    function ecjia_order_express_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_EXPRESS))->generation();
+    }
+}
+
+if (! function_exists('ecjia_order_store_account_sn'))
+{
+    /**
+     * 获取商家提现订单号
+     */
+    function ecjia_order_store_account_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_STORE_ACCOUNT))->generation();
+    }
+}
+
+if (! function_exists('ecjia_location_mapjs'))
+{
+    /**
+     * 获取定位地图的JS地址
+     * @param null $libraries
+     * @return string
+     */
+    function ecjia_location_mapjs($libraries = null)
+    {
+        if (is_null($libraries)) {
+            $jsurl = 'https://map.qq.com/api/js?v=2.exp&key='.ecjia::config('map_qq_key');
+        } else {
+            $jsurl = "https://map.qq.com/api/js?v=2.exp&libraries={$libraries}&key=".ecjia::config('map_qq_key');
+        }
+        return $jsurl;
+    }
+}
 
 // end

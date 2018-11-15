@@ -202,6 +202,19 @@ class ecjia {
 	public static function release() {
 	    return RC_Hook::apply_filters('ecjia_build_release', RELEASE);
 	}
+
+    /**
+     * Powered By
+     */
+	public static function powerByLink()
+    {
+        return with(new \Ecjia\System\Frameworks\Component\CharCode)->byLink();
+    }
+
+    public static function powerByText()
+    {
+        return with(new \Ecjia\System\Frameworks\Component\CharCode)->byText();
+    }
 	
     /**
      * ecjia 初始化
