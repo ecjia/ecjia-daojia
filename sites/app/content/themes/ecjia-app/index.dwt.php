@@ -338,13 +338,14 @@
             </div>
             <div class="footer-links">
                 <p>
+                    {$shop_info_html}
                     <!-- {foreach from=$shop_info item=rs} -->
                     <a class="data-pjax" href="{$rs.url}" target="_blank">{$rs.title}</a>
                     <!-- {/foreach} -->
                 </p>
             </div>
             <p>{if $company_name}{$company_name} 版权所有{/if} {if ecjia::config('icp_number')}&nbsp;&nbsp;
-                <a href="http://www.miibeian.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$powered}</p>
+                <a href="http://www.miibeian.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$commoninfo.powered}</p>
             <p>{if $shop_address}地址：{$shop_address} {/if} {if $service_phone} 咨询热线：{$service_phone}{/if}</p>
         </div>
     </div>
