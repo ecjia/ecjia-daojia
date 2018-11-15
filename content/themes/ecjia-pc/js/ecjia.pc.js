@@ -436,7 +436,7 @@
                 });
                 var goods_promote_price = parseFloat($("input[name='goods_promote_price']").val());
                 var total_price = price + goods_promote_price;
-                $(".fl_price").html('￥' + total_price);
+                $(".fl_price").html('￥' + total_price.toFixed(2));
             })
         },
         category_list_hidden: function() {

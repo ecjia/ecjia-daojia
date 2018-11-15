@@ -106,12 +106,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 		</span>
         {/if}
 	</div>
-	{if $info.shop_info}
+	{if $info.shop_info_html}
     <div class="footer-links">
         <p>
-            <!-- {foreach from=$info.shop_info item=rs} -->
-            <a class="nopjax" href="{$rs.url}" target="_blank">{$rs.title}</a>
-            <!-- {/foreach} -->
+            {$info.shop_info_html}
         </p>
     </div>
     {/if}

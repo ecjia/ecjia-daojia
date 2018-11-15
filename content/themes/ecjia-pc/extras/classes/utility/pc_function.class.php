@@ -72,13 +72,7 @@ class pc_function
             }
         }
 
-        $shop_info = RC_DB::table('article')->select('article_id', 'title')->where('cat_id', 0)->where('article_type', 'shop_info')->orderby('article_id', 'asc')->get();
-        if (!empty($shop_info)) {
-            foreach ($shop_info as $key => $val) {
-                $url = RC_Uri::url('merchant/merchant/shopinfo', array('id' => $val['article_id']));
-                $shop_info[$key]['url'] = str_replace('index.php', 'sites/merchant/index.php', $url);
-            }
-        }
+        $shop_info_html = (new Ecjia\App\Article\ShopInfoArticleList)->outputHtml();
         $shop_wechat_qrcode = ecjia::config('shop_wechat_qrcode');
         $shop_wechat_qrcode = !empty($shop_wechat_qrcode) ? RC_Upload::upload_url() . '/' . $shop_wechat_qrcode : '';
 
@@ -123,7 +117,7 @@ class pc_function
             'region_list' => $regions,
             'shop_weibo_url' => ecjia::config('shop_weibo_url'),
             'shop_wechat_qrcode' => $shop_wechat_qrcode,
-            'shop_info' => $shop_info,
+            'shop_info_html' => $shop_info_html,
             'company_name' => ecjia::config('company_name'),
             'powered' => 'Powered&nbsp;by&nbsp;<a href="https:\\/\\/ecjia.com" target="_blank">ECJia</a>',
             'service_phone' => ecjia::config('service_phone'),
@@ -140,7 +134,8 @@ class pc_function
         if (isset($_COOKIE['close_choose_city'])) {
             $data['close_choose_city'] = 1;
         }
-        return $data;
+
+        return RC_Hook::apply_filters('ecjia_general_info_filter', $data);
     }
 
     public static function get_child_tree($cat_id)

@@ -338,6 +338,9 @@ class merchant_controller
             ecjia_front::$controller->assign_title($shop_info['merchants_name']);
             ecjia_front::$controller->assign('pc_keywords', $shop_info['shop_keyword']);
             ecjia_front::$controller->assign('pc_description', $shop_info['shop_description']);
+
+            $map_qq_url = ecjia_location_mapjs();
+            ecjia_front::$controller->assign('map_qq_url', $map_qq_url);
         }
         ecjia_front::$controller->display('merchant_detail.dwt', $cache_id);
     }

@@ -58,7 +58,8 @@ class merchant_function
             ->where(RC_DB::raw('mc.code'), 'shop_notice')
             ->where(RC_DB::raw('sf.store_id'), $store_id)
             ->where(RC_DB::raw('sf.status'), 1)
-            ->select(RC_DB::raw('sf.manage_mode'), RC_DB::raw('sf.address'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.store_id'), RC_DB::raw('sf.shop_close'), RC_DB::raw('mc.value'), RC_DB::raw('sf.province'), RC_DB::raw('sf.city'), RC_DB::raw('sf.shop_keyword'));
+            ->select(RC_DB::raw('sf.manage_mode'), RC_DB::raw('sf.address'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.store_id'), RC_DB::raw('sf.shop_close'), RC_DB::raw('mc.value'), RC_DB::raw('sf.province'), RC_DB::raw('sf.city'), RC_DB::raw('sf.shop_keyword')
+                , RC_DB::raw('sf.longitude'), RC_DB::raw('sf.latitude'));
 
         $length = strlen($_COOKIE['city_id']);
         if ($length == 4) {
@@ -182,6 +183,8 @@ class merchant_function
             'business_status' => $business_status,
             'shop_keyword' => $shop_info['shop_keyword'],
             'shop_description' => $outward['shop_description'],
+            'longitude' => $shop_info['longitude'],
+            'latitude' => $shop_info['latitude']
         );
         return $data;
     }
