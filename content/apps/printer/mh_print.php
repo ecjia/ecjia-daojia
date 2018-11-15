@@ -74,6 +74,7 @@ class mh_print extends ecjia_merchant
         RC_Style::enqueue_style('merchant_printer', RC_App::apps_url('statics/css/merchant_printer.css', __FILE__), array());
         RC_Style::enqueue_style('printer', RC_App::apps_url('statics/css/printer.css', __FILE__), array());
         RC_Script::enqueue_script('mh_printer', RC_App::apps_url('statics/js/mh_printer.js', __FILE__), array(), false, false);
+        ecjia_merchant_screen::get_current_screen()->set_parentage('store', 'store/merchant.php');
     }
 
     /**
