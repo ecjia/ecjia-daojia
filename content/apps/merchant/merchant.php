@@ -367,21 +367,12 @@ class merchant extends ecjia_merchant
         $merchant_info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->first();
         $merchant_info['mobile'] = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('mobile');
 
-        $shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->pluck('value');
         //判断营业时间
-        $shop_hours = unserialize($shop_trade_time);
-        $now_time = time();
-        if (!empty($shop_hours)) {
-            //处理营业时间格式例：7:00--次日5:30
-            $end = explode(':', $shop_hours['end']);
-            $shop_hours = $shop_hours['start'] . '--' . $end[0] . ':' . $end[1];
-            $shop_closed = get_shop_close($merchant_info['shop_close'], $shop_trade_time);
-            //1为不营业，0为营业
-           
-        } else {
-            $shop_hours = '暂未设置';
-        }
-        $merchant_info['shop_trade_time'] = $shop_hours;
+        $merchant_info['shop_trade_time'] = get_store_trade_time($_SESSION['store_id']);
+        
+        $shop_trade_time = get_merchant_config('shop_trade_time', '', $_SESSION['store_id']);
+        $shop_closed = get_shop_close($merchant_info['shop_close'], $shop_trade_time);
+        //1为不营业，0为营业
 
         $this->assign('shop_closed', $shop_closed);
         $this->assign('merchant_info', $merchant_info);
