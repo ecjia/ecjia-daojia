@@ -12,8 +12,12 @@
     <div class="wrap">
         <div class="info-block help clearfix" id="helpaa">
             <div id="leftMenu" class="help-left">
+                {if empty($article_list)}
+                <input id="help_onekey" type="hidden" value="商城公告">
+                <p class="menu_head current-header">商城公告</p>
+                {else}
                 <!-- {foreach $article_list as $article_list_cat} -->
-                <input id="help_onekey" type="hidden" value="新闻公告">
+                <input id="help_onekey" type="hidden" value="商城公告">
                 <p class="menu_head current-header">商城公告</p>
                 <ul  class="menu_body" style="display: none">
                     <!-- {foreach $article_list_cat.article as $key => $article_list_child_cat} -->
@@ -23,6 +27,7 @@
                     <!-- {/foreach} -->
                 </ul>
                 <!-- {/foreach} -->
+                {/if}
             </div>
 
 
@@ -37,6 +42,9 @@
                     </ul>
                 </div>
                 <div class="detail help-list new-list" id="newArt">
+                    {if empty($article_list)}
+                        暂无商城公告
+                    {else}
                     <ul>
                         <!-- {foreach $article_list as $article_list_cat} -->
                         <!-- {foreach $article_list_cat.article as $key => $article_list_child_cat} -->
@@ -53,6 +61,7 @@
                         <!-- {/foreach} -->
                         <!-- {/foreach} -->
                     </ul>
+                    {/if}
                 </div>
             </div>
             {/if}
