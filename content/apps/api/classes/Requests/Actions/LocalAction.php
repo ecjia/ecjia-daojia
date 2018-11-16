@@ -73,6 +73,9 @@ class LocalAction extends BaseAction implements RequestAction
             $response = with(new ApiManager($request))->handleRequest();
 
         }
+        catch(\Exception $e){
+            ecjia_log_error('api call error:' . $request->query('url'), $e);
+        }
         finally {
 
             //还原本地变量
