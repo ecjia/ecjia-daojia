@@ -144,6 +144,8 @@ return array(
     'tmplmsg'       => 'tmplmsg',
     /* 微商城 */
     'touch'         => 'touch',
+    /* 物流跟踪 */
+    'track'         => 'track',
     /* 升级器 */
     'upgrade'       => 'upgrade',
     /* 会员 */
