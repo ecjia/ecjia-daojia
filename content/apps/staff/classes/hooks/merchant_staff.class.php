@@ -54,35 +54,13 @@ class merchant_staff_hooks
         $merchant_info = RC_Api::api('store', 'store_info', array('store_id' => $_SESSION['store_id']));
 
         //判断店铺是否在营业中
-        $shop_closed = 0;
         $shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->pluck('value');
-        if (!empty($shop_trade_time)) {
-            $shop_trade_time = unserialize($shop_trade_time);
-            if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
-                $shop_closed = 1;
-            } else {
-                $current_time = time();
-                $start_time = strtotime($shop_trade_time['start']);
-                $end_time = strtotime($shop_trade_time['end']);
-                //处理营业时间格式例：7:00--次日5:30
-                $start = $shop_trade_time['start'];
-                $end = explode(':', $shop_trade_time['end']);
-                if ($end[0] >= 24) {
-                    $hour = $end[0] - 24;
-                    $end[0] = '次日' . ($hour);
-                    $end_str = $hour . ':' . $end[1];
-                    $end_time = strtotime($end_str) + 24 * 3600;
-                }
-                if ($start_time < $current_time && $current_time < $end_time) {
-                    $shop_closed = 0;
-                } else {
-                    $shop_closed = 1;
-                }
-            }
-        }
+		$shop_close = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->pluck('shop_close');
+        RC_Loader::load_app_func('merchant', 'merchant');
+        $shop_closed = get_shop_close($shop_close, $shop_trade_time);
         $merchant_info['shop_closed'] = $shop_closed;
         
-        RC_Loader::load_app_func('merchant', 'merchant');
+        
         $merchant_info['shop_time_value'] = get_store_trade_time($_SESSION['store_id']);
 
         $merchant_info['shop_logo'] = !empty($merchant_info['shop_logo']) ? RC_Upload::upload_url($merchant_info['shop_logo']) : '';
