@@ -907,10 +907,10 @@ class admin extends ecjia_admin {
 		$json = $_POST['JSON'];
 		$keywords = !empty($json) && isset($json['keyword']) ? trim($json['keyword']) : '';
 		
-		$db_users = RC_DB::table('users')->select('user_id', 'user_name');
+		$db_users = RC_DB::table('users')->select('user_id', 'user_name', 'mobile_phone');
 		$row = '';
 		if (!empty($keywords)) {
-			$row = $db_users->where('user_name', 'like', '%' . mysql_like_quote($keywords) . '%')->orWhere('user_id', 'like', '%' . mysql_like_quote($keywords) . '%')->get();
+			$row = $db_users->where('user_name', 'like', '%' . mysql_like_quote($keywords) . '%')->orWhere('mobile_phone', 'like', '%' . mysql_like_quote($keywords) . '%')->get();
 		}
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $row));
 	}

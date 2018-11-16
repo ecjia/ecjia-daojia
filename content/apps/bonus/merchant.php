@@ -804,9 +804,9 @@ class merchant extends ecjia_merchant {
 		if(!empty($keywords)){
 			$db_user = RC_DB::table('users');
 			$row = $db_user
-				->select('user_id', 'user_name')
+				->select('user_id', 'user_name', 'mobile_phone')
 				->where(RC_DB::raw('user_name'), 'like', '%'.$keywords.'%')
-				->orWhere(RC_DB::raw('user_id'), 'like', '%'.$keywords.'%')
+				->orWhere(RC_DB::raw('mobile_phone'), $keywords)
 				->get();
 		}
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content'=>$row));

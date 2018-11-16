@@ -232,7 +232,7 @@
                     var disable = $('.nav-list-content .ms-elem-selection').find('input[value="' + data.content[i].user_id +
                         '"]').length ? 'disabled' : '';
                     var opt = '<li class="ms-elem-selectable ' + disable + '" id="userid_' + data.content[i].user_id +
-                        '" data-id="' + data.content[i].user_id + '"><span>' + data.content[i].user_name +
+                        '" data-id="' + data.content[i].user_id + '"><span>' + data.content[i].user_name + ' [' + data.content[i].mobile_phone +　'] '
                         '</span></li>'
                     $('.nav-list-ready').append(opt);
                 };

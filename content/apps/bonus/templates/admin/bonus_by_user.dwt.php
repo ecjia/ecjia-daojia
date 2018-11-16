@@ -55,8 +55,8 @@
 				<fieldset>
 					<div class="control-group"><strong>{lang key='bonus::bonus.sendtouser'}</strong></div>
 					<div class="control-group choose_list" id="search_user"  data-url="{url path='bonus/admin/search_users'}">
-						<input type="text" name="keyword" placeholder="{lang key='bonus::bonus.enter_user_keywords'}" />
-						<a class="btn" data-toggle="searchuser"><!-- {lang key='system::system.button_search'} --></a><br>
+						<input type="text" name="keyword" placeholder="请输入用户名/手机号关键字" />
+						<a class="btn" data-toggle="searchuser">搜索</a><br>
 						<span class="help-block m_t5">{lang key='bonus::bonus.search_user_help'}</span>
 					</div>
 					<div class="control-group draggable">

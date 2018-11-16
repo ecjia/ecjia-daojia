@@ -63,10 +63,10 @@
                             </div>
                             <div class="form-group choose_lists"  id="search_user"  data-url="{url path='bonus/merchant/search_users'}">
                                 <div class="col-lg-4">
-                                    <input class="form-control" type="text" name="keyword" placeholder="请输入用户名的关键字" />
+                                    <input class="form-control" type="text" name="keyword" placeholder="请输入用户名关键字/完整手机号" />
                                 </div>
                                 <a class="btn btn-primary" data-toggle="searchuser"><i class='fa fa-search'></i> {lang key='system::system.button_search'}</a>
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 m_t5">
                                     {t}搜索要发放此类型红包的用户展示在左侧区域中，点击左侧列表中选项，用户即可进入右侧发放红包区域。您还可以在右侧编辑将发放红包的用户。{/t}
                                 </div>
 
