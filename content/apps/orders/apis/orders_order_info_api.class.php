@@ -61,7 +61,7 @@ class orders_order_info_api extends Component_Event_Api {
 	    if (!is_array($options) || (!isset($options['order_id']) && !isset($options['order_sn']))) {
 	        return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
 	    }
-		return $this->order_info($options['order_id'], $options['order_sn'], $options['store_id'], $options['user_id']);
+		return $this->order_info($options['order_id'], $options['order_sn'], $options['store_id'], $options['user_id'], $options['extension_code'], $options['referer']);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class orders_order_info_api extends Component_Event_Api {
 	 * @param   string  $order_sn   订单号
 	 * @return  array   订单信息（金额都有相应格式化的字段，前缀是formated_）
 	 */
-	private function order_info($order_id, $order_sn = '', $store_id = 0, $user_id = 0) {
+	private function order_info($order_id, $order_sn = '', $store_id = 0, $user_id = 0, $extension_code = '', $referer = '') {
 	    $db_order_info = RC_DB::table('order_info');
 	    /* 计算订单各种费用之和的语句 */
 	    $total_fee = " (goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee ";
@@ -84,6 +84,12 @@ class orders_order_info_api extends Component_Event_Api {
 	    }
         if(!empty($store_id)){
             $db_order_info->where('store_id', $store_id);
+        }
+        if (!empty($extension_code)) {
+        	$db_order_info->where('extension_code', $extension_code);
+        }
+        if (!empty($referer)) {
+        	$db_order_info->where('referer', $referer);
         }
         $db_order_info->where('is_delete', 0);
 	    $order = $db_order_info->first();
@@ -171,8 +177,12 @@ class orders_order_info_api extends Component_Event_Api {
 // 	        $pay_method = RC_Loader::load_app_class('payment_method', 'payment');
 // 	        // 获取需要支付的log_id
 // 	        $order['log_id'] = $pay_method->get_paylog_id($order['order_id'], $pay_type = PAY_ORDER);
-	        
-	        $order['user_name'] = $_SESSION['user_name'];
+	        if ($order['user_id']) {
+	        	$order['user_name'] = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
+	        } else {
+	        	$order['user_name'] = '';
+	        }
+	        $order['user_name'] = RC_DB::table('users')->where('user_id', $order['user_id'])->pluck('user_name');
 	        
 	        /* 无配送时的处理 */
 	        if (empty($order['shipping_id'])) {

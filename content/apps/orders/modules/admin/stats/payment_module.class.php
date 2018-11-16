@@ -102,9 +102,7 @@ class admin_stats_payment_module extends api_admin implements api_interface
         }
 
         /* 获取收银台的固有支付方式*/
-        $cashdesk_payment	= array('pay_cash', 'pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay', 'pay_balance');
-        //$payment_where		= array('enabled' => 1, 'pay_code' => $cashdesk_payment);
-        //$pay_id_group		= RC_Model::model('payment/payment_model')->where($payment_where)->get_field('pay_code, pay_id, pay_name', true);
+        $cashdesk_payment	= array('pay_cash', 'pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay', 'pay_balance', 'pay_shouqianba');
         $pay_id_group 		= RC_DB::table('payment')->where('enabled', 1)->whereIn('pay_code', $cashdesk_payment)->select('pay_code', 'pay_id', 'pay_name')->get();
         $pay_id_group_new 	= [];
        	if (!empty($pay_id_group)) {
