@@ -531,7 +531,11 @@ return array(
 	'merchant/menu'										=> 'store::merchant/menu', 						//商家自定义菜单
 	'user/orders/express/message'						=> 'track::user/orders/express/message', 		//用户订单物流消息中心
 	'user/orders/express/message/detail'				=> 'track::user/orders/express/message/detail', //物流消息详情
-		
+
+	//收银台退款20181114
+	'admin/cashier/orders/refund/apply'					=> 'cashier::admin/cashier/orders/refund/apply', 	//收银台订单退款申请
+	'admin/cashier/orders/refund/record'				=> 'cashier::admin/cashier/orders/refund/record',	//收银台订单退款记录
+	'admin/cashier/orders/refund/detail'				=> 'cashier::admin/cashier/orders/refund/detail',	//收银台订单退款详情
 		
 		
     /**
