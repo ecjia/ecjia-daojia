@@ -26,12 +26,14 @@ class AccountManager
      */
     public function getAccountList($platform) {
 
-        $accountlist = PlatformAccountModel::where('platform', $platform)
+        $model = PlatformAccountModel::where('platform', $platform)
             ->where('shop_id', $this->shopid)
             ->where('status', 1)
             ->orderBy('sort', 'DESC')
             ->orderBy('id', 'DESC')
             ->get();
+            
+        $accountlist = $model->toArray();
 
         return $accountlist;
     }
@@ -64,7 +66,7 @@ class AccountManager
     {
         $accountlist = $this->getAccountList($platform);
         $default = head($accountlist);
-        return $default->uuid;
+        return $default['uuid'];
     }
 
 
