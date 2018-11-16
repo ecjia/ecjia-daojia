@@ -19,7 +19,7 @@
 
 <div class="row-fluid batch" >
 	<form method="post" action="{$search_action}" name="searchForm">
-		<div class="btn-group f_l m_r5">
+<!-- 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 				<i class="fontello-icon-cog"></i>{lang key='user::users.bulk_operations'}
 				<span class="caret"></span>
@@ -27,7 +27,7 @@
 			<ul class="dropdown-menu">
 				<li><a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}" data-msg="{lang key='user::users.delete_confirm'}" data-noSelectMsg="{lang key='user::users.select_user'}" data-name="checkboxes" href="javascript:;"><i class="fontello-icon-trash"></i>{lang key='user::users.button_remove'}</a></li>
 			</ul>
-		</div>
+		</div> -->
 
 		<select class="w120" name="rank" id="select-rank">
 			<option value="0">{lang key='user::users.all_option'}</option>

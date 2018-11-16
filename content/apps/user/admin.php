@@ -682,6 +682,7 @@ class admin extends ecjia_admin {
 	 */
 	public function batch_remove() {
 		$this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
+		return false;
 		
 // 		if (!empty($_SESSION['ru_id'])) {
 // 			return $this->showmessage(RC_Lang::get('user::user_account.merchants_notice'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
