@@ -16,15 +16,7 @@ class WxaCode
     
     public function defaultWeappUUID()
     {
-        $platform_list = with(new AccountManager())->getAccountList('weapp');
-
-        $account = $platform_list->first();
-
-        if ($account) {
-            $uuid = $account['uuid'];
-        } else {
-            $uuid = null;
-        }
+        $uuid = with(new AccountManager())->getDefaultUUID('weapp');
 
         return $uuid;
     }
