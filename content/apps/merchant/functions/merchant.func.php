@@ -103,7 +103,75 @@ function get_store_trade_time($store_id = 0) {
     
     return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
     
+}
+//获取店铺营业状态，0正常，1关闭
+function get_shop_close($shop_close = 0, $shop_trade_time = [], $store_id = 0) {
+    if( (!in_array($shop_close, [0,1]) || empty($shop_trade_time) && $store_id)) {
+        $shop_close = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('shop_close');
+        $shop_trade_time = get_merchant_config('shop_trade_time', '', $store_id);
     }
+    
+    if(!is_array($shop_trade_time)) {
+        $shop_trade_time = unserialize($shop_trade_time);
+    }
+
+    /*店铺是否打烊*/
+    $closed = 0;
+    /*店铺关闭*/
+    if ($shop_close == '1') {
+        $closed = 1;
+    } else {
+        if (!empty($shop_trade_time)) {
+            if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
+                $closed = 1;
+            } else {
+                if($shop_trade_time['start'] == '00:00' && $shop_trade_time['end'] == '24:00') {
+                    $closed = 0;//24h
+                } else {
+                    $shop_trade_time['start'] = format_hour_mins_time($shop_trade_time['start']);
+                    $shop_trade_time['end'] = format_hour_mins_time($shop_trade_time['end']);
+                    $start = explode(':', $shop_trade_time['start']);
+                    $end = explode(':', $shop_trade_time['end']);
+                    $now = date('H:i');
+                    if ($end[0] >= 24) {
+                        //次日
+                        $hour = $end[0] - 24;
+                        if($hour < 10) {
+                            $hour = '0'.$hour;
+                        }
+                        $new_end = $hour.':'.$end[1];//4:00
+                        if($now > $new_end && $now < $shop_trade_time['start']) {
+                            //时:分 对比
+                            $closed = 1;
+                        }
+                    } else {
+                        //当天
+                        if($now < $shop_trade_time['start'] || $now > $shop_trade_time['end']) {
+                            $closed = 1;
+                        }
+                    }
+                }
+                //0为营业，1为不营业
+            }
+        }
+    }
+    
+    return $closed;
+}
+
+function format_hour_mins_time($hour_mins){
+    $time = explode(':', $hour_mins);
+    $hour = $time[0];
+    $min = $time[1];
+    if($hour < 10 && strlen($hour) == 1) {
+        $hour = '0' . $hour;
+    }
+    if($min < 10 && strlen($min) == 1) {
+        $min = '0' . $min;
+    }
+    
+    return $hour.':'.$min;
+}
 /*
  * 获取店铺配置信息
  */

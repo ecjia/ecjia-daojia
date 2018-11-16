@@ -371,26 +371,13 @@ class merchant extends ecjia_merchant
         //判断营业时间
         $shop_hours = unserialize($shop_trade_time);
         $now_time = time();
-        $shop_closed = 0;
         if (!empty($shop_hours)) {
-            $start_time = strtotime($shop_hours['start']);
-            $end_time = strtotime($shop_hours['end']);
             //处理营业时间格式例：7:00--次日5:30
-            $start = $shop_hours['start'];
             $end = explode(':', $shop_hours['end']);
-            if ($end[0] >= 24) {
-                $hour = $end[0] - 24;
-                $end[0] = '次日' . ($hour);
-                $end_time = $hour . ':' . $end[1];
-                $end_time = strtotime($end_time) + 24 * 3600;
-            }
-            $shop_hours = $start . '--' . $end[0] . ':' . $end[1];
+            $shop_hours = $shop_hours['start'] . '--' . $end[0] . ':' . $end[1];
+            $shop_closed = get_shop_close($merchant_info['shop_close'], $shop_trade_time);
             //1为不营业，0为营业
-            if ($start_time < $now_time && $now_time < $end_time) {
-                $shop_closed = 0;
-            } else {
-                $shop_closed = 1;
-            }
+           
         } else {
             $shop_hours = '暂未设置';
         }

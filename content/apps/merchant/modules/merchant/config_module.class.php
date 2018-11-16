@@ -60,9 +60,9 @@ class merchant_config_module extends api_front implements api_interface {
 		if (empty($seller_id)) {
 			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
 		}
+		RC_Loader::load_app_func('merchant', 'merchant');
 
 		$where = array();
-
 
 		$user_id = $_SESSION['user_id'];
 
@@ -98,37 +98,9 @@ class merchant_config_module extends api_front implements api_interface {
         $info = array_merge($info, $store_config);
         
         /*店铺是否打烊*/
-        $shop_closed = 0;
-        if (!empty($info['shop_trade_time'])) {
-			$shop_trade_time = unserialize($info['shop_trade_time']);
-			if (empty($shop_trade_time['start']) || empty($shop_trade_time['end'])) {
-				$shop_closed = 1;
-			} else {
-				$current_time = time();
-				$start_time = strtotime($shop_trade_time['start']);
-	            $end_time = strtotime($shop_trade_time['end']);
-	            $start = $shop_trade_time['start'];
-	            $end = explode(':', $shop_trade_time['end']);
-	            if ($end[0] >= 24) {
-	                $hour = $end[0] - 24;
-	            	$end[0] = '次日'. ($hour);
-	                $end_str = $hour. ':' . $end[1];
-	                $end_time = strtotime($end_str) + 24*3600;
-	            }
-	            //0为营业，1为不营业
-	            if ($start_time < $current_time && $current_time < $end_time) {
-	                $shop_closed = 0;
-	            } else {
-	                $shop_closed = 1;
-	            }
-			}
-        }
+        RC_Loader::load_app_func('merchant', 'merchant');
+        $shop_closed = get_shop_close($info['shop_close'], $info['shop_trade_time']);
         
-        /*店铺关闭*/
-        if ($shop_closed == 0 && $info['shop_close'] == '1') {
-        	$shop_closed = 1;
-        }
-		
         //用户是否收藏此店铺
         $is_collected = 0;
         if ($_SESSION['user_id'] > 0) {
@@ -209,7 +181,6 @@ class merchant_config_module extends api_front implements api_interface {
 			}
 		}
 		/*营业时间处理*/
-		RC_Loader::load_app_func('merchant', 'merchant');
 		$info['trade_time']    = get_store_trade_time($seller_id);
 		//$info['trade_time'] = !empty($info['shop_trade_time']) ? unserialize($info['shop_trade_time']) : array('start' => '8:00', 'end' => '21:00');
 		//是否开启闪惠功能

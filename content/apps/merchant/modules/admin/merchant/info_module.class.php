@@ -73,41 +73,7 @@ class admin_merchant_info_module extends api_admin implements api_interface {
 			
 			$unformat_shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_trade_time')->pluck('value');
 			
-			/*店铺是否打烊*/
-			$shop_closed = 0;
-			if (!empty($unformat_shop_trade_time)) {
-				$trade_time = unserialize($unformat_shop_trade_time);
-				if (empty($trade_time['start']) || empty($trade_time['end'])) {
-					$shop_closed =1;
-				}
-			
-				$current_time = time();
-				if (!empty($trade_time)) {
-					$start_time = strtotime($trade_time['start']);
-					$end_time = strtotime($trade_time['end']);
-					 
-					//处理营业时间格式例：7:00--次日5:30
-					$start = $trade_time['start'];
-					$end = explode(':', $trade_time['end']);
-					if ($end[0] >= 24) {
-						$hour = $end[0] - 24;
-						$end[0] = '次日'. ($hour);
-						$end_time = $hour. ':' . $end[1];
-						$end_time = strtotime($end_time) + 24*3600;
-					}
-					$shop_hours = $start . '--' . $end[0] . ':' . $end[1];
-					//1为不营业，0为营业
-					if ($start_time < $current_time && $current_time < $end_time) {
-						$shop_closed = 0;
-					} else {
-						$shop_closed = 1;
-					}
-				}
-			}
-			/*店铺关闭*/
-			if ($shop_closed == 0 && $info['shop_close'] == '1') {
-				$shop_closed = 1;
-			}
+			$shop_closed = get_shop_close($info['shop_close'], $unformat_shop_trade_time);
 			
 			/*店长手机号码*/
 			$shopkeeper_mobile = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('mobile');
