@@ -13,8 +13,7 @@
  
 <div class="category {if !$has_store}m_b0{/if}">
     <div class="ecjia-content">
-    	{if $cycleimage}
-        <div class="category-cycleimage">
+        <div class="category-cycleimage {if $count eq 0}category-cycleimage-default{/if}">
 			<div id="swiper-merchant-cycleimage" class="swiper-container">
 				<div class="swiper-wrapper">
 					<!-- {foreach from=$cycleimage item=val} -->
@@ -28,7 +27,6 @@
 				{/if}
 			</div>
         </div>
-        {/if}
         
         {if $has_store}
         <div class="category_list">

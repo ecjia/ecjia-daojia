@@ -349,8 +349,7 @@ a:active, a:hover {
     overflow: hidden;
     width: 100%;
     height: 420px;
-    background: url(../images/default/default_banner_pic.png) 0 0 no-repeat;
-    background-size: 100% 420px
+    background-color: #fff;
 }
 .ecjia-cycleimage .swiper-pagination-bullet-active {
     opacity: 1;
@@ -2016,9 +2015,13 @@ a:active, a:hover {
     min-width: 1200px;
     text-align: center;
     line-height: 0;
+}
+
+.category-cycleimage.category-cycleimage-default {
     background: url(../images/category/category_list.png) 0 0 no-repeat;
     background-size: 100% 420px
 }
+
 .category-cycleimage .swiper-container {
     margin: 0 auto;
     position: relative;
