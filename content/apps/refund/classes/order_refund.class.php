@@ -401,6 +401,39 @@ class order_refund {
 		}
 		return $refused_reasons;
 	}
+	
+	
+	/**
+	 * 获取订单商品
+	 * @param int $order_id 订单id
+	 */
+	public static function get_order_goods_list ($order_id) {
+		$goods_list = [];
+		if (!empty($order_id)) {
+			$list = RC_DB::table('order_goods as og')
+			->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
+			->select(RC_DB::raw('og.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))
+			->where(RC_DB::raw('og.order_id'), $order_id)->get();
+			if (!empty($list)) {
+				foreach ($list as $res) {
+					$goods_list[] = array(
+							'goods_id' 				=> $res['goods_id'],
+							'name'	   				=> $res['goods_name'],
+							'goods_price'			=> $res['goods_price'] > 0 ? $res['goods_price'] : 0,
+							'formated_goods_price'	=> $res['goods_price'] > 0 ? price_format($res['goods_price'], false) : '',
+							'goods_attr'	=> !empty($res['goods_attr']) ? $res['goods_attr'] : '',
+							'goods_number'	=> $res['goods_number'],
+							'img' 			=> array(
+									'small'	=> !empty($res['goods_thumb']) ? RC_Upload::upload_url($res['goods_thumb']) : '',
+									'thumb'	=> !empty($res['goods_img']) ? RC_Upload::upload_url($res['goods_img']) : '',
+									'url' 	=> !empty($res['original_img']) ? RC_Upload::upload_url($res['original_img']) : '',
+							),
+					);
+				}
+			}
+			return $goods_list;
+		}
+	}
 }	
 
 
