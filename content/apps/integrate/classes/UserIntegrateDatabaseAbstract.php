@@ -280,7 +280,7 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
             /* 检查email是否重复，并排除指定的用户名 */
             $field_id = RC_DB::table($this->user_table->getUserTable())
                 ->where($this->user_table->getFieldEmail(), $email)
-                ->where($this->user_table->getFieldName(), $exclude_username)
+                ->where($this->user_table->getFieldName(), '<>', $exclude_username)
                 ->pluck($this->user_table->getFieldId());
         } else {
             /* 检查email是否重复 */
