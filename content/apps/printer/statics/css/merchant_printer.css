@@ -202,7 +202,7 @@
 
 .ticket_content .title .line {
     display: inline-block;
-    width: 130px;
+    width: 120px;
     border-top: 2px dashed #ddd;
     vertical-align: middle
 }

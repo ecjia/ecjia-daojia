@@ -298,7 +298,7 @@ class OrderPrint
     {
     	RC_Loader::load_app_func('admin_order', 'orders');
     	$integral      = integral_to_give($order);
-    	$integral_give = !empty($integral['custom_points']) ? $integral['custom_points'] : 0;
+    	$integral_give = !empty($integral['custom_points']) ? intval($integral['custom_points']) : 0;
     	
     	return $integral_give;
     }
