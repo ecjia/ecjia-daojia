@@ -48,7 +48,7 @@ class merchant_mobile_toutiao_module extends api_front implements api_interface 
 						'description' 	=> $val['description'],
 						'image'			=> $image,
 						'content_url' 	=> RC_Uri::url('toutiao/mobile/preview', array('id' => $val['id'])),
-						'create_time' 	=> Ecjia\App\Toutiao\ToutiaoManager::FormatedTime($val['create_time']),
+						'formatted_create_time' 	=> Ecjia\App\Toutiao\ToutiaoManager::FormatedTime($val['create_time']),
 				);
 				
 				$child_result = RC_DB::table('merchant_news')->where('group_id', $val['id'])->where('store_id', $store_id)->get();
@@ -66,7 +66,7 @@ class merchant_mobile_toutiao_module extends api_front implements api_interface 
 								'description' 	=> $v['description'],
 								'image'			=> $child_image,
 								'content_url' 	=> RC_Uri::url('toutiao/mobile/preview', array('id' => $v['id'])),
-								'create_time' 	=> Ecjia\App\Toutiao\ToutiaoManager::FormatedTime($v['create_time']),
+								'formatted_create_time' 	=> Ecjia\App\Toutiao\ToutiaoManager::FormatedTime($v['create_time']),
 						);
 					}
 				}
