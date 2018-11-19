@@ -200,7 +200,7 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
         $request = royalcms('request');
 
         $json = $request->input('json');
-        $jsonData = json_decode(rc_stripslashes($json), true);
+        $jsonData = json_decode($json, true);
         if (empty($jsonData)) {
             $jsonData = [];
         }
