@@ -88,6 +88,8 @@ class RefundReasonList
     	 	
     	 	'34' => '由于特殊情况，商家暂时无法接单，系统已自动申请退款',
     	 	
+    	 	'35' => '收银台申请退款',
+    	 	
     	 );
     	 return $reason_list;
     }
