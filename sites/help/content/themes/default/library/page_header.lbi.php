@@ -15,6 +15,7 @@
         {/if}
     </div>
 </div>
+
 <div class="infomation">
     <div class="wrap ">
         <div class="info-header">
@@ -37,8 +38,9 @@
         </div>
     </div>
 </div>
+
 <div class="banner help-banner">
     <div class="help-banner-wp">
-        <a role="button" style="background:url({$theme_url}images/banner.png) center center no-repeat;"></a>
+        <a role="button" style="background:url('{$theme_url}images/banner.png') center center no-repeat;"></a>
     </div>
 </div>

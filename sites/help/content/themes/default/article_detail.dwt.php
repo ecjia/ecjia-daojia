@@ -10,19 +10,19 @@
 
 <div class="wrap-bg">
     <div class="wrap">
-        <div  class="info-block help clearfix" id="helpaa">
+        <div class="info-block help clearfix" id="helpaa">
             <div id="leftMenu" class="help-left">
                 {if empty($article_list)}
-                <input id="help_onekey" type="hidden" value="帮助中心">
-                <p class="menu_head current-header">帮助中心</p>
+                <input id="help_onekey" type="hidden" value="商城公告">
+                <p class="menu_head current-header">商城公告</p>
                 {else}
                 <!-- {foreach $article_list as $article_list_cat} -->
-                <input id="help_onekey" type="hidden" value="{$article_list_cat.name}">
-                <p class="menu_head">{$article_list_cat.name}</p>
-                <ul class="menu_body" style="display: none">
+                <input id="help_onekey" type="hidden" value="商城公告">
+                <p class="menu_head current-header">商城公告</p>
+                <ul  class="menu_body" style="display: none">
                     <!-- {foreach $article_list_cat.article as $key => $article_list_child_cat} -->
                     <li>
-                        <a  href='{url path="article/help/init"}&aid={$article_list_child_cat.id}' {if $article_list_child_cat.id eq $aid} class='current' {/if}>{$article_list_child_cat.title}</a>
+                        <a  href='{url path="article/notice/init"}&date={$key}' {if $date eq $key} class='current' {/if}>{$key}</a>
                     </li>
                     <!-- {/foreach} -->
                 </ul>
@@ -33,31 +33,23 @@
             <div id="rightContent" class="help-right">
                 <div>
                     <ul class="crumb clearfix">
-                        {if empty($article_list)}
-                        <li><a href='{url path="article/info/init"}'>帮助中心</a></li>
-                        {else}
-                        <li><a href='{url path="article/help/init"}'>帮助中心</a> <i>&gt;</i></li>
+                        <li><a href='{url path="article/notice/init"}'>商城公告</a> <i>&gt;</i></li>
                         <!-- {foreach $article_list as $article_list_cat} -->
                         <!-- {foreach $article_list_cat.article as  $article_list_child_cat} -->
-                        {if $article_list_child_cat.id eq $aid}
-                        {if not empty($article_list_cat.name) }
-                        <li id="help_one" class="last-one">{$article_list_cat.name}<i>&gt;</i></li>
-                        {/if}
-                        <li id="help_one" class="last-one">{$article_list_child_cat.title}</li>
+                        <!-- {foreach $article_list_child_cat as  $article_cat} -->
+                        {if $article_cat.id eq $aid}
+                        <li id="help_one" class="last-one">{$article_cat.title}</li>
                         {/if}
                         <!-- {/foreach} -->
                         <!-- {/foreach} -->
-                        {/if}
+                        <!-- {/foreach} -->
                     </ul>
                 </div>
-                {if empty($article_list)}
-                <div class="detail help-list">暂无内容</div>
-                {else}
                 <div class="help-title" id="topNavigate" >{$article.title}</div>
+                <div class="time-title">{RC_Time::local_date('Y-m-d H:i:s', $article.add_time)}</div>
                 <div class="detail help-list" id="artricleText">
                     {rc_stripslashes($article.content)}
                 </div>
-                {/if}
             </div>
 
         </div>
@@ -66,4 +58,3 @@
 {insert name='page_footer'}
 </body>
 </html>
-

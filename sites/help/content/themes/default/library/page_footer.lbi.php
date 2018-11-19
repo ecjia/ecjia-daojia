@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    <div class="bottom-nav" style="background: #f5f5f5">
+    <div class="bottom-nav">
         <div>
             {$shop_info_html}
         </div>
@@ -34,6 +34,9 @@
         </div>
     </div>
 </div>
+{if ecjia::config('stats_code')}
+{stripslashes(ecjia::config('stats_code'))}
+{/if}
 <script type="text/javascript">
     $(document).ready(function(){
         $('.current').parent().parent('ul').show();

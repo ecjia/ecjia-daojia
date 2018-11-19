@@ -55,7 +55,9 @@ class article_controller
 
         $article_id = trim($_GET['aid']);
         $article_type =   'shop_help';
-        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
+        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $article_id . '-' .  $article_type;
+        $cache_id = sprintf('%X', crc32($cache_id));
 
         if (!ecjia_front::$controller->is_cached('article_help.dwt', $cache_id)) {
             $options = array(
@@ -94,14 +96,16 @@ class article_controller
             ecjia_front::$controller->assign_title('帮助中心');
         }
 
-        ecjia_front::$controller->display('article_help.dwt');
+        ecjia_front::$controller->display('article_help.dwt', $cache_id);
     }
 
     public static function info()
     {
         $article_id = trim($_GET['aid']);
         $article_type =   'shop_info';
-        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
+        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $article_id . '-' .  $article_type;
+        $cache_id = sprintf('%X', crc32($cache_id));
 
         if (!ecjia_front::$controller->is_cached('article_info.dwt', $cache_id)) {
             $options = array(
@@ -143,7 +147,7 @@ class article_controller
             ecjia_front::$controller->assign_title('关于我们');
         }
 
-        ecjia_front::$controller->display('article_info.dwt');
+        ecjia_front::$controller->display('article_info.dwt', $cache_id);
     }
 
 
@@ -153,7 +157,8 @@ class article_controller
         $article_type   =   'shop_notice';
         $page_size      =   !empty($_GET['page_size']) ? trim($_GET['page_size']) : 99999999;
 
-        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $article_id . '-' .  $article_type . '-' .  $page_size;
+        $cache_id = sprintf('%X', crc32($cache_id));
 
         if (!ecjia_front::$controller->is_cached('article_notice.dwt', $cache_id)) {
             $options = array(
@@ -194,7 +199,96 @@ class article_controller
 
             ecjia_front::$controller->assign_title('商家公告');
         }
-        ecjia_front::$controller->display('article_notice.dwt');
+        ecjia_front::$controller->display('article_notice.dwt', $cache_id);
+    }
+
+    public static function detail()
+    {
+        $article_id     = trim($_GET['aid']);
+        $article_type   =   'shop_notice';
+        $page_size      =   !empty($_GET['page_size']) ? trim($_GET['page_size']) : 99999999;
+
+        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $article_id . '-' .  $article_type . '-' .  $page_size;
+        $cache_id = sprintf('%X', crc32($cache_id));
+
+        if (!ecjia_front::$controller->is_cached('article_detail.dwt', $cache_id)) {
+            $options = array(
+                'page_size'     =>  $page_size,
+                'article_type'  => $article_type,
+                'sort_order'    => 'ASC',
+                'article_id'    => 'ASC',
+            );
+
+            $data = RC_Api::api('article', 'article_list', $options);
+
+            $article_list = array();
+            foreach($data['arr'] as $key => $row)
+            {
+                $article_list[$row['cat_id']]['name']                                           = $row['cat_name'];
+                $row['month']                                                                   = RC_Time::local_date('Y-m', $row['add_time']);    ;
+                $article_list[$row['cat_id']]['article'][$row['month']][$key]['id']             = $row['article_id'];
+                $article_list[$row['cat_id']]['article'][$row['month']][$key]['title']          = $row['title'];
+                $article_list[$row['cat_id']]['article'][$row['month']][$key]['date']           = $row['date'];
+                $article_list[$row['cat_id']]['article'][$row['month']][$key]['short_title']   = ecjia::config('article_title_length') > 0 ? RC_String::sub_str($row['title'], ecjia::config('article_title_length')) : $row['title'];
+            }
+            $date = !empty($_GET['date']) ? trim($_GET['date']) : head(array_keys(head($article_list)['article']));
+
+            if (!is_ecjia_error($article_list)) {
+                ecjia_front::$controller->assign('article_list', $article_list);
+            }
+
+            $shop_notice_detail = RC_Api::api('article', 'article_info', array('id' => $article_id));
+
+            ecjia_front::$controller->assign('date',     $date);
+            ecjia_front::$controller->assign('aid',     $article_id);
+            ecjia_front::$controller->assign('article_type',     $article_type);
+            ecjia_front::$controller->assign('article', $shop_notice_detail);
+
+            ecjia_front::$controller->assign_title('商家公告');
+        }
+        ecjia_front::$controller->display('article_detail.dwt', $cache_id);
+    }
+
+
+    public static function friendlink()
+    {
+        $friendlink_list = RC_Api::api('friendlink', 'friendlink_list', array('type' => 'logo'));
+        $article_type =   'shop_info';
+
+        $cache_id = $_SERVER['QUERY_STRING'] . '-' .  $friendlink_list . '-' .  $article_type;
+        $cache_id = sprintf('%X', crc32($cache_id));
+
+        if (!ecjia_front::$controller->is_cached('article_friendlink.dwt', $cache_id)) {
+            $options = array(
+                'page_size'     =>  99999999,
+                'article_type'  => $article_type,
+                'sort_order'    => 'ASC',
+                'article_id'    => 'ASC',
+            );
+
+            $data = RC_Api::api('article', 'article_list', $options);
+
+            $article_list = array();
+            foreach($data['arr'] as $key => $row)
+            {
+                $article_list[$row['cat_id']]['name']   = $row['cat_name'];
+                $article_list[$row['cat_id']]['article'][$key]['id']    = $row['article_id'];
+                $article_list[$row['cat_id']]['article'][$key]['title'] = $row['title'];
+                $article_list[$row['cat_id']]['article'][$key]['date']  = $row['date'];
+                $article_list[$row['cat_id']]['article'][$key]['short_title']   = ecjia::config('article_title_length') > 0 ? RC_String::sub_str($row['title'], ecjia::config('article_title_length')) : $row['title'];
+            }
+
+            if (!is_ecjia_error($article_list)) {
+                ecjia_front::$controller->assign('article_list', $article_list);
+            }
+
+            $friendlink_list = RC_Api::api('friendlink', 'friendlink_list', array('type' => 'logo'));
+            ecjia_front::$controller->assign('friendlink_list', $friendlink_list);
+
+            ecjia_front::$controller->assign_title('关于我们');
+        }
+
+        ecjia_front::$controller->display('article_friendlink.dwt', $cache_id);
     }
 
 }

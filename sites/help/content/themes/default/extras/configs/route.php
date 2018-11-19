@@ -52,15 +52,8 @@ return [
     //文章
     'article/help/init'                     => 'article_controller@init',   //帮助中心
     'article/notice/init'                   => 'article_controller@notice',   //平台公告
+    'article/notice/detail'                   => 'article_controller@detail',   //平台公告
     'article/info/init'                    => 'article_controller@info',  //关于我们
+    'article/info/friendlink'                    => 'article_controller@friendlink',  //友情链接
 
-    //文章祥情
-
-
-//    'article/help/search'                 => 'article_controller@search',
-//    'article/help/detail'               => 'article_controller@detail',
-//    'article/shop/detail'               => 'article_controller@shop_detail',
-//    'article/index/init'                => 'article_controller@article_index',  //发现首页
-//    'article/index/detail'              => 'article_controller@article_detail', //发现文章详情
-//    'article/index/ajax_article_list'   => 'article_controller@ajax_article_list', //获取分类下的文章
 ];

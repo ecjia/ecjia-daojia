@@ -59,24 +59,29 @@ function smarty_insert_page_header($params, Smarty_Internal_Template $template) 
     $shop_name = ecjia::config('shop_name');
     $theme_url = RC_Theme::get_template_directory_uri() . '/';
 
-    $disk = RC_Filesystem::disk();
-    if (!empty($shop_logo) && $disk->exists(RC_Upload::upload_path($shop_logo))) {
-        $shop_logo = RC_Upload::upload_url($shop_logo);
-    } else {
-    	$shop_logo = $theme_url . "images/shop_logo.png";
+    $cache_id = $_SERVER['QUERY_STRING'] . '-' .  $shop_logo . '-' .  $shop_name;
+
+    if (!ecjia_front::$controller->is_cached('article_friendlink.dwt', $cache_id)) {
+
+        $disk = RC_Filesystem::disk();
+        if (!empty($shop_logo) && $disk->exists(RC_Upload::upload_path($shop_logo))) {
+            $shop_logo = RC_Upload::upload_url($shop_logo);
+        } else {
+            $shop_logo = $theme_url . "images/shop_logo.png";
+        }
+
+        $site_index = str_replace('/sites/help', '', RC_Uri::home_url());
+        $site_main = str_replace('/sites/help', '', ecjia_member_uri::login_url());
+        $site_login = str_replace('/sites/help', '', ecjia_member_uri::register_url());
+
+        ecjia_front::$controller->assign('shop_name', $shop_name);
+        ecjia_front::$controller->assign('shop_logo', $shop_logo);
+        ecjia_front::$controller->assign('site_index', $site_index);
+        ecjia_front::$controller->assign('site_main', $site_main);
+        ecjia_front::$controller->assign('site_login', $site_login);
     }
 
-    $site_index = str_replace('/sites/help', '', RC_Uri::home_url());
-    $site_main = str_replace('/sites/help', '', ecjia_member_uri::login_url());
-    $site_login = str_replace('/sites/help', '', ecjia_member_uri::register_url());
-
-    ecjia_front::$controller->assign('shop_name',   $shop_name);
-    ecjia_front::$controller->assign('shop_logo',   $shop_logo);
-    ecjia_front::$controller->assign('site_index',   $site_index);
-    ecjia_front::$controller->assign('site_main',   $site_main);
-    ecjia_front::$controller->assign('site_login',  $site_login);
-
-    $val = ecjia_front::$controller->fetch('library/page_header.lbi');
+    $val = ecjia_front::$controller->fetch('library/page_header.lbi', $cache_id);
 
     return $val;
 }

@@ -33,34 +33,28 @@
                 {/if}
             </div>
 
+
             <div id="rightContent" class="help-right">
                 <div>
                     <ul class="crumb clearfix">
-                        {if empty($article_list)}
-                        <li><a href='{url path="article/info/init"}'>关于我们</a></li>
-                        {else}
                         <li><a href='{url path="article/info/init"}'>关于我们</a> <i>&gt;</i></li>
-                        <!-- {foreach $article_list as $article_list_cat} -->
-                        <!-- {foreach $article_list_cat.article as  $article_list_child_cat} -->
-                        {if $article_list_child_cat.id eq $aid}
-                        {if not empty($article_list_cat.name) }
-                        <li id="help_one" class="last-one">{$article_list_cat.name}<i>&gt;</i></li>
-                        {/if}
-                        <li id="help_one" class="last-one">{$article_list_child_cat.title}</li>
-                        {/if}
-                        <!-- {/foreach} -->
-                        <!-- {/foreach} -->
-                        {/if}
+                        <li id="help_one" class="last-one">友情链接</li>
                     </ul>
                 </div>
-                {if empty($article_list)}
-                <div class="detail help-list">暂无内容</div>
-                {else}
-                <div class="help-title" id="topNavigate" >{$article.title}</div>
+                <div class="help-title friend-title" id="topNavigate">友情链接</div>
                 <div class="detail help-list" id="artricleText">
-                    {rc_stripslashes($article.content)}
+                    <ul>
+                        {foreach $friendlink_list as $link}
+                        <li>
+                            <div class="friendlink-list">
+                                <a href="{$link.link_url}" target="{$link.link_target}"><img src="{$link.link_logo}">
+                                <p>{$link.link_name}</p>
+                                </a>
+                            </div>
+                        </li>
+                        {/foreach}
+                    </ul>
                 </div>
-                {/if}
             </div>
 
 
