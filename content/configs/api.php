@@ -536,6 +536,10 @@ return array(
 	'admin/cashier/orders/refund/apply'					=> 'cashier::admin/cashier/orders/refund/apply', 	//收银台订单退款申请
 	'admin/cashier/orders/refund/record'				=> 'cashier::admin/cashier/orders/refund/record',	//收银台订单退款记录
 	'admin/cashier/orders/refund/detail'				=> 'cashier::admin/cashier/orders/refund/detail',	//收银台订单退款详情
+	'admin/cashier/secondscreen/adsense'				=> 'cashier::admin/cashier/secondscreen/adsense',	//收银台副屏广告位
+	'admin/cashier/orders/refund/summary'				=> 'cashier::admin/cashier/orders/refund/summary',  //收银台退款统计（已退款完成的）
+	'admin/cashier/orders/search'						=> 'cashier::admin/cashier/orders/search',			//收银台订单搜索（已支付的）
+		
 		
 		
     /**
