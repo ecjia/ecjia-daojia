@@ -52,28 +52,34 @@ class mobile extends ecjia_front
         parent::__construct();
         $this->assign('statics_url', RC_App::apps_url('statics/', __FILE__));
     }
+
+    
     public function preview()
     {
-        $id              = intval($_GET['id']);
-        $data            = RC_DB::table('merchant_news')->where('id', $id)->first();
-        $data['content'] = stripslashes($data['content']);
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 
-        $this->assign('data', $data);
+        $resource_name = RC_Package::package('app::toutiao')->loadTemplate('front/preview.dwt', true);
 
-        $disk = RC_Filesystem::disk();
+        if (!ecjia_front::$controller->is_cached($resource_name, $cache_id)) {
+            $id              = intval($_GET['id']);
+            $data            = RC_DB::table('merchant_news')->where('id', $id)->first();
+            $data['content'] = stripslashes($data['content']);
 
-        $store_qrcode = 'data/qrcodes/merchants/merchant_' . $data['store_id'] . '.png';
-        if ($disk->exists(RC_Upload::upload_path($store_qrcode))) {
-            $store_qrcode = RC_Upload::upload_url($store_qrcode) . '?' . time();
+            $this->assign('data', $data);
+
+            $disk = RC_Filesystem::disk();
+
+            $store_qrcode = 'data/qrcodes/merchants/merchant_' . $data['store_id'] . '.png';
+            if ($disk->exists(RC_Upload::upload_path($store_qrcode))) {
+                $store_qrcode = RC_Upload::upload_url($store_qrcode) . '?' . time();
+            }
+            $this->assign('store_qrcode', $store_qrcode);
+
+            $data['click_count'] += 1;
+            RC_DB::table('merchant_news')->where('id', $id)->update(array('click_count' => $data['click_count']));
         }
-        $this->assign('store_qrcode', $store_qrcode);
 
-        $data['click_count'] += 1;
-        RC_DB::table('merchant_news')->where('id', $id)->update(array('click_count' => $data['click_count']));
-        
-        $this->display(
-            RC_Package::package('app::toutiao')->loadTemplate('front/preview.dwt', true)
-        );
+        $this->display($resource_name, $cache_id);
     }
 }
 // end
