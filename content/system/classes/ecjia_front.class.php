@@ -186,21 +186,27 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 	    } elseif (! RC_File::is_absolute_path($file)) {
 	        $file = SITE_THEME_PATH . $style . DIRECTORY_SEPARATOR . $file;
 	    }
-	
+
 	    // 添加模板后缀
 	    if (! preg_match('@\.[a-z]+$@', $file))
-	        $file .= RC_Config::get('system.tpl_fix');
-	
+        {
+            $file .= RC_Config::get('system.tpl_fix');
+        }
+
 	    // 将目录全部转为小写
 	    if (is_file($file)) {
 	        return $file;
 	    } else {
 	        // 模版文件不存在
 	        if (RC_Config::get('system.debug'))
-	            // TODO:
-	            rc_die("Template does not exist.:$file");
+            {
+                // TODO:
+                rc_die("Template does not exist.:$file");
+            }
 	        else
-	            return null;
+            {
+                return str_replace($this->get_template_dir(), '', $file);
+            }
 	    }
 	}
 	
@@ -242,7 +248,7 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 	        if (RC_File::file_suffix($tpl_file) !== 'php') {
 	            $tpl_file = $tpl_file . '.php';
 	        }
-	        if (RC_Config::get('system.tpl_usedfront')) {
+	        if (RC_Config::get('system.tpl_usedfront') && ! RC_File::is_absolute_path($tpl_file)) {
 	            $tpl_file = ecjia_app::get_app_template($tpl_file, ROUTE_M, false);
 	        }
 	    }
