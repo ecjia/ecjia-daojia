@@ -74,6 +74,14 @@ class connect_connect_user_bind_api extends Component_Event_Api {
 
         //判断openid是否存在
         if ($connect_user->checkUser()) {
+        	$user_id = $connect_user->getUserId();
+        	//获取远程头像，更新用户头像
+        	if (!empty($profile['headimgurl']) && !empty($user_id)) {
+        		$update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $user_id));
+        		if (is_ecjia_error($update_avatar_img)) {
+        			return $update_avatar_img;
+        		}
+        	}
             return $connect_user;
         }
         
@@ -89,7 +97,15 @@ class connect_connect_user_bind_api extends Component_Event_Api {
         if (is_ecjia_error($userinfo)) {
         	return $userinfo;
         }
-
+		
+        //获取远程头像，更新用户头像
+        if (!empty($profile['headimgurl']) && !empty($userinfo['user_id'])) {
+        	$update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $userinfo['user_id']));
+        	if (is_ecjia_error($update_avatar_img)) {
+        		return $update_avatar_img;
+        	}
+        }
+       
         /*绑定*/
         $result  = $connect_user->bindUser($userinfo['user_id']);
         if ($result) {
