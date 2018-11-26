@@ -583,9 +583,9 @@ class admin extends ecjia_admin {
 		    //重新计算会员等级
 		    RC_Api::api('user', 'update_user_rank', array('user_id' => $row['user_id']));
 		}
-		$row = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->first();
-		$user['user_rank_name'] = $row['rank_name'];
-		$user['user_rank_id'] = $row['rank_id'];
+		$row_rank = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->first();
+		$user['user_rank_name'] = $row_rank['rank_name'];
+		$user['user_rank_id'] = $row_rank['rank_id'];
 		
 		if ($row) {
 			$user['user_id']				= $row['user_id'];
