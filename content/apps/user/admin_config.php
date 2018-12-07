@@ -64,7 +64,7 @@ class admin_config extends ecjia_admin
 
     public function init()
     {
-        $this->admin_priv('user_manage');
+        $this->admin_priv('user_setting');
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('会员中心'));
         $this->assign('ur_here', 'PC设置');
@@ -79,11 +79,11 @@ class admin_config extends ecjia_admin
 
     public function update()
     {
-        $this->admin_priv('user_manage', ecjia::MSGTYPE_JSON);
+        $this->admin_priv('user_setting', ecjia::MSGTYPE_JSON);
 
         ecjia_config::instance()->write_config('pc_enabled_member', intval($_POST['pc_enabled_member']));
 
-        ecjia_admin::admin_log('PC设置', 'edit', 'config');
+        ecjia_admin::admin_log('会员中心->PC设置', 'edit', 'config');
         return $this->showmessage('修改成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/admin_config/init')));
     }
 }
