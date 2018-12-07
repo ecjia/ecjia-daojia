@@ -105,7 +105,7 @@ class connect_bind_module extends api_front implements api_interface {
 				$check_user = $db_user->where(array('mobile_phone' => $username))->get_field('user_name');
 				/* 获取用户名进行判断验证*/
 				if (!empty($check_user)) {
-					if ($user->login($check_user, $password)) {
+					if ($ecjia_integrate->login($check_user, $password)) {
 						$is_mobile = true;
 					}
 				}
