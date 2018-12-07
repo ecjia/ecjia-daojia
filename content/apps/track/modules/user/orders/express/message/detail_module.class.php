@@ -98,7 +98,7 @@ class user_orders_express_message_detail_module extends api_front implements api
 				'company_name'				=> empty($track_logistic_info['company_name']) ? '' : trim($track_logistic_info['company_name']),
 				'company_code'				=> empty($track_logistic_info['company_code']) ? '' : trim($track_logistic_info['company_code']),
 				'shipping_number'			=> empty($track_logistic_info['track_number']) ? '' : trim($track_logistic_info['track_number']),
-				'shipping_status'			=> !isset($track_logistic_info['shipping_status']) ? 0 : trim($track_logistic_info['shipping_status']),
+				'shipping_status'			=> empty($track_logistic_info['status']) ? 0 : intval($track_logistic_info['status']),
 				'label_shipping_status'		=>  $track_status[$track_logistic_info['status']],
 				'consignee_address'			=> $consignee_address,
 				'content'					=> $content_list

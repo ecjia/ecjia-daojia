@@ -213,7 +213,7 @@ class user_orders_express_message_module extends api_front implements api_interf
     		$count = RC_DB::table('track_logistic')->whereIn('order_id', $order_ids)->count();
     		//实例化分页
     		$page_row = new ecjia_page($count, $size, 6, '', $page);
-    		$latest_express_log = [];
+    		
     		$list = RC_DB::table('track_logistic')->whereIn('order_id', $order_ids)->take($size)->skip($page_row->start_id - 1)->orderBy('update_time', 'desc')->get();
     		
 			if (!empty($list)) {
@@ -223,6 +223,7 @@ class user_orders_express_message_module extends api_front implements api_interf
 					$label_shipping_status = $track_status[$v['status']];
 					$track_log = RC_DB::table('track_log')->where('track_number', $v['track_number'])->where('track_company', $v['company_code'])->orderBy('time', 'desc')->get();
 					
+					$latest_express_log = array();
 					if (!empty($track_log)) {
 						$latest_express_log = array('time' => $track_log['0']['time'], 'context' => $track_log['0']['context']);
 					}
@@ -235,7 +236,7 @@ class user_orders_express_message_module extends api_front implements api_interf
 							'company_name'				=> empty($v['company_name']) ? '' : $v['company_name'],
 							'company_code'				=> empty($v['company_code']) ? '' : $v['company_code'],
 							'shipping_number'			=> empty($v['track_number']) ? '' : $v['track_number'],
-							'shipping_status'			=> isset($v['shipping_status']) ? 0 : intval($v['shipping_status']),
+							'shipping_status'			=> empty($v['status']) ? 0 : intval($v['status']),
 							'label_shipping_status' 	=> $label_shipping_status,
 							'sign_time_formated'		=> empty($v['sign_time']) ? '' : $v['sign_time'],
 							'latest_express_log'		=> $latest_express_log,
