@@ -130,6 +130,10 @@ class admin_separate extends ecjia_admin {
 				$integral = integral_to_give($row);
 			}
 			$point = round($affiliate['config']['level_point_all'] * intval($integral['rank_points']), 0);
+			$integral_name = ecjia::config('integral_name');
+	        if (empty($integral_name)) {
+	        	$integral_name = '积分';
+	        }
 			if (empty($separate_by)) {
 				//推荐注册分成
 				$num = count($affiliate['item']);
@@ -152,7 +156,8 @@ class admin_separate extends ecjia_admin {
 					if (empty($up_uid) || empty($row['user_name'])) {
 						break;
 					} else {
-						$info = sprintf(RC_Lang::get('affiliate::affiliate_ck.separate_info'), $order_sn, $setmoney, $setpoint);
+						//$info = sprintf(RC_Lang::get('affiliate::affiliate_ck.separate_info'), $order_sn, $setmoney, $setpoint);
+						$info = '订单号'.$order_sn.'分成:金钱'.$setmoney.$integral_name.$setpoint;
 						$arr = array(
 							'user_id'		=> $up_uid,
 							'user_money'	=> $setmoney,
@@ -175,7 +180,8 @@ class admin_separate extends ecjia_admin {
 				
 				$up_uid = $row['parent_id'];
 				if (!empty($up_uid) && $up_uid > 0) {
-					$info = sprintf(RC_Lang::get('affiliate::affiliate_ck.separate_info'), $order_sn, $money, $point);
+					//$info = sprintf(RC_Lang::get('affiliate::affiliate_ck.separate_info'), $order_sn, $money, $point);
+					$info = '订单号'.$order_sn.'分成:金钱'.$money.$integral_name.$point;
 					
 					$arr = array(
 						'user_id'		=> $up_uid,

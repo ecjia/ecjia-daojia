@@ -78,6 +78,10 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 	    		}
 	    	}
 		    /* 邀请人奖励处理*/
+	    	$integral_name = ecjia::config('integral_name');
+	    	if (empty($integral_name)) {
+	    		$integral_name = '积分';
+	    	}
 		    if ($affiliate['intvie_reward']['intive_reward_by'] == $options['invite_type'] && $is_reward && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
 		    	if ($affiliate['intvie_reward']['intive_reward_type'] == 'bonus') {
 		    		RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intvie_reward']['intive_reward_value'], 'user_id' => $invite_id));
@@ -86,7 +90,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    		$option = array(
 	    				'user_id'		=> $invite_id,
 	    				'pay_points'	=> $affiliate['intvie_reward']['intive_reward_value'],
-	    				'change_desc'	=> '邀请送积分'
+	    				'change_desc'	=> '邀请送'.$integral_name
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
 		    		$reward_type = 'integral';
@@ -128,7 +132,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    		$option = array(
 	    				'user_id'		=> $options['user_id'],
 	    				'pay_points'	=> $affiliate['intviee_reward']['intivee_reward_value'],
-	    				'change_desc'	=> '邀请送积分'
+	    				'change_desc'	=> '邀请送'.$integral_name
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
 		    	} else {

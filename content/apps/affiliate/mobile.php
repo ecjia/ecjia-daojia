@@ -185,14 +185,14 @@ class mobile extends ecjia_front {
 		}
 		
 		if ( $count > 0) {
-			return ecjia_front::$controller->showmessage('该手机号已注册！', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('url' => $url, 'app' => $app_url));
+			return ecjia_front::$controller->showmessage('该手机号已注册！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url, 'app' => $app_url));
 		}
 		
 		if (isset($is_invitee) && !empty($is_invitee)) {
-			return	ecjia_front::$controller->showmessage('您已被邀请过，请勿重复提交！', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, array('url' => $url, 'app' => $app_url));
+			return	ecjia_front::$controller->showmessage('您已被邀请过，请勿重复提交！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url, 'app' => $app_url));
 		}
 		
-		return ecjia_front::$controller->showmessage('提交成功！', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('url' => $url, 'app' => $app_url));
+		return ecjia_front::$controller->showmessage('提交成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url, 'app' => $app_url));
 	}
 	
 	/**
