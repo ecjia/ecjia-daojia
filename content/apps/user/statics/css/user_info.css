@@ -1,0 +1,8 @@
+#telescopic2 .item-content .item {
+	width: 25%;
+	float: left;
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	font-size: 15px;
+}

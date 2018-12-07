@@ -47,7 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 会员 等级积分 变动日志记录接口
+ * 会员 成长值 变动日志记录接口
  * 同时更新用户等级
  * @author 
  */
@@ -79,7 +79,7 @@ class user_rank_points_change_log_api extends Component_Event_Api {
      * @param float $frozen_money
      *        	冻结余额变动
      * @param int $rank_points
-     *        	等级积分变动
+     *        	成长值变动
      * @param int $pay_points
      *        	消费积分变动
      * @param string $change_desc

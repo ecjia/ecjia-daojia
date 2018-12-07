@@ -151,6 +151,36 @@ class user_signin_module extends api_front implements api_interface {
 				}
 			}
 		}
+		
+		/*登录成功*/
+		if ($_SESSION['user_id'] > 0) {
+			$userinfo = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->first();
+			if (empty($userinfo['ec_salt'])) {
+				if (version_compare($api_version, '1.14', '>=')) {
+					if ($login_type == 'smslogin') {
+						$salt = rand(1, 9999);
+						RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('ec_salt' => $salt));
+					} elseif ($login_type == 'password') {
+						$salt = rand(1, 9999);
+						$new_password = md5(md5($password) . $salt);
+						$data = array(
+								'password' => $new_password,
+								'ec_salt'  => $salt
+						);
+						RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update($data);
+					}
+				} else {
+					$salt = rand(1, 9999);
+					$new_password = md5(md5($password) . $salt);
+					$data = array(
+							'password' => $new_password,
+							'ec_salt'  => $salt
+					);
+					RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update($data);
+				}
+			}
+		}
+		
 		/*向connect_user表插入一条app数据*/
 		if ($_SESSION['user_id'] > 0) {
 			$connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->first();
@@ -190,27 +220,6 @@ class user_signin_module extends api_front implements api_interface {
 		//修正咨询信息
 		if($_SESSION['user_id'] > 0) {
 			$device		      = $this->device;
-//			$device_id	      = $device['udid'];
-//			$device_client    = $device['client'];
-			
-			//$pra = array(
-			//		'object_type'	=> 'ecjia.feedback',
-			//		'object_group'	=> 'feedback',
-			//		'item_key2'		=> 'device_udid',
-			//		'item_value2'	=> $device_id
-			//);
-			//$object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
-			
-			//更新未登录用户的咨询
-			//$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_id))->update(array('item_key2' => '', 'item_value2' => ''));
-//			RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_id)->update(array('item_key2' => '', 'item_value2' => ''));
-			
-			//if(!empty($object_id)) {
-			//	$db = RC_Model::model('feedback/feedback_model');
-			//	$db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $_SESSION['user_id'], 'user_name' => $_SESSION['user_name']));
-			//	$db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $_SESSION['user_id'], 'user_name' => $_SESSION['user_name']));
-			//}
-			
 			//修正关联设备号
 			$result = ecjia_app::validate_application('mobile');
 			if (!is_ecjia_error($result)) {

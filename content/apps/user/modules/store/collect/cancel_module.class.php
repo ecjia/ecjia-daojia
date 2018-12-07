@@ -62,8 +62,12 @@ class store_collect_cancel_module extends api_front implements api_interface {
     	if (empty($store_id)) {
     		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
     	}
+
+    	$info = RC_DB::table('collect_store')->where('store_id', $store_id)->where('user_id', $user_id)->first();
     	
-    	RC_DB::table('collect_store')->where('store_id', $store_id)->where('user_id', $user_id)->delete();
+    	if ($info) {
+    		RC_DB::table('collect_store')->where('store_id', $store_id)->where('user_id', $user_id)->delete();
+    	}
     	
     	return array();
 	}

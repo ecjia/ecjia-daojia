@@ -347,7 +347,7 @@ class admin_rank extends ecjia_admin {
 	}
 	
 	/**
-	 * ajax编辑积分下限
+	 * ajax编辑成长值下限
 	 */
 	public function edit_min_points() {
 		$this->admin_priv('user_rank', ecjia::MSGTYPE_JSON);
@@ -359,7 +359,7 @@ class admin_rank extends ecjia_admin {
 		if (!is_numeric($val) || empty($val) || $val <= 0 || strpos($val, '.') > 0) {
 			return $this->showmessage(RC_Lang::get('user::user_rank.js_languages.integral_min_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		/* 查找该ID 对应的积分上限值,验证是否大于上限  */
+		/* 查找该ID 对应的成长值上限值,验证是否大于上限  */
 		$max_points = RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('max_points');
 
 		if ($val >= $max_points ) {
@@ -382,7 +382,7 @@ class admin_rank extends ecjia_admin {
 	}
 	
 	/**
-	 * ajax修改积分上限
+	 * ajax修改成长值上限
 	 */
 	public function edit_max_points() {
 		$this->admin_priv('user_rank', ecjia::MSGTYPE_JSON);
@@ -394,7 +394,7 @@ class admin_rank extends ecjia_admin {
 		if (!is_numeric($val) || empty($val) || $val <= 0 ) {
 			return $this->showmessage(RC_Lang::get('user::user_rank.js_languages.integral_min_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
-		/* 查找该ID 对应的积分下限值,验证是否大于上限  */
+		/* 查找该ID 对应的成长值下限值,验证是否大于上限  */
 		$min_points =RC_DB::table('user_rank')->where('rank_id', $rank_id)->pluck('min_points');
 		if ($val <= $min_points ) {
 			return $this->showmessage(RC_Lang::get('user::user_rank.js_languages.integral_max_small'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

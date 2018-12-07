@@ -118,11 +118,11 @@ class admin_user_forget_request_module extends api_admin implements api_interfac
 		// 			$this->assign('send_date',   RC_Time::local_date(ecjia::config('date_format')));
 		// 			$this->assign('sent_date',   RC_Time::local_date(ecjia::config('date_format')));
 		
-		// 			$state = ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON;
+		// 			$state = ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR;
 		
 		// 			if (RC_Mail::send_mail('', $admin_email, $template['template_subject'], $this->fetch_string($template['template_content']), $template['is_html'])) {
 		// 				$msg = __('重置密码的邮件已经发到您的邮箱：') . $admin_email;
-		// 				$state = ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON;
+		// 				$state = ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS;
 		// 			} else {
 		// 				$msg = __('重置密码邮件发送失败!请与管理员联系');
 		// 			}

@@ -37,7 +37,7 @@
 		</select>
 		<a class="btn m_l5 screen-btn">{lang key='user::users.filter'}</a>
 		<div class="top_right f_r" >
-			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='user::users.serach_condition'}"/> 
+			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入会员名称／邮箱／手机"/> 
 			<button class="btn m_l5" type="submit">{lang key='user::users.serach'}</button>
 		</div>
 	</form>
@@ -49,14 +49,13 @@
 			<thead>
 				<tr>
 					<th class="table_checkbox"><input type="checkbox" data-toggle="selectall" data-children=".checkbox"/></th>
-					<th class="w100">{lang key='user::users.label_user_name'}</th>
+					<th class="w100">会员名称</th>
 					<th class="w150">{lang key='user::users.email'}</th>
-					<th class="w100">{lang key='user::users.mobile_phone'}</th>
+					<th class="w100">手机号码</th>
 					<th class="w100">{lang key='user::users.user_money'}</th>
-					<th class="w100">{lang key='user::users.frozen_money'}</th>
-					<th class="w50">{lang key='user::users.rank_points'}</th>
-					<th class="w50">{lang key='user::users.pay_points'}</th>
-					<th class="w120">{lang key='user::users.reg_date'}</th>
+					<th class="w50">积分</th>
+					<th class="w50">所属等级</th>
+					<th class="w100">{lang key='user::users.reg_date'}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -65,34 +64,38 @@
 					<td>
 						<input class="checkbox" type="checkbox" name="checkboxes[]"  value="{$user.user_id}" />
 					</td>
-					<td>
-						<!-- {if $user.user_name} -->
-						{$user.user_name}
-						<!-- {/if} -->
-					</td>
 					<td class="hide-edit-area">
+						{if $user.user_name}
+							{$user.user_name}
+						{/if}
+						<div class="edit-list">
+							<a class="data-pjax" href='{url path="user/admin/edit" args="id={$user.user_id}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
+							<a class="data-pjax" href='{url path="user/admin/info" args="id={$user.user_id}"}'>{lang key='user::users.details'}</a>&nbsp;|&nbsp; 
+							<a class="data-pjax" href='{url path="user/admin/address_list" args="id={$user.user_id}"}' title="{lang key='user::users.address_list'}">{lang key='user::users.address_list'}</a>&nbsp;|&nbsp;
+							<a target="_blank" href='{url path="orders/admin/init" args="user_id={$user.user_id}"}' title="{lang key='user::users.view_order'}">{lang key='user::users.view_order'}</a>&nbsp;|&nbsp;
+							
+							<a target="_blank" href='{url path="finance/admin_account_log/init" args="account_type=user_money&user_id={$user.user_id}"}' title="">查看余额变动</a>&nbsp;|&nbsp;
+							<a target="_blank" href='{url path="finance/admin_account_log/init" args="account_type=pay_points&user_id={$user.user_id}"}' title="">查看积分变动</a>&nbsp;|&nbsp;
+							<a target="_blank" href='{url path="finance/admin_account_log/init" args="account_type=rank_points&user_id={$user.user_id}"}' title="">查看成长值变动</a>
+
+							<!-- <a target="_blank" href='{url path="finance/admin_account_log/init" args="user_id={$user.user_id}"}' title="{lang key='user::users.view_deposit'}">{lang key='user::users.view_deposit'}</a>&nbsp;|&nbsp; -->
+							<!-- <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='user::users.delete_confirm'}" href='{url path="user/admin/remove" args="id={$user.user_id}"}' title="{lang key='user::users.delete'}">{lang key='user::users.delete'}</a> -->
+						</div>
+					</td>
+					<td>
 						<!-- {if $user.email} -->
 						<span class="cursor_pointer ecjiaf-pre ecjiaf-wsn" data-trigger="editable" data-url="{url path='user/admin/edit_email'}" data-name="email" data-pk="{$user.user_id}" data-title="{lang key='user::users.edit_email_address'}">{$user.email}</span>
 						<span class="ecjiafc-f00">{if $user.is_validated}{lang key='user::users.validated'}{/if}</span>
 						<!-- {/if} -->
-						<div class="edit-list">
-							<a class="data-pjax" href='{url path="user/admin/info" args="id={$user.user_id}"}'>{lang key='user::users.details'}</a>&nbsp;|&nbsp; 
-							<a class="data-pjax" href='{url path="user/admin/address_list" args="id={$user.user_id}"}' title="{lang key='user::users.address_list'}">{lang key='user::users.address_list'}</a>&nbsp;|&nbsp;
-							<a target="_blank" href='{url path="orders/admin/init" args="user_id={$user.user_id}"}' title="{lang key='user::users.view_order'}">{lang key='user::users.view_order'}</a>&nbsp;|&nbsp;
-							<a target="_blank" href='{url path="finance/admin_account_log/init" args="user_id={$user.user_id}"}' title="{lang key='user::users.view_deposit'}">{lang key='user::users.view_deposit'}</a>&nbsp;|&nbsp;
-							<a class="data-pjax" href='{url path="user/admin/edit" args="id={$user.user_id}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a> 
-<!-- 								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='user::users.delete_confirm'}" href='{url path="user/admin/remove" args="id={$user.user_id}"}' title="{lang key='user::users.delete'}">{lang key='user::users.delete'}</a> -->
-						</div>
 					</td>
 					<td>{$user.mobile_phone}</td>
 					<td>{$user.user_money}</td>
-					<td>{$user.frozen_money}</td>
-					<td>{$user.rank_points}</td>
 					<td>{$user.pay_points}</td>
+					<td>{$user.rank_name}</td>
 					<td>{if $user.reg_time}{$user.reg_time}{else}{t}1970-01-01 00:00:00{/t}{/if}</td>
 				</tr>
 				<!--{foreachelse}-->
-				<tr><td class="no-records" colspan="9">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>
 				<!--{/foreach} -->
 			</tbody>
 		</table>

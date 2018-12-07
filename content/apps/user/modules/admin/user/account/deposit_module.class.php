@@ -40,6 +40,7 @@ class admin_user_account_deposit_module extends api_admin implements api_interfa
  		$surplus = array(
  				'user_id'      => $user_id,
  				'order_sn'	   => $order_sn,
+ 				'admin_user'   => $_SESSION['staff_name'],
  				'account_id'   => intval($account_id),
  				'process_type' => 0,
  				'payment_id'   => intval($payment_id),

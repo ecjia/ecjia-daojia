@@ -48,7 +48,7 @@ class user_store_user_list_api extends Component_Event_Api {
     		foreach ($rows as $result) {
     			/* 取得用户等级 */
     			if ($result['user_rank'] == 0) {
-    				// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+    				// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
     				$row = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', intval($result['rank_points']))->where('max_points', '>', intval($result['rank_points']))->select('rank_id', 'rank_name')->first();
     			} else {
     				// 特殊等级

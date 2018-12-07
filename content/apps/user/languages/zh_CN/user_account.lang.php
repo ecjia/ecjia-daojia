@@ -78,6 +78,8 @@ return array(
 	'please_select' => '请选择...',
 	'surplus_info' 	=> '会员金额信息',
 	'check' 		=> '到款审核',
+	'wait_check'	=> '待审核',
+	'canceled' 		=> '已取消',
 	
 	'money_type' 		  	=> '币种',
 	'surplus_add' 			=> '添加申请',

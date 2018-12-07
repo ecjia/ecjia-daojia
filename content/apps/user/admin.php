@@ -67,6 +67,8 @@ class admin extends ecjia_admin {
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Script::enqueue_script('user_info', RC_App::apps_url('statics/js/user_info.js', __FILE__));
+		RC_Style::enqueue_style('user_info_css', RC_App::apps_url('statics/css/user_info.css', __FILE__));
+
 		$user_jslang = array(
 			'keywords_required'		=>	RC_Lang::get('user::users.keywords_required'),
 			'username_required'		=> 	RC_Lang::get('user::users.username_required'),
@@ -581,9 +583,10 @@ class admin extends ecjia_admin {
 		$user = [];
 		if ($row['user_rank'] == 0) {
 		    //重新计算会员等级
-		    RC_Api::api('user', 'update_user_rank', array('user_id' => $row['user_id']));
+		    $row_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $row['user_id']));
+		} else {
+		    $row_rank = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->first();
 		}
-		$row_rank = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->first();
 		$user['user_rank_name'] = $row_rank['rank_name'];
 		$user['user_rank_id'] = $row_rank['rank_id'];
 		
@@ -650,29 +653,23 @@ class admin extends ecjia_admin {
 		$this->assign('user',			$user);
 		$this->assign('order_list',		$order);
 		$this->assign('address_list',	$address_list);
-		
-		/* 取出注册扩展字段 */
-		$extend_info_list = RC_DB::table('reg_fields')
-			->where('type', '<', 2)
-			->where('display', 1)
-			->where('id', '!=', 5)
-			->where('id', '!=', 6)
-			->orderBy('dis_order', 'asc')
-			->orderBy('id', 'asc')
-			->get();
-		if (!empty($extend_info_list)) {
-			foreach ($extend_info_list AS $key => $val) {
-				switch ($val['id']) {
-					case 1:	 $extend_info_list[$key]['content'] = $user['msn']; break;
-					case 2:	 $extend_info_list[$key]['content'] = $user['qq']; break;
-					case 3:	 $extend_info_list[$key]['content'] = $user['office_phone']; break;
-					case 4:	 $extend_info_list[$key]['content'] = $user['home_phone']; break;
-					// case 5:	 $extend_info_list[$key]['content'] = $user['mobile_phone']; break;
-					default: $extend_info_list[$key]['content'] = empty($temp_arr[$val['id']]) ? '' : $temp_arr[$val['id']] ;
-				}
-			}
+
+		$qq_info = RC_DB::table('connect_user')->where('connect_code', 'sns_qq')->where('user_id', $id)->first();
+		if (!empty($qq_info)) {
+			$this->assign('qq_info', $qq_info);
 		}
-		$this->assign('extend_info_list', $extend_info_list);
+
+		$connect_info = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('user_id', $id)->first();
+		if (!empty($connect_info)) {
+			$ect_uid = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->pluck('ect_uid');
+			//修正绑定信息
+			if (empty($ect_uid)) {
+				RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->update(array('ect_uid' => $connect_info['user_id']));
+			}
+			$wechat_info = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->where('ect_uid', $connect_info['user_id'])->first();
+
+			$this->assign('wechat_info', $wechat_info);
+		}
 
 		$this->display('user_info.dwt');
 	}

@@ -86,11 +86,11 @@ return array(
 	),
 		
 	'pay_points' 			=> '消费积分',
-	'rank_points' 			=> '等级积分',
+	'rank_points' 			=> '成长值',
 	'user_money' 			=> '可用资金',
 	'frozen_money' 			=> '冻结资金',
 	'pay_points_lable' 		=> '消费积分：',
-	'rank_points_lable' 	=> '等级积分：',
+	'rank_points_lable' 	=> '成长值：',
 	'user_money_lable' 		=> '可用资金：',
 	'frozen_money_lable' 	=> '冻结资金：',
 		
@@ -123,7 +123,7 @@ return array(
 	'mobile_phone_lable' 	=> '手机：',
 	
 	'notice_pay_points'		=> '消费积分是一种站内货币，允许用户在购物时支付一定比例的积分。',
-	'notice_rank_points'	=> '等级积分是一种累计的积分，系统根据该积分来判定用户的会员等级。',
+	'notice_rank_points'	=> '成长值是一种累计的积分，系统根据该积分来判定用户的会员等级。',
 	'notice_user_money'		=> '用户在站内预留下的金额',
 	
 	/* 提示信息 */
@@ -178,7 +178,7 @@ return array(
 		'no_confirm_password' 	=> '没有输入确认密码。',
 		'password_not_same' 	=> '确认密码和输入的密码不一致。',
 		'invalid_pay_points' 	=> '消费积分数不是一个整数。',
-		'invalid_rank_points' 	=> '等级积分数不是一个整数。',
+		'invalid_rank_points' 	=> '成长值数不是一个整数。',
 		'password_len_err' 		=> '密码和确认密码的长度不能小于6 。',
 		'credit_line' 			=> '信用额度不为空且为数值类型 。',
 	),

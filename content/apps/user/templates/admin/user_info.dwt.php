@@ -34,7 +34,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic1">
-							<strong>{lang key='user::users.member_information'}</strong>
+							<strong>基本信息</strong>
 							<a target="_blank" href='{url path="user/admin/edit" args="id={$user.user_id}"}'>{lang key='user::users.edit'}</a>
 						</div>
 					</div>
@@ -44,8 +44,8 @@
 								<tr>
 									<td><div align="right"><strong>{lang key='user::users.user_names'}</strong></div></td>
 									<td>{$user.user_name}</td>
-									<td><div align="right"><strong>{lang key='user::users.label_phone'}</strong></div></td>
-									<td>{$user.mobile_phone}</td>
+									<td><div align="right"><strong>邮箱账号：</strong></div></td>
+									<td>{$user.email}</td>
 								</tr>
 
 								<tr>
@@ -56,48 +56,38 @@
 								</tr>
 
 								<tr>
-									<td><div align="right"><strong>{lang key='user::users.label_user_rank'}</strong></div></td>
-									<td>{$user.user_rank_name}</td>
-									<td><div align="right"><strong>{lang key='user::users.label_credit_line'}</strong></div></td>
-									<td>{$user.credit_line}</td>
+									<td><div align="right"><strong>{lang key='user::users.label_phone'}</strong></div></td>
+									<td>{$user.mobile_phone}</td>
+									<td><div align="right"><strong>微信昵称：</strong></div></td>
+									<td>{if $wechat_info}已绑定{else}未绑定{/if}</td>
 								</tr>
 
 								<tr>
-									<td><div align="right"><strong>{lang key='user::users.lable_registration_time'}</strong></div></td>
-									<td>{$user.reg_time}</td>
+									<td><div align="right"><strong>QQ：</strong></div></td>
+									<td>{if $qq_info}已绑定{else}未绑定{/if}</td>
+									<td><div align="right"><strong>{lang key='user::users.label_user_rank'}</strong></div></td>
+									<td>{$user.user_rank_name}</td>
+								</tr>
+
+								<tr>
+									<td><div align="right"><strong>{lang key='user::users.label_credit_line'}</strong></div></td>
+									<td>{$user.credit_line}</td>
 									<td><div align="right"><strong>{lang key='user::users.parent_user_lable'}</strong></div></td>
 									<td>{$user.parent_username}</td>
 								</tr>
 
 								<tr>
-									<td><div align="right"><strong>{lang key='user::users.label_email'}</strong></div></td>
-									<td>{$user.email}</td>
-									<td><div align="right"><strong>{lang key='user::users.email_verification_lable'}</strong></div></td>
-									<td class="ecjiafc-f00">{$user.is_validated}</td>
-								</tr>
-								
-								<!-- {if $extend_info_list} -->
-									<!-- {foreach from=$extend_info_list item=field key=key} -->
-									{if $key eq 0 || $key eq 2 || $key eq 4}
-									<tr>
-										<td><div align="right"><strong>{$field.reg_field_name}：</strong></div></td>
-										<td>{$field.content}</td>
-										{/if}
-									
-										{if $key eq 1 || $key eq 3}
-										<td><div align="right"><strong>{$field.reg_field_name}：</strong></div></td>
-										<td>{$field.content}</td>
-									</tr>
-									{/if}
-									<!-- {/foreach} -->
-								<!-- {/if} -->
-								
-								<tr>
+									<td><div align="right"><strong>{lang key='user::users.lable_registration_time'}</strong></div></td>
+									<td>{$user.reg_time}</td>
 									<td><div align="right"><strong>{lang key='user::users.last_login_time_lable'}</strong></div></td>
 									<td>{$user.last_time}</td>
-									<td><div align="right"><strong>{lang key='user::users.last_login_ip_lable'}</strong></div></td>
-									<td>{$user.last_ip}</td>
 								</tr>
+
+								<tr>
+									<td><div align="right"><strong>{lang key='user::users.last_login_ip_lable'}</strong></div></td>
+									<td colspan="3">{$user.last_ip}</td>
+								</tr>
+								
 							</tbody>
 						</table>
 					</div>	
@@ -105,27 +95,16 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic2">
-							<strong>{lang key='user::users.users_money'}</strong>
-							<a target="_blank" href='{url path="finance/admin_account_log/init" args="user_id={$user.user_id}"}'>{lang key='user::users.edit'}</a>
+							<strong>会员资金</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="telescopic2">
-						<table class="table table-oddtd m_b0">
-							<tbody class="first-td-no-leftbd">
-								<tr>
-									<td><div align="right"><strong>{lang key='user::users.user_money_lable'}</strong></div></td>
-									<td>{$user.formated_user_money}</td>
-									<td><div align="right"><strong>{lang key='user::users.frozen_money_lable'}</strong></div></td>
-									<td>{$user.formated_frozen_money}</td>
-								</tr>
-								<tr>
-									<td><div align="right"><strong>{lang key='user::users.rank_points_lable'}</strong></div></td>
-									<td>{$user.rank_points}</td>
-									<td><div align="right"><strong>{lang key='user::users.pay_points_lable'}</strong></div></td>
-									<td>{$user.pay_points}</td>
-								</tr>
-							</tbody>
-						</table>
+						<div class="item-content">
+							<div class="item">可用资金：<span class="ecjiafc-FF0000">{$user.formated_user_money}</span><a class="m_l5" target="__blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=user_money&user_id={$user.user_id}">查看</a></div>
+							<div class="item">冻结资金：<span class="ecjiafc-FF0000">{$user.formated_frozen_money}</span></div>
+							<div class="item">积分：<span class="ecjiafc-FF0000">{$user.pay_points}</span><a class="m_l5" target="__blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=pay_points&user_id={$user.user_id}">查看</a></div>
+							<div class="item">成长值：<span class="ecjiafc-FF0000">{$user.rank_points}</span><a class="m_l5" target="__blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=rank_points&user_id={$user.user_id}">查看</a></div>
+						</div>
 					</div>
 				</div>
 				<div class="accordion-group">

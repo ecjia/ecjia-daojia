@@ -76,7 +76,7 @@ function get_user_list($args = array()) {
 		/* 查询所有用户信息*/
 		$data = $db_user
 				->orderBy($filter['sort_by'],  $filter['sort_order'])
-				->select('user_id', 'user_name', 'email', 'is_validated', 'user_money', 'frozen_money', 'rank_points', 'pay_points', 'reg_time', 'mobile_phone')
+				->select('user_id', 'user_name', 'email', 'is_validated', 'user_money', 'frozen_money', 'rank_points', 'pay_points', 'reg_time', 'mobile_phone', 'user_rank')
 				->take(15)
 				->skip($page->start_id-1)
 				->get();
@@ -84,6 +84,8 @@ function get_user_list($args = array()) {
 		$user_list = array();
 		foreach ($data as $rows) {
 			$rows['reg_time']	= RC_Time::local_date(ecjia::config('time_format'), $rows['reg_time']);
+			$rank_info 			= RC_DB::table('user_rank')->where('rank_id', $rows['user_rank'])->first();
+			$rows['rank_name'] 	= $rank_info['rank_name'];
 			$user_list[]		= $rows;
 		}
 		return array('user_list' => $user_list, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
@@ -205,7 +207,7 @@ function insert_user_account($surplus, $amount) {
 	$data = array(
 		'user_id'		=> $surplus['user_id'] ,
 		'order_sn'		=> $surplus['order_sn'],
-		'admin_user'	=> '' ,
+		'admin_user'	=> empty($surplus['admin_user']) ? '' : $surplus['admin_user'],
 		'amount'		=> $amount ,
 		'add_time'		=> RC_Time::gmtime() ,
 		'paid_time'		=> 0 ,
@@ -236,10 +238,11 @@ function update_user_account($id, $amount, $admin_note, $is_paid) {
 	$data = array(
 		'admin_user'	=> $_SESSION['admin_name'],
 		'amount'		=> $amount,
-		'add_time'		=> RC_Time::gmtime(),
+		// 'add_time'		=> RC_Time::gmtime(),
 		'paid_time'		=> RC_Time::gmtime(),
 		'admin_note'	=> $admin_note,
 		'is_paid'		=> $is_paid,
+		'review_time'	=> RC_Time::gmtime(),
 	);
 	return RC_DB::table('user_account')->where('id', $id)->update($data);
 }
@@ -352,7 +355,7 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '') {
  * 取得帐户明细
  * @param   int     $user_id    用户id
  * @param   string  $account_type   帐户类型：空表示所有帐户，user_money表示可用资金，
- *                  frozen_money表示冻结资金，rank_points表示等级积分，pay_points表示消费积分
+ *                  frozen_money表示冻结资金，rank_points表示成长值，pay_points表示消费积分
  * @return  array
  */
 function get_account_log_list($user_id, $account_type = '') {
@@ -516,7 +519,6 @@ function get_user_rank_list($is_special = false) {
  * 获取用户等级列表数组
  */
 function get_rank_list() {
-
 	return RC_DB::table('user_rank')->orderBy('min_points', 'asc')->get();
 }
 
@@ -530,7 +532,7 @@ function get_rank_list() {
  * @param float $frozen_money
  *        	冻结余额变动
  * @param int $rank_points
- *        	等级积分变动
+ *        	成长值变动
  * @param int $pay_points
  *        	消费积分变动
  * @param string $change_desc
@@ -629,7 +631,7 @@ function update_user_info() {
 	
 		/* 取得用户等级和折扣 */
 		if ($row['user_rank'] == 0) {
-			// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+			// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
 			$row = $db_user_rank->field('rank_id, discount')->find('special_rank = "0" AND min_points <= "' . intval($row['rank_points']) . '" AND max_points > "' . intval($row['rank_points']) . '"');
 			if ($row) {
 				$_SESSION['user_rank'] = $row['rank_id'];
@@ -781,7 +783,7 @@ function EM_user_info($user_id, $mobile = '') {
 // 	$db_user_rank = RC_Model::model('user/user_rank_model');
 	/* 取得用户等级 */
 // 	if ($user_info['user_rank'] == 0) {
-// 		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+// 		// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
 // 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0 , 'min_points' => array('elt' => intval($user_info['rank_points'])) , 'max_points' => array('gt' => intval($user_info['rank_points']))));
 // 	} else {
 // 		// 特殊等级
@@ -805,14 +807,16 @@ function EM_user_info($user_id, $mobile = '') {
 
     if($user_info['user_rank'] == 0) {
         //重新计算会员等级
-        RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
+        $now_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
+    } else {
+    	//用户等级更新，不用计算，直接读取
+    	$now_rank = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
     }
-	//用户等级更新，不用计算，直接读取
-	$row = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
-	$user_info['user_rank_name'] = $row['rank_name'];
-	$user_info['user_rank_id'] = $row['rank_id'];
+    
+	$user_info['user_rank_name'] = $now_rank['rank_name'];
+	$user_info['user_rank_id'] = $now_rank['rank_id'];
 	$level = 1;
-	if($row['special_rank'] == 0 && $row['min_points'] == 0) {
+	if($now_rank['special_rank'] == 0 && $now_rank['min_points'] == 0) {
 	    $level = 0;
 	}
 
@@ -876,6 +880,7 @@ function EM_user_info($user_id, $mobile = '') {
 		'update_username_time'	=> empty($username_update_time) ? '' : RC_Time::local_date(ecjia::config('time_format'), $username_update_time['meta_value']),
 		'open_id'               => $connect_user_info['open_id'],
 		'access_token'          => $connect_user_info['access_token'],
+		'user_type'				=> 'user'
 	);
 }
 
