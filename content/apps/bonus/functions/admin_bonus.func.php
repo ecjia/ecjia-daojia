@@ -393,31 +393,6 @@ function get_bonus_type() {
 	}
 	return $bonus;
 }
-
-/**
- * 
- * 取得用户等级数组,按用户级别排序
- * @param   bool      $is_special      是否只显示特殊会员组
- * @return  array     rank_id=>rank_name
- */
-function get_rank_list($is_special = false) {
-	//这个它调的model还是user的，做不了彻底的隔离，可以在每个模块提供公用的api,把这些方法放进去 
-	$db_user_rank = RC_DB::table('user_rank');
-	$db_user_rank->select('rank_id', 'rank_name', 'min_points');
-
-	if ($is_special) {
-		$db_user_rank->where('special_rank', 1);
-	}
-	$data = $db_user_rank->orderby('min_points', 'asc')->get();
-
-	$rank_list = array();
-	if (!empty($data)) {
-		foreach ($data as $row) {
-			$rank_list[$row['rank_id']] = $row['rank_name'];
-		}
-	}
-	return $rank_list;
-}
 /********从system.func移出的有关红包的方法---start************/
 
 // end

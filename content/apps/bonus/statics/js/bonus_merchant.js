@@ -166,7 +166,7 @@
 					var goods_id = $('.nav-list-content li').eq(index).find('input').val();
 					info.linked_array.push({'goods_id' : goods_id});
 				});
-				$.get(url, info, function(data) {
+				$.post(url, info, function(data) {
 					ecjia.merchant.showmessage(data);
 				});
 			})

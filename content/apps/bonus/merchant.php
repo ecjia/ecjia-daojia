@@ -726,41 +726,30 @@ class merchant extends ecjia_merchant {
 	 */
 	public function send_by_goods() {
 		$this->admin_priv('bonus_send', ecjia::MSGTYPE_JSON);
+
+		$store_id 	= $_SESSION['store_id'];
+		$goods_id 	= isset($_POST['linked_array']) 	? $_POST['linked_array'] 			: '';
+		$type_id 	= isset($_POST['bonus_type_id']) 	? intval($_POST['bonus_type_id']) 	: 0;
 		
-		$db_goods = RC_DB::table('goods');
-		$db_bonus_type = RC_DB::table('bonus_type');
-		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-			$db_goods->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
-			$db_bonus_type->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
-		}
-		/* 商品的权限判断 START */
-		if(!empty($_POST['linked_array'])){
-			$goods_id_temp = $db_goods
-				->select('goods_id')
-				->whereIn(RC_DB::raw('goods_id'), $_POST['linked_array'])
-				->get();
-			$_POST['linked_array'] = array_column($goods_id_temp, 'goods_id');
-		}
-		/* 商品的权限判断 END */
-
-		$goods_id = $_GET['linked_array'];
-		$type_id = intval($_GET['bonus_type_id']);
-		$data = array(
-			'bonus_type_id' => 0
-		);
-		$db_goods->where(RC_DB::raw('bonus_type_id'), $type_id)->update($data);
-		$bonus_type = $db_bonus_type->where(RC_DB::raw('type_id'), $type_id)->pluck('type_name');
-
-		$goods_array = (is_array($goods_id)) ? $goods_id : explode(',', $goods_id);
+		$data = array('bonus_type_id' => 0);
+		RC_DB::table('goods')->where('store_id', $store_id)->where('bonus_type_id', $type_id)->update($data);
+		
 		$new_ids = array();
-		foreach ($goods_array as $value){
-			$new_ids[] = $value['goods_id'];
-			$goods_name = $db_goods->where(RC_DB::raw('goods_id'), $value['goods_id'])->pluck('goods_name');
-			$content = '发放红包，发放类型是按商品发放红包，红包名是'.$bonus_type.' ，发放目标是'.$goods_name;
-			ecjia_merchant::admin_log($content, 'setup', 'bonustype');
+		if (!empty($goods_id)) {
+			foreach ($goods_id as $value){
+				$new_ids[] = $value['goods_id'];
+			}
+			$data = array('bonus_type_id' => $type_id);
+			RC_DB::table('goods')->where('store_id', $store_id)->whereIn('goods_id', $new_ids)->update($data);
+			
+			$info = RC_DB::table('bonus_type')->where(RC_DB::raw('type_id'), $type_id)->first();
+			$goods_name_list = RC_DB::table('goods')->where('store_id', $store_id)->whereIn('goods_id', $new_ids)->lists('goods_name');
+			
+			$send_type = RC_Lang::get('bonus::bonus.send_by.'.$info['send_type']);
+			foreach ($goods_name_list as $v) {
+				ecjia_merchant::admin_log(RC_Lang::get('bonus::bonus.send_type_is').$send_type.'，'.RC_Lang::get('bonus::bonus.bonustype_name_is').$info['type_name'].'，'.RC_Lang::get('bonus::bonus.send_target_is').$v, 'setup', 'bonustype');
+			}
 		}
-		$data = array( 'bonus_type_id' => $type_id );
-		$db_goods->whereIn(RC_DB::raw('goods_id'), $new_ids)->update($data);
 		return $this->showmessage(RC_Lang::get('bonus::bonus.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 

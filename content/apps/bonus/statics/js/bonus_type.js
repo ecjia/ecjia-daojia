@@ -164,10 +164,27 @@
     app.bonus_info_edit = {
         type_info_init: function (get_value) {
             /* 加载日期控件 */
-            $(".date").datepicker({
-                format: "yyyy-mm-dd",
-                container : '.main_content',
-            });
+			$.fn.datetimepicker.dates['zh'] = {  
+                days:       ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六","星期日"],  
+                daysShort:  ["日", "一", "二", "三", "四", "五", "六","日"],  
+                daysMin:    ["日", "一", "二", "三", "四", "五", "六","日"],  
+                months:     ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月","十二月"],  
+                monthsShort:  ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月","十二月"], 
+                meridiem:    ["上午", "下午"],  
+                today:       "今天"  
+            };
+            
+            $(".date").datetimepicker({
+				format: "yyyy-mm-dd hh:ii",
+				language:  'zh',  
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                minuteStep: 1
+			});
  
             $("#use_start_date").on('change', function () {
                 var dateText = $(this).val();

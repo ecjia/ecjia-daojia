@@ -73,8 +73,8 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('bonus', RC_App::apps_url('statics/js/bonus.js', __FILE__), array(), false, true);
 		
 		//时间控件
-		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
-		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
+        RC_Script::enqueue_script('bootstrap-datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.js'));
+		RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
 		
 		$js_lang = array(
 			'edit_bonus_type_name'		=> RC_Lang::get('bonus::bonus.edit_bonus_type_name'),
@@ -181,9 +181,9 @@ class admin extends ecjia_admin {
 			return $this->showmessage(RC_Lang::get('bonus::bonus.type_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$send_startdate = !empty($_POST['send_start_date']) ? RC_Time::local_strtotime($_POST['send_start_date']) 	: '';
-		$send_enddate   = !empty($_POST['send_end_date']) 	? RC_Time::local_strtotime($_POST['send_end_date']) + 86399 : '';
+		$send_enddate   = !empty($_POST['send_end_date']) 	? RC_Time::local_strtotime($_POST['send_end_date'])     : '';
 		$use_startdate  = !empty($_POST['use_start_date']) 	? RC_Time::local_strtotime($_POST['use_start_date']) 	: '';
-		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date']) + 86399	: '';
+		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date'])      : '';
 		
 		if ($send_type != 0 && $send_type != 3) {
 			if (empty($send_startdate)) {
@@ -253,10 +253,10 @@ class admin extends ecjia_admin {
 		$type_id   = !empty($_GET['type_id']) ? intval($_GET['type_id']) : 0;
 		$bonus_arr = RC_DB::table('bonus_type')->where('type_id', $type_id)->first();
 		
-		$bonus_arr['send_start_date'] = RC_Time::local_date('Y-m-d', $bonus_arr['send_start_date']);
-		$bonus_arr['send_end_date']   = RC_Time::local_date('Y-m-d', $bonus_arr['send_end_date']);
-		$bonus_arr['use_start_date']  = RC_Time::local_date('Y-m-d', $bonus_arr['use_start_date']);
-		$bonus_arr['use_end_date']    = RC_Time::local_date('Y-m-d', $bonus_arr['use_end_date']);
+		$bonus_arr['send_start_date'] = RC_Time::local_date('Y-m-d H:i:s', $bonus_arr['send_start_date']);
+		$bonus_arr['send_end_date']   = RC_Time::local_date('Y-m-d H:i:s', $bonus_arr['send_end_date']);
+		$bonus_arr['use_start_date']  = RC_Time::local_date('Y-m-d H:i:s', $bonus_arr['use_start_date']);
+		$bonus_arr['use_end_date']    = RC_Time::local_date('Y-m-d H:i:s', $bonus_arr['use_end_date']);
 
 		$this->assign('bonus_arr',   $bonus_arr);
 		$this->assign('form_action', RC_Uri::url('bonus/admin/update'));
@@ -281,9 +281,9 @@ class admin extends ecjia_admin {
 		}
 	
 		$send_startdate = !empty($_POST['send_start_date']) ? RC_Time::local_strtotime($_POST['send_start_date'])	: 0;
-		$send_enddate   = !empty($_POST['send_end_date']) 	? RC_Time::local_strtotime($_POST['send_end_date']) + 86399	: 0;
+		$send_enddate   = !empty($_POST['send_end_date']) 	? RC_Time::local_strtotime($_POST['send_end_date'])		: 0;
 		$use_startdate  = !empty($_POST['use_start_date']) 	? RC_Time::local_strtotime($_POST['use_start_date'])	: 0;
-		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date']) + 86399	: 0;
+		$use_enddate    = !empty($_POST['use_end_date']) 	? RC_Time::local_strtotime($_POST['use_end_date'])		: 0;
 		
 		$type_id     = !empty($_POST['type_id'])    ? intval($_POST['type_id'])    : 0;
 		$min_amount  = !empty($_POST['min_amount']) ? intval($_POST['min_amount']) : 0;
@@ -445,7 +445,7 @@ class admin extends ecjia_admin {
 			);
 			$bonus_type = RC_DB::table('bonus_type')->select('type_id', 'type_name')->where('type_id', $id)->first();
 			
-			$this->assign('ranklist',         get_rank_list());
+			$this->assign('ranklist',         bonus::get_rank_list());
 			$this->assign('bonus_type',       $bonus_type);
 			$this->assign('form_action',      RC_Uri::url('bonus/admin/send_by_user_rank'));
 			$this->assign('form_user_action', RC_Uri::url('bonus/admin/send_by_user'));
