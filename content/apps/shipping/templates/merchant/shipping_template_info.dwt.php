@@ -25,7 +25,7 @@
               <div class="form">
                   <form class="cmxform form-horizontal tasi-form" name="theForm" method="post" action="{$form_action}">
                   		<div class="form-group">
-                          	<label class="control-label col-lg-2">模版名称：</label>
+                          	<label class="control-label col-lg-2">模板名称：</label>
                            	<div class="col-lg-8">
                               	<input class="form-control" type="text" name="temp_name" value="{$template_name}" />
                               	<span class="help-block">该名称只在运费模板列表显示，便于管理员查找模板</span>

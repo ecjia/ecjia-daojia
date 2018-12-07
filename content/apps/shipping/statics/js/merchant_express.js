@@ -36,7 +36,7 @@
                 },
                 messages: {
                 	template_name: {
-                        required: '请填写模版名称',
+                        required: '请填写模板名称',
                     }
                 },
                 submitHandler: function () {
@@ -262,7 +262,7 @@
         	$('.add_shipping').off('click').on('click', function() {
         		var template_name = $('input[name="temp_name"]').val();
         		if (template_name == '') {
-        			smoke.alert('请输入模版名称');
+        			smoke.alert('请输入模板名称');
         			return false;
         		}
         		

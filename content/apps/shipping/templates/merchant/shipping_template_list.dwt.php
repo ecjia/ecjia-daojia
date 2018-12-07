@@ -35,7 +35,7 @@
 							<h2 class="page-header">
 								{if $ur_here}{$ur_here}{/if}
 								<div class="pull-right">
-									<a class="btn btn-primary data-pjax" href='{RC_Uri::url("shipping/mh_shipping/add_shipping_template")}'><i class="fa fa-plus"></i> 添加运费模版</a>
+									<a class="btn btn-primary data-pjax" href='{RC_Uri::url("shipping/mh_shipping/add_shipping_template")}'><i class="fa fa-plus"></i> 添加运费模板</a>
 								</div>
 							</h2>
 							

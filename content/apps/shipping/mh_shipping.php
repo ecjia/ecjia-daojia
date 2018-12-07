@@ -80,8 +80,8 @@ class mh_shipping extends ecjia_merchant
     {
         $this->admin_priv('ship_merchant_manage');
 
-        $this->assign('ur_here', '运费模版');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模版'));
+        $this->assign('ur_here', '运费模板');
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模板'));
 
         $data = $this->get_template_list();
         $this->assign('data', $data);
@@ -92,11 +92,11 @@ class mh_shipping extends ecjia_merchant
     public function add_shipping_template()
     {
         $this->admin_priv('ship_merchant_update');
-        $this->assign('ur_here', '添加运费模版');
+        $this->assign('ur_here', '添加运费模板');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模版', RC_Uri::url('shipping/mh_shipping/shipping_template')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加运费模版'));
-        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'text' => '运费模版'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模板', RC_Uri::url('shipping/mh_shipping/shipping_template')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加运费模板'));
+        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'text' => '运费模板'));
 
         $provinces = ecjia_region::getSubarea(ecjia::config('shop_country')); //获取当前国家的所有省份
         $this->assign('provinces', $provinces);
@@ -116,10 +116,10 @@ class mh_shipping extends ecjia_merchant
     	
         $template_name = !empty($_GET['template_name']) ? trim($_GET['template_name']) : '';
 
-        $this->assign('ur_here', '编辑运费模版');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模版', RC_Uri::url('shipping/mh_shipping/shipping_template')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑运费模版'));
-        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'text' => '运费模版'));
+        $this->assign('ur_here', '编辑运费模板');
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模板', RC_Uri::url('shipping/mh_shipping/shipping_template')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑运费模板'));
+        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'text' => '运费模板'));
 
         $provinces = ecjia_region::getSubarea(ecjia::config('shop_country')); //获取当前国家的所有省份
         $this->assign('provinces', $provinces);
@@ -363,7 +363,7 @@ class mh_shipping extends ecjia_merchant
                 ->where('shipping_area_name', $temp_name)
                 ->count();
             if ($count > 0) {
-                return $this->showmessage('该模版名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage('该模板名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
@@ -374,7 +374,7 @@ class mh_shipping extends ecjia_merchant
                 ->where('shipping_area_name', '!=', $template_name)
                 ->count();
             if ($count > 0) {
-                return $this->showmessage('该模版名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage('该模板名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
@@ -575,7 +575,7 @@ class mh_shipping extends ecjia_merchant
                 ->where('shipping_area_name', $temp_name)
                 ->count();
             if ($count > 0) {
-                return $this->showmessage('该模版名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage('该模板名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
@@ -782,8 +782,8 @@ class mh_shipping extends ecjia_merchant
     {
         $this->admin_priv('ship_merchant_manage');
         
-        $this->assign('ur_here', '快递单模版');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('快递单模版'));
+        $this->assign('ur_here', '快递单模板');
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('快递单模板'));
 
         $this->display('shipping_template_list.dwt');
     }

@@ -420,7 +420,7 @@
 		</div> 
 	</div>
 			
-	<!--模版模式-->
+	<!--模板模式-->
 	<div id="visual" {if $shipping.print_model == 1}style="display:none"{else} style="display:block"{/if}>
 		<form action="{$post_links.print_img_upload}" enctype="multipart/form-data" method="post" name="theForm"  id="theForm">
 			<div class="row-fluid">
@@ -544,7 +544,7 @@
 				                
 				                <div class="span3 chat_sidebar" id="code_shipping_help" {if $shipping.print_model == 2}style="display:none"{/if}>
 				                    <div class="chat_heading clearfix">
-				                        {t}订单模版变量说明{/t}
+				                        {t}订单模板变量说明{/t}
 				                    </div>
 				                    <div class="ms-selectable" >
 				                        <div class="template_list" id="ms-custom-navigation" style="height: 518px;">

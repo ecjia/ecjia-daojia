@@ -21,7 +21,7 @@
                 <form class="form-horizontal" >
                     <fieldset>
                         <div class="control-group formSep">
-                            <label class="control-label">模版名称：</label>
+                            <label class="control-label">模板名称：</label>
                             <div class="controls l_h30">
                                 {$template_name}
                                 <span class="help-block">该名称只在运费模板列表显示，便于管理员查找模板</span>

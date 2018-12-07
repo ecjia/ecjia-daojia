@@ -143,7 +143,7 @@ class admin_store_shipping extends ecjia_admin
         ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
         ecjia_screen::get_current_screen()->add_option('current_code', 'store_shipping');
         
-    	$this->assign('action_link', array('href' => RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id)), 'text' => '运费模版'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id)), 'text' => '运费模板'));
     	
     	$provinces = ecjia_region::getSubarea(ecjia::config('shop_country')); //获取当前国家的所有省份
     	$this->assign('provinces', $provinces);

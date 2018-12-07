@@ -161,7 +161,7 @@ return array(
 	'remove_success'	=> '删除成功',
 	'use_again_notice'	=> '要删除的图片是默认图片，恢复模板可再次使用',
 	'remove_success'	=> '删除失败',
-	'express_template'	=> '快递单模版',
+	'express_template'	=> '快递单模板',
 	'edit_template'		=> '快递单模板编辑',
 	'shipping_list'		=> '配送方式列表',
 	'enter_valid_number'=> '请输入合法数字或百分比%',
