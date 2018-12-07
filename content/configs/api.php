@@ -199,8 +199,8 @@ return array(
     'cart/checked'                  => 'cart::cart/checked', //购物车选中状态切换
     
     //1.5
-    'shop/captcha/sms'              => 'captcha::captcha/sms', //1.5新增
-    'shop/captcha/mail'             => 'captcha::captcha/mail', //1.5新增
+    'shop/captcha/sms'              => 'captcha::shop/captcha/sms', //1.5新增
+    'shop/captcha/mail'             => 'captcha::shop/captcha/mail', //1.5新增
     
     
     /******************************************************************
@@ -298,8 +298,8 @@ return array(
     'admin/user/account/update'	    => 'staff::admin/user/account/update', //1.5废弃，换用admin/user/update
     
     //后台验证码
-    'admin/shop/captcha/sms'        => 'captcha::captcha/admin/sms',   //1.5新增
-    'admin/shop/captcha/mail'       => 'captcha::captcha/admin/mail',  //1.5新增
+    'admin/shop/captcha/sms'        => 'captcha::admin/shop/captcha/sms',   //1.5新增
+    'admin/shop/captcha/mail'       => 'captcha::admin/shop/captcha/mail',  //1.5新增
     
 
 	'admin/home/data'			    => 'mobile::admin/home/data',
@@ -439,7 +439,7 @@ return array(
 	'refund/payrecord'     		    => 'refund::refund/payrecord',      	 //1.14查看退款进度
 	'affiliate/user/invite'         => 'affiliate::affiliate/user/invite',   //1.14推荐邀请用户
 	
-    'admin/shop/captcha/sms/checkcode'                  => 'captcha::captcha/admin/checkcode',    //1.14掌柜验证图形验证码并发送短信
+    'admin/shop/captcha/sms/checkcode'                  => 'captcha::admin/shop/captcha/sms/checkcode',    //1.14掌柜验证图形验证码并发送短信
 
     /**
      * 1.17废弃，兼容接口，请勿继续使用
