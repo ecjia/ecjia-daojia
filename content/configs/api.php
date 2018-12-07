@@ -539,6 +539,7 @@ return array(
 	'admin/cashier/secondscreen/adsense'				=> 'cashier::admin/cashier/secondscreen/adsense',	//收银台副屏广告位
 	'admin/cashier/orders/refund/summary'				=> 'cashier::admin/cashier/orders/refund/summary',  //收银台退款统计（已退款完成的）
 	'admin/cashier/orders/search'						=> 'cashier::admin/cashier/orders/search',			//收银台订单搜索（已支付的）
+	'admin/cashier/quickpay/order/detail'				=> 'cashier::admin/cashier/quickpay/order/detail',	//收银台收款订单详情
 		
 		
 		
