@@ -114,7 +114,8 @@ return array(
     'Ecjia\App\Weapp'           => $contentDir . '/apps/weapp/classes',
     'Ecjia\App\Wechat'          => $contentDir . '/apps/wechat/classes',
     'Ecjia\App\Customer'        => $contentDir . '/apps/customer/classes',
-
+    'Ecjia\App\Withdraw'        => $contentDir . '/apps/withdraw/classes',
+    'Ecjia\App\Topic'           => $contentDir . '/apps/topic/classes',
     
     'Royalcms\Component\HttpKernel' => $contentDir . '/apps/api/classes/Royalcms/Component/HttpKernel',
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
