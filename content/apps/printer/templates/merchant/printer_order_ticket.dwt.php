@@ -44,12 +44,12 @@
 							<div class="ticket_form">
 								<form class="form-horizontal ticket_form" name="theForm" method="post" action="{$form_action}">
 				                 	<div class="form-group">
-			                            <label class="control-label col-lg-5">{t}模版名称{/t}</label>
+			                            <label class="control-label col-lg-5">{t}模板名称{/t}</label>
 			                            <div class="col-lg-7">{$template_subject}</div>
 			                            <input type="hidden" name="template_subject" value="{$template_subject}" />
 			                        </div>
 			                       	<div class="form-group">
-			                            <label class="control-label col-lg-5">{t}模版代号{/t}</label>
+			                            <label class="control-label col-lg-5">{t}模板代号{/t}</label>
 			                            <div class="col-lg-7">{$type}</div>
 			                            <input type="hidden" name="template_code" value="{$type}" />
 			                        </div>
@@ -61,7 +61,7 @@
 			                            </div>
 			                        </div>
 			                        <div class="form-group m_b30">
-			                            <label class="control-label col-lg-5">{t}是否启用此模版{/t}</label>
+			                            <label class="control-label col-lg-5">{t}是否启用此模板{/t}</label>
 			                            <div class="col-lg-7">
 								            <div class="switch info-toggle-status">
 								                <input type="checkbox" {if $info.status eq 1}checked{/if} value="1" name="status" class="onoffswitch-checkbox" id="status">
@@ -95,7 +95,7 @@
 			                        
 			                        <div class="form-group">
 			                        	<div class="col-lg-12">
-			                                <input class="btn btn-info" type="submit" value="保存打印模版">
+			                                <input class="btn btn-info" type="submit" value="保存打印模板">
 			                                <a class="btn btn-info m_l10 print_test" data-url="{$print_order_ticker}" data-type="{$smarty.get.type}">打印测试</a>
 			                            </div>
 			                        </div>
