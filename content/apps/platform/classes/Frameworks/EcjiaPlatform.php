@@ -88,8 +88,6 @@ define('IN_PLATFORM', true);
 
 abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_fileloader {
 
-	private $public_route;
-	
 	/**
 	 * 
 	 * @var \Ecjia\App\Platform\Frameworks\Platform\Account $platformAccount
@@ -263,7 +261,7 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 	}
 	
 	/**
-	 * 获得商家后台模版文件
+	 * 获得商家后台模板文件
 	 */
 	public function get_template_file($file)
 	{
