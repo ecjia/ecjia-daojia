@@ -318,7 +318,7 @@ class Uploader
     
     /**
      * 单个文件上传
-     * @param array $file $_FILES
+     * @param array $file
      * @return boolean|string
      */
     protected function upload_single($file) {
