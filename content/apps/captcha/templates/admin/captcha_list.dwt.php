@@ -18,11 +18,11 @@
 				<label class="control-label"><strong>{lang key='captcha::captcha_manage.captcha_turn_on'}</strong></label>
 				<p class="ecjiafc-999">{lang key='captcha::captcha_manage.turn_on_note'}</p>
 				<div class="controls chk_radio">
-					<input type="checkbox" name="captcha_register" value="1" {$captcha.register} /><span>{lang key='captcha::captcha_manage.captcha_register'}</span>
-					<input type="checkbox" name="captcha_login" value="2" {$captcha.login}/><span>{lang key='captcha::captcha_manage.captcha_login'}</span>
-					<input type="checkbox" name="captcha_comment" value="4"  {$captcha.comment} /><span>{lang key='captcha::captcha_manage.captcha_comment'}</span>
+<!--					<input type="checkbox" name="captcha_register" value="1" {$captcha.register} /><span>{lang key='captcha::captcha_manage.captcha_register'}</span>-->
+<!--					<input type="checkbox" name="captcha_login" value="2" {$captcha.login}/><span>{lang key='captcha::captcha_manage.captcha_login'}</span>-->
+<!--					<input type="checkbox" name="captcha_comment" value="4"  {$captcha.comment} /><span>{lang key='captcha::captcha_manage.captcha_comment'}</span>-->
 					<input type="checkbox" name="captcha_admin" value="8" {$captcha.admin} /><span>{lang key='captcha::captcha_manage.captcha_admin'}</span>
-					<input type="checkbox" name="captcha_message" value="32" {$captcha.message} /><span>{lang key='captcha::captcha_manage.captcha_message'}</span>
+<!--					<input type="checkbox" name="captcha_message" value="32" {$captcha.message} /><span>{lang key='captcha::captcha_manage.captcha_message'}</span>-->
 				</div>
 			</div>
 			<!-- 登录失败时显示验证码 -->
