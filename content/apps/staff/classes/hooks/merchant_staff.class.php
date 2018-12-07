@@ -177,7 +177,7 @@ class merchant_staff_hooks
     		array('title' => '运费设置', 'url' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'img' => $statics_url.'img/merchant_dashboard/ship_set.png'),
     		array('title' => '小票机设置', 'url' => RC_Uri::url('printer/mh_print/init'), 'img' => $statics_url.'img/merchant_dashboard/printer.png'),
     		array('title' => '公众平台', 'url' => RC_Uri::url('platform/merchant/init'), 'img' => $statics_url.'img/merchant_dashboard/platform.png'),
-    		array('title' => '小程序模版', 'url' => RC_Uri::url('merchant/merchant/template'), 'img' => $statics_url.'img/merchant_dashboard/weapp.png'),
+    		array('title' => '小程序模板', 'url' => RC_Uri::url('merchant/merchant/template'), 'img' => $statics_url.'img/merchant_dashboard/weapp.png'),
     	);
     	ecjia_admin::$controller->assign('list', $list);
     	ecjia_merchant::$controller->display(

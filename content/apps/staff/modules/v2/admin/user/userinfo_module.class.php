@@ -82,6 +82,9 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
             $role_name = RC_DB::table('staff_group')->where('group_id', $result['group_id'])->pluck('group_name');
         }
         
+        /*返回connect_user表中open_id和token*/
+        $connect_user_info = RC_DB::table('connect_user')->where('user_id', $result['user_id'])->where('connect_code', 'app')->where('user_type', 'merchant')->first();
+
         if ($result) {
             $userinfo = array(
                 'id'            => $result['user_id'],
@@ -94,7 +97,10 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
                 'role_name'     => $role_name,
                 'avator_img'    => $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
                 'action_list'   => $result['action_list'],
-                'store_id'      => intval($result['store_id'])
+                'store_id'      => intval($result['store_id']),
+            	'open_id'       => $connect_user_info['open_id'],
+            	'access_token'  => $connect_user_info['access_token'],
+            	'user_type'		=> 'merchant'
             );
         } else {
             return new ecjia_error('error', '用户信息不存在');

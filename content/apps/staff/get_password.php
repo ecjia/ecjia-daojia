@@ -100,7 +100,7 @@ class get_password extends ecjia_merchant {
 			'name' => 'required',
 		));
 		if ($validator->fails()) {
-			return $this->showmessage(__('输入的信息不正确！'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+			return $this->showmessage(__('输入的信息不正确！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	
 		$admin_name = trim($_POST['name']);
@@ -123,11 +123,11 @@ class get_password extends ecjia_merchant {
 			$this->assign('shop_name',   ecjia::config('shop_name'));
 			$this->assign('send_date',   RC_Time::local_date(ecjia::config('date_format')));
 				
-			$state = ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON;
+			$state = ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR;
 				
 			if (RC_Mail::send_mail('', $admin_email, $template['template_subject'], $this->fetch_string($template['template_content']), $template['is_html'])) {
 				$msg = __('重置密码的邮件已经发到您的邮箱：') . $admin_email;
-				$state = ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON;
+				$state = ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS;
 			} else {
 				$msg = __('重置密码邮件发送失败!请与管理员联系');
 			}
@@ -137,7 +137,7 @@ class get_password extends ecjia_merchant {
 			return $this->showmessage($msg, $state, array('links' => $link));
 		} else {
 			/* 提示信息 */
-			return $this->showmessage(__('用户名与Email地址不匹配,请重新输入！'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+			return $this->showmessage(__('用户名与Email地址不匹配,请重新输入！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -158,7 +158,7 @@ class get_password extends ecjia_merchant {
 			// 此链接不合法
 			$link[0]['text'] =  __('返回');
 			$link[0]['href'] = RC_Uri::url('staff/privilege/login');
-			return $this->showmessage(__('此链接不合法!'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+			return $this->showmessage(__('此链接不合法!'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			$this->assign('adminid', $adminid);
 			$this->assign('code', $code);
@@ -191,10 +191,10 @@ class get_password extends ecjia_merchant {
 			// 此链接不合法
 			$link[0]['text'] =  __('返回');
 			$link[0]['href'] = RC_Uri::url('staff/privilege/login');
-			return $this->showmessage(__('此链接不合法!'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+			return $this->showmessage(__('此链接不合法!'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			if ($new_password != $confirm_pwd) {
-				return $this->showmessage(__('新密码和确认密码须保持一致'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+				return $this->showmessage(__('新密码和确认密码须保持一致'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			
 			// 更新管理员的密码
@@ -209,9 +209,9 @@ class get_password extends ecjia_merchant {
 			if ($result) {
 				$link[0]['text'] = __('返回');
 				$link[0]['href'] = RC_Uri::url('staff/privilege/login');
-				return $this->showmessage(__('密码修改成功!'), ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON);
+				return $this->showmessage(__('密码修改成功!'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 			} else {
-				return $this->showmessage(__('密码修改失败!'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+				return $this->showmessage(__('密码修改失败!'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	}
@@ -303,7 +303,7 @@ class get_password extends ecjia_merchant {
 		$new_password = isset($_POST['password']) ? trim($_POST['password']) : '';
 		$confirm_pwd  = isset($_POST['confirm_pwd']) ? trim($_POST['confirm_pwd']) : '';
 		if ($new_password != $confirm_pwd) {
-			return $this->showmessage('新密码和确认密码须保持一致', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+			return $this->showmessage('新密码和确认密码须保持一致', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		// 更新管理员的密码
@@ -317,7 +317,7 @@ class get_password extends ecjia_merchant {
 			$back_url = RC_Uri::url('staff/privilege/login');
 			return $this->showmessage('密码重置成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
 		} else {
-			return $this->showmessage('密码修改失败!', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+			return $this->showmessage('密码修改失败!', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 }
