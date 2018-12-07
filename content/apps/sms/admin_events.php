@@ -93,7 +93,7 @@ class admin_events extends ecjia_admin
         $this->assign('ur_here', '短信事件列表');
         $this->assign('action_link', array('href' => RC_Uri::url('sms/admin_template/init'), 'text' => '短信模板列表'));
 
-        $data     = $this->template_code_list();
+        $data = $this->template_code_list();
         $database = RC_DB::table('notification_events')
             ->where('channel_type', 'sms')
             ->select('id', 'event_code', 'status')
@@ -132,9 +132,31 @@ class admin_events extends ecjia_admin
     
     public function all_open() {
     	$this->admin_priv('sms_events_manage');
-    	
-    	RC_DB::table('notification_events')->where('channel_type', 'sms')->update(array('status' => 'open'));
-    	
+
+    	$notification_events_list = RC_DB::table('notification_events')->where('channel_type', 'sms')->lists('event_code');
+    	$factory = new Ecjia\App\Sms\EventFactory();
+    	$events  = $factory->getEvents();
+    	foreach ($events as $event) {
+    		$arr[]  = $event->getCode();
+    	}
+    	if (!empty($arr)) {
+    		foreach ($arr as $k => $v) {
+    			$data = array(
+    				'event_code'   => $v,
+    				'status'       => 'open',
+    				'channel_type' => 'sms',
+    			);
+    			if (!empty($notification_events_list)) {
+    				if (in_array($v, $notification_events_list)) {
+    					RC_DB::table('notification_events')->where('event_code', $v)->update($data);
+    				} else {
+    					RC_DB::table('notification_events')->insert($data);
+    				}
+    			} else {
+    				RC_DB::table('notification_events')->insert($data);
+    			}
+    		}
+    	}
     	return $this->showmessage('全部开启成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_events/init')));
     }
 

@@ -235,7 +235,7 @@ class admin_template extends ecjia_admin
     }
 
     /**
-     * 模版修改
+     * 模板修改
      */
     public function edit()
     {
