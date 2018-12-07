@@ -47,8 +47,6 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
-    'UTC'               => 'UTC',
-    'PRC'               => '中华人民共和国',
     'Asia/Shanghai'     => '亚洲，中国，上海',
     'Asia/Taipei'       => '亚洲，中国，台北',
     'Asia/Chongqing'    => '亚洲，中国，重庆',
@@ -65,7 +63,9 @@ return array(
     'Asia/Tokyo'        => '亚洲，日本，东京',
     'Europe/Berlin'     => '欧洲，德国，柏林',
     'Europe/Dublin'     => '欧洲，德国，都柏林',
-    'Europe/Paris'      => '欧洲，法国，巴黎'
+    'Europe/Paris'      => '欧洲，法国，巴黎',
+    'PRC'               => '中华人民共和国',
+    'UTC'               => 'UTC',
 );
 
 //end
