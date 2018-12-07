@@ -11710,9 +11710,17 @@ class Format
     }
     public static function normalize_path($path)
     {
+        $wrapper = '';
+        if (rc_is_stream($path)) {
+            list($wrapper, $path) = explode('://', $path, 2);
+            $wrapper .= '://';
+        }
         $path = str_replace('\\', '/', $path);
-        $path = preg_replace('|/+|', '/', $path);
-        return $path;
+        $path = preg_replace('|(?<=.)/+|', '/', $path);
+        if (':' === substr($path, 1, 1)) {
+            $path = ucfirst($path);
+        }
+        return $wrapper . $path;
     }
     public static function path_join($base, $path)
     {
@@ -22870,6 +22878,10 @@ class StoreServiceProvider extends AppParentServiceProvider
 }
 
 namespace Ecjia\App\Theme {
+use Ecjia\App\Theme\ThemeOption\ThemeOption;
+use Ecjia\App\Theme\ThemeOption\ThemeSetting;
+use Ecjia\App\Theme\ThemeOption\ThemeTransient;
+use Ecjia\App\Theme\ThemeFramework\ThemeFramework;
 use Royalcms\Component\App\AppParentServiceProvider;
 class ThemeServiceProvider extends AppParentServiceProvider
 {
@@ -22879,6 +22891,45 @@ class ThemeServiceProvider extends AppParentServiceProvider
     }
     public function register()
     {
+        $this->registerThemeOption();
+        $this->registerThemeSetting();
+        $this->registerThemeTransient();
+        $this->registerThemeFramework();
+        $this->loadAlias();
+    }
+    public function registerThemeOption()
+    {
+        $this->royalcms->bindShared('ecjia.theme.option', function ($royalcms) {
+            return new ThemeOption();
+        });
+    }
+    public function registerThemeSetting()
+    {
+        $this->royalcms->bindShared('ecjia.theme.setting', function ($royalcms) {
+            return new ThemeSetting();
+        });
+    }
+    public function registerThemeTransient()
+    {
+        $this->royalcms->bindShared('ecjia.theme.transient', function ($royalcms) {
+            return new ThemeTransient();
+        });
+    }
+    public function registerThemeFramework()
+    {
+        $this->royalcms->bindShared('ecjia.theme.framework', function ($royalcms) {
+            return new ThemeFramework();
+        });
+    }
+    protected function loadAlias()
+    {
+        $this->royalcms->booting(function () {
+            $loader = \Royalcms\Component\Foundation\AliasLoader::getInstance();
+            $loader->alias('ecjia_theme_option', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeOption');
+            $loader->alias('ecjia_theme_setting', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeSetting');
+            $loader->alias('ecjia_theme_transient', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeTransient');
+            $loader->alias('ecjia_theme_framework', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeFramework');
+        });
     }
 }
 }
@@ -28774,18 +28825,18 @@ class Hooks
     {
         return end($this->current_filter);
     }
-    function current_action()
+    public function current_action()
     {
         return $this->current_filter();
     }
-    function doing_filter($filter = null)
+    public function doing_filter($filter = null)
     {
         if (null === $filter) {
             return !empty($this->current_filter);
         }
         return in_array($filter, $this->current_filter);
     }
-    function doing_action($action = null)
+    public function doing_action($action = null)
     {
         return $this->doing_filter($action);
     }
@@ -29727,7 +29778,7 @@ class Storage
     }
     public function cacheStorageManaged()
     {
-        $driver = $this->repository->get('smarty.cache_driver', 'file');
+        $driver = $this->repository->get('smarty-view::smarty.cache_driver', 'file');
         if ($driver !== 'file') {
             $storage = $driver . "Storage";
             $this->smarty->registerCacheResource($driver, $this->{$storage}());
@@ -29736,11 +29787,11 @@ class Storage
     }
     protected function redisStorage()
     {
-        return new Redis($this->repository->get('smarty.redis'));
+        return new Redis($this->repository->get('smarty-view::smarty.redis'));
     }
     protected function memcachedStorage()
     {
-        return new Memcached(new \Memcached(), $this->repository->get('smarty.memcached'));
+        return new Memcached(new \Memcached(), $this->repository->get('smarty-view::smarty.memcached'));
     }
 }
 }
@@ -29862,7 +29913,7 @@ use Royalcms\Component\View\ViewFinderInterface;
 use Royalcms\Component\View\Engines\EngineResolver;
 use Royalcms\Component\SmartyView\Cache\Storage;
 use Royalcms\Component\SmartyView\Exception\MethodNotFoundException;
-use Royalcms\Component\Config\Repository as ConfigContract;
+use Royalcms\Component\Contracts\Config\Repository as ConfigContract;
 use Royalcms\Component\Events\Dispatcher as DispatcherContract;
 class SmartyFactory extends Factory
 {
@@ -29892,7 +29943,7 @@ class SmartyFactory extends Factory
     }
     public function setSmartyConfigure()
     {
-        $config = $this->config->get('smarty');
+        $config = $this->config->get('smarty-view::smarty');
         $smarty = $this->smarty;
         $smarty->setTemplateDir(array_get($config, 'template_path'));
         $smarty->setCompileDir(array_get($config, 'compile_path'));
@@ -29930,19 +29981,10 @@ class SmartyFactory extends Factory
 }
 
 namespace Royalcms\Component\SmartyView {
-use Royalcms\Component\Filesystem\Filesystem;
 use Royalcms\Component\View\FileViewFinder as ViewFileViewFinder;
 class FileViewFinder extends ViewFileViewFinder
 {
     protected $extensions = array('php');
-    public function __construct(Filesystem $files, array $paths, array $extensions = null)
-    {
-        $this->files = $files;
-        $this->paths = $paths;
-        if (isset($extensions)) {
-            $this->extensions = $extensions;
-        }
-    }
     public function find($name)
     {
         if (isset($this->views[$name])) {
@@ -30028,13 +30070,14 @@ class SmartyServiceProvider extends ServiceProvider
     protected $defer = true;
     public function boot()
     {
-        $extensions = $this->royalcms['config']->get('smarty.extensions', array('tpl'));
+        $extensions = $this->royalcms['config']->get('smarty-view::smarty.extensions', array('tpl'));
         foreach ($extensions as $extension) {
             $this->royalcms['view']->addExtension($extension, 'smarty');
         }
     }
     public function register()
     {
+        $this->package('royalcms/smarty-view');
         $this->registerEngineResolver();
         $this->registerViewFinder();
         $this->registerFactory();
@@ -30059,7 +30102,7 @@ class SmartyServiceProvider extends ServiceProvider
     public function registerViewFinder()
     {
         $this->royalcms->bindShared('view.finder', function ($royalcms) {
-            $path = $royalcms['config']['smarty.template_path'];
+            $path = $royalcms['config']['smarty-view::smarty.template_path'];
             return new FileViewFinder($royalcms['files'], array($path));
         });
     }
@@ -31077,6 +31120,16 @@ class HttpQueryRoute
     public function getRule()
     {
         return $rules = config('route.rule', []);
+    }
+    public function justCurrentRoute($route)
+    {
+        $route = trim($route, '/');
+        $current = $this->module . '/' . $this->controller . '/' . $this->action;
+        if ($route == $current) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 }
@@ -34588,6 +34641,7 @@ abstract class EcjiaController extends RoyalcmsController
     protected $request;
     public static $view_object;
     public static $controller;
+    protected $public_route = [];
     public function __construct()
     {
         $this->request = royalcms('request');
@@ -34607,6 +34661,16 @@ abstract class EcjiaController extends RoyalcmsController
     public function getRequest()
     {
         return $this->request;
+    }
+    public function isVerificationPublicRoute()
+    {
+        $route_m = ROUTE_M == config('system.admin_entrance') ? 'system' : ROUTE_M;
+        $route_controller = $route_m . '/' . ROUTE_C . '/' . ROUTE_A;
+        if (in_array($route_controller, $this->public_route)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     protected function ajax($data, $type = ecjia::DATATYPE_JSON)
     {
@@ -35406,7 +35470,8 @@ class ecjia_loader
         $scripts->add('jquery-validate', "/lib/validation/jquery.validate{$suffix}.js", array('jquery'), false, 1);
         $scripts->add('jquery-uniform', "/lib/uniform/jquery.uniform{$suffix}.js", array('jquery'), false, 1);
         $scripts->add('smoke', "/lib/smoke/smoke{$suffix}.js", array(), false, 1);
-        $scripts->add('bootstrap-placeholder', "/lib/jasny-bootstrap/js/bootstrap-placeholder{$suffix}.js", array('bootstrap'));
+        $scripts->add('bootstrap-placeholder', "/lib/jasny-bootstrap/js/bootstrap-placeholder{$suffix}.js", array('bootstrap'), false, 1);
+        $scripts->add('bootstrap-colorpicker', "/lib/colorpicker/bootstrap-colorpicker{$suffix}.js", array(), false, 1);
         $scripts->add('jquery-flot', "/lib/flot/jquery.flot{$suffix}.js", array('jquery'), false, 1);
         $scripts->add('jquery-flot-curvedLines', "/lib/flot/jquery.flot.curvedLines{$suffix}.js", array('jquery-flot'), false, 1);
         $scripts->add('jquery-flot-multihighlight', "/lib/flot/jquery.flot.multihighlight{$suffix}.js", array('jquery-flot'), false, 1);
