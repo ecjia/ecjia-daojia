@@ -13,7 +13,7 @@
 	<p><strong>温馨提示：</strong></p>
 	<p>1.您将通过上传的Excel文件，快速导入商品信息至平台商品库中；</p>
 	<p>2.请先添加好商品库分类、品牌、规格；</p>
-	<p>3.在导入商品信息前，请务必先下载商品导入模版，填写完成后再上传表格；</p>
+	<p>3.在导入商品信息前，请务必先下载商品导入模板，填写完成后再上传表格；</p>
 	<p>4.商品货号和货品号如重复此条信息不导入，或可留空自动生成。</p>
 </div>
 <div>
@@ -42,7 +42,7 @@
 			<label class="control-label">下载模板：</label>
 			<div class="controls">
 				<a href="{$demo_url}" target="_blank"><i class=" fontello-icon-download"></i>下载商品导入Excel模板</a>
-				<span class="help-block" id="">请先下载商品导入模版，再上传数据</span>
+				<span class="help-block" id="">请先下载商品导入模板，再上传数据</span>
 			</div>
 		</div>
 		<div class="control-group control-group-small formSep">
