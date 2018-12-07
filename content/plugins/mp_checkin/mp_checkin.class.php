@@ -174,10 +174,15 @@ class mp_checkin extends PlatformAbstract
 
         $user_id = $this->getEcjiaUserId();
 
+        $integral_name = ecjia::config('integral_name');
+        if (empty($integral_name)) {
+        	$integral_name = '积分';
+        }
+        
     	$log_id = RC_Api::api('finance', 'pay_points_change', [
     	    'user_id' => $user_id,
     	    'point' => $point_value,
-    	    'change_desc' => '积分赠送-微信签到',
+    	    'change_desc' => $integral_name.'赠送-微信签到',
         ]);
 
     	if (! is_ecjia_error($log_id)) {
