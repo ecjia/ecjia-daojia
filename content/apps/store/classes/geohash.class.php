@@ -75,10 +75,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 */
 class Geohash
 {
-	private $coding="0123456789bcdefghjkmnpqrstuvwxyz";
-	private $codingMap=array();
+	private $coding ="0123456789bcdefghjkmnpqrstuvwxyz";
+
+	private $codingMap = array();
 	
-	public function Geohash()
+	public function __construct()
 	{
 		//build map from encoding char to 0 padded bitfield
 		for ($i = 0; $i < 32; $i++) {

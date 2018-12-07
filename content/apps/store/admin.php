@@ -215,7 +215,7 @@ class admin extends ecjia_admin
         }
 //         $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
 //         if (!preg_match($chars, $data['contact_mobile'])) {
-//             return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+//             return $this->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 //         }
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($data['contact_mobile']);
         if (is_ecjia_error($check_mobile)) {

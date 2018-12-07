@@ -533,7 +533,7 @@ function update_order($order_id, $order) {
 * @return  array   用户信息
 */
 function user_info($user_id) {
-	$db_users = RC_Loader::load_app_model("users_model","user");
+	$db_users = RC_Loader::load_app_model("users_model", "user");
 	$user = $db_users->find(array('user_id' => $user_id));
 
 	unset($user['question']);
@@ -861,7 +861,12 @@ function send_order_bonus($order_id) {
 		$count = 0;
 		$money = '';
 		foreach ($bonus_list AS $bonus) {
-			$count += $bonus['number'];
+			//$count += $bonus['number'];
+            //优化一个订单只能发一个红包
+            if ($bonus['number']) {
+                $count = 1;
+                $bonus['number'] = 1;
+            }
 			$money .= price_format($bonus['type_money']) . ' [' . $bonus['number'] . '], ';
 
 			/* 修改用户红包 */
