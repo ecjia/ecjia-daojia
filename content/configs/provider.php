@@ -134,7 +134,8 @@ return array(
     'Ecjia\App\Weapp\WeappServiceProvider',
     'Ecjia\App\Wechat\WechatServiceProvider',
     'Ecjia\App\Customer\CustomerServiceProvider',
-    
+    'Ecjia\App\Withdraw\WithdrawServiceProvider',
+    'Ecjia\App\Topic\TopicServiceProvider',
 );
 
 //end
