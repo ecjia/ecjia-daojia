@@ -99,7 +99,7 @@ return array(
 		'ad_photo_empty' 		=> '广告的图片不能为空！',
 		'ad_flash_empty' 		=> '广告的flash不能为空！',
 		'ad_code_empty' 		=> '广告的代码不能为空！',
-		'empty_position_style' 	=> '广告位的模版不能为空！'
+		'empty_position_style' 	=> '广告位的模板不能为空！'
 	),
 		
 	'width_value' 		=> '广告位的宽度值必须在1到1024之间！',

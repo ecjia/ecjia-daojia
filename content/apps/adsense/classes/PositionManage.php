@@ -83,7 +83,7 @@ class PositionManage
         	$repository = new AdGroupRepository();
         	return $repository->getAllGroups($this->city);
         	
-        }elseif ($this->type == 'shortcut') {
+        } elseif ($this->type == 'shortcut') {
         	$repository = new ShortcutMenuRepository();
         	return $repository->getAllGroups($this->city);
         	
@@ -204,7 +204,7 @@ class PositionManage
             
             $time = \RC_Time::gmtime();
             
-            $result = $result->map(function($item, $key) use ($client, $time) {
+            $result = $result->map(function($item, $key) use ($client, $time, $model) {
                 $adsModel = $item->ads();
                 $adsModel->where('show_client', '&', $client);
                 $adsModel->where('start_time', '<=', $time)->where('end_time', '>=', $time);
