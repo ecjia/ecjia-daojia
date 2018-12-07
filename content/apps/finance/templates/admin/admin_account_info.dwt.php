@@ -76,7 +76,7 @@
 
 						<tr>
 							<td><div align="right"><strong>充值方式：</strong></div></td>
-							<td>{if $account_info.pay_name}{$account_info.pay_name}{/if}</td>
+							<td>{if $account_info.pay_name}{$account_info.pay_name}{else}银行转账{/if}</td>
 							<td><div align="right"><strong>申请时间：</strong></div></td>
 							<td>{$account_info.add_time}</td>
 						</tr>
