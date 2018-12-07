@@ -96,5 +96,6 @@ class Memcached extends KeyValueStorage
     protected function purge()
     {
         $this->memcached->flush();
+        return true;
     }
 }

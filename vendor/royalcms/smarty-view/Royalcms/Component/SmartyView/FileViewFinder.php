@@ -2,10 +2,10 @@
 
 namespace Royalcms\Component\SmartyView;
 
-use Royalcms\Component\Filesystem\Filesystem;
 use Royalcms\Component\View\FileViewFinder as ViewFileViewFinder;
 
-class FileViewFinder extends ViewFileViewFinder {
+class FileViewFinder extends ViewFileViewFinder
+{
 	/**
 	 * Register a view extension with the finder.
 	 *
@@ -13,24 +13,6 @@ class FileViewFinder extends ViewFileViewFinder {
 	 */
 	protected $extensions = array('php');
 
-	/**
-	 * Create a new file view loader instance.
-	 *
-	 * @param  \Royalcms\Component\Filesystem\Filesystem  $files
-	 * @param  array  $paths
-	 * @param  array  $extensions
-	 * @return void
-	 */
-	public function __construct(Filesystem $files, array $paths, array $extensions = null)
-	{
-		$this->files = $files;
-		$this->paths = $paths;
-
-		if (isset($extensions))
-		{
-			$this->extensions = $extensions;
-		}
-	}
 
 	/**
 	 * Get the fully qualified location of the view.

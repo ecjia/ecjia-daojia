@@ -85,5 +85,6 @@ class Redis extends KeyValueStorage
     protected function purge()
     {
         $this->redis->flushdb();
+        return true;
     }
 }

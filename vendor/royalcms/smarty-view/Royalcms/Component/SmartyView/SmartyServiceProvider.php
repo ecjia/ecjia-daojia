@@ -26,7 +26,7 @@ class SmartyServiceProvider extends ServiceProvider
     public function boot()
     {
         // add Smarty Extension
-        $extensions = $this->royalcms['config']->get('smarty.extensions', array('tpl'));
+        $extensions = $this->royalcms['config']->get('smarty-view::smarty.extensions', array('tpl'));
         
         foreach ($extensions as $extension) {
             $this->royalcms['view']->addExtension($extension, 'smarty');
@@ -38,6 +38,8 @@ class SmartyServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->package('royalcms/smarty-view');
+
         $this->registerEngineResolver();
         
         $this->registerViewFinder();
@@ -92,7 +94,7 @@ class SmartyServiceProvider extends ServiceProvider
     {
         $this->royalcms->bindShared('view.finder', function($royalcms)
         {
-            $path = $royalcms['config']['smarty.template_path'];
+            $path = $royalcms['config']['smarty-view::smarty.template_path'];
     
             return new FileViewFinder($royalcms['files'], array($path));
         });

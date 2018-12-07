@@ -9,7 +9,7 @@ use Royalcms\Component\View\ViewFinderInterface;
 use Royalcms\Component\View\Engines\EngineResolver;
 use Royalcms\Component\SmartyView\Cache\Storage;
 use Royalcms\Component\SmartyView\Exception\MethodNotFoundException;
-use Royalcms\Component\Config\Repository as ConfigContract;
+use Royalcms\Component\Contracts\Config\Repository as ConfigContract;
 use Royalcms\Component\Events\Dispatcher as DispatcherContract;
 
 /**
@@ -132,13 +132,8 @@ class SmartyFactory extends Factory
      * @param Smarty              $smarty
      * @param ConfigContract      $config
      */
-    public function __construct(
-        EngineResolver $engines,
-        ViewFinderInterface $finder,
-        DispatcherContract $events,
-        Smarty $smarty,
-        ConfigContract $config
-    ) {
+    public function __construct(EngineResolver $engines, ViewFinderInterface $finder, DispatcherContract $events, Smarty $smarty, ConfigContract $config)
+    {
         parent::__construct($engines, $finder, $events);
         $this->smarty = $smarty;
         $this->config = $config;
@@ -177,7 +172,7 @@ class SmartyFactory extends Factory
      */
     public function setSmartyConfigure()
     {
-        $config = $this->config->get('smarty');
+        $config = $this->config->get('smarty-view::smarty');
 
         $smarty = $this->smarty;
 
