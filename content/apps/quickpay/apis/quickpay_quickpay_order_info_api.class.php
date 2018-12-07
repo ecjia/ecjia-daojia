@@ -73,12 +73,16 @@ class quickpay_quickpay_order_info_api extends Component_Event_Api {
 	
 	private function order_info($options) {
 		$order_id = intval(array_get($options, 'order_id'));
-		$order_sn = intval(array_get($options, 'order_sn'));
-
+		$order_sn = trim(array_get($options, 'order_sn'));
+		
+		$db = RC_DB::table('quickpay_orders');
+		if (!empty($options['store_id'])) {
+			$db->where('store_id', $options['store_id']);
+		}
 		if ($order_sn) {
-            $info = RC_DB::table('quickpay_orders')->where('order_sn', $order_sn)->first();
+            $info = $db->where('order_sn', $order_sn)->first();
         } else {
-            $info = RC_DB::table('quickpay_orders')->where('order_id', $order_id)->first();
+            $info = $db->where('order_id', $order_id)->first();
         }
 
 		$info['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);

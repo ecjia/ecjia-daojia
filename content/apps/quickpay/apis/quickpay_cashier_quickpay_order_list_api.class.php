@@ -79,7 +79,7 @@ class quickpay_cashier_quickpay_order_list_api extends Component_Event_Api {
 				$list[$key]['label_order_status'] 		= $status['label_order_status'];
 				$total_discount 						= $val['integral_money'] + $val['bonus'] + $val['discount'];
 				$list[$key]['total_discount'] 			= $total_discount;
-				$list[$key]['formated_total_discount'] 	= price_format($total_discount);
+				$list[$key]['formated_total_discount'] 	= $total_discount > 0 ? price_format($total_discount, false) : '';
 			}
 		}
 		
