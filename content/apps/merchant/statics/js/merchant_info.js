@@ -11,6 +11,7 @@
             $('.nodisabled').attr('disabled', false);
             app.merchant_info.image_preview();
             app.merchant_info.orders_auto_confirm_change();
+            app.merchant_info.make_thumb();
         },
 
         submit_form: function () {
@@ -300,6 +301,17 @@
         			$('.orders_auto_rejection_time').removeClass('hide');
         		}
         	});
+        },
+
+        make_thumb: function() {
+            $('[data-toggle="make_thumb"]').off('click').on('click', function() {
+                var $this = $(this),
+                    url = $this.attr('data-url'),
+                    type = $this.attr('data-type');
+                $.post(url, {type: type}, function(data){
+                    ecjia.merchant.showmessage(data);
+                });
+            })
         }
     };
 })(ecjia.merchant, jQuery);

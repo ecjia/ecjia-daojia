@@ -48,129 +48,35 @@ namespace Ecjia\App\Merchant\Models;
 
 use Royalcms\Component\Database\Eloquent\Model;
 
-/**
- * Class StoreFranchiseeModel
- *
- * 扩展属性
- * @property $shop_title
- * @property $shop_kf_mobile
- * @property $shop_kf_email
- * @property $shop_kf_type
- * @property $shop_kf_qq
- * @property $shop_kf_ww
- * @property $shop_logo
- * @property $shop_front_logo
- * @property $shop_thumb_logo
- * @property $shop_banner_pic
- * @property $shop_qrcode_logo
- * @property $shop_trade_time
- * @property $shop_description
- * @property $shop_notice
- *
- * @package Ecjia\App\Merchant\Models
- */
-class StoreFranchiseeModel extends Model
+class MerchantConfigModel extends Model
 {
-    protected $table = 'store_franchisee';
-    
-    protected $primaryKey = 'store_id';
-    
-    /**
-     * 可以被批量赋值的属性。
-     *
-     * @var array
-     */
-    protected $fillable = [
-    ];
-    
-    /**
-     * 该模型是否被自动维护时间戳
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-
-    /**
-     * 商家配置参数
-     *
-     * @var array
-     */
-    protected $configs = [
-        'shop_title',
-        'shop_kf_mobile',
-        'shop_kf_email',
-        'shop_kf_type',
-        'shop_kf_qq',
-        'shop_kf_ww',
-        'shop_logo',
-        'shop_front_logo',
-        'shop_thumb_logo',
-        'shop_banner_pic',
-        'shop_qrcode_logo',
-        'shop_trade_time',
-        'shop_description',
-        'shop_notice',
-    ];
-
-    /**
-     * Execute a query for a single record by ID.
-     *
-     * @param  int    $id
-     * @param  array  $columns
-     * @return mixed|static
-     */
-    public function find($id, $columns = ['*'])
-    {
-        return $this->where($this->primaryKey, '=', $id)->first($columns);
-    }
-
-    /**
-     * Determine if a get mutator exists for an attribute.
-     *
-     * @param  string  $key
-     * @return bool
-     */
-    public function hasGetMutator($key)
-    {
-        if (in_array($key, $this->configs)) {
-            return true;
-        }
-
-        return parent::hasGetMutator($key);
-    }
-
-    /**
-     * Get the value of an attribute using its mutator.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return mixed
-     */
-    protected function mutateAttribute($key, $value)
-    {
-        if (in_array($key, $this->configs)) {
-            return $this->mutateAttributeByMerchantConfig($key, $value);
-        }
-
-        return parent::mutateAttribute($key, $value);
-    }
-
-    protected function mutateAttributeByMerchantConfig($key, $value)
-    {
-        return $this->options->where('code', $key)->pluck('value')->shift();
-    }
-
-
-    /**
-     * 获取博客文章的评论。
-     */
-    public function options()
-    {
-        return $this->hasMany('Ecjia\App\Merchant\Models\MerchantConfigModel', 'store_id', 'store_id');
-    }
-
-
+	protected $table = 'merchants_config';
+	
+	protected $primaryKey = 'id';
+	
+	/**
+	 * 可以被批量赋值的属性。
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+	    'store_id',
+	    'group',
+	    'code',
+	    'type',
+	    'store_range',
+	    'store_dir',
+	    'value',
+	    'sort_order',
+	];
+	
+	/**
+	 * 该模型是否被自动维护时间戳
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
+	
 
 }
 

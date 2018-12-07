@@ -51,8 +51,6 @@ define('IN_MERCHANT', true);
 
 abstract class ecjia_merchant extends ecjia_base implements ecjia_template_fileloader {
 
-	private $public_route;
-
 	public function __construct() {
 		parent::__construct();
 
@@ -257,7 +255,7 @@ abstract class ecjia_merchant extends ecjia_base implements ecjia_template_filel
 	}
 	
 	/**
-	 * 获得商家后台模版文件
+	 * 获得商家后台模板文件
 	 */
 	public function get_template_file($file)
 	{

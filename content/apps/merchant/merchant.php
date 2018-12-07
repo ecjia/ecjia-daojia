@@ -141,6 +141,14 @@ class merchant extends ecjia_merchant
         $this->assign('data', $merchant_info);
         $this->assign('form_action', RC_Uri::url('merchant/merchant/update'));
         $this->assign('store_id', $_SESSION['store_id']);
+        $this->assign('make_thumb_url', RC_Uri::url('merchant/merchant/make_thumb'));
+
+        $banner = (new \Ecjia\App\Merchant\StoreComponents\Banner\BannerThumb($merchant_info['shop_banner_pic']));
+        if (!empty($banner->getStoreBannerThumbPath())) {
+            $banner_url = $banner->getStoreBannerThumbUrl();
+            $this->assign('banner_thumb_url', $banner_url);
+            $this->assign('banner_thumb_exists', $banner->hasStoreBannerThumbPath());
+        }
 
         $this->display('merchant_basic_info.dwt');
     }
@@ -187,9 +195,11 @@ class merchant extends ecjia_merchant
             $merchants_config['shop_logo'] = merchant_file_upload_info('shop_logo', '', $shop_logo);
         }
 
+        $edit_app_banner = false;
         // APPbanner图
         if (!empty($_FILES['shop_banner_pic']) && empty($_FILES['error']) && !empty($_FILES['shop_banner_pic']['name'])) {
             $merchants_config['shop_banner_pic'] = merchant_file_upload_info('shop_banner', 'shop_banner_pic', $shop_banner_pic);
+            $edit_app_banner = true;
         }
         // 如果没有上传店铺LOGO 提示上传店铺LOGO
         $shop_logo = get_merchant_config('shop_logo');
@@ -243,6 +253,11 @@ class merchant extends ecjia_merchant
             return $this->showmessage('请编辑要修改的内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
+        if ($edit_app_banner) {
+            $banner = (new \Ecjia\App\Merchant\StoreComponents\Banner\BannerThumb($merchants_config['shop_banner_pic']));
+            $banner->createBannerThumbFile();
+        }
+        
         if (!empty($merchant)) {
             // 记录日志
             ecjia_merchant::admin_log('修改店铺基本信息', 'edit', 'merchant');
@@ -267,6 +282,9 @@ class merchant extends ecjia_merchant
             $msg = '店铺LOGO';
         } elseif ($code == 'shop_banner_pic') {
             $msg = 'APP Banner图';
+
+            $banner = (new \Ecjia\App\Merchant\StoreComponents\Banner\BannerThumb($img));
+            $banner->removeBannerThumbFile();
         }
         // 记录日志
         ecjia_merchant::admin_log('删除' . $msg, 'edit', 'merchant');
@@ -288,7 +306,7 @@ class merchant extends ecjia_merchant
         $shop_info = RC_DB::table('article')->where('cat_id', 0)->where('article_id', $id)->first();
 
         if (empty($shop_info)) {
-            return $this->showmessage('该网店信息不存在', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_HTML);
+            return $this->showmessage('该网店信息不存在', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
         $shopinfo_list = RC_DB::table('article')
             ->select('article_id', 'title', 'content', 'file_url')
@@ -544,13 +562,13 @@ class merchant extends ecjia_merchant
     }
 
     /**
-     * 小程序模版
+     * 小程序模板
      */
     public function template()
     {
         $this->admin_priv('merchant_template');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('小程序模版'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('小程序模板'));
         $this->assign('app_url', RC_App::apps_url('statics/img/template/', __FILE__));
 
         $shop_template_info = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_template')->first();
@@ -560,7 +578,7 @@ class merchant extends ecjia_merchant
         } else {
             $this->assign('shop_template', $shop_template_info['value']);
         }
-        $this->assign('ur_here', '小程序模版');
+        $this->assign('ur_here', '小程序模板');
         $this->assign('form_action', RC_Uri::url('merchant/merchant/template_update'));
 
         $this->display('merchant_template.dwt');
@@ -573,6 +591,23 @@ class merchant extends ecjia_merchant
         $shop_template = trim($_POST['shop_template']);
         RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_template')->update(array('value' => $shop_template));
         return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+    }
+
+    public function make_thumb()
+    {
+        $merchant_info = get_merchant_info($_SESSION['store_id']);
+
+        $type = trim($_POST['type']);
+        if ($type == 'make') {
+            $message = '生成APP Banner缩略图成功';
+        } elseif ($type == 'refresh') {
+            $message = '重新生成APP Banner缩略图成功';
+        }
+
+        $banner = (new \Ecjia\App\Merchant\StoreComponents\Banner\BannerThumb($merchant_info['shop_banner_pic']));
+        $banner->createBannerThumbFile();
+        
+        return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $this->request->header('referer')));
     }
 }
 

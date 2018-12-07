@@ -28,9 +28,9 @@
                 <div class="form">
                     <form class="cmxform form-horizontal" name="theForm" action="{$form_action}"  method="post" enctype="multipart/form-data" data-toggle='from'>
                   	    <div class="form-group">
-                            <label class="control-label col-lg-2">{t}选择模版：{/t}</label>
+                            <label class="control-label col-lg-2">{t}选择模板：{/t}</label>
                             <div class="col-lg-6">
-                                <span class="help-block">此模版只适用于门店小程序（点击图片可查看模版大图）</span>
+                                <span class="help-block">此模板只适用于门店小程序（点击图片可查看模板大图）</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -58,15 +58,15 @@
                             <div class="col-lg-10 m_b10">
                             	<div class="f_l">
 	                                <input id="template_1" type="radio" name="shop_template" value="default1" {if $shop_template eq 'default1'} checked{/if}/>
-	                                <label for="template_1">普通商城类模版<span class="help-block">适用于普通电商购物</span></label>
+	                                <label for="template_1">普通商城类模板<span class="help-block">适用于普通电商购物</span></label>
                                 </div>
                                 <div class="f_l m_l130">
 	                                <input id="template_2" type="radio" name="shop_template" value="default2" {if $shop_template eq 'default2'} checked{/if}/>
-	                                <label for="template_2">外卖类模版<span class="help-block">适用于同城餐饮外卖</span></label>
+	                                <label for="template_2">外卖类模板<span class="help-block">适用于同城餐饮外卖</span></label>
                                 </div>
                                 <div class="f_l m_l140">
 	                                <input id="template_3" type="radio" name="shop_template" value="default3" {if $shop_template eq 'default3'} checked{/if}/>
-	                                <label for="template_3">自助购物模版<span class="help-block">适用于自助买单、到店消费</span></label>
+	                                <label for="template_3">自助购物模板<span class="help-block">适用于自助买单、到店消费</span></label>
                                 </div>
                         	</div>
                         </div>
@@ -84,7 +84,7 @@
                             <div class="col-lg-10 m_b10">
                             	<div class="f_l">
 	                                <input id="template_4" type="radio" name="shop_template" value="default4" {if $shop_template eq 'default4'} checked{/if}/>
-	                                <label for="template_4">优惠买单模版<span class="help-block">适用于到店支付、享受店铺优惠</span></label>
+	                                <label for="template_4">优惠买单模板<span class="help-block">适用于到店支付、享受店铺优惠</span></label>
                                 </div>
                         	</div>
                         </div>

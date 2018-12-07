@@ -223,6 +223,10 @@ function merchant_file_upload_info($path, $code, $old_images = '')
             // 删除旧的图片
             if (!empty($old_images)) {
                 $upload->remove($old_images);
+                if ($code == 'shop_banner_pic') {
+                    $banner = (new \Ecjia\App\Merchant\StoreComponents\Banner\BannerThumb($old_images));
+                    $banner->removeBannerThumbFile();
+                }
             }
             $img_path = $upload->get_position($image_info);
         }

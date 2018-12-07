@@ -89,8 +89,8 @@ label + div.col-lg-6, label + div.col-lg-2 {
                             <div class="col-lg-6">
                                 <div class="fileupload fileupload-{if $data.shop_banner_pic}exists{else}new{/if}" data-provides="fileupload">
                                     {if $data.shop_banner_pic}
-                                    <div class="fileupload-{if $data.shop_banner_pic}exists{else}new{/if} thumbnail" style="max-width: 60px;">
-                                        <img src="{$data.shop_banner_pic}" alt="banner图" style="width:50px; height:50px;"/>
+                                    <div class="fileupload-{if $data.shop_banner_pic}exists{else}new{/if} thumbnail" style="border: none;width: 240px;height: 80px;">
+                                        <img src="{$data.shop_banner_pic}" alt="banner图" style="width: 240px;height: 80px;"/>
                                     </div>
                                     {/if}
                                     <div class="fileupload-preview fileupload-{if $data.shop_banner_pic}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
@@ -102,6 +102,22 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                     <a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_banner_pic}data-toggle="ajax_remove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=shop_banner_pic"}" >删除</a>
                                 </div>
                                 <span class="help-block">推荐图片的尺寸为：3:1（1200x400px）</span>
+                                    
+                                {if $data.shop_banner_pic}
+                                <div>
+                                    <p>缩略图：</p>
+                                    <p>
+                                        {if !$banner_thumb_exists}
+                                        <a class="btn btn-primary" href="javascript:;" data-toggle="make_thumb" data-url="{$make_thumb_url}" data-type="make">手动生成</a>
+                                        {else}
+                                        <img src="{$banner_thumb_url}" alt="banner图" style="width: 120px;height: 40px;"/>
+                                        <a class="btn btn-primary" href="javascript:;" data-toggle="make_thumb" data-url="{$make_thumb_url}" data-type="refresh">重新生成</a>
+                                        {/if}
+                                    </p>
+                                    <span class="help-block">生成后，图片内存将变小，缩略图可以减小存放内存，提高访问效率</span>
+                                </div>
+                                {/if}
+
                             </div>
                         </div>
                         

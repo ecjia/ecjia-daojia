@@ -134,8 +134,10 @@ class merchant_nearby_module extends api_front implements api_interface {
 				);
 			}
 		}
-		array_multisort($distance_list, SORT_ASC, $sort_order, SORT_ASC, $seller_list);
-
+		if (!empty($seller_list)) {
+			array_multisort($distance_list, SORT_ASC, $sort_order, SORT_ASC, $seller_list);
+		}
+		
 		$seller_list = array_slice($seller_list, ($page-1) * $size, $size);
 		
 		$page = array(
