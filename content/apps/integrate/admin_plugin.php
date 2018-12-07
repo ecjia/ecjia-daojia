@@ -193,7 +193,7 @@ class admin_plugin extends ecjia_admin
 		$code = strval($_POST['code']);
 
 		if ($code != 'ecjia' && $code != 'ucenter' && $code != 'ecshop') {
-		    return $this->showmessage(RC_Lang::get('integrate::integrate.support_UCenter'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+		    return $this->showmessage(RC_Lang::get('integrate::integrate.support_UCenter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$cfg = unserialize(ecjia::config('integrate_config'));
@@ -204,9 +204,9 @@ class admin_plugin extends ecjia_admin
 		
 		/* 直接保存修改 */
 		if (ecjia_integrate::plugin()->saveConfigData($code, $cfg)) {
-			return $this->showmessage(RC_Lang::get('integrate::integrate.save_ok'), ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON);
+			return $this->showmessage(RC_Lang::get('integrate::integrate.save_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		} else {			
-			return $this->showmessage(RC_Lang::get('integrate::integrate.save_error'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+			return $this->showmessage(RC_Lang::get('integrate::integrate.save_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 }

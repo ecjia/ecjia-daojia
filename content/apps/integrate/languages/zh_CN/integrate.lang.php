@@ -174,7 +174,7 @@ return array(
 	'no_points' 		=> '没有检测到论坛有可以兑换的积分',
 	'bbs' 				=> '论坛',
 	'shop_pay_points' 	=> '商城消费积分',
-	'shop_rank_points' 	=> '商城等级积分',
+	'shop_rank_points' 	=> '商城成长值',
 	'add_rule' 			=> '新增规则',
 	'modify' 			=> '修改',
 	'rule_name' 		=> '兑换规则',
@@ -215,7 +215,7 @@ return array(
 	'ucenter_lab_db_pre'  => 'UCenter 表前缀:',
 	
 	'ucenter_lab_tag_number' => 'TAG 标签显示数量:',
-	'ucenter_lab_credit_0' 	 => '等级积分名称:',
+	'ucenter_lab_credit_0' 	 => '成长值名称:',
 	'ucenter_lab_credit_1'   => '消费积分名称:',
 	'ucenter_opt_database'   => '数据库方式',
 	'ucenter_opt_interface'  => '接口方式',
@@ -252,7 +252,7 @@ return array(
 	'uc_lang' => array(
 		'credits' => array(
 			'0' => array(
-				'0' => '等级积分',
+				'0' => '成长值',
 				'1' => ''
 			),
 			'1' => array(

@@ -311,15 +311,16 @@ abstract class UserIntegrateAbstract extends AbstractPlugin implements UserInteg
      */
     protected function userRemoveClearData($user_id)
     {
-        //删除用户订单
         //删除会员收藏商品
-        //删除用户留言
         //删除用户地址
         //删除用户红包
         //删除用户帐号金额
-        //删除用户标记
         //删除用户帐户日志
         //删除用户关联帐号连接
+        //删除用户微信粉丝帐号
+        //删除用户抽奖记录
+        //删除用户微信发送消息记录
+        //删除用户微信客服消息记录
 
         return RC_Api::apis('user_remove_cleardata', array('user_id' => $user_id));
     }
