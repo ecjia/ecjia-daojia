@@ -129,10 +129,33 @@ class admin_events extends ecjia_admin {
 	}
 	
 	public function all_open() {
-		$this->admin_priv('sms_events_manage');
-		 
-		RC_DB::table('notification_events')->where('channel_type', 'push')->update(array('status' => 'open'));
-		 
+		$this->admin_priv('push_event_manage');
+		
+		$notification_events_list = RC_DB::table('notification_events')->where('channel_type', 'push')->lists('event_code');
+		$factory = new Ecjia\App\Push\EventFactory();
+		$events  = $factory->getEvents();
+		foreach ($events as $event) {
+			$arr[]  = $event->getCode();
+		}
+		if (!empty($arr)) {
+			foreach ($arr as $k => $v) {
+				$data = array(
+						'event_code'   => $v,
+						'status'       => 'open',
+						'channel_type' => 'push',
+				);
+				if (!empty($notification_events_list)) {
+					if (in_array($v, $notification_events_list)) {
+						RC_DB::table('notification_events')->where('event_code', $v)->update($data);
+					} else {
+						RC_DB::table('notification_events')->insert($data);
+					}
+				} else {
+					RC_DB::table('notification_events')->insert($data);
+				}
+			}
+		}
+ 
 		return $this->showmessage('全部开启成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
 	}
 	
