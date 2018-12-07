@@ -417,17 +417,22 @@ class order_refund {
 			if (!empty($list)) {
 				foreach ($list as $res) {
 					$goods_list[] = array(
-							'goods_id' 				=> $res['goods_id'],
-							'name'	   				=> $res['goods_name'],
-							'goods_price'			=> $res['goods_price'] > 0 ? $res['goods_price'] : 0,
-							'formated_goods_price'	=> $res['goods_price'] > 0 ? price_format($res['goods_price'], false) : '',
-							'goods_attr'	=> !empty($res['goods_attr']) ? $res['goods_attr'] : '',
-							'goods_number'	=> $res['goods_number'],
-							'img' 			=> array(
-									'small'	=> !empty($res['goods_thumb']) ? RC_Upload::upload_url($res['goods_thumb']) : '',
-									'thumb'	=> !empty($res['goods_img']) ? RC_Upload::upload_url($res['goods_img']) : '',
-									'url' 	=> !empty($res['original_img']) ? RC_Upload::upload_url($res['original_img']) : '',
-							),
+							'goods_id' 						=> $res['goods_id'],
+							'name'	   						=> $res['goods_name'],
+							'goods_sn'						=> $res['goods_sn'],
+							'goods_price'					=> $res['goods_price'] > 0 ? $res['goods_price'] : 0,
+							'formated_goods_price'			=> $res['goods_price'] > 0 ? price_format($res['goods_price'], false) : '',
+							'goods_attr'					=> !empty($res['goods_attr']) ? $res['goods_attr'] : '',
+							'is_bulk'						=> $res['extension_code'] == 'bulk' ? 1 : 0,
+							'goods_buy_weight' 				=> $res['goods_buy_weight'] > 0 ? $res['goods_buy_weight'] : '',
+							'total_goods_price'			 	=> sprintf('%.2f', $res['goods_number']*$res['goods_price']),
+							'formated_total_goods_price' 	=> price_format($res['goods_number']*$res['goods_price'], false),
+							'goods_number'					=> $res['goods_number'],
+							'img' 							=> array(
+																	'small'	=> !empty($res['goods_thumb']) ? RC_Upload::upload_url($res['goods_thumb']) : '',
+																	'thumb'	=> !empty($res['goods_img']) ? RC_Upload::upload_url($res['goods_img']) : '',
+																	'url' 	=> !empty($res['original_img']) ? RC_Upload::upload_url($res['original_img']) : '',
+																),
 					);
 				}
 			}

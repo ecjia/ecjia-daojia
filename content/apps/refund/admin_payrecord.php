@@ -203,15 +203,19 @@ class admin_payrecord extends ecjia_admin {
 		    return $this->showmessage('退款单信息不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$user_id = $refund_order['user_id'];
+		$integral_name = ecjia::config('integral_name');
+		if (empty($integral_name)) {
+			$integral_name = '积分';
+		}
 		if ($back_type == 'surplus') {//退回余额  （消费积分和金额）
-			$action_note = '退款金额已退回余额'.$back_money_total.'元，退回积分为：'.$back_integral;
+			$action_note = '退款金额已退回余额'.$back_money_total.'元，退回'.$integral_name.'为：'.$back_integral;
 			//更新帐户变动记录 
 			$account_log = array (
 				'user_id'			=> $user_id,
 				'user_money'		=> $back_money_total,
 				'pay_points'		=> $back_integral,
 				'change_time'		=> RC_Time::gmtime(),
-				'change_desc'		=> '由于订单'.$refund_order['order_sn'].'退款，退还下单使用的积分，退款金额退回余额',
+				'change_desc'		=> '由于订单'.$refund_order['order_sn'].'退款，退还下单使用的'.$integral_name.'，退款金额退回余额',
 				'change_type'		=> ACT_REFUND,
 				'from_type'			=> 'refund_back_integral',
 				'from_value'		=> $refund_order['order_sn'],
@@ -231,7 +235,7 @@ class admin_payrecord extends ecjia_admin {
 						'user_id'			=> $order_give_integral_info['user_id'],
 						'rank_points'		=> intval($order_give_integral_info['rank_points'])*(-1),
 						'pay_points'		=> intval($order_give_integral_info['pay_points'])*(-1),
-						'change_desc'		=> '订单退款，扣除订单'.$refund_order['order_sn'].'下单时赠送的积分',
+						'change_desc'		=> '订单退款，扣除订单'.$refund_order['order_sn'].'下单时赠送的'.$integral_name,
 						'change_type'		=> ACT_REFUND,
 						'from_type'			=> 'refund_deduct_integral',
 						'from_value'		=> $refund_order['order_sn']

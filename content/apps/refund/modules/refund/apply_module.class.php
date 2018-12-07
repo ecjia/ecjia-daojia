@@ -315,6 +315,24 @@ class refund_apply_module extends api_front implements api_interface {
 						}
 					}
 				}
+				
+				//仅退款
+				if ($refund_type == 'refund') {
+					//下单减库存；退款加库存
+					$order_goods = RC_DB::table('order_goods')->where('order_id', $order_id)->get();
+					if ($order_goods) {
+						foreach ($order_goods as $value) {
+							if (ecjia::config('use_storage') == '1') {
+								//货品库存增加
+								if ($value['product_id'] > 0) {
+									RC_DB::table('products')->where('product_id', $value['product_id'])->increment('product_number', $value['goods_number']);
+								} else {
+									RC_DB::table('goods')->where('goods_id', $value['goods_id'])->increment('goods_number', $value['goods_number']);
+								}
+							}	
+						}
+					}
+				}
 					
 				//退商品
 				if ($refund_type == 'return') {
@@ -338,10 +356,15 @@ class refund_apply_module extends api_front implements api_interface {
 											'brand_name'	=> $res['brand_name']
 									);
 									$refund_goods_id = RC_DB::table('refund_goods')->insertGetId($refund_goods_data);
-									/* 如果使用库存，则增加库存（不论何时减库存都需要） */
+									/* 如果使用库存，则增加库存；发货时减的 ；退款则加库存*/
 									if (ecjia::config('use_storage') == '1') {
 										if ($res['send_number'] > 0) {
-											RC_DB::table('goods')->where('goods_id', $res['goods_id'])->increment('goods_number', $res['send_number']);
+											//货品库存增加
+											if ($res['product_id'] > 0) {
+												RC_DB::table('products')->where('product_id', $res['product_id'])->increment('product_number', $res['send_number']);
+											} else {
+												RC_DB::table('goods')->where('goods_id', $res['goods_id'])->increment('goods_number', $res['send_number']);
+											}
 										}
 									}
 								}

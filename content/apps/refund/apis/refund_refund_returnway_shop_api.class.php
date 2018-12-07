@@ -55,12 +55,14 @@ class refund_refund_returnway_shop_api extends Component_Event_Api {
 		);
 		
 		$shop = serialize($shop);
-		$update_data = array('return_shipping_type' => 'shop', 'return_time'=> RC_Time::gmtime(), 'return_shipping_value' => $shop, 'return_status' => 2);
-		RC_DB::table('refund_order')->where('refund_id', $refund_id)->update($update_data);
-		//售后状态log记录
-		$pra = array('status' => '返还退货商品', 'refund_id' => $refund_info['order_id'], 'message' => '买家已返还退货商品！');
-		order_refund::refund_status_log($pra);
-		 
+		
+		if ($refund_info['return_status'] != Ecjia\App\Refund\RefundStatus::SHIPPED) {
+			$update_data = array('return_shipping_type' => 'shop', 'return_time'=> RC_Time::gmtime(), 'return_shipping_value' => $shop, 'return_status' => 2);
+			RC_DB::table('refund_order')->where('refund_id', $refund_id)->update($update_data);
+			//售后状态log记录
+			$pra = array('status' => '返还退货商品', 'refund_id' => $refund_info['order_id'], 'message' => '买家已返还退货商品！');
+			order_refund::refund_status_log($pra);
+		}
 		return true;
 	}
 }

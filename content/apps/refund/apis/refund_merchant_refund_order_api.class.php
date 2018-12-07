@@ -82,6 +82,13 @@ class refund_merchant_refund_order_api extends Component_Event_Api {
 				//售后申请退货商品信息
 				$goods_list = order_refund::get_order_goods_list($row['order_id']);
 				$row['goods_list'] = $goods_list;
+				//支付方式id
+				if (!empty($row['pay_code'])) {
+					$pay_id = RC_DB::table('payment')->where('pay_code', $row['pay_code'])->pluck('pay_id');
+				} else {
+					$pay_id = 0;
+				}
+				$row['pay_id'] = $pay_id;
 				$lists[] = $row;
 			}
 		}

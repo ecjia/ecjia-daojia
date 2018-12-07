@@ -14,7 +14,8 @@ class refund_refund_apply_api extends Component_Event_Api {
 		if (!is_array($options)) {
 			return new ecjia_error('invalid_parameter', '调用api文件,refund_apply,参数无效');
 		}
-		return $this->generate_refund_order($options);
+		 $res = $this->generate_refund_order($options);
+		 return $res;
 	}
 	
 	
@@ -40,16 +41,32 @@ class refund_refund_apply_api extends Component_Event_Api {
 		RC_Loader::load_app_class('order_refund', 'refund', false);
 		//过滤掉已取消的和退款处理成功的，保留在处理中的申请
 		$order_refund_info = order_refund::currorder_refund_info($order_id);
+		
 		if (!empty($order_refund_info)) {
 			$refund_id = $order_refund_info['refund_id'];
-			//已存在处理中的申请或退款成功的申请
-			if (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::UNCHECK)
-			|| ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::REFUSED)
-			|| (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::AGREE) && ($order_refund_info['refund_staus'] == Ecjia\App\Refund\RefundStatus::UNTRANSFER))
-			|| (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::AGREE) && ($order_refund_info['refund_staus'] == Ecjia\App\Refund\RefundStatus::TRANSFERED))
-			) {
-				return new ecjia_error('error_apply', '当前订单已申请了售后！');
-			} 
+			
+			//原路退回，未审核的及进行中的可继续退款
+			if ($options['refund_way'] == 'original') {
+				//已存在处理中的申请或退款成功的申请
+				if ( ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::REFUSED)
+				|| (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::AGREE) && ($order_refund_info['refund_status'] == Ecjia\App\Refund\RefundStatus::TRANSFERED))
+				) {
+					return new ecjia_error('error_apply', '当前订单已申请了售后！');
+				} else {
+					return $order_refund_info;
+				}
+			} else {
+				//已存在处理中的申请或退款成功的申请
+				if (
+					($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::UNCHECK) 
+				   || ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::AGREE && $order_refund_info['refund_status'] == Ecjia\App\Refund\RefundStatus::UNTRANSFER)
+				   || ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::AGREE && $order_refund_info['refund_status'] == Ecjia\App\Refund\RefundStatus::TRANSFERED)
+				) {
+					return new ecjia_error('error_apply', '当前订单已申请了售后！');
+				} else {
+					return $order_refund_info;
+				}
+			}
 		} else {
 			//退款编号
 			$refund_sn = ecjia_order_refund_sn();
@@ -128,6 +145,24 @@ class refund_refund_apply_api extends Component_Event_Api {
 			$refund_id = RC_DB::table('refund_order')->insertGetId($refund_data);
 			
 			if ($refund_id) {
+				//仅退款
+				if ($refund_type == 'refund') {
+					//下单减库存；退款加库存
+					$order_goods = RC_DB::table('order_goods')->where('order_id', $order_id)->get();
+					if ($order_goods) {
+						foreach ($order_goods as $value) {
+							if (ecjia::config('use_storage') == '1') {
+								//货品库存增加
+								if ($value['product_id'] > 0) {
+									RC_DB::table('products')->where('product_id', $value['product_id'])->increment('product_number', $value['send_number']);
+								} else {
+									RC_DB::table('goods')->where('goods_id', $value['goods_id'])->increment('goods_number', $value['send_number']);
+								}
+							}
+						}
+					}
+				}
+				
 				//退商品
 				if ($refund_type == 'return') {
 					//获取订单的发货单列表
@@ -150,10 +185,15 @@ class refund_refund_apply_api extends Component_Event_Api {
 											'brand_name'	=> $res['brand_name']
 									);
 									$refund_goods_id = RC_DB::table('refund_goods')->insertGetId($refund_goods_data);
-									/* 如果使用库存，则增加库存（不论何时减库存都需要） */
+									/* 如果使用库存，则增加库存；发货减库存；退款则加库存 */
 									if (ecjia::config('use_storage') == '1') {
 										if ($res['send_number'] > 0) {
-											RC_DB::table('goods')->where('goods_id', $res['goods_id'])->increment('goods_number', $res['send_number']);
+											//货品库存增加
+											if ($res['product_id'] > 0) {
+												RC_DB::table('products')->where('product_id', $res['product_id'])->increment('product_number', $res['send_number']);
+											} else {
+												RC_DB::table('goods')->where('goods_id', $res['goods_id'])->increment('goods_number', $res['send_number']);
+											}
 										}
 									}
 								}
@@ -188,7 +228,9 @@ class refund_refund_apply_api extends Component_Event_Api {
 			$opt = array('status' => '申请退款', 'refund_id' => $refund_id, 'message' => '收银台退款申请已提交成功！');
 			order_refund::refund_status_log($opt);
 			
-			return $refund_id;
+			$refund_order_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
+			
+			return $refund_order_info;
 		}
 	}
 }

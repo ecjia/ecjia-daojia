@@ -44,24 +44,33 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Refund;
 
-class refund_admin_plugin {
-	
-	public static function refund_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('11_refund_list', '售后列表', RC_Uri::url('refund/admin/init'), 11)->add_purview('refund_manage');
-	    $menus->add_submenu($menu);
-	    return $menus;
-	}
-	
-	public static function payrecord_admin_menu_api($menus) {
-		$menu = ecjia_admin::make_admin_menu('21_payrecord_list', '交易退款', RC_Uri::url('refund/admin_payrecord/init'), 21)->add_purview('payrecord_manage');
-		$menus->add_submenu($menu);
-		return $menus;
+use RC_Api;
+use RC_DB;
+use RC_Time;
+use RC_Lang;
+use ecjia_region;
+use ecjia_error;
+
+/**
+ * 退款订单
+ */
+class RefundOrder
+{
+	/**
+	 * 退款金额
+	 * @param array $refund_info
+	 */
+	public static function get_back_total_money($refund_info){
+		//退款总金额
+    	$back_money_total = '0.00';
+    	$shipping_status = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->pluck('shipping_status');
+    	if ($shipping_status > SS_UNSHIPPED) {
+    		$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'] - $refund_info['shipping_fee'] - $refund_info['insure_fee'];
+    	} else {
+    		$back_money_total  = $refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee'];
+    	}
+    	return $back_money_total;
 	}
 }
-
-RC_Hook::add_filter('orders_admin_menu_api', array('refund_admin_plugin', 'refund_admin_menu_api'));
-RC_Hook::add_filter('finance_admin_menu_api', array('refund_admin_plugin', 'payrecord_admin_menu_api') );
-
-// end
