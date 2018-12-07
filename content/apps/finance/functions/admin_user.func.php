@@ -189,6 +189,9 @@ function get_account_list($args = array()) {
 
 		$list = $db_user_account->orderBy($filter['sort_by'], $filter['sort_order'])->take(15)->skip($page->start_id-1)->select(RC_DB::raw('ua.*'), RC_DB::raw('u.user_name'))->get();
 
+		$withdraw_fee        	= ecjia::config('withdraw_fee');
+ 		$withdraw_min_amount 	= ecjia::config('withdraw_min_amount');
+
 		if (!empty($list)) {
 			foreach ($list AS $key => $value) {
 				$list[$key]['surplus_amount']		= price_format(abs($value['amount']), false);
@@ -196,6 +199,11 @@ function get_account_list($args = array()) {
 				$list[$key]['process_type_name']	= RC_Lang::get('user::user_account.surplus_type.'.$value['process_type']);
 				/* php 过滤html标签 */
 				$list[$key]['payment']				= empty($pay_name[$value['payment']]) ? strip_tags($value['payment']) : strip_tags($pay_name[$value['payment']]);
+
+				$list[$key]['withdraw_fee']          = abs($value['apply_amount']) * $withdraw_fee / 100;
+	            $list[$key]['formated_withdraw_fee'] = ecjia_price_format($list[$key]['withdraw_fee']);
+	            $list[$key]['real_amount']           = abs($value['apply_amount']) - $list[$key]['withdraw_fee'];
+	            $list[$key]['formated_real_amount']  = ecjia_price_format($list[$key]['real_amount']);
 			}
 		}
 	}
@@ -246,10 +254,11 @@ function update_user_account($id, $amount, $admin_note, $is_paid) {
 	$data = array(
 		'admin_user'	=> $_SESSION['admin_name'],
 		'amount'		=> $amount,
-		'add_time'		=> RC_Time::gmtime(),
+		// 'add_time'		=> RC_Time::gmtime(),
 		'paid_time'		=> RC_Time::gmtime(),
 		'admin_note'	=> $admin_note,
 		'is_paid'		=> $is_paid,
+		'review_time'   => RC_Time::gmtime(),
 	);
 	return RC_DB::table('user_account')->where('id', $id)->update($data);
 }
@@ -352,24 +361,26 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '') {
  * 取得帐户明细
  * @param   int     $user_id    用户id
  * @param   string  $account_type   帐户类型：空表示所有帐户，user_money表示可用资金，
- *                  frozen_money表示冻结资金，rank_points表示等级积分，pay_points表示消费积分
+ *                  frozen_money表示冻结资金，rank_points表示成长值，pay_points表示消费积分
  * @return  array
  */
-function get_account_log_list($user_id, $account_type = '') {
+function get_account_log_list($user_id, $account_type = '', $date = []) {
 
-	//$db_account_log = RC_Model::model('user/account_log_model');
-	/* 检查参数 */
-	//$where['user_id'] = $user_id;
-	//if (in_array($account_type, array('user_money', 'frozen_money', 'rank_points', 'pay_points'))) {
-	//	$where[$account_type] = array('neq' => 0);
-	//}
-	
 	$db_account_log = RC_DB::table('account_log');
 	
 	if (in_array($account_type, array('user_money', 'frozen_money', 'rank_points', 'pay_points'))) {
 		$db_account_log->where(function($query) use ($account_type) {
 			$query->where($account_type, '>', 0)->orWhere($account_type, '<', 0);
 		});
+	}
+
+	if (!empty($date)) {
+		if (!empty($date['start_date']) && !empty($date['end_date'])) {
+			$start_date = RC_Time::local_strtotime($date['start_date']);
+			$end_date   = RC_Time::local_strtotime($date['end_date']);
+			
+            $db_account_log->where('change_time', '>=', $start_date)->where('change_time', '<', $end_date);
+		}
 	}
 
 	/* 查询记录总数，计算分页数 */
@@ -532,7 +543,7 @@ function get_rank_list() {
  * @param float $frozen_money
  *        	冻结余额变动
  * @param int $rank_points
- *        	等级积分变动
+ *        	成长值变动
  * @param int $pay_points
  *        	消费积分变动
  * @param string $change_desc
@@ -631,12 +642,13 @@ function update_user_info() {
 		/* 取得用户等级和折扣 */
 		if ($row['user_rank'] == 0) {
 		    //重新计算会员等级
-		    RC_Api::api('user', 'update_user_rank', array('user_id' => $_SESSION['user_id']));
+		    $rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $_SESSION['user_id']));
+		} else {
+		    $rank = $db_user_rank->field('rank_id, discount')->find('rank_id = "' . $row['user_rank'] . '"');
 		}
-		$row = $db_user_rank->field('rank_id, discount')->find('rank_id = "' . $row['user_rank'] . '"');
-		if ($row) {
-			$_SESSION['user_rank'] = $row['rank_id'];
-			$_SESSION['discount']  = $row['discount'] / 100.00;
+		if ($rank) {
+		    $_SESSION['user_rank'] = $rank['rank_id'];
+		    $_SESSION['discount']  = $rank['discount'] / 100.00;
 		} else {
 			$_SESSION['user_rank'] = 0;
 			$_SESSION['discount']  = 1;
@@ -723,7 +735,7 @@ function EM_user_info($user_id) {
 	$allow_comment_count = $db_orderinfo_view->join(array('order_goods', 'goods', 'comment'))->where(array('oi.user_id' => $user_id, 'oi.shipping_status' => SS_RECEIVED, 'oi.order_status' => array(OS_CONFIRMED, OS_SPLITED), 'oi.pay_status' => array(PS_PAYED, PS_PAYING), 'c.comment_id is null'))->count('DISTINCT oi.order_id');
 	/* 取得用户等级 */
 // 	if ($user_info['user_rank'] == 0) {
-// 		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+// 		// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
 // 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0 , 'min_points' => array('elt' => intval($user_info['rank_points'])) , 'max_points' => array('gt' => intval($user_info['rank_points']))));
 // 	} else {
 // 		// 特殊等级
@@ -747,14 +759,16 @@ function EM_user_info($user_id) {
 
 	if($user_info['user_rank'] == 0) {
 	    //重新计算会员等级
-	    RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
+	    $row_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
+	} else {
+	    //用户等级更新，不用计算，直接读取
+	    $row_rank = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
 	}
-	//用户等级更新，不用计算，直接读取
-	$row = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
-	$user_info['user_rank_name'] = $row['rank_name'];
-	$user_info['user_rank_id'] = $row['rank_id'];
+	
+	$user_info['user_rank_name'] = $row_rank['rank_name'];
+	$user_info['user_rank_id'] = $row_rank['rank_id'];
 	$level = 1;
-	if($row['special_rank'] == 0 && $row['min_points'] == 0) {
+	if($row_rank['special_rank'] == 0 && $row_rank['min_points'] == 0) {
 	    $level = 0;
 	}
 

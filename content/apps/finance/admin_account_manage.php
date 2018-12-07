@@ -48,121 +48,278 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * ECJIA 会员资金管理程序
-*/
-class admin_account_manage extends ecjia_admin {
-	
-	public function __construct() {
-		parent::__construct();
-		
-		RC_Loader::load_app_func('admin_user');
-		RC_Loader::load_app_func('global', 'goods');
-		
-		RC_Script::enqueue_script('smoke');
-		RC_Script::enqueue_script('jquery-chosen');
-		RC_Style::enqueue_style('chosen');
-		RC_Script::enqueue_script('jquery-uniform');
-		RC_Style::enqueue_style('uniform-aristo');
+ */
+class admin_account_manage extends ecjia_admin
+{
 
-		//时间控件
-		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
-		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
-		
-		RC_Script::enqueue_script('user_surplus', RC_App::apps_url('statics/js/user_surplus.js' , __FILE__));
-		RC_Script::enqueue_script('jquery-peity');
-		
-		$surplus_jslang = array(
-			'keywords_required'	=> RC_Lang::get('user::user_account_manage.keywords_required'),
-			'check_time'		=> RC_Lang::get('user::user_account_manage.check_time'),
-		);
-		RC_Script::localize_script('user_surplus', 'surplus_jslang' , $surplus_jslang);
-	}
+    public function __construct()
+    {
+        parent::__construct();
 
-	/**
-	 * 资金管理
-	 */
-	public function init() {
-		$this->admin_priv('account_manage');
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account_manage.user_account_manage')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('user::users.overview'),
-			'content'	=> '<p>' . RC_Lang::get('user::users.user_account_manage_help')  . '</p>'
-		));
-		
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('user::users.more_info')  . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:资金管理" target="_blank">'.RC_Lang::get('user::users.about_user_account_manage').'</a>') . '</p>'
-		);
-		
-		$this->assign('ur_here', RC_Lang::get('user::user_account_manage.user_account_manage'));
-		
-		/* 时间参数 */
-		$start_date = $end_date = '';
-		if (isset($_POST) && !empty($_POST)) {
-			$start_date	= RC_Time::local_strtotime($_POST['start_date']);
-			$end_date	= RC_Time::local_strtotime($_POST['end_date']);
-			
-		} elseif (isset($_GET['start_date']) && !empty($_GET['end_date'])) {
-			$start_date	= RC_Time::local_strtotime($_GET['start_date']);
-			$end_date	= RC_Time::local_strtotime($_GET['end_date']);
-			
-		} else {
-			$today		= RC_Time::local_strtotime(RC_Time::local_date('Y-m-d'));
-			$start_date	= $today - 86400 * 7;
-			$end_date	= $today;
-		}
+        RC_Loader::load_app_func('admin_user');
+        RC_Loader::load_app_func('global', 'goods');
 
-		$account = $money_list = array();
-		$account['voucher_amount'] = get_total_amount($start_date, $end_date);		//	充值总额
-		$account['to_cash_amount'] = get_total_amount($start_date, $end_date, 1);	//	提现总额
-		
-		$db_account_log = RC_DB::table('account_log');
-		$money_list = $db_account_log->select(RC_DB::raw('IFNULL(SUM(user_money), 0) AS user_money, IFNULL(SUM(frozen_money), 0) AS frozen_money'))
-				->where('change_time', '>=', $start_date)
-				->where('change_time', '<', $end_date + 86400)
-				->first();
+        RC_Script::enqueue_script('smoke');
+        RC_Script::enqueue_script('jquery-chosen');
+        RC_Style::enqueue_style('chosen');
+        RC_Script::enqueue_script('jquery-uniform');
+        RC_Style::enqueue_style('uniform-aristo');
 
-		$account['user_money']		= price_format($money_list['user_money']);	//	用户可用余额
-		$account['frozen_money']	= price_format($money_list['frozen_money']);	//	用户冻结金额		
-		
-		$db_order_info = RC_DB::table('order_info');
-		$money = $db_order_info->select(RC_DB::raw('IFNULL(SUM(surplus), 0) AS surplus, IFNULL(SUM(integral_money), 0) AS integral_money'))
-				->where('add_time', '>=', $start_date)
-				->where('add_time', '<', $end_date + 86400)
-				->first();
+        //时间控件
+        RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
+        RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
-		$account['surplus']			= price_format($money['surplus']);		//	交易使用余额
-		$account['integral_money']	= price_format($money['integral_money']); //	积分使用余额
+        RC_Script::enqueue_script('user_surplus', RC_App::apps_url('statics/js/user_surplus.js', __FILE__));
 
-		/* 赋值到模板 */
-		$this->assign('account',		$account);
-		$this->assign('start_date',		RC_Time::local_date('Y-m-d', $start_date));
-		$this->assign('end_date',		RC_Time::local_date('Y-m-d', $end_date));
-		$this->assign('form_action',	RC_Uri::url('finance/admin_account_manage/init'));
-		
-		$this->display('admin_account_manage.dwt');
-	}
-	
-	/**
-	 * 积分余额订单
-	 */
-	public function surplus() {
-		$this->admin_priv('account_manage');
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account_manage.user_account_manage'), RC_Uri::url('finance/admin_account_manage/init')));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account_manage.integral_order')));
-		
-		$this->assign('ur_here', RC_Lang::get('user::user_account_manage.integral_order'));
-		$this->assign('action_link', array('text' => RC_Lang::get('user::user_account_manage.user_account_manage'), 'href' => RC_Uri::url('finance/admin_account_manage/init')));
-		
-		$order_list = get_user_order($_REQUEST);
-		/* 赋值到模板 */
-		$this->assign('order_list', $order_list);
-		$this->assign('form_action', RC_Uri::url('finance/admin_account_manage/surplus'));
-		
-		$this->display('user_surplus_list.dwt');
-	}
+        //百度图表
+        RC_Script::enqueue_script('echarts-min-js', RC_App::apps_url('statics/js/echarts.min.js', __FILE__));
+
+        RC_Script::enqueue_script('jquery-peity');
+
+        RC_Style::enqueue_style('admin_account_manage', RC_App::apps_url('statics/css/admin_account_manage.css', __FILE__), array());
+
+        $surplus_jslang = array(
+            'keywords_required' => RC_Lang::get('user::user_account_manage.keywords_required'),
+            'check_time'        => RC_Lang::get('user::user_account_manage.check_time'),
+        );
+        RC_Script::localize_script('user_surplus', 'surplus_jslang', $surplus_jslang);
+    }
+
+    /**
+     * 资金管理
+     */
+    public function init()
+    {
+        $this->admin_priv('account_manage');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account_manage.user_account_manage')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('user::users.overview'),
+            'content' => '<p>' . RC_Lang::get('user::users.user_account_manage_help') . '</p>',
+        ));
+
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:资金管理" target="_blank">' . RC_Lang::get('user::users.about_user_account_manage') . '</a>') . '</p>'
+        );
+
+        $this->assign('ur_here', RC_Lang::get('user::user_account_manage.user_account_manage'));
+
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year_list    = [];
+        for ($i = 0; $i < 6; $i++) {
+            $year_list[] = ($current_year - $i);
+        }
+        $month_list = [];
+        for ($i = 12; $i > 0; $i--) {
+            $month_list[] = $i;
+        }
+        $year  = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        $this->assign('store_id', $store_id);
+        $this->assign('year_list', $year_list);
+        $this->assign('month_list', $month_list);
+        $this->assign('year', $year);
+        $this->assign('month', $month);
+
+        //获取统计信息
+        $account = $this->get_stats();
+        $this->assign('account', $account);
+
+        $data = array(
+            'unformated_surplus'        => $account['unformated_surplus'],
+            'unformated_voucher_amount' => $account['unformated_voucher_amount'],
+            'unformated_return_money'   => $account['unformated_return_money'],
+            'unformated_to_cash_amount' => $account['unformated_to_cash_amount'],
+            'unformated_frozen_money'   => $account['unformated_frozen_money'],
+        );
+        $this->assign('data', json_encode($data));
+
+        $right_data = array(
+            'pay_points'   => $account['pay_points'],
+            'integral'     => $account['integral'],
+            'total_points' => $account['total_points'],
+        );
+        $this->assign('right_data', json_encode($right_data));
+
+        $this->assign('form_action', RC_Uri::url('finance/admin_account_manage/init'));
+
+        $log_list = $this->get_account_log();
+        $this->assign('log_list', $log_list);
+
+        $this->display('admin_account_manage.dwt');
+    }
+
+    /**
+     * 积分余额订单
+     */
+    public function surplus()
+    {
+        $this->admin_priv('account_manage');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account_manage.user_account_manage'), RC_Uri::url('finance/admin_account_manage/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account_manage.integral_order')));
+
+        $this->assign('ur_here', RC_Lang::get('user::user_account_manage.integral_order'));
+        $this->assign('action_link', array('text' => RC_Lang::get('user::user_account_manage.user_account_manage'), 'href' => RC_Uri::url('finance/admin_account_manage/init')));
+
+        $order_list = get_user_order($_REQUEST);
+        /* 赋值到模板 */
+        $this->assign('order_list', $order_list);
+        $this->assign('form_action', RC_Uri::url('finance/admin_account_manage/surplus'));
+
+        $this->display('user_surplus_list.dwt');
+    }
+
+    private function get_stats()
+    {
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year         = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month        = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        if (empty($month)) {
+            $start_time = $year . '-1-1 00:00:00';
+            $em         = $year + 1 . '-1-1 00:00:00';
+            $end_time   = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em) - 1);
+        } else {
+            $start_time = $year . '-' . $month . '-1 00:00:00';
+            $end_time   = RC_Time::local_date('Y-m-d 23:59:59', RC_Time::local_strtotime("$start_time +1 month -1 day"));
+        }
+        $start_date = RC_Time::local_strtotime($start_time);
+        $end_date   = RC_Time::local_strtotime($end_time);
+
+        $money = RC_DB::table('order_info')
+            ->select(RC_DB::raw('IFNULL(SUM(surplus), 0) AS surplus, IFNULL(SUM(integral), 0) AS integral'))
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
+            ->where('shipping_status', SS_RECEIVED)
+            ->first();
+
+        //会员消费
+        $data['surplus']            = ecjia_price_format($money['surplus']);
+        $data['unformated_surplus'] = $money['surplus'];
+
+        //积分抵现
+        $data['integral'] = $money['integral'];
+
+        $amount = RC_DB::table('user_account AS ua')
+            ->leftJoin('users as u', RC_DB::raw('ua.user_id'), '=', RC_DB::raw('u.user_id'))
+            ->select(RC_DB::raw('IFNULL(SUM(amount), 0) as total_amount'))
+            ->where('process_type', 0)
+            ->where('is_paid', 1)
+            ->where('paid_time', '>=', $start_date)
+            ->where('paid_time', '<', $end_date)
+            ->first();
+
+        //会员充值总额
+        $data['voucher_amount']            = ecjia_price_format($amount['total_amount']);
+        $data['unformated_voucher_amount'] = $amount['total_amount'];
+
+        $money_paid = RC_DB::table('refund_payrecord')
+            ->where('add_time', '>=', $start_date)
+            ->where('add_time', '<', $end_date)
+            ->where('action_back_time', '>', 0)
+            ->whereNotNull(RC_DB::raw('action_back_type'))
+            ->select(RC_DB::raw('IFNULL(SUM(order_money_paid), 0) as order_money_paid'))
+            ->first();
+
+        //退款存入
+        $data['return_money']            = ecjia_price_format($money_paid['order_money_paid']);
+        $data['unformated_return_money'] = $money_paid['order_money_paid'];
+
+        $amount = RC_DB::table('user_account AS ua')
+            ->leftJoin('users as u', RC_DB::raw('ua.user_id'), '=', RC_DB::raw('u.user_id'))
+            ->select(RC_DB::raw('IFNULL(SUM(amount), 0) as total_amount'))
+            ->where('process_type', 1)
+            ->where('is_paid', 1)
+            ->where('paid_time', '>=', $start_date)
+            ->where('paid_time', '<', $end_date)
+            ->first();
+
+        //提现总额
+        $data['to_cash_amount']            = ecjia_price_format(abs($amount['total_amount']));
+        $data['unformated_to_cash_amount'] = abs($amount['total_amount']);
+
+        $money_list = RC_DB::table('account_log')
+            ->select(RC_DB::raw('IFNULL(SUM(user_money), 0) AS user_money,
+            IFNULL(SUM(frozen_money), 0) AS frozen_money'))
+            ->where('change_time', '>=', $start_date)
+            ->where('change_time', '<', $end_date)
+            ->first();
+
+        //用户冻结金额
+        $data['frozen_money']            = ecjia_price_format($money_list['frozen_money']);
+        $data['unformated_frozen_money'] = abs($money_list['frozen_money']);
+
+        //用户剩余总余额
+        $data['user_money']            = ecjia_price_format($money_list['user_money']);
+        $data['unformated_user_money'] = $money_list['user_money'];
+
+        $points = RC_DB::table('account_log')
+            ->select(RC_DB::raw('IFNULL(SUM(pay_points), 0) as pay_points'))
+            ->where('pay_points', '!=', 0)
+            ->where('from_type', 'order_give_integral')
+            ->where('change_time', '>=', $start_date)
+            ->where('change_time', '<', $end_date)
+            ->first();
+        $data['pay_points'] = $points['pay_points'];
+
+        $points = RC_DB::table('account_log')
+            ->select(RC_DB::raw('IFNULL(SUM(pay_points), 0) as pay_points'))
+            ->where('pay_points', '!=', 0)
+            ->where('change_time', '>=', $start_date)
+            ->where('change_time', '<', $end_date)
+            ->first();
+        $data['total_points'] = $points['pay_points'];
+
+        return $data;
+    }
+
+    private function get_account_log()
+    {
+        $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
+        $year         = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month        = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+
+        if (empty($month)) {
+            $start_time = $year . '-1-1 00:00:00';
+            $em         = $year + 1 . '-1-1 00:00:00';
+            $end_time   = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em) - 1);
+        } else {
+            $start_time = $year . '-' . $month . '-1 00:00:00';
+            $end_time   = RC_Time::local_date('Y-m-d 23:59:59', RC_Time::local_strtotime("$start_time +1 month -1 day"));
+        }
+        $start_date = RC_Time::local_strtotime($start_time);
+        $end_date   = RC_Time::local_strtotime($end_time);
+
+        $db_account_log = RC_DB::table('account_log as a')
+            ->where(RC_DB::raw('a.change_time'), '>=', $start_date)
+            ->where(RC_DB::raw('a.change_time'), '<', $end_date);
+
+        $count = $db_account_log->count();
+
+        $page = new ecjia_page($count, 15, 6);
+
+        $res = $db_account_log
+            ->leftJoin('users as u', RC_DB::raw('a.user_id'), '=', RC_DB::raw('u.user_id'))
+            ->select(RC_DB::raw('a.*, u.user_name'))
+            ->orderBy(RC_DB::raw('a.log_id'), 'DESC')
+            ->take(15)
+            ->skip($page->start_id - 1)
+            ->get();
+
+        $arr = array();
+        if (!empty($res)) {
+            foreach ($res as $row) {
+                $row['change_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['change_time']);
+                $arr[]              = $row;
+            }
+        }
+        return array('item' => $arr, 'page' => $page->show(5), 'desc' => $page->page_desc());
+    }
 }
 
-// end 
+// end

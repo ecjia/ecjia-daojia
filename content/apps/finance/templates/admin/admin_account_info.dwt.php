@@ -20,23 +20,24 @@
 <div class="order-status-base m_b20">
 	<ul class="">
 		<li class="step-first">
-			<div class="{if $is_paid neq '1'}step-cur{else}step-done{/if}">
-				<div class="step-no">{if $account_info.is_paid neq '1'}1{/if}</div>
-				<div class="m_t5">{if $account_info.is_paid neq '1'}未确认{else}已确认{/if}</div>
-				<div class="m_t5 ecjiafc-blue">{$account_info.add_time}</div>
+			<div class="{if $is_paid neq 1}step-cur{else}step-done{/if}">
+				<div class="step-no">{if $account_info.is_paid neq 1}1{/if}</div>
+				<div class="m_t5">{if $account_info.is_paid eq 0}未确认{else if $account_info.is_paid eq 1}已确认{else if $account_info.is_paid eq 2}<span class="ecjiafc-red">已取消</span>{/if}</div>
+				<div class="m_t5 ecjiafc-blue">{if $account_info.is_paid neq 2}{$account_info.add_time}{else}{$account_info.review_time}{/if}</div>
 			</div>
 		</li>
 		<li>
-			<div class="{if $is_paid eq '1'}step-done{/if}">
+			<div class="{if $is_paid eq 1}step-done{/if}">
 				<div class="step-no">2</div>
-				<div class="m_t5">{if $account_info.is_paid eq '1'}已付款{else}未付款{/if}</div>
+				<div class="m_t5">{if $account_info.is_paid eq 1}已付款{else}未付款{/if}</div>
 				<div class="m_t5 ecjiafc-blue">{$account_info.pay_time}</div>
 			</div>
 		</li>
 		<li class="step-last">
-			<div class="{if $is_paid eq '1'}step-cur{else}step-done{/if}">
+			<div class="{if $is_paid eq 1}step-cur{else}step-done{/if}">
 				<div class="step-no">3</div>
-				<div class="m_t5">{if $account_info.is_paid eq '1'}已完成{elseif $account_info.is_paid eq '2'}已取消{else}未完成{/if}</div>
+				<div class="m_t5">{if $account_info.is_paid eq 1}已完成{else}未完成{/if}</div>
+				<div class="m_t5 ecjiafc-blue">{$account_info.review_time}</div>
 			</div>
 		</li>
 	</ul>
@@ -54,43 +55,32 @@
 				<table class="table table-oddtd m_b0">
 					<tbody class="first-td-no-leftbd">
 						<tr>
-							<td><div align="right"><strong>订单编号</strong></div></td>
+							<td><div align="right"><strong>订单编号：</strong></div></td>
 							<td>{$account_info.order_sn}</td>
-							<td><div align="right"><strong>申请时间</strong></div></td>
-							<td>{$account_info.add_time}</td>
+							<td><div align="right"><strong>状态：</strong></div></td>
+							<td>{if $account_info.is_paid eq 0}待审核{else if $account_info.is_paid eq 1}已完成{else}已取消{/if}</td>
 						</tr>
-						<tr>
-							<td><div align="right"><strong>{lang key='user::user_account.label_process_type'}</strong></div></td>
-							<td>
-								<!-- {if $account_info.process_type eq 0} -->
-								<b class="ecjiafc-f00">{lang key='user::user_account.deposit'}</b>
-								<!-- {else} -->
-								{lang key='user::user_account.withdraw'}
-								<!-- {/if} -->
-							</td>
-							<td><div align="right"><strong>{lang key='user::user_account.label_pay_mothed'}</strong></div></td>
-							<td>
-								<!-- {if $account_info.pay_name} -->
-								{$account_info.pay_name}
-								<!-- {/if} -->
-							</td>
-						</tr>
+
 						<tr>
 							<td><div align="right"><strong>{lang key='user::user_account.label_user_id'}</strong></div></td>
 							<td>
-								<!-- {if $account_info.user_name} -->
-								{$account_info.user_name}
-								<!-- {else} -->
-								{lang key='user::user_account.anonymous_member'}
-								<!-- {/if} -->
+								{if $account_info.user_name}
+									{$account_info.user_name}
+								{else}
+									{lang key='user::user_account.anonymous_member'}
+								{/if}
 							</td>
-							<td><div align="right"><strong>{lang key='user::user_account.label_surplus_amount'}</strong></div></td>
-							<td>￥{$account_info.amount}{lang key='user::user_account.yuan'}</td>				
+							<td><div align="right"><strong>充值金额：</strong></div></td>
+							<td>{$account_info.formated_amount}</td>				
 						</tr>
+
 						<tr>
-							<td><div align="right"><strong>{lang key='user::user_account.label_surplus_desc'}</strong></div></td>
-							<td colspan="3">{$account_info.user_note}</td>
+							<td><div align="right"><strong>充值方式：</strong></div></td>
+							<td>{if $account_info.pay_name}{$account_info.pay_name}{/if}</td>
+							<td><div align="right"><strong>申请时间：</strong></div></td>
+							<td>{$account_info.add_time}</td>
 						</tr>
+
 					</tbody>
 				</table>
 			</div>
@@ -100,41 +90,35 @@
 
 <div class="row-fluid">
 	<div class="span12">
-	<div class="accordion-group">
+		{if $is_paid eq 0}
+		<div class="accordion-group">
 			<div class="accordion-heading">
 				<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic2">
 					<strong>订单操作</strong>
 				</div>
 			</div>
 			<div class="accordion-body in collapse" id="telescopic2">
-				<form class="form-horizontal" method="post" action="{if $account_info.is_paid neq '1'}{$check_action}{else}{$form_action}{/if}" name="theForm">
+				<form class="form-horizontal" method="post" action="{if $account_info.is_paid neq 1}{$check_action}{else}{$form_action}{/if}" name="theForm">
 					<table class="table table-oddtd m_b0">
 						<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>{lang key='user::user_account.label_surplus_notic'}</strong></div></td>
+								<td><div align="right"><strong>备注信息：</strong></div></td>
 								<td colspan="3">
-									<textarea class="span10" name="admin_note" cols="55" rows="6">{$account_info.admin_note}</textarea>
+									<textarea class="span10" name="admin_note" cols="55" rows="6" placeholder="请输入审核备注信息">{$account_info.admin_note}</textarea>
 								</td>
 							</tr>
+							
 							<tr>
-								<td><div align="right"><strong>{lang key='user::user_account.label_status'}</strong></div></td>
-								<td>
-									<input type="radio" name="is_paid" value="0" {if $account_info.is_paid eq 0}checked="true"{/if} {if ($account_info.is_paid eq 1) OR ($account_info.is_paid eq 2)}disabled="true"{/if} /><span>{lang key='user::user_account.unconfirm'}</span>
-									<input type="radio" name="is_paid" value="1" {if $account_info.is_paid eq 1}checked="true"{/if} {if ($account_info.is_paid eq 1) OR ($account_info.is_paid eq 2)}disabled="true"{/if} /><span>{lang key='user::user_account.confirm'}</span>
-									<input type="radio" name="is_paid" value="2" {if $account_info.is_paid eq 2}checked="true"{/if} {if ($account_info.is_paid eq 1) OR ($account_info.is_paid eq 2)}disabled="true"{/if} /><span>{lang key='user::user_account.cancel'}</span>
-								</td>
-							</tr>
-							<tr>
-								<td><div align="right"></div></td>
+								<td><div align="right"><strong>操作：</strong></div></td>
 								<td>
 								{if $id}
 									<input type="hidden" name="id" value="{$id}" />
 									<input type="hidden" name="user_name" value="{$account_info.user_name}" />
-									<input class="btn btn-gebo" type="submit" value="{lang key='user::user_account.submit_update'}" />
+									<input class="btn btn-gebo" type="submit" name="confirm" value="同意" />
+									<input class="btn" type="submit" value="取消" />
 								{else}
 									<input class="btn btn-gebo" type="submit" value="{lang key='system::system.button_submit'}" />
 								{/if}
-								<input type="hidden" name="type" value="{$type}" />
 								</td>
 							</tr>
 						</tbody>
@@ -142,6 +126,31 @@
 				</form>	
 			</div>
 		</div>
+		{else}
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic2">
+					<strong>平台审核操作</strong>
+				</div>
+			</div>
+			<div class="accordion-body in collapse" id="telescopic2">
+				<table class="table table-oddtd m_b0">
+					<tbody class="first-td-no-leftbd">
+						<tr>
+							<td><div align="right"><strong>操作人：</strong></div></td>
+							<td>{$account_info.admin_user}</td>
+							<td><div align="right"><strong>审核时间：</strong></div></td>
+							<td>{$account_info.review_time}</td>
+						</tr>
+						<tr>
+							<td><div align="right"><strong>审核备注：</strong></div></td>
+							<td colspan="3">{$account_info.admin_note}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		{/if}
 	</div>
 </div>
 

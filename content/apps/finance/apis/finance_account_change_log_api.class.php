@@ -83,7 +83,7 @@ class finance_account_change_log_api extends Component_Event_Api {
      * @param float $frozen_money
      *        	冻结余额变动
      * @param int $rank_points
-     *        	等级积分变动
+     *        	成长值变动
      * @param int $pay_points
      *        	消费积分变动
      * @param string $change_desc

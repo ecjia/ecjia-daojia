@@ -73,7 +73,7 @@ class finance_user_account_order_info_api extends Component_Event_Api {
 	
 	private function order_info($options) {
 		$order_id = intval(array_get($options, 'order_id'));
-		$order_sn = intval(array_get($options, 'order_sn'));
+		$order_sn = trim(array_get($options, 'order_sn'));
 
 		if ($order_sn) {
             $info = RC_DB::table('user_account')->where('order_sn', $order_sn)->first();

@@ -1,0 +1,72 @@
+.stats-content {
+	border: 1px solid #dcdcdc;
+	border-radius: 4px;
+	padding-right: 20px;
+}
+
+.stats-content .stats-item {
+	padding-left: 100px;
+	overflow: hidden;
+	border-bottom: 1px solid #dcdcdc;
+}
+
+.stats-content .stats-item:last-child {
+	border-bottom: none;
+}
+
+.stats-content .item-left {
+	float: left;
+	line-height: 25px;
+	font-size: 18px;
+	width: 50px;
+	padding-top: 5px;
+	margin-left: -100px;
+	padding-right: 20px;
+	border-right: 1px solid #dcdcdc;
+	padding-left: 30px;
+	margin-bottom: 32px;
+	margin-top: 30px;
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+
+.stats-content .item-right {
+	width: 100%;
+	padding-left: 20px;
+}
+
+.stats-content .right-item {
+	float: left;
+	padding-top: 20px;
+	width: 15.6%;
+	text-align: center;
+}
+
+.stats-content .right-item .item-top {
+	font-size: 16px;
+	padding-top: 12px;
+	color: #838383;
+	font-weight: bold;
+}
+
+.stats-content .right-item .item-bottom {
+	padding-top: 25px;
+	font-size: 16px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.span6 #left_stats,
+.span6 #right_stats {
+	width: 100%;
+	height: 350px;
+}
+
+.account_info {
+    background: #F6F8F8;
+    border-radius: 4px;
+    margin-bottom: 18px;
+    padding: 20px 20px;
+    line-height: 40px;
+}

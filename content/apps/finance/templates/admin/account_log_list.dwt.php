@@ -10,99 +10,67 @@
 <!-- {block name="main_content"} -->
 
 <h3 class="heading">
-	<strong>{lang key='user::account_log.account_desc'}</strong>
+	<strong>{$ur_here}</strong>
 	<small>（{lang key='user::account_log.label_user_name'}{$user.user_name}）</small>
-	<!-- {if $action_link} -->
-	<a href="{$action_link.href}" class="btn plus_or_reply data-pjax" ><i class="fontello-icon-dollar"></i>{$action_link.text}</a>
-	<!-- {/if} -->	
+	<a href="{$back_link.href}" class="btn plus_or_reply" ><i class="fontello-icon-reply"></i>{$back_link.text}</a>
+	<a href="{$link2.href}" class="btn plus_or_reply {if $link2.pjax}data-pjax{/if}" {if !$link2.pjax}target="__blank"{/if}><i class="{$link2.i}"></i>{$link2.text}</a>
+	<a href="{$link1.href}" class="btn plus_or_reply {if $link1.pjax}data-pjax{/if}" {if !$link1.pjax}target="__blank"{/if}><i class="{$link1.i}"></i>{$link1.text}</a>
 </h3>
 
 <div class="row-fluid">
-	<div class="span3  move-mod" >
-		<div class="move-mod-group">
-			<div class="manage_box">
-				<div class="ov_group">
-					<div class="p_line_up p_canvas">3,5,9,7,12,8,16</div>
-					<div class="ov_text">
-						{lang key='user::account_log.label_user_money'}<br/>
-						<span class="ecjiafc-0000FF">{$user.formated_user_money}</span>
-					</div>
-				</div>
+	<div class="span12">
+		<div class="account_info">
+			<div class="item">
+				{if $account_type eq 'user_money'}
+				<span>当前账户可用余额：<span class="ecjiafc-red">{$user.formated_user_money}</span></span>
+				<span class="m_l30">冻结资金：<span class="ecjiafc-red">{$user.formated_frozen_money}</span></span>
+
+				{else if $account_type eq 'pay_points'}
+				<span>当前账户积分：<span class="ecjiafc-red">{$user.pay_points}</span></span>
+				
+				{else if $account_type eq 'rank_points'}
+				<span>当前账户成长值：<span class="ecjiafc-red">{$user.rank_points}</span></span>
+				<span class="m_l30">所属会员等级：</span><span class="ecjiafc-red">{if $user.user_rank_name}{$user.user_rank_name}{else}暂无{/if}</span></span>
+				{/if}
 			</div>
-		</div>
-	</div>
-	<div class="span3  move-mod" >
-		<div class="move-mod-group">
-			<div class="manage_box">
-				<div class="ov_group">
-					<div class="p_line_down p_canvas">20,16,14,18,15,14,14,13,12,10,10,8</div>
-					<div class="ov_text">
-						{lang key='user::account_log.label_frozen_money'}<br/>
-						<span class="ecjiafc-FF0000">{$user.formated_frozen_money}</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="span3  move-mod" >
-		<div class="move-mod-group">
-			<div class="manage_box">
-				<div class="ov_group">
-					<div class="p_bar_up p_canvas">2,4,9,7,12,8,16</div>
-					<div class="ov_text">
-						{lang key='user::account_log.label_rank_points'}<br/>
-						{$user.rank_points}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="span3  move-mod" >
-		<div class="move-mod-group">
-			<div class="manage_box">
-				<div class="ov_group">
-					<div class="p_bar_down p_canvas">20,15,18,14,10,13,9,7</div>
-					<div class="ov_text">
-						{lang key='user::account_log.label_pay_points'}<br/>
-						{$user.pay_points}
-					</div>
+			<div class="item">
+				<div class="choose_list m_t10">
+					<form action="{$form_action}" method="post" name="searchForm">
+						<span class="f_l">选择日期：</span>
+						<input class="date f_l w150" name="start_date" type="text" value="{$smarty.get.start_date}" placeholder="请选择开始时间">
+						<span class="f_l">{lang key='user::user_account.to'}</span>
+						<input class="date f_l w150" name="end_date" type="text" value="{$smarty.get.end_date}" placeholder="请选择结束时间">
+						<button class="btn select-button" type="button">查询</button>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="m_t20">
+<div>
 	<h3 class="heading">
-		<!-- {if $ur_here}<strong>{$ur_here}</strong>{/if} -->
+		{$second_heading}
 	</h3>
 </div>
 
-<div class="row-fluid">
-	<div class="choose_list span12">
-		<form method="post" action="{$form_action}" name="searchForm">
-			<select class="w120" name="account_type" id="account_type">
-				<option value="" {if $account_type eq ''}selected="selected"{/if}>{lang key='user::account_log.all_account'}</option>
-				<option value="user_money" {if $account_type eq 'user_money'}selected="selected"{/if}>{lang key='user::account_log.user_money'}</option>
-				<option value="frozen_money" {if $account_type eq 'frozen_money'}selected="selected"{/if}>{lang key='user::account_log.frozen_money'}</option>
-				<option value="rank_points" {if $account_type eq 'rank_points'}selected="selected"{/if}>{lang key='user::account_log.rank_points'}</option>
-				<option value="pay_points" {if $account_type eq 'pay_points'}selected="selected"{/if}>{lang key='user::account_log.pay_points'}</option>
-			</select>
-			<button class="data-pjax btn select-button" type="button">{lang key='user::account_log.filter'}</button>
-		</form>
-	</div>
-</div>
 <div class="row-fluid">
 	<div class="span12">
 		<table class="table table-striped" id="smpl_tbl">
 			<thead>
 				<tr>
-					<th class="w150">{lang key='user::account_log.change_time'}</th>
-					<th>{lang key='user::account_log.list_change_desc'}</th>
-					<th class="w100">{lang key='user::account_log.user_money'}</th>
-					<th class="w100">{lang key='user::account_log.frozen_money'}</th>
-					<th class="w100">{lang key='user::account_log.rank_points'}</th>
-					<th class="w130">{lang key='user::account_log.pay_points'}</th>
+					<th class="w150">变动时间</th>
+					<th>变动原因</th>
+
+					{if $account_type eq 'user_money'}
+					<th class="w150">资金变动</th>
+					{else if $account_type eq 'pay_points'}
+					<th class="w150">积分变动</th>
+					{else if $account_type eq 'rank_points'}
+					<th class="w150">成长值变动</th>
+					{/if}
+
+					<th class="w150">关联订单</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -110,45 +78,39 @@
 				<tr>
 					<td>{$account.change_time}</td>
 					<td>{$account.change_desc|escape:html}</td>
-					<td align="right">
+
+					<td>
+					{if $account_type eq 'user_money'}
 						<!-- {if $account.user_money gt 0} -->
 						<span class="ecjiafc-0000FF">+{$account.user_money}</span>
 						<!-- {elseif $account.user_money lt 0} -->
-						<span class="ecjiafc-FF0000">{$account.user_money}</span>
+						<span class="ecjiafc-red">{$account.user_money}</span>
 						<!-- {else} -->
 						{$account.user_money}
 						<!-- {/if} -->
-					</td>
-					<td align="right">
-						<!-- {if $account.frozen_money gt 0} -->
-						<span class="ecjiafc-0000FF">+{$account.frozen_money}</span>
-						<!-- {elseif $account.frozen_money lt 0} -->
-						<span class="ecjiafc-FF0000">{$account.frozen_money}</span>
-						<!-- {else} -->
-						{$account.frozen_money}
-						<!-- {/if} -->
-					</td>
-					<td align="right">
-						<!-- {if $account.rank_points gt 0} -->
-						<span class="ecjiafc-0000FF">+{$account.rank_points}</span>
-						<!-- {elseif $account.rank_points lt 0} -->
-						<span class="ecjiafc-FF0000">{$account.rank_points}</span>
-						<!-- {else} -->
-						{$account.rank_points}
-						<!-- {/if} -->
-					</td>
-					<td align="right">
+					{else if $account_type eq 'pay_points'}
 						<!-- {if $account.pay_points gt 0} -->
 						<span class="ecjiafc-0000FF">+{$account.pay_points}</span>
 						<!-- {elseif $account.pay_points lt 0} -->
-						<span class="ecjiafc-FF0000">{$account.pay_points}</span>
+						<span class="ecjiafc-red">{$account.pay_points}</span>
 						<!-- {else} -->
 						{$account.pay_points}
 						<!-- {/if} -->
+					{else if $account_type eq 'rank_points'}
+						<!-- {if $account.rank_points gt 0} -->
+						<span class="ecjiafc-0000FF">+{$account.rank_points}</span>
+						<!-- {elseif $account.rank_points lt 0} -->
+						<span class="ecjiafc-red">{$account.rank_points}</span>
+						<!-- {else} -->
+						{$account.rank_points}
+						<!-- {/if} -->
+					{/if}
 					</td>
+
+					<td><a href="{RC_Uri::url('orders/admin/info')}&order_sn={$account.from_value}" target="__blank">{$account.from_value}</td>
 				</tr>
 				<!-- {foreachelse} -->
-				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

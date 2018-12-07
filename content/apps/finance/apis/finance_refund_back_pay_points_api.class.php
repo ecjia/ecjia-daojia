@@ -47,43 +47,72 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 会员消费积分 变动日志记录接口
+ * 订单退款退还消费积分,及扣除下单赠送积分接口
  * @author 
  */
-class finance_pay_points_change_api extends Component_Event_Api {
+class finance_refund_back_pay_points_api extends Component_Event_Api {
 
     /**
-     * @param integer $user_id       必填，用户ID
-     * @param integer $point         必填，变动积分
-     * @param string  $change_desc   必填，变动积分日志
-     * @param string  $change_type   选填，变动积分类型
-     * @param string  $from_type     选填，变动来源类型
-     * @param string  $from_value    选填，变动来源内容
-     *
-     * @return ecjia_error|integer
+     * @param integer refund_id       必填，退款申请id
+     * @return ecjia_error|true
      */
     public function call(& $options)
     {
-        if (!array_get($options, 'point') || !array_get($options, 'change_desc') || !array_get($options, 'user_id')) {
-            return new ecjia_error('invalid_parameter', '请求接口finance_pay_points_change_api参数无效');
+        if (!array_get($options, 'refund_id')) {
+            return new ecjia_error('invalid_parameter', '请求接口refund_back_pay_points_api参数无效');
         }
         
-        $user_id 			= array_get($options, 'user_id');
-        $point 			    = array_get($options, 'point');
-        $change_desc 		= array_get($options, 'change_desc');
-        $change_type 		= array_get($options, 'change_type');
-        $from_type 		    = array_get($options, 'from_type', '');
-        $from_value 		= array_get($options, 'from_value', '');
-
-        if (empty($change_type)) {
-            if ($point > 0) {
-                $change_type =  ACT_PAY_POINT_SAVING;
-            } else if ($point < 0) {
-                $change_type =  ACT_PAY_POINT_DEDUCTION;
-            }
+        $refund_id 			= array_get($options, 'refund_id');
+        $refund_info 		= RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
+        
+        $integral_name = ecjia::config('integral_name');
+        if (empty($integral_name)) {
+        	$integral_name = '积分';
         }
-
-        return $this->log_account_change($user_id, $point, $change_desc, $change_type, $from_type, $from_value);
+        
+        if ($refund_info['user_id'] > 0) {
+        	if ($refund_info['integral'] > 0) { //下单有没使用积分
+        		//是否已退过积分
+        		$refund_back_integral_info = RC_DB::table('account_log')->where('user_id', $refund_info['user_id'])->where('from_type', 'refund_back_integral')->where('from_value', $refund_info['order_sn'])->first();
+        		if (empty($refund_back_integral_info)) {
+        			//退还下单使用的积分
+        			$options = array(
+        					'user_id' 		=> $refund_info['user_id'],
+        					'point' 	    => intval($refund_info['integral']),
+        					'change_desc' 	=> '订单退款，退还订单' . $refund_info['order_sn'] . '下单时使用的'.$integral_name,
+        					'change_type' 	=> ACT_REFUND,
+        					'from_type' 	=> 'refund_back_integral',
+        					'from_value' 	=> $refund_info['order_sn']
+        			);
+        			$res = RC_Api::api('finance', 'pay_points_change', $options);
+        			if (is_ecjia_error($res)) {
+        				return $res;
+        			}
+        		}
+        	}
+        	/*所退款订单，有没赠送积分；有赠送的话，赠送的积分扣除*/
+        	$order_give_integral_info = RC_DB::table('account_log')->where('user_id', $refund_info['user_id'])->where('from_type', 'order_give_integral')->where('from_value', $refund_info['order_sn'])->first();
+        	if (!empty($order_give_integral_info)) {
+        		//是否已扣除过积分
+        		$refund_deduct_integral_info = RC_DB::table('account_log')->where('user_id', $refund_info['user_id'])->where('from_type', 'refund_deduct_integral')->where('from_value', $refund_info['order_sn'])->first();
+        		if (empty($refund_deduct_integral_info)) {
+        			$options = array(
+        					'user_id'       => $refund_info['user_id'],
+        					'point'         => intval($order_give_integral_info['pay_points']) * (-1),
+        					'change_desc'   => '订单退款，扣除订单' . $refund_info['order_sn'] . '下单时赠送的'.$integral_name,
+        					'change_type'   => ACT_REFUND,
+        					'from_type'     => 'refund_deduct_integral',
+        					'from_value'    => $refund_info['order_sn']
+        			);
+        			
+        			$res = RC_Api::api('finance', 'pay_points_change', $options);
+        			if (is_ecjia_error($res)) {
+        				return $res;
+        			}
+                }
+        	}
+        }
+        return true;
     }
     
     

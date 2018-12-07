@@ -73,7 +73,7 @@
 			<div class="control-group formSep">
 				<label class="control-label">{lang key='user::account_log.label_change_desc'}</label>
 				<div class="controls">
-					<textarea class="span5" name="change_desc" rows="5" >{$user_surplus.admin_note}</textarea>
+					<textarea class="span5" name="change_desc" rows="5">{$user_surplus.admin_note}</textarea>
 					<span class="input-must">{lang key='system::system.require_field'}</span>
 				</div>
 			</div>
