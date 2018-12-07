@@ -378,7 +378,7 @@ class goods_list {
 		
 		if (empty($goods_result['list'])) {
 			/* 返回商品总数 */
-			$count = $dbview->join(array('store_franchisee'))->where($where)->count();
+			$count = $dbview->join(array('store_franchisee'))->where($where)->count('g.goods_id');
 			
 			//实例化分页
 			if (empty($filter['size']) && empty($filter['page'])) {
@@ -390,7 +390,7 @@ class goods_list {
 				$limit = $page_row->limit();
 			}
 			
-			$data = $dbview->join(array('member_price', 'store_franchisee'))->field($field)->where($where)->order($filter['sort'])->limit($limit)->select();
+			$data = $dbview->join(array('member_price', 'store_franchisee'))->field($field)->where($where)->group('g.goods_id')->order($filter['sort'])->limit($limit)->select();
 			
 			$arr = array();
 			$store_logo = '';

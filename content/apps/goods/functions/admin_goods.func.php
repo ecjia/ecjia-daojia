@@ -1344,8 +1344,9 @@ function goods_info($goods_id) {
 		$row ['goods_img'] = get_image_path ( $goods_id, $row ['goods_img'] );
 	}
 	// 添加图片路径处理
-	$row ['goods_thumb'] = 'content/uploads/goods' . substr ( $row ['goods_thumb'], strpos ( $row ['goods_thumb'], '/' ) );
-	$row ['original_img'] = 'content/uploads/goods' . substr ( $row ['original_img'], strpos ( $row ['original_img'], '/' ) );
+	$row ['goods_thumb'] = get_image_path( $goods_id, $row ['goods_thumb'] );
+	$row ['original_img'] = get_image_path( $goods_id, $row ['original_img'] );
+	
 	return $row;
 }
 

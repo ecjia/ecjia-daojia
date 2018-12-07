@@ -1593,7 +1593,11 @@ function get_image_path($goods_id, $image = '', $thumb = false, $call = 'goods',
 	if (empty($image)) {
 		$url = RC_Uri::admin_url('statics/images/nopic.png');
 	} else {
-		$url = RC_Upload::upload_url() . '/' . $image;
+	    if ((strpos($image, 'http://') === false) && (strpos($image, 'https://') === false)) {
+	        $url = RC_Upload::upload_url() . '/' . $image;
+	    } else {
+	        $url = $image;
+	    }
 	}
 	return $url;
 }
