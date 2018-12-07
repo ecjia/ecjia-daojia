@@ -44,22 +44,22 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+defined('IN_ROYALCMS') or exit('No permission resources.');
 
 /**
- * 订单应用
+ * 会中中心应用
  */
 return array(
-	'identifier' 	=> 'ecjia.commission',
-	'directory' 	=> 'commission',
-	'name'			=> 'commission',
-	'description' 	=> 'commission_desc',		/* 描述对应的语言项 */
+	'identifier' 	=> 'ecjia.withdraw',
+	'directory' 	=> 'withdraw',
+	'name'			=> 'withdraw',
+	'description' 	=> 'withdraw_desc',				/* 描述对应的语言项 */
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
 	'version' 		=> '1.24.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2016 ~ 2018.',
-    'namespace'     => 'Ecjia\App\Commission',
-    'provider'      => 'CommissionServiceProvider',
+	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2018.',
+    'namespace'     => 'Ecjia\App\Withdraw',
+    'provider'      => 'WithdrawServiceProvider',
 );
 
 // end

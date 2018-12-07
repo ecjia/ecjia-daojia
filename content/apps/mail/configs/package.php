@@ -56,7 +56,7 @@ return array(
 	'description' => 'mail_desc',
 	'author' 	  => 'ECJIA TEAM',
 	'website' 	  => 'http://www.ecjia.com',
-	'version' 	  => '1.21.0',
+	'version' 	  => '1.24.0',
 	'copyright'   => 'ECJIA Copyright 2014 ~ 2018.',
     'namespace'   => 'Ecjia\App\Mail',
     'provider'    => 'LogviewerServiceProvider',
