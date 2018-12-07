@@ -1,19 +1,19 @@
-<?php namespace Royalcms\Component\Hook;
+<?php
+
+namespace Royalcms\Component\Hook;
 
 /**
  * PHP Hooks Class
  *
- * The PHP Hooks Class is a fork of the WordPress filters hook system rolled in to a class to be ported
+ * The PHP Hooks Class is a fork of the Royalcms filters hook system rolled in to a class to be ported
  * into any php based system
  *
- * This class is heavily based on the WordPress plugin API and most (if not all) of the code comes from there.
+ * This class is heavily based on the Royalcms plugin API and most (if not all) of the code comes from there.
  *
  *
  * @version 0.1.2
  * @copyright 2012 - 2014
- * @author Ohad Raz (email: admin@bainternet.info)
- * @link http://en.bainternet.info
- *      
+ *
  * @package PHP Hooks
  */
 
@@ -523,7 +523,7 @@ class Hooks
      *      
      * @return string Hook name of the current action.
      */
-    function current_action()
+    public function current_action()
     {
         return $this->current_filter();
     }
@@ -548,7 +548,7 @@ class Hooks
      *            checks if any filter is currently being run.
      * @return bool Whether the filter is currently in the stack
      */
-    function doing_filter($filter = null)
+    public function doing_filter($filter = null)
     {
         if (null === $filter) {
             return ! empty($this->current_filter);
@@ -568,7 +568,7 @@ class Hooks
      *            if any action is currently being run.
      * @return bool Whether the action is currently in the stack.
      */
-    function doing_action($action = null)
+    public function doing_action($action = null)
     {
         return $this->doing_filter($action);
     }
