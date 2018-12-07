@@ -156,7 +156,7 @@ $LANG['booking_js']['contact_phone_empty']      = '请输入联系人的电话�
 $LANG['confirm_submit']     = '　确 定　';
 $LANG['member_rank']        = '会员等级';
 $LANG['member_discount']    = '会员折扣';
-$LANG['rank_integral']      = '等级积分';
+$LANG['rank_integral']      = '成长值';
 $LANG['consume_integral']   = '消费积分';
 $LANG['account_balance']    = '账户余额';
 $LANG['user_bonus']         = '用户红包';
@@ -643,7 +643,7 @@ $LANG['affiliate_intro'][0]     = '　　本网店为鼓励推荐新用户注册
 
 　　１、将本站提供给您的推荐代码，发送到论坛、博客上。
 　　２、访问者点击链接，访问网店。
-　　３、在访问者点击链接的 <b>%d%s</b> 内，若该访问者在本站注册，即认定该用户是您推荐的，您将获得等级积分 <b>%d</b> 的奖励 (当您的等级积分超过 <b>%d</b> 时，不再获得奖励)。
+　　３、在访问者点击链接的 <b>%d%s</b> 内，若该访问者在本站注册，即认定该用户是您推荐的，您将获得成长值 <b>%d</b> 的奖励 (当您的成长值超过 <b>%d</b> 时，不再获得奖励)。
 　　４、该用户今后在本站的一切消费，您均能获得一定比例的提成。目前实行的提成总额为订单金额的 <b>%s</b> 、积分的 <b>%s</b> ，分配给您、推荐您的人等，具体分配规则请参阅 <b><a href="#myrecommend">我推荐的会员</a></b>。
 　　５、提成由管理员人工审核发放，请您耐心等待。
 　　６、您可以通过分成明细来查看您的介绍、分成情况。';
@@ -659,7 +659,7 @@ $LANG['affiliate_intro'][1]     = '　　本网店为鼓励推荐新用户注册
 $LANG['level_point_all']    = '积分分成总额百分比';
 $LANG['level_money_all']    = '现金分成总额百分比';
 $LANG['level_register_all'] = '注册积分分成数';
-$LANG['level_register_up']  = '等级积分分成上限';
+$LANG['level_register_up']  = '成长值分成上限';
 
 $LANG['affiliate_stats'][0] = '等待处理';
 $LANG['affiliate_stats'][1] = '已分成';
@@ -712,7 +712,7 @@ $LANG['invalid_points']         = '你输入的积分是不一个合法值';
 $LANG['invalid_input']          = '无效';
 $LANG['overflow_points']        = '您输入的兑换积分超过您的实际积分';
 $LANG['to_pay_points']          = '恭喜您， 你%s论坛%s兑换了%s的商城消费积分';
-$LANG['to_rank_points']         = '恭喜您， 你%s论坛%s兑换了%s的商城等级积分';
+$LANG['to_rank_points']         = '恭喜您， 你%s论坛%s兑换了%s的商城成长值';
 $LANG['from_pay_points']        = '恭喜您， 你%s的商城消费积分兑换%s论坛%s';
 $LANG['from_rank_points']       = '恭喜您， 你%s论坛%s兑换了%s的商城消费积分';
 $LANG['cur_points']             = '您的当前积分';
@@ -726,7 +726,7 @@ $LANG['bbs']                    = '论坛';
 $LANG['exchange_amount']        = '支出';
 $LANG['exchange_desamount']     = '收入';
 $LANG['exchange_ratio']         = '兑换比率';
-$LANG['exchange_points'][0]     = '商城等级积分';
+$LANG['exchange_points'][0]     = '商城成长值';
 $LANG['exchange_points'][1]     = '商城消费积分';
 $LANG['exchange_action']        = '换';
 $LANG['exchange_js']['deny']    = '禁止兑换';
@@ -734,7 +734,7 @@ $LANG['exchange_js']['balance'] = '您的{%s}余额不足，请重新输入';
 $LANG['exchange_deny']          = '该积分不允许兑换';
 $LANG['exchange_success']       = '恭喜您， 你用%s个%s兑换了%s个%s';
 $LANG['exchange_error_1']       = 'UCenter提交积分兑换时发生错误';
-$LANG['rank_points']            = '商城等级积分';
+$LANG['rank_points']            = '商城成长值';
 $LANG['pay_points']             = '商城消费积分';
 
 /* 密码强度 */
