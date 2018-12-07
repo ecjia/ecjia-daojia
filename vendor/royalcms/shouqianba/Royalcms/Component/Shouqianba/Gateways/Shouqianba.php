@@ -144,7 +144,15 @@ class Shouqianba implements GatewayApplicationInterface
      */
     public function refund($order)
     {
+        $this->payload = $order;
 
+        $gateway = get_class($this).'\\'.Str::studly('refund').'Gateway';
+
+        if (class_exists($gateway)) {
+            return $this->makePay($gateway);
+        }
+
+        throw new InvalidGatewayException("Pay Gateway [{$gateway}] not exists");
     }
 
     /**
