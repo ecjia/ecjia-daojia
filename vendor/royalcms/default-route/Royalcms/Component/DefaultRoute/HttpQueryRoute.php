@@ -142,5 +142,16 @@ class HttpQueryRoute
     {
         return $rules = config('route.rule', []);
     }
+
+    public function justCurrentRoute($route)
+    {
+        $route = trim($route, '/');
+        $current = $this->module . '/' . $this->controller . '/' . $this->action;
+        if ($route == $current) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
 }
