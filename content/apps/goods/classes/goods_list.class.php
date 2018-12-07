@@ -55,27 +55,31 @@ class goods_list {
 	private static $keywords_where;
 	/* 初始化搜索条件 */
 	public static function get_keywords_where($keyword) {
-
 		$keywords = '';
 		$tag_where = '';
 		if (!empty($keyword)) {
 			$arr = array();
-			if (stristr($keyword, ' AND ') !== false) {
-				/* 检查关键字中是否有AND，如果存在就是并 */
-				$arr = explode('AND', $keyword);
-				$operator = " AND ";
-			} elseif (stristr($keyword, ' OR ') !== false) {
-				/* 检查关键字中是否有OR，如果存在就是或 */
-				$arr = explode('OR', $keyword);
-				$operator = " OR ";
-			} elseif (stristr($keyword, ' + ') !== false) {
-				/* 检查关键字中是否有加号，如果存在就是或 */
-				$arr = explode('+', $keyword);
+			if (is_array($keyword)) {
+				$arr = $keyword;
 				$operator = " OR ";
 			} else {
-				/* 检查关键字中是否有空格，如果存在就是并 */
-				$arr = explode(' ', $keyword);
-				$operator = " AND ";
+				if (stristr($keyword, ' AND ') !== false) {
+					/* 检查关键字中是否有AND，如果存在就是并 */
+					$arr = explode('AND', $keyword);
+					$operator = " AND ";
+				} elseif (stristr($keyword, ' OR ') !== false) {
+					/* 检查关键字中是否有OR，如果存在就是或 */
+					$arr = explode('OR', $keyword);
+					$operator = " OR ";
+				} elseif (stristr($keyword, ' + ') !== false) {
+					/* 检查关键字中是否有加号，如果存在就是或 */
+					$arr = explode('+', $keyword);
+					$operator = " OR ";
+				} else {
+					/* 检查关键字中是否有空格，如果存在就是并 */
+					$arr = explode(' ', $keyword);
+					$operator = " AND ";
+				}
 			}
 
 			$keywords = '(';
@@ -161,13 +165,16 @@ class goods_list {
 		
 		/* 店铺条件*/
 		if (isset($filter['store_id']) && !empty($filter['store_id'])) {
-			$where['g.store_id'] = $filter['store_id'];
 			/* 缓存对象*/
 			if (is_array($filter['store_id'])) {
+				$store_id_arr = implode(',', $filter['store_id']);
+				$where[] = 'g.store_id IN (' . $store_id_arr . ') ';
+				
 				foreach ($filter['store_id'] as $v) {
 					$cache_key .= '-store-' . $v;
 				}
 			} else {
+				$where['g.store_id'] = $filter['store_id'];
 				$cache_key .= '-store-' . $filter['store_id'];
 			}
 		}
@@ -232,13 +239,15 @@ class goods_list {
 		}
 		
 		if (isset($filter['brand']) && $filter['brand'] > 0) {
-			$where['brand_id'] = $filter['brand'];
+			$where[] = 'brand_id IN (' . $filter['brand'] . ') ';
 			$cache_key .= '-brand-' . $filter['brand'];
 		}
+		
 		if (isset($filter['min']) && $filter['min'] > 0) {
 			$where[] = "shop_price >= ".$filter['min'];
 			$cache_key .= '-min-' . $filter['min'];
 		}
+		
 		if (isset($filter['max']) && $filter['max'] > 0) {
 			$where[] = "shop_price <= ".$filter['max'];
 			$cache_key .= '-max-' . $filter['max'];
@@ -261,7 +270,13 @@ class goods_list {
 		
 		if (isset(self::$keywords_where['keywords']) && !empty(self::$keywords_where['keywords']) && isset($filter['keywords']) && !empty($filter['keywords'])) {
 			$where[] = self::$keywords_where['keywords'];
-			$cache_key .= '-keywords-' . $filter['keywords'];
+			if(is_array($filter['keywords'])) {
+				foreach ($filter['keywords'] as $keyword) {
+					$cache_key .= '-keywords-' . $keyword;
+				}
+			} else {
+				$cache_key .= '-keywords-' . $filter['keywords'];
+			}
 		}
 
 		if (!empty($filter['intro'])) {

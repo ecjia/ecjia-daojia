@@ -303,14 +303,14 @@
 					$(".insertSubmit").html('开始导入');
 			        
 			        this.defaultShowErrors();
-			    },
-			}
+			    }
+			};
 
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
 			
-		},
-	}
+		}
+	};
 
 	/* 编辑页 */
 	app.goods_info = { /* 添加编辑页 */
@@ -460,10 +460,10 @@
 					var options = {
 						shop_price: $('[name="shop_price"]').val() || $('[name="market_price"]').val(),
 						discount: admin_goodsList_lang.user_rank_list[i].discount || 100,
-						rank_id: admin_goodsList_lang.user_rank_list[i].rank_id,
+						rank_id: admin_goodsList_lang.user_rank_list[i].rank_id
 					};
 					app.goods_info.set_price_note(options);
-				};
+				}
 			}
 		},
 		set_price_note: function(options) {
@@ -493,7 +493,7 @@
 				reader.onload = function(evt) {
 					$(file).siblings('.fileupload-btn').addClass('preview-img').css("backgroundImage", "url(" + evt.target.result + ")");
 					$('.thumb_img').removeClass('hide').find('.fileupload-btn').addClass('preview-img').css("backgroundImage", "url(" + evt.target.result + ")");
-				}
+				};
 				reader.readAsDataURL(file.files[0]);
 			} else {
 				$(file).prev('.fileupload-exists').remove();
@@ -509,7 +509,7 @@
 					$('.cat_id_error').css('display', 'block');
 					$('#collapse002').collapse('show')
 				}
-			})
+			});
 
 			$this.find('[name="cat_id"]').on('change', function() {
 				$this.find('[name="cat_id"]').val() < 1 ? $('.cat_id_error').css('display', 'block') : $('.cat_id_error').css('display', 'none');
@@ -556,7 +556,7 @@
 						}
 					});
 				}
-			}
+			};
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
 
@@ -810,8 +810,8 @@
 					id = $this.find('[name="keywords"]').val();
 				ecjia.pjax(url + '&id=' + id);
 			});
-		},
-	}
+		}
+	};
 
 	/* 货品列表 */
 	app.products_list = {
@@ -845,12 +845,12 @@
 						}
 					});
 				}
-			}
+			};
 
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
 		}
-	}
+	};
 
 	/* 回收站 */
 	app.goods_trash = {
@@ -869,7 +869,7 @@
 						}
 					});
 				}
-			}
+			};
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
 		},
@@ -893,7 +893,7 @@
 				ecjia.pjax(url);
 			});
 		}
-	}
+	};
 
 	/* 商品属性 */
 	app.goods_attr = {
@@ -914,7 +914,7 @@
 						'class': ''
 					}).chosen();
 				}
-			})
+			});
 
 			$('[data-toggle="get_attr_list"]').on('change', function(e) {
 				e.preventDefault();
@@ -928,7 +928,7 @@
 					$('#tbody-goodsAttr').html(data.content);
 					$("select").not(".noselect").chosen();
 				}, "JSON");
-			})
+			});
 
 			$('[name="theForm"]').on('submit', function(e) {
 				e.preventDefault();
@@ -940,7 +940,7 @@
 				});
 			});
 		}
-	}
+	};
 
 	/* 关联商品 */
 	app.link_goods = {
@@ -1061,7 +1061,7 @@
 				});
 			})
 		}
-	}
+	};
 
 	/* 关联地区 */
 	app.link_area = {
@@ -1415,7 +1415,7 @@
 				});
 			})
 		}
-	}
+	};
 
 	/* 商品相册 */
 	app.goods_photo = {
@@ -1533,7 +1533,7 @@
 				});
 			});
 		}
-	}
+	};
 
 	app.goods_mode = {
 		init: function() {
@@ -1570,10 +1570,10 @@
 			$warehouse.removeClass('area').removeClass('price');
 			$area.removeClass('area').removeClass('price');
 
-			p == 1 && $warehouse.addClass('price');
-			p == 2 && $area.addClass('price');
-			n == 1 && $warehouse.addClass('area');
-			n == 2 && $area.addClass('area');
+			p === 1 && $warehouse.addClass('price');
+			p === 2 && $area.addClass('price');
+			n === 1 && $warehouse.addClass('area');
+			n === 2 && $area.addClass('area');
 
 		},
 

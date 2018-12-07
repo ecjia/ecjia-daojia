@@ -153,7 +153,9 @@ class mh_gallery extends ecjia_merchant {
         	}
 
         	//先使用sort排序，再使用id排序。
-        	array_multisort($img_list_sort, $img_list_id, $img_list);
+        	if ($img_list) {
+        		array_multisort($img_list_sort, $img_list_id, $img_list);
+        	}
         }
 		
         //设置选中状态,并分配标签导航

@@ -349,7 +349,7 @@ class admin_category extends ecjia_admin {
 	
 	public function choose_goods_type() {
 		$attr_list = get_attr_list();
-		return $this->showmessage('', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('attr_list' => $attr_list));
+		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('attr_list' => $attr_list));
 	}
 
 	public function add_category() {

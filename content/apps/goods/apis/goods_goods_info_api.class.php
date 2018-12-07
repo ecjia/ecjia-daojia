@@ -131,7 +131,7 @@ class goods_goods_info_api extends Component_Event_Api {
 			
 			/* 修正促销价格 */
 			if ($row ['promote_price'] > 0) {
-				$promote_price = bargain_price ( $row['promote_price'], $row['promote_start_date'], $row['promote_end_date'] );
+				$promote_price = Ecjia\App\Goods\BargainPrice::bargain_price ( $row['promote_price'], $row['promote_start_date'], $row['promote_end_date'] );
 			} else {
 				$promote_price = 0;
 			}

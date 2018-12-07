@@ -423,7 +423,7 @@
 																</span>
 															</div>
 														</div>
-														<!-- 赠送等级积分数 -->
+														<!-- 赠送成长值 -->
 														<div class="control-group control-group-small">
 															<label class="f_l w120 m_t5">{lang key='goods::goods.lab_rank_integral'}</label>
 															<div class="m_l5 l_h30">

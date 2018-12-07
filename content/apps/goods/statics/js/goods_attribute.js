@@ -31,12 +31,12 @@
 				rules: {
 					cat_name: {
 						required: true
-					},
+					}
 				},
 				messages: {
 					cat_name: {
 						required: js_lang.spec_name_required
-					},
+					}
 				},
 				submitHandler: function() {
 					$this.ajaxSubmit({
@@ -46,7 +46,7 @@
 						}
 					});
 				}
-			}
+			};
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
 		}
@@ -63,7 +63,7 @@
 					url = $this.attr('data-url') + $this.val();
 				ecjia.pjax(url);
 			});
-		},
+		}
 	};
 
 	app.edit_arrt = {
@@ -107,7 +107,7 @@
 					},
 					cat_id: {
 						min: 1
-					},
+					}
 				},
 				messages: {
 					attr_name: {
@@ -125,10 +125,10 @@
 						}
 					});
 				}
-			}
+			};
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
-		},
+		}
 	};
 
 })(ecjia.admin, jQuery);

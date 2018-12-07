@@ -261,7 +261,7 @@ class goods_detail_module extends api_front implements api_interface {
         	$user_info = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->first();
         	/* 取得用户等级 */
         	if ($user_info['user_rank'] == 0) {
-        		// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+        		// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
         		$user_rank_info = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', $user_info['rank_points'])->where('max_points', '>', $user_info['rank_points'])->first();
         	} else {
         		// 特殊等级
@@ -523,7 +523,9 @@ class goods_detail_module extends api_front implements api_interface {
 	        	$img_list_id[$key] = $gallery_img['img_id'];
 	        }
 	        //先使用sort排序，再使用id排序。
-	        array_multisort($img_list_sort, $img_list_id, $row);
+	        if ($row) {
+	        	array_multisort($img_list_sort, $img_list_id, $row);
+	        }
 	    }
 	    return $row;
 	}

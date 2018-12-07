@@ -105,7 +105,7 @@
 				});
 			})
 		}
-	}
+	};
 
 	/* 编辑页 */
 	app.goods_info = { /* 添加编辑页 */
@@ -521,7 +521,7 @@
 				hide: function() {
 					this.style.display = "none";
 					$(this).removeClass('isShow');
-				},
+				}
 			};
 			$('#ms-search_zero').quicksearch($('.level_0 .ms-elem-selectable'), opt);
 			$('#ms-search_one').quicksearch($('.level_1 .ms-elem-selectable'), opt);
@@ -568,7 +568,7 @@
 						for (var i = 0; i < data.content.length; i++) {
 							var opt = '<li class = "ms-elem-selectable selectable" data-id=' + data.content[i].cat_id + ' data-level=' + level + '><span>' + data.content[i].cat_name + '</span></li>'
 							level_div.append(opt);
-						};
+						}
 						app.goods_info.search_cat_opt();
 					} else {
 						level_div.html(no_content);
@@ -587,7 +587,7 @@
 				ecjia.pjax(url);
 			})
 		}
-	}
+	};
 
 	/* 商品预览 */
 	app.preview = {
@@ -625,23 +625,23 @@
 				$('goright').style.cursor = 'pointer';
 				$('mainphoto').onmouseover = function() {
 					setOpacity(this, maxOpa);
-				}
+				};
 				$('goleft').onmouseover = function() {
 					this.src = images_url + '/goleft2.gif';
 					MyMar = setInterval(goleft, speed);
-				}
+				};
 				$('goleft').onmouseout = function() {
 					this.src = images_url + '/goleft.gif';
 					clearInterval(MyMar);
-				}
+				};
 				$('goright').onmouseover = function() {
 					this.src = images_url + '/goright2.gif';
 					MyMar = setInterval(goright, speed);
-				}
+				};
 				$('goright').onmouseout = function() {
 					this.src = images_url + '/goright.gif';
 					clearInterval(MyMar);
-				}
+				};
 				window.onload = function() {
 					var rHtml = '';
 					var p = $('showArea').getElementsByTagName('img');
@@ -653,10 +653,10 @@
 							$('mainphoto').src = this.getAttribute('rel');
 							$('mainphoto').setAttribute('name', this.getAttribute('name'));
 							setOpacity($('mainphoto'), maxOpa);
-						}
+						};
 						p[i].onmouseout = function() {
 							setOpacity(this, minOpa);
-						}
+						};
 						rHtml += '<img src="' + p[i].getAttribute('rel') + '" width="0" height="0" alt="" />';
 					}
 					$('showArea').style.width = parseInt(w) + 'px';
@@ -680,8 +680,8 @@
 					id = $this.find('[name="keywords"]').val();
 				ecjia.pjax(url + '&id=' + id);
 			});
-		},
-	}
+		}
+	};
 
 	/* 货品列表 */
 	app.products_list = {
@@ -716,12 +716,12 @@
 						}
 					});
 				}
-			}
+			};
 
 			var options = $.extend(ecjia.merchant.defaultOptions.validate, option);
 			$this.validate(options);
 		}
-	}
+	};
 
 	/* 回收站 */
 	app.goods_trash = {
@@ -741,7 +741,7 @@
 						}
 					});
 				}
-			}
+			};
 			var options = $.extend(ecjia.merchant.defaultOptions.validate, option);
 			$this.validate(options);
 		},
@@ -755,7 +755,7 @@
 				ecjia.pjax(url);
 			});
 		}
-	}
+	};
 
 	/* 商品属性 */
 	app.goods_attr = {
@@ -776,7 +776,7 @@
 						'class': ''
 					}).chosen();
 				}
-			})
+			});
 
 			$('[data-toggle="get_attr_list"]').on('change', function(e) {
 				e.preventDefault();
@@ -790,7 +790,7 @@
 					$('#tbody-goodsAttr').html(data.content);
 					$("select").not(".noselect").chosen();
 				}, "JSON");
-			})
+			});
 
 			$('[name="theForm"]').on('submit', function(e) {
 				e.preventDefault();
@@ -806,7 +806,7 @@
 				});
 			});
 		}
-	}
+	};
 
 	/* 关联商品 */
 	app.link_goods = {
@@ -843,7 +843,7 @@
 					var disable = $('.nav-list-content .ms-elem-selection').find('input[value="' + data.content[i].value + '"]').length ? 'disabled' : '';
 					var opt = '<li class="ms-elem-selectable ' + disable + '" id="goodsId_' + data.content[i].value + '" data-id="' + data.content[i].value + '" data-price="' + data.content[i].data + '"><span>' + data.content[i].text + '</span></li>'
 					$('.nav-list-ready').append(opt);
-				};
+				}
 			} else {
 				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>' + js_lang.select_goods_empty + '</span></li>');
 			}
@@ -868,7 +868,7 @@
 				hide: function() {
 					this.style.display = "none";
 					$(this).removeClass('isShow');
-				},
+				}
 			});
 		},
 
@@ -938,7 +938,7 @@
 					if (complete == true) {
 						app.goods_info.complete(complete_url);
 						return false;
-					};
+					}
 
 					//点击下一步继续
 					if (data.message) {
@@ -949,7 +949,7 @@
 				});
 			})
 		}
-	}
+	};
 
 	/* 关联配件 */
 	app.link_parts = {
@@ -1021,7 +1021,7 @@
 				hide: function() {
 					this.style.display = "none";
 					$(this).removeClass('isShow');
-				},
+				}
 			});
 		},
 
@@ -1134,7 +1134,7 @@
 				});
 			})
 		}
-	}
+	};
 
 	/* 关联文章 */
 	app.link_article = {
@@ -1165,7 +1165,7 @@
 					var disable = $('.nav-list-content .ms-elem-selection').find('input[value="' + data.content[i].value + '"]').length ? 'disabled' : '';
 					var opt = '<li class="ms-elem-selectable ' + disable + '" id="articleId_' + data.content[i].value + '" data-id="' + data.content[i].value + '"><span>' + data.content[i].text + '</span></li>'
 					$('.nav-list-ready').append(opt);
-				};
+				}
 			} else {
 				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>' + js_lang.select_article_empty + '</span></li>');
 			}
@@ -1190,7 +1190,7 @@
 				hide: function() {
 					this.style.display = "none";
 					$(this).removeClass('isShow');
-				},
+				}
 			});
 		},
 
@@ -1251,7 +1251,7 @@
 					if (complete == true) {
 						app.goods_info.complete(complete_url);
 						return false;
-					};
+					}
 
 					//点击下一步
 					if (data.message) {
@@ -1262,7 +1262,7 @@
 				});
 			})
 		}
-	}
+	};
 
 	/* 商品相册 */
 	app.goods_photo = {

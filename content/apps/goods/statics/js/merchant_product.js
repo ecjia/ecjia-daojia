@@ -30,7 +30,7 @@
 			tmpObj.find('select').removeClass('chosen_hide').removeClass('chzn-done').attr({
 				'id': ''
 			}).chosen();
-		},
+		}
 	};
 
 	/**
@@ -45,7 +45,7 @@
 				parentobj: $parentobj
 			};
 		app.product.clone_product(option);
-	})
+	});
 
 	/**
 	 * remove_product 删除节点obj
@@ -56,7 +56,7 @@
 		var $this = $(this),
 			$parentobj = $this.parents($this.attr('data-parent'));
 		$parentobj.remove();
-	})
+	});
 
 })(ecjia.merchant, jQuery);
 

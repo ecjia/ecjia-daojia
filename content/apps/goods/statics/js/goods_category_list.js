@@ -30,7 +30,7 @@
 						'class': ''
 					}).chosen();
 				}
-			})
+			});
 
 			$('.tigger_add').on('click', function(e) {
 				e.preventDefault();
@@ -49,14 +49,14 @@
 					val = $this.val(),
 					url = $this.attr('data-url');
 				// console.log(url);
-				val == 0 ? $this.parents('.goods_type').find('.show_goods_type').html('<option>请选择筛选属性</option>').trigger("liszt:updated") : $.get(url, {
+				val === 0 ? $this.parents('.goods_type').find('.show_goods_type').html('<option>请选择筛选属性</option>').trigger("liszt:updated") : $.get(url, {
 					'cat_id': val
 				}, function(data) {
 					var opt = '';
 					if (data.attr_list.item) {
 						for (var item = data.attr_list.item, i = item.length - 1; i >= 0; i--) {
 							opt += '<option value="' + item[i].attr_id + '">' + item[i].attr_name + '</option>';
-						};
+						}
 					}
 					opt = opt ? opt : '<option>请选择筛选属性</option>';
 					$this.parents('.goods_type').find('.show_goods_type').html(opt).trigger("liszt:updated");
@@ -84,7 +84,7 @@
 						}
 					});
 				}
-			}
+			};
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
 		},
@@ -118,7 +118,7 @@
                 $('.ad_list').append('<option value="-1">' + no_select_goods + '</option>');
             }
             $('.ad_list').trigger("liszt:updated").trigger("change");
-        },
+        }
 	};
 
 	app.goods_category_move = {

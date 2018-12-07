@@ -219,7 +219,7 @@ class admin extends ecjia_admin {
 		
 		$goods = RC_DB::table('goods')->where('goods_id', $goods_id)->orWhere('goods_sn', $goods_id)->first();
 		if (empty($goods)) {
-			return $this->showmessage(RC_Lang::get('goods::goods.no_goods'), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_HTML, array('links' => array(array('text'=> RC_Lang::get('goods::goods.return_last_page'),'href'=>'javascript:history.go(-1)'))));
+			return $this->showmessage(RC_Lang::get('goods::goods.no_goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> RC_Lang::get('goods::goods.return_last_page'),'href'=>'javascript:history.go(-1)'))));
 		}
 		
 		if (!empty($goods['goods_desc'])) {

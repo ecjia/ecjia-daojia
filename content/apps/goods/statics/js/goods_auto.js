@@ -64,7 +64,7 @@
 			$(".search_goods").on('click', function(e) {
 				e.preventDefault();
 				var url = $(".choose_list").attr('data-url');
-				var keywords = $("input[name='keywords']").val()
+				var keywords = $("input[name='keywords']").val();
 				if (keywords) {
 					url += '&keywords=' + keywords;
 				}
@@ -84,7 +84,7 @@
 				var url = $this.attr('data-url');
 				var msg = $this.attr('data-msg') || '您确定要操作所有选中项吗？';
 				var noSelectMsg = $this.attr('data-noSelectMsg') || '请先选中操作项！';
-				var time = 'select_time'
+				var time = 'select_time';
 				var time_val = $('input[name="select_time"]').val();
 
 				var option = {
@@ -94,7 +94,7 @@
 					name: name,
 					time_val: time_val,
 					time: time
-				}
+				};
 
 				if (id.length == 0) {
 					smoke.alert(noSelectMsg);
@@ -119,7 +119,7 @@
 				//noSelectMsg	没有选中项的提示信息
 				name: 'checkboxes',
 				//name 			对应PHP操作中获取的name
-				id: [],
+				id: []
 				//obj 			批量操作的用户id数组
 			}
 
@@ -143,7 +143,7 @@
 				ok: '确定',
 				cancel: '取消'
 			});
-		},
+		}
 	};
 
 })(ecjia.admin, jQuery);
