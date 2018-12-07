@@ -9,7 +9,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
-<script type="text/javascript">ecjia.touch.spread.init();</script>
+<script type="text/javascript">
+var integral_name = '{$integral_name}';
+ecjia.touch.spread.init();
+</script>
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
@@ -17,12 +20,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <div class="ecjia-spread ecjia-margin-b ecjia-spread-padding0">
         <ul class="ecjia-list list-short">
             <li>
-                <div class="reward-title">获得的积分奖励</div>
+                <div class="reward-title">获得的{$integral_name}奖励</div>
                 <div class="reward-label">
                     <div class="reward-num reward-g">
                     	{$intive_total.invite_integral_reward}
 	                   	<div class="reward-hint">
-	                        <a href="#" class="alert-text1">
+	                        <a href="#" class="alert-text1" data-integralname="{$integral_name}">
 	                            <img src="{$theme_url}images/wallet/60x60_3g.png">
 	                        </a>
 	                    </div>	
@@ -84,7 +87,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                     <div class="qrcode_image3">
                         <img src="{$theme_url}images/wallet/60x60_2.png">
                     </div>
-                    <span>赚积分</span>
+                    <span>赚{$integral_name}</span>
                 </a>
             </li>
         </ul>

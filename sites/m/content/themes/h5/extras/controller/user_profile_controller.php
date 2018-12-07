@@ -149,7 +149,7 @@ class user_profile_controller
         if ($type == 'ajax') {
             $old_password     = !empty($_POST['old_password']) ? trim($_POST['old_password']) : '';
             $new_password     = !empty($_POST['new_password']) ? trim($_POST['new_password']) : '';
-            $comfirm_password = !empty($_POST['comfirm_password']) ? trim($_POST['comfirm_password']) : '';
+            $confirm_password = !empty($_POST['confirm_password']) ? trim($_POST['confirm_password']) : '';
 
             if (empty($old_password)) {
                 return ecjia_front::$controller->showmessage(__('请输入旧密码'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -159,12 +159,12 @@ class user_profile_controller
                 return ecjia_front::$controller->showmessage(__('请输入新密码'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
-            if (empty($comfirm_password)) {
+            if (empty($confirm_password)) {
                 return ecjia_front::$controller->showmessage(__('请输入确认新密码'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             if (!empty($old_password)) {
-                if ($new_password == $comfirm_password) {
+                if ($new_password == $confirm_password) {
                     if ($old_password == $new_password) {
                         return ecjia_front::$controller->showmessage(__('新密码不能旧密码相同'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                     }
@@ -209,6 +209,8 @@ class user_profile_controller
                 ecjia_front::$controller->assign('type', 'mobile');
             } else if ($type == 'email') {
                 ecjia_front::$controller->assign('type', 'email');
+            } else if ($type == 'wechat') {
+                ecjia_front::$controller->assign('type', 'wechat');
             }
 
             if (!empty($status)) {
@@ -231,6 +233,13 @@ class user_profile_controller
         if (is_ecjia_error($user)) {
             return ecjia_front::$controller->showmessage($user->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+
+        //获取设置支付密码验证码 TODO
+        $type = trim($_GET['type']);
+        if (!empty($mobile) && $type == 'set_paypass') {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        }
+
         if (!empty($mobile)) {
             if ($user['mobile_phone'] == $mobile) {
                 return ecjia_front::$controller->showmessage('该手机号与当前绑定的手机号相同', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -315,6 +324,17 @@ class user_profile_controller
         $type  = !empty($_POST['type']) ? $_POST['type'] : '';
         $token = ecjia_touch_user::singleton()->getToken();
 
+        //验证设置支付密码验证码 TODO
+        if (!empty($code) && $type == 'set_paypass') {
+
+            // $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BIND)->data(array('type' => $type, 'value' => $value, 'code' => $code, 'token' => $token))->run();
+            if (is_ecjia_error($data)) {
+                return ecjia_front::$controller->showmessage(__($data->get_error_message()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            } else {
+                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/profile/set_pay_pass')));
+            }
+        }
+
         if (!empty($code) && !empty($type)) {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_BIND)->data(array('type' => $type, 'value' => $value, 'code' => $code, 'token' => $token))->run();
             if (is_ecjia_error($data)) {
@@ -342,10 +362,76 @@ class user_profile_controller
                 ecjia_front::$controller->assign('type', 'mobile');
             } else if ($type == 'email') {
                 ecjia_front::$controller->assign('type', 'email');
+            } else if ($type == 'wechat') {
+                ecjia_front::$controller->assign('type', 'wechat');
             }
         }
         ecjia_front::$controller->display('user_bind_info.dwt', $cache_id);
     }
+
+    //验证设置支付密码手机号 验证码 TODO
+    public static function set_pay_password()
+    {
+        $token    = ecjia_touch_user::singleton()->getToken();
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $token));
+
+        if (!ecjia_front::$controller->is_cached('user_set_paypass_check.dwt', $cache_id)) {
+            $user_info                     = ecjia_touch_user::singleton()->getUserinfo();
+            $user_info['str_mobile_phone'] = substr_replace($user_info['mobile_phone'], '****', 3, 4);
+            ecjia_front::$controller->assign('user', $user_info);
+        }
+
+        ecjia_front::$controller->assign_title('支付密码');
+        ecjia_front::$controller->display('user_set_paypass_check.dwt', $cache_id);
+    }
+
+    //设置支付密码页面
+    public static function set_pay_pass()
+    {
+        $token    = ecjia_touch_user::singleton()->getToken();
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $token));
+
+        if (!ecjia_front::$controller->is_cached('user_set_paypass.dwt', $cache_id)) {
+            $user_info                     = ecjia_touch_user::singleton()->getUserinfo();
+            $user_info['str_mobile_phone'] = substr_replace($user_info['mobile_phone'], '****', 3, 4);
+            ecjia_front::$controller->assign('user', $user_info);
+            ecjia_front::$controller->assign('url', RC_Uri::url('user/profile/check_pay_pass'));
+        }
+        $title = '请设置支付密码';
+        $type  = trim($_GET['type']);
+        if ($type == 'confirm') {
+            $title = '再次确认支付密码';
+        }
+        ecjia_front::$controller->assign_title($title);
+        ecjia_front::$controller->assign('type', $type);
+
+        ecjia_front::$controller->display('user_set_paypass.dwt', $cache_id);
+    }
+
+    //检查输入的支付密码
+    public static function check_pay_pass()
+    {
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
+
+        $type     = trim($_POST['type']);
+        $password = trim($_POST['password']);
+
+        if (empty($type)) {
+            $_SESSION['set_paypass_temp'][$user_info['id']]['password'] = $password;
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('user/profile/set_pay_pass', array('type' => 'confirm'))));
+        } elseif ($type == 'confirm') {
+            $password         = $_SESSION['set_paypass_temp'][$user_info['id']]['password'];
+            $confirm_password = trim($_POST['confirm_password']);
+
+            //判断修改密码是否与原密码相同 TODO
+            if ($password === $confirm_password) {
+                return ecjia_front::$controller->showmessage('修改成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/my/init')));
+            } else {
+                return ecjia_front::$controller->showmessage('两次密码输入不一致，请重试', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('type' => 'alert'));
+            }
+        }
+    }
+
 }
 
 // end

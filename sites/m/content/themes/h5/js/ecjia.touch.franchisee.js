@@ -161,14 +161,14 @@
 				});
 			});
 
-			$('.captcha-refresh').off('click').on('click', function (e) {
+			$('.franchisee-captcha-refresh').off('click').on('click', function (e) {
 				var url = $(this).attr('data-url');
 				$.post(url, function (data) {
 					if (data.state == 'error') {
 						ecjia.touch.showmessage(data);
 						return false;
 					}
-					$('.captcha').find('img').attr('src', 'data:image/png;base64,' + data.message);
+					$('.franchisee-img-captcha').find('img').attr('src', 'data:image/png;base64,' + data.message);
 				});
 			});
 

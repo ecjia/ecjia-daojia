@@ -124,7 +124,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     	<li>
     	    <a href="{url path='user/account/init'}">
         		<p>{$user.user_points}</p>
-        		<p>积分</p>
+        		<p>{$integral_name}</p>
     		</a>
     	</li>
     </ul>
@@ -207,7 +207,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     	<li>
     	    <a href="{$login_url}">
         		<p>{'- -'}</p>
-        		<p>积分</p>
+        		<p>{$integral_name}</p>
     		</a>
     	</li>
     </ul>
@@ -242,7 +242,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     	<li>
     	    <a href="{url path='user/bonus/get_integral'}">
         		<p><img src="{$theme_url}images/user_center/get_integral.png" /></p>
-        		<p>赚积分</p>
+        		<p>赚{$integral_name}</p>
     		</a>
     	</li>
     </ul>

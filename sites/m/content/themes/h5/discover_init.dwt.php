@@ -35,7 +35,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<div class="swiper-container" id="swiper-discover-cycleimage">
 			<div class="swiper-wrapper">
 				<!--{foreach from=$cycleimage item=img}-->
-				<div class="swiper-slide"><a href="{$img.url}"><img src="{$img.photo.url}" /></a></div>
+				<div class="swiper-slide"><a href="{$img.url}" class="nopjax external"><img src="{$img.photo.url}" /></a></div>
 				<!--{/foreach}-->
 			</div>
 			<div class="swiper-pagination"></div>

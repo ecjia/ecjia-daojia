@@ -58,7 +58,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					{/if}
 					
 					{if $order.refund_integral neq '0'}
-					<p><i class="c6">{$order.refund_integral}</i><b>退积分</b></p>
+					<p><i class="c6">{$order.refund_integral}</i><b>退{$integral_name}</b></p>
 					{/if}
 					
 					{if $order.refund_inv_tax neq '0'}

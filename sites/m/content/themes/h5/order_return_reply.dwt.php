@@ -16,7 +16,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<!-- #EndLibraryItem -->
 <form name='theForm' action="{url path='user/order/add_return'}" enctype="multipart/form-data" method="post">
 	<div class="ecjia-order-detail">
 		<div class="ecjia-checkout ecjia-margin-b">
@@ -48,7 +47,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<p>退配送费<span class="ecjiaf-fr">{$refund_fee_info.refund_shipping_fee}</span></p>
 						{/if}
 						{if $refund_fee_info.refund_integral neq '0'}
-						<p>退积分<span class="ecjiaf-fr ">{$refund_fee_info.refund_integral}</span></p>
+						<p>退{$integral_name}<span class="ecjiaf-fr ">{$refund_fee_info.refund_integral}</span></p>
 						{/if}
 						{if $refund_fee_info.refund_inv_tax neq '0'}
 						<p>退发票<span class="ecjiaf-fr ">{$refund_fee_info.refund_inv_tax}</span></p>
@@ -89,7 +88,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			            	<div class="push_photo" id="result{$k}">
 			            	   <div class="push_result_img">
 			            	       <img src="{$theme_url}images/photograph.png">
-			            	       <input type="file" class="push_img_btn" id="filechooser{$k}" name="picture[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
+			            	       <input type="file" class="push_img_btn" id="filechooser{$k}" name="refund_images[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
 			            	   </div>
 			            	</div>
 			            	<!-- {/foreach} -->

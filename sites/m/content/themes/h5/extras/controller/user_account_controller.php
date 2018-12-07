@@ -211,6 +211,8 @@ class user_account_controller
             ecjia_front::$controller->assign_title('提现');
         }
         ecjia_front::$controller->display('user_account_withdraw.dwt', $cache_id);
+
+        //ecjia_front::$controller->display('user_account_wechat_withdraw.dwt', $cache_id);
     }
 
     /**
@@ -219,8 +221,8 @@ class user_account_controller
     public static function withdraw_account()
     {
         $amount = !empty($_POST['amount']) ? $_POST['amount'] : '';
-        $note   = !empty($_POST['user_note']) ? $_POST['user_note'] : '';
-        $token  = ecjia_touch_user::singleton()->getToken();
+        $note = !empty($_POST['user_note']) ? $_POST['user_note'] : '';
+        $token = ecjia_touch_user::singleton()->getToken();
 
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
         if (is_ecjia_error($user)) {
@@ -231,15 +233,38 @@ class user_account_controller
             return ecjia_front::$controller->showmessage(__('余额不足，请确定提现金额'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (strlen($note) > '300') {
-            return ecjia_front::$controller->showmessage(__('输入的文字超过规定字数'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+             return ecjia_front::$controller->showmessage(__('输入的文字超过规定字数'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+	//TODO
+        //if ($amount === 0) {
+        //    return ecjia_front::$controller->showmessage(__('提现金额不能为0'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        //}
+        //if ($amount < 1) {
+        //    return ecjia_front::$controller->showmessage(__('提现金额不能小于1'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        //}
         if (empty($amount)) {
             return ecjia_front::$controller->showmessage(__('请输入提现金额'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_RAPLY)->data(array('token' => $token, 'amount' => $amount, 'note' => $note))->run();
-            $data = is_ecjia_error($data) ? 'error' : $data;
-            return ecjia_front::$controller->showmessage(__($data), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/account/balance')));
+            if (is_ecjia_error($data)) {
+	    	return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	    }
+	    return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/account/balance')));
+	    //TODO
+            //return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('user/account/withdraw_account_notice')));
         }
+    }
+
+    //对会员余额申请的处理 提示页面
+    public static function withdraw_account_notice()
+    {
+        $token     = ecjia_touch_user::singleton()->getToken();
+        $user_info = ecjia_touch_user::singleton()->getUserinfo();
+
+        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
+        $cache_id = sprintf('%X', crc32($cache_id));
+
+        ecjia_front::$controller->display('user_account_wechat_withdraw_notice.dwt', $cache_id);
     }
 
     /**
@@ -444,6 +469,36 @@ class user_account_controller
         }
         ecjia_front::$controller->display('user_record_info.dwt', $cache_id);
     }
+
+    /**
+     * 充值提现详情
+     */
+    // public static function record_info()
+    // {
+    //     $token = ecjia_touch_user::singleton()->getToken();
+    //     $user_info = ecjia_touch_user::singleton()->getUserinfo();
+
+    //     $account_id = !empty($_GET['account_id']) ? $_GET['account_id'] : '';
+    //     //TODO 接口未增加
+    //     // $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_RECORD_INFO)->data(array('token' => $token, 'account_id' => $account_id))->run();
+    //     $data = is_ecjia_error($data) ? [] : $data;
+
+    //     $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
+    //     $cache_id .= $cache_id . '-' . $data['order_sn'] . '-' . $data['type'] . '-' . $data['pay_status'];
+    //     $cache_id = sprintf('%X', crc32($cache_id));
+
+    //     if (!ecjia_front::$controller->is_cached('user_record_info.dwt', $cache_id)) {
+    //         $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
+    //         if (empty($user_info['avatar_img'])) {
+    //             $user_info['avatar_img'] = $user_img;
+    //         }
+    //         ecjia_front::$controller->assign('user', $user_info);
+    //         ecjia_front::$controller->assign_title('交易明细');
+
+    //         ecjia_front::$controller->assign('sur_amount', $data);
+    //     }
+    //     ecjia_front::$controller->display('user_record_info.dwt', $cache_id);
+    // }
 
     /**
      * 提现充值取消

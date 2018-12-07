@@ -522,12 +522,13 @@ class cart_controller
             $_SESSION['cart'][$cart_key]['temp']['bonus'] = '';
         }
 
+        $integral_name = !empty(ecjia::config('integral_name')) ? ecjia::config('integral_name') : '积分';
         //积分
         if ($_POST['integral_update']) {
             if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['order_max_integral']) {
-                return ecjia_front::$controller->showmessage('积分使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage($integral_name.'使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['your_integral']) {
-                return ecjia_front::$controller->showmessage('积分不足', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage($integral_name.'不足', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $_SESSION['cart'][$cart_key]['temp']['integral'] = empty($_POST['integral']) ? 0 : intval($_POST['integral']);
             }
@@ -799,12 +800,13 @@ class cart_controller
             $_SESSION['cart'][$cart_key]['temp']['bonus'] = '';
         }
 
+        $integral_name = !empty(ecjia::config('integral_name')) ? ecjia::config('integral_name') : '积分';
         //积分
         if ($_POST['integral_update']) {
             if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['order_max_integral']) {
-                return ecjia_front::$controller->showmessage('积分使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage($integral_name.'使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['your_integral']) {
-                return ecjia_front::$controller->showmessage('积分不足', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage($integral_name.'不足', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $_SESSION['cart'][$cart_key]['temp']['integral'] = empty($_POST['integral']) ? 0 : intval($_POST['integral']);
             }
@@ -1503,13 +1505,14 @@ class cart_controller
             $pjax_url = !empty($_SESSION['order_address_temp']['pjax_url']) ? trim($_SESSION['order_address_temp']['pjax_url']) : RC_Uri::url('cart/index/init');
             return ecjia_front::$controller->showmessage('请先选择收货地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
         }
-
+        
+        $integral_name = !empty(ecjia::config('integral_name')) ? ecjia::config('integral_name') : '积分';
         $cart_key = $_SESSION['cart_temp_key'];
         $data     = $_SESSION['cart'][$cart_key]['data'];
         $temp     = $_SESSION['cart'][$cart_key]['temp'];
 
         if ($data['order_max_integral'] == 0) {
-            return ecjia_front::$controller->showmessage('积分不可用', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+            return ecjia_front::$controller->showmessage($integral_name.'不可用', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
         }
         ecjia_front::$controller->assign('data', $data);
         ecjia_front::$controller->assign('temp', $temp);
@@ -1519,7 +1522,7 @@ class cart_controller
         $action = $temp['order_mode'] == 'default' ? 'checkout' : 'storepickup_checkout';
         ecjia_front::$controller->assign('action', $action);
 
-        ecjia_front::$controller->assign_title('使用积分');
+        ecjia_front::$controller->assign_title('使用'.$integral_name);
 
         ecjia_front::$controller->display('flow_integral.dwt');
     }

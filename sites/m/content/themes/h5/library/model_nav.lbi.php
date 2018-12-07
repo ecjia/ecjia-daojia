@@ -8,7 +8,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {if $value.data} -->
 <nav class="ecjia-mod container-fluid {if $count eq $key && !$data}ecjia-mod-pb35{/if}">
 	<div class="ecjia-padding-b1">
-		<ul class="row ecjia-row-nav index">
+		<ul class="row ecjia-row-nav index {if count($value.data) % 4 == 0}ecjia-row-nav-four{/if}">
 			<!--{foreach from=$value.data item=nav}-->
 			<li class="col-sm-3 col-xs-2">
 				<a href="{$nav.url}">

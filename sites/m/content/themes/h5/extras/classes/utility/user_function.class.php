@@ -46,127 +46,136 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class user_function {
-	/**
-	 * 记录搜索历史
-	 */
-	public static function insert_search($keywords = '', $store_id = 0) {
-		$ecjia_search = 'ECJia[search]';
-		if (!empty($store_id)) {
-			$cookie_search = $_COOKIE ['ECJia'] ['search'][$store_id];
-			$ecjia_search .= '['.$store_id.']';
-		} else {
-			$cookie_search = $_COOKIE ['ECJia'] ['search']['other'];
-			$ecjia_search .= '[other]';
-		}
-		if (!empty($keywords)) {
-			if (!empty($cookie_search)) {
-				$history = explode(',', $cookie_search);
-				array_unshift($history, $keywords);
-				$history = array_unique($history);
-				while (count($history) > ecjia::config('history_number')) {
-					array_pop($history);
-				}
-				return setcookie($ecjia_search, implode(',', $history), RC_Time::gmtime() + 3600 * 24 * 7);
-			} else {
-				return setcookie($ecjia_search, $keywords, RC_Time::gmtime() + 3600 * 24 * 7);
-			}
-		}
-	}
-	
-	/**
-	 * 调用搜索历史
-	 */
-	public static function get_search($store_id = 0) {
-		$str = '';
-		if (!empty($store_id)) {
-			return empty($_COOKIE ['ECJia'] ['search'][$store_id]) ? array() : explode(',', $_COOKIE ['ECJia'] ['search'][$store_id]);
-		} else {
-			return empty($_COOKIE ['ECJia'] ['search']['other']) ? array() : explode(',', $_COOKIE ['ECJia'] ['search']['other']);
-		}
-	}
-	
-	/**
-	 * 获取单条地址信息
-	 */
-	public static function address_info($token, $address_id) {
-		$token = ecjia_touch_user::singleton()->getToken();
-		$address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data(array('token' => $token, 'address_id' => $address_id))->run();
-		if (!is_ecjia_error($address_info)) {
-			return $address_info;
-		}
-	}
-	
-	/**
-	 * 判断是否是微信浏览器
-	 * @return boolean
-	 */
-	public static function is_weixin() {
-		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
-			return true;
-		} return false;
-	}
-	
-	public static function get_region_list($province_id = '', $city_id = '', $district_id = '') {
-		$province_list = RC_Cache::app_cache_get('user_address_province', 'user_address');
-		if (empty($province_list)) {
-			$rs_province = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 1))->run();
-			if (!is_ecjia_error($rs_province) && !empty($rs_province['regions'])) {
-				RC_Cache::app_cache_set('user_address_province', $rs_province['regions'], 'user_address');
-				$province_list = $rs_province['regions'];
-			}
-		}
-			
-		$city_list = RC_Cache::app_cache_get('user_address_city', 'user_address');
-		if (empty($city_list)) {
-			$rs_city = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 2))->run();
-			if (!is_ecjia_error($rs_city) && !empty($rs_city['regions'])) {
-				RC_Cache::app_cache_set('user_address_city', $rs_city['regions'], 'user_address');
-				$city_list = $rs_city['regions'];
-			}
-		}
-			
-		$district_list = RC_Cache::app_cache_get('user_address_district', 'user_address');
-		if (empty($district_list)) {
-			$rs_district = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 3))->run();
-			if (!is_ecjia_error($rs_district) && !empty($rs_district['regions'])) {
-				RC_Cache::app_cache_set('user_address_district', $rs_district['regions'], 'user_address');
-				$district_list = $rs_district['regions'];
-			}
-		}
-		
-		$street_list = array();
-		if (!empty($district_id)) {
-			$street_list = RC_Cache::app_cache_get('user_address_street'.$district_id, 'user_address');
-			if (empty($street_list)) {
-				$rs_street = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('parent_id' => $district_id))->run();
-				if (!is_ecjia_error($rs_street) && !empty($rs_street['regions'])) {
-					RC_Cache::app_cache_set('user_address_street'.$district_id, $rs_street['regions'], 'user_address');
-					$street_list = $rs_street['regions'];
-				}
-			}
-		}
-		
-		return array(
-			'province_list' => json_encode($province_list),
-			'city_list' 	=> json_encode($city_list),
-			'district_list' => json_encode($district_list),
-			'street_list' 	=> !empty($street_list) ? json_encode($street_list) : '',
-		);
-	}
+class user_function
+{
+    /**
+     * 记录搜索历史
+     */
+    public static function insert_search($keywords = '', $store_id = 0)
+    {
+        $ecjia_search = 'ECJia[search]';
+        if (!empty($store_id)) {
+            $cookie_search = $_COOKIE['ECJia']['search'][$store_id];
+            $ecjia_search .= '[' . $store_id . ']';
+        } else {
+            $cookie_search = $_COOKIE['ECJia']['search']['other'];
+            $ecjia_search .= '[other]';
+        }
+        if (!empty($keywords)) {
+            if (!empty($cookie_search)) {
+                $history = explode(',', $cookie_search);
+                array_unshift($history, $keywords);
+                $history = array_unique($history);
+                while (count($history) > ecjia::config('history_number')) {
+                    array_pop($history);
+                }
+                return setcookie($ecjia_search, implode(',', $history), RC_Time::gmtime() + 3600 * 24 * 7);
+            } else {
+                return setcookie($ecjia_search, $keywords, RC_Time::gmtime() + 3600 * 24 * 7);
+            }
+        }
+    }
 
-	public static function return_login_str() {
-		$str = 'user/privilege/login';
-		if (user_function::is_weixin()) {
-			$str = 'user/privilege/wechat_login';
-		}
-		return $str;
-	}
+    /**
+     * 调用搜索历史
+     */
+    public static function get_search($store_id = 0)
+    {
+        $str = '';
+        if (!empty($store_id)) {
+            return empty($_COOKIE['ECJia']['search'][$store_id]) ? array() : explode(',', $_COOKIE['ECJia']['search'][$store_id]);
+        } else {
+            return empty($_COOKIE['ECJia']['search']['other']) ? array() : explode(',', $_COOKIE['ECJia']['search']['other']);
+        }
+    }
 
-	public static function is_change_payment($pay_code = '', $manage_mode = '') {
-		$pay = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_PAYMENT)->run();
+    /**
+     * 获取单条地址信息
+     */
+    public static function address_info($token, $address_id)
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
+        $address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data(array('token' => $token, 'address_id' => $address_id))->run();
+        if (!is_ecjia_error($address_info)) {
+            return $address_info;
+        }
+    }
+
+    /**
+     * 判断是否是微信浏览器
+     * @return boolean
+     */
+    public static function is_weixin()
+    {
+        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function get_region_list($province_id = '', $city_id = '', $district_id = '')
+    {
+        $province_list = RC_Cache::app_cache_get('user_address_province', 'user_address');
+        if (empty($province_list)) {
+            $rs_province = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 1))->run();
+            if (!is_ecjia_error($rs_province) && !empty($rs_province['regions'])) {
+                RC_Cache::app_cache_set('user_address_province', $rs_province['regions'], 'user_address');
+                $province_list = $rs_province['regions'];
+            }
+        }
+
+        $city_list = RC_Cache::app_cache_get('user_address_city', 'user_address');
+        if (empty($city_list)) {
+            $rs_city = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 2))->run();
+            if (!is_ecjia_error($rs_city) && !empty($rs_city['regions'])) {
+                RC_Cache::app_cache_set('user_address_city', $rs_city['regions'], 'user_address');
+                $city_list = $rs_city['regions'];
+            }
+        }
+
+        $district_list = RC_Cache::app_cache_get('user_address_district', 'user_address');
+        if (empty($district_list)) {
+            $rs_district = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('type' => 3))->run();
+            if (!is_ecjia_error($rs_district) && !empty($rs_district['regions'])) {
+                RC_Cache::app_cache_set('user_address_district', $rs_district['regions'], 'user_address');
+                $district_list = $rs_district['regions'];
+            }
+        }
+
+        $street_list = array();
+        if (!empty($district_id)) {
+            $street_list = RC_Cache::app_cache_get('user_address_street' . $district_id, 'user_address');
+            if (empty($street_list)) {
+                $rs_street = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION)->data(array('parent_id' => $district_id))->run();
+                if (!is_ecjia_error($rs_street) && !empty($rs_street['regions'])) {
+                    RC_Cache::app_cache_set('user_address_street' . $district_id, $rs_street['regions'], 'user_address');
+                    $street_list = $rs_street['regions'];
+                }
+            }
+        }
+
+        return array(
+            'province_list' => json_encode($province_list),
+            'city_list' => json_encode($city_list),
+            'district_list' => json_encode($district_list),
+            'street_list' => !empty($street_list) ? json_encode($street_list) : '',
+        );
+    }
+
+    public static function return_login_str()
+    {
+        $str = 'user/privilege/login';
+        if (user_function::is_weixin()) {
+            $str = 'user/privilege/wechat_login';
+        }
+        return $str;
+    }
+
+    public static function is_change_payment($pay_code = '', $manage_mode = '')
+    {
+        $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_PAYMENT)->run();
         $pay = is_ecjia_error($pay) ? array() : $pay;
-        
+
         $open_id = '';
         /*根据浏览器过滤支付方式，微信自带浏览器过滤掉支付宝支付，其他浏览器过滤掉微信支付*/
         if (!empty($pay['payment'])) {
@@ -175,39 +184,77 @@ class user_function {
                     if ($val['pay_code'] == 'pay_alipay') {
                         unset($pay['payment'][$key]);
                     }
-                	if ($val['pay_code'] == 'pay_wxpay') {
+                    if ($val['pay_code'] == 'pay_wxpay') {
                         $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
                         $open_id = $handler->getWechatOpenId();
                         $_SESSION['wxpay_open_id'] = $open_id;
                     }
-                	//非自营过滤货到付款
-	                if ($manage_mode != 'self' && $val['pay_code'] == 'pay_cod') {
-	                    unset($pay['payment'][$key]);
-	                }
+                    //非自营过滤货到付款
+                    if ($manage_mode != 'self' && $val['pay_code'] == 'pay_cod') {
+                        unset($pay['payment'][$key]);
+                    }
                 }
             } else {
                 foreach ($pay['payment'] as $key => $val) {
                     if ($val['pay_code'] == 'pay_wxpay') {
                         unset($pay['payment'][$key]);
-					}
-					//非自营过滤货到付款
-	                if ($manage_mode != 'self' && $val['pay_code'] == 'pay_cod') {
-	                    unset($pay['payment'][$key]);
-	                }
+                    }
+                    //非自营过滤货到付款
+                    if ($manage_mode != 'self' && $val['pay_code'] == 'pay_cod') {
+                        unset($pay['payment'][$key]);
+                    }
                 }
             }
         }
 
         $change_payment = true;
         if (!empty($pay['payment'])) {
-        	foreach ($pay['payment'] as $key => $value) {
-        		if ($value['pay_code'] == $pay_code) {
-        			$change_payment = false;
-        		}
-        	}
+            foreach ($pay['payment'] as $key => $value) {
+                if ($value['pay_code'] == $pay_code) {
+                    $change_payment = false;
+                }
+            }
         }
         return array('change' => $change_payment, 'payment' => $pay['payment'], 'open_id' => $open_id);
-	}
+    }
+
+    public static function get_payment_list($pay_code = '', $manage_mode = '')
+    {
+        //获取可用的支付方式列表
+        $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_PAYMENT)->run();
+        $pay = is_ecjia_error($pay) ? array() : $pay;
+
+		/*根据浏览器过滤支付方式，微信自带浏览器过滤掉支付宝支付，其他浏览器过滤掉微信支付*/
+        if (!empty($pay['payment'])) {
+            if (cart_function::is_weixin() == true) {
+                foreach ($pay['payment'] as $key => $val) {
+                    if ($val['pay_code'] == 'pay_alipay' || $val['pay_code'] == $pay_code) {
+                        unset($pay['payment'][$key]);
+                    }
+                    if ($val['pay_code'] == 'pay_wxpay') {
+                        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
+                        $open_id = $handler->getWechatOpenId();
+                        $_SESSION['wxpay_open_id'] = $open_id;
+                    }
+                    //非自营过滤货到付款
+                    if ($manage_mode != 'self' && $val['pay_code'] == 'pay_cod') {
+                        unset($pay['payment'][$key]);
+                    }
+                }
+            } else {
+                foreach ($pay['payment'] as $key => $val) {
+                    if ($val['pay_code'] == 'pay_wxpay' || $val['pay_code'] == $pay_code) {
+                        unset($pay['payment'][$key]);
+                    }
+                    //非自营过滤货到付款
+                    if ($manage_mode != 'self' && $val['pay_code'] == 'pay_cod') {
+                        unset($pay['payment'][$key]);
+                    }
+                }
+            }
+        }
+        return $pay['payment'];
+    }
 }
 
 //end

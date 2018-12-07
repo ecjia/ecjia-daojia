@@ -13,6 +13,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <script type="text/javascript">
 ecjia.touch.goods_detail.init();
 ecjia.touch.category.init();
+
+{if $is_weixin}
+var config = '{$config}';
+{/if}
+
 {if $releated_goods}
 var releated_goods = {$releated_goods};
 {/if}
@@ -448,6 +453,8 @@ var releated_goods = {$releated_goods};
 <input type="hidden" name="share_title" value="{$goods_info.goods_name}">
 <input type="hidden" name="share_desc" value="{$goods_info.goods_brief}">
 <input type="hidden" name="share_image" value="{$goods_info.img.thumb}">
+<input type="hidden" name="share_link" value="{$share_link}">
+<input type="hidden" name="share_page" value="1">
 
 <!-- #BeginLibraryItem "/library/address_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- #BeginLibraryItem "/library/goods_attr_modal.lbi" --><!-- #EndLibraryItem -->

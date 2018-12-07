@@ -9,7 +9,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<ul class="ecjia-list">
 	      {if 0}
 		      <!-- {if ecjia::config('use_integral')} 是否使用积分-->
-		      <li>获得积分：<span class="cart-order">{$total.will_get_integral}积分</span></li>
+		      <li>获得{$integral_name}：<span class="cart-order">{$total.will_get_integral}{$integral_name}</span></li>
 		      <!-- {/if} -->
 	      {/if}
 	
@@ -59,7 +59,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	      <!-- {/if} -->
 	
 	      <!-- {if $total.integral > 0} 使用积分 -->
-	      <li>  {$lang.use_integral}:<span class="cart-order">{$total.integral_formated}</span></li>
+	      <li> 使用{$integral_name}:<span class="cart-order">{$total.integral_formated}</span></li>
 	      <!-- {/if} -->
 	
 	      <!-- {if $total.bonus > 0} 使用红包 -->

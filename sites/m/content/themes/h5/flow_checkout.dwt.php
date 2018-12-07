@@ -190,17 +190,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<section class="checklist ecjia-margin-b">
 			{if $data.order_max_integral eq 0}
 				<a href='javascript:;' title="不可用">
-				    <span class="ecjia-color-999">{$lang.use_integral}</span>
+				    <span class="ecjia-color-999">使用{$integral_name}</span>
 				    <span class="ecjia-tag ecjia-tag-disable">不可用</span>
 				</a>
 				{else}
 				<a class="check_address" href='{url path="cart/flow/integral" args="address_id={$address_id}&rec_id={$rec_id}"}'>
-				    <span>{$lang.use_integral}</span>
+				    <span>使用{$integral_name}</span>
     				{if $temp.integral gt 0}
-    				<span class="ecjiaf-fr select_nav ecjia-truncate">{$temp.integral}积分</span>
+    				<span class="ecjiaf-fr select_nav ecjia-truncate">{$temp.integral}{$integral_name}</span>
     				<input type="hidden" name="integral" value="{$temp.integral}" />
     				{else}
-    				<span class="ecjia-tag">{if $data.your_integral lt $data.order_max_integral }{$data.your_integral}{else}{$data.order_max_integral}{/if}积分可用</span>
+    				<span class="ecjia-tag">{if $data.your_integral lt $data.order_max_integral }{$data.your_integral}{else}{$data.order_max_integral}{/if}{$integral_name}可用</span>
     				{/if}
     				<i class="iconfont icon-jiantou-right"></i>
 				</a>

@@ -10,7 +10,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 <ul class="ecjia-list ecjia-account">
-	<a href="{url path='user/account/record'}"><p class="cash_list">交易记录</p></a>
+	<a href="{url path='user/account/record'}">
+		<p class="cash_list">交易记录</p>
+	</a>
 	<div class="ecjia-nolist ecjia-margin-t5">
 		<i class="glyphicon glyphicon-piggy-bank"></i>
 		{if $user}
@@ -20,8 +22,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		{/if}
 	</div>
 	<div class="two-btn">
-		<a  href="{url path='user/account/recharge'}" class="btn nopjax external">{t}充值{/t}</a>
-		<a  href="{url path='user/account/withdraw'}" class="btn ecjia-btn-e5">{t}提现{/t}</a>
+		<a href="{url path='user/account/recharge'}" class="btn nopjax external">{t}充值{/t}</a>
+		<a href="{url path='user/account/withdraw'}" class="btn ecjia-btn-e5 fnUrlReplace">{t}提现{/t}</a>
 	</div>
 </ul>
 <!-- {/block} -->

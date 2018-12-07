@@ -9,6 +9,8 @@
 			ecjia.touch.user_account.btnflash();
 			ecjia.touch.user_account.btnpay();
 			ecjia.touch.user_account.add_bonus();
+			ecjia.touch.user_account.withdraw_all();
+			ecjia.touch.user_account.widthDrawFormSubmit();
 		},
 
 		wxpay_user_account: function () {
@@ -222,6 +224,41 @@
 					$('.ecjia-normal-modal-overlay').show();
 					ecjia.touch.user_account.close_nomal_modal();
 				});
+			});
+		},
+
+		withdraw_all: function () {
+			$('.widhdraw_all_span').off('click').on('click', function () {
+				$('input[name="amount"]').val($(this).attr('data-price'));
+			});
+
+			$('.ecjia-withdraw-notice-btn').off('click').on('click', function () {
+				var url = $(this).attr('data-url');
+				ecjia.pjax(url, function () {}, {
+					replace: true
+				});
+			});
+		},
+
+		widthDrawFormSubmit: function () {
+			$("form[name='widthDrawForm']").on('submit', function (e) {
+				$('input[name="submit"]').val('请求中...').prop('disabled', true);
+				e.preventDefault();
+				return false;
+			}).Validform({
+				tiptype: function (msg, o, cssctl) {},
+				ajaxPost: true,
+				callback: function (data) {
+					if (data.state == 'error') {
+						$('input[name="submit"]').val('立即提现').prop('disabled', false);
+						alert(data.message);
+						return false;
+					}
+					var url = data.url;
+					ecjia.pjax(url, function () {}, {
+						replace: true
+					});
+				}
 			});
 		},
 	};

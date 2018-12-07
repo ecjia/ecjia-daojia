@@ -33,7 +33,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 </li>
                  <li>
             		<label class="input">
-            			<input class="ecjia-account-passwd-on ecjia-user-height-2" name="comfirm_password" placeholder="请确认新密码" type="password">
+            			<input class="ecjia-account-passwd-on ecjia-user-height-2" name="confirm_password" placeholder="请确认新密码" type="password">
             		</label>
                 </li>
             </div>

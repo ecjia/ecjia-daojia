@@ -199,6 +199,7 @@ return [
     'user/account/recharge_account'     => 'user_account_controller@recharge_account',
     'user/account/withdraw'             => 'user_account_controller@withdraw',
     'user/account/withdraw_account'     => 'user_account_controller@withdraw_account',
+    'user/account/withdraw_account_notice' => 'user_account_controller@withdraw_account_notice',
     'user/account/balance'              => 'user_account_controller@balance', //余额
     'user/account/record'               => 'user_account_controller@record',
     'user/account/ajax_record'          => 'user_account_controller@ajax_record',
@@ -263,17 +264,20 @@ return [
     'user/order/groupbuy_detail'   		=> 'user_order_controller@groupbuy_detail',
     
     //用户资料
-    'user/profile/init'                 => 'user_profile_controller@init',
-    'user/profile/modify_username'      => 'user_profile_controller@modify_username',
-    'user/profile/modify_username_account' => 'user_profile_controller@modify_username_account',
-    'user/profile/edit_password'        => 'user_profile_controller@edit_password',
-    'user/profile/account_bind'         => 'user_profile_controller@account_bind',
-    'user/profile/get_code'             => 'user_profile_controller@get_code',
-    'user/profile/check_code'           => 'user_profile_controller@check_code',
-    'user/profile/bind_info'            => 'user_profile_controller@bind_info',
-    'user/profile/get_sms_code'			=> 'user_profile_controller@get_sms_code',
-    'user/profile/modify_password'		=> 'user_profile_controller@modify_password',
-    
+    'user/profile/init'                     => 'user_profile_controller@init',
+    'user/profile/modify_username'          => 'user_profile_controller@modify_username',
+    'user/profile/modify_username_account'  => 'user_profile_controller@modify_username_account',
+    'user/profile/edit_password'            => 'user_profile_controller@edit_password',
+    'user/profile/account_bind'             => 'user_profile_controller@account_bind',
+    'user/profile/get_code'                 => 'user_profile_controller@get_code',
+    'user/profile/check_code'               => 'user_profile_controller@check_code',
+    'user/profile/bind_info'                => 'user_profile_controller@bind_info',
+    'user/profile/get_sms_code'			    => 'user_profile_controller@get_sms_code',
+    'user/profile/modify_password'		    => 'user_profile_controller@modify_password',
+    'user/profile/set_pay_password'		    => 'user_profile_controller@set_pay_password',
+    'user/profile/set_pay_pass'		        => 'user_profile_controller@set_pay_pass',
+    'user/profile/check_pay_pass'	        => 'user_profile_controller@check_pay_pass',
+
     //授权登录
     'connect/index/dump_user_info'      => 'connect_controller@dump_user_info',
     'connect/index/bind_signup'         => 'connect_controller@bind_signup',

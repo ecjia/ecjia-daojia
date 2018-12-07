@@ -43,7 +43,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="ecjia" id="get_location" data-url="{url path='touch/location/get_location_msg'}">
 		<input type="hidden" name="key" value="{$key}"/>
 		<input type="hidden" name="referer" value="{$referer}"/>
-		<input type="hidden" name="wxconfig_url" value="{url path='user/index/wxconfig'}"/>
 		<!-- {block name="main-content"} --><!-- {/block} -->
 		<!-- #BeginLibraryItem "/library/page_menu.lbi" --><!-- #EndLibraryItem -->
 		<!--{if $ecjia_qrcode_image}-->
@@ -78,7 +77,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
     <script type="text/javascript">var theme_url = "{$theme_url}";</script>
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.goods_detail.js"></script>
+
+	{if $is_weixin}
 	<script type="text/javascript" src="{$theme_url}js/jweixin-1.2.0.js"></script>
+	{/if}
+
  	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.spread.js"></script>
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.user_account.js"></script>
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.franchisee.js"></script>
@@ -116,7 +119,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {else} -->
 <title>{block name="title"}{$page_title}{/block}</title>
 <!-- {block name="meta"} --><!-- {/block} -->
-{if $is_weixin}<input type="hidden" name="wxconfig_url" value="{url path='user/index/wxconfig'}"/>{/if}
 <!-- {block name="main-content"} --><!-- {/block} -->
 <!-- #BeginLibraryItem "/library/page_menu.lbi" --><!-- #EndLibraryItem -->
 <!--{if $ecjia_qrcode_image}-->

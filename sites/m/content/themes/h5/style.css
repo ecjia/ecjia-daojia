@@ -669,7 +669,7 @@ label i.checked {
 }
 .flow-done .done-message i {
 	color: #fff;
-	background: #50ad0b;
+	background: #47aa4d;
 }
 .cart-flow-done a.flow-done-shop {
 	background: #fff;
@@ -683,7 +683,7 @@ label i.checked {
 	border-color: #999;
 }
 .ecjia-flow-done .flow-success p::before {
-    background: #50ad0b;
+    background: #47aa4d;
 }
 /*==================================================
 	ECJia css BY: JiHongFei

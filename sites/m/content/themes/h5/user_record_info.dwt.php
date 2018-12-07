@@ -17,7 +17,7 @@ ecjia.touch.user.record_cancel();
 
 <!-- {block name="main-content"} -->
 <div class="ecjia-account record-info" method="post">
-    <div class="user-img"><img src="{$user_img}">
+    <div class="user-img"><img src="{$user.avatar_img}">
         <p class="user-name">{$user.name}</p>
     </div>
     <p class="record-money">{$sur_amount.format_amount}</p>
@@ -25,12 +25,25 @@ ecjia.touch.user.record_cancel();
     <div class="record-info">
         <p class="record-val">{$sur_amount.order_sn}</p>
         <p class="record-key">订单编号</p>
+
         <p class="record-val">{if $sur_amount.type eq 'raply'}账户余额{else}{$sur_amount.payment_name}{/if}</p>
         <p class="record-key">支付方式</p>
+
         <p class="record-val">{$sur_amount.type_lable}</p>
         <p class="record-key">交易类型</p>
+
+        <!-- <p class="record-val">{$sur_amount.lable_type}</p>
+        <p class="record-key">交易类型</p>
+
+        <p class="record-val">{$sur_amount.formatted_apply_amount}</p>
+        <p class="record-key">申请金额</p>
+
+        <p class="record-val">{$sur_amount.formatted_pay_fee}</p>
+        <p class="record-key">手续费用</p> -->
+
         <p class="record-val">{$sur_amount.add_time}</p>
         <p class="record-key">{if $sur_amount.type eq 'raply'}申请时间{else}充值时间{/if}</p>
+
     </div>
 	{if $sur_amount.pay_status eq '已完成'}
     {elseif $sur_amount.pay_status eq ''}

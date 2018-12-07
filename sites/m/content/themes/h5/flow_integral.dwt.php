@@ -12,9 +12,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <form id="theForm" name="theForm" action='{url path="cart/flow/{$action}" args="{if $smarty.session.order_address_temp.store_id}store_id={$smarty.session.order_address_temp.store_id}&{/if}address_id={$address_id}&rec_id={$rec_id}"}' method="post">
     <div class="ecjia-select">
-        <span class="select-title ecjia-margin-l">您总共有{$data.your_integral}积分</span>
+        <span class="select-title ecjia-margin-l">您总共有{$data.your_integral}{$integral_name}</span>
         <div class="input">
-            <input type="text" name="integral" value="{$temp.integral}" placeholder="您本单最多可以使用{$data.order_max_integral}积分">
+            <input type="text" name="integral" value="{$temp.integral}" placeholder="您本单最多可以使用{$data.order_max_integral}{$integral_name}">
         </div>
         <div class="ecjia-margin-t ecjia-margin-b">
             <input type="hidden" name="address_id" value="{$address_id}">

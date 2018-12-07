@@ -97,14 +97,14 @@ class affiliate_controller
         $res = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_USERBIND)->data($param)->run();
 
         if (is_ecjia_error($res)) {
-            return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
+            return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if ($res['registered'] == 1) {
-            return ecjia_front::$controller->showmessage('您已经是老用户，可以直接去登陆', ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON, array('registered' => 1, 'url' => RC_Uri::url('user/privilege/login')));
+            return ecjia_front::$controller->showmessage('您已经是老用户，可以直接去登陆', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('registered' => 1, 'url' => RC_Uri::url('user/privilege/login')));
         }
 
         if ($res['is_invited'] == 1) {
-            return ecjia_front::$controller->showmessage('该手机号已被推荐邀请', ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
+            return ecjia_front::$controller->showmessage('该手机号已被推荐邀请', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         return ecjia_front::$controller->showmessage('验证码已发送', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -117,7 +117,7 @@ class affiliate_controller
 
         $res = ecjia_touch_manager::make()->api(ecjia_touch_api::CAPTCHA_IMAGE)->data(array('token' => $token))->run();
         if (is_ecjia_error($res)) {
-            return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
+            return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         return ecjia_front::$controller->showmessage($res['base64'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
@@ -146,7 +146,7 @@ class affiliate_controller
         );
         $res = ecjia_touch_manager::make()->api(ecjia_touch_api::AFFILIATE_USER_INVITE)->data($param)->run();
         if (is_ecjia_error($res)) {
-            return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGTYPE_JSON);
+            return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         return ecjia_front::$controller->showmessage('领取成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/index/init')));
     }

@@ -36,13 +36,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</li>
 			<li>
 				<div class="img-integral"></div>
-				<span class="icon-name">积分</span>
+				<span class="icon-name">{$integral_name}</span>
 				<span class="icon-price icon-price-red">{$user.user_points}</span>
 			</li>
 			<li>
 				<a href="{url path='user/bonus/get_integral'}">
 					<div class="img-getintegral"></div>
-					<span class="icon-name">赚积分</span>
+					<span class="icon-name">赚{$integral_name}</span>
 					<i class="iconfont  icon-jiantou-right"></i>
 				</a>
 			</li>

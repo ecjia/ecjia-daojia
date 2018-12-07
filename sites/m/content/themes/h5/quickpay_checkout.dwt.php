@@ -89,16 +89,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					    <li class="outher_d">
 					        <a href='{url path="user/quickpay/integral" args="store_id={$store_id}"}'>
 					            <div class="icon-wallet"></div>
-					            <span class="icon-name">{t}使用积分{/t}</span>
+					            <span class="icon-name">{t}使用{$integral_name}{/t}</span>
 					            {if $temp.integral gt 0}
-					            <span class="fav_info">{$temp.integral}积分</span>
+					            <span class="fav_info">{$temp.integral}{$integral_name}</span>
 					            <input type="hidden" name="integral" value="{$temp.integral}" />
 					            {else}
-					            <span class="fav_info">{if $data.user_integral lt $activity.order_max_integral }{$data.user_integral}{else}{$activity.order_max_integral}{/if}积分可用</span>
+					            <span class="fav_info">{if $data.user_integral lt $activity.order_max_integral }{$data.user_integral}{else}{$activity.order_max_integral}{/if}{$integral_name}可用</span>
 					            {/if}
 					            <i class="iconfont icon-jiantou-right"></i>
 						        {if $temp.integral && $temp.integral_bonus}
-	                            <span class="other_width">{$temp.integral}积分抵{$temp.integral_bonus}元</span>
+	                            <span class="other_width">{$temp.integral}{$integral_name}抵{$temp.integral_bonus}元</span>
 	                            {/if}
 					        </a>
 					    </li>
@@ -176,16 +176,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	    <li class="outher_d">
 	        <a class="nopjax external" href='{url path="user/quickpay/integral" args="store_id={$store_id}"}'>
 	            <div class="icon-wallet"></div>
-	            <span class="icon-name">{t}使用积分{/t}</span>
+	            <span class="icon-name">{t}使用{$integral_name}{/t}</span>
 	            {if $temp.integral gt 0}
-	            <span class="fav_info">{$temp.integral}积分</span>
+	            <span class="fav_info">{$temp.integral}{$integral_name}</span>
 	            <input type="hidden" name="integral" value="{$temp.integral}" />
 	            {else}
-	            <span class="fav_info">{if $data.user_integral lt $arr.order_max_integral }{$data.user_integral}{else}{$arr.order_max_integral}{/if}积分可用</span>
+	            <span class="fav_info">{if $data.user_integral lt $arr.order_max_integral }{$data.user_integral}{else}{$arr.order_max_integral}{/if}{$integral_name}可用</span>
 	            {/if}
 	            <i class="iconfont icon-jiantou-right"></i>
 				{if $temp.integral && $temp.integral_bonus}
-				<span class="other_width">{$temp.integral}积分抵{$temp.integral_bonus}元</span>
+				<span class="other_width">{$temp.integral}{$integral_name}抵{$temp.integral_bonus}元</span>
 				{/if}
 	        </a>
 	    </li>

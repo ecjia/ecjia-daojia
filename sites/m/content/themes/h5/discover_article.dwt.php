@@ -10,7 +10,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.touch.index.init();
+
+{if $is_weixin}
+var config = '{$config}';
+{/if}
+
+ecjia.touch.index.init();
 </script>
 <!-- {/block} -->
 
@@ -139,5 +144,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <div class="box_overlay"></div>
 </div>
 <input type="hidden" name="share_title" value="{$data.title}">
+<input type="hidden" name="share_link" value="{$share_link}">
+<input type="hidden" name="share_page" value="1">
 <!-- {/block} -->
  {/nocache}

@@ -11,7 +11,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.touch.category.init();
+{if $is_weixin}
+var config = '{$config}';
+{/if}
+
+ecjia.touch.category.init();
 </script>
 <!-- {/block} -->
 
@@ -181,6 +185,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <input type="hidden" name="share_title" value="{$store_info.seller_name}">
 <input type="hidden" name="share_desc" value="{$store_info.seller_description}">
 <input type="hidden" name="share_image" value="{if $store_info.seller_logo}{$store_info.seller_logo}{else}{$theme_url}images/store_default.png{/if}">
+<input type="hidden" name="share_link" value="{$share_link}">
+<input type="hidden" name="share_page" value="1">
 
 <!-- #BeginLibraryItem "/library/address_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- #BeginLibraryItem "/library/store_notice_modal.lbi" --><!-- #EndLibraryItem -->

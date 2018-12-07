@@ -117,7 +117,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<li>税费金额：<span class="ecjiaf-fr ">{$order.formated_tax}</span></li>
 				{/if}
 				{if $order.integral_money neq 0}
-				<li>积分抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_integral_money}</span></li>
+				<li>{$integral_name}抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_integral_money}</span></li>
 				{/if}
 				{if $order.bonus neq 0}
 				<li>红包抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_bonus}</span></li>

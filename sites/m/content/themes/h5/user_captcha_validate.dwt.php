@@ -6,7 +6,7 @@ Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
-{nocache}
+
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
@@ -14,8 +14,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-<!-- #BeginLibraryItem "/library/page_header.lbi" -->
-<!-- #EndLibraryItem -->
+
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+
+<!-- {nocache} -->
 <div class="ecjia-form ecjia-login">
 	<div class="form-group margin-right-left">
 		<label class="input">
@@ -29,5 +31,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     </div>
     <p class="ecjiaf-tac blue refresh_captcha" data-url="{$refresh_url}">看不清，换一张</p>
 </div>
+<!-- {/nocache} -->
+
 <!-- {/block} -->
-{/nocache}

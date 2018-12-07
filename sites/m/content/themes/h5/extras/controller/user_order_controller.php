@@ -486,11 +486,11 @@ class user_order_controller
         $rank         = isset($_POST['score']) ? intval($_POST['score']) : 0;
         $is_anonymous = isset($_POST['anonymity_status']) ? intval($_POST['anonymity_status']) : '';
 
-        $file   = array();
-        $_FILES = $_FILES['picture'];
+        $file = array();
+        $files = $_FILES['picture'];
         for ($i = 0; $i < 5; $i++) {
-            if (!empty($_FILES['name'][$i])) {
-                $file['picture[' . $i . ']'] = curl_file_create(realpath($_FILES['tmp_name'][$i]), $_FILES['type'][$i], $_FILES['name'][$i]);
+            if (!empty($files['name'][$i])) {
+                $file['picture'][$i] = curl_file_create(realpath($files['tmp_name'][$i]), $files['type'][$i], $files['name'][$i]);
             }
         }
         $push_comment = array(
@@ -685,11 +685,11 @@ class user_order_controller
             return ecjia_front::$controller->showmessage('申请失败，请填写问题描述', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $file   = array();
-        $_FILES = $_FILES['picture'];
+        $file = array();
+        $files = $_FILES['refund_images'];
         for ($i = 0; $i < 5; $i++) {
-            if (!empty($_FILES['name'][$i])) {
-                $file['refund_images[' . $i . ']'] = curl_file_create(realpath($_FILES['tmp_name'][$i]), $_FILES['type'][$i], $_FILES['name'][$i]);
+            if (!empty($files['name'][$i])) {
+                $file['refund_images'][$i] = curl_file_create(realpath($files['tmp_name'][$i]), $files['type'][$i], $files['name'][$i]);
             }
         }
         $params = array(

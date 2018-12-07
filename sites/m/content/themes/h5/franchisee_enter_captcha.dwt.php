@@ -6,6 +6,7 @@ Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
@@ -13,6 +14,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
+
+<!-- {nocache} -->
 <div class="ecjia-address-list">
 	<div class="franchisee-search-title ecjia-margin-t">身份验证，请输入图中验证码</div>
 	
@@ -27,4 +30,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<input class="btn btn-info process_search" type="button" value="下一步" data-url="{$url}"/>
 	</div>
 </div>
+<!-- {/nocache} -->
+
 <!-- {/block} -->

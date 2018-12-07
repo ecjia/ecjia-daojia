@@ -10,10 +10,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-// var title = '{$share_title}',
-// 	link = '{$invite_user.invite_url}',
-// 	image = '{$image}';
+{if $is_weixin}
 var config = '{$config}';
+{/if}
+
 ecjia.touch.spread.init();
 </script>
 <!-- {/block} -->
@@ -41,7 +41,6 @@ ecjia.touch.spread.init();
 	<div class="ecjia-my-reward">
 		<a class="nopjax external" href="{url path='user/bonus/my_reward'}"><div class="my_reward">查看我的奖励</div></a>
 	</div>
-	<input type="hidden" name="spread_url" value="{$url}" />
 	
 	<div class="invite_explain"> 
 		<p class="invite_explain-literal">邀请说明：</p>
@@ -56,5 +55,12 @@ ecjia.touch.spread.init();
 		</div>
 	</div>
 	<div class="ecjia-spread-share hide"><img src="{$theme_url}images/spread.png"></div>
+
+	<input type="hidden" name="share_title" value="{$share_title}">
+	<input type="hidden" name="share_desc" value="{$invite_user.invite_template}">
+	<input type="hidden" name="share_image" value="{$image}">
+	<input type="hidden" name="share_link" value="{$invite_user.invite_url}">
+	<input type="hidden" name="share_page" value="1">
+	
 </div>
 <!-- {/block} -->

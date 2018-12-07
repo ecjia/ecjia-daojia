@@ -349,6 +349,10 @@ a.ecjia-color-green {
     background-color: #fff
 }
 
+.ecjia-color-85878c {
+    color: #85878c
+}
+
 /*========================  首页 ===========================*/
 .goods-index-list.ecjia-mod {
     background-color: #F7F7F7;
@@ -1271,6 +1275,18 @@ ul {
     padding-top: 1.5em
 }
 
+.ecjia-row-nav.ecjia-row-nav-four .col-xs-2 {
+    width: 24.666667%;
+}
+
+.ecjia-row-nav.ecjia-row-nav-four li:nth-child(4n+1) {
+    clear: both
+}
+
+.ecjia-row-nav.ecjia-row-nav-four li:nth-child(5n+1) {
+    clear: none
+}
+
 .ecjia-row-nav .col-xs-2 img {
     width: 4em
 }
@@ -1389,6 +1405,7 @@ ul {
     margin: .3em 0 0 0
 }
 
+/*首页促销商品*/
 .ecjia-mod.ecjia-promotion-model {
     overflow: hidden
 }
@@ -1615,6 +1632,7 @@ ul {
     padding: .2em
 }
 
+/*新品推荐 更多*/
 .ecjia-new-goods .goods-img img {
     width: 98%;
     display: block;
@@ -1744,6 +1762,7 @@ footer {
     width: 100%
 }
 
+/*========================  分类 ===========================*/
 .category .ecjia-header {
     position: fixed;
     height: 3.5em
@@ -3765,6 +3784,7 @@ footer {
     opacity: 1
 }
 
+/*========================  结算 ecjia-checkout =========================== */
 .ecjia .ecjia-checkout .checklist {
     overflow: hidden;
     background-color: #fff;
@@ -4659,6 +4679,12 @@ footer {
     font-size: 1.1em
 }
 
+.ecjia-user .ecjia-list.list-short li .icon {
+    width: 1.6em;
+    height: 1.6em;
+    margin-right: .5em;
+}
+
 .ecjia-user .ecjia-list.list-short li+li::before {
     left: 3.1em;
     border-bottom: 1px solid #eee
@@ -4673,6 +4699,10 @@ footer {
     text-overflow: ellipsis;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical
+}
+
+.ecjia-user .ecjia-list.list-short li span.icon-price.p_r0 {
+    padding-right: 0;
 }
 
 .ecjia-user .ecjia-list.list-short li span.icon-long {
@@ -5065,6 +5095,15 @@ footer {
     color: #A4A4A4
 }
 
+.ecjia-account .text-ty.m_l0 {
+    margin-left: 0;
+}
+
+.ecjia-account .wechat_withdraw_notice {
+    color: #A4A4A4;
+    margin: 1em 0 1em 1em;
+}
+
 .ecjia-account .help-text {
     height: 60px;
     background: #ffecca
@@ -5151,6 +5190,32 @@ footer {
 
 .ecjia-account .height-3 a {
     line-height: 1.7em !important
+}
+
+.ecjia-account .ecjia-list li.height-5 {
+    height: 5em;
+    line-height: 5em;
+    padding: 0 1em;
+}
+
+.ecjia-user .ecjia-list.list-short li.height-5 span {
+    font-size: 2em;
+    position: absolute;
+    width: 1em;
+}
+
+.ecjia-user .ecjia-list.list-short li.height-5 input {
+    width: 100%;
+    padding: 0 5em 0 2.5em;
+}
+
+.ecjia-user .ecjia-list.list-short li.height-5 .widhdraw_all_span {
+    position: absolute;
+    font-size: 1.1em;
+    right: 0;
+    top: 0em;
+    width: 5em;
+    color: #ff3a6d
 }
 
 .ecjia-account .record-money {
@@ -6736,6 +6801,7 @@ footer {
     border-bottom: 1px solid #eee
 }
 
+/*========================  订单列表 ===========================*/
 .ecjia-order-list {
     padding-bottom: 4em
 }
@@ -7044,6 +7110,7 @@ footer {
     line-height: 1.2em
 }
 
+/*========================  订单详情 ===========================*/
 .ecjia-order-detail .order-hd {
     background-color: #fff
 }
@@ -7231,7 +7298,7 @@ footer {
 .ecjia-order-detail .return-item .c9 .k0 {
     width: 20px;
     height: 15px;
-    background: url(//static-o2o.360buyimg.com/daojia/new/images/settlement/icon_question.png) no-repeat;
+    background: url(../images/icon/icon_question.png) no-repeat;
     background-size: 13px;
     display: inline-block;
     vertical-align: middle;
@@ -7493,6 +7560,7 @@ footer {
     top: 35%
 }
 
+/*订单提交成功*/
 .order-log-item.place_order:first-child::after {
     background: url(../images/order_status/done_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7503,6 +7571,7 @@ footer {
     background-size: 60%
 }
 
+/*待付款*/
 .order-log-item.unpay:first-child::after {
     background: url(../images/order_status/wait_pay_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7513,6 +7582,7 @@ footer {
     background-size: 60%
 }
 
+/*已付款*/
 .order-log-item.payed:first-child::after {
     background: url(../images/order_status/paid_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7523,6 +7593,7 @@ footer {
     background-size: 60%
 }
 
+/*等待商家接单*/
 .order-log-item.merchant_process:first-child::after {
     background: url(../images/order_status/wait_confirm_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7533,6 +7604,7 @@ footer {
     background-size: 60%
 }
 
+/*配货中*/
 .order-log-item.shipping:first-child::after {
     background: url(../images/order_status/shipping_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7543,6 +7615,7 @@ footer {
     background-size: 60%
 }
 
+/*已发货*/
 .order-log-item.shipped:first-child::after {
     background: url(../images/order_status/shipped_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7553,6 +7626,7 @@ footer {
     background-size: 60%
 }
 
+/*已确认收货*/
 .order-log-item.confirm_receipt:first-child::after {
     background: url(../images/order_status/finished_2.png) no-repeat center;
     background-size: 60%
@@ -7563,6 +7637,7 @@ footer {
     background-size: 60%
 }
 
+/*已完成*/
 .order-log-item.finished:first-child::after {
     background: url(../images/order_status/finished_2.png) no-repeat center;
     background-size: 60%
@@ -7573,6 +7648,7 @@ footer {
     background-size: 60%
 }
 
+/*已提货*/
 .order-log-item.pickup_success:first-child::after {
     background: url(../images/order_status/finished_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7583,6 +7659,7 @@ footer {
     background-size: 60%
 }
 
+/*配送员已取货*/
 .order-log-item.express_user_pickup:first-child::after {
     background: url(../images/order_status/expressed_2.png) #F7F7F7 no-repeat center;
     background-size: 60%
@@ -7593,6 +7670,7 @@ footer {
     background-size: 60%
 }
 
+/*已取消*/
 .order-log-item.cancel:first-child::after {
     background: url(../images/order_status/canceled_2.png) no-repeat center;
     background-size: 60%
@@ -7603,6 +7681,7 @@ footer {
     background-size: 60%
 }
 
+/*商家已接单*/
 .order-log-item.merchant_confirmed:first-child::after {
     background: url(../images/order_status/confirmed_2.png) no-repeat center;
     background-size: 60%
@@ -7626,6 +7705,7 @@ footer {
     background-size: 100%
 }
 
+/* 订单商品列表单独页面*/
 .ecjia-flow-goodslist.ecjia-order-detail .ecjia-checkout {
     border: none
 }
@@ -7662,6 +7742,7 @@ footer {
     margin-top: 1.5em
 }
 
+/*========================  评价晒单 ===========================*/
 .ecjia-comment-list {
     border-bottom: 1px solid #eee
 }
@@ -7907,6 +7988,7 @@ footer {
     color: #b7b7b8
 }
 
+/*========================  发票页  ===========================*/
 .ecjia-flow-invoice .select-type {
     background: #fff;
     height: auto;
@@ -7960,6 +8042,7 @@ footer {
     right: 1em
 }
 
+/*========================  分类店铺 ===========================*/
 .ecjia-store-goods-list {
     background: #fffFFF;
     margin-bottom: 48px
@@ -8400,6 +8483,7 @@ footer {
     font-weight: 400
 }
 
+/*========================  所有分类 ===========================*/
 .ecjia-category-list .hd {
     height: 3em;
     border: none;
@@ -8457,6 +8541,7 @@ footer {
     line-height: 2em
 }
 
+/*========================  底部导航 ===========================*/
 .ecjia-bottom-bar-pannel {
     position: fixed;
     z-index: 801;
@@ -8543,6 +8628,7 @@ footer {
     color: #47aa4d
 }
 
+/*======================== 推广 ===========================*/
 .ecjia-spread .ecjia-my-reward {
     width: 100%;
     padding-left: 1em;
@@ -9014,6 +9100,7 @@ footer {
     border-bottom: 1px solid #eee
 }
 
+/*======================== 加载动画 ===========================*/
 .load-list {
     transition: opacity .25s linear;
     opacity: 1;
@@ -9063,7 +9150,6 @@ footer {
         transform: scale(1);
         opacity: 1
     }
-
 }
 
 @keyframes scale {
@@ -9084,7 +9170,6 @@ footer {
         transform: scale(1);
         opacity: 1
     }
-
 }
 
 .load-list .loader .ball-pulse>div:nth-child(0) {
@@ -9118,6 +9203,7 @@ footer {
     display: inline-block
 }
 
+/*======================下载========================*/
 .ecjia-download {
     height: 60px;
     line-height: 18px;
@@ -9164,6 +9250,7 @@ footer {
     z-index: 7
 }
 
+/*店铺主页公告弹出层*/
 .ecjia-store-modal {
     width: 300px;
     position: absolute;
@@ -9392,6 +9479,7 @@ footer {
     color: #aaa
 }
 
+/*店铺评分*/
 .ecjia-seller-comment {
     height: auto;
     overflow: hidden;
@@ -9707,6 +9795,7 @@ footer {
     margin-top: .3em
 }
 
+/*首页热门推荐店铺*/
 .ecjia-store-model {
     padding-bottom: 50px
 }
@@ -9956,6 +10045,7 @@ footer {
     width: 60px
 }
 
+/*选择商品规格弹出层*/
 .ecjia-attr-static,
 .ecjia-goodsAttr-modal {
     width: 95%;
@@ -10137,6 +10227,7 @@ footer {
     color: #8c8a8a
 }
 
+/*弹窗选择商品属性加减样式*/
 .ecjia-choose-attr-box {
     float: right;
     margin-top: 15px;
@@ -10203,6 +10294,7 @@ footer {
     text-overflow: ellipsis
 }
 
+/*购物车1.5*/
 .ecjia-flow-cart .a4t {
     padding: 0 0 99px 0;
     text-align: center;
@@ -10470,6 +10562,7 @@ footer {
     padding-top: 0
 }
 
+/*发现*/
 .ecjia-discover.clearfix:after {
     clear: both;
     content: "";
@@ -11353,6 +11446,7 @@ footer {
     width: 2em
 }
 
+/*闪惠*/
 .quickpay .checkout {
     height: auto
 }
@@ -11724,7 +11818,7 @@ footer {
 }
 
 .quickpay-flow-done .quickpay-success p::before {
-    background: #50ad0b
+    background: #47aa4d
 }
 
 .quickpay-flow-done .quickpay-success p::after {
@@ -11871,6 +11965,7 @@ footer {
     width: 100%
 }
 
+/*配送员位置*/
 .ecjia .ecjia-express-info {
     max-width: 640px;
     position: fixed;
@@ -11947,7 +12042,9 @@ footer {
     left: 0;
     right: 0;
     z-index: 110;
-    background-color: rgba(0, 0, 0, .7)
+    background-color: rgba(0, 0, 0, .7);
+    max-width: 640px;
+    margin: 0 auto
 }
 
 .mod_address_slide.show {
@@ -11999,6 +12096,10 @@ footer {
     height: 250px;
     overflow-y: auto;
     font-size: 1em
+}
+
+.mod_address_slide_body.h350 {
+    height: 32rem;
 }
 
 .mod_address_slide_body .mod_address_slide_tabs.navBar {
@@ -12763,6 +12864,7 @@ footer {
     font-size: .9em
 }
 
+/*邀请注册样式*/
 .ecjia-invite-register {
     position: fixed;
     top: 0;
@@ -12889,6 +12991,7 @@ footer {
     font-size: 16px
 }
 
+/*兼容iPhone X*/
 .category .category_left,
 .ecjia-account .btn-bottom,
 .ecjia-address-list .ecjia-margin-t.jm,
@@ -12921,6 +13024,7 @@ body,
     margin-bottom: env(safe-area-inset-bottom)
 }
 
+/*优惠买单样式*/
 .ecjia-quickpay-content {
     margin: 25px;
     margin-top: 40px;
@@ -13045,6 +13149,7 @@ body,
     color: #fff
 }
 
+/*短信验证码样式*/
 .alieditContainer {
     position: relative;
     margin-bottom: 1em
@@ -13181,7 +13286,8 @@ body,
 }
 
 #payPassword_container .franchisee_pass_container input,
-#payPassword_container .pass_container input {
+#payPassword_container .pass_container input,
+#payPassword_container .pass_container .input {
     width: 45px;
     float: left;
     border: 1px solid #aaa;
@@ -13192,11 +13298,25 @@ body,
     font-size: 2em;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    line-height: 50px
+    line-height: 50px;
+    position: relative;
+}
+
+#payPassword_container .pass_container .input .point {
+    width: .5em;
+    height: .5em;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+    top: 35%;
+    left: 35%;
+    background-color: #333333;
+    -webkit-backface-visibility: hidden;
 }
 
 #payPassword_container .franchisee_pass_container input:last-child,
-#payPassword_container .pass_container input:last-child {
+#payPassword_container .pass_container input:last-child,
+#payPassword_container .pass_container .input:last-child {
     margin-right: 0
 }
 
@@ -13243,6 +13363,7 @@ body,
     top: .2em
 }
 
+/*微信登录页样式*/
 .ecjia-wechat-login {
     position: fixed;
     top: 0;
@@ -13311,6 +13432,7 @@ body,
     font-size: .9em
 }
 
+/*页面二维码样式*/
 .ecjia-wap-qrcode-container {
     height: 240px;
     width: 180px;
@@ -13354,6 +13476,7 @@ body,
     font-size: 1.1em
 }
 
+/*店铺非营业时间显示样式*/
 .store-add-cart.a4w .a61 {
     line-height: 23px;
     color: #555;
@@ -13375,6 +13498,7 @@ body,
     font-size: 1em
 }
 
+/*结算配送方式 配送上门/上门提货*/
 .ecjia-checkout-tab {
     line-height: 4em;
     text-align: center;
@@ -13494,6 +13618,7 @@ body,
     border-bottom: 1px solid #eee
 }
 
+/*选择城市*/
 .ecjia-select-city .showLetter {
     position: fixed;
     color: #fff;
@@ -13839,6 +13964,7 @@ body,
     margin: 0
 }
 
+/* 添加红包 */
 .ecjia-add-bonus {
     height: 100%;
     background-color: #fff;
@@ -14301,4 +14427,147 @@ body,
     line-height: 50px;
     border-bottom: 2px solid #eee;
     background: #f7f7f7
+}
+
+/* 提现通知页面 */
+.ecjia-withdraw-notice {
+    background-color: #fff;
+    margin-bottom: 3em;
+    text-align: center;
+    padding-bottom: .5em;
+    padding-top: 2em;
+}
+
+.ecjia-withdraw-notice p {
+    margin-bottom: .5em;
+}
+
+.ecjia-withdraw-notice p.green {
+    color: #47aa4d;
+    color: #47aa4d;
+    font-size: 1.1em;
+    margin: 1em 0;
+}
+
+/**================================================================
+键盘公用样式
+=================================================================*/
+.keyboard {
+    height: 18.5rem;
+    background-color: #ffffff;
+    text-align: center;
+    line-height: 1;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.keyboard li {
+    width: 33.3%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 25%;
+    border-bottom: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    float: left;
+}
+
+.keyboard li.bg-gray {
+    background-color: #e6e6e6;
+}
+
+.keyboard li p {
+    font-size: 2.2rem;
+}
+
+.keyboard li p:first-child {
+    margin-top: 1rem;
+}
+
+.keyboard li p.letter {
+    font-size: 1rem;
+}
+
+.keyboard li .icon-del {
+    width: 2.2rem;
+    display: block;
+    margin-top: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.keyboard li .icon-del img {
+    width: 100%;
+    vertical-align: middle;
+}
+
+.keyboard li:active {
+    background-color: #e6e6e6;
+}
+
+.keyboardInput {
+    width: 27rem;
+    background-color: #ffffff;
+    border: solid 1px #359df5;
+}
+
+.keyboardInput li {
+    float: left;
+    width: 4.4rem;
+    height: 4.9rem;
+    border-right: solid 1px #dddddd;
+    position: relative;
+}
+
+.keyboardInput li:last-child {
+    border-right: none;
+}
+
+.keyboardInput li .point {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.6rem;
+    left: 50%;
+    margin-left: -0.6rem;
+    background-color: #333333;
+    -webkit-backface-visibility: hidden;
+}
+
+.keyboardInputInUse {
+    width: 24.5rem;
+    background-color: #ffffff;
+    border: solid 1px #359df5;
+}
+
+.keyboardInputInUse li {
+    float: left;
+    width: 4rem;
+    height: 3.7rem;
+    border-right: solid 1px #dddddd;
+    position: relative;
+}
+
+.keyboardInputInUse li:last-child {
+    border-right: none;
+}
+
+.keyboardInputInUse li .point {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5rem;
+    left: 50%;
+    margin-left: -0.5rem;
+    background-color: #333333;
+    -webkit-backface-visibility: hidden;
 }
