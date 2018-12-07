@@ -323,7 +323,7 @@ class admin_device extends ecjia_admin {
 	 * @return  array
 	 */
 	private function get_device_list() {
-		$device_db = RC_DB::table('device_manage');
+		$device_db = RC_DB::table('mobile_device');
 		
 		$where = $filter = array();
 		$filter['keywords'] 	= empty($_GET['keywords']) 	? '' 	: trim($_GET['keywords']);
