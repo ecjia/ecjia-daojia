@@ -4,7 +4,7 @@ namespace Royalcms\Component\Uploader;
 
 use Royalcms\Component\Support\Str;
 use InvalidArgumentException;
-use Royalcms\Component\Container\Contracts\Container;
+use Royalcms\Component\Contracts\Container\Container;
 use Royalcms\Component\Uploader\Contracts\Factory as FactoryContract;
 
 class UploaderManager implements FactoryContract
@@ -12,7 +12,7 @@ class UploaderManager implements FactoryContract
     /**
      * The Container implementation.
      *
-     * @var \Royalcms\Component\Container\Contracts\Container
+     * @var \Royalcms\Component\Contracts\Container\Container
      */
     protected $royalcms;
 
