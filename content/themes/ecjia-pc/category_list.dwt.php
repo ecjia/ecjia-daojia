@@ -18,7 +18,7 @@
 				<div class="swiper-wrapper">
 					<!-- {foreach from=$cycleimage item=val} -->
 					<div class="swiper-slide" style="background:url('{$val.image}') center center no-repeat;">
-						<a href="{$val.url}"></a>
+						<a target="__blank" href="{$val.url}"></a>
 					</div>
 					<!-- {/foreach} -->
 				</div>
