@@ -130,26 +130,6 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
     }
 
     /**
-     * 启动session
-     */
-	protected function session_start()
-	{
-        if ($this->api_driver == 'local') {
-            return null;
-        }
-
-	    RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
-	        return RC_Config::get('session.session_name');
-	    });
-	         
-        RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
-            return RC_Hook::apply_filters('ecjia_api_session_id', $sessin_id);
-        });
-	
-        RC_Session::start();
-	}
-
-    /**
      * @return ecjia_view
      */
 	public function create_view()
@@ -184,7 +164,7 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
 	}
 	
 	/**
-	 * 获得模版文件
+	 * 获得模板文件
 	*/
 	public function get_template_file($file)
     {
@@ -216,8 +196,10 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
         $this->api_version		= $request->header('api-version');
         $this->api_driver		= $request->header('api-driver');
 
-        RC_Api::api('stats', 'statsapi', array('api_name' => $request->input('url'), 'device' => $this->device));
-        RC_Api::api('mobile', 'device_record', array('device' => $this->device));
+        if ($this->api_driver != 'local') {
+            RC_Api::api('stats', 'statsapi', array('api_name' => $request->input('url'), 'device' => $this->device));
+            RC_Api::api('mobile', 'device_record', array('device' => $this->device));
+        }
 
     }
 
@@ -263,6 +245,29 @@ abstract class EcjiaApi extends EcjiaController implements ecjia_template_filelo
     {
         $value = array_get($this->requestData, $key, $default);
         return $value;
+    }
+
+    /**
+     * 获取请求中的上传文件
+     *
+     * @param null $key
+     * @param null $default
+     * @return mixed
+     */
+    public function requestFile($key = null, $default = null)
+    {
+        return $this->request->file($key, $default);
+    }
+
+    /**
+     * 判断请求中是否含有上传文件
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasRequestFile($key)
+    {
+        return $this->request->hasFile($key);
     }
 
 
