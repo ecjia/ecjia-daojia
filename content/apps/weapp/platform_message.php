@@ -253,7 +253,9 @@ class platform_message extends ecjia_platform
                 $arrSort[$key][$uniqid] = $value;
             }
         }
-        array_multisort($arrSort[$field], constant($sort), $array);
+        if (!empty($array)) {
+        	array_multisort($arrSort[$field], constant($sort), $array);
+        }
         return $array;
     }
 }
