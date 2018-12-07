@@ -45,7 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 /**
- * ECJIA 管理中心模版管理程序
+ * ECJIA 管理中心模板管理程序
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
@@ -85,20 +85,20 @@ class admin_template extends ecjia_admin {
 	}
 
 	/**
-	 * 模版列表
+	 * 模板列表
 	 */
 	public function init() {
 		$this->admin_priv('template_select');
 
-		/* 获得当前的模版的信息 */
+		/* 获得当前的模板的信息 */
 		$curr_style = Ecjia_ThemeManager::getStyleName(); 
 		$template = $this->theme->loadSpecifyStyle($curr_style)->process();
 		$template_styles = $this->theme->getThemeStyles();
 		
-		/* 获得可用的模版 */
+		/* 获得可用的模板 */
 		$availables = Ecjia_ThemeManager::getAvailableThemes();
 
-		/* 获得可用的模版的可选风格数组 */
+		/* 获得可用的模板的可选风格数组 */
 		$available_templates = array();
 		if (count($availables) > 0) {
 			foreach ($availables as $key => $theme) {
@@ -125,7 +125,7 @@ class admin_template extends ecjia_admin {
 	}
 
 	/**
-	 * 安装模版
+	 * 安装模板
 	 */
 	public function install() {
 		$this->admin_priv('template_select');
