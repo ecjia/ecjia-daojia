@@ -590,11 +590,15 @@ class admin_orders_operate_delivery_module extends api_admin implements api_inte
                 $user = user_info($order['user_id']);
                 /* 计算并发放积分 */
                 $integral = integral_to_give($order);
+                $integral_name = ecjia::config('integral_name');
+                if (empty($integral_name)) {
+                	$integral_name = '积分';
+                }
                 $options = array(
                     'user_id'			=> $order['user_id'],
                     'rank_points'		=> intval($integral['rank_points']),
                     'pay_points'		=> intval($integral['custom_points']),
-                    'change_desc'		=> sprintf('订单 %s 赠送的积分', $order['order_sn']),
+                    'change_desc'		=> $order['order_sn'].'赠送的'.$integral_name,
                     'from_type'			=> 'order_give_integral',
                     'from_value'		=> $order['order_sn']
                 );

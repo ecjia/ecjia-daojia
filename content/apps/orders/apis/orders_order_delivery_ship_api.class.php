@@ -217,11 +217,15 @@ class orders_order_delivery_ship_api extends Component_Event_Api {
 				$user = user_info($order['user_id']);
 				/* 计算并发放积分 */
 				$integral = integral_to_give($order);
+				$integral_name = ecjia::config('integral_name');
+				if (empty($integral_name)) {
+					$integral_name = '积分';
+				}
 				$options = array(
 					'user_id'		=> $order['user_id'],
 					'rank_points'	=> intval($integral['rank_points']),
 					'pay_points'	=> intval($integral['custom_points']),
-					'change_desc'	=> sprintf(RC_Lang::get('orders::order.order_gift_integral'), $order['order_sn'])
+					'change_desc'	=> '订单'.$order['order_sn'].'赠送的'.$integral_name,
 				);
 				RC_Api::api('user', 'account_change_log',$options);
 				/* 发放红包 */

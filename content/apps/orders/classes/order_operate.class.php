@@ -168,6 +168,7 @@ class order_operate {
 		$delivery['insure_fee']		= floatval($order['insure_fee']);
 		$delivery['shipping_fee']	= floatval($order['shipping_fee']);
 		$delivery['shipping_id']	= $order['shipping_id'];
+		$delivery['store_id']		= $order['store_id'];
 
 		/* 订单是否已全部分单检查 */
 		if ($order['order_status'] == OS_SPLITED) {
@@ -352,7 +353,8 @@ class order_operate {
 							'goods_name'	=> addslashes($value['goods_name']),
 							'brand_name'	=> addslashes($value['brand_name']),
 							'goods_sn'		=> $value['goods_sn'],
-							'send_number'	=> $send_number[$value['rec_id']],
+// 							'send_number'	=> $send_number[$value['rec_id']],
+							'send_number'	=> $value['goods_number'],
 							'parent_id'		=> 0,
 							'is_real'		=> $value['is_real'],
 							'goods_attr'	=> addslashes($value['goods_attr'])
@@ -373,7 +375,8 @@ class order_operate {
 								'goods_name'		=> $pg_value['goods_name'],
 								'brand_name'		=> '',
 								'goods_sn'			=> $pg_value['goods_sn'],
-								'send_number'		=> $send_number[$value['rec_id']][$pg_value['g_p']],
+// 								'send_number'		=> $send_number[$value['rec_id']][$pg_value['g_p']],
+								'send_number'		=> $value['goods_number'],
 								'parent_id'			=> $value['goods_id'], // 礼包ID
 								'extension_code'	=> $value['extension_code'], // 礼包
 								'is_real'			=> $pg_value['is_real']

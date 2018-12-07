@@ -46,41 +46,31 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 订单支付后处理订单的接口
- * @author will.chen
- */
-class orders_order_operate_api extends Component_Event_Api {
-	
-    /**
-     * @param  $options['order_id'] 订单ID
-     *
-     * @return array
-     */
-	public function call(&$options) {	
-	    if (!is_array($options) 
-	        || !isset($options['order_id'])) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-	    }
-	    
-	    /* 查询订单信息 */
-	    $order = RC_Api::api('orders', 'order_info', array('order_id' => $options['order_id'], 'order_sn' => $options['order_sn']));
-	    
-	    /* 检查能否操作 */
-		$operable_list = RC_Api::api('orders', 'order_operable_list', $order);
+class orders_api_plugin
+{
+
+	public static function api_storebuy_order_payed_autoship($order)
+	{	
+		if (empty($order['order_sn'])) {
+			RC_Logger::getLogger('error')->error('storebuy_order_payed_autoship_error');return false;
+		}
+		$order_sn = $order['order_sn'];
+		$order_info = RC_DB::table('order_info')->where('order_sn', $order_sn)->first();
 		
-		if ($order['extension_code'] !='storebuy') {
-			if (!isset($operable_list[$options['operation']])) {
-				return new ecjia_error('operate_error', RC_Lang::get('orders::order.unable_operation_order'));
-			}
+		if(empty($order_info)) {
+			RC_Logger::getLogger('error')->error('到店购订单'.$order_sn.'发货失败');
+			return false;
 		}
 		
-		$operate = RC_Loader::load_app_class('order_operate', 'orders');
-		
-		$result = $operate->operate($order, $options['operation'], $options['note']);
-		
-		return $result;
+		//到店购订单；自动发货
+		if ($order_info['extension_code'] == 'storebuy') {
+			RC_Loader::load_app_class('Process_storebuyOrder_autoShip', 'orders', false);
+			Process_storebuyOrder_autoShip::storebuy_order_ship($order_info);
+		}
 	}
+    
 }
+
+RC_Hook::add_action('order_payed_do_something', array('orders_api_plugin', 'api_storebuy_order_payed_autoship'));
 
 // end

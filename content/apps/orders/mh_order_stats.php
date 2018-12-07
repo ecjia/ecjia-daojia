@@ -330,7 +330,7 @@ class mh_order_stats extends ecjia_merchant
         $start_date = RC_Time::local_strtotime($start_time);
         $end_date = RC_Time::local_strtotime($end_time);
 
-        $field = 'SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee';
+        $field = 'SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee';
         //待付款订单总金额
         $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
         $pay_cod_id = !empty($pay_cod_id) ? intval($pay_cod_id) : 0;
@@ -422,7 +422,7 @@ class mh_order_stats extends ecjia_merchant
                 $query->where('extension_code', '')
                     ->orWhere('extension_code', null);
             })
-            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee"))
             ->first();
 
         //团购型订单数及总金额
@@ -434,7 +434,7 @@ class mh_order_stats extends ecjia_merchant
             ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
             ->where('shipping_status', SS_RECEIVED)
             ->where('extension_code', 'group_buy')
-            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee"))
             ->first();
 
         //到店型订单数及总金额
@@ -446,7 +446,7 @@ class mh_order_stats extends ecjia_merchant
             ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
             ->where('shipping_status', SS_RECEIVED)
             ->where('extension_code', 'storebuy')
-            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee"))
             ->first();
 
         //自提型订单数及总金额
@@ -458,7 +458,7 @@ class mh_order_stats extends ecjia_merchant
             ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
             ->where('shipping_status', SS_RECEIVED)
             ->where('extension_code', 'storepickup')
-            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee"))
             ->first();
         
         //收银台型订单数及总金额
@@ -470,7 +470,7 @@ class mh_order_stats extends ecjia_merchant
             ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
             ->where('shipping_status', SS_RECEIVED)
             ->where('extension_code', 'cashdesk')
-            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax + integral_money - bonus - discount) as total_fee"))
+            ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee"))
             ->first();
 
         $data['count_all'] = $data['order_count_data']['order_count'] + $data['groupbuy_count_data']['order_count'] + $data['storebuy_count_data']['order_count'] + $data['storepickup_count_data']['order_count'] + $data['cashdesk_count_data']['order_count'];

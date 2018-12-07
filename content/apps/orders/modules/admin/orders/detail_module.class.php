@@ -200,59 +200,7 @@ class admin_orders_detail_module extends api_admin implements api_interface {
 		$order['sub_orders'] = array();
 		$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
 		$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
-// 		$result = ecjia_app::validate_application('seller');
-// 		if (!is_ecjia_error($result)) {
-// 			$sub_orders_result = $db_orderinfo_view->join(null)->field(array('oi.*,'.$total_fee))->where(array('main_order_id' => $order['order_id']))->select();
-// 			if (!empty($sub_orders_result)) {
-// 				$goods_db = RC_Model::model('goods/goods_model');
-// 				$db_order_goods = RC_Model::model('orders/order_goods_model');
-// 				foreach ($sub_orders_result as $val) {
-// 					$seller_name = RC_Model::model('seller/seller_shopinfo_model')->where(array('id' => $val['seller_id']))->get_field('shop_name');
-// 					$order_goods = $db_order_goods->where(array('order_id' => $val['order_id']))->select();
 
-// 					$order_status = ($val['order_status'] != '2' || $val['order_status'] != '3') ? RC_Lang::get('orders::order.os.'.$val['order_status']) : '';
-// 					$order_status = $val['order_status'] == '2' ? __('已取消') : $order_status;
-// 					$order_status = $val['order_status'] == '3' ? __('无效') : $order_status;
-
-// 					$goods_lists = array();
-// 					if (!empty($order_goods)) {
-// 						foreach ($order_goods as $v) {
-
-// 							$goods_info = $goods_db->find(array('goods_id' => $v['goods_id']));
-
-// 							$goods_lists[] = array(
-// 								'id'			=> $v['goods_id'],
-// 								'name'			=> $v['goods_name'],
-// 								'seller_name'	=> !empty($seller_name) ? $seller_name : '自营',
-// 								'shop_price'	=> price_format($v['goods_price'], false),
-// 								'goods_sn'		=> $v['goods_sn'],
-// 								'number'		=> $v['goods_number'],
-// 								'img' => array(
-// 									'thumb'	=> !empty($goods_info['goods_img']) ? RC_Upload::upload_url($goods_info['goods_img']) : '',
-// 									'url'	=> !empty($goods_info['original_img']) ? RC_Upload::upload_url($goods_info['original_img']) : '',
-// 									'small'	=> !empty($goods_info['goods_thumb']) ? RC_Upload::upload_url($goods_info['goods_thumb']) : '',
-// 								),
-// 							);
-// 						}
-// 					}
-
-
-// 					$order['sub_orders'][] = array(
-// 						'order_id'	=> $val['order_id'],
-// 						'order_sn'	=> $val['order_sn'],
-// 						'total_fee' => $val['total_fee'],
-// 						'formated_total_fee' 		=> price_format($val['total_fee'], false),
-// 						'formated_integral_money'	=> price_format($val['integral_money'], false),
-// 						'formated_bonus'			=> price_format($val['bonus'], false),
-// 						'formated_shipping_fee'		=> price_format($val['shipping_fee'], false),
-// 						'formated_discount'			=> price_format($val['discount'], false),
-// 						'status'					=> $order_status.','.RC_Lang::get('orders::order.ps.'.$val['pay_status']).','.RC_Lang::get('orders::order.ss.'.$val['shipping_status']),
-// 						'create_time' 				=> RC_Time::local_date(ecjia::config('date_format'), $val['add_time']),
-// 						'goods_items' 				=> $goods_lists
-// 					);
-// 				}
-// 			}
-// 		}
 		$ordergoods_viewdb = RC_Model::model('orders/order_goods_goods_viewmodel');
 		$goods_list = $ordergoods_viewdb->where(array('order_id' => $order['order_id']))->select();
 		if (!empty($goods_list)) {
@@ -275,7 +223,7 @@ class admin_orders_detail_module extends api_admin implements api_interface {
 				);
 			}
 		}
-
+		$order['goods_number'] = count($goods_list);
 		$order['goods_items'] = $goods_list;
 
 
@@ -300,8 +248,119 @@ class admin_orders_detail_module extends api_admin implements api_interface {
 			}
 		}
 		$order['action_logs']   = $act_list;
+		//订单小票打印数据
+		$print_data = $this->getOrderPrintData($order);
+		$order['print_data'] = $print_data;
 		return $order;
 	}
+	
+	/**
+	 * 获取订单小票打印数据
+	 */
+	private function getOrderPrintData($order_info = array(), $order_goods_list = array())
+	{
+
+		$buy_print_data = array();
+		if (!empty($order_info)) {
+			$payment_record_info 	= $this->_payment_record_info($order_info['order_sn'], 'buy');
+			$order_goods 			= $this->get_formate_order_goods($order_info['order_id']);
+			$total_discount 		= $order_info['discount'] + $order_info['integral_money'] + $order_info['bonus'];
+			$money_paid 			= $order_info['money_paid'] + $order_info['surplus'];
+		
+			//下单收银员
+			$cashier_name = RC_DB::table('cashier_record as cr')
+			->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))
+			->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
+			->whereIn('action', array('check_order', 'billing'))
+			->pluck('name');
+		
+			$user_info = [];
+			//有没用户
+			if ($order_info['user_id'] > 0) {
+				$userinfo = RC_DB::table('users')->where('user_id', $order_info['user_id'])->first();
+				if (!empty($userinfo)) {
+					$user_info = array(
+							'user_name' 			=> empty($userinfo['user_name']) ? '' : trim($userinfo['user_name']),
+							'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
+							'user_points'			=> $userinfo['pay_points'],
+							'user_money'			=> $userinfo['user_money'],
+							'formatted_user_money'	=> price_format($userinfo['user_money'], false),
+					);
+				}
+			}
+		
+			$buy_print_data = array(
+					'order_sn' 						=> $order_info['order_sn'],
+					'trade_no'						=> empty($payment_record_info['trade_no']) ? '' : $payment_record_info['trade_no'],
+					'order_trade_no'				=> empty($payment_record_info['order_trade_no']) ? '' : $payment_record_info['order_trade_no'],
+					'trade_type'					=> 'buy',
+					'pay_time'						=> empty($order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $order_info['pay_time']),
+					'goods_list'					=> $order_goods['list'],
+					'total_goods_number' 			=> $order_goods['total_goods_number'],
+					'total_goods_amount'			=> $order_goods['taotal_goods_amount'],
+					'formatted_total_goods_amount'	=> price_format($order_goods['taotal_goods_amount'], false),
+					'total_discount'				=> $total_discount,
+					'formatted_total_discount'		=> price_format($total_discount, false),
+					'money_paid'					=> $money_paid,
+					'formatted_money_paid'			=> price_format($money_paid, false),
+					'integral'						=> intval($order_info['integral']),
+					'integral_money'				=> $order_info['integral_money'],
+					'formatted_integral_money'		=> price_format($order_info['integral_money'], false),
+					'pay_name'						=> !empty($order_info['pay_name']) ? $order_info['pay_name'] : '',
+					'payment_account'				=> '',
+					'user_info'						=> $user_info,
+					'refund_sn'						=> '',
+					'refund_total_amount'			=> 0,
+					'formatted_refund_total_amount' => '',
+					'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name
+			);
+		}
+		 
+		return $buy_print_data;
+		
+	}
+	
+	/**
+	 * 支付交易记录信息
+	 * @param string $order_sn
+	 * @param string $trade_type
+	 * @return array
+	 */
+	private function _payment_record_info($order_sn = '', $trade_type = '')
+	{
+		$payment_revord_info = [];
+		if (!empty($order_sn) && !empty($trade_type)) {
+			$payment_revord_info = RC_DB::table('payment_record')->where('order_sn', $order_sn)->where('trade_type', $trade_type)->first();
+		}
+		return $payment_revord_info;
+	}
+	
+	/**
+	 * 订单商品
+	 */
+	private function get_formate_order_goods ($order_id) {
+		$field = 'goods_id, goods_name, goods_number, (goods_number*goods_price) as subtotal';
+		$order_goods = RC_DB::table('order_goods')->where('order_id', $order_id)->select(RC_DB::raw($field))->get();
+		$total_goods_number = 0;
+		$taotal_goods_amount = 0;
+		$list = [];
+		if ($order_goods) {
+			foreach ($order_goods as $row) {
+				$total_goods_number += $row['goods_number'];
+				$taotal_goods_amount += $row['subtotal'];
+				$list[] = array(
+						'goods_id' 			=> $row['goods_id'],
+						'goods_name'		=> $row['goods_name'],
+						'goods_number'		=> $row['goods_number'],
+						'subtotal'			=> $row['subtotal'],
+						'formatted_subtotal'=> price_format($row['subtotal'], false),
+				);
+			}
+		}
+	
+		return array('list' => $list, 'total_goods_number' => $total_goods_number, 'taotal_goods_amount' => $taotal_goods_amount);
+	}
+	
 }
 
 // end

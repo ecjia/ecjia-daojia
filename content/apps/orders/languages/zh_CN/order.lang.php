@@ -314,7 +314,7 @@ return array(
 	'display_buyer' => '显示购货人信息',
 	'buyer_info' 	=> '购货人信息',
 	'pay_points' 	=> '消费积分',
-	'rank_points' 	=> '等级积分',
+	'rank_points' 	=> '成长值',
 	'user_money' 	=> '账户余额',
 	'email' 		=> '电子邮件',
 	'rank_name' 	=> '会员等级',

@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	var data = '{$data}';
 	var stats = '{$stats}';
-	ecjia.admin.order_stats.chart();
+	ecjia.admin.order_stats.init();
 </script>
 <!-- {/block} -->
 

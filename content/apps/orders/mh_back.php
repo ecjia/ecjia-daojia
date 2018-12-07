@@ -130,7 +130,7 @@ class mh_back extends ecjia_merchant {
 		/* 取得用户名 */
 		if ($back_order['user_id'] > 0) {
 			$user = user_info($back_order['user_id']);
-			if (!empty($user)) {
+			if (!empty($user) && !is_ecjia_error($user)) {
 				$back_order['user_name'] = $user['user_name'];
 			}
 		}

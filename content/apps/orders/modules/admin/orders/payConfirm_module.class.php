@@ -108,6 +108,9 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 			$operate = RC_Loader::load_app_class('order_operate', 'orders');
 			$operate->operate($order, 'pay', '收银台现金收款');
 			
+			//支付后扩展处理
+			RC_Hook::do_action('order_payed_do_something', $order);
+			
 			//会员店铺消费过，记录为店铺会员
 			if (!empty($order['user_id'])) {
 				if (!empty($order['store_id'])) {
@@ -137,7 +140,8 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 			
 			/* 发货*/
 			$db_delivery_order	= RC_Loader::load_app_model('delivery_order_model', 'orders');
-			$delivery_id = $db_delivery_order->where(array('order_sn' => array('like' => '%'.$order['order_sn'].'%')))->order(array('delivery_id' => 'desc'))->get_field('delivery_id');
+			$delivery_id = $db_delivery_order->where(array('order_sn' => $order['order_sn']))->order(array('delivery_id' => 'desc'))->get_field('delivery_id');
+			
 			$result = $this->delivery_ship($order_id, $delivery_id, $invoice_no, $action_note);
 			
 			if (is_ecjia_error($result)) {
@@ -178,10 +182,11 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 					'pay_status'	=> 'success',
 					'desc'			=> '订单支付成功！'
 			);
-			return array('payment' => $data);
+			$print_data = $this->_getprintdata($order_info);
+			return array('payment' => $data, 'print_data' => $print_data);
 		}
 		
-		if (in_array($pay_info['pay_code'], array('pay_koolyun', 'pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay', 'pay_balance'))) {
+		if (in_array($pay_info['pay_code'], array('pay_koolyun', 'pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay', 'pay_balance', 'pay_shouqianba'))) {
 			/* 更新支付流水记录*/
 			RC_Api::api('payment', 'update_payment_record', [
 			'order_sn' 		=> $order['order_sn'],
@@ -203,7 +208,7 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 			
 			/* 发货*/
 			$db_delivery_order	= RC_Loader::load_app_model('delivery_order_model', 'orders');
-			$delivery_id = $db_delivery_order->where(array('order_sn' => array('like' => '%'.$order['order_sn'].'%')))->order(array('delivery_id' => 'desc'))->get_field('delivery_id');
+			$delivery_id = $db_delivery_order->where(array('order_sn' => $order['order_sn']))->order(array('delivery_id' => 'desc'))->get_field('delivery_id');
 			
 			$result = $this->delivery_ship($order_id, $delivery_id, $invoice_no, $action_note);
 			if (is_ecjia_error($result)) {
@@ -238,6 +243,8 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 			}
 			
 			$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
+			//支付后扩展处理
+			RC_Hook::do_action('order_payed_do_something', $order_info);
 			$data = array(
 					'order_id' 		=> $order_info['order_id'],
 					'money_paid'	=> $order_info['money_paid'],
@@ -249,13 +256,14 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 					'pay_status'	=> 'success',
 					'desc'			=> '订单支付成功！'
 			);
-			return array('payment' => $data);
-			
+			$print_data = $this->_getprintdata($order_info);
+			return array('payment' => $data, 'print_data' => $print_data);
 		}
 	}
 
 
     private function delivery_ship($order_id, $delivery_id, $invoice_no, $action_note) {
+    	
         RC_Logger::getLogger('error')->info('订单发货处理【订单id|'.$order_id.'】');
         RC_Loader::load_app_func('global', 'orders');
         RC_Loader::load_app_func('admin_order', 'orders');
@@ -274,10 +282,9 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 
         /* 根据发货单id查询发货单信息 */
         if (!empty($delivery_id)) {
+        	$delivery_id = intval($delivery_id);
             $delivery_order = delivery_order_info($delivery_id);
-        } else {
-            return new ecjia_error('delivery_id_error', __('无法找到对应发货单！'));
-        }
+        } 
         if (empty($delivery_order)) {
             return new ecjia_error('delivery_error', __('无法找到对应发货单！'));
         }
@@ -411,6 +418,7 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
         /* 标记订单为已确认 “已发货” */
         /* 更新发货时间 */
         $order_finish				= get_all_delivery_finish($order_id);
+        
         $shipping_status			= ($order_finish == 1) ? SS_SHIPPED : SS_SHIPPED_PART;
         $arr['shipping_status']		= $shipping_status;
         $arr['shipping_time']		= RC_Time::gmtime(); // 发货时间
@@ -428,21 +436,30 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 
 
         RC_Logger::getLogger('error')->info('判断是否全部发货'.$order_finish);
+        
+        
         /* 如果当前订单已经全部发货 */
         if ($order_finish) {
             RC_Logger::getLogger('error')->info('订单发货，积分红包处理');
             /* 如果订单用户不为空，计算积分，并发给用户；发红包 */
             if ($order['user_id'] > 0) {
+            	
+            	
                 /* 取得用户信息 */
                 $user = user_info($order['user_id']);
                 /* 计算并发放积分 */
                 $integral = integral_to_give($order);
-                RC_Logger::getLogger('error')->info($integral);
+                $integral_name = ecjia::config('integral_name');
+                if (empty($integral_name)) {
+                	$integral_name = '积分';
+                }
                 $options = array(
                     'user_id'		=> $order['user_id'],
                     'rank_points'	=> intval($integral['rank_points']),
                     'pay_points'	=> intval($integral['custom_points']),
-                    'change_desc'	=> sprintf(RC_Lang::lang('order_gift_integral'), $order['order_sn'])
+                    'change_desc'	=> '订单'.$order['order_sn'].'赠送的'.$integral_name,
+                	'from_type'		=> 'order_give_integral',
+                	'from_value'	=> $order['order_sn'],
                 );
                 RC_Api::api('user', 'account_change_log',$options);
                 /* 发放红包 */
@@ -451,6 +468,120 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
         }
 
         return true;
+    }
+    
+    /**
+     * 获取订单小票打印数据
+     */
+    private function _getprintdata($order_info = array())
+    {
+
+    	$buy_print_data = array();
+    	if (!empty($order_info)) {
+    		$payment_record_info 	= $this->_paymentRecordInfo($order_info['order_sn'], 'buy');
+    		$order_goods 			= $this->getOrderGoods($order_info['order_id']);
+    		$total_discount 		= $order_info['discount'] + $order_info['integral_money'] + $order_info['bonus'];
+    		$money_paid 			= $order_info['money_paid'] + $order_info['surplus'];
+    	
+    		//下单收银员
+    		$cashier_name = RC_DB::table('cashier_record as cr')
+    		->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))
+    		->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
+    		->whereIn('action', array('check_order', 'billing'))
+    		->pluck('name');
+    	
+    		$user_info = [];
+    		//有没用户
+    		if ($order_info['user_id'] > 0) {
+    			$userinfo = $this->_get_user_info($order_info['user_id']);
+    			if (!empty($userinfo)) {
+    				$user_info = array(
+    						'user_name' 			=> empty($userinfo['user_name']) ? '' : trim($userinfo['user_name']),
+    						'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
+    						'user_points'			=> $userinfo['pay_points'],
+    						'user_money'			=> $userinfo['user_money'],
+    						'formatted_user_money'	=> price_format($userinfo['user_money'], false),
+    				);
+    			}
+    		}
+    	
+    		$buy_print_data = array(
+    				'order_sn' 						=> $order_info['order_sn'],
+    				'trade_no'						=> empty($payment_record_info['trade_no']) ? '' : $payment_record_info['trade_no'],
+    				'order_trade_no'				=> empty($payment_record_info['order_trade_no']) ? '' : $payment_record_info['order_trade_no'],
+    				'trade_type'					=> 'buy',
+    				'pay_time'						=> empty($order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $order_info['pay_time']),
+    				'goods_list'					=> $order_goods['list'],
+    				'total_goods_number' 			=> $order_goods['total_goods_number'],
+    				'total_goods_amount'			=> $order_goods['taotal_goods_amount'],
+    				'formatted_total_goods_amount'	=> price_format($order_goods['taotal_goods_amount'], false),
+    				'total_discount'				=> $total_discount,
+    				'formatted_total_discount'		=> price_format($total_discount, false),
+    				'money_paid'					=> $money_paid,
+    				'formatted_money_paid'			=> price_format($money_paid, false),
+    				'integral'						=> intval($order_info['integral']),
+    				'integral_money'				=> $order_info['integral_money'],
+    				'formatted_integral_money'		=> price_format($order_info['integral_money'], false),
+    				'pay_name'						=> !empty($order_info['pay_name']) ? $order_info['pay_name'] : '',
+    				'payment_account'				=> '',
+    				'user_info'						=> $user_info,
+    				'refund_sn'						=> '',
+    				'refund_total_amount'			=> 0,
+    				'formatted_refund_total_amount' => '',
+    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name
+    		);
+    	}
+    	 
+    	return $buy_print_data;
+    }
+    
+    /**
+     * 支付交易记录信息
+     * @param string $order_sn
+     * @param string $trade_type
+     * @return array
+     */
+    private function _paymentRecordInfo($order_sn = '', $trade_type = '')
+    {
+    	$payment_revord_info = [];
+    	if (!empty($order_sn) && !empty($trade_type)) {
+    		$payment_revord_info = RC_DB::table('payment_record')->where('order_sn', $order_sn)->where('trade_type', $trade_type)->first();
+    	}
+    	return $payment_revord_info;
+    }
+    
+    /**
+     * 用户信息
+     */
+    private function _get_user_info ($user_id = 0) {
+    	$user_info = RC_DB::table('users')->where('user_id', $user_id)->first();
+    	return $user_info;
+    }
+    
+    /**
+     * 订单商品
+     */
+    private function GetOrderGoods ($order_id) {
+    	$field = 'goods_id, goods_name, goods_number, (goods_number*goods_price) as subtotal';
+    	$order_goods = RC_DB::table('order_goods')->where('order_id', $order_id)->select(RC_DB::raw($field))->get();
+    	$total_goods_number = 0;
+    	$taotal_goods_amount = 0;
+    	$list = [];
+    	if ($order_goods) {
+    		foreach ($order_goods as $row) {
+    			$total_goods_number += $row['goods_number'];
+    			$taotal_goods_amount += $row['subtotal'];
+    			$list[] = array(
+    					'goods_id' 			=> $row['goods_id'],
+    					'goods_name'		=> $row['goods_name'],
+    					'goods_number'		=> $row['goods_number'],
+    					'subtotal'			=> $row['subtotal'],
+    					'formatted_subtotal'=> price_format($row['subtotal'], false),
+    			);
+    		}
+    	}
+    
+    	return array('list' => $list, 'total_goods_number' => $total_goods_number, 'taotal_goods_amount' => $taotal_goods_amount);
     }
 }
 

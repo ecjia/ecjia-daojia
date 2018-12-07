@@ -244,7 +244,7 @@ class admin_orders_list_module extends api_admin implements api_interface {
 			$page_row = new ecjia_page($record_count, $size, 6, '', $page);
 			$order_id_group = $db_cashier_record_view->join(array('order_info'))->where($where)->limit($page_row->limit())->order(array('create_at' => 'desc'))->field('oi.order_id')->group('oi.order_id')->select();
 			$total_fee = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
-			$field = 'oi.order_id, oi.surplus, oi.money_paid, oi.order_amount, oi.store_id, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time';
+			$field = 'cr.staff_id, oi.order_id, oi.surplus, oi.money_paid, oi.order_amount, oi.store_id, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, '.$total_fee.', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time';
 			$data = $db_cashier_record_view->field($field)->join($join)->where($where)->limit($page_row->limit())->order(array('cr.create_at' => 'desc'))->group('oi.order_id')->select();
 			$data = $this->formated_admin_order_list($data, $device_code, $type);
 			$order_list = $data;
@@ -276,6 +276,7 @@ class admin_orders_list_module extends api_admin implements api_interface {
 				
 				list($label_order_status, $status_code) = $this->get_label_order_status($val['order_status'], $val['pay_status'], $val['shipping_status'], $payment, $device_code, $codes, $type);
 				
+				$data[$key]['cashier_name']				= $this->get_cashier_name($val['staff_id']);
 				$data[$key]['mobile']					= empty($val['mobile']) ? $val['tel'] : $val['mobile'];
 				$data[$key]['formated_total_fee'] 		= price_format($val['total_fee'], false);
 				$data[$key]['formated_order_amount']	= price_format($val['order_amount'], false);
@@ -418,6 +419,14 @@ class admin_orders_list_module extends api_admin implements api_interface {
 			$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
 		}
 		return $store_name;
+	}
+	
+	private function get_cashier_name($staff_id = 0) {
+		$cashier_name = '';
+		if (!empty($staff_id)) {
+			$cashier_name = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('name');
+		}
+		return $cashier_name;
 	}
 }
 

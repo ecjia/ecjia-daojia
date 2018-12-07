@@ -104,7 +104,7 @@ class order_pay_module extends api_front implements api_interface {
         $payment_record = $db->where('order_sn', $order['order_sn'])->first();
         $payment_data = array(
         	'order_sn'		=> $order['order_sn'],
-        	'trade_type'	=> 'buy',
+            'trade_type'	=> Ecjia\App\Payment\PayConstant::PAY_ORDER,
         	'pay_code'		=> $payment_info['pay_code'],
         	'pay_name'		=> $payment_info['pay_name'],
         	'total_fee'		=> $order['order_amount'],

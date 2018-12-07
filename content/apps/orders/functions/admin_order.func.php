@@ -153,7 +153,7 @@ function order_info($order_id, $order_sn = '', $type = '') {
         $db_order_info = RC_DB::table('order_info as o')->leftJoin('store_franchisee as s', RC_DB::raw('o.store_id'), '=', RC_DB::raw('s.store_id'));
     }
     /* 计算订单各种费用之和的语句 */
-    $total_fee = " (goods_amount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - integral_money - bonus - discount) AS total_fee ";
+    $total_fee = " (goods_amount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS total_fee ";
     $order_id = intval($order_id);
     if ($order_id > 0) {
         $db_order_info->where('order_id', $order_id);
@@ -263,7 +263,7 @@ function order_weight_price($order_id) {
  * @param   bool    $is_gb_deposit  是否团购保证金（如果是，应付款金额只计算商品总额和支付费用，可以获得的积分取 $gift_integral）
  * @return  array
  */
-function order_fee($order, $goods, $consignee, $cart_id = array()) {
+function order_fee($order, $goods, $consignee, $cart_id = array(), $cart_goods_list = [], $shipping_ids = []) {
     RC_Loader::load_app_func('global', 'goods');
     RC_Loader::load_app_func('cart', 'cart');
     $db = RC_Loader::load_app_model('cart_model', 'cart');
@@ -363,43 +363,11 @@ function order_fee($order, $goods, $consignee, $cart_id = array()) {
         $region['province'] = $consignee['province'];
         $region['city'] = $consignee['city'];
         $region['district'] = $consignee['district'];
-        $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-        $shipping_info = $shipping_method->shipping_area_info($order['shipping_id'], $region);
-        if (!empty($shipping_info)) {
-            if ($order['extension_code'] == 'group_buy') {
-                $weight_price = cart_weight_price(CART_GROUP_BUY_GOODS);
-            } else {
-                $weight_price = cart_weight_price(CART_GENERAL_GOODS, $cart_id);
-            }
-            if (!empty($cart_id)) {
-                $shipping_count_where = array('rec_id' => $cart_id);
-            }
-            // 查看购物车中是否全为免运费商品，若是则把运费赋为零
-            if ($_SESSION['user_id']) {
-                $shipping_count = $db->where(array_merge($shipping_count_where, array('user_id' => $_SESSION['user_id'], 'extension_code' => array('neq' => 'package_buy'), 'is_shipping' => 0)))->count();
-            } else {
-                $shipping_count = $db->where(array_merge($shipping_count_where, array('session_id' => SESS_ID, 'extension_code' => array('neq' => 'package_buy'), 'is_shipping' => 0)))->count();
-            }
-            //ecmoban模板堂 --zhuo start
-            if (ecjia::config('freight_model') == 0) {
-                $total['shipping_fee'] = ($shipping_count == 0 and $weight_price['free_shipping'] == 1) ? 0 : $shipping_method->shipping_fee($shipping_info['shipping_code'], $shipping_info['configure'], $weight_price['weight'], $total['goods_price'], $weight_price['number']);
-            } elseif (ecjia::config('freight_model') == 1) {
-                $shipping_fee = get_goods_order_shipping_fee($goods, $region, $shipping_info['shipping_code']);
-                $total['shipping_fee'] = ($shipping_count == 0 and $weight_price['free_shipping'] == 1) ? 0 : $shipping_fee['shipping_fee'];
-            }
-            //ecmoban模板堂 --zhuo end
-            if (!empty($order['need_insure']) && $shipping_info['insure'] > 0) {
-                $total['shipping_insure'] = shipping_insure_fee($shipping_info['shipping_code'], $total['goods_price'], $shipping_info['insure']);
-            } else {
-                $total['shipping_insure'] = 0;
-            }
-            if ($shipping_info['support_cod']) {
-                $shipping_cod_fee = $shipping_info['pay_fee'];
-            }
-        }
+        $region['street'] = $consignee['street'];
+        $total['shipping_fee'] = get_order_shipping_fee($cart_goods_list, $shipping_ids);
     }
     $total['shipping_fee_formated'] = price_format($total['shipping_fee'], false);
-    $total['shipping_insure_formated'] = price_format($total['shipping_insure'], false);
+//     $total['shipping_insure_formated'] = price_format($total['shipping_insure'], false);
     // 购物车中的商品能享受红包支付的总额
     $bonus_amount = compute_discount_amount($cart_id);
     // 红包和积分最多能支付的金额为商品总额
@@ -488,6 +456,66 @@ function order_fee($order, $goods, $consignee, $cart_id = array()) {
     }
     return $total;
 }
+
+/**
+ * 取得可用的配送区域的运费
+ * @param  array   $cart_goods 购物车商品
+ * @param  array   $cart_value 购物车选择商品
+ * @param  array   $shipping_list  配送方式ids列表
+ * @return $shipping_fee 运费金额
+ */
+function get_order_shipping_fee($cart_goods, $shipping_list = []/* $cart_value = [], */) {
+    
+    $shipping_fee = 0;
+    
+    if ($cart_goods) {
+        
+        $shipping_list = !empty($shipping_list) && !is_array($shipping_list) ? explode(",", $shipping_list) : '';
+        
+        if(empty($shipping_list)){
+            foreach ($cart_goods as $key => $row) {
+                $shipping = isset($row['shipping']) ? $row['shipping'] : array();
+                if($shipping){
+                    foreach ($shipping as $kk => $vv) {
+                        //结算页切换配送方式
+                        if (isset($row['tmp_shipping_id'])) {
+                            if (isset($vv['shipping_id'])) {
+                                if ($row['tmp_shipping_id'] == $vv['shipping_id']) {
+                                    //自营时--自提时运费清0
+                                    if (isset($rows['shipping_code']) && $row['shipping_code'] == 'ship_cac') {
+                                        $vv['shipping_fee'] = 0;
+                                    }
+                                    $shipping_fee += $vv['shipping_fee'];
+                                }
+                            }
+                        } else {
+                            if ($vv['default'] == 1) {
+                                //自营时--自提时运费清0
+                                if ($row['shipping_code'] == 'ship_cac') {
+                                    $vv['shipping_fee'] = 0;
+                                }
+                                $shipping_fee += $vv['shipping_fee'];
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            foreach ($cart_goods as $key => $row) {
+                if($row['shipping']){
+                    foreach($row['shipping'] as $skey=>$srow){
+                        if($shipping_list[$key] == $srow['shipping_id'] && $srow['shipping_code'] != 'ship_cac'){
+                            $shipping_fee += $srow['shipping_fee'];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return $shipping_fee;
+}
+
 /**
 * 修改订单
 * @param   int	 $order_id   订单id
@@ -796,7 +824,12 @@ function send_order_bonus($order_id) {
         $count = 0;
         $money = '';
         foreach ($bonus_list as $bonus) {
-            $count += $bonus['number'];
+            //$count += $bonus['number'];
+            //优化一个订单只能发一个红包
+            if ($bonus['number']) {
+                $count = 1;
+                $bonus['number'] = 1;
+            }
             $money .= price_format($bonus['type_money']) . ' [' . $bonus['number'] . '], ';
             /* 修改用户红包 */
             $data = array('bonus_type_id' => $bonus['type_id'], 'user_id' => $user['user_id']);
