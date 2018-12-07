@@ -431,6 +431,10 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		/* 处理积分、红包 */
 		if ($order['user_id'] > 0 && $order['integral'] > 0) {
+			$integral_name = ecjia::config('integral_name');
+			if (empty($integral_name)) {
+				$integral_name = '积分';
+			}
 			$params = array(
 				'user_id'		=> $order['user_id'],
 				'pay_points'	=> $order['integral'] * (- 1),
@@ -440,7 +444,7 @@ class cart_flow_done_api extends Component_Event_Api {
 			);
 			$result = RC_Api::api('user', 'account_change_log', $params);
 			if (is_ecjia_error($result)) {
-				return new ecjia_error('integral_error', '积分使用失败！');
+				return new ecjia_error('integral_error', $integral_name.'使用失败！');
 			}
 		}
 

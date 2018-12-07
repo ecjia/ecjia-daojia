@@ -159,7 +159,19 @@ class flow_done_module extends api_front implements api_interface {
     	if (empty($order['shipping_id'])) {
     	    return new ecjia_error('empty_shipping', '当前收货地址暂无可用配送方式，请重新更换其他的收货地址！');
     	}
-    	
+    	//选择货到付款支付方式后，不可选择上门取货配送方式
+        if ($order['pay_id'] > 0) {
+        	$pay_code = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->pluck('pay_code');
+        	if ($pay_code == 'pay_cod') {
+        		if ($order['shipping_id'] > 0) {
+        			$ship_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
+        			if ($ship_code == 'ship_cac') {
+        				return new ecjia_error('not_surport_shipping', '货到付款支付不支持上门取货配送！');
+        			}
+        		}
+        	}
+        }
+        
     	$result = RC_Api::api('cart', 'flow_done', array('cart_id' => $cart_id, 'order' => $order, 'address_id' => $address_id, 'flow_type' => $flow_type, 'bonus_sn' => $this->requestData('bonus_sn'), 'location' => $location, 'device' => $this->device));
     	
     	return $result;

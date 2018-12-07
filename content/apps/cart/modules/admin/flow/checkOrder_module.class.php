@@ -104,7 +104,7 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 						
 					/* 取得用户等级和折扣 */
 					if ($row['user_rank'] == 0) {
-						// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+						// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
 						//$row = RC_Model::model('user/user_rank_model')->field('rank_id, discount')->find('special_rank = "0" AND min_points <= "' . intval($row['rank_points']) . '" AND max_points > "' . intval($row['rank_points']) . '"');
 						$row = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', intval($row['rank_points']))->where('max_points', '>=', intval($row['rank_points']))->first();
 						if ($row) {
