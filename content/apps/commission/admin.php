@@ -388,9 +388,10 @@ class admin extends ecjia_admin {
 	    $filter['end_date']   = empty($_GET['end_date']) ? null : RC_Time::local_date('Y-m', RC_Time::local_strtotime($_GET['end_date']));
 	    $filter['type']       = $_GET['type'];
 	    $filter['keywords'] 		 = empty ($_GET['keywords']) 		  ? '' : trim($_GET['keywords']);
+	    $filter['store_id'] 		 = empty ($_GET['store_id']) 		  ? 0 : intval($_GET['store_id']);
 	    $filter['merchant_keywords'] = empty ($_GET['merchant_keywords']) ? '' : trim($_GET['merchant_keywords']);
 	    
-        $bill_list = $this->db_store_bill->get_bill_list(0, 0, 0, $filter);
+	    $bill_list = $this->db_store_bill->get_bill_list($filter['store_id'], 0, 0, $filter);
 	    
         /* RC_Excel::create('结算账单'.RC_Time::local_date('Ymd'), function($excel) use ($bill_list){
             $excel->sheet('First sheet', function($sheet) use ($bill_list) {
