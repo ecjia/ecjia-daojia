@@ -60,8 +60,6 @@ class respond extends ecjia_front {
 	}
 	
 	public function response() {
-	    RC_Logger::getLogger('pay')->debug('GET: ' . json_encode($_GET));
-	    
 		/* 支付方式代码 */
 		$pay_code = !empty($_GET['code']) ? trim($_GET['code']) : '';
 		unset($_GET['code']);
@@ -106,6 +104,11 @@ class respond extends ecjia_front {
 				$order_type = $payment_handler->getOrderType();
 			}
 
+		}
+		
+		$callback_url = RC_Cookie::get('pay_callback_url');
+		if(!empty($callback_url)) {
+		    return $this->redirect($callback_url);
 		}
 		
 		$info = array(

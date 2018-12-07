@@ -238,15 +238,21 @@ abstract class PaymentAbstract extends AbstractPlugin
         
         if ($this->orderType == PayConstant::PAY_ORDER) {
             $result = RC_Api::api('orders', 'buy_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
-        } elseif ($this->orderType == PayConstant::PAY_SURPLUS) {
+        }
+        elseif ($this->orderType == PayConstant::PAY_SEPARATE_ORDER) {
+            $result = RC_Api::api('orders', 'separate_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
+        }
+        elseif ($this->orderType == PayConstant::PAY_SURPLUS) {
             $result = RC_Api::api('finance', 'surplus_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
-        } elseif ($this->orderType == PayConstant::PAY_QUICKYPAY) {
+        }
+        elseif ($this->orderType == PayConstant::PAY_QUICKYPAY) {
             $result = RC_Api::api('quickpay', 'quickpay_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
         }
         
         \RC_Logger::getLogger('pay')->info($result);
         if (! is_ecjia_error($result)) {
-            RC_Hook::do_action('order_payed_do_something', $item['order_sn']); 
+            $order_info = RC_Api::api('orders', 'order_info', array('order_sn' => $item['order_sn']));
+            RC_Hook::do_action('order_payed_do_something', $order_info); 
         }
         
         return $result;

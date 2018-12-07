@@ -146,7 +146,11 @@ class admin_payment_record extends ecjia_admin {
 			$db_payment_record['label_pay_status'] = RC_Lang::get('payment::payment.wait_for_payment');
 		} elseif ($db_payment_record['pay_status'] == 1) {
 			$db_payment_record['label_pay_status'] = RC_Lang::get('payment::payment.payment_success');
-		}
+		}elseif ($db_payment_record['pay_status'] == Ecjia\App\Payment\PayConstant::PAYMENT_RECORD_STATUS_CANCEL) {
+        	$db_payment_record['pay_status'] = '订单撤消';
+        } elseif ($db_payment_record[$key]['pay_status'] == Ecjia\App\Payment\PayConstant::PAYMENT_RECORD_STATUS_REFUND) {
+        	$db_payment_record[$key]['pay_status'] = '订单退款';
+        }
 
 		$db_payment_record['create_time'] = RC_Time::local_date(ecjia::config('time_format'), $db_payment_record['create_time']);
 		$db_payment_record['update_time'] = RC_Time::local_date(ecjia::config('time_format'), $db_payment_record['update_time']);

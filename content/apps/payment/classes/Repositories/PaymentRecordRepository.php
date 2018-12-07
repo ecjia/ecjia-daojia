@@ -268,6 +268,41 @@ class PaymentRecordRepository extends AbstractRepository
                                 ->where('total_fee', $amount)
                                 ->update($attributes);
     }
+
+    /**
+     * 更新交易流水为撤单状态
+     */
+    public function updateOrderCancel($orderTradeNo)
+    {
+        $attributes = array(
+            'pay_status' => PayConstant::PAYMENT_RECORD_STATUS_CANCEL,
+            'refund_time' => RC_Time::gmtime(),
+        );
+
+        /* 修改此次支付操作的状态为已退款 */
+        return $this->getModel()->where('order_trade_no', $orderTradeNo)
+            ->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_PAYED)
+            ->update($attributes);
+    }
+
+    /**
+     * 更新交易流水为退款状态
+     */
+    public function updateOrderRefund($orderTradeNo, $requestNo, $refundAmount, $operator)
+    {
+        $attributes = array(
+            'pay_status' => PayConstant::PAYMENT_RECORD_STATUS_REFUND,
+            'refund_time' => RC_Time::gmtime(),
+            'refund_amount' => $refundAmount,
+            'refund_operator' => $operator,
+            'refund_request_no' => $requestNo,
+        );
+
+        /* 修改此次支付操作的状态为已退款 */
+        return $this->getModel()->where('order_trade_no', $orderTradeNo)
+            ->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_PAYED)
+            ->update($attributes);
+    }
     
     /**
      * 检查支付的金额是否与订单相符

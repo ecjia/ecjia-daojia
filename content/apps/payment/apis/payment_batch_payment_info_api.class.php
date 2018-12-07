@@ -86,7 +86,9 @@ class payment_batch_payment_info_api extends Component_Event_Api {
 		foreach($pay_list as $v){
 			$sort_pay_list[] = $v['enabled'];
 		}
-		array_multisort($sort_pay_list, SORT_DESC, $pay_list);
+		if (!empty($pay_list)) {
+			array_multisort($sort_pay_list, SORT_DESC, $pay_list);
+		}
 		return $pay_list;
 	}
 }

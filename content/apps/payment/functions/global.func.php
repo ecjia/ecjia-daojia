@@ -164,6 +164,10 @@ function get_payment_record_list($args = array()) {
             $db_payment_record[$key]['pay_status'] = RC_Lang::get('payment::payment.wait_for_payment');
         } elseif ($db_payment_record[$key]['pay_status'] == 1) {
             $db_payment_record[$key]['pay_status'] = RC_Lang::get('payment::payment.payment_success');
+        } elseif ($db_payment_record[$key]['pay_status'] == Ecjia\App\Payment\PayConstant::PAYMENT_RECORD_STATUS_CANCEL) {
+        	$db_payment_record[$key]['pay_status'] = '订单撤消';
+        } elseif ($db_payment_record[$key]['pay_status'] == Ecjia\App\Payment\PayConstant::PAYMENT_RECORD_STATUS_REFUND) {
+        	$db_payment_record[$key]['pay_status'] = '订单退款';
         }
         if ($db_payment_record[$key]['trade_type'] == 'buy') {
             $db_payment_record[$key]['trade_type'] = RC_Lang::get('payment::payment.buy');

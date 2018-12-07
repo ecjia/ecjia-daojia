@@ -38,7 +38,7 @@
 	                            {elseif $modules.trade_type eq 'quickpay'}
 	                            	<a target="_blank" href='{url path="quickpay/admin_order/order_info" args="order_id={$quickpay_order.order_id}"}'>{$modules.order_sn}</a>
 	                            {else}
-	                            	<a target="_blank" href='{url path="finance/admin_account/info" args="order_sn={$user_account.order_sn}&id={$user_account.id}{if $type}&type={$type}{/if}"}'>{$modules.order_sn}</a>
+	                            	<a target="_blank" href='{url path="finance/admin_account/check" args="order_sn={$user_account.order_sn}&id={$user_account.id}{if $type}&type={$type}{/if}"}'>{$modules.order_sn}</a>
 	                            {/if}
                             </td>
                             <td><div align="right"><strong>{lang key='payment::payment.pay_status'}</strong></div></td>

@@ -159,8 +159,9 @@ trait CompatibleTrait
      * 返回通知url
      * @param string $url
      */
-    public function return_url($url) {
-        return \RC_Uri::site_url() . $url;
+    public function return_url($url, $type = 'notify')
+    {
+        return \RC_Hook::apply_filters('payment_return_url_filter', \RC_Uri::site_url() . $url, $type, $this->getCode());
     }
     
     /**
