@@ -193,7 +193,8 @@ class ApiConst
  	const SELLER_COLLECT_LIST       = 'seller/collect/list';//收藏店铺列表
  	const SELLER_COLLECT_CREATE     = 'seller/collect/create';//收藏店铺
  	const SELLER_COLLECT_DELETE     = 'seller/collect/delete';//删除店铺收藏
- 	const MERCHANT_HOME_DATA        = 'merchant/home/data';//商店基本信息
+	const MERCHANT_HOME_DATA        = 'merchant/home/data';//商店基本信息
+	const MERCHANT_HOME_CATEGORY    = 'merchant/home/category';//商店分类商品
  	const MERCHANT_GOODS_CATEGORY   = 'merchant/goods/category';//商店分类
  	const MERCHANT_GOODS_LIST 		= 'merchant/goods/list';//商店商品
  	const MERCHANT_GOODS_SUGGESTLIST    = 'merchant/goods/suggestlist';//商店推荐商品
