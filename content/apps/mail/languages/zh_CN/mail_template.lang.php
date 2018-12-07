@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJia 管理中心邮件模板管理语言文件
  */
 return array(
-	'select_template' 	=> '邮件模版',
+	'select_template' 	=> '邮件模板',
 	'update_success' 	=> '保存模板内容成功。',
 	'update_failed' 	=> '保存模板内容失败。',
 	'mail_id' 			=> '编号',

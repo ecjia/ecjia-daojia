@@ -47,7 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 管理中心模版管理程序
+ * ECJIA 管理中心模板管理程序
  * @author songqian
  */
 class admin extends ecjia_admin {
@@ -74,7 +74,7 @@ class admin extends ecjia_admin {
 	}
 	
 	/**
-	 * 模版列表
+	 * 模板列表
 	 */
 	public function init() {
 		$this->admin_priv('mail_template_manage');
@@ -110,7 +110,7 @@ class admin extends ecjia_admin {
 	}
 
 	/**
-	 * 模版修改
+	 * 模板修改
 	 */
 	public function edit() {
 		$this->admin_priv('mail_template_update');
@@ -199,7 +199,7 @@ class admin extends ecjia_admin {
 	}
 	
 	/**
-	 * 载入指定模版
+	 * 载入指定模板
 	 */
 	public function loat_template() {
 		$this->admin_priv('mail_template_update');
