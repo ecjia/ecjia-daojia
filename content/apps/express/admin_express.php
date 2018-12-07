@@ -130,7 +130,7 @@ class admin_express extends ecjia_admin {
 		$password  = empty($_POST['password']) ? ''	: trim($_POST['password']);
 		
 // 		if (!preg_match('/^1(3|4|5|6|7|8)\d{9}$/s', $mobile)) {
-// 			return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+// 			return $this->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 // 		} 
 		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
 		if (is_ecjia_error($check_mobile)) {
@@ -151,7 +151,7 @@ class admin_express extends ecjia_admin {
         }
         
         if(empty($_POST['province']) || empty($_POST['city']) || empty($_POST['district']) || empty($_POST['street'])) {
-        	return $this->showmessage('请选择配送员所在地区', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+        	return $this->showmessage('请选择配送员所在地区', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         if(empty($address)) {
@@ -245,7 +245,7 @@ class admin_express extends ecjia_admin {
 		$newpassword = trim($_POST['newpassword']);
 		
 // 		if (!preg_match('/^1(3|4|5|6|7|8)\d{9}$/s', $mobile)) {
-// 			return $this->showmessage('手机号码格式错误', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+// 			return $this->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 // 		} 
 		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
 		if (is_ecjia_error($check_mobile)) {
@@ -266,7 +266,7 @@ class admin_express extends ecjia_admin {
         }
         
         if(empty($_POST['province']) || empty($_POST['city']) || empty($_POST['district']) || empty($_POST['street'])) {
-        	return $this->showmessage('请选择配送员所在地区', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+        	return $this->showmessage('请选择配送员所在地区', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         if(empty($address)) {

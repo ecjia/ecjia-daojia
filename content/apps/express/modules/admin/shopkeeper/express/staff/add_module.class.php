@@ -89,6 +89,12 @@ class admin_shopkeeper_express_staff_add_module extends api_admin implements api
     		return new ecjia_error('user_ident_exist', '该员工工号已存在');
     	}
     	
+    	//手机号是否重复
+    	$mobile_count = RC_DB::table('staff_user')->where('mobile', $mobile)->where('store_id', $_SESSION['store_id'])->count();
+    	if ($mobile_count > 0) {
+    		return new ecjia_error('mobile_exist', '手机号已存在');
+    	}
+    	
     	$manager_id = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('user_id');
 
     	$password = rand(100000,999999);
