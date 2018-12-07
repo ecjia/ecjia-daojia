@@ -55,7 +55,7 @@ class setting_admin_hooks {
 
         echo '<div class="setting-group">'.PHP_EOL;
         echo '<span class="setting-group-title"><i class="fontello-icon-cog"></i>商店设置</span>'.PHP_EOL;
-        echo '<ul class="nav nav-list m_t10">'.PHP_EOL; //
+        echo '<ul class="nav nav-list m_t10">'.PHP_EOL;
     
         foreach ($menus as $key => $group) {
             if ($group->action == 'divider') {

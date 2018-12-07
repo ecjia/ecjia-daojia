@@ -147,6 +147,9 @@ class G06Hidden extends ComponentAbstract
             ['code' => 'pc_enabled_member', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
             //v1.22.0新增
             ['code' => 'home_visual_page', 'value' => 'a:9:{i:0;s:15:"home_cycleimage";i:1;s:13:"home_shortcut";i:2;s:25:"scanqrcode_and_membercode";i:3;s:24:"home_complex_adsense_one";i:4;s:24:"home_complex_adsense_two";i:5;s:9:"new_goods";i:6;s:14:"groupbuy_goods";i:7;s:10:"best_goods";i:8;s:13:"promote_goods";}', 'options' => ['type' => 'text']],
+            //v1.24.0新增
+            ['code' => 'withdraw_fee', 'value' => '0', 'options' => ['type' => 'text']],
+            ['code' => 'withdraw_min_amount', 'value' => '100', 'options' => ['type' => 'text']],
         ];
 
         return $data;

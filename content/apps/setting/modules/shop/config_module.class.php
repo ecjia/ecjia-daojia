@@ -65,6 +65,10 @@ class shop_config_module extends api_front implements api_interface
     		}	
     	}
     	
+    	//用于判断同步登录的链接域名同域
+    	$host = $_SERVER['HTTP_HOST'];
+    	$domain = substr($host, (strpos($host, '.') + 1));
+    	
     	/*闪惠规则*/
     	$quickpay_rule = ecjia::config('quickpay_rule');
     	
@@ -89,6 +93,7 @@ class shop_config_module extends api_front implements api_interface
         	'app_disable_sale'	 => empty(ecjia::config('app_disable_sale')) ? 0 : ecjia::config('app_disable_sale'),
         	'app_disable_shopkeeper'	 => empty(ecjia::config('app_disable_shopkeeper')) ? 0 : ecjia::config('app_disable_shopkeeper'),
         	'app_disable_express'	 => empty(ecjia::config('app_disable_express')) ? 0 : ecjia::config('app_disable_express'),
+        	'domain'				=> $domain
         );
         
         $result = ecjia_app::validate_application('sms');

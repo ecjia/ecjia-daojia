@@ -16,7 +16,6 @@ return [
         'watermark_place',
         'watermark_alpha',
         'rewrite',
-        'integral_name',
         'top10_time',
         'licensed',
         'message_check',
