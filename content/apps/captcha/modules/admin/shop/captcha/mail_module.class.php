@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class captcha_mail_module extends api_front implements api_interface {
+class admin_shop_captcha_mail_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 	    //sms_get_validate 
     
@@ -69,7 +69,7 @@ class captcha_mail_module extends api_front implements api_interface {
 	    
 	    //type
 	    //wiki::http://wiki.shangchina.com/index.php?title=Captcha_type_code
-	    $common_template = array('user_modify_mail');
+	    $common_template = array('staff_modify_mail');
 
 	    $tpl_name = 'send_validate';
 	    $tpl   = RC_Api::api('mail', 'mail_template', $tpl_name);
@@ -83,24 +83,19 @@ class captcha_mail_module extends api_front implements api_interface {
 	        $content  = ecjia_api::$controller->fetch_string($tpl['template_content']);
 	        $response = RC_Mail::send_mail(ecjia::config('shop_name'), $value, $tpl['template_subject'], $content, $tpl['is_html']);
 	    } else {
-	        return new ecjia_error('email_template_error', __('请检查邮件模板send_validate'));
+	        return new ecjia_error('email_template_error', __('请检查短信模板send_validate'));
 	    }
 	    
 	    /* 判断是否发送成功*/
 	    if ($response === true) {
 	        $time = RC_Time::gmtime();
-            $captcha = [
-                $type => [
-                    'value' => $value,
-                    'code' => $code,
-                    'lifetime' => $time + 1800,
-                    'sendtime' => $time,
-                ],
-                'sendtime' => $time,
-            ];
-            //存入session
-            RC_Session::set('captcha.mail', $captcha);
-
+	        $_SESSION['captcha']['mail'][$type] = array(
+	            'value' => $value,
+	            'code' => $code,
+	            'lifetime' => $time + 1800,
+	            'sendtime' => $time,
+	        );
+	        $_SESSION['captcha']['mail']['sendtime'] = $time;
 	        return array('data' => '验证码发送成功！');
 	    } else {
 	        return new ecjia_error('send_code_error', __('验证码发送失败！'));

@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 掌柜验证图形验证码并获取短信验证码
  * @author zrl
  */
-class captcha_admin_checkcode_module extends api_admin implements api_interface {
+class admin_shop_captcha_sms_checkcode_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();	
 		$mobile = $this->requestData('mobile', '');

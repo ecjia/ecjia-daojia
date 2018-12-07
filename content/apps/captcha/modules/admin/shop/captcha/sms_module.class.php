@@ -46,10 +46,10 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class captcha_sms_module extends api_front implements api_interface {
+class admin_shop_captcha_sms_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 	    //sms_get_validate 
-    	$this->authSession();
+    
 		$type = $this->requestData('type');
 		$mobile = $this->requestData('mobile', '');
 		
@@ -71,8 +71,8 @@ class captcha_sms_module extends api_front implements api_interface {
 	    }
 	    
 	    //type
-	    //wiki::http://wiki.shangchina.com/index.php?title=Captcha_type_code
-	    $common_template = array('user_modify_mobile');
+	    //staff_modify_mobile(员工修改手机（包含配送员）)
+	    $common_template = array('staff_modify_mobile');
 	    
 	    if (in_array($type, $common_template)) {
 	        
@@ -88,14 +88,13 @@ class captcha_sms_module extends api_front implements api_interface {
     		),
 	    );
 	    
-	    $time = RC_Time::gmtime();
 	    $_SESSION['captcha']['sms'][$type] = array(
-	    		'value' => $mobile,
-	    		'code' => $code,
-	    		'lifetime' => $time + 1800,
-	    		'sendtime' => $time,
+    		'value' => $mobile,
+    		'code' => $code,
+    		'lifetime' => RC_Time::gmtime() + 1800,
+    		'sendtime' => RC_Time::gmtime(),
 	    );
-	    $_SESSION['captcha']['sms']['sendtime'] = $time;
+	    $_SESSION['captcha']['sms']['sendtime'] = RC_Time::gmtime();
 	    
 	    $response = RC_Api::api('sms', 'send_event_sms', $options);
 	    if (is_ecjia_error($response)) {
