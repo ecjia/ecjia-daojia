@@ -1493,6 +1493,30 @@ if ( ! function_exists('rc_suspend_cache_invalidation'))
      }
 }
 
+if ( ! function_exists('rc_is_stream')) {
+    /**
+     * Test if a given path is a stream URL
+     *
+     * @since 3.5.0
+     *
+     * @param string $path The resource path or URL.
+     * @return bool True if the path is a stream URL.
+     */
+    function rc_is_stream($path)
+    {
+        if (false === strpos($path, '://')) {
+            // $path isn't a stream
+            return false;
+        }
+
+        $wrappers = stream_get_wrappers();
+        $wrappers = array_map('preg_quote', $wrappers);
+        $wrappers_re = '(' . join('|', $wrappers) . ')';
+
+        return preg_match("!^$wrappers_re://!", $path) === 1;
+    }
+}
+
 if ( ! function_exists('__return_true'))
 {
      /**

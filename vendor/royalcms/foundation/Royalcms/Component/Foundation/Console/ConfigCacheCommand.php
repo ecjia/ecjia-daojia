@@ -88,9 +88,9 @@ class ConfigCacheCommand extends Command
             unset($config['*::provider']);
             unset($config['*::cache']);
             unset($config['*::app']);
-            unset($config['*::smarty']);
             unset($config['*::session']);
             unset($config['*::view']);
+            unset($config['smarty-view::smarty']);
             unset($config['excel::export']);
         }
 
