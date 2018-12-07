@@ -74,10 +74,10 @@ class mobile_profile extends EcjiaWechatUserController
         
         $user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'email', 'mobile_phone', 'user_rank')->first();
 
-        $row = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
+        $row_rank = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
         
-        $user_info['user_rank_name'] = $row['rank_name'];
-        $user_info['user_rank_id'] = $row['rank_id'];
+        $user_info['user_rank_name'] = $row_rank['rank_name'];
+        $user_info['user_rank_id'] = $row_rank['rank_id'];
         $user_info['wechat_image'] = $wechat_user->getImage();
         $this->assign('user_info', $user_info);
 

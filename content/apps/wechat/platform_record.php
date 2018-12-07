@@ -319,7 +319,7 @@ class platform_record extends ecjia_platform
         $list = $this->get_message_list();
         $message = count($list['item']) < 10 ? RC_Lang::get('wechat::wechat.no_more_message') : RC_Lang::get('wechat::wechat.searched');
         if (!empty($list['item'])) {
-            return $this->showmessage($message, ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('msg_list' => $list['item'], 'last_id' => $list['last_id']));
+            return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('msg_list' => $list['item'], 'last_id' => $list['last_id']));
         } else {
             return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -379,7 +379,9 @@ class platform_record extends ecjia_platform
                 $arrsort[$key][$uniqid] = $value;
             }
         }
-        array_multisort($arrsort[$field], constant($sort), $array);
+        if (!empty($array)) {
+        	array_multisort($arrsort[$field], constant($sort), $array);
+        }
         return $array;
     }
 
