@@ -151,15 +151,7 @@ class admin extends ecjia_admin
 
     private function get_notification_list()
     {
-        $type_arr = array(
-            'Ecjia\System\Notifications\ExpressAssign',
-            'Ecjia\System\Notifications\ExpressGrab',
-            'Ecjia\System\Notifications\ExpressPickup',
-            'Ecjia\System\Notifications\ExpressFinished',
-            'Ecjia\System\Notifications\NewOrdersRemind',
-            'Ecjia\System\Notifications\OrderPay',
-            'Ecjia\System\Notifications\OrderPlaced',
-        );
+        $type_arr = RC_DB::table('notifications')->where('notifiable_id', $_SESSION['admin_id'])->lists(RC_DB::raw('distinct type'));
 
         $status = !empty($_GET['status']) ? $_GET['status'] : 'not_read';
 
