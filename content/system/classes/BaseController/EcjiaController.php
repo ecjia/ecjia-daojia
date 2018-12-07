@@ -78,7 +78,7 @@ abstract class EcjiaController extends RoyalcmsController
     /**
      * 模板视图对象静态属性
      *
-     * @var view
+     * @var \ecjia_view
      */
     public static $view_object;
 
@@ -87,6 +87,13 @@ abstract class EcjiaController extends RoyalcmsController
      * @var
      */
     public static $controller;
+
+    /**
+     * 公开路由控制器
+     *
+     * @var array
+     */
+    protected $public_route = [];
 
 
     /**
@@ -123,6 +130,22 @@ abstract class EcjiaController extends RoyalcmsController
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * 验证公开路由是否通过
+     *
+     * @return bool
+     */
+    public function isVerificationPublicRoute()
+    {
+        $route_m = (ROUTE_M == config('system.admin_entrance')) ? 'system' : ROUTE_M;
+        $route_controller = $route_m . '/' . ROUTE_C . '/' . ROUTE_A;
+        if (in_array($route_controller, $this->public_route)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

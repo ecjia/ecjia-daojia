@@ -121,7 +121,7 @@ class upgrade extends ecjia_admin {
 		} else {
 			$this->db->insert(array('code'=>'last_check_upgrade_time', 'value' => $last_check_upgrade_time, 'parent_id' => 6, 'sort_order' => 1));
 		}
-		return $this->showmessage(__('暂无可用更新！'), ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('pjaxurl' => RC_Uri::url('@upgrade/init')));
+		return $this->showmessage(__('暂无可用更新！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('@upgrade/init')));
 	}
 	
 	/**

@@ -49,11 +49,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
 //定义在后台
 define('IN_ADMIN', true);
 
-abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController implements ecjia_template_fileloader {
+abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController implements ecjia_template_fileloader
+{
 
-	private $public_route;
 	
-	public function __construct() {
+	public function __construct()
+    {
 		parent::__construct();
 		
 		self::$controller = static::$controller;
@@ -78,15 +79,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		
 		RC_Hook::add_action('admin_print_main_header', array(ecjia_screen::$current_screen, 'render_screen_meta'));
 		
-		$this->public_route = array(
-		    'system/privilege/login',
-		    'system/privilege/signin',
-		    'system/get_password/forget_pwd',
-		    'system/get_password/reset_pwd_mail',
-		    'system/get_password/reset_pwd_form',
-		    'system/get_password/reset_pwd'
-		);
-		$this->public_route = RC_Hook::apply_filters('admin_access_public_route', $this->public_route);
+		$this->public_route = RC_Hook::apply_filters('admin_access_public_route', config('system::public_route'));
 		
 		// 判断用户是否登录
 		if (!$this->_check_login()) {
@@ -182,20 +175,35 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	        }
 	    }
 	}
+
+    /**
+     * 登录session授权
+     */
+    protected function authSession()
+    {
+        /* 验证管理员身份 */
+        if (session('session_user_id') && session('session_user_type') == 'admin') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 	
 	/**
 	 * 后台判断是否登录
 	 */
-	private function _check_login() {
-		$route_m = ROUTE_M == RC_Config::get('system.admin_entrance') ? 'system' : ROUTE_M;
-		$route_controller = $route_m . '/' . ROUTE_C . '/' . ROUTE_A;
-		if (in_array($route_controller, $this->public_route)) {
+	private function _check_login()
+    {
+        /* 验证公开路由 */
+		if ($this->isVerificationPublicRoute()) {
 		    return true;
 		}
+
 		/* 验证管理员身份 */
-		if (isset($_SESSION['admin_id']) && intval($_SESSION['admin_id']) > 0) {
+		if ($this->authSession()) {
 		    return true;
 		}
+
 		/* session 不存在，检查cookie */
 		$admin_id = RC_Cookie::get('ECJAP[admin_id]');
 		$admin_pass = RC_Cookie::get('ECJAP[admin_pass]');

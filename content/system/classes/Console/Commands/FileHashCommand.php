@@ -48,6 +48,10 @@ namespace Ecjia\System\Console\Commands;
 
 use Royalcms\Component\Console\Command;
 use Royalcms\Component\Support\Facades\File;
+use Royalcms\Component\DirectoryHasher\Result;
+use Royalcms\Component\DirectoryHasher\Source\Directory;
+use Royalcms\Component\DirectoryHasher\Hasher\MD5;
+use Royalcms\Component\DirectoryHasher\Writer\File\Xml;
 
 class FileHashCommand extends Command
 {
@@ -55,7 +59,7 @@ class FileHashCommand extends Command
     protected $name = 'ecjia:filehash';
 
     // 说明文字
-    protected $description = 'make all file\'s md5 hash.';
+    protected $description = "make all file's md5 hash.";
 
     public function __construct()
     {
@@ -66,9 +70,21 @@ class FileHashCommand extends Command
     public function fire()
     {
         $this->info('starting generate file...');
-        
-        
-        
+
+        $menus = (new \Ecjia\System\Admins\FileHash\Menu())->getMenus();
+
+        $menus->map(function($item) {
+            if ($item['type'] == 'nav-header') {
+                return;
+            }
+
+            $hash = new \Ecjia\System\Admins\FileHash\FileCheck($item['dir']);
+            $result = $hash->builder();
+            $hash->writeFile($result);
+
+            $this->info('generate file ' . $item['dir'] . ' successfully.');
+        });
+
         $this->info('end generate file.');
     }
 }

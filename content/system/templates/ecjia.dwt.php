@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>{block name="title"}{if $ur_here}{$ur_here} - {/if}{$ecjia_admin_cptitle}{/block}</title>
 	<link rel="shortcut icon" href="favicon.ico" />
+    <!-- {ecjia:hook id=admin_enqueue_scripts} -->
 	<!-- {ecjia:hook id=admin_print_styles} -->
 	<!-- #BeginLibraryItem "/library/common_meta.lbi" --><!-- #EndLibraryItem -->
 	<!-- {ecjia:hook id=admin_print_scripts} -->
@@ -36,6 +37,7 @@
 </html>
 <!-- {else} -->
 	<title>{block name="title"}{if $ur_here}{$ur_here} - {/if}{$ecjia_admin_cptitle}{/block}</title>
+    <!-- {ecjia:hook id=admin_enqueue_scripts} -->
 	<!-- {block name="meta"} --><!-- {/block} -->
 	<!-- {ecjia:hook id=admin_pjax_head} -->
 	<!-- {ecjia:hook id=admin_print_main_header} -->

@@ -1,5 +1,5 @@
 <?php
-//  
+//
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//   
+//
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,48 +44,16 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
- * 后台菜单API
- * @author royalwang
- *
+ * ECJIA 控制器基础类
  */
-class system_system_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {
-		$menus = array(
-		    ecjia_admin::make_admin_menu('dashboard', __('仪表盘'), RC_Uri::url('@index/init'), 1),
-		    ecjia_admin::make_admin_menu('homepage', __('访问首页'), RC_Uri::site_url(), 2, '_blank'),
-            ecjia_admin::make_admin_menu('divider', '', '', 3)->add_purview(array('shop_authorized', 'admin_cache', 'shop_config', 'admin_manage', 'area_manage', 'role_manage', 'logs_manage')),
-            ecjia_admin::make_admin_menu('privilege', __('权限管理'), '', 4)->add_submenu(array(
-				ecjia_admin::make_admin_menu('nav-header', 'Purview', '', 0)->add_purview(array('admin_manage', 'admin_drop', 'allot_priv', 'logs_manage', 'logs_drop', 'role_manage')), 
-				ecjia_admin::make_admin_menu('privilege', __('管理员列表'), RC_Uri::url('@privilege/init'), 1)->add_purview(array('admin_manage', 'admin_drop', 'allot_priv')), 
-				ecjia_admin::make_admin_menu('role_list', __('角色管理'), RC_Uri::url('@admin_role/init'), 2)->add_purview('role_manage'),
-                ecjia_admin::make_admin_menu('nav-header', 'Log', '', 10)->add_purview(array('logs_manage')),
-                ecjia_admin::make_admin_menu('admin_logs', __('管理员日志'), RC_Uri::url('@admin_logs/init'), 11)->add_purview(array('logs_manage', 'logs_drop')),
-            )),
-            ecjia_admin::make_admin_menu('shop_authorized', __('授权证书'), RC_Uri::url('@index/license'), 6)->add_purview('shop_authorized'),
-            ecjia_admin::make_admin_menu('admin_cache', __('更新缓存'), RC_Uri::url('@index/update_cache'), 7)->add_purview('admin_cache'),
-            ecjia_admin::make_admin_menu('divider', '', '', 11)->add_purview(array('application_manage', 'plugin_manage')),
-		    ecjia_admin::make_admin_menu('application_manage', __('应用管理'), RC_Uri::url('@admin_application/init'), 12)->add_purview('application_manage'),
-		    ecjia_admin::make_admin_menu('plugin_manage', __('插件管理'), RC_Uri::url('@admin_plugin/init'), 13)->add_purview('plugin_manage'),
-		    ecjia_admin::make_admin_menu('plugin_config', __('插件配置'), RC_Uri::url('@admin_plugin/config'), 15)->add_purview('plugin_config'),
-		    ecjia_admin::make_admin_menu('divider', '', '', 21)->add_purview(array('admin_upgrade')),
-// 		    ecjia_admin::make_admin_menu('appstore', __('应用市场'), RC_Uri::url('@appstore/init'), 22),
-            ecjia_admin::make_admin_menu('upgrade', __('可用更新'), RC_Uri::url('@upgrade/init'), 24)->add_purview(array('admin_upgrade', 'file_priv')),
-		);
+class Ecjia_SiteManager extends Ecjia\System\Facades\SiteManager
+{
 
-		if (config('site.shop_type') == 'cityo2o') {
-		    $menus[] = ecjia_admin::make_admin_menu('upgrade', __('文件校验'), RC_Uri::url('@admin_filehash/init'), 23)->add_purview('file_check');
-        }
-		
-		if (RC_Hook::apply_filters('ecjia_admin_about_show', true)) {
-		    $menus[] = ecjia_admin::make_admin_menu('divider', '', '', 31);
-		    $menus[] = ecjia_admin::make_admin_menu('about_us', __('关于'), RC_Uri::url('@index/about_us'), 32);
-		}
 
-		return $menus;
-	}
 }
 
 // end

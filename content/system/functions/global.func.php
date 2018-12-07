@@ -273,9 +273,6 @@ function trim_right($str)
     }
 }
 
-
-
-
 /**
  * 生成文件MD5值缓存
  */
@@ -699,18 +696,6 @@ if ( ! function_exists('ecjia_price_format'))
     }
 }
 
-
-if ( ! function_exists('price_format'))
-{
-    /**
-     * ecjia_price_format 方法的别名
-     */
-    function price_format($price, $change_price = true) 
-    {
-        return ecjia_price_format($price, $change_price);
-    }
-}
-
 if ( ! function_exists('ecjia_upload_url'))
 {
     function ecjia_upload_url($url) {
@@ -734,18 +719,6 @@ if ( ! function_exists('ecjia_mysql_like_quote'))
             '%' => '\%',
             "\\'" => "\\\\\'"
         ));
-    }
-}
-
-if ( ! function_exists('mysql_like_quote'))
-{
-    /**
-     * ecjia_mysql_like_quote 方法别名
-     */
-    function mysql_like_quote($str)
-    {
-        _deprecated_function( __FUNCTION__, '1.20', 'ecjia_mysql_like_quote()' );
-        return ecjia_mysql_like_quote($str);
     }
 }
 
@@ -781,7 +754,7 @@ if ( ! function_exists('ecjia_log_info'))
      */
     function ecjia_log_info($message, $context = array())
     {
-        return RC_Logger::getLogger('ecjia')->info($message, $context);
+        RC_Logger::getLogger('ecjia')->info($message, $context);
     }
 }
 
@@ -796,7 +769,7 @@ if ( ! function_exists('ecjia_log_error'))
      */
     function ecjia_log_error($message, $context = array())
     {
-        return RC_Logger::getLogger('ecjia')->error($message, $context);
+        RC_Logger::getLogger('ecjia')->error($message, $context);
     }
 }
 
@@ -811,7 +784,7 @@ if ( ! function_exists('ecjia_log_debug'))
      */
     function ecjia_log_debug($message, $context = array())
     {
-        return RC_Logger::getLogger('ecjia')->debug($message, $context);
+        RC_Logger::getLogger('ecjia')->debug($message, $context);
     }
 }
 
@@ -826,7 +799,7 @@ if ( ! function_exists('ecjia_log_warning'))
      */
     function ecjia_log_warning($message, $context = array())
     {
-        return RC_Logger::getLogger('ecjia')->warning($message, $context);
+        RC_Logger::getLogger('ecjia')->warning($message, $context);
     }
 }
 
@@ -841,7 +814,7 @@ if ( ! function_exists('ecjia_log_notice'))
      */
     function ecjia_log_notice($message, $context = array())
     {
-        return RC_Logger::getLogger('ecjia')->notice($message, $context);
+        RC_Logger::getLogger('ecjia')->notice($message, $context);
     }
 }
 
@@ -938,6 +911,17 @@ if (! function_exists('ecjia_order_buy_sn'))
     function ecjia_order_buy_sn()
     {
         return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_BUY))->generation();
+    }
+}
+
+if (! function_exists('ecjia_order_separate_sn'))
+{
+    /**
+     * 获取普通购物的订单的分单号
+     */
+    function ecjia_order_separate_sn()
+    {
+        return with(new \Ecjia\System\Business\Orders\OrderSnGeneration(\Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_SEPARATE))->generation();
     }
 }
 

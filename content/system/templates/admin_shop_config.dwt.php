@@ -10,7 +10,9 @@
 <!-- {block name="main_content"} -->
 <div class="row-fluid">
 	<div class="span3">
+        <!-- {block name="admin_shop_config_nav"} -->
 		<!-- {ecjia:hook id=admin_shop_config_nav arg=$current_code} -->
+        <!-- {/block} -->
 	</div>
 	<div class="span9">
         <!-- {block name="admin_config_form"} -->

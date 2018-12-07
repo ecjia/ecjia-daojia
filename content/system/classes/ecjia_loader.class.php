@@ -80,29 +80,6 @@ class ecjia_loader {
 		$scripts->add( 'ecjia-ui', 				'/lib/ecjia-js/ecjia.ui.js', array('ecjia') );
 		$scripts->add( 'ecjia-utils', 			'/lib/ecjia-js/ecjia.utils.js', array('ecjia') );
 
-// 		$scripts->add( 'ecjia-addon', 			'statics/lib/ecjia-js/ecjia.addon.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-autocomplete', 	'statics/lib/ecjia-js/ecjia.autocomplete.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-browser', 		'statics/lib/ecjia-js/ecjia.browser.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-colorselecter', 	'statics/lib/ecjia-js/ecjia.colorselecter.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-compare', 		'statics/lib/ecjia-js/ecjia.compare.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-cookie', 			'statics/lib/ecjia-js/ecjia.cookie.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-flow', 			'statics/lib/ecjia-js/ecjia.flow.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-goods', 			'statics/lib/ecjia-js/ecjia.goods.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-lefttime', 		'statics/lib/ecjia-js/ecjia.lefttime.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-listtable', 		'statics/lib/ecjia-js/ecjia.listtable.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-listzone', 		'statics/lib/ecjia-js/ecjia.listzone.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-message', 		'statics/lib/ecjia-js/ecjia.message.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-orders', 			'statics/lib/ecjia-js/ecjia.orders.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-selectbox', 		'statics/lib/ecjia-js/ecjia.selectbox.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-selectzone', 		'statics/lib/ecjia-js/ecjia.selectzone.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-shipping', 		'statics/lib/ecjia-js/ecjia.shipping.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-showdiv', 		'statics/lib/ecjia-js/ecjia.showdiv.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-todolist', 		'statics/lib/ecjia-js/ecjia.todolist.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-topbar', 			'statics/lib/ecjia-js/ecjia.topbar.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-user', 			'statics/lib/ecjia-js/ecjia.user.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-validator', 		'statics/lib/ecjia-js/ecjia.validator.js', array('ecjia') );
-// 		$scripts->add( 'ecjia-editor', 			'statics/lib/ecjia-js/ecjia.editor.js', array('ecjia') );
-
 		// 添加jquery
 		$scripts->add( 'jquery', 				"/js/jquery$suffix.js" );
 		$scripts->add( 'jquery-pjax', 			"/js/jquery-pjax.js", array('jquery') );
@@ -150,7 +127,7 @@ class ecjia_loader {
 		//对lib的扩展js
 		$scripts->add( 'jquery-chosen', 			    "/js/ecjia.chosen.js", array('ecjia-jquery-chosen'), false, 1 );
 		$scripts->add( 'ecjia-jquery-chosen', 			"/lib/chosen/chosen.jquery$suffix.js", array('jquery'), false, 1 );
-		
+
 		// 添加lib
 		$scripts->add( 'bootstrap', 				"/lib/bootstrap/js/bootstrap$suffix.js" );
 		$scripts->add( 'jquery-ui',					"/lib/jquery-ui/jquery-ui$suffix.js", array('jquery') );
@@ -158,7 +135,8 @@ class ecjia_loader {
 		$scripts->add( 'jquery-uniform',			"/lib/uniform/jquery.uniform$suffix.js", array('jquery'), false, 1 );
 		$scripts->add( 'smoke',						"/lib/smoke/smoke$suffix.js", array(), false, 1 );
 
-		$scripts->add( 'bootstrap-placeholder',     "/lib/jasny-bootstrap/js/bootstrap-placeholder$suffix.js", array('bootstrap') );
+		$scripts->add( 'bootstrap-placeholder',     "/lib/jasny-bootstrap/js/bootstrap-placeholder$suffix.js", array('bootstrap'), false, 1 );
+		$scripts->add( 'bootstrap-colorpicker',     "/lib/colorpicker/bootstrap-colorpicker$suffix.js", array(), false, 1 );
 
 		$scripts->add( 'jquery-flot', 				"/lib/flot/jquery.flot$suffix.js", array('jquery'), false, 1 );
 		$scripts->add( 'jquery-flot-curvedLines', 	"/lib/flot/jquery.flot.curvedLines$suffix.js", array('jquery-flot'), false, 1 );
@@ -194,9 +172,9 @@ class ecjia_loader {
 
 		// 添加vendor
 		$scripts->add( 'tinymce',				RC_Uri::vendor_url('tinymce/tinymce') . "$suffix.js", array(), false, 1 );
-		
-		
-		
+
+
+
 		$admin_jslang = array(
 			'ok'				=> __('确定'),
 			'cancel'			=> __('取消'),
@@ -210,7 +188,7 @@ class ecjia_loader {
 			'clone'				=> __('clone-obj方法未设置data-parent参数。'),
 			'missing_parameters'	=> __('缺少参数'),
 			'confirm_delete_file'	=> __('您确定要删除此文件吗？'),
-		
+
 		);
 		RC_Script::localize_script('ecjia.ui', 'admin_lang', $admin_jslang);
 	}

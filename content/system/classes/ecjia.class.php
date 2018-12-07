@@ -232,6 +232,7 @@ class ecjia {
 		RC_Loader::load_sys_config('constant');
 		
 		RC_Loader::load_sys_func('global');
+		RC_Loader::load_sys_func('deprecated');
 		RC_Loader::load_sys_func('extention');
 		
 		RC_Hook::add_filter('set_server_timezone', array(__CLASS__, 'current_timezone'));

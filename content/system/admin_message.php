@@ -137,7 +137,7 @@ class admin_message extends ecjia_admin {
 		$list = ecjia_admin_message::get_admin_chat();
 		$message = count($list['item']) < 10 ? __('没有更多消息了') : __('搜索到了');
 		if (!empty($list['item'])) {
-			return $this->showmessage($message, ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, array('msg_list' => $list['item'], 'last_id' => $list['last_id']));
+			return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('msg_list' => $list['item'], 'last_id' => $list['last_id']));
 		} else {
 			return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}

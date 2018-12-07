@@ -64,11 +64,11 @@ class Cache extends RC_Object
      * @param  string  $key
      * @param  mixed   $value
      * @param  int     $minutes
-     * @return void
+     * @return mixed
      */
-    public function put($key, $value, $minutes)
+    public function put($key, $value, $minutes = null)
     {
-        return $this->cacheRepository->put($this->prefix.$key, $value, $minutes);
+        $this->cacheRepository->put($this->prefix.$key, $value, $minutes);
     }
     
     /**
@@ -82,7 +82,33 @@ class Cache extends RC_Object
     {
         return $this->cacheRepository->pull($this->prefix.$key, $default);
     }
-    
+
+    /**
+     * Store an item in the cache if the key does not exist.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  int     $minutes
+     * @return mixed
+     */
+    public function add($key, $value, $minutes = null)
+    {
+        return $this->cacheRepository->add($this->prefix.$key, $value, $minutes);
+    }
+
+    /**
+     * put() alias.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  int     $minutes
+     * @return mixed
+     */
+    public function set($key, $value, $minutes = null)
+    {
+        $this->put($key, $value, $minutes);
+    }
+
     /**
      * Retrieve an item from the cache by key.
      *

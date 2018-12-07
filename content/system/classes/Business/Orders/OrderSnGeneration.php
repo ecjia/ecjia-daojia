@@ -17,6 +17,11 @@ class OrderSnGeneration
     const ORDER_BUY         = 10;
 
     /**
+     * 普通订单用来分单的订单号
+     */
+    const ORDER_SEPARATE    = 11;
+
+    /**
      * 快速买单订单
      */
     const ORDER_QUICKPAY    = 20;

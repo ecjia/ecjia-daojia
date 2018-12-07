@@ -364,7 +364,7 @@ class index extends ecjia_admin {
         $upload->allowed_mime('application/x-x509-ca-cert,application/octet-stream');
 
         if (!$upload->check_upload_file($_FILES['license'])) {
-            return $this->showmessage($upload->error(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON);
+            return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $info = $upload->upload($_FILES['license']);
         $license_file = $upload->get_position($info);

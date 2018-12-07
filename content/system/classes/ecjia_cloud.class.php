@@ -154,22 +154,24 @@ class ecjia_cloud extends RC_Object
      * @return ecjia_cloud
      */
     public function run() {        
-        $cache_key = 'api_request_'.md5($this->api);
+        $cache_key = 'api_request_'.md5($this->api.json_encode($this->data));
         $data = RC_Cache::app_cache_get($cache_key, 'system');
 
         if (!$this->cache_time || 'error' == $data['status'] || SYS_TIME - $this->cache_time > $data['timestamp']) {
-            $fields['body'] = array(
-                'json' => json_encode($this->data),
-            );
+            $fields['body'] = $this->data;
             
             $response = RC_Http::remote_post(self::serverHost . $this->api, $fields);
+
             if (RC_Error::is_error($response)) {
                 $this->addError($response->get_error_code(), $response->get_error_message(), $response->get_error_data());
                 $this->status = self::STATUS_ERROR;
                 return $this;
+            } else {
+                $this->status = self::STATUS_SUCCESS;
             }
+
             $this->response = $response;
-            RC_Cache::app_cache_set($cache_key, array('body' => $this->response, 'status' => $this->status, 'timestamp' => SYS_TIME), 'system');
+            RC_Cache::app_cache_set($cache_key, array('body' => $this->response['body'], 'status' => $this->status, 'timestamp' => SYS_TIME), 'system');
             $this->returnResolve($this->response['body']);
         } else {
             $this->is_cached = true;
