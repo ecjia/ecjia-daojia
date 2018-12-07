@@ -163,13 +163,15 @@ return array(
 
     'toutiao'       => 'toutiao',
     /* 附件管理 */
-//    'attach' => 'attach',
+   // 'attach'         => 'attach',
 	/* 主题活动 */
-//	'topic' => 'topic',
+	'topic'        => 'topic',
     /* 优惠券 */
-//    'coupon' => 'coupon',
+   // 'coupon'         => 'coupon',
     /* 客户 */
-   'customer' => 'customer',
+   'customer'       => 'customer',
+    /* 提现 */
+    'withdraw'      => 'withdraw',
 );
 
 // end
