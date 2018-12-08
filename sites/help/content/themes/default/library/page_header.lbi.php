@@ -6,8 +6,8 @@
             <ul>
                 <li id="user_not_login" class="box">
                     <div>
-                        <a href="{$site_main}" target="_blank" class="login-button"><i></i><span>请登录</span></a>
-                        <a id="headerReg" target="_blank" href="{$site_login}" class="registered">注册</a>
+                        <a href="{$site_member}" target="_blank" class=""><span>会员中心</span></a>
+                        <a href="{$url_order}" target="_blank" class=""><span>我的订单</span></a>
                     </div>
                 </li>
             </ul>

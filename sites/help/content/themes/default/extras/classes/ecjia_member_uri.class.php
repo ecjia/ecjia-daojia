@@ -8,7 +8,7 @@
 
 class ecjia_member_uri
 {
-
+    
     /**
      * 会员中心地址
      *
@@ -16,7 +16,7 @@ class ecjia_member_uri
      */
     public static function home_url()
     {
-        return RC_Uri::home_url() . '/sites/member/';
+        return str_replace('/sites/help', '/sites/member', RC_Uri::home_url());
     }
 
     /**
@@ -26,7 +26,7 @@ class ecjia_member_uri
      */
     public static function login_url()
     {
-        return RC_Uri::home_url() . '/sites/member/';
+        return str_replace('/sites/help', '/sites/member', RC_Uri::home_url());
     }
 
     /**
@@ -36,7 +36,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/privilege/register');
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -46,7 +46,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/order/init');
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -56,7 +56,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/order/init', array('type' => 'await_pay'));
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -66,7 +66,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/order/init', array('type' => 'shipped'));
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -76,7 +76,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/bonus/init');
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -86,7 +86,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/account/init');
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -96,7 +96,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/address/init');
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -106,7 +106,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/spread/init');
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -116,7 +116,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('user/index/safe');
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/member', $url);
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
@@ -126,7 +126,7 @@ class ecjia_member_uri
     {
         $url = RC_Uri::url('franchisee/merchant/init');
 
-        return str_replace(RC_Uri::site_url(), RC_Uri::home_url() . '/sites/merchant', $url);
+        return str_replace('/sites/help', '/sites/merchant', $url);
     }
 
 }

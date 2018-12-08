@@ -71,14 +71,18 @@ function smarty_insert_page_header($params, Smarty_Internal_Template $template) 
         }
 
         $site_index = str_replace('/sites/help', '', RC_Uri::home_url());
-        $site_main = str_replace('/sites/help', '', ecjia_member_uri::login_url());
-        $site_login = str_replace('/sites/help', '', ecjia_member_uri::register_url());
-
+        $site_login = ecjia_member_uri::login_url();
+        $site_member = ecjia_member_uri::login_url();
+        $site_register = ecjia_member_uri::register_url();
+        $url_order = ecjia_member_uri::user_order_url();
+        
         ecjia_front::$controller->assign('shop_name', $shop_name);
         ecjia_front::$controller->assign('shop_logo', $shop_logo);
         ecjia_front::$controller->assign('site_index', $site_index);
-        ecjia_front::$controller->assign('site_main', $site_main);
+        ecjia_front::$controller->assign('site_member', $site_member);
         ecjia_front::$controller->assign('site_login', $site_login);
+        ecjia_front::$controller->assign('site_register', $site_register);
+        ecjia_front::$controller->assign('url_order', $url_order);
     }
 
     $val = ecjia_front::$controller->fetch('library/page_header.lbi', $cache_id);
