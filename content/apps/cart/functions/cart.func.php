@@ -1035,7 +1035,7 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 	if (!empty($_SESSION['store_id'])) {
 		$cart_where = array_merge($cart_where, array('c.store_id' => $_SESSION['store_id']));
 	}
-	$field = 'g.store_id, goods_img, g.goods_number|g_goods_number , original_img, goods_thumb, c.rec_id, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.product_id, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, c.goods_price * c.goods_number|subtotal, goods_weight as goodsWeight, c.goods_attr_id';
+	$field = 'g.store_id, goods_img, g.goods_number|g_goods_number , original_img, goods_thumb, c.rec_id, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.product_id, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.is_checked, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, c.goods_price * c.goods_number|subtotal, goods_weight as goodsWeight, c.goods_attr_id';
 	if ($_SESSION['user_id']) {
 		$cart_where = array_merge($cart_where, array('c.user_id' => $_SESSION['user_id']));
 		$arr        = $db->field($field)->where($cart_where)->select();
@@ -2291,54 +2291,6 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = [], 
                 }
             }
         }
-//         if(defined('THEME_EXTENSION')){
-            /*  @author-bylu 判断当前商家是否允许"在线客服" start  */
-//             $shop_information = get_shop_name($key); //通过ru_id获取到店铺信息;
-//             $arr[$key]['is_IM'] = isset($shop_information['is_IM']) ? $shop_information['is_IM'] : ''; //平台是否允许商家使用"在线客服";
-            //判断当前商家是平台,还是入驻商家 bylu
-            if ($key == 0) {
-                //判断平台是否开启了IM在线客服
-//                 if ($GLOBALS['db']->getOne("SELECT kf_im_switch FROM " . $GLOBALS['ecs']->table('seller_shopinfo') . "WHERE ru_id = 0", true)) {
-//                     $arr[$key]['is_dsc'] = true;
-//                 } else {
-//                     $arr[$key]['is_dsc'] = false;
-//                 }
-            } else {
-                $arr[$key]['is_dsc'] = false;
-            }
-            /*  @author-bylu  end  */
-            //自营有自提点--key=ru_id
-//             $sql="select * from ".$GLOBALS['ecs']->table('seller_shopinfo')." where ru_id='" .$key. "'";
-//             $basic_info = $GLOBALS['db']->getRow($sql);
-            $arr[$key]['kf_type'] = $basic_info['kf_type'];
-            
-            /*处理客服旺旺数组 by kong*/
-            if($basic_info['kf_ww']){
-                $kf_ww=array_filter(preg_split('/\s+/', $basic_info['kf_ww']));
-                $kf_ww=explode("|",$kf_ww[0]);
-                if(!empty($kf_ww[1])){
-                    $arr[$key]['kf_ww'] = $kf_ww[1];
-                }else{
-                    $arr[$key]['kf_ww'] ="";
-                }
-                
-            }else{
-                $arr[$key]['kf_ww'] ="";
-            }
-            /*处理客服QQ数组 by kong*/
-            if($basic_info['kf_qq']){
-                $kf_qq=array_filter(preg_split('/\s+/', $basic_info['kf_qq']));
-                $kf_qq=explode("|",$kf_qq[0]);
-                if(!empty($kf_qq[1])){
-                    $arr[$key]['kf_qq'] = $kf_qq[1];
-                }else{
-                    $arr[$key]['kf_qq'] = "";
-                }
-                
-            }else{
-                $arr[$key]['kf_qq'] = "";
-            }
-//         }
         
         if($key == 0 && $consignee_district_id > 0){
 //             $self_point = get_self_point($consignee_district_id, $point_id, 1);
@@ -2347,20 +2299,8 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = [], 
                 $arr[$key]['self_point'] = $self_point[0];
             }
         }
-        /*获取门店信息 by kong 20160726 start*/
-        if($store_id > 0){
-//             $sql = "SELECT o.id,o.stores_name,o.stores_address,o.stores_opening_hours,o.stores_tel,o.stores_traffic_line,p.region_name as province ,"
-//                 . "c.region_name as city ,d.region_name as district,o.stores_img FROM ".$GLOBALS['ecs']->table("offline_store")." AS o "
-//                     . "LEFT JOIN ".$GLOBALS['ecs']->table("region")." AS p ON p.region_id = o.province "
-//                         . "LEFT JOIN ".$GLOBALS['ecs']->table('region')." AS c ON c.region_id = o.city "
-//                             . "LEFT JOIN ".$GLOBALS['ecs']->table('region')." AS d ON d.region_id = o.district "
-//                                 . "WHERE o.id = '$store_id'  LIMIT 1";
-//                                 $arr[$key]['offline_store'] = $GLOBALS['db']->getRow($sql);
-                                
-        }
         
         if ($row) {
-            
             $shipping_rec = isset($ru_shippng['shipping_rec']) && !empty($ru_shippng['shipping_rec']) ? $ru_shippng['shipping_rec'] : [];
             
             foreach ($row as $k => $v) {
