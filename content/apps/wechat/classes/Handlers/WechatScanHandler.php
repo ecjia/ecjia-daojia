@@ -51,7 +51,7 @@ use Ecjia\App\Wechat\WechatRecord;
 use Ecjia\App\Wechat\WechatCommand;
 use Ecjia\App\Wechat\Models\WechatQrcodeModel;
 use Ecjia\App\Wechat\Models\WechatReplyModel;
-use Ecjia\App\Wechat\Models\WechatMediaReply;
+use Ecjia\App\Wechat\WechatMediaReply;
 use RC_Time;
 use RC_Hook;
 
