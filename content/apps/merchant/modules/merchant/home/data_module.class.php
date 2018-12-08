@@ -381,6 +381,18 @@ class merchant_home_data_module extends api_front implements api_interface {
 		);
 	
 		$result = RC_Api::api('goods', 'goods_list', $filter);
+		//检查是否有促销过期的商品
+		$time = RC_Time::gmtime();
+		if (!empty($result['list'])) {
+			foreach ( $result['list'] as $k => $v ) {
+				if ($v['unformatted_promote_price'] > 0 && $v['unformatted_promote_end_date'] < $time) {
+					$cache_key = 'goods-list-'. $_SESSION['user_rank'];
+					\Ecjia\App\Goods\DeleteGoodsCacheManager::clear_goods_list_cache($cache_key);
+				}
+			}
+			$result = \RC_Api::api('goods', 'goods_list', $filter);
+		}
+		
 		if ( !empty($result['list']) ) {
 			RC_Loader::load_app_func('admin_goods', 'goods');
 			foreach ( $result['list'] as $key => $val ) {

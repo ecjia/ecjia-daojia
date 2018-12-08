@@ -103,6 +103,18 @@ class merchant_goods_storebuy_suggestlist_module extends api_front implements ap
 
 		$result = RC_Api::api('goods', 'goods_list', $options);
 		
+		//检查是否有促销过期的商品
+		$time = \RC_Time::gmtime();
+		if (!empty($result['list']) ) {
+			foreach ( $result['list'] as $k => $v ) {
+				if ($v['unformatted_promote_price'] > 0 && $v['unformatted_promote_end_date'] < $time) {
+					$cache_key = 'goods-list-'. $_SESSION['user_rank'];
+					\Ecjia\App\Goods\DeleteGoodsCacheManager::clear_goods_list_cache($cache_key);
+				}
+			}
+			$result = \RC_Api::api('goods', 'goods_list', $options);
+		}
+		
 		//更新店铺搜索关键字
 		if (!empty($keyword) && !empty($store_id)) {
 			RC_Api::api('stats', 'update_store_keywords', array('store_id' => $store_id, 'keywords' => $keyword));
