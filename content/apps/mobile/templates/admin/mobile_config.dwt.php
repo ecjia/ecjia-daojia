@@ -451,6 +451,7 @@
 						</div>
 					{/if}
 
+					<!-- {if $code eq 'basic_info'} -->
 					<h3 class="heading">APP入口设置</h3>
 					<div class="alert alert-warnning">
 						<a class="close" data-dismiss="alert">×</a>
@@ -478,6 +479,7 @@
 							<input type="radio" name="app_disable_express" value="0" {if $app_disable_express eq 0}checked{/if}/>否
 						</div>
 					</div>
+					<!-- {/if} -->
 
 					<div class="control-group">
 						<div class="controls">
@@ -485,6 +487,7 @@
 							<input type="submit" value="{lang key='system::system.button_submit'}" class="btn btn-gebo" />
 						</div>
 					</div>
+					
 			</fieldset>
         </form>
     </div>
