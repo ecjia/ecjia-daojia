@@ -17,7 +17,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <li class="single_item">
     <ul class="single_store">
         <li class="store-info">
-            <a href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
+            <a class="nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 	            <div class="basic-info">
 	                <div class="store-left">
 	                    <img src="{$val.seller_logo}">
@@ -65,7 +65,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             {if $val.seller_goods}
             <ul class="store-goods">
                 <!-- {foreach from=$val.seller_goods key=key item=goods} -->
-                    <a href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.goods_id}">
+                    <a class="nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.goods_id}">
 	                    <li class="goods-info {if $key gt 2}goods-hide-list{/if}">
 	                        <span class="goods-image"><img src="{$goods.img.small}"></span>
 	                        <p>

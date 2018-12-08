@@ -17,7 +17,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<li class="store-info">
 				<div class="basic-info">
 					<div class="store-left">
-						<a class="seller-logo" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
+						<a class="seller-logo nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 							<img src="{$val.seller_logo}">
 							{if $val.shop_closed eq 1}
 								<div class="shop_closed_mask">休息中</div>
@@ -25,7 +25,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						</a>
 					</div>
 					<div class="store-right">
-						<a href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
+						<a class="nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 							<div class="store-title">
 								<span class="store-name">{$val.seller_name}</span>
 								{if $val.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}
@@ -74,7 +74,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<div class="suggest-goods-list">
 							<!-- {foreach from=$val.seller_goods item=goods key=key} -->
 							<!-- {if $key < 4} -->
-							<a href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
+							<a class="nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 								<img src="{$goods.img.small}">
 								<span class="goods_price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span>
 							</a>

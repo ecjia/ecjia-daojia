@@ -1564,7 +1564,7 @@
 					url = $this.attr('data-url');
 
 				if (url != undefined) {
-					ecjia.pjax(url);
+					window.location.href = url;
 					return false;
 				}
 

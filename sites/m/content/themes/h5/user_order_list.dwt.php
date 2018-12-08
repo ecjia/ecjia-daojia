@@ -46,7 +46,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {foreach from=$order_list item=list} -->
 <li class="ecjia-order-item ecjia-checkout ecjia-margin-t {if $type == "whole"}ecjia-order-mt{/if}">
 	<div class="order-hd">
-		<a class="ecjiaf-fl" href='{url path="merchant/index/init" args="store_id={$list.seller_id}"}'>
+		<a class="ecjiaf-fl nopjax external" href='{url path="merchant/index/init" args="store_id={$list.seller_id}"}'>
 			<span class="order_model">{if $list.order_mode eq 'default'}【配送】{elseif $list.order_mode eq 'storepickup'}【自提】{elseif $list.order_mode eq 'storebuy'}【扫码购】{/if}</span>{$list.seller_name}<i class="iconfont icon-jiantou-right"></i>
 		</a>
 		<a class="ecjiaf-fr" href='{url path="user/order/order_detail" args="order_id={$list.order_id}"}'><span class="{if $list.order_status_code eq 'finished'}ecjia-color-green{else if $list.order_status_code eq 'canceled'}ecjia-color-red{/if}">{$list.label_order_status}</span></a>

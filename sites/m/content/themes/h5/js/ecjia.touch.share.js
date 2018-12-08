@@ -1,17 +1,17 @@
 function share_spread() {
+    var length = $.find('input[name="share_page"]').length;
+    if (length == 0) {
+        return false;
+    }
+
     if (typeof(config) == 'undefined') {
         return false;
     }
 
-    var share_page = $('input[name="share_page"]').val();
-    if (share_page != 1) {
-        return false;
-    }
-
-    var title   = $('input[name="share_title"]').val()  == undefined    || $('input[name="share_title"]').val() == '' ? document.title              : $('input[name="share_title"]').val();
-    var image   = $('input[name="share_image"]').val()  == undefined    || $('input[name="share_image"]').val() == '' ? $.cookie('wap_logo')        : $('input[name="share_image"]').val();
-    var desc    = $('input[name="share_desc"]').val()   == undefined    || $('input[name="share_desc"]').val()  == '' ? document.title              : $('input[name="share_desc"]').val();
-    var link    = $('input[name="share_link"]').val()   == undefined    || $('input[name="share_link"]').val()  == '' ? location.href.split('#')[0] : $('input[name="share_link"]').val();
+    var title = $('input[name="share_title"]').val() == undefined || $('input[name="share_title"]').val() == '' ? document.title : $('input[name="share_title"]').val();
+    var image = $('input[name="share_image"]').val() == undefined || $('input[name="share_image"]').val() == '' ? $.cookie('wap_logo') : $('input[name="share_image"]').val();
+    var desc = $('input[name="share_desc"]').val() == undefined || $('input[name="share_desc"]').val() == '' ? document.title : $('input[name="share_desc"]').val();
+    var link = $('input[name="share_link"]').val() == undefined || $('input[name="share_link"]').val() == '' ? location.href.split('#')[0] : $('input[name="share_link"]').val();
 
     var data = JSON.parse(config);
     wx.config({
@@ -26,7 +26,7 @@ function share_spread() {
             'onMenuShareQQ',
         ]
     });
-    wx.ready(function () {
+    wx.ready(function() {
         //分享到朋友圈
         wx.onMenuShareTimeline({
             title: title, // 分享标题【必填】
@@ -55,8 +55,11 @@ function share_spread() {
 }
 
 //页面载入方法和pjax刷新执行方法
-$(function () {
+$(function() {
     share_spread();
-}).on('pjax:end', function () {
-    share_spread();
+}).on('pjax:end', function() {
+    var length = $.find('input[name="share_page"]').length;
+    if (length != 0) {
+        share_spread();
+    }
 });

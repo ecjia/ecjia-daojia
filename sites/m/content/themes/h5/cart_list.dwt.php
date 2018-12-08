@@ -40,7 +40,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<!-- {foreach from=$cart_list.local item=val} -->
 					<div class="a4w current_place">
 						<div class="a4p">
-							<a class="a4x" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.seller_id}&from=cart">
+							<a class="a4x nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.seller_id}&from=cart">
 								{$val.seller_name}
 								{if $val.manage_mode eq 'self'}<span class="self-store">自营</span>{/if}
 							</a>
@@ -75,7 +75,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<!-- {foreach from=$cart_list.other item=val} -->
 					<div class="a4w other_place">
 						<div class="a4p">
-							<a class="a4x" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.seller_id}&from=cart&out=1">
+							<a class="a4x nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.seller_id}&from=cart&out=1">
 								{$val.seller_name}
 								{if $val.manage_mode eq 'self'}<span class="self-store">自营</span>{/if}
 							</a>

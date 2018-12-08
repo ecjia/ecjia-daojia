@@ -450,6 +450,9 @@ class user_account_controller
             $data['payment_id']    = !empty($_GET['payment_id']) ? $_GET['payment_id'] : '';
             $data['payment_name']  = !empty($_GET['payment_id']) ? trim($_GET['payment_name']) : '';
             $data['order_sn']      = !empty($_GET['order_sn']) ? trim($_GET['order_sn']) : '';
+            $data['pay_fee']                = !empty($_GET['pay_fee']) ? trim($_GET['pay_fee']) : '';
+            $data['format_real_amount']     = $_GET['format_real_amount'] != 0 ? trim($_GET['format_real_amount']) : ecjia_price_format(abs($data['amount']) - $data['pay_fee']);
+            $data['format_pay_fee']         = !empty($_GET['format_pay_fee']) ? trim($_GET['format_pay_fee']) : '';
 
             $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
             ecjia_front::$controller->assign('user_img', $user_img);

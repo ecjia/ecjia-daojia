@@ -20,7 +20,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="ecjia-checkout ecjia-margin-b">
 		<div class="flow-goods-list">
 			<div class="order-hd">
-				<a class="ecjiaf-fl" href='{url path="merchant/index/init" args="store_id={$order.store_id}"}'>
+				<a class="ecjiaf-fl nopjax external" href='{url path="merchant/index/init" args="store_id={$order.store_id}"}'>
 					<i class="iconfont icon-shop"></i>{$order.seller_name}
 				</a>
 				<div class="ecjiaf-fr"><span class="ecjiaf-order-status">扫码购</span></div>
@@ -28,7 +28,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<ul class="goods-item">
 				<!-- {foreach from=$order.goods_list item=goods} -->
 				<li>
-				    <a href='{url path="goods/index/show" args="goods_id={$goods.goods_id}"}'>
+				    <a class="nopjax external" href='{url path="goods/index/show" args="goods_id={$goods.goods_id}"}'>
 					<div class="ecjiaf-fl goods-img">
 						<img src="{$goods.img.thumb}" alt="{$goods.name}" title="{$goods.name}" />
 					</div>

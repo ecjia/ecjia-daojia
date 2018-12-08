@@ -26,20 +26,19 @@ ecjia.touch.user.record_cancel();
         <p class="record-val">{$sur_amount.order_sn}</p>
         <p class="record-key">订单编号</p>
 
-        <p class="record-val">{if $sur_amount.type eq 'raply'}账户余额{else if $sur_amount.payment_name}{$sur_amount.payment_name}{else}银行转账{/if}</p>
-        <p class="record-key">{if $sur_amount.type eq 'raply'}提现方式{else}支付方式{/if}</p>
+        {if $sur_amount.type eq 'raply'}
+        <p class="record-val">{$sur_amount.format_real_amount}</p>
+        <p class="record-key">到账金额</p>
+
+        <p class="record-val">{$sur_amount.format_pay_fee}</p>
+        <p class="record-key">手续费用</p>
+        {/if}
 
         <p class="record-val">{$sur_amount.type_lable}</p>
         <p class="record-key">交易类型</p>
 
-        <!-- <p class="record-val">{$sur_amount.lable_type}</p>
-        <p class="record-key">交易类型</p>
-
-        <p class="record-val">{$sur_amount.formatted_apply_amount}</p>
-        <p class="record-key">申请金额</p>
-
-        <p class="record-val">{$sur_amount.formatted_pay_fee}</p>
-        <p class="record-key">手续费用</p> -->
+        <p class="record-val">{if $sur_amount.payment_name}{$sur_amount.payment_name}{else}银行转账{/if}</p>
+        <p class="record-key">{if $sur_amount.type eq 'raply'}提现方式{else}支付方式{/if}</p>
 
         <p class="record-val">{$sur_amount.add_time}</p>
         <p class="record-key">{if $sur_amount.type eq 'raply'}申请时间{else}充值时间{/if}</p>

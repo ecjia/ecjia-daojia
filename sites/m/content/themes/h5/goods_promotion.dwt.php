@@ -25,7 +25,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<!-- {if $goods_list} -->
 	<!-- {foreach from=$goods_list item=val} -->
 		<li class="ecjia-margin-t">
-			<a class="list-page-goods-img" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}">
+			<a class="list-page-goods-img nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}">
 				<span class="goods-img">
                     <img src="{$val.img.thumb}" alt="{$val.name}">
                     <span class="promote-time" data-type="1" value="{$val.promote_end_date}"></span>    

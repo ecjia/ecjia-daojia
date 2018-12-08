@@ -189,7 +189,7 @@ var releated_goods = {$releated_goods};
 	            <input type="hidden" value="{RC_Uri::url('cart/index/update_cart')}" name="update_cart_url" />
 				<input type="hidden" value="{$goods_info.seller_id}" name="store_id" />
 	        </div>
-	        <a href='{url path="merchant/index/init" args="store_id={$goods_info.seller_id}"}'>
+	        <a class="nopjax external" href='{url path="merchant/index/init" args="store_id={$goods_info.seller_id}"}'>
 		        <div class="bd goods-type ecjia-margin-t store-name">
 		            <div class="goods-option-con goods-num goods-option-con-new">
 		                <div class="ecjia-merchants-name" >
@@ -262,7 +262,7 @@ var releated_goods = {$releated_goods};
 							<!--{foreach from=$goods_info.related_goods item=goods name=goods}-->
 							<!-- {if $smarty.foreach.goods.index < 6 } -->
 							<li>
-								<a href='{url path="goods/index/show" args="goods_id={$goods.goods_id}"}'>
+								<a class="nopjax external" href='{url path="goods/index/show" args="goods_id={$goods.goods_id}"}'>
 									<img src="{$goods.img.url}" alt="{$goods.name}" title="{$goods.name}"/>
 								</a>
 								<p class="link-goods-name ecjia-goods-name-new">{$goods.name}</p>

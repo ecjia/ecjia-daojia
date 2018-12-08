@@ -21,7 +21,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<li class="single_item">
 		<ul class="single_store">
 			<li class="store-info">
-				<a href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
+				<a class="nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 				<div class="basic-info">
 					<div class="store-left">
 						<img src="{$val.seller_logo}">

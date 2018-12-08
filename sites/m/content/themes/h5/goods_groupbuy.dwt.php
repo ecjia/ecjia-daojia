@@ -42,7 +42,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<!--{if $val.market_price}-->
 	          			<del>市场价：{$val.formated_market_price}</del>
 	          			<!--{/if}-->
-	          			<a class="btn" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}&act_id={$val.goods_activity_id}">马上抢</a>
+	          			<a class="btn nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}&act_id={$val.goods_activity_id}">马上抢</a>
 					</div>
 				</div>
 			</div>

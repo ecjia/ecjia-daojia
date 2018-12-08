@@ -36,7 +36,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {foreach from=$order_list item=list} -->
 <li class="ecjia-order-item ecjia-checkout ecjia-margin-t {if $type == "whole"}ecjia-order-mt{/if}">
 	<div class="order-hd">
-		<a class="ecjiaf-fl" href='{url path="merchant/index/init" args="store_id={$list.seller_id}"}'>
+		<a class="ecjiaf-fl nopjax external" href='{url path="merchant/index/init" args="store_id={$list.seller_id}"}'>
 			<i class="iconfont icon-shop"></i>{$list.store_name} <i class="iconfont icon-jiantou-right"></i>
 		</a>
 		<a class="ecjiaf-fr" href='{url path="user/order/return_detail" args="order_id={$list.order_id}&refund_sn={$list.refund_sn}"}'><span class="ecjia-color-green">{$list.label_service_status}</span></a>
