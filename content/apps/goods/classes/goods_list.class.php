@@ -427,7 +427,9 @@ class goods_list {
 					//增加促销时间
 					$arr[$key]['promote_start_date']=  RC_Time::local_date('Y/m/d H:i:s O', $row['promote_start_date']);
 					$arr[$key]['promote_end_date']	=  RC_Time::local_date('Y/m/d H:i:s O', $row['promote_end_date']);
-			
+					$arr[$key]['unformatted_promote_start_date']=  $row['promote_start_date'];
+					$arr[$key]['unformatted_promote_end_date']	=  $row['promote_end_date'];
+					
 					$arr[$key]['goods_thumb']	= !empty($row['goods_thumb']) ? RC_Upload::upload_url($row['goods_thumb']) : RC_Uri::admin_url('statics/images/nopic.png');
 					$arr[$key]['original_img']	= !empty($row['original_img']) ? RC_Upload::upload_url($row['original_img']) : RC_Uri::admin_url('statics/images/nopic.png');
 					$arr[$key]['goods_img']		= !empty($row['goods_img']) ? RC_Upload::upload_url($row['goods_img']) : RC_Uri::admin_url('statics/images/nopic.png');
@@ -491,7 +493,7 @@ class goods_list {
 	    );
 	
 	    /* 商品列表缓存key*/
-	    $cache_key = 'goods-list-'. $_SESSION['user_rank'];
+	    $cache_key = 'product-goods-list-'. $_SESSION['user_rank'];
 	
 	    /* 分类条件*/
 	    if (isset($filter['cat_id']) && !empty($filter['cat_id'])) {

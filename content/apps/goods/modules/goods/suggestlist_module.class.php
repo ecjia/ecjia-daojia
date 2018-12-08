@@ -114,6 +114,18 @@ class goods_suggestlist_module extends api_front implements api_interface {
 		}
 		
 		$result = RC_Api::api('goods', 'goods_list', $options);
+		//检查是否有促销过期的商品
+		$time = \RC_Time::gmtime();
+		if (!empty($result['list']) ) {
+			foreach ( $result['list'] as $k => $v ) {
+				if ($v['unformatted_promote_price'] > 0 && $v['unformatted_promote_end_date'] < $time) {
+					$cache_key = 'goods-list-'. $_SESSION['user_rank'];
+					\Ecjia\App\Goods\DeleteGoodsCacheManager::clear_goods_list_cache($cache_key);
+				}
+			}
+			$result = \RC_Api::api('goods', 'goods_list', $options);
+		}
+		
 		$data['pager'] = array(
 			"total"	=> $result['page']->total_records,
 			"count"	=> $result['page']->total_records,

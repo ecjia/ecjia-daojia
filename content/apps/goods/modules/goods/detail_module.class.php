@@ -110,52 +110,52 @@ class goods_detail_module extends api_front implements api_interface {
         $cache_basic_info_id = sprintf('%X', crc32($cache_goods_basic_info_key));
         $orm_goods_db = RC_Model::model('goods/orm_goods_model');
         $goods = $orm_goods_db->get_cache_item($cache_basic_info_id);
-
+        
         if (empty($goods)) {
         	$goods = get_goods_info($goods_id);
         	$orm_goods_db->set_cache_item($cache_basic_info_id, $goods);
         }
-    
         if ($goods === false) {
-            /* 如果没有找到任何记录则跳回到首页 */
-           return new ecjia_error('does not exist', '不存在的信息');
-        } else {
-            if ($goods['brand_id'] > 0) {
-                $goods['goods_brand_url'] = build_uri('brand', array('bid' => $goods['brand_id']), $goods['goods_brand']);
-            }
-            /* 加入验证如果价格不存在，则为0 */
-            $shop_price = $goods['shop_price'];
-            $linked_goods = array();
-
-            $goods['goods_style_name'] = add_style($goods['goods_name'], $goods['goods_name_style']);
-
-            /* 购买该商品可以得到多少钱的红包 */
-            if ($goods['bonus_type_id'] > 0) {
-                $time = RC_Time::gmtime();
-                //$db_bonus_type = RC_Model::model('bonus/bonus_type_model');
-                //$goods['bonus_money'] = $db_bonus_type->where(array('type_id' => $goods['bonus_type_id'] , 'send_type' => SEND_BY_GOODS , 'send_start_date' => array('elt' => $time) , 'send_end_date' => array('egt' => $time)))-> get_field('type_money');
-                $bonus_money = RC_DB::table('bonus_type')->where('type_id', $goods['bonus_type_id'])->where('send_type', SEND_BY_GOODS)->where('send_start_date', '<=', $time)->where('send_end_date', '>=', $time)->pluck('type_money');
-                $goods['bonus_money'] = $bonus_money;
-                if ($goods['bonus_money'] > 0) {
-                    $goods['bonus_money'] = price_format($goods['bonus_money']);
-                }
-            }
-			
-            /*增加商品的规格和属性缓存*/
-            $cache_goods_properties_key = 'goods_properties_'.$goods_id;
-            $cache_goods_properties_id = sprintf('%X', crc32($cache_goods_properties_key));
-            $goods_type_db = RC_Model::model('goods/orm_goods_type_model');
-            $properties = $goods_type_db->get_cache_item($cache_goods_properties_id);
-            if (empty($properties)) {
-            	$properties = get_goods_properties($goods_id); // 获得商品的规格和属性
-            	$goods_type_db->set_cache_item($cache_goods_properties_id, $properties);
-            }
-            
-            // 获取关联礼包
-//             $package_goods_list = get_package_goods_list($goods['goods_id']);
-//             $volume_price_list = get_volume_price_list($goods['goods_id'], '1');// 商品优惠价格区间
+           return new ecjia_error('does_not_exist', '不存在的信息');
+        } 
+		
+        //检查是否是促销商品，且是否过期
+        $time = RC_Time::gmtime();
+        if ($goods['promote_price_org'] > 0 && $goods['promote_end_date'] < $time) {
+        	$cache_key = $cache_goods_basic_info_key;
+        	\Ecjia\App\Goods\DeleteGoodsCacheManager::clear_goods_list_cache($cache_key);
+        	$goods = get_goods_info($goods_id);
         }
-
+        
+        if ($goods['brand_id'] > 0) {
+        	$goods['goods_brand_url'] = build_uri('brand', array('bid' => $goods['brand_id']), $goods['goods_brand']);
+        }
+        /* 加入验证如果价格不存在，则为0 */
+        $shop_price = $goods['shop_price'];
+        $linked_goods = array();
+        
+        $goods['goods_style_name'] = add_style($goods['goods_name'], $goods['goods_name_style']);
+        
+        /* 购买该商品可以得到多少钱的红包 */
+        if ($goods['bonus_type_id'] > 0) {
+        	$time = RC_Time::gmtime();
+        	$bonus_money = RC_DB::table('bonus_type')->where('type_id', $goods['bonus_type_id'])->where('send_type', SEND_BY_GOODS)->where('send_start_date', '<=', $time)->where('send_end_date', '>=', $time)->pluck('type_money');
+        	$goods['bonus_money'] = $bonus_money;
+        	if ($goods['bonus_money'] > 0) {
+        		$goods['bonus_money'] = price_format($goods['bonus_money']);
+        	}
+        }
+        	
+        /*增加商品的规格和属性缓存*/
+        $cache_goods_properties_key = 'goods_properties_'.$goods_id;
+        $cache_goods_properties_id = sprintf('%X', crc32($cache_goods_properties_key));
+        $goods_type_db = RC_Model::model('goods/orm_goods_type_model');
+        $properties = $goods_type_db->get_cache_item($cache_goods_properties_id);
+        if (empty($properties)) {
+        	$properties = get_goods_properties($goods_id); // 获得商品的规格和属性
+        	$goods_type_db->set_cache_item($cache_goods_properties_id, $properties);
+        }
+        
         /* 更新点击次数 */
         $db_goods = RC_Model::model('goods/goods_model');
         $db_goods->inc('click_count', 'goods_id='.$goods_id, 1);
