@@ -164,6 +164,10 @@ class admin extends ecjia_admin {
 		ecjia_admin::admin_log($goods_info['goods_name'], 'add', 'promotion');
 		$links[] = array('text' => RC_Lang::get('promotion::promotion.return_promotion_list'), 'href'=> RC_Uri::url('promotion/admin/init'));
 		$links[] = array('text' => RC_Lang::get('promotion::promotion.continue_add_promotion'), 'href'=> RC_Uri::url('promotion/admin/add'));
+
+		//清除应用缓存
+		ecjia_update_cache::make()->clean('system_app_cache');
+
 		return $this->showmessage(RC_Lang::get('promotion::promotion.add_promotion_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('promotion/admin/edit', array('id' => $goods_id))));
 	}
 	
@@ -236,6 +240,10 @@ class admin extends ecjia_admin {
 		}
 		
 		ecjia_admin::admin_log($goods_info['goods_name'], 'edit', 'promotion');
+
+        //清除应用缓存
+        ecjia_update_cache::make()->clean('system_app_cache');
+
 		return $this->showmessage(RC_Lang::get('promotion::promotion.edit_promotion_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('promotion/admin/edit', array('id' => $goods_id))));
 	}
 	
@@ -262,6 +270,10 @@ class admin extends ecjia_admin {
 		}
 		
 		ecjia_admin::admin_log($goods_name, 'remove', 'promotion');
+
+        //清除应用缓存
+        ecjia_update_cache::make()->clean('system_app_cache');
+
 		return $this->showmessage(RC_Lang::get('promotion::promotion.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
