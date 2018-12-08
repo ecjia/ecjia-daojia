@@ -44,47 +44,100 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Ecjia\App\Platform\Frameworks\Controller\EcjiaBaseApi;
+/**
+ * ecjia api控制器父类
+ */
+namespace Ecjia\App\Platform\Frameworks\Controller;
 
-class index extends EcjiaBaseApi
+use Ecjia\System\BaseController\EcjiaController;
+use ecjia_template_fileloader;
+use RC_Config;
+use RC_Hook;
+use RC_Session;
+use ecjia_view;
+use ecjia_app;
+use RC_Loader;
+
+abstract class EcjiaBaseApi extends EcjiaController implements ecjia_template_fileloader
 {
-    public function __construct()
+
+	public function __construct()
     {
-        parent::__construct();
+		parent::__construct();
+		
+		self::$controller = static::$controller;
+		self::$view_object = static::$view_object;
+		
+		if (defined('DEBUG_MODE') == false) {
+		    define('DEBUG_MODE', 0);
+		}
+		
+		if (isset($_SERVER['PHP_SELF'])) {
+		    $_SERVER['PHP_SELF'] = htmlspecialchars($_SERVER['PHP_SELF']);
+		}
+		
+		if (RC_Config::get('system.debug')) {
+		    error_reporting(E_ALL);
+		} else {
+		    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+		}
+
+		RC_Hook::do_action('ecjia_platform_api_finish_launching');
+	}
+
+    protected function session_start()
+    {
+
+        RC_Hook::add_filter('royalcms_session_name', function ($sessin_name) {
+            return RC_Config::get('session.session_name');
+        });
+
+        RC_Hook::add_filter('royalcms_session_id', function ($sessin_id) {
+            return RC_Hook::apply_filters('ecjia_api_session_id', $sessin_id);
+        });
+
+        RC_Session::start();
     }
 
     /**
-     * 首页信息
+     * @return ecjia_view
      */
-    public function init()
+	public function create_view()
+	{
+        return new ecjia_view($this);
+	}
+
+    /**
+     * 加载hook文件
+     */
+	protected function load_hooks() 
+	{
+	    $apps = ecjia_app::installed_app_floders();
+	    if (is_array($apps)) {
+	        foreach ($apps as $app) {
+	            RC_Loader::load_app_class('hooks.api_' . $app, $app, false);
+	        }
+	    }
+	}
+	
+	/**
+	 * 获得模板目录
+	 * @return string
+	 */
+	public function get_template_dir()
     {
-        $request = royalcms('request');
-        $uuid = $request->get('uuid');
+	    //不需要实现
+	}
+	
+	/**
+	 * 获得模板文件
+	 */
+	public function get_template_file($file)
+    {
+        //不需要实现
+	}
 
-        if (empty($uuid)) {
-            return $this->displayContent('NO ACCESS');
-        }
-
-        try {
-
-            $platform_account = new Ecjia\App\Platform\Frameworks\Platform\Account($uuid);
-            $platform = $platform_account->getPlatform();
-            $response = RC_Api::api($platform, 'platform_response', $platform_account);
-            if ($response instanceof Symfony\Component\HttpFoundation\Response) {
-                return $response;
-            } else if (is_ecjia_error($response)) {
-                ecjia_log_error($response->get_error_message());
-                return $this->displayContent($response->get_error_message());
-            } else {
-                return $this->displayContent($response);
-            }
-
-        } catch (Ecjia\App\Platform\Frameworks\Exceptions\AccountException $e) {
-            ecjia_log_error($e->getMessage());
-            return $this->displayContent('NO ACCESS');
-        }
-
-    }
+	
 }
 
 // end
