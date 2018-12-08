@@ -118,14 +118,6 @@ class goods_detail_module extends api_front implements api_interface {
         if ($goods === false) {
            return new ecjia_error('does_not_exist', '不存在的信息');
         } 
-		
-        //检查是否是促销商品，且是否过期
-        $time = RC_Time::gmtime();
-        if ($goods['promote_price_org'] > 0 && $goods['promote_end_date'] < $time) {
-        	$cache_key = $cache_goods_basic_info_key;
-        	\Ecjia\App\Goods\DeleteGoodsCacheManager::clear_goods_list_cache($cache_key);
-        	$goods = get_goods_info($goods_id);
-        }
         
         if ($goods['brand_id'] > 0) {
         	$goods['goods_brand_url'] = build_uri('brand', array('bid' => $goods['brand_id']), $goods['goods_brand']);
