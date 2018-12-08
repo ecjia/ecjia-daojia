@@ -60,9 +60,32 @@ class user_account_raply_module extends api_front implements api_interface {
  		$user_note = $this->requestData('note', '');
  		$amount = floatval($amount);
 		if ($amount <= 0) {
- 			$result = new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！'));
- 			return $result;
+ 			return new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！'));
  		}
+ 		
+ 		$pay_fee = '0.00';
+ 		$real_amount = $amount;
+ 		
+ 		$api_version = $this->request->header('api-version'); 
+ 		if (version_compare($api_version, '1.24', '>=')) {
+ 			/* 最小提现金额 */
+ 			$withdraw_min_amount = ecjia::config('withdraw_min_amount');
+ 			if ($withdraw_min_amount > 0) {
+ 				if ($amount < $withdraw_min_amount) {
+ 					return new ecjia_error('withdraw_min_amount_error', '提现金额不可小于最小提现金额：'.$withdraw_min_amount.'元');
+ 				}
+ 			}
+ 			/* 提现手续费 */
+ 			$withdraw_fee = ecjia::config('withdraw_fee');
+ 			if ($withdraw_fee > 0) {
+ 				$pay_fee = $amount*($withdraw_fee/100);
+ 				if ($pay_fee > $amount) {
+ 					$pay_fee = $amount;
+ 				}
+ 				$real_amount = $amount - $pay_fee;
+ 			}
+ 		}
+ 		
  		$user_id = $_SESSION['user_id'];
  		
  		RC_Loader::load_app_func('admin_order', 'orders');
@@ -76,7 +99,9 @@ class user_account_raply_module extends api_front implements api_interface {
 			'user_note'    => $user_note,
 			'amount'       => $amount,
  			'from_type'	   => 'user',
- 			'from_value'   => $user_id
+ 			'from_value'   => $user_id,
+ 			'pay_fee'	   => $pay_fee,
+ 			'real_amount'  => $real_amount
  		);
  		
  		RC_Loader::load_app_func('admin_user', 'user');

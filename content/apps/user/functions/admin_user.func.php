@@ -217,7 +217,9 @@ function insert_user_account($surplus, $amount) {
 		'payment'		=> $surplus['payment'] ,
 		'is_paid'		=> 0,
 		'from_type'		=> empty($surplus['from_type']) ? '' : $surplus['from_type'],
-		'from_value'	=> empty($surplus['from_value']) ? '' : $surplus['from_value']
+		'from_value'	=> empty($surplus['from_value']) ? '' : $surplus['from_value'],
+		'pay_fee'		=> empty($surplus['pay_fee']) ? '0.00' : $surplus['pay_fee'],
+		'real_amount'	=> empty($surplus['real_amount']) ? '0.00' : $surplus['real_amount'],
 	);
 	return RC_DB::table('user_account')->insertGetId($data);
 }
@@ -318,6 +320,10 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '') {
 			$rows['pay_status']		  = $pay_status;
 			$rows['format_amount']    = price_format(abs($rows['amount']), false);
 			$rows['pay_code']		  = $rows['payment'];
+			$rows['real_amount']	  = $rows['real_amount'];
+			$rows['formatted_real_amount']	  = price_format(abs($rows['real_amount']), false);
+			$rows['pay_fee']	  	  = $rows['pay_fee'];
+			$rows['formatted_pay_fee']	  	  = price_format($rows['pay_fee'], false);
 			
 			/* 会员的操作类型： 冲值，提现 */
 			if ($rows['process_type'] == 0) {

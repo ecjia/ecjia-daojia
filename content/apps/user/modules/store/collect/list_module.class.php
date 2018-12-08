@@ -64,6 +64,10 @@ class store_collect_list_module extends api_front implements api_interface {
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
 		
+		if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
+			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+		}
+		
 		$options = array(
 				'size'			=> $size,
 				'page'			=> $page,
