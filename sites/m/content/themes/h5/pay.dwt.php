@@ -40,7 +40,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             其它支付方式 <span class="ecjiaf-fr"></span>
         </li>
     </ul>
-    <ul class="ecjia-list list-short payment-list">
+    <ul class="ecjia-list list-short payment-list ecjia-margin-t">
         <!-- {foreach from=$payment_list item=list} -->
         <li>
             <span class="icon-name {$list.pay_code}" data-code="{$list.pay_code}">

@@ -16,11 +16,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<div class="swiper-slide">
 				<a class="list-page-goods-img nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}">
 					<span class="goods-img">
-                        <img src="{$val.img.small}" alt="{$val.name}">
-                        <span class="promote-time" value="{$val.promote_end_date}"></span>
-                    </span>
+						<img src="{$val.img.small}" alt="{$val.name}">
+						<span class="promote-time" value="{$val.promote_end_date}"></span>
+					</span>
 					<span class="list-page-box">
-						<span class="goods-name">{$val.name}</span>
+						<span class="goods-name">
+							{if $val.manage_mode eq 'self'}
+							<span class="self-label">自营</span>
+							{/if}
+							<span class="name-label">{$val.name}</span>
+						</span>
 						<span class="list-page-goods-price">
 							<!--{if $val.unformatted_promote_price neq 0}-->
 							<span>{$val.promote_price}</span>
@@ -28,8 +33,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<span>{$val.shop_price}</span>
 							<!--{/if}-->
 							<!--{if $val.shop_price}-->
-                    		<span><del>{$val.shop_price}</del></span>
-                    		<!--{/if}-->
+							<span><del>{$val.shop_price}</del></span>
+							<!--{/if}-->
 						</span>
 					</span>
 				</a>

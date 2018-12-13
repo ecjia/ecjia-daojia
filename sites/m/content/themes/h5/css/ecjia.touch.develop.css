@@ -190,7 +190,6 @@
 
 .ecjia-mod .bd {
 	overflow: hidden;
-	border-top: 1px solid #eee;
 }
 
 /*精选大牌*/
@@ -3079,8 +3078,8 @@ footer .footer-icon .ecjia-list li a.active i {
 
 .category .category_right div ul li {
 	float: left;
-	width: 47.5%;
-	margin-right: 5%;
+	width: 33.3%;
+	padding: 1px;
 }
 
 .category .category_right div ul li:nth-child(2n) {

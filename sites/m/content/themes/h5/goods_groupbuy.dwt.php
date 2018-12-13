@@ -33,6 +33,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 </span>
 				<div class="list-page-box">
 					<div class="goods-name">{$val.name}</div>
+					<div class="merchants-name"><i class="iconfont icon-shop"></i>{$val.seller_name}{if $val.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}</div>
 					<div class="list-page-goods-price">
 						<!--{if $val.promote_price}-->
 						<div class="price">{$val.formated_promote_price}</div>
