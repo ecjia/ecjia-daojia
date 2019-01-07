@@ -10,7 +10,7 @@
 <!-- {block name="main_content"} -->
 {if $pay.enabled neq 1}
 <div class="alert alert-error">
-	<strong>温馨提示：</strong>该支付方式已经禁用，如果您需要使用，请点击<a class="switch" href="javascript:;" data-url='{RC_Uri::url("payment/admin/enable", "code={$pay.pay_code}&from=edit")}' title="{lang key='payment::payment.enable'}">启用</a>。
+	<strong>温馨提示：</strong>该支付方式已经禁用，如果您需要使用，请点击<a class="switch" href="javascript:;" data-url='{RC_Uri::url("payment/admin_plugin/enable", "code={$pay.pay_code}&from=edit")}' title="{lang key='payment::payment.enable'}">启用</a>。
 </div>
 {/if}
 
@@ -50,13 +50,34 @@
 							<!-- {elseif $config.type == "textarea"} -->
 							<textarea class="w350" id="cfg_value[]" name="cfg_value[]" cols="80" rows="5">{$config.value}</textarea>
 							<!-- {elseif $config.type == "select"} -->
-							<select class="w350" id="cfg_value[]" name="cfg_value[]"  >
+							<select class="w350" id="cfg_value[]" name="cfg_value[]">
 								<!-- {html_options options=$config.range selected=$config.value} -->
 							</select>
+                            <!-- {elseif $config.type == "file"} -->
+
+                            {if $config.value}
+                            <div class="m_t5 ecjiaf-wwb">文件地址：{$config.value}</div>
+                            <a class="ecjiafc-red cursor_pointer" data-toggle="ajaxremove" data-msg="{t}您确定要删除此文件吗？{/t}"
+                               data-href='{RC_Uri::url("payment/admin_plugin/delete_file", "pay_code={$pay.pay_code}&code={$config.name}")}' data-removefile="true">{t}删除文件{/t}</a>
+                            <input type="hidden" name="cfg_value[]" value="{$config.value}" />
+                            {else}
+                            <div data-provides="fileupload" class="fileupload fileupload-new">
+                                <input type="hidden" name="cfg_value[]" value="" />
+                                <span class="btn btn-file">
+                                    <span class="fileupload-new">浏览</span>
+                                    <span class="fileupload-exists">修改</span>
+                                    <input type="{$config.type}" name="{$config.name}" />
+                                </span>
+                                <span class="fileupload-preview"></span>
+                                <a style="float: none" data-dismiss="fileupload" class="close fileupload-exists" href="index.php-uid=1&page=form_extended.html#">&times;</a>
+                            </div>
+                            {/if}
+
 							<!-- {/if} -->
 							<input name="cfg_name[]" type="hidden" value="{$config.name}" />
 							<input name="cfg_type[]" type="hidden" value="{$config.type}" />
 							<input name="cfg_lang[]" type="hidden" value="{$config.lang}" />
+                            <input name="cfg_dir[]" type="hidden" value="{$config.dir}" />
 							{if $config.desc}
     						<span class="help-block">{$config.desc}</span>
     						{/if}
@@ -82,6 +103,7 @@
 						<input class="w350" name="pay_fee" type="text" value="{$pay.pay_fee|default:0}" {if $pay.enabled neq 1}disabled{/if}/>
 						{/if}
 					</div>
+					<div class="controls help-block">设置方式1：固定手续费，如：5<br>设置方式2：比例手续费，如：5%</div>
 				</div>
 				<!-- 货到付款 -->
 				<div class="control-group formSep">

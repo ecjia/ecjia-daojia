@@ -58,7 +58,7 @@ class admin_plugin extends ecjia_admin {
 		RC_Script::enqueue_script('smoke');		
 		
 		/* 支付方式 列表页面 js/css */
-
+        RC_Script::enqueue_script('bootstrap-placeholder');
 		RC_Script::enqueue_script('payment_admin', RC_App::apps_url('statics/js/payment_admin.js',__FILE__),array(), false, true);
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
@@ -96,8 +96,8 @@ class admin_plugin extends ecjia_admin {
 		$plugins = ecjia_config::instance()->get_addon_config('payment_plugins', true, true);
 		/* 不能用，该数据查询会把特殊字符双重转义*/
 // 		$data = RC_DB::table('payment')->orderBy('pay_order')->get();
-// 		$data = RC_Model::model('payment/payment_model')->order(array('pay_order' => 'asc'))->select();
-		$data = RC_DB::table('payment')->orderBy('pay_order', 'asc')->get();
+ 		$data = RC_Model::model('payment/payment_model')->order(array('pay_order' => 'asc'))->select();
+
 		$data or $data = array();
 		$modules = array();
 		foreach($data as $_key => $_value) {
@@ -199,7 +199,8 @@ class admin_plugin extends ecjia_admin {
 		/* 如果以前没设置支付费用，编辑时补上 */
 		if (!isset($pay['pay_fee'])) {
 		    $pay['pay_fee'] = 0;
-		}	
+		}
+
 		$this->assign('pay', $pay);
 		$this->assign('form_action', RC_Uri::url('payment/admin_plugin/save'));
 		
@@ -235,10 +236,35 @@ class admin_plugin extends ecjia_admin {
 				);
 			}
 		}
-		
+
+        $refresh_url = RC_Uri::url('payment/admin_plugin/edit', array('code' => $code));
+
+        if (!empty($_FILES)) {
+            $payment_handle = with(new Ecjia\App\Payment\PaymentPlugin)->channel($code);
+            foreach ($_FILES as $k => $v) {
+                $form = $payment_handle->getForm($k);
+                $upload = RC_Upload::uploader('image', array('save_path' => $form['dir'], 'auto_sub_dirs' => false));
+                $upload->allowed_type($form['file_ext']);
+                $upload->allowed_mime($form['file_mime']);
+                $image_info = $upload->upload($v);
+
+                $image_url = '';
+                if (!empty($image_info)) {
+                    $image_url	= $upload->get_position($image_info);
+                } else {
+                    return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $refresh_url));
+                }
+                $pay_config[] = array(
+                    'name'  => $form['name'],
+                    'type'  => $form['type'],
+                    'value' => $image_url
+                );
+            }
+        }
+
 		$pay_config = serialize($pay_config);
 		/* 取得和验证支付手续费 */
-		$pay_fee = empty($_POST['pay_fee'])? 0: intval($_POST['pay_fee']);
+		$pay_fee = empty($_POST['pay_fee']) ? 0: trim($_POST['pay_fee']);
 
 		if ($_POST['pay_id']) {
 			/* 编辑 */
@@ -252,7 +278,7 @@ class admin_plugin extends ecjia_admin {
 			 
 			/* 记录日志 */
 			ecjia_admin::admin_log($name, 'edit', 'payment');
-			return $this->showmessage(RC_Lang::get('payment::payment.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+			return $this->showmessage(RC_Lang::get('payment::payment.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 		} else {
 			$data_one = RC_DB::table('payment')->where('pay_code', $code)->count();
 			if ($data_one > 0) {
@@ -283,11 +309,52 @@ class admin_plugin extends ecjia_admin {
 			
 			/* 记录日志 */
 			ecjia_admin::admin_log($name, 'edit', 'payment');
-			$refresh_url = RC_Uri::url('payment/admin_plugin/edit', array('code' => $code));
-			
 			return $this->showmessage(RC_Lang::get('payment::payment.install_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 		}			
 	}
+
+	public function delete_file()
+    {
+        $this->admin_priv('payment_update', ecjia::MSGTYPE_JSON);
+
+        $pay_code   = trim($_GET['pay_code']);
+        $code       = trim($_GET['code']);
+
+        /* 查询该支付方式内容 */
+        $pay = RC_DB::table('payment')->where('pay_code', $pay_code)->where('enabled', 1)->first();
+
+        if (empty($pay)) {
+            return $this->showmessage(RC_Lang::get('payment::payment.payment_not_available'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $pay_config = [];
+        $img_name = '';
+        /* 取得配置信息 */
+        if (is_string($pay['pay_config'])) {
+            $pay_config = unserialize($pay['pay_config']);
+
+            if (!empty($pay_config)) {
+                foreach ($pay_config as $key => $value) {
+                    if ($value['name'] == $code) {
+                        $img_name = $value['value'];
+                        $pay_config[$key]['value'] = '';
+                    }
+                }
+            }
+        }
+
+        $pay_config = serialize($pay_config);
+        RC_DB::table('payment')->where('pay_code', $pay_code)->update(array('pay_config' => $pay_config));
+
+        $disk = RC_Filesystem::disk();
+        $disk->delete(RC_Upload::upload_path() . $img_name);
+
+        ecjia_admin::admin_log($pay['pay_name'], 'edit', 'payment');
+
+        $refresh_url = RC_Uri::url('payment/admin_plugin/edit', array('code' => $pay_code));
+
+        return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+    }
 	
 	/**
 	 * 修改支付方式名称

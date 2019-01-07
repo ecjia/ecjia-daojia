@@ -128,7 +128,7 @@ return array(
 			
 	'dualpay'			=> '标准双接口',
 	'escrow'			=> '担保交易接口',
-	'fastpay'			=> '即时到帐交易接口',
+	'fastpay'			=> '即时到账交易接口',
 	'alipay_pay_method'	=> '选择接口类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
 	'getPid'			=> '获取Pid、Key',
 	

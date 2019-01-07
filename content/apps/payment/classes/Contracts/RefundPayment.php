@@ -21,4 +21,12 @@ interface RefundPayment
      */
     public function refund($order_trade_no, $refund_amount, $operator);
 
+
+    /**
+     * 退款流水对账查询
+     * @param string $order_trade_no 交易号
+     */
+    public function refundQuery($order_trade_no);
+
+
 }

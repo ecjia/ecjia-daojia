@@ -80,6 +80,24 @@ abstract class PaymentAbstract extends AbstractPlugin
      * @var string
      */
     protected $orderType = PayConstant::PAY_ORDER;
+
+    /**
+     * 支付结果数据
+     *
+     * @var array
+     */
+    protected $notifyData = [];
+
+    public function setNotifyData($notifyData)
+    {
+        $this->notifyData = $notifyData;
+        return $this;
+    }
+
+    public function getNotifyData()
+    {
+        return $this->notifyData;
+    }
     
     public function setOrderType($orderType)
     {
@@ -288,27 +306,11 @@ abstract class PaymentAbstract extends AbstractPlugin
         
         return $this->getName();
     }
-    
+
     /**
-     * 支付服务器异步回调通知地址
+     * 统一下单方法
      */
-    abstract public function notifyUrl();
-    
-    /**
-     * 支付服务器同步回调响应地址
-     */
-    abstract public function callbackUrl();
-    
-    
-    /**
-     * 支付服务器异步回调通知 POST方式
-     */
-    abstract public function notify();
-    
-    /**
-     * 支付服务器同步回调响应 GET方式
-    */
-    abstract public function response();
+    abstract public function unifiedOrder();
    
 }
 

@@ -251,8 +251,12 @@ trait CompatibleTrait
     
     /**
      * 支付方式的预处理数据
+     * @deprecated 1.25.0
      * @return array
      */
-    abstract public function get_prepare_data();
+    public function get_prepare_data()
+    {
+        return $this->unifiedOrder();
+    }
     
 }

@@ -272,11 +272,12 @@ class PaymentRecordRepository extends AbstractRepository
     /**
      * 更新交易流水为撤单状态
      */
-    public function updateOrderCancel($orderTradeNo)
+    public function updateOrderCancel($orderTradeNo, $requestNo = null)
     {
         $attributes = array(
             'pay_status' => PayConstant::PAYMENT_RECORD_STATUS_CANCEL,
             'refund_time' => RC_Time::gmtime(),
+            'refund_request_no' => $requestNo,
         );
 
         /* 修改此次支付操作的状态为已退款 */

@@ -25,6 +25,13 @@ abstract class PaymentManagerAbstract
     protected $paymentRecord;
 
     /**
+     * 支付结果数据
+     *
+     * @var array
+     */
+    protected $notifyData = [];
+
+    /**
      * @var PaymentRecordRepository
      */
     protected $paymentRecordRepository;
@@ -43,6 +50,17 @@ abstract class PaymentManagerAbstract
         }
     }
 
+    public function setNotifyData($notifyData)
+    {
+        $this->notifyData = $notifyData;
+        return $this;
+    }
+
+    public function getNotifyData()
+    {
+        return $this->notifyData;
+    }
+
     public function initPaymentRecord()
     {
         if (empty($this->paymentRecord)) {
@@ -59,6 +77,10 @@ abstract class PaymentManagerAbstract
         }
 
         $this->pluginHandler->setPaymentRecord($this->paymentRecordRepository);
+
+        if (! empty($this->notifyData)) {
+            $this->pluginHandler->setNotifyData($this->notifyData);
+        }
 
         return $this->doPluginHandler();
     }

@@ -47,109 +47,76 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 订单支付
- * @author royalwang
- * 16-12-09 增加支付状态
+ * 支付通知确认支付
+ * Class payment_notify_pay_module
  */
-class order_pay_module extends api_front implements api_interface {
+class admin_payment_notify_pay_module extends api_admin implements api_interface
+{
+
+    /**
+     * @param string $order_trade_no 内部订单交易流水号
+     * @param array $notify_data 通知数据
+     *
+     * @param \Royalcms\Component\Http\Request $request
+     */
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
-    	$user_id = $_SESSION['user_id'];
-    	
-    	if ($user_id < 1 ) {
-    	    return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-		$order_id	= $this->requestData('order_id', 0);
-		$is_mobile	= $this->requestData('is_mobile', true);
-		$wxpay_open_id = $this->requestData('wxpay_open_id', null);
-		
-		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		
-		/* 订单详情 */
-		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		if (is_ecjia_error($order)) {
-			return $order;
-		}
-		
-		//判断是否是管理员登录
-		if ($_SESSION['store_id'] > 0) {
-			$_SESSION['user_id'] = $order['user_id'];
-		}
-		
-		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
-		}
-		
-		//添加微信支付需要的OPEN_ID
-		if ($wxpay_open_id) {
-		    $order['open_id'] = $wxpay_open_id;
-		}
-		
-		//支付方式信息
-		RC_Logger::getLogger('info')->info('order-pay');
-		RC_Logger::getLogger('info')->info(json_encode($order));
-		
-		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
-		if (is_ecjia_error($handler)) {
-		    return $handler;
-		}
-		
-		/* 插入支付流水记录*/
-		RC_Api::api('payment', 'save_payment_record', [
-    		'order_sn' 		 => $order['order_sn'],
-    		'total_fee'      => $order['order_amount'],
-    		'pay_code'       => $handler->getCode(),
-    		'pay_name'		 => $handler->getName(),
-		    'trade_type'	 => Ecjia\App\Payment\PayConstant::PAY_ORDER,
-		]);
-		
-		$handler->set_orderinfo($order);
-		$handler->set_mobile($is_mobile);
-		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
-		
-		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
-        if (is_ecjia_error($result)) {
-            return $result;
-        } else {
-            $order['payment'] = $result;
+    	if ($_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
         }
 
-        //增加支付状态
-        $order['payment']['order_pay_status'] = $order['pay_status'];//0 未付款，1付款中，2已付款
+        $order_trade_no 	= $this->requestData('order_trade_no');
+        $notify_data 		= $this->requestData('notify_data', array());
         
-        $cod_fee = 0;
-        if (intval($order['shipping_id']) > 0) {
-            $shipping = RC_Api::api('shipping', 'shipping_area_info', array(
-            	'shipping_id' => $order['shipping_id'],
-            	'store_id'     => $order['store_id'],
-            	'country'      => $order['country'],
-            	'province'     => $order['province'],
-            	'city'         => $order['city'],
-            	'district'     => $order['district'],
-            ));
-            
-            if (! is_ecjia_error($shipping)) {
-                if (array_get($shipping, 'shipping.support_cod')) {
-                    $cod_fee = array_get($shipping, 'area.pay_fee');
-                }
-            }
+        //传参判断
+        if (empty($order_trade_no) || empty($notify_data)) {
+        	return new ecjia_error('invalid_parameter', 'admin_payment_notify_pay_module接口参数无效');
         }
         
-        $payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $order['store_id'], 'cod_fee' => $cod_fee));
+        //查找交易记录
+        $paymentRecordRepository = new Ecjia\App\Payment\Repositories\PaymentRecordRepository();
+        $record_model = $paymentRecordRepository->getPaymentRecord($order_trade_no);
+        if (empty($record_model)) {
+        	return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+        }
+        
+        //写业务逻辑
+        $result = (new Ecjia\App\Payment\Pay\PayManager(null, $order_trade_no, null))->setNotifyData($notify_data)->pay();
+		if (is_ecjia_error($result)) {
+			return $result;
+		}
+        
+		/*支付成功*/
+		if ($result['pay_status'] == 'success') {
+			
+			//防止数据有更新
+			$record_model = $paymentRecordRepository->getPaymentRecord($order_trade_no);
 
-        $other = collect($payment_list)->flatMap(function ($item) use ($order) {
-            if ($item['pay_id'] == $order['pay_id']) {
-                return array();
-            }
-            
-            return array($item);
-        })->all();
+			$trade_apps = [
+			    'buy'       => 'orders',
+			    'quickbuy'  => 'quickbuy',
+			    'surplus'   => 'finance',
+            ];
 
-        return array('payment' => $order['payment'], 'others' => $other);
-	}
+			$paidOrderOrocess = RC_Api::api($trade_apps[$record_model->trade_type], 'payment_paid_process', ['record_model' => $record_model]);
+			
+			$orderinfo 	= $paidOrderOrocess->getOrderInfo();
+			if (empty($orderinfo)) {
+				return new ecjia_error('order_dose_not_exist', $record_model->order_sn . '未找到该订单信息');
+			}
+
+			//支付成功返回数据
+			$payment_data = $paidOrderOrocess->getPaymentData();
+			
+			//打印数据
+			$print_data = $paidOrderOrocess->getPrintData();
+			
+			$result = array('payment' => $payment_data, 'print_data' => $print_data);
+		}
+		
+        return $result;
+    }
+
 }
 
 // end

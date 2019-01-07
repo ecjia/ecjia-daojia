@@ -57,6 +57,7 @@ class payment_admin_purview_api extends Component_Event_Api {
             array('action_name' => RC_Lang::get('payment::payment.payment_manage'), 'action_code' => 'payment_manage', 'relevance' => ''),
         	array('action_name' => RC_Lang::get('payment::payment.payment_update'), 'action_code' => 'payment_update', 'relevance' => ''),
         	array('action_name' => RC_Lang::get('payment::payment.transaction_flow_record'), 'action_code' => 'admin_payment_record', 'relevance' => ''),
+        	array('action_name' => '退款流水', 	'action_code' => 'payment_refund_manage', 	'relevance' => ''),
         );
         
         return $purviews;

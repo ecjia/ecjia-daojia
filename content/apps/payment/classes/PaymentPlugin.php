@@ -162,7 +162,7 @@ class PaymentPlugin extends PluginModel
         	
         if (!empty($data)) {
             
-            $pay_list = $data->mapWithKeys(function ($item) use ($available_plugins) {
+            $pay_list = $data->flatMap(function ($item) use ($available_plugins) {
                 if (empty($available_plugins)) {
                     $available_plugins = array_keys($this->getInstalledPlugins());
                 }
@@ -207,7 +207,7 @@ class PaymentPlugin extends PluginModel
          
         if (!empty($data)) {
         
-            $pay_list = $data->mapWithKeys(function ($item) use ($available_plugins, $cod_fee) {
+            $pay_list = $data->flatMap(function ($item) use ($available_plugins, $cod_fee) {
                 if (empty($available_plugins)) {
                     $available_plugins = array_keys($this->getInstalledPlugins());
                 }
@@ -250,7 +250,7 @@ class PaymentPlugin extends PluginModel
     /**
      * 获取某个插件的实例对象
      * @param string|integer $code 类型为string时是pay_code，类型是integer时是pay_id
-     * @return Ambigous <\ecjia_error, \Ecjia\System\Plugin\AbstractPlugin>|\ecjia_error|\Ecjia\System\Plugin\AbstractPlugin
+     * @return \ecjia_error|\Ecjia\System\Plugin\AbstractPlugin>|\ecjia_error|\Ecjia\System\Plugin\AbstractPlugin
      */
     public function channel($code = null)
     {

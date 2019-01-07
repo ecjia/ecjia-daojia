@@ -263,23 +263,34 @@ class PaymentOutput
     
     /**
      * 导出内容为数组格式
+     * @return array
      */
-    public function export() {
+    public function export()
+    {
+        return $this->toArray();
+    }
+
+    /**
+     * 对象转换成数组输出
+     * @return array
+     */
+    public function toArray()
+    {
         return array(
             'order_id'          => $this->orderId,
             'order_sn'          => $this->orderSn,
             'order_amount'      => $this->orderAmount,
             'order_pay_status'  => $this->orderPayStatus,
             'order_trade_no'    => $this->orderTradeNo,
-            
+
             'pay_record_id'     => $this->payRecordId,
             'pay_code'          => $this->payCode,
             'pay_name'          => $this->payName,
-            
+
             'subject'           => $this->subject,
             'notify_url'        => $this->notifyUrl,
             'callback_url'      => $this->callbackUrl,
-            
+
             'private_data'      => $this->privateData,
             'encrypted_data'    => $this->encryptedData,
         );
@@ -287,8 +298,10 @@ class PaymentOutput
     
     /**
      * 魔术方法
+     * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return var_export($this->export(), true);
     }
 }

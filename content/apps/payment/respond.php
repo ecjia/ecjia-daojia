@@ -47,19 +47,27 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- *  支付响应页面
+ *  支付通知回调控制器
  */
-class respond extends ecjia_front {
+class respond extends ecjia_front
+{
 
-	public function __construct() {
+	public function __construct()
+    {
 		parent::__construct();
 	}
 	
-	public function init() {
-	    
+	public function init()
+    {
+	    //Not nothing...
 	}
-	
-	public function response() {
+
+    /**
+     * 支付同步回调响应
+     * @return mixed|\Royalcms\Component\Foundation\Royalcms
+     */
+	public function response()
+    {
 		/* 支付方式代码 */
 		$pay_code = !empty($_GET['code']) ? trim($_GET['code']) : '';
 		unset($_GET['code']);
@@ -127,8 +135,11 @@ class respond extends ecjia_front {
 		return $this->displayContent($respondContent);
 	}
 
-	
-	public function notify() {
+    /**
+     * 支付异步回调响应
+     */
+	public function notify()
+    {
 	    RC_Logger::getLogger('pay')->debug('POST: ' . json_encode($_POST));
 	      
 	    /* 支付方式代码 */
@@ -170,8 +181,32 @@ class respond extends ecjia_front {
 	        }
 	    }
 	}
+
+    /**
+     * 退款异步回调响应
+     */
+	public function refund()
+    {
+        RC_Logger::getLogger('refund')->debug('POST: ' . json_encode($_POST));
+
+        $pay_code = trim($this->request->query('code'));
+        /* 参数是否为空 */
+        if (empty($pay_code)) {
+            return '';
+        }
+
+        $result = (new \Ecjia\App\Payment\Callback\RefundCallback($pay_code))->callback();
+
+        if (is_ecjia_error($result)) {
+            RC_Logger::getLogger('refund')->debug(sprintf("refund fail: %s %s", $pay_code, $result->get_error_message()));
+            return '';
+        }
+
+        return $result;
+    }
 	
-	public function _default_response_template($respondContent, $msg, $info) {
+	public function _default_response_template($respondContent, $msg, $info)
+    {
 	    $this->assign('msg', $msg);
 	    $this->assign('info', $info);
 	    
