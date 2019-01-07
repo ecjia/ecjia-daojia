@@ -114,6 +114,7 @@
 							}
 							//成功界面
 							$('#insertGoods').modal('hide');
+							$(".modal-backdrop").remove();
 							ecjia.pjax(data.url);
 						},
 						error: function(data) {
