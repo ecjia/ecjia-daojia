@@ -72,14 +72,15 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
      *
      * @param $username
      * @param null $password
-     * @param $email
+     * @param string $email
+     * @param string $mobile
      * @param int $gender
      * @param int $bday
      * @param int $reg_date
      * @param string $md5password
      * @return bool
      */
-    public function addUser($username, $password, $email, $gender = -1, $bday = 0, $reg_date = 0, $md5password = null)
+    public function addUser($username, $password, $email, $mobile = null, $gender = -1, $bday = null, $reg_date = 0, $md5password = null)
     {
         /* 将用户添加到整合方 */
         if ($this->checkUser($username) > 0) {
@@ -93,6 +94,12 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
             return false;
         }
 
+        /* 检查mobile是否重复 */
+        if (! is_null($mobile) && $this->checkMobile($mobile)) {
+            $this->error = self::ERR_MOBILE_EXISTS;
+            return false;
+        }
+
         $post_username = $username;
 
         if ($md5password) {
@@ -103,6 +110,11 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
 
         $fields = array($this->user_table->getFieldName(), $this->user_table->getFieldEmail(), $this->user_table->getFieldPass());
         $values = array($post_username, $email, $post_password);
+
+        if ($mobile) {
+            $fields[] = $this->user_table->getFieldMobile();
+            $values[] = $mobile;
+        }
 
         if ($gender > -1) {
             $fields[] = $this->user_table->getFieldGender();
@@ -271,7 +283,6 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
      *  检查指定邮箱是否存在
      *
      * @param   string  $email   用户邮箱
-     *
      * @return  boolean
      */
     public function checkEmail($email, $exclude_username = null)
@@ -291,6 +302,34 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
 
         if ($field_id > 0) {
             $this->error = self::ERR_EMAIL_EXISTS;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *  检查指定手机号是否存在
+     *
+     * @param   string  $mobile   手机号
+     * @return  boolean
+     */
+    public function checkMobile($mobile, $exclude_username = null)
+    {
+        if ($exclude_username) {
+            /* 检查email是否重复，并排除指定的用户名 */
+            $field_id = RC_DB::table($this->user_table->getUserTable())
+                ->where($this->user_table->getFieldMobile(), $mobile)
+                ->where($this->user_table->getFieldName(), '<>', $exclude_username)
+                ->pluck($this->user_table->getFieldId());
+        } else {
+            /* 检查email是否重复 */
+            $field_id = RC_DB::table($this->user_table->getUserTable())
+                ->where($this->user_table->getFieldMobile(), $mobile)
+                ->pluck($this->user_table->getFieldId());
+        }
+
+        if ($field_id > 0) {
+            $this->error = self::ERR_MOBILE_EXISTS;
             return true;
         }
         return false;

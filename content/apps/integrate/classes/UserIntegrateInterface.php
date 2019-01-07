@@ -51,14 +51,33 @@ interface UserIntegrateInterface
     
     
     public function compilePassword($cfg);
-    
-    
-    
+
+
+    /**
+     *  检查指定用户是否存在及密码是否正确
+     *
+     * @param   string  $username   用户名
+     * @return  int
+     */
     public function checkUser($username, $password = null);
-    
-    
-    
-    public function checkEmail($email);
+
+
+    /**
+     * 检测Email是否合法
+     *
+     * @param   string  $email   邮箱
+     * @return  boolean
+     */
+    public function checkEmail($email, $exclude_username = null);
+
+
+    /**
+     * 检测手机号是否合法
+     *
+     * @param   string  $mobile  手机号
+     * @return  boolean
+     */
+    public function checkMobile($mobile, $exclude_username = null);
     
     
     /**
@@ -89,14 +108,15 @@ interface UserIntegrateInterface
      *
      * @param $username
      * @param null $password
-     * @param $email
+     * @param string $email
+     * @param string $mobile
      * @param int $gender
      * @param int $bday
      * @param int $reg_date
      * @param string $md5password
      * @return bool
      */
-    public function addUser($username, $password, $email, $gender = -1, $bday = 0, $reg_date = 0, $md5password = null);
+    public function addUser($username, $password, $email, $mobile = null, $gender = -1, $bday = null, $reg_date = 0, $md5password = null);
 
     /**
      * 编辑用户信息

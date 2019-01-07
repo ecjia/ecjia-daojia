@@ -202,30 +202,13 @@ return array(
 	/* UCenter设置语言项 */
 	'ucenter_tab_base' 	=> '基本设置',
 	'ucenter_tab_show' 	=> '显示设置',
-	'ucenter_lab_id' 	=> 'UCenter 应用 ID:',
-	'ucenter_lab_key' 	=> 'UCenter 通信密钥:',
-	'ucenter_lab_url' 	=> 'UCenter 访问地址:',
-	'ucenter_lab_ip' 	=> 'UCenter IP 地址:',
-	
-	'ucenter_lab_connect' => 'UCenter 连接方式:',
-	'ucenter_lab_db_host' => 'UCenter 数据库服务器:',
-	'ucenter_lab_db_user' => 'UCenter 数据库用户名:',
-	'ucenter_lab_db_pass' => 'UCenter 数据库密码:',
-	'ucenter_lab_db_name' => 'UCenter 数据库名:',
-	'ucenter_lab_db_pre'  => 'UCenter 表前缀:',
-	
+
 	'ucenter_lab_tag_number' => 'TAG 标签显示数量:',
 	'ucenter_lab_credit_0' 	 => '成长值名称:',
 	'ucenter_lab_credit_1'   => '消费积分名称:',
 	'ucenter_opt_database'   => '数据库方式',
 	'ucenter_opt_interface'  => '接口方式',
 		
-	'ucenter_notice_id' 	 => '该值为当前商店在 UCenter 的应用 ID，一般情况请不要改动',
-	'ucenter_notice_key' 	 => '通信密钥用于在 UCenter 和 ECJia 之间传输信息的加密，可包含任何字母及数字，请设置完全相同的通讯密钥，确保两套系统能够正常通信',
-	'ucenter_notice_url' 	 => '该值在您安装完 UCenter 后会被初始化，在您 UCenter 地址或者目录改变的情况下，修改此项，一般情况请不要改动 例如: http://www.sitename.com/uc_server (最后不要加"/")',
-	'ucenter_notice_ip' 	 => '如果您的服务器无法通过域名访问 UCenter，可以输入 UCenter 服务器的 IP 地址',
-	'ucenter_notice_connect' => '请根据您的服务器网络环境选择适当的连接方式',
-	'ucenter_notice_db_host' => '可以是本地也可以是远程数据库服务器，如果 MySQL 端口不是默认的 3306，请填写如下形式：127.0.0.1:6033',
 	'uc_notice_ip' 			 => '连接的过程中出了点问题，请您填写服务器 IP 地址，如果您的 UC 与 ECJia 装在同一服务器上，我们建议您尝试填写 127.0.0.1',
 		
 	'uc_lab_url' 	=> 'UCenter 的 URL:',
@@ -246,9 +229,7 @@ return array(
 	'import_user_success' 	=> '成功将会员数据导入到 UCenter',
 	'uc_points' 			=> 'UCenter的积分兑换设置需要在UCenter管理后台进行',
 	'uc_set_credits' 		=> '设置积分兑换方案',
-	'uc_client_not_exists' 	=> 'uc_client目录不存在，请先把uc_client目录上传到商城根目录下再进行整合',
-	'uc_client_not_write' 	=> 'uc_client/data目录不可写，请先把uc_client/data目录权限设置为777',
-	
+
 	'uc_lang' => array(
 		'credits' => array(
 			'0' => array(
@@ -271,8 +252,8 @@ return array(
 	'integrate_desc' 		=> '描述',
 	'set_up' 				=> '设置',
 	'enable' 				=> '启用',
-	'UCenter_api'			=> 'UCenter仅限使用接口连接方式。',
-	'UCenter_integration'	=> '目前仅支持UCenter会员整合',
+    'UCenter_api'			=> 'UCenter仅限使用接口连接方式。',
+    'UCenter_integration'	=> '目前仅支持UCenter会员整合',
 	'yes'					=> '是',
 	'no'					=> '否',
 	'save' 					=> '保存',

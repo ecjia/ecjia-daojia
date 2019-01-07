@@ -58,7 +58,7 @@ class UserField
 
     /**
      * 整合对象数据连接
-     * @var string
+     * @var \Royalcms\Component\Database\Connection
      */
     protected $connection = null;
     
@@ -85,7 +85,13 @@ class UserField
      * @var string
      */
     protected $field_email;
-    
+
+    /**
+     * 会员手机号的字段名
+     * @var string
+     */
+    protected $field_mobile;
+
     /**
      * 会员性别
      * @var integer
@@ -215,6 +221,25 @@ class UserField
     public function getFieldEmail()
     {
         return $this->field_email;
+    }
+
+    /**
+     * @param $field_mobile
+     * @return $this
+     */
+    public function setFieldMobile($field_mobile)
+    {
+        $this->field_mobile = $field_mobile;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldMobile()
+    {
+        return $this->field_mobile;
     }
 
     /**

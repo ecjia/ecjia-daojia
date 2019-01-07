@@ -91,7 +91,7 @@ class IntegrateEcjia extends UserIntegrateDatabaseAbstract
     {
         $lang = array(
             'ecjia'            => 'ECJia',
-            'ecjia_desc'       => 'ECJia默认会员系统',
+            'ecjia_desc'       => 'ECJia系统内置的默认会员系统',
         );
 
         return $this->getArrayData($lang, $key, $default);

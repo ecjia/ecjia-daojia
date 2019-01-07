@@ -63,7 +63,9 @@ class EcjiaUserTable extends UserField
         $this->field_pass 		= 'password';
         
         $this->field_email 		= 'email';
-        
+
+        $this->field_mobile     = 'mobile_phone';
+
         $this->field_gender 	= 'sex';
         
         $this->field_birthday	= 'birthday';

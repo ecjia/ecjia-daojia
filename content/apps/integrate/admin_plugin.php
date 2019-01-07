@@ -147,9 +147,16 @@ class admin_plugin extends ecjia_admin
             $this->assign('cfg', $cfg);
         }
 
+        $plugin_handler = ecjia_integrate::plugin()->channel($code);
+	    if ( ! is_ecjia_error($plugin_handler)) {
+	        $plugin_lang = $plugin_handler->loadLanguage();
+        } else {
+            $plugin_lang = [];
+        }
+
 	    $this->assign('code',         $code);
 	    $this->assign('form_action',  RC_Uri::url('integrate/admin_plugin/save_config'));
-
+        $this->assign('plugin_lang', $plugin_lang);
 	    $this->display('integrates_setup.dwt');
 	}
 	

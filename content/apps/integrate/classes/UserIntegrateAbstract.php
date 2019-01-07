@@ -101,16 +101,28 @@ abstract class UserIntegrateAbstract extends AbstractPlugin implements UserInteg
      */
     const ERR_EMAIL_NOT_ALLOW       = 8;
 
+    /**
+     * 手机号已经存在
+     */
+    const ERR_MOBILE_EXISTS         = 11;
+
+    /**
+     * 手机号错误
+     */
+    const ERR_INVALID_MOBILE        = 12;
+
 
     protected $error_message = [
         self::ERR_USERNAME_EXISTS         => '用户名已经存在',
-        self::ERR_EMAIL_EXISTS            => 'Email已经存在',
-        self::ERR_INVALID_USERID          => '无效的user_id',
+        self::ERR_EMAIL_EXISTS            => '邮箱已经存在',
+        self::ERR_INVALID_USERID          => '无效的用户ID',
         self::ERR_INVALID_USERNAME        => '无效的用户名',
         self::ERR_INVALID_PASSWORD        => '密码错误',
-        self::ERR_INVALID_EMAIL           => 'Email错误',
+        self::ERR_INVALID_EMAIL           => '邮箱地址错误',
         self::ERR_USERNAME_NOT_ALLOW      => '用户名不允许注册',
-        self::ERR_EMAIL_NOT_ALLOW         => 'Email不允许注册',
+        self::ERR_EMAIL_NOT_ALLOW         => '邮箱不允许注册',
+        self::ERR_MOBILE_EXISTS           => '手机号已经存在',
+        self::ERR_INVALID_MOBILE          => '手机号错误',
     ];
 
 

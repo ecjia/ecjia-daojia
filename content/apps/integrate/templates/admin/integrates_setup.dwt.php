@@ -8,9 +8,9 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
-<!--{if $code eq 'ucenter'}-->
+<!--{if $code eq 'ucenter' || $code eq 'ecjiauc'}-->
 <div class="form-div">
-	<div class="alert alert-info" >{lang key='integrate::integrate.UCenter_api'}</div>
+    <div class="alert alert-info" >{$plugin_lang.ucenter_api_readme}</div>
 </div>
 <!--{else}-->
 <div class="form-div">
@@ -28,43 +28,41 @@
 
 <div class="row-fluid edit-page">
 	<div class="span12">
-		<!--{if $code eq 'ucenter'}-->
+		<!--{if $code eq 'ecjiauc' || $code eq 'ucenter'}-->
 		<div>
 			<form class="form-horizontal" id="form-privilege" name="Form1" action="{$form_action}" method="post">
 				<fieldset>
 					<div class="control-group">
-						<label class="control-label">{lang key='integrate::integrate.ucenter_lab_id'}</label>
+						<label class="control-label">{$plugin_lang.ucenter_lable_id}</label>
 						<div class="controls">
 							<input class="w350" type="text" name="cfg[uc_id]" value="{$cfg.uc_id}" /><i class="input-must">{lang key='system::system.require_field'}</i>
-							<span class="help-block" id="noticeGoodsSN">{lang key='integrate::integrate.ucenter_notice_id'}</span>
+							<span class="help-block" id="noticeGoodsSN">{$plugin_lang.ucenter_notice_id}</span>
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label">{lang key='integrate::integrate.ucenter_lab_key'}</label>
+						<label class="control-label">{$plugin_lang.ucenter_lable_key}</label>
 						<div class="controls users">
 							<input class="w350" type="text" name="cfg[uc_key]" value="{$cfg.uc_key}" /><i class="input-must">{lang key='system::system.require_field'}</i>
-							<span class="w400 help-block" id="noticeGoodsSN">{lang key='integrate::integrate.ucenter_notice_key'}</span>
+							<span class="w400 help-block" id="noticeGoodsSN">{$plugin_lang.ucenter_notice_key}</span>
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label">{lang key='integrate::integrate.ucenter_lab_url'}</label>
+						<label class="control-label">{$plugin_lang.ucenter_lable_url}</label>
 						<div class="controls users">
 							<input class="w350" type="text" name="cfg[uc_url]" value="{$cfg.uc_url}" /><i class="input-must">{lang key='system::system.require_field'}</i>
-							<span class="w400 help-block" id="noticeGoodsSN">{lang key='integrate::integrate.ucenter_notice_url'}</span>
+							<span class="w400 help-block" id="noticeGoodsSN">{$plugin_lang.ucenter_notice_url}</span>
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label">{lang key='integrate::integrate.ucenter_lab_ip'}</label>
+						<label class="control-label">{$plugin_lang.ucenter_lable_ip}</label>
 						<div class="controls users">
 							<input class="w350" type="text" name="cfg[uc_ip]" value="{$cfg.uc_ip}" />
-							<span class="help-block" id="noticeGoodsSN">{lang key='integrate::integrate.ucenter_notice_ip'}</span>
+							<span class="help-block" id="noticeGoodsSN">{$plugin_lang.ucenter_notice_ip}</span>
 						</div>
 					</div>
 
 					<div class="control-group">
 						<div class="controls">
-							<input type="hidden" name="cfg[uc_connect]" value="post" />
-							<input type="hidden" name="cfg[uc_lang][exchange]" value="{$cfg.uc_lang.exchange}" />
 							<input type="hidden" name="code" value="{$code}" />
 							<input class="btn btn-gebo m_r10" type="submit" value="{lang key='integrate::integrate.save'}" />
 							<input class="btn" type="reset" value="{lang key='system::system.button_reset'}" />

@@ -53,6 +53,8 @@
 
 namespace Ecjia\App\Integrate;
 
+use RC_Hook;
+
 /**
  * Class UserIntegrate
  * @package Ecjia\App\Integrate
@@ -68,6 +70,21 @@ class UserIntegrate
     public function __construct()
     {
         self::init_users();
+    }
+
+    /**
+     * 返回字符集列表数组
+     *
+     * @return array
+     */
+    public static function charset_list()
+    {
+        $charset_list = array(
+            'UTF8'   => 'UTF-8',
+            'GB2312' => 'GB2312/GBK',
+            'BIG5'   => 'BIG5',
+        );
+        return RC_Hook::apply_filters('user_integrate_charset_list', $charset_list);
     }
 
     /**
