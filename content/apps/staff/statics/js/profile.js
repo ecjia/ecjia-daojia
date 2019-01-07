@@ -83,6 +83,7 @@
 							success : function(data) {
 								if (data.state == 'success') {
 									$('#mobilemodal').modal('hide');
+									$(".modal-backdrop").remove();
 									ecjia.merchant.showmessage(data);
 								} else {
 									var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
@@ -150,6 +151,7 @@
 							success : function(data) {
 								if (data.state == 'success') {
 									$('#emailmodal').modal('hide');
+									$(".modal-backdrop").remove();
 									ecjia.merchant.showmessage(data);
 								} else {
 									var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');

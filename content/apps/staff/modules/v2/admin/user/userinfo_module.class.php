@@ -98,8 +98,9 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
                 'avator_img'    => $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
                 'action_list'   => $result['action_list'],
                 'store_id'      => intval($result['store_id']),
-            	'open_id'       => $connect_user_info['open_id'],
-            	'access_token'  => $connect_user_info['access_token'],
+            	'open_id'       => !empty($connect_user_info['open_id']) ? $connect_user_info['open_id'] : '',
+            	'access_token'  => !empty($connect_user_info['access_token']) ? $connect_user_info['access_token'] : '',
+            	'refresh_token'  => !empty($connect_user_info['refresh_token']) ? $connect_user_info['refresh_token'] : '',
             	'user_type'		=> 'merchant'
             );
         } else {

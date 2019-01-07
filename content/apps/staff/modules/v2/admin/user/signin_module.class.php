@@ -292,18 +292,20 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
             if (empty($connect_user_app)) {
             	$connect_data = array(
             			'connect_code'    => 'app',
-            			'user_id'         => $_SESSION['admin_id'],
+            			'user_id'         => $_SESSION['staff_id'],
             			'is_admin'        => '1',
             			'user_type'		  => $user_type,
             			'open_id'         => $open_id,
             			'access_token'    => $access_token,
+            			'refresh_token'	  => md5($_SESSION['staff_id'].'merchant_refresh_token'),
             			'create_at'       => RC_Time::gmtime()
             	);
             	RC_DB::table('connect_user')->insert($connect_data);
             } else {
             	$connect_data = array(
             			'open_id'         => $open_id,
-            			'access_token'    => $access_token
+            			'access_token'    => $access_token,
+            			'refresh_token'	  => md5($_SESSION['staff_id'].'merchant_refresh_token'),
             	);
             	RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['staff_id'])->where('user_type', $user_type)->update($connect_data);
             }
