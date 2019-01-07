@@ -150,6 +150,9 @@ class G06Hidden extends ComponentAbstract
             //v1.24.0新增
             ['code' => 'withdraw_fee', 'value' => '0', 'options' => ['type' => 'text']],
             ['code' => 'withdraw_min_amount', 'value' => '100', 'options' => ['type' => 'text']],
+            //v1.25.0新增
+            ['code' => 'orders_auto_cancel_time', 'value' => '', 'options' => ['type' => 'text']],
+            ['code' => 'withdraw_support_banks', 'value' => '', 'options' => ['type' => 'text']],
         ];
 
         return $data;

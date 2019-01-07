@@ -53,18 +53,22 @@ class shop_config_module extends api_front implements api_interface
     {
     	$mobile_recommend_city = explode(',', ecjia::config('mobile_recommend_city'));
         $api_version = $this->request->header('api-version');
-    	
+
     	$regions = array ();
-        $region_data = ecjia_region::getRegions($mobile_recommend_city);
-    	if (!empty($region_data)) {
-    		foreach ( $region_data as $val ) {
-    			$regions[] = array(
-    					'id'	=> $val['region_id'],
-    					'name'	=> $val['region_name']
-    			);
-    		}	
+    	if (version_compare($api_version, '1.25', '>=')) {
+    		$regions = RC_DB::table('store_business_city')->select('business_city as id', 'business_city_alias as name')->get();
+    	} else {
+    		$region_data = ecjia_region::getRegions($mobile_recommend_city);
+    		if (!empty($region_data)) {
+    			foreach ( $region_data as $val ) {
+    				$regions[] = array(
+    						'id'	=> $val['region_id'],
+    						'name'	=> $val['region_name']
+    				);
+    			}
+    		}
     	}
-    	
+       
     	//用于判断同步登录的链接域名同域
     	$host = $_SERVER['HTTP_HOST'];
     	$domain = substr($host, (strpos($host, '.') + 1));
@@ -188,6 +192,10 @@ class shop_config_module extends api_front implements api_interface
         ]);
         
         $data['shop_banner'] = empty($cycleimageDatas['0']['image']) ? '' : $cycleimageDatas['0']['image'];
+        //提现手续费百分比
+        $data['withdraw_fee_percent'] = ecjia::config('withdraw_fee'); 
+        $data['min_withdraw_amount'] = ecjia::config('withdraw_min_amount');
+        $data['formatted_min_withdraw_amount'] = price_format(ecjia::config('withdraw_min_amount'), false);
         
         return $data;
     }
