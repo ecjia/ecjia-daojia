@@ -101,7 +101,7 @@ class home_data_module extends api_front implements api_interface {
             $used_components_code = ecjia::config('home_visual_page');
             if ($used_components_code) {
             	$used_components_code = unserialize($used_components_code);
-            	$response = collect($used_components_code)->mapWithKeys(function($item) use ($factory) {
+            	$response = collect($used_components_code)->flatMap(function($item) use ($factory) {
             		try {
             			return [$factory->component($item)->handleData()];
             		} catch (InvalidArgumentException $e) {

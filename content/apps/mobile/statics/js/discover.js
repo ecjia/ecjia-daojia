@@ -60,6 +60,7 @@
                 $.get(url, code, function (data) {
                     if (data.state == "success") {
                         $('#preview').modal('hide');
+                        $(".modal-backdrop").remove();
                         if ($this.parent().hasClass('right')) {
                             $('.thumbnail').removeClass('choose');
                             $('.thumbnail .choose-cycleimage').removeClass('hide');
