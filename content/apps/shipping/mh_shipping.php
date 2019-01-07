@@ -460,13 +460,18 @@ class mh_shipping extends ecjia_merchant
         			if (empty($end_pickup_time)) {
         				return $this->showmessage('取货结束时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
-        			$time[$k]['start']	= $v;
-        			$time[$k]['end']	= $_POST['end_pickup_time'][$k];
+        			//$time[$k]['start']	= $v;
+        			//$time[$k]['end']	= $_POST['end_pickup_time'][$k];
+					$start_key = explode(':', $v);
+					$start_key = $start_key['0'];
+        			$time[$start_key]  		= array('start' => $v, 'end' => $_POST['end_pickup_time'][$k]);
         		}
         		$config[$count]['name']     = 'pickup_days';
         		$config[$count]['value']    = empty($_POST['pickup_days']) ? 7 : intval($_POST['pickup_days']);
         		$count++;
         		$config[$count]['name']     = 'pickup_time';
+        		ksort($time);
+        		$time = array_values($time);
         		$config[$count]['value']    = empty($time) ? '' : $time;
         	}
         	$config = serialize($config);

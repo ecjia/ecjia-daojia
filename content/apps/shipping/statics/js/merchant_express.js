@@ -428,7 +428,8 @@
                         	if (data.state == 'error') {
                         		app.express.showmessage(data);
                         	} else {
-                        		$('#addShipping').modal('hide');
+								$('#addShipping').modal('hide');
+								$(".modal-backdrop").remove();
                                 ecjia.merchant.showmessage(data);
                         	}
                         	return false;

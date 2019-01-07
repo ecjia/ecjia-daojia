@@ -298,7 +298,7 @@ class ShippingPlugin extends PluginModel
      * @param   string      $shipping_code  配送方式的code
      * @param   float       $goods_amount   保价金额
      * @param   mix         $insure         保价比例
-     * @return  float
+     * @return  float | ecjia_error
      */
     public function insureFee($shippingCode, $goodsAmount, $insure)
     {
@@ -307,7 +307,9 @@ class ShippingPlugin extends PluginModel
             return floatval($insure);
         } else {
             $handler = $this->channel($shippingCode);
-            if (is_ecjia_error($handler)) return $handler;
+            if (is_ecjia_error($handler)) {
+                return $handler;
+            }
             
             $insure = floatval($insure) / 100;
             return $handler->calculateInsure($goodsAmount, $insure);

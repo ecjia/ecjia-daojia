@@ -143,25 +143,29 @@
 	</div>
 	<div class="form-group" id="ship_time">
 		<label class="control-label col-lg-4">取货时间：</label>
-		<div class="controls col-lg-6">
-		<!-- {foreach from=$cac_pickup_time item=pickup_time name=pickup} -->
-			<div class='time-picker'>
-				从&nbsp;&nbsp;<input class="w100 form-control tp_1" name="start_pickup_time[]" type="text" value="{$pickup_time.start}" autocomplete="off" />&nbsp;&nbsp;
-				至&nbsp;&nbsp; <input class="w100 form-control tp_1" name="end_pickup_time[]" type="text" value="{$pickup_time.end}" autocomplete="off" />&nbsp;&nbsp;
-				<!-- {if $smarty.foreach.pickup.last} -->
-					<a class="no-underline" data-toggle="clone-obj" data-before="before" data-parent=".time-picker" href="javascript:;"><i class="fontello-icon-plus fa fa-plus"></i></a>
+		<div class="col-lg-6">
+			<!-- {foreach from=$cac_pickup_time key=key item=pickup_time} -->
+		 		<!-- {if $key eq 0} -->
+					<div class="time-picker">
+						从&nbsp;&nbsp;<input type="text" name="start_pickup_time[]" value="{$pickup_time.start}" class="w100 form-control"/>&nbsp;&nbsp;
+						至&nbsp;&nbsp;<input type="text" name="end_pickup_time[]"  value="{$pickup_time.end}"  class="w100 form-control" />&nbsp;&nbsp;
+						<a class="no-underline" data-toggle="clone-obj" data-parent=".time-picker" href="javascript:;"><i class="fa fa-plus"></i></a>
+					</div>
 				<!-- {else} -->
-					<a class="no-underline" href="javascript:;" data-parent=".time-picker" data-toggle="remove-obj"><i class="fontello-icon-cancel ecjiafc-red fa fa-times "></i></a>
+				<div class="time-picker">
+					从&nbsp;&nbsp;<input type="text" name="start_pickup_time[]" value="{$pickup_time.start}" class="w100 form-control"/>&nbsp;&nbsp;
+					至&nbsp;&nbsp;<input type="text" name="end_pickup_time[]"  value="{$pickup_time.end}"  class="w100 form-control" />&nbsp;&nbsp;
+					<a class="no-underline" data-toggle="remove-obj" data-parent=".time-picker" href="javascript:;"><i class="fa fa-times"></i></a>
+				</div>
 				<!-- {/if} -->
-			</div> 
-		<!-- {foreachelse} --> 
-			<div class='time-picker'>
-				<input class="w100 form-control tp_1" name="start_pickup_time[]" type="text" value="{$time_field.start}"/>&nbsp;&nbsp;
-				至&nbsp;&nbsp; <input class="w100 form-control tp_1" name="end_pickup_time[]" type="text" value="{$time_field.end}" />&nbsp;&nbsp;
-				<a class="no-underline" data-toggle="clone-obj" data-before="before" data-parent=".time-picker" href="javascript:;"><i class="fontello-icon-plus fa fa-plus"></i></a>
-			</div> 
-		<!-- {/foreach} --> 
-			<span class="col-lg-6 help-block">可设置多个取货时间段</span>
-		</div>
+			<!-- {foreachelse} --> 
+				<div class="time-picker">
+					从&nbsp;&nbsp;<input type="text" name="start_pickup_time[]" value="{$pickup_time.start}" class="w100 form-control"/>&nbsp;&nbsp;
+					至&nbsp;&nbsp;<input type="text" name="end_pickup_time[]"  value="{$pickup_time.end}"  class="w100 form-control" />&nbsp;&nbsp;
+					<a class="no-underline" data-toggle="clone-obj" data-parent=".time-picker" href="javascript:;"><i class="fa fa-plus"></i></a>
+				</div>
+			<!-- {/foreach} -->
+            <div class="help-block">可设置多个取货时间段</div>
+	</div>
   </div>
 {/if}
