@@ -111,11 +111,11 @@ class Store implements SessionInterface, StoreInterface
      */
     public function save()
     {
+        $this->session->save();
+
         //把 $this->attributes = $_SESSION 数据同步
         $mergeData = array_merge($_SESSION, $this->session->all());
         $this->replace($mergeData);
-
-        $this->session->save();
 
         session_write_close();
     }
