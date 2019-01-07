@@ -155,7 +155,7 @@
 				<h2>支付方式<span class="color_838383 m_l10">可开启支付方式，启用之后，点击支付方式可设置支付方式信息，配送方式可设置多个。此项非必填项，您可选择暂时跳过此步骤。</span></h2>
 				<ul class="step-ul">
 					<!-- {foreach from=$payment_list item=val} -->
-					<a target="__blank" href="{RC_Uri::url('payment/admin/edit')}&code={$val.pay_code}">
+					<a target="__blank" href="{RC_Uri::url('payment/admin_plugin/edit')}&code={$val.pay_code}">
 						<li class="step-li color_fff">
 							{$val.pay_name}
 							{if $val.enabled eq 1}<image class="check" src="{$app_url}/check.png" />{/if}
