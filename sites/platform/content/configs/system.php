@@ -48,9 +48,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
     //后台启用
-    'admin_enable'                  => false, 
+    'admin_enable'                  => false,
+
+    //模板选择
     'tpl_usedfront'					=> false,
-    'tpl_style'	                    => 'ecjia-platform',
+    'tpl_style'                     => 'default',
+
 );
 
 // end
