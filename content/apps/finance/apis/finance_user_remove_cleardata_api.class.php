@@ -44,34 +44,33 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
- * 后台菜单API
- * @author songqianqian
+ * 移除会员信息接口
  *
+ * @author royalwang
  */
-class finance_admin_menu_api extends Component_Event_Api
+class finance_user_remove_cleardata_api extends Component_Event_Api
 {
 
-    public function call(&$options)
+    public function call(& $options)
     {
-        $menus    = ecjia_admin::make_admin_menu('05_finance', '财务管理', '', 6);
-        $submenus = array(
-            ecjia_admin::make_admin_menu('01_account_manage', '资金管理', RC_Uri::url('finance/admin_account_manage/init'), 1)->add_purview('account_manage'),
-            ecjia_admin::make_admin_menu('02_points_manage', '积分管理', RC_Uri::url('finance/admin_account_manage/init', array('type' => 'points')), 2)->add_purview('account_manage'),
-            ecjia_admin::make_admin_menu('03_invoice', '发票列表', RC_Uri::url('finance/admin_invoice/init'), 3)->add_purview('invoice_manage'),
 
-            ecjia_admin::make_admin_menu('31_account', '充值订单', RC_Uri::url('finance/admin_account/init'), 31)->add_purview('surplus_manage'),
-        );
-        $menus->add_submenu($submenus);
+        $user_id = array_get($options, 'user_id');
 
-        $menus = RC_Hook::apply_filters('finance_admin_menu_api', $menus);
-        if ($menus->has_submenus()) {
-            return $menus;
+        if (empty($user_id)) {
+            return new ecjia_error('invalid_parameter', '请求接口finance_user_remove_cleardata_api参数无效');
         }
-        return false;
+
+        return [
+            new \Ecjia\App\Finance\UserCleanHandlers\UserMoneyClear($user_id),
+            new \Ecjia\App\Finance\UserCleanHandlers\UserTradingRecordClear($user_id),
+            new \Ecjia\App\Finance\UserCleanHandlers\UserFinanceInvoiceClear($user_id),
+            new \Ecjia\App\Finance\UserCleanHandlers\UserAccountLogClear($user_id),
+        ];
     }
+
 }
 
 // end

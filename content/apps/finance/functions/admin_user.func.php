@@ -369,9 +369,11 @@ function get_account_log_list($user_id, $account_type = '', $date = []) {
 	$db_account_log = RC_DB::table('account_log');
 	
 	if (in_array($account_type, array('user_money', 'frozen_money', 'rank_points', 'pay_points'))) {
-		$db_account_log->where(function($query) use ($account_type) {
-			$query->where($account_type, '>', 0)->orWhere($account_type, '<', 0);
-		});
+	    if ($account_type == 'user_money') {
+            $db_account_log->where('user_money', '!=', 0)->orWhere('frozen_money', '!=', 0);
+        } else {
+            $db_account_log->where($account_type, '!=', 0);
+        }
 	}
 
 	if (!empty($date)) {

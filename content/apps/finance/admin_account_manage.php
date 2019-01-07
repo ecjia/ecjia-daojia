@@ -92,19 +92,19 @@ class admin_account_manage extends ecjia_admin
     {
         $this->admin_priv('account_manage');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account_manage.user_account_manage')));
-        ecjia_screen::get_current_screen()->add_help_tab(array(
-            'id'      => 'overview',
-            'title'   => RC_Lang::get('user::users.overview'),
-            'content' => '<p>' . RC_Lang::get('user::users.user_account_manage_help') . '</p>',
-        ));
+        $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
 
-        ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:资金管理" target="_blank">' . RC_Lang::get('user::users.about_user_account_manage') . '</a>') . '</p>'
-        );
+        $ur_here = '资金管理';
+        $form_action = RC_Uri::url('finance/admin_account_manage/init');
 
-        $this->assign('ur_here', RC_Lang::get('user::user_account_manage.user_account_manage'));
+        if ($type == 'points') {
+            $ur_here = '积分管理';
+            $form_action = RC_Uri::url('finance/admin_account_manage/init', array('type' => 'points'));
+        }
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
+
+        $this->assign('ur_here', $ur_here);
+        $this->assign('type', $type);
 
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
         $year_list    = [];
@@ -144,7 +144,7 @@ class admin_account_manage extends ecjia_admin
         );
         $this->assign('right_data', json_encode($right_data));
 
-        $this->assign('form_action', RC_Uri::url('finance/admin_account_manage/init'));
+        $this->assign('form_action', $form_action);
 
         $log_list = $this->get_account_log();
         $this->assign('log_list', $log_list);
@@ -298,6 +298,13 @@ class admin_account_manage extends ecjia_admin
         $db_account_log = RC_DB::table('account_log as a')
             ->where(RC_DB::raw('a.change_time'), '>=', $start_date)
             ->where(RC_DB::raw('a.change_time'), '<', $end_date);
+
+        $type = trim($_GET['type']);
+        if ($type == 'points') {
+            $db_account_log->where(RC_DB::raw('a.rank_points'), '!=', 0);
+        } else {
+            $db_account_log->where(RC_DB::raw('a.user_money'), '!=', 0)->orWhere(RC_DB::raw('a.frozen_money'), '!=', 0);
+        }
 
         $count = $db_account_log->count();
 

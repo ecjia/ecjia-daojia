@@ -64,6 +64,7 @@
 
 					{if $account_type eq 'user_money'}
 					<th class="w150">资金变动</th>
+                    <th class="w150">冻结资金</th>
 					{else if $account_type eq 'pay_points'}
 					<th class="w150">积分变动</th>
 					{else if $account_type eq 'rank_points'}
@@ -107,10 +108,22 @@
 					{/if}
 					</td>
 
+                    {if $account_type eq 'user_money'}
+                    <td>
+                        <!-- {if $account.frozen_money gt 0} -->
+                        <span class="ecjiafc-0000FF">+{$account.frozen_money}</span>
+                        <!-- {elseif $account.frozen_money lt 0} -->
+                        <span class="ecjiafc-red">{$account.frozen_money}</span>
+                        <!-- {else} -->
+                        {$account.frozen_money}
+                        <!-- {/if} -->
+                        </td>
+                    {/if}
+
 					<td><a href="{RC_Uri::url('orders/admin/info')}&order_sn={$account.from_value}" target="__blank">{$account.from_value}</td>
 				</tr>
 				<!-- {foreachelse} -->
-				<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

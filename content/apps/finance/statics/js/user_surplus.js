@@ -32,13 +32,13 @@
             });
 
             app.account_manage.left_chart();
-
             app.account_manage.right_chart();
         },
 
         left_chart: function () {
             var dataset = [];
             var ticks = [];
+            if ($.find("#left_stats").length == 0) { return false; }
             if (data == 'null') {
                 var nodata = "<div style='width:100%;height:100%;line-height:300px;text-align:center;overflow: hidden;'>没有统计数据<\/div>";
                 $("#left_stats").append(nodata);
@@ -98,6 +98,7 @@
         right_chart: function () {
             var dataset = [];
             var ticks = [];
+            if ($.find("#right_stats").length == 0) { return false; }
             if (right_data == 'null') {
                 var nodata = "<div style='width:100%;height:100%;line-height:300px;text-align:center;overflow: hidden;'>没有统计数据<\/div>";
                 $("#right_stats").append(nodata);

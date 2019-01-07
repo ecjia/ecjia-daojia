@@ -167,7 +167,7 @@ class admin_account extends ecjia_admin
         $admin_note = !empty($_POST['admin_note']) ? trim($_POST['admin_note']) : '';
 
         /* 验证参数有效性  */
-        if (!is_numeric($amount) || empty($amount) || $amount <= 0 || strpos($amount, '.') > 0) {
+        if (!is_numeric($amount) || empty($amount) || $amount <= 0) {
             return $this->showmessage(RC_Lang::get('user::user_account.js_languages.deposit_amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
