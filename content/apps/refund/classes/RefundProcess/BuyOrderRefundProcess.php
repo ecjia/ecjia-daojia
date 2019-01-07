@@ -108,7 +108,7 @@ class BuyOrderRefundProcess
     {
         //兼容旧的类手动加载
         RC_Loader::load_app_class('RefundStatusLog', 'refund', false);
-        RefundStatusLog::refund_payrecord(array('refund_id' => $this->refund_order->refund_id, 'back_money' => $this->refund_order->refundPayRecord->back_money_total));
+        RefundStatusLog::refund_payrecord(array('refund_id' => $this->refund_order->refund_id, 'back_money' => $this->refund_order->refundPayRecord->back_money_total, 'back_pay_name' => $this->refund_order->refundPayRecord->back_pay_name));
     }
 
     /**
@@ -147,8 +147,9 @@ class BuyOrderRefundProcess
         RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
         $order_id = RC_DB::table('refund_order')->where('refund_id', $this->refund_order->refund_id)->pluck('order_id');
         OrderStatusLog::refund_payrecord(array(
-            'order_id' => $order_id,
-            'back_money' => $this->refund_order->refundPayRecord->back_money_total
+            'order_id' 		=> $order_id,
+            'back_money' 	=> $this->refund_order->refundPayRecord->back_money_total,
+            'back_pay_name'	=> $this->refund_order->refundPayRecord->back_pay_name,
         ));
     }
 
@@ -208,8 +209,8 @@ class BuyOrderRefundProcess
 
         if ($user) {
             $user_refund_data = array(
-                'title'	=> '退款到余额',
-                'body'	=> '尊敬的'.$user->user_name.'，退款业务已受理成功，退回余额'.$this->refund_order->refundPayRecord->back_money_total.'元，目前可用余额'.$user->user_money.'元。',
+                'title'	=> '退款原路退回',
+                'body'	=> '尊敬的'.$user->user_name.'，退款业务已受理成功，原路退回'.$this->refund_order->refundPayRecord->back_pay_name,
                 'data'	=> array(
                     'user_id'				=> $this->refund_order->user_id,
                     'user_name'				=> $user->user_name,

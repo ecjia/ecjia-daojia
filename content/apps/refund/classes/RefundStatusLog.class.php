@@ -121,9 +121,15 @@ class RefundStatusLog
      * @return bool
      */
     public static function refund_payrecord($options) {
+    	if (!empty($options['back_pay_name'])) {
+    		$back_pay_name = $options['back_pay_name'];
+    		$message = '您的退款'.$options['back_money'].'元，'.'已退回至您的'.$back_pay_name.'账号，请查收';
+    	} else {
+    		$message = '您的退款'.$options['back_money'].'元，已退回至您的余额，请查收';
+    	}
     	$data = array(
     		'status'	=> '退款到账',
-    		'message'   => '您的退款'.$options['back_money'].'元，已退回至您的余额，请查收',
+    		'message'   => $message,
     		'refund_id' => $options['refund_id'],
     		'add_time'  => RC_Time::gmtime(),
     	);
