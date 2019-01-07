@@ -63,10 +63,11 @@ class Collection extends BaseCollection
      * Determine if a key exists in the collection.
      *
      * @param  mixed  $key
+     * @param  mixed  $operator
      * @param  mixed  $value
      * @return bool
      */
-    public function contains($key, $value = null)
+    public function contains($key, $operator = null, $value = null)
     {
         if (func_num_args() == 2) {
             return parent::contains($key, $value);
@@ -78,8 +79,8 @@ class Collection extends BaseCollection
 
         $key = $key instanceof Model ? $key->getKey() : $key;
 
-        return parent::contains(function ($k, $m) use ($key) {
-            return $m->getKey() == $key;
+        return parent::contains(function ($model) use ($key) {
+            return $model->getKey() == $key;
         });
     }
 
@@ -103,8 +104,8 @@ class Collection extends BaseCollection
      */
     public function modelKeys()
     {
-        return array_map(function ($m) {
-            return $m->getKey();
+        return array_map(function ($model) {
+            return $model->getKey();
         }, $this->items);
     }
 
@@ -171,9 +172,10 @@ class Collection extends BaseCollection
      * Return only unique items from the collection.
      *
      * @param  string|callable|null  $key
+     * @param  bool  $strict
      * @return static
      */
-    public function unique($key = null)
+    public function unique($key = null, $strict = false)
     {
         if (! is_null($key)) {
             return parent::unique($key);
