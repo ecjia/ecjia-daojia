@@ -135,13 +135,26 @@ class store_bill_detail_model extends Component_Model_Model {
                 $data['percent_value'] = 100; //未设置分成比例，默认100
             }
             
-            if(in_array($data['pay_code'], array('pay_cod', 'pay_cash'))) {
-                $data['brokerage_amount'] = $data['order_amount'] * (100 - $data['percent_value']) / 100 * -1;
-                $data['platform_profit'] = $data['brokerage_amount'] * -1;
+            //众包配送，运费不参与商家结算 @update 20180606
+            if($order_info['shipping_code'] == 'ship_ecjia_express') {
+                if(in_array($data['pay_code'], array('pay_cod', 'pay_cash'))) {
+                    $data['brokerage_amount'] = $data['order_amount'] * (100 - $data['percent_value']) / 100 * -1;
+                    $data['platform_profit'] = $data['brokerage_amount'] * -1;
+                } else {
+                    $data['brokerage_amount'] = $data['order_amount'] * $data['percent_value'] / 100;
+                    $data['platform_profit'] = $data['order_amount'] - $data['brokerage_amount'];
+                }
             } else {
-                $data['brokerage_amount'] = $data['order_amount'] * $data['percent_value'] / 100;
-                $data['platform_profit'] = $data['order_amount'] - $data['brokerage_amount'];
+                //运费不参与分佣 @update 20181210
+                if(in_array($data['pay_code'], array('pay_cod', 'pay_cash'))) {
+                    $data['brokerage_amount'] = (($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee']) * (100 - $data['percent_value']) / 100 + $data['shipping_fee'] + $data['insure_fee']) * -1;
+                    $data['platform_profit'] = $data['brokerage_amount'] * -1;
+                } else {
+                    $data['brokerage_amount'] = ($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee']) * $data['percent_value'] / 100 + $data['shipping_fee'] + $data['insure_fee'];
+                    $data['platform_profit'] = $data['order_amount'] - $data['brokerage_amount'];
+                }
             }
+            
         } else if ($data['order_type'] == 'refund') {
             //退款时 $data['order_id']是 refund_id
             if ($data['brokerage_amount']) {
@@ -342,7 +355,9 @@ class store_bill_detail_model extends Component_Model_Model {
 	                    continue;
 	                }
 	            }
-	        	
+	            //分成金额=订单金额-运费-保价费
+	            $row[$key]['commission_fee'] = $row[$key]['total_fee'] - $row[$key]['shipping_fee'] - $row[$key]['insure_fee'];
+	            $row[$key]['commission_fee'] = number_format($row[$key]['commission_fee'], 2, '.', '');
 	        	$row[$key]['add_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['add_time']);
 	        	$row[$key]['bill_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['bill_time']);
 

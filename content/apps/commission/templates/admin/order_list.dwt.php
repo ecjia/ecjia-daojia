@@ -37,6 +37,7 @@
 						    <th>{t}订单号{/t}</th>
 						    <th>{t}商家名称{/t}</th>
 						    <th>{t}订单金额{/t}</th>
+						    <th>{t}分佣金额{/t}</th>
 						    <th>{t}佣金比例{/t}</th>
 						    <th>{t}佣金金额{/t}</th>
 						    <th>{t}入账时间{/t}</th>
@@ -61,6 +62,7 @@
 					     	<a href='{$store_url}' title="查看商家资料" target="_blank"><i class="fontello-icon-info-circled"></i></a>
 					    </td>
 					    <td>￥{$list.total_fee}</td>
+					    <td>￥{$list.commission_fee}</td>
 					    <td>{$list.percent_value}%</td>
 						<td>
 							{if $list.order_type eq 'buy' || $list.order_type eq 'quickpay'}￥{$list.brokerage_amount}{/if}{if $list.order_type eq 'refund'}<span class="">￥{$list.brokerage_amount}</span>{/if}
