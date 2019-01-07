@@ -30,7 +30,8 @@
                      }
                  },
                  submitHandler: function () {
-                	 $('#uploadLogo').modal('hide');
+					 $('#uploadLogo').modal('hide');
+					 $(".modal-backdrop").remove();
                      $("form[name='theForm']").ajaxSubmit({
                          dataType: "json",
                          success: function (data) {
@@ -135,14 +136,16 @@
         
         remove_logo: function() {
         	$('.remove_logo').off('click').on('click', function() {
-        		$('#uploadLogo').modal('hide');
+				$('#uploadLogo').modal('hide');
+				$(".modal-backdrop").remove();
         	});
         },
         
         testForm: function () {
         	var option = {
        			 submitHandler: function () {
-       				$('#testPrint').modal('hide');
+					$('#testPrint').modal('hide');
+					$(".modal-backdrop").remove();   
                     $("form[name='testForm']").ajaxSubmit({
                         dataType: "json",
                         success: function (data) {
