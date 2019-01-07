@@ -46,25 +46,49 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class refund_admin_plugin {
+/**
+ * 退款申请单详情
+ * @author 
+ */
+class refund_refund_order_info_api extends Component_Event_Api {
 	
-	public static function refund_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('11_refund_list', '售后列表', RC_Uri::url('refund/admin/init'), 11)->add_purview('refund_manage');
-	    $menus->add_submenu($menu);
-	    return $menus;
+    /**
+     * @param  array $options	条件参数
+     * @return array
+     */
+	public function call(&$options) {
+		if (!is_array($options)
+		|| (!isset($options['refund_id']) && !isset($options['refund_sn']))) {
+			return new ecjia_error('invalid_parameter', '调取api文件,refund_order_info,参数错误');
+		}
+		
+		return $this->refund_order_info($options);
 	}
 	
-	public static function payrecord_admin_menu_api($menus) {
-		$menu = array(
-				ecjia_admin::make_admin_menu('21_payrecord_list', '交易退款', RC_Uri::url('refund/admin_payrecord/init'), 21)->add_purview('payrecord_manage'),
-				ecjia_admin::make_admin_menu('22_payment_refund', '退款流水', RC_Uri::url('payment/admin_payment_refund/init'), 22)->add_purview('payment_refund_manage'),
-		);
-		$menus->add_submenu($menu);
-		return $menus;
+	/**
+	 * 取得退款申请单信息
+	 * @param   array $options	条件参数
+	 * @return  array   退款申请单信息
+	 */
+	
+	private function refund_order_info($options) {
+		$refund_id = intval(array_get($options, 'refund_id'));
+		$refund_sn = trim(array_get($options, 'refund_sn'));
+		
+		$db = RC_DB::table('refund_order');
+		if (!empty($options['store_id'])) {
+			$db->where('store_id', $options['store_id']);
+		}
+		if ($refund_sn) {
+            $info = $db->where('refund_sn', $refund_sn)->first();
+        } else {
+            $info = $db->where('refund_id', $refund_id)->first();
+        }
+
+		$info['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
+
+		return $info;
 	}
 }
-
-RC_Hook::add_filter('orders_admin_menu_api', array('refund_admin_plugin', 'refund_admin_menu_api'));
-RC_Hook::add_filter('finance_admin_menu_api', array('refund_admin_plugin', 'payrecord_admin_menu_api') );
 
 // end

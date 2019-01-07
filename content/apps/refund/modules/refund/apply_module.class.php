@@ -93,12 +93,12 @@ class refund_apply_module extends api_front implements api_interface {
 		if (!empty($order_refund_info)) {
 			$refund_id = $order_refund_info['refund_id'];
 			//已存在处理中的申请或退款成功的申请
-			if (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::UNCHECK) 
-			   || (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::AGREE) && ($order_refund_info['refund_staus'] == Ecjia\App\Refund\RefundStatus::UNTRANSFER))
-			   || (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::AGREE) && ($order_refund_info['refund_staus'] == Ecjia\App\Refund\RefundStatus::TRANSFERED))
+			if (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_UNCHECK)
+			   || (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && ($order_refund_info['refund_staus'] == Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER))
+			   || (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && ($order_refund_info['refund_staus'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED))
 			) {
 				return new ecjia_error('error_apply', '当前订单已申请了售后！');
-			} elseif ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::REFUSED) {
+			} elseif ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
 				//申请被拒，重新申请
 				$refund_sn = $this->requestData('refund_sn', '');
 				if (empty($refund_sn)) {
@@ -107,7 +107,7 @@ class refund_apply_module extends api_front implements api_interface {
 				$update_data = array(
 					'refund_reason' 	=> !empty($reason_id) ? $reason_id : $order_refund_info['reason_id'],
 					'refund_content' 	=> !empty($refund_description) ? $refund_description : $order_refund_info['refund_content'],
-					'status'			=> Ecjia\App\Refund\RefundStatus::UNCHECK,
+					'status'			=> Ecjia\App\Refund\RefundStatus::ORDER_UNCHECK,
 					'last_submit_time'	=> RC_Time::gmtime()
 				);
 				

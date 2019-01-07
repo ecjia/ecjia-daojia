@@ -12,6 +12,7 @@ ecjia.merchant.refund_list.init();
 	<div class="col-lg-12">
 		<h2 class="page-header">
 			<!-- {if $ur_here}{$ur_here}{/if} -->
+			<a  class="btn btn-primary data-pjax" href='{RC_Uri::url("orders/mh_back/init")}' id="sticky_a" style="float:right;margin-top:-3px;">旧版退货单列表</a>
 		</h2>
 	</div>
 </div>
@@ -41,6 +42,14 @@ ecjia.merchant.refund_list.init();
         				<span class="badge badge-info">{if $refund_list.count.return_refund}{$refund_list.count.return_refund}{else}0{/if}</span>
         				</a>
         			</li>
+        			
+        			<li class="{if $filter.refund_type eq 'cancel'}active{/if}">
+        				<a class="data-pjax" href='{url path="refund/merchant/init" args="refund_type=cancel{if $filter.keywords}&keywords={$filter.keywords}{/if}"}{if $filter.status}&status={$filter.status}{/if}'>
+        				撤单退款
+        				<span class="badge badge-info">{if $refund_list.count.cancel}{$refund_list.count.cancel}{else}0{/if}</span>
+        				</a>
+        			</li>
+        			
         		</ul>
             </div>
             

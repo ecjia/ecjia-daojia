@@ -51,26 +51,45 @@ namespace Ecjia\App\Refund;
  */
 class RefundStatus
 {
-	
-    const UNCHECK 	 	 = 0;//退款申请(待审核)
+
+    /**
+     * ===================
+     * 退款单状态
+     * ===================
+     */
+    const ORDER_UNCHECK 	 	= 0;//退款申请(待审核)
     
-    const AGREE   	 	 = 1;//退款确认(同意)
+    const ORDER_AGREE   	 	= 1;//退款确认(同意)
     
-    const CANCELED     	 = 10;//取消申请（已取消）
+    const ORDER_CANCELED        = 10;//取消申请（已取消）
+
+    const ORDER_REFUSED         = 11;//拒绝退款（不同意）
+
+
+    /**
+     * ===================
+     * 打款状态
+     * ===================
+     */
+    const PAY_NOTRANSFER	    = 0;//无打款请求（无）
     
-    const REFUSED        = 11;//拒绝退款（不同意）
+    const PAY_UNTRANSFER   	    = 1;//待处理打款（待处理）
     
-    const NOTRANSFER	 = 0;//无打款请求（无）
+    const PAY_TRANSFERED        = 2;//已打款（已打款）
+
+
+    /**
+     * ===================
+     * 配送状态
+     * ===================
+     */
+    const SHIP_NOSHIP           = 0;//无需退货
+
+    const SHIP_UNSHIP           = 1;//买家未发货
+
+    const SHIP_SHIPPED          = 2;//买家发货
+
+    const SHIP_CONFIRM_RECV     = 3;//确认收货
     
-    const UNTRANSFER   	 = 1;//待处理打款（待处理） 
-    
-    const TRANSFERED     = 2;//已打款（已打款）
-    
-    const NOSHIP         = 0;//无需退货
-    
-    const SHIPPED        = 2;//买家发货
-    
-    const CONFIRM_RECV   = 3;//确认收货
-    
-    const UNRECEIVE      = 11;//未收到货
+    const SHIP_UNRECEIVE        = 11;//未收到货
 }

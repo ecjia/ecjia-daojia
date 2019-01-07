@@ -132,6 +132,7 @@
                     $.post(url, option, function (data) {
                          if (data.state == 'success') {
 							$('#actionmodal').modal('hide');
+							$(".modal-backdrop").remove();
 							ecjia.admin.showmessage(data);
 						 } else {
 							var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');

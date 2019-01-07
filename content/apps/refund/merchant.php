@@ -242,7 +242,7 @@ class merchant extends ecjia_merchant {
 				'back_inv_tax'			=> $refund_info['inv_tax'],
 				'order_money_paid'		=> $order_money_paid,
 				'back_money_total'		=> $back_money_total,
-				'payment_record_id'		=> $payment_record_id,
+				'payment_record_id'		=> empty($payment_record_id) ? 0 : $payment_record_id,
 				'add_time'	=> RC_Time::gmtime()
 			);
 			RC_DB::table('refund_payrecord')->insertGetId($data);
@@ -602,7 +602,7 @@ class merchant extends ecjia_merchant {
 		
 		$filter['keywords']  = trim($_GET['keywords']);
 		if ($filter['keywords']) {
-			$db_refund_view ->whereRaw('(order_sn  like  "%'.mysql_like_quote($filter['keywords']).'%"  or refund_sn like "%'.mysql_like_quote($filter['keywords']).'%")');
+			$db_refund_view ->whereRaw('(refund_sn like "%'.mysql_like_quote($filter['keywords']).'%" or order_sn like "%'.mysql_like_quote($filter['keywords']).'%")');
 		}
 		$status = $_GET['status'];
 		if (!empty($status) || $status == '0') {
@@ -612,13 +612,15 @@ class merchant extends ecjia_merchant {
 		$filter['refund_type'] = trim($_GET['refund_type']);
 		$refund_count = $db_refund_view->select(RC_DB::raw('count(*) as count'),
 				RC_DB::raw('SUM(IF(refund_type = "refund", 1, 0)) as refund'),
+				RC_DB::raw('SUM(IF(refund_type = "cancel", 1, 0)) as cancel'),
 				RC_DB::raw('SUM(IF(refund_type = "return", 1, 0)) as return_refund'))->first();
 		
 		if ($filter['refund_type'] == 'refund') {
 			$db_refund_view->where(RC_DB::raw('refund_type'), 'refund');
-		} 
-		if ($filter['refund_type'] == 'return') {
+		} elseif ($filter['refund_type'] == 'return') {
 			$db_refund_view->where(RC_DB::raw('refund_type'), 'return');
+		} elseif ($filter['refund_type'] == 'cancel') {
+			$db_refund_view->where(RC_DB::raw('refund_type'), 'cancel');
 		}
 		
 		$count = $db_refund_view->count();

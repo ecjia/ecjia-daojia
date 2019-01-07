@@ -38,8 +38,8 @@ class refund_merchant_confirm_api extends Component_Event_Api {
 			return new ecjia_error('not_exists_info', '不存在的信息！');
 		}
 		
-		$return_status = Ecjia\App\Refund\RefundStatus::CONFIRM_RECV;
-		$refund_status = Ecjia\App\Refund\RefundStatus::UNTRANSFER;
+		$return_status = Ecjia\App\Refund\RefundStatus::SHIP_CONFIRM_RECV;
+		$refund_status = Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER;
 		
 		$payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->pluck('id');
 		
@@ -56,7 +56,7 @@ class refund_merchant_confirm_api extends Component_Event_Api {
 			$back_shipping_fee = 0;
 			$back_insure_fee   = 0;
 		}
-		/*退现金时，退款金额判断；用户端输入的金额；实际存打款表*/
+		/*退现金或余额时，退款金额判断；用户端输入的金额；实际存打款表*/
 		if ($options['refund_way'] == 'cash' || $options['refund_way'] == 'balance') {
 			if ($options['refund_money'] > 0) {
 				if ($options['refund_money'] < $back_money_total) {

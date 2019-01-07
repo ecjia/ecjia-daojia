@@ -35,7 +35,7 @@ class refund_refund_agree_api extends Component_Event_Api {
 		//订单id
 		$refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
 		$order_id = $refund_info['order_id'];
-		$status = Ecjia\App\Refund\RefundStatus::AGREE;
+		$status = Ecjia\App\Refund\RefundStatus::ORDER_AGREE;
 		$return_shipping_range = Ecjia\App\Refund\ReturnShippingRange::SHOP;
 		
 		if ($refund_info['status'] != $status) {

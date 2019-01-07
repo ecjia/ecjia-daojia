@@ -87,24 +87,24 @@ class refund_detail_module extends api_front implements api_interface {
 		//店铺地址
 		$store_address = ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
 		/*售后申请状态处理*/
-		if ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::UNCHECK) {
+		if ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_UNCHECK) {
 			$status 		= 'uncheck';
 			$label_status	= '待审核';
-		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::AGREE) {
+		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) {
 			$status			= 'agree';
 			$label_status	= '同意';
-		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::CANCELED) {
+		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_CANCELED) {
 			$status			= 'canceled';
 			$label_status	= '已取消';
-		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::REFUSED) {
+		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
 			$status			= 'refused';
 			$label_status	= '拒绝';
 		}
 		/*退款状态处理*/
-		if ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::UNTRANSFER) {
+		if ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER) {
 			$refund_status 		= 'checked';
 			$label_refund_status= '已审核';
-		} elseif ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::TRANSFERED) {
+		} elseif ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED) {
 			$refund_status 		= 'refunded';
 			$label_refund_status= '已退款';
 		} else {
@@ -264,7 +264,7 @@ class refund_detail_module extends api_front implements api_interface {
 		
 		//被拒后返回原因，供重新申请使用
 		$refused_reasons =array();
-		if ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::REFUSED) {
+		if ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
 			$refused_reasons = order_refund::get_one_group_reasons($refund_order_info['refund_reason']);
 		}
 		
@@ -301,7 +301,10 @@ class refund_detail_module extends api_front implements api_interface {
 				'selected_returnway_info'	=> $selected_returnway_info,
 				'refund_logs'				=> $logs,
 				'goods_list'				=> $goods_list,
-				'refused_reasons'			=> $refused_reasons
+				'refused_reasons'			=> $refused_reasons,
+				'refund_pay_fee'			=> $refund_order_info['pay_fee'],
+				'pay_code'					=> $refund_order_info['pay_code'],
+				'pay_name'					=> $refund_order_info['pay_name'],
 		);
 		return  $arr;
 	}

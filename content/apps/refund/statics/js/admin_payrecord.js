@@ -51,11 +51,41 @@
     					speed: 300,
     				});
     			});
+            	
+            	$('.adm_reply_content').off('change').on('change', function () {
+	                var $this = $('.adm_reply_content option:selected');
+	                var text = $this.text();
+	                var val = $this.val();
+	                var html = '';
+	                if (val != 0) {
+	                    html = text;
+	                }
+	                $('textarea[name="back_content"]').val(html);
+	            });
         		
             	$(".back-logo").click(function() {
+            		var data_type 			= $(this).attr('data-type');
+            		var back_money_total 	= $(this).attr('back_money_total');
+            		var back_pay_fee	 	= $(this).attr('back_pay_fee');
             		$(".back-logo").removeClass('active');
             		$(this).addClass('active');
-            		$("input[name='back_type']").val($(this).attr('data-type'));
+            		$("input[name='back_type']").val(data_type);
+            		
+            		if (data_type == 'surplus') {
+            			var back_total = back_money_total;
+            			$(".wxpay-pay-fee").hide();
+            			$(".surplus-pay-fee").show();
+            		} else {
+            			$(".surplus-pay-fee").hide();
+            			$(".wxpay-pay-fee").show();
+            			var back_total = (parseFloat(back_money_total) + parseFloat(back_pay_fee)).toFixed(2);
+            		}
+            		
+            		var unformat_back_total = back_total;
+            		var back_total = '￥' + back_total;
+            		
+            		$(".real-refund-amount").html(back_total);
+            		$("input[name='back_money_total']").val(unformat_back_total);
             	});
             	
 			    var $form = $("form[name='theForm']");
@@ -81,8 +111,9 @@
 			    }
 			    var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			    $form.validate(options);
-			
-            }
+
+            },
+
       };
     
 })(ecjia.admin, jQuery);

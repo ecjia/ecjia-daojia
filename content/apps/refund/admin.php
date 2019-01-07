@@ -360,7 +360,9 @@ class admin extends ecjia_admin {
 		}
 		$filter['keywords']  = trim($_GET['keywords']);
 		if ($filter['keywords']) {
-			$db_refund_view ->whereRaw('(refund_sn  like  "%'.mysql_like_quote($filter['keywords']).'%"  or s.merchants_name like "%'.mysql_like_quote($filter['keywords']).'%")');
+			$db_refund_view ->whereRaw('(refund_sn like "%'.mysql_like_quote($filter['keywords']).'%"  
+			or s.merchants_name like "%'.mysql_like_quote($filter['keywords']).'%" 
+			or ro.order_sn like "%'.mysql_like_quote($filter['keywords']).'%")');
 		}
 		
 		$refund_status = $_GET['refund_status'];
@@ -371,13 +373,15 @@ class admin extends ecjia_admin {
 		$filter['refund_type'] = trim($_GET['refund_type']);
 		$refund_count = $db_refund_view->select(RC_DB::raw('count(*) as count'),
 				RC_DB::raw('SUM(IF(refund_type = "refund", 1, 0)) as refund'),
+				RC_DB::raw('SUM(IF(refund_type = "cancel", 1, 0)) as cancel'),
 				RC_DB::raw('SUM(IF(refund_type = "return", 1, 0)) as return_refund'))->first();
 	
 		if ($filter['refund_type'] == 'refund') {
 			$db_refund_view->where(RC_DB::raw('refund_type'), 'refund');
-		}
-		if ($filter['refund_type'] == 'return') {
+		} elseif ($filter['refund_type'] == 'return') {
 			$db_refund_view->where(RC_DB::raw('refund_type'), 'return');
+		} elseif ($filter['refund_type'] == 'cancel') {
+			$db_refund_view->where(RC_DB::raw('refund_type'), 'cancel');
 		}
 	
 		$count = $db_refund_view->count();

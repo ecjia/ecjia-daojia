@@ -36,7 +36,7 @@ class refund_merchant_refund_order_api extends Component_Event_Api {
 		$size  	  = empty($options['size']) 		? 15 : intval($options['size']);
 		$page 	  = empty($options['page']) 		? 1 : intval($options['page']);
 		
-		$cancel_status = Ecjia\App\Refund\RefundStatus::CANCELED;
+		$cancel_status = Ecjia\App\Refund\RefundStatus::ORDER_CANCELED;
 		$db->where('status', '<>', $cancel_status);
 		
 		if (!empty($options['referer'])) {
@@ -66,13 +66,13 @@ class refund_merchant_refund_order_api extends Component_Event_Api {
 				$row['label_refund_type']		= $row['refund_type'] == 'refund' ? '仅退款' : '退货退款';
 				$row['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
 				$row['formated_refund_time']	= !empty($row['refund_time']) ? RC_Time::local_date(ecjia::config('time_format'), $row['add_time']) : '';
-				if ($row['status'] == Ecjia\App\Refund\RefundStatus::CANCELED) {
+				if ($row['status'] == Ecjia\App\Refund\RefundStatus::ORDER_CANCELED) {
 					$row['service_status_code'] = 'canceled';
 					$row['label_service_status']= '已取消';
-				} elseif (($row['status'] == Ecjia\App\Refund\RefundStatus::AGREE && $row['refund_status'] == Ecjia\App\Refund\RefundStatus::TRANSFERED)) {
+				} elseif (($row['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE && $row['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)) {
 					$row['service_status_code'] = 'refunded';
 					$row['label_service_status']= '已退款';
-				}elseif ($row['status'] == Ecjia\App\Refund\RefundStatus::REFUSED) {
+				}elseif ($row['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
 					$row['service_status_code'] = 'refused';
 					$row['label_service_status']= '已拒绝';
 				} else{

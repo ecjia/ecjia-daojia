@@ -149,8 +149,19 @@ class admin_payrecord extends ecjia_admin {
 		if ($payrecord_info['action_back_time']) {
 			$payrecord_info['action_back_time'] = RC_Time::local_date(ecjia::config('time_format'), $payrecord_info['action_back_time']);
 		}
+		//原路退回，支付手续费退还
+		if (empty($payrecord_info['action_back_type'])) { //未确认退款方式是原路退还是退余额
+			if ($payrecord_info['back_pay_code'] == 'pay_wxpay') {
+				$payrecord_info['real_back_money_total'] = $payrecord_info['back_money_total'] + $payrecord_info['back_pay_fee'];
+			} else {
+				$payrecord_info['real_back_money_total'] = $payrecord_info['back_money_total'];
+			}
+		} else {
+			$payrecord_info['real_back_money_total'] = $payrecord_info['back_money_total'];
+		}
+		
 		$payrecord_info['order_money_paid_type'] = price_format($payrecord_info['order_money_paid']);
-		$payrecord_info['back_money_total_type'] = price_format($payrecord_info['back_money_total']);
+		$payrecord_info['back_money_total_type'] = ecjia_price_format($payrecord_info['real_back_money_total'], false);
 		$payrecord_info['back_pay_fee_type'] 	= price_format($payrecord_info['back_pay_fee']);
 		$payrecord_info['back_shipping_fee_type']= price_format($payrecord_info['back_shipping_fee']);
 		$payrecord_info['back_insure_fee_type']  = price_format($payrecord_info['back_insure_fee']);
@@ -161,6 +172,17 @@ class admin_payrecord extends ecjia_admin {
 		$refund_info = RefundOrderInfo::get_refund_order_info($refund_id);
 		$this->assign('refund_info', $refund_info);
 		
+		//退款流水
+		$payment_refund = RC_DB::table('payment_refund')->where('order_sn', $refund_info['order_sn'])->first();
+		if ($payment_refund) {
+			$payment_refund['refund_create_time'] 	=  empty($payment_refund['refund_create_time']) ? '' : RC_Time::local_date('Y-m-d H:i:s', $payment_refund['refund_create_time']);
+			$payment_refund['refund_confirm_time'] 	=  empty($payment_refund['refund_confirm_time']) ? '' : RC_Time::local_date('Y-m-d H:i:s', $payment_refund['refund_confirm_time']);
+			$payment_refund['label_refund_status'] 	= $this->label_refund_status($payment_refund['refund_status']);
+		} else {
+			$payment_refund = [];
+		}
+		$this->assign('payment_refund', $payment_refund);
+		
 		//售后表实付金额计算
 		$refund_total_amount  = price_format($refund_info['money_paid'] + $refund_info['surplus']);
 		$this->assign('refund_total_amount', $refund_total_amount);
@@ -170,6 +192,7 @@ class admin_payrecord extends ecjia_admin {
 		$this->assign('original_img', RC_App::apps_url('statics/images/original_pic.png', __FILE__));
 		$this->assign('surplus_img', RC_App::apps_url('statics/images/surplus_pic.png', __FILE__));
 		$this->assign('selected_img', RC_App::apps_url('statics/images/selected.png', __FILE__));
+        $this->assign('pay_wxpay_img', RC_App::apps_url('statics/images/pay_wxpay_img.png', __FILE__));
 		
 		$this->display('payrecord_detail.dwt');
 	}
@@ -188,6 +211,7 @@ class admin_payrecord extends ecjia_admin {
 		$back_money_total = $_POST['back_money_total'];
 		$back_integral 	 = $_POST['back_integral'];
 		$back_content    = trim($_POST['back_content']);
+		$back_money_total = sprintf("%.2f", $back_money_total);
 		if (empty($back_content)) {
 			return $this->showmessage('请输入退款备注', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -202,6 +226,7 @@ class admin_payrecord extends ecjia_admin {
 		if(empty($refund_order)) {
 		    return $this->showmessage('退款单信息不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
+
 		$user_id = $refund_order['user_id'];
 		$integral_name = ecjia::config('integral_name');
 		if (empty($integral_name)) {
@@ -223,8 +248,6 @@ class admin_payrecord extends ecjia_admin {
 			RC_DB::table('account_log')->insertGetId($account_log);
 			
 			//更新用户表
-// 			$step = $back_money_total." ,pay_points = pay_points + ('$back_integral')";
-// 			RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $step);
 			RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $back_money_total);
 			RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', $back_integral);
 			
@@ -232,104 +255,133 @@ class admin_payrecord extends ecjia_admin {
 			$order_give_integral_info = RC_DB::table('account_log')->where('user_id', $user_id)->where('from_type', 'order_give_integral')->where('from_value', $refund_order['order_sn'])->first();
 			if (!empty($order_give_integral_info)) {
 				$options = array(
-						'user_id'			=> $order_give_integral_info['user_id'],
-						'rank_points'		=> intval($order_give_integral_info['rank_points'])*(-1),
-						'pay_points'		=> intval($order_give_integral_info['pay_points'])*(-1),
-						'change_desc'		=> '订单退款，扣除订单'.$refund_order['order_sn'].'下单时赠送的'.$integral_name,
-						'change_type'		=> ACT_REFUND,
-						'from_type'			=> 'refund_deduct_integral',
-						'from_value'		=> $refund_order['order_sn']
+                    'user_id'			=> $order_give_integral_info['user_id'],
+                    'rank_points'		=> intval($order_give_integral_info['rank_points'])*(-1),
+                    'pay_points'		=> intval($order_give_integral_info['pay_points'])*(-1),
+                    'change_desc'		=> '订单退款，扣除订单'.$refund_order['order_sn'].'下单时赠送的'.$integral_name,
+                    'change_type'		=> ACT_REFUND,
+                    'from_type'			=> 'refund_deduct_integral',
+                    'from_value'		=> $refund_order['order_sn']
 				);
 				RC_Api::api('user', 'account_change_log',$options);
 			}
-		}
-		
-		//更新打款表
-		$data = array(
-			'action_back_type'			=>	$back_type,
-			'action_back_time'			=>	RC_Time::gmtime(),
-			'action_back_content'		=>	$back_content,	
-			'action_user_id'	=>	$_SESSION['admin_id'],	
-			'action_user_name'	=>	$_SESSION['admin_name']
-		);
-		RC_DB::table('refund_payrecord')->where('id', $id)->update($data);
-		
-		//更新售后订单表
-		$data = array(
-			'refund_status'	=> 2,
-			'refund_time'	=> RC_Time::gmtime(),
-		);
-		RC_DB::table('refund_order')->where('refund_id', $refund_id)->update($data);
-		
-		//更新订单操作表
-		$data = array(
-			'refund_id' 		=> $refund_id,
-			'action_user_type'	=>	'admin',
-			'action_user_id'	=>  $_SESSION['admin_id'],
-			'action_user_name'	=>	$_SESSION['admin_name'],
-			'status'		    =>  1,
-			'refund_status'		=>  2,
-			'return_status'		=>  $return_status,
-			'action_note'		=>  $action_note,
-			'log_time'			=>  RC_Time::gmtime(),
-		);
-		RC_DB::table('refund_order_action')->insertGetId($data);
-		
-		//记录到结算表
-// 		RC_Api::api('commission', 'add_bill_detail', array('order_type' => 'refund', 'order_id' => $refund_order['order_id'], 'store_id' => $refund_order['store_id']));
-		RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'refund', 'order_id' => $refund_order['refund_id']));
-		
-		//售后订单状态变动日志表
-		RefundStatusLog::refund_payrecord(array('refund_id' => $refund_id, 'back_money' => $back_money_total));
-		
-		//普通订单状态变动日志表
-		$order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('order_id');
-		OrderStatusLog::refund_payrecord(array('order_id' => $order_id, 'back_money' => $back_money_total));
-		
-		//短信告知用户退款退货成功 
-		$user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'pay_points', 'user_money', 'mobile_phone')->first();
-		if (!empty($user_info['mobile_phone'])) {
-			$options = array(
-				'mobile' => $user_info['mobile_phone'],
-				'event'	 => 'sms_refund_balance_arrived',
-				'value'  =>array(
-					'user_name' 	=> $user_info['user_name'],
-					'amount' 		=> $back_money_total,
-					'user_money' 	=> $user_info['user_money'],
-				),
-			);
-			RC_Api::api('sms', 'send_event_sms', $options);
-		}
-		
-		//更新商家会员
-		RC_Api::api('customer', 'store_user_buy', array('store_id' => $refund_order['store_id'], 'user_id' => $user_id));
-		
-		//消息通知
-		$orm_user_db = RC_Model::model('orders/orm_users_model');
-		$user_ob = $orm_user_db->find($user_id);
-			
-		$user_refund_data = array(
-				'title'	=> '退款到余额',
-				'body'	=> '尊敬的'.$user_info['user_name'].'，退款业务已受理成功，退回余额'.$back_money_total.'元，目前可用余额'.$user_info['user_money'].'元。',
-				'data'	=> array(
-						'user_id'				=> $user_id,
-						'user_name'				=> $user_info['user_name'],
-						'amount'				=> $back_money_total,
-						'formatted_amount' 		=> price_format($back_money_total),
-						'user_money'			=> $user_info['user_money'],
-						'formatted_user_money'	=> price_format($user_info['user_money']),
-						'refund_id'				=> $refund_order['refund_id'],
-						'refund_sn'				=> $refund_order['refund_sn'],
-				),
-		);
-			
-		$push_refund_data = new RefundBalanceArrived($user_refund_data);
-		RC_Notification::send($user_ob, $push_refund_data);
 
+            //更新打款表
+            (new \Ecjia\App\Refund\Models\RefundPayRecordModel)->updateRefundPayrecord($id, 'surplus', $back_content, $_SESSION['admin_id'], $_SESSION['admin_name']);
+
+		} elseif ($back_type == 'pay_wxpay') {
+            //打款表信息
+            $payrecord_info = RC_DB::table('refund_payrecord')->where('refund_id', $refund_id)->first();
+            
+            $result = (new Ecjia\App\Payment\Refund\RefundManager($refund_order['order_sn'], null, null))->refund($back_money_total, $payrecord_info['action_user_name']);
+            if (is_ecjia_error($result)) {
+                return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            //更新打款表实际退款金额
+            RC_DB::table('refund_payrecord')->where('id', $id)->update(array('back_money_total' => $back_money_total));
+            //更新打款表
+            (new \Ecjia\App\Refund\Models\RefundPayRecordModel)->updateRefundPayrecord($id, 'original', $back_content, $_SESSION['admin_id'], $_SESSION['admin_name']);
+
+            return $this->showmessage('退款操作成功，等待微信到款通知即可', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
+        }
+		
+		if ($back_type == 'surplus') {
+			//更新售后订单表
+			$data = array(
+					'refund_status'	=> 2,
+					'refund_time'	=> RC_Time::gmtime(),
+			);
+			RC_DB::table('refund_order')->where('refund_id', $refund_id)->update($data);
+			
+			//更新订单操作表
+			$data = array(
+					'refund_id' 		=> $refund_id,
+					'action_user_type'	=>	'admin',
+					'action_user_id'	=>  $_SESSION['admin_id'],
+					'action_user_name'	=>	$_SESSION['admin_name'],
+					'status'		    =>  1,
+					'refund_status'		=>  2,
+					'return_status'		=>  $return_status,
+					'action_note'		=>  $action_note,
+					'log_time'			=>  RC_Time::gmtime(),
+			);
+			RC_DB::table('refund_order_action')->insertGetId($data);
+			
+			//记录到结算表
+			// 		RC_Api::api('commission', 'add_bill_detail', array('order_type' => 'refund', 'order_id' => $refund_order['order_id'], 'store_id' => $refund_order['store_id']));
+			RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'refund', 'order_id' => $refund_order['refund_id']));
+			
+			//售后订单状态变动日志表
+			RefundStatusLog::refund_payrecord(array('refund_id' => $refund_id, 'back_money' => $back_money_total));
+			
+			//普通订单状态变动日志表
+			$order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('order_id');
+			OrderStatusLog::refund_payrecord(array('order_id' => $order_id, 'back_money' => $back_money_total));
+			
+			//更新商家会员
+			if (!empty($user_id) && !empty($refund_order['store_id'])) {
+				RC_Api::api('customer', 'store_user_buy', array('store_id' => $refund_order['store_id'], 'user_id' => $user_id));
+			}
+			
+			//短信告知用户退款退货成功
+			$user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'pay_points', 'user_money', 'mobile_phone')->first();
+			if (!empty($user_info['mobile_phone'])) {
+				$options = array(
+						'mobile' => $user_info['mobile_phone'],
+						'event'	 => 'sms_refund_balance_arrived',
+						'value'  =>array(
+								'user_name' 	=> $user_info['user_name'],
+								'amount' 		=> $back_money_total,
+								'user_money' 	=> $user_info['user_money'],
+						),
+				);
+				RC_Api::api('sms', 'send_event_sms', $options);
+			}
+			
+			//消息通知
+			$orm_user_db = RC_Model::model('orders/orm_users_model');
+			$user_ob = $orm_user_db->find($user_id);
+				
+			if ($user_ob) {
+				$user_refund_data = array(
+						'title'	=> '退款到余额',
+						'body'	=> '尊敬的'.$user_info['user_name'].'，退款业务已受理成功，退回余额'.$back_money_total.'元，目前可用余额'.$user_info['user_money'].'元。',
+						'data'	=> array(
+								'user_id'				=> $user_id,
+								'user_name'				=> $user_info['user_name'],
+								'amount'				=> $back_money_total,
+								'formatted_amount' 		=> price_format($back_money_total),
+								'user_money'			=> $user_info['user_money'],
+								'formatted_user_money'	=> price_format($user_info['user_money']),
+								'refund_id'				=> $refund_order['refund_id'],
+								'refund_sn'				=> $refund_order['refund_sn'],
+						),
+				);
+			
+				$push_refund_data = new RefundBalanceArrived($user_refund_data);
+				RC_Notification::send($user_ob, $push_refund_data);
+			}
+		}
+	
 		ecjia_admin::admin_log('['.$refund_order['refund_sn'].']', 'payrecord', 'refund_order');
 		return $this->showmessage('退款操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
 	}
 
+    //对账查询
+    public function query()
+    {
+        /* 检查权限 */
+        $this->admin_priv('payrecord_manage', ecjia::MSGTYPE_JSON);
+
+        $result = [];
+
+        if (is_ecjia_error($result)) {
+            return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        return $this->showmessage('与支付机构对账成功，状态正常', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+    }
+    
 	/**
 	 * 获取交易退款列表
 	 */
@@ -371,7 +423,7 @@ class admin_payrecord extends ecjia_admin {
 		$count = $db_refund_view->count();
 		$page = new ecjia_page($count, 10, 5);
 		$data = $db_refund_view
-		->select('id','order_sn','order_id','refund_sn','refund_id','refund_type','order_money_paid','back_surplus','action_back_time','action_back_type','add_time',RC_DB::raw('s.merchants_name'))
+		->select('id','order_sn','order_id','refund_sn', 'back_pay_name', 'back_pay_code', 'refund_id','refund_type','order_money_paid','back_surplus','action_back_time','action_back_type','add_time',RC_DB::raw('s.merchants_name'))
 		->orderby('id', 'DESC')
 		->take(10)
 		->skip($page->start_id-1)
@@ -387,6 +439,27 @@ class admin_payrecord extends ecjia_admin {
 			}
 		}
 		return array('list' => $list, 'filter' => $filter, 'page' => $page->show(5), 'desc' => $page->page_desc(), 'count' => $refund_count);
+	}
+	
+	
+	/**
+	 * 退款状态处理
+	 */
+	private function label_refund_status($refund_status)
+	{
+		$label_refund_status = '';
+		if ($refund_status == '0') {
+			$label_refund_status = '待处理';
+		} elseif ($refund_status == '1') {
+			$label_refund_status = '已退款';
+		} elseif ($refund_status == '2') {
+			$label_refund_status = '退款处理中';
+		} elseif ($refund_status == '11') {
+			$label_refund_status == '退款失败';
+		}elseif ($refund_status == '12') {
+			$label_refund_status = '退款关闭';
+		}
+		return $label_refund_status;
 	}
 }
 
