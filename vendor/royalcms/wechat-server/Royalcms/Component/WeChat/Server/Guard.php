@@ -9,7 +9,7 @@ use Royalcms\Component\WeChat\Encryption\Encryptor;
 use Royalcms\Component\WeChat\Message\AbstractMessage;
 use Royalcms\Component\WeChat\Message\Raw as RawMessage;
 use Royalcms\Component\WeChat\Message\Text;
-use Royalcms\Component\Support\Collection;
+use Royalcms\Component\WeChat\Support\Collection;
 use Royalcms\Component\WeChat\Support\Log;
 use Royalcms\Component\WeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
