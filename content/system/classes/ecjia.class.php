@@ -50,8 +50,8 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 define('APPNAME', 'ECJIA');
-define('VERSION', '1.37');
-define('RELEASE', '20181207');
+define('VERSION', '1.38');
+define('RELEASE', '20190107');
 
 class ecjia {
 	
