@@ -68,6 +68,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<script type="text/javascript" src="{$theme_url}lib/photoswipe/js/photoswipe-ui-default.min.js"></script>
 
 	<!-- {block name="meta"} --><!-- {/block} -->
+    <script type="text/javascript" src="{$theme_url}js/jquery.yomi.js"></script>
 	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.koala.js"></script>
 	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.js"></script>
     <script type="text/javascript" src="{$theme_url}js/ecjia.touch.others.js"></script>

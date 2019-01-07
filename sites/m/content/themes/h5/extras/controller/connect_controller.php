@@ -62,6 +62,37 @@ class connect_controller
     {
         unset($_SESSION['user_temp']);
 
+        //获得授权信息，进行关联
+        $return_type = $_GET['return_type'];
+        if ($return_type == 'bind') {
+            $connect_user = $data['connect_user'];
+            if (is_ecjia_error($connect_user)) {
+                if ($connect_user->get_error_message()) {
+                    $msg = $connect_user->get_error_message();
+                } else {
+                    $msg = '登录授权失败，请稍后再试或联系客服';
+                }
+                return ecjia_front::$controller->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+
+            $connect_code = $connect_user->getConnectCode();
+            $open_id      = $connect_user->getOpenId();
+            $user_name    = $connect_user->getUserName();
+
+            //绑定第三方
+            $token = ecjia_touch_user::singleton()->getToken();
+            $user  = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+            $user  = is_ecjia_error($user) ? array() : $user;
+
+            $connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id);
+            $result       = false;
+            if ($user) {
+                $result = $connect_user->bindUser($user['id']);
+            }
+
+            return ecjia_front::$controller->redirect(RC_Uri::url('user/profile/bind_info', array('type' => 'wechat')));
+        }
+
         $connect_user = $data['connect_user'];
         if (is_ecjia_error($connect_user)) {
             if ($connect_user->get_error_code() == 'retry_return_login' || $connect_user->get_error_code() == '-1') {
@@ -461,14 +492,6 @@ class connect_controller
                 return ecjia_front::$controller->showmessage('授权用户信息关联失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         } else {
-//             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password, 'token' => $token))->run();
-            //             if (is_ecjia_error($data)) {
-            //                 return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            //             }
-            //             if ($data['registered'] == 1) {
-            //                 return ecjia_front::$controller->showmessage('该手机号已注册', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            //             }
-
             //未注册 走注册接口
             $_SESSION['user_temp']['mobile']          = $mobile;
             $_SESSION['user_temp']['register_status'] = 'succeed';
@@ -580,6 +603,36 @@ class connect_controller
 
             ecjia_front::$controller->display('user_set_password.dwt', $cache_id);
         }
+    }
+
+    public static function authorize()
+    {
+        $connect_code = $_GET['connect_code'];
+        if (empty($connect_code)) {
+            return ecjia_front::$controller->showmessage(RC_Lang::get('connect::connect.not_found'), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
+        }
+
+        $url  = RC_Uri::url('connect/callback/init', array('connect_code' => 'sns_wechat', 'return_type' => 'bind'));
+
+        /**
+         * 第三方登录运行前处理
+         * @param $connect_code 插件代号
+         */
+        RC_Hook::do_action('connect_code_before_launching', $connect_code);
+
+        $connect_handle = with(new Ecjia\App\Connect\ConnectPlugin())->channel($connect_code);
+
+        $redirect_uri = urlencode($url);
+
+        $connect_handle->overwrite_callback_url($redirect_uri);
+
+        $code_url = $connect_handle->authorize_url();
+
+        RC_Cookie::set('referer', RC_Uri::url('user/profile/bind_info', array('type' => 'wechat')));
+
+        RC_Cookie::set('wechat_auto_register', 1);
+
+        return ecjia_front::$controller->redirect($code_url);
     }
 }
 

@@ -56,10 +56,10 @@ class user_function
         $ecjia_search = 'ECJia[search]';
         if (!empty($store_id)) {
             $cookie_search = $_COOKIE['ECJia']['search'][$store_id];
-            $ecjia_search .= '[' . $store_id . ']';
+            $ecjia_search  .= '[' . $store_id . ']';
         } else {
             $cookie_search = $_COOKIE['ECJia']['search']['other'];
-            $ecjia_search .= '[other]';
+            $ecjia_search  .= '[other]';
         }
         if (!empty($keywords)) {
             if (!empty($cookie_search)) {
@@ -94,7 +94,7 @@ class user_function
      */
     public static function address_info($token, $address_id)
     {
-        $token = ecjia_touch_user::singleton()->getToken();
+        $token        = ecjia_touch_user::singleton()->getToken();
         $address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data(array('token' => $token, 'address_id' => $address_id))->run();
         if (!is_ecjia_error($address_info)) {
             return $address_info;
@@ -156,9 +156,9 @@ class user_function
 
         return array(
             'province_list' => json_encode($province_list),
-            'city_list' => json_encode($city_list),
+            'city_list'     => json_encode($city_list),
             'district_list' => json_encode($district_list),
-            'street_list' => !empty($street_list) ? json_encode($street_list) : '',
+            'street_list'   => !empty($street_list) ? json_encode($street_list) : '',
         );
     }
 
@@ -185,8 +185,8 @@ class user_function
                         unset($pay['payment'][$key]);
                     }
                     if ($val['pay_code'] == 'pay_wxpay') {
-                        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
-                        $open_id = $handler->getWechatOpenId();
+                        $handler                   = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
+                        $open_id                   = $handler->getWechatOpenId();
                         $_SESSION['wxpay_open_id'] = $open_id;
                     }
                     //非自营过滤货到付款
@@ -224,7 +224,7 @@ class user_function
         $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_PAYMENT)->run();
         $pay = is_ecjia_error($pay) ? array() : $pay;
 
-		/*根据浏览器过滤支付方式，微信自带浏览器过滤掉支付宝支付，其他浏览器过滤掉微信支付*/
+        /*根据浏览器过滤支付方式，微信自带浏览器过滤掉支付宝支付，其他浏览器过滤掉微信支付*/
         if (!empty($pay['payment'])) {
             if (cart_function::is_weixin() == true) {
                 foreach ($pay['payment'] as $key => $val) {
@@ -232,8 +232,8 @@ class user_function
                         unset($pay['payment'][$key]);
                     }
                     if ($val['pay_code'] == 'pay_wxpay') {
-                        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
-                        $open_id = $handler->getWechatOpenId();
+                        $handler                   = with(new Ecjia\App\Payment\PaymentPlugin)->channel($val['pay_code']);
+                        $open_id                   = $handler->getWechatOpenId();
                         $_SESSION['wxpay_open_id'] = $open_id;
                     }
                     //非自营过滤货到付款
@@ -255,6 +255,99 @@ class user_function
         }
         return $pay['payment'];
     }
+
+    //获取用户绑定的银行卡信息
+    public static function get_userInfo_bankcard()
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
+        $list  = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO_BANKCARD)->data(array('token' => $token))->run();
+        $list  = is_ecjia_error($list) ? [] : $list;
+
+        return $list;
+    }
+
+    //获取用户有效的提现方式和默认一种提现方式
+    public static function get_user_available_withdraw_way()
+    {
+        $list = self::get_userInfo_bankcard();
+
+        $user_binded_list = !empty($list['user_binded_list']) ? $list['user_binded_list'] : [];
+
+        $bind_list = [];
+        $type_list = [];
+        if (!empty($user_binded_list)) {
+            foreach ($user_binded_list as $k => $v) {
+                $bind_list[$v['bank_type']] = $v;
+                $type_list[]                = $v['bank_type'];
+            }
+        }
+
+        $available_withdraw_way = !empty($list['available_withdraw_way']) ? $list['available_withdraw_way'] : [];
+
+        $withdraw_way = [];
+        $bank_info    = [];
+
+        if (!empty($available_withdraw_way)) {
+            foreach ($available_withdraw_way as $k => $v) {
+                if (in_array($v['bank_type'], $type_list)) {
+                    $withdraw_way[] = $bind_list[$v['bank_type']];
+                    if ($v['bank_type'] == 'bank') {
+                        $bank_info = $bind_list[$v['bank_type']];
+                    } elseif ($v['bank_type'] == 'wechat') {
+                        $bank_info = $bind_list[$v['bank_type']];
+                    }
+                }
+            }
+        }
+
+        return [
+            'withdraw_way' => $withdraw_way,
+            'bank_info'    => $bank_info
+        ];
+    }
+
+    //检查微信提现是否设置真实姓名
+    public static function check_user_wechat_name()
+    {
+        $list = self::get_userInfo_bankcard();
+
+        $user_binded_list = !empty($list['user_binded_list']) ? $list['user_binded_list'] : [];
+
+        $has_wechat_name = false;
+
+        if (!empty($user_binded_list)) {
+            foreach ($user_binded_list as $k => $v) {
+                if ($v['bank_type'] == 'wechat' && !empty($v['cardholder'])) {
+                    $has_wechat_name = true;
+                }
+            }
+        }
+
+        return $has_wechat_name;
+    }
+
+
+    public static function get_wechat_config($url)
+    {
+        $uuid = with(new Ecjia\App\Platform\Frameworks\Platform\AccountManager(0))->getDefaultUUID('wechat');
+        if (empty($uuid)) {
+            return [];
+        }
+
+        $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+        if (empty($wechat)) {
+            return [];
+        }
+
+        $apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
+
+        $wechat->js->setUrl($url);
+
+        $config = $wechat->js->config($apis, false);
+
+        return $config;
+    }
+
 }
 
 //end

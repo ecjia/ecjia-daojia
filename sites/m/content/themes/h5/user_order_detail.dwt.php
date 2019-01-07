@@ -30,16 +30,18 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<img src="{$theme_url}images/order_status/shipped_2.png">
 						{else if $order.order_status_code eq 'await_pay'}
 							<img src="{$theme_url}images/order_status/wait_pay_2.png">
-						{else if $order.order_status_code eq 'await_ship'}
+						{else if $order.order_status_code eq 'await_ship' || $order.order_status_code eq 'confirmed'}
 							<img src="{$theme_url}images/order_status/confirmed_2.png">
 						{else if $order.order_status_code eq 'shipped_part'}
 							<img src="{$theme_url}images/order_status/shipped_2.png">
 						{else if $order.order_status_code eq 'canceled'}
 							<img src="{$theme_url}images/order_status/canceled_2.png">
-						{else if $order.order_status_code eq 'refunded'}
+						{else if $order.order_status_code eq 'refunded' || $order.order_status_code eq 'refund'}
 							<img src="{$theme_url}images/order_status/refund_2.png">
 						{else if $order.order_status_code eq 'payed'}
-							<img src="{$theme_url}images/order_status/wait_confirm_2.png">							
+							<img src="{$theme_url}images/order_status/wait_confirm_2.png">
+                        {else}
+                            <img src="{$theme_url}images/order_status/done_2.png">
 			        	{/if}
 			        </span>
 			        <div class="order-status-msg">
@@ -112,24 +114,40 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<!-- {/foreach} -->
 			</ul>
 			<ul class="ecjia-list">
-				<li>商品金额：<span class="ecjiaf-fr ">{$order.formated_goods_amount}</span></li>
-				{if $order.tax neq 0}
-				<li>税费金额：<span class="ecjiaf-fr ">{$order.formated_tax}</span></li>
-				{/if}
-				{if $order.integral_money neq 0}
-				<li>{$integral_name}抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_integral_money}</span></li>
-				{/if}
-				{if $order.bonus neq 0}
-				<li>红包抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_bonus}</span></li>
-				{/if}
-				{if $order.discount neq 0}
-				<li>优惠金额：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_discount}</span></li>
-				{/if}
-				<li>运费：<span class="ecjiaf-fr ">{$order.formated_shipping_fee}</span></li>
-				{if $order.pay_fee neq 0}
-				<li>手续费：<span class="ecjiaf-fr ">{$order.formated_pay_fee}</span></li>
-				{/if}
-				<li>共计：<span class="ecjiaf-fr ">{$order.formated_total_fee}</span></li>
+                {if $order.extension_code eq 'group_buy'}
+                    <li>商品保证金：<span class="ecjiaf-fr">{$order.formated_order_deposit}</span></li>
+                {else}
+                    <li>商品金额：<span class="ecjiaf-fr ">{$order.formated_goods_amount}</span></li>
+                {/if}
+
+                {if $order.tax neq 0}
+                <li>税费金额：<span class="ecjiaf-fr ">{$order.formated_tax}</span></li>
+                {/if}
+
+                {if $order.integral_money neq 0}
+                <li>{$integral_name}抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_integral_money}</span></li>
+                {/if}
+
+                {if $order.bonus neq 0}
+                <li>红包抵扣：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_bonus}</span></li>
+                {/if}
+
+                {if $order.discount neq 0}
+                <li>优惠金额：<span class="ecjiaf-fr ecjia-color-red ">-{$order.formated_discount}</span></li>
+                {/if}
+
+                <li>运费：<span class="ecjiaf-fr ">{$order.formated_shipping_fee}</span></li>
+
+                {if $order.pay_fee neq 0}
+                <li>手续费：<span class="ecjiaf-fr ">{$order.formated_pay_fee}</span></li>
+                {/if}
+
+                {if $order.extension_code eq 'group_buy'}
+                    <li>已支付：<span class="ecjiaf-fr">{$order.formated_payed}</span></li>
+                    <li>待支付余额：<span class="ecjiaf-fr ecjia-color-red">{$order.formated_order_amount}</span></li>
+                {else}
+                    <li>共计：<span class="ecjiaf-fr ">{$order.formated_total_fee}</span></li>
+                {/if}
 			</ul>
 			
 			{if $order.order_mode eq 'storepickup'}
@@ -197,7 +215,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<a class="btn btn-small btn-hollow external" href="{if $order.service_phone}tel://{$order.service_phone}{else}javascript:alert('无法联系卖家');{/if}">联系卖家</a>
 				{if !$order.refund_info}
 					{if $order.order_status_code eq 'await_pay'}
+                        {if $order.extension_code neq 'group_buy'}
 						<a class="btn btn-small btn-hollow cancel_order_unpay" href='{url path="user/order/order_cancel" args="order_id={$order.order_id}"}'>取消订单</a>
+                        {/if}
 						<a class="btn btn-small btn-hollow" href='{url path="payment/pay/init" args="order_id={$order.order_id}{if $order.extension_code eq 'group_buy'}&type=group_buy{/if}"}'>
 							{if $order.has_deposit eq 1}支付余额{else}去支付{/if}
 						</a>
@@ -213,7 +233,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					{/if}
 				{/if}
 				
-				{if $order.order_status_code eq 'canceled' || $order.order_status_code eq 'payed'}
+				{if $order.order_status_code eq 'payed' || $order.extension_code neq 'group_buy'}
 					<a class="btn btn-small btn-hollow" href='{url path="user/order/buy_again" args="order_id={$order.order_id}"}'>再次购买</a>
 				{/if}
 				
@@ -227,7 +247,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				
 				{if $order.order_status_code eq 'refunded' || $order.order_status_code eq 'finished' || $order.refund_info}
 					{if $order.refund_info}
-					<a class="btn btn-small btn-hollow" href='{url path="user/order/return_detail" args="order_id={$order.order_id}{if $order.refund_info}&refund_sn={$order.refund_info.refund_sn}{/if}"}'>售后</a>
+					<a class="btn btn-small btn-hollow" href='{url path="user/order/return_detail" args="order_id={$order.order_id}{if $order.refund_info}&refund_sn={$order.refund_info.refund_sn}{/if}"}'>售后详情</a>
 					{else}
 					<a class="btn btn-small btn-hollow" href='{url path="user/order/return_list" args="order_id={$order.order_id}"}'>售后</a>
 					{/if}

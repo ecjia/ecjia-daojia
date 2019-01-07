@@ -6,7 +6,7 @@ Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
-
+<!-- {nocache} -->
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
@@ -16,10 +16,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/block} -->
 
 <!-- {block name="main-content"} -->
-
 <!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
-
-<!-- {nocache} -->
 <div class="ecjia-form ecjia-login">
 	<p class="ecjiaf-tac ecjia-margin-b">验证码已发送至+86 {$mobile}</p>
 	
@@ -39,6 +36,5 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	
     <p class="ecjiaf-tac blue resend_sms" data-url="{$resend_url}">重新发送验证码</p>
 </div>
-<!-- {/nocache} -->
-
 <!-- {/block} -->
+<!-- {/nocache} -->

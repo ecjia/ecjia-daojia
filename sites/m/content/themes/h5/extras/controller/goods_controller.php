@@ -297,6 +297,10 @@ class goods_controller
             }
 
             ecjia_front::$controller->assign('releated_goods', json_encode($spec_releated_goods));
+
+            if (!empty($goods_info['groupbuy_info']['price_ladder'])) {
+                $goods_info['groupbuy_info']['price_ladder'] = json_encode($goods_info['groupbuy_info']['price_ladder']);
+            }
             ecjia_front::$controller->assign('goods_info', $goods_info);
         }
 
@@ -362,13 +366,7 @@ class goods_controller
             $spread_url = substr($spread_url, 0, strrpos($spread_url, "&_pjax"));
             ecjia_front::$controller->assign('share_link', $spread_url);
 
-            $uuid       = with(new Ecjia\App\Platform\Frameworks\Platform\AccountManager(0))->getDefaultUUID('wechat');
-            $wechat     = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
-            $apis       = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
-
-            $wechat->js->setUrl($spread_url);
-
-            $config = $wechat->js->config($apis, false);
+            $config = user_function::get_wechat_config($spread_url);
             ecjia_front::$controller->assign('config', $config);
         }
 

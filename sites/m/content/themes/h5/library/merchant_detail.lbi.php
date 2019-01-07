@@ -91,5 +91,15 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<span class="other-info-name"><i class="icon-shop-description"></i>商家简介</span>
 			<p class="other-info-result">{if $store_info.seller_description}{$store_info.seller_description}{else}暂无{/if}</p>
 		</li>
+		{if $store_info.business_licence_pic}
+		<li>
+			<span class="other-info-name"><i class="icon-shop-description"></i>营业执照</span>
+			<div class="other-info-result business_licence_pic">
+				<div class="img-list img-pwsp-list" data-pswp-uid="business_licence_pic">
+					<figure><span><a class="nopjax external" href="{$store_info.business_licence_pic}"><img src="{$store_info.business_licence_pic}" /></a></span></figure>
+				</div>
+			</div>
+		</li>
+		{/if}
 	</ul>
 </div>

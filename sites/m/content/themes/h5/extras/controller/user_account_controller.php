@@ -72,27 +72,50 @@ class user_account_controller
         }
         ecjia_front::$controller->display('user_account_detail.dwt', $cache_id);
     }
+
     /**
      * 余额
      */
     public static function balance()
     {
-        $token     = ecjia_touch_user::singleton()->getToken();
-        $user_info = ecjia_touch_user::singleton()->getUserinfo();
+        $token = ecjia_touch_user::singleton()->getToken();
 
-        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
-        $cache_id = sprintf('%X', crc32($cache_id));
+        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        $user = is_ecjia_error($user) ? array() : $user;
 
-        if (!ecjia_front::$controller->is_cached('user_account_balance.dwt', $cache_id)) {
-            $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
-            $user = is_ecjia_error($user) ? array() : $user;
+        ecjia_front::$controller->assign_title('账户余额');
+        ecjia_front::$controller->assign('user', $user);
 
-            ecjia_front::$controller->assign_title('我的余额');
-            ecjia_front::$controller->assign('user', $user);
+        //判断用户是否有提现方式
+        $has_withdraw_method = false;
+
+        $list             = user_function::get_userInfo_bankcard();
+        $user_binded_list = !empty($list['user_binded_list']) ? $list['user_binded_list'] : [];
+        $type_list        = [];
+
+        if (!empty($user_binded_list)) {
+            foreach ($user_binded_list as $k => $v) {
+                $type_list[] = $v['bank_type'];
+            }
         }
 
-        ecjia_front::$controller->display('user_account_balance.dwt', $cache_id);
+        $available_withdraw_way = !empty($list['available_withdraw_way']) ? $list['available_withdraw_way'] : [];
+
+        $url = '';
+        if (!empty($available_withdraw_way)) {
+            foreach ($available_withdraw_way as $k => $v) {
+                if (in_array($v['bank_type'], $type_list)) {
+                    $has_withdraw_method = true;
+                }
+            }
+            $url = RC_Uri::url('user/profile/withdraw');
+        }
+        ecjia_front::$controller->assign('has_withdraw_method', $has_withdraw_method);
+        ecjia_front::$controller->assign('url', $url);
+
+        ecjia_front::$controller->display('user_account_balance.dwt');
     }
+
     /**
      * 充值
      */
@@ -197,22 +220,26 @@ class user_account_controller
      */
     public static function withdraw()
     {
-        $token     = ecjia_touch_user::singleton()->getToken();
-        $user_info = ecjia_touch_user::singleton()->getUserinfo();
+        $token = ecjia_touch_user::singleton()->getToken();
 
-        $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
-        $cache_id = sprintf('%X', crc32($cache_id));
+        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        $user = is_ecjia_error($user) ? array() : $user;
+        ecjia_front::$controller->assign('user', $user);
 
-        if (!ecjia_front::$controller->is_cached('user_account_withdraw.dwt', $cache_id)) {
-            $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
-            $user = is_ecjia_error($user) ? array() : $user;
-            ecjia_front::$controller->assign('user', $user);
+        $config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+        $config = is_ecjia_error($config) ? array() : $config;
+        ecjia_front::$controller->assign('config', $config);
 
-            ecjia_front::$controller->assign_title('提现');
-        }
-        ecjia_front::$controller->display('user_account_withdraw.dwt', $cache_id);
+        $withdraw_list = user_function::get_user_available_withdraw_way();
 
-        //ecjia_front::$controller->display('user_account_wechat_withdraw.dwt', $cache_id);
+        $available_withdraw_list = $withdraw_list['withdraw_way'];
+        ecjia_front::$controller->assign('bank_list', json_encode($available_withdraw_list));
+
+        $bank_info = $withdraw_list['bank_info'];
+        ecjia_front::$controller->assign('bank_info', $bank_info);
+
+        ecjia_front::$controller->assign_title('提现');
+        ecjia_front::$controller->display('user_account_wechat_withdraw.dwt');
     }
 
     /**
@@ -220,39 +247,53 @@ class user_account_controller
      */
     public static function withdraw_account()
     {
-        $amount = !empty($_POST['amount']) ? $_POST['amount'] : '';
-        $note = !empty($_POST['user_note']) ? $_POST['user_note'] : '';
-        $token = ecjia_touch_user::singleton()->getToken();
+        $amount       = !empty($_POST['amount']) ? $_POST['amount'] : '';
+        $token        = ecjia_touch_user::singleton()->getToken();
+        $note         = '';
+        $withdraw_way = trim($_POST['bank_type']);
+
+        //检查是否设置微信真实姓名
+        if ($withdraw_way == 'wechat') {
+            $result = user_function::check_user_wechat_name();
+            if (!$result) {
+                return ecjia_front::$controller->showmessage('您还未设置微信提现的真实姓名', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => RC_Uri::url('user/profile/account_bind', array('type' => 'wechat'))));
+            }
+        }
+
+        if (empty($amount)) {
+            return ecjia_front::$controller->showmessage(__('请输入提现金额'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
 
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
         if (is_ecjia_error($user)) {
-            return ecjia_front::$controller->showmessage(__('error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage('用户信息不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+
         $user_money = ltrim($user['formated_user_money'], '￥');
         if ($amount > $user_money) {
             return ecjia_front::$controller->showmessage(__('余额不足，请确定提现金额'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        if (strlen($note) > '300') {
-             return ecjia_front::$controller->showmessage(__('输入的文字超过规定字数'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+
+        if ($amount === 0) {
+            return ecjia_front::$controller->showmessage(__('提现金额不能为0'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-	//TODO
-        //if ($amount === 0) {
-        //    return ecjia_front::$controller->showmessage(__('提现金额不能为0'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        //}
-        //if ($amount < 1) {
-        //    return ecjia_front::$controller->showmessage(__('提现金额不能小于1'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        //}
-        if (empty($amount)) {
-            return ecjia_front::$controller->showmessage(__('请输入提现金额'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        } else {
-            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_RAPLY)->data(array('token' => $token, 'amount' => $amount, 'note' => $note))->run();
-            if (is_ecjia_error($data)) {
-	    	return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-	    }
-	    return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/account/balance')));
-	    //TODO
-            //return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('user/account/withdraw_account_notice')));
+
+        $config = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_CONFIG)->run();
+        $config = is_ecjia_error($config) ? array() : $config;
+
+        $min_withdraw_amount = !empty($config['min_withdraw_amount']) ? $config['min_withdraw_amount'] : 1;
+
+        if ($amount < $min_withdraw_amount) {
+            return ecjia_front::$controller->showmessage('最低提现金额不能小于' . $config['formatted_min_withdraw_amount'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+
+        $param = array('token' => $token, 'amount' => $amount, 'note' => $note, 'withdraw_way' => $withdraw_way);
+
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_WITHDRAW)->data($param)->run();
+        if (is_ecjia_error($data)) {
+            return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('user/account/withdraw_account_notice')));
     }
 
     //对会员余额申请的处理 提示页面
@@ -286,9 +327,9 @@ class user_account_controller
         $account_list = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_RECORD)->data(array('token' => $token, 'pagination' => array('page' => $pages, 'count' => $limit), 'type' => $type))->hasPage()->run();
         if (!is_ecjia_error($account_list)) {
             list($data, $page) = $account_list;
-            $now_mon           = RC_Time::local_date('Y-m', RC_Time::gmtime());
-            $now_day           = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
-            $now_year          = RC_Time::local_date('Y', RC_Time::gmtime());
+            $now_mon  = RC_Time::local_date('Y-m', RC_Time::gmtime());
+            $now_day  = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+            $now_year = RC_Time::local_date('Y', RC_Time::gmtime());
 
             $time = '';
             foreach ($data as $key => $val) {
@@ -337,9 +378,9 @@ class user_account_controller
 
         if (!is_ecjia_error($account_list)) {
             list($data, $page) = $account_list;
-            $now_mon           = RC_Time::local_date('Y-m', RC_Time::gmtime());
-            $now_day           = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
-            $now_year          = RC_Time::local_date('Y', RC_Time::gmtime());
+            $now_mon  = RC_Time::local_date('Y-m', RC_Time::gmtime());
+            $now_day  = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+            $now_year = RC_Time::local_date('Y', RC_Time::gmtime());
 
             $time = '';
             foreach ($data as $key => $val) {
@@ -389,9 +430,9 @@ class user_account_controller
 
         if (!is_ecjia_error($account_list)) {
             list($data, $page) = $account_list;
-            $now_mon           = RC_Time::local_date('Y-m', RC_Time::gmtime());
-            $now_day           = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
-            $now_year          = RC_Time::local_date('Y', RC_Time::gmtime());
+            $now_mon  = RC_Time::local_date('Y-m', RC_Time::gmtime());
+            $now_day  = RC_Time::local_date('Y-m-d', RC_Time::gmtime());
+            $now_year = RC_Time::local_date('Y', RC_Time::gmtime());
 
             $time = '';
             foreach ($data as $key => $val) {
@@ -428,6 +469,7 @@ class user_account_controller
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
     }
+
     /**
      * 充值提现详情
      */
@@ -436,72 +478,26 @@ class user_account_controller
         $token     = ecjia_touch_user::singleton()->getToken();
         $user_info = ecjia_touch_user::singleton()->getUserinfo();
 
+        $account_id = !empty($_GET['account_id']) ? intval($_GET['account_id']) : 0;
+
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_RECORD_DETAIL)->data(array('token' => $token, 'account_id' => $account_id))->run();
+        $data = is_ecjia_error($data) ? [] : $data;
+
         $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
+        $cache_id .= $cache_id . '-' . $data['order_sn'] . '-' . $data['type'] . '-' . $data['pay_status'];
         $cache_id = sprintf('%X', crc32($cache_id));
 
         if (!ecjia_front::$controller->is_cached('user_record_info.dwt', $cache_id)) {
-            $data['account_id']    = !empty($_GET['account_id']) ? $_GET['account_id'] : '';
-            $data['amount']        = !empty($_GET['amount']) ? $_GET['amount'] : '';
-            $data['format_amount'] = !empty($_GET['format_amount']) ? $_GET['format_amount'] : '';
-            $data['pay_status']    = !empty($_GET['pay_status']) ? $_GET['pay_status'] : '';
-            $data['type']          = !empty($_GET['type']) ? $_GET['type'] : '';
-            $data['type_lable']    = !empty($_GET['type_lable']) ? $_GET['type_lable'] : '';
-            $data['add_time']      = !empty($_GET['add_time']) ? $_GET['add_time'] : '';
-            $data['payment_id']    = !empty($_GET['payment_id']) ? $_GET['payment_id'] : '';
-            $data['payment_name']  = !empty($_GET['payment_id']) ? trim($_GET['payment_name']) : '';
-            $data['order_sn']      = !empty($_GET['order_sn']) ? trim($_GET['order_sn']) : '';
-            $data['pay_fee']                = !empty($_GET['pay_fee']) ? trim($_GET['pay_fee']) : '';
-            $data['format_real_amount']     = $_GET['format_real_amount'] != 0 ? trim($_GET['format_real_amount']) : ecjia_price_format(abs($data['amount']) - $data['pay_fee']);
-            $data['format_pay_fee']         = !empty($_GET['format_pay_fee']) ? trim($_GET['format_pay_fee']) : '';
-
-            $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
-            ecjia_front::$controller->assign('user_img', $user_img);
-
-            $user     = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
-            $user     = is_ecjia_error($user) ? array() : $user;
-            $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
-
-            if (!empty($user['avatar_img'])) {
-                $user_img = $user['avatar_img'];
+            if (empty($user_info['avatar_img'])) {
+                $user_info['avatar_img'] = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
             }
-            ecjia_front::$controller->assign('user_img', $user_img);
-            ecjia_front::$controller->assign('user', $user);
+            ecjia_front::$controller->assign('user', $user_info);
             ecjia_front::$controller->assign_title('交易明细');
+
             ecjia_front::$controller->assign('sur_amount', $data);
-            $_SESSION['status'] = !empty($_GET['status']) ? $_GET['status'] : '';
         }
         ecjia_front::$controller->display('user_record_info.dwt', $cache_id);
     }
-
-    /**
-     * 充值提现详情
-     */
-    // public static function record_info()
-    // {
-    //     $token = ecjia_touch_user::singleton()->getToken();
-    //     $user_info = ecjia_touch_user::singleton()->getUserinfo();
-
-    //     $account_id = !empty($_GET['account_id']) ? $_GET['account_id'] : '';
-    //     //TODO 接口未增加
-    //     // $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_ACCOUNT_RECORD_INFO)->data(array('token' => $token, 'account_id' => $account_id))->run();
-    //     $data = is_ecjia_error($data) ? [] : $data;
-
-    //     $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
-    //     $cache_id .= $cache_id . '-' . $data['order_sn'] . '-' . $data['type'] . '-' . $data['pay_status'];
-    //     $cache_id = sprintf('%X', crc32($cache_id));
-
-    //     if (!ecjia_front::$controller->is_cached('user_record_info.dwt', $cache_id)) {
-    //         $user_img = RC_Theme::get_template_directory_uri() . '/images/user_center/icon-login-in2x.png';
-    //         if (empty($user_info['avatar_img'])) {
-    //             $user_info['avatar_img'] = $user_img;
-    //         }
-    //         ecjia_front::$controller->assign('user', $user_info);
-    //         ecjia_front::$controller->assign_title('交易明细');
-
-    //         ecjia_front::$controller->assign('sur_amount', $data);
-    //     }
-    //     ecjia_front::$controller->display('user_record_info.dwt', $cache_id);
-    // }
 
     /**
      * 提现充值取消

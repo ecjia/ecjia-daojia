@@ -6,6 +6,7 @@ Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+<!-- {nocache} -->
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
@@ -56,27 +57,42 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 <i class="iconfont icon-jiantou-right margin-r-icon"></i>
             </a>
         </li>
-        <!-- <li>
-            <a href="{url path="user/profile/{if $user.wechat}bind_info{else}account_bind{/if}" args='type=wechat'}">
+        <li>
+            <a href="{url path="user/profile/bind_info" args='type=wechat'}">
                 <span class="icon-name margin-no-l">绑定微信</span>
-                <span class="icon-price">{if $user.wechat}{$user.wechat}{else}未绑定{/if}</span>
+                <span class="icon-price">{if $user.wechat_is_bind eq 1}{$user.wechat_nickname}{else}未绑定{/if}</span>
                 <i class="iconfont icon-jiantou-right margin-r-icon"></i>
             </a>
-        </li> -->
+        </li>
     </div>
 
     <div class="ecjia-list list-short">
-        <!-- <li>
+        <li>
             <a href="{url path='user/profile/set_pay_password'}">
-                <span class="icon-name margin-no-l">设置支付密码</span>
+                <span class="icon-name margin-no-l">{if $user.has_paypassword neq 1}设置{else}修改{/if}支付密码</span>
+                {if $user.has_paypassword neq 1}
                 <span class="icon-price">未设置</span>
+                {/if}
                 <i class="iconfont icon-jiantou-right margin-r-icon"></i>
             </a>
-        </li> -->
+        </li>
         <li>
             <a href="{url path='user/profile/edit_password'}">
-                <span class="icon-name margin-no-l">修改登录密码</span>
-                <span class="icon-price"></span>
+                <span class="icon-name margin-no-l">设置登录密码</span>
+                <i class="iconfont icon-jiantou-right margin-r-icon"></i>
+            </a>
+        </li>
+        {if $available_withdraw_way}
+        <li>
+            <a href="{url path='user/profile/withdraw'}">
+                <span class="icon-name margin-no-l">提现账户</span>
+                <i class="iconfont icon-jiantou-right margin-r-icon"></i>
+            </a>
+        </li>
+        {/if}
+        <li>
+            <a href="{url path='user/profile/cancel_account'}">
+                <span class="icon-name margin-no-l">注销账号</span>
                 <i class="iconfont icon-jiantou-right margin-r-icon"></i>
             </a>
         </li>
@@ -90,3 +106,4 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {/if} -->
 
 <!-- {/block} -->
+<!-- {/nocache} -->

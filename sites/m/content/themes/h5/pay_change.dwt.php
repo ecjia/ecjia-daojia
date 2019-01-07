@@ -21,7 +21,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <div class="ecjia-flow-done ecjia-pay">
         <p class="ecjia-payment-notice">当前订单不支持原有支付方式，请切换新的支付方式继续支付。</p>
 
-
         <ul class="ecjia-list ecjia-margin-t">
             <li>订单金额：<span class="ecjiaf-fr">{$detail.formated_total_fee}</span></li>
             <li>支付方式：<span class="ecjiaf-fr flow-msg">{$detail.pay_name}</span></li>

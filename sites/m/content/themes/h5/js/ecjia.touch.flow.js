@@ -526,18 +526,38 @@
 						return false;
 					}
 				} else {
-					//TODO 支付时输入支付密码
-					// var has_set_paypass = $('input[name="has_set_paypass"]').val();
-					// if (has_set_paypass == 0) {
+					//支付时输入支付密码
+					var has_set_paypass = $('input[name="has_set_paypass"]').val();
+					if (has_set_paypass == 1) {
 
-					// 	$(this).val("请求中...");
-					// 	$(this).attr("disabled", true);
-					// 	$(this).addClass("payment-bottom");
+						$(this).val("请求中...");
+						$(this).attr("disabled", true);
+						$(this).addClass("payment-bottom");
 
-					// 	$('.mod_address_slide').addClass('show');
-					// 	$(".pass_container input").eq(0).focus();
-					// }
-					// return false;
+						$('.mod_address_slide').addClass('show');
+						$(".pass_container input").eq(0).focus();
+					} else {
+                        var myApp = new Framework7();
+                        var url = $('.set_paypass_url').attr('data-url');
+                        myApp.modal({
+                            title: '',
+                            text: '您还未设置支付密码',
+                            buttons: [{
+                                text: '取消',
+                                onClick: function () {
+                                    $('.modal').remove();
+                                    $('.modal-overlay').remove();
+                                    return false;
+                                }
+                            }, {
+                                text: '去设置',
+                                onClick: function () {
+                                    window.location.href = url;
+                                }
+                            }, ]
+                        });
+					}
+					return false;
 				}
 
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
@@ -604,6 +624,7 @@
 					var order_id = $('input[name="order_id"]').val();
 					var pay_id = $('input[name="pay_id"]').val();
 					var url = $('input[name="url"]').val();
+                    var extension_code = $('input[name="extension_code"]').val();
 					var value = '';
 					$.each(firstResultAry, function (i, v) {
 						value += v;
@@ -612,7 +633,10 @@
 					var info = {
 						'order_id': order_id,
 						'pay_id': pay_id,
-						'value': value
+						'value': value,
+						'type': 'check_paypassword',
+						'extension_code': extension_code
+
 					}
 					$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 					$.post(url, info, function (data) {
@@ -622,7 +646,7 @@
 						$('.confirm-payment').removeAttr("disabled");
 						$('.confirm-payment').val('确认支付');
 						if (data.state == 'error') {
-							$('.mod_address_slide').removeClass('show');
+							// $('.mod_address_slide').removeClass('show');
 							$("#payPassword_container").find(".point").remove();
 							firstResultAry = [];
 							ecjia.touch.showmessage(data);

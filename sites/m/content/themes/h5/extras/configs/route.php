@@ -48,269 +48,271 @@
  * H5路由配置文件
  */
 return [
-	
-    'touch/index/init'                  => 'touch_controller@init',
-    'touch/index/ajax_goods'            => 'touch_controller@ajax_goods',
-    'touch/index/ajax_suggest_store'    => 'touch_controller@ajax_suggest_store',
-    'touch/index/search'                => 'touch_controller@search',
-    'touch/index/del_search'            => 'touch_controller@del_search',
-    'touch/index/cache_set'				=> 'touch_controller@cache_set', //缓存设置
-    'touch/index/clear_cache'			=> 'touch_controller@clear_cache', //清除缓存
-    
+
+    'touch/index/init'                           => 'touch_controller@init',
+    'touch/index/ajax_goods'                     => 'touch_controller@ajax_goods',
+    'touch/index/ajax_suggest_store'             => 'touch_controller@ajax_suggest_store',
+    'touch/index/search'                         => 'touch_controller@search',
+    'touch/index/del_search'                     => 'touch_controller@del_search',
+    'touch/index/cache_set'                      => 'touch_controller@cache_set', //缓存设置
+    'touch/index/clear_cache'                    => 'touch_controller@clear_cache', //清除缓存
+
     //定位
-    'touch/location/select_location'    => 'touch_controller@select_location',
-    'touch/location/search_list'        => 'touch_controller@search_list',
-    'touch/location/select_city'        => 'touch_controller@select_city',
-    'touch/location/get_location_msg'   => 'touch_controller@get_location_msg',
-    
+    'touch/location/select_location'             => 'touch_controller@select_location',
+    'touch/location/search_list'                 => 'touch_controller@search_list',
+    'touch/location/select_city'                 => 'touch_controller@select_city',
+    'touch/location/get_location_msg'            => 'touch_controller@get_location_msg',
+
     //商品
-    'goods/category/init'               => 'goods_controller@init',
-    'goods/category/store_list'         => 'goods_controller@store_list', //店铺分类列表
-    'goods/index/show'                  => 'goods_controller@show',    //商品详情页
-    'goods/index/promotion'             => 'goods_controller@promotion',
-    'goods/index/ajax_goods'            => 'goods_controller@ajax_goods',
-    'goods/index/new'                   => 'goods_controller@goods_new',
-    'goods/index/best'                   => 'goods_controller@goods_best',
-    'goods/index/ajax_goods_comment'    => 'goods_controller@ajax_goods_comment', //获取商品评论
-    'goods/index/groupbuy'    		    => 'goods_controller@groupbuy', //团购商品列表
-    
+    'goods/category/init'                        => 'goods_controller@init',
+    'goods/category/store_list'                  => 'goods_controller@store_list', //店铺分类列表
+    'goods/index/show'                           => 'goods_controller@show', //商品详情页
+    'goods/index/promotion'                      => 'goods_controller@promotion',
+    'goods/index/ajax_goods'                     => 'goods_controller@ajax_goods',
+    'goods/index/new'                            => 'goods_controller@goods_new',
+    'goods/index/best'                           => 'goods_controller@goods_best',
+    'goods/index/ajax_goods_comment'             => 'goods_controller@ajax_goods_comment', //获取商品评论
+    'goods/index/groupbuy'                       => 'goods_controller@groupbuy', //团购商品列表
+
     //店铺
-    'merchant/index/init'               => 'merchant_controller@init',
-    'merchant/index/ajax_goods'         => 'merchant_controller@ajax_goods',
-    'merchant/index/position'           => 'merchant_controller@position',
-    'merchant/index/ajax_store_comment' => 'merchant_controller@ajax_store_comment',
-    'merchant/quickpay/collectmoney'    => 'merchant_controller@collectmoney',
-    'merchant/category/list'            => 'merchant_controller@seller_list',
-    'merchant/index/follow_store'       => 'merchant_controller@follow_store',
+    'merchant/index/init'                        => 'merchant_controller@init',
+    'merchant/index/ajax_goods'                  => 'merchant_controller@ajax_goods',
+    'merchant/index/position'                    => 'merchant_controller@position',
+    'merchant/index/ajax_store_comment'          => 'merchant_controller@ajax_store_comment',
+    'merchant/quickpay/collectmoney'             => 'merchant_controller@collectmoney',
+    'merchant/category/list'                     => 'merchant_controller@seller_list',
+    'merchant/index/follow_store'                => 'merchant_controller@follow_store',
 
     //文章
-    'article/help/init'                 => 'article_controller@init',
-    'article/help/detail'               => 'article_controller@detail',
-    'article/shop/detail'               => 'article_controller@shop_detail',
-    'article/index/init'                => 'article_controller@article_index',  //发现首页
-    'article/index/detail'              => 'article_controller@article_detail', //发现文章详情
-    'article/index/ajax_article_list'   => 'article_controller@ajax_article_list', //获取分类下的文章
-    'article/index/add_comment'         => 'article_controller@add_comment', //获取分类下的文章
-    'article/index/ajax_comment_list'   => 'article_controller@ajax_comment_list', //获取文章评论列表
-    'article/index/like_article'        => 'article_controller@like_article', //文章点赞/取消点赞
-    
+    'article/help/init'                          => 'article_controller@init',
+    'article/help/detail'                        => 'article_controller@detail',
+    'article/shop/detail'                        => 'article_controller@shop_detail',
+    'article/index/init'                         => 'article_controller@article_index',         //发现首页
+    'article/index/detail'                       => 'article_controller@article_detail',        //发现文章详情
+    'article/index/ajax_article_list'            => 'article_controller@ajax_article_list',     //获取分类下的文章
+    'article/index/add_comment'                  => 'article_controller@add_comment',           //获取分类下的文章
+    'article/index/ajax_comment_list'            => 'article_controller@ajax_comment_list',     //获取文章评论列表
+    'article/index/like_article'                 => 'article_controller@like_article',          //文章点赞/取消点赞
+
     //购物车
-    'cart/index/init'                   => 'cart_controller@init',
-    'cart/index/update_cart'            => 'cart_controller@update_cart', //更新购物车中商品
-    'cart/index/check_spec'             => 'cart_controller@check_spec', //检查购物车中商品规格
-    'cart/flow/checkout'                => 'cart_controller@checkout',
-    'cart/flow/pay'                     => 'cart_controller@pay',
-    'cart/flow/shipping'                => 'cart_controller@shipping',
-    'cart/flow/pay_shipping'            => 'cart_controller@pay_shipping',
-    'cart/flow/shipping_date'           => 'cart_controller@shipping_date',
-    'cart/flow/invoice'                 => 'cart_controller@invoice',
-    'cart/flow/bonus'                   => 'cart_controller@bonus',
-    'cart/flow/integral'                => 'cart_controller@integral',
-    'cart/flow/note'                    => 'cart_controller@note',
-    'cart/flow/goods_list'              => 'cart_controller@goods_list',
-    'cart/flow/done'                    => 'cart_controller@done',
-    
-    'cart/flow/storepickup_checkout'    => 'cart_controller@storepickup_checkout',
-    'cart/flow/storepickup_done'        => 'cart_controller@storepickup_done',
-    'cart/flow/pay_pickup'            	=> 'cart_controller@pay_pickup',
-    'cart/flow/add_groupbuy'            => 'cart_controller@add_groupbuy',
-    
+    'cart/index/init'                            => 'cart_controller@init',
+    'cart/index/update_cart'                     => 'cart_controller@update_cart', //更新购物车中商品
+    'cart/index/check_spec'                      => 'cart_controller@check_spec', //检查购物车中商品规格
+    'cart/flow/checkout'                         => 'cart_controller@checkout',
+    'cart/flow/pay'                              => 'cart_controller@pay',
+    'cart/flow/shipping'                         => 'cart_controller@shipping',
+    'cart/flow/pay_shipping'                     => 'cart_controller@pay_shipping',
+    'cart/flow/shipping_date'                    => 'cart_controller@shipping_date',
+    'cart/flow/invoice'                          => 'cart_controller@invoice',
+    'cart/flow/bonus'                            => 'cart_controller@bonus',
+    'cart/flow/integral'                         => 'cart_controller@integral',
+    'cart/flow/note'                             => 'cart_controller@note',
+    'cart/flow/goods_list'                       => 'cart_controller@goods_list',
+    'cart/flow/done'                             => 'cart_controller@done',
+    'cart/flow/storepickup_checkout'             => 'cart_controller@storepickup_checkout',
+    'cart/flow/storepickup_done'                 => 'cart_controller@storepickup_done',
+    'cart/flow/pay_pickup'                       => 'cart_controller@pay_pickup',
+    'cart/flow/add_groupbuy'                     => 'cart_controller@add_groupbuy',
+
     //支付
-    'payment/pay/init'                  => 'payment_controller@init',
-    'payment/pay/notify'                => 'payment_controller@notify',
-    'payment/pay/pay_order'             => 'payment_controller@pay_order',
+    'payment/pay/init'                           => 'payment_controller@init',
+    'payment/pay/notify'                         => 'payment_controller@notify',
+    'payment/pay/pay_order'                      => 'payment_controller@pay_order',
 
     //会员
-    'touch/my/init'                     => 'user_controller@init',
-    'user/index/spread'                 => 'user_controller@spread',
-    'user/index/wxconfig'               => 'user_controller@wxconfig',
-    'user/follow/init'                  => 'user_controller@follow_list',
-    'user/follow/ajax_follow_list'      => 'user_controller@ajax_follow_list',
+    'touch/my/init'                              => 'user_controller@init',
+    'user/index/spread'                          => 'user_controller@spread',
+    'user/index/wxconfig'                        => 'user_controller@wxconfig',
+    'user/follow/init'                           => 'user_controller@follow_list',
+    'user/follow/ajax_follow_list'               => 'user_controller@ajax_follow_list',
 
     //推荐
-    'affiliate/index/init'              => 'affiliate_controller@init', //邀请注册
-    'affiliate/index/check'             => 'affiliate_controller@check',
-    'affiliate/index/refresh'           => 'affiliate_controller@refresh',
-    'affiliate/index/invite'            => 'affiliate_controller@invite',
-    
+    'affiliate/index/init'                       => 'affiliate_controller@init', //邀请注册
+    'affiliate/index/check'                      => 'affiliate_controller@check',
+    'affiliate/index/refresh'                    => 'affiliate_controller@refresh',
+    'affiliate/index/invite'                     => 'affiliate_controller@invite',
+
     //商家入驻申请
-    'franchisee/index/first'            => 'franchisee_controller@first',           //入驻申请第一步（真实姓名、电子邮箱、手机号码）
-    'franchisee/index/first_check'      => 'franchisee_controller@first_check',     //检查 第一步 填写
-    
-    'franchisee/index/second'           => 'franchisee_controller@second',          //入驻申请第二步（图形验证码）
-    'franchisee/index/second_check'     => 'franchisee_controller@second_check',    //检查 图形验证码
-
-    'franchisee/index/three'            => 'franchisee_controller@three',           //入驻申请第三步（短信验证码）
-    'franchisee/index/three_check'      => 'franchisee_controller@three_check',     //检查 短信验证码
-
-    'franchisee/index/send_sms'         => 'franchisee_controller@send_sms',        //发送入驻验证码
-    'franchisee/index/resend_sms'       => 'franchisee_controller@resend_sms',      //重新发送入驻验证码    
-
-    'franchisee/index/four'             => 'franchisee_controller@four',            //入驻申请第四步 填写基本信息
-    'franchisee/index/finish'           => 'franchisee_controller@finish',          //检查 基本信息
+    'franchisee/index/first'                     => 'franchisee_controller@first',           //入驻申请第一步（真实姓名、电子邮箱、手机号码）
+    'franchisee/index/first_check'               => 'franchisee_controller@first_check',     //检查 第一步 填写
+    'franchisee/index/second'                    => 'franchisee_controller@second',          //入驻申请第二步（图形验证码）
+    'franchisee/index/second_check'              => 'franchisee_controller@second_check',    //检查 图形验证码
+    'franchisee/index/three'                     => 'franchisee_controller@three',           //入驻申请第三步（短信验证码）
+    'franchisee/index/three_check'               => 'franchisee_controller@three_check',     //检查 短信验证码
+    'franchisee/index/send_sms'                  => 'franchisee_controller@send_sms',        //发送入驻验证码
+    'franchisee/index/resend_sms'                => 'franchisee_controller@resend_sms',      //重新发送入驻验证码
+    'franchisee/index/four'                      => 'franchisee_controller@four',            //入驻申请第四步 填写基本信息
+    'franchisee/index/finish'                    => 'franchisee_controller@finish',          //检查 基本信息
 
     //商家入驻查询
-    'franchisee/index/search'                => 'franchisee_controller@search',                 //店铺入驻查询 输入手机号
-    'franchisee/index/process_mobile_check'  => 'franchisee_controller@process_mobile_check',   //检查 手机号
-
-    'franchisee/index/enter_captcha'         => 'franchisee_controller@enter_captcha',          //店铺入驻查询 输入图形验证码
-    'franchisee/index/process_captcha_check' => 'franchisee_controller@process_captcha_check',  //检查图形验证码
-
-    'franchisee/index/process_enter_code'    => 'franchisee_controller@process_enter_code',     //店铺入驻查询 输入短信验证码
-    'franchisee/index/process_validate_code' => 'franchisee_controller@process_validate_code',  //检查短信验证码
-
-    'franchisee/index/process'               => 'franchisee_controller@process',                //显示入驻信息
-
-    'franchisee/index/location'              => 'franchisee_controller@location',               //显示店铺位置
-    'franchisee/index/get_region'            => 'franchisee_controller@get_region',             //获取地区
-
-    'franchisee/index/captcha_refresh'       => 'franchisee_controller@captcha_refresh',        //刷新图形验证码
+    'franchisee/index/search'                    => 'franchisee_controller@search',                 //店铺入驻查询 输入手机号
+    'franchisee/index/process_mobile_check'      => 'franchisee_controller@process_mobile_check',   //检查 手机号
+    'franchisee/index/enter_captcha'             => 'franchisee_controller@enter_captcha',          //店铺入驻查询 输入图形验证码
+    'franchisee/index/process_captcha_check'     => 'franchisee_controller@process_captcha_check',  //检查图形验证码
+    'franchisee/index/process_enter_code'        => 'franchisee_controller@process_enter_code',     //店铺入驻查询 输入短信验证码
+    'franchisee/index/process_validate_code'     => 'franchisee_controller@process_validate_code',  //检查短信验证码
+    'franchisee/index/process'                   => 'franchisee_controller@process',                //显示入驻信息
+    'franchisee/index/location'                  => 'franchisee_controller@location',               //显示店铺位置
+    'franchisee/index/get_region'                => 'franchisee_controller@get_region',             //获取地区
+    'franchisee/index/captcha_refresh'           => 'franchisee_controller@captcha_refresh',        //刷新图形验证码
 
     //登录注册
-    'user/privilege/login'              => 'user_privilege_controller@login',
-    'user/privilege/mobile_login'       => 'user_privilege_controller@mobile_login',
-    'user/privilege/pass_login'         => 'user_privilege_controller@pass_login',
-    'user/privilege/signin'             => 'user_privilege_controller@signin',
-    'user/privilege/signup'             => 'user_privilege_controller@signup',
-    'user/privilege/register'           => 'user_privilege_controller@register',
-    'user/privilege/validate_code'      => 'user_privilege_controller@validate_code',
-    'user/privilege/set_password'       => 'user_privilege_controller@set_password',
-    'user/privilege/logout'             => 'user_privilege_controller@logout',
-    'user/privilege/captcha_validate'   => 'user_privilege_controller@captcha_validate',
-    'user/privilege/captcha_refresh'    => 'user_privilege_controller@captcha_refresh',
-    'user/privilege/captcha_check'      => 'user_privilege_controller@captcha_check',
-    'user/privilege/enter_code'         => 'user_privilege_controller@enter_code',
-    'user/privilege/mobile_signin'      => 'user_privilege_controller@mobile_signin',
-    'user/privilege/wechat_login'       => 'user_privilege_controller@wechat_login',
-    
+    'user/privilege/login'                       => 'user_privilege_controller@login',
+    'user/privilege/mobile_login'                => 'user_privilege_controller@mobile_login',
+    'user/privilege/pass_login'                  => 'user_privilege_controller@pass_login',
+    'user/privilege/signin'                      => 'user_privilege_controller@signin',
+    'user/privilege/signup'                      => 'user_privilege_controller@signup',
+    'user/privilege/register'                    => 'user_privilege_controller@register',
+    'user/privilege/validate_code'               => 'user_privilege_controller@validate_code',
+    'user/privilege/set_password'                => 'user_privilege_controller@set_password',
+    'user/privilege/logout'                      => 'user_privilege_controller@logout',
+    'user/privilege/captcha_validate'            => 'user_privilege_controller@captcha_validate',
+    'user/privilege/captcha_refresh'             => 'user_privilege_controller@captcha_refresh',
+    'user/privilege/captcha_check'               => 'user_privilege_controller@captcha_check',
+    'user/privilege/enter_code'                  => 'user_privilege_controller@enter_code',
+    'user/privilege/mobile_signin'               => 'user_privilege_controller@mobile_signin',
+    'user/privilege/wechat_login'                => 'user_privilege_controller@wechat_login',
+
     //找回密码
-    'user/get_password/init'            => 'user_get_password_controller@init',
-    'user/get_password/mobile_check'    => 'user_get_password_controller@mobile_check',
-    'user/get_password/captcha_validate'=> 'user_get_password_controller@captcha_validate',
-    'user/get_password/enter_code'      => 'user_get_password_controller@enter_code',
-    'user/get_password/captcha_check'   => 'user_get_password_controller@captcha_check',
+    'user/get_password/init'                     => 'user_get_password_controller@init',
+    'user/get_password/mobile_check'             => 'user_get_password_controller@mobile_check',
+    'user/get_password/captcha_validate'         => 'user_get_password_controller@captcha_validate',
+    'user/get_password/enter_code'               => 'user_get_password_controller@enter_code',
+    'user/get_password/captcha_check'            => 'user_get_password_controller@captcha_check',
     'user/get_password/validate_forget_password' => 'user_get_password_controller@validate_forget_password',
     'user/get_password/mobile_register_account'  => 'user_get_password_controller@mobile_register_account',
-    'user/get_password/reset_password'  => 'user_get_password_controller@reset_password',
-    
+    'user/get_password/reset_password'           => 'user_get_password_controller@reset_password',
+
     //用户帐户
-    'user/account/init'                 => 'user_account_controller@init',  //我的钱包
-    'user/account/recharge'             => 'user_account_controller@recharge',
-    'user/account/recharge_account'     => 'user_account_controller@recharge_account',
-    'user/account/withdraw'             => 'user_account_controller@withdraw',
-    'user/account/withdraw_account'     => 'user_account_controller@withdraw_account',
-    'user/account/withdraw_account_notice' => 'user_account_controller@withdraw_account_notice',
-    'user/account/balance'              => 'user_account_controller@balance', //余额
-    'user/account/record'               => 'user_account_controller@record',
-    'user/account/ajax_record'          => 'user_account_controller@ajax_record',
-    'user/account/ajax_record_raply'    => 'user_account_controller@ajax_record_raply',
-    'user/account/ajax_record_deposit'  => 'user_account_controller@ajax_record_deposit',
-    'user/account/record_info'          => 'user_account_controller@record_info',
-    'user/account/record_cancel'        => 'user_account_controller@record_cancel',
-    'user/account/recharge_again'       => 'user_account_controller@recharge_again', //继续充值
-    'user/account/recharge_again_account' => 'user_account_controller@recharge_again_account', //继续充值
-    
+    'user/account/init'                          => 'user_account_controller@init', //我的钱包
+    'user/account/recharge'                      => 'user_account_controller@recharge',
+    'user/account/recharge_account'              => 'user_account_controller@recharge_account',
+    'user/account/withdraw'                      => 'user_account_controller@withdraw',
+    'user/account/withdraw_account'              => 'user_account_controller@withdraw_account',
+    'user/account/withdraw_account_notice'       => 'user_account_controller@withdraw_account_notice',
+    'user/account/balance'                       => 'user_account_controller@balance', //余额
+    'user/account/record'                        => 'user_account_controller@record',
+    'user/account/ajax_record'                   => 'user_account_controller@ajax_record',
+    'user/account/ajax_record_raply'             => 'user_account_controller@ajax_record_raply',
+    'user/account/ajax_record_deposit'           => 'user_account_controller@ajax_record_deposit',
+    'user/account/record_info'                   => 'user_account_controller@record_info',
+    'user/account/record_cancel'                 => 'user_account_controller@record_cancel',
+    'user/account/recharge_again'                => 'user_account_controller@recharge_again', //继续充值
+    'user/account/recharge_again_account'        => 'user_account_controller@recharge_again_account', //继续充值
+
     //用户收货地址
-    'user/address/address_list'         => 'user_address_controller@address_list',
-    'user/address/add_address'          => 'user_address_controller@add_address',
-    'user/address/insert_address'       => 'user_address_controller@insert_address',
-    'user/address/edit_address'         => 'user_address_controller@edit_address',
-    'user/address/update_address'       => 'user_address_controller@update_address',
-    'user/address/del_address'          => 'user_address_controller@del_address',
-    'user/address/save_temp_data'       => 'user_address_controller@save_temp_data',
-    'user/address/near_location'        => 'user_address_controller@near_location',
-    'user/address/set_default'          => 'user_address_controller@set_default',
-    'user/address/choose_address'       => 'user_address_controller@choose_address',
-    'user/address/get_region'           => 'user_address_controller@get_region',
-    'user/address/save_address_temp'    => 'user_address_controller@save_address_temp',
-    
+    'user/address/address_list'                  => 'user_address_controller@address_list',
+    'user/address/add_address'                   => 'user_address_controller@add_address',
+    'user/address/insert_address'                => 'user_address_controller@insert_address',
+    'user/address/edit_address'                  => 'user_address_controller@edit_address',
+    'user/address/update_address'                => 'user_address_controller@update_address',
+    'user/address/del_address'                   => 'user_address_controller@del_address',
+    'user/address/save_temp_data'                => 'user_address_controller@save_temp_data',
+    'user/address/near_location'                 => 'user_address_controller@near_location',
+    'user/address/set_default'                   => 'user_address_controller@set_default',
+    'user/address/choose_address'                => 'user_address_controller@choose_address',
+    'user/address/get_region'                    => 'user_address_controller@get_region',
+    'user/address/save_address_temp'             => 'user_address_controller@save_address_temp',
+
     //用户红包
-    'user/bonus/init'                   => 'user_bonus_controller@init',
-    'user/bonus/async_allow_use'        => 'user_bonus_controller@async_allow_use',
-    'user/bonus/async_is_used'          => 'user_bonus_controller@async_is_used',
-    'user/bonus/async_expired'          => 'user_bonus_controller@async_expired',
-    'user/bonus/my_reward'              => 'user_bonus_controller@my_reward',
-    'user/bonus/reward_detail'          => 'user_bonus_controller@reward_detail',
-    'user/bonus/get_integral'           => 'user_bonus_controller@get_integral',
-    'user/bonus/async_reward_detail'    => 'user_bonus_controller@async_reward_detail',
-    'user/bonus/add'                    => 'user_bonus_controller@add',
-    'user/bonus/add_bonus'              => 'user_bonus_controller@add_bonus',
-    
+    'user/bonus/init'                            => 'user_bonus_controller@init',
+    'user/bonus/async_allow_use'                 => 'user_bonus_controller@async_allow_use',
+    'user/bonus/async_is_used'                   => 'user_bonus_controller@async_is_used',
+    'user/bonus/async_expired'                   => 'user_bonus_controller@async_expired',
+    'user/bonus/my_reward'                       => 'user_bonus_controller@my_reward',
+    'user/bonus/reward_detail'                   => 'user_bonus_controller@reward_detail',
+    'user/bonus/get_integral'                    => 'user_bonus_controller@get_integral',
+    'user/bonus/async_reward_detail'             => 'user_bonus_controller@async_reward_detail',
+    'user/bonus/add'                             => 'user_bonus_controller@add',
+    'user/bonus/add_bonus'                       => 'user_bonus_controller@add_bonus',
+
     //订单
-    'user/order/order_list'             => 'user_order_controller@order_list',
-    'user/order/order_cancel'           => 'user_order_controller@order_cancel',
-    'user/order/async_order_list'       => 'user_order_controller@async_order_list',
-    'user/order/async_return_order_list'=> 'user_order_controller@async_return_order_list',
-    'user/order/order_detail'           => 'user_order_controller@order_detail',
-    'user/order/express_info'           => 'user_order_controller@express_info',
-    'user/order/affirm_received'        => 'user_order_controller@affirm_received',
-    'user/order/comment_list'           => 'user_order_controller@comment_list',
-    'user/order/goods_comment'          => 'user_order_controller@goods_comment',
-    'user/order/make_comment'           => 'user_order_controller@make_comment',
-    'user/order/buy_again'              => 'user_order_controller@buy_again',
-    'user/order/express_position'       => 'user_order_controller@express_position',
-    'user/order/return_list'            => 'user_order_controller@return_list',
-    'user/order/return_order'           => 'user_order_controller@return_order',
-    'user/order/add_return'             => 'user_order_controller@add_return',
-    'user/order/return_detail'          => 'user_order_controller@return_detail',
-    'user/order/undo_reply'             => 'user_order_controller@undo_reply',
-    'user/order/return_way_list'        => 'user_order_controller@return_way_list',
-    'user/order/return_way'             => 'user_order_controller@return_way',
-    'user/order/add_return_way'         => 'user_order_controller@add_return_way',
-    
+    'user/order/order_list'                      => 'user_order_controller@order_list',
+    'user/order/order_cancel'                    => 'user_order_controller@order_cancel',
+    'user/order/async_order_list'                => 'user_order_controller@async_order_list',
+    'user/order/async_return_order_list'         => 'user_order_controller@async_return_order_list',
+    'user/order/order_detail'                    => 'user_order_controller@order_detail',
+    'user/order/express_info'                    => 'user_order_controller@express_info',
+    'user/order/affirm_received'                 => 'user_order_controller@affirm_received',
+    'user/order/comment_list'                    => 'user_order_controller@comment_list',
+    'user/order/goods_comment'                   => 'user_order_controller@goods_comment',
+    'user/order/make_comment'                    => 'user_order_controller@make_comment',
+    'user/order/buy_again'                       => 'user_order_controller@buy_again',
+    'user/order/express_position'                => 'user_order_controller@express_position',
+    'user/order/return_list'                     => 'user_order_controller@return_list',
+    'user/order/return_order'                    => 'user_order_controller@return_order',
+    'user/order/add_return'                      => 'user_order_controller@add_return',
+    'user/order/return_detail'                   => 'user_order_controller@return_detail',
+    'user/order/undo_reply'                      => 'user_order_controller@undo_reply',
+    'user/order/return_way_list'                 => 'user_order_controller@return_way_list',
+    'user/order/return_way'                      => 'user_order_controller@return_way',
+    'user/order/add_return_way'                  => 'user_order_controller@add_return_way',
+
     //团购订单
-    'user/order/groupbuy_order'         => 'user_order_controller@groupbuy_order',
-    'user/order/async_groupbuy_order'   => 'user_order_controller@async_groupbuy_order',
-    'user/order/groupbuy_detail'   		=> 'user_order_controller@groupbuy_detail',
-    
+    'user/order/groupbuy_order'                  => 'user_order_controller@groupbuy_order',
+    'user/order/async_groupbuy_order'            => 'user_order_controller@async_groupbuy_order',
+    'user/order/groupbuy_detail'                 => 'user_order_controller@groupbuy_detail',
+
     //用户资料
-    'user/profile/init'                     => 'user_profile_controller@init',
-    'user/profile/modify_username'          => 'user_profile_controller@modify_username',
-    'user/profile/modify_username_account'  => 'user_profile_controller@modify_username_account',
-    'user/profile/edit_password'            => 'user_profile_controller@edit_password',
-    'user/profile/account_bind'             => 'user_profile_controller@account_bind',
-    'user/profile/get_code'                 => 'user_profile_controller@get_code',
-    'user/profile/check_code'               => 'user_profile_controller@check_code',
-    'user/profile/bind_info'                => 'user_profile_controller@bind_info',
-    'user/profile/get_sms_code'			    => 'user_profile_controller@get_sms_code',
-    'user/profile/modify_password'		    => 'user_profile_controller@modify_password',
-    'user/profile/set_pay_password'		    => 'user_profile_controller@set_pay_password',
-    'user/profile/set_pay_pass'		        => 'user_profile_controller@set_pay_pass',
-    'user/profile/check_pay_pass'	        => 'user_profile_controller@check_pay_pass',
+    'user/profile/init'                          => 'user_profile_controller@init',
+    'user/profile/modify_username'               => 'user_profile_controller@modify_username',
+    'user/profile/modify_username_account'       => 'user_profile_controller@modify_username_account',
+    'user/profile/edit_password'                 => 'user_profile_controller@edit_password',
+    'user/profile/account_bind'                  => 'user_profile_controller@account_bind',
+    'user/profile/get_code'                      => 'user_profile_controller@get_code',
+    'user/profile/check_code'                    => 'user_profile_controller@check_code',
+    'user/profile/bind_info'                     => 'user_profile_controller@bind_info',
+    'user/profile/get_sms_code'                  => 'user_profile_controller@get_sms_code',
+    'user/profile/modify_password'               => 'user_profile_controller@modify_password',
+    'user/profile/set_pay_password'              => 'user_profile_controller@set_pay_password',
+    'user/profile/set_pay_pass'                  => 'user_profile_controller@set_pay_pass',
+    'user/profile/check_pay_pass'                => 'user_profile_controller@check_pay_pass',
+    'user/profile/cancel_account'                => 'user_profile_controller@cancel_account', //注销账号
+    'user/profile/check_mobile'                  => 'user_profile_controller@check_mobile',
+    'user/profile/confirm_cancel_account'        => 'user_profile_controller@confirm_cancel_account',
+    'user/profile/confirm_activate_account'      => 'user_profile_controller@confirm_activate_account',
+    'user/profile/withdraw'                      => 'user_profile_controller@withdraw',
+    'user/profile/unbind_withdraw'               => 'user_profile_controller@unbind_withdraw',
+    'user/profile/bind_withdraw'                 => 'user_profile_controller@bind_withdraw',
+    'user/profile/check_user_mobile'             => 'user_profile_controller@check_user_mobile',
+    'user/profile/unbind_wechat'                 => 'user_profile_controller@unbind_wechat',
+    'user/profile/unbind_check_mobile'           => 'user_profile_controller@unbind_check_mobile',
 
     //授权登录
-    'connect/index/dump_user_info'      => 'connect_controller@dump_user_info',
-    'connect/index/bind_signup'         => 'connect_controller@bind_signup',
-    'connect/index/bind_signup_do'      => 'connect_controller@bind_signup_do',
-    'connect/index/bind_signin'         => 'connect_controller@bind_signin',
-    'connect/index/bind_signin_do'      => 'connect_controller@bind_signin_do',
-    'connect/index/mobile_login'        => 'connect_controller@mobile_login',
-    'connect/index/captcha_validate'    => 'connect_controller@captcha_validate',
-    'connect/index/captcha_refresh'     => 'connect_controller@captcha_refresh',
-    'connect/index/captcha_check'       => 'connect_controller@captcha_check',
-    'connect/index/enter_code'          => 'connect_controller@enter_code',
-    'connect/index/mobile_signin'       => 'connect_controller@mobile_signin',
-    'connect/index/set_password'        => 'connect_controller@set_password',
-    'connect/index/callback_template'        => 'connect_controller@callback_template',
-    
+    'connect/index/dump_user_info'               => 'connect_controller@dump_user_info',
+    'connect/index/bind_signup'                  => 'connect_controller@bind_signup',
+    'connect/index/bind_signup_do'               => 'connect_controller@bind_signup_do',
+    'connect/index/bind_signin'                  => 'connect_controller@bind_signin',
+    'connect/index/bind_signin_do'               => 'connect_controller@bind_signin_do',
+    'connect/index/mobile_login'                 => 'connect_controller@mobile_login',
+    'connect/index/captcha_validate'             => 'connect_controller@captcha_validate',
+    'connect/index/captcha_refresh'              => 'connect_controller@captcha_refresh',
+    'connect/index/captcha_check'                => 'connect_controller@captcha_check',
+    'connect/index/enter_code'                   => 'connect_controller@enter_code',
+    'connect/index/mobile_signin'                => 'connect_controller@mobile_signin',
+    'connect/index/set_password'                 => 'connect_controller@set_password',
+    'connect/index/callback_template'            => 'connect_controller@callback_template',
+    'connect/index/authorize'                    => 'connect_controller@authorize',
+
     //发现
-    'mobile/discover/init'              => 'mobile_controller@init',  //百宝箱
-    
+    'mobile/discover/init'                       => 'mobile_controller@init', //百宝箱
+
     //闪惠
-    'user/quickpay/quickpay_list'       => 'quickpay_controller@quickpay_list',
-    'user/quickpay/init'                => 'quickpay_controller@init',
-    'user/quickpay/explain'             => 'quickpay_controller@explain',
-    'user/quickpay/bonus'               => 'quickpay_controller@bonus',
-    'user/quickpay/integral'            => 'quickpay_controller@integral',
-    'user/quickpay/notify'              => 'quickpay_controller@notify',
-    'user/quickpay/async_quickpay_list' => 'quickpay_controller@async_quickpay_list',
-    'user/quickpay/quickpay_detail'     => 'quickpay_controller@quickpay_detail',
-    'user/quickpay/pay'                 => 'quickpay_controller@pay',
-    'user/quickpay/dopay'               => 'quickpay_controller@dopay',
-    'user/quickpay/notify'              => 'quickpay_controller@notify',
-    'user/quickpay/cancel'              => 'quickpay_controller@cancel',
-    'user/quickpay/delete'              => 'quickpay_controller@delete',
-    
-    'quickpay/flow/flow_checkorder'     => 'quickpay_controller@flow_checkorder',
-    'quickpay/flow/done'                => 'quickpay_controller@done',
+    'user/quickpay/quickpay_list'                => 'quickpay_controller@quickpay_list',
+    'user/quickpay/init'                         => 'quickpay_controller@init',
+    'user/quickpay/explain'                      => 'quickpay_controller@explain',
+    'user/quickpay/bonus'                        => 'quickpay_controller@bonus',
+    'user/quickpay/integral'                     => 'quickpay_controller@integral',
+    'user/quickpay/notify'                       => 'quickpay_controller@notify',
+    'user/quickpay/async_quickpay_list'          => 'quickpay_controller@async_quickpay_list',
+    'user/quickpay/quickpay_detail'              => 'quickpay_controller@quickpay_detail',
+    'user/quickpay/pay'                          => 'quickpay_controller@pay',
+    'user/quickpay/dopay'                        => 'quickpay_controller@dopay',
+    'user/quickpay/notify'                       => 'quickpay_controller@notify',
+    'user/quickpay/cancel'                       => 'quickpay_controller@cancel',
+    'user/quickpay/delete'                       => 'quickpay_controller@delete',
+
+    //优惠买单
+    'quickpay/flow/flow_checkorder'              => 'quickpay_controller@flow_checkorder',
+    'quickpay/flow/done'                         => 'quickpay_controller@done',
 ];

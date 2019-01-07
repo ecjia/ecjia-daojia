@@ -14,6 +14,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 // 	ecjia.touch.enter_search();
 </script>
 <!-- {/block} -->
+
 <!-- {block name="main-content"} -->
 <form id="theForm" name="theForm" action='{url path="user/quickpay/init" args="store_id={$store_id}"}' method="post">
 	<div class="quickpay">

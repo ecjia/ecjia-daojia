@@ -68,9 +68,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			{if $list.service_status_code eq 'refunded'} 
                 <a class="btn btn-hollow" href='{url path="user/order/return_detail" args="refund_sn={$list.refund_sn}&type=return_money"}'>查看退款</a>
             {/if}
-			{if $list.service_status_code eq 'refunded' || $list.service_status_code eq 'canceled'} 
-				<a class="btn btn-hollow" href='{url path="user/order/buy_again" args="order_id={$list.order_id}&from=list"}'>再次购买</a>
-			{/if}
+<!--			{if $list.service_status_code eq 'refunded' || $list.service_status_code eq 'canceled'} -->
+<!--				<a class="btn btn-hollow" href='{url path="user/order/buy_again" args="order_id={$list.order_id}&from=list"}'>再次购买</a>-->
+<!--			{/if}-->
 		</span>
 	</div>
 </li>

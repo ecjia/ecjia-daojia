@@ -130,15 +130,7 @@ class user_controller
             ecjia_front::$controller->assign('image', $image);
 
             if (user_function::is_weixin()) {
-                $spread_url = RC_Uri::url('user/index/spread', array('name' => urlencode($name)));
-
-                $uuid       = with(new Ecjia\App\Platform\Frameworks\Platform\AccountManager(0))->getDefaultUUID('wechat');
-                $wechat     = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
-                $apis       = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
-
-                $wechat->js->setUrl($spread_url);
-
-                $config = $wechat->js->config($apis, false);
+                $config = user_function::get_wechat_config($invite_user_detail['invite_url']);
                 ecjia_front::$controller->assign('config', $config);
             }
 

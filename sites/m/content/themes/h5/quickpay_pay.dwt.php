@@ -56,10 +56,87 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	        
 	      	<div class="ecjia-margin-t">
 	      		<input  type="hidden" name="order_id" value="{$order_info.order_id}" />
+
+                <input name="has_set_paypass" type="hidden" value="{if $user.has_paypassword eq 1}1{else}0{/if}" />
+                <input type="hidden" class="set_paypass_url" data-url="{url path='user/profile/set_pay_password'}" />
+
 		    	<input class="btn btn-recharge quick_pay_btn" name="submit" type="submit" value="确认支付" />
 		    	<div class="wei-xin-pay hide"></div>
 		    </div>
 	    </div>
 	</div>
 </form>
+
+<div class="mod_address_slide" id="enterPassArea">
+    <div class="mod_address_slide_main">
+        <div class="mod_address_slide_head">
+            请输入支付密码<i class="iconfont icon-close"></i>
+        </div>
+        <div class="mod_address_slide_body h350">
+            <div class="ecjia-form">
+                <p class="ecjiaf-tac ecjia-margin-b ecjia-margin-t ecjia-color-85878c">为了保证您的账户安全，请输入您的支付密码</p>
+                </p>
+                <div id="payPassword_container">
+                    <div class="pass_container enter_paypass_container">
+                        <div class="input" type="tel" maxlength="1"></div>
+                        <div class="input" type="tel" maxlength="1"></div>
+                        <div class="input" type="tel" maxlength="1"></div>
+                        <div class="input" type="tel" maxlength="1"></div>
+                        <div class="input" type="tel" maxlength="1"></div>
+                        <div class="input" type="tel" maxlength="1"></div>
+                    </div>
+                </div>
+                <input name="url" type="hidden" value="{url path='user/quickpay/dopay'}" />
+                <a class="ecjiaf-fr blue forget_paypass" href="{RC_Uri::url('user/profile/set_pay_password')}" style="padding-right:2em;color:#337ab7;">忘记支付密码</a>
+            </div>
+            <ul class="keyboard pct100 abs-lb" id="keyboard">
+                <li data-key="1">
+                    <p>1</p>
+                </li>
+                <li data-key="2">
+                    <p>2</p>
+                    <p class="letter">ABC</p>
+                </li>
+                <li data-key="3">
+                    <p>3</p>
+                    <p class="letter">DEF</p>
+                </li>
+                <li data-key="4">
+                    <p>4</p>
+                    <p class="letter">GHI</p>
+                </li>
+                <li data-key="5">
+                    <p>5</p>
+                    <p class="letter">JKL</p>
+                </li>
+                <li data-key="6">
+                    <p>6</p>
+                    <p class="letter">MNO</p>
+                </li>
+                <li data-key="7">
+                    <p>7</p>
+                    <p class="letter">PQRS</p>
+                </li>
+                <li data-key="8">
+                    <p>8</p>
+                    <p class="letter">TUV</p>
+                </li>
+                <li data-key="9">
+                    <p>9</p>
+                    <p class="letter">WXYZ</p>
+                </li>
+                <li class="bg-gray"></li>
+                <li data-key="0">
+                    <p>0</p>
+                </li>
+                <li class="bg-gray" data-key="del">
+                    <i class="icon-del auto">
+                        <img src="{$theme_url}images/user/keyboard_del.png" alt="">
+                    </i>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
 <!-- {/block} -->

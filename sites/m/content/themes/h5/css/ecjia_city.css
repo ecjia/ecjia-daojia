@@ -24,7 +24,8 @@ body .ecjia .ecjia-select .input100 {
     width: 100%
 }
 
-.swiper-container {
+/*h5*/
+.ecjia-mod-cycleimage .swiper-container {
     border-radius: .5rem;
     margin: .5rem !important;
 }
@@ -77,6 +78,10 @@ a.ecjia-color-green {
 
 .ecjia-margin-l {
     margin-left: 1em
+}
+
+.ecjia-margin-t1 {
+    margin-top: 1em
 }
 
 .ecjia-margin-t2 {
@@ -259,6 +264,10 @@ a.ecjia-color-green {
 
 .ecjiaf-pr {
     position: relative
+}
+
+.ecjiaf-fr {
+    float: right;
 }
 
 /*选择样式*/
@@ -1855,7 +1864,8 @@ footer {
     height: 4em;
     background: #F6F6F6;
     border-bottom: 1px solid #eee;
-    border-right: 1px solid #eee
+    border-right: 1px solid #eee;
+    padding: 0;
 }
 
 .category .category_left li.active {
@@ -1865,7 +1875,10 @@ footer {
 
 .category .category_left li.active a {
     color: #47aa4d;
-    height: 4em
+    height: 4em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .category .category_right {
@@ -2274,7 +2287,8 @@ footer {
 .ecjia-store-detail .store-other-info li {
     padding: 1em;
     background-color: #fff;
-    position: relative
+    position: relative;
+    overflow: hidden;
 }
 
 .ecjia-store-detail .store-other-info li+li:before {
@@ -2294,7 +2308,7 @@ footer {
     line-height: 2em
 }
 
-.ecjia-store-detail .store-other-info p.other-info-result {
+.ecjia-store-detail .store-other-info .other-info-result {
     position: relative;
     margin-left: 8em;
     font-size: 1em;
@@ -2316,6 +2330,12 @@ footer {
     height: 1.8em;
     background-size: 1.5em;
     background-repeat: no-repeat
+}
+
+.ecjia-store-detail .store-other-info .other-info-result.business_licence_pic img {
+    width: 200px;
+    height: 120px;
+    float: left;
 }
 
 .ecjia-store-detail .store-goods {
@@ -4742,10 +4762,26 @@ footer {
     font-size: 1.1em
 }
 
+.ecjia-user .ecjia-list.list-short li span.choose_bank {
+    display: inline-block;
+    height: 1.8em;
+    margin-top: 0;
+}
+
 .ecjia-user .ecjia-list.list-short li .icon {
-    width: 1.6em;
-    height: 1.6em;
-    margin-right: .5em;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.ecjia-user .ecjia-list.list-short li .choose-div .icon-jiantou-right {
+    position: absolute;
+    color: #999;
+    font-weight: normal;
+    font-size: 1.5em;
+    line-height: 1.9em;
+    right: .4em;
+    top: -1px;
 }
 
 .ecjia-user .ecjia-list.list-short li+li::before {
@@ -5219,11 +5255,23 @@ footer {
 }
 
 .ecjia-account .user-img {
-    margin: 0 auto 5% auto;
     border: none;
     overflow: hidden;
-    padding: 2em 0 0 35%;
-    position: relative
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 2em;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
 }
 
 .ecjia-account .user-img img {
@@ -5272,7 +5320,7 @@ footer {
     padding: 0 5em 0 2.5em;
 }
 
-.ecjia-user .ecjia-list.list-short li.height-5 .widhdraw_all_span {
+.ecjia-user .ecjia-list.list-short li.height-5 .withdraw_all_span {
     position: absolute;
     font-size: 1.1em;
     right: 0;
@@ -5295,7 +5343,7 @@ footer {
 }
 
 .ecjia-account .record-info {
-    margin: .5em 1em .5em 1em;
+    margin: 1.5em 1em .5em 1em;
     position: relative;
     font-size: 1.1em;
     color: #A2A09F
@@ -5389,6 +5437,10 @@ footer {
 
 .ecjia-account .ecjia-list li {
     padding: .7em 1em
+}
+
+.ecjia-account .ecjia-list li .withdraw_fee_label {
+    color: #ff3a6d;
 }
 
 .ecjia-account .account-bonus i.icon-redpacket {
@@ -5698,7 +5750,11 @@ footer {
 }
 
 .ecjia-button-top-list {
-    margin-top: 3.5em
+    margin-top: 1em
+}
+
+.ecjia-button-top-list.t_c {
+    text-align: center;
 }
 
 .ecjia-bouns-list li {
@@ -6294,7 +6350,8 @@ footer {
 .goods-info .ecjia-price-time {
     width: 100%;
     display: block;
-    overflow: hidden
+    overflow: hidden;
+    line-height: 2em;
 }
 
 .goods-info .ecjia-price-time .time-left {
@@ -6960,7 +7017,8 @@ footer {
 .order-status-head .order-status-msg .status {
     padding: 0 6em 0 0;
     position: relative;
-    height: auto
+    height: auto;
+    margin-left: 0;
 }
 
 .order-status-head .order-status-msg .more-status {
@@ -7065,7 +7123,8 @@ footer {
 .ecjia-order-list .order-ft span.two-btn .btn {
     float: right;
     margin: 0 0 0 4%;
-    min-width: 47%
+    /*min-width: 47%;*/
+    width: auto;
 }
 
 .ecjia-order-list .order-ft span.two-btn .btn:nth-of-type(2) {
@@ -12230,7 +12289,8 @@ footer {
 }
 
 .cancel_order_reason .picker-item,
-.choose_reason_modal .picker-item {
+.choose_reason_modal .picker-item,
+.choose_bank_modal .picker-item {
     text-align: center;
     padding: 0;
     font-size: 14px
@@ -14522,12 +14582,16 @@ body,
     padding-top: 2em;
 }
 
+.ecjia-withdraw-notice img {
+    width: 4em;
+    height: 4em;
+}
+
 .ecjia-withdraw-notice p {
     margin-bottom: .5em;
 }
 
 .ecjia-withdraw-notice p.green {
-    color: #47aa4d;
     color: #47aa4d;
     font-size: 1.1em;
     margin: 1em 0;
@@ -14537,7 +14601,7 @@ body,
 键盘公用样式
 =================================================================*/
 .keyboard {
-    height: 18.5rem;
+    height: 17.5rem;
     background-color: #ffffff;
     text-align: center;
     line-height: 1;
@@ -14554,13 +14618,13 @@ body,
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     height: 25%;
-    border-bottom: 1px solid #e6e6e6;
-    border-right: 1px solid #e6e6e6;
+    border-bottom: 1px solid #D5D8DB;
+    border-right: 1px solid #D5D8DB;
     float: left;
 }
 
 .keyboard li.bg-gray {
-    background-color: #e6e6e6;
+    background-color: #D5D8DB;
 }
 
 .keyboard li p {
@@ -14655,3 +14719,352 @@ body,
     background-color: #333333;
     -webkit-backface-visibility: hidden;
 }
+
+/* 注销账号 */
+.ecjia-cancel-account {
+    background-color: #fff;
+    padding: 20px 10px;
+    margin-bottom: 1em;
+}
+
+.ecjia-cancel-account .content {
+    text-align: center;
+}
+
+.ecjia-cancel-account .content .info {
+    line-height: 50px;
+}
+
+.ecjia-user-avatar {
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+}
+
+.ecjia-cancel-account .cancel-sub {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.ecjia-cancel-account .cancel-sub li {
+    line-height: 25px;
+    padding: 5px 0;
+    color: #838383;
+}
+
+.ecjia-cancel-account .cancel-sub li i {
+    margin-right: 5px;
+}
+
+.ecjia-cancel-account .cancel-sub li i img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.ecjia-cancel-account-notice {
+    padding: 10px 10px 20px 10px;
+    font-size: 12px;
+    color: #838383;
+}
+
+.ecjia-cancel-account-notice a,
+.ecjia-cancel-account-notice a:link,
+.ecjia-cancel-account-notice a:active,
+.ecjia-cancel-account-notice a:hover,
+.ecjia-cancel-account-notice a:visited {
+    color: #337ab7;
+}
+
+.ecjia-cancelAccount-modal {
+    width: 300px;
+    position: absolute;
+    z-index: 11000;
+    left: 47%;
+    margin-left: -135px;
+    margin-top: 0;
+    top: 10em;
+    text-align: center;
+    border-radius: 7px;
+    opacity: 0;
+    color: #000;
+    display: none;
+    max-height: 20em;
+    overflow: auto
+}
+
+.ecjia-cancelAccount-modal.modal-in {
+    opacity: 1;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    -webkit-transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1)
+}
+
+.ecjia-cancelAccount-modal.modal-out {
+    opacity: 0;
+    z-index: 10999;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    -webkit-transform: translate3d(0, 0, 0) scale(.815);
+    transform: translate3d(0, 0, 0) scale(.815)
+}
+
+.ecjia-cancelAccount-modal .modal-title {
+    text-align: center;
+    font-size: 1.3em;
+    height: 3em;
+    line-height: 3em;
+    font-weight: 400;
+    width: 75%;
+    margin: 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ecjia-cancelAccount-modal .modal-inners {
+    padding: 0;
+    background: #fff;
+    border-radius: 7px 7px 0 0;
+    border-bottom: 1px solid #eee;
+}
+
+.ecjia-cancelAccount-modal .modal-button {
+    background: #fff;
+    height: auto
+}
+
+.ecjia-cancelAccount-modal .modal-title-notice {
+    font-size: 15px;
+    margin: 10px 0 15px 0;
+}
+
+.ecjia-cancelAccount-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .6);
+    z-index: 10600;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    display: none
+}
+
+.ecjia-cancelAccount-overlay.ecjia-cancelAccount-overlay-visible {
+    visibility: visible;
+    opacity: 1
+}
+
+.ecjia-cancelAccount-modal #payPassword_container .pass_container {
+    width: 230px;
+    margin: 0 auto;
+    height: 30px;
+}
+
+.ecjia-cancelAccount-modal #payPassword_container {
+    overflow: hidden;
+}
+
+.ecjia-cancelAccount-modal #payPassword_container .pass_container .input {
+    width: 30px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #aaa;
+    height: 30px;
+    line-height: 30px;
+    font-size: 1.2em;
+}
+
+.ecjia-cancelAccount-modal #payPassword_container .pass-notice {
+    font-size: 13px;
+    margin-top: 1em;
+    margin-right: 20px;
+    color: #007aff;
+    float: right;
+}
+
+.ecjia-cancelAccount-modal #payPassword_container .pass-notice.disabled {
+    color: #838383;
+}
+
+.ecjia-cancel-account .cancel-notice.s {
+    color: #838383;
+}
+
+.ecjia-cancel-account .lefttime {
+    margin-top: 10px;
+    color: #838383;
+}
+
+.ecjia-cancel-account .lefttime span.days {
+    margin-right: 2px;
+}
+
+.ecjia-cancel-account .lefttime span.hours,
+.ecjia-cancel-account .lefttime span.minutes,
+.ecjia-cancel-account .lefttime span.seconds {
+    background-color: #ff3434;
+    color: #fff;
+    padding: 3px 5px;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+.ecjia-cancel-account .lefttime em {
+    font-style: normal;
+}
+
+.ecjia-list.list-notice li {
+    background-color: #f7f7f7;
+    border: none;
+    padding: .5em 1em 0 1em;
+    min-height: 2em;
+    height: auto;
+    color: #838383;
+    line-height: 1.5em;
+}
+
+.ecjia-list.list-notice li.notice-label {
+    font-size: .9em;
+}
+
+.ecjia-list.list-notice li .notice {
+    position: relative;
+    margin-left: 15px;
+    font-size: .9em;
+}
+
+.ecjia-list.list-notice li .notice .disc {
+    position: absolute;
+    left: -15px;
+}
+
+.ecjia-input {
+    margin-top: 1em;
+}
+
+.ecjia-input .input-li {
+    background-color: #fff;
+    height: 3.2em;
+    line-height: 3.2em;
+    padding: 0 1em;
+    position: relative;
+}
+
+.ecjia-input .input-li.b_t {
+    border-top: 1px solid #eee;
+}
+
+.ecjia-input .input-li:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.ecjia-input .input-li.b_b:after {
+    width: calc(100% - 1em);
+    left: 1em;
+}
+
+.ecjia-input .input-li.b_b_n:after {
+    border: none;
+}
+
+.ecjia-input .input-li .input-fl {
+    position: absolute;
+    left: 1em;
+    top: 0;
+    height: 3.2em;
+    width: 6em;
+    line-height: 3.2em;
+    overflow: hidden;
+}
+
+.ecjia-input .input-li .mobile_phone {
+    padding-left: 7em;
+}
+
+.ecjia-input .input-li .get_code,
+.ecjia-input .input-li .bind_notice {
+    text-align: center;
+    color: #47aa4d;
+    border-left: 1px solid #eee;
+    height: 2em;
+    margin-top: 0.6em;
+    line-height: 2em;
+    width: 8em;
+    padding-left: 1em;
+    float: right;
+    background: #fff none repeat scroll 0 0;
+}
+
+.ecjia-input .input-li .bind_notice a {
+    color: #47aa4d;
+}
+
+.ecjia-input .input-li input {
+    display: block;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    font-weight: normal;
+    appearance: normal;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    outline: 0 none;
+    padding-left: 7em;
+    padding-right: 0;
+    height: 3.2em;
+    text-overflow: ellipsis;
+    border-radius: 0;
+    text-align: right;
+}
+
+.ecjia-input .input-li input.text_left {
+    text-align: left;
+}
+
+.ecjia-input .input-li .choose-div {
+    position: relative;
+}
+
+.ecjia-input .input-li .choose-div .choose-name {
+    float: right;
+    width: 65%;
+    text-align: right;
+    padding-right: 1.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    color: #838383;
+}
+
+.ecjia-input .input-li .choose-div .icon-jiantou-right {
+    position: absolute;
+    color: #999;
+    font-weight: normal;
+    font-size: 1.5em;
+    line-height: 2em;
+    right: 0;
+}
+
+.ecjia-button-top-list .delete_withdraw {
+    color: #ff3434;
+    border-bottom: 1px solid #ff3434;
+    width: 8em;
+    display: inline-block;
+    line-height: 2em;
+    font-size: 1.2em;
+}
+

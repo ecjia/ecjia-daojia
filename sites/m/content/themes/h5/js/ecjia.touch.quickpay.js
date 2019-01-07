@@ -16,6 +16,7 @@
 			ecjia.touch.quickpay.quickpay_order_handle();
 			ecjia.touch.quickpay.confirm_pay();
 			ecjia.touch.quickpay.quick_pay();
+            ecjia.touch.quickpay.boardInit();
 		},
 
 		checkbtn: function () {
@@ -82,10 +83,10 @@
 			$('.quickpay_done').off('click').on('click', function (e) {
 				e.preventDefault();
 				var $this = $(this);
-				if ($this.hasClass('disabled')) {
+				if ($this.attr('disabled')) {
 					return false;
 				}
-				$this.addClass('disabled');
+				$this.prop('disabled', true);
 				var order_id = $("input[name='order_id']").val();
 				var show_exclude_amount = $("input[name='show_exclude_amount']:checked").val();
 				var direct_pay = $("input[name='direct_pay']").val();
@@ -93,19 +94,19 @@
 				if (order_id == undefined) {
 					var order_money = $("input[name='order_money']").val();
 					if (order_money == '' || order_money == undefined) {
-						$this.removeClass('disabled');
+						$this.prop('disabled', false);
 						alert('消费金额不能为空');
 						return false;
 					}
 					if (order_money == 0) {
-						$this.removeClass('disabled');
+						$this.prop('disabled', false);
 						alert('消费金额不能为0');
 						return false;
 					}
 					var drop_out_money = $("input[name='drop_out_money']").val();
 
 					if (show_exclude_amount == 1 && parseFloat(drop_out_money) > parseFloat(order_money)) {
-						$this.removeClass('disabled');
+						$this.prop('disabled', false);
 						alert('不参与优惠金额不能大于消费总金额');
 						return false;
 					}
@@ -118,7 +119,7 @@
 					url: url,
 					dataType: "json",
 					success: function (data) {
-						$this.removeClass('disabled');
+						$this.prop('disabled', false);
 						$('.la-ball-atom').remove();
 						var myApp = new Framework7();
 						if (data.referer_url || data.message == 'Invalid session') {
@@ -196,32 +197,35 @@
 					'activity_id': activity_id,
 				};
 				var url = $('input[name="quickpay_done_url"]').val();
-
 				$this.addClass('disabled').html('请求中...');
-				$.post(url, info, function (data) {
-					if (data.status == 'error') {
-						alert(data.message);
+
+				var order_id = 0;
+				$.post(url, info, function (result) {
+					if (result.status == 'error') {
+						alert(result.message);
 						$this.removeClass('disabled').html('确认买单');
 						return false;
 					}
-					var order_id = data.order_id;
-					$.post(pay_url, {
-						order_id: order_id,
-						pay_code: pay_code
-					}, function (data) {
-						$this.removeClass('disabled').html('确认买单');
-						if (data.state == 'error') {
-							alert(data.message);
-							return false;
-						}
-						if (data.redirect_url) {
-							location.href = data.redirect_url;
-						} else if (data.weixin_data) {
-							$('.wei-xin-pay').html("");
-							$('.wei-xin-pay').html(data.weixin_data);
-							callpay();
-						}
-					});
+					order_id = result.order_id;
+					if (order_id > 0) {
+						$.post(pay_url, {
+							order_id: order_id,
+							pay_code: pay_code
+						}, function (data) {
+							$this.removeClass('disabled').html('确认买单');
+							if (data.state == 'error') {
+								alert(data.message);
+								return false;
+							}
+							if (data.redirect_url) {
+								location.href = data.redirect_url;
+							} else if (data.weixin_data) {
+								$('.wei-xin-pay').html("");
+								$('.wei-xin-pay').html(data.weixin_data);
+								callpay();
+							}
+						});
+					}
 				});
 			});
 		},
@@ -272,10 +276,10 @@
 		},
 
 		quick_pay: function () {
-			$('.quick_pay_btn').on('click', function (e) {
+			$('.quick_pay_btn').off('click').on('click', function (e) {
 				var $this = $(this);
 				e.preventDefault();
-				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+				// $('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var bool = $this.hasClass('external');
 				if (bool) {
 					$this.val("请求中");
@@ -285,6 +289,50 @@
 
 				$this.attr("disabled", true);
 				$this.addClass("payment-bottom");
+
+                var pay_code = $('input[name="pay_code"]:checked').val();
+                if (pay_code == undefined) {
+                    $('.quick_pay_btn').removeClass("payment-bottom")
+                    $('.la-ball-atom').remove();
+                    $('.quick_pay_btn').removeAttr("disabled");
+                    if (bool) {
+                        $this.val("去支付");
+                    } else {
+                        $this.val("确认支付");
+                    }
+                    alert('请选择支付方式');
+                    return false;
+				}
+                //余额支付
+                if (pay_code == 'pay_balance') {
+                    //支付时输入支付密码
+                    var has_set_paypass = $('input[name="has_set_paypass"]').val();
+                    if (has_set_paypass == 1) {
+                        $('.mod_address_slide').addClass('show');
+                        $(".pass_container input").eq(0).focus();
+                    } else {
+                        var myApp = new Framework7();
+                        var url = $('.set_paypass_url').attr('data-url');
+                        myApp.modal({
+                            title: '',
+                            text: '您还未设置支付密码',
+                            buttons: [{
+                                text: '取消',
+                                onClick: function () {
+                                    $('.modal').remove();
+                                    $('.modal-overlay').remove();
+                                    return false;
+                                }
+                            }, {
+                                text: '去设置',
+                                onClick: function () {
+                                    window.location.href = url;
+                                }
+                            }]
+                        });
+                    }
+                    return false;
+                }
 
 				var url = $("form[name='quickpay_form']").attr('action');
 				$("form[name='quickpay_form']").ajaxSubmit({
@@ -298,11 +346,10 @@
 						if (bool) {
 							$this.val("去支付");
 						} else {
-							$('.quick_pay_btn').val("确认支付");
+                            $this.val("确认支付");
 						}
 
 						if (data.state == 'error') {
-							$this.val("去支付");
 							alert(data.message);
 							return false;
 						}
@@ -317,7 +364,102 @@
 					}
 				});
 			});
+
+            //关闭选择框
+            $('.mod_address_slide_head .icon-close').off('click').on('click', function () {
+                $('.mod_address_slide').removeClass('show');
+
+                var bool = $('.quick_pay_btn').hasClass('external');
+				if (bool) {
+                    $('.quick_pay_btn').val("去支付");
+				} else {
+                    $('.quick_pay_btn').val("确认支付");
+				}
+
+                $('.quick_pay_btn').attr("disabled", false);
+                $('.quick_pay_btn').removeClass("payment-bottom");
+            });
 		},
+
+        //模拟键盘初始化
+        boardInit: function () {
+            var firstResultAry = []; //记录输入结果
+            var $targetInput = $("#payPassword_container").find("div.input"); //模拟输入的input
+            var keyLength = $targetInput.length; //模拟输入的位数
+            var $keyboard = $("#keyboard"); //设置密码中的键盘
+            var $board = $keyboard.find("li"); //模拟键盘中的按键
+            var autoRequest = 0;
+
+            $board.on("touchend", function (e) {
+                e.preventDefault();
+                var keyType = $(this).attr("data-key");
+
+                if (keyType == "del") {
+                    firstResultAry.pop();
+                } else if (keyType && firstResultAry.length < keyLength) {
+                    firstResultAry.push(keyType);
+                }
+                $targetInput.html("");
+                for (var i = 0; i < firstResultAry.length; i++) {
+                    $targetInput.eq(i).html('<div class="point"></div>')
+                }
+
+                if (autoRequest == 1) {
+                    return false;
+                }
+
+                if (firstResultAry.length == keyLength) {
+                    autoRequest = 1;
+                    var order_id = $('input[name="order_id"]').val();
+                    var url = $('input[name="url"]').val();
+                    var pay_code = $('input[name="pay_code"]:checked').val();
+
+                    var value = '';
+                    $.each(firstResultAry, function (i, v) {
+                        value += v;
+                    })
+
+                    var info = {
+                        'order_id': order_id,
+                        'value': value,
+                        'type': 'check_paypassword',
+						'pay_code': pay_code
+                    }
+                    $('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
+                    $.post(url, info, function (data) {
+                        autoRequest = 0;
+
+                        $('.la-ball-atom').remove();
+
+                        var bool = $('.quick_pay_btn').hasClass('external');
+                        if (bool) {
+                            $('.quick_pay_btn').val("去支付");
+                        } else {
+                            $('.quick_pay_btn').val("确认支付");
+                        }
+
+                        $('.quick_pay_btn').attr("disabled", false);
+                        $('.quick_pay_btn').removeClass("payment-bottom");
+
+                        if (data.state == 'error') {
+                            $("#payPassword_container").find(".point").remove();
+                            firstResultAry = [];
+                            ecjia.touch.showmessage(data);
+                            return false;
+                        }
+                        if (data.redirect_url) {
+                            location.href = data.redirect_url;
+                        } else if (data.weixin_data) {
+                            $('.wei-xin-pay').html("");
+                            $('.wei-xin-pay').html(data.weixin_data);
+                            callpay();
+                        }
+
+                    })
+                    return false;
+                }
+            })
+        },
 
 	};
 })(ecjia, jQuery);

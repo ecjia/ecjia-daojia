@@ -210,7 +210,7 @@ class cart_controller
                         $data_rec .= ',' . $v['rec_id'];
                     }
                 } elseif ($v['is_checked'] == 0) {
-                    $cart_list['cart_list'][0]['total']['check_all'] = false; //全部选择
+                    $cart_list['cart_list'][0]['total']['check_all']    = false; //全部选择
                     $cart_list['cart_list'][0]['total']['goods_number'] -= $v['goods_number'];
                 }
                 $goods_attr = explode(',', $v['goods_attr_id']);
@@ -329,7 +329,7 @@ class cart_controller
                 'address_id' => $address_id,
                 'seller_id'  => $store_id,
             );
-            $address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params_address)->run();
+            $address_info   = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params_address)->run();
         }
 
         if (!is_ecjia_error($address_info) && $address_info['local'] == 1) {
@@ -407,6 +407,8 @@ class cart_controller
         }
         ecjia_front::$controller->assign('show_storepickup', $show_storepickup);
 
+        $_SESSION['cart'][$cart_key]['temp']['order_type'] = $order_type;
+
         if (!empty($rs['consignee']['id'])) {
             $address_id = $rs['consignee']['id'];
         }
@@ -438,15 +440,24 @@ class cart_controller
                         if ($val['pay_code'] == 'pay_alipay') {
                             unset($rs['payment_list'][$key]);
                         }
+                        //团购过滤货到付款
+                        if ($order_type == 'group_buy' && $val['pay_code'] == 'pay_cod') {
+                            unset($rs['payment_list'][$key]);
+                        }
                     }
                 } else {
                     foreach ($rs['payment_list'] as $key => $val) {
                         if ($val['pay_code'] == 'pay_wxpay') {
                             unset($rs['payment_list'][$key]);
                         }
+                        //团购过滤货到付款
+                        if ($order_type == 'group_buy' && $val['pay_code'] == 'pay_cod') {
+                            unset($rs['payment_list'][$key]);
+                        }
                     }
                 }
-                $selected_payment                              = head($rs['payment_list']);
+                $selected_payment = head($rs['payment_list']);
+
                 $_SESSION['cart'][$cart_key]['temp']['pay_id'] = $selected_payment['pay_id'];
             }
         }
@@ -526,9 +537,9 @@ class cart_controller
         //积分
         if ($_POST['integral_update']) {
             if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['order_max_integral']) {
-                return ecjia_front::$controller->showmessage($integral_name.'使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage($integral_name . '使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['your_integral']) {
-                return ecjia_front::$controller->showmessage($integral_name.'不足', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage($integral_name . '不足', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $_SESSION['cart'][$cart_key]['temp']['integral'] = empty($_POST['integral']) ? 0 : intval($_POST['integral']);
             }
@@ -539,7 +550,7 @@ class cart_controller
         $total['goods_price']  = 0;
         foreach ($rs['goods_list'] as $item) {
             $total['goods_number'] += $item['goods_number'];
-            $total['goods_price'] += $item['subtotal'];
+            $total['goods_price']  += $item['subtotal'];
         }
         $total['goods_price_formated']  = price_format($total['goods_price']);
         $total['shipping_fee']          = $selected_shipping['shipping_fee']; //$rs['shipping_list'];
@@ -551,7 +562,7 @@ class cart_controller
         }
         $total['discount_integral'] = 0;
         if ($_SESSION['cart'][$cart_key]['temp']['integral']) {
-            $integral_response = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_INTEGRAL)->data(
+            $integral_response          = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_INTEGRAL)->data(
                 array('token' => $token, 'integral' => $_SESSION['cart'][$cart_key]['temp']['integral'])
             )->run();
             $total['discount_integral'] = !is_ecjia_error($integral_response) ? $integral_response['bonus'] : $_SESSION['cart'][$cart_key]['temp']['integral'] / 100;
@@ -582,8 +593,8 @@ class cart_controller
             }
         }
         $total['tax_fee_formated'] = price_format($total['tax_fee']);
-        $total['amount'] += $total['tax_fee'];
-        $total['amount_formated'] = $total['amount'] < 0 ? price_format(0) : price_format($total['amount']);
+        $total['amount']           += $total['tax_fee'];
+        $total['amount_formated']  = $total['amount'] < 0 ? price_format(0) : price_format($total['amount']);
 
         ecjia_front::$controller->assign('total_goods_number', $total['goods_number']);
         ecjia_front::$controller->assign('selected_payment', $selected_payment);
@@ -603,14 +614,14 @@ class cart_controller
             'seller_id' => $store_id,
             'city_id'   => $_COOKIE['city_id'],
         );
-        $store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
-        $store_info = is_ecjia_error($store_info) ? array() : $store_info;
+        $store_info     = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
+        $store_info     = is_ecjia_error($store_info) ? array() : $store_info;
         ecjia_front::$controller->assign('store_info', $store_info);
 
         $map_url   = 'https://3gimg.qq.com/lightmap/v1/marker/index.html?type=0&marker=coord:';
         $url_param = '' . $store_info['location']['latitude'] . ',' . $store_info['location']['longitude'] . ';title:' . $store_info['seller_name'] . ';addr:' . $store_info['shop_address'];
         $url_param = urlencode($url_param);
-        $map_url .= $url_param;
+        $map_url   .= $url_param;
 
         ecjia_front::$controller->assign('location_url', $map_url);
 
@@ -661,7 +672,7 @@ class cart_controller
                 'address_id' => $address_id,
                 'seller_id'  => $store_id,
             );
-            $address_info = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params_address)->run();
+            $address_info   = ecjia_touch_manager::make()->api(ecjia_touch_api::ADDRESS_INFO)->data($params_address)->run();
         }
 
         if (!is_ecjia_error($address_info) && $address_info['local'] == 1) {
@@ -804,9 +815,9 @@ class cart_controller
         //积分
         if ($_POST['integral_update']) {
             if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['order_max_integral']) {
-                return ecjia_front::$controller->showmessage($integral_name.'使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage($integral_name . '使用超出订单限制', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['your_integral']) {
-                return ecjia_front::$controller->showmessage($integral_name.'不足', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage($integral_name . '不足', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $_SESSION['cart'][$cart_key]['temp']['integral'] = empty($_POST['integral']) ? 0 : intval($_POST['integral']);
             }
@@ -817,7 +828,7 @@ class cart_controller
         $total['goods_price']  = 0;
         foreach ($rs['goods_list'] as $item) {
             $total['goods_number'] += $item['goods_number'];
-            $total['goods_price'] += $item['subtotal'];
+            $total['goods_price']  += $item['subtotal'];
         }
         $total['goods_price_formated']  = price_format($total['goods_price']);
         $total['shipping_fee']          = $selected_shipping['shipping_fee']; //$rs['shipping_list'];
@@ -829,7 +840,7 @@ class cart_controller
         }
         $total['discount_integral'] = 0;
         if ($_SESSION['cart'][$cart_key]['temp']['integral']) {
-            $integral_response = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_INTEGRAL)->data(
+            $integral_response          = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_INTEGRAL)->data(
                 array('token' => $token, 'integral' => $_SESSION['cart'][$cart_key]['temp']['integral'])
             )->run();
             $total['discount_integral'] = !is_ecjia_error($integral_response) ? $integral_response['bonus'] : $_SESSION['cart'][$cart_key]['temp']['integral'] / 100;
@@ -860,8 +871,8 @@ class cart_controller
             }
         }
         $total['tax_fee_formated'] = price_format($total['tax_fee']);
-        $total['amount'] += $total['tax_fee'];
-        $total['amount_formated'] = $total['amount'] < 0 ? price_format(0) : price_format($total['amount']);
+        $total['amount']           += $total['tax_fee'];
+        $total['amount_formated']  = $total['amount'] < 0 ? price_format(0) : price_format($total['amount']);
 
         ecjia_front::$controller->assign('total_goods_number', $total['goods_number']);
         ecjia_front::$controller->assign('selected_payment', $selected_payment);
@@ -880,14 +891,14 @@ class cart_controller
             'seller_id' => $store_id,
             'city_id'   => $_COOKIE['city_id'],
         );
-        $store_info = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
-        $store_info = is_ecjia_error($store_info) ? array() : $store_info;
+        $store_info     = ecjia_touch_manager::make()->api(ecjia_touch_api::MERCHANT_CONFIG)->data($parameter_list)->run();
+        $store_info     = is_ecjia_error($store_info) ? array() : $store_info;
         ecjia_front::$controller->assign('store_info', $store_info);
 
         $map_url   = 'https://3gimg.qq.com/lightmap/v1/marker/index.html?type=0&marker=coord:';
         $url_param = '' . $store_info['location']['latitude'] . ',' . $store_info['location']['longitude'] . ';title:' . $store_info['seller_name'] . ';addr:' . $store_info['shop_address'];
         $url_param = urlencode($url_param);
-        $map_url .= $url_param;
+        $map_url   .= $url_param;
 
         ecjia_front::$controller->assign('location_url', $map_url);
         ecjia_front::$controller->assign('done_url', RC_Uri::url('cart/flow/storepickup_done'));
@@ -1227,8 +1238,9 @@ class cart_controller
             return ecjia_front::$controller->showmessage('请先选择收货地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
         }
 
-        $cart_key = $_SESSION['cart_temp_key'];
-        $data     = $_SESSION['cart'][$cart_key]['data'];
+        $cart_key   = $_SESSION['cart_temp_key'];
+        $data       = $_SESSION['cart'][$cart_key]['data'];
+        $order_type = $_SESSION['cart'][$cart_key]['temp']['order_type'];
 
         //分离线上支付线下支付
         $format_payment_list['online']  = array();
@@ -1238,7 +1250,14 @@ class cart_controller
                 if ($tem_payment['is_online'] == 1) {
                     $format_payment_list['online'][$tem_payment['pay_id']] = $tem_payment;
                 } else {
-                    $format_payment_list['offline'][$tem_payment['pay_id']] = $tem_payment;
+                    if ($order_type == 'group_buy') {
+                        if ($tem_payment['pay_code'] == 'pay_cod') {
+                            $tem_payment = [];
+                        }
+                    }
+                    if (!empty($tem_payment)) {
+                        $format_payment_list['offline'][$tem_payment['pay_id']] = $tem_payment;
+                    }
                 }
             }
         }
@@ -1405,7 +1424,8 @@ class cart_controller
         $action = $temp['order_mode'] == 'default' ? 'checkout' : 'storepickup_checkout';
         ecjia_front::$controller->assign('action', $action);
 
-        unset($data);unset($temp);
+        unset($data);
+        unset($temp);
         ecjia_front::$controller->assign('address_id', $address_id);
         ecjia_front::$controller->assign('rec_id', $rec_id);
 
@@ -1505,14 +1525,14 @@ class cart_controller
             $pjax_url = !empty($_SESSION['order_address_temp']['pjax_url']) ? trim($_SESSION['order_address_temp']['pjax_url']) : RC_Uri::url('cart/index/init');
             return ecjia_front::$controller->showmessage('请先选择收货地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjax_url));
         }
-        
+
         $integral_name = !empty(ecjia::config('integral_name')) ? ecjia::config('integral_name') : '积分';
-        $cart_key = $_SESSION['cart_temp_key'];
-        $data     = $_SESSION['cart'][$cart_key]['data'];
-        $temp     = $_SESSION['cart'][$cart_key]['temp'];
+        $cart_key      = $_SESSION['cart_temp_key'];
+        $data          = $_SESSION['cart'][$cart_key]['data'];
+        $temp          = $_SESSION['cart'][$cart_key]['temp'];
 
         if ($data['order_max_integral'] == 0) {
-            return ecjia_front::$controller->showmessage($integral_name.'不可用', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+            return ecjia_front::$controller->showmessage($integral_name . '不可用', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
         }
         ecjia_front::$controller->assign('data', $data);
         ecjia_front::$controller->assign('temp', $temp);
@@ -1522,7 +1542,7 @@ class cart_controller
         $action = $temp['order_mode'] == 'default' ? 'checkout' : 'storepickup_checkout';
         ecjia_front::$controller->assign('action', $action);
 
-        ecjia_front::$controller->assign_title('使用'.$integral_name);
+        ecjia_front::$controller->assign_title('使用' . $integral_name);
 
         ecjia_front::$controller->display('flow_integral.dwt');
     }

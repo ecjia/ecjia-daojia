@@ -24,7 +24,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <p>恭喜您，订单已经生成~</p>
     </div>
     {/if}
-    <ul class="ecjia-list ecjia-margin-t">
+    <ul class="ecjia-list">
         <li>订单金额：<span class="ecjiaf-fr">{$detail.formated_total_fee}</span></li>
 
         {if $detail.extension_code eq 'group_buy' && $detail.formated_pay_money neq ''}
@@ -34,36 +34,39 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <li>支付方式：<span class="ecjiaf-fr flow-msg">{if $data.pay_name}{$data.pay_name}{else}{$detail.pay_name}{/if}</span></li>
     </ul>
     <div class="ecjia-margin-t ecjia-margin-b flow-msg">{if $data.pay_status eq 'success'}支付成功！{else}{$pay_error}{/if}</div>
+
     {if $payment_list}
-    <ul class="ecjia-list ecjia-margin-t">
-        <li>
-            其它支付方式 <span class="ecjiaf-fr"></span>
-        </li>
-    </ul>
-    <ul class="ecjia-list list-short payment-list ecjia-margin-t">
-        <!-- {foreach from=$payment_list item=list} -->
-        <li>
-            <span class="icon-name {$list.pay_code}" data-code="{$list.pay_code}">
-                <a class="fnUrlReplace" href='{url path="payment/pay/init" args="order_id={$data.order_id}&tips_show=1&pay_id={$list.pay_id}&pay_code={$list.pay_code}"}'>{$list.pay_name}</a>
-            </span>
-        </li>
-        <!-- {/foreach} -->
-    </ul>
+        <ul class="ecjia-list">
+            <li>
+                其它支付方式 <span class="ecjiaf-fr"></span>
+            </li>
+        </ul>
+        <ul class="ecjia-list list-short payment-list">
+            <!-- {foreach from=$payment_list item=list} -->
+            <li>
+                <span class="icon-name {$list.pay_code}" data-code="{$list.pay_code}">
+                    <a class="fnUrlReplace" href='{url path="payment/pay/init" args="order_id={$data.order_id}&tips_show=1&pay_id={$list.pay_id}&pay_code={$list.pay_code}"}'>{$list.pay_name}</a>
+                </span>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
     {/if}
 
     {if $pay_online}
-    <div class="ecjia-margin-t ecjia-margin-b">
+    <div class="ecjia-margin-t ecjia-margin-t1 ecjia-margin-b">
         <a class="btn nopjax external" href="{$pay_online}">确认支付</a>
     </div>
     {/if}
 
     {if $detail.pay_code eq 'pay_balance' && $data.pay_status neq 'success'}
-    <form class="ecjia-form" name="payForm" action="{url path='payment/pay/pay_order'}" method="post">
+    <form class="ecjia-form ecjia-margin-t1" name="payForm" action="{url path='payment/pay/pay_order'}" method="post">
         <div class="ecjia-margin-t ecjia-margin-b">
             <input name="order_id" type="hidden" value="{$detail.order_id}" />
             <input name="pay_id" type="hidden" value="{$detail.pay_id}" />
-            <input name="has_set_paypass" type="hidden" value="0" />
+            <input name="has_set_paypass" type="hidden" value="{if $user.has_paypassword eq 1}1{else}0{/if}" />
             <input class="btn confirm-payment payment-balance" type="button" value="{t}确认支付{/t}" />
+            <input name="extension_code" type="hidden" value="{$detail.extension_code}" />
+            <input type="hidden" class="set_paypass_url" data-url="{url path='user/profile/set_pay_password'}" />
         </div>
     </form>
     {/if}
@@ -80,7 +83,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
     {if $data.pay_status eq 'success' || $detail.pay_code eq 'pay_cod'}
     <div class="ecjia-margin-t ecjia-margin-b two-btn">
-        <a class="btn" href='{url path="touch/index/init"}'>去购物</a>
+        <a class="btn nopjax external" href='{url path="touch/index/init"}'>去购物</a>
         <a class="btn" href='{if $detail.extension_code eq "group_buy"}{url path="user/order/groupbuy_detail" args="order_id={$data.order_id}"}{else}{url path="user/order/order_detail" args="order_id={$data.order_id}&type=detail"}{/if}'>查看订单</a>
     </div>
     {/if}
@@ -109,7 +112,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 <input name="order_id" type="hidden" value="{$detail.order_id}" />
                 <input name="pay_id" type="hidden" value="{$detail.pay_id}" />
                 <input name="url" type="hidden" value="{url path='payment/pay/pay_order'}" />
-                <a class="ecjiaf-fr blue forget_paypass" href="{RC_Uri::url('user/profile/set_pay_password')}" style="padding-right:2em;">忘记支付密码</a>
+                <a class="ecjiaf-fr blue forget_paypass" href="{RC_Uri::url('user/profile/set_pay_password')}" style="padding-right:2em;color:#337ab7;">忘记支付密码</a>
             </div>
             <ul class="keyboard pct100 abs-lb" id="keyboard">
                 <li data-key="1">
@@ -153,8 +156,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 </li>
                 <li class="bg-gray" data-key="del">
                     <i class="icon-del auto">
-                        <img src="//static.360buyimg.com/finance/mobile/payment/shortPassword/1.0.0/images/keyboard_del.png"
-                            alt="">
+                        <img src="{$theme_url}images/user/keyboard_del.png" alt="">
                     </i>
                 </li>
             </ul>

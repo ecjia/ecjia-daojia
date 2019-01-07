@@ -53,9 +53,9 @@ class payment_controller
 {
     public static function init()
     {
-        $order_id  = !empty($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-        $pay_id    = !empty($_GET['pay_id']) ? intval($_GET['pay_id']) : 0;
-        $pay_code  = !empty($_GET['pay_code']) ? trim($_GET['pay_code']) : '';
+        $order_id = !empty($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+        $pay_id = !empty($_GET['pay_id']) ? intval($_GET['pay_id']) : 0;
+        $pay_code = !empty($_GET['pay_code']) ? trim($_GET['pay_code']) : '';
         $tips_show = !empty($_GET['tips_show']) ? trim($_GET['tips_show']) : 0;
 
         //团购订单
@@ -69,9 +69,9 @@ class payment_controller
         if ($pay_id && $pay_code) {
             //修改支付方式，更新订单
             $params = array(
-                'token'    => $token,
+                'token' => $token,
                 'order_id' => $order_id,
-                'pay_id'   => $pay_id,
+                'pay_id' => $pay_id,
             );
             $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_UPDATE)->data($params)->run();
             if (is_ecjia_error($response)) {
@@ -83,10 +83,10 @@ class payment_controller
         $params_order = array('token' => $token, 'order_id' => $order_id);
 
         $api_detail = ecjia_touch_api::ORDER_DETAIL;
-        $pjaxurl    = RC_Uri::url('user/order/order_detail', array('order_id' => $order_id));
+        $pjaxurl = RC_Uri::url('user/order/order_detail', array('order_id' => $order_id));
         if ($type == 'group_buy') {
             $api_detail = ecjia_touch_api::GROUPBUY_ORDER_DETAIL;
-            $pjaxurl    = RC_Uri::url('user/order/groupbuy_detail', array('order_id' => $order_id));
+            $pjaxurl = RC_Uri::url('user/order/groupbuy_detail', array('order_id' => $order_id));
         }
         $detail = ecjia_touch_manager::make()->api($api_detail)->data($params_order)->run();
         if (is_ecjia_error($detail)) {
@@ -95,37 +95,38 @@ class payment_controller
         if ($detail['pay_status'] == 2) {
             return ecjia_front::$controller->showmessage('该订单已支付请勿重复支付', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjaxurl));
         }
+        
+        //不支持原有支付方式，请切换新的支付方式继续支付
+        $change_result = user_function::is_change_payment($detail['pay_code'], $detail['manage_mode']);
+        ecjia_front::$controller->assign('change_payment', $change_result['change']);
+        
+        if ($change_result['change'] && $detail['pay_code'] != 'pay_cod') {
+            ecjia_front::$controller->assign('detail', $detail);
+            ecjia_front::$controller->assign('payment_list', $change_result['payment']);
+            return ecjia_front::$controller->display('pay_change.dwt');
+        }
 
         if ($detail['extension_code'] == 'group_buy') {
             if ($detail['order_status_code'] == 'await_pay') {
                 $detail['formated_pay_money'] = $detail['formated_order_amount'];
             } else {
                 //支付余额
-                $total_money                  = $detail['money_paid'] + $detail['surplus'] + $detail['integral_money'] + $detail['bonus'] + $detail['order_deposit'];
-                $has_paid                     = $detail['goods_amount'] + $detail['shipping_fee'] + $detail['insure_fee'] + $detail['pay_fee'] + $detail['pack_fee'] + $detail['card_fee'] + $detail['tax'];
+                $total_money = $detail['money_paid'] + $detail['surplus'] + $detail['integral_money'] + $detail['bonus'] + $detail['order_deposit'];
+                $has_paid = $detail['goods_amount'] + $detail['shipping_fee'] + $detail['insure_fee'] + $detail['pay_fee'] + $detail['pack_fee'] + $detail['card_fee'] + $detail['tax'];
                 $detail['formated_pay_money'] = price_format($total_money - $has_paid);
             }
         }
 
-        $change_result = user_function::is_change_payment($detail['pay_code'], $detail['manage_mode']);
-        ecjia_front::$controller->assign('change_payment', $change_result['change']);
-
-        if ($change_result['change'] && $detail['pay_code'] != 'pay_cod') {
-            ecjia_front::$controller->assign('detail', $detail);
-            ecjia_front::$controller->assign('payment_list', $change_result['payment']);
-            ecjia_front::$controller->display('pay_change.dwt');
-            return false;
-        }
         //获得订单支付信息
         $params = array(
-            'token'    => $token,
+            'token' => $token,
             'order_id' => $order_id,
         );
 
         //支付方式信息
         if ($detail['pay_code'] == 'pay_wxpay' && empty($change_result['open_id'])) {
-            $handler                 = with(new Ecjia\App\Payment\PaymentPlugin)->channel($detail['pay_code']);
-            $open_id                 = $handler->getWechatOpenId();
+            $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($detail['pay_code']);
+            $open_id = $handler->getWechatOpenId();
             $params['wxpay_open_id'] = $open_id;
         } elseif (!empty($change_result['open_id'])) {
             $params['wxpay_open_id'] = $change_result['open_id'];
@@ -192,6 +193,9 @@ class payment_controller
         RC_Cookie::set('pay_response_index', RC_Uri::url('touch/index/init'));
         RC_Cookie::set('pay_response_order', $url);
 
+        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        ecjia_front::$controller->assign('user', $user);
+
         ecjia_front::$controller->display('pay.dwt');
     }
 
@@ -199,7 +203,7 @@ class payment_controller
     {
         $msg = '支付成功';
         ecjia_front::$controller->assign('msg', $msg);
-        $order_type   = isset($_GET['order_type']) ? trim($_GET['order_type']) : '';
+        $order_type = isset($_GET['order_type']) ? trim($_GET['order_type']) : '';
         $url['index'] = RC_Cookie::get('pay_response_index');
         $url['order'] = RC_Cookie::get('pay_response_order');
 
@@ -218,42 +222,66 @@ class payment_controller
     public static function pay_order()
     {
         $order_id = intval($_POST['order_id']);
-        $pay_id   = intval($_POST['pay_id']);
+        $pay_id = intval($_POST['pay_id']);
+        $type = trim($_POST['type']);
+        $extension_code = trim($_POST['extension_code']);
 
         if (empty($pay_id)) {
             return ecjia_front::$controller->showmessage(__('请选择支付方式'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $token = ecjia_touch_user::singleton()->getToken();
+
         //修改支付方式，更新订单
         $params = array(
-            'token'    => $token,
+            'token' => $token,
             'order_id' => $order_id,
-            'pay_id'   => $pay_id,
+            'pay_id' => $pay_id,
         );
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_UPDATE)->data($params)->run();
         if (is_ecjia_error($response)) {
             return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
+
         //获得订单支付信息
         $param_list = array(
-            'token'    => $token,
+            'token' => $token,
             'order_id' => $order_id,
         );
         if (cart_function::is_weixin()) {
             $param_list['wxpay_open_id'] = $_SESSION['wxpay_open_id'];
         }
 
-        $rs_pay = ecjia_touch_manager::make()->api(ecjia_touch_api::ORDER_PAY)->data($param_list)->run();
-
+        $api = ecjia_touch_api::ORDER_PAY;
+        if ($extension_code == 'group_buy') {
+            $api = ecjia_touch_api::GROUPBUY_ORDER_PAY;
+        }
+        $rs_pay = ecjia_touch_manager::make()->api($api)->data($param_list)->run();
         if (!is_ecjia_error($rs_pay)) {
+            //余额支付 校验支付密码
+            if ($type === 'check_paypassword') {
+                $value = trim($_POST['value']);
+                $pay_record_id = $rs_pay['payment']['pay_record_id'];
+
+                $result = ecjia_touch_manager::make()->api(ecjia_touch_api::PAYMENT_PAY_BALANCE)->data(array('token' => $token, 'record_id' => $pay_record_id, 'paypassword' => $value))->run();
+                if (is_ecjia_error($result)) {
+                    return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                }
+            }
+
             if (isset($rs_pay) && $rs_pay['payment']['error_message']) {
                 return ecjia_front::$controller->showmessage($rs_pay['payment']['error_message'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $notify_url = RC_Uri::url('payment/pay/notify', array('order_id' => $order_id));
+
             //生成返回url cookie
             RC_Cookie::set('pay_response_index', RC_Uri::url('touch/index/init'));
-            RC_Cookie::set('pay_response_order', RC_Uri::url('user/order/order_detail', array('order_id' => $order_id, 'type' => 'detail')));
+
+            $url = RC_Uri::url('user/order/order_detail', array('order_id' => $order_id, 'type' => 'detail'));
+            if ($extension_code == 'group_buy') {
+                $url = RC_Uri::url('user/order/groupbuy_detail', array('order_id' => $order_id));
+            }
+            RC_Cookie::set('pay_response_order', $url);
 
             $pay_online = array_get($rs_pay, 'payment.private_data.pay_online', array_get($rs_pay, 'payment.pay_online'));
             if (array_get($rs_pay, 'payment.pay_code') == 'pay_alipay') {

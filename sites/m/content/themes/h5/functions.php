@@ -84,11 +84,11 @@ RC_Hook::add_action('ecjia_front_finish_launching', function () {
         //微信浏览器
         if (ROUTE_M != 'connect') {
             if (!ecjia_touch_user::singleton()->isSignin() && !RC_Cookie::get('wechat_not_login', 0)) {
-                if ($_REQUEST['referer_url']) {
-                    RC_Cookie::set('referer', $_REQUEST['referer_url']);
-                } else {
+                // if ($_REQUEST['referer_url']) {
+                //     RC_Cookie::set('referer', $_REQUEST['referer_url']);
+                // } else {
                     RC_Cookie::set('referer', empty($_SERVER['HTTP_REFERER']) ? RC_Uri::current_url() : $_SERVER['HTTP_REFERER']);
-                }
+                // }
                 
                 $url = RC_Uri::url('connect/index/init', array('connect_code' => 'sns_wechat', 'login_type' => 'snsapi_userinfo'));
                 ecjia_front::$controller->redirect($url);

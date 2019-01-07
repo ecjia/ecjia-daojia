@@ -463,7 +463,7 @@ class touch_controller
         } else {
             $city_id = !empty($rs['region_id']) ? $rs['region_id'] : '';
         }
-        $referer_url = RC_Uri::url('touch/index/init');
+        $referer_url = empty($_SERVER['HTTP_REFERER']) ? RC_Uri::current_url() : $_SERVER['HTTP_REFERER'];
         setcookie("referer_url", $referer_url, RC_Time::gmtime() + 3600 * 24 * 7);
 
         $href_url = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
@@ -489,27 +489,6 @@ class touch_controller
         setcookie("position_name", $location_name, time() + 1800);
         setcookie("position_longitude", $longitude, time() + 1800);
         setcookie("position_latitude", $latitude, time() + 1800);
-
-        $store_id = $_COOKIE['current_store_id'];
-        if (empty($store_id)) {
-            //周边店铺
-            $paramater = array(
-                'pagination' => array('count' => 10, 'page' => 1),
-                'location'   => array('longitude' => $longitude, 'latitude' => $latitude),
-                'city_id'    => $city_id,
-            );
-            $response = ecjia_touch_manager::make()->api(ecjia_touch_api::SELLER_LIST)->data($paramater)->hasPage()->run();
-            if (!is_ecjia_error($response)) {
-                list($data, $paginated) = $response;
-                if (!empty($data)) {
-                    $store_id = $data[0]['id'];
-                }
-            }
-        }
-        setcookie("current_store_id", $store_id, time() + 3600 * 24);
-        if (empty($store_id)) {
-            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('touch/location/select_city')));
-        }
 
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $href_url));
     }

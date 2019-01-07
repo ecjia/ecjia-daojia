@@ -372,6 +372,9 @@ class quickpay_controller
         $token    = ecjia_touch_user::singleton()->getToken();
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $token));
 
+        $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        ecjia_front::$controller->assign('user', $user);
+
         if (!ecjia_front::$controller->is_cached('quickpay_pay.dwt', $cache_id)) {
             $params_list = array(
                 'token'    => $token,
@@ -426,6 +429,7 @@ class quickpay_controller
         $order_id = !empty($_POST['order_id']) ? intval($_POST['order_id']) : 0;
         $pay_code = !empty($_POST['pay_code']) ? trim($_POST['pay_code']) : '';
         $token    = ecjia_touch_user::singleton()->getToken();
+        $type     = trim($_POST['type']);
 
         $params_list = array(
             'token'    => $token,
@@ -443,7 +447,19 @@ class quickpay_controller
         }
 
         $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::QUICKPAY_ORDER_PAY)->data($params_list)->run();
+
         if (!is_ecjia_error($pay)) {
+            //余额支付 校验支付密码
+            if ($type === 'check_paypassword') {
+                $value = trim($_POST['value']);
+                $pay_record_id = $pay['payment']['pay_record_id'];
+
+                $result = ecjia_touch_manager::make()->api(ecjia_touch_api::PAYMENT_PAY_BALANCE)->data(array('token' => $token, 'record_id' => $pay_record_id, 'paypassword' => $value))->run();
+                if (is_ecjia_error($result)) {
+                    return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                }
+            }
+
             if (isset($pay) && $pay['payment']['error_message']) {
                 return ecjia_front::$controller->showmessage($pay['payment']['error_message'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }

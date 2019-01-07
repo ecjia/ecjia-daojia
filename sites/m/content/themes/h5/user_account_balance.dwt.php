@@ -6,9 +6,18 @@ Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+<!-- {nocache} -->
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
+<!-- {block name="footer"} -->
+<script type="text/javascript">
+	ecjia.touch.user_account.init();
+</script>
+<!-- {/block} -->
+
 <!-- {block name="main-content"} -->
+
+
 <ul class="ecjia-list ecjia-account">
 	<a href="{url path='user/account/record'}">
 		<p class="cash_list">交易记录</p>
@@ -23,7 +32,13 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
 	<div class="two-btn">
 		<a href="{url path='user/account/recharge'}" class="btn nopjax external">{t}充值{/t}</a>
+		{if $has_withdraw_method}
 		<a href="{url path='user/account/withdraw'}" class="btn ecjia-btn-e5 fnUrlReplace">{t}提现{/t}</a>
+		{else}
+		<a href="javascript:;" class="btn ecjia-btn-e5 withdraw-btn" data-url="{$url}">{t}提现{/t}</a>
+		{/if}
 	</div>
 </ul>
+
 <!-- {/block} -->
+<!-- {/nocache} -->

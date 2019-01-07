@@ -18,7 +18,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     	</a>
 	</div>
     <div class="ecjia-margin-b">
-    	<a href="{url path='touch/index/init'}">
+    	<a class="nopjax external" href="{url path='touch/index/init'}">
             <div class="qrcode_image">
                 <img src="{$theme_url}images/wallet/540x200_4.png">
             </div>

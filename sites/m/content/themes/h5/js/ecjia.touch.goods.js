@@ -70,6 +70,9 @@
 					if ($this.hasClass('add')) {
 						val = parseInt($this.siblings('label').html()) + 1;
 					}
+					if (spec.length == 0) {
+						spec = [0];
+					}
 					ecjia.touch.category.update_cart(rec_id, val, goods_id, '', store_id, spec, 'add');
 					return false;
 				}
@@ -184,6 +187,9 @@
 				if (deposit != 0 && deposit != undefined) {
 					formated_price = '￥' + (deposit * num).toFixed(2);
 				} else {
+                    var price_ladder = $('.goods-price-new').attr('data-priceladder');
+                    price_ladder = eval(price_ladder);
+                    price = calc_price(num, price_ladder, price);
 					formated_price = '￥' + (price * num).toFixed(2);
 				}
 				$('.a4z').addClass('m_l1').html('<div>' + formated_price + '</div>');
@@ -221,6 +227,9 @@
 				if (deposit != 0 && deposit != undefined) {
 					formated_price = '￥' + (deposit * num).toFixed(2);
 				} else {
+                    var price_ladder = $('.goods-price-new').attr('data-priceladder');
+                    price_ladder = eval(price_ladder);
+                    price = calc_price(num, price_ladder, price);
 					formated_price = '￥' + (price * num).toFixed(2);
 				}
 				$('.a4z').addClass('m_l1').html('<div>' + formated_price + '</div>');
@@ -248,6 +257,9 @@
 					var store_id = $('input[name="store_id"]').val();
 					var val = parseInt($this.siblings('label').html()) - 1;
 					var goods_id = $this.attr('goods_id');
+                    if (spec.length == 0) {
+                        spec = [0];
+                    }
 					ecjia.touch.category.update_cart(rec_id, val, goods_id, '', store_id, spec, 'reduce');
 					return false;
 				}
@@ -2345,6 +2357,17 @@
 		$(modal).find('.goods-attr-price').html($spec_price);
 	};
 
+	function calc_price(num, price_ladder, price) {
+		for (var i=0; i<price_ladder.length; i++) {
+			if (num == price_ladder[i]['amount'] || num < price_ladder[i+1]['amount']) {
+				return price_ladder[i]['price'];
+			} else if (num > price_ladder[i]['amount'] && num >= price_ladder[i+1]['amount']) {
+                return price_ladder[i+1]['price'];
+			} else {
+				return price;
+			}
+		}
+	}
 
 })(ecjia, jQuery);
 

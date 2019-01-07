@@ -100,7 +100,7 @@ var releated_goods = {$releated_goods};
 				</div>
 				{/if}
 				<div class="goods-price goods-price-new" goods_id="{$goods_info.id}" data-deposit="{$goods_info.groupbuy_info.deposit}"
-				 data-price="{$goods_info.promote_price}">
+				 data-price="{$goods_info.promote_price}" data-priceladder='{$goods_info.groupbuy_info.price_ladder}'>
 					<!-- $goods.is_promote and $goods.gmt_end_time -->
 
 					<!--{if ($goods_info.promote_price gt 0) AND ($goods_info.promote_start_date lt $goods_info.promote_end_date) AND ($goods_info.promote_price lt $goods_info.unformatted_shop_price)} 促销-->
@@ -138,7 +138,9 @@ var releated_goods = {$releated_goods};
 					<!--{else}-->
 					<span class="ecjia-price-span">{if $goods_info.promote_price gt
 						0}{$goods_info.formated_promote_price}{else}{$goods_info.shop_price}{/if}</span>
-					<del>市场价：{$goods_info.market_price}</del>
+					{if $goods_info.market_price}
+                    <del>市场价：{$goods_info.market_price}</del>
+                    {/if}
 
 					{if $goods_info.shop_closed neq 1}
 					{if $goods_info.specification}
@@ -351,8 +353,7 @@ var releated_goods = {$releated_goods};
 <!-- 切换详情页面end -->
 
 <div class="goods-desc-info active ecjia-seller-comment" id="goods-info-three" style="margin-top:7.5em;">
-	<!-- #BeginLibraryItem "/library/goods_comment.lbi" -->
-	<!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/goods_comment.lbi" --><!-- #EndLibraryItem -->
 </div>
 
 <div class="store-add-cart a4w">
@@ -465,15 +466,10 @@ var releated_goods = {$releated_goods};
 <input type="hidden" name="share_link" value="{$share_link}">
 <input type="hidden" name="share_page" value="1">
 
-<!-- #BeginLibraryItem "/library/address_modal.lbi" -->
-<!-- #EndLibraryItem -->
-<!-- #BeginLibraryItem "/library/goods_attr_modal.lbi" -->
-<!-- #EndLibraryItem -->
-<!-- #BeginLibraryItem "/library/goods_attr_static_modal.lbi" -->
-<!-- #EndLibraryItem -->
-<!-- #BeginLibraryItem "/library/preview_image.lbi" -->
-<!-- #EndLibraryItem -->
-<!-- #BeginLibraryItem "/library/change_goods_num.lbi" -->
-<!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/address_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/goods_attr_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/goods_attr_static_modal.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/preview_image.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/change_goods_num.lbi" --><!-- #EndLibraryItem -->
 <!-- {/block} -->
 {/nocache}

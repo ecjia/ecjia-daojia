@@ -3,8 +3,11 @@
  */
 ;
 (function (ecjia, $) {
+    var InterValObj = null; //timer变量，控制时间
+
 	ecjia.touch.user = {
 		init: function () {
+			window.clearInterval(InterValObj); //停止计时器
 			ecjia.touch.user.ecjia_login();
 			ecjia.touch.user.ecjia_logout();
 			ecjia.touch.user.show_goods_list_click();
@@ -24,6 +27,9 @@
 			ecjia.touch.user.return_order();
 			ecjia.touch.user.affiliate();
 			ecjia.touch.user.resend_sms();
+			ecjia.touch.user.cancel_account();
+            ecjia.touch.user.choose_bank();
+            ecjia.touch.user.delete_withdraw();
 
 			$(function () {
 				$(".del").click(function () {
@@ -72,6 +78,7 @@
 				}
 			});
 		},
+
 		//用户登录
 		ecjia_login: function () {
 			$('input[name="ecjia-login"]').off('click').on('click', function (e) {
@@ -221,7 +228,7 @@
 				});
 			});
 
-			var InterValObj; //timer变量，控制时间
+			
 			var count = 60; //间隔函数，1秒执行
 			var curCount; //当前剩余秒数
 			curCount = count;
@@ -305,6 +312,7 @@
 				}
 			});
 		},
+
 		clear_history: function () {
 			$('.clear_history').on('click', function (e) {
 				e.preventDefault();
@@ -316,9 +324,9 @@
 				}
 			});
 		},
+
 		/* 注册验证码 */
 		get_code: function () {
-			var InterValObj; //timer变量，控制时间
 			var count = 60; //间隔函数，1秒执行
 			var curCount; //当前剩余秒数
 			$('#get_code').off('click').on('click', function (e) {
@@ -345,7 +353,7 @@
 					}
 				}
 				$.get(url, function (data) {
-					if (data.state == 'success') {　
+					if (data.state == 'success') {
 						curCount = count;
 						$("#mobile").attr("readonly", "true");
 						$("#get_code").attr("disabled", "true");
@@ -399,6 +407,7 @@
 				});
 			});
 		},
+
 		/* 处理注册  */
 		register_password: function () {
 			$("#signin").off('click').on('click', function (e) {
@@ -419,6 +428,7 @@
 				});
 			});
 		},
+
 		/*找回密码重置密码*/
 		mobile_register: function () {
 			$("input[name='mobile_register']").off('click').on('click', function (e) {
@@ -435,6 +445,7 @@
 				});
 			});
 		},
+
 		/*设置新密码*/
 		reset_password: function () {
 			$("input[name='reset_password']").on('click', function (e) {
@@ -451,6 +462,7 @@
 				});
 			});
 		},
+
 		/*查看密码*/
 		show_password: function () {
 			$("#password1").on('click', function (e) {
@@ -472,6 +484,7 @@
 				}
 			});
 		},
+
 		/*修改用户名*/
 		modify_username: function () {
 			$("input[name='modify_username']").on('click', function (e) {
@@ -486,6 +499,7 @@
 				});
 			});
 		},
+
 		/*取消充值*/
 		record_cancel: function () {
 			$("input[name='record_cancel']").on('click', function (e) {
@@ -547,22 +561,29 @@
 				e.preventDefault();
 				return false;
 			}).Validform({
-				tiptype: function (msg, o, cssctl) {
-					//msg：提示信息;
-					//o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
-					//cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
-					//					if (o.type == 3){
-					//						alert(msg);
-					//					}
-				},
+				tiptype: function (msg, o, cssctl) {},
 				ajaxPost: true,
 				callback: function (data) {
 					if (data.state == 'success') {
+                        window.clearInterval(InterValObj); //停止计时器
 						iosOverlay({
-							text: "绑定成功！",
+							text: data.message,
 							duration: 2e3,
 						});
-						ecjia.touch.showmessage(data);
+						// ecjia.touch.showmessage(data);
+						if (data.pjaxurl) {
+                            ecjia.pjax(data.pjaxurl, function () {}, {
+                                replace: true
+                            });
+						} else if (data.url) {
+                            setTimeout(function () {
+								window.location.href = data.url;
+                            }, 500);
+						} else {
+                            setTimeout(function () {
+                                window.history.back(-1);
+                            }, 500);
+						}
 					} else {
 						if (!data.message) {
 							iosOverlay({
@@ -713,6 +734,30 @@
 					remove_overlay();
 				}
 			});
+		},
+
+        delete_withdraw: function () {
+            $('.delete_withdraw').off('click').on('click', function (e) {
+                e.preventDefault();
+                var myApp = new Framework7();
+                var $this = $(this),
+					url = $this.attr('data-url'),
+               		msg = $this.attr('data-msg');
+
+                myApp.modal({
+                    title: msg,
+                    buttons: [{
+                        text: '取消',
+                    }, {
+                        text: '确定',
+                        onClick: function () {
+                            ecjia.pjax(url, function () {}, {
+                                replace: true
+                            });
+                        },
+                    }]
+                });
+            });
 		},
 
 		return_order: function () {
@@ -1024,7 +1069,6 @@
 		},
 
 		affiliate: function () {
-			var InterValObj; //timer变量，控制时间
 			var count = 60; //间隔函数，1秒执行
 			var curCount; //当前剩余秒数
 
@@ -1055,7 +1099,7 @@
 				}
 
 				$.get(url, function (data) {
-					if (data.state == 'success') {　
+					if (data.state == 'success') {
 						curCount = count;
 						$("#mobile").attr("readonly", "true");
 						$(".identify_code_btn").attr("disabled", "true");
@@ -1123,7 +1167,205 @@
 					ecjia.touch.showmessage(data);
 				}
 			});
-		}
+		},
+
+		cancel_account: function () {
+			var InterObj; //timer变量，控制时间
+			var count_s = 60; //间隔函数，1秒执行
+			var curCount_s; //当前剩余秒数
+            window.clearInterval(InterObj);
+
+			$('.confirm-cancel-account').off('click').on('click', function () {
+				var myApp = new Framework7();
+				myApp.modal({
+					title: '',
+					text: '您确定要注销当前账号吗？',
+					buttons: [{
+						text: '取消',
+						onClick: function () {
+							$('.modal').remove();
+							$('.modal-overlay').remove();
+							return false;
+						}
+					}, {
+						text: '确定',
+						onClick: function () {
+							resend_cancel_sms();
+						}
+					}, ]
+				});
+				return false;
+			});
+			
+			$('.confirm-activate-account').off('click').on('click', function () {
+				resend_cancel_sms();
+			});
+
+			$('.pass-notice').off('click').on('click', function () {
+				var $this = $(this);
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				$this.addClass('disabled');
+				resend_cancel_sms();
+			});
+
+			$('.modal-button.cancel_confirm').off('click').on('click', function () {
+				$('.ecjia-close-modal-icon').trigger('click');
+			});
+
+			$('.ecjia-close-modal-icon').off('click').on('click', function () {
+				$('.ecjia-cancelAccount-modal').hide();
+				$('.ecjia-cancelAccount-overlay').hide();
+				$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
+			});
+
+			$('.modal-button.confirm_cancel').off('click').on('click', function () {
+				var value = '';
+				var $input = $(".pass_container input");
+				$input.each(function () {
+					var val = $(this).val();
+					if (val == '') {
+						$(this).focus();
+						return false;
+					}
+					value += $(this).val();
+				});
+				if (value.length == 6) {
+					var url = $('input[name="confirm_cancel_account"]').val();
+					$.post(url, {value: value}, function(data) {
+						if (data.state == 'success') {
+							window.clearInterval(InterObj);
+						}
+						ecjia.touch.showmessage(data);
+					});
+				}
+				return false;
+			});
+
+			function SetTime() {
+				if (curCount_s == 1) {
+					window.clearInterval(InterObj); //停止计时器
+					$(".pass-notice").html("<span></span>重新发送");
+					$('.pass-notice').removeClass('disabled');
+				} else {
+					curCount_s--;
+					$(".pass-notice span").html(curCount_s + "s");
+				}
+			};
+
+			function resend_cancel_sms() {
+                window.clearInterval(InterObj);
+
+				$('.modal').remove();
+				$('.modal-overlay').remove();
+
+				$('.pass-notice').addClass('disabled');
+				
+				var myApp = new Framework7();
+				var url = $('input[name="check_mobile"]').val();
+				$.post(url, function (data) {
+					if (data.state == 'success') {
+						$('.ecjia-cancel-account-modal').show();
+
+						curCount_s = count_s;
+						$(".pass-notice span").html(curCount_s + "s");
+						InterObj = window.setInterval(SetTime, 1000); //启动计时器，1秒执行一次
+
+						//禁用滚动条
+						$('body').css('overflow-y', 'hidden').on('touchmove', function (event) {
+							event.preventDefault;
+						}, false);
+
+						var wHeight = $(window).height();
+						var scrollTop = $(document).scrollTop();
+						var top;
+						if (wHeight - 400 < 0) {
+							top = scrollTop;
+						} else {
+							var ua = navigator.userAgent.toLowerCase();
+							if (ua.match(/MicroMessenger/i) == "micromessenger") {
+								top = scrollTop + (wHeight - 230) / 2;
+							} else {
+								top = scrollTop + (wHeight - 200) / 2;
+							}
+						}
+						$('.ecjia-cancelAccount-modal').show().css('top', top);
+
+						$('.ecjia-cancelAccount-overlay').show();
+						myApp.openModal('.ecjia-cancelAccount-modal');
+						$('.modal-overlay').remove();
+
+						return false;
+					}
+				});
+			}
+
+            $('.lefttime').yomi();
+		},
+
+		//选择银行
+        choose_bank: function () {
+            var App = new Framework7();
+            var list = eval($('input[name="bank_list"]').val());
+            var id_list = [];
+            var value_list = [];
+            if (list == undefined) {
+                return false;
+            }
+
+            for (i = 0; i < list.length; i++) {
+                var id = list[i]['bank_en_short'];
+                var value = "<img style='margin-right:5px;' src="+ list[i]['bank_icon'] +" width='25' height='25' >" + list[i]['bank_name'];
+                id_list.push(id);
+                value_list.push(value);
+            };
+            var pickerStreetToolbar = App.picker({
+                input: '.choose_bank',
+                cssClass: 'choose_bank_modal',
+                toolbarTemplate: '<div class="toolbar">' +
+                    '<div class="toolbar-inner">' +
+                    '<div class="left">' +
+                    '<a href="javascript:;" class="link close-picker external">取消</a>' +
+                    '</div>' +
+                    '<div class="right">' +
+                    '<a href="javascript:;" class="link save-picker external">确定</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>',
+                cols: [{
+                    values: id_list,
+                    displayValues: value_list
+                }, ],
+                onOpen: function (picker) {
+                    var $pick_overlay = '<div class="picker-modal-overlay"></div>';
+                    if ($('.picker-modal').hasClass('modal-in')) {
+                        $('.picker-modal').after($pick_overlay);
+                    }
+                    var current_id = $('input[name="bank_en_short"]').val();
+                    if (current_id != undefined && current_id != '') {
+                        picker.setValue([current_id]); //设置选中值
+                    }
+
+                    picker.container.find('.save-picker').on('click', function () {
+                        var value = picker.cols[0].container.find('.picker-selected').html();
+                        var id = picker.cols[0].container.find('.picker-selected').attr('data-picker-value');
+                        $('.choose_bank').html(value);
+                        $('input[name="bank_en_short"]').val(id);
+                        picker.close();
+                        remove_overlay();
+                    });
+                    picker.container.find('.close-picker').on('click', function () {
+                        picker.close();
+                        remove_overlay();
+                    });
+                },
+                onClose: function (picker) {
+                    picker.close();
+                    remove_overlay();
+                }
+            });
+        },
 	};
 
 	ecjia.touch.address_form = {
@@ -1539,6 +1781,11 @@
 		$('.modal-overlay').remove();
 		$('.picker-modal-overlay').remove();
 	}
+
+    //PJAX跳转执行
+    $(document).on('pjax:complete', function () {
+        window.clearInterval(InterValObj); //停止计时器
+    });
 })(ecjia, jQuery);
 
 //end

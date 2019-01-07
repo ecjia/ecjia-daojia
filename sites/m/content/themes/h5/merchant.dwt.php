@@ -193,6 +193,7 @@ ecjia.touch.category.init();
 <!-- #BeginLibraryItem "/library/goods_attr_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- #BeginLibraryItem "/library/goods_attr_static_modal.lbi" --><!-- #EndLibraryItem -->
 <!-- #BeginLibraryItem "/library/change_goods_num.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/preview_image.lbi" --><!-- #EndLibraryItem -->
 <!-- {/block} -->
 
 <!-- {block name="ajaxinfo"} -->

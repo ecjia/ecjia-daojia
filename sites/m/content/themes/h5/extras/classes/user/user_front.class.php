@@ -49,79 +49,92 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * ecjia 前端页面控制器父类
  */
-class user_front {
-    
+class user_front
+{
+
     private $public_route;
 
-	public function __construct() {
-	    $this->makePublicRoute();
+    public function __construct()
+    {
+        $this->makePublicRoute();
 
-		if (!$this->check_login()) {
-		    /*未登录处理*/
-            $url = RC_Uri::site_url() . substr($_SERVER['REQUEST_URI'], strripos($_SERVER['REQUEST_URI'], '/'));
+        if (!$this->check_login()) {
+            /*未登录处理*/
+            $url       = RC_Uri::site_url() . substr($_SERVER['REQUEST_URI'], strripos($_SERVER['REQUEST_URI'], '/'));
             $login_str = user_function::return_login_str();
             if (isset($_GET['referer_url'])) {
-            	$url = $_GET['referer_url'];
+                $url = $_GET['referer_url'];
             }
-            
+
             ecjia_front::$controller->redirect(RC_Uri::url($login_str, array('referer_url' => urlencode($url))));
             ecjia_front::$controller->exited();
-		}
-	}
-	
-	protected function makePublicRoute() {
-	    $this->public_route = array(
-	        'user/privilege/login',
-	    	'user/privilege/mobile_login',
-	    	'user/privilege/pass_login',
-	    	'user/privilege/signin',
-	    	'user/privilege/signup',
-	        'user/privilege/register',
-	    	'user/privilege/captcha_validate',
-	    	'user/privilege/captcha_refresh',
-	    	'user/privilege/captcha_check',
-	    	'user/privilege/enter_code',
-	    	'user/privilege/mobile_signin',
-	    	'user/privilege/wechat_login',
-	    		
-	        'user/privilege/bind_signin',
-	        'user/privilege/bind_signin_do',
-	        'user/privilege/bind_signup',
-	        'user/privilege/bind_signup_do',
-	        'user/privilege/bind_login',
-	    	'user/privilege/validate_code',
-	    	'user/privilege/set_password',
-	        
-	        'user/get_password/get_password_phone',
-	        'user/get_password/pwd_question_name',
-	        'user/get_password/send_pwd_email',
-	        'user/get_password/update_password',
-	        'user/get_password/forget_pwd',
-	        'user/get_password/reset_pwd_mail',
-	        'user/get_password/reset_pwd_form',
-	        'user/get_password/reset_pwd',
-	        'user/get_password/mobile_register_account',
-	    	'user/get_password/init',
-	    	'user/get_password/mobile_check',
-	    	'user/get_password/captcha_validate',
-	    	'user/get_password/enter_code',
-	    	'user/get_password/captcha_check',
-	    	'user/get_password/validate_forget_password',
-	    		
-	    	'user/get_password/reset_password',
-	        'market/mobile_reward/init',
-	        'market/mobile_reward/recieve',
-	    		
-	    	'user/index/wxconfig',
-	    );
-	}
+        }
 
-	/**
-	 * 未登录验证
-	 */
-	private function check_login() {
-		/*不需要登录的操作或自己验证是否登录（如ajax处理）的方法*/
-		$without = array(
+        if ($this->check_status()) {
+            $url         = RC_Uri::url('user/profile/cancel_account');
+            $current_url = RC_Uri::current_url();
+	    
+            if ($url != $current_url) {
+                return ecjia_front::$controller->redirect($url);
+            }
+        }
+    }
+
+    protected function makePublicRoute()
+    {
+        $this->public_route = array(
+            'user/privilege/login',
+            'user/privilege/mobile_login',
+            'user/privilege/pass_login',
+            'user/privilege/signin',
+            'user/privilege/signup',
+            'user/privilege/register',
+            'user/privilege/captcha_validate',
+            'user/privilege/captcha_refresh',
+            'user/privilege/captcha_check',
+            'user/privilege/enter_code',
+            'user/privilege/mobile_signin',
+            'user/privilege/wechat_login',
+
+            'user/privilege/bind_signin',
+            'user/privilege/bind_signin_do',
+            'user/privilege/bind_signup',
+            'user/privilege/bind_signup_do',
+            'user/privilege/bind_login',
+            'user/privilege/validate_code',
+            'user/privilege/set_password',
+
+            'user/get_password/get_password_phone',
+            'user/get_password/pwd_question_name',
+            'user/get_password/send_pwd_email',
+            'user/get_password/update_password',
+            'user/get_password/forget_pwd',
+            'user/get_password/reset_pwd_mail',
+            'user/get_password/reset_pwd_form',
+            'user/get_password/reset_pwd',
+            'user/get_password/mobile_register_account',
+            'user/get_password/init',
+            'user/get_password/mobile_check',
+            'user/get_password/captcha_validate',
+            'user/get_password/enter_code',
+            'user/get_password/captcha_check',
+            'user/get_password/validate_forget_password',
+
+            'user/get_password/reset_password',
+            'market/mobile_reward/init',
+            'market/mobile_reward/recieve',
+
+            'user/index/wxconfig',
+        );
+    }
+
+    /**
+     * 未登录验证
+     */
+    private function check_login()
+    {
+        /*不需要登录的操作或自己验证是否登录（如ajax处理）的方法*/
+        $without = array(
 // 			'login',
 // 			'register',
 // 			'get_password_phone',
@@ -129,42 +142,55 @@ class user_front {
 // 			'pwd_question_name',
 // 			'send_pwd_email',
 // 			'update_password',
-			'check_answer',
-			'logout',
-			'add_collection',
-			'third_login',
-			'signin',
-			'signup',
-			'history',
-			'clear_history',
-			'get_user_info',
-			'dump_user_info',
-			'region',
-			'send_captcha',
-			'act_register',
-		    'set_password',
-		    'reset_password',
-		    'bind_signin',
-		    'bind_signup',
-		    'bind_login',
-		    'mobile_register',
-		    'validate_code',
-		    'reset_password'
-		);
-		
-		//验证公开路由
-		$route_controller = ROUTE_M . '/' . ROUTE_C . '/' . ROUTE_A;
-		if (in_array($route_controller, $this->public_route)) {
-		    return true;
-		}
-		
-		//验证登录身份
-		if (ecjia_touch_user::singleton()->isSignin()) {
-		    return true;
-		}
-		
-		return false;
-	}
+            'check_answer',
+            'logout',
+            'add_collection',
+            'third_login',
+            'signin',
+            'signup',
+            'history',
+            'clear_history',
+            'get_user_info',
+            'dump_user_info',
+            'region',
+            'send_captcha',
+            'act_register',
+            'set_password',
+            'reset_password',
+            'bind_signin',
+            'bind_signup',
+            'bind_login',
+            'mobile_register',
+            'validate_code',
+            'reset_password'
+        );
+
+        //验证公开路由
+        $route_controller = ROUTE_M . '/' . ROUTE_C . '/' . ROUTE_A;
+        if (in_array($route_controller, $this->public_route)) {
+            return true;
+        }
+
+        //验证登录身份
+        if (ecjia_touch_user::singleton()->isSignin()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function check_status()
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
+        $user  = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
+        $user  = is_ecjia_error($user) ? array() : $user;
+
+        if ($user['account_status'] == 'wait_delete') {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 // end

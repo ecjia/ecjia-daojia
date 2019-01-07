@@ -9,7 +9,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
-<script type="text/javascript" >
+<script type="text/javascript">
 ecjia.touch.user_account.init();
 </script>
 <!-- {/block} -->
@@ -25,9 +25,9 @@ ecjia.touch.user_account.init();
     		</label>
     	</div>
     	 {if $payment_list}
-		    <ul class="ecjia-list ecjia-margin-t">
+		    <ul class="ecjia-list ecjia-margin-t1">
 		        <li>
-		                        支付方式 <span class="ecjiaf-fr"></span>
+		            支付方式 <span class="ecjiaf-fr"></span>
 		        </li>
 		    </ul>
 		    <ul class="ecjia-list list-short payment-list">
