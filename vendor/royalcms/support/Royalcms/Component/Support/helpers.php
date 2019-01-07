@@ -139,7 +139,7 @@ if (! function_exists('array_first')) {
      * @param  mixed  $default
      * @return mixed
      */
-    function array_first($array, callable $callback, $default = null)
+    function array_first($array, callable $callback = null, $default = null)
     {
         return Arr::first($array, $callback, $default);
     }
