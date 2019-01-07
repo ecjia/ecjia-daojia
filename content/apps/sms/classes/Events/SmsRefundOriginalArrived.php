@@ -44,54 +44,24 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 发送短信的接口
- * @author royalwang
- */
-class sms_send_event_sms_api extends Component_Event_Api {
-	
-    /**
-     * @param $mobile   integer 手机号
-     * @param $event    string  发送事件
-     * @param $value    array   模板变量值
-     * @param $channel  string  短信渠道code，选填
-     * @return boolean | ecjia_error
-     */
-	public function call(&$options) {	
-	    
-	    // $mobile, $event, $value
-	    
-	    if (!array_key_exists('mobile', $options) || !array_key_exists('event', $options) || !array_key_exists('value', $options)) {
-	        return new ecjia_error('invalid_argument', __('无效参数'));
-	    }
-	    
-	    $mobile = $options['mobile'];
-	    $event = $options['event'];
-	    $value = $options['value'];
-	    $channel = array_get($options, 'channel', null);
+namespace Ecjia\App\Sms\Events;
 
-	    try {
+use Ecjia\App\Sms\EventAbstract;
 
-            $eventHandler = with(new Ecjia\App\Sms\EventFactory())->event($event);
-            if (!$eventHandler->hasEnabled()) {
-                return new ecjia_error('event_not_open', "请先开启短信".$eventHandler->getName()."事件");
-            }
+class SmsRefundOriginalArrived extends EventAbstract
+{
+    
+    protected $code = 'sms_refund_original_arrived';
+    
+    protected $name = '退款原路退回';
+    
+    protected $description = '通知用户退款原路退回';
+    
+    protected $template = '尊敬的${user_name}，退款业务已受理成功，原路退回${back_pay_name}。';
 
-            $result = \Ecjia\App\Sms\SmsManager::make()
-                ->setTemplateModel(new \Ecjia\App\Sms\Models\SmsTemplateModel())
-                ->setEvent($eventHandler)
-                ->setChannel($channel)
-                ->send($mobile, $value);
-
-            return $result;
-
-        } catch (\InvalidArgumentException $e) {
-            return new ecjia_error('event_not_supported', $e->getMessage());
-        }
-
-	}
+    protected $available_values = [
+    	'user_name' 	=> '用户名称',
+    	'back_pay_name' => '退款方式名称',
+    ];  
 }
-
-// end

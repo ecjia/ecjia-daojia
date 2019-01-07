@@ -44,54 +44,26 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 发送短信的接口
- * @author royalwang
- */
-class sms_send_event_sms_api extends Component_Event_Api {
-	
-    /**
-     * @param $mobile   integer 手机号
-     * @param $event    string  发送事件
-     * @param $value    array   模板变量值
-     * @param $channel  string  短信渠道code，选填
-     * @return boolean | ecjia_error
-     */
-	public function call(&$options) {	
-	    
-	    // $mobile, $event, $value
-	    
-	    if (!array_key_exists('mobile', $options) || !array_key_exists('event', $options) || !array_key_exists('value', $options)) {
-	        return new ecjia_error('invalid_argument', __('无效参数'));
-	    }
-	    
-	    $mobile = $options['mobile'];
-	    $event = $options['event'];
-	    $value = $options['value'];
-	    $channel = array_get($options, 'channel', null);
+namespace Ecjia\App\Sms\Events;
 
-	    try {
+use Ecjia\App\Sms\EventAbstract;
 
-            $eventHandler = with(new Ecjia\App\Sms\EventFactory())->event($event);
-            if (!$eventHandler->hasEnabled()) {
-                return new ecjia_error('event_not_open', "请先开启短信".$eventHandler->getName()."事件");
-            }
+class SmsWithdrawSuccess extends EventAbstract
+{
+    
+    protected $code = 'sms_withdraw_success';
+    
+    protected $name = '用户提现成功';
+    
+    protected $description = '通知用户提现成功';
+    
+    protected $template = '尊敬的${user_name}，您的提现业务已受理成功，此次提现金额${amount}元，目前可用资金${user_money}元。如有问题请拨打客服电话：${service_phone}。';
 
-            $result = \Ecjia\App\Sms\SmsManager::make()
-                ->setTemplateModel(new \Ecjia\App\Sms\Models\SmsTemplateModel())
-                ->setEvent($eventHandler)
-                ->setChannel($channel)
-                ->send($mobile, $value);
-
-            return $result;
-
-        } catch (\InvalidArgumentException $e) {
-            return new ecjia_error('event_not_supported', $e->getMessage());
-        }
-
-	}
+    protected $available_values = [
+    	'user_name' 	=> '用户名称',
+    	'amount'    	=> '提现金额',
+    	'user_money'	=> '可用资金',
+    	'service_phone'	=> '客服电话'
+    ];  
 }
-
-// end
