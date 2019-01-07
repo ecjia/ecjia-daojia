@@ -1,21 +1,53 @@
 .merchant-template-content .template-content {
-	height: 405.22px;
-	float: left;
+    height: 405.22px;
+    float: left;
 }
+
 .merchant-template-content .template-item {
-	width: 200px;
-	height: 403.22px;
-	float: left;
+    width: 200px;
+    height: 403.22px;
+    float: left;
 }
-.merchant-template-content .template-content .template-item:nth-child(2){
-	margin-left: 80px;
+
+.merchant-template-content .template-content .template-item:nth-child(2) {
+    margin-left: 80px;
 }
-.merchant-template-content .template-content .template-item:nth-child(3){
-	margin-left: 90px;
+
+.merchant-template-content .template-content .template-item:nth-child(3) {
+    margin-left: 90px;
 }
+
 .m_l130 {
-	margin-left: 130px;
+    margin-left: 130px;
 }
+
 .m_l140 {
-	margin-left: 140px;
+    margin-left: 140px;
+}
+
+.merchant-template-content .index-template-content {
+    height: 180px;
+    float: left;
+}
+
+.merchant-template-content .index-template-item {
+    width: 342px;
+    height: 180px;
+    float: left;
+}
+
+.merchant-template-content .index-template-content .index-template-item {
+    margin-left: 20px;
+}
+
+.merchant-template-content .index-template-content .index-template-item:nth-child(1) {
+    margin-left: 0;
+}
+
+.m_l295 {
+    margin-left: 295px;
+}
+
+.w342 {
+    width: 342px;
 }

@@ -65,13 +65,7 @@ class merchant_config_module extends api_front implements api_interface {
 		$where = array();
 
 		$user_id = $_SESSION['user_id'];
-
-// 		$field ='ssi.*, ssi.id as seller_id, ssi.shop_name as seller_name, tr.item_value1, tr.item_value2,  sc.cat_name, count(cs.seller_id) as follower, SUM(IF(cs.user_id = '.$user_id.',1,0)) as is_follower';
-// // 		$info = $msi_dbview->join(array('category', 'seller_shopinfo', 'collect_store', 'term_relationship'))
-// 		$info = $ssi_dbview->join(array('seller_category', 'collect_store', 'term_relationship'))
-// 							->field($field)
-// 							->where($where)
-// 							->find();
+		
         $info = RC_DB::table('store_franchisee as sf')
             ->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'))
             ->leftJoin('collect_store as cs', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('cs.store_id'))
@@ -82,9 +76,6 @@ class merchant_config_module extends api_front implements api_interface {
             'shop_title'                => '', // 店铺标题
             'shop_kf_mobile'            => '', // 客服手机号码
             'shop_kf_email'             => '', // 客服邮件地址
-//             'shop_kf_qq'                => '', // 客服QQ号码
-//             'shop_kf_ww'                => '', // 客服淘宝旺旺
-//             'shop_kf_type'              => '', // 客服样式
             'shop_logo'                 => '', // 默认店铺页头部LOGO
             'shop_banner_pic'           => '', // banner图
             'shop_trade_time'           => '', // 营业时间
@@ -182,7 +173,6 @@ class merchant_config_module extends api_front implements api_interface {
 		}
 		/*营业时间处理*/
 		$info['trade_time']    = get_store_trade_time($seller_id);
-		//$info['trade_time'] = !empty($info['shop_trade_time']) ? unserialize($info['shop_trade_time']) : array('start' => '8:00', 'end' => '21:00');
 		//是否开启闪惠功能
 		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $seller_id)->where('code', 'quickpay_enabled')->pluck('value');
 		/*店铺小程序二维码*/
@@ -226,14 +216,12 @@ class merchant_config_module extends api_front implements api_interface {
 // 						'comment_server'		=> $comment['count'] > 0 ? round($comment['comment_server']/($comment['count']*5)*100).'%' : '100%',
 // 						'comment_delivery'		=> $comment['count'] > 0 ? round($comment['comment_delivery']/($comment['count']*5)*100).'%' : '100%',
 				),
-// 				'new_goods'			=> $newgoods_list,
-// 				'hot_goods'			=> $hotgoods_list,
-// 				'best_goods'		=> $bestgoods_list,
 				'favourable_list'	=> $favourable_list,
 				'label_trade_time'	=> $info['trade_time'],
 				'allow_use_quickpay'=> empty($allow_use_quickpay) ? 0 : 1,
 				'shop_closed'		=> $shop_closed,
-				'is_collected'		=> $is_collected
+				'is_collected'		=> $is_collected,
+				'business_licence_pic'	=> empty($info['business_licence_pic']) ? '' : RC_Upload::upload_url($info['business_licence_pic']),
 		);
 
 		return $seller_info;

@@ -58,7 +58,8 @@ function get_merchant_info($store_id = 0)
         return array();
     }
     $data = array('shop_kf_mobile' => '', 'shop_nav_background' => '', 'shop_logo' => '', 'shop_banner_pic' => '', 'shop_trade_time' => '', 'shop_description' => '', 'shop_notice' => '', 'express_assign_auto' => '');
-    $data = get_merchant_config('', $data);
+    $data = get_merchant_config('', $data, $store_id);
+    
     if (!empty($data['shop_trade_time'])) {
         $shop_time = unserialize($data['shop_trade_time']);
         unset($data['shop_trade_time']);
@@ -104,6 +105,28 @@ function get_store_trade_time($store_id = 0) {
     return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
     
 }
+
+function get_store_info($store_id = 0, $with_config = 0) {
+    if (empty($store_id)) {
+        $store_id = $_SESSION['store_id'];
+    }
+    
+    $info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
+    if($info) {
+        $info['province_name'] = ecjia_region::getRegionName($info['province']);
+        $info['city_name'] = ecjia_region::getRegionName($info['city']);
+        $info['district_name'] = ecjia_region::getRegionName($info['district']);
+        $info['street_name'] = ecjia_region::getRegionName($info['street']);
+    }
+    
+    if($with_config) {
+        $config_info = get_merchant_info($store_id);
+        $info = array_merge($info, $config_info);
+    }
+    
+    return $info;
+}
+
 //获取店铺营业状态，0正常，1关闭
 function get_shop_close($shop_close = 0, $shop_trade_time = [], $store_id = 0) {
     if( (!in_array($shop_close, [0,1]) || empty($shop_trade_time) && $store_id)) {

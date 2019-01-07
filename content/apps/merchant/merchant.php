@@ -609,6 +609,44 @@ class merchant extends ecjia_merchant
         
         return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $this->request->header('referer')));
     }
+
+    /**
+     * PC首页模板
+     */
+    public function store_template()
+    {
+        $this->admin_priv('merchant_template');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('PC店铺首页模板'));
+        $this->assign('app_url', RC_App::apps_url('statics/img/store_index_template/', __FILE__));
+
+        $shop_template_info = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'store_index_category_template')->first();
+        if (empty($shop_template_info)) {
+           RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->insert(array('code' => 'store_index_category_template', 'value' => 'default1', 'store_id' => $_SESSION['store_id']));
+            $this->assign('store_index_template', 'default1');
+        } else {
+            $this->assign('store_index_template', $shop_template_info['value']);
+        }
+        $this->assign('ur_here', 'PC店铺首页模板');
+        $this->assign('form_action', RC_Uri::url('merchant/merchant/store_template_update'));
+
+        $preview_url = RC_Uri::url('main/merchants_store/home', array('store_id' => $_SESSION['store_id']));
+        $preview_url = str_replace(RC_Uri::site_url(), RC_Uri::home_url(), $preview_url);
+
+        $this->assign('action_link', array('href' => $preview_url, 'text' => '预览效果'));
+
+        $this->display('merchant_index_template.dwt');
+    }
+
+    public function store_template_update()
+    {
+        $this->admin_priv('merchant_template', ecjia::MSGTYPE_JSON);
+
+        $store_index_template = trim($_POST['store_index_template']);
+       RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'store_index_category_template')->update(array('value' => $store_index_template));
+
+        return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+    }
 }
 
 //end

@@ -276,6 +276,7 @@ class seller_list_module extends api_front implements api_interface {
 							'distance'					=> $distance,
 							'label_trade_time'			=> $row['label_trade_time'],
 							'seller_goods'				=> !empty($goods_store_data['goods_list']) ? $goods_store_data['goods_list'] : array(),
+							'store_banner'				=> empty($row['shop_banner_pic']) ? '' : $row['shop_banner_pic'],
 					);
 				}
 			}
@@ -454,6 +455,7 @@ class seller_list_module extends api_front implements api_interface {
 							'distance'			=> $distance,
 							'label_trade_time'	=> $row['label_trade_time'],
 							'seller_goods'		=> $goods_store_data['goods_list'],
+							'store_banner'		=> empty($row['shop_banner_pic']) ? '' : $row['shop_banner_pic'],
 					);
 				}
 			}
