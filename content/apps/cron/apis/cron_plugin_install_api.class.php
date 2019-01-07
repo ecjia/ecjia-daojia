@@ -87,12 +87,12 @@ class cron_plugin_install_api extends Component_Event_Api {
 			/* 取得配置信息 */
 			$cron_config = serialize($options['config']['forms']);
 			$cron_config_file = $options['config'];
+
+            $cron_expression  = array_get($cron_config_file['default_time'], 'cron_expression', '');
+            $expression_alias = array_get($cron_config_file['default_time'], 'expression_alias', '');
 			
 			//判断是否有默认执行时间配置
 			if (array_get($cron_config_file, 'lock_time', false)) {
-			    $cron_expression  = array_get($cron_config_file['default_time'], 'cron_expression', '');
-			    $expression_alias = array_get($cron_config_file['default_time'], 'expression_alias', '');
-			    
 			    $file_list = with(new Ecjia\App\Cron\CronExpression)->getProvidesMultipleRunDates($cron_expression);
 			    foreach ($file_list as $key => $value) {
 			    	$file_list[$key] = (array)$value;
@@ -104,8 +104,6 @@ class cron_plugin_install_api extends Component_Event_Api {
 			    }
 			    $nexttime = RC_Time::local_strtotime($file_list[0][new_date]);
 			} else {
-			    $cron_expression  = '';
-			    $expression_alias = '';
 			    $nexttime = 0;
 			}
 			
