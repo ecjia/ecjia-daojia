@@ -47,15 +47,15 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 class mobile_reward extends ecjia_front {
-	public function __construct() {	
-		parent::__construct();	
+	public function __construct() {
+		parent::__construct();
 		
   		/* js与css加载路径*/
   		$this->assign('front_url', RC_App::apps_url('statics/front', __FILE__));
   		$this->assign('title', '新人有礼');
 	}
 	
-	public function init() {		
+	public function init() {
 		$mobile_signup_reward_notice = ecjia::config('mobile_signup_reward_notice');
 
 		$mobile_signup_reward_notice = nl2br($mobile_signup_reward_notice);

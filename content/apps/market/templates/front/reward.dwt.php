@@ -17,7 +17,7 @@
 	<div class="reward-content">
 		<div class="reward-button" data-url="{url path='market/mobile_reward/recieve'}">
 			<button type="button" class="receive_btn">我要领取</button>
-			<input type="hidden" name='token' value="{$token}" />
+			{nocache}<input type="hidden" name='token' value="{$token}" />{/nocache}
 		</div>
 		<div class="reward-content-title">
 			活动规则
