@@ -8,7 +8,7 @@
 
 class ecjia_member_uri
 {
-    
+
     /**
      * 会员中心地址
      *
@@ -16,7 +16,8 @@ class ecjia_member_uri
      */
     public static function home_url()
     {
-        return str_replace('/sites/help', '/sites/member', RC_Uri::home_url());
+        $url = RC_Uri::url('user/index/init');
+        return str_replace('/sites/help', '/sites/member', $url);
     }
 
     /**
