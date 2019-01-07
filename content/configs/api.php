@@ -532,7 +532,7 @@ return array(
 	'user/orders/express/message'						=> 'track::user/orders/express/message', 		//用户订单物流消息中心
 	'user/orders/express/message/detail'				=> 'track::user/orders/express/message/detail', //物流消息详情
 
-	//收银台退款20181114
+	//收银台退款20181114；1.24
 	'admin/cashier/orders/refund/apply'					=> 'cashier::admin/cashier/orders/refund/apply', 	//收银台订单退款申请
 	'admin/cashier/orders/refund/record'				=> 'cashier::admin/cashier/orders/refund/record',	//收银台订单退款记录
 	'admin/cashier/orders/refund/detail'				=> 'cashier::admin/cashier/orders/refund/detail',	//收银台订单退款详情
@@ -541,6 +541,35 @@ return array(
 	'admin/cashier/orders/search'						=> 'cashier::admin/cashier/orders/search',			//收银台订单搜索（已支付的）
 	'admin/cashier/quickpay/order/detail'				=> 'cashier::admin/cashier/quickpay/order/detail',	//收银台收款订单详情
 		
+	//1.25
+	'user/paypassword/modify'                         => 'user::user/paypassword/modify',                   //用户设置修改支付密码	
+	'user/account/record/detail'					  => 'user::user/account/record/detail',				//用户充值提现记录详情
+	'goods/collect/create'							  => 'user::goods/collect/create',						//用户收藏商品
+	'goods/collect/cancel'							  => 'user::goods/collect/cancel',						//用户取消收藏商品
+	'goods/collect/list'							  => 'user::goods/collect/list',						//用户收藏商品列表
+	'payment/pay/balance'							  => 'payment::payment/pay/balance',					//余额支付
+	'shop/special/readme/userdelete'				  => 'article::shop/special/readme/userdelete',			//用户注销须知
+	'user/account/delete/apply'						  => 'user::user/account/delete/apply',					//用户账号注销申请
+	'user/account/activate/apply'					  => 'user::user/account/activate/apply',				//用户账号激活申请
+	'topic/list'									  => 'topic::topic/list',								//专题列表
+	'topic/info'									  => 'topic::topic/info',								//专题详情
+    'withdraw/banks'                                  => 'withdraw::withdraw/banks',						//用户绑定银行卡所支持的银行
+    'withdraw/bankcard/bind'                          => 'withdraw::withdraw/bankcard/bind',				//会员绑定/更新银行卡
+    'withdraw/wechat/wallet/bind'					  => 'withdraw::withdraw/wechat/wallet/bind',			//会员绑定/更新微信钱包提现信息
+    'withdraw/bankcard/delete'						  => 'withdraw::withdraw/bankcard/delete',				//会员删除已绑定的提现方式
+    'user/info/bankcard'                              => 'user::user/info/bankcard',                        //获取用户绑定的银行卡信息
+    'user/account/withdraw'                           => 'user::user/account/withdraw',                     //用户提现申请-替换user/account/raply
+    'shop/captcha/sms/checkcode'                      => 'captcha::shop/captcha/sms/checkcode',             //用户登录后，通用验证关联手机号验证码
+    'connect/unbind'					  			  => 'connect::connect/unbind',							//用户解绑关联的第三方账号
+		
+		
+		
+	'admin/payment/notify/cancel'					  => 'payment::admin/payment/notify/cancel',			//收银台撤销支付
+	'admin/payment/notify/pay'					  	  => 'payment::admin/payment/notify/pay',				//收银台支付
+	'admin/payment/notify/refund'					  => 'payment::admin/payment/notify/refund',			//收银台退款
+	'admin/payment/pay/balance'						  => 'payment::admin/payment/pay/balance',				//收银台余额支付
+	'admin/payment/pay/cash'						  => 'payment::admin/payment/pay/cash',					//收银台现金支付
+	
 		
 		
     /**
