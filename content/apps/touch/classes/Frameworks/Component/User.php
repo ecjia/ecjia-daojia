@@ -59,6 +59,13 @@ class User extends RC_Object
     const API_USER_COOKIE   = 'ecjia_api_token';
     const API_ADMIN_COOKIE  = 'ecjia_admin_api_token';
 
+    protected $driver;
+
+    public function __construct()
+    {
+        $this->driver = ecjia_touch_manager::singleton()->getDriver();
+    }
+
     /**
      * 登录
      */
@@ -169,7 +176,14 @@ class User extends RC_Object
      */
     public function getToken()
     {
-        return RC_Cookie::get(self::API_USER_COOKIE);
+        if ($this->driver == 'local') {
+            $token = RC_Cookie::get(self::TOUCH_USER_COOKIE);
+        }
+        else {
+            $token = RC_Cookie::get(self::API_USER_COOKIE);
+        }
+
+        return $token;
     }
     
     public function getUserinfo()
@@ -183,28 +197,32 @@ class User extends RC_Object
      */
     public function getShopToken()
     {
-        $token = RC_Cookie::get(self::API_USER_COOKIE);
+        if ($this->driver == 'local') {
+            $token = RC_Cookie::get(self::TOUCH_USER_COOKIE);
+        }
+        else {
 
-        if (empty($token)) {
-            $shop_token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
-            if (!is_ecjia_error($shop_token)) {
-                $token = $shop_token['access_token'];
-                $response = royalcms('response');
-                $response->withCookie(RC_Cookie::forever(self::API_USER_COOKIE, $token));
+            $token = RC_Cookie::get(self::API_USER_COOKIE);
 
-                if (empty(RC_Cookie::get(self::TOUCH_USER_COOKIE))) {
-                    $response->withCookie(RC_Cookie::set(self::TOUCH_USER_COOKIE, $token, [
-                        'path' => config('session.path'),
-                        'expire' => config('session.expire'),
-                        'domain' => config('session.domain'),
-                        'secure' => config('session.secure'),
-                        'httponly' => config('session.httponly'),
+            if (empty($token)) {
+                $shop_token = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_TOKEN)->run();
+                if (! is_ecjia_error($shop_token)) {
+                    $token = $shop_token['access_token'];
+                    $response = royalcms('response');
+                    $response->withCookie(RC_Cookie::forever(self::API_USER_COOKIE, $token));
+
+                    if (empty(RC_Cookie::get(self::TOUCH_USER_COOKIE))) {
+                        $response->withCookie(RC_Cookie::set(self::TOUCH_USER_COOKIE, $token, [
+                            'path' => config('session.path'),
+                            'expire' => config('session.expire'),
+                            'domain' => config('session.domain'),
+                            'secure' => config('session.secure'),
+                            'httponly' => config('session.httponly'),
                         ]));
+                    }
                 }
-            } else {
-                //API请求返回错误
-
             }
+
         }
 
         return $token;
@@ -216,18 +234,22 @@ class User extends RC_Object
      */
     public function getAdminToken()
     {
-        $token = RC_Cookie::get(self::API_ADMIN_COOKIE);
+        if ($this->driver == 'local') {
+            $token = RC_Cookie::get(self::TOUCH_USER_COOKIE);
+        }
+        else {
 
-        if (empty($token)) {
-            $admin_shop_token = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
-            if (!is_ecjia_error($admin_shop_token)) {
-                $token = $admin_shop_token['access_token'];
-                $response = royalcms('response');
-                $response->withCookie(RC_Cookie::forever(self::API_ADMIN_COOKIE, $token));
-            } else {
-                //API请求返回错误
+            $token = RC_Cookie::get(self::API_ADMIN_COOKIE);
 
+            if (empty($token)) {
+                $admin_shop_token = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_SHOP_TOKEN)->run();
+                if (! is_ecjia_error($admin_shop_token)) {
+                    $token = $admin_shop_token['access_token'];
+                    $response = royalcms('response');
+                    $response->withCookie(RC_Cookie::forever(self::API_ADMIN_COOKIE, $token));
+                }
             }
+
         }
 
         return $token;

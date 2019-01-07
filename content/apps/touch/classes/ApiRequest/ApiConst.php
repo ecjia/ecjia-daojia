@@ -146,6 +146,7 @@ class ApiConst
     const USER_ACCOUNT_PAY          = 'user/account/pay';//用户充值付款
     const USER_ACCOUNT_RAPLY        = 'user/account/raply';//用户提现申请
     const USER_ACCOUNT_CANCEL       = 'user/account/cancel';//用户申请取消
+    const USER_ACCOUNT_RECORD_DETAIL= 'user/account/record/detail';//用户充值提现详情
     const USER_ACCOUNT_UPDATE       = 'user/account/update';//修改会员账户信息
     const USER_BONUS                = 'user/bonus';//会员红包列表
     const VALIDATE_BIND             = 'validate/bind';//验证用户绑定注册
@@ -153,8 +154,10 @@ class ApiConst
     const VALIDATE_INTEGRAL         = 'validate/integral';//验证积分
     const VALIDATE_ACCOUNT          = 'validate/account';//验证用户账户信息
     const VALIDATE_SIGNIN           = 'validate/signin'; //用户手机验证码登录
-    const VALIDATE_FORGET_PASSWORD  = 'validate/forget_password';//用户找回密码验证
+
+    const VALIDATE_FORGET_PASSWORD      = 'validate/forget_password';//用户找回密码验证
     const USER_ACCOUNT_SWITCHPAYMENT    = 'user/account/switchPayment'; //1.13 用户更新充值订单支付方式
+    const USER_ACCOUNT_WITHDRAW         = 'user/account/withdraw';//用户余额提现申请
 
     const USER_SIGNIN	            = 'user/signin';//用户登录
     const USER_SIGNOUT	            = 'user/signout';//用户退出
@@ -166,6 +169,14 @@ class ApiConst
     const USER_SEND_PWDMAIL         = 'user/send_pwdmail';//邮箱找回密码/测试
     const USER_SIGNUPFIELDS         = 'user/signupFields';//用户注册字段
     const USER_USERBIND             = 'user/userbind';//手机快速注册
+
+    const USER_INFO_BANKCARD        = 'user/info/bankcard';//获取用户绑定的银行卡信息
+
+    //提现
+    const WITHDRAW_BANKCARD_BIND        = 'withdraw/bankcard/bind';//会员绑定/更新提现银行卡
+    const WITHDRAW_BANKS                = 'withdraw/banks';//用户提现所支持的银行
+    const WITHDRAW_BANKCARD_DELETE      = 'withdraw/bankcard/delete';//会员删除提现绑定的卡
+    const WITHDRAW_WECHAT_WALLET_BIND   = 'withdraw/wechat/wallet/bind';//会员绑定/更新微信钱包提现
 
     //==============================================
     // 推广
@@ -182,6 +193,7 @@ class ApiConst
     const CONNECT_SIGNIN            = 'connect/signin';//第三方关联登录
     const CONNECT_SIGNUP            = 'connect/signup';//第三方关联注册
     const CONNECT_BIND              = 'connect/bind';//第三方关联绑定
+    const CONNECT_UNBIND            = 'connect/unbind';// 会员解除绑定的第三方关联账号（微信，QQ等）
 
 
     //==============================================
@@ -232,6 +244,8 @@ class ApiConst
 
     const SHOP_CAPTCHA_SMS	        = 'shop/captcha/sms';//修改绑定手机
     const SHOP_CAPTCHA_MAIL	        = 'shop/captcha/mail';//修改绑定邮箱
+    const SHOP_BANK                 = 'shop/banks';//用户绑定银行卡所支持的银行
+    const SHOP_CAPTCHA_SMS_CHECKCODE= 'shop/captcha/sms/checkcode';//通用型验证短信验证码是否正确
 
     const ARTICLE_LIST              = 'article/list';//某一分类下的文章
     const ARTICLE_DETAIL            = 'article/detail';//文章详情
@@ -266,8 +280,18 @@ class ApiConst
     const CAPTCHA_IMAGE             = 'captcha/image';
     const AFFILIATE_USER_INVITE     = 'affiliate/user/invite';
 
-    const GROUPBUY_GOODS_LIST       = 'groupbuy/goods/list';
+    const GROUPBUY_GOODS_LIST           = 'groupbuy/goods/list';
     const MERCHANT_GROUPBUY_GOODS_LIST  = 'merchant/groupbuy/goods/list';
+
+    //支付密码
+    const USER_PAYPASSWORD_SMS_CHECKCODE = 'user/paypassword/sms/checkcode';
+    const USER_PAYPASSWORD_MODIFY        = 'user/paypassword/modify';
+    const PAYMENT_PAY_BALANCE            = 'payment/pay/balance';
+    const SHOP_SPECIAL_README_USERDELETE = 'shop/special/readme/userdelete';
+
+    //注销账号
+    const USER_ACCOUNT_DELETE_APPLY   = 'user/account/delete/apply';//申请注销
+    const USER_ACCOUNT_ACTIVATE_APPLY = 'user/account/activate/apply';//申请激活
 }
 
 // end

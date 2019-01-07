@@ -59,7 +59,7 @@ class ApiManager extends BaseApiManager
 {
     /**
      * 服务器地址
-     * @var serverHost
+     * @var string serverHost
      */
     const serverHost = '/sites/api/?url=';
 
@@ -73,7 +73,7 @@ class ApiManager extends BaseApiManager
             'device-udid'     => RC_Session::getId(),
             'device-client'   => 'h5',    //h5
             'device-code'     => '6004',  //6004
-            'api-version'     => '1.22',
+            'api-version'     => '1.25',
             'api-driver'      => 'local',
         ));
     }
