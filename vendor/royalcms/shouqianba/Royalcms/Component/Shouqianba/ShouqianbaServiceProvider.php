@@ -3,8 +3,9 @@
 namespace Royalcms\Component\Shouqianba;
 
 use Royalcms\Component\Pay\Support\Config;
-use Royalcms\Component\Shouqianba\Gateways\Shouqianba;
+use Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Shouqianba;
 use Royalcms\Component\Support\ServiceProvider;
+use Royalcms\Component\Pay\Facades\Pay as RC_Pay;
 
 class ShouqianbaServiceProvider extends ServiceProvider
 {
@@ -36,11 +37,14 @@ class ShouqianbaServiceProvider extends ServiceProvider
         //$this->mergeConfigFrom($this->guessPackagePath('royalcms/shouqianba').'/config/pay.php', 'shouqianba');
 
         $this->royalcms['pay']->extend('shouqianba', function (Config $config) {
-            return royalcms('pay.shouqianba');
+            return new Shouqianba($config);
         });
 
-        $this->royalcms->singleton('pay.shouqianba', function ($royalcms) {
-            return $royalcms['pay']->make(Shouqianba::class);
+        $this->royalcms->singleton('pay.shouqianba', function ($royalcms, $config = null) {
+            if (is_null($config)) {
+                $config = config('shouqianba::pay.shouqianba');
+            }
+            return RC_Pay::shouqianba($config);
         });
 
     }

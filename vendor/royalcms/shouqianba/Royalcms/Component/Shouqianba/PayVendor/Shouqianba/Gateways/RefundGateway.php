@@ -6,14 +6,14 @@
  * Time: 9:26 AM
  */
 
-namespace Royalcms\Component\Shouqianba\Gateways\Shouqianba;
+namespace Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Gateways;
 
-use Royalcms\Component\Pay\Contracts\GatewayInterface;
-use Royalcms\Component\Pay\Contracts\PayloadInterface;
 use Royalcms\Component\Support\Collection;
+use Royalcms\Component\Pay\Contracts\GatewayInterface;
 use Royalcms\Component\Pay\Support\Config;
+use Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Support;
 
-class ActivateGateway implements GatewayInterface
+class RefundGateway implements GatewayInterface
 {
 
     /**
@@ -38,19 +38,21 @@ class ActivateGateway implements GatewayInterface
      * Pay an order.
      *
      * @param string $endpoint
-     * @param array  $payload
+     * @param \Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Orders\RefundOrder $payload
      *
      * @throws \Royalcms\Component\Pay\Exceptions\GatewayException
      *
      * @return Collection
      */
-    public function pay($endpoint, PayloadInterface $payload)
+    public function pay($endpoint, $payload)
     {
         $api = $this->getMethod();
 
-        $params = $payload->toArray();
+        $payload->setTerminalSn($this->config->get('terminal_sn')); //终端号
 
-        $result = Support::activateTerminal($api, $params, $this->config->get('vendor_sn'), $this->config->get('vendor_key'));
+        $params = $payload->toArray();
+        
+        $result = Support::sendRequest($api, $params, $this->config->get('terminal_sn'), $this->config->get('terminal_key'));
 
         return collect($result);
     }
@@ -62,7 +64,7 @@ class ActivateGateway implements GatewayInterface
      */
     protected function getMethod()
     {
-        return '/terminal/activate';
+        return '/upay/v2/refund';
     }
 
     /**

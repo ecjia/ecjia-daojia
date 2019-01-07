@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Shouqianba\Gateways\Shouqianba;
+namespace Royalcms\Component\Shouqianba\PayVendor\Shouqianba;
 
 use RC_Http;
 use RC_Log;

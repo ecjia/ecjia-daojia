@@ -1,21 +1,21 @@
 <?php
 
-namespace Royalcms\Component\Shouqianba\Gateways;
+namespace Royalcms\Component\Shouqianba\PayVendor\Shouqianba;
 
 use Royalcms\Component\Pay\Contracts\GatewayApplicationInterface;
 use Royalcms\Component\Pay\Support\Config;
 use Royalcms\Component\Pay\Exceptions\InvalidGatewayException;
 use Royalcms\Component\Pay\Contracts\GatewayInterface;
 use Royalcms\Component\Pay\Contracts\PayloadInterface;
-use Royalcms\Component\Shouqianba\Gateways\Shouqianba\Orders\PayOrder;
-use Royalcms\Component\Shouqianba\Gateways\Shouqianba\Orders\TerminalActivate;
-use Royalcms\Component\Shouqianba\Gateways\Shouqianba\Support;
+use Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Orders\PayOrder;
+use Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Orders\TerminalActivate;
 use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Shouqianba
- * @package Royalcms\Component\Shouqianba\Gateways
+ * @package Royalcms\Component\Shouqianba\PayVendor
  *
  * @method Collection scan(PayOrder $params) 扫码支付
  * @method Collection activate(TerminalActivate $params) 激活终端
@@ -56,24 +56,6 @@ class Shouqianba implements GatewayApplicationInterface
     }
 
     /**
-     * Magic pay.
-     *
-     * @param string $method
-     * @param array  $params
-     *
-     * @throws InvalidGatewayException
-     *
-     * @return Collection
-     */
-    public function __call($method, array $params)
-    {
-
-        array_unshift($params, $method);
-
-        return call_user_func_array([$this, 'pay'], $params);
-    }
-
-    /**
      * To pay.
      *
      * @param string $gateway
@@ -85,33 +67,13 @@ class Shouqianba implements GatewayApplicationInterface
     {
         $this->payload = $order;
 
-        $gateway = get_class($this).'\\'.Str::studly($gateway).'Gateway';
+        $gateway = '\Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Gateways\\'.Str::studly($gateway).'Gateway';
 
         if (class_exists($gateway)) {
             return $this->makePay($gateway);
         }
 
         throw new InvalidGatewayException("Pay Gateway [{$gateway}] not exists");
-    }
-
-    /**
-     * Make pay gateway.
-     *
-     * @param string $gateway
-     *
-     * @throws InvalidGatewayException
-     *
-     * @return Response|Collection
-     */
-    protected function makePay($gateway)
-    {
-        $app = new $gateway($this->config);
-
-        if ($app instanceof GatewayInterface) {
-            return $app->pay($this->gateway, $this->payload);
-        }
-
-        throw new InvalidGatewayException("Pay Gateway [{$gateway}] Must Be An Instance Of GatewayInterface");
     }
 
     /**
@@ -226,45 +188,6 @@ class Shouqianba implements GatewayApplicationInterface
 
 
 
-
-    public function checkin($terminal_sn, $terminal_key)
-    {
-        $api_domain = 'https://api.shouqianba.com';
-        $url = $api_domain . '/terminal/checkin';
-
-        $params['terminal_sn'] = $terminal_sn;              //终端号
-        $params['device_id'] = '123';//设备唯一身份ID
-
-        //    $params['os_info']='';                 //当前系统信息，如: Android5.0
-        //    $params['sdk_version']='';                    //SDK版本
-
-        $ret = pre_do_execute($params, $url, $terminal_sn, $terminal_key);
-
-        return $ret;
-//         string(189) "{"result_code":"200","biz_response":{"terminal_sn":"100114020002343785","terminal_key":"e79d5371d7dda6cfcb875ef67db33234",
-//"merchant_sn":"","merchant_name":"","store_sn":"","store_name":""}}"
-
-    }
-
-
-    public function refund2($terminal_sn, $terminal_key)
-    {
-        $api_domain = 'https://api.shouqianba.com';
-        $url = $api_domain . '/upay/v2/refund';
-        $params['terminal_sn'] = $terminal_sn;           //收钱吧终端ID
-        $params['sn'] = '7895253810887036';              //收钱吧系统内部唯一订单号
-//            $params['client_sn']='6521100263201711301108897858';//商户系统订单号,必须在商户系统内唯一；且长度不超过64字节
-        $params['refund_amount'] = '1';                   //退款金额
-        $params['refund_request_no'] = '001';                 //商户退款所需序列号,表明是第几次退款
-        $params['operator'] = 'kay';                    //门店操作员
-
-        $ret = pre_do_execute($params, $url, $terminal_sn, $terminal_key);
-
-        return $ret;
-    }
-
-
-
     public function precreate($terminal_sn, $terminal_key)
     {
         $api_domain = 'https://api.shouqianba.com';
@@ -301,16 +224,6 @@ class Shouqianba implements GatewayApplicationInterface
 
     }
 
-
-
-
-
-
-
-
-
-
-
     public function wap_api_pro($terminal_sn, $terminal_key)
     {
         $params['terminal_sn'] = $terminal_sn;           //收钱吧终端ID
@@ -346,5 +259,43 @@ class Shouqianba implements GatewayApplicationInterface
 
     }
 
+
+    /**
+     * Make pay gateway.
+     *
+     * @param string $gateway
+     *
+     * @throws InvalidGatewayException
+     *
+     * @return Response|Collection
+     */
+    protected function makePay($gateway)
+    {
+        $app = new $gateway($this->config);
+
+        if ($app instanceof GatewayInterface) {
+            return $app->pay($this->gateway, $this->payload);
+        }
+
+        throw new InvalidGatewayException("Pay Gateway [{$gateway}] Must Be An Instance Of GatewayInterface");
+    }
+
+
+    /**
+     * Magic pay.
+     *
+     * @param string $method
+     * @param array  $params
+     *
+     * @throws InvalidGatewayException
+     *
+     * @return Collection
+     */
+    public function __call($method, array $params)
+    {
+        array_unshift($params, $method);
+
+        return call_user_func_array([$this, 'pay'], $params);
+    }
 
 }

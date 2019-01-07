@@ -6,7 +6,7 @@
  * Time: 10:41 AM
  */
 
-namespace Royalcms\Component\Shouqianba\Gateways\Shouqianba\Orders;
+namespace Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Orders;
 
 use Royalcms\Component\Pay\Contracts\PayloadInterface;
 
