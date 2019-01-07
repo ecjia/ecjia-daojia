@@ -84,6 +84,14 @@ class pay_cod extends PaymentAbstract
     
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
     }
+
+    /**
+     * 统一下单方法
+     */
+    public function unifiedOrder()
+    {
+
+    }
     
     public function get_prepare_data() {
         $predata = array(
@@ -93,32 +101,6 @@ class pay_cod extends PaymentAbstract
         );
         
     	return $predata;
-    }
-    
-    /**
-     * 支付服务器异步回调通知地址
-     * @see \Ecjia\App\Payment\PaymentAbstract::notifyUrl()
-     */
-    public function notifyUrl()
-    {
-        return ;
-    }
-    
-    /**
-     * 支付服务器同步回调响应地址
-     * @see \Ecjia\App\Payment\PaymentAbstract::callbackUrl()
-     */
-    public function callbackUrl()
-    {
-        return ;
-    }
-    
-    public function notify() {	 
-    	return ; 
-    }
-    
-    public function response() {
-    	return ;
     }
 
 }
