@@ -12,6 +12,7 @@ return array(
     'Royalcms\\Component\\Aliyun\\' => array($vendorDir . '/royalcms/aliyun'),
     'Royalcms\\Component\\Api\\' => array($vendorDir . '/royalcms/api'),
     'Royalcms\\Component\\App\\' => array($vendorDir . '/royalcms/app'),
+    'Royalcms\\Component\\Auth\\' => array($vendorDir . '/royalcms/auth'),
     'Royalcms\\Component\\Broadcasting\\' => array($vendorDir . '/royalcms/broadcasting'),
     'Royalcms\\Component\\Bus\\' => array($vendorDir . '/royalcms/bus'),
     'Royalcms\\Component\\Cache\\' => array($vendorDir . '/royalcms/cache'),
