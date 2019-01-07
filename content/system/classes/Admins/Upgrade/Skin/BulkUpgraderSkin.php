@@ -44,6 +44,10 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Skin;
+
+use Ecjia\System\Admins\Upgrade\UpgraderSkin;
+
 /**
  * Plugin Upgrader Skin for ECJia Plugin Upgrades.
  *
@@ -51,18 +55,21 @@
  * @subpackage Upgrader
  * @since 1.4.0
  */
-class ecjia_bulk_upgrader_skin extends ecjia_upgrader_skin {
-    public $in_loop = false;
-    public $error = false;
+class BulkUpgraderSkin extends UpgraderSkin
+{
+    protected $in_loop = false;
+    protected $error = false;
     
-    function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $defaults = array( 'url' => '', 'nonce' => '' );
         $args = rc_parse_args($args, $defaults);
     
         parent::__construct($args);
     }
     
-    function add_strings() {
+    public function add_strings()
+    {
         $this->upgrader->strings['skin_upgrade_start'] = __('The update process is starting. This process may take a while on some hosts, so please be patient.');
         $this->upgrader->strings['skin_update_failed_error'] = __('An error occurred while updating %1$s: <strong>%2$s</strong>');
         $this->upgrader->strings['skin_update_failed'] = __('The update of %1$s failed.');
@@ -70,7 +77,8 @@ class ecjia_bulk_upgrader_skin extends ecjia_upgrader_skin {
         $this->upgrader->strings['skin_upgrade_end'] = __('All updates have been completed.');
     }
     
-    function feedback($string) {
+    public function feedback($string)
+    {
         if ( isset( $this->upgrader->strings[$string] ) )
             $string = $this->upgrader->strings[$string];
     
@@ -91,15 +99,18 @@ class ecjia_bulk_upgrader_skin extends ecjia_upgrader_skin {
             echo "<p>$string</p>\n";
     }
     
-    function header() {
+    public function header()
+    {
         // Nothing, This will be displayed within a iframe.
     }
     
-    function footer() {
+    public function footer()
+    {
         // Nothing, This will be displayed within a iframe.
     }
     
-    function error($error) {
+    public function error($error)
+    {
         if ( is_string($error) && isset( $this->upgrader->strings[$error] ) )
             $this->error = $this->upgrader->strings[$error];
     
@@ -115,15 +126,18 @@ class ecjia_bulk_upgrader_skin extends ecjia_upgrader_skin {
         echo '<script type="text/javascript">jQuery(\'.waiting-' . RC_Format::esc_js($this->upgrader->update_current) . '\').hide();</script>';
     }
     
-    function bulk_header() {
+    public function bulk_header()
+    {
         $this->feedback('skin_upgrade_start');
     }
     
-    function bulk_footer() {
+    public function bulk_footer()
+    {
         $this->feedback('skin_upgrade_end');
     }
     
-    function before($title = '') {
+    public function before($title = '')
+    {
         $this->in_loop = true;
         printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . ' <span class="spinner waiting-' . $this->upgrader->update_current . '"></span></h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
         echo '<script type="text/javascript">jQuery(\'.waiting-' . RC_Format::esc_js($this->upgrader->update_current) . '\').css("display", "inline-block");</script>';
@@ -131,7 +145,8 @@ class ecjia_bulk_upgrader_skin extends ecjia_upgrader_skin {
         $this->flush_output();
     }
     
-    function after($title = '') {
+    public function after($title = '')
+    {
         echo '</p></div>';
         if ( $this->error || ! $this->result ) {
             if ( $this->error )
@@ -151,12 +166,14 @@ class ecjia_bulk_upgrader_skin extends ecjia_upgrader_skin {
         $this->flush_output();
     }
     
-    function reset() {
+    public function reset()
+    {
         $this->in_loop = false;
         $this->error = false;
     }
     
-    function flush_output() {
+    public function flush_output()
+    {
         wp_ob_end_flush_all();
         flush();
     }

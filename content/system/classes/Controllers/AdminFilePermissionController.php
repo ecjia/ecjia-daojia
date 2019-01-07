@@ -44,51 +44,83 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-class ecjia_bulk_plugin_upgrader_skin extends ecjia_bulk_upgrader_skin {
-    public $plugin_info = array(); // Plugin_Upgrader::bulk() will fill this in.
-    
-    function __construct($args = array()) {
-        parent::__construct($args);
-    }
-    
-    function add_strings() {
-        parent::add_strings();
-        $this->upgrader->strings['skin_before_update_header'] = __('Updating Plugin %1$s (%2$d/%3$d)');
-    }
-    
-    function before($title = '') {
-        parent::before($this->plugin_info['Title']);
-    }
-    
-    function after($title = '') {
-        parent::after($this->plugin_info['Title']);
-        $this->decrement_update_count( 'plugin' );
-    }
-    
-    function bulk_footer() {
-        parent::bulk_footer();
-        $update_actions =  array(
-            'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>',
-            'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
-        );
-        if ( ! current_user_can( 'activate_plugins' ) )
-            unset( $update_actions['plugins_page'] );
-    
-        /**
-         * Filter the list of action links available following bulk plugin updates.
-         *
-         * @since 3.0.0
-         *
-         * @param array $update_actions Array of plugin action links.
-         * @param array $plugin_info    Array of information for the last-updated plugin.
-        */
-        $update_actions = RC_Hook::apply_filters( 'update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info );
-    
-        if ( ! empty($update_actions) ) {
-            $this->feedback(implode(' | ', (array)$update_actions));
-        }
-    }
-    
-}
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/12/21
+ * Time: 16:29
+ */
+namespace Ecjia\System\Controllers;
 
-// end
+use ecjia_admin;
+use RC_Script;
+use RC_Style;
+use RC_Upload;
+use RC_File;
+use ecjia_screen;
+use admin_nav_here;
+
+/**
+ * ECJIA 在线升级
+ */
+class AdminFilePermissionController extends ecjia_admin
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+
+    }
+
+
+    /**
+     * 文件权限检测
+     */
+    public function init()
+    {
+        $this->admin_priv('file_priv');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('文件权限检测')));
+        $this->assign('ur_here',	__('文件权限检测'));
+
+        $Upload_Current_Path		= str_replace(SITE_ROOT, '', RC_Upload::upload_path());
+        $Cache_Current_Path			= str_replace(SITE_ROOT, '', SITE_CACHE_PATH);
+
+        $dir['content/configs']		        = str_replace(SITE_ROOT, '', SITE_CONTENT_PATH) . 'configs';
+        $dir['content/uploads']	            = $Upload_Current_Path;
+        $dir['content/caches']		        = $Cache_Current_Path;
+
+        $list = array();
+        /* 检查目录 */
+        foreach ($dir AS $key => $val) {
+            $mark = RC_File::file_mode_info(SITE_ROOT . $val);
+            $list[] = array('item' => $key . __('目录'), 'r' => $mark&1, 'w' => $mark&2, 'm' => $mark&4);
+        }
+
+        /* 检查smarty的缓存目录和编译目录及image目录是否有执行rename()函数的权限 */
+        $tpl_list   = array();
+        $tpl_dirs[] = $Cache_Current_Path . 'temp/template_caches';
+        $tpl_dirs[] = $Cache_Current_Path . 'temp/template_compiled';
+        $tpl_dirs[] = $Cache_Current_Path . 'temp/template_compiled/admin';
+
+        foreach ($tpl_dirs AS $dir) {
+            $mask = RC_File::file_mode_info(SITE_ROOT .$dir);
+            if (($mask & 4) > 0) {
+                /* 之前已经检查过修改权限，只有有修改权限才检查rename权限 */
+                if (($mask & 8) < 1) {
+                    $tpl_list[] = $dir;
+                }
+            }
+        }
+        $tpl_msg = implode(', ', $tpl_list);
+        $this->assign('list',		$list);
+        $this->assign('tpl_msg',	$tpl_msg);
+        $this->assign('nav_tabs',	$this->nav_tabs);
+
+        $this->display('check_file_priv.dwt');
+    }
+
+
+
+
+}

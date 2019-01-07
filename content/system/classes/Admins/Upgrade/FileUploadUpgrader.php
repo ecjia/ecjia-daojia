@@ -44,6 +44,9 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
+namespace Ecjia\System\Admins\Upgrade;
+
 /**
  * Upgrade Skin helper for File uploads. This class handles the upload process and passes it as if it's a local file to the Upgrade/Installer functions.
  *
@@ -51,12 +54,14 @@
  * @subpackage Upgrader
  * @since 2.8.0
  */
-class ecjia_file_upload_upgrader {
-    public $package;
-    public $filename;
-    public $id = 0;
+class FileUploadUpgrader
+{
+    protected $package;
+    protected $filename;
+    protected $id = 0;
     
-    function __construct($form, $urlholder) {
+    public function __construct($form, $urlholder)
+    {
     
         if ( empty($_FILES[$form]['name']) && empty($_GET[$urlholder]) )
             rc_die(__('Please select a file'));
@@ -107,7 +112,8 @@ class ecjia_file_upload_upgrader {
         }
     }
     
-    function cleanup() {
+    public function cleanup()
+    {
         if ( $this->id )
             wp_delete_attachment( $this->id );
     

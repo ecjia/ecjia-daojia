@@ -1,5 +1,5 @@
-<?php 
-//  
+<?php
+//
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//   
+//
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,125 +44,102 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\System\Plugin;
+namespace Ecjia\System\Controllers;
 
-use RC_Hook;
+use ecjia_admin;
+use RC_Script;
+use RC_Style;
+use RC_Uri;
+use RC_Time;
+use ecjia_screen;
+use ecjia_config;
+use admin_nav_here;
+use ecjia;
 
-abstract class AbstractPlugin implements PluginInterface
+/**
+ * ECJIA 在线升级
+ */
+class UpgradeController extends ecjia_admin
 {
-    /**
-     * 在线配置的数据
-     * 
-     * @var array
-     */
-    protected $config = array();
-    
-    /**
-     * Set the Plugin config.
-     *
-     * @param array $config
-     */
-    public function setConfig(array $config)
-    {
-        $this->config = array_merge($this->config, $config);
-    }
-    
-    
-    public function getConfig($key = null, $default = null)
-    {
-        return array_get($this->config, $key, $default);
-    }
 
-    public function getForm($key)
+	public function __construct()
     {
-        $forms = $this->emptyFormData();
+		parent::__construct();
 
-        $forms = collect($forms)->where('name', $key)->toArray();
+		RC_Script::enqueue_script('jquery-dataTables');
+		RC_Script::enqueue_script('smoke');
+		RC_Script::enqueue_script('ecjia-admin_upgrade');
+	}
 
-        return head($forms);
-    }
-    
-    /**
-     * 空表单数据
-     */
-    public function emptyFormData()
+
+	public function init()
     {
-        $config = $this->loadConfig();
-        
-        $forms = array_get($config, 'forms', array());
-        
-        return $forms;
-    }
-    
-    /**
-     * 内容赋值后的表单数据
-     * 
-     * @see \Ecjia\System\Plugin\PluginInterface::makeFormData()
-     */
-    public function makeFormData(array $formData) 
-    {
-        $forms = $this->emptyFormData();
-        
-        $data = array();
-        
-        foreach ($forms as $_key => $_value)
-        {
-        	$input = array();
-        	$input['desc']     = $this->loadLanguage($_value['name'] . '_desc', '');
-        	$input['label']    = $this->loadLanguage($_value['name'], $_value['name']);
-        	$input['name']     = $_value['name'];
-        	$input['type']     = $_value['type'];
+        $this->admin_priv('admin_upgrade');
 
-            if ($_value['type'] == 'file') {
-                $input['dir']      = $_value['dir'];
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('可用更新')));
+		$this->assign('ur_here', __('可用更新'));
+		
+		ecjia_screen::get_current_screen()->add_help_tab( array(
+		'id'        => 'overview',
+		'title'     => __('概述'),
+		'content'   =>
+		'<p>' . __('欢迎访问ECJia智能后台更新页面，在此可以进行对版本的更新。') . '</p>'
+		) );
+		 
+		ecjia_screen::get_current_screen()->set_help_sidebar(
+		'<p><strong>' . __('更多信息：') . '</strong></p>' .
+		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新" target="_blank">关于可用更新帮助文档</a>') . '</p>'
+		);
+
+        $current_version = $this->request->query('version');
+
+        $result = (new \Ecjia\System\Admins\UpgradeCheck\CloudCheck)->checkCurrentVersion();
+        if (! is_ecjia_error($result)) {
+
+            $formatter = (new \Ecjia\System\Admins\UpgradeCheck\ResultManager($result))->formatter();
+            if (empty($current_version)) {
+                $current_version = head($formatter)->getVersion();
             }
 
-        	$input['value']    = array_get($formData, $_value['name'], $_value['value']);
-        	
-        	if ($_value['type'] == 'select' || $_value['type'] == 'radiobox') {
-        	    $input['range']    = $this->loadLanguage($_value['name'] . '_range');
-        	}
+            $version = collect($formatter)->first(function ($value, $key) use ($current_version) {
+                return $value->getVersion() == $current_version;
+            });
 
-        	$data[$_key] = $input;
+            $this->assign('current_version', $current_version);
+            $this->assign('versions', $formatter);
+            $this->assign('version', $version);
         }
 
-        $data = RC_Hook::apply_filters(sprintf("plugin_form_%s", $this->getCode()), $data);
-        
-        return $data;
-    }
-    
-    /**
-     * 获取数组中的元素
-     * 
-     * @param array $languages
-     */
-    protected function getArrayData(array $data, $key, $default)
+		$last_check_upgrade_time = ecjia_config::get('last_check_upgrade_time', RC_Time::gmtime());
+		$last_check_upgrade_time = RC_Time::local_date('Y年m月d日 H:i:s', $last_check_upgrade_time);
+
+        $this->assign('action_link', array('text' => __('再次检查'), 'href' => RC_Uri::url('@upgrade/check_update')));
+		$this->assign('check_upgrade_time', $last_check_upgrade_time);
+
+		$this->display('admin_upgrade.dwt');
+	}
+
+
+	public function check_update()
     {
-        if ($key === null) {
-            return $data;
-        } else {
-            return array_get($data, $key, $default);
+        $this->admin_priv('admin_upgrade', ecjia::MSGTYPE_JSON);
+
+        $result = (new \Ecjia\System\Admins\UpgradeCheck\CloudCheck)->checkCurrentVersion();
+        if (is_ecjia_error($result)) {
+            return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-    }
-    
-    /**
-     * 加载插件相关数据
-     * 供配置文件、语言包使用
-     * 
-     * @param string $file
-     * @return array
-     */
-    protected function loadPluginData($file, $key, $default) {
-        if (!file_exists($file)) {
-            return array();
+
+        $last_check_upgrade_time = RC_Time::gmtime();
+        ecjia_config::write('last_check_upgrade_time', $last_check_upgrade_time);
+
+        if (empty($result)) {
+            return $this->showmessage(__('你当前使用的已经是最新版本了。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('@upgrade/init')));
         }
-        
-        $data = include($file);
-        if (!is_array($data)) {
-            return array();
-        }
-        
-        return $this->getArrayData($data, $key, $default);
-    }
-    
+
+        $count = count($result);
+        return $this->showmessage(sprintf(__('已经检测到%s个新版本更新。'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('@upgrade/init')));
+	}
+
 }
+
+// end

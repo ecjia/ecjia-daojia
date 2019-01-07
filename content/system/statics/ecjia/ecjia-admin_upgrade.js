@@ -37,6 +37,21 @@
 					});
 				}
 			});
+
+            $('.check-btn').off('click').on('click', function(e) {
+                e.preventDefault();
+                var $this = $(this),
+                	url = $this.attr('href');
+                $('#check_loding').modal('show');
+
+                setTimeout(function () {
+					$.post(url, function(data) {
+						$('#check_loding').modal('hide');
+						$('.modal-backdrop').remove();
+						ecjia.admin.showmessage(data);
+					})
+                }, 500);
+            });
 		}
 	}
 

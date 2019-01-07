@@ -44,6 +44,12 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
+namespace Ecjia\System\Admins\Upgrade;
+
+use ecjia_error;
+use RC_Hook;
+
 /**
  * A File upgrader class for ECJia.
  *
@@ -60,26 +66,39 @@
  * @subpackage Upgrader
  * @since 1.3.0
  */
-class ecjia_upgrader {
+class Upgrader
+{
     public $strings     = array();
-    public $skin        = null;
-    public $result      = array();
-    
-    public function __construct($skin = null) {
+
+    /**
+     * @var UpgraderSkin
+     */
+    protected $skin        = null;
+
+    protected $result      = array();
+
+    /**
+     * Upgrader constructor.
+     * @param UpgraderSkin $skin
+     */
+    public function __construct(UpgraderSkin $skin = null)
+    {
         if ( null == $skin ) {
-            $this->skin = new ecjia_upgrader_skin();
+            $this->skin = new UpgraderSkin();
         } else {
             $this->skin = $skin;
         }
     }
     
-    public function init() {
+    public function init()
+    {
         $this->skin->set_upgrader($this);
         $this->generic_strings();
     }
     
     
-    public function generic_strings() {
+    public function generic_strings()
+    {
         $this->strings['bad_request'] = __('Invalid Data provided.');
         $this->strings['fs_unavailable'] = __('Could not access filesystem.');
         $this->strings['fs_error'] = __('Filesystem error.');
@@ -101,7 +120,8 @@ class ecjia_upgrader {
         $this->strings['maintenance_end'] = __('Disabling Maintenance mode&#8230;');
     }
     
-    public function fs_connect( $directories = array() ) {
+    public function fs_connect( $directories = array() )
+    {
         global $wp_filesystem;
     
         if ( false === ($credentials = $this->skin->request_filesystem_credentials()) )
@@ -148,7 +168,8 @@ class ecjia_upgrader {
         return true;
     } //end fs_connect();
     
-    public function download_package($package) {
+    public function download_package($package)
+    {
     
         /**
          * Filter whether to return the package.
@@ -179,8 +200,16 @@ class ecjia_upgrader {
     
         return $download_file;
     }
-    
-    public function unpack_package($package, $delete_package = true) {
+
+    /**
+     * Unpack Package
+     *
+     * @param $package
+     * @param bool $delete_package
+     * @return ecjia_error|string
+     */
+    public function unpack_package($package, $delete_package = true)
+    {
         global $wp_filesystem;
     
         $this->skin->feedback('unpack_package');
@@ -218,9 +247,15 @@ class ecjia_upgrader {
     
         return $working_dir;
     }
-    
-    
-    public function install_package( $args = array() ) {
+
+    /**
+     * Install Package
+     *
+     * @param array $args
+     * @return array
+     */
+    public function install_package( $args = array() )
+    {
         global $wp_filesystem, $wp_theme_directories;
     
         $defaults = array(
@@ -383,8 +418,15 @@ class ecjia_upgrader {
             //Bombard the calling function will all the info which we've just used.
             return $this->result;
     }
-    
-    public function run($options) {
+
+    /**
+     * Run...
+     *
+     * @param $options
+     * @return array|ecjia_error|string
+     */
+    public function run($options)
+    {
     
         $defaults = array(
             'package' => '', // Please always pass this.
@@ -475,8 +517,12 @@ class ecjia_upgrader {
     
         return $result;
     }
-    
-    public function maintenance_mode($enable = false) {
+
+    /**
+     * @param bool $enable
+     */
+    public function maintenance_mode($enable = false)
+    {
         global $wp_filesystem;
         $file = $wp_filesystem->abspath() . '.maintenance';
         if ( $enable ) {

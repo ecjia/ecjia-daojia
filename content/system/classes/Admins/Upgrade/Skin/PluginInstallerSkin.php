@@ -44,6 +44,11 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Skin;
+
+use Ecjia\System\Admins\Upgrade\UpgraderSkin;
+use RC_Hook;
+
 /**
  * Plugin Installer Skin for ECJia Plugin Installer.
  *
@@ -51,11 +56,13 @@
  * @subpackage Upgrader
  * @since 2.8.0
  */
-class ecjia_plugin_installer_skin extends ecjia_upgrader_skin {
+class PluginInstallerSkin extends UpgraderSkin
+{
     public $api;
     public $type;
     
-    function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $defaults = array( 'type' => 'web', 'url' => '', 'plugin' => '', 'nonce' => '', 'title' => '' );
         $args = rc_parse_args($args, $defaults);
     
@@ -65,13 +72,15 @@ class ecjia_plugin_installer_skin extends ecjia_upgrader_skin {
         parent::__construct($args);
     }
     
-    function before() {
+    public function before()
+    {
         if ( !empty($this->api) ) {
             $this->upgrader->strings['process_success'] = sprintf( __('Successfully installed the plugin <strong>%s %s</strong>.'), $this->api->name, $this->api->version);
         }
     }
     
-    function after() {
+    public function after()
+    {
     
         $plugin_file = $this->upgrader->plugin_info();
     

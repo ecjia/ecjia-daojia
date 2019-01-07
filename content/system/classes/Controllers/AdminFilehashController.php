@@ -44,12 +44,19 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\System\Controllers;
+
+use ecjia_admin;
+use RC_Script;
+use RC_Style;
+use RC_Uri;
+use ecjia_screen;
+use admin_nav_here;
 
 /**
- * ECJIA 在线升级
+ * ECJIA 在线文件一致性检测
  */
-class admin_filehash extends ecjia_admin
+class AdminFilehashController extends ecjia_admin
 {
 	private $sidebar_menus;
 	
@@ -60,13 +67,6 @@ class admin_filehash extends ecjia_admin
 
 		RC_Script::enqueue_script('jquery-dataTables');
 		RC_Script::enqueue_script('smoke');
-		RC_Script::enqueue_script('ecjia-admin_upgrade');
-		RC_Style::enqueue_style('fontello-animation', RC_Uri::admin_url() . '/statics/lib/fontello/css/animation.css', array('fontello'));
-		
-		$admin_upgrade_jslang = array(
-				'checking'	=> __('正在检查，请耐心等待。'),
-		);
-		RC_Script::localize_script('ecjia-admin_upgrade', 'admin_upgrade_lang', $admin_upgrade_jslang );
 
 		$this->sidebar_menus = (new \Ecjia\System\Admins\FileHash\Menu())->getMenus();
 
@@ -95,14 +95,14 @@ class admin_filehash extends ecjia_admin
 
         $hashstatus = $hash->readHashFileStatus();
         if (!empty($hashstatus)) {
-            $hashdata = (new Ecjia\System\Admins\FileHash\CloudCheck())->checkCurrentVersion($item['dir']);
+            $hashdata = (new \Ecjia\System\Admins\FileHash\CloudCheck())->checkCurrentVersion($item['dir']);
 
             $new_result = $hash->readXmlFileHash();
             $old_result = $hash->readXmlStringHash($hashdata);
 
             if ($old_result && $new_result) {
                 $result = (new \Ecjia\System\Admins\FileHash\FileCheck($item['dir']))->compareHash($old_result, $new_result);
-                $formatterResult = new Ecjia\System\Admins\FileHash\FormatterResult($result);
+                $formatterResult = new \Ecjia\System\Admins\FileHash\FormatterResult($result);
                 $dirlog = $formatterResult->formatter();
                 $counter = $formatterResult->counter();
                 $counterLabel = $formatterResult->counterLabel();
@@ -142,7 +142,7 @@ class admin_filehash extends ecjia_admin
         $result = $hash->builder();
         $hash->writeFile($result);
 
-        $hashdata = (new Ecjia\System\Admins\FileHash\CloudCheck())->checkCurrentVersion($item['dir']);
+        $hashdata = (new \Ecjia\System\Admins\FileHash\CloudCheck())->checkCurrentVersion($item['dir']);
 
         $new_result = $hash->readXmlFileHash();
         $old_result = $hash->readXmlStringHash($hashdata);

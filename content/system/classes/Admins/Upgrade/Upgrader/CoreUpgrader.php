@@ -44,6 +44,13 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Upgrader;
+
+use ecjia_error;
+use RC_Format;
+use RC_Hook;
+use Ecjia\System\Admins\Upgrade\Upgrader;
+
 /**
  * Core Upgrader class for ECJia. It allows for ECJia to upgrade itself in combination with the wp-admin/includes/update-core.php file
  *
@@ -51,8 +58,11 @@
  * @subpackage Upgrader
  * @since 1.4.0
  */
-class ecjia_core_upgrader extends ecjia_upgrader {
-    function upgrade_strings() {
+class CoreUpgrader extends Upgrader
+{
+
+    public function upgrade_strings()
+    {
         $this->strings['up_to_date'] = __('WordPress is at the latest version.');
         $this->strings['no_package'] = __('Update package not available.');
         $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
@@ -63,7 +73,8 @@ class ecjia_core_upgrader extends ecjia_upgrader {
         $this->strings['rollback_was_required'] = __( 'Due to an error during updating, WordPress has rolled back to your previous version.' );
     }
     
-    function upgrade( $current, $args = array() ) {
+    public function upgrade( $current, $args = array() )
+    {
         global $wp_filesystem;
     
         include ABSPATH . WPINC . '/version.php'; // $wp_version;
@@ -212,7 +223,8 @@ class ecjia_core_upgrader extends ecjia_upgrader {
     }
     
     // Determines if this WordPress Core version should update to $offered_ver or not
-    static function should_update_to_version( $offered_ver /* x.y.z */ ) {
+    public static function should_update_to_version( $offered_ver /* x.y.z */ )
+    {
         include ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
     
         $current_branch = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version  ), 0, 2 ) ); // x.y
@@ -311,7 +323,8 @@ class ecjia_core_upgrader extends ecjia_upgrader {
     }
     
     
-    function check_files() {
+    public function check_files()
+    {
         global $wp_version, $wp_local_package;
     
         $checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );

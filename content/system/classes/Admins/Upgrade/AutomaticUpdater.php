@@ -44,6 +44,13 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade;
+
+use Ecjia\System\Admins\Upgrade\Skin\AutomaticUpgraderSkin;
+use RC_Hook;
+use RC_Format;
+use ecjia_error;
+
 /**
  * The ECJia automatic background updater.
  *
@@ -51,7 +58,8 @@
  * @subpackage Upgrader
  * @since 3.7.0
  */
-class ecjia_automatic_updater {
+class AutomaticUpdater
+{
     /**
      * Tracks update results during processing.
      *
@@ -64,7 +72,8 @@ class ecjia_automatic_updater {
      *
      * @since 3.7.0
     */
-    public function is_disabled() {
+    public function is_disabled()
+    {
         // Background updates are disabled if you don't want file changes.
         if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
             return true;
@@ -106,7 +115,8 @@ class ecjia_automatic_updater {
      *
      * @param string $context The filesystem path to check, in addition to ABSPATH.
      */
-    public function is_vcs_checkout( $context ) {
+    public function is_vcs_checkout( $context )
+    {
         $context_dirs = array( RC_Format::untrailingslashit( $context ) );
         if ( $context !== ABSPATH )
             $context_dirs[] = RC_Format::untrailingslashit( ABSPATH );
@@ -162,9 +172,10 @@ class ecjia_automatic_updater {
      * @param string $context The filesystem context (a path) against which filesystem
      *                        access and status should be checked.
      */
-    public function should_update( $type, $item, $context ) {
+    public function should_update( $type, $item, $context )
+    {
         // Used to see if WP_Filesystem is set up to allow unattended updates.
-        $skin = new ecjia_automatic_upgrader_skin;
+        $skin = new AutomaticUpgraderSkin();
     
         if ( $this->is_disabled() ) {
             return false;
@@ -180,7 +191,7 @@ class ecjia_automatic_updater {
     
         // Next up, is this an item we can update?
         if ( 'core' == $type ) {
-            $update = ecjia_core_upgrader::should_update_to_version( $item->current );
+            $update = CoreUpgrader::should_update_to_version( $item->current );
         } else {
             $update = ! empty( $item->autoupdate );
         }
@@ -239,7 +250,8 @@ class ecjia_automatic_updater {
      *
      * @param object $item The update offer.
      */
-    protected function send_core_update_notification_email( $item ) {
+    protected function send_core_update_notification_email( $item )
+    {
         $notify   = true;
         $notified = get_site_option( 'auto_core_update_notified' );
     
@@ -286,26 +298,27 @@ class ecjia_automatic_updater {
      * @param string $type The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
      * @param object $item The update offer.
      */
-    public function update( $type, $item ) {
-        $skin = new ecjia_automatic_upgrader_skin;
+    public function update( $type, $item )
+    {
+        $skin = new AutomaticUpgraderSkin();
     
         switch ( $type ) {
             case 'core':
                 // The Core upgrader doesn't use the Upgrader's skin during the actual main part of the upgrade, instead, firing a filter.
                 RC_Hook::add_filter( 'update_feedback', array( $skin, 'feedback' ) );
-                $upgrader = new ecjia_core_upgrader( $skin );
+                $upgrader = new CoreUpgrader( $skin );
                 $context  = ABSPATH;
                 break;
             case 'plugin':
-                $upgrader = new ecjia_plugin_upgrader( $skin );
+                $upgrader = new PluginUpgrader( $skin );
                 $context  = WP_PLUGIN_DIR; // We don't support custom Plugin directories, or updates for WPMU_PLUGIN_DIR
                 break;
             case 'theme':
-                $upgrader = new ecjia_theme_upgrader( $skin );
+                $upgrader = new ThemeUpgrader( $skin );
                 $context  = get_theme_root( $item->theme );
                 break;
             case 'translation':
-                $upgrader = new ecjia_language_pack_upgrader( $skin );
+                $upgrader = new LanguagePackUpgrader( $skin );
                 $context  = WP_CONTENT_DIR; // WP_LANG_DIR;
                 break;
         }
@@ -376,7 +389,8 @@ class ecjia_automatic_updater {
      *
      * @since 3.7.0
      */
-    public function run() {
+    public function run()
+    {
         global $wpdb, $wp_version;
     
         if ( $this->is_disabled() )
@@ -515,7 +529,8 @@ class ecjia_automatic_updater {
      *
      * @param object $update_result The result of the core update. Includes the update offer and result.
      */
-    protected function after_core_update( $update_result ) {
+    protected function after_core_update( $update_result )
+    {
         global $wp_version;
     
         $core_update = $update_result->item;
@@ -605,7 +620,8 @@ class ecjia_automatic_updater {
      * @param object $core_update The update offer that was attempted.
      * @param mixed  $result      Optional. The result for the core update. Can be WP_Error.
      */
-    protected function send_email( $type, $core_update, $result = null ) {
+    protected function send_email( $type, $core_update, $result = null )
+    {
         update_site_option( 'auto_core_update_notified', array(
         'type'      => $type,
         'email'     => get_site_option( 'admin_email' ),
@@ -735,7 +751,7 @@ class ecjia_automatic_updater {
     
         $body .= "\n\n" . __( 'The WordPress Team' ) . "\n";
     
-        if ( 'critical' == $type && is_wp_error( $result ) ) {
+        if ( 'critical' == $type && is_ecjia_error( $result ) ) {
             $body .= "\n***\n\n";
             $body .= sprintf( __( 'Your site was running version %s.' ), $GLOBALS['wp_version'] );
             $body .= ' ' . __( 'We have some data that describes the error your site encountered.' );
@@ -802,7 +818,8 @@ class ecjia_automatic_updater {
      *
      * @since 3.7.0
      */
-    protected function send_debug_email() {
+    protected function send_debug_email()
+    {
         $update_count = 0;
         foreach ( $this->update_results as $type => $updates )
             $update_count += count( $updates );

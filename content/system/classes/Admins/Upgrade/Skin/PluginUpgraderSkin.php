@@ -44,50 +44,71 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-class ecjia_bulk_theme_upgrader_skin extends ecjia_bulk_upgrader_skin {
-    public $theme_info = array(); // Theme_Upgrader::bulk() will fill this in.
+namespace Ecjia\System\Admins\Upgrade\Skin;
+
+use Ecjia\System\Admins\Upgrade\UpgraderSkin;
+use RC_Hook;
+
+/**
+ * Plugin Upgrader Skin for ECJia Plugin Upgrades.
+ *
+ * @package ECJia
+ * @subpackage Upgrader
+ * @since 1.4.0
+ */
+class PluginUpgraderSkin extends UpgraderSkin
+{
     
-    function __construct($args = array()) {
+    protected $plugin = '';
+    protected $plugin_active = false;
+    protected $plugin_network_active = false;
+    
+    public function __construct($args = array())
+    {
+        $defaults = array(
+            'url' => '',
+            'plugin' => '',
+            'nonce' => '',
+            'title' => __('Update Plugin')
+        );
+        $args = rc_parse_args($args, $defaults);
+    
+        $this->plugin = $args['plugin'];
+    
+        $this->plugin_active = is_plugin_active( $this->plugin );
+        $this->plugin_network_active = is_plugin_active_for_network( $this->plugin );
+    
         parent::__construct($args);
     }
     
-    function add_strings() {
-        parent::add_strings();
-        $this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)');
-    }
+    public function after()
+    {
+        $this->plugin = $this->upgrader->plugin_info();
+        if ( !empty($this->plugin) && !is_ecjia_error($this->result) && $this->plugin_active ){
+            echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) .'"></iframe>';
+        }
     
-    function before($title = '') {
-        parent::before( $this->theme_info->display('Name') );
-    }
+        $this->decrement_update_count( 'plugin' );
     
-    function after($title = '') {
-        parent::after( $this->theme_info->display('Name') );
-        $this->decrement_update_count( 'theme' );
-    }
-    
-    
-    function bulk_footer() {
-        parent::bulk_footer();
         $update_actions =  array(
-            'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
-            'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
+            'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
+            'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>'
         );
-        if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) )
-            unset( $update_actions['themes_page'] );
+        if ( $this->plugin_active || ! $this->result || is_ecjia_error( $this->result ) || ! current_user_can( 'activate_plugins' ) )
+            unset( $update_actions['activate_plugin'] );
     
         /**
-         * Filter the list of action links available following bulk theme updates.
+         * Filter the list of action links available following a single plugin update.
          *
-         * @since 3.0.0
+         * @since 2.7.0
          *
-         * @param array $update_actions Array of theme action links.
-         * @param array $theme_info     Array of information for the last-updated theme.
+         * @param array  $update_actions Array of plugin action links.
+         * @param string $plugin         Path to the plugin file.
         */
-        $update_actions = RC_Hook::apply_filters( 'update_bulk_theme_complete_actions', $update_actions, $this->theme_info );
+        $update_actions = RC_Hook::apply_filters( 'update_plugin_complete_actions', $update_actions, $this->plugin );
     
-        if ( ! empty($update_actions) ) {
+        if ( ! empty($update_actions) )
             $this->feedback(implode(' | ', (array)$update_actions));
-        }
     }
     
 }

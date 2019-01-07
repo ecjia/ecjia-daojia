@@ -63,7 +63,7 @@ if (royalcms('request')->query('m') != 'installer') {
  */
 function load_theme_function() {
     RC_Loader::load_app_func('functions', 'api');
-    $app = RC_Config::load_config('site', 'MAIN_APP');
+    $app = config('site.main_app');
     if ($app) {
         RC_Loader::load_app_func('functions', $app);
 

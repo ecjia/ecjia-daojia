@@ -44,6 +44,11 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Skin;
+
+use Ecjia\System\Admins\Upgrade\UpgraderSkin;
+use RC_Format;
+
 /**
  * Theme Upgrader Skin for ECJia Theme Upgrades.
  *
@@ -51,12 +56,19 @@
  * @subpackage Upgrader
  * @since 2.8.0
  */
-class ecjia_theme_upgrader_skin extends ecjia_upgrader_skin {
+class ThemeUpgraderSkin extends UpgraderSkin
+{
     
-    public $theme = '';
+    protected $theme = '';
     
-    function __construct($args = array()) {
-        $defaults = array( 'url' => '', 'theme' => '', 'nonce' => '', 'title' => __('Update Theme') );
+    public function __construct($args = array())
+    {
+        $defaults = array(
+            'url' => '',
+            'theme' => '',
+            'nonce' => '',
+            'title' => __('Update Theme')
+        );
         $args = rc_parse_args($args, $defaults);
     
         $this->theme = $args['theme'];
@@ -64,7 +76,8 @@ class ecjia_theme_upgrader_skin extends ecjia_upgrader_skin {
         parent::__construct($args);
     }
     
-    function after() {
+    public function after()
+    {
         $this->decrement_update_count( 'theme' );
     
         $update_actions = array();
@@ -112,7 +125,9 @@ class ecjia_theme_upgrader_skin extends ecjia_upgrader_skin {
         $update_actions = RC_Hook::apply_filters( 'update_theme_complete_actions', $update_actions, $this->theme );
     
         if ( ! empty($update_actions) )
+        {
             $this->feedback(implode(' | ', (array)$update_actions));
+        }
     }
     
 }

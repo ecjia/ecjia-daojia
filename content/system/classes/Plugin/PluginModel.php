@@ -48,19 +48,21 @@ namespace Ecjia\System\Plugin;
 
 use Royalcms\Component\Database\Eloquent\Model;
 use Ecjia\System\Facades\PluginManager as Ecjia_PluginManager;
+use ecjia_config;
+use RC_Plugin;
 
 abstract class PluginModel extends Model
 {
+    /**
+     * 存储安装插件的列表
+     * @var string
+     */
+    protected $addon_plugin_name;
     
     /**
      * 当前插件种类的唯一标识字段名
      */
     abstract public function codeFieldName();
-    
-    /**
-     * 获取当前类型的已经安装激活插件
-     */
-    abstract public function getInstalledPlugins();
     
     /**
      * 获取数据库中启用的插件列表
@@ -80,6 +82,44 @@ abstract class PluginModel extends Model
      * 获取数据中的Config配置数据，并处理
      */
     abstract public function configData($code);
+
+    /**
+     * 获取当前类型的已经安装激活插件
+     */
+    public function getInstalledPlugins()
+    {
+        return ecjia_config::getAddonConfig($this->addon_plugin_name, true, true);
+    }
+
+    /**
+     * 添加安装插件
+     * @param $plugin_file
+     */
+    public function addInstallPlugin($plugin_file)
+    {
+        $plugin_file = RC_Plugin::plugin_basename( $plugin_file );
+        $plugin_dir = dirname($plugin_file);
+
+        $plugins = $this->getInstalledPlugins();
+        $plugins[$plugin_dir] = $plugin_file;
+
+        ecjia_config::writeAddonConfig($this->addon_plugin_name, $plugins, true, true);
+    }
+
+    /**
+     * 移除安装插件
+     * @param $plugin_file
+     */
+    public function removeInstallPlugin($plugin_file)
+    {
+        $plugin_file = RC_Plugin::plugin_basename( $plugin_file );
+        $plugin_dir = dirname($plugin_file);
+
+        $plugins = $this->getInstalledPlugins();
+        unset($plugins[$plugin_dir]);
+
+        ecjia_config::writeAddonConfig($this->addon_plugin_name, $plugins, true, true);
+    }
     
     /**
      * 获取数据库中插件数据
@@ -139,7 +179,7 @@ abstract class PluginModel extends Model
      *
      * @access  public
      * @param   string       $cfg
-     * @return  void
+     * @return  array
      */
     public function unserializeConfig($cfg)
     {
@@ -147,7 +187,7 @@ abstract class PluginModel extends Model
         
         if (is_string($cfg) && ($arr = unserialize($cfg)) !== false) 
         {
-            foreach ($arr AS $key => $val) 
+            foreach ($arr as $key => $val)
             {
                 $config[$val['name']] = $val['value'];
             }

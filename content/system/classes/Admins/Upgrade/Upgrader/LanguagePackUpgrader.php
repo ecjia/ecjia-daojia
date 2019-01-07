@@ -44,6 +44,12 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Upgrader;
+
+use Ecjia\System\Admins\Upgrade\Upgrader;
+use Ecjia\System\Admins\Upgrade\Skin\LanguagePackUpgraderSkin;
+use RC_Hook;
+
 /**
  * Language pack upgrader, for updating translations of plugins, themes, and core.
  *
@@ -51,13 +57,14 @@
  * @subpackage Upgrader
  * @since 3.7.0
  */
-class ecjia_language_pack_upgrader extends ecjia_upgrader {
-    public $result;
-    public $bulk = true;
+class LanguagePackUpgrader extends Upgrader
+{
+    protected $bulk = true;
     
-    static function async_upgrade( $upgrader = false ) {
+    public static function async_upgrade( $upgrader = false )
+    {
         // Avoid recursion.
-        if ( $upgrader && $upgrader instanceof ecjia_language_pack_upgrader )
+        if ( $upgrader && $upgrader instanceof LanguagePackUpgrader )
             return;
     
         // Nothing to do?
@@ -65,15 +72,16 @@ class ecjia_language_pack_upgrader extends ecjia_upgrader {
         if ( ! $language_updates )
             return;
     
-        $skin = new ecjia_language_pack_upgrader_skin( array(
+        $skin = new LanguagePackUpgraderSkin( array(
             'skip_header_footer' => true,
         ) );
     
-        $lp_upgrader = new ecjia_language_pack_upgrader( $skin );
+        $lp_upgrader = new LanguagePackUpgrader( $skin );
         $lp_upgrader->upgrade();
     }
     
-    function upgrade_strings() {
+    public function upgrade_strings()
+    {
         $this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.' );
         $this->strings['up_to_date'] = __( 'The translation is up to date.' ); // We need to silently skip this case
         $this->strings['no_package'] = __( 'Update package not available.' );
@@ -83,14 +91,16 @@ class ecjia_language_pack_upgrader extends ecjia_upgrader {
         $this->strings['process_success'] = __( 'Translation updated successfully.' );
     }
     
-    function upgrade( $update = false, $args = array() ) {
+    public function upgrade( $update = false, $args = array() )
+    {
         if ( $update )
             $update = array( $update );
         $results = $this->bulk_upgrade( $update, $args );
         return $results[0];
     }
     
-    function bulk_upgrade( $language_updates = array(), $args = array() ) {
+    public function bulk_upgrade( $language_updates = array(), $args = array() )
+    {
         global $wp_filesystem;
     
         $defaults = array(
@@ -192,7 +202,8 @@ class ecjia_language_pack_upgrader extends ecjia_upgrader {
             return $results;
     }
     
-    function check_package( $source, $remote_source ) {
+    public function check_package( $source, $remote_source )
+    {
         global $wp_filesystem;
     
         if ( is_ecjia_error( $source ) )
@@ -217,7 +228,8 @@ class ecjia_language_pack_upgrader extends ecjia_upgrader {
             return $source;
     }
     
-    function get_name_for_update( $update ) {
+    public function get_name_for_update( $update )
+    {
         switch ( $update->type ) {
             case 'core':
                 return 'WordPress'; // Not translated

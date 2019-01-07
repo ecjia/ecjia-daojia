@@ -44,86 +44,76 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Skin;
+
+use Ecjia\System\Admins\Upgrade\UpgraderSkin;
+
 /**
- * Upgrader Skin for Automatic ECJia Upgrades
- *
- * This skin is designed to be used when no output is intended, all output
- * is captured and stored for the caller to process and log/email/discard.
+ * Translation Upgrader Skin for ECJia Translation Upgrades.
  *
  * @package ECJia
  * @subpackage Upgrader
  * @since 3.7.0
  */
-class ecjia_automatic_upgrader_skin extends ecjia_upgrader_skin {
-    protected $messages = array();
+class LanguagePackUpgraderSkin extends UpgraderSkin
+{
+    public $language_update = null;
+    public $done_header = false;
+    public $display_footer_actions = true;
     
-    function request_filesystem_credentials( $error = false, $context = '' ) {
-        if ( $context ) {
-            $this->options['context'] = $context;
+    public function __construct( $args = array() )
+    {
+        $defaults = array( 'url' => '', 'nonce' => '', 'title' => __( 'Update Translations' ), 'skip_header_footer' => false );
+        $args = rc_parse_args( $args, $defaults );
+        if ( $args['skip_header_footer'] ) {
+            $this->done_header = true;
+            $this->display_footer_actions = false;
         }
-        // TODO: fix up request_filesystem_credentials(), or split it, to allow us to request a no-output version
-        // This will output a credentials form in event of failure, We don't want that, so just hide with a buffer
-        ob_start();
-        $result = parent::request_filesystem_credentials( $error );
-        ob_end_clean();
-    	return $result;
-    }
-    	
-    function get_upgrade_messages() {
-        return $this->messages;
+        parent::__construct( $args );
     }
     
-    function feedback( $data ) {
-        if ( is_ecjia_error( $data ) )
-            $string = $data->get_error_message();
-        else if ( is_array( $data ) )
-            return;
-        else
-            $string = $data;
+    public function before()
+    {
+        $name = $this->upgrader->get_name_for_update( $this->language_update );
     
-        if ( ! empty( $this->upgrader->strings[ $string ] ) )
-            $string = $this->upgrader->strings[ $string ];
+        echo '<div class="update-messages lp-show-latest">';
     
-        if ( strpos( $string, '%' ) !== false ) {
-            $args = func_get_args();
-            $args = array_splice( $args, 1 );
-            if ( ! empty( $args ) )
-                $string = vsprintf( $string, $args );
-        }
-    
-        $string = trim( $string );
-    
-        // Only allow basic HTML in the messages, as it'll be used in emails/logs rather than direct browser output.
-        $string = wp_kses( $string, array(
-            'a' => array(
-                'href' => true
-            ),
-            'br' => true,
-            'em' => true,
-            'strong' => true,
-        ) );
-    
-        if ( empty( $string ) )
-            return;
-    
-        $this->messages[] = $string;
+        printf( '<h4>' . __( 'Updating translations for %1$s (%2$s)&#8230;' ) . '</h4>', $name, $this->language_update->language );
     }
     
-    function header() {
-        ob_start();
+    public function error( $error )
+    {
+        echo '<div class="lp-error">';
+        parent::error( $error );
+        echo '</div>';
     }
     
-    function footer() {
-        $output = ob_get_contents();
-        if ( ! empty( $output ) )
-            $this->feedback( $output );
-        ob_end_clean();
+    public function after()
+    {
+        echo '</div>';
     }
     
-    function bulk_header() {}
-    function bulk_footer() {}
-    function before() {}
-    function after() {}
+    public function bulk_footer()
+    {
+        $this->decrement_update_count( 'translation' );
+        $update_actions = array();
+        $update_actions['updates_page'] = '<a href="' . self_admin_url( 'update-core.php' ) . '" title="' . esc_attr__( 'Go to WordPress Updates page' ) . '" target="_parent">' . __( 'Return to WordPress Updates' ) . '</a>';
+    
+        /**
+         * Filter the list of action links available following a translations update.
+         *
+         * @since 3.7.0
+         *
+         * @param array $update_actions Array of translations update links.
+         */
+        $update_actions = RC_Hook::apply_filters( 'update_translations_complete_actions', $update_actions );
+    
+        if ( $update_actions && $this->display_footer_actions )
+            $this->feedback( implode( ' | ', $update_actions ) );
+    
+        parent::footer();
+    }
+    
 }
 
 // end

@@ -1,5 +1,5 @@
-<?php 
-//  
+<?php
+//
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//   
+//
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,125 +44,62 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\System\Plugin;
+namespace Ecjia\System\Admins\Upgrade\Skin\Bulk;
 
-use RC_Hook;
+use Ecjia\System\Admins\Upgrade\Skin\BulkUpgraderSkin;
 
-abstract class AbstractPlugin implements PluginInterface
+class ThemeUpgraderSkin extends BulkUpgraderSkin
 {
-    /**
-     * 在线配置的数据
-     * 
-     * @var array
-     */
-    protected $config = array();
+    public $theme_info = array(); // Theme_Upgrader::bulk() will fill this in.
     
-    /**
-     * Set the Plugin config.
-     *
-     * @param array $config
-     */
-    public function setConfig(array $config)
+    public function __construct($args = array())
     {
-        $this->config = array_merge($this->config, $config);
+        parent::__construct($args);
+    }
+    
+    public function add_strings()
+    {
+        parent::add_strings();
+        $this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)');
+    }
+    
+    public function before($title = '')
+    {
+        parent::before( $this->theme_info->display('Name') );
+    }
+    
+    public function after($title = '')
+    {
+        parent::after( $this->theme_info->display('Name') );
+        $this->decrement_update_count( 'theme' );
     }
     
     
-    public function getConfig($key = null, $default = null)
+    public function bulk_footer()
     {
-        return array_get($this->config, $key, $default);
-    }
-
-    public function getForm($key)
-    {
-        $forms = $this->emptyFormData();
-
-        $forms = collect($forms)->where('name', $key)->toArray();
-
-        return head($forms);
-    }
+        parent::bulk_footer();
+        $update_actions =  array(
+            'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
+            'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
+        );
+        if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) )
+            unset( $update_actions['themes_page'] );
     
-    /**
-     * 空表单数据
-     */
-    public function emptyFormData()
-    {
-        $config = $this->loadConfig();
-        
-        $forms = array_get($config, 'forms', array());
-        
-        return $forms;
-    }
+        /**
+         * Filter the list of action links available following bulk theme updates.
+         *
+         * @since 3.0.0
+         *
+         * @param array $update_actions Array of theme action links.
+         * @param array $theme_info     Array of information for the last-updated theme.
+        */
+        $update_actions = RC_Hook::apply_filters( 'update_bulk_theme_complete_actions', $update_actions, $this->theme_info );
     
-    /**
-     * 内容赋值后的表单数据
-     * 
-     * @see \Ecjia\System\Plugin\PluginInterface::makeFormData()
-     */
-    public function makeFormData(array $formData) 
-    {
-        $forms = $this->emptyFormData();
-        
-        $data = array();
-        
-        foreach ($forms as $_key => $_value)
-        {
-        	$input = array();
-        	$input['desc']     = $this->loadLanguage($_value['name'] . '_desc', '');
-        	$input['label']    = $this->loadLanguage($_value['name'], $_value['name']);
-        	$input['name']     = $_value['name'];
-        	$input['type']     = $_value['type'];
-
-            if ($_value['type'] == 'file') {
-                $input['dir']      = $_value['dir'];
-            }
-
-        	$input['value']    = array_get($formData, $_value['name'], $_value['value']);
-        	
-        	if ($_value['type'] == 'select' || $_value['type'] == 'radiobox') {
-        	    $input['range']    = $this->loadLanguage($_value['name'] . '_range');
-        	}
-
-        	$data[$_key] = $input;
+        if ( ! empty($update_actions) ) {
+            $this->feedback(implode(' | ', (array)$update_actions));
         }
-
-        $data = RC_Hook::apply_filters(sprintf("plugin_form_%s", $this->getCode()), $data);
-        
-        return $data;
-    }
-    
-    /**
-     * 获取数组中的元素
-     * 
-     * @param array $languages
-     */
-    protected function getArrayData(array $data, $key, $default)
-    {
-        if ($key === null) {
-            return $data;
-        } else {
-            return array_get($data, $key, $default);
-        }
-    }
-    
-    /**
-     * 加载插件相关数据
-     * 供配置文件、语言包使用
-     * 
-     * @param string $file
-     * @return array
-     */
-    protected function loadPluginData($file, $key, $default) {
-        if (!file_exists($file)) {
-            return array();
-        }
-        
-        $data = include($file);
-        if (!is_array($data)) {
-            return array();
-        }
-        
-        return $this->getArrayData($data, $key, $default);
     }
     
 }
+
+// end

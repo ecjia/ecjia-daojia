@@ -70,13 +70,15 @@ class system_system_menu_api extends Component_Event_Api {
 		    ecjia_admin::make_admin_menu('application_manage', __('应用管理'), RC_Uri::url('@admin_application/init'), 12)->add_purview('application_manage'),
 		    ecjia_admin::make_admin_menu('plugin_manage', __('插件管理'), RC_Uri::url('@admin_plugin/init'), 13)->add_purview('plugin_manage'),
 		    ecjia_admin::make_admin_menu('plugin_config', __('插件配置'), RC_Uri::url('@admin_plugin/config'), 15)->add_purview('plugin_config'),
-		    ecjia_admin::make_admin_menu('divider', '', '', 21)->add_purview(array('admin_upgrade')),
 // 		    ecjia_admin::make_admin_menu('appstore', __('应用市场'), RC_Uri::url('@appstore/init'), 22),
-            ecjia_admin::make_admin_menu('upgrade', __('可用更新'), RC_Uri::url('@upgrade/init'), 24)->add_purview(array('admin_upgrade', 'file_priv')),
+
 		);
 
 		if (config('site.shop_type') == 'cityo2o') {
-		    $menus[] = ecjia_admin::make_admin_menu('upgrade', __('文件校验'), RC_Uri::url('@admin_filehash/init'), 23)->add_purview('file_check');
+            $menus[] = ecjia_admin::make_admin_menu('divider', '', '', 21)->add_purview(array('admin_upgrade', 'file_check', 'file_priv'));
+            $menus[] = ecjia_admin::make_admin_menu('upgrade', __('可用更新'), RC_Uri::url('@upgrade/init'), 22)->add_purview('admin_upgrade');
+		    $menus[] = ecjia_admin::make_admin_menu('admin_filehash', __('文件校验'), RC_Uri::url('@admin_filehash/init'), 23)->add_purview('file_check');
+		    $menus[] = ecjia_admin::make_admin_menu('admin_filepermission', __('目录权限检测'), RC_Uri::url('@admin_file_permission/init'), 24)->add_purview('file_priv');
         }
 		
 		if (RC_Hook::apply_filters('ecjia_admin_about_show', true)) {

@@ -44,6 +44,8 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade;
+
 /**
  * The User Interface "Skins" for the ECJia File Upgrader
  *
@@ -59,31 +61,49 @@
  * @subpackage Upgrader
  * @since 1.4.0
  */
-class ecjia_upgrader_skin {
-    
+class UpgraderSkin
+{
+    /**
+     * @var Upgrader
+     */
     public $upgrader;
     public $done_header = false;
     public $result = false;
     
-    function __construct($args = array()) {
-        $defaults = array( 'url' => '', 'nonce' => '', 'title' => '', 'context' => false );
+    public function __construct($args = array())
+    {
+        $defaults = array(
+            'url' => '',
+            'nonce' => '',
+            'title' => '',
+            'context' => false
+        );
         $this->options = rc_parse_args($args, $defaults);
     }
-    
-    function set_upgrader(&$upgrader) {
-        if ( is_object($upgrader) )
-            $this->upgrader =& $upgrader;
+
+    /**
+     * @param Upgrader $upgrader
+     */
+    public function set_upgrader(Upgrader & $upgrader)
+    {
+        if ( $upgrader instanceof Upgrader) {
+            $this->upgrader = & $upgrader;
+        }
+
         $this->add_strings();
     }
     
-    function add_strings() {
+    public function add_strings()
+    {
     }
     
-    function set_result($result) {
+    public function set_result($result)
+    {
         $this->result = $result;
     }
     
-    function request_filesystem_credentials($error = false) {
+    public function request_filesystem_credentials($error = false)
+    {
         $url = $this->options['url'];
         $context = $this->options['context'];
         if ( !empty($this->options['nonce']) )
@@ -91,7 +111,8 @@ class ecjia_upgrader_skin {
         return request_filesystem_credentials($url, '', $error, $context); //Possible to bring inline, Leaving as is for now.
     }
     
-    function header() {
+    public function header()
+    {
         if ( $this->done_header )
             return;
         $this->done_header = true;
@@ -99,11 +120,13 @@ class ecjia_upgrader_skin {
         echo '<h2>' . $this->options['title'] . '</h2>';
     }
     
-    function footer() {
+    public function footer()
+    {
         echo '</div>';
     }
     
-    function error($errors) {
+    public function error($errors)
+    {
         if ( ! $this->done_header )
             $this->header();
         if ( is_string($errors) ) {
@@ -119,7 +142,8 @@ class ecjia_upgrader_skin {
         }
     }
     
-    function feedback($string) {
+    public function feedback($string)
+    {
         if ( isset( $this->upgrader->strings[$string] ) )
             $string = $this->upgrader->strings[$string];
     
@@ -137,9 +161,13 @@ class ecjia_upgrader_skin {
         show_message($string);
     }
     
-    function before() {}
+    public function before() {
+
+    }
     
-    function after() {}
+    public function after() {
+
+    }
     
     /**
      * Output JavaScript that calls function to decrement the update counts.
@@ -154,11 +182,11 @@ class ecjia_upgrader_skin {
             return;
         }
         echo '<script type="text/javascript">
-				(function( wp ) {
-					if ( wp && wp.updates.decrementCount ) {
-						wp.updates.decrementCount( "' . $type . '" );
+				(function( ecjia ) {
+					if ( ecjia && ecjia.updates.decrementCount ) {
+						ecjia.updates.decrementCount( "' . $type . '" );
 					}
-				})( window.wp );
+				})( window.ecjia );
 			</script>';
     }
     

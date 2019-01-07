@@ -188,6 +188,9 @@ define('GBS_FINISHED',              2); // 已结束
 define('GBS_SUCCEED',               3); // 团购成功（可以发货了）
 define('GBS_FAIL',                  4); // 团购失败
 
+define('GBS_SUCCEED_COMPLETE',      13); // 团购成功完成
+define('GBS_FAIL_COMPLETE',         14); // 团购失败完成
+
 /* 红包是否发送邮件 */
 define('BONUS_NOT_MAIL',            0);//未发：对于一些不需要发送邮件的红包
 define('BONUS_INSERT_MAILLIST_SUCCEED',        1);//插入邮件队列成功

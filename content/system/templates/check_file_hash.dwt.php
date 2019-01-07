@@ -16,7 +16,7 @@
     });
     $('.check-btn').off('click').on('click', function(e) {
         e.preventDefault();
-        var $this = $(this);
+        var $this = $(this),
             href = $this.attr('href');
         $('#filehash_check_loding').modal('show');
 

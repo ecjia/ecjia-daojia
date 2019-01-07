@@ -44,6 +44,12 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Upgrader;
+
+use RC_Hook;
+use ecjia_error;
+use Ecjia\System\Admins\Upgrade\Upgrader;
+
 /**
  * Plugin Upgrader class for ECJia Plugins, It is designed to upgrade/install plugins from a local zip, remote zip URL, or uploaded zip file.
  *
@@ -51,11 +57,12 @@
  * @subpackage Upgrader
  * @since 2.8.0
  */
-class ecjia_plugin_upgrader extends ecjia_upgrader {
-    public $result;
-    public $bulk = false;
+class PluginUpgrader extends Upgrader
+{
+    protected $bulk = false;
     
-    function upgrade_strings() {
+    public function upgrade_strings()
+    {
         $this->strings['up_to_date'] = __('The plugin is at the latest version.');
         $this->strings['no_package'] = __('Update package not available.');
         $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
@@ -66,7 +73,8 @@ class ecjia_plugin_upgrader extends ecjia_upgrader {
         $this->strings['process_success'] = __('Plugin updated successfully.');
     }
     
-    function install_strings() {
+    public function install_strings()
+    {
         $this->strings['no_package'] = __('Install package not available.');
         $this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
         $this->strings['unpack_package'] = __('Unpacking the package&#8230;');
@@ -76,7 +84,8 @@ class ecjia_plugin_upgrader extends ecjia_upgrader {
         $this->strings['process_success'] = __('Plugin installed successfully.');
     }
     
-    function install( $package, $args = array() ) {
+    public function install( $package, $args = array() )
+    {
     
         $defaults = array(
             'clear_update_cache' => true,
@@ -110,7 +119,8 @@ class ecjia_plugin_upgrader extends ecjia_upgrader {
         return true;
     }
     
-    function upgrade( $plugin, $args = array() ) {
+    public function upgrade( $plugin, $args = array() )
+    {
     
         $defaults = array(
             'clear_update_cache' => true,
@@ -162,7 +172,8 @@ class ecjia_plugin_upgrader extends ecjia_upgrader {
     }
     
     
-    function bulk_upgrade( $plugins, $args = array() ) {
+    public function bulk_upgrade( $plugins, $args = array() )
+    {
     
         $defaults = array(
             'clear_update_cache' => true,
@@ -276,7 +287,8 @@ class ecjia_plugin_upgrader extends ecjia_upgrader {
         return $results;
     }
     
-    function check_package($source) {
+    public function check_package($source)
+    {
         global $wp_filesystem;
     
         if ( is_ecjia_error($source) )
@@ -304,7 +316,8 @@ class ecjia_plugin_upgrader extends ecjia_upgrader {
     }
     
     //return plugin info.
-    function plugin_info() {
+    public function plugin_info()
+    {
         if ( ! is_array($this->result) )
             return false;
         if ( empty($this->result['destination_name']) )
@@ -321,7 +334,8 @@ class ecjia_plugin_upgrader extends ecjia_upgrader {
     
     
     //Hooked to pre_install
-    function deactivate_plugin_before_upgrade($return, $plugin) {
+    public function deactivate_plugin_before_upgrade($return, $plugin)
+    {
     
         if ( is_ecjia_error($return) ) //Bypass.
             return $return;
@@ -341,7 +355,8 @@ class ecjia_plugin_upgrader extends ecjia_upgrader {
     }
     
     //Hooked to upgrade_clear_destination
-    function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
+    public function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin)
+    {
         global $wp_filesystem;
     
         if ( is_ecjia_error($removed) )

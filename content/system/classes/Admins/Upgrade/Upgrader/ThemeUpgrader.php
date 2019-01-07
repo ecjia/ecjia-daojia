@@ -44,6 +44,11 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Upgrader;
+
+use RC_Hook;
+use Ecjia\System\Admins\Upgrade\Upgrader;
+
 /**
  * Theme Upgrader class for ECJia Themes, It is designed to upgrade/install themes from a local zip, remote zip URL, or uploaded zip file.
  *
@@ -51,11 +56,15 @@
  * @subpackage Upgrader
  * @since 2.8.0
  */
-class ecjia_theme_upgrader extends ecjia_upgrader {
-    public $result;
-    public $bulk = false;
-    
-    function upgrade_strings() {
+class ThemeUpgrader extends Upgrader
+{
+    protected $bulk = false;
+
+    /**
+     * Upgrade strings
+     */
+    public function upgrade_strings()
+    {
         $this->strings['up_to_date'] = __('The theme is at the latest version.');
         $this->strings['no_package'] = __('Update package not available.');
         $this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
@@ -65,9 +74,12 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
         $this->strings['process_failed'] = __('Theme update failed.');
         $this->strings['process_success'] = __('Theme updated successfully.');
     }
-    
-    
-    function install_strings() {
+
+    /**
+     * Install strings
+     */
+    public function install_strings()
+    {
         $this->strings['no_package'] = __('Install package not available.');
         $this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
         $this->strings['unpack_package'] = __('Unpacking the package&#8230;');
@@ -88,7 +100,8 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
     }
     
     
-    function check_parent_theme_filter($install_result, $hook_extra, $child_result) {
+    public function check_parent_theme_filter($install_result, $hook_extra, $child_result)
+    {
         // Check to see if we need to install a parent theme
         $theme_info = $this->theme_info();
     
@@ -147,12 +160,21 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
         return $install_result;
     }
     
-    function hide_activate_preview_actions($actions) {
+    public function hide_activate_preview_actions($actions)
+    {
         unset($actions['activate'], $actions['preview']);
         return $actions;
     }
-    
-    function install( $package, $args = array() ) {
+
+    /**
+     * Install theme.
+     *
+     * @param $package
+     * @param array $args
+     * @return array|bool
+     */
+    public function install( $package, $args = array() )
+    {
     
         $defaults = array(
             'clear_update_cache' => true,
@@ -187,8 +209,16 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
     
         return true;
     }
-    
-    function upgrade( $theme, $args = array() ) {
+
+    /**
+     * Upgrade theme.
+     *
+     * @param $theme
+     * @param array $args
+     * @return array|bool
+     */
+    public function upgrade( $theme, $args = array() )
+    {
     
         $defaults = array(
             'clear_update_cache' => true,
@@ -237,8 +267,16 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
     
         return true;
     }
-    
-    function bulk_upgrade( $themes, $args = array() ) {
+
+    /**
+     * Bulk upgrade theme.
+     *
+     * @param $themes
+     * @param array $args
+     * @return array
+     */
+    public function bulk_upgrade( $themes, $args = array() )
+    {
     
         $defaults = array(
             'clear_update_cache' => true,
@@ -338,8 +376,15 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
     
         return $results;
     }
-    
-    function check_package($source) {
+
+    /**
+     * Check package theme.
+     *
+     * @param $source
+     * @return ecjia_error
+     */
+    public function check_package($source)
+    {
         global $wp_filesystem;
     
         if ( is_ecjia_error($source) )
@@ -366,7 +411,8 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
         return $source;
     }
     
-    function current_before($return, $theme) {
+    public function current_before($return, $theme)
+    {
     
         if ( is_ecjia_error($return) )
             return $return;
@@ -382,7 +428,8 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
         return $return;
     }
     
-    function current_after($return, $theme) {
+    public function current_after($return, $theme)
+    {
         if ( is_ecjia_error($return) )
             return $return;
     
@@ -403,8 +450,18 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
             $this->maintenance_mode(false);
         return $return;
     }
-    
-    function delete_old_theme( $removed, $local_destination, $remote_destination, $theme ) {
+
+    /**
+     * Delete old theme.
+     *
+     * @param $removed
+     * @param $local_destination
+     * @param $remote_destination
+     * @param $theme
+     * @return bool
+     */
+    public function delete_old_theme( $removed, $local_destination, $remote_destination, $theme )
+    {
         global $wp_filesystem;
     
         if ( is_ecjia_error( $removed ) )
@@ -424,7 +481,8 @@ class ecjia_theme_upgrader extends ecjia_upgrader {
     }
     
     
-    function theme_info($theme = null) {
+    public function theme_info($theme = null)
+    {
     
         if ( empty($theme) ) {
             if ( !empty($this->result['destination_name']) )

@@ -44,6 +44,10 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Admins\Upgrade\Skin;
+
+use Ecjia\System\Admins\Upgrade\UpgraderSkin;
+
 /**
  * Theme Installer Skin for the ECJia Theme Installer.
  *
@@ -51,11 +55,13 @@
  * @subpackage Upgrader
  * @since 2.8.0
  */
-class ecjia_theme_installer_skin extends ecjia_upgrader_skin {
-    public $api;
-    public $type;
+class ThemeInstallerSkin extends UpgraderSkin
+{
+    protected $api;
+    protected $type;
     
-    function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $defaults = array( 'type' => 'web', 'url' => '', 'theme' => '', 'nonce' => '', 'title' => '' );
         $args = rc_parse_args($args, $defaults);
     
@@ -65,13 +71,15 @@ class ecjia_theme_installer_skin extends ecjia_upgrader_skin {
         parent::__construct($args);
     }
     
-    function before() {
+    public function before()
+    {
         if ( !empty($this->api) ) {
             $this->upgrader->strings['process_success'] = sprintf( $this->upgrader->strings['process_success_specific'], $this->api->name, $this->api->version);
         }
     }
     
-    function after() {
+    public function after()
+    {
         if ( empty($this->upgrader->result['destination_name']) ) {
             return;
         }

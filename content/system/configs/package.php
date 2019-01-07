@@ -58,6 +58,8 @@ return array(
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
 	'version' 		=> '1.18.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2013-2018.',
+    'namespace'     => 'Ecjia\System',
+    'provider'      => 'Providers\SystemServiceProvider',
 );
 
 // end
