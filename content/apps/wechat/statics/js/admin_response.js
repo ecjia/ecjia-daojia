@@ -260,6 +260,7 @@
 					}
 				}
 				$('#add_material').modal('hide');
+				$(".modal-backdrop").remove();
 				$('.material_picture').removeClass('hidden').append(opt);
 			}
 		}

@@ -179,15 +179,22 @@ class mobile_userbind extends EcjiaWechatUserController
     		$username = $connect_user->getGenerateUserName();
     		$password = $connect_user->getGeneratePassword();
     		$email = $connect_user->getGenerateEmail();
+    		$reg_time = RC_Time::gmtime();
     		 
-    		$user_info = RC_Api::api('user', 'add_user', array('username' => $username, 'password' => $password, 'email' => $email, 'sex' => $sex, 'reg_time' => RC_Time::gmtime()));
+    		$user_info = RC_Api::api('user', 'add_user', array(
+    		    'username' => $username,
+                'password' => $password,
+                'email' => $email,
+                'mobile' => $mobile,
+                'gender' => $sex,
+                'reg_date' => RC_Time::gmtime(),
+            ));
     		 
     		if (is_ecjia_error($user_info)) {
     			return ecjia_front::$controller->showmessage($user_info->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    		} else {
-    			$getUserId = $user_info['user_id'];
-    			RC_DB::table('users')->where('user_id', $getUserId)->update(array('mobile_phone' => $mobile));
     		}
+
+            $getUserId = $user_info['user_id'];
     	}
     	$wechat_user->setEcjiaUserId($getUserId);
     	

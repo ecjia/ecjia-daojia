@@ -162,6 +162,7 @@
 		        });
 				if (id == undefined || id == '') {
 					$('#add_material').modal('hide');
+					$(".modal-backdrop").remove();
 					smoke.alert(js_lang.select_material);
 					return false;
 				}
@@ -224,6 +225,7 @@
 			$('.content').html('');
 			if (data.content != null) {
 				$('#add_material').modal('hide');
+				$(".modal-backdrop").remove();
 				$('.image_message').removeClass('hidden');
 				var opt = '<div class="wmk_grid ecj-wookmark wookmark_list material_pictures"><ul class="wookmark-goods-photo move-mod nomove"><li class="thumbnail move-mod-group">';
 				for (var i = 0; i < data.content.length; i++) {

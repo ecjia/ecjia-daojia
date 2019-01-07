@@ -3,7 +3,9 @@
 namespace Ecjia\App\Wechat;
 
 use Ecjia\App\Platform\Models\PlatformCommandModel;
+use Ecjia\App\Platform\Plugin\PlatformAbstract;
 use Ecjia\App\Platform\Plugin\PlatformPlugin;
+use RC_Hook;
 
 class WechatCommand
 {
@@ -32,25 +34,40 @@ class WechatCommand
         $model = PlatformCommandModel::where('account_id', $this->wechat_id)->where('cmd_word', $cmd)->first();
         
         if (!empty($model) && $model->ext_code) {
-            $extend_handle = with(new PlatformPlugin)->channel($model->ext_code);
+            $extend_handle = (new PlatformPlugin)->channel($model->ext_code);
 
-            $extend_handle->setAccount($this->wechat_uuid->getAccount());
-            $extend_handle->setMessage($this->message);
-            $extend_handle->setSubCodeCommand($model->sub_code);
-            $extend_handle->setStoreId($this->wechat_uuid->getAccount()->getStoreId());
-            $extend_handle->setKeyword($keyword);
-            
-            if ($this->wechat_uuid->getAccount()->getStoreId() > 0 && $extend_handle->hasSupportTypeMerchant()) {
-                $extend_handle->setStoreType(\Ecjia\App\Platform\Plugin\PlatformAbstract::TypeMerchant);
-            }
-            else if ($this->wechat_uuid->getAccount()->getStoreId() === 0 && $extend_handle->hasSupportTypeAdmin()) {
-                $extend_handle->setStoreType(\Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin);
-            }
-
-            return $extend_handle->eventReply();
+            return $this->commandHandler($extend_handle, $model->sub_code, $keyword);
         } else {
+
+            $reply = RC_Hook::apply_filters('wechat_command_empty_reply', null, $cmd, $this);
+
+            if (! is_null($reply)) {
+                return $reply;
+            }
+
             return null;
         }
+    }
+
+    /**
+     * @param PlatformAbstract $handler
+     */
+    public function commandHandler(PlatformAbstract $extend_handle, $sub_code = null, $keyword = null)
+    {
+        $extend_handle->setAccount($this->wechat_uuid->getAccount());
+        $extend_handle->setMessage($this->message);
+        $extend_handle->setSubCodeCommand($sub_code);
+        $extend_handle->setStoreId($this->wechat_uuid->getAccount()->getStoreId());
+        $extend_handle->setKeyword($keyword);
+
+        if ($this->wechat_uuid->getAccount()->getStoreId() > 0 && $extend_handle->hasSupportTypeMerchant()) {
+            $extend_handle->setStoreType(\Ecjia\App\Platform\Plugin\PlatformAbstract::TypeMerchant);
+        }
+        else if ($this->wechat_uuid->getAccount()->getStoreId() === 0 && $extend_handle->hasSupportTypeAdmin()) {
+            $extend_handle->setStoreType(\Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin);
+        }
+
+        return $extend_handle->eventReply();
     }
     
     /**

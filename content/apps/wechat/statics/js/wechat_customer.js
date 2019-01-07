@@ -129,6 +129,7 @@
 						dataType : "json",
 						success : function(data) {
 							$('#bind_wx').modal('hide');
+							$(".modal-backdrop").remove();
 							ecjia.admin.showmessage(data);
 						}
 					});

@@ -64,6 +64,7 @@
                             success : function(data) {
                                 ecjia.admin.showmessage(data);
                                 $('#send_message').modal('hide');
+                                $(".modal-backdrop").remove();
                             }
                         });
                     }

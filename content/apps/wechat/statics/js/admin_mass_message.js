@@ -138,6 +138,7 @@
 				var id = $("input[name='media_id']").val();
 				if (id == undefined || id == '') {
 					$('#add_material').modal('hide');
+					$(".modal-backdrop").remove();
 					smoke.alert(js_lang.pls_select_material);
 					return false;
 				}
@@ -255,6 +256,7 @@
 					}
 				}
 				$('#add_material').modal('hide');
+				$(".modal-backdrop").remove();
 				$('.material_picture').removeClass('hidden').append(opt);
 			}
 		}

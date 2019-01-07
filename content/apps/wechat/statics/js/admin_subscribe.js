@@ -63,6 +63,7 @@
 					success : function(data) {
 						ecjia.admin.showmessage(data);
 						$('#set_label').modal('hide');
+						$(".modal-backdrop").remove();
 					}
 				});
 			});
@@ -344,6 +345,7 @@
 						var new_tag_name = $('input[name="new_tag"]').val();
 						if (new_tag_name == old_tag_name) {
 							$('#edit_tag').modal('hide');
+							$(".modal-backdrop").remove();
 							return false;
 						}
 						$form.ajaxSubmit({
@@ -351,6 +353,7 @@
 							success : function(data) {
 								ecjia.admin.showmessage(data);
 								$('#edit_tag').modal('hide');
+								$(".modal-backdrop").remove();
 							}
 						});
 					}
@@ -375,6 +378,7 @@
 							success : function(data) {
 								ecjia.admin.showmessage(data);
 								$('#add_tag').modal('hide');
+								$(".modal-backdrop").remove();
 							}
 						});
 					}
@@ -421,6 +425,7 @@
 					success : function(data) {
 						ecjia.admin.showmessage(data);
 						$('#set_label').modal('hide');
+						$(".modal-backdrop").remove();
 					}
 				});
 			});
