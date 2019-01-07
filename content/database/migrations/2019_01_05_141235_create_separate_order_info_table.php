@@ -14,7 +14,7 @@ class CreateSeparateOrderInfoTable extends Migration
     {
         RC_Schema::create('separate_order_info', function (Blueprint $table) {
             $table->increments('order_id');
-            $table->string('order_sn', 60)->unique('order_sn')->comment('订单SN,11开头');
+            $table->string('order_sn', 60)->comment('订单SN,11开头');
             $table->mediumInteger('user_id')->unsigned()->default('0');
             $table->tinyInteger('order_status')->unsigned()->default('0');
             $table->tinyInteger('pay_status')->unsigned()->default('0');
@@ -66,7 +66,7 @@ class CreateSeparateOrderInfoTable extends Migration
             $table->string('pay_note', 255)->nullable()->comment('付款备注');
             $table->integer('affiliate_user_id')->unsigned()->default('0')->comment('推荐人id');
 
-            $table->unique(array('order_sn'), 'order_sn');
+            $table->unique('order_sn', 'order_sn');
             $table->index(array('extension_code', 'extension_id'), 'extension_code');
             $table->index('user_id', 'user_id');
             $table->index('order_status', 'order_status');
