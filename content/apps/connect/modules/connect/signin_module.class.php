@@ -104,6 +104,7 @@ class connect_signin_module extends api_front implements api_interface {
 					'user_type'		  => 'user',
 					'open_id'         => $open_id,
 					'access_token'    => RC_Session::session_id(),
+					'refresh_token'	  => md5($_SESSION['user_id'].'user_refresh_token'),
 					'create_at'       => RC_Time::gmtime()
 			);
 			RC_DB::table('connect_user')->insert($connect_data);
@@ -111,6 +112,7 @@ class connect_signin_module extends api_front implements api_interface {
 			$connect_data = array(
 					'open_id'         => $open_id,
 					'access_token'    => RC_Session::session_id(),
+					'refresh_token'	  => md5($_SESSION['user_id'].'user_refresh_token'),
 			);
 			RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->update($connect_data);
 		}

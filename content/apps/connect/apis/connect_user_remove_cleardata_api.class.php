@@ -47,71 +47,27 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * openid是否存在及是否关联用户
- * @author zrl
+ * 移除会员信息接口
+ *
+ * @author royalwang
  */
-class connect_connect_user_bind_api extends Component_Event_Api {
-    
-    /**
-     * 参数说明
-     * @param connect_code  插件代号
-     * @param open_id        第三方帐号绑定唯一值
-     * @param profile       个人信息
-     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
-     * @see Component_Event_Api::call()
-     */
-    public function call(&$options) {
-        if (!array_get($options, 'connect_code') || !array_get($options, 'open_id') || !array_get($options, 'profile')) {
-            return new ecjia_error('invalid_parameter', '调用connect_user_bind，参数无效');
-        }
-        
-        $user_type = array_get($options, 'user_type', 'user');
-        $profile = $options['profile'];
-        $connect_code = $options['connect_code'];
-        $open_id = $options['open_id'];
-        
-        $connect_user  = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);  
+class connect_user_remove_cleardata_api extends Component_Event_Api
+{
 
-        //判断openid是否存在
-        if ($connect_user->checkUser()) {
-        	$user_id = $connect_user->getUserId();
-        	//获取远程头像，更新用户头像
-        	if (!empty($profile['headimgurl']) && !empty($user_id)) {
-        		$update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $user_id));
-        		if (is_ecjia_error($update_avatar_img)) {
-        			return $update_avatar_img;
-        		}
-        	}
-            return $connect_user;
-        }
-        
-        /*保存profile*/
-        $connect_user->saveOpenId('', '', serialize($profile), 7200);
-        
-        /*创建用户*/
-        $username = $connect_user->getGenerateUserName();
+    public function call(& $options)
+    {
 
-        $userinfo = RC_Api::api('user', 'add_user', array('username' => $username));
-        if (is_ecjia_error($userinfo)) {
-        	return $userinfo;
+        $user_id = array_get($options, 'user_id');
+
+        if (empty($user_id)) {
+            return new ecjia_error('invalid_parameter', '请求接口connect_user_remove_cleardata_api参数无效');
         }
-		
-        //获取远程头像，更新用户头像
-        if (!empty($profile['headimgurl']) && !empty($userinfo['user_id'])) {
-        	$update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $userinfo['user_id']));
-        	if (is_ecjia_error($update_avatar_img)) {
-        		return $update_avatar_img;
-        	}
-        }
-       
-        /*绑定*/
-        $result  = $connect_user->bindUser($userinfo['user_id']);
-        if ($result) {
-        	return $connect_user;
-        } else {
-        	return new ecjia_error('bind_user_error', '绑定用户失败');
-        }
+
+        return [
+            new \Ecjia\App\Connect\UserCleanHandlers\UserConnectClear($user_id),
+        ];
     }
+
 }
 
 // end

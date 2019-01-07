@@ -71,7 +71,6 @@ class connect_signup_module extends api_front implements api_interface {
 			}
 		}
 		
-// 		RC_Loader::load_app_class('connect_user', 'connect', false);
 		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
 		if ($connect_user->checkUser()) {
 			return new ecjia_error('connect_userbind', '您已绑定过会员用户！');
@@ -135,7 +134,7 @@ class connect_signup_module extends api_front implements api_interface {
 		//新用户注册并登录
 		$email = rc_random(8, 'abcdefghijklmnopqrstuvwxyz0123456789').'@'.$connect_code.'.com';
 
-		$result = ecjia_integrate::addUser($username, $password, $email);
+		$result = ecjia_integrate::addUser($username, $password, $email, $mobile);
 
 		if ($result) {
 
@@ -198,9 +197,7 @@ class connect_signup_module extends api_front implements api_interface {
 			}
 
 			// 1、同步会员信息
-			// 2、修正咨询信息
-// 			$this->feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
-			
+
 			$connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->first();
 			$open_id = md5(RC_Time::gmtime().$_SESSION['user_id']);
 			if (empty($connect_user_app)) {
@@ -211,6 +208,7 @@ class connect_signup_module extends api_front implements api_interface {
 						'user_type'		  => 'user',
 						'open_id'         => $open_id,
 						'access_token'    => RC_Session::session_id(),
+						'refresh_token'	  => md5($_SESSION['user_id'].'user_refresh_token'),
 						'create_at'       => RC_Time::gmtime()
 				);
 				RC_DB::table('connect_user')->insert($connect_data);
@@ -218,6 +216,7 @@ class connect_signup_module extends api_front implements api_interface {
 				$connect_data = array(
 						'open_id'         => $open_id,
 						'access_token'    => RC_Session::session_id(),
+						'refresh_token'	  => md5($_SESSION['user_id'].'user_refresh_token'),
 				);
 				RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->update($connect_data);
 			}
@@ -256,32 +255,6 @@ class connect_signup_module extends api_front implements api_interface {
 		}
 	}
 	
-	/**
-	 * 修正咨询信息
-	 * @param string $user_id
-	 * @param string $device
-	 */
-	private function feedback_batch_userid($user_id, $user_name, $device) {
-//		$device_udid	  = $device['udid'];
-//		$device_client	  = $device['client'];
-		//$pra = array(
-		//		'object_type'	=> 'ecjia.feedback',
-		//		'object_group'	=> 'feedback',
-		//		'item_key2'		=> 'device_udid',
-		//		'item_value2'	=> $device_udid
-		//);
-		//$object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
-		
-		//更新未登录用户的咨询
-		//$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_udid))->update(array('item_key2' => '', 'item_value2' => ''));
-//		RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_udid)->update(array('item_key2' => '', 'item_value2' => ''));
-		
-		//if (!empty($object_id)) {
-		//	$db = RC_Model::model('feedback/feedback_model');
-		//	$db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-		//	$db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-		//}
-	}
 }
 
 // end

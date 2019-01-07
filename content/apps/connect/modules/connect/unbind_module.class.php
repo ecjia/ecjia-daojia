@@ -47,71 +47,70 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * openid是否存在及是否关联用户
- * @author zrl
+ *用户解绑关联的第三方账号
  */
-class connect_connect_user_bind_api extends Component_Event_Api {
-    
-    /**
-     * 参数说明
-     * @param connect_code  插件代号
-     * @param open_id        第三方帐号绑定唯一值
-     * @param profile       个人信息
-     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
-     * @see Component_Event_Api::call()
-     */
-    public function call(&$options) {
-        if (!array_get($options, 'connect_code') || !array_get($options, 'open_id') || !array_get($options, 'profile')) {
-            return new ecjia_error('invalid_parameter', '调用connect_user_bind，参数无效');
-        }
-        
-        $user_type = array_get($options, 'user_type', 'user');
-        $profile = $options['profile'];
-        $connect_code = $options['connect_code'];
-        $open_id = $options['open_id'];
-        
-        $connect_user  = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);  
-
-        //判断openid是否存在
-        if ($connect_user->checkUser()) {
-        	$user_id = $connect_user->getUserId();
-        	//获取远程头像，更新用户头像
-        	if (!empty($profile['headimgurl']) && !empty($user_id)) {
-        		$update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $user_id));
-        		if (is_ecjia_error($update_avatar_img)) {
-        			return $update_avatar_img;
-        		}
-        	}
-            return $connect_user;
-        }
-        
-        /*保存profile*/
-        $connect_user->saveOpenId('', '', serialize($profile), 7200);
-        
-        /*创建用户*/
-        $username = $connect_user->getGenerateUserName();
-
-        $userinfo = RC_Api::api('user', 'add_user', array('username' => $username));
-        if (is_ecjia_error($userinfo)) {
-        	return $userinfo;
-        }
+class connect_unbind_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	$this->authSession();	
+		$connect_code = $this->requestData('connect_code'); //sns_qq是QQ，sns_wechat微信
+		$smscode	  = $this->requestData('smscode');
+		$type_arr	  = array('sns_qq', 'sns_wechat');
 		
-        //获取远程头像，更新用户头像
-        if (!empty($profile['headimgurl']) && !empty($userinfo['user_id'])) {
-        	$update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $userinfo['user_id']));
-        	if (is_ecjia_error($update_avatar_img)) {
-        		return $update_avatar_img;
-        	}
-        }
-       
-        /*绑定*/
-        $result  = $connect_user->bindUser($userinfo['user_id']);
-        if ($result) {
-        	return $connect_user;
-        } else {
-        	return new ecjia_error('bind_user_error', '绑定用户失败');
-        }
-    }
+		$user_id = $_SESSION['user_id'];
+		if ($user_id <= 0) {
+			return new ecjia_error(100, 'Invalid session');
+		}
+		
+		if (empty($connect_code) || empty($smscode) || !in_array($connect_code, $type_arr)) {
+			return new ecjia_error('invalid_parameter', '调用接口connect_unbind_module参数无效！');
+		}
+		
+		//用户信息
+		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+		
+		//检查短信验证码
+		$result = $this->check_smscode($smscode, $user_info);
+		if (is_ecjia_error($result)) {
+			return $result;
+		}
+		
+		//解绑关联第三方账号
+		$connect_user_info = RC_DB::table('connect_user')
+			->where('connect_code', $connect_code)
+			->where('user_type', 'user')
+			->where('user_id', $user_id)->first();
+		
+		if (!empty($connect_user_info)) {
+			RC_DB::table('connect_user')->where('id', $connect_user_info['id'])->delete();
+			return array();
+		} else {
+			return new ecjia_error('unbind_fail', '关联账号解绑失败！');
+		}
+		
+	}
+	
+	
+	/**
+	 * 验证验证码
+	 */
+	private function check_smscode($smscode, $user_info)
+	{
+		//判断校验码是否过期
+		if ($_SESSION['captcha']['sms']['user_unbind_connect']['sendtime'] + 1800 < RC_Time::gmtime()) {
+			//过期
+			return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
+		}
+		//判断校验码是否正确
+		if ($smscode != $_SESSION['captcha']['sms']['user_unbind_connect']['code'] ) {
+			return new ecjia_error('code_error', __('验证码错误，请重新填写！'));
+		}
+			
+		//校验其他信息
+		if ($user_info['mobile_phone'] != $_SESSION['captcha']['sms']['user_unbind_connect']['value']) {
+			return new ecjia_error('msg_error', __('接受验证码手机号与用户绑定手机号不同！'));
+		}
+		return true;
+	}
 }
 
 // end
