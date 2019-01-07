@@ -1,0 +1,36 @@
+{
+    "name": "royalcms/redis",
+    "description": "The Royalcms Redis package.",
+    "license": "MIT",
+    "homepage": "https://royalcms.cn",
+    "support": {
+        "issues": "https://github.com/royalcms/framework/issues",
+        "source": "https://github.com/royalcms/framework"
+    },
+    "authors": [
+        {
+            "name": "Royal Wang",
+            "email": "hxroyal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "royalcms/contracts": "5.4.*",
+        "royalcms/support": "5.4.*",
+        "predis/predis": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Royalcms\\Component\\Redis\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.4-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}
