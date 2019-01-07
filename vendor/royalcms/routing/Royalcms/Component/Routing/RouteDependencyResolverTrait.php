@@ -113,7 +113,7 @@ trait RouteDependencyResolverTrait
      */
     protected function extractModelIdentifier(ReflectionParameter $parameter, array $originalParameters)
     {
-        return Arr::first($originalParameters, function ($parameterKey) use ($parameter) {
+        return Arr::first($originalParameters, function ($parameterValue, $parameterKey) use ($parameter) {
             return $parameterKey === $parameter->name;
         });
     }
@@ -127,7 +127,7 @@ trait RouteDependencyResolverTrait
      */
     protected function alreadyInParameters($class, array $parameters)
     {
-        return ! is_null(Arr::first($parameters, function ($key, $value) use ($class) {
+        return ! is_null(Arr::first($parameters, function ($value, $key) use ($class) {
             return $value instanceof $class;
         }));
     }
