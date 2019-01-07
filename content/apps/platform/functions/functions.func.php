@@ -46,16 +46,9 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 自动加载类注册
- */
-// RC_Hook::add_action('class_ecjia_platform',             function () {RC_Package::package('app::platform')->loadClass('ecjia_platform', false);});
-// RC_Hook::add_action('class_ecjia_platform_controller',  function () {RC_Package::package('app::platform')->loadClass('ecjia_platform_controller', false);});
-// RC_Hook::add_action('class_ecjia_platform_menu',        function () {RC_Package::package('app::platform')->loadClass('ecjia_platform_menu', false);});
-// RC_Hook::add_action('class_ecjia_platform_screen',      function () {RC_Package::package('app::platform')->loadClass('ecjia_platform_screen', false);});
-// RC_Hook::add_action('class_ecjia_platform_loader',      function () {RC_Package::package('app::platform')->loadClass('ecjia_platform_loader', false);});
-// RC_Hook::add_action('class_ecjia_platform_page',        function () {RC_Package::package('app::platform')->loadClass('ecjia_platform_page', false);});
-// RC_Hook::add_action('class_ecjia_platform_purview',     function () {RC_Package::package('app::platform')->loadClass('ecjia_platform_purview', false);});
+RC_Hook::add_filter('template', function () {
+    return config('system.tpl_style');
+}, 11);
 
 //类别名设置
 with(new Ecjia\App\Platform\Frameworks\AliasManage())->aliasLoader();

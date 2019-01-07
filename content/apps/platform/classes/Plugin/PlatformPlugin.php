@@ -170,7 +170,7 @@ class PlatformPlugin extends PluginModel
     /**
      * 获取某个插件的实例对象
      * @param string|integer $code 类型为string时是pay_code，类型是integer时是pay_id
-     * @return \Ecjia\System\Plugin\AbstractPlugin | ecjia_error
+     * @return \Ecjia\App\Platform\Plugin\PlatformAbstract | ecjia_error
      */
     public function channel($code = null)
     {
