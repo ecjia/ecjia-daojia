@@ -62,7 +62,7 @@ class admin_user_add_module extends api_admin implements api_interface
 			return new ecjia_error('mobile_exists', '手机号已存在！');
 		}
 		$userinfo = [];
-		if (ecjia_integrate::addUser($username, null, $email)) {
+		if (ecjia_integrate::addUser($username, null, $email, $mobile)) {
 			$user_info = ecjia_integrate::getUserInfo($username);
 			$max_id = $user_info['user_id'];
 			$other['reg_time'] = RC_Time::gmtime();

@@ -56,9 +56,19 @@ class user_account_record_module extends api_front implements api_interface {
     	if ($_SESSION['user_id'] <= 0) {
     		return new ecjia_error(100, 'Invalid session');
     	}
+    	
+    	$user_id      = $_SESSION['user_id'];
+    	$api_version = $this->request->header('api-version');
+    	//判断用户有没申请注销
+    	if (version_compare($api_version, '1.25', '>=')) {
+    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
+    		}
+    	}
+    	
     	$size         = $this->requestData('pagination.count', 15);
     	$page         = $this->requestData('pagination.page', 1);
- 		$user_id      = $_SESSION['user_id'];
  		$process_type = $this->requestData('type');
  		$type         = array('', 'deposit', 'raply');
 		if (!in_array($process_type, $type)) {
@@ -81,6 +91,7 @@ class user_account_record_module extends api_front implements api_interface {
 		
  		/* 获取记录条数 */
 		$record_count = $db->count();
+		$db->where('is_paid', '!=', Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_CANCEL);
 		
  		//加载分页类
 		RC_Loader::load_sys_class('ecjia_page', false);
@@ -90,7 +101,8 @@ class user_account_record_module extends api_front implements api_interface {
  		RC_Loader::load_app_func('admin_user' ,'user');
 
  		//获取余额记录
- 		$account_log = get_account_log($user_id, $size, $page_row, $process_type);
+ 		$is_paid_arr = array(ORDER_PAY_STATUS_UNPAY, ORDER_PAY_STATUS_PAYED, ORDER_PAY_STATUS_FAILED);
+ 		$account_log = get_account_log($user_id, $size, $page_row, $process_type, $is_paid_arr);
  		
  		if (!empty($account_log) && is_array($account_log)) {
  			$account_list = array();

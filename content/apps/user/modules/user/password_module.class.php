@@ -61,6 +61,14 @@ class user_password_module extends api_front implements api_interface {
         	return new ecjia_error(100, 'Invalid session');
         }
 
+        //判断用户有没申请注销
+        if (version_compare($api_version, '1.25', '>=')) {
+        	$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+        	if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+        		return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
+        	}
+        }
+        
         $old_password = $this->requestData('password', '');
         $new_password = $this->requestData('new_password', '');
         $code		  = $this->requestData('code', '');

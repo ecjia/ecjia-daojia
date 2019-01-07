@@ -48,787 +48,901 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * ECJIA 会员管理程序
-*/
-class admin extends ecjia_admin {
-	public function __construct() {
-		parent::__construct();
+ */
+class admin extends ecjia_admin
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-		RC_Loader::load_app_func('admin_user');
-		RC_Loader::load_app_func('global', 'goods');
+        RC_Loader::load_app_func('admin_user');
+        RC_Loader::load_app_func('global', 'goods');
 
-		/* 加载所全局 js */
-		RC_Script::enqueue_script('jquery-validate');
-		RC_Script::enqueue_script('jquery-form');
-		RC_Script::enqueue_script('smoke');
-		RC_Style::enqueue_style('chosen');
-		RC_Script::enqueue_script('jquery-chosen');
-		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('jquery-uniform');
-		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
-		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
-		RC_Script::enqueue_script('user_info', RC_App::apps_url('statics/js/user_info.js', __FILE__));
-		RC_Style::enqueue_style('user_info_css', RC_App::apps_url('statics/css/user_info.css', __FILE__));
+        /* 加载所全局 js */
+        RC_Script::enqueue_script('jquery-validate');
+        RC_Script::enqueue_script('jquery-form');
+        RC_Script::enqueue_script('smoke');
+        RC_Style::enqueue_style('chosen');
+        RC_Script::enqueue_script('jquery-chosen');
+        RC_Style::enqueue_style('uniform-aristo');
+        RC_Script::enqueue_script('jquery-uniform');
 
-		$user_jslang = array(
-			'keywords_required'		=>	RC_Lang::get('user::users.keywords_required'),
-			'username_required'		=> 	RC_Lang::get('user::users.username_required'),
-			'email_required'		=> 	RC_Lang::get('user::users.email_required'),
-			'password_required'		=> 	RC_Lang::get('user::users.password_required'),
-			'password_length'		=> 	RC_Lang::get('user::users.password_length'),
-			'password_check'		=> 	RC_Lang::get('user::users.password_check'),
-			'email_check'			=> 	RC_Lang::get('user::users.email_check'),
-			'mobile_phone_required' =>  RC_Lang::get('user::users.mobile_phone_required')
-		);
-		RC_Script::localize_script('user_info', 'user_jslang', $user_jslang );
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.user_list'), RC_Uri::url('user/admin/init')));
-	}
+        RC_Script::enqueue_script('user_info', RC_App::apps_url('statics/js/user_info.js', __FILE__));
+        RC_Style::enqueue_style('user_info_css', RC_App::apps_url('statics/css/user_info.css', __FILE__));
 
-	/**
-	 * 用户帐号列表
-	 */
-	public function init() {
-		$this->admin_priv('user_manage');
+        $user_jslang = array(
+            'keywords_required'     => RC_Lang::get('user::users.keywords_required'),
+            'username_required'     => RC_Lang::get('user::users.username_required'),
+            'email_required'        => RC_Lang::get('user::users.email_required'),
+            'password_required'     => RC_Lang::get('user::users.password_required'),
+            'password_length'       => RC_Lang::get('user::users.password_length'),
+            'password_check'        => RC_Lang::get('user::users.password_check'),
+            'email_check'           => RC_Lang::get('user::users.email_check'),
+            'mobile_phone_required' => RC_Lang::get('user::users.mobile_phone_required'),
+        );
+        RC_Script::localize_script('user_info', 'user_jslang', $user_jslang);
 
-		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.user_list')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('user::users.overview'),
-			'content'	=> '<p>' . RC_Lang::get('user::users.user_list_help') . '</p>'
-		));
-		
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' .RC_Lang::get('user::users.more_info'). '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表" target="_blank">'.RC_Lang::get('user::users.about_user_list').'</a>'). '</p>'
-		);
-		
-		$this->assign('ur_here',		RC_Lang::get('user::users.user_list'));
-		$this->assign('action_link',	array('text' => RC_Lang::get('system::system.04_users_add'), 'href' => RC_Uri::url('user/admin/add')));
-		
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.user_list'), RC_Uri::url('user/admin/init')));
+    }
 
-		$ranks = RC_DB::table('user_rank')->select('rank_id', 'rank_name', 'min_points')->orderBy('min_points', 'asc')->get();
-		$user_list = get_user_list($_REQUEST);
+    /**
+     * 用户帐号列表
+     */
+    public function init()
+    {
+        $this->admin_priv('user_manage');
 
-		$this->assign('user_ranks',		$ranks);
-		$this->assign('user_list',		$user_list);
-		$this->assign('search_action',	RC_Uri::url('user/admin/init'));
-		$this->assign('form_action',	RC_Uri::url('user/admin/batch_remove'));
+        if (session('status')) {
+            ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice(session('status'), 'alert-success'));
+            unset($_SESSION['status']);
+        }
 
-		$this->display('user_list.dwt');
-	}	
+        //解决点击左侧菜单 添加会员和会员等级 切换 左侧菜单会收起问题
+        RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
+        RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 
-	/**
-	 * 添加会员帐号
-	 */
-	public function add() {
-		$this->admin_priv('user_update');
+        ecjia_screen::get_current_screen()->remove_last_nav_here();
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.user_list')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('user::users.overview'),
+            'content' => '<p>' . RC_Lang::get('user::users.user_list_help') . '</p>',
+        ));
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('system::system.04_users_add')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('user::users.overview'),
-			'content'	=> '<p>' . RC_Lang::get('user::users.user_add_help') . '</p>'
-		));
-		
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:添加会员" target="_blank">'.RC_Lang::get('user::users.about_add_user').'</a>') . '</p>'
-		);
-		
-		$user = array(
-			'rank_points'	=> ecjia::config('register_points'),
-			'pay_points'	=> ecjia::config('register_points'),
-			'sex'			=> 0,
-			'credit_line' 	=> 0
-		);
-		
-		$this->assign('ur_here', RC_Lang::get('system::system.04_users_add'));
-		$this->assign('action_link', array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
-		
-		/* 取出注册扩展字段 */
-		$extend_info_list = RC_DB::table('reg_fields')->where('type', '<', 2)->where('display', 1)->where('id', '!=', 6)->where('id', '!=', 5)
-				->orderBy('dis_order', 'asc')->orderBy('id', 'asc')->get();
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表" target="_blank">' . RC_Lang::get('user::users.about_user_list') . '</a>') . '</p>'
+        );
 
-		/* 给扩展字段加入key */
-		if (!empty($extend_info_list)) {
-			foreach ($extend_info_list as $key => $val) {
-				$val['key'] = $key+1 ;
-				$extend_info_list[$key] = $val;
-			}
-		}
-		
-		$rank_list = get_user_rank_list(true);
+        $this->assign('ur_here', RC_Lang::get('user::users.user_list'));
+        $this->assign('action_link', array('text' => RC_Lang::get('system::system.04_users_add'), 'href' => RC_Uri::url('user/admin/add')));
 
-		$this->assign('form_act',				'insert');
-		$this->assign('form_action',			RC_Uri::url('user/admin/insert'));
-		$this->assign('user',					$user);
-		$this->assign('special_ranks',			$rank_list);
-		$this->assign('extend_info_list',		$extend_info_list);
-		$this->assign('lang_sex', 				RC_Lang::get('user::users.sex'));
-		
-		$this->display('user_edit.dwt');
-	}
-	
-	/**
-	 * 添加会员帐号
-	 */
-	public function insert() {
-		$this->admin_priv('user_update', ecjia::MSGTYPE_JSON);
-		
-		RC_Loader::load_app_class('integrate', 'user', false);
+        $ranks     = RC_DB::table('user_rank')->select('rank_id', 'rank_name', 'min_points')->orderBy('min_points', 'asc')->get();
+        $user_list = get_user_list($_REQUEST);
 
-		$username			= empty($_POST['username'])			? ''	: trim($_POST['username']);
-		$password			= empty($_POST['password'])			? ''	: trim($_POST['password']);
-		$confirm_password	= empty($_POST['confirm_password'])	? ''	: trim($_POST['confirm_password']);
-		$email				= empty($_POST['email'])			? ''	: trim($_POST['email']);
-		$mobile_phone		= empty($_POST['mobile_phone'])		? ''	: trim($_POST['mobile_phone']);
-		
-		$sex				= empty($_POST['sex'])				? 0		: intval($_POST['sex']);
-		$sex_array 			= array(0, 1, 2);
-		
-		$sex				= in_array($sex, $sex_array)		? $sex			: 0;
-		$birthday			= empty($_POST['birthday'])			? '1000-01-01'	: $_POST['birthday'];
-		$rank				= empty($_POST['user_rank'])		? 0				: intval($_POST['user_rank']);
-		$credit_line		= empty($_POST['credit_line'])		? 0				: trim($_POST['credit_line']);
-		$reg_time           = RC_Time::gmtime();
+        $this->assign('user_ranks', $ranks);
+        $this->assign('user_list', $user_list);
+        $this->assign('search_action', RC_Uri::url('user/admin/init'));
+        $this->assign('form_action', RC_Uri::url('user/admin/batch_remove'));
 
-		/* 验证参数的合法性*/
-		/* 邮箱*/
-		if (!empty($email) && !preg_match('/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/', $email)) {
-			return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
+        $this->display('user_list.dwt');
+    }
 
-		if (!empty($password)) {
-			if (!preg_match("/^[A-Za-z0-9_\/|\~|\!|\@|\#|\\$|\%|\^|\&|\*|\(|\)|\_|\+|\{|\}|\:|\<|\>|\?|\[|\]|\,|\.|\/|\;|\'|\`|\-|\=|\\\|\|]+$/",$password)){
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.chinese_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if (empty($confirm_password)) {
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.no_confirm_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if ($password != $confirm_password) {
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.password_not_same'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if (strlen($password) < 6 || strlen($confirm_password) < 6) {
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.password_len_err'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if (preg_match("/ /" , $password)) {
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.passwd_balnk'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-		}
-	
-		/* 信用额度*/
-		if (!is_numeric($credit_line) || $credit_line < 0 ) {
-			return $this->showmessage(RC_Lang::get('user::users.js_languages.credit_line'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
+    /**
+     * 添加会员帐号
+     */
+    public function add()
+    {
+        $this->admin_priv('user_update');
 
-		/* 更新会员的其它信息 */
-		$other['credit_line']	= $credit_line;
-		$other['user_rank']		= $rank;
-		$other['sex']			= $sex;
-		$other['birthday']		= $birthday;
-		$other['msn']			= isset($_POST['extend_field1']) ? htmlspecialchars(trim($_POST['extend_field1'])) : '';
-		$other['qq']			= isset($_POST['extend_field2']) ? htmlspecialchars(trim($_POST['extend_field2'])) : '';
-		$other['office_phone']	= isset($_POST['extend_field3']) ? htmlspecialchars(trim($_POST['extend_field3'])) : '';
-		$other['home_phone']	= isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';
-		// $other['mobile_phone']	= isset($_POST['extend_field5']) ? htmlspecialchars(trim($_POST['extend_field5'])) : '';
-		$other['mobile_phone']  = $mobile_phone;
-		$other['reg_time']      = $reg_time;
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('system::system.04_users_add')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('user::users.overview'),
+            'content' => '<p>' . RC_Lang::get('user::users.user_add_help') . '</p>',
+        ));
+
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:添加会员" target="_blank">' . RC_Lang::get('user::users.about_add_user') . '</a>') . '</p>'
+        );
+
+        $user = array(
+            'rank_points' => ecjia::config('register_points'),
+            'pay_points'  => ecjia::config('register_points'),
+            'sex'         => 0,
+            'credit_line' => 0,
+        );
+
+        $this->assign('ur_here', RC_Lang::get('system::system.04_users_add'));
+        $this->assign('action_link', array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
+
+        /* 取出注册扩展字段 */
+        $extend_info_list = RC_DB::table('reg_fields')->where('type', '<', 2)->where('display', 1)->where('id', '!=', 6)->where('id', '!=', 5)
+            ->orderBy('dis_order', 'asc')->orderBy('id', 'asc')->get();
+
+        /* 给扩展字段加入key */
+        if (!empty($extend_info_list)) {
+            foreach ($extend_info_list as $key => $val) {
+                $val['key']             = $key + 1;
+                $extend_info_list[$key] = $val;
+            }
+        }
+
+        $rank_list = get_user_rank_list(true);
+
+        $this->assign('form_act', 'insert');
+        $this->assign('form_action', RC_Uri::url('user/admin/insert'));
+        $this->assign('user', $user);
+        $this->assign('special_ranks', $rank_list);
+        $this->assign('extend_info_list', $extend_info_list);
+        $this->assign('lang_sex', RC_Lang::get('user::users.sex'));
+
+        $this->display('user_edit.dwt');
+    }
+
+    /**
+     * 添加会员帐号
+     */
+    public function insert()
+    {
+        $this->admin_priv('user_update', ecjia::MSGTYPE_JSON);
+
+        RC_Loader::load_app_class('integrate', 'user', false);
+
+        $username         = empty($_POST['username']) ? '' : trim($_POST['username']);
+        $password         = empty($_POST['password']) ? '' : trim($_POST['password']);
+        $confirm_password = empty($_POST['confirm_password']) ? '' : trim($_POST['confirm_password']);
+        $email            = empty($_POST['email']) ? '' : trim($_POST['email']);
+        $mobile_phone     = empty($_POST['mobile_phone']) ? '' : trim($_POST['mobile_phone']);
+
+        $sex       = empty($_POST['sex']) ? 0 : intval($_POST['sex']);
+        $sex_array = array(0, 1, 2);
+
+        $sex         = in_array($sex, $sex_array) ? $sex : 0;
+        $birthday    = empty($_POST['birthday']) ? '1000-01-01' : $_POST['birthday'];
+        $rank        = empty($_POST['user_rank']) ? 0 : intval($_POST['user_rank']);
+        $credit_line = empty($_POST['credit_line']) ? 0 : trim($_POST['credit_line']);
+        $reg_time    = RC_Time::gmtime();
+
+        /* 验证参数的合法性*/
+        /* 邮箱*/
+        if (!empty($email) && !preg_match('/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/', $email)) {
+            return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        if (!empty($password)) {
+            if (!preg_match("/^[A-Za-z0-9_\/|\~|\!|\@|\#|\\$|\%|\^|\&|\*|\(|\)|\_|\+|\{|\}|\:|\<|\>|\?|\[|\]|\,|\.|\/|\;|\'|\`|\-|\=|\\\|\|]+$/", $password)) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.chinese_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if (empty($confirm_password)) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.no_confirm_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if ($password != $confirm_password) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.password_not_same'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if (strlen($password) < 6 || strlen($confirm_password) < 6) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.password_len_err'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if (preg_match("/ /", $password)) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.passwd_balnk'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+        }
+
+        /* 信用额度*/
+        if (!is_numeric($credit_line) || $credit_line < 0) {
+            return $this->showmessage(RC_Lang::get('user::users.js_languages.credit_line'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        /* 更新会员的其它信息 */
+        $other['credit_line']  = $credit_line;
+        $other['user_rank']    = $rank;
+        $other['msn']          = isset($_POST['extend_field1']) ? htmlspecialchars(trim($_POST['extend_field1'])) : '';
+        $other['qq']           = isset($_POST['extend_field2']) ? htmlspecialchars(trim($_POST['extend_field2'])) : '';
+        $other['office_phone'] = isset($_POST['extend_field3']) ? htmlspecialchars(trim($_POST['extend_field3'])) : '';
+        $other['home_phone']   = isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';
+
+        $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile_phone);
+        if (is_ecjia_error($check_mobile)) {
+            return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $count = RC_DB::table('users')->where('mobile_phone', $mobile_phone)->count();
+        if (!empty($count)) {
+            return $this->showmessage('手机号码已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        if (ecjia_integrate::addUser($username, $password, $email, $mobile_phone, $sex, $birthday, $reg_time)) {
+            $user_info = ecjia_integrate::getUserInfo($username);
+
+            $max_id = $user_info['user_id'];
+            RC_DB::table('users')->where('user_id', $user_info['user_id'])->update($other);
+
+            /*把新注册用户的扩展信息插入数据库*/
+            $fields_arr = RC_DB::table('reg_fields')
+                ->where('type', 0)
+                ->where('display', 1)
+                ->orderBy('dis_order', 'asc')
+                ->orderBy('id', 'asc')
+                ->select('id')
+                ->get();
+
+            $extend_field_str = ''; //生成扩展字段的内容字符串
+
+            if (!empty($fields_arr)) {
+                foreach ($fields_arr as $val) {
+                    $extend_field_index = 'extend_field' . $val['id'];
+                    if (!empty($_POST[$extend_field_index])) {
+                        $temp_field_content = strlen($_POST[$extend_field_index]) > 100 ? mb_substr($_POST[$extend_field_index], 0, 99) : $_POST[$extend_field_index];
+                        $data               = array(
+                            'user_id'      => $max_id,
+                            'reg_field_id' => $val['id'],
+                            'content'      => $temp_field_content,
+                        );
+                        RC_DB::table('reg_extend_info')->insert($data);
+                    }
+                }
+            }
+
+            /* 注册送积分 */
+            if (ecjia_config::has('register_points')) {
+                change_account_log($user_info['user_id'], 0, 0, ecjia::config('register_points'), ecjia::config('register_points'), RC_Lang::get('user::users.register_points'));
+            }
+
+            /* 记录管理员操作 */
+            ecjia_admin::admin_log($username, 'add', 'users');
+
+            /* 提示信息 */
+            $links[] = array('text' => RC_Lang::get('user::users.back_user_list'), 'href' => RC_Uri::url('user/admin/init'));
+            $links[] = array('text' => RC_Lang::get('user::users.keep_add'), 'href' => RC_Uri::url('user/admin/add'));
+            return $this->showmessage(RC_Lang::get('user::users.add_user_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('user/admin/edit', array('id' => $max_id))));
+
+        } else {
+            return $this->showmessage(ecjia_integrate::getErrorMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+    }
+
+    /**
+     * 编辑用户帐号
+     */
+    public function edit()
+    {
+        $this->admin_priv('user_update');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.users_edit')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('user::users.overview'),
+            'content' =>
+                '<p>' . RC_Lang::get('user::users.user_edit_help') . '</p>',
+        ));
+
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E4.BC.9A.E5.91.98.E7.BC.96.E8.BE.91" target="_blank">' . RC_Lang::get('user::users.about_edit_user') . '</a>') . '</p>'
+        );
+
+        $this->assign('ur_here', RC_Lang::get('user::users.users_edit'));
+        $this->assign('action_link', array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
+
+        $row = RC_DB::table('users')->where('user_id', $_GET['id'])->first();
+
+        if ($row) {
+            $user['user_id']               = $row['user_id'];
+            $user['email']                 = $row['email'];
+            $user['user_name']             = $row['user_name'];
+            $user['sex']                   = $row['sex'];
+            $user['birthday']              = date($row['birthday']);
+            $user['pay_points']            = $row['pay_points'];
+            $user['rank_points']           = $row['rank_points'];
+            $user['user_rank']             = $row['user_rank'];
+            $user['user_money']            = $row['user_money'];
+            $user['frozen_money']          = $row['frozen_money'];
+            $user['credit_line']           = $row['credit_line'];
+            $user['formated_user_money']   = price_format($row['user_money']);
+            $user['formated_frozen_money'] = price_format($row['frozen_money']);
+            $user['qq']                    = $row['qq'];
+            $user['msn']                   = $row['msn'];
+            $user['office_phone']          = $row['office_phone'];
+            $user['home_phone']            = $row['home_phone'];
+            $user['mobile_phone']          = $row['mobile_phone'];
+        }
+
+        /* 取出注册扩展字段 */
+        $extend_info_list = RC_DB::table('reg_fields')
+            ->where('type', '<', 2)
+            ->where('display', 1)
+            ->where('id', '!=', 6)
+            ->where('id', '!=', 5)
+            ->orderBy('dis_order', 'asc')
+            ->orderBy('id', 'asc')
+            ->get();
+        $extend_info_arr  = RC_DB::table('reg_extend_info')->where('user_id', $user['user_id'])->select('reg_field_id', 'content')->get();
+
+        $temp_arr = array();
+        if (isset($extend_info_arr)) {
+            foreach ($extend_info_arr as $val) {
+                $temp_arr[$val['reg_field_id']] = $val['content'];
+            }
+        }
+
+        if (!empty($extend_info_list)) {
+            foreach ($extend_info_list as $key => $val) {
+                switch ($val['id']) {
+                    case 1:
+                        $extend_info_list[$key]['content'] = $user['msn'];
+                        break;
+                    case 2:
+                        $extend_info_list[$key]['content'] = $user['qq'];
+                        break;
+                    case 3:
+                        $extend_info_list[$key]['content'] = $user['office_phone'];
+                        break;
+                    case 4:
+                        $extend_info_list[$key]['content'] = $user['home_phone'];
+                        break;
+//                    case 5:
+//                        $extend_info_list[$key]['content'] = $user['mobile_phone'];
+//                        break;
+                    default:
+                        $extend_info_list[$key]['content'] = empty($temp_arr[$val['id']]) ? '' : $temp_arr[$val['id']];
+                }
+            }
+        }
+        $this->assign('extend_info_list', $extend_info_list);
+
+        /* 当前会员推荐信息 */
+        $affiliate = unserialize(ecjia::config('affiliate'));
+        $this->assign('affiliate', $affiliate);
+
+        empty($affiliate) && $affiliate = array();
+        if (empty($affiliate['config']['separate_by'])) {
+            //推荐注册分成
+            $affdb  = array();
+            $num    = count($affiliate['item']);
+            $up_uid = $_GET['id'];
+            for ($i = 1; $i <= $num; $i++) {
+                $count = 0;
+                if ($up_uid) {
+                    $up_uid = explode(',', $up_uid);
+                    $data   = RC_DB::table('users')->whereIn('parent_id', $up_uid)->select('user_id')->get();
+
+                    $up_uid = '';
+                    if (!empty($data)) {
+                        foreach ($data as $key => $rt) {
+                            $up_uid .= $up_uid ? ",'$rt[user_id]'" : "'$rt[user_id]'";
+                            $count++;
+                        }
+                    }
+                }
+                $affdb[$i]['num'] = $count;
+            }
+            if ($affdb[1]['num'] > 0) {
+                $this->assign('affdb', $affdb);
+            }
+        }
+
+        $this->assign('lang_sex', RC_Lang::get('user::users.sex'));
+        $this->assign('special_ranks', get_user_rank_list(true));
+        $this->assign('form_act', 'update');
+        $this->assign('action', 'edit');
+        $this->assign('user', $user);
+        $this->assign('form_action', RC_Uri::url('user/admin/update'));
+
+        $this->display('user_edit.dwt');
+    }
+
+    /**
+     * 更新用户帐号
+     */
+    public function update()
+    {
+        $this->admin_priv('user_update', ecjia::MSGTYPE_JSON);
+
+        $username         = empty($_POST['username']) ? '' : trim($_POST['username']);
+        $user_id          = trim($_POST['id']);
+        $password         = trim($_POST['newpassword']);
+        $confirm_password = empty($_POST['confirm_password']) ? '' : trim($_POST['confirm_password']);
+        $email            = empty($_POST['email']) ? '' : trim($_POST['email']);
+        $mobile_phone     = empty($_POST['mobile_phone']) ? '' : trim($_POST['mobile_phone']);
+
+        $sex         = empty($_POST['sex']) ? 0 : intval($_POST['sex']);
+        $sex         = in_array($sex, array(0, 1, 2)) ? $sex : 0;
+        $birthday    = empty($_POST['birthday']) ? '' : $_POST['birthday'];
+        $rank        = empty($_POST['user_rank']) ? 0 : intval($_POST['user_rank']);
+        $credit_line = empty($_POST['credit_line']) ? 0 : trim($_POST['credit_line']);
+
+        /* 验证参数的合法性*/
+        /* 邮箱*/
+        if (!empty($email) && !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/", $email)) {
+            return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        /* 密码 */
+        if (!empty($password)) {
+            if (!preg_match("/^[A-Za-z0-9_\/|\~|\!|\@|\#|\\$|\%|\^|\&|\*|\(|\)|\_|\+|\{|\}|\:|\<|\>|\?|\[|\]|\,|\.|\/|\;|\'|\`|\-|\=|\\\|\|]+$/", $password)) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.chinese_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if (empty($confirm_password)) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.no_confirm_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if ($password != $confirm_password) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.password_not_same'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if (strlen($password) < 6 || strlen($confirm_password) < 6) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.password_len_err'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if (preg_match("/ /", $password)) {
+                return $this->showmessage(RC_Lang::get('user::users.js_languages.passwd_balnk'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            RC_DB::table('users')->where('user_id', $user_id)->update(array('ec_salt' => '0'));
+        }
+
+        /* 信用额度*/
+        if (!is_numeric($credit_line) || $credit_line < 0) {
+            return $this->showmessage(RC_Lang::get('user::users.js_languages.credit_line'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        /* 更新用户扩展字段的数据 */
+        $fields_arr = RC_DB::table('reg_fields')->where('type', 0)->where('display', 1)
+            ->orderBy('dis_order', 'asc')->orderBy('id', 'asc')->get();
+
+        /* 循环更新扩展用户信息 */
+        if (!empty($fields_arr)) {
+            foreach ($fields_arr as $val) {
+                $extend_field_index = 'extend_field' . $val['id'];
+                if (isset($_POST[$extend_field_index])) {
+                    $temp_field_content = strlen($_POST[$extend_field_index]) > 100 ? mb_substr($_POST[$extend_field_index], 0, 99) : $_POST[$extend_field_index];
+                    $sql_one            = RC_DB::table('reg_extend_info')->where('reg_field_id', $val['id'])->where('user_id', $user_id)->first();
+                    /* 如果之前没有记录，则插入 */
+                    if ($sql_one) {
+                        $data = array('content' => $temp_field_content);
+                        RC_DB::table('reg_extend_info')->where('reg_field_id', $val['id'])->where('user_id', $user_id)->update($data);
+                    } else {
+                        $data = array(
+                            'user_id'      => $user_id,
+                            'reg_field_id' => $val['id'],
+                            'content'      => $temp_field_content,
+                        );
+                        RC_DB::table('reg_extend_info')->insert($data);
+                    }
+                }
+            }
+        }
+
+        /* 更新会员的其它信息 */
+        $other                 = array();
+        $other['user_name']    = $username;
+        $other['email']        = $email;
+        $other['credit_line']  = $credit_line;
+        $other['sex']          = $sex;
+        $other['birthday']     = $birthday;
+        $other['user_rank']    = $rank;
+        $other['msn']          = isset($_POST['extend_field1']) ? htmlspecialchars(trim($_POST['extend_field1'])) : '';
+        $other['qq']           = isset($_POST['extend_field2']) ? htmlspecialchars(trim($_POST['extend_field2'])) : '';
+        $other['office_phone'] = isset($_POST['extend_field3']) ? htmlspecialchars(trim($_POST['extend_field3'])) : '';
+        $other['home_phone']   = isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';
+        // $other['mobile_phone']    = isset($_POST['extend_field5']) ? htmlspecialchars(trim($_POST['extend_field5'])) : '';
+        $other['mobile_phone'] = $mobile_phone;
 
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($other['mobile_phone']);
         if (is_ecjia_error($check_mobile)) {
             return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $count = RC_DB::table('users')->where('mobile_phone', $other['mobile_phone'])->count();
+        $count = RC_DB::table('users')->where('user_id', '!=', $user_id)->where('mobile_phone', $other['mobile_phone'])->count();
         if (!empty($count)) {
             return $this->showmessage('手机号码已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-		if (ecjia_integrate::addUser($username, $password, $email)) {
-			$user_info = ecjia_integrate::getUserInfo($username);
-
-			$max_id = $user_info['user_id'];
-			RC_DB::table('users')->where('user_id', $user_info['user_id'])->update($other);
-
-			/*把新注册用户的扩展信息插入数据库*/
-			$fields_arr = RC_DB::table('reg_fields')
-				->where('type', 0)
-				->where('display', 1)
-				->orderBy('dis_order', 'asc')
-				->orderBy('id', 'asc')
-				->select('id')
-				->get();
-			
-			$extend_field_str = '';	//生成扩展字段的内容字符串
-			
-			if (!empty($fields_arr)) {
-				foreach ($fields_arr AS $val) {
-					$extend_field_index = 'extend_field' . $val['id'];
-					if (!empty($_POST[$extend_field_index])) {
-						$temp_field_content = strlen($_POST[$extend_field_index]) > 100 ? mb_substr($_POST[$extend_field_index], 0, 99) : $_POST[$extend_field_index];
-						$data = array (
-							'user_id'		=> $max_id,
-							'reg_field_id'	=> $val['id'],
-							'content'		=> $temp_field_content
-						);
-						RC_DB::table('reg_extend_info')->insert($data);
-					}
-				}
-			}
-			
-			/* 注册送积分 */
-			if (ecjia_config::has('register_points')) {
-			    change_account_log($user_info['user_id'] , 0 , 0 , ecjia::config('register_points'), ecjia::config('register_points'), RC_Lang::get('user::users.register_points'));
-			}
-			
-			/* 记录管理员操作 */
-			ecjia_admin::admin_log($username , 'add', 'users');
-			
-			/* 提示信息 */
-			$links[] = array('text' =>RC_Lang::get('user::users.back_user_list'), 'href' => RC_Uri::url('user/admin/init'));
-			$links[] = array('text' =>RC_Lang::get('user::users.keep_add'), 'href' => RC_Uri::url('user/admin/add'));
-			return $this->showmessage(RC_Lang::get('user::users.add_user_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('user/admin/edit', array('id' => $max_id))));
-				
-		} else {
-			return $this->showmessage(ecjia_integrate::getErrorMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
-	
-	/**
-	 * 编辑用户帐号
-	 */
-	public function edit() {
-		$this->admin_priv('user_update');
-
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.users_edit')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=>  RC_Lang::get('user::users.overview'),
-			'content'	=>
-			'<p>' .  RC_Lang::get('user::users.user_edit_help') . '</p>'
-		));
-		
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E4.BC.9A.E5.91.98.E7.BC.96.E8.BE.91" target="_blank">'.RC_Lang::get('user::users.about_edit_user').'</a>') . '</p>'
-		);
-		
-		$this->assign('ur_here', 		RC_Lang::get('user::users.users_edit'));
-		$this->assign('action_link',	array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
-		
-		$row = RC_DB::table('users')->where('user_id', $_GET['id'])->first();
-
-		if ($row) {
-			$user['user_id']				= $row['user_id'];
-			$user['email']					= $row['email'];
-			$user['user_name']				= $row['user_name'];
-			$user['sex']					= $row['sex'];
-			$user['birthday']				= date($row['birthday']);
-			$user['pay_points']				= $row['pay_points'];
-			$user['rank_points']			= $row['rank_points'];
-			$user['user_rank']				= $row['user_rank'];
-			$user['user_money']				= $row['user_money'];
-			$user['frozen_money']			= $row['frozen_money'];
-			$user['credit_line']			= $row['credit_line'];
-			$user['formated_user_money']	= price_format($row['user_money']);
-			$user['formated_frozen_money']	= price_format($row['frozen_money']);
-			$user['qq']						= $row['qq'];
-			$user['msn']					= $row['msn'];
-			$user['office_phone']			= $row['office_phone'];
-			$user['home_phone']				= $row['home_phone'];
-			$user['mobile_phone']			= $row['mobile_phone'];
-		} 
-
-		/* 取出注册扩展字段 */
-		$extend_info_list = RC_DB::table('reg_fields')
-				->where('type', '<', 2)
-				->where('display', 1)
-				->where('id', '!=', 6)
-				->where('id', '!=', 5)
-				->orderBy('dis_order', 'asc')
-				->orderBy('id', 'asc')
-				->get();
-		$extend_info_arr = RC_DB::table('reg_extend_info')->where('user_id', $user['user_id'])->select('reg_field_id', 'content')->get();
-
-		$temp_arr = array();
-		if (isset($extend_info_arr)) {
-			foreach ($extend_info_arr AS $val) {
-				$temp_arr[$val['reg_field_id']] = $val['content'];
-			}
-		}
-
-		if (!empty($extend_info_list)) {
-			foreach ($extend_info_list AS $key => $val) {
-				switch ($val['id']) {
-					case 1:	 $extend_info_list[$key]['content'] = $user['msn']; break;
-					case 2:	 $extend_info_list[$key]['content'] = $user['qq']; break;
-					case 3:	 $extend_info_list[$key]['content'] = $user['office_phone']; break;
-					case 4:	 $extend_info_list[$key]['content'] = $user['home_phone']; break;
-					// case 5:	 $extend_info_list[$key]['content'] = $user['mobile_phone']; break;
-					default: $extend_info_list[$key]['content'] = empty($temp_arr[$val['id']]) ? '' : $temp_arr[$val['id']] ;
-				}
-			}
-		}
-		$this->assign('extend_info_list', $extend_info_list);
-
-		/* 当前会员推荐信息 */
-		$affiliate = unserialize(ecjia::config('affiliate'));
-		$this->assign('affiliate', $affiliate);
-		
-		empty($affiliate) && $affiliate = array();
-		if (empty($affiliate['config']['separate_by'])) {
-			//推荐注册分成
-			$affdb = array();
-			$num = count($affiliate['item']);
-			$up_uid = $_GET['id'];
-			for ($i = 1 ; $i <=$num ;$i++) {
-				$count = 0;
-				if ($up_uid) {
-					$up_uid = explode(',', $up_uid);
-					$data = RC_DB::table('users')->whereIn('parent_id', $up_uid)->select('user_id')->get();
-
-					$up_uid = '';
-					if (!empty($data)) {
-						foreach ($data as $key => $rt) {
-							$up_uid .= $up_uid ? ",'$rt[user_id]'" : "'$rt[user_id]'";
-							$count++;
-						}
-					}
-				}
-				$affdb[$i]['num'] = $count;
-			}
-			if ($affdb[1]['num'] > 0) {
-				$this->assign('affdb', $affdb);
-			}
-		}
-		
-		$this->assign('lang_sex', 		RC_Lang::get('user::users.sex'));
-		$this->assign('special_ranks',	get_user_rank_list(true));
-		$this->assign('form_act',		'update');
-		$this->assign('action',			'edit');
-		$this->assign('user',			$user);
-		$this->assign('form_action',	RC_Uri::url('user/admin/update'));
-		
-		$this->display('user_edit.dwt');
-	}	
-	
-	/**
-	 * 更新用户帐号
-	 */
-	public function update() {
-		$this->admin_priv('user_update', ecjia::MSGTYPE_JSON);
-
-		$username			= empty($_POST['username'])				? '' 	: trim($_POST['username']);
-		$user_id			= trim($_POST['id']);
-		$password			= trim($_POST['newpassword']);
-		$confirm_password	= empty($_POST['confirm_password'])		? '' 	: trim($_POST['confirm_password']);
-		$email				= empty($_POST['email'])				? '' 	: trim($_POST['email']);
-		$mobile_phone		= empty($_POST['mobile_phone'])			? '' 	: trim($_POST['mobile_phone']);
-
-		$sex				= empty($_POST['sex'])					? 0		: intval($_POST['sex']);
-		$sex				= in_array($sex, array(0, 1, 2))		? $sex 	: 0;
-		$birthday			= empty($_POST['birthday'])			 	? '' 	: $_POST['birthday'];
-		$rank				= empty($_POST['user_rank'])			? 0		: intval($_POST['user_rank']);
-		$credit_line		= empty($_POST['credit_line'])			? 0		: trim($_POST['credit_line']);
-
-		/* 验证参数的合法性*/
-		/* 邮箱*/
-		if (!empty($email) && !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/", $email)) {
-			return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-
-		/* 密码 */
-		if (!empty($password)) {
-			if (!preg_match("/^[A-Za-z0-9_\/|\~|\!|\@|\#|\\$|\%|\^|\&|\*|\(|\)|\_|\+|\{|\}|\:|\<|\>|\?|\[|\]|\,|\.|\/|\;|\'|\`|\-|\=|\\\|\|]+$/",$password)){
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.chinese_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if (empty($confirm_password)) {
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.no_confirm_password'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if ($password != $confirm_password ) {
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.password_not_same'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if (strlen($password) < 6 || strlen($confirm_password) < 6) {
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.password_len_err'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			if (preg_match("/ /", $password)) {
-				return $this->showmessage(RC_Lang::get('user::users.js_languages.passwd_balnk'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-			RC_DB::table('users')->where('user_id', $user_id)->update(array('ec_salt' => '0'));
-		}
-	
-		/* 信用额度*/
-		if (!is_numeric($credit_line) || $credit_line < 0 ) {
-			return $this->showmessage(RC_Lang::get('user::users.js_languages.credit_line'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		
-		/* 更新用户扩展字段的数据 */
-		$fields_arr = RC_DB::table('reg_fields')->where('type', 0)->where('display', 1)
-				->orderBy('dis_order', 'asc')->orderBy('id', 'asc')->get();
-
-		/* 循环更新扩展用户信息 */
-		if (!empty($fields_arr)) {
-			foreach ($fields_arr AS $val) {
-				$extend_field_index = 'extend_field' . $val['id'];
-				if (isset($_POST[$extend_field_index])) {
-					$temp_field_content = strlen($_POST[$extend_field_index]) > 100 ? mb_substr($_POST[$extend_field_index], 0, 99) : $_POST[$extend_field_index];
-					$sql_one = RC_DB::table('reg_extend_info')->where('reg_field_id', $val['id'])->where('user_id', $user_id)->first();
-					/* 如果之前没有记录，则插入 */
-					if ($sql_one) {
-						$data = array('content' => $temp_field_content);
-						RC_DB::table('reg_extend_info')->where('reg_field_id', $val['id'])->where('user_id', $user_id)->update($data);
-					} else {
-						$data = array(
-							'user_id'		=> $user_id,
-							'reg_field_id'	=> $val['id'],
-							'content'		=> $temp_field_content,
-						);
-						RC_DB::table('reg_extend_info')->insert($data);
-					}
-				}
-			}
-		}
-
-		/* 更新会员的其它信息 */
-		$other = array();
-		$other['user_name']		= $username;
-		$other['email']			= $email;
-		$other['credit_line']	= $credit_line;
-		$other['sex']			= $sex;
-		$other['birthday']		= $birthday;
-		$other['user_rank']		= $rank;
-		$other['msn']			= isset($_POST['extend_field1']) ? htmlspecialchars(trim($_POST['extend_field1'])) : '';
-		$other['qq']			= isset($_POST['extend_field2']) ? htmlspecialchars(trim($_POST['extend_field2'])) : '';
-		$other['office_phone']	= isset($_POST['extend_field3']) ? htmlspecialchars(trim($_POST['extend_field3'])) : '';
-		$other['home_phone']	= isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';
-		// $other['mobile_phone']	= isset($_POST['extend_field5']) ? htmlspecialchars(trim($_POST['extend_field5'])) : '';
-		$other['mobile_phone']  = $mobile_phone;
-
-		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($other['mobile_phone']);
-		if (is_ecjia_error($check_mobile)) {
-		    return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-
-		$count = RC_DB::table('users')->where('user_id', '!=', $user_id)->where('mobile_phone', $other['mobile_phone'])->count();
-		if (!empty($count)) {
-			return $this->showmessage('手机号码已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-
-        if (! ecjia_integrate::editUser([
+        if (!ecjia_integrate::editUser([
             'username' => $username,
             'password' => $password,
-            'email' => $email,
-            'gender' => $sex,
+            'email'    => $email,
+            'gender'   => $sex,
             'birthday' => $birthday,
         ])) {
             return $this->showmessage(ecjia_integrate::getErrorMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-		RC_DB::table('users')->where('user_id', $user_id)->update($other);
-		
-		/* 记录管理员操作 */
-		ecjia_admin::admin_log($username, 'edit', 'users');
-		//为更新用户购物车数据加标记
-	    RC_Api::api('cart', 'mark_cart_goods', array('user_id' => $user_id));
+        RC_DB::table('users')->where('user_id', $user_id)->update($other);
 
-		/* 提示信息 */
-		$links[0]['text']	= RC_Lang::get('user::users.back_user_list');
-		$links[0]['href']	= RC_Uri::url('user/admin/init');
-		return $this->showmessage(RC_Lang::get('user::users.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('user/admin/edit', array('id' => $user_id))));
-	}
-	
-	/**
-	 * 用户详情页面
-	 */
-	public function info() {
-		$this->admin_priv('user_manage');
-	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.user_info')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=>	RC_Lang::get('user::users.overview'),
-			'content'	=>
-			'<p>' . RC_Lang::get('user::users.user_view_help') . '</p>'
-		));
-		
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('user::users.more_info'). '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E8.AF.A6.E7.BB.86.E4.BF.A1.E6.81.AF" target="_blank">'.RC_Lang::get('user::users.about_view_user').'</a>') . '</p>'
-		);
-		$this->assign('ur_here', RC_Lang::get('user::users.user_info'));
-		$this->assign('action_link', array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
-		
-		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$keywords = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
+        /* 记录管理员操作 */
+        ecjia_admin::admin_log($username, 'edit', 'users');
+        //为更新用户购物车数据加标记
+        RC_Api::api('cart', 'mark_cart_goods', array('user_id' => $user_id));
 
-		if (!empty($keywords)) {
-			$row = RC_DB::table('users')
-					->where('user_id', $keywords)
-					->orWhere('user_name', $keywords)
-					->orWhere('email', $keywords)
-					->first();
-		} else {
-			$row = RC_DB::table('users')->where('user_id', $id)->first();
-		}
+        /* 提示信息 */
+        $links[0]['text'] = RC_Lang::get('user::users.back_user_list');
+        $links[0]['href'] = RC_Uri::url('user/admin/init');
+        return $this->showmessage(RC_Lang::get('user::users.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('user/admin/edit', array('id' => $user_id))));
+    }
 
-		if (empty($row)) {
-			return $this->showmessage(RC_Lang::get('user::users.user_info_confirm'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR );
-		}
-		if (!empty($row['parent_id'])) {
-		    $row['parent_username'] = RC_DB::table('users')->where('user_id', $row['parent_id'])->pluck('user_name');
-		}
-		
-		/* 获得用户等级名 */
-		$user = [];
-		if ($row['user_rank'] == 0) {
-		    //重新计算会员等级
-		    $row_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $row['user_id']));
-		} else {
-		    $row_rank = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->first();
-		}
-		$user['user_rank_name'] = $row_rank['rank_name'];
-		$user['user_rank_id'] = $row_rank['rank_id'];
-		
-		if ($row) {
-			$user['user_id']				= $row['user_id'];
-			$user['user_name']				= $row['user_name'];
-			$user['email']					= $row['email'];
-			$user['sex']					= $row['sex'];
-			$user['reg_time']				= RC_Time::local_date(ecjia::config('time_format'), $row['reg_time']);
-			$user['birthday']				= date($row['birthday']);
-			$user['pay_points']				= $row['pay_points'];
-			$user['rank_points']			= $row['rank_points'];
-			$user['user_money']				= $row['user_money'];
-			$user['frozen_money']			= $row['frozen_money'];
-			$user['credit_line']			= $row['credit_line'];
-			$user['formated_user_money']	= price_format($row['user_money']);
-			$user['formated_frozen_money']	= price_format($row['frozen_money']);
-			$user['parent_id']				= $row['parent_id'];
-			$user['parent_username']		= isset($row['parent_username']) ? $row['parent_username'] : '';
-			$user['qq']						= $row['qq'];
-			$user['msn']					= $row['msn'];
-			$user['office_phone']			= $row['office_phone'];
-			$user['home_phone']				= $row['home_phone'];
-			$user['mobile_phone']			= $row['mobile_phone'];
-			$user['is_validated']			= $row['is_validated'] == 0 ? RC_Lang::get('user::users.not_validated') : RC_Lang::get('user::users.is_validated');
-			$user['last_time']              = $row['last_login'] == '0' ? '新用户还未登录' : RC_Time::local_date(ecjia::config('time_format'), $row['last_login']);
-			$user['last_ip']				= $row['last_ip'];
-			
-			$row['address_id'] = !empty($row['address_id']) ? intval($row['address_id']) : 0;
-			/* 用户地址列表*/
-			$field = "ua.*,
-					IF(address_id=".$row['address_id'].",1,0) as default_address,
-					IFNULL(c.region_name, '') as country_name, 
+    /**
+     * 用户详情页面
+     */
+    public function info()
+    {
+        $this->admin_priv('user_manage');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.user_info')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('user::users.overview'),
+            'content' =>
+                '<p>' . RC_Lang::get('user::users.user_view_help') . '</p>',
+        ));
+
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E8.AF.A6.E7.BB.86.E4.BF.A1.E6.81.AF" target="_blank">' . RC_Lang::get('user::users.about_view_user') . '</a>') . '</p>'
+        );
+        $this->assign('ur_here', RC_Lang::get('user::users.user_info'));
+        $this->assign('action_link', array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
+
+        $id       = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+        $keywords = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
+
+        if (!empty($keywords)) {
+            $row = RC_DB::table('users')
+                ->where('user_id', $keywords)
+                ->orWhere('user_name', $keywords)
+                ->orWhere('email', $keywords)
+                ->first();
+        } else {
+            $row = RC_DB::table('users')->where('user_id', $id)->first();
+        }
+
+        if (empty($row)) {
+            return $this->showmessage(RC_Lang::get('user::users.user_info_confirm'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+        }
+        if (!empty($row['parent_id'])) {
+            $row['parent_username'] = RC_DB::table('users')->where('user_id', $row['parent_id'])->pluck('user_name');
+        }
+
+        /* 获得用户等级名 */
+        $user = [];
+        if ($row['user_rank'] == 0) {
+            //重新计算会员等级
+            $row_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $row['user_id']));
+        } else {
+            $row_rank = RC_DB::table('user_rank')->where('rank_id', $row['user_rank'])->first();
+        }
+        $user['user_rank_name'] = $row_rank['rank_name'];
+        $user['user_rank_id']   = $row_rank['rank_id'];
+
+        if ($row) {
+            $user['user_id']               = $row['user_id'];
+            $user['user_name']             = $row['user_name'];
+            $user['email']                 = $row['email'];
+            $user['sex']                   = $row['sex'];
+            $user['reg_time']              = RC_Time::local_date(ecjia::config('time_format'), $row['reg_time']);
+            $user['birthday']              = date($row['birthday']);
+            $user['pay_points']            = $row['pay_points'];
+            $user['rank_points']           = $row['rank_points'];
+            $user['user_money']            = $row['user_money'];
+            $user['frozen_money']          = $row['frozen_money'];
+            $user['credit_line']           = $row['credit_line'];
+            $user['formated_user_money']   = price_format($row['user_money']);
+            $user['formated_frozen_money'] = price_format($row['frozen_money']);
+            $user['parent_id']             = $row['parent_id'];
+            $user['parent_username']       = isset($row['parent_username']) ? $row['parent_username'] : '';
+            $user['qq']                    = $row['qq'];
+            $user['msn']                   = $row['msn'];
+            $user['office_phone']          = $row['office_phone'];
+            $user['home_phone']            = $row['home_phone'];
+            $user['mobile_phone']          = $row['mobile_phone'];
+            $user['is_validated']          = $row['is_validated'] == 0 ? RC_Lang::get('user::users.not_validated') : RC_Lang::get('user::users.is_validated');
+            $user['last_time']             = $row['last_login'] == '0' ? '新用户还未登录' : RC_Time::local_date(ecjia::config('time_format'), $row['last_login']);
+            $user['last_ip']               = $row['last_ip'];
+
+            $row['address_id'] = !empty($row['address_id']) ? intval($row['address_id']) : 0;
+            /* 用户地址列表*/
+            $field = "ua.*,
+					IF(address_id=" . $row['address_id'] . ",1,0) as default_address,
+					IFNULL(c.region_name, '') as country_name,
 					IFNULL(p.region_name, '') as province_name,
 					IFNULL(t.region_name, '') as city_name,
 					IFNULL(d.region_name, '') as district_name,
 					IFNULL(s.region_name, '') as street_name";
 
-			$address_list = RC_DB::table('user_address as ua')
-					->leftJoin('regions as c', RC_DB::raw('c.region_id'), '=', RC_DB::raw('ua.country'))
-					->leftJoin('regions as p', RC_DB::raw('p.region_id'), '=', RC_DB::raw('ua.province'))
-					->leftJoin('regions as t', RC_DB::raw('t.region_id'), '=', RC_DB::raw('ua.city'))
-					->leftJoin('regions as d', RC_DB::raw('d.region_id'), '=', RC_DB::raw('ua.district'))
-					->leftJoin('regions as s', RC_DB::raw('s.region_id'), '=', RC_DB::raw('ua.street'))
-					->where('user_id', $row['user_id'])
-					->orderBy('default_address', 'desc')
-					->select(RC_DB::raw($field))
-					->take(5)
-					->get();
+            $address_list = RC_DB::table('user_address as ua')
+                ->leftJoin('regions as c', RC_DB::raw('c.region_id'), '=', RC_DB::raw('ua.country'))
+                ->leftJoin('regions as p', RC_DB::raw('p.region_id'), '=', RC_DB::raw('ua.province'))
+                ->leftJoin('regions as t', RC_DB::raw('t.region_id'), '=', RC_DB::raw('ua.city'))
+                ->leftJoin('regions as d', RC_DB::raw('d.region_id'), '=', RC_DB::raw('ua.district'))
+                ->leftJoin('regions as s', RC_DB::raw('s.region_id'), '=', RC_DB::raw('ua.street'))
+                ->where('user_id', $row['user_id'])
+                ->orderBy('default_address', 'desc')
+                ->select(RC_DB::raw($field))
+                ->take(5)
+                ->get();
 
-			/* 查找用户前5条订单 */
-			$order = RC_DB::table('order_info')->where('user_id', $row['user_id'])->orderBy('add_time', 'desc')->take(5)->get();
+            /* 查找用户前5条订单 */
+            $order = RC_DB::table('order_info')->where('user_id', $row['user_id'])->orderBy('add_time', 'desc')->take(5)->get();
 
-			if (!empty($order)) {
-				foreach ($order as $k => $v) {
-					$order[$k]['add_time']	 = RC_Time::local_date(ecjia::config('time_format'), $v['add_time']);
-					$is_cod = $v['pay_code'] == 'pay_cod' ? 1 : 0;
-					$label_status = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($v['order_status'], $v['shipping_status'], $v['pay_status'], $is_cod);
-					$order[$k]['status'] = $label_status[0];
-				}
-			}
-		}
-	
-		$this->assign('user',			$user);
-		$this->assign('order_list',		$order);
-		$this->assign('address_list',	$address_list);
+            if (!empty($order)) {
+                foreach ($order as $k => $v) {
+                    $order[$k]['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $v['add_time']);
+                    $is_cod                = $v['pay_code'] == 'pay_cod' ? 1 : 0;
+                    $label_status          = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($v['order_status'], $v['shipping_status'], $v['pay_status'], $is_cod);
+                    $order[$k]['status']   = $label_status[0];
+                }
+            }
+        }
 
-		$qq_info = RC_DB::table('connect_user')->where('connect_code', 'sns_qq')->where('user_id', $id)->first();
-		if (!empty($qq_info)) {
-			$this->assign('qq_info', $qq_info);
-		}
+        $this->assign('user', $user);
+        $this->assign('order_list', $order);
+        $this->assign('address_list', $address_list);
 
-		$connect_info = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('user_id', $id)->first();
-		if (!empty($connect_info)) {
-			$ect_uid = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->pluck('ect_uid');
-			//修正绑定信息
-			if (empty($ect_uid)) {
-				RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->update(array('ect_uid' => $connect_info['user_id']));
-			}
-			$wechat_info = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->where('ect_uid', $connect_info['user_id'])->first();
+        $qq_info = RC_DB::table('connect_user')->where('connect_code', 'sns_qq')->where('user_id', $id)->first();
+        if (!empty($qq_info)) {
+            $this->assign('qq_info', $qq_info);
+        }
 
-			$this->assign('wechat_info', $wechat_info);
-		}
+        $connect_info = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('user_id', $id)->first();
+        if (!empty($connect_info)) {
+            $ect_uid = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->pluck('ect_uid');
+            //修正绑定信息
+            if (empty($ect_uid)) {
+                RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->update(array('ect_uid' => $connect_info['user_id']));
+            }
+            $wechat_info = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->where('ect_uid', $connect_info['user_id'])->first();
 
-		$this->display('user_info.dwt');
-	}
-	
-	/**
-	 * 批量删除会员帐号
-	 */
-	public function batch_remove() {
-		$this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
-		return false;
-		
-// 		if (!empty($_SESSION['ru_id'])) {
-// 			return $this->showmessage(RC_Lang::get('user::user_account.merchants_notice'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-// 		}
-		if (isset($_POST['checkboxes'])) {
-			$idArr = explode(',', $_POST['checkboxes']);
-			$count = count($idArr);
-			$data = RC_DB::table('users')->whereIn('user_id', $idArr)->select('user_name', 'user_id')->get();
+            $this->assign('wechat_info', $wechat_info);
+        }
 
-			/* 通过插件来删除用户 */
-            //已经删除用户所有数据
-			foreach ($data as $row) {
-                ecjia_integrate::removeUser($row['user_name']);
-				ecjia_admin::admin_log($row['user_name'] , 'batch_remove', 'users');
-			}		
-			
-			return $this->showmessage(sprintf(RC_Lang::get('user::users.batch_remove_success'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/admin/init')));
-		} else {
-			return $this->showmessage(RC_Lang::get('user::users.no_select_user'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
-	
-	/**
-	 * 编辑email
-	 */
-	public function edit_email() {
-		$this->admin_priv('user_update', ecjia::MSGTYPE_JSON);
-		
-		if (!empty($_SESSION['ru_id'])) {
-			return $this->showmessage(RC_Lang::get('user::user_account.merchants_notice'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		$id		= intval($_REQUEST['pk']);
-		$email	= trim($_REQUEST['value']);
+        $this->display('user_info.dwt');
+    }
 
-		/* 验证邮箱*/
-		if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/", $email)) {
-			return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
+    /**
+     * 编辑email
+     */
+    public function edit_email()
+    {
+        $this->admin_priv('user_update', ecjia::MSGTYPE_JSON);
 
-		if (!empty($email)) {
-			if (RC_DB::table('users')->where('email', $email)->where('user_id', '!=', $id)->count() == 0) {
-				if (RC_DB::table('users')->where('user_id', $id)->update(array('email' => $email))) {
-					$user_name = RC_DB::table('users')->where('user_id', $id)->pluck('user_name');
-					
-					ecjia_admin::admin_log($user_name.RC_Lang::get('user::users.mailbox_information'), 'edit', 'users');
+        if (!empty($_SESSION['ru_id'])) {
+            return $this->showmessage(RC_Lang::get('user::user_account.merchants_notice'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        $id    = intval($_REQUEST['pk']);
+        $email = trim($_REQUEST['value']);
 
-					return $this->showmessage(RC_Lang::get('user::users.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-				}
-			} else {
-				return $this->showmessage(RC_Lang::get('user::users.email_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-		} else {
-			return $this->showmessage(RC_Lang::get('user::users.email_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
+        /* 验证邮箱*/
+        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/", $email)) {
+            return $this->showmessage(RC_Lang::get('user::users.js_languages.invalid_email'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
 
-	/**
-	 * 删除会员帐号
-	 */
-// 	public function remove() {
-// 		$this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
-		
-// 		$user_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-// 		$username = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
+        if (!empty($email)) {
+            if (RC_DB::table('users')->where('email', $email)->where('user_id', '!=', $id)->count() == 0) {
+                if (RC_DB::table('users')->where('user_id', $id)->update(array('email' => $email))) {
+                    $user_name = RC_DB::table('users')->where('user_id', $id)->pluck('user_name');
 
-// 		RC_Loader::load_app_class('integrate', 'user', false);
-// 		$user = integrate::init_users();
-//     	$user->remove_user($username); //已经删除用户所有数据
-    	
-// 		/* 记录管理员操作 */
-// 		ecjia_admin::admin_log(addslashes($username), 'remove', 'users');
-		
-// 		return $this->showmessage(RC_Lang::get('user::users.delete_user_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-// 	}
-	
-	/**
-	 * 收货地址查看
-	 */
-	public function address_list() {
-		$this->admin_priv('user_manage');
-	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.address_list')));
-		ecjia_screen::get_current_screen()->add_help_tab( array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('user::users.overview'),
-			'content'	=>
-			'<p>' .RC_Lang::get('user::users.user_address_help').'</p>'
-		));
-		
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('user::users.more_info')  . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E6.94.B6.E8.B4.A7.E5.9C.B0.E5.9D.80" target="_blank">'.RC_Lang::get('user::users.about_address_user').'</a>') . '</p>'
-		);
-		
-		$this->assign('ur_here', RC_Lang::get('user::users.address_list'));
-		$this->assign('action_link', array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
-		
-		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		$user_name = RC_DB::table('users')->where('user_id', $id)->pluck('user_name');
+                    ecjia_admin::admin_log($user_name . RC_Lang::get('user::users.mailbox_information'), 'edit', 'users');
 
-		$act = !empty($_GET['type']) ? intval($_GET['type']) : '';
-		
-		/* 取用户默认地址id */
-		$address_id = RC_DB::table('user_address as ua')
-				->leftJoin('users as u', RC_DB::raw('ua.address_id'), '=', RC_DB::raw('u.address_id'))
-				->where(RC_DB::raw('u.user_id'), $id)
-				->select(RC_DB::raw('ua.*'))
-				->first();
+                    return $this->showmessage(RC_Lang::get('user::users.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                }
+            } else {
+                return $this->showmessage(RC_Lang::get('user::users.email_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+        } else {
+            return $this->showmessage(RC_Lang::get('user::users.email_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+    }
 
-		$default_address_count = empty($address_id['address_id']) ? 0 : 1;
-		
-		$field = '';
-		$order = array();
-		/* 用户地址列表*/
-		$db_user_address = RC_DB::table('user_address as ua')
-			->leftJoin('regions as c', RC_DB::raw('c.region_id'), '=', RC_DB::raw('ua.country'))
-			->leftJoin('regions as p', RC_DB::raw('p.region_id'), '=', RC_DB::raw('ua.province'))
-			->leftJoin('regions as t', RC_DB::raw('t.region_id'), '=', RC_DB::raw('ua.city'))
-			->leftJoin('regions as d', RC_DB::raw('d.region_id'), '=', RC_DB::raw('ua.district'))
-			->leftJoin('regions as s', RC_DB::raw('s.region_id'), '=', RC_DB::raw('ua.street'));
-		
-		if ($address_id) {
-			$db_user_address
-				->orderBy('default_address', 'desc')
-				->select(RC_DB::raw("ua.*, IF(address_id=".$address_id['address_id'].", 1, 0) as default_address, IFNULL(c.region_name, '') as country_name, IFNULL(p.region_name, '') as province_name, IFNULL(t.region_name, '') as city_name, IFNULL(d.region_name, '') as district_name, IFNULL(s.region_name, '') as street_name"));
-		} 
-		
-		$row = $db_user_address->where('user_id', $id)->get();
-		
-		$count = count($row);
+    //删除帐号数据
+    public function remove_user()
+    {
+        $this->admin_priv('user_delete');
 
-		if ($act) {
-			if (!empty($row)) {
-				foreach ($row as $k => $v) {
-					if ($address_id['address_id'] != $v['address_id']) {
-						unset($row[$k]);
-					}
-				}
-			}
-		}
+        $id = intval($_GET['id']);
 
-		$this->assign('count',			$count);
-		$this->assign('default_count',  $default_address_count);
-		$this->assign('address_list',	$row);
-		$this->assign('id',			 	$id);
-		$this->assign('user_name',		$user_name);
+        $user_info = RC_Api::api('user', 'user_info', array('user_id' => $id));
+        if (empty($user_info)) {
+            $links[] = array('text' => '会员列表', 'href' => RC_Uri::url('user/admin/init'));
+            return $this->showmessage('该用户不存在', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
+        }
 
-		$this->display('user_address_list.dwt');
-	}
+        $user_info_url = RC_Uri::url('user/admin/info', array('id' => $id));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('会员详情', $user_info_url));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('删除帐号数据'));
+
+        $this->assign('ur_here', '删除帐号数据');
+        $this->assign('action_link', array('text' => '会员详情', 'href' => $user_info_url));
+
+        $delete_all = $_SESSION['action_list'] == 'all' ? true : false;
+        $this->assign('delete_all', $delete_all);
+
+        $this->assign('id', $id);
+
+        $handles = (new \Ecjia\App\User\UserCleanManager($id))->getFactories();
+        $this->assign('handles', $handles);
+
+        $count = 0;
+        if (!empty($handles)) {
+            foreach ($handles as $k => $v) {
+                $count += $v->handleCount();
+            }
+        }
+        $this->assign('count', $count);
+
+        $this->display('user_delete.dwt');
+    }
+
+    /**
+     * 删除会员帐号
+     */
+    public function remove()
+    {
+        $this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
+
+        $user_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+
+        $handles = (new \Ecjia\App\User\UserCleanManager($user_id))->getFactories();
+
+        $count = 0;
+        if (!empty($handles)) {
+            foreach ($handles as $k => $v) {
+                $count += $v->handleCount();
+            }
+        }
+
+        if (!empty($count)) {
+            return $this->showmessage('当前还有用户数据未清除，请先清除后再执行删除会员操作', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        RC_DB::table('users')->where('user_id', $user_id)->delete();
+
+        RC_Session::flash('status', '删除会员成功');
+
+        return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('user/admin/init')));
+    }
+
+    /**
+     * 删除会员帐号单项数据
+     */
+    public function remove_item()
+    {
+        $this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
+
+        $user_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+        $code    = trim($_GET['handle']);
+
+        $handles = (new \Ecjia\App\User\UserCleanManager($user_id))->getFactories();
+        $handle  = array_get($handles, $code);
+
+        if (empty($handle)) {
+            return $this->showmessage('操作失败，当前code无效', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $result = $handle->handleClean();
+        if ($result) {
+            return $this->showmessage($handle->getName() . '删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        }
+        return $this->showmessage($handle->getName() . '删除失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    }
+
+    /**
+     * 一键删除会员帐号
+     */
+    public function remove_all()
+    {
+        $this->admin_priv('user_delete', ecjia::MSGTYPE_JSON);
+
+        $user_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+
+        $handles = (new \Ecjia\App\User\UserCleanManager($user_id))->getFactories();
+
+        if (!empty($handles)) {
+            $remove_result = [];
+            foreach ($handles as $k => $handle) {
+                $handle_result = array(
+                    'code'   => $handle->getCode(),
+                    'name'   => $handle->getName(),
+                    'result' => $handle->handleClean()
+                );
+
+                $remove_result[] = $handle_result;
+            }
+
+            $filter = [];
+            if (!empty($remove_result)) {
+                $filter = collect($remove_result)->where('result', false)->all();
+            }
+
+            if (!empty($filter)) {
+                $error_html = '';
+                foreach ($filter as $v) {
+                    $error_html .= $v['name'] . '删除失败；<br/>';
+                }
+                return $this->showmessage($error_html, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+
+            RC_DB::table('users')->where('user_id', $user_id)->delete();
+
+            RC_Session::flash('status', '一键删除会员成功');
+
+            return $this->showmessage('一键删除会员成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('user/admin/init')));
+        }
+
+        return $this->showmessage('操作失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    }
+
+    /**
+     * 收货地址查看
+     */
+    public function address_list()
+    {
+        $this->admin_priv('user_manage');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::users.address_list')));
+        ecjia_screen::get_current_screen()->add_help_tab(array(
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('user::users.overview'),
+            'content' =>
+                '<p>' . RC_Lang::get('user::users.user_address_help') . '</p>',
+        ));
+
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . RC_Lang::get('user::users.more_info') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E6.94.B6.E8.B4.A7.E5.9C.B0.E5.9D.80" target="_blank">' . RC_Lang::get('user::users.about_address_user') . '</a>') . '</p>'
+        );
+
+        $this->assign('ur_here', RC_Lang::get('user::users.address_list'));
+        $this->assign('action_link', array('text' => RC_Lang::get('user::users.user_list'), 'href' => RC_Uri::url('user/admin/init')));
+
+        $id        = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+        $user_name = RC_DB::table('users')->where('user_id', $id)->pluck('user_name');
+
+        $act = !empty($_GET['type']) ? intval($_GET['type']) : '';
+
+        /* 取用户默认地址id */
+        $address_id = RC_DB::table('user_address as ua')
+            ->leftJoin('users as u', RC_DB::raw('ua.address_id'), '=', RC_DB::raw('u.address_id'))
+            ->where(RC_DB::raw('u.user_id'), $id)
+            ->select(RC_DB::raw('ua.*'))
+            ->first();
+
+        $default_address_count = empty($address_id['address_id']) ? 0 : 1;
+
+        /* 用户地址列表*/
+        $db_user_address = RC_DB::table('user_address as ua')
+            ->leftJoin('regions as c', RC_DB::raw('c.region_id'), '=', RC_DB::raw('ua.country'))
+            ->leftJoin('regions as p', RC_DB::raw('p.region_id'), '=', RC_DB::raw('ua.province'))
+            ->leftJoin('regions as t', RC_DB::raw('t.region_id'), '=', RC_DB::raw('ua.city'))
+            ->leftJoin('regions as d', RC_DB::raw('d.region_id'), '=', RC_DB::raw('ua.district'))
+            ->leftJoin('regions as s', RC_DB::raw('s.region_id'), '=', RC_DB::raw('ua.street'));
+
+        if ($address_id) {
+            $db_user_address
+                ->orderBy('default_address', 'desc')
+                ->select(RC_DB::raw("ua.*, IF(address_id=" . $address_id['address_id'] . ", 1, 0) as default_address, IFNULL(c.region_name, '') as country_name, IFNULL(p.region_name, '') as province_name, IFNULL(t.region_name, '') as city_name, IFNULL(d.region_name, '') as district_name, IFNULL(s.region_name, '') as street_name"));
+        }
+
+        $row = $db_user_address->where('user_id', $id)->get();
+
+        $count = count($row);
+
+        if ($act) {
+            if (!empty($row)) {
+                foreach ($row as $k => $v) {
+                    if ($address_id['address_id'] != $v['address_id']) {
+                        unset($row[$k]);
+                    }
+                }
+            }
+        }
+
+        $this->assign('count', $count);
+        $this->assign('default_count', $default_address_count);
+        $this->assign('address_list', $row);
+        $this->assign('id', $id);
+        $this->assign('user_name', $user_name);
+
+        $this->display('user_address_list.dwt');
+    }
+
 }
 
 // end

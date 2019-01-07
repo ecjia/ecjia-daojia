@@ -49,6 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 会员信息
  * @author wutifang
+ * @deprecated 1.25
  */
 class user_get_user_info_api extends Component_Event_Api {
 	

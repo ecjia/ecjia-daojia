@@ -250,6 +250,7 @@ return array(
     'label_birthday'            => '出生日期：',
     'label_credit_line'         => '信用额度：',
     'label_phone'               => '手机号码：',
+    'label_delete_user'         => '删除会员：',
 
     'invalid_parameter'         => '参数无效',
     'create_user_failed'        => '创建参数失败',

@@ -163,8 +163,9 @@ INNER JOIN (select user_id from " . $table_order_info . " where add_time >=" . $
         $stats_data = RC_DB::select($level_sql);
         //图表数据 根据按钮状态切换显示 end
 
+        $sql .= " ORDER BY " . $sort_by . ' ' . $sort_order;
         //店铺排行 不受分页/关键字影响 start
-        $amount_sql = $sql . " ORDER BY order_money desc";
+        $amount_sql = $sql;
         $level_data = RC_DB::select($amount_sql);
         $level      = [];
         if (!empty($level_data)) {
@@ -179,7 +180,6 @@ INNER JOIN (select user_id from " . $table_order_info . " where add_time >=" . $
         if (!empty($keywords)) {
             $sql .= ' and u.user_name like "' . '%' . $keywords . '%"';
         }
-        $sql .= " ORDER BY " . $sort_by . ' ' . $sort_order;
         $data = RC_DB::select($sql);
         //列表数据 end
 

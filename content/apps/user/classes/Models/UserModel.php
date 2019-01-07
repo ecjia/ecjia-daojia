@@ -51,7 +51,7 @@ use Royalcms\Component\Database\Eloquent\Model;
 /**
  * Class Users
  */
-class UsersModel extends Model
+class UserModel extends Model
 {
     protected $table = 'users';
     

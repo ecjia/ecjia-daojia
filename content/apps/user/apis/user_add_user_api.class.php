@@ -51,15 +51,36 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  */
 class user_add_user_api extends Component_Event_Api {
-    
+
+    /**
+     * 创建用户
+     *
+     * username 用户名（必填）
+     * password 密码
+     * email 邮箱
+     * mobile 手机号（必填）
+     * gender 性别
+     * birthday 生日
+     * reg_date 注册日期
+     *
+     * @param array $options
+     * @return ecjia_error
+     */
     public function call(&$options) {
-        if (!is_array($options) || !isset($options['username']) || !isset($options['password']) || !isset($options['email'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+
+        $username = array_get($options, 'username');
+        $mobile = array_get($options, 'mobile');
+        $password = array_get($options, 'password');
+        $email = array_get($options, 'email');
+        $gender = array_get($options, 'gender');
+        $birthday = array_get($options, 'birthday');
+        $reg_date = array_get($options, 'reg_date');
+
+        if (empty($username) || empty($mobile)) {
+            return new ecjia_error('invalid_parameter', '调用接口user_add_user_api参数无效');
         }
-        
-        $username = $options['username'];
-        
-        $result = ecjia_integrate::addUser($username, $options['password'], $options['email']);
+
+        $result = ecjia_integrate::addUser($username, $password, $email, $gender, $birthday, $reg_date);
         if ($result) {
             $profile = ecjia_integrate::getProfileByName($username);
             return $profile;

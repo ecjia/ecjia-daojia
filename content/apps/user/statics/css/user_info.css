@@ -1,8 +1,30 @@
 #telescopic2 .item-content .item {
-	width: 25%;
-	float: left;
-	height: 80px;
-	line-height: 80px;
-	text-align: center;
-	font-size: 15px;
+    width: 25%;
+    float: left;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.ecjia-delete-user .controls.p_t4 {
+    padding-top: 4px;
+}
+
+.ecjia-delete-user .ecjiafc-red.ecjiaf-fs3 {
+    margin: 0 5px;
+}
+
+.ecjia-delete-user .form-horizontal .control-label {
+    text-align: left;
+}
+
+.ecjia-delete-user .form-horizontal .control-group {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.ecjia-delete-user .form-horizontal .controls-info {
+    color: #595959;
+    display: inline-block;
 }

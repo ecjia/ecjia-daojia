@@ -69,14 +69,16 @@ class user_account_cancel_module extends api_front implements api_interface {
  		->where('id', $id)
  		->where('user_id', $user_id)->first();
  		
- 		$result = del_user_account($id, $user_id);
+ 		//$result = del_user_account($id, $user_id);
+ 		$result = RC_DB::table('user_account')
+ 			->where('id', $id)
+ 			->where('user_id', $user_id)
+ 			->update(array('is_paid' => Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_CANCEL));
+ 		
  		if ($result) {
  			if ($account_info['process_type'] == '1') {
- 				$frozen_money 		= $account_info['amount'];
  				$user_money			= abs($account_info['amount']);
- 				
- 				user_account::change_user_money($user_id, $user_money);	 //返还余额
- 				user_account::change_frozen_money($user_id, $frozen_money); //减掉冻结金额
+ 				(new Ecjia\App\Finance\UserAccountBalance($user_id))->withdrawCancel($user_money, '提现取消', '', '');
  			}
  			return array();
  		} else {

@@ -61,6 +61,9 @@ use RC_Lang;
 class Users
 {
 	
+	const NORMAL  			= 'normal';			//正常
+	const WAITDELETE  		= 'wait_delete';	//已申请了账号注销待删除账号
+	
     /**
      * 获取某个用户信息
      * @param int $user_id
@@ -72,5 +75,16 @@ class Users
     		$info = RC_DB::table('users')->where('user_id', $user_id)->first();
     	}
         return $info;
+    }
+    
+    /**
+     * 获取用户状态
+     * @param int $user_id
+     * @return string
+     */
+    public static function UserAccountStatus($user_id = 0) {
+    	$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+    	$account_status = $user_info['account_status'];
+    	return $account_status;
     }
 }

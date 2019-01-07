@@ -199,7 +199,7 @@ function get_account_list($args = array()) {
  *
  * @access  public
  * @param   array     $surplus  会员余额信息
- * @param   string    $amount   余额
+ * @param   string    $amount   金额
  *
  * @return  int
  */
@@ -212,14 +212,20 @@ function insert_user_account($surplus, $amount) {
 		'add_time'		=> RC_Time::gmtime() ,
 		'paid_time'		=> 0 ,
 		'admin_note'	=> !empty($surplus['admin_note']) ? $surplus['admin_note'] : '',
-		'user_note'		=> $surplus['user_note'] ,
+		'user_note'		=> !empty($surplus['user_note']) ? $surplus['user_note'] : '',
 		'process_type'	=> $surplus['process_type'] ,
-		'payment'		=> $surplus['payment'] ,
+		'payment'		=> $surplus['payment'],
+		'payment_name'	=> empty($surplus['payment_name']) ? '' : $surplus['payment_name'],
 		'is_paid'		=> 0,
 		'from_type'		=> empty($surplus['from_type']) ? '' : $surplus['from_type'],
 		'from_value'	=> empty($surplus['from_value']) ? '' : $surplus['from_value'],
 		'pay_fee'		=> empty($surplus['pay_fee']) ? '0.00' : $surplus['pay_fee'],
 		'real_amount'	=> empty($surplus['real_amount']) ? '0.00' : $surplus['real_amount'],
+	    'bank_name'     => empty($surplus['bank_name']) ? '' : $surplus['bank_name'],
+	    'bank_branch_name'=> empty($surplus['bank_branch_name']) ? '' : $surplus['bank_branch_name'],
+	    'bank_card'    => empty($surplus['bank_card']) ? '' : $surplus['bank_card'],
+	    'cardholder'   => empty($surplus['cardholder']) ? '' : $surplus['cardholder'],
+	    'bank_en_short'=> empty($surplus['bank_en_short']) ? '' : $surplus['bank_en_short'],
 	);
 	return RC_DB::table('user_account')->insertGetId($data);
 }
@@ -284,7 +290,7 @@ function get_user_surplus($user_id) {
  * @param   int     $start      开始显示的条数
  * @return  array
  */
-function get_account_log($user_id, $num = 15, $start, $process_type = '') {
+function get_account_log($user_id, $num = 15, $start, $process_type = '', $is_paid_arr = array()) {
 	$account_log = array();
 	
 	$db = RC_DB::table('user_account');
@@ -297,6 +303,9 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '') {
 		}
 	} else {
 		$db->whereIn('process_type', array(SURPLUS_SAVE, SURPLUS_RETURN));
+	}
+	if (!empty($is_paid_arr)) {
+		$db->whereIn('is_paid', $is_paid_arr);
 	}
 	$res = $db->take($num)->skip($start->start_id-1)->orderBy('add_time', 'desc')->get();
 	
@@ -706,45 +715,17 @@ function update_address($address) {
 }
 
 function EM_user_info($user_id, $mobile = '') {
-// 	$db_collect_goods  = RC_Model::model('goods/collect_goods_model');
-// 	$db_orderinfo_view = RC_Model::model('orders/order_info_viewmodel');
-// 	$db_orderinfo_view->view = array(
-// 	    'order_goods' => array(
-// 	        'type'      =>    Component_Model_View::TYPE_LEFT_JOIN,
-// 	        'alias'     =>    'og',
-// 	        'on'        =>    'oi.order_id = og.order_id ',
-// 	    ),
-// 	    'goods' => array(
-// 	        'type'      => Component_Model_View::TYPE_LEFT_JOIN,
-// 	        'alias'     => 'g',
-// 	        'on'        => 'og.goods_id = g.goods_id'
-// 	    ),
-// 	    'store_franchisee' => array(
-// 	        'type'      => Component_Model_View::TYPE_LEFT_JOIN,
-// 	        'alias'     => 'ssi',
-// 	        'on'        => 'oi.store_id = ssi.store_id'
-// 	    ),
-// 	    'comment' => array(
-// 	        'type'      => Component_Model_View::TYPE_LEFT_JOIN,
-// 	        'alias'     => 'c',
-// 	        'on'        => 'c.id_value = og.goods_id and c.rec_id = og.rec_id and c.order_id = oi.order_id and c.comment_type = 0 and c.parent_id = 0'
-// 	    ),
-// 	);
-	
 	RC_Loader::load_app_func('admin_order', 'orders');
 	$user_info      = user_info($user_id, $mobile);
 	
 	if (is_ecjia_error($user_info)) {
 		return $user_info;
 	}
-	//$collection_num = $db_collect_goods->where(array('user_id' => $user_id))->order(array('add_time' => 'desc'))->count();
-	//$await_pay      = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('await_pay', 'oi.')))->count('*');
-	//$await_ship     = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('await_ship', 'oi.')))->count('*');
-	//$shipped        = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('shipped', 'oi.')))->count('*');
-	//$finished       = $db_orderinfo_view->join(array('order_info'))->where(array('oi.user_id' => $user_id, EM_order_query_sql('finished', 'oi.')))->count('*');
-	//$allow_comment_count = $db_orderinfo_view->join(array('order_goods', 'goods', 'comment'))->where(array('oi.user_id' => $user_id, 'oi.shipping_status' => SS_RECEIVED, 'oi.order_status' => array(OS_CONFIRMED, OS_SPLITED), 'oi.pay_status' => array(PS_PAYED, PS_PAYING), 'c.comment_id is null'))->count('DISTINCT oi.order_id');
 	
 	$collection_num = RC_DB::table('collect_goods')->where('user_id', $user_id)->orderBy('add_time', 'desc')->count();
+	//收藏店铺数
+	$collect_store_num =  RC_DB::table('collect_store')->where('user_id', $user_id)->count();
+	
 	$db1 = RC_DB::table('order_info');
 	/*货到付款订单不在待付款里显示*/
 	$pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
@@ -754,7 +735,6 @@ function EM_user_info($user_id, $mobile = '') {
 	$await_pay =  $db1->where('user_id', $user_id)->where('extension_code', '!=', "group_buy")->where('pay_status', PS_UNPAYED)->whereIn('order_status', array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED))->count();
 	$await_ship = RC_DB::table('order_info')->where('user_id', $user_id)->where('extension_code', '!=', "group_buy")->whereRaw(EM_order_query_sql('await_ship', ''))->count();
 	$shipped =  RC_DB::table('order_info')->where('user_id', $user_id)->where('extension_code', "!=", "group_buy")->whereRaw(EM_order_query_sql('shipped', ''))->count();
-	//$finished = RC_DB::table('order_info')->where('user_id', $user_id)->whereRaw(EM_order_query_sql('finished', 'oi.'))-count();
 	$finished = RC_DB::table('order_info')->where('user_id', $user_id)->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED))
 						->whereIn('shipping_status', array(SS_RECEIVED))
 						->whereIn('pay_status', array(PS_PAYED, PS_PAYING))
@@ -786,31 +766,6 @@ function EM_user_info($user_id, $mobile = '') {
 						->whereRaw('status != 10 and refund_status != 2')
 						->count();
 	
-// 	$db_user_rank = RC_Model::model('user/user_rank_model');
-	/* 取得用户等级 */
-// 	if ($user_info['user_rank'] == 0) {
-// 		// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
-// 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('special_rank' => 0 , 'min_points' => array('elt' => intval($user_info['rank_points'])) , 'max_points' => array('gt' => intval($user_info['rank_points']))));
-// 	} else {
-// 		// 特殊等级
-// 		$row = $db_user_rank->field('rank_id, rank_name')->find(array('rank_id' => $user_info['user_rank']));
-// 	}
-
-// 	if (!empty($row)) {
-// 		$user_info['user_rank_name'] = $row['rank_name'];
-// 		$user_info['user_rank_id'] = $row['rank_id'];
-// 	} else {
-// 		$user_info['user_rank_name'] = '非特殊等级';
-// 		$user_info['user_rank_id'] = $row['rank_id'];
-// 	}
-// 	$row = $db_user_rank->find(array('special_rank' => 0 , 'min_points' => 0));
-
-// 	if ($user_info['user_rank_name'] == $row['rank_name']) {
-// 		$level = 0;
-// 	} else {
-// 		$level = 1;
-// 	}
-
     if($user_info['user_rank'] == 0) {
         //重新计算会员等级
         $now_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
@@ -844,8 +799,6 @@ function EM_user_info($user_id, $mobile = '') {
 	->where(RC_DB::raw('ub.order_id'), 0)
 	->count(RC_DB::raw('ub.bonus_id'));
 	/* 判断会员名更改时间*/
-	//$data = array('object_type' => 'ecjia.user', 'object_group' => 'update_user_name', 'object_id' => $user_id, 'meta_key' => 'update_time');
-	//$username_update_time = RC_Model::model('term_meta_model')->find($data);
 	$username_update_time = RC_DB::table('term_meta')->where('object_type', 'ecjia.user')
 							->where('object_group', 'update_user_name')
 							->where('object_id', $user_id)
@@ -866,6 +819,7 @@ function EM_user_info($user_id, $mobile = '') {
 		'rank_name'			=> $user_info['user_rank_name'],
 		'rank_level' 		=> $level,
 		'collection_num' 	=> $collection_num,
+		'collect_store_num' => $collect_store_num,
 		'email'				=> $user_info['email'],
 		'mobile_phone'		=> $user_info['mobile_phone'],
 		'address'			=> $user_info['address'],
@@ -884,9 +838,13 @@ function EM_user_info($user_id, $mobile = '') {
 		'user_bonus_count' 		=> $bonus_count,
 		'reg_time'				=> empty($user_info['reg_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $user_info['reg_time']),
 		'update_username_time'	=> empty($username_update_time) ? '' : RC_Time::local_date(ecjia::config('time_format'), $username_update_time['meta_value']),
-		'open_id'               => $connect_user_info['open_id'],
-		'access_token'          => $connect_user_info['access_token'],
-		'user_type'				=> 'user'
+		'open_id'               => !empty($connect_user_info['open_id']) ? $connect_user_info['open_id'] : '',
+		'access_token'          => !empty($connect_user_info['access_token']) ? $connect_user_info['access_token'] : '',
+		'refresh_token'         => !empty($connect_user_info['refresh_token']) ? $connect_user_info['refresh_token'] : '',
+		'user_type'				=> 'user',
+		'has_paypassword'		=> empty($user_info['pay_password']) ? 0 : 1,
+		'account_status'		=> $user_info['account_status'],
+		'delete_time'			=> $user_info['delete_time'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $user_info['delete_time']) : '',
 	);
 }
 

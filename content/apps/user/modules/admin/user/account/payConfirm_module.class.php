@@ -61,7 +61,7 @@ class payConfirm_module extends api_admin implements api_interface
 		$device = $this->device;
 		
     	/* 获取请求当前数据的device信息*/
-        $codes = array('8001', '8011');
+        $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
         if (!is_array($device) || !isset($device['code']) || !in_array($device['code'], $codes)) {
             return new ecjia_error('caskdesk_error', '非收银台请求！');
         }
@@ -73,7 +73,7 @@ class payConfirm_module extends api_admin implements api_interface
 		}
 		
 		/* 查询充值订单信息 */
-		$user_account_info = RC_DB::table('user_account')->where('id', $account_id)->first();;
+		$user_account_info = RC_DB::table('user_account')->where('id', $account_id)->first();
 		
 		if (empty($user_account_info)) {
 			return new ecjia_error('deposit_log_not_exist', '充值记录不存在');

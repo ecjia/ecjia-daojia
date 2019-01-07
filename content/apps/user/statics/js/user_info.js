@@ -5,8 +5,10 @@
         init: function () {
             app.user_list.screen();
             app.user_list.search();
+            app.user_list.delete_confirm();
+            $('.alert.alert-success').delay(5000).hide(0);
         },
-        
+
         screen: function () {
             $('.screen-btn').on('click', function (e) {
                 e.preventDefault();
@@ -14,7 +16,7 @@
                 ecjia.pjax(url);
             })
         },
-        
+
         search: function () {
             $("form[name='searchForm']").on('submit', function (e) {
                 e.preventDefault();
@@ -25,21 +27,42 @@
                 }
                 ecjia.pjax(url);
             });
+        },
+
+        delete_confirm: function () {
+            $('.delete_confirm').off('click').on('click', function (e) {
+                e.preventDefault();
+                var $this = $(this),
+                    msg = $this.attr('data-msg'),
+                    url = $this.attr('href');
+
+                smoke.confirm(msg, function (e) {
+                    if (e) {
+                        $.post(url, function (data) {
+                            if (data.state == 'success') {
+                                window.location.href = data.url;
+                            } else {
+                                ecjia.admin.showmessage(data);
+                            }
+                        });
+                    }
+                }, {ok: "确定", cancel: "取消"});
+            });
         }
     };
- 
+
     /*会员编辑js*/
     app.user_edit = {
         init: function () {
             /* 加载日期控件 */
             $(".date").datepicker({
                 format: "yyyy-mm-dd",
-                container : '.main_content',
+                container: '.main_content',
             });
-            
+
             app.user_edit.submit();
         },
-        
+
         submit: function () {
             var $this = $('form[name="theForm"]');
             var insert = $this.hasClass('insert');
@@ -97,13 +120,13 @@
             $this.validate(options);
         }
     };
- 
+
     /*会员详情js*/
     app.user_info = {
         init: function () {
             app.user_info.search_userinfo();
         },
-        
+
         search_userinfo: function () {
             $("form[name='searchForm']").on('submit', function (e) {
                 e.preventDefault();
@@ -123,13 +146,13 @@
             });
         }
     };
- 
+
     /*会员等级js*/
     app.user_rank = {
         init: function () {
             app.user_rank.submit_rank();
         },
-        
+
         submit_rank: function () {
             var $this = $('form[name="theForm"]');
             var option = {
@@ -174,13 +197,13 @@
             $this.validate(options);
         }
     };
- 
+
     /*会员注册项js*/
     app.user_reg_fields = {
         init: function () {
             app.user_reg_fields.submit_reg_field();
         },
-        
+
         submit_reg_field: function () {
             var $this = $("form[name='theForm']");
             var option = {

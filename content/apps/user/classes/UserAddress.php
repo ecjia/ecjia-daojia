@@ -75,11 +75,13 @@ class UserAddress
     					->where(RC_DB::raw('u.user_id'), $user_id)
     					->select(RC_DB::raw('ua.*'))
     					->first();
-			$info['country_name']   = ecjia_region::getRegionName($info['country']);
-            $info['province_name']  = ecjia_region::getRegionName($info['province']);
-			$info['city_name']    	= ecjia_region::getRegionName($info['city']);
-            $info['district_name']  = ecjia_region::getRegionName($info['district']);
-			$info['street_name']    = ecjia_region::getRegionName($info['street']);
+			if($info) {
+			    $info['country_name']   = ecjia_region::getRegionName($info['country']);
+			    $info['province_name']  = ecjia_region::getRegionName($info['province']);
+			    $info['city_name']    	= ecjia_region::getRegionName($info['city']);
+			    $info['district_name']  = ecjia_region::getRegionName($info['district']);
+			    $info['street_name']    = ecjia_region::getRegionName($info['street']);
+			}
     	}
         return $info;
     }

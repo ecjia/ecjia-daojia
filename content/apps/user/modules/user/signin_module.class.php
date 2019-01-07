@@ -156,12 +156,11 @@ class user_signin_module extends api_front implements api_interface {
 		if ($_SESSION['user_id'] > 0) {
 			$userinfo = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->first();
 			if (empty($userinfo['ec_salt'])) {
-				if (version_compare($api_version, '1.14', '>=')) {
+			    $salt = rand(1, 9999);
+			    if (version_compare($api_version, '1.14', '>=')) {
 					if ($login_type == 'smslogin') {
-						$salt = rand(1, 9999);
 						RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('ec_salt' => $salt));
 					} elseif ($login_type == 'password') {
-						$salt = rand(1, 9999);
 						$new_password = md5(md5($password) . $salt);
 						$data = array(
 								'password' => $new_password,
@@ -170,7 +169,6 @@ class user_signin_module extends api_front implements api_interface {
 						RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update($data);
 					}
 				} else {
-					$salt = rand(1, 9999);
 					$new_password = md5(md5($password) . $salt);
 					$data = array(
 							'password' => $new_password,
@@ -193,6 +191,7 @@ class user_signin_module extends api_front implements api_interface {
 						'user_type'		  => 'user',
 						'open_id'         => $open_id,
 						'access_token'    => RC_Session::session_id(),
+						'refresh_token'	  => md5($_SESSION['user_id'].'user_refresh_token'),
 						'create_at'       => RC_Time::gmtime()
 				);
 				RC_DB::table('connect_user')->insert($connect_data);
@@ -200,6 +199,7 @@ class user_signin_module extends api_front implements api_interface {
 				$connect_data = array(
 						'open_id'         => $open_id,
 						'access_token'    => RC_Session::session_id(),
+						'refresh_token'	  => md5($_SESSION['user_id'].'user_refresh_token'),
 				);
 				RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->update($connect_data);
 			}
