@@ -45,7 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 /*
-Plugin Name: 银行转帐
+Plugin Name: 银行转账
 Plugin URI: http://www.ecjia.com/plugins/ecjia.bank/
 Description: 银行名称<br/>收款人信息：全称 ××× ；帐号或地址 ××× ；开户行 ×××。<br>注意事项：办理电汇时，请在电汇单“汇款用途”一栏处注明您的订单号。
 Author: ECJIA TEAM
