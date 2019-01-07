@@ -269,9 +269,14 @@ class OrderStatusLog
      * @return bool
      */
     public static function refund_payrecord($options) {
+    	if (!empty($options['back_pay_name'])) {
+    		$message = '您的退款'.$options['back_money'].'元，已退回至您的'.$options['back_pay_name'].'账户，请查收';
+    	} else {
+    		$message = '您的退款'.$options['back_money'].'元，已退回至您的余额，请查收';
+    	}
     	$data = array(
     		'order_status'	=> '退款到账',
-    		'message'       => '您的退款'.$options['back_money'].'元，已退回至您的余额，请查收',
+    		'message'       => $message,
     		'order_id'    	=> $options['order_id'],
     		'add_time'    	=> RC_Time::gmtime(),
     	);
