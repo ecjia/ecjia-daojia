@@ -10,11 +10,9 @@ namespace Royalcms\Component\Hook;
  *
  * This class is heavily based on the Royalcms plugin API and most (if not all) of the code comes from there.
  *
- *
  * @version 0.1.2
- * @copyright 2012 - 2014
  *
- * @package PHP Hooks
+ * @package Royalcms-Hook
  */
 
 /**
@@ -205,7 +203,7 @@ class Hooks
         if (isset($this->filters['all'])) {
             $this->current_filter[] = $tag;
             $args = func_get_args();
-            $this->_call_all_hook($args);
+            $this->__call_all_hook($args);
         }
         
         if (! isset($this->filters[$tag])) {
@@ -258,7 +256,7 @@ class Hooks
         if (isset($this->filters['all'])) {
             $this->current_filter[] = $tag;
             $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
+            $this->__call_all_hook($all_args);
         }
         
         if (! isset($this->filters[$tag])) {
@@ -390,7 +388,7 @@ class Hooks
         if (isset($this->filters['all'])) {
             $this->current_filter[] = $tag;
             $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
+            $this->__call_all_hook($all_args);
         }
         
         if (! isset($this->filters[$tag])) {
@@ -452,7 +450,7 @@ class Hooks
         if (isset($this->filters['all'])) {
             $this->current_filter[] = $tag;
             $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
+            $this->__call_all_hook($all_args);
         }
         
         if (! isset($this->filters[$tag])) {
