@@ -176,6 +176,7 @@
 			});
 			$("a[name=move_cat_ture]").on('click', function(e) {
 				$('#movetype').modal('hide');
+				$(".modal-backdrop").remove();
 			});
 			$("select[name=target_cat]").on('change', function(e) {
 				var target_cat = $(this).val();
@@ -288,6 +289,7 @@
 							}
 							//成功界面
 							$('#insertGoods').modal('hide');
+							$(".modal-backdrop").remove();
 							ecjia.pjax(data.url, function() {
 								ecjia.admin.showmessage(data);
 							})

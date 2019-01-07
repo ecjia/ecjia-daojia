@@ -250,12 +250,7 @@ class goods_info {
 			if(!empty($data)) {
 				foreach ($data as $row) {
 					$attr_price = round(floatval($row['attr_price']), 2);
-					if ($type == 'no') {
-					    $attr .= sprintf($fmt, $row['attr_name'], $row['attr_value']);
-					} else {
-					    $attr .= sprintf($fmt, $row['attr_name'], $row['attr_value'], $attr_price);
-					}
-					
+				    $attr .= sprintf($fmt, $row['attr_name'], $row['attr_value'], $attr_price);
 				}
 			}
 			$attr = str_replace('[0]', '', $attr);

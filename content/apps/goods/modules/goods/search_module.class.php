@@ -57,10 +57,6 @@ class goods_search_module extends api_front implements api_interface {
 
         $keywords = $this->requestData('keywords');
         $location = $this->requestData('location', array());
-//         $location = array(
-//                 'latitude'    => '31.235450744628906',
-//                 'longitude' => '121.41641998291016',
-//         );
         /*经纬度为空判断*/
         if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
             $data = array();
@@ -106,18 +102,10 @@ class goods_search_module extends api_front implements api_interface {
         if (!empty($result['seller_list'])) {
             $max_goods = 0;
             $mobilebuy_db = RC_Model::model('goods/goods_activity_model');
-            //$db_favourable = RC_Model::model('favourable/favourable_activity_model');
             $db_favourable	 = RC_DB::table('favourable_activity');
-            /* 手机专享*/
-//             $result_mobilebuy = ecjia_app::validate_application('mobilebuy');
-//             $is_active = ecjia_app::is_active('ecjia.mobilebuy');
             $seller_list = array();
             $now = RC_Time::gmtime();
             foreach ($result['seller_list'] as $row) {
-//                 $field = 'count(*) as count, SUM(comment_rank) as comment_rank';
-//                 $comment = $db_comment->field($field)->where(array('store_id' => $row['id'], 'parent_id' => 0, 'status' => 1))->find();
-
-                //$favourable_result = $db_favourable->where(array('store_id' => $row['id'], 'start_time' => array('elt' => RC_Time::gmtime()), 'end_time' => array('egt' => RC_Time::gmtime()), 'act_type' => array('neq' => 0)))->select();
             	$favourable_result = $db_favourable->where('store_id', $row['id'])->where('start_time', "<=", $now)->where('end_time', ">=", $now)->where('act_type', '!=', 0)->get();
             	$favourable_list = array();
                 if (!empty($favourable_result)) {
@@ -181,24 +169,6 @@ class goods_search_module extends api_front implements api_interface {
                         $saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
 
                         $mobilebuy_price = $object_id = 0;
-                        /* if (!is_ecjia_error($result_mobilebuy) && $is_active) {
-                            $mobilebuy = $mobilebuy_db->find(array(
-                                    'goods_id'     => $val['goods_id'],
-                                    'start_time' => array('elt' => RC_Time::gmtime()),
-                                    'end_time'     => array('egt' => RC_Time::gmtime()),
-                                    'act_type'     => 'GAT_MOBILE_BUY',
-                            ));
-                            if (!empty($mobilebuy)) {
-                                $ext_info = unserialize($mobilebuy['ext_info']);
-                                $mobilebuy_price = $ext_info['price'];
-                                if ($mobilebuy_price < $price) {
-                                    $val['promote_price'] = price_format($mobilebuy_price);
-                                    $object_id          = $mobilebuy['act_id'];
-                                    $activity_type      = 'MOBILEBUY_GOODS';
-                                    $saving_price       = ($val['unformatted_shop_price'] - $mobilebuy_price) > 0 ? $val['unformatted_shop_price'] - $mobilebuy_price : 0;
-                                }
-                            }
-                        } */
 
                         $goods_list[] = array(
                                 'goods_id'                  => $val['goods_id'],
@@ -229,7 +199,7 @@ class goods_search_module extends api_front implements api_interface {
                         'follower'              => $row['follower'],
                         'is_follower'           => $row['is_follower'],
                         'goods_count'           => $goods_result['page']->total_records,
-                        'comment'               => '100%',//$comment['count'] > 0 ? round($comment['comment_rank']/($comment['count']*5)*100).'%' : '100%',
+                        'comment'               => '100%',
                         'favourable_list'       => $favourable_list,
                         'location'              => $row['location'],
                     ));
@@ -244,7 +214,7 @@ class goods_search_module extends api_front implements api_interface {
                         'follower'              => $row['follower'],
                         'is_follower'           => $row['is_follower'],
                         'goods_count'           => $goods_result['page']->total_records,
-                        'comment'               => '100%',//$comment['count'] > 0 ? round($comment['comment_rank']/($comment['count']*5)*100).'%' : '100%',
+                        'comment'               => '100%',
                         'favourable_list'       => $favourable_list,
                         'location'              => $row['location'],
                     );

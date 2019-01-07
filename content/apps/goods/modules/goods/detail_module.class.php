@@ -63,16 +63,24 @@ class goods_detail_module extends api_front implements api_interface {
         	return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
         }
 
-        //$rec_type = $this->requestData('rec_type');
+        RC_Loader::load_app_class('groupbuy_activity', 'groupbuy', false);
+        
         $object_id = $this->requestData('goods_activity_id', 0);
+        if (empty($object_id)) {
+        	$is_groupbuy_result = groupbuy_activity::is_groupbuy_goods($goods_id);
+        	if (!empty($is_groupbuy_result)) {
+        		$object_id = $is_groupbuy_result['act_id'];
+        	}
+        }
+        
         //判断商品是否是团购商品
         $is_groupbuy = 0;
-        if (empty($object_id)) {
+        if (!empty($object_id)) {
         	$group_goods_activity_info = RC_DB::table('goods_activity')
-        									->where('goods_id',$goods_id)
-        									->where('start_time', '<', RC_Time::gmtime())
-        									->where('end_time', '>', RC_Time::gmtime())
-        									->where('act_type',GAT_GROUP_BUY)->first(); 
+        									->where('goods_id', $goods_id)
+        									->where('start_time', '<=', RC_Time::gmtime())
+        									->where('end_time', '>=', RC_Time::gmtime())
+        									->where('act_type', GAT_GROUP_BUY)->first(); 
         	if (!empty($group_goods_activity_info)) {
         		$is_groupbuy = 1;
         	}
@@ -84,8 +92,8 @@ class goods_detail_module extends api_front implements api_interface {
         
         $groupbuy_activity_desc = '';
         $groupbuy_price_ladder_str = '';
+        $price_ladder = [];
         if (!empty($object_id)) {
-        	RC_Loader::load_app_class('groupbuy_activity', 'groupbuy', false);
         	$group_buy = groupbuy_activity::group_buy_info($object_id);
         	if (!empty($group_buy)) {
         		$rec_type = 'GROUPBUY_GOODS';
@@ -115,9 +123,16 @@ class goods_detail_module extends api_front implements api_interface {
         	$goods = get_goods_info($goods_id);
         	$orm_goods_db->set_cache_item($cache_basic_info_id, $goods);
         }
+        
         if ($goods === false) {
            return new ecjia_error('does_not_exist', '不存在的信息');
         } 
+        //判断促销是否过期
+        if($goods['is_promote'] && $goods['promote_end_date'] > RC_Time::gmtime()) {
+            $orm_goods_db->delete_cache_item($cache_basic_info_id);
+            $goods = get_goods_info($goods_id);
+            $orm_goods_db->set_cache_item($cache_basic_info_id, $goods);
+        }
         
         if ($goods['brand_id'] > 0) {
         	$goods['goods_brand_url'] = build_uri('brand', array('bid' => $goods['brand_id']), $goods['goods_brand']);
@@ -261,8 +276,9 @@ class goods_detail_module extends api_front implements api_interface {
         	}
         	foreach ($user_rank_prices as $key => $val) {
         		if ($key == $user_rank_info['rank_id']) {
-        			$data['shop_price'] = $val['unformatted_price'];
-        			$data['unformatted_shop_price'] = $data['shop_price'];
+        			$data['shop_price'] = $val['price'];
+        			$data['unformatted_shop_price'] = $data['unformatted_price'];
+        			break;
         		}
         	}
         }
@@ -284,7 +300,8 @@ class goods_detail_module extends api_front implements api_interface {
         			'resitrict_num'				=> empty($group_buy['restrict_amount']) ? 0 : $group_buy['restrict_amount'],
         			'left_num'					=> $group_buy['left_num'],
         			'groupbuy_activity_desc'	=> empty($groupbuy_activity_desc) ? '' : $groupbuy_activity_desc,
-        			'groupbuy_price_ladder'		=> empty($groupbuy_price_ladder_str) ? '' : $groupbuy_price_ladder_str
+        			'groupbuy_price_ladder'		=> empty($groupbuy_price_ladder_str) ? '' : $groupbuy_price_ladder_str,
+        			'price_ladder'				=> $price_ladder,
         	);
         } else {
         	$mobilebuy_db = RC_Model::model('goods/goods_activity_model');
@@ -451,7 +468,7 @@ class goods_detail_module extends api_front implements api_interface {
         }
         // $data['is_warehouse'] = null;
         $data['seller_name'] = $info['merchants_name'];
-        $shop_name = empty($info['store_name']) ? ecjia::config('shop_name') : $info['store_name'];
+        $shop_name = empty($info['merchants_name']) ? ecjia::config('shop_name') : $info['merchants_name'];
         $data['server_desc'] = '由'.$shop_name.'发货并提供售后服务';
 
         /* 分享链接*/

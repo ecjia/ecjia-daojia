@@ -44,88 +44,109 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Goods\Brand;
+
+use RC_DB;
 
 /**
- * 后台搜索商品返回商品列表
- * @author will.chen
+ * 商品品牌类
+ * @author wu
+ *
  */
-class goods_get_goods_list_api extends Component_Event_Api {
+class Brand
+{
+    protected $brand_id;
+
+    public function __construct($brand_id)
+    {
+        $this->brand_id = $brand_id;
+    }
+
     /**
-     * @param  $options['keyword'] 关键字
-     *         $options['cat_id'] 分类id
-     *         $options['brand_id'] 品牌id
-     *
-     * @return array
+     * 添加品牌
+     * @param	string	$brand_name	品牌名称
+     * @param	string	$site_url	品牌名称
+     * @param	string	$brand_desc	品牌名称
+     * @param	string	$brand_logo	品牌名称
+     * @param	int		$sort_order	排序
+     * @param	bool	$is_show	是否显示
+     * @return 	int		新增品牌id
      */
-	public function call(&$options) {	
-	    if (!is_array($options) 
-	        || ((isset($options['keyword']) && empty($options['keyword'])) 
-	        && !isset($options['cat_id']) 
-	        && !isset($options['brand_id']))) {
-	        return new ecjia_error('invalid_parameter', '参数无效');
-	    }
-	   	$row = $this->get_goods_list($options);
-	    return $row;
+    public function insertBrand($brand_name, $site_url, $brand_desc, $brand_logo, $sort_order, $is_show)
+    {
+        $data = array(
+            'brand_name'	=> $brand_name,
+            'site_url'		=> $site_url,
+            'brand_desc'  	=> $brand_desc,
+            'brand_logo'	=> $brand_logo,
+            'sort_order'	=> $sort_order,
+            'is_show'		=> $is_show,
+        );
+        return RC_DB::table('brand')->insertGetId($data);
+    }
+
+
+    /**
+	 * 取得商品品牌信息
+	 * @param	int		$brand_id
+	 * @return	array	商品品牌信息
+	 */
+	public function brand_info($brand_id) {
+		return RC_DB::table('brand')->where('brand_id', $brand_id)->first();
 	}
 	
 	/**
-	 * 取得商品列表：用于把商品添加到组合、关联类、赠品类
-	 * @param   object  $filters    过滤条件
+	 * 查询品牌总数
+	 * @param	array	$where	条件数组
+	 * @return 	int		品牌总数
 	 */
-	private function get_goods_list($filter) {
-		$db = RC_Model::model('goods/goods_model');
-		RC_Loader::load_app_func('admin_category', 'goods');
-		$time = RC_Time::gmtime();
+	public function brand_count($where) {
+		$db_brand = RC_DB::table('brand');
+		if (is_array($where)) {
+			foreach ($where as $k => $v) {
+				if (is_array($v)) {
+					foreach ($v as $key => $val) {
+						switch ($key) {
+							case 'neq':
+								$db_brand->where($k, '!=', $val);
+								break;
+						}
+					}
+				} else {
+					$db_brand->where($k, $v);
+				}
+			}
+		}
+		return $db_brand->count();
+	}
+	
+	/**
+	 * 根据品牌id查询字段信息
+	 * @param	int		$brand_id	品牌id
+	 * @param	string	$field		要查询的字段
+	 * @return	string	字段信息
+	 */
+	public function brand_field($brand_id, $field) {
+		return RC_DB::table('brand')->where('brand_id', $brand_id)->pluck($field);
+	}
+	
 
-		$where = array();
-		$where['is_delete'] = (isset($filter['is_delete']) && $filter['is_delete'] == '1') ? 1 : 0;
-		$where[] = "(extension_code is null or extension_code='')";
-		
-		if (!empty($filter['store_id'])) {
-		    $where['store_id'] = $filter['store_id'];
-		}
-		if (isset($filter['real_goods']) && $filter['real_goods'] > -1) {
-			$where['is_real'] = intval($filter['real_goods']);
-		}
-		if (isset($filter['cat_id']) && $filter['cat_id'] > 0) {
-			$where['cat_id'] = array_unique(array_merge(array($filter['cat_id']), array_keys(cat_list($filter['cat_id'], 0, false ))));
-		}
-		if (isset($filter['brand_id']) && $filter['brand_id'] > 0) {
-			$where['brand_id'] = $filter['brand_id'];
-		}
-		if (isset($filter['intro_type']) && $filter['intro_type'] != '0') {
-			$where['intro_type'] = 1;
-		}
-		if (isset($filter['intro_type']) && $filter['intro_type'] == 'is_promote') {
-			$where['promote_start_date'] = array('elt' => $time);
-			$where['promote_end_date'] = array('egt' => $time);
-		}
-		if (isset($filter['keyword']) && trim($filter['keyword']) != '') {
-			$where[] = "(goods_name LIKE '%" . $filter['keyword'] . "%' OR goods_sn LIKE '%" . $filter['keyword'] . "%' OR goods_id LIKE '%" . $filter['keyword'] . "%') ";
-		}
-		if (isset($filter['suppliers_id']) && trim($filter['suppliers_id']) != '') {
-			$where['suppliers_id'] = $filter['suppliers_id'];
-		}
-		if (isset($filter['in_ids'])) {
-			$where['goods_id'] = $filter['in_ids'];
-		}
-		if (isset($filter['exclude'])) {
-			$where[] = 'goods_id ' . db_create_in($filter['exclude']);
-		}
-		if (isset($filter['stock_warning'])) {
-			$where[] = 'goods_number <= warn_number';
-		}
-		if (isset($filter['is_on_sale'])) {
-			$where['is_on_sale'] = $filter['is_on_sale'];
-		}
-        if (isset($filter['review_status'])) {
-            $where['review_status'] = $filter['review_status'];
-        }
-
-		/* 取得数据 */
-		$row = $db->field('goods_id, goods_name, shop_price')->where($where)->limit(50)->select();
-		return $row;
+	
+	/**
+	 * 更新品牌
+	 * @param	int		$brand_id	品牌id
+	 * @param	array	$data		品牌信息数组
+	 */
+	public function update_brand($brand_id, $data) {
+		return RC_DB::table('brand')->where('brand_id', $brand_id)->update($data);
+	}
+	
+	/**
+	 * 根据品牌id删除品牌
+	 * @param	int	$brand_id	品牌id
+	 */
+	public function brand_delete($brand_id) {
+		return RC_DB::table('brand')->where('brand_id', $brand_id)->delete();
 	}
 }
 

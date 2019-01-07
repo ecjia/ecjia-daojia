@@ -1212,10 +1212,10 @@ function group_buy_status($group_buy) {
 				$status = GBS_FINISHED;
 			}
 		}
-	} elseif ($group_buy ['is_finished'] == GBS_SUCCEED) {
+	} elseif ($group_buy ['is_finished'] == GBS_SUCCEED || $group_buy['is_finished'] == GBS_SUCCEED_COMPLETE) {
 		/* 已处理，团购成功 */
 		$status = GBS_SUCCEED;
-	} elseif ($group_buy ['is_finished'] == GBS_FAIL) {
+	} elseif ($group_buy ['is_finished'] == GBS_FAIL || $group_buy['is_finished'] == GBS_FAIL_COMPLETE) {
 		/* 已处理，团购失败 */
 		$status = GBS_FAIL;
 	}

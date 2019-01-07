@@ -212,8 +212,8 @@ class goods_list {
 			$where[] = "(g.extension_code is null or g.extension_code ='')";
 			$cache_key .= '-need_cashier_goods-' . $filter['need_cashier_goods'];
 		}
-		
-		if (isset($filter['merchant_cat_id']) && !empty($filter['merchant_cat_id']) && isset($filter['store_id']) && !empty($filter['store_id']) ) {
+	
+		if (isset($filter['merchant_cat_id']) && !empty($filter['merchant_cat_id']) && $filter['merchant_cat_id'] !='undefined' && isset($filter['store_id']) && !empty($filter['store_id']) ) {
 		    $merchant_cat_list = RC_DB::table('merchants_category')
 		        ->select(RC_DB::raw('cat_id'))
 			    ->where('parent_id', $filter['merchant_cat_id'])
@@ -226,9 +226,11 @@ class goods_list {
 		            $children_cat .= ",'".$cat['cat_id']."'";
 		        }
 		    }
-
 		    $where[] = "merchant_cat_id IN (" . $children_cat.")";
 		    $cache_key .= '-merchant_cat_id-' . $filter['merchant_cat_id'];
+		} elseif ($filter['merchant_cat_id'] == 'undefined'){  //未分类
+			$where['merchant_cat_id'] = 0;
+			$cache_key .= '-merchant_cat_id-' . 0;
 		}
 
 
@@ -378,7 +380,7 @@ class goods_list {
 		
 		if (empty($goods_result['list'])) {
 			/* 返回商品总数 */
-			$count = $dbview->join(array('store_franchisee'))->where($where)->count('g.goods_id');
+			$count = $dbview->join(array('store_franchisee'))->where($where)->count();
 			
 			//实例化分页
 			if (empty($filter['size']) && empty($filter['page'])) {
@@ -390,7 +392,7 @@ class goods_list {
 				$limit = $page_row->limit();
 			}
 			
-			$data = $dbview->join(array('member_price', 'store_franchisee'))->field($field)->where($where)->group('g.goods_id')->order($filter['sort'])->limit($limit)->select();
+			$data = $dbview->join(array('member_price', 'store_franchisee'))->field($field)->where($where)->order($filter['sort'])->limit($limit)->select();
 			
 			$arr = array();
 			$store_logo = '';

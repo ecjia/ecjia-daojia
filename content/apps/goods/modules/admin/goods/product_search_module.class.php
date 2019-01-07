@@ -58,7 +58,7 @@ class admin_goods_product_search_module extends api_admin implements api_interfa
 			return new ecjia_error(100, 'Invalid session');
 		}
 
-    	$goods_sn	= $this->requestData('goods_sn','');
+    	$goods_sn	= trim($this->requestData('goods_sn',''));
     	if (empty($goods_sn)) {
     		return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
     	}
@@ -67,7 +67,7 @@ class admin_goods_product_search_module extends api_admin implements api_interfa
 
 		$device		  = $this->device;
     	$device_code = $device['code'];
-
+		
 		$db_goods = RC_Model::model('goods/goods_viewmodel');
 
 		$db_goods->view = array(
@@ -81,6 +81,9 @@ class admin_goods_product_search_module extends api_admin implements api_interfa
 		$field = 'g.goods_id, g.goods_name, g.shop_price, g.shop_price, g.goods_sn, g.goods_img, g.original_img, g.goods_thumb, p.goods_attr, p.product_sn';
 
     	$where[] = "(goods_sn like '%".$goods_sn."%' OR  product_sn like '%".$goods_sn."%')";
+    	//散装商品不支持搜索；只能扫码
+    	$where[] = $where[] = "(g.extension_code is null or g.extension_code ='')";
+    	
         if(!empty($_SESSION['store_id'])){
             $where['store_id'] = $_SESSION['store_id'];
         }
@@ -104,9 +107,9 @@ class admin_goods_product_search_module extends api_admin implements api_interfa
 					'goods_sn'				=> empty($v['product_sn']) ? $v['goods_sn'] : $v['product_sn'],
 					'attribute'				=> $v['goods_attr'],
 					'img' => array(
-						'thumb'	=> ecjia_api::transformerData('PHOTO', $v['goods_img']),
-						'url'	=> ecjia_api::transformerData('PHOTO', $v['original_img']),
-						'small'	=> ecjia_api::transformerData('PHOTO', $v['goods_thumb'])
+						'thumb'	=> !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
+						'url'	=> !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
+						'small'	=> !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : ''
 					),
 	    	 	);
 			}

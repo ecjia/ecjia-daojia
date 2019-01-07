@@ -115,6 +115,7 @@ class goods_list_module extends api_front implements api_interface {
             'page'			=> $page,
             'size'			=> $size,
             'filter_attr'	=> $filter_attr,
+        	'merchant_cat_id' => $filter['merchant_cat_id'],
         );
 
         $filter = empty($filter['filter_attr']) ? '' : $filter['filter_attr'];

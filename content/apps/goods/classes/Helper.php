@@ -47,6 +47,7 @@
 namespace Ecjia\App\Goods;
 
 use ecjia_admin_log;
+use RC_Lang;
 
 class Helper
 {
@@ -55,12 +56,47 @@ class Helper
     /**
      * 添加管理员记录日志操作对象
      */
-    public static function assign_adminlog_content() {
+    public static function assign_adminlog_content()
+    {
         ecjia_admin_log::instance()->add_object('category_goods', '分类商品');
         
 	    ecjia_admin_log::instance()->add_action('move', '转移');
 	    ecjia_admin_log::instance()->add_action('batch_start', '批量上架');
 	    ecjia_admin_log::instance()->add_action('batch_end', '批量下架');
+    }
+
+
+    /**
+     * 取得推荐类型列表
+     *
+     * @return array 推荐类型列表
+     */
+    public static function getRecommendedTypes()
+    {
+        $arr = array(
+            'is_best'		=> RC_Lang::get('goods::goods.is_best'),
+            'is_new'		=> RC_Lang::get('goods::goods.is_new'),
+            'is_hot'		=> RC_Lang::get('goods::goods.is_hot'),
+            'is_promote'	=> RC_Lang::get('goods::goods.is_promote'),
+            'all_type'		=> RC_Lang::get('goods::goods.all_type')
+        );
+
+        return $arr;
+    }
+
+    /**
+     * 取得重量单位列表
+     *
+     * @return array 重量单位列表
+     */
+    public static function getGoodsUnits()
+    {
+        $arr = array(
+            '1' =>		RC_Lang::get('goods::goods.unit_kg'),
+            '0.001' =>	RC_Lang::get('goods::goods.unit_g')
+        );
+
+        return $arr;
     }
     
 }
