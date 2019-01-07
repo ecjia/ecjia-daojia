@@ -812,7 +812,7 @@ class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterfac
     {
         $name = is_string($provider) ? $provider : get_class($provider);
 
-        return Arr::first($this->serviceProviders, function ($key, $value) use ($name) {
+        return Arr::first($this->serviceProviders, function ($value, $key) use ($name) {
             return $value instanceof $name;
         });
     }

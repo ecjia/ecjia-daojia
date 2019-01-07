@@ -62,7 +62,7 @@ class EnvironmentDetector
      */
     protected function getEnvironmentArgument(array $args)
     {
-        return Arr::first($args, function ($k, $v) {
+        return Arr::first($args, function ($v, $k) {
             return Str::startsWith($v, '--env');
         });
     }

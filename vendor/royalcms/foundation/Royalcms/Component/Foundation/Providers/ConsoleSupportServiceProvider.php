@@ -19,7 +19,6 @@ class ConsoleSupportServiceProvider extends AggregateServiceProvider
      * @var array
      */
     protected $providers = [
-        'Royalcms\Component\Auth\GeneratorServiceProvider',
         'Royalcms\Component\Console\ScheduleServiceProvider',
         'Royalcms\Component\Database\MigrationServiceProvider',
         'Royalcms\Component\Database\SeedServiceProvider',

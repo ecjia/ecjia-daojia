@@ -83,15 +83,9 @@ class ConfigCacheCommand extends Command
     {
         if ($this->option('exclude'))
         {
-            unset($config['*::system']);
-            unset($config['*::namespaces']);
-            unset($config['*::provider']);
-            unset($config['*::cache']);
-            unset($config['*::app']);
-            unset($config['*::session']);
-            unset($config['*::view']);
-            unset($config['smarty-view::smarty']);
-            unset($config['excel::export']);
+            collect(config('compile.exclude_configs', []))->map(function($item) use (& $config) {
+                unset($config[$item]);
+            });
         }
 
     }

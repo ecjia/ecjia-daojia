@@ -10,7 +10,7 @@ abstract class RoyalcmsObject
     /**
      * Create instance
      *
-     * @return  void
+     * @return  $this
      */
     public static function make()
     {

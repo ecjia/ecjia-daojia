@@ -10,12 +10,9 @@ class Api extends RoyalcmsObject
     /**
      * 执行指定APP中的同名API
      *
-     * @param string $app
-     *            APP名称
-     * @param string $name
-     *            API名称
-     * @param array $params
-     *            API参数
+     * @param string $app APP名称
+     * @param string $name API名称
+     * @param array $params API参数
      * @return array
      */
     public static function api($app, $name, $params = array())
@@ -31,9 +28,9 @@ class Api extends RoyalcmsObject
     /**
      * 调用所有APP中的同名API
      *
-     * @param $name API名称            
-     * @param array $param
-     *            API参数
+     * @param array $apps APP数组
+     * @param string $name API名称
+     * @param array $param API参数
      * @return array
      */
     public static function apis($apps, $name, $param = array())

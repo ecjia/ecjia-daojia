@@ -102,14 +102,6 @@ return [
     $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Cache/Store.php',
     $basePath.'/vendor/royalcms/contracts/Royalcms/Component/Contracts/Cache/Repository.php',
 
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Auth/AuthManager.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Auth/Guard.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Auth/Access/Gate.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Auth/EloquentUserProvider.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Auth/AuthServiceProvider.php',
-    $basePath.'/vendor/royalcms/framework/Royalcms/Component/Auth/Access/HandlesAuthorization.php',
-
-
     $basePath.'/vendor/royalcms/http/Royalcms/Component/Http/Request.php',
     $basePath.'/vendor/royalcms/http/Royalcms/Component/Http/Middleware/FrameGuard.php',
     $basePath.'/vendor/royalcms/http/Royalcms/Component/Http/ResponseTrait.php',
