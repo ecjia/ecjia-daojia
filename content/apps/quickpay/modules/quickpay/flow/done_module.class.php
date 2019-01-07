@@ -283,7 +283,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     	}
     	
     	if ($order['bonus_id'] > 0 && $order['bonus'] > 0) {
-    		RC_Api::api('bonus', 'use_bonus', array('bonus_id' => $order['bonus_id'], 'order_id' => $new_order_id));
+    		RC_Api::api('bonus', 'use_bonus', array('bonus_id' => $order['bonus_id'], 'order_id' => $new_order_id, 'order_sn' => $order['order_sn']));
     	}
     	
     	/* 给商家发邮件 */

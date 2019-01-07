@@ -139,72 +139,86 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    /* 获取店长的记录*/
 	    $staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
 	    if (!empty($staff_user)) {
-
-	    	$options = array(
-    			'user_id'   => $staff_user['user_id'],
-    			'user_type' => 'merchant',
-    			'event'     => 'order_payed',
-    			'value' => array(
-    					'order_sn'     => $order['order_sn'],
-    					'consignee'    => $order['user_name'],
-    					'telephone'    => $order['user_mobile'],
-    					'order_amount' => $order['order_amount'],
-    					'service_phone' => ecjia::config('service_phone'),
-    			),
-    			'field' => array(
-    					'open_type' => 'admin_message',
-    			),
-	    	);
-	    	RC_Api::api('push', 'push_event_send', $options);
+	    	
+	    	$store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('merchants_name');
+	    	
+	    	$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
+	    	$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
+	    	
+	    	try {
+	    		$options = array(
+	    				'user_id'   => $staff_user['user_id'],
+	    				'user_type' => 'merchant',
+	    				'event'     => 'order_payed',
+	    				'value' => array(
+	    						'order_sn'     => $order['order_sn'],
+	    						'consignee'    => $order['user_name'],
+	    						'telephone'    => $order['user_mobile'],
+	    						'order_amount' => $order['order_amount'],
+	    						'service_phone' => ecjia::config('service_phone'),
+	    				),
+	    				'field' => array(
+	    						'open_type' => 'admin_message',
+	    				),
+	    		);
+	    		RC_Api::api('push', 'push_event_send', $options);
+	    		
+	    		/* 通知记录*/
+	    		$order_data = array(
+	    				'title'	=> '客户付款',
+	    				'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
+	    				'data'	=> array(
+	    						'order_id'		=> $order['order_id'],
+	    						'order_sn'		=> $order['order_sn'],
+	    						'order_amount'	=> $order['order_amount'],
+	    						'formatted_order_amount' => price_format($order['order_amount']),
+	    						'consignee'		=> $order['user_name'],
+	    						'mobile'		=> $order['user_mobile'],
+	    						//'address'		=> $order['address'],
+	    						'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
+	    				),
+	    		);
+	    		 
+	    		$push_order_pay = new OrderPay($order_data);
+	    		RC_Notification::send($staff_user_ob, $push_order_pay);
+	    		
+	    	} catch (PDOException $e) {
+				RC_Logger::getLogger('info')->error($e);
+			}
+	    	
 	    }
 
-	    /* 通知记录*/
-	    $orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
-	    $staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
-	    
-	    $order_data = array(
-	    		'title'	=> '客户付款',
-	    		'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
-	    		'data'	=> array(
-	    				'order_id'		=> $order['order_id'],
-	    				'order_sn'		=> $order['order_sn'],
-	    				'order_amount'	=> $order['order_amount'],
-	    				'formatted_order_amount' => price_format($order['order_amount']),
-	    				'consignee'		=> $order['user_name'],
-	    				'mobile'		=> $order['user_mobile'],
-	    				//'address'		=> $order['address'],
-	    				'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
-	    		),
-	    );
-	    
-	    $push_order_pay = new OrderPay($order_data);
-	    RC_Notification::send($staff_user_ob, $push_order_pay);
-	    
-	    $store_name = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->pluck('merchants_name');
         /* 客户付款短信提醒 */
         if (!empty($staff_user['mobile'])) {
-            $options = array(
-                'mobile' => $staff_user['mobile'],
-                'event'	 => 'sms_quickpay_order_payed',
-                'value'  =>array(
-                    'order_sn'  	=> $order['order_sn'],
-                	'store_name'	=> $store_name,	
-                    'user_name' 	=> $order['user_name'],
-                	'goods_amount'	=> $order['goods_amount'],
-                	'discount'		=> $order['discount'],
-                    'order_amount'	=> $order['order_amount'],
-                	'telephone'  	=> $order['user_mobile'],
-                ),
-            );
-            RC_Api::api('sms', 'send_event_sms', $options);
+        	try {
+        		$options = array(
+        				'mobile' => $staff_user['mobile'],
+        				'event'	 => 'sms_quickpay_order_payed',
+        				'value'  =>array(
+        						'order_sn'  	=> $order['order_sn'],
+        						'store_name'	=> $store_name,
+        						'user_name' 	=> $order['user_name'],
+        						'goods_amount'	=> $order['goods_amount'],
+        						'discount'		=> $order['discount'],
+        						'order_amount'	=> $order['order_amount'],
+        						'telephone'  	=> $order['user_mobile'],
+        				),
+        		);
+        		RC_Api::api('sms', 'send_event_sms', $options);
+        	} catch (PDOException $e) {
+				RC_Logger::getLogger('info')->error($e);
+			}
         }
         
         //打印订单
-        $res = with(new Ecjia\App\Quickpay\OrderPrint($order_id, $order['store_id']))->doPrint(true);
-        if (is_ecjia_error($res)) {
-        	RC_Logger::getLogger('error')->error($res->get_error_message());
-        }
-
+        try {
+        	$res = with(new Ecjia\App\Quickpay\OrderPrint($order_id, $order['store_id']))->doPrint(true);
+        	if (is_ecjia_error($res)) {
+        		RC_Logger::getLogger('error')->error($res->get_error_message());
+        	}
+        } catch (PDOException $e) {
+			RC_Logger::getLogger('info')->error($e);
+		}
     }
 }
 
