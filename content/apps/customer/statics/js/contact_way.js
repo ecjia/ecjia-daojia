@@ -33,6 +33,7 @@
 						},
 					submitHandler : function() {
 						$('#movetype').modal('hide');//点击确认时隐藏框
+						$(".modal-backdrop").remove();
 						$form.ajaxSubmit({
 							dataType : "json",
 							success : function(data) {
@@ -80,6 +81,7 @@
 						},
 					submitHandler : function() {
 						$('#movetype_edit').modal('hide');//点击确认时隐藏框
+						$(".modal-backdrop").remove();
 						$form.ajaxSubmit({
 							dataType : "json",
 							success : function(data) {

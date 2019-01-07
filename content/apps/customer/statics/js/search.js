@@ -109,6 +109,7 @@
 			});
 			$("a[name=change_source_ture]").on('click', function(e) {
 				$('#movetype').modal('hide');
+				$(".modal-backdrop").remove();
 			});
 			$("select[name=customer_source]").on('change', function(e) {
 				var customer_source = $(this).val();
@@ -131,6 +132,7 @@
 			});
 			$("a[name=change_type_ture]").on('click', function(e) {
 				$('#move_customer_type').modal('hide');
+				$(".modal-backdrop").remove();
 			});
 			$("select[name=customer_type]").on('change', function(e) {
 				var customer_type = $(this).val();
@@ -153,6 +155,7 @@
 			});
 			$("a[name=assign_customer_ture]").on('click', function(e) {
 				$('#batch_assign_customers_model').modal('hide');
+				$(".modal-backdrop").remove();
 			});
 			$("select[name=customer_assign]").on('change', function(e) {
 				var customer_assign = $(this).val();
@@ -183,6 +186,7 @@
 			});
 			$("a[name=share_customer_ture]").on('click', function(e) {
 				$('#share-customers').modal('hide');
+				$(".modal-backdrop").remove();
 			});
 			$("select[name=share]").on('change', function(e) {
 				var share = $(this).val();
@@ -199,6 +203,7 @@
 				var option = {
 					submitHandler : function() {
 						$('#movetype_share').modal('hide');//点击确认时隐藏框
+						$(".modal-backdrop").remove();
 						$form.ajaxSubmit({
 							dataType : "json",
 							success : function(data) {
