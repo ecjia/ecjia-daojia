@@ -100,7 +100,6 @@ class admin extends ecjia_admin {
 		);
 		
 		$this->assign('ur_here', RC_Lang::get('favourable::favourable.favourable_list'));
-		$this->assign('action_link', array('href' => RC_Uri::url('favourable/admin/add'), 'text' => RC_Lang::get('favourable::favourable.add_favourable')));
 		
 		$list = $this->get_favourable_list();
 		$this->assign('favourable_list', $list);
@@ -117,272 +116,22 @@ class admin extends ecjia_admin {
 	/**
 	 * 添加页面
 	 */
-	public function add() {
-		$this->admin_priv('favourable_update');
-	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('favourable::favourable.add_favourable')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('favourable::favourable.overview'),
-			'content'	=> '<p>' . RC_Lang::get('favourable::favourable.add_favourable_help') . '</p>'
-		));
-		
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('favourable::favourable.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:优惠活动#.E6.B7.BB.E5.8A.A0.E4.BC.98.E6.83.A0.E6.B4.BB.E5.8A.A8" target="_blank">'.RC_Lang::get('favourable::favourable.about_add_favourable').'</a>') . '</p>'
-		);
-		$this->assign('ur_here', RC_Lang::get('favourable::favourable.add_favourable'));
-		$this->assign('action_link', array('text' => RC_Lang::get('favourable::favourable.favourable_list'), 'href' => RC_Uri::url('favourable/admin/init')));
-		
-		$favourable = array (
-			'act_id'        => 0,
-			'act_name'      => '',
-			'start_time'    => date('Y-m-d', time() + 86400),
-			'end_time'      => date('Y-m-d', time() + 4 * 86400),
-			'user_rank'     => '',
-			'act_range'     => FAR_ALL,
-			'act_range_ext' => '',
-			'min_amount'    => 0,
-			'max_amount'    => 0,
-			'act_type'      => FAT_GOODS,
-			'act_type_ext'  => 0,
-			'gift'          => array()
-		);
-		$this->assign('favourable', $favourable);
-		
-		$user_rank_list   = array();
-		$user_rank_list[] = array(
-			'rank_id'   => 0,
-			'rank_name' => RC_Lang::get('favourable::favourable.not_user'),
-			'checked'   => strpos(',' . $favourable['user_rank'] . ',', ',0,') !== false
-		);
-		$data = RC_DB::table('user_rank')->select('rank_id', 'rank_name')->get();
-
-		if (!empty($data)) {
-			foreach ($data as $key => $row) {
-				$row['checked']     = strpos(',' . $favourable['user_rank'] . ',', ',' . $key. ',') !== false;
-				$user_rank_list[]   = $row;
-			}
-		}
-		$this->assign('user_rank_list', $user_rank_list);
-		
-		$act_range_ext = array();
-		
-		if ($favourable['act_range'] != FAR_ALL && !empty($favourable['act_range_ext'])) {
-			$favourable['act_range_ext'] = explode(',', $favourable['act_range_ext']);
-			if ($favourable['act_range'] == FAR_CATEGORY) {
-				$act_range_ext = RC_DB::table('category')
-                				->whereIn('cat_id', $favourable['act_range_ext'])
-                				->select(RC_DB::raw('cat_id as id'), RC_DB::raw('cat_name as name'))
-                				->get();
-			} elseif ($favourable['act_range'] == FAR_BRAND) {
-				$act_range_ext = RC_DB::table('brand')
-                				->whereIn('brand_id', $favourable['act_range_ext'])
-                				->select(RC_DB::raw('brand_id as id'), RC_DB::raw('brand_name as name'))
-                				->get();
-			} else {
-				$act_range_ext = RC_DB::table('goods')
-                				->whereIn('goods_id', $favourable['act_range_ext'])
-                				->select(RC_DB::raw('goods_id as id'), RC_DB::raw('goods_name as name'))
-                				->get();
-			}
-		}
-
-		$this->assign('act_range_ext', $act_range_ext);
-		$this->assign('form_action', RC_Uri::url('favourable/admin/insert'));
-		
-		$this->display('favourable_info.dwt');
-	}
+	public function add() {}
 	
 	/**
 	 * 添加处理
 	 */
-	public function insert() {
-		$this->admin_priv('favourable_update' ,ecjia::MSGTYPE_JSON);
-		
-    	$act_name = !empty($_POST['act_name']) ? trim($_POST['act_name']) : '';
-	    $store_id = !empty($_POST['store_id']) ? intval($_POST['store_id']) : 0;
-		if (RC_DB::table('favourable_activity')->where('act_name', $act_name)->where('store_id', $store_id)->count() > 0) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.act_name_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		
-		$start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime($_POST['start_time']) : '';
-		$end_time   = !empty($_POST['end_time']) ? RC_Time::local_strtotime($_POST['end_time']) : '';
-		
-		if ($start_time >= $end_time) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.start_lt_end'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		
-		/* 检查享受优惠的会员等级 */
-		if (!isset($_POST['user_rank']) || empty($_POST['user_rank'])) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_user_rank'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	
-		/* 检查优惠范围扩展信息 */
-		if ($_POST['act_range'] > 0 && !isset($_POST['act_range_ext'])) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_act_range'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		/* 检查金额上下限 */
-		$min_amount = floatval($_POST['min_amount']) >= 0 ? floatval($_POST['min_amount']) : 0;
-		$max_amount = floatval($_POST['max_amount']) >= 0 ? floatval($_POST['max_amount']) : 0;
-		if ($max_amount > 0 && $min_amount > $max_amount) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		
-		if ($_POST['act_type'] == 1 && $_POST['min_amount'] < $_POST['act_type_ext']) {
-		    return $this->showmessage('现金减免不能超过金额下限', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		/* 提交值 */
-		$favourable = array(
-			'act_name'      => $act_name,
-			'start_time'    => $start_time,
-			'end_time'      => $end_time,
-			'user_rank'     => isset($_POST['user_rank']) ? join(',', $_POST['user_rank']) : '0',
-			'act_range'     => intval($_POST['act_range']),
-			'act_range_ext' => intval($_POST['act_range']) == 0 ? '' : join(',', $_POST['act_range_ext']),
-			'min_amount'    => $min_amount,
-			'max_amount'    => $max_amount,
-			'act_type'      => intval($_POST['act_type']),
-			'act_type_ext'  => floatval($_POST['act_type_ext']),
-		);
-
-		if ($favourable['act_type'] == 1) {
-			$act_type = RC_Lang::get('favourable::favourable.fat_price');
-		} else {
-			$act_type = RC_Lang::get('favourable::favourable.fat_discount');
-		}
-		//$act_id = $this->db_favourable_activity->favourable_manage($favourable);
-		$act_id = Ecjia\App\Favourable\FavourableActivity::FavourableManage($favourable);
-		/* 释放优惠活动缓存*/
-		$favourable_activity_db   = RC_Model::model('favourable/orm_favourable_activity_model');
-		$cache_favourable_key     = 'favourable_list_store_'.$store_id;
-		$cache_id                 = sprintf('%X', crc32($cache_favourable_key));
-		$favourable_activity_db->delete_cache_item($cache_id);
-		
-		ecjia_admin::admin_log($favourable['act_name'].'，'.RC_Lang::get('favourable::favourable.favourable_way_is').$act_type, 'add', 'favourable');
-		$links[] = array('text' => RC_Lang::get('favourable::favourable.back_favourable_list'), 'href' => RC_Uri::url('favourable/admin/init'));
-		$links[] = array('text' => RC_Lang::get('favourable::favourable.continue_add_favourable'), 'href' => RC_Uri::url('favourable/admin/add'));
-		
-		return $this->showmessage(RC_Lang::get('favourable::favourable.add_favourable_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('favourable/admin/edit', array('act_id' => $act_id))));
-	}
+	public function insert() {}
 	
 	/**
 	 * 编辑
 	 */
-	public function edit() {
-		$this->admin_priv('favourable_update');
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('favourable::favourable.edit_favourable')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('favourable::favourable.overview'),
-			'content'	=> '<p>' . RC_Lang::get('favourable::favourable.edit_favourable_help') . '</p>'
-		));
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('favourable::favourable.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:优惠活动#.E7.BC.96.E8.BE.91.E4.BC.98.E6.83.A0.E6.B4.BB.E5.8A.A8" target="_blank">'.RC_Lang::get('favourable::favourable.about_edit_favourable').'</a>') . '</p>'
-		);
-		
-		$this->assign('ur_here', RC_Lang::get('favourable::favourable.edit_favourable'));
-		$this->assign('action_link', array('text' => RC_Lang::get('favourable::favourable.favourable_list'), 'href' => RC_Uri::url('favourable/admin/init')));
-		
-		$id         = !empty($_GET['act_id']) ? intval($_GET['act_id']) : 0;
-		//$favourable = $this->db_favourable_activity->favourable_info($id);
-		$favourable = Ecjia\App\Favourable\FavourableActivity::FavourableInfo($id);
-		
-		if (empty($favourable)) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.favourable_not_exist'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
-		}
-		$this->assign('favourable', $favourable);
-		$this->assign('user_rank_list', $favourable['user_rank_list']);
-		$this->assign('act_range_ext', $favourable['act_range_ext']);
-		
-		$this->assign('form_action', RC_Uri::url('favourable/admin/update'));
-		
-		$this->display('favourable_info.dwt');
-	}
+	public function edit() {}
 	
 	/**
 	 * 编辑处理
 	 */
-	public function update() { 
-		$this->admin_priv('favourable_update', ecjia::MSGTYPE_JSON);
-		
-		$act_name 	= !empty($_POST['act_name']) 	? trim($_POST['act_name'])   : '';
-		$act_id 	= !empty($_POST['act_id']) 		? intval($_POST['act_id'])   : 0;
-		$store_id 	= !empty($_POST['store_id'])    ? intval($_POST['store_id']) : 0;
-		
-		if ($store_id > 0) {
-			$count = RC_DB::table('favourable_activity')
-        			->where('act_name', $act_name)
-        			->where('act_id', '!=', $act_id)
-        			->where('store_id', $store_id)
-        			->count();
-		} else {
-			$count = RC_DB::table('favourable_activity')
-        			->where('act_name', $act_name)
-        			->where('act_id', '!=', $act_id)
-        			->count();
-		}
-		
-		if ($count > 0) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.act_name_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		$start_time = !empty($_POST['start_time'])	? RC_Time::local_strtotime($_POST['start_time']) 	: '';
-		$end_time 	= !empty($_POST['end_time']) 	? RC_Time::local_strtotime($_POST['end_time']) 		: '';
-		/* 检查优惠活动时间 */
-		if ($start_time >= $end_time) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.start_lt_end'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		
-		/* 检查享受优惠的会员等级 */
-		if (!isset($_POST['user_rank']) || empty($_POST['user_rank'])) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_user_rank'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	
-		/* 检查优惠范围扩展信息 */
-		if ($_POST['act_range'] > 0 && !isset($_POST['act_range_ext'])) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_act_range'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		/* 检查金额上下限 */
-		$min_amount = floatval($_POST['min_amount']) >= 0 ? floatval($_POST['min_amount']) : 0;
-		$max_amount = floatval($_POST['max_amount']) >= 0 ? floatval($_POST['max_amount']) : 0;
-		if ($max_amount > 0 && $min_amount > $max_amount) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		if ($_POST['act_type'] == 1 && $_POST['min_amount'] < $_POST['act_type_ext']) {
-		    return $this->showmessage('现金减免不能超过金额下限', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-		/* 提交值 */
-		$favourable = array(
-			'act_id'		=> $act_id,
-			'act_name'      => $act_name,
-			'start_time'    => $start_time,
-			'end_time'      => $end_time,
-			'user_rank'     => isset($_POST['user_rank']) ? join(',', $_POST['user_rank']) : '0',
-			'act_range'     => intval($_POST['act_range']),
-			'act_range_ext' => intval($_POST['act_range']) == 0 ? '' : join(',', $_POST['act_range_ext']),
-			'min_amount'    => $min_amount,
-			'max_amount'    => $max_amount,
-			'act_type'      => intval($_POST['act_type']),
-			'act_type_ext'  => floatval($_POST['act_type_ext']),
-		);
-		if ($favourable['act_type'] == 1) {
-			$act_type = RC_Lang::get('favourable::favourable.fat_price');
-		} else {
-			$act_type = RC_Lang::get('favourable::favourable.fat_discount');
-		}
-		//$this->db_favourable_activity->favourable_manage($favourable);
-		Ecjia\App\Favourable\FavourableActivity::FavourableManage($favourable);
-		/* 释放优惠活动缓存*/
-		$favourable_activity_db   = RC_Model::model('favourable/orm_favourable_activity_model');
-		$cache_favourable_key     = 'favourable_list_store_'.$store_id;
-		$cache_id                 = sprintf('%X', crc32($cache_favourable_key));
-		$favourable_activity_db->delete_cache_item($cache_id);
-		
-		ecjia_admin::admin_log($favourable['act_name'].'，'.RC_Lang::get('favourable::favourable.favourable_way_is').$act_type, 'edit', 'favourable');
-		return $this->showmessage(RC_Lang::get('favourable::favourable.edit_favourable_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('favourable/admin/edit', array('act_id' => $act_id))));
-	}
+	public function update() {}
 
 	/**
 	 * 删除
@@ -392,7 +141,7 @@ class admin extends ecjia_admin {
 		
 		$id         = intval($_GET['act_id']);
 		//$favourable = $this->db_favourable_activity->favourable_info($id);
-		$favourable = Ecjia\App\Favourable\FavourableActivity::FavourableInfo($favourable);
+		$favourable = Ecjia\App\Favourable\FavourableActivity::FavourableInfo($id);
 		if (empty($favourable)) {
 			return $this->showmessage(RC_Lang::get('favourable::favourable.favourable_not_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -607,7 +356,6 @@ class admin extends ecjia_admin {
 		$favourable_count['count']		= RC_Api::api('favourable', 'favourable_count', array('keyword' => $filter['keyword'], 'merchant_name' => $filter['merchant_name']));
 		$favourable_count['on_going']	= RC_Api::api('favourable', 'favourable_count', array('keyword' => $filter['keyword'], 'merchant_name' => $filter['merchant_name'], 'type' => 'on_going'));
 		$favourable_count['self']		= RC_Api::api('favourable', 'favourable_count', array('keyword' => $filter['keyword'], 'merchant_name' => $filter['merchant_name'], 'type' => 'self'));
-		
 			
 		if ($filter['type'] == 'on_going') {
 			$page = new ecjia_page($favourable_count['on_going'], 15, 5);
@@ -622,13 +370,54 @@ class admin extends ecjia_admin {
 		
 		$list = array();
 		if (!empty($data)) {
+		    $rank_list = RC_DB::table('user_rank')->get();
+		    if($rank_list) {
+		        $rank_list = self::array_change_key($rank_list, 'rank_id');
+		    }
 			foreach ($data as $row) {
 				$row['start_time']  = RC_Time::local_date('Y-m-d H:i', $row['start_time']);
 				$row['end_time']    = RC_Time::local_date('Y-m-d H:i', $row['end_time']);
-				$list[]             = $row;
+				$row['user_rank_name'] = '未设置';
+				if(!empty($row['user_rank'])) {
+				    $rank_arr = explode(',', $row['user_rank']);
+				    if($rank_arr) {
+				        $row['user_rank_name'] = '';
+				        $i = 0;
+				        foreach ($rank_arr as $rank_id) {
+				            $delimiter = $i > 0 ? ',' : '';
+				            $row['user_rank_name'] .= $delimiter . ($rank_id == 0 ? '非会员' : $rank_list[$rank_id]['rank_name']);
+				            $i++;
+				        }
+				    }
+				}
+				$list[] = $row;
 			}
 		}
 		return array('item' => $list, 'page' => $page->show(5), 'desc' => $page->page_desc(), 'count' => $favourable_count, 'quickuri' => $quickuri);
+	}
+	
+	private function array_change_key($arr, $new_key) {
+	    $formate_arr = [];
+	    foreach ($arr as $row) {
+	        if (is_array($new_key)) {
+	            $key = '';
+	            $i = 0;
+	            foreach ($new_key as $val) {
+	                if ($i > 0) {
+	                    $key .= '_' . $row[$val];
+	                } else {
+	                    $key .= $row[$val];
+	                }
+	                $i++;
+	            }
+	            $formate_arr[$key] = $row;
+	        } else {
+	            $formate_arr[$row[$new_key]] = $row;
+	        }
+	        
+	    }
+	    
+	    return $formate_arr;
 	}
 }
 

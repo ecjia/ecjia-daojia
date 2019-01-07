@@ -63,6 +63,7 @@ class favourable_store_favourable_list_api extends Component_Event_Api {
     	$cache_id               = sprintf('%X', crc32($cache_favourable_key));
     	$favourable_activity_db = RC_Model::model('favourable/orm_favourable_activity_model');
     	$favourable_list        = $favourable_activity_db->get_cache_item($cache_id);
+    	$favourable_list = [];
     	if (empty($favourable_list)) {
     		$now = RC_Time::gmtime();
     		//$favourable_list = $db_favourable

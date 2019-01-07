@@ -61,6 +61,7 @@
 				    <th class="w100">{lang key='favourable::favourable.end_time'}</th>
 				    <th class="w100">{lang key='favourable::favourable.min_amount'}</th>
 				    <th class="w100">{lang key='favourable::favourable.max_amount'}</th>
+				    <th class="w100">会员等级</th>
 				    <th class="w50">{lang key='favourable::favourable.sort'}</th>
 			  	</tr>
 			</thead>
@@ -70,7 +71,6 @@
 		      	<td class="hide-edit-area">
 			      	<span class="cursor_pointer" data-trigger="editable" data-url='{url path="favourable/admin/edit_act_name" args="store_id={$favourable.store_id}"}' data-name="act_name" data-pk="{$favourable.act_id}" data-title="{lang key='favourable::favourable.edit_act_name'}">{$favourable.act_name}</span>
 		     	  	<div class="edit-list">
-					  	<a class="data-pjax" href='{url path="favourable/admin/edit" args="act_id={$favourable.act_id}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
 			          	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='favourable::favourable.remove_confirm'}" href='{url path="favourable/admin/remove" args="act_id={$favourable.act_id}"}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
 		    	  	</div>
 		      	</td>
@@ -81,10 +81,11 @@
 		      	<td>{$favourable.end_time}</td>
 		      	<td>{$favourable.min_amount}</td>
 		      	<td>{$favourable.max_amount}</td>
+		      	<td>{$favourable.user_rank_name}</td>
 		      	<td><span class="edit_sort_order cursor_pointer" data-placement="left" data-trigger="editable" data-url="{RC_Uri::url('favourable/admin/edit_sort_order')}" data-name="sort_order" data-pk="{$favourable.act_id}"  data-title="{lang key='favourable::favourable.edit_act_sort'}">{$favourable.sort_order}</span></td>
 		    </tr>
 		    <!-- {foreachelse} -->
-	        <tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>
+	        <tr><td class="no-records" colspan="9">{lang key='system::system.no_records'}</td></tr>
 			<!-- {/foreach} -->
             </tbody>
          </table>
