@@ -57,6 +57,16 @@ class user_notifications_module  extends api_front implements api_interface {
     	if ($_SESSION['user_id'] <= 0) {
     		return new ecjia_error(100, 'Invalid session');
     	}
+    	$user_id = $_SESSION['user_id'];
+    	
+    	//判断用户有没申请注销
+    	$api_version = $this->request->header('api-version');
+    	if (version_compare($api_version, '1.25', '>=')) {
+    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
+    		}
+    	}
     	
     	$size      = $this->requestData('pagination.count', 15);
     	$page      = $this->requestData('pagination.page', 1);
