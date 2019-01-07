@@ -819,8 +819,9 @@ where s.shop_close = 0 and s.identity_status = 2";
         $stats_data = RC_DB::select($level_sql);
         //图表数据 根据按钮状态切换显示 end
 
+        $sql .= " ORDER BY " . $sort_by . ' ' . $sort_order;
         //店铺排行 不受分页/关键字影响 start
-        $amount_sql = $sql . " ORDER BY valid_amount desc";
+        $amount_sql = $sql;
         $level_data = RC_DB::select($amount_sql);
         $level      = [];
         if (!empty($level_data)) {
@@ -835,7 +836,6 @@ where s.shop_close = 0 and s.identity_status = 2";
         if (!empty($keywords)) {
             $sql .= ' and s.merchants_name like "' . '%' . $keywords . '%"';
         }
-        $sql .= " ORDER BY " . $sort_by . ' ' . $sort_order;
         $data = RC_DB::select($sql);
         //列表数据 end
 

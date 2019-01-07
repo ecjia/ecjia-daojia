@@ -96,7 +96,7 @@ class admin_stats_payment_module extends api_admin implements api_interface
         $end_date	= RC_Time::local_strtotime($end_date. ' 23:59:59');
 
         /* 获取请求当前数据的device信息*/
-        $codes = array('8001', '8011');
+        $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
         if (!is_array($device) || !isset($device['code']) || !in_array($device['code'], $codes)) {
             return new ecjia_error('caskdesk_error', '非收银台请求！');
         }

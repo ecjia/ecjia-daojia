@@ -64,17 +64,18 @@
 			<table class="table table-striped table-hide-edit">
 				<thead>
 					<tr data-sorthref='{RC_Uri::url("orders/admin_order_stats/init", "{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}")}'>
+						<th class="w100">店铺排行</th>
 						<th class="w180">商家名称</th>
 						<th data-toggle="sortbyDesc" data-sortby="total_order">下单总数</th>
 						<th data-toggle="sortbyDesc" data-sortby="total_amount">下单总金额</th>
 						<th data-toggle="sortbyDesc" data-sortby="valid_order">成交订单数</th>
 						<th data-toggle="sortbyDesc" data-sortby="valid_amount">成交总金额</th>
-						<th data-toggle="sortbyDesc" data-sortby="level" class="w100">店铺排行</th>
 					</tr>
 				</thead>
 				<tbody>
 					<!-- {foreach from=$list.item key=key item=val} -->
 					<tr>
+						<td {if $val.level lt 4}class="ecjiaf-fwb ecjiaf-fs3"{/if}>{$val.level}</td>
 						<td class="hide-edit-area">
 							{$val.merchants_name}
 							<div class="edit-list">
@@ -85,7 +86,6 @@
 						<td>{$val.formated_total_amount}</td>
 						<td>{$val.valid_order}</td>
 						<td>{$val.formated_valid_amount}</td>
-						<td>{$val.level}</td>
 					</tr>
 					<!-- {foreachelse}-->
 					<tr>

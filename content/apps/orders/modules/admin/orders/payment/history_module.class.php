@@ -62,7 +62,7 @@ class history_module extends api_admin implements api_interface {
         $device_code = isset($device['code']) ? $device['code'] : '';
         $device_udid = isset($device['udid']) ? $device['udid'] : '';
         $device_client = isset($device['client']) ? $device['client'] : '';
-        $codes = array('8001', '8011');
+        $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
         
         if (!in_array($device_code, $codes)) {
         	return new ecjia_error('caskdesk_error', '非收银台请求！');

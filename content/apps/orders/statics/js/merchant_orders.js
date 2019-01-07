@@ -430,6 +430,7 @@
 			    $.post(url, option, function (data) {
 			         if (data.state == 'success') {
 						$('#actionmodal').modal('hide');
+						$(".modal-backdrop").remove();
 						ecjia.merchant.showmessage(data);
 					 } else {
 						var $info = $('<div class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
@@ -478,6 +479,7 @@
 						dataType : "json",
 						success : function(data) {
 							$('#refund').modal('hide');
+							$(".modal-backdrop").remove();
 							ecjia.merchant.showmessage(data);
 						}
 					});
@@ -547,6 +549,7 @@
 						dataType:"json",
 						success:function(data){
 							$('#unconfirmmodal').modal('hide');
+							$(".modal-backdrop").remove();
 							ecjia.merchant.showmessage(data);
 						}
 					});
@@ -581,6 +584,7 @@
 						dataType:"json",
 						success:function(data){
 							$('#shipmodal').modal('hide');
+							$(".modal-backdrop").remove();
 							ecjia.merchant.showmessage(data);
 						}
 					});

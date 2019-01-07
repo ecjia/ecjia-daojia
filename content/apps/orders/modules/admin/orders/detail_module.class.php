@@ -247,7 +247,11 @@ class admin_orders_detail_module extends api_admin implements api_interface {
 			   );
 			}
 		}
-		$order['action_logs']   = $act_list;
+		$order['action_logs']   	= $act_list;
+		$payment_record_info 		= $this->_payment_record_info($order['order_sn'], 'buy');
+		$order['trade_no']			= empty($payment_record_info['trade_no']) ? '' : $payment_record_info['trade_no'];
+		$order['order_trade_no']	= empty($payment_record_info['order_trade_no']) ? '' : $payment_record_info['order_trade_no'];
+		$order['pay_code']			= empty($payment_record_info['pay_code']) ? '' : $payment_record_info['pay_code'];
 		//订单小票打印数据
 		$print_data = $this->getOrderPrintData($order);
 		$order['print_data'] = $print_data;
@@ -284,7 +288,7 @@ class admin_orders_detail_module extends api_admin implements api_interface {
 							'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
 							'user_points'			=> $userinfo['pay_points'],
 							'user_money'			=> $userinfo['user_money'],
-							'formatted_user_money'	=> price_format($userinfo['user_money'], false),
+							'formatted_user_money'	=> ecjia_price_format($userinfo['user_money'], false),
 					);
 				}
 			}
@@ -298,14 +302,14 @@ class admin_orders_detail_module extends api_admin implements api_interface {
 					'goods_list'					=> $order_goods['list'],
 					'total_goods_number' 			=> $order_goods['total_goods_number'],
 					'total_goods_amount'			=> $order_goods['taotal_goods_amount'],
-					'formatted_total_goods_amount'	=> price_format($order_goods['taotal_goods_amount'], false),
+					'formatted_total_goods_amount'	=> ecjia_price_format($order_goods['taotal_goods_amount'], false),
 					'total_discount'				=> $total_discount,
-					'formatted_total_discount'		=> price_format($total_discount, false),
+					'formatted_total_discount'		=> ecjia_price_format($total_discount, false),
 					'money_paid'					=> $money_paid,
-					'formatted_money_paid'			=> price_format($money_paid, false),
+					'formatted_money_paid'			=> ecjia_price_format($money_paid, false),
 					'integral'						=> intval($order_info['integral']),
 					'integral_money'				=> $order_info['integral_money'],
-					'formatted_integral_money'		=> price_format($order_info['integral_money'], false),
+					'formatted_integral_money'		=> ecjia_price_format($order_info['integral_money'], false),
 					'pay_name'						=> !empty($order_info['pay_name']) ? $order_info['pay_name'] : '',
 					'payment_account'				=> '',
 					'user_info'						=> $user_info,
@@ -353,7 +357,7 @@ class admin_orders_detail_module extends api_admin implements api_interface {
 						'goods_name'		=> $row['goods_name'],
 						'goods_number'		=> $row['goods_number'],
 						'subtotal'			=> $row['subtotal'],
-						'formatted_subtotal'=> price_format($row['subtotal'], false),
+						'formatted_subtotal'=> ecjia_price_format($row['subtotal'], false),
 				);
 			}
 		}

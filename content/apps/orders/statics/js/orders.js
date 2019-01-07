@@ -447,6 +447,7 @@
 					dataType: "json",
 					success: function (data) {
 						$('#refund').modal('hide');
+						$(".modal-backdrop").remove();
 						ecjia.admin.showmessage(data);
 					}
 				});

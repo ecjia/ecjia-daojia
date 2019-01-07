@@ -65,7 +65,6 @@ class orders_admin_menu_api extends Component_Event_Api {
 			
 			ecjia_admin::make_admin_menu('07_order_stats', __('订单统计'), RC_Uri::url('orders/admin_order_stats/init'), 7)->add_purview('order_stats'),
 			ecjia_admin::make_admin_menu('08_delivery_order', RC_Lang::get('orders::order.order_delivery_list'), RC_Uri::url('orders/admin_order_delivery/init'), 8)->add_purview('delivery_view'),
-			ecjia_admin::make_admin_menu('09_back_order', RC_Lang::get('orders::order.order_back_list'), RC_Uri::url('orders/admin_order_back/init'), 9)->add_purview('back_view'),
 		);
 		$menus->add_submenu($submenus);
 		

@@ -46,83 +46,50 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 订单支付
- * @deprecated 此接口已经废弃了，变更为'payment::order/pay
- * @author royalwang
- * 16-12-09 增加支付状态
- */
-class order_pay_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	$user_id = $_SESSION['user_id'];
-    	if ($user_id < 1 ) {
-    	    return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-		$order_id	= $this->requestData('order_id', 0);
-		$is_mobile	= $this->requestData('is_mobile', true);
-		
-		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		
-		/* 订单详情 */
-		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		if (is_ecjia_error($order)) {
-			return $order;
-		}
-			
-		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
-		}
-		
-		//判断是否是管理员登录
-		if ($_SESSION['admin_id'] > 0) {
-			$_SESSION['user_id'] = $order['user_id'];
-		}
-		
-		//支付方式信息
-// 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-		$payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order['pay_id']);
-		// 取得支付信息，生成支付代码
-// 		$payment_config = $payment_method->unserialize_config($payment_info['pay_config']);
+class admin_config extends ecjia_admin
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-// 		$handler = $payment_method->get_payment_instance($payment_info['pay_code'], $payment_config);
-		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($payment_info['pay_code']);
-		$handler->set_orderinfo($order);
-		$handler->set_mobile($is_mobile);
-		
-		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
-        if (is_ecjia_error($result)) {
-            return $result;
-        } else {
-            $order['payment'] = $result;
-        }
+        //全局JS和CSS
+        RC_Script::enqueue_script('jquery-validate');
+        RC_Script::enqueue_script('jquery-form');
+        RC_Script::enqueue_script('smoke');
+        RC_Script::enqueue_script('jquery-chosen');
+        RC_Style::enqueue_style('chosen');
+        RC_Script::enqueue_script('jquery-uniform');
+        RC_Style::enqueue_style('uniform-aristo');
+        RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
+
+        RC_Script::enqueue_script('admin_config', RC_App::apps_url('statics/js/admin_config.js', __FILE__), array(), false, false);
+    }
+
+    public function init()
+    {
+        $this->admin_priv('order_manage');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单设置'));
+
+        $this->assign('ur_here', '订单设置');
+        $this->assign('form_action', RC_Uri::url('orders/admin_config/update'));
+
+        $this->assign('orders_auto_cancel_time', ecjia::config('orders_auto_cancel_time'));
+
+        $this->assign('current_code', 'orders_setting');
+        $this->display('orders_setting.dwt');
+    }
+
+    public function update()
+    {
+        $this->admin_priv('order_manage', ecjia::MSGTYPE_JSON);
+
+        $orders_auto_cancel_time   = !empty($_POST['orders_auto_cancel_time']) ? intval($_POST['orders_auto_cancel_time']) : 0;
         
-        /* 插入支付流水记录*/
-        $db = RC_DB::table('payment_record');
-        $payment_record = $db->where('order_sn', $order['order_sn'])->first();
-        $payment_data = array(
-        	'order_sn'		=> $order['order_sn'],
-            'trade_type'	=> Ecjia\App\Payment\PayConstant::PAY_ORDER,
-        	'pay_code'		=> $payment_info['pay_code'],
-        	'pay_name'		=> $payment_info['pay_name'],
-        	'total_fee'		=> $order['order_amount'],
-        	'pay_status'	=> 0,
-        );
-        if (empty($payment_record)) {
-        	$payment_data['create_time']	= RC_Time::gmtime();
-        	$db->insertGetId($payment_data);
-        } elseif($payment_record['pay_status'] == 0 && $payment_record['pay_code'] != $payment_info['pay_code'] && $order['order_amount'] != $payment_record['total_fee']) {
-        	$payment_data['update_time']	= RC_Time::gmtime();
-        	$db->where('order_sn', $order['order_sn'])->update($payment_data);
-        }
-        //增加支付状态
-        $order['payment']['order_pay_status'] = $order['pay_status'];//0 未付款，1付款中，2已付款
-        
-        return array('payment' => $order['payment']);
-	}
+        ecjia_config::instance()->write_config('orders_auto_cancel_time', $orders_auto_cancel_time);
+
+        return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/admin_config/init')));
+    }
+
 }
-
-// end
+//end

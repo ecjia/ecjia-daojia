@@ -101,8 +101,8 @@ class admin extends ecjia_admin
         $this->admin_priv('order_manage');
 
         ecjia_screen::get_current_screen()->add_help_tab(array(
-            'id' => 'overview',
-            'title' => RC_Lang::get('orders::order.overview'),
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('orders::order.overview'),
             'content' => '<p>' . RC_Lang::get('orders::order.order_list_help') . '</p>',
         ));
 
@@ -114,11 +114,11 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('order_query', RC_Uri::home_url('content/apps/orders/statics/js/order_query.js'));
         RC_Script::enqueue_script('order_delivery', RC_Uri::home_url('content/apps/orders/statics/js/order_delivery.js'));
 
-        $filter = $_GET;
-        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        $size = 15;
+        $filter                   = $_GET;
+        $page                     = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $size                     = 15;
         $filter['extension_code'] = !empty($_GET['extension_code']) ? trim($_GET['extension_code']) : 'default';
-        $order_list = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
+        $order_list               = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
             ->getOrderList($filter, $page, $size, null, ['Ecjia\App\Orders\CustomizeOrderList', 'exportOrderListAdmin']);
 
         $ur_here = in_array($filter['extension_code'], array('default', 'storebuy', 'storepickup', 'group_buy', 'cashdesk')) ? RC_Lang::get('orders::order.order_extension_code.' . $filter['extension_code']) : '配送订单';
@@ -165,15 +165,15 @@ class admin extends ecjia_admin
 
         //下单渠道
         $referer_list = array(
-            'ecjia-storebuy' => '到店',
+            'ecjia-storebuy'    => '到店',
             'ecjia-storepickup' => '自提',
-            'ecjia-cashdesk' => '收银台',
-            'invitecode' => '邀请码',
-            'mobile' => '手机端',
-            'h5' => 'H5',
-            'weapp' => '小程序',
-            'android' => 'Andriod端',
-            'iphone' => 'iPhone端',
+            'ecjia-cashdesk'    => '收银台',
+            'invitecode'        => '邀请码',
+            'mobile'            => '手机端',
+            'h5'                => 'H5',
+            'weapp'             => '小程序',
+            'android'           => 'Andriod端',
+            'iphone'            => 'iPhone端',
         );
         $this->assign('referer_list', $referer_list);
 
@@ -194,10 +194,10 @@ class admin extends ecjia_admin
         /* 根据订单id或订单号查询订单信息 */
         if (isset($_GET['order_id'])) {
             $order_id = intval($_GET['order_id']);
-            $order = order_info($order_id);
+            $order    = order_info($order_id);
         } elseif (isset($_GET['order_sn'])) {
             $order_sn = trim($_GET['order_sn']);
-            $order = order_info(0, $order_sn);
+            $order    = order_info(0, $order_sn);
         }
         if (empty($order)) {
             return $this->showmessage(RC_Lang::get('orders::order.not_exist_order'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('orders::order.return_list'), 'href' => RC_Uri::url('orders/admin/init')))));
@@ -225,19 +225,19 @@ class admin extends ecjia_admin
 
         if ($order['extension_code'] == 'storebuy') {
             $order_model = 'storebuy'; //到店订单
-            $ur_here = '到店订单信息';
+            $ur_here     = '到店订单信息';
         } elseif ($order['extension_code'] == 'cashdesk') {
             $order_model = 'cashdesk';
-            $ur_here = '收银台订单信息';
+            $ur_here     = '收银台订单信息';
         } elseif ($order['extension_code'] == 'storepickup') {
             $order_model = 'storepickup';
-            $ur_here = '自提订单信息';
+            $ur_here     = '自提订单信息';
         } elseif ($order['extension_code'] == 'group_buy') {
             $order_model = 'group_buy';
-            $ur_here = '团购订单信息';
+            $ur_here     = '团购订单信息';
         } else {
             $order_model = 'default';
-            $ur_here = '配送订单信息';
+            $ur_here     = '配送订单信息';
         }
         $url = RC_Uri::url('orders/admin/init', array('extension_code' => $order_model));
         if ($order_model == 'default') {
@@ -253,8 +253,8 @@ class admin extends ecjia_admin
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here, $url));
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单信息'));
         ecjia_screen::get_current_screen()->add_help_tab(array(
-            'id' => 'overview',
-            'title' => RC_Lang::get('orders::order.overview'),
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('orders::order.overview'),
             'content' => '<p>' . RC_Lang::get('orders::order.order_info_help') . '</p>',
         ));
 
@@ -305,7 +305,7 @@ class admin extends ecjia_admin
                 $user = array();
             }
             if (!empty($user)) {
-                $order['user_name'] = $user['user_name'];
+                $order['user_name']    = $user['user_name'];
                 $order['mobile_phone'] = $user['mobile_phone'];
             }
         }
@@ -318,7 +318,7 @@ class admin extends ecjia_admin
 
         /* 格式化金额 */
         if ($order['order_amount'] < 0) {
-            $order['money_refund'] = abs($order['order_amount']);
+            $order['money_refund']          = abs($order['order_amount']);
             $order['formated_money_refund'] = price_format(abs($order['order_amount']));
         }
 
@@ -326,15 +326,15 @@ class admin extends ecjia_admin
         $this->assign('flow_status', $flow_status);
 
         /* 其他处理 */
-        $order['order_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
-        $order['pay_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']);
+        $order['order_time']    = RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
+        $order['pay_time']      = RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']);
         $order['shipping_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']);
-        $order['confirm_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['confirm_time']);
+        $order['confirm_time']  = RC_Time::local_date(ecjia::config('time_format'), $order['confirm_time']);
 
         $order['invoice_no'] = $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? RC_Lang::get('orders::order.ss.' . SS_UNSHIPPED) : $order['invoice_no'];
 
-        $is_cod = $order['pay_code'] == 'pay_cod' ? 1 : 0;
-        $status = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($order['order_status'], $order['shipping_status'], $order['pay_status'], $is_cod);
+        $is_cod          = $order['pay_code'] == 'pay_cod' ? 1 : 0;
+        $status          = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($order['order_status'], $order['shipping_status'], $order['pay_status'], $is_cod);
         $order['status'] = $status['0'];
 
         /* 取得订单的来源 */
@@ -353,7 +353,7 @@ class admin extends ecjia_admin
         $this->assign('delivery_info', $delivery_info);
 
         /* 取得订单商品总重量 */
-        $weight_price = order_weight_price($order_id);
+        $weight_price          = order_weight_price($order_id);
         $order['total_weight'] = $weight_price['formated_weight'];
 
         /* 取得用户信息 */
@@ -368,7 +368,7 @@ class admin extends ecjia_admin
             $user['rank_name'] = $db_user_rank->pluck('rank_name');
 
             // 用户红包数量
-            $day = RC_Time::local_getdate();
+            $day   = RC_Time::local_getdate();
             $today = RC_Time::local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
 
             $user['bonus_count'] = RC_DB::table('bonus_type as bt')
@@ -402,14 +402,14 @@ class admin extends ecjia_admin
 
         if (!empty($data)) {
             foreach ($data as $key => $row) {
-                $row['formated_subtotal'] = price_format($row['goods_price'] * $row['goods_number']);
+                $row['formated_subtotal']    = price_format($row['goods_price'] * $row['goods_number']);
                 $row['formated_goods_price'] = price_format($row['goods_price']);
-                $row['goods_img'] = get_image_path($row['goods_id'], $row['goods_img']);
-                $goods_attr[] = explode(' ', trim($row['goods_attr'])); //将商品属性拆分为一个数组
+                $row['goods_img']            = get_image_path($row['goods_id'], $row['goods_img']);
+                $goods_attr[]                = explode(' ', trim($row['goods_attr'])); //将商品属性拆分为一个数组
 
                 if ($row['extension_code'] == 'package_buy') {
-                    $row['storage'] = '';
-                    $row['brand_name'] = '';
+                    $row['storage']            = '';
+                    $row['brand_name']         = '';
                     $row['package_goods_list'] = get_package_goods($row['goods_id']);
                 }
                 $goods_list[] = $row;
@@ -417,11 +417,11 @@ class admin extends ecjia_admin
         }
 
         $attr = array();
-        $arr = array();
+        $arr  = array();
         if (isset($goods_attr)) {
             foreach ($goods_attr as $index => $array_val) {
                 foreach ($array_val as $value) {
-                    $arr = explode(':', $value); //以 : 号将属性拆开
+                    $arr            = explode(':', $value); //以 : 号将属性拆开
                     $attr[$index][] = @array('name' => $arr[0], 'value' => $arr[1]);
                 }
             }
@@ -436,20 +436,20 @@ class admin extends ecjia_admin
 
         /* 取得订单操作记录 */
         $act_list = array();
-        $data = RC_DB::table('order_action')->where('order_id', $order['order_id'])->orderby('log_time', 'asc')->orderby('action_id', 'asc')->get();
+        $data     = RC_DB::table('order_action')->where('order_id', $order['order_id'])->orderby('log_time', 'asc')->orderby('action_id', 'asc')->get();
 
         if (!empty($data)) {
             foreach ($data as $key => $row) {
-                $label_status = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($row['order_status'], $row['shipping_status'], $row['pay_status'], $is_cod);
+                $label_status         = with(new Ecjia\App\Orders\OrderStatus())->getOrderStatusLabel($row['order_status'], $row['shipping_status'], $row['pay_status'], $is_cod);
                 $row['action_status'] = $label_status[0];
-                $row['action_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['log_time']);
-                $act_list[] = $row;
+                $row['action_time']   = RC_Time::local_date(ecjia::config('time_format'), $row['log_time']);
+                $act_list[]           = $row;
             }
         }
         $this->assign('action_list', $act_list);
 
-        $express_info = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
-        $order['express_user'] = $express_info['express_user'];
+        $express_info            = RC_DB::table('express_order')->where('order_sn', $order['order_sn'])->orderBy('express_id', 'desc')->first();
+        $order['express_user']   = $express_info['express_user'];
         $order['express_mobile'] = $express_info['express_mobile'];
 
         /* 判断是否为上门取货*/
@@ -464,9 +464,9 @@ class admin extends ecjia_admin
 
             $pickup_status = '暂无';
             if (!empty($meta_value)) {
-                $pickup_status = '<span class="ecjiafc-red">未提货</span>';
+                $pickup_status         = '<span class="ecjiafc-red">未提货</span>';
                 $meta_value_encryption = '';
-                $len = strlen($meta_value);
+                $len                   = strlen($meta_value);
                 $meta_value_encryption = substr_replace($meta_value, str_repeat('*', $len), 0, $len);
                 $this->assign('meta_value', array('normal' => $meta_value, 'encryption' => $meta_value_encryption));
             }
@@ -489,10 +489,10 @@ class admin extends ecjia_admin
             $this->assign('print_time', RC_Time::local_date(ecjia::config('time_format')));
             //发货地址所在地
             $region_array = array();
-            $region_id = ecjia::config('shop_province', ecjia::CONFIG_CHECK) ? ecjia::config('shop_country') . ',' : '';
-            $region_id .= ecjia::config('shop_country', ecjia::CONFIG_CHECK) ? ecjia::config('shop_province') . ',' : '';
-            $region_id .= ecjia::config('shop_city', ecjia::CONFIG_CHECK) ? ecjia::config('shop_city') . ',' : '';
-            $region_id = substr($region_id, 0, -1);
+            $region_id    = ecjia::config('shop_province', ecjia::CONFIG_CHECK) ? ecjia::config('shop_country') . ',' : '';
+            $region_id    .= ecjia::config('shop_country', ecjia::CONFIG_CHECK) ? ecjia::config('shop_province') . ',' : '';
+            $region_id    .= ecjia::config('shop_city', ecjia::CONFIG_CHECK) ? ecjia::config('shop_city') . ',' : '';
+            $region_id    = substr($region_id, 0, -1);
 
             if (!is_array($region_id)) {
                 $region_id = explode(',', $region_id);
@@ -517,11 +517,11 @@ class admin extends ecjia_admin
                 /* 可视化 快递单*/
                 /* 判断模板图片位置 */
                 if (!empty($shipping['print_bg']) && trim($shipping['print_bg']) != '') {
-                    $uploads_dir_info = RC_Upload::upload_dir();
+                    $uploads_dir_info     = RC_Upload::upload_dir();
                     $shipping['print_bg'] = $uploads_dir_info[baseurl] . $shipping['print_bg'];
                 } else {
                     /* 使用插件默认快递单图片 */
-                    $plugin_handle = ecjia_shipping::channel($shipping['shipping_code']);
+                    $plugin_handle        = ecjia_shipping::channel($shipping['shipping_code']);
                     $shipping['print_bg'] = $plugin_handle->printBcakgroundImage();
                 }
 
@@ -538,34 +538,34 @@ class admin extends ecjia_admin
                 }
 
                 /* 标签信息 */
-                $lable_box = array();
-                $lable_box['t_shop_country'] = $region_array[ecjia::config('shop_country')]; //网店-国家
-                $lable_box['t_shop_city'] = $region_array[ecjia::config('shop_city')]; //网店-城市
+                $lable_box                    = array();
+                $lable_box['t_shop_country']  = $region_array[ecjia::config('shop_country')]; //网店-国家
+                $lable_box['t_shop_city']     = $region_array[ecjia::config('shop_city')]; //网店-城市
                 $lable_box['t_shop_province'] = $region_array[ecjia::config('shop_province')]; //网店-省份
-                $lable_box['t_shop_name'] = ecjia::config('shop_name'); //网店-名称
+                $lable_box['t_shop_name']     = ecjia::config('shop_name'); //网店-名称
                 $lable_box['t_shop_district'] = ''; //网店-区/县
-                $lable_box['t_shop_tel'] = ecjia::config('service_phone'); //网店-联系电话
-                $lable_box['t_shop_address'] = ecjia::config('shop_address'); //网店-地址
+                $lable_box['t_shop_tel']      = ecjia::config('service_phone'); //网店-联系电话
+                $lable_box['t_shop_address']  = ecjia::config('shop_address'); //网店-地址
 
-                $lable_box['t_customer_country'] = !empty($region_array[$order['country']]) ? $region_array[$order['country']] : ''; //收件人-国家
+                $lable_box['t_customer_country']  = !empty($region_array[$order['country']]) ? $region_array[$order['country']] : ''; //收件人-国家
                 $lable_box['t_customer_province'] = !empty($region_array[$order['province']]) ? $region_array[$order['province']] : ''; //收件人-省份
-                $lable_box['t_customer_city'] = !empty($region_array[$order['city']]) ? $region_array[$order['city']] : ''; //收件人-城市
+                $lable_box['t_customer_city']     = !empty($region_array[$order['city']]) ? $region_array[$order['city']] : ''; //收件人-城市
                 $lable_box['t_customer_district'] = !empty($region_array[$order['district']]) ? $region_array[$order['district']] : ''; //收件人-区/县
 
-                $lable_box['t_customer_tel'] = $order['tel']; //收件人-电话
-                $lable_box['t_customer_mobel'] = $order['mobile']; //收件人-手机
-                $lable_box['t_customer_post'] = $order['zipcode']; //收件人-邮编
+                $lable_box['t_customer_tel']     = $order['tel']; //收件人-电话
+                $lable_box['t_customer_mobel']   = $order['mobile']; //收件人-手机
+                $lable_box['t_customer_post']    = $order['zipcode']; //收件人-邮编
                 $lable_box['t_customer_address'] = $order['address']; //收件人-详细地址
-                $lable_box['t_customer_name'] = $order['consignee']; //收件人-姓名
-                $gmtime_utc_temp = RC_Time::gmtime(); //获取 UTC 时间戳
-                $lable_box['t_year'] = date('Y', $gmtime_utc_temp); //年-当日日期
-                $lable_box['t_months'] = date('m', $gmtime_utc_temp); //月-当日日期
-                $lable_box['t_day'] = date('d', $gmtime_utc_temp); //日-当日日期
-                $lable_box['t_order_no'] = $order['order_sn']; //订单号-订单
+                $lable_box['t_customer_name']    = $order['consignee']; //收件人-姓名
+                $gmtime_utc_temp                 = RC_Time::gmtime(); //获取 UTC 时间戳
+                $lable_box['t_year']             = date('Y', $gmtime_utc_temp); //年-当日日期
+                $lable_box['t_months']           = date('m', $gmtime_utc_temp); //月-当日日期
+                $lable_box['t_day']              = date('d', $gmtime_utc_temp); //日-当日日期
+                $lable_box['t_order_no']         = $order['order_sn']; //订单号-订单
                 $lable_box['t_order_postscript'] = $order['postscript']; //备注-订单
-                $lable_box['t_order_best_time'] = $order['best_time']; //送货时间-订单
-                $lable_box['t_pigeon'] = '√'; //√-对号
-                $lable_box['t_custom_content'] = ''; //自定义内容
+                $lable_box['t_order_best_time']  = $order['best_time']; //送货时间-订单
+                $lable_box['t_pigeon']           = '√'; //√-对号
+                $lable_box['t_custom_content']   = ''; //自定义内容
 
                 //标签替换
                 $temp_config_lable = explode('||,||', $shipping['config_lable']);
@@ -573,7 +573,7 @@ class admin extends ecjia_admin
                     $temp_config_lable[] = $shipping['config_lable'];
                 }
                 foreach ($temp_config_lable as $temp_key => $temp_lable) {
-                    $temp_info = explode(',', $temp_lable);
+                    $temp_info    = explode(',', $temp_lable);
                     $temp_info[1] = '';
                     if (is_array($temp_info)) {
                         $temp_info[1] = !empty($lable_box[$temp_info[0]]) ? $lable_box[$temp_info[0]] : '';
@@ -616,16 +616,16 @@ class admin extends ecjia_admin
             if ($order['extension_code'] == 'storebuy' || $order['extension_code'] == 'cashdesk') {
                 $order['formated_order_amount'] = price_format($order['goods_amount'] - ($order['discount'] + $order['integral_money'] + $order['bonus']));
             }
-            $order_referer_list = array(
-                'ecjia-storebuy' => '到店',
+            $order_referer_list     = array(
+                'ecjia-storebuy'    => '到店',
                 'ecjia-storepickup' => '自提',
-                'ecjia-cashdesk' => '收银台',
-                'invitecode' => '邀请码',
-                'mobile' => '手机端',
-                'h5' => 'H5',
-                'weapp' => '小程序',
-                'android' => '安卓端',
-                'iphone' => 'iPhone端',
+                'ecjia-cashdesk'    => '收银台',
+                'invitecode'        => '邀请码',
+                'mobile'            => '手机端',
+                'h5'                => 'H5',
+                'weapp'             => '小程序',
+                'android'           => '安卓端',
+                'iphone'            => 'iPhone端',
             );
             $order['label_referer'] = $order_referer_list[$order['referer']];
             $this->assign('order', $order);
@@ -641,6 +641,14 @@ class admin extends ecjia_admin
                 $this->assign('order_finished', $order_finishied);
             }
             if (empty($order['extension_code']) || $order['extension_code'] == 'group_buy') {
+                if ($order['extension_code'] == 'group_buy') {
+                    RC_Loader::load_app_func('admin_goods', 'goods');
+                    $groupbuy_info = group_buy_info($order['extension_id']);
+                    $this->assign('groupbuy_info', $groupbuy_info);
+
+                    $groupbuy_deposit_status = $this->get_groupbuy_deposit_status($order, $groupbuy_info);
+                    $this->assign('groupbuy_deposit_status', $groupbuy_deposit_status);
+                }
                 $this->display('order_info.dwt');
             } else {
                 $this->display('other_order_info.dwt');
@@ -677,8 +685,8 @@ class admin extends ecjia_admin
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('system::system.03_order_query')));
 
         ecjia_screen::get_current_screen()->add_help_tab(array(
-            'id' => 'overview',
-            'title' => RC_Lang::get('orders::order.overview'),
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('orders::order.overview'),
             'content' => '<p>' . RC_Lang::get('orders::order.order_query_help') . '</p>',
         ));
 
@@ -690,7 +698,7 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('order_query', RC_Uri::home_url('content/apps/orders/statics/js/order_query.js'));
 
         $shipping_method = RC_Loader::load_app_class("shipping_method", "shipping");
-        $payment_method = RC_Loader::load_app_class("payment_method", "payment");
+        $payment_method  = RC_Loader::load_app_class("payment_method", "payment");
 
         /* 载入配送方式 */
         $this->assign('shipping_list', $shipping_method->shipping_list());
@@ -720,8 +728,8 @@ class admin extends ecjia_admin
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::order.merge_order')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
-            'id' => 'overview',
-            'title' => RC_Lang::get('orders::order.overview'),
+            'id'      => 'overview',
+            'title'   => RC_Lang::get('orders::order.overview'),
             'content' => '<p>' . RC_Lang::get('orders::order.order_merge_help') . '</p>',
         ));
 
@@ -734,12 +742,12 @@ class admin extends ecjia_admin
         RC_Script::localize_script('order_merge', 'js_lang', RC_Lang::get('orders::order.js_lang'));
 
         /* 取得满足条件的订单 */
-        $order_query = RC_Loader::load_app_class('order_query');
-        $where = array();
-        $where['o.user_id'] = array('gt' => 0);
+        $order_query               = RC_Loader::load_app_class('order_query');
+        $where                     = array();
+        $where['o.user_id']        = array('gt' => 0);
         $where['o.extension_code'] = "";
-        $where = array_merge($where, $order_query->order_unprocessed());
-        $query = $this->db_order_view->join('users')->where($where)->select();
+        $where                     = array_merge($where, $order_query->order_unprocessed());
+        $query                     = $this->db_order_view->join('users')->where($where)->select();
 
         $this->assign('order_list', $query);
         $this->assign('ur_here', RC_Lang::get('orders::order.merge_order'));
@@ -758,11 +766,11 @@ class admin extends ecjia_admin
         $this->admin_priv('order_os_edit', ecjia::MSGTYPE_JSON);
 
         $from_order_sn = empty($_POST['from_order_sn']) ? '' : $_POST['from_order_sn'];
-        $to_order_sn = empty($_POST['to_order_sn']) ? '' : $_POST['to_order_sn'];
+        $to_order_sn   = empty($_POST['to_order_sn']) ? '' : $_POST['to_order_sn'];
 
         /* 参数验证  */
         $m_result = merge_order($from_order_sn, $to_order_sn);
-        $result = array('error' => 0, 'content' => '');
+        $result   = array('error' => 0, 'content' => '');
         if ($m_result === true) {
             return $this->showmessage(RC_Lang::get('orders::order.act_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         } else {
@@ -785,7 +793,7 @@ class admin extends ecjia_admin
 
         /* 取得参数 step */
         $step_list = array('user', 'goods', 'consignee', 'shipping', 'payment', 'other', 'money');
-        $step = isset($_GET['step']) && in_array($_GET['step'], $step_list) ? $_GET['step'] : 'user';
+        $step      = isset($_GET['step']) && in_array($_GET['step'], $step_list) ? $_GET['step'] : 'user';
 
         /* 取得参数 act */
         $act = ROUTE_A; // $_GET['act'];
@@ -848,27 +856,27 @@ class admin extends ecjia_admin
                 if ($address_id > 0) {
                     $address = address_info($address_id);
                     if ($address) {
-                        $order['consignee'] = $address['consignee'];
-                        $order['country'] = $address['country'];
-                        $order['province'] = $address['province'];
-                        $order['city'] = $address['city'];
-                        $order['district'] = $address['district'];
-                        $order['email'] = $address['email'];
-                        $order['address'] = $address['address'];
-                        $order['zipcode'] = $address['zipcode'];
-                        $order['tel'] = $address['tel'];
-                        $order['mobile'] = $address['mobile'];
+                        $order['consignee']     = $address['consignee'];
+                        $order['country']       = $address['country'];
+                        $order['province']      = $address['province'];
+                        $order['city']          = $address['city'];
+                        $order['district']      = $address['district'];
+                        $order['email']         = $address['email'];
+                        $order['address']       = $address['address'];
+                        $order['zipcode']       = $address['zipcode'];
+                        $order['tel']           = $address['tel'];
+                        $order['mobile']        = $address['mobile'];
                         $order['sign_building'] = $address['sign_building'];
-                        $order['best_time'] = $address['best_time'];
+                        $order['best_time']     = $address['best_time'];
                         $this->assign('order', $order);
                     }
                 }
             }
             if ($exist_real_goods) {
                 $province = ecjia_region::getSubarea(ecjia::config('shop_country'));
-                $city = ecjia_region::getSubarea($order['province']);
+                $city     = ecjia_region::getSubarea($order['province']);
                 $district = ecjia_region::getSubarea($order['city']);
-                $street = ecjia_region::getSubarea($order['district']);
+                $street   = ecjia_region::getSubarea($order['district']);
 
                 $this->assign('province', $province);
                 $this->assign('city', $city);
@@ -882,11 +890,11 @@ class admin extends ecjia_admin
                 // 选择配送方式
                 $ur_here = RC_Lang::get('orders::order.edit_order_shipping');
                 /* 取得可用的配送方式列表 */
-                $region_id_list = array(
+                $region_id_list  = array(
                     $order['country'], $order['province'], $order['city'], $order['district'], $order['street'],
                 );
                 $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-                $shipping_list = ecjia_shipping::availableUserShippings($region_id_list, $order['store_id']);
+                $shipping_list   = ecjia_shipping::availableUserShippings($region_id_list, $order['store_id']);
 
                 if (empty($shipping_list)) {
                     $this->assign('shipping_list_error', 1);
@@ -897,9 +905,9 @@ class admin extends ecjia_admin
                     foreach ($shipping_list as $key => $shipping) {
                         $shipping_fee = ecjia_shipping::fee($shipping['shipping_area_id'], $total['weight'], $total['amount'], $total['number']);
 
-                        $shipping_list[$key]['shipping_fee'] = $shipping_fee;
+                        $shipping_list[$key]['shipping_fee']        = $shipping_fee;
                         $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee);
-                        $shipping_list[$key]['free_money'] = price_format($shipping['configure']['free_money']);
+                        $shipping_list[$key]['free_money']          = price_format($shipping['configure']['free_money']);
                     }
                 }
                 $this->assign('shipping_list', $shipping_list);
@@ -910,13 +918,13 @@ class admin extends ecjia_admin
             $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
             if (exist_real_goods($order_id)) {
                 /* 存在实体商品 */
-                $region_id_list = array(
+                $region_id_list  = array(
                     $order['country'], $order['province'], $order['city'], $order['district'], $order['street'],
                 );
                 $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-                $shipping_area = $shipping_method->shipping_area_info($order['shipping_id'], $region_id_list);
-                $pay_fee = ($shipping_area['support_cod'] == 1) ? $shipping_area['pay_fee'] : 0;
-                $payment_list = $payment_method->available_payment_list(true, $pay_fee);
+                $shipping_area   = $shipping_method->shipping_area_info($order['shipping_id'], $region_id_list);
+                $pay_fee         = ($shipping_area['support_cod'] == 1) ? $shipping_area['pay_fee'] : 0;
+                $payment_list    = $payment_method->available_payment_list(true, $pay_fee);
             } else {
                 /* 不存在实体商品 */
                 $payment_list = $payment_method->available_payment_list(false);
@@ -954,7 +962,7 @@ class admin extends ecjia_admin
                 RC_Loader::load_app_func('admin_bonus', 'bonus');
                 $user_bonus = user_bonus($order['user_id'], $order['goods_amount']);
                 if ($order['bonus_id'] > 0) {
-                    $bonus = bonus_info($order['bonus_id']);
+                    $bonus        = bonus_info($order['bonus_id']);
                     $user_bonus[] = $bonus;
                 }
 
@@ -969,19 +977,19 @@ class admin extends ecjia_admin
             }
 
             /* 取得可用的配送方式列表 */
-            $region_id_list = array(
+            $region_id_list  = array(
                 $order['country'], $order['province'], $order['city'], $order['district'], $order['street'],
             );
             $shipping_method = RC_Loader::load_app_class("shipping_method", "shipping");
-            $shipping_list = $shipping_method->available_shipping_list($region_id_list, $order['store_id']);
+            $shipping_list   = $shipping_method->available_shipping_list($region_id_list, $order['store_id']);
 
             /* 取得配送费用 */
             $total = order_weight_price($order_id);
             foreach ($shipping_list as $key => $shipping) {
-                $shipping_fee = $shipping_method->shipping_fee($shipping['shipping_code'], unserialize($shipping['configure']), $total['weight'], $total['amount'], $total['number']);
-                $shipping_list[$key]['shipping_fee'] = $shipping_fee;
+                $shipping_fee                               = $shipping_method->shipping_fee($shipping['shipping_code'], unserialize($shipping['configure']), $total['weight'], $total['amount'], $total['number']);
+                $shipping_list[$key]['shipping_fee']        = $shipping_fee;
                 $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee);
-                $shipping_list[$key]['free_money'] = price_format($shipping['configure']['free_money']);
+                $shipping_list[$key]['free_money']          = price_format($shipping['configure']['free_money']);
             }
             $this->assign('shipping_list', $shipping_list);
         }
@@ -1000,7 +1008,7 @@ class admin extends ecjia_admin
 
         /* 取得参数 step */
         $step_list = array('user', 'edit_goods', 'add_goods', 'goods', 'consignee', 'shipping', 'payment', 'other', 'money', 'invoice');
-        $step = isset($_GET['step']) && in_array($_GET['step'], $step_list) ? $_GET['step'] : 'user';
+        $step      = isset($_GET['step']) && in_array($_GET['step'], $step_list) ? $_GET['step'] : 'user';
 
         /* 取得参数 order_id */
         $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
@@ -1017,14 +1025,14 @@ class admin extends ecjia_admin
             $user_id = (!empty($_POST['anonymous']) && $_POST['anonymous'] == 1) ? 0 : intval($_POST['user']);
 
             /* 插入新订单，状态为无效 */
-            $order = array(
-                'user_id' => $user_id,
-                'add_time' => RC_Time::gmtime(),
-                'order_status' => OS_INVALID,
+            $order             = array(
+                'user_id'         => $user_id,
+                'add_time'        => RC_Time::gmtime(),
+                'order_status'    => OS_INVALID,
                 'shipping_status' => SS_UNSHIPPED,
-                'pay_status' => PS_UNPAYED,
-                'from_ad' => 0,
-                'referer' => RC_Lang::get('orders::order.admin'),
+                'pay_status'      => PS_UNPAYED,
+                'from_ad'         => 0,
+                'referer'         => RC_Lang::get('orders::order.admin'),
             );
             $order['order_sn'] = ecjia_order_buy_sn();
 
@@ -1036,10 +1044,10 @@ class admin extends ecjia_admin
             ecjia_admin::admin_log($order['order_sn'], 'add', 'order');
             /* 插入 pay_log */
             $data = array(
-                'order_id' => $order_id,
+                'order_id'     => $order_id,
                 'order_amount' => 0,
-                'order_type' => PAY_ORDER,
-                'is_paid' => 0,
+                'order_type'   => PAY_ORDER,
+                'is_paid'      => 0,
             );
             RC_DB::table('pay_log')->insert($data);
 
@@ -1053,10 +1061,10 @@ class admin extends ecjia_admin
                     $goods_number_all = RC_DB::table('goods')->where('goods_id', $_POST['goods_id'][$key])->pluck('goods_number');
 
                     /* 取得参数 */
-                    $goods_price = floatval($_POST['goods_price'][$key]);
+                    $goods_price  = floatval($_POST['goods_price'][$key]);
                     $goods_number = intval($_POST['goods_number'][$key]);
-                    $goods_attr = $_POST['goods_attr'][$key];
-                    $product_id = intval($_POST['product_id'][$key]);
+                    $goods_attr   = $_POST['goods_attr'][$key];
+                    $product_id   = intval($_POST['product_id'][$key]);
                     if ($product_id) {
                         $goods_number_all = RC_DB::table('products')->where('product_id', $_POST['product_id'][$key])->pluck('product_number');
                     }
@@ -1064,9 +1072,9 @@ class admin extends ecjia_admin
                     if ($goods_number_all >= $goods_number) {
                         /* 修改 */
                         $data = array(
-                            'goods_price' => $goods_price,
+                            'goods_price'  => $goods_price,
                             'goods_number' => $goods_number,
-                            'goods_attr' => $goods_attr,
+                            'goods_attr'   => $goods_attr,
                         );
                         RC_DB::table('order_goods')->where('rec_id', $rec_id)->update($data);
                     } else {
@@ -1083,7 +1091,7 @@ class admin extends ecjia_admin
                 update_pay_log($order_id);
 
                 /* todo 记录日志 */
-                $sn = RC_Lang::get('orders::order.log_edit_goods');
+                $sn        = RC_Lang::get('orders::order.log_edit_goods');
                 $new_order = order_info($order_id);
                 if ($old_order['total_fee'] != $new_order['total_fee']) {
                     $sn .= sprintf(RC_Lang::get('orders::order.order_amount_change'), $old_order['total_fee'], $new_order['total_fee']) . '，';
@@ -1101,7 +1109,7 @@ class admin extends ecjia_admin
             } elseif (isset($_POST['finish'])) {
                 /* 完成 */
                 /* 初始化提示信息和链接 */
-                $msgs = array();
+                $msgs  = array();
                 $links = array();
                 /* 如果已付款，检查金额是否变动，并执行相应操作 */
                 $order = order_info($order_id);
@@ -1123,10 +1131,10 @@ class admin extends ecjia_admin
                 return $this->showmessage(RC_Lang::get('orders::order.pls_search_add'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $goods_price = $_POST['add_price'] != 'user_input' ? floatval($_POST['add_price']) : floatval($_POST['input_price']);
-                $goods_attr = '0';
+                $goods_attr  = '0';
                 for ($i = 0; $i < $_POST['spec_count']; $i++) {
                     if (is_array($_POST['spec_' . $i])) {
-                        $temp_array = $_POST['spec_' . $i];
+                        $temp_array       = $_POST['spec_' . $i];
                         $temp_array_count = count($_POST['spec_' . $i]);
                         for ($j = 0; $j < $temp_array_count; $j++) {
                             if ($temp_array[$j] !== null) {
@@ -1141,8 +1149,8 @@ class admin extends ecjia_admin
                 }
 
                 $goods_number = $_POST['add_number'];
-                $goods_attr = explode(',', $goods_attr);
-                $k = array_search(0, $goods_attr);
+                $goods_attr   = explode(',', $goods_attr);
+                $k            = array_search(0, $goods_attr);
                 unset($goods_attr[$k]);
 
                 $res = array();
@@ -1153,7 +1161,7 @@ class admin extends ecjia_admin
                 if (!empty($res)) {
                     foreach ($res as $row) {
                         $attr_value[] = $row['attr_value'];
-                        $goods_price += $row['attr_price'];
+                        $goods_price  += $row['attr_price'];
                     }
                 }
                 if (!empty($attr_value) && is_array($attr_value)) {
@@ -1182,7 +1190,7 @@ class admin extends ecjia_admin
                     $product_info['product_id'] = 0;
                 }
                 $db_order_goods = RC_DB::table('order_goods')->where('order_id', $order_id)->where('product_id', $product_info['product_id'])->where('goods_id', $goods_id);
-                $count = $db_order_goods->count();
+                $count          = $db_order_goods->count();
                 if ($count != 0) {
                     return $this->showmessage('该商品或货品已存在该订单中，请编辑商品数量', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
@@ -1193,35 +1201,35 @@ class admin extends ecjia_admin
                 if (is_spec($goods_attr) && !empty($prod)) {
                     /* 插入订单商品 */
                     $data = array(
-                        'order_id' => $order_id,
-                        'goods_id' => $row['goods_id'],
-                        'goods_name' => $row['goods_name'],
-                        'goods_sn' => $product_info['product_sn'],
-                        'product_id' => $product_info['product_id'],
-                        'goods_number' => $goods_number,
-                        'market_price' => $row['market_price'],
-                        'goods_price' => $goods_price,
-                        'goods_attr' => isset($attr_value) ? $attr_value : '',
-                        'is_real' => $row['is_real'],
+                        'order_id'       => $order_id,
+                        'goods_id'       => $row['goods_id'],
+                        'goods_name'     => $row['goods_name'],
+                        'goods_sn'       => $product_info['product_sn'],
+                        'product_id'     => $product_info['product_id'],
+                        'goods_number'   => $goods_number,
+                        'market_price'   => $row['market_price'],
+                        'goods_price'    => $goods_price,
+                        'goods_attr'     => isset($attr_value) ? $attr_value : '',
+                        'is_real'        => $row['is_real'],
                         'extension_code' => $row['extension_code'],
-                        'parent_id' => 0,
-                        'is_gift' => 0,
-                        'goods_attr_id' => implode(',', $goods_attr),
+                        'parent_id'      => 0,
+                        'is_gift'        => 0,
+                        'goods_attr_id'  => implode(',', $goods_attr),
                     );
                 } else {
                     $data = array(
-                        'order_id' => $order_id,
-                        'goods_id' => $row['goods_id'],
-                        'goods_name' => $row['goods_name'],
-                        'goods_sn' => $row['goods_sn'],
-                        'goods_number' => $goods_number,
-                        'market_price' => $row['market_price'],
-                        'goods_price' => $goods_price,
-                        'goods_attr' => isset($attr_value) ? $attr_value : '',
-                        'is_real' => $row['is_real'],
+                        'order_id'       => $order_id,
+                        'goods_id'       => $row['goods_id'],
+                        'goods_name'     => $row['goods_name'],
+                        'goods_sn'       => $row['goods_sn'],
+                        'goods_number'   => $goods_number,
+                        'market_price'   => $row['market_price'],
+                        'goods_price'    => $goods_price,
+                        'goods_attr'     => isset($attr_value) ? $attr_value : '',
+                        'is_real'        => $row['is_real'],
                         'extension_code' => $row['extension_code'],
-                        'parent_id' => 0,
-                        'is_gift' => 0,
+                        'parent_id'      => 0,
+                        'is_gift'        => 0,
                     );
                 }
                 RC_DB::table('order_goods')->insert($data);
@@ -1246,7 +1254,7 @@ class admin extends ecjia_admin
                 update_pay_log($order_id);
 
                 /* todo 记录日志 */
-                $sn = RC_Lang::get('orders::order.log_add_goods');
+                $sn        = RC_Lang::get('orders::order.log_add_goods');
                 $new_order = order_info($order_id);
                 if ($old_order['total_fee'] != $new_order['total_fee']) {
                     $sn .= sprintf(RC_Lang::get('orders::order.order_amount_change'), $old_order['total_fee'], $new_order['total_fee']) . '，';
@@ -1266,7 +1274,7 @@ class admin extends ecjia_admin
             } elseif (isset($_POST['finish'])) {
                 /* 完成 */
                 /* 初始化提示信息和链接 */
-                $msgs = array();
+                $msgs  = array();
                 $links = array();
                 /* 如果已付款，检查金额是否变动，并执行相应操作 */
                 $order = order_info($order_id);
@@ -1326,11 +1334,11 @@ class admin extends ecjia_admin
                 if ('edit' == $step_act && exist_real_goods($order_id)) {
                     $order = order_info($order_id);
                     /* 取得可用配送方式 */
-                    $region_id_list = array(
+                    $region_id_list  = array(
                         $order['country'], $order['province'], $order['city'], $order['district'], $order['street'],
                     );
                     $shipping_method = RC_Loader::load_app_class("shipping_method", "shipping");
-                    $shipping_list = $shipping_method->available_shipping_list($region_id_list, $order['store_id']);
+                    $shipping_list   = $shipping_method->available_shipping_list($region_id_list, $order['store_id']);
 
                     /* 判断订单的配送是否在可用配送之内 */
                     $exist = false;
@@ -1353,17 +1361,17 @@ class admin extends ecjia_admin
         } elseif ('shipping' == $step) {
             /* 保存配送信息 */
             /* 取得订单信息 */
-            $order_info = order_info($order_id);
+            $order_info     = order_info($order_id);
             $region_id_list = array($order_info['country'], $order_info['province'], $order_info['city'], $order_info['district'], $order_info['street']);
             /* 保存订单 */
 
-            $shipping_id = $_POST['shipping'];
+            $shipping_id     = $_POST['shipping'];
             $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-            $shipping = $shipping_method->shipping_area_info($shipping_id, $region_id_list, $order_info['store_id']);
-            $weight_amount = order_weight_price($order_id);
-            $shipping_fee = $shipping_method->shipping_fee($shipping['shipping_code'], $shipping['configure'], $weight_amount['weight'], $weight_amount['amount'], $weight_amount['number']);
-            $order = array(
-                'shipping_id' => $shipping_id,
+            $shipping        = $shipping_method->shipping_area_info($shipping_id, $region_id_list, $order_info['store_id']);
+            $weight_amount   = order_weight_price($order_id);
+            $shipping_fee    = $shipping_method->shipping_fee($shipping['shipping_code'], $shipping['configure'], $weight_amount['weight'], $weight_amount['amount'], $weight_amount['number']);
+            $order           = array(
+                'shipping_id'   => $shipping_id,
                 'shipping_name' => addslashes($shipping['shipping_name']),
                 // 'shipping_fee'    => $shipping_fee //修改配送方式 配送费不变，价格自行商家承担
             );
@@ -1380,7 +1388,7 @@ class admin extends ecjia_admin
             update_pay_log($order_id);
 
             /* todo 记录日志 */
-            $sn = RC_Lang::get('orders::order.log_edit_shipping');
+            $sn        = RC_Lang::get('orders::order.log_edit_shipping');
             $new_order = order_info($order_id);
             if ($old_order['total_fee'] != $new_order['total_fee']) {
                 $sn .= sprintf(RC_Lang::get('orders::order.order_amount_change'), $old_order['total_fee'], $new_order['total_fee']) . '，';
@@ -1390,25 +1398,25 @@ class admin extends ecjia_admin
 
             /* 保存支付信息 */
             /* 取得支付信息 */
-            $pay_id = $_POST['payment'];
+            $pay_id         = $_POST['payment'];
             $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-            $payment = $payment_method->payment_info($pay_id);
+            $payment        = $payment_method->payment_info($pay_id);
             /* 计算支付费用 */
             $order_amount = order_amount($order_id);
             if ($payment['is_cod'] == 1) {
-                $order = order_info($order_id);
-                $region_id_list = array($order['country'], $order['province'], $order['city'], $order['district'], $order['street']);
+                $order           = order_info($order_id);
+                $region_id_list  = array($order['country'], $order['province'], $order['city'], $order['district'], $order['street']);
                 $shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-                $shipping = $shipping_method->shipping_area_info($order['shipping_id'], $region_id_list);
-                $pay_fee = pay_fee($pay_id, $order_amount, $shipping['pay_fee']);
+                $shipping        = $shipping_method->shipping_area_info($order['shipping_id'], $region_id_list);
+                $pay_fee         = pay_fee($pay_id, $order_amount, $shipping['pay_fee']);
             } else {
                 $pay_fee = pay_fee($pay_id, $order_amount);
             }
             /* 保存订单 */
             $order = array(
-                'pay_id' => $pay_id,
+                'pay_id'   => $pay_id,
                 'pay_name' => addslashes($payment['pay_name']),
-                'pay_fee' => $pay_fee,
+                'pay_fee'  => $pay_fee,
             );
             update_order($order_id, $order);
             update_order_amount($order_id);
@@ -1417,7 +1425,7 @@ class admin extends ecjia_admin
             update_pay_log($order_id);
 
             /* todo 记录日志 */
-            $sn = RC_Lang::get('orders::order.log_edit_payment');
+            $sn        = RC_Lang::get('orders::order.log_edit_payment');
             $new_order = order_info($order_id);
 
             if ($old_order['total_fee'] != $new_order['total_fee']) {
@@ -1432,7 +1440,7 @@ class admin extends ecjia_admin
                 return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url));
             } elseif (isset($_POST['finish'])) {
                 /* 初始化提示信息和链接 */
-                $msgs = array();
+                $msgs  = array();
                 $links = array();
                 /* 如果已付款，检查金额是否变动，并执行相应操作 */
                 $order = order_info($order_id);
@@ -1454,24 +1462,24 @@ class admin extends ecjia_admin
             if (isset($_POST['pack']) && $_POST['pack'] > 0) {
 
             } else {
-                $order['pack_id'] = 0;
+                $order['pack_id']   = 0;
                 $order['pack_name'] = '';
-                $order['pack_fee'] = 0;
+                $order['pack_fee']  = 0;
             }
             if (isset($_POST['card']) && $_POST['card'] > 0) {
                 $order['card_message'] = $_POST['card_message'];
             } else {
-                $order['card_id'] = 0;
-                $order['card_name'] = '';
-                $order['card_fee'] = 0;
+                $order['card_id']      = 0;
+                $order['card_name']    = '';
+                $order['card_fee']     = 0;
                 $order['card_message'] = '';
             }
-            $order['inv_type'] = $_POST['inv_type'];
-            $order['inv_payee'] = $_POST['inv_payee'];
+            $order['inv_type']    = $_POST['inv_type'];
+            $order['inv_payee']   = $_POST['inv_payee'];
             $order['inv_content'] = $_POST['inv_content'];
-            $order['how_oos'] = $_POST['how_oos'];
-            $order['postscript'] = $_POST['postscript'];
-            $order['to_buyer'] = $_POST['to_buyer'];
+            $order['how_oos']     = $_POST['how_oos'];
+            $order['postscript']  = $_POST['postscript'];
+            $order['to_buyer']    = $_POST['to_buyer'];
             update_order($order_id, $order);
             update_order_amount($order_id);
 
@@ -1501,39 +1509,39 @@ class admin extends ecjia_admin
             }
 
             /* 保存信息 */
-            $order['goods_amount'] = $old_order['goods_amount'];
-            $order['discount'] = isset($_POST['discount']) && floatval($_POST['discount']) >= 0 ? round(floatval($_POST['discount']), 2) : 0;
-            $order['tax'] = round(floatval($_POST['tax']), 2);
-            $order['shipping_fee'] = isset($_POST['shipping_fee']) && floatval($_POST['shipping_fee']) >= 0 ? round(floatval($_POST['shipping_fee']), 2) : 0;
-            $order['insure_fee'] = isset($_POST['insure_fee']) && floatval($_POST['insure_fee']) >= 0 ? round(floatval($_POST['insure_fee']), 2) : 0;
-            $order['pay_fee'] = floatval($_POST['pay_fee']) >= 0 ? round(floatval($_POST['pay_fee']), 2) : 0;
-            $order['pack_fee'] = isset($_POST['pack_fee']) && floatval($_POST['pack_fee']) >= 0 ? round(floatval($_POST['pack_fee']), 2) : 0;
-            $order['card_fee'] = isset($_POST['card_fee']) && floatval($_POST['card_fee']) >= 0 ? round(floatval($_POST['card_fee']), 2) : 0;
-            $order['money_paid'] = $old_order['money_paid'];
-            $order['surplus'] = 0;
-            $order['integral'] = intval(isset($_POST['integral'])) >= 0 ? intval(isset($_POST['integral'])) : 0;
+            $order['goods_amount']   = $old_order['goods_amount'];
+            $order['discount']       = isset($_POST['discount']) && floatval($_POST['discount']) >= 0 ? round(floatval($_POST['discount']), 2) : 0;
+            $order['tax']            = round(floatval($_POST['tax']), 2);
+            $order['shipping_fee']   = isset($_POST['shipping_fee']) && floatval($_POST['shipping_fee']) >= 0 ? round(floatval($_POST['shipping_fee']), 2) : 0;
+            $order['insure_fee']     = isset($_POST['insure_fee']) && floatval($_POST['insure_fee']) >= 0 ? round(floatval($_POST['insure_fee']), 2) : 0;
+            $order['pay_fee']        = floatval($_POST['pay_fee']) >= 0 ? round(floatval($_POST['pay_fee']), 2) : 0;
+            $order['pack_fee']       = isset($_POST['pack_fee']) && floatval($_POST['pack_fee']) >= 0 ? round(floatval($_POST['pack_fee']), 2) : 0;
+            $order['card_fee']       = isset($_POST['card_fee']) && floatval($_POST['card_fee']) >= 0 ? round(floatval($_POST['card_fee']), 2) : 0;
+            $order['money_paid']     = $old_order['money_paid'];
+            $order['surplus']        = 0;
+            $order['integral']       = intval(isset($_POST['integral'])) >= 0 ? intval(isset($_POST['integral'])) : 0;
             $order['integral_money'] = 0;
-            $order['bonus_id'] = 0;
-            $order['bonus'] = 0;
+            $order['bonus_id']       = 0;
+            $order['bonus']          = 0;
 
             /* 计算待付款金额 */
             $order['order_amount'] = $order['goods_amount'] - $order['discount']
-                 + $order['tax']
-                 + $order['shipping_fee']
-                 + $order['insure_fee']
-                 + $order['pay_fee']
-                 + $order['pack_fee']
-                 + $order['card_fee']
-                 - $order['money_paid'];
+                + $order['tax']
+                + $order['shipping_fee']
+                + $order['insure_fee']
+                + $order['pay_fee']
+                + $order['pack_fee']
+                + $order['card_fee']
+                - $order['money_paid'];
             if ($order['order_amount'] > 0) {
                 if ($old_order['user_id'] > 0) {
                     /* 如果选择了红包，先使用红包支付 */
                     if ($_POST['bonus_id'] > 0) {
                         RC_Loader::load_app_func('admin_bonus', 'bonus');
                         /* todo 检查红包是否可用 */
-                        $order['bonus_id'] = $_POST['bonus_id'];
-                        $bonus = bonus_info($_POST['bonus_id']);
-                        $order['bonus'] = $bonus['type_money'];
+                        $order['bonus_id']     = $_POST['bonus_id'];
+                        $bonus                 = bonus_info($_POST['bonus_id']);
+                        $order['bonus']        = $bonus['type_money'];
                         $order['order_amount'] -= $order['bonus'];
                     }
 
@@ -1543,7 +1551,7 @@ class admin extends ecjia_admin
                             /* 如果设置了积分，再使用积分支付 */
                             if (isset($_POST['integral']) && intval($_POST['integral']) > 0) {
                                 /* 检查积分是否足够 */
-                                $order['integral'] = intval($_POST['integral']);
+                                $order['integral']       = intval($_POST['integral']);
                                 $order['integral_money'] = value_of_integral(intval($_POST['integral']));
                                 if ($old_order['integral'] + $user['pay_points'] < $order['integral']) {
                                     return $this->showmessage(RC_Lang::get('orders::order.pay_points_not_enough'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -1566,15 +1574,15 @@ class admin extends ecjia_admin
                                 /* 如果红包和积分和余额足以支付，把待付款金额改为0，退回部分积分余额 */
                                 $order['order_amount'] -= $order['surplus'];
                                 if ($order['order_amount'] < 0) {
-                                    $order['surplus'] += $order['order_amount'];
+                                    $order['surplus']      += $order['order_amount'];
                                     $order['order_amount'] = 0;
                                 }
                             }
                         } else {
                             /* 如果红包和积分足以支付，把待付款金额改为0，退回部分积分 */
                             $order['integral_money'] += $order['order_amount'];
-                            $order['integral'] = integral_of_value($order['integral_money']);
-                            $order['order_amount'] = 0;
+                            $order['integral']       = integral_of_value($order['integral_money']);
+                            $order['order_amount']   = 0;
                         }
                     } else {
                         /* 如果红包足以支付，把待付款金额设为0 */
@@ -1588,7 +1596,7 @@ class admin extends ecjia_admin
             update_pay_log($order_id);
 
             /* todo 记录日志 */
-            $sn = RC_Lang::get('orders::order.log_edit_money');
+            $sn        = RC_Lang::get('orders::order.log_edit_money');
             $new_order = order_info($order_id);
             if ($old_order['total_fee'] != $new_order['total_fee']) {
                 $sn .= sprintf(RC_Lang::get('orders::order.order_amount_change'), $old_order['total_fee'], $new_order['total_fee']) . '，';
@@ -1601,8 +1609,8 @@ class admin extends ecjia_admin
                 $user_money_change = $old_order['surplus'] - $order['surplus'];
                 if ($user_money_change != 0) {
                     $options = array(
-                        'user_id' => $user['user_id'],
-                        'user_money' => $user_money_change,
+                        'user_id'     => $user['user_id'],
+                        'user_money'  => $user_money_change,
                         'change_desc' => sprintf(RC_Lang::get('orders::order.change_use_surplus'), $old_order['order_sn']),
                     );
                     RC_Api::api('user', 'account_change_log', $options);
@@ -1611,8 +1619,8 @@ class admin extends ecjia_admin
 
                 if ($pay_points_change != 0) {
                     $options = array(
-                        'user_id' => $user['user_id'],
-                        'pay_points' => $pay_points_change,
+                        'user_id'     => $user['user_id'],
+                        'pay_points'  => $pay_points_change,
                         'change_desc' => sprintf(RC_Lang::get('orders::order.change_use_integral'), $old_order['order_sn']),
                     );
                     RC_Api::api('user', 'account_change_log', $options);
@@ -1622,7 +1630,7 @@ class admin extends ecjia_admin
                     if ($old_order['bonus_id'] > 0) {
                         $data = array(
                             'used_time' => 0,
-                            'order_id' => 0,
+                            'order_id'  => 0,
                         );
                         RC_DB::table('user_bonus')->where('bonus_id', $old_order['bonus_id'])->update($data);
                     }
@@ -1630,7 +1638,7 @@ class admin extends ecjia_admin
                     if ($order['bonus_id'] > 0) {
                         $data = array(
                             'used_time' => RC_Time::gmtime(),
-                            'order_id' => $order_id,
+                            'order_id'  => $order_id,
                         );
                         RC_DB::table('user_bonus')->where('bonus_id', $order['bonus_id'])->update($data);
                     }
@@ -1644,12 +1652,12 @@ class admin extends ecjia_admin
                     $arr['confirm_time'] = RC_Time::gmtime();
                     if ($order['order_amount'] <= 0) {
                         $arr['pay_status'] = PS_PAYED;
-                        $arr['pay_time'] = RC_Time::gmtime();
+                        $arr['pay_time']   = RC_Time::gmtime();
                     }
                     update_order($order_id, $arr);
                 }
                 /* 初始化提示信息和链接 */
-                $msgs = array();
+                $msgs  = array();
                 $links = array();
                 /* 如果已付款，检查金额是否变动，并执行相应操作 */
                 $order = order_info($order_id);
@@ -1672,13 +1680,13 @@ class admin extends ecjia_admin
 //             $shipping_method = RC_Loader::load_app_class("shipping_method", "shipping");
             /* 保存订单 */
             $shipping_id = $_POST['shipping'];
-            $shipping = ecjia_shipping::pluginData($shipping_id);
-            $invoice_no = trim($_POST['invoice_no']);
-            $invoice_no = str_replace(',', '<br>', $invoice_no);
-            $order = array(
-                'shipping_id' => $shipping_id,
+            $shipping    = ecjia_shipping::pluginData($shipping_id);
+            $invoice_no  = trim($_POST['invoice_no']);
+            $invoice_no  = str_replace(',', '<br>', $invoice_no);
+            $order       = array(
+                'shipping_id'   => $shipping_id,
                 'shipping_name' => addslashes($shipping['shipping_name']),
-                'invoice_no' => $invoice_no,
+                'invoice_no'    => $invoice_no,
             );
             update_order($order_id, $order);
 
@@ -1707,7 +1715,7 @@ class admin extends ecjia_admin
             $this->admin_priv('order_edit', ecjia::MSGTYPE_JSON);
 
             /* 取得参数 */
-            $rec_id = intval($_GET['rec_id']);
+            $rec_id   = intval($_GET['rec_id']);
             $order_id = intval($_GET['order_id']);
 
             /* 如果使用库存，且下订单时减库存，则修改库存 */
@@ -1748,14 +1756,14 @@ class admin extends ecjia_admin
         } elseif ('refund' == $func) {
             /* 编辑订单时由于订单已付款且金额减少而退款 */
             /* 处理退款 */
-            $order_id = $_POST['order_id'];
-            $refund_type = $_POST['refund'];
-            $refund_note = $_POST['refund_note'];
+            $order_id      = $_POST['order_id'];
+            $refund_type   = $_POST['refund'];
+            $refund_note   = $_POST['refund_note'];
             $refund_amount = $_POST['refund_amount'];
-            $order = order_info($order_id);
-            $result = order_refund($order, $refund_type, $refund_note, $refund_amount);
-            if ($result == false) {
-                return false;
+            $order         = order_info($order_id);
+            $result        = order_refund($order, $refund_type, $refund_note, $refund_amount);
+            if (is_ecjia_error($result)) {
+                return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             /* 修改应付款金额为0，已付款金额减少 $refund_amount */
             update_order($order_id, array('order_amount' => 0, 'money_paid' => $order['money_paid'] - $refund_amount));
@@ -1765,14 +1773,14 @@ class admin extends ecjia_admin
             return $this->showmessage("", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
         } elseif ('load_refund' == $func) {
             /* 载入退款页面 */
-            $order_id = intval($_GET['order_id']);
-            $anonymous = $_GET['anonymous'];
-            $refund_amount = floatval($_GET['refund_amount']);
-            $refund['refund_amount'] = $refund_amount;
+            $order_id                         = intval($_GET['order_id']);
+            $anonymous                        = $_GET['anonymous'];
+            $refund_amount                    = floatval($_GET['refund_amount']);
+            $refund['refund_amount']          = $refund_amount;
             $refund['formated_refund_amount'] = price_format($refund_amount);
-            $refund['anonymous'] = $anonymous;
-            $refund['order_id'] = $order_id;
-            $refund['ur_here'] = RC_Lang::get('orders::order.refund');
+            $refund['anonymous']              = $anonymous;
+            $refund['order_id']               = $order_id;
+            $refund['ur_here']                = RC_Lang::get('orders::order.refund');
             die(json_encode($refund));
         } else {
             return $this->showmessage(RC_Lang::get('orders::order.invalid_parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -1786,10 +1794,10 @@ class admin extends ecjia_admin
         $this->admin_priv('order_ss_edit');
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::order.order_operating')));
-        $order_id = $_GET['order_id'];
+        $order_id    = $_GET['order_id'];
         $action_note = $_GET['action_note'];
 
-        $order_id = intval(trim($order_id));
+        $order_id    = intval(trim($order_id));
         $action_note = trim($action_note);
 
         /* 查询：根据订单id查询订单信息 */
@@ -1830,7 +1838,7 @@ class admin extends ecjia_admin
         /* 查询：取得订单商品 */
         $_goods = get_order_goods(array('order_id' => $order['order_id'], 'order_sn' => $order['order_sn']));
 
-        $attr = $_goods['attr'];
+        $attr       = $_goods['attr'];
         $goods_list = $_goods['goods_list'];
         unset($_goods);
 
@@ -1848,26 +1856,25 @@ class admin extends ecjia_admin
                         $goods_list[$key]['package_goods_list'][$pg_key]['readonly'] = '';
                         /* 使用库存 是否缺货 */
                         if ($pg_value['storage'] <= 0 && ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
-                            $goods_list[$key]['package_goods_list'][$pg_key]['send'] = RC_Lang::get('orders::order.act_good_vacancy');
+                            $goods_list[$key]['package_goods_list'][$pg_key]['send']     = RC_Lang::get('orders::order.act_good_vacancy');
                             $goods_list[$key]['package_goods_list'][$pg_key]['readonly'] = 'readonly="readonly"';
-                        }
-                        /* 将已经全部发货的商品设置为只读 */
+                        } /* 将已经全部发货的商品设置为只读 */
                         elseif ($pg_value['send'] <= 0) {
-                            $goods_list[$key]['package_goods_list'][$pg_key]['send'] = RC_Lang::get('orders::order.act_good_delivery');
+                            $goods_list[$key]['package_goods_list'][$pg_key]['send']     = RC_Lang::get('orders::order.act_good_delivery');
                             $goods_list[$key]['package_goods_list'][$pg_key]['readonly'] = 'readonly="readonly"';
                         }
                     }
                 } else {
                     $goods_list[$key]['sended'] = $goods_value['send_number'];
-                    $goods_list[$key]['send'] = $goods_value['goods_number'] - $goods_value['send_number'];
+                    $goods_list[$key]['send']   = $goods_value['goods_number'] - $goods_value['send_number'];
 
                     $goods_list[$key]['readonly'] = '';
                     /* 是否缺货 */
                     if ($goods_value['storage'] <= 0 && ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
-                        $goods_list[$key]['send'] = RC_Lang::get('orders::order.act_good_vacancy');
+                        $goods_list[$key]['send']     = RC_Lang::get('orders::order.act_good_vacancy');
                         $goods_list[$key]['readonly'] = 'readonly="readonly"';
                     } elseif ($goods_list[$key]['send'] <= 0) {
-                        $goods_list[$key]['send'] = RC_Lang::get('orders::order.act_good_delivery');
+                        $goods_list[$key]['send']     = RC_Lang::get('orders::order.act_good_delivery');
                         $goods_list[$key]['readonly'] = 'readonly="readonly"';
                     }
                 }
@@ -1911,45 +1918,45 @@ class admin extends ecjia_admin
         /* 确认 */
         if (isset($_GET['confirm'])) {
             $require_note = false;
-            $action = RC_Lang::get('orders::order.op_confirm');
-            $operation = 'confirm';
+            $action       = RC_Lang::get('orders::order.op_confirm');
+            $operation    = 'confirm';
         } elseif (isset($_GET['pay'])) {
             /* 付款 */
             $require_note = ecjia::config('order_pay_note') == 1 ? true : false;
-            $action = RC_Lang::get('orders::order.op_pay');
-            $operation = 'pay';
+            $action       = RC_Lang::get('orders::order.op_pay');
+            $operation    = 'pay';
         } elseif (isset($_GET['unpay'])) {
             /* 未付款 */
             $require_note = ecjia::config('order_unpay_note') == 1 ? true : false;
-            $order = order_info($order_id);
+            $order        = order_info($order_id);
             if ($order['money_paid'] > 0) {
                 $show_refund = true;
             }
             $anonymous = $order['user_id'] == 0;
-            $action = RC_Lang::get('orders::order.op_unpay');
+            $action    = RC_Lang::get('orders::order.op_unpay');
             $operation = 'unpay';
         } elseif (isset($_GET['prepare'])) {
             /* 配货 */
             $require_note = false;
-            $action = RC_Lang::get('orders::order.op_prepare');
-            $operation = 'prepare';
+            $action       = RC_Lang::get('orders::order.op_prepare');
+            $operation    = 'prepare';
         } elseif (isset($_GET['unship'])) {
             /* 未发货 */
             $require_note = ecjia::config('order_unship_note') == 1 ? true : false;
-            $action = RC_Lang::get('orders::order.op_unship');
-            $operation = 'unship';
+            $action       = RC_Lang::get('orders::order.op_unship');
+            $operation    = 'unship';
         } elseif (isset($_GET['receive'])) {
             /* 收货确认 */
             $require_note = ecjia::config('order_receive_note') == 1 ? true : false;
-            $action = RC_Lang::get('orders::order.op_receive');
-            $operation = 'receive';
+            $action       = RC_Lang::get('orders::order.op_receive');
+            $operation    = 'receive';
         } elseif (isset($_GET['cancel'])) {
             /* 取消 */
-            $require_note = ecjia::config('order_cancel_note') == 1 ? true : false;
-            $action = RC_Lang::get('orders::order.op_cancel');
-            $operation = 'cancel';
+            $require_note     = ecjia::config('order_cancel_note') == 1 ? true : false;
+            $action           = RC_Lang::get('orders::order.op_cancel');
+            $operation        = 'cancel';
             $show_cancel_note = true;
-            $order = order_info($order_id);
+            $order            = order_info($order_id);
             if ($order['money_paid'] > 0) {
                 $show_refund = true;
             }
@@ -1957,34 +1964,34 @@ class admin extends ecjia_admin
         } elseif (isset($_GET['invalid'])) {
             /* 无效 */
             $require_note = ecjia::config('order_invalid_note') == 1 ? true : false;
-            $action = RC_Lang::get('orders::order.op_invalid');
-            $operation = 'invalid';
+            $action       = RC_Lang::get('orders::order.op_invalid');
+            $operation    = 'invalid';
         } elseif (isset($_GET['after_service'])) {
             /* 售后 */
             $require_note = true;
-            $action = RC_Lang::get('orders::order.op_after_service');
-            $operation = 'after_service';
+            $action       = RC_Lang::get('orders::order.op_after_service');
+            $operation    = 'after_service';
         } elseif (isset($_GET['return'])) {
             /* 退货 */
             $require_note = ecjia::config('order_return_note') == 1 ? true : false;
-            $order = order_info($order_id);
+            $order        = order_info($order_id);
             if ($order['money_paid'] > 0) {
                 $show_refund = true;
             }
             $anonymous = $order['user_id'] == 0;
-            $action = RC_Lang::get('orders::order.op_return');
+            $action    = RC_Lang::get('orders::order.op_return');
             $operation = 'return';
         }
         $result = array();
 
         /* 直接处理还是跳到详细页面 */
         if ($require_note || isset($show_invoice_no) || isset($show_refund)) {
-            $result['result'] = false;
-            $result['require_note'] = $require_note; // 是否要求填写备注
+            $result['result']           = false;
+            $result['require_note']     = $require_note; // 是否要求填写备注
             $result['show_cancel_note'] = isset($show_cancel_note); // 是否要求填写备注
-            $result['show_invoice_no'] = isset($show_invoice_no); // 是否显示发货单号
-            $result['show_refund'] = isset($show_refund); // 是否显示退款
-            $result['anonymous'] = isset($anonymous) ? $anonymous : true; // 是否匿名
+            $result['show_invoice_no']  = isset($show_invoice_no); // 是否显示发货单号
+            $result['show_refund']      = isset($show_refund); // 是否显示退款
+            $result['anonymous']        = isset($anonymous) ? $anonymous : true; // 是否匿名
             if ($result['show_cancel_note'] || $result['show_invoice_no'] || $result['show_refund']) {
                 $result['result'] = true;
             }
@@ -2010,35 +2017,35 @@ class admin extends ecjia_admin
             }
         }
 
-        $batch = isset($_GET['batch']); // 是否批处理
+        $batch       = isset($_GET['batch']); // 是否批处理
         $action_note = isset($_POST['action_note']) ? trim($_POST['action_note']) : '';
-        $operation = isset($_POST['operation']) ? $_POST['operation'] : ''; // 订单操作
+        $operation   = isset($_POST['operation']) ? $_POST['operation'] : ''; // 订单操作
 
         /* 确认 */
         if (isset($_GET['confirm'])) {
             $require_note = false;
-            $action = RC_Lang::get('orders::order.op_confirm');
-            $operation = 'confirm';
+            $action       = RC_Lang::get('orders::order.op_confirm');
+            $operation    = 'confirm';
         } elseif (isset($_GET['pay'])) {
             /* 付款 */
             /* 检查权限 */
             $this->admin_priv('order_ps_edit', ecjia::MSGTYPE_JSON);
             $require_note = ecjia::config('order_pay_note');
-            $action = RC_Lang::get('orders::order.op_pay');
-            $operation = 'pay';
+            $action       = RC_Lang::get('orders::order.op_pay');
+            $operation    = 'pay';
         } elseif (isset($_GET['unpay'])) {
             /* 未付款 */
             /* 检查权限 */
             $this->admin_priv('order_ps_edit', ecjia::MSGTYPE_JSON);
 
             $require_note = ecjia::config('order_unpay_note');
-            $order = order_info($order_id);
+            $order        = order_info($order_id);
 
             if ($order['money_paid'] > 0) {
                 $show_refund = true;
             }
             $anonymous = $order['user_id'] == 0;
-            $action = RC_Lang::get('orders::order.op_unpay');
+            $action    = RC_Lang::get('orders::order.op_unpay');
             $operation = 'unpay';
             /* 记录日志 */
             $sn = RC_Lang::get('orders::order.op_unpay') . ' ' . RC_Lang::get('orders::order.order_is') . $order['order_sn'];
@@ -2046,8 +2053,8 @@ class admin extends ecjia_admin
         } elseif (isset($_GET['prepare'])) {
             /* 配货 */
             $require_note = false;
-            $action = RC_Lang::get('orders::order.op_prepare');
-            $operation = 'prepare';
+            $action       = RC_Lang::get('orders::order.op_prepare');
+            $operation    = 'prepare';
         } elseif (isset($_GET['ship'])) {
             /* 生成发货单 */
             //内容新添了一个func处理
@@ -2058,20 +2065,20 @@ class admin extends ecjia_admin
             /* 检查权限 */
             $this->admin_priv('order_ss_edit', ecjia::MSGTYPE_JSON);
             $require_note = ecjia::config('order_unship_note');
-            $action = RC_Lang::get('orders::order.op_unship');
-            $operation = 'unship';
+            $action       = RC_Lang::get('orders::order.op_unship');
+            $operation    = 'unship';
         } elseif (isset($_GET['receive'])) {
             /* 收货确认 */
             $require_note = ecjia::config('order_receive_note');
-            $action = RC_Lang::get('orders::order.op_receive');
-            $operation = 'receive';
+            $action       = RC_Lang::get('orders::order.op_receive');
+            $operation    = 'receive';
         } elseif (isset($_GET['cancel'])) {
             /* 取消 */
-            $require_note = ecjia::config('order_cancel_note');
-            $action = RC_Lang::get('orders::order.op_cancel');
-            $operation = 'cancel';
+            $require_note     = ecjia::config('order_cancel_note');
+            $action           = RC_Lang::get('orders::order.op_cancel');
+            $operation        = 'cancel';
             $show_cancel_note = true;
-            $order = order_info($order_id);
+            $order            = order_info($order_id);
             if ($order['money_paid'] > 0) {
                 $show_refund = true;
             }
@@ -2079,22 +2086,22 @@ class admin extends ecjia_admin
         } elseif (isset($_GET['invalid'])) {
             /* 无效 */
             $require_note = ecjia::config('order_invalid_note');
-            $action = RC_Lang::get('orders::order.op_invalid');
-            $operation = 'invalid';
+            $action       = RC_Lang::get('orders::order.op_invalid');
+            $operation    = 'invalid';
         } elseif (isset($_GET['after_service'])) {
             /* 售后 */
             $require_note = true;
-            $action = RC_Lang::get('orders::order.op_after_service');
-            $operation = 'after_service';
+            $action       = RC_Lang::get('orders::order.op_after_service');
+            $operation    = 'after_service';
         } elseif (isset($_GET['return'])) {
             /* 退货 */
             $require_note = ecjia::config('order_return_note');
-            $order = order_info($order_id);
+            $order        = order_info($order_id);
             if ($order['money_paid'] > 0) {
                 $show_refund = true;
             }
             $anonymous = $order['user_id'] == 0;
-            $action = RC_Lang::get('orders::order.op_return');
+            $action    = RC_Lang::get('orders::order.op_return');
             $operation = 'return';
 
         } elseif (isset($_GET['assign'])) {
@@ -2121,8 +2128,8 @@ class admin extends ecjia_admin
             $this->assign('print_time', RC_Time::local_date(ecjia::config('time_format')));
             $this->assign('action_user', $_SESSION['admin_name']);
 
-            $html = '';
-            $order_id = $_GET['order_id'];
+            $html           = '';
+            $order_id       = $_GET['order_id'];
             $order_id_array = explode(',', $order_id);
 
             foreach ($order_id_array as $id) {
@@ -2154,11 +2161,11 @@ class admin extends ecjia_admin
                 $order['region'] = get_regions($order_id);
 
                 /* 其他处理 */
-                $order['order_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
-                $order['pay_time'] = $order['pay_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']) : RC_Lang::get('orders::order.ps.' . PS_UNPAYED);
+                $order['order_time']    = RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
+                $order['pay_time']      = $order['pay_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']) : RC_Lang::get('orders::order.ps.' . PS_UNPAYED);
                 $order['shipping_time'] = $order['shipping_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']) : RC_Lang::get('orders::order.ss.' . SS_UNSHIPPED);
-                $order['status'] = RC_Lang::get('orders::order.os.' . $order['order_status']) . ',' . RC_Lang::get('orders::order.ps.' . $order['pay_status']) . ',' . RC_Lang::get('orders::order.ss.' . $order['shipping_status']);
-                $order['invoice_no'] = $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? RC_Lang::get('orders::order.ss.' . SS_UNSHIPPED) : $order['invoice_no'];
+                $order['status']        = RC_Lang::get('orders::order.os.' . $order['order_status']) . ',' . RC_Lang::get('orders::order.ps.' . $order['pay_status']) . ',' . RC_Lang::get('orders::order.ss.' . $order['shipping_status']);
+                $order['invoice_no']    = $order['shipping_status'] == SS_UNSHIPPED || $order['shipping_status'] == SS_PREPARING ? RC_Lang::get('orders::order.ss.' . SS_UNSHIPPED) : $order['invoice_no'];
 
                 /* 此订单的发货备注(此订单的最后一条操作记录) */
                 $order['invoice_note'] = RC_DB::table('order_action')->where('order_id', $order['order_id'])->where('shipping_status', 1)->orderby('log_time', 'desc')->pluck('action_note');
@@ -2179,7 +2186,7 @@ class admin extends ecjia_admin
 
                 if (!empty($data)) {
                     foreach ($data as $key => $row) {
-                        $row['formated_subtotal'] = price_format($row['goods_price'] * $row['goods_number']);
+                        $row['formated_subtotal']    = price_format($row['goods_price'] * $row['goods_number']);
                         $row['formated_goods_price'] = price_format($row['goods_price']);
 
                         $goods_attr[] = explode(' ', trim($row['goods_attr'])); //将商品属性拆分为一个数组
@@ -2188,10 +2195,10 @@ class admin extends ecjia_admin
                 }
 
                 $attr = array();
-                $arr = array();
+                $arr  = array();
                 foreach ($goods_attr as $index => $array_val) {
                     foreach ($array_val as $value) {
-                        $arr = explode(':', $value); //以 : 号将属性拆开
+                        $arr            = explode(':', $value); //以 : 号将属性拆开
                         $attr[$index][] = @array('name' => $arr[0], 'value' => $arr[1]);
                     }
                 }
@@ -2245,8 +2252,8 @@ class admin extends ecjia_admin
 
         /* 取得参数 */
         $order_id_list = $_POST['order_id']; // 订单id（逗号格开的多个订单id）
-        $operation = isset($_POST['operation']) ? $_POST['operation'] : $_GET['operation']; // 订单操作
-        $action_note = isset($_POST['action_note']) ? $_POST['action_note'] : ''; // 操作备注
+        $operation     = isset($_POST['operation']) ? $_POST['operation'] : $_GET['operation']; // 订单操作
+        $action_note   = isset($_POST['action_note']) ? $_POST['action_note'] : ''; // 操作备注
 
         if (!is_array($order_id_list)) {
             if (strpos($order_id_list, ',') === false) {
@@ -2256,9 +2263,9 @@ class admin extends ecjia_admin
             }
         }
         /* 初始化处理的订单sn */
-        $sn_list = array();
+        $sn_list     = array();
         $sn_not_list = array();
-        $url = RC_Uri::url('orders/admin/init');
+        $url         = RC_Uri::url('orders/admin/init');
 
         /* 确认 */
         if ('confirm' == $operation) {
@@ -2285,7 +2292,7 @@ class admin extends ecjia_admin
                         /* 发送邮件 */
                         if (ecjia::config('send_confirm_email') == '1') {
                             $tpl_name = 'order_confirm';
-                            $tpl = RC_Api::api('mail', 'mail_template', $tpl_name);
+                            $tpl      = RC_Api::api('mail', 'mail_template', $tpl_name);
 
                             $order['formated_add_time'] = RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
                             $this->assign('order', $order);
@@ -2302,16 +2309,16 @@ class admin extends ecjia_admin
                     $sn_not_list[] = $id_order;
                 }
             }
-            $sn_str = RC_Lang::get('orders::order.confirm_order');
+            $sn_str      = RC_Lang::get('orders::order.confirm_order');
             $success_str = RC_Lang::get('orders::order.confirm_ok_order');
         } elseif ('invalid' == $operation) {
             /* 无效 */
             foreach ($order_id_list as $id_order) {
-                $order_query = RC_Loader::load_app_class('order_query', 'orders');
-                $where = array();
+                $order_query       = RC_Loader::load_app_class('order_query', 'orders');
+                $where             = array();
                 $where['order_id'] = $id_order;
-                $where = array_merge($where, $order_query->order_unpay_unship());
-                $order = $this->db_order_info->find($where);
+                $where             = array_merge($where, $order_query->order_unpay_unship());
+                $order             = $this->db_order_info->find($where);
 
                 if ($order) {
                     /* 检查能否操作 */
@@ -2336,7 +2343,7 @@ class admin extends ecjia_admin
                         /* 发送邮件 */
                         if (ecjia::config('send_invalid_email') == '1') {
                             $tpl_name = 'order_invalid';
-                            $tpl = RC_Api::api('mail', 'mail_template', $tpl_name);
+                            $tpl      = RC_Api::api('mail', 'mail_template', $tpl_name);
 
                             $this->assign('order', $order);
                             $this->assign('shop_name', ecjia::config('shop_name'));
@@ -2352,15 +2359,15 @@ class admin extends ecjia_admin
                     $sn_not_list[] = $id_order;
                 }
             }
-            $sn_str = RC_Lang::get('orders::order.invalid_order');
+            $sn_str      = RC_Lang::get('orders::order.invalid_order');
             $success_str = RC_Lang::get('orders::order.invalid_ok_order');
         } elseif ('cancel' == $operation) {
             /* 取消 */
             foreach ($order_id_list as $id_order) {
-                $order_query = RC_Loader::load_app_class('order_query', 'orders');
-                $where = array();
+                $order_query       = RC_Loader::load_app_class('order_query', 'orders');
+                $where             = array();
                 $where['order_id'] = $id_order;
-                $where = array_merge($where, $order_query->order_unpay_unship());
+                $where             = array_merge($where, $order_query->order_unpay_unship());
 
                 $order = $this->db_order_info->find($where);
 
@@ -2390,7 +2397,7 @@ class admin extends ecjia_admin
                         /* 发送邮件 */
                         if (ecjia::config('send_cancel_email') == '1') {
                             $tpl_name = 'order_cancel';
-                            $tpl = RC_Api::api('mail', 'mail_template', $tpl_name);
+                            $tpl      = RC_Api::api('mail', 'mail_template', $tpl_name);
 
                             $this->assign('order', $order);
                             $this->assign('shop_name', ecjia::config('shop_name'));
@@ -2410,17 +2417,17 @@ class admin extends ecjia_admin
                 }
 
             }
-            $sn_str = RC_Lang::get('orders::order.cancel_order');
+            $sn_str      = RC_Lang::get('orders::order.cancel_order');
             $success_str = RC_Lang::get('orders::order.cancel_ok_order');
         } elseif ('remove' == $operation) {
             $data = array(
-                'is_delete' => 1,
+                'is_delete'   => 1,
                 'delete_time' => RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime()),
             );
             /* 删除 */
             foreach ($order_id_list as $id_order) {
                 /* 检查能否操作 */
-                $order = order_info($id_order);
+                $order         = order_info($id_order);
                 $operable_list = operable_list($order);
 
                 if (!isset($operable_list['remove'])) {
@@ -2437,7 +2444,7 @@ class admin extends ecjia_admin
                 ecjia_admin::admin_log($order['order_sn'], 'remove', 'order');
                 $sn_list[] = $order['order_sn'];
             }
-            $sn_str = RC_Lang::get('orders::order.remove_order');
+            $sn_str      = RC_Lang::get('orders::order.remove_order');
             $success_str = RC_Lang::get('orders::order.delete_ok_order');
         } else {
             return $this->showmessage('invalid params', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $url));
@@ -2446,13 +2453,13 @@ class admin extends ecjia_admin
         /* 取得备注信息 */
         if (empty($sn_not_list)) {
             $sn_list = empty($sn_list) ? '' : $success_str . join($sn_list, ',');
-            $msg = $sn_list;
+            $msg     = $sn_list;
             return $this->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
         } else {
             $sn_str .= "<br/>";
 
             $order_list_no_fail = array();
-            $data = RC_DB::table('order_info')->whereIn('order_id', $sn_not_list)->get();
+            $data               = RC_DB::table('order_info')->whereIn('order_id', $sn_not_list)->get();
 
             foreach ($data as $key => $row) {
                 $sn_str .= "<br>" . RC_Lang::get('orders::order.label_order_sn') . $row['order_sn'] . ";&nbsp;&nbsp;&nbsp;";
@@ -2478,7 +2485,7 @@ class admin extends ecjia_admin
         $this->admin_priv('order_os_edit', ecjia::MSGTYPE_JSON);
 
         /* 取得参数 */
-        $order_id = intval(trim($_POST['order_id'])); // 订单id
+        $order_id  = intval(trim($_POST['order_id'])); // 订单id
         $operation = $_POST['operation']; // 订单操作
         /* 取得备注信息 */
         $action_note = $_POST['action_note'];
@@ -2512,7 +2519,7 @@ class admin extends ecjia_admin
             $cfg = ecjia::config('send_confirm_email');
             if ($cfg == '1') {
                 $tpl_name = 'order_confirm';
-                $tpl = RC_Api::api('mail', 'mail_template', $tpl_name);
+                $tpl      = RC_Api::api('mail', 'mail_template', $tpl_name);
 
                 $this->assign('order', $order);
                 $this->assign('shop_name', ecjia::config('shop_name'));
@@ -2542,14 +2549,14 @@ class admin extends ecjia_admin
                 $arr['order_status'] = OS_CONFIRMED;
                 $arr['confirm_time'] = RC_Time::gmtime();
             }
-            $arr['pay_status'] = PS_PAYED;
-            $arr['pay_time'] = RC_Time::gmtime();
-            $arr['money_paid'] = $order['money_paid'] + $order['order_amount'];
+            $arr['pay_status']   = PS_PAYED;
+            $arr['pay_time']     = RC_Time::gmtime();
+            $arr['money_paid']   = $order['money_paid'] + $order['order_amount'];
             $arr['order_amount'] = 0;
-            $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-            $payment = $payment_method->payment_info($order['pay_id']);
+            $payment_method      = RC_Loader::load_app_class('payment_method', 'payment');
+            $payment             = $payment_method->payment_info($order['pay_id']);
             if ($payment['is_cod']) {
-                $arr['shipping_status'] = SS_RECEIVED;
+                $arr['shipping_status']   = SS_RECEIVED;
                 $order['shipping_status'] = SS_RECEIVED;
             }
             update_order($order_id, $arr);
@@ -2573,17 +2580,17 @@ class admin extends ecjia_admin
             if ($order['money_paid'] > 0) {
                 $refund_type = @$_POST['refund'];
                 $refund_note = @$_POST['refund_note'];
-                $result = order_refund($order, $refund_type, $refund_note);
-                if ($result == false) {
-                    return false;
+                $result      = order_refund($order, $refund_type, $refund_note);
+                if (is_ecjia_error($result)) {
+                    return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
             }
 
             /* 标记订单为未付款，更新付款时间和已付款金额 */
             $arr = array(
-                'pay_status' => PS_UNPAYED,
-                'pay_time' => 0,
-                'money_paid' => 0,
+                'pay_status'   => PS_UNPAYED,
+                'pay_time'     => 0,
+                'money_paid'   => 0,
                 'order_amount' => $order['money_paid'],
             );
             update_order($order_id, $arr);
@@ -2627,14 +2634,14 @@ class admin extends ecjia_admin
 
             $delivery['user_id'] = intval($delivery['user_id']);
 
-            $delivery['country'] = trim($delivery['country']);
+            $delivery['country']  = trim($delivery['country']);
             $delivery['province'] = trim($delivery['province']);
-            $delivery['city'] = trim($delivery['city']);
+            $delivery['city']     = trim($delivery['city']);
             $delivery['district'] = trim($delivery['district']);
-            $delivery['street'] = trim($delivery['street']);
+            $delivery['street']   = trim($delivery['street']);
 
-            $delivery['agency_id'] = intval($delivery['agency_id']);
-            $delivery['insure_fee'] = floatval($delivery['insure_fee']);
+            $delivery['agency_id']    = intval($delivery['agency_id']);
+            $delivery['insure_fee']   = floatval($delivery['insure_fee']);
             $delivery['shipping_fee'] = floatval($delivery['shipping_fee']);
 
             /* 订单是否已全部分单检查 */
@@ -2645,7 +2652,7 @@ class admin extends ecjia_admin
             }
 
             /* 取得订单商品 */
-            $_goods = get_order_goods(array('order_id' => $order_id, 'order_sn' => $delivery['order_sn']));
+            $_goods     = get_order_goods(array('order_id' => $order_id, 'order_sn' => $delivery['order_sn']));
             $goods_list = $_goods['goods_list'];
 
             /* 检查此单发货数量填写是否正确 合并计算相同商品和货品 */
@@ -2729,7 +2736,7 @@ class admin extends ecjia_admin
 
             /* 检查此单发货商品库存缺货情况 */
             /* $goods_list已经过处理 超值礼包中商品库存已取得 */
-            $virtual_goods = array();
+            $virtual_goods         = array();
             $package_virtual_goods = array();
             foreach ($goods_list as $key => $value) {
                 // 商品（超值礼包）
@@ -2746,9 +2753,9 @@ class admin extends ecjia_admin
                         /* 商品（超值礼包） 虚拟商品列表 package_virtual_goods*/
                         if ($pg_value['is_real'] == 0) {
                             $package_virtual_goods[] = array(
-                                'goods_id' => $pg_value['goods_id'],
+                                'goods_id'   => $pg_value['goods_id'],
                                 'goods_name' => $pg_value['goods_name'],
-                                'num' => $send_number[$value['rec_id']][$pg_value['g_p']],
+                                'num'        => $send_number[$value['rec_id']][$pg_value['g_p']],
                             );
                         }
                     }
@@ -2790,12 +2797,12 @@ class admin extends ecjia_admin
             /* 生成发货单 */
             /* 获取发货单号和流水号 */
             $delivery['delivery_sn'] = ecjia_order_delivery_sn();
-            $delivery_sn = $delivery['delivery_sn'];
+            $delivery_sn             = $delivery['delivery_sn'];
             /* 获取当前操作员 */
             $delivery['action_user'] = $_SESSION['admin_name'];
             /* 获取发货单生成时间 */
             $delivery['update_time'] = GMTIME_UTC;
-            $delivery_time = $delivery['update_time'];
+            $delivery_time           = $delivery['update_time'];
 
             $orderinfo = RC_DB::table('order_info')->where('order_sn', $delivery['order_sn'])->first();
 
@@ -2803,15 +2810,15 @@ class admin extends ecjia_admin
             /* 获取发货单所属供应商 */
             $delivery['suppliers_id'] = $suppliers_id;
             /* 设置默认值 */
-            $delivery['status'] = 2; // 正常
+            $delivery['status']   = 2; // 正常
             $delivery['order_id'] = $order_id;
 
             /*平台发货时将用户地址转为坐标存入delivery_order表*/
             if (empty($orderinfo['longitude']) || empty($orderinfo['latitude'])) {
                 $province_name = ecjia_region::getRegionName($delivery['province']);
-                $city_name = ecjia_region::getRegionName($delivery['city']);
+                $city_name     = ecjia_region::getRegionName($delivery['city']);
                 $district_name = ecjia_region::getRegionName($delivery['district']);
-                $street_name = ecjia_region::getRegionName($delivery['street']);
+                $street_name   = ecjia_region::getRegionName($delivery['street']);
 
                 $consignee_address = '';
                 if (!empty($province_name)) {
@@ -2830,12 +2837,12 @@ class admin extends ecjia_admin
                 $consignee_address = urlencode($consignee_address);
 
                 //腾讯地图api 地址解析（地址转坐标）
-                $keys = ecjia::config('map_qq_key');
+                $keys       = ecjia::config('map_qq_key');
                 $shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=" . $consignee_address . "&key=" . $keys);
                 $shop_point = json_decode($shop_point['body'], true);
                 if (isset($shop_point['result']) && !empty($shop_point['result']['location'])) {
                     $delivery['longitude'] = $shop_point['result']['location']['lng'];
-                    $delivery['latitude'] = $shop_point['result']['location']['lat'];
+                    $delivery['latitude']  = $shop_point['result']['location']['lat'];
                 }
             }
 
@@ -2847,7 +2854,7 @@ class admin extends ecjia_admin
                 'agency_id', 'delivery_sn', 'action_user', 'update_time',
                 'suppliers_id', 'status', 'order_id', 'shipping_name',
             );
-            $_delivery = array();
+            $_delivery     = array();
             foreach ($filter_fileds as $value) {
                 $_delivery[$value] = $delivery[$value];
             }
@@ -2859,9 +2866,9 @@ class admin extends ecjia_admin
             if ($delivery_id) {
                 $data = array(
                     'order_status' => RC_Lang::get('orders::order.ss.' . SS_PREPARING),
-                    'order_id' => $order_id,
-                    'message' => sprintf(RC_Lang::get('orders::order.order_prepare_message'), $order['order_sn']),
-                    'add_time' => RC_Time::gmtime(),
+                    'order_id'     => $order_id,
+                    'message'      => sprintf(RC_Lang::get('orders::order.order_prepare_message'), $order['order_sn']),
+                    'add_time'     => RC_Time::gmtime(),
                 );
                 RC_DB::table('order_status_log')->insert($data);
             }
@@ -2876,17 +2883,17 @@ class admin extends ecjia_admin
                         if (empty($value['extension_code']) || $value['extension_code'] == 'virtual_card') {
                             $delivery_goods = array(
                                 'delivery_id' => $delivery_id,
-                                'goods_id' => $value['goods_id'],
-                                'product_id' => $value['product_id'],
-                                'product_sn' => $value['product_sn'],
-                                'goods_id' => $value['goods_id'],
-                                'goods_name' => addslashes($value['goods_name']),
-                                'brand_name' => addslashes($value['brand_name']),
-                                'goods_sn' => $value['goods_sn'],
+                                'goods_id'    => $value['goods_id'],
+                                'product_id'  => $value['product_id'],
+                                'product_sn'  => $value['product_sn'],
+                                'goods_id'    => $value['goods_id'],
+                                'goods_name'  => addslashes($value['goods_name']),
+                                'brand_name'  => addslashes($value['brand_name']),
+                                'goods_sn'    => $value['goods_sn'],
                                 'send_number' => $send_number[$value['rec_id']],
-                                'parent_id' => 0,
-                                'is_real' => $value['is_real'],
-                                'goods_attr' => addslashes($value['goods_attr']),
+                                'parent_id'   => 0,
+                                'is_real'     => $value['is_real'],
+                                'goods_attr'  => addslashes($value['goods_attr']),
                             );
 
                             /* 如果是货品 */
@@ -2899,19 +2906,19 @@ class admin extends ecjia_admin
                             // 商品（超值礼包）
                             foreach ($value['package_goods_list'] as $pg_key => $pg_value) {
                                 $delivery_pg_goods = array(
-                                    'delivery_id' => $delivery_id,
-                                    'goods_id' => $pg_value['goods_id'],
-                                    'product_id' => $pg_value['product_id'],
-                                    'product_sn' => $pg_value['product_sn'],
-                                    'goods_name' => $pg_value['goods_name'],
-                                    'brand_name' => '',
-                                    'goods_sn' => $pg_value['goods_sn'],
-                                    'send_number' => $send_number[$value['rec_id']][$pg_value['g_p']],
-                                    'parent_id' => $value['goods_id'], // 礼包ID
+                                    'delivery_id'    => $delivery_id,
+                                    'goods_id'       => $pg_value['goods_id'],
+                                    'product_id'     => $pg_value['product_id'],
+                                    'product_sn'     => $pg_value['product_sn'],
+                                    'goods_name'     => $pg_value['goods_name'],
+                                    'brand_name'     => '',
+                                    'goods_sn'       => $pg_value['goods_sn'],
+                                    'send_number'    => $send_number[$value['rec_id']][$pg_value['g_p']],
+                                    'parent_id'      => $value['goods_id'], // 礼包ID
                                     'extension_code' => $value['extension_code'], // 礼包
-                                    'is_real' => $pg_value['is_real'],
+                                    'is_real'        => $pg_value['is_real'],
                                 );
-                                $query = RC_DB::table('delivery_goods')->insertGetId($delivery_pg_goods);
+                                $query             = RC_DB::table('delivery_goods')->insertGetId($delivery_pg_goods);
                             }
                         }
                     }
@@ -2949,14 +2956,14 @@ class admin extends ecjia_admin
 
                 /* 标记订单为已接单 “发货中” */
                 /* 更新发货时间 */
-                $order_finish = get_order_finish($order_id);
+                $order_finish    = get_order_finish($order_id);
                 $shipping_status = SS_SHIPPED_ING;
                 if ($order['order_status'] != OS_CONFIRMED && $order['order_status'] != OS_SPLITED && $order['order_status'] != OS_SPLITING_PART) {
                     $arr['order_status'] = OS_CONFIRMED;
                     $arr['confirm_time'] = GMTIME_UTC;
                 }
 
-                $arr['order_status'] = $order_finish ? OS_SPLITED : OS_SPLITING_PART; // 全部分单、部分分单
+                $arr['order_status']    = $order_finish ? OS_SPLITED : OS_SPLITING_PART; // 全部分单、部分分单
                 $arr['shipping_status'] = $shipping_status;
                 update_order($order_id, $arr);
             }
@@ -2988,10 +2995,10 @@ class admin extends ecjia_admin
 
                 /* 计算并退回积分 */
                 $integral = integral_to_give($order);
-                $options = array(
-                    'user_id' => $order['user_id'],
+                $options  = array(
+                    'user_id'     => $order['user_id'],
                     'rank_points' => (-1) * intval($integral['rank_points']),
-                    'pay_points' => (-1) * intval($integral['custom_points']),
+                    'pay_points'  => (-1) * intval($integral['custom_points']),
                     'change_desc' => sprintf(RC_Lang::get('orders::order.return_order_gift_integral'), $order['order_sn']),
                 );
                 RC_Api::api('user', 'account_change_log', $options);
@@ -3024,20 +3031,20 @@ class admin extends ecjia_admin
 
             /* 收货确认 */
             /* 标记订单为“收货确认”，如果是货到付款，同时修改订单为已付款 */
-            $arr = array('shipping_status' => SS_RECEIVED);
+            $arr            = array('shipping_status' => SS_RECEIVED);
             $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-            $payment = $payment_method->payment_info($order['pay_id']);
+            $payment        = $payment_method->payment_info($order['pay_id']);
             if ($payment['is_cod']) {
-                $arr['pay_status'] = PS_PAYED;
+                $arr['pay_status']   = PS_PAYED;
                 $order['pay_status'] = PS_PAYED;
             }
             $update = update_order($order_id, $arr);
             if ($update) {
                 $data = array(
                     'order_status' => RC_Lang::get('orders::order.ss.' . SS_RECEIVED),
-                    'order_id' => $order_id,
-                    'message' => RC_Lang::get('orders::order.order_goods_served'),
-                    'add_time' => RC_Time::gmtime(),
+                    'order_id'     => $order_id,
+                    'message'      => RC_Lang::get('orders::order.order_goods_served'),
+                    'add_time'     => RC_Time::gmtime(),
                 );
                 RC_DB::table('order_status_log')->insert($data);
                 //update commission_bill
@@ -3060,19 +3067,19 @@ class admin extends ecjia_admin
             if ($order['money_paid'] > 0) {
                 $refund_type = $_POST['refund'];
                 $refund_note = $_POST['refund_note'];
-                $result = order_refund($order, $refund_type, $refund_note);
-                if ($result == false) {
-                    return false;
+                $result      = order_refund($order, $refund_type, $refund_note);
+                if (is_ecjia_error($result)) {
+                    return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
             }
             /* 标记订单为“取消”，记录取消原因 */
             $cancel_note = isset($_POST['cancel_note']) ? trim($_POST['cancel_note']) : '';
-            $arr = array(
+            $arr         = array(
                 'order_status' => OS_CANCELED,
-                'to_buyer' => $cancel_note,
-                'pay_status' => PS_UNPAYED,
-                'pay_time' => 0,
-                'money_paid' => 0,
+                'to_buyer'     => $cancel_note,
+                'pay_status'   => PS_UNPAYED,
+                'pay_time'     => 0,
+                'money_paid'   => 0,
                 'order_amount' => $order['money_paid'],
             );
             update_order($order_id, $arr);
@@ -3089,9 +3096,9 @@ class admin extends ecjia_admin
 
             RC_DB::table('order_status_log')->insert(array(
                 'order_status' => RC_Lang::get('orders::order.order_cancel'),
-                'order_id' => $order_id,
-                'message' => '您的订单已取消成功！',
-                'add_time' => RC_Time::gmtime(),
+                'order_id'     => $order_id,
+                'message'      => '您的订单已取消成功！',
+                'add_time'     => RC_Time::gmtime(),
             ));
 
             /* 记录log */
@@ -3109,7 +3116,7 @@ class admin extends ecjia_admin
             $cfg = ecjia::config('send_cancel_email');
             if ($cfg == '1') {
                 $tpl_name = 'order_cancel';
-                $tpl = RC_Api::api('mail', 'mail_template', $tpl_name);
+                $tpl      = RC_Api::api('mail', 'mail_template', $tpl_name);
 
                 $this->assign('order', $order);
                 $this->assign('shop_name', ecjia::config('shop_name'));
@@ -3144,7 +3151,7 @@ class admin extends ecjia_admin
             $cfg = ecjia::config('send_invalid_email');
             if ($cfg == '1') {
                 $tpl_name = 'order_invalid';
-                $tpl = RC_Api::api('mail', 'mail_template', $tpl_name);
+                $tpl      = RC_Api::api('mail', 'mail_template', $tpl_name);
 
                 $this->assign('order', $order);
                 $this->assign('shop_name', ecjia::config('shop_name'));
@@ -3186,7 +3193,7 @@ class admin extends ecjia_admin
             ->where('goods_id', $goods_id)
             ->first();
 
-        $today = RC_Time::gmtime();
+        $today                = RC_Time::gmtime();
         $goods['goods_price'] = ($goods['is_promote'] == 1 && $goods['promote_start_date'] <= $today && $goods['promote_end_date'] >= $today) ? $goods['promote_price'] : $goods['shop_price'];
 
         /* 取得会员价格 */
@@ -3210,11 +3217,11 @@ class admin extends ecjia_admin
             }
         }
 
-        $goods['goods_name'] = $goods['goods_name'];
+        $goods['goods_name']       = $goods['goods_name'];
         $goods['short_goods_name'] = RC_String::str_cut($goods['goods_name'], 26);
-        $goods['attr_list'] = array_values($goods['attr_list']);
-        $goods['goods_img'] = get_image_path($goods['goods_id'], $goods['goods_img']);
-        $goods['preview_url'] = RC_Uri::url('goods/admin/preview', 'id=' . $goods_id);
+        $goods['attr_list']        = array_values($goods['attr_list']);
+        $goods['goods_img']        = get_image_path($goods['goods_id'], $goods['goods_img']);
+        $goods['preview_url']      = RC_Uri::url('goods/admin/preview', 'id=' . $goods_id);
 
         return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('goods' => $goods));
     }
@@ -3229,7 +3236,7 @@ class admin extends ecjia_admin
         $order_id = intval($_REQUEST['order_id']);
 
         /* 检查订单是否允许删除操作 */
-        $order = order_info($order_id);
+        $order         = order_info($order_id);
         $operable_list = operable_list($order);
 
         if (!isset($operable_list['remove'])) {
@@ -3237,7 +3244,7 @@ class admin extends ecjia_admin
         }
 
         $data = array(
-            'is_delete' => 1,
+            'is_delete'   => 1,
             'delete_time' => RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime()),
         );
         RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
@@ -3286,7 +3293,7 @@ class admin extends ecjia_admin
     {
         /* 检查权限 */
         $this->admin_priv('order_edit', ecjia::MSGTYPE_JSON);
-        $keyword = empty($_POST['keyword']) ? '' : trim($_POST['keyword']);
+        $keyword  = empty($_POST['keyword']) ? '' : trim($_POST['keyword']);
         $order_id = !empty($_GET['order_id']) ? trim($_GET['order_id']) : '';
         $store_id = RC_DB::table('order_info')->where('order_id', $order_id)->pluck('store_id');
 
@@ -3317,15 +3324,15 @@ class admin extends ecjia_admin
         /* 检查权限 */
         $this->admin_priv('order_edit', ecjia::MSGTYPE_JSON);
 
-        $no = empty($_POST['val']) ? 'N/A' : trim($_POST['val']);
-        $no = $no == 'N/A' ? '' : $no;
+        $no       = empty($_POST['val']) ? 'N/A' : trim($_POST['val']);
+        $no       = $no == 'N/A' ? '' : $no;
         $order_id = empty($_POST['id']) ? 0 : intval($_POST['id']);
 
         if ($order_id == 0) {
             return $this->showmessage(RC_Lang::get('orders::order.not_exist_order'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $data = array(
+        $data  = array(
             'invoice_no' => $no,
         );
         $query = RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
@@ -3349,15 +3356,15 @@ class admin extends ecjia_admin
         /* 检查权限 */
         $this->admin_priv('order_edit', ecjia::MSGTYPE_JSON);
 
-        $no = empty($_POST['val']) ? 'N/A' : trim($_POST['val']);
-        $no = $no == 'N/A' ? '' : $no;
+        $no       = empty($_POST['val']) ? 'N/A' : trim($_POST['val']);
+        $no       = $no == 'N/A' ? '' : $no;
         $order_id = empty($_POST['id']) ? 0 : intval($_POST['id']);
 
         if ($order_id == 0) {
             return $this->showmessage(RC_Lang::get('orders::order.not_exist_order'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $data = array(
+        $data  = array(
             'pay_note' => $no,
         );
         $query = RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
@@ -3380,7 +3387,7 @@ class admin extends ecjia_admin
     {
         /* 检查权限 */
         $this->admin_priv('order_edit', ecjia::MSGTYPE_JSON);
-        $id = $_POST['user_id'];
+        $id  = $_POST['user_id'];
         $row = RC_Api::api('user', 'user_info', array('user_id' => $id));
 
         if ($row['user_rank'] > 0) {
@@ -3390,14 +3397,14 @@ class admin extends ecjia_admin
         }
 
         if ($row) {
-            $user['user_id'] = $row['user_id'];
-            $user['user_name'] = "<a href='" . RC_Uri::url('user/admin/info', 'id=' . $row['user_id']) . "' target='_blank'>" . $row['user_name'] . "</a>";
-            $user['email'] = $row['email'];
-            $user['reg_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['reg_time']);
+            $user['user_id']      = $row['user_id'];
+            $user['user_name']    = "<a href='" . RC_Uri::url('user/admin/info', 'id=' . $row['user_id']) . "' target='_blank'>" . $row['user_name'] . "</a>";
+            $user['email']        = $row['email'];
+            $user['reg_time']     = RC_Time::local_date(ecjia::config('time_format'), $row['reg_time']);
             $user['mobile_phone'] = !empty($row['mobile_phone']) ? $row['mobile_phone'] : RC_Lang::get('orders::order.no_phone_number');
             $user['is_validated'] = $row['is_validated'] == 0 ? RC_Lang::get('orders::order.unverified') : RC_Lang::get('orders::order.verified');
-            $user['last_login'] = RC_Time::local_date(ecjia::config('time_format'), $row['last_login']);
-            $user['last_ip'] = $row['last_ip'] . '(' . RC_Ip::area($row['last_ip']) . ')';
+            $user['last_login']   = RC_Time::local_date(ecjia::config('time_format'), $row['last_login']);
+            $user['last_ip']      = $row['last_ip'] . '(' . RC_Ip::area($row['last_ip']) . ')';
 
             return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('user' => $user));
         } else {
@@ -3407,9 +3414,9 @@ class admin extends ecjia_admin
 
     public function import()
     {
-        $filter = $_GET;
+        $filter                   = $_GET;
         $filter['extension_code'] = !empty($_GET['extension_code']) ? trim($_GET['extension_code']) : 'default';
-        $orders = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
+        $orders                   = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
             ->getOrderList($filter, 0, 0, null, ['Ecjia\App\Orders\CustomizeOrderList', 'exportAllOrderListAdmin']);
 
         RC_Excel::load(RC_APP_PATH . 'orders' . DIRECTORY_SEPARATOR . 'statics/files/orders.xls', function ($excel) use ($orders) {
@@ -3423,8 +3430,8 @@ class admin extends ecjia_admin
 
     private function get_search_url()
     {
-        $url = RC_Uri::url('orders/admin/init');
-        $param = [];
+        $url    = RC_Uri::url('orders/admin/init');
+        $param  = [];
         $filter = $_GET;
 
         //订单类型 配送/自提/到店/团购
@@ -3434,11 +3441,11 @@ class admin extends ecjia_admin
         //商家名称关键字
         if (!empty($filter['merchant_keywords'])) {
             $param['merchant_keywords'] = $filter['merchant_keywords'];
-            $filter['show_search'] = 0;
+            $filter['show_search']      = 0;
         }
         //订单编号或购买者信息
         if (!empty($filter['keywords'])) {
-            $param['keywords'] = $filter['keywords'];
+            $param['keywords']     = $filter['keywords'];
             $filter['show_search'] = 0;
         }
 
@@ -3491,6 +3498,52 @@ class admin extends ecjia_admin
             $url = RC_Uri::url('orders/admin/init', $param);
         }
         return array('url' => $url, 'param' => $param);
+    }
+
+    //获取团购活动保证金状态
+    private function get_groupbuy_deposit_status($order = [], $groupbuy = [])
+    {
+        //团购活动保证金
+        $formated_deposit = $groupbuy['formated_deposit'];
+
+        //活动失败
+        if ($groupbuy['status'] == GBS_FAIL && $groupbuy['is_finished'] == GBS_FAIL) {
+            //已付款
+            if ($order['pay_status'] == PS_PAYED) {
+                $total_amount     = $order['surplus'] + $order['money_paid'];
+                $total_amount     = ecjia_price_format($total_amount);
+                $formated_deposit .= '（需退款：' . $total_amount . '）';
+            }
+
+            //进行中
+        } elseif ($groupbuy['status'] == GBS_UNDER_WAY) {
+            $formated_deposit .= '（等待团购活动结束）';
+
+            //活动成功
+        } elseif ($groupbuy['status'] == GBS_SUCCEED && $groupbuy['is_finished'] == GBS_SUCCEED) {
+
+            //活动失败完成
+        } elseif ($groupbuy['status'] == GBS_FAIL && $groupbuy['is_finished'] == GBS_FAIL_COMPLETE) {
+
+            $refund_id = RC_DB::table('refund_order')->where('order_sn', $order['order_sn'])->pluck('refund_id');
+
+            RC_Loader::load_app_class('RefundOrderInfo', 'refund', false);
+            $refund_info = RefundOrderInfo::get_refund_order_info($refund_id);
+
+            if ($refund_info['refund_status'] == 1) {
+                $refund_total_amount = price_format($refund_info['money_paid'] + $refund_info['surplus']);
+
+                $formated_deposit .= '（需退款：' . $refund_total_amount . '）';
+            }
+
+            //活动成功完成
+        } elseif ($groupbuy['status'] == GBS_SUCCEED && $groupbuy['is_finished'] == GBS_SUCCEED_COMPLETE) {
+            if ($order['pay_status'] == PS_UNPAYED) {
+                $formated_deposit .= '（需支付尾款：' . $order['order_amount'] . '）';
+            }
+        }
+
+        return $formated_deposit;
     }
 }
 

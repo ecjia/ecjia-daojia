@@ -404,6 +404,36 @@ ecjia.merchant.order.info();
 					</table>
 				</div>
 			</div>
+
+            {if $order.extension_code eq 'group_buy'}
+            <div class="accordion-group panel panel-default">
+                <div class="panel-heading accordion-group-heading-relative">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#delivery_info">
+                        <h4 class="panel-title">
+                            <strong>参与活动</strong>
+                        </h4>
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="delivery_inf">
+                    <table class="table table-oddtd m_b0">
+                        <tbody class="first-td-no-leftbd">
+                            <tr>
+                                <td><div align="right"><strong>活动类型：</strong></div></td>
+                                <td>团购</td>
+                                <td><div align="right"><strong>活动状态：</strong></div></td>
+                                <td>{$groupbuy_info.status_desc}</td>
+                            </tr>
+                            <tr>
+                                <td><div align="right"><strong>活动商品：</strong></div></td>
+                                <td>{$groupbuy_info.goods_name} <a target="__blank" href="{RC_Uri::url('groupbuy/merchant/edit')}&id={$groupbuy_info.act_id}">[ 活动详情 ]</a></td>
+                                <td><div align="right"><strong>保证金：</strong></div></td>
+                                <td class="ecjiafc-FF0000">{$groupbuy_deposit_status}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {/if}
 			
 			{if $order_finished eq 1 || $order.shipping_status eq 2}
 			<div class="accordion-group panel panel-default">

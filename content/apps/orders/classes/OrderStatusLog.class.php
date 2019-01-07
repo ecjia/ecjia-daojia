@@ -186,6 +186,21 @@ class OrderStatusLog
     }
     
     /**
+     * 订单自动取消
+     * @param array $options
+     * @return bool
+     */
+    public static function order_auto_cancel($options) {
+    	RC_DB::table('order_status_log')->insert(array(
+    	'order_status'	=> '超时未支付取消',
+    	'order_id'		=> $options['order_id'],
+    	'message'		=> '订单超时未支付，已自动取消！',
+    	'add_time'		=> RC_Time::gmtime(),
+    	));
+    	return true;
+    }
+    
+    /**
      * 仅退款订单已处理
      * @param array $options
      * @return bool

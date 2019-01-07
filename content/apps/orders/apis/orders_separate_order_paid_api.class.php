@@ -50,14 +50,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 主订单支付后处理订单的接口
- * @author 
+ * @author hyy
  */
 class orders_separate_order_paid_api extends Component_Event_Api {
 	
     /**
-     * @param  order_sn  订单编号
-     * @param  money     支付金额
-     *
+     * @param Y string order_sn  订单编号
+     * @param Y float money      支付金额
+     * @param N array order_info    订单信息
+     * @param N string pay_code     支付方式
      * @return array
      */
 	public function call(&$options) {
@@ -68,19 +69,23 @@ class orders_separate_order_paid_api extends Component_Event_Api {
 	    $order_sn = $options['order_sn'];
 
 	    /* 取得订单信息 */
-	    $order = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $order_sn));;
+	    if(empty($options['order_info'])) {
+	        $order_info = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $order_sn));
+	    } else {
+	        $order_info = $options['order_info'];
+	    }
 	    
-	    if(empty($order)) {
+	    if(empty($order_info)) {
 	        return new ecjia_error('order_not_exists', '订单不存在');
 	    }
-	    if (intval($order['pay_status']) === PS_PAYED) {
+	    if (intval($order_info['pay_status']) === PS_PAYED) {
 	        return new ecjia_error('order_has_been_paid', '订单已经支付了');
 	    }
 	    
 	    RC_Logger::getLogger('pay')->info('separate_order_paid');
-	    RC_Logger::getLogger('pay')->info(json_encode($order));
+	    RC_Logger::getLogger('pay')->info(json_encode($order_info));
 	    /* 改变订单状态 */
-	    return $this->order_paid($order_sn, $order, PS_PAYED);
+	    return $this->order_paid($order_sn, $order_info, PS_PAYED, $options['pay_code']);
 	}
 	
 	/**
@@ -91,7 +96,7 @@ class orders_separate_order_paid_api extends Component_Event_Api {
 	 * @param   integer $pay_status 状态
 	 * @return  void
 	 */
-	private function order_paid($separate_order_sn, $separate_order, $pay_status = PS_PAYED) {
+	private function order_paid($separate_order_sn, $separate_order, $pay_status = PS_PAYED, $pay_code = '') {
 	    RC_Loader::load_app_func('admin_order', 'orders');
 	    RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
 	    RC_Loader::load_app_class('add_storeuser', 'user', false);
@@ -103,9 +108,13 @@ class orders_separate_order_paid_api extends Component_Event_Api {
 	        'confirm_time' => $time,
 	        'pay_status'   => $pay_status,
 	        'pay_time'     => $time,
-	        'money_paid'   => $separate_order['order_amount'],
 	        'order_amount' => 0,
 	    );
+	    if($pay_code == 'pay_balance') {
+	        $data['surplus'] = $separate_order['order_amount'];
+	    } else {
+	        $data['money_paid'] = $separate_order['order_amount'];
+	    }
 	    RC_DB::table('separate_order_info')->where('order_sn', $separate_order_sn)->update($data);
 	    
 	    //子订单
@@ -130,9 +139,13 @@ class orders_separate_order_paid_api extends Component_Event_Api {
 	                    'confirm_time' => $time,
 	                    'pay_status'   => $pay_status,
 	                    'pay_time'     => $time,
-	                    'money_paid'   => $order['order_amount'],
 	                    'order_amount' => 0,
 	                );
+	                if($pay_code == 'pay_balance') {
+	                    $data['surplus'] = $order['order_amount'];
+	                } else {
+	                    $data['money_paid'] = $order['order_amount'];
+	                }
 	                
 	                RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
 	                /* 记录订单操作记录 */
@@ -156,13 +169,30 @@ class orders_separate_order_paid_api extends Component_Event_Api {
 	                    'confirm_time' => $time,
 	                    'pay_status'   => $pay_status,
 	                    'pay_time'     => $time,
-	                    'money_paid'   => $order['order_amount'] + $order['money_paid'],
 	                    'order_amount' => 0,
 	                );
+	                if($pay_code == 'pay_balance') {
+	                    $data['surplus'] = $order['order_amount'] + $order['money_paid'];
+	                } else {
+	                    $data['money_paid'] = $order['order_amount'] + $order['money_paid'];
+	                }
 	                RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
 	                /* 记录订单操作记录 */
 	                order_action($order_sn, $order_status, SS_UNSHIPPED, $pay_status, '', RC_Lang::get('orders::order.buyers'));
 	            }
+	            
+	            /* 处理余额变动信息 */
+	            if ($order['user_id'] > 0 && $data['surplus'] > 0) {
+	                $options = array(
+	                    'user_id'       => $order['user_id'],
+	                    'user_money'    => $order['order_amount'] * (-1),
+	                    'change_desc'	=> sprintf(RC_Lang::get('orders::order.pay_order'), $order['order_sn'])
+	                );
+	                RC_Api::api('user', 'account_change_log', $options);
+	            }
+	            
+	            RC_Api::api('affiliate', 'invite_reward', array('user_id' => $order['user_id'], 'invite_type' => 'orderpay'));
+	            
 	            
 	            //订单状态log记录区分
 	            if (in_array($order['extension_code'], array('storebuy', 'cashdesk', 'storepickup'))) {
@@ -280,6 +310,7 @@ class orders_separate_order_paid_api extends Component_Event_Api {
 	    
 	    
 	    RC_Logger::getLogger('pay')->info('separate_order_pay ok');
+	    return true;
 	}
 }
 

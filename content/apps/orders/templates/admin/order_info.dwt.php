@@ -17,75 +17,69 @@
 	</h3>
 </div>
 
-<div class="modal hide fade" id="consigneeinfo">
+<div class="order_userinfo_modal">
+    <div class="modal hide fade" id="consigneeinfo">
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">×</button>
-		<h3>{lang key='orders::order.buyer_info'}</h3>
+		<h3>购货人信息</h3>
 	</div>
 	<div class="modal-body">
 		<div class="row-fluid">
-			<div class="span12">
-				<table class="table table-bordered">
-					<tr>
-						<td colspan="2">
-							<strong>{lang key='orders::order.buyer_info'}</strong>
-						</td>
-					</tr>
-					<tr>
-						<td class="w200">{lang key='orders::order.email'}</td>
-						<td>{$user.email}</td>
-					</tr>
-					<tr>
-						<td>{lang key='orders::order.user_money'}</td>
-						<td>{$user.user_money}</td>
-					</tr>
-					<tr>
-						<td>{lang key='orders::order.pay_points'}</td>
-						<td>{$user.pay_points}</td>
-					</tr>
-					<tr>
-						<td>{lang key='orders::order.rank_points'}</td>
-						<td>{$user.rank_points}</td>
-					</tr>
-					<tr>
-						<td>{lang key='orders::order.rank_name'}</td>
-						<td>{$user.rank_name}</td>
-					</tr>
-					<tr>
-						<td>{lang key='orders::order.bonus_count'}</td>
-						<td>{$user.bonus_count}</td>
-					</tr>
-				</table>
-				
-				{foreach from=$address_list item=address}
-				<table class="table table-bordered">
-					<tr>
-						<td colspan="2">
-							<strong>{lang key='orders::order.consignee'}:{$order.consignee|default:$order.user_name}</strong>
-						</td>
-					</tr>
-					<tr>
-						<td class="w200">{lang key='orders::order.email'}</td>
-						<td>{$address.email}</td>
-					</tr>
-					<tr>
-						<td>{lang key='orders::order.address'}</td>
-						<td>{$address.address}{$address.address_info}</td>
-					</tr>
-					<tr>
-						<td>{lang key='orders::order.zipcode'}</td>
-						<td>{$address.zipcode}</td>
-					</tr>
-					<tr>
-						<td>手机号：</td>
-						<td>{$address.mobile}</td>
-					</tr>
-				</table>
-				{/foreach}
-				
-			</div>
+			<div class="span12 user-info">
+                <div class="basic-info clearfix">
+                    <img src="{if $user.avatar_img}{RC_Upload::upload_url($user.avatar_img)}{/if}" />
+                    <div class="detail">
+                        <p>
+                            <span class="name">{if $user.user_name}{$user.user_name}{else}匿名用户{/if}</span>
+                            {if $user.rank_name}<span class="rank_name">{$user.rank_name}</span>{/if}
+                        </p>
+                        <p>注册时间：{RC_Time::local_date('Y-m-d H:i:s', $user.reg_time)}</p>
+                    </div>
+                    <a target="__blank" class="view-detail" href='{url path="user/admin/info" args="id={$user.user_id}"}'>查看详细信息 >></a>
+                </div>
+                <div class="user-money">
+                    <div class="item">
+                        <p>账户余额</p>
+                        <span class="ecjiafc-FF0000">{if $user.formated_user_money}{$user.formated_user_money}{else}￥0.00{/if}</span>
+                    </div>
+                    <div class="item">
+                        <p>消费积分</p>
+                        <span class="ecjiafc-FF0000">{if $user.pay_points}{$user.pay_points}{else}0{/if}</span>
+                    </div>
+                    <div class="item">
+                        <p>成长值</p>
+                        <span class="ecjiafc-FF0000">{if $user.rank_points}{$user.rank_points}{else}0{/if}</span>
+                    </div><div class="item">
+                        <p>红包数量</p>
+                        <span class="ecjiafc-FF0000">{if $user.bonus_count}{$user.bonus_count}{else}0{/if}</span>
+                    </div>
+                </div>
+                <div class="user-address">
+                    <div class="address-title">收货地址</div>
+                    <div class="address-content">
+                        {foreach from=$address_list item=list}
+                        <div class="address-item">
+                            <div class="box-placeholder">
+                                <p class="address_name">{$list.consignee} </p>
+                                <p class="address_tel">{$list.mobile}</p>
+                                <p class="address_info">
+                                    {if $list.province}{ecjia_region::getRegionName($list.province)}{/if}
+                                    {if $list.city}{ecjia_region::getRegionName($list.city)}{/if}
+                                    {if $list.district}{ecjia_region::getRegionName($list.district)}{/if}
+                                    {if $list.street}{ecjia_region::getRegionName($list.street)}{/if}
+                                    {$list.address}
+                                </p>
+                            </div>
+                        </div>
+                        {foreachelse}
+                        <div class="no-records">暂无收货地址</div>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
 		</div>
 	</div>
+</div>
 </div>
 
 <div class="order-status-base order-five-base m_b20">
@@ -290,7 +284,59 @@
 						</table>
 					</div>
 				</div>
-				
+
+                {if $order.extension_code eq 'group_buy'}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseGroupBuy">
+                            <strong>参与活动</strong>
+                        </a>
+                    </div>
+                    <div class="accordion-body in collapse" id="collapseGroupBuy">
+                        <table class="table table-oddtd m_b0">
+                            <tbody class="first-td-no-leftbd">
+                                <tr>
+                                    <td>
+                                        <div align="right">
+                                            <strong>活动类型：</strong>
+                                        </div>
+                                    </td>
+                                    <td>团购</td>
+                                    <td>
+                                        <div align="right">
+                                            <strong>活动状态：</strong>
+                                        </div>
+                                    </td>
+                                    <td>{$groupbuy_info.status_desc}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div align="right">
+                                            <strong>店铺名称：</strong>
+                                        </div>
+                                    </td>
+                                    <td>{$order.merchants_name}</td>
+                                    <td>
+                                        <div align="right">
+                                            <strong>活动商品：</strong>
+                                        </div>
+                                    </td>
+                                    <td>{$groupbuy_info.goods_name} <a target="__blank" href="{RC_Uri::url('groupbuy/admin/view')}&id={$groupbuy_info.act_id}">[ 活动详情 ]</a></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div align="right">
+                                            <strong>保证金：</strong>
+                                        </div>
+                                    </td>
+                                    <td class="ecjiafc-FF0000" colspan="3">{$groupbuy_deposit_status}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {/if}
+
 				{if $order_finished eq 1 || $order.shipping_status eq 2}
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">

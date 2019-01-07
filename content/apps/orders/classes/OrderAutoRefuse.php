@@ -75,16 +75,44 @@ class OrderAutoRefuse
     }
     
     /**
-     * 自动拒单系列操作
-     * @param array $order
+     * 自动拒单；默认退款，流程至商家同意，待平台退款处理
+     * @param array $order 订单信息
      * @return bool
      */
     public static function AutoRejectOrder($order = array()) {
+    	
+    	/**
+    	 * 1、生成退款申请单_produceRefundOrder();
+    	 * 2、更新订单状态&订单操作记录&订单状态记录；及更新售后申请状态记录; _updateWithLogs();
+    	 * 3、订单被拒，发送短信通知_sendOrderCanceledSms();
+    	 * 4、更新结算记录_updateCommissionBill();
+    	 * 5、商家同意退款_merchantAgree();
+    	 */
     	
     	RC_Loader::load_app_class('order_refund', 'refund', false);
     	RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
     	RC_Loader::load_app_class('RefundStatusLog', 'refund', false);
     	
+    	//生成退款申请单
+    	$refund_id = self::_produceRefundOrder($order);
+    	//更新订单状态&订单操作记录&订单状态记录；及更新售后申请状态记录;
+    	self::_updateWithLogs($order, $refund_id);
+        //订单被拒，发送短信通知
+        self::_sendOrderCanceledSms($order);
+    	//更新结算记录
+    	self::_updateCommissionBill($refund_id);
+    	//商家同意退款
+    	self::_merchantAgree($refund_id);
+    	
+    	return true; 
+    }
+    
+    
+    /**
+     * 生成退款申请单
+     */
+    private static function _produceRefundOrder($order)
+    {
     	$reasons = RC_Loader::load_app_config('refund_reasons', 'refund');
     	$auto_refuse = $reasons['auto_refuse'];
     	$refund_reason = $auto_refuse['0']['reason_id'];
@@ -92,7 +120,7 @@ class OrderAutoRefuse
     	
     	//配送方式信息
     	$shipping_code = '';
-    	
+    	 
     	//支付方式信息
     	if (!empty($order['pay_id'])) {
     		$payment_info = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->first();
@@ -100,12 +128,12 @@ class OrderAutoRefuse
     	} else {
     		$pay_code = '';
     	}
-    	
+    	 
     	//退款编号
     	$refund_sn = ecjia_order_refund_sn();
-    	
-    	//仅退款
-    	$refund_type = 'refund';
+    	 
+    	//撤单退款
+    	$refund_type = 'cancel';
     	$return_status = 0;
     	$refund_status = 1;
     	
@@ -150,9 +178,36 @@ class OrderAutoRefuse
     	);
     	$refund_id = RC_DB::table('refund_order')->insertGetId($refund_data);
     	
+    	return $refund_id;
+    }
+    
+    
+    /**
+     * 更新订单状态&订单操作记录&订单状态记录；及更新售后申请状态记录;
+     */
+    private static function _updateWithLogs($order, $refund_id)
+    {
     	/* 订单状态为“退货” */
     	RC_DB::table('order_info')->where('order_id', $order['order_id'])->update(array('order_status' => OS_RETURNED));
     	
+    	/* 记录log */
+    	$action_note = '系统自动退款';
+    	order_refund::order_action($order['order_id'], OS_RETURNED, $order['shipping_status'], $order['pay_status'], $action_note, '系统');
+    	
+    	//订单状态log记录
+    	$pra = array('order_status' => '无法接单', 'order_id' => $order['order_id'], 'message' => '等待商家退款！');
+    	order_refund::order_status_log($pra);
+    	 
+    	//售后申请状态记录
+    	$opt = array('status' => '无法接单', 'refund_id' => $refund_id, 'message' => '等待商家退款！');
+    	order_refund::refund_status_log($opt);
+    }
+    
+    /**
+     * 订单被拒，发送短信通知
+     */
+    private static function _sendOrderCanceledSms($order)
+    {
     	//订单被拒单短信通知
     	if (!empty($order['user_id'])) {
     		$user_info = RC_DB::table('users')->where('user_id', $order['user_id'])->select('mobile_phone', 'user_name')->first();
@@ -169,26 +224,28 @@ class OrderAutoRefuse
     			RC_Api::api('sms', 'send_event_sms', $options);
     		}
     	}
-    	
-    	/* 记录log */
-    	$action_note = '系统自动退款';
-    	order_refund::order_action($order['order_id'], OS_RETURNED, $order['shipping_status'], $order['pay_status'], $action_note, '系统');
-    	
-    	//订单状态log记录
-    	$pra = array('order_status' => '无法接单', 'order_id' => $order['order_id'], 'message' => '等待商家退款！');
-    	order_refund::order_status_log($pra);
-    	
-    	//售后申请状态记录
-    	$opt = array('status' => '无法接单', 'refund_id' => $refund_id, 'message' => '等待商家退款！');
-    	order_refund::refund_status_log($opt);
-    	
+    }
+    
+    /**
+     * 更新结算记录
+     */
+    private static function _updateCommissionBill($refund_id)
+    {
     	//update commission_bill
-    	RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'refund', 'order_id' => $refund_id));
-    	
+    	$res = RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'refund', 'order_id' => $refund_id));
+    	if (is_ecjia_error($res)) {
+    	}
+    }
+    
+    /**
+     * 商家同意退款
+     */
+    private static function _merchantAgree($refund_id)
+    {
     	//仅退款---同意---进入打款表
     	$refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
     	$payment_record_id = RC_DB::table('payment_record')->where('order_sn', $refund_info['order_sn'])->pluck('id');
-    	
+    	 
     	//实际支付费用
     	$order_money_paid = $refund_info['surplus'] + $refund_info['money_paid'];
     	//退款总金额
@@ -202,6 +259,7 @@ class OrderAutoRefuse
     		$back_shipping_fee = 0;
     		$back_insure_fee = 0;
     	}
+    	
     	$data = array(
     			'store_id' 				=> $refund_info['store_id'],
     			'order_id' 				=> $refund_info['order_id'],
@@ -232,6 +290,9 @@ class OrderAutoRefuse
     	);
     	RC_DB::table('refund_payrecord')->insertGetId($data);
     	
+    	$return_status = 0; //无需退货
+    	$refund_status = 1; //打款待处理
+    	
     	//录入退款操作日志表
     	$data = array(
     			'refund_id' 			=> $refund_id,
@@ -245,12 +306,11 @@ class OrderAutoRefuse
     			'log_time' 				=> RC_Time::gmtime(),
     	);
     	RC_DB::table('refund_order_action')->insertGetId($data);
-    	
+    	 
     	//售后订单状态变动日志表
     	RefundStatusLog::refund_order_process(array('refund_id' => $refund_id, 'status' => 1));
     	//普通订单状态变动日志表
     	OrderStatusLog::refund_order_process(array('order_id' => $refund_info['order_id'], 'status' => 1));
-    	
-    	return true; 
     }
+    
 }

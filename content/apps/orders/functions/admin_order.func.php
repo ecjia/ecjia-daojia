@@ -617,32 +617,24 @@ function integral_of_value($value) {
 }
 /**
 * 订单退款
-* @param   array   $order		  订单
-* @param   int	 $refund_type	退款方式 1 到帐户余额 2 到退款申请（先到余额，再申请提款） 3 不处理
-* @param   string  $refund_note	退款说明
-* @param   float   $refund_amount  退款金额（如果为0，取订单已付款金额）
+* @param   array    $order		  订单
+* @param   int	    $refund_type	退款方式 1 到账户余额 2 到退款申请（先到余额，再申请提款） 3 不处理
+* @param   string   $refund_note	退款说明
+* @param   float    $refund_amount  退款金额（如果为0，取订单已付款金额）
 * @return  bool
 */
 function order_refund($order, $refund_type, $refund_note, $refund_amount = 0) {
     /* 检查参数 */
     $user_id = $order['user_id'];
     if ($user_id == 0 && $refund_type == 1) {
-        if (isset($_SESSION['store_id'])) {
-            return ecjia_merchant::$controller->showmessage(__('匿名用户不能返回退款到帐户余额！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        } else {
-            return ecjia_admin::$controller->showmessage(RC_Lang::get('orders::order.refund_error_notice'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }
+        return new ecjia_error('invalid_user', '匿名用户不能返回退款到账户余额！');
     }
     $amount = $refund_amount > 0 ? $refund_amount : $order['money_paid'];
     if ($amount <= 0) {
         return true;
     }
     if (!in_array($refund_type, array(1, 2, 3))) {
-        if (isset($_SESSION['store_id'])) {
-            return ecjia_merchant::$controller->showmessage(__('操作有误！请重新操作！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        } else {
-            return ecjia_admin::$controller->showmessage(RC_Lang::get('orders::order.error_notice'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-        }
+        return new ecjia_error('invalid_refund_type', '退款方式错误');
     }
     /* 备注信息 */
     if ($refund_note) {
@@ -654,7 +646,6 @@ function order_refund($order, $refund_type, $refund_note, $refund_amount = 0) {
     if (1 == $refund_type) {
         $options = array('user_id' => $user_id, 'user_money' => $amount, 'change_desc' => $change_desc);
         RC_Api::api('user', 'account_change_log', $options);
-        return true;
     } elseif (2 == $refund_type) {
         /* 如果非匿名，退回余额 */
         if ($user_id > 0) {
@@ -664,10 +655,9 @@ function order_refund($order, $refund_type, $refund_note, $refund_amount = 0) {
         /* user_account 表增加提款申请记录 */
         $account = array('user_id' => $user_id, 'amount' => -1 * $amount, 'add_time' => RC_Time::gmtime(), 'user_note' => $refund_note, 'process_type' => SURPLUS_RETURN, 'admin_user' => isset($_SESSION['store_id']) ? $_SESSION['staff_name'] : $_SESSION['admin_name'], 'admin_note' => sprintf(RC_Lang::get('orders::order.order_refund'), $order['order_sn']), 'is_paid' => 0);
         RC_DB::table('user_account')->insert($account);
-        return true;
-    } else {
-        return true;
     }
+
+    return true;
 }
 /**
 * 查询购物车（订单id为0）或订单中是否有实体商品
@@ -947,7 +937,11 @@ function get_goods_attr_info($arr, $type = 'pice', $warehouse_id = 0, $area_id =
     $dbview = RC_Loader::load_app_model('goods_attr_viewmodel', 'goods');
     $attr = '';
     if (!empty($arr)) {
-        $fmt = "%s:%s[%s] \n";
+        if ($type == 'no') {
+            $fmt = "%s:%s \n";
+        } else {
+            $fmt = "%s:%s[%s] \n";
+        }
         $field = "ga.goods_attr_id, a.attr_name, ga.attr_value, " .
          " ga.attr_price as attr_price ";
         $dbview->view = array(
@@ -979,7 +973,7 @@ function get_goods_attr_info($arr, $type = 'pice', $warehouse_id = 0, $area_id =
 * @return  array
 */
 function get_consignee($user_id) {
-    if (isset($_SESSION['flow_consignee'])) {
+    if (isset($_SESSION['flow_consignee']) && !empty($_SESSION['flow_consignee']['id'])) {
         /* 如果存在session，则直接返回session中的收货人信息 */
         return $_SESSION['flow_consignee'];
     } else {

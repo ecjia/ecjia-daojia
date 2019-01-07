@@ -142,7 +142,7 @@ class admin_orders_pay_module  extends api_admin implements api_interface {
         
         $payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $order['store_id'], 'cod_fee' => $cod_fee));
 
-        $other = collect($payment_list)->mapWithKeys(function ($item) use ($order) {
+        $other = collect($payment_list)->flatMap(function ($item) use ($order) {
             if ($item['pay_id'] == $order['pay_id']) {
                 return array();
             }

@@ -505,7 +505,7 @@ return array(
 	'order_pay' 			=> '订单支付：%s',
 	'send_mail_fail'		=> '发送邮件失败',
 	'send_message' 			=> '发送/查看留言',
-	'refund_error_notice'	=> '匿名用户不能返回退款到帐户余额！',
+	'refund_error_notice'	=> '匿名用户不能返回退款到账户余额！',
 	'error_notice'			=> '操作有误！请重新操作！',
 	
 	/* 发货单操作 */

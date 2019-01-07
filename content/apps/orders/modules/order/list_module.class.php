@@ -53,11 +53,21 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class order_list_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	
-//         $_SESSION['user_id'] = 1295;
     	if ($_SESSION['user_id'] < 1 ) {
     	    return new ecjia_error(100, 'Invalid session');
     	}
 		
+    	$user_id = $_SESSION['user_id'];
+    	
+    	$api_version = $this->request->header('api-version');
+    	//判断用户有没申请注销
+    	if (version_compare($api_version, '1.25', '>=')) {
+    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
+    		}
+    	}
+    	
 		$type = $this->requestData('type');
 		$store_id = $this->requestData('store_id', 0);
 		if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed', 'whole', 'allow_comment'))) {

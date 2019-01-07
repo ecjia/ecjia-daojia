@@ -56,7 +56,8 @@
     	                    success: function (data) {
     	                    	ecjia.merchant.showmessage(data);
     	                    	if (data.state == 'success') {
-    	                    		$("#operate").modal('hide');
+									$("#operate").modal('hide');
+									$(".modal-backdrop").remove();
     	                    	}
     	                    }
     	                });
