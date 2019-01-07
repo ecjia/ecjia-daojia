@@ -67,7 +67,9 @@ return array(
 
     
     'private_key'               => 'RSA（私钥）',
+    'private_key_desc'          => 'RSA私钥密钥是给APP使用的，APP上配置支付宝支付需要配置此项。H5用户忽略此项。',
     'private_key_pkcs8'         => 'RSA（PKCS8私钥）',
+    'private_key_pkcs8_desc'    => 'RSA私钥密钥是给APP使用的，APP上配置支付宝支付需要配置此项。H5用户忽略此项。',
 );
 
 
