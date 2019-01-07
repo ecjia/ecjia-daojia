@@ -205,13 +205,12 @@ class BaseAction
     /**
      * 获取指定名称的多个元素
      *
-     * @return mixed|null
-     *
      * @api
      */
     public function getParameters($names = null)
     {
         if (is_array($names)) {
+            $return = [];
             foreach ($names as $name) {
                 $return[$name] = $this->getParameter($name);
             }

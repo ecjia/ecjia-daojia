@@ -270,6 +270,14 @@ class ApiConst
  	
  	const GROUPBUY_GOODS_LIST       = 'groupbuy/goods/list';
  	const MERCHANT_GROUPBUY_GOODS_LIST  = 'merchant/groupbuy/goods/list';
+ 	
+ 	//支付密码
+ 	const PAYMENT_PAY_BALANCE       = 'payment/pay/balance';
+
+    //注销账号
+    const SHOP_SPECIAL_README_USERDELETE = 'shop/special/readme/userdelete';
+    const USER_ACCOUNT_DELETE_APPLY   = 'user/account/delete/apply';//申请注销
+    const USER_ACCOUNT_ACTIVATE_APPLY = 'user/account/activate/apply';//申请激活
 }
 
 // end

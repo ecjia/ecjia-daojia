@@ -66,7 +66,7 @@ class ApiResponse extends Response
      * Set the content on the response.
      *
      * @param  mixed  $content
-     * @return $this
+     * @return \Royalcms\Component\Http\Response
      */
     public function setContent($data)
     {

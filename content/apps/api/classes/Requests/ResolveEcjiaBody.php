@@ -72,7 +72,7 @@ class ResolveEcjiaBody implements ResolveBody
     /**
      * 解析服务器返回的数据
      * @param string $data
-     * @return array
+     * @return $this
      */
     public function resolve($body)
     {

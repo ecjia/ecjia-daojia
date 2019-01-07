@@ -183,7 +183,7 @@ class ApiResponse
      * 设置响应Cookies信息
      *
      * @api
-     * @return array
+     * @return $this
      */
     public function setCookies($cookies)
     {

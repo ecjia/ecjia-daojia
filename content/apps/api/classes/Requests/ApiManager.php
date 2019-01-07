@@ -97,7 +97,7 @@ abstract class ApiManager extends RC_Object
     /**
      * 设置API接口
      * @param string $api 例如 xx/xxx
-     * @return \Ecjia\System\Api\ApiManager
+     * @return $this
      */
     public function api($api)
     {
@@ -106,11 +106,26 @@ abstract class ApiManager extends RC_Object
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getApi()
     {
         return $this->api;
     }
 
+    /**
+     * @param $method
+     * @return $this
+     */
     public function setMethod($method)
     {
         $this->method = $method;
@@ -118,6 +133,9 @@ abstract class ApiManager extends RC_Object
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return $this->method;
@@ -125,14 +143,14 @@ abstract class ApiManager extends RC_Object
     
     /**
      * 服务器地址
-     * @return serverHost
+     * @return string serverHost
      */
     abstract public function serverHost();
     
     /**
      * 设置需要发送的数据
      * @param array $data
-     * @return \Ecjia\System\Api\ApiManager
+     * @return $this
      */
     public function data($data)
     {
@@ -144,7 +162,7 @@ abstract class ApiManager extends RC_Object
     /**
      * 设置需要发送的Header
      * @param array $data
-     * @return \Ecjia\System\Api\ApiManager
+     * @return $this
      */
     public function header(array $header)
     {
@@ -156,7 +174,7 @@ abstract class ApiManager extends RC_Object
     /**
      * 设置POST FILE上传信息，数组格式
      * @param array $data
-     * @return \Ecjia\System\Api\ApiManager
+     * @return $this
      */
     public function file(array $file)
     {
@@ -177,7 +195,7 @@ abstract class ApiManager extends RC_Object
     /**
      * 设置缓存的时间，单位分钟
      * @param integer $time
-     * @return \Ecjia\System\Api\ApiManager
+     * @return $this
      */
     public function cacheTime($time)
     {
@@ -188,7 +206,7 @@ abstract class ApiManager extends RC_Object
     
     /**
      * 设置有Page返回
-     * @return \Ecjia\System\Api\ApiManager
+     * @return $this
      */
     public function hasPage()
     {
@@ -215,7 +233,7 @@ abstract class ApiManager extends RC_Object
     /**
      * 获取Api Response结果
      * 
-     * @return \Ecjia\System\Api\ApiResponse
+     * @return \Ecjia\App\Api\Requests\ApiResponse
      */
     public function getResponse()
     {
@@ -225,7 +243,7 @@ abstract class ApiManager extends RC_Object
     /**
      * 获取Api Request结果
      *
-     * @return \Ecjia\System\Api\ApiRequest
+     * @return \Ecjia\App\Api\Requests\Actions\BaseAction
      */
     public function getRequest()
     {
@@ -236,7 +254,8 @@ abstract class ApiManager extends RC_Object
      * 请求
      * @return ecjia_error | array
      */
-    public function run() {
+    public function run()
+    {
         if ($this->cacheTime > 0) {
             $cache_key = $this->cacheResponseKey();
             $data = ecjia_cache('api')->get($cache_key);
@@ -275,7 +294,7 @@ abstract class ApiManager extends RC_Object
     
     /**
      * 
-     * @return ecjia_error|\Ecjia\System\Api\ApiResponse
+     * @return ecjia_error|\Ecjia\App\Api\Requests\ApiResponse
      */
     public function send()
     {
