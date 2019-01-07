@@ -76,6 +76,7 @@
             
             $("a[name=move_cat_ture]").on('click', function (e) {
                 $('#movetype').modal('hide');
+                $(".modal-backdrop").remove();
             });
             
             $("select[name=target_cat]").on('change', function (e) {
