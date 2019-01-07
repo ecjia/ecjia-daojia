@@ -397,6 +397,7 @@ class admin extends ecjia_admin {
 		ecjia_config::instance()->write_config('affiliate', serialize($config));
 		ecjia_admin::admin_log(RC_Lang::get('affiliate::affiliate.level_point_is').$info['level_point'].'，'.RC_Lang::get('affiliate::affiliate.level_money_is').$info['level_money'], 'remove', 'affiliate_percent');
 		
+		
 		return $this->showmessage(RC_Lang::get('affiliate::affiliate.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}	
 }
