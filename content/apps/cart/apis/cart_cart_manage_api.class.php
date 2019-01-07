@@ -81,21 +81,20 @@ class cart_cart_manage_api extends Component_Event_Api {
      * @return  boolean
      */
     private function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $store_group = array()) {
+        RC_Loader::load_app_class('goods_info', 'goods', false);
+        
         $_parent_id     = $parent;
         if (is_array($spec)) {
             sort($spec);
         }
         
         $dbview = RC_DB::table('goods as g')->leftJoin('member_price as mp', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('mp.goods_id'));
-        $db_cart = RC_DB::table('cart');
-
-        RC_Loader::load_app_class('goods_info', 'goods', false);
 
         $field = 'g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.market_price, g.shop_price AS org_price, g.promote_price, g.promote_start_date,g.promote_end_date, g.goods_weight, g.integral, g.extension_code,g.goods_number, g.is_alone_sale, g.is_shipping,IFNULL(mp.user_price, g.shop_price * '.$_SESSION['discount'].') AS shop_price, g.store_id';
         //$goods = $dbview->field($field)->join(array('member_price'))->find(array('g.goods_id' => $goods_id , 'g.is_delete' => 0));
         $goods = $dbview->select(RC_DB::raw($field))
-        ->where(RC_DB::raw('g.goods_id'), $goods_id)
-        ->where(RC_DB::raw('g.is_delete'), 0)->first();
+            ->where(RC_DB::raw('g.goods_id'), $goods_id)
+            ->where(RC_DB::raw('g.is_delete'), 0)->first();
 
         if (empty($goods)) {
             return new ecjia_error('no_goods', __('对不起，该商品不存在！'));
@@ -111,9 +110,9 @@ class cart_cart_manage_api extends Component_Event_Api {
 			return new ecjia_error('no_goods', __('对不起，该商品所属的店铺已经下线！'));
 		}
 
+		$db_cart = RC_DB::table('cart');
         /* 如果是作为配件添加到购物车的，需要先检查购物车里面是否已经有基本件 */
         if ($parent > 0) {
-            //$parent_w = array('goods_id' => $parent , 'user_id' => $_SESSION['user_id'] , 'extension_code' => array('neq' => 'package_buy'));
             $db_cart->where('goods_id', $parent);
             $db_cart->where('user_id', $_SESSION['user_id']);
             $db_cart->where('extension_code', '<>', 'package_buy');
@@ -162,7 +161,7 @@ class cart_cart_manage_api extends Component_Event_Api {
                 if (!empty($spec)) {
                     /* 取规格的货品库存 */
                     if ($num > $product_info['product_number']) {
-                        return new ecjia_error('low_stocks', __('库存不足'));
+                        return new ecjia_error('low_stocks', __('货品库存不足'));
                     }
                 }
             }

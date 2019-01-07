@@ -166,6 +166,25 @@ class cart_cart_list_api extends Component_Event_Api {
 // 						$row['goods_name'] .= ' [' . $attr['attr_value'] . '] ';
 // 					}
 				}
+				
+				//库存 181023 add
+				$row['attr_number'] = 1;//有货
+				if (ecjia::config('use_storage') == 1) {
+				    if($row['product_id']) {
+				        $product_number = RC_DB::table('products')
+				        ->where('goods_id', $row['goods_id'])
+				        ->where('product_id', $row['product_id'])
+				        ->pluck('product_number');
+				        if ($row['goods_number'] > $product_number) {
+				            $row['attr_number'] = 0;
+				        }
+				    } else {
+				        if($row['goods_number'] > $row['g_goods_number']) {
+				            $row['attr_number'] = 0;
+				        }
+				    }
+				}
+				//库存 181023 end
 
 // 				if ($row['extension_code'] == 'package_buy') {
 // 					$row['package_goods_list'] = get_package_goods($row['goods_id']);

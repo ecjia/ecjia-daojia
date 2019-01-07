@@ -477,13 +477,11 @@ class cart {
 
 // 		$data = $db_view->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
 
-		$data = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
-		
+		$total_goods_integral_money = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
 		//购物车商品总价
-		$total_goods_price = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('c.goods_price*c.goods_number');
-		
-		$val_min = min($data, $total_goods_price);
-		
+		$total_goods_price = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('c.goods_price * c.goods_number');
+		//取价格最小值，防止积分抵扣超过商品价格(并未计算优惠)
+		$val_min = min($total_goods_integral_money, $total_goods_price);
 		if ($val_min < 1 && $val_min > 0) {
 			$val = $val_min;
 		} else {
@@ -491,7 +489,7 @@ class cart {
 		}
 		return self::integral_of_value($val);
 	}
-
+	
 	/**
 	 * 计算指定的金额需要多少积分
 	 *
@@ -511,7 +509,7 @@ class cart {
 	 */
 	public static function value_of_integral($integral) {
 		$scale = floatval(ecjia::config('integral_scale'));
-		return $scale > 0 ? round(($integral / 100) * $scale, 2) : 0;
+		return $scale > 0 ? round($integral / 100 * $scale, 2) : 0;
 	}
 
 	/**
@@ -559,12 +557,13 @@ class cart {
 		}
 
 //     	TODO: 团购等促销活动注释后暂时给的固定参数
-		$order['extension_code'] = '';
-		$group_buy = '';
+//		$order['extension_code'] = '';
+//		$group_buy = '';
 //     	TODO: 团购功能暂时注释
-//     if ($order['extension_code'] == 'group_buy') {
-//         $group_buy = group_buy_info($order['extension_id']);
-//     }
+     if ($order['extension_code'] == 'group_buy') {
+         RC_Loader::load_app_func('admin_goods', 'goods');
+         $group_buy = group_buy_info($order['extension_id']);
+     }
 
 		$total  = array(
 			'real_goods_count' => 0,
@@ -616,23 +615,7 @@ class cart {
 
 		/* 税额 */
 		if (!empty($order['need_inv']) && $order['inv_type'] != '') {
-			/* 查税率 */
-			$rate = 0;
-			$invoice_type = ecjia::config('invoice_type');
-			if ($invoice_type) {
-			    $invoice_type = unserialize($invoice_type);
-			}
-			foreach ($invoice_type['type'] as $key => $type) {
-				if ($type == $order['inv_type']) {
-					$rate_str = $invoice_type['rate'];
-					$rate = floatval($rate_str[$key]) / 100;
-					break;
-				}
-			}
-			if ($rate > 0) {
-				$total['tax'] = $rate * $total['goods_price'];
-				$total['tax'] = round($total['tax'], 2);
-			}
+			$total['tax'] = self::get_tax_fee($order['inv_type'], $total['goods_price']);
 		}
 		$total['tax_formated'] = price_format($total['tax'], false);
 //	TODO：暂时注释
@@ -832,6 +815,35 @@ class cart {
 // 			$total['exchange_integral'] = $exchange_integral;
 // 		}
 		return $total;
+	}
+	/**
+	 * 税费计算
+	 * @param string $inv_type
+	 * @param float $goods_price
+	 * @return float
+	 */
+	public static function get_tax_fee($inv_type, $goods_price) {
+	    $rate = 0;
+	    $tax_fee = 0;
+	    
+	    $invoice_type = ecjia::config('invoice_type');
+	    if ($invoice_type) {
+	        $invoice_type = unserialize($invoice_type);
+	        foreach ($invoice_type['type'] as $key => $type) {
+	            if ($type == $inv_type) {
+	                $rate_str = $invoice_type['rate'];
+	                $rate = floatval($rate_str[$key]) / 100;
+	                break;
+	            }
+	        }
+	    }
+	    
+	    if ($rate > 0) {
+	        $tax_fee = $rate * $goods_price;
+	        $tax_fee = round($tax_fee, 2);
+	    }
+	    
+	    return $tax_fee;
 	}
 
 	/**
@@ -1832,6 +1844,73 @@ class cart {
 		}
 		return $row;
 	}
+	
+	/**
+	 * 获取上门自提时间
+	 * @param Y integer $store_id 
+	 * @param N integer $shipping_cac_id 
+	 */
+	public static function get_ship_cac_date_by_store($store_id = 0, $shipping_cac_id = 0, $show_all_time = 0) {
+	    $expect_pickup_date = [];
+	    
+	    //根据店铺id，店铺有没设置运费模板，查找店铺设置的运费模板关联的快递
+	    if(empty($shipping_cac_id)) {
+	        $shipping_cac_id = RC_DB::table('shipping')->where('shipping_code', 'ship_cac')->pluck('shipping_id');
+	    }
+	    
+	    if (!empty($shipping_cac_id)) {
+	        $shipping_area_list = RC_DB::table('shipping_area')->where('shipping_id', $shipping_cac_id)->where('store_id', $store_id)->groupBy('shipping_id')->get();
+	        
+	        if (!empty($shipping_area_list)) {
+	            $shipping_cfg = ecjia_shipping::unserializeConfig($shipping_area_list['0']['configure']);
+	            if (!empty($shipping_cfg['pickup_time'])) {
+	                /* 获取最后可取货的时间（当前时间）*/
+	                $time = RC_Time::local_date('H:i', RC_Time::gmtime());
+	                if (empty($shipping_cfg['pickup_time'])) {
+	                    return $expect_pickup_date;
+	                }
+	                $pickup_date = 0;
+	                /*取货日期*/
+	                if (empty($shipping_cfg['pickup_days'])) {
+	                    $shipping_cfg['pickup_days'] = 7;
+	                }
+	                while ($shipping_cfg['pickup_days']) {
+	                    $pickup = [];
+	                    
+	                    foreach ($shipping_cfg['pickup_time'] as $k => $v) {
+	                        if($show_all_time) {
+	                            $pickup['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$pickup_date.' day'));
+	                            $pickup['time'][] = array(
+	                                'start_time' 	=> $v['start'],
+	                                'end_time'		=> $v['end'],
+	                                'is_disabled'   => ($v['end'] < $time && $pickup_date == 0) ? 1 : 0,
+	                            );
+	                        } else {
+	                            if ($v['end'] > $time || $pickup_date > 0) {
+	                                $pickup['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$pickup_date.' day'));
+	                                $pickup['time'][] = array(
+	                                    'start_time' 	=> $v['start'],
+	                                    'end_time'		=> $v['end'],
+	                                );
+	                            }
+	                        }
+	                    }
+	                    if (!empty($pickup['date']) && !empty($pickup['time'])) {
+	                        $expect_pickup_date[] = $pickup;
+	                    }
+	                    $pickup_date ++;
+	                    
+	                    if (count($expect_pickup_date) >= $shipping_cfg['pickup_days']) {
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    
+	    return $expect_pickup_date;
+	}
+	
 }
 
 // end

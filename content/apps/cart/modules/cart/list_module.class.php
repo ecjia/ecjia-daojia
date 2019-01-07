@@ -58,12 +58,23 @@ class cart_list_module extends api_front implements api_interface {
     	if ($_SESSION['user_id'] <= 0) {
     		return new ecjia_error(100, 'Invalid session');
     	}
+    	
+    	$user_id = $_SESSION['user_id'];
+    	$api_version = $this->request->header('api-version');
+    	//判断用户有没申请注销
+    	if (version_compare($api_version, '1.25', '>=')) {
+    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
+    		}
+    	}
+    	
     	RC_Loader::load_app_func('cart', 'cart');
     	//recalculate_price(); //后续方法重新计算
 		$location	= $this->requestData('location', array());
 		$seller_id	= $this->requestData('seller_id', 0);
 		$city_id	= $this->requestData('city_id', '');
-
+		
 		
 		if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
 			$geohash         = RC_Loader::load_app_class('geohash', 'store');

@@ -491,7 +491,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
 	RC_Loader::load_app_func('global', 'goods');
 	
 	$field = "g.goods_id, g.market_price, g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.store_id as store_id, g.model_inventory, g.model_attr, ".
-			"g.is_xiangou, g.xiangou_start_date, g.xiangou_end_date, g.xiangou_num, ".
+// 			"g.is_xiangou, g.xiangou_start_date, g.xiangou_end_date, g.xiangou_num, ".
 // 			"wg.w_id, wg.warehouse_price, wg.warehouse_promote_price, wg.region_number as wg_number, wag.region_price, wag.region_promote_price, wag.region_number as wag_number, ".
 // 			"IF(g.model_price < 1, g.shop_price, IF(g.model_price < 2, wg.warehouse_price, wag.region_price)) AS org_price,  ".
 			"g.model_price, g.market_price, ".
@@ -530,7 +530,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     }
     /* 是否正在销售 */
     if ($goods['is_on_sale'] == 0) {
-    	return new ecjia_error('addcart_error', __('购买失败'));
+    	return new ecjia_error('addcart_error', __('对不起，该商品已下架！'));
     }
     /* 如果是作为配件添加到购物车的，需要先检查购物车里面是否已经有基本件 */
     if ($parent > 0) {
@@ -547,7 +547,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
 
     /* 不是配件时检查是否允许单独销售 */
     if (empty($parent) && $goods['is_alone_sale'] == 0) {
-		return new ecjia_error('addcart_error', __('购买失败'));
+		return new ecjia_error('addcart_error', __('对不起，该商品不能单独购买！'));
     }
     /* 如果商品有规格则取规格商品信息 配件除外 */
     $prod = $db_products->find(array('goods_id' => $goods_id));
@@ -572,11 +572,14 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
 			return new ecjia_error('low_stocks', __('库存不足'));
 		}
 		//商品存在规格 是货品 检查该货品库存
-    	if (is_spec($spec) && !empty($prod)) {
+    	if (is_spec($spec)) {
+    	    if(empty($prod)) {
+    	        return new ecjia_error('low_stocks', __('货品库存不足'));
+    	    }
     		if (!empty($spec)) {
 				/* 取规格的货品库存 */
     			if ($num > $product_info['product_number']) {
-    				return new ecjia_error('low_stocks', __('库存不足'));
+    				return new ecjia_error('low_stocks', __('货品库存不足'));
     			}
     		}
     	}
@@ -589,7 +592,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     $spec_price             = spec_price($spec, $goods_id);
     $goods_price            = get_final_price($goods_id, $num, true, $spec);
 //     $goods['market_price'] += $spec_price;
-    $goods_attr             = get_goods_attr_info($spec, 'pice');
+    $goods_attr             = get_goods_attr_info($spec, 'no');
     $goods_attr_id          = join(',', $spec);
     
     /*收银台商品购物车类型*/
@@ -1862,7 +1865,7 @@ function formated_favourable($favourable_result, $goods_list) {
         return $favourable_result;
     }
     foreach ($favourable_result as $val) {
-        if ($val['act_range'] == '0') {
+        if ($val['act_range'] == FAR_ALL) {
             $favourable_list[] = array(
                 'id'    => $val['act_id'],
                 'title' => $val['act_name'],
@@ -1934,227 +1937,15 @@ function cart_goods_dsc($type = CART_GENERAL_GOODS, $cart_value = '', $ru_type =
 {
     $rec_txt = array('普通', '团购','拍卖','夺宝奇兵','积分商城','预售','秒杀');
     
-//     $where = 1;
-//     if($store_id){
-//         $where .= " AND c.store_id = '$store_id' ";
-//     }
-    
-//     $goods_where = " AND g.is_delete = 0 ";
-//     if($type == CART_PRESALE_GOODS){
-//         $goods_where .= " AND g.is_on_sale = 0 ";
-//     }
-    
-//     //ecmoban模板堂 --zhuo start
-//     if(!empty($_SESSION['user_id'])){
-//         $c_sess = " AND c.user_id = '" . $_SESSION['user_id'] . "' ";
-//     }else{
-//         $c_sess = " AND c.session_id = '" . SESS_ID . "' ";
-//     }
-    
-//     $where_area = '';
-//     if ($GLOBALS['_CFG']['area_pricetype'] == 1) {
-//         $where_area = " AND c.area_city = '$area_city'";
-//     }
-    
-//     $goodsIn = '';
-//     if(!empty($cart_value)){
-//         $goodsIn = " AND c.rec_id in($cart_value)";
-//     }
-//     //ecmoban模板堂 --zhuo end
-    
-//     //查询非超值礼包商品
-//     $sql = "SELECT c.warehouse_id, c.area_id, c.area_city, c.rec_id, c.user_id, c.goods_id, c.ru_id, g.cat_id, c.goods_name, g.goods_thumb, c.goods_sn, c.goods_number, g.default_shipping, g.goods_weight as goodsweight, " .//储值卡指定分类 liu
-//         "c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.rec_type, " .
-//         "c.goods_price * c.goods_number AS subtotal, c.goods_attr_id, c.goods_number, c.stages_qishu, " .//查出分期期数 bylu;
-//         "c.parent_id, c.group_id, pa.deposit, g.is_shipping, g.freight, g.tid, g.shipping_fee, g.brand_id, g.cloud_id, g.cloud_goodsname " .
-//         "FROM " . $GLOBALS['ecs']->table('cart') . " AS c ".
-//         "LEFT JOIN ".$GLOBALS['ecs']->table('goods'). " AS g ON c.goods_id = g.goods_id " .$goods_where.
-//         "LEFT JOIN ".$GLOBALS['ecs']->table('presale_activity'). " AS pa ON pa.goods_id = g.goods_id AND pa.review_status = 3 ".
-//         "WHERE $where " . $c_sess .
-//         "AND rec_type = '$type'" . $goodsIn ." GROUP BY c.rec_id order by c.rec_id DESC";
-    
-//     $arr = $GLOBALS['db']->getAll($sql);
-    
-//     if($GLOBALS['_CFG']['add_shop_price'] == 1){
-//         $add_tocart = 1;
-//     }else{
-//         $add_tocart = 0;
-//     }
-    
-//     /* 格式化价格及礼包商品 */
-//     foreach ($arr as $key => $value)
-//     {
-//         /* 判断购物车商品价格是否与目前售价一致，如果不同则返回购物车价格失效 */
-//         $currency_format = !empty($GLOBALS['_CFG']['currency_format']) ? explode('%', $GLOBALS['_CFG']['currency_format']) : '';
-//         $attr_id = !empty($value['goods_attr_id']) ? explode(',', $value['goods_attr_id']) : '';
-        
-//         if(count($currency_format) > 1){
-//             $goods_price = trim(get_final_price($value['goods_id'], $value['goods_number'], true, $attr_id, $value['warehouse_id'], $value['area_id'], $value['area_city'], 0, 0, $add_tocart), $currency_format[0]);
-//             $cart_price = trim($value['goods_price'], $currency_format[0]);
-//         }else{
-//             $goods_price = get_final_price($value['goods_id'], $value['goods_number'], true, $attr_id, $value['warehouse_id'], $value['area_id'], $value['area_city'], 0, 0, $add_tocart);
-//             $cart_price = $value['goods_price'];
-//         }
-        
-//         $goods_price = floatval($goods_price);
-//         $cart_price = floatval($cart_price);
-        
-//         if($goods_price != $cart_price && empty($value['is_gift']) && empty($value['group_id'])){
-//             $value['price_is_invalid'] = 1;//价格已过期
-//         }else{
-//             $value['price_is_invalid'] = 0;//价格未过期
-//         }
-//         if ($value['price_is_invalid'] && $value['rec_type'] == 0 && empty($value['is_gift']) && $value['extension_code'] != 'package_buy') {
-//             if (isset($_SESSION['flow_type']) && $_SESSION['flow_type'] == 0 && $goods_price > 0) {
-//                 get_update_cart_price($goods_price, $value['rec_id']);
-//                 $value['goods_price'] = $goods_price;
-//             }
-//         }
-        
-//         $arr[$key]['formated_goods_price']  = price_format($value['goods_price'], false);
-//         $arr[$key]['formated_subtotal']     = price_format($arr[$key]['subtotal'], false);
-        
-//         if ($value['extension_code'] == 'package_buy')
-//         {
-//             $value['amount'] = 0;
-//             $arr[$key]['dis_amount'] = 0;
-//             $arr[$key]['discount_amount'] = price_format($arr[$key]['dis_amount'], false);
-            
-//             $arr[$key]['package_goods_list'] = get_package_goods($value['goods_id']);
-            
-//             $activity = get_goods_activity_info($value['goods_id'], array('act_id', 'activity_thumb'));
-//             if ($activity) {
-//                 $value['goods_thumb'] = $activity['activity_thumb'];
-//             }
-//             $arr[$key]['goods_thumb'] = get_image_path($value['goods_id'], $value['goods_thumb'], true);
-            
-//             $package = get_package_goods_info($arr[$key]['package_goods_list']);
-//             $arr[$key]['goods_weight'] = $package['goods_weight'];
-//             $arr[$key]['goodsweight'] = $package['goods_weight'];
-//             $arr[$key]['goods_number'] = $value['goods_number'];
-//             $arr[$key]['attr_number'] = !judge_package_stock($value['goods_id'], $value['goods_number']);
-//         }else{
-//             //贡云商品参数
-//             $arr[$key]['cloud_goodsname'] = $value['cloud_goodsname'];
-//             $arr[$key]['cloud_id'] = $value['cloud_id'];
-            
-//             //ecmoban模板堂 --zhuo start 商品金额促销
-//             $goods_con = get_con_goods_amount($value['subtotal'], $value['goods_id'], 0, 0, $value['parent_id']);
-//             $goods_con['amount'] = explode(',', $goods_con['amount']);
-//             $value['amount'] = min($goods_con['amount']);
-            
-//             $arr[$key]['dis_amount'] = $value['subtotal'] - $value['amount'];
-//             $arr[$key]['discount_amount'] = price_format($arr[$key]['dis_amount'], false);
-//             //ecmoban模板堂 --zhuo end 商品金额促销
-            
-//             //$arr[$key]['subtotal'] = $value['amount'];
-//             $arr[$key]['goods_thumb'] = get_image_path($value['goods_id'], $value['goods_thumb'], true);
-//             $arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
-            
-//             $arr[$key]['formated_presale_deposit']  = price_format($value['deposit'], false);
-            
-//             //ecmoban模板堂 --zhuo
-//             $arr[$key]['region_name'] = $GLOBALS['db']->getOne("select region_name from " .$GLOBALS['ecs']->table('region_warehouse'). " where region_id = '" .$value['warehouse_id']. "'");
-//             $arr[$key]['rec_txt'] = $rec_txt[$value['rec_type']];
-            
-//             if ($value['rec_type'] == 1) {
-//                 $sql = "SELECT act_id,act_name FROM " . $GLOBALS['ecs']->table('goods_activity') . " WHERE review_status = 3 AND act_type = '" . GAT_GROUP_BUY . "' AND goods_id = '" . $value['goods_id'] . "'";
-//                 $group_buy = $GLOBALS['db']->getRow($sql);
-                
-//                 $arr[$key]['url'] = build_uri('group_buy', array('gbid' => $group_buy['act_id']));
-//                 $arr[$key]['act_name'] = $group_buy['act_name'];
-//             } elseif ($value['rec_type'] == 5) {
-//                 $sql = "SELECT act_id,act_name FROM " . $GLOBALS['ecs']->table('presale_activity') . " WHERE goods_id = '" . $value['goods_id'] . "' AND review_status = 3 LIMIT 1";
-//                 $presale = $GLOBALS['db']->getRow($sql);
-                
-//                 $arr[$key]['act_name'] = $presale['act_name'];
-//                 $arr[$key]['url'] = build_uri('presale', array('act' => 'view', 'presaleid' => $presale['act_id']), $presale['act_name']);
-//             }elseif($value['rec_type'] == 4){
-//                 $arr[$key]['url'] = build_uri('exchange_goods', array('gid'=>$value['goods_id']), $value['goods_name']);
-//             } else {
-//                 $arr[$key]['url'] = build_uri('goods', array('gid' => $value['goods_id']), $value['goods_name']);
-//             }
-            
-//             //预售商品，不受库存限制
-//             if($value['extension_code'] == 'presale' || $value['rec_type'] > 1 ){
-//                 $arr[$key]['attr_number'] = 1;
-//             }else{
-//                 //ecmoban模板堂 --zhuo start
-//                 if($ru_type == 1 && $warehouse_id > 0 && $store_id == 0){
-                    
-//                     $leftJoin = " left join " .$GLOBALS['ecs']->table('warehouse_goods'). " as wg on g.goods_id = wg.goods_id and wg.region_id = '$warehouse_id' ";
-//                     $leftJoin .= " left join " .$GLOBALS['ecs']->table('warehouse_area_goods'). " as wag on g.goods_id = wag.goods_id and wag.region_id = '$area_id' ";
-                    
-//                     $sql = "SELECT g.cloud_id, IF(g.model_price < 1, g.goods_number, IF(g.model_price < 2, wg.region_number, wag.region_number)) AS goods_number, g.user_id, g.model_attr FROM " .
-//                         $GLOBALS['ecs']->table('goods') ." AS g " . $leftJoin .
-//                         " WHERE g.goods_id = '" .$value['goods_id']. "' LIMIT 1";
-//                         $goodsInfo = $GLOBALS['db']->getRow($sql);
-                        
-//                         $products = get_warehouse_id_attr_number($value['goods_id'], $value['goods_attr_id'], $goodsInfo['user_id'], $warehouse_id, $area_id, $area_city);
-//                         $attr_number = $products['product_number'];
-                        
-//                         if($goodsInfo['model_attr'] == 1){
-//                             $table_products = "products_warehouse";
-//                             $type_files = " and warehouse_id = '$warehouse_id'";
-//                         }elseif($goodsInfo['model_attr'] == 2){
-//                             $table_products = "products_area";
-//                             $type_files = " and area_id = '$area_id'";
-//                             if ($GLOBALS['_CFG']['area_pricetype'] == 1) {
-//                                 $type_files .= " AND city_id = '$area_city'";
-//                             }
-//                         }else{
-//                             $table_products = "products";
-//                             $type_files = "";
-//                         }
-                        
-//                         $sql = "SELECT * FROM " .$GLOBALS['ecs']->table($table_products). " WHERE goods_id = '" .$value['goods_id']. "'" .$type_files. " LIMIT 0, 1";
-//                         $prod = $GLOBALS['db']->getRow($sql);
-                        
-//                         if(empty($prod)){ //当商品没有属性库存时
-//                             $attr_number = ($GLOBALS['_CFG']['use_storage'] == 1) ? $goodsInfo['goods_number'] : 1;
-//                         }
-                        
-//                         //贡云商品 验证库存
-//                         if ($goodsInfo['cloud_id'] > 0) {}
-//                         $attr_number = !empty($attr_number) ? $attr_number : 0;
-//                         $arr[$key]['attr_number'] = $attr_number;
-//                 }else{
-//                     $arr[$key]['attr_number'] = $value['goods_number'];
-//                 }
-                
-//                 //ecmoban模板堂 --zhuo end
-//             }
-            
-//             if (defined('THEME_EXTENSION')){
-//                 $arr[$key]['goods_attr_text'] = get_goods_attr_info($value['goods_attr_id'], 'pice', $value['warehouse_id'], $value['area_id'], $value['area_city'], 1);
-//             }
-            
-//             //by kong  切换门店获取商品门店库存 start 20160721
-//             if($store_id > 0){
-//                 $sql = "SELECT goods_number,ru_id FROM".$GLOBALS['ecs']->table("store_goods")." WHERE store_id = '$store_id' AND goods_id = '".$value['goods_id']."' ";
-//                 $goodsInfo = $GLOBALS['db']->getRow($sql);
-                
-//                 $products = get_warehouse_id_attr_number($value['goods_id'], $value['goods_attr_id'], $goodsInfo['ru_id'], 0, 0,'',$store_id);//获取属性库存
-//                 $attr_number = $products['product_number'];
-//                 if($value['goods_attr_id']){ //当商品没有属性库存时
-//                     $arr[$key]['attr_number'] = $attr_number;
-//                 }else{
-//                     $arr[$key]['attr_number'] = $goodsInfo['goods_number'];
-//                 }
-//             }
-//             //by kong  切换门店获取商品门店库存 end 20160721
-//         }
-//     }
-
     
     if($cart_value && !is_array($cart_value)) {
         $cart_value = explode(',', $cart_value);
     }
     
-    $arr = cart_goods(CART_GENERAL_GOODS, $cart_value);
+    $arr = cart_goods($type, $cart_value);
     
     $goods_amount = get_cart_check_goods($arr, $cart_value);
-//     _dump($arr);
+    
     if($ru_type == 1){
         $arr = get_cart_goods_ru_list($arr, $ru_type);
         $arr = get_cart_ru_goods_list($arr, $cart_value, $consignee, $store_id);
@@ -2201,7 +1992,7 @@ function get_cart_goods_ru_id($goods) {
 }
 
 //获取店铺配送方式列表和运费   --修改过
-function get_ru_shippng_info($goods_list, $cart_value, $store_id, $consignee = []) {
+function get_ru_shippng_info($goods_list, $cart_value, $store_id, $region = [], $consignee = []) {
     if(empty($goods_list)) {
         return [];
     }
@@ -2225,14 +2016,44 @@ function get_ru_shippng_info($goods_list, $cart_value, $store_id, $consignee = [
         $is_free_ship = 1;
     }
     
-    $shipping_list = ecjia_shipping::availableUserShippings($consignee, $store_id);
+    $shipping_list = ecjia_shipping::availableUserShippings($region, $store_id);
     if($shipping_list) {
+        RC_Loader::load_app_class('cart', 'cart', false);
+        $ck = array();
         foreach ($shipping_list as $key => $row) {
-            $shipping_fee = ($is_free_ship == 1) ? 0 : ecjia_shipping::fee($row['shipping_area_id'], $cart_weight_price['weight'], $cart_weight_price['amount'], $cart_weight_price['number']);
+            if (isset($ck[$row['shipping_id']])) {
+                unset($shipping_list[$key]);
+                continue;
+            }
+            $ck[$row['shipping_id']] = $row['shipping_id'];
+            // O2O的配送费用计算传参调整 参考flow/checkOrder
+            if (in_array($row['shipping_code'], ['ship_o2o_express','ship_ecjia_express'])) {
+                $store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->where('shop_close', '0')->first();
+                $from = ['latitude' => $store_info['latitude'], 'longitude' => $store_info['longitude']];
+                $to = ['latitude' => $consignee['location']['latitude'], 'longitude' => $consignee['location']['longitude']];
+                $distance = Ecjia\App\User\Location::getDistance($from, $to);
+                $shipping_fee = $is_free_ship ? 0 : ecjia_shipping::fee($row['shipping_area_id'], $distance, $cart_weight_price['amount'], $cart_weight_price['number']);
+            } else {
+                $shipping_fee = $is_free_ship ? 0 : ecjia_shipping::fee($row['shipping_area_id'], $cart_weight_price['weight'], $cart_weight_price['amount'], $cart_weight_price['number']);
+            }
+            //上门取货 自提插件 获得提货时间
+            if($row['shipping_code'] == 'ship_cac' && $is_has_ship_cac == 0) {
+                $is_has_ship_cac ++;
+                $shipping_list[$key]['expect_pickup_date'] = cart::get_ship_cac_date_by_store($store_id, $row['shipping_id']);
+                $shipping_list[$key]['expect_pickup_date_default'] = $shipping_list[$key]['expect_pickup_date'][0]['date'] . ' ' . $shipping_list[$key]['expect_pickup_date'][0]['time'][0]['start_time'] . '-' . $shipping_list[$key]['expect_pickup_date'][0]['time'][0]['end_time'];
+                RC_Loader::load_app_func('merchant', 'merchant');
+                $store_info = get_store_info($store_id, 1);
+                $shipping_list[$key]['shop_kf_mobile'] = $store_info['shop_kf_mobile'];
+                $shipping_list[$key]['address'] = $store_info['province_name'] . $store_info['city_name'] . $store_info['district_name'] . $store_info['street_name'] . $store_info['address'];
+            }
+            
             $shipping_list[$key]['shipping_fee']        = $shipping_fee;
             $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee, false);
         }
     }
+    //php 7.2兼容有问题，返回值只有第一个。
+    //$shipping_list = array_unique($shipping_list);
+    //$shipping_list = collect($shipping_list)->unique('shipping_code')->toArray();
     
     return $shipping_list;
 }
@@ -2268,7 +2089,7 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = [], 
 //             $ru_shippng = get_ru_shippng_info($row, $cart_value, $key, $consignee);
 
             $region = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district'], $consignee['street']);
-            $ru_shippng = get_ru_shippng_info($row, $cart_value, $key, $region);
+            $ru_shippng = get_ru_shippng_info($row, $cart_value, $key, $region, $consignee);
             
             //$arr[$key]['shipping'] = $ru_shippng['shipping_list'];
             $arr[$key]['shipping'] = $ru_shippng;
@@ -2279,7 +2100,17 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = [], 
             if(!empty($arr[$key]['shipping']))
             {
                 $arr[$key]['shipping'] = array_values($arr[$key]['shipping']);
-                $arr[$key]['tmp_shipping_id'] = isset($arr[$key]['shipping'][0]['shipping_id']) ? $arr[$key]['shipping'][0]['shipping_id'] : 0; //默认选中第一个配送方式
+                //默认shipping_id
+                if(count($arr[$key]['shipping']) > 1) {
+                    if($arr[$key]['shipping'][0]['shipping_code'] != 'ship_cac') {
+                        $arr[$key]['tmp_shipping_id'] = isset($arr[$key]['shipping'][0]['shipping_id']) ? $arr[$key]['shipping'][0]['shipping_id'] : 0; //默认选中第一个配送方式
+                    } else {
+                        $arr[$key]['tmp_shipping_id'] = isset($arr[$key]['shipping'][1]['shipping_id']) ? $arr[$key]['shipping'][1]['shipping_id'] : 0; //默认选中第一个配送方式
+                    }
+                } else {
+                    $arr[$key]['tmp_shipping_id'] = isset($arr[$key]['shipping'][0]['shipping_id']) ? $arr[$key]['shipping'][0]['shipping_id'] : 0; //默认选中第一个配送方式
+                }
+                
                 foreach($arr[$key]['shipping'] as $kk=>$vv)
                 {
                     $vv['default'] = isset($vv['default']) ? $vv['default'] : 0;

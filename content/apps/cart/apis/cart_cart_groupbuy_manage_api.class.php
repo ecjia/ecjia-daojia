@@ -467,6 +467,7 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     	$goods_attr_id = empty($goods_attr_id) ? 0 : $goods_attr_id;
     	
     	/* 更新：清空购物车中所有团购商品 */
+    	RC_Loader::load_app_func('cart', 'cart');
     	clear_cart(CART_GROUP_BUY_GOODS);
     
     	/* 更新：加入购物车 */
@@ -474,7 +475,7 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     	$cart = array(
     			'user_id'        => $_SESSION['user_id'],
     			'goods_id'       => $group_buy['goods_id'],
-    			'product_id'     => $product_info['product_id'],
+    	        'product_id'     => isset($product_info['product_id']) ? $product_info['product_id'] : 0,
     			'goods_sn'       => addslashes($goods['goods_sn']),
     			'goods_name'     => addslashes($goods['goods_name']),
     			'market_price'   => $goods['market_price'],

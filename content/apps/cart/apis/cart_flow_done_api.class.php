@@ -449,12 +449,13 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 
 		if ($order['bonus_id'] > 0 && $temp_amout > 0) {
-			RC_Api::api('bonus', 'use_bonus', array('bonus_id' => $order['bonus_id'], 'order_id' => $new_order_id));
+			RC_Api::api('bonus', 'use_bonus', array('bonus_id' => $order['bonus_id'], 'order_id' => $new_order_id, 'order_sn' => $order['order_sn']));
 		}
 
 		/* 给商家发邮件 */
 		/* 增加是否给客服发送邮件选项 */
-		if (ecjia::config('send_service_email') && ecjia::config('service_email') != '') {
+		$service_email = ecjia::config('service_email');
+		if (ecjia::config('send_service_email') && !empty($service_email)) {
 			try {
 				$tpl_name = 'remind_of_new_order';
 				$tpl   = RC_Api::api('mail', 'mail_template', $tpl_name);

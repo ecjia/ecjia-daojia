@@ -235,8 +235,13 @@ class flow_checkOrder_module extends api_front implements api_interface {
 // 		    $shipping_method   = RC_Loader::load_app_class('shipping_method', 'shipping');
 // 		    $shipping_list     = $shipping_method->available_shipping_list_front($region, $order['store_id']);
 		    $shipping_list     = ecjia_shipping::availableUserShippings($region, $order['store_id']);
-		    
-		    $cart_weight_price = cart::cart_weight_price($flow_type, $cart_id);
+
+		    if ($flow_type == CART_GROUP_BUY_GOODS) {
+                $cart_weight_price = cart::cart_weight_price(CART_GROUP_BUY_GOODS);
+            } else {
+                $cart_weight_price = cart::cart_weight_price(CART_GENERAL_GOODS, $cart_id);
+            }
+
 		    $insure_disabled   = true;
 		    $cod_disabled      = true;
 		    
@@ -263,11 +268,14 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		    // 计算店家距离收件人距离 $distance
 		    if (!empty($store_info['longitude']) && !empty($store_info['latitude'])) {
 		    	//腾讯地图api距离计算
-		    	$key = ecjia::config('map_qq_key');
-		    	$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$key;
-		    	$distance_json = file_get_contents($url);
-		    	$distance_info = json_decode($distance_json, true);
-		    	$distance = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+// 		    	$key = ecjia::config('map_qq_key');
+// 		    	$url = "https://apis.map.qq.com/ws/distance/v1/?mode=driving&from=".$store_info['latitude'].",".$store_info['longitude']."&to=".$consignee['latitude'].",".$consignee['longitude']."&key=".$key;
+// 		    	$distance_json = file_get_contents($url);
+// 		    	$distance_info = json_decode($distance_json, true);
+// 		    	$distance = isset($distance_info['result']['elements'][0]['distance']) ? $distance_info['result']['elements'][0]['distance'] : 0;
+		        $from = ['latitude' => $store_info['latitude'], 'longitude' => $store_info['longitude']];
+		        $to = ['latitude' => $consignee['latitude'], 'longitude' => $consignee['longitude']];
+		        $distance = Ecjia\App\User\Location::getDistance($from, $to);
 		    }
 		    /* ===== 计算收件人距离 ===== */
 		    
@@ -659,55 +667,10 @@ class flow_checkOrder_module extends api_front implements api_interface {
 			$out_new['discount']			= $out['discount'];
 			$out_new['discount_formated']	= $out['discount_formated'];
 			
-			$shipping_area_list = RC_DB::table('shipping_area')->where('store_id', $store_id)->where('shipping_id', $ship_id)->get();
+			$expect_pickup_date = array();
+			$expect_pickup_date = cart::get_ship_cac_date_by_store($store_id, $ship_id);
+			$out_new['expect_pickup_date'] = $expect_pickup_date;
 			
-			if (empty($shipping_area_list)) {
-				$expect_pickup_date = array();
-			} else {
-				$shipping_cfg = $shipping_area_list['0']['configure'];
-				$shipping_cfg = ecjia_shipping::unserializeConfig($shipping_cfg);
-				if (empty($shipping_cfg)) {
-					$expect_pickup_date = array();
-				} else {
-					if (!empty($shipping_cfg['pickup_time'])) {
-						/* 获取最后可取货的时间（当前时间）*/
-						$time = RC_Time::local_date('H:i', RC_Time::gmtime());
-						if (empty($shipping_cfg['pickup_time'])) {
-							$expect_pickup_date = array();
-						}
-						$pickup_date = 0;
-						/*取货日期*/
-						if (empty($shipping_cfg['pickup_days'])) {
-							$shipping_cfg['pickup_days'] = 7;
-						}
-						while ($shipping_cfg['pickup_days']) {
-							$pickup = [];
-								
-							foreach ($shipping_cfg['pickup_time'] as $k => $v) {
-								if ($v['end'] > $time || $pickup_date > 0) {
-										
-									$pickup['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$pickup_date.' day'));
-									$pickup['time'][] = array(
-											'start_time' 	=> $v['start'],
-											'end_time'		=> $v['end'],
-									);
-										
-								}
-							}
-							if (!empty($pickup['date']) && !empty($pickup['time'])) {
-								$expect_pickup_date[] = $pickup;
-							}
-							$pickup_date ++;
-								
-							if (count($expect_pickup_date) >= $shipping_cfg['pickup_days']) {
-								break;
-							}
-						}
-					}
-				}
-			}
-			
-			$out_new['expect_pickup_date'] = array_merge($expect_pickup_date);
 			return $out_new;
 		} 
 		//去掉系统使用的字段
