@@ -1,8 +1,8 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat\Gateways;
 
-use Royalcms\Component\Pay\Gateways\Wechat;
+use Royalcms\Component\Pay\PayVendor\Wechat\Wechat;
 use Royalcms\Component\Pay\Log;
 use Royalcms\Component\Support\Collection;
 
@@ -20,7 +20,7 @@ class GroupRedpackGateway extends Gateway
      *
      * @return Collection
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         $payload['wxappid'] = $payload['appid'];
         $payload['amt_type'] = 'ALL_RAND';

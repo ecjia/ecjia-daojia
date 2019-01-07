@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat\Gateways;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +19,7 @@ class WapGateway extends Gateway
      *
      * @return Response
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         $payload['trade_type'] = $this->getTradeType();
 

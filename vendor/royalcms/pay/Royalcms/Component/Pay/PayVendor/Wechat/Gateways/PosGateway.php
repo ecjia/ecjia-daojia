@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat\Gateways;
 
 use Royalcms\Component\Support\Collection;
 
@@ -18,7 +18,7 @@ class PosGateway extends Gateway
      *
      * @return Collection
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         unset($payload['trade_type'], $payload['notify_url']);
 

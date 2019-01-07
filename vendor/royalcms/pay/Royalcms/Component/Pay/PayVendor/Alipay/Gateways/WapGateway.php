@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Alipay;
+namespace Royalcms\Component\Pay\PayVendor\Alipay\Gateways;
 
 class WapGateway extends WebGateway
 {

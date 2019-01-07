@@ -1,14 +1,13 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat;
 
 use Royalcms\Component\Pay\Exceptions\GatewayException;
 use Royalcms\Component\Pay\Exceptions\InvalidArgumentException;
 use Royalcms\Component\Pay\Exceptions\InvalidSignException;
-use Royalcms\Component\Pay\Gateways\Wechat;
 use Royalcms\Component\Pay\Log;
-use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Pay\Traits\HasHttpRequest;
+use Royalcms\Component\Support\Collection;
 
 class Support
 {
@@ -29,13 +28,6 @@ class Support
     private static $instance;
 
     /**
-     * Bootstrap.
-     */
-    private function __construct()
-    {
-    }
-
-    /**
      * Get instance.
      *
      * @return Support
@@ -47,6 +39,16 @@ class Support
         }
 
         return self::$instance;
+    }
+
+    public function setBaseUri($baseUri)
+    {
+        $this->baseUri = $baseUri;
+    }
+
+    public function getBaseUri()
+    {
+        return $this->baseUri;
     }
 
     /**
@@ -63,26 +65,34 @@ class Support
      *
      * @return Collection
      */
-    public static function requestApi($endpoint, $data, $key = null, $cert = [])
+    public static function requestApi($endpoint, $data, $key = null, $cert = [], $baseUri = null)
     {
         Log::debug('Request To Wechat Api', [self::baseUri().$endpoint, $data]);
+
+        if (! is_null($baseUri)) {
+            self::getInstance()->setBaseUri($baseUri);
+        }
 
         $result = self::getInstance()->post(
             $endpoint,
             self::toXml($data),
             $cert
         );
+
         $result = is_array($result) ? $result : self::fromXml($result);
 
         if (!isset($result['return_code']) || $result['return_code'] != 'SUCCESS' || $result['result_code'] != 'SUCCESS') {
             throw new GatewayException(
-                'Get Wechat API Error:'.$result['return_msg'].(isset($result['err_code_des']) ? $result['err_code_des'] : ''),
+                'Get Wechat API Error:'.$result['return_msg'].(isset($result['err_code_des']) ? '(' . $result['err_code_des'] . ')' : ''),
                 $result,
                 20000
             );
         }
 
         if (strpos($endpoint, 'mmpaymkttransfers') !== false || self::generateSign($result, $key) === $result['sign']) {
+            return new Collection($result);
+        }
+        else if (strpos($endpoint, 'risk/getpublickey') !== false) {
             return new Collection($result);
         }
 
@@ -234,17 +244,17 @@ class Support
     {
         switch ($mode) {
             case Wechat::MODE_DEV:
-                self::getInstance()->baseUri = 'https://api.mch.weixin.qq.com/sandboxnew/';
+                self::getInstance()->setBaseUri('https://api.mch.weixin.qq.com/sandboxnew/');
                 break;
 
             case Wechat::MODE_HK:
-                self::getInstance()->baseUri = 'https://apihk.mch.weixin.qq.com/';
+                self::getInstance()->setBaseUri('https://apihk.mch.weixin.qq.com/');
                 break;
 
             default:
                 break;
         }
 
-        return self::getInstance()->baseUri;
+        return self::getInstance()->getBaseUri();
     }
 }

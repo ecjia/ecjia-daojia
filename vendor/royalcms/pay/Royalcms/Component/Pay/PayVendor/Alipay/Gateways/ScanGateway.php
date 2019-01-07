@@ -1,13 +1,15 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Alipay;
+namespace Royalcms\Component\Pay\PayVendor\Alipay\Gateways;
 
 use Royalcms\Component\Pay\Contracts\GatewayInterface;
+use Royalcms\Component\Pay\Contracts\PayloadInterface;
 use Royalcms\Component\Pay\Log;
 use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Pay\Support\Config;
+use Royalcms\Component\Pay\PayVendor\Alipay\Support;
 
-class PosGateway implements GatewayInterface
+class ScanGateway implements GatewayInterface
 {
     /**
      * Config.
@@ -38,19 +40,16 @@ class PosGateway implements GatewayInterface
      *
      * @return Collection
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         $payload['method'] = $this->getMethod();
         $payload['biz_content'] = json_encode(array_merge(
             json_decode($payload['biz_content'], true),
-            [
-                'product_code' => $this->getProductCode(),
-                'scene'        => 'bar_code',
-            ]
+            ['product_code' => $this->getProductCode()]
         ));
         $payload['sign'] = Support::generateSign($payload, $this->config->get('private_key'));
 
-        Log::debug('Paying A Pos Order:', [$endpoint, $payload]);
+        Log::debug('Paying A Scan Order:', [$endpoint, $payload]);
 
         return Support::requestApi($payload, $this->config->get('ali_public_key'));
     }
@@ -62,7 +61,7 @@ class PosGateway implements GatewayInterface
      */
     protected function getMethod()
     {
-        return 'alipay.trade.pay';
+        return 'alipay.trade.precreate';
     }
 
     /**
@@ -72,6 +71,6 @@ class PosGateway implements GatewayInterface
      */
     protected function getProductCode()
     {
-        return 'FACE_TO_FACE_PAYMENT';
+        return '';
     }
 }

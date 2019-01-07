@@ -1,10 +1,10 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat\Gateways;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Royalcms\Component\Pay\Gateways\Wechat;
+use Royalcms\Component\Pay\PayVendor\Wechat\Wechat;
 use Royalcms\Component\Pay\Log;
 use Royalcms\Component\Support\Str;
 
@@ -22,7 +22,7 @@ class AppGateway extends Gateway
      *
      * @return Response
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         $payload['appid'] = $this->config->get('appid');
         $payload['trade_type'] = $this->getTradeType();

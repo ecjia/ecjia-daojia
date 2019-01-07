@@ -3,6 +3,7 @@
 namespace Royalcms\Component\Pay;
 
 use Royalcms\Component\Support\ServiceProvider;
+use Royalcms\Component\Pay\Facades\Pay as RC_Pay;
 
 class PayServiceProvider extends ServiceProvider
 {
@@ -16,43 +17,48 @@ class PayServiceProvider extends ServiceProvider
     /**
      * Boot the service.
      *
-     * @author yansongda <me@yansongda.cn>
      */
     public function boot()
     {
+        /*
         $this->publishes([
             dirname(__DIR__).'/config/pay.php' => config_path('pay.php'), ],
             'royalcms-pay'
         );
+        */
     }
 
     /**
      * Register the service.
      *
-     * @author yansongda <me@yansongda.cn>
-     *
      * @return void
      */
     public function register()
     {
-        $this->mergeConfigFrom($this->guessPackagePath('royalcms/pay').'/config/pay.php', 'pay');
+        $this->package('royalcms/pay');
+
+        //$this->mergeConfigFrom($this->guessPackagePath('royalcms/pay').'/config/pay.php', 'pay');
 
         $this->royalcms->singleton('pay', function () {
             return new Pay([]);
         });
 
-        $this->royalcms->singleton('pay.alipay', function () {
-            return Pay::alipay(config('pay.alipay'));
+        $this->royalcms->singleton('pay.alipay', function ($royalcms, $config = null) {
+            if (is_null($config)) {
+                $config = config('pay::pay.alipay');
+            }
+            return RC_Pay::alipay($config);
         });
-        $this->royalcms->singleton('pay.wechat', function () {
-            return Pay::wechat(config('pay.wechat'));
+        $this->royalcms->singleton('pay.wechat', function ($royalcms, $config = null) {
+            if (is_null($config)) {
+                $config = config('pay::pay.wechat');
+            }
+            return RC_Pay::wechat($config);
         });
     }
 
     /**
      * Get services.
-     *
-     * @author yansongda <me@yansongda.cn>
      *
      * @return array
      */

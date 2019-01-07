@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat\Gateways;
 
 use Royalcms\Component\Pay\Log;
 use Royalcms\Component\Support\Collection;
@@ -20,7 +20,7 @@ class MpGateway extends Gateway
      *
      * @return Collection
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         $payload['trade_type'] = $this->getTradeType();
 

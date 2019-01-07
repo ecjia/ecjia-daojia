@@ -15,24 +15,5 @@ class Pay extends Facade
     {
         return 'pay';
     }
-
-    /**
-     * Return the facade accessor.
-     *
-     * @return string
-     */
-    public static function alipay()
-    {
-        return royalcms('pay.alipay');
-    }
-
-    /**
-     * Return the facade accessor.
-     *
-     * @return string
-     */
-    public static function wechat()
-    {
-        return royalcms('pay.wechat');
-    }
+    
 }

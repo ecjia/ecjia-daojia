@@ -1,15 +1,15 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Alipay;
+namespace Royalcms\Component\Pay\PayVendor\Alipay;
 
 use Royalcms\Component\Pay\Exceptions\GatewayException;
 use Royalcms\Component\Pay\Exceptions\InvalidConfigException;
 use Royalcms\Component\Pay\Exceptions\InvalidSignException;
 use Royalcms\Component\Pay\Log;
+use Royalcms\Component\Pay\Traits\HasHttpRequest;
 use Royalcms\Component\Support\Arr;
 use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Support\Str;
-use Royalcms\Component\Pay\Traits\HasHttpRequest;
 
 class Support
 {

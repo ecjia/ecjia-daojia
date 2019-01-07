@@ -1,12 +1,12 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat\Gateways;
 
 use Royalcms\Component\Pay\Contracts\GatewayInterface;
-use Royalcms\Component\Pay\Gateways\Wechat;
+use Royalcms\Component\Pay\PayVendor\Wechat\Wechat;
 use Royalcms\Component\Pay\Log;
-use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Pay\Support\Config;
+use Royalcms\Component\Support\Collection;
 
 abstract class Gateway implements GatewayInterface
 {
@@ -43,7 +43,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return Collection
      */
-    abstract public function pay($endpoint, array $payload);
+    abstract public function pay($endpoint, $payload);
 
     /**
      * Get trade type config.

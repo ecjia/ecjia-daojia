@@ -1,11 +1,12 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Alipay;
+namespace Royalcms\Component\Pay\PayVendor\Alipay\Gateways;
 
 use Royalcms\Component\Pay\Contracts\GatewayInterface;
 use Royalcms\Component\Pay\Log;
 use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Pay\Support\Config;
+use Royalcms\Component\Pay\PayVendor\Alipay\Support;
 
 class TransferGateway implements GatewayInterface
 {
@@ -38,7 +39,7 @@ class TransferGateway implements GatewayInterface
      *
      * @return Collection
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         $payload['method'] = $this->getMethod();
         $payload['biz_content'] = json_encode(array_merge(

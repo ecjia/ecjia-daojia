@@ -1,9 +1,9 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat\Gateways;
 
 use Symfony\Component\HttpFoundation\Request;
-use Royalcms\Component\Pay\Gateways\Wechat;
+use Royalcms\Component\Pay\PayVendor\Wechat\Wechat;
 use Royalcms\Component\Pay\Log;
 use Royalcms\Component\Support\Collection;
 
@@ -21,7 +21,7 @@ class RedpackGateway extends Gateway
      *
      * @return Collection
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         $payload['wxappid'] = $payload['appid'];
         php_sapi_name() === 'cli' ?: $payload['client_ip'] = Request::createFromGlobals()->server->get('SERVER_ADDR');

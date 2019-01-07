@@ -9,7 +9,7 @@ class Exception extends \Exception
      *
      * @var array
      */
-    public $raw;
+    protected $raw;
 
     /**
      * Bootstrap.
@@ -24,4 +24,16 @@ class Exception extends \Exception
 
         parent::__construct($message, intval($code));
     }
+
+
+    /**
+     * Raw error info.
+     *
+     * @var array
+     */
+    public function getRaw()
+    {
+        return $this->raw;
+    }
+
 }

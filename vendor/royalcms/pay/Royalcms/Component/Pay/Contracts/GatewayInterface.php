@@ -12,5 +12,5 @@ interface GatewayInterface
      *
      * @return \Royalcms\Component\Support\Collection|\Symfony\Component\HttpFoundation\Response
      */
-    public function pay($endpoint, PayloadInterface $payload);
+    public function pay($endpoint, $payload);
 }

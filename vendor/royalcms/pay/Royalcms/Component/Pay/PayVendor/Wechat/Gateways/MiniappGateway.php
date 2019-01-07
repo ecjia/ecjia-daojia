@@ -1,8 +1,8 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways\Wechat;
+namespace Royalcms\Component\Pay\PayVendor\Wechat\Gateways;
 
-use Royalcms\Component\Pay\Gateways\Wechat;
+use Royalcms\Component\Pay\PayVendor\Wechat\Wechat;
 use Royalcms\Component\Support\Collection;
 
 class MiniappGateway extends MpGateway
@@ -19,7 +19,7 @@ class MiniappGateway extends MpGateway
      *
      * @return Collection
      */
-    public function pay($endpoint, array $payload)
+    public function pay($endpoint, $payload)
     {
         $payload['appid'] = $this->config->get('miniapp_id');
 

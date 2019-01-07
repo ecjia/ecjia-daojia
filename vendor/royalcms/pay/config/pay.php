@@ -31,13 +31,13 @@ return [
 
     'wechat' => [
         // 公众号 APPID
-        'app_id' => env('WECHAT_APP_ID', ''),
+        'mpapp_id' => env('WECHAT_MPAPP_ID', ''),
 
         // 小程序 APPID
         'miniapp_id' => env('WECHAT_MINIAPP_ID', ''),
 
         // APP 引用的 appid
-        'appid' => env('WECHAT_APPID', ''),
+        'app_id' => env('WECHAT_APP_ID', ''),
 
         // 微信支付分配的微信商户号
         'mch_id' => env('WECHAT_MCH_ID', ''),

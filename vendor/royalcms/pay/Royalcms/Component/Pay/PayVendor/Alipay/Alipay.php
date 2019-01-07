@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways;
+namespace Royalcms\Component\Pay\PayVendor\Alipay;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,11 +9,10 @@ use Royalcms\Component\Pay\Contracts\GatewayInterface;
 use Royalcms\Component\Pay\Contracts\PayloadInterface;
 use Royalcms\Component\Pay\Exceptions\InvalidGatewayException;
 use Royalcms\Component\Pay\Exceptions\InvalidSignException;
-use Royalcms\Component\Pay\Gateways\Alipay\Support;
 use Royalcms\Component\Pay\Log;
-use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Pay\Support\Config;
 use Royalcms\Component\Support\Str;
+use Royalcms\Component\Support\Collection;
 
 /**
  * @method Response app(array $config) APP 支付

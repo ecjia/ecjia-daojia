@@ -1,30 +1,34 @@
 <?php
 
-namespace Royalcms\Component\Pay\Gateways;
+namespace Royalcms\Component\Pay\PayVendor\Wechat;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Royalcms\Component\Pay\Contracts\GatewayApplicationInterface;
 use Royalcms\Component\Pay\Contracts\GatewayInterface;
+use Royalcms\Component\Pay\Contracts\PayloadInterface;
 use Royalcms\Component\Pay\Exceptions\GatewayException;
 use Royalcms\Component\Pay\Exceptions\InvalidGatewayException;
 use Royalcms\Component\Pay\Exceptions\InvalidSignException;
-use Royalcms\Component\Pay\Gateways\Wechat\Support;
 use Royalcms\Component\Pay\Log;
-use Royalcms\Component\Support\Collection;
 use Royalcms\Component\Pay\Support\Config;
 use Royalcms\Component\Support\Str;
+use Royalcms\Component\Support\Collection;
 
 /**
  * @method Response app(array $config) APP 支付
+ * @method Response wap(array $config) H5 支付
  * @method Collection groupRedpack(array $config) 分裂红包
  * @method Collection miniapp(array $config) 小程序支付
  * @method Collection mp(array $config) 公众号支付
  * @method Collection pos(array $config) 刷卡支付
  * @method Collection redpack(array $config) 普通红包
  * @method Collection scan(array $config) 扫码支付
- * @method Collection transfer(array $config) 企业付款
- * @method Response wap(array $config) H5 支付
+ * @method Collection transfer($order) 微信钱包付款
+ * @method Collection transferQuery($order) 微信钱包付款查询
+ * @method Collection transferBank($order) 微信银行付款
+ * @method Collection transferBankQuery($order) 微信银行付款查询
+ * @method Collection publicKey($order) 获取RSA公钥
  */
 class Wechat implements GatewayApplicationInterface
 {
@@ -78,37 +82,6 @@ class Wechat implements GatewayApplicationInterface
         $this->config = $config;
         $this->mode = $this->config->get('mode', self::MODE_NORMAL);
         $this->gateway = Support::baseUri($this->mode);
-        $this->payload = [
-            'appid'            => $this->config->get('app_id', ''),
-            'mch_id'           => $this->config->get('mch_id', ''),
-            'nonce_str'        => Str::random(),
-            'notify_url'       => $this->config->get('notify_url', ''),
-            'sign'             => '',
-            'trade_type'       => '',
-            'spbill_create_ip' => Request::createFromGlobals()->getClientIp(),
-        ];
-
-        if ($this->mode === static::MODE_SERVICE) {
-            $this->payload = array_merge($this->payload, [
-                'sub_mch_id' => $this->config->get('sub_mch_id'),
-                'sub_appid'  => $this->config->get('sub_app_id', ''),
-            ]);
-        }
-    }
-
-    /**
-     * Magic pay.
-     *
-     * @param string $method
-     * @param string $params
-     *
-     * @throws InvalidGatewayException
-     *
-     * @return Response|Collection
-     */
-    public function __call($method, $params)
-    {
-        return self::pay($method, ...$params);
     }
 
     /**
@@ -121,11 +94,11 @@ class Wechat implements GatewayApplicationInterface
      *
      * @return Response|Collection
      */
-    public function pay($gateway, $params = [])
+    public function pay($gateway, PayloadInterface $order)
     {
-        $this->payload = array_merge($this->payload, $params);
+        $this->payload = $order;
 
-        $gateway = get_class($this).'\\'.Str::studly($gateway).'Gateway';
+        $gateway = '\Royalcms\Component\Pay\PayVendor\Wechat\Gateways\\'.Str::studly($gateway).'Gateway';
 
         if (class_exists($gateway)) {
             return $this->makePay($gateway);
@@ -202,16 +175,15 @@ class Wechat implements GatewayApplicationInterface
      */
     public function refund($order)
     {
-        $this->payload = Support::filterPayload($this->payload, $order, $this->config, true);
+        $this->payload = $order;
 
-        Log::debug('Wechat Refund An Order:', [$this->gateway, $this->payload]);
+        $gateway = '\Royalcms\Component\Pay\PayVendor\Wechat\Gateways\\'.Str::studly('refund').'Gateway';
 
-        return Support::requestApi(
-            'secapi/pay/refund',
-            $this->payload,
-            $this->config->get('key'),
-            ['cert' => $this->config->get('cert_client'), 'ssl_key' => $this->config->get('cert_key')]
-        );
+        if (class_exists($gateway)) {
+            return $this->makePay($gateway);
+        }
+
+        throw new InvalidGatewayException("Pay Gateway [{$gateway}] not exists");
     }
 
     /**
@@ -267,13 +239,29 @@ class Wechat implements GatewayApplicationInterface
     }
 
     /**
+     * Echo fail to server.
+     *
+     * @throws \Royalcms\Component\Pay\Exceptions\InvalidArgumentException
+     *
+     * @return Response
+     */
+    public function failed($error)
+    {
+        return Response::create(
+            Support::toXml(['return_code' => 'FAIL', 'return_msg' => $error]),
+            200,
+            ['Content-Type' => 'application/xml']
+        );
+    }
+
+    /**
      * Make pay gateway.
      *
      * @param string $gateway
      *
      * @throws InvalidGatewayException
      *
-     * @return Response
+     * @return Response|Collection
      */
     protected function makePay($gateway)
     {
@@ -284,5 +272,22 @@ class Wechat implements GatewayApplicationInterface
         }
 
         throw new InvalidGatewayException("Pay Gateway [{$gateway}] Must Be An Instance Of GatewayInterface");
+    }
+
+    /**
+     * Magic pay.
+     *
+     * @param string $method
+     * @param array $params
+     *
+     * @throws InvalidGatewayException
+     *
+     * @return Response|Collection
+     */
+    public function __call($method, array $params)
+    {
+        array_unshift($params, $method);
+
+        return call_user_func_array([$this, 'pay'], $params);
     }
 }
