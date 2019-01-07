@@ -59,27 +59,38 @@ class cron_unpayed extends CronAbstract
      * 计划任务执行方法
      */
     public function run() {
-        $limit_time = !empty($this->config['unpayed_hours']) ? $this->config['unpayed_hours'] : 24;
-        $limit_time = $limit_time * 3600;
+        //$limit_time = !empty($this->config['unpayed_hours']) ? $this->config['unpayed_hours'] : 24;
+        //$limit_time = $limit_time * 3600;
+        
+    	$limit_time = ecjia::config('orders_auto_cancel_time');
+    	$limit_time = $limit_time > 0 ? $limit_time*60 : 0;
+    	
         $limit_rows = !empty($this->config['unpayed_count']) ? $this->config['unpayed_count'] : 100;
         
         RC_Loader::load_app_class('order_operate', 'orders', false);
+        RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
+        
         $order_operate = new order_operate();
         $time = RC_Time::gmtime();
         
-        //条件：下单时间+时间周期  <= 当前时间，未付款
-        $rows = RC_DB::TABLE('order_info')
-        //         ->where('add_time', '>', $time - 31 * 86400)
-        ->whereNotIn('order_status', array(OS_CANCELED,OS_INVALID))
-        ->where('pay_status', PS_UNPAYED)
-        ->where(RC_DB::raw('add_time + '.$limit_time), '<=', $time)
-        ->take($limit_rows)
-        ->get();
-        
-        foreach ($rows as $order) {
-            $order_operate->operate($order, 'cancel', array('action_note' => '超时自动关闭'));
+        //有设置未付款订单取消时间时
+        if ($limit_time > 0) {
+        	//条件：下单时间+时间周期  <= 当前时间，未付款
+        	$rows = RC_DB::table('order_info')
+        	->where('order_status', OS_UNCONFIRMED)
+        	->where('pay_status', PS_UNPAYED)
+        	->where('shipping_status', SS_UNSHIPPED)
+        	->where(RC_DB::raw('add_time + '.$limit_time), '<=', $time)
+        	->take($limit_rows)
+        	->get();
+        	
+        	foreach ($rows as $order) {
+        		$order_operate->operate($order, 'cancel', array('action_note' => '订单超时未支付，已自动取消'));
+        		//记录订单状态日志
+        		OrderStatusLog::order_auto_cancel(array('order_id' => $order['order_id']));
+        	}
+        	unset($rows);
         }
-        unset($rows);
     }
     
     /**
