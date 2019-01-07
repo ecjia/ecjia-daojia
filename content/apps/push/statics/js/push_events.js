@@ -145,6 +145,7 @@
 						code = $("input[name='code']").val();
 						if (name == '') {
 							$('#addevent').modal('hide');
+							$(".modal-backdrop").remove();
 							var data = {
 								message : "请填写消息事件名称！",
 								state : "error",
@@ -190,6 +191,7 @@
 							code = $("input[name='code']").val();
 						if (name == '') {
 							$('#editevent').modal('hide');
+							$(".modal-backdrop").remove();
 							var data = {
 								message : "请填写消息事件名称！",
 								state : "error",
