@@ -232,6 +232,7 @@ class store_store_list_api extends Component_Event_Api {
 						'shop_description'          => '', // 店铺描述
 						'shop_notice'               => '', // 店铺公告
 						'quickpay_enabled'			=> '', // 是否开启了优惠活动
+						'shop_banner_pic'			=> '', // 店铺banner
 					);
 					$config = RC_DB::table('merchants_config')->where('store_id', $val['store_id'])->select('code', 'value')->get();
 					foreach ($config as $key => $value) {
@@ -265,12 +266,14 @@ class store_store_list_api extends Component_Event_Api {
 					        'address' 	=> $result[$k]['address'],
 							'label_trade_time'	 => get_store_trade_time($result[$k]['store_id']),
 					        'seller_notice'      => $result[$k]['shop_notice'],
+							'shop_banner_pic'	 => empty($result[$k]['shop_banner_pic']) ?  '' : RC_Upload::upload_url($result[$k]['shop_banner_pic']),
 					);
 				}
 			}
 			
 			$store_list = array('seller_list' => $seller_list, 'page' => $page_row);
 			
+
 			$store_franchisee_db->set_cache_item($fomated_cache_key, $store_list, 2880);
 		}
 		return $store_list;

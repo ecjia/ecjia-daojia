@@ -610,7 +610,7 @@ function integral_of_value($value) {
 /**
 * 订单退款
 * @param   array   $order		  订单
-* @param   int	 $refund_type	退款方式 1 到帐户余额 2 到退款申请（先到余额，再申请提款） 3 不处理
+* @param   int	 $refund_type	退款方式 1 到账户余额 2 到退款申请（先到余额，再申请提款） 3 不处理
 * @param   string  $refund_note	退款说明
 * @param   float   $refund_amount  退款金额（如果为0，取订单已付款金额）
 * @return  bool
@@ -619,7 +619,7 @@ function order_refund($order, $refund_type, $refund_note = '', $refund_amount = 
 	/* 检查参数 */
 	$user_id = $order['user_id'];
 	if ($user_id == 0 && $refund_type == 1) {
-		return ecjia_admin::$controller->showmessage(__('匿名用户不能返回退款到帐户余额！') , ecjia_admin::MSGTYPE_JSON | ecjia_admin::MSGSTAT_ERROR);
+		return new ecjia_error('invalid_user', '匿名用户不能返回退款到账户余额！');
 	}
 
 	$amount = $refund_amount > 0 ? $refund_amount : $order['money_paid'];
@@ -628,7 +628,7 @@ function order_refund($order, $refund_type, $refund_note = '', $refund_amount = 
 	}
 
 	if (!in_array($refund_type, array(1, 2, 3))) {
-		return ecjia_admin::$controller->showmessage(__('操作有误！请重新操作！') , ecjia_admin::MSGTYPE_JSON | ecjia_admin::MSGSTAT_ERROR);
+		return new ecjia_error('invalid_refund_type', '退款方式错误');
 	}
 
 	/* 备注信息 */

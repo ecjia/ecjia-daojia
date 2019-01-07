@@ -18,6 +18,7 @@
 									$('#myModal1').modal('hide');
 									$('#myModal2').modal('hide');
 									$('#myModal4').modal('hide');
+									$(".modal-backdrop").remove();
 									ecjia.admin.showmessage(data);
 								}
 							});
