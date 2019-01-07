@@ -83,7 +83,7 @@
 							<tr>
 								<td>{$list.receive_time}</td>
 								<td>{$list.express_sn}</td>
-								<td>派单</td>
+								<td>{if $list.from eq 'assign'}派单{else}抢单{/if}</td>
 								<td>{$list.shipping_fee}</td>
 								<td>{$list.commision}</td>
 								<td>{if $list.commision_status eq 1}已结算{else}<font class="ecjiafc-red">未结算</font>{/if}</td>

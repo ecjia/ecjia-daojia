@@ -180,12 +180,11 @@ class mh_history extends ecjia_merchant {
 		$page = new ecjia_merchant_page($count, 10, 5);
 		
 		$data = $db_data
-		->select(RC_DB::raw('express_id'), RC_DB::raw('order_sn'), RC_DB::raw('express_sn'), RC_DB::raw('express_user'), RC_DB::raw('express_mobile'), RC_DB::raw('signed_time'), RC_DB::raw('status'), RC_DB::raw('consignee'), RC_DB::raw('mobile'), RC_DB::raw('district'), RC_DB::raw('street'), RC_DB::raw('address'))
+		->select('express_id', 'order_sn', 'express_sn', 'express_user', 'express_mobile', 'signed_time', 'status', 'consignee', 'mobile', 'district', 'street', 'address', 'from')
 		->orderby(RC_DB::raw('signed_time'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)
 		->get();
-		
 		$list = array();
 		if (!empty($data)) {
 			foreach ($data as $row) {

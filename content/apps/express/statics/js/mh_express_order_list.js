@@ -93,6 +93,7 @@
 						});
 						$('.ok-btn').off('click').on('click', function() {
 							$('#myModal2').modal('hide');
+							$(".modal-backdrop").remove();
 							$('.re-assign-model').css('display', 'none');
 							$.post(url,{'express_id':exp_id}, function(data){
 								if (data.state == 'success') {
@@ -571,6 +572,7 @@
 					});
 					$('.ok-btn').off('click').on('click', function() {
 						$('#myModal2').modal('hide');
+						$(".modal-backdrop").remove();
 						$('.after-search-re-assign-model').css('display', 'none');
 						$.post(url,{'express_id':exp_id}, function(data){
 							if (data.state == 'success') {

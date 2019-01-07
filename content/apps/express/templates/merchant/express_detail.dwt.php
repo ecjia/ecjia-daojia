@@ -56,7 +56,7 @@
 						</tr>
 						<tr>
 							<td><div align="right"><strong>工作类型：</strong></div></td>
-							<td>派单</td>
+							<td>{if $express_info.work_type eq 1}派单{else}抢单{/if}</td>
 							<td><div align="right"><strong>账户余额：</strong></div></td>
 							<td>{$express_info.user_money_type}</td>
 						</tr>
@@ -118,7 +118,7 @@
 							<td>{$list.express_sn}</td>
 							<td>{$list.district}{$list.street}{$list.address}</td>
 							<td>{$list.receive_time}</td>
-							<td>派单</td>
+							<td>{if $list.from eq 'assign'}派单{else}抢单{/if}</td>
 							<td>{$list.commision}</td>
 							<td>
 							{if $list.status eq 0}<font class="ecjiafc-red">待派单</font>{elseif $list.status eq 1}<font class="ecjiafc-red">待取货</font>{elseif $list.status eq 2}<font class="ecjiafc-red">配送中</font>{elseif $list.status eq 3}退货中{elseif $list.status eq 4}已拒收{elseif $list.status eq 5}已完成{else}已退回{/if}</td>

@@ -68,7 +68,7 @@
 					      	<td>{$history.consignee}<br>
 					      		地址：{$history.district}{$history.street}{$history.address}
 					      	</td>
-					      	<td>派单</td>
+					      	<td>{if $history.from eq 'assign'}派单{else}抢单{/if}</td>
 					      	<td>{$history.signed_time}</td>
 					      	<td>已完成</td>
 					    </tr>

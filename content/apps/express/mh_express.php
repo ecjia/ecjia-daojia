@@ -170,7 +170,7 @@ class mh_express extends ecjia_merchant {
 		$count = $db_order->count();
 		$page = new ecjia_merchant_page($count, 5, 5);
 		$data = $db_order
-		->select(RC_DB::raw('express_id'), RC_DB::raw('express_sn'), RC_DB::raw('district'), RC_DB::raw('street'), RC_DB::raw('address'), RC_DB::raw('receive_time'), RC_DB::raw('commision'), RC_DB::raw('status'))
+		->select('express_id', 'express_sn', 'district', 'street', 'address', 'receive_time', 'commision', 'status', 'from')
 		->orderby(RC_DB::raw('express_id'), 'desc')
 		->take(10)
 		->skip($page->start_id-1)
