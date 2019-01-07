@@ -1,15 +1,42 @@
 .time-picker {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .time-picker .form-control {
-	display: inline-block;
+    display: inline-block;
 }
 
 .groupbuy-icon {
-	background-color: #E95454;
+    background-color: #E95454;
     color: #fff;
     padding: 2px;
     border-radius: 4px;
     margin-left: 2px;
 }
+
+.groupbuy-status {
+    color: #fff;
+    border-radius: 5px;
+    padding: 6px 12px;
+}
+
+.groupbuy-status-0 {
+    background-color: #30CEF2;
+}
+
+.groupbuy-status-1 {
+    background-color: #FA852A;
+}
+
+.groupbuy-status-2 {
+    background-color: #DD5755;
+}
+
+.groupbuy-status-3 {
+    background-color: #00C000;
+}
+
+.groupbuy-status-4 {
+    background-color: #A9A9A9;
+}
+

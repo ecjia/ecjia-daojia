@@ -44,88 +44,69 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Groupbuy\Notifications;
+
+use Royalcms\Component\Bus\Queueable;
+use Royalcms\Component\Notifications\Notification;
+// use Royalcms\Component\Notifications\Messages\MailMessage;
 
 /**
- * 订单列表
- * @author royalwang
+ * 通知用户支付有保证金团购订单的余款
  */
-class groupbuy_order_list_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	if ($_SESSION['user_id'] < 1 ) {
-    	    return new ecjia_error(100, 'Invalid session');
-    	}
-		
-    	$user_id = $_SESSION['user_id'];
-    	$api_version = $this->request->header('api-version');
-    	//判断用户有没申请注销
-    	if (version_compare($api_version, '1.25', '>=')) {
-    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
-    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
-    		}
-    	}
-    	
-    	
-		$type = $this->requestData('type', '');
-		$store_id = $this->requestData('store_id', 0);
-		if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed', 'whole', 'allow_comment'))) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		//type whole全部，await_pay待付款，await_ship待发货，shipped待收货，allow_comment待评价
-		$size = $this->requestData('pagination.count', 15);
-		$page = $this->requestData('pagination.page', 1);
-		$keywords = $this->requestData('keywords');
-		$keywords = trim($keywords);
-		
-		//$type = $type == 'whole' ? '' : $type;
-		$type = empty($type) ? '' : $type;
-		$options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords'=> $keywords, 'extension_code' => 'group_buy');
-		$result = RC_Api::api('orders', 'order_list', $options);
-		
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
-		RC_Loader::load_app_func('admin_goods', 'goods');
-		$has_deposit = 0;
-		$order_deposit = 0;
-		if (!empty($result['order_list'])) {
-			foreach ($result['order_list'] as $key => $val) {
-				$val['store_id'] = $val['seller_id'];
-				$val['store_name'] = $val['seller_name'];
-				unset($val['seller_id']);
-				unset($val['seller_name']);
-			
-				if ($val['extension_code'] == 'group_buy' && $val['extension_id'] > 0) {
-					$group_buy = group_buy_info($val['extension_id']);
-					if ($group_buy['deposit'] > 0) {
-						if ($group_buy['is_finished'] == GBS_SUCCEED) {
-							$has_deposit = 1;
-						}
-						$order_deposit = $val['goods_number']*$group_buy['deposit'];
-					}
-				} 
-				$val['has_deposit'] = $has_deposit;
-				$val['order_deposit'] = $order_deposit;
-				$val['formated_order_deposit'] = price_format($order_deposit, false);
-				$val['formated_order_amount'] = price_format($val['order_amount'], false);
-				$row[] = $val;
-			}
-		} else {
-			$row = [];
-		}
-		
-		$page_row = new ecjia_page($result['count'], $size, 6, '', $page);
-		
-		
-		$pager = array(
-			'total' => $page_row->total_records,
-			'count' => $page_row->total_records,
-			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
-		);
-		return array('data' => $row, 'pager' => $pager);
-	 }	
-}
+class GroupbuyActivityFailed extends Notification
+{
+    use Queueable;
+    
+	private $notifiable_data;
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct($groupbuy_data)
+    {
+        //
+        $this->notifiable_data = $groupbuy_data;
+    }
 
-// end
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return array('database');
+    }
+
+//     /**
+//      * Get the mail representation of the notification.
+//      *
+//      * @param  mixed  $notifiable
+//      * @return \Royalcms\Component\Notifications\Messages\MailMessage
+//      */
+//     public function toMail($notifiable)
+//     {
+//         return with(new MailMessage)
+//                     ->line('The introduction to the notification.')
+//                     ->action('Notification Action', 'https://ecjia.com')
+//                     ->line('Thank you for using our application!');
+//     }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray()
+    {
+//         return array(
+//         	'user_name' => 'admin',
+//             'order_sn' => '12344421111233332',
+//             'goods_name' => 'test',
+//         );
+        return $this->notifiable_data;
+    }
+}

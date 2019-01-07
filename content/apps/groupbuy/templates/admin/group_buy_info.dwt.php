@@ -22,6 +22,27 @@
 	<div class="span12">
 		<form class="form-horizontal" action="{$form_action}" method="post" enctype="multipart/form-data" name="theForm">
 			<fieldset>
+                {if $group_buy}
+                <div class="control-group formSep">
+                    <label class="control-label">{t}活动商品：{/t}</label>
+                    <div class="controls l_h30">
+                        <span class="groupbuy-status groupbuy-status-{$group_buy.status}">
+                            {if $group_buy.status eq 0}
+                            活动未开始
+                            {else if $group_buy.status eq 1}
+                            活动进行中
+                            {else if $group_buy.status eq 2}
+                            结束未处理
+                            {else if $group_buy.status eq 3}
+                            成功结束
+                            {else if $group_buy.status eq 4}
+                            失败结束
+                            {/if}
+                        </span>
+                    </div>
+                </div>
+                {/if}
+
 				<div class="control-group formSep">
 					<label class="control-label">{t}活动商品：{/t}</label>
 					<div class="controls">
@@ -40,6 +61,7 @@
 					<label class="control-label">{t}保证金：{/t}</label>
 					<div class="controls">
 						<input class="w350" type="text" name="deposit" id="deposit" value="{$group_buy.deposit|default:0}" />
+                        <span class="help-block">{t}买家参与该团购活动时，需要预先支付的金额。{/t}</span>
 					</div>
 				</div>
 				
@@ -54,22 +76,14 @@
 				<div class="control-group formSep">
 					<label class="control-label">{t}活动开始时间：{/t}</label>
 					<div class="controls">
-						<div class="controls-split">
-							<div class="ecjiaf-fl wright_wleft">
-								<input name="start_time" class="date w350" type="text" placeholder="{t}请选择活动开始时间{/t}" value="{$group_buy.start_time}"/>
-							</div>
-						</div>
+                        <input name="start_time" class="date w350" type="text" placeholder="{t}请选择活动开始时间{/t}" value="{$group_buy.start_time}"/>
 					</div>
 				</div>
 					
 				<div class="control-group formSep">
 					<label class="control-label">{t}活动结束时间：{/t}</label>
 					<div class="controls">
-						<div class="controls-split">
-							<div class="ecjiaf-fl wright_wleft">
-								<input name="end_time" class="date w350" type="text" placeholder="{t}请选择活动结束时间{/t}" value="{$group_buy.end_time}"/>
-							</div>
-						</div>
+                        <input name="end_time" class="date w350" type="text" placeholder="{t}请选择活动结束时间{/t}" value="{$group_buy.end_time}"/>
 					</div>
 				</div>
 				
@@ -96,6 +110,7 @@
 							</div>
 						  	<!-- {/if} -->
 					  	<!-- {/foreach} -->
+                        <div class="help-block">价格阶梯的数量指以全部用户团购的最终购买数的价格为准。</div>
 					</div>
 				</div>
 				

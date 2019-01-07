@@ -65,9 +65,9 @@ class groupbuy_activity {
 		$group_buy_id = intval ( $group_buy_id );
 		$db = RC_DB::table('goods_activity');
 		$group_buy = $db->where('act_id', $group_buy_id)
-						->where('start_time', '<', RC_Time::gmtime())
-						->where('end_time', '>', RC_Time::gmtime())
-						->where('act_type',GAT_GROUP_BUY)
+						->where('start_time', '<=', RC_Time::gmtime())
+						->where('end_time', '>=', RC_Time::gmtime())
+						->where('act_type', GAT_GROUP_BUY)
 						->select(RC_DB::raw('*,act_id as group_buy_id, act_desc as group_buy_desc, start_time as start_date, end_time as end_date'))
 						->first();
 	
@@ -153,6 +153,30 @@ class groupbuy_activity {
 		return $group_buy;
 	}
 	
+	
+
+	/**
+	 * 判断某个商品是否是团购商品
+	 */
+	public static function is_groupbuy_goods($goods_id)
+	{
+		$db_goods_activity = RC_DB::table('goods_activity as ga')
+		->leftJoin('goods as g', RC_DB::raw('ga.goods_id'), '=', RC_DB::raw('g.goods_id'));
+	
+		$db_goods_activity
+		->where(RC_DB::raw('ga.act_type'), GAT_GROUP_BUY)
+		->where(RC_DB::raw('ga.start_time'), '<=', RC_Time::gmtime())
+		->where(RC_DB::raw('ga.end_time'), '>=', RC_Time::gmtime())
+		->whereRaw('g.goods_id is not null')
+		->where(RC_DB::raw('g.review_status'), '>', 3)
+		->where(RC_DB::raw('g.is_delete'), 0)
+		->where(RC_DB::raw('g.is_on_sale'), 1)
+		->where(RC_DB::raw('g.is_alone_sale'), 1);
+	
+		$info = $db_goods_activity->where(RC_DB::raw('ga.goods_id'), $goods_id)->select(RC_DB::raw('ga.*'))->first();
+	
+		return $info;
+	}
 }	
 
 
