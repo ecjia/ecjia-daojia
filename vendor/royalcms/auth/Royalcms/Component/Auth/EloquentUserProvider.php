@@ -1,123 +1,174 @@
-<?php namespace Royalcms\Component\Auth;
+<?php
 
-use Royalcms\Component\Hashing\HasherInterface;
+namespace Royalcms\Component\Auth;
 
-class EloquentUserProvider implements UserProviderInterface {
+use Royalcms\Component\Support\Str;
+use Royalcms\Component\Contracts\Auth\UserProvider;
+use Royalcms\Component\Contracts\Hashing\Hasher as HasherContract;
+use Royalcms\Component\Contracts\Auth\Authenticatable as UserContract;
 
-	/**
-	 * The hasher implementation.
-	 *
-	 * @var \Royalcms\Component\Hashing\HasherInterface
-	 */
-	protected $hasher;
+class EloquentUserProvider implements UserProvider
+{
+    /**
+     * The hasher implementation.
+     *
+     * @var \Royalcms\Component\Contracts\Hashing\Hasher
+     */
+    protected $hasher;
 
-	/**
-	 * The Eloquent user model.
-	 *
-	 * @var string
-	 */
-	protected $model;
+    /**
+     * The Eloquent user model.
+     *
+     * @var string
+     */
+    protected $model;
 
-	/**
-	 * Create a new database user provider.
-	 *
-	 * @param  \Royalcms\Component\Hashing\HasherInterface  $hasher
-	 * @param  string  $model
-	 * @return void
-	 */
-	public function __construct(HasherInterface $hasher, $model)
-	{
-		$this->model = $model;
-		$this->hasher = $hasher;
-	}
+    /**
+     * Create a new database user provider.
+     *
+     * @param  \Royalcms\Component\Contracts\Hashing\Hasher  $hasher
+     * @param  string  $model
+     * @return void
+     */
+    public function __construct(HasherContract $hasher, $model)
+    {
+        $this->model = $model;
+        $this->hasher = $hasher;
+    }
 
-	/**
-	 * Retrieve a user by their unique identifier.
-	 *
-	 * @param  mixed  $identifier
-	 * @return \Royalcms\Component\Auth\UserInterface|null
-	 */
-	public function retrieveById($identifier)
-	{
-		return $this->createModel()->newQuery()->find($identifier);
-	}
+    /**
+     * Retrieve a user by their unique identifier.
+     *
+     * @param  mixed  $identifier
+     * @return \Royalcms\Component\Contracts\Auth\Authenticatable|null
+     */
+    public function retrieveById($identifier)
+    {
+        return $this->createModel()->newQuery()->find($identifier);
+    }
 
-	/**
-	 * Retrieve a user by by their unique identifier and "remember me" token.
-	 *
-	 * @param  mixed  $identifier
-	 * @param  string  $token
-	 * @return \Royalcms\Component\Auth\UserInterface|null
-	 */
-	public function retrieveByToken($identifier, $token)
-	{
-		$model = $this->createModel();
+    /**
+     * Retrieve a user by their unique identifier and "remember me" token.
+     *
+     * @param  mixed  $identifier
+     * @param  string  $token
+     * @return \Royalcms\Component\Contracts\Auth\Authenticatable|null
+     */
+    public function retrieveByToken($identifier, $token)
+    {
+        $model = $this->createModel();
 
-		return $model->newQuery()
-                        ->where($model->getKeyName(), $identifier)
-                        ->where($model->getRememberTokenName(), $token)
-                        ->first();
-	}
+        return $model->newQuery()
+            ->where($model->getKeyName(), $identifier)
+            ->where($model->getRememberTokenName(), $token)
+            ->first();
+    }
 
-	/**
-	 * Update the "remember me" token for the given user in storage.
-	 *
-	 * @param  \Royalcms\Component\Auth\UserInterface  $user
-	 * @param  string  $token
-	 * @return void
-	 */
-	public function updateRememberToken(UserInterface $user, $token)
-	{
-		$user->setAttribute($user->getRememberTokenName(), $token);
+    /**
+     * Update the "remember me" token for the given user in storage.
+     *
+     * @param  \Royalcms\Component\Contracts\Auth\Authenticatable  $user
+     * @param  string  $token
+     * @return void
+     */
+    public function updateRememberToken(UserContract $user, $token)
+    {
+        $user->setRememberToken($token);
 
-		$user->save();
-	}
+        $user->save();
+    }
 
-	/**
-	 * Retrieve a user by the given credentials.
-	 *
-	 * @param  array  $credentials
-	 * @return \Royalcms\Component\Auth\UserInterface|null
-	 */
-	public function retrieveByCredentials(array $credentials)
-	{
-		// First we will add each credential element to the query as a where clause.
-		// Then we can execute the query and, if we found a user, return it in a
-		// Eloquent User "model" that will be utilized by the Guard instances.
-		$query = $this->createModel()->newQuery();
+    /**
+     * Retrieve a user by the given credentials.
+     *
+     * @param  array  $credentials
+     * @return \Royalcms\Component\Contracts\Auth\Authenticatable|null
+     */
+    public function retrieveByCredentials(array $credentials)
+    {
+        // First we will add each credential element to the query as a where clause.
+        // Then we can execute the query and, if we found a user, return it in a
+        // Eloquent User "model" that will be utilized by the Guard instances.
+        $query = $this->createModel()->newQuery();
 
-		foreach ($credentials as $key => $value)
-		{
-			if ( ! str_contains($key, 'password')) $query->where($key, $value);
-		}
+        foreach ($credentials as $key => $value) {
+            if (! Str::contains($key, 'password')) {
+                $query->where($key, $value);
+            }
+        }
 
-		return $query->first();
-	}
+        return $query->first();
+    }
 
-	/**
-	 * Validate a user against the given credentials.
-	 *
-	 * @param  \Royalcms\Component\Auth\UserInterface  $user
-	 * @param  array  $credentials
-	 * @return bool
-	 */
-	public function validateCredentials(UserInterface $user, array $credentials)
-	{
-		$plain = $credentials['password'];
+    /**
+     * Validate a user against the given credentials.
+     *
+     * @param  \Royalcms\Component\Contracts\Auth\Authenticatable  $user
+     * @param  array  $credentials
+     * @return bool
+     */
+    public function validateCredentials(UserContract $user, array $credentials)
+    {
+        $plain = $credentials['password'];
 
-		return $this->hasher->check($plain, $user->getAuthPassword());
-	}
+        return $this->hasher->check($plain, $user->getAuthPassword());
+    }
 
-	/**
-	 * Create a new instance of the model.
-	 *
-	 * @return \Royalcms\Component\Database\Eloquent\Model
-	 */
-	public function createModel()
-	{
-		$class = '\\'.ltrim($this->model, '\\');
+    /**
+     * Create a new instance of the model.
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Model
+     */
+    public function createModel()
+    {
+        $class = '\\'.ltrim($this->model, '\\');
 
-		return new $class;
-	}
+        return new $class;
+    }
 
+    /**
+     * Gets the hasher implementation.
+     *
+     * @return \Royalcms\Component\Contracts\Hashing\Hasher
+     */
+    public function getHasher()
+    {
+        return $this->hasher;
+    }
+
+    /**
+     * Sets the hasher implementation.
+     *
+     * @param  \Royalcms\Component\Contracts\Hashing\Hasher  $hasher
+     * @return $this
+     */
+    public function setHasher(HasherContract $hasher)
+    {
+        $this->hasher = $hasher;
+
+        return $this;
+    }
+
+    /**
+     * Gets the name of the Eloquent user model.
+     *
+     * @return string
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Sets the name of the Eloquent user model.
+     *
+     * @param  string  $model
+     * @return $this
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
 }
