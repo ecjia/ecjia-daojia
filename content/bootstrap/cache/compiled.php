@@ -6090,700 +6090,6 @@ interface Repository
 }
 }
 
-namespace Royalcms\Component\Auth {
-use Royalcms\Component\Support\Manager;
-use Royalcms\Component\Contracts\Auth\Guard as GuardContract;
-class AuthManager extends Manager
-{
-    protected function createDriver($driver)
-    {
-        $guard = parent::createDriver($driver);
-        if (method_exists($guard, 'setCookieJar')) {
-            $guard->setCookieJar($this->royalcms['cookie']);
-        }
-        if (method_exists($guard, 'setDispatcher')) {
-            $guard->setDispatcher($this->royalcms['events']);
-        }
-        if (method_exists($guard, 'setRequest')) {
-            $guard->setRequest($this->royalcms->refresh('request', $guard, 'setRequest'));
-        }
-        return $guard;
-    }
-    protected function callCustomCreator($driver)
-    {
-        $custom = parent::callCustomCreator($driver);
-        if ($custom instanceof GuardContract) {
-            return $custom;
-        }
-        return new Guard($custom, $this->royalcms['session.store']);
-    }
-    public function createDatabaseDriver()
-    {
-        $provider = $this->createDatabaseProvider();
-        return new Guard($provider, $this->royalcms['session.store']);
-    }
-    protected function createDatabaseProvider()
-    {
-        $connection = $this->royalcms['db']->connection();
-        $table = $this->royalcms['config']['auth.table'];
-        return new DatabaseUserProvider($connection, $this->royalcms['hash'], $table);
-    }
-    public function createEloquentDriver()
-    {
-        $provider = $this->createEloquentProvider();
-        return new Guard($provider, $this->royalcms['session.store']);
-    }
-    protected function createEloquentProvider()
-    {
-        $model = $this->royalcms['config']['auth.model'];
-        return new EloquentUserProvider($this->royalcms['hash'], $model);
-    }
-    public function getDefaultDriver()
-    {
-        return $this->royalcms['config']['auth.driver'];
-    }
-    public function setDefaultDriver($name)
-    {
-        $this->royalcms['config']['auth.driver'] = $name;
-    }
-}
-}
-
-namespace Royalcms\Component\Auth {
-use RuntimeException;
-use Royalcms\Component\Support\Str;
-use Royalcms\Component\Contracts\Events\Dispatcher;
-use Royalcms\Component\Contracts\Auth\UserProvider;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Royalcms\Component\Contracts\Auth\Guard as GuardContract;
-use Royalcms\Component\Contracts\Cookie\QueueingFactory as CookieJar;
-use Royalcms\Component\Contracts\Auth\Authenticatable as UserContract;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-class Guard implements GuardContract
-{
-    protected $user;
-    protected $lastAttempted;
-    protected $viaRemember = false;
-    protected $provider;
-    protected $session;
-    protected $cookie;
-    protected $request;
-    protected $events;
-    protected $loggedOut = false;
-    protected $tokenRetrievalAttempted = false;
-    public function __construct(UserProvider $provider, SessionInterface $session, Request $request = null)
-    {
-        $this->session = $session;
-        $this->request = $request;
-        $this->provider = $provider;
-    }
-    public function check()
-    {
-        return !is_null($this->user());
-    }
-    public function guest()
-    {
-        return !$this->check();
-    }
-    public function user()
-    {
-        if ($this->loggedOut) {
-            return;
-        }
-        if (!is_null($this->user)) {
-            return $this->user;
-        }
-        $id = $this->session->get($this->getName());
-        $user = null;
-        if (!is_null($id)) {
-            $user = $this->provider->retrieveById($id);
-        }
-        $recaller = $this->getRecaller();
-        if (is_null($user) && !is_null($recaller)) {
-            $user = $this->getUserByRecaller($recaller);
-            if ($user) {
-                $this->updateSession($user->getAuthIdentifier());
-                $this->fireLoginEvent($user, true);
-            }
-        }
-        return $this->user = $user;
-    }
-    public function id()
-    {
-        if ($this->loggedOut) {
-            return;
-        }
-        $id = $this->session->get($this->getName());
-        if (is_null($id) && $this->user()) {
-            $id = $this->user()->getAuthIdentifier();
-        }
-        return $id;
-    }
-    protected function getUserByRecaller($recaller)
-    {
-        if ($this->validRecaller($recaller) && !$this->tokenRetrievalAttempted) {
-            $this->tokenRetrievalAttempted = true;
-            list($id, $token) = explode('|', $recaller, 2);
-            $this->viaRemember = !is_null($user = $this->provider->retrieveByToken($id, $token));
-            return $user;
-        }
-    }
-    protected function getRecaller()
-    {
-        return $this->request->cookies->get($this->getRecallerName());
-    }
-    protected function getRecallerId()
-    {
-        if ($this->validRecaller($recaller = $this->getRecaller())) {
-            return head(explode('|', $recaller));
-        }
-    }
-    protected function validRecaller($recaller)
-    {
-        if (!is_string($recaller) || !Str::contains($recaller, '|')) {
-            return false;
-        }
-        $segments = explode('|', $recaller);
-        return count($segments) == 2 && trim($segments[0]) !== '' && trim($segments[1]) !== '';
-    }
-    public function once(array $credentials = [])
-    {
-        if ($this->validate($credentials)) {
-            $this->setUser($this->lastAttempted);
-            return true;
-        }
-        return false;
-    }
-    public function validate(array $credentials = [])
-    {
-        return $this->attempt($credentials, false, false);
-    }
-    public function basic($field = 'email')
-    {
-        if ($this->check()) {
-            return;
-        }
-        if ($this->attemptBasic($this->getRequest(), $field)) {
-            return;
-        }
-        return $this->getBasicResponse();
-    }
-    public function onceBasic($field = 'email')
-    {
-        if (!$this->once($this->getBasicCredentials($this->getRequest(), $field))) {
-            return $this->getBasicResponse();
-        }
-    }
-    protected function attemptBasic(Request $request, $field)
-    {
-        if (!$request->getUser()) {
-            return false;
-        }
-        return $this->attempt($this->getBasicCredentials($request, $field));
-    }
-    protected function getBasicCredentials(Request $request, $field)
-    {
-        return [$field => $request->getUser(), 'password' => $request->getPassword()];
-    }
-    protected function getBasicResponse()
-    {
-        $headers = ['WWW-Authenticate' => 'Basic'];
-        return new Response('Invalid credentials.', 401, $headers);
-    }
-    public function attempt(array $credentials = [], $remember = false, $login = true)
-    {
-        $this->fireAttemptEvent($credentials, $remember, $login);
-        $this->lastAttempted = $user = $this->provider->retrieveByCredentials($credentials);
-        if ($this->hasValidCredentials($user, $credentials)) {
-            if ($login) {
-                $this->login($user, $remember);
-            }
-            return true;
-        }
-        return false;
-    }
-    protected function hasValidCredentials($user, $credentials)
-    {
-        return !is_null($user) && $this->provider->validateCredentials($user, $credentials);
-    }
-    protected function fireAttemptEvent(array $credentials, $remember, $login)
-    {
-        if ($this->events) {
-            $payload = [$credentials, $remember, $login];
-            $this->events->fire('auth.attempt', $payload);
-        }
-    }
-    public function attempting($callback)
-    {
-        if ($this->events) {
-            $this->events->listen('auth.attempt', $callback);
-        }
-    }
-    public function login(UserContract $user, $remember = false)
-    {
-        $this->updateSession($user->getAuthIdentifier());
-        if ($remember) {
-            $this->createRememberTokenIfDoesntExist($user);
-            $this->queueRecallerCookie($user);
-        }
-        $this->fireLoginEvent($user, $remember);
-        $this->setUser($user);
-    }
-    protected function fireLoginEvent($user, $remember = false)
-    {
-        if (isset($this->events)) {
-            $this->events->fire('auth.login', [$user, $remember]);
-        }
-    }
-    protected function updateSession($id)
-    {
-        $this->session->set($this->getName(), $id);
-        $this->session->migrate(true);
-    }
-    public function loginUsingId($id, $remember = false)
-    {
-        $this->session->set($this->getName(), $id);
-        $this->login($user = $this->provider->retrieveById($id), $remember);
-        return $user;
-    }
-    public function onceUsingId($id)
-    {
-        if (!is_null($user = $this->provider->retrieveById($id))) {
-            $this->setUser($user);
-            return true;
-        }
-        return false;
-    }
-    protected function queueRecallerCookie(UserContract $user)
-    {
-        $value = $user->getAuthIdentifier() . '|' . $user->getRememberToken();
-        $this->getCookieJar()->queue($this->createRecaller($value));
-    }
-    protected function createRecaller($value)
-    {
-        return $this->getCookieJar()->forever($this->getRecallerName(), $value);
-    }
-    public function logout()
-    {
-        $user = $this->user();
-        $this->clearUserDataFromStorage();
-        if (!is_null($this->user)) {
-            $this->refreshRememberToken($user);
-        }
-        if (isset($this->events)) {
-            $this->events->fire('auth.logout', [$user]);
-        }
-        $this->user = null;
-        $this->loggedOut = true;
-    }
-    protected function clearUserDataFromStorage()
-    {
-        $this->session->remove($this->getName());
-        if (!is_null($this->getRecaller())) {
-            $recaller = $this->getRecallerName();
-            $this->getCookieJar()->queue($this->getCookieJar()->forget($recaller));
-        }
-    }
-    protected function refreshRememberToken(UserContract $user)
-    {
-        $user->setRememberToken($token = Str::random(60));
-        $this->provider->updateRememberToken($user, $token);
-    }
-    protected function createRememberTokenIfDoesntExist(UserContract $user)
-    {
-        if (empty($user->getRememberToken())) {
-            $this->refreshRememberToken($user);
-        }
-    }
-    public function getCookieJar()
-    {
-        if (!isset($this->cookie)) {
-            throw new RuntimeException('Cookie jar has not been set.');
-        }
-        return $this->cookie;
-    }
-    public function setCookieJar(CookieJar $cookie)
-    {
-        $this->cookie = $cookie;
-    }
-    public function getDispatcher()
-    {
-        return $this->events;
-    }
-    public function setDispatcher(Dispatcher $events)
-    {
-        $this->events = $events;
-    }
-    public function getSession()
-    {
-        return $this->session;
-    }
-    public function getProvider()
-    {
-        return $this->provider;
-    }
-    public function setProvider(UserProvider $provider)
-    {
-        $this->provider = $provider;
-    }
-    public function getUser()
-    {
-        return $this->user;
-    }
-    public function setUser(UserContract $user)
-    {
-        $this->user = $user;
-        $this->loggedOut = false;
-    }
-    public function getRequest()
-    {
-        return $this->request ?: Request::createFromGlobals();
-    }
-    public function setRequest(Request $request)
-    {
-        $this->request = $request;
-        return $this;
-    }
-    public function getLastAttempted()
-    {
-        return $this->lastAttempted;
-    }
-    public function getName()
-    {
-        return 'login_' . md5(get_class($this));
-    }
-    public function getRecallerName()
-    {
-        return 'remember_' . md5(get_class($this));
-    }
-    public function viaRemember()
-    {
-        return $this->viaRemember;
-    }
-}
-}
-
-namespace Royalcms\Component\Auth\Access {
-use Royalcms\Component\Support\Str;
-use InvalidArgumentException;
-use Royalcms\Component\Contracts\Container\Container;
-use Royalcms\Component\Contracts\Auth\Access\Gate as GateContract;
-class Gate implements GateContract
-{
-    use HandlesAuthorization;
-    protected $container;
-    protected $userResolver;
-    protected $abilities = [];
-    protected $policies = [];
-    protected $beforeCallbacks = [];
-    protected $afterCallbacks = [];
-    public function __construct(Container $container, callable $userResolver, array $abilities = [], array $policies = [], array $beforeCallbacks = [], array $afterCallbacks = [])
-    {
-        $this->policies = $policies;
-        $this->container = $container;
-        $this->abilities = $abilities;
-        $this->userResolver = $userResolver;
-        $this->afterCallbacks = $afterCallbacks;
-        $this->beforeCallbacks = $beforeCallbacks;
-    }
-    public function has($ability)
-    {
-        return isset($this->abilities[$ability]);
-    }
-    public function define($ability, $callback)
-    {
-        if (is_callable($callback)) {
-            $this->abilities[$ability] = $callback;
-        } elseif (is_string($callback) && str_contains($callback, '@')) {
-            $this->abilities[$ability] = $this->buildAbilityCallback($callback);
-        } else {
-            throw new InvalidArgumentException("Callback must be a callable or a 'Class@method' string.");
-        }
-        return $this;
-    }
-    protected function buildAbilityCallback($callback)
-    {
-        return function () use($callback) {
-            list($class, $method) = explode('@', $callback);
-            return call_user_func_array([$this->resolvePolicy($class), $method], func_get_args());
-        };
-    }
-    public function policy($class, $policy)
-    {
-        $this->policies[$class] = $policy;
-        return $this;
-    }
-    public function before(callable $callback)
-    {
-        $this->beforeCallbacks[] = $callback;
-        return $this;
-    }
-    public function after(callable $callback)
-    {
-        $this->afterCallbacks[] = $callback;
-        return $this;
-    }
-    public function allows($ability, $arguments = [])
-    {
-        return $this->check($ability, $arguments);
-    }
-    public function denies($ability, $arguments = [])
-    {
-        return !$this->allows($ability, $arguments);
-    }
-    public function check($ability, $arguments = [])
-    {
-        try {
-            $result = $this->raw($ability, $arguments);
-        } catch (UnauthorizedException $e) {
-            return false;
-        }
-        return (bool) $result;
-    }
-    public function authorize($ability, $arguments = [])
-    {
-        $result = $this->raw($ability, $arguments);
-        if ($result instanceof Response) {
-            return $result;
-        }
-        return $result ? $this->allow() : $this->deny();
-    }
-    protected function raw($ability, $arguments = [])
-    {
-        if (!($user = $this->resolveUser())) {
-            return false;
-        }
-        $arguments = is_array($arguments) ? $arguments : [$arguments];
-        if (is_null($result = $this->callBeforeCallbacks($user, $ability, $arguments))) {
-            $result = $this->callAuthCallback($user, $ability, $arguments);
-        }
-        $this->callAfterCallbacks($user, $ability, $arguments, $result);
-        return $result;
-    }
-    protected function callAuthCallback($user, $ability, array $arguments)
-    {
-        $callback = $this->resolveAuthCallback($user, $ability, $arguments);
-        return call_user_func_array($callback, array_merge([$user], $arguments));
-    }
-    protected function callBeforeCallbacks($user, $ability, array $arguments)
-    {
-        $arguments = array_merge([$user, $ability], $arguments);
-        foreach ($this->beforeCallbacks as $before) {
-            if (!is_null($result = call_user_func_array($before, $arguments))) {
-                return $result;
-            }
-        }
-    }
-    protected function callAfterCallbacks($user, $ability, array $arguments, $result)
-    {
-        $arguments = array_merge([$user, $ability, $result], $arguments);
-        foreach ($this->afterCallbacks as $after) {
-            call_user_func_array($after, $arguments);
-        }
-    }
-    protected function resolveAuthCallback($user, $ability, array $arguments)
-    {
-        if ($this->firstArgumentCorrespondsToPolicy($arguments)) {
-            return $this->resolvePolicyCallback($user, $ability, $arguments);
-        } elseif (isset($this->abilities[$ability])) {
-            return $this->abilities[$ability];
-        } else {
-            return function () {
-                return false;
-            };
-        }
-    }
-    protected function firstArgumentCorrespondsToPolicy(array $arguments)
-    {
-        if (!isset($arguments[0])) {
-            return false;
-        }
-        if (is_object($arguments[0])) {
-            return isset($this->policies[get_class($arguments[0])]);
-        }
-        return is_string($arguments[0]) && isset($this->policies[$arguments[0]]);
-    }
-    protected function resolvePolicyCallback($user, $ability, array $arguments)
-    {
-        return function () use($user, $ability, $arguments) {
-            $instance = $this->getPolicyFor($arguments[0]);
-            if (method_exists($instance, 'before')) {
-                $beforeArguments = array_merge([$user, $ability], $arguments);
-                $result = call_user_func_array([$instance, 'before'], $beforeArguments);
-                if (!is_null($result)) {
-                    return $result;
-                }
-            }
-            if (strpos($ability, '-') !== false) {
-                $ability = Str::camel($ability);
-            }
-            if (!is_callable([$instance, $ability])) {
-                return false;
-            }
-            return call_user_func_array([$instance, $ability], array_merge([$user], $arguments));
-        };
-    }
-    public function getPolicyFor($class)
-    {
-        if (is_object($class)) {
-            $class = get_class($class);
-        }
-        if (!isset($this->policies[$class])) {
-            throw new InvalidArgumentException("Policy not defined for [{$class}].");
-        }
-        return $this->resolvePolicy($this->policies[$class]);
-    }
-    public function resolvePolicy($class)
-    {
-        return $this->container->make($class);
-    }
-    public function forUser($user)
-    {
-        $callback = function () use($user) {
-            return $user;
-        };
-        return new static($this->container, $callback, $this->abilities, $this->policies, $this->beforeCallbacks, $this->afterCallbacks);
-    }
-    protected function resolveUser()
-    {
-        return call_user_func($this->userResolver);
-    }
-}
-}
-
-namespace Royalcms\Component\Auth {
-use Royalcms\Component\Support\Str;
-use Royalcms\Component\Contracts\Auth\UserProvider;
-use Royalcms\Component\Contracts\Hashing\Hasher as HasherContract;
-use Royalcms\Component\Contracts\Auth\Authenticatable as UserContract;
-class EloquentUserProvider implements UserProvider
-{
-    protected $hasher;
-    protected $model;
-    public function __construct(HasherContract $hasher, $model)
-    {
-        $this->model = $model;
-        $this->hasher = $hasher;
-    }
-    public function retrieveById($identifier)
-    {
-        return $this->createModel()->newQuery()->find($identifier);
-    }
-    public function retrieveByToken($identifier, $token)
-    {
-        $model = $this->createModel();
-        return $model->newQuery()->where($model->getKeyName(), $identifier)->where($model->getRememberTokenName(), $token)->first();
-    }
-    public function updateRememberToken(UserContract $user, $token)
-    {
-        $user->setRememberToken($token);
-        $user->save();
-    }
-    public function retrieveByCredentials(array $credentials)
-    {
-        $query = $this->createModel()->newQuery();
-        foreach ($credentials as $key => $value) {
-            if (!Str::contains($key, 'password')) {
-                $query->where($key, $value);
-            }
-        }
-        return $query->first();
-    }
-    public function validateCredentials(UserContract $user, array $credentials)
-    {
-        $plain = $credentials['password'];
-        return $this->hasher->check($plain, $user->getAuthPassword());
-    }
-    public function createModel()
-    {
-        $class = '\\' . ltrim($this->model, '\\');
-        return new $class();
-    }
-    public function getHasher()
-    {
-        return $this->hasher;
-    }
-    public function setHasher(HasherContract $hasher)
-    {
-        $this->hasher = $hasher;
-        return $this;
-    }
-    public function getModel()
-    {
-        return $this->model;
-    }
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-}
-}
-
-namespace Royalcms\Component\Auth {
-use Royalcms\Component\Auth\Access\Gate;
-use Royalcms\Component\Support\ServiceProvider;
-use Royalcms\Component\Contracts\Auth\Access\Gate as GateContract;
-use Royalcms\Component\Contracts\Auth\Authenticatable as AuthenticatableContract;
-class AuthServiceProvider extends ServiceProvider
-{
-    public function register()
-    {
-        $this->registerAuthenticator();
-        $this->registerUserResolver();
-        $this->registerAccessGate();
-        $this->registerRequestRebindHandler();
-    }
-    protected function registerAuthenticator()
-    {
-        $this->royalcms->singleton('auth', function ($royalcms) {
-            $royalcms['auth.loaded'] = true;
-            return new AuthManager($royalcms);
-        });
-        $this->royalcms->singleton('auth.driver', function ($royalcms) {
-            return $royalcms['auth']->driver();
-        });
-    }
-    protected function registerUserResolver()
-    {
-        $this->royalcms->bind(AuthenticatableContract::class, function ($royalcms) {
-            return $royalcms['auth']->user();
-        });
-    }
-    protected function registerAccessGate()
-    {
-        $this->royalcms->singleton(GateContract::class, function ($royalcms) {
-            return new Gate($royalcms, function () use($royalcms) {
-                return $royalcms['auth']->user();
-            });
-        });
-    }
-    protected function registerRequestRebindHandler()
-    {
-        $this->royalcms->rebinding('request', function ($royalcms, $request) {
-            $request->setUserResolver(function () use($royalcms) {
-                return $royalcms['auth']->user();
-            });
-        });
-    }
-}
-}
-
-namespace Royalcms\Component\Auth\Access {
-trait HandlesAuthorization
-{
-    protected function allow($message = null)
-    {
-        return new Response($message);
-    }
-    protected function deny($message = 'This action is unauthorized.')
-    {
-        throw new UnauthorizedException($message);
-    }
-}
-}
-
 namespace Royalcms\Component\Http {
 use Closure;
 use ArrayAccess;
@@ -7610,7 +6916,7 @@ class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterfac
     public function getProvider($provider)
     {
         $name = is_string($provider) ? $provider : get_class($provider);
-        return Arr::first($this->serviceProviders, function ($key, $value) use($name) {
+        return Arr::first($this->serviceProviders, function ($value, $key) use($name) {
             return $value instanceof $name;
         });
     }
@@ -7927,7 +7233,7 @@ class EnvironmentDetector
     }
     protected function getEnvironmentArgument(array $args)
     {
-        return Arr::first($args, function ($k, $v) {
+        return Arr::first($args, function ($v, $k) {
             return Str::startsWith($v, '--env');
         });
     }
@@ -10080,10 +9386,18 @@ class Arr
         }
         return array_values($results);
     }
-    public static function first($array, callable $callback, $default = null)
+    public static function first($array, callable $callback = null, $default = null)
     {
+        if (is_null($callback)) {
+            if (empty($array)) {
+                return value($default);
+            }
+            foreach ($array as $item) {
+                return $item;
+            }
+        }
         foreach ($array as $key => $value) {
-            if (call_user_func($callback, $key, $value)) {
+            if (call_user_func($callback, $value, $key)) {
                 return $value;
             }
         }
@@ -10557,7 +9871,9 @@ abstract class Manager
 
 namespace Royalcms\Component\Support {
 use Countable;
+use Exception;
 use ArrayAccess;
+use Traversable;
 use ArrayIterator;
 use CachingIterator;
 use JsonSerializable;
@@ -10570,53 +9886,96 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
 {
     use Macroable;
     protected $items = array();
+    protected static $proxies = ['contains', 'each', 'every', 'filter', 'first', 'flatMap', 'map', 'partition', 'reject', 'sortBy', 'sortByDesc', 'sum'];
     public function __construct($items = [])
     {
-        $this->items = is_array($items) ? $items : $this->getArrayableItems($items);
+        $this->items = $this->getArrayableItems($items);
     }
-    public static function make($items)
+    public static function make($items = [])
     {
-        if (is_null($items)) {
-            return new static();
-        }
-        if ($items instanceof Collection) {
-            return $items;
-        }
-        return new static(is_array($items) ? $items : array($items));
+        return new static($items);
     }
     public function all()
     {
         return $this->items;
     }
-    public function avg($key = null)
+    public function avg($callback = null)
     {
         if ($count = $this->count()) {
-            return $this->sum($key) / $count;
+            return $this->sum($callback) / $count;
         }
     }
-    public function average($key = null)
+    public function average($callback = null)
     {
-        return $this->avg($key);
+        return $this->avg($callback);
+    }
+    public function median($key = null)
+    {
+        $count = $this->count();
+        if ($count == 0) {
+            return;
+        }
+        $values = with(isset($key) ? $this->pluck($key) : $this)->sort()->values();
+        $middle = (int) ($count / 2);
+        if ($count % 2) {
+            return $values->get($middle);
+        }
+        return (new static([$values->get($middle - 1), $values->get($middle)]))->average();
+    }
+    public function mode($key = null)
+    {
+        $count = $this->count();
+        if ($count == 0) {
+            return;
+        }
+        $collection = isset($key) ? $this->pluck($key) : $this;
+        $counts = new self();
+        $collection->each(function ($value) use($counts) {
+            $counts[$value] = isset($counts[$value]) ? $counts[$value] + 1 : 1;
+        });
+        $sorted = $counts->sort();
+        $highestValue = $sorted->last();
+        return $sorted->filter(function ($value) use($highestValue) {
+            return $value == $highestValue;
+        })->sort()->keys()->all();
     }
     public function collapse()
     {
         return new static(Arr::collapse($this->items));
     }
-    public function contains($key, $value = null)
+    public function contains($key, $operator = null, $value = null)
+    {
+        if (func_num_args() == 1) {
+            if ($this->useAsCallable($key)) {
+                return !is_null($this->first($key));
+            }
+            return in_array($key, $this->items);
+        }
+        if (func_num_args() == 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+        return $this->contains($this->operatorForWhere($key, $operator, $value));
+    }
+    public function containsStrict($key, $value = null)
     {
         if (func_num_args() == 2) {
-            return $this->contains(function ($k, $item) use($key, $value) {
-                return data_get($item, $key) == $value;
+            return $this->contains(function ($item) use($key, $value) {
+                return data_get($item, $key) === $value;
             });
         }
         if ($this->useAsCallable($key)) {
             return !is_null($this->first($key));
         }
-        return in_array($key, $this->items);
+        return in_array($key, $this->items, true);
     }
     public function diff($items)
     {
         return new static(array_diff($this->items, $this->getArrayableItems($items)));
+    }
+    public function diffKeys($items)
+    {
+        return new static(array_diff_key($this->items, $this->getArrayableItems($items)));
     }
     public function each(callable $callback)
     {
@@ -10627,17 +9986,22 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         }
         return $this;
     }
-    public function every($step, $offset = 0)
+    public function every($key, $operator = null, $value = null)
     {
-        $new = [];
-        $position = 0;
-        foreach ($this->items as $key => $item) {
-            if ($position % $step === $offset) {
-                $new[] = $item;
+        if (func_num_args() == 1) {
+            $callback = $this->valueRetriever($key);
+            foreach ($this->items as $k => $v) {
+                if (!$callback($v, $k)) {
+                    return false;
+                }
             }
-            $position++;
+            return true;
         }
-        return new static($new);
+        if (func_num_args() == 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+        return $this->every($this->operatorForWhere($key, $operator, $value));
     }
     public function except($keys)
     {
@@ -10651,25 +10015,86 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function filter(callable $callback = null)
     {
         if ($callback) {
-            return new static(array_filter($this->items, $callback));
+            return new static(Arr::where($this->items, $callback));
         }
         return new static(array_filter($this->items));
     }
-    public function where($key, $value, $strict = true)
+    public function when($value, callable $callback, callable $default = null)
     {
-        return $this->filter(function ($item) use($key, $value, $strict) {
-            return $strict ? data_get($item, $key) === $value : data_get($item, $key) == $value;
+        if ($value) {
+            return $callback($this);
+        } elseif ($default) {
+            return $default($this);
+        }
+        return $this;
+    }
+    public function where($key, $operator, $value = null)
+    {
+        if (func_num_args() == 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+        return $this->filter($this->operatorForWhere($key, $operator, $value));
+    }
+    protected function operatorForWhere($key, $operator, $value)
+    {
+        return function ($item) use($key, $operator, $value) {
+            $retrieved = data_get($item, $key);
+            switch ($operator) {
+                default:
+                case '=':
+                case '==':
+                    return $retrieved == $value;
+                case '!=':
+                case '<>':
+                    return $retrieved != $value;
+                case '<':
+                    return $retrieved < $value;
+                case '>':
+                    return $retrieved > $value;
+                case '<=':
+                    return $retrieved <= $value;
+                case '>=':
+                    return $retrieved >= $value;
+                case '===':
+                    return $retrieved === $value;
+                case '!==':
+                    return $retrieved !== $value;
+            }
+        };
+    }
+    public function whereStrict($key, $value)
+    {
+        return $this->where($key, '===', $value);
+    }
+    public function whereIn($key, $values, $strict = false)
+    {
+        $values = $this->getArrayableItems($values);
+        return $this->filter(function ($item) use($key, $values, $strict) {
+            return in_array(data_get($item, $key), $values, $strict);
         });
+    }
+    public function whereInStrict($key, $values)
+    {
+        return $this->whereIn($key, $values, true);
+    }
+    public function whereNotIn($key, $values, $strict = false)
+    {
+        $values = $this->getArrayableItems($values);
+        return $this->reject(function ($item) use($key, $values, $strict) {
+            return in_array(data_get($item, $key), $values, $strict);
+        });
+    }
+    public function whereNotInStrict($key, $values)
+    {
+        return $this->whereNotIn($key, $values, true);
     }
     public function whereLoose($key, $value)
     {
-        return $this->where($key, $value, false);
+        return $this->where($key, '==', $value);
     }
     public function first(callable $callback = null, $default = null)
     {
-        if (is_null($callback)) {
-            return count($this->items) > 0 ? reset($this->items) : value($default);
-        }
         return Arr::first($this->items, $callback, $default);
     }
     public function flatten()
@@ -10715,8 +10140,12 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         $keyBy = $this->valueRetriever($keyBy);
         $results = [];
-        foreach ($this->items as $item) {
-            $results[$keyBy($item)] = $item;
+        foreach ($this->items as $key => $item) {
+            $resolvedKey = $keyBy($item, $key);
+            if (is_object($resolvedKey)) {
+                $resolvedKey = (string) $resolvedKey;
+            }
+            $results[$resolvedKey] = $item;
         }
         return new static($results);
     }
@@ -10739,6 +10168,10 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function isEmpty()
     {
         return empty($this->items);
+    }
+    public function isNotEmpty()
+    {
+        return !$this->isEmpty();
     }
     protected function useAsCallable($value)
     {
@@ -10769,18 +10202,36 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         $items = array_map($callback, $this->items, $keys);
         return new static(array_combine($keys, $items));
     }
+    public function mapToGroups(callable $callback)
+    {
+        $groups = $this->map($callback)->reduce(function ($groups, $pair) {
+            $groups[key($pair)][] = reset($pair);
+            return $groups;
+        }, []);
+        return (new static($groups))->map([$this, 'make']);
+    }
     public function mapWithKeys(callable $callback)
     {
-        return $this->flatMap($callback);
+        $result = [];
+        foreach ($this->items as $key => $value) {
+            $assoc = $callback($value, $key);
+            foreach ($assoc as $mapKey => $mapValue) {
+                $result[$mapKey] = $mapValue;
+            }
+        }
+        return new static($result);
     }
     public function flatMap(callable $callback)
     {
         return $this->map($callback)->collapse();
     }
-    public function max($key = null)
+    public function max($callback = null)
     {
-        return $this->reduce(function ($result, $item) use($key) {
-            $value = data_get($item, $key);
+        $callback = $this->valueRetriever($callback);
+        return $this->filter(function ($value) {
+            return !is_null($value);
+        })->reduce(function ($result, $item) use($callback) {
+            $value = $callback($item);
             return is_null($result) || $value > $result ? $value : $result;
         });
     }
@@ -10796,12 +10247,27 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         return new static($this->items + $this->getArrayableItems($items));
     }
-    public function min($key = null)
+    public function min($callback = null)
     {
-        return $this->reduce(function ($result, $item) use($key) {
-            $value = data_get($item, $key);
+        $callback = $this->valueRetriever($callback);
+        return $this->filter(function ($value) {
+            return !is_null($value);
+        })->reduce(function ($result, $item) use($callback) {
+            $value = $callback($item);
             return is_null($result) || $value < $result ? $value : $result;
         });
+    }
+    public function nth($step, $offset = 0)
+    {
+        $new = [];
+        $position = 0;
+        foreach ($this->items as $item) {
+            if ($position % $step === $offset) {
+                $new[] = $item;
+            }
+            $position++;
+        }
+        return new static($new);
     }
     public function only($keys)
     {
@@ -10811,6 +10277,19 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function forPage($page, $perPage)
     {
         return $this->slice(($page - 1) * $perPage, $perPage);
+    }
+    public function partition($callback)
+    {
+        $partitions = [new static(), new static()];
+        $callback = $this->valueRetriever($callback);
+        foreach ($this->items as $key => $item) {
+            $partitions[(int) (!$callback($item))][$key] = $item;
+        }
+        return new static($partitions);
+    }
+    public function pipe(callable $callback)
+    {
+        return $callback($this);
     }
     public function pop()
     {
@@ -10853,8 +10332,8 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function reject($callback)
     {
         if ($this->useAsCallable($callback)) {
-            return $this->filter(function ($item) use($callback) {
-                return !$callback($item);
+            return $this->filter(function ($value, $key) use($callback) {
+                return !$callback($value, $key);
             });
         }
         return $this->filter(function ($item) use($callback) {
@@ -10891,10 +10370,21 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         return new static(array_slice($this->items, $offset, $length, $preserveKeys));
     }
-    public function chunk($size, $preserveKeys = false)
+    public function split($numberOfGroups)
     {
+        if ($this->isEmpty()) {
+            return new static();
+        }
+        $groupSize = ceil($this->count() / $numberOfGroups);
+        return $this->chunk($groupSize);
+    }
+    public function chunk($size)
+    {
+        if ($size <= 0) {
+            return new static();
+        }
         $chunks = [];
-        foreach (array_chunk($this->items, $size, $preserveKeys) as $chunk) {
+        foreach (array_chunk($this->items, $size, true) as $chunk) {
             $chunks[] = new static($chunk);
         }
         return new static($chunks);
@@ -10951,24 +10441,33 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         }
         return $this->slice(0, $limit);
     }
+    public function tap(callable $callback)
+    {
+        $callback(new static($this->items));
+        return $this;
+    }
     public function transform(callable $callback)
     {
         $this->items = $this->map($callback)->all();
         return $this;
     }
-    public function unique($key = null)
+    public function unique($key = null, $strict = false)
     {
         if (is_null($key)) {
             return new static(array_unique($this->items, SORT_REGULAR));
         }
-        $key = $this->valueRetriever($key);
+        $callback = $this->valueRetriever($key);
         $exists = [];
-        return $this->reject(function ($item) use($key, &$exists) {
-            if (in_array($id = $key($item), $exists)) {
+        return $this->reject(function ($item, $key) use($callback, $strict, &$exists) {
+            if (in_array($id = $callback($item, $key), $exists, $strict)) {
                 return true;
             }
             $exists[] = $id;
         });
+    }
+    public function uniqueStrict($key = null)
+    {
+        return $this->unique($key, true);
     }
     public function values()
     {
@@ -11001,7 +10500,17 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function jsonSerialize()
     {
-        return $this->toArray();
+        return array_map(function ($value) {
+            if ($value instanceof JsonSerializable) {
+                return $value->jsonSerialize();
+            } elseif ($value instanceof Jsonable) {
+                return json_decode($value->toJson(), true);
+            } elseif ($value instanceof Arrayable) {
+                return $value->toArray();
+            } else {
+                return $value;
+            }
+        }, $this->items);
     }
     public function toJson($options = 0)
     {
@@ -11019,13 +10528,20 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         return count($this->items);
     }
+    public function toBase()
+    {
+        return new self($this);
+    }
     public function unserialize($serialized)
     {
         return $this->items = unserialize($serialized);
     }
     public function __get($key)
     {
-        return $this->get($key);
+        if (!in_array($key, static::$proxies)) {
+            throw new Exception("Property [{$key}] does not exist on this collection instance.");
+        }
+        return new HigherOrderCollectionProxy($this, $key);
     }
     public function __set($key, $value)
     {
@@ -11069,14 +10585,24 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     protected function getArrayableItems($items)
     {
-        if ($items instanceof self) {
+        if (is_array($items)) {
+            return $items;
+        } elseif ($items instanceof self) {
             return $items->all();
         } elseif ($items instanceof Arrayable) {
             return $items->toArray();
         } elseif ($items instanceof Jsonable) {
             return json_decode($items->toJson(), true);
+        } elseif ($items instanceof JsonSerializable) {
+            return $items->jsonSerialize();
+        } elseif ($items instanceof Traversable) {
+            return iterator_to_array($items);
         }
         return (array) $items;
+    }
+    public static function proxy($method)
+    {
+        static::$proxies[] = $method;
     }
 }
 }
@@ -13923,13 +13449,13 @@ trait RouteDependencyResolverTrait
     }
     protected function extractModelIdentifier(ReflectionParameter $parameter, array $originalParameters)
     {
-        return Arr::first($originalParameters, function ($parameterKey) use($parameter) {
+        return Arr::first($originalParameters, function ($parameterValue, $parameterKey) use($parameter) {
             return $parameterKey === $parameter->name;
         });
     }
     protected function alreadyInParameters($class, array $parameters)
     {
-        return !is_null(Arr::first($parameters, function ($key, $value) use($class) {
+        return !is_null(Arr::first($parameters, function ($value, $key) use($class) {
             return $value instanceof $class;
         }));
     }
@@ -14213,7 +13739,7 @@ class Route
     }
     protected function findCallable(array $action)
     {
-        return Arr::first($action, function ($key, $value) {
+        return Arr::first($action, function ($value, $key) {
             return is_callable($value) && is_numeric($key);
         });
     }
@@ -15183,7 +14709,7 @@ class RouteCollection implements Countable, IteratorAggregate
     }
     protected function check(array $routes, $request, $includingMethod = true)
     {
-        return Arr::first($routes, function ($key, $value) use($request, $includingMethod) {
+        return Arr::first($routes, function ($value, $key) use($request, $includingMethod) {
             return $value->matches($request, $includingMethod);
         });
     }
@@ -18087,7 +17613,7 @@ class Factory implements FactoryContract
     protected function getExtension($path)
     {
         $extensions = array_keys($this->extensions);
-        return Arr::first($extensions, function ($key, $value) use($path) {
+        return Arr::first($extensions, function ($value, $key) use($path) {
             return Str::endsWith($path, '.' . $value);
         });
     }
@@ -26486,9 +26012,9 @@ class Store implements SessionInterface, StoreInterface
     }
     public function save()
     {
+        $this->session->save();
         $mergeData = array_merge($_SESSION, $this->session->all());
         $this->replace($mergeData);
-        $this->session->save();
         session_write_close();
     }
     public function set($name, $value)
@@ -28652,7 +28178,7 @@ class Hooks
         if (isset($this->filters['all'])) {
             $this->current_filter[] = $tag;
             $args = func_get_args();
-            $this->_call_all_hook($args);
+            $this->__call_all_hook($args);
         }
         if (!isset($this->filters[$tag])) {
             if (isset($this->filters['all'])) {
@@ -28687,7 +28213,7 @@ class Hooks
         if (isset($this->filters['all'])) {
             $this->current_filter[] = $tag;
             $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
+            $this->__call_all_hook($all_args);
         }
         if (!isset($this->filters[$tag])) {
             if (isset($this->filters['all'])) {
@@ -28742,7 +28268,7 @@ class Hooks
         if (isset($this->filters['all'])) {
             $this->current_filter[] = $tag;
             $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
+            $this->__call_all_hook($all_args);
         }
         if (!isset($this->filters[$tag])) {
             if (isset($this->filters['all'])) {
@@ -28789,7 +28315,7 @@ class Hooks
         if (isset($this->filters['all'])) {
             $this->current_filter[] = $tag;
             $all_args = func_get_args();
-            $this->_call_all_hook($all_args);
+            $this->__call_all_hook($all_args);
         }
         if (!isset($this->filters[$tag])) {
             if (isset($this->filters['all'])) {

@@ -153,36 +153,6 @@
     'RC_Redis' => 'Royalcms\\Component\\Redis\\Facades\\Redis',
     'RC_WeChat' => 'Royalcms\\Component\\WeChat\\Facades\\WeChat',
   ),
-  '*::pay' => 
-  array (
-    'alipay' => 
-    array (
-      'app_id' => '',
-      'notify_url' => '',
-      'return_url' => '',
-      'ali_public_key' => '',
-      'private_key' => '',
-      'log' => 
-      array (
-        'file' => '/Users/royalwang/WorksPHP/ecjia-cityo2o/content/storages/logs/alipay.log',
-      ),
-    ),
-    'wechat' => 
-    array (
-      'app_id' => '',
-      'miniapp_id' => '',
-      'appid' => '',
-      'mch_id' => '',
-      'notify_url' => '',
-      'key' => '',
-      'cert_client' => '',
-      'cert_key' => '',
-      'log' => 
-      array (
-        'file' => '/Users/royalwang/WorksPHP/ecjia-cityo2o/content/storages/logs/wechat.log',
-      ),
-    ),
-  ),
   '*::readme' => 
   array (
     'filename' => 'readme.md',
