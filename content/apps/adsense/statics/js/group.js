@@ -27,6 +27,7 @@
 					success : function(data) {
 						$('#editArea').modal('hide');
 						$('#addArea').modal('hide');
+						$(".modal-backdrop").remove();
 						ecjia.admin.showmessage(data);
 					}
 				});
