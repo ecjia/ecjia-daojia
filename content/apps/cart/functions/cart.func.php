@@ -1118,12 +1118,13 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 		$arr[$key]['attr_number'] = 1;//有货
 		if (ecjia::config('use_storage') == 1) {
 		    if($value['product_id']) {
+		        //product_id变动TODO
 		        $arr[$key]['product_id'] = $value['product_id'];
-		        $product_number = RC_DB::table('products')
+		        $product_info = RC_DB::table('products')
 		            ->where('goods_id', $value['goods_id'])
     		        ->where('product_id', $value['product_id'])
-    		        ->pluck('product_number');
-		        if ($value['goods_number'] > $product_number) {
+    		        ->first();
+		        if ($product_info && $value['goods_number'] > $product_info['product_number']) {
 		            $arr[$key]['attr_number'] = 0;
 		        }
 		    } else {
