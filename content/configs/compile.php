@@ -128,4 +128,27 @@ return [
 
     ],
 
+    /*
+        |--------------------------------------------------------------------------
+        | Compiled Config files, Excludes other config files.
+        |--------------------------------------------------------------------------
+        |
+        | Here you may list service providers which define a "compiles" function
+        | that returns additional files that should be compiled, providing an
+        | easy way to get common files from any packages you are utilizing.
+        |
+        */
+    'exclude_configs' => [
+        '*::system',
+        '*::namespaces',
+        '*::provider',
+        '*::cache',
+        '*::app',
+        '*::session',
+        '*::view',
+        'smarty-view::smarty',
+        'excel::export',
+        '*::pay',
+    ],
+
 ];
