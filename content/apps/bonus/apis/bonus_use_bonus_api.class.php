@@ -54,10 +54,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class bonus_use_bonus_api extends Component_Event_Api {
     
     public function call(&$options) {
-        if (!is_array($options) || !isset($options['bonus_id']) || (!isset($options['order_id']) && !isset($options['order_sn'])) ) {
+        if (!is_array($options) || !isset($options['bonus_id']) || (empty($options['order_id']) && empty($options['order_sn'])) ) {
             return new ecjia_error('invalid_parameter', RC_Lang::get('bonus::bonus.invalid_parameter'));
         }
-        $options['order_id'] = isset($options['order_id']) ? intval($options['order_id']) : 0;
+        $options['order_id'] = intval($options['order_id']);
         $options['order_sn'] = isset($options['order_sn']) ? $options['order_sn'] : '';
         
         return $this->use_bonus($options['bonus_id'], $options['order_id'], $options['order_sn']);
@@ -67,16 +67,17 @@ class bonus_use_bonus_api extends Component_Event_Api {
 	* 设置红包为已使用
 	* @param   int	 $bonus_id   红包id
 	* @param   int	 $order_id   订单id
-	* @param   int	 $order_sn   订单sn
 	* @return  bool
 	*/
 	private function use_bonus($bonus_id, $order_id, $order_sn = '') {
 		$db = RC_DB::table('user_bonus');
 		$data = array(
 			'order_id'	=> $order_id,
-		    'order_sn'	=> $order_sn,
 			'used_time' => RC_Time::gmtime()
 		);
+		if (!empty($order_sn)) {
+			$data['order_sn'] = $order_sn;
+		}
 		return $db->where('bonus_id', $bonus_id)->update($data);
 	}
 }

@@ -60,21 +60,30 @@ class UserAvaliableBonus
 {
 	
     /**
-     * 获取商品对应的店铺id
-     * @param array $options
-     * @return ayyay
+     * 获取用户可用红包(条件1此用户，2有效期内，3未使用，4满足最小金额)
+     * @param Y array $options
+     * @param Y integer $options['user_id'] 用户id
+     * @param Y float $options['min_goods_amount'] 购物金额
+     * @param N array $options['store_id'] 店铺id
+     * @return array
      */
-    public static function GetUserBonus($options = array()) {  	
+    public static function GetUserBonus($options = array()) {
     	$time = RC_Time::gmtime();
     	$field = 'bt.type_id, bt.type_name, bt.send_type, bt.type_money, ub.bonus_id, bt.use_start_date, bt.use_end_date, min_goods_amount,bt.store_id,merchants_name';
     	$dbview = RC_DB::table('bonus_type as bt')
     					->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
     					->leftJoin('store_franchisee as sf', RC_DB::raw('bt.store_id'), '=', RC_DB::raw('sf.store_id'));
+    	
+		if(isset($options['store_id']) && is_array($options['store_id'])) {
+    	    $dbview->whereIn(RC_DB::raw('bt.store_id'), $options['store_id']);
+    	}
+    	    
     	$user_bonus = $dbview->where(RC_DB::raw('bt.use_start_date'), '<=', $time)
     						 ->where(RC_DB::raw('bt.use_end_date'), '>=', $time)
     						 ->where(RC_DB::raw('ub.user_id'), '!=', 0)
     						 ->where(RC_DB::raw('ub.user_id'), $options['user_id'])
     						 ->where(RC_DB::raw('ub.order_id'), 0)
+    						 ->where(RC_DB::raw('ub.order_sn'), '')
     						 ->where(RC_DB::raw('bt.min_goods_amount'), '<=', $options['min_goods_amount'])
     						 ->selectRaw($field)->get();
     	return $user_bonus;

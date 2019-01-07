@@ -54,6 +54,7 @@ class admin extends ecjia_admin {
 		
 		parent::__construct();
 		RC_Loader::load_app_func('admin_bonus');
+		RC_Loader::load_app_class('bonus');
 		/* 加载全局 js/css */
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -118,7 +119,6 @@ class admin extends ecjia_admin {
 		);
 		
 		$this->assign('ur_here', RC_Lang::get('bonus::bonus.bonustype_list'));
-		$this->assign('action_link', array('text' => RC_Lang::get('system::system.bonustype_add'), 'href' => RC_Uri::url('bonus/admin/add')));
 		$this->assign('search_action', RC_Uri::url('bonus/admin/init'));
 		
 		$list = get_type_list();
@@ -134,6 +134,7 @@ class admin extends ecjia_admin {
 	 * 红包类型添加页面
 	 */
 	public function add() {
+	    exit;
 		$this->admin_priv('bonus_type_update');
 	
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('bonus::bonus.add_bonus_type')));
@@ -908,10 +909,17 @@ class admin extends ecjia_admin {
 		$keywords = !empty($json) && isset($json['keyword']) ? trim($json['keyword']) : '';
 		
 		$db_users = RC_DB::table('users')->select('user_id', 'user_name', 'mobile_phone');
-		$row = '';
+		$row = [];
 		if (!empty($keywords)) {
 			$row = $db_users->where('user_name', 'like', '%' . mysql_like_quote($keywords) . '%')->orWhere('mobile_phone', 'like', '%' . mysql_like_quote($keywords) . '%')->get();
 		}
+        if (!empty($row)) {
+            foreach ($row as $k => $v) {
+                if (!empty($v['mobile_phone'])) {
+                    $row[$k]['mobile_phone'] = substr_replace($v['mobile_phone'], '****', 3, 4);
+                }
+            }
+        }
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $row));
 	}
 	

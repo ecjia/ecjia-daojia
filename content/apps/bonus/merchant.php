@@ -797,6 +797,13 @@ class merchant extends ecjia_merchant {
 				->where(RC_DB::raw('user_name'), 'like', '%'.$keywords.'%')
 				->orWhere(RC_DB::raw('mobile_phone'), $keywords)
 				->get();
+            if (!empty($row)) {
+                foreach ($row as $k => $v) {
+                    if (!empty($v['mobile_phone'])) {
+                        $row[$k]['mobile_phone'] = substr_replace($v['mobile_phone'], '****', 3, 4);
+                    }
+                }
+            }
 		}
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content'=>$row));
 	}

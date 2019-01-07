@@ -89,12 +89,16 @@ function get_type_list() {
 	}
 	
 	$filter_count = $db_bonus_type
-		->select(RC_DB::raw('count(*) as count'), RC_DB::raw('SUM(IF(s.manage_mode = "self", 1, 0)) as self'))
+	->select(RC_DB::raw('count(*) as count'), RC_DB::raw('SUM(bt.store_id = 0) as platform'), RC_DB::raw('SUM(IF(s.manage_mode = "self", 1, 0)) as self'), RC_DB::raw('SUM(IF(s.manage_mode = "join", 1, 0)) as merchant'))
 		->first();
 	
 	$filter['type'] = isset($_GET['type']) ? $_GET['type'] : '';
-	if (!empty($filter['type'])) {
+	if (isset($filter['type']) && $filter['type'] == 'self') {
 		$db_bonus_type->where(RC_DB::raw('s.manage_mode'), 'self');
+	} else if (isset($filter['type']) && $filter['type'] == 'merchant') {
+	    $db_bonus_type->where(RC_DB::raw('s.manage_mode'), 'join');
+	} else {
+	    $db_bonus_type->where(RC_DB::raw('bt.store_id'), 0);
 	}
 	
 	$count = $db_bonus_type->count();
@@ -232,7 +236,7 @@ function user_bonus($user_id, $goods_amount = 0, $cart_id = array(), $store_id =
 		if (!empty($store_id)) {
 			$dbview->whereIn(RC_DB::raw('bt.store_id'), array($store_id, 0));
 		}
-		$row = $dbview->select(RC_DB::raw('bt.type_id, bt.store_id, bt.type_name, bt.type_money, ub.bonus_id, bt.usebonus_type,bt.min_goods_amount,bt.use_start_date,bt.use_end_date'))
+		$row = $dbview->select(RC_DB::raw('ub.bonus_sn, bt.type_id, bt.store_id, bt.type_name, bt.type_money, ub.bonus_id, bt.usebonus_type,bt.min_goods_amount,bt.use_start_date,bt.use_end_date'))
 		->where(RC_DB::raw('bt.use_start_date'), '<=', $today)
 		->where(RC_DB::raw('bt.use_end_date'), '>=', $today)
 		->where(RC_DB::raw('bt.min_goods_amount'), '<=', $goods_amount)

@@ -19,13 +19,18 @@
 
 <ul class="nav nav-pills">
 	<li class="{if $filter.type eq ''}active{/if}">
-		<a class="data-pjax" href='{url path="bonus/admin/init" args="{if $filter.send_type !== ''}&send_type={$filter.send_type}{/if}{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.type_keywords}&type_keywords={$filter.type_keywords}{/if}"}'>{lang key='bonus::bonus.all'} 
-			<span class="badge badge-info">{if $count.count}{$count.count}{else}0{/if}</span> 
+		<a class="data-pjax" href='{url path="bonus/admin/init" args="{if $filter.send_type !== ''}&send_type={$filter.send_type}{/if}{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.type_keywords}&type_keywords={$filter.type_keywords}{/if}"}'>全场通用
+			<span class="badge badge-info">{if $count.platform}{$count.platform}{else}0{/if}</span> 
 		</a>
 	</li>
 	<li class="{if $filter.type eq 'self'}active{/if}">
 		<a class="data-pjax" href='{url path="bonus/admin/init" args="type=self{if $filter.send_type !== ''}&send_type={$filter.send_type}{/if}{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.type_keywords}&type_keywords={$filter.type_keywords}{/if}"}'>{lang key='bonus::bonus.self'}
 			<span class="badge badge-info">{if $count.self}{$count.self}{else}0{/if}</span> 
+		</a>
+	</li>
+	<li class="{if $filter.type eq 'merchant'}active{/if}">
+		<a class="data-pjax" href='{url path="bonus/admin/init" args="type=merchant{if $filter.send_type !== ''}&send_type={$filter.send_type}{/if}{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.type_keywords}&type_keywords={$filter.type_keywords}{/if}"}'>商家
+			<span class="badge badge-info">{if $count.merchant}{$count.merchant}{else}0{/if}</span> 
 		</a>
 	</li>
 </ul>
@@ -71,9 +76,14 @@
 				<!-- {foreach from=$type_list.item item=type} -->
 				<tr>
 					<td class="hide-edit-area hide_edit_area_bottom" >
+						{if $filter.type eq ''}
 						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('bonus/admin/edit_type_name')}" data-name="type_name" data-pk="{$type.type_id}" data-title="{lang key='bonus::bonus.edit_bonus_type_name'}">{$type.type_name}</span>
+						{else}{$type.type_name}{/if}
 						<br/>
 						<div class="edit-list">
+						{if $filter.type eq 'self' || $filter.type eq 'merchant'}
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='bonus::bonus.remove_bonustype_confirm'}" href='{RC_Uri::url("bonus/admin/remove", "id={$type.type_id}")}' title="{lang key='system::system.remove'}">{lang key='system::system.drop'}</a>
+						{else}
 							<a class="data-pjax" href='{RC_Uri::url("bonus/admin/bonus_list", "bonus_type={$type.type_id}")}' title="{lang key='bonus::bonus.view_bonus'}">{lang key='bonus::bonus.view_bonus'}</a>&nbsp;|&nbsp;
 							<a class="data-pjax" href='{RC_Uri::url("bonus/admin/edit", "type_id={$type.type_id}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a> &nbsp;|&nbsp;
 							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='bonus::bonus.remove_bonustype_confirm'}" href='{RC_Uri::url("bonus/admin/remove", "id={$type.type_id}")}' title="{lang key='system::system.remove'}">{lang key='system::system.drop'}</a>
@@ -83,6 +93,7 @@
 							{if $type.send_type eq 3}
 							&nbsp;|&nbsp;<a href='{RC_Uri::url("bonus/admin/gen_excel", "tid={$type.type_id}")}' title="{lang key='bonus::bonus.gen_excel'}">{lang key='bonus::bonus.gen_excel'}</a> 
 							{/if}
+						{/if}
 						</div>
 					</td> 
 					<td>
@@ -94,11 +105,19 @@
 					</td>
 					<td>{$type.send_by}</td>
 					<td>
+						{if $filter.type eq ''}
 						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('bonus/admin/edit_type_money')}" data-name="type_money" data-pk="{$type.type_id}" data-title="{lang key='bonus::bonus.edit_bonus_money'}">{$type.type_money}</span>
+						{else}
+						{$type.type_money}
+						{/if}
 					</td>
 					<td>
 						<!-- {if $type.send_type eq 2} -->
+						{if $filter.type eq ''}
 						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('bonus/admin/edit_min_amount')}" data-name="min_amount" data-pk="{$type.type_id}" title="{lang key='bonus::bonus.edit_order_limit'}">{$type.min_amount}</span>
+						{else}
+						{$type.min_amount}
+						{/if}
 						<!-- {else} -->
 						0.00
 						<!-- {/if} -->
