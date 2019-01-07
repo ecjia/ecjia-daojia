@@ -49,7 +49,7 @@ Plugin Name: 团购活动失败自动发送短信
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_group_buy_failed/
 Description: 计划任务-团购活动失败自动发送短信
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.25.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
 */

@@ -49,7 +49,7 @@ Plugin Name: 自动关闭未付款订单
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_unpayed/
 Description: 计划任务-自动关闭未付款订单
 Author: ECJIA TEAM
-Version: 1.21.0
+Version: 1.25.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
 */

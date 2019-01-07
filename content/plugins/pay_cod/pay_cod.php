@@ -49,7 +49,7 @@ Plugin Name: 货到付款
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cod/
 Description: 开通城市：×××<br>货到付款区域：×××
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.25.0
 Author URI: http://www.ecjia.com/
 Plugin App: payment
 */
