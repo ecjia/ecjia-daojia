@@ -50,10 +50,12 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 use Ecjia\App\Payment\PaymentAbstract;
+use Ecjia\App\Payment\Contracts\PayPayment;
 
-class pay_balance extends PaymentAbstract
+class pay_balance extends PaymentAbstract implements PayPayment
 {
 
+	
     /**
      * 获取插件代号
      *
@@ -85,19 +87,33 @@ class pay_balance extends PaymentAbstract
     
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
     }
-    
-    public function get_prepare_data() {
+
+    /**
+     * 统一下单方法
+     */
+    public function unifiedOrder()
+    {
         $user_id = $_SESSION['user_id'];
-        
         /* 获取会员信息*/
         $user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
-        
-        if ($this->order_info['order_type'] == Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY) {
-        	$result = RC_Api::api('quickpay', 'quickpay_user_account_paid', array('user_id' => $user_id, 'order_id' => $this->order_info['order_id']));
+
+        $api_version = royalcms('request')->header('api-version');
+        if (version_compare($api_version, '1.25', '<')) {
+            $predata = $this->beforVersionPredata($user_info);
         } else {
-        	$result = RC_Api::api('orders', 'user_account_paid', array('user_id' => $user_id, 'order_id' => $this->order_info['order_id']));
+            $predata = $this->nowVersionPredata($user_info);
         }
-        
+
+        return $predata;
+    }
+    
+    private function beforVersionPredata($user_info)
+    {
+    	if ($this->order_info['order_type'] == Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY) {
+    		$result = RC_Api::api('quickpay', 'quickpay_user_account_paid', array('user_id' => $user_info['user_id'], 'order_id' => $this->order_info['order_id']));
+    	} else {
+    		$result = RC_Api::api('orders', 'user_account_paid', array('user_id' => $user_info['user_id'], 'order_id' => $this->order_info['order_id']));
+    	}
     	if (is_ecjia_error($result)) {
     		/* 支付失败返回信息*/
     		$error_predata = array(
@@ -110,55 +126,183 @@ class pay_balance extends PaymentAbstract
     				'pay_online'    => '',
     		);
     		$error_predata['error_message'] = $result->get_error_message();
-			return $error_predata;
-			
-		} else {
-		    /* 更新支付流水记录*/
-		    RC_Api::api('payment', 'update_payment_record', [
-    		    'order_sn' 		=> $this->order_info['order_sn'],
-    		    'trade_no'      => ''
-		    ]);
-		    
-			/* 支付成功返回信息*/
-			$predata = array(
-	            'order_id'      => $this->order_info['order_id'],
-	            'order_surplus' => price_format($this->order_info['order_amount'], false),
-	            'order_amount'  => price_format(0, false),
-	            'user_money'    => price_format($user_info['user_money'] - $this->order_info['order_amount'], false),
-	            'pay_code'      => $this->getCode(),
-	            'pay_name'      => $this->getDisplayName(),
-	            'pay_status'    => 'success',
-	            'pay_online'    => '',
-	        );
-			return $predata;
-		}
+    		return $error_predata;
+    	
+    	} else {
+    		/* 更新支付流水记录*/
+    		RC_Api::api('payment', 'update_payment_record', [
+    		'order_sn' 		=> $this->order_info['order_sn'],
+    		'trade_no'      => ''
+    				]);
+    	
+    		/* 支付成功返回信息*/
+    		$predata = array(
+    				'order_id'      => $this->order_info['order_id'],
+    				'order_surplus' => price_format($this->order_info['order_amount'], false),
+    				'order_amount'  => price_format(0, false),
+    				'user_money'    => price_format($user_info['user_money'] - $this->order_info['order_amount'], false),
+    				'pay_code'      => $this->getCode(),
+    				'pay_name'      => $this->getDisplayName(),
+    				'pay_status'    => 'success',
+    				'pay_online'    => '',
+    		);
+    		return $predata;
+    	}
+    }
+
+    private function nowVersionPredata($user_info)
+    {
+    	$recordId = $this->getPaymentRecordId();
+        $output = new Ecjia\App\Payment\PaymentOutput();
+        $output->setOrderSn($this->order_info['order_sn'])
+                ->setOrderId($this->order_info['order_id'])
+                ->setOrderAmount($this->order_info['order_amount'])
+                ->setPayCode($this->getCode())
+                ->setPayName($this->getDisplayName())
+                ->setPayRecordId($recordId)
+                ->setSubject(ecjia::config('shop_name') . '的订单：' . $this->order_info['order_sn'])
+                ->setOrderTradeNo($this->getOrderTradeNo($recordId));
         
+        return $output->export();
     }
     
     /**
-     * 支付服务器异步回调通知地址
-     * @see \Ecjia\App\Payment\PaymentAbstract::notifyUrl()
+     * 插件支付
+     * @param $order_trade_no  交易流水号
      */
-    public function notifyUrl()
+    public function pay($order_trade_no)
     {
-        return ;
+    	$record_model = $this->paymentRecord->getPaymentRecord($order_trade_no);
+        if (empty($record_model)) {
+            return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+        }
+    	
+    	//订单信息
+    	if ($record_model->trade_type == Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY) {
+    		$orderinfo = RC_Api::api('quickpay', 'quickpay_order_info', array('order_sn' => $record_model->order_sn));
+    	} else if ($record_model->trade_type == Ecjia\App\Payment\PayConstant::PAY_SEPARATE_ORDER) {
+    	    $orderinfo = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $record_model->order_sn));
+    	} else {
+    		$orderinfo = RC_Api::api('orders', 'order_info', array('order_sn' => $record_model->order_sn));
+    	}
+    	
+    	if (empty($orderinfo)) {
+    		return new ecjia_error('order_dose_not_exist', $record_model->order_sn . '未找到该订单信息');
+    	}
+    	
+    	$user_id = $_SESSION['user_id'];
+    	if (empty($user_id)) {
+    		$user_id = $orderinfo['user_id'];
+    	}
+    	/* 获取会员信息*/
+    	$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+    	
+    	if ($record_model->trade_type == Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY) {
+    		$result = RC_Api::api('quickpay', 'quickpay_user_account_paid', array('user_id' => $user_info['user_id'], 'order_id' => $orderinfo['order_id']));
+    	} else if ($record_model->trade_type == Ecjia\App\Payment\PayConstant::PAY_SEPARATE_ORDER) {
+    	    $result = RC_Api::api('orders', 'separate_user_account_paid', array('user_id' => $user_info['user_id'], 'order_sn' => $orderinfo['order_sn']));
+    	} else {
+    		$result = RC_Api::api('orders', 'user_account_paid', array('user_id' => $user_info['user_id'], 'order_id' => $orderinfo['order_id']));
+    	}
+    	
+    	//订单状态更新成功
+    	if (is_ecjia_error($result)) {
+    		/* 支付失败返回信息*/
+    		$error_predata = array(
+				'order_id'      => $orderinfo['order_id'],
+    		    'order_sn'      => $orderinfo['order_sn'],
+				'order_surplus' => ecjia_price_format($orderinfo['surplus'], false),
+				'order_amount'  => ecjia_price_format($orderinfo['order_amount'], false),
+				'pay_code'      => $this->getCode(),
+				'pay_name'      => $this->getDisplayName(),
+				'pay_status'    => 'error',
+				'pay_online'    => '',
+    		);
+    		$error_predata['error_message'] = $result->get_error_message();
+    		return new ecjia_error('user_surplus_error', $result->get_error_message());
+    		 
+    	} else {
+    		/* 更新支付流水记录*/
+    		RC_Api::api('payment', 'update_payment_record', [
+        		'order_sn' 		=> $orderinfo['order_sn'],
+        		'trade_no'      => ''
+				]);
+    		/* 支付成功返回信息*/
+    		$predata = array(
+				'order_id'      => $orderinfo['order_id'],
+    		    'order_sn'      => $orderinfo['order_sn'],
+				'order_surplus' => ecjia_price_format($orderinfo['order_amount'], false),
+				'order_amount'  => ecjia_price_format(0, false),
+				'user_money'    => ecjia_price_format($user_info['user_money'] - $orderinfo['order_amount'], false),
+				'pay_code'      => $this->getCode(),
+				'pay_name'      => $this->getDisplayName(),
+				'pay_status'    => 'success',
+				'pay_online'    => '',
+    		);
+    		return $predata;
+    	}
     }
     
     /**
-     * 支付服务器同步回调响应地址
-     * @see \Ecjia\App\Payment\PaymentAbstract::callbackUrl()
+     * 确认退款
+     * @param string $order_trade_no 订单交易号
+     * @param float $refund_amount 退款金额
+     * @param string $operator 操作员
+     * @return ecjia_error | array
      */
-    public function callbackUrl()
+    public function refund($order_trade_no, $refund_amount, $operator)
     {
-        return ;
-    }
-    
-    public function notify() { 
-    	 return ;
-    }
-    
-    public function response() {	 
-    	 return ;
+    	$record_model = $this->paymentRecord->getPaymentRecord($order_trade_no);
+    	if (empty($record_model)) {
+    		return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+    	}
+    	
+    	$refund_payrecord = \Ecjia\App\Refund\Models\RefundPayRecordModel::where('order_sn', $record_model->order_sn)->first();
+    	if (empty($refund_payrecord)) {
+    		return new ecjia_error('payment_record_not_found', '此笔退款申请未找到');
+    	}
+    	
+    	//退款申请单
+    	$refund_order = RC_Api::api('refund', 'refund_order_info', array('refund_id' => $refund_payrecord->refund_id));
+    	if (is_ecjia_error($refund_order)) {
+    		return $refund_order;
+    	}
+    	
+    	if (!empty($refund_order['user_id'])) {
+    		$integral_name = ecjia::config('integral_name');
+    		if (empty($integral_name)) {
+    			$integral_name = '积分';
+    		}
+    		//账户余额变动记录
+    		$options = array(
+    				'user_id'		=> $refund_order['user_id'],
+    				'user_money'	=> $refund_order['back_money_total'],
+    				'change_desc'	=> '由于订单'.$refund_order['order_sn'].'退款，退还下单使用的'.$integral_name.'，退款金额退回余额',
+    				'change_type'	=> ACT_SAVING,
+    				'from_type'		=> 'refund_back_integral',
+    				'from_value'	=> $refund_order['order_sn']
+    		);
+    		//TODO 暂时不启用
+    		//RC_Api::api('finance', 'account_balance_change', $options);
+    		
+    		/*账户积分变动记录*/ //TODO 迁移至外面处理
+    		//$bak_integral = RC_Api::api('finance', 'refund_back_pay_points', array('refund_id' => $refund_order['refund_id']));
+    		//if (is_ecjia_error($bak_integral)) {
+    		//	return $bak_integral;
+    		//}
+    		
+    		//TODO打款表，退款申请单，订单状态，退款申请状态等的更新，退款短信及消息通知
+    		
+    		
+    		//处理成功返回
+    		$refund_result = array(
+    				'refund_status'	=> 'success',
+    				'desc'			=> '订单退款成功！'
+    		);
+    		return $refund_result;
+    	} else {
+    		return new ecjia_error('pay_balance_refund_fail', '退款失败!');
+    	}
     }
     
 }
