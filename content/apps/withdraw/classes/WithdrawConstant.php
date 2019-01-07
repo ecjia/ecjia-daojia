@@ -44,25 +44,65 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台权限API
- */
-class withdraw_admin_purview_api extends Component_Event_Api
+namespace Ecjia\App\Withdraw;
+
+
+class WithdrawConstant
 {
 
-    public function call(&$options)
+    /**
+     * 流水记录的支付状态
+     */
+    const WITHDRAW_RECORD_STATUS_WAIT       = 0; //等待支付
+    const WITHDRAW_RECORD_STATUS_PAYED      = 1; //支付完成
+    const WITHDRAW_RECORD_STATUS_PROGRESS   = 2; //支付进行中
+    const WITHDRAW_RECORD_STATUS_FAILED     = 11; //支付失败
+    const WITHDRAW_RECORD_STATUS_REFUND     = 21; //银行退票
+
+    protected static $record_status = [
+        self::WITHDRAW_RECORD_STATUS_WAIT     => '等待支付',
+        self::WITHDRAW_RECORD_STATUS_PAYED    => '支付完成',
+        self::WITHDRAW_RECORD_STATUS_PROGRESS => '支付进行中',
+        self::WITHDRAW_RECORD_STATUS_FAILED   => '支付失败',
+        self::WITHDRAW_RECORD_STATUS_REFUND   => '银行退票',
+    ];
+
+
+    /**
+     * user_account表中is_paid字段的提现支付状态
+     */
+    const ORDER_PAY_STATUS_UNPAY            = 0; //未确认，未支付
+    const ORDER_PAY_STATUS_PAYED            = 1; //已确认，已支付
+    const ORDER_PAY_STATUS_CANCEL           = 2; //已取消
+    const ORDER_PAY_STATUS_FAILED           = 11; //已确认，支付失败
+
+    protected static $pay_status = [
+        self::ORDER_PAY_STATUS_UNPAY  => '未确认，未支付',
+        self::ORDER_PAY_STATUS_PAYED  => '已确认，已支付',
+        self::ORDER_PAY_STATUS_CANCEL => '已取消',
+        self::ORDER_PAY_STATUS_FAILED => '已确认，支付失败',
+    ];
+
+    /**
+     * 获取提现流水记录的状态描述
+     * @param $status
+     * @return mixed
+     */
+    public static function getWithdrawRecordStatus($status)
     {
-        $purviews = array(
-            array('action_name' => '提现管理', 'action_code' => 'withdraw_manage', 'relevance' => ''),
-            array('action_name' => '提现更新', 'action_code' => 'withdraw_update', 'relevance' => ''),
-            array('action_name' => '提现删除', 'action_code' => 'withdraw_delete', 'relevance' => ''),
-            array('action_name' => '提现审核', 'action_code' => 'withdraw_check', 'relevance' => ''),
-        );
-
-        return $purviews;
+        return array_get(self::$record_status, $status, '未知');
     }
-}
 
-// end
+    /**
+     * 获取提现订单的状态描述
+     * @param $status
+     * @return mixed
+     */
+    public static function getOrderPayStatus($status)
+    {
+        return array_get(self::$pay_status, $status, '未知');
+    }
+
+
+}

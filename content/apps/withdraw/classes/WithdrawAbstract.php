@@ -44,25 +44,136 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Withdraw;
+
+use Ecjia\App\Withdraw\Models\WithdrawUserBankModel;
+use Ecjia\System\Plugin\AbstractPlugin;
+use Ecjia\App\Withdraw\Repositories\WithdrawRecordRepository;
 
 /**
- * 后台权限API
+ * 提现插件抽象类
+ * @author royalwang
  */
-class withdraw_admin_purview_api extends Component_Event_Api
+abstract class WithdrawAbstract extends AbstractPlugin
 {
+    
+    /**
+     * 插件信息
+     * @var \Ecjia\App\Withdraw\WithdrawPlugin
+     */
+    protected $plugin_model;
 
-    public function call(&$options)
+    /**
+     * 提现流水记录
+     * @var \Ecjia\App\Withdraw\Repositories\WithdrawRecordRepository
+     */
+    protected $withdrawRecordRepository;
+
+    /**
+     * 设置提现流水记录对象
+     * @param WithdrawRecordRepository $withdrawRecord
+     * @return \Ecjia\App\Withdraw\WithdrawAbstract
+     */
+    public function setWithdrawRecordRepository(WithdrawRecordRepository $withdrawRecord)
     {
-        $purviews = array(
-            array('action_name' => '提现管理', 'action_code' => 'withdraw_manage', 'relevance' => ''),
-            array('action_name' => '提现更新', 'action_code' => 'withdraw_update', 'relevance' => ''),
-            array('action_name' => '提现删除', 'action_code' => 'withdraw_delete', 'relevance' => ''),
-            array('action_name' => '提现审核', 'action_code' => 'withdraw_check', 'relevance' => ''),
-        );
+        $this->withdrawRecordRepository = $withdrawRecord;
 
-        return $purviews;
+        return $this;
     }
+
+    /**
+     * 获取提现流水记录操作对象
+     * @return \Ecjia\App\Withdraw\Repositories\WithdrawRecordRepository
+     */
+    public function getWithdrawRecordRepository()
+    {
+        return $this->withdrawRecordRepository;
+    }
+
+    /**
+     * 设置配置方式
+     * @param \Ecjia\App\Withdraw\WithdrawPlugin $plugin
+     */
+    public function setPluginModel(WithdrawPlugin $plugin)
+    {
+        $this->plugin_model = $plugin;
+
+        return $this;
+    }
+
+    /**
+     * 获取支付方式数据对象
+     * @return \Ecjia\App\Withdraw\WithdrawPlugin $plugin
+     */
+    public function getPluginModel()
+    {
+        return $this->plugin_model;
+    }
+    
+    /**
+     * 获取支付插件的ID
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->plugin_model->withdraw_id;
+    }
+    
+    /**
+     * 获取支付插件的名称
+     * @return string
+     */
+    public function getName()
+    {
+        return strip_tags($this->plugin_model->withdraw_name);
+    }
+    
+    /**
+     * 获取支付方式显示名称
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        if (array_get($this->config, 'display_name')) {
+            return array_get($this->config, 'display_name');
+        }
+        
+        return $this->getName();
+    }
+
+    /**
+     * 获取用户绑定提现方式
+     * @param $user_id
+     * @param string $user_type
+     */
+    public function getUserBankcard($user_id, $user_type = 'user')
+    {
+        return WithdrawUserBankModel::where('user_id', $user_id)
+            ->where('user_type', $user_type)
+            ->where('bank_type', $this->getBankType())
+            ->get();
+    }
+
+    /**
+     * 获取用户绑定的提现方式
+     * @return string
+     */
+    abstract public function getBankType();
+
+    /**
+     * 转账查询方法
+     * @param $order_sn
+     * @return \Royalcms\Component\Support\Collection | \ecjia_error
+     */
+    abstract public function transfers($order_sn);
+
+    /**
+     * 转账查询方法
+     * @param $order_sn
+     * @return \Royalcms\Component\Support\Collection | \ecjia_error
+     */
+    abstract public function transfersQuery($order_sn);
+
 }
 
 // end

@@ -8,7 +8,7 @@
 <!-- {/block} -->
 
 <!-- {block name="admin_config_form"} -->
-<div class="row-fluid">
+<div class="row-fluid priv_list">
 	<form method="post" class="form-horizontal" action="{$form_action}" name="theForm" >
 		<fieldset>
 			<div>
@@ -32,6 +32,25 @@
 					<span class="help-block">当用户提现金时，最低提现金额不能小于此值。</span>
 				</div>
 			</div>
+
+            <!-- {if $data} -->
+            <div class="control-group formSep">
+                <label class="control-label">提现支持银行：</label>
+                <div class="controls">
+                    <!-- {foreach from=$data item=list} -->
+                    <div class="choose">
+                        <label>
+                            <input class="checkbox" name="bank_en_short[]" {if $list.checked}checked{/if} type="checkbox" value="{$list.bank_en_short}">
+                            <img src="{$list.bank_icon}" width="25" height="25" />
+                            {$list.bank_name}
+                        </label>
+                    </div>
+                    <!-- {/foreach} -->
+                    <div class="clear_both"></div>
+                    <div class="help-block m_t10">可多选，设置用户端提现时可使用的银行卡提现方式。</div>
+                </div>
+            </div>
+            <!-- {/if} -->
 
 			<div class="control-group">
 				<div class="controls">

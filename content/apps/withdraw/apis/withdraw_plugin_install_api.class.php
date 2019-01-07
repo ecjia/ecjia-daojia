@@ -47,22 +47,32 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
+ * 提现方式安装API
+ * @author royalwang
  */
-class withdraw_admin_purview_api extends Component_Event_Api
-{
-
-    public function call(&$options)
+class withdraw_plugin_install_api extends Component_Event_Api {
+	
+	public function call(&$options)
     {
-        $purviews = array(
-            array('action_name' => '提现管理', 'action_code' => 'withdraw_manage', 'relevance' => ''),
-            array('action_name' => '提现更新', 'action_code' => 'withdraw_update', 'relevance' => ''),
-            array('action_name' => '提现删除', 'action_code' => 'withdraw_delete', 'relevance' => ''),
-            array('action_name' => '提现审核', 'action_code' => 'withdraw_check', 'relevance' => ''),
-        );
+        try {
 
-        return $purviews;
-    }
+            if (isset($options['file']) && $options['config']) {
+
+                $WithdrawPlugin = new \Ecjia\App\Withdraw\WithdrawPlugin();
+
+                if ($WithdrawPlugin->pluginInstall($options['config'], $options['file'])) {
+                    $WithdrawPlugin->addInstallPlugin($options['file']);
+                }
+
+                return true;
+            } else {
+                return ecjia_plugin::add_error('plugin_install_error', __('插件参数不全'));
+            }
+
+        } catch (\Symfony\Component\Debug\Exception\FatalErrorException $e) {
+            return ecjia_plugin::add_error('plugin_install_error', $e->getMessage());
+        }
+	}
 }
 
 // end

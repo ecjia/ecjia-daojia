@@ -37,7 +37,9 @@
 			<div class="{if $is_paid eq 1}step-cur{else}step-done{/if}">
 				<div class="step-no">3</div>
 				<div class="m_t5">{if $account_info.is_paid eq 1}已完成{else}未完成{/if}</div>
+                {if $account_info.is_paid eq 1}
 				<div class="m_t5 ecjiafc-blue">{$account_info.review_time}</div>
+                {/if}
 			</div>
 		</li>
 	</ul>
@@ -58,7 +60,14 @@
 							<td><div align="right"><strong>订单编号：</strong></div></td>
 							<td>{$account_info.order_sn}</td>
 							<td><div align="right"><strong>状态：</strong></div></td>
-							<td>{if $account_info.is_paid eq 0}待审核{else if $account_info.is_paid eq 1}已完成{else}已取消{/if}</td>
+							<td>
+                                {if $account_info.is_paid eq 0}待审核{else if $account_info.is_paid eq 1}已完成{else}已取消{/if}
+
+                                {if $account_info.is_paid eq 1}
+                                <a class="btn m_l5 withdraw_query" href="javascript:;" data-url="{RC_Uri::url('withdraw/admin/query')}&id={$account_info.id}">对账查询</a>
+                                {/if}
+
+                            </td>
 						</tr>
 
 						<tr>
@@ -69,6 +78,7 @@
 								{else}
 									{lang key='user::user_account.anonymous_member'}
 								{/if}
+                                <a href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=user_money&user_id={$account_info.user_id}" target="_blank"> [ 查看余额变动 ] </a>
 							</td>
 							<td><div align="right"><strong>申请金额：</strong></div></td>
 							<td>{$account_info.formated_apply_amount}</td>				
@@ -77,15 +87,19 @@
 						<tr>
 							<td><div align="right"><strong>提现手续费：</strong></div></td>
 							<td>{$account_info.formated_pay_fee}</td>
-							<td><div align="right"><strong>到帐金额：</strong></div></td>
-							<td><strong class="ecjiafc-red ecjiaf-fs3">{$account_info.formated_amount}</strong></td>
+							<td><div align="right"><strong>到账金额：</strong></div></td>
+							<td><strong class="ecjiafc-red ecjiaf-fs3">{$account_info.formated_real_amount}</strong></td>
 						</tr>
 
 						<tr>
 							<td><div align="right"><strong>提现方式：</strong></div></td>
-							<td>{if $account_info.pay_name}{$account_info.pay_name}{else}银行转账{/if}</td>
+							<td>
+                                {if $account_info.payment_name}{$account_info.payment_name}{else}银行转账提现{/if}
+                            </td>
 							<td><div align="right"><strong>提现账户：</strong></div></td>
-							<td></td>
+							<td>
+                                <strong class="ecjiafc-red ecjiaf-fs3">{$account_info.formated_payment_name}</strong>
+							</td>
 						</tr>
 
 						<tr>
@@ -110,7 +124,7 @@
 				</div>
 			</div>
 			<div class="accordion-body in collapse" id="telescopic2">
-				<form class="form-horizontal" method="post" action="{if $account_info.is_paid neq 1}{$check_action}{else}{$form_action}{/if}" name="theForm">
+				<form class="form-horizontal" method="post" action="{$form_action}" name="theForm">
 					<table class="table table-oddtd m_b0">
 						<tbody class="first-td-no-leftbd">
 							<tr>
@@ -169,5 +183,49 @@
 		{/if}
 	</div>
 </div>
+
+{if $account_info.is_paid eq 1 && $record_info}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic1">
+                    <strong>提现流水记录</strong>
+                </div>
+            </div>
+            <div class="accordion-body in collapse" id="telescopic1">
+                <table class="table table-oddtd m_b0">
+                    <tbody class="first-td-no-leftbd">
+                        <tr>
+                            <td><div align="right"><strong>商户单号：</strong></div></td>
+                            <td>{$record_info.order_sn}</td>
+                            <td><div align="right"><strong>提现状态：</strong></div></td>
+                            <td>{$record_info.label_withdraw_status}</td>
+                        </tr>
+                        <tr>
+                            <td><div align="right"><strong>支付公司单号：</strong></div></td>
+                            <td>{$record_info.trade_no}</td>
+                            <td><div align="right"><strong>付款商户号：</strong></div></td>
+                            <td>{$record_info.partner_id}</td>
+                        </tr>
+                        <tr>
+                            <td><div align="right"><strong>付款账号：</strong></div></td>
+                            <td>{$record_info.account}</td>
+                            <td><div align="right"><strong>创建时间：</strong></div></td>
+                            <td>{$record_info.create_time}</td>
+                        </tr>
+                        <tr>
+                            <td><div align="right"><strong>付款成功时间：</strong></div></td>
+                            <td>{$record_info.payment_time}</td>
+                            <td><div align="right"><strong>转账时间：</strong></div></td>
+                            <td>{$record_info.transfer_time}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
 
 <!-- {/block} -->

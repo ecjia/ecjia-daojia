@@ -47,22 +47,19 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
+ * 后台插件菜单API
+ * @author royalwang
  */
-class withdraw_admin_purview_api extends Component_Event_Api
+class withdraw_plugin_menu_api extends Component_Event_Api
 {
-
-    public function call(&$options)
+	
+	public function call(& $options)
     {
-        $purviews = array(
-            array('action_name' => '提现管理', 'action_code' => 'withdraw_manage', 'relevance' => ''),
-            array('action_name' => '提现更新', 'action_code' => 'withdraw_update', 'relevance' => ''),
-            array('action_name' => '提现删除', 'action_code' => 'withdraw_delete', 'relevance' => ''),
-            array('action_name' => '提现审核', 'action_code' => 'withdraw_check', 'relevance' => ''),
-        );
+		$menus = ecjia_admin::make_admin_menu('withdraw_list', '提现方式', RC_Uri::url('withdraw/admin_plugin/init'), 21)->add_purview('withdraw_manage')->add_base('withdraw');
 
-        return $purviews;
-    }
+        return $menus;
+	}
+
 }
 
 // end

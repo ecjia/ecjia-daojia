@@ -45,24 +45,24 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * 后台权限API
+ * 用户绑定银行卡所支持的银行
+ * @author hyy
+ * 判断店铺是否设置，未设置读取全部（云平台数据）
+ * @add 1.25
+ * @lastupdate 1.25
  */
-class withdraw_admin_purview_api extends Component_Event_Api
+class withdraw_banks_module extends api_front implements api_interface
 {
 
-    public function call(&$options)
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-        $purviews = array(
-            array('action_name' => '提现管理', 'action_code' => 'withdraw_manage', 'relevance' => ''),
-            array('action_name' => '提现更新', 'action_code' => 'withdraw_update', 'relevance' => ''),
-            array('action_name' => '提现删除', 'action_code' => 'withdraw_delete', 'relevance' => ''),
-            array('action_name' => '提现审核', 'action_code' => 'withdraw_check', 'relevance' => ''),
-        );
-
-        return $purviews;
+        $data = Ecjia\App\Setting\BankWithdraw::supportBanks();
+        
+        return $data;
+        
     }
 }
+
 
 // end

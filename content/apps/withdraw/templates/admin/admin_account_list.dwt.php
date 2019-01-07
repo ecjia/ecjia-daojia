@@ -85,12 +85,12 @@
 			<thead>
 				<tr>
 					<th class="table_checkbox"><input type="checkbox" data-toggle="selectall" data-children=".checkbox" /></th>
-					<th class="w180">{lang key='user::user_account.order_sn'}</th>
-					<th class="w80">{lang key='user::user_account.user_id'}</th>
+					<th>{lang key='user::user_account.order_sn'}</th>
+					<th>{lang key='user::user_account.user_id'}</th>
 					<th>申请金额</th>
 					<th>提现手续费</th>
-					<th>到帐金额</th>
-					<th>提现方式</th>
+					<th>到账金额</th>
+					<th class="w100">提现方式</th>
 					<th class="w130">申请时间</th>
 					<th class="w70">处理状态</th>
 					<th class="w70">{lang key='system::system.handler'}</th>
@@ -111,7 +111,7 @@
 					<td align="right">{$item.apply_amount}</td>
 					<td align="center">{$item.formated_pay_fee}</td>
 					<td align="center">{$item.formated_amount}</td>
-					<td>{if $item.payment}{$item.payment}{else}银行转账{/if}</td>
+					<td>{if $item.payment_name}{$item.payment_name}{else}银行转账提现{/if}</td>
 					<td align="center">{$item.add_date}</td>
 					<td align="center">{if $item.is_paid eq 1}{lang key='user::user_account.confirm'}{elseif $item.is_paid eq 0}{lang
 						key='user::user_account.wait_check'}{else}{lang key='user::user_account.canceled'}{/if}</td>

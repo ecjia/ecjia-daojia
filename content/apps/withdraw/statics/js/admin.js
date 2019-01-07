@@ -45,6 +45,7 @@
             app.account_edit.validate();
             app.account_edit.submit();
             app.account_edit.select_note();
+            app.account_edit.select_payment();
         },
 
         validate: function () {
@@ -61,17 +62,26 @@
                         user_mobile: mobile,
                     }
 
+                    $('.withdraw_card_content').html('');
                     $.post(url, data, function (data) {
                         if (data.state == 'error') {
                             $(".control-group-user").addClass("hide");
                             ecjia.admin.showmessage(data);
                         }
 
-                        if (data.status == 1) {
-                            $(".control-group-user").removeClass("hide");
-                            $(".control-group-user").find('.userinfo').html(data.username);
-                            $(".control-group-user").find('.user_money').html(data.user_money);
-                            $(".control-group-user").find('.wechat_nickname').find('span').html(data.wechat_nickname);
+                        if (data.result.status == 1) {
+                            //移除已经选中的提现方式
+                            $('input[name="payment"]').each(function () {
+                                $(this).prop('checked', false).parent().removeClass('uni-checked');
+                            });
+                            // $(".control-group-user").removeClass("hide");
+                            // $(".control-group-user").find('.userinfo').html(data.result.username);
+                            // $(".control-group-user").find('.user_money').html(data.result.user_money);
+                            // $(".control-group-user").find('.wechat_nickname').find('span').html(data.result.wechat_nickname);
+                            $('input[name="user_id"]').val(data.result.user_id);
+
+                            var content = data.content;
+                            $('.withdraw_card_content').html(content);
                         }
                     }, 'json');
                 }
@@ -140,11 +150,34 @@
                 $('textarea[name="admin_note"]').val(html);
             });
         },
+
+        select_payment: function () {
+            $('input[name="payment"]').off('click').on('click', function () {
+                var $this = $(this),
+                    code = $this.val(),
+                    url = $this.parents('.chk_radio').attr('data-url'),
+                    user_id = $('input[name="user_id"]').val();
+
+                if (user_id == 0 || user_id == undefined) {
+                    return false;
+                }
+
+                $('.user_bank_card').html('');
+                $.post(url, {code: code, user_id: user_id}, function (data) {
+                    if (data.state == 'error') {
+                        ecjia.admin.showmessage(data);
+                        return false;
+                    }
+                    $('.user_bank_card').html(data.content);
+                });
+            });
+        }
     };
 
     app.account_check = {
         init: function () {
             app.account_check.submit();
+            app.account_check.withdraw_query();
         },
 
         submit: function () {
@@ -161,6 +194,16 @@
             }
             var options = $.extend(ecjia.admin.defaultOptions.validate, option);
             $this.validate(options);
+        },
+
+        withdraw_query: function () {
+            $('.withdraw_query').off('click').on('click', function () {
+                var $this = $(this),
+                    url = $this.attr('data-url');
+                $.post(url, function (data) {
+                    ecjia.admin.showmessage(data);
+                });
+            });
         }
     };
 
