@@ -707,7 +707,7 @@ ecjia.merchant.order.info();
                 </div>
 			</div>
 			
-			{if !$invalid_order && $order.order_status neq 2}
+			{if !$invalid_order && $order.order_status neq 2 && $order_handle}
 			<div class="accordion-group panel panel-default">
 				<div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
@@ -731,10 +731,6 @@ ecjia.merchant.order.info();
 									{if $operable_list.confirm}
 									<button class="btn operatesubmit btn-info" type="submit" name="confirm">确认接单</button>
 									{/if}
-
-<!--									{if $operable_list.pay}-->
-<!--									<button class="btn operatesubmit btn-info" type="submit" name="pay">{lang key='orders::order.op_confirm_pay'}</button>-->
-<!--									{/if}-->
 
 									{if $operable_list.unpay}
 									<button class="btn operatesubmit btn-info" type="submit" name="unpay">{lang key='orders::order.op_unpay'}</button>

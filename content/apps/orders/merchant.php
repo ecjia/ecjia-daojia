@@ -278,8 +278,11 @@ class merchant extends ecjia_merchant
 
         $this->assign('back_order_list', array('href' => RC_Uri::url('orders/merchant/init'), 'text' => RC_Lang::get('orders::order.order_list')));
 
-        $count     = get_merchant_order_count();
-        $cache_key = 'count_pay' . $start_time . $end_time;
+        $t          = RC_Time::gmtime();
+        $start_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t)); //当天开始时间
+        $end_time   = RC_Time::local_mktime(23, 59, 59, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t)); //当天结束时间
+        $count      = get_merchant_order_count();
+        $cache_key  = 'count_pay' . $start_time . $end_time;
 
         $count_payed = RC_Cache::app_cache_get($cache_key, 'orders');
         //有已付款新订单
@@ -834,6 +837,7 @@ class merchant extends ecjia_merchant
                 $this->assign('shipping_code', $shipping_info['shipping_code']);
             }
 
+            $order_handle = true;
             $this->assign('order_model', $order_model);
             if ($order_model == 'storebuy' || $order_model == 'cashdesk') {
                 $this->display('order_storebuy_info.dwt');
@@ -845,9 +849,14 @@ class merchant extends ecjia_merchant
                     $groupbuy_info = group_buy_info($order['extension_id']);
                     $this->assign('groupbuy_info', $groupbuy_info);
 
+                    //团购活动没有成功/失败完成 禁止操作
+                    if ($groupbuy_info['is_finished'] != GBS_SUCCEED_COMPLETE && $groupbuy_info ['is_finished'] != GBS_FAIL_COMPLETE) {
+                        $order_handle = false;
+                    }
                     $groupbuy_deposit_status = $this->get_groupbuy_deposit_status($order, $groupbuy_info);
                     $this->assign('groupbuy_deposit_status', $groupbuy_deposit_status);
                 }
+                $this->assign('order_handle', $order_handle);//订单是否允许操作
                 $this->display('order_info.dwt');
             }
         }
