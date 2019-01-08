@@ -30,7 +30,7 @@
                         <tr>
                             <td><div align="right"><strong>订单编号</strong></div></td>
                             <td>
-	                            <a target="_blank" href='{url path="orders/admin/info" args="order_id={$order.order_id}"}'>{$payment_refund_info.order_sn}</a>
+	                            <a target="_blank" href='{url path="orders/admin/info" args="order_id={$refund_order.order_id}"}'>{$payment_refund_info.order_sn}</a>
                             </td>
                             <td><div align="right"><strong>退款状态</strong></div></td>
                             <td>
