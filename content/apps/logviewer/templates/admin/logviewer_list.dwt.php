@@ -69,7 +69,11 @@
 												<!-- {/if} -->
 												{$val.level}
 											</td>
-											<td><span class="ecjiaf-pre">{$val.text}</span></td>
+											<td>
+                                                <span class="ecjiaf-pre">{$val.text|htmlspecialchars}</span>
+                                                <br />
+                                                <span class="ecjiaf-pre">{$val.stack|htmlspecialchars}</span>
+                                            </td>
 										</tr>
 										<!-- {/foreach} -->
 									</tbody>
