@@ -327,7 +327,6 @@ class cart_flow_done_api extends Component_Event_Api {
 		$inv_tax_no = $order['inv_tax_no'];
 		$inv_title_type = $order['inv_title_type'];
 
-		/* 插入订单表 */
 		$order['order_sn'] = ecjia_order_buy_sn();
 
 		/*过滤没有的字段*/
@@ -342,7 +341,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		unset($order['cod_fee']);
 		unset($order['inv_tax_no']);
 		unset($order['inv_title_type']);
-		
+		/* 插入订单表 */
 		$new_order_id = RC_DB::table('order_info')->insertGetId($order);
 		$order['order_id'] = $new_order_id;
 		
@@ -472,28 +471,6 @@ class cart_flow_done_api extends Component_Event_Api {
 			}
 		}
 
-		/* 如果需要，发短信 */
-		$staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
-		if (!empty($staff_user['mobile'])) {
-			try {
-			    //发送短信
-			    $options = array(
-			        'mobile' => $staff_user['mobile'],
-			        'event'	 => 'sms_order_placed',
-			        'value'  =>array(
-			            'order_sn'		=> $order['order_sn'],
-			            'consignee' 	=> $order['consignee'],
-			            'telephone'  	=> $order['mobile'],
-			            'order_amount'  => $order['order_amount'],
-			            'service_phone' => ecjia::config('service_phone'),
-			        ),
-			    );
-			    RC_Api::api('sms', 'send_event_sms', $options);
-		    } catch (PDOException $e) {
-		    	RC_Logger::getLogger('info')->error($e);
-		    }
-		}
-		
 		/*如果订单金额为0，并且配送方式为上门取货时发送提货码*/
 		if (($order['order_amount'] + $order['surplus']) == '0.00' && (!empty($shipping_code) && ($shipping_code == 'ship_cac'))) {
 			/*短信给用户发送收货验证码*/
@@ -690,7 +667,28 @@ class cart_flow_done_api extends Component_Event_Api {
 		$staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
 		if (!empty($staff_user)) {
 // 			$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $staff_user['user_id']));
-// 			/* 通知记录*/
+
+		    /* 如果需要，发短信 */
+		    if (!empty($staff_user['mobile'])) {
+		        try {
+		            //发送短信
+		            $options = array(
+		                'mobile' => $staff_user['mobile'],
+		                'event'	 => 'sms_order_placed',
+		                'value'  =>array(
+		                    'order_sn'		=> $order['order_sn'],
+		                    'consignee' 	=> $order['consignee'],
+		                    'telephone'  	=> $order['mobile'],
+		                    'order_amount'  => $order['order_amount'],
+		                    'service_phone' => ecjia::config('service_phone'),
+		                ),
+		            );
+		            RC_Api::api('sms', 'send_event_sms', $options);
+		        } catch (PDOException $e) {
+		            RC_Logger::getLogger('info')->error($e);
+		        }
+		    }
+            /* 通知记录*/
 			$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
 			$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
 			try {

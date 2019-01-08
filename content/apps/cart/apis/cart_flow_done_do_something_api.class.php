@@ -70,7 +70,119 @@ class cart_flow_done_do_something_api extends Component_Event_Api {
 
 		$payment_method = RC_Loader::load_app_class('payment_method','payment');
 		$payment_info = $payment_method->payment_info_by_id($order['pay_id']);
-
+		
+		/*发票识别码和抬头类型*/
+		$inv_tax_no = isset($order['inv_tax_no']) ? $order['inv_tax_no'] : '';
+		
+		if (!empty($order['inv_payee'])) {
+		    $inv_payee = explode(',', $order['inv_payee']);
+		    $order['inv_payee'] = $inv_payee['0'];
+		    $inv_title_type = 'personal';
+		} else {
+		    $order['inv_payee'] = '';
+		}
+		
+		if (!empty($inv_title_type)) {
+		    if ($inv_title_type == 'personal') {
+		        $inv_title_type_new = 'PERSONAL';
+		    } elseif ($inv_title_type == 'enterprise') {
+		        $inv_title_type_new = 'CORPORATION';
+		    }
+		    $finance_invoice_info = RC_DB::table('finance_invoice')->where('title_type', $inv_title_type_new)->where('user_id', $_SESSION['user_id'])->where('tax_register_no', $inv_tax_no)->first();
+		    if (empty($finance_invoice_info)) {
+		        /*插入财务发票表*/
+		        $inv_data = array(
+		            'user_id' 			=> $_SESSION['user_id'],
+		            'title_name' 		=> $order['inv_payee'],
+		            'title_type' 		=> $inv_title_type_new,
+		            'user_mobile' 		=> $order['mobile'],
+		            'tax_register_no'	=> $inv_tax_no,
+		            'user_address'		=> $order['address'],
+		            'add_time'			=> RC_Time::gmtime(),
+		            'is_default'		=> 1,
+		            'status'		    => 0,
+		        );
+		        RC_DB::table('finance_invoice')->insert($inv_data);
+		    }
+		}
+		
+		/* 增加是否给客服发送邮件选项 */
+		$service_email = ecjia::config('service_email');
+		if (ecjia::config('send_service_email') && !empty($service_email)) {
+		    try {
+		        $tpl_name = 'remind_of_new_order';
+		        $tpl   = RC_Api::api('mail', 'mail_template', $tpl_name);
+		        
+		        ecjia_front::$controller->assign('order', $order);
+		        ecjia_front::$controller->assign('goods_list', $order['goods_list']);
+		        ecjia_front::$controller->assign('shop_name', ecjia::config('shop_name'));
+		        ecjia_front::$controller->assign('send_date', date(ecjia::config('time_format')));
+		        
+		        $content = ecjia_front::$controller->fetch_string($tpl['template_content']);
+		        RC_Mail::send_mail(ecjia::config('shop_name'), ecjia::config('service_email'), $tpl['template_subject'], $content, $tpl['is_html']);
+		    } catch (PDOException $e) {
+		        RC_Logger::getlogger('error')->error($e);
+		    }
+		}
+		
+		$shipping_info = ecjia_shipping::getPluginDataById($order['shipping_id']);
+		/*如果订单金额为0，并且配送方式为上门取货时发送提货码*/
+		if (($order['order_amount'] + $order['surplus']) == '0.00' && $shipping_info == 'ship_cac') {
+		    /*短信给用户发送收货验证码*/
+		    $userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->select('user_name', 'mobile_phone')->first();
+		    $mobile = $userinfo['mobile_phone'];
+		    if (!empty($mobile)) {
+		        $db_term_meta = RC_DB::table('term_meta');
+		        $max_code = $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->max('meta_value');
+		        $max_code = $max_code ? ceil($max_code/10000) : 1000000;
+		        $code = $max_code . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+		        
+		        $orm_user_db = RC_Model::model('orders/orm_users_model');
+		        $user_ob = $orm_user_db->find($order['user_id']);
+		        
+		        try {
+		            //发送短信
+		            $options = array(
+		                'mobile' => $mobile,
+		                'event'	 => 'sms_order_pickup',
+		                'value'  =>array(
+		                    'order_sn'  	=> $order['order_sn'],
+		                    'user_name' 	=> $order['consignee'],
+		                    'code'  		=> $code,
+		                    'service_phone' => ecjia::config('service_phone'),
+		                ),
+		            );
+		            RC_Api::api('sms', 'send_event_sms', $options);
+		            //消息通知
+		            $order_pickup_data = array(
+		                'title'	=> '订单收货验证码',
+		                'body'	=> '尊敬的'.$userinfo['user_name'].'，您在我们网站已成功下单。订单号：'.$order['order_sn'].'，收货验证码为：'.$code.'。请保管好您的验证码，以便收货验证',
+		                'data'	=> array(
+		                    'user_id'				=> $order['user_id'],
+		                    'user_name'				=> $userinfo['user_name'],
+		                    'order_id'				=> $new_order_id,
+		                    'order_sn'				=> $order['order_sn'],
+		                    'code'					=> $code,
+		                ),
+		            );
+		            
+		            $push_orderpickup_data = new OrderPickup($order_pickup_data);
+		            RC_Notification::send($user_ob, $push_orderpickup_data);
+		            
+		        } catch (PDOException $e) {
+		            RC_Logger::getLogger('info')->error($e);
+		        }
+		        $meta_data = array(
+		            'object_type'	=> 'ecjia.order',
+		            'object_group'	=> 'order',
+		            'object_id'		=> $new_order_id,
+		            'meta_key'		=> 'receipt_verification',
+		            'meta_value'	=> $code,
+		        );
+		        $db_term_meta->insert($meta_data);
+		    }
+		}
+		
 		//订单log
 		RC_DB::table('order_status_log')->insert(array(
 			'order_status'	=> RC_Lang::get('cart::shopping_flow.label_place_order'),

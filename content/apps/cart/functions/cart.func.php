@@ -2020,13 +2020,7 @@ function get_ru_shippng_info($goods_list, $cart_value, $store_id, $region = [], 
     $shipping_list = ecjia_shipping::availableUserShippings($region, $store_id);
     if($shipping_list) {
         RC_Loader::load_app_class('cart', 'cart', false);
-        $ck = array();
         foreach ($shipping_list as $key => $row) {
-            if (isset($ck[$row['shipping_id']])) {
-                unset($shipping_list[$key]);
-                continue;
-            }
-            $ck[$row['shipping_id']] = $row['shipping_id'];
             // O2O的配送费用计算传参调整 参考flow/checkOrder
             if (in_array($row['shipping_code'], ['ship_o2o_express','ship_ecjia_express'])) {
                 $store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->where('shop_close', '0')->first();
@@ -2034,12 +2028,47 @@ function get_ru_shippng_info($goods_list, $cart_value, $store_id, $region = [], 
                 $to = ['latitude' => $consignee['location']['latitude'], 'longitude' => $consignee['location']['longitude']];
                 $distance = Ecjia\App\User\Location::getDistance($from, $to);
                 $shipping_fee = $is_free_ship ? 0 : ecjia_shipping::fee($row['shipping_area_id'], $distance, $cart_weight_price['amount'], $cart_weight_price['number']);
+                
+                $shipping_cfg = ecjia_shipping::unserializeConfig($row['configure']);
+                /* 获取最后可送的时间（当前时间+需提前下单时间）*/
+                $time = RC_Time::local_date('H:i', RC_Time::gmtime() + $shipping_cfg['last_order_time'] * 60);
+                
+                if (empty($shipping_cfg['ship_time'])) {
+                    unset($shipping_list[$key]);
+                    continue;
+                }
+                $shipping_list[$key]['shipping_date'] = array();
+                $ship_date = 0;
+                
+                if (empty($shipping_cfg['ship_days'])) {
+                    $shipping_cfg['ship_days'] = 7;
+                }
+                
+                while ($shipping_cfg['ship_days']) {
+                    foreach ($shipping_cfg['ship_time'] as $k => $v) {
+                        $shipping_list[$key]['shipping_date'][$ship_date]['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$ship_date.' day'));
+                        $shipping_list[$key]['shipping_date'][$ship_date]['time'][] = array(
+                            'start_time' 	=> $v['start'],
+                            'end_time'		=> $v['end'],
+                            'is_disabled' => ($v['end'] < $time && $ship_date == 0) ? 1 : 0,
+                        );
+                        if (($v['end'] > $time || $ship_date > 0) && empty($shipping_list[$key]['shipping_date_default'])) {
+                            $shipping_list[$key]['shipping_date_default'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$ship_date.' day')) . ' ' . $v['start']. '-' . $v['end'];
+                        }
+                    }
+                    
+                    $ship_date ++;
+                    
+                    if (count($shipping_list[$key]['shipping_date']) >= $shipping_cfg['ship_days']) {
+                        break;
+                    }
+                }
+                $shipping_list[$key]['shipping_date'] = array_merge($shipping_list[$key]['shipping_date']);
             } else {
                 $shipping_fee = $is_free_ship ? 0 : ecjia_shipping::fee($row['shipping_area_id'], $cart_weight_price['weight'], $cart_weight_price['amount'], $cart_weight_price['number']);
             }
             //上门取货 自提插件 获得提货时间
-            if($row['shipping_code'] == 'ship_cac' && $is_has_ship_cac == 0) {
-                $is_has_ship_cac ++;
+            if($row['shipping_code'] == 'ship_cac') {
                 $shipping_list[$key]['expect_pickup_date'] = cart::get_ship_cac_date_by_store($store_id, $row['shipping_id']);
                 $shipping_list[$key]['expect_pickup_date_default'] = $shipping_list[$key]['expect_pickup_date'][0]['date'] . ' ' . $shipping_list[$key]['expect_pickup_date'][0]['time'][0]['start_time'] . '-' . $shipping_list[$key]['expect_pickup_date'][0]['time'][0]['end_time'];
                 RC_Loader::load_app_func('merchant', 'merchant');
@@ -2054,7 +2083,6 @@ function get_ru_shippng_info($goods_list, $cart_value, $store_id, $region = [], 
     }
     //php 7.2兼容有问题，返回值只有第一个。
     //$shipping_list = array_unique($shipping_list);
-    //$shipping_list = collect($shipping_list)->unique('shipping_code')->toArray();
     
     return $shipping_list;
 }
@@ -2149,8 +2177,10 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = [], 
         /*获取门店信息 by kong 20160726 end*/
         $arr[$key]['goods_list'] = $row;
     }
-    
+   
     $goods_list = array_values($arr);
+    $goods_list = $arr;
+    
     return $goods_list;
 }
 
