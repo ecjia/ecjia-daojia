@@ -163,13 +163,16 @@ class connect_signup_module extends api_front implements api_interface {
 				'open_id'		=> $connect_user->getOpenId(),
 				'create_at'     => $curr_time,
 				'user_id'		=> $_SESSION['user_id'],
-				'profile'		=> serialize($profile)
 			);
+			if (!empty($profile)) {
+				$data['profile'] = serialize($profile);
+			}
 			RC_DB::table('connect_user')->insert($data);
-
-			/* 获取远程用户头像信息*/
-			RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
-
+			if (!empty($profile['avatar_img'])) {
+				/* 获取远程用户头像信息*/
+				RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
+			}
+			
 // 			/*注册送红包*/
 // 			RC_Api::api('bonus', 'send_bonus', array('type' => SEND_BY_REGISTER));
 

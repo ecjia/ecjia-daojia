@@ -159,12 +159,16 @@ class connect_bind_module extends api_front implements api_interface {
 			'open_id'		=> $open_id,
 			'create_at'     => $curr_time,
 			'user_id'		=> $_SESSION['user_id'],
-			'profile'		=> serialize($profile)
 		);
+		if (!empty($profile)) {
+			$data['profile'] = serialize($profile);
+		}
 		RC_DB::table('connect_user')->insert($data);
 		
-		/* 获取远程用户头像信息*/
-		RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
+		if (!empty($profile['avatar_img'])) {
+			/* 获取远程用户头像信息*/
+			RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
+		}
 		
 		/*向connect_user表插入一条app数据*/
 		$connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('is_admin', 0)->first();

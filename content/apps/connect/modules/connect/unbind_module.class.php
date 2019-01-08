@@ -67,6 +67,9 @@ class connect_unbind_module extends api_front implements api_interface {
 		
 		//用户信息
 		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+		if (is_ecjia_error($user_info)) {
+			return $user_info;
+		}
 		
 		//检查短信验证码
 		$result = $this->check_smscode($smscode, $user_info);
