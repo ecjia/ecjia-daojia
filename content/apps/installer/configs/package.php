@@ -54,7 +54,7 @@ return array(
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
 	'version' 		=> '1.24.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2017 ~ 2018.',
+	'copyright' 	=> 'ECJIA Copyright 2017 ~ 2019.',
     'namespace'     => 'Ecjia\App\Installer',
     'provider'      => 'InstallerServiceProvider',
 );

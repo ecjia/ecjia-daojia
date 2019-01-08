@@ -57,7 +57,7 @@ return array(
     'author'        => 'ECJIA TEAM', /* 作者 */
     'website'       => 'http://www.ecjia.com', /* 网址 */
     'version'       => '1.25.0', /* 版本号 */
-    'copyright'     => 'ECJIA Copyright 2016 ~ 2018.',
+    'copyright'     => 'ECJIA Copyright 2016 ~ 2019.',
     'namespace'     => 'Ecjia\App\Notification',
     'provider'      => 'NotificationServiceProvider',
 );
