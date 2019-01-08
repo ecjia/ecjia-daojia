@@ -9309,6 +9309,7 @@ trait Macroable
 
 namespace Royalcms\Component\Support {
 use ArrayAccess;
+use InvalidArgumentException;
 use Royalcms\Component\Support\Traits\Macroable;
 class Arr
 {
@@ -9340,8 +9341,26 @@ class Arr
         foreach ($array as $values) {
             if ($values instanceof Collection) {
                 $values = $values->all();
+            } elseif (!is_array($values)) {
+                continue;
             }
             $results = array_merge($results, $values);
+        }
+        return $results;
+    }
+    public static function crossJoin($arrays)
+    {
+        $arrays = func_get_args();
+        $results = [[]];
+        foreach ($arrays as $index => $array) {
+            $append = [];
+            foreach ($results as $product) {
+                foreach ($array as $item) {
+                    $product[$index] = $item;
+                    $append[] = $product;
+                }
+            }
+            $results = $append;
         }
         return $results;
     }
@@ -9353,7 +9372,7 @@ class Arr
     {
         $results = [];
         foreach ($array as $key => $value) {
-            if (is_array($value)) {
+            if (is_array($value) && !empty($value)) {
                 $results = array_merge($results, static::dot($value, $prepend . $key . '.'));
             } else {
                 $results[$prepend . $key] = $value;
@@ -9384,7 +9403,7 @@ class Arr
             }
             $array = array_values($results);
         }
-        return array_values($results);
+        return $array;
     }
     public static function first($array, callable $callback = null, $default = null)
     {
@@ -9403,17 +9422,25 @@ class Arr
         }
         return value($default);
     }
-    public static function last($array, callable $callback, $default = null)
+    public static function last($array, callable $callback = null, $default = null)
     {
-        return static::first(array_reverse($array), $callback, $default);
+        if (is_null($callback)) {
+            return empty($array) ? value($default) : end($array);
+        }
+        return static::first(array_reverse($array, true), $callback, $default);
     }
-    public static function flatten($array)
+    public static function flatten($array, $depth = INF)
     {
-        $return = [];
-        array_walk_recursive($array, function ($x) use(&$return) {
-            $return[] = $x;
-        });
-        return $return;
+        return array_reduce($array, function ($result, $item) use($depth) {
+            $item = $item instanceof Collection ? $item->all() : $item;
+            if (!is_array($item)) {
+                return array_merge($result, [$item]);
+            } elseif ($depth === 1) {
+                return array_merge($result, array_values($item));
+            } else {
+                return array_merge($result, static::flatten($item, $depth - 1));
+            }
+        }, []);
     }
     public static function forget(&$array, $keys)
     {
@@ -9423,48 +9450,70 @@ class Arr
             return;
         }
         foreach ($keys as $key) {
+            if (static::exists($array, $key)) {
+                unset($array[$key]);
+                continue;
+            }
             $parts = explode('.', $key);
+            $array =& $original;
             while (count($parts) > 1) {
                 $part = array_shift($parts);
                 if (isset($array[$part]) && is_array($array[$part])) {
                     $array =& $array[$part];
                 } else {
-                    $parts = [];
+                    continue 2;
                 }
             }
             unset($array[array_shift($parts)]);
-            $array =& $original;
         }
     }
     public static function get($array, $key, $default = null)
     {
+        if (!static::accessible($array)) {
+            return value($default);
+        }
         if (is_null($key)) {
             return $array;
         }
-        if (isset($array[$key])) {
+        if (static::exists($array, $key)) {
             return $array[$key];
         }
+        if (strpos($key, '.') === false) {
+            return isset($array[$key]) ? $array[$key] : value($default);
+        }
         foreach (explode('.', $key) as $segment) {
-            if (!is_array($array) || !array_key_exists($segment, $array)) {
+            if (static::accessible($array) && static::exists($array, $segment)) {
+                $array = $array[$segment];
+            } else {
                 return value($default);
             }
-            $array = $array[$segment];
         }
         return $array;
     }
-    public static function has($array, $key)
+    public static function has($array, $keys)
     {
-        if (empty($array) || is_null($key)) {
+        if (is_null($keys)) {
             return false;
         }
-        if (array_key_exists($key, $array)) {
-            return true;
+        $keys = (array) $keys;
+        if (!$array) {
+            return false;
         }
-        foreach (explode('.', $key) as $segment) {
-            if (!is_array($array) || !array_key_exists($segment, $array)) {
-                return false;
+        if ($keys === []) {
+            return false;
+        }
+        foreach ($keys as $key) {
+            $subKeyArray = $array;
+            if (static::exists($array, $key)) {
+                continue;
             }
-            $array = $array[$segment];
+            foreach (explode('.', $key) as $segment) {
+                if (static::accessible($subKeyArray) && static::exists($subKeyArray, $segment)) {
+                    $subKeyArray = $subKeyArray[$segment];
+                } else {
+                    return false;
+                }
+            }
         }
         return true;
     }
@@ -9487,6 +9536,9 @@ class Arr
                 $results[] = $itemValue;
             } else {
                 $itemKey = data_get($item, $key);
+                if (is_object($itemKey) && method_exists($itemKey, '__toString')) {
+                    $itemKey = (string) $itemKey;
+                }
                 $results[$itemKey] = $itemValue;
             }
         }
@@ -9513,6 +9565,26 @@ class Arr
         static::forget($array, $key);
         return $value;
     }
+    public static function random($array, $number = null)
+    {
+        $requested = is_null($number) ? 1 : $number;
+        $count = count($array);
+        if ($requested > $count) {
+            throw new InvalidArgumentException("You requested {$requested} items, but there are only {$count} items available.");
+        }
+        if (is_null($number)) {
+            return $array[array_rand($array)];
+        }
+        if ((int) $number === 0) {
+            return [];
+        }
+        $keys = array_rand($array, $number);
+        $results = [];
+        foreach ((array) $keys as $key) {
+            $results[] = $array[$key];
+        }
+        return $results;
+    }
     public static function set(&$array, $key, $value)
     {
         if (is_null($key)) {
@@ -9529,7 +9601,12 @@ class Arr
         $array[array_shift($keys)] = $value;
         return $array;
     }
-    public static function sort($array, callable $callback)
+    public static function shuffle($array)
+    {
+        shuffle($array);
+        return $array;
+    }
+    public static function sort($array, $callback)
     {
         return Collection::make($array)->sortBy($callback)->all();
     }
@@ -9549,13 +9626,11 @@ class Arr
     }
     public static function where($array, callable $callback)
     {
-        $filtered = [];
-        foreach ($array as $key => $value) {
-            if (call_user_func($callback, $key, $value)) {
-                $filtered[$key] = $value;
-            }
-        }
-        return $filtered;
+        return array_filter($array, $callback);
+    }
+    public static function wrap($value)
+    {
+        return !is_array($value) ? [$value] : $value;
     }
 }
 }
@@ -9570,9 +9645,24 @@ class Str
     protected static $snakeCache = [];
     protected static $camelCache = [];
     protected static $studlyCache = [];
-    public static function ascii($value)
+    public static function after($subject, $search)
     {
-        return StaticStringy::toAscii($value);
+        return $search === '' ? $subject : array_reverse(explode($search, $subject, 2))[0];
+    }
+    public static function ascii($value, $language = 'en')
+    {
+        $languageSpecific = static::languageSpecificCharsArray($language);
+        if (!is_null($languageSpecific)) {
+            $value = str_replace($languageSpecific[0], $languageSpecific[1], $value);
+        }
+        foreach (static::charsArray() as $key => $val) {
+            $value = str_replace($val, $key, $value);
+        }
+        return preg_replace('/[^\\x20-\\x7E]/u', '', $value);
+    }
+    public static function before($subject, $search)
+    {
+        return $search === '' ? $subject : explode($search, $subject)[0];
     }
     public static function camel($value)
     {
@@ -9593,7 +9683,7 @@ class Str
     public static function endsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if ((string) $needle === static::substr($haystack, -static::length($needle))) {
+            if (substr($haystack, -strlen($needle)) === (string) $needle) {
                 return true;
             }
         }
@@ -9606,15 +9696,31 @@ class Str
     }
     public static function is($pattern, $value)
     {
-        if ($pattern == $value) {
-            return true;
+        $patterns = is_array($pattern) ? $pattern : (array) $pattern;
+        if (empty($patterns)) {
+            return false;
         }
-        $pattern = preg_quote($pattern, '#');
-        $pattern = str_replace('\\*', '.*', $pattern) . '\\z';
-        return (bool) preg_match('#^' . $pattern . '#u', $value);
+        foreach ($patterns as $pattern) {
+            if ($pattern == $value) {
+                return true;
+            }
+            $pattern = preg_quote($pattern, '#');
+            $pattern = str_replace('\\*', '.*', $pattern);
+            if (preg_match('#^' . $pattern . '\\z#u', $value) === 1) {
+                return true;
+            }
+        }
+        return false;
     }
-    public static function length($value)
+    public static function kebab($value)
     {
+        return static::snake($value, '-');
+    }
+    public static function length($value, $encoding = null)
+    {
+        if ($encoding) {
+            return mb_strlen($value, $encoding);
+        }
         return mb_strlen($value);
     }
     public static function limit($value, $limit = 100, $end = '...')
@@ -9751,7 +9857,7 @@ class Str
     public static function startsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if ($needle != '' && mb_strpos($haystack, $needle) === 0) {
+            if ($needle !== '' && substr($haystack, 0, strlen($needle)) === (string) $needle) {
                 return true;
             }
         }
@@ -9773,6 +9879,22 @@ class Str
     public static function ucfirst($string)
     {
         return static::upper(static::substr($string, 0, 1)) . static::substr($string, 1);
+    }
+    protected static function charsArray()
+    {
+        static $charsArray;
+        if (isset($charsArray)) {
+            return $charsArray;
+        }
+        return $charsArray = ['0' => ['°', '₀', '۰', '０'], '1' => ['¹', '₁', '۱', '１'], '2' => ['²', '₂', '۲', '２'], '3' => ['³', '₃', '۳', '３'], '4' => ['⁴', '₄', '۴', '٤', '４'], '5' => ['⁵', '₅', '۵', '٥', '５'], '6' => ['⁶', '₆', '۶', '٦', '６'], '7' => ['⁷', '₇', '۷', '７'], '8' => ['⁸', '₈', '۸', '８'], '9' => ['⁹', '₉', '۹', '９'], 'a' => ['à', 'á', 'ả', 'ã', 'ạ', 'ă', 'ắ', 'ằ', 'ẳ', 'ẵ', 'ặ', 'â', 'ấ', 'ầ', 'ẩ', 'ẫ', 'ậ', 'ā', 'ą', 'å', 'α', 'ά', 'ἀ', 'ἁ', 'ἂ', 'ἃ', 'ἄ', 'ἅ', 'ἆ', 'ἇ', 'ᾀ', 'ᾁ', 'ᾂ', 'ᾃ', 'ᾄ', 'ᾅ', 'ᾆ', 'ᾇ', 'ὰ', 'ά', 'ᾰ', 'ᾱ', 'ᾲ', 'ᾳ', 'ᾴ', 'ᾶ', 'ᾷ', 'а', 'أ', 'အ', 'ာ', 'ါ', 'ǻ', 'ǎ', 'ª', 'ა', 'अ', 'ا', 'ａ', 'ä'], 'b' => ['б', 'β', 'ب', 'ဗ', 'ბ', 'ｂ'], 'c' => ['ç', 'ć', 'č', 'ĉ', 'ċ', 'ｃ'], 'd' => ['ď', 'ð', 'đ', 'ƌ', 'ȡ', 'ɖ', 'ɗ', 'ᵭ', 'ᶁ', 'ᶑ', 'д', 'δ', 'د', 'ض', 'ဍ', 'ဒ', 'დ', 'ｄ'], 'e' => ['é', 'è', 'ẻ', 'ẽ', 'ẹ', 'ê', 'ế', 'ề', 'ể', 'ễ', 'ệ', 'ë', 'ē', 'ę', 'ě', 'ĕ', 'ė', 'ε', 'έ', 'ἐ', 'ἑ', 'ἒ', 'ἓ', 'ἔ', 'ἕ', 'ὲ', 'έ', 'е', 'ё', 'э', 'є', 'ə', 'ဧ', 'ေ', 'ဲ', 'ე', 'ए', 'إ', 'ئ', 'ｅ'], 'f' => ['ф', 'φ', 'ف', 'ƒ', 'ფ', 'ｆ'], 'g' => ['ĝ', 'ğ', 'ġ', 'ģ', 'г', 'ґ', 'γ', 'ဂ', 'გ', 'گ', 'ｇ'], 'h' => ['ĥ', 'ħ', 'η', 'ή', 'ح', 'ه', 'ဟ', 'ှ', 'ჰ', 'ｈ'], 'i' => ['í', 'ì', 'ỉ', 'ĩ', 'ị', 'î', 'ï', 'ī', 'ĭ', 'į', 'ı', 'ι', 'ί', 'ϊ', 'ΐ', 'ἰ', 'ἱ', 'ἲ', 'ἳ', 'ἴ', 'ἵ', 'ἶ', 'ἷ', 'ὶ', 'ί', 'ῐ', 'ῑ', 'ῒ', 'ΐ', 'ῖ', 'ῗ', 'і', 'ї', 'и', 'ဣ', 'ိ', 'ီ', 'ည်', 'ǐ', 'ი', 'इ', 'ی', 'ｉ'], 'j' => ['ĵ', 'ј', 'Ј', 'ჯ', 'ج', 'ｊ'], 'k' => ['ķ', 'ĸ', 'к', 'κ', 'Ķ', 'ق', 'ك', 'က', 'კ', 'ქ', 'ک', 'ｋ'], 'l' => ['ł', 'ľ', 'ĺ', 'ļ', 'ŀ', 'л', 'λ', 'ل', 'လ', 'ლ', 'ｌ'], 'm' => ['м', 'μ', 'م', 'မ', 'მ', 'ｍ'], 'n' => ['ñ', 'ń', 'ň', 'ņ', 'ŉ', 'ŋ', 'ν', 'н', 'ن', 'န', 'ნ', 'ｎ'], 'o' => ['ó', 'ò', 'ỏ', 'õ', 'ọ', 'ô', 'ố', 'ồ', 'ổ', 'ỗ', 'ộ', 'ơ', 'ớ', 'ờ', 'ở', 'ỡ', 'ợ', 'ø', 'ō', 'ő', 'ŏ', 'ο', 'ὀ', 'ὁ', 'ὂ', 'ὃ', 'ὄ', 'ὅ', 'ὸ', 'ό', 'о', 'و', 'θ', 'ို', 'ǒ', 'ǿ', 'º', 'ო', 'ओ', 'ｏ', 'ö'], 'p' => ['п', 'π', 'ပ', 'პ', 'پ', 'ｐ'], 'q' => ['ყ', 'ｑ'], 'r' => ['ŕ', 'ř', 'ŗ', 'р', 'ρ', 'ر', 'რ', 'ｒ'], 's' => ['ś', 'š', 'ş', 'с', 'σ', 'ș', 'ς', 'س', 'ص', 'စ', 'ſ', 'ს', 'ｓ'], 't' => ['ť', 'ţ', 'т', 'τ', 'ț', 'ت', 'ط', 'ဋ', 'တ', 'ŧ', 'თ', 'ტ', 'ｔ'], 'u' => ['ú', 'ù', 'ủ', 'ũ', 'ụ', 'ư', 'ứ', 'ừ', 'ử', 'ữ', 'ự', 'û', 'ū', 'ů', 'ű', 'ŭ', 'ų', 'µ', 'у', 'ဉ', 'ု', 'ူ', 'ǔ', 'ǖ', 'ǘ', 'ǚ', 'ǜ', 'უ', 'उ', 'ｕ', 'ў', 'ü'], 'v' => ['в', 'ვ', 'ϐ', 'ｖ'], 'w' => ['ŵ', 'ω', 'ώ', 'ဝ', 'ွ', 'ｗ'], 'x' => ['χ', 'ξ', 'ｘ'], 'y' => ['ý', 'ỳ', 'ỷ', 'ỹ', 'ỵ', 'ÿ', 'ŷ', 'й', 'ы', 'υ', 'ϋ', 'ύ', 'ΰ', 'ي', 'ယ', 'ｙ'], 'z' => ['ź', 'ž', 'ż', 'з', 'ζ', 'ز', 'ဇ', 'ზ', 'ｚ'], 'aa' => ['ع', 'आ', 'آ'], 'ae' => ['æ', 'ǽ'], 'ai' => ['ऐ'], 'ch' => ['ч', 'ჩ', 'ჭ', 'چ'], 'dj' => ['ђ', 'đ'], 'dz' => ['џ', 'ძ'], 'ei' => ['ऍ'], 'gh' => ['غ', 'ღ'], 'ii' => ['ई'], 'ij' => ['ĳ'], 'kh' => ['х', 'خ', 'ხ'], 'lj' => ['љ'], 'nj' => ['њ'], 'oe' => ['ö', 'œ', 'ؤ'], 'oi' => ['ऑ'], 'oii' => ['ऒ'], 'ps' => ['ψ'], 'sh' => ['ш', 'შ', 'ش'], 'shch' => ['щ'], 'ss' => ['ß'], 'sx' => ['ŝ'], 'th' => ['þ', 'ϑ', 'ث', 'ذ', 'ظ'], 'ts' => ['ц', 'ც', 'წ'], 'ue' => ['ü'], 'uu' => ['ऊ'], 'ya' => ['я'], 'yu' => ['ю'], 'zh' => ['ж', 'ჟ', 'ژ'], '(c)' => ['©'], 'A' => ['Á', 'À', 'Ả', 'Ã', 'Ạ', 'Ă', 'Ắ', 'Ằ', 'Ẳ', 'Ẵ', 'Ặ', 'Â', 'Ấ', 'Ầ', 'Ẩ', 'Ẫ', 'Ậ', 'Å', 'Ā', 'Ą', 'Α', 'Ά', 'Ἀ', 'Ἁ', 'Ἂ', 'Ἃ', 'Ἄ', 'Ἅ', 'Ἆ', 'Ἇ', 'ᾈ', 'ᾉ', 'ᾊ', 'ᾋ', 'ᾌ', 'ᾍ', 'ᾎ', 'ᾏ', 'Ᾰ', 'Ᾱ', 'Ὰ', 'Ά', 'ᾼ', 'А', 'Ǻ', 'Ǎ', 'Ａ', 'Ä'], 'B' => ['Б', 'Β', 'ब', 'Ｂ'], 'C' => ['Ç', 'Ć', 'Č', 'Ĉ', 'Ċ', 'Ｃ'], 'D' => ['Ď', 'Ð', 'Đ', 'Ɖ', 'Ɗ', 'Ƌ', 'ᴅ', 'ᴆ', 'Д', 'Δ', 'Ｄ'], 'E' => ['É', 'È', 'Ẻ', 'Ẽ', 'Ẹ', 'Ê', 'Ế', 'Ề', 'Ể', 'Ễ', 'Ệ', 'Ë', 'Ē', 'Ę', 'Ě', 'Ĕ', 'Ė', 'Ε', 'Έ', 'Ἐ', 'Ἑ', 'Ἒ', 'Ἓ', 'Ἔ', 'Ἕ', 'Έ', 'Ὲ', 'Е', 'Ё', 'Э', 'Є', 'Ə', 'Ｅ'], 'F' => ['Ф', 'Φ', 'Ｆ'], 'G' => ['Ğ', 'Ġ', 'Ģ', 'Г', 'Ґ', 'Γ', 'Ｇ'], 'H' => ['Η', 'Ή', 'Ħ', 'Ｈ'], 'I' => ['Í', 'Ì', 'Ỉ', 'Ĩ', 'Ị', 'Î', 'Ï', 'Ī', 'Ĭ', 'Į', 'İ', 'Ι', 'Ί', 'Ϊ', 'Ἰ', 'Ἱ', 'Ἳ', 'Ἴ', 'Ἵ', 'Ἶ', 'Ἷ', 'Ῐ', 'Ῑ', 'Ὶ', 'Ί', 'И', 'І', 'Ї', 'Ǐ', 'ϒ', 'Ｉ'], 'J' => ['Ｊ'], 'K' => ['К', 'Κ', 'Ｋ'], 'L' => ['Ĺ', 'Ł', 'Л', 'Λ', 'Ļ', 'Ľ', 'Ŀ', 'ल', 'Ｌ'], 'M' => ['М', 'Μ', 'Ｍ'], 'N' => ['Ń', 'Ñ', 'Ň', 'Ņ', 'Ŋ', 'Н', 'Ν', 'Ｎ'], 'O' => ['Ó', 'Ò', 'Ỏ', 'Õ', 'Ọ', 'Ô', 'Ố', 'Ồ', 'Ổ', 'Ỗ', 'Ộ', 'Ơ', 'Ớ', 'Ờ', 'Ở', 'Ỡ', 'Ợ', 'Ø', 'Ō', 'Ő', 'Ŏ', 'Ο', 'Ό', 'Ὀ', 'Ὁ', 'Ὂ', 'Ὃ', 'Ὄ', 'Ὅ', 'Ὸ', 'Ό', 'О', 'Θ', 'Ө', 'Ǒ', 'Ǿ', 'Ｏ', 'Ö'], 'P' => ['П', 'Π', 'Ｐ'], 'Q' => ['Ｑ'], 'R' => ['Ř', 'Ŕ', 'Р', 'Ρ', 'Ŗ', 'Ｒ'], 'S' => ['Ş', 'Ŝ', 'Ș', 'Š', 'Ś', 'С', 'Σ', 'Ｓ'], 'T' => ['Ť', 'Ţ', 'Ŧ', 'Ț', 'Т', 'Τ', 'Ｔ'], 'U' => ['Ú', 'Ù', 'Ủ', 'Ũ', 'Ụ', 'Ư', 'Ứ', 'Ừ', 'Ử', 'Ữ', 'Ự', 'Û', 'Ū', 'Ů', 'Ű', 'Ŭ', 'Ų', 'У', 'Ǔ', 'Ǖ', 'Ǘ', 'Ǚ', 'Ǜ', 'Ｕ', 'Ў', 'Ü'], 'V' => ['В', 'Ｖ'], 'W' => ['Ω', 'Ώ', 'Ŵ', 'Ｗ'], 'X' => ['Χ', 'Ξ', 'Ｘ'], 'Y' => ['Ý', 'Ỳ', 'Ỷ', 'Ỹ', 'Ỵ', 'Ÿ', 'Ῠ', 'Ῡ', 'Ὺ', 'Ύ', 'Ы', 'Й', 'Υ', 'Ϋ', 'Ŷ', 'Ｙ'], 'Z' => ['Ź', 'Ž', 'Ż', 'З', 'Ζ', 'Ｚ'], 'AE' => ['Æ', 'Ǽ'], 'Ch' => ['Ч'], 'Dj' => ['Ђ'], 'Dz' => ['Џ'], 'Gx' => ['Ĝ'], 'Hx' => ['Ĥ'], 'Ij' => ['Ĳ'], 'Jx' => ['Ĵ'], 'Kh' => ['Х'], 'Lj' => ['Љ'], 'Nj' => ['Њ'], 'Oe' => ['Œ'], 'Ps' => ['Ψ'], 'Sh' => ['Ш'], 'Shch' => ['Щ'], 'Ss' => ['ẞ'], 'Th' => ['Þ'], 'Ts' => ['Ц'], 'Ya' => ['Я'], 'Yu' => ['Ю'], 'Zh' => ['Ж'], ' ' => [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "　", "ﾠ"]];
+    }
+    protected static function languageSpecificCharsArray($language)
+    {
+        static $languageSpecific;
+        if (!isset($languageSpecific)) {
+            $languageSpecific = ['bg' => [['х', 'Х', 'щ', 'Щ', 'ъ', 'Ъ', 'ь', 'Ь'], ['h', 'H', 'sht', 'SHT', 'a', 'А', 'y', 'Y']], 'de' => [['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü'], ['ae', 'oe', 'ue', 'AE', 'OE', 'UE']]];
+        }
+        return isset($languageSpecific[$language]) ? $languageSpecific[$language] : null;
     }
 }
 }
@@ -9878,15 +10000,15 @@ use ArrayIterator;
 use CachingIterator;
 use JsonSerializable;
 use IteratorAggregate;
-use InvalidArgumentException;
 use Royalcms\Component\Support\Traits\Macroable;
 use Royalcms\Component\Contracts\Support\Jsonable;
 use Royalcms\Component\Contracts\Support\Arrayable;
+use Royalcms\Component\Support\Debug\Dumper;
 class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
     use Macroable;
     protected $items = array();
-    protected static $proxies = ['contains', 'each', 'every', 'filter', 'first', 'flatMap', 'map', 'partition', 'reject', 'sortBy', 'sortByDesc', 'sum'];
+    protected static $proxies = ['average', 'avg', 'contains', 'each', 'every', 'filter', 'first', 'flatMap', 'map', 'partition', 'reject', 'sortBy', 'sortByDesc', 'sum'];
     public function __construct($items = [])
     {
         $this->items = $this->getArrayableItems($items);
@@ -9894,6 +10016,24 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public static function make($items = [])
     {
         return new static($items);
+    }
+    public static function wrap($value)
+    {
+        return $value instanceof self ? new static($value) : new static(Arr::wrap($value));
+    }
+    public static function unwrap($value)
+    {
+        return $value instanceof self ? $value->all() : $value;
+    }
+    public static function times($number, callable $callback = null)
+    {
+        if ($number < 1) {
+            return new static();
+        }
+        if (is_null($callback)) {
+            return new static(range(1, $number));
+        }
+        return (new static(range(1, $number)))->map($callback);
     }
     public function all()
     {
@@ -9969,9 +10109,30 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         }
         return in_array($key, $this->items, true);
     }
+    public function crossJoin($lists)
+    {
+        $lists = func_get_args();
+        $lists = array_merge($this->items, array_map([$this, 'getArrayableItems'], $lists));
+        return new static(Arr::crossJoin($lists));
+    }
+    public function dd()
+    {
+        dd($this->all());
+    }
+    public function dump()
+    {
+        (new static(func_get_args()))->push($this)->each(function ($item) {
+            (new Dumper())->dump($item);
+        });
+        return $this;
+    }
     public function diff($items)
     {
         return new static(array_diff($this->items, $this->getArrayableItems($items)));
+    }
+    public function diffAssoc($items)
+    {
+        return new static(array_diff_assoc($this->items, $this->getArrayableItems($items)));
     }
     public function diffKeys($items)
     {
@@ -9985,6 +10146,13 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
             }
         }
         return $this;
+    }
+    public function eachSpread(callable $callback)
+    {
+        return $this->each(function ($chunk, $key) use($callback) {
+            array_push($chunk, $key);
+            return call_user_func_array($callback, $chunk);
+        });
     }
     public function every($key, $operator = null, $value = null)
     {
@@ -10015,7 +10183,13 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function filter(callable $callback = null)
     {
         if ($callback) {
-            return new static(Arr::where($this->items, $callback));
+            $return = [];
+            foreach ($this->items as $key => $value) {
+                if ($callback($value, $key)) {
+                    $return[$key] = $value;
+                }
+            }
+            return new static($return);
         }
         return new static(array_filter($this->items));
     }
@@ -10027,6 +10201,10 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
             return $default($this);
         }
         return $this;
+    }
+    public function unless($value, callable $callback, callable $default = null)
+    {
+        return $this->when(!$value, $callback, $default);
     }
     public function where($key, $operator, $value = null)
     {
@@ -10097,9 +10275,9 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         return Arr::first($this->items, $callback, $default);
     }
-    public function flatten()
+    public function flatten($depth = INF)
     {
-        return new static(Arr::flatten($this->items));
+        return new static(Arr::flatten($this->items, $depth));
     }
     public function flip()
     {
@@ -10128,11 +10306,17 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         $groupBy = $this->valueRetriever($groupBy);
         $results = [];
         foreach ($this->items as $key => $value) {
-            $groupKey = $groupBy($value, $key);
-            if (!array_key_exists($groupKey, $results)) {
-                $results[$groupKey] = new static();
+            $groupKeys = $groupBy($value, $key);
+            if (!is_array($groupKeys)) {
+                $groupKeys = [$groupKeys];
             }
-            $results[$groupKey]->offsetSet($preserveKeys ? $key : null, $value);
+            foreach ($groupKeys as $groupKey) {
+                $groupKey = is_bool($groupKey) ? (int) $groupKey : $groupKey;
+                if (!array_key_exists($groupKey, $results)) {
+                    $results[$groupKey] = new static();
+                }
+                $results[$groupKey]->offsetSet($preserveKeys ? $key : null, $value);
+            }
         }
         return new static($results);
     }
@@ -10151,7 +10335,13 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function has($key)
     {
-        return $this->offsetExists($key);
+        $keys = is_array($key) ? $key : func_get_args();
+        foreach ($keys as $value) {
+            if (!$this->offsetExists($value)) {
+                return false;
+            }
+        }
+        return true;
     }
     public function implode($value, $glue = null)
     {
@@ -10164,6 +10354,10 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function intersect($items)
     {
         return new static(array_intersect($this->items, $this->getArrayableItems($items)));
+    }
+    public function intersectByKeys($items)
+    {
+        return new static(array_intersect_key($this->items, $this->getArrayableItems($items)));
     }
     public function isEmpty()
     {
@@ -10183,9 +10377,6 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function last(callable $callback = null, $default = null)
     {
-        if (is_null($callback)) {
-            return count($this->items) > 0 ? end($this->items) : value($default);
-        }
         return Arr::last($this->items, $callback, $default);
     }
     public function pluck($value, $key = null)
@@ -10201,6 +10392,13 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         $keys = array_keys($this->items);
         $items = array_map($callback, $this->items, $keys);
         return new static(array_combine($keys, $items));
+    }
+    public function mapSpread(callable $callback)
+    {
+        return $this->map(function ($chunk, $key) use($callback) {
+            array_push($chunk, $key);
+            return call_user_func_array($callback, $chunk);
+        });
     }
     public function mapToGroups(callable $callback)
     {
@@ -10224,6 +10422,12 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function flatMap(callable $callback)
     {
         return $this->map($callback)->collapse();
+    }
+    public function mapInto($class)
+    {
+        return $this->map(function ($value, $key) use($class) {
+            return new $class($value, $key);
+        });
     }
     public function max($callback = null)
     {
@@ -10271,6 +10475,9 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function only($keys)
     {
+        if (is_null($keys)) {
+            return new static($this->items);
+        }
         $keys = is_array($keys) ? $keys : func_get_args();
         return new static(Arr::only($this->items, $keys));
     }
@@ -10283,7 +10490,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         $partitions = [new static(), new static()];
         $callback = $this->valueRetriever($callback);
         foreach ($this->items as $key => $item) {
-            $partitions[(int) (!$callback($item))][$key] = $item;
+            $partitions[(int) (!$callback($item, $key))][$key] = $item;
         }
         return new static($partitions);
     }
@@ -10305,6 +10512,14 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         $this->offsetSet(null, $value);
         return $this;
     }
+    public function concat($source)
+    {
+        $result = new static($this);
+        foreach ($source as $item) {
+            $result->push($item);
+        }
+        return $result;
+    }
     public function pull($key, $default = null)
     {
         return Arr::pull($this->items, $key, $default);
@@ -10314,16 +10529,12 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         $this->offsetSet($key, $value);
         return $this;
     }
-    public function random($amount = 1)
+    public function random($number = null)
     {
-        if ($amount > ($count = $this->count())) {
-            throw new InvalidArgumentException("You requested {$amount} items, but there are only {$count} items in the collection");
+        if (is_null($number)) {
+            return Arr::random($this->items);
         }
-        $keys = array_rand($this->items, $amount);
-        if ($amount == 1) {
-            return $this->items[$keys];
-        }
-        return new static(array_intersect_key($this->items, array_flip($keys)));
+        return new static(Arr::random($this->items, $number));
     }
     public function reduce($callback, $initial = null)
     {
@@ -10342,7 +10553,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function reverse()
     {
-        return new static(array_reverse($this->items));
+        return new static(array_reverse($this->items, true));
     }
     public function search($value, $strict = false)
     {
@@ -10360,15 +10571,22 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         return array_shift($this->items);
     }
-    public function shuffle()
+    public function shuffle($seed = null)
     {
         $items = $this->items;
-        shuffle($items);
+        if (is_null($seed)) {
+            shuffle($items);
+        } else {
+            srand($seed);
+            usort($items, function () {
+                return rand(-1, 1);
+            });
+        }
         return new static($items);
     }
-    public function slice($offset, $length = null, $preserveKeys = false)
+    public function slice($offset, $length = null)
     {
-        return new static(array_slice($this->items, $offset, $length, $preserveKeys));
+        return new static(array_slice($this->items, $offset, $length, true));
     }
     public function split($numberOfGroups)
     {
@@ -10392,12 +10610,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function sort(callable $callback = null)
     {
         $items = $this->items;
-        $callback ? uasort($items, $callback) : uasort($items, function ($a, $b) {
-            if ($a == $b) {
-                return 0;
-            }
-            return $a < $b ? -1 : 1;
-        });
+        $callback ? uasort($items, $callback) : asort($items);
         return new static($items);
     }
     public function sortBy($callback, $options = SORT_REGULAR, $descending = false)
@@ -10534,30 +10747,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function unserialize($serialized)
     {
-        return $this->items = unserialize($serialized);
-    }
-    public function __get($key)
-    {
-        if (!in_array($key, static::$proxies)) {
-            throw new Exception("Property [{$key}] does not exist on this collection instance.");
-        }
-        return new HigherOrderCollectionProxy($this, $key);
-    }
-    public function __set($key, $value)
-    {
-        $this->set($key, $value);
-    }
-    public function __isset($key)
-    {
-        return $this->has($key);
-    }
-    public function __unset($key)
-    {
-        $this->forget($key);
-    }
-    public function __set_state()
-    {
-        return $this->all();
+        return new static(unserialize($serialized));
     }
     public function offsetExists($key)
     {
@@ -10603,6 +10793,29 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public static function proxy($method)
     {
         static::$proxies[] = $method;
+    }
+    public function __get($key)
+    {
+        if (!in_array($key, static::$proxies)) {
+            throw new Exception("Property [{$key}] does not exist on this collection instance.");
+        }
+        return new HigherOrderCollectionProxy($this, $key);
+    }
+    public function __set($key, $value)
+    {
+        $this->set($key, $value);
+    }
+    public function __isset($key)
+    {
+        return $this->has($key);
+    }
+    public function __unset($key)
+    {
+        $this->forget($key);
+    }
+    public function __set_state()
+    {
+        return $this->all();
     }
 }
 }
