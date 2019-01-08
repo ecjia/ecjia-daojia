@@ -56,7 +56,7 @@ class merchant_goods_storebuy_list_module extends api_front implements api_inter
 		$filter = $this->requestData('filter', array());
 		
 		$keyword = RC_String::unicode2string($filter['keywords']);
-		$category = !empty($filter['category_id']) ? intval($filter['category_id']) : 0;
+		$category = !empty($filter['category_id']) ? $filter['category_id'] : 0;
 		$sort_type = $filter['sort_by'];
 		$store_id = $this->requestData('store_id');
 		$action_type = $this->requestData('action_type', '');

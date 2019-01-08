@@ -56,7 +56,7 @@ class merchant_goods_list_module extends api_front implements api_interface {
 		$filter = $this->requestData('filter', array());
 		
 		$keyword = RC_String::unicode2string($filter['keywords']);
-		$category = !empty($filter['category_id']) ? intval($filter['category_id']) : 0;
+		$category = $filter['category_id'];
 		$sort_type = $filter['sort_by'];
 		$store_id = $this->requestData('seller_id');
 		$action_type = $this->requestData('action_type', '');
