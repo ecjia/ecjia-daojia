@@ -101,7 +101,7 @@ class VersionManager extends Manager
      */
     public function upgradeDir()
     {
-        return RC_CONTENT_PATH . str_replace('/', DIRECTORY_SEPARATOR, 'database/patchs/');
+        return RC_CONTENT_PATH . str_replace('/', DIRECTORY_SEPARATOR, 'database/patchs');
     }
     
     /**

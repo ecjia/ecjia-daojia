@@ -106,13 +106,13 @@ class VersionUtility
     {
         $version1_id = self::convertVersionId($version1);
         $version2_id = self::convertVersionId($version2);
-    
+
         $collection = Ecjia_VersionManager::getAvailableVersions();
-    
+
         $filtered = $collection->filter(function ($value) use ($version1_id, $version2_id) {
             return $value['id'] > $version1_id && $value['id'] <= $version2_id;
         });
-    
+
         return $filtered;
     }
 }
