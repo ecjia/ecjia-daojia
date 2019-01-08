@@ -117,11 +117,16 @@ class IntegratePlugin extends PluginModel
     
     /**
      * 获取数据中的Config配置数据，并处理
+     * @return array
      */
     public function configData($code)
     {
-        $config = unserialize(ecjia::config('integrate_config'));
-    
+        if (ecjia::config('integrate_config')) {
+            $config = unserialize(ecjia::config('integrate_config'));
+        } else {
+            $config = [];
+        }
+
         return $config;
     }
     
