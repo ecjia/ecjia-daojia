@@ -696,7 +696,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
     
     public static function display_admin_copyright() {
         $ecjia_version = ecjia::version();
-    	$company_msg   = __('版权所有 © 2013-2018 上海商创网络科技有限公司，并保留所有权利。');
+    	$company_msg   = __('版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。');
     	$ecjia_icon    = RC_Uri::admin_url('statics/images/ecjia_icon.png');
     	
         echo "<div class='row-fluid footer'>
