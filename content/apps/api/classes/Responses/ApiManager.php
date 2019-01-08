@@ -112,15 +112,20 @@ class ApiManager
 
     public function handleRequest()
     {
-        $handle = $this->handler();
-        if (is_ecjia_error($handle)) {
-            $data = $handle;
-        } else {
-            $request = $this->compatibleHttpKernelRequest($this->request);
-            $data = $handle->handleRequest($request);
-        }
+        try {
+            $handle = $this->handler();
+            if (is_ecjia_error($handle)) {
+                $data = $handle;
+            } else {
+                $request = $this->compatibleHttpKernelRequest($this->request);
+                $data = $handle->handleRequest($request);
+            }
 
-        return new ApiResponse($data);
+            return new ApiResponse($data);
+        }
+        catch (\Exception $e) {
+            return new ApiResponse(new ecjia_error('ecjia_api_handle_request_error', $e->getMessage(), $e));
+        }
     }
 
     /**
