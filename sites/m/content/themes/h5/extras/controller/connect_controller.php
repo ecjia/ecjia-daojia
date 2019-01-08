@@ -612,7 +612,7 @@ class connect_controller
             return ecjia_front::$controller->showmessage(RC_Lang::get('connect::connect.not_found'), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
 
-        $url  = RC_Uri::url('connect/callback/init', array('connect_code' => 'sns_wechat', 'return_type' => 'bind'));
+        $url = RC_Uri::url('connect/callback/init', array('connect_code' => 'sns_wechat', 'return_type' => 'bind'));
 
         /**
          * 第三方登录运行前处理

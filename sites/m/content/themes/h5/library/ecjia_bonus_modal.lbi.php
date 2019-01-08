@@ -5,6 +5,7 @@ Description: 这是添加红包弹出层
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+<!--{nocache}-->
 <div class="ecjia-normal-modal {$type}">
 	{if $type eq 'success'}
 	<div class="ecjia-normal-modal-content">
@@ -43,9 +44,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<div class="left">使用条件：</div>
 			<div class="right">{$bonus_info.label_request_amount}</div>
 		</div>
-		<a class="btn confirm-add-btn" href="javascript:;" data-href="{RC_Uri::url('user/bonus/add_bonus')}">确认添加</a>
+		<a class="btn confirm-add-btn nopjax external" href="javascript:;" data-href="{RC_Uri::url('user/bonus/add_bonus')}">确认添加</a>
 		<a class="btn close-normal-btn gray" href="javascript:;">取消添加</a>
 	</div>
 	{/if}
 </div>
 <div class="ecjia-normal-modal-overlay"></div>
+<!--{/nocache}-->

@@ -50,6 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 会员中心模块控制器代码
  */
 RC_Loader::load_app_class('integrate', 'user', false);
+
 class user_controller
 {
     /**
@@ -130,7 +131,9 @@ class user_controller
             ecjia_front::$controller->assign('image', $image);
 
             if (user_function::is_weixin()) {
-                $config = user_function::get_wechat_config($invite_user_detail['invite_url']);
+                $spread_url = RC_Uri::url('user/index/spread', array('name' => $name));
+                $config     = user_function::get_wechat_config($spread_url);
+
                 ecjia_front::$controller->assign('config', $config);
             }
 
@@ -205,7 +208,7 @@ class user_controller
         $response = ecjia_touch_manager::make()->api(ecjia_touch_api::STORE_COLLECT_LIST)->data($param)->hasPage()->run();
         if (!is_ecjia_error($response)) {
             list($data, $paginated) = $response;
-            $data                   = merchant_function::format_distance($data);
+            $data = merchant_function::format_distance($data);
 
             ecjia_front::$controller->assign('data', $data);
             ecjia_front::$controller->assign_lang();

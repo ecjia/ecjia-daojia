@@ -21,14 +21,40 @@
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
+                            if (data.state == 'error') {
+                                var myApp = new Framework7();
+                                myApp.modal({
+                                    title: '',
+                                    text: data.message,
+                                    buttons: [{
+                                        text: '确定',
+                                        onClick: function () {
+                                            ecjia.pjax(data.url);
+                                        }
+                                    }, ]
+                                });
+                                return false;
+                            }
                             ecjia.pjax(data.url);
                         },
                     });
                 };
 
                 function showErr(err) {
-                    console.log(err);
+                    var myApp = new Framework7();
+                    myApp.modal({
+                        title: '',
+                        text: '定位失败，请手动选择',
+                        buttons: [{
+                            text: '确定',
+                            onClick: function () {
+                                ecjia.pjax('index.php?m=touch&c=location&a=select_location');
+                            }
+                        }, ]
+                    });
+                    return false;
                 };
+
                 var date = new Date();
                 date.setTime(date.getTime() + (30 * 60 * 1000));
                 $.cookie('h5_index', 'first', {

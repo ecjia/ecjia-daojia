@@ -225,12 +225,9 @@ class user_bonus_controller
      */
     public static function add()
     {
-        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+        ecjia_front::$controller->assign_title('添加红包');
 
-        if (!ecjia_front::$controller->is_cached('user_add_bonus.dwt', $cache_id)) {
-            ecjia_front::$controller->assign_title('添加红包');
-        }
-        ecjia_front::$controller->display('user_add_bonus.dwt', $cache_id);
+        ecjia_front::$controller->display('user_add_bonus.dwt');
     }
 
     /**
