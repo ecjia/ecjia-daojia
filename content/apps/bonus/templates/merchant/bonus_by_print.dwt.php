@@ -44,7 +44,7 @@
 
 	                    <div class="form-group">
 	                         <div class="col-lg-offset-2 col-lg-6">
-	                              <button class="btn btn-gebo  btn-info" type="submit">{lang key='system::system.button_submit'}</button>
+	                              <button class="btn btn-info" type="submit">{lang key='system::system.button_submit'}</button>
 	                              <input type="hidden" name="type_id" value="{$bonus_arr.type_id}" />
 	                         </div>
 	                    </div>
