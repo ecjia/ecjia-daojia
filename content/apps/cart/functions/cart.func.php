@@ -1147,7 +1147,9 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 		if ($value['extension_code'] == 'package_buy') {
 			$arr[$key]['package_goods_list'] = get_package_goods($value['goods_id']);
 		}
-		$arr[$key]['store_name'] = RC_DB::table('store_franchisee')->where('store_id', $value['store_id'])->pluck('merchants_name');
+		$store_info = RC_DB::table('store_franchisee')->where('store_id', $value['store_id'])->first();
+		$arr[$key]['store_name'] = $store_info['merchants_name'];
+		$arr[$key]['manage_mode'] = $store_info['manage_mode'];
 	}
 	return $arr;
 }
@@ -2110,6 +2112,7 @@ function get_cart_ru_goods_list($goods_list, $cart_value = '', $consignee = [], 
         
         foreach($row as $gkey=>$grow){
             $arr[$key]['store_name'] = $grow['store_name'];
+            $arr[$key]['manage_mode'] = $grow['manage_mode'];
             $arr[$key]['goods_amount'] += $grow['goods_price'] * $grow['goods_number'];
         }
         
