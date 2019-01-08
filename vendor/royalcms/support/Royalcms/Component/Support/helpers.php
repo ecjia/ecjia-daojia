@@ -189,15 +189,15 @@ if (! function_exists('array_get')) {
 
 if (! function_exists('array_has')) {
     /**
-     * Check if an item exists in an array using "dot" notation.
+     * Check if an item or items exist in an array using "dot" notation.
      *
-     * @param  array   $array
-     * @param  string  $key
+     * @param  \ArrayAccess|array  $array
+     * @param  string|array  $keys
      * @return bool
      */
-    function array_has($array, $key)
+    function array_has($array, $keys)
     {
-        return Arr::has($array, $key);
+        return Arr::has($array, $keys);
     }
 }
 
@@ -206,11 +206,11 @@ if (! function_exists('array_last')) {
      * Return the last element in an array passing a given truth test.
      *
      * @param  array  $array
-     * @param  callable  $callback
+     * @param  callable|null  $callback
      * @param  mixed  $default
      * @return mixed
      */
-    function array_last($array, $callback, $default = null)
+    function array_last($array, callable $callback = null, $default = null)
     {
         return Arr::last($array, $callback, $default);
     }
@@ -275,6 +275,20 @@ if (! function_exists('array_pull')) {
     }
 }
 
+if (! function_exists('array_random')) {
+    /**
+     * Get a random value from an array.
+     *
+     * @param  array  $array
+     * @param  int|null  $num
+     * @return mixed
+     */
+    function array_random($array, $num = null)
+    {
+        return Arr::random($array, $num);
+    }
+}
+
 if (! function_exists('array_set')) {
     /**
      * Set an array item to a given value using "dot" notation.
@@ -294,13 +308,13 @@ if (! function_exists('array_set')) {
 
 if (! function_exists('array_sort')) {
     /**
-     * Sort the array using the given callback.
+     * Sort the array by the given callback or attribute name.
      *
      * @param  array  $array
-     * @param  callable  $callback
+     * @param  callable|string  $callback
      * @return array
      */
-    function array_sort($array, callable $callback)
+    function array_sort($array, $callback)
     {
         return Arr::sort($array, $callback);
     }
@@ -330,6 +344,19 @@ if (! function_exists('array_where')) {
     function array_where($array, callable $callback)
     {
         return Arr::where($array, $callback);
+    }
+}
+
+if (! function_exists('array_wrap')) {
+    /**
+     * If the given value is not an array, wrap it in one.
+     *
+     * @param  mixed  $value
+     * @return array
+     */
+    function array_wrap($value)
+    {
+        return Arr::wrap($value);
     }
 }
 
@@ -433,6 +460,21 @@ if (! function_exists('collect')) {
     function collect($value = null)
     {
         return new Collection($value);
+    }
+}
+
+if (! function_exists('data_fill')) {
+    /**
+     * Fill in data where it's missing.
+     *
+     * @param  mixed   $target
+     * @param  string|array  $key
+     * @param  mixed  $value
+     * @return mixed
+     */
+    function data_fill(&$target, $key, $value)
+    {
+        return data_set($target, $key, $value, false);
     }
 }
 
@@ -548,7 +590,7 @@ if (! function_exists('dd')) {
      * @param  mixed
      * @return void
      */
-    function dd()
+    function dd($args)
     {
         array_map(function ($x) {
             (new Dumper)->dump($x);
@@ -589,6 +631,45 @@ if (! function_exists('ends_with')) {
     }
 }
 
+if (! function_exists('env')) {
+    /**
+     * Gets the value of an environment variable.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    function env($key, $default = null)
+    {
+        $value = getenv($key);
+
+        if ($value === false) {
+            return value($default);
+        }
+
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return;
+        }
+
+        if (strlen($value) > 1 && Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
+            return substr($value, 1, -1);
+        }
+
+        return $value;
+    }
+}
+
 if (! function_exists('filled')) {
     /**
      * Determine if a value is "filled".
@@ -612,6 +693,19 @@ if (! function_exists('head')) {
     function head($array)
     {
         return reset($array);
+    }
+}
+
+if (! function_exists('kebab_case')) {
+    /**
+     * Convert a string to kebab case.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    function kebab_case($value)
+    {
+        return Str::kebab($value);
     }
 }
 
@@ -771,6 +865,34 @@ if (! function_exists('starts_with')) {
     function starts_with($haystack, $needles)
     {
         return Str::startsWith($haystack, $needles);
+    }
+}
+
+if (! function_exists('str_after')) {
+    /**
+     * Return the remainder of a string after a given value.
+     *
+     * @param  string  $subject
+     * @param  string  $search
+     * @return string
+     */
+    function str_after($subject, $search)
+    {
+        return Str::after($subject, $search);
+    }
+}
+
+if (! function_exists('str_before')) {
+    /**
+     * Get the portion of a string before a given value.
+     *
+     * @param  string  $subject
+     * @param  string  $search
+     * @return string
+     */
+    function str_before($subject, $search)
+    {
+        return Str::before($subject, $search);
     }
 }
 
@@ -986,6 +1108,13 @@ if (! function_exists('tap')) {
 if (! function_exists('call_user_func_args')) {
     function call_user_func_args($class, array $parameters)
     {
+        return call_user_func_instance_args($class, $parameters);
+    }
+}
+
+if (! function_exists('call_user_func_instance_args')) {
+    function call_user_func_instance_args($class, array $parameters)
+    {
         $reflect = new ReflectionClass($class);
         $instance = $reflect->newInstanceArgs($parameters);
         return $instance;
@@ -1009,7 +1138,7 @@ if (! function_exists('throw_if')) {
         unset($parameters[1]);
 
         if ($condition) {
-            throw (is_string($exception) ? call_user_func_args($exception, $parameters) : $exception);
+            throw (is_string($exception) ? call_user_func_instance_args($exception, $parameters) : $exception);
         }
 
         return $condition;
@@ -1033,7 +1162,7 @@ if (! function_exists('throw_unless')) {
         unset($parameters[1]);
 
         if (! $condition) {
-            throw (is_string($exception) ? call_user_func_args($exception, $parameters) : $exception);
+            throw (is_string($exception) ? call_user_func_instance_args($exception, $parameters) : $exception);
         }
 
         return $condition;
