@@ -330,7 +330,7 @@ class ShippingPlugin extends PluginModel
         } else {
             $region_ids = ecjia_region::getSplitRegion($region_id);
         }
-        
+        //TODO 多模板重复配送方式问题
         $data = $this->leftJoin('shipping_area', 'shipping_area.shipping_id', '=', 'shipping.shipping_id')
                     ->leftJoin('area_region', 'area_region.shipping_area_id', '=', 'shipping_area.shipping_area_id')
                     ->select('shipping.shipping_id', 'shipping.shipping_code', 'shipping.shipping_name', 'shipping.shipping_desc', 'shipping.insure', 'shipping.support_cod', 'shipping_area.configure', 'shipping_area.shipping_area_id')
@@ -341,14 +341,15 @@ class ShippingPlugin extends PluginModel
                     ->orderBy('shipping.shipping_order', 'asc')
                     ->get();
         $plugins = $this->getInstalledPlugins();
-
-        return $data->mapWithKeys(function ($item, $key) use ($plugins) {
+        
+        return $shipping_list = $data->mapWithKeys(function ($item, $key) use ($plugins) {
             if (array_get($plugins, $item['shipping_code']) && $item['shipping_code'] != 'ship_no_express') {
                 return [$key => $item];
             } else {
                 return [];
             }
-        })->toArray();
+        })->unique('shipping_code')->toArray();
+        
     }
     
     /**
