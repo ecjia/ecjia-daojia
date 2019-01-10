@@ -83,8 +83,7 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
         }
         
         /*返回connect_user表中open_id和token*/
-        $connect_user_info = RC_DB::table('connect_user')->where('user_id', $result['user_id'])->where('connect_code', 'app')->where('user_type', 'merchant')->first();
-
+        $connect_user_info = (new Ecjia\App\Connect\EcjiaSyncAppUser('app', $result['user_id'], 'merchant'))->getEcjiaAppUser();
         if ($result) {
             $userinfo = array(
                 'id'            => $result['user_id'],

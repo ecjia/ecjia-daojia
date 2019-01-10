@@ -285,46 +285,39 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                 'avator_img'    => !empty($row['avatar']) ? RC_Upload::upload_url($row['avatar']) : '',
             );
             
-            /*向connect_user表插入一条app数据*/
-            $open_id = md5(RC_Time::gmtime().$_SESSION['staff_id']);
-            $access_token = RC_Session::session_id();
-            $user_type = 'merchant';
-            if (empty($connect_user_app)) {
-            	$connect_data = array(
-            			'connect_code'    => 'app',
-            			'user_id'         => $_SESSION['staff_id'],
-            			'is_admin'        => '1',
-            			'user_type'		  => $user_type,
-            			'open_id'         => $open_id,
-            			'access_token'    => $access_token,
-            			'refresh_token'	  => md5($_SESSION['staff_id'].'merchant_refresh_token'),
-            			'create_at'       => RC_Time::gmtime()
-            	);
-            	RC_DB::table('connect_user')->insert($connect_data);
-            } else {
-            	$connect_data = array(
-            			'open_id'         => $open_id,
-            			'access_token'    => $access_token,
-            			'refresh_token'	  => md5($_SESSION['staff_id'].'merchant_refresh_token'),
-            	);
-            	RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['staff_id'])->where('user_type', $user_type)->update($connect_data);
+            //ecjia账号同步登录用户信息更新
+            $open_id 		= md5(RC_Time::gmtime().$_SESSION['staff_id']);
+            $access_token 	= RC_Session::session_id();
+            $refresh_token 	= md5($_SESSION['staff_id'].'merchant_refresh_token');
+            $connect_options = [
+	            'connect_code'  => 'app',
+	            'user_id'       => $_SESSION['staff_id'],
+	            'is_admin'      => '1',
+	            'user_type'     => 'merchant',
+	            'open_id'       => $open_id,
+	            'access_token'  => $access_token,
+	            'refresh_token' => md5($_SESSION['staff_id'] . 'merchant_refresh_token'),
+            ];
+            $ecjiaAppUser = RC_Api::api('connect', 'ecjia_syncappuser_add', $connect_options);
+            if (is_ecjia_error($ecjiaAppUser)) {
+            	return $ecjiaAppUser;
             }
+            
             $out['userinfo']['open_id'] 		= $open_id;
             $out['userinfo']['access_token'] 	= $access_token;
+            $out['userinfo']['refresh_token'] 	= $refresh_token;
             $out['userinfo']['user_type']		= 'merchant';
                     
             //修正关联设备号
             $result = ecjia_app::validate_application('mobile');
             if (!is_ecjia_error($result)) {
                 if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-                    //$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
                     $device_data = array(
                             'device_udid'   => $device['udid'],
                             'device_client' => $device['client'],
                             'device_code'   => $device['code'],
                             'user_type'     => 'merchant',
                     );
-                    //$device_info = $db_mobile_device->find($device_data);
                     $device_info = RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', 'merchant')->first();
                     $time = RC_Time::gmtime();
                     if (empty($device_info)) {

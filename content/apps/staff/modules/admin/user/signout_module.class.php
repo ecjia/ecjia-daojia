@@ -55,8 +55,8 @@ class admin_user_signout_module extends api_admin implements api_interface {
     	
     	$admin_id = $_SESSION['staff_id'];
     	$user_type = 'merchant';
+    	$EcjiaSyncAppUser = (new Ecjia\App\Connect\EcjiaSyncAppUser('app', $admin_id, 'merchant'))->deleteEcjiaAppUser();
     	RC_Session::destroy();
-    	RC_DB::table('connect_user')->where('user_id', $admin_id)->where('connect_code', 'app')->where('user_type', $user_type)->delete();
     	
 		//修改关联设备号用户id为0
 		$result = ecjia_app::validate_application('mobile');
