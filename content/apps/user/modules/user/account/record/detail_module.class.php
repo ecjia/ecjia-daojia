@@ -99,13 +99,15 @@ class user_account_record_detail_module extends api_front implements api_interfa
 				$pay_status = '未确认';
 			}
 
-            if ($account_info['bank_en_short'] !== 'WECHAT') {
-                $bank_card_str = substr($account_info['bank_card'], -4);
-                $pay_name = $account_info['bank_name'] . ' (' . $bank_card_str . ')';
+            if ($account_info['payment'] == 'withdraw_cash') {
+            	$pay_name = $account_info['payment_name'];
+            } elseif ($account_info['payment'] == 'withdraw_wxpay') {
+            	$pay_name = $account_info['bank_name'] . ' (' . $account_info['cardholder'] . ')';
             } else {
-                $pay_name = $account_info['bank_name'] . ' (' . $account_info['cardholder'] . ')';
+            	$bank_card_str = substr($account_info['bank_card'], -4);
+            	$pay_name = $account_info['bank_name'] . ' (' . $bank_card_str . ')';
             }
-
+            
 			$format_data = array(
 				'account_id'				=> intval($account_info['id']),
 				'order_sn'					=> !empty($account_info['order_sn']) ? trim($account_info['order_sn']) : '',

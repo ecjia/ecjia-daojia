@@ -810,8 +810,7 @@ function EM_user_info($user_id, $mobile = '') {
 	$user_info['address'] = $user_info['address_id'] > 0 ? ecjia_region::getRegionName($address['city']).ecjia_region::getRegionName($address['district']).ecjia_region::getRegionName($address['street']).$address['address'] : '';
 	
 	/*返回connect_user表中open_id和token*/
-	$connect_user_info = RC_DB::table('connect_user')->where('user_id', $user_id)->where('connect_code', 'app')->where('user_type', 'user')->first();
-	
+	$connect_user_info = (new Ecjia\App\Connect\EcjiaSyncAppUser('app', $user_id, 'user'))->getEcjiaAppUser();
 	return array(
 		'id'				=> $user_info['user_id'],
 		'name'				=> $user_info['user_name'],
