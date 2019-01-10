@@ -100,32 +100,21 @@ class connect_signin_module extends api_front implements api_interface
             return new ecjia_error('connect_no_userbind', '请关联或注册一个会员用户！');
         }
 
-        // 1、同步会员信息
-
-        /*向connect_user表插入一条app数据*/
-        $connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->first();
-        $open_id          = md5(RC_Time::gmtime() . $_SESSION['user_id']);
-        if (empty($connect_user_app)) {
-            $connect_data = array(
-                'connect_code'  => 'app',
-                'user_id'       => $_SESSION['user_id'],
-                'is_admin'      => '0',
-                'user_type'     => 'user',
-                'open_id'       => $open_id,
-                'access_token'  => RC_Session::session_id(),
-                'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
-                'create_at'     => RC_Time::gmtime()
-            );
-            RC_DB::table('connect_user')->insert($connect_data);
-        } else {
-            $connect_data = array(
-                'open_id'       => $open_id,
-                'access_token'  => RC_Session::session_id(),
-                'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
-            );
-            RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['user_id'])->where('user_type', 'user')->update($connect_data);
+        //ecjia账号同步登录用户信息更新
+        $connect_options = [
+	        'connect_code'  => 'app',
+	        'user_id'       => $_SESSION['user_id'],
+	        'is_admin'      => '0',
+	        'user_type'     => 'user',
+	        'open_id'       => md5(RC_Time::gmtime() . $_SESSION['user_id']),
+	        'access_token'  => RC_Session::session_id(),
+	        'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
+        ];
+        $ecjiaAppUser = RC_Api::api('connect', 'ecjia_syncappuser_add', $connect_options);
+        if (is_ecjia_error($ecjiaAppUser)) {
+        	return $ecjiaAppUser;
         }
-
+        
         RC_Loader::load_app_func('admin_user', 'user');
         $user_info = EM_user_info($_SESSION['user_id']);
 
@@ -152,8 +141,6 @@ class connect_signin_module extends api_front implements api_interface
         );
         return $out;
     }
-
-
 }
 
 // end
