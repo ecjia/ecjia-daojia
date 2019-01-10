@@ -73,11 +73,11 @@
             		
             		if (data_type == 'surplus') {
             			var back_total = back_money_total;
-            			$(".wxpay-pay-fee").hide();
-            			$(".surplus-pay-fee").show();
+            			$(".refund-original").addClass("refund-pay-fee");
+            			$(".refund-balance").removeClass("refund-pay-fee");
             		} else {
-            			$(".surplus-pay-fee").hide();
-            			$(".wxpay-pay-fee").show();
+            			$(".refund-original").removeClass("refund-pay-fee");
+            			$(".refund-balance").addClass("refund-pay-fee");
             			var back_total = (parseFloat(back_money_total) + parseFloat(back_pay_fee)).toFixed(2);
             		}
             		

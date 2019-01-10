@@ -19,6 +19,7 @@ use RefundStatusLog;
 use OrderStatusLog;
 use Ecjia\App\Refund\RefundStatus;
 use Ecjia\App\Refund\Models\RefundOrderModel;
+use Ecjia\App\Refund\Notifications\RefundOriginalArrived;
 use Ecjia\App\Refund\Notifications\RefundBalanceArrived;
 use ecjia;
 
@@ -182,51 +183,120 @@ class BuyOrderRefundProcess
      */
     protected function sendSmsNotice()
     {
-        //原路退款短信通知
+        //发送退款短信通知
         $user_info = RC_DB::table('users')->where('user_id', $this->refund_order->user_id)->select('user_name', 'pay_points', 'user_money', 'mobile_phone')->first();
-        $refund_payrecord_info = RC_DB::table('refund_payrecord')->where('refund_id', $this->refund_order->refund_id)->first();
         if (!empty($user_info['mobile_phone'])) {
-        	$back_pay_name = $refund_payrecord_info['back_pay_name'];
-        	$options = array(
-        			'mobile' => $user_info['mobile_phone'],
-        			'event'	 => 'sms_refund_original_arrived',
-        			'value'  =>array(
-        					'user_name' 	=> $user_info['user_name'],
-        					'back_pay_name' => $back_pay_name,
-        			),
-        	);
-        	RC_Api::api('sms', 'send_event_sms', $options);
+        	$action_back_type = $this->refund_order->refundPayRecord->action_back_type;
+        	
+        	if ($action_back_type == 'original') {
+        		$this->sendOriginalRefundSms($user_info);
+        	} else {
+        		$this->sendBalanceRefundSms($user_info);
+        	}
         }
     }
 
+    /**
+     * 发送原路退回短信
+     */
+    protected function sendOriginalRefundSms($user_info)
+    {
+    	$back_pay_name = $this->refund_order->refundPayRecord->back_pay_name;
+    	$options = array(
+    			'mobile' => $user_info['mobile_phone'],
+    			'event'	 => 'sms_refund_original_arrived',
+    			'value'  =>array(
+    					'user_name' 	=> $user_info['user_name'],
+    					'back_pay_name' => $back_pay_name,
+    			),
+    	);
+    	RC_Api::api('sms', 'send_event_sms', $options);
+    }
+    
+    /**
+     * 发送退回余额短信
+     */
+    protected function sendBalanceRefundSms($user_info)
+    {
+    	$back_money_total = $this->refund_order->refundPayRecord->back_money_total;
+    	$options = array(
+    			'mobile' => $user_info['mobile_phone'],
+    			'event'	 => 'sms_refund_balance_arrived',
+    			'value'  =>array(
+    					'user_name' 	=> $user_info['user_name'],
+    					'amount' 		=> $back_money_total,
+    					'user_money' 	=> $user_info['user_money'],
+    			),
+    	);
+    	RC_Api::api('sms', 'send_event_sms', $options);
+    }
+    
     /**
      * 消息通知
      */
     protected function sendDatatbaseNotice()
     {
-        $orm_user_db = RC_Model::model('orders/orm_users_model');
-        $user = $orm_user_db->find($this->refund_order->user_id);
-
-        if ($user) {
-            $user_refund_data = array(
-                'title'	=> '退款原路退回',
-                'body'	=> '尊敬的'.$user->user_name.'，退款业务已受理成功，原路退回'.$this->refund_order->refundPayRecord->back_pay_name,
-                'data'	=> array(
-                    'user_id'				=> $this->refund_order->user_id,
-                    'user_name'				=> $user->user_name,
-                    'amount'				=> $this->refund_order->refundPayRecord->back_money_total,
-                    'formatted_amount' 		=> ecjia_price_format($this->refund_order->refundPayRecord->back_money_total),
-                    'user_money'			=> $user->user_money,
-                    'formatted_user_money'	=> ecjia_price_format($user->user_money),
-                    'refund_id'				=> $this->refund_order->refund_id,
-                    'refund_sn'				=> $this->refund_order->refund_sn,
-                ),
-            );
-
-            $push_refund_data = new RefundBalanceArrived($user_refund_data);
-            RC_Notification::send($user, $push_refund_data);
-        }
+    	$action_back_type = $this->refund_order->refundPayRecord->back_pay_name;
+    	if ($action_back_type == 'original') {
+    		$this->sendOriginalDatatbaseNotice();
+    	} else {
+    		$this->sendBalanceDatatbaseNotice();
+    	}
     }
-
-
+	
+    /**
+     * 原路退回消息通知
+     */
+    protected function sendOriginalDatatbaseNotice()
+    {
+    	$orm_user_db = RC_Model::model('orders/orm_users_model');
+    	$user = $orm_user_db->find($this->refund_order->user_id);
+    	if ($user) {
+    		$user_refund_data = array(
+    				'title'	=> '退款原路退回',
+    				'body'	=> '尊敬的'.$user->user_name.'，退款业务已受理成功，原路退回'.$this->refund_order->refundPayRecord->back_pay_name,
+    				'data'	=> array(
+    						'user_id'				=> $this->refund_order->user_id,
+    						'user_name'				=> $user->user_name,
+    						'amount'				=> $this->refund_order->refundPayRecord->back_money_total,
+    						'formatted_amount' 		=> ecjia_price_format($this->refund_order->refundPayRecord->back_money_total),
+    						'user_money'			=> $user->user_money,
+    						'formatted_user_money'	=> ecjia_price_format($user->user_money),
+    						'refund_id'				=> $this->refund_order->refund_id,
+    						'refund_sn'				=> $this->refund_order->refund_sn,
+    				),
+    		);
+    	
+    		$push_refund_data = new RefundOriginalArrived($user_refund_data);
+    		RC_Notification::send($user, $push_refund_data);
+    	}
+    }
+    
+    /**
+     * 退回余额消息通知
+     */
+    protected function sendBalanceDatatbaseNotice()
+    {
+    	$orm_user_db = RC_Model::model('orders/orm_users_model');
+    	$user = $orm_user_db->find($this->refund_order->user_id);
+    	if ($user) {
+    		$user_refund_data = array(
+    				'title'	=> '退款到余额',
+    				'body'	=> '尊敬的'.$user['user_name'].'，退款业务已受理成功，退回余额'.$this->refund_order->refundPayRecord->back_money_total.'元，目前可用余额'.$user['user_money'].'元。',
+    				'data'	=> array(
+    						'user_id'				=> $this->refund_order->user_id,
+    						'user_name'				=> $user->user_name,
+    						'amount'				=> $this->refund_order->refundPayRecord->back_money_total,
+    						'formatted_amount' 		=> ecjia_price_format($this->refund_order->refundPayRecord->back_money_total, false),
+    						'user_money'			=> $user['user_money'],
+    						'formatted_user_money'	=> ecjia_price_format($user['user_money'], false),
+    						'refund_id'				=> $this->refund_order->refund_id,
+    						'refund_sn'				=> $this->refund_order->refund_sn,
+    				),
+    		);
+    			
+    		$push_refund_data = new RefundBalanceArrived($user_refund_data);
+    		RC_Notification::send($user, $push_refund_data);
+    	}
+    }    
 }

@@ -138,4 +138,7 @@
 .goods-content span {
     float: right;
 }
+.refund-pay-fee{
+	display:none;
+}
 
