@@ -83,7 +83,7 @@ class PaymentRefundRepository extends AbstractRepository
             $model->save();
 
             //消费订单退款成功后续处理
-            (new \Ecjia\App\Refund\RefundProcess\BuyOrderRefundProcess(null, $refund_out_no))->run();
+            (new \Ecjia\App\Refund\RefundProcess\BuyOrderRefundProcess(null, $model->refund_out_no))->run();
         }
 
     }
@@ -169,18 +169,48 @@ class PaymentRefundRepository extends AbstractRepository
      */
     public function findRefundOutNo($refund_out_no)
     {
+        if ($this->isPaymentRefundModel($refund_out_no)) {
+            return $refund_out_no;
+        }
+        
         $model = $this->findBy('refund_out_no', $refund_out_no);
         return $model;
     }
 
     /**
+     * 根据第三方交易号查找退款记录
+     */
+    public function findPayTradeNo($pay_trade_no)
+    {
+        $model = $this->findWhere(['pay_trade_no' => $pay_trade_no, 'refund_status' => ['refund_status', '<>', PayConstant::PAYMENT_REFUND_STATUS_REFUND]])->first();
+        return $model;
+    }
+
+    /**
      * 查找未成功退款记录
-     * @param string $refund_out_no 退款商户号
+     * @param string|\Ecjia\App\Payment\Models\PaymentRefundModel $refund_out_no 退款商户号
      */
     public function findUnSuccessfulRefundOutNo($refund_out_no)
     {
+        if ($this->isPaymentRefundModel($refund_out_no)) {
+            return $refund_out_no;
+        }
+
         $model = $this->findWhere(['refund_out_no' => $refund_out_no, 'refund_status' => ['refund_status', '<>', PayConstant::PAYMENT_REFUND_STATUS_REFUND]])->first();
         return $model;
+    }
+
+    /**
+     * 检测是否是\Ecjia\App\Payment\Models\PaymentRefundModel
+     * @param \Ecjia\App\Payment\Models\PaymentRefundModel $model
+     */
+    protected function isPaymentRefundModel($model)
+    {
+        if (is_object($model) && $model instanceof \Ecjia\App\Payment\Models\PaymentRefundModel) {
+            return $model;
+        }
+
+        return false;
     }
 
 }
