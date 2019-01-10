@@ -6,6 +6,7 @@ Libraries: page_menu,page_header
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+<!-- {nocache} -->
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
 <!-- {block name="footer"} -->
@@ -85,3 +86,4 @@ geocoder.getLocation(address);
 		<input class="btn btn-info nopjax external" style="margin-top: 2em;" name="button" id="button" type="button" data-url="{url path='franchisee/index/four'}" value="{t}返回{/t}"/>
 	</div>
 <!-- {/block} -->
+<!-- {/nocache} -->

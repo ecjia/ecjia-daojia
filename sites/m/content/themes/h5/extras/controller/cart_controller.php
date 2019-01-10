@@ -571,9 +571,7 @@ class cart_controller
         $total['discount']          = $rs['discount'] + $total['discount_bonus'] + $total['discount_integral']; //优惠金额 -红包 -积分
         $total['discount_formated'] = price_format($total['discount']);
 
-        $total['pay_fee']          = $selected_payment['pay_fee'];
-        $total['pay_fee_formated'] = price_format($total['pay_fee']);
-        $total['amount']           = $total['goods_price'] + $total['pay_fee'] - $total['discount'];
+        $total['amount']            = $total['goods_price'] - $total['discount'];
 
         if ($total['amount'] < 0) {
             $total['amount'] = 0;
@@ -594,6 +592,10 @@ class cart_controller
         }
         $total['tax_fee_formated'] = price_format($total['tax_fee']);
         $total['amount']           += $total['tax_fee'];
+        
+        $total['pay_fee']          = cart::pay_fee($selected_payment['pay_id'], $total['amount']);
+        $total['pay_fee_formated'] = price_format($total['pay_fee']);
+        $total['amount']           += $total['pay_fee'];
         $total['amount_formated']  = $total['amount'] < 0 ? price_format(0) : price_format($total['amount']);
 
         ecjia_front::$controller->assign('total_goods_number', $total['goods_number']);
