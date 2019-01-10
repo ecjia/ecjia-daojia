@@ -67,6 +67,7 @@ class order_update_module extends api_front implements api_interface {
 		$payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($pay_id);
 		
 		RC_Loader::load_app_func('admin_order', 'orders');
+		RC_Loader::load_app_class('cart', 'cart', false);
 		
 		$order_info = get_order_detail($order_id, $user_id, 'front');
 		if (is_ecjia_error($order_info)) {
@@ -76,12 +77,15 @@ class order_update_module extends api_front implements api_interface {
 // 		    return new ecjia_error('payment_error', '无法使用该支付方式，请选择其他支付方式！');
 // 		}
 		/*重新处理订单的配送费用*/
+		$shipping_cod_fee = null;
+		$payment_info['pay_fee'] = cart::pay_fee($payment_info['pay_id'], $order_info['order_amount'] - $order_info['pay_fee'], $shipping_cod_fee);
 		$payfee_change	= $payment_info['pay_fee'] - $order_info['pay_fee'];
 		$order_amount	= ($order_info['order_amount'] + $payfee_change) > 0 ? $order_info['order_amount'] + $payfee_change : 0;
+		
 		$data = array(
 			'pay_id'	=> $payment_info['pay_id'],
 			'pay_name'	=> $payment_info['pay_name'],
-			'pay_fee'	=> $payment_info['pay_fee'],
+		    'pay_fee'	=> $payment_info['pay_fee'],
 			'order_amount' => $order_amount,
 		);
 		$where = array(
