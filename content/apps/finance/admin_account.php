@@ -174,7 +174,7 @@ class admin_account extends ecjia_admin
         $user_info = RC_DB::table('users')->where('mobile_phone', $user_mobile)->first();
         /* 此会员是否存在 */
         if (empty($user_info)) {
-            return $this->showmessage(RC_Lang::get('user::user_account.username_not_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage('该手机号对应的会员信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $order_sn = ecjia_order_deposit_sn();

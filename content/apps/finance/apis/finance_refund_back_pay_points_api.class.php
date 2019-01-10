@@ -114,44 +114,6 @@ class finance_refund_back_pay_points_api extends Component_Event_Api {
         }
         return true;
     }
-    
-    
-    /**
-     * 记录帐户变动
-     *
-     * @param int $user_id 用户id
-     * @param int $point 消费积分变动
-     * @param string $change_desc 变动说明
-     * @param int $change_type 变动类型：参见常量文件
-     * @return void
-     */
-    private function log_account_change($user_id, $point = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type = '', $from_value = '')
-    {
-        /* 插入帐户变动记录 */
-        $account_log = array (
-            'user_id'			=> $user_id,
-            'user_money'		=> 0,
-            'frozen_money'		=> 0,
-            'rank_points'		=> 0,
-            'pay_points'		=> $point,
-            'change_time'		=> RC_Time::gmtime(),
-            'change_desc'		=> $change_desc,
-            'change_type'		=> $change_type,
-            'from_type'			=> empty($from_type) ? '' : $from_type,
-            'from_value'		=> empty($from_value) ? '' : $from_value
-        );
-
-        return RC_DB::transaction(function () use ($account_log, $user_id) {
-
-            $log_id = RC_DB::table('account_log')->insertGetId($account_log);
-
-            /* 更新用户信息 */
-            RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', intval($account_log['pay_points']));
-
-            return $log_id;
-        });
-    }
-    
 }
 
 // end
